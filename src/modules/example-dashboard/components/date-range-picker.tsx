@@ -27,14 +27,14 @@ export function CalendarDateRangePicker({
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id='date'
+            id="date"
             variant={"outline"}
             className={cn(
               "w-[260px] justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className='mr-2 h-4 w-4' />
+            <CalendarIcon className="mr-2 h-4 w-4" />
             {date?.from ? (
               date.to ? (
                 <>
@@ -49,10 +49,10 @@ export function CalendarDateRangePicker({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto p-0' align='end'>
+        <PopoverContent className="w-auto p-0" align="end">
           <Calendar
             initialFocus
-            mode='range'
+            mode="range"
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}

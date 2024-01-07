@@ -1,7 +1,7 @@
-import DashboardPage from "@/modules/example-dashboard/page"
+import { GlobalProvider } from "@/providers"
 
 function App() {
-  return <DashboardPage />
+  return <GlobalProvider />
 }
 
 export default App
