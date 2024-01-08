@@ -1,4 +1,5 @@
 import DashboardPage from "@/modules/example-dashboard/page"
+
 import {
   GlobalLayouts,
   NotFoundLayout,
@@ -14,7 +15,8 @@ import {
 export const APP_PATH = {
   INDEX: "/",
   DASHBOARD: "/home",
-  LOGIN: "/login"
+  LOGIN: "/login",
+  EXAMPLE_TABLE: "/example-table"
 }
 
 const routes = createBrowserRouter(
@@ -26,6 +28,9 @@ const routes = createBrowserRouter(
     >
       <Route path={APP_PATH.DASHBOARD} element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
+      </Route>
+      <Route path={APP_PATH.EXAMPLE_TABLE} element={<DashboardLayout />}>
+        <Route index lazy={() => import("@/modules/example-table/page")} />
       </Route>
     </Route>
   )
