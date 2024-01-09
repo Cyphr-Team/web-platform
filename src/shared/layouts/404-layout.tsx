@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { APP_PATH } from "@/routes"
+import { APP_PATH } from "@/constants"
 import { useNavigate } from "react-router-dom"
 
 export function NotFoundLayout() {

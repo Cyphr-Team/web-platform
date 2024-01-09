@@ -15,7 +15,7 @@ import * as z from "zod"
 import SignUpGoogleButton from "./sign-up-google-button"
 import { SeparatorWithText } from "@/components/ui/separator-with-text"
 import { useNavigate } from "react-router-dom"
-import { APP_PATH } from "@/routes"
+import { APP_PATH } from "@/constants"
 
 const formSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" })

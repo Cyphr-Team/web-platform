@@ -148,3 +148,13 @@ export const navItems: NavItem[] = [
     label: "login"
   }
 ]
+
+export const APP_PATH = {
+  INDEX: "/",
+  DASHBOARD: "/home",
+  LOGIN: "/login",
+  EXAMPLE_TABLE: "/example-table",
+  SIGN_UP: "/sign-up",
+  VERIFY_EMAIL: "/verify-email",
+  LOAN_APPLICATION: "/onboarding"
+}

@@ -1,48 +1,77 @@
 "use client"
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { NavItem } from "@/types"
-import { ArrowRightIcon } from "lucide-react"
-import { Dispatch, SetStateAction } from "react"
+import { useLocation } from "react-router-dom"
 
 interface DashboardNavProps {
-  items: NavItem[]
-  setOpen?: Dispatch<SetStateAction<boolean>>
+  readonly items: NavItem[]
+  readonly isCollapsed?: boolean
 }
 
-export function DashboardNav({ items, setOpen }: DashboardNavProps) {
-  const path = ""
+export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
+  const location = useLocation()
 
   if (!items?.length) {
     return null
   }
 
+  const currentPath = location.pathname
+  const isSelected = (href: string) => currentPath === href
+
   return (
-    <nav className="grid items-start gap-2">
-      {items.map((item) => {
-        return (
-          item.href && (
-            <a
-              key={item.href}
-              href={item.disabled ? "/" : item.href}
-              onClick={() => {
-                if (setOpen) setOpen(false)
-              }}
-            >
-              <span
+    <div
+      data-collapsed={isCollapsed}
+      className="group flex flex-col flex-1 gap-4"
+    >
+      <nav className="grid group-[[data-collapsed=true]]:justify-center">
+        <TooltipProvider>
+          {items.map((item, index) =>
+            isCollapsed ? (
+              <Tooltip key={index} delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <a
+                    href={item.href}
+                    className={cn(
+                      "h-9 w-9 rounded-md flex items-center justify-center",
+                      "data-[selected=true]:bg-active"
+                    )}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span className="sr-only">{item.title}</span>
+                  </a>
+                </TooltipTrigger>
+                <TooltipContent
+                  side="right"
+                  className="flex items-center gap-4"
+                >
+                  {item.title}
+                </TooltipContent>
+              </Tooltip>
+            ) : (
+              <a
+                key={index}
+                href={item.href}
                 className={cn(
-                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                  path === item.href ? "bg-accent" : "transparent",
-                  item.disabled && "cursor-not-allowed opacity-80"
+                  "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                  "flex items-center gap-4 py-md px-lg rounded-md",
+                  "data-[selected=true]:bg-active"
                 )}
+                data-selected={isSelected(item.href ?? "")}
               >
-                <ArrowRightIcon className="mr-2 h-4 w-4" />
-                <span>{item.title}</span>
-              </span>
-            </a>
-          )
-        )
-      })}
-    </nav>
+                <item.icon className="mr-2 h-4 w-4" />
+                {item.title}
+              </a>
+            )
+          )}
+        </TooltipProvider>
+      </nav>
+    </div>
   )
 }

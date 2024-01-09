@@ -1,5 +1,6 @@
 import DashboardPage from "@/modules/example-dashboard/page"
 import SignUpPage from "@/modules/sign-up/page"
+import LoanApplication from "@/modules/loan-application/page"
 
 import {
   GlobalLayouts,
@@ -13,15 +14,7 @@ import {
   createRoutesFromElements,
   Route
 } from "react-router-dom"
-
-export const APP_PATH = {
-  INDEX: "/",
-  DASHBOARD: "/home",
-  LOGIN: "/login",
-  EXAMPLE_TABLE: "/example-table",
-  SIGN_UP: "/sign-up",
-  VERIFY_EMAIL: "/verify-email"
-}
+import { APP_PATH } from "@/constants"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +28,9 @@ const routes = createBrowserRouter(
       </Route>
       <Route path={APP_PATH.DASHBOARD} element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
+      </Route>
+      <Route path={APP_PATH.LOAN_APPLICATION}>
+        <Route index element={<LoanApplication />} />
       </Route>
       <Route path={APP_PATH.EXAMPLE_TABLE} element={<DashboardLayout />}>
         <Route index lazy={() => import("@/modules/example-table/page")} />

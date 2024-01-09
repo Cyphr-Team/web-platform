@@ -1,9 +1,12 @@
+import { IconProps } from "@/assets/icons/icon"
+import { LucideIcon } from "lucide-react"
+
 export interface NavItem {
   title: string
   href?: string
   disabled?: boolean
   external?: boolean
-  icon?: string
+  icon: LucideIcon | ((props: IconProps) => JSX.Element)
   label?: string
   description?: string
 }
