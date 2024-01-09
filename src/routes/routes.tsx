@@ -1,10 +1,12 @@
 import DashboardPage from "@/modules/example-dashboard/page"
+import SignUpPage from "@/modules/sign-up/page"
 
 import {
   GlobalLayouts,
   NotFoundLayout,
   DashboardLayout
 } from "@/shared/layouts"
+import { AuthLayout } from "@/shared/layouts/auth-layout/auth-layout"
 
 import {
   createBrowserRouter,
@@ -16,7 +18,9 @@ export const APP_PATH = {
   INDEX: "/",
   DASHBOARD: "/home",
   LOGIN: "/login",
-  EXAMPLE_TABLE: "/example-table"
+  EXAMPLE_TABLE: "/example-table",
+  SIGN_UP: "/sign-up",
+  VERIFY_EMAIL: "/verify-email"
 }
 
 const routes = createBrowserRouter(
@@ -26,6 +30,9 @@ const routes = createBrowserRouter(
       element={<GlobalLayouts />}
       errorElement={<NotFoundLayout />}
     >
+      <Route element={<AuthLayout />}>
+        <Route path={APP_PATH.SIGN_UP} element={<SignUpPage />} />
+      </Route>
       <Route path={APP_PATH.DASHBOARD} element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
       </Route>
