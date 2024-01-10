@@ -38,7 +38,7 @@ export function SignUpForm() {
   const onSubmit = async (data: UserFormValue) => {
     try {
       console.log(data)
-      navigate(APP_PATH.VERIFY_EMAIL)
+      navigate(APP_PATH.VERIFY_EMAIL.detail("huy.le@c0x12c.com"))
     } catch {
       setLoading(false)
     }

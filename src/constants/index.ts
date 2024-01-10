@@ -1,3 +1,4 @@
+import { Icons } from "@/components/ui/icons"
 import { NavItem } from "@/types"
 
 export type User = {
@@ -114,37 +115,37 @@ export const navItems: NavItem[] = [
   {
     title: "Dashboard",
     href: "/dashboard",
-    icon: "dashboard",
+    icon: Icons.route,
     label: "Dashboard"
   },
   {
     title: "User",
     href: "/dashboard/user",
-    icon: "user",
+    icon: Icons.route,
     label: "user"
   },
   {
     title: "Employee",
     href: "/dashboard/employee",
-    icon: "employee",
+    icon: Icons.route,
     label: "employee"
   },
   {
     title: "Profile",
     href: "/dashboard/profile",
-    icon: "profile",
+    icon: Icons.route,
     label: "profile"
   },
   {
     title: "Kanban",
     href: "/dashboard/kanban",
-    icon: "kanban",
+    icon: Icons.route,
     label: "kanban"
   },
   {
     title: "Login",
     href: "/",
-    icon: "login",
+    icon: Icons.route,
     label: "login"
   }
 ]
@@ -155,6 +156,9 @@ export const APP_PATH = {
   LOGIN: "/login",
   EXAMPLE_TABLE: "/example-table",
   SIGN_UP: "/sign-up",
-  VERIFY_EMAIL: "/verify-email",
+  VERIFY_EMAIL: {
+    index: "/verify-email/:email",
+    detail: (email: string) => `/verify-email/${email}`
+  },
   LOAN_APPLICATION: "/onboarding"
 }

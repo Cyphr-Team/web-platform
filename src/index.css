@@ -80,3 +80,13 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.input-number-remove-arrow::-webkit-inner-spin-button,
+.input-number-remove-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-number-remove-arrow {
+  -moz-appearance: textfield;
+}

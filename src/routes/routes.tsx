@@ -1,6 +1,7 @@
 import DashboardPage from "@/modules/example-dashboard/page"
 import SignUpPage from "@/modules/sign-up/page"
 import LoanApplication from "@/modules/loan-application/page"
+import VerifyEmailPage from "@/modules/verify-email/page"
 
 import {
   GlobalLayouts,
@@ -25,6 +26,10 @@ const routes = createBrowserRouter(
     >
       <Route element={<AuthLayout />}>
         <Route path={APP_PATH.SIGN_UP} element={<SignUpPage />} />
+        <Route
+          path={APP_PATH.VERIFY_EMAIL.index}
+          element={<VerifyEmailPage />}
+        />
       </Route>
       <Route path={APP_PATH.DASHBOARD} element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />

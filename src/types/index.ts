@@ -1,4 +1,4 @@
-import { IconProps } from "@/assets/icons/icon"
+import { IconProps } from "@/components/ui/icons"
 import { LucideIcon } from "lucide-react"
 
 export interface NavItem {
