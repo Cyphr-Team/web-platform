@@ -1,10 +1,10 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { SignUpForm } from "./sign-up-form"
+import { LoginForm } from "./login-form"
 import foresightLogo from "/foresight.svg"
 import { APP_PATH } from "@/constants"
 import { Button } from "@/components/ui/button"
 
-export function SignUpFormSection() {
+export function LoginFormSection() {
   return (
     <div className="p-4 lg:p-8 h-full flex items-center">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
@@ -21,21 +21,19 @@ export function SignUpFormSection() {
             </AspectRatio>
           </div>
 
-          <h1 className="text-3xl font-semibold tracking-tight mt-6">
-            Create an account
-          </h1>
+          <h1 className="text-3xl font-semibold tracking-tight mt-6">Login</h1>
 
           <p className="text-muted-foreground mt-3">
-            Accelerate your access to financing
+            Welcome back! Please enter your details.
           </p>
         </div>
 
-        <SignUpForm />
+        <LoginForm />
 
         <p className="px-8 text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
+          Don’t have an account?{" "}
           <Button variant="link" className="p-0 text-primary" asChild>
-            <a href={APP_PATH.LOGIN}>Log in</a>
+            <a href={APP_PATH.SIGN_UP}>Sign up</a>
           </Button>
         </p>
       </div>

@@ -16,6 +16,7 @@ import {
   Route
 } from "react-router-dom"
 import { APP_PATH } from "@/constants"
+import LoginPage from "@/modules/login/page"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const routes = createBrowserRouter(
       errorElement={<NotFoundLayout />}
     >
       <Route element={<AuthLayout />}>
+        <Route path={APP_PATH.LOGIN} element={<LoginPage />} />
         <Route path={APP_PATH.SIGN_UP} element={<SignUpPage />} />
         <Route
           path={APP_PATH.VERIFY_EMAIL.index}

@@ -154,6 +154,7 @@ export const APP_PATH = {
   INDEX: "/",
   DASHBOARD: "/home",
   LOGIN: "/login",
+  FORGOT_PASSWORD: "/forgot-password",
   EXAMPLE_TABLE: "/example-table",
   SIGN_UP: "/sign-up",
   VERIFY_EMAIL: {
