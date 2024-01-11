@@ -17,6 +17,7 @@ import {
 } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import LoginPage from "@/modules/login/page"
+import ForgotPasswordPage from "@/modules/forgot-password/page"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +32,10 @@ const routes = createBrowserRouter(
         <Route
           path={APP_PATH.VERIFY_EMAIL.index}
           element={<VerifyEmailPage />}
+        />
+        <Route
+          path={APP_PATH.FORGOT_PASSWORD}
+          element={<ForgotPasswordPage />}
         />
       </Route>
       <Route path={APP_PATH.DASHBOARD} element={<DashboardLayout />}>
