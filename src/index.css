@@ -5,8 +5,10 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
+    --background-disabled: 216 24% 96%;
     --active: 210 20% 98%;
     --foreground: 240 10% 3.9%;
+    --foreground-disabled: 218 15% 65%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -25,6 +27,9 @@
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
     --radius: 0.5rem;
+    --border-secondary: 220 17% 93%;
+    --text-secondary: 217 24% 27%;
+    --text-tertiary: 216 18% 34%;
   }
 
   .dark {

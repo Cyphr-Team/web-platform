@@ -161,5 +161,8 @@ export const APP_PATH = {
     index: "/verify-email/:email",
     detail: (email: string) => `/verify-email/${email}`
   },
-  LOAN_APPLICATION: "/onboarding"
+  LOAN_APPLICATION: {
+    INDEX: "/onboarding",
+    INFORMATION: "information"
+  }
 }

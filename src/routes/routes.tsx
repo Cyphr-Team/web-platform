@@ -18,6 +18,8 @@ import {
 import { APP_PATH } from "@/constants"
 import LoginPage from "@/modules/login/page"
 import ForgotPasswordPage from "@/modules/forgot-password/page"
+import { LoanIntroduction } from "@/modules/loan-application/components/layouts/LoanIntroduction"
+import { LoanInformation } from "@/modules/loan-application/components/layouts/LoanInformation"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -41,8 +43,15 @@ const routes = createBrowserRouter(
       <Route path={APP_PATH.DASHBOARD} element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
       </Route>
-      <Route path={APP_PATH.LOAN_APPLICATION}>
-        <Route index element={<LoanApplication />} />
+      <Route
+        path={APP_PATH.LOAN_APPLICATION.INDEX}
+        element={<LoanApplication />}
+      >
+        <Route index element={<LoanIntroduction />} />
+        <Route
+          path={APP_PATH.LOAN_APPLICATION.INFORMATION}
+          element={<LoanInformation />}
+        />
       </Route>
       <Route path={APP_PATH.EXAMPLE_TABLE} element={<DashboardLayout />}>
         <Route index lazy={() => import("@/modules/example-table/page")} />

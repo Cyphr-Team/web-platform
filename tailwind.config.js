@@ -18,12 +18,25 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        border: {
+          DEFAULT: "hsl(var(--border))",
+          secondary: "hsl(var(--border-secondary))",
+          foreground: "hsl(var(--border-foreground))",
+          disabled: "hsl(var(--border-secondary))"
+        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         active: "hsl(var(--active))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          secondary: "hsl(var(--background-secondary))",
+          tertiary: "hsl(var(--background-tertiary))",
+          disabled: "hsl(var(--background-disabled))"
+        },
+        foreground: {
+          DEFAULT: "hsl(var(--foreground))",
+          disabled: "hsl(var(--foreground-disabled))"
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))"
@@ -51,10 +64,18 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))"
+        },
+        text: {
+          DEFAULT: "hsl(var(--text))",
+          foreground: "hsl(var(--text-foreground))",
+          secondary: "hsl(var(--text-secondary))",
+          tertiary: "hsl(var(--text-tertiary))"
         }
       },
       spacing: {
-        sm: "4px",
+        xxs: "2px",
+        xs: "4px",
+        sm: "6px",
         md: "8px",
         lg: "12px",
         xl: "16px",

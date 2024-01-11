@@ -5,7 +5,6 @@ import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { useState } from "react"
 import { Icons } from "@/components/ui/icons"
 import { Account } from "@/shared/molecules/Account"
-import { Button } from "@/components/ui/button"
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function SideNav({ className }: SidebarProps) {
@@ -26,9 +25,9 @@ export function SideNav({ className }: SidebarProps) {
       <div className="pl-3xl pr-2xl flex items-center mb-3xl justify-between">
         <LogoHeader isCollapsed={isCollapsed} toggleCollapse={toggleCollapse} />
         {!isCollapsed && (
-          <Button onClick={toggleCollapse}>
+          <button onClick={toggleCollapse}>
             {Icons.arrowSquare({ className: "h-6 w-6" })}
-          </Button>
+          </button>
         )}
       </div>
       <div className="px-xl flex flex-col flex-1">
