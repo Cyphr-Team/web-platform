@@ -162,6 +162,10 @@ export const APP_PATH = {
     index: "/verify-email/:email",
     detail: (email: string) => `/verify-email/${email}`
   },
+  SETUP_PROFILE_BY_TOKEN: {
+    index: `/setup-profile/:email`,
+    detail: (email: string) => `/setup-profile/${email}`
+  },
   LOAN_APPLICATION: {
     INDEX: "/onboarding",
     INFORMATION: "information"

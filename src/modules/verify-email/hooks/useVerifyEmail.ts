@@ -1,6 +1,8 @@
+import { APP_PATH } from "@/constants"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useCallback, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
+import { useNavigate, useParams } from "react-router-dom"
 import * as z from "zod"
 
 const MAX_CODE_LENGTH = 4
@@ -12,6 +14,9 @@ const formSchema = z.object({
 type UserFormValue = z.infer<typeof formSchema>
 
 export const useVerifyEmail = () => {
+  const navigate = useNavigate()
+  const { email } = useParams()
+
   const inputRefs = useRef<(HTMLInputElement | null)[]>(
     Array(MAX_CODE_LENGTH).fill(null)
   )
@@ -25,13 +30,20 @@ export const useVerifyEmail = () => {
     }
   })
 
-  const onSubmit = useCallback(async (data: UserFormValue) => {
-    try {
-      console.log(data)
-    } catch {
-      setLoading(false)
-    }
-  }, [])
+  const onSubmit = useCallback(
+    async (data: UserFormValue) => {
+      try {
+        if (!email) {
+          throw "Email is not valid"
+        }
+        console.log(data)
+        navigate(APP_PATH.SETUP_PROFILE_BY_TOKEN.detail(email))
+      } catch {
+        setLoading(false)
+      }
+    },
+    [email, navigate]
+  )
 
   const moveBackOneInput = useCallback((index: number) => {
     if (index - 1 >= 0) inputRefs.current[index - 1]?.focus()
