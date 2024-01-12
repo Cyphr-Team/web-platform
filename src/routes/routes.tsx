@@ -20,6 +20,7 @@ import LoginPage from "@/modules/login/page"
 import ForgotPasswordPage from "@/modules/forgot-password/page"
 import { LoanIntroduction } from "@/modules/loan-application/components/layouts/LoanIntroduction"
 import { LoanInformation } from "@/modules/loan-application/components/layouts/LoanInformation"
+import SetupPasswordPage from "@/modules/setup-password/page"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,10 @@ const routes = createBrowserRouter(
         <Route
           path={APP_PATH.FORGOT_PASSWORD}
           element={<ForgotPasswordPage />}
+        />
+        <Route
+          path={APP_PATH.SETUP_PASSWORD_BY_TOKEN}
+          element={<SetupPasswordPage />}
         />
       </Route>
       <Route path={APP_PATH.DASHBOARD} element={<DashboardLayout />}>

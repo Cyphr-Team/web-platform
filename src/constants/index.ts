@@ -155,6 +155,7 @@ export const APP_PATH = {
   DASHBOARD: "/home",
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgot-password",
+  SETUP_PASSWORD_BY_TOKEN: "/setup-password",
   EXAMPLE_TABLE: "/example-table",
   SIGN_UP: "/sign-up",
   VERIFY_EMAIL: {
