@@ -6,7 +6,7 @@ import { inMemoryJWTService } from "./jwt.service"
 
 export const axiosClient = applyCaseMiddleware(
   axios.create({
-    baseURL: APP_CONFIGS.BASE_URL,
+    baseURL: APP_CONFIGS.API_BASE_URL,
     // https://github.com/axios/axios/issues/5058#issuecomment-1272107602
     // Example: Params { a: ['b', 'c']}
     // From (by default - false) 'a[]=b&a[]=c'

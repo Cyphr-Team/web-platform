@@ -1,4 +1,3 @@
 export const APP_CONFIGS = {
-  BASE_URL: "https://api.github.com"
-  //
+  API_BASE_URL: import.meta.env.VITE_API_ENDPOINT
 }

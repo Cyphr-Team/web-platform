@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button"
+import { Button, ButtonLoading } from "@/components/ui/button"
 import {
+  ErrorMessage,
   Form,
   FormControl,
   FormField,
@@ -8,49 +9,30 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
 import { LoginGoogleButton } from "./login-google-button"
-import { useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { Checkbox } from "@/components/ui/checkbox"
-
-const formSchema = z.object({
-  email: z.string().email({ message: "Enter a valid email address" }),
-  password: z.string({ required_error: "Password is required" }),
-  remember: z.boolean().optional()
-})
-
-type UserFormValue = z.infer<typeof formSchema>
+import { LoginFormValue, loginFormSchema, useLogin } from "../hooks/useLogin"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 export function LoginForm() {
-  const navigate = useNavigate()
+  const { isPending, mutate, error } = useLogin()
+  const errorMsg = error?.response?.data.message
 
-  const [loading, setLoading] = useState(false)
-  const defaultValues = {
-    email: "larry@borrower.com"
-  }
-  const form = useForm<UserFormValue>({
-    resolver: zodResolver(formSchema),
-    defaultValues
-  })
-
-  const onSubmit = async (data: UserFormValue) => {
-    try {
-      console.log(data)
-      navigate(APP_PATH.LOAN_APPLICATION.INDEX)
-    } catch {
-      setLoading(false)
+  const form = useForm<LoginFormValue>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: "",
+      password: ""
     }
-  }
+  })
 
   return (
     <div className="flex flex-col space-y-4">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit((data) => mutate(data))}
           className="space-y-4 w-full"
         >
           <FormField
@@ -62,9 +44,9 @@ export function LoginForm() {
                   <Input
                     type="email"
                     placeholder="Enter your email"
-                    disabled={loading}
                     className="text-base"
                     {...field}
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -81,9 +63,9 @@ export function LoginForm() {
                   <Input
                     type="password"
                     placeholder="••••••••"
-                    disabled={loading}
                     className="text-base"
                     {...field}
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -99,6 +81,7 @@ export function LoginForm() {
                 <FormItem className="flex items-center space-x-2 space-y-0">
                   <FormControl>
                     <Checkbox
+                      disabled={isPending}
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
@@ -122,13 +105,15 @@ export function LoginForm() {
             </p>
           </div>
 
-          <Button
-            disabled={loading}
+          {Boolean(errorMsg) && <ErrorMessage>{errorMsg}</ErrorMessage>}
+
+          <ButtonLoading
+            isLoading={isPending}
             className="ml-auto w-full text-base"
             type="submit"
           >
             Sign in
-          </Button>
+          </ButtonLoading>
         </form>
       </Form>
 

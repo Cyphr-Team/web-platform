@@ -110,7 +110,7 @@ export const useVerifyEmail = () => {
         console.error(e)
       }
     },
-    [form, changeAndValidate]
+    [changeAndValidate]
   )
   return {
     form,

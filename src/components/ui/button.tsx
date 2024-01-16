@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -53,4 +54,26 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
-export { Button, buttonVariants }
+const ButtonLoading = React.forwardRef<
+  HTMLButtonElement,
+  ButtonProps & { isLoading?: boolean }
+>(({ className, variant, size, children, isLoading, ...props }, ref) => {
+  return (
+    <Button
+      className={cn(buttonVariants({ variant, size, className }))}
+      ref={ref}
+      disabled={isLoading}
+      {...props}
+    >
+      {children}
+      <Loader2
+        className={cn(
+          "ml-0 h-4 w-0 transition-all ease-out",
+          isLoading && "animate-spin ml-2 w-4"
+        )}
+      />
+    </Button>
+  )
+})
+
+export { Button, ButtonLoading, buttonVariants }

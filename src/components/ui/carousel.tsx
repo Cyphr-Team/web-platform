@@ -279,6 +279,7 @@ const CarouselDots = React.forwardRef<
     <div className="flex -space-x-5">
       {scrollSnaps.map((_, index) => (
         <Button
+          key={index}
           variant={variant}
           size={size}
           onClick={() => scrollTo(index)}
