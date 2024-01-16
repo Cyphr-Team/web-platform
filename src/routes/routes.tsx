@@ -50,7 +50,7 @@ const routes = createBrowserRouter(
           element={<SetupPasswordPage />}
         />
       </Route>
-      <Route path={APP_PATH.DASHBOARD} element={<DashboardLayout />}>
+      <Route element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
       </Route>
       <Route

@@ -1,5 +1,3 @@
-"use client"
-
 import {
   Tooltip,
   TooltipContent,
@@ -30,7 +28,7 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
       data-collapsed={isCollapsed}
       className="group flex flex-col flex-1 gap-4"
     >
-      <nav className="grid group-[[data-collapsed=true]]:justify-center">
+      <nav className="grid group-[[data-collapsed=true]]:justify-center space-y-2">
         <TooltipProvider>
           {items.map((item, index) =>
             isCollapsed ? (

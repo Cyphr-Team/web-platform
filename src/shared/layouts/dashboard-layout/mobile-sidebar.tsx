@@ -1,5 +1,3 @@
-"use client"
-
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { MenuIcon } from "lucide-react"
 import { useState } from "react"
@@ -20,7 +18,7 @@ export function MobileSidebar() {
               Overview
             </h2>
             <div className="space-y-1">
-              <DashboardNav items={navItems} setOpen={setOpen} />
+              <DashboardNav items={navItems} />
             </div>
           </div>
         </div>

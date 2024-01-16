@@ -1,4 +1,3 @@
-"use client"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -41,7 +40,7 @@ export function LoginForm() {
   const onSubmit = async (data: UserFormValue) => {
     try {
       console.log(data)
-      navigate(APP_PATH.VERIFY_EMAIL)
+      navigate(APP_PATH.LOAN_APPLICATION.INDEX)
     } catch {
       setLoading(false)
     }

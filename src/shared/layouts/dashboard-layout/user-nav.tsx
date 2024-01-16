@@ -1,4 +1,3 @@
-"use client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -11,8 +10,12 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { APP_PATH } from "@/constants"
+import { useNavigate } from "react-router-dom"
 
 export function UserNav() {
+  const navigate = useNavigate()
+
   const session = {
     user: {
       image: "",
@@ -62,7 +65,7 @@ export function UserNav() {
             <DropdownMenuItem>New Team</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate(APP_PATH.LOGIN)}>
             Log out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
