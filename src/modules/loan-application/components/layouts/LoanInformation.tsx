@@ -1,6 +1,7 @@
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { useLoanApplicationContext } from "../../providers"
 import { BusinessInformationForm } from "../organisms/BusinessInformationForm"
+import { OwnerInformationForm } from "../organisms/OwnerInformationForm"
 import { ProgressSteps } from "../organisms/ProgressSteps"
 
 export const LoanInformation = () => {
@@ -11,6 +12,9 @@ export const LoanInformation = () => {
       <ProgressSteps />
       {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
         <BusinessInformationForm />
+      )}{" "}
+      {step === LOAN_APPLICATION_STEPS.OWNER_INFORMATION && (
+        <OwnerInformationForm />
       )}
     </div>
   )

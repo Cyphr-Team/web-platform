@@ -95,3 +95,8 @@
 .input-number-remove-arrow {
   -moz-appearance: textfield;
 }
+
+/* Change color of icon date */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}

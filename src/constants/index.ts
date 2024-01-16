@@ -171,3 +171,7 @@ export const APP_PATH = {
     INFORMATION: "information"
   }
 }
+
+export const phoneRegex = new RegExp(
+  "^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$"
+)
