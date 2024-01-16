@@ -36,8 +36,16 @@ export const financialFormSchema = z.object({
     })
 })
 
+export const confirmationFormSchema = z.object({
+  signature: z.string().min(1),
+  name: z.string().min(6, { message: "Name must be at least 6 characters" }),
+  signatureDate: z.string().min(1)
+})
+
 export type BusinessFormValue = z.infer<typeof businessFormSchema>
 
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
 
 export type FinancialFormValue = z.infer<typeof financialFormSchema>
+
+export type ConfirmationFormValue = z.infer<typeof confirmationFormSchema>

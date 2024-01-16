@@ -1,4 +1,5 @@
 import foresightLogo from "/foresight.svg"
+import foresightLogoText from "@/assets/foresight-text.svg"
 
 interface LogoHeaderProps {
   isCollapsed?: boolean
@@ -9,11 +10,15 @@ export function LogoHeader(
   { isCollapsed, toggleCollapse }: LogoHeaderProps = { isCollapsed: false }
 ) {
   return (
-    <div className="flex justify-between items-center gap-2.5">
+    <div className="flex items-center gap-2.5 w-full">
       <button onClick={toggleCollapse} className="logo-button">
-        <img src={foresightLogo} className="logo" alt="Foresight logo" />
+        <img
+          src={foresightLogo}
+          className="logo w-8 h-8"
+          alt="Foresight logo"
+        />
       </button>
-      {!isCollapsed && <h2 className="text-xl font-bold">Foresight</h2>}
+      {!isCollapsed && <img src={foresightLogoText} alt="Foresight logo" />}
     </div>
   )
 }

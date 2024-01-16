@@ -7,7 +7,7 @@ export default function LoanApplication() {
     <LoanApplicationProvider>
       <div className="flex h-screen overflow-hidden">
         <SideNav />
-        <div className="p-4xl w-full flex justify-center">
+        <div className="p-4xl flex-1 flex justify-center">
           <Outlet />
         </div>
       </div>

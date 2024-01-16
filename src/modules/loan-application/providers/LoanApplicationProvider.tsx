@@ -29,7 +29,7 @@ type Props = {
 
 export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   const [step, setStep] = useState<LOAN_APPLICATION_STEPS>(
-    LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+    LOAN_APPLICATION_STEPS.CONFIRMATION
   )
 
   const [progress, setProgress] = useState<ProgressType[]>(STEPS)

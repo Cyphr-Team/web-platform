@@ -38,7 +38,8 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
                     to={item.href ?? ""}
                     className={({ isActive }) =>
                       cn(
-                        "h-9 w-9 rounded-md flex items-center justify-center cursor-pointer hover:bg-active",
+                        "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                        "h-10 w-12 p-lg rounded-md flex items-center justify-center cursor-pointer hover:bg-active",
                         isActive && "bg-active"
                       )
                     }
