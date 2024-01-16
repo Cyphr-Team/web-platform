@@ -27,6 +27,17 @@ export const businessFormSchema = z.object({
   website: z.string().url()
 })
 
+export const financialFormSchema = z.object({
+  cashflow: z.string().array(),
+  w2sFile: z
+    .any()
+    .refine((file) => file && ACCEPTED_FILE_TYPES.includes(file.type), {
+      message: "Please choose PNG, JPG, PDF format files only"
+    })
+})
+
 export type BusinessFormValue = z.infer<typeof businessFormSchema>
 
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
+
+export type FinancialFormValue = z.infer<typeof financialFormSchema>

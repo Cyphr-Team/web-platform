@@ -65,9 +65,10 @@ export function OwnerInformationForm() {
   }
 
   const onSubmit = () => {
-    changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
-    changeStep(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+    changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+    changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
   }
+
   return (
     <div className="flex flex-col flex-1 gap-3xl">
       <Form {...form}>
