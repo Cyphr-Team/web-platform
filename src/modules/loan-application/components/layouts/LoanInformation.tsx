@@ -10,7 +10,7 @@ export const LoanInformation = () => {
   const { step } = useLoanApplicationContext()
 
   return (
-    <div className={`flex flex-col w-full gap-6 md:flex-row`}>
+    <div className={`flex flex-col w-full gap-6 md:flex-row max-w-screen-xl`}>
       <ProgressSteps />
       {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
         <BusinessInformationForm />

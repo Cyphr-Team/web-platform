@@ -17,10 +17,12 @@ import { Button } from "@/components/ui/button"
 import { useLoanApplicationContext } from "../../providers"
 import { CONFIRMATION_TEXTS, LOAN_APPLICATION_STEPS } from "../../constants"
 import { Input } from "@/components/ui/input"
+import { useNavigate } from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
 export const ConfirmationForm = () => {
   const { changeProgress, changeStep } = useLoanApplicationContext()
-
+  const navigate = useNavigate()
   const form = useForm<ConfirmationFormValue>({
     resolver: zodResolver(confirmationFormSchema),
     defaultValues: {
@@ -35,6 +37,9 @@ export const ConfirmationForm = () => {
     console.log(data)
     changeProgress(LOAN_APPLICATION_STEPS.CONFIRMATION)
     changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION)
+    navigate(
+      `${APP_PATH.LOAN_APPLICATION.INDEX}/${APP_PATH.LOAN_APPLICATION.SUBMISSION}`
+    )
   }
 
   return (

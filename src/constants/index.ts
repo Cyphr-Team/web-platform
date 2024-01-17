@@ -168,7 +168,8 @@ export const APP_PATH = {
   },
   LOAN_APPLICATION: {
     INDEX: "/onboarding",
-    INFORMATION: "information"
+    INFORMATION: "information",
+    SUBMISSION: "submission"
   }
 }
 

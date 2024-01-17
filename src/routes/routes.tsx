@@ -22,6 +22,7 @@ import { LoanIntroduction } from "@/modules/loan-application/components/layouts/
 import { LoanInformation } from "@/modules/loan-application/components/layouts/LoanInformation"
 import SetupPasswordPage from "@/modules/setup-password/page"
 import SetupProfilePage from "@/modules/setup-profile/page"
+import { LoanSubmission } from "@/modules/loan-application/components/layouts/LoanSubmission"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -61,6 +62,10 @@ const routes = createBrowserRouter(
         <Route
           path={APP_PATH.LOAN_APPLICATION.INFORMATION}
           element={<LoanInformation />}
+        />
+        <Route
+          path={APP_PATH.LOAN_APPLICATION.SUBMISSION}
+          element={<LoanSubmission />}
         />
       </Route>
       <Route path={APP_PATH.EXAMPLE_TABLE} element={<DashboardLayout />}>

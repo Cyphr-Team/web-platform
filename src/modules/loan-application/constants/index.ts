@@ -43,25 +43,25 @@ export const STEPS: ProgressType[] = [
   {
     title: "Business Information",
     content: "Enter your business information",
-    status: LOAN_APPLICATION_STEP_STATUS.COMPLETE,
+    status: LOAN_APPLICATION_STEP_STATUS.CURRENT,
     step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
   },
   {
     title: "Owner Information",
     content: "Enter business owner information",
-    status: LOAN_APPLICATION_STEP_STATUS.COMPLETE,
+    status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE,
     step: LOAN_APPLICATION_STEPS.OWNER_INFORMATION
   },
   {
     title: "Financial Information",
     content: "Report your income and cash flow",
-    status: LOAN_APPLICATION_STEP_STATUS.COMPLETE,
+    status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE,
     step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
   },
   {
     title: "Confirmation",
     content: "Submit to verify your information",
-    status: LOAN_APPLICATION_STEP_STATUS.CURRENT,
+    status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE,
     step: LOAN_APPLICATION_STEPS.CONFIRMATION
   }
 ]
