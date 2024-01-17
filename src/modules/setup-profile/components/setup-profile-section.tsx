@@ -6,6 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Icons } from "@/components/ui/icons"
 import { X } from "lucide-react"
 import { useAlert } from "../hooks/useAlert"
+import { Link } from "react-router-dom"
 
 export function SetupProfileSection() {
   const { isVisible, hide } = useAlert()
@@ -52,7 +53,7 @@ export function SetupProfileSection() {
         <p className="px-8 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Button variant="link" className="p-0 text-primary" asChild>
-            <a href={APP_PATH.LOGIN}>Log in</a>
+            <Link to={APP_PATH.LOGIN}>Log in</Link>
           </Button>
         </p>
       </div>

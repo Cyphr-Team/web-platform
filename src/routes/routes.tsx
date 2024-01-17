@@ -47,7 +47,7 @@ const routes = createBrowserRouter(
           element={<ForgotPasswordPage />}
         />
         <Route
-          path={APP_PATH.SETUP_PASSWORD_BY_TOKEN}
+          path={APP_PATH.SETUP_PASSWORD_BY_TOKEN.index}
           element={<SetupPasswordPage />}
         />
       </Route>

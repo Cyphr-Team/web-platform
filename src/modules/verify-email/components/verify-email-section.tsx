@@ -1,6 +1,6 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { ArrowLeft, Mail } from "lucide-react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { Button } from "@/components/ui/button"
 import { VerifyEmailForm } from "./verify-email-form"
@@ -47,10 +47,10 @@ export function VerifyEmailSection() {
           className="px-1 text-sm text-foreground py-0 self-center"
           asChild
         >
-          <a href={APP_PATH.LOGIN}>
+          <Link to={APP_PATH.LOGIN}>
             <ArrowLeft className="w-5 h-5 mr-1" />
             Back to log in
-          </a>
+          </Link>
         </Button>
       </div>
     </div>

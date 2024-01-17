@@ -1,6 +1,20 @@
+import { ErrorCode } from "@/utils/custom-error"
+
+export interface SuccessResponse {
+  success: boolean
+}
 export interface ErrorResponse {
   message?: string
-  code: string
+  code: ErrorCode
+}
+
+// RESEND CODE
+export interface ResendCodeRequest {
+  email: string
+}
+
+export interface ResendCodeResponse {
+  email: string
 }
 
 export enum UserStatus {

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form"
 
 import { useSetupProfile } from "../hooks/useSetupProfile"
-import { Input } from "@/components/ui/input"
+import { Input, InputPassword } from "@/components/ui/input"
 
 export function SetupProfileForm() {
   const { loading, form, onSubmit } = useSetupProfile()
@@ -66,8 +66,7 @@ export function SetupProfileForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
+                  <InputPassword
                     placeholder="Create a password"
                     disabled={loading}
                     className="text-base"

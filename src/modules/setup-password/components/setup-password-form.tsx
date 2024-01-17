@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button"
+import { Button, ButtonLoading } from "@/components/ui/button"
 import {
+  ErrorMessage,
   Form,
   FormControl,
   FormField,
@@ -7,32 +8,41 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useState } from "react"
-import { useFormContext } from "react-hook-form"
+import { InputPassword } from "@/components/ui/input"
+import { useForm, useFormContext } from "react-hook-form"
 import { ArrowLeft } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
-import { UserFormValue, useSetupPassword } from "../hooks/useSetupPassword"
+import {
+  SetupPasswordFormValue,
+  setupPasswordFormSchema,
+  useSetupPassword
+} from "../hooks/useSetupPassword"
 import { SetupPasswordFormHeader } from "./setup-password-form-header"
 import { SetupPasswordMatch } from "./setup-password-matcher"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 
 function ResetPasswordForm() {
-  const [loading, setLoading] = useState(false)
+  const { handleSubmit, control, setValue } =
+    useFormContext<SetupPasswordFormValue>()
+  const { isPending, mutate, error } = useSetupPassword()
 
-  const { handleSubmit, control, setValue } = useFormContext<UserFormValue>()
-
-  const onSubmit = async (data: UserFormValue) => {
-    try {
-      console.log(data)
-      setValue("successMsg", "Redirect message")
-    } catch {
-      setLoading(false)
-    }
-  }
+  const errorMsg = error?.response?.data.message
+  const errorCode = error?.response?.data.code
+  const isInvalidToken = errorCode === ErrorCode.token_invalid_or_expired
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 w-full">
+    <form
+      onSubmit={handleSubmit((data) =>
+        mutate(data, {
+          onSuccess() {
+            setValue("successMsg", "Redirect message")
+          }
+        })
+      )}
+      className="space-y-5 w-full"
+    >
       <FormField
         control={control}
         name="password"
@@ -40,12 +50,11 @@ function ResetPasswordForm() {
           <FormItem>
             <FormLabel>Password</FormLabel>
             <FormControl>
-              <Input
-                type="password"
+              <InputPassword
                 placeholder="••••••••"
-                disabled={loading}
                 className="text-base"
                 {...field}
+                disabled={isPending}
               />
             </FormControl>
           </FormItem>
@@ -59,12 +68,11 @@ function ResetPasswordForm() {
           <FormItem>
             <FormLabel>Confirm Password</FormLabel>
             <FormControl>
-              <Input
-                type="password"
+              <InputPassword
                 placeholder="••••••••"
-                disabled={loading}
                 className="text-base"
                 {...field}
+                disabled={isPending}
               />
             </FormControl>
             <FormMessage />
@@ -72,17 +80,40 @@ function ResetPasswordForm() {
         )}
       />
 
-      <div className="flex flex-col space-y-2">
-        <SetupPasswordMatch />
-      </div>
+      {!isInvalidToken && (
+        <div className="flex flex-col space-y-1.5">
+          <SetupPasswordMatch />
+        </div>
+      )}
 
-      <Button
-        disabled={loading}
-        className="ml-auto w-full text-base"
-        type="submit"
-      >
-        Reset password
-      </Button>
+      {Boolean(errorMsg) && (
+        <div>
+          <ErrorMessage className="whitespace-pre-wrap">
+            {`${errorMsg}. ${getCustomErrorMsgByCode(errorCode!)}.`}
+          </ErrorMessage>
+        </div>
+      )}
+
+      {isInvalidToken ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="ml-auto w-full text-base"
+        >
+          <Link to={APP_PATH.FORGOT_PASSWORD} className="flex items-center">
+            <ArrowLeft className="w-5 h-5 mr-1" />
+            Back to forgot password
+          </Link>
+        </Button>
+      ) : (
+        <ButtonLoading
+          isLoading={isPending}
+          className="ml-auto w-full text-base"
+          type="submit"
+        >
+          Reset password
+        </ButtonLoading>
+      )}
     </form>
   )
 }
@@ -104,9 +135,15 @@ function SuccessReset() {
 }
 
 export function SetupPasswordForm() {
-  const { form } = useSetupPassword()
+  const form = useForm<SetupPasswordFormValue>({
+    resolver: zodResolver(setupPasswordFormSchema),
+    defaultValues: { password: "", confirmPassword: "" },
+    mode: "all",
+    reValidateMode: "onChange",
+    criteriaMode: "all"
+  })
 
-  const successMsg = form.getValues("successMsg")
+  const successMsg = form.watch("successMsg")
 
   return (
     <>
@@ -123,10 +160,10 @@ export function SetupPasswordForm() {
           className="px-1 text-sm text-foreground py-0 self-center"
           asChild
         >
-          <a href={APP_PATH.LOGIN}>
+          <Link to={APP_PATH.LOGIN}>
             <ArrowLeft className="w-5 h-5 mr-1" />
             Back to log in
-          </a>
+          </Link>
         </Button>
       )}
     </>

@@ -59,7 +59,7 @@ const ButtonLoading = React.forwardRef<
   ButtonProps & { isLoading?: boolean }
 >(({ className, variant, size, children, isLoading, ...props }, ref) => {
   return (
-    <Button
+    <button
       className={cn(buttonVariants({ variant, size, className }))}
       ref={ref}
       disabled={isLoading}
@@ -69,10 +69,10 @@ const ButtonLoading = React.forwardRef<
       <Loader2
         className={cn(
           "ml-0 h-4 w-0 transition-all ease-out",
-          isLoading && "animate-spin ml-2 w-4"
+          isLoading && "animate-spin ml-1 w-4"
         )}
       />
-    </Button>
+    </button>
   )
 })
 

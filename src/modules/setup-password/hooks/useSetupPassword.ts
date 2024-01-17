@@ -1,21 +1,33 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { ErrorResponse, UserInfo } from "@/common"
+import { API_PATH } from "@/constants"
+import { postRequest } from "@/services/client.service"
+import { useMutation } from "@tanstack/react-query"
+import { AxiosError, AxiosResponse } from "axios"
+import { useParams } from "react-router-dom"
 import * as z from "zod"
 
 export enum PasswordRegex {
-  AT_LEAST_ONE_SPECIAL_CHARACTER = "AT_LEAST_ONE_SPECIAL_CHARACTER"
+  AT_LEAST_ONE_SPECIAL_CHARACTER = "AT_LEAST_ONE_SPECIAL_CHARACTER",
+  AT_LEAST_ONE_UPPERCASE = "AT_LEAST_ONE_UPPERCASE",
+  AT_LEAST_ONE_LOWERCASE = "AT_LEAST_ONE_LOWERCASE",
+  AT_LEAST_ONE_DIGIT = "AT_LEAST_ONE_DIGIT",
+  NONE_SPACES = "NONE_SPACES"
 }
 
-const formSchema = z
+export const setupPasswordFormSchema = z
   .object({
     password: z
       .string()
       .min(8)
       .regex(
-        /(?=.*[^a-zA-Z0-9])^.+$/,
+        /(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])^.+$/,
         PasswordRegex.AT_LEAST_ONE_SPECIAL_CHARACTER
       )
-      .regex(/(?=.*[^a-zA-Z0-9])^.+$/, "AT_LEAST_ONE_SPECIAL_CHARACTER123"),
+      .regex(/(?=.*[A-Z])^.+$/, PasswordRegex.AT_LEAST_ONE_UPPERCASE)
+      .regex(/(?=.*[a-z])^.+$/, PasswordRegex.AT_LEAST_ONE_LOWERCASE)
+      .regex(/(?=.*\d)^.+$/, PasswordRegex.AT_LEAST_ONE_DIGIT)
+      .regex(/^[^\s]*$/, PasswordRegex.NONE_SPACES),
+
     confirmPassword: z.string(),
     successMsg: z.string().optional()
   })
@@ -29,21 +41,24 @@ const formSchema = z
     }
   })
 
-export type UserFormValue = z.infer<typeof formSchema>
+export type SetupPasswordFormValue = z.infer<typeof setupPasswordFormSchema>
 
+/**
+ * Enter new password to setup password
+ */
 export const useSetupPassword = () => {
-  const defaultValues = {
-    password: "",
-    confirmPassword: ""
-  }
+  const { email, token } = useParams()
 
-  const form = useForm<UserFormValue>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-    mode: "onChange",
-    reValidateMode: "onChange",
-    criteriaMode: "all"
+  return useMutation<
+    AxiosResponse<UserInfo>,
+    AxiosError<ErrorResponse>,
+    SetupPasswordFormValue
+  >({
+    mutationFn: ({ password }) => {
+      return postRequest({
+        path: API_PATH.users.setupPassword,
+        data: { email, password, token }
+      })
+    }
   })
-
-  return { form }
 }

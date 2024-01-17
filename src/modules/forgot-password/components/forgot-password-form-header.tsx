@@ -1,29 +1,27 @@
-import { useFormContext } from "react-hook-form"
-import { SetupPasswordFormValue } from "../hooks/useSetupPassword"
+import { KeyRound, Mail } from "lucide-react"
 import { useMemo } from "react"
-import { CheckCircle2, Lock } from "lucide-react"
+import { useFormContext } from "react-hook-form"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { ForgotPasswordFormValue } from "../hooks/useForgotPassword"
 
-export function SetupPasswordFormHeader() {
-  const { getValues } = useFormContext<SetupPasswordFormValue>()
-  const successMsg = getValues("successMsg")
+export function ForgotPasswordFormHeader() {
+  const { getValues } = useFormContext<ForgotPasswordFormValue>()
+  const email = getValues("successSentEmail")
 
   const dataHeader = useMemo(() => {
-    return successMsg
+    return email
       ? {
-          HeaderIcon: CheckCircle2,
-          title: "Password reset",
-          description:
-            "Your password has been successfully reset. Click below to log in magically."
+          HeaderIcon: Mail,
+          title: "Check your email",
+          description: "We sent a password reset link to"
         }
       : {
-          HeaderIcon: Lock,
-          title: "Set new password",
-          description:
-            "Your new password must be different to previously used passwords."
+          HeaderIcon: KeyRound,
+          title: "Forgot password?",
+          description: "No worries, we’ll send you reset instructions."
         }
-  }, [successMsg])
+  }, [email])
 
   return (
     <div className="flex flex-col text-center">
@@ -50,6 +48,7 @@ export function SetupPasswordFormHeader() {
 
       <div className="text-muted-foreground mt-3">
         <p>{dataHeader.description}</p>
+        {!!email && <p className="font-medium">{email}</p>}
       </div>
     </div>
   )

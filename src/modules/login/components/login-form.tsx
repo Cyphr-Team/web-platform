@@ -8,13 +8,14 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Input, InputPassword } from "@/components/ui/input"
 import { LoginGoogleButton } from "./login-google-button"
 import { APP_PATH } from "@/constants"
 import { Checkbox } from "@/components/ui/checkbox"
 import { LoginFormValue, loginFormSchema, useLogin } from "../hooks/useLogin"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Link } from "react-router-dom"
 
 export function LoginForm() {
   const { isPending, mutate, error } = useLogin()
@@ -60,8 +61,7 @@ export function LoginForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    type="password"
+                  <InputPassword
                     placeholder="••••••••"
                     className="text-base"
                     {...field}
@@ -100,7 +100,7 @@ export function LoginForm() {
                 className="p-0 text-primary"
                 asChild
               >
-                <a href={APP_PATH.FORGOT_PASSWORD}>Forgot password</a>
+                <Link to={APP_PATH.FORGOT_PASSWORD}>Forgot password</Link>
               </Button>
             </p>
           </div>

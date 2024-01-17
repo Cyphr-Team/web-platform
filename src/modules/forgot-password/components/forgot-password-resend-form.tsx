@@ -1,0 +1,72 @@
+import { ButtonLoading } from "@/components/ui/button"
+import { useFormContext } from "react-hook-form"
+import { ForgotPasswordFormValue } from "../hooks/useForgotPassword"
+import { useResend } from "../hooks/useResend"
+import { isAxiosError } from "axios"
+import { AppAlert } from "@/components/ui/alert"
+import { useMemo } from "react"
+
+/**
+ * Notification about successful sending forgot password email
+ * Resend forgot password email
+ */
+export function ResendForm() {
+  const { isPending, isSuccess, mutate, error } = useResend()
+  const errorMsg = isAxiosError(error)
+    ? error.response?.data.message || error.message
+    : error
+
+  const { watch } = useFormContext<ForgotPasswordFormValue>()
+
+  const successSentEmail = watch("successSentEmail")
+
+  const dataAlert = useMemo(() => {
+    return errorMsg
+      ? {
+          variant: "error" as const,
+          title: isAxiosError(error)
+            ? "Something went wrong"
+            : "Too many attempts",
+          description: errorMsg
+        }
+      : {
+          variant: "success" as const,
+          title: "Resend successfully",
+          description:
+            "We've sent you a new email, please check your email again."
+        }
+  }, [error, errorMsg])
+
+  const conditionAlert =
+    isSuccess || errorMsg ? (
+      <AppAlert
+        variant={dataAlert.variant}
+        title={dataAlert.title}
+        description={dataAlert.description}
+      />
+    ) : (
+      ""
+    )
+
+  return (
+    <div className="flex flex-col space-y-2 w-full items-center">
+      {conditionAlert}
+
+      <div>
+        <p className="text-center text-sm text-muted-foreground inline mr-1">
+          Didn’t receive the email?
+        </p>
+
+        <ButtonLoading
+          isLoading={isPending}
+          type="button"
+          variant="ghost"
+          className="p-1 h-7 text-primary"
+          onClick={() => mutate({ email: successSentEmail! })}
+        >
+          Click to resend
+        </ButtonLoading>
+      </div>
+    </div>
+  )
+}

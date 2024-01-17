@@ -80,8 +80,7 @@ export const inMemoryJWTManager = () => {
       .then((response: AxiosResponse) => {
         if (response.status !== 200) {
           eraseToken()
-
-          console.log("Failed to renew the jwt from the refresh token.")
+          console.error("Failed to renew the jwt from the refresh token.")
           return { refreshToken: null, accessToken: null }
         }
         return response.data

@@ -3,6 +3,7 @@ import { SignUpForm } from "./sign-up-form"
 import foresightLogo from "/foresight.svg"
 import { APP_PATH } from "@/constants"
 import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
 
 export function SignUpFormSection() {
   return (
@@ -35,7 +36,7 @@ export function SignUpFormSection() {
         <p className="px-8 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Button variant="link" className="p-0 text-primary" asChild>
-            <a href={APP_PATH.LOGIN}>Log in</a>
+            <Link to={APP_PATH.LOGIN}>Log in</Link>
           </Button>
         </p>
       </div>
