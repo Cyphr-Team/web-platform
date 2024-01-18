@@ -1,7 +1,7 @@
 import DashboardPage from "@/modules/example-dashboard/page"
-import SignUpPage from "@/modules/sign-up/page"
+import SignUpPage from "@/modules/authentication/sign-up/page"
 import LoanApplication from "@/modules/loan-application/page"
-import VerifyEmailPage from "@/modules/verify-email/page"
+import VerifyEmailPage from "@/modules/authentication/verify-email/page"
 
 import {
   GlobalLayouts,
@@ -13,16 +13,19 @@ import { AuthLayout } from "@/shared/layouts/auth-layout/auth-layout"
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  defer,
   Route
 } from "react-router-dom"
 import { APP_PATH } from "@/constants"
-import LoginPage from "@/modules/login/page"
-import ForgotPasswordPage from "@/modules/forgot-password/page"
+import LoginPage from "@/modules/authentication/login/page"
+import ForgotPasswordPage from "@/modules/authentication/forgot-password/page"
 import { LoanIntroduction } from "@/modules/loan-application/components/layouts/LoanIntroduction"
 import { LoanInformation } from "@/modules/loan-application/components/layouts/LoanInformation"
-import SetupPasswordPage from "@/modules/setup-password/page"
-import SetupProfilePage from "@/modules/setup-profile/page"
+import SetupPasswordPage from "@/modules/authentication/setup-password/page"
+import SetupProfilePage from "@/modules/authentication/setup-profile/page"
 import { LoanSubmission } from "@/modules/loan-application/components/layouts/LoanSubmission"
+import ActivateEmailPage from "@/modules/authentication/activate-email/page"
+import { inMemoryJWTService } from "@/services/jwt.service"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -39,8 +42,16 @@ const routes = createBrowserRouter(
           element={<VerifyEmailPage />}
         />
         <Route
+          path={APP_PATH.VERIFY_EMAIL.activateByToken}
+          element={<ActivateEmailPage />}
+        />
+        <Route
           path={APP_PATH.SETUP_PROFILE_BY_TOKEN.index}
           element={<SetupProfilePage />}
+          loader={async () => {
+            const userPromise = inMemoryJWTService.getNewAccessToken()
+            return defer({ userPromise })
+          }}
         />
         <Route
           path={APP_PATH.FORGOT_PASSWORD}
@@ -51,6 +62,7 @@ const routes = createBrowserRouter(
           element={<SetupPasswordPage />}
         />
       </Route>
+
       <Route element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
       </Route>

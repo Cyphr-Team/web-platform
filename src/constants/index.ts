@@ -53,12 +53,14 @@ export const APP_PATH = {
   SIGN_UP: "/sign-up",
   VERIFY_EMAIL: {
     index: "/verify-email/:email",
-    detail: (email: string) => `/verify-email/${email}`
+    detail: (email: string) => `/verify-email/${email}`,
+    activateByToken: "/activation"
   },
   SETUP_PROFILE_BY_TOKEN: {
     index: `/setup-profile/:email`,
     detail: (email: string) => `/setup-profile/${email}`
   },
+  // Click button "verify email" in the email
   LOAN_APPLICATION: {
     INDEX: "/onboarding",
     INFORMATION: "information",
@@ -70,7 +72,14 @@ export const API_PATH = {
   users: {
     forgotPassword: "api/users/public/forgot-password",
     resendForgotPassword: "api/users/resend-activation-secret",
-    setupPassword: "api/users/public/reset-password"
+    setupPassword: "api/users/public/reset-password",
+    getStart: "api/users/start",
+    activateByOtpCode: "api/users/activate-by-otp-code",
+    activateByToken: "api/users/activate-by-token",
+    // Resend activate code
+    resendVerificationEmail: "api/users/resend-verification-email",
+    // Setup name, password after activate successfully
+    signUp: "api/users/sign-up"
   }
 }
 

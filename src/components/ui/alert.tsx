@@ -80,6 +80,7 @@ const AppAlert = ({ title, description, variant, onClose }: AppAlertProps) => {
             size="icon"
             className="absolute p-0 text-muted-foreground right-4 h-auto w-auto"
             onClick={onClose}
+            type="button"
           >
             <X size={20} />
           </Button>
