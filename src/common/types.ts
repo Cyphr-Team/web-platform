@@ -33,3 +33,9 @@ export interface UserInfo {
   username: string
   status?: UserStatus
 }
+
+// Auth
+export enum SocialProvider {
+  GOOGLE = "GOOGLE",
+  APPLE = "APPLE"
+}

@@ -80,6 +80,9 @@ export const API_PATH = {
     resendVerificationEmail: "api/users/resend-verification-email",
     // Setup name, password after activate successfully
     signUp: "api/users/sign-up"
+  },
+  login: {
+    loginBySocial: "login/social"
   }
 }
 
