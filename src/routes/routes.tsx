@@ -13,7 +13,6 @@ import { AuthLayout } from "@/shared/layouts/auth-layout/auth-layout"
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  defer,
   Route
 } from "react-router-dom"
 import { APP_PATH } from "@/constants"
@@ -25,7 +24,7 @@ import SetupPasswordPage from "@/modules/authentication/setup-password/page"
 import SetupProfilePage from "@/modules/authentication/setup-profile/page"
 import { LoanSubmission } from "@/modules/loan-application/components/layouts/LoanSubmission"
 import ActivateEmailPage from "@/modules/authentication/activate-email/page"
-import { inMemoryJWTService } from "@/services/jwt.service"
+import { userLoader } from "./loader"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +33,8 @@ const routes = createBrowserRouter(
       element={<GlobalLayouts />}
       errorElement={<NotFoundLayout />}
     >
+      {/* AUTHENTICATION ROUTES */}
+
       <Route element={<AuthLayout />}>
         <Route path={APP_PATH.LOGIN} element={<LoginPage />} />
         <Route path={APP_PATH.SIGN_UP} element={<SignUpPage />} />
@@ -48,10 +49,7 @@ const routes = createBrowserRouter(
         <Route
           path={APP_PATH.SETUP_PROFILE_BY_TOKEN.index}
           element={<SetupProfilePage />}
-          loader={async () => {
-            const userPromise = inMemoryJWTService.getNewAccessToken()
-            return defer({ userPromise })
-          }}
+          loader={userLoader}
         />
         <Route
           path={APP_PATH.FORGOT_PASSWORD}
@@ -63,9 +61,14 @@ const routes = createBrowserRouter(
         />
       </Route>
 
-      <Route element={<DashboardLayout />}>
+      {/* DASHBOARD ROUTES */}
+
+      <Route element={<DashboardLayout />} loader={userLoader}>
         <Route index element={<DashboardPage />} />
       </Route>
+
+      {/* BORROWER ONBOARDING ROUTES */}
+
       <Route
         path={APP_PATH.LOAN_APPLICATION.INDEX}
         element={<LoanApplication />}
@@ -80,6 +83,7 @@ const routes = createBrowserRouter(
           element={<LoanSubmission />}
         />
       </Route>
+
       <Route path={APP_PATH.EXAMPLE_TABLE} element={<DashboardLayout />}>
         <Route index lazy={() => import("@/modules/example-table/page")} />
       </Route>

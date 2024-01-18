@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import SignUpGoogleButton from "./sign-up-google-button"
-import { SeparatorWithText } from "@/components/ui/separator-with-text"
 import {
   GetStartUserFormValue,
   UserStartStatus,
@@ -45,8 +44,6 @@ export function SignUpForm() {
   return (
     <div className="flex flex-col space-y-6">
       <SignUpGoogleButton />
-
-      <SeparatorWithText text="OR" />
 
       <Form {...form}>
         <form onSubmit={formSubmit} className="space-y-4 w-full">

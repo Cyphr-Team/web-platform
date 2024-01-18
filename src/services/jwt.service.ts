@@ -86,11 +86,13 @@ export const inMemoryJWTManager = () => {
 
           if (storageUserInfo?.accessToken) {
             setToken(storageUserInfo.accessToken, storageUserInfo.expiresIn)
-          } else {
             // eraseToken()
             console.error("Failed to renew the jwt from the refresh token.")
+          } else {
             return { refreshToken: null, accessToken: null }
           }
+
+          setUserInfo(storageUserInfo)
         }
         return response.data
       })
@@ -115,7 +117,11 @@ export const inMemoryJWTManager = () => {
           // eraseToken()
         }
 
-        return Promise.reject("Log out because we can't renew the token.")
+        setUserInfo(storageUserInfo)
+
+        return storageUserInfo
+          ? Promise.resolve(storageUserInfo)
+          : Promise.reject("Log out because we can't renew the token.")
       })
   }
 

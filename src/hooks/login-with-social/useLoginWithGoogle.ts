@@ -1,5 +1,5 @@
 import { SocialProvider } from "@/common"
-import { auth, googleAuthProvider } from "@/lib/firebase"
+import { googleAuth, googleAuthProvider } from "@/lib/firebase"
 import { useMutation } from "@tanstack/react-query"
 import { signInWithPopup } from "firebase/auth"
 import { useCallback } from "react"
@@ -11,7 +11,9 @@ export const useLoginWithGoogle = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => {
-      return signInWithPopup(auth, googleAuthProvider)
+      if (!googleAuth) throw new Error("Login with google is not support")
+
+      return signInWithPopup(googleAuth, googleAuthProvider)
     },
     async onSuccess(data) {
       const token = await data.user.getIdToken()

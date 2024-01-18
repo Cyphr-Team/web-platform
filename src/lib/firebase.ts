@@ -12,9 +12,11 @@ const firebaseConfig = {
   measurementId: APP_CONFIGS.FIREBASE_MEASUREMENT_ID
 }
 
-export const firebaseApp = initializeApp(firebaseConfig)
+export const firebaseApp = firebaseConfig.apiKey
+  ? initializeApp(firebaseConfig)
+  : null
 
 export const googleAuthProvider = new GoogleAuthProvider()
 googleAuthProvider.setCustomParameters({ prompt: "select_account" })
 
-export const auth = getAuth(firebaseApp)
+export const googleAuth = firebaseApp ? getAuth(firebaseApp) : null

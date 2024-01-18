@@ -1,9 +1,10 @@
-import { LucideIcon, LucideProps } from "lucide-react"
+import { LucideIcon, LucideProps, User } from "lucide-react"
 export type IconProps = React.HTMLAttributes<SVGElement>
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  user: User,
   google: ({ ...props }: LucideProps) => (
     <svg
       width="25"

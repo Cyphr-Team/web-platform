@@ -30,9 +30,9 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
     >
       <nav className="grid group-[[data-collapsed=true]]:justify-center space-y-2">
         <TooltipProvider>
-          {items.map((item, index) =>
+          {items.map((item) =>
             isCollapsed ? (
-              <Tooltip key={index} delayDuration={0}>
+              <Tooltip key={item.href} delayDuration={0}>
                 <TooltipTrigger asChild>
                   <NavLink
                     to={item.href ?? ""}
@@ -59,18 +59,18 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
             ) : (
               <NavLink
                 to={item.href ?? ""}
-                key={index}
+                key={item.href}
                 className={({ isActive }) =>
                   cn(
                     "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white cursor-pointer hover:bg-active",
-                    "flex items-center gap-4 py-md px-lg rounded-md",
+                    "flex items-center space-x-3 py-md px-lg rounded-md",
                     isActive && "bg-active"
                   )
                 }
                 data-selected={isSelected(item.href ?? "")}
               >
-                <item.icon className="mr-2 h-4 w-4" />
-                {item.title}
+                <item.icon />
+                <p className="text-base font-medium">{item.title}</p>
               </NavLink>
             )
           )}

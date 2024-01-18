@@ -5,7 +5,7 @@ import { axiosClient } from "@/services/client.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ErrorResponse, UserInfo } from "@/common"
-import { AxiosError } from "axios"
+import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 
 export const loginFormSchema = z.object({
@@ -20,7 +20,11 @@ export const useLogin = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  return useMutation<UserInfo, AxiosError<ErrorResponse>, LoginFormValue>({
+  return useMutation<
+    AxiosResponse<UserInfo>,
+    AxiosError<ErrorResponse>,
+    LoginFormValue
+  >({
     mutationFn: ({ email, password }) => {
       return axiosClient.post(
         "/login",
@@ -28,7 +32,7 @@ export const useLogin = () => {
         { headers: customRequestHeader.customHeaders }
       )
     },
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
       const { accessToken, refreshToken, expiresIn } = data
       inMemoryJWTService.setToken(accessToken, expiresIn)
       inMemoryJWTService.setRefreshToken(refreshToken)

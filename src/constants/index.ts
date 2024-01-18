@@ -3,40 +3,10 @@ import { NavItem } from "@/types"
 
 export const navItems: NavItem[] = [
   {
-    title: "Dashboard",
-    href: "/dashboard",
-    icon: Icons.route,
-    label: "Dashboard"
-  },
-  {
-    title: "User",
-    href: "/dashboard/user",
-    icon: Icons.route,
-    label: "user"
-  },
-  {
-    title: "Employee",
-    href: "/dashboard/employee",
-    icon: Icons.route,
-    label: "employee"
-  },
-  {
-    title: "Profile",
-    href: "/dashboard/profile",
-    icon: Icons.route,
-    label: "profile"
-  },
-  {
-    title: "Kanban",
-    href: "/dashboard/kanban",
-    icon: Icons.route,
-    label: "kanban"
-  },
-  {
-    title: "Login",
-    href: "/",
-    icon: Icons.route,
-    label: "login"
+    title: "Users",
+    href: "/users",
+    icon: Icons.user,
+    label: "users"
   }
 ]
 

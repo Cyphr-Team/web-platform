@@ -8,12 +8,10 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { CalendarDateRangePicker } from "./components/date-range-picker"
-import { MainNav } from "./components/main-nav"
 import { Overview } from "./components/overview"
 import { RecentSales } from "./components/recent-sales"
 import { Search } from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
-import { UserNav } from "./components/user-nav"
 
 export default function DashboardPage() {
   return (
@@ -21,10 +19,8 @@ export default function DashboardPage() {
       <div className="border-b">
         <div className="flex h-16 items-center px-4">
           <TeamSwitcher />
-          <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
             <Search />
-            <UserNav />
           </div>
         </div>
       </div>
