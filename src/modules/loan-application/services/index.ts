@@ -1,17 +1,20 @@
 import { postRequest } from "@/services/client.service"
-import { PlaidInfo, ENDPOINTS, PlaidAction, LinkToken } from "../constants"
+import {
+  PlaidInfo,
+  ENDPOINTS,
+  PlaidAction,
+  LinkToken,
+  SetAccessTokenRequest
+} from "../constants"
 
 export const exchangePublicTokenForAccessToken = async (
   publicToken: string,
   dispatch: React.Dispatch<PlaidAction>
 ) => {
-  const response = await postRequest<string, PlaidInfo>({
+  const response = await postRequest<SetAccessTokenRequest, PlaidInfo>({
     path: ENDPOINTS.PLAID.SET_ACCESS_TOKEN,
-    data: `public_token=${publicToken}`,
-    config: {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-      }
+    data: {
+      publicToken: publicToken
     }
   })
   if (!response.status) {
@@ -37,15 +40,10 @@ export const exchangePublicTokenForAccessToken = async (
   })
 }
 
-export const generateToken = async (
-  isPaymentInitiation: boolean,
-  dispatch: React.Dispatch<PlaidAction>
-) => {
+export const generateToken = async (dispatch: React.Dispatch<PlaidAction>) => {
   // Link tokens for 'payment_initiation' use a different creation flow in your backend.
-  const path = isPaymentInitiation
-    ? ENDPOINTS.PLAID.CREATE_LINK_TOKEN_FOR_PAYMENT
-    : ENDPOINTS.PLAID.CREATE_LINK_TOKEN
-  const response = await postRequest<null, LinkToken>({
+  const path = ENDPOINTS.PLAID.CREATE_LINK_TOKEN
+  const response = await postRequest<undefined, LinkToken>({
     path
   })
   if (!response.status) {

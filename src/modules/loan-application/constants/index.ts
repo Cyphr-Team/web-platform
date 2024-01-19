@@ -29,8 +29,13 @@ export type ProgressType = {
 export type PlaidInfo = {
   accessToken: string
   itemId: string
+  requestId: string
   products: string[]
   error?: string
+}
+
+export type SetAccessTokenRequest = {
+  publicToken: string
 }
 
 export type LinkToken = {
@@ -105,12 +110,12 @@ export const CONFIRMATION_TEXTS = [
 
 export const ENDPOINTS = {
   PLAID: {
-    INFO: "api/info",
-    SET_ACCESS_TOKEN: "api/set_access_token",
-    CREATE_PUBLIC_TOKEN: "api/create_public_token",
-    CREATE_PAYMENT_TOKEN: "api/create_payment_token",
-    CREATE_LINK_TOKEN: "api/create_link_token",
-    CREATE_LINK_TOKEN_FOR_PAYMENT: "api/create_link_token_for_payment"
+    INFO: "api/plaid/info",
+    SET_ACCESS_TOKEN: "api/plaid/set-access-token",
+    CREATE_PUBLIC_TOKEN: "api/plaid/create-public-token",
+    CREATE_PAYMENT_TOKEN: "api/plaid/create-payment-token",
+    CREATE_LINK_TOKEN: "api/plaid/create-link-token",
+    CREATE_LINK_TOKEN_FOR_PAYMENT: "api/plaid/create-link-token-for-payment"
   }
 }
 

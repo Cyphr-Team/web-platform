@@ -2,11 +2,7 @@ import { useCallback, useEffect } from "react"
 import { usePlaidContext } from "../providers"
 import { usePlaidLink } from "react-plaid-link"
 import { useLocation } from "react-router-dom"
-import {
-  exchangePublicTokenForAccessToken,
-  generateToken,
-  getInfo
-} from "../services"
+import { exchangePublicTokenForAccessToken, generateToken } from "../services"
 
 export const useConnectPlaid = () => {
   const { linkSuccess, linkToken, isPaymentInitiation, dispatch } =
@@ -54,7 +50,6 @@ export const useConnectPlaid = () => {
 
   useEffect(() => {
     const init = async () => {
-      const { paymentInitiation } = await getInfo(dispatch)
       // used to determine which path to take when generating token
       // do not generate a new token for OAuth redirect;
       //  instead setLinkToken from localStorage
@@ -67,7 +62,7 @@ export const useConnectPlaid = () => {
         })
         return
       }
-      generateToken(paymentInitiation, dispatch)
+      generateToken(dispatch)
     }
     init()
   }, [dispatch])

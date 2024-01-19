@@ -29,15 +29,15 @@ import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 
 export function OwnerInformationForm() {
   const defaultValues = {
-    name: "",
-    role: "",
-    address: "",
-    email: "",
-    phone: "",
-    dob: "",
-    ssn: "",
-    ownership: "",
-    cooperate: ""
+    name: "Larry Latte",
+    role: "Founder and CEO",
+    address: "321 Coffee Lane, Seattle, WA 98765",
+    email: "larrylatter@gmail.com",
+    phone: "123-456-7890",
+    dob: "01/01/1990",
+    ssn: "123-45-6789",
+    ownership: "20",
+    cooperate: "no"
   }
 
   const form = useForm<OwnerFormValue>({
