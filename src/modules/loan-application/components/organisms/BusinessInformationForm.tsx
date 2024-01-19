@@ -18,9 +18,9 @@ import { BusinessFormValue, businessFormSchema } from "../../constants/form"
 
 export const BusinessInformationForm = () => {
   const defaultValues = {
-    name: "Larry’s Latte LLC",
-    address: "123 Coffee Lane, Seattle, WA 98765",
-    website: "https://www.larryslatte.com"
+    name: "",
+    address: "",
+    website: ""
   }
 
   const form = useForm<BusinessFormValue>({
