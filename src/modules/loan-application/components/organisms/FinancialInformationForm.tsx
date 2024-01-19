@@ -18,6 +18,7 @@ import { convertFileSizeToMB } from "@/utils"
 import { File } from "lucide-react"
 import { useLoanApplicationContext } from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
+import { ConnectPlaidButton } from "../molecules/ConnectPlaidButton"
 
 export const FinancialInformationForm = () => {
   const items = [
@@ -113,9 +114,7 @@ export const FinancialInformationForm = () => {
                 Connect your business accounts to report your cash flow and
                 income
               </p>
-              <Button className="text-primary bg-black w-fit text-white px-lg py-md">
-                Connect
-              </Button>
+              <ConnectPlaidButton />
             </div>
           </form>
           <div className="flex flex-col gap-y-sm">

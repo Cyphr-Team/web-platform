@@ -26,6 +26,24 @@ export type ProgressType = {
   step: LOAN_APPLICATION_STEPS
 }
 
+export type PlaidInfo = {
+  accessToken: string
+  itemId: string
+  products: string[]
+  error?: string
+}
+
+export type LinkToken = {
+  linkToken: string
+  error?: LinkTokenError
+}
+
+export type LinkTokenError = {
+  errorMessage: string
+  errorCode: string
+  errorType: string
+}
+
 export enum LOAN_APPLICATION_STEPS {
   BUSINESS_INFORMATION = 1,
   OWNER_INFORMATION = 2,
@@ -84,3 +102,36 @@ export const CONFIRMATION_TEXTS = [
     content: `that my signature below authorizes AltCap to run an OFAC (Office of Foreign Assets Control) search in order to comply with the Department of Treasury`
   }
 ]
+
+export const ENDPOINTS = {
+  PLAID: {
+    INFO: "api/info",
+    SET_ACCESS_TOKEN: "api/set_access_token",
+    CREATE_PUBLIC_TOKEN: "api/create_public_token",
+    CREATE_PAYMENT_TOKEN: "api/create_payment_token",
+    CREATE_LINK_TOKEN: "api/create_link_token",
+    CREATE_LINK_TOKEN_FOR_PAYMENT: "api/create_link_token_for_payment"
+  }
+}
+
+export type PlaidAction = {
+  type: "SET_STATE"
+  state: Partial<PlaidState>
+}
+
+export interface PlaidState {
+  linkSuccess: boolean
+  isItemAccess: boolean
+  isPaymentInitiation: boolean
+  linkToken: string | null
+  accessToken: string | null
+  itemId: string | null
+  isError: boolean
+  backend: boolean
+  products: string[]
+  linkTokenError: {
+    errorMessage: string
+    errorCode: string
+    errorType: string
+  }
+}

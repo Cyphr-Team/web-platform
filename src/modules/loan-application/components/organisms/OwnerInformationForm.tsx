@@ -70,9 +70,9 @@ export function OwnerInformationForm() {
   }
 
   return (
-    <div className="flex flex-col flex-1 gap-3xl">
+    <div className="flex flex-col flex-1 gap-3xl overflow-auto">
       <Form {...form}>
-        <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+        <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
           <h5 className="text-lg font-semibold">Owner Information</h5>
           <Separator />
 
