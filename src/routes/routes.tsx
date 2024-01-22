@@ -1,13 +1,4 @@
-import DashboardPage from "@/modules/example-dashboard/page"
-import SignUpPage from "@/modules/authentication/sign-up/page"
-import LoanApplication from "@/modules/loan-application/page"
-import VerifyEmailPage from "@/modules/authentication/verify-email/page"
-
-import {
-  GlobalLayouts,
-  NotFoundLayout,
-  DashboardLayout
-} from "@/shared/layouts"
+import { GlobalLayouts, NotFoundLayout } from "@/shared/layouts"
 import { AuthLayout } from "@/shared/layouts/auth-layout/auth-layout"
 
 import {
@@ -16,14 +7,6 @@ import {
   Route
 } from "react-router-dom"
 import { APP_PATH } from "@/constants"
-import LoginPage from "@/modules/authentication/login/page"
-import ForgotPasswordPage from "@/modules/authentication/forgot-password/page"
-import { LoanIntroduction } from "@/modules/loan-application/components/layouts/LoanIntroduction"
-import { LoanInformation } from "@/modules/loan-application/components/layouts/LoanInformation"
-import SetupPasswordPage from "@/modules/authentication/setup-password/page"
-import SetupProfilePage from "@/modules/authentication/setup-profile/page"
-import { LoanSubmission } from "@/modules/loan-application/components/layouts/LoanSubmission"
-import ActivateEmailPage from "@/modules/authentication/activate-email/page"
 import { userLoader } from "./loader"
 
 const routes = createBrowserRouter(
@@ -36,56 +19,88 @@ const routes = createBrowserRouter(
       {/* AUTHENTICATION ROUTES */}
 
       <Route element={<AuthLayout />}>
-        <Route path={APP_PATH.LOGIN} element={<LoginPage />} />
-        <Route path={APP_PATH.SIGN_UP} element={<SignUpPage />} />
+        <Route
+          path={APP_PATH.LOGIN}
+          lazy={() => import("@/modules/authentication/login/page")}
+        />
+        <Route
+          path={APP_PATH.SIGN_UP}
+          lazy={() => import("@/modules/authentication/sign-up/page")}
+        />
         <Route
           path={APP_PATH.VERIFY_EMAIL.index}
-          element={<VerifyEmailPage />}
+          lazy={() => import("@/modules/authentication/verify-email/page")}
         />
         <Route
           path={APP_PATH.VERIFY_EMAIL.activateByToken}
-          element={<ActivateEmailPage />}
+          lazy={() => import("@/modules/authentication/activate-email/page")}
         />
         <Route
           path={APP_PATH.SETUP_PROFILE_BY_TOKEN.index}
-          element={<SetupProfilePage />}
           loader={userLoader}
+          lazy={() => import("@/modules/authentication/setup-profile/page")}
         />
         <Route
           path={APP_PATH.FORGOT_PASSWORD}
-          element={<ForgotPasswordPage />}
+          lazy={() => import("@/modules/authentication/forgot-password/page")}
         />
         <Route
           path={APP_PATH.SETUP_PASSWORD_BY_TOKEN.index}
-          element={<SetupPasswordPage />}
+          lazy={() => import("@/modules/authentication/setup-password/page")}
         />
       </Route>
 
       {/* DASHBOARD ROUTES */}
 
-      <Route element={<DashboardLayout />} loader={userLoader}>
-        <Route index element={<DashboardPage />} />
+      <Route
+        loader={userLoader}
+        lazy={() =>
+          import("@/shared/layouts/dashboard-layout/dashboard-layout")
+        }
+      >
+        <Route index lazy={() => import("@/modules/example-dashboard/page")} />
+
+        {/* ADMIN  */}
+
+        {/* ADMIN Users */}
+
+        <Route
+          index
+          path={APP_PATH.USERS.index}
+          lazy={() => import("@/modules/admin/user/page")}
+        />
       </Route>
 
       {/* BORROWER ONBOARDING ROUTES */}
 
       <Route
         path={APP_PATH.LOAN_APPLICATION.INDEX}
-        element={<LoanApplication />}
+        lazy={() => import("@/modules/loan-application/page")}
       >
-        <Route index element={<LoanIntroduction />} />
+        <Route
+          index
+          lazy={() =>
+            import(
+              "@/modules/loan-application/components/layouts/LoanIntroduction"
+            )
+          }
+        />
         <Route
           path={APP_PATH.LOAN_APPLICATION.INFORMATION}
-          element={<LoanInformation />}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/components/layouts/LoanInformation"
+            )
+          }
         />
         <Route
           path={APP_PATH.LOAN_APPLICATION.SUBMISSION}
-          element={<LoanSubmission />}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/components/layouts/LoanSubmission"
+            )
+          }
         />
-      </Route>
-
-      <Route path={APP_PATH.EXAMPLE_TABLE} element={<DashboardLayout />}>
-        <Route index lazy={() => import("@/modules/example-table/page")} />
       </Route>
     </Route>
   )

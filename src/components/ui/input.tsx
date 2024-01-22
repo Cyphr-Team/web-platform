@@ -6,14 +6,18 @@ import { Button } from "./button"
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
+  wrapperClassName?: string
   suffixIcon?: React.ReactNode
   prefixIcon?: React.ReactNode
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, prefixIcon, suffixIcon, ...props }, ref) => {
+  (
+    { wrapperClassName, className, type, prefixIcon, suffixIcon, ...props },
+    ref
+  ) => {
     return (
-      <div className="relative">
+      <div className={cn("relative", wrapperClassName)}>
         {prefixIcon && (
           <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
             {prefixIcon}

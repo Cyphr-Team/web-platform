@@ -11,17 +11,17 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
+import { Badge } from "@/components/ui/badge"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type User = {
   id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
+  username: string
+  roles: string[]
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -45,36 +45,20 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false
   },
   {
-    accessorKey: "status",
+    accessorKey: "username",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="Email" />
     )
   },
   {
-    accessorKey: "email",
+    accessorKey: "roles",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Email" />
-    }
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader
-          className="justify-end"
-          column={column}
-          title="Amount"
-        />
-      )
+      return <DataTableColumnHeader column={column} title="Roles" />
     },
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
-      }).format(amount)
+      const roles: string[] = row.getValue("roles")
 
-      return <div className="text-right font-medium mr-4">{formatted}</div>
+      return roles.map((role) => <Badge key={role}>{role}</Badge>)
     }
   },
   {

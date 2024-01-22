@@ -1,4 +1,5 @@
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber"
+import { toast } from "sonner"
 
 export const convertFileSizeToMB = (fileSizeInBytes: number): string => {
   if (fileSizeInBytes === undefined) {
@@ -30,4 +31,27 @@ export function checkValidPhoneNumber(phone: string) {
     "^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$"
   )
   return phoneRegex.test(phone)
+}
+
+/**
+ * Reference: [sonner](https://ui.shadcn.com/docs/components/sonner)
+ */
+export const toastSuccess = ({
+  title,
+  description
+}: {
+  title: string
+  description: string
+}) => {
+  toast.success(title, { description })
+}
+
+export const toastError = ({
+  title,
+  description
+}: {
+  title: string
+  description: string
+}) => {
+  toast.error(title, { description })
 }

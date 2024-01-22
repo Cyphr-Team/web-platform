@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 import { SideNav } from "./components/organisms/SideNav"
 import { LoanApplicationProvider } from "./providers/LoanApplicationProvider"
 
-export default function LoanApplication() {
+export function Component() {
   return (
     <LoanApplicationProvider>
       <div className="flex h-screen overflow-hidden">

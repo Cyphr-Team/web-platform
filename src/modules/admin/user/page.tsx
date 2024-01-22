@@ -1,17 +1,16 @@
 import { json, useLoaderData } from "react-router-dom"
-import { Payment, columns } from "./components/table/columns"
-import { DataTable } from "./components/table/data-table"
+import { User, columns } from "./table/columns"
+import { DataTable } from "@/components/ui/data-table"
+import { DialogSendInvite } from "./components/DialogSendInvitation"
+import { USER_ROLES } from "@/common"
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
+async function getData(): Promise<User[]> {
   return [
     {
       id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com"
+      username: "admin@tryforesight.io",
+      roles: [USER_ROLES.FORESIGHT_ADMIN]
     }
-    // ...
   ]
 }
 
@@ -24,10 +23,11 @@ export async function loader() {
 }
 
 export function Component() {
-  const data = useLoaderData() as Payment[]
+  const data = useLoaderData() as User[]
 
   return (
     <div className="container mx-auto py-10">
+      <DialogSendInvite />
       <DataTable columns={columns} data={data} />
     </div>
   )

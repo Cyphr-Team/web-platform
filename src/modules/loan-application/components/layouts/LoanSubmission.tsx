@@ -2,7 +2,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { CheckCircle } from "lucide-react"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
 
-export function LoanSubmission() {
+export function Component() {
   return (
     <div className="p-4 lg:p-8 h-full w-full flex">
       <div className="mx-auto flex w-full flex-col space-y-8 sm:w-[360px]">

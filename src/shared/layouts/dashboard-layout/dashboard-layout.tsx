@@ -6,7 +6,7 @@ import { Suspense } from "react"
 import { UserInfo } from "@/common"
 import { APP_PATH } from "@/constants"
 
-export function DashboardLayout() {
+export function Component() {
   const { userPromise } = useLoaderData() as {
     userPromise: Promise<UserInfo>
   }

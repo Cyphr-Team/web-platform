@@ -7,7 +7,7 @@ import { FinancialInformationForm } from "../organisms/FinancialInformationForm"
 import { OwnerInformationForm } from "../organisms/OwnerInformationForm"
 import { ProgressSteps } from "../organisms/ProgressSteps"
 
-export const LoanInformation = () => {
+export const Component = () => {
   const { step } = useLoanApplicationContext()
 
   return (

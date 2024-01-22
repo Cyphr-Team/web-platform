@@ -35,6 +35,11 @@ export const APP_PATH = {
     INDEX: "/onboarding",
     INFORMATION: "information",
     SUBMISSION: "submission"
+  },
+
+  // ADMIN USERS
+  USERS: {
+    index: "/users"
   }
 }
 
@@ -53,6 +58,11 @@ export const API_PATH = {
   },
   login: {
     loginBySocial: "login/social"
+  },
+  admin: {
+    user: {
+      sendInvitation: "api/admin/user/invite"
+    }
   }
 }
 

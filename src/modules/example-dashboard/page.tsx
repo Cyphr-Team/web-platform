@@ -13,7 +13,7 @@ import { RecentSales } from "./components/recent-sales"
 import { Search } from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
 
-export default function DashboardPage() {
+export function Component() {
   return (
     <div className="flex-col flex">
       <div className="border-b">

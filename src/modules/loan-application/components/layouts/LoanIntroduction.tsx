@@ -3,7 +3,7 @@ import { TEXTS } from "../../constants"
 import { useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 
-export const LoanIntroduction = () => {
+export const Component = () => {
   const navigate = useNavigate()
 
   return (
