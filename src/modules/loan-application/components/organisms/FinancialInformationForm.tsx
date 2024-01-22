@@ -14,11 +14,10 @@ import { useForm } from "react-hook-form"
 import { FinancialFormValue, financialFormSchema } from "../../constants/form"
 import { Button } from "@/components/ui/button"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
-import { convertFileSizeToMB } from "@/utils"
-import { File } from "lucide-react"
 import { useLoanApplicationContext } from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { ConnectPlaidButton } from "../molecules/ConnectPlaidButton"
+import { FileUploadCard } from "../molecules/FileUploadCard"
 
 export const FinancialInformationForm = () => {
   const items = [
@@ -41,18 +40,30 @@ export const FinancialInformationForm = () => {
   const form = useForm<FinancialFormValue>({
     resolver: zodResolver(financialFormSchema),
     defaultValues: {
-      cashflow: [],
-      w2sFile: null
+      cashflow: []
     },
     mode: "onChange"
   })
 
-  const handleSelectFile = (file: File) => {
-    form.setValue("w2sFile", file, {
+  const handleSelectFile = (files: FileList) => {
+    const currentFiles = form.getValues("w2sFile")
+
+    const mergedFiles =
+      files && currentFiles
+        ? [...currentFiles, ...Array.from(files)]
+        : Array.from(files)
+
+    form.setValue("w2sFile", mergedFiles, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true
     })
+  }
+
+  const handleRemoveFile = (index: number) => {
+    const currentFiles = form.getValues("w2sFile")
+    const newFiles = currentFiles.filter((_, i) => i !== index)
+    form.setValue("w2sFile", newFiles)
   }
 
   const onSubmit = (data: FinancialFormValue) => {
@@ -128,21 +139,17 @@ export const FinancialInformationForm = () => {
               render={() => (
                 <FormItem>
                   <DragDropFileInput onFileSelect={handleSelectFile} />
-                  {form.getValues("w2sFile") && (
-                    <Card className="p-xl gap-2xl flex">
-                      <File className="h-10 w-8" />
-                      <div className="flex flex-col">
-                        <p className="text-sm">
-                          {form.getValues("w2sFile").name}
-                        </p>
-                        <p className="text-sm text-text-tertiary">
-                          {`${convertFileSizeToMB(
-                            form.getValues("w2sFile").size
-                          )} MB`}
-                        </p>
-                      </div>
-                    </Card>
-                  )}
+                  {form.getValues("w2sFile") &&
+                    Array.from(form.getValues("w2sFile")).map(
+                      (file: File, index: number) => (
+                        <FileUploadCard
+                          key={index}
+                          file={file}
+                          index={index}
+                          handleRemoveFile={handleRemoveFile}
+                        />
+                      )
+                    )}
                   <FormMessage />
                 </FormItem>
               )}

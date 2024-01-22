@@ -16,8 +16,7 @@ import { useLoanApplicationContext } from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { OwnerFormValue, ownerFormSchema } from "../../constants/form"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
-import { File, Mail } from "lucide-react"
-import { convertFileSizeToMB } from "@/utils"
+import { Mail } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -26,6 +25,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
+import { FileUploadCard } from "../molecules/FileUploadCard"
 
 export function OwnerInformationForm() {
   const defaultValues = {
@@ -48,12 +48,25 @@ export function OwnerInformationForm() {
 
   const { changeProgress, changeStep } = useLoanApplicationContext()
 
-  const handleSelectFile = (file: File) => {
-    form.setValue("governmentFile", file, {
+  const handleSelectFile = (files: FileList) => {
+    const currentFiles = form.getValues("governmentFile")
+
+    const mergedFiles =
+      files && currentFiles
+        ? [...currentFiles, ...Array.from(files)]
+        : Array.from(files)
+
+    form.setValue("governmentFile", mergedFiles, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true
     })
+  }
+
+  const handleRemoveFile = (index: number) => {
+    const currentFiles = form.getValues("governmentFile")
+    const newFiles = currentFiles.filter((_, i) => i !== index)
+    form.setValue("governmentFile", newFiles)
   }
 
   const handleSelectDate = (date: Date | undefined) => {
@@ -295,21 +308,18 @@ export function OwnerInformationForm() {
             render={() => (
               <FormItem>
                 <DragDropFileInput onFileSelect={handleSelectFile} />
-                {form.getValues("governmentFile") && (
-                  <Card className="p-xl gap-2xl flex">
-                    <File className="h-10 w-8" />
-                    <div className="flex flex-col">
-                      <p className="text-sm">
-                        {form.getValues("governmentFile").name}
-                      </p>
-                      <p className="text-sm text-text-tertiary">
-                        {`${convertFileSizeToMB(
-                          form.getValues("governmentFile").size
-                        )} MB`}
-                      </p>
-                    </div>
-                  </Card>
-                )}
+                {form.getValues("governmentFile") &&
+                  form.getValues("governmentFile").length > 0 &&
+                  Array.from(form.getValues("governmentFile")).map(
+                    (file: File, index: number) => (
+                      <FileUploadCard
+                        key={index}
+                        file={file}
+                        index={index}
+                        handleRemoveFile={handleRemoveFile}
+                      />
+                    )
+                  )}
                 <FormMessage />
               </FormItem>
             )}

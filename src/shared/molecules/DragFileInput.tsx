@@ -3,7 +3,7 @@ import { UploadCloud } from "lucide-react"
 import { Card } from "@/components/ui/card"
 
 interface DragDropFileInputProps {
-  onFileSelect: (file: File) => void
+  onFileSelect: (files: FileList) => void
 }
 
 export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
@@ -26,13 +26,13 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
     event.stopPropagation()
     setDragActive(false)
     if (event.dataTransfer.files?.[0]) {
-      onFileSelect(event.dataTransfer.files[0])
+      onFileSelect(event.dataTransfer.files)
     }
   }
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files?.[0]) {
-      onFileSelect(event.target.files[0])
+    if (event.target.files) {
+      onFileSelect(event.target.files)
     }
   }
 
@@ -47,7 +47,7 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
       <input
         type="file"
         id="input-file-upload"
-        multiple={false}
+        multiple={true}
         onChange={handleFileSelect}
         style={{ display: "none" }}
         accept="image/png, image/jpeg, application/pdf"

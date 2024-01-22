@@ -14,11 +14,20 @@ export const ownerFormSchema = z.object({
   ssn: z.string().min(1, { message: "Social security number is required" }),
   ownership: z.string().min(1, { message: "Ownership percent is required" }),
   cooperate: z.string().min(1, { message: "Cooperate is required" }),
-  governmentFile: z
-    .any()
-    .refine((file) => file && ACCEPTED_FILE_TYPES.includes(file.type), {
+  governmentFile: z.custom<File[]>().refine(
+    (fileList) => {
+      if (fileList) {
+        if (fileList.length === 0) return false
+        const fileArray = Array.from(fileList)
+
+        return ACCEPTED_FILE_TYPES.includes(fileArray[0].type)
+      }
+      return false
+    },
+    {
       message: "Please choose PNG, JPG, PDF format files only"
-    })
+    }
+  )
 })
 
 export const businessFormSchema = z.object({
@@ -30,8 +39,8 @@ export const businessFormSchema = z.object({
 export const financialFormSchema = z.object({
   cashflow: z.string().array(),
   w2sFile: z
-    .any()
-    .refine((file) => file && ACCEPTED_FILE_TYPES.includes(file.type), {
+    .custom<File[]>()
+    .refine((file) => file && ACCEPTED_FILE_TYPES.includes(file[0].type), {
       message: "Please choose PNG, JPG, PDF format files only"
     })
 })
