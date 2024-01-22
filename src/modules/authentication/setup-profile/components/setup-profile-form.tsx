@@ -11,7 +11,7 @@ import {
 
 import { Input, InputPassword } from "@/components/ui/input"
 import {
-  SetupProfileFormSchema,
+  SetupProfileFormValue,
   setupProfileFormSchema,
   useSetupProfile
 } from "../hooks/useSetupProfile"
@@ -24,19 +24,26 @@ import { useEffect } from "react"
 import { inMemoryJWTService } from "@/services/jwt.service"
 import { APP_PATH } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
+import { SetupProfileMatch } from "./setup-profile-matcher"
 
 export function SetupProfileForm() {
   const { email } = useParams()
   const navigate = useNavigate()
 
-  const form = useForm<SetupProfileFormSchema>({
+  const form = useForm<SetupProfileFormValue>({
     resolver: zodResolver(setupProfileFormSchema),
     defaultValues: {
       name: "",
       email,
-      password: ""
-    }
+      password: "",
+      confirmPassword: ""
+    },
+    mode: "all",
+    reValidateMode: "onChange",
+    criteriaMode: "all"
   })
+
+  const errorMsg = form.formState.errors.root?.serverError?.message
 
   const { mutate, isPending, isSuccess } = useSetupProfile()
 
@@ -74,6 +81,25 @@ export function SetupProfileForm() {
         >
           <FormField
             control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter your email"
+                    className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
+                    {...field}
+                    disabled={true}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
@@ -84,25 +110,6 @@ export function SetupProfileForm() {
                     className="text-base"
                     {...field}
                     disabled={isPending}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter your email"
-                    className="text-base font-medium border-0 p-0 disabled:opacity-1"
-                    {...field}
-                    disabled={true}
                   />
                 </FormControl>
                 <FormMessage />
@@ -124,15 +131,41 @@ export function SetupProfileForm() {
                     disabled={isPending}
                   />
                 </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <InputPassword
+                    placeholder="Confirm your password"
+                    className="text-base"
+                    {...field}
+                    disabled={isPending}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <div>
-            <ErrorMessage className="whitespace-pre-wrap">
-              {form.formState.errors.root?.serverError?.message}
-            </ErrorMessage>
+          <div className="flex flex-col space-y-3">
+            {!isSuccess && (
+              <div className="flex flex-col space-y-1.5">
+                <SetupProfileMatch />
+              </div>
+            )}
+
+            {Boolean(errorMsg) && (
+              <ErrorMessage className="whitespace-pre-wrap">
+                {`${errorMsg}.`}
+              </ErrorMessage>
+            )}
 
             {isSuccess && (
               <AppAlert
@@ -145,7 +178,7 @@ export function SetupProfileForm() {
             <ButtonLoading
               isLoading={isPending}
               disabled={isSuccess || isPending}
-              className="w-full text-base mt-3"
+              className="w-full text-base mt-5"
               type="submit"
             >
               Get started

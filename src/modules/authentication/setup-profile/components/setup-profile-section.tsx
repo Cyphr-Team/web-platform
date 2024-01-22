@@ -32,7 +32,7 @@ export function SetupProfileSection() {
   ) : null
 
   return (
-    <div className="p-4 lg:p-8 h-full flex">
+    <div className="p-4 lg:p-8 flex">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
         <div className="flex flex-col">
           <div className="flex justify-center relative sm:-mx-8 mx-0">
