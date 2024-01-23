@@ -17,12 +17,14 @@ import {
 } from "../hooks/useForgotPassword"
 import { ForgotPasswordFormHeader } from "./forgot-password-form-header"
 import { ResendForm } from "./forgot-password-resend-form"
+import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
+import { AppAlert } from "@/components/ui/alert"
 
 /**
  * Enter an email to get reset password email
  */
 function ResetPasswordForm() {
-  const { isPending, mutate } = useForgotPassword()
+  const { isPending, mutate, error } = useForgotPassword()
 
   const { handleSubmit, control, setValue, setError } =
     useFormContext<ForgotPasswordFormValue>()
@@ -31,12 +33,24 @@ function ResetPasswordForm() {
     mutate(data, {
       onSuccess: () => setValue("successSentEmail", data.email),
       onError: (error) =>
+        error?.response?.data.code !== ErrorCode.rate_limit_exceeded &&
         setError("email", {
           type: "server",
           message: error.response?.data.message
         })
     })
   })
+
+  const isLimitError =
+    error?.response?.data.code === ErrorCode.rate_limit_exceeded
+
+  const conditionAlert = isLimitError && (
+    <AppAlert
+      variant="error"
+      title="Too many attempts"
+      description={getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded)}
+    />
+  )
 
   return (
     <form onSubmit={formSubmit} className="space-y-6 w-full">
@@ -61,6 +75,8 @@ function ResetPasswordForm() {
       />
 
       <div className="flex flex-col space-y-2">
+        {conditionAlert}
+
         <ButtonLoading
           isLoading={isPending}
           className="ml-auto w-full text-base"

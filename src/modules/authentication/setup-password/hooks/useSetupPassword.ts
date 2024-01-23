@@ -1,6 +1,7 @@
 import { ErrorResponse, UserInfo } from "@/common"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
+import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { useParams } from "react-router-dom"
@@ -57,7 +58,8 @@ export const useSetupPassword = () => {
     mutationFn: ({ password }) => {
       return postRequest({
         path: API_PATH.users.setupPassword,
-        data: { email, password, token }
+        data: { email, password, token },
+        customHeader: customRequestHeader.customHeaders
       })
     }
   })

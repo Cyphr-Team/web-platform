@@ -5,6 +5,7 @@ import { useResend } from "../hooks/useResend"
 import { isAxiosError } from "axios"
 import { AppAlert } from "@/components/ui/alert"
 import { useMemo } from "react"
+import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 
 /**
  * Notification about successful sending forgot password email
@@ -21,13 +22,19 @@ export function ResendForm() {
   const successSentEmail = watch("successSentEmail")
 
   const dataAlert = useMemo(() => {
+    const customLimitError =
+      isAxiosError(error) &&
+      error.response?.data.code === ErrorCode.rate_limit_exceeded
+        ? getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded)
+        : ""
     return errorMsg
       ? {
           variant: "error" as const,
-          title: isAxiosError(error)
-            ? "Something went wrong"
-            : "Too many attempts",
-          description: errorMsg
+          title:
+            !isAxiosError(error) || customLimitError
+              ? "Too many attempts"
+              : "Something went wrong",
+          description: customLimitError || errorMsg
         }
       : {
           variant: "success" as const,
@@ -37,16 +44,13 @@ export function ResendForm() {
         }
   }, [error, errorMsg])
 
-  const conditionAlert =
-    isSuccess || errorMsg ? (
-      <AppAlert
-        variant={dataAlert.variant}
-        title={dataAlert.title}
-        description={dataAlert.description}
-      />
-    ) : (
-      ""
-    )
+  const conditionAlert = (isSuccess || errorMsg) && (
+    <AppAlert
+      variant={dataAlert.variant}
+      title={dataAlert.title}
+      description={dataAlert.description}
+    />
+  )
 
   return (
     <div className="flex flex-col space-y-2 w-full items-center">

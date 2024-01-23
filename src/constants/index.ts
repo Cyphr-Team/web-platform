@@ -78,3 +78,5 @@ export interface QueryResponseError {
   code: number
   message: string
 }
+
+export const REQUEST_RATE_LIMIT_TIME = 60 * 1000

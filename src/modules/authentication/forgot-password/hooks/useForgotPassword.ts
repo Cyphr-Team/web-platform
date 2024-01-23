@@ -1,6 +1,7 @@
 import { ErrorResponse, SuccessResponse } from "@/common"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
+import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import * as z from "zod"
@@ -26,7 +27,8 @@ export const useForgotPassword = () => {
 
       return postRequest({
         path: API_PATH.users.forgotPassword,
-        data: { email, baseUrl }
+        data: { email, baseUrl },
+        customHeader: customRequestHeader.customHeaders
       })
     }
   })

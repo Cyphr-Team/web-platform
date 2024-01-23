@@ -1,15 +1,12 @@
 import { ErrorResponse } from "@/common"
-import { API_PATH } from "@/constants"
+import { API_PATH, REQUEST_RATE_LIMIT_TIME } from "@/constants"
 import { postRequest } from "@/services/client.service"
+import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { useRef } from "react"
 import { useParams } from "react-router-dom"
-
-const LIMIT_ERROR =
-  "Too many attempts to generate an email reset password. Please wait 60 seconds"
-const LIMIT_TIME = 60 * 1000
 
 export interface ResendCodeRequest {
   email: string
@@ -30,11 +27,14 @@ export const useResendActivate = () => {
   >({
     mutationFn: () => {
       if (limitResendTimeout.current) {
-        throw LIMIT_ERROR
+        throw getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded)
       }
 
       limitResendTimeout.current = true
-      setTimeout(() => (limitResendTimeout.current = false), LIMIT_TIME)
+      setTimeout(
+        () => (limitResendTimeout.current = false),
+        REQUEST_RATE_LIMIT_TIME
+      )
 
       const baseUrl = window.location.origin
 
