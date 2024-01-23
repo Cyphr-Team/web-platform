@@ -17,24 +17,24 @@ import {
 } from "../hooks/useSetupProfile"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { isAxiosError } from "axios"
 import { useCountdown } from "@/hooks/useCountdown"
 import { useEffect } from "react"
-import { inMemoryJWTService } from "@/services/jwt.service"
-import { APP_PATH } from "@/constants"
+import { APP_PATH, LOCAL_STORAGE_KEY } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { SetupProfileMatch } from "./setup-profile-matcher"
 
 export function SetupProfileForm() {
-  const { email } = useParams()
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
   const form = useForm<SetupProfileFormValue>({
     resolver: zodResolver(setupProfileFormSchema),
     defaultValues: {
       name: "",
-      email,
+      email: searchParams.get("email") ?? "",
+      token: searchParams.get("token") ?? "",
       password: "",
       confirmPassword: ""
     },
@@ -54,7 +54,7 @@ export function SetupProfileForm() {
 
   useEffect(() => {
     if (count < 1) {
-      inMemoryJWTService.eraseToken()
+      localStorage.removeItem(LOCAL_STORAGE_KEY.signUpIdentity)
       navigate(APP_PATH.LOGIN)
     }
   }, [count, navigate])

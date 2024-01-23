@@ -79,7 +79,7 @@ export function VerifyEmailForm() {
       <Form {...form}>
         <form
           onSubmit={formSubmit}
-          className="space-y-8 w-full flex flex-col items-center"
+          className="space-y-4 sm:space-y-8 w-full flex flex-col items-center"
         >
           <div className="flex space-x-3">
             {inputRefs.current.map((_, index) => {

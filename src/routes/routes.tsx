@@ -36,8 +36,7 @@ const routes = createBrowserRouter(
           lazy={() => import("@/modules/authentication/activate-email/page")}
         />
         <Route
-          path={APP_PATH.SETUP_PROFILE_BY_TOKEN.index}
-          loader={userLoader}
+          path={APP_PATH.SETUP_PROFILE}
           lazy={() => import("@/modules/authentication/setup-profile/page")}
         />
         <Route

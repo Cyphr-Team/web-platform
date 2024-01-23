@@ -10,6 +10,10 @@ export const navItems: NavItem[] = [
   }
 ]
 
+export const LOCAL_STORAGE_KEY = {
+  signUpIdentity: "signUpIdentity"
+}
+
 export const APP_PATH = {
   INDEX: "/",
   DASHBOARD: "/",
@@ -26,10 +30,7 @@ export const APP_PATH = {
     detail: (email: string) => `/verify-email/${email}`,
     activateByToken: "/activation"
   },
-  SETUP_PROFILE_BY_TOKEN: {
-    index: `/setup-profile/:email`,
-    detail: (email: string) => `/setup-profile/${email}`
-  },
+  SETUP_PROFILE: "/setup-profile",
   // Click button "verify email" in the email
   LOAN_APPLICATION: {
     INDEX: "/onboarding",

@@ -15,16 +15,18 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { LoginFormValue, loginFormSchema, useLogin } from "../hooks/useLogin"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 
 export function LoginForm() {
+  const [searchParams] = useSearchParams()
+
   const { isPending, mutate, error } = useLogin()
   const errorMsg = error?.response?.data.message
 
   const form = useForm<LoginFormValue>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "",
+      email: searchParams.get("email") ?? "",
       password: ""
     }
   })

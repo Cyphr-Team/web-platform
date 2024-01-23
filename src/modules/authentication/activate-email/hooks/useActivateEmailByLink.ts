@@ -1,5 +1,5 @@
 import { ErrorResponse, UserInfo } from "@/common"
-import { API_PATH } from "@/constants"
+import { API_PATH, LOCAL_STORAGE_KEY } from "@/constants"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { postRequest } from "@/services/client.service"
@@ -16,14 +16,12 @@ export const useActivateEmailByLink = () => {
     ActivateEmailByLinkRequest
   >({
     mutationFn: async ({ token }) => {
-      await new Promise((res) => {
-        setTimeout(() => res(null), 1000)
-      })
+      localStorage.setItem(LOCAL_STORAGE_KEY.signUpIdentity, token)
 
       return postRequest({
         path: API_PATH.users.activateByToken,
         data: { token },
-        customHeader: customRequestHeader.customHeaders
+        customHeader: customRequestHeader.addSignUpJwt().customHeaders
       })
     }
   })

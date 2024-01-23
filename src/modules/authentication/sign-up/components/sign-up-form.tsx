@@ -12,34 +12,23 @@ import { useForm } from "react-hook-form"
 import SignUpGoogleButton from "./sign-up-google-button"
 import {
   GetStartUserFormValue,
-  UserStartStatus,
   getStartFormSchema,
   useGetStart
 } from "../hooks/useGetStart"
+import { useSearchParams } from "react-router-dom"
 
 export function SignUpForm() {
   const { isPending, mutate } = useGetStart()
+  const [searchParams] = useSearchParams()
 
   const form = useForm<GetStartUserFormValue>({
     resolver: zodResolver(getStartFormSchema),
     defaultValues: {
-      email: ""
+      email: searchParams.get("email") ?? ""
     }
   })
 
-  const formSubmit = form.handleSubmit((data) =>
-    mutate(data, {
-      onSuccess({ data }) {
-        const { status } = data
-        if (status === UserStartStatus.EMAIL_REGISTERED) {
-          form.setError("email", {
-            type: "server",
-            message: "That email is taken. Try another."
-          })
-        }
-      }
-    })
-  )
+  const formSubmit = form.handleSubmit((data) => mutate(data))
 
   return (
     <div className="flex flex-col space-y-6">

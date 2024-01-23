@@ -1,5 +1,9 @@
 import { ErrorResponse } from "@/common"
-import { API_PATH, REQUEST_RATE_LIMIT_TIME } from "@/constants"
+import {
+  API_PATH,
+  REQUEST_RATE_LIMIT_TIME,
+  LOCAL_STORAGE_KEY
+} from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { customRequestHeader } from "@/utils/request-header"
@@ -14,6 +18,8 @@ export interface ResendCodeRequest {
 
 export interface ResendCodeResponse {
   email: string
+  jwt: string | null
+  sent: true
 }
 
 export const useResendActivate = () => {
@@ -41,8 +47,13 @@ export const useResendActivate = () => {
       return postRequest({
         path: API_PATH.users.resendVerificationEmail,
         data: { email, baseUrl },
-        customHeader: customRequestHeader.customHeaders
+        customHeader: customRequestHeader.addSignUpJwt().customHeaders
       })
+    },
+    onSuccess({ data }) {
+      if (data.jwt) {
+        localStorage.setItem(LOCAL_STORAGE_KEY.signUpIdentity, data.jwt)
+      }
     }
   })
 }

@@ -1,10 +1,8 @@
-import { useMemo } from "react"
-import { useFormContext } from "react-hook-form"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { ResendActivateEmailFormValue } from "../hooks/useResendActivateEmail"
 import { cn } from "@/lib/utils"
-import { UI_DATA_ACTIVATE_EMAIL_HEADER } from "../constants"
+import { useActiveEmailDataHeader } from "../hooks/useActiveEmailDataHeader"
+import { useActiveEmailSearchParams } from "../hooks/useActiveEmailSearchParams"
 
 interface ActivateEmailFormHeaderProps {
   isPending: boolean
@@ -13,14 +11,8 @@ interface ActivateEmailFormHeaderProps {
 export function ActivateEmailFormHeader({
   isPending
 }: ActivateEmailFormHeaderProps) {
-  const { getValues } = useFormContext<ResendActivateEmailFormValue>()
-  const email = getValues("successSentEmail")
-
-  const dataHeader = useMemo(() => {
-    return isPending
-      ? UI_DATA_ACTIVATE_EMAIL_HEADER.verifying
-      : UI_DATA_ACTIVATE_EMAIL_HEADER.expired
-  }, [isPending])
+  const { email } = useActiveEmailSearchParams()
+  const dataHeader = useActiveEmailDataHeader({ isPending })
 
   return (
     <div className="flex flex-col text-center">
@@ -49,8 +41,8 @@ export function ActivateEmailFormHeader({
       </h1>
 
       <div className="text-muted-foreground mt-3">
+        <p className="font-medium">{email}</p>
         <p>{dataHeader.description}</p>
-        {!!email && <p className="font-medium">{email}</p>}
       </div>
     </div>
   )
