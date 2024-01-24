@@ -12,9 +12,12 @@ import { Controller, useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { useLoanApplicationContext } from "../../providers"
-import { LOAN_APPLICATION_STEPS } from "../../constants"
-import { OwnerFormValue, ownerFormSchema } from "../../constants/form"
+import { useLoanApplicationContext } from "@/modules/loan-application/providers"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
+import {
+  OwnerFormValue,
+  ownerFormSchema
+} from "@/modules/loan-application/constants/form"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import { Mail } from "lucide-react"
 import {
@@ -27,10 +30,10 @@ import {
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { FileUploadCard } from "../molecules/FileUploadCard"
 import { TextInput } from "@/shared/organisms/form/TextInput"
-import { AutoCompleteStates } from "../molecules/AutocompleteStates"
-import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 import { useSelectCities } from "../../hooks/useSelectCities"
 import { useEffect } from "react"
+import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
+import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 
 export function OwnerInformationForm() {
   const defaultValues = {

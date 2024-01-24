@@ -7,11 +7,11 @@ import { Card } from "@/components/ui/card"
 import { useLoanApplicationContext } from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { BusinessFormValue, businessFormSchema } from "../../constants/form"
-import { AutoCompleteStates } from "../molecules/AutocompleteStates"
-import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../hooks/useSelectCities"
 import { useEffect } from "react"
+import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
+import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 
 export const BusinessInformationForm = () => {
   const defaultValues = {
