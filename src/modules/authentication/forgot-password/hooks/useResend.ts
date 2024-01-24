@@ -12,12 +12,12 @@ export const useResend = () => {
 
   return useMutation<
     AxiosResponse<ResendCodeResponse>,
-    AxiosError<ErrorResponse> | string,
+    AxiosError<ErrorResponse> | Error,
     ResendCodeRequest
   >({
     mutationFn: ({ email }) => {
       if (limitResendTimeout.current) {
-        throw getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded)
+        throw new Error(getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded))
       }
 
       limitResendTimeout.current = true

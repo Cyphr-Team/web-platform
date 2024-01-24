@@ -65,6 +65,7 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         <Button
+          tabIndex={-1}
           type="button"
           variant="ghost"
           className="absolute inset-y-0 right-0 rounded-md border border-input px-2 border-l rounded-l-none"

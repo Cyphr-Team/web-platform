@@ -17,11 +17,15 @@ import {
 } from "../hooks/useSetupProfile"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import {
+  createSearchParams,
+  useNavigate,
+  useSearchParams
+} from "react-router-dom"
 import { isAxiosError } from "axios"
 import { useCountdown } from "@/hooks/useCountdown"
 import { useEffect } from "react"
-import { APP_PATH, LOCAL_STORAGE_KEY } from "@/constants"
+import { APP_PATH } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { SetupProfileMatch } from "./setup-profile-matcher"
 
@@ -54,10 +58,14 @@ export function SetupProfileForm() {
 
   useEffect(() => {
     if (count < 1) {
-      localStorage.removeItem(LOCAL_STORAGE_KEY.signUpIdentity)
-      navigate(APP_PATH.LOGIN)
+      navigate({
+        pathname: APP_PATH.LOGIN,
+        search: createSearchParams({
+          email: searchParams.get("email") ?? ""
+        }).toString()
+      })
     }
-  }, [count, navigate])
+  }, [searchParams, count, navigate])
 
   return (
     <div className="flex flex-col space-y-4">

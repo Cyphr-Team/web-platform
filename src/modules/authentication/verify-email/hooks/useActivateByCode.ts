@@ -5,7 +5,7 @@ import { AxiosError, AxiosResponse } from "axios"
 import { createSearchParams, useNavigate, useParams } from "react-router-dom"
 import { VerifyEmailFormSchema } from "../constants"
 import { postRequest } from "@/services/client.service"
-import { customRequestHeader } from "@/utils/request-header"
+import { headerWithTemporaryToken } from "@/utils/request-header"
 
 export const useActivateByCode = () => {
   const navigate = useNavigate()
@@ -14,9 +14,9 @@ export const useActivateByCode = () => {
   return useMutation<
     AxiosResponse<UserInfo>,
     AxiosError<ErrorResponse> | string,
-    VerifyEmailFormSchema
+    VerifyEmailFormSchema & { token: string }
   >({
-    mutationFn: ({ codes }) => {
+    mutationFn: ({ codes, token }) => {
       if (!email) {
         throw "Email is not valid"
       }
@@ -24,7 +24,7 @@ export const useActivateByCode = () => {
       return postRequest({
         path: API_PATH.users.activateByOtpCode,
         data: { email, otpCode: codes.join("") },
-        customHeader: customRequestHeader.addSignUpJwt().customHeaders
+        customHeader: headerWithTemporaryToken(token)
       })
     },
     onSuccess({ data }) {

@@ -1,19 +1,15 @@
 import { ErrorResponse } from "@/common"
-import {
-  API_PATH,
-  REQUEST_RATE_LIMIT_TIME,
-  LOCAL_STORAGE_KEY
-} from "@/constants"
+import { API_PATH, APP_PATH, REQUEST_RATE_LIMIT_TIME } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
-import { customRequestHeader } from "@/utils/request-header"
+import { headerWithTemporaryToken } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { useRef } from "react"
-import { useParams } from "react-router-dom"
+import { createSearchParams, useNavigate } from "react-router-dom"
 
 export interface ResendCodeRequest {
-  email: string
+  token: string
 }
 
 export interface ResendCodeResponse {
@@ -23,17 +19,18 @@ export interface ResendCodeResponse {
 }
 
 export const useResendActivate = () => {
-  const { email } = useParams()
+  const navigate = useNavigate()
 
   const limitResendTimeout = useRef(false)
 
   return useMutation<
     AxiosResponse<ResendCodeResponse>,
-    AxiosError<ErrorResponse> | string
+    AxiosError<ErrorResponse> | Error,
+    ResendCodeRequest
   >({
-    mutationFn: () => {
+    mutationFn: ({ token }) => {
       if (limitResendTimeout.current) {
-        throw getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded)
+        throw new Error(getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded))
       }
 
       limitResendTimeout.current = true
@@ -46,14 +43,19 @@ export const useResendActivate = () => {
 
       return postRequest({
         path: API_PATH.users.resendVerificationEmail,
-        data: { email, baseUrl },
-        customHeader: customRequestHeader.addSignUpJwt().customHeaders
+        data: { baseUrl },
+        customHeader: headerWithTemporaryToken(token)
       })
     },
     onSuccess({ data }) {
-      if (data.jwt) {
-        localStorage.setItem(LOCAL_STORAGE_KEY.signUpIdentity, data.jwt)
-      }
+      const { email, jwt } = data
+
+      navigate(
+        `${APP_PATH.VERIFY_EMAIL.detail(email)}?${createSearchParams({
+          token: jwt || ""
+        }).toString()}`,
+        { replace: true }
+      )
     }
   })
 }

@@ -1,5 +1,5 @@
 import { ErrorResponse } from "@/common"
-import { API_PATH, APP_PATH, LOCAL_STORAGE_KEY } from "@/constants"
+import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
@@ -45,11 +45,13 @@ export const useGetStart = () => {
     },
     onSuccess({ data }) {
       const { email, status, jwt } = data
-      if (jwt) localStorage.setItem(LOCAL_STORAGE_KEY.signUpIdentity, jwt)
 
       switch (status) {
         case UserStartStatus.EMAIL_SENT: {
-          navigate(APP_PATH.VERIFY_EMAIL.detail(email))
+          navigate({
+            pathname: APP_PATH.VERIFY_EMAIL.detail(email),
+            search: createSearchParams({ token: jwt || "" }).toString()
+          })
           break
         }
         case UserStartStatus.USER_WAITING_SETUP_PROFILE:

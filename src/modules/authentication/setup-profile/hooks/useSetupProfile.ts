@@ -1,7 +1,7 @@
 import { ErrorResponse, UserInfo } from "@/common"
-import { API_PATH, LOCAL_STORAGE_KEY } from "@/constants"
+import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { customRequestHeader } from "@/utils/request-header"
+import { headerWithTemporaryToken } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import * as z from "zod"
@@ -31,7 +31,7 @@ export const setupProfileFormSchema = z
       .regex(/^[^\s]*$/, PasswordRegex.NONE_SPACES),
 
     confirmPassword: z.string(),
-    token: z.string().optional()
+    token: z.string()
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -52,14 +52,10 @@ export const useSetupProfile = () => {
     SetupProfileFormValue
   >({
     mutationFn: ({ name, password, token }) => {
-      if (token) {
-        localStorage.setItem(LOCAL_STORAGE_KEY.signUpIdentity, token)
-      }
-
       return postRequest({
         path: API_PATH.users.signUp,
         data: { name, password },
-        customHeader: customRequestHeader.addSignUpJwt().customHeaders
+        customHeader: headerWithTemporaryToken(token)
       })
     }
   })

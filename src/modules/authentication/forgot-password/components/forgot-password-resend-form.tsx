@@ -5,7 +5,11 @@ import { useResend } from "../hooks/useResend"
 import { isAxiosError } from "axios"
 import { AppAlert } from "@/components/ui/alert"
 import { useMemo } from "react"
-import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
+import {
+  ErrorCode,
+  getAxiosError,
+  getCustomErrorMsgByCode
+} from "@/utils/custom-error"
 
 /**
  * Notification about successful sending forgot password email
@@ -13,20 +17,19 @@ import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
  */
 export function ResendForm() {
   const { isPending, isSuccess, mutate, error } = useResend()
-  const errorMsg = isAxiosError(error)
-    ? error.response?.data.message || error.message
-    : error
+  const errorMsg = getAxiosError(error).message
 
   const { watch } = useFormContext<ForgotPasswordFormValue>()
 
   const successSentEmail = watch("successSentEmail")
 
   const dataAlert = useMemo(() => {
+    const axiosError = getAxiosError(error)
     const customLimitError =
-      isAxiosError(error) &&
-      error.response?.data.code === ErrorCode.rate_limit_exceeded
+      axiosError.code === ErrorCode.rate_limit_exceeded
         ? getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded)
         : ""
+
     return errorMsg
       ? {
           variant: "error" as const,

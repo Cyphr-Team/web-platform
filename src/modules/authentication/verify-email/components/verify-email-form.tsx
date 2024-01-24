@@ -14,8 +14,13 @@ import { isAxiosError } from "axios"
 import { useResendActivate } from "../hooks/useResendActivate"
 import { useMemo } from "react"
 import { AppAlert } from "@/components/ui/alert"
+import { useSearchParams } from "react-router-dom"
+import { getAxiosError } from "@/utils/custom-error"
 
 export function VerifyEmailForm() {
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get("token") ?? ""
+
   const { form, inputRefs, handleInputCode, handlePasteCode } = useVerifyEmail()
   const { mutate, isPending } = useActivateByCode()
   const {
@@ -27,24 +32,25 @@ export function VerifyEmailForm() {
 
   // Activate
   const formSubmit = form.handleSubmit((data) =>
-    mutate(data, {
-      onError(errorResponse) {
-        form.setError("root.serverError", {
-          type: "server",
-          message: isAxiosError(errorResponse)
-            ? errorResponse.response?.data.message ??
-              errorResponse?.message ??
-              ""
-            : errorResponse
-        })
+    mutate(
+      { ...data, token },
+      {
+        onError(errorResponse) {
+          form.setError("root.serverError", {
+            type: "server",
+            message: isAxiosError(errorResponse)
+              ? errorResponse.response?.data.message ??
+                errorResponse?.message ??
+                ""
+              : errorResponse
+          })
+        }
       }
-    })
+    )
   )
 
   // Resend Error
-  const errorMsg = isAxiosError(resendError)
-    ? resendError.response?.data.message ?? resendError.message
-    : resendError
+  const errorMsg = getAxiosError(resendError).message
 
   const dataAlert = useMemo(() => {
     return errorMsg
@@ -63,17 +69,13 @@ export function VerifyEmailForm() {
         }
   }, [resendError, errorMsg])
 
-  const conditionAlert =
-    resendIsSuccess || errorMsg ? (
-      <AppAlert
-        variant={dataAlert.variant}
-        title={dataAlert.title}
-        description={dataAlert.description}
-      />
-    ) : (
-      ""
-    )
-
+  const conditionAlert = (resendIsSuccess || errorMsg) && (
+    <AppAlert
+      variant={dataAlert.variant}
+      title={dataAlert.title}
+      description={dataAlert.description}
+    />
+  )
   return (
     <div className="flex flex-col space-y-6">
       <Form {...form}>
@@ -144,7 +146,7 @@ export function VerifyEmailForm() {
                 variant="ghost"
                 className="p-1 h-7 text-primary"
                 onClick={() => {
-                  resendMutate()
+                  resendMutate({ token })
                 }}
               >
                 Click to resend

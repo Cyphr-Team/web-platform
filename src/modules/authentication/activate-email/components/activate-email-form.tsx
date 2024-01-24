@@ -1,4 +1,4 @@
-import { ButtonLoading } from "@/components/ui/button"
+import { Button, ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFormContext } from "react-hook-form"
@@ -8,32 +8,35 @@ import {
   resendActivateEmailFormSchema,
   useResendActivateEmail
 } from "../hooks/useResendActivateEmail"
-import { isAxiosError } from "axios"
 import { useActivateEmail } from "../hooks/useActivateEmail"
-import { useNavigate } from "react-router-dom"
-import { APP_PATH } from "@/constants"
+import { Link, createSearchParams, useSearchParams } from "react-router-dom"
 import { useActiveEmailSearchParams } from "../hooks/useActiveEmailSearchParams"
+import { UserStartStatus } from "../../sign-up/hooks/useGetStart"
+import { APP_PATH } from "@/constants"
+import { ArrowLeft } from "lucide-react"
+import { getAxiosError } from "@/utils/custom-error"
 
 /**
  * Enter an email to get reset password email
  */
 function ResendActivateEmailForm() {
+  const [searchParams] = useSearchParams()
   const { isPending, mutate } = useResendActivateEmail()
-  const navigate = useNavigate()
 
   const { handleSubmit, setError } =
     useFormContext<ResendActivateEmailFormValue>()
 
   const formSubmit = handleSubmit(() => {
-    mutate(undefined, {
-      onSuccess: ({ data }) =>
-        navigate(APP_PATH.VERIFY_EMAIL.detail(data.email)),
-      onError: (error) =>
-        setError("email", {
-          type: "server",
-          message: isAxiosError(error) ? error.response?.data.message : error
-        })
-    })
+    mutate(
+      { token: searchParams.get("token") ?? "" },
+      {
+        onError: (error) =>
+          setError("email", {
+            type: "server",
+            message: getAxiosError(error)?.message
+          })
+      }
+    )
   })
 
   return (
@@ -52,21 +55,66 @@ function ResendActivateEmailForm() {
 }
 
 export function ActivateEmailForm() {
-  const { status } = useActiveEmailSearchParams()
+  const { status, email } = useActiveEmailSearchParams()
 
   const form = useForm<ResendActivateEmailFormValue>({
     resolver: zodResolver(resendActivateEmailFormSchema),
     mode: "onSubmit"
   })
 
-  const { isPending } = useActivateEmail()
+  const { isPending, isSuccess, errorCode } = useActivateEmail()
+
+  const isWaitingSetupProfile =
+    status === UserStartStatus.USER_WAITING_SETUP_PROFILE
 
   return (
-    <Form {...form}>
-      <ActivateEmailFormHeader isPending={isPending} />
-      <div className="flex flex-col space-y-6">
-        {!isPending && !status && <ResendActivateEmailForm />}
-      </div>
-    </Form>
+    <>
+      <Form {...form}>
+        <ActivateEmailFormHeader
+          isPending={isPending}
+          isSuccess={isSuccess}
+          errorCode={errorCode}
+        />
+        <div className="flex flex-col space-y-6">
+          {!isPending && !status && !errorCode && <ResendActivateEmailForm />}
+        </div>
+      </Form>
+
+      {isWaitingSetupProfile || errorCode ? (
+        <p className="px-8 text-center text-sm text-muted-foreground">
+          Request a new instruction?{" "}
+          <Button
+            variant="link"
+            className="px-1 text-sm text-foreground py-0 self-center"
+            asChild
+          >
+            <Link
+              to={{
+                pathname: APP_PATH.SIGN_UP,
+                search: createSearchParams({ email }).toString()
+              }}
+            >
+              Back to sign up
+            </Link>
+          </Button>
+        </p>
+      ) : (
+        <Button
+          variant="link"
+          className="px-1 text-sm text-foreground py-0 self-center"
+          asChild
+        >
+          <Link
+            to={{
+              pathname: APP_PATH.LOGIN,
+              search: createSearchParams({ email }).toString()
+            }}
+          >
+            <ArrowLeft className="w-5 h-5 mr-1" />
+            Back to log in
+          </Link>
+        </Button>
+      )}
+    </>
   )
 }

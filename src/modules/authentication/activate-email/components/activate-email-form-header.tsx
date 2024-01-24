@@ -3,16 +3,25 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { cn } from "@/lib/utils"
 import { useActiveEmailDataHeader } from "../hooks/useActiveEmailDataHeader"
 import { useActiveEmailSearchParams } from "../hooks/useActiveEmailSearchParams"
+import { ErrorCode } from "@/utils/custom-error"
 
 interface ActivateEmailFormHeaderProps {
   isPending: boolean
+  isSuccess: boolean
+  errorCode: ErrorCode
 }
 
 export function ActivateEmailFormHeader({
-  isPending
+  isPending,
+  isSuccess,
+  errorCode
 }: ActivateEmailFormHeaderProps) {
   const { email } = useActiveEmailSearchParams()
-  const dataHeader = useActiveEmailDataHeader({ isPending })
+  const dataHeader = useActiveEmailDataHeader({
+    isPending,
+    isSuccess,
+    errorCode
+  })
 
   return (
     <div className="flex flex-col text-center">

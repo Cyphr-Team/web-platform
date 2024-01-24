@@ -1,3 +1,4 @@
+import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { BadgeAlert, CheckCircle2, Loader2 } from "lucide-react"
 
 export const UI_DATA_ACTIVATE_EMAIL_HEADER = {
@@ -22,5 +23,15 @@ export const UI_DATA_ACTIVATE_EMAIL_HEADER = {
     title: "Link expired",
     description:
       "No worries. It’s easy to get a new one. Please click the button below to receive a new email verification link sent to your email address."
+  },
+  success: {
+    HeaderIcon: CheckCircle2,
+    title: "Successfully verified email",
+    description: "You will be navigated to setup profile page."
+  },
+  registered: {
+    HeaderIcon: BadgeAlert,
+    title: "Already Verified",
+    description: getCustomErrorMsgByCode(ErrorCode.user_registered)
   }
 }

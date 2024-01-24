@@ -10,10 +10,6 @@ export const navItems: NavItem[] = [
   }
 ]
 
-export const LOCAL_STORAGE_KEY = {
-  signUpIdentity: "signUpIdentity"
-}
-
 export const APP_PATH = {
   INDEX: "/",
   DASHBOARD: "/",

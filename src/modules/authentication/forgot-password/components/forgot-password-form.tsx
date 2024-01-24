@@ -17,7 +17,11 @@ import {
 } from "../hooks/useForgotPassword"
 import { ForgotPasswordFormHeader } from "./forgot-password-form-header"
 import { ResendForm } from "./forgot-password-resend-form"
-import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
+import {
+  ErrorCode,
+  getAxiosError,
+  getCustomErrorMsgByCode
+} from "@/utils/custom-error"
 import { AppAlert } from "@/components/ui/alert"
 
 /**
@@ -32,17 +36,21 @@ function ResetPasswordForm() {
   const formSubmit = handleSubmit((data) => {
     mutate(data, {
       onSuccess: () => setValue("successSentEmail", data.email),
-      onError: (error) =>
-        error?.response?.data.code !== ErrorCode.rate_limit_exceeded &&
-        setError("email", {
-          type: "server",
-          message: error.response?.data.message
-        })
+      onError: (error) => {
+        const axiosError = getAxiosError(error)
+
+        if (axiosError.code !== ErrorCode.rate_limit_exceeded) {
+          setError("email", {
+            type: "server",
+            message: axiosError.message
+          })
+        }
+      }
     })
   })
 
   const isLimitError =
-    error?.response?.data.code === ErrorCode.rate_limit_exceeded
+    getAxiosError(error).code === ErrorCode.rate_limit_exceeded
 
   const conditionAlert = isLimitError && (
     <AppAlert
