@@ -66,6 +66,7 @@ export const API_PATH = {
 export const phoneRegex = new RegExp(
   "^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$"
 )
+export const SSN_REGEX = new RegExp("^[0-9]{3}-[0-9]{2}-[0-9]{4}$")
 
 export interface QueryResponse<T> {
   data: T

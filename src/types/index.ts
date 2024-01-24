@@ -31,3 +31,20 @@ export interface FooterItem {
 export type MainNavItem = NavItemWithOptionalChildren
 
 export type SidebarNavItem = NavItemWithChildren
+
+export type StateType = {
+  id: number
+  name: string
+  state_code: string
+  latitude: string
+  longitude: string
+  country_id: number
+  cities: CityType[]
+}
+
+export type CityType = {
+  id: number
+  name: string
+  latitude: string
+  longitude: string
+}

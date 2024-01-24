@@ -26,6 +26,11 @@ import {
 } from "@/components/ui/select"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { FileUploadCard } from "../molecules/FileUploadCard"
+import { TextInput } from "@/shared/organisms/form/TextInput"
+import { AutoCompleteStates } from "../molecules/AutocompleteStates"
+import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
+import { useSelectCities } from "../../hooks/useSelectCities"
+import { useEffect } from "react"
 
 export function OwnerInformationForm() {
   const defaultValues = {
@@ -37,7 +42,8 @@ export function OwnerInformationForm() {
     dob: "",
     ssn: "",
     ownership: "",
-    cooperate: ""
+    cooperate: "",
+    zipCode: ""
   }
 
   const form = useForm<OwnerFormValue>({
@@ -77,6 +83,36 @@ export function OwnerInformationForm() {
     })
   }
 
+  const {
+    handleChangeState,
+    handleChangeCity,
+    STATE_CITIES_DATA,
+    STATE_DATA,
+    state,
+    city
+  } = useSelectCities()
+
+  useEffect(() => {
+    if (state) {
+      form.setValue("state", state, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+      form.setValue("city", "", {
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    }
+    if (city) {
+      form.setValue("city", city, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    }
+  }, [state, city, form])
+
   const onSubmit = () => {
     changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
     changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
@@ -89,7 +125,7 @@ export function OwnerInformationForm() {
           <h5 className="text-lg font-semibold">Owner Information</h5>
           <Separator />
 
-          <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl ">
+          <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl">
             <FormField
               control={form.control}
               name="name"
@@ -128,67 +164,57 @@ export function OwnerInformationForm() {
                 </FormItem>
               )}
             />
-            <FormField
+            <TextInput
+              placeholder="i.e: 456 Bean Ave."
+              label="Resident Address Line #1"
+              name="addressLine1"
               control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel className="text-text-secondary">
-                    Home Address{" "}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="i.e: 321 Coffee Lane, Seattle, WA 98765"
-                      className="text-base"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              className="col-span-2"
+            />{" "}
+            <TextInput
+              placeholder="i.e: Suite 789"
+              label="Resident Address Line #2 (Optional)"
+              name="addressLine2"
+              control={form.control}
+              className="col-span-2"
             />
-            <FormField
+            <AutoCompleteStates
+              options={STATE_DATA}
+              label="Business State"
+              emptyText="No results found"
+              name="state"
+              control={form.control}
+              onChange={handleChangeState}
+              value={form.getValues("state")}
+            />
+            <AutoCompleteCities
+              options={STATE_CITIES_DATA}
+              label="Business City"
+              emptyText="No results found"
+              name="city"
+              control={form.control}
+              onChange={handleChangeCity}
+              value={form.getValues("city")}
+            />
+            <TextInput
+              placeholder="i.e: 98765"
+              label="Zip Code"
+              name="zipCode"
+              control={form.control}
+              className="col-span-2"
+            />
+            <TextInput
               control={form.control}
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-text-secondary">
-                    Email Address
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="i.e: larry@latte.com"
-                      className="text-base"
-                      prefixIcon={
-                        <Mail className="h-5 w-5 text-text-tertiary" />
-                      }
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
+              label="Email Address"
+              placeholder="i.e: larry@latte.com"
+              prefixIcon={<Mail className="h-5 w-5 text-text-tertiary" />}
+            />{" "}
+            <TextInput
               control={form.control}
               name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-text-secondary">
-                    Phone Number
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="tel"
-                      placeholder="i.e: 123-456-7890"
-                      className="text-base"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Phone Number"
+              placeholder="i.e: 123-456-7890"
             />
             <FormField
               control={form.control}
@@ -207,24 +233,11 @@ export function OwnerInformationForm() {
                 </FormItem>
               )}
             />
-            <FormField
+            <TextInput
               control={form.control}
               name="ssn"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-text-secondary">
-                    Social Security Number (SSN)
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="i.e: 123-45-6789"
-                      className="text-base"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Social Security Number (SSN)"
+              placeholder="i.e: 123-45-6789"
             />
             <FormField
               control={form.control}

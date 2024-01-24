@@ -55,3 +55,9 @@ export const toastError = ({
 }) => {
   toast.error(title, { description })
 }
+
+export const capitalizeWords = (string: string) =>
+  string
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
