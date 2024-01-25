@@ -63,3 +63,11 @@ export const navItems: NavItem[] = [
     label: "Notifications"
   }
 ]
+
+export const KYC_STATUS = {
+  VERIFIED: "VERIFIED",
+  UNVERIFIED: "UNVERIFIED",
+  FAILED: "FAILED",
+  UNCHECKED: "UNCHECKED",
+  PASSED: "PASSED"
+}

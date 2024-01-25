@@ -137,6 +137,14 @@ const routes = createBrowserRouter(
             )
           }
         />
+        <Route
+          path={APP_PATH.LOAN_APPLICATION_DETAILS.KYC}
+          lazy={() =>
+            import(
+              "@/modules/loan-application-details/components/pages/KycDetails"
+            )
+          }
+        />
       </Route>
     </Route>
   )
