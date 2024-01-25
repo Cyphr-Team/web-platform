@@ -1,4 +1,6 @@
-export const DEMO_INSTITUTION_ID = "00000000-0000-0000-0000-000000000000"
+import { APP_CONFIGS } from "@/configs"
+
+export const DEMO_INSTITUTION_ID = APP_CONFIGS.DEMO_INSTITUTION_ID
 
 enum CustomHeaderKey {
   Institution = "X-FS-Institution-Id",
