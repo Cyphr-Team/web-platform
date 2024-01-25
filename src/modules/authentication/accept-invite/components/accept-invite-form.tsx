@@ -11,10 +11,10 @@ import {
 
 import { Input, InputPassword } from "@/components/ui/input"
 import {
-  SetupProfileFormValue,
-  setupProfileFormSchema,
-  useSetupProfile
-} from "../hooks/useSetupProfile"
+  AcceptInviteFormValue,
+  acceptInviteFormSchema,
+  useAcceptInvite
+} from "../hooks/useAcceptInvite"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -33,8 +33,8 @@ export function SetupProfileForm() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const form = useForm<SetupProfileFormValue>({
-    resolver: zodResolver(setupProfileFormSchema),
+  const form = useForm<AcceptInviteFormValue>({
+    resolver: zodResolver(acceptInviteFormSchema),
     defaultValues: {
       name: "",
       email: searchParams.get("email") ?? "",
@@ -49,7 +49,7 @@ export function SetupProfileForm() {
 
   const errorMsg = form.formState.errors.root?.serverError?.message
 
-  const { mutate, isPending, isSuccess } = useSetupProfile()
+  const { mutate, isPending, isSuccess } = useAcceptInvite()
 
   const { count } = useCountdown({
     initialCount: 4,
@@ -87,24 +87,26 @@ export function SetupProfileForm() {
           )}
           className="space-y-5 w-full"
         >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter your email"
-                    className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
-                    {...field}
-                    disabled={true}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {!!form.getValues("email") && (
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your email"
+                      className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
+                      {...field}
+                      disabled={true}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           <FormField
             control={form.control}

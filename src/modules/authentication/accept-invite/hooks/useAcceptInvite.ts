@@ -1,17 +1,19 @@
 import { ErrorResponse, UserInfo } from "@/common"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { customRequestHeader } from "@/utils/request-header"
+import { headerWithTemporaryToken } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
-import { useParams } from "react-router-dom"
-import * as z from "zod"
 import { passwordFormSchema } from "../../hooks/usePasswordMatch"
+import * as z from "zod"
 
-export const setupPasswordFormSchema = z
+export const acceptInviteFormSchema = z
   .object({
+    name: z.string().min(1, "Enter a valid name."),
+    email: z.string(),
+
     confirmPassword: z.string(),
-    successMsg: z.string().optional()
+    token: z.string()
   })
   .merge(passwordFormSchema)
   .superRefine(({ confirmPassword, password }, ctx) => {
@@ -24,24 +26,19 @@ export const setupPasswordFormSchema = z
     }
   })
 
-export type SetupPasswordFormValue = z.infer<typeof setupPasswordFormSchema>
+export type AcceptInviteFormValue = z.infer<typeof acceptInviteFormSchema>
 
-/**
- * Enter new password to setup password
- */
-export const useSetupPassword = () => {
-  const { email, token } = useParams()
-
+export const useAcceptInvite = () => {
   return useMutation<
     AxiosResponse<UserInfo>,
     AxiosError<ErrorResponse>,
-    SetupPasswordFormValue
+    AcceptInviteFormValue
   >({
-    mutationFn: ({ password }) => {
+    mutationFn: ({ name, password, token }) => {
       return postRequest({
-        path: API_PATH.users.setupPassword,
-        data: { email, password, token },
-        customHeader: customRequestHeader.customHeaders
+        path: API_PATH.users.acceptInvite,
+        data: { name, password, signInProvider: "password" },
+        customHeader: headerWithTemporaryToken(token)
       })
     }
   })

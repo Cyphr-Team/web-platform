@@ -1,28 +1,17 @@
 import { useFormContext } from "react-hook-form"
-import { Matcher, getMatcherVariants } from "../../../../components/ui/matcher"
-import { PasswordRegex, SetupProfileFormValue } from "../hooks/useSetupProfile"
-import { ZodIssueCode } from "zod"
+import { PasswordFormValue, usePasswordMatch } from "../hooks/usePasswordMatch"
+import { Matcher, getMatcherVariants } from "@/components/ui/matcher"
 
-export function SetupProfileMatch() {
-  const { formState, getValues } = useFormContext<SetupProfileFormValue>()
-
-  const matchRegex = (keyError: PasswordRegex) => {
-    return !!(
-      formState.errors?.password?.types?.invalid_string as string[] | undefined
-    )?.includes(keyError)
-  }
-
-  const isAtLeastEightCharacters =
-    formState.errors?.password?.type === ZodIssueCode.too_small
-
-  const isAtLeastOneSpecialCharacter = matchRegex(
-    PasswordRegex.AT_LEAST_ONE_SPECIAL_CHARACTER
-  )
-  const isAtLeastOneUpperCase = matchRegex(PasswordRegex.AT_LEAST_ONE_UPPERCASE)
-  const isAtLeastOneLowerCase = matchRegex(PasswordRegex.AT_LEAST_ONE_LOWERCASE)
-  const isAtLeastOneDigit = matchRegex(PasswordRegex.AT_LEAST_ONE_DIGIT)
-
-  const isNoneSpaces = matchRegex(PasswordRegex.NONE_SPACES)
+export function PasswordMatch() {
+  const { getValues } = useFormContext<PasswordFormValue>()
+  const {
+    isAtLeastEightCharacters,
+    isAtLeastOneSpecialCharacter,
+    isAtLeastOneUpperCase,
+    isAtLeastOneLowerCase,
+    isAtLeastOneDigit,
+    isNoneSpaces
+  } = usePasswordMatch<PasswordFormValue>()
 
   return (
     <>

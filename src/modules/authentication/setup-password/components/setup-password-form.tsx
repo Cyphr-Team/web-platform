@@ -19,9 +19,9 @@ import {
   useSetupPassword
 } from "../hooks/useSetupPassword"
 import { SetupPasswordFormHeader } from "./setup-password-form-header"
-import { SetupPasswordMatch } from "./setup-password-matcher"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
+import { PasswordMatch } from "../../components/password-match"
 
 function ResetPasswordForm() {
   const { handleSubmit, control, setValue } =
@@ -82,7 +82,7 @@ function ResetPasswordForm() {
 
       {!isInvalidToken && (
         <div className="flex flex-col space-y-1.5">
-          <SetupPasswordMatch />
+          <PasswordMatch />
         </div>
       )}
 

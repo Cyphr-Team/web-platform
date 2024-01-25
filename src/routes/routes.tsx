@@ -47,6 +47,10 @@ const routes = createBrowserRouter(
           path={APP_PATH.SETUP_PASSWORD_BY_TOKEN.index}
           lazy={() => import("@/modules/authentication/setup-password/page")}
         />
+        <Route
+          path={APP_PATH.ACCEPT_INVITE}
+          lazy={() => import("@/modules/authentication/accept-invite/page")}
+        />
       </Route>
 
       {/* DASHBOARD ROUTES */}

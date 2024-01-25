@@ -20,6 +20,7 @@ export const APP_PATH = {
     activateByToken: "/activation"
   },
   SETUP_PROFILE: "/setup-profile",
+  ACCEPT_INVITE: "/accept-invite",
 
   // ONBOARDING
   LOAN_APPLICATION: {
@@ -48,7 +49,8 @@ export const API_PATH = {
     // Resend activate code
     resendVerificationEmail: "api/users/resend-verification-email",
     // Setup name, password after activate successfully
-    signUp: "api/users/sign-up"
+    signUp: "api/users/sign-up",
+    acceptInvite: "api/users/public/invitation/accept"
   },
   login: {
     loginBySocial: "login/social"
@@ -90,3 +92,21 @@ export const ADMIN_NAV_ITEMS: NavItem[] = [
     label: "Loan Applications"
   }
 ]
+
+// PASSWORD_REGEX
+export enum PasswordRegex {
+  AT_LEAST_ONE_SPECIAL_CHARACTER = "AT_LEAST_ONE_SPECIAL_CHARACTER",
+  AT_LEAST_ONE_UPPERCASE = "AT_LEAST_ONE_UPPERCASE",
+  AT_LEAST_ONE_LOWERCASE = "AT_LEAST_ONE_LOWERCASE",
+  AT_LEAST_ONE_DIGIT = "AT_LEAST_ONE_DIGIT",
+  NONE_SPACES = "NONE_SPACES"
+}
+
+export const PASSWORD_REGEX = {
+  [PasswordRegex.AT_LEAST_ONE_SPECIAL_CHARACTER]:
+    /(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])^.+$/,
+  [PasswordRegex.AT_LEAST_ONE_UPPERCASE]: /(?=.*[A-Z])^.+$/,
+  [PasswordRegex.AT_LEAST_ONE_LOWERCASE]: /(?=.*[a-z])^.+$/,
+  [PasswordRegex.AT_LEAST_ONE_DIGIT]: /(?=.*\d)^.+$/,
+  [PasswordRegex.NONE_SPACES]: /^[^\s]*$/
+}
