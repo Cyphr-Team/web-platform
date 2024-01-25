@@ -118,6 +118,7 @@ const routes = createBrowserRouter(
       {/* LENDER ROUTES */}
 
       <Route
+        loader={userLoader}
         path={APP_PATH.LOAN_APPLICATION_DETAILS.INDEX}
         lazy={() => import("@/modules/loan-application-details/page")}
       >

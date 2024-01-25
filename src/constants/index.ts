@@ -1,6 +1,6 @@
 import { Icons } from "@/components/ui/icons"
 import { NavItem } from "@/types"
-import { FolderClosed } from "lucide-react"
+import { Bell, FolderCheck, LineChart, MessageSquare } from "lucide-react"
 
 export const APP_PATH = {
   INDEX: "/",
@@ -41,7 +41,7 @@ export const APP_PATH = {
     index: "/users"
   },
   ADMIN_LOAN_APPLICATION: {
-    index: "/loan-application"
+    index: "/application"
   }
 }
 
@@ -87,16 +87,34 @@ export const REQUEST_RATE_LIMIT_TIME = 60 * 1000
 
 export const ADMIN_NAV_ITEMS: NavItem[] = [
   {
+    title: "Dashboard",
+    href: APP_PATH.DASHBOARD,
+    icon: LineChart,
+    label: "Dashboard"
+  },
+  {
+    title: "Applications",
+    href: APP_PATH.ADMIN_LOAN_APPLICATION.index,
+    icon: FolderCheck,
+    label: "Applications"
+  },
+  {
+    title: "Messages",
+    href: APP_PATH.LOAN_APPLICATION.INDEX,
+    icon: MessageSquare,
+    label: "Messages"
+  },
+  {
+    title: "Notifications",
+    href: APP_PATH.LOAN_APPLICATION.INDEX,
+    icon: Bell,
+    label: "Notifications"
+  },
+  {
     title: "Users",
     href: APP_PATH.ADMIN_USERS.index,
     icon: Icons.user,
     label: "users"
-  },
-  {
-    title: "Loan Applications",
-    href: APP_PATH.ADMIN_LOAN_APPLICATION.index,
-    icon: FolderClosed,
-    label: "Loan Applications"
   }
 ]
 
@@ -116,4 +134,15 @@ export const PASSWORD_REGEX = {
   [PasswordRegex.AT_LEAST_ONE_LOWERCASE]: /(?=.*[a-z])^.+$/,
   [PasswordRegex.AT_LEAST_ONE_DIGIT]: /(?=.*\d)^.+$/,
   [PasswordRegex.NONE_SPACES]: /^[^\s]*$/
+}
+
+export const APP_BREADS = {
+  LOAN_APPLICATION_DETAILS: {
+    list: [
+      {
+        to: APP_PATH.LOAN_APPLICATION_DETAILS.INDEX,
+        label: "Applications"
+      }
+    ]
+  }
 }

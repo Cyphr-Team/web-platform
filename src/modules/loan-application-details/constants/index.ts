@@ -1,3 +1,5 @@
+import { USER_ROLES } from "@/common"
+import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { NavItem } from "@/types"
 import { Bell, FolderCheck, LineChart, MessageSquare } from "lucide-react"
@@ -61,6 +63,13 @@ export const navItems: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION.INDEX,
     icon: Bell,
     label: "Notifications"
+  },
+  {
+    title: "Users",
+    href: APP_PATH.ADMIN_USERS.index,
+    icon: Icons.user,
+    label: "users",
+    roles: [USER_ROLES.CDFI_ADMIN, USER_ROLES.FORESIGHT_ADMIN]
   }
 ]
 

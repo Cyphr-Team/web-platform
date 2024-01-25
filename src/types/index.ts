@@ -1,3 +1,4 @@
+import { USER_ROLES } from "@/common"
 import { IconProps } from "@/components/ui/icons"
 import { LucideIcon } from "lucide-react"
 
@@ -9,6 +10,7 @@ export interface NavItem {
   icon: LucideIcon | ((props: IconProps) => JSX.Element)
   label?: string
   description?: string
+  roles?: USER_ROLES[]
 }
 
 export interface NavItemWithChildren extends NavItem {

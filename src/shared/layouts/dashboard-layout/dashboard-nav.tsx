@@ -5,6 +5,7 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
+import { RoleBase } from "@/shared/molecules/RoleBase"
 import { NavItem } from "@/types"
 import { NavLink, useLocation } from "react-router-dom"
 
@@ -30,50 +31,51 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
     >
       <nav className="grid group-[[data-collapsed=true]]:justify-center space-y-2">
         <TooltipProvider>
-          {items.map((item) =>
-            isCollapsed ? (
-              <Tooltip key={item.href} delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <NavLink
-                    to={item.href ?? ""}
-                    className={({ isActive }) =>
-                      cn(
-                        "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                        "h-10 w-12 p-lg rounded-md flex items-center justify-center cursor-pointer hover:bg-active",
-                        isActive && "bg-active"
-                      )
-                    }
-                    data-selected={isSelected(item.href ?? "")}
+          {items.map((item) => (
+            <RoleBase roles={item.roles} key={item.label}>
+              {isCollapsed ? (
+                <Tooltip delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <NavLink
+                      to={item.href ?? ""}
+                      className={({ isActive }) =>
+                        cn(
+                          "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                          "h-10 w-12 p-lg rounded-md flex items-center justify-center cursor-pointer hover:bg-active",
+                          isActive && "bg-active"
+                        )
+                      }
+                      data-selected={isSelected(item.href ?? "")}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span className="sr-only">{item.title}</span>
+                    </NavLink>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    side="right"
+                    className="flex items-center gap-4"
                   >
-                    <item.icon className="h-4 w-4" />
-                    <span className="sr-only">{item.title}</span>
-                  </NavLink>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="right"
-                  className="flex items-center gap-4"
+                    {item.title}
+                  </TooltipContent>
+                </Tooltip>
+              ) : (
+                <NavLink
+                  to={item.href ?? ""}
+                  className={({ isActive }) =>
+                    cn(
+                      "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white cursor-pointer hover:bg-active",
+                      "flex items-center space-x-3 py-md px-lg rounded-md",
+                      isActive && "bg-active"
+                    )
+                  }
+                  data-selected={isSelected(item.href ?? "")}
                 >
-                  {item.title}
-                </TooltipContent>
-              </Tooltip>
-            ) : (
-              <NavLink
-                to={item.href ?? ""}
-                key={item.href}
-                className={({ isActive }) =>
-                  cn(
-                    "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white cursor-pointer hover:bg-active",
-                    "flex items-center space-x-3 py-md px-lg rounded-md",
-                    isActive && "bg-active"
-                  )
-                }
-                data-selected={isSelected(item.href ?? "")}
-              >
-                <item.icon />
-                <p className="text-base font-medium">{item.title}</p>
-              </NavLink>
-            )
-          )}
+                  <item.icon />
+                  <p className="text-base font-medium">{item.title}</p>
+                </NavLink>
+              )}
+            </RoleBase>
+          ))}
         </TooltipProvider>
       </nav>
     </div>

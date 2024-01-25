@@ -67,7 +67,7 @@ export function MultiSelect<
   }
 
   return (
-    <FormItem className="flex flex-col">
+    <FormItem className="flex flex-col flex-1 md:flex-none">
       <FormLabel>{label}</FormLabel>
 
       <Popover>
@@ -77,7 +77,7 @@ export function MultiSelect<
               variant="outline"
               role="combobox"
               className={cn(
-                "w-[200px] justify-between",
+                "min-w-[200px] w-full md:w-[200px] justify-between",
                 !field.value && "text-muted-foreground"
               )}
             >
@@ -94,7 +94,7 @@ export function MultiSelect<
           </FormControl>
         </PopoverTrigger>
 
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="w-full md:w-[200px] p-0">
           <Command>
             <CommandInput placeholder="Search..." className="h-9" />
 

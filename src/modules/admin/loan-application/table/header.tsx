@@ -56,12 +56,12 @@ export function LoanApplicationTableHeader() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="flex space-x-3 w-full justify-end items-center flex-wrap gap-2">
+        <div className="flex w-full items-center flex-wrap gap-3">
           <FormField
             control={form.control}
             name="search"
             render={({ field }) => (
-              <FormItem className="flex flex-col flex-1">
+              <FormItem className="flex flex-col flex-1 flex-shrink-0 min-w-[200px]">
                 <FormLabel className="whitespace-nowrap">
                   Search for application
                 </FormLabel>

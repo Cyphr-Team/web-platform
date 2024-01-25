@@ -9,7 +9,8 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   getPaginationRowModel,
-  useReactTable
+  useReactTable,
+  Row
 } from "@tanstack/react-table"
 
 import {
@@ -23,15 +24,20 @@ import {
 
 import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
+import { cn } from "@/lib/utils"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  isFilterView?: boolean
+  handleClickDetail?: (row: Row<TData>) => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
+  isFilterView,
+  handleClickDetail
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -62,12 +68,12 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <DataTableViewOptions table={table} />
+      <div className="flex items-center py-3">
+        {isFilterView && <DataTableViewOptions table={table} />}
       </div>
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-gray-100 bg-opacity-50">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -89,8 +95,10 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
+                  className={cn(!!handleClickDetail && "cursor-pointer")}
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => handleClickDetail && handleClickDetail(row)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
