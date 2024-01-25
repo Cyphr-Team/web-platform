@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export function Breadcrumbs() {
   return (
-    <div className="flex space-x-lg items-center">
+    <div className="flex space-x-lg items-center px-4xl">
       <Link to="/">
         <HomeIcon className="h-5 w-5" />
       </Link>

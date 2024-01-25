@@ -33,6 +33,10 @@
     --success: 153 91% 30%;
     --success-secondary: 141 74% 92%;
     --text-senary: 217 16% 84%;
+    --warning: 28 97% 44%;
+    --warning-secondary: 44 98% 89%;
+    --error: 4 74% 49%;
+    --error-secondary: 4 95% 94%;
   }
 
   .dark {

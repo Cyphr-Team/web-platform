@@ -8,13 +8,13 @@ type Props = {
 
 export const MainLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="flex flex-col h-screen overflow-hidden w-full max-w-screen-2xl space-y-3xl">
+    <div className="flex flex-col w-full h-full max-w-screen-2xl space-y-3xl">
       <Breadcrumbs />
       <div className="flex flex-col space-y-3xl border-b">
         <BasicInformation />
         <TopNav />
       </div>
-      <div className="p-4xl flex-1 flex">{children}</div>
+      <div className="p-4xl pt-0 flex-1 overflow-auto">{children}</div>
     </div>
   )
 }

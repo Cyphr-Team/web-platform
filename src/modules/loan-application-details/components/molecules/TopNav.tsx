@@ -12,7 +12,7 @@ export function TopNav({ className, ...props }: Props) {
     <div className="relative">
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div
-          className={cn("flex items-center space-x-lg", className)}
+          className={cn("flex items-center space-x-lg px-4xl", className)}
           {...props}
         >
           {APPLICATION_MENU.map((example, index) => (
@@ -24,7 +24,7 @@ export function TopNav({ className, ...props }: Props) {
                 "hover:text-primary hover:border-primary",
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === "/")
-                  ? "bg-muted text-primary border-b-2 border-primary"
+                  ? "text-primary border-b-2 border-primary"
                   : "text-muted-foreground"
               )}
             >

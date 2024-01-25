@@ -4,7 +4,7 @@ import avatar from "/avatar.svg"
 
 export const BasicInformation = () => {
   return (
-    <div className="flex space-x-3xl w-full">
+    <div className="flex space-x-3xl w-full px-4xl">
       <div className="flex space-x-xl">
         <Avatar className="h-24 w-24">
           <AvatarImage src={avatar} alt="Avatar" />

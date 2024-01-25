@@ -31,7 +31,8 @@ export const APP_PATH = {
 
   LOAN_APPLICATION_DETAILS: {
     INDEX: "/application",
-    OVERVIEW: "/application/:id/overview"
+    OVERVIEW: "/application/:id/overview",
+    KYB: "/application/:id/kyb"
   },
 
   // ADMIN USERS

@@ -5,9 +5,9 @@ import { navItems } from "./constants"
 
 export function Component() {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen">
       <SideNav className="border-r" items={navItems} />
-      <div className="p-4xl flex-1 flex">
+      <div className="flex-1 pt-4xl flex flex-col">
         <MainLayout>
           <Outlet />
         </MainLayout>

@@ -27,6 +27,21 @@ module.exports = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         active: "hsl(var(--active))",
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+          secondary: "hsl(var(--success-secondary))"
+        },
+        error: {
+          DEFAULT: "hsl(var(--error))",
+          foreground: "hsl(var(--error-foreground))",
+          secondary: "hsl(var(--error-secondary))"
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+          secondary: "hsl(var(--warning-secondary))"
+        },
         background: {
           DEFAULT: "hsl(var(--background))",
           secondary: "hsl(var(--background-secondary))",
@@ -82,7 +97,9 @@ module.exports = {
         xl: "16px",
         "2xl": "20px",
         "3xl": "24px",
-        "4xl": "32px"
+        "4xl": "32px",
+        "5xl": "40px",
+        "6xl": "48px"
       },
       borderRadius: {
         lg: "var(--radius)",
