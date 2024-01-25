@@ -69,7 +69,8 @@ module.exports = {
           DEFAULT: "hsl(var(--text))",
           foreground: "hsl(var(--text-foreground))",
           secondary: "hsl(var(--text-secondary))",
-          tertiary: "hsl(var(--text-tertiary))"
+          tertiary: "hsl(var(--text-tertiary))",
+          senary: "hsl(var(--text-senary))"
         }
       },
       spacing: {

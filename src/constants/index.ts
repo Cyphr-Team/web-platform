@@ -29,7 +29,12 @@ export const APP_PATH = {
     SUBMISSION: "submission"
   },
 
-  // ADMIN
+  LOAN_APPLICATION_DETAILS: {
+    INDEX: "/application",
+    OVERVIEW: "/application/:id/overview"
+  },
+
+  // ADMIN USERS
   ADMIN_USERS: {
     index: "/users"
   },

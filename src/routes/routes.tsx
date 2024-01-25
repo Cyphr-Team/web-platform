@@ -113,6 +113,22 @@ const routes = createBrowserRouter(
           }
         />
       </Route>
+
+      {/* LENDER ROUTES */}
+
+      <Route
+        path={APP_PATH.LOAN_APPLICATION_DETAILS.INDEX}
+        lazy={() => import("@/modules/loan-application-details/page")}
+      >
+        <Route
+          path={APP_PATH.LOAN_APPLICATION_DETAILS.OVERVIEW}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/components/layouts/LoanInformation"
+            )
+          }
+        />
+      </Route>
     </Route>
   )
 )
