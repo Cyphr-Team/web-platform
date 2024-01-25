@@ -32,19 +32,13 @@ export interface UserInfo {
   tokenType: string
   username: string
   status?: UserStatus
+  avatar?: string
 }
 
 // Auth
 export enum SocialProvider {
   GOOGLE = "GOOGLE",
   APPLE = "APPLE"
-}
-
-export enum USER_ROLES {
-  LOAN_OFFICER = "LOAN_OFFICER",
-  LOAN_APPLICANT = "LOAN_APPLICANT",
-  FORESIGHT_ADMIN = "FORESIGHT_ADMIN",
-  CDFI_ADMIN = "CDFI_ADMIN"
 }
 
 // Select

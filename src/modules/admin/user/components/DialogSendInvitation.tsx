@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { USER_ROLES } from "@/common"
 import { Button, ButtonLoading } from "@/components/ui/button"
 import {
   Dialog,
@@ -36,6 +35,7 @@ import {
   useSendInvitation
 } from "../hooks/useSendInvitation"
 import { DEMO_INSTITUTION_ID } from "@/utils/request-header"
+import { USER_ROLES } from "@/common"
 
 export function DialogSendInvite() {
   const [open, setOpen] = useState(false)

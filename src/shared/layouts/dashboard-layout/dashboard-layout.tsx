@@ -5,11 +5,17 @@ import { Sidebar } from "./dashboard-sidebar"
 import { Suspense } from "react"
 import { UserInfo } from "@/common"
 import { APP_PATH } from "@/constants"
+import { checkIsLoanApplicant } from "@/utils/check-roles"
 
 export function Component() {
   const { userPromise } = useLoaderData() as {
     userPromise: Promise<UserInfo>
   }
+
+  const isLoanApplicant = checkIsLoanApplicant()
+
+  if (isLoanApplicant)
+    return <Navigate to={APP_PATH.LOAN_APPLICATION.INDEX} replace />
 
   return (
     <Suspense>
