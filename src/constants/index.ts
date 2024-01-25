@@ -1,25 +1,18 @@
 import { Icons } from "@/components/ui/icons"
 import { NavItem } from "@/types"
-
-export const navItems: NavItem[] = [
-  {
-    title: "Users",
-    href: "/users",
-    icon: Icons.user,
-    label: "users"
-  }
-]
+import { FolderClosed } from "lucide-react"
 
 export const APP_PATH = {
   INDEX: "/",
   DASHBOARD: "/",
+
+  // AUTHENTICATION
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgot-password",
   SETUP_PASSWORD_BY_TOKEN: {
     index: "/setup-password/:token",
     detail: (token: string) => `/setup-password/${token}`
   },
-  EXAMPLE_TABLE: "/example-table",
   SIGN_UP: "/sign-up",
   VERIFY_EMAIL: {
     index: "/verify-email/:email",
@@ -27,16 +20,20 @@ export const APP_PATH = {
     activateByToken: "/activation"
   },
   SETUP_PROFILE: "/setup-profile",
-  // Click button "verify email" in the email
+
+  // ONBOARDING
   LOAN_APPLICATION: {
     INDEX: "/onboarding",
     INFORMATION: "information",
     SUBMISSION: "submission"
   },
 
-  // ADMIN USERS
-  USERS: {
+  // ADMIN
+  ADMIN_USERS: {
     index: "/users"
+  },
+  ADMIN_LOAN_APPLICATION: {
+    index: "/loan-application"
   }
 }
 
@@ -78,3 +75,18 @@ export interface QueryResponseError {
 }
 
 export const REQUEST_RATE_LIMIT_TIME = 60 * 1000
+
+export const ADMIN_NAV_ITEMS: NavItem[] = [
+  {
+    title: "Users",
+    href: APP_PATH.ADMIN_USERS.index,
+    icon: Icons.user,
+    label: "users"
+  },
+  {
+    title: "Loan Applications",
+    href: APP_PATH.ADMIN_LOAN_APPLICATION.index,
+    icon: FolderClosed,
+    label: "Loan Applications"
+  }
+]

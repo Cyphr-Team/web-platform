@@ -24,9 +24,6 @@ import {
 import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
 
-// TODO: Custom filter
-// import { Input } from "@/components/ui/input"
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -66,16 +63,6 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-        {/* TODO: Custom filter */}
-        {/* <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        /> */}
-
         <DataTableViewOptions table={table} />
       </div>
       <div className="rounded-md border">

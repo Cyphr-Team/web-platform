@@ -46,3 +46,9 @@ export enum USER_ROLES {
   FORESIGHT_ADMIN = "FORESIGHT_ADMIN",
   CDFI_ADMIN = "CDFI_ADMIN"
 }
+
+// Select
+export interface Option {
+  label: string
+  value: string
+}

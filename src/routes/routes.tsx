@@ -65,8 +65,16 @@ const routes = createBrowserRouter(
 
         <Route
           index
-          path={APP_PATH.USERS.index}
+          path={APP_PATH.ADMIN_USERS.index}
           lazy={() => import("@/modules/admin/user/page")}
+        />
+
+        {/* ADMIN Loan application */}
+
+        <Route
+          index
+          path={APP_PATH.ADMIN_LOAN_APPLICATION.index}
+          lazy={() => import("@/modules/admin/loan-application/page")}
         />
       </Route>
 

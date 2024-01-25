@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { MenuIcon } from "lucide-react"
 import { useState } from "react"
 import { DashboardNav } from "./dashboard-nav"
-import { navItems } from "@/constants"
+import { ADMIN_NAV_ITEMS } from "@/constants"
 
 export function MobileSidebar() {
   const [open, setOpen] = useState(false)
@@ -18,7 +18,7 @@ export function MobileSidebar() {
               Overview
             </h2>
             <div className="space-y-1">
-              <DashboardNav items={navItems} />
+              <DashboardNav items={ADMIN_NAV_ITEMS} />
             </div>
           </div>
         </div>

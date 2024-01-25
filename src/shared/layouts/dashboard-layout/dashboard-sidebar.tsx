@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import { DashboardNav } from "./dashboard-nav"
-import { navItems } from "@/constants"
+import { ADMIN_NAV_ITEMS } from "@/constants"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -10,7 +10,7 @@ export function Sidebar({ className }: SidebarProps) {
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <div className="space-y-1">
-            <DashboardNav items={navItems} />
+            <DashboardNav items={ADMIN_NAV_ITEMS} />
           </div>
         </div>
       </div>
