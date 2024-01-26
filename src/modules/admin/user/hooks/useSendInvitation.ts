@@ -7,6 +7,7 @@ import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
+import { getAxiosError } from "@/utils/custom-error"
 
 export const adminSendInvitationForm = z.object({
   roles: z
@@ -40,8 +41,7 @@ export const useSendInvitation = () => {
     onError: (error) => {
       toastError({
         ...TOAST_MSG.user.sendInvitation,
-        description:
-          error.response?.data.message ?? error.message ?? error.toString()
+        description: getAxiosError(error).message
       })
     }
   })

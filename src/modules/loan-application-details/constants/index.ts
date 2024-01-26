@@ -54,13 +54,13 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Messages",
-    href: APP_PATH.LOAN_APPLICATION.INDEX,
+    href: "/messages",
     icon: MessageSquare,
     label: "Messages"
   },
   {
     title: "Notifications",
-    href: APP_PATH.LOAN_APPLICATION.INDEX,
+    href: "/notifications",
     icon: Bell,
     label: "Notifications"
   },

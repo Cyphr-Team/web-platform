@@ -14,7 +14,7 @@ export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {
   return (
-    <div className={cn("flex space-x-lg items-center px-4xl", className)}>
+    <div className={cn("flex space-x-lg items-center px-8", className)}>
       <Link to="/">
         <HomeIcon className="h-5 w-5" />
       </Link>

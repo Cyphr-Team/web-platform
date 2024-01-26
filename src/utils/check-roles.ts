@@ -20,7 +20,7 @@ const checkIsLoanApplicant = () => {
 const checkRolesMatchWithUserRoles = (roles: USER_ROLES[]) => {
   const userRoles = getUserRoles()
 
-  return roles.some((role) => userRoles.includes(role))
+  return roles.some((role) => userRoles.includes(role.toLowerCase()))
 }
 
 export { checkIsLoanApplicant, checkRolesMatchWithUserRoles }

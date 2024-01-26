@@ -132,7 +132,7 @@ export function DialogSendInvite() {
               name="institutionId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel>Institution</FormLabel>
                   <Select onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
@@ -140,9 +140,15 @@ export function DialogSendInvite() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={DEMO_INSTITUTION_ID}>
-                        {DEMO_INSTITUTION_ID}
+                      <SelectItem value="00000000-0000-0000-0000-000000000000">
+                        Foresight
                       </SelectItem>
+                      {DEMO_INSTITUTION_ID !==
+                        "00000000-0000-0000-0000-000000000000" && (
+                        <SelectItem value={DEMO_INSTITUTION_ID}>
+                          CapSight
+                        </SelectItem>
+                      )}
                     </SelectContent>
                   </Select>
                   <FormMessage />
