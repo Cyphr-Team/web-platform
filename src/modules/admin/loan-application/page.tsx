@@ -1,28 +1,23 @@
-import { json, useLoaderData, useNavigate } from "react-router-dom"
-import { LoanApplication, columns } from "./table/columns"
-import { DataTable } from "@/components/ui/data-table"
+import { useNavigate } from "react-router-dom"
+import { columns } from "./table/columns"
 import { LoanApplicationTableHeader } from "./table/header"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
-import { MOCK_DATA } from "./constants"
-import { APP_BREADS, APP_PATH } from "@/constants"
 
-async function getData(): Promise<LoanApplication[]> {
-  return MOCK_DATA
-}
-
-export async function loader() {
-  const data = await getData()
-
-  return json(data)
-}
+import { APP_BREADS, APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
+import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
+import { useListLoanApplication } from "./hooks/useListLoanApplication"
 
 export function Component() {
-  const data = useLoaderData() as LoanApplication[]
   const navigate = useNavigate()
 
   const handleClickDetail = () => {
     navigate(APP_PATH.LOAN_APPLICATION_DETAILS.KYB)
   }
+
+  const { data, fetchNextPage, isFetching } = useListLoanApplication({
+    limit: REQUEST_LIMIT_PARAM,
+    offset: 0
+  })
 
   return (
     <div className="container mx-auto py-4xl">
@@ -35,10 +30,12 @@ export function Component() {
       <div className="bg-gray-100 bg-opacity-60 p-5 rounded-lg">
         <LoanApplicationTableHeader />
       </div>
-      <DataTable
+      <InfiniteDataTable
         handleClickDetail={handleClickDetail}
         columns={columns}
         data={data}
+        fetchNextPage={fetchNextPage}
+        isFetching={isFetching}
       />
     </div>
   )

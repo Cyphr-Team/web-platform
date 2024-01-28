@@ -46,3 +46,12 @@ export interface Option {
   label: string
   value: string
 }
+
+// Infinity list response
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface ListResponse<TData = any> {
+  total: number
+  currentOffset: number
+  data: TData[]
+}

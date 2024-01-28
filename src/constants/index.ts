@@ -76,6 +76,9 @@ export const API_PATH = {
   },
   application: {
     create: "api/user-loan/micro-loan/application"
+  },
+  loanApplication: {
+    list: "api/loan-officer/applications"
   }
 }
 
@@ -123,3 +126,7 @@ export const APP_BREADS = {
     ]
   }
 }
+
+// QUERY REQUEST
+
+export const REQUEST_LIMIT_PARAM = 10

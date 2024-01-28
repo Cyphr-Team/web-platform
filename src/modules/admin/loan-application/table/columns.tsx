@@ -26,7 +26,8 @@ export const columns: ColumnDef<LoanApplication>[] = [
     header: "ID",
     cell: ({ row }) => "#" + `${row.index + 1}`.padStart(4, "0"),
     enableSorting: false,
-    enableHiding: false
+    enableHiding: false,
+    size: 80
   },
   {
     id: "applicant",
@@ -38,32 +39,44 @@ export const columns: ColumnDef<LoanApplication>[] = [
       const application = row.original
 
       return (
-        <div>
-          <p>{application.username}</p>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            {application.email}
+        <div className="min-w-0">
+          <p className="truncate">{application.applicant.name}</p>
+          <p className="text-sm text-muted-foreground mt-0.5 truncate ">
+            {application.applicant.email}
           </p>
         </div>
       )
-    }
+    },
+    size: 200
   },
   {
-    accessorKey: "loanProduct",
+    accessorKey: "programType",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Loan Product" />
-    )
+    ),
+    size: 150,
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div className="min-w-0">
+          <p className="truncate capitalize">{application.programType}</p>
+        </div>
+      )
+    }
   },
   {
     accessorKey: "loanAmount",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Loan Amount" />
     ),
+    size: 200,
     cell: ({ row }) => {
       const application = row.original
-      const amount = parseFloat(application.loanAmount)
+      const amount = parseFloat(application.loanAmount + "")
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: application.currency || "USD"
+        currency: "USD"
       }).format(amount)
 
       return <div className="font-medium">{formatted}</div>
@@ -74,6 +87,7 @@ export const columns: ColumnDef<LoanApplication>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
+    size: 200,
     cell: ({ row }) => {
       const application = row.original
 
@@ -95,11 +109,12 @@ export const columns: ColumnDef<LoanApplication>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Progress" />
     ),
+    size: 150,
     cell: ({ row }) => {
       const application = row.original
 
       return (
-        <div className="flex space-x-3 items-center mr-2">
+        <div className="flex space-x-3 items-center mr-2 flex-1">
           <Progress
             value={+application.progress}
             className="h-2 flex-shrink-0"
@@ -108,7 +123,5 @@ export const columns: ColumnDef<LoanApplication>[] = [
         </div>
       )
     }
-  },
-  // Prevent crash UI
-  { id: "temp" }
+  }
 ]
