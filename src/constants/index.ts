@@ -70,6 +70,9 @@ export const API_PATH = {
   },
   loanProgram: {
     create: "api/admin-loan/micro-loan/program"
+  },
+  application: {
+    create: "api/user-loan/micro-loan/application"
   }
 }
 

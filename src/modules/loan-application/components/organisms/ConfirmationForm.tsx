@@ -13,16 +13,20 @@ import {
   ConfirmationFormValue,
   confirmationFormSchema
 } from "../../constants/form"
-import { Button } from "@/components/ui/button"
+import { ButtonLoading } from "@/components/ui/button"
 import { useLoanApplicationContext } from "../../providers"
 import { CONFIRMATION_TEXTS, LOAN_APPLICATION_STEPS } from "../../constants"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
+import { useCreateLoanApplication } from "../../hooks/useCreateLoanApplication"
 
 export const ConfirmationForm = () => {
-  const { changeProgress, changeStep } = useLoanApplicationContext()
   const navigate = useNavigate()
+
+  const { changeProgress, changeStep } = useLoanApplicationContext()
+  const { mutate, isPending } = useCreateLoanApplication()
+
   const form = useForm<ConfirmationFormValue>({
     resolver: zodResolver(confirmationFormSchema),
     defaultValues: {
@@ -34,12 +38,15 @@ export const ConfirmationForm = () => {
   })
 
   const onSubmit = (data: ConfirmationFormValue) => {
-    console.log(data)
-    changeProgress(LOAN_APPLICATION_STEPS.CONFIRMATION)
-    changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION)
-    navigate(
-      `${APP_PATH.LOAN_APPLICATION.INDEX}/${APP_PATH.LOAN_APPLICATION.SUBMISSION}`
-    )
+    mutate(data, {
+      onSuccess() {
+        changeProgress(LOAN_APPLICATION_STEPS.CONFIRMATION)
+        changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION)
+        navigate(
+          `${APP_PATH.LOAN_APPLICATION.INDEX}/${APP_PATH.LOAN_APPLICATION.SUBMISSION}`
+        )
+      }
+    })
   }
 
   return (
@@ -105,12 +112,13 @@ export const ConfirmationForm = () => {
           </form>
         </Card>
         <div className="flex justify-end">
-          <Button
+          <ButtonLoading
+            isLoading={isPending}
             disabled={!form.formState.isValid}
             onClick={form.handleSubmit(onSubmit)}
           >
             Submit
-          </Button>
+          </ButtonLoading>
         </div>
       </Form>
     </div>

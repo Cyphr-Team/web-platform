@@ -2,16 +2,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Progress } from "@/components/ui/progress"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
-
-export type LoanApplication = {
-  username: string
-  email: string
-  loanProduct: string
-  loanAmount: string
-  currency: string
-  status: string
-  progress: string
-}
+import { LoanApplication } from "@/common/loan-application.type"
 
 // TODO: Update type when integrate with API
 const getBadgeVariantByStatus = (status: string) => {
