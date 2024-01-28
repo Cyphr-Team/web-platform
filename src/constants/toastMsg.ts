@@ -4,5 +4,11 @@ export const TOAST_MSG = {
       title: "Send invitation",
       description: "Sending invitation successfully"
     }
+  },
+  loanProgram: {
+    create: {
+      title: "Creating loan program",
+      description: "Loan program is created successfully"
+    }
   }
 }

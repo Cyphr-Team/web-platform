@@ -2,7 +2,13 @@ import { USER_ROLES } from "@/common"
 import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { NavItem } from "@/types"
-import { Bell, FolderCheck, LineChart, MessageSquare } from "lucide-react"
+import {
+  Bell,
+  FolderCheck,
+  LineChart,
+  MessageSquare,
+  Workflow
+} from "lucide-react"
 
 export const APPLICATION_MENU = [
   {
@@ -70,6 +76,13 @@ export const navItems: NavItem[] = [
     icon: Icons.user,
     label: "users",
     roles: [USER_ROLES.CDFI_ADMIN, USER_ROLES.FORESIGHT_ADMIN]
+  },
+  {
+    title: "Loan Programs",
+    href: APP_PATH.LOAN_PROGRAM.index,
+    icon: Workflow,
+    label: "Loan Programs",
+    roles: [USER_ROLES.CDFI_ADMIN]
   }
 ]
 

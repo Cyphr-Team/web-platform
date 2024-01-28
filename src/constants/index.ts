@@ -38,6 +38,11 @@ export const APP_PATH = {
   },
   ADMIN_LOAN_APPLICATION: {
     index: "/application"
+  },
+
+  // Loan Program
+  LOAN_PROGRAM: {
+    index: "/loan-program"
   }
 }
 
@@ -62,6 +67,9 @@ export const API_PATH = {
     user: {
       sendInvitation: "api/admin/user/invite"
     }
+  },
+  loanProgram: {
+    create: "api/admin-loan/micro-loan/program"
   }
 }
 

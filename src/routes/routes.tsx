@@ -80,6 +80,14 @@ const routes = createBrowserRouter(
           path={APP_PATH.ADMIN_LOAN_APPLICATION.index}
           lazy={() => import("@/modules/admin/loan-application/page")}
         />
+
+        {/* Loan Program */}
+
+        <Route
+          index
+          path={APP_PATH.LOAN_PROGRAM.index}
+          lazy={() => import("@/modules/admin/loan-program/page")}
+        />
       </Route>
 
       {/* BORROWER ONBOARDING ROUTES */}
