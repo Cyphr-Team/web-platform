@@ -65,12 +65,6 @@ export const navItems: NavItem[] = [
     label: "Messages"
   },
   {
-    title: "Notifications",
-    href: "/notifications",
-    icon: Bell,
-    label: "Notifications"
-  },
-  {
     title: "Users",
     href: APP_PATH.ADMIN_USERS.index,
     icon: Icons.user,
@@ -85,6 +79,13 @@ export const navItems: NavItem[] = [
     roles: [USER_ROLES.CDFI_ADMIN]
   }
 ]
+
+export const NOTIFICATION_NAV_ITEM: NavItem = {
+  title: "Notifications",
+  href: "/notifications",
+  icon: Bell,
+  label: "Notifications"
+}
 
 export const KYC_STATUS = {
   VERIFIED: "VERIFIED",

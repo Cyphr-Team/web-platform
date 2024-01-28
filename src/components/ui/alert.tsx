@@ -61,7 +61,7 @@ AlertDescription.displayName = "AlertDescription"
 
 interface AppAlertProps {
   title: string
-  description?: string
+  description?: React.ReactNode
   variant: "success" | "error"
   onClose?: () => void
 }

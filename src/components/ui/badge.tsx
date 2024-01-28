@@ -8,16 +8,16 @@ const badgeVariants = cva(
   "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
-      variant: {
-        soft: "bg-opacity-10",
-        solid: "",
-        outline: ""
-      },
       variantColor: {
         red: "text-red-700 bg-red-500",
         gray: "text-gray-700 bg-gray-500",
         yellow: "text-yellow-700 bg-yellow-500",
         green: "text-green-700 bg-green-500"
+      },
+      variant: {
+        soft: "bg-opacity-10",
+        solid: "text-white",
+        outline: ""
       }
     },
     defaultVariants: {

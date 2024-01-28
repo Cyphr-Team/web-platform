@@ -1,28 +1,50 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import { RoleBase } from "@/shared/molecules/RoleBase"
 import { NavItem } from "@/types"
-import { NavLink, useLocation } from "react-router-dom"
+import { DashboardCollapsedNavLink } from "./dashboard-collapsed-nav-link"
+import { DashboardNavLink } from "./dashboard-nav-link"
+import { useNotification } from "@/hooks/useNotification"
+import { NOTIFICATION_NAV_ITEM } from "@/modules/loan-application-details/constants"
+import { Badge } from "@/components/ui/badge"
 
 interface DashboardNavProps {
   readonly items: NavItem[]
   readonly isCollapsed?: boolean
 }
 
-export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
-  const location = useLocation()
+function NotificationNavLink({ isCollapsed }: { isCollapsed?: boolean }) {
+  const { data } = useNotification()
 
+  const badge = data?.length ? (
+    <Badge
+      variant="solid"
+      variantColor="red"
+      className="flex p-0 h-4 w-4 justify-center"
+    >
+      {data.length}
+    </Badge>
+  ) : (
+    ""
+  )
+
+  return (
+    <RoleBase
+      roles={NOTIFICATION_NAV_ITEM.roles}
+      key={NOTIFICATION_NAV_ITEM.label}
+    >
+      {isCollapsed ? (
+        <DashboardCollapsedNavLink item={NOTIFICATION_NAV_ITEM} badge={badge} />
+      ) : (
+        <DashboardNavLink item={NOTIFICATION_NAV_ITEM} badge={badge} />
+      )}
+    </RoleBase>
+  )
+}
+
+export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
   if (!items?.length) {
     return null
   }
-
-  const currentPath = location.pathname
-  const isSelected = (href: string) => currentPath.startsWith(href)
 
   return (
     <div
@@ -34,49 +56,15 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
           {items.map((item) => (
             <RoleBase roles={item.roles} key={item.label}>
               {isCollapsed ? (
-                <Tooltip delayDuration={0}>
-                  <TooltipTrigger>
-                    <NavLink
-                      to={item.href ?? ""}
-                      data-selected={isSelected(item.href ?? "")}
-                      className={({ isActive }) =>
-                        cn(
-                          "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                          "h-10 w-12 p-md rounded-md flex items-center justify-center cursor-pointer hover:bg-gray-100",
-                          isActive && "bg-gray-100"
-                        )
-                      }
-                    >
-                      {({ isActive }) => (
-                        <>
-                          <item.icon
-                            className={cn("h-6 w-6", !isActive && "opacity-50")}
-                          />
-                          <span className="sr-only">{item.title}</span>
-                        </>
-                      )}
-                    </NavLink>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">{item.title}</TooltipContent>
-                </Tooltip>
+                <DashboardCollapsedNavLink item={item} />
               ) : (
-                <NavLink
-                  to={item.href ?? ""}
-                  className={({ isActive }) =>
-                    cn(
-                      "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white cursor-pointer hover:bg-gray-100",
-                      "flex items-center space-x-3 py-md px-lg rounded-md",
-                      isActive && "bg-gray-100"
-                    )
-                  }
-                  data-selected={isSelected(item.href ?? "")}
-                >
-                  <item.icon className="h-6 w-6" />
-                  <p className="text-base font-medium">{item.title}</p>
-                </NavLink>
+                <DashboardNavLink item={item} />
               )}
             </RoleBase>
           ))}
+
+          {/* NOTIFICATION */}
+          <NotificationNavLink isCollapsed={isCollapsed} />
         </TooltipProvider>
       </nav>
     </div>

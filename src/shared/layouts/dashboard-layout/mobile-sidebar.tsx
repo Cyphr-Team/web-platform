@@ -3,6 +3,8 @@ import { MenuIcon } from "lucide-react"
 import { useState } from "react"
 import { DashboardNav } from "./dashboard-nav"
 import { navItems } from "@/modules/loan-application-details/constants"
+import foresightLogo from "/foresight.svg"
+import foresightLogoText from "@/assets/foresight-text.svg"
 
 export function MobileSidebar() {
   const [open, setOpen] = useState(false)
@@ -13,10 +15,21 @@ export function MobileSidebar() {
       </SheetTrigger>
       <SheetContent side="left" className="!px-0">
         <div className="space-y-4 py-4">
-          <div className="px-3 py-2">
-            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-              Overview
-            </h2>
+          <div className="px-3 py-2 flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <img
+                src={foresightLogo}
+                className="logo w-8 h-8"
+                alt="Foresight logo"
+              />
+
+              <img
+                src={foresightLogoText}
+                alt="Foresight logo"
+                className="mt-1"
+              />
+            </div>
+
             <div className="space-y-1">
               <DashboardNav items={navItems} />
             </div>

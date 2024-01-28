@@ -43,6 +43,9 @@ export const APP_PATH = {
   // Loan Program
   LOAN_PROGRAM: {
     index: "/loan-program"
+  },
+  NOTIFICATION: {
+    index: "/notifications"
   }
 }
 
