@@ -80,6 +80,10 @@ export const API_PATH = {
   },
   loanApplication: {
     list: "api/loan-officer/applications"
+  },
+  loanApplicationDetails: {
+    getKYB: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/kyb`
   }
 }
 

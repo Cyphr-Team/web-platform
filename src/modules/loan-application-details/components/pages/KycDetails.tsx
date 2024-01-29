@@ -6,6 +6,7 @@ import { CheckCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { InformationRow } from "../molecules/InformationRow"
 import { KYC_STATUS } from "../../constants"
+import { KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
 
 export const Component = () => {
   return (
@@ -16,9 +17,18 @@ export const Component = () => {
           <Separator />
         </CardHeader>
         <CardContent className="space-y-sm w-[19rem]">
-          <VerificationItem title="ID Check" status="warning" />
-          <VerificationItem title="Personal Info" status="approved" />
-          <VerificationItem title="Checklist" status="warning" />
+          <VerificationItem
+            title="ID Check"
+            status={KYB_VERIFIED_FIELD_STATUS.WARNING}
+          />
+          <VerificationItem
+            title="Personal Info"
+            status={KYB_VERIFIED_FIELD_STATUS.SUCCESS}
+          />
+          <VerificationItem
+            title="Checklist"
+            status={KYB_VERIFIED_FIELD_STATUS.WARNING}
+          />
         </CardContent>
       </Card>
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl overflow-auto">

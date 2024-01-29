@@ -94,3 +94,5 @@ export const KYC_STATUS = {
   UNCHECKED: "UNCHECKED",
   PASSED: "PASSED"
 }
+
+export const UNKNOWN_VALUE = "N/A"

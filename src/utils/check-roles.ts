@@ -17,10 +17,21 @@ const checkIsLoanApplicant = () => {
   return userInfo.roles.includes(USER_ROLES.LOAN_APPLICANT.toLowerCase())
 }
 
+const checkIsLoanOfficer = () => {
+  const userInfo = inMemoryJWTService.getUserInfo()
+  if (!userInfo) return false
+
+  return userInfo.roles.includes(USER_ROLES.LOAN_OFFICER.toLowerCase())
+}
+
 const checkRolesMatchWithUserRoles = (roles: USER_ROLES[]) => {
   const userRoles = getUserRoles()
 
   return roles.some((role) => userRoles.includes(role.toLowerCase()))
 }
 
-export { checkIsLoanApplicant, checkRolesMatchWithUserRoles }
+export {
+  checkIsLoanApplicant,
+  checkRolesMatchWithUserRoles,
+  checkIsLoanOfficer
+}

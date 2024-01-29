@@ -1,10 +1,10 @@
-import { AspectRatio } from "@radix-ui/react-aspect-ratio"
-import { AlertCircle, AlertTriangle, CheckCircle } from "lucide-react"
+import { KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
+import { VerificationStatus } from "../atoms/VerificationStatus"
 
 type VerificationItemProps = {
   title: string
   description?: string
-  status: "warning" | "approved" | "rejected"
+  status?: KYB_VERIFIED_FIELD_STATUS
 }
 
 export const VerificationItem: React.FC<VerificationItemProps> = ({
@@ -20,33 +20,7 @@ export const VerificationItem: React.FC<VerificationItemProps> = ({
       </div>
       <div className="flex items-center">
         <div className="ml-lg">
-          {status === "warning" && (
-            <div className="w-12 h-12">
-              <AspectRatio ratio={1 / 1}>
-                <div className="w-full h-full flex justify-center items-center rounded-full bg-warning-secondary">
-                  <AlertTriangle className="w-6 h-6 text-warning" />
-                </div>
-              </AspectRatio>{" "}
-            </div>
-          )}
-          {status === "approved" && (
-            <div className="w-12 h-12">
-              <AspectRatio ratio={1 / 1}>
-                <div className="w-full h-full flex justify-center items-center rounded-full bg-success-secondary">
-                  <CheckCircle className="w-6 h-6 text-success" />
-                </div>
-              </AspectRatio>{" "}
-            </div>
-          )}
-          {status === "rejected" && (
-            <div className="w-12 h-12">
-              <AspectRatio ratio={1 / 1}>
-                <div className="w-full h-full flex justify-center items-center rounded-full bg-error-secondary">
-                  <AlertCircle className="w-6 h-6 text-error" />
-                </div>
-              </AspectRatio>{" "}
-            </div>
-          )}
+          <VerificationStatus status={status} />
         </div>
       </div>
     </div>
@@ -54,6 +28,6 @@ export const VerificationItem: React.FC<VerificationItemProps> = ({
 }
 
 VerificationItem.defaultProps = {
-  status: "approved"
+  status: KYB_VERIFIED_FIELD_STATUS.UNKNOWN
 }
 export default VerificationItem
