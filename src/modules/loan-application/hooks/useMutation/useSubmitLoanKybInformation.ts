@@ -4,17 +4,17 @@ import { useMutation } from "@tanstack/react-query"
 import { ErrorResponse } from "@/common"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
-import { UserLoanApplication } from "@/common/loan-application.type"
+import { KYBInformation, KYBInformationResponse } from "../../constants/type"
 
-export const useCreateLoanApplication = () => {
+export const useSubmitLoanKybInformation = () => {
   return useMutation<
-    AxiosResponse<UserLoanApplication>,
+    AxiosResponse<KYBInformationResponse>,
     AxiosError<ErrorResponse>,
-    undefined
+    KYBInformation
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.application.create,
+        path: API_PATH.application.submitKyb,
         data,
         customHeader: customRequestHeader.customHeaders
       })

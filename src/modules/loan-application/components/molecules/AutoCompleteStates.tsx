@@ -53,7 +53,8 @@ export const AutoCompleteStates = <T extends FieldValues>(
                 <Input
                   value={
                     value
-                      ? options.find((option) => option.name === value)?.name
+                      ? options.find((option) => option.state_code === value)
+                          ?.name
                       : "Select state"
                   }
                 />
@@ -67,7 +68,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
                       return (
                         <CommandItem
                           key={option.id}
-                          value={option.name}
+                          value={option.state_code}
                           onSelect={(currentValue) => {
                             onChange(currentValue)
                             setOpen(false)
@@ -77,7 +78,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
                           <CheckIcon
                             className={cn(
                               "ml-auto h-4 w-4",
-                              value === option.name
+                              value === option.state_code
                                 ? "opacity-100"
                                 : "opacity-0"
                             )}

@@ -21,3 +21,21 @@ export interface LoanApplication {
   status: string
   progress: number
 }
+
+export interface LoanProgram {
+  id: string
+  institutionId: string
+  name: string
+  description: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface UserLoanApplication {
+  id: string
+  loanProgram: LoanProgram
+  applicantId: string
+  businessId: string
+  createdAt: string
+  updatedAt: string
+}

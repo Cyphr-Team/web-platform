@@ -38,14 +38,14 @@ export const ownerFormSchema = z.object({
 })
 
 export const businessFormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  website: z.string().min(1, { message: "Enter a valid website" }),
+  businessLegalName: z.string().min(1, { message: "Name is required" }),
+  businessWebsite: z.string().min(1, { message: "Enter a valid website" }),
   addressLine1: z.string().min(3, { message: "Address is required" }),
   addressLine2: z.string(),
   city: z.string().min(1, { message: "City is required" }),
   state: z.string().min(1, { message: "State is required" }),
-  zipCode: z.string().min(1, { message: "Zip code is required" }),
-  tin: z.string().min(1, { message: "TIN is required" })
+  postalCode: z.string().min(1, { message: "Zip code is required" }),
+  businessTin: z.string().min(1, { message: "TIN is required" })
 })
 
 export const financialFormSchema = z.object({

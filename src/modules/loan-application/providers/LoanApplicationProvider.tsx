@@ -11,7 +11,9 @@ type LoanApplicationContextType = {
   step: LOAN_APPLICATION_STEPS
   changeStep: (step: LOAN_APPLICATION_STEPS) => void
   progress: ProgressType[]
+  loanApplicationId: string
   changeProgress: (step: LOAN_APPLICATION_STEPS) => void
+  changeLoanApplicationId: (id: string) => void
 }
 
 export const LoanApplicationContext = createContext<LoanApplicationContextType>(
@@ -19,7 +21,9 @@ export const LoanApplicationContext = createContext<LoanApplicationContextType>(
     step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
     changeStep: () => {},
     progress: STEPS,
-    changeProgress: () => {}
+    loanApplicationId: "",
+    changeProgress: () => {},
+    changeLoanApplicationId: () => {}
   }
 )
 
@@ -31,6 +35,8 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   const [step, setStep] = useState<LOAN_APPLICATION_STEPS>(
     LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
   )
+
+  const [loanApplicationId, setLoanApplicationId] = useState<string>("")
 
   const [progress, setProgress] = useState<ProgressType[]>(STEPS)
 
@@ -62,14 +68,27 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     [progress]
   )
 
+  const changeLoanApplicationId = useCallback((id: string) => {
+    setLoanApplicationId(id)
+  }, [])
+
   const value = useMemo(
     () => ({
       step,
       progress,
+      loanApplicationId,
       changeStep,
-      changeProgress
+      changeProgress,
+      changeLoanApplicationId
     }),
-    [step, progress, changeStep, changeProgress]
+    [
+      step,
+      progress,
+      loanApplicationId,
+      changeStep,
+      changeProgress,
+      changeLoanApplicationId
+    ]
   )
 
   return (

@@ -2,7 +2,7 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
+import { ButtonLoading } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useLoanApplicationContext } from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
@@ -12,17 +12,18 @@ import { useSelectCities } from "../../hooks/useSelectCities"
 import { useEffect } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
+import { useSubmitLoanKybInformation } from "../../hooks/useMutation/useSubmitLoanKybInformation"
 
 export const BusinessInformationForm = () => {
   const defaultValues = {
-    name: "",
+    businessLegalName: "",
     addressLine1: "",
     addressLine2: "",
     state: "",
     city: "",
-    zipCode: "",
-    website: "",
-    tin: ""
+    postalCode: "",
+    businessWebsite: "",
+    businessTin: ""
   }
 
   const form = useForm<BusinessFormValue>({
@@ -61,11 +62,30 @@ export const BusinessInformationForm = () => {
     }
   }, [state, city, form])
 
-  const { changeProgress, changeStep } = useLoanApplicationContext()
+  const { changeProgress, changeStep, loanApplicationId } =
+    useLoanApplicationContext()
 
-  const handleSubmit = () => {
-    changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
-    changeStep(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+  const { mutate, isPending } = useSubmitLoanKybInformation()
+
+  const onSubmit = (data: BusinessFormValue) => {
+    const formattedData = {
+      ...data,
+      loanApplicationId: loanApplicationId,
+      businessStreetAddress: {
+        addressLine1: data.addressLine1,
+        addressLine2: data.addressLine2,
+        city: data.city,
+        state: data.state,
+        postalCode: data.postalCode
+      }
+    }
+
+    mutate(formattedData, {
+      onSuccess() {
+        changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+        changeStep(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+      }
+    })
   }
 
   return (
@@ -79,7 +99,7 @@ export const BusinessInformationForm = () => {
               placeholder="i.e: Larry's Latte"
               label="Business Legal Name"
               control={form.control}
-              name="name"
+              name="businessLegalName"
               className="col-span-3"
             />
             <TextInput
@@ -117,20 +137,20 @@ export const BusinessInformationForm = () => {
             <TextInput
               placeholder="i.e: 97531"
               label="Business Zip Code"
-              name="zipCode"
+              name="postalCode"
               control={form.control}
             />
             <TextInput
               placeholder="i.e: 12-3456789"
               label="Tax Identification Number (TIN)"
-              name="tin"
+              name="businessTin"
               control={form.control}
               className="col-span-3"
             />
             <TextInput
               placeholder="www.larryslatte.com"
               label="Business Website"
-              name="website"
+              name="businessWebsite"
               control={form.control}
               className="col-span-3"
               inputClassName="pl-16"
@@ -141,9 +161,13 @@ export const BusinessInformationForm = () => {
         </Form>
       </Card>
       <div className="flex justify-end">
-        <Button disabled={!form.formState.isValid} onClick={handleSubmit}>
+        <ButtonLoading
+          disabled={!form.formState.isValid}
+          isLoading={isPending}
+          onClick={form.handleSubmit(onSubmit)}
+        >
           Save
-        </Button>
+        </ButtonLoading>
       </div>
     </div>
   )

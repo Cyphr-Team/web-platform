@@ -75,7 +75,8 @@ export const API_PATH = {
     create: "api/admin-loan/micro-loan/program"
   },
   application: {
-    create: "api/user-loan/micro-loan/application"
+    create: "api/user-loan/micro-loan/application",
+    submitKyb: "api/form/kyb"
   },
   loanApplication: {
     list: "api/loan-officer/applications"
