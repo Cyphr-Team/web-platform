@@ -38,7 +38,7 @@ export enum KYB_VERIFIED_FIELD_STATUS {
   UNKNOWN = "UNKNOWN"
 }
 
-type KybDetailRegistrationStatus = {
+export type KybDetailRegistrationStatus = {
   active: number
   inactive: number
   unknown: number
@@ -55,22 +55,22 @@ type KybDetailWebsite = {
   description: string
 }
 
-type KybDetailLiens = {
+export type KybDetailLiens = {
   open: number
   closed: number
   data: KybDetailLiensData[]
 }
 
-type KybDetailLiensData = {
+export type KybDetailLiensData = {
   type: string
   date: string
-  status: KybDetailLienStatus
+  status: KYB_LIEN_STATUS
   securedParties: string[]
   fileUrl: string[]
 }
 
-type KybDetailLienStatus = {
-  OPEN: "OPEN"
-  CLOSED: "CLOSED"
-  UNKNOWN: "UNKNOWN"
+export enum KYB_LIEN_STATUS {
+  OPEN = "OPEN",
+  CLOSED = "CLOSED",
+  UNKNOWN = "UNKNOWN"
 }

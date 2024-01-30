@@ -32,8 +32,10 @@ module.exports = {
           foreground: "hsl(var(--success-foreground))",
           secondary: "hsl(var(--success-secondary))",
           50: "hsla(144, 78%, 96%, 1)",
+          100: "hsla(141, 74%, 92%, 1)",
           200: "hsla(144, 69%, 80%, 1)",
           500: "hsla(152, 77%, 39%, 1)",
+          600: "hsla(153, 91%, 30%, 1)",
           700: "hsla(155, 91%, 24%, 1)"
         },
         error: {
@@ -41,14 +43,18 @@ module.exports = {
           foreground: "hsl(var(--error-foreground))",
           secondary: "hsl(var(--error-secondary))",
           50: "hsla(4, 88%, 97%, 1)",
+          100: "hsla(4, 95%, 94%, 1)",
           200: "hsla(4, 98%, 89%, 1)",
           500: "hsla(4, 86%, 58%, 1)",
+          600: "hsla(4, 74%, 49%, 1)",
           700: "hsla(4, 76%, 40%, 1)"
         },
         warning: {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
-          secondary: "hsl(var(--warning-secondary))"
+          secondary: "hsl(var(--warning-secondary))",
+          100: "hsla(44, 98%, 89%, 1)",
+          600: "hsla(28, 97%, 44%, 1)"
         },
         background: {
           DEFAULT: "hsl(var(--background))",

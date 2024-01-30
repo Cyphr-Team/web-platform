@@ -28,7 +28,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   return (
     <LoanApplicationDetailContext.Provider
       value={{
-        loanKybDetail: kybDetailQuery.data?.data
+        loanKybDetail: kybDetailQuery.data
       }}
     >
       {children}

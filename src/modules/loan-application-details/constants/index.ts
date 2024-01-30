@@ -9,6 +9,7 @@ import {
   MessageSquare,
   Workflow
 } from "lucide-react"
+import { KybDetailLiensData } from "./type"
 
 export const APPLICATION_MENU = (id: string) => [
   {
@@ -95,4 +96,26 @@ export const KYC_STATUS = {
   PASSED: "PASSED"
 }
 
+export const STATE_STATUS = {
+  ACTIVE: "ACTIVE",
+  INACTIVE: "INACTIVE",
+  UNKNOWN: "UNKNOWN"
+}
+
 export const UNKNOWN_VALUE = "N/A"
+
+export const FAKE_LIENS_DATA = [
+  {
+    type: "ucc",
+    date: "2021-04-01",
+    status: "OPEN",
+    securedParties: [
+      "C T CORPORATION SYSTEM, AS REPRESENTATIVE",
+      "C T CORPORATION SYSTEM, AS REPRESENTATIVE"
+    ],
+    fileUrl: [
+      "https://storage.googleapis.com/...",
+      "https://storage.googleapis.com/..."
+    ]
+  }
+] as KybDetailLiensData[]

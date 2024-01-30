@@ -10,7 +10,7 @@ export const useQueryGetKyb = ({
 }: {
   applicationId: string
 }) => {
-  return useQuery<Record<string, LoanApplicationsKyb>, ErrorResponse>({
+  return useQuery<LoanApplicationsKyb, ErrorResponse>({
     queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_KYB, applicationId],
     queryFn: () => {
       return getRequest({
