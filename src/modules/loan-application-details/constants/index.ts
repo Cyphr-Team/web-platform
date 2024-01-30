@@ -10,38 +10,38 @@ import {
   Workflow
 } from "lucide-react"
 
-export const APPLICATION_MENU = [
+export const APPLICATION_MENU = (id: string) => [
   {
     name: "Overview",
-    href: "/application/:id/overview"
+    href: `/application/${id}/overview`
   },
   {
     name: "KYC",
-    href: "/application/:id/kyc"
+    href: `/application/${id}/kyc`
   },
   {
     name: "KYB",
-    href: "/application/:id/kyb"
+    href: `/application/${id}/kyb`
   },
   {
     name: "Documents",
-    href: "/application/:id/documents"
+    href: `/application/${id}/documents`
   },
   {
     name: "Cash Flow",
-    href: "/application/:id/cash-flow"
+    href: `/application/${id}/cash-flow`
   },
   {
     name: "Business Plan",
-    href: "/application/:id/business-plan"
+    href: `/application/${id}/business-plan`
   },
   {
     name: "Loan Summary",
-    href: "/application/:id/loan-summary"
+    href: `/application/${id}/loan-summary`
   },
   {
     name: "Loan Decision",
-    href: "/application/:id/loan-decision"
+    href: `/application/${id}/loan-decision`
   }
 ]
 

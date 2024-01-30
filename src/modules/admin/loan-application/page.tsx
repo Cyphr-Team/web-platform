@@ -6,12 +6,14 @@ import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { APP_BREADS, APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
 import { useListLoanApplication } from "./hooks/useListLoanApplication"
+import { Row } from "@tanstack/react-table"
+import { LoanApplication } from "@/common/loan-application.type"
 
 export function Component() {
   const navigate = useNavigate()
 
-  const handleClickDetail = () => {
-    navigate(APP_PATH.LOAN_APPLICATION_DETAILS.KYB)
+  const handleClickDetail = (detail: Row<LoanApplication>) => {
+    navigate(APP_PATH.LOAN_APPLICATION_DETAILS.KYB.detail(detail.original.id))
   }
 
   const { data, fetchNextPage, isFetching } = useListLoanApplication({

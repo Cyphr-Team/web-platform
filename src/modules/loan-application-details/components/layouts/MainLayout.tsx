@@ -16,7 +16,7 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
             to: APP_PATH.LOAN_APPLICATION_DETAILS.INDEX,
             label: "Applications"
           },
-          { to: APP_PATH.LOAN_APPLICATION_DETAILS.KYB, label: "Latte Larry" }
+          { to: "#", label: "Latte Larry" }
         ]}
       />
       <div className="flex flex-col space-y-3xl border-b">

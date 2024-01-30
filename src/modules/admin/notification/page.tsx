@@ -28,7 +28,9 @@ export function Component() {
               description={
                 <div className="flex flex-col gap-2">
                   <Link
-                    to={`${APP_PATH.LOAN_APPLICATION_DETAILS.KYB}`}
+                    to={`${APP_PATH.LOAN_APPLICATION_DETAILS.KYB.detail(
+                      noti.id
+                    )}`}
                     className="underline"
                   >
                     Click to view detail

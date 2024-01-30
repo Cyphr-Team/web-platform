@@ -146,7 +146,7 @@ const routes = createBrowserRouter(
           }
         />
         <Route
-          path={APP_PATH.LOAN_APPLICATION_DETAILS.KYB}
+          path={APP_PATH.LOAN_APPLICATION_DETAILS.KYB.index}
           lazy={() =>
             import(
               "@/modules/loan-application-details/components/pages/KybDetails"

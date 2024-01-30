@@ -35,7 +35,7 @@ import { ListResponse } from "@/common"
 interface DataTableProps<TData extends ListResponse, TValue> {
   columns: ColumnDef<TData["data"][number], TValue>[]
   isFilterView?: boolean
-  handleClickDetail?: (row: Row<TData>) => void
+  handleClickDetail?: (row: Row<TData["data"][number]>) => void
   data: InfiniteData<TData, unknown> | undefined
   isFetching: boolean
   fetchNextPage: InfiniteQueryObserverBaseResult["fetchNextPage"]

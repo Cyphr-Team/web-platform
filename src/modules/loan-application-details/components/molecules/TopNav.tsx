@@ -1,12 +1,13 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useParams } from "react-router-dom"
 import { APPLICATION_MENU } from "../../constants"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function TopNav({ className, ...props }: Props) {
   const pathname = useLocation().pathname
+  const { id } = useParams()
 
   return (
     <div className="relative">
@@ -15,7 +16,7 @@ export function TopNav({ className, ...props }: Props) {
           className={cn("flex items-center space-x-lg px-4xl", className)}
           {...props}
         >
-          {APPLICATION_MENU.map((example, index) => (
+          {APPLICATION_MENU(id!).map((example, index) => (
             <Link
               to={example.href}
               key={example.href}

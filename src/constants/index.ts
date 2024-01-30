@@ -28,7 +28,10 @@ export const APP_PATH = {
   LOAN_APPLICATION_DETAILS: {
     INDEX: "/application",
     OVERVIEW: "/application/:id/overview",
-    KYB: "/application/:id/kyb",
+    KYB: {
+      index: "/application/:id/kyb",
+      detail: (id: string) => `/application/${id}/kyb`
+    },
     KYC: "/application/:id/kyc"
   },
 
