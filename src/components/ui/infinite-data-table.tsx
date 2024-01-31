@@ -60,12 +60,16 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
   const [rowSelection, setRowSelection] = React.useState({})
 
   //flatten the array of arrays from the useInfiniteQuery hook
-  const flatData = React.useMemo(
-    () => data?.pages?.flatMap((page) => page.data) ?? [],
-    [data]
-  )
+  const flatData = React.useMemo(() => {
+    return data?.pages?.flatMap((page) => page.data) ?? []
+  }, [data?.pages])
 
-  const isHaveMore = data?.pages?.[0]?.total === REQUEST_LIMIT_PARAM
+  const isHaveMore = React.useMemo(() => {
+    return (
+      data?.pages?.[(data?.pages?.length ?? 1) - 1]?.total ===
+      REQUEST_LIMIT_PARAM
+    )
+  }, [data?.pages])
 
   const table = useReactTable({
     data: flatData as [],

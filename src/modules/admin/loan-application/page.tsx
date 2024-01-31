@@ -16,7 +16,7 @@ export function Component() {
     navigate(APP_PATH.LOAN_APPLICATION_DETAILS.KYB.detail(detail.original.id))
   }
 
-  const { data, fetchNextPage, isFetching } = useListLoanApplication({
+  const { data, fetchNextPage, isFetchingNextPage } = useListLoanApplication({
     limit: REQUEST_LIMIT_PARAM,
     offset: 0
   })
@@ -37,7 +37,7 @@ export function Component() {
         columns={columns}
         data={data}
         fetchNextPage={fetchNextPage}
-        isFetching={isFetching}
+        isFetching={isFetchingNextPage}
       />
     </div>
   )
