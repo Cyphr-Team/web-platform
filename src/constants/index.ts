@@ -32,7 +32,11 @@ export const APP_PATH = {
       index: "/application/:id/kyb",
       detail: (id: string) => `/application/${id}/kyb`
     },
-    KYC: "/application/:id/kyc"
+    KYC: "/application/:id/kyc",
+    DOCUMENTS: {
+      index: "/application/:id/document",
+      detail: (id: string) => `/application/${id}/document`
+    }
   },
 
   // ADMIN USERS

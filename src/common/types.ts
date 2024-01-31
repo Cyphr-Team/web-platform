@@ -46,6 +46,10 @@ export interface Option {
   label: string
   value: string
 }
+export interface PaginateParams {
+  limit: number
+  offset: number
+}
 
 // Infinity list response
 

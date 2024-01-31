@@ -8,15 +8,19 @@ import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { SideNav } from "@/shared/molecules/SideNav"
 import { navItems } from "@/modules/loan-application-details/constants"
 
-export function Component() {
-  const { userPromise } = useLoaderData() as {
-    userPromise: Promise<UserInfo>
-  }
-
+const RoleNavigate = () => {
   const isLoanApplicant = checkIsLoanApplicant()
 
   if (isLoanApplicant)
     return <Navigate to={APP_PATH.LOAN_APPLICATION.INDEX} replace />
+
+  return null
+}
+
+export function Component() {
+  const { userPromise } = useLoaderData() as {
+    userPromise: Promise<UserInfo>
+  }
 
   return (
     <Suspense>
@@ -24,6 +28,8 @@ export function Component() {
         resolve={userPromise}
         errorElement={<Navigate to={APP_PATH.LOGIN} replace />}
       >
+        <RoleNavigate />
+
         <Header />
         <div className="flex h-screen overflow-hidden">
           <SideNav items={navItems} className="hidden md:flex" />

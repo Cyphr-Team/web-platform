@@ -2,18 +2,19 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Progress } from "@/components/ui/progress"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
-import { LoanApplication } from "@/common/loan-application.type"
+import {
+  LoanApplication,
+  LoanApplicationStatus
+} from "@/common/loan-application.type"
 
 // TODO: Update type when integrate with API
-const getBadgeVariantByStatus = (status: string) => {
-  const lowerCaseStatus = status.toLowerCase()
-
-  switch (lowerCaseStatus) {
-    case "flagged":
+const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
+  switch (status) {
+    case LoanApplicationStatus.Flagged:
       return "red"
-    case "in progress":
+    case LoanApplicationStatus.InProgress:
       return "yellow"
-    case "ready":
+    case LoanApplicationStatus.Ready:
       return "green"
     default:
       return undefined

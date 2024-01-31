@@ -10,6 +10,7 @@ import {
   Workflow
 } from "lucide-react"
 import { KybDetailLiensData } from "./type"
+import { Option } from "@/common"
 
 export const APPLICATION_MENU = (id: string) => [
   {
@@ -26,7 +27,7 @@ export const APPLICATION_MENU = (id: string) => [
   },
   {
     name: "Documents",
-    href: `/application/${id}/documents`
+    href: APP_PATH.LOAN_APPLICATION_DETAILS.DOCUMENTS.detail(id)
   },
   {
     name: "Cash Flow",
@@ -119,3 +120,28 @@ export const FAKE_LIENS_DATA = [
     ]
   }
 ] as KybDetailLiensData[]
+
+export const LOAN_STATUS: Option[] = [
+  { label: "Flagged", value: "Flagged" },
+  { label: "Closed", value: "Closed" },
+  { label: "Ready", value: "Ready" },
+  { label: "In Progress", value: "In Progress" }
+]
+
+export const LOAN_PRODUCTS: Option[] = [
+  { label: "Revenue Share", value: "Revenue Share" },
+  { label: "Emergency", value: "Emergency" },
+  { label: "Micro Loan", value: "Micro Loan" },
+  { label: "Term Loan", value: "Term Loan" },
+  { label: "Credit Line", value: "Credit Line" },
+  { label: "SBA", value: "SBA" }
+]
+
+export const LOAN_AMOUNT: Option[] = [
+  { label: "< $1,000", value: "< $1,000" },
+  { label: "$1,000 - $10,000", value: "$1,000 - $10,000" },
+  { label: "$10,000 - $20,000", value: "$10,000 - $20,000" },
+  { label: "$20,000 - $30,000", value: "$20,000 - $30,000" },
+  { label: "$40,000 - $50,000", value: "$40,000 - $50,000" },
+  { label: "> $50,000", value: "> $50,000" }
+]

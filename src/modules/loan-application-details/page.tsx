@@ -8,13 +8,18 @@ import { UserInfo } from "@/common"
 import { Suspense } from "react"
 import { APP_PATH } from "@/constants"
 
+const RoleNavigate = () => {
+  const isLoanOfficer = checkIsLoanOfficer()
+
+  if (!isLoanOfficer) return <Navigate to={APP_PATH.DASHBOARD} replace />
+
+  return null
+}
+
 export function Component() {
   const { userPromise } = useLoaderData() as {
     userPromise: Promise<UserInfo>
   }
-  const isLoanOfficer = checkIsLoanOfficer()
-
-  if (!isLoanOfficer) return <Navigate to={APP_PATH.DASHBOARD} replace />
 
   return (
     <Suspense>
@@ -22,6 +27,8 @@ export function Component() {
         resolve={userPromise}
         errorElement={<Navigate to={APP_PATH.LOGIN} replace />}
       >
+        <RoleNavigate />
+
         <LoanApplicationDetailProvider>
           <div className="flex h-screen">
             <SideNav className="border-r" items={navItems} />

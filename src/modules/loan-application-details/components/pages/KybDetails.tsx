@@ -78,7 +78,7 @@ export const Component = () => {
                 Formation state
               </p>
               <p className="text-xl">
-                {loanKybDetail?.formation.state ?? UNKNOWN_VALUE}
+                {loanKybDetail?.formation?.state ?? UNKNOWN_VALUE}
               </p>
             </div>
             <div className="flex flex-col space-y-sm">
@@ -86,7 +86,7 @@ export const Component = () => {
                 Formation date
               </p>
               <p className="text-xl">
-                {loanKybDetail?.formation.date ?? UNKNOWN_VALUE}
+                {loanKybDetail?.formation?.date ?? UNKNOWN_VALUE}
               </p>
             </div>
             <div className="flex flex-col">
@@ -94,7 +94,7 @@ export const Component = () => {
                 Entity type
               </p>
               <p className="text-xl">
-                {loanKybDetail?.formation.entityType ?? UNKNOWN_VALUE}
+                {loanKybDetail?.formation?.entityType ?? UNKNOWN_VALUE}
               </p>
             </div>
           </div>{" "}

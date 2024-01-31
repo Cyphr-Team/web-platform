@@ -1,4 +1,13 @@
-export interface Applicant {
+// ENUM
+enum LoanApplicationStatus {
+  InProgress = "In progress",
+  Flagged = "Flagged",
+  Ready = "Ready",
+  Closed = "Closed"
+}
+
+// INTERFACE
+interface Applicant {
   id: string
   institutionId: string
   name: string
@@ -10,7 +19,7 @@ export interface Applicant {
   created_at: string
 }
 
-export interface LoanApplication {
+interface LoanApplication {
   id: string
   loanProgramId: string
   applicantId: string
@@ -18,11 +27,11 @@ export interface LoanApplication {
   createdAt: string
   applicant: Applicant
   loanAmount: number
-  status: string
+  status: LoanApplicationStatus
   progress: number
 }
 
-export interface LoanProgram {
+interface LoanProgram {
   id: string
   institutionId: string
   name: string
@@ -31,7 +40,7 @@ export interface LoanProgram {
   updatedAt: string
 }
 
-export interface UserLoanApplication {
+interface UserLoanApplication {
   id: string
   loanProgram: LoanProgram
   applicantId: string
@@ -39,3 +48,6 @@ export interface UserLoanApplication {
   createdAt: string
   updatedAt: string
 }
+
+export type { UserLoanApplication, LoanApplication, Applicant, LoanProgram }
+export { LoanApplicationStatus }
