@@ -12,7 +12,7 @@ export const LoanInformationCard: React.FC<Props> = ({ title, content }) => {
         <p className="text-sm text-text-tertiary">{title}</p>
       </CardHeader>
       <CardContent>
-        <p className="text-2xl font-semibold">{content}</p>
+        <p className="text-lg md:text-2xl font-semibold">{content}</p>
       </CardContent>
     </Card>
   )

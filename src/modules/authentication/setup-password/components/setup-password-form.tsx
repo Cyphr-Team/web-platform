@@ -53,6 +53,7 @@ function ResetPasswordForm() {
               <InputPassword
                 placeholder="••••••••"
                 className="text-base"
+                autoComplete="new-password"
                 {...field}
                 disabled={isPending}
               />
@@ -71,6 +72,7 @@ function ResetPasswordForm() {
               <InputPassword
                 placeholder="••••••••"
                 className="text-base"
+                autoComplete="new-password"
                 {...field}
                 disabled={isPending}
               />

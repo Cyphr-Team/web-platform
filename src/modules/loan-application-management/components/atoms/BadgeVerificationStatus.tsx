@@ -10,12 +10,27 @@ type Props = {
 
 export const BadgeVerificationStatus: React.FC<Props> = ({ status }) => {
   const className = getClassNameFromStatus(status)
+
+  const badgeCssByStatus = {
+    success: "bg-success-secondary border-success",
+    error: "bg-error-secondary border-error",
+    warning: "bg-warning-secondary border-warning"
+  }
+
+  const textCssByStatus = {
+    success: "text-success",
+    error: "text-error",
+    warning: "text-warning"
+  }
+
   return (
     <Badge
-      className={`space-x-xs py-md px-lg bg-${className}-secondary border border-${className} w-fit rounded-lg`}
+      className={`space-x-xs py-md px-lg ${badgeCssByStatus[className]} border w-fit rounded-lg`}
     >
       <VerificationIcon status={status} />
-      <p className={`text-sm font-medium text-${className}`}>{status}</p>
+      <p className={`text-sm font-medium ${textCssByStatus[className]}`}>
+        {status}
+      </p>
     </Badge>
   )
 }

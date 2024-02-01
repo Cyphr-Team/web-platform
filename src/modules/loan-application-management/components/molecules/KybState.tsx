@@ -9,11 +9,11 @@ type Props = {
 
 export const KybState: React.FC<Props> = ({ registrationStatus }) => {
   return (
-    <Card className="h-fit p-4xl gap-y-4xl flex flex-col">
+    <Card className="h-fit p-4xl gap-y-4xl flex flex-col flex-1">
       <p className="text-2xl font-semibold">Secretary of State</p>
       <div className="flex flex-col gap-y-lg">
         <p className="text-lg font-medium">Registration Status</p>
-        <div className="grid grid-cols-3 gap-x-lg">
+        <div className="flex flex-wrap gap-lg">
           <CardStatus
             status={STATE_STATUS.ACTIVE}
             amount={registrationStatus?.active}

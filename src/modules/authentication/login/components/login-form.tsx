@@ -48,6 +48,7 @@ export function LoginForm() {
                     type="email"
                     placeholder="Enter your email"
                     className="text-base"
+                    autoComplete="username"
                     {...field}
                     disabled={isPending}
                   />
@@ -66,6 +67,7 @@ export function LoginForm() {
                   <InputPassword
                     placeholder="••••••••"
                     className="text-base"
+                    autoComplete="current-password"
                     {...field}
                     disabled={isPending}
                   />

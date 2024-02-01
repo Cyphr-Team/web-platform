@@ -21,7 +21,7 @@ export function TopNav({ className, ...props }: Props) {
               to={example.href}
               key={example.href}
               className={cn(
-                "flex px-xs pb-lg font-semibold items-center justify-center text-center text-sm transition-colors border-b-2 border-transparent",
+                "flex px-xs pb-lg font-semibold items-center justify-center text-center text-sm transition-colors border-b-2 border-transparent whitespace-nowrap",
                 "hover:text-primary hover:border-primary",
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === "/")

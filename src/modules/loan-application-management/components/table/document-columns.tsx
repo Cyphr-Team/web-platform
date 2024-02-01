@@ -72,7 +72,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
     size: 150,
     cell: ({ row }) => {
       const application = row.original
-      console.log(application)
+
       return <p>{format(new Date(application.createdAt), FORMAT_DATE_M_D_Y)}</p>
     }
   },

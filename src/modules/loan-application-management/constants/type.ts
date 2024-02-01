@@ -12,7 +12,7 @@ export type LoanApplicationsKyb = {
   liens: KybDetailLiens
 }
 
-type KybDetailInsights = {
+export type KybDetailInsights = {
   businessNameVerification: KYB_VERIFIED_FIELD_STATUS
   officeAddressVerification: KYB_VERIFIED_FIELD_STATUS
   peopleVerification: KYB_VERIFIED_FIELD_STATUS

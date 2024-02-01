@@ -12,13 +12,13 @@ export const Component = () => {
   const { loanKycDetail } = useLoanApplicationDetailContext()
 
   return (
-    <div className="flex gap-3xl w-full h-full">
-      <Card className="h-fit">
+    <div className="lg:flex gap-3xl w-full">
+      <Card className="h-fit lg:sticky top-0 z-10 mb-4">
         <CardHeader className="mb-sm pb-0">
           <CardTitle className="font-bold text-base mb-sm">Summary</CardTitle>
           <Separator />
         </CardHeader>
-        <CardContent className="space-y-sm w-[19rem]">
+        <CardContent className="space-y-1 lg:space-y-sm w-full lg:w-[19rem]">
           <VerificationItem
             title="ID Check"
             status={loanKycDetail?.summary?.idCheck.status}

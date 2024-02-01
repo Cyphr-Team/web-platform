@@ -18,13 +18,9 @@ export function Component() {
       <RoleNavigate />
 
       <LoanApplicationDetailProvider>
-        <div className="flex h-screen">
-          <div className="flex-1 pt-4xl flex flex-col max-w-full">
-            <MainLayout>
-              <Outlet />
-            </MainLayout>
-          </div>
-        </div>
+        <MainLayout>
+          <Outlet />
+        </MainLayout>
       </LoanApplicationDetailProvider>
     </>
   )

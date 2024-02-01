@@ -17,7 +17,7 @@ export const VerificationStatus: React.FC<Props> = ({ status }) => {
     warning: "bg-warning-secondary"
   }
   return (
-    <div className="w-12 h-12">
+    <div className="w-8 h-8 md:w-10 lg:w-12 md:h-10 lg:h-12 ">
       <AspectRatio ratio={1 / 1}>
         <div
           className={`w-full h-full flex justify-center items-center rounded-full ${bgClassName[className]}`}

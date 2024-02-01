@@ -33,7 +33,7 @@ export function Component() {
         <Header />
         <div className="flex h-screen overflow-hidden">
           <SideNav items={DASHBOARD_NAV_ITEM} className="hidden md:flex" />
-          <main className="flex-1 pt-16 md:pt-0 overflow-x-hidden overflow-y-auto ">
+          <main className="flex-1 pt-12 md:pt-0 overflow-x-hidden overflow-y-auto ">
             <Outlet />
           </main>
         </div>

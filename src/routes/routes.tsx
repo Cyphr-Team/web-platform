@@ -11,11 +11,7 @@ import { userLoader } from "./loader"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
-    <Route
-      path={APP_PATH.INDEX}
-      element={<GlobalLayouts />}
-      errorElement={<NotFoundLayout />}
-    >
+    <Route path={APP_PATH.INDEX} element={<GlobalLayouts />}>
       {/* AUTHENTICATION ROUTES */}
 
       <Route element={<AuthLayout />}>
@@ -65,7 +61,6 @@ const routes = createBrowserRouter(
 
         {/* --- USERS MANAGEMENT --- */}
         <Route
-          index
           path={APP_PATH.ADMIN_USERS.index}
           lazy={() => import("@/modules/admin/user/page")}
         />
@@ -80,8 +75,8 @@ const routes = createBrowserRouter(
             }
           />
 
+          {/* DETAIL */}
           <Route
-            loader={userLoader}
             path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}
             lazy={() =>
               import("@/modules/loan-application-management/pages/detail")
@@ -124,14 +119,12 @@ const routes = createBrowserRouter(
 
         {/* --- LOAN PROGRAM --- */}
         <Route
-          index
           path={APP_PATH.LOAN_PROGRAM.index}
           lazy={() => import("@/modules/admin/loan-program/page")}
         />
 
         {/* --- NOTIFICATION --- */}
         <Route
-          index
           path={APP_PATH.NOTIFICATION.index}
           lazy={() => import("@/modules/admin/notification/page")}
         />
@@ -169,6 +162,8 @@ const routes = createBrowserRouter(
           }
         />
       </Route>
+
+      <Route path="*" element={<NotFoundLayout />} />
     </Route>
   )
 )

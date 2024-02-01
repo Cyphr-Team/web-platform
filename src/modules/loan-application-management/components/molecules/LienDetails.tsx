@@ -9,7 +9,7 @@ type Props = {
 
 export const KybLienDetails: React.FC<Props> = ({ lienDetails }) => {
   return (
-    <Card className="h-fit p-4xl gap-y-4xl flex flex-col">
+    <Card className="h-fit p-4xl gap-y-4xl flex flex-col flex-1">
       {" "}
       <p className="text-2xl font-semibold">Liens</p>
       <div className="flex flex-col p-4xl gap-y-sm bg-gray-100">
@@ -21,12 +21,12 @@ export const KybLienDetails: React.FC<Props> = ({ lienDetails }) => {
           File a lien
         </Button>
       </div>{" "}
-      <div className="grid grid-cols-2 gap-x-lg">
-        <div className="flex flex-col p-xl gap-y-lg bg-error-100">
+      <div className="flex flex-wrap gap-lg">
+        <div className="flex flex-col flex-1 p-xl gap-lg bg-error-100">
           <p className="text-3xl text-error-600">{lienDetails?.open ?? 0}</p>
           <p className="text-sm font-medium text-text-secondary">Open</p>
         </div>{" "}
-        <div className="flex flex-col p-xl gap-y-lg bg-gray-100">
+        <div className="flex flex-col flex-1 p-xl gap-lg bg-gray-100">
           <p className="text-3xl text-gray-500">{lienDetails?.closed ?? 0}</p>
           <p className="text-sm font-medium text-text-secondary">Closed</p>
         </div>

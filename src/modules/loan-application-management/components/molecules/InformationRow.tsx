@@ -17,16 +17,18 @@ export const InformationRow: React.FC<Props> = ({
   hasAction
 }) => {
   return (
-    <div className="grid grid-cols-4">
+    <div className="grid-cols-2 grid xl:grid-cols-4 grid-flow-row">
       <div className="pl-3xl py-xl flex items-center">
         <p className="text-sm text-text-tertiary font-medium">{label}</p>
       </div>
+
       <div
-        className="pl-3xl py-xl flex items-center data-[action=true]:col-span-2 col-span-1"
+        className="pl-3xl py-xl flex items-center data-[action=true]:xl:col-span-2 col-span-1 break-words"
         data-action={!hasAction}
       >
         <p>{value}</p>
       </div>
+
       {hasAction && (
         <div className="flex gap-x-lg items-center pl-3xl py-xl">
           <Switch />
@@ -34,7 +36,7 @@ export const InformationRow: React.FC<Props> = ({
         </div>
       )}
 
-      <div className="px-3xl py-xl flex justify-end items-center">
+      <div className="px-3xl py-xl flex xl:justify-end items-center">
         {isBadge && badgeText && <BadgeStatus status={badgeText} />}
       </div>
     </div>

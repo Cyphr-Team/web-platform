@@ -8,11 +8,13 @@ import { LoanApplicationsKyc } from "../constants/types/kyc"
 type LoanApplicationDetailContextType = {
   loanKybDetail?: LoanApplicationsKyb
   loanKycDetail?: LoanApplicationsKyc
+  isLoading: boolean
 }
 
 export const LoanApplicationDetailContext =
   createContext<LoanApplicationDetailContextType>({
-    loanKybDetail: undefined
+    loanKybDetail: undefined,
+    isLoading: false
   })
 
 type Props = {
@@ -36,7 +38,8 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     <LoanApplicationDetailContext.Provider
       value={{
         loanKybDetail: kybDetailQuery.data,
-        loanKycDetail: kycDetailQuery.data
+        loanKycDetail: kycDetailQuery.data,
+        isLoading: kybDetailQuery.isLoading
       }}
     >
       {children}
