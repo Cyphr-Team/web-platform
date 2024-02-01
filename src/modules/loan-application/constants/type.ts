@@ -24,3 +24,40 @@ interface BusinessStreetAddress {
   state: string
   postalCode: string
 }
+
+export interface KYCInformation {
+  loanApplicationId: string
+  fullName: string
+  businessRole: string
+  addressLine1: string
+  addressLine2: string
+  businessCity: string
+  businessState: string
+  businessZipCode: string
+  email: string
+  phoneNumber: string
+  dateOfBirth: string
+  socialSecurityNumber: string
+  businessOwnershipPercentage: number
+  hasOtherSubstantialStackHolders: boolean
+}
+
+export interface KYCInformationResponse {
+  id: string
+  loanApplicationId: string
+  fullName: string
+  businessRole: string
+  addressLine1: string
+  addressLine2: string
+  businessCity: string
+  businessState: string
+  businessZipCode: string
+  email: string
+  phoneNumber: string
+  dateOfBirth: string
+  socialSecurityNumber: string
+  businessOwnershipPercentage: number
+  hasOtherSubstantialStackHolders: boolean
+  createdAt: string
+  updatedAt: string
+}

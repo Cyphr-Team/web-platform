@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
+import { ButtonLoading } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useLoanApplicationContext } from "@/modules/loan-application/providers"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
@@ -34,19 +34,20 @@ import { useSelectCities } from "../../hooks/useSelectCities"
 import { useEffect } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
+import { useSubmitLoanKycInformation } from "../../hooks/useMutation/useSubmitLoanKycInformation"
 
 export function OwnerInformationForm() {
   const defaultValues = {
-    name: "",
-    role: "",
-    address: "",
+    fullName: "",
+    businessRole: "",
+    addressLine1: "",
+    addressLine2: "",
     email: "",
-    phone: "",
-    dob: "",
-    ssn: "",
-    ownership: "",
-    cooperate: "",
-    zipCode: ""
+    dateOfBirth: "",
+    socialSecurityNumber: "",
+    businessOwnershipPercentage: "",
+    hasOtherSubstantialStackHolders: "false",
+    businessZipCode: ""
   }
 
   const form = useForm<OwnerFormValue>({
@@ -55,7 +56,8 @@ export function OwnerInformationForm() {
     mode: "onBlur"
   })
 
-  const { changeProgress, changeStep } = useLoanApplicationContext()
+  const { changeProgress, changeStep, loanApplicationId } =
+    useLoanApplicationContext()
 
   const handleSelectFile = (files: FileList) => {
     const currentFiles = form.getValues("governmentFile")
@@ -79,7 +81,7 @@ export function OwnerInformationForm() {
   }
 
   const handleSelectDate = (date: Date | undefined) => {
-    form.setValue("dob", date?.toISOString() ?? "", {
+    form.setValue("dateOfBirth", date?.toISOString() ?? "", {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true
@@ -97,18 +99,18 @@ export function OwnerInformationForm() {
 
   useEffect(() => {
     if (state) {
-      form.setValue("state", state, {
+      form.setValue("businessState", state, {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
       })
-      form.setValue("city", "", {
+      form.setValue("businessCity", "", {
         shouldDirty: true,
         shouldTouch: true
       })
     }
     if (city) {
-      form.setValue("city", city, {
+      form.setValue("businessCity", city, {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
@@ -116,9 +118,23 @@ export function OwnerInformationForm() {
     }
   }, [state, city, form])
 
-  const onSubmit = () => {
-    changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
-    changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+  const { mutate, isPending } = useSubmitLoanKycInformation()
+
+  const onSubmit = (data: OwnerFormValue) => {
+    const formattedData = {
+      ...data,
+      hasOtherSubstantialStackHolders:
+        data.hasOtherSubstantialStackHolders === "true",
+      loanApplicationId: loanApplicationId,
+      businessOwnershipPercentage: Number(data.businessOwnershipPercentage)
+    }
+
+    mutate(formattedData, {
+      onSuccess() {
+        changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+        changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+      }
+    })
   }
 
   return (
@@ -131,7 +147,7 @@ export function OwnerInformationForm() {
           <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl">
             <FormField
               control={form.control}
-              name="name"
+              name="fullName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-text-secondary">
@@ -150,7 +166,7 @@ export function OwnerInformationForm() {
             />
             <FormField
               control={form.control}
-              name="role"
+              name="businessRole"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-text-secondary">
@@ -185,24 +201,24 @@ export function OwnerInformationForm() {
               options={STATE_DATA}
               label="Business State"
               emptyText="No results found"
-              name="state"
+              name="businessState"
               control={form.control}
               onChange={handleChangeState}
-              value={form.getValues("state")}
+              value={form.getValues("businessState")}
             />
             <AutoCompleteCities
               options={STATE_CITIES_DATA}
               label="Business City"
               emptyText="No results found"
-              name="city"
+              name="businessCity"
               control={form.control}
               onChange={handleChangeCity}
-              value={form.getValues("city")}
+              value={form.getValues("businessCity")}
             />
             <TextInput
               placeholder="i.e: 98765"
               label="Zip Code"
-              name="zipCode"
+              name="businessZipCode"
               control={form.control}
               className="col-span-2"
             />
@@ -215,13 +231,13 @@ export function OwnerInformationForm() {
             />{" "}
             <TextInput
               control={form.control}
-              name="phone"
+              name="phoneNumber"
               label="Phone Number"
               placeholder="i.e: 123-456-7890"
             />
             <FormField
               control={form.control}
-              name="dob"
+              name="dateOfBirth"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-text-secondary">
@@ -238,13 +254,13 @@ export function OwnerInformationForm() {
             />
             <TextInput
               control={form.control}
-              name="ssn"
+              name="socialSecurityNumber"
               label="Social Security Number (SSN)"
               placeholder="i.e: 123-45-6789"
             />
             <FormField
               control={form.control}
-              name="ownership"
+              name="businessOwnershipPercentage"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-text-secondary">
@@ -252,7 +268,7 @@ export function OwnerInformationForm() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
+                      type="businessOwnershipPercentage"
                       placeholder="70"
                       min={0}
                       max={100}
@@ -275,7 +291,7 @@ export function OwnerInformationForm() {
             <div />
             <Controller
               control={form.control}
-              name="cooperate"
+              name="hasOtherSubstantialStackHolders"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-text-secondary">
@@ -292,10 +308,10 @@ export function OwnerInformationForm() {
                         <SelectValue placeholder="Please select..." />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="yes">
+                        <SelectItem value="true">
                           <span>Yes</span>
                         </SelectItem>
-                        <SelectItem value="no">
+                        <SelectItem value="false">
                           <span>No</span>
                         </SelectItem>
                       </SelectContent>
@@ -342,12 +358,13 @@ export function OwnerInformationForm() {
           />
         </Card>
         <div className="flex justify-end">
-          <Button
+          <ButtonLoading
             disabled={!form.formState.isValid}
             onClick={form.handleSubmit(onSubmit)}
+            isLoading={isPending}
           >
             Save
-          </Button>
+          </ButtonLoading>
         </div>
       </Form>
     </div>

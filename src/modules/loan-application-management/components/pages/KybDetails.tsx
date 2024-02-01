@@ -5,7 +5,7 @@ import { AspectRatio } from "@radix-ui/react-aspect-ratio"
 import { AlertTriangle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
-import { VerificationStatus } from "../atoms/VerificationStatus"
+import { BadgeVerificationStatus } from "../atoms/BadgeVerificationStatus"
 import { VerificationIcon } from "../atoms/VerificationIcon"
 import {
   Accordion,
@@ -16,6 +16,7 @@ import {
 import { UNKNOWN_VALUE } from "../../constants"
 import { KybLienDetails } from "../molecules/LienDetails"
 import { KybState } from "../molecules/KybState"
+import { VerificationStatus } from "../atoms/VerificationStatus"
 
 export const Component = () => {
   const { loanKybDetail } = useLoanApplicationDetailContext()
@@ -166,14 +167,9 @@ export const Component = () => {
           </div>
           <Separator />
           {loanKybDetail?.businessVerificationStatus && (
-            <Badge className="space-x-xs py-md px-lg bg-success-secondary border border-success w-fit rounded-lg">
-              <VerificationIcon
-                status={loanKybDetail?.businessVerificationStatus}
-              />
-              <p className="text-sm font-medium text-success">
-                {loanKybDetail?.businessVerificationStatus}
-              </p>
-            </Badge>
+            <BadgeVerificationStatus
+              status={loanKybDetail?.businessVerificationStatus}
+            />
           )}
         </Card>{" "}
         <div className="grid grid-cols-2 gap-x-3xl">

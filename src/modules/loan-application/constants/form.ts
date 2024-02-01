@@ -3,24 +3,29 @@ import * as z from "zod"
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
-  name: z.string().min(6, { message: "Name must be at least 6 characters" }),
-  address: z.string().min(1, { message: "Address is required" }),
+  fullName: z
+    .string()
+    .min(6, { message: "Name must be at least 6 characters" }),
   addressLine1: z.string().min(1, { message: "Address is required" }),
   addressLine2: z.string(),
-  role: z.string().min(1, {
+  businessRole: z.string().min(1, {
     message: "Role is required"
   }),
-  city: z.string().min(1, { message: "City is required" }),
-  state: z.string().min(1, { message: "State is required" }),
-  zipCode: z.string().min(1, { message: "Zip code is required" }),
-  phone: z.string().regex(phoneRegex, "Enter a valid phone number!"),
+  businessCity: z.string().min(1, { message: "City is required" }),
+  businessState: z.string().min(1, { message: "State is required" }),
+  businessZipCode: z.string().min(1, { message: "Zip code is required" }),
+  phoneNumber: z.string().regex(phoneRegex, "Enter a valid phone number!"),
   email: z.string().email({ message: "Enter a valid email address" }),
-  dob: z.string().min(1, { message: "Date of birth is required" }),
-  ssn: z
+  dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
+  socialSecurityNumber: z.string().regex(new RegExp(SSN_REGEX), {
+    message: "Social security number is required"
+  }),
+  businessOwnershipPercentage: z
     .string()
-    .regex(SSN_REGEX, { message: "Social security number is required" }),
-  ownership: z.string().min(1, { message: "Ownership percent is required" }),
-  cooperate: z.string().min(1, { message: "Cooperate is required" }),
+    .min(1, { message: "Ownership percent is required" }),
+  hasOtherSubstantialStackHolders: z
+    .string()
+    .min(1, { message: "This field is required" }),
   governmentFile: z.custom<File[]>().refine(
     (fileList) => {
       if (fileList) {

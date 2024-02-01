@@ -80,21 +80,25 @@ export const API_PATH = {
   },
   application: {
     create: "api/user-loan/micro-loan/application",
-    submitKyb: "api/form/kyb"
+    submitKyb: "api/form/kyb",
+    submitKyc: "api/form/kyc"
   },
   loanApplication: {
     list: "api/loan-officer/applications"
   },
   loanApplicationDetails: {
     getKYB: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/kyb`
+      `api/loan-officer/applications/${applicationId}/kyb`,
+    getKYC: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/kyc`
   }
 }
 
 export const phoneRegex = new RegExp(
   "^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$"
 )
-export const SSN_REGEX = new RegExp("^[0-9]{3}-[0-9]{2}-[0-9]{4}$")
+
+export const SSN_REGEX = /^\d{3}-\d{2}-\d{4}$/
 
 export interface QueryResponse<T> {
   data: T

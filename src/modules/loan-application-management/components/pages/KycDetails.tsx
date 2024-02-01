@@ -1,14 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import VerificationItem from "../organisms/VerificationItem"
 import { Separator } from "@/components/ui/separator"
-import { AspectRatio } from "@radix-ui/react-aspect-ratio"
-import { CheckCircle } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+
 import { InformationRow } from "../molecules/InformationRow"
-import { KYC_STATUS } from "../../constants"
-import { KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
+import { UNKNOWN_VALUE } from "../../constants"
+import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
+import { VerificationStatus } from "../atoms/VerificationStatus"
+import { BadgeVerificationStatus } from "../atoms/BadgeVerificationStatus"
 
 export const Component = () => {
+  const { loanKycDetail } = useLoanApplicationDetailContext()
+
   return (
     <div className="flex gap-3xl w-full h-full">
       <Card className="h-fit">
@@ -19,31 +21,26 @@ export const Component = () => {
         <CardContent className="space-y-sm w-[19rem]">
           <VerificationItem
             title="ID Check"
-            status={KYB_VERIFIED_FIELD_STATUS.WARNING}
+            status={loanKycDetail?.summary?.idCheck.status}
           />
           <VerificationItem
             title="Personal Info"
-            status={KYB_VERIFIED_FIELD_STATUS.SUCCESS}
+            status={loanKycDetail?.summary?.personalInfo.status}
           />
           <VerificationItem
             title="Checklist"
-            status={KYB_VERIFIED_FIELD_STATUS.WARNING}
+            status={loanKycDetail?.summary?.checkList.status}
           />
         </CardContent>
       </Card>
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl overflow-auto">
         <div className="space-y-lg my-lg">
           <div className="flex items-center gap-sm">
-            <div className="w-12 h-12">
-              <AspectRatio ratio={1 / 1}>
-                <div className="w-full h-full flex justify-center items-center rounded-full bg-success-secondary">
-                  <CheckCircle className="w-6 h-6 text-success" />
-                </div>
-              </AspectRatio>{" "}
-            </div>
+            <VerificationStatus status={loanKycDetail?.kycStatus?.status} />
             <p className="text-4xl font-semibold ">KYC/Identity Verification</p>
           </div>
-          <div className="flex gap-lg">
+          {/* Comment because API has not returned the data yet */}
+          {/* <div className="flex gap-lg">
             <Badge className="space-x-xs py-xs px-lg border w-fit">
               <p className="text-sm font-medium">
                 Personal Info • Other Non-Prohibited
@@ -55,45 +52,60 @@ export const Component = () => {
             <Badge className="space-x-xs py-xs border w-fit">
               <p className="text-sm font-medium">IRS Nonprofit • 503c(a)</p>
             </Badge>
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col gap-y-lg">
           <p className="text-3xl font-semibold">Personal Info</p>
           <Card>
             <InformationRow
               label="Name"
-              value="Latte Larry"
+              value={
+                loanKycDetail?.personalInfo?.name?.payload ?? UNKNOWN_VALUE
+              }
               isBadge
-              badgeText={KYC_STATUS.VERIFIED}
+              badgeText={loanKycDetail?.personalInfo?.name?.status}
             />
             <Separator />
             <InformationRow
               label="Date of Birth"
-              value="23 April 1991"
+              value={
+                loanKycDetail?.personalInfo?.dateOfBirth?.payload ??
+                UNKNOWN_VALUE
+              }
               isBadge
-              badgeText={KYC_STATUS.VERIFIED}
+              badgeText={loanKycDetail?.personalInfo?.dateOfBirth?.status}
             />{" "}
             <Separator />
             <InformationRow
               label="Residential Address"
-              value="456 Frappuchino St, Seattle, WA 98765-4321"
+              value={
+                loanKycDetail?.personalInfo?.residentialAddress?.payload ??
+                UNKNOWN_VALUE
+              }
               isBadge
-              badgeText={KYC_STATUS.VERIFIED}
+              badgeText={
+                loanKycDetail?.personalInfo?.residentialAddress?.status
+              }
             />{" "}
             <Separator />
             <InformationRow
               label="Email Address"
-              value="larrycoffee1991@gmail.com"
+              value={
+                loanKycDetail?.personalInfo?.email?.payload ?? UNKNOWN_VALUE
+              }
               isBadge
-              badgeText={KYC_STATUS.VERIFIED}
+              badgeText={loanKycDetail?.personalInfo?.email?.status}
             />{" "}
             <Separator />
             <InformationRow
               label="Phone Number"
-              value="(987) 654-3210"
+              value={
+                loanKycDetail?.personalInfo?.phoneNumber?.payload ??
+                UNKNOWN_VALUE
+              }
               isBadge
+              badgeText={loanKycDetail?.personalInfo?.phoneNumber?.status}
               hasAction
-              badgeText={KYC_STATUS.UNVERIFIED}
             />
           </Card>
         </div>
@@ -104,14 +116,14 @@ export const Component = () => {
             <InformationRow
               label="Drivers License"
               isBadge
-              badgeText={KYC_STATUS.VERIFIED}
+              badgeText={loanKycDetail?.idCheck?.driverLicense?.status}
             />
             <Separator />
             <InformationRow
               label="Passport"
               isBadge
               hasAction
-              badgeText={KYC_STATUS.UNCHECKED}
+              badgeText={loanKycDetail?.idCheck?.passport?.status}
             />{" "}
           </Card>
         </div>
@@ -121,46 +133,54 @@ export const Component = () => {
           <Card>
             <InformationRow
               label="PEP/Sanctions"
-              value="Name"
+              value={
+                loanKycDetail?.checkLists?.pepSanctions?.reason ?? UNKNOWN_VALUE
+              }
               isBadge
-              badgeText={KYC_STATUS.PASSED}
+              badgeText={loanKycDetail?.checkLists?.pepSanctions?.status}
             />
             <Separator />
             <InformationRow
               label="Internal Blocklist"
-              value="No blacklist matches found"
+              value={
+                loanKycDetail?.checkLists?.internalBlocklist?.reason ??
+                UNKNOWN_VALUE
+              }
               isBadge
-              badgeText={KYC_STATUS.VERIFIED}
+              badgeText={loanKycDetail?.checkLists?.internalBlocklist?.status}
             />{" "}
             <Separator />
             <InformationRow
               label="Duplicate"
-              value="Potential profile duplicate found"
+              value={
+                loanKycDetail?.checkLists?.duplicate?.reason ?? UNKNOWN_VALUE
+              }
               isBadge
               hasAction
-              badgeText={KYC_STATUS.FAILED}
+              badgeText={loanKycDetail?.checkLists?.duplicate?.status}
             />{" "}
             <Separator />
             <InformationRow
               label="FraudCheck"
-              value="Email Address"
+              value={loanKycDetail?.checkLists?.fraud?.reason ?? UNKNOWN_VALUE}
               isBadge
-              badgeText={KYC_STATUS.UNCHECKED}
+              badgeText={loanKycDetail?.checkLists?.duplicate?.status}
             />{" "}
             <Separator />
             <InformationRow
               label="Biometrics"
-              value="Phone Number"
+              value={
+                loanKycDetail?.checkLists?.biometrics?.reason ?? UNKNOWN_VALUE
+              }
               isBadge
-              badgeText={KYC_STATUS.UNCHECKED}
+              badgeText={loanKycDetail?.checkLists?.biometrics?.status}
             />
           </Card>
         </div>
         <Separator />
-        <Badge className="space-x-xs py-md px-lg bg-success-50 border border-success-200 w-fit rounded-lg">
-          <CheckCircle className="w-6 h-6 text-success-500" />
-          <p className="text-sm font-medium text-success-700">Passed</p>
-        </Badge>
+        {loanKycDetail?.kycStatus && (
+          <BadgeVerificationStatus status={loanKycDetail?.kycStatus.status} />
+        )}
       </Card>
     </div>
   )

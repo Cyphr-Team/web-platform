@@ -103,14 +103,14 @@ export const BusinessInformationForm = () => {
               className="col-span-3"
             />
             <TextInput
-              placeholder="i.e: 123 Coffee Lane, Seattle, WA 98765"
+              placeholder="i.e: 123 Coffee Lane"
               label="Business Street Address Line #1"
               name="addressLine1"
               control={form.control}
               className="col-span-3"
             />{" "}
             <TextInput
-              placeholder="i.e: 123 Coffee Lane, Seattle, WA 98765"
+              placeholder="i.e: 123 Coffee Lane"
               label="Business Street Address Line #2"
               name="addressLine2"
               control={form.control}
