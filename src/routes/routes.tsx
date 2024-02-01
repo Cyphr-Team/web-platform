@@ -63,33 +63,73 @@ const routes = createBrowserRouter(
       >
         <Route index lazy={() => import("@/modules/example-dashboard/page")} />
 
-        {/* ADMIN  */}
-
-        {/* ADMIN Users */}
-
+        {/* --- USERS MANAGEMENT --- */}
         <Route
           index
           path={APP_PATH.ADMIN_USERS.index}
           lazy={() => import("@/modules/admin/user/page")}
         />
 
-        {/* ADMIN Loan application */}
+        {/* --- LOAN APPLICATION MANAGEMENT --- */}
+        <Route path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}>
+          {/* LIST */}
+          <Route
+            index
+            lazy={() =>
+              import("@/modules/loan-application-management/pages/list")
+            }
+          />
 
-        <Route
-          index
-          path={APP_PATH.ADMIN_LOAN_APPLICATION.index}
-          lazy={() => import("@/modules/admin/loan-application/page")}
-        />
+          <Route
+            loader={userLoader}
+            path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}
+            lazy={() =>
+              import("@/modules/loan-application-management/pages/detail")
+            }
+          >
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.OVERVIEW}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application/components/layouts/LoanInformation"
+                )
+              }
+            />
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYB.index}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/components/pages/KybDetails"
+                )
+              }
+            />
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYC}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/components/pages/KycDetails"
+                )
+              }
+            />
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.index}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/components/pages/Document"
+                )
+              }
+            />
+          </Route>
+        </Route>
 
-        {/* Loan Program */}
-
+        {/* --- LOAN PROGRAM --- */}
         <Route
           index
           path={APP_PATH.LOAN_PROGRAM.index}
           lazy={() => import("@/modules/admin/loan-program/page")}
         />
 
-        {/* NOTIFICATION */}
+        {/* --- NOTIFICATION --- */}
         <Route
           index
           path={APP_PATH.NOTIFICATION.index}
@@ -125,47 +165,6 @@ const routes = createBrowserRouter(
           lazy={() =>
             import(
               "@/modules/loan-application/components/layouts/LoanSubmission"
-            )
-          }
-        />
-      </Route>
-
-      {/* LENDER ROUTES */}
-
-      <Route
-        loader={userLoader}
-        path={APP_PATH.LOAN_APPLICATION_DETAILS.INDEX}
-        lazy={() => import("@/modules/loan-application-details/page")}
-      >
-        <Route
-          path={APP_PATH.LOAN_APPLICATION_DETAILS.OVERVIEW}
-          lazy={() =>
-            import(
-              "@/modules/loan-application/components/layouts/LoanInformation"
-            )
-          }
-        />
-        <Route
-          path={APP_PATH.LOAN_APPLICATION_DETAILS.KYB.index}
-          lazy={() =>
-            import(
-              "@/modules/loan-application-details/components/pages/KybDetails"
-            )
-          }
-        />
-        <Route
-          path={APP_PATH.LOAN_APPLICATION_DETAILS.KYC}
-          lazy={() =>
-            import(
-              "@/modules/loan-application-details/components/pages/KycDetails"
-            )
-          }
-        />
-        <Route
-          path={APP_PATH.LOAN_APPLICATION_DETAILS.DOCUMENTS.index}
-          lazy={() =>
-            import(
-              "@/modules/loan-application-details/components/pages/Document"
             )
           }
         />

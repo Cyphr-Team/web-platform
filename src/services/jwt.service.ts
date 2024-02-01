@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios"
 
 import { postRequest } from "./client.service"
 
-import { UserInfo } from "@/common"
+import { UserInfo } from "@/types/user.type"
 
 export const parseJwt = (token: string) => {
   try {

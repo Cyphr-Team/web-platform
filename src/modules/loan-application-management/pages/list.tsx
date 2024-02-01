@@ -1,31 +1,34 @@
 import { useNavigate } from "react-router-dom"
-import { columns } from "./table/columns"
-import { LoanApplicationTableHeader } from "./table/header"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 
 import { APP_BREADS, APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
-import { useListLoanApplication } from "./hooks/useListLoanApplication"
 import { Row } from "@tanstack/react-table"
-import { LoanApplication } from "@/common/loan-application.type"
+import { LoanApplication } from "@/types/loan-application.type"
+import { loanApplicationColumns } from "../components/table/loan-application-columns"
+import { useQueryListLoanApplication } from "../hooks/useQuery/useQueryListLoanApplication"
+import { LoanApplicationTableHeader } from "../components/table/loan-application-header"
 
 export function Component() {
   const navigate = useNavigate()
 
   const handleClickDetail = (detail: Row<LoanApplication>) => {
-    navigate(APP_PATH.LOAN_APPLICATION_DETAILS.KYB.detail(detail.original.id))
+    navigate(
+      APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYB.detail(detail.original.id)
+    )
   }
 
-  const { data, fetchNextPage, isFetchingNextPage } = useListLoanApplication({
-    limit: REQUEST_LIMIT_PARAM,
-    offset: 0
-  })
+  const { data, fetchNextPage, isFetchingNextPage } =
+    useQueryListLoanApplication({
+      limit: REQUEST_LIMIT_PARAM,
+      offset: 0
+    })
 
   return (
     <div className="container mx-auto py-4xl">
       <div className="mb-3xl">
         <Breadcrumbs
-          breads={APP_BREADS.LOAN_APPLICATION_DETAILS.list}
+          breads={APP_BREADS.LOAN_APPLICATION_MANAGEMENT.list}
           className="px-0"
         />
       </div>
@@ -34,7 +37,7 @@ export function Component() {
       </div>
       <InfiniteDataTable
         handleClickDetail={handleClickDetail}
-        columns={columns}
+        columns={loanApplicationColumns}
         data={data}
         fetchNextPage={fetchNextPage}
         isFetching={isFetchingNextPage}

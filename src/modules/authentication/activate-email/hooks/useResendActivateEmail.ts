@@ -1,4 +1,3 @@
-import { ErrorResponse } from "@/common"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
@@ -7,6 +6,7 @@ import * as z from "zod"
 import { UserStartStatus } from "../../sign-up/hooks/useGetStart"
 import { createSearchParams, useNavigate } from "react-router-dom"
 import { headerWithTemporaryToken } from "@/utils/request-header"
+import { ErrorResponse } from "@/types/common.type"
 
 export const resendActivateEmailFormSchema = z.object({
   email: z.string().optional()

@@ -30,7 +30,7 @@ import {
   InfiniteData,
   InfiniteQueryObserverBaseResult
 } from "@tanstack/react-query"
-import { ListResponse } from "@/common"
+import { ListResponse } from "@/types/common.type"
 
 interface DataTableProps<TData extends ListResponse, TValue> {
   columns: ColumnDef<TData["data"][number], TValue>[]

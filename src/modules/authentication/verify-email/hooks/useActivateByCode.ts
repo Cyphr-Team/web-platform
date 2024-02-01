@@ -1,4 +1,5 @@
-import { ErrorResponse, UserInfo } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
+import { UserInfo } from "@/types/user.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"

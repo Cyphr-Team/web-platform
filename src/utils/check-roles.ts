@@ -1,4 +1,4 @@
-import { USER_ROLES } from "@/common"
+import { UserRoles } from "@/types/user.type"
 import { inMemoryJWTService } from "@/services/jwt.service"
 
 const getUserRoles = () => {
@@ -14,17 +14,17 @@ const checkIsLoanApplicant = () => {
   const userInfo = inMemoryJWTService.getUserInfo()
   if (!userInfo) return false
 
-  return userInfo.roles.includes(USER_ROLES.LOAN_APPLICANT.toLowerCase())
+  return userInfo.roles.includes(UserRoles.LOAN_APPLICANT.toLowerCase())
 }
 
 const checkIsLoanOfficer = () => {
   const userInfo = inMemoryJWTService.getUserInfo()
   if (!userInfo) return false
 
-  return userInfo.roles.includes(USER_ROLES.LOAN_OFFICER.toLowerCase())
+  return userInfo.roles.includes(UserRoles.LOAN_OFFICER.toLowerCase())
 }
 
-const checkRolesMatchWithUserRoles = (roles: USER_ROLES[]) => {
+const checkRolesMatchWithUserRoles = (roles: UserRoles[]) => {
   const userRoles = getUserRoles()
 
   return roles.some((role) => userRoles.includes(role.toLowerCase()))

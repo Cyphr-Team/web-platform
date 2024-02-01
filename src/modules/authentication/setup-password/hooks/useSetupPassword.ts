@@ -1,4 +1,5 @@
-import { ErrorResponse, UserInfo } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
+import { UserInfo } from "@/types/user.type"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"

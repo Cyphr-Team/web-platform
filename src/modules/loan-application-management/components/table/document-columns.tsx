@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
-import { LoanDocument, LoanDocumentStatus } from "@/common/loan-document.type"
+import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
 import { format } from "date-fns"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { Icons } from "@/components/ui/icons"

@@ -1,4 +1,4 @@
-import { ErrorResponse } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, isAxiosError } from "axios"
 
 export enum ErrorCode {

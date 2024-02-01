@@ -1,4 +1,4 @@
-import { SocialProvider } from "@/common"
+import { SocialProvider } from "@/types/auth.type"
 import { googleAuth, googleAuthProvider } from "@/lib/firebase"
 import { useMutation } from "@tanstack/react-query"
 import { signInWithPopup } from "firebase/auth"

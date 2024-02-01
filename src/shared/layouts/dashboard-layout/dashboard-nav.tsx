@@ -1,11 +1,11 @@
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { RoleBase } from "@/shared/molecules/RoleBase"
-import { NavItem } from "@/types"
+import { NavItem } from "@/types/common.type"
 import { DashboardCollapsedNavLink } from "./dashboard-collapsed-nav-link"
 import { DashboardNavLink } from "./dashboard-nav-link"
 import { useNotification } from "@/hooks/useNotification"
-import { NOTIFICATION_NAV_ITEM } from "@/modules/loan-application-details/constants"
 import { Badge } from "@/components/ui/badge"
+import { NOTIFICATION_NAV_ITEM } from "@/constants/nav-item.constant"
 
 interface DashboardNavProps {
   readonly items: NavItem[]

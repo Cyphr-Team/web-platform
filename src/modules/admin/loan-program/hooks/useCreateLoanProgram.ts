@@ -2,13 +2,13 @@ import { API_PATH } from "@/constants"
 import * as z from "zod"
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
-import { ErrorResponse } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
-import { LoanProgram } from "@/common/loan-program.type"
+import { LoanProgram } from "@/types/loan-program.type"
 
 export const createLoanProgramForm = z.object({
   name: z.string().min(1, "Name is required."),

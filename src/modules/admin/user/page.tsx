@@ -2,14 +2,14 @@ import { json, useLoaderData } from "react-router-dom"
 import { User, columns } from "./table/columns"
 import { DataTable } from "@/components/ui/data-table"
 import { DialogSendInvite } from "./components/DialogSendInvitation"
-import { USER_ROLES } from "@/common"
+import { UserRoles } from "@/types/user.type"
 
 async function getData(): Promise<User[]> {
   return [
     {
       id: "728ed52f",
       username: "admin@tryforesight.io",
-      roles: [USER_ROLES.FORESIGHT_ADMIN]
+      roles: [UserRoles.FORESIGHT_ADMIN]
     }
   ]
 }

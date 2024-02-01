@@ -1,7 +1,7 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
-import { ErrorResponse } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { KYBInformation, KYBInformationResponse } from "../../constants/type"

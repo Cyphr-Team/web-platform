@@ -2,9 +2,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { MenuIcon } from "lucide-react"
 import { useState } from "react"
 import { DashboardNav } from "./dashboard-nav"
-import { navItems } from "@/modules/loan-application-details/constants"
 import foresightLogo from "/foresight.svg"
 import foresightLogoText from "@/assets/foresight-text.svg"
+import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
 
 export function MobileSidebar() {
   const [open, setOpen] = useState(false)
@@ -31,7 +31,7 @@ export function MobileSidebar() {
             </div>
 
             <div className="space-y-1">
-              <DashboardNav items={navItems} />
+              <DashboardNav items={DASHBOARD_NAV_ITEM} />
             </div>
           </div>
         </div>

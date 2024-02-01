@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
-import { ErrorResponse } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
-import { UserLoanApplication } from "@/common/loan-application.type"
+import { UserLoanApplication } from "@/types/loan-application.type"
 
 export const useCreateLoanApplication = () => {
   return useMutation<

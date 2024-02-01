@@ -19,7 +19,7 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import { StateType } from "@/types"
+import { StateType } from "@/types/common.type"
 import { CheckIcon } from "lucide-react"
 import { useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"

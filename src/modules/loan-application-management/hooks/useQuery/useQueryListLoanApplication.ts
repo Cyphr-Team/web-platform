@@ -1,31 +1,34 @@
-import { ListResponse, PaginateParams } from "@/common"
+import { ListResponse } from "@/types/common.type"
 import {
-  LoanDocument,
-  LoanDocumentStatus,
-  LoanDocumentType
-} from "@/common/loan-document.type"
+  LoanApplication,
+  LoanApplicationStatus
+} from "@/types/loan-application.type"
 import { API_PATH } from "@/constants"
-import { loanApplicationDocumentKeys } from "@/constants/query-key"
+import { loanApplicationKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
 
-type ListLoanApplicationResponse = ListResponse<LoanDocument>
+interface PaginateParams {
+  limit: number
+  offset: number
+}
 
-const attachFakeData = (): Partial<LoanDocument> => ({
-  fileName: "Bank of America - Bank Statement - Oct 2023.pdf",
-  fileSize: 200,
-  fileType: "pdf",
-  documentType: Object.values(LoanDocumentType)[
-    Math.floor(Math.random() * 3)
-  ] as LoanDocumentType,
-  status: Object.values(LoanDocumentStatus)[Math.floor(Math.random() * 4)]
+type ListLoanApplicationResponse = ListResponse<LoanApplication>
+
+const attachFakeData = (): Partial<LoanApplication> => ({
+  loanAmount: Math.ceil(Math.random() * 100000),
+  status: Object.values(LoanApplicationStatus)[Math.floor(Math.random() * 4)],
+  progress: Math.floor(Math.random() * 100)
 })
 
-export const useQueryDocument = ({ limit, offset }: PaginateParams) => {
+export const useQueryListLoanApplication = ({
+  limit,
+  offset
+}: PaginateParams) => {
   return useInfiniteQuery<ListLoanApplicationResponse>({
-    queryKey: loanApplicationDocumentKeys.list(
+    queryKey: loanApplicationKeys.list(
       createSearchParams({
         limit: limit.toString(),
         offset: offset.toString()

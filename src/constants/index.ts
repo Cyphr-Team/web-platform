@@ -25,7 +25,7 @@ export const APP_PATH = {
     SUBMISSION: "submission"
   },
 
-  LOAN_APPLICATION_DETAILS: {
+  LOAN_APPLICATION_MANAGEMENT: {
     INDEX: "/application",
     OVERVIEW: "/application/:id/overview",
     KYB: {
@@ -42,9 +42,6 @@ export const APP_PATH = {
   // ADMIN USERS
   ADMIN_USERS: {
     index: "/users"
-  },
-  ADMIN_LOAN_APPLICATION: {
-    index: "/application"
   },
 
   // Loan Program
@@ -129,10 +126,10 @@ export const PASSWORD_REGEX = {
 }
 
 export const APP_BREADS = {
-  LOAN_APPLICATION_DETAILS: {
+  LOAN_APPLICATION_MANAGEMENT: {
     list: [
       {
-        to: APP_PATH.LOAN_APPLICATION_DETAILS.INDEX,
+        to: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
         label: "Applications"
       }
     ]

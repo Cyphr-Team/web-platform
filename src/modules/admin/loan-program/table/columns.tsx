@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { LoanProgram } from "@/common/loan-program.type"
+import { LoanProgram } from "@/types/loan-program.type"
 
 export const columns: ColumnDef<LoanProgram>[] = [
   {

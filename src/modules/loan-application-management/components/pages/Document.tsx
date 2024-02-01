@@ -5,7 +5,7 @@ import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
 import { useQueryDocument } from "../../hooks/useQuery/useQueryDocument"
 
 import { Row } from "@tanstack/react-table"
-import { LoanDocument } from "@/common/loan-document.type"
+import { LoanDocument } from "@/types/loan-document.type"
 
 export function Component() {
   const handleClickDetail = (detail: Row<LoanDocument>) => {

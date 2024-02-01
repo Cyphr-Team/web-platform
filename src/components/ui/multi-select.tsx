@@ -26,7 +26,7 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { Check, ChevronsUpDown } from "lucide-react"
-import { Option } from "@/common"
+import { Option } from "@/types/common.type"
 
 export function MultiSelect<
   TFieldValues extends FieldValues,

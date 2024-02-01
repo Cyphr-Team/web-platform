@@ -6,6 +6,8 @@ enum LoanApplicationStatus {
   Closed = "Closed"
 }
 
+export { LoanApplicationStatus }
+
 // INTERFACE
 interface Applicant {
   id: string
@@ -18,7 +20,6 @@ interface Applicant {
   authProvider: string
   created_at: string
 }
-
 interface LoanApplication {
   id: string
   loanProgramId: string
@@ -30,7 +31,6 @@ interface LoanApplication {
   status: LoanApplicationStatus
   progress: number
 }
-
 interface LoanProgram {
   id: string
   institutionId: string
@@ -39,7 +39,6 @@ interface LoanProgram {
   createdAt: string
   updatedAt: string
 }
-
 interface UserLoanApplication {
   id: string
   loanProgram: LoanProgram
@@ -50,4 +49,3 @@ interface UserLoanApplication {
 }
 
 export type { UserLoanApplication, LoanApplication, Applicant, LoanProgram }
-export { LoanApplicationStatus }

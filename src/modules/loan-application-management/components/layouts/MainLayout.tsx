@@ -13,7 +13,7 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
       <Breadcrumbs
         breads={[
           {
-            to: APP_PATH.LOAN_APPLICATION_DETAILS.INDEX,
+            to: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
             label: "Applications"
           },
           { to: "#", label: "Latte Larry" }

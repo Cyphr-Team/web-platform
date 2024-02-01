@@ -1,7 +1,7 @@
-import { USER_ROLES } from "@/common"
+import { UserRoles } from "@/types/user.type"
 import { checkRolesMatchWithUserRoles } from "@/utils/check-roles"
 interface RoleBaseProps {
-  roles?: USER_ROLES[]
+  roles?: UserRoles[]
 }
 
 export const RoleBase = ({

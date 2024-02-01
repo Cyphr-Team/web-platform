@@ -4,7 +4,7 @@ import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { useState } from "react"
 import { Icons } from "@/components/ui/icons"
 import { Account } from "@/shared/molecules/Account"
-import { NavItem } from "@/types"
+import { NavItem } from "@/types/common.type"
 import { Header } from "../layouts/dashboard-layout/dashboard-header"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {

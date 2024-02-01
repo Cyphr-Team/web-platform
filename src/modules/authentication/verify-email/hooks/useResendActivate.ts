@@ -1,4 +1,4 @@
-import { ErrorResponse } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
 import { API_PATH, APP_PATH, REQUEST_RATE_LIMIT_TIME } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"

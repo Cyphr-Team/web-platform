@@ -1,16 +1,19 @@
+// ENUM
 enum LoanDocumentStatus {
   InProgress = "In progress",
   Verified = "Verified",
   Flagged = "Flagged",
   Unchecked = "Unchecked"
 }
-
 enum LoanDocumentType {
   BANK_STATEMENT = "BANK STATEMENT",
   PAYSTUB = "PAYSTUB",
   W2 = "W-2"
 }
 
+export { LoanDocumentType, LoanDocumentStatus }
+
+// INTERFACE
 interface LoanDocument {
   id: string
   // Example: Bank of America - Bank Statement - Oct 2023.pdf
@@ -25,4 +28,3 @@ interface LoanDocument {
 }
 
 export type { LoanDocument }
-export { LoanDocumentType, LoanDocumentStatus }

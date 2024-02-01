@@ -1,4 +1,4 @@
-import { ErrorResponse, SuccessResponse } from "@/common"
+import { ErrorResponse, SuccessResponse } from "@/types/common.type"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"

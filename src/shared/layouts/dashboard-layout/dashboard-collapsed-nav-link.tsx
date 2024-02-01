@@ -4,7 +4,7 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import { NavItem } from "@/types"
+import { NavItem } from "@/types/common.type"
 import { NavLink } from "react-router-dom"
 
 export function DashboardCollapsedNavLink({

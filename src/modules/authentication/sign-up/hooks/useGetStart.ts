@@ -1,4 +1,4 @@
-import { ErrorResponse } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"

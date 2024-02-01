@@ -12,7 +12,7 @@ import {
   FormLabel
 } from "@/components/ui/form"
 import { MultiSelect } from "@/components/ui/multi-select"
-import { LOAN_AMOUNT, LOAN_PRODUCTS, LOAN_STATUS } from "../constants"
+import { LOAN_AMOUNT, LOAN_PRODUCTS, LOAN_STATUS } from "../../constants"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 

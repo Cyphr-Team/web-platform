@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom"
 import { axiosClient } from "@/services/client.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ErrorResponse, UserInfo } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
+import { UserInfo } from "@/types/user.type"
 
 export const loginFormSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),

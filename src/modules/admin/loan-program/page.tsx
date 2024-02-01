@@ -2,7 +2,7 @@ import { json, useLoaderData } from "react-router-dom"
 import { columns } from "./table/columns"
 import { DataTable } from "@/components/ui/data-table"
 import { CreateLoanProgramDialog } from "./components/create-loan-program-dialog"
-import { LoanProgram } from "@/common/loan-program.type"
+import { LoanProgram } from "@/types/loan-program.type"
 
 async function getData(): Promise<LoanProgram[]> {
   return [

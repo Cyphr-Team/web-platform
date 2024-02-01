@@ -1,4 +1,4 @@
-import { SocialProvider, UserInfo } from "@/common"
+import { SocialProvider } from "@/types/auth.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
@@ -6,6 +6,7 @@ import { customRequestHeader } from "@/utils/request-header"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse, useNavigate } from "react-router-dom"
+import { UserInfo } from "@/types/user.type"
 
 interface LoginGoogleRequest {
   provider: SocialProvider

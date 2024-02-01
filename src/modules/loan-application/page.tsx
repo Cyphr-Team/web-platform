@@ -1,7 +1,7 @@
 import { Await, Navigate, Outlet, useLoaderData } from "react-router-dom"
 import { SideNav } from "./components/organisms/SideNav"
 import { LoanApplicationProvider } from "./providers/LoanApplicationProvider"
-import { UserInfo } from "@/common"
+import { UserInfo } from "@/types/user.type"
 import { Suspense } from "react"
 import { APP_PATH } from "@/constants"
 import { checkIsLoanApplicant } from "@/utils/check-roles"

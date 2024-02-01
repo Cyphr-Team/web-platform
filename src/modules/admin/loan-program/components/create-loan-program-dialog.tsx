@@ -34,7 +34,7 @@ import {
   createLoanProgramForm,
   useCreateLoanProgram
 } from "../hooks/useCreateLoanProgram"
-import { LOAN_TYPE } from "@/common/loan-program.type"
+import { LoanType } from "@/types/loan-program.type"
 
 export function CreateLoanProgramDialog() {
   const [open, setOpen] = useState(false)
@@ -113,7 +113,7 @@ export function CreateLoanProgramDialog() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.keys(LOAN_TYPE).map((type) => (
+                      {Object.keys(LoanType).map((type) => (
                         <SelectItem key={type} value={type}>
                           {type}
                         </SelectItem>

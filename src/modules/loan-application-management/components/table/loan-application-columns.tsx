@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import {
   LoanApplication,
   LoanApplicationStatus
-} from "@/common/loan-application.type"
+} from "@/types/loan-application.type"
 
 // TODO: Update type when integrate with API
 const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
@@ -21,7 +21,7 @@ const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
   }
 }
 
-export const columns: ColumnDef<LoanApplication>[] = [
+export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
     id: "select",
     header: "ID",

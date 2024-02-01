@@ -2,7 +2,7 @@ import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
 import { LoanApplicationsKyb } from "../../constants/type"
-import { ErrorResponse } from "@/common"
+import { ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
 
 export const useQueryGetKyb = ({

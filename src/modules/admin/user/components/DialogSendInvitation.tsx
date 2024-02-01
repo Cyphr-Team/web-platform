@@ -35,7 +35,7 @@ import {
   useSendInvitation
 } from "../hooks/useSendInvitation"
 import { DEMO_INSTITUTION_ID } from "@/utils/request-header"
-import { USER_ROLES } from "@/common"
+import { UserRoles } from "@/types/user.type"
 
 export function DialogSendInvite() {
   const [open, setOpen] = useState(false)
@@ -115,7 +115,7 @@ export function DialogSendInvite() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.keys(USER_ROLES).map((role) => (
+                      {Object.keys(UserRoles).map((role) => (
                         <SelectItem key={role} value={role}>
                           {role}
                         </SelectItem>
