@@ -27,7 +27,7 @@ export const Component = () => {
 
   return (
     <div className="lg:flex gap-3xl w-full">
-      <KybInsights />
+      <KybInsights insights={loanKybDetail?.insights} />
       <div className="flex flex-col gap-y-3xl flex-1">
         <KybReport loanKybDetail={loanKybDetail} />
         <div className="flex flex-wrap gap-3xl">
