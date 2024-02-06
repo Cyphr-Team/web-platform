@@ -114,6 +114,46 @@ const routes = createBrowserRouter(
                 )
               }
             />
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/pages/loan-summary"
+                )
+              }
+            />
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/pages/under-construction"
+                )
+              }
+            />
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_PLAN}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/pages/under-construction"
+                )
+              }
+            />
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_DECISION}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/pages/under-construction"
+                )
+              }
+            />
+            <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/pages/under-construction"
+                )
+              }
+            />
           </Route>
         </Route>
 

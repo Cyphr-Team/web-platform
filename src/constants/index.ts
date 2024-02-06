@@ -36,7 +36,11 @@ export const APP_PATH = {
     DOCUMENTS: {
       index: "/application/:id/document",
       detail: (id: string) => `/application/${id}/document`
-    }
+    },
+    LOAN_SUMMARY: "/application/:id/loan-summary",
+    CASH_FLOW: "/application/:id/cash-flow",
+    BUSINESS_PLAN: "/application/:id/business-plan",
+    LOAN_DECISION: "/application/:id/loan-decision"
   },
 
   // ADMIN USERS
