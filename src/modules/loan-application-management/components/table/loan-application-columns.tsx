@@ -124,5 +124,6 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
         </div>
       )
     }
-  }
+  },
+  { id: "preventCrashUI", size: 0 }
 ]

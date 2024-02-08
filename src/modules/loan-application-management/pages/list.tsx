@@ -18,11 +18,10 @@ export function Component() {
     )
   }
 
-  const { data, fetchNextPage, isFetchingNextPage } =
-    useQueryListLoanApplication({
-      limit: REQUEST_LIMIT_PARAM,
-      offset: 0
-    })
+  const { data, fetchNextPage, isFetching } = useQueryListLoanApplication({
+    limit: REQUEST_LIMIT_PARAM,
+    offset: 0
+  })
 
   return (
     <div className="container mx-auto py-4xl">
@@ -40,7 +39,7 @@ export function Component() {
         columns={loanApplicationColumns}
         data={data}
         fetchNextPage={fetchNextPage}
-        isFetching={isFetchingNextPage}
+        isFetching={isFetching}
       />
     </div>
   )

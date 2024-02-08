@@ -31,6 +31,7 @@ import {
   InfiniteQueryObserverBaseResult
 } from "@tanstack/react-query"
 import { ListResponse } from "@/types/common.type"
+import { Loader2 } from "lucide-react"
 
 interface DataTableProps<TData extends ListResponse, TValue> {
   columns: ColumnDef<TData["data"][number], TValue>[]
@@ -147,7 +148,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
         <InfinityTable className="grid">
           <TableHeader className="bg-gray-100 grid sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="flex w-full" key={headerGroup.id}>
+              <TableRow className="grid grid-flow-col" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
@@ -183,7 +184,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
                     data-index={virtualRow.index} //needed for dynamic row height measurement
                     ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
                     className={cn(
-                      "flex absolute w-full",
+                      "grid grid-flow-col absolute w-full",
                       !!handleClickDetail && "cursor-pointer"
                     )}
                     style={{
@@ -194,7 +195,6 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
-                        className="flex"
                         key={cell.id}
                         style={{ width: cell.column.getSize() }}
                       >
@@ -213,12 +213,22 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {!isFetching && "No results."}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </InfinityTable>
+        {isFetching && (
+          <div className="flex flex-col m-4 items-center mt-3">
+            <Loader2
+              className={cn(
+                "m-2 h-8 w-8 transition-all ease-out animate-spin text-primary"
+              )}
+            />
+            Loading...
+          </div>
+        )}
       </div>
     </div>
   )
