@@ -115,6 +115,14 @@ const routes = createBrowserRouter(
               }
             />
             <Route
+              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.index}
+              lazy={() =>
+                import(
+                  "@/modules/loan-application-management/components/pages/DocumentDetails"
+                )
+              }
+            />
+            <Route
               path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
               lazy={() =>
                 import(

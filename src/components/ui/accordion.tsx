@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 
@@ -7,6 +5,13 @@ import { cn } from "@/lib/utils"
 import { ChevronDownIcon } from "lucide-react"
 
 const Accordion = AccordionPrimitive.Root
+
+type AccordionTriggerProps = React.ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Trigger
+> & {
+  closeIcon?: React.ReactNode
+  openIcon?: React.ReactNode
+}
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
@@ -22,21 +27,25 @@ AccordionItem.displayName = "AccordionItem"
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        "flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
-        className
-      )}
-      {...props}
-    >
-      {children}
+  AccordionTriggerProps
+>(({ className, children, openIcon, closeIcon, ...props }, ref) => (
+  <AccordionPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      "flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+      "[&[data-state=open]>.open-icon]:hidden",
+      "[&[data-state=closed]>.close-icon]:hidden",
+      className
+    )}
+    {...props}
+  >
+    {children}
+    <div className="open-icon">{openIcon}</div>
+    <div className="close-icon">{closeIcon}</div>
+    {!openIcon && !closeIcon && (
       <ChevronDownIcon className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
+    )}
+  </AccordionPrimitive.Trigger>
 ))
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
 

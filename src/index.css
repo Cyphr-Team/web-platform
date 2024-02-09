@@ -37,6 +37,7 @@
     --warning-secondary: 44 98% 89%;
     --error: 4 74% 49%;
     --error-secondary: 4 95% 94%;
+    --disabled: 221 13% 46%;
   }
 
   .dark {

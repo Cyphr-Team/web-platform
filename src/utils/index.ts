@@ -69,3 +69,7 @@ export const toCurrency = (value: number, maximumFractionDigits = 2) => {
     maximumFractionDigits
   }).format(value)
 }
+
+export const convertToCamelCase = (str: string) => {
+  return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase())
+}

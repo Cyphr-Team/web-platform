@@ -27,6 +27,7 @@ module.exports = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         active: "hsl(var(--active))",
+        disabled: "hsl(var(--disabled))",
         success: {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
@@ -53,6 +54,7 @@ module.exports = {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
           secondary: "hsl(var(--warning-secondary))",
+          50: "hsla(44, 98%, 97%, 1)",
           100: "hsla(44, 98%, 89%, 1)",
           600: "hsla(28, 97%, 44%, 1)"
         },
@@ -72,7 +74,8 @@ module.exports = {
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))"
+          foreground: "hsl(var(--secondary-foreground))",
+          700: "hsla(217, 24%, 27%, 1)"
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -128,11 +131,16 @@ module.exports = {
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" }
+        },
+        spin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(180deg)" }
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out"
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "spin-once": "spin 0.2s linear"
       }
     }
   },

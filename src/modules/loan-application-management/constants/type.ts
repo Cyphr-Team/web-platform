@@ -74,3 +74,87 @@ export enum KYB_LIEN_STATUS {
   CLOSED = "CLOSED",
   UNKNOWN = "UNKNOWN"
 }
+
+export type SignalsType = {
+  signalIdentifier: string // "account_number_edits"
+  signalDescription: string //"Account Number was modified as follows"
+  signalDisplayName: string //"Account Number Edits"
+  signalCount: number
+  tabularData: TabularData
+}
+
+export type TabularData = {
+  headers: string[]
+  rows: TabularDataRows[]
+}
+
+export type TabularDataRows = {
+  values: string[]
+}
+export type SignalsDetectType = {
+  signals: SignalsType[]
+  formAuthenticity: AuthenticityType
+  signalCount: number
+}
+
+export type AuthenticityType = {
+  authenticityLevel: AUTHENTICITY_LEVEL
+  title: string
+  description: string
+  reasonCodeDescription: AuthenticityReason[]
+  authenticityLevelColor: string
+  authenticityScore: number
+}
+
+export type AuthenticityReason = {
+  reasonCode: string
+  description: string
+  confidence: string
+  shouldHighlight: boolean
+}
+
+export enum AUTHENTICITY_LEVEL {
+  HIGH = "HIGH",
+  MEDIUM = "MEDIUM",
+  LOW = "LOW",
+  UNKNOWN = "UNKNOWN"
+}
+
+export type VisualizationType = {
+  formUuid: string
+  formType: string
+  totalSignalCount: number
+  visualizationsByPage: VisualizationPage[]
+  visualizationsDescription: VisualizationDescription
+}
+
+export type VisualizationPage = {
+  pageNumber: number
+  pageDocPk: string
+  visualizations: Visualization[]
+  pageSignalCount: number
+}
+
+export type Visualization = {
+  visualizationIdentifier: string
+  imageUrl: string
+  thumbnailSmallUrl: string
+  thumbnailMediumUrl: string
+}
+
+export type VisualizationDescription = {
+  tamperOverview: Description
+  editRegions: Description
+  originalPdf: Description
+  tamperedFonts: Description
+  addedFonts: Description
+  overwrittenText: Description
+  misalignedText: Description
+  postWhiteoutContent: Description
+  preWhiteoutContent: Description
+}
+
+export type Description = {
+  displayName: string
+  description: string
+}

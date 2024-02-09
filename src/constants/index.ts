@@ -35,12 +35,17 @@ export const APP_PATH = {
     KYC: "/application/:id/kyc",
     DOCUMENTS: {
       index: "/application/:id/document",
-      detail: (id: string) => `/application/${id}/document`
+      details: (id: string) => `/application/${id}/document`
     },
     LOAN_SUMMARY: "/application/:id/loan-summary",
     CASH_FLOW: "/application/:id/cash-flow",
     BUSINESS_PLAN: "/application/:id/business-plan",
-    LOAN_DECISION: "/application/:id/loan-decision"
+    LOAN_DECISION: "/application/:id/loan-decision",
+    DOCUMENT: {
+      index: "/application/:id/document/:documentId",
+      detail: (id: string, documentId: string) =>
+        `/application/${id}/document/${documentId}`
+    }
   },
 
   // ADMIN USERS
