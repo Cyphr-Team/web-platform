@@ -21,7 +21,7 @@ export const PageViewerPanel: React.FC = () => {
     const index = selectedPage?.visualizations.findIndex(
       (visualization) => visualization === selectedVisualization
     )
-    if (index === -1) return
+    if (index === -1 || index === undefined) return
     const nextVisualization = selectedPage?.visualizations[index + 1]
     if (nextVisualization) handleSelectVisualization(nextVisualization)
   }
@@ -30,7 +30,7 @@ export const PageViewerPanel: React.FC = () => {
     const index = selectedPage?.visualizations.findIndex(
       (visualization) => visualization === selectedVisualization
     )
-    if (index === -1) return
+    if (index === -1 || index === undefined) return
     const previousVisualization = selectedPage?.visualizations[index - 1]
     if (previousVisualization) handleSelectVisualization(previousVisualization)
   }
