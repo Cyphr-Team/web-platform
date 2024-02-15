@@ -76,6 +76,7 @@ export function VerifyEmailForm() {
       description={dataAlert.description}
     />
   )
+
   return (
     <div className="flex flex-col space-y-6">
       <Form {...form}>
@@ -123,7 +124,7 @@ export function VerifyEmailForm() {
             </ErrorMessage>
 
             <ButtonLoading
-              variant="outline"
+              variant={form.formState.isDirty ? "default" : "outline"}
               isLoading={isPending}
               className="ml-auto w-full text-base"
               type="submit"
