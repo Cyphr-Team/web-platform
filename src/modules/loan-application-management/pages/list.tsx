@@ -31,6 +31,7 @@ export function Component() {
           className="px-0"
         />
       </div>
+      <h1 className="mb-3xl text-3xl font-semibold">Loan Applications</h1>
       <div className="bg-gray-100 bg-opacity-60 p-5 rounded-lg">
         <LoanApplicationTableHeader />
       </div>

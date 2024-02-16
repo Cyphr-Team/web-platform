@@ -50,6 +50,7 @@ interface NavItem {
   label?: string
   description?: string
   roles?: UserRoles[]
+  className?: string
 }
 interface NavItemWithChildren extends NavItem {
   items: NavItemWithChildren[]

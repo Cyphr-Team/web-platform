@@ -1,12 +1,6 @@
 import { NavItem } from "@/types/common.type"
 import { APP_PATH } from "."
-import {
-  Bell,
-  FolderCheck,
-  LineChart,
-  MessageSquare,
-  Workflow
-} from "lucide-react"
+import { Bell, Workflow } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { UserRoles } from "@/types/user.type"
 
@@ -14,19 +8,19 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
   {
     title: "Dashboard",
     href: APP_PATH.DASHBOARD,
-    icon: LineChart,
+    icon: Icons.lineChart,
     label: "Dashboard"
   },
   {
     title: "Applications",
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
-    icon: FolderCheck,
+    icon: Icons.folderCheck,
     label: "Applications"
   },
   {
     title: "Messages",
-    href: "/messages",
-    icon: MessageSquare,
+    href: APP_PATH.MESSAGES,
+    icon: Icons.messageChatCircle,
     label: "Messages"
   },
   {
@@ -42,12 +36,18 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     icon: Workflow,
     label: "Loan Programs",
     roles: [UserRoles.CDFI_ADMIN]
+  },
+  {
+    title: "Notifications",
+    href: APP_PATH.NOTIFICATION.list,
+    icon: Bell,
+    label: "Notifications"
+  },
+  {
+    title: "Settings",
+    href: APP_PATH.SETTINGS,
+    icon: Icons.setting,
+    label: "Settings",
+    className: "mt-auto mb-3"
   }
 ]
-
-export const NOTIFICATION_NAV_ITEM: NavItem = {
-  title: "Notifications",
-  href: "/notifications",
-  icon: Bell,
-  label: "Notifications"
-}

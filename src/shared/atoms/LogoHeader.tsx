@@ -1,5 +1,5 @@
-import foresightLogo from "/foresight.svg"
-import foresightLogoText from "@/assets/foresight-text.svg"
+import altCapLogo from "@/assets/altcap-logo.svg"
+import altCapLogoText from "@/assets/altcap-text.svg"
 
 interface LogoHeaderProps {
   isCollapsed?: boolean
@@ -10,15 +10,13 @@ export function LogoHeader(
   { isCollapsed, toggleCollapse }: LogoHeaderProps = { isCollapsed: false }
 ) {
   return (
-    <div className="flex items-center gap-2.5 w-full">
+    <div className="flex items-center gap-1 w-full">
       <button onClick={toggleCollapse} className="logo-button">
-        <img
-          src={foresightLogo}
-          className="logo w-8 h-8"
-          alt="Foresight logo"
-        />
+        <img src={altCapLogo} className="logo w-8 h-8" alt="altcap logo" />
       </button>
-      {!isCollapsed && <img src={foresightLogoText} alt="Foresight logo" />}
+      {!isCollapsed && (
+        <img src={altCapLogoText} alt="altcap logo" className="pt-1" />
+      )}
     </div>
   )
 }

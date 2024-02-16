@@ -58,8 +58,10 @@ export const APP_PATH = {
     index: "/loan-program"
   },
   NOTIFICATION: {
-    index: "/notifications"
-  }
+    list: "/notifications"
+  },
+  SETTINGS: "/settings",
+  MESSAGES: "/messages"
 }
 
 export const API_PATH = {

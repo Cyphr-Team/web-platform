@@ -27,17 +27,17 @@ export function Account(
 
   return (
     <DropdownMenu>
-      <div className="flex items-center justify-center pt-3xl border-t">
+      <div className="flex items-center justify-center gap-3">
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border rounded-full flex-shrink-0">
+          <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+            <Avatar className="flex h-10 w-10 items-center justify-center space-y-0 border rounded-full flex-shrink-0">
               <AvatarImage src={userInfo?.avatar ?? ""} alt={userName} />
               <AvatarFallback>{userName.slice(0, 2)}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         {!isCollapsed && (
-          <div className="ml-4 space-y-1 min-w-0">
+          <div className="space-y-1 min-w-0">
             <p
               className="text-sm font-medium leading-none truncate"
               title={userName}

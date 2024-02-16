@@ -16,7 +16,7 @@ export function DashboardCollapsedNavLink({
 }) {
   return (
     <Tooltip delayDuration={0}>
-      <TooltipTrigger>
+      <TooltipTrigger className={item.className}>
         <NavLink
           to={item.href ?? ""}
           className={({ isActive }) =>

@@ -5,17 +5,18 @@ import { DashboardCollapsedNavLink } from "./dashboard-collapsed-nav-link"
 import { DashboardNavLink } from "./dashboard-nav-link"
 import { useNotification } from "@/hooks/useNotification"
 import { Badge } from "@/components/ui/badge"
-import { NOTIFICATION_NAV_ITEM } from "@/constants/nav-item.constant"
+import { APP_PATH } from "@/constants"
+import { cn } from "@/lib/utils"
 
 interface DashboardNavProps {
   readonly items: NavItem[]
   readonly isCollapsed?: boolean
 }
 
-function NotificationNavLink({ isCollapsed }: { isCollapsed?: boolean }) {
+function NotificationBadge() {
   const { data } = useNotification()
 
-  const badge = data?.length ? (
+  return data?.length ? (
     <Badge
       variant="solid"
       variantColor="red"
@@ -26,19 +27,10 @@ function NotificationNavLink({ isCollapsed }: { isCollapsed?: boolean }) {
   ) : (
     ""
   )
+}
 
-  return (
-    <RoleBase
-      roles={NOTIFICATION_NAV_ITEM.roles}
-      key={NOTIFICATION_NAV_ITEM.label}
-    >
-      {isCollapsed ? (
-        <DashboardCollapsedNavLink item={NOTIFICATION_NAV_ITEM} badge={badge} />
-      ) : (
-        <DashboardNavLink item={NOTIFICATION_NAV_ITEM} badge={badge} />
-      )}
-    </RoleBase>
-  )
+function getBadgeByHref(href?: string) {
+  return href === APP_PATH.NOTIFICATION.list ? <NotificationBadge /> : null
 }
 
 export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
@@ -49,22 +41,25 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
   return (
     <div
       data-collapsed={isCollapsed}
-      className="group flex flex-col flex-1 gap-4"
+      className={cn(
+        "group flex flex-col flex-1 gap-4 justify-between mb-0",
+        !isCollapsed && "border-b mb-6"
+      )}
     >
-      <nav className="grid group-[[data-collapsed=true]]:justify-center space-y-2">
+      <nav className="flex flex-col gap-y-2 flex-1">
         <TooltipProvider>
-          {items.map((item) => (
-            <RoleBase roles={item.roles} key={item.label}>
-              {isCollapsed ? (
-                <DashboardCollapsedNavLink item={item} />
-              ) : (
-                <DashboardNavLink item={item} />
-              )}
-            </RoleBase>
-          ))}
-
-          {/* NOTIFICATION */}
-          <NotificationNavLink isCollapsed={isCollapsed} />
+          {items.map((item) => {
+            const badge = getBadgeByHref(item.href)
+            return (
+              <RoleBase roles={item.roles} key={item.label}>
+                {isCollapsed ? (
+                  <DashboardCollapsedNavLink item={item} badge={badge} />
+                ) : (
+                  <DashboardNavLink item={item} badge={badge} />
+                )}
+              </RoleBase>
+            )
+          })}
         </TooltipProvider>
       </nav>
     </div>

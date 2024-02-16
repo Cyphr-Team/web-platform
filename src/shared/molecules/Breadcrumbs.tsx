@@ -16,12 +16,12 @@ export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {
   return (
     <div className={cn("flex space-x-lg items-center px-8", className)}>
       <Link to="/">
-        <HomeIcon className="h-5 w-5" />
+        <HomeIcon className="h-5 w-5 text-muted-foreground" />
       </Link>
       {breads.map(({ label, to }) => {
         return (
           <React.Fragment key={to}>
-            <ChevronRight className="text-text-senary" />
+            <ChevronRight className="text-text-senary w-4" />
             <NavLink
               to={to}
               className={({ isActive }) => (isActive ? "text-primary" : "")}
