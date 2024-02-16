@@ -40,6 +40,7 @@ interface DataTableProps<TData extends ListResponse, TValue> {
   data: InfiniteData<TData, unknown> | undefined
   isFetching: boolean
   fetchNextPage: InfiniteQueryObserverBaseResult["fetchNextPage"]
+  className?: string
 }
 
 export function InfiniteDataTable<TData extends ListResponse, TValue>({
@@ -48,7 +49,8 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
   handleClickDetail,
   data,
   isFetching,
-  fetchNextPage
+  fetchNextPage,
+  className
 }: DataTableProps<TData, TValue>) {
   const tableContainerRef = React.useRef<HTMLDivElement>(null)
 
@@ -133,7 +135,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
         {isFilterView && <DataTableViewOptions table={table} />}
       </div>
       <div
-        className="rounded-md border"
+        className={cn("rounded-md border", className)}
         onScroll={(e) => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
         ref={tableContainerRef}
         style={{
