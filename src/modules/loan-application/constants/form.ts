@@ -1,5 +1,6 @@
 import { SSN_REGEX, phoneRegex } from "@/constants"
 import * as z from "zod"
+import { REGEX_PATTERN } from "."
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
@@ -49,8 +50,14 @@ export const businessFormSchema = z.object({
   addressLine2: z.string(),
   city: z.string().min(1, { message: "City is required" }),
   state: z.string().min(1, { message: "State is required" }),
-  postalCode: z.string().min(1, { message: "Zip code is required" }),
-  businessTin: z.string().min(1, { message: "TIN is required" })
+  postalCode: z
+    .string()
+    .min(1, { message: "Zip code is required" })
+    .regex(REGEX_PATTERN.ZIP_CODE, "Enter a valid zip code"),
+  businessTin: z
+    .string()
+    .min(1, { message: "EIN is required" })
+    .regex(REGEX_PATTERN.EIN, "Enter a valid EIN. Length must be 9 digits")
 })
 
 export const financialFormSchema = z.object({

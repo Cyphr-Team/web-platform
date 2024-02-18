@@ -7,7 +7,7 @@ export const useSelectCities = () => {
   const [city, setCity] = useState<string>("")
 
   const handleChangeState = (value: string) => {
-    setState(value.toUpperCase())
+    setState(capitalizeWords(value))
     setCity("")
   }
 
@@ -16,7 +16,7 @@ export const useSelectCities = () => {
   }
 
   const STATE_CITIES_DATA =
-    STATE_DATA.find((s) => s.state_code === state)?.cities ?? []
+    STATE_DATA.find((s) => s.name === state)?.cities ?? []
 
   return {
     handleChangeState,

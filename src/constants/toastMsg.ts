@@ -10,5 +10,19 @@ export const TOAST_MSG = {
       title: "Creating loan program",
       description: "Loan program is created successfully"
     }
+  },
+  loanApplication: {
+    submitKyc: {
+      title: "Submit KYC Information",
+      description: "KYC Information is submitted successfully"
+    },
+    submitLoanApplication: {
+      title: "Submit Loan Application",
+      description: "Loan Application is submitted successfully"
+    },
+    submitKyb: {
+      title: "Submit KYB Information",
+      description: "KYB Information is submitted successfully"
+    }
   }
 }

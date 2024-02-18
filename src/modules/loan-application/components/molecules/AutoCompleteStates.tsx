@@ -50,14 +50,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
-                <Input
-                  value={
-                    value
-                      ? options.find((option) => option.state_code === value)
-                          ?.name
-                      : "Select state"
-                  }
-                />
+                <Input value={value || "Select state"} />
               </PopoverTrigger>
               <PopoverContent className="w-full p-0">
                 <Command>
@@ -68,7 +61,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
                       return (
                         <CommandItem
                           key={option.id}
-                          value={option.state_code}
+                          value={option.name}
                           onSelect={(currentValue) => {
                             onChange(currentValue)
                             setOpen(false)
@@ -78,7 +71,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
                           <CheckIcon
                             className={cn(
                               "ml-auto h-4 w-4",
-                              value === option.state_code
+                              value === option.name
                                 ? "opacity-100"
                                 : "opacity-0"
                             )}

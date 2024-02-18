@@ -5,6 +5,9 @@ import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { KYBInformation, KYBInformationResponse } from "../../constants/type"
+import { TOAST_MSG } from "@/constants/toastMsg"
+import { toastSuccess, toastError } from "@/utils"
+import { getAxiosError } from "@/utils/custom-error"
 
 export const useSubmitLoanKybInformation = () => {
   return useMutation<
@@ -19,9 +22,14 @@ export const useSubmitLoanKybInformation = () => {
         customHeader: customRequestHeader.customHeaders
       })
     },
-    onSuccess: ({ data }) => {
-      // TODO: Clean after demo notification
-      localStorage.setItem("DEMO_NOTIFICATION", JSON.stringify([data]))
+    onSuccess: () => {
+      toastSuccess(TOAST_MSG.loanApplication.submitKyb)
+    },
+    onError: (error) => {
+      toastError({
+        ...TOAST_MSG.loanApplication.submitKyb,
+        description: getAxiosError(error).message
+      })
     }
   })
 }

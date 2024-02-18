@@ -9,7 +9,7 @@ import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { BusinessFormValue, businessFormSchema } from "../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../hooks/useSelectCities"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 import { useSubmitLoanKybInformation } from "../../hooks/useMutation/useSubmitLoanKybInformation"
@@ -41,9 +41,16 @@ export const BusinessInformationForm = () => {
     city
   } = useSelectCities()
 
+  const getStateCode = useCallback(
+    (state: string) => {
+      return STATE_DATA.find((s) => s.name === state)?.state_code ?? state
+    },
+    [STATE_DATA]
+  )
+
   useEffect(() => {
     if (state) {
-      form.setValue("state", state, {
+      form.setValue("state", getStateCode(state), {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
@@ -60,7 +67,7 @@ export const BusinessInformationForm = () => {
         shouldTouch: true
       })
     }
-  }, [state, city, form])
+  }, [state, city, form, getStateCode])
 
   const { changeProgress, changeStep, loanApplicationId } =
     useLoanApplicationContext()
@@ -110,8 +117,8 @@ export const BusinessInformationForm = () => {
               className="col-span-3"
             />{" "}
             <TextInput
-              placeholder="i.e: 123 Coffee Lane"
-              label="Business Street Address Line #2"
+              placeholder="i.e: Suite 321"
+              label="Business Street Address Line #2 (Optional)"
               name="addressLine2"
               control={form.control}
               className="col-span-3"
@@ -123,7 +130,7 @@ export const BusinessInformationForm = () => {
               name="state"
               control={form.control}
               onChange={handleChangeState}
-              value={form.getValues("state")}
+              value={state}
             />
             <AutoCompleteCities
               options={STATE_CITIES_DATA}
@@ -132,7 +139,7 @@ export const BusinessInformationForm = () => {
               name="city"
               control={form.control}
               onChange={handleChangeCity}
-              value={form.getValues("city")}
+              value={city}
             />
             <TextInput
               placeholder="i.e: 97531"
@@ -141,8 +148,8 @@ export const BusinessInformationForm = () => {
               control={form.control}
             />
             <TextInput
-              placeholder="i.e: 12-3456789"
-              label="Tax Identification Number (TIN)"
+              placeholder="i.e: 123456789"
+              label="Employer Identification Number (EIN)"
               name="businessTin"
               control={form.control}
               className="col-span-3"

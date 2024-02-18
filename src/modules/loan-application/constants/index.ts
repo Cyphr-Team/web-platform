@@ -140,3 +140,11 @@ export interface PlaidState {
     errorType: string
   }
 }
+
+export const REGEX_PATTERN = {
+  PHONE: /^\d{10}$/,
+  ZIP_CODE: /^\d{5}(?:[-\s]\d{4})?$/,
+  SSN: /^\d{9}$/,
+  EIN: /^\d{9}$/,
+  WEBSITE: /^(http|https):\/\/[^ "]+$/
+}

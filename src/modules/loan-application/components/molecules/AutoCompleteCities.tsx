@@ -21,7 +21,7 @@ import {
 import { cn } from "@/lib/utils"
 import { CityType } from "@/types/common.type"
 import { CheckIcon } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 interface IAutoCompleteInputProps<T extends FieldValues> {
@@ -39,7 +39,48 @@ export const AutoCompleteCities = <T extends FieldValues>(
 ) => {
   const [open, setOpen] = useState(false)
   const { value, options, emptyText, control, name, label, onChange } = props
+  const [loadedOptions, setLoadedOptions] = useState<CityType[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [options])
+
+  useEffect(() => {
+    const loadOptions = async () => {
+      setIsLoading(true)
+      const fetchedOptions = options.slice(
+        (currentPage - 1) * 20,
+        currentPage * 20
+      )
+      if (currentPage === 1) {
+        setLoadedOptions(fetchedOptions)
+      } else {
+        setLoadedOptions((prevOptions) => [...prevOptions, ...fetchedOptions])
+      }
+      setIsLoading(false)
+    }
+
+    loadOptions()
+  }, [currentPage, options])
+
+  const onSelect = (currentValue: string) => {
+    onChange(currentValue)
+    setOpen(false)
+  }
+
+  const handleScroll = () => {
+    const container = containerRef.current
+    if (
+      container &&
+      container.scrollTop + container.clientHeight >= container.scrollHeight &&
+      !isLoading
+    ) {
+      setCurrentPage((prevPage) => prevPage + 1)
+    }
+  }
   return (
     <FormField
       control={control}
@@ -62,15 +103,18 @@ export const AutoCompleteCities = <T extends FieldValues>(
                 <Command>
                   <CommandInput placeholder="Search city..." className="h-9" />
                   <CommandEmpty>{emptyText}</CommandEmpty>
-                  <CommandGroup className="h-60 w-72 overflow-auto">
-                    {options.map((option) => {
+                  <CommandGroup
+                    className="h-60 w-72 overflow-auto"
+                    onScroll={handleScroll}
+                    ref={containerRef}
+                  >
+                    {loadedOptions.map((option) => {
                       return (
                         <CommandItem
                           key={option.id}
                           value={option.name}
                           onSelect={(currentValue) => {
-                            onChange(currentValue)
-                            setOpen(false)
+                            onSelect(currentValue)
                           }}
                         >
                           {option.name}
