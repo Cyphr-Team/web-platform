@@ -63,9 +63,13 @@ export interface KYCInformationResponse {
 }
 
 export interface LoanProgramData {
+  id: string
   type: string
   name: string
   loanAmountRange: string
   amount: string | number
   meta: Record<string, string>
+  description?: string
+  faqs?: Record<string, string>
+  heroImage?: string
 }

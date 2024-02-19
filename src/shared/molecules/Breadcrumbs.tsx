@@ -1,15 +1,11 @@
 import { cn } from "@/lib/utils"
+import { Breadcrumb } from "@/types/common.type"
 import { ChevronRight, HomeIcon } from "lucide-react"
 import React from "react"
 import { Link, NavLink } from "react-router-dom"
 
-export interface Breads {
-  label: string
-  to: string
-}
-
 export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
-  breads?: Breads[]
+  breads?: Breadcrumb[]
 }
 
 export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {

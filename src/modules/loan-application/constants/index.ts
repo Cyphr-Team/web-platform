@@ -5,7 +5,7 @@ import { APP_PATH } from "@/constants"
 export const navItems: NavItem[] = [
   {
     title: "Home",
-    href: APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM,
+    href: APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list,
     icon: Icons.home,
     label: "Home"
   },

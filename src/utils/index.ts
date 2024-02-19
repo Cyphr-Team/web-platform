@@ -73,3 +73,7 @@ export const toCurrency = (value: number, maximumFractionDigits = 2) => {
 export const convertToCamelCase = (str: string) => {
   return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase())
 }
+
+export const snakeCaseToText = (str: string) => {
+  return str.replace(/_/g, " ")
+}

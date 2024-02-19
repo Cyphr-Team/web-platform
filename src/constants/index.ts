@@ -22,7 +22,11 @@ export const APP_PATH = {
   LOAN_APPLICATION: {
     SETTINGS: "/onboarding/settings",
     APPLICATIONS: "/onboarding/applications",
-    LOAN_PROGRAM: "/onboarding/loan-program",
+    LOAN_PROGRAM: {
+      list: "/onboarding/loan-program",
+      detail: "/onboarding/loan-program/:loanProgramId",
+      detailWithId: (id: string) => `/onboarding/loan-program/${id}`
+    },
     INDEX: "/onboarding",
     INFORMATION: "information",
     SUBMISSION: "submission"

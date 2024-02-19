@@ -13,6 +13,8 @@ import { Separator } from "@/components/ui/separator"
 import { toCurrency } from "@/utils"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
+import { Link } from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
 type CardProps = React.ComponentProps<typeof Card> & {
   loanProgram: LoanProgramData
@@ -67,9 +69,15 @@ export const LoanProgramCard = ({
       </CardContent>
 
       <CardFooter className="mt-auto">
-        <Button className="w-full">
-          Learn More
-          <ArrowRight className="mr-2 h-4 w-4" />
+        <Button className="w-full" asChild>
+          <Link
+            to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
+              loanProgram.id
+            )}
+          >
+            Learn More
+            <ArrowRight className="mr-2 h-4 w-4" />
+          </Link>
         </Button>
       </CardFooter>
     </Card>

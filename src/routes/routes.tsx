@@ -206,9 +206,17 @@ const routes = createBrowserRouter(
         lazy={() => import("@/modules/loan-application/page")}
       >
         <Route
-          path={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM}
+          path={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list}
           lazy={() =>
             import("@/modules/loan-application/components/layouts/LoanProgram")
+          }
+        />
+        <Route
+          path={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detail}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/components/layouts/LoanProgramDetail"
+            )
           }
         />
         <Route

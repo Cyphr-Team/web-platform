@@ -79,3 +79,11 @@ type StateType = {
 }
 
 export type { StateType, CityType }
+
+// --- BREADCRUMB ---
+interface Breadcrumb {
+  label: string
+  to: string
+}
+
+export type { Breadcrumb }

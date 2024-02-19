@@ -5,7 +5,9 @@ import { LoanPrograms } from "../organisms/LoanPrograms"
 const WelcomeLine = () => {
   return (
     <section>
-      <h2 className="text-4xl font-semibold mb-6">Welcome to AltCap</h2>
+      <h2 className="text-3xl md:text-4xl font-semibold mb-6">
+        Welcome to AltCap
+      </h2>
       <p className="text-lg">
         AltCap is an ally to underestimated entrepreneurs. We offer financing to
         businesses and communities that traditional lenders do not serve. Our
@@ -30,7 +32,7 @@ export const Component = () => {
           />
         </section>
 
-        <section className="p-6 md:w-8/12 m-auto">
+        <section className="p-6 md:px-0 md:w-4/5 xl:w-3/4 m-auto">
           <div>
             <WelcomeLine />
           </div>
