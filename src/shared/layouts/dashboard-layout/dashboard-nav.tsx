@@ -43,7 +43,7 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
       data-collapsed={isCollapsed}
       className={cn(
         "group flex flex-col flex-1 gap-4 justify-between mb-0",
-        !isCollapsed && "border-b mb-6"
+        !isCollapsed && "border-0 md:border-b mb-6"
       )}
     >
       <nav className="flex flex-col gap-y-2 flex-1">

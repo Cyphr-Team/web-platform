@@ -20,6 +20,9 @@ export const APP_PATH = {
 
   // ONBOARDING
   LOAN_APPLICATION: {
+    SETTINGS: "/onboarding/settings",
+    APPLICATIONS: "/onboarding/applications",
+    LOAN_PROGRAM: "/onboarding/loan-program",
     INDEX: "/onboarding",
     INFORMATION: "information",
     SUBMISSION: "submission"

@@ -4,9 +4,13 @@ import { useState } from "react"
 import { DashboardNav } from "./dashboard-nav"
 import foresightLogo from "/foresight.svg"
 import foresightLogoText from "@/assets/foresight-text.svg"
-import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
+import { NavItem } from "@/types/common.type"
 
-export function MobileSidebar() {
+interface MobileSidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  items: NavItem[]
+}
+
+export function MobileSidebar({ items }: MobileSidebarProps) {
   const [open, setOpen] = useState(false)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -31,7 +35,7 @@ export function MobileSidebar() {
             </div>
 
             <div className="space-y-1">
-              <DashboardNav items={DASHBOARD_NAV_ITEM} />
+              <DashboardNav items={items} />
             </div>
           </div>
         </div>

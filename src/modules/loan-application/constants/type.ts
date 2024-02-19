@@ -61,3 +61,11 @@ export interface KYCInformationResponse {
   createdAt: string
   updatedAt: string
 }
+
+export interface LoanProgramData {
+  type: string
+  name: string
+  loanAmountRange: string
+  amount: string | number
+  meta: Record<string, string>
+}

@@ -4,10 +4,23 @@ import { APP_PATH } from "@/constants"
 
 export const navItems: NavItem[] = [
   {
-    title: "Onboarding",
-    href: APP_PATH.LOAN_APPLICATION.INDEX,
-    icon: Icons.route,
-    label: "Onboarding"
+    title: "Home",
+    href: APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM,
+    icon: Icons.home,
+    label: "Home"
+  },
+  {
+    title: "Applications",
+    href: APP_PATH.LOAN_APPLICATION.APPLICATIONS,
+    icon: Icons.folderCheck,
+    label: "Applications"
+  },
+  {
+    title: "Settings",
+    href: APP_PATH.LOAN_APPLICATION.SETTINGS,
+    icon: Icons.setting,
+    label: "Settings",
+    className: "mt-auto mb-3"
   }
 ]
 
