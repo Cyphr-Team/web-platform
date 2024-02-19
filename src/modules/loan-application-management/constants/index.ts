@@ -486,3 +486,442 @@ export const FAKE_VISUALIZATION_DATA = {
     }
   }
 }
+
+export const FAKE_CAPTURE_W2_DATA = {
+  data: [
+    {
+      fieldName: "box9",
+      fieldValue: ""
+    },
+    {
+      fieldName: "year",
+      fieldValue: "2018"
+    },
+    {
+      fieldName: "box12aCode",
+      fieldValue: ""
+    },
+    {
+      fieldName: "box12bCode",
+      fieldValue: ""
+    },
+    {
+      fieldName: "box12cCode",
+      fieldValue: ""
+    },
+    {
+      fieldName: "box12dcode",
+      fieldValue: ""
+    },
+    {
+      fieldName: "box14Other",
+      fieldValue: ""
+    },
+    {
+      fieldName: "box12aAmount",
+      fieldValue: ""
+    },
+    {
+      fieldName: "box12bAmount",
+      fieldValue: ""
+    },
+    {
+      fieldName: "box12cAmount",
+      fieldValue: ""
+    },
+    {
+      fieldName: "box12dAmount",
+      fieldValue: ""
+    },
+    {
+      fieldName: "employeeName",
+      fieldValue: "DAVID P BECON"
+    },
+    {
+      fieldName: "employerIdNo",
+      fieldValue: "32-1203146"
+    },
+    {
+      fieldName: "employerName",
+      fieldValue: "WFH ENTERPRISES, INC."
+    },
+    {
+      fieldName: "statePrimary",
+      fieldValue: "AL"
+    },
+    {
+      fieldName: "allocatedTips",
+      fieldValue: ""
+    },
+    {
+      fieldName: "qualifiedPlans",
+      fieldValue: ""
+    },
+    {
+      fieldName: "retirementPlan",
+      fieldValue: "CHECKED"
+    },
+    {
+      fieldName: "stateSecondary",
+      fieldValue: ""
+    },
+    {
+      fieldName: "statutoryEmployee",
+      fieldValue: "UNCHECKED"
+    },
+    {
+      fieldName: "employeeAddressZip",
+      fieldValue: "35570"
+    },
+    {
+      fieldName: "employerAddressZip",
+      fieldValue: "36330"
+    },
+    {
+      fieldName: "socialSecurityTips",
+      fieldValue: "450.00"
+    },
+    {
+      fieldName: "third-PartySickPay",
+      fieldValue: "UNCHECKED"
+    },
+    {
+      fieldName: "wagesTipsOtherComp",
+      fieldValue: "10000.00"
+    },
+    {
+      fieldName: "employeeAddressCity",
+      fieldValue: "HAMILTON"
+    },
+    {
+      fieldName: "employerAddressCity",
+      fieldValue: "ENTERPRISE"
+    },
+    {
+      fieldName: "localityNamePrimary",
+      fieldValue: ""
+    },
+    {
+      fieldName: "medicareTaxWithheld",
+      fieldValue: "740.00"
+    },
+    {
+      fieldName: "socialSecurityWages",
+      fieldValue: "20000.00"
+    },
+    {
+      fieldName: "employeeAddressLine1",
+      fieldValue: "1706 MILITARY STREET SOUTH"
+    },
+    {
+      fieldName: "employeeAddressLine2",
+      fieldValue: "AVE 2506"
+    },
+    {
+      fieldName: "employeeAddressState",
+      fieldValue: "AL"
+    },
+    {
+      fieldName: "employerAddressLine1",
+      fieldValue: "600 BOLL WEEVIL CIRCLE"
+    },
+    {
+      fieldName: "employerAddressLine2",
+      fieldValue: ""
+    },
+    {
+      fieldName: "employerAddressState",
+      fieldValue: "AL"
+    },
+    {
+      fieldName: "medicareWagesAndTips",
+      fieldValue: "652.00"
+    },
+    {
+      fieldName: "dependentCareBenefits",
+      fieldValue: ""
+    },
+    {
+      fieldName: "localIncomeTaxPrimary",
+      fieldValue: "30.00"
+    },
+    {
+      fieldName: "localWagesTipsPrimary",
+      fieldValue: "260.00"
+    },
+    {
+      fieldName: "localityNameSecondary",
+      fieldValue: ""
+    },
+    {
+      fieldName: "stateIncomeTaxPrimary",
+      fieldValue: "320.00"
+    },
+    {
+      fieldName: "stateWagesTipsPrimary",
+      fieldValue: "6520.00"
+    },
+    {
+      fieldName: "localIncomeTaxSecondary",
+      fieldValue: ""
+    },
+    {
+      fieldName: "localWagesTipsSecondary",
+      fieldValue: ""
+    },
+    {
+      fieldName: "stateIncomeTaxSecondary",
+      fieldValue: ""
+    },
+    {
+      fieldName: "stateWagesTipsSecondary",
+      fieldValue: ""
+    },
+    {
+      fieldName: "federalIncomeTaxWithheld",
+      fieldValue: "15000.00"
+    },
+    {
+      fieldName: "socialSecurityTaxWithheld",
+      fieldValue: "25000.00"
+    },
+    {
+      fieldName: "employeeSocialSecurityNumber",
+      fieldValue: "653-32-0120"
+    },
+    {
+      fieldName: "employerStateIdNumberPrimary",
+      fieldValue: "203-62-1230"
+    },
+    {
+      fieldName: "employerStateIdNumberSecondary",
+      fieldValue: ""
+    }
+  ]
+}
+
+export const FAKE_CAPTURE_BANK_STATEMENT_DATA = {
+  transactions: [
+    {
+      amount: "450.00",
+      transactionDate: "08/10/2020",
+      description: "CHASE ATM 08/10 #000002667 DEPOSIT 1608 AVE M BROOKLYN NY"
+    },
+    {
+      amount: "275.65",
+      transactionDate: "08/12/2020",
+      description:
+        "SQUARE INC DES *CASH APP ID :T210623548125 INDN :JILL SMITH CO [ ... ]"
+    },
+    {
+      amount: "-325.00",
+      transactionDate: "08/12/2020",
+      description:
+        "CHECKCARD 0812 LIBERTY PAPER SUPPLIES # 633 COURT ST [ ... ]"
+    },
+    {
+      amount: "600.00",
+      transactionDate: "08/12/2020",
+      description: "CHASE ATM 08/12 #000002686 DEPOSIT 1608 AVE M BROOKLYN NY"
+    },
+    {
+      amount: "90.00",
+      transactionDate: "08/13/2020",
+      description:
+        "ONLINE BANKING TRANSFER FROM CHK 2580 CONFIMATION# 2351315828"
+    },
+    {
+      amount: "-1235.47",
+      transactionDate: "08/13/2020",
+      description:
+        "CHECKCARD 0813 TUNA MED FOOD BROOKLYN NY 12294650031344735553451"
+    },
+    {
+      amount: "-227.14",
+      transactionDate: "08/15/2020",
+      description:
+        "CHECKCARD 0815 NGUYEN COFFEE SUPPLY # 341 KNICKERBOCKER AVE [ ... ]"
+    },
+    {
+      amount: "550.00",
+      transactionDate: "08/15/2020",
+      description: "CHASE ATM 08/15 #000002687 DEPOSIT 1608 AVE M BROOKLYN NY"
+    },
+    {
+      amount: "893.44",
+      transactionDate: "08/16/2020",
+      description: "VENMO CASHOUT PPD ID : 3592118565"
+    },
+    {
+      amount: "-6.14",
+      transactionDate: "08/17/2020",
+      description:
+        "CHECKCARD 0817 PUBLIX # 228 BROOKLYN NY 15203341941830373962756"
+    },
+    {
+      amount: "450.00",
+      transactionDate: "08/17/2020",
+      description: "CHASE ATM 08/17 # 000002717 DEPOSIT 1608 AVE M BROOKLYN NY"
+    },
+    {
+      amount: "-4000.00",
+      transactionDate: "08/19/2020",
+      description:
+        "ONLINE BANKING TRANSFER TO CHK 8759 CONFIRMATION # 2454385332"
+    },
+    {
+      amount: "-10.75",
+      transactionDate: "08/21/2020",
+      description:
+        "MTA * METROCARD 08/21 # 000003214 PURCHASE MTA * METROCARD / PAT [ ... ]"
+    },
+    {
+      amount: "-54.25",
+      transactionDate: "08/23/2020",
+      description:
+        "MEDRA H 08/23 # 000315425 WITHDRWL 789 BROAD STREET BROOKLYN NY"
+    },
+    {
+      amount: "-12.42",
+      transactionDate: "08/28/2020",
+      description: "CHECKCARD 0623 2 FRIENDS DELI & GROCER BROOKLYN NY [ ... ]"
+    },
+    {
+      amount: "29.00",
+      transactionDate: "09/04/2020",
+      description:
+        "ONLINE BANKING TRANSFER FROM CHK 2580 CONFIMATION # 2415004514"
+    },
+    {
+      amount: "-1.99",
+      transactionDate: "09/07/2020",
+      description: "CHECKCARD 0907 GOOGLE * GOOGLE MOUNT VIEWLA"
+    },
+    {
+      amount: "-31.01",
+      transactionDate: "09/07/2020",
+      description:
+        "ONLINE BANKING TRANSFER TO CHK 2580 CONFIRMATION # 1326566495"
+    },
+    {
+      amount: "-63.14",
+      transactionDate: "09/08/2020",
+      description: "CHECKCARD 0623 2 FRIENDS DELI & GROCER BROOKLYN NY [ ... ]"
+    }
+  ],
+  bankAccount: [
+    {
+      bankAccountPk: "17740447",
+      name: "381053654285 CHASE SAVINGS",
+      bankName: "CHASE",
+      accountType: "SAVINGS",
+      accountHolder: "JILL SMITH",
+      accountNumber: "381053654285",
+      holderZip: "11215",
+      holderCountry: "US",
+      holderState: "NY",
+      holderCity: "NEW YORK",
+      holderAddress1: "307 8TH AVENUE PARK SLOPE",
+      holderAddress2: "Apartment 3B",
+      accountCategory: "PERSONAL ACCOUNT"
+    }
+  ]
+}
+
+export const FAKE_CAPTURE_PAYSTUB_DATA = {
+  employerInformation: {
+    name: "INSTANT CARD NATIONAL",
+    addressLine1: "2712 WHITE RIVER AVE.",
+    addressLine2: "",
+    city: "OAKLAND",
+    state: "CA",
+    zip: "94621"
+  },
+  employeeInformation: {
+    name: "TAMIKA S. NOTE",
+    addressLine1: "4654 SYCAMORE ST.",
+    addressLine2: "APT 3",
+    city: "SAN JOSE",
+    state: "CA",
+    zip: "95113",
+    maritalStatus: "SINGLE",
+    taxIdType: "SSN",
+    last4Digits: "1234"
+  },
+  payStubDetail: {
+    payPeriodStartDate: "2022-03-04",
+    payPeriodEndDate: "2022-03-17",
+    netPay: "963.60",
+    payDate: "2022-03-18",
+    frequency: "BI_WEEKLY",
+    provider: "ADP"
+  },
+  payDistribution: [
+    {
+      description: "FEDERAL CREDIT UNION CHECKING 3328",
+      bankName: "FEDERAL CREDIT UNION",
+      bankAccountType: "CHECKING",
+      accountNumber: "3328",
+      amount: "863.60"
+    },
+    {
+      description: "UNION CREDIT BANK SAVINGS 5252",
+      bankName: "UNION CREDIT BANK",
+      bankAccountType: "SAVINGS",
+      accountNumber: "5252",
+      amount: "100.00"
+    }
+  ],
+  earnings: [
+    {
+      description: "GROSS PAY",
+      currentPay: "1600.00",
+      ytdPay: "14850.00",
+      currentHours: "80.00"
+    },
+    {
+      description: "ANNUAL BONUS",
+      currentPay: "0.00",
+      ytdPay: "5250.00"
+    },
+    {
+      description: "REGULAR",
+      currentPay: "1600.00",
+      ytdPay: "9600.00",
+      currentHours: "80.00",
+      rate: "20.00"
+    }
+  ],
+  deductions: [
+    {
+      currentPay: "636.40",
+      ytdPay: "5897.35",
+      description: "FEDERAL TAX"
+    },
+    {
+      currentPay: "352.00",
+      ytdPay: "3267.00",
+      description: "STATE TAX"
+    },
+    {
+      currentPay: "99.20",
+      ytdPay: "920.70",
+      description: "SOCIAL SECURITY"
+    },
+    {
+      currentPay: "23.20",
+      ytdPay: "215.36",
+      description: "MEDICARE"
+    },
+    {
+      currentPay: "116.00",
+      ytdPay: "1076.63",
+      description: "CA SDI"
+    },
+    {
+      currentPay: "46.00",
+      ytdPay: "417.66",
+      description: "CA ETT"
+    }
+  ]
+}

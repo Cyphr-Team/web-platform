@@ -53,7 +53,7 @@ export const AuthenticityScore: React.FC<Props> = ({ authenticityData }) => {
         {authenticityData.reasonCodeDescription.map((reason, index) => (
           <li key={index}>
             <span
-              className="data-[highlighted=true]:text-text-error"
+              className="data-[highlighted=true]:text-text-error first-letter:capitalize block"
               data-highlighted={reason.shouldHighlight}
             >
               {reason.description}

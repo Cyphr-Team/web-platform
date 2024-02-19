@@ -16,7 +16,7 @@ enum SECTION_CONTENTS {
 
 const section_data = [
   {
-    title: "Capture",
+    title: "Captured Data",
     content: SECTION_CONTENTS.CAPTURE
   },
   {
@@ -25,14 +25,18 @@ const section_data = [
   }
 ]
 
-export const DocumentData: React.FC = () => {
+type Props = {
+  handleClose: () => void
+}
+
+export const DocumentSignalsDetails: React.FC<Props> = ({ handleClose }) => {
   const [section, setSection] = useState<Section>(section_data[1])
 
   return (
     <div className="flex flex-col gap-3 px-3">
       <div className="flex justify-between py-3">
-        <div className="flex items-center">
-          <Button variant="ghost" className="p-0">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" className="p-0" onClick={handleClose}>
             <X className="w-10 h-10" strokeWidth={0.75} />
           </Button>
           <p className="text-lg">{section.title}</p>

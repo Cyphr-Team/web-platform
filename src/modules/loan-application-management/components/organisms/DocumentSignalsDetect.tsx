@@ -7,7 +7,7 @@ import { AuthenticityScore } from "../molecules/signals/Authenticity"
 export const DocumentSignalsDetect: React.FC = () => {
   const signalsData = FAKE_SIGNALS_DATA as SignalsDetectType
   return (
-    <div className="flex flex-col w-96 gap-3 overflow-y-auto">
+    <div className="flex flex-col lg:w-96 gap-3 overflow-y-auto">
       <AuthenticityScore
         authenticityData={FAKE_SIGNALS_DATA.formAuthenticity}
       />
