@@ -10,6 +10,7 @@ import { Minus, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { LoanProgramDetailApply } from "./LoanProgramDetailApply"
+import { LoanProgramDetailUnderConstruction } from "./LoanProgramDetailApply copy"
 
 export const LoanProgramDetailFAQ = () => {
   const { loanProgramDetail } = useLoanProgramDetailContext()
@@ -62,7 +63,11 @@ export const LoanProgramDetailFAQ = () => {
           Ready to Apply?
         </h2>
         <div className="mx-auto md:mx-0">
-          <LoanProgramDetailApply />
+          {loanProgramDetail?.isUnderConstruction ? (
+            <LoanProgramDetailUnderConstruction />
+          ) : (
+            <LoanProgramDetailApply />
+          )}
         </div>
       </section>
     </section>

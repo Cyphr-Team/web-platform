@@ -8,7 +8,7 @@ export const LoanProgramDetailApply = () => {
 
   return (
     <Button onClick={() => navigate(APP_PATH.LOAN_APPLICATION.INDEX)}>
-      Start Application <ArrowRight className="ml-1 w-5" />
+      Start Application <ArrowRight className="ml-1 w-4" />
     </Button>
   )
 }

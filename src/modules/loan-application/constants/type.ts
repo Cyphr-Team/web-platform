@@ -62,6 +62,11 @@ export interface KYCInformationResponse {
   updatedAt: string
 }
 
+export interface LoanProgramContactData {
+  phone?: string
+  location?: string
+  mail?: string
+}
 export interface LoanProgramData {
   id: string
   type: string
@@ -72,4 +77,6 @@ export interface LoanProgramData {
   description?: string
   faqs?: Record<string, string>
   heroImage?: string
+  contact?: LoanProgramContactData
+  isUnderConstruction: boolean
 }

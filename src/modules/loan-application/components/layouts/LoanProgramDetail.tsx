@@ -6,6 +6,7 @@ import { LoanProgramDetailWelcomeLine } from "../organisms/loan-program-detail/L
 import { LoanProgramDetailFAQ } from "../organisms/loan-program-detail/LoanProgramDetailFAQ"
 import { TopBarDetail } from "./TopBarDetail"
 import { LoanProgramDetailApply } from "../organisms/loan-program-detail/LoanProgramDetailApply"
+import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-detail/LoanProgramDetailApply copy"
 
 export const ComponentWithProvider = () => {
   const { loanProgramDetail } = useLoanProgramDetailContext()
@@ -22,7 +23,13 @@ export const ComponentWithProvider = () => {
             label: loanProgramDetail?.name || ""
           }
         ]}
-        rightFooter={<LoanProgramDetailApply />}
+        rightFooter={
+          loanProgramDetail?.isUnderConstruction ? (
+            <LoanProgramDetailUnderConstruction />
+          ) : (
+            <LoanProgramDetailApply />
+          )
+        }
       />
 
       <div>
