@@ -1,29 +1,17 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
-import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
+import { LoanDocument } from "@/types/loan-document.type"
 import { format } from "date-fns"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { Icons } from "@/components/ui/icons"
-
-// TODO: Update type when integrate with API
-const getBadgeVariantByStatus = (status: LoanDocumentStatus) => {
-  switch (status) {
-    case LoanDocumentStatus.Flagged:
-      return "red"
-    case LoanDocumentStatus.InProgress:
-      return "yellow"
-    case LoanDocumentStatus.Verified:
-      return "green"
-    default:
-      return undefined
-  }
-}
+import { snakeCaseToText } from "@/utils"
+import { BadgeStatus } from "../atoms/BadgeStatus"
 
 export const columns: ColumnDef<LoanDocument>[] = [
   {
-    id: "fileName",
-    accessorKey: "fileName",
+    id: "name",
+    accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="File name" />
     ),
@@ -36,7 +24,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
             <Icons.pdfIcon />
           </div>
           <div className="min-w-0">
-            <p className="truncate">{document.fileName}</p>
+            <p className="truncate">{document.name}</p>
             <p className="text-sm text-muted-foreground mt-0.5 truncate ">
               {document.fileSize} KB
             </p>
@@ -47,8 +35,8 @@ export const columns: ColumnDef<LoanDocument>[] = [
     size: 500
   },
   {
-    id: "documentType",
-    accessorKey: "documentType",
+    id: "ocrolusDocumentType",
+    accessorKey: "ocrolusDocumentType",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Document Type" />
     ),
@@ -58,7 +46,11 @@ export const columns: ColumnDef<LoanDocument>[] = [
 
       return (
         <div className="font-medium">
-          <Badge variant="soft">{application.documentType}</Badge>
+          <Badge variant="soft">
+            {snakeCaseToText(
+              application?.ocrolusDocumentType ?? ""
+            )?.toUpperCase()}
+          </Badge>
         </div>
       )
     }
@@ -107,13 +99,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
 
       return (
         <div className="font-medium">
-          <Badge
-            isDot
-            variant="soft"
-            variantColor={getBadgeVariantByStatus(application.status)}
-          >
-            {application.status}
-          </Badge>
+          <BadgeStatus status={application.status} />
         </div>
       )
     }

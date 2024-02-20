@@ -105,13 +105,17 @@ export const API_PATH = {
     getIncomeCategories: "api/form/financial/income-categories"
   },
   loanApplication: {
-    list: "api/loan-officer/applications"
+    list: "api/loan-officer/applications",
+    getDocuments: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/documents`
   },
   loanApplicationDetails: {
     getKYB: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/kyb`,
     getKYC: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/kyc`
+      `api/loan-officer/applications/${applicationId}/kyc`,
+    getDocumentDetails: (applicationId: string, documentId: string) =>
+      `api/loan-officer/applications/${applicationId}/documents/${documentId}`
   }
 }
 

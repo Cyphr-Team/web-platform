@@ -59,7 +59,7 @@ export const DocumentToolbar: React.FC = () => {
             className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
             variant="secondary"
             onClick={zoomIn}
-            disabled={scale > 2}
+            disabled={scale > 4}
           >
             <Plus className="w-6 h-6 text-gray-500" />
           </Button>

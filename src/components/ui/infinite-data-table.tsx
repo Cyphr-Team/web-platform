@@ -186,7 +186,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
                     data-index={virtualRow.index} //needed for dynamic row height measurement
                     ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
                     className={cn(
-                      "grid grid-flow-col absolute w-full",
+                      "grid grid-flow-col absolute w-full items-center",
                       !!handleClickDetail && "cursor-pointer"
                     )}
                     style={{

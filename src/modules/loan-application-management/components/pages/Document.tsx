@@ -8,10 +8,12 @@ import { Row } from "@tanstack/react-table"
 import { LoanDocument } from "@/types/loan-document.type"
 import { DocumentTableHeader } from "../table/document-header"
 import { useNavigate, useParams } from "react-router-dom"
+import { useState } from "react"
 
 export function Component() {
   const navigate = useNavigate()
   const { id: LoanApplicationID } = useParams()
+  const [keyword, setKeyword] = useState("")
 
   const handleClickDetail = (detail: Row<LoanDocument>) => {
     navigate(
@@ -23,9 +25,14 @@ export function Component() {
   }
 
   const { data, fetchNextPage, isFetching } = useQueryDocument({
+    keyword: keyword,
     limit: REQUEST_LIMIT_PARAM,
     offset: 0
   })
+
+  const handleSearch = (keyword: string) => {
+    setKeyword(keyword)
+  }
 
   return (
     <div>
@@ -36,7 +43,7 @@ export function Component() {
         </p>
       </div>
       <div className="border py-3 px-4 -mb-6 border-t-0">
-        <DocumentTableHeader />
+        <DocumentTableHeader onSearch={handleSearch} />
       </div>
       <InfiniteDataTable
         className="rounded-t-none border-t-0"

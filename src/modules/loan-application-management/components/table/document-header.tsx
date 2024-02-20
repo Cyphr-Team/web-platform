@@ -7,12 +7,17 @@ import * as z from "zod"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
+import { useDebounce } from "react-use"
 
 const FormSchema = z.object({
   search: z.string().optional()
 })
 
-export function DocumentTableHeader() {
+type Props = {
+  onSearch: (keyword: string) => void
+}
+
+export const DocumentTableHeader: React.FC<Props> = ({ onSearch }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -20,13 +25,19 @@ export function DocumentTableHeader() {
     }
   })
 
-  function onSubmit() {
-    // Fetch data
-  }
+  const formValues = form.watch()
+
+  useDebounce(
+    () => {
+      onSearch(formValues.search ?? "")
+    },
+    500,
+    [formValues.search]
+  )
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form className="space-y-6">
         <div className="flex w-full items-center flex-wrap gap-3">
           <FormField
             control={form.control}

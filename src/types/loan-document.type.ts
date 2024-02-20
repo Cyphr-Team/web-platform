@@ -1,9 +1,8 @@
 // ENUM
 enum LoanDocumentStatus {
-  InProgress = "In progress",
-  Verified = "Verified",
-  Flagged = "Flagged",
-  Unchecked = "Unchecked"
+  VERIFIED = "verified",
+  FLAGGED = "flagged",
+  UNCHECKED = "unchecked"
 }
 enum LoanDocumentType {
   BANK_STATEMENT = "BANK STATEMENT",
@@ -16,12 +15,11 @@ export { LoanDocumentType, LoanDocumentStatus }
 // INTERFACE
 interface LoanDocument {
   id: string
-  // Example: Bank of America - Bank Statement - Oct 2023.pdf
-  fileName: string
+  name: string
   // Example: 200 KB
   fileSize: number
   fileType?: string
-  documentType: LoanDocumentType
+  ocrolusDocumentType: LoanDocumentType
   createdAt: string
   updatedAt: string
   status: LoanDocumentStatus

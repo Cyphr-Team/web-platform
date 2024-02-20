@@ -7,8 +7,8 @@ type Props = {
 
 export const LoanInformationCard: React.FC<Props> = ({ title, content }) => {
   return (
-    <Card className="space-y-md rounded-xl flex-1">
-      <CardHeader className="pb-0">
+    <Card className="space-y-sm rounded-xl flex-1">
+      <CardHeader className="pb-0 md:pb-0">
         <p className="text-sm text-text-tertiary">{title}</p>
       </CardHeader>
       <CardContent>

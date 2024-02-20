@@ -6,12 +6,16 @@ import {
   VisualizationType
 } from "../constants/type"
 import { FAKE_VISUALIZATION_DATA } from "../constants"
+import { useQueryGetDocumentDetails } from "../hooks/useQuery/useQueryDocumentDetails"
+import { useParams } from "react-router-dom"
+import { DocumentDetailsType } from "../constants/types/document"
 
 type LoanDocumentDetailsContextType = {
   scale: number
   zoomIn: () => void
   zoomOut: () => void
   visualizationDetails: VisualizationType
+  documentDetails?: DocumentDetailsType
   selectedVisualization: Visualization | null
   selectedPage: VisualizationPage | null
   handleSelectPage: (page: VisualizationPage) => void
@@ -24,6 +28,7 @@ export const LoanDocumentDetailsContext =
     zoomIn: () => {},
     zoomOut: () => {},
     visualizationDetails: {} as VisualizationType,
+    documentDetails: {} as DocumentDetailsType,
     selectedVisualization: null,
     selectedPage: null,
     handleSelectPage: () => {},
@@ -38,13 +43,15 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
   const [selectedPage, setSelectedPage] = useState<VisualizationPage | null>(
     FAKE_VISUALIZATION_DATA.visualizationsByPage[0] ?? null
   )
+  const params = useParams()
+
   const [selectedVisualization, setSelectedVisualization] =
     useState<Visualization | null>(selectedPage?.visualizations[0] ?? null)
 
   const [scale, setScale] = useState(1)
 
   const zoomIn = useCallback(() => {
-    if (scale > 2) return
+    if (scale > 4) return
     setScale((scale) => scale * 1.2) // Zoom in by 20%
   }, [scale])
 
@@ -62,18 +69,31 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
     setSelectedVisualization(visualization)
   }
 
+  const documentDetails = useQueryGetDocumentDetails({
+    applicationId: params.id ?? "",
+    documentId: params.documentId ?? ""
+  })
+
   const providerValue = useMemo(
     () => ({
       scale,
       zoomIn,
       zoomOut,
       visualizationDetails: FAKE_VISUALIZATION_DATA,
+      documentDetails: documentDetails.data,
       selectedVisualization,
       selectedPage,
       handleSelectPage,
       handleSelectVisualization
     }),
-    [scale, selectedPage, selectedVisualization, zoomIn, zoomOut]
+    [
+      documentDetails,
+      scale,
+      selectedPage,
+      selectedVisualization,
+      zoomIn,
+      zoomOut
+    ]
   )
 
   return (

@@ -1,3 +1,5 @@
+import { SignalsDetectType, VisualizationType } from "../type"
+
 export type BankStatementType = {
   transactions: BankTransaction[]
   bankAccount: BankAccount[]
@@ -95,7 +97,15 @@ export type PayStubCapturedType = {
 }
 
 export enum DocumentType {
-  BANK_STATEMENT = "BANK_STATEMENT",
+  BANK_STATEMENT = "bank_statement",
   W2 = "W2",
-  PAY_STUB = "PAY_STUB"
+  PAY_STUB = "paystub"
+}
+
+export type DocumentDetailsType = {
+  documentType: DocumentType
+  documentStatus: string
+  detect: SignalsDetectType
+  capture: PayStubCapturedType | BankStatementType | W2DocumentType
+  visualizations: VisualizationType[]
 }
