@@ -35,6 +35,8 @@ import { useEffect } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 import { useSubmitLoanKycInformation } from "../../hooks/useMutation/useSubmitLoanKycInformation"
+import { FORM_TYPE } from "../../constants/type"
+import { useMutateUploadDocument } from "../../hooks/useMutation/useUploadDocumentMutation"
 
 export function OwnerInformationForm() {
   const defaultValues = {
@@ -119,6 +121,7 @@ export function OwnerInformationForm() {
   }, [state, city, form])
 
   const { mutate, isPending } = useSubmitLoanKycInformation()
+  const { mutateAsync, isUploading } = useMutateUploadDocument()
 
   const onSubmit = (data: OwnerFormValue) => {
     const formattedData = {
@@ -130,7 +133,33 @@ export function OwnerInformationForm() {
     }
 
     mutate(formattedData, {
-      onSuccess() {
+      onSuccess(res) {
+        handleUploadDocument(res.data.id)
+      }
+    })
+  }
+
+  const handleUploadDocument = async (formId: string) => {
+    const request = new FormData()
+
+    const reqBody = {
+      files: form.getValues("governmentFile"),
+      formType: FORM_TYPE.KYC,
+      formId: formId
+    }
+
+    for (const [key, value] of Object.entries(reqBody)) {
+      if (Array.isArray(value)) {
+        value.forEach((file: File) => {
+          request.append(key, file)
+        })
+      } else if (value) {
+        request.append(key, value + "")
+      }
+    }
+
+    await mutateAsync(request, {
+      onSuccess: () => {
         changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
         changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
       }
@@ -361,7 +390,7 @@ export function OwnerInformationForm() {
           <ButtonLoading
             disabled={!form.formState.isValid}
             onClick={form.handleSubmit(onSubmit)}
-            isLoading={isPending}
+            isLoading={isPending || isUploading}
           >
             Save
           </ButtonLoading>

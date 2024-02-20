@@ -99,7 +99,10 @@ export const API_PATH = {
   application: {
     create: "api/user-loan/micro-loan/application",
     submitKyb: "api/form/kyb",
-    submitKyc: "api/form/kyc"
+    submitKyc: "api/form/kyc",
+    submitFinancial: "api/form/financial",
+    uploadDocument: "api/form/document/upload",
+    getIncomeCategories: "api/form/financial/income-categories"
   },
   loanApplication: {
     list: "api/loan-officer/applications"

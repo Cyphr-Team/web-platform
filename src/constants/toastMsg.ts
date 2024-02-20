@@ -23,6 +23,14 @@ export const TOAST_MSG = {
     submitKyb: {
       title: "Submit KYB Information",
       description: "KYB Information is submitted successfully"
+    },
+    submitFinancial: {
+      title: "Submit Financial Information",
+      description: "Financial Information is submitted successfully"
+    },
+    uploadDocument: {
+      title: "Upload Document",
+      description: "Document is uploaded successfully"
     }
   }
 }

@@ -50,7 +50,7 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
         multiple={true}
         onChange={handleFileSelect}
         style={{ display: "none" }}
-        accept="image/png, image/jpeg, application/pdf"
+        accept="application/pdf" // Temporarily remove image/png, image/jpeg
       />
       <label htmlFor="input-file-upload">
         <Card
@@ -63,7 +63,8 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
           <div className="text-text-tertiary text-sm text-center">
             <span className="text-primary font-semibold">Click to upload</span>
             <span> or drag and drop</span>
-            <p className="text-xs">PDF, PNG, or JPG (max.800x400px)</p>
+            <p className="text-xs">PDF</p>
+            {/* Temporarily remove image/png, image/jpeg */}
           </div>
         </Card>
       </label>

@@ -80,3 +80,29 @@ export interface LoanProgramData {
   contact?: LoanProgramContactData
   isUnderConstruction: boolean
 }
+
+export interface FinancialInformation {
+  loanApplicationId: string
+  incomeCategories: string[]
+}
+
+export interface FinancialInformationResponse {
+  id: string
+  loanApplicationId: string
+  incomeCategories: string[]
+  documents: string[]
+  createdAt: string
+  updatedAt: string
+}
+
+export interface DocumentUpload {
+  formId: string
+  formType: string
+  files: File[]
+}
+
+export enum FORM_TYPE {
+  KYB = "KYB",
+  KYC = "KYC",
+  FINANCIAL = "FINANCIAL"
+}
