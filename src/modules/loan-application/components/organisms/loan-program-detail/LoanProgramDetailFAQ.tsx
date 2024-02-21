@@ -13,7 +13,7 @@ import { LoanProgramDetailApply } from "./LoanProgramDetailApply"
 import { LoanProgramDetailUnderConstruction } from "./LoanProgramDetailUnderConstruction"
 
 export const LoanProgramDetailFAQ = () => {
-  const { loanProgramDetail } = useLoanProgramDetailContext()
+  const { loanProgramInfo } = useLoanProgramDetailContext()
 
   return (
     <section>
@@ -30,8 +30,8 @@ export const LoanProgramDetailFAQ = () => {
         </div>
 
         <Accordion type="multiple" className="w-full">
-          {Object.keys(loanProgramDetail?.faqs ?? {}).map((key) => {
-            const answer = loanProgramDetail?.faqs?.[key]
+          {Object.keys(loanProgramInfo?.faqs ?? {}).map((key) => {
+            const answer = loanProgramInfo?.faqs?.[key]
             return (
               <AccordionItem value={key} key={key} className="w-full">
                 <AccordionTrigger
@@ -63,7 +63,7 @@ export const LoanProgramDetailFAQ = () => {
           Ready to Apply?
         </h2>
         <div className="mx-auto md:mx-0">
-          {loanProgramDetail?.isUnderConstruction ? (
+          {loanProgramInfo?.isUnderConstruction ? (
             <LoanProgramDetailUnderConstruction />
           ) : (
             <LoanProgramDetailApply />

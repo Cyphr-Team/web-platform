@@ -4,7 +4,7 @@ import { LoanProgramData } from "./type"
 const ALTCAP_ARTCAP_EXPRESS: LoanProgramData = {
   id: "artcap-express",
   type: "Microloan",
-  name: "ARTcap Express",
+  name: "micro Loan Program",
   loanAmountRange: "Up to",
   amount: 25000,
   heroImage: ASSETS.artCapExpressHeroImg,

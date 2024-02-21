@@ -97,7 +97,9 @@ export const API_PATH = {
     }
   },
   loanProgram: {
-    create: "api/admin-loan/micro-loan/program"
+    create: "api/admin-loan/micro-loan/program",
+    list: "api/user-loan/micro-loan/program/list",
+    detail: (id: string) => `api/user-loan/micro-loan/program?id=${id}`
   },
   application: {
     create: "api/user-loan/micro-loan/application",

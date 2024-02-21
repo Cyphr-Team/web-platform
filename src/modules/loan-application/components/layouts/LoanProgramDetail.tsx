@@ -9,10 +9,9 @@ import { LoanProgramDetailApply } from "../organisms/loan-program-detail/LoanPro
 import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-detail/LoanProgramDetailUnderConstruction"
 
 export const ComponentWithProvider = () => {
-  const { loanProgramDetail } = useLoanProgramDetailContext()
+  const { loanProgramInfo } = useLoanProgramDetailContext()
 
-  const heroImage =
-    loanProgramDetail?.heroImage ?? ASSETS.altCapLoanProgramLarge
+  const heroImage = loanProgramInfo?.heroImage ?? ASSETS.altCapLoanProgramLarge
 
   return (
     <div className="overflow-auto flex flex-col items-center flex-1">
@@ -20,11 +19,11 @@ export const ComponentWithProvider = () => {
         breads={[
           {
             to: "#",
-            label: loanProgramDetail?.name || ""
+            label: loanProgramInfo?.name || ""
           }
         ]}
         rightFooter={
-          loanProgramDetail?.isUnderConstruction ? (
+          loanProgramInfo?.isUnderConstruction ? (
             <LoanProgramDetailUnderConstruction />
           ) : (
             <LoanProgramDetailApply />
@@ -66,4 +65,4 @@ export const Component = () => {
   )
 }
 
-Component.displayName = "LoanProgramDetail"
+Component.displayName = "loanProgramInfo"

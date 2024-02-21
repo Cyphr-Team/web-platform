@@ -4,13 +4,16 @@ import { useMutation } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
-import { UserLoanApplication } from "@/types/loan-application.type"
+import {
+  UserLoanApplication,
+  UserLoanApplicationRequest
+} from "@/types/loan-application.type"
 
 export const useCreateLoanApplication = () => {
   return useMutation<
     AxiosResponse<UserLoanApplication>,
     AxiosError<ErrorResponse>,
-    undefined
+    UserLoanApplicationRequest
   >({
     mutationFn: (data) => {
       return postRequest({

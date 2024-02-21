@@ -75,6 +75,12 @@ export const confirmationFormSchema = z.object({
   signatureDate: z.string().min(1)
 })
 
+export const loanRequestFormSchema = z.object({
+  loanAmount: z.number().gt(0),
+  loanTermInMonth: z.number().gt(1),
+  proposeUseOfLoan: z.string().min(1)
+})
+
 export type BusinessFormValue = z.infer<typeof businessFormSchema>
 
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>

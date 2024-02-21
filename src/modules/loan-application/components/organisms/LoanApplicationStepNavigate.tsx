@@ -8,7 +8,7 @@ export function LoanApplicationStepNavigate() {
   const stepData = LOAN_APPLICATION_STEP_DATA[step]
 
   return (
-    <div className="flex justify-between mb-6 items-center gap-2">
+    <div className="flex justify-between mb-6 items-center gap-2 max-w-xl mx-auto">
       <Button
         variant="outline"
         size="icon"

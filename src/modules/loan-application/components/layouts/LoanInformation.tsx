@@ -13,6 +13,7 @@ import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplicatio
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
+import { LoanProgramDetailProvider } from "../../providers/LoanProgramDetailProvider"
 
 export const Component = () => {
   const { step } = useLoanApplicationContext()
@@ -50,20 +51,24 @@ export const Component = () => {
       />
 
       <div className="flex overflow-auto h-full flex-1 py-6 flex-col">
-        <div className="mx-auto max-w-[80%]">
-          <LoanApplicationStepNavigate />
+        <div className="mx-auto w-[80%] xl:w-[60%]">
+          <LoanProgramDetailProvider>
+            <LoanApplicationStepNavigate />
 
-          {step === LOAN_APPLICATION_STEPS.LOAN_REQUEST && <LoanRequest />}
-          {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
-            <BusinessInformationForm />
-          )}
-          {step === LOAN_APPLICATION_STEPS.OWNER_INFORMATION && (
-            <OwnerInformationForm />
-          )}
-          {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION && (
-            <FinancialInformationForm />
-          )}
-          {step === LOAN_APPLICATION_STEPS.CONFIRMATION && <ConfirmationForm />}
+            {step === LOAN_APPLICATION_STEPS.LOAN_REQUEST && <LoanRequest />}
+            {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
+              <BusinessInformationForm />
+            )}
+            {step === LOAN_APPLICATION_STEPS.OWNER_INFORMATION && (
+              <OwnerInformationForm />
+            )}
+            {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION && (
+              <FinancialInformationForm />
+            )}
+            {step === LOAN_APPLICATION_STEPS.CONFIRMATION && (
+              <ConfirmationForm />
+            )}
+          </LoanProgramDetailProvider>
         </div>
       </div>
     </PlaidProvider>

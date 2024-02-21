@@ -25,7 +25,7 @@ function ContactItem({
 }
 
 export function LoanProgramDetailContactCard() {
-  const { loanProgramDetail } = useLoanProgramDetailContext()
+  const { loanProgramInfo } = useLoanProgramDetailContext()
 
   return (
     <Card className="rounded-2xl">
@@ -37,21 +37,18 @@ export function LoanProgramDetailContactCard() {
 
       <CardContent>
         <ul className="flex flex-col gap-4">
-          <ContactItem Icon={Mail} content={loanProgramDetail?.contact?.mail} />
-          <ContactItem
-            Icon={Phone}
-            content={loanProgramDetail?.contact?.phone}
-          />
+          <ContactItem Icon={Mail} content={loanProgramInfo?.contact?.mail} />
+          <ContactItem Icon={Phone} content={loanProgramInfo?.contact?.phone} />
           <ContactItem
             Icon={Map}
-            content={loanProgramDetail?.contact?.location}
+            content={loanProgramInfo?.contact?.location}
           />
         </ul>
       </CardContent>
 
       <CardFooter>
         <Button className="w-full" variant="outline" asChild>
-          <a href={`mailto:${loanProgramDetail?.contact?.mail}`}>Contact Us</a>
+          <a href={`mailto:${loanProgramInfo?.contact?.mail}`}>Contact Us</a>
         </Button>
       </CardFooter>
     </Card>

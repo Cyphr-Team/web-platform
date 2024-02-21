@@ -8,7 +8,7 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
-import { LoanProgramData } from "../../constants/type"
+import { LoanProgramType } from "../../constants/type"
 import { Separator } from "@/components/ui/separator"
 import { toCurrency } from "@/utils"
 import { Icons } from "@/components/ui/icons"
@@ -17,12 +17,14 @@ import { Link } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 
 type CardProps = React.ComponentProps<typeof Card> & {
-  loanProgram: LoanProgramData
+  loanProgram: LoanProgramType
+  additionalInfo?: string[]
 }
 
 export const LoanProgramCard = ({
   className,
   loanProgram,
+  additionalInfo,
   ...props
 }: CardProps) => {
   return (
@@ -35,15 +37,11 @@ export const LoanProgramCard = ({
           {loanProgram.name}
         </CardTitle>
         <CardDescription className="text-foreground flex items-center">
-          {!!loanProgram.loanAmountRange && (
-            <span className="mr-2 align-middle">
-              {loanProgram.loanAmountRange}
-            </span>
-          )}
+          <span className="mr-2 align-middle">Up to</span>
           <span className="text-primary text-3xl font-semibold">
-            {typeof loanProgram.amount === "number"
-              ? toCurrency(loanProgram.amount, 0)
-              : loanProgram.amount}
+            {typeof loanProgram.maxLoanAmount === "number"
+              ? toCurrency(loanProgram.maxLoanAmount, 0)
+              : loanProgram.maxLoanAmount}
           </span>
         </CardDescription>
       </CardHeader>
@@ -54,15 +52,24 @@ export const LoanProgramCard = ({
 
       <CardContent className="grid gap-4">
         <ul className="flex flex-col gap-4">
-          {Object.keys(loanProgram.meta).map((meta, idxKey) => (
-            <li
-              key={idxKey}
-              className="flex items-center font-semibold text-sm"
-            >
+          <li className="flex items-center font-semibold text-sm">
+            <span className="mr-1.5">
+              <Icons.greenCheckCircle />
+            </span>
+            {loanProgram.minTermInMonth} - {loanProgram.maxTermInMonth} months
+          </li>
+          <li className="flex items-center font-semibold text-sm">
+            <span className="mr-1.5">
+              <Icons.greenCheckCircle />
+            </span>
+            {loanProgram.interestRateDescription}
+          </li>
+          {additionalInfo?.map((info, index) => (
+            <li key={index} className="flex items-center font-semibold text-sm">
               <span className="mr-1.5">
                 <Icons.greenCheckCircle />
               </span>
-              {loanProgram.meta[meta]}
+              {info}
             </li>
           ))}
         </ul>

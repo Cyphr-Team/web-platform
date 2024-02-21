@@ -1,7 +1,10 @@
 import { ALTCAP_LOAN_PROGRAMS } from "../../constants/loan-program.constants"
+import { useQueryGetLoanPrograms } from "../../hooks/useQuery/useQueryLoanPrograms"
 import { LoanProgramCard } from "../molecules/LoanProgramCard"
 
 export const LoanPrograms = () => {
+  const loanPrograms = useQueryGetLoanPrograms()
+
   return (
     <>
       <section>
@@ -18,8 +21,16 @@ export const LoanPrograms = () => {
 
       <section className="mt-6">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-6 md:gap-y-11">
-          {ALTCAP_LOAN_PROGRAMS.map((loanProgram) => (
-            <LoanProgramCard key={loanProgram.name} loanProgram={loanProgram} />
+          {loanPrograms.data?.data?.map((loanProgram) => (
+            <LoanProgramCard
+              key={loanProgram.id}
+              loanProgram={loanProgram}
+              additionalInfo={[
+                ALTCAP_LOAN_PROGRAMS[0].meta.collateralRequired,
+                ALTCAP_LOAN_PROGRAMS[0].meta.minimumCreditScore,
+                ALTCAP_LOAN_PROGRAMS[0].meta.decisionTime
+              ]}
+            />
           ))}
         </div>
       </section>

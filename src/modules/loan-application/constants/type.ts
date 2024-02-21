@@ -106,3 +106,28 @@ export enum FORM_TYPE {
   KYC = "KYC",
   FINANCIAL = "FINANCIAL"
 }
+
+export interface LoanProgramType {
+  id: string
+  institutionId: string
+  name: string
+  type: string
+  description: string
+  minTermInMonth: number
+  maxTermInMonth: number
+  interestRate: string
+  interestRateType: LoanProgramInterestRateType
+  interestRateDescription: string
+  originationFee: string
+  minLoanAmount: number
+  maxLoanAmount: number
+  createdAt: string
+  updatedAt: string
+}
+
+enum LoanProgramInterestRateType {
+  FIXED = "FIXED",
+  VARIABLE = "VARIABLE",
+  FLOATING = "FLOATING",
+  PROMOTIONAL = "PROMOTIONAL"
+}

@@ -48,4 +48,16 @@ interface UserLoanApplication {
   updatedAt: string
 }
 
-export type { UserLoanApplication, LoanApplication, Applicant, LoanProgram }
+interface UserLoanApplicationRequest {
+  loanAmount: number
+  loanTermInMonth: number
+  proposeUseOfLoan: string
+}
+
+export type {
+  UserLoanApplication,
+  LoanApplication,
+  Applicant,
+  LoanProgram,
+  UserLoanApplicationRequest
+}
