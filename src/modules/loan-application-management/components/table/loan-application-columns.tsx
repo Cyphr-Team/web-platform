@@ -6,6 +6,12 @@ import {
   LoanApplication,
   LoanApplicationStatus
 } from "@/types/loan-application.type"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip"
 
 // TODO: Update type when integrate with API
 const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
@@ -25,7 +31,20 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
     id: "select",
     header: "ID",
-    cell: ({ row }) => "#" + `${row.index + 1}`.padStart(4, "0"),
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <TooltipProvider>
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger>
+              {`${application.id}`.substring(application.id.length - 4)}
+            </TooltipTrigger>
+            <TooltipContent side="right">{`${application.id}`}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
+    },
     enableSorting: false,
     enableHiding: false,
     size: 80
@@ -80,7 +99,9 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
         currency: "USD"
       }).format(amount)
 
-      return <div className="font-medium">{formatted}</div>
+      return (
+        <div className="font-medium">{isNaN(amount) ? "N/A" : formatted}</div>
+      )
     }
   },
   {
@@ -98,6 +119,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
             isDot
             variant="soft"
             variantColor={getBadgeVariantByStatus(application.status)}
+            className="capitalize"
           >
             {application.status}
           </Badge>

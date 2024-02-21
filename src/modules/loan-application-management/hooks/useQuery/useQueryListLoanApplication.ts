@@ -1,56 +1,63 @@
-import { ListResponse } from "@/types/common.type"
-import {
-  LoanApplication,
-  LoanApplicationStatus
-} from "@/types/loan-application.type"
+import { ListResponse, PaginateParams } from "@/types/common.type"
+import { LoanApplication } from "@/types/loan-application.type"
 import { API_PATH } from "@/constants"
 import { loanApplicationKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
-
-interface PaginateParams {
-  limit: number
-  offset: number
-}
+import * as z from "zod"
 
 type ListLoanApplicationResponse = ListResponse<LoanApplication>
 
-const attachFakeData = (): Partial<LoanApplication> => ({
-  loanAmount: Math.ceil(Math.random() * 100000),
-  status: Object.values(LoanApplicationStatus)[Math.floor(Math.random() * 4)],
-  progress: Math.floor(Math.random() * 100)
+export const LoanApplicationFilterSchema = z.object({
+  status: z.array(z.object({ label: z.string(), value: z.string() })),
+  type: z.array(z.object({ label: z.string(), value: z.string() })),
+  search: z.string()
 })
+
+export type LoanApplicationFilterValues = z.infer<
+  typeof LoanApplicationFilterSchema
+>
+
+export type FilterParams = {
+  status: string[]
+  type: string[]
+  search: string
+}
+
+type Params = PaginateParams & Partial<FilterParams>
 
 export const useQueryListLoanApplication = ({
   limit,
-  offset
-}: PaginateParams) => {
+  offset,
+  status,
+  type,
+  search
+}: Params) => {
   return useInfiniteQuery<ListLoanApplicationResponse>({
     queryKey: loanApplicationKeys.list(
       createSearchParams({
         limit: limit.toString(),
-        offset: offset.toString()
+        offset: offset.toString(),
+        search: search ?? "",
+        status: status ?? "",
+        type: type ?? ""
       }).toString()
     ),
     queryFn: async ({ pageParam = 0 }) => {
-      const response = await getRequest<
-        PaginateParams,
-        ListLoanApplicationResponse
-      >({
+      const response = await getRequest<Params, ListLoanApplicationResponse>({
         path: API_PATH.loanApplication.list,
-        params: { limit, offset: (pageParam as number) * limit },
+        params: {
+          limit,
+          offset: (pageParam as number) * limit,
+          search,
+          status,
+          type
+        },
         customHeader: customRequestHeader.customHeaders
       })
-      // TODO: Remove this when the data is finalize
-      return {
-        ...response,
-        data: response.data.map((application) => ({
-          ...application,
-          ...attachFakeData()
-        }))
-      }
+      return response
     },
     initialPageParam: 0,
     getNextPageParam(last, pages) {

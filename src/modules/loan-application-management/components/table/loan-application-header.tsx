@@ -1,8 +1,5 @@
-"use client"
-
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 
 import {
   Form,
@@ -12,56 +9,53 @@ import {
   FormLabel
 } from "@/components/ui/form"
 import { MultiSelect } from "@/components/ui/multi-select"
-import { LOAN_AMOUNT, LOAN_PRODUCTS, LOAN_STATUS } from "../../constants"
+import { LOAN_PRODUCTS, LOAN_STATUS } from "../../constants"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
+import { useEffect } from "react"
+import {
+  FilterParams,
+  LoanApplicationFilterSchema,
+  LoanApplicationFilterValues
+} from "../../hooks/useQuery/useQueryListLoanApplication"
 
-const FormSchema = z.object({
-  status: z.array(
-    z.object({
-      label: z.string().optional(),
-      value: z.string().optional()
-    })
-  ),
-  loanProducts: z.array(
-    z.object({
-      label: z.string().optional(),
-      value: z.string().optional()
-    })
-  ),
-  loanAmounts: z.array(
-    z.object({
-      label: z.string().optional(),
-      value: z.string().optional()
-    })
-  ),
-  search: z.string().optional()
-})
+type Props = {
+  onSearch: (formValues: FilterParams) => void
+}
 
-export function LoanApplicationTableHeader() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+export function LoanApplicationTableHeader({
+  onSearch
+}: React.PropsWithChildren<Props>) {
+  const form = useForm<LoanApplicationFilterValues>({
+    resolver: zodResolver(LoanApplicationFilterSchema),
     defaultValues: {
       status: [],
-      loanProducts: [],
-      loanAmounts: [],
+      type: [],
       search: ""
     }
   })
 
-  function onSubmit() {
-    // Fetch data
-  }
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      onSearch({
+        status: value.status?.map((v) => v?.value ?? "") ?? [],
+        type: value.type?.map((v) => v?.value ?? "") ?? [],
+        search: value.search ?? ""
+      })
+    })
+
+    return () => subscription.unsubscribe()
+  }, [form, onSearch])
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form className="space-y-6">
         <div className="flex w-full items-center flex-wrap gap-3">
           <FormField
             control={form.control}
             name="search"
             render={({ field }) => (
-              <FormItem className="flex flex-col flex-1 flex-shrink-0 min-w-[200px]">
+              <FormItem className="flex flex-col flex-[200px] shrink-0 min-w-[200px]">
                 <FormLabel className="whitespace-nowrap">
                   Search for application
                 </FormLabel>
@@ -69,8 +63,9 @@ export function LoanApplicationTableHeader() {
                   <Input
                     prefixIcon={<Search className="h-5 w-5 opacity-50" />}
                     type="text"
-                    placeholder="Search"
+                    placeholder="Applicant name or ID"
                     className="pl-9"
+                    autoComplete="new-password"
                     {...field}
                   />
                 </FormControl>
@@ -90,27 +85,16 @@ export function LoanApplicationTableHeader() {
               />
             )}
           />
+
           <FormField
             control={form.control}
-            name="loanProducts"
+            name="type"
             render={({ field }) => (
               <MultiSelect
                 label="Loan Product"
-                name="loanProducts"
+                name="type"
                 field={field}
                 options={LOAN_PRODUCTS}
-              />
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="loanAmounts"
-            render={({ field }) => (
-              <MultiSelect
-                label="Loan Amount"
-                name="loanAmounts"
-                field={field}
-                options={LOAN_AMOUNT}
               />
             )}
           />
