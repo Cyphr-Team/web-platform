@@ -20,7 +20,7 @@ const WelcomeLine = () => {
 
 export const Component = () => {
   return (
-    <div className="overflow-auto my-0 md:-my-8 -mx-8 flex flex-col items-center flex-1">
+    <div className="overflow-auto flex flex-col items-center flex-1">
       <div>
         <section className="w-full">
           <img

@@ -18,7 +18,7 @@ type LoanApplicationContextType = {
 
 export const LoanApplicationContext = createContext<LoanApplicationContextType>(
   {
-    step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+    step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
     changeStep: () => {},
     progress: STEPS,
     loanApplicationId: "",
@@ -33,7 +33,7 @@ type Props = {
 
 export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   const [step, setStep] = useState<LOAN_APPLICATION_STEPS>(
-    LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+    LOAN_APPLICATION_STEPS.LOAN_REQUEST
   )
 
   const [loanApplicationId, setLoanApplicationId] = useState<string>("")

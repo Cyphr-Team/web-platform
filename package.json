@@ -69,6 +69,7 @@
     "tailwindcss-animate": "^1.0.7",
     "use-context-selector": "^1.4.1",
     "use-image": "^1.1.1",
+    "vaul": "^0.9.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

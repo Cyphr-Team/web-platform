@@ -43,7 +43,7 @@ const AccordionTrigger = React.forwardRef<
     <div className="open-icon">{openIcon}</div>
     <div className="close-icon">{closeIcon}</div>
     {!openIcon && !closeIcon && (
-      <ChevronDownIcon className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
+      <ChevronDownIcon className="w-6 shrink-0 transition-transform duration-200" />
     )}
   </AccordionPrimitive.Trigger>
 ))

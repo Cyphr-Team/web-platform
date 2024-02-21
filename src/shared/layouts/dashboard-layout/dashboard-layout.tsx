@@ -13,7 +13,7 @@ const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
 
   if (isLoanApplicant)
-    return <Navigate to={APP_PATH.LOAN_APPLICATION.INDEX} replace />
+    return <Navigate to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list} replace />
 
   return children
 }

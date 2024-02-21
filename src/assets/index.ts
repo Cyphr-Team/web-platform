@@ -1,9 +1,13 @@
 import altCapLoanProgram from "./altcap-loan-program.png"
 import altCapLoanProgramLarge from "./altcap-loan-program-large.png"
 import artCapExpressHeroImg from "./artcap_express_hero_img.png"
+import altCapLogo from "./altcap-logo.svg"
+import altCapLogoText from "./altcap-text.svg"
 
 export const ASSETS = {
   artCapExpressHeroImg,
   altCapLoanProgram,
-  altCapLoanProgramLarge
+  altCapLoanProgramLarge,
+  altCapLogo,
+  altCapLogoText
 }

@@ -10,7 +10,7 @@ import { Minus, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { LoanProgramDetailApply } from "./LoanProgramDetailApply"
-import { LoanProgramDetailUnderConstruction } from "./LoanProgramDetailApply copy"
+import { LoanProgramDetailUnderConstruction } from "./LoanProgramDetailUnderConstruction"
 
 export const LoanProgramDetailFAQ = () => {
   const { loanProgramDetail } = useLoanProgramDetailContext()

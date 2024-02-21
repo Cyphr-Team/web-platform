@@ -40,7 +40,7 @@ export const useLogin = () => {
       inMemoryJWTService.setUserInfo(data)
       queryClient.resetQueries()
 
-      navigate(APP_PATH.LOAN_APPLICATION.INDEX)
+      navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
     }
   })
 }

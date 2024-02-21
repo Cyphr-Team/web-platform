@@ -20,16 +20,19 @@ export const APP_PATH = {
 
   // ONBOARDING
   LOAN_APPLICATION: {
-    SETTINGS: "/onboarding/settings",
-    APPLICATIONS: "/onboarding/applications",
+    SETTINGS: "/loan/settings",
+    APPLICATIONS: "/loan/applications",
     LOAN_PROGRAM: {
-      list: "/onboarding/loan-program",
-      detail: "/onboarding/loan-program/:loanProgramId",
-      detailWithId: (id: string) => `/onboarding/loan-program/${id}`
+      list: "/loan/loan-program",
+      detail: "/loan/loan-program/:loanProgramId",
+      detailWithId: (id: string) => `/loan/loan-program/${id}`
     },
-    INDEX: "/onboarding",
-    INFORMATION: "information",
-    SUBMISSION: "submission"
+    INDEX: "/loan",
+    INFORMATION: {
+      detail: "/loan/loan-program/:loanProgramId/information",
+      detailWithId: (loanProgramId: string) =>
+        `/loan/loan-program/${loanProgramId}/information`
+    }
   },
 
   LOAN_APPLICATION_MANAGEMENT: {

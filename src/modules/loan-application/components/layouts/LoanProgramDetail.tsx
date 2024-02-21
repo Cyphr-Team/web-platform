@@ -6,7 +6,7 @@ import { LoanProgramDetailWelcomeLine } from "../organisms/loan-program-detail/L
 import { LoanProgramDetailFAQ } from "../organisms/loan-program-detail/LoanProgramDetailFAQ"
 import { TopBarDetail } from "./TopBarDetail"
 import { LoanProgramDetailApply } from "../organisms/loan-program-detail/LoanProgramDetailApply"
-import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-detail/LoanProgramDetailApply copy"
+import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-detail/LoanProgramDetailUnderConstruction"
 
 export const ComponentWithProvider = () => {
   const { loanProgramDetail } = useLoanProgramDetailContext()
@@ -15,7 +15,7 @@ export const ComponentWithProvider = () => {
     loanProgramDetail?.heroImage ?? ASSETS.altCapLoanProgramLarge
 
   return (
-    <div className="overflow-auto my-0 md:-my-8 -mx-8 flex flex-col items-center flex-1">
+    <div className="overflow-auto flex flex-col items-center flex-1">
       <TopBarDetail
         breads={[
           {

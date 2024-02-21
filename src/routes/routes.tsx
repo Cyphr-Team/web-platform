@@ -4,10 +4,12 @@ import { AuthLayout } from "@/shared/layouts/auth-layout/auth-layout"
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Outlet,
   Route
 } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { userLoader } from "./loader"
+import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -206,6 +208,7 @@ const routes = createBrowserRouter(
         lazy={() => import("@/modules/loan-application/page")}
       >
         <Route
+          index
           path={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list}
           lazy={() =>
             import("@/modules/loan-application/components/layouts/LoanProgram")
@@ -235,30 +238,26 @@ const routes = createBrowserRouter(
             )
           }
         />
+
         <Route
-          index
-          lazy={() =>
-            import(
-              "@/modules/loan-application/components/layouts/LoanIntroduction"
-            )
+          element={
+            <>
+              <SideNavLoanApplication />
+              <div className="md:ml-36 w-full overflow-auto flex flex-col">
+                <Outlet />
+              </div>
+            </>
           }
-        />
-        <Route
-          path={APP_PATH.LOAN_APPLICATION.INFORMATION}
-          lazy={() =>
-            import(
-              "@/modules/loan-application/components/layouts/LoanInformation"
-            )
-          }
-        />
-        <Route
-          path={APP_PATH.LOAN_APPLICATION.SUBMISSION}
-          lazy={() =>
-            import(
-              "@/modules/loan-application/components/layouts/LoanSubmission"
-            )
-          }
-        />
+        >
+          <Route
+            path={APP_PATH.LOAN_APPLICATION.INFORMATION.detail}
+            lazy={() =>
+              import(
+                "@/modules/loan-application/components/layouts/LoanInformation"
+              )
+            }
+          />
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFoundLayout />} />

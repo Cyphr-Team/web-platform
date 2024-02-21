@@ -33,9 +33,10 @@ export function Component() {
           <LoanApplicationProvider>
             <div className="flex h-screen overflow-hidden">
               <SideNav items={navItems} className="hidden md:flex" />
-              <div className="p-4xl flex-1 flex pt-14 md:pt-4xl">
+              {/* For auto scroll to top, this tag must be overflow-hidden */}
+              <main className="flex flex-1 pt-12 md:pt-0 overflow-hidden">
                 <Outlet />
-              </div>
+              </main>
             </div>
           </LoanApplicationProvider>
         </RoleStrict>
