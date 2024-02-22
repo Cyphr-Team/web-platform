@@ -1,9 +1,13 @@
 // ENUM
+
 enum LoanApplicationStatus {
-  InProgress = "In progress",
-  Flagged = "Flagged",
-  Ready = "Ready",
-  Closed = "Closed"
+  UNDERWRITTEN = "UNDERWRITTEN",
+  CANCELLED = "CANCELLED",
+  IN_PROGRESS = "IN_PROGRESS",
+  THIRD_PARTY_REJECTED = "THIRD_PARTY_REJECTED",
+  THIRD_PARTY_APPROVED = "THIRD_PARTY_APPROVED",
+  THIRD_PARTY_PENDING = "THIRD_PARTY_PENDING",
+  DRAFT = "DRAFT"
 }
 
 export { LoanApplicationStatus }

@@ -12,15 +12,18 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
+import { snakeCaseToText } from "@/utils"
 
-// TODO: Update type when integrate with API
 const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
-  switch (status) {
-    case LoanApplicationStatus.Flagged:
+  const statusUppercase = status.toUpperCase()
+  switch (statusUppercase) {
+    case LoanApplicationStatus.THIRD_PARTY_REJECTED:
       return "red"
-    case LoanApplicationStatus.InProgress:
+    case LoanApplicationStatus.IN_PROGRESS:
+    case LoanApplicationStatus.THIRD_PARTY_PENDING:
       return "yellow"
-    case LoanApplicationStatus.Ready:
+    case LoanApplicationStatus.THIRD_PARTY_APPROVED:
+    case LoanApplicationStatus.UNDERWRITTEN:
       return "green"
     default:
       return undefined
@@ -90,7 +93,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Loan Amount" />
     ),
-    size: 200,
+    size: 150,
     cell: ({ row }) => {
       const application = row.original
       const amount = parseFloat(application.loanAmount + "")
@@ -121,7 +124,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
             variantColor={getBadgeVariantByStatus(application.status)}
             className="capitalize"
           >
-            {application.status}
+            {snakeCaseToText(application.status)}
           </Badge>
         </div>
       )
@@ -132,7 +135,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Progress" />
     ),
-    size: 150,
+    size: 200,
     cell: ({ row }) => {
       const application = row.original
 

@@ -1,6 +1,7 @@
 import { Option } from "@/types/common.type"
 import { APP_PATH } from "@/constants"
 import { AUTHENTICITY_LEVEL, KybDetailLiensData } from "./type"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
 export const APPLICATION_MENU = (id: string) => [
   {
     name: "Overview",
@@ -69,13 +70,22 @@ export const FAKE_LIENS_DATA = [
 ] as KybDetailLiensData[]
 
 export const LOAN_STATUS: Option[] = [
-  { label: "Draft", value: "DRAFT" },
-  { label: "Submitted", value: "SUBMITTED" },
-  { label: "Third Party Pending", value: "THIRD_PARTY_PENDING" },
-  { label: "Third Party Approved", value: "THIRD_PARTY_APPROVED" },
-  { label: "Third Party Rejected", value: "THIRD_PARTY_REJECTED" },
-  { label: "Cancelled", value: "CANCELLED" },
-  { label: "Underwritten", value: "UNDERWRITTEN" }
+  { label: "Draft", value: LoanApplicationStatus.DRAFT },
+  { label: "In Progress", value: LoanApplicationStatus.IN_PROGRESS },
+  {
+    label: "Third Party Pending",
+    value: LoanApplicationStatus.THIRD_PARTY_PENDING
+  },
+  {
+    label: "Third Party Approved",
+    value: LoanApplicationStatus.THIRD_PARTY_APPROVED
+  },
+  {
+    label: "Third Party Rejected",
+    value: LoanApplicationStatus.THIRD_PARTY_REJECTED
+  },
+  { label: "Cancelled", value: LoanApplicationStatus.CANCELLED },
+  { label: "Underwritten", value: LoanApplicationStatus.UNDERWRITTEN }
 ]
 
 export const LOAN_PRODUCTS: Option[] = [{ label: "Micro Loan", value: "MICRO" }]
