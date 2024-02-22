@@ -9,6 +9,10 @@ export const TOAST_MSG = {
     create: {
       title: "Creating loan program",
       description: "Loan program is created successfully"
+    },
+    update: {
+      title: "Updating loan program",
+      description: "Loan program is updated successfully"
     }
   },
   loanApplication: {

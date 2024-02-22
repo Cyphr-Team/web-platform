@@ -97,9 +97,15 @@ export const API_PATH = {
     }
   },
   loanProgram: {
-    create: "api/admin-loan/micro-loan/program",
     list: "api/user-loan/micro-loan/program/list",
-    detail: (id: string) => `api/user-loan/micro-loan/program?id=${id}`
+    detail: (id: string) => `api/user-loan/micro-loan/program?id=${id}`,
+    cdfi: {
+      all: "api/admin-loan/micro-loan/program",
+      create: () => API_PATH.loanProgram.cdfi.all,
+      list: () => `${API_PATH.loanProgram.cdfi.all}/list`,
+      detail: () => API_PATH.loanProgram.cdfi.all,
+      update: () => API_PATH.loanProgram.cdfi.all
+    }
   },
   application: {
     create: "api/user-loan/micro-loan/application",
@@ -165,6 +171,14 @@ export const APP_BREADS = {
       {
         to: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
         label: "Applications"
+      }
+    ]
+  },
+  CDFI_LOAN_PROGRAM_MANAGEMENT: {
+    list: [
+      {
+        to: APP_PATH.LOAN_PROGRAM.index,
+        label: "Loan Programs"
       }
     ]
   }
