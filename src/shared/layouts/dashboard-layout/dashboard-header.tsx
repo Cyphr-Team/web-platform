@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils"
 import { MobileSidebar } from "./mobile-sidebar"
-import { ThemeToggle } from "./theme-toggle"
 import { UserNav } from "./user-nav"
 import { NavItem } from "@/types/common.type"
 
@@ -18,7 +17,6 @@ export function Header({ items }: HeaderSidebarProps) {
 
         <div className="flex items-center gap-2 ml-auto">
           <UserNav />
-          <ThemeToggle />
         </div>
       </nav>
     </div>

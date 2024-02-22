@@ -26,4 +26,18 @@ interface UserInfo {
   avatar?: string
 }
 
-export type { UserInfo }
+interface UserDetailInfo {
+  id: string
+  institutionId: string
+  authId: string
+  name: string
+  email: string
+  avatar: string
+  status: UserStatus
+  roles: UserRoles
+  loggedInAt: string
+  authProvider: string
+  createdAt: string
+}
+
+export type { UserInfo, UserDetailInfo }

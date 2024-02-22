@@ -8,8 +8,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useGetUserInformation } from "@/hooks/useGetUserInformation"
 import { useLogout } from "@/hooks/useLogout"
-import { inMemoryJWTService } from "@/services/jwt.service"
 
 interface AccountProps {
   isCollapsed?: boolean
@@ -19,11 +20,7 @@ export function Account(
   { isCollapsed }: AccountProps = { isCollapsed: false }
 ) {
   const { signOut } = useLogout()
-
-  const userInfo = inMemoryJWTService.getUserInfo()
-
-  const userName = userInfo?.username.split("@")?.[0] ?? ""
-  const userEmail = userInfo?.username ?? ""
+  const { data, isLoading } = useGetUserInformation()
 
   return (
     <DropdownMenu>
@@ -31,36 +28,48 @@ export function Account(
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-10 w-10 rounded-full">
             <Avatar className="flex h-10 w-10 items-center justify-center space-y-0 border rounded-full flex-shrink-0">
-              <AvatarImage src={userInfo?.avatar ?? ""} alt={userName} />
-              <AvatarFallback>{userName.slice(0, 2)}</AvatarFallback>
+              <AvatarImage src={data?.avatar ?? ""} alt={data?.name} />
+              <AvatarFallback>{data?.name?.slice(0, 2)}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         {!isCollapsed && (
-          <div className="space-y-1 min-w-0">
-            <p
-              className="text-sm font-medium leading-none truncate"
-              title={userName}
-            >
-              {userName}
-            </p>
-            <p
-              className="text-sm text-muted-foreground truncate"
-              title={userEmail}
-            >
-              {userEmail}
-            </p>
+          <div className="space-y-1 min-w-0 w-full">
+            {isLoading ? (
+              <Skeleton className="h-4 w-full border" />
+            ) : (
+              <p
+                className="text-sm font-medium leading-none truncate"
+                title={data?.name}
+              >
+                {data?.name}
+              </p>
+            )}
+            {isLoading ? (
+              <Skeleton className="h-4 w-full border" />
+            ) : (
+              <p
+                className="text-sm text-muted-foreground truncate"
+                title={data?.email}
+              >
+                {data?.email}
+              </p>
+            )}
           </div>
         )}
       </div>
       <DropdownMenuContent className="w-56" align="start" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none truncate">
-              {userName}
-            </p>
+          <div className="flex flex-col space-y-1 w-full">
+            {isLoading ? (
+              <Skeleton className="h-4 w-full" />
+            ) : (
+              <p className="text-sm font-medium leading-none truncate">
+                {data?.name}
+              </p>
+            )}
             <p className="text-xs leading-none text-muted-foreground truncate">
-              {userEmail}
+              {data?.email}
             </p>
           </div>
         </DropdownMenuLabel>

@@ -76,6 +76,7 @@ export const APP_PATH = {
 
 export const API_PATH = {
   users: {
+    me: "api/users/me",
     forgotPassword: "api/users/public/forgot-password",
     resendForgotPassword: "api/users/resend-activation-secret",
     setupPassword: "api/users/public/reset-password",
