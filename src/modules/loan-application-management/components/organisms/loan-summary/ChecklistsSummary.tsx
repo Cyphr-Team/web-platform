@@ -25,6 +25,7 @@ export const ChecklistsSummary = () => {
         label="Duplicate"
         value={loanKycDetail?.checkLists?.duplicate.reason}
         isBadge
+        hasAction
         badgeText={loanKycDetail?.checkLists?.duplicate.status}
       />
       <Separator />

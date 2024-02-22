@@ -40,30 +40,47 @@ export const KybReport = ({ loanKybDetail }: Props) => {
       </div>
       <div className="flex flex-wrap gap-4">
         <div className="flex flex-col flex-1">
-          <p className="text-text-secondary font-medium text-sm whitespace-nowrap">
+          <p className="text-slate-500 font-medium text-sm whitespace-nowrap">
             Formation state
           </p>
-          <p className="text-xl">
+          <p className="text-xl mt-1.5">
             {loanKybDetail?.formation?.state ?? UNKNOWN_VALUE}
           </p>
         </div>
         <div className="flex flex-col flex-1">
-          <p className="text-text-secondary font-medium text-sm whitespace-nowrap">
+          <p className="text-slate-500 font-medium text-sm whitespace-nowrap">
             Formation date
           </p>
-          <p className="text-xl">
+          <p className="text-xl mt-1.5">
             {loanKybDetail?.formation?.date ?? UNKNOWN_VALUE}
           </p>
         </div>
+      </div>
+      <div className="flex flex-wrap gap-4">
+        <div className="flex flex-col flex-1 gap-1.5">
+          <p className="text-slate-500 font-medium text-sm whitespace-nowrap">
+            Tax ID
+          </p>
+          <p className="text-xl">{loanKybDetail?.tax.value ?? UNKNOWN_VALUE}</p>
+          {loanKybDetail?.tax.status && (
+            <Badge className="mt-sm space-x-xs py-xs border w-fit">
+              <VerificationIcon
+                status={loanKybDetail?.tax.status}
+                className="w-4"
+              />
+              <p className="text-sm font-medium">{loanKybDetail?.tax.label}</p>
+            </Badge>
+          )}
+        </div>
         <div className="flex flex-col flex-1">
-          <p className="text-text-secondary font-medium text-sm whitespace-nowrap">
+          <p className="text-slate-500 font-medium text-sm whitespace-nowrap">
             Entity type
           </p>
-          <p className="text-xl">
+          <p className="text-xl mt-1.5">
             {loanKybDetail?.formation?.entityType ?? UNKNOWN_VALUE}
           </p>
         </div>
-      </div>{" "}
+      </div>
       <Separator />
       <div className="flex flex-col">
         <div className="flex items-center space-x-sm">
@@ -72,9 +89,7 @@ export const KybReport = ({ loanKybDetail }: Props) => {
               <AlertTriangle className="w-4 h-4 text-warning" />
             </AspectRatio>{" "}
           </div>
-          <p className="text-text-secondary font-medium text-sm">
-            Office address
-          </p>
+          <p className="text-slate-500 font-medium text-sm">Office address</p>
         </div>
         <p className="text-xl my-sm">
           {loanKybDetail?.officeAddresses[0] ?? UNKNOWN_VALUE}
@@ -82,14 +97,14 @@ export const KybReport = ({ loanKybDetail }: Props) => {
         {loanKybDetail?.officeAddresses.length && (
           <Accordion type="single" collapsible className="w-fit">
             <AccordionItem value="item-1" className="border-0">
-              <AccordionTrigger className="justify-start">
-                <p className="text-sm text-text-secondary">
+              <AccordionTrigger className="justify-start pt-0 pb-1">
+                <p className="text-sm text-slate-500">
                   {loanKybDetail?.officeAddresses.length} Office addresses
                 </p>
               </AccordionTrigger>
               <AccordionContent>
                 {loanKybDetail?.officeAddresses.map((item, index) => (
-                  <p key={index} className="text-xl my-sm">
+                  <p key={index} className="text-sm my-sm">
                     {item}
                   </p>
                 ))}
@@ -99,35 +114,22 @@ export const KybReport = ({ loanKybDetail }: Props) => {
         )}
       </div>
       <Separator />
-      <div className="md:flex space-y-4 md:space-y-0 gap-4">
-        <div className="flex flex-col flex-1">
-          <p className="text-text-secondary font-medium text-sm">Tax ID</p>
-          <p className="text-xl">{loanKybDetail?.tax.value ?? UNKNOWN_VALUE}</p>
-          {loanKybDetail?.tax.status && (
-            <Badge className="mt-sm space-x-xs py-xs border w-fit">
-              <VerificationIcon
-                status={loanKybDetail?.tax.status}
-                className="w-4"
-              />
-              <p className="text-sm">{loanKybDetail?.tax.label}</p>
-            </Badge>
-          )}
-        </div>
+      <div className="md:flex space-y-4 md:space-y-0 gap-8">
         <div className="flex flex-col flex-1 flex-grow w-full">
-          <p className="text-text-secondary font-medium text-sm">Website</p>
-          <p className="text-xl break-all">
+          <p className="text-slate-500 font-medium text-sm">Website</p>
+          <p className="text-xl break-all mt-1.5">
             {loanKybDetail?.website.url ?? UNKNOWN_VALUE}
           </p>
           {loanKybDetail?.website.description && (
-            <p className="text-sm">{loanKybDetail?.website.description}</p>
+            <p className="text-sm text-slate-500 mt-1.5">
+              {loanKybDetail?.website.description}
+            </p>
           )}
         </div>
         <div className="flex flex-col flex-1">
-          <p className="text-text-secondary font-medium text-sm">
-            Phone Number
-          </p>
+          <p className="text-slate-500 font-medium text-sm">Phone Number</p>
           {Array.isArray(loanKybDetail?.phoneNumber) ? (
-            <p className="text-xl">
+            <p className="text-xl mt-1.5">
               {loanKybDetail?.phoneNumber?.[0] ?? UNKNOWN_VALUE}
             </p>
           ) : (

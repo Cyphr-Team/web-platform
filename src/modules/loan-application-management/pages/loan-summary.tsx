@@ -15,7 +15,7 @@ export function Component() {
   return (
     <div className="lg:flex gap-3xl w-full">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
-        <div className="space-y-lg my-lg">
+        <div className="space-y-lg mt-lg">
           <div className="flex items-center gap-sm">
             <p className="text-4xl font-semibold ">Loan Summary</p>
           </div>

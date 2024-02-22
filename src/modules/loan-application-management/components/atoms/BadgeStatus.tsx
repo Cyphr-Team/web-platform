@@ -14,21 +14,21 @@ export const BadgeStatus: React.FC<Props> = ({ status }) => {
     case LoanDocumentStatus.VERIFIED:
       return (
         <Badge className="space-x-xs py-0 px-sm border w-fit h-fit bg-success-50 border-success-200">
-          <Check className="w-3 h-3 text-success-500" />
+          <Check strokeWidth={3.5} className="w-3 h-3 text-success-500" />
           <p className="text-sm font-medium text-success-700">Verified</p>
         </Badge>
       )
     case KYC_STATUS.UNVERIFIED:
       return (
         <Badge className="space-x-xs py-0 px-sm border w-fit h-fit bg-error-50 border-error-200">
-          <X className="w-3 h-3 text-error-500" />
+          <X strokeWidth={3.5} className="w-3 h-3 text-error-500" />
           <p className="text-sm font-medium text-error-700">Unverified</p>
         </Badge>
       )
     case KYC_STATUS.PASSED:
       return (
         <Badge className="space-x-xs py-0 px-sm border w-fit h-fit bg-success-50 border-success-200">
-          <Check className="w-3 h-3 text-success-500" />
+          <Check strokeWidth={3.5} className="w-3 h-3 text-success-500" />
           <p className="text-sm font-medium text-success-700">Passed</p>
         </Badge>
       )
@@ -36,7 +36,7 @@ export const BadgeStatus: React.FC<Props> = ({ status }) => {
     case LoanDocumentStatus.FLAGGED:
       return (
         <Badge className="space-x-xs py-0 px-sm border w-fit h-fit bg-error-50 border-error-200">
-          <X className="w-3 h-3 text-error-500" />
+          <X strokeWidth={3.5} className="w-3 h-3 text-error-500" />
           <p className="text-sm font-medium text-error-700">Failed</p>
         </Badge>
       )
@@ -44,14 +44,14 @@ export const BadgeStatus: React.FC<Props> = ({ status }) => {
     case LoanDocumentStatus.UNCHECKED:
       return (
         <Badge className="space-x-xs py-0 px-sm border w-fit h-fit bg-gray-50 border-gray-200">
-          <MinusSquare className="w-3 h-3 text-gray-500" />
+          <MinusSquare strokeWidth={3.5} className="w-3 h-3 text-gray-500" />
           <p className="text-sm font-medium text-gray-700">Unchecked</p>
         </Badge>
       )
     case KYB_VERIFIED_FIELD_STATUS.WARNING:
       return (
         <Badge className="space-x-xs py-0 px-sm border w-fit h-fit bg-warning-secondary border-amber-300">
-          <AlertTriangle className="w-3 h-3 text-warning" />
+          <AlertTriangle strokeWidth={3.5} className="w-3 h-3 text-warning" />
           <p className="text-sm font-medium text-warning">Warning</p>
         </Badge>
       )

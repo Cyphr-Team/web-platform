@@ -88,7 +88,7 @@ const routes = createBrowserRouter(
               path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.OVERVIEW}
               lazy={() =>
                 import(
-                  "@/modules/loan-application/components/layouts/LoanInformation"
+                  "@/modules/loan-application-management/pages/under-construction"
                 )
               }
             />

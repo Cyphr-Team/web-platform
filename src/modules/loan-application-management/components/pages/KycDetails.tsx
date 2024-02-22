@@ -14,18 +14,18 @@ export const Component = () => {
   return (
     <div className="lg:flex gap-3xl w-full">
       <Card className="h-fit lg:sticky top-0 z-10 mb-4">
-        <CardHeader className="mb-sm pb-0">
-          <CardTitle className="font-bold text-base mb-sm">Summary</CardTitle>
+        <CardHeader className="mb-sm !p-4 !pb-0">
+          <CardTitle className="font-bold text-base">Summary</CardTitle>
           <Separator />
         </CardHeader>
-        <CardContent className="space-y-1 lg:space-y-sm w-full lg:w-[19rem]">
-          <VerificationItem
-            title="ID Check"
-            status={loanKycDetail?.summary?.idCheck.status}
-          />
+        <CardContent className="space-y-1 lg:space-y-sm w-full lg:w-[19rem] !p-4 !pt-0">
           <VerificationItem
             title="Personal Info"
             status={loanKycDetail?.summary?.personalInfo.status}
+          />
+          <VerificationItem
+            title="ID Check"
+            status={loanKycDetail?.summary?.idCheck.status}
           />
           <VerificationItem
             title="Checklist"
@@ -55,7 +55,7 @@ export const Component = () => {
           </div> */}
         </div>
         <div className="flex flex-col gap-y-lg">
-          <p className="text-3xl font-semibold">Personal Info</p>
+          <p className="text-2xl font-semibold">Personal Info</p>
           <Card>
             <InformationRow
               label="Name"
@@ -111,7 +111,7 @@ export const Component = () => {
         </div>
         <Separator />
         <div className="flex flex-col gap-y-lg">
-          <p className="text-3xl font-semibold">ID Check</p>
+          <p className="text-2xl font-semibold">ID Check</p>
           <Card>
             <InformationRow
               label="Drivers License"
@@ -129,7 +129,7 @@ export const Component = () => {
         </div>
         <Separator />
         <div className="flex flex-col gap-y-lg">
-          <p className="text-3xl font-semibold">Checklists</p>
+          <p className="text-2xl font-semibold">Checklists</p>
           <Card>
             <InformationRow
               label="PEP/Sanctions"

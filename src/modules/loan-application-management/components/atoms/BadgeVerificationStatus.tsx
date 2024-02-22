@@ -28,8 +28,10 @@ export const BadgeVerificationStatus: React.FC<Props> = ({ status }) => {
       className={`space-x-xs py-md px-lg ${badgeCssByStatus[className]} border w-fit rounded-lg`}
     >
       <VerificationIcon status={status} />
-      <p className={`text-sm font-medium ${textCssByStatus[className]}`}>
-        {status}
+      <p
+        className={`text-xl font-normal ${textCssByStatus[className]} capitalize`}
+      >
+        {status?.toLowerCase()}
       </p>
     </Badge>
   )

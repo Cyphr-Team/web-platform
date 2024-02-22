@@ -9,7 +9,7 @@ type Props = {
 
 export const MainLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="flex flex-col w-full h-full max-w-screen-2xl space-y-3xl pt-4xl">
+    <div className="flex flex-col w-full h-full max-w-screen-2xl pt-4xl">
       <Breadcrumbs
         breads={[
           {
@@ -19,11 +19,11 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
           { to: "#", label: "Latte Larry" }
         ]}
       />
-      <div className="flex flex-col space-y-3xl border-b">
+      <div className="flex flex-col space-y-3xl border-b mt-3xl">
         <BasicInformation />
         <TopNav />
       </div>
-      <div className="p-4xl pt-0 flex-1 overflow-auto">{children}</div>
+      <div className="p-4xl pt-3xl flex-1 overflow-auto">{children}</div>
     </div>
   )
 }

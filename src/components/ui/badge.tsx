@@ -10,7 +10,7 @@ const badgeVariants = cva(
     variants: {
       variantColor: {
         red: "text-red-700 bg-red-500",
-        gray: "text-gray-700 bg-gray-500",
+        gray: "text-gray-700 bg-gray-300",
         yellow: "text-yellow-700 bg-yellow-500",
         green: "text-green-700 bg-green-500"
       },

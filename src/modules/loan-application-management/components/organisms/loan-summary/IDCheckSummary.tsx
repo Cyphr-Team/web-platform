@@ -16,9 +16,9 @@ export const IDCheckSummary = () => {
       <Separator />
       <InformationRow
         label="Passport"
-        value={loanKycDetail?.idCheck?.passport?.reason}
         isBadge
-        badgeText={loanKycDetail?.idCheck?.passport?.status}
+        hasAction
+        badgeText={loanKycDetail?.idCheck?.passport?.status ?? "N/A"}
       />
     </>
   )

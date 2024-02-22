@@ -23,8 +23,8 @@ const LoanAmountItem = ({
   value: ReactNode
 }) => {
   return (
-    <div className="flex justify-between">
-      <label className="text-muted-foreground">{label}</label>
+    <div className="flex justify-between gap-4">
+      <label className="text-muted-foreground whitespace-nowrap">{label}</label>
       <p className="font-medium">{value}</p>
     </div>
   )
@@ -71,7 +71,7 @@ export const Component = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit((data) => data)}>
         <div>
-          <div className="flex gap-24">
+          <div className="flex-col md:flex-row flex gap-24 flex-wrap">
             <div className="flex-1">
               <FormField
                 control={form.control}
@@ -91,7 +91,7 @@ export const Component = () => {
                         max={25000}
                       />
                     </FormControl>
-                    <div className="flex justify-between pt-2 text-sm">
+                    <div className="flex justify-between pt-2 text-sm gap-4">
                       <div>
                         <div className="text-muted-foreground">Min</div>
                         $12,000
@@ -112,7 +112,7 @@ export const Component = () => {
                 name="loanTerm"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-muted-foreground font-normal">
+                    <FormLabel className="text-muted-foreground">
                       Loan Term
                     </FormLabel>
                     <h1 className="text-2xl pb-2">{field.value[1]} Months</h1>
@@ -123,7 +123,7 @@ export const Component = () => {
                         max={48}
                       />
                     </FormControl>
-                    <div className="flex justify-between text-sm pt-2">
+                    <div className="flex justify-between text-sm pt-2 gap-4">
                       <div>
                         <div className="text-muted-foreground">Min</div>
                         12 Months
