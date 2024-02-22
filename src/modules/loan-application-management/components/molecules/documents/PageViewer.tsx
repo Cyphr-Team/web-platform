@@ -5,7 +5,6 @@ import useImage from "use-image"
 
 export const PageViewer: React.FC = () => {
   const { scale, selectedVisualization } = useLoanDocumentDetailsContext()
-
   const [image] = useImage(selectedVisualization?.imageUrl ?? "")
   // Ref for the parent container
   const parentRef = useRef<HTMLDivElement>(null)
@@ -14,8 +13,8 @@ export const PageViewer: React.FC = () => {
 
   useEffect(() => {
     if (parentRef.current) {
-      const scaleX = parentRef.current.offsetWidth / (image?.width ?? 0)
-      const scaleY = parentRef.current.offsetHeight / (image?.height ?? 0)
+      const scaleX = parentRef.current.offsetWidth / (image?.width ?? 1)
+      const scaleY = parentRef.current.offsetHeight / (image?.height ?? 1)
       const scale = Math.min(scaleX, scaleY)
       setInitScale(scale)
     }
@@ -35,6 +34,7 @@ export const PageViewer: React.FC = () => {
             scaleY={scale * initScale}
             x={0}
             y={0}
+            zIndex={1}
           />
         </Layer>
       </Stage>

@@ -1,3 +1,5 @@
+import { getRequest } from "@/services/client.service"
+import { ImageDataResponse } from "@/types/common.type"
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber"
 import { toast } from "sonner"
 
@@ -76,4 +78,23 @@ export const convertToCamelCase = (str: string) => {
 
 export const snakeCaseToText = (str: string) => {
   return str.replace(/_/g, " ")
+}
+
+export async function fetchProtectedImage(path: string, imageUrl: string) {
+  // Fetch the image.
+  const response = await getRequest<
+    { [key: string]: string },
+    ImageDataResponse
+  >({
+    path: `${path}?image_url=${imageUrl}`
+  })
+
+  const blob = response.fileData
+
+  // TODO: create object url from blob
+  // Dont know why this doesn't work
+  // const n = new Blob([blob], { type: "image/jpeg" })
+  // const objectUrl = URL.createObjectURL(n)
+
+  return blob
 }

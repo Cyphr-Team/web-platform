@@ -5,7 +5,7 @@ import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
 import { useQueryDocument } from "../../hooks/useQuery/useQueryDocument"
 
 import { Row } from "@tanstack/react-table"
-import { LoanDocument } from "@/types/loan-document.type"
+import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
 import { DocumentTableHeader } from "../table/document-header"
 import { useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
@@ -16,6 +16,7 @@ export function Component() {
   const [keyword, setKeyword] = useState("")
 
   const handleClickDetail = (detail: Row<LoanDocument>) => {
+    if (detail.original.status === LoanDocumentStatus.UNCHECKED) return
     navigate(
       APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.detail(
         LoanApplicationID!,

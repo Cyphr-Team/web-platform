@@ -98,14 +98,49 @@ export type PayStubCapturedType = {
 
 export enum DocumentType {
   BANK_STATEMENT = "bank_statement",
-  W2 = "W2",
+  W2 = "form",
   PAY_STUB = "paystub"
 }
 
 export type DocumentDetailsType = {
   documentType: DocumentType
   documentStatus: string
-  detect: SignalsDetectType
+  detect: {
+    data: DocumentDetectType[]
+  }
   capture: PayStubCapturedType | BankStatementType | W2DocumentType
   visualizations: VisualizationType[]
+}
+
+export type DocumentVisualizationType = {
+  documentType: DocumentType
+  documentStatus: string
+  detect: {
+    visualizations: DocumentVisualization[]
+    signals: SignalsDetectType[]
+  }
+}
+
+type DocumentVisualization = {
+  pageNumber: number
+  pageVisualizations: PageVisualization[]
+}
+
+type PageVisualization = {
+  imageUrl: string
+  displayName: string
+  visualType: string
+  description: string
+}
+
+export type DocumentDetectType = {
+  detectData: SignalsDetectType
+  visualizationData: VisualizationType
+}
+
+export type SignalsCoordinatesType = {
+  left: number
+  top: number
+  right: number
+  bottom: number
 }

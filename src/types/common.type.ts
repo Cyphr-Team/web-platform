@@ -87,3 +87,8 @@ interface Breadcrumb {
 }
 
 export type { Breadcrumb }
+
+// --- QUERY RESPONSE ---
+export interface ImageDataResponse {
+  fileData: string
+}

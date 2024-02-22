@@ -7,9 +7,10 @@ type Props = {
 export const PageList: React.FC<Props> = ({ visualizationsByPage }) => {
   return (
     <div className="flex flex-col h-full overflow-auto gap-2 w-48">
-      {visualizationsByPage.map((pagePreview, index) => (
-        <PagePreview key={index} pagePreview={pagePreview} />
-      ))}
+      {visualizationsByPage &&
+        visualizationsByPage.map((pagePreview, index) => (
+          <PagePreview key={index} pagePreview={pagePreview} />
+        ))}
     </div>
   )
 }

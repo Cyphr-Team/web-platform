@@ -16,7 +16,7 @@ export const PageViewerPanel: React.FC = () => {
     visualizationDetails,
     handleSelectVisualization
   } = useLoanDocumentDetailsContext()
-
+  if (!visualizationDetails) return null
   const handleNextVisualization = () => {
     const index = selectedPage?.visualizations.findIndex(
       (visualization) => visualization === selectedVisualization
@@ -40,7 +40,7 @@ export const PageViewerPanel: React.FC = () => {
 
     return visualizationDetails.visualizationsDescription[
       convertToCamelCase(
-        visualizationIdentifier
+        visualizationIdentifier.toLowerCase()
       ) as keyof typeof visualizationDetails.visualizationsDescription
     ]
   }

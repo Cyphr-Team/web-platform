@@ -127,7 +127,11 @@ export const API_PATH = {
     getKYC: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/kyc`,
     getDocumentDetails: (applicationId: string, documentId: string) =>
-      `api/loan-officer/applications/${applicationId}/documents/${documentId}`
+      `api/loan-officer/v2/applications/${applicationId}/documents/${documentId}`,
+    getDocumentVisualizations: (applicationId: string, documentId: string) =>
+      `api/loan-officer/applications/${applicationId}/documents/${documentId}`,
+    getVisualizationImage: (applicationId: string, documentId: string) =>
+      `api/loan-officer/applications/${applicationId}/documents/${documentId}/visualization`
   }
 }
 

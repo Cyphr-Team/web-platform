@@ -5,16 +5,23 @@ import {
   VisualizationPage,
   VisualizationType
 } from "../constants/type"
-import { FAKE_VISUALIZATION_DATA } from "../constants"
+import { VISUALIZATION_DESCRIPTION } from "../constants"
 import { useQueryGetDocumentDetails } from "../hooks/useQuery/useQueryDocumentDetails"
 import { useParams } from "react-router-dom"
-import { DocumentDetailsType } from "../constants/types/document"
+import {
+  DocumentDetailsType,
+  DocumentVisualizationType
+} from "../constants/types/document"
+import { useQueryGetDocumentVisualizations } from "../hooks/useQuery/useQueryDocumentVisualizations"
+import { fetchProtectedImage } from "@/utils"
+import { API_PATH } from "@/constants"
+import { useUpdateEffect } from "react-use"
 
 type LoanDocumentDetailsContextType = {
   scale: number
   zoomIn: () => void
   zoomOut: () => void
-  visualizationDetails: VisualizationType
+  visualizationDetails?: VisualizationType
   documentDetails?: DocumentDetailsType
   selectedVisualization: Visualization | null
   selectedPage: VisualizationPage | null
@@ -41,12 +48,16 @@ type Props = {
 
 export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
   const [selectedPage, setSelectedPage] = useState<VisualizationPage | null>(
-    FAKE_VISUALIZATION_DATA.visualizationsByPage[0] ?? null
+    null
   )
   const params = useParams()
 
   const [selectedVisualization, setSelectedVisualization] =
     useState<Visualization | null>(selectedPage?.visualizations[0] ?? null)
+
+  const [visualizationDetails, setVisualizationDetails] = useState<
+    VisualizationType | undefined
+  >(undefined)
 
   const [scale, setScale] = useState(1)
 
@@ -74,12 +85,80 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
     documentId: params.documentId ?? ""
   })
 
+  const documentVisualizationData = useQueryGetDocumentVisualizations({
+    applicationId: params.id ?? "",
+    documentId: params.documentId ?? ""
+  })
+
+  const transformVisualizationData = useCallback(
+    async (data: DocumentVisualizationType): Promise<VisualizationType> => {
+      const path = API_PATH.loanApplicationDetails.getVisualizationImage(
+        params?.id ?? "",
+        params?.documentId ?? ""
+      )
+
+      const visualizationsByPage = data.detect?.visualizations?.map(
+        async (page) => {
+          return {
+            pageNumber: page.pageNumber,
+            visualizations: await Promise.all(
+              page.pageVisualizations?.map(async (visualization) => {
+                const imageUrl = `data:image/jpeg;base64,${await fetchProtectedImage(
+                  path,
+                  visualization.imageUrl
+                )}`
+                const thumbnailSmallUrl = `data:image/jpeg;base64,${await fetchProtectedImage(
+                  path,
+                  `${visualization.imageUrl}?size=sm`
+                )}`
+                const thumbnailMediumUrl = `data:image/bmp;base64,${await fetchProtectedImage(
+                  path,
+                  `${visualization.imageUrl}?size=md`
+                )}`
+                return {
+                  visualizationIdentifier: visualization.visualType,
+                  imageUrl: imageUrl,
+                  thumbnailSmallUrl: thumbnailSmallUrl,
+                  thumbnailMediumUrl: thumbnailMediumUrl
+                }
+              }) ?? []
+            ),
+            pageDocPk: page.pageNumber.toString(),
+            pageSignalCount: page.pageVisualizations.length
+          } as VisualizationPage
+        }
+      )
+      return {
+        formUuid: params.documentId ?? "",
+        formType: data.documentType,
+        totalSignalCount: data.detect?.signals?.length ?? 0,
+        visualizationsByPage: await Promise.all(visualizationsByPage),
+        visualizationsDescription: VISUALIZATION_DESCRIPTION
+      }
+    },
+    [params.documentId, params?.id]
+  )
+
+  useUpdateEffect(() => {
+    if (documentVisualizationData.data) {
+      transformVisualizationData(documentVisualizationData.data).then(
+        (data) => {
+          setVisualizationDetails(data)
+          setSelectedPage(data.visualizationsByPage[0])
+          setSelectedVisualization(
+            data.visualizationsByPage[0].visualizations[0]
+          )
+        }
+      )
+    }
+  }, [documentVisualizationData.data])
+
   const providerValue = useMemo(
     () => ({
       scale,
       zoomIn,
       zoomOut,
-      visualizationDetails: FAKE_VISUALIZATION_DATA,
+      visualizationDetails: visualizationDetails,
       documentDetails: documentDetails.data,
       selectedVisualization,
       selectedPage,
@@ -87,10 +166,11 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
       handleSelectVisualization
     }),
     [
-      documentDetails,
+      documentDetails.data,
       scale,
       selectedPage,
       selectedVisualization,
+      visualizationDetails,
       zoomIn,
       zoomOut
     ]

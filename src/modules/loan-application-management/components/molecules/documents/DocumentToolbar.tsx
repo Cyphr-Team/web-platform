@@ -3,6 +3,7 @@ import { DocumentTitle } from "./DocumentTitle"
 import { Button } from "@/components/ui/button"
 import { Minus, Plus } from "lucide-react"
 import { useLoanDocumentDetailsContext } from "@/modules/loan-application-management/providers/LoanDocumentDetailsProvider"
+import { capitalizeWords, snakeCaseToText } from "@/utils"
 
 export const DocumentToolbar: React.FC = () => {
   const {
@@ -11,8 +12,11 @@ export const DocumentToolbar: React.FC = () => {
     handleSelectPage,
     scale,
     visualizationDetails,
-    selectedPage
+    selectedPage,
+    documentDetails
   } = useLoanDocumentDetailsContext()
+
+  if (!visualizationDetails?.visualizationsByPage) return null
 
   const total = visualizationDetails.visualizationsByPage.length
   const currentPage =
@@ -44,7 +48,13 @@ export const DocumentToolbar: React.FC = () => {
 
   return (
     <div className="flex w-full justify-between pb-3">
-      <DocumentTitle verifiedDate="2021-09-01" documentType="Bank Statement" />
+      <DocumentTitle
+        verifiedDate="-"
+        documentType={capitalizeWords(
+          snakeCaseToText(documentDetails?.documentType ?? "")
+        )}
+      />
+
       <div className="flex gap-6">
         <div className="flex gap-1">
           <Button

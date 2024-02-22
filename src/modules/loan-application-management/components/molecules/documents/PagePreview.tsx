@@ -54,7 +54,7 @@ export const PagePreview: React.FC<Props> = ({ pagePreview }) => {
       </div>
       {pagePreview.visualizations.length > 1 && (
         <div className="flex gap-1 overflow-auto">
-          {pagePreview.visualizations.map((visualization, index) => (
+          {pagePreview?.visualizations.map((visualization, index) => (
             <img
               key={index}
               src={visualization.thumbnailSmallUrl}
