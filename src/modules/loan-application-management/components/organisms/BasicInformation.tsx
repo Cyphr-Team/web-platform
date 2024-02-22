@@ -18,18 +18,24 @@ const BasicInformationSkeleton = () => {
 }
 
 export const BasicInformation = () => {
-  const { isLoading } = useLoanApplicationDetailContext()
+  const { isLoading, loanKybDetail } = useLoanApplicationDetailContext()
 
   if (isLoading) return <BasicInformationSkeleton />
 
   return (
     <div className="flex gap-xl md:gap-2xl lg:gap-3xl flex-1 w-full px-4xl">
-      <LoanInformationCard title="Business Name" content="Micro Loan" />
-      <LoanInformationCard title="Loan Program" content="ARTcap Express" />
-      <LoanInformationCard title="Loan Amount Requested" content="$25,000" />
+      <LoanInformationCard
+        title="Business Name"
+        content={loanKybDetail?.businessName?.value ?? "N/A"}
+      />
+      <LoanInformationCard title="Loan Program" content="Micro Loan Program" />
+      <LoanInformationCard
+        title="Loan Amount Requested"
+        content="$100,000.00"
+      />
       <LoanInformationCard
         title="Proposed Use of Loan"
-        content="Equipment Purchase"
+        content="Working Capital"
       />
     </div>
   )

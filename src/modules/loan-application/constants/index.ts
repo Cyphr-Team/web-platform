@@ -116,9 +116,15 @@ export const LOAN_APPLICATION_STEP_DATA = {
 
 export const STEPS: ProgressType[] = [
   {
+    title: "Loan Request",
+    content: "",
+    status: LOAN_APPLICATION_STEP_STATUS.CURRENT,
+    step: LOAN_APPLICATION_STEPS.LOAN_REQUEST
+  },
+  {
     title: "Business Information",
     content: "Enter your business information",
-    status: LOAN_APPLICATION_STEP_STATUS.CURRENT,
+    status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE,
     step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
   },
   {

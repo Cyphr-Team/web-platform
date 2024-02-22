@@ -109,6 +109,7 @@ export const API_PATH = {
     }
   },
   application: {
+    details: "api/user-loan/micro-loan/application",
     create: "api/user-loan/micro-loan/application",
     submitKyb: "api/form/kyb",
     submitKyc: "api/form/kyc",

@@ -10,7 +10,8 @@ import { Separator } from "@/components/ui/separator"
 import {
   ARTCAP_MENU,
   LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_DATA
+  LOAN_APPLICATION_STEP_DATA,
+  LOAN_APPLICATION_STEP_STATUS
 } from "@/modules/loan-application/constants"
 import { useLoanApplicationContext } from "@/modules/loan-application/providers"
 import { CircularProgress } from "@/components/ui/circular-progress"
@@ -84,6 +85,15 @@ export function LoanProgramCollapsible({
 }
 
 export function SideNavLoanApplication({ className }: SidebarProps) {
+  const { progress } = useLoanApplicationContext()
+  const progressPercent = progress.filter(
+    (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+  ).length
+  const progressText = `${progressPercent}/4`
+
+  const signatureStatus =
+    progress[4].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+
   return (
     <div
       className={cn(
@@ -110,28 +120,46 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
         >
           <LoanProgramCollapsible
             label={ARTCAP_MENU.APPLICATION}
-            progressPercent={1 / 4}
-            progressText="1/4"
+            progressPercent={progressPercent / 4}
+            progressText={progressText}
           >
             <LoanProgramItem
               value={LOAN_APPLICATION_STEPS.LOAN_REQUEST}
-              finished
+              finished={
+                progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+              }
             />
             <LoanProgramItem
               value={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
+              finished={
+                progress[1].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+              }
             />
-            <LoanProgramItem value={LOAN_APPLICATION_STEPS.OWNER_INFORMATION} />
+            <LoanProgramItem
+              value={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
+              finished={
+                progress[2].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+              }
+            />
             <LoanProgramItem
               value={LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION}
+              finished={
+                progress[3].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+              }
             />
           </LoanProgramCollapsible>
 
           <LoanProgramCollapsible
             label={ARTCAP_MENU.SIGNATURE}
-            progressPercent={0 / 1}
-            progressText="0/1"
+            progressPercent={signatureStatus ? 1 : 0 / 1}
+            progressText={`${signatureStatus ? 1 : 0 / 1}/1`}
           >
-            <LoanProgramItem value={LOAN_APPLICATION_STEPS.CONFIRMATION} />
+            <LoanProgramItem
+              value={LOAN_APPLICATION_STEPS.CONFIRMATION}
+              finished={
+                progress[4].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+              }
+            />
           </LoanProgramCollapsible>
         </Accordion>
       </div>

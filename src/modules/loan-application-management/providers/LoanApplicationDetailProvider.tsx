@@ -14,6 +14,7 @@ type LoanApplicationDetailContextType = {
 export const LoanApplicationDetailContext =
   createContext<LoanApplicationDetailContextType>({
     loanKybDetail: undefined,
+    loanKycDetail: undefined,
     isLoading: false
   })
 
@@ -27,11 +28,11 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const params = useParams()
 
   const kybDetailQuery = useQueryGetKyb({
-    applicationId: params.id ?? ""
+    applicationId: params.id!
   })
 
   const kycDetailQuery = useQueryGetKyc({
-    applicationId: params.id ?? ""
+    applicationId: params.id!
   })
 
   return (

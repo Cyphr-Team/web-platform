@@ -11,7 +11,7 @@ export const ViewSignalsDetails: React.FC<Props> = ({
 }) => {
   const { visualizationDetails } = useLoanDocumentDetailsContext()
 
-  if (!visualizationDetails || !isOpenSignalDetails) return null
+  if (!visualizationDetails || isOpenSignalDetails) return null
   return (
     <p
       className="text-xs bg-error-100 p-3"

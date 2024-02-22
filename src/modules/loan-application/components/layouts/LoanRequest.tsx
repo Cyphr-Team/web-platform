@@ -46,7 +46,8 @@ const LOAN_PURPOSES = [
 ]
 
 export function CardWithForm() {
-  const { changeStep, changeLoanApplicationId } = useLoanApplicationContext()
+  const { changeStep, changeLoanApplicationId, changeProgress } =
+    useLoanApplicationContext()
   const { loanProgramDetails } = useLoanProgramDetailContext()
 
   const minLoanAmount = loanProgramDetails?.minLoanAmount ?? 0
@@ -67,16 +68,19 @@ export function CardWithForm() {
   })
 
   const handleSubmit = form.handleSubmit(() => {
+    if (!loanProgramDetails) return
     mutate(
       {
         loanAmount: form.getValues("loanAmount"),
         loanTermInMonth: form.getValues("loanTermInMonth"),
-        proposeUseOfLoan: "other"
+        proposeUseOfLoan: "other",
+        loanProgramId: loanProgramDetails?.id
       },
       {
         onSuccess(res) {
           changeLoanApplicationId(res.data.id)
           changeStep(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
+          changeProgress(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
         }
       }
     )

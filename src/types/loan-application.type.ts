@@ -1,5 +1,7 @@
 // ENUM
 
+import { LoanProgramType } from "@/modules/loan-application/constants/type"
+
 enum LoanApplicationStatus {
   UNDERWRITTEN = "UNDERWRITTEN",
   CANCELLED = "CANCELLED",
@@ -45,9 +47,12 @@ interface LoanProgram {
 }
 interface UserLoanApplication {
   id: string
-  loanProgram: LoanProgram
+  loanProgram: LoanProgramType
   applicantId: string
   businessId: string
+  loanAmount: number
+  loanTermInMonth: number
+  proposeUseOfLoan: string
   createdAt: string
   updatedAt: string
 }
@@ -56,6 +61,7 @@ interface UserLoanApplicationRequest {
   loanAmount: number
   loanTermInMonth: number
   proposeUseOfLoan: string
+  loanProgramId: string
 }
 
 export type {
