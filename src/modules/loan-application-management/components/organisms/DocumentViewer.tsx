@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils"
 
 export const DocumentViewer: React.FC = () => {
   const { visualizationDetails, selectedPage } = useLoanDocumentDetailsContext()
-  console.log(visualizationDetails)
 
   if (!visualizationDetails)
     return (
