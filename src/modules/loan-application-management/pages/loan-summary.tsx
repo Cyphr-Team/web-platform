@@ -11,13 +11,21 @@ import { CollateralDocumentationSummary } from "../components/organisms/loan-sum
 import { CashFlowSummary } from "../components/organisms/loan-summary/CashFlowSummary"
 import { SBAFormsSummary } from "../components/organisms/loan-summary/SBAFormsSummary"
 
+import { useRef } from "react"
+import { DownloadButton } from "../components/atoms/DownloadButton"
+
 export function Component() {
+  const elementToExportRef = useRef<HTMLDivElement>(null)
+
   return (
-    <div className="lg:flex gap-3xl w-full">
+    <div className="lg:flex gap-3xl w-full flex-col" ref={elementToExportRef}>
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
-        <div className="space-y-lg mt-lg">
+        <div className="space-y-lg mt-lg flex justify-between">
           <div className="flex items-center gap-sm">
             <p className="text-4xl font-semibold ">Loan Summary</p>
+          </div>
+          <div>
+            <DownloadButton elementToExportRef={elementToExportRef} />
           </div>
         </div>
 
