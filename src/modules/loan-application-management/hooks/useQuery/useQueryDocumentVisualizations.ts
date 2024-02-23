@@ -13,7 +13,11 @@ export const useQueryGetDocumentVisualizations = ({
   documentId: string
 }) => {
   return useQuery<DocumentVisualizationType, ErrorResponse>({
-    queryKey: [QUERY_KEY.GET_DOCUMENT_VISUALIZATIONS, applicationId],
+    queryKey: [
+      QUERY_KEY.GET_DOCUMENT_VISUALIZATIONS,
+      applicationId,
+      documentId
+    ],
     queryFn: () => {
       return getRequest({
         path: API_PATH.loanApplicationDetails.getDocumentVisualizations(
@@ -22,6 +26,6 @@ export const useQueryGetDocumentVisualizations = ({
         )
       })
     },
-    enabled: !!applicationId
+    enabled: !!applicationId && !!documentId
   })
 }

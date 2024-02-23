@@ -8,12 +8,14 @@ import { useQueryGetLoanProgramDetails } from "../hooks/useQuery/useQueryLoanPro
 type LoanProgramDetailContext = {
   loanProgramDetails?: LoanProgramType
   loanProgramInfo?: LoanProgramData
+  isLoading: boolean
 }
 
 export const LoanProgramDetailContext = createContext<LoanProgramDetailContext>(
   {
     loanProgramDetails: undefined,
-    loanProgramInfo: undefined
+    loanProgramInfo: undefined,
+    isLoading: false
   }
 )
 
@@ -33,9 +35,10 @@ export const LoanProgramDetailProvider: React.FC<Props> = ({ children }) => {
   const value = useMemo(
     () => ({
       loanProgramInfo,
-      loanProgramDetails: loanProgramQuery.data
+      loanProgramDetails: loanProgramQuery.data,
+      isLoading: loanProgramQuery.isLoading
     }),
-    [loanProgramInfo, loanProgramQuery.data]
+    [loanProgramInfo, loanProgramQuery.data, loanProgramQuery.isLoading]
   )
 
   return (

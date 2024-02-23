@@ -118,6 +118,7 @@ export const API_PATH = {
     getIncomeCategories: "api/form/financial/income-categories"
   },
   loanApplication: {
+    details: "api/loan-officer/micro-loan/application",
     list: "api/loan-officer/applications",
     getDocuments: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/documents`
@@ -192,4 +193,4 @@ export const APP_BREADS = {
 
 // QUERY REQUEST
 
-export const REQUEST_LIMIT_PARAM = 10
+export const REQUEST_LIMIT_PARAM = 50

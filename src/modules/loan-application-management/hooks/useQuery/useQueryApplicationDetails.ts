@@ -14,7 +14,7 @@ export const useQueryGetApplicationDetails = ({
     queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_DETAILS, applicationId],
     queryFn: () => {
       return getRequest({
-        path: API_PATH.application.details,
+        path: API_PATH.loanApplication.details,
         params: {
           id: applicationId
         }

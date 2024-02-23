@@ -23,6 +23,7 @@ export const useQueryDocument = ({
   return useInfiniteQuery<ListLoanApplicationResponse>({
     queryKey: loanApplicationDocumentKeys.list(
       createSearchParams({
+        id: params.id!,
         keyword,
         limit: limit.toString(),
         offset: offset.toString()

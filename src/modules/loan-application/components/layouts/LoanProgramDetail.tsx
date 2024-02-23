@@ -7,9 +7,10 @@ import { LoanProgramDetailFAQ } from "../organisms/loan-program-detail/LoanProgr
 import { TopBarDetail } from "./TopBarDetail"
 import { LoanProgramDetailApply } from "../organisms/loan-program-detail/LoanProgramDetailApply"
 import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-detail/LoanProgramDetailUnderConstruction"
+import { Loader2 } from "lucide-react"
 
 export const ComponentWithProvider = () => {
-  const { loanProgramInfo } = useLoanProgramDetailContext()
+  const { loanProgramInfo, isLoading } = useLoanProgramDetailContext()
 
   const heroImage = loanProgramInfo?.heroImage ?? ASSETS.altCapLoanProgramLarge
 
@@ -31,28 +32,28 @@ export const ComponentWithProvider = () => {
         }
       />
 
-      <div>
-        <section className="w-full">
+      <section className="w-full">
+        {isLoading ? (
+          <div className="w-full h-[30vh] max-h-[30vh] items-center align-center flex">
+            <Loader2 className="w-8 h-8 m-auto animate-spin" />
+          </div>
+        ) : (
           <img
-            className="w-full max-h-[292px]"
+            className="w-full max-h-[30vh]"
             src={heroImage}
             alt="hero image"
             height={292}
           />
-        </section>
+        )}
+      </section>
 
-        <section className="p-6 md:px-0 md:w-4/5 xl:w-3/4 m-auto">
-          <div>
-            <LoanProgramDetailWelcomeLine />
-          </div>
+      <section className="p-6 md:px-0 md:w-4/5 xl:w-3/4 m-auto">
+        <LoanProgramDetailWelcomeLine />
 
-          <Separator className="my-6" />
+        <Separator className="my-6" />
 
-          <div>
-            <LoanProgramDetailFAQ />
-          </div>
-        </section>
-      </div>
+        <LoanProgramDetailFAQ />
+      </section>
     </div>
   )
 }

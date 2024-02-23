@@ -13,7 +13,7 @@ export const useQueryGetDocumentDetails = ({
   documentId: string
 }) => {
   return useQuery<DocumentDetailsType, ErrorResponse>({
-    queryKey: [QUERY_KEY.GET_DOCUMENT_DETAILS, applicationId],
+    queryKey: [QUERY_KEY.GET_DOCUMENT_DETAILS, applicationId, documentId],
     queryFn: () => {
       return getRequest({
         path: API_PATH.loanApplicationDetails.getDocumentDetails(
@@ -22,6 +22,6 @@ export const useQueryGetDocumentDetails = ({
         )
       })
     },
-    enabled: !!applicationId
+    enabled: !!applicationId && !!documentId
   })
 }

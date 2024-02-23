@@ -18,7 +18,8 @@ const BasicInformationSkeleton = () => {
 }
 
 export const BasicInformation = () => {
-  const { isLoading, loanKybDetail } = useLoanApplicationDetailContext()
+  const { isLoading, loanKybDetail, loanApplicationDetails } =
+    useLoanApplicationDetailContext()
 
   if (isLoading) return <BasicInformationSkeleton />
 
@@ -28,14 +29,17 @@ export const BasicInformation = () => {
         title="Business Name"
         content={loanKybDetail?.businessName?.value ?? "N/A"}
       />
-      <LoanInformationCard title="Loan Program" content="Micro Loan Program" />
+      <LoanInformationCard
+        title="Loan Program"
+        content={loanApplicationDetails?.loanProgram?.name ?? "N/A"}
+      />
       <LoanInformationCard
         title="Loan Amount Requested"
-        content="$100,000.00"
+        content={loanApplicationDetails?.loanAmount?.toLocaleString() ?? "N/A"}
       />
       <LoanInformationCard
         title="Proposed Use of Loan"
-        content="Working Capital"
+        content={loanApplicationDetails?.proposeUseOfLoan ?? "N/A"}
       />
     </div>
   )
