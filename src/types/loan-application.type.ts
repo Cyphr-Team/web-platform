@@ -53,6 +53,7 @@ interface UserLoanApplication {
   loanAmount: number
   loanTermInMonth: number
   proposeUseOfLoan: string
+  status: LoanApplicationStatus
   createdAt: string
   updatedAt: string
 }

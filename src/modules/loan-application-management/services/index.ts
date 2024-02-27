@@ -1,3 +1,4 @@
+import { LoanApplicationStatus } from "@/types/loan-application.type"
 import {
   AUTHENTICITY_LEVEL,
   KYB_VERIFIED_FIELD_STATUS
@@ -26,5 +27,21 @@ export const getClassNameFromStatus = (
       return "warning"
     default:
       return "warning"
+  }
+}
+
+export const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
+  const statusUppercase = status?.toUpperCase()
+  switch (statusUppercase) {
+    case LoanApplicationStatus.THIRD_PARTY_REJECTED:
+      return "red"
+    case LoanApplicationStatus.IN_PROGRESS:
+    case LoanApplicationStatus.THIRD_PARTY_PENDING:
+      return "yellow"
+    case LoanApplicationStatus.THIRD_PARTY_APPROVED:
+    case LoanApplicationStatus.UNDERWRITTEN:
+      return "green"
+    default:
+      return undefined
   }
 }

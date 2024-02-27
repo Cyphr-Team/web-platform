@@ -2,10 +2,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Progress } from "@/components/ui/progress"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
-import {
-  LoanApplication,
-  LoanApplicationStatus
-} from "@/types/loan-application.type"
+import { LoanApplication } from "@/types/loan-application.type"
 import {
   Tooltip,
   TooltipContent,
@@ -13,22 +10,7 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { snakeCaseToText } from "@/utils"
-
-const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
-  const statusUppercase = status.toUpperCase()
-  switch (statusUppercase) {
-    case LoanApplicationStatus.THIRD_PARTY_REJECTED:
-      return "red"
-    case LoanApplicationStatus.IN_PROGRESS:
-    case LoanApplicationStatus.THIRD_PARTY_PENDING:
-      return "yellow"
-    case LoanApplicationStatus.THIRD_PARTY_APPROVED:
-    case LoanApplicationStatus.UNDERWRITTEN:
-      return "green"
-    default:
-      return undefined
-  }
-}
+import { getBadgeVariantByStatus } from "../../services"
 
 export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {

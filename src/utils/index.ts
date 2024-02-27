@@ -98,3 +98,38 @@ export async function fetchProtectedImage(path: string, imageUrl: string) {
 
   return blob
 }
+
+export const convertToReadableDate = (date: string) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  })
+}
+
+export const convertToReadableDateAgo = (date: string) => {
+  if (!date) {
+    return "N/A"
+  }
+  const date1 = new Date(date)
+  const date2 = new Date()
+  const diffTime = Math.abs(date2.getTime() - date1.getTime())
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+  const diffWeeks = Math.floor(diffDays / 7)
+  const diffMonths = Math.floor(diffDays / 30)
+  const diffYears = Math.floor(diffMonths / 12)
+
+  const addS = (value: number, str: string) => (value > 1 ? str + "s" : str)
+
+  if (diffYears > 0) {
+    return `${diffYears} ${addS(diffYears, "year")} ago`
+  } else if (diffMonths > 0) {
+    return `${diffMonths} ${addS(diffMonths, "month")} ago`
+  } else if (diffWeeks > 0) {
+    return `${diffWeeks} ${addS(diffWeeks, "week")} ago`
+  } else if (diffDays > 0) {
+    return `${diffDays} ${addS(diffDays, "day")} ago`
+  } else {
+    return "Today"
+  }
+}

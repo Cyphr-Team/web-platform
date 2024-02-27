@@ -109,6 +109,7 @@ export const API_PATH = {
     }
   },
   application: {
+    list: "api/user-loan/micro-loan/application/list",
     details: "api/user-loan/micro-loan/application",
     create: "api/user-loan/micro-loan/application",
     submitKyb: "api/form/kyb",
@@ -172,6 +173,14 @@ export const PASSWORD_REGEX = {
 }
 
 export const APP_BREADS = {
+  LOAN_PROGRAMS: {
+    list: [
+      {
+        to: APP_PATH.LOAN_APPLICATION.APPLICATIONS,
+        label: "Loan Applications"
+      }
+    ]
+  },
   LOAN_APPLICATION_MANAGEMENT: {
     list: [
       {
