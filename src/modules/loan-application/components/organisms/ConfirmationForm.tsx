@@ -16,8 +16,10 @@ import {
 import { ButtonLoading } from "@/components/ui/button"
 import { CONFIRMATION_TEXTS } from "../../constants"
 import { Input } from "@/components/ui/input"
+import { useLoanApplicationContext } from "../../providers"
 
 export const ConfirmationForm = () => {
+  const { submitForm } = useLoanApplicationContext()
   const form = useForm<ConfirmationFormValue>({
     resolver: zodResolver(confirmationFormSchema),
     defaultValues: {
@@ -91,7 +93,10 @@ export const ConfirmationForm = () => {
           </form>
         </Card>
         <div className="flex justify-end">
-          <ButtonLoading disabled={!form.formState.isValid}>
+          <ButtonLoading
+            disabled={!form.formState.isValid}
+            onClick={submitForm}
+          >
             Submit
           </ButtonLoading>
         </div>

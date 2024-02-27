@@ -32,20 +32,30 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   label: string
   control: Control<T>
   name: FieldPath<T>
+  className?: string
 }
 
 export const AutoCompleteStates = <T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
 ) => {
   const [open, setOpen] = useState(false)
-  const { value, options, emptyText, control, name, label, onChange } = props
+  const {
+    value,
+    options,
+    emptyText,
+    control,
+    name,
+    label,
+    className,
+    onChange
+  } = props
 
   return (
     <FormField
       control={control}
       name={name}
       render={() => (
-        <FormItem>
+        <FormItem className={className}>
           <FormLabel className="text-text-secondary">{label}</FormLabel>
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>

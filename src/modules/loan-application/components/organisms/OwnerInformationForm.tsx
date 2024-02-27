@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
-import { ButtonLoading } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useLoanApplicationContext } from "@/modules/loan-application/providers"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
@@ -34,22 +34,33 @@ import { useSelectCities } from "../../hooks/useSelectCities"
 import { useEffect } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
-import { useSubmitLoanKycInformation } from "../../hooks/useMutation/useSubmitLoanKycInformation"
-import { FORM_TYPE } from "../../constants/type"
-import { useMutateUploadDocument } from "../../hooks/useMutation/useUploadDocumentMutation"
 
 export function OwnerInformationForm() {
+  const {
+    changeProgress,
+    changeStep,
+    saveDraftForm,
+    setFormIsEdited,
+    draftForm
+  } = useLoanApplicationContext()
+
   const defaultValues = {
-    fullName: "",
-    businessRole: "",
-    addressLine1: "",
-    addressLine2: "",
-    email: "",
-    dateOfBirth: "",
-    socialSecurityNumber: "",
-    businessOwnershipPercentage: "",
-    hasOtherSubstantialStackHolders: "false",
-    businessZipCode: ""
+    fullName: draftForm.ownerInformationForm.fullName ?? "",
+    businessRole: draftForm.ownerInformationForm.businessRole ?? "",
+    addressLine1: draftForm.ownerInformationForm.addressLine1 ?? "",
+    addressLine2: draftForm.ownerInformationForm.addressLine2 ?? "",
+    businessState: draftForm.ownerInformationForm.businessState ?? "",
+    businessCity: draftForm.ownerInformationForm.businessCity ?? "",
+    phoneNumber: draftForm.ownerInformationForm.phoneNumber ?? "",
+    email: draftForm.ownerInformationForm.email ?? "",
+    dateOfBirth: draftForm.ownerInformationForm.dateOfBirth ?? "",
+    socialSecurityNumber:
+      draftForm.ownerInformationForm.socialSecurityNumber ?? "",
+    businessOwnershipPercentage:
+      draftForm.ownerInformationForm.businessOwnershipPercentage ?? "",
+    hasOtherSubstantialStackHolders:
+      draftForm.ownerInformationForm.hasOtherSubstantialStackHolders ?? "false",
+    businessZipCode: draftForm.ownerInformationForm.businessZipCode ?? ""
   }
 
   const form = useForm<OwnerFormValue>({
@@ -57,9 +68,6 @@ export function OwnerInformationForm() {
     defaultValues,
     mode: "onBlur"
   })
-
-  const { changeProgress, changeStep, loanApplicationId } =
-    useLoanApplicationContext()
 
   const handleSelectFile = (files: FileList) => {
     const currentFiles = form.getValues("governmentFile")
@@ -90,14 +98,14 @@ export function OwnerInformationForm() {
     })
   }
 
-  const {
-    handleChangeState,
-    handleChangeCity,
-    STATE_CITIES_DATA,
-    STATE_DATA,
-    state,
-    city
-  } = useSelectCities()
+  useEffect(() => {
+    if (form.formState.isDirty && !form.formState.isSubmitted) {
+      setFormIsEdited()
+    }
+  }, [form.formState, setFormIsEdited])
+
+  const { handleChangeState, handleChangeCity, STATE_DATA, state, city } =
+    useSelectCities()
 
   useEffect(() => {
     if (state) {
@@ -120,50 +128,10 @@ export function OwnerInformationForm() {
     }
   }, [state, city, form])
 
-  const { mutate, isPending } = useSubmitLoanKycInformation()
-  const { mutateAsync, isUploading } = useMutateUploadDocument()
-
   const onSubmit = (data: OwnerFormValue) => {
-    const formattedData = {
-      ...data,
-      hasOtherSubstantialStackHolders:
-        data.hasOtherSubstantialStackHolders === "true",
-      loanApplicationId: loanApplicationId,
-      businessOwnershipPercentage: Number(data.businessOwnershipPercentage)
-    }
-
-    mutate(formattedData, {
-      onSuccess(res) {
-        handleUploadDocument(res.data.id)
-      }
-    })
-  }
-
-  const handleUploadDocument = async (formId: string) => {
-    const request = new FormData()
-
-    const reqBody = {
-      files: form.getValues("governmentFile"),
-      formType: FORM_TYPE.KYC,
-      formId: formId
-    }
-
-    for (const [key, value] of Object.entries(reqBody)) {
-      if (Array.isArray(value)) {
-        value.forEach((file: File) => {
-          request.append(key, file)
-        })
-      } else if (value) {
-        request.append(key, value + "")
-      }
-    }
-
-    await mutateAsync(request, {
-      onSuccess: () => {
-        changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
-        changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
-      }
-    })
+    saveDraftForm(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, data)
+    changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, true)
+    changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
   }
 
   return (
@@ -173,12 +141,12 @@ export function OwnerInformationForm() {
           <h5 className="text-lg font-semibold">Owner Information</h5>
           <Separator />
 
-          <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl">
+          <form className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
             <FormField
               control={form.control}
               name="fullName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="col-span-3">
                   <FormLabel className="text-text-secondary">
                     Full Name
                   </FormLabel>
@@ -197,7 +165,7 @@ export function OwnerInformationForm() {
               control={form.control}
               name="businessRole"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="col-span-3">
                   <FormLabel className="text-text-secondary">
                     Your Role
                   </FormLabel>
@@ -217,14 +185,14 @@ export function OwnerInformationForm() {
               label="Resident Address Line #1"
               name="addressLine1"
               control={form.control}
-              className="col-span-2"
+              className="col-span-6"
             />{" "}
             <TextInput
               placeholder="i.e: Suite 789"
               label="Resident Address Line #2 (Optional)"
               name="addressLine2"
               control={form.control}
-              className="col-span-2"
+              className="col-span-6"
             />
             <AutoCompleteStates
               options={STATE_DATA}
@@ -234,15 +202,21 @@ export function OwnerInformationForm() {
               control={form.control}
               onChange={handleChangeState}
               value={form.getValues("businessState")}
+              className="col-span-2"
             />
             <AutoCompleteCities
-              options={STATE_CITIES_DATA}
+              options={
+                STATE_DATA.find(
+                  (s) => s.name === form.getValues("businessState")
+                )?.cities ?? []
+              }
               label="Business City"
               emptyText="No results found"
               name="businessCity"
               control={form.control}
               onChange={handleChangeCity}
               value={form.getValues("businessCity")}
+              className="col-span-2"
             />
             <TextInput
               placeholder="i.e: 98765"
@@ -257,18 +231,20 @@ export function OwnerInformationForm() {
               label="Email Address"
               placeholder="i.e: larry@latte.com"
               prefixIcon={<Mail className="h-5 w-5 text-text-tertiary" />}
+              className="col-span-3"
             />{" "}
             <TextInput
               control={form.control}
               name="phoneNumber"
               label="Phone Number"
               placeholder="i.e: 123-456-7890"
+              className="col-span-3"
             />
             <FormField
               control={form.control}
               name="dateOfBirth"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="col-span-3">
                   <FormLabel className="text-text-secondary">
                     Date of Birth
                   </FormLabel>
@@ -284,14 +260,15 @@ export function OwnerInformationForm() {
             <TextInput
               control={form.control}
               name="socialSecurityNumber"
-              label="Social Security Number (SSN)"
+              label="SSN/ITIN"
               placeholder="i.e: 123-45-6789"
+              className="col-span-3"
             />
             <FormField
               control={form.control}
               name="businessOwnershipPercentage"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="col-span-3">
                   <FormLabel className="text-text-secondary">
                     What percent of the business do you own?
                   </FormLabel>
@@ -322,7 +299,7 @@ export function OwnerInformationForm() {
               control={form.control}
               name="hasOtherSubstantialStackHolders"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="col-span-3">
                   <FormLabel className="text-text-secondary">
                     Other than you, are there any individuals who own 20% or
                     more of the business?
@@ -387,13 +364,12 @@ export function OwnerInformationForm() {
           />
         </Card>
         <div className="flex justify-end">
-          <ButtonLoading
+          <Button
             disabled={!form.formState.isValid}
             onClick={form.handleSubmit(onSubmit)}
-            isLoading={isPending || isUploading}
           >
             Save
-          </ButtonLoading>
+          </Button>
         </div>
       </Form>
     </div>

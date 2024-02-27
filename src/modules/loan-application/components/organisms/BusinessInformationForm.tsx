@@ -2,28 +2,35 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
-import { ButtonLoading } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useLoanApplicationContext } from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { BusinessFormValue, businessFormSchema } from "../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../hooks/useSelectCities"
-import { useCallback, useEffect } from "react"
+import { useEffect } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
-import { useSubmitLoanKybInformation } from "../../hooks/useMutation/useSubmitLoanKybInformation"
 
 export const BusinessInformationForm = () => {
+  const {
+    draftForm,
+    saveDraftForm,
+    changeProgress,
+    changeStep,
+    setFormIsEdited
+  } = useLoanApplicationContext()
+
   const defaultValues = {
-    businessLegalName: "",
-    addressLine1: "",
-    addressLine2: "",
-    state: "",
-    city: "",
-    postalCode: "",
-    businessWebsite: "",
-    businessTin: ""
+    businessLegalName: draftForm.businessInformation.businessLegalName ?? "",
+    addressLine1: draftForm.businessInformation.addressLine1 ?? "",
+    addressLine2: draftForm.businessInformation.addressLine2 ?? "",
+    state: draftForm.businessInformation.state ?? "",
+    city: draftForm.businessInformation.city ?? "",
+    postalCode: draftForm.businessInformation.postalCode ?? "",
+    businessWebsite: draftForm.businessInformation.businessWebsite ?? "",
+    businessTin: draftForm.businessInformation.businessTin ?? ""
   }
 
   const form = useForm<BusinessFormValue>({
@@ -32,25 +39,18 @@ export const BusinessInformationForm = () => {
     mode: "onBlur"
   })
 
-  const {
-    handleChangeState,
-    handleChangeCity,
-    STATE_CITIES_DATA,
-    STATE_DATA,
-    state,
-    city
-  } = useSelectCities()
+  useEffect(() => {
+    if (form.formState.isDirty && !form.formState.isSubmitted) {
+      setFormIsEdited()
+    }
+  }, [form.formState, setFormIsEdited])
 
-  const getStateCode = useCallback(
-    (state: string) => {
-      return STATE_DATA.find((s) => s.name === state)?.state_code ?? state
-    },
-    [STATE_DATA]
-  )
+  const { handleChangeState, handleChangeCity, STATE_DATA, state, city } =
+    useSelectCities()
 
   useEffect(() => {
     if (state) {
-      form.setValue("state", getStateCode(state), {
+      form.setValue("state", state, {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
@@ -67,32 +67,12 @@ export const BusinessInformationForm = () => {
         shouldTouch: true
       })
     }
-  }, [state, city, form, getStateCode])
-
-  const { changeProgress, changeStep, loanApplicationId } =
-    useLoanApplicationContext()
-
-  const { mutate, isPending } = useSubmitLoanKybInformation()
+  }, [state, city, form])
 
   const onSubmit = (data: BusinessFormValue) => {
-    const formattedData = {
-      ...data,
-      loanApplicationId: loanApplicationId,
-      businessStreetAddress: {
-        addressLine1: data.addressLine1,
-        addressLine2: data.addressLine2,
-        city: data.city,
-        state: data.state,
-        postalCode: data.postalCode
-      }
-    }
-
-    mutate(formattedData, {
-      onSuccess() {
-        changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
-        changeStep(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
-      }
-    })
+    saveDraftForm(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, data)
+    changeStep(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, true)
+    changeProgress(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
   }
 
   return (
@@ -130,16 +110,19 @@ export const BusinessInformationForm = () => {
               name="state"
               control={form.control}
               onChange={handleChangeState}
-              value={state}
+              value={form.getValues("state")}
             />
             <AutoCompleteCities
-              options={STATE_CITIES_DATA}
+              options={
+                STATE_DATA.find((s) => s.name === form.getValues("state"))
+                  ?.cities ?? []
+              }
               label="Business City"
               emptyText="No results found"
               name="city"
               control={form.control}
               onChange={handleChangeCity}
-              value={city}
+              value={form.getValues("city")}
             />
             <TextInput
               placeholder="i.e: 97531"
@@ -168,13 +151,12 @@ export const BusinessInformationForm = () => {
         </Form>
       </Card>
       <div className="flex justify-end">
-        <ButtonLoading
+        <Button
           disabled={!form.formState.isValid}
-          isLoading={isPending}
           onClick={form.handleSubmit(onSubmit)}
         >
           Save
-        </ButtonLoading>
+        </Button>
       </div>
     </div>
   )

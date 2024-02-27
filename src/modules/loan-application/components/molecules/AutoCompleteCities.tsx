@@ -30,6 +30,7 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   options: CityType[]
   emptyText?: string
   label: string
+  className?: string
   control: Control<T>
   name: FieldPath<T>
 }
@@ -38,7 +39,16 @@ export const AutoCompleteCities = <T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
 ) => {
   const [open, setOpen] = useState(false)
-  const { value, options, emptyText, control, name, label, onChange } = props
+  const {
+    value,
+    options,
+    emptyText,
+    control,
+    name,
+    label,
+    className,
+    onChange
+  } = props
   const [loadedOptions, setLoadedOptions] = useState<CityType[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
@@ -86,15 +96,15 @@ export const AutoCompleteCities = <T extends FieldValues>(
       control={control}
       name={name}
       render={() => (
-        <FormItem>
+        <FormItem className={className}>
           <FormLabel className="text-text-secondary">{label}</FormLabel>
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild disabled={!options.length}>
+              <PopoverTrigger asChild disabled={!options?.length}>
                 <Input
                   value={
                     value
-                      ? options.find((option) => option.name === value)?.name
+                      ? options?.find((option) => option.name === value)?.name
                       : "Select city..."
                   }
                 />

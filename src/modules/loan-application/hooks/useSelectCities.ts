@@ -15,13 +15,14 @@ export const useSelectCities = () => {
     setCity(capitalizeWords(value))
   }
 
-  const STATE_CITIES_DATA =
-    STATE_DATA.find((s) => s.name === state)?.cities ?? []
+  const getStateCode = (state: string) => {
+    return STATE_DATA.find((s) => s.name === state)?.state_code ?? state
+  }
 
   return {
     handleChangeState,
     handleChangeCity,
-    STATE_CITIES_DATA,
+    getStateCode,
     STATE_DATA,
     state,
     city

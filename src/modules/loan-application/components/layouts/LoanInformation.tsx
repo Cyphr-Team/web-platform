@@ -14,47 +14,48 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { LoanProgramDetailProvider } from "../../providers/LoanProgramDetailProvider"
+import { AlertFinishFormBeforeLeave } from "../molecules/alerts/AlertFinishFormRequest"
 
 export const Component = () => {
   const { step } = useLoanApplicationContext()
 
   return (
     <PlaidProvider>
-      <TopBarDetail
-        breads={[
-          {
-            to: APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
-              "artcap-express"
-            ),
-            label: "ARTcap Express"
-          },
-          {
-            to: "#",
-            label: "Loan Application"
-          }
-        ]}
-        rightFooter={
-          <div className="flex gap-2">
-            <LoanApplicationSave />
-            <div className="block md:hidden">
-              <Drawer>
-                <DrawerTrigger asChild>
-                  <Button type="button">Open Progress</Button>
-                </DrawerTrigger>
-                <DrawerContent>
-                  <SideNavLoanApplication className="flex relative w-full" />
-                </DrawerContent>
-              </Drawer>
+      <LoanProgramDetailProvider>
+        <TopBarDetail
+          breads={[
+            {
+              to: APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
+                "artcap-express"
+              ),
+              label: "ARTcap Express"
+            },
+            {
+              to: "#",
+              label: "Loan Application"
+            }
+          ]}
+          rightFooter={
+            <div className="flex gap-2">
+              <LoanApplicationSave />
+              <div className="block md:hidden">
+                <Drawer>
+                  <DrawerTrigger asChild>
+                    <Button type="button">Open Progress</Button>
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <SideNavLoanApplication className="flex relative w-full" />
+                  </DrawerContent>
+                </Drawer>
+              </div>
             </div>
-          </div>
-        }
-      />
-
-      <div className="flex overflow-auto h-full flex-1 py-6 flex-col">
-        <div className="mx-auto w-[80%] xl:w-[60%]">
-          <LoanProgramDetailProvider>
+          }
+        />
+        <div className="flex h-full overflow-auto flex-1 py-6 pt-0 flex-col">
+          <div className="pt-2 sticky top-0 z-10 bg-white shadow-md mb-4 px-2">
             <LoanApplicationStepNavigate />
-
+          </div>
+          <div className="mx-auto w-[80%] xl:w-[60%] ">
             {step === LOAN_APPLICATION_STEPS.LOAN_REQUEST && <LoanRequest />}
             {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
               <BusinessInformationForm />
@@ -68,9 +69,10 @@ export const Component = () => {
             {step === LOAN_APPLICATION_STEPS.CONFIRMATION && (
               <ConfirmationForm />
             )}
-          </LoanProgramDetailProvider>
-        </div>
-      </div>
+          </div>
+        </div>{" "}
+        <AlertFinishFormBeforeLeave />
+      </LoanProgramDetailProvider>
     </PlaidProvider>
   )
 }

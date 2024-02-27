@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useForm } from "react-hook-form"
 import { FinancialFormValue, financialFormSchema } from "../../constants/form"
-import { ButtonLoading } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import { useLoanApplicationContext } from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
@@ -20,18 +20,22 @@ import { ConnectPlaidButton } from "../molecules/ConnectPlaidButton"
 import { FileUploadCard } from "../molecules/FileUploadCard"
 import { useQueryGetIncomeCategories } from "../../hooks/useQuery/useQueryIncomeCategories"
 import { capitalizeWords } from "@/utils"
-import { useSubmitLoanFinancialInformation } from "../../hooks/useMutation/useSubmitLoanFinancialInformation"
-import { useMutateUploadDocument } from "../../hooks/useMutation/useUploadDocumentMutation"
-import { FORM_TYPE } from "../../constants/type"
+import { useEffect } from "react"
 
 export const FinancialInformationForm = () => {
-  const { changeProgress, changeStep, loanApplicationId } =
-    useLoanApplicationContext()
+  const {
+    draftForm,
+    changeProgress,
+    changeStep,
+    saveDraftForm,
+    setFormIsEdited
+  } = useLoanApplicationContext()
 
   const form = useForm<FinancialFormValue>({
     resolver: zodResolver(financialFormSchema),
     defaultValues: {
-      cashflow: []
+      cashflow: draftForm.financialInformationForm.cashflow ?? [],
+      w2sFile: draftForm.financialInformationForm.w2sFile ?? []
     },
     mode: "onChange"
   })
@@ -41,8 +45,6 @@ export const FinancialInformationForm = () => {
     id: val,
     label: capitalizeWords(val.replace(/_/g, "-"))
   }))
-  const { mutate, isPending } = useSubmitLoanFinancialInformation()
-  const { mutateAsync, isUploading } = useMutateUploadDocument()
 
   const handleSelectFile = (files: FileList) => {
     const currentFiles = form.getValues("w2sFile")
@@ -58,6 +60,11 @@ export const FinancialInformationForm = () => {
       shouldTouch: true
     })
   }
+  useEffect(() => {
+    if (form.formState.isDirty && !form.formState.isSubmitted) {
+      setFormIsEdited()
+    }
+  }, [form.formState, setFormIsEdited])
 
   const handleRemoveFile = (index: number) => {
     const currentFiles = form.getValues("w2sFile")
@@ -66,43 +73,9 @@ export const FinancialInformationForm = () => {
   }
 
   const onSubmit = (data: FinancialFormValue) => {
-    const formattedData = {
-      loanApplicationId: loanApplicationId,
-      incomeCategories: data.cashflow
-    }
-
-    mutate(formattedData, {
-      onSuccess: (res) => {
-        handleUploadDocument(res.data.id)
-      }
-    })
-  }
-
-  const handleUploadDocument = async (formId: string) => {
-    const request = new FormData()
-
-    const reqBody = {
-      files: form.getValues("w2sFile"),
-      formType: FORM_TYPE.FINANCIAL,
-      formId: formId
-    }
-
-    for (const [key, value] of Object.entries(reqBody)) {
-      if (Array.isArray(value)) {
-        value.forEach((file: File) => {
-          request.append(key, file)
-        })
-      } else if (value) {
-        request.append(key, value + "")
-      }
-    }
-
-    await mutateAsync(request, {
-      onSuccess: () => {
-        changeProgress(LOAN_APPLICATION_STEPS.CONFIRMATION)
-        changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION)
-      }
-    })
+    saveDraftForm(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, data)
+    changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION, true)
+    changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
   }
 
   return (
@@ -189,13 +162,12 @@ export const FinancialInformationForm = () => {
             />
           </div>
           <div className="flex justify-end">
-            <ButtonLoading
+            <Button
               disabled={!form.formState.isValid}
               onClick={form.handleSubmit(onSubmit)}
-              isLoading={isPending || isUploading}
             >
               Save
-            </ButtonLoading>
+            </Button>
           </div>
         </Form>
       </Card>

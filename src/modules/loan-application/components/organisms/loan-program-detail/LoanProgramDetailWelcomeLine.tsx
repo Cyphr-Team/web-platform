@@ -13,13 +13,13 @@ export const LoanProgramDetailWelcomeLine = () => {
           loanProgramInfo?.name
         )}
       </h2>
-      <p className="text-xl whitespace-pre-wrap">
+      <div className="text-xl whitespace-pre-wrap">
         {isLoading ? (
           <Skeleton className="w-full h-8" />
         ) : (
           loanProgramInfo?.description
         )}
-      </p>
+      </div>
     </section>
   )
 }
