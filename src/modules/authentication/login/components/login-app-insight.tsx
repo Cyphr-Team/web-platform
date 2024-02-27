@@ -23,7 +23,7 @@ function LoginAppInsightDescription() {
 export function LoginAppInsight() {
   return (
     <div className="relative hidden h-full flex-col text-white lg:flex items-center">
-      <div className="w-full absolute inset-0 bg-[#326212] self-center"></div>
+      <div className="w-full absolute inset-0 bg-[#326212]"></div>
       <Carousel className="w-full max-w-lg m-auto">
         <CarouselContent>
           {Array.from({ length: 4 }).map((_, index) => (

@@ -24,15 +24,16 @@ export const Component = () => {
       <div>
         <section className="w-full">
           <img
-            className="w-full max-h-[292px]"
+            className="w-[1200px] mx-auto"
             src={ASSETS.altCapLoanProgramLarge}
             alt="altcap loan program"
             height={292}
+            width={1200}
             srcSet={`${ASSETS.altCapLoanProgram} 600w, ${ASSETS.altCapLoanProgramLarge} 1200w`}
           />
         </section>
 
-        <section className="p-6 md:px-0 md:w-4/5 xl:w-3/4 m-auto">
+        <section className="p-6 md:px-0 md:w-4/5 xl:w-3/4 mx-auto">
           <div>
             <WelcomeLine />
           </div>

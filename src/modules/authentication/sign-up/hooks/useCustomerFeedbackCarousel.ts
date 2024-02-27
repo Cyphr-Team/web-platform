@@ -1,10 +1,11 @@
+import { ASSETS } from "@/assets"
 import { useCallback, useMemo, useState } from "react"
 
 const MAX_FEEDBACK_SIZE = 5
 
 const feedbackData = [
   {
-    photo: "https://picsum.photos/700",
+    photo: ASSETS.signUpHero,
     feedback:
       "Foresight has saved me months of loan application work. I was able to get access to much-needed capital in critical times.",
     name: "Carry Cappuccino",
@@ -13,7 +14,7 @@ const feedbackData = [
     rating: 5
   },
   {
-    photo: "https://picsum.photos/800",
+    photo: ASSETS.signUpHero,
     feedback: "The team was prompt in addressing my concerns. Good job!",
     name: "Jane Smith",
     role: "Client",
@@ -21,7 +22,7 @@ const feedbackData = [
     rating: 3
   },
   {
-    photo: "https://picsum.photos/900",
+    photo: ASSETS.signUpHero,
     feedback:
       "Excellent customer support. I will definitely recommend to others. The product exceeded my expectations, and the team went above and beyond to assist me with any queries. Truly impressed!",
     name: "Sam Johnson",
@@ -30,7 +31,7 @@ const feedbackData = [
     rating: 5
   },
   {
-    photo: "https://picsum.photos/500",
+    photo: ASSETS.signUpHero,
     feedback:
       "Slight issue initially, but the team resolved it quickly. Impressed!",
     name: "Alice Williams",
@@ -39,7 +40,7 @@ const feedbackData = [
     rating: 4
   },
   {
-    photo: "https://picsum.photos/400",
+    photo: ASSETS.signUpHero,
     feedback:
       "Overall, a good experience. Looking forward to future collaborations. The platform's features are user-friendly, and the customer service is responsive and helpful.",
     name: "Very long long customer name like Huy Le",

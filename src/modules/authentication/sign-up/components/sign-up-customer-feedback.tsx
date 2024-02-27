@@ -7,11 +7,11 @@ export function SignUpCustomerFeedback() {
 
   return (
     <div className="relative hidden h-full flex-col text-white lg:flex mr-6">
-      <div className="w-full absolute inset-0 bg-zinc-900 mt-6 mb-6 rounded-2xl self-center overflow-hidden">
+      <div className="w-full absolute inset-0 bg-zinc-900 mt-6 mb-6 rounded-2xl overflow-hidden">
         <img
           src={customerFeedBack.photo}
           className="rounded-md object-cover h-full w-full"
-          alt="Customer feedback photo"
+          alt="Customer feedback"
           loading="lazy"
           width="100%"
           height="100%"

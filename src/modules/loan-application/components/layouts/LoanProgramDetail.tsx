@@ -16,44 +16,47 @@ export const ComponentWithProvider = () => {
 
   return (
     <div className="overflow-auto flex flex-col items-center flex-1">
-      <TopBarDetail
-        breads={[
-          {
-            to: "#",
-            label: loanProgramInfo?.name || ""
+      <div>
+        <TopBarDetail
+          breads={[
+            {
+              to: "#",
+              label: loanProgramInfo?.name || ""
+            }
+          ]}
+          rightFooter={
+            loanProgramInfo?.isUnderConstruction ? (
+              <LoanProgramDetailUnderConstruction />
+            ) : (
+              <LoanProgramDetailApply />
+            )
           }
-        ]}
-        rightFooter={
-          loanProgramInfo?.isUnderConstruction ? (
-            <LoanProgramDetailUnderConstruction />
+        />
+
+        <section className="w-full">
+          {isLoading ? (
+            <div className="w-full h-[30vh] max-h-[30vh] items-center align-center flex">
+              <Loader2 className="w-8 h-8 m-auto animate-spin" />
+            </div>
           ) : (
-            <LoanProgramDetailApply />
-          )
-        }
-      />
+            <img
+              className="w-[1200px] mx-auto"
+              src={heroImage}
+              alt="Loan program detail"
+              height={359}
+              width={1200}
+            />
+          )}
+        </section>
 
-      <section className="w-full">
-        {isLoading ? (
-          <div className="w-full h-[30vh] max-h-[30vh] items-center align-center flex">
-            <Loader2 className="w-8 h-8 m-auto animate-spin" />
-          </div>
-        ) : (
-          <img
-            className="w-full max-h-[30vh]"
-            src={heroImage}
-            alt="hero image"
-            height={292}
-          />
-        )}
-      </section>
+        <section className="p-6 md:px-0 md:w-4/5 xl:w-3/4 mx-auto">
+          <LoanProgramDetailWelcomeLine />
 
-      <section className="p-6 md:px-0 md:w-4/5 xl:w-3/4 m-auto">
-        <LoanProgramDetailWelcomeLine />
+          <Separator className="my-6" />
 
-        <Separator className="my-6" />
-
-        <LoanProgramDetailFAQ />
-      </section>
+          <LoanProgramDetailFAQ />
+        </section>
+      </div>
     </div>
   )
 }
