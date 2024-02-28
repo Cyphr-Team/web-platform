@@ -13,7 +13,7 @@ export function LoanApplicationStepNavigate() {
         variant="outline"
         size="icon"
         className="rounded-lg"
-        disabled={stepData.previousStep === -1}
+        disabled={!!stepData.previousStep}
         onClick={() => {
           changeStep(stepData.previousStep)
         }}
@@ -29,7 +29,7 @@ export function LoanApplicationStepNavigate() {
         variant="outline"
         size="icon"
         className="rounded-lg"
-        disabled={stepData.nextStep === -1}
+        disabled={!!stepData.nextStep}
         onClick={() => {
           changeStep(stepData.nextStep)
         }}

@@ -1,4 +1,11 @@
-import { Form } from "@/components/ui/form"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
@@ -9,9 +16,10 @@ import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { BusinessFormValue, businessFormSchema } from "../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../hooks/useSelectCities"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
+import { MaskInput, revertPattern, toPattern } from "@/components/ui/mask-input"
 
 export const BusinessInformationForm = () => {
   const {
@@ -30,7 +38,7 @@ export const BusinessInformationForm = () => {
     city: draftForm.businessInformation.city ?? "",
     postalCode: draftForm.businessInformation.postalCode ?? "",
     businessWebsite: draftForm.businessInformation.businessWebsite ?? "",
-    businessTin: draftForm.businessInformation.businessTin ?? ""
+    businessTin: toPattern(draftForm.businessInformation.businessTin) ?? ""
   }
 
   const form = useForm<BusinessFormValue>({
@@ -70,10 +78,20 @@ export const BusinessInformationForm = () => {
   }, [state, city, form])
 
   const onSubmit = (data: BusinessFormValue) => {
-    saveDraftForm(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, data)
+    saveDraftForm(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, {
+      ...data,
+      businessTin: revertPattern(data.businessTin)
+    })
     changeStep(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, true)
     changeProgress(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
   }
+
+  const handleChangeEIN = useCallback(
+    (str: string) => {
+      form.setValue("businessTin", str)
+    },
+    [form]
+  )
 
   return (
     <div className="flex flex-col flex-1 gap-3xl">
@@ -130,12 +148,25 @@ export const BusinessInformationForm = () => {
               name="postalCode"
               control={form.control}
             />
-            <TextInput
-              placeholder="i.e: 123456789"
-              label="Employer Identification Number (EIN)"
-              name="businessTin"
+            <FormField
               control={form.control}
-              className="col-span-3"
+              name={"businessTin"}
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel className="text-text-secondary">
+                    Employer Identification Number (EIN)
+                  </FormLabel>
+                  <FormControl>
+                    <MaskInput
+                      placeholder="i.e: 12-3456789"
+                      handleChange={handleChangeEIN}
+                      className="text-base"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
             <TextInput
               placeholder="www.larryslatte.com"

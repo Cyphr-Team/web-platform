@@ -63,11 +63,11 @@ export type LinkTokenError = {
 }
 
 export enum LOAN_APPLICATION_STEPS {
-  LOAN_REQUEST = 1,
-  BUSINESS_INFORMATION = 2,
-  OWNER_INFORMATION = 3,
-  FINANCIAL_INFORMATION = 4,
-  CONFIRMATION = 5
+  LOAN_REQUEST = "loanRequest",
+  BUSINESS_INFORMATION = "businessInformation",
+  OWNER_INFORMATION = "ownerInformationForm",
+  FINANCIAL_INFORMATION = "financialInformationForm",
+  CONFIRMATION = "confirmationForm"
 }
 
 export enum LOAN_APPLICATION_STEP_STATUS {
@@ -83,7 +83,7 @@ export enum ARTCAP_MENU {
 
 export const LOAN_APPLICATION_STEP_DATA = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: {
-    previousStep: -1,
+    previousStep: "" as unknown as LOAN_APPLICATION_STEPS,
     nextStep: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
     label: "Loan Request",
     parent: ARTCAP_MENU.APPLICATION
@@ -108,7 +108,7 @@ export const LOAN_APPLICATION_STEP_DATA = {
   },
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: {
     previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
-    nextStep: -1,
+    nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
     label: "Signature and Submission",
     parent: ARTCAP_MENU.SIGNATURE
   }

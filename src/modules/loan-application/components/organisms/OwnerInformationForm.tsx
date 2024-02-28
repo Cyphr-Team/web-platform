@@ -131,7 +131,7 @@ export function OwnerInformationForm() {
   const onSubmit = (data: OwnerFormValue) => {
     saveDraftForm(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, data)
     changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, true)
-    changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+    changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
   }
 
   return (

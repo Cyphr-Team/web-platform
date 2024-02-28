@@ -55,10 +55,7 @@ export const businessFormSchema = z.object({
     .string()
     .min(1, { message: "Zip code is required" })
     .regex(REGEX_PATTERN.ZIP_CODE, "Enter a valid zip code"),
-  businessTin: z
-    .string()
-    .min(1, { message: "EIN is required" })
-    .regex(REGEX_PATTERN.EIN, "Enter a valid EIN. Length must be 9 digits")
+  businessTin: z.string().min(1, { message: "EIN is required" })
 })
 
 export const financialFormSchema = z.object({

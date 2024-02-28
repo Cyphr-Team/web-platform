@@ -133,3 +133,23 @@ export const convertToReadableDateAgo = (date: string) => {
     return "Today"
   }
 }
+
+/**
+ * Used to replace a new string to current string
+ *
+ * @param currentString e.g MM/DD/YYYY
+ * @param start e.g 3
+ * @param newString e.g 00
+ *
+ * @returns e.g MM/00/YYYY
+ */
+export function replaceString(
+  currentString: string,
+  start: number,
+  newString: string
+) {
+  const before = currentString.substring(0, start)
+  const after = currentString.substring(start + newString.length)
+
+  return before + newString + after
+}
