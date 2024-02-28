@@ -79,20 +79,9 @@ export const inMemoryJWTManager = () => {
     })
       .then((response: AxiosResponse) => {
         if (response.status !== 200) {
-          // Workaround until BE have API refresh access token
-          const storageUserInfo = JSON.parse(
-            localStorage.getItem(USER_INFO_LS_KEY) ?? "{}"
-          ) as UserInfo
-
-          if (storageUserInfo?.accessToken) {
-            setToken(storageUserInfo.accessToken, storageUserInfo.expiresIn)
-            // eraseToken()
-            console.error("Failed to renew the jwt from the refresh token.")
-          } else {
-            return { refreshToken: null, accessToken: null }
-          }
-
-          setUserInfo(storageUserInfo)
+          eraseToken()
+          console.error("Failed to renew the jwt from the refresh token.")
+          return { refreshToken: null, accessToken: null }
         }
         return response.data
       })
@@ -107,21 +96,8 @@ export const inMemoryJWTManager = () => {
         return Promise.resolve(userInfo)
       })
       .catch(() => {
-        const storageUserInfo = JSON.parse(
-          localStorage.getItem(USER_INFO_LS_KEY) ?? "{}"
-        ) as UserInfo
-
-        if (storageUserInfo?.accessToken) {
-          setToken(storageUserInfo.accessToken, storageUserInfo.expiresIn)
-        } else {
-          // eraseToken()
-        }
-
-        setUserInfo(storageUserInfo)
-
-        return storageUserInfo
-          ? Promise.resolve(storageUserInfo)
-          : Promise.reject("Log out because we can't renew the token.")
+        eraseToken()
+        return Promise.reject("Log out because we can't renew the token.")
       })
   }
 
