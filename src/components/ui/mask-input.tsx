@@ -26,7 +26,7 @@ export interface InputProps
  */
 const toPattern = (
   value: string,
-  pattern: string = "00-000000000",
+  pattern: string = "00-0000000",
   validCharRegex: RegExp = /^[0-9a-zA-Z]+$/
 ) => {
   const values = value.split("")
@@ -68,7 +68,7 @@ const MaskInput = ({
   className,
   prefixIcon,
   suffixIcon,
-  pattern = "00-000000000",
+  pattern = "00-0000000",
   validCharRegex = /^[0-9a-zA-Z]+$/,
   value,
   handleChange,
