@@ -1,6 +1,6 @@
-import { SSN_REGEX, phoneRegex } from "@/constants"
 import * as z from "zod"
 import { REGEX_PATTERN } from "."
+import { isPossiblePhoneNumber } from "react-phone-number-input"
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
@@ -14,14 +14,13 @@ export const ownerFormSchema = z.object({
   businessState: z.string().min(1, { message: "State is required" }),
   businessZipCode: z.string().min(1, { message: "Zip code is required" }),
   phoneNumber: z
-    .string()
-    .min(1, { message: "Phone number is required" })
-    .regex(new RegExp(phoneRegex), "Enter a valid phone number!"),
+    .string({ required_error: "Phone number is required" })
+    .refine((data) => isPossiblePhoneNumber(data), {
+      message: "Phone number is invalid"
+    }),
   email: z.string().email({ message: "Enter a valid email address" }),
   dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
-  socialSecurityNumber: z.string().regex(new RegExp(SSN_REGEX), {
-    message: "Social security number is required"
-  }),
+  socialSecurityNumber: z.string({ required_error: "SSN/ITIN is required" }),
   businessOwnershipPercentage: z
     .string()
     .min(1, { message: "Ownership percent is required" }),

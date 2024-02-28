@@ -31,9 +31,13 @@ import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { FileUploadCard } from "../molecules/FileUploadCard"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../hooks/useSelectCities"
-import { useEffect } from "react"
+import { useEffect, useCallback } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
+import PhoneInput from "react-phone-number-input"
+import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
+import { MaskInput } from "@/components/ui/mask-input"
+import { SSN_PATTERN } from "@/constants"
 
 export function OwnerInformationForm() {
   const {
@@ -84,6 +88,13 @@ export function OwnerInformationForm() {
       shouldTouch: true
     })
   }
+
+  const handleChangeSSN = useCallback(
+    (ssn: string) => {
+      form.setValue("socialSecurityNumber", ssn)
+    },
+    [form]
+  )
 
   const handleRemoveFile = (index: number) => {
     const currentFiles = form.getValues("governmentFile")
@@ -231,15 +242,28 @@ export function OwnerInformationForm() {
               name="email"
               label="Email Address"
               placeholder="i.e: larry@latte.com"
-              prefixIcon={<Mail className="h-5 w-5 text-text-tertiary" />}
+              prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
               className="col-span-3"
-            />{" "}
-            <TextInput
-              control={form.control}
+            />
+            <FormField
               name="phoneNumber"
-              label="Phone Number"
-              placeholder="i.e: 123-456-7890"
-              className="col-span-3"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel className="text-text-secondary">
+                    Phone Number
+                  </FormLabel>
+                  <PhoneInput
+                    international
+                    countryCallingCodeEditable={false}
+                    countrySelectComponent={CountrySelect}
+                    defaultCountry="US"
+                    placeholder="+1 (555) 000-0000"
+                    inputComponent={CustomPhoneInput}
+                    {...field}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
             />
             <FormField
               control={form.control}
@@ -261,12 +285,26 @@ export function OwnerInformationForm() {
                 </FormItem>
               )}
             />
-            <TextInput
+            <FormField
               control={form.control}
-              name="socialSecurityNumber"
-              label="SSN/ITIN"
-              placeholder="i.e: 123-45-6789"
-              className="col-span-3"
+              name={"socialSecurityNumber"}
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel className="text-text-secondary">
+                    SSN/ITIN
+                  </FormLabel>
+                  <FormControl>
+                    <MaskInput
+                      placeholder="i.e: 123-45-6789"
+                      handleChange={handleChangeSSN}
+                      className="text-base"
+                      pattern={SSN_PATTERN}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
             <FormField
               control={form.control}
@@ -294,6 +332,9 @@ export function OwnerInformationForm() {
                       }}
                     />
                   </FormControl>
+                  <div className="text-sm text-text-tertiary">
+                    Please enter a number between 0 - 100
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

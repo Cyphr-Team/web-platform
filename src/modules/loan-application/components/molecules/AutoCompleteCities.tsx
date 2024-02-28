@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { CityType } from "@/types/common.type"
-import { CheckIcon } from "lucide-react"
+import { CheckIcon, Search } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
@@ -102,6 +102,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild disabled={!options?.length}>
                 <Input
+                  prefixIcon={<Search className="w-5 text-muted-foreground" />}
                   value={
                     value
                       ? options?.find((option) => option.name === value)?.name

@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { StateType } from "@/types/common.type"
-import { CheckIcon } from "lucide-react"
+import { CheckIcon, Search } from "lucide-react"
 import { useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
@@ -60,7 +60,10 @@ export const AutoCompleteStates = <T extends FieldValues>(
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
-                <Input value={value || "Select state"} />
+                <Input
+                  value={value || "Select state..."}
+                  prefixIcon={<Search className="w-5 text-muted-foreground" />}
+                />
               </PopoverTrigger>
               <PopoverContent className="w-full p-0">
                 <Command>
