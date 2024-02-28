@@ -71,21 +71,12 @@ export const FAKE_LIENS_DATA = [
 
 export const LOAN_STATUS: Option[] = [
   { label: "Draft", value: LoanApplicationStatus.DRAFT },
-  { label: "In Progress", value: LoanApplicationStatus.IN_PROGRESS },
+  { label: "Submitted", value: LoanApplicationStatus.SUBMITTED },
   {
-    label: "Third Party Pending",
-    value: LoanApplicationStatus.THIRD_PARTY_PENDING
-  },
-  {
-    label: "Third Party Approved",
-    value: LoanApplicationStatus.THIRD_PARTY_APPROVED
-  },
-  {
-    label: "Third Party Rejected",
-    value: LoanApplicationStatus.THIRD_PARTY_REJECTED
-  },
-  { label: "Cancelled", value: LoanApplicationStatus.CANCELLED },
-  { label: "Underwritten", value: LoanApplicationStatus.UNDERWRITTEN }
+    label: "In Review", value: LoanApplicationStatus.IN_REVIEW },
+  { label: "Approved", value: LoanApplicationStatus.APPROVED },
+  { label: "Denied", value: LoanApplicationStatus.DENIED },
+  { label: "Canceled", value: LoanApplicationStatus.CANCELLED }
 ]
 
 export const LOAN_PRODUCTS: Option[] = [{ label: "Micro Loan", value: "MICRO" }]
