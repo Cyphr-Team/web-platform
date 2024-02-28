@@ -60,7 +60,8 @@ export function OwnerInformationForm() {
       draftForm.ownerInformationForm.businessOwnershipPercentage ?? "",
     hasOtherSubstantialStackHolders:
       draftForm.ownerInformationForm.hasOtherSubstantialStackHolders ?? "false",
-    businessZipCode: draftForm.ownerInformationForm.businessZipCode ?? ""
+    businessZipCode: draftForm.ownerInformationForm.businessZipCode ?? "",
+    governmentFile: draftForm.ownerInformationForm.governmentFile ?? []
   }
 
   const form = useForm<OwnerFormValue>({
@@ -253,6 +254,9 @@ export function OwnerInformationForm() {
                     onSelectDate={handleSelectDate}
                     className="w-full"
                   />
+                  <div className="text-sm text-text-tertiary">
+                    The US date format is mm-dd-yyyy
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

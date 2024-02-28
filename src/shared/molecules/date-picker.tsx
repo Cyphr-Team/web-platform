@@ -32,7 +32,7 @@ export function CalendarDatePicker({
           <Button
             variant={"outline"}
             className={cn(
-              "w-full pl-3 text-left font-normal",
+              "w-full pl-3 text-left font-normal flex justify-between gap-2",
               !value && "text-muted-foreground"
             )}
           >
@@ -41,7 +41,7 @@ export function CalendarDatePicker({
             ) : (
               <span className="text-text-tertiary">i.e: 01/01/1990</span>
             )}
-            <CalendarPlus className="ml-auto h-5 w-5 text-text-tertiary" />
+            <CalendarPlus className="h-5 w-5 text-text-tertiary" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">

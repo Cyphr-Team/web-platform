@@ -7,7 +7,7 @@ import { LoanProgramDetailFAQ } from "../organisms/loan-program-detail/LoanProgr
 import { TopBarDetail } from "./TopBarDetail"
 import { LoanProgramDetailApply } from "../organisms/loan-program-detail/LoanProgramDetailApply"
 import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-detail/LoanProgramDetailUnderConstruction"
-import { Loader2 } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export const ComponentWithProvider = () => {
   const { loanProgramInfo, isLoading } = useLoanProgramDetailContext()
@@ -35,9 +35,7 @@ export const ComponentWithProvider = () => {
 
         <section className="w-full">
           {isLoading ? (
-            <div className="w-full h-[30vh] max-h-[30vh] items-center align-center flex">
-              <Loader2 className="w-8 h-8 m-auto animate-spin" />
-            </div>
+            <Skeleton className="w-screen md:w-[calc(100vw-15rem)] max-w-[1200px] h-[140px] md:h-[250px] lg:h-[359px] items-center align-center flex" />
           ) : (
             <img
               className="w-[1200px] mx-auto"

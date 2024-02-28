@@ -73,7 +73,9 @@ export const LOAN_STATUS: Option[] = [
   { label: "Draft", value: LoanApplicationStatus.DRAFT },
   { label: "Submitted", value: LoanApplicationStatus.SUBMITTED },
   {
-    label: "In Review", value: LoanApplicationStatus.IN_REVIEW },
+    label: "In Review",
+    value: LoanApplicationStatus.IN_REVIEW
+  },
   { label: "Approved", value: LoanApplicationStatus.APPROVED },
   { label: "Denied", value: LoanApplicationStatus.DENIED },
   { label: "Canceled", value: LoanApplicationStatus.CANCELLED }
