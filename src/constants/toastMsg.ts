@@ -35,6 +35,10 @@ export const TOAST_MSG = {
     uploadDocument: {
       title: "Upload Document",
       description: "Document is uploaded successfully"
+    },
+    submitDecision: {
+      title: "Submit Loan Decision",
+      description: "Loan Decision is submitted successfully"
     }
   }
 }

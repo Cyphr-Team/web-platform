@@ -122,7 +122,10 @@ export const API_PATH = {
     details: "api/loan-officer/micro-loan/application",
     list: "api/loan-officer/applications",
     getDocuments: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/documents`
+      `api/loan-officer/applications/${applicationId}/documents`,
+    submitDecision: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/underwrite
+      `
   },
   loanApplicationDetails: {
     getKYB: (applicationId: string) =>

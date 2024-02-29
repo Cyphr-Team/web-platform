@@ -115,10 +115,10 @@ export interface LoanProgramType {
   description: string
   minTermInMonth: number
   maxTermInMonth: number
-  interestRate: string
+  interestRate: number
   interestRateType: LoanProgramInterestRateType
   interestRateDescription: string
-  originationFee: string
+  originationFee: number
   minLoanAmount: number
   maxLoanAmount: number
   createdAt: string

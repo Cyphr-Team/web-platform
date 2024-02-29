@@ -8,7 +8,8 @@ enum LoanApplicationStatus {
   APPROVED = "APPROVED",
   IN_REVIEW = "IN_REVIEW",
   SUBMITTED = "SUBMITTED",
-  DRAFT = "DRAFT"
+  DRAFT = "DRAFT",
+  UNDERWRITTEN = "UNDERWRITTEN"
 }
 
 export { LoanApplicationStatus }
