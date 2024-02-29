@@ -158,3 +158,9 @@ export type Description = {
   displayName: string
   description: string
 }
+
+export enum LoanSummaryDownloadType {
+  CSV = "CSV",
+  JSON = "JSON",
+  PDF = "PDF"
+}

@@ -153,3 +153,34 @@ export function replaceString(
 
   return before + newString + after
 }
+
+export function downloadCSVFile(data: string, filename: string) {
+  if (!data) return
+  const universalBOM = "\uFEFF"
+  const blob = new Blob([universalBOM + data], {
+    type: "text/csv;charset=utf-8;"
+  })
+  downloadFile(blob, filename)
+}
+
+export function downloadJsonFile(data: string, filename: string) {
+  if (!data) return
+  const blob = new Blob([JSON.stringify(data)], {
+    type: "text/json;charset=utf-8;"
+  })
+  downloadFile(blob, filename)
+}
+
+export function downloadFile(blob: Blob, filename: string) {
+  const link = document.createElement("a")
+
+  if (link.download !== undefined) {
+    const url = URL.createObjectURL(blob)
+    link.setAttribute("href", url)
+    link.setAttribute("download", filename)
+    link.style.visibility = "hidden"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+}

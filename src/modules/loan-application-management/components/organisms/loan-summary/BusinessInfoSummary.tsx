@@ -4,15 +4,16 @@ import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 
 export const BusinessInfoSummary = () => {
-  const { loanKybDetail } = useLoanApplicationDetailContext()
+  const { loanSummary, loanKybDetail } = useLoanApplicationDetailContext()
+  const businessInfo = loanSummary?.businessInfo
 
   return (
     <>
       <InformationRow
         label="Legal Name"
-        value={loanKybDetail?.businessName?.value}
+        value={businessInfo?.businessName?.value ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKybDetail?.businessName?.status}
+        badgeText={businessInfo?.businessName?.status}
       />
       <Separator />
       <InformationRow
@@ -24,24 +25,24 @@ export const BusinessInfoSummary = () => {
       <Separator />
       <InformationRow
         label="Officer Address"
-        value={loanKybDetail?.officeAddresses?.[0]}
+        value={businessInfo?.officeAddresses?.[0] ?? UNKNOWN_VALUE}
         isBadge
         badgeText={loanKybDetail?.insights?.officeAddressVerification}
       />
       <Separator />
       <InformationRow
         label="Tax ID"
-        value={loanKybDetail?.tax?.value}
+        value={businessInfo?.tax?.value ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKybDetail?.tax.status}
+        badgeText={businessInfo?.tax.status}
       />
       <Separator />
       <InformationRow
         label="Phone Number"
         value={
-          Array.isArray(loanKybDetail?.phoneNumber)
-            ? loanKybDetail?.phoneNumber?.[0]
-            : loanKybDetail?.phoneNumber
+          (Array.isArray(businessInfo?.phoneNumber)
+            ? businessInfo?.phoneNumber?.[0]
+            : businessInfo?.phoneNumber) ?? "N/A"
         }
       />
     </>

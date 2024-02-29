@@ -6,12 +6,15 @@ import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
 import { LoanApplicationsKyc } from "../constants/types/kyc"
 import { useQueryGetApplicationDetails } from "../hooks/useQuery/useQueryApplicationDetails"
 import { UserLoanApplication } from "@/types/loan-application.type"
+import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
+import { LoanSummary } from "../constants/types/loan-summary.type"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: LoanApplicationsKyb
   loanKycDetail?: LoanApplicationsKyc
   loanApplicationDetails?: UserLoanApplication
   isLoading: boolean
+  loanSummary?: LoanSummary
 }
 
 export const LoanApplicationDetailContext =
@@ -19,7 +22,8 @@ export const LoanApplicationDetailContext =
     loanKybDetail: undefined,
     loanKycDetail: undefined,
     loanApplicationDetails: undefined,
-    isLoading: false
+    isLoading: false,
+    loanSummary: undefined
   })
 
 type Props = {
@@ -43,12 +47,17 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     applicationId: params.id!
   })
 
+  const loanSummaryQuery = useQueryGetLoanSummary({
+    applicationId: params.id
+  })
+
   return (
     <LoanApplicationDetailContext.Provider
       value={{
         loanKybDetail: kybDetailQuery.data,
         loanKycDetail: kycDetailQuery.data,
         loanApplicationDetails: userLoanApplicationQuery.data,
+        loanSummary: loanSummaryQuery.data,
         isLoading: kybDetailQuery.isLoading
       }}
     >

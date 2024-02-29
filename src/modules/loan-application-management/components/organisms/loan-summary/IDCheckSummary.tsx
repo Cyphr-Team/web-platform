@@ -1,24 +1,26 @@
+import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 import { InformationRow } from "../../molecules/InformationRow"
 import { Separator } from "@/components/ui/separator"
 
 export const IDCheckSummary = () => {
-  const { loanKycDetail } = useLoanApplicationDetailContext()
+  const { loanSummary } = useLoanApplicationDetailContext()
+  const idCheck = loanSummary?.idCheck
 
   return (
     <>
       <InformationRow
         label="Drivers License"
-        value={loanKycDetail?.idCheck?.driverLicense?.reason}
+        value={idCheck?.driverLicense?.reason ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKycDetail?.idCheck?.driverLicense?.status}
+        badgeText={idCheck?.driverLicense?.status}
       />
       <Separator />
       <InformationRow
         label="Passport"
         isBadge
         hasAction
-        badgeText={loanKycDetail?.idCheck?.passport?.status ?? "N/A"}
+        badgeText={idCheck?.passport?.status}
       />
     </>
   )

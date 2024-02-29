@@ -1,46 +1,48 @@
+import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 import { InformationRow } from "../../molecules/InformationRow"
 import { Separator } from "@/components/ui/separator"
 
 export const ChecklistsSummary = () => {
-  const { loanKycDetail } = useLoanApplicationDetailContext()
+  const { loanSummary } = useLoanApplicationDetailContext()
+  const checkLists = loanSummary?.checkLists
 
   return (
     <>
       <InformationRow
         label="PEP/Sanctions"
         isBadge
-        value={loanKycDetail?.checkLists?.pepSanctions.reason}
-        badgeText={loanKycDetail?.checkLists?.pepSanctions.status}
+        value={checkLists?.pepSanctions?.reason ?? UNKNOWN_VALUE}
+        badgeText={checkLists?.pepSanctions?.status}
       />
       <Separator />
       <InformationRow
         label="Internal Blocklist"
-        value={loanKycDetail?.checkLists?.internalBlocklist.reason}
+        value={checkLists?.internalBlocklist?.reason ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKycDetail?.checkLists?.internalBlocklist.status}
+        badgeText={checkLists?.internalBlocklist?.status}
       />
       <Separator />
       <InformationRow
         label="Duplicate"
-        value={loanKycDetail?.checkLists?.duplicate.reason}
+        value={checkLists?.duplicate?.reason ?? UNKNOWN_VALUE}
         isBadge
         hasAction
-        badgeText={loanKycDetail?.checkLists?.duplicate.status}
+        badgeText={checkLists?.duplicate?.status}
       />
       <Separator />
       <InformationRow
         label="Fraud Check"
-        value={loanKycDetail?.checkLists?.fraud.reason}
+        value={checkLists?.fraud?.reason ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKycDetail?.checkLists?.fraud.status}
+        badgeText={checkLists?.fraud?.status}
       />
       <Separator />
       <InformationRow
         label="Biometrics"
-        value={loanKycDetail?.checkLists.biometrics?.reason}
+        value={checkLists?.biometrics?.reason ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKycDetail?.checkLists.biometrics?.status}
+        badgeText={checkLists?.biometrics?.status}
       />
     </>
   )

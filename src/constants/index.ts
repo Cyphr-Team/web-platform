@@ -134,7 +134,11 @@ export const API_PATH = {
     getDocumentVisualizations: (applicationId: string, documentId: string) =>
       `api/loan-officer/applications/${applicationId}/documents/${documentId}`,
     getVisualizationImage: (applicationId: string, documentId: string) =>
-      `api/loan-officer/applications/${applicationId}/documents/${documentId}/visualization`
+      `api/loan-officer/applications/${applicationId}/documents/${documentId}/visualization`,
+    getLoanSummary: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/loan-summary`,
+    getDownloadLoanSummary: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/loan-summary/download`
   }
 }
 

@@ -1,38 +1,40 @@
+import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 import { InformationRow } from "../../molecules/InformationRow"
 import { Separator } from "@/components/ui/separator"
 
 export const PersonalInfoSummary = () => {
-  const { loanKycDetail } = useLoanApplicationDetailContext()
+  const { loanSummary } = useLoanApplicationDetailContext()
+  const personalInfo = loanSummary?.personalInfo
 
   return (
     <>
       <InformationRow
         label="Name"
-        value={loanKycDetail?.personalInfo?.name?.payload}
+        value={personalInfo?.name?.payload ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKycDetail?.personalInfo?.name?.status}
+        badgeText={personalInfo?.name?.status}
       />
       <Separator />
       <InformationRow
         label="Date of Birth"
-        value={loanKycDetail?.personalInfo?.dateOfBirth?.payload}
+        value={personalInfo?.dateOfBirth?.payload ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKycDetail?.personalInfo?.dateOfBirth?.status}
+        badgeText={personalInfo?.dateOfBirth?.status}
       />
       <Separator />
       <InformationRow
         label="Residential Address"
-        value={loanKycDetail?.personalInfo?.residentialAddress?.payload}
+        value={personalInfo?.residentialAddress?.payload ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKycDetail?.personalInfo?.residentialAddress?.status}
+        badgeText={personalInfo?.residentialAddress?.status}
       />
       <Separator />
       <InformationRow
         label="Email Address"
-        value={loanKycDetail?.personalInfo?.email?.payload}
+        value={personalInfo?.email?.payload ?? UNKNOWN_VALUE}
         isBadge
-        badgeText={loanKycDetail?.personalInfo?.email?.status}
+        badgeText={personalInfo?.email?.status}
       />
     </>
   )

@@ -1,5 +1,6 @@
 import { Switch } from "@/components/ui/switch"
 import { BadgeStatus } from "../atoms/BadgeStatus"
+import { cn } from "@/lib/utils"
 
 type Props = {
   label: string
@@ -19,7 +20,14 @@ export const InformationRow: React.FC<Props> = ({
   return (
     <div className="grid-cols-2 grid xl:grid-cols-4 grid-flow-row">
       <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex items-center">
-        <p className="text-sm text-text-tertiary">{label}</p>
+        <p
+          className={cn(
+            "text-sm text-text-tertiary",
+            !value && "whitespace-nowrap text-foreground font-medium"
+          )}
+        >
+          {label}
+        </p>
       </div>
 
       <div

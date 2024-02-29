@@ -1,8 +1,17 @@
 import { ButtonLoading } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import { DownloadCloud } from "lucide-react"
 import { RefObject, useState } from "react"
+import { useQueryDownloadLoanSummary } from "../../hooks/useQuery/useQueryDownloadLoanSummary"
+import { useParams } from "react-router-dom"
+import { LoanSummaryDownloadType } from "../../constants/type"
 
 export const DownloadButton = ({
   elementToExportRef
@@ -10,6 +19,9 @@ export const DownloadButton = ({
   elementToExportRef: RefObject<HTMLElement>
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>()
+  const [downloadType, setDownloadType] = useState<LoanSummaryDownloadType>()
+  const [preventCacheCount, setPreventCacheCount] = useState(0)
+  const { id: loanApplicationId } = useParams()
 
   const downloadPdf = () => {
     if (!elementToExportRef.current) return
@@ -53,14 +65,43 @@ export const DownloadButton = ({
       })
   }
 
+  const handleClickDownload = (type: LoanSummaryDownloadType) => () => {
+    setDownloadType(type)
+    setPreventCacheCount((preState) => preState + 1)
+  }
+
+  const downloadFile = useQueryDownloadLoanSummary({
+    applicationId: loanApplicationId,
+    type: downloadType,
+    preventCacheCount
+  })
+
   return (
-    <ButtonLoading
-      onClick={downloadPdf}
-      variant="outline"
-      data-html2canvas-ignore
-      isLoading={isLoading}
-    >
-      Download <DownloadCloud className="ml-1" />
-    </ButtonLoading>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <ButtonLoading
+            variant="outline"
+            data-html2canvas-ignore
+            isLoading={isLoading || downloadFile.isLoading}
+          >
+            Download <DownloadCloud className="ml-1" />
+          </ButtonLoading>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent itemProp="className" className="cursor-pointer">
+          <DropdownMenuItem onClick={downloadPdf}>File PDF</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={handleClickDownload(LoanSummaryDownloadType.CSV)}
+          >
+            File CSV
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={handleClickDownload(LoanSummaryDownloadType.JSON)}
+          >
+            File JSON
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   )
 }
