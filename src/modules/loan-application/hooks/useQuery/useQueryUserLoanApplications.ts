@@ -26,7 +26,7 @@ export const useQueryGetUserLoanApplications = ({
     },
     initialPageParam: 0,
     getNextPageParam(last, pages) {
-      return last.total < limit ? undefined : pages.length
+      return last.data.length < limit ? undefined : pages.length
     }
   })
 }
