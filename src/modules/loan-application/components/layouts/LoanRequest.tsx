@@ -38,11 +38,12 @@ import { loanRequestFormSchema } from "../../constants/form"
 import { useEffect, useMemo } from "react"
 
 const LOAN_PURPOSES = [
-  { label: "Working Capital", value: "workingCapital" },
+  { label: "Working Capital", value: "working_capital" },
   { label: "Equipment", value: "equipment" },
   { label: "Materials", value: "materials" },
-  { label: "Startup Costs", value: "startupCosts" },
-  { label: "Growth Opportunities", value: "growth" }
+  { label: "Startup Costs", value: "startup_costs" },
+  { label: "Growth Opportunities", value: "growth_opportunities" },
+  { label: "Other", value: "other" }
 ]
 
 export function CardWithForm() {
@@ -124,9 +125,10 @@ export function CardWithForm() {
                             className="text-base"
                             value={toCurrency(field.value, 0)}
                             onChange={(event) => {
-                              const value = parseFloat(
-                                event.target.value.replace(/[^0-9.]/g, "")
-                              )
+                              const value =
+                                parseFloat(
+                                  event.target.value.replace(/[^0-9.]/g, "")
+                                ) || 0
                               if (isNaN(value)) return
                               if (value > maxLoanAmount)
                                 return field.onChange(maxLoanAmount)
@@ -164,6 +166,7 @@ export function CardWithForm() {
                               field.onChange(vals[0])
                             }}
                             value={[field.value]}
+                            step={500}
                           />
                         </FormControl>
                         <div className="flex justify-between pt-2 text-sm">
@@ -185,7 +188,10 @@ export function CardWithForm() {
                         <FormLabel className="font-normal">
                           Proposed Use of Loan
                         </FormLabel>
-                        <Select onValueChange={field.onChange}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Please select..." />

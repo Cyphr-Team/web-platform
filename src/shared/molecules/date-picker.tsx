@@ -32,7 +32,7 @@ export function CalendarDatePicker({
           <Button
             variant={"outline"}
             className={cn(
-              "w-full pl-3 text-left font-normal flex justify-between gap-2",
+              "w-full pl-3 text-left font-normal flex justify-between gap-2 text-base",
               !value && "text-muted-foreground"
             )}
           >

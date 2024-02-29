@@ -103,6 +103,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
               <PopoverTrigger asChild disabled={!options?.length}>
                 <Input
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
+                  className="text-base"
                   value={
                     value
                       ? options?.find((option) => option.name === value)?.name

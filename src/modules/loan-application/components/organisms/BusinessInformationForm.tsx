@@ -38,7 +38,9 @@ export const BusinessInformationForm = () => {
     city: draftForm.businessInformation.city ?? "",
     postalCode: draftForm.businessInformation.postalCode ?? "",
     businessWebsite: draftForm.businessInformation.businessWebsite ?? "",
-    businessTin: toPattern(draftForm.businessInformation.businessTin) ?? ""
+    businessTin: draftForm.businessInformation.businessTin
+      ? toPattern(draftForm.businessInformation.businessTin)
+      : ""
   }
 
   const form = useForm<BusinessFormValue>({
@@ -87,8 +89,12 @@ export const BusinessInformationForm = () => {
   }
 
   const handleChangeEIN = useCallback(
-    (str: string) => {
-      form.setValue("businessTin", str)
+    (ein: string) => {
+      form.setValue("businessTin", ein, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
     },
     [form]
   )

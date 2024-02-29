@@ -14,7 +14,8 @@ import {
   OwnerFormValue
 } from "../constants/form"
 import { useCreateLoanApplication } from "../hooks/useCreateLoanApplication"
-import { useLoanProgramDetailContext } from "."
+import { useParams } from "react-router-dom"
+
 import { useSubmitLoanKybInformation } from "../hooks/useMutation/useSubmitLoanKybInformation"
 import { useSubmitLoanKycInformation } from "../hooks/useMutation/useSubmitLoanKycInformation"
 import { useMutateUploadDocument } from "../hooks/useMutation/useUploadDocumentMutation"
@@ -128,7 +129,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   const [step, setStep] = useState<LOAN_APPLICATION_STEPS>(
     LOAN_APPLICATION_STEPS.LOAN_REQUEST
   )
-  const { loanProgramDetails } = useLoanProgramDetailContext()
+  const { loanProgramId } = useParams()
 
   const [draftForm, setDraftForm] = useState<DraftApplicationForm>(initForm)
 
@@ -332,7 +333,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     createLoanApplication(
       {
         ...draftForm.loanRequest,
-        loanProgramId: loanProgramDetails?.id ?? ""
+        loanProgramId: loanProgramId ?? ""
       },
       {
         onSuccess: (data) => {
@@ -362,7 +363,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     handleSubmitFinancialInformation,
     handleSubmitLoanKyb,
     handleSubmitLoanKyc,
-    loanProgramDetails?.id
+    loanProgramId
   ])
 
   const value = useMemo(

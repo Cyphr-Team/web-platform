@@ -36,7 +36,7 @@ import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 import PhoneInput from "react-phone-number-input"
 import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
-import { MaskInput } from "@/components/ui/mask-input"
+import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { SSN_PATTERN } from "@/constants"
 
 export function OwnerInformationForm() {
@@ -58,8 +58,12 @@ export function OwnerInformationForm() {
     phoneNumber: draftForm.ownerInformationForm.phoneNumber ?? "",
     email: draftForm.ownerInformationForm.email ?? "",
     dateOfBirth: draftForm.ownerInformationForm.dateOfBirth ?? "",
-    socialSecurityNumber:
-      draftForm.ownerInformationForm.socialSecurityNumber ?? "",
+    socialSecurityNumber: draftForm.ownerInformationForm.socialSecurityNumber
+      ? toPattern(
+          draftForm.ownerInformationForm.socialSecurityNumber,
+          SSN_PATTERN
+        )
+      : "",
     businessOwnershipPercentage:
       draftForm.ownerInformationForm.businessOwnershipPercentage ?? "",
     hasOtherSubstantialStackHolders:
@@ -91,7 +95,11 @@ export function OwnerInformationForm() {
 
   const handleChangeSSN = useCallback(
     (ssn: string) => {
-      form.setValue("socialSecurityNumber", ssn)
+      form.setValue("socialSecurityNumber", ssn, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
     },
     [form]
   )
@@ -355,7 +363,7 @@ export function OwnerInformationForm() {
                         field.onChange({ target: { value } })
                       }
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="text-base">
                         <SelectValue placeholder="Please select..." />
                       </SelectTrigger>
                       <SelectContent>

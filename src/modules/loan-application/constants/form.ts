@@ -20,7 +20,7 @@ export const ownerFormSchema = z.object({
     }),
   email: z.string().email({ message: "Enter a valid email address" }),
   dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
-  socialSecurityNumber: z.string({ required_error: "SSN/ITIN is required" }),
+  socialSecurityNumber: z.string().min(1, { message: "SSN/ITIN is required" }),
   businessOwnershipPercentage: z
     .string()
     .min(1, { message: "Ownership percent is required" }),
