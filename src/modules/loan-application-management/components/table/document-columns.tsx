@@ -1,13 +1,27 @@
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef, Row } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
-import { LoanDocument } from "@/types/loan-document.type"
+import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
 import { format } from "date-fns"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { Icons } from "@/components/ui/icons"
 import { snakeCaseToText } from "@/utils"
-import { BadgeStatus } from "../atoms/BadgeStatus"
+import { BadgeAuthenticityScore } from "../atoms/BadgeAuthenticityScore"
+import { useNavigate, useParams } from "react-router-dom"
+import { APP_PATH } from "@/constants"
+import { ChevronRight } from "lucide-react"
 
+function useHandleClickDetail(detail: Row<LoanDocument>) {
+  const navigate = useNavigate()
+  const { id: LoanApplicationID } = useParams()
+  if (detail.original.status === LoanDocumentStatus.UNCHECKED) return
+  navigate(
+    APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.detail(
+      LoanApplicationID!,
+      detail.original.id
+    )
+  )
+}
 export const columns: ColumnDef<LoanDocument>[] = [
   {
     id: "name",
@@ -19,7 +33,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
       const document = row.original
 
       return (
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-end gap-3 min-w-0">
           <div>
             <Icons.pdfIcon />
           </div>
@@ -42,13 +56,13 @@ export const columns: ColumnDef<LoanDocument>[] = [
     ),
     size: 200,
     cell: ({ row }) => {
-      const application = row.original
+      const document = row.original
 
       return (
         <div className="font-medium">
           <Badge variant="soft">
             {snakeCaseToText(
-              application?.ocrolusDocumentType ?? ""
+              document?.ocrolusDocumentType ?? ""
             )?.toUpperCase()}
           </Badge>
         </div>
@@ -63,43 +77,44 @@ export const columns: ColumnDef<LoanDocument>[] = [
     ),
     size: 150,
     cell: ({ row }) => {
-      const application = row.original
+      const document = row.original
 
-      return <p>{format(new Date(application.createdAt), FORMAT_DATE_M_D_Y)}</p>
+      return <p>{format(new Date(document.createdAt), FORMAT_DATE_M_D_Y)}</p>
     }
   },
   {
-    id: "updatedAt",
-    accessorKey: "updatedAt",
+    id: "authenticityScore",
+    accessorFn: (row) => row.authenticityScoreStatus.score,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last updated" />
+      <DataTableColumnHeader column={column} title="Authenticity Score" />
     ),
     size: 150,
     cell: ({ row }) => {
-      const application = row.original
-
+      const document = row.original
       return (
-        <p>
-          {format(
-            new Date(application.updatedAt || application.createdAt),
-            FORMAT_DATE_M_D_Y
-          )}
-        </p>
+        <div className="flex content-end items-end justify-end pr-0">
+          <BadgeAuthenticityScore
+            status={document?.authenticityScoreStatus.status}
+            score={document?.authenticityScoreStatus.score}
+          />
+        </div>
       )
     }
   },
   {
-    accessorKey: "status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
-    ),
+    id: "action",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
     size: 150,
     cell: ({ row }) => {
-      const application = row.original
-
       return (
-        <div className="font-medium">
-          <BadgeStatus status={application.status} />
+        <div
+          className="flex content-end justify-end items-center"
+          onClick={() => useHandleClickDetail(row)}
+        >
+          <p className=" font-semibold text-gray-500">Review</p>
+          <div>
+            <ChevronRight className="text-gray-500" />
+          </div>
         </div>
       )
     }

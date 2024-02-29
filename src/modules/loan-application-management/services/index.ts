@@ -45,3 +45,9 @@ export const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
       return undefined
   }
 }
+
+export const getBadgeVariantByAuthenticityScore = (score: number) => {
+  if (score > 50) return "green"
+  else if (score < 50) return "red"
+  else return "yellow"
+}

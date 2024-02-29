@@ -47,25 +47,29 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {
   isDot?: boolean
+  isDotBefore?: boolean
 }
 
 function Badge({
   isDot,
+  isDotBefore = true,
   className,
   variant,
   variantColor,
   children,
   ...props
-}: BadgeProps) {
+}: Readonly<BadgeProps>) {
+  const renderDot = isDot && (
+    <Dot strokeWidth={12} className={cn(dotVariants({ variantColor }))} />
+  )
   return (
     <div
       className={cn(badgeVariants({ variant, variantColor }), className)}
       {...props}
     >
-      {isDot && (
-        <Dot strokeWidth={12} className={cn(dotVariants({ variantColor }))} />
-      )}
+      {isDotBefore && renderDot}
       {children}
+      {!isDotBefore && renderDot}
     </div>
   )
 }

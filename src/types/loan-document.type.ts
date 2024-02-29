@@ -9,8 +9,17 @@ enum LoanDocumentType {
   PAYSTUB = "PAYSTUB",
   W2 = "W-2"
 }
+enum LoanDocumentAuthenticityScoreStatus {
+  VERIFIED = "VERIFIED",
+  PENDING = "PENDING",
+  NONE = "NONE"
+}
 
-export { LoanDocumentType, LoanDocumentStatus }
+export {
+  LoanDocumentType,
+  LoanDocumentStatus,
+  LoanDocumentAuthenticityScoreStatus
+}
 
 // INTERFACE
 interface LoanDocument {
@@ -23,6 +32,12 @@ interface LoanDocument {
   createdAt: string
   updatedAt: string
   status: LoanDocumentStatus
+  authenticityScoreStatus: LoanDocumentAuthenticityScore
+}
+
+interface LoanDocumentAuthenticityScore {
+  status: LoanDocumentAuthenticityScoreStatus
+  score: number
 }
 
 export type { LoanDocument }
