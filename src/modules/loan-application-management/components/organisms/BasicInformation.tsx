@@ -1,6 +1,7 @@
-import { LoanInformationCard } from "../atoms/LoanInformationCard"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
 import { SkeletonCard } from "@/components/ui/skeleton"
+import { toCurrency } from "@/utils"
+import { Badge } from "@/components/ui/badge"
 
 const BasicInformationSkeleton = () => {
   return (
@@ -23,24 +24,23 @@ export const BasicInformation = () => {
 
   if (isLoading) return <BasicInformationSkeleton />
 
+  const loanAmount = loanApplicationDetails?.loanAmount
+    ? toCurrency(loanApplicationDetails?.loanAmount, 0)
+    : "$-"
+
   return (
-    <div className="flex gap-xl md:gap-2xl lg:gap-3xl flex-1 w-full px-4xl">
-      <LoanInformationCard
-        title="Business Name"
-        content={loanKybDetail?.businessName?.value ?? "N/A"}
-      />
-      <LoanInformationCard
-        title="Loan Program"
-        content={loanApplicationDetails?.loanProgram?.name ?? "N/A"}
-      />
-      <LoanInformationCard
-        title="Loan Amount Requested"
-        content={loanApplicationDetails?.loanAmount?.toLocaleString() ?? "N/A"}
-      />
-      <LoanInformationCard
-        title="Proposed Use of Loan"
-        content={loanApplicationDetails?.proposeUseOfLoan ?? "N/A"}
-      />
+    <div className="flex gap-2 lg:gap-4 flex-1 w-full px-4xl items-center flex-wrap">
+      <h1 className="text-3xl font-semibold whitespace-nowrap">
+        {loanKybDetail?.businessName?.value ?? ""}{" "}
+        {!!loanKybDetail?.businessName?.value && "•"} {loanAmount}
+      </h1>
+      <div className="flex gap-2 flex-wrap">
+        {loanKybDetail?.industryClassification?.map((item, index) => (
+          <Badge key={index} className="py-xs px-lg border h-7">
+            <p className="text-sm font-medium">{item}</p>
+          </Badge>
+        ))}
+      </div>
     </div>
   )
 }

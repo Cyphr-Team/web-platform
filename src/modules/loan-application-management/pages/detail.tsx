@@ -4,24 +4,23 @@ import { LoanApplicationDetailProvider } from "../providers/LoanApplicationDetai
 import { checkIsLoanOfficer } from "@/utils/check-roles"
 import { APP_PATH } from "@/constants"
 
-const RoleNavigate = () => {
+const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanOfficer = checkIsLoanOfficer()
 
-  if (!isLoanOfficer) return <Navigate to={APP_PATH.DASHBOARD} replace />
+  if (!isLoanOfficer)
+    return <Navigate to={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX} replace />
 
-  return null
+  return children
 }
 
 export function Component() {
   return (
-    <>
-      <RoleNavigate />
-
+    <RoleStrict>
       <LoanApplicationDetailProvider>
         <MainLayout>
           <Outlet />
         </MainLayout>
       </LoanApplicationDetailProvider>
-    </>
+    </RoleStrict>
   )
 }

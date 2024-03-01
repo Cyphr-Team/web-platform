@@ -20,7 +20,9 @@ export function Component() {
 
   const handleClickDetail = (detail: Row<LoanApplication>) => {
     navigate(
-      APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYB.detail(detail.original.id)
+      APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
+        detail.original.id
+      )
     )
   }
 

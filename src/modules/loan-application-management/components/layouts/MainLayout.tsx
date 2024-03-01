@@ -19,7 +19,7 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
           { to: "#", label: "Latte Larry" }
         ]}
       />
-      <div className="flex flex-col space-y-3xl border-b mt-3xl">
+      <div className="flex flex-col space-y-3xl border-b mt-xl">
         <BasicInformation />
         <TopNav />
       </div>

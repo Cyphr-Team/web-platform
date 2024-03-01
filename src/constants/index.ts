@@ -37,10 +37,13 @@ export const APP_PATH = {
 
   LOAN_APPLICATION_MANAGEMENT: {
     INDEX: "/application",
-    OVERVIEW: "/application/:id/overview",
     KYB: {
       index: "/application/:id/kyb",
       detail: (id: string) => `/application/${id}/kyb`
+    },
+    BUSINESS_VERIFICATION: {
+      detail: "/application/:id/business-verification",
+      detailWithId: (id: string) => `/application/${id}/business-verification`
     },
     KYC: "/application/:id/kyc",
     DOCUMENTS: {
@@ -49,7 +52,6 @@ export const APP_PATH = {
     },
     LOAN_SUMMARY: "/application/:id/loan-summary",
     CASH_FLOW: "/application/:id/cash-flow",
-    BUSINESS_PLAN: "/application/:id/business-plan",
     LOAN_DECISION: "/application/:id/loan-decision",
     DOCUMENT: {
       index: "/application/:id/document/:documentId",

@@ -4,16 +4,10 @@ import { AUTHENTICITY_LEVEL, KybDetailLiensData } from "./type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 export const APPLICATION_MENU = (id: string) => [
   {
-    name: "Overview",
-    href: `/application/${id}/overview`
-  },
-  {
-    name: "KYC",
-    href: `/application/${id}/kyc`
-  },
-  {
-    name: "KYB",
-    href: `/application/${id}/kyb`
+    name: "Business Verification",
+    href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
+      id
+    )
   },
   {
     name: "Documents",
@@ -22,10 +16,6 @@ export const APPLICATION_MENU = (id: string) => [
   {
     name: "Cash Flow",
     href: `/application/${id}/cash-flow`
-  },
-  {
-    name: "Business Plan",
-    href: `/application/${id}/business-plan`
   },
   {
     name: "Loan Summary",
