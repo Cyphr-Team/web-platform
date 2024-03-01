@@ -69,7 +69,8 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
 
   const isHaveMore = React.useMemo(() => {
     return (
-      data?.pages?.[(data?.pages?.length ?? 1) - 1]?.total ===
+      // Query the last data paginate and get the number of data
+      data?.pages?.[(data?.pages?.length ?? 1) - 1]?.data?.length ===
       REQUEST_LIMIT_PARAM
     )
   }, [data?.pages])
