@@ -2,6 +2,7 @@ import { useLoanApplicationDetailContext } from "../../providers/LoanApplication
 import { SkeletonCard } from "@/components/ui/skeleton"
 import { toCurrency } from "@/utils"
 import { Badge } from "@/components/ui/badge"
+import { ChangeApplicationStatusButton } from "../atoms/ChangeApplicationStatusButton"
 
 const BasicInformationSkeleton = () => {
   return (
@@ -29,18 +30,22 @@ export const BasicInformation = () => {
     : "$-"
 
   return (
-    <div className="flex gap-2 lg:gap-4 flex-1 w-full px-4xl items-center flex-wrap">
-      <h1 className="text-3xl font-semibold whitespace-nowrap">
-        {loanKybDetail?.businessName?.value ?? ""}{" "}
-        {!!loanKybDetail?.businessName?.value && "•"} {loanAmount}
-      </h1>
-      <div className="flex gap-2 flex-wrap">
-        {loanKybDetail?.industryClassification?.map((item, index) => (
-          <Badge key={index} className="py-xs px-lg border h-7">
-            <p className="text-sm font-medium">{item}</p>
-          </Badge>
-        ))}
+    <div className="flex gap-2 lg:gap-4 flex-1 w-full px-4xl items-center flex-wrap justify-between">
+      <div className="flex gap-2 lg:gap-4 flex-1 items-center flex-wrap">
+        <h1 className="text-3xl font-semibold whitespace-nowrap">
+          {loanKybDetail?.businessName?.value ?? ""}{" "}
+          {!!loanKybDetail?.businessName?.value && "•"} {loanAmount}
+        </h1>
+        <div className="flex gap-2 flex-wrap">
+          {loanKybDetail?.industryClassification?.map((item, index) => (
+            <Badge key={index} className="py-xs px-lg border h-7">
+              <p className="text-sm font-medium">{item}</p>
+            </Badge>
+          ))}
+        </div>
       </div>
+
+      <ChangeApplicationStatusButton />
     </div>
   )
 }

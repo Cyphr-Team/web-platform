@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dot } from "@/components/ui/dot"
 import {
@@ -11,10 +10,9 @@ import {
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
 import { MiddeskSourcesReport } from "@/modules/loan-application-management/constants/types/middesk.type"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
-import { snakeCaseToText } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { ReactNode } from "react"
+import { MiddeskBadge } from "./MiddeskBadge"
 
 export const SourceToolTip = ({
   data,
@@ -33,10 +31,15 @@ export const SourceToolTip = ({
         const data = row.original
 
         return (
-          <div className="inline-flex items-center text-blue-700 border-b border-blue-700">
+          <a
+            href="https://esos.nv.gov/EntitySearch/OnlineEntitySearch"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="inline-flex items-center text-blue-700 border-b border-blue-700"
+          >
             {data?.metadata?.state} <Dot className="mx-1 w-2 text-blue-700" />
             SOS
-          </div>
+          </a>
         )
       }
     },
@@ -46,19 +49,7 @@ export const SourceToolTip = ({
       cell: ({ row }) => {
         const data = row.original
 
-        return (
-          <Badge
-            isDot
-            variant="soft"
-            variantColor={getBadgeVariantByMiddeskStatus(
-              data?.metadata?.status
-            )}
-            className="capitalize gap-1 text-sm"
-            isDotBefore={false}
-          >
-            {snakeCaseToText(data?.metadata?.status?.toLowerCase() ?? "")}
-          </Badge>
-        )
+        return <MiddeskBadge status={data?.metadata?.status} />
       }
     }
   ]

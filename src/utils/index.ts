@@ -1,6 +1,7 @@
 import { getRequest } from "@/services/client.service"
 import { ImageDataResponse } from "@/types/common.type"
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber"
+import { ReactNode } from "react"
 import { toast } from "sonner"
 
 export const convertFileSizeToMB = (fileSizeInBytes: number): string => {
@@ -43,7 +44,7 @@ export const toastSuccess = ({
   description
 }: {
   title: string
-  description: string
+  description: ReactNode
 }) => {
   toast.success(title, { description })
 }

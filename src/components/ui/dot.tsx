@@ -17,9 +17,8 @@ const dotVariants = cva("w-3 h-3 mr-1", {
   }
 })
 
-export interface DotProps
-  extends LucideProps,
-    VariantProps<typeof dotVariants> {}
+type DotVariantProps = VariantProps<typeof dotVariants>
+export interface DotProps extends LucideProps, DotVariantProps {}
 
 function Dot({ variantColor, className, ...props }: Readonly<DotProps>) {
   return (
@@ -32,3 +31,4 @@ function Dot({ variantColor, className, ...props }: Readonly<DotProps>) {
 }
 
 export { Dot, dotVariants }
+export type { DotVariantProps }

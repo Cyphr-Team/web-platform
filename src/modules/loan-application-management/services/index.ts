@@ -4,6 +4,8 @@ import {
   KYB_VERIFIED_FIELD_STATUS
 } from "../constants/type"
 import { KYC_STATUS } from "../constants/types/kyc"
+import { DotVariantProps } from "@/components/ui/dot"
+import { LoanDecisionEnum } from "../constants/types/application"
 
 export const getClassNameFromStatus = (
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS | AUTHENTICITY_LEVEL
@@ -50,4 +52,25 @@ export const getBadgeVariantByAuthenticityScore = (score: number) => {
   if (score > 50) return "green"
   else if (score < 50) return "red"
   else return "yellow"
+}
+
+const buildDecisionInfo = (
+  variantColor: DotVariantProps["variantColor"],
+  label: string,
+  value: LoanDecisionEnum | null
+) => ({
+  variantColor,
+  label,
+  value
+})
+
+export const getSelectInfoByDecision = (decision?: LoanDecisionEnum) => {
+  switch (decision) {
+    case LoanDecisionEnum.APPROVED:
+      return buildDecisionInfo("green", "Approved", LoanDecisionEnum.APPROVED)
+    case LoanDecisionEnum.DENIED:
+      return buildDecisionInfo("red", "Denied", LoanDecisionEnum.DENIED)
+    default:
+      return buildDecisionInfo("yellow", "In Review", null)
+  }
 }
