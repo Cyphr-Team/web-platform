@@ -95,6 +95,19 @@ export interface FinancialInformationResponse {
   updatedAt: string
 }
 
+export interface ConfirmationForm {
+  loanApplicationId: string
+  printName: string
+}
+
+export interface ConfirmationFormResponse {
+  id: string
+  loanApplicationId: string
+  printName: string
+  createdAt: string
+  updatedAt: string
+}
+
 export interface DocumentUpload {
   formId: string
   formType: string

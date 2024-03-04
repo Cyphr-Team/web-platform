@@ -116,3 +116,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
 }
+
+.island-moments-regular {
+  font-family: "Island Moments", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+

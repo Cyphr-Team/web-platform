@@ -7,7 +7,7 @@ import {
 } from "../../constants"
 
 export const LoanApplicationSave = () => {
-  const { submitForm, isSubmitting, changeStep, progress } =
+  const { saveForm, isSubmitting, changeStep, progress } =
     useLoanApplicationContext()
 
   const isCompleteLoanRequestForm =
@@ -16,7 +16,7 @@ export const LoanApplicationSave = () => {
     if (!isCompleteLoanRequestForm) {
       changeStep(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
     } else {
-      submitForm()
+      saveForm()
     }
   }
 

@@ -29,5 +29,9 @@ export const useMutateUploadDocument = () => {
     }
   })
 
-  return { mutateAsync: mutation.mutateAsync, isUploading: mutation.isPending }
+  return {
+    mutateAsync: mutation.mutateAsync,
+    isUploading: mutation.isPending,
+    isUploaded: mutation.isSuccess
+  }
 }

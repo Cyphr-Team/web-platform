@@ -14,21 +14,38 @@ import {
   confirmationFormSchema
 } from "../../constants/form"
 import { ButtonLoading } from "@/components/ui/button"
-import { CONFIRMATION_TEXTS } from "../../constants"
+import {
+  CONFIRMATION_TEXTS,
+  LOAN_APPLICATION_STEPS,
+  LOAN_APPLICATION_STEP_STATUS
+} from "../../constants"
 import { Input } from "@/components/ui/input"
 import { useLoanApplicationContext } from "../../providers"
+import { ArrowRight } from "lucide-react"
 
 export const ConfirmationForm = () => {
-  const { submitForm } = useLoanApplicationContext()
+  const { saveDraftForm, isSubmitting, progress } = useLoanApplicationContext()
+
   const form = useForm<ConfirmationFormValue>({
     resolver: zodResolver(confirmationFormSchema),
     defaultValues: {
-      signature: "",
-      name: "",
+      printName: "",
       signatureDate: new Date().toLocaleDateString()
     },
     mode: "onChange"
   })
+
+  const onSubmit = (data: ConfirmationFormValue) => {
+    saveDraftForm(LOAN_APPLICATION_STEPS.CONFIRMATION, data)
+  }
+
+  //check other progress completed
+  const isPreviousStepsCompleted =
+    progress.filter(
+      (val) =>
+        val.step !== LOAN_APPLICATION_STEPS.CONFIRMATION &&
+        val.status !== LOAN_APPLICATION_STEP_STATUS.COMPLETE
+    ).length === 0
 
   return (
     <div className="flex flex-col flex-1 gap-3xl">
@@ -40,25 +57,29 @@ export const ConfirmationForm = () => {
             </p>
           ))}
 
-          <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl ">
+          <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl">
             <FormField
               control={form.control}
-              name="signature"
+              name="printName"
               render={({ field }) => (
                 <FormItem className="col-span-2">
                   <FormLabel className="text-text-secondary">
                     Signature of Authorized Individual
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="" className="text-base" {...field} />
+                    <Input
+                      placeholder=""
+                      className="text-3xl island-moments-regular"
+                      {...field}
+                      disabled={true}
+                    />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />{" "}
             <FormField
               control={form.control}
-              name="name"
+              name="printName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-text-secondary">
@@ -66,7 +87,7 @@ export const ConfirmationForm = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Larry Latte"
+                      placeholder="i.e: Larry Latte"
                       className="text-base"
                       {...field}
                     />
@@ -91,15 +112,19 @@ export const ConfirmationForm = () => {
               )}
             />
           </form>
+          <div className="flex justify-end">
+            <ButtonLoading
+              type="submit"
+              isLoading={isSubmitting}
+              disabled={!form.formState.isValid || !isPreviousStepsCompleted}
+              className="w-full flex items-center gap-1"
+              onClick={form.handleSubmit(onSubmit)}
+            >
+              <span>Submit application</span>
+              <ArrowRight className="w-5" />
+            </ButtonLoading>
+          </div>
         </Card>
-        <div className="flex justify-end">
-          <ButtonLoading
-            disabled={!form.formState.isValid}
-            onClick={submitForm}
-          >
-            Submit
-          </ButtonLoading>
-        </div>
       </Form>
     </div>
   )

@@ -117,6 +117,7 @@ export const API_PATH = {
     submitKyb: "api/form/kyb",
     submitKyc: "api/form/kyc",
     submitFinancial: "api/form/financial",
+    submitConfirmation: "api/form/confirmation",
     uploadDocument: "api/form/document/upload",
     getIncomeCategories: "api/form/financial/income-categories"
   },

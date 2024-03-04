@@ -67,9 +67,8 @@ export const financialFormSchema = z.object({
 })
 
 export const confirmationFormSchema = z.object({
-  signature: z.string().min(1, { message: "Signature is required" }),
-  name: z.string().min(1, { message: "Print name is required" }),
-  signatureDate: z.string().min(1)
+  printName: z.string().min(1, { message: "Print name is required" }),
+  signatureDate: z.string()
 })
 
 export const loanRequestFormSchema = z.object({
