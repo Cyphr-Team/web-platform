@@ -30,9 +30,9 @@ export const useLoginWithSocial = () => {
       })
     },
     onSuccess: ({ data }) => {
-      const { accessToken, refreshToken, expiresIn } = data
+      const { accessToken, refreshToken } = data
 
-      inMemoryJWTService.setToken(accessToken, expiresIn)
+      inMemoryJWTService.setToken(accessToken)
       inMemoryJWTService.setRefreshToken(refreshToken)
       inMemoryJWTService.setUserInfo(data)
       queryClient.resetQueries()

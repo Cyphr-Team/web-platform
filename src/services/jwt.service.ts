@@ -13,14 +13,12 @@ export const parseJwt = (token: string) => {
   }
 }
 
-const ONE_DAY_IN_SECONDS = 86400
 const REFRESH_TOKEN_LS_KEY = "foresight-web-refresh_token"
 const USER_INFO_LS_KEY = "foresight-web-user_info"
 
 export const inMemoryJWTManager = () => {
   let logoutEventName = "foresight-web-logout"
   let inMemoryJWT: string | null = null
-  let refreshTimeOutId: number
   let refreshToken: string
   let userInfo: UserInfo | null = null
 
@@ -35,25 +33,6 @@ export const inMemoryJWTManager = () => {
   const setRefreshToken = (token: string) => {
     refreshToken = token
     localStorage.setItem(REFRESH_TOKEN_LS_KEY, token)
-  }
-
-  // This countdown feature is used to renew the JWT in a way that is transparent to the user.
-  // before it's no longer valid
-  const renewAccessToken = (delay: number = ONE_DAY_IN_SECONDS) => {
-    refreshTimeOutId = window.setTimeout(
-      processRenewToken,
-      delay * 1000 - 10000
-    ) // Validity period of the token in seconds, minus 10 seconds
-  }
-
-  const abortRefreshToken = () => {
-    if (refreshTimeOutId) {
-      window.clearTimeout(refreshTimeOutId)
-    }
-  }
-
-  const processRenewToken = () => {
-    getNewAccessToken()
   }
 
   // The method makes a call to the refresh-token endpoint
@@ -87,7 +66,7 @@ export const inMemoryJWTManager = () => {
       })
       .then((userInfo: UserInfo) => {
         if (userInfo.accessToken) {
-          setToken(userInfo.accessToken, userInfo.expiresIn)
+          setToken(userInfo.accessToken)
         }
         if (userInfo.refreshToken) {
           setRefreshToken(userInfo.refreshToken)
@@ -105,9 +84,8 @@ export const inMemoryJWTManager = () => {
 
   const getUserInfo = () => userInfo
 
-  const setToken = (token: string, delay?: number) => {
+  const setToken = (token: string) => {
     inMemoryJWT = token
-    renewAccessToken(delay)
   }
 
   const setUserInfo = (info: UserInfo) => {
@@ -121,7 +99,6 @@ export const inMemoryJWTManager = () => {
     localStorage.removeItem(USER_INFO_LS_KEY)
     inMemoryJWT = null
     userInfo = null
-    abortRefreshToken()
     window.localStorage.setItem(logoutEventName, String(Date.now()))
   }
 

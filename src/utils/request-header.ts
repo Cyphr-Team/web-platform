@@ -4,6 +4,7 @@ export const DEMO_INSTITUTION_ID = APP_CONFIGS.DEMO_INSTITUTION_ID
 
 enum CustomHeaderKey {
   Institution = "X-FS-Institution-Id",
+  RememberMe = "X-FS-Remember-Me",
   Authorization = "Authorization"
 }
 
@@ -33,4 +34,11 @@ const headerWithTemporaryToken = (token: string) => {
   }
 }
 
-export { customRequestHeader, headerWithTemporaryToken }
+const headerWithRememberMe = (days: number) => {
+  return {
+    ...customRequestHeader.customHeaders,
+    [CustomHeaderKey.RememberMe]: days
+  }
+}
+
+export { customRequestHeader, headerWithTemporaryToken, headerWithRememberMe }

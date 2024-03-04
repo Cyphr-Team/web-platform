@@ -212,3 +212,5 @@ export const APP_BREADS = {
 // QUERY REQUEST
 
 export const REQUEST_LIMIT_PARAM = 50
+
+export const MAX_REMEMBER_ME_DAYS = 30
