@@ -1,10 +1,10 @@
 import { ALTCAP_LOAN_PROGRAMS } from "../constants/loan-program.constants"
 import { useMemo } from "react"
 
-export const useGetLoanProgramDetail = (name: string) => {
+export const useGetLoanProgramDetail = (type: string) => {
   const loanProgramData = useMemo(
-    () => ALTCAP_LOAN_PROGRAMS.find((loanProgram) => loanProgram.name === name),
-    [name]
+    () => ALTCAP_LOAN_PROGRAMS.find((loanProgram) => loanProgram.type === type),
+    [type]
   )
 
   return loanProgramData

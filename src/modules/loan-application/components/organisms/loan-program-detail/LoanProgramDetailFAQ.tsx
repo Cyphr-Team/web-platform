@@ -11,9 +11,10 @@ import { cn } from "@/lib/utils"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { LoanProgramDetailApply } from "./LoanProgramDetailApply"
 import { LoanProgramDetailUnderConstruction } from "./LoanProgramDetailUnderConstruction"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export const LoanProgramDetailFAQ = () => {
-  const { loanProgramInfo } = useLoanProgramDetailContext()
+  const { loanProgramInfo, isLoading } = useLoanProgramDetailContext()
 
   return (
     <section>
@@ -28,30 +29,7 @@ export const LoanProgramDetailFAQ = () => {
             <LoanProgramDetailContactCard />
           </div>
         </div>
-
-        <Accordion type="multiple" className="w-full">
-          {Object.keys(loanProgramInfo?.faqs ?? {}).map((key) => {
-            const answer = loanProgramInfo?.faqs?.[key]
-            return (
-              <AccordionItem value={key} key={key} className="w-full">
-                <AccordionTrigger
-                  className={cn(
-                    "justify-between w-full hover:no-underline text-xl sm:text-2xl font-semibold text-left",
-                    "[&[data-state=closed]>.open-icon]:animate-spin-once",
-                    "[&[data-state=open]>.close-icon]:animate-spin-once"
-                  )}
-                  openIcon={<Plus className="h-5 w-5" />}
-                  closeIcon={<Minus className="h-5 w-5" />}
-                >
-                  {capitalizeWords(snakeCaseToText(key))}
-                </AccordionTrigger>
-                <AccordionContent className="whitespace-pre-wrap">
-                  {answer}
-                </AccordionContent>
-              </AccordionItem>
-            )
-          })}
-        </Accordion>
+        {isLoading ? <FAQSkeleton /> : <FAQ />}
       </div>
 
       <section className="block md:hidden mt-6">
@@ -71,5 +49,45 @@ export const LoanProgramDetailFAQ = () => {
         </div>
       </section>
     </section>
+  )
+}
+
+const FAQ = () => {
+  const { loanProgramInfo } = useLoanProgramDetailContext()
+
+  return (
+    <Accordion type="multiple" className="w-full">
+      {Object.keys(loanProgramInfo?.faqs ?? {}).map((key) => {
+        const answer = loanProgramInfo?.faqs?.[key]
+        return (
+          <AccordionItem value={key} key={key} className="w-full">
+            <AccordionTrigger
+              className={cn(
+                "justify-between w-full hover:no-underline text-xl sm:text-2xl font-semibold text-left",
+                "[&[data-state=closed]>.open-icon]:animate-spin-once",
+                "[&[data-state=open]>.close-icon]:animate-spin-once"
+              )}
+              openIcon={<Plus className="h-5 w-5" />}
+              closeIcon={<Minus className="h-5 w-5" />}
+            >
+              {capitalizeWords(snakeCaseToText(key))}
+            </AccordionTrigger>
+            <AccordionContent className="whitespace-pre-wrap">
+              {answer}
+            </AccordionContent>
+          </AccordionItem>
+        )
+      })}
+    </Accordion>
+  )
+}
+
+const FAQSkeleton = () => {
+  return (
+    <div className="flex flex-col w-full gap-5">
+      {new Array(5).fill(null).map((_, key) => {
+        return <Skeleton key={key} className="w-full h-16" />
+      })}
+    </div>
   )
 }

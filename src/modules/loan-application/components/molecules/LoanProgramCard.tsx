@@ -31,7 +31,7 @@ export const LoanProgramCard = ({
     <Card className={cn(className, "flex flex-col rounded-2xl")} {...props}>
       <CardHeader className="space-y-2 pb-0 md:pb-0">
         <CardTitle>
-          <p id="loan-type" className="text-sm mb-0.5">
+          <p id="loan-type" className="text-sm mb-0.5 capitalize">
             {loanProgram.type}
           </p>
           {loanProgram.name}
@@ -83,7 +83,7 @@ export const LoanProgramCard = ({
             )}
           >
             Learn More
-            <ArrowRight className="mr-2 h-4 w-4" />
+            <ArrowRight className="ml-1 h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>

@@ -29,7 +29,7 @@ export const LoanProgramDetailProvider: React.FC<Props> = ({ children }) => {
   const loanProgramQuery = useQueryGetLoanProgramDetails(loanProgramId!)
 
   const loanProgramInfo = useGetLoanProgramDetail(
-    loanProgramQuery.data?.name ?? ""
+    loanProgramQuery.data?.type ?? ""
   )
 
   const value = useMemo(
