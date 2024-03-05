@@ -1,35 +1,67 @@
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTableContent } from "@/modules/loan-application-management/components/table/middesk-table-content"
 import { MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
-import { format } from "date-fns"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
+import { useMemo } from "react"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
-import { KYC_STATUS } from "@/modules/loan-application-management/constants/types/kyc"
+import { DateHeader } from "./DateHeader"
+import {
+  BusinessNameDetail,
+  SourceStatus,
+  TaskFieldStatus
+} from "@/modules/loan-application-management/constants/types/business.type"
+import { Dot } from "@/components/ui/dot"
+import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 
 export const BusinessName = () => {
-  const data: MiddeskTableContentReport[] = [
-    {
-      name: "Larry’s Latte LLC",
-      submitted: true,
-      sources: [{ metadata: { state: "WA", status: KYC_STATUS.VERIFIED } }],
-      notes: ""
-    }
-  ]
+  const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
-  const badge = <MiddeskBadge status={KYC_STATUS.VERIFIED} />
-  const headerTitle = <>Business Name {badge}</>
-  const headerRight = (
-    <div className="text-text-tertiary">
-      Last updated on {format(new Date(), FORMAT_DATE_MM_DD_YYYY)}
-    </div>
+  const businessNames = loanKybDetail?.businessNames
+
+  const getBusinessNameNote = (businessName: BusinessNameDetail) => {
+    return businessName.status?.toUpperCase() === TaskFieldStatus.SUCCESS &&
+      businessName.source.status?.toUpperCase() === SourceStatus.ACTIVE ? (
+      <div className="flex items-center text-base flex-wrap">
+        IRS <Dot className="mx-1 w-2" /> Tax ID Associated Name
+      </div>
+    ) : (
+      ""
+    )
+  }
+
+  const data: MiddeskTableContentReport[] = useMemo(
+    () =>
+      businessNames?.data?.map((businessName) => ({
+        name: businessName.name,
+        submitted: businessName.submitted,
+        sources: [businessName.source],
+        status: businessName.status,
+        renderNote: getBusinessNameNote(businessName)
+      })) ?? [],
+    [businessNames]
   )
 
-  const content = <MiddeskTableContent nameTitle="Business Name" data={data} />
+  const badge = (
+    <MiddeskBadge
+      status={loanKybDetail?.insights.businessName?.status}
+      label={businessNames?.subLabel}
+    />
+  )
+  const headerTitle = <>Business Name {badge}</>
+
+  const content = (
+    <MiddeskTableContent
+      nameTitle="Business Name"
+      data={data}
+      isLoading={isLoading}
+    />
+  )
 
   return (
     <MiddeskCard
+      id={INSIGHT_TOC.businessName}
       headerTitle={headerTitle}
-      headerRight={headerRight}
+      headerRight={<DateHeader />}
       content={content}
     />
   )

@@ -47,12 +47,7 @@ type SummaryCashFlowDocumentation = {
 type LoanSummary = {
   businessInfo: Pick<
     LoanApplicationsKyb,
-    | "businessName"
-    | "tax"
-    | "formation"
-    | "officeAddresses"
-    | "tax"
-    | "phoneNumber"
+    "businessName" | "tax" | "formation" | "officeAddresses" | "phoneNumber"
   >
   businessPlan: SummaryBusinessPlan
   financialStatements: SummaryFinancialStatements

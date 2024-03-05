@@ -8,11 +8,13 @@ import { MiddeskTableHeader } from "./middesk-table-header"
 type MiddeskTableContentProps<TData> = {
   data: TData[]
   nameTitle: string
+  isLoading?: boolean
 }
 
 export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
   nameTitle,
-  data
+  data,
+  isLoading
 }: MiddeskTableContentProps<TData>) => {
   const columns: ColumnDef<TData>[] = [
     {
@@ -59,14 +61,18 @@ export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
 
         return (
           <div>
-            <SourceToolTip
-              data={data.sources ?? []}
-              sourceContent={
-                <div className="flex items-center">
-                  {source?.metadata?.state} <Dot className="mx-1 w-2" /> SOS
-                </div>
-              }
-            />
+            {source?.state ? (
+              <SourceToolTip
+                data={data.sources ?? []}
+                sourceContent={
+                  <div className="flex items-center">
+                    {source.state} <Dot className="mx-1 w-2" /> SOS
+                  </div>
+                }
+              />
+            ) : (
+              "None"
+            )}
           </div>
         )
       }
@@ -74,14 +80,17 @@ export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
     {
       accessorKey: "notes",
       header: () => <MiddeskTableHeader title="Notes" />,
-      cell: () => {
-        return <div></div>
+      cell: ({ row }) => {
+        const data = row.original
+
+        return <div>{data.renderNote ? data.renderNote : data.notes}</div>
       }
     }
   ]
 
   return (
     <MiddeskTable
+      isLoading={isLoading}
       tableClassName={"table-fixed"}
       columns={columns}
       data={data}

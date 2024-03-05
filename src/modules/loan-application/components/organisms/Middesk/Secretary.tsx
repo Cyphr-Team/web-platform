@@ -1,25 +1,23 @@
 import { Dot } from "@/components/ui/dot"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
-import { CardStatus } from "@/modules/loan-application-management/components/atoms/CardStatus"
+import {
+  KybState,
+  KybStateSkeleton
+} from "@/modules/loan-application-management/components/molecules/KybState"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { STATE_STATUS } from "@/modules/loan-application-management/constants"
-import { KYC_STATUS } from "@/modules/loan-application-management/constants/types/kyc"
-import {
-  MIDDESK_ACTIVE_STATUS,
-  RegistrationStatus,
-  SecretaryReport
-} from "@/modules/loan-application-management/constants/types/middesk.type"
+import { BusinessSosDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
 import { SourceToolTip } from "../../molecules/SourceToolTip"
+import { DateHeader } from "./DateHeader"
+import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 
-const columns: ColumnDef<SecretaryReport>[] = [
+const columns: ColumnDef<BusinessSosDetail>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "fileDate",
     header: () => <MiddeskTableHeader title={"File date"} />,
     cell: ({ row }) => {
       const data = row.original
@@ -32,7 +30,7 @@ const columns: ColumnDef<SecretaryReport>[] = [
     }
   },
   {
-    accessorKey: "submitted",
+    accessorKey: "state",
     header: () => <MiddeskTableHeader title="State" />,
     cell: ({ row }) => {
       const data = row.original
@@ -58,25 +56,29 @@ const columns: ColumnDef<SecretaryReport>[] = [
     }
   },
   {
-    accessorKey: "sources",
+    accessorKey: "subStatus",
     header: () => <MiddeskTableHeader title="Sub-status" />,
     cell: ({ row }) => {
       const data = row.original
 
-      if (!data.sources) return "-"
+      if (!data.source.status) return "-"
 
       return (
         <div className="flex items-start">
-          <Dot
-            className="flex-shrink-0 self-start mt-1"
-            variantColor={getBadgeVariantByMiddeskStatus(
-              data.sources?.[0].metadata?.status
-            )}
-          />
-          <SourceToolTip
-            data={data?.sources ?? []}
-            sourceContent="Good Standing"
-          />
+          {data.subStatus && (
+            <>
+              <Dot
+                className="flex-shrink-0 self-start mt-1"
+                variantColor={getBadgeVariantByMiddeskStatus(
+                  data.source.status
+                )}
+              />
+              <SourceToolTip
+                data={[data.source]}
+                sourceContent={data.subStatus}
+              />
+            </>
+          )}
         </div>
       )
     }
@@ -84,71 +86,43 @@ const columns: ColumnDef<SecretaryReport>[] = [
 ]
 
 export const Secretary = () => {
-  const registrationStatus: RegistrationStatus = {
-    active: 2,
-    inactive: 0,
-    unknown: 0
-  }
-  const data: SecretaryReport[] = [
-    {
-      fileDate: "02/24/2020",
-      state: "Washington",
-      status: MIDDESK_ACTIVE_STATUS.DOMESTIC_ACTIVE,
-      sources: [{ metadata: { state: "WA", status: KYC_STATUS.VERIFIED } }]
-    },
-    {
-      fileDate: "02/24/2020",
-      state: "Colorado",
-      status: MIDDESK_ACTIVE_STATUS.ACTIVE,
-      sources: [{ metadata: { state: "CO", status: KYC_STATUS.VERIFIED } }]
-    }
-  ]
+  const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
-  const badge = <MiddeskBadge status={MIDDESK_ACTIVE_STATUS.ACTIVE} />
-  const headerTitle = <>Secretary of State filings {badge}</>
-  const headerRight = (
-    <div className="text-text-tertiary">
-      Last updated on {format(new Date(), FORMAT_DATE_MM_DD_YYYY)}
-    </div>
+  const sosFillings = loanKybDetail?.businessSosFillings
+
+  const badge = (
+    <MiddeskBadge
+      status={loanKybDetail?.insights.sosFillings?.status}
+      label={sosFillings?.subLabel}
+    />
   )
+  const headerTitle = <>Secretary of State filings {badge}</>
 
   const content = (
     <>
       <div className="flex flex-col gap-y-lg my-4">
         <p className="text-lg font-medium">Registration Status</p>
-        <div className="flex flex-wrap gap-lg">
-          <div className="w-[140px] rounded-lg overflow-hidden">
-            <CardStatus
-              status={STATE_STATUS.ACTIVE}
-              amount={registrationStatus?.active}
-            />
-          </div>
-          <div className="w-[140px] rounded-lg overflow-hidden">
-            <CardStatus
-              status={STATE_STATUS.INACTIVE}
-              amount={registrationStatus?.inactive}
-            />
-          </div>
-          <div className="w-[140px] rounded-lg overflow-hidden">
-            <CardStatus
-              status={STATE_STATUS.UNKNOWN}
-              amount={registrationStatus?.unknown}
-            />
-          </div>
-        </div>
+        {isLoading ? (
+          <KybStateSkeleton />
+        ) : (
+          <KybState sosFillings={sosFillings} />
+        )}
       </div>
+
       <MiddeskTable
         tableClassName={"table-fixed"}
         columns={columns}
-        data={data}
+        data={sosFillings?.data ?? []}
+        isLoading={isLoading}
       />
     </>
   )
 
   return (
     <MiddeskCard
+      id={INSIGHT_TOC.sosFillings}
       headerTitle={headerTitle}
-      headerRight={headerRight}
+      headerRight={<DateHeader />}
       content={content}
     />
   )

@@ -9,51 +9,61 @@ import {
 } from "@/components/ui/tooltip"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { MiddeskSourcesReport } from "@/modules/loan-application-management/constants/types/middesk.type"
+import { BusinessRegistrationSource } from "@/modules/loan-application-management/constants/types/business.type"
 import { ColumnDef } from "@tanstack/react-table"
 import { ReactNode } from "react"
 import { MiddeskBadge } from "./MiddeskBadge"
+import { cn } from "@/lib/utils"
+import { mappedStateAbbreviations } from "@/utils/state.utils"
+
+const sourceToolTipColumn: ColumnDef<BusinessRegistrationSource>[] = [
+  {
+    accessorKey: "sources",
+    header: () => <MiddeskTableHeader title="Source" />,
+    cell: ({ row }) => {
+      const data = row.original
+
+      const state = data?.state
+        ? mappedStateAbbreviations[
+            data.state as keyof typeof mappedStateAbbreviations
+          ] ?? data.state
+        : data.state
+
+      return (
+        <a
+          href="https://esos.nv.gov/EntitySearch/OnlineEntitySearch"
+          rel="noopener noreferrer"
+          target="_blank"
+          className="inline-flex items-center text-blue-700 border-b border-blue-700"
+        >
+          {state} <Dot className="mx-1 w-2 text-blue-700" />
+          SOS
+        </a>
+      )
+    }
+  },
+  {
+    accessorKey: "status",
+    header: () => <MiddeskTableHeader title="Status" />,
+    cell: ({ row }) => {
+      const data = row.original
+
+      return <MiddeskBadge status={data?.status} />
+    }
+  }
+]
 
 export const SourceToolTip = ({
   data,
   sourceContent,
-  description
+  description,
+  subDescription
 }: {
-  data: MiddeskSourcesReport[]
+  data?: BusinessRegistrationSource[]
   sourceContent: ReactNode
   description?: ReactNode
+  subDescription?: ReactNode
 }) => {
-  const sourceToolTipColumn: ColumnDef<MiddeskSourcesReport>[] = [
-    {
-      accessorKey: "sources",
-      header: () => <MiddeskTableHeader title="Source" />,
-      cell: ({ row }) => {
-        const data = row.original
-
-        return (
-          <a
-            href="https://esos.nv.gov/EntitySearch/OnlineEntitySearch"
-            rel="noopener noreferrer"
-            target="_blank"
-            className="inline-flex items-center text-blue-700 border-b border-blue-700"
-          >
-            {data?.metadata?.state} <Dot className="mx-1 w-2 text-blue-700" />
-            SOS
-          </a>
-        )
-      }
-    },
-    {
-      accessorKey: "status",
-      header: () => <MiddeskTableHeader title="Status" />,
-      cell: ({ row }) => {
-        const data = row.original
-
-        return <MiddeskBadge status={data?.metadata?.status} />
-      }
-    }
-  ]
-
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>
@@ -66,14 +76,29 @@ export const SourceToolTip = ({
           </Button>
         </TooltipTrigger>
         <TooltipPortal>
-          <TooltipContent className="text-base px-0" side="top">
+          <TooltipContent
+            className={cn(
+              "text-base px-0 max-w-80",
+              subDescription && "max-w-80 md:max-w-md lg:max-w-lg"
+            )}
+            side="top"
+          >
             {description && (
-              <div className="px-4 font-semibold max-w-80 pb-2 border-b">
+              <div
+                className={cn(
+                  "px-4 font-semibold text-sm",
+                  !!data?.length && "border-b pb-2"
+                )}
+              >
                 {description}
               </div>
             )}
 
-            <MiddeskTable data={data} columns={sourceToolTipColumn} />
+            {data && <MiddeskTable data={data} columns={sourceToolTipColumn} />}
+
+            {!!subDescription && (
+              <div className="px-4 text-sm py-2">{subDescription}</div>
+            )}
           </TooltipContent>
         </TooltipPortal>
       </Tooltip>

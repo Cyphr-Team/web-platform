@@ -1,53 +1,54 @@
-import { Dot } from "@/components/ui/dot"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import {
-  MIDDESK_HIT_STATUS,
-  WatchlistsReport
-} from "@/modules/loan-application-management/constants/types/middesk.type"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { BusinessWatchlistData } from "@/modules/loan-application-management/constants/types/business.type"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
+import { DateHeader } from "./DateHeader"
 import { WatchListHit } from "./WatchListHit"
+import { MiddeskStatus } from "@/modules/loan-application-management/constants/types/middesk.type"
+import { Dot } from "@/components/ui/dot"
+import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 
-const columns: ColumnDef<WatchlistsReport>[] = [
+const columns: ColumnDef<
+  Pick<BusinessWatchlistData, "businessName" | "people"> & {
+    status?: MiddeskStatus
+  }
+>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "businessName",
     header: () => <MiddeskTableHeader title={"Screened Business"} />,
     cell: ({ row }) => {
       const data = row.original
 
       return (
-        <div className="min-w-0 flex items-center">
+        <div className="flex items-start">
           <Dot
             className="flex-shrink-0 self-start mt-1"
-            variantColor={getBadgeVariantByMiddeskStatus(
-              data?.business?.status
-            )}
+            variantColor={getBadgeVariantByMiddeskStatus(data?.status)}
           />
-          <p>{data?.business?.name ?? "-"}</p>
+          <p>{data?.businessName ?? "-"}</p>
         </div>
       )
     }
   },
   {
-    accessorKey: "submitted",
+    accessorKey: "people",
     header: () => <MiddeskTableHeader title="Screened Individual" />,
     cell: ({ row }) => {
       const data = row.original
 
       return (
-        <div className="min-w-0 flex items-center">
-          <Dot
-            className="flex-shrink-0 self-start mt-1"
-            variantColor={getBadgeVariantByMiddeskStatus(
-              data?.individual?.status
-            )}
-          />
-          <p>{data?.individual?.name ?? "-"}</p>
+        <div className="flex items-start">
+          {data?.people && (
+            <Dot
+              className="flex-shrink-0 self-start mt-1"
+              variantColor={getBadgeVariantByMiddeskStatus(data?.status)}
+            />
+          )}
+          <p>{data?.people ?? "-"}</p>
         </div>
       )
     }
@@ -55,43 +56,42 @@ const columns: ColumnDef<WatchlistsReport>[] = [
 ]
 
 export const WatchList = () => {
-  const data: WatchlistsReport[] = [
-    {
-      business: {
-        name: "Fraud Frappucino Inc.",
-        status: MIDDESK_HIT_STATUS.HITS
-      },
-      individual: {
-        name: "Sam-Bankman Fraud",
-        status: MIDDESK_HIT_STATUS.HITS
-      }
-    }
-  ]
+  const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
-  const badge = <MiddeskBadge status={MIDDESK_HIT_STATUS.HITS} />
+  const watchlist = loanKybDetail?.businessWatchlist
+  const label = loanKybDetail?.insights.watchlists?.subLabel
+  const status = loanKybDetail?.insights.watchlists?.status
+
+  const badge = <MiddeskBadge status={status} label={label} />
   const headerTitle = <>Watchlists {badge}</>
-  const headerRight = (
-    <div className="text-text-tertiary">
-      Last updated on {format(new Date(), FORMAT_DATE_MM_DD_YYYY)}
-    </div>
-  )
+  const screenedData = watchlist
+    ? [
+        {
+          businessName: watchlist.businessName,
+          people: watchlist.people,
+          status
+        }
+      ]
+    : []
 
   const content = (
     <>
       <MiddeskTable
         tableClassName={"table-fixed"}
         columns={columns}
-        data={data}
+        data={screenedData}
+        isLoading={isLoading}
       />
 
-      <WatchListHit />
+      {!isLoading && <WatchListHit />}
     </>
   )
 
   return (
     <MiddeskCard
+      id={INSIGHT_TOC.watchLists}
       headerTitle={headerTitle}
-      headerRight={headerRight}
+      headerRight={<DateHeader />}
       content={content}
     />
   )

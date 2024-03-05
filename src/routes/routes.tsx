@@ -96,22 +96,6 @@ const routes = createBrowserRouter(
               }
             />
             <Route
-              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYB.index}
-              lazy={() =>
-                import(
-                  "@/modules/loan-application-management/components/pages/KybDetails"
-                )
-              }
-            />
-            <Route
-              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYC}
-              lazy={() =>
-                import(
-                  "@/modules/loan-application-management/components/pages/KycDetails"
-                )
-              }
-            />
-            <Route
               path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.index}
               lazy={() =>
                 import(

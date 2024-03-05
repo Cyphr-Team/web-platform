@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table"
 
 import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -23,13 +24,15 @@ interface DataTableProps<TData, TValue> {
   isFilterView?: boolean
   handleClickDetail?: (row: Row<TData>) => void
   tableClassName?: string
+  isLoading?: boolean
 }
 
 export function MiddeskTable<TData, TValue>({
   columns,
   data,
   handleClickDetail,
-  tableClassName
+  tableClassName,
+  isLoading
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -59,30 +62,47 @@ export function MiddeskTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                className={cn(!!handleClickDetail && "cursor-pointer")}
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                onClick={() => handleClickDetail && handleClickDetail(row)}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          {table.getRowModel().rows?.length
+            ? table.getRowModel().rows.map((row) => (
+                <TableRow
+                  className={cn(!!handleClickDetail && "cursor-pointer")}
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  onClick={() => handleClickDetail && handleClickDetail(row)}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            : !isLoading && (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
                   </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
+                </TableRow>
+              )}
         </TableBody>
       </Table>
+
+      {isLoading && (
+        <div className="flex items-center flex-col justify-center w-full mt-4">
+          <Loader2
+            className={cn(
+              "m-2 h-8 w-8 transition-all ease-out animate-spin text-primary"
+            )}
+          />
+          Loading...
+        </div>
+      )}
     </div>
   )
 }

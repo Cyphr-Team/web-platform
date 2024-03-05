@@ -1,33 +1,43 @@
-import { Card } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { STATE_STATUS } from "../../constants"
+import { BusinessSosData } from "../../constants/types/business.type"
 import { CardStatus } from "../atoms/CardStatus"
-import { KybDetailRegistrationStatus } from "../../constants/type"
 
 type Props = {
-  registrationStatus?: KybDetailRegistrationStatus
+  sosFillings?: BusinessSosData
 }
 
-export const KybState: React.FC<Props> = ({ registrationStatus }) => {
+export const KybState: React.FC<Props> = ({ sosFillings }) => {
   return (
-    <Card className="h-fit p-4xl gap-y-4xl flex flex-col flex-1">
-      <p className="text-2xl font-semibold">Secretary of State</p>
-      <div className="flex flex-col gap-y-lg">
-        <p className="text-lg font-medium">Registration Status</p>
-        <div className="flex flex-wrap gap-lg">
-          <CardStatus
-            status={STATE_STATUS.ACTIVE}
-            amount={registrationStatus?.active}
-          />
-          <CardStatus
-            status={STATE_STATUS.INACTIVE}
-            amount={registrationStatus?.inactive}
-          />
-          <CardStatus
-            status={STATE_STATUS.UNKNOWN}
-            amount={registrationStatus?.unknown}
-          />
-        </div>
+    <div className="flex flex-wrap gap-lg">
+      <div className="w-[140px] rounded-lg overflow-hidden">
+        <CardStatus
+          status={STATE_STATUS.ACTIVE}
+          amount={sosFillings?.active ?? 0}
+        />
       </div>
-    </Card>
+      <div className="w-[140px] rounded-lg overflow-hidden">
+        <CardStatus
+          status={STATE_STATUS.INACTIVE}
+          amount={sosFillings?.inactive ?? 0}
+        />
+      </div>
+      <div className="w-[140px] rounded-lg overflow-hidden">
+        <CardStatus
+          status={STATE_STATUS.UNKNOWN}
+          amount={sosFillings?.unknown ?? 0}
+        />
+      </div>
+    </div>
+  )
+}
+
+export const KybStateSkeleton = () => {
+  return (
+    <div className="flex flex-wrap gap-lg">
+      <Skeleton className="w-[140px] h-[100px] bg-success-100" />
+      <Skeleton className="w-[140px] h-[100px] bg-warning-100" />
+      <Skeleton className="w-[140px] h-[100px] bg-gray-100" />
+    </div>
   )
 }

@@ -1,6 +1,7 @@
 import { Dot } from "@/components/ui/dot"
+import { Skeleton } from "@/components/ui/skeleton"
 import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
-import { MiddeskStatus } from "@/modules/loan-application-management/constants/types/middesk.type"
+import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { ReactNode } from "react"
 
@@ -12,7 +13,7 @@ export const MiddeskDetailItem = ({
 }: {
   label: ReactNode
   value?: ReactNode
-  status?: MiddeskStatus
+  status?: TaskFieldStatus
   toolTip?: ReactNode
 }) => {
   return (
@@ -25,6 +26,16 @@ export const MiddeskDetailItem = ({
         )}
         {toolTip}
       </div>
+    </div>
+  )
+}
+
+export const MiddeskDetailItemSkeleton = () => {
+  return (
+    <div className="mt-5">
+      <Skeleton className="h-4 w-1/2" />
+      <Skeleton className="h-4 w-2/3 mt-1.5" />
+      <Skeleton className="h-4 w-1/3 mt-1" />
     </div>
   )
 }

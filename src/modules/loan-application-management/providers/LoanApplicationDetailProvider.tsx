@@ -1,16 +1,16 @@
-import { createContext, useContext } from "use-context-selector"
-import { LoanApplicationsKyb } from "../constants/type"
-import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
-import { useParams } from "react-router-dom"
-import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
-import { LoanApplicationsKyc } from "../constants/types/kyc"
-import { useQueryGetApplicationDetails } from "../hooks/useQuery/useQueryApplicationDetails"
 import { UserLoanApplication } from "@/types/loan-application.type"
-import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
+import { useParams } from "react-router-dom"
+import { createContext, useContext } from "use-context-selector"
+import { ApplicationKybDetailResponse } from "../constants/types/business.type"
+import { LoanApplicationsKyc } from "../constants/types/kyc"
 import { LoanSummary } from "../constants/types/loan-summary.type"
+import { useQueryGetApplicationDetails } from "../hooks/useQuery/useQueryApplicationDetails"
+import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
+import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
+import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
 
 type LoanApplicationDetailContextType = {
-  loanKybDetail?: LoanApplicationsKyb
+  loanKybDetail?: ApplicationKybDetailResponse
   loanKycDetail?: LoanApplicationsKyc
   loanApplicationDetails?: UserLoanApplication
   isLoading: boolean

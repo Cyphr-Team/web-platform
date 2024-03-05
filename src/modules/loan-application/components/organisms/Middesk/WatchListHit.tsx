@@ -1,29 +1,19 @@
-import { Dot } from "@/components/ui/dot"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import {
-  MIDDESK_HIT_STATUS,
-  WatchlistsHitsReport
-} from "@/modules/loan-application-management/constants/types/middesk.type"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { BusinessWatchlistDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { ColumnDef } from "@tanstack/react-table"
+import { NotFoundAlert } from "../../molecules/NotFoundAlert"
+import { SourceToolTip } from "../../molecules/SourceToolTip"
 
-const columns: ColumnDef<WatchlistsHitsReport>[] = [
+const columns: ColumnDef<BusinessWatchlistDetail>[] = [
   {
     accessorKey: "found",
     header: () => <MiddeskTableHeader title={"Found"} />,
     cell: ({ row }) => {
       const data = row.original
 
-      return (
-        <div className="min-w-0 flex items-center">
-          <Dot
-            className="flex-shrink-0 self-start mt-1"
-            variantColor={getBadgeVariantByMiddeskStatus(data?.status)}
-          />
-          <p>{data?.found ?? "-"}</p>
-        </div>
-      )
+      return <p>{data?.found ?? "-"}</p>
     }
   },
   {
@@ -35,7 +25,7 @@ const columns: ColumnDef<WatchlistsHitsReport>[] = [
       return (
         <div className="min-w-0">
           <p>{data.agency ?? "-"}</p>
-          <p className="text-sm text-text-tertiary">{data?.agencyCountry}</p>
+          <p className="text-sm text-text-tertiary">{data?.organization}</p>
         </div>
       )
     }
@@ -49,20 +39,35 @@ const columns: ColumnDef<WatchlistsHitsReport>[] = [
       return (
         <div className="min-w-0">
           <p>{data?.list ?? "-"}</p>
+          {data.sourceUrl && (
+            <SourceToolTip
+              sourceContent="Source URL"
+              subDescription={
+                <a
+                  href={data.sourceUrl}
+                  className="text-blue-700 font-semibold hover:underline"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {data.sourceUrl}
+                </a>
+              }
+            />
+          )}
         </div>
       )
     }
   },
   {
-    accessorKey: "country",
+    accessorKey: "listCountry",
     header: () => <MiddeskTableHeader title="Country" />,
     cell: ({ row }) => {
       const data = row.original
 
       return (
         <div className="min-w-0">
-          <p>{data.country ?? "-"}</p>
-          <p className="text-sm text-text-tertiary">{data?.subCountry}</p>
+          <p>{data.listCountry ?? "-"}</p>
+          <p className="text-sm text-text-tertiary">{data?.listRegion}</p>
         </div>
       )
     }
@@ -70,31 +75,20 @@ const columns: ColumnDef<WatchlistsHitsReport>[] = [
 ]
 
 export const WatchListHit = () => {
-  const data: WatchlistsHitsReport[] = [
-    {
-      found: "Fraud Frappucino Inc.",
-      agency: "Office of Foreign Assets Control",
-      agencyCountry: "U.S. Department of Treasury",
-      status: MIDDESK_HIT_STATUS.HITS,
-      list: "Specially Designated Nationals",
-      country: "United States of America",
-      subCountry: "U.S. Department of Treasury"
-    },
-    {
-      found: "Sam Bankman Fraud",
-      agency: "Financial Supervisory Authority",
-      list: "Warnings from Foreign Supervisory Authorities",
-      status: MIDDESK_HIT_STATUS.HITS,
-      country: "Finland",
-      subCountry: "European Union"
-    }
-  ]
+  const { loanKybDetail } = useLoanApplicationDetailContext()
 
-  return (
+  const watchlist = loanKybDetail?.businessWatchlist
+  const status = loanKybDetail?.insights.bankruptcies?.status
+
+  return watchlist?.data.length ? (
     <MiddeskTable
       tableClassName={"table-fixed"}
       columns={columns}
-      data={data}
+      data={watchlist.data}
     />
+  ) : (
+    <div className="mt-3">
+      <NotFoundAlert status={status} label="No hits found" />
+    </div>
   )
 }

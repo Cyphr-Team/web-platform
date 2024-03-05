@@ -5,15 +5,17 @@ type MiddeskCardProps = {
   content: ReactNode
   headerTitle: ReactNode
   headerRight?: ReactNode
+  id?: string
 }
 
 export const MiddeskCard = ({
   content,
   headerTitle,
-  headerRight
+  headerRight,
+  id
 }: MiddeskCardProps) => {
   return (
-    <div>
+    <div id={id}>
       <Card>
         <CardHeader className="border-b px-8 md:py-4">
           <div className="flex justify-between items-center flex-wrap gap-1">

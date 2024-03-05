@@ -4,7 +4,7 @@ import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 
 export const BusinessInfoSummary = () => {
-  const { loanSummary, loanKybDetail } = useLoanApplicationDetailContext()
+  const { loanSummary } = useLoanApplicationDetailContext()
   const businessInfo = loanSummary?.businessInfo
 
   return (
@@ -26,8 +26,6 @@ export const BusinessInfoSummary = () => {
       <InformationRow
         label="Officer Address"
         value={businessInfo?.officeAddresses?.[0] ?? UNKNOWN_VALUE}
-        isBadge
-        badgeText={loanKybDetail?.insights?.officeAddressVerification}
       />
       <Separator />
       <InformationRow

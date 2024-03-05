@@ -1,43 +1,95 @@
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
+import { Dot } from "@/components/ui/dot"
 import { MiddeskTableContent } from "@/modules/loan-application-management/components/table/middesk-table-content"
+import { BusinessAddressDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
-import { format } from "date-fns"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
+import { useCallback, useMemo } from "react"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
-import { KYC_STATUS } from "@/modules/loan-application-management/constants/types/kyc"
+import { DateHeader } from "./DateHeader"
+import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 
 export const OfficeAddress = () => {
-  const data: MiddeskTableContentReport[] = [
-    {
-      name: "123 Coffee Lane, Seattle, WA 98765",
-      submitted: true,
-      sources: [{ metadata: { state: "WA", status: KYC_STATUS.VERIFIED } }],
-      notes: ""
-    },
-    {
-      name: "222 California Ave, Reno, NV 89509",
-      submitted: true,
-      sources: [{ metadata: { state: "NV", status: KYC_STATUS.VERIFIED } }],
-      notes: ""
-    }
-  ]
+  const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
-  const badge = <MiddeskBadge status={KYC_STATUS.VERIFIED} />
-  const headerTitle = <>Office Addresses {badge}</>
-  const headerRight = (
-    <div className="text-text-tertiary">
-      Last updated on {format(new Date(), FORMAT_DATE_MM_DD_YYYY)}
-    </div>
+  const businessAddresses = loanKybDetail?.businessAddresses
+
+  const getBusinessAddressNote = useCallback(
+    (businessAddress: BusinessAddressDetail) => {
+      return (
+        <div>
+          {businessAddress.deliverable && (
+            <div className="flex items-center">
+              <Dot
+                className="flex-shrink-0 self-start mt-1"
+                variantColor="green"
+              />
+              <div className="flex items-center text-base flex-wrap">
+                USPS <Dot className="mx-1 w-2" /> Deliverable
+              </div>
+            </div>
+          )}
+          {businessAddress.cmra && (
+            <div className="flex items-center">
+              <Dot
+                className="flex-shrink-0 self-start mt-1"
+                variantColor="red"
+              />
+              <div className="flex items-center text-base flex-wrap">
+                USPS <Dot className="mx-1 w-2" /> CMRA
+              </div>
+            </div>
+          )}
+          {businessAddress.registeredAgent && (
+            <div className="flex items-center">
+              <Dot
+                className="flex-shrink-0 self-start mt-1"
+                variantColor="yellow"
+              />
+              <div className="flex items-center text-base flex-wrap">
+                USPS <Dot className="mx-1 w-2" /> Registered Agent
+              </div>
+            </div>
+          )}
+        </div>
+      )
+    },
+    []
   )
 
+  const data: MiddeskTableContentReport[] = useMemo(
+    () =>
+      businessAddresses?.data?.map((businessAddress) => ({
+        name: businessAddress.address,
+        submitted: businessAddress.submitted,
+        sources: [businessAddress.source],
+        status: businessAddress.status,
+        renderNote: getBusinessAddressNote(businessAddress)
+      })) ?? [],
+    [businessAddresses, getBusinessAddressNote]
+  )
+
+  const badge = (
+    <MiddeskBadge
+      status={loanKybDetail?.insights.officeAddress?.status}
+      label={businessAddresses?.subLabel}
+    />
+  )
+  const headerTitle = <>Office Addresses {badge}</>
+
   const content = (
-    <MiddeskTableContent nameTitle="Office addresses" data={data} />
+    <MiddeskTableContent
+      nameTitle="Office addresses"
+      data={data}
+      isLoading={isLoading}
+    />
   )
 
   return (
     <MiddeskCard
+      id={INSIGHT_TOC.officeAddress}
       headerTitle={headerTitle}
-      headerRight={headerRight}
+      headerRight={<DateHeader />}
       content={content}
     />
   )
