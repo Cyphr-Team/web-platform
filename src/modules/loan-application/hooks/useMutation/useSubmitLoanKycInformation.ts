@@ -17,7 +17,7 @@ export const useSubmitLoanKycInformation = () => {
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.application.submitKyc,
+        path: API_PATH.application.kycForm,
         data,
         customHeader: customRequestHeader.customHeaders
       })

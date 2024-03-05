@@ -20,7 +20,7 @@ export const useSubmitLoanFinancialInformation = () => {
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.application.submitFinancial,
+        path: API_PATH.application.financialForm,
         data,
         customHeader: customRequestHeader.customHeaders
       })

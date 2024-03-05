@@ -21,7 +21,7 @@ export const useSubmitLoanConfirmation = () => {
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.application.submitConfirmation,
+        path: API_PATH.application.confirmationForm,
         data
       })
     },

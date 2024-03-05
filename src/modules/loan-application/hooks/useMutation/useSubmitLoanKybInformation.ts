@@ -17,7 +17,7 @@ export const useSubmitLoanKybInformation = () => {
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.application.submitKyb,
+        path: API_PATH.application.kybForm,
         data,
         customHeader: customRequestHeader.customHeaders
       })

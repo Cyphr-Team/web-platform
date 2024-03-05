@@ -21,7 +21,11 @@ export const APP_PATH = {
   // ONBOARDING
   LOAN_APPLICATION: {
     SETTINGS: "/loan/settings",
-    APPLICATIONS: "/loan/applications",
+    APPLICATIONS: {
+      index: "/loan/applications",
+      detail: "/loan/applications/:id",
+      details: (id: string) => `/loan/applications/${id}`
+    },
     LOAN_PROGRAM: {
       list: "/loan/loan-program",
       detail: "/loan/loan-program/:loanProgramId",
@@ -114,11 +118,13 @@ export const API_PATH = {
     list: "api/user-loan/micro-loan/application/list",
     details: "api/user-loan/micro-loan/application",
     create: "api/user-loan/micro-loan/application",
-    submitKyb: "api/form/kyb",
-    submitKyc: "api/form/kyc",
-    submitFinancial: "api/form/financial",
-    submitConfirmation: "api/form/confirmation",
+    detail: (id: string) => `api/user-loan/application/?id=${id}`,
+    kybForm: "api/form/kyb",
+    kycForm: "api/form/kyc",
+    financialForm: "api/form/financial",
+    confirmationForm: "api/form/confirmation",
     uploadDocument: "api/form/document/upload",
+    documents: "api/form/document/by-form-id",
     getIncomeCategories: "api/form/financial/income-categories"
   },
   loanApplication: {
@@ -186,7 +192,7 @@ export const APP_BREADS = {
   LOAN_PROGRAMS: {
     list: [
       {
-        to: APP_PATH.LOAN_APPLICATION.APPLICATIONS,
+        to: APP_PATH.LOAN_APPLICATION.APPLICATIONS.index,
         label: "Loan Applications"
       }
     ]

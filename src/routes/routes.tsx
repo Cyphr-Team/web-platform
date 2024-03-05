@@ -10,6 +10,8 @@ import {
 import { APP_PATH } from "@/constants"
 import { userLoader } from "./loader"
 import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
+import { SideNavApplicationDetails } from "@/shared/molecules/SideNavApplicationDetails"
+import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -202,7 +204,7 @@ const routes = createBrowserRouter(
           }
         />
         <Route
-          path={APP_PATH.LOAN_APPLICATION.APPLICATIONS}
+          path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}
           lazy={() =>
             import("@/modules/loan-application/pages/LoanApplications")
           }
@@ -215,6 +217,25 @@ const routes = createBrowserRouter(
             )
           }
         />
+        <Route
+          element={
+            <BRLoanApplicationDetailsProvider>
+              <SideNavApplicationDetails />
+              <div className="md:ml-36 w-full overflow-auto flex flex-col">
+                <Outlet />
+              </div>
+            </BRLoanApplicationDetailsProvider>
+          }
+        >
+          <Route
+            path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.detail}
+            lazy={() =>
+              import(
+                "@/modules/loan-application/pages/LoanApplicationDetailsReview"
+              )
+            }
+          />
+        </Route>
 
         <Route
           element={

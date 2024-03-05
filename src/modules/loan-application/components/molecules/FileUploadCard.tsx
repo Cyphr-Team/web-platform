@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { convertFileSizeToMB } from "@/utils"
-import { File, Trash } from "lucide-react"
+import { Trash } from "lucide-react"
+import fileIcon from "@/assets/file.svg"
 import { Button } from "@/components/ui/button"
 type Props = {
   file: File
@@ -15,7 +16,7 @@ export const FileUploadCard: React.FC<Props> = ({
 }) => {
   return (
     <Card className="p-xl gap-2xl flex" key={index}>
-      <File className="h-10 w-8" />
+      <img src={fileIcon} className="logo w-8 h-8" alt="file" />
       <div className="flex flex-col">
         <p className="text-sm">{file.name}</p>
         <p className="text-sm text-text-tertiary">

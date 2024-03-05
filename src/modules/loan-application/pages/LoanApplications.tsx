@@ -1,23 +1,29 @@
 import { Badge } from "@/components/ui/badge"
 import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
-import { REQUEST_LIMIT_PARAM } from "@/constants"
+import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { UserLoanApplication } from "@/types/loan-application.type"
+import {
+  LoanApplicationStatus,
+  UserLoanApplication
+} from "@/types/loan-application.type"
 import {
   convertToReadableDate,
   convertToReadableDateAgo,
   snakeCaseToText
 } from "@/utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef, Row } from "@tanstack/react-table"
 import { useQueryGetUserLoanApplications } from "../hooks/useQuery/useQueryUserLoanApplications"
 import { ChevronRightIcon } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 export function Component() {
   const { data, fetchNextPage, isFetching } = useQueryGetUserLoanApplications({
     limit: REQUEST_LIMIT_PARAM,
     offset: 0
   })
+
+  const navigate = useNavigate()
 
   const loanApplicationColumns: ColumnDef<UserLoanApplication>[] = [
     {
@@ -41,8 +47,13 @@ export function Component() {
     {
       accessorKey: "createdAt",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Started On" />
+        <DataTableColumnHeader
+          className="text-right w-full"
+          column={column}
+          title="Started On"
+        />
       ),
+      enableSorting: false,
       size: 150,
       cell: ({ row }) => {
         const application = row.original
@@ -59,9 +70,14 @@ export function Component() {
     {
       accessorKey: "updatedAt",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Activity" />
+        <DataTableColumnHeader
+          column={column}
+          title="Activity"
+          className="text-right w-full"
+        />
       ),
       size: 150,
+      enableSorting: false,
       cell: ({ row }) => {
         const application = row.original
 
@@ -76,13 +92,18 @@ export function Component() {
     },
     {
       accessorKey: "status",
+      enableSorting: false,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Status" />
+        <DataTableColumnHeader
+          column={column}
+          title="Status"
+          className="text-right"
+        />
       ),
       size: 200,
       cell: ({ row }) => {
         const application = row.original
-        //TODO: Add status in BE sides
+
         return (
           <div className="font-medium">
             <Badge
@@ -100,11 +121,18 @@ export function Component() {
     {
       id: "action",
       size: 150,
-      cell: () => {
-        //TODO: Add status in BE sides
+      cell: ({ row }) => {
         return (
-          <div className="font-medium flex gap-2 items-center">
-            <span>Continue</span>
+          <div
+            className="font-medium flex gap-2 items-center cursor-pointer"
+            onClick={() => handleClickDetail(row)}
+          >
+            {row.original.status ===
+            LoanApplicationStatus.DRAFT.toLowerCase() ? (
+              <p>Continue</p>
+            ) : (
+              <p>Review</p>
+            )}
             <ChevronRightIcon className="h-4 w-4" />
           </div>
         )
@@ -112,6 +140,10 @@ export function Component() {
     },
     { id: "preventCrashUI", size: 0 }
   ]
+
+  const handleClickDetail = (detail: Row<UserLoanApplication>) => {
+    navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(detail.original.id))
+  }
 
   return (
     <div className="container mx-auto py-4xl">

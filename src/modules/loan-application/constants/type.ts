@@ -1,3 +1,6 @@
+import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
+
 export interface KYBInformation {
   loanApplicationId: string
   businessLegalName: string
@@ -143,4 +146,30 @@ enum LoanProgramInterestRateType {
   VARIABLE = "VARIABLE",
   FLOATING = "FLOATING",
   PROMOTIONAL = "PROMOTIONAL"
+}
+
+export interface UserLoanApplicationDetailsResponse {
+  id: string
+  loanProgram: LoanProgramType
+  applicantId: string
+  businessId: string
+  status: LoanApplicationStatus
+  progress: number
+  ocrolusBookId: string
+  decision: LoanDecisionEnum
+  decisionNote: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface DocumentUploadedResponse {
+  id: string
+  formId: string
+  type: string
+  url: string
+  urlExpiredAt: string
+  originFileName: string
+  fullPathFileName: string
+  createdAt: string
+  updatedAt: string
 }

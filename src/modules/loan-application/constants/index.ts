@@ -11,7 +11,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Applications",
-    href: APP_PATH.LOAN_APPLICATION.APPLICATIONS,
+    href: APP_PATH.LOAN_APPLICATION.APPLICATIONS.index,
     icon: Icons.folderCheck,
     label: "Applications"
   },
