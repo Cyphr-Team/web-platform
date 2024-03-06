@@ -62,12 +62,17 @@ export const AutoCompleteStates = <T extends FieldValues>(
               <PopoverTrigger asChild>
                 <Input
                   value={value || "Select state..."}
-                  className="text-base"
+                  className="text-sm"
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
                 />
               </PopoverTrigger>
               <PopoverContent className="w-full p-0">
-                <Command>
+                <Command
+                  filter={(value, search) => {
+                    if (value.startsWith(search)) return 1
+                    return 0
+                  }}
+                >
                   <CommandInput placeholder="Search state" className="h-9" />
                   <CommandEmpty>{emptyText}</CommandEmpty>
                   <CommandGroup className="h-60 w-72 overflow-auto">

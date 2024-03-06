@@ -135,6 +135,7 @@ export const BusinessInformationForm = () => {
               control={form.control}
               onChange={handleChangeState}
               value={form.getValues("state")}
+              className="col-span-3 lg:col-span-1"
             />
             <AutoCompleteCities
               options={
@@ -147,12 +148,14 @@ export const BusinessInformationForm = () => {
               control={form.control}
               onChange={handleChangeCity}
               value={form.getValues("city")}
+              className="col-span-3 lg:col-span-1"
             />
             <TextInput
               placeholder="i.e: 97531"
               label="Business Zip Code"
               name="postalCode"
               control={form.control}
+              className="col-span-3 lg:col-span-1"
             />
             <FormField
               control={form.control}

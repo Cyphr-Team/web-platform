@@ -114,9 +114,7 @@ export function CardWithForm() {
                     name="loanAmount"
                     render={({ field }) => (
                       <FormItem className="space-y-1">
-                        <FormLabel className="font-normal">
-                          Loan Amount
-                        </FormLabel>
+                        <FormLabel>Loan Amount</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
@@ -185,9 +183,7 @@ export function CardWithForm() {
                     name="proposeUseOfLoan"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-normal">
-                          Proposed Use of Loan
-                        </FormLabel>
+                        <FormLabel>Proposed Use of Loan</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}

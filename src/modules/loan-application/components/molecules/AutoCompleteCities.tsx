@@ -103,7 +103,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
               <PopoverTrigger asChild disabled={!options?.length}>
                 <Input
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
-                  className="text-base"
+                  className="text-sm"
                   value={
                     value
                       ? options?.find((option) => option.name === value)?.name
@@ -112,7 +112,12 @@ export const AutoCompleteCities = <T extends FieldValues>(
                 />
               </PopoverTrigger>
               <PopoverContent className="w-full p-0">
-                <Command>
+                <Command
+                  filter={(value, search) => {
+                    if (value.startsWith(search)) return 1
+                    return 0
+                  }}
+                >
                   <CommandInput placeholder="Search city..." className="h-9" />
                   <CommandEmpty>{emptyText}</CommandEmpty>
                   <CommandGroup

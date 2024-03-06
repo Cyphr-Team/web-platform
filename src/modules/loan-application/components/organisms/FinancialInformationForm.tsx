@@ -21,6 +21,7 @@ import { FileUploadCard } from "../molecules/FileUploadCard"
 import { useQueryGetIncomeCategories } from "../../hooks/useQuery/useQueryIncomeCategories"
 import { capitalizeWords } from "@/utils"
 import { useEffect } from "react"
+import { Loader2 } from "lucide-react"
 
 export const FinancialInformationForm = () => {
   const {
@@ -89,41 +90,48 @@ export const FinancialInformationForm = () => {
               <FormLabel className="text-sm text-text-secondary font-medium">
                 How do you make money? (Check all that apply)
               </FormLabel>
-              {items?.map((item) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="cashflow"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item.id}
-                        className="flex flex-row items-center space-x-lg space-y-0 "
-                      >
-                        <FormControl>
-                          <Checkbox
-                            className="w-5 h-5"
-                            checked={field.value?.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item.id
+              {incomeCategories.isLoading ? (
+                <p>
+                  <Loader2 className="m-2 h-8 w-8 transition-all ease-out animate-spin text-primary" />
+                </p>
+              ) : (
+                items?.map((item) => (
+                  <FormField
+                    key={item.id}
+                    control={form.control}
+                    name="cashflow"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item.id}
+                          className="flex flex-row items-center space-x-lg space-y-0 "
+                        >
+                          <FormControl>
+                            <Checkbox
+                              className="w-5 h-5"
+                              checked={field.value?.includes(item.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item.id])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== item.id
+                                      )
                                     )
-                                  )
-                            }}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormLabel className="text-sm font-normal">
-                          {item.label}
-                        </FormLabel>
-                      </FormItem>
-                    )
-                  }}
-                />
-              ))}
+                              }}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormLabel className="text-sm font-normal">
+                            {item.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    }}
+                  />
+                ))
+              )}
+
               <FormMessage />
             </FormItem>
             <div className="flex flex-col gap-y-sm">

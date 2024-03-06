@@ -31,13 +31,18 @@ export function LoanProgramItem({
   const active = step === value
   const label = LOAN_APPLICATION_STEP_DATA[value].label
 
+  //Only allow changing step if it's not active
+  const handleChangeStep = () => {
+    if (!active) changeStep(value)
+  }
+
   return (
     <li
       className={cn(
         "flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer",
         active && "bg-lime-400/40"
       )}
-      onClick={() => changeStep(value)}
+      onClick={handleChangeStep}
     >
       <div
         className={cn(

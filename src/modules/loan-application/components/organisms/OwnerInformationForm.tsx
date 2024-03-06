@@ -223,7 +223,7 @@ export function OwnerInformationForm() {
               control={form.control}
               onChange={handleChangeState}
               value={form.getValues("businessState")}
-              className="col-span-2"
+              className="col-span-6 lg:col-span-2"
             />
             <AutoCompleteCities
               options={
@@ -237,14 +237,14 @@ export function OwnerInformationForm() {
               control={form.control}
               onChange={handleChangeCity}
               value={form.getValues("businessCity")}
-              className="col-span-2"
+              className="col-span-6 lg:col-span-2"
             />
             <TextInput
               placeholder="i.e: 98765"
               label="Zip Code"
               name="businessZipCode"
               control={form.control}
-              className="col-span-2"
+              className="col-span-6 lg:col-span-2"
             />
             <TextInput
               control={form.control}
@@ -252,12 +252,12 @@ export function OwnerInformationForm() {
               label="Email Address"
               placeholder="i.e: larry@latte.com"
               prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
-              className="col-span-3"
+              className="col-span-6 lg:col-span-3"
             />
             <FormField
               name="phoneNumber"
               render={({ field }) => (
-                <FormItem className="col-span-3">
+                <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     Phone Number
                   </FormLabel>
@@ -278,7 +278,7 @@ export function OwnerInformationForm() {
               control={form.control}
               name="dateOfBirth"
               render={({ field }) => (
-                <FormItem className="col-span-3">
+                <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     Date of Birth
                   </FormLabel>
@@ -298,7 +298,7 @@ export function OwnerInformationForm() {
               control={form.control}
               name={"socialSecurityNumber"}
               render={({ field }) => (
-                <FormItem className="col-span-3">
+                <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     SSN/ITIN
                   </FormLabel>
@@ -319,7 +319,7 @@ export function OwnerInformationForm() {
               control={form.control}
               name="businessOwnershipPercentage"
               render={({ field }) => (
-                <FormItem className="col-span-3">
+                <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     What percent of the business do you own?
                   </FormLabel>
@@ -353,7 +353,7 @@ export function OwnerInformationForm() {
               control={form.control}
               name="hasOtherSubstantialStackHolders"
               render={({ field }) => (
-                <FormItem className="col-span-3">
+                <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     Other than you, are there any individuals who own 20% or
                     more of the business?
