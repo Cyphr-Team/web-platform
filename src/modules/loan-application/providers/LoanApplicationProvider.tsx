@@ -89,7 +89,6 @@ type SubmittedFormStatus = {
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: boolean
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: boolean
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: boolean
-  [LOAN_APPLICATION_STEPS.CONFIRMATION]: boolean
 }
 
 export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
@@ -111,8 +110,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     useState<SubmittedFormStatus>({
       [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: false,
       [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: false,
-      [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: false,
-      [LOAN_APPLICATION_STEPS.CONFIRMATION]: false
+      [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: false
     })
 
   const [alertDialog, setAlertDialog] = useState<
@@ -285,13 +283,20 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   const handleSubmitConfirmation = useCallback(
     (loanApplicationId: string) => {
       if (draftForm.confirmationForm) {
-        submitConfirmation({
-          ...draftForm.confirmationForm,
-          loanApplicationId: loanApplicationId
-        })
+        submitConfirmation(
+          {
+            ...draftForm.confirmationForm,
+            loanApplicationId: loanApplicationId
+          },
+          {
+            onSuccess: () => {
+              navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+            }
+          }
+        )
       }
     },
-    [draftForm.confirmationForm, submitConfirmation]
+    [draftForm.confirmationForm, navigate, submitConfirmation]
   )
 
   const handleSubmitFinancialInformation = useCallback(
@@ -355,6 +360,12 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     }
   }, [submittedFormStatus, isUploaded])
 
+  useUpdateEffect(() => {
+    if (draftForm.confirmationForm) {
+      saveForm()
+    }
+  }, [draftForm.confirmationForm])
+
   const saveForm = useCallback(() => {
     if (!draftForm.loanRequest) return
     createLoanApplication(
@@ -374,7 +385,6 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
             handleSubmitFinancialInformation(data.data.id)
           }
           setLoanApplicationId(data.data.id)
-          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
         },
         onError: (error) => {
           console.log(error)
@@ -390,8 +400,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     handleSubmitFinancialInformation,
     handleSubmitLoanKyb,
     handleSubmitLoanKyc,
-    loanProgramId,
-    navigate
+    loanProgramId
   ])
 
   const saveDraftForm = useCallback(
@@ -402,11 +411,8 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
           [type]: value
         }
       })
-      if (type === LOAN_APPLICATION_STEPS.CONFIRMATION) {
-        saveForm()
-      }
     },
-    [saveForm]
+    []
   )
 
   const value = useMemo(
