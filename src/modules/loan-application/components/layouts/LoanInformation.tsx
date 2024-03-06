@@ -81,7 +81,7 @@ export const Component = () => {
               <ConfirmationForm />
             )}
           </div>
-        </div>{" "}
+        </div>
         <AlertFinishFormBeforeLeave />
       </LoanProgramDetailProvider>
     </PlaidProvider>

@@ -34,8 +34,8 @@ export const FinancialInformationForm = () => {
   const form = useForm<FinancialFormValue>({
     resolver: zodResolver(financialFormSchema),
     defaultValues: {
-      cashflow: draftForm.financialInformationForm.cashflow ?? [],
-      w2sFile: draftForm.financialInformationForm.w2sFile ?? []
+      cashflow: draftForm.financialInformationForm?.cashflow ?? [],
+      w2sFile: draftForm.financialInformationForm?.w2sFile ?? []
     },
     mode: "onChange"
   })

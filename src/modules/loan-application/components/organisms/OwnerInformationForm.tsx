@@ -49,27 +49,28 @@ export function OwnerInformationForm() {
   } = useLoanApplicationContext()
 
   const defaultValues = {
-    fullName: draftForm.ownerInformationForm.fullName ?? "",
-    businessRole: draftForm.ownerInformationForm.businessRole ?? "",
-    addressLine1: draftForm.ownerInformationForm.addressLine1 ?? "",
-    addressLine2: draftForm.ownerInformationForm.addressLine2 ?? "",
-    businessState: draftForm.ownerInformationForm.businessState ?? "",
-    businessCity: draftForm.ownerInformationForm.businessCity ?? "",
-    phoneNumber: draftForm.ownerInformationForm.phoneNumber ?? "",
-    email: draftForm.ownerInformationForm.email ?? "",
-    dateOfBirth: draftForm.ownerInformationForm.dateOfBirth ?? "",
-    socialSecurityNumber: draftForm.ownerInformationForm.socialSecurityNumber
+    fullName: draftForm.ownerInformationForm?.fullName ?? "",
+    businessRole: draftForm.ownerInformationForm?.businessRole ?? "",
+    addressLine1: draftForm.ownerInformationForm?.addressLine1 ?? "",
+    addressLine2: draftForm.ownerInformationForm?.addressLine2 ?? "",
+    businessState: draftForm.ownerInformationForm?.businessState ?? "",
+    businessCity: draftForm.ownerInformationForm?.businessCity ?? "",
+    phoneNumber: draftForm.ownerInformationForm?.phoneNumber ?? "",
+    email: draftForm.ownerInformationForm?.email ?? "",
+    dateOfBirth: draftForm.ownerInformationForm?.dateOfBirth ?? "",
+    socialSecurityNumber: draftForm.ownerInformationForm?.socialSecurityNumber
       ? toPattern(
-          draftForm.ownerInformationForm.socialSecurityNumber,
+          draftForm.ownerInformationForm?.socialSecurityNumber,
           SSN_PATTERN
         )
       : "",
     businessOwnershipPercentage:
-      draftForm.ownerInformationForm.businessOwnershipPercentage ?? "",
+      draftForm.ownerInformationForm?.businessOwnershipPercentage ?? "",
     hasOtherSubstantialStackHolders:
-      draftForm.ownerInformationForm.hasOtherSubstantialStackHolders ?? "false",
-    businessZipCode: draftForm.ownerInformationForm.businessZipCode ?? "",
-    governmentFile: draftForm.ownerInformationForm.governmentFile ?? []
+      draftForm.ownerInformationForm?.hasOtherSubstantialStackHolders ??
+      "false",
+    businessZipCode: draftForm.ownerInformationForm?.businessZipCode ?? "",
+    governmentFile: draftForm.ownerInformationForm?.governmentFile ?? []
   }
 
   const form = useForm<OwnerFormValue>({

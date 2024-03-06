@@ -32,6 +32,7 @@ export const APP_PATH = {
       detailWithId: (id: string) => `/loan/loan-program/${id}`
     },
     INDEX: "/loan",
+    SUBMISSION: "/loan/submission",
     INFORMATION: {
       detail: "/loan/loan-program/:loanProgramId/information",
       detailWithId: (loanProgramId: string) =>

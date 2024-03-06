@@ -4,8 +4,8 @@ import {
   ConfirmationForm,
   ConfirmationFormResponse
 } from "../../constants/type"
-import { ErrorResponse } from "react-router-dom"
-import { API_PATH } from "@/constants"
+import { ErrorResponse, useNavigate } from "react-router-dom"
+import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { toastError, toastSuccess } from "@/utils"
@@ -14,6 +14,8 @@ import { QUERY_KEY } from "../../constants/query-key"
 
 export const useSubmitLoanConfirmation = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
+
   return useMutation<
     AxiosResponse<ConfirmationFormResponse>,
     AxiosError<ErrorResponse>,
@@ -30,6 +32,7 @@ export const useSubmitLoanConfirmation = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GET_LOAN_APPLICATIONS]
       })
+      navigate(APP_PATH.LOAN_APPLICATION.SUBMISSION)
     },
     onError: (error) => {
       toastError({

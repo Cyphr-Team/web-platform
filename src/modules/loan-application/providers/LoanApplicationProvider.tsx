@@ -14,7 +14,7 @@ import {
   OwnerFormValue
 } from "../constants/form"
 import { useCreateLoanApplication } from "../hooks/useCreateLoanApplication"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { useSubmitLoanKybInformation } from "../hooks/useMutation/useSubmitLoanKybInformation"
 import { useSubmitLoanKycInformation } from "../hooks/useMutation/useSubmitLoanKycInformation"
@@ -25,48 +25,7 @@ import { useSelectCities } from "../hooks/useSelectCities"
 import { toastError } from "@/utils"
 import { useSubmitLoanConfirmation } from "../hooks/useMutation/useSubmitLoanConfirmation"
 import { useUpdateEffect } from "react-use"
-
-const initForm = {
-  loanRequest: {
-    loanAmount: 0,
-    loanTermInMonth: 0,
-    proposeUseOfLoan: ""
-  },
-  businessInformation: {
-    businessLegalName: "",
-    addressLine1: "",
-    addressLine2: "",
-    state: "",
-    city: "",
-    postalCode: "",
-    businessWebsite: "",
-    businessTin: ""
-  },
-  ownerInformationForm: {
-    fullName: "",
-    addressLine1: "",
-    addressLine2: "",
-    businessRole: "",
-    businessCity: "",
-    businessState: "",
-    businessZipCode: "",
-    phoneNumber: "",
-    email: "",
-    dateOfBirth: "",
-    socialSecurityNumber: "",
-    businessOwnershipPercentage: "",
-    hasOtherSubstantialStackHolders: "false",
-    governmentFile: []
-  },
-  financialInformationForm: {
-    cashflow: [],
-    w2sFile: []
-  },
-  confirmationForm: {
-    printName: "",
-    signatureDate: ""
-  }
-}
+import { APP_PATH } from "@/constants"
 
 type FormType = {
   [key in LOAN_APPLICATION_STEPS]:
@@ -78,11 +37,11 @@ type FormType = {
 }
 
 type DraftApplicationForm = {
-  loanRequest: LoanRequestFormValue
-  businessInformation: BusinessFormValue
-  ownerInformationForm: OwnerFormValue
-  financialInformationForm: FinancialFormValue
-  confirmationForm: ConfirmationFormValue
+  loanRequest?: LoanRequestFormValue
+  businessInformation?: BusinessFormValue
+  ownerInformationForm?: OwnerFormValue
+  financialInformationForm?: FinancialFormValue
+  confirmationForm?: ConfirmationFormValue
 }
 
 type LoanApplicationContextType = {
@@ -111,7 +70,7 @@ export const LoanApplicationContext = createContext<LoanApplicationContextType>(
     saveForm: () => {},
     changeStep: () => {},
     saveDraftForm: () => {},
-    draftForm: initForm,
+    draftForm: {},
     progress: STEPS,
     loanApplicationId: "",
     changeProgress: () => {},
@@ -130,6 +89,7 @@ type SubmittedFormStatus = {
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: boolean
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: boolean
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: boolean
+  [LOAN_APPLICATION_STEPS.CONFIRMATION]: boolean
 }
 
 export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
@@ -137,8 +97,9 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     LOAN_APPLICATION_STEPS.LOAN_REQUEST
   )
   const { loanProgramId } = useParams()
+  const navigate = useNavigate()
 
-  const [draftForm, setDraftForm] = useState<DraftApplicationForm>(initForm)
+  const [draftForm, setDraftForm] = useState<DraftApplicationForm>({})
 
   const [loanApplicationId, setLoanApplicationId] = useState<string>("")
 
@@ -150,7 +111,8 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     useState<SubmittedFormStatus>({
       [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: false,
       [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: false,
-      [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: false
+      [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: false,
+      [LOAN_APPLICATION_STEPS.CONFIRMATION]: false
     })
 
   const [alertDialog, setAlertDialog] = useState<
@@ -265,7 +227,10 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         }
         submitLoanKyc(formattedData, {
           onSuccess: (res) => {
-            if (res.data) {
+            if (
+              res.data &&
+              !!draftForm.ownerInformationForm?.governmentFile.length
+            ) {
               uploadDocuments(
                 res.data.id,
                 draftForm.ownerInformationForm.governmentFile,
@@ -339,7 +304,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
           },
           {
             onSuccess: (res) => {
-              if (res.data) {
+              if (res.data && draftForm.financialInformationForm) {
                 if (draftForm.financialInformationForm.w2sFile.length > 0) {
                   uploadDocuments(
                     res.data.id,
@@ -391,6 +356,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   }, [submittedFormStatus, isUploaded])
 
   const saveForm = useCallback(() => {
+    if (!draftForm.loanRequest) return
     createLoanApplication(
       {
         ...draftForm.loanRequest,
@@ -408,6 +374,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
             handleSubmitFinancialInformation(data.data.id)
           }
           setLoanApplicationId(data.data.id)
+          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
         },
         onError: (error) => {
           console.log(error)
@@ -423,7 +390,8 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     handleSubmitFinancialInformation,
     handleSubmitLoanKyb,
     handleSubmitLoanKyc,
-    loanProgramId
+    loanProgramId,
+    navigate
   ])
 
   const saveDraftForm = useCallback(

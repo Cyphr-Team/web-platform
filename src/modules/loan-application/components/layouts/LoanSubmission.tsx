@@ -1,8 +1,19 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { CheckCircle } from "lucide-react"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
+import { useLoanApplicationContext } from "../../providers"
+import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
 export function Component() {
+  const navigate = useNavigate()
+  const { draftForm, loanApplicationId } = useLoanApplicationContext()
+
+  const handleGoToDetail = () => {
+    navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(loanApplicationId))
+  }
+
   return (
     <div className="p-4 lg:p-8 h-full w-full flex">
       <div className="mx-auto flex w-full flex-col space-y-8 sm:w-[360px]">
@@ -24,7 +35,9 @@ export function Component() {
             </div>
           </div>
           <div className="flex flex-col space-y-lg">
-            <p className="text-2xl font-normal">Larry’s Latte LLC</p>
+            <p className="text-2xl font-normal">
+              {draftForm?.businessInformation?.businessLegalName}
+            </p>
             <h1 className="text-3xl font-semibold tracking-tight">Submitted</h1>
           </div>
 
@@ -35,6 +48,7 @@ export function Component() {
               steps.
             </p>
           </div>
+          <Button onClick={handleGoToDetail}>Go to details</Button>
         </div>
       </div>
     </div>

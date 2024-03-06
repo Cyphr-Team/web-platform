@@ -31,15 +31,15 @@ export const BusinessInformationForm = () => {
   } = useLoanApplicationContext()
 
   const defaultValues = {
-    businessLegalName: draftForm.businessInformation.businessLegalName ?? "",
-    addressLine1: draftForm.businessInformation.addressLine1 ?? "",
-    addressLine2: draftForm.businessInformation.addressLine2 ?? "",
-    state: draftForm.businessInformation.state ?? "",
-    city: draftForm.businessInformation.city ?? "",
-    postalCode: draftForm.businessInformation.postalCode ?? "",
-    businessWebsite: draftForm.businessInformation.businessWebsite ?? "",
-    businessTin: draftForm.businessInformation.businessTin
-      ? toPattern(draftForm.businessInformation.businessTin)
+    businessLegalName: draftForm.businessInformation?.businessLegalName ?? "",
+    addressLine1: draftForm.businessInformation?.addressLine1 ?? "",
+    addressLine2: draftForm.businessInformation?.addressLine2 ?? "",
+    state: draftForm.businessInformation?.state ?? "",
+    city: draftForm.businessInformation?.city ?? "",
+    postalCode: draftForm.businessInformation?.postalCode ?? "",
+    businessWebsite: draftForm.businessInformation?.businessWebsite ?? "",
+    businessTin: draftForm.businessInformation?.businessTin
+      ? toPattern(draftForm.businessInformation?.businessTin)
       : ""
   }
 

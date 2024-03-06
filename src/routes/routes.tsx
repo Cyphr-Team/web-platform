@@ -12,6 +12,7 @@ import { userLoader } from "./loader"
 import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
 import { SideNavApplicationDetails } from "@/shared/molecules/SideNavApplicationDetails"
 import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
+import { LoanApplicationProvider } from "@/modules/loan-application/providers/LoanApplicationProvider"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -256,6 +257,19 @@ const routes = createBrowserRouter(
             }
           />
         </Route>
+        <Route
+          path={APP_PATH.LOAN_APPLICATION.SUBMISSION}
+          element={
+            <LoanApplicationProvider>
+              <Outlet />
+            </LoanApplicationProvider>
+          }
+          lazy={() =>
+            import(
+              "@/modules/loan-application/components/layouts/LoanSubmission"
+            )
+          }
+        />
       </Route>
 
       <Route path="*" element={<NotFoundLayout />} />

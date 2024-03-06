@@ -61,9 +61,9 @@ export function CardWithForm() {
 
   const defaultValues = useMemo(() => {
     return {
-      loanAmount: draftForm.loanRequest.loanAmount ?? minLoanAmount ?? 0,
+      loanAmount: draftForm.loanRequest?.loanAmount ?? minLoanAmount ?? 0,
       loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-      proposeUseOfLoan: draftForm.loanRequest.proposeUseOfLoan ?? ""
+      proposeUseOfLoan: draftForm.loanRequest?.proposeUseOfLoan ?? ""
     }
   }, [draftForm, loanProgramDetails, minLoanAmount])
 
