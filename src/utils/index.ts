@@ -1,5 +1,6 @@
 import { getRequest } from "@/services/client.service"
 import { ImageDataResponse } from "@/types/common.type"
+import { format } from "date-fns"
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber"
 import { ReactNode } from "react"
 import { toast } from "sonner"
@@ -153,6 +154,35 @@ export function replaceString(
   const after = currentString.substring(start + newString.length)
 
   return before + newString + after
+}
+
+/**
+ *
+ * @param filenameWithExtension e.g. bank statement.pdf, statement_example, w-2.borrower.sample, w-2.xml
+ * @returns e.g. bank statement, statement_example, w-2.borrower, w-2
+ */
+export function extractFilename(filenameWithExtension?: string) {
+  try {
+    const lastDotIndex = filenameWithExtension?.lastIndexOf(".")
+
+    if (lastDotIndex === undefined || lastDotIndex === -1)
+      return filenameWithExtension
+
+    return filenameWithExtension?.substring(0, lastDotIndex)
+  } catch {
+    return filenameWithExtension
+  }
+}
+
+export function downloadPDFFile(data: string, filename: string) {
+  if (!data) return
+  const blob = new Blob([data], {
+    type: "application/pdf"
+  })
+  downloadFile(
+    blob,
+    `${extractFilename(filename)}_${format(new Date(), "MM-dd-yyyy_HH-mm")}.pdf`
+  )
 }
 
 export function downloadCSVFile(data: string, filename: string) {

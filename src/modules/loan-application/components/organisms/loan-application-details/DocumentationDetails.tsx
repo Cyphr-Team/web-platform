@@ -1,15 +1,22 @@
+import fileIcon from "@/assets/file.svg"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
-import fileIcon from "@/assets/file.svg"
+import { DownloadDocumentButton } from "../../atoms/DownloadDocumentButton"
 type Props = {
   file: DocumentUploadedResponse
   index: string
 }
 const FileCard: React.FC<Props> = ({ file, index }) => (
   <Card className="p-xl gap-2xl flex" key={index}>
-    <img src={fileIcon} className="logo w-8 h-8" alt="file" />
+    <div className="flex">
+      <DownloadDocumentButton
+        documentId={file.id}
+        fileName={file.originFileName}
+      />
+      <img src={fileIcon} className="logo w-8 h-8" alt="file" />
+    </div>
     <p className="text-sm">{file.originFileName}</p>
   </Card>
 )

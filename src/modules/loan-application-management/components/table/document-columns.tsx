@@ -1,15 +1,16 @@
-import { ColumnDef, Row } from "@tanstack/react-table"
-import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
-import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
-import { format } from "date-fns"
-import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { Icons } from "@/components/ui/icons"
-import { snakeCaseToText } from "@/utils"
-import { BadgeAuthenticityScore } from "../atoms/BadgeAuthenticityScore"
-import { useNavigate, useParams } from "react-router-dom"
 import { APP_PATH } from "@/constants"
+import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
+import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
+import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
+import { snakeCaseToText } from "@/utils"
+import { ColumnDef, Row } from "@tanstack/react-table"
+import { format } from "date-fns"
 import { ChevronRight } from "lucide-react"
+import { useNavigate, useParams } from "react-router-dom"
+import { BadgeAuthenticityScore } from "../atoms/BadgeAuthenticityScore"
+import { DownloadDocumentButton } from "./download-document-button"
 
 function useHandleClickDetail(detail: Row<LoanDocument>) {
   const navigate = useNavigate()
@@ -22,6 +23,7 @@ function useHandleClickDetail(detail: Row<LoanDocument>) {
     )
   )
 }
+
 export const columns: ColumnDef<LoanDocument>[] = [
   {
     id: "name",
@@ -33,7 +35,11 @@ export const columns: ColumnDef<LoanDocument>[] = [
       const document = row.original
 
       return (
-        <div className="flex items-end gap-3 min-w-0">
+        <div className="flex items-center gap-3 min-w-0">
+          <DownloadDocumentButton
+            documentId={document.id}
+            fileName={document.name}
+          />
           <div>
             <Icons.pdfIcon />
           </div>

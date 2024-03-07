@@ -152,6 +152,11 @@ export const API_PATH = {
       `api/loan-officer/applications/${applicationId}/loan-summary`,
     getDownloadLoanSummary: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/loan-summary/download`
+  },
+  document: {
+    getDocumentDownloadForOfficer:
+      "api/loan-officer/document/download/by-document-id",
+    getDocumentDownloadForApplicant: "api/form/document/download/by-document-id"
   }
 }
 
