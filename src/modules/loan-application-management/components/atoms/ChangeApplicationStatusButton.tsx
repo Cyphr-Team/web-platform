@@ -1,4 +1,6 @@
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Dot } from "@/components/ui/dot"
 import {
   DropdownMenu,
@@ -6,34 +8,57 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { snakeCaseToText } from "@/utils"
+import { BadgeInfo, ChevronDown } from "lucide-react"
 import { useState } from "react"
+import { useParams } from "react-router-dom"
 import { LoanDecisionEnum } from "../../constants/types/application"
-import { getSelectInfoByDecision } from "../../services"
+import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
+import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
+import {
+  getApplicationTipByStatus,
+  getBadgeVariantByStatus,
+  getSelectInfoByDecision
+} from "../../services"
+import { LoanDecisionSubmitted } from "../organisms/LoanDecisionSubmited"
 import { ChangeApplicationStatusDialog } from "./ChangeApplicationStatusDialog"
 
-export const ChangeApplicationStatusButton = () => {
-  const [selectedDecision, setSelectedDecision] = useState<LoanDecisionEnum>()
+const ApplicationStatusDropDown = ({
+  currentDecision,
+  setIsSuccess
+}: {
+  currentDecision?: LoanApplicationStatus
+  setIsSuccess?: (value?: boolean) => void
+}) => {
+  const [selectedDecision, setSelectedDecision] =
+    useState<LoanApplicationStatus>()
 
-  const currentDecision = getSelectInfoByDecision()
+  const currentDecisionInfo = getSelectInfoByDecision(currentDecision)
 
   return (
-    <div className="flex items-center gap-2 self-start md:self-center">
-      <span className="text-sm font-medium">Status:</span>
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="rounded-full px-10">
-            <Dot variantColor={currentDecision.variantColor} />
-            {currentDecision.label} <ChevronDown className="ml-1 w-5" />
+            <Dot variantColor={currentDecisionInfo.variantColor} />
+            {currentDecisionInfo.label} <ChevronDown className="ml-1 w-5" />
           </Button>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-48 m-0">
           {Object.keys(LoanDecisionEnum).map((decision) => {
             const info = getSelectInfoByDecision(
-              LoanDecisionEnum[
-                decision as keyof typeof LoanDecisionEnum
-              ] as LoanDecisionEnum
+              LoanApplicationStatus[
+                decision as keyof typeof LoanApplicationStatus
+              ]
             )
             return (
               <DropdownMenuItem
@@ -49,11 +74,72 @@ export const ChangeApplicationStatusButton = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <ChangeApplicationStatusDialog
-        fromDecision={currentDecision.value}
-        toDecision={selectedDecision}
-        onCancel={() => setSelectedDecision(undefined)}
-      />
+      {selectedDecision && (
+        <ChangeApplicationStatusDialog
+          fromDecision={currentDecisionInfo.value}
+          toDecision={selectedDecision}
+          onCancel={() => setSelectedDecision(undefined)}
+          setSuccess={setIsSuccess}
+        />
+      )}
+    </>
+  )
+}
+
+export const ChangeApplicationStatusButton = () => {
+  const { id } = useParams()
+  const [isSuccess, setIsSuccess] = useState<boolean>()
+  const { loanApplicationDetails } = useLoanApplicationDetailContext()
+  const { data, isLoading } = useQueryGetLoanApplicationDetailStatus({
+    applicationId: id
+  })
+
+  const isAbleToUpdateDecision =
+    data?.toUpperCase() === LoanApplicationStatus.IN_REVIEW
+
+  if (isLoading)
+    return <Skeleton className="w-40 h-8 self-start md:self-center" />
+
+  return (
+    <div className="flex items-center gap-2 self-start md:self-center">
+      <div className="flex items-center text-sm font-medium">Status:</div>
+
+      {isAbleToUpdateDecision ? (
+        <ApplicationStatusDropDown
+          currentDecision={data}
+          setIsSuccess={setIsSuccess}
+        />
+      ) : (
+        <div className="flex items-center">
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger>
+                <Badge
+                  isDot
+                  variant="soft"
+                  variantColor={getBadgeVariantByStatus(data)}
+                  className="capitalize px-4 py-2 relative"
+                >
+                  {snakeCaseToText(data ?? "")}
+                </Badge>
+              </TooltipTrigger>
+              <TooltipContent className="flex items-center gap-1">
+                <BadgeInfo className="w-5 text-blue-500" />
+                {getApplicationTipByStatus(
+                  data,
+                  !!loanApplicationDetails?.loanProgram?.deletedAt
+                )}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      )}
+
+      <Dialog open={isSuccess} onOpenChange={setIsSuccess}>
+        <DialogContent>
+          <LoanDecisionSubmitted />
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

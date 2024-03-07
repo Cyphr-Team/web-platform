@@ -1,5 +1,12 @@
+import { LoanApplicationStatus } from "@/types/loan-application.type"
+
+export enum LoanDecisionEnum {
+  APPROVED = "approved",
+  DENIED = "denied"
+}
+
 export interface LoanDecision {
-  decision: string
+  decision: LoanApplicationStatus
   note?: string
 }
 
@@ -11,9 +18,4 @@ export interface LoanDecisionResponse {
   decisionNote: string
   createdAt: string
   updatedAt: string
-}
-
-export enum LoanDecisionEnum {
-  APPROVED = "approved",
-  DENIED = "denied"
 }

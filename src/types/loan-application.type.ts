@@ -11,7 +11,8 @@ enum LoanApplicationStatus {
   IN_REVIEW = "IN_REVIEW",
   SUBMITTED = "SUBMITTED",
   DRAFT = "DRAFT",
-  UNDERWRITTEN = "UNDERWRITTEN"
+  UNDERWRITTEN = "UNDERWRITTEN",
+  UNKNOWN = "UNKNOWN"
 }
 
 enum UseOfLoan {

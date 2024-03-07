@@ -1,6 +1,6 @@
 import { API_PATH } from "@/constants"
 import { putRequest } from "@/services/client.service"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
@@ -12,9 +12,11 @@ import {
   LoanDecision,
   LoanDecisionResponse
 } from "../../constants/types/application"
+import { loanApplicationKeys } from "@/constants/query-key"
 
 export const useSubmitLoanDecision = () => {
   const params = useParams()
+  const queryClient = useQueryClient()
 
   return useMutation<
     AxiosResponse<LoanDecisionResponse>,
@@ -35,6 +37,11 @@ export const useSubmitLoanDecision = () => {
       toastError({
         ...TOAST_MSG.loanApplication.submitDecision,
         description: getAxiosError(error).message
+      })
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: loanApplicationKeys.statusDetail(params.id!)
       })
     }
   })

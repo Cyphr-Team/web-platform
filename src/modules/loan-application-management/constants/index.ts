@@ -20,10 +20,6 @@ export const APPLICATION_MENU = (id: string) => [
   {
     name: "Loan Summary",
     href: `/application/${id}/loan-summary`
-  },
-  {
-    name: "Loan Decision",
-    href: `/application/${id}/loan-decision`
   }
 ]
 

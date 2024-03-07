@@ -139,6 +139,7 @@ export interface LoanProgramType {
   maxLoanAmount: number
   createdAt: string
   updatedAt: string
+  deletedAt?: string
 }
 
 enum LoanProgramInterestRateType {

@@ -4,12 +4,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
-
-import { LoanDecisionEnum } from "../../constants/types/application"
+import { Button, ButtonLoading } from "@/components/ui/button"
 
 import { z } from "zod"
 
+import { Badge } from "@/components/ui/badge"
 import {
   Form,
   FormControl,
@@ -18,38 +17,55 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
-import { Textarea } from "@/components/ui/textarea"
-import { toastSuccess } from "@/utils"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Badge } from "@/components/ui/badge"
-import { getSelectInfoByDecision } from "../../services"
-import { ArrowRight } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
+import { Textarea } from "@/components/ui/textarea"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ArrowRight } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { useSubmitLoanDecision } from "../../hooks/useMutation/useSubmitLoanDecision"
+import { getSelectInfoByDecision } from "../../services"
 
 const FormSchema = z.object({
-  note: z.string().optional()
+  note: z.string().optional(),
+  decision: z.string().optional()
 })
+
+type FormValue = z.infer<typeof FormSchema> & {
+  decision: LoanApplicationStatus
+}
 
 export function ChangeApplicationStatusDialog({
   fromDecision,
   toDecision,
-  onCancel
+  onCancel,
+  setSuccess
 }: {
   onCancel: () => void
-  fromDecision: LoanDecisionEnum | null
-  toDecision?: LoanDecisionEnum
+  fromDecision: LoanApplicationStatus | null
+  toDecision: LoanApplicationStatus
+  setSuccess?: (value?: boolean) => void
 }) {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema)
+  const { mutate, isPending } = useSubmitLoanDecision()
+
+  const form = useForm<FormValue>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: { note: "", decision: toDecision }
   })
 
-  function onSubmit() {
-    toastSuccess({
-      title: "Change application status",
-      description: "Your decision has been successfully submitted"
-    })
-    onCancel()
+  function onSubmit(value: FormValue) {
+    mutate(
+      {
+        ...value,
+        decision: value.decision.toLowerCase() as LoanApplicationStatus
+      },
+      {
+        onSuccess: () => {
+          onCancel()
+          setSuccess?.(true)
+        }
+      }
+    )
   }
 
   const fromDecisionInfo = getSelectInfoByDecision(fromDecision || undefined)
@@ -70,12 +86,13 @@ export function ChangeApplicationStatusDialog({
                 >
                   Cancel
                 </Button>
-                <Button
+                <ButtonLoading
                   className="rounded-none font-semibold h-16 px-8"
                   onClick={form.handleSubmit(onSubmit)}
+                  isLoading={isPending}
                 >
                   Submit
-                </Button>
+                </ButtonLoading>
               </div>
             </div>
           </AlertDialogTitle>

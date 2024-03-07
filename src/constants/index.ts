@@ -138,6 +138,9 @@ export const API_PATH = {
       `
   },
   loanApplicationDetails: {
+    all: "api/loan-officer/applications",
+    getStatusDetail: (applicationId: string) =>
+      `${API_PATH.loanApplicationDetails.all}/${applicationId}/status`,
     getKYB: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/kyb`,
     getKYC: (applicationId: string) =>

@@ -1,5 +1,5 @@
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
-import { SkeletonCard } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton"
 import { toCurrency } from "@/utils"
 import { Badge } from "@/components/ui/badge"
 import { ChangeApplicationStatusButton } from "../atoms/ChangeApplicationStatusButton"
@@ -8,14 +8,7 @@ import { getUseOfLoan } from "../../services"
 const BasicInformationSkeleton = () => {
   return (
     <div className="flex w-full px-4xl gap-3xl">
-      <div className="flex space-x-xl">
-        <SkeletonCard isCircle className="flex flex-row" />
-      </div>
-      <div className="flex gap-xl md:gap-2xl lg:gap-3xl flex-1">
-        <SkeletonCard numberOfLines={0} className="flex-1 w-auto" />
-        <SkeletonCard numberOfLines={0} className="flex-1 w-auto" />
-        <SkeletonCard numberOfLines={0} className="flex-1 w-auto" />
-      </div>
+      <Skeleton className="w-96 h-8" />
     </div>
   )
 }

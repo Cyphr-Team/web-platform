@@ -1,11 +1,10 @@
+import { DotVariantProps } from "@/components/ui/dot"
 import { LoanApplicationStatus, UseOfLoan } from "@/types/loan-application.type"
 import {
   AUTHENTICITY_LEVEL,
   KYB_VERIFIED_FIELD_STATUS
 } from "../constants/type"
 import { KYC_STATUS } from "../constants/types/kyc"
-import { DotVariantProps } from "@/components/ui/dot"
-import { LoanDecisionEnum } from "../constants/types/application"
 
 export const getClassNameFromStatus = (
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS | AUTHENTICITY_LEVEL
@@ -32,8 +31,8 @@ export const getClassNameFromStatus = (
   }
 }
 
-export const getBadgeVariantByStatus = (status: LoanApplicationStatus) => {
-  const statusUppercase = status.toUpperCase()
+export const getBadgeVariantByStatus = (status?: LoanApplicationStatus) => {
+  const statusUppercase = status?.toUpperCase()
   switch (statusUppercase) {
     case LoanApplicationStatus.SUBMITTED:
       return "blue"
@@ -57,19 +56,23 @@ export const getBadgeVariantByAuthenticityScore = (score: number) => {
 const buildDecisionInfo = (
   variantColor: DotVariantProps["variantColor"],
   label: string,
-  value: LoanDecisionEnum | null
+  value: LoanApplicationStatus | null
 ) => ({
   variantColor,
   label,
   value
 })
 
-export const getSelectInfoByDecision = (decision?: LoanDecisionEnum) => {
+export const getSelectInfoByDecision = (decision?: LoanApplicationStatus) => {
   switch (decision) {
-    case LoanDecisionEnum.APPROVED:
-      return buildDecisionInfo("green", "Approved", LoanDecisionEnum.APPROVED)
-    case LoanDecisionEnum.DENIED:
-      return buildDecisionInfo("red", "Denied", LoanDecisionEnum.DENIED)
+    case LoanApplicationStatus.APPROVED:
+      return buildDecisionInfo(
+        "green",
+        "Approved",
+        LoanApplicationStatus.APPROVED
+      )
+    case LoanApplicationStatus.DENIED:
+      return buildDecisionInfo("red", "Denied", LoanApplicationStatus.DENIED)
     default:
       return buildDecisionInfo("yellow", "In Review", null)
   }
@@ -151,4 +154,21 @@ export const getBankruptcyByChapter = (chapter?: number) => {
       }
     }[chapter] ?? defaultChapter
   )
+}
+
+export const getApplicationTipByStatus = (
+  status?: LoanApplicationStatus,
+  isLoanProgramDeleted?: boolean
+) => {
+  if (isLoanProgramDeleted) return "This application is no longer available."
+
+  switch (status?.toUpperCase()) {
+    case LoanApplicationStatus.APPROVED:
+    case LoanApplicationStatus.DENIED:
+      return "This application is already underwritten."
+    case LoanApplicationStatus.IN_REVIEW:
+      return ""
+    default:
+      return "This application is in processing with 3rd party."
+  }
 }
