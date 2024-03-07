@@ -22,6 +22,10 @@ const AlertDialogOverlay = React.forwardRef<
       className
     )}
     {...props}
+    onClick={(e) => {
+      e.stopPropagation()
+      props?.onClick?.(e)
+    }}
     ref={ref}
   />
 ))
@@ -40,6 +44,10 @@ const AlertDialogContent = React.forwardRef<
         className
       )}
       {...props}
+      onClick={(e) => {
+        e.stopPropagation()
+        props.onClick?.(e)
+      }}
     />
   </AlertDialogPortal>
 ))

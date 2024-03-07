@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { LoanProgram } from "@/types/loan-program.type"
 import { toCurrency } from "@/utils"
+import { DropdownAction } from "./dropdown-action"
 
 const CellItem = ({
   label,
@@ -92,5 +93,19 @@ export const columns: ColumnDef<LoanProgram>[] = [
       return <DataTableColumnHeader column={column} title="Origination Fee" />
     },
     size: 150
+  },
+  {
+    id: "action",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Action" />
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="min-w-0">
+          <DropdownAction loanProgram={row.original} key={row.original.id} />
+        </div>
+      )
+    },
+    size: 75
   }
 ]

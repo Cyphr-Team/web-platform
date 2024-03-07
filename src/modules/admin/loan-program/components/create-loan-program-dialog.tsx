@@ -108,7 +108,11 @@ export function CreateLoanProgramDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[625px] px-0 gap-0">
         <DialogHeader className="px-6 border-b pb-4">
-          <DialogTitle>Create Loan Program</DialogTitle>
+          {detailId ? (
+            <DialogTitle>Edit Loan Program</DialogTitle>
+          ) : (
+            <DialogTitle>Create Loan Program</DialogTitle>
+          )}
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={formSubmit} className="flex flex-col">

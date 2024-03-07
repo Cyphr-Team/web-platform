@@ -18,8 +18,8 @@ type Props = {
   isOpen?: boolean
   cancelText: string
   confirmText: string
-  onCanceled?: () => void
-  onConfirmed?: () => void
+  onCanceled?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  onConfirmed?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 export const CustomAlertDialog: React.FC<Props> = ({
   children,

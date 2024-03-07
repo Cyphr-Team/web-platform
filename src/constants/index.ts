@@ -112,7 +112,9 @@ export const API_PATH = {
       create: () => API_PATH.loanProgram.cdfi.all,
       list: () => `${API_PATH.loanProgram.cdfi.all}/list`,
       detail: () => API_PATH.loanProgram.cdfi.all,
-      update: () => API_PATH.loanProgram.cdfi.all
+      update: () => API_PATH.loanProgram.cdfi.all,
+      delete: (loanProgramId: string) =>
+        `api/admin-loan/program/${loanProgramId}`
     }
   },
   application: {

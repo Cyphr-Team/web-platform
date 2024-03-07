@@ -24,7 +24,6 @@ type MiddeskTableContentReport = {
   notes?: string
   sources?: BusinessRegistrationSource[]
   status?: MiddeskStatus
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderNote?: ReactNode
 }
 
