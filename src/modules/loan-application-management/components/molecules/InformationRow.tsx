@@ -1,21 +1,23 @@
 import { Switch } from "@/components/ui/switch"
-import { BadgeStatus } from "../atoms/BadgeStatus"
 import { cn } from "@/lib/utils"
+import { MiddeskBadge } from "@/modules/loan-application/components/molecules/MiddeskBadge"
+import { ReactNode } from "react"
+import { MiddeskStatus } from "../../constants/types/middesk.type"
 
 type Props = {
-  label: string
+  label?: ReactNode
   value?: string
   hasAction?: boolean
-  isBadge?: boolean
-  badgeText?: string
+  status?: MiddeskStatus
+  subLabel?: string
 }
 
 export const InformationRow: React.FC<Props> = ({
   label,
   value,
-  isBadge,
-  badgeText,
-  hasAction
+  hasAction,
+  status,
+  subLabel
 }) => {
   return (
     <div className="grid-cols-2 grid xl:grid-cols-4 grid-flow-row">
@@ -45,7 +47,7 @@ export const InformationRow: React.FC<Props> = ({
       )}
 
       <div className="pr-3xl py-xl xl:py-3xl flex xl:justify-end pl-xl xl:pl-0 items-center">
-        {isBadge && badgeText && <BadgeStatus status={badgeText} />}
+        {status && <MiddeskBadge label={subLabel} status={status} />}
       </div>
     </div>
   )

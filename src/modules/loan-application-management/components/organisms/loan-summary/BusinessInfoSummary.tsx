@@ -1,47 +1,48 @@
 import { Separator } from "@/components/ui/separator"
-import { InformationRow } from "../../molecules/InformationRow"
 import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
+
+import { Value, formatPhoneNumberIntl } from "react-phone-number-input"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
+import { InformationRow } from "../../molecules/InformationRow"
 
 export const BusinessInfoSummary = () => {
   const { loanSummary } = useLoanApplicationDetailContext()
   const businessInfo = loanSummary?.businessInfo
+  const personalInfo = loanSummary?.personalInfo
 
   return (
     <>
       <InformationRow
         label="Legal Name"
         value={businessInfo?.businessName?.value ?? UNKNOWN_VALUE}
-        isBadge
-        badgeText={businessInfo?.businessName?.status}
+        status={businessInfo?.businessName?.verification?.status}
+        subLabel={businessInfo?.businessName?.verification?.subLabel}
       />
       <Separator />
       <InformationRow
         label="Date of Incorporation"
-        value={UNKNOWN_VALUE}
-        isBadge
-        badgeText="FAILED"
+        value={businessInfo?.formation?.value ?? UNKNOWN_VALUE}
       />
       <Separator />
       <InformationRow
         label="Officer Address"
-        value={businessInfo?.officeAddresses?.[0] ?? UNKNOWN_VALUE}
+        value={businessInfo?.officeAddresses?.value ?? UNKNOWN_VALUE}
+        status={businessInfo?.officeAddresses?.verification?.status}
+        subLabel={businessInfo?.officeAddresses?.verification?.subLabel}
       />
       <Separator />
       <InformationRow
         label="Tax ID"
-        value={businessInfo?.tax?.value ?? UNKNOWN_VALUE}
-        isBadge
-        badgeText={businessInfo?.tax.status}
+        value={businessInfo?.tin?.value ?? UNKNOWN_VALUE}
+        status={businessInfo?.tin?.verification?.status}
+        subLabel={businessInfo?.tin?.verification?.subLabel}
       />
       <Separator />
       <InformationRow
         label="Phone Number"
-        value={
-          (Array.isArray(businessInfo?.phoneNumber)
-            ? businessInfo?.phoneNumber?.[0]
-            : businessInfo?.phoneNumber) ?? "N/A"
-        }
+        value={formatPhoneNumberIntl(
+          (personalInfo?.phoneNumber ?? "") as Value
+        )}
       />
     </>
   )

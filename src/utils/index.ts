@@ -82,6 +82,17 @@ export const snakeCaseToText = (str: string) => {
   return str.replace(/_/g, " ")
 }
 
+export const camelCaseToText = (str: string) => {
+  try {
+    return str
+      .replace(/([A-Z])/g, " $1") // Insert space before uppercase letters
+      .toLowerCase() // Convert to lowercase
+      .trim()
+  } catch {
+    return str
+  }
+}
+
 export async function fetchProtectedImage(path: string, imageUrl: string) {
   // Fetch the image.
   const response = await getRequest<

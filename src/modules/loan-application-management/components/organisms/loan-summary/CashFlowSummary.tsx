@@ -6,25 +6,15 @@ export const CashFlowSummary = () => {
   const { loanSummary } = useLoanApplicationDetailContext()
   const cashFlow = loanSummary?.cashFlowDocumentation
 
-  return (
+  return cashFlow?.map((document, index) => (
     <>
       <InformationRow
-        label="Business Tax Returns (2020, 2021, 2022)"
-        isBadge
-        badgeText={cashFlow?.businessTaxReturns}
+        key={document?.value ?? index}
+        label={document?.value}
+        status={document?.verification}
       />
-      <Separator />
-      <InformationRow
-        label="Bank Statements (Oct 2023 + Nov 2023)"
-        isBadge
-        badgeText={cashFlow?.bankStatements}
-      />
-      <Separator />
-      <InformationRow
-        label="List of Outstanding Business Debts"
-        isBadge
-        badgeText={cashFlow?.listOfOutstandingBusinessDebts}
-      />
+
+      {index != cashFlow.length - 1 && <Separator />}
     </>
-  )
+  ))
 }

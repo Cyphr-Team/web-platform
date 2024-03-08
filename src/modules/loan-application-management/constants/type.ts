@@ -1,12 +1,22 @@
+import { MiddeskStatus } from "./types/middesk.type"
+
+export type Verification = {
+  value: string
+  verification?: {
+    status?: MiddeskStatus
+    subLabel?: string
+  }
+}
+
 export type LoanApplicationsKyb = {
   insights: KybDetailInsights
-  businessName: KybVerifiedField
-  tax: KybVerifiedFieldLabel
+  businessName: Verification
+  tin: Verification
   businessVerificationStatus: KYB_VERIFIED_FIELD_STATUS
   registrationStatus: KybDetailRegistrationStatus
   industryClassification: string[]
-  formation: KybDetailFormation
-  officeAddresses: string[]
+  formation: Verification
+  officeAddresses: Verification
   website: KybDetailWebsite
   phoneNumber: string
   liens: KybDetailLiens
@@ -20,17 +30,6 @@ export type KybDetailInsights = {
   watchlistScreening: KYB_VERIFIED_FIELD_STATUS
 }
 
-type KybVerifiedField = {
-  status: KYB_VERIFIED_FIELD_STATUS
-  value: string
-}
-
-type KybVerifiedFieldLabel = {
-  label: string
-  status: KYB_VERIFIED_FIELD_STATUS
-  value: string
-}
-
 export enum KYB_VERIFIED_FIELD_STATUS {
   SUCCESS = "SUCCESS",
   WARNING = "WARNING",
@@ -42,12 +41,6 @@ export type KybDetailRegistrationStatus = {
   active: number
   inactive: number
   unknown: number
-}
-
-type KybDetailFormation = {
-  state: string
-  date: string
-  entityType: string
 }
 
 type KybDetailWebsite = {

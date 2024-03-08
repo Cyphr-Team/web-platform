@@ -1,18 +1,18 @@
+import { TaskFieldStatus } from "./business.type"
+
 export type LoanApplicationsKyc = {
   kycStatus: ApplicationKycStatus
   summary: ApplicationKycSummary
   personalInfo: ApplicationKycPersonalInfo
   idCheck: ApplicationKycIdCheck
-  checkLists: ApplicationKycCheckList
+  checkLists: {
+    bankruptcies?: ApplicationKycCheckList
+    sosFillings?: ApplicationKycCheckList
+    watchlists?: ApplicationKycCheckList
+  }
 }
 
 type ApplicationKycStatus = {
-  status: KYC_STATUS
-  reason?: string
-}
-
-type ApplicationKycPayloadStatus = {
-  payload: string
   status: KYC_STATUS
   reason?: string
 }
@@ -33,11 +33,11 @@ type ApplicationKycSummary = {
 }
 
 type ApplicationKycPersonalInfo = {
-  name: ApplicationKycPayloadStatus
-  dateOfBirth: ApplicationKycPayloadStatus
-  residentialAddress: ApplicationKycPayloadStatus
-  email: ApplicationKycPayloadStatus
-  phoneNumber: ApplicationKycPayloadStatus
+  name?: string
+  dateOfBirth?: string
+  residentialAddress?: string
+  email?: string
+  phoneNumber?: string
 }
 
 type ApplicationKycIdCheck = {
@@ -46,10 +46,8 @@ type ApplicationKycIdCheck = {
 }
 
 type ApplicationKycCheckList = {
-  name: ApplicationKycStatus
-  pepSanctions: ApplicationKycStatus
-  internalBlocklist: ApplicationKycStatus
-  duplicate: ApplicationKycStatus
-  fraud: ApplicationKycStatus
-  biometrics: ApplicationKycStatus
+  category?: string
+  message?: string
+  status?: TaskFieldStatus
+  subLabel?: string
 }

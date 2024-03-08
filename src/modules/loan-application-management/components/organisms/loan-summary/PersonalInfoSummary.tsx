@@ -2,6 +2,7 @@ import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 import { InformationRow } from "../../molecules/InformationRow"
 import { Separator } from "@/components/ui/separator"
+import { formatBirthday } from "@/utils/date.utils"
 
 export const PersonalInfoSummary = () => {
   const { loanSummary } = useLoanApplicationDetailContext()
@@ -11,30 +12,22 @@ export const PersonalInfoSummary = () => {
     <>
       <InformationRow
         label="Name"
-        value={personalInfo?.name?.payload ?? UNKNOWN_VALUE}
-        isBadge
-        badgeText={personalInfo?.name?.status}
+        value={personalInfo?.name ?? UNKNOWN_VALUE}
       />
       <Separator />
       <InformationRow
         label="Date of Birth"
-        value={personalInfo?.dateOfBirth?.payload ?? UNKNOWN_VALUE}
-        isBadge
-        badgeText={personalInfo?.dateOfBirth?.status}
+        value={formatBirthday(personalInfo?.dateOfBirth) ?? UNKNOWN_VALUE}
       />
       <Separator />
       <InformationRow
         label="Residential Address"
-        value={personalInfo?.residentialAddress?.payload ?? UNKNOWN_VALUE}
-        isBadge
-        badgeText={personalInfo?.residentialAddress?.status}
+        value={personalInfo?.residentialAddress ?? UNKNOWN_VALUE}
       />
       <Separator />
       <InformationRow
         label="Email Address"
-        value={personalInfo?.email?.payload ?? UNKNOWN_VALUE}
-        isBadge
-        badgeText={personalInfo?.email?.status}
+        value={personalInfo?.email ?? UNKNOWN_VALUE}
       />
     </>
   )

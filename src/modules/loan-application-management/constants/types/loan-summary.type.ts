@@ -1,5 +1,7 @@
+import { UseOfLoan } from "@/types/loan-application.type"
 import { LoanApplicationsKyb } from "../type"
 import { LoanApplicationsKyc } from "./kyc"
+import { MiddeskStatus } from "./middesk.type"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -10,50 +12,19 @@ enum SummaryCollectStatus {
 
 export { SummaryCollectStatus }
 
-type SummaryBusinessPlan = {
-  threeYear: SummaryCollectStatus
-  fiveYear: SummaryCollectStatus
-}
-
-type SummaryFinancialStatements = {
-  balanceSheetHistorical: SummaryCollectStatus
-  balanceSheetProjected: SummaryCollectStatus
-  incomeStatementHistorical: SummaryCollectStatus
-  incomeStatementProjected: SummaryCollectStatus
-  cashFlowStatementHistorical: SummaryCollectStatus
-  cashFlowStatementProjected: SummaryCollectStatus
-}
-
-type SummarySba7aForms = {
-  sbaForm1919: SummaryCollectStatus
-  sbaForm912: SummaryCollectStatus
-  sbaForm413: SummaryCollectStatus
-}
-
-type SummaryCollateralDocumentation = {
-  inventoryValuations: SummaryCollectStatus
-  vehicleRegistrationCertificate: SummaryCollectStatus
-  businessLeaseAgreement: SummaryCollectStatus
-  purchaseOrders: SummaryCollectStatus
-  realEstatePropertyDeed: SummaryCollectStatus
-}
-
 type SummaryCashFlowDocumentation = {
-  businessTaxReturns: SummaryCollectStatus
-  bankStatements: SummaryCollectStatus
-  listOfOutstandingBusinessDebts: SummaryCollectStatus
+  value?: string
+  verification?: MiddeskStatus
 }
 
 type LoanSummary = {
   businessInfo: Pick<
     LoanApplicationsKyb,
-    "businessName" | "tax" | "formation" | "officeAddresses" | "phoneNumber"
+    "businessName" | "tin" | "formation" | "officeAddresses" | "phoneNumber"
   >
-  businessPlan: SummaryBusinessPlan
-  financialStatements: SummaryFinancialStatements
-  sba7aForms: SummarySba7aForms
-  cashFlowDocumentation: SummaryCashFlowDocumentation
-  collateralDocumentation: SummaryCollateralDocumentation
+  cashFlowDocumentation?: SummaryCashFlowDocumentation[]
+  proposeUseOfLoan?: UseOfLoan
+  loanType?: string
 } & Pick<LoanApplicationsKyc, "personalInfo" | "idCheck" | "checkLists">
 
 export type { LoanSummary }
