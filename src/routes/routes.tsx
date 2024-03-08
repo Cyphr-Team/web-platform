@@ -1,18 +1,19 @@
 import { GlobalLayouts, NotFoundLayout } from "@/shared/layouts"
 import { AuthLayout } from "@/shared/layouts/auth-layout/auth-layout"
 
+import { APP_PATH } from "@/constants"
+import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
+import { LoanApplicationProvider } from "@/modules/loan-application/providers/LoanApplicationProvider"
+import { SideNavApplicationDetails } from "@/shared/molecules/SideNavApplicationDetails"
+import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Outlet,
   Route
 } from "react-router-dom"
-import { APP_PATH } from "@/constants"
 import { userLoader } from "./loader"
-import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
-import { SideNavApplicationDetails } from "@/shared/molecules/SideNavApplicationDetails"
-import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
-import { LoanApplicationProvider } from "@/modules/loan-application/providers/LoanApplicationProvider"
+import { handleCrumb } from "@/utils/crumb.utils"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -61,6 +62,7 @@ const routes = createBrowserRouter(
         lazy={() =>
           import("@/shared/layouts/dashboard-layout/dashboard-layout")
         }
+        handle={handleCrumb(APP_PATH.INDEX)}
       >
         <Route index lazy={() => import("@/modules/example-dashboard/page")} />
 
@@ -71,7 +73,10 @@ const routes = createBrowserRouter(
         />
 
         {/* --- LOAN APPLICATION MANAGEMENT --- */}
-        <Route path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}>
+        <Route
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}
+          handle={handleCrumb(APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX)}
+        >
           {/* LIST */}
           <Route
             index
@@ -86,6 +91,9 @@ const routes = createBrowserRouter(
             lazy={() =>
               import("@/modules/loan-application-management/pages/detail")
             }
+            handle={handleCrumb(
+              APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detail
+            )}
           >
             <Route
               path={
@@ -100,20 +108,30 @@ const routes = createBrowserRouter(
             />
             <Route
               path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.index}
-              lazy={() =>
-                import(
-                  "@/modules/loan-application-management/components/pages/Document"
-                )
-              }
-            />
-            <Route
-              path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.index}
-              lazy={() =>
-                import(
-                  "@/modules/loan-application-management/components/pages/DocumentDetails"
-                )
-              }
-            />
+              handle={handleCrumb(
+                APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.index
+              )}
+            >
+              <Route
+                index
+                lazy={() =>
+                  import(
+                    "@/modules/loan-application-management/components/pages/Document"
+                  )
+                }
+              />
+              <Route
+                path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.index}
+                lazy={() =>
+                  import(
+                    "@/modules/loan-application-management/components/pages/DocumentDetails"
+                  )
+                }
+                handle={handleCrumb(
+                  APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.index
+                )}
+              />
+            </Route>
             <Route
               path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
               lazy={() =>
@@ -145,6 +163,7 @@ const routes = createBrowserRouter(
         <Route
           path={APP_PATH.LOAN_PROGRAM.index}
           lazy={() => import("@/modules/admin/loan-program/page")}
+          handle={handleCrumb(APP_PATH.LOAN_PROGRAM.index)}
         />
 
         {/* --- NOTIFICATION --- */}

@@ -199,33 +199,6 @@ export const PASSWORD_REGEX = {
   [PasswordRegex.NONE_SPACES]: /^[^\s]*$/
 }
 
-export const APP_BREADS = {
-  LOAN_PROGRAMS: {
-    list: [
-      {
-        to: APP_PATH.LOAN_APPLICATION.APPLICATIONS.index,
-        label: "Loan Applications"
-      }
-    ]
-  },
-  LOAN_APPLICATION_MANAGEMENT: {
-    list: [
-      {
-        to: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
-        label: "Applications"
-      }
-    ]
-  },
-  CDFI_LOAN_PROGRAM_MANAGEMENT: {
-    list: [
-      {
-        to: APP_PATH.LOAN_PROGRAM.index,
-        label: "Loan Programs"
-      }
-    ]
-  }
-}
-
 // QUERY REQUEST
 
 export const REQUEST_LIMIT_PARAM = 50

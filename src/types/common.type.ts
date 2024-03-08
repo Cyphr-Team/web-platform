@@ -1,6 +1,7 @@
 import { IconProps } from "@/components/ui/icons"
 import { ErrorCode } from "@/utils/custom-error"
 import { LucideIcon } from "lucide-react"
+import { ReactNode } from "react"
 import { UserRoles } from "./user.type"
 
 // --- RESPONSE ---
@@ -12,7 +13,7 @@ interface ErrorResponse {
   code: ErrorCode
 }
 
-export type { SuccessResponse, ErrorResponse }
+export type { ErrorResponse, SuccessResponse }
 
 // --- SELECT OPTION ---
 interface Option {
@@ -78,11 +79,11 @@ type StateType = {
   cities: CityType[]
 }
 
-export type { StateType, CityType }
+export type { CityType, StateType }
 
 // --- BREADCRUMB ---
 interface Breadcrumb {
-  label: string
+  label: ReactNode
   to: string
 }
 

@@ -1,22 +1,25 @@
-import { useNavigate } from "react-router-dom"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
+import { useNavigate } from "react-router-dom"
 
-import { APP_BREADS, APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
-import { Row } from "@tanstack/react-table"
+import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
+import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { LoanApplication } from "@/types/loan-application.type"
+import { Row } from "@tanstack/react-table"
+import debounce from "lodash.debounce"
+import { useCallback, useState } from "react"
 import { loanApplicationColumns } from "../components/table/loan-application-columns"
+import { LoanApplicationTableHeader } from "../components/table/loan-application-header"
 import {
   FilterParams,
   useQueryListLoanApplication
 } from "../hooks/useQuery/useQueryListLoanApplication"
-import { LoanApplicationTableHeader } from "../components/table/loan-application-header"
-import { useCallback, useState } from "react"
-import debounce from "lodash.debounce"
 
 export function Component() {
   const navigate = useNavigate()
   const [filterParams, setFilterParams] = useState<FilterParams>()
+
+  const crumbs = useBreadcrumb()
 
   const handleClickDetail = (detail: Row<LoanApplication>) => {
     navigate(
@@ -44,10 +47,7 @@ export function Component() {
   return (
     <div className="container mx-auto py-4xl">
       <div className="mb-3xl">
-        <Breadcrumbs
-          breads={APP_BREADS.LOAN_APPLICATION_MANAGEMENT.list}
-          className="px-0"
-        />
+        <Breadcrumbs breads={crumbs} className="px-0" />
       </div>
       <h1 className="mb-3xl text-3xl font-semibold">Loan Applications</h1>
       <div className="bg-gray-100 bg-opacity-60 p-5 rounded-lg">
