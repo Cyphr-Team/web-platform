@@ -5,7 +5,8 @@ import * as z from "zod"
 export const passwordFormSchema = z.object({
   password: z
     .string()
-    .min(8)
+    .min(8, PasswordRegex.AT_LEAST_EIGHT_CHARACTER)
+    .max(255, PasswordRegex.AT_MOST_255_CHARACTER)
     .regex(
       PASSWORD_REGEX[PasswordRegex.AT_LEAST_ONE_SPECIAL_CHARACTER],
       PasswordRegex.AT_LEAST_ONE_SPECIAL_CHARACTER
@@ -26,6 +27,19 @@ export const passwordFormSchema = z.object({
 })
 
 export type PasswordFormValue = z.infer<typeof passwordFormSchema>
+
+export const PASSWORD_REGEX_TEXT = {
+  [PasswordRegex.AT_LEAST_EIGHT_CHARACTER]: "Must be at least 8 characters",
+  [PasswordRegex.AT_LEAST_ONE_SPECIAL_CHARACTER]:
+    "Must contain at least one special character",
+  [PasswordRegex.AT_LEAST_ONE_UPPERCASE]:
+    "Must contain at least one uppercase character",
+  [PasswordRegex.AT_LEAST_ONE_LOWERCASE]:
+    "Must contain at least one lowercase character",
+  [PasswordRegex.AT_LEAST_ONE_DIGIT]: "Must contain at least one digit",
+  [PasswordRegex.NONE_SPACES]: "Can't contain spaces",
+  [PasswordRegex.AT_MOST_255_CHARACTER]: "Must be at most 255 characters"
+}
 
 export const usePasswordMatch = <T extends PasswordFormValue>() => {
   const { formState } = useFormContext<T>()

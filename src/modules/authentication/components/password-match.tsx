@@ -1,6 +1,11 @@
 import { useFormContext } from "react-hook-form"
-import { PasswordFormValue, usePasswordMatch } from "../hooks/usePasswordMatch"
+import {
+  PasswordFormValue,
+  usePasswordMatch,
+  PASSWORD_REGEX_TEXT
+} from "../hooks/usePasswordMatch"
 import { Matcher, getMatcherVariants } from "@/components/ui/matcher"
+import { PasswordRegex } from "@/constants"
 
 export function PasswordMatch() {
   const { getValues } = useFormContext<PasswordFormValue>()
@@ -21,7 +26,7 @@ export function PasswordMatch() {
           isAtLeastEightCharacters
         )}
       >
-        <div>Must be at least 8 characters</div>
+        <div>{PASSWORD_REGEX_TEXT[PasswordRegex.AT_LEAST_EIGHT_CHARACTER]}</div>
       </Matcher>
 
       <Matcher
@@ -30,7 +35,9 @@ export function PasswordMatch() {
           isAtLeastOneSpecialCharacter
         )}
       >
-        <div>Must contain at least one special character</div>
+        <div>
+          {PASSWORD_REGEX_TEXT[PasswordRegex.AT_LEAST_ONE_SPECIAL_CHARACTER]}
+        </div>
       </Matcher>
 
       <Matcher
@@ -39,7 +46,7 @@ export function PasswordMatch() {
           isAtLeastOneUpperCase
         )}
       >
-        <div>Must contain at least one uppercase character</div>
+        <div>{PASSWORD_REGEX_TEXT[PasswordRegex.AT_LEAST_ONE_UPPERCASE]}</div>
       </Matcher>
 
       <Matcher
@@ -48,19 +55,19 @@ export function PasswordMatch() {
           isAtLeastOneLowerCase
         )}
       >
-        <div>Must contain at least one lowercase character</div>
+        <div>{PASSWORD_REGEX_TEXT[PasswordRegex.AT_LEAST_ONE_LOWERCASE]}</div>
       </Matcher>
 
       <Matcher
         variant={getMatcherVariants(getValues("password"), isAtLeastOneDigit)}
       >
-        <div>Must contain at least one digit</div>
+        <div>{PASSWORD_REGEX_TEXT[PasswordRegex.AT_LEAST_ONE_DIGIT]}</div>
       </Matcher>
 
       <Matcher
         variant={getMatcherVariants(getValues("password"), isNoneSpaces)}
       >
-        <div>Can't contain spaces</div>
+        <div>{PASSWORD_REGEX_TEXT[PasswordRegex.NONE_SPACES]}</div>
       </Matcher>
     </>
   )

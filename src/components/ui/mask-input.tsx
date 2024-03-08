@@ -7,6 +7,7 @@ import {
   InputHTMLAttributes,
   ReactNode
 } from "react"
+import { Input } from "./input"
 
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
@@ -38,10 +39,19 @@ const toPattern = (
   return pattern
     .split("")
     .map((patternChar) => {
-      pointer += 1
       if (validCharRegex.test(patternChar)) {
+        pointer += 1
         return pointer < values.length ? values[pointer] : patternChar
       }
+
+      if (
+        pointer + 1 < values.length &&
+        !validCharRegex.test(patternChar) &&
+        !validCharRegex.test(values[pointer + 1])
+      ) {
+        pointer += 1
+      }
+
       return patternChar
     })
     .join("")
@@ -72,7 +82,6 @@ const MaskInput = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       wrapperClassName,
-      className,
       prefixIcon,
       suffixIcon,
       pattern = "00-0000000",
@@ -214,12 +223,7 @@ const MaskInput = forwardRef<HTMLInputElement, InputProps>(
             {prefixIcon}
           </div>
         )}
-        <input
-          className={cn(
-            "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-            prefixIcon && "pl-10",
-            className
-          )}
+        <Input
           ref={inputRef}
           {...props}
           type="text"

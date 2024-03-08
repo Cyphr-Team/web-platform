@@ -25,9 +25,10 @@ import {
 import { isAxiosError } from "axios"
 import { useCountdown } from "@/hooks/useCountdown"
 import { useEffect } from "react"
-import { APP_PATH } from "@/constants"
+import { APP_PATH, PasswordRegex } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { PasswordMatch } from "../../components/password-match"
+import { PASSWORD_REGEX_TEXT } from "../../hooks/usePasswordMatch"
 
 export function SetupProfileForm() {
   const [searchParams] = useSearchParams()
@@ -128,7 +129,7 @@ export function SetupProfileForm() {
           <FormField
             control={form.control}
             name="password"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
@@ -139,6 +140,13 @@ export function SetupProfileForm() {
                     disabled={isPending}
                   />
                 </FormControl>
+                {fieldState.error?.message && (
+                  <ErrorMessage>
+                    {PASSWORD_REGEX_TEXT[
+                      fieldState.error.message as PasswordRegex
+                    ] ?? fieldState.error.message}
+                  </ErrorMessage>
+                )}
               </FormItem>
             )}
           />
