@@ -10,7 +10,7 @@ import * as z from "zod"
 export enum UserStartStatus {
   EMAIL_SENT = "EMAIL_SENT",
   EMAIL_REGISTERED = "EMAIL_REGISTERED",
-  EMAIL_WAITING_ACTIVATION = "EMAIL_WAITING_ACTIVATION",
+  EMAIL_WAITING_VERIFICATION = "EMAIL_WAITING_VERIFICATION",
   USER_WAITING_SETUP_PROFILE = "USER_WAITING_SETUP_PROFILE"
 }
 
@@ -47,7 +47,8 @@ export const useGetStart = () => {
       const { email, status, jwt } = data
 
       switch (status) {
-        case UserStartStatus.EMAIL_SENT: {
+        case UserStartStatus.EMAIL_SENT:
+        case UserStartStatus.EMAIL_WAITING_VERIFICATION: {
           navigate({
             pathname: APP_PATH.VERIFY_EMAIL.detail(email),
             search: createSearchParams({ token: jwt || "" }).toString()

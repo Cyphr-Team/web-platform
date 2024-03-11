@@ -338,7 +338,7 @@ export function OwnerInformationForm() {
                   <FormControl>
                     <Input
                       type="businessOwnershipPercentage"
-                      placeholder="70"
+                      placeholder="i.e: 70"
                       min={0}
                       max={100}
                       className="text-base input-number-remove-arrow"
