@@ -2858,15 +2858,6 @@
       ]
     },
     {
-      "id": 1424,
-      "name": "American Samoa",
-      "state_code": "AS",
-      "latitude": "-14.27097200",
-      "longitude": "-170.13221700",
-      "country_id": 233,
-      "cities": []
-    },
-    {
       "id": 1434,
       "name": "Arizona",
       "state_code": "AZ",
@@ -5969,15 +5960,6 @@
           "longitude": "-92.68489000"
         }
       ]
-    },
-    {
-      "id": 1402,
-      "name": "Baker Island",
-      "state_code": "UM-81",
-      "latitude": "0.19362660",
-      "longitude": "-176.47690800",
-      "country_id": 233,
-      "cities": []
     },
     {
       "id": 1416,
@@ -24302,15 +24284,6 @@
       ]
     },
     {
-      "id": 1412,
-      "name": "Guam",
-      "state_code": "GU",
-      "latitude": "13.44430400",
-      "longitude": "144.79373100",
-      "country_id": 233,
-      "cities": []
-    },
-    {
       "id": 1411,
       "name": "Hawaii",
       "state_code": "HI",
@@ -25045,15 +25018,6 @@
           "longitude": "-158.02464000"
         }
       ]
-    },
-    {
-      "id": 1398,
-      "name": "Howland Island",
-      "state_code": "UM-84",
-      "latitude": "0.81132190",
-      "longitude": "-176.61827360",
-      "country_id": 233,
-      "cities": []
     },
     {
       "id": 1460,
@@ -35980,24 +35944,6 @@
       ]
     },
     {
-      "id": 1410,
-      "name": "Jarvis Island",
-      "state_code": "UM-86",
-      "latitude": "-0.37435030",
-      "longitude": "-159.99672060",
-      "country_id": 233,
-      "cities": []
-    },
-    {
-      "id": 1428,
-      "name": "Johnston Atoll",
-      "state_code": "UM-67",
-      "latitude": "16.72950350",
-      "longitude": "-169.53364770",
-      "country_id": 233,
-      "cities": []
-    },
-    {
       "id": 1406,
       "name": "Kansas",
       "state_code": "KS",
@@ -40258,15 +40204,6 @@
           "longitude": "-82.77794000"
         }
       ]
-    },
-    {
-      "id": 1403,
-      "name": "Kingman Reef",
-      "state_code": "UM-89",
-      "latitude": "6.38333300",
-      "longitude": "-162.41666700",
-      "country_id": 233,
-      "cities": []
     },
     {
       "id": 1457,
@@ -51779,15 +51716,6 @@
       ]
     },
     {
-      "id": 1438,
-      "name": "Midway Atoll",
-      "state_code": "UM-71",
-      "latitude": "28.20721680",
-      "longitude": "-177.37349260",
-      "country_id": 233,
-      "cities": []
-    },
-    {
       "id": 1420,
       "name": "Minnesota",
       "state_code": "MN",
@@ -60382,15 +60310,6 @@
           "longitude": "-108.27435000"
         }
       ]
-    },
-    {
-      "id": 1439,
-      "name": "Navassa Island",
-      "state_code": "UM-76",
-      "latitude": "18.41006890",
-      "longitude": "-75.01146120",
-      "country_id": 233,
-      "cities": []
     },
     {
       "id": 1408,
@@ -78341,15 +78260,6 @@
       ]
     },
     {
-      "id": 1431,
-      "name": "Northern Mariana Islands",
-      "state_code": "MP",
-      "latitude": "15.09790000",
-      "longitude": "145.67390000",
-      "country_id": 233,
-      "cities": []
-    },
-    {
       "id": 4851,
       "name": "Ohio",
       "state_code": "OH",
@@ -86364,15 +86274,6 @@
           "longitude": "-123.28342000"
         }
       ]
-    },
-    {
-      "id": 1448,
-      "name": "Palmyra Atoll",
-      "state_code": "UM-95",
-      "latitude": "5.88850260",
-      "longitude": "-162.07866560",
-      "country_id": 233,
-      "cities": []
     },
     {
       "id": 1422,
@@ -107301,24 +107202,6 @@
       ]
     },
     {
-      "id": 1432,
-      "name": "United States Minor Outlying Islands",
-      "state_code": "UM",
-      "latitude": "19.28231920",
-      "longitude": "166.64704700",
-      "country_id": 233,
-      "cities": []
-    },
-    {
-      "id": 1413,
-      "name": "United States Virgin Islands",
-      "state_code": "VI",
-      "latitude": "18.33576500",
-      "longitude": "-64.89633500",
-      "country_id": 233,
-      "cities": []
-    },
-    {
       "id": 1414,
       "name": "Utah",
       "state_code": "UT",
@@ -112183,15 +112066,6 @@
           "longitude": "-76.50967000"
         }
       ]
-    },
-    {
-      "id": 1405,
-      "name": "Wake Island",
-      "state_code": "UM-79",
-      "latitude": "19.27961900",
-      "longitude": "166.64993480",
-      "country_id": 233,
-      "cities": []
     },
     {
       "id": 1462,

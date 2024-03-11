@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Separator } from "@/components/ui/separator"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { capitalizeWords } from "@/utils"
 
@@ -9,7 +8,6 @@ export const FinancialFormDetails = () => {
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
       <h5 className="text-lg font-semibold">Financial Information</h5>
-      <Separator />
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <p className="text-sm text-text-secondary font-medium">
           How do you make money?

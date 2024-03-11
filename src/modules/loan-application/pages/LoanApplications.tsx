@@ -142,7 +142,18 @@ export function Component() {
   ]
 
   const handleClickDetail = (detail: Row<UserLoanApplication>) => {
-    navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(detail.original.id))
+    if (detail.original.status === LoanApplicationStatus.DRAFT.toLowerCase()) {
+      navigate(
+        APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(
+          detail.original.id,
+          detail.original.loanProgram.id
+        )
+      )
+    } else {
+      navigate(
+        APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(detail.original.id)
+      )
+    }
   }
 
   return (

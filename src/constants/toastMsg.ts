@@ -20,6 +20,14 @@ export const TOAST_MSG = {
     }
   },
   loanApplication: {
+    submitError: {
+      title: "Submit Loan Application",
+      description: "Error occurred while submitting Loan Application"
+    },
+    submitOwner: {
+      title: "Submit Loan Application",
+      description: "Loan Application is submitted successfully"
+    },
     submitKyc: {
       title: "Submit KYC Information",
       description: "KYC Information is submitted successfully"

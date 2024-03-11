@@ -1,14 +1,13 @@
 import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { TextInputDisplay } from "../../atoms/TextInputDisplay"
+import { getStateName } from "@/modules/loan-application/hooks/useSelectCities"
 
 export const KybFormDetails = () => {
   const { kybFormData } = useBRLoanApplicationDetailsContext()
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
       <h5 className="text-lg font-semibold">Business Information</h5>
-      <Separator />
       <div className="grid grid-cols-3 gap-y-2xl gap-x-4xl">
         <TextInputDisplay
           className="col-span-3"
@@ -31,7 +30,7 @@ export const KybFormDetails = () => {
         />
         <TextInputDisplay
           label="Business State"
-          value={kybFormData?.businessStreetAddress.state}
+          value={getStateName(kybFormData?.businessStreetAddress.state ?? "")}
         />
         <TextInputDisplay
           label="Business Zip Code"

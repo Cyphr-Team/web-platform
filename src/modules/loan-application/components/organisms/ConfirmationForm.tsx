@@ -48,84 +48,81 @@ export const ConfirmationForm = () => {
     ).length === 0
 
   return (
-    <div className="flex flex-col flex-1 gap-3xl">
+    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-6 col-start-2">
       <Form {...form}>
-        <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
-          {CONFIRMATION_TEXTS.map((text, index) => (
-            <p key={index} className="text-sm text-text-secondary">
-              <strong>{text.title}</strong> {text.content}
-            </p>
-          ))}
+        {CONFIRMATION_TEXTS.map((text, index) => (
+          <p key={index} className="text-sm text-text-secondary">
+            <strong>{text.title}</strong> {text.content}
+          </p>
+        ))}
 
-          <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl">
-            <FormField
-              control={form.control}
-              name="printName"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel className="text-text-secondary">
-                    Signature of Authorized Individual
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder=""
-                      className="text-3xl island-moments-regular"
-                      {...field}
-                      disabled={true}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />{" "}
-            <FormField
-              control={form.control}
-              name="printName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-text-secondary">
-                    Print Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="i.e: Larry Latte"
-                      className="text-base"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />{" "}
-            <FormField
-              control={form.control}
-              name="signatureDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-text-secondary">
-                    Signature Date
-                  </FormLabel>
-                  <FormControl>
-                    <Input className="text-base" {...field} disabled={true} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-          <div className="flex justify-end">
-            <ButtonLoading
-              type="submit"
-              isLoading={isSubmitting}
-              disabled={!form.formState.isValid || !isPreviousStepsCompleted}
-              className="w-full flex items-center gap-1"
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              <span>Submit application</span>
-              <ArrowRight className="w-5" />
-            </ButtonLoading>
-          </div>
-        </Card>
+        <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl">
+          <FormField
+            control={form.control}
+            name="printName"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel className="text-text-secondary">
+                  Signature of Authorized Individual
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder=""
+                    className="text-3xl island-moments-regular"
+                    {...field}
+                    disabled={true}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />{" "}
+          <FormField
+            control={form.control}
+            name="printName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-text-secondary">
+                  Print Name
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="i.e: Larry Latte"
+                    className="text-base"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />{" "}
+          <FormField
+            control={form.control}
+            name="signatureDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-text-secondary">
+                  Signature Date
+                </FormLabel>
+                <FormControl>
+                  <Input className="text-base" {...field} disabled={true} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </form>
+
+        <ButtonLoading
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={!form.formState.isValid || !isPreviousStepsCompleted}
+          className="w-full flex items-center gap-1"
+          onClick={form.handleSubmit(onSubmit)}
+        >
+          <span>Submit application</span>
+          <ArrowRight className="w-5" />
+        </ButtonLoading>
       </Form>
-    </div>
+    </Card>
   )
 }

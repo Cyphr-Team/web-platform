@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS,
@@ -15,17 +15,33 @@ import {
 } from "../constants/form"
 import { useCreateLoanApplication } from "../hooks/useCreateLoanApplication"
 import { useNavigate, useParams } from "react-router-dom"
-
+import { isEqual } from "lodash"
 import { useSubmitLoanKybInformation } from "../hooks/useMutation/useSubmitLoanKybInformation"
 import { useSubmitLoanKycInformation } from "../hooks/useMutation/useSubmitLoanKycInformation"
 import { useMutateUploadDocument } from "../hooks/useMutation/useUploadDocumentMutation"
-import { FORM_TYPE } from "../constants/type"
+import { DocumentUploadedResponse, FORM_TYPE } from "../constants/type"
 import { useSubmitLoanFinancialInformation } from "../hooks/useMutation/useSubmitLoanFinancialInformation"
-import { useSelectCities } from "../hooks/useSelectCities"
 import { toastError } from "@/utils"
 import { useSubmitLoanConfirmation } from "../hooks/useMutation/useSubmitLoanConfirmation"
 import { useUpdateEffect } from "react-use"
+import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
+import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialForm"
+import { useQueryGetDocumentsByForm } from "../hooks/useQuery/useQueryGetDocuments"
+import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
+import {
+  formatKybForm,
+  formatKycForm,
+  reverseFormatKybForm,
+  reverseFormatKycForm
+} from "../services/form.services"
+import { useUpdateLoanKybInformation } from "../hooks/useMutation/useUpdateLoanKybInformation"
+import { useBRLoanApplicationDetailsContext } from "./BRLoanApplicationDetailsProvider"
+import { useUpdateLoanKycInformation } from "../hooks/useMutation/useUpdateLoanKycInformation"
+import { useUpdateLoanFinancialInformation } from "../hooks/useMutation/useUpdateLoanFinancialInformation"
+import { useMutateDeleteDocuments } from "../hooks/useMutation/useDeleteDocumentsMutation"
+import { useUpdateLoanApplication } from "../hooks/useMutation/useUpdateLoanRequest"
 import { APP_PATH } from "@/constants"
+import { TOAST_MSG } from "@/constants/toastMsg"
 
 type FormType = {
   [key in LOAN_APPLICATION_STEPS]:
@@ -51,6 +67,7 @@ type LoanApplicationContextType = {
   loanApplicationId: string
   isSubmitting: boolean
   draftForm: DraftApplicationForm
+  documentsUploaded: DocumentsUploaded
   setFormIsEdited: () => void
   alertDialog: LOAN_APPLICATION_STEPS | undefined
   saveDraftForm: (
@@ -61,6 +78,7 @@ type LoanApplicationContextType = {
   changeProgress: (step: LOAN_APPLICATION_STEPS) => void
   changeLoanApplicationId: (id: string) => void
   closeAlertDialog: () => void
+  removeDocumentUploaded: (id: string, type: FORM_TYPE) => void
 }
 
 export const LoanApplicationContext = createContext<LoanApplicationContextType>(
@@ -77,7 +95,12 @@ export const LoanApplicationContext = createContext<LoanApplicationContextType>(
     changeLoanApplicationId: () => {},
     setFormIsEdited: () => {},
     alertDialog: undefined,
-    closeAlertDialog: () => {}
+    closeAlertDialog: () => {},
+    documentsUploaded: {
+      financialDocuments: [],
+      kycDocuments: []
+    },
+    removeDocumentUploaded: () => {}
   }
 )
 
@@ -85,10 +108,9 @@ type Props = {
   children: React.ReactNode
 }
 
-type SubmittedFormStatus = {
-  [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: boolean
-  [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: boolean
-  [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: boolean
+type DocumentsUploaded = {
+  financialDocuments: DocumentUploadedResponse[]
+  kycDocuments: DocumentUploadedResponse[]
 }
 
 export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
@@ -96,7 +118,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     LOAN_APPLICATION_STEPS.LOAN_REQUEST
   )
   const { loanProgramId } = useParams()
-  const navigate = useNavigate()
+  const { id } = useParams()
 
   const [draftForm, setDraftForm] = useState<DraftApplicationForm>({})
 
@@ -106,33 +128,65 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
 
   const [isFormEdited, setIsFormEdited] = useState<boolean>(false)
 
-  const [submittedFormStatus, setSubmittedFormStatus] =
-    useState<SubmittedFormStatus>({
-      [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: false,
-      [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: false,
-      [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: false
-    })
+  const [documentsUploaded, setDocumentsUploaded] = useState<DocumentsUploaded>(
+    {
+      financialDocuments: [],
+      kycDocuments: []
+    }
+  )
 
   const [alertDialog, setAlertDialog] = useState<
     LOAN_APPLICATION_STEPS | undefined
   >()
 
+  const kybFormQuery = useQueryGetKybForm(id!)
+  const kycFormQuery = useQueryGetKycForm(id!)
+  const financialFormQuery = useQueryGetFinancialForm(id!)
+  const financialDocumentsQuery = useQueryGetDocumentsByForm(
+    financialFormQuery.data?.id ?? ""
+  )
+  const kycDocumentsQuery = useQueryGetDocumentsByForm(
+    kycFormQuery.data?.id ?? ""
+  )
+
+  const { loanApplicationDetails } = useBRLoanApplicationDetailsContext()
+
   const {
-    mutate: createLoanApplication,
+    mutateAsync: updateLoanApplication,
+    isPending: isUpdatingLoanApplication
+  } = useUpdateLoanApplication({ id: loanApplicationId })
+
+  const {
+    mutateAsync: createLoanApplication,
     isPending: isCreatingLoanApplication
   } = useCreateLoanApplication()
-  const { mutate: submitLoanKyb, isPending: isSubmittingLoanKyb } =
-    useSubmitLoanKybInformation()
-  const { mutate: submitLoanKyc, isPending: isSubmittingLoanKyc } =
-    useSubmitLoanKycInformation()
+  const { mutateAsync: updateLoanKyb, isPending: isUpdatingLoanKyb } =
+    useUpdateLoanKybInformation()
+  const { mutateAsync: updateLoanKyc, isPending: isUpdatingLoanKyc } =
+    useUpdateLoanKycInformation()
   const {
-    mutate: submitLoanFinancialInformation,
+    mutateAsync: updateFinancialInformation,
+    isPending: isUploadingFinancial
+  } = useUpdateLoanFinancialInformation()
+
+  const { mutateAsync: submitLoanKyb, isPending: isSubmittingLoanKyb } =
+    useSubmitLoanKybInformation()
+  const { mutateAsync: submitLoanKyc, isPending: isSubmittingLoanKyc } =
+    useSubmitLoanKycInformation()
+
+  const { mutateAsync: deleteDocuments } = useMutateDeleteDocuments()
+  const {
+    mutateAsync: submitLoanFinancialInformation,
     isPending: isSubmittingFinancialInformation
   } = useSubmitLoanFinancialInformation()
 
-  const { mutate: submitConfirmation, isPending: isSubmittingConfirmation } =
-    useSubmitLoanConfirmation()
-  const { mutateAsync, isUploading, isUploaded } = useMutateUploadDocument()
+  const {
+    mutateAsync: submitConfirmation,
+    isPending: isSubmittingConfirmation
+  } = useSubmitLoanConfirmation()
+  const { mutateAsync, isUploading } = useMutateUploadDocument()
+
+  const navigate = useNavigate()
 
   const uploadDocuments = useCallback(
     async (formId: string, files: File[], formType: FORM_TYPE) => {
@@ -178,29 +232,70 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     [isFormEdited]
   )
 
+  const handleCheckFileKycRemoved = useCallback(() => {
+    if (kycFormQuery.data) {
+      const removedFiles = kycDocumentsQuery.data?.filter(
+        (file) => !documentsUploaded.kycDocuments.includes(file)
+      )
+
+      !!removedFiles?.length &&
+        removedFiles.forEach((file) => {
+          deleteDocuments({
+            documentId: file.id,
+            formId: kycFormQuery.data.id,
+            formType: FORM_TYPE.KYC
+          })
+        })
+    }
+  }, [
+    deleteDocuments,
+    documentsUploaded.kycDocuments,
+    kycDocumentsQuery.data,
+    kycFormQuery.data
+  ])
+
+  const handleCheckFileRemovedFinancial = useCallback(() => {
+    if (financialFormQuery.data) {
+      const removedFiles = financialDocumentsQuery.data?.filter(
+        (file) => !documentsUploaded.financialDocuments.includes(file)
+      )
+
+      !!removedFiles?.length &&
+        removedFiles.forEach((file) => {
+          deleteDocuments({
+            documentId: file.id,
+            formId: financialFormQuery.data.id,
+            formType: FORM_TYPE.FINANCIAL
+          })
+        })
+    }
+  }, [
+    deleteDocuments,
+    documentsUploaded.financialDocuments,
+    financialDocumentsQuery.data,
+    financialFormQuery.data
+  ])
+
   const closeAlertDialog = useCallback(() => {
     setAlertDialog(undefined)
   }, [])
 
-  const { getStateCode } = useSelectCities()
-
-  const changeProgress = useCallback(
-    (step: LOAN_APPLICATION_STEPS) => {
-      const newProgress = progress.map((item) => {
-        if (item.step === step) {
-          if (item.status === LOAN_APPLICATION_STEP_STATUS.INCOMPLETE) {
-            return {
-              ...item,
-              status: LOAN_APPLICATION_STEP_STATUS.COMPLETE
-            }
+  const changeProgress = useCallback((step: LOAN_APPLICATION_STEPS) => {
+    setProgress((prevProgress) => {
+      return prevProgress.map((item) => {
+        if (
+          item.step === step &&
+          item.status === LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        ) {
+          return {
+            ...item,
+            status: LOAN_APPLICATION_STEP_STATUS.COMPLETE
           }
         }
         return item
       })
-      setProgress(newProgress)
-    },
-    [progress]
-  )
+    })
+  }, [])
 
   const changeLoanApplicationId = useCallback((id: string) => {
     setLoanApplicationId(id)
@@ -211,154 +306,271 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   }, [])
 
   const handleSubmitLoanKyc = useCallback(
-    (loanApplicationId: string) => {
-      if (draftForm.ownerInformationForm) {
-        const formattedData = {
-          ...draftForm.ownerInformationForm,
-          loanApplicationId: loanApplicationId,
-          hasOtherSubstantialStackHolders:
-            draftForm.ownerInformationForm.hasOtherSubstantialStackHolders ===
-            "true",
-          businessOwnershipPercentage: Number(
-            draftForm.ownerInformationForm.businessOwnershipPercentage
-          )
-        }
-        submitLoanKyc(formattedData, {
-          onSuccess: (res) => {
-            if (
-              res.data &&
-              !!draftForm.ownerInformationForm?.governmentFile.length
-            ) {
-              uploadDocuments(
-                res.data.id,
-                draftForm.ownerInformationForm.governmentFile,
-                FORM_TYPE.KYC
-              ).then(() => {
-                setSubmittedFormStatus((prev) => {
-                  return {
-                    ...prev,
-                    [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: true
-                  }
-                })
-              })
-            }
-          }
-        })
-      }
-    },
-    [draftForm.ownerInformationForm, submitLoanKyc, uploadDocuments]
-  )
+    async (loanApplicationId: string) => {
+      const { ownerInformationForm } = draftForm
+      const uploadFiles = draftForm.ownerInformationForm?.governmentFile
+      const kycFormId = kycFormQuery.data?.id
 
-  const handleSubmitLoanKyb = useCallback(
-    (loanApplicationId: string) => {
-      if (draftForm.businessInformation) {
-        const formattedData = {
-          ...draftForm.businessInformation,
-          loanApplicationId: loanApplicationId,
-          businessStreetAddress: {
-            addressLine1: draftForm.businessInformation.addressLine1,
-            addressLine2: draftForm.businessInformation.addressLine2,
-            city: draftForm.businessInformation.city,
-            state: getStateCode(draftForm.businessInformation.state),
-            postalCode: draftForm.businessInformation.postalCode
-          }
+      if (kycFormId && id) {
+        if (!kybFormQuery.data) return
+        const responseData = {
+          ...reverseFormatKycForm(kycFormQuery.data!),
+          governmentFile: uploadFiles
         }
-        submitLoanKyb(formattedData, {
-          onSuccess: (res) => {
-            if (res.data) {
-              setSubmittedFormStatus((prev) => {
-                return {
-                  ...prev,
-                  [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: true
-                }
-              })
-            }
-          }
-        })
-      }
-    },
-    [draftForm.businessInformation, getStateCode, submitLoanKyb]
-  )
 
-  const handleSubmitConfirmation = useCallback(
-    (loanApplicationId: string) => {
-      if (draftForm.confirmationForm) {
-        submitConfirmation(
+        handleCheckFileKycRemoved()
+
+        if (isEqual(responseData, ownerInformationForm)) return
+        await updateLoanKyc(
           {
-            ...draftForm.confirmationForm,
-            loanApplicationId: loanApplicationId
+            id: kycFormId,
+            ...formatKycForm(ownerInformationForm!)
           },
           {
-            onSuccess: () => {
-              navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+            onSuccess: async (res) => {
+              if (
+                res.data &&
+                !!draftForm.ownerInformationForm?.governmentFile.length
+              ) {
+                await uploadDocuments(
+                  res.data.id,
+                  draftForm.ownerInformationForm.governmentFile,
+                  FORM_TYPE.KYC
+                )
+              }
             }
           }
         )
-      }
-    },
-    [draftForm.confirmationForm, navigate, submitConfirmation]
-  )
-
-  const handleSubmitFinancialInformation = useCallback(
-    (loanApplicationId: string) => {
-      if (draftForm.financialInformationForm) {
-        submitLoanFinancialInformation(
+      } else {
+        await submitLoanKyc(
           {
-            incomeCategories: draftForm.financialInformationForm.cashflow,
-            loanApplicationId: loanApplicationId
+            loanApplicationId: loanApplicationId,
+            ...formatKycForm(ownerInformationForm!)
           },
           {
-            onSuccess: (res) => {
-              if (res.data && draftForm.financialInformationForm) {
-                if (draftForm.financialInformationForm.w2sFile.length > 0) {
-                  uploadDocuments(
-                    res.data.id,
-                    draftForm.financialInformationForm.w2sFile,
-                    FORM_TYPE.FINANCIAL
-                  ).then(() => {
-                    setSubmittedFormStatus((prev) => {
-                      return {
-                        ...prev,
-                        [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: true
-                      }
-                    })
-                  })
-                } else {
-                  setSubmittedFormStatus((prev) => {
-                    return {
-                      ...prev,
-                      [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: true
-                    }
-                  })
-                }
+            onSuccess: async (res) => {
+              if (
+                res.data &&
+                !!draftForm.ownerInformationForm?.governmentFile.length
+              ) {
+                await uploadDocuments(
+                  res.data.id,
+                  draftForm.ownerInformationForm.governmentFile,
+                  FORM_TYPE.KYC
+                )
               }
-            },
-            onError: (error) => {
-              toastError({
-                title: "Error",
-                description: error.message
-              })
             }
           }
         )
       }
     },
     [
-      draftForm.financialInformationForm,
-      submitLoanFinancialInformation,
+      draftForm,
+      handleCheckFileKycRemoved,
+      id,
+      kybFormQuery.data,
+      kycFormQuery.data,
+      submitLoanKyc,
+      updateLoanKyc,
       uploadDocuments
     ]
   )
 
-  useUpdateEffect(() => {
-    const isAllFormSubmitted = Object.values(submittedFormStatus).every(
-      (status) => status === true
-    )
+  const handleSubmitLoanKyb = useCallback(
+    async (loanApplicationId: string) => {
+      const { businessInformation } = draftForm
+      const formattedData = formatKybForm(businessInformation!)
+      const kybFormId = kybFormQuery.data?.id
 
-    if (isAllFormSubmitted && !!loanApplicationId && isUploaded) {
-      handleSubmitConfirmation(loanApplicationId)
+      if (kybFormId && id) {
+        const responseData =
+          kybFormQuery.data && reverseFormatKybForm(kybFormQuery.data)
+
+        if (isEqual(responseData, businessInformation)) return
+        await updateLoanKyb({
+          id: kybFormId,
+          ...formattedData
+        })
+      } else {
+        await submitLoanKyb({
+          loanApplicationId: loanApplicationId,
+          ...formattedData
+        })
+      }
+    },
+    [draftForm, id, kybFormQuery.data, submitLoanKyb, updateLoanKyb]
+  )
+
+  const handleSubmitConfirmation = useCallback(
+    async (loanApplicationId: string) => {
+      if (draftForm.confirmationForm) {
+        await submitConfirmation({
+          ...draftForm.confirmationForm,
+          loanApplicationId: loanApplicationId
+        })
+      }
+    },
+    [draftForm.confirmationForm, submitConfirmation]
+  )
+
+  const handleSubmitFinancialInformation = useCallback(
+    async (loanApplicationId: string) => {
+      // Extract data from draftForm and financialFormQuery for readability
+      const { financialInformationForm } = draftForm
+      const financialFormId = financialFormQuery.data?.id
+
+      if (!!financialFormId && id) {
+        handleCheckFileRemovedFinancial()
+        if (
+          isEqual(
+            financialFormQuery.data?.incomeCategories,
+            financialInformationForm?.incomeCategories
+          )
+        )
+          return
+        await updateFinancialInformation({
+          id: financialFormId,
+          incomeCategories: financialInformationForm?.incomeCategories ?? [],
+          loanApplicationId: loanApplicationId
+        })
+      } else {
+        await submitLoanFinancialInformation(
+          {
+            incomeCategories: financialInformationForm?.incomeCategories ?? [],
+            loanApplicationId: loanApplicationId
+          },
+          {
+            onSuccess: async (res) => {
+              if (res.data && financialInformationForm) {
+                if (financialInformationForm.w2sFile.length > 0) {
+                  await uploadDocuments(
+                    res.data.id,
+                    financialInformationForm.w2sFile,
+                    FORM_TYPE.FINANCIAL
+                  )
+                }
+              }
+            }
+          }
+        )
+      }
+    },
+    [
+      draftForm,
+      financialFormQuery.data,
+      handleCheckFileRemovedFinancial,
+      id,
+      submitLoanFinancialInformation,
+      updateFinancialInformation,
+      uploadDocuments
+    ]
+  )
+
+  //Update data from query to form
+  useEffect(() => {
+    if (kybFormQuery.data) {
+      const businessInformation = reverseFormatKybForm(kybFormQuery.data)
+      changeProgress(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
+      setDraftForm((prev) => {
+        return {
+          ...prev,
+          [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: businessInformation
+        }
+      })
     }
-  }, [submittedFormStatus, isUploaded])
+  }, [changeProgress, kybFormQuery.data])
+
+  useEffect(() => {
+    if (financialFormQuery.data && id) {
+      const financialInformation = {
+        ...financialFormQuery.data,
+        w2sFile: []
+      }
+      changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+      setDraftForm((prev) => {
+        return {
+          ...prev,
+          [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: financialInformation
+        }
+      })
+    }
+  }, [changeProgress, financialFormQuery.data, id])
+
+  useEffect(() => {
+    if (kycFormQuery.data && id) {
+      const kycInformation = reverseFormatKycForm(kycFormQuery.data)
+      changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+      setDraftForm((prev) => {
+        return {
+          ...prev,
+          [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: kycInformation
+        }
+      })
+    }
+  }, [changeProgress, id, kycFormQuery.data])
+
+  useEffect(() => {
+    if (loanApplicationDetails && id) {
+      changeProgress(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+      setLoanApplicationId(loanApplicationDetails.id)
+      setDraftForm((prev) => {
+        return {
+          ...prev,
+          loanRequest: {
+            loanAmount: loanApplicationDetails.loanAmount,
+            proposeUseOfLoan: loanApplicationDetails.proposeUseOfLoan,
+            loanTermInMonth: loanApplicationDetails.loanTermInMonth
+          }
+        }
+      })
+    }
+  }, [changeProgress, id, loanApplicationDetails])
+
+  useEffect(() => {
+    if (financialDocumentsQuery.data && id) {
+      setDocumentsUploaded({
+        ...documentsUploaded,
+        financialDocuments: financialDocumentsQuery.data
+      })
+    }
+  }, [changeProgress, documentsUploaded, financialDocumentsQuery.data, id])
+
+  useEffect(() => {
+    if (kycDocumentsQuery.data && id) {
+      setDocumentsUploaded({
+        ...documentsUploaded,
+        kycDocuments: kycDocumentsQuery.data
+      })
+    }
+  }, [changeProgress, documentsUploaded, id, kycDocumentsQuery.data])
+
+  const removeDocumentUploaded = useCallback(
+    (id: string, type: FORM_TYPE) => {
+      if (type === FORM_TYPE.FINANCIAL) {
+        const newDocuments = documentsUploaded.financialDocuments.filter(
+          (doc) => doc.id !== id
+        )
+        setDocumentsUploaded((prev) => {
+          return {
+            ...prev,
+            financialDocuments: newDocuments
+          }
+        })
+      }
+      if (type === FORM_TYPE.KYC) {
+        const newDocuments = documentsUploaded.kycDocuments.filter(
+          (doc) => doc.id !== id
+        )
+        setDocumentsUploaded((prev) => {
+          return {
+            ...prev,
+            kycDocuments: newDocuments
+          }
+        })
+      }
+    },
+    [documentsUploaded.financialDocuments, documentsUploaded.kycDocuments]
+  )
 
   useUpdateEffect(() => {
     if (draftForm.confirmationForm) {
@@ -366,41 +578,97 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     }
   }, [draftForm.confirmationForm])
 
-  const saveForm = useCallback(() => {
+  const saveForm = useCallback(async () => {
     if (!draftForm.loanRequest) return
-    createLoanApplication(
-      {
-        ...draftForm.loanRequest,
-        loanProgramId: loanProgramId ?? ""
-      },
-      {
-        onSuccess: (data) => {
-          if (draftForm.businessInformation) {
-            handleSubmitLoanKyb(data.data.id)
+    if (!loanApplicationId) {
+      try {
+        await createLoanApplication(
+          {
+            ...draftForm.loanRequest,
+            loanProgramId: loanProgramId ?? ""
+          },
+          {
+            onSuccess: async (data) => {
+              setLoanApplicationId(data.data.id)
+
+              try {
+                if (draftForm.businessInformation) {
+                  await handleSubmitLoanKyb(data.data.id)
+                }
+                if (draftForm.ownerInformationForm) {
+                  await handleSubmitLoanKyc(data.data.id)
+                }
+                if (draftForm.financialInformationForm) {
+                  await handleSubmitFinancialInformation(data.data.id)
+                }
+                if (draftForm.confirmationForm) {
+                  await handleSubmitConfirmation(data.data.id)
+                } else {
+                  navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+                }
+              } catch (error) {
+                toastError({
+                  title: TOAST_MSG.loanApplication.submitError.title,
+                  description: TOAST_MSG.loanApplication.submitError.description
+                })
+              }
+            },
+            onError: (error) => {
+              console.log(error)
+            }
           }
-          if (draftForm.ownerInformationForm) {
-            handleSubmitLoanKyc(data.data.id)
-          }
-          if (draftForm.financialInformationForm) {
-            handleSubmitFinancialInformation(data.data.id)
-          }
-          setLoanApplicationId(data.data.id)
-        },
-        onError: (error) => {
-          console.log(error)
-        }
+        )
+      } catch (error) {
+        toastError({
+          title: TOAST_MSG.loanApplication.submitError.title,
+          description: TOAST_MSG.loanApplication.submitError.description
+        })
+      } finally {
+        setIsFormEdited(false)
       }
-    )
+    } else {
+      try {
+        if (draftForm.loanRequest) {
+          await updateLoanApplication(draftForm.loanRequest)
+        }
+        if (draftForm.businessInformation) {
+          await handleSubmitLoanKyb(loanApplicationId)
+        }
+        if (draftForm.ownerInformationForm) {
+          await handleSubmitLoanKyc(loanApplicationId)
+        }
+        if (draftForm.financialInformationForm) {
+          await handleSubmitFinancialInformation(loanApplicationId)
+        }
+        if (draftForm.confirmationForm) {
+          await handleSubmitConfirmation(loanApplicationId)
+        } else {
+          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+        }
+      } catch (error) {
+        toastError({
+          title: TOAST_MSG.loanApplication.submitError.title,
+          description: TOAST_MSG.loanApplication.submitError.description
+        })
+      } finally {
+        setIsFormEdited(false)
+      }
+    }
   }, [
     createLoanApplication,
     draftForm.businessInformation,
+    draftForm.confirmationForm,
     draftForm.financialInformationForm,
     draftForm.loanRequest,
     draftForm.ownerInformationForm,
+    handleSubmitConfirmation,
     handleSubmitFinancialInformation,
     handleSubmitLoanKyb,
     handleSubmitLoanKyc,
-    loanProgramId
+    loanApplicationId,
+    loanProgramId,
+    navigate,
+    updateLoanApplication
   ])
 
   const saveDraftForm = useCallback(
@@ -421,14 +689,20 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
       progress,
       loanApplicationId,
       draftForm,
+      documentsUploaded,
       isSubmitting:
         isCreatingLoanApplication ||
         isSubmittingLoanKyb ||
         isSubmittingLoanKyc ||
         isSubmittingConfirmation ||
         isSubmittingFinancialInformation ||
-        isUploading,
+        isUpdatingLoanKyb ||
+        isUpdatingLoanKyc ||
+        isUpdatingLoanApplication ||
+        isUploadingFinancial,
+      isUploading,
       alertDialog,
+      removeDocumentUploaded,
       saveForm,
       saveDraftForm,
       changeStep,
@@ -440,15 +714,21 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     [
       step,
       progress,
-      alertDialog,
       loanApplicationId,
       draftForm,
+      documentsUploaded,
       isCreatingLoanApplication,
       isSubmittingLoanKyb,
       isSubmittingLoanKyc,
-      isSubmittingFinancialInformation,
       isSubmittingConfirmation,
+      isSubmittingFinancialInformation,
+      isUpdatingLoanKyb,
+      isUpdatingLoanKyc,
+      isUpdatingLoanApplication,
+      isUploadingFinancial,
       isUploading,
+      alertDialog,
+      removeDocumentUploaded,
       saveForm,
       saveDraftForm,
       changeStep,

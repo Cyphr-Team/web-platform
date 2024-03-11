@@ -1,6 +1,5 @@
 import fileIcon from "@/assets/file.svg"
 import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { DownloadDocumentButton } from "../../atoms/DownloadDocumentButton"
@@ -35,8 +34,7 @@ export const DocumentationDetails = () => {
         {!!kycDocuments?.length && (
           <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
             <h5 className="text-lg font-semibold">Government ID</h5>
-            <Separator />
-            <div className="flex flex-col gap-y-2x">
+            <div className="flex flex-col gap-y-2xl">
               {kycDocuments?.map((val) => (
                 <FileCard file={val} index={val.id} key={val.id} />
               ))}
@@ -45,8 +43,7 @@ export const DocumentationDetails = () => {
         )}
         <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
           <h5 className="text-lg font-semibold">Financial Documents</h5>
-          <Separator />
-          <div className="flex flex-col gap-y-2x">
+          <div className="flex flex-col gap-y-2xl">
             {financialDocuments?.map((val) => (
               <FileCard file={val} index={val.id} key={val.id} />
             ))}

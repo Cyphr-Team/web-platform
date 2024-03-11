@@ -94,7 +94,7 @@ export function CardWithForm() {
   })
 
   return (
-    <Card className="w-auto lg:w-[500px] rounded-xl mx-auto">
+    <Card className="rounded-xl col-span-4 col-start-3">
       <CardHeader className="text-center">
         <CardTitle className="text-lg">ARTcap Express</CardTitle>
         <CardDescription>

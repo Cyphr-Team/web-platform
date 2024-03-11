@@ -24,7 +24,10 @@ export const APP_PATH = {
     APPLICATIONS: {
       index: "/loan/applications",
       detail: "/loan/applications/:id",
-      details: (id: string) => `/loan/applications/${id}`
+      edit: "/loan/:loanProgramId/applications/:id/edit",
+      details: (id: string) => `/loan/applications/${id}`,
+      editing: (id: string, loanProgramId: string) =>
+        `/loan/${loanProgramId}/applications/${id}/edit`
     },
     LOAN_PROGRAM: {
       list: "/loan/loan-program",
@@ -121,6 +124,7 @@ export const API_PATH = {
     list: "api/user-loan/micro-loan/application/list",
     details: "api/user-loan/micro-loan/application",
     create: "api/user-loan/micro-loan/application",
+    update: (id: string) => `api/user-loan/micro-loan/application/?id=${id}`,
     detail: (id: string) => `api/user-loan/application/?id=${id}`,
     kybForm: "api/form/kyb",
     kycForm: "api/form/kyc",
@@ -128,6 +132,7 @@ export const API_PATH = {
     confirmationForm: "api/form/confirmation",
     uploadDocument: "api/form/document/upload",
     documents: "api/form/document/by-form-id",
+    deleteDocuments: "api/form/document/delete",
     getIncomeCategories: "api/form/financial/income-categories"
   },
   loanApplication: {

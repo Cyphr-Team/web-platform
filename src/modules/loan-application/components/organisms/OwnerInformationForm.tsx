@@ -19,7 +19,7 @@ import {
   ownerFormSchema
 } from "@/modules/loan-application/constants/form"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
-import { Mail } from "lucide-react"
+import { ArrowRight, Mail } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -38,6 +38,8 @@ import PhoneInput from "react-phone-number-input"
 import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { SSN_PATTERN } from "@/constants"
+import { FileUploadedCard } from "../molecules/FileUploadedCard"
+import { FORM_TYPE } from "../../constants/type"
 
 export function OwnerInformationForm() {
   const {
@@ -45,7 +47,9 @@ export function OwnerInformationForm() {
     changeStep,
     saveDraftForm,
     setFormIsEdited,
-    draftForm
+    draftForm,
+    documentsUploaded,
+    removeDocumentUploaded
   } = useLoanApplicationContext()
 
   const defaultValues = {
@@ -108,7 +112,15 @@ export function OwnerInformationForm() {
   const handleRemoveFile = (index: number) => {
     const currentFiles = form.getValues("governmentFile")
     const newFiles = currentFiles.filter((_, i) => i !== index)
-    form.setValue("governmentFile", newFiles)
+    form.setValue("governmentFile", newFiles, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+  }
+
+  const removeDocument = (id: string) => {
+    removeDocumentUploaded(id, FORM_TYPE.KYC)
   }
 
   const handleSelectDate = (date: Date | undefined) => {
@@ -156,7 +168,7 @@ export function OwnerInformationForm() {
   }
 
   return (
-    <div className="flex flex-col flex-1 gap-3xl overflow-auto">
+    <div className="flex flex-col col-span-6 col-start-2 gap-3xl overflow-auto">
       <Form {...form}>
         <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
           <h5 className="text-lg font-semibold">Owner Information</h5>
@@ -411,20 +423,27 @@ export function OwnerInformationForm() {
                         handleRemoveFile={handleRemoveFile}
                       />
                     )
-                  )}
+                  )}{" "}
+                {!!documentsUploaded.kycDocuments.length &&
+                  documentsUploaded.kycDocuments.map((val) => (
+                    <FileUploadedCard
+                      key={val.id}
+                      file={val}
+                      handleRemoveFile={removeDocument}
+                    />
+                  ))}
                 <FormMessage />
               </FormItem>
             )}
           />
         </Card>
-        <div className="flex justify-end">
-          <Button
-            disabled={!form.formState.isValid}
-            onClick={form.handleSubmit(onSubmit)}
-          >
-            Save
-          </Button>
-        </div>
+
+        <Button
+          disabled={!form.formState.isValid}
+          onClick={form.handleSubmit(onSubmit)}
+        >
+          Next <ArrowRight className="ml-1 w-4" />
+        </Button>
       </Form>
     </div>
   )

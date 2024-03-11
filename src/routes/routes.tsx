@@ -14,6 +14,7 @@ import {
 } from "react-router-dom"
 import { userLoader } from "./loader"
 import { handleCrumb } from "@/utils/crumb.utils"
+import { LoanApplicationEdit } from "@/modules/loan-application/pages/LoanApplicationEdit"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -248,6 +249,20 @@ const routes = createBrowserRouter(
             }
           />
         </Route>
+
+        <Route
+          path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
+          element={
+            <BRLoanApplicationDetailsProvider>
+              <LoanApplicationProvider>
+                <SideNavLoanApplication />
+                <div className="md:ml-36 w-full overflow-auto flex flex-col">
+                  <LoanApplicationEdit />
+                </div>
+              </LoanApplicationProvider>
+            </BRLoanApplicationDetailsProvider>
+          }
+        />
 
         <Route
           element={

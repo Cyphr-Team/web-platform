@@ -66,7 +66,7 @@ export const Component = () => {
           <div className="pt-2 sticky top-0 z-10 bg-white shadow-md mb-4 px-2">
             <LoanApplicationStepNavigate />
           </div>
-          <div className="mx-auto w-[80%] xl:w-[70%] ">
+          <div className="grid grid-cols-8">
             {step === LOAN_APPLICATION_STEPS.LOAN_REQUEST && <LoanRequest />}
             {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
               <BusinessInformationForm />

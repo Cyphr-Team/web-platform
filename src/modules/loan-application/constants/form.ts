@@ -29,13 +29,11 @@ export const ownerFormSchema = z.object({
     .min(1, { message: "This field is required" }),
   governmentFile: z.custom<File[]>().refine(
     (fileList) => {
-      if (fileList) {
-        if (fileList.length === 0) return false
+      if (fileList?.length) {
         const fileArray = Array.from(fileList)
-
         return ACCEPTED_FILE_TYPES.includes(fileArray[0].type)
       }
-      return false
+      return true
     },
     {
       message: "Please choose PNG, JPG, PDF format files only"
@@ -58,12 +56,21 @@ export const businessFormSchema = z.object({
 })
 
 export const financialFormSchema = z.object({
-  cashflow: z.string().array().min(1, { message: "This field is required" }),
-  w2sFile: z
-    .custom<File[]>()
-    .refine((file) => file && ACCEPTED_FILE_TYPES.includes(file[0]?.type), {
+  incomeCategories: z
+    .string()
+    .array()
+    .min(1, { message: "This field is required" }),
+  w2sFile: z.custom<File[]>().refine(
+    (file) => {
+      if (file?.length) {
+        return file && ACCEPTED_FILE_TYPES.includes(file[0]?.type)
+      }
+      return true
+    },
+    {
       message: "Please choose PNG, JPG, PDF format files only"
-    })
+    }
+  )
 })
 
 export const confirmationFormSchema = z.object({

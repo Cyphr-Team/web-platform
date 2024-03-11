@@ -74,7 +74,7 @@ interface UserLoanApplicationRequest {
   loanAmount: number
   loanTermInMonth: number
   proposeUseOfLoan: string
-  loanProgramId: string
+  loanProgramId?: string
 }
 
 export type {

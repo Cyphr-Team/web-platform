@@ -20,6 +20,7 @@ import { useCallback, useEffect } from "react"
 import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 import { MaskInput, revertPattern, toPattern } from "@/components/ui/mask-input"
+import { ArrowRight } from "lucide-react"
 
 export const BusinessInformationForm = () => {
   const {
@@ -100,104 +101,100 @@ export const BusinessInformationForm = () => {
   )
 
   return (
-    <div className="flex flex-col flex-1 gap-3xl">
-      <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
-        <h5 className="text-lg font-semibold">Business Information</h5>
-        <Separator />
-        <Form {...form}>
-          <form className="grid grid-cols-3 gap-y-2xl gap-x-4xl">
-            <TextInput
-              placeholder="i.e: Larry's Latte"
-              label="Business Legal Name"
-              control={form.control}
-              name="businessLegalName"
-              className="col-span-3"
-            />
-            <TextInput
-              placeholder="i.e: 123 Coffee Lane"
-              label="Business Street Address Line #1"
-              name="addressLine1"
-              control={form.control}
-              className="col-span-3"
-            />{" "}
-            <TextInput
-              placeholder="i.e: Suite 321"
-              label="Business Street Address Line #2 (Optional)"
-              name="addressLine2"
-              control={form.control}
-              className="col-span-3"
-            />
-            <AutoCompleteStates
-              options={STATE_DATA}
-              label="Business State"
-              emptyText="No results found"
-              name="state"
-              control={form.control}
-              onChange={handleChangeState}
-              value={form.getValues("state")}
-              className="col-span-3 lg:col-span-1"
-            />
-            <AutoCompleteCities
-              options={
-                STATE_DATA.find((s) => s.name === form.getValues("state"))
-                  ?.cities ?? []
-              }
-              label="Business City"
-              emptyText="No results found"
-              name="city"
-              control={form.control}
-              onChange={handleChangeCity}
-              value={form.getValues("city")}
-              className="col-span-3 lg:col-span-1"
-            />
-            <TextInput
-              placeholder="i.e: 97531"
-              label="Business Zip Code"
-              name="postalCode"
-              control={form.control}
-              className="col-span-3 lg:col-span-1"
-            />
-            <FormField
-              control={form.control}
-              name={"businessTin"}
-              render={({ field }) => (
-                <FormItem className="col-span-3">
-                  <FormLabel className="text-text-secondary">
-                    Employer Identification Number (EIN)
-                  </FormLabel>
-                  <FormControl>
-                    <MaskInput
-                      placeholder="i.e: 12-3456789"
-                      handleChange={handleChangeEIN}
-                      className="text-base"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <TextInput
-              placeholder="www.larryslatte.com"
-              label="Business Website"
-              name="businessWebsite"
-              control={form.control}
-              className="col-span-3"
-              inputClassName="pl-16"
-              prefix="https://"
-              prefixIcon={<p className="text-text-secondary">https://</p>}
-            />
-          </form>
-        </Form>
-      </Card>
-      <div className="flex justify-end">
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Save
-        </Button>
-      </div>
-    </div>
+    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-6 col-start-2">
+      <h5 className="text-lg font-semibold">Business Information</h5>
+      <Separator />
+      <Form {...form}>
+        <form className="grid grid-cols-3 gap-y-2xl gap-x-4xl">
+          <TextInput
+            placeholder="i.e: Larry's Latte"
+            label="Business Legal Name"
+            control={form.control}
+            name="businessLegalName"
+            className="col-span-3"
+          />
+          <TextInput
+            placeholder="i.e: 123 Coffee Lane"
+            label="Business Street Address Line #1"
+            name="addressLine1"
+            control={form.control}
+            className="col-span-3"
+          />{" "}
+          <TextInput
+            placeholder="i.e: Suite 321"
+            label="Business Street Address Line #2 (Optional)"
+            name="addressLine2"
+            control={form.control}
+            className="col-span-3"
+          />
+          <AutoCompleteStates
+            options={STATE_DATA}
+            label="Business State"
+            emptyText="No results found"
+            name="state"
+            control={form.control}
+            onChange={handleChangeState}
+            value={form.getValues("state")}
+            className="col-span-3 lg:col-span-1"
+          />
+          <AutoCompleteCities
+            options={
+              STATE_DATA.find((s) => s.name === form.getValues("state"))
+                ?.cities ?? []
+            }
+            label="Business City"
+            emptyText="No results found"
+            name="city"
+            control={form.control}
+            onChange={handleChangeCity}
+            value={form.getValues("city")}
+            className="col-span-3 lg:col-span-1"
+          />
+          <TextInput
+            placeholder="i.e: 97531"
+            label="Business Zip Code"
+            name="postalCode"
+            control={form.control}
+            className="col-span-3 lg:col-span-1"
+          />
+          <FormField
+            control={form.control}
+            name={"businessTin"}
+            render={({ field }) => (
+              <FormItem className="col-span-3">
+                <FormLabel className="text-text-secondary">
+                  Employer Identification Number (EIN)
+                </FormLabel>
+                <FormControl>
+                  <MaskInput
+                    placeholder="i.e: 12-3456789"
+                    handleChange={handleChangeEIN}
+                    className="text-base"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <TextInput
+            placeholder="www.larryslatte.com"
+            label="Business Website"
+            name="businessWebsite"
+            control={form.control}
+            className="col-span-3"
+            inputClassName="pl-16"
+            prefix="https://"
+            prefixIcon={<p className="text-text-secondary">https://</p>}
+          />
+        </form>
+      </Form>
+      <Button
+        disabled={!form.formState.isValid}
+        onClick={form.handleSubmit(onSubmit)}
+      >
+        Next <ArrowRight className="ml-1 w-4" />
+      </Button>
+    </Card>
   )
 }

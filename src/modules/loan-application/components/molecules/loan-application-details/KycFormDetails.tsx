@@ -1,15 +1,14 @@
 import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { TextInputDisplay } from "../../atoms/TextInputDisplay"
 import { formatPhoneNumber } from "@/utils"
+import { formatBirthday } from "@/utils/date.utils"
 
 export const KycFormDetails = () => {
   const { kycFormData } = useBRLoanApplicationDetailsContext()
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
       <h5 className="text-lg font-semibold">Owner Information</h5>
-      <Separator />
       <div className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
         <TextInputDisplay
           className="col-span-3"
@@ -59,7 +58,7 @@ export const KycFormDetails = () => {
         <TextInputDisplay
           className="col-span-3"
           label="Date of Birth"
-          value={kycFormData?.dateOfBirth}
+          value={formatBirthday(kycFormData?.dateOfBirth)}
         />
         <TextInputDisplay
           className="col-span-3"

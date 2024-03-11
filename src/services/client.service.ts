@@ -55,6 +55,7 @@ export const postRequest = <T, R>({
   path,
   config,
   customHeader,
+  params,
   data
 }: PostParams<T>) => {
   const token = inMemoryJWTService.getToken()
@@ -64,6 +65,7 @@ export const postRequest = <T, R>({
       Authorization: `Bearer ${token}`,
       ...customHeader
     },
+    params,
     ...config
   })
 }

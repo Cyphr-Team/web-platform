@@ -2,7 +2,8 @@ import { LoanDecisionEnum } from "@/modules/loan-application-management/constant
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 
 export interface KYBInformation {
-  loanApplicationId: string
+  id?: string
+  loanApplicationId?: string
   businessLegalName: string
   businessStreetAddress: BusinessStreetAddress
   businessWebsite: string
@@ -29,7 +30,8 @@ interface BusinessStreetAddress {
 }
 
 export interface KYCInformation {
-  loanApplicationId: string
+  id?: string
+  loanApplicationId?: string
   fullName: string
   businessRole: string
   addressLine1: string
@@ -85,7 +87,8 @@ export interface LoanProgramData {
 }
 
 export interface FinancialInformation {
-  loanApplicationId: string
+  id?: string
+  loanApplicationId?: string
   incomeCategories: string[]
 }
 
