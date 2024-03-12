@@ -63,7 +63,7 @@ export function LoanApplicationTableHeader({
                   <Input
                     prefixIcon={<Search className="h-5 w-5 opacity-50" />}
                     type="text"
-                    placeholder="Applicant name or ID"
+                    placeholder="Business name or ID"
                     className="pl-9"
                     autoComplete="new-password"
                     {...field}
@@ -91,7 +91,7 @@ export function LoanApplicationTableHeader({
             name="type"
             render={({ field }) => (
               <MultiSelect
-                label="Loan Product"
+                label="Loan Program"
                 name="type"
                 field={field}
                 options={LOAN_PRODUCTS}

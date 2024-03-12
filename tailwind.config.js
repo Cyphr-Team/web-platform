@@ -17,6 +17,9 @@ module.exports = {
       }
     },
     extend: {
+      aria: {
+        invalid: 'invalid="true"'
+      },
       fontFamily: {
         sans: ['"Inter"', "sans-serif"]
       },

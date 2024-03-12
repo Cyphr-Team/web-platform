@@ -48,6 +48,7 @@ interface LoanApplication {
   loanAmount: number
   status: LoanApplicationStatus
   progress: number
+  businessName?: string
 }
 interface LoanProgram {
   id: string

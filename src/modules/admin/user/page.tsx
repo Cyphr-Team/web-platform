@@ -3,6 +3,9 @@ import { User, columns } from "./table/columns"
 import { DataTable } from "@/components/ui/data-table"
 import { DialogSendInvite } from "./components/DialogSendInvitation"
 import { UserRoles } from "@/types/user.type"
+import { useState } from "react"
+import { PaginationState } from "@tanstack/react-table"
+import { REQUEST_LIMIT_PARAM } from "@/constants"
 
 async function getData(): Promise<User[]> {
   return [
@@ -25,10 +28,21 @@ export async function loader() {
 export function Component() {
   const data = useLoaderData() as User[]
 
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: REQUEST_LIMIT_PARAM
+  })
+
   return (
     <div className="container mx-auto py-10">
       <DialogSendInvite />
-      <DataTable columns={columns} data={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        total={1}
+        pagination={pagination}
+        setPagination={setPagination}
+      />
     </div>
   )
 }

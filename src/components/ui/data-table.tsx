@@ -1,16 +1,11 @@
-import * as React from "react"
 import {
   ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  OnChangeFn,
+  PaginationState,
+  Row,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  getPaginationRowModel,
-  useReactTable,
-  Row
+  useReactTable
 } from "@tanstack/react-table"
 
 import {
@@ -22,63 +17,65 @@ import {
   TableRow
 } from "@/components/ui/table"
 
-import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
-import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
 import { cn } from "@/lib/utils"
+import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
+import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
+import { Loader2 } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   isFilterView?: boolean
   handleClickDetail?: (row: Row<TData>) => void
+  pagination?: PaginationState
+  setPagination?: OnChangeFn<PaginationState>
+  total: number
+  isLoading?: boolean
+  tableContainerClassName?: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   isFilterView,
-  handleClickDetail
+  handleClickDetail,
+  pagination,
+  setPagination,
+  total,
+  isLoading,
+  tableContainerClassName
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-
   const table = useReactTable({
     data,
     columns,
+    rowCount: total,
+    state: { pagination },
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection
-    }
+    manualPagination: !!pagination
   })
 
   return (
-    <div>
+    <div className={tableContainerClassName}>
       <div className="flex items-center py-3">
         {isFilterView && <DataTableViewOptions table={table} />}
       </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader className="bg-gray-100 bg-opacity-50">
+      <div className="rounded-md border relative max-h-full overflow-auto">
+        {isLoading && (
+          <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
+            <div className="sticky top-12 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
+              <Loader2 className="w-10 h-10 animate-spin text-primary" />{" "}
+              Loading...
+            </div>
+          </div>
+        )}
+        <Table className="text-sm">
+          <TableHeader className="bg-gray-100 sticky top-0">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-sm font-medium">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -116,16 +113,18 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {!isLoading && "No results."}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <DataTablePagination table={table} />
-      </div>
+      {!!pagination && (
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <DataTablePagination table={table} />
+        </div>
+      )}
     </div>
   )
 }

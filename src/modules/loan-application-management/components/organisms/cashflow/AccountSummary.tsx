@@ -204,7 +204,11 @@ const adjustColumns = columns.map((c) => ({
 export const AccountSummaryTable = () => {
   return (
     <div className="text-sm text-right">
-      <DataTable columns={adjustColumns} data={FAKE_ACCOUNT_SUMMARY_DATA} />
+      <DataTable
+        columns={adjustColumns}
+        data={FAKE_ACCOUNT_SUMMARY_DATA}
+        total={FAKE_ACCOUNT_SUMMARY_DATA.length}
+      />
     </div>
   )
 }

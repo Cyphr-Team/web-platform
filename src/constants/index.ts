@@ -206,6 +206,6 @@ export const PASSWORD_REGEX = {
 
 // QUERY REQUEST
 
-export const REQUEST_LIMIT_PARAM = 50
+export const REQUEST_LIMIT_PARAM = 25
 
 export const MAX_REMEMBER_ME_DAYS = 30

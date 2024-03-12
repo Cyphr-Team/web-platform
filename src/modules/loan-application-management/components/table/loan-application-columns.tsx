@@ -1,16 +1,18 @@
-import { ColumnDef } from "@tanstack/react-table"
-import { Progress } from "@/components/ui/progress"
-import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
-import { LoanApplication } from "@/types/loan-application.type"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
+import { LoanApplication } from "@/types/loan-application.type"
 import { snakeCaseToText } from "@/utils"
+import { ColumnDef } from "@tanstack/react-table"
 import { getBadgeVariantByStatus } from "../../services"
+
+import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
+import { format } from "date-fns"
+import { ButtonReviewLoanApplication } from "../atoms/ButtonReviewLoanApplication"
 
 export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
@@ -22,8 +24,8 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
       return (
         <TooltipProvider>
           <Tooltip delayDuration={0}>
-            <TooltipTrigger>
-              {`${application.id}`.substring(application.id.length - 4)}
+            <TooltipTrigger className="font-medium">
+              #{`${application.id}`.substring(application.id.length - 4)}
             </TooltipTrigger>
             <TooltipContent side="right">{`${application.id}`}</TooltipContent>
           </Tooltip>
@@ -36,30 +38,23 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   },
   {
     id: "applicant",
-    accessorKey: "username",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Applicant" />
-    ),
+    accessorKey: "businessName",
+    header: "Business name",
     cell: ({ row }) => {
       const application = row.original
 
       return (
         <div className="min-w-0">
-          <p className="truncate">{application.applicant.name}</p>
-          <p className="text-sm text-muted-foreground mt-0.5 truncate ">
-            {application.applicant.email}
-          </p>
+          <p className="truncate">{application.businessName ?? "N/A"}</p>
         </div>
       )
     },
-    size: 200
+    size: 250
   },
   {
     accessorKey: "programType",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loan Product" />
-    ),
-    size: 150,
+    header: "Loan program",
+    size: 200,
     cell: ({ row }) => {
       const application = row.original
 
@@ -72,10 +67,8 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   },
   {
     accessorKey: "loanAmount",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loan Amount" />
-    ),
-    size: 150,
+    header: () => <p className="text-right">Amount requested</p>,
+    size: 100,
     cell: ({ row }) => {
       const application = row.original
       const amount = parseFloat(application.loanAmount + "")
@@ -85,21 +78,35 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
       }).format(amount)
 
       return (
-        <div className="font-medium">{isNaN(amount) ? "N/A" : formatted}</div>
+        <div className="text-right">{isNaN(amount) ? "N/A" : formatted}</div>
+      )
+    }
+  },
+  {
+    accessorKey: "createdAt",
+    header: () => <p>Created on</p>,
+    size: 150,
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div>
+          {application.createdAt
+            ? format(application.createdAt, FORMAT_DATE_M_D_Y)
+            : "N/A"}
+        </div>
       )
     }
   },
   {
     accessorKey: "status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
-    ),
-    size: 200,
+    header: "Status",
+    size: 150,
     cell: ({ row }) => {
       const application = row.original
 
       return (
-        <div className="font-medium">
+        <div>
           <Badge
             isDot
             variant="soft"
@@ -113,24 +120,9 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     }
   },
   {
-    accessorKey: "progress",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Progress" />
-    ),
-    size: 200,
+    id: "action",
     cell: ({ row }) => {
-      const application = row.original
-
-      return (
-        <div className="flex space-x-3 items-center mr-2 flex-1">
-          <Progress
-            value={+application.progress}
-            className="h-2 flex-shrink-0"
-          />
-          <p className="whitespace-nowrap">{application.progress}%</p>
-        </div>
-      )
+      return <ButtonReviewLoanApplication loanApplicationId={row.original.id} />
     }
-  },
-  { id: "preventCrashUI", size: 0 }
+  }
 ]

@@ -95,7 +95,8 @@ export const ChangeApplicationStatusButton = () => {
   })
 
   const isAbleToUpdateDecision =
-    data?.toUpperCase() === LoanApplicationStatus.IN_REVIEW
+    data?.toUpperCase() === LoanApplicationStatus.IN_REVIEW &&
+    !loanApplicationDetails?.loanProgram?.deletedAt
 
   if (isLoading)
     return <Skeleton className="w-40 h-8 self-start md:self-center" />

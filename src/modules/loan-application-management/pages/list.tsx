@@ -1,37 +1,29 @@
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
-import { useNavigate } from "react-router-dom"
 
-import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
-import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
+import { DataTable } from "@/components/ui/data-table"
+import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
-import { LoanApplication } from "@/types/loan-application.type"
-import { Row } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
 import { loanApplicationColumns } from "../components/table/loan-application-columns"
 import { LoanApplicationTableHeader } from "../components/table/loan-application-header"
-import {
-  FilterParams,
-  useQueryListLoanApplication
-} from "../hooks/useQuery/useQueryListLoanApplication"
+import { FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
+import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryListPaginateLoanApplication"
+import { PaginationState } from "@tanstack/react-table"
 
 export function Component() {
-  const navigate = useNavigate()
   const [filterParams, setFilterParams] = useState<FilterParams>()
 
   const crumbs = useBreadcrumb()
 
-  const handleClickDetail = (detail: Row<LoanApplication>) => {
-    navigate(
-      APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
-        detail.original.id
-      )
-    )
-  }
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: REQUEST_LIMIT_PARAM
+  })
 
-  const { data, fetchNextPage, isFetching } = useQueryListLoanApplication({
-    limit: REQUEST_LIMIT_PARAM,
-    offset: 0,
+  const { data, isFetching } = useQueryListPaginateLoanApplication({
+    limit: pagination.pageSize,
+    offset: pagination.pageIndex * pagination.pageSize,
     ...filterParams
   })
 
@@ -39,6 +31,10 @@ export function Component() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = useCallback(
     debounce((formValues: FilterParams) => {
+      setPagination((preState) => ({
+        ...preState,
+        pageIndex: 0
+      }))
       setFilterParams(formValues)
     }, 400),
     []
@@ -50,15 +46,19 @@ export function Component() {
         <Breadcrumbs breads={crumbs} className="px-0" />
       </div>
       <h1 className="mb-3xl text-3xl font-semibold">Loan Applications</h1>
+
       <div className="bg-gray-100 bg-opacity-60 p-5 rounded-lg">
         <LoanApplicationTableHeader onSearch={handleSearch} />
       </div>
-      <InfiniteDataTable
-        handleClickDetail={handleClickDetail}
+
+      <DataTable
+        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
+        isLoading={isFetching}
         columns={loanApplicationColumns}
-        data={data}
-        fetchNextPage={fetchNextPage}
-        isFetching={isFetching}
+        data={data?.data ?? []}
+        total={data?.total ?? 0}
+        pagination={pagination}
+        setPagination={setPagination}
       />
     </div>
   )
