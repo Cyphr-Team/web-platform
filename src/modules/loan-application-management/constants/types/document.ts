@@ -1,4 +1,9 @@
-import { SignalsDetectType, VisualizationType } from "../type"
+import {
+  AuthenticityReason,
+  SignalsDetectType,
+  SignalsType,
+  VisualizationType
+} from "../type"
 
 export type BankStatementType = {
   transactions: BankTransaction[]
@@ -102,26 +107,23 @@ export enum DocumentType {
   PAY_STUB = "paystub"
 }
 
+export type AuthenticityType = {
+  score: number
+  reasonCode: AuthenticityReason[]
+}
+
 export type DocumentDetailsType = {
   documentType: DocumentType
   documentStatus: string
   detect: {
-    data: DocumentDetectType[]
+    visualizations: DocumentVisualization[]
+    signals: SignalsType[]
+    formAuthenticity: AuthenticityType
   }
   capture: PayStubCapturedType | BankStatementType | W2DocumentType
-  visualizations: VisualizationType[]
 }
 
-export type DocumentVisualizationType = {
-  documentType: DocumentType
-  documentStatus: string
-  detect: {
-    visualizations: DocumentVisualization[]
-    signals: SignalsDetectType[]
-  }
-}
-
-type DocumentVisualization = {
+export type DocumentVisualization = {
   pageNumber: number
   pageVisualizations: PageVisualization[]
 }

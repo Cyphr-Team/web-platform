@@ -1,16 +1,22 @@
-import { AuthenticityType } from "@/modules/loan-application-management/constants/type"
-import { getClassNameFromStatus } from "@/modules/loan-application-management/services"
+import {
+  getAuthenticityDataByScore,
+  getClassNameFromStatus
+} from "@/modules/loan-application-management/services"
 import React from "react"
 import { cn } from "@/lib/utils"
+import { AuthenticityType } from "@/modules/loan-application-management/constants/types/document"
 
 type Props = {
-  authenticityData?: AuthenticityType
+  authenticity?: AuthenticityType
 }
 
-export const AuthenticityScore: React.FC<Props> = ({ authenticityData }) => {
-  if (!authenticityData) {
+export const AuthenticityScore: React.FC<Props> = ({ authenticity }) => {
+  if (!authenticity) {
     return null
   }
+
+  const authenticityData = getAuthenticityDataByScore(authenticity?.score)
+
   const className = getClassNameFromStatus(authenticityData?.authenticityLevel)
 
   const backgroundByStatus = {
@@ -47,13 +53,13 @@ export const AuthenticityScore: React.FC<Props> = ({ authenticityData }) => {
 
         <div>
           <p className="text-sm font-normal">
-            <b>{authenticityData?.title}: </b>
+            <b>{`Authenticity score ${authenticity.score}/100`}: </b>
             {authenticityData?.description}
           </p>
         </div>
       </div>
       <ul className="p-xl pl-3xl list-disc text-sm font-normal">
-        {authenticityData?.reasonCodeDescription?.map((reason, index) => (
+        {authenticity?.reasonCode?.map((reason, index) => (
           <li key={index}>
             <span
               className="data-[highlighted=true]:text-text-error first-letter:capitalize block"

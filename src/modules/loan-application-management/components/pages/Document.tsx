@@ -9,6 +9,7 @@ import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
 import { DocumentTableHeader } from "../table/document-header"
 import { useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
+import { ButtonLoading } from "@/components/ui/button"
 
 export function Component() {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ export function Component() {
     )
   }
 
-  const { data, fetchNextPage, isFetching } = useQueryDocument({
+  const { data, fetchNextPage, isFetching, refetch } = useQueryDocument({
     keyword: keyword,
     limit: REQUEST_LIMIT_PARAM,
     offset: 0
@@ -43,8 +44,16 @@ export function Component() {
           Documents and assets that have been attached to this loan application
         </p>
       </div>
-      <div className="border py-3 px-4 -mb-6 border-t-0">
+      <div className="border py-3 px-4 -mb-6 border-t-0 flex justify-between">
         <DocumentTableHeader onSearch={handleSearch} />
+        <ButtonLoading
+          onClick={() => refetch()}
+          variant="secondary"
+          size="sm"
+          isLoading={isFetching}
+        >
+          Refresh
+        </ButtonLoading>
       </div>
       <InfiniteDataTable
         className="rounded-t-none border-t-0"

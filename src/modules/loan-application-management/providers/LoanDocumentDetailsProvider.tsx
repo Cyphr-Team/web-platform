@@ -8,11 +8,7 @@ import {
 import { VISUALIZATION_DESCRIPTION } from "../constants"
 import { useQueryGetDocumentDetails } from "../hooks/useQuery/useQueryDocumentDetails"
 import { useParams } from "react-router-dom"
-import {
-  DocumentDetailsType,
-  DocumentVisualizationType
-} from "../constants/types/document"
-import { useQueryGetDocumentVisualizations } from "../hooks/useQuery/useQueryDocumentVisualizations"
+import { DocumentDetailsType } from "../constants/types/document"
 import { fetchProtectedImage } from "@/utils"
 import { API_PATH } from "@/constants"
 
@@ -84,13 +80,8 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
     documentId: params.documentId ?? ""
   })
 
-  const documentVisualizationData = useQueryGetDocumentVisualizations({
-    applicationId: params.id ?? "",
-    documentId: params.documentId ?? ""
-  })
-
   const transformVisualizationData = useCallback(
-    async (data: DocumentVisualizationType): Promise<VisualizationType> => {
+    async (data: DocumentDetailsType): Promise<VisualizationType> => {
       const path = API_PATH.loanApplicationDetails.getVisualizationImage(
         params?.id ?? "",
         params?.documentId ?? ""
@@ -142,20 +133,18 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
   )
 
   useEffect(() => {
-    if (documentVisualizationData.data) {
-      transformVisualizationData(documentVisualizationData.data).then(
-        (data) => {
-          setVisualizationDetails(data)
-          setSelectedPage(data.visualizationsByPage[0])
-          if (data.visualizationsByPage[0]?.visualizations[0]) {
-            setSelectedVisualization(
-              data.visualizationsByPage[0].visualizations[0]
-            )
-          }
+    if (documentDetails.data) {
+      transformVisualizationData(documentDetails.data).then((data) => {
+        setVisualizationDetails(data)
+        setSelectedPage(data.visualizationsByPage[0])
+        if (data.visualizationsByPage[0]?.visualizations[0]) {
+          setSelectedVisualization(
+            data.visualizationsByPage[0].visualizations[0]
+          )
         }
-      )
+      })
     }
-  }, [documentVisualizationData.data, transformVisualizationData])
+  }, [documentDetails.data, transformVisualizationData])
 
   const providerValue = useMemo(
     () => ({

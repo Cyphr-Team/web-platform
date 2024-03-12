@@ -172,3 +172,28 @@ export const getApplicationTipByStatus = (
       return "This application is in processing with 3rd party."
   }
 }
+
+export const getAuthenticityDataByScore = (score: number) => {
+  if (score >= 80) {
+    return {
+      authenticityLevel: AUTHENTICITY_LEVEL.HIGH,
+      description:
+        "We did not find evidence of tampering / fraud on this document.",
+      authenticityLevelColor: "#00A86B"
+    }
+  } else if (score >= 50 && score < 80) {
+    return {
+      authenticityLevel: AUTHENTICITY_LEVEL.MEDIUM,
+      description:
+        "We recommend manually reviewing this document as suspicious signals were found.",
+      authenticityLevelColor: "#FFA500"
+    }
+  } else {
+    return {
+      authenticityLevel: AUTHENTICITY_LEVEL.LOW,
+      description:
+        "Based on the below reason codes, we do not believe this document to be authentic.",
+      authenticityLevelColor: "#FF0000"
+    }
+  }
+}

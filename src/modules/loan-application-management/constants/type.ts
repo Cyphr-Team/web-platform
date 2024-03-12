@@ -76,8 +76,12 @@ export type SignalsType = {
   tabularData: TabularData
 }
 
+type TabularHeader = {
+  [key: string]: string
+}
+
 export type TabularData = {
-  headers: string[]
+  headers: TabularHeader[]
   rows: TabularDataRows[]
 }
 
@@ -90,7 +94,7 @@ export type SignalsDetectType = {
   signalCount: number
 }
 
-export type AuthenticityType = {
+type AuthenticityType = {
   authenticityLevel: AUTHENTICITY_LEVEL
   title: string
   description: string

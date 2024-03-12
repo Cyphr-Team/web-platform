@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Minus, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { camelCaseToText, capitalizeWords } from "@/utils"
 
 type Props = {
   signalsData: SignalsType
@@ -56,29 +57,34 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
             <Table className="text-xs">
               <TableHeader>
                 <TableRow>
-                  {signalsData.tabularData?.headers?.map((header) => (
-                    <TableHead
-                      key={header}
-                      className="text-black py-2 relative"
-                    >
-                      <TooltipProvider>
-                        <Tooltip delayDuration={0}>
-                          <TooltipTrigger>
-                            <span className="whitespace-nowrap overflow-hidden text-ellipsis absolute left-1 right-1">
-                              {header}
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent
-                            side="bottom"
-                            sideOffset={20}
-                            className="text-white bg-black p-1"
-                          >
-                            <p className="text-xs">{header}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </TableHead>
-                  ))}
+                  {signalsData.tabularData?.headers?.map((header) => {
+                    const headerKey = capitalizeWords(
+                      camelCaseToText(Object.keys(header)[0])
+                    )
+                    return (
+                      <TableHead
+                        key={headerKey}
+                        className="text-black py-2 relative"
+                      >
+                        <TooltipProvider>
+                          <Tooltip delayDuration={0}>
+                            <TooltipTrigger>
+                              <span className="whitespace-nowrap overflow-hidden text-ellipsis absolute left-1 right-1">
+                                {headerKey}
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent
+                              side="bottom"
+                              sideOffset={20}
+                              className="text-white bg-black p-1"
+                            >
+                              <p className="text-xs">{headerKey}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </TableHead>
+                    )
+                  })}
                 </TableRow>
               </TableHeader>
               <TableBody>

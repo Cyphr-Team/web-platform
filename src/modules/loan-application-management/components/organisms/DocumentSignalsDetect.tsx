@@ -5,15 +5,18 @@ import { useLoanDocumentDetailsContext } from "../../providers/LoanDocumentDetai
 
 export const DocumentSignalsDetect: React.FC = () => {
   const { documentDetails } = useLoanDocumentDetailsContext()
-  const signalsData = documentDetails?.detect.data[0].detectData
+  const signalsData = documentDetails?.detect.signals
+  const authenticityData = documentDetails?.detect.formAuthenticity
   return (
     <div className="flex flex-col lg:w-96 gap-3 overflow-y-auto">
-      <AuthenticityScore authenticityData={signalsData?.formAuthenticity} />
+      {!!authenticityData && (
+        <AuthenticityScore authenticity={authenticityData} />
+      )}
       <div className="flex flex-col">
         <p className="text-sm text-text-secondary border-b py-3">
-          {signalsData?.signalCount} Signals in Document
+          {signalsData?.length} Signals in Document
         </p>
-        {signalsData?.signals?.map((signal) =>
+        {signalsData?.map((signal) =>
           signal.signalCount > 0 ? (
             <SignalsDetectedRow
               key={signal?.signalDisplayName}
