@@ -3,10 +3,10 @@ import { RoleBase } from "@/shared/molecules/RoleBase"
 import { NavItem } from "@/types/common.type"
 import { DashboardCollapsedNavLink } from "./dashboard-collapsed-nav-link"
 import { DashboardNavLink } from "./dashboard-nav-link"
-import { useNotification } from "@/hooks/useNotification"
-import { Badge } from "@/components/ui/badge"
+import { useQueryGetUnreadNotifications } from "@/modules/notification/hooks/useQuery/useQueryGetUnreadNotifications"
 import { APP_PATH } from "@/constants"
 import { cn } from "@/lib/utils"
+import { BadgeUnreadNotifications } from "@/modules/notification/components/atoms/BadgeUnreadNotifications"
 
 interface DashboardNavProps {
   readonly items: NavItem[]
@@ -14,23 +14,21 @@ interface DashboardNavProps {
 }
 
 function NotificationBadge() {
-  const { data } = useNotification()
+  // fetch count unread notifications
+  const { data: unreadCount = 0 } = useQueryGetUnreadNotifications()
 
-  return data?.length ? (
-    <Badge
-      variant="solid"
-      variantColor="red"
-      className="flex p-0 h-4 w-4 justify-center"
-    >
-      {data.length}
-    </Badge>
-  ) : (
-    ""
+  return unreadCount == 0 ? null : (
+    <BadgeUnreadNotifications unreadCount={unreadCount} />
   )
 }
 
 function getBadgeByHref(href?: string) {
-  return href === APP_PATH.NOTIFICATION.list ? <NotificationBadge /> : null
+  return [
+    APP_PATH.NOTIFICATION.list,
+    APP_PATH.LOAN_APPLICATION.NOTIFICATION.list
+  ].includes(href || "") ? (
+    <NotificationBadge />
+  ) : null
 }
 
 export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {

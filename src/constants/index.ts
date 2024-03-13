@@ -40,6 +40,11 @@ export const APP_PATH = {
       detail: "/loan/loan-program/:loanProgramId/information",
       detailWithId: (loanProgramId: string) =>
         `/loan/loan-program/${loanProgramId}/information`
+    },
+    NOTIFICATION: {
+      list: "/loan/notifications",
+      detail: "/loan/notifications/:id",
+      details: (id: string) => `/loan/notifications/${id}`
     }
   },
 
@@ -78,7 +83,9 @@ export const APP_PATH = {
     index: "/loan-program"
   },
   NOTIFICATION: {
-    list: "/notifications"
+    list: "/notifications",
+    detail: "/notifications/:id",
+    details: (id: string) => `/notifications/${id}`
   },
   SETTINGS: "/settings",
   MESSAGES: "/messages"
@@ -165,6 +172,23 @@ export const API_PATH = {
     getDocumentDownloadForOfficer:
       "api/loan-officer/document/download/by-document-id",
     getDocumentDownloadForApplicant: "api/form/document/download/by-document-id"
+  },
+  notificationProd: {
+    details: "api/notification/by-id",
+    getUnreadNotifications: "api/notification/count-unread",
+    getNotifications: "api/notification/list",
+    markAllAsRead: "api/notification/mark-all-read",
+    markAsRead: "api/notification/mark-read",
+    markAsUnread: "api/notification/mark-unread"
+  },
+  notification: {
+    details: "http://localhost:8080/api/notification/by-id",
+    getUnreadNotifications:
+      "http://localhost:8080/api/notification/count-unread",
+    getNotifications: "http://localhost:8080/api/notification/list",
+    markAllAsRead: "http://localhost:8080/api/notification/mark-all-read",
+    markAsRead: "http://localhost:8080/api/notification/mark-read",
+    markAsUnread: "http://localhost:8080/api/notification/mark-unread"
   }
 }
 

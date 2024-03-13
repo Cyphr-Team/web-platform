@@ -56,5 +56,19 @@ export const TOAST_MSG = {
       title: "Submit Loan Decision",
       description: "Loan Decision is submitted successfully"
     }
+  },
+  notification: {
+    markAsRead: {
+      title: "Mark as read",
+      description: "Notification is marked as read successfully"
+    },
+    markAllAsRead: {
+      title: "Mark all as read",
+      description: "All notifications are marked as read successfully"
+    },
+    markAsUnread: {
+      title: "Mark as unread",
+      description: "Notification is marked as unread successfully"
+    }
   }
 }
