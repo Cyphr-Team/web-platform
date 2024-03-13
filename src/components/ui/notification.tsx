@@ -157,7 +157,11 @@ const NotificationCard = ({
               : description}
           </div>
           {linkDetails && (
-            <Link to={linkDetails} className="underline">
+            <Link
+              to={linkDetails}
+              className="underline"
+              onClick={() => onMarkAsRead && onMarkAsRead(id)}
+            >
               Click to view detail
             </Link>
           )}
