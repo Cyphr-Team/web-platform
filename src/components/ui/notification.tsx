@@ -110,13 +110,19 @@ const NotificationCard = ({
   onMarkAsUnread,
   className
 }: AppNotificationProps) => {
-  const NotificationIcon =
-    variant === NotificationType.SUCCESS
-      ? Icons.notificationSuccess
-      : variant === NotificationType.ERROR ||
-          variant === NotificationType.WARNING
-        ? Icons.notificationError
-        : Icons.notificationInfo
+  let NotificationIcon = Icons.notificationInfo
+  switch (variant.toUpperCase()) {
+    case NotificationType.SUCCESS:
+      NotificationIcon = Icons.notificationSuccess
+      break
+    case NotificationType.ERROR:
+    case NotificationType.WARNING:
+      NotificationIcon = Icons.notificationError
+      break
+    default:
+      NotificationIcon = Icons.notificationInfo
+      break
+  }
 
   // State to track hover status
   const [isHovered, setIsHovered] = React.useState(false)
