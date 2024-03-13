@@ -159,7 +159,9 @@ export const API_PATH = {
     getLoanSummary: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/loan-summary`,
     getDownloadLoanSummary: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/loan-summary/download`
+      `api/loan-officer/applications/${applicationId}/loan-summary/download`,
+    getCashFlow: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/cash-flow`
   },
   document: {
     getDocumentDownloadForOfficer:

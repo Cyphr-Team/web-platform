@@ -5,6 +5,7 @@ import {
   KYB_VERIFIED_FIELD_STATUS
 } from "../constants/type"
 import { KYC_STATUS } from "../constants/types/kyc"
+import { RANDOM_LINE_COLORS } from "../constants"
 
 export const getClassNameFromStatus = (
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS | AUTHENTICITY_LEVEL
@@ -196,4 +197,10 @@ export const getAuthenticityDataByScore = (score: number) => {
       authenticityLevelColor: "#FF0000"
     }
   }
+}
+
+export const getRandomColor = () => {
+  return RANDOM_LINE_COLORS[
+    Math.floor(Math.random() * RANDOM_LINE_COLORS.length)
+  ]
 }

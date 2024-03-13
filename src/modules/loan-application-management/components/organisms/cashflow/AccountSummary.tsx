@@ -1,6 +1,7 @@
 import { DataTable } from "@/components/ui/data-table"
 import { FAKE_ACCOUNT_SUMMARY_DATA } from "@/modules/loan-application-management/constants"
 import { AccountSummaryType } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { toCurrency } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
@@ -202,12 +203,13 @@ const adjustColumns = columns.map((c) => ({
 }))
 
 export const AccountSummaryTable = () => {
+  const { cashFlowAnalysis } = useLoanApplicationDetailContext()
   return (
     <div className="text-sm text-right">
       <DataTable
         columns={adjustColumns}
-        data={FAKE_ACCOUNT_SUMMARY_DATA}
         total={FAKE_ACCOUNT_SUMMARY_DATA.length}
+        data={cashFlowAnalysis?.bankAccountSummary ?? FAKE_ACCOUNT_SUMMARY_DATA}
       />
     </div>
   )

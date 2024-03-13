@@ -8,22 +8,21 @@ import { useQueryGetApplicationDetails } from "../hooks/useQuery/useQueryApplica
 import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
 import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
 import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
+import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
+import { ApplicationCashFlow } from "../constants/types/cashflow.type"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
   loanKycDetail?: LoanApplicationsKyc
   loanApplicationDetails?: UserLoanApplication
+  cashFlowAnalysis?: ApplicationCashFlow
   isLoading: boolean
   loanSummary?: LoanSummary
 }
 
 export const LoanApplicationDetailContext =
   createContext<LoanApplicationDetailContextType>({
-    loanKybDetail: undefined,
-    loanKycDetail: undefined,
-    loanApplicationDetails: undefined,
-    isLoading: false,
-    loanSummary: undefined
+    isLoading: false
   })
 
 type Props = {
@@ -51,6 +50,10 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     applicationId: params.id
   })
 
+  const cashFlowQuery = useQueryGetCashFlowAnalysis({
+    applicationId: params.id!
+  })
+
   return (
     <LoanApplicationDetailContext.Provider
       value={{
@@ -58,6 +61,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
         loanKycDetail: kycDetailQuery.data,
         loanApplicationDetails: userLoanApplicationQuery.data,
         loanSummary: loanSummaryQuery.data,
+        cashFlowAnalysis: cashFlowQuery.data,
         isLoading: kybDetailQuery.isLoading
       }}
     >
