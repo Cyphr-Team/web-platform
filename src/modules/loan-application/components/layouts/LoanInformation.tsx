@@ -18,9 +18,21 @@ import { Button } from "@/components/ui/button"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { LoanProgramDetailProvider } from "../../providers/LoanProgramDetailProvider"
 import { AlertFinishFormBeforeLeave } from "../molecules/alerts/AlertFinishFormRequest"
-
+import { useNavigate } from "react-router-dom"
+import { isEmpty } from "lodash"
 export const LoanInformationHeader = () => {
   const { loanProgramDetails } = useLoanProgramDetailContext()
+  const { draftForm } = useLoanApplicationContext()
+
+  const navigate = useNavigate()
+
+  const backToLoanProgram = () => {
+    navigate(
+      APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
+        loanProgramDetails?.id ?? ""
+      )
+    )
+  }
 
   return (
     <TopBarDetail
@@ -38,7 +50,13 @@ export const LoanInformationHeader = () => {
       ]}
       rightFooter={
         <div className="flex gap-2">
-          <LoanApplicationSave />
+          {isEmpty(draftForm) ? (
+            <Button onClick={backToLoanProgram} variant="secondary">
+              Close
+            </Button>
+          ) : (
+            <LoanApplicationSave />
+          )}
           <div className="block md:hidden">
             <Drawer>
               <DrawerTrigger asChild>

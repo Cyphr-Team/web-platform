@@ -16,38 +16,39 @@ export const ComponentWithProvider = () => {
 
   return (
     <div className="overflow-auto flex flex-col items-center flex-1">
-      <div>
-        <TopBarDetail
-          breads={[
-            {
-              to: "#",
-              label: loanProgramInfo?.name || ""
+      <div className="grid grid-cols-8">
+        <div className="col-span-8">
+          <TopBarDetail
+            breads={[
+              {
+                to: "#",
+                label: loanProgramInfo?.name || ""
+              }
+            ]}
+            rightFooter={
+              loanProgramInfo?.isUnderConstruction ? (
+                <LoanProgramDetailUnderConstruction />
+              ) : (
+                <LoanProgramDetailApply />
+              )
             }
-          ]}
-          rightFooter={
-            loanProgramInfo?.isUnderConstruction ? (
-              <LoanProgramDetailUnderConstruction />
-            ) : (
-              <LoanProgramDetailApply />
-            )
-          }
-        />
+          />
+        </div>
 
-        <section className="w-full">
+        <section className="col-span-8">
           {isLoading ? (
             <Skeleton className="w-screen md:w-[calc(100vw-15rem)] max-w-[1200px] h-[140px] md:h-[250px] lg:h-[359px] items-center align-center flex" />
           ) : (
             <img
-              className="w-[1200px] mx-auto"
+              className="mx-auto w-full"
               src={heroImage}
               alt="Loan program detail"
               height={359}
-              width={1200}
             />
           )}
         </section>
 
-        <section className="p-6 md:px-0 md:w-4/5 xl:w-3/4 mx-auto">
+        <section className="p-6 md:px-0 col-span-6 col-start-2 mx-auto">
           <LoanProgramDetailWelcomeLine />
 
           <Separator className="my-6" />
