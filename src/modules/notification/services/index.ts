@@ -6,7 +6,7 @@ export const getReferenceResource = (
   referenceId: string
 ) => {
   let referenceResource = null
-  switch (referenceType) {
+  switch (referenceType.toUpperCase()) {
     // User types
     case NotificationReferenceType.USER_PROFILE_DETAILS:
       referenceResource = APP_PATH.SETUP_PROFILE

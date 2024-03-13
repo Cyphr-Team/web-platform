@@ -69,7 +69,7 @@ export function Component() {
 
         {/* Reference resource */}
         {referenceResource && (
-          <p className="text-md mb-2xl">
+          <p className="text-sm mb-2xl">
             <a
               href={referenceResource}
               target="_blank"
