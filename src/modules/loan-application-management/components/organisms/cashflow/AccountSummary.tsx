@@ -1,5 +1,5 @@
+import { Card } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
-import { FAKE_ACCOUNT_SUMMARY_DATA } from "@/modules/loan-application-management/constants"
 import { AccountSummaryType } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
@@ -203,14 +203,19 @@ const adjustColumns = columns.map((c) => ({
 }))
 
 export const AccountSummaryTable = () => {
-  const { cashFlowAnalysis } = useLoanApplicationDetailContext()
+  const { cashFlowAnalysis, isFetchingCashflow } =
+    useLoanApplicationDetailContext()
   return (
-    <div className="text-sm text-right">
-      <DataTable
-        columns={adjustColumns}
-        total={FAKE_ACCOUNT_SUMMARY_DATA.length}
-        data={cashFlowAnalysis?.bankAccountSummary ?? FAKE_ACCOUNT_SUMMARY_DATA}
-      />
-    </div>
+    <Card className="p-4 gap-4 min-h-40">
+      <h3 className="text-xl font-medium">Account Summary</h3>
+      <div className="text-sm text-right">
+        <DataTable
+          columns={adjustColumns}
+          total={cashFlowAnalysis?.bankAccountSummary?.length ?? 0}
+          data={cashFlowAnalysis?.bankAccountSummary ?? []}
+          isLoading={isFetchingCashflow}
+        />
+      </div>
+    </Card>
   )
 }

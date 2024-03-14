@@ -16,13 +16,15 @@ type LoanApplicationDetailContextType = {
   loanKycDetail?: LoanApplicationsKyc
   loanApplicationDetails?: UserLoanApplication
   cashFlowAnalysis?: ApplicationCashFlow
+  isFetchingCashflow: boolean
   isLoading: boolean
   loanSummary?: LoanSummary
 }
 
 export const LoanApplicationDetailContext =
   createContext<LoanApplicationDetailContextType>({
-    isLoading: false
+    isLoading: false,
+    isFetchingCashflow: false
   })
 
 type Props = {
@@ -62,6 +64,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
         loanApplicationDetails: userLoanApplicationQuery.data,
         loanSummary: loanSummaryQuery.data,
         cashFlowAnalysis: cashFlowQuery.data,
+        isFetchingCashflow: cashFlowQuery.isLoading,
         isLoading: kybDetailQuery.isLoading
       }}
     >

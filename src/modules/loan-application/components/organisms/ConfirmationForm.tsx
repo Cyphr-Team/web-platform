@@ -22,7 +22,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { useLoanApplicationContext } from "../../providers"
 import { ArrowRight } from "lucide-react"
-import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 
 export const ConfirmationForm = () => {
