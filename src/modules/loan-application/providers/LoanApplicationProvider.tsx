@@ -572,6 +572,18 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     [documentsUploaded.financialDocuments, documentsUploaded.kycDocuments]
   )
 
+  const resetAllState = useCallback(() => {
+    setStep(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+    setProgress(STEPS)
+    setLoanApplicationId("")
+    setDraftForm({})
+    setDocumentsUploaded({
+      financialDocuments: [],
+      kycDocuments: []
+    })
+    setIsFormEdited(false)
+  }, [])
+
   useUpdateEffect(() => {
     if (draftForm.confirmationForm) {
       saveForm()
@@ -625,6 +637,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         })
       } finally {
         setIsFormEdited(false)
+        resetAllState()
       }
     } else {
       try {
@@ -652,6 +665,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         })
       } finally {
         setIsFormEdited(false)
+        resetAllState()
       }
     }
   }, [
@@ -668,6 +682,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     loanApplicationId,
     loanProgramId,
     navigate,
+    resetAllState,
     updateLoanApplication
   ])
 

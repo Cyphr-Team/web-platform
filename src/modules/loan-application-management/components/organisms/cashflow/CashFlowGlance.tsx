@@ -19,7 +19,7 @@ import { CashFlowGlanceType } from "@/modules/loan-application-management/consta
 export const CashFlowGlance = () => {
   const { cashFlowAnalysis } = useLoanApplicationDetailContext()
   return (
-    <div>
+    <div className="mt-4">
       <div className="flex items-center mb-4">
         <p className="font-medium px-2 flex-1 text-xl">Cash Flow at a Glance</p>
       </div>

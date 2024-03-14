@@ -46,7 +46,6 @@ export const STATE_STATUS = {
 export const RANDOM_LINE_COLORS = [
   "#FF6633",
   "#FFB399",
-  "#FFFF99",
   "#00B3E6",
   "#E6B333",
   "#3366E6",

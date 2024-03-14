@@ -58,7 +58,10 @@ export function RevenueAndExpenseChart({ data }: Props) {
           tickFormatter={(value) => `${toCurrency(value)}`}
           fontSize={12}
         />
-        <Tooltip formatter={(value) => toCurrency(Number(value))} />
+        <Tooltip
+          formatter={(value) => toCurrency(Number(value))}
+          wrapperClassName="text-sm"
+        />
         <Legend wrapperStyle={{ paddingTop: 20 }} />
       </BarChart>
     </ResponsiveContainer>
