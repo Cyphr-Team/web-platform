@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 import { Loader2 } from "lucide-react"
 import { NotFoundLayout } from "@/shared/layouts"
 import { formatDistance } from "date-fns"
-import { getReferenceResource } from "../services"
+import { getReferenceResource, transformString } from "../services"
 
 export function Component() {
   const crumbs = useBreadcrumb()
@@ -69,14 +69,14 @@ export function Component() {
 
         {/* Reference resource */}
         {referenceResource && (
-          <p className="text-sm mb-2xl">
+          <p className="text-sm mb-2xl italic">
             <a
               href={referenceResource}
               target="_blank"
               rel="noopener noreferrer"
               className="underline ml-1 text-blue-700"
             >
-              Follow this link to view the application details
+              Click to view the {transformString(notification?.referenceType)}
             </a>
           </p>
         )}

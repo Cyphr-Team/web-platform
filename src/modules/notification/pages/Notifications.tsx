@@ -99,7 +99,7 @@ export function Component() {
         <Button
           onClick={handleClickMarkAllAsRead}
           size="sm"
-          style={{ background: "gray" }}
+          className="bg-gray-400 hover:bg-gray-500 text-white border-gray-300 rounded-md"
         >
           Mark all as read <CheckCheckIcon className="ml-1 w-4" />
         </Button>

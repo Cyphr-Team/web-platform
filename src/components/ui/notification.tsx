@@ -124,38 +124,19 @@ const NotificationCard = ({
       break
   }
 
-  // State to track hover status
-  const [isHovered, setIsHovered] = React.useState(false)
-
-  // Event handlers for hover
-  const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
-
-  const handleMouseLeave = () => {
-    setIsHovered(false)
-  }
-
   return (
     <Notification
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className={cn(
-        "flex justify-between mb-2",
-        className,
+        "group flex justify-between mb-2 hover:bg-gray-200",
         !isRead && "bg-gray-100 border-l-4 border-primary-500",
-        isHovered && "bg-gray-200"
+        className
       )}
     >
       <NotificationIcon className="-ml-2 -mt-2" />
       <div>
         <NotificationTitle className="ml-2 text-sm">{title}</NotificationTitle>
         <NotificationDescription className="ml-2 text-muted-foreground">
-          <div>
-            {description && description.length > 85
-              ? description.slice(0, 85) + "..."
-              : description}
-          </div>
+          <p className="line-clamp-2">{description}</p>
           {linkDetails && (
             <Link
               to={linkDetails}
@@ -179,24 +160,23 @@ const NotificationCard = ({
             }) + " ago"}
           </p>
         </NotificationTimestamp>
-        {isHovered &&
-          (isRead ? (
-            <div
-              onClick={() => onMarkAsUnread && onMarkAsUnread(id)}
-              className="cursor-pointer text-xs flex items-center mt-auto border border-gray rounded-md pl-2 pr-2 pt-1 pb-1 bg-gray-400 text-white"
-              title="Mark as Unread"
-            >
-              Mark as Unread <Circle size={12} className="ml-1 w-4" />
-            </div>
-          ) : (
-            <div
-              onClick={() => onMarkAsRead && onMarkAsRead(id)}
-              className="cursor-pointer text-xs flex items-center mt-auto border border-primary rounded-md pl-2 pr-2 pt-1 pb-1 bg-primary text-white"
-              title="Mark as Read"
-            >
-              Mark as Read <CheckIcon size={12} className="ml-1 w-4" />
-            </div>
-          ))}
+        {isRead ? (
+          <div
+            onClick={() => onMarkAsUnread && onMarkAsUnread(id)}
+            className="hidden group-hover:flex cursor-pointer text-xs items-center mt-auto pl-2 pr-2 pt-1 pb-1 bg-gray-400 hover:bg-gray-500 text-white border-gray-300 rounded-md w-full"
+            title="Mark as Unread"
+          >
+            Mark as Unread <Circle size={12} className="ml-1 w-4" />
+          </div>
+        ) : (
+          <div
+            onClick={() => onMarkAsRead && onMarkAsRead(id)}
+            className="hidden group-hover:flex cursor-pointer text-xs items-center mt-auto pl-2 pr-2 pt-1 pb-1 bg-primary hover:bg-primary/90 text-white border-primary-300 rounded-md w-full"
+            title="Mark as Read"
+          >
+            Mark as Read <CheckIcon size={12} className="ml-1 w-4" />
+          </div>
+        )}
       </div>
     </Notification>
   )

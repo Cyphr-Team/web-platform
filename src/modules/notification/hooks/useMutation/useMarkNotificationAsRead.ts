@@ -24,7 +24,6 @@ export const useMarkNotificationAsRead = () => {
       })
     },
     onSuccess: () => {
-      // toastSuccess(TOAST_MSG.notification.markAsRead)
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.MARK_NOTIFICATION_AS_READ]
       })
