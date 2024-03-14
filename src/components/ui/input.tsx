@@ -35,7 +35,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {suffixIcon && (
-          <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none border-l border border-0">
+          <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none border-l border-0">
             {suffixIcon}
           </div>
         )}

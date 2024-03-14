@@ -7,12 +7,14 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { ChangeEventHandler, FocusEventHandler } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 interface ITextInputType<T extends FieldValues> {
   prefix?: string
   suffix?: string
+  required?: boolean
   prefixIcon?: React.ReactNode
   label: string
   placeholder?: string
@@ -33,6 +35,7 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
     prefix,
     prefixIcon,
     inputClassName,
+    required,
     ...inputProps
   } = props
 
@@ -42,7 +45,10 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
       name={name}
       render={({ field }) => (
         <FormItem className={props.className}>
-          <FormLabel className="text-text-secondary">{label}</FormLabel>
+          <FormLabel className="text-text-secondary">
+            {label}
+            {required && <RequiredSymbol />}
+          </FormLabel>
           <FormControl>
             <Input
               {...field}

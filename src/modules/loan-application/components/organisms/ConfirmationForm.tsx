@@ -22,6 +22,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { useLoanApplicationContext } from "../../providers"
 import { ArrowRight } from "lucide-react"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { TextInput } from "@/shared/organisms/form/TextInput"
 
 export const ConfirmationForm = () => {
   const { saveDraftForm, isSubmitting, progress } = useLoanApplicationContext()
@@ -76,25 +78,14 @@ export const ConfirmationForm = () => {
               </FormItem>
             )}
           />{" "}
-          <FormField
+          <TextInput
+            label="Print Name"
             control={form.control}
             name="printName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-text-secondary">
-                  Print Name
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="i.e: Larry Latte"
-                    className="text-base"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />{" "}
+            required
+            className="col-span-1"
+            placeholder="i.e: Larry's Latte"
+          />
           <FormField
             control={form.control}
             name="signatureDate"

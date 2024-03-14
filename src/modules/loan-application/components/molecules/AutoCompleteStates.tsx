@@ -19,6 +19,7 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { StateType } from "@/types/common.type"
 import { CheckIcon, Search } from "lucide-react"
 import { useState } from "react"
@@ -32,6 +33,7 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   label: string
   control: Control<T>
   name: FieldPath<T>
+  required?: boolean
   className?: string
 }
 
@@ -39,6 +41,12 @@ export const AutoCompleteStates = <T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
 ) => {
   const [open, setOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
+
+  const onSearch = (value: string) => {
+    setSearchValue(value.trim())
+  }
+
   const {
     value,
     options,
@@ -47,6 +55,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
     name,
     label,
     className,
+    required,
     onChange
   } = props
 
@@ -56,7 +65,10 @@ export const AutoCompleteStates = <T extends FieldValues>(
       name={name}
       render={() => (
         <FormItem className={className}>
-          <FormLabel className="text-text-secondary">{label}</FormLabel>
+          <FormLabel className="text-text-secondary">
+            {label}
+            {required && <RequiredSymbol />}
+          </FormLabel>
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -73,7 +85,14 @@ export const AutoCompleteStates = <T extends FieldValues>(
                     return 0
                   }}
                 >
-                  <CommandInput placeholder="Search state" className="h-9" />
+                  <CommandInput
+                    placeholder="Search state"
+                    className="h-9"
+                    value={searchValue}
+                    onValueChange={(value) => {
+                      onSearch(value)
+                    }}
+                  />
                   <CommandEmpty>{emptyText}</CommandEmpty>
                   <CommandGroup className="h-60 w-72 overflow-auto">
                     {options.map((option) => {

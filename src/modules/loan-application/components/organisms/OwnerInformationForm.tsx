@@ -40,6 +40,7 @@ import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { SSN_PATTERN } from "@/constants"
 import { FileUploadedCard } from "../molecules/FileUploadedCard"
 import { FORM_TYPE } from "../../constants/type"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 
 export function OwnerInformationForm() {
   const {
@@ -175,43 +176,21 @@ export function OwnerInformationForm() {
           <Separator />
 
           <form className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
-            <FormField
+            <TextInput
               control={form.control}
               name="fullName"
-              render={({ field }) => (
-                <FormItem className="col-span-3">
-                  <FormLabel className="text-text-secondary">
-                    Full Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="i.e: Larry Latte"
-                      className="text-base"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Full Name"
+              placeholder="i.e: Larry Latte"
+              className="col-span-3"
+              required
             />
-            <FormField
+            <TextInput
               control={form.control}
               name="businessRole"
-              render={({ field }) => (
-                <FormItem className="col-span-3">
-                  <FormLabel className="text-text-secondary">
-                    Your Role
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Founder and CEO"
-                      className="text-base"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Your Role"
+              placeholder="Founder and CEO"
+              className="col-span-3"
+              required
             />
             <TextInput
               placeholder="i.e: 456 Bean Ave."
@@ -219,6 +198,7 @@ export function OwnerInformationForm() {
               name="addressLine1"
               control={form.control}
               className="col-span-6"
+              required
             />{" "}
             <TextInput
               placeholder="i.e: Suite 789"
@@ -236,6 +216,7 @@ export function OwnerInformationForm() {
               onChange={handleChangeState}
               value={form.getValues("businessState")}
               className="col-span-6 lg:col-span-2"
+              required
             />
             <AutoCompleteCities
               options={
@@ -250,6 +231,7 @@ export function OwnerInformationForm() {
               onChange={handleChangeCity}
               value={form.getValues("businessCity")}
               className="col-span-6 lg:col-span-2"
+              required
             />
             <TextInput
               placeholder="i.e: 98765"
@@ -257,6 +239,7 @@ export function OwnerInformationForm() {
               name="businessZipCode"
               control={form.control}
               className="col-span-6 lg:col-span-2"
+              required
             />
             <TextInput
               control={form.control}
@@ -265,6 +248,7 @@ export function OwnerInformationForm() {
               placeholder="i.e: larry@latte.com"
               prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
               className="col-span-6 lg:col-span-3"
+              required
             />
             <FormField
               name="phoneNumber"
@@ -272,6 +256,7 @@ export function OwnerInformationForm() {
                 <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     Phone Number
+                    <RequiredSymbol />
                   </FormLabel>
                   <PhoneInput
                     international
@@ -293,6 +278,7 @@ export function OwnerInformationForm() {
                 <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     Date of Birth
+                    <RequiredSymbol />
                   </FormLabel>
                   <CalendarDatePicker
                     value={field.value}
@@ -313,6 +299,7 @@ export function OwnerInformationForm() {
                 <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     SSN/ITIN
+                    <RequiredSymbol />
                   </FormLabel>
                   <FormControl>
                     <MaskInput
@@ -334,6 +321,7 @@ export function OwnerInformationForm() {
                 <FormItem className="col-span-6 lg:col-span-3">
                   <FormLabel className="text-text-secondary">
                     What percent of the business do you own?
+                    <RequiredSymbol />
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -369,6 +357,7 @@ export function OwnerInformationForm() {
                   <FormLabel className="text-text-secondary">
                     Other than you, are there any individuals who own 20% or
                     more of the business?
+                    <RequiredSymbol />
                   </FormLabel>
                   <FormControl>
                     <Select

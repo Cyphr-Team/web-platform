@@ -67,7 +67,7 @@ export function CreateLoanProgramDialog({
     defaultValues: useMemo(
       () => ({
         name: defaultData?.name ?? "Micro loan program",
-        type: defaultData?.type ?? "MICROLOAN",
+        type: defaultData?.type ?? "MICRO",
         interestRate: defaultData?.interestRate ?? 10,
         interestRateType:
           defaultData?.interestRateType ?? InterestRateType.FIXED,
@@ -97,6 +97,8 @@ export function CreateLoanProgramDialog({
   useEffect(() => {
     form.reset(defaultData)
   }, [defaultData, form])
+
+  console.log(defaultData)
 
   return (
     <Dialog open={open || !!detailId} onOpenChange={onOpenChange}>
@@ -182,11 +184,11 @@ export function CreateLoanProgramDialog({
                     name="minLoanAmount"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel>Max Loan Amount</FormLabel>
+                        <FormLabel>Min Loan Amount</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="Max Loan Amount"
+                            placeholder="Min Loan Amount"
                             wrapperClassName="col-span-3 w-full"
                             {...field}
                           />
@@ -201,11 +203,11 @@ export function CreateLoanProgramDialog({
                     name="maxLoanAmount"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel>Min Loan Amount</FormLabel>
+                        <FormLabel>Max Loan Amount</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="Min Loan Amount"
+                            placeholder="Max Loan Amount"
                             wrapperClassName="col-span-3 w-full"
                             {...field}
                           />
@@ -335,7 +337,7 @@ export function CreateLoanProgramDialog({
                       <FormLabel>Type</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -344,7 +346,7 @@ export function CreateLoanProgramDialog({
                         </FormControl>
                         <SelectContent>
                           {Object.keys(LoanType).map((type) => (
-                            <SelectItem key={type} value={type}>
+                            <SelectItem key={type} value={type.toLowerCase()}>
                               {type}
                             </SelectItem>
                           ))}

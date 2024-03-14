@@ -21,6 +21,7 @@ import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 import { MaskInput, revertPattern, toPattern } from "@/components/ui/mask-input"
 import { ArrowRight } from "lucide-react"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 
 export const BusinessInformationForm = () => {
   const {
@@ -112,6 +113,7 @@ export const BusinessInformationForm = () => {
             control={form.control}
             name="businessLegalName"
             className="col-span-3"
+            required
           />
           <TextInput
             placeholder="i.e: 123 Coffee Lane"
@@ -119,6 +121,7 @@ export const BusinessInformationForm = () => {
             name="addressLine1"
             control={form.control}
             className="col-span-3"
+            required
           />{" "}
           <TextInput
             placeholder="i.e: Suite 321"
@@ -136,6 +139,7 @@ export const BusinessInformationForm = () => {
             onChange={handleChangeState}
             value={form.getValues("state")}
             className="col-span-3 lg:col-span-1"
+            required
           />
           <AutoCompleteCities
             options={
@@ -149,6 +153,7 @@ export const BusinessInformationForm = () => {
             onChange={handleChangeCity}
             value={form.getValues("city")}
             className="col-span-3 lg:col-span-1"
+            required
           />
           <TextInput
             placeholder="i.e: 97531"
@@ -156,6 +161,7 @@ export const BusinessInformationForm = () => {
             name="postalCode"
             control={form.control}
             className="col-span-3 lg:col-span-1"
+            required
           />
           <FormField
             control={form.control}
@@ -164,12 +170,14 @@ export const BusinessInformationForm = () => {
               <FormItem className="col-span-3">
                 <FormLabel className="text-text-secondary">
                   Employer Identification Number (EIN)
+                  <RequiredSymbol />
                 </FormLabel>
                 <FormControl>
                   <MaskInput
                     placeholder="i.e: 12-3456789"
                     handleChange={handleChangeEIN}
                     className="text-base"
+                    required
                     {...field}
                   />
                 </FormControl>
@@ -186,6 +194,7 @@ export const BusinessInformationForm = () => {
             inputClassName="pl-16"
             prefix="https://"
             prefixIcon={<p className="text-text-secondary">https://</p>}
+            required
           />
         </form>
       </Form>

@@ -170,7 +170,7 @@ export const getApplicationTipByStatus = (
     case LoanApplicationStatus.IN_REVIEW:
       return ""
     default:
-      return "This application is in processing with 3rd party."
+      return "Application details are being verified."
   }
 }
 

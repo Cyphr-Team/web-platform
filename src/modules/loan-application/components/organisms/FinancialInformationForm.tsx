@@ -24,6 +24,7 @@ import { useEffect } from "react"
 import { ArrowRight, Loader2 } from "lucide-react"
 import { FileUploadedCard } from "../molecules/FileUploadedCard"
 import { FORM_TYPE } from "../../constants/type"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 
 export const FinancialInformationForm = () => {
   const {
@@ -101,6 +102,7 @@ export const FinancialInformationForm = () => {
           <FormItem>
             <FormLabel className="text-sm text-text-secondary font-medium">
               How do you make money? (Check all that apply)
+              <RequiredSymbol />
             </FormLabel>
             {incomeCategories.isLoading ? (
               <p>

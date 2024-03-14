@@ -36,11 +36,12 @@ export const useGetStart = () => {
   >({
     mutationFn: ({ email }) => {
       const baseUrl = window.location.origin
+      const institutionId =
+        customRequestHeader.customHeaders["X-FS-Institution-Id"]
 
       return postRequest({
         path: API_PATH.users.getStart,
-        data: { email, baseUrl },
-        customHeader: customRequestHeader.customHeaders
+        data: { email, baseUrl, institutionId }
       })
     },
     onSuccess({ data }) {

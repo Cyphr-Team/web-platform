@@ -19,6 +19,7 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { CityType } from "@/types/common.type"
 import { CheckIcon, Search } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
@@ -31,6 +32,7 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   emptyText?: string
   label: string
   className?: string
+  required?: boolean
   control: Control<T>
   name: FieldPath<T>
 }
@@ -39,6 +41,12 @@ export const AutoCompleteCities = <T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
 ) => {
   const [open, setOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
+
+  const onSearch = (value: string) => {
+    setSearchValue(value.trim())
+  }
+
   const {
     value,
     options,
@@ -47,6 +55,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
     name,
     label,
     className,
+    required,
     onChange
   } = props
   const [loadedOptions, setLoadedOptions] = useState<CityType[]>([])
@@ -97,7 +106,10 @@ export const AutoCompleteCities = <T extends FieldValues>(
       name={name}
       render={() => (
         <FormItem className={className}>
-          <FormLabel className="text-text-secondary">{label}</FormLabel>
+          <FormLabel className="text-text-secondary">
+            {label}
+            {required && <RequiredSymbol />}
+          </FormLabel>
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild disabled={!options?.length}>
@@ -118,7 +130,14 @@ export const AutoCompleteCities = <T extends FieldValues>(
                     return 0
                   }}
                 >
-                  <CommandInput placeholder="Search city..." className="h-9" />
+                  <CommandInput
+                    placeholder="Search city..."
+                    className="h-9"
+                    value={searchValue}
+                    onValueChange={(value) => {
+                      onSearch(value)
+                    }}
+                  />
                   <CommandEmpty>{emptyText}</CommandEmpty>
                   <CommandGroup
                     className="h-60 w-72 overflow-auto"
