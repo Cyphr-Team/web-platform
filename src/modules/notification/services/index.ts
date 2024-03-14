@@ -75,3 +75,16 @@ export const getReferenceResource = (
   }
   return referenceResource
 }
+
+export const transformString = (str?: string) => {
+  if (!str) return "Application Details"
+  // Split the string into words using underscores as separators
+  const words = str.split("_")
+
+  // Capitalize the first letter of each word and join them with spaces
+  const transformedString = words
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
+
+  return transformedString
+}
