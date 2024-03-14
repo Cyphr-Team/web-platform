@@ -4,7 +4,7 @@ import { API_PATH } from "@/constants"
 import { loanApplicationDocumentKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
-import { useInfiniteQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { createSearchParams, useParams } from "react-router-dom"
 
 type ListLoanApplicationResponse = ListResponse<LoanDocument>
@@ -20,7 +20,7 @@ export const useQueryDocument = ({
 }: UseQueryDocumentParams) => {
   const params = useParams()
 
-  return useInfiniteQuery<ListLoanApplicationResponse>({
+  return useQuery<ListLoanApplicationResponse>({
     queryKey: loanApplicationDocumentKeys.list(
       createSearchParams({
         id: params.id!,
@@ -29,22 +29,16 @@ export const useQueryDocument = ({
         offset: offset.toString()
       }).toString()
     ),
-    queryFn: async ({ pageParam = 0 }) => {
+    queryFn: async () => {
       const response = await getRequest<
         UseQueryDocumentParams,
         ListLoanApplicationResponse
       >({
         path: API_PATH.loanApplication.getDocuments(params.id ?? ""),
-        params: { keyword, limit, offset: (pageParam as number) * limit },
+        params: { keyword, limit, offset },
         customHeader: customRequestHeader.customHeaders
       })
-      return {
-        ...response
-      }
-    },
-    initialPageParam: 0,
-    getNextPageParam(last, pages) {
-      return last.data.length < limit ? undefined : pages.length
+      return response
     }
   })
 }

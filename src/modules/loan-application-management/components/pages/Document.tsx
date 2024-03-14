@@ -1,20 +1,25 @@
 import { columns } from "../table/document-columns"
 
 import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
-import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
 import { useQueryDocument } from "../../hooks/useQuery/useQueryDocument"
 
-import { Row } from "@tanstack/react-table"
+import { PaginationState, Row } from "@tanstack/react-table"
 import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
 import { DocumentTableHeader } from "../table/document-header"
 import { useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
 import { ButtonLoading } from "@/components/ui/button"
+import { DataTable } from "@/components/ui/data-table"
 
 export function Component() {
   const navigate = useNavigate()
   const { id: LoanApplicationID } = useParams()
   const [keyword, setKeyword] = useState("")
+
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: REQUEST_LIMIT_PARAM
+  })
 
   const handleClickDetail = (detail: Row<LoanDocument>) => {
     if (detail.original.status === LoanDocumentStatus.UNCHECKED) return
@@ -26,10 +31,10 @@ export function Component() {
     )
   }
 
-  const { data, fetchNextPage, isFetching, refetch } = useQueryDocument({
+  const { data, isFetching, refetch } = useQueryDocument({
     keyword: keyword,
-    limit: REQUEST_LIMIT_PARAM,
-    offset: 0
+    limit: pagination.pageSize,
+    offset: pagination.pageIndex * pagination.pageSize
   })
 
   const handleSearch = (keyword: string) => {
@@ -55,13 +60,15 @@ export function Component() {
           Refresh
         </ButtonLoading>
       </div>
-      <InfiniteDataTable
-        className="rounded-t-none border-t-0"
-        handleClickDetail={handleClickDetail}
+      <DataTable
+        tableContainerClassName="rounded-t-none border-t-0"
         columns={columns}
-        data={data}
-        fetchNextPage={fetchNextPage}
-        isFetching={isFetching}
+        data={data?.data ?? []}
+        total={data?.total ?? 0}
+        isLoading={isFetching}
+        pagination={pagination}
+        setPagination={setPagination}
+        handleClickDetail={handleClickDetail}
       />
     </div>
   )

@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border relative max-h-full overflow-auto">
         {isLoading && (
           <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
-            <div className="sticky top-12 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
+            <div className="sticky top-16 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
               <Loader2 className="w-10 h-10 animate-spin text-primary" />{" "}
               Loading...
             </div>
@@ -120,7 +120,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {!!pagination && (
+      {!!pagination && !!data.length && (
         <div className="flex items-center justify-end space-x-2 py-4">
           <DataTablePagination table={table} />
         </div>
