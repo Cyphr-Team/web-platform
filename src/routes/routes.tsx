@@ -170,7 +170,13 @@ const routes = createBrowserRouter(
         {/* --- NOTIFICATION --- */}
         <Route
           path={APP_PATH.NOTIFICATION.list}
-          lazy={() => import("@/modules/admin/notification/page")}
+          lazy={() => import("@/modules/notification/pages/Notifications")}
+        />
+        <Route
+          path={APP_PATH.NOTIFICATION.detail}
+          lazy={() =>
+            import("@/modules/notification/pages/NotificationDetails")
+          }
         />
 
         {/* --- MESSAGES --- */}
@@ -222,6 +228,19 @@ const routes = createBrowserRouter(
             import("@/modules/loan-application/pages/LoanApplications")
           }
         />
+
+        {/* --- NOTIFICATION --- */}
+        <Route
+          path={APP_PATH.LOAN_APPLICATION.NOTIFICATION.list}
+          lazy={() => import("@/modules/notification/pages/Notifications")}
+        />
+        <Route
+          path={APP_PATH.LOAN_APPLICATION.NOTIFICATION.detail}
+          lazy={() =>
+            import("@/modules/notification/pages/NotificationDetails")
+          }
+        />
+
         <Route
           path={APP_PATH.LOAN_APPLICATION.SETTINGS}
           lazy={() =>

@@ -1,6 +1,7 @@
 import { Icons } from "@/components/ui/icons"
 import { NavItem } from "@/types/common.type"
 import { APP_PATH } from "@/constants"
+import { Bell } from "lucide-react"
 
 export const navItems: NavItem[] = [
   {
@@ -14,6 +15,12 @@ export const navItems: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION.APPLICATIONS.index,
     icon: Icons.folderCheck,
     label: "Applications"
+  },
+  {
+    title: "Notifications",
+    href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
+    icon: Bell,
+    label: "Notifications"
   },
   {
     title: "Settings",

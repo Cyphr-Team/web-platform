@@ -55,8 +55,8 @@ export const postRequest = <T, R>({
   path,
   config,
   customHeader,
-  params,
-  data
+  data,
+  params
 }: PostParams<T>) => {
   const token = inMemoryJWTService.getToken()
   return axiosClient.post<R>(`/${path}`, data, {
@@ -74,7 +74,8 @@ export const putRequest = <T, R>({
   path,
   config,
   customHeader,
-  data
+  data,
+  params
 }: PostParams<T>) => {
   const token = inMemoryJWTService.getToken()
   return axiosClient.put<R>(`/${path}`, data, {
@@ -83,6 +84,7 @@ export const putRequest = <T, R>({
       Authorization: `Bearer ${token}`,
       ...customHeader
     },
+    params,
     ...config
   })
 }
@@ -91,7 +93,8 @@ export const patchRequest = <T, R>({
   path,
   config,
   customHeader,
-  data
+  data,
+  params
 }: PostParams<T>) => {
   const token = inMemoryJWTService.getToken()
   return axiosClient.patch<R>(`/${path}`, data, {
@@ -100,6 +103,7 @@ export const patchRequest = <T, R>({
       Authorization: `Bearer ${token}`,
       ...customHeader
     },
+    params,
     ...config
   })
 }

@@ -40,6 +40,11 @@ export const APP_PATH = {
       detail: "/loan/loan-program/:loanProgramId/information",
       detailWithId: (loanProgramId: string) =>
         `/loan/loan-program/${loanProgramId}/information`
+    },
+    NOTIFICATION: {
+      list: "/loan/notifications",
+      detail: "/loan/notifications/:id",
+      details: (id: string) => `/loan/notifications/${id}`
     }
   },
 
@@ -78,7 +83,9 @@ export const APP_PATH = {
     index: "/loan-program"
   },
   NOTIFICATION: {
-    list: "/notifications"
+    list: "/notifications",
+    detail: "/notifications/:id",
+    details: (id: string) => `/notifications/${id}`
   },
   SETTINGS: "/settings",
   MESSAGES: "/messages"
@@ -167,6 +174,14 @@ export const API_PATH = {
     getDocumentDownloadForOfficer:
       "api/loan-officer/document/download/by-document-id",
     getDocumentDownloadForApplicant: "api/form/document/download/by-document-id"
+  },
+  notification: {
+    details: "api/notification/by-id",
+    getUnreadNotifications: "api/notification/count-unread",
+    getNotifications: "api/notification/list",
+    markAllAsRead: "api/notification/mark-all-read",
+    markAsRead: "api/notification/mark-read",
+    markAsUnread: "api/notification/mark-unread"
   }
 }
 
