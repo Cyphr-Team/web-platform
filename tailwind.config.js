@@ -13,8 +13,7 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
-        // @media (min-width: 1400px), should be not limited to 1400px
-        // "2xl": "1400px"
+        "2xl": "1400px"
       }
     },
     extend: {
