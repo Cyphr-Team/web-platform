@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { StateType } from "@/types/common.type"
 import { CheckIcon, Search } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 interface IAutoCompleteInputProps<T extends FieldValues> {
@@ -44,8 +44,14 @@ export const AutoCompleteStates = <T extends FieldValues>(
   const [searchValue, setSearchValue] = useState("")
 
   const onSearch = (value: string) => {
-    setSearchValue(value.trim())
+    setSearchValue(value.trim().toLowerCase())
   }
+
+  useEffect(() => {
+    if (!open && !!searchValue) {
+      setSearchValue("")
+    }
+  }, [open, searchValue])
 
   const {
     value,
@@ -78,7 +84,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
                 />
               </PopoverTrigger>
-              <PopoverContent className="w-full p-0">
+              <PopoverContent className="w-72 p-0" align="start">
                 <Command
                   filter={(value, search) => {
                     if (value.startsWith(search)) return 1
@@ -94,7 +100,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
                     }}
                   />
                   <CommandEmpty>{emptyText}</CommandEmpty>
-                  <CommandGroup className="h-60 w-72 overflow-auto">
+                  <CommandGroup className="h-60 overflow-auto">
                     {options.map((option) => {
                       return (
                         <CommandItem
