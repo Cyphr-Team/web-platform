@@ -1,24 +1,15 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { SignUpForm } from "./sign-up-form"
-import foresightLogo from "/foresight.svg"
-import { APP_PATH } from "@/constants"
 import { Button } from "@/components/ui/button"
+import { APP_PATH } from "@/constants"
+import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { Link } from "react-router-dom"
+import { SignUpForm } from "./sign-up-form"
 
 export function SignUpFormSection() {
   return (
     <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
       <div className="flex flex-col text-center">
-        <div className="w-[48px] self-center">
-          <AspectRatio ratio={1 / 1}>
-            <img
-              src={foresightLogo}
-              className="rounded-md object-cover"
-              alt="Foresight logo"
-              width="100%"
-              height="100%"
-            />
-          </AspectRatio>
+        <div className="self-center">
+          <LogoHeader />
         </div>
 
         <h1 className="text-3xl font-semibold tracking-tight mt-6">

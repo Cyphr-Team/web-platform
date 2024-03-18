@@ -15,28 +15,33 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export const LoanProgramDetailFAQ = () => {
   const { loanProgramInfo, isLoading } = useLoanProgramDetailContext()
+  const isExistFAQs = Object.keys(loanProgramInfo?.faqs ?? {}).length > 0
 
   return (
     <section>
-      <div className="flex gap-2 md:gap-6 flex-wrap md:flex-nowrap">
-        <div className="flex flex-col justify-between relative">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-semibold mb-3">FAQs</h2>
-            <p className="text-xl">You have questions.</p>
-            <p className="text-xl">We have answers.</p>
+      {isExistFAQs && (
+        <div className="flex gap-2 md:gap-6 flex-wrap md:flex-nowrap">
+          <div className="flex flex-col justify-between relative">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-semibold mb-3">FAQs</h2>
+              <p className="text-xl">You have questions.</p>
+              <p className="text-xl">We have answers.</p>
+            </div>
+            <div className="sticky bottom-0 pt-32 pb-4 hidden md:block">
+              <LoanProgramDetailContactCard />
+            </div>
           </div>
-          <div className="sticky bottom-0 pt-32 pb-4 hidden md:block">
-            <LoanProgramDetailContactCard />
-          </div>
+          {isLoading ? <FAQSkeleton /> : <FAQ />}
         </div>
-        {isLoading ? <FAQSkeleton /> : <FAQ />}
-      </div>
+      )}
 
-      <section className="block md:hidden mt-6">
-        <LoanProgramDetailContactCard />
-      </section>
+      {isExistFAQs && (
+        <section className="block md:hidden mt-6">
+          <LoanProgramDetailContactCard />
+        </section>
+      )}
 
-      <section className="mt-8 px-8 py-9 bg-primary-solid rounded-2xl flex justify-between flex-wrap gap-4 items-center">
+      <section className="mt-8 px-8 py-9 bg-primary-solid rounded-2xl flex justify-between flex-wrap gap-4 items-center w-full">
         <h2 className="text-white text-2xl md:text-3xl font-semibold mx-auto md:mx-0">
           Ready to Apply?
         </h2>

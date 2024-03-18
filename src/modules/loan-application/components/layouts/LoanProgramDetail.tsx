@@ -1,30 +1,41 @@
-import { ASSETS } from "@/assets"
 import { Separator } from "@/components/ui/separator"
-import { LoanProgramDetailProvider } from "../../providers/LoanProgramDetailProvider"
-import { useLoanProgramDetailContext } from "../../providers"
-import { LoanProgramDetailWelcomeLine } from "../organisms/loan-program-detail/LoanProgramDetailWelcomeLine"
-import { LoanProgramDetailFAQ } from "../organisms/loan-program-detail/LoanProgramDetailFAQ"
-import { TopBarDetail } from "./TopBarDetail"
-import { LoanProgramDetailApply } from "../organisms/loan-program-detail/LoanProgramDetailApply"
-import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-detail/LoanProgramDetailUnderConstruction"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useLoanProgramDetailContext } from "../../providers"
+import { LoanProgramDetailProvider } from "../../providers/LoanProgramDetailProvider"
+import { LoanProgramDetailApply } from "../organisms/loan-program-detail/LoanProgramDetailApply"
+import { LoanProgramDetailFAQ } from "../organisms/loan-program-detail/LoanProgramDetailFAQ"
+import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-detail/LoanProgramDetailUnderConstruction"
+import { LoanProgramDetailWelcomeLine } from "../organisms/loan-program-detail/LoanProgramDetailWelcomeLine"
+import { TopBarDetail } from "./TopBarDetail"
+
+import { useTenant } from "@/providers/tenant-provider"
+import { useBreadcrumb } from "@/hooks/useBreadcrumb"
+import { CustomLabelKey, buildCustomLabel, buildIds } from "@/utils/crumb.utils"
 
 export const ComponentWithProvider = () => {
-  const { loanProgramInfo, isLoading } = useLoanProgramDetailContext()
+  const { tenantData } = useTenant()
+  const { loanProgramOverviewHero } = tenantData
 
-  const heroImage = loanProgramInfo?.heroImage ?? ASSETS.altCapLoanProgramLarge
+  const { loanProgramInfo, isLoading, loanProgramDetails } =
+    useLoanProgramDetailContext()
+
+  const crumbs = useBreadcrumb({
+    customLabel: buildCustomLabel(
+      CustomLabelKey.documentDetail,
+      loanProgramDetails?.name ?? ""
+    ),
+    ids: Object.assign(
+      {},
+      buildIds(CustomLabelKey.documentDetail, loanProgramDetails?.id)
+    )
+  })
 
   return (
     <div className="overflow-auto flex flex-col items-center flex-1">
       <div className="grid grid-cols-8">
         <div className="col-span-8">
           <TopBarDetail
-            breads={[
-              {
-                to: "#",
-                label: loanProgramInfo?.name || ""
-              }
-            ]}
+            breads={crumbs}
             rightFooter={
               loanProgramInfo?.isUnderConstruction ? (
                 <LoanProgramDetailUnderConstruction />
@@ -41,14 +52,14 @@ export const ComponentWithProvider = () => {
           ) : (
             <img
               className="mx-auto w-full"
-              src={heroImage}
+              src={loanProgramOverviewHero}
               alt="Loan program detail"
               height={359}
             />
           )}
         </section>
 
-        <section className="p-6 md:px-0 col-span-6 col-start-2 mx-auto">
+        <section className="p-6 md:px-0 col-span-6 col-start-2 mx-auto w-full">
           <LoanProgramDetailWelcomeLine />
 
           <Separator className="my-6" />

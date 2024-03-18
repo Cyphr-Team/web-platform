@@ -1,8 +1,12 @@
+import { useTenant } from "@/providers/tenant-provider"
 import { ALTCAP_LOAN_PROGRAMS } from "../../constants/loan-program.constants"
 import { useQueryGetLoanPrograms } from "../../hooks/useQuery/useQueryLoanPrograms"
 import { LoanProgramCard } from "../molecules/LoanProgramCard"
 
 export const LoanPrograms = () => {
+  const { tenantData } = useTenant()
+  const { loanProgramOverview } = tenantData
+
   const loanPrograms = useQueryGetLoanPrograms()
 
   return (
@@ -11,12 +15,7 @@ export const LoanPrograms = () => {
         <h2 className="text-3xl md:text-4xl font-semibold mb-6">
           Our Loan Programs
         </h2>
-        <p className="text-lg">
-          Our alternative approach to financing allows us to support small
-          businesses that other lenders overlook. We lend flexible, patient
-          capital and tailor financial solutions to meet entrepreneurs where
-          they’re at.
-        </p>
+        <p className="text-lg whitespace-pre-wrap">{loanProgramOverview}</p>
       </section>
 
       <section className="mt-6">

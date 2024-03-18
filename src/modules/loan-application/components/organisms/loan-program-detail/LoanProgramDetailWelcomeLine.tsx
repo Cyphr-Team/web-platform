@@ -2,7 +2,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useLoanProgramDetailContext } from "@/modules/loan-application/providers"
 
 export const LoanProgramDetailWelcomeLine = () => {
-  const { loanProgramInfo, isLoading } = useLoanProgramDetailContext()
+  const { loanProgramInfo, isLoading, loanProgramDetails } =
+    useLoanProgramDetailContext()
 
   return (
     <section>
@@ -10,7 +11,7 @@ export const LoanProgramDetailWelcomeLine = () => {
         {isLoading ? (
           <Skeleton className="w-full h-8" />
         ) : (
-          loanProgramInfo?.name
+          loanProgramDetails?.name
         )}
       </h2>
       <div className="text-xl whitespace-pre-wrap">

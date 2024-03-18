@@ -34,7 +34,6 @@ import {
   adminSendInvitationForm,
   useSendInvitation
 } from "../hooks/useSendInvitation"
-import { DEMO_INSTITUTION_ID } from "@/utils/request-header"
 import { UserRoles } from "@/types/user.type"
 
 export function DialogSendInvite() {
@@ -143,12 +142,6 @@ export function DialogSendInvite() {
                       <SelectItem value="00000000-0000-0000-0000-000000000000">
                         Foresight
                       </SelectItem>
-                      {DEMO_INSTITUTION_ID !==
-                        "00000000-0000-0000-0000-000000000000" && (
-                        <SelectItem value={DEMO_INSTITUTION_ID}>
-                          CapSight
-                        </SelectItem>
-                      )}
                     </SelectContent>
                   </Select>
                   <FormMessage />

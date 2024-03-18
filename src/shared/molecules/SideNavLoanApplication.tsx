@@ -1,12 +1,12 @@
-import { cn } from "@/lib/utils"
-import { ASSETS } from "@/assets"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion"
+import { CircularProgress } from "@/components/ui/circular-progress"
 import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
 import {
   ARTCAP_MENU,
   LOAN_APPLICATION_STEPS,
@@ -14,8 +14,8 @@ import {
   LOAN_APPLICATION_STEP_STATUS
 } from "@/modules/loan-application/constants"
 import { useLoanApplicationContext } from "@/modules/loan-application/providers"
-import { CircularProgress } from "@/components/ui/circular-progress"
 import { Check } from "lucide-react"
+import { LogoHeader } from "../atoms/LogoHeader"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -107,14 +107,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
       )}
     >
       <div className="pl-3xl pr-2xl items-center mb-3xl justify-between flex bg-white border-b h-20">
-        <div className="flex items-center justify-center gap-1 w-full">
-          <img
-            src={ASSETS.altCapLogo}
-            className="logo w-8 h-8"
-            alt="altcap logo"
-          />
-          <img src={ASSETS.altCapLogoText} alt="altcap logo" className="pt-1" />
-        </div>
+        <LogoHeader className="justify-center" />
       </div>
 
       <div className="px-xl flex-col flex-1 md:flex">

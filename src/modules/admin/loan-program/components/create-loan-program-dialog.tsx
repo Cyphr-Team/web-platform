@@ -98,8 +98,6 @@ export function CreateLoanProgramDialog({
     form.reset(defaultData)
   }, [defaultData, form])
 
-  console.log(defaultData)
-
   return (
     <Dialog open={open || !!detailId} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>

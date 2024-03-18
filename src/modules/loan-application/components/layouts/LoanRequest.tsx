@@ -36,6 +36,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loanRequestFormSchema } from "../../constants/form"
 import { useEffect, useMemo } from "react"
+import { useTenant } from "@/providers/tenant-provider"
 
 const LOAN_PURPOSES = [
   { label: "Working Capital", value: "working_capital" },
@@ -47,6 +48,9 @@ const LOAN_PURPOSES = [
 ]
 
 export function CardWithForm() {
+  const { tenantData } = useTenant()
+  const { name } = tenantData
+
   const {
     changeStep,
     changeProgress,
@@ -96,9 +100,9 @@ export function CardWithForm() {
   return (
     <Card className="rounded-xl col-span-4 col-start-3">
       <CardHeader className="text-center">
-        <CardTitle className="text-lg">ARTcap Express</CardTitle>
+        <CardTitle className="text-lg">{loanProgramDetails?.name}</CardTitle>
         <CardDescription>
-          Thank you for your interest in working with AltCap.{` `}
+          Thank you for your interest in working with {name}.{` `}
           <span className="block">What amount will you be requesting?</span>
         </CardDescription>
       </CardHeader>

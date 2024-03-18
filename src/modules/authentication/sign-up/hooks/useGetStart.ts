@@ -1,7 +1,6 @@
-import { ErrorResponse } from "@/types/common.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { customRequestHeader } from "@/utils/request-header"
+import { ErrorResponse } from "@/types/common.type"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { createSearchParams, useNavigate } from "react-router-dom"
@@ -36,12 +35,10 @@ export const useGetStart = () => {
   >({
     mutationFn: ({ email }) => {
       const baseUrl = window.location.origin
-      const institutionId =
-        customRequestHeader.customHeaders["X-FS-Institution-Id"]
 
       return postRequest({
         path: API_PATH.users.getStart,
-        data: { email, baseUrl, institutionId }
+        data: { email, baseUrl }
       })
     },
     onSuccess({ data }) {

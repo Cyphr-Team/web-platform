@@ -1,3 +1,4 @@
+import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { Breadcrumb } from "@/types/common.type"
 import { ChevronRight } from "lucide-react"
@@ -19,7 +20,20 @@ export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {
               className={({ isActive }) => (isActive ? "text-primary" : "")}
               end
             >
-              <p className="text-sm font-medium">{label}</p>
+              {({ isActive }) => (
+                <>
+                  {label === "Home" ? (
+                    <Icons.home
+                      className={cn(
+                        "w-5 text-muted-foreground",
+                        isActive && "text-primary"
+                      )}
+                    />
+                  ) : (
+                    <p className="text-sm font-medium">{label}</p>
+                  )}
+                </>
+              )}
             </NavLink>
 
             {index !== breads.length - 1 && (

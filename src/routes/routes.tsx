@@ -206,6 +206,7 @@ const routes = createBrowserRouter(
         loader={userLoader}
         path={APP_PATH.LOAN_APPLICATION.INDEX}
         lazy={() => import("@/modules/loan-application/page")}
+        handle={handleCrumb(APP_PATH.LOAN_APPLICATION.INDEX)}
       >
         <Route
           index
@@ -221,6 +222,7 @@ const routes = createBrowserRouter(
               "@/modules/loan-application/components/layouts/LoanProgramDetail"
             )
           }
+          handle={handleCrumb(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detail)}
         />
         <Route
           path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}

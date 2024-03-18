@@ -4,7 +4,8 @@ import { ReactNode } from "react"
 
 enum CustomLabelKey {
   loanApplicationDetail = "loanApplicationDetail",
-  documentDetail = "documentDetail"
+  documentDetail = "documentDetail",
+  loanProgramDetail = "loanProgramDetail"
 }
 
 type CustomLabel = {
@@ -81,6 +82,22 @@ const getCrumbByPath = (path: string, customLabel?: CustomLabel, ids?: Ids) => {
      */
     case APP_PATH.LOAN_PROGRAM.index:
       return buildCrumb(APP_PATH.LOAN_PROGRAM.index, "Loan Program")
+
+    /**
+     * APPLICANT
+     * Loan Program
+     *    Detail
+     */
+    case APP_PATH.LOAN_APPLICATION.INDEX:
+      return buildCrumb(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list, "Home")
+
+    case APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detail:
+      return buildCrumb(
+        APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
+          ids?.documentDetail ?? ""
+        ),
+        customLabel?.[CustomLabelKey.documentDetail] || "Loan Program Detail"
+      )
 
     default:
       return buildCrumb(APP_PATH.INDEX, "Home")

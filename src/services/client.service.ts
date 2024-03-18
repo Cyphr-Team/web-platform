@@ -1,7 +1,7 @@
+import { APP_CONFIGS } from "@/configs"
+import { customRequestHeader } from "@/utils/request-header"
 import axios, { AxiosRequestConfig, RawAxiosRequestHeaders } from "axios"
 import applyCaseMiddleware from "axios-case-converter"
-import { APP_CONFIGS } from "@/configs"
-
 import { inMemoryJWTService } from "./jwt.service"
 
 export const axiosClient = applyCaseMiddleware(
@@ -43,7 +43,8 @@ export const getRequest = async <T, R>({
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...customHeader
+      ...customHeader,
+      ...customRequestHeader.customHeaders
     },
     params,
     ...config
@@ -63,7 +64,8 @@ export const postRequest = <T, R>({
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...customHeader
+      ...customHeader,
+      ...customRequestHeader.customHeaders
     },
     params,
     ...config
@@ -82,7 +84,8 @@ export const putRequest = <T, R>({
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...customHeader
+      ...customHeader,
+      ...customRequestHeader.customHeaders
     },
     params,
     ...config
@@ -101,7 +104,8 @@ export const patchRequest = <T, R>({
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...customHeader
+      ...customHeader,
+      ...customRequestHeader.customHeaders
     },
     params,
     ...config
@@ -118,7 +122,8 @@ export const delRequest = <T, R>({
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...customHeader
+      ...customHeader,
+      ...customRequestHeader.customHeaders
     },
     ...config
   })

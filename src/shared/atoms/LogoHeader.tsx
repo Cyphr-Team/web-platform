@@ -1,21 +1,26 @@
-import altCapLogo from "@/assets/altcap-logo.svg"
-import altCapLogoText from "@/assets/altcap-text.svg"
+import { cn } from "@/lib/utils"
+import { useTenant } from "@/providers/tenant-provider"
 
 interface LogoHeaderProps {
   isCollapsed?: boolean
   toggleCollapse?: () => void
+  className?: string
 }
 
-export function LogoHeader(
-  { isCollapsed, toggleCollapse }: LogoHeaderProps = { isCollapsed: false }
-) {
+export function LogoHeader({
+  isCollapsed,
+  toggleCollapse,
+  className
+}: LogoHeaderProps) {
+  const { tenantData } = useTenant()
+
   return (
-    <div className="flex items-center gap-1 w-full">
+    <div className={cn("flex items-center gap-1 w-full", className)}>
       <button onClick={toggleCollapse} className="logo-button">
-        <img src={altCapLogo} className="logo w-8 h-8" alt="altcap logo" />
+        <img src={tenantData.logo} className="logo w-8 h-8" alt="altcap logo" />
       </button>
       {!isCollapsed && (
-        <img src={altCapLogoText} alt="altcap logo" className="pt-1" />
+        <img src={tenantData.logoText} alt="altcap logo" className="pt-1" />
       )}
     </div>
   )

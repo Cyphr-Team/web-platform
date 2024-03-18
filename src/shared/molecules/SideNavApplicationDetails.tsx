@@ -1,12 +1,12 @@
+import { Accordion } from "@/components/ui/accordion"
+import { cn } from "@/lib/utils"
 import {
   ARTCAP_MENU,
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_DATA
 } from "@/modules/loan-application/constants"
 import { Check } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { ASSETS } from "@/assets"
-import { Accordion } from "@/components/ui/accordion"
+import { LogoHeader } from "../atoms/LogoHeader"
 import { LoanProgramCollapsible } from "./SideNavLoanApplication"
 
 function LoanProgramItem({ value }: { value: LOAN_APPLICATION_STEPS }) {
@@ -36,14 +36,7 @@ export function SideNavApplicationDetails() {
       )}
     >
       <div className="pl-3xl pr-2xl items-center mb-3xl justify-between flex bg-white border-b h-20">
-        <div className="flex items-center justify-center gap-1 w-full">
-          <img
-            src={ASSETS.altCapLogo}
-            className="logo w-8 h-8"
-            alt="altcap logo"
-          />
-          <img src={ASSETS.altCapLogoText} alt="altcap logo" className="pt-1" />
-        </div>
+        <LogoHeader className="justify-center" />
       </div>
 
       <div className="px-xl flex-col flex-1 md:flex">

@@ -1,9 +1,7 @@
-import { APP_CONFIGS } from "@/configs"
-
-export const DEMO_INSTITUTION_ID = APP_CONFIGS.DEMO_INSTITUTION_ID
+import { getSubdomain } from "./domain.utils"
 
 enum CustomHeaderKey {
-  Institution = "X-FS-Institution-Id",
+  InstitutionSubdomain = "X-FS-Institution-Subdomain",
   RememberMe = "X-FS-Remember-Me",
   Authorization = "Authorization"
 }
@@ -16,11 +14,11 @@ class CustomRequestHeader {
   customHeaders: CustomHeader = {}
 
   constructor() {
-    this.addInstitution(DEMO_INSTITUTION_ID)
+    this.addInstitution()
   }
 
-  addInstitution = (institutionId: string) => {
-    this.customHeaders[CustomHeaderKey.Institution] = institutionId
+  addInstitution = () => {
+    this.customHeaders[CustomHeaderKey.InstitutionSubdomain] = getSubdomain()
     return this
   }
 }
@@ -41,4 +39,4 @@ const headerWithRememberMe = (days: number) => {
   }
 }
 
-export { customRequestHeader, headerWithTemporaryToken, headerWithRememberMe }
+export { customRequestHeader, headerWithRememberMe, headerWithTemporaryToken }

@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios"
 import { postRequest } from "./client.service"
 
 import { UserInfo } from "@/types/user.type"
+import { customRequestHeader } from "@/utils/request-header"
 
 export const parseJwt = (token: string) => {
   try {
@@ -54,7 +55,8 @@ export const inMemoryJWTManager = () => {
       data: {
         refresh_token: refreshToken,
         grant_type: "refresh_token"
-      }
+      },
+      customHeader: customRequestHeader.customHeaders
     })
       .then((response: AxiosResponse) => {
         if (response.status !== 200) {
