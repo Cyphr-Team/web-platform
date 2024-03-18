@@ -21,7 +21,7 @@ import { useSubmitLoanKycInformation } from "../hooks/useMutation/useSubmitLoanK
 import { useMutateUploadDocument } from "../hooks/useMutation/useUploadDocumentMutation"
 import { DocumentUploadedResponse, FORM_TYPE } from "../constants/type"
 import { useSubmitLoanFinancialInformation } from "../hooks/useMutation/useSubmitLoanFinancialInformation"
-import { toastError } from "@/utils"
+import { toastError, toastSuccess } from "@/utils"
 import { useSubmitLoanConfirmation } from "../hooks/useMutation/useSubmitLoanConfirmation"
 import { useUpdateEffect } from "react-use"
 import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
@@ -615,9 +615,15 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
                 }
                 if (draftForm.confirmationForm) {
                   await handleSubmitConfirmation(data.data.id)
-                } else {
-                  navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
                 }
+                toastSuccess({
+                  title: TOAST_MSG.loanApplication.submitSuccess.title,
+                  description:
+                    TOAST_MSG.loanApplication.submitSuccess.description
+                })
+                navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+                setIsFormEdited(false)
+                resetAllState()
               } catch (error) {
                 toastError({
                   title: TOAST_MSG.loanApplication.submitError.title,
@@ -635,9 +641,6 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
           title: TOAST_MSG.loanApplication.submitError.title,
           description: TOAST_MSG.loanApplication.submitError.description
         })
-      } finally {
-        setIsFormEdited(false)
-        resetAllState()
       }
     } else {
       try {
@@ -655,17 +658,20 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         }
         if (draftForm.confirmationForm) {
           await handleSubmitConfirmation(loanApplicationId)
-        } else {
-          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
         }
+        toastSuccess({
+          title: TOAST_MSG.loanApplication.updateSuccess.title,
+          description: TOAST_MSG.loanApplication.updateSuccess.description
+        })
+        navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+
+        setIsFormEdited(false)
+        resetAllState()
       } catch (error) {
         toastError({
           title: TOAST_MSG.loanApplication.submitError.title,
           description: TOAST_MSG.loanApplication.submitError.description
         })
-      } finally {
-        setIsFormEdited(false)
-        resetAllState()
       }
     }
   }, [

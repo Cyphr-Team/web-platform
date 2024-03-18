@@ -1,6 +1,6 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { toastError, toastSuccess } from "@/utils"
+import { toastError } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
@@ -23,9 +23,6 @@ export const useMutateUploadDocument = () => {
         ...TOAST_MSG.loanApplication.uploadDocument,
         description: getAxiosError(error).message
       })
-    },
-    onSuccess() {
-      toastSuccess(TOAST_MSG.loanApplication.uploadDocument)
     }
   })
 

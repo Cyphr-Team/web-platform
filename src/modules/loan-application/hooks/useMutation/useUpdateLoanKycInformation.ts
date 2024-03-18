@@ -5,7 +5,7 @@ import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { KYCInformation, KYCInformationResponse } from "../../constants/type"
-import { toastError, toastSuccess } from "@/utils"
+import { toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
 
@@ -21,9 +21,6 @@ export const useUpdateLoanKycInformation = () => {
         data,
         customHeader: customRequestHeader.customHeaders
       })
-    },
-    onSuccess: () => {
-      toastSuccess(TOAST_MSG.loanApplication.submitKyc)
     },
     onError: (error) => {
       toastError({

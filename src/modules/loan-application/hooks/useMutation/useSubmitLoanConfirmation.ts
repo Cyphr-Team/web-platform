@@ -8,7 +8,7 @@ import { ErrorResponse, useNavigate } from "react-router-dom"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { TOAST_MSG } from "@/constants/toastMsg"
-import { toastError, toastSuccess } from "@/utils"
+import { toastError } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { QUERY_KEY } from "../../constants/query-key"
 
@@ -28,7 +28,6 @@ export const useSubmitLoanConfirmation = () => {
       })
     },
     onSuccess: () => {
-      toastSuccess(TOAST_MSG.loanApplication.submitConfirmation)
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GET_LOAN_APPLICATIONS]
       })

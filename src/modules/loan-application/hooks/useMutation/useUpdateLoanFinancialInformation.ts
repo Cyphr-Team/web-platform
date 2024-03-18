@@ -9,7 +9,7 @@ import {
   FinancialInformationResponse
 } from "../../constants/type"
 import { TOAST_MSG } from "@/constants/toastMsg"
-import { toastSuccess, toastError } from "@/utils"
+import { toastError } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 
 export const useUpdateLoanFinancialInformation = () => {
@@ -24,9 +24,6 @@ export const useUpdateLoanFinancialInformation = () => {
         data,
         customHeader: customRequestHeader.customHeaders
       })
-    },
-    onSuccess: () => {
-      toastSuccess(TOAST_MSG.loanApplication.submitFinancial)
     },
     onError: (error) => {
       toastError({
