@@ -17,6 +17,7 @@ import { useMarkNotificationAsRead } from "../hooks/useMutation/useMarkNotificat
 import { useMarkNotificationAsUnread } from "../hooks/useMutation/useMarkNotificationAsUnread"
 import { NotificationType } from "../constants"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
+import { useQueryGetUnreadNotifications } from "../hooks/useQuery/useQueryGetUnreadNotifications"
 
 export function Component() {
   const crumbs = useBreadcrumb()
@@ -42,13 +43,28 @@ export function Component() {
   }, [filterParams, refetch])
 
   const handleClickMarkAllAsRead = () => {
-    markAllAsRead(null, { onSuccess: () => refetch() })
+    markAllAsRead(null, {
+      onSuccess: () => {
+        refetch()
+        refetchUnreadCount()
+      }
+    })
   }
   const handleClickMarkAsRead = (notificationId: string) => {
-    markAsRead(notificationId, { onSuccess: () => refetch() })
+    markAsRead(notificationId, {
+      onSuccess: () => {
+        refetch()
+        refetchUnreadCount()
+      }
+    })
   }
   const handleClickMarkAsUnread = (notificationId: string) => {
-    markAsUnread(notificationId, { onSuccess: () => refetch() })
+    markAsUnread(notificationId, {
+      onSuccess: () => {
+        refetch()
+        refetchUnreadCount()
+      }
+    })
   }
 
   const isLoanApplicant = checkIsLoanApplicant()
@@ -57,6 +73,10 @@ export function Component() {
       ? `${APP_PATH.LOAN_APPLICATION.NOTIFICATION.details(notificationId)}`
       : `${APP_PATH.NOTIFICATION.details(notificationId)}`
   }
+
+  // fetch count unread notifications
+  const { data: unreadCount = 0, refetch: refetchUnreadCount } =
+    useQueryGetUnreadNotifications()
 
   return (
     <div className="container mx-auto py-4xl overflow-auto">
@@ -97,6 +117,7 @@ export function Component() {
           </Button>
         </div>
         <Button
+          disabled={unreadCount === 0}
           onClick={handleClickMarkAllAsRead}
           size="sm"
           className="bg-gray-400 hover:bg-gray-500 text-white border-gray-300 rounded-md"
