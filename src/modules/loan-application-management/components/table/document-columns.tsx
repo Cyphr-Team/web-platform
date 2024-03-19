@@ -38,6 +38,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
         </div>
       )
     },
+    enableSorting: false,
     size: 300
   },
   {
@@ -46,7 +47,8 @@ export const columns: ColumnDef<LoanDocument>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Document Type" />
     ),
-    size: 200,
+    size: 150,
+    enableSorting: false,
     cell: ({ row }) => {
       const document = row.original
 
@@ -68,6 +70,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
       <DataTableColumnHeader column={column} title="Date uploaded" />
     ),
     size: 150,
+    enableSorting: false,
     cell: ({ row }) => {
       const document = row.original
 
@@ -78,9 +81,14 @@ export const columns: ColumnDef<LoanDocument>[] = [
     id: "authenticityScore",
     accessorFn: (row) => row.authenticityScoreStatus.score,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Authenticity Score" />
+      <DataTableColumnHeader
+        column={column}
+        title="Authenticity Score"
+        className="text-right"
+      />
     ),
     size: 100,
+    enableSorting: false,
     cell: ({ row }) => {
       const document = row.original
       return (

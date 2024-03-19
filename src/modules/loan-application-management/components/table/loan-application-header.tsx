@@ -35,6 +35,8 @@ export function LoanApplicationTableHeader({
     }
   })
 
+  const onSubmit = form.handleSubmit(() => {})
+
   useEffect(() => {
     const subscription = form.watch((value) => {
       onSearch({
@@ -49,7 +51,7 @@ export function LoanApplicationTableHeader({
 
   return (
     <Form {...form}>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={onSubmit}>
         <div className="flex w-full items-center flex-wrap gap-3">
           <FormField
             control={form.control}

@@ -27,6 +27,8 @@ export const DocumentTableHeader: React.FC<Props> = ({ onSearch }) => {
 
   const formValues = form.watch()
 
+  const onSubmit = form.handleSubmit(() => {})
+
   useDebounce(
     () => {
       onSearch(formValues.search ?? "")
@@ -37,7 +39,7 @@ export const DocumentTableHeader: React.FC<Props> = ({ onSearch }) => {
 
   return (
     <Form {...form}>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={onSubmit}>
         <div className="flex w-full items-center flex-wrap gap-3">
           <FormField
             control={form.control}
