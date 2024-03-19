@@ -1,46 +1,34 @@
-import { json, useLoaderData } from "react-router-dom"
-import { User, columns } from "./table/columns"
 import { DataTable } from "@/components/ui/data-table"
-import { DialogSendInvite } from "./components/DialogSendInvitation"
-import { UserRoles } from "@/types/user.type"
-import { useState } from "react"
-import { PaginationState } from "@tanstack/react-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
-
-async function getData(): Promise<User[]> {
-  return [
-    {
-      id: "728ed52f",
-      username: "admin@tryforesight.io",
-      roles: [UserRoles.FORESIGHT_ADMIN]
-    }
-  ]
-}
+import { PaginationState } from "@tanstack/react-table"
+import { useState } from "react"
+import { DialogSendInvite } from "./components/DialogSendInvitation"
+import { columns } from "./table/columns"
+import { useQueryListPaginateUser } from "./hooks/useQuery/useQueryListPaginateUser"
 
 export default async function ExampleTablePage() {}
 
-export async function loader() {
-  const data = await getData()
-
-  return json(data)
-}
-
 export function Component() {
-  const data = useLoaderData() as User[]
-
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: REQUEST_LIMIT_PARAM
   })
 
+  const { data, isFetching } = useQueryListPaginateUser({
+    limit: pagination.pageSize,
+    offset: pagination.pageIndex * pagination.pageSize
+  })
+
   return (
     <div className="container mx-auto py-10">
       <DialogSendInvite />
+      {/* TODO: Implement get users (include invited users) */}
       <DataTable
         columns={columns}
-        data={data}
-        total={1}
+        data={data?.data ?? []}
+        total={data?.total ?? 0}
         pagination={pagination}
+        isLoading={isFetching}
         setPagination={setPagination}
       />
     </div>

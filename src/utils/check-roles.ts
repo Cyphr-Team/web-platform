@@ -24,6 +24,13 @@ const checkIsLoanOfficer = () => {
   return userInfo.roles.includes(UserRoles.LOAN_OFFICER.toLowerCase())
 }
 
+const checkIsForesightAdmin = () => {
+  const userInfo = inMemoryJWTService.getUserInfo()
+  if (!userInfo) return false
+
+  return userInfo.roles.includes(UserRoles.FORESIGHT_ADMIN.toLowerCase())
+}
+
 const checkRolesMatchWithUserRoles = (roles: UserRoles[]) => {
   const userRoles = getUserRoles()
 
@@ -31,6 +38,7 @@ const checkRolesMatchWithUserRoles = (roles: UserRoles[]) => {
 }
 
 export {
+  checkIsForesightAdmin,
   checkIsLoanApplicant,
   checkRolesMatchWithUserRoles,
   checkIsLoanOfficer

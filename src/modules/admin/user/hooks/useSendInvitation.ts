@@ -28,7 +28,7 @@ export const useSendInvitation = () => {
     AdminSendInvitationValue
   >({
     mutationFn: ({ email, roles, institutionId }) => {
-      const baseUrl = window.location.origin
+      const baseUrl = `${window.location.origin}/accept-invite`
 
       return postRequest({
         path: API_PATH.admin.user.sendInvitation,

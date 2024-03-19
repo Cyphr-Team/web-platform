@@ -15,7 +15,8 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     title: "Applications",
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
     icon: Icons.folderCheck,
-    label: "Applications"
+    label: "Applications",
+    roles: [UserRoles.LOAN_OFFICER]
   },
   {
     title: "Messages",

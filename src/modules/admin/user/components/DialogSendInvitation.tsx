@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { Button, ButtonLoading } from "@/components/ui/button"
 import {
   Dialog,
@@ -18,6 +17,7 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useState } from "react"
 
 import {
   Select,
@@ -30,14 +30,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusCircle, Send } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { INVITE_ROLES } from "../constants/invite-roles.constants"
 import {
   adminSendInvitationForm,
   useSendInvitation
 } from "../hooks/useSendInvitation"
-import { UserRoles } from "@/types/user.type"
+
+import { useGetUserInformation } from "@/hooks/useGetUserInformation"
 
 export function DialogSendInvite() {
   const [open, setOpen] = useState(false)
+  const { data } = useGetUserInformation()
 
   const onOpenChange = (open: boolean) => {
     if (!open) {
@@ -48,10 +51,10 @@ export function DialogSendInvite() {
 
   const form = useForm<z.infer<typeof adminSendInvitationForm>>({
     resolver: zodResolver(adminSendInvitationForm),
-    defaultValues: {
+    values: {
       email: "",
       roles: "",
-      institutionId: ""
+      institutionId: data?.institutionId ?? ""
     }
   })
 
@@ -90,7 +93,7 @@ export function DialogSendInvite() {
                   </div>
                   <FormControl>
                     <Input
-                      placeholder="user@gmail.com"
+                      placeholder="i.e: user@gmail.com"
                       wrapperClassName="col-span-3 w-full"
                       {...field}
                     />
@@ -114,34 +117,11 @@ export function DialogSendInvite() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.keys(UserRoles).map((role) => (
-                        <SelectItem key={role} value={role}>
-                          {role}
+                      {INVITE_ROLES.map((role) => (
+                        <SelectItem key={role.value} value={role.value}>
+                          {role.label}
                         </SelectItem>
                       ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="institutionId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Institution</FormLabel>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select an institution" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="00000000-0000-0000-0000-000000000000">
-                        Foresight
-                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

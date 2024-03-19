@@ -111,7 +111,9 @@ export const API_PATH = {
   },
   admin: {
     user: {
-      sendInvitation: "api/admin/user/invite"
+      all: "api/admin",
+      sendInvitation: "api/admin/user/invite",
+      list: () => `${API_PATH.admin.user.all}/users`
     }
   },
   loanProgram: {

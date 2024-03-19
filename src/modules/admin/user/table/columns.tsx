@@ -1,53 +1,21 @@
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
-import { ColumnDef } from "@tanstack/react-table"
-import { Checkbox } from "@/components/ui/checkbox"
-import { MoreHorizontal } from "lucide-react"
-import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Badge } from "@/components/ui/badge"
+import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
+import { UserDetailInfo } from "@/types/user.type"
+import { snakeCaseToText } from "@/utils"
+import { formatDate } from "@/utils/date.utils"
+import { ColumnDef } from "@tanstack/react-table"
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type User = {
-  id: string
-  username: string
-  roles: string[]
-}
-
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<UserDetailInfo>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false
-  },
-  {
-    accessorKey: "username",
+    accessorKey: "email",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Email" />
+    )
+  },
+  {
+    accessorKey: "authProvider",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Social" />
     )
   },
   {
@@ -58,36 +26,23 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const roles: string[] = row.getValue("roles")
 
-      return roles.map((role) => <Badge key={role}>{role}</Badge>)
+      return roles.map((role) => (
+        <Badge key={role} className="capitalize">
+          {snakeCaseToText(role)}
+        </Badge>
+      ))
     }
   },
   {
-    id: "actions",
-    header: () => <div className="text-right font-medium mr-4">Actions</div>,
+    accessorKey: "createdAt",
+    header: () => <p>Created on</p>,
+    size: 150,
     cell: ({ row }) => {
-      const payment = row.original
+      const application = row.original
 
       return (
-        <div className="flex justify-end mr-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
-              >
-                Copy payment ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div>
+          {application.createdAt ? formatDate(application.createdAt) : "N/A"}
         </div>
       )
     }
