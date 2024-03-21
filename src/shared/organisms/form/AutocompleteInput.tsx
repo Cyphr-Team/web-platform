@@ -36,13 +36,23 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   label: string
   control: Control<T>
   name: FieldPath<T>
+  placeholder?: string
 }
 
 export const AutoCompleteInput = <T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
 ) => {
   const [open, setOpen] = useState(false)
-  const { value, options, emptyText, control, name, label, onChange } = props
+  const {
+    value,
+    options,
+    emptyText,
+    control,
+    name,
+    label,
+    onChange,
+    placeholder
+  } = props
 
   return (
     <FormField
@@ -58,7 +68,7 @@ export const AutoCompleteInput = <T extends FieldValues>(
                   value={
                     value
                       ? options.find((option) => option.value === value)?.label
-                      : "Select option..."
+                      : placeholder ?? "Select option..."
                   }
                 />
               </PopoverTrigger>

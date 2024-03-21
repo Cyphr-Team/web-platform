@@ -18,18 +18,21 @@ interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
   value?: string
   onSelectDate?: (date: Date | undefined) => void
+  disabled?: boolean
 }
 
 export function CalendarDatePicker({
   className,
   value,
-  onSelectDate
+  onSelectDate,
+  disabled
 }: CalendarDatePickerProps) {
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             variant={"outline"}
             className={cn(
               "w-full pl-3 text-left font-normal flex justify-between gap-2 text-base",
