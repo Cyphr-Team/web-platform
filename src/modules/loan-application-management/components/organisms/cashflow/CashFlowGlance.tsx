@@ -9,8 +9,6 @@ import { CashFlowGlanceType } from "@/modules/loan-application-management/consta
 import { NoData } from "../../atoms/NoData"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 
-// Temp add FAKE data for demo purpose
-
 export const CashFlowGlance = () => {
   const { cashFlowAnalysis, isFetchingCashflow } =
     useLoanApplicationDetailContext()
@@ -43,44 +41,9 @@ export const CashFlowGlance = () => {
           )}
         </LoadingWrapper>
       </Card>
-
-      <Card className="mt-4 p-4 gap-4 min-h-40">
-        <h3 className="text-xl font-medium">Balance History</h3>
-        <LoadingWrapper isLoading={isFetchingCashflow}>
-          {cashFlowAnalysis?.bankAccountSummary ? (
-            <AccountBalanceChart
-              data={cashFlowAnalysis?.balancesGraph ?? []}
-              bankInformation={cashFlowAnalysis?.bankAccountSummary ?? []}
-            />
-          ) : (
-            <NoData />
-          )}{" "}
-        </LoadingWrapper>
-      </Card>
-      <Card className="mt-4 p-4 gap-4 min-h-40">
-        <h3 className="text-xl font-medium">Revenue vs Expense</h3>
-        <LoadingWrapper isLoading={isFetchingCashflow}>
-          {cashFlowAnalysis?.revenueVsExpenseGraph ? (
-            <RevenueAndExpenseChart
-              data={cashFlowAnalysis?.revenueVsExpenseGraph ?? []}
-            />
-          ) : (
-            <NoData />
-          )}{" "}
-        </LoadingWrapper>
-      </Card>
-      <Card className="mt-4 p-4 gap-4 min-h-40">
-        <h3 className="text-xl font-medium">Summary by Transaction Tag</h3>
-        <LoadingWrapper isLoading={isFetchingCashflow}>
-          {cashFlowAnalysis?.summaryByTransactionTag ? (
-            <SummaryChart
-              data={cashFlowAnalysis?.summaryByTransactionTag ?? []}
-            />
-          ) : (
-            <NoData />
-          )}
-        </LoadingWrapper>
-      </Card>
+      <AccountBalanceChart />
+      <RevenueAndExpenseChart />
+      <SummaryChart />
     </div>
   )
 }

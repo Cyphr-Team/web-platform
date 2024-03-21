@@ -2,7 +2,7 @@ import { Option } from "@/types/common.type"
 import { APP_PATH } from "@/constants"
 import { KybDetailLiensData } from "./type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { AccountSummaryType } from "./types/cashflow.type"
+import { AccountSummaryType, TRANSACTION_TAG } from "./types/cashflow.type"
 export const APPLICATION_MENU = (id: string) => [
   {
     name: "Business Verification",
@@ -40,14 +40,12 @@ export const STATE_STATUS = {
 
 export const RANDOM_LINE_COLORS = [
   "#FF6633",
-  "#FFB399",
   "#00B3E6",
   "#E6B333",
   "#3366E6",
   "#999966",
   "#B34D4D",
   "#80B300",
-  "#809900",
   "#E6B3B3",
   "#6680B3",
   "#66991A",
@@ -253,4 +251,9 @@ export const CASH_FLOW_GLANCE = [
     description: "Sum of all transactions that are considered overdraft fees",
     isNegative: true
   }
+]
+
+export const DEFAULT_TRANSACTION_TAGS = [
+  TRANSACTION_TAG.DEPOSITS,
+  TRANSACTION_TAG.WITHDRAWALS
 ]

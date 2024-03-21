@@ -199,8 +199,6 @@ export const getAuthenticityDataByScore = (score: number) => {
   }
 }
 
-export const getRandomColor = () => {
-  return RANDOM_LINE_COLORS[
-    Math.floor(Math.random() * RANDOM_LINE_COLORS.length)
-  ]
+export const getRandomColor = (index: number) => {
+  return RANDOM_LINE_COLORS[index % RANDOM_LINE_COLORS.length]
 }

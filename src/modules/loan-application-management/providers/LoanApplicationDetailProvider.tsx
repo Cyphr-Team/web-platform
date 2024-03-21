@@ -9,22 +9,47 @@ import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
 import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
 import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
 import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
-import { ApplicationCashFlow } from "../constants/types/cashflow.type"
+import {
+  ApplicationCashFlow,
+  BankAccount,
+  CashFlowRequestFilters,
+  GRAPH_FREQUENCY,
+  TRANSACTION_TAG
+} from "../constants/types/cashflow.type"
+import { useCallback, useMemo, useState } from "react"
+import { useQueryGetBankAccounts } from "../hooks/useQuery/useQueryGetBankAccounts"
+import { DEFAULT_TRANSACTION_TAGS } from "../constants"
+import { useUpdateEffect } from "react-use"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
   loanKycDetail?: LoanApplicationsKyc
   loanApplicationDetails?: UserLoanApplication
   cashFlowAnalysis?: ApplicationCashFlow
+  onChangeTimePeriod: (key: string, period: string) => void
   isFetchingCashflow: boolean
   isLoading: boolean
   loanSummary?: LoanSummary
+  onChangeTransactionTags: (option: TRANSACTION_TAG[]) => void
+  onApplyFilter?: () => void
+  onChangeAccountFilter: (value: string[]) => void
+  onChangeTimeRangeFilter: (from: string | null, to: string | null) => void
+  selectedTags: TRANSACTION_TAG[]
+  filters: CashFlowRequestFilters
+  cashFlowAccounts: BankAccount[]
 }
 
 export const LoanApplicationDetailContext =
   createContext<LoanApplicationDetailContextType>({
     isLoading: false,
-    isFetchingCashflow: false
+    isFetchingCashflow: false,
+    onChangeTransactionTags: () => {},
+    selectedTags: [],
+    onChangeTimePeriod: () => {},
+    onChangeAccountFilter: () => {},
+    filters: {} as CashFlowRequestFilters,
+    cashFlowAccounts: [],
+    onChangeTimeRangeFilter: () => {}
   })
 
 type Props = {
@@ -34,6 +59,10 @@ type Props = {
 export const LoanApplicationDetailProvider: React.FC<Props> = ({
   children
 }) => {
+  const [selectedTags, setSelectedTags] = useState<TRANSACTION_TAG[]>(
+    DEFAULT_TRANSACTION_TAGS
+  )
+
   const params = useParams()
 
   const kybDetailQuery = useQueryGetKyb({
@@ -52,22 +81,135 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     applicationId: params.id
   })
 
-  const cashFlowQuery = useQueryGetCashFlowAnalysis({
+  const bankAccountsQuery = useQueryGetBankAccounts({
     applicationId: params.id!
   })
 
+  const defaultFilters = {
+    timeRangeFilter: {
+      from: null,
+      to: null
+    },
+    balanceFilter: {
+      frequency: GRAPH_FREQUENCY.MONTHLY
+    },
+    revenueVsExpenseFilter: {
+      frequency: GRAPH_FREQUENCY.MONTHLY
+    },
+    summaryByTransactionTagFilter: {
+      frequency: GRAPH_FREQUENCY.MONTHLY,
+      tags: DEFAULT_TRANSACTION_TAGS
+    }
+  }
+
+  const [filters, setFilters] = useState<CashFlowRequestFilters>(defaultFilters)
+
+  const cashFlowQuery = useQueryGetCashFlowAnalysis(
+    {
+      applicationId: params.id!
+    },
+    {
+      ...filters
+    }
+  )
+
+  useUpdateEffect(() => {
+    if (bankAccountsQuery.data?.bankAccounts.length === 0) return
+    const listBankAccount =
+      bankAccountsQuery.data?.bankAccounts.map((item) => item.bankAccountPk) ??
+      []
+    setFilters((prev) => ({
+      ...prev,
+      accountFilter: listBankAccount
+    }))
+  }, [bankAccountsQuery.data])
+
+  const onChangeTransactionTags = useCallback((value: TRANSACTION_TAG[]) => {
+    setSelectedTags(value)
+  }, [])
+
+  const onApplyFilter = useCallback(() => {
+    setFilters((prev) => ({
+      ...prev,
+      summaryByTransactionTagFilter: {
+        ...prev.summaryByTransactionTagFilter,
+        tags: selectedTags
+      }
+    }))
+  }, [selectedTags])
+
+  const onChangeTimePeriod = useCallback((key: string, period: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: {
+        ...prev[key as keyof typeof prev],
+        frequency: period
+      }
+    }))
+  }, [])
+
+  const onChangeAccountFilter = useCallback((value: string[]) => {
+    setFilters((prev) => ({
+      ...prev,
+      accountFilter: value
+    }))
+  }, [])
+
+  const onChangeTimeRangeFilter = useCallback(
+    (from: string | null, to: string | null) => {
+      setFilters((prev) => ({
+        ...prev,
+        timeRangeFilter: {
+          from,
+          to
+        }
+      }))
+    },
+    []
+  )
+
+  const providerValues = useMemo(
+    () => ({
+      loanKybDetail: kybDetailQuery.data,
+      loanKycDetail: kycDetailQuery.data,
+      loanApplicationDetails: userLoanApplicationQuery.data,
+      loanSummary: loanSummaryQuery.data,
+      cashFlowAnalysis: cashFlowQuery.data,
+      cashFlowAccounts: bankAccountsQuery.data?.bankAccounts ?? [],
+      filters,
+      isFetchingCashflow:
+        cashFlowQuery.isLoading || bankAccountsQuery.isLoading,
+      isLoading: kybDetailQuery.isLoading,
+      onChangeTransactionTags,
+
+      selectedTags,
+      onApplyFilter,
+      onChangeTimePeriod,
+      onChangeAccountFilter,
+      onChangeTimeRangeFilter
+    }),
+    [
+      kybDetailQuery.data,
+      kybDetailQuery.isLoading,
+      kycDetailQuery.data,
+      userLoanApplicationQuery.data,
+      loanSummaryQuery.data,
+      cashFlowQuery.data,
+      cashFlowQuery.isLoading,
+      bankAccountsQuery.data?.bankAccounts,
+      bankAccountsQuery.isLoading,
+      filters,
+      onChangeTransactionTags,
+      selectedTags,
+      onApplyFilter,
+      onChangeTimePeriod,
+      onChangeAccountFilter,
+      onChangeTimeRangeFilter
+    ]
+  )
+
   return (
-    <LoanApplicationDetailContext.Provider
-      value={{
-        loanKybDetail: kybDetailQuery.data,
-        loanKycDetail: kycDetailQuery.data,
-        loanApplicationDetails: userLoanApplicationQuery.data,
-        loanSummary: loanSummaryQuery.data,
-        cashFlowAnalysis: cashFlowQuery.data,
-        isFetchingCashflow: cashFlowQuery.isLoading,
-        isLoading: kybDetailQuery.isLoading
-      }}
-    >
+    <LoanApplicationDetailContext.Provider value={providerValues}>
       {children}
     </LoanApplicationDetailContext.Provider>
   )

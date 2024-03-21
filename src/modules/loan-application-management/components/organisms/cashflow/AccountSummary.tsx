@@ -5,6 +5,8 @@ import { useLoanApplicationDetailContext } from "@/modules/loan-application-mana
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { toCurrency } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
+import { AccountFilters } from "../../atoms/cashflows/AccountFilters"
+import { DateRangeFilter } from "../../molecules/filters/DateRangeFilter"
 
 const columns: ColumnDef<AccountSummaryType>[] = [
   {
@@ -203,11 +205,20 @@ const adjustColumns = columns.map((c) => ({
 }))
 
 export const AccountSummaryTable = () => {
-  const { cashFlowAnalysis, isFetchingCashflow } =
+  const { cashFlowAccounts, cashFlowAnalysis, isFetchingCashflow } =
     useLoanApplicationDetailContext()
   return (
     <Card className="p-4 gap-4 min-h-40">
-      <h3 className="text-xl font-medium">Account Summary</h3>
+      <div className="flex justify-between">
+        <h3 className="text-xl font-medium">Account Summary</h3>
+        {!!cashFlowAccounts?.length && (
+          <div className="flex gap-2">
+            <AccountFilters />
+            <DateRangeFilter />
+          </div>
+        )}
+      </div>
+
       <div className="text-sm text-right">
         <DataTable
           columns={adjustColumns}
