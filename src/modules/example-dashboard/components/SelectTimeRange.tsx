@@ -4,14 +4,21 @@ import { TimeRangeFilterValue, TimeRangeValue } from "@/types/time-range.type"
 import { getTimeRangeDates } from "@/utils/time-range.utils"
 import { useFormContext } from "react-hook-form"
 
-export function SelectTimeRange() {
+export function SelectTimeRange({
+  customOnChange
+}: {
+  customOnChange?: (value?: TimeRangeValue) => void
+}) {
   const { setValue, control, watch } = useFormContext<TimeRangeFilterValue>()
 
   const onChangeTimeRange = (value: string) => {
     const timeRangeDate = getTimeRangeDates(value as TimeRangeValue)
-    setValue("timeRange.selectedTimeRange", value)
-    setValue("timeRange.from", timeRangeDate.from.toISOString())
-    setValue("timeRange.to", timeRangeDate.to.toISOString())
+    setValue("timeRange", {
+      selectedTimeRange: value,
+      from: timeRangeDate.from,
+      to: timeRangeDate.to
+    })
+    customOnChange?.(value as TimeRangeValue)
   }
 
   const name = "timeRange.selectedTimeRange"
@@ -25,7 +32,7 @@ export function SelectTimeRange() {
         name={name}
         options={timeRangeOptions}
         onChange={onChangeTimeRange}
-        value={value}
+        value={value ?? ""}
         placeholder="Select time range.."
       />
     </div>

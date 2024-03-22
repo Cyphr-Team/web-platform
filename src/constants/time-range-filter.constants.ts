@@ -2,6 +2,7 @@ import { TimeRangeOption, TimeRangeValue } from "@/types/time-range.type"
 import * as z from "zod"
 
 const timeRangeOptions: TimeRangeOption[] = [
+  { label: "All time", value: TimeRangeValue.ALL_TIME },
   { label: "Today", value: TimeRangeValue.TODAY },
   { label: "Yesterday", value: TimeRangeValue.YESTERDAY },
   { label: "This Week", value: TimeRangeValue.THIS_WEEK },
@@ -16,9 +17,9 @@ const timeRangeOptions: TimeRangeOption[] = [
 
 const TimeRangeFilterSchema = z.object({
   timeRange: z.object({
-    selectedTimeRange: z.string(),
-    from: z.string().min(1, "From date is required."),
-    to: z.string().min(1, "To date is required.")
+    selectedTimeRange: z.string().optional(),
+    from: z.date().optional(),
+    to: z.date().optional()
   })
 })
 

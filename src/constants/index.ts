@@ -186,6 +186,11 @@ export const API_PATH = {
     markAllAsRead: "api/notification/mark-all-read",
     markAsRead: "api/notification/mark-read",
     markAsUnread: "api/notification/mark-unread"
+  },
+  dashboard: {
+    all: "api/lender/stats",
+    getInstitutionActivity: () =>
+      `${API_PATH.dashboard.all}/institution-activity`
   }
 }
 

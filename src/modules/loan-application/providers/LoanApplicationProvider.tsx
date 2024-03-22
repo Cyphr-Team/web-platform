@@ -632,7 +632,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
               }
             },
             onError: (error) => {
-              console.log(error)
+              console.error(error)
             }
           }
         )

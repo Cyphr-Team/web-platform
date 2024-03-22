@@ -78,7 +78,7 @@ export const AutoCompleteInput = <T extends FieldValues>(
                     placeholder="Search option..."
                     className="h-9"
                   />
-                  <CommandEmpty>{emptyText}</CommandEmpty>
+                  <CommandEmpty>{emptyText ?? "Not found."}</CommandEmpty>
                   <CommandGroup>
                     {options.map((option) => (
                       <CommandItem

@@ -1,72 +1,71 @@
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form"
+import { DatePickerWithRange } from "@/components/ui/date-picker-with-range"
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { TimeRangeFilterSchema } from "@/constants/time-range-filter.constants"
-import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { TimeRangeFilterValue, TimeRangeValue } from "@/types/time-range.type"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { DateRange } from "react-day-picker"
 import { useForm } from "react-hook-form"
+import { useDashboard } from "../providers/dashboard-provider"
+import { DashboardActionType } from "../types/stats.types"
 import { SelectTimeRange } from "./SelectTimeRange"
+import { useCallback } from "react"
+import debounce from "lodash.debounce"
 
 export const FilterTimeRange = () => {
+  const { dashboardState, dashboardDispatch } = useDashboard()
+
   const form = useForm<TimeRangeFilterValue>({
     resolver: zodResolver(TimeRangeFilterSchema),
     defaultValues: {
-      timeRange: {
-        from: new Date().toISOString(),
-        to: new Date().toISOString()
-      }
+      timeRange: dashboardState.filter.timeRange
     }
   })
 
-  const handleSelectFromDate = (date: Date | undefined) => {
-    form.setValue("timeRange.from", date?.toISOString() ?? "")
-    form.setValue("timeRange.selectedTimeRange", TimeRangeValue.CUSTOM)
+  // Will be created only once initially
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSubmit = useCallback(
+    debounce(
+      form.handleSubmit((data) => {
+        dashboardDispatch({
+          type: DashboardActionType.UpdateTimeRange,
+          payload: data.timeRange
+        })
+      }),
+      400
+    ),
+    []
+  )
+
+  const customSelectTimeRangeOnChange = () => {
+    handleSubmit()
   }
 
-  const handleSelectToDate = (date: Date | undefined) => {
-    form.setValue("timeRange.to", date?.toISOString() ?? "")
-    form.setValue("timeRange.selectedTimeRange", TimeRangeValue.CUSTOM)
+  const handleSetDate = (range?: DateRange) => {
+    form.setValue("timeRange", {
+      from: range?.from,
+      to: range?.to,
+      selectedTimeRange: TimeRangeValue.CUSTOM
+    })
+    if (range?.from && range?.to) handleSubmit()
   }
 
   return (
     <div className="border p-4 rounded-lg bg-zinc-300 bg-opacity-10 w-full">
       <Form {...form}>
         <form>
-          <div className="flex items-end gap-4">
-            <SelectTimeRange />
+          <div className="flex items-end gap-4 flex-wrap">
+            <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <FormField
                 control={form.control}
-                name="timeRange.from"
-                render={({ field }) => (
+                name="timeRange"
+                render={({ field: { value } }) => (
                   <FormItem className="flex items-end space-y-0 gap-1">
-                    <FormLabel className="self-center">From: </FormLabel>
-                    <CalendarDatePicker
-                      value={field.value}
-                      onSelectDate={handleSelectFromDate}
+                    <DatePickerWithRange
+                      date={value}
+                      setDate={handleSetDate}
                       className="w-full mt-0"
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="timeRange.to"
-                render={({ field }) => (
-                  <FormItem className="flex items-end space-y-0 gap-1">
-                    <FormLabel className="self-center">To:</FormLabel>
-                    <CalendarDatePicker
-                      value={field.value}
-                      onSelectDate={handleSelectToDate}
-                      className="w-full"
                     />
                     <FormMessage />
                   </FormItem>
