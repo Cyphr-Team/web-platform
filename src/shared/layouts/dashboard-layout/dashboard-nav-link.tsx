@@ -27,7 +27,7 @@ export function DashboardNavLink({
             <item.icon
               className={cn("h-6 w-6 text-disabled", isActive && "text-dark")}
             />
-            <div className="absolute top-0 right-0 translate-x-1/3 -translate-y-1/2 z-10">
+            <div className="absolute top-0 right-0 translate-x-1/3 -translate-y-1/2 z-1">
               {badge}
             </div>
           </div>
