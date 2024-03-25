@@ -48,7 +48,9 @@ const TIME_PERIODS = [
 ]
 
 export const DateRangeFilter = () => {
-  const [selectedValue, setSelectedValue] = useState<string>(TIME_PERIOD.CUSTOM)
+  const [selectedValue, setSelectedValue] = useState<string>(
+    TIME_PERIOD.ALL_TIMES
+  )
   const [open, setOpen] = useState(false)
 
   const [fromDate, setFromDate] = useState<string | undefined>(undefined)
@@ -59,13 +61,20 @@ export const DateRangeFilter = () => {
   const handleChange = (value: string) => {
     setSelectedValue(value)
     if (value !== TIME_PERIOD.CUSTOM) {
-      const dateRange = extractDateRange(value)
-      setFromDate(dateRange.from.toISOString())
-      setToDate(dateRange.to.toISOString())
-      onChangeTimeRangeFilter(
-        dateRange.from.toISOString(),
-        dateRange.to.toISOString()
-      )
+      if (value === TIME_PERIOD.ALL_TIMES) {
+        onChangeTimeRangeFilter(null, null)
+        setFromDate(undefined)
+        setToDate(undefined)
+      } else {
+        const dateRange = extractDateRange(value)
+        setFromDate(dateRange.from.toISOString())
+        setToDate(dateRange.to.toISOString())
+        onChangeTimeRangeFilter(
+          dateRange.from.toISOString(),
+          dateRange.to.toISOString()
+        )
+      }
+
       setOpen(false)
     }
   }
