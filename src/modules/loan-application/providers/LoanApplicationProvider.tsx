@@ -66,6 +66,7 @@ type LoanApplicationContextType = {
   progress: ProgressType[]
   loanApplicationId: string
   isSubmitting: boolean
+  isUploading: boolean
   draftForm: DraftApplicationForm
   documentsUploaded: DocumentsUploaded
   setFormIsEdited: () => void
@@ -85,6 +86,7 @@ export const LoanApplicationContext = createContext<LoanApplicationContextType>(
   {
     step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
     isSubmitting: false,
+    isUploading: false,
     saveForm: () => {},
     changeStep: () => {},
     saveDraftForm: () => {},
@@ -321,47 +323,33 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         handleCheckFileKycRemoved()
 
         if (isEqual(responseData, ownerInformationForm)) return
-        await updateLoanKyc(
-          {
-            id: kycFormId,
-            ...formatKycForm(ownerInformationForm!)
-          },
-          {
-            onSuccess: async (res) => {
-              if (
-                res.data &&
-                !!draftForm.ownerInformationForm?.governmentFile.length
-              ) {
-                await uploadDocuments(
-                  res.data.id,
-                  draftForm.ownerInformationForm.governmentFile,
-                  FORM_TYPE.KYC
-                )
-              }
-            }
-          }
-        )
+        const res = await updateLoanKyc({
+          id: kycFormId,
+          ...formatKycForm(ownerInformationForm!)
+        })
+        if (draftForm.ownerInformationForm?.governmentFile.length) {
+          await uploadDocuments(
+            res.data.id,
+            draftForm.ownerInformationForm.governmentFile,
+            FORM_TYPE.KYC
+          )
+        }
       } else {
-        await submitLoanKyc(
-          {
-            loanApplicationId: loanApplicationId,
-            ...formatKycForm(ownerInformationForm!)
-          },
-          {
-            onSuccess: async (res) => {
-              if (
-                res.data &&
-                !!draftForm.ownerInformationForm?.governmentFile.length
-              ) {
-                await uploadDocuments(
-                  res.data.id,
-                  draftForm.ownerInformationForm.governmentFile,
-                  FORM_TYPE.KYC
-                )
-              }
-            }
-          }
-        )
+        const res = await submitLoanKyc({
+          loanApplicationId: loanApplicationId,
+          ...formatKycForm(ownerInformationForm!)
+        })
+
+        if (
+          res.data &&
+          !!draftForm.ownerInformationForm?.governmentFile.length
+        ) {
+          await uploadDocuments(
+            res.data.id,
+            draftForm.ownerInformationForm.governmentFile,
+            FORM_TYPE.KYC
+          )
+        }
       }
     },
     [
@@ -433,26 +421,25 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
           incomeCategories: financialInformationForm?.incomeCategories ?? [],
           loanApplicationId: loanApplicationId
         })
+        if (financialInformationForm?.w2sFile?.length) {
+          await uploadDocuments(
+            financialFormId,
+            financialInformationForm.w2sFile,
+            FORM_TYPE.FINANCIAL
+          )
+        }
       } else {
-        await submitLoanFinancialInformation(
-          {
-            incomeCategories: financialInformationForm?.incomeCategories ?? [],
-            loanApplicationId: loanApplicationId
-          },
-          {
-            onSuccess: async (res) => {
-              if (res.data && financialInformationForm) {
-                if (financialInformationForm.w2sFile.length > 0) {
-                  await uploadDocuments(
-                    res.data.id,
-                    financialInformationForm.w2sFile,
-                    FORM_TYPE.FINANCIAL
-                  )
-                }
-              }
-            }
-          }
-        )
+        const res = await submitLoanFinancialInformation({
+          incomeCategories: financialInformationForm?.incomeCategories ?? [],
+          loanApplicationId: loanApplicationId
+        })
+        if (res.data && !!financialInformationForm?.w2sFile?.length) {
+          await uploadDocuments(
+            res.data.id,
+            financialInformationForm.w2sFile,
+            FORM_TYPE.FINANCIAL
+          )
+        }
       }
     },
     [
@@ -616,12 +603,17 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
                 if (draftForm.confirmationForm) {
                   await handleSubmitConfirmation(data.data.id)
                 }
+
                 toastSuccess({
                   title: TOAST_MSG.loanApplication.submitSuccess.title,
                   description:
                     TOAST_MSG.loanApplication.submitSuccess.description
                 })
-                navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+                if (!draftForm.confirmationForm) {
+                  navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+                } else {
+                  navigate(APP_PATH.LOAN_APPLICATION.SUBMISSION)
+                }
                 setIsFormEdited(false)
                 resetAllState()
               } catch (error) {
@@ -664,7 +656,6 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
           description: TOAST_MSG.loanApplication.updateSuccess.description
         })
         navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
-
         setIsFormEdited(false)
         resetAllState()
       } catch (error) {

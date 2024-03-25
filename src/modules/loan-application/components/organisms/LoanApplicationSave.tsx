@@ -7,7 +7,7 @@ import {
 } from "../../constants"
 
 export const LoanApplicationSave = () => {
-  const { saveForm, isSubmitting, changeStep, progress } =
+  const { saveForm, isSubmitting, isUploading, changeStep, progress } =
     useLoanApplicationContext()
 
   const isCompleteLoanRequestForm =
@@ -34,7 +34,7 @@ export const LoanApplicationSave = () => {
       confirmText={confirmText}
       description={description}
     >
-      <ButtonLoading variant="outline" isLoading={isSubmitting}>
+      <ButtonLoading variant="outline" isLoading={isSubmitting || isUploading}>
         Save & Close
       </ButtonLoading>
     </CustomAlertDialog>

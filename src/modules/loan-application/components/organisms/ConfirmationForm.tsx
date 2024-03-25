@@ -25,7 +25,8 @@ import { ArrowRight } from "lucide-react"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 
 export const ConfirmationForm = () => {
-  const { saveDraftForm, isSubmitting, progress } = useLoanApplicationContext()
+  const { saveDraftForm, isSubmitting, progress, isUploading } =
+    useLoanApplicationContext()
 
   const form = useForm<ConfirmationFormValue>({
     resolver: zodResolver(confirmationFormSchema),
@@ -104,7 +105,7 @@ export const ConfirmationForm = () => {
 
         <ButtonLoading
           type="submit"
-          isLoading={isSubmitting}
+          isLoading={isSubmitting || isUploading}
           disabled={!form.formState.isValid || !isPreviousStepsCompleted}
           className="w-full flex items-center gap-1"
           onClick={form.handleSubmit(onSubmit)}
