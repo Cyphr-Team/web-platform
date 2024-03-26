@@ -43,6 +43,7 @@ interface LoanApplication {
   loanProgramId: string
   applicantId: string
   programType: string
+  programName: string
   createdAt: string
   applicant: Applicant
   loanAmount: number
@@ -55,6 +56,7 @@ interface LoanProgram {
   institutionId: string
   name: string
   description: string
+  type: string
   createdAt: string
   updatedAt: string
 }
@@ -78,10 +80,15 @@ interface UserLoanApplicationRequest {
   loanProgramId?: string
 }
 
+interface ListLoanProgramResponse {
+  loanPrograms: LoanProgram[]
+}
+
 export type {
   UserLoanApplication,
   LoanApplication,
   Applicant,
   LoanProgram,
+  ListLoanProgramResponse,
   UserLoanApplicationRequest
 }

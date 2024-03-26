@@ -12,7 +12,7 @@ type ListLoanApplicationResponse = ListResponse<LoanApplication>
 
 export const LoanApplicationFilterSchema = z.object({
   status: z.array(z.object({ label: z.string(), value: z.string() })),
-  type: z.array(z.object({ label: z.string(), value: z.string() })),
+  programNames: z.array(z.object({ label: z.string(), value: z.string() })),
   search: z.string()
 })
 
@@ -22,7 +22,7 @@ export type LoanApplicationFilterValues = z.infer<
 
 export type FilterParams = {
   status: string[]
-  type: string[]
+  programNames: string[]
   search: string
 }
 
@@ -32,7 +32,7 @@ export const useQueryListLoanApplication = ({
   limit,
   offset,
   status,
-  type,
+  programNames,
   search
 }: Params) => {
   return useInfiniteQuery<ListLoanApplicationResponse>({
@@ -42,7 +42,7 @@ export const useQueryListLoanApplication = ({
         offset: offset.toString(),
         search: search ?? "",
         status: status ?? "",
-        type: type ?? ""
+        programNames: programNames ?? ""
       }).toString()
     ),
     queryFn: async ({ pageParam = 0 }) => {
@@ -53,7 +53,7 @@ export const useQueryListLoanApplication = ({
           offset: (pageParam as number) * limit,
           search,
           status,
-          type
+          programNames
         },
         customHeader: customRequestHeader.customHeaders
       })

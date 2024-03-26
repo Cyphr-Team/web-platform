@@ -12,8 +12,8 @@ type ListLoanApplicationResponse = ListResponse<LoanApplication>
 
 export const LoanApplicationFilterSchema = z.object({
   status: z.array(z.object({ label: z.string(), value: z.string() })),
-  type: z.array(z.object({ label: z.string(), value: z.string() })),
-  search: z.string()
+  search: z.string(),
+  programNames: z.array(z.object({ label: z.string(), value: z.string() }))
 })
 
 export type LoanApplicationFilterValues = z.infer<
@@ -22,8 +22,8 @@ export type LoanApplicationFilterValues = z.infer<
 
 export type FilterParams = {
   status: string[]
-  type: string[]
   search: string
+  programNames: string[]
 }
 
 type Params = PaginateParams & Partial<FilterParams>
@@ -32,8 +32,8 @@ export const useQueryListPaginateLoanApplication = ({
   limit,
   offset,
   status,
-  type,
-  search
+  search,
+  programNames
 }: Params) => {
   return useQuery<ListLoanApplicationResponse>({
     queryKey: loanApplicationKeys.list(
@@ -42,7 +42,7 @@ export const useQueryListPaginateLoanApplication = ({
         offset: offset.toString(),
         search: search ?? "",
         status: status ?? "",
-        type: type ?? ""
+        programNames: programNames ?? ""
       }).toString()
     ),
     queryFn: async () => {
@@ -53,7 +53,7 @@ export const useQueryListPaginateLoanApplication = ({
           offset,
           search,
           status,
-          type
+          programNames
         },
         customHeader: customRequestHeader.customHeaders
       })

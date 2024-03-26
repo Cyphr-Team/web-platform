@@ -9,7 +9,7 @@ import {
   FormLabel
 } from "@/components/ui/form"
 import { MultiSelect } from "@/components/ui/multi-select"
-import { LOAN_PRODUCTS, LOAN_STATUS } from "../../constants"
+import { LOAN_STATUS } from "../../constants"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import { useEffect } from "react"
@@ -18,6 +18,8 @@ import {
   LoanApplicationFilterSchema,
   LoanApplicationFilterValues
 } from "../../hooks/useQuery/useQueryListLoanApplication"
+import { useQueryGetLoanProgramList } from "../../hooks/useQuery/useQueryLoanProgramList"
+import { Option } from "@/types/common.type"
 
 type Props = {
   onSearch: (formValues: FilterParams) => void
@@ -30,10 +32,17 @@ export function LoanApplicationTableHeader({
     resolver: zodResolver(LoanApplicationFilterSchema),
     defaultValues: {
       status: [],
-      type: [],
+      programNames: [],
       search: ""
     }
   })
+
+  const listLoanProgramQuery = useQueryGetLoanProgramList()
+  const loanProgramOptions: Option[] =
+    listLoanProgramQuery.data?.loanPrograms.map((el) => ({
+      label: el.name,
+      value: el.name.toLowerCase()
+    })) ?? []
 
   const onSubmit = form.handleSubmit(() => {})
 
@@ -41,7 +50,7 @@ export function LoanApplicationTableHeader({
     const subscription = form.watch((value) => {
       onSearch({
         status: value.status?.map((v) => v?.value ?? "") ?? [],
-        type: value.type?.map((v) => v?.value ?? "") ?? [],
+        programNames: value.programNames?.map((v) => v?.value ?? "") ?? [],
         search: value.search ?? ""
       })
     })
@@ -90,13 +99,13 @@ export function LoanApplicationTableHeader({
 
           <FormField
             control={form.control}
-            name="type"
+            name="programNames"
             render={({ field }) => (
               <MultiSelect
                 label="Loan Program"
-                name="type"
+                name="programNames"
                 field={field}
-                options={LOAN_PRODUCTS}
+                options={loanProgramOptions}
               />
             )}
           />

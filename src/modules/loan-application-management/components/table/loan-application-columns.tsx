@@ -52,7 +52,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     size: 250
   },
   {
-    accessorKey: "programType",
+    accessorKey: "programName",
     header: "Loan program",
     size: 200,
     cell: ({ row }) => {
@@ -60,7 +60,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
 
       return (
         <div className="min-w-0">
-          <p className="truncate capitalize">{application.programType}</p>
+          <p className="truncate capitalize">{application.programName}</p>
         </div>
       )
     }
