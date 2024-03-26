@@ -1,8 +1,8 @@
-import { useMemo } from "react"
-import { UI_DATA_ACTIVATE_EMAIL_HEADER } from "../constants"
-import { UserStartStatus } from "../../sign-up/hooks/useGetStart"
-import { useActiveEmailSearchParams } from "./useActiveEmailSearchParams"
 import { ErrorCode } from "@/utils/custom-error"
+import { useMemo } from "react"
+import { UserStartStatus } from "../../hooks/useGetStart"
+import { UI_DATA_ACTIVATE_EMAIL_HEADER } from "../constants"
+import { useActiveEmailSearchParams } from "./useActiveEmailSearchParams"
 
 export const useActiveEmailDataHeader = ({
   isPending,
@@ -13,7 +13,7 @@ export const useActiveEmailDataHeader = ({
   isSuccess: boolean
   errorCode: ErrorCode
 }) => {
-  const { status } = useActiveEmailSearchParams()
+  const { status, email } = useActiveEmailSearchParams()
 
   const dataHeader = useMemo(() => {
     if (isPending) {
@@ -22,19 +22,26 @@ export const useActiveEmailDataHeader = ({
     if (isSuccess) {
       return UI_DATA_ACTIVATE_EMAIL_HEADER.success
     }
-    if (errorCode === ErrorCode.user_registered) {
-      return UI_DATA_ACTIVATE_EMAIL_HEADER.registered
+    if (errorCode === ErrorCode.token_invalid) {
+      return UI_DATA_ACTIVATE_EMAIL_HEADER.invalid
     }
 
     switch (status) {
       case UserStartStatus.USER_WAITING_SETUP_PROFILE:
-        return UI_DATA_ACTIVATE_EMAIL_HEADER.verified
+        return UI_DATA_ACTIVATE_EMAIL_HEADER.successSendingSetupProfileEmail
       case UserStartStatus.EMAIL_REGISTERED:
-        return UI_DATA_ACTIVATE_EMAIL_HEADER.signedUp
-      default:
-        return UI_DATA_ACTIVATE_EMAIL_HEADER.expired
+        return UI_DATA_ACTIVATE_EMAIL_HEADER.signedUp(email)
     }
-  }, [isSuccess, isPending, status, errorCode])
+
+    if (errorCode === ErrorCode.user_registered) {
+      return UI_DATA_ACTIVATE_EMAIL_HEADER.verified(email)
+    }
+    if (errorCode === ErrorCode.token_invalid_or_expired) {
+      return UI_DATA_ACTIVATE_EMAIL_HEADER.expired
+    }
+
+    return UI_DATA_ACTIVATE_EMAIL_HEADER.invalid
+  }, [isPending, isSuccess, errorCode, status, email])
 
   return dataHeader
 }

@@ -14,7 +14,7 @@ import {
   GetStartUserFormValue,
   getStartFormSchema,
   useGetStart
-} from "../hooks/useGetStart"
+} from "../../hooks/useGetStart"
 import { useSearchParams } from "react-router-dom"
 
 export function SignUpForm() {

@@ -7,9 +7,12 @@ import { createSearchParams, useNavigate } from "react-router-dom"
 import * as z from "zod"
 
 export enum UserStartStatus {
+  // Continue with verify page
   EMAIL_SENT = "EMAIL_SENT",
-  EMAIL_REGISTERED = "EMAIL_REGISTERED",
   EMAIL_WAITING_VERIFICATION = "EMAIL_WAITING_VERIFICATION",
+
+  // Continue with activation page
+  EMAIL_REGISTERED = "EMAIL_REGISTERED",
   USER_WAITING_SETUP_PROFILE = "USER_WAITING_SETUP_PROFILE"
 }
 

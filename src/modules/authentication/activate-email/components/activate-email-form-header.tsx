@@ -1,9 +1,8 @@
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { cn } from "@/lib/utils"
-import { useActiveEmailDataHeader } from "../hooks/useActiveEmailDataHeader"
-import { useActiveEmailSearchParams } from "../hooks/useActiveEmailSearchParams"
 import { ErrorCode } from "@/utils/custom-error"
+import { useActiveEmailDataHeader } from "../hooks/useActiveEmailDataHeader"
 
 interface ActivateEmailFormHeaderProps {
   isPending: boolean
@@ -16,7 +15,6 @@ export function ActivateEmailFormHeader({
   isSuccess,
   errorCode
 }: ActivateEmailFormHeaderProps) {
-  const { email } = useActiveEmailSearchParams()
   const dataHeader = useActiveEmailDataHeader({
     isPending,
     isSuccess,
@@ -49,8 +47,7 @@ export function ActivateEmailFormHeader({
         {dataHeader.title}
       </h1>
 
-      <div className="text-muted-foreground mt-3">
-        <p className="font-medium">{email}</p>
+      <div className="mt-3 text-text-tertiary">
         <p>{dataHeader.description}</p>
       </div>
     </div>

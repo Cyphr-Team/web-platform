@@ -1,3 +1,6 @@
+import { APP_PATH } from "@/constants"
+import { getAxiosError } from "@/utils/custom-error"
+import { useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
 import {
   createSearchParams,
@@ -5,9 +8,6 @@ import {
   useSearchParams
 } from "react-router-dom"
 import { useActivateEmailByLink } from "./useActivateEmailByLink"
-import { useQueryClient } from "@tanstack/react-query"
-import { APP_PATH } from "@/constants"
-import { getAxiosError } from "@/utils/custom-error"
 
 export const useActivateEmail = () => {
   const [searchParams] = useSearchParams()

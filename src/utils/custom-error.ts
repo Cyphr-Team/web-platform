@@ -2,6 +2,7 @@ import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, isAxiosError } from "axios"
 
 export enum ErrorCode {
+  token_invalid = "token_invalid",
   token_invalid_or_expired = "token_invalid_or_expired",
   rate_limit_exceeded = "rate_limit_exceeded",
   user_registered = "user_registered"

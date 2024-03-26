@@ -1,5 +1,9 @@
-import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
-import { BadgeAlert, CheckCircle2, Loader2 } from "lucide-react"
+import {
+  BadgeAlert,
+  CheckCircle2,
+  Loader2,
+  ShieldCloseIcon
+} from "lucide-react"
 
 export const UI_DATA_ACTIVATE_EMAIL_HEADER = {
   verifying: {
@@ -8,30 +12,36 @@ export const UI_DATA_ACTIVATE_EMAIL_HEADER = {
     description:
       "Please wait for a while. Our app is handling your verification link."
   },
-  verified: {
+  verified: (email: string) => ({
     HeaderIcon: CheckCircle2,
     title: "Already Verified",
-    description: `The email has already been verified. Please check your email for instructions on setting up your profile.`
+    description: `It seems like this email address ${email} has already been verified. Click the button below to continue your sign up process.`
+  }),
+  successSendingSetupProfileEmail: {
+    HeaderIcon: CheckCircle2,
+    title: "Finish Setup Profile",
+    description: `We have sent a setup profile link to your email. Please check your email for instructions on setting up your profile.`
   },
-  signedUp: {
+  signedUp: (email: string) => ({
     HeaderIcon: CheckCircle2,
     title: "Already Signed Up",
-    description: `The email already has an account associated with it. Click the button below to go to the log in page.`
-  },
+    description: `It seems like ${email} already has an account associated with it. Click the button below to go to the log in page.`
+  }),
   expired: {
     HeaderIcon: BadgeAlert,
-    title: "Link expired",
+    title: "Link Expired",
     description:
       "No worries. It’s easy to get a new one. Please click the button below to receive a new email verification link sent to your email address."
   },
   success: {
     HeaderIcon: CheckCircle2,
-    title: "Successfully verified email",
+    title: "Successfully Verified Email",
     description: "You will be navigated to setup profile page."
   },
-  registered: {
-    HeaderIcon: BadgeAlert,
-    title: "Already Verified",
-    description: getCustomErrorMsgByCode(ErrorCode.user_registered)
+  invalid: {
+    HeaderIcon: ShieldCloseIcon,
+    title: "Invalid Verify Link",
+    description:
+      "This email verification link is invalid. Please go back to the sign up page."
   }
 }
