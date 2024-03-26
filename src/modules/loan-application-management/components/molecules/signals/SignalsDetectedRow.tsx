@@ -69,7 +69,7 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                         <TooltipProvider>
                           <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                              <span className="whitespace-nowrap overflow-hidden text-ellipsis absolute left-1 right-1">
+                              <span className="whitespace-nowrap overflow-hidden text-ellipsis absolute left-1 right-1 text-left">
                                 {headerKey}
                               </span>
                             </TooltipTrigger>
@@ -91,7 +91,7 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                 {signalsData.tabularData?.rows.map((data, index) => (
                   <TableRow key={index}>
                     {data.values.map((cell) => (
-                      <TableCell key={cell} className="py-2 h-fit">
+                      <TableCell key={cell} className="py-2 h-fit text-left">
                         {cell}
                       </TableCell>
                     ))}

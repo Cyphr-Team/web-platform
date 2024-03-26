@@ -121,6 +121,7 @@ export type DocumentDetailsType = {
     formAuthenticity: AuthenticityType
   }
   capture: PayStubCapturedType | BankStatementType | W2DocumentType
+  verifiedDate: string
 }
 
 export type DocumentVisualization = {

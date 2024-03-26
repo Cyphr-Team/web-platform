@@ -13,9 +13,9 @@ type Props = {
 }
 export const PayStubInformation: React.FC<Props> = ({ data }) => {
   return (
-    <Accordion type="single" collapsible className="w-full mb-4 border-t">
+    <Accordion type="single" collapsible className="w-full border-t">
       <AccordionItem value="employer-information">
-        <AccordionTrigger>
+        <AccordionTrigger isStartIcon>
           <p>Paystub</p>
         </AccordionTrigger>
         <AccordionContent>

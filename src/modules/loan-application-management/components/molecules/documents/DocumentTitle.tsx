@@ -1,3 +1,4 @@
+import { formatBirthday } from "@/utils/date.utils"
 import { BackButton } from "./BackButton"
 
 type Props = {
@@ -17,7 +18,9 @@ export const DocumentTitle: React.FC<Props> = ({
       </div>
       <div className="flex flex-col text-sm">
         <p className="font-semibold">Verified Date</p>
-        <p className="font-normal text-secondary-700">{verifiedDate}</p>
+        <p className="font-normal text-secondary-700">
+          {formatBirthday(verifiedDate)}
+        </p>
       </div>
     </div>
   )

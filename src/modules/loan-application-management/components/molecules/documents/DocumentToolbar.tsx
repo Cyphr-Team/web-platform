@@ -49,7 +49,7 @@ export const DocumentToolbar: React.FC = () => {
   return (
     <div className="flex w-full justify-between pb-3">
       <DocumentTitle
-        verifiedDate="-"
+        verifiedDate={documentDetails?.verifiedDate ?? ""}
         documentType={capitalizeWords(
           snakeCaseToText(documentDetails?.documentType ?? "")
         )}

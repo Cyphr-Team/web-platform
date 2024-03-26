@@ -13,9 +13,11 @@ export const DocumentSignalsDetect: React.FC = () => {
         <AuthenticityScore authenticity={authenticityData} />
       )}
       <div className="flex flex-col">
-        <p className="text-sm text-text-secondary border-b py-3">
-          {signalsData?.length} Signals in Document
-        </p>
+        {!!signalsData?.length && (
+          <p className="text-sm text-text-secondary border-b py-3">
+            {signalsData?.length} Signals in Document
+          </p>
+        )}
         {signalsData?.map((signal) =>
           signal.signalCount > 0 ? (
             <SignalsDetectedRow

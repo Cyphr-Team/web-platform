@@ -3,9 +3,8 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion"
-import { TableBody } from "@/components/ui/table"
+import { TableBody, Table } from "@/components/ui/table"
 import { BankAccount } from "@/modules/loan-application-management/constants/types/document"
-import { Table } from "@/components/ui/table"
 import { CustomTableRow } from "../../atoms/TableRow"
 
 type Props = {
@@ -14,7 +13,7 @@ type Props = {
 export const BankInformation: React.FC<Props> = ({ data }) => {
   return (
     <AccordionItem value="bank-statement">
-      <AccordionTrigger>
+      <AccordionTrigger isStartIcon>
         <p>{data.name}</p>
       </AccordionTrigger>
       <AccordionContent>
