@@ -17,6 +17,8 @@ import { CalendarPlus } from "lucide-react"
 interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
   value?: string
+  fromDate?: Date
+  toDate?: Date
   onSelectDate?: (date: Date | undefined) => void
   disabled?: boolean
 }
@@ -25,7 +27,9 @@ export function CalendarDatePicker({
   className,
   value,
   onSelectDate,
-  disabled
+  disabled,
+  toDate,
+  fromDate
 }: CalendarDatePickerProps) {
   return (
     <div className={cn("grid gap-2", className)}>
@@ -57,7 +61,10 @@ export function CalendarDatePicker({
               }
             }}
             disabled={(date) =>
-              date > new Date() || date < new Date("1900-01-01")
+              (fromDate && date < fromDate) ||
+              (toDate && date > toDate) ||
+              date > new Date() ||
+              date < new Date(1900, 0, 1)
             }
             initialFocus
           />

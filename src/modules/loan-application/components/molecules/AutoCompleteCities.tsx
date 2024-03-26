@@ -44,7 +44,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
   const [searchValue, setSearchValue] = useState("")
 
   const onSearch = (value: string) => {
-    setSearchValue(value.trim().toLowerCase())
+    setSearchValue(value.toLowerCase())
   }
   useEffect(() => {
     if (!open && !!searchValue) {

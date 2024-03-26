@@ -154,9 +154,11 @@ export const DateRangeFilter = () => {
           <CalendarDatePicker
             value={fromDate}
             onSelectDate={handleChangeFromDate}
+            toDate={toDate ? new Date(toDate) : undefined}
           />
           <span>To</span>
           <CalendarDatePicker
+            fromDate={fromDate ? new Date(fromDate) : undefined}
             onSelectDate={handleChangeToDate}
             value={toDate}
           />
