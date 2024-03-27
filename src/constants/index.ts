@@ -195,6 +195,9 @@ export const API_PATH = {
     all: "api/lender/stats",
     getInstitutionActivity: () =>
       `${API_PATH.dashboard.all}/institution-activity`
+  },
+  institution: {
+    getInstitutionMetadata: "api/users/public/institution-metadata"
   }
 }
 

@@ -2,23 +2,29 @@ import { GlobalLayouts, NotFoundLayout } from "@/shared/layouts"
 import { AuthLayout } from "@/shared/layouts/auth-layout/auth-layout"
 
 import { APP_PATH } from "@/constants"
+import { LoanApplicationEdit } from "@/modules/loan-application/pages/LoanApplicationEdit"
 import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { LoanApplicationProvider } from "@/modules/loan-application/providers/LoanApplicationProvider"
+import { InstitutionNotFoundLayout } from "@/shared/layouts/InstitutionNotFoundLayout"
 import { SideNavApplicationDetails } from "@/shared/molecules/SideNavApplicationDetails"
 import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
+import { handleCrumb } from "@/utils/crumb.utils"
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Outlet,
   Route
 } from "react-router-dom"
-import { userLoader } from "./loader"
-import { handleCrumb } from "@/utils/crumb.utils"
-import { LoanApplicationEdit } from "@/modules/loan-application/pages/LoanApplicationEdit"
+import { institutionLoader, userLoader } from "./loader"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
-    <Route path={APP_PATH.INDEX} element={<GlobalLayouts />}>
+    <Route
+      loader={institutionLoader}
+      path={APP_PATH.INDEX}
+      element={<GlobalLayouts />}
+      errorElement={<InstitutionNotFoundLayout />}
+    >
       {/* AUTHENTICATION ROUTES */}
 
       <Route element={<AuthLayout />}>

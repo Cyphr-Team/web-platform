@@ -5,7 +5,7 @@ import intrustLogo from "@/assets/intrust-logo.svg"
 import intrustLogoText from "@/assets/intrust-text.svg"
 
 enum Institution {
-  IntrustBank = "intrust-bank",
+  IntrustBank = "intrust",
   Altcap = "altcap"
 }
 
@@ -26,7 +26,7 @@ type InstitutionData = {
 }
 
 const TENANT: Record<Institution, InstitutionData> = {
-  "intrust-bank": {
+  intrust: {
     name: "Intrust",
     /**
      * THEME
