@@ -5,13 +5,14 @@ import { LoanProgramType } from "@/modules/loan-application/constants/type"
  * UseOfLoan
  */
 enum LoanApplicationStatus {
+  DRAFT = "DRAFT",
+  SUBMITTED = "SUBMITTED",
+  PROCESSING = "PROCESSING",
+  READY_FOR_REVIEW = "READY_FOR_REVIEW",
+  IN_REVIEW = "IN_REVIEW",
   CANCELLED = "CANCELLED",
   DENIED = "DENIED",
   APPROVED = "APPROVED",
-  IN_REVIEW = "IN_REVIEW",
-  SUBMITTED = "SUBMITTED",
-  DRAFT = "DRAFT",
-  UNDERWRITTEN = "UNDERWRITTEN",
   UNKNOWN = "UNKNOWN"
 }
 

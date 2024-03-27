@@ -99,7 +99,8 @@ export const FAKE_LIENS_DATA = [
 
 export const LOAN_STATUS: Option[] = [
   { label: "Draft", value: LoanApplicationStatus.DRAFT },
-  { label: "Submitted", value: LoanApplicationStatus.SUBMITTED },
+  { label: "Processing", value: LoanApplicationStatus.PROCESSING },
+  { label: "Ready For Review", value: LoanApplicationStatus.READY_FOR_REVIEW },
   {
     label: "In Review",
     value: LoanApplicationStatus.IN_REVIEW

@@ -153,8 +153,9 @@ export const API_PATH = {
     getDocuments: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/documents`,
     submitDecision: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/underwrite
-      `
+      `api/loan-officer/applications/${applicationId}/underwrite`,
+    reviewLoanApplication: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/review`
   },
   loanApplicationDetails: {
     all: "api/loan-officer/applications",

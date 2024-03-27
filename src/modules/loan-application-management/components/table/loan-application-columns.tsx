@@ -122,7 +122,12 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
     id: "action",
     cell: ({ row }) => {
-      return <ButtonReviewLoanApplication loanApplicationId={row.original.id} />
+      return (
+        <ButtonReviewLoanApplication
+          loanApplicationStatus={row.original.status}
+          loanApplicationId={row.original.id}
+        />
+      )
     }
   }
 ]

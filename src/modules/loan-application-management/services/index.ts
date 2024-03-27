@@ -36,6 +36,7 @@ export const getBadgeVariantByStatus = (status?: LoanApplicationStatus) => {
   const statusUppercase = status?.toUpperCase()
   switch (statusUppercase) {
     case LoanApplicationStatus.SUBMITTED:
+    case LoanApplicationStatus.READY_FOR_REVIEW:
       return "blue"
     case LoanApplicationStatus.DENIED:
       return "red"
