@@ -176,7 +176,9 @@ export const API_PATH = {
     getCashFlow: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/cash-flow`,
     getBankAccounts: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/cash-flow/bank-accounts`
+      `api/loan-officer/applications/${applicationId}/cash-flow/bank-accounts`,
+    getBalanceGraph: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/cash-flow/balance-history`
   },
   document: {
     getDocumentDownloadForOfficer:

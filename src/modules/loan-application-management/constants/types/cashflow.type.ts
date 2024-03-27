@@ -60,7 +60,6 @@ export interface SummaryTag {
 export interface ApplicationCashFlow {
   bankAccountSummary: AccountSummaryType[]
   cashFlowGlance: CashFlowGlanceType
-  balancesGraph: AccountBalanceGraphType[]
   revenueVsExpenseGraph: RevenueExpenseGraphType[]
   summaryByTransactionTag: SummaryGraphType[]
 }
@@ -73,6 +72,11 @@ export interface BankAccount {
 export interface BankAccountsResponse {
   bankAccounts: BankAccount[]
 }
+
+export interface BalanceGraphResponse {
+  balancesGraph: AccountBalanceGraphType[]
+}
+
 type TimeRange = {
   from: string | null
   to: string | null
@@ -84,8 +88,14 @@ export enum GRAPH_FREQUENCY {
   MONTHLY = "monthly"
 }
 
-type FrequencyFilter = {
+export type FrequencyFilter = {
   frequency: GRAPH_FREQUENCY
+}
+
+export interface BalanceGraphsFilters {
+  frequency: GRAPH_FREQUENCY
+  accountFilter: string[]
+  timeRangeFilter: TimeRange
 }
 
 type TransactionTagFilter = {
@@ -95,7 +105,6 @@ type TransactionTagFilter = {
 export interface CashFlowRequestFilters {
   timeRangeFilter: TimeRange
   accountFilter?: string[]
-  balanceFilter: FrequencyFilter
   revenueVsExpenseFilter: FrequencyFilter
   summaryByTransactionTagFilter: TransactionTagFilter
 }

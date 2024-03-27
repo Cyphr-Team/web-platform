@@ -15,10 +15,26 @@ import { TimePeriodsSelection } from "../filters/TimePeriodsSelection"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { NoData } from "../../atoms/NoData"
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { useQueryGetBalanceGraph } from "@/modules/loan-application-management/hooks/useQuery/useQueryGetBalanceGraph"
+import { useParams } from "react-router-dom"
+import { useState } from "react"
 
 export function AccountBalanceChart() {
-  const { cashFlowAnalysis, isFetchingCashflow, filters, onChangeTimePeriod } =
-    useLoanApplicationDetailContext()
+  const [periodFilter, setPeriodFilter] = useState<GRAPH_FREQUENCY>(
+    GRAPH_FREQUENCY.MONTHLY
+  )
+  const { cashFlowAnalysis, filters } = useLoanApplicationDetailContext()
+  const params = useParams()
+
+  const balanceGraphQuery = useQueryGetBalanceGraph({
+    applicationId: params.id!,
+    filters: {
+      accountFilter: filters.accountFilter ?? [],
+      frequency: periodFilter ?? GRAPH_FREQUENCY.MONTHLY,
+      timeRangeFilter: filters.timeRangeFilter
+    }
+  })
 
   const chartLines = cashFlowAnalysis?.bankAccountSummary?.map(
     (bank, index) => (
@@ -34,25 +50,27 @@ export function AccountBalanceChart() {
   )
 
   const handleChangeTimePeriod = (timePeriod: string) => {
-    onChangeTimePeriod("balanceFilter", timePeriod)
+    setPeriodFilter(timePeriod as GRAPH_FREQUENCY)
   }
 
   return (
     <Card className="mt-4 p-4 gap-4 min-h-40">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Balance History</h3>
-        {cashFlowAnalysis?.balancesGraph && (
+        {balanceGraphQuery.data?.balancesGraph && (
           <TimePeriodsSelection
             onChangeTimePeriod={handleChangeTimePeriod}
-            timePeriod={filters.balanceFilter.frequency}
+            timePeriod={periodFilter ?? GRAPH_FREQUENCY.MONTHLY}
           />
         )}
       </div>
-      <LoadingWrapper isLoading={isFetchingCashflow}>
-        {cashFlowAnalysis?.balancesGraph ? (
+      <LoadingWrapper
+        isLoading={balanceGraphQuery.isLoading || balanceGraphQuery.isFetching}
+      >
+        {balanceGraphQuery.data?.balancesGraph ? (
           <ResponsiveContainer width="90%" height={500}>
             <LineChart
-              data={cashFlowAnalysis.balancesGraph}
+              data={balanceGraphQuery.data?.balancesGraph}
               margin={{
                 top: 40,
                 right: 5,
