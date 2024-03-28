@@ -16,7 +16,7 @@ import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { NoData } from "../../atoms/NoData"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
-import { useQueryGetBalanceGraph } from "@/modules/loan-application-management/hooks/useQuery/useQueryGetBalanceGraph"
+import { useQueryGetBalanceGraph } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/useQueryGetBalanceGraph"
 import { useParams } from "react-router-dom"
 import { useState } from "react"
 

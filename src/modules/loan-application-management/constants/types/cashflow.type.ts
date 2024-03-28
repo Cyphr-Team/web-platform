@@ -77,6 +77,14 @@ export interface BalanceGraphResponse {
   balancesGraph: AccountBalanceGraphType[]
 }
 
+export interface TransactionTagsResponse {
+  transactionTags: SummaryGraphType[]
+}
+
+export interface RevenueAndExpenseResponse {
+  revenueVsExpenseGraph: RevenueExpenseGraphType[]
+}
+
 type TimeRange = {
   from: string | null
   to: string | null
@@ -92,21 +100,20 @@ export type FrequencyFilter = {
   frequency: GRAPH_FREQUENCY
 }
 
-export interface BalanceGraphsFilters {
+export interface BaseCashFlowFilters {
   frequency: GRAPH_FREQUENCY
   accountFilter: string[]
   timeRangeFilter: TimeRange
 }
 
-type TransactionTagFilter = {
-  frequency: GRAPH_FREQUENCY
-  tags: TRANSACTION_TAG[]
+export interface BalanceGraphsFilters extends BaseCashFlowFilters {}
+export interface RevenueExpenseFilters extends BaseCashFlowFilters {}
+export interface TransactionTagsFilters extends BaseCashFlowFilters {
+  tags_filter: TRANSACTION_TAG[]
 }
 export interface CashFlowRequestFilters {
   timeRangeFilter: TimeRange
   accountFilter?: string[]
-  revenueVsExpenseFilter: FrequencyFilter
-  summaryByTransactionTagFilter: TransactionTagFilter
 }
 
 export enum TRANSACTION_TAG {

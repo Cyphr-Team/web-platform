@@ -178,7 +178,11 @@ export const API_PATH = {
     getBankAccounts: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/cash-flow/bank-accounts`,
     getBalanceGraph: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/cash-flow/balance-history`
+      `api/loan-officer/applications/${applicationId}/cash-flow/balance-history`,
+    getTransactionTags: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/cash-flow/transaction-tags`,
+    getRevenueExpense: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/cash-flow/revenue-expense`
   },
   document: {
     getDocumentDownloadForOfficer:

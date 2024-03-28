@@ -17,7 +17,7 @@ import {
   TRANSACTION_TAG
 } from "../constants/types/cashflow.type"
 import { useCallback, useMemo, useState } from "react"
-import { useQueryGetBankAccounts } from "../hooks/useQuery/useQueryGetBankAccounts"
+import { useQueryGetBankAccounts } from "../hooks/useQuery/cash-flow/useQueryGetBankAccounts"
 import { DEFAULT_TRANSACTION_TAGS } from "../constants"
 import { useUpdateEffect } from "react-use"
 
@@ -28,10 +28,10 @@ type LoanApplicationDetailContextType = {
   cashFlowAnalysis?: ApplicationCashFlow
   onChangeTimePeriod: (key: string, period: string) => void
   isFetchingCashflow: boolean
+  isFetchingBankAccount: boolean
   isLoading: boolean
   loanSummary?: LoanSummary
   onChangeTransactionTags: (option: TRANSACTION_TAG[]) => void
-  onApplyFilter?: () => void
   onChangeAccountFilter: (value: string[]) => void
   onChangeTimeRangeFilter: (from: string | null, to: string | null) => void
   selectedTags: TRANSACTION_TAG[]
@@ -43,6 +43,7 @@ export const LoanApplicationDetailContext =
   createContext<LoanApplicationDetailContextType>({
     isLoading: false,
     isFetchingCashflow: false,
+    isFetchingBankAccount: false,
     onChangeTransactionTags: () => {},
     selectedTags: [],
     onChangeTimePeriod: () => {},
@@ -92,13 +93,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     },
     balanceFilter: {
       frequency: GRAPH_FREQUENCY.MONTHLY
-    },
-    revenueVsExpenseFilter: {
-      frequency: GRAPH_FREQUENCY.MONTHLY
-    },
-    summaryByTransactionTagFilter: {
-      frequency: GRAPH_FREQUENCY.MONTHLY,
-      tags: DEFAULT_TRANSACTION_TAGS
     }
   }
 
@@ -127,16 +121,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const onChangeTransactionTags = useCallback((value: TRANSACTION_TAG[]) => {
     setSelectedTags(value)
   }, [])
-
-  const onApplyFilter = useCallback(() => {
-    setFilters((prev) => ({
-      ...prev,
-      summaryByTransactionTagFilter: {
-        ...prev.summaryByTransactionTagFilter,
-        tags: selectedTags
-      }
-    }))
-  }, [selectedTags])
 
   const onChangeTimePeriod = useCallback((key: string, period: string) => {
     setFilters((prev) => ({
@@ -177,13 +161,13 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       cashFlowAnalysis: cashFlowQuery.data,
       cashFlowAccounts: bankAccountsQuery.data?.bankAccounts ?? [],
       filters,
+      isFetchingBankAccount: bankAccountsQuery.isFetching,
       isFetchingCashflow:
         cashFlowQuery.isLoading || bankAccountsQuery.isLoading,
       isLoading: kybDetailQuery.isLoading,
       onChangeTransactionTags,
 
       selectedTags,
-      onApplyFilter,
       onChangeTimePeriod,
       onChangeAccountFilter,
       onChangeTimeRangeFilter
@@ -197,11 +181,11 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       cashFlowQuery.data,
       cashFlowQuery.isLoading,
       bankAccountsQuery.data?.bankAccounts,
+      bankAccountsQuery.isFetching,
       bankAccountsQuery.isLoading,
       filters,
       onChangeTransactionTags,
       selectedTags,
-      onApplyFilter,
       onChangeTimePeriod,
       onChangeAccountFilter,
       onChangeTimeRangeFilter

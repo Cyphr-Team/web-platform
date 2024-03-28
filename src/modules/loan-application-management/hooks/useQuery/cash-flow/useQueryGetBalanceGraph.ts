@@ -1,12 +1,12 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
-import { QUERY_KEY } from "../../constants/query-key"
+import { QUERY_KEY } from "../../../constants/query-key"
 import {
   BalanceGraphResponse,
   BalanceGraphsFilters,
   FrequencyFilter
-} from "../../constants/types/cashflow.type"
+} from "../../../constants/types/cashflow.type"
 
 export const useQueryGetBalanceGraph = ({
   applicationId,

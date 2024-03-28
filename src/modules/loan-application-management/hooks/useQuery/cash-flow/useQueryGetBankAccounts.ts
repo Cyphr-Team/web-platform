@@ -2,8 +2,8 @@ import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { ErrorResponse } from "@/types/common.type"
 import { useQuery } from "@tanstack/react-query"
-import { QUERY_KEY } from "../../constants/query-key"
-import { BankAccountsResponse } from "../../constants/types/cashflow.type"
+import { QUERY_KEY } from "../../../constants/query-key"
+import { BankAccountsResponse } from "../../../constants/types/cashflow.type"
 
 export const useQueryGetBankAccounts = ({
   applicationId

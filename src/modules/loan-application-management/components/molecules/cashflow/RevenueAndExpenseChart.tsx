@@ -14,31 +14,54 @@ import { TimePeriodsSelection } from "../filters/TimePeriodsSelection"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { NoData } from "../../atoms/NoData"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { useState } from "react"
+import { useQueryGetRevenueAndExpense } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/useQueryGetRevenueExpense"
+import { useParams } from "react-router-dom"
 
 export function RevenueAndExpenseChart() {
-  const { cashFlowAnalysis, isFetchingCashflow, filters, onChangeTimePeriod } =
-    useLoanApplicationDetailContext()
+  const [periodFilter, setPeriodFilter] = useState<GRAPH_FREQUENCY>(
+    GRAPH_FREQUENCY.MONTHLY
+  )
+  const params = useParams()
+
+  const { isFetchingBankAccount, filters } = useLoanApplicationDetailContext()
 
   const handleChangeTimePeriod = (timePeriod: string) => {
-    onChangeTimePeriod("revenueVsExpenseFilter", timePeriod)
+    setPeriodFilter(timePeriod as GRAPH_FREQUENCY)
   }
+
+  const revenueAndExpenseQuery = useQueryGetRevenueAndExpense({
+    applicationId: params.id!,
+    filters: {
+      accountFilter: filters.accountFilter ?? [],
+      frequency: periodFilter ?? GRAPH_FREQUENCY.MONTHLY,
+      timeRangeFilter: filters.timeRangeFilter
+    }
+  })
 
   return (
     <Card className="mt-4 p-4 gap-4 min-h-40">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Revenue vs Expense</h3>
-        {cashFlowAnalysis?.revenueVsExpenseGraph && (
+        {revenueAndExpenseQuery.data?.revenueVsExpenseGraph && (
           <TimePeriodsSelection
             onChangeTimePeriod={handleChangeTimePeriod}
-            timePeriod={filters.revenueVsExpenseFilter.frequency}
+            timePeriod={periodFilter}
           />
         )}
       </div>
-      <LoadingWrapper isLoading={isFetchingCashflow}>
-        {cashFlowAnalysis?.revenueVsExpenseGraph ? (
+      <LoadingWrapper
+        isLoading={
+          isFetchingBankAccount ||
+          revenueAndExpenseQuery.isLoading ||
+          revenueAndExpenseQuery.isFetching
+        }
+      >
+        {revenueAndExpenseQuery.data?.revenueVsExpenseGraph ? (
           <ResponsiveContainer width="90%" height={500}>
             <BarChart
-              data={cashFlowAnalysis?.revenueVsExpenseGraph}
+              data={revenueAndExpenseQuery.data?.revenueVsExpenseGraph}
               margin={{
                 top: 40,
                 right: 5,

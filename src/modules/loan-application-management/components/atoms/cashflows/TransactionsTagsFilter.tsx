@@ -9,19 +9,23 @@ import {
 import { ScrollArea } from "@/components/ui/scroll"
 import { Separator } from "@/components/ui/separator"
 import { TRANSACTION_TAG } from "@/modules/loan-application-management/constants/types/cashflow.type"
-import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { ChevronDown } from "lucide-react"
 import { useState } from "react"
 import { useUpdateEffect } from "react-use"
 
-export const TransactionTagsFilters: React.FC = () => {
-  const { onChangeTransactionTags, filters, onApplyFilter } =
-    useLoanApplicationDetailContext()
+type Props = {
+  onApplyFilter: () => void
+  onChangeTransactionTags: (tags: TRANSACTION_TAG[]) => void
+  tags: TRANSACTION_TAG[]
+}
 
-  const [checkedList, setCheckedList] = useState<TRANSACTION_TAG[]>(
-    filters.summaryByTransactionTagFilter.tags
-  )
+export const TransactionTagsFilters: React.FC<Props> = ({
+  tags,
+  onChangeTransactionTags,
+  onApplyFilter
+}) => {
+  const [checkedList, setCheckedList] = useState<TRANSACTION_TAG[]>(tags)
 
   const onChangeCheckbox = (value: boolean, option: TRANSACTION_TAG) => {
     setCheckedList((prev) => {
