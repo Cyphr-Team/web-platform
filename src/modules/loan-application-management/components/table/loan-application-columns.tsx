@@ -6,7 +6,7 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { LoanApplication } from "@/types/loan-application.type"
-import { snakeCaseToText } from "@/utils"
+import { snakeCaseToText, toCurrency } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { getBadgeVariantByStatus } from "../../services"
 
@@ -71,15 +71,9 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     size: 100,
     cell: ({ row }) => {
       const application = row.original
-      const amount = parseFloat(application.loanAmount + "")
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
-      }).format(amount)
+      const amount = toCurrency(application.requestedLoanAmount, 0)
 
-      return (
-        <div className="text-right">{isNaN(amount) ? "N/A" : formatted}</div>
-      )
+      return <div className="text-right">{amount}</div>
     }
   },
   {

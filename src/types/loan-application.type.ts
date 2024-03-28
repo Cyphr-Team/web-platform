@@ -47,7 +47,7 @@ interface LoanApplication {
   programName: string
   createdAt: string
   applicant: Applicant
-  loanAmount: number
+  requestedLoanAmount: number
   status: LoanApplicationStatus
   progress: number
   businessName?: string
