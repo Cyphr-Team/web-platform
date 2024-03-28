@@ -57,7 +57,7 @@ export function AccountBalanceChart() {
     <Card className="mt-4 p-4 gap-4 min-h-40">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Balance History</h3>
-        {balanceGraphQuery.data?.balancesGraph && (
+        {!!balanceGraphQuery.data?.balancesGraph.length && (
           <TimePeriodsSelection
             onChangeTimePeriod={handleChangeTimePeriod}
             timePeriod={periodFilter ?? GRAPH_FREQUENCY.MONTHLY}
@@ -67,7 +67,7 @@ export function AccountBalanceChart() {
       <LoadingWrapper
         isLoading={balanceGraphQuery.isLoading || balanceGraphQuery.isFetching}
       >
-        {balanceGraphQuery.data?.balancesGraph ? (
+        {balanceGraphQuery.data?.balancesGraph.length ? (
           <ResponsiveContainer width="90%" height={500}>
             <LineChart
               data={balanceGraphQuery.data?.balancesGraph}

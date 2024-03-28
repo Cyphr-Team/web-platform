@@ -44,7 +44,7 @@ export function RevenueAndExpenseChart() {
     <Card className="mt-4 p-4 gap-4 min-h-40">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Revenue vs Expense</h3>
-        {revenueAndExpenseQuery.data?.revenueVsExpenseGraph && (
+        {!!revenueAndExpenseQuery.data?.revenueVsExpenseGraph.length && (
           <TimePeriodsSelection
             onChangeTimePeriod={handleChangeTimePeriod}
             timePeriod={periodFilter}
@@ -58,7 +58,7 @@ export function RevenueAndExpenseChart() {
           revenueAndExpenseQuery.isFetching
         }
       >
-        {revenueAndExpenseQuery.data?.revenueVsExpenseGraph ? (
+        {revenueAndExpenseQuery.data?.revenueVsExpenseGraph.length ? (
           <ResponsiveContainer width="90%" height={500}>
             <BarChart
               data={revenueAndExpenseQuery.data?.revenueVsExpenseGraph}

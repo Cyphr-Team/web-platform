@@ -7,6 +7,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
+import { format } from "date-fns"
 import { ChevronDown } from "lucide-react"
 
 import { useState } from "react"
@@ -67,12 +68,11 @@ export const DateRangeFilter = () => {
         setToDate(undefined)
       } else {
         const dateRange = extractDateRange(value)
-        setFromDate(dateRange.from.toISOString())
-        setToDate(dateRange.to.toISOString())
-        onChangeTimeRangeFilter(
-          dateRange.from.toISOString(),
-          dateRange.to.toISOString()
-        )
+        const fromDate = format(dateRange.from, "yyyy-MM-dd")
+        const toDate = format(dateRange.to, "yyyy-MM-dd")
+        setFromDate(fromDate)
+        setToDate(toDate)
+        onChangeTimeRangeFilter(fromDate, toDate)
       }
 
       setOpen(false)
@@ -149,21 +149,20 @@ export const DateRangeFilter = () => {
           </Button>
         ))}
         <Separator />
-        <div className="mt-2 text-xs p-2 gap-1 flex flex-col">
-          <span>From</span>
-          <CalendarDatePicker
-            value={fromDate}
-            onSelectDate={handleChangeFromDate}
-            toDate={toDate ? new Date(toDate) : undefined}
-          />
-          <span>To</span>
-          <CalendarDatePicker
-            fromDate={fromDate ? new Date(fromDate) : undefined}
-            onSelectDate={handleChangeToDate}
-            value={toDate}
-          />
-
-          {selectedValue === TIME_PERIOD.CUSTOM && (
+        {selectedValue === TIME_PERIOD.CUSTOM && (
+          <div className="mt-2 text-xs p-2 gap-1 flex flex-col">
+            <span>From</span>
+            <CalendarDatePicker
+              value={fromDate}
+              onSelectDate={handleChangeFromDate}
+              toDate={toDate ? new Date(toDate) : undefined}
+            />
+            <span>To</span>
+            <CalendarDatePicker
+              fromDate={fromDate ? new Date(fromDate) : undefined}
+              onSelectDate={handleChangeToDate}
+              value={toDate}
+            />
             <div className="flex p-2 w-full justify-end">
               <Button
                 variant="outline"
@@ -182,8 +181,8 @@ export const DateRangeFilter = () => {
                 APPLY
               </Button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </PopoverContent>
     </Popover>
   )

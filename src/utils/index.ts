@@ -71,7 +71,7 @@ export const toCurrency = (value: number, maximumFractionDigits = 2) => {
     style: "currency",
     currency: "USD",
     maximumFractionDigits
-  }).format(value)
+  }).format(value ?? 0)
 }
 
 export const convertToCamelCase = (str: string) => {

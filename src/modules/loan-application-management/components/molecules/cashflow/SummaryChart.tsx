@@ -72,7 +72,7 @@ export function SummaryChart() {
     <Card className="mt-4 p-4 gap-4 min-h-40">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Summary by Transaction Tag</h3>
-        {
+        {!!transactionTagsQuery.data?.transactionTags.length && (
           <div className="flex gap-2">
             <TransactionTagsFilters
               tags={tags}
@@ -84,7 +84,7 @@ export function SummaryChart() {
               timePeriod={periodFilter}
             />
           </div>
-        }
+        )}
       </div>
       <LoadingWrapper
         isLoading={
@@ -93,7 +93,7 @@ export function SummaryChart() {
           transactionTagsQuery.isFetching
         }
       >
-        {transactionTagsQuery.data?.transactionTags ? (
+        {transactionTagsQuery.data?.transactionTags.length ? (
           <ResponsiveContainer width="90%" height={500}>
             <LineChart
               data={transactionTagsQuery.data?.transactionTags}

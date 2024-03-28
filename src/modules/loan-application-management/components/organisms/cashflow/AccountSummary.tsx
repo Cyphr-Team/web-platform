@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import { AccountSummaryType } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
@@ -208,7 +207,7 @@ export const AccountSummaryTable = () => {
   const { cashFlowAccounts, cashFlowAnalysis, isFetchingCashflow } =
     useLoanApplicationDetailContext()
   return (
-    <Card className="p-4 gap-4 min-h-40">
+    <div className="gap-4 min-h-40">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Account Summary</h3>
         {!!cashFlowAccounts?.length && (
@@ -227,6 +226,6 @@ export const AccountSummaryTable = () => {
           isLoading={isFetchingCashflow}
         />
       </div>
-    </Card>
+    </div>
   )
 }
