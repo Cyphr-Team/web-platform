@@ -40,7 +40,7 @@ export const useQueryListPaginateLoanApplication = ({
       createSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
-        search: search ?? "",
+        search: search?.trim() ?? "",
         status: status ?? "",
         programNames: programNames ?? ""
       }).toString()
@@ -51,7 +51,7 @@ export const useQueryListPaginateLoanApplication = ({
         params: {
           limit,
           offset,
-          search,
+          search: search?.trim() ?? "",
           status,
           programNames
         },

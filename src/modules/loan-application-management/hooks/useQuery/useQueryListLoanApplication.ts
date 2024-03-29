@@ -40,7 +40,7 @@ export const useQueryListLoanApplication = ({
       createSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
-        search: search ?? "",
+        search: search?.trim() ?? "",
         status: status ?? "",
         programNames: programNames ?? ""
       }).toString()
@@ -51,7 +51,7 @@ export const useQueryListLoanApplication = ({
         params: {
           limit,
           offset: (pageParam as number) * limit,
-          search,
+          search: search?.trim() ?? "",
           status,
           programNames
         },
