@@ -28,6 +28,7 @@ import { useEffect } from "react"
 import { APP_PATH } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { PasswordMatch } from "../../components/password-match"
+import { parseJwt } from "@/services/jwt.service"
 
 export function SetupProfileForm() {
   const [searchParams] = useSearchParams()
@@ -37,7 +38,10 @@ export function SetupProfileForm() {
     resolver: zodResolver(acceptInviteFormSchema),
     defaultValues: {
       name: "",
-      email: searchParams.get("email") ?? "",
+      email:
+        searchParams.get("email") ??
+        parseJwt(searchParams.get("token")!)?.email ??
+        "",
       token: searchParams.get("token") ?? "",
       password: "",
       confirmPassword: ""
@@ -61,7 +65,10 @@ export function SetupProfileForm() {
       navigate({
         pathname: APP_PATH.LOGIN,
         search: createSearchParams({
-          email: searchParams.get("email") ?? ""
+          email:
+            searchParams.get("email") ??
+            parseJwt(searchParams.get("token")!)?.email ??
+            ""
         }).toString()
       })
     }
@@ -113,7 +120,7 @@ export function SetupProfileForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Display Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter your name"

@@ -78,5 +78,11 @@ export const TOAST_MSG = {
       title: "Mark as unread",
       description: "Notification is marked as unread successfully"
     }
+  },
+  institution: {
+    create: {
+      title: "Create institution",
+      description: "Institution is successfully created"
+    }
   }
 }

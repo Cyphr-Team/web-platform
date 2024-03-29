@@ -37,10 +37,14 @@ import {
 } from "../hooks/useSendInvitation"
 
 import { useGetUserInformation } from "@/hooks/useGetUserInformation"
+import { Option } from "@/types/common.type"
+import { useQueryGetListInstitution } from "../hooks/useQuery/useQueryGetListInstitution"
 
 export function DialogSendInvite() {
   const [open, setOpen] = useState(false)
   const { data } = useGetUserInformation()
+  const isForesightAdmin =
+    data?.institutionId === "00000000-0000-0000-0000-000000000000"
 
   const onOpenChange = (open: boolean) => {
     if (!open) {
@@ -48,6 +52,16 @@ export function DialogSendInvite() {
     }
     setOpen(open)
   }
+
+  const listInstitution = useQueryGetListInstitution({
+    enabled: isForesightAdmin
+  })
+
+  const institutionOptions: Option[] =
+    listInstitution.data?.data.map((institution) => ({
+      value: institution.id,
+      label: institution.name
+    })) ?? []
 
   const form = useForm<z.infer<typeof adminSendInvitationForm>>({
     resolver: zodResolver(adminSendInvitationForm),
@@ -128,6 +142,33 @@ export function DialogSendInvite() {
                 </FormItem>
               )}
             />
+
+            {isForesightAdmin && (
+              <FormField
+                control={form.control}
+                name="institutionId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Institution</FormLabel>
+                    <Select onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an institution" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {institutionOptions.map((role) => (
+                          <SelectItem key={role.value} value={role.value}>
+                            {role.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <DialogFooter>
               <ButtonLoading type="submit" isLoading={isPending}>

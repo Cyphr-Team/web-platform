@@ -5,7 +5,7 @@ import { LoanProgramCard } from "../molecules/LoanProgramCard"
 
 export const LoanPrograms = () => {
   const { tenantData } = useTenant()
-  const { loanProgramOverview } = tenantData
+  const { loanProgramOverview } = tenantData ?? {}
 
   const loanPrograms = useQueryGetLoanPrograms()
 

@@ -14,7 +14,7 @@ import { CustomLabelKey, buildCustomLabel, buildIds } from "@/utils/crumb.utils"
 
 export const ComponentWithProvider = () => {
   const { tenantData } = useTenant()
-  const { loanProgramOverviewHero } = tenantData
+  const { loanProgramOverviewHeroImage } = tenantData ?? {}
 
   const { loanProgramInfo, isLoading, loanProgramDetails } =
     useLoanProgramDetailContext()
@@ -50,12 +50,14 @@ export const ComponentWithProvider = () => {
           {isLoading ? (
             <Skeleton className="w-screen md:w-[calc(100vw-15rem)] max-w-[1200px] h-[140px] md:h-[250px] lg:h-[359px] items-center align-center flex" />
           ) : (
-            <img
-              className="mx-auto w-full"
-              src={loanProgramOverviewHero}
-              alt="Loan program detail"
-              height={359}
-            />
+            loanProgramOverviewHeroImage && (
+              <img
+                className="mx-auto w-full max-h-[359px]"
+                src={loanProgramOverviewHeroImage}
+                alt="Loan program detail"
+                height={359}
+              />
+            )
           )}
         </section>
 

@@ -5,6 +5,7 @@ import artCapExpressHeroImg from "./artcap_express_hero_img.png"
 import altCapLogo from "./altcap-logo.svg"
 import altCapLogoText from "./altcap-text.svg"
 import signUpHero from "./sign_up_hero.png"
+import successIcon from "./success.png"
 
 export const ASSETS = {
   intrustLarge,
@@ -13,5 +14,6 @@ export const ASSETS = {
   altCapLoanProgramLarge,
   altCapLogo,
   altCapLogoText,
-  signUpHero
+  signUpHero,
+  successIcon
 }

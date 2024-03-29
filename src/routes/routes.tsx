@@ -5,6 +5,7 @@ import { APP_PATH } from "@/constants"
 import { LoanApplicationEdit } from "@/modules/loan-application/pages/LoanApplicationEdit"
 import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { LoanApplicationProvider } from "@/modules/loan-application/providers/LoanApplicationProvider"
+import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
 import { InstitutionNotFoundLayout } from "@/shared/layouts/InstitutionNotFoundLayout"
 import { SideNavApplicationDetails } from "@/shared/molecules/SideNavApplicationDetails"
 import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
@@ -36,30 +37,32 @@ const routes = createBrowserRouter(
           path={APP_PATH.SIGN_UP}
           lazy={() => import("@/modules/authentication/sign-up/page")}
         />
-        <Route
-          path={APP_PATH.VERIFY_EMAIL.index}
-          lazy={() => import("@/modules/authentication/verify-email/page")}
-        />
-        <Route
-          path={APP_PATH.VERIFY_EMAIL.activateByToken}
-          lazy={() => import("@/modules/authentication/activate-email/page")}
-        />
-        <Route
-          path={APP_PATH.SETUP_PROFILE}
-          lazy={() => import("@/modules/authentication/setup-profile/page")}
-        />
-        <Route
-          path={APP_PATH.FORGOT_PASSWORD}
-          lazy={() => import("@/modules/authentication/forgot-password/page")}
-        />
-        <Route
-          path={APP_PATH.SETUP_PASSWORD_BY_TOKEN.index}
-          lazy={() => import("@/modules/authentication/setup-password/page")}
-        />
-        <Route
-          path={APP_PATH.ACCEPT_INVITE}
-          lazy={() => import("@/modules/authentication/accept-invite/page")}
-        />
+        <Route element={<ActiveEmailLayout />}>
+          <Route
+            path={APP_PATH.VERIFY_EMAIL.index}
+            lazy={() => import("@/modules/authentication/verify-email/page")}
+          />
+          <Route
+            path={APP_PATH.VERIFY_EMAIL.activateByToken}
+            lazy={() => import("@/modules/authentication/activate-email/page")}
+          />
+          <Route
+            path={APP_PATH.SETUP_PROFILE}
+            lazy={() => import("@/modules/authentication/setup-profile/page")}
+          />
+          <Route
+            path={APP_PATH.FORGOT_PASSWORD}
+            lazy={() => import("@/modules/authentication/forgot-password/page")}
+          />
+          <Route
+            path={APP_PATH.SETUP_PASSWORD_BY_TOKEN.index}
+            lazy={() => import("@/modules/authentication/setup-password/page")}
+          />
+          <Route
+            path={APP_PATH.ACCEPT_INVITE}
+            lazy={() => import("@/modules/authentication/accept-invite/page")}
+          />
+        </Route>
       </Route>
 
       {/* DASHBOARD ROUTES */}
@@ -204,6 +207,14 @@ const routes = createBrowserRouter(
             )
           }
         />
+
+        {/* --- ONBOARD --- */}
+        <Route
+          path={APP_PATH.ONBOARD}
+          lazy={() => import("@/modules/onboard/layout")}
+        >
+          <Route index lazy={() => import("@/modules/onboard/page")} />
+        </Route>
       </Route>
 
       {/* BORROWER ONBOARDING ROUTES */}

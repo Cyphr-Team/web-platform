@@ -1,6 +1,6 @@
 import { NavItem } from "@/types/common.type"
 import { APP_PATH } from "."
-import { Bell, Workflow } from "lucide-react"
+import { Bell, Send, Workflow } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { UserRoles } from "@/types/user.type"
 
@@ -43,6 +43,13 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.NOTIFICATION.list,
     icon: Bell,
     label: "Notifications"
+  },
+  {
+    title: "Onboard",
+    href: APP_PATH.ONBOARD,
+    icon: Send,
+    label: "Onboard",
+    roles: [UserRoles.FORESIGHT_ADMIN]
   },
   {
     title: "Settings",

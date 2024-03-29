@@ -28,7 +28,7 @@ export const DashboardCard = ({
       </CardHeader>
       <CardContent className="md:p-4 md:pt-0">
         {!isLoading ? (
-          <div className="text-2xl font-bold">{value}</div>
+          <div className="text-2xl font-bold">{value ?? 0}</div>
         ) : (
           <Skeleton className="w-full h-8" />
         )}

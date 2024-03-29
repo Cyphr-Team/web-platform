@@ -88,7 +88,8 @@ export const APP_PATH = {
     details: (id: string) => `/notifications/${id}`
   },
   SETTINGS: "/settings",
-  MESSAGES: "/messages"
+  MESSAGES: "/messages",
+  ONBOARD: "/onboard"
 }
 
 export const API_PATH = {
@@ -203,7 +204,13 @@ export const API_PATH = {
       `${API_PATH.dashboard.all}/institution-activity`
   },
   institution: {
+    list: "api/admin/internal/institutions",
+    create: "api/admin/institution/create",
+    updateInstitutionMetadata: "api/admin/institution-metadata/update",
     getInstitutionMetadata: "api/users/public/institution-metadata"
+  },
+  asset: {
+    upload: "api/asset/upload"
   }
 }
 
@@ -248,3 +255,5 @@ export const PASSWORD_REGEX = {
 export const REQUEST_LIMIT_PARAM = 25
 
 export const MAX_REMEMBER_ME_DAYS = 30
+
+export const ACCEPTED_IMAGE_FORMAT = "image/jpg,image/jpeg,image/png"

@@ -7,7 +7,9 @@ export const TotalLoanActivity = () => {
   const { statsData, isLoading } = useDashboard()
 
   const data = {
-    usageOfApplications: `${statsData?.totalApplication} / ${statsData?.applicationUsageLimit}`,
+    usageOfApplications: `${statsData?.totalApplication ?? 0} / ${
+      statsData?.applicationUsageLimit ?? 0
+    }`,
     totalApprovedLoans: statsData?.totalApplicationApproved,
     aggregateLoanAmount: toCurrency(statsData?.totalLoanAmount ?? 0)
   }

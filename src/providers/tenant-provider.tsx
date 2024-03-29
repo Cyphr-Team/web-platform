@@ -1,34 +1,28 @@
-import {
-  Institution,
-  InstitutionData,
-  TENANT
-} from "@/constants/tenant.constants"
+import { Institution, InstitutionData } from "@/constants/tenant.constants"
 import { getSubdomain } from "@/utils/domain.utils"
 import { createContext, useContext, useMemo, useState } from "react"
 
 type TenantProviderProps = {
   children: React.ReactNode
+  initInstitution: InstitutionData
 }
 
 type TenantProviderState = {
   tenant?: Institution
-  tenantData: InstitutionData
+  tenantData?: InstitutionData
 }
 
-const TenantContext = createContext<TenantProviderState>({
-  tenantData: TENANT["altcap"]
-})
+const TenantContext = createContext<TenantProviderState>({})
 
-export function TenantProvider({ children, ...props }: TenantProviderProps) {
+export function TenantProvider({
+  children,
+  initInstitution,
+  ...props
+}: TenantProviderProps) {
   const [tenant] = useState<Institution>(getSubdomain() as Institution)
+  const [tenantData] = useState(initInstitution)
 
-  const value = useMemo(
-    () => ({
-      tenant,
-      tenantData: TENANT[tenant] ? TENANT[tenant] : TENANT["altcap"]
-    }),
-    [tenant]
-  )
+  const value = useMemo(() => ({ tenant, tenantData }), [tenant, tenantData])
 
   return (
     <TenantContext.Provider {...props} value={value}>

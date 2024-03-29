@@ -49,7 +49,7 @@ const LOAN_PURPOSES = [
 
 export function CardWithForm() {
   const { tenantData } = useTenant()
-  const { name } = tenantData
+  const { name } = tenantData ?? {}
 
   const {
     changeStep,
