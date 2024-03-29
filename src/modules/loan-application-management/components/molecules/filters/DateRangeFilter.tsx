@@ -89,10 +89,11 @@ export const DateRangeFilter = () => {
   }
 
   const handleChangeFromDate = (date?: Date) => {
-    setFromDate(date?.toISOString())
+    setFromDate(date ? format(date, "yyyy-MM-dd") : undefined)
   }
+
   const handleChangeToDate = (date?: Date) => {
-    setToDate(date?.toISOString())
+    setToDate(date ? format(date, "yyyy-MM-dd") : undefined)
   }
 
   const extractDateRange = (timePeriod: string) => {
