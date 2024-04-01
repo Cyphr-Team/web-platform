@@ -11,7 +11,6 @@ import { OnboardingFormValue } from "../types"
 import { UserRoles } from "@/types/user.type"
 
 export const useOnboardingInstitution = () => {
-  console.log(window.location)
   return useMutation<
     AxiosResponse<Institution>,
     AxiosError<ErrorResponse>,

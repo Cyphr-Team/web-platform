@@ -21,10 +21,6 @@ export const useCreateLoanApplication = () => {
         data,
         customHeader: customRequestHeader.customHeaders
       })
-    },
-    onSuccess: ({ data }) => {
-      // TODO: Clean after demo notification
-      localStorage.setItem("DEMO_NOTIFICATION", JSON.stringify([data]))
     }
   })
 }

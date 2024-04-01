@@ -9,7 +9,7 @@ export function ActiveEmailLayout() {
 
   return (
     <>
-      <header className="fixed p-3 md:p-8 flex justify-between items-center w-full md:w-auto z-20 bg-white">
+      <header className="fixed p-3 md:p-8 flex justify-between items-center w-full md:w-auto z-20 bg-white gap-2">
         <div>
           <LogoHeader />
         </div>
@@ -26,18 +26,20 @@ export function ActiveEmailLayout() {
         )}
       </header>
 
-      <main className="pt-6 md:0">
+      <main className="pt-6 md:pt-0">
         <Outlet />
       </main>
 
-      <footer className="hidden md:block absolute bottom-0 w-full">
-        <div className="flex justify-between w-full p-2 md:p-8 pt-0 text-sm text-text-tertiary gap-2">
+      <footer className="hidden md:block">
+        <div className="text-sm text-text-tertiary">
           {tenantData?.name && (
-            <div className="capitalize">© {tenantData?.name} 2023</div>
+            <div className="capitalize absolute bottom-8 left-8">
+              © {tenantData?.name} 2023
+            </div>
           )}
 
           {tenantData?.supportEmail && (
-            <div>
+            <div className="absolute bottom-8 right-8">
               <a
                 href={SUPPORT_EMAIL(tenantData.supportEmail)}
                 className="flex items-center gap-2"
