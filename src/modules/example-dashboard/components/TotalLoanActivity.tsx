@@ -16,7 +16,7 @@ export const TotalLoanActivity = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-2">Total Loan Activity</h1>
+      <h1 className="text-xl font-medium mb-2">Total Loan Activity</h1>
       <div className="grid gap-4 lg:grid-cols-3">
         <DashboardCard
           title="Usage of Applications"

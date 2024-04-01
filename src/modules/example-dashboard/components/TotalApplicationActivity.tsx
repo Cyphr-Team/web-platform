@@ -13,9 +13,7 @@ export const TotalApplicationActivity = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-2">
-        Total Application Activity
-      </h1>
+      <h1 className="text-xl font-medium mb-2">Total Application Activity</h1>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCard
           isLoading={isLoading}

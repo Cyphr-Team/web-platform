@@ -201,7 +201,13 @@ export const API_PATH = {
   dashboard: {
     all: "api/lender/stats",
     getInstitutionActivity: () =>
-      `${API_PATH.dashboard.all}/institution-activity`
+      `${API_PATH.dashboard.all}/institution-activity`,
+    getApprovalRate: () =>
+      `${API_PATH.dashboard.all}/performance-metrics/approval-rate`,
+    getIncompleteApplicationRate: () =>
+      `${API_PATH.dashboard.all}/performance-metrics/incomplete-rate`,
+    getAverageTimeToApprovalMetrics: () =>
+      `${API_PATH.dashboard.all}/performance-metrics/average-time-to-approval`
   },
   institution: {
     list: "api/admin/internal/institutions",

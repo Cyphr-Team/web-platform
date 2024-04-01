@@ -12,6 +12,7 @@ const timeRangeOptions: TimeRangeOption[] = [
   { label: "Last Month", value: TimeRangeValue.LAST_MONTH },
   { label: "Last 3 Months", value: TimeRangeValue.LAST_3_MONTHS },
   { label: "Last 6 Months", value: TimeRangeValue.LAST_6_MONTHS },
+  { label: "Last Year", value: TimeRangeValue.LAST_YEAR },
   { label: "Custom", value: TimeRangeValue.CUSTOM }
 ]
 

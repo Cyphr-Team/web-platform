@@ -1,5 +1,7 @@
 import { createContext, useContext, useMemo, useReducer } from "react"
 import { DEFAULT_DASHBOARD_STATE } from "../constants/dashboard.constants"
+import { useQueryGetApprovalRate } from "../hooks/query/useQueryGetApprovalRate"
+import { useQueryGetIncompleteApplicationRate } from "../hooks/query/useQueryGetIncompleteApplicationRate"
 import { useQueryGetInstitutionActivity } from "../hooks/query/useQueryGetInstitutionActivity"
 import {
   DashboardAction,
@@ -25,6 +27,12 @@ function reducer(state: DashboardState, action: DashboardAction) {
         }
       }
     }
+    case DashboardActionType.UpdateApprovalRateFrequency: {
+      return {
+        ...state,
+        approvalRateFrequency: action.payload
+      }
+    }
   }
 }
 
@@ -38,15 +46,31 @@ export function DashboardProvider({
   )
 
   const statsResponse = useQueryGetInstitutionActivity(dashboardState)
+  const approvalRate = useQueryGetApprovalRate(dashboardState)
+  const incompleteApplicationRate =
+    useQueryGetIncompleteApplicationRate(dashboardState)
 
   const value = useMemo(
     () => ({
       dashboardState,
       dashboardDispatch,
       statsData: statsResponse.data?.data,
-      isLoading: statsResponse.isFetching
+      isLoading: statsResponse.isFetching,
+      approvalRateData: approvalRate.data?.data,
+      isLoadingApprovalRate: approvalRate.isFetching,
+
+      incompleteApplicationRateData: incompleteApplicationRate.data?.data,
+      isLoadingIncompleteApplicationRate: incompleteApplicationRate.isFetching
     }),
-    [dashboardState, statsResponse.data?.data, statsResponse.isFetching]
+    [
+      approvalRate.data?.data,
+      approvalRate.isFetching,
+      dashboardState,
+      incompleteApplicationRate.data?.data,
+      incompleteApplicationRate.isFetching,
+      statsResponse.data?.data,
+      statsResponse.isFetching
+    ]
   )
 
   return (

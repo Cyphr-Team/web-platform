@@ -8,7 +8,8 @@ import {
   subMonths,
   subDays,
   subWeeks,
-  startOfYear
+  startOfYear,
+  subYears
 } from "date-fns"
 import { TimeRangeValue } from "@/types/time-range.type"
 
@@ -49,6 +50,9 @@ const getTimeRangeDates = (timeRange: TimeRangeValue) => {
         break
       case TimeRangeValue.LAST_6_MONTHS:
         from = startOfMonth(subMonths(now, 5))
+        break
+      case TimeRangeValue.LAST_YEAR:
+        from = startOfYear(subYears(now, 1))
         break
       case TimeRangeValue.ALL_TIME:
         from = startOfYear(1970)

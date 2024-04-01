@@ -2,6 +2,7 @@ import { TotalApplicationActivity } from "./components/TotalApplicationActivity"
 import { TotalLoanActivity } from "./components/TotalLoanActivity"
 import { FilterTimeRange } from "./components/FilterTimeRange"
 import { DashboardProvider } from "./providers/dashboard-provider"
+import { RateChart } from "./components/RateChart"
 
 export function Component() {
   return (
@@ -18,6 +19,7 @@ export function Component() {
 
           <TotalLoanActivity />
           <TotalApplicationActivity />
+          <RateChart />
         </div>
       </div>
     </DashboardProvider>

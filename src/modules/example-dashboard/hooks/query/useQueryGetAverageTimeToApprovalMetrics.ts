@@ -4,19 +4,30 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse } from "react-router-dom"
 import { QUERY_KEY } from "../../constants/dashboard.constants"
-import { DashboardState, Stats } from "../../types/stats.types"
+import { ApprovalRateResponse, DashboardState } from "../../types/stats.types"
 import { useTimeRangeFilter } from "./useTimeRangeFilter"
 
-export const useQueryGetInstitutionActivity = ({ filter }: DashboardState) => {
+export const useQueryGetAverageTimeToApprovalMetrics = ({
+  filter,
+  averageTimeToApprovalMetricsFrequency
+}: DashboardState) => {
   const timeRangeFilter = useTimeRangeFilter(filter)
 
-  return useQuery<AxiosResponse<Stats>, AxiosError<ErrorResponse>>({
-    queryKey: [QUERY_KEY.INSTITUTION_ACTIVITY, filter],
+  return useQuery<
+    AxiosResponse<ApprovalRateResponse>,
+    AxiosError<ErrorResponse>
+  >({
+    queryKey: [
+      QUERY_KEY.AVERAGE_TIME_TO_APPROVAL_METRICS,
+      filter,
+      averageTimeToApprovalMetricsFrequency
+    ],
     queryFn: () => {
       return postRequest({
-        path: API_PATH.dashboard.getInstitutionActivity(),
+        path: API_PATH.dashboard.getAverageTimeToApprovalMetrics(),
         data: {
-          filter: { timeRange: timeRangeFilter }
+          filter: { timeRange: timeRangeFilter },
+          frequency: averageTimeToApprovalMetricsFrequency.toLowerCase()
         }
       })
     },
