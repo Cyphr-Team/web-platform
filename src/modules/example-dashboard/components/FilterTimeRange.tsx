@@ -8,11 +8,15 @@ import { useForm } from "react-hook-form"
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
 import { SelectTimeRange } from "./SelectTimeRange"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import debounce from "lodash.debounce"
 
 export const FilterTimeRange = () => {
   const { dashboardState, dashboardDispatch } = useDashboard()
+  const [showDatePicker, setShowDatePicker] = useState(
+    dashboardState.filter.timeRange.selectedTimeRange !==
+      TimeRangeValue.ALL_TIME
+  )
 
   const form = useForm<TimeRangeFilterValue>({
     resolver: zodResolver(TimeRangeFilterSchema),
@@ -38,6 +42,9 @@ export const FilterTimeRange = () => {
 
   const customSelectTimeRangeOnChange = () => {
     handleSubmit()
+    setShowDatePicker(
+      form.getValues("timeRange").selectedTimeRange !== TimeRangeValue.ALL_TIME
+    )
   }
 
   const handleSetDate = (range?: DateRange) => {
@@ -56,22 +63,24 @@ export const FilterTimeRange = () => {
           <div className="flex items-end gap-4 flex-wrap">
             <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />
 
-            <div className="flex items-center gap-2 flex-wrap">
-              <FormField
-                control={form.control}
-                name="timeRange"
-                render={({ field: { value } }) => (
-                  <FormItem className="flex items-end space-y-0 gap-1">
-                    <DatePickerWithRange
-                      date={value}
-                      setDate={handleSetDate}
-                      className="w-full mt-0"
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            {showDatePicker && (
+              <div className="flex items-center gap-2 flex-wrap">
+                <FormField
+                  control={form.control}
+                  name="timeRange"
+                  render={({ field: { value } }) => (
+                    <FormItem className="flex items-end space-y-0 gap-1">
+                      <DatePickerWithRange
+                        date={value}
+                        setDate={handleSetDate}
+                        className="w-full mt-0"
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
           </div>
         </form>
       </Form>
