@@ -70,20 +70,22 @@ export function RateChart() {
         >
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis dataKey="date" interval={"preserveStartEnd"} fontSize={12} />
-          <YAxis fontSize={12} />
+          <YAxis fontSize={12} unit="%" />
           <Tooltip wrapperClassName="text-sm" />
           <Legend wrapperStyle={{ fontSize: "0.875rem" }} />
           <Line
-            name="Approval Rate (%)"
+            name="Approval Rate"
             type="monotone"
             dataKey="approvalRate"
             stroke="#22c55d"
+            unit="%"
           />
           <Line
-            name="Incomplete Application Rate (%)"
+            name="Incomplete Application Rate"
             type="monotone"
             dataKey="incompleteApplicationRate"
             stroke="black"
+            unit="%"
           />
         </ComposedChart>
       </ResponsiveContainer>

@@ -1,15 +1,20 @@
 import { toCurrency } from "@/utils"
+import { checkIsLenderAdmin } from "@/utils/check-roles"
 import { DollarSign, File, FileCheck } from "lucide-react"
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardCard } from "./DashboardCard"
 
 export const TotalLoanActivity = () => {
   const { statsData, isLoading } = useDashboard()
+  const isLenderAdmin = checkIsLenderAdmin()
 
   const data = {
-    usageOfApplications: `${statsData?.totalApplication ?? 0} / ${
-      statsData?.applicationUsageLimit ?? 0
-    }`,
+    // Only show usage for Lender Admin
+    usageOfApplications: isLenderAdmin
+      ? `${statsData?.totalApplication ?? 0} / ${
+          statsData?.applicationUsageLimit ?? 0
+        }`
+      : statsData?.totalApplication ?? 0,
     totalApprovedLoans: statsData?.totalApplicationApproved,
     aggregateLoanAmount: toCurrency(statsData?.totalLoanAmount ?? 0)
   }
@@ -19,7 +24,9 @@ export const TotalLoanActivity = () => {
       <h1 className="text-xl font-medium mb-2">Total Loan Activity</h1>
       <div className="grid gap-4 lg:grid-cols-3">
         <DashboardCard
-          title="Usage of Applications"
+          title={
+            isLenderAdmin ? "Usage of Applications" : "Total Loan Applications"
+          }
           isLoading={isLoading}
           value={data.usageOfApplications}
           icon={<File />}

@@ -51,6 +51,9 @@ type DashboardProviderState = {
 
   incompleteApplicationRateData?: IncompleteApplicationRateResponse
   isLoadingIncompleteApplicationRate?: boolean
+
+  averageTimeToApprovalMetricsData?: AverageTimeToApprovalMetricsResponse
+  isLoadingAverageTimeToApprovalMetrics?: boolean
 }
 
 type LoanApprovalRateStats = {
@@ -75,7 +78,17 @@ type IncompleteApplicationRateResponse = {
   incompleteApplicationRate: IncompleteApplicationRateStats[]
 }
 
+type AverageTimeToApprovalStats = {
+  date: string
+  averageTimeToApproval: number
+}
+
+type AverageTimeToApprovalMetricsResponse = {
+  averageTimeToApproval: AverageTimeToApprovalStats[]
+}
+
 export type {
+  AverageTimeToApprovalMetricsResponse,
   IncompleteApplicationRateResponse,
   ApprovalRateResponse,
   DashboardAction,

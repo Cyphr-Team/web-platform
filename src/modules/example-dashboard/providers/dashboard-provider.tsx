@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useReducer } from "react"
 import { DEFAULT_DASHBOARD_STATE } from "../constants/dashboard.constants"
 import { useQueryGetApprovalRate } from "../hooks/query/useQueryGetApprovalRate"
+import { useQueryGetAverageTimeToApprovalMetrics } from "../hooks/query/useQueryGetAverageTimeToApprovalMetrics"
 import { useQueryGetIncompleteApplicationRate } from "../hooks/query/useQueryGetIncompleteApplicationRate"
 import { useQueryGetInstitutionActivity } from "../hooks/query/useQueryGetInstitutionActivity"
 import {
@@ -49,7 +50,8 @@ export function DashboardProvider({
   const approvalRate = useQueryGetApprovalRate(dashboardState)
   const incompleteApplicationRate =
     useQueryGetIncompleteApplicationRate(dashboardState)
-
+  const averageTimeToApprovalMetricsResponse =
+    useQueryGetAverageTimeToApprovalMetrics(dashboardState)
   const value = useMemo(
     () => ({
       dashboardState,
@@ -60,11 +62,18 @@ export function DashboardProvider({
       isLoadingApprovalRate: approvalRate.isFetching,
 
       incompleteApplicationRateData: incompleteApplicationRate.data?.data,
-      isLoadingIncompleteApplicationRate: incompleteApplicationRate.isFetching
+      isLoadingIncompleteApplicationRate: incompleteApplicationRate.isFetching,
+
+      averageTimeToApprovalMetricsData:
+        averageTimeToApprovalMetricsResponse.data?.data,
+      isLoadingAverageTimeToApprovalMetrics:
+        averageTimeToApprovalMetricsResponse.isFetching
     }),
     [
       approvalRate.data?.data,
       approvalRate.isFetching,
+      averageTimeToApprovalMetricsResponse.data?.data,
+      averageTimeToApprovalMetricsResponse.isFetching,
       dashboardState,
       incompleteApplicationRate.data?.data,
       incompleteApplicationRate.isFetching,

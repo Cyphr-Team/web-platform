@@ -4,7 +4,10 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse } from "react-router-dom"
 import { QUERY_KEY } from "../../constants/dashboard.constants"
-import { ApprovalRateResponse, DashboardState } from "../../types/stats.types"
+import {
+  AverageTimeToApprovalMetricsResponse,
+  DashboardState
+} from "../../types/stats.types"
 import { useTimeRangeFilter } from "./useTimeRangeFilter"
 
 export const useQueryGetAverageTimeToApprovalMetrics = ({
@@ -14,7 +17,7 @@ export const useQueryGetAverageTimeToApprovalMetrics = ({
   const timeRangeFilter = useTimeRangeFilter(filter)
 
   return useQuery<
-    AxiosResponse<ApprovalRateResponse>,
+    AxiosResponse<AverageTimeToApprovalMetricsResponse>,
     AxiosError<ErrorResponse>
   >({
     queryKey: [

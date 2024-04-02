@@ -37,7 +37,15 @@ const checkRolesMatchWithUserRoles = (roles: UserRoles[]) => {
   return roles.some((role) => userRoles.includes(role.toLowerCase()))
 }
 
+const checkIsLenderAdmin = () => {
+  const userInfo = inMemoryJWTService.getUserInfo()
+  if (!userInfo) return false
+
+  return userInfo.roles.includes(UserRoles.CDFI_ADMIN.toLowerCase())
+}
+
 export {
+  checkIsLenderAdmin,
   checkIsForesightAdmin,
   checkIsLoanApplicant,
   checkRolesMatchWithUserRoles,
