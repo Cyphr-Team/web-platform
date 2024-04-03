@@ -207,7 +207,9 @@ export const API_PATH = {
     getIncompleteApplicationRate: () =>
       `${API_PATH.dashboard.all}/performance-metrics/incomplete-rate`,
     getAverageTimeToApprovalMetrics: () =>
-      `${API_PATH.dashboard.all}/performance-metrics/average-time-to-approval`
+      `${API_PATH.dashboard.all}/performance-metrics/average-time-to-approval`,
+    getAverageLoanSize: () =>
+      `${API_PATH.dashboard.all}/performance-metrics/average-approved-loan-size`
   },
   institution: {
     list: "api/admin/internal/institutions",

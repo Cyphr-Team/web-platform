@@ -24,6 +24,7 @@ type DashboardState = {
   approvalRateFrequency: GRAPH_FREQUENCY
   incompleteApplicationRateFrequency: GRAPH_FREQUENCY
   averageTimeToApprovalMetricsFrequency: GRAPH_FREQUENCY
+  averageLoanSizeFrequency: GRAPH_FREQUENCY
 }
 
 type Stats = {
@@ -54,6 +55,9 @@ type DashboardProviderState = {
 
   averageTimeToApprovalMetricsData?: AverageTimeToApprovalMetricsResponse
   isLoadingAverageTimeToApprovalMetrics?: boolean
+
+  averageApprovedLoanSizeData?: AverageApprovedLoanSizeResponse
+  isLoadingAverageApprovedLoanSize?: boolean
 }
 
 type LoanApprovalRateStats = {
@@ -87,10 +91,20 @@ type AverageTimeToApprovalMetricsResponse = {
   averageTimeToApproval: AverageTimeToApprovalStats[]
 }
 
+type AverageApprovedLoanSizeStats = {
+  date: string
+  loanSize: number
+}
+
+type AverageApprovedLoanSizeResponse = {
+  averageApprovedLoanSize: AverageApprovedLoanSizeStats[]
+}
+
 export type {
   AverageTimeToApprovalMetricsResponse,
   IncompleteApplicationRateResponse,
   ApprovalRateResponse,
+  AverageApprovedLoanSizeResponse,
   DashboardAction,
   DashboardProviderProps,
   DashboardProviderState,

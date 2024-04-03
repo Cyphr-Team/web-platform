@@ -11,6 +11,7 @@ import {
   DashboardProviderState,
   DashboardState
 } from "../types/stats.types"
+import { useQueryGetAverageApprovedLoanSize } from "../hooks/query/useQueryGetAverageLoanSize"
 
 const DashboardContext = createContext<DashboardProviderState>({
   dashboardState: DEFAULT_DASHBOARD_STATE,
@@ -52,6 +53,8 @@ export function DashboardProvider({
     useQueryGetIncompleteApplicationRate(dashboardState)
   const averageTimeToApprovalMetricsResponse =
     useQueryGetAverageTimeToApprovalMetrics(dashboardState)
+  const averageApprovedLoanSize =
+    useQueryGetAverageApprovedLoanSize(dashboardState)
   const value = useMemo(
     () => ({
       dashboardState,
@@ -67,11 +70,16 @@ export function DashboardProvider({
       averageTimeToApprovalMetricsData:
         averageTimeToApprovalMetricsResponse.data?.data,
       isLoadingAverageTimeToApprovalMetrics:
-        averageTimeToApprovalMetricsResponse.isFetching
+        averageTimeToApprovalMetricsResponse.isFetching,
+
+      averageApprovedLoanSizeData: averageApprovedLoanSize.data?.data,
+      isLoadingAverageApprovedLoanSize: averageApprovedLoanSize.isFetching
     }),
     [
       approvalRate.data?.data,
       approvalRate.isFetching,
+      averageApprovedLoanSize.data?.data,
+      averageApprovedLoanSize.isFetching,
       averageTimeToApprovalMetricsResponse.data?.data,
       averageTimeToApprovalMetricsResponse.isFetching,
       dashboardState,

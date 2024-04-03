@@ -4,6 +4,7 @@ import { FilterTimeRange } from "./components/FilterTimeRange"
 import { DashboardProvider } from "./providers/dashboard-provider"
 import { RateChart } from "./components/RateChart"
 import { AverageTimeToApprovalChart } from "./components/AverageTimeToApprovalChart"
+import { AverageApprovedLoanSizeChart } from "./components/AverageLoanSizeChart"
 
 export function Component() {
   return (
@@ -22,6 +23,7 @@ export function Component() {
           <TotalApplicationActivity />
           <RateChart />
           <AverageTimeToApprovalChart />
+          <AverageApprovedLoanSizeChart />
         </div>
       </div>
     </DashboardProvider>
