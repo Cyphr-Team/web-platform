@@ -21,17 +21,26 @@ export const PayStubDistribution: React.FC<Props> = ({ data }) => {
           <TableRow>
             <TableHead
               key="distribution"
-              className="text-black p-2 relative h-10 border-r border-gray-300"
+              className="text-black p-2 relative h-10 border-r border-gray-300 whitespace-nowrap"
             >
               <p className="text-xs">Pay Distribution</p>
             </TableHead>
-            <TableHead key="amount" className="text-black p-2 relative h-10">
+            <TableHead
+              key="amount"
+              className="text-black p-2 relative h-10 whitespace-nowrap"
+            >
               <p className="text-xs">Amount</p>
             </TableHead>
-            <TableHead key="account" className="text-black p-2 relative h-10">
+            <TableHead
+              key="account"
+              className="text-black p-2 relative h-10 whitespace-nowrap"
+            >
               <p className="text-xs">Account</p>
             </TableHead>{" "}
-            <TableHead key="type" className="text-black p-2 relative h-10">
+            <TableHead
+              key="type"
+              className="text-black p-2 relative h-10 whitespace-nowrap"
+            >
               <p className="text-xs">Type</p>
             </TableHead>{" "}
             <TableHead
@@ -46,7 +55,11 @@ export const PayStubDistribution: React.FC<Props> = ({ data }) => {
           {data?.map((cell, index) => (
             <CustomTableRow
               key={index}
-              className={cn("even:bg-gray-50", "odd:bg-gray-100")}
+              className={cn(
+                "even:bg-gray-50",
+                "odd:bg-gray-100",
+                "whitespace-nowrap"
+              )}
               data={[
                 cell.bankName ?? "-",
                 cell.amount ?? "-",
@@ -54,7 +67,13 @@ export const PayStubDistribution: React.FC<Props> = ({ data }) => {
                 cell.bankAccountType ?? "-",
                 cell.description ?? "-"
               ]}
-              childrenClassName={["border-r border-gray-300"]}
+              childrenClassName={[
+                "border-r border-gray-300 pl-2",
+                "pl-2",
+                "pl-2",
+                "pl-2",
+                "pl-2"
+              ]}
             />
           ))}
         </TableBody>

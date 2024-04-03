@@ -70,7 +70,7 @@ export enum KYB_LIEN_STATUS {
 
 export type SignalsType = {
   signalIdentifier: string // "account_number_edits"
-  signalDescription: string //"Account Number was modified as follows"
+  signalIdentifierDescription: string //"Account Number was modified as follows"
   signalDisplayName: string //"Account Number Edits"
   signalCount: number
   tabularData: TabularData

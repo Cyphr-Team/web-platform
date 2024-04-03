@@ -32,7 +32,11 @@ export const W2Document: React.FC<Props> = ({ data }) => {
         {data?.data?.map((cell, index) => (
           <TableRow
             key={index}
-            className={cn("even:bg-gray-50", "odd:bg-gray-100")}
+            className={cn(
+              "even:bg-gray-50",
+              "odd:bg-gray-100",
+              "whitespace-nowrap"
+            )}
           >
             <TableCell className="p-2 h-fit border-r border-gray-300">
               {cell.fieldName}

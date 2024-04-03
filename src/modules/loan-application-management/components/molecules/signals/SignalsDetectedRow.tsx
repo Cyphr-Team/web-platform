@@ -51,8 +51,8 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
         </AccordionTrigger>
         {signalsData.signalCount > 0 && (
           <AccordionContent className="gap-3xl">
-            <p className="text-sm font-normal">
-              {signalsData.signalDescription}
+            <p className="py-1 px-1 text-sm text-gray-800 font-normal">
+              {signalsData.signalIdentifierDescription}
             </p>
             <Table className="text-xs">
               <TableHeader>
@@ -61,10 +61,11 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                     const headerKey = capitalizeWords(
                       camelCaseToText(Object.keys(header)[0])
                     )
+                    const headerDescription = Object.values(header)[0]
                     return (
                       <TableHead
                         key={headerKey}
-                        className="text-black py-2 relative"
+                        className="text-black px-6 relative"
                       >
                         <TooltipProvider>
                           <Tooltip delayDuration={0}>
@@ -78,7 +79,7 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                               sideOffset={20}
                               className="text-white bg-black p-1"
                             >
-                              <p className="text-xs">{headerKey}</p>
+                              <p className="text-xs">{headerDescription}</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -91,7 +92,10 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                 {signalsData.tabularData?.rows.map((data, index) => (
                   <TableRow key={index}>
                     {data.values.map((cell) => (
-                      <TableCell key={cell} className="py-2 h-fit text-left">
+                      <TableCell
+                        key={cell}
+                        className="py-2 pl-1 h-fit text-left"
+                      >
                         {cell}
                       </TableCell>
                     ))}

@@ -40,9 +40,17 @@ export const PayStubDeduction: React.FC<Props> = ({ data }) => {
           {data?.map((cell, index) => (
             <CustomTableRow
               key={index}
-              className={cn("even:bg-gray-50", "odd:bg-gray-100")}
+              className={cn(
+                "even:bg-gray-50",
+                "odd:bg-gray-100",
+                "whitespace-nowrap"
+              )}
               data={[cell.description, cell.currentPay, cell.ytdPay]}
-              childrenClassName={["border-r border-gray-300"]}
+              childrenClassName={[
+                "border-r border-gray-300 pl-2",
+                "pl-2",
+                "pl-2"
+              ]}
             />
           ))}
         </TableBody>

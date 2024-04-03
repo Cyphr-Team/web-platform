@@ -14,7 +14,7 @@ export const DocumentSignalsDetect: React.FC = () => {
       )}
       <div className="flex flex-col">
         {!!signalsData?.length && (
-          <p className="text-sm text-text-secondary border-b py-3">
+          <p className="text-sm text-text-secondary py-3">
             {signalsData?.length} Signals in Document
           </p>
         )}
