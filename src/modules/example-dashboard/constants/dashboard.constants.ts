@@ -14,8 +14,8 @@ const QUERY_KEY = {
 const DEFAULT_DASHBOARD_STATE: DashboardState = {
   filter: {
     timeRange: {
-      selectedTimeRange: TimeRangeValue.LAST_6_MONTHS,
-      ...getTimeRangeDates(TimeRangeValue.LAST_6_MONTHS)
+      selectedTimeRange: TimeRangeValue.LAST_3_MONTHS,
+      ...getTimeRangeDates(TimeRangeValue.LAST_3_MONTHS)
     }
   },
   approvalRateFrequency: GRAPH_FREQUENCY.MONTHLY,

@@ -10,6 +10,7 @@ import { DashboardActionType } from "../types/stats.types"
 import { SelectTimeRange } from "./SelectTimeRange"
 import { useCallback, useState } from "react"
 import debounce from "lodash.debounce"
+import { startOfMonth, subMonths } from "date-fns"
 
 export const FilterTimeRange = () => {
   const { dashboardState, dashboardDispatch } = useDashboard()
@@ -17,6 +18,9 @@ export const FilterTimeRange = () => {
     dashboardState.filter.timeRange.selectedTimeRange !==
       TimeRangeValue.ALL_TIME
   )
+
+  // 3 months before now
+  const threeMonthsBefore = startOfMonth(subMonths(new Date(), 2))
 
   const form = useForm<TimeRangeFilterValue>({
     resolver: zodResolver(TimeRangeFilterSchema),
@@ -74,6 +78,9 @@ export const FilterTimeRange = () => {
                         date={value}
                         setDate={handleSetDate}
                         className="w-full mt-0"
+                        disabled={{
+                          from: threeMonthsBefore
+                        }}
                       />
                       <FormMessage />
                     </FormItem>

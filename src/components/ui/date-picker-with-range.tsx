@@ -20,12 +20,17 @@ type DatePickerWithRangeProps = React.HTMLAttributes<HTMLDivElement> & {
     to?: Date
     selectedTimeRange?: string
   }
+  disabled?: {
+    from?: Date
+    to?: Date
+  }
   setDate: SelectRangeEventHandler
 }
 
 export function DatePickerWithRange({
   className,
   date,
+  disabled,
   setDate
 }: DatePickerWithRangeProps) {
   const state = React.useMemo(
@@ -69,7 +74,10 @@ export function DatePickerWithRange({
             onSelect={setDate}
             numberOfMonths={2}
             disabled={(date) =>
-              date > new Date() || date < new Date("1900-01-01")
+              (disabled?.from && date < disabled.from) ||
+              (disabled?.to && date > disabled.to) ||
+              date > new Date() ||
+              date < new Date("1900-01-01")
             }
           />
         </PopoverContent>
