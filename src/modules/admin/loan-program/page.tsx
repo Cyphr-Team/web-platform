@@ -38,6 +38,7 @@ export function Component() {
         defaultData={detailData.data}
         detailId={detailId}
         setDetailId={setDetailId}
+        isFetching={detailData.isFetching || detailData.isLoading}
       />
       <InfiniteDataTable
         handleClickDetail={handleClickDetail}

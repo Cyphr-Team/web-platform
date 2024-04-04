@@ -40,23 +40,40 @@ import {
 } from "@/types/loan-program.type"
 import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll"
+import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 
 type Props = {
   defaultData?: LoanProgram
   detailId?: string
+  isFetching?: boolean
   setDetailId: (id?: string) => void
+}
+
+const defaultFormValues = {
+  name: "",
+  type: "MICRO",
+  interestRate: 0,
+  interestRateType: InterestRateType.FIXED,
+  interestRateDescription: "",
+  description: "",
+  originationFee: 0,
+  minLoanAmount: 0,
+  maxLoanAmount: 0,
+  minTermInMonth: 0,
+  maxTermInMonth: 0
 }
 
 export function CreateLoanProgramDialog({
   defaultData,
   detailId,
-  setDetailId
+  setDetailId,
+  isFetching
 }: React.PropsWithChildren<Props>) {
   const [open, setOpen] = useState(false)
 
   const onOpenChange = (open: boolean) => {
     if (!open) {
-      form.reset()
+      form.reset(defaultFormValues)
       setDetailId(undefined)
     }
     setOpen(open)
@@ -65,21 +82,22 @@ export function CreateLoanProgramDialog({
   const form = useForm<z.infer<typeof createLoanProgramForm>>({
     resolver: zodResolver(createLoanProgramForm),
     defaultValues: useMemo(
-      () => ({
-        name: defaultData?.name ?? "Micro loan program",
-        type: defaultData?.type ?? "MICRO",
-        interestRate: defaultData?.interestRate ?? 10,
-        interestRateType:
-          defaultData?.interestRateType ?? InterestRateType.FIXED,
-        interestRateDescription:
-          defaultData?.interestRateDescription ?? "Interest rate description",
-        description: defaultData?.description ?? "Description",
-        originationFee: defaultData?.originationFee ?? 10,
-        minLoanAmount: defaultData?.minLoanAmount ?? 1000,
-        maxLoanAmount: defaultData?.maxLoanAmount ?? 10000,
-        minTermInMonth: defaultData?.minTermInMonth ?? 1,
-        maxTermInMonth: defaultData?.maxTermInMonth ?? 12
-      }),
+      () =>
+        defaultData
+          ? {
+              name: defaultData?.name,
+              type: defaultData?.type,
+              interestRate: defaultData?.interestRate,
+              interestRateType: defaultData?.interestRateType,
+              interestRateDescription: defaultData?.interestRateDescription,
+              description: defaultData?.description,
+              originationFee: defaultData?.originationFee,
+              minLoanAmount: defaultData?.minLoanAmount,
+              maxLoanAmount: defaultData?.maxLoanAmount,
+              minTermInMonth: defaultData?.minTermInMonth,
+              maxTermInMonth: defaultData?.maxTermInMonth
+            }
+          : defaultFormValues,
       [defaultData]
     )
   })
@@ -116,37 +134,175 @@ export function CreateLoanProgramDialog({
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={formSubmit} className="flex flex-col">
-            <ScrollArea className="max-h-[70vh]">
-              <div className="p-6 py-2 flex flex-col gap-3">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Name"
-                          wrapperClassName="col-span-3 w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="flex justify-between gap-4">
+            <ScrollArea className="h-[70vh]">
+              <LoadingWrapper
+                isLoading={isFetching ?? false}
+                className="h-[70vh]"
+              >
+                <div className="p-6 py-2 flex flex-col gap-3">
                   <FormField
                     control={form.control}
-                    name="minTermInMonth"
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Name"
+                            wrapperClassName="col-span-3 w-full"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="flex justify-between gap-4">
+                    <FormField
+                      control={form.control}
+                      name="minTermInMonth"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Min Term In Month</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Min Term In Month"
+                              wrapperClassName="col-span-3 w-full"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="maxTermInMonth"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Max Term In Month</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Max Term In Month"
+                              wrapperClassName="col-span-3 w-full"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="flex justify-between gap-4">
+                    <FormField
+                      control={form.control}
+                      name="minLoanAmount"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Min Loan Amount</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Min Loan Amount"
+                              wrapperClassName="col-span-3 w-full"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="maxLoanAmount"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Max Loan Amount</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Max Loan Amount"
+                              wrapperClassName="col-span-3 w-full"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="flex justify-between gap-4">
+                    <FormField
+                      control={form.control}
+                      name="interestRate"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Interest Rate</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Interest Rate"
+                              wrapperClassName="col-span-3 w-full"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="interestRateType"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Interest Rate Type</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="capitalize">
+                                <SelectValue placeholder="Select interest rate type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Object.entries(InterestRateType).map(
+                                ([key, value]) => (
+                                  <SelectItem
+                                    key={key}
+                                    value={value}
+                                    className="capitalize"
+                                  >
+                                    {value}
+                                  </SelectItem>
+                                )
+                              )}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="originationFee"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel>Min Term In Month</FormLabel>
+                        <FormLabel>Origination Fee</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="Min Term In Month"
+                            placeholder="Origination Fee"
                             wrapperClassName="col-span-3 w-full"
                             {...field}
                           />
@@ -158,36 +314,14 @@ export function CreateLoanProgramDialog({
 
                   <FormField
                     control={form.control}
-                    name="maxTermInMonth"
+                    name="interestRateDescription"
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel>Max Term In Month</FormLabel>
+                      <FormItem>
+                        <FormLabel>Interest Rate Description</FormLabel>
                         <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Max Term In Month"
-                            wrapperClassName="col-span-3 w-full"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex justify-between gap-4">
-                  <FormField
-                    control={form.control}
-                    name="minLoanAmount"
-                    render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel>Min Loan Amount</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Min Loan Amount"
-                            wrapperClassName="col-span-3 w-full"
+                          <Textarea
+                            placeholder="Interest rate description"
+                            className="resize-none"
                             {...field}
                           />
                         </FormControl>
@@ -198,36 +332,14 @@ export function CreateLoanProgramDialog({
 
                   <FormField
                     control={form.control}
-                    name="maxLoanAmount"
+                    name="description"
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel>Max Loan Amount</FormLabel>
+                      <FormItem>
+                        <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Max Loan Amount"
-                            wrapperClassName="col-span-3 w-full"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex justify-between gap-4">
-                  <FormField
-                    control={form.control}
-                    name="interestRate"
-                    render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel>Interest Rate</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Interest Rate"
-                            wrapperClassName="col-span-3 w-full"
+                          <Textarea
+                            placeholder="Description"
+                            className="resize-none"
                             {...field}
                           />
                         </FormControl>
@@ -236,33 +348,28 @@ export function CreateLoanProgramDialog({
                     )}
                   />
 
+                  {/* TODO: Support multiple select */}
                   <FormField
                     control={form.control}
-                    name="interestRateType"
+                    name="type"
                     render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel>Interest Rate Type</FormLabel>
+                      <FormItem>
+                        <FormLabel>Type</FormLabel>
                         <Select
                           onValueChange={field.onChange}
-                          defaultValue={field.value}
+                          value={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className="capitalize">
-                              <SelectValue placeholder="Select interest rate type" />
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a type" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {Object.entries(InterestRateType).map(
-                              ([key, value]) => (
-                                <SelectItem
-                                  key={key}
-                                  value={value}
-                                  className="capitalize"
-                                >
-                                  {value}
-                                </SelectItem>
-                              )
-                            )}
+                            {Object.keys(LoanType).map((type) => (
+                              <SelectItem key={type} value={type.toLowerCase()}>
+                                {type}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -270,91 +377,7 @@ export function CreateLoanProgramDialog({
                     )}
                   />
                 </div>
-
-                <FormField
-                  control={form.control}
-                  name="originationFee"
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel>Origination Fee</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Origination Fee"
-                          wrapperClassName="col-span-3 w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="interestRateDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Interest Rate Description</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Interest rate description"
-                          className="resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Description</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Description"
-                          className="resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* TODO: Support multiple select */}
-                <FormField
-                  control={form.control}
-                  name="type"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Type</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {Object.keys(LoanType).map((type) => (
-                            <SelectItem key={type} value={type.toLowerCase()}>
-                              {type}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              </LoadingWrapper>
             </ScrollArea>
             <DialogFooter className="px-6 border-t pt-4">
               <ButtonLoading type="submit" isLoading={isPending}>
