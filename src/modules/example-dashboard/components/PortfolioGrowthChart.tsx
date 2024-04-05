@@ -10,17 +10,17 @@ import {
   YAxis
 } from "recharts"
 import { useDashboard } from "../providers/dashboard-provider"
-import { DashboardActionType } from "../types/stats.types"
-import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { DashboardActionType } from "../types/stats.types"
 
-export function AverageApprovedLoanSizeChart() {
-  const { averageApprovedLoanSizeData, dashboardDispatch, dashboardState } =
+export function PortfolioGrowthChart() {
+  const { portfolioGrowthData, dashboardDispatch, dashboardState } =
     useDashboard()
 
   const handleChangeTimePeriod = (timePeriod: string) => {
     dashboardDispatch({
-      type: DashboardActionType.UpdateAverageLoanSizeFrequency,
+      type: DashboardActionType.UpdatePortfolioGrowthFrequency,
       payload: timePeriod as GRAPH_FREQUENCY
     })
   }
@@ -28,19 +28,19 @@ export function AverageApprovedLoanSizeChart() {
   return (
     <div>
       <div className="flex justify-between">
-        <h1 className="text-xl font-medium">Average Approved Loan Size</h1>
-        {!!averageApprovedLoanSizeData?.averageApprovedLoanSize.length && (
+        <h1 className="text-xl font-medium">Portfolio Growth</h1>
+        {!!portfolioGrowthData?.growthSize.length && (
           <TimePeriodsSelection
             onChangeTimePeriod={handleChangeTimePeriod}
             timePeriod={
-              dashboardState.averageLoanSizeFrequency ?? GRAPH_FREQUENCY.MONTHLY
+              dashboardState.portfolioGrowthFrequency ?? GRAPH_FREQUENCY.MONTHLY
             }
           />
         )}
       </div>
       <ResponsiveContainer width="100%" height={350}>
         <ComposedChart
-          data={averageApprovedLoanSizeData?.averageApprovedLoanSize ?? []}
+          data={portfolioGrowthData?.growthSize ?? []}
           margin={{
             top: 20,
             right: 20,

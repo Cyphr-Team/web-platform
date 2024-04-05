@@ -4,7 +4,11 @@ import { Dispatch } from "react"
 
 enum DashboardActionType {
   UpdateTimeRange = "UpdateTimeRange",
-  UpdateApprovalRateFrequency = "UpdateApprovalRateFrequency"
+  UpdateApprovalRateFrequency = "UpdateApprovalRateFrequency",
+  UpdateIncompleteApplicationRateFrequency = "UpdateIncompleteApplicationRateFrequency",
+  UpdateAverageTimeToApprovalMetricsFrequency = "UpdateAverageTimeToApprovalMetricsFrequency",
+  UpdateAverageLoanSizeFrequency = "UpdateAverageLoanSizeFrequency",
+  UpdatePortfolioGrowthFrequency = "UpdatePortfolioGrowthFrequency"
 }
 
 export { DashboardActionType }
@@ -18,6 +22,22 @@ type DashboardAction =
       type: DashboardActionType.UpdateApprovalRateFrequency
       payload: DashboardState["approvalRateFrequency"]
     }
+  | {
+      type: DashboardActionType.UpdateIncompleteApplicationRateFrequency
+      payload: DashboardState["incompleteApplicationRateFrequency"]
+    }
+  | {
+      type: DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency
+      payload: DashboardState["averageTimeToApprovalMetricsFrequency"]
+    }
+  | {
+      type: DashboardActionType.UpdateAverageLoanSizeFrequency
+      payload: DashboardState["averageLoanSizeFrequency"]
+    }
+  | {
+      type: DashboardActionType.UpdatePortfolioGrowthFrequency
+      payload: DashboardState["portfolioGrowthFrequency"]
+    }
 
 type DashboardState = {
   filter: TimeRangeFilterValue
@@ -25,6 +45,7 @@ type DashboardState = {
   incompleteApplicationRateFrequency: GRAPH_FREQUENCY
   averageTimeToApprovalMetricsFrequency: GRAPH_FREQUENCY
   averageLoanSizeFrequency: GRAPH_FREQUENCY
+  portfolioGrowthFrequency: GRAPH_FREQUENCY
 }
 
 type Stats = {
@@ -58,6 +79,9 @@ type DashboardProviderState = {
 
   averageApprovedLoanSizeData?: AverageApprovedLoanSizeResponse
   isLoadingAverageApprovedLoanSize?: boolean
+
+  portfolioGrowthData?: PortfolioGrowthResponse
+  isLoadingPortfolioGrowth?: boolean
 }
 
 type LoanApprovalRateStats = {
@@ -100,11 +124,20 @@ type AverageApprovedLoanSizeResponse = {
   averageApprovedLoanSize: AverageApprovedLoanSizeStats[]
 }
 
+type PortfolioGrowthResponse = {
+  growthSize: PortfolioGrowthStats[]
+}
+
+type PortfolioGrowthStats = {
+  date: string
+  loanSize: number
+}
 export type {
   AverageTimeToApprovalMetricsResponse,
   IncompleteApplicationRateResponse,
   ApprovalRateResponse,
   AverageApprovedLoanSizeResponse,
+  PortfolioGrowthResponse,
   DashboardAction,
   DashboardProviderProps,
   DashboardProviderState,

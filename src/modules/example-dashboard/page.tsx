@@ -5,6 +5,7 @@ import { DashboardProvider } from "./providers/dashboard-provider"
 import { RateChart } from "./components/RateChart"
 import { AverageTimeToApprovalChart } from "./components/AverageTimeToApprovalChart"
 import { AverageApprovedLoanSizeChart } from "./components/AverageLoanSizeChart"
+import { PortfolioGrowthChart } from "./components/PortfolioGrowthChart"
 
 export function Component() {
   return (
@@ -24,6 +25,7 @@ export function Component() {
           <RateChart />
           <AverageTimeToApprovalChart />
           <AverageApprovedLoanSizeChart />
+          <PortfolioGrowthChart />
         </div>
       </div>
     </DashboardProvider>

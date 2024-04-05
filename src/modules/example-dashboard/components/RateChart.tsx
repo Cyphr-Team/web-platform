@@ -10,6 +10,9 @@ import {
   YAxis
 } from "recharts"
 import { useDashboard } from "../providers/dashboard-provider"
+import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
+import { DashboardActionType } from "../types/stats.types"
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 
 type RateChartData = {
   approvalRate: number
@@ -17,7 +20,12 @@ type RateChartData = {
 }
 
 export function RateChart() {
-  const { approvalRateData, incompleteApplicationRateData } = useDashboard()
+  const {
+    approvalRateData,
+    incompleteApplicationRateData,
+    dashboardDispatch,
+    dashboardState
+  } = useDashboard()
 
   const rateChartData = useMemo(() => {
     const dateMapping = new Map<string, RateChartData>()
@@ -53,10 +61,27 @@ export function RateChart() {
     incompleteApplicationRateData?.incompleteApplicationRate
   ])
 
+  const handleChangeTimePeriod = (timePeriod: string) => {
+    dashboardDispatch({
+      type: DashboardActionType.UpdateIncompleteApplicationRateFrequency,
+      payload: timePeriod as GRAPH_FREQUENCY
+    })
+  }
+
   return (
     <div>
       <div className="flex justify-between">
         <h1 className="text-xl font-medium mb-2">Performance Metrics</h1>
+        {!!approvalRateData?.loanApprovalRate.length &&
+          !!incompleteApplicationRateData?.incompleteApplicationRate.length && (
+            <TimePeriodsSelection
+              onChangeTimePeriod={handleChangeTimePeriod}
+              timePeriod={
+                dashboardState.averageLoanSizeFrequency ??
+                GRAPH_FREQUENCY.MONTHLY
+              }
+            />
+          )}
       </div>
       <ResponsiveContainer width="100%" height={350}>
         <ComposedChart

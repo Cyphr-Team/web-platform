@@ -12,6 +12,7 @@ import {
   DashboardState
 } from "../types/stats.types"
 import { useQueryGetAverageApprovedLoanSize } from "../hooks/query/useQueryGetAverageLoanSize"
+import { useQueryGetPortfolioGrowth } from "../hooks/query/useQueryGetPortfolioGrowth"
 
 const DashboardContext = createContext<DashboardProviderState>({
   dashboardState: DEFAULT_DASHBOARD_STATE,
@@ -35,6 +36,32 @@ function reducer(state: DashboardState, action: DashboardAction) {
         approvalRateFrequency: action.payload
       }
     }
+    case DashboardActionType.UpdateIncompleteApplicationRateFrequency: {
+      return {
+        ...state,
+        incompleteApplicationRateFrequency: action.payload
+      }
+    }
+    case DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency: {
+      return {
+        ...state,
+        averageTimeToApprovalMetricsFrequency: action.payload
+      }
+    }
+    case DashboardActionType.UpdateAverageLoanSizeFrequency: {
+      return {
+        ...state,
+        averageLoanSizeFrequency: action.payload
+      }
+    }
+    case DashboardActionType.UpdatePortfolioGrowthFrequency: {
+      return {
+        ...state,
+        portfolioGrowthFrequency: action.payload
+      }
+    }
+    default:
+      return state
   }
 }
 
@@ -55,6 +82,7 @@ export function DashboardProvider({
     useQueryGetAverageTimeToApprovalMetrics(dashboardState)
   const averageApprovedLoanSize =
     useQueryGetAverageApprovedLoanSize(dashboardState)
+  const portfolioGrowth = useQueryGetPortfolioGrowth(dashboardState)
   const value = useMemo(
     () => ({
       dashboardState,
@@ -73,7 +101,10 @@ export function DashboardProvider({
         averageTimeToApprovalMetricsResponse.isFetching,
 
       averageApprovedLoanSizeData: averageApprovedLoanSize.data?.data,
-      isLoadingAverageApprovedLoanSize: averageApprovedLoanSize.isFetching
+      isLoadingAverageApprovedLoanSize: averageApprovedLoanSize.isFetching,
+
+      portfolioGrowthData: portfolioGrowth.data?.data,
+      isLoadingPortfolioGrowth: portfolioGrowth.isFetching
     }),
     [
       approvalRate.data?.data,
@@ -85,6 +116,8 @@ export function DashboardProvider({
       dashboardState,
       incompleteApplicationRate.data?.data,
       incompleteApplicationRate.isFetching,
+      portfolioGrowth.data?.data,
+      portfolioGrowth.isFetching,
       statsResponse.data?.data,
       statsResponse.isFetching
     ]

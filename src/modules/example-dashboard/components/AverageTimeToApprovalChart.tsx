@@ -9,14 +9,37 @@ import {
   YAxis
 } from "recharts"
 import { useDashboard } from "../providers/dashboard-provider"
+import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
+import { DashboardActionType } from "../types/stats.types"
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 
 export function AverageTimeToApprovalChart() {
-  const { averageTimeToApprovalMetricsData } = useDashboard()
+  const {
+    averageTimeToApprovalMetricsData,
+    dashboardDispatch,
+    dashboardState
+  } = useDashboard()
+
+  const handleChangeTimePeriod = (timePeriod: string) => {
+    dashboardDispatch({
+      type: DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency,
+      payload: timePeriod as GRAPH_FREQUENCY
+    })
+  }
 
   return (
     <div>
       <div className="flex justify-between">
         <h1 className="text-xl font-medium mb-2">Average Time To Approval</h1>
+        {!!averageTimeToApprovalMetricsData?.averageTimeToApproval.length && (
+          <TimePeriodsSelection
+            onChangeTimePeriod={handleChangeTimePeriod}
+            timePeriod={
+              dashboardState.averageTimeToApprovalMetricsFrequency ??
+              GRAPH_FREQUENCY.MONTHLY
+            }
+          />
+        )}
       </div>
       <ResponsiveContainer width="100%" height={350}>
         <ComposedChart
