@@ -1,6 +1,7 @@
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { useTenant } from "@/providers/tenant-provider"
+import { getImageURL } from "@/utils/aws.utils.ts"
 
 interface LogoHeaderProps {
   isCollapsed?: boolean
@@ -23,7 +24,7 @@ export function LogoHeader({
       >
         {tenantData?.logo && (
           <img
-            src={tenantData.logo}
+            src={getImageURL(tenantData.logo)}
             className="w-8 h-8"
             alt="Institution logo"
           />
@@ -38,7 +39,7 @@ export function LogoHeader({
 
       {!isCollapsed && tenantData?.textLogo && (
         <img
-          src={tenantData.textLogo}
+          src={getImageURL(tenantData.textLogo)}
           alt="Institution text logo"
           className="h-8 max-w-[100px]"
           height={32}
