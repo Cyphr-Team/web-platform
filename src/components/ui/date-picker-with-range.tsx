@@ -72,6 +72,7 @@ export function DatePickerWithRange({
             defaultMonth={state.to}
             selected={state}
             onSelect={setDate}
+            showOutsideDays={false}
             numberOfMonths={2}
             disabled={(date) =>
               (disabled?.from && date < disabled.from) ||
