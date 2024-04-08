@@ -22,10 +22,6 @@ export const columns: ColumnDef<LoanDocument>[] = [
 
       return (
         <div className="flex items-center gap-3 min-w-0">
-          <DownloadDocumentButton
-            documentId={document.id}
-            fileName={document.name}
-          />
           <div>
             <Icons.pdfIcon />
           </div>
@@ -96,6 +92,23 @@ export const columns: ColumnDef<LoanDocument>[] = [
           <BadgeAuthenticityScore
             status={document?.authenticityScoreStatus.status}
             score={document?.authenticityScoreStatus.score}
+          />
+        </div>
+      )
+    }
+  },
+  {
+    id: "download",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
+    size: 100,
+    cell: ({ row }) => {
+      const document = row.original
+      return (
+        <div className="flex content-end justify-end items-center">
+          <DownloadDocumentButton
+            documentId={document.id}
+            fileName={document.name}
+            text="Download"
           />
         </div>
       )

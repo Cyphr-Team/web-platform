@@ -77,31 +77,29 @@ export const DownloadButton = ({
   })
 
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <ButtonLoading
-            variant="outline"
-            data-html2canvas-ignore
-            isLoading={isLoading || downloadFile.isLoading}
-          >
-            Download <DownloadCloud className="ml-1" />
-          </ButtonLoading>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent itemProp="className" className="cursor-pointer">
-          <DropdownMenuItem onClick={downloadPdf}>File PDF</DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={handleClickDownload(LoanSummaryDownloadType.CSV)}
-          >
-            File CSV
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={handleClickDownload(LoanSummaryDownloadType.JSON)}
-          >
-            File JSON
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <ButtonLoading
+          variant="outline"
+          data-html2canvas-ignore
+          isLoading={isLoading || downloadFile.isLoading}
+        >
+          Download <DownloadCloud className="ml-1" />
+        </ButtonLoading>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent itemProp="className" className="cursor-pointer">
+        <DropdownMenuItem onClick={downloadPdf}>File PDF</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={handleClickDownload(LoanSummaryDownloadType.CSV)}
+        >
+          File CSV
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={handleClickDownload(LoanSummaryDownloadType.JSON)}
+        >
+          File JSON
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

@@ -12,10 +12,12 @@ import { useQueryDownloadDocumentForOfficer } from "../../hooks/useQuery/useQuer
 
 export const DownloadDocumentButton = ({
   documentId,
-  fileName
+  fileName,
+  text
 }: {
   documentId: string
   fileName?: string
+  text?: string
 }) => {
   const [preventCacheCount, setPreventCacheCount] = useState(0)
 
@@ -38,11 +40,14 @@ export const DownloadDocumentButton = ({
         <TooltipTrigger asChild>
           <ButtonLoading
             variant="ghost"
-            size="icon"
+            size={text ? "sm" : "icon"}
             onClick={handleDownloadDocument}
             isLoading={downloadFile.isLoading}
           >
-            <FileDown />
+            <div className="flex items-center">
+              {text && <span className="mr-1">{text}</span>}
+              <FileDown />
+            </div>
           </ButtonLoading>
         </TooltipTrigger>
         <TooltipPortal>
