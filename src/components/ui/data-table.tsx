@@ -20,7 +20,6 @@ import {
 import { cn } from "@/lib/utils"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
 import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
-import { Loader2 } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -61,15 +60,7 @@ export function DataTable<TData, TValue>({
         {isFilterView && <DataTableViewOptions table={table} />}
       </div>
       <div className="rounded-md border relative max-h-full overflow-auto">
-        <Table className="text-sm">
-          {isLoading && (
-            <div className="top-0 absolute h-full w-full bg-zinc-50/50 z-10 rounded">
-              <div className="sticky top-1/2 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
-                <Loader2 className="w-10 h-10 animate-spin text-primary" />{" "}
-                Loading...
-              </div>
-            </div>
-          )}
+        <Table isLoading={isLoading} className="text-sm">
           <TableHeader className="bg-gray-100 sticky top-0">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

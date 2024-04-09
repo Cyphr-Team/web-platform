@@ -208,12 +208,23 @@ const routes = createBrowserRouter(
           }
         />
 
-        {/* --- ONBOARD --- */}
+        {/* FORESIGHT ADMIN */}
+
         <Route
-          path={APP_PATH.ONBOARD}
+          path={APP_PATH.INDEX}
           lazy={() => import("@/modules/onboard/layout")}
         >
-          <Route index lazy={() => import("@/modules/onboard/page")} />
+          {/* --- ONBOARD --- */}
+          <Route
+            path={APP_PATH.ONBOARD}
+            lazy={() => import("@/modules/onboard/page")}
+          />
+
+          {/* --- ONBOARD --- */}
+          <Route
+            path={APP_PATH.SUBSCRIPTIONS}
+            lazy={() => import("@/modules/subscriptions/pages/list")}
+          />
         </Route>
       </Route>
 

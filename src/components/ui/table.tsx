@@ -1,12 +1,22 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 
 const Table = React.forwardRef<
   HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
+  React.HTMLAttributes<HTMLTableElement> & {
+    isLoading?: boolean
+  }
+>(({ className, isLoading, ...props }, ref) => (
   <div className="relative w-full">
+    {isLoading && (
+      <div className="top-0 absolute h-full w-full bg-zinc-50/50 z-10 rounded">
+        <div className="sticky top-1/2 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
+          <Loader2 className="w-10 h-10 animate-spin text-primary" /> Loading...
+        </div>
+      </div>
+    )}
     <table
       ref={ref}
       className={cn("w-full caption-bottom", className)}
@@ -121,13 +131,13 @@ const TableCaption = React.forwardRef<
 TableCaption.displayName = "TableCaption"
 
 export {
+  InfinityTable,
   Table,
-  TableHeader,
   TableBody,
+  TableCaption,
+  TableCell,
   TableFooter,
   TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
-  InfinityTable
+  TableHeader,
+  TableRow
 }

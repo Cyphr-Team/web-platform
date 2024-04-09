@@ -89,7 +89,8 @@ export const APP_PATH = {
   },
   SETTINGS: "/settings",
   MESSAGES: "/messages",
-  ONBOARD: "/onboard"
+  ONBOARD: "/onboard",
+  SUBSCRIPTIONS: "/subscriptions"
 }
 
 export const API_PATH = {
@@ -221,6 +222,10 @@ export const API_PATH = {
   },
   asset: {
     upload: "api/asset/upload"
+  },
+  subscriptions: {
+    all: "api/subscription",
+    list: () => `${API_PATH.subscriptions.all}/list`
   }
 }
 
