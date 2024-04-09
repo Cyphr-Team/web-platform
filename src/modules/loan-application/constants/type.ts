@@ -1,4 +1,5 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
+import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 
 export interface KYBInformation {
@@ -76,11 +77,13 @@ export interface LoanProgramData {
   id: string
   type: string
   name: string
-  loanAmountRange: string
-  amount: string | number
-  meta: Record<string, string>
+  loanAmountRange?: string
+  amount?: string | number
+  meta?: Record<string, string>
+  startBtn?: string
   description?: string
-  faqs?: Record<string, string>
+  faqs?: Record<string, string | string[]>
+  loanPurposes?: Option[]
   heroImage?: string
   contact?: LoanProgramContactData
   isUnderConstruction: boolean

@@ -48,6 +48,14 @@ Applicants with registered businesses will also be required to submit (if applic
 4. Certificate of Good Standing and Articles of Organization (for LLCs)
 5. Operating Agreement (for LLCs) or By-Laws (for Corporations)`
   },
+  loanPurposes: [
+    { label: "Working Capital", value: "working_capital" },
+    { label: "Equipment", value: "equipment" },
+    { label: "Materials", value: "materials" },
+    { label: "Startup Costs", value: "startup_costs" },
+    { label: "Growth Opportunities", value: "growth_opportunities" },
+    { label: "Other", value: "other" }
+  ],
   contact: {
     mail: "coaches@altcap.org",
     phone: "(833) 549-2890",
@@ -267,6 +275,30 @@ It is never too early to reach out regarding a project’s eligibility and attra
   isUnderConstruction: true
 }
 
+const LOAN_READINESS_PROGRAM: LoanProgramData = {
+  id: "LOAN_READY",
+  startBtn: "Test My Readiness",
+  name: "Loan Ready",
+  type: "Loan Readiness",
+  faqs: {
+    about:
+      "LoanReady turns the tables on traditional lending processes. With our innovative platform, you gain unparalleled insights into your business's financial health as seen through the lens of a potential lender.",
+    eligibility: [
+      "Small Business Owner",
+      "EIN",
+      "Seeking a loan types: term, micro, lines of capital, or startup lending products"
+    ],
+    fees: "Applicants will only be charged an origination fee of $45.",
+    how_to_get_started:
+      "To get started, just click the 'Test My Readiness' button and fill out the form."
+  },
+  contact: {
+    mail: "support@tryforesight.io"
+  },
+  loanPurposes: [{ label: "LoanReady", value: "loan_ready" }],
+  isUnderConstruction: false
+}
+
 const ALTCAP_LOAN_PROGRAMS: LoanProgramData[] = [
   ALTCAP_ARTCAP_EXPRESS,
   ALTCAP_SMALL_BUSINESS_LOAN,
@@ -274,4 +306,6 @@ const ALTCAP_LOAN_PROGRAMS: LoanProgramData[] = [
   ALTCAP_NEW_MARKETS_TAX_CREDITS
 ]
 
-export { ALTCAP_LOAN_PROGRAMS }
+const LOAN_READY_PROGRAMS: LoanProgramData[] = [LOAN_READINESS_PROGRAM]
+
+export { ALTCAP_LOAN_PROGRAMS, LOAN_READY_PROGRAMS }

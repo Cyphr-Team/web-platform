@@ -40,7 +40,7 @@ export const ComponentWithProvider = () => {
               loanProgramInfo?.isUnderConstruction ? (
                 <LoanProgramDetailUnderConstruction />
               ) : (
-                <LoanProgramDetailApply />
+                <LoanProgramDetailApply btnText={loanProgramInfo?.startBtn} />
               )
             }
           />

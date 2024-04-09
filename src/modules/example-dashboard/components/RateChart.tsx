@@ -77,7 +77,7 @@ export function RateChart() {
             <TimePeriodsSelection
               onChangeTimePeriod={handleChangeTimePeriod}
               timePeriod={
-                dashboardState.averageLoanSizeFrequency ??
+                dashboardState.incompleteApplicationRateFrequency ??
                 GRAPH_FREQUENCY.MONTHLY
               }
             />

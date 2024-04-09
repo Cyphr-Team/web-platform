@@ -24,11 +24,13 @@ export const LoanPrograms = () => {
             <LoanProgramCard
               key={loanProgram.id}
               loanProgram={loanProgram}
-              additionalInfo={[
-                ALTCAP_LOAN_PROGRAMS[0].meta.collateralRequired,
-                ALTCAP_LOAN_PROGRAMS[0].meta.minimumCreditScore,
-                ALTCAP_LOAN_PROGRAMS[0].meta.decisionTime
-              ]}
+              additionalInfo={
+                ALTCAP_LOAN_PROGRAMS[0].meta && [
+                  ALTCAP_LOAN_PROGRAMS[0].meta.collateralRequired,
+                  ALTCAP_LOAN_PROGRAMS[0].meta.minimumCreditScore,
+                  ALTCAP_LOAN_PROGRAMS[0].meta.decisionTime
+                ]
+              }
             />
           ))}
         </div>

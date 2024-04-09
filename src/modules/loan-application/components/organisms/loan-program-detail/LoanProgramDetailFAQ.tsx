@@ -49,7 +49,7 @@ export const LoanProgramDetailFAQ = () => {
           {loanProgramInfo?.isUnderConstruction ? (
             <LoanProgramDetailUnderConstruction />
           ) : (
-            <LoanProgramDetailApply />
+            <LoanProgramDetailApply btnText={loanProgramInfo?.startBtn} />
           )}
         </div>
       </section>
@@ -78,7 +78,13 @@ const FAQ = () => {
               {capitalizeWords(snakeCaseToText(key))}
             </AccordionTrigger>
             <AccordionContent className="whitespace-pre-wrap">
-              {answer}
+              {Array.isArray(answer)
+                ? answer.map((ans, idx) => (
+                    <p key={idx} className="mb-2">
+                      {idx + 1}. {ans}
+                    </p>
+                  ))
+                : answer}
             </AccordionContent>
           </AccordionItem>
         )

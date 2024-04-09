@@ -3,7 +3,13 @@ import { APP_PATH } from "@/constants"
 import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 
-export const LoanProgramDetailApply = () => {
+interface Props {
+  btnText?: string
+}
+
+export const LoanProgramDetailApply: React.FC<Props> = ({
+  btnText = "Start Application"
+}) => {
   const navigate = useNavigate()
   const { loanProgramId } = useParams()
 
@@ -13,7 +19,7 @@ export const LoanProgramDetailApply = () => {
 
   return (
     <Button onClick={onSubmit}>
-      Start Application <ArrowRight className="ml-1 w-4" />
+      {btnText} <ArrowRight className="ml-1 w-4" />
     </Button>
   )
 }

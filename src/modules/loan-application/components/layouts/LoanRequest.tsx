@@ -38,15 +38,6 @@ import { loanRequestFormSchema } from "../../constants/form"
 import { useEffect, useMemo } from "react"
 import { useTenant } from "@/providers/tenant-provider"
 
-const LOAN_PURPOSES = [
-  { label: "Working Capital", value: "working_capital" },
-  { label: "Equipment", value: "equipment" },
-  { label: "Materials", value: "materials" },
-  { label: "Startup Costs", value: "startup_costs" },
-  { label: "Growth Opportunities", value: "growth_opportunities" },
-  { label: "Other", value: "other" }
-]
-
 export function CardWithForm() {
   const { tenantData } = useTenant()
   const { name } = tenantData ?? {}
@@ -58,7 +49,7 @@ export function CardWithForm() {
     setFormIsEdited,
     draftForm
   } = useLoanApplicationContext()
-  const { loanProgramDetails } = useLoanProgramDetailContext()
+  const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
 
   const minLoanAmount = loanProgramDetails?.minLoanAmount ?? 0
   const maxLoanAmount = loanProgramDetails?.maxLoanAmount ?? 0
@@ -198,7 +189,7 @@ export function CardWithForm() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {LOAN_PURPOSES.map((purpose) => (
+                            {loanProgramInfo?.loanPurposes?.map((purpose) => (
                               <SelectItem
                                 key={purpose.value}
                                 value={purpose.value}

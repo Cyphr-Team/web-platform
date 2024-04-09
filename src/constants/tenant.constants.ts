@@ -1,6 +1,7 @@
 enum Institution {
   IntrustBank = "intrust",
-  Altcap = "altcap"
+  Altcap = "altcap",
+  LoanReady = "loanready"
 }
 
 type InstitutionData = {

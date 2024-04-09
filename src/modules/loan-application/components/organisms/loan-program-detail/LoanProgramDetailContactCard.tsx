@@ -37,12 +37,21 @@ export function LoanProgramDetailContactCard() {
 
       <CardContent>
         <ul className="flex flex-col gap-4">
-          <ContactItem Icon={Mail} content={loanProgramInfo?.contact?.mail} />
-          <ContactItem Icon={Phone} content={loanProgramInfo?.contact?.phone} />
-          <ContactItem
-            Icon={Map}
-            content={loanProgramInfo?.contact?.location}
-          />
+          {loanProgramInfo?.contact?.mail && (
+            <ContactItem Icon={Mail} content={loanProgramInfo?.contact?.mail} />
+          )}
+          {loanProgramInfo?.contact?.phone && (
+            <ContactItem
+              Icon={Phone}
+              content={loanProgramInfo?.contact?.phone}
+            />
+          )}
+          {loanProgramInfo?.contact?.location && (
+            <ContactItem
+              Icon={Map}
+              content={loanProgramInfo?.contact?.location}
+            />
+          )}
         </ul>
       </CardContent>
 
