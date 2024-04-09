@@ -8,14 +8,12 @@ import { LoanProgramDetailUnderConstruction } from "../organisms/loan-program-de
 import { LoanProgramDetailWelcomeLine } from "../organisms/loan-program-detail/LoanProgramDetailWelcomeLine"
 import { TopBarDetail } from "./TopBarDetail"
 
-import { useTenant } from "@/providers/tenant-provider"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
+import { Image } from "@/shared/atoms/Image"
+import { getImageURL } from "@/utils/aws.utils"
 import { CustomLabelKey, buildCustomLabel, buildIds } from "@/utils/crumb.utils"
 
 export const ComponentWithProvider = () => {
-  const { tenantData } = useTenant()
-  const { loanProgramOverviewHeroImage } = tenantData ?? {}
-
   const { loanProgramInfo, isLoading, loanProgramDetails } =
     useLoanProgramDetailContext()
 
@@ -48,16 +46,16 @@ export const ComponentWithProvider = () => {
 
         <section className="col-span-8">
           {isLoading ? (
-            <Skeleton className="w-screen md:w-[calc(100vw-15rem)] max-w-[1200px] h-[140px] md:h-[250px] lg:h-[359px] items-center align-center flex" />
+            <Skeleton className="w-screen md:w-[calc(100vw-15rem)] max-w-[1200px] h-[140px] md:h-[250px] lg:h-[264px] items-center align-center flex" />
           ) : (
-            loanProgramOverviewHeroImage && (
-              <img
-                className="mx-auto w-full max-h-[359px]"
-                src={loanProgramOverviewHeroImage}
-                alt="Loan program detail"
-                height={359}
-              />
-            )
+            <Image
+              className="w-[1200px] mx-auto max-h-[292px] object-contain max-w-full border-b"
+              src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
+              placeholderClassName="w-[1200px] bg-slate-600 max-h-[264px] mx-auto max-w-full"
+              alt="Cover Photo for Loan Program"
+              height={359}
+              width={1200}
+            />
           )}
         </section>
 

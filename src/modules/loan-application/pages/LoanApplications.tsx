@@ -159,7 +159,7 @@ export function Component() {
   return (
     <div className="container mx-auto py-4xl">
       <h1 className="text-3xl font-semibold">Loan Applications</h1>
-      <p className="text-text-tertiary">
+      <p className="text-text-tertiary mt-1">
         Keep track of your loan applications and their statues
       </p>
       <InfiniteDataTable

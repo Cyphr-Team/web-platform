@@ -2,8 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useLoanProgramDetailContext } from "@/modules/loan-application/providers"
 
 export const LoanProgramDetailWelcomeLine = () => {
-  const { loanProgramInfo, isLoading, loanProgramDetails } =
-    useLoanProgramDetailContext()
+  const { isLoading, loanProgramDetails } = useLoanProgramDetailContext()
 
   return (
     <section>
@@ -18,7 +17,11 @@ export const LoanProgramDetailWelcomeLine = () => {
         {isLoading ? (
           <Skeleton className="w-full h-8" />
         ) : (
-          loanProgramInfo?.description
+          <p
+            dangerouslySetInnerHTML={{
+              __html: loanProgramDetails?.description ?? ""
+            }}
+          ></p>
         )}
       </div>
     </section>

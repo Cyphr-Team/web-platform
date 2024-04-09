@@ -146,6 +146,7 @@ export interface LoanProgramType {
   createdAt: string
   updatedAt: string
   deletedAt?: string
+  coverPhotoUrl?: string
 }
 
 enum LoanProgramInterestRateType {

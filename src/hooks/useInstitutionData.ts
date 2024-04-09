@@ -1,4 +1,3 @@
-import { ASSETS } from "@/assets"
 import { InstitutionData } from "@/constants/tenant.constants"
 import { TInstitutionResponse } from "@/types/institution.type"
 import { useMemo } from "react"
@@ -24,15 +23,15 @@ export const useInstitutionData = () => {
       /**
        * LOAN PROGRAM
        */
-      loanProgramWelcome:
-        institutionData.metadata.loanProgramWelcome ??
-        "AltCap is an ally to underestimated entrepreneurs. We offer financing to businesses and communities that traditional lenders do not serve. Our flexible, patient capital meets the unique needs of each entrepreneur and local investment. ",
-      loanProgramOverview:
-        institutionData.metadata.loanProgramOverview ??
-        "Our alternative approach to financing allows us to support small businesses that other lenders overlook. We lend flexible, patient capital and tailor financial solutions to meet entrepreneurs where they’re at. ",
+      loanProgramWelcome: institutionData.metadata.welcomeMessage ?? "",
+      loanProgramOverview: institutionData.metadata.loanProgramsOverview ?? "",
       loanProgramOverviewHeroImage:
-        institutionData.metadata?.loanProgramOverviewHeroImage ??
-        ASSETS.altCapLoanProgramLarge
+        institutionData.metadata?.welcomeHeaderImage ?? "",
+
+      /**
+       * CUSTOM ON DEMAND
+       */
+      customFieldsOnDemand: institutionData.metadata.customFieldsOnDemand ?? {}
     }
   }, [institutionData])
 

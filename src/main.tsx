@@ -4,9 +4,10 @@ import App from "./App.tsx"
 import "./index.css"
 import "react-phone-number-input/style.css"
 
-window.addEventListener("vite:preloadError", () => {
+window.addEventListener("vite:preloadError", (e) => {
   // Refresh the page when load lazy import component
   // https://vitejs.dev/guide/build.html#load-error-handling
+  e.preventDefault()
   window.location.reload()
 })
 

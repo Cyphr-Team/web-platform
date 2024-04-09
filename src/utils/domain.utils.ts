@@ -4,7 +4,7 @@
  * @returns e.g. intrust-bank
  */
 
-const DEFAULT_DEMO_SUBDOMAIN = "foresight"
+const DEFAULT_DEMO_SUBDOMAIN = "capsight"
 
 function getSubdomain(): string {
   try {

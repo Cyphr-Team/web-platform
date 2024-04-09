@@ -23,6 +23,13 @@ type InstitutionData = {
   loanProgramWelcome: string
   loanProgramOverview: string
   loanProgramOverviewHeroImage: string
+
+  /**
+   * CUSTOM ON DEMAND
+   */
+  customFieldsOnDemand?: {
+    showLongCard?: boolean
+  }
 }
 
 export { Institution }

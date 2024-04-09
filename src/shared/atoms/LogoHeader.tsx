@@ -2,6 +2,7 @@ import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { useTenant } from "@/providers/tenant-provider"
 import { getImageURL } from "@/utils/aws.utils.ts"
+import { Image } from "./Image"
 
 interface LogoHeaderProps {
   isCollapsed?: boolean
@@ -23,10 +24,13 @@ export function LogoHeader({
         className={cn("logo-button", !toggleCollapse && "cursor-default")}
       >
         {tenantData?.logo && (
-          <img
-            src={getImageURL(tenantData.logo)}
+          <Image
+            src={getImageURL(tenantData?.logo)}
+            placeholderClassName="bg-slate-400 rounded"
             className="w-8 h-8"
             alt="Institution logo"
+            height={32}
+            width={32}
           />
         )}
 
@@ -38,11 +42,13 @@ export function LogoHeader({
       </button>
 
       {!isCollapsed && tenantData?.textLogo && (
-        <img
-          src={getImageURL(tenantData.textLogo)}
+        <Image
+          src={getImageURL(tenantData?.textLogo)}
+          placeholderClassName="bg-slate-400 rounded"
           alt="Institution text logo"
           className="h-8 max-w-[100px]"
           height={32}
+          width={100}
         />
       )}
     </div>

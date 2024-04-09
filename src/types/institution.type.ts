@@ -2,9 +2,10 @@ type TInstitutionMetaData = {
   logo?: string
   textLogo?: string
   supportEmail?: string
-  loanProgramWelcome?: string
-  loanProgramOverview?: string
-  loanProgramOverviewHeroImage?: string
+  welcomeHeaderImage?: string
+  welcomeMessage?: string
+  loanProgramsOverview?: string
+  customFieldsOnDemand?: Record<string, unknown>
 }
 
 type TInstitutionResponse = {
