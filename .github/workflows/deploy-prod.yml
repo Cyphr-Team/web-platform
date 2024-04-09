@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - 'v*.*.*'
+    paths:
+      - 'src/**/*'
+      - 'yarn.lock'
 
 env:
   # GA variables
