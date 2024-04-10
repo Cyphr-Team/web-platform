@@ -34,8 +34,8 @@ export function InstitutionNotFoundLayout() {
       <div className="mt-6 flex flex-col items-center gap-2">
         <p>If you believe this is an error, please report it to below link</p>
         <Button className="text-base mt-2" asChild>
-          <a href="mailto:support@tryforesight.link?subject=404%20Error%20Report&body=Hello%20Support%20Team,%0D%0A%0D%0AI%20encountered%20a%20404%20error%20while%20trying%20to%20access%20the%20following%20URL:%20[Please%20insert%20the%20URL%20of%20the%20page%20here].%20%0D%0A%0D%0AAdditional%20comments:%20[Please%20provide%20any%20additional%20details%20or%20comments%20here].%0D%0A%0D%0AThank%20you,%0D%0A[Your%20Name]">
-            support@tryforesight.link
+          <a href="mailto:support@tryforesight.io?subject=404%20Error%20Report&body=Hello%20Support%20Team,%0D%0A%0D%0AI%20encountered%20a%20404%20error%20while%20trying%20to%20access%20the%20following%20URL:%20[Please%20insert%20the%20URL%20of%20the%20page%20here].%20%0D%0A%0D%0AAdditional%20comments:%20[Please%20provide%20any%20additional%20details%20or%20comments%20here].%0D%0A%0D%0AThank%20you,%0D%0A[Your%20Name]">
+            support@tryforesight.io
           </a>
         </Button>
       </div>

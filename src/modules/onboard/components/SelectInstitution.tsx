@@ -11,6 +11,7 @@ import { Globe } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { OnboardingFormValue } from "../types"
+import { getTenantDomain } from "@/utils/domain.utils"
 
 const handleSubdomainChange = (value: string) => {
   // Replace invalid characters with valid ones
@@ -130,9 +131,9 @@ export function SelectInstitution() {
             Institution domain will look like:
           </p>
           <p className="font-medium flex gap-1">
-            https://
-            {exampleDomain ? exampleDomain : "[Institution Subdomain]"}
-            .portal.tryforesight.link
+            {getTenantDomain(
+              exampleDomain ? exampleDomain : "[Institution Subdomain]"
+            )}
           </p>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { RefreshCcw } from "lucide-react"
 import { useFormContext } from "react-hook-form"
 import { OnboardingFormValue } from "../types"
+import { getTenantDomain } from "@/utils/domain.utils"
 
 const SuccessMessage = () => {
   const refresh = () => window.location.reload()
@@ -45,7 +46,7 @@ const SuccessMessage = () => {
           rel="noopener noreferrer"
           target="_blank"
         >
-          {values.subdomain}.portal.tryforesight.link
+          {getTenantDomain(values.subdomain)}
         </a>
       </p>
       <div className="flex items-center mt-6">

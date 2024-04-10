@@ -9,10 +9,12 @@ import { ASSET_TYPE } from "@/types/upload.type"
 import { convertFileSizeToMB, toastError } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { getFileExtension } from "@/utils/file.utils"
+import { getImageURL } from "@/utils/aws.utils"
 
 export interface IUploadResponse {
   name: string
   url: string
+  fullPathFileName?: string
   type: ASSET_TYPE
 }
 
@@ -73,7 +75,7 @@ export const useUploadFile = ({
         onSuccess: (data: AxiosResponse<IUploadResponse>) => {
           const newFile = Object.assign(targetFile, {
             fileName: data?.data?.name || "",
-            url: data?.data?.url
+            url: getImageURL(data?.data?.fullPathFileName)
           })
           setFile(newFile)
 

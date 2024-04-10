@@ -28,8 +28,16 @@ function getSubdomain(): string {
   }
 }
 
+function getTenantDomain(subdomain: string) {
+  try {
+    return window.location.origin.replace("foresight", subdomain)
+  } catch {
+    return ""
+  }
+}
+
 function isLoanReady(): boolean {
   return getSubdomain() === Institution.LoanReady
 }
 
-export { getSubdomain, isLoanReady }
+export { getSubdomain, isLoanReady, getTenantDomain }

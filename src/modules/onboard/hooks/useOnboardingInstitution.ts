@@ -9,6 +9,7 @@ import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse } from "react-router-dom"
 import { OnboardingFormValue } from "../types"
 import { UserRoles } from "@/types/user.type"
+import { getTenantDomain } from "@/utils/domain.utils"
 
 export const useOnboardingInstitution = () => {
   return useMutation<
@@ -35,10 +36,7 @@ export const useOnboardingInstitution = () => {
         }
       })
 
-      const baseUrl = window.location.origin.replace(
-        "foresight",
-        institution.data.subdomain
-      )
+      const baseUrl = getTenantDomain(institution.data.subdomain)
 
       await postRequest({
         path: API_PATH.admin.user.sendInvitation,
