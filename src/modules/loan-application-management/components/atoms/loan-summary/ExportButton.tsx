@@ -9,58 +9,60 @@ import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import { DownloadCloud } from "lucide-react"
 import { RefObject, useState } from "react"
-import { useQueryDownloadLoanSummary } from "../../hooks/useQuery/useQueryDownloadLoanSummary"
+import { useQueryDownloadLoanSummary } from "../../../hooks/useQuery/useQueryDownloadLoanSummary"
 import { useParams } from "react-router-dom"
-import { LoanSummaryDownloadType } from "../../constants/type"
+import { LoanSummaryDownloadType } from "../../../constants/type"
 
-export const DownloadButton = ({
+export const ExportButton = ({
   elementToExportRef
 }: {
-  elementToExportRef: RefObject<HTMLElement>[]
+  elementToExportRef: RefObject<HTMLElement>
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>()
   const [downloadType, setDownloadType] = useState<LoanSummaryDownloadType>()
   const [preventCacheCount, setPreventCacheCount] = useState(0)
   const { id: loanApplicationId } = useParams()
 
-  const downloadPdf = async () => {
-    if (!elementToExportRef[0].current) return
+  const downloadPdf = () => {
+    if (!elementToExportRef.current) return
     setIsLoading(true)
 
     const style = document.createElement("style")
     document.head.appendChild(style)
     style.sheet?.insertRule(
-      "body > div:last-child img { display: inline-block !important; }",
-      0
+      "body > div:last-child img { display: inline-block !important; }"
     )
 
-    const doc = new jsPDF("p", "mm")
+    html2canvas(elementToExportRef.current)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/jpeg")
+        const doc = new jsPDF("p", "mm")
 
-    for (const ref of elementToExportRef) {
-      if (!ref.current) return
-      const canvas = await html2canvas(ref.current)
+        // Set the desired width of the image in the PDF (in millimeters)
+        const imgWidth = 210 // A4 width
+        // Define the height of each page in the PDF (in millimeters)
+        const pageHeight = 295 // A4 height
+        // Calculate the adjusted height of the image to maintain aspect ratio
+        const imgHeight = (canvas.height * imgWidth) / canvas.width
+        let heightLeft = imgHeight
+        let position = 0 // give some top padding to first page
 
-      const imgData = canvas.toDataURL("image/jpeg")
+        // First page
+        doc.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight)
+        heightLeft -= pageHeight
 
-      // Set the desired width of the image in the PDF (in millimeters)
-      const imgWidth = (210 * 80) / 100 // A4 width
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight + 10 // top padding for other pages
+          doc.addPage()
+          doc.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight)
+          heightLeft -= pageHeight
+        }
 
-      // Calculate the adjusted height of the image to maintain aspect ratio
-
-      const imgHeight = (canvas.height * imgWidth) / canvas.width
-      // Margin left and top
-      const marginLeft = (210 * 20) / 200
-      // Add image to the PDF document
-      doc.addImage(imgData, "JPEG", marginLeft, marginLeft, imgWidth, imgHeight)
-
-      // Add a new page for the next image
-      doc.addPage()
-    }
-
-    style.sheet?.deleteRule(0)
-
-    setIsLoading(false)
-    doc.save(`loan_summary_${new Date().valueOf()}.pdf`)
+        doc.save(`loan_summary_${new Date().valueOf()}.pdf`)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   const handleClickDownload = (type: LoanSummaryDownloadType) => () => {

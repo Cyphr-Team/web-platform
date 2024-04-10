@@ -1,11 +1,16 @@
 import { Card } from "@/components/ui/card"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { TextInputDisplay } from "../../atoms/TextInputDisplay"
 import { formatPhoneNumber } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
+import { KYCInformationResponse } from "@/modules/loan-application/constants/type"
 
-export const KycFormDetails = () => {
-  const { kycFormData } = useBRLoanApplicationDetailsContext()
+interface KycFormDetailsProps {
+  kycFormData?: KYCInformationResponse
+}
+
+export const KycFormDetails: React.FC<KycFormDetailsProps> = ({
+  kycFormData
+}) => {
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
       <h5 className="text-lg font-semibold">Owner Information</h5>
@@ -68,7 +73,11 @@ export const KycFormDetails = () => {
         <TextInputDisplay
           className="col-span-3"
           label="Business Ownership Percentage"
-          value={`${kycFormData?.businessOwnershipPercentage}%`}
+          value={
+            kycFormData?.businessOwnershipPercentage
+              ? `${kycFormData?.businessOwnershipPercentage}%`
+              : "N/A"
+          }
         />
         <TextInputDisplay
           className="col-span-3"

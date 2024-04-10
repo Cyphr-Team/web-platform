@@ -7,7 +7,8 @@ import { useBRLoanApplicationDetailsContext } from "../providers/BRLoanApplicati
 import { Loader2 } from "lucide-react"
 
 export const Component = () => {
-  const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
+  const { isFetchingDetails, confirmationFormData } =
+    useBRLoanApplicationDetailsContext()
   return (
     <>
       <ApplicationDetailsHeader />
@@ -21,7 +22,7 @@ export const Component = () => {
           <Separator />
           <DocumentationDetails />
           <Separator />
-          <SignatureDetails />
+          <SignatureDetails confirmationFormData={confirmationFormData} />
         </div>
       )}
     </>

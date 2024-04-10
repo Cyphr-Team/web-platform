@@ -10,6 +10,7 @@ type Props = {
   hasAction?: boolean
   status?: MiddeskStatus
   subLabel?: string
+  className?: string
 }
 
 export const InformationRow: React.FC<Props> = ({
@@ -17,10 +18,11 @@ export const InformationRow: React.FC<Props> = ({
   value,
   hasAction,
   status,
-  subLabel
+  subLabel,
+  className
 }) => {
   return (
-    <div className="grid-cols-2 grid xl:grid-cols-4 grid-flow-row">
+    <div className={cn("grid-cols-4 grid grid-flow-row", className)}>
       <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex items-center">
         <p
           className={cn(
@@ -31,24 +33,23 @@ export const InformationRow: React.FC<Props> = ({
           {label}
         </p>
       </div>
-
       <div
-        className="py-xl xl:py-3xl pl-xl xl:pl-3xl flex items-center data-[action=true]:xl:col-span-2 col-span-1 break-words"
+        className="py-xl xl:py-3xl pl-xl xl:pl-3xl flex items-center data-[action=true]:col-span-2  col-span-1 break-words"
         data-action={!hasAction}
       >
         <p className="font-medium text-sm">{value}</p>
       </div>
-
       {hasAction && (
         <div className="flex gap-x-lg items-center pl-xl xl:pl-3xl py-xl xl:py-3xl">
           <Switch />
           <p className="text-sm font-medium">resolve manually</p>
         </div>
       )}
-
-      <div className="pr-3xl py-xl xl:py-3xl flex xl:justify-end pl-xl xl:pl-0 items-center">
-        {status && <MiddeskBadge label={subLabel} status={status} />}
-      </div>
+      {status && (
+        <div className="pr-3xl py-xl xl:py-3xl flex justify-end pl-xl xl:pl-0 items-center">
+          <MiddeskBadge label={subLabel} status={status} />
+        </div>
+      )}
     </div>
   )
 }

@@ -2,6 +2,11 @@ import { UseOfLoan } from "@/types/loan-application.type"
 import { LoanApplicationsKyb } from "../type"
 import { LoanApplicationsKyc } from "./kyc"
 import { MiddeskStatus } from "./middesk.type"
+import {
+  ConfirmationFormResponse,
+  KYBInformationResponse,
+  KYCInformationResponse
+} from "@/modules/loan-application/constants/type"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -25,6 +30,9 @@ type LoanSummary = {
   cashFlowDocumentation?: SummaryCashFlowDocumentation[]
   proposeUseOfLoan?: UseOfLoan
   loanType?: string
+  kybForm?: KYBInformationResponse
+  kycForm?: KYCInformationResponse
+  confirmationForm?: ConfirmationFormResponse
 } & Pick<LoanApplicationsKyc, "personalInfo" | "idCheck" | "checkLists">
 
 export type { LoanSummary }

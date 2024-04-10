@@ -1,10 +1,15 @@
 import { Card } from "@/components/ui/card"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { TextInputDisplay } from "../../atoms/TextInputDisplay"
 import { getStateName } from "@/modules/loan-application/hooks/useSelectCities"
+import { KYBInformationResponse } from "@/modules/loan-application/constants/type"
 
-export const KybFormDetails = () => {
-  const { kybFormData } = useBRLoanApplicationDetailsContext()
+interface KybFormDetailsProps {
+  kybFormData?: KYBInformationResponse
+}
+
+export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
+  kybFormData
+}) => {
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
       <h5 className="text-lg font-semibold">Business Information</h5>

@@ -9,7 +9,11 @@ import {
 import { SourceToolTip } from "../../molecules/SourceToolTip"
 import { DownloadPDF } from "./DownloadPDF"
 
-export const BusinessDetail = () => {
+export const BusinessDetail = ({
+  isDownloadAble = true
+}: {
+  isDownloadAble?: boolean
+}) => {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const stateAbbr = loanKybDetail?.businessDetails?.formationState.value
@@ -51,7 +55,7 @@ export const BusinessDetail = () => {
   }
 
   const headerTitle = <>Business Details</>
-  const headerRight = <DownloadPDF />
+  const headerRight = isDownloadAble ? <DownloadPDF /> : ""
 
   const content = (
     <div className="grid grid-cols-2 gap-4">

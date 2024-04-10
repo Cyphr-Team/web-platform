@@ -36,7 +36,7 @@ export function Component() {
           </div>
 
           <div>
-            <DownloadButton elementToExportRef={elementToExportRef} />
+            <DownloadButton elementToExportRef={[elementToExportRef]} />
           </div>
         </div>
 

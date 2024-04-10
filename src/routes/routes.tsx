@@ -17,6 +17,8 @@ import {
   Route
 } from "react-router-dom"
 import { institutionLoader, userLoader } from "./loader"
+import { getSubdomain } from "@/utils/domain.utils"
+import { Institution } from "@/constants/tenant.constants"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -145,9 +147,13 @@ const routes = createBrowserRouter(
             <Route
               path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
               lazy={() =>
-                import(
-                  "@/modules/loan-application-management/pages/loan-summary"
-                )
+                getSubdomain() === Institution.LoanReady
+                  ? import(
+                      "@/modules/loan-application-management/pages/out-of-box/loan-summary"
+                    )
+                  : import(
+                      "@/modules/loan-application-management/pages/loan-summary"
+                    )
               }
             />
             <Route
