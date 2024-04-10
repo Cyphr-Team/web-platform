@@ -14,11 +14,13 @@ import { LoanProgramType } from "../../constants/type"
 
 type CardProps = React.ComponentProps<typeof Card> & {
   loanProgram: LoanProgramType
+  loanType?: string
 }
 
 export const LoanProgramLongCard = ({
   className,
   loanProgram,
+  loanType,
   ...props
 }: CardProps) => {
   return (
@@ -26,7 +28,7 @@ export const LoanProgramLongCard = ({
       <CardHeader className="space-y-5 pb-0 md:pb-0">
         <CardTitle className="tracking-normal">
           <p id="loan-type" className="text-sm mb-0.5 capitalize">
-            {loanProgram.type}
+            {loanType ?? loanProgram.type}
           </p>
           <p className="font-bold">{loanProgram.name}</p>
         </CardTitle>

@@ -320,7 +320,6 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
       const kycFormId = kycFormQuery.data?.id
 
       if (kycFormId && id) {
-        if (!kybFormQuery.data) return
         const responseData = {
           ...reverseFormatKycForm(kycFormQuery.data!),
           governmentFile: uploadFiles
@@ -362,7 +361,6 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
       draftForm,
       handleCheckFileKycRemoved,
       id,
-      kybFormQuery.data,
       kycFormQuery.data,
       submitLoanKyc,
       updateLoanKyc,
@@ -681,11 +679,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     }
   }, [
     createLoanApplication,
-    draftForm.businessInformation,
-    draftForm.confirmationForm,
-    draftForm.financialInformationForm,
-    draftForm.loanRequest,
-    draftForm.ownerInformationForm,
+    draftForm,
     handleSubmitConfirmation,
     handleSubmitFinancialInformation,
     handleSubmitLoanKyb,

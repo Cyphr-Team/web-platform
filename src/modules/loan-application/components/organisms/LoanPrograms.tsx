@@ -26,6 +26,7 @@ export const LoanPrograms = () => {
               <LoanProgramLongCard
                 key={loanProgram.id}
                 loanProgram={loanProgram}
+                loanType="Loan Readiness"
               />
             ))}
           </div>

@@ -74,7 +74,7 @@ export function OwnerInformationForm() {
     businessOwnershipPercentage:
       draftForm.ownerInformationForm?.businessOwnershipPercentage ?? "",
     hasOtherSubstantialStackHolders:
-      draftForm.ownerInformationForm?.hasOtherSubstantialStackHolders ??
+      draftForm.ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
       "false",
     businessZipCode: draftForm.ownerInformationForm?.businessZipCode ?? "",
     governmentFile: draftForm.ownerInformationForm?.governmentFile ?? []
@@ -370,6 +370,7 @@ export function OwnerInformationForm() {
                       onValueChange={(value) =>
                         field.onChange({ target: { value } })
                       }
+                      value={field.value === "true" ? "true" : "false"}
                     >
                       <SelectTrigger className="text-base">
                         <SelectValue placeholder="Please select..." />

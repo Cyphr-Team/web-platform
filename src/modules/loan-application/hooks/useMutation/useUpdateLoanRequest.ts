@@ -1,6 +1,6 @@
 import { API_PATH } from "@/constants"
 import { putRequest } from "@/services/client.service"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
@@ -8,8 +8,11 @@ import {
   UserLoanApplication,
   UserLoanApplicationRequest
 } from "@/types/loan-application.type"
+import { QUERY_KEY } from "../../constants/query-key"
 
 export const useUpdateLoanApplication = ({ id }: { id: string }) => {
+  const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<UserLoanApplication>,
     AxiosError<ErrorResponse>,
@@ -20,6 +23,11 @@ export const useUpdateLoanApplication = ({ id }: { id: string }) => {
         path: API_PATH.application.update(id),
         data,
         customHeader: customRequestHeader.customHeaders
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GET_USER_LOAN_APPLICATION_DETAILS]
       })
     }
   })

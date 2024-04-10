@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Button, ButtonLoading } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { APP_PATH } from "@/constants"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
@@ -8,15 +8,16 @@ import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/p
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { useNavigate } from "react-router-dom"
+import { CustomAlertDialog } from "./AlertDialog"
 
 export const ApplicationDetailsHeader = () => {
   const { loanApplicationDetails, isFetchingDetails } =
     useBRLoanApplicationDetailsContext()
-  const { saveForm } = useLoanApplicationContext()
+  const { saveForm, isSubmitting, isUploading } = useLoanApplicationContext()
   const status = loanApplicationDetails?.status ?? LoanApplicationStatus.DRAFT
   const navigate = useNavigate()
 
-  const handleCloseApplication = () => {
+  const onConfirmed = () => {
     if (status === LoanApplicationStatus.DRAFT.toLowerCase()) {
       // Save and close
       saveForm()
@@ -44,11 +45,26 @@ export const ApplicationDetailsHeader = () => {
           </Badge>
         )}
       </div>
-      <Button variant="outline" onClick={handleCloseApplication}>
-        {status === LoanApplicationStatus.DRAFT.toLowerCase()
-          ? "Save & Close"
-          : "Close"}
-      </Button>
+      {status === LoanApplicationStatus.DRAFT.toLowerCase() ? (
+        <CustomAlertDialog
+          onConfirmed={onConfirmed}
+          title="Save & Close"
+          cancelText="Cancel"
+          confirmText="Save & Close"
+          description="Are you sure you want to save and close this loan application"
+        >
+          <ButtonLoading
+            variant="outline"
+            isLoading={isSubmitting || isUploading}
+          >
+            Save & Close
+          </ButtonLoading>
+        </CustomAlertDialog>
+      ) : (
+        <Button variant="outline" onClick={onConfirmed}>
+          Close
+        </Button>
+      )}
     </nav>
   )
 }
