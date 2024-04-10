@@ -2,12 +2,22 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
 import { Link, useLocation, useParams } from "react-router-dom"
 import { APPLICATION_MENU } from "../../constants"
+import { getSubdomain } from "@/utils/domain.utils"
+import { Institution } from "@/constants/tenant.constants"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function TopNav({ className, ...props }: Props) {
   const pathname = useLocation().pathname
   const { id } = useParams()
+  const institution = getSubdomain()
+
+  let applicationMenu = APPLICATION_MENU(id!)
+  if (institution === Institution.LoanReady) {
+    applicationMenu = APPLICATION_MENU(id!).filter(
+      (el) => el.name != "Documents"
+    )
+  }
 
   return (
     <div className="relative">
@@ -16,7 +26,7 @@ export function TopNav({ className, ...props }: Props) {
           className={cn("flex items-center space-x-lg px-4xl", className)}
           {...props}
         >
-          {APPLICATION_MENU(id!).map((example, index) => (
+          {applicationMenu.map((example, index) => (
             <Link
               to={example.href}
               key={example.href}

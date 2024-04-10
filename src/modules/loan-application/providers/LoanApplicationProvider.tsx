@@ -122,7 +122,13 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   const { loanProgramId } = useParams()
   const { id } = useParams()
 
-  const [draftForm, setDraftForm] = useState<DraftApplicationForm>({})
+  // Initial financialInformationForm for submitting request in the background
+  const [draftForm, setDraftForm] = useState<DraftApplicationForm>({
+    financialInformationForm: {
+      incomeCategories: [],
+      w2sFile: []
+    }
+  })
 
   const [loanApplicationId, setLoanApplicationId] = useState<string>("")
 
@@ -515,21 +521,23 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (financialDocumentsQuery.data && id) {
-      setDocumentsUploaded({
-        ...documentsUploaded,
+      // Using prevState to prevent infinity callbacks
+      setDocumentsUploaded((prevState) => ({
+        ...prevState,
         financialDocuments: financialDocumentsQuery.data
-      })
+      }))
     }
-  }, [changeProgress, documentsUploaded, financialDocumentsQuery.data, id])
+  }, [changeProgress, financialDocumentsQuery.data, id])
 
   useEffect(() => {
     if (kycDocumentsQuery.data && id) {
-      setDocumentsUploaded({
-        ...documentsUploaded,
+      // Using prevState to prevent infinity callbacks
+      setDocumentsUploaded((prevState) => ({
+        ...prevState,
         kycDocuments: kycDocumentsQuery.data
-      })
+      }))
     }
-  }, [changeProgress, documentsUploaded, id, kycDocumentsQuery.data])
+  }, [changeProgress, id, kycDocumentsQuery.data])
 
   const removeDocumentUploaded = useCallback(
     (id: string, type: FORM_TYPE) => {

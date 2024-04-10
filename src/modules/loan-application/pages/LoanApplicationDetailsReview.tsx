@@ -5,6 +5,7 @@ import { DocumentationDetails } from "../components/organisms/loan-application-d
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
 import { useBRLoanApplicationDetailsContext } from "../providers/BRLoanApplicationDetailsProvider"
 import { Loader2 } from "lucide-react"
+import { isLoanReady } from "@/utils/domain.utils"
 
 export const Component = () => {
   const { isFetchingDetails, confirmationFormData } =
@@ -19,8 +20,12 @@ export const Component = () => {
       ) : (
         <div className="w-full flex flex-col p-4xl gap-8">
           <ApplicationDetails />
-          <Separator />
-          <DocumentationDetails />
+          {!isLoanReady() && (
+            <>
+              <Separator />
+              <DocumentationDetails />
+            </>
+          )}
           <Separator />
           <SignatureDetails confirmationFormData={confirmationFormData} />
         </div>

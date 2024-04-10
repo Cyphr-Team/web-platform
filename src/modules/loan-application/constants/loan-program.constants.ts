@@ -279,7 +279,7 @@ const LOAN_READINESS_PROGRAM: LoanProgramData = {
   id: "LOAN_READY",
   startBtn: "Test My Readiness",
   name: "Loan Ready",
-  type: "Loan Readiness",
+  type: "micro",
   faqs: {
     about:
       "LoanReady turns the tables on traditional lending processes. With our innovative platform, you gain unparalleled insights into your business's financial health as seen through the lens of a potential lender.",
@@ -295,7 +295,14 @@ const LOAN_READINESS_PROGRAM: LoanProgramData = {
   contact: {
     mail: "support@tryforesight.io"
   },
-  loanPurposes: [{ label: "LoanReady", value: "loan_ready" }],
+  loanPurposes: [
+    { label: "Working Capital", value: "working_capital" },
+    { label: "Equipment", value: "equipment" },
+    { label: "Materials", value: "materials" },
+    { label: "Startup Costs", value: "startup_costs" },
+    { label: "Growth Opportunities", value: "growth_opportunities" },
+    { label: "Other", value: "other" }
+  ],
   isUnderConstruction: false
 }
 

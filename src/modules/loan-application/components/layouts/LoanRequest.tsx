@@ -37,6 +37,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { loanRequestFormSchema } from "../../constants/form"
 import { useEffect, useMemo } from "react"
 import { useTenant } from "@/providers/tenant-provider"
+import { isLoanReady } from "@/utils/domain.utils"
+import { UseOfLoan } from "@/types/loan-application.type"
 
 export function CardWithForm() {
   const { tenantData } = useTenant()
@@ -58,7 +60,8 @@ export function CardWithForm() {
     return {
       loanAmount: draftForm.loanRequest?.loanAmount ?? minLoanAmount ?? 0,
       loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-      proposeUseOfLoan: draftForm.loanRequest?.proposeUseOfLoan ?? ""
+      proposeUseOfLoan:
+        draftForm.loanRequest?.proposeUseOfLoan ?? UseOfLoan.OTHER
     }
   }, [draftForm, loanProgramDetails, minLoanAmount])
 
@@ -144,65 +147,71 @@ export function CardWithForm() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="loanAmount"
-                    render={({ field }) => (
-                      <FormItem className="mb-6 mt-4">
-                        <FormControl>
-                          <Slider
-                            {...field}
-                            defaultValue={[field.value]}
-                            min={minLoanAmount}
-                            max={maxLoanAmount}
-                            onValueChange={(vals) => {
-                              field.onChange(vals[0])
-                            }}
-                            value={[field.value]}
-                            step={500}
-                          />
-                        </FormControl>
-                        <div className="flex justify-between pt-2 text-sm">
-                          <div>{toCurrency(minLoanAmount, 0)}</div>
 
-                          <div className="text-right">
-                            {toCurrency(maxLoanAmount, 0)}
-                          </div>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="proposeUseOfLoan"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Proposed Use of Loan</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                  {!isLoanReady() && (
+                    <FormField
+                      control={form.control}
+                      name="loanAmount"
+                      render={({ field }) => (
+                        <FormItem className="mb-6 mt-4">
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Please select..." />
-                            </SelectTrigger>
+                            <Slider
+                              {...field}
+                              defaultValue={[field.value]}
+                              min={minLoanAmount}
+                              max={maxLoanAmount}
+                              onValueChange={(vals) => {
+                                field.onChange(vals[0])
+                              }}
+                              value={[field.value]}
+                              step={500}
+                            />
                           </FormControl>
-                          <SelectContent>
-                            {loanProgramInfo?.loanPurposes?.map((purpose) => (
-                              <SelectItem
-                                key={purpose.value}
-                                value={purpose.value}
-                              >
-                                {purpose.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <div className="flex justify-between pt-2 text-sm">
+                            <div>{toCurrency(minLoanAmount, 0)}</div>
+
+                            <div className="text-right">
+                              {toCurrency(maxLoanAmount, 0)}
+                            </div>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+
+                  {!isLoanReady() && (
+                    <FormField
+                      control={form.control}
+                      name="proposeUseOfLoan"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Proposed Use of Loan</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Please select..." />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {loanProgramInfo?.loanPurposes?.map((purpose) => (
+                                <SelectItem
+                                  key={purpose.value}
+                                  value={purpose.value}
+                                >
+                                  {purpose.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
                 </div>
               </div>
             </div>

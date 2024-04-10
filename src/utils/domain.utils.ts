@@ -4,9 +4,13 @@
  * @returns e.g. intrust-bank
  */
 
+import { Institution } from "@/constants/tenant.constants"
+
 const DEFAULT_DEMO_SUBDOMAIN = "capsight"
 
 function getSubdomain(): string {
+  //return "loanready" // for testing
+
   try {
     const { host } = window.location
     const isDev = host.includes("localhost")
@@ -24,4 +28,8 @@ function getSubdomain(): string {
   }
 }
 
-export { getSubdomain }
+function isLoanReady(): boolean {
+  return getSubdomain() === Institution.LoanReady
+}
+
+export { getSubdomain, isLoanReady }

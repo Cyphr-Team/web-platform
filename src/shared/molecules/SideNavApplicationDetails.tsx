@@ -10,8 +10,7 @@ import { LogoHeader } from "../atoms/LogoHeader"
 import { LoanProgramCollapsible } from "./SideNavLoanApplication"
 
 function LoanProgramItem({ value }: { value: LOAN_APPLICATION_STEPS }) {
-  const label = LOAN_APPLICATION_STEP_DATA[value].label
-
+  const label = LOAN_APPLICATION_STEP_DATA[value]?.label
   return (
     <li className="flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer">
       <div

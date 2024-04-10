@@ -2,6 +2,8 @@ import { Icons } from "@/components/ui/icons"
 import { NavItem } from "@/types/common.type"
 import { APP_PATH } from "@/constants"
 import { Bell } from "lucide-react"
+import { getSubdomain } from "@/utils/domain.utils"
+import { Institution } from "@/constants/tenant.constants"
 
 export const navItems: NavItem[] = [
   {
@@ -88,7 +90,7 @@ export enum ARTCAP_MENU {
   SIGNATURE = "SIGNATURE"
 }
 
-export const LOAN_APPLICATION_STEP_DATA = {
+export const LOAN_APPLICATION_STEP_DATA_DEFAULT = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: {
     previousStep: "" as unknown as LOAN_APPLICATION_STEPS,
     nextStep: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
@@ -120,6 +122,47 @@ export const LOAN_APPLICATION_STEP_DATA = {
     parent: ARTCAP_MENU.SIGNATURE
   }
 }
+
+export const LOAN_APPLICATION_STEP_DATA_LOAN_READY = {
+  [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: {
+    previousStep: "" as unknown as LOAN_APPLICATION_STEPS,
+    nextStep: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+    label: "Loan Request",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+    nextStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+    label: "Business Information",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+    nextStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+    label: "Individual Information",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+    nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+    label: "Cash Flow Verification",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.CONFIRMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+    nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
+    label: "Review and Sign",
+    parent: ARTCAP_MENU.SIGNATURE
+  }
+}
+
+const getLoanApplicationStep = () => {
+  if (getSubdomain() === Institution.LoanReady)
+    return LOAN_APPLICATION_STEP_DATA_LOAN_READY
+  return LOAN_APPLICATION_STEP_DATA_DEFAULT
+}
+
+export const LOAN_APPLICATION_STEP_DATA = getLoanApplicationStep()
 
 export const STEPS: ProgressType[] = [
   {

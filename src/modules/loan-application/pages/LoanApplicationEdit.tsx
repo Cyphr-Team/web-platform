@@ -12,6 +12,8 @@ import { LOAN_APPLICATION_STEPS } from "../constants"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
 import { PlaidProvider } from "../providers/PlaidProvider"
 import { useLoanApplicationContext } from "../providers"
+import { isLoanReady } from "@/utils/domain.utils"
+import { CashFlowVerificationForm } from "../components/organisms/CashFlowVerificationForm"
 
 export const LoanApplicationEdit = () => {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
@@ -41,9 +43,12 @@ export const LoanApplicationEdit = () => {
                 {step === LOAN_APPLICATION_STEPS.OWNER_INFORMATION && (
                   <OwnerInformationForm />
                 )}
-                {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION && (
-                  <FinancialInformationForm />
-                )}
+                {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION &&
+                  (!isLoanReady() ? (
+                    <FinancialInformationForm />
+                  ) : (
+                    <CashFlowVerificationForm />
+                  ))}
                 {step === LOAN_APPLICATION_STEPS.CONFIRMATION && (
                   <ConfirmationForm />
                 )}

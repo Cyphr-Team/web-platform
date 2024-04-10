@@ -20,6 +20,9 @@ import { LoanProgramDetailProvider } from "../../providers/LoanProgramDetailProv
 import { AlertFinishFormBeforeLeave } from "../molecules/alerts/AlertFinishFormRequest"
 import { useNavigate } from "react-router-dom"
 import { isEmpty } from "lodash"
+import { CashFlowVerificationForm } from "../organisms/CashFlowVerificationForm"
+import { getSubdomain } from "@/utils/domain.utils"
+import { Institution } from "@/constants/tenant.constants"
 export const LoanInformationHeader = () => {
   const { loanProgramDetails } = useLoanProgramDetailContext()
   const { draftForm } = useLoanApplicationContext()
@@ -75,7 +78,7 @@ export const LoanInformationHeader = () => {
 
 export const Component = () => {
   const { step } = useLoanApplicationContext()
-
+  const institution = getSubdomain()
   return (
     <PlaidProvider>
       <LoanProgramDetailProvider>
@@ -92,9 +95,12 @@ export const Component = () => {
             {step === LOAN_APPLICATION_STEPS.OWNER_INFORMATION && (
               <OwnerInformationForm />
             )}
-            {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION && (
-              <FinancialInformationForm />
-            )}
+            {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION &&
+              (institution !== Institution.LoanReady ? (
+                <FinancialInformationForm />
+              ) : (
+                <CashFlowVerificationForm />
+              ))}
             {step === LOAN_APPLICATION_STEPS.CONFIRMATION && (
               <ConfirmationForm />
             )}

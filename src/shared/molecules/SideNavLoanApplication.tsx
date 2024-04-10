@@ -29,7 +29,7 @@ export function LoanProgramItem({
   const { changeStep, step } = useLoanApplicationContext()
 
   const active = step === value
-  const label = LOAN_APPLICATION_STEP_DATA[value].label
+  const label = LOAN_APPLICATION_STEP_DATA[value]?.label
 
   //Only allow changing step if it's not active
   const handleChangeStep = () => {

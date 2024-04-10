@@ -41,6 +41,8 @@ import { SSN_PATTERN } from "@/constants"
 import { FileUploadedCard } from "../molecules/FileUploadedCard"
 import { FORM_TYPE } from "../../constants/type"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { getSubdomain } from "@/utils/domain.utils"
+import { Institution } from "@/constants/tenant.constants"
 
 export function OwnerInformationForm() {
   const {
@@ -168,11 +170,15 @@ export function OwnerInformationForm() {
     changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
   }
 
+  const institution = getSubdomain()
+
   return (
     <div className="flex flex-col col-span-6 col-start-2 gap-3xl overflow-auto">
       <Form {...form}>
         <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
-          <h5 className="text-lg font-semibold">Owner Information</h5>
+          <h5 className="text-lg font-semibold">
+            Owner / Guarantor Information
+          </h5>
           <Separator />
 
           <form className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
@@ -385,47 +391,48 @@ export function OwnerInformationForm() {
           </form>
         </Card>
 
-        <Card className="p-4xl gap-2xl flex flex-col">
-          <div>
-            <h5 className="text-lg font-semibold">Government ID</h5>
-            <p className="text-text-tertiary">
-              {`Please upload a government-issued identification document. Accepted
-            documents include a passport, driver’s license, state identification
-            card, and national ID card.`}
-            </p>
-          </div>
-
-          <FormField
-            control={form.control}
-            name="governmentFile"
-            render={() => (
-              <FormItem>
-                <DragDropFileInput onFileSelect={handleSelectFile} />
-                {form.getValues("governmentFile") &&
-                  form.getValues("governmentFile").length > 0 &&
-                  Array.from(form.getValues("governmentFile")).map(
-                    (file: File, index: number) => (
-                      <FileUploadCard
-                        key={index}
-                        file={file}
-                        index={index}
-                        handleRemoveFile={handleRemoveFile}
+        {institution !== Institution.LoanReady && (
+          <Card className="p-4xl gap-2xl flex flex-col">
+            <div>
+              <h5 className="text-lg font-semibold">Government ID</h5>
+              <p className="text-text-tertiary">
+                {`Please upload a government-issued identification document. Accepted
+              documents include a passport, driver’s license, state identification
+              card, and national ID card.`}
+              </p>
+            </div>
+            <FormField
+              control={form.control}
+              name="governmentFile"
+              render={() => (
+                <FormItem>
+                  <DragDropFileInput onFileSelect={handleSelectFile} />
+                  {form.getValues("governmentFile") &&
+                    form.getValues("governmentFile").length > 0 &&
+                    Array.from(form.getValues("governmentFile")).map(
+                      (file: File, index: number) => (
+                        <FileUploadCard
+                          key={index}
+                          file={file}
+                          index={index}
+                          handleRemoveFile={handleRemoveFile}
+                        />
+                      )
+                    )}{" "}
+                  {!!documentsUploaded.kycDocuments.length &&
+                    documentsUploaded.kycDocuments.map((val) => (
+                      <FileUploadedCard
+                        key={val.id}
+                        file={val}
+                        handleRemoveFile={removeDocument}
                       />
-                    )
-                  )}{" "}
-                {!!documentsUploaded.kycDocuments.length &&
-                  documentsUploaded.kycDocuments.map((val) => (
-                    <FileUploadedCard
-                      key={val.id}
-                      file={val}
-                      handleRemoveFile={removeDocument}
-                    />
-                  ))}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </Card>
+                    ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </Card>
+        )}
 
         <Button
           disabled={!form.formState.isValid}
