@@ -90,6 +90,16 @@ export const AutoCompleteCities = <T extends FieldValues>(
     loadOptions()
   }, [currentPage, options])
 
+  useEffect(() => {
+    if (searchValue.length) {
+      setLoadedOptions(
+        options.filter((option) =>
+          option.name.toLowerCase().includes(searchValue)
+        )
+      )
+    }
+  }, [options, searchValue])
+
   const onSelect = (currentValue: string) => {
     onChange(currentValue)
     setOpen(false)

@@ -474,7 +474,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   }, [changeProgress, kybFormQuery.data])
 
   useEffect(() => {
-    if (financialFormQuery.data && id) {
+    if (!!financialFormQuery.data?.incomeCategories.length && id) {
       const financialInformation = {
         ...financialFormQuery.data,
         w2sFile: []
@@ -578,6 +578,12 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     })
     setIsFormEdited(false)
   }, [])
+
+  useEffect(() => {
+    if (!id) {
+      resetAllState()
+    }
+  }, [id, resetAllState])
 
   useUpdateEffect(() => {
     if (draftForm.confirmationForm) {
