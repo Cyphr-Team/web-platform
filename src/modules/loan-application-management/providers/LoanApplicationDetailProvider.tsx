@@ -1,14 +1,9 @@
 import { UserLoanApplication } from "@/types/loan-application.type"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
 import { createContext, useContext } from "use-context-selector"
+import { DEFAULT_TRANSACTION_TAGS } from "../constants"
 import { ApplicationKybDetailResponse } from "../constants/types/business.type"
-import { LoanApplicationsKyc } from "../constants/types/kyc"
-import { LoanSummary } from "../constants/types/loan-summary.type"
-import { useQueryGetApplicationDetails } from "../hooks/useQuery/useQueryApplicationDetails"
-import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
-import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
-import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
-import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
 import {
   ApplicationCashFlow,
   BankAccount,
@@ -16,10 +11,14 @@ import {
   GRAPH_FREQUENCY,
   TRANSACTION_TAG
 } from "../constants/types/cashflow.type"
-import { useCallback, useMemo, useState } from "react"
+import { LoanApplicationsKyc } from "../constants/types/kyc"
+import { LoanSummary } from "../constants/types/loan-summary.type"
 import { useQueryGetBankAccounts } from "../hooks/useQuery/cash-flow/useQueryGetBankAccounts"
-import { DEFAULT_TRANSACTION_TAGS } from "../constants"
-import { useUpdateEffect } from "react-use"
+import { useQueryGetApplicationDetails } from "../hooks/useQuery/useQueryApplicationDetails"
+import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
+import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
+import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
+import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -107,7 +106,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     }
   )
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (bankAccountsQuery.data?.bankAccounts.length === 0) return
     const listBankAccount =
       bankAccountsQuery.data?.bankAccounts.map((item) => item.bankAccountPk) ??

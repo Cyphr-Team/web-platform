@@ -14,7 +14,7 @@ export const useQueryGetCashFlowAnalysis = (
   reqParams: CashFlowRequestFilters
 ) => {
   return useQuery<ApplicationCashFlow>({
-    queryKey: [QUERY_KEY.GET_CASH_FLOW_ANALYSIS, reqParams],
+    queryKey: [QUERY_KEY.GET_CASH_FLOW_ANALYSIS, filterParams, reqParams],
     queryFn: async () => {
       const response = await postRequest<
         CashFlowRequestFilters,
