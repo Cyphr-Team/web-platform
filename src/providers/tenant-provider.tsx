@@ -35,7 +35,7 @@ export const useTenant = () => {
   const context = useContext(TenantContext)
 
   if (context === undefined)
-    throw new Error("useTheme must be used within a ThemeProvider")
+    throw new Error("useTenant must be used within a TenantProvider")
 
   return context
 }

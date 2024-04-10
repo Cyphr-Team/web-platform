@@ -15,14 +15,15 @@ import {
 } from "../../constants/form"
 import { ButtonLoading } from "@/components/ui/button"
 import {
-  CONFIRMATION_TEXTS,
   LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
+  LOAN_APPLICATION_STEP_STATUS,
+  getConfirmationTexts
 } from "../../constants"
 import { Input } from "@/components/ui/input"
 import { useLoanApplicationContext } from "../../providers"
 import { ArrowRight } from "lucide-react"
 import { TextInput } from "@/shared/organisms/form/TextInput"
+import { useTenant } from "@/providers/tenant-provider"
 
 export const ConfirmationForm = () => {
   const { saveDraftForm, isSubmitting, progress, isUploading } =
@@ -48,6 +49,12 @@ export const ConfirmationForm = () => {
         val.step !== LOAN_APPLICATION_STEPS.CONFIRMATION &&
         val.status !== LOAN_APPLICATION_STEP_STATUS.COMPLETE
     ).length === 0
+
+  const tenant = useTenant()
+
+  const CONFIRMATION_TEXTS = getConfirmationTexts(
+    tenant?.tenantData?.name ?? ""
+  )
 
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-6 col-start-2">

@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
-import { CONFIRMATION_TEXTS } from "@/modules/loan-application/constants"
+import { getConfirmationTexts } from "@/modules/loan-application/constants"
 import { ConfirmationFormResponse } from "@/modules/loan-application/constants/type"
+import { useTenant } from "@/providers/tenant-provider"
 import { format } from "date-fns"
 
 interface SignatureDetailsProps {
@@ -13,6 +14,12 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
   confirmationFormData,
   hasTitle = true
 }) => {
+  const tenant = useTenant()
+
+  const CONFIRMATION_TEXTS = getConfirmationTexts(
+    tenant?.tenantData?.name ?? ""
+  )
+
   return (
     <div className="grid grid-cols-4 ">
       {hasTitle && (

@@ -5,7 +5,7 @@ import { capitalizeWords } from "@/utils"
 
 export const FinancialFormDetails = () => {
   const { financialFormData } = useBRLoanApplicationDetailsContext()
-  return (
+  return financialFormData?.incomeCategories?.length ? (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
       <h5 className="text-lg font-semibold">Financial Information</h5>
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
@@ -27,5 +27,7 @@ export const FinancialFormDetails = () => {
         </div>
       </div>
     </Card>
+  ) : (
+    <></>
   )
 }

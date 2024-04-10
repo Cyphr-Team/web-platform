@@ -197,24 +197,26 @@ export const STEPS: ProgressType[] = [
   }
 ]
 
-export const CONFIRMATION_TEXTS = [
-  {
-    title: "I understand",
-    content: `that the submission of an application for financing with AltCap does not mean that AltCap will finance or provide any financial services whatsoever. I further understand that approval to finance will come only after all supporting forms have been signed and approved by AltCap.`
-  },
-  {
-    title: "I certify",
-    content: `the accuracy of the information provided and understand that AltCap will be relying on the accuracy of this information when evaluating the company’s application. By submitting this application either by mail, fax, or electronically, the company and the guarantor(s) signing on the Company’s behalf below, each authorize AltCap to request all credit reports to verify the validity and accuracy of all information contained herein as well as the reporting to credit agencies. I consent to AltCap’s filing of one or more Initial Financing Statements against me or the undersigned company in any or all Uniform Commercial Code jurisdictions, which reflect the collateral as “all assets.”`
-  },
-  {
-    title: "I understand",
-    content: `that my signature below authorizes AltCap to discuss my loan application and documentation with AltCap partners to better serve me.`
-  },
-  {
-    title: "I understand",
-    content: `that my signature below authorizes AltCap to run an OFAC (Office of Foreign Assets Control) search in order to comply with the Department of Treasury`
-  }
-]
+export const getConfirmationTexts = (tenant: string) => {
+  return [
+    {
+      title: "I understand",
+      content: `that the submission of an application for financing with ${tenant} does not mean that ${tenant} will finance or provide any financial services whatsoever. I further understand that approval to finance will come only after all supporting forms have been signed and approved by ${tenant}.`
+    },
+    {
+      title: "I certify",
+      content: `the accuracy of the information provided and understand that ${tenant} will be relying on the accuracy of this information when evaluating the company’s application. By submitting this application either by mail, fax, or electronically, the company and the guarantor(s) signing on the Company’s behalf below, each authorize ${tenant} to request all credit reports to verify the validity and accuracy of all information contained herein as well as the reporting to credit agencies. I consent to ${tenant}’s filing of one or more Initial Financing Statements against me or the undersigned company in any or all Uniform Commercial Code jurisdictions, which reflect the collateral as “all assets.”`
+    },
+    {
+      title: "I understand",
+      content: `that my signature below authorizes ${tenant} to discuss my loan application and documentation with ${tenant} partners to better serve me.`
+    },
+    {
+      title: "I understand",
+      content: `that my signature below authorizes ${tenant} to run an OFAC (Office of Foreign Assets Control) search in order to comply with the Department of Treasury`
+    }
+  ]
+}
 
 export const ENDPOINTS = {
   PLAID: {
