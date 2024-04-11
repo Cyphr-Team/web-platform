@@ -7,7 +7,6 @@ import { LoanApplicationBankAccount } from "@/modules/loan-application/constants
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { ColumnDef } from "@tanstack/react-table"
 import { useParams } from "react-router-dom"
-import { NotFoundAlert } from "../../molecules/NotFoundAlert"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -56,17 +55,12 @@ export const CashFlowTable = () => {
       </CardHeader>
 
       <CardContent className="px-5">
-        {bankAccounts?.length ? (
-          <MiddeskTable
-            columns={columns}
-            data={bankAccounts}
-            isLoading={isLoading}
-          />
-        ) : (
-          <div className="mt-3">
-            <NotFoundAlert label="No bank accounts found" />
-          </div>
-        )}
+        <MiddeskTable
+          columns={columns}
+          data={bankAccounts}
+          isLoading={isLoading}
+          noResultText="No bank accounts detected"
+        />
       </CardContent>
     </Card>
   )

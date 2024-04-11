@@ -3,6 +3,9 @@ import { toCurrency } from "@/utils"
 import { InformationRow } from "../../../atoms/InformationRow"
 import { AccountSummaryType } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
+import { Badge } from "@/components/ui/badge"
+import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 
 type Props = {
   data: AccountSummaryType
@@ -23,6 +26,18 @@ export const BankAccountReport: React.FC<Props> = ({ data, isLoading }) => {
         <div className="flex justify-between items-center flex-wrap gap-1">
           <CardTitle className="font-semibold text-2xl flex items-center gap-3">
             {formatHeader(data.bankAccountName)}
+            <Badge
+              isDot
+              variant="soft"
+              variantColor={getBadgeVariantByMiddeskStatus(
+                TaskFieldStatus.SUCCESS
+              )}
+              className="capitalize text-sm rounded-lg"
+              isDotBefore={false}
+              border
+            >
+              Connected
+            </Badge>
           </CardTitle>
           <DateHeader />
         </div>

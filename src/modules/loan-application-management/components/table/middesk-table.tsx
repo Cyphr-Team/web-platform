@@ -25,6 +25,7 @@ interface DataTableProps<TData, TValue> {
   handleClickDetail?: (row: Row<TData>) => void
   tableClassName?: string
   isLoading?: boolean
+  noResultText?: string
 }
 
 export function MiddeskTable<TData, TValue>({
@@ -32,7 +33,8 @@ export function MiddeskTable<TData, TValue>({
   data,
   handleClickDetail,
   tableClassName,
-  isLoading
+  isLoading,
+  noResultText = "No results."
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -86,7 +88,7 @@ export function MiddeskTable<TData, TValue>({
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    {noResultText}
                   </TableCell>
                 </TableRow>
               )}
