@@ -159,9 +159,13 @@ const routes = createBrowserRouter(
             <Route
               path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
               lazy={() =>
-                import(
-                  "@/modules/loan-application-management/components/pages/CashFlow.page"
-                )
+                getSubdomain() === Institution.LoanReady
+                  ? import(
+                      "@/modules/loan-application-management/pages/out-of-box/cash-flow"
+                    )
+                  : import(
+                      "@/modules/loan-application-management/components/pages/CashFlow.page"
+                    )
               }
             />
             <Route

@@ -14,7 +14,8 @@ import { Badge } from "@/components/ui/badge"
 
 export function Component() {
   const elementToExportRef = useRef<HTMLDivElement>(null)
-  const { loanSummary } = useLoanApplicationDetailContext()
+  const { loanSummary, isFetchingSummary, isFetchingCashflow } =
+    useLoanApplicationDetailContext()
 
   return (
     <div className="lg:flex gap-3xl w-full flex-col" ref={elementToExportRef}>
@@ -36,7 +37,10 @@ export function Component() {
           </div>
 
           <div>
-            <DownloadButton elementToExportRef={[elementToExportRef]} />
+            <DownloadButton
+              elementToExportRef={[elementToExportRef]}
+              disabled={isFetchingSummary || isFetchingCashflow}
+            />
           </div>
         </div>
 

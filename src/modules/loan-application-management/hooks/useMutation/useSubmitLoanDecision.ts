@@ -13,6 +13,7 @@ import {
   LoanDecisionResponse
 } from "../../constants/types/application"
 import { loanApplicationKeys } from "@/constants/query-key"
+import { QUERY_KEY } from "../../constants/query-key"
 
 export const useSubmitLoanDecision = () => {
   const params = useParams()
@@ -42,6 +43,12 @@ export const useSubmitLoanDecision = () => {
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: loanApplicationKeys.statusDetail(params.id!)
+      })
+      queryClient.invalidateQueries({
+        queryKey: loanApplicationKeys.lists()
+      })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_DETAILS]
       })
     }
   })

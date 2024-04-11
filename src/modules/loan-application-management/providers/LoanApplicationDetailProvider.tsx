@@ -28,6 +28,7 @@ type LoanApplicationDetailContextType = {
   onChangeTimePeriod: (key: string, period: string) => void
   isFetchingCashflow: boolean
   isFetchingBankAccount: boolean
+  isFetchingSummary: boolean
   isLoading: boolean
   loanSummary?: LoanSummary
   onChangeTransactionTags: (option: TRANSACTION_TAG[]) => void
@@ -42,6 +43,7 @@ export const LoanApplicationDetailContext =
   createContext<LoanApplicationDetailContextType>({
     isLoading: false,
     isFetchingCashflow: false,
+    isFetchingSummary: false,
     isFetchingBankAccount: false,
     onChangeTransactionTags: () => {},
     selectedTags: [],
@@ -160,6 +162,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       cashFlowAnalysis: cashFlowQuery.data,
       cashFlowAccounts: bankAccountsQuery.data?.bankAccounts ?? [],
       filters,
+      isFetchingSummary: loanSummaryQuery.isLoading,
       isFetchingBankAccount: bankAccountsQuery.isFetching,
       isFetchingCashflow:
         cashFlowQuery.isLoading || bankAccountsQuery.isLoading,
@@ -177,6 +180,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       kycDetailQuery.data,
       userLoanApplicationQuery.data,
       loanSummaryQuery.data,
+      loanSummaryQuery.isLoading,
       cashFlowQuery.data,
       cashFlowQuery.isLoading,
       bankAccountsQuery.data?.bankAccounts,

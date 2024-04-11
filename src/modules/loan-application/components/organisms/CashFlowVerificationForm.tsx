@@ -6,8 +6,12 @@ import { useState } from "react"
 import { useTenant } from "@/providers/tenant-provider"
 import { isLoanReady } from "@/utils/domain.utils"
 
+import { useLoanApplicationContext } from "../../providers"
+import { LOAN_APPLICATION_STEP_STATUS } from "../../constants"
 export const CashFlowVerificationForm = () => {
   const { tenantData } = useTenant()
+
+  const { progress } = useLoanApplicationContext()
 
   const [isConfirmedConnect, setIsConfirmedConnect] = useState(false)
 
@@ -56,7 +60,10 @@ export const CashFlowVerificationForm = () => {
           <div className="flex gap-2 mt-1">
             <Checkbox
               className="w-5 h-5"
-              checked={isConfirmedConnect}
+              checked={
+                isConfirmedConnect ||
+                progress[3].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+              }
               onCheckedChange={(value: boolean) => {
                 setIsConfirmedConnect(value)
               }}

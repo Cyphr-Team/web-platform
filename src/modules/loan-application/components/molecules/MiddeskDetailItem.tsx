@@ -19,8 +19,8 @@ export const MiddeskDetailItem = ({
   return (
     <div className="mt-5">
       <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="mt-1.5">{value ?? UNKNOWN_VALUE}</div>
-      <div className="flex items-center mt-1">
+      <div className="mt-1.5 text-base">{value ?? UNKNOWN_VALUE}</div>
+      <div className="flex items-center mt-1 text-base">
         {!!status && (
           <Dot variantColor={getBadgeVariantByMiddeskStatus(status)} />
         )}

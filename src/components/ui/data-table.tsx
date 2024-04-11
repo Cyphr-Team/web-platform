@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center text-base"
                 >
                   {!isLoading && "No results."}
                 </TableCell>

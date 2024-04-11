@@ -14,7 +14,7 @@ export const Component = () => {
       <Insights />
 
       <div className="space-y-6">
-        <BusinessDetail />
+        <BusinessDetail isDownloadAble={false} />
         <BusinessName />
         <OfficeAddress />
         <Secretary />

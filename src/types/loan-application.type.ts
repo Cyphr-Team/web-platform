@@ -1,3 +1,4 @@
+import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import { LoanProgramType } from "@/modules/loan-application/constants/type"
 
 /* ----- ENUM -----
@@ -73,6 +74,8 @@ interface UserLoanApplication {
   status: LoanApplicationStatus
   createdAt: string
   updatedAt: string
+  decision: LoanDecisionEnum
+  decisionNote: string
 }
 
 interface UserLoanApplicationRequest {

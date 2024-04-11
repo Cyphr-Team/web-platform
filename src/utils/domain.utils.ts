@@ -9,7 +9,7 @@ import { Institution } from "@/constants/tenant.constants"
 const DEFAULT_DEMO_SUBDOMAIN = "capsight"
 
 function getSubdomain(): string {
-  return "loanready" // for testing
+  // return "loanready" // for testing
 
   try {
     const { host } = window.location

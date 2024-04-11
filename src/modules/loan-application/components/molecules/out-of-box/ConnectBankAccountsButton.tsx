@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button"
 import { useConnectPlaid } from "../../../hooks/useConnectPlaid"
 import { ArrowRight, Check } from "lucide-react"
 import { useEffect } from "react"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
+import {
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS
+} from "@/modules/loan-application/constants"
 import { useLoanApplicationContext } from "@/modules/loan-application/providers"
 
 interface Props {
@@ -10,13 +13,16 @@ interface Props {
 }
 export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
   const { open, ready, linkSuccess } = useConnectPlaid()
-  const { changeProgress, changeStep } = useLoanApplicationContext()
+  const { changeProgress, changeStep, progress } = useLoanApplicationContext()
   useEffect(() => {
-    if (linkSuccess) {
+    if (
+      linkSuccess &&
+      progress[3].status !== LOAN_APPLICATION_STEP_STATUS.COMPLETE
+    ) {
       changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION, true)
       changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
     }
-  }, [changeProgress, changeStep, linkSuccess])
+  }, [changeProgress, changeStep, linkSuccess, progress])
 
   return linkSuccess ? (
     <Button

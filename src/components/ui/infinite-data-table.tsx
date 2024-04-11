@@ -214,7 +214,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center text-base"
                 >
                   {!isFetching && "No results."}
                 </TableCell>

@@ -14,9 +14,11 @@ import { useParams } from "react-router-dom"
 import { LoanSummaryDownloadType } from "../../constants/type"
 
 export const DownloadButton = ({
-  elementToExportRef
+  elementToExportRef,
+  disabled
 }: {
   elementToExportRef: RefObject<HTMLElement>[]
+  disabled?: boolean
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>()
   const [downloadType, setDownloadType] = useState<LoanSummaryDownloadType>()
@@ -38,7 +40,41 @@ export const DownloadButton = ({
 
     for (const ref of elementToExportRef) {
       if (!ref.current) return
-      const canvas = await html2canvas(ref.current)
+      const content = ref.current
+      //Clone the content to avoid changing the original content
+      const clonedContent = content.cloneNode(true) as HTMLElement
+      // Append the cloned content to the body
+      document.body.appendChild(clonedContent)
+
+      // Adjust font size before rendering to canvas
+      const elementsWithSmText = clonedContent.querySelectorAll(".text-sm")
+      elementsWithSmText.forEach((el) => {
+        el.classList.remove("text-sm")
+        el.classList.add("text-2xl")
+      })
+
+      const elementsWithXsText = clonedContent.querySelectorAll(".text-xs")
+      elementsWithXsText.forEach((el) => {
+        el.classList.remove("text-xs")
+        el.classList.add("text-xl")
+      })
+      const elementsWithLgText = clonedContent.querySelectorAll(".text-lg")
+      elementsWithLgText.forEach((el) => {
+        el.classList.remove("text-lg")
+        el.classList.add("text-3xl")
+      })
+      const elementsP = clonedContent.querySelectorAll("p")
+      elementsP.forEach((el) => {
+        el.classList.add("text-2xl")
+      })
+
+      const elementsWithTextBase = clonedContent.querySelectorAll(".text-base")
+      elementsWithTextBase.forEach((el) => {
+        el.classList.remove("text-base")
+        el.classList.add("text-2xl")
+      })
+
+      const canvas = await html2canvas(clonedContent)
 
       const imgData = canvas.toDataURL("image/jpeg")
 
@@ -55,6 +91,8 @@ export const DownloadButton = ({
 
       // Add a new page for the next image
       doc.addPage()
+      // Remove the cloned content
+      clonedContent.remove()
     }
 
     style.sheet?.deleteRule(0)
@@ -81,6 +119,7 @@ export const DownloadButton = ({
           variant="outline"
           data-html2canvas-ignore
           isLoading={isLoading || downloadFile.isLoading}
+          disabled={disabled}
         >
           Download <DownloadCloud className="ml-1" />
         </ButtonLoading>
