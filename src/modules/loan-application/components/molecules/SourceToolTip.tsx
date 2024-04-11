@@ -31,7 +31,7 @@ const sourceToolTipColumn: ColumnDef<BusinessRegistrationSource>[] = [
 
       return (
         <a
-          href="https://esos.nv.gov/EntitySearch/OnlineEntitySearch"
+          href={data?.link}
           rel="noopener noreferrer"
           target="_blank"
           className="inline-flex items-center text-blue-700 border-b border-blue-700"
