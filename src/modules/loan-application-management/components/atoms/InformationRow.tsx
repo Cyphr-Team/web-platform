@@ -23,7 +23,7 @@ export const InformationRow: React.FC<Props> = ({
     <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex items-center">
       <p
         className={cn(
-          "text-sm text-text-tertiary",
+          "text-sm text-text-tertiary break-words",
           !value && "whitespace-nowrap text-foreground font-medium"
         )}
       >
@@ -34,7 +34,7 @@ export const InformationRow: React.FC<Props> = ({
       {isLoading ? (
         <Skeleton className="w-[80%] h-full" />
       ) : (
-        <p className="font-medium text-sm">{value}</p>
+        <p className="font-medium text-sm break-words">{value}</p>
       )}
     </div>
   </div>

@@ -101,6 +101,13 @@ export const ChangeApplicationStatusButton = () => {
   if (isLoading)
     return <Skeleton className="w-40 h-8 self-start md:self-center" />
 
+  const textButton =
+    data?.toUpperCase() === LoanApplicationStatus.APPROVED
+      ? "Ideal Applicant"
+      : data?.toUpperCase() === LoanApplicationStatus.DENIED
+        ? "Not Ideal Time to Apply"
+        : snakeCaseToText(data ?? "")
+
   return (
     <div className="flex items-center gap-2 self-start md:self-center">
       <div className="flex items-center text-sm font-medium">Status:</div>
@@ -121,7 +128,7 @@ export const ChangeApplicationStatusButton = () => {
                   variantColor={getBadgeVariantByStatus(data)}
                   className="capitalize px-4 py-2 relative"
                 >
-                  {snakeCaseToText(data ?? "")}
+                  {textButton}
                 </Badge>
               </TooltipTrigger>
               <TooltipContent className="flex items-center gap-1">
