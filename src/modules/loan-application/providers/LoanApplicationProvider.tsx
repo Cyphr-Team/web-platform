@@ -42,6 +42,7 @@ import { useMutateDeleteDocuments } from "../hooks/useMutation/useDeleteDocument
 import { useUpdateLoanApplication } from "../hooks/useMutation/useUpdateLoanRequest"
 import { APP_PATH } from "@/constants"
 import { TOAST_MSG } from "@/constants/toastMsg"
+import { isLoanReady } from "@/utils/domain.utils"
 
 type FormType = {
   [key in LOAN_APPLICATION_STEPS]:
@@ -608,6 +609,10 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
                 }
                 if (draftForm.ownerInformationForm) {
                   await handleSubmitLoanKyc(data.data.id)
+                }
+                // Bypass for Loan ready
+                if (isLoanReady() || draftForm.financialInformationForm) {
+                  await handleSubmitFinancialInformation(data.data.id)
                 }
                 if (draftForm.financialInformationForm) {
                   await handleSubmitFinancialInformation(data.data.id)
