@@ -2,14 +2,16 @@ import { GlobalLayouts, NotFoundLayout } from "@/shared/layouts"
 import { AuthLayout } from "@/shared/layouts/auth-layout/auth-layout"
 
 import { APP_PATH } from "@/constants"
+import { Institution } from "@/constants/tenant.constants"
 import { LoanApplicationEdit } from "@/modules/loan-application/pages/LoanApplicationEdit"
 import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { LoanApplicationProvider } from "@/modules/loan-application/providers/LoanApplicationProvider"
 import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
 import { InstitutionNotFoundLayout } from "@/shared/layouts/InstitutionNotFoundLayout"
-import { SideNavApplicationDetails } from "@/shared/molecules/SideNavApplicationDetails"
-import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
+import { LoanApplicationDetailLayout } from "@/shared/layouts/LoanApplicationDetailLayout"
+import { LoanApplicationFormLayout } from "@/shared/layouts/LoanApplicationFormLayout"
 import { handleCrumb } from "@/utils/crumb.utils"
+import { getSubdomain } from "@/utils/domain.utils"
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -17,8 +19,6 @@ import {
   Route
 } from "react-router-dom"
 import { institutionLoader, userLoader } from "./loader"
-import { getSubdomain } from "@/utils/domain.utils"
-import { Institution } from "@/constants/tenant.constants"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -288,10 +288,9 @@ const routes = createBrowserRouter(
         <Route
           element={
             <BRLoanApplicationDetailsProvider>
-              <SideNavApplicationDetails />
-              <div className="md:ml-36 w-full overflow-auto flex flex-col">
+              <LoanApplicationDetailLayout>
                 <Outlet />
-              </div>
+              </LoanApplicationDetailLayout>
             </BRLoanApplicationDetailsProvider>
           }
         >
@@ -310,10 +309,9 @@ const routes = createBrowserRouter(
           element={
             <BRLoanApplicationDetailsProvider>
               <LoanApplicationProvider>
-                <SideNavLoanApplication />
-                <div className="md:ml-36 w-full overflow-auto flex flex-col">
+                <LoanApplicationFormLayout>
                   <LoanApplicationEdit />
-                </div>
+                </LoanApplicationFormLayout>
               </LoanApplicationProvider>
             </BRLoanApplicationDetailsProvider>
           }
@@ -321,12 +319,9 @@ const routes = createBrowserRouter(
 
         <Route
           element={
-            <>
-              <SideNavLoanApplication />
-              <div className="md:ml-36 w-full overflow-auto flex flex-col">
-                <Outlet />
-              </div>
-            </>
+            <LoanApplicationFormLayout>
+              <Outlet />
+            </LoanApplicationFormLayout>
           }
         >
           <Route

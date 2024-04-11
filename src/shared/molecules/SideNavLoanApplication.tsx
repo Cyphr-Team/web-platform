@@ -102,7 +102,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "h-full flex-col hidden md:flex bg-background-disabled absolute left-0 w-96 border-r mb-3xl",
+        "h-full flex-col hidden md:flex bg-background-disabled w-96 flex-shrink-0 border-r mb-3xl",
         className
       )}
     >
