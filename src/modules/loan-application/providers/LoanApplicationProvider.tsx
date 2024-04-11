@@ -43,6 +43,8 @@ import { useUpdateLoanApplication } from "../hooks/useMutation/useUpdateLoanRequ
 import { APP_PATH } from "@/constants"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { isLoanReady } from "@/utils/domain.utils"
+import { useQueryClient } from "@tanstack/react-query"
+import { QUERY_KEY } from "../constants/query-key"
 
 type FormType = {
   [key in LOAN_APPLICATION_STEPS]:
@@ -122,6 +124,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   )
   const { loanProgramId } = useParams()
   const { id } = useParams()
+  const queryClient = useQueryClient()
 
   // Initial financialInformationForm for submitting request in the background
   const [draftForm, setDraftForm] = useState<DraftApplicationForm>({
@@ -638,6 +641,10 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
                   title: TOAST_MSG.loanApplication.submitError.title,
                   description: TOAST_MSG.loanApplication.submitError.description
                 })
+              } finally {
+                queryClient.invalidateQueries({
+                  queryKey: [QUERY_KEY.GET_LOAN_APPLICATIONS]
+                })
               }
             },
             onError: (error) => {
@@ -680,11 +687,19 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
           title: TOAST_MSG.loanApplication.submitError.title,
           description: TOAST_MSG.loanApplication.submitError.description
         })
+      } finally {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.GET_LOAN_APPLICATIONS]
+        })
       }
     }
   }, [
     createLoanApplication,
-    draftForm,
+    draftForm.businessInformation,
+    draftForm.confirmationForm,
+    draftForm.financialInformationForm,
+    draftForm.loanRequest,
+    draftForm.ownerInformationForm,
     handleSubmitConfirmation,
     handleSubmitFinancialInformation,
     handleSubmitLoanKyb,
@@ -692,6 +707,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
     loanApplicationId,
     loanProgramId,
     navigate,
+    queryClient,
     resetAllState,
     updateLoanApplication
   ])
