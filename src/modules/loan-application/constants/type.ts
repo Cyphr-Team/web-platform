@@ -181,3 +181,12 @@ export interface DocumentUploadedResponse {
   createdAt: string
   updatedAt: string
 }
+
+export interface LoanApplicationBankAccount {
+  bankAccountPk?: string
+  bankAccountName?: string
+}
+
+export interface LoanApplicationCashflowVerification {
+  bankAccounts?: LoanApplicationBankAccount[]
+}

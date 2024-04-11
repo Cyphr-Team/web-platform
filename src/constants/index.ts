@@ -147,7 +147,9 @@ export const API_PATH = {
     uploadDocument: "api/form/document/upload",
     documents: "api/form/document/by-form-id",
     deleteDocuments: "api/form/document/delete",
-    getIncomeCategories: "api/form/financial/income-categories"
+    getIncomeCategories: "api/form/financial/income-categories",
+    getCashflowVerification: (id: string) =>
+      `api/user-loan/application/${id}/cash-flow`
   },
   loanApplication: {
     details: "api/loan-officer/micro-loan/application",
