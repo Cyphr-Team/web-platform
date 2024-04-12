@@ -45,6 +45,8 @@ import { TOAST_MSG } from "@/constants/toastMsg"
 import { isLoanReady } from "@/utils/domain.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { QUERY_KEY } from "../constants/query-key"
+import { getAxiosError } from "@/utils/custom-error"
+import { AxiosError } from "axios"
 
 type FormType = {
   [key in LOAN_APPLICATION_STEPS]:
@@ -653,9 +655,12 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
           }
         )
       } catch (error) {
+        const message = getAxiosError(error as AxiosError)?.message
         toastError({
           title: TOAST_MSG.loanApplication.submitError.title,
-          description: TOAST_MSG.loanApplication.submitError.description
+          description: message.length
+            ? message
+            : TOAST_MSG.loanApplication.submitError.description
         })
       }
     } else {
@@ -683,9 +688,12 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         setIsFormEdited(false)
         resetAllState()
       } catch (error) {
+        const message = getAxiosError(error as AxiosError)?.message
         toastError({
           title: TOAST_MSG.loanApplication.submitError.title,
-          description: TOAST_MSG.loanApplication.submitError.description
+          description: message.length
+            ? message
+            : TOAST_MSG.loanApplication.submitError.description
         })
       } finally {
         queryClient.invalidateQueries({

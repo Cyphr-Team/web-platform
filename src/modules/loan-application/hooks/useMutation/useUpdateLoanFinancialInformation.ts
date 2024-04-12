@@ -8,9 +8,6 @@ import {
   FinancialInformation,
   FinancialInformationResponse
 } from "../../constants/type"
-import { TOAST_MSG } from "@/constants/toastMsg"
-import { toastError } from "@/utils"
-import { getAxiosError } from "@/utils/custom-error"
 
 export const useUpdateLoanFinancialInformation = () => {
   return useMutation<
@@ -23,12 +20,6 @@ export const useUpdateLoanFinancialInformation = () => {
         path: API_PATH.application.financialForm,
         data,
         customHeader: customRequestHeader.customHeaders
-      })
-    },
-    onError: (error) => {
-      toastError({
-        ...TOAST_MSG.loanApplication.submitFinancial,
-        description: getAxiosError(error).message
       })
     }
   })
