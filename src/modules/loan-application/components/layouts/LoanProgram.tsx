@@ -3,6 +3,7 @@ import { useTenant } from "@/providers/tenant-provider"
 import { LoanPrograms } from "../organisms/LoanPrograms"
 import { Image } from "@/shared/atoms/Image"
 import { getImageURL } from "@/utils/aws.utils"
+import { sanitizeDOM } from "@/utils/file.utils"
 
 const WelcomeLine = () => {
   const { tenantData } = useTenant()
@@ -15,7 +16,7 @@ const WelcomeLine = () => {
       </h2>
       <p
         className="text-lg whitespace-pre-wrap"
-        dangerouslySetInnerHTML={{ __html: loanProgramWelcome ?? "" }}
+        dangerouslySetInnerHTML={{ __html: sanitizeDOM(loanProgramWelcome) }}
       />
     </section>
   )

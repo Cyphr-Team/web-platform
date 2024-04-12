@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { LoanProgramType } from "../../constants/type"
+import { sanitizeDOM } from "@/utils/file.utils"
 
 type CardProps = React.ComponentProps<typeof Card> & {
   loanProgram: LoanProgramType
@@ -35,10 +36,10 @@ export const LoanProgramLongCard = ({
 
         {!!loanProgram.description && (
           <CardDescription className="text-foreground flex items-center">
-            <p
+            <span
               className="text-lg line-clamp-4"
               dangerouslySetInnerHTML={{
-                __html: loanProgram.description
+                __html: sanitizeDOM(loanProgram.description)
               }}
             />
           </CardDescription>

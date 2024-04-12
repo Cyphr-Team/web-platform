@@ -1,3 +1,5 @@
+import DOMPurify from "dompurify"
+
 export const detachFileType = (fileName: string) => {
   const lastDot = fileName.lastIndexOf(".")
 
@@ -31,6 +33,14 @@ export const getFileExtension = (fileName: string): string => {
     if (splitFileName.length <= 1) return ""
 
     return splitFileName.pop()?.toLowerCase() ?? ""
+  } catch {
+    return ""
+  }
+}
+
+export const sanitizeDOM = (elem?: string) => {
+  try {
+    return DOMPurify.sanitize(elem ?? "")
   } catch {
     return ""
   }

@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { useLoanProgramDetailContext } from "@/modules/loan-application/providers"
+import { sanitizeDOM } from "@/utils/file.utils"
 
 export const LoanProgramDetailWelcomeLine = () => {
   const { isLoading, loanProgramDetails } = useLoanProgramDetailContext()
@@ -19,9 +20,9 @@ export const LoanProgramDetailWelcomeLine = () => {
         ) : (
           <p
             dangerouslySetInnerHTML={{
-              __html: loanProgramDetails?.description ?? ""
+              __html: sanitizeDOM(loanProgramDetails?.description)
             }}
-          ></p>
+          />
         )}
       </div>
     </section>
