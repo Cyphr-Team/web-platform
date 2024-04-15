@@ -29,10 +29,12 @@ import { APP_PATH } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { PasswordMatch } from "../../components/password-match"
 import { parseJwt } from "@/services/jwt.service"
+import { useLogout } from "@/hooks/useLogout"
 
 export function SetupProfileForm() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { clearUserInfo } = useLogout()
 
   const form = useForm<AcceptInviteFormValue>({
     resolver: zodResolver(acceptInviteFormSchema),
@@ -50,6 +52,24 @@ export function SetupProfileForm() {
     reValidateMode: "onChange",
     criteriaMode: "all"
   })
+
+  const handleSubmit = form.handleSubmit((data) =>
+    mutate(data, {
+      onSuccess() {
+        clearUserInfo()
+      },
+      onError(errorResponse) {
+        form.setError("root.serverError", {
+          type: "server",
+          message: isAxiosError(errorResponse)
+            ? errorResponse.response?.data.message ??
+              errorResponse?.message ??
+              ""
+            : errorResponse
+        })
+      }
+    })
+  )
 
   const errorMsg = form.formState.errors.root?.serverError?.message
 
@@ -77,23 +97,7 @@ export function SetupProfileForm() {
   return (
     <div className="flex flex-col space-y-4">
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit((data) =>
-            mutate(data, {
-              onError(errorResponse) {
-                form.setError("root.serverError", {
-                  type: "server",
-                  message: isAxiosError(errorResponse)
-                    ? errorResponse.response?.data.message ??
-                      errorResponse?.message ??
-                      ""
-                    : errorResponse
-                })
-              }
-            })
-          )}
-          className="space-y-5 w-full"
-        >
+        <form onSubmit={handleSubmit} className="space-y-5 w-full">
           {!!form.getValues("email") && (
             <FormField
               control={form.control}

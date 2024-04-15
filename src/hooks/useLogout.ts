@@ -15,5 +15,5 @@ export const useLogout = () => {
     navigate(APP_PATH.LOGIN, { replace: true })
   }, [navigate, clearUserInfo])
 
-  return { signOut }
+  return { signOut, clearUserInfo }
 }

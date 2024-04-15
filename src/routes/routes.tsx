@@ -29,6 +29,11 @@ const routes = createBrowserRouter(
       errorElement={<InstitutionNotFoundLayout />}
     >
       {/* AUTHENTICATION ROUTES */}
+      {/* EXCEPT THIS CASE, WHEN WE ALREADY LOGGED IN AND ACCEPT OUR OWN INVITATION */}
+      <Route
+        path={APP_PATH.ACCEPT_INVITE}
+        lazy={() => import("@/modules/authentication/accept-invite/page")}
+      />
 
       <Route element={<AuthLayout />}>
         <Route
@@ -59,10 +64,6 @@ const routes = createBrowserRouter(
           <Route
             path={APP_PATH.SETUP_PASSWORD_BY_TOKEN.index}
             lazy={() => import("@/modules/authentication/setup-password/page")}
-          />
-          <Route
-            path={APP_PATH.ACCEPT_INVITE}
-            lazy={() => import("@/modules/authentication/accept-invite/page")}
           />
         </Route>
       </Route>
