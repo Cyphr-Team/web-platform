@@ -30,6 +30,7 @@ export const APP_PATH = {
         `/loan/${loanProgramId}/applications/${id}/edit`
     },
     LOAN_PROGRAM: {
+      all: "/loan/loan-program",
       list: "/loan/loan-program",
       detail: "/loan/loan-program/:loanProgramId",
       detailWithId: (id: string) => `/loan/loan-program/${id}`
@@ -42,6 +43,7 @@ export const APP_PATH = {
         `/loan/loan-program/${loanProgramId}/information`
     },
     NOTIFICATION: {
+      all: "/loan/notifications",
       list: "/loan/notifications",
       detail: "/loan/notifications/:id",
       details: (id: string) => `/loan/notifications/${id}`
@@ -83,6 +85,7 @@ export const APP_PATH = {
     index: "/loan-program"
   },
   NOTIFICATION: {
+    all: "/notifications",
     list: "/notifications",
     detail: "/notifications/:id",
     details: (id: string) => `/notifications/${id}`

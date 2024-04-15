@@ -24,7 +24,10 @@ export const ActiveEmailFooter = ({
       return ""
     }
 
-    if (status === UserStartStatus.USER_WAITING_SETUP_PROFILE)
+    if (
+      status === UserStartStatus.USER_WAITING_SETUP_PROFILE ||
+      status === UserStartStatus.EMAIL_REGISTERED
+    )
       return <BackToLoginButton />
 
     switch (errorCode) {
