@@ -19,7 +19,11 @@ export const adminSendInvitationForm = z.object({
   email: z.string().email({ message: "Enter a valid email address." })
 })
 
-export type AdminSendInvitationValue = z.infer<typeof adminSendInvitationForm>
+export type AdminSendInvitationValue = z.infer<
+  typeof adminSendInvitationForm
+> & {
+  baseUrl: string
+}
 
 export const useSendInvitation = () => {
   return useMutation<
@@ -27,9 +31,7 @@ export const useSendInvitation = () => {
     AxiosError<ErrorResponse>,
     AdminSendInvitationValue
   >({
-    mutationFn: ({ email, roles, institutionId }) => {
-      const baseUrl = `${window.location.origin}/accept-invite`
-
+    mutationFn: ({ email, roles, institutionId, baseUrl }) => {
       return postRequest({
         path: API_PATH.admin.user.sendInvitation,
         data: { email, roles: [roles], institutionId, baseUrl },

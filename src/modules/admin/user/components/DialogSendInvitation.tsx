@@ -39,19 +39,14 @@ import {
 import { useGetUserInformation } from "@/hooks/useGetUserInformation"
 import { Option } from "@/types/common.type"
 import { useQueryGetListInstitution } from "../hooks/useQuery/useQueryGetListInstitution"
+import { checkIsForesightAdmin } from "@/utils/check-roles"
+import { getSubdomain, getTenantDomain } from "@/utils/domain.utils"
+import { APP_PATH } from "@/constants"
 
 export function DialogSendInvite() {
   const [open, setOpen] = useState(false)
   const { data } = useGetUserInformation()
-  const isForesightAdmin =
-    data?.institutionId === "00000000-0000-0000-0000-000000000000"
-
-  const onOpenChange = (open: boolean) => {
-    if (!open) {
-      form.reset()
-    }
-    setOpen(open)
-  }
+  const isForesightAdmin = checkIsForesightAdmin()
 
   const listInstitution = useQueryGetListInstitution({
     enabled: isForesightAdmin
@@ -62,6 +57,13 @@ export function DialogSendInvite() {
       value: institution.id,
       label: institution.name
     })) ?? []
+
+  const onOpenChange = (open: boolean) => {
+    if (!open) {
+      form.reset()
+    }
+    setOpen(open)
+  }
 
   const form = useForm<z.infer<typeof adminSendInvitationForm>>({
     resolver: zodResolver(adminSendInvitationForm),
@@ -74,13 +76,30 @@ export function DialogSendInvite() {
 
   const { mutate, isPending } = useSendInvitation()
 
-  const formSubmit = form.handleSubmit((data) =>
-    mutate(data, {
-      onSuccess() {
-        onOpenChange(false)
+  const getBaseUrl = (institutionId: string) => {
+    const subdomain =
+      listInstitution.data?.data.find(
+        (institution) => institution.id === institutionId
+      )?.subdomain ?? getSubdomain()
+
+    return `${getTenantDomain(subdomain)}${APP_PATH.ACCEPT_INVITE}`
+  }
+
+  const formSubmit = form.handleSubmit((data) => {
+    // Foresight admin should send the invitation with the callback URL equals the tenant domain
+    const baseUrl = isForesightAdmin
+      ? getBaseUrl(data.institutionId)
+      : `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`
+
+    mutate(
+      { ...data, baseUrl },
+      {
+        onSuccess() {
+          onOpenChange(false)
+        }
       }
-    })
-  )
+    )
+  })
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -117,7 +136,6 @@ export function DialogSendInvite() {
               )}
             />
 
-            {/* TODO: Support multiple select */}
             <FormField
               control={form.control}
               name="roles"
