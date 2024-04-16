@@ -10,7 +10,6 @@ import { PlaidProvider } from "../providers/PlaidProvider"
 
 export const LoanApplicationEdit = () => {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const { step } = useLoanApplicationProgressContext()
   // const strategy = getFormStrategy()
   // const forms = strategy.formsComponents
