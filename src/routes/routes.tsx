@@ -19,6 +19,8 @@ import {
   Route
 } from "react-router-dom"
 import { institutionLoader, userLoader } from "./loader"
+import { LoanProgressProvider } from "@/modules/loan-application/providers/LoanProgressProvider"
+import { LoanApplicationFormProvider } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -311,21 +313,25 @@ const routes = createBrowserRouter(
         <Route
           path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
           element={
-            <BRLoanApplicationDetailsProvider>
-              <LoanApplicationProvider>
-                <LoanApplicationFormLayout>
-                  <LoanApplicationEdit />
-                </LoanApplicationFormLayout>
-              </LoanApplicationProvider>
-            </BRLoanApplicationDetailsProvider>
+            <LoanApplicationFormProvider>
+              <LoanProgressProvider>
+                <BRLoanApplicationDetailsProvider>
+                  <LoanApplicationFormLayout>
+                    <LoanApplicationEdit />
+                  </LoanApplicationFormLayout>
+                </BRLoanApplicationDetailsProvider>
+              </LoanProgressProvider>
+            </LoanApplicationFormProvider>
           }
         />
 
         <Route
           element={
-            <LoanApplicationFormLayout>
-              <Outlet />
-            </LoanApplicationFormLayout>
+            <LoanProgressProvider>
+              <LoanApplicationFormLayout>
+                <Outlet />
+              </LoanApplicationFormLayout>
+            </LoanProgressProvider>
           }
         >
           <Route

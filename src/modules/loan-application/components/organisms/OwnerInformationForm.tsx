@@ -12,7 +12,11 @@ import { Controller, useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { useLoanApplicationContext } from "@/modules/loan-application/providers"
+import {
+  useLoanApplicationContext,
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "@/modules/loan-application/providers"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
 import {
   OwnerFormValue,
@@ -43,41 +47,37 @@ import { FORM_TYPE } from "../../constants/type"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { getSubdomain } from "@/utils/domain.utils"
 import { Institution } from "@/constants/tenant.constants"
+import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
+import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 
 export function OwnerInformationForm() {
-  const {
-    changeProgress,
-    changeStep,
-    saveDraftForm,
-    setFormIsEdited,
-    draftForm,
-    documentsUploaded,
-    removeDocumentUploaded
-  } = useLoanApplicationContext()
+  const { setFormIsEdited, documentsUploaded, removeDocumentUploaded } =
+    useLoanApplicationContext()
+
+  const { dispatch: changeStepStatus } = useLoanApplicationProgressContext()
+  const { dispatchFormAction, ownerInformationForm } =
+    useLoanApplicationFormContext()
 
   const defaultValues = {
-    fullName: draftForm.ownerInformationForm?.fullName ?? "",
-    businessRole: draftForm.ownerInformationForm?.businessRole ?? "",
-    addressLine1: draftForm.ownerInformationForm?.addressLine1 ?? "",
-    addressLine2: draftForm.ownerInformationForm?.addressLine2 ?? "",
-    businessState: draftForm.ownerInformationForm?.businessState ?? "",
-    businessCity: draftForm.ownerInformationForm?.businessCity ?? "",
-    phoneNumber: draftForm.ownerInformationForm?.phoneNumber ?? "",
-    email: draftForm.ownerInformationForm?.email ?? "",
-    dateOfBirth: draftForm.ownerInformationForm?.dateOfBirth ?? "",
-    socialSecurityNumber: draftForm.ownerInformationForm?.socialSecurityNumber
-      ? toPattern(
-          draftForm.ownerInformationForm?.socialSecurityNumber,
-          SSN_PATTERN
-        )
+    fullName: ownerInformationForm?.fullName ?? "",
+    businessRole: ownerInformationForm?.businessRole ?? "",
+    addressLine1: ownerInformationForm?.addressLine1 ?? "",
+    addressLine2: ownerInformationForm?.addressLine2 ?? "",
+    businessState: ownerInformationForm?.businessState ?? "",
+    businessCity: ownerInformationForm?.businessCity ?? "",
+    phoneNumber: ownerInformationForm?.phoneNumber ?? "",
+    email: ownerInformationForm?.email ?? "",
+    dateOfBirth: ownerInformationForm?.dateOfBirth ?? "",
+    socialSecurityNumber: ownerInformationForm?.socialSecurityNumber
+      ? toPattern(ownerInformationForm?.socialSecurityNumber, SSN_PATTERN)
       : "",
     businessOwnershipPercentage:
-      draftForm.ownerInformationForm?.businessOwnershipPercentage ?? "",
+      ownerInformationForm?.businessOwnershipPercentage ?? "",
     hasOtherSubstantialStackHolders:
-      draftForm.ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
+      ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
       "false",
-    businessZipCode: draftForm.ownerInformationForm?.businessZipCode ?? "",
-    governmentFile: draftForm.ownerInformationForm?.governmentFile ?? []
+    businessZipCode: ownerInformationForm?.businessZipCode ?? "",
+    governmentFile: ownerInformationForm?.governmentFile ?? []
   }
 
   const form = useForm<OwnerFormValue>({
@@ -165,9 +165,19 @@ export function OwnerInformationForm() {
   }, [state, city, form])
 
   const onSubmit = (data: OwnerFormValue) => {
-    saveDraftForm(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, data)
-    changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, true)
-    changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+      state: data
+    })
+    changeStepStatus({
+      type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
+      step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+    })
+    changeStepStatus({
+      type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+      progress: LOAN_APPLICATION_STEPS.OWNER_INFORMATION
+    })
   }
 
   const institution = getSubdomain()

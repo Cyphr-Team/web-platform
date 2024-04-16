@@ -13,27 +13,32 @@ import {
   LOAN_APPLICATION_STEP_DATA,
   LOAN_APPLICATION_STEP_STATUS
 } from "@/modules/loan-application/constants"
-import { useLoanApplicationContext } from "@/modules/loan-application/providers"
+import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { Check } from "lucide-react"
 import { LogoHeader } from "../atoms/LogoHeader"
+import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function LoanProgramItem({
   value,
   finished
-}: {
+}: Readonly<{
   value: LOAN_APPLICATION_STEPS
   finished?: boolean
-}) {
-  const { changeStep, step } = useLoanApplicationContext()
+}>) {
+  const { dispatch, step } = useLoanApplicationProgressContext()
 
   const active = step === value
   const label = LOAN_APPLICATION_STEP_DATA[value]?.label
 
   //Only allow changing step if it's not active
   const handleChangeStep = () => {
-    if (!active) changeStep(value)
+    if (!active)
+      dispatch({
+        type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
+        step: value
+      })
   }
 
   return (
@@ -90,7 +95,8 @@ export function LoanProgramCollapsible({
 }
 
 export function SideNavLoanApplication({ className }: SidebarProps) {
-  const { progress } = useLoanApplicationContext()
+  const { progress } = useLoanApplicationProgressContext()
+
   const progressPercent = progress.filter(
     (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
   ).length

@@ -20,14 +20,19 @@ import {
   getConfirmationTexts
 } from "../../constants"
 import { Input } from "@/components/ui/input"
-import { useLoanApplicationContext } from "../../providers"
+import {
+  useLoanApplicationContext,
+  useLoanApplicationProgressContext
+} from "../../providers"
 import { ArrowRight } from "lucide-react"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useTenant } from "@/providers/tenant-provider"
 
 export const ConfirmationForm = () => {
-  const { saveDraftForm, isSubmitting, progress, isUploading } =
+  const { saveDraftForm, isSubmitting, isUploading } =
     useLoanApplicationContext()
+
+  const { progress } = useLoanApplicationProgressContext()
 
   const form = useForm<ConfirmationFormValue>({
     resolver: zodResolver(confirmationFormSchema),

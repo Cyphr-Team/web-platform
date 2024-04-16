@@ -1,11 +1,20 @@
 import { Button } from "@/components/ui/button"
-import { LOAN_APPLICATION_STEP_DATA } from "../../constants"
-import { useLoanApplicationContext } from "../../providers"
+import {
+  LOAN_APPLICATION_STEP_DATA,
+  LOAN_APPLICATION_STEPS
+} from "../../constants"
+import { useLoanApplicationProgressContext } from "../../providers"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
 
 export function LoanApplicationStepNavigate() {
-  const { step, changeStep } = useLoanApplicationContext()
+  const { step, dispatch } = useLoanApplicationProgressContext()
+
   const stepData = LOAN_APPLICATION_STEP_DATA[step]
+
+  const changeStep = (step: LOAN_APPLICATION_STEPS) => {
+    dispatch({ type: LOAN_PROGRESS_ACTION.CHANGE_STEP, step })
+  }
 
   return (
     <div className="mb-2 gap-2 grid grid-cols-8">

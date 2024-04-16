@@ -14,7 +14,10 @@ import { useForm } from "react-hook-form"
 import { FinancialFormValue, financialFormSchema } from "../../constants/form"
 import { Button } from "@/components/ui/button"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
-import { useLoanApplicationContext } from "../../providers"
+import {
+  useLoanApplicationContext,
+  useLoanApplicationProgressContext
+} from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { ConnectPlaidButton } from "../molecules/ConnectPlaidButton"
 import { FileUploadCard } from "../molecules/FileUploadCard"
@@ -25,17 +28,17 @@ import { ArrowRight, Loader2 } from "lucide-react"
 import { FileUploadedCard } from "../molecules/FileUploadedCard"
 import { FORM_TYPE } from "../../constants/type"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
 
 export const FinancialInformationForm = () => {
   const {
     draftForm,
     documentsUploaded,
     removeDocumentUploaded,
-    changeProgress,
-    changeStep,
     saveDraftForm,
     setFormIsEdited
   } = useLoanApplicationContext()
+  const { dispatch: changeStepStatus } = useLoanApplicationProgressContext()
 
   const form = useForm<FinancialFormValue>({
     resolver: zodResolver(financialFormSchema),
@@ -89,8 +92,14 @@ export const FinancialInformationForm = () => {
 
   const onSubmit = (data: FinancialFormValue) => {
     saveDraftForm(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, data)
-    changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION, true)
-    changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+    changeStepStatus({
+      type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
+      step: LOAN_APPLICATION_STEPS.CONFIRMATION
+    })
+    changeStepStatus({
+      type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+      progress: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+    })
   }
 
   return (
