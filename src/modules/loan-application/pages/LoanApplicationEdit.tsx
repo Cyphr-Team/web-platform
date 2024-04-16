@@ -1,23 +1,19 @@
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
 import { useBRLoanApplicationDetailsContext } from "../providers/BRLoanApplicationDetailsProvider"
 import { Loader2 } from "lucide-react"
-import { LoanRequest } from "../components/layouts/LoanRequest"
 import { AlertFinishFormBeforeLeave } from "../components/molecules/alerts/AlertFinishFormRequest"
-import { BusinessInformationForm } from "../components/organisms/BusinessInformationForm"
-import { ConfirmationForm } from "../components/organisms/ConfirmationForm"
-import { FinancialInformationForm } from "../components/organisms/FinancialInformationForm"
 import { LoanApplicationStepNavigate } from "../components/organisms/LoanApplicationStepNavigate"
-import { OwnerInformationForm } from "../components/organisms/OwnerInformationForm"
-import { LOAN_APPLICATION_STEPS } from "../constants"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
 import { PlaidProvider } from "../providers/PlaidProvider"
-import { useLoanApplicationProgressContext } from "../providers"
-import { isLoanReady } from "@/utils/domain.utils"
-import { CashFlowVerificationForm } from "../components/organisms/CashFlowVerificationForm"
+// import { useLoanApplicationProgressContext } from "../providers"
+// import { getFormStrategy } from "@/utils/domain.utils"
 
 export const LoanApplicationEdit = () => {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
-  const { step } = useLoanApplicationProgressContext()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const { step } = useLoanApplicationProgressContext()
+  // const strategy = getFormStrategy()
+  // const forms = strategy.formsComponents
 
   return (
     <>
@@ -34,24 +30,13 @@ export const LoanApplicationEdit = () => {
                 <LoanApplicationStepNavigate />
               </div>
               <div className="grid grid-cols-8">
-                {step === LOAN_APPLICATION_STEPS.LOAN_REQUEST && (
-                  <LoanRequest />
-                )}
-                {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
-                  <BusinessInformationForm />
-                )}
-                {step === LOAN_APPLICATION_STEPS.OWNER_INFORMATION && (
-                  <OwnerInformationForm />
-                )}
-                {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION &&
-                  (!isLoanReady() ? (
-                    <FinancialInformationForm />
-                  ) : (
-                    <CashFlowVerificationForm />
-                  ))}
-                {step === LOAN_APPLICATION_STEPS.CONFIRMATION && (
-                  <ConfirmationForm />
-                )}
+                {/**
+                   forms.forEach((form) => {
+                  if (step == form.step) {
+                    form.component
+                  }
+                })
+                   */}
               </div>
             </div>
             <AlertFinishFormBeforeLeave />

@@ -5,6 +5,8 @@
  */
 
 import { Institution } from "@/constants/tenant.constants"
+import LoanReadyFormStrategy from "@/modules/loan-application/services/formStrategies/LoanReadyFormStrategy"
+import SmbFormStrategy from "@/modules/loan-application/services/formStrategies/SmbFormStrategy"
 
 const DEFAULT_DEMO_SUBDOMAIN = "capsight"
 
@@ -40,4 +42,15 @@ function isLoanReady(): boolean {
   return getSubdomain() === Institution.LoanReady
 }
 
-export { getSubdomain, isLoanReady, getTenantDomain }
+function getFormStrategy() {
+  switch (getSubdomain()) {
+    case Institution.LoanReady:
+      return new LoanReadyFormStrategy()
+    case Institution.Altcap:
+      return new SmbFormStrategy()
+    default:
+      return new LoanReadyFormStrategy()
+  }
+}
+
+export { getSubdomain, isLoanReady, getTenantDomain, getFormStrategy }
