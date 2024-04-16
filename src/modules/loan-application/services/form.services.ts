@@ -29,6 +29,7 @@ export const formatKycForm = (rawData: OwnerFormValue) => {
 
 export const reverseFormatKybForm = (rawData: KYBInformationResponse) => {
   return {
+    id: rawData.id,
     businessLegalName: rawData.businessLegalName,
     addressLine1: rawData.businessStreetAddress?.addressLine1 ?? "",
     addressLine2: rawData.businessStreetAddress?.addressLine2 ?? "",
@@ -44,6 +45,7 @@ export const reverseFormatKycForm = (
   rawData: KYCInformationResponse
 ): OwnerFormValue => {
   return {
+    id: rawData.id,
     fullName: rawData.fullName,
     businessRole: rawData.businessRole,
     addressLine1: rawData.addressLine1,

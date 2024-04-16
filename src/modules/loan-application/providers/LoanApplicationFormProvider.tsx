@@ -8,6 +8,10 @@ import {
   OwnerFormValue
 } from "../constants/form"
 import { createContext } from "use-context-selector"
+import { useSubmitLoanKYCForm } from "../hooks/useForm/useSubmitLoanKYCForm"
+import { useSubmitLoanKYBForm } from "../hooks/useForm/useSubmitLoanKYBForm"
+import { useSubmitLoanRequestForm } from "../hooks/useForm/useSubmitLoanRequest"
+import { useParams } from "react-router-dom"
 
 type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -21,20 +25,24 @@ interface LoanApplicationFormContext extends LoanApplicationFormState {
   dispatchFormAction: Dispatch<Action>
 }
 
+export type FormStateType =
+  | BusinessFormValue
+  | OwnerFormValue
+  | FinancialFormValue
+  | ConfirmationFormValue
+  | LoanRequestFormValue
+
 type Action = {
   action: FORM_ACTION
-  state:
-    | BusinessFormValue
-    | OwnerFormValue
-    | FinancialFormValue
-    | ConfirmationFormValue
-    | LoanRequestFormValue
+  state: FormStateType
   key: LOAN_APPLICATION_STEPS
 }
 
 export enum FORM_ACTION {
   GET_DATA = "GET_DATA",
-  SET_DATA = "SET_DATA"
+  SET_DATA = "SET_DATA",
+  UPDATE_DATA = "UPDATE_DATA",
+  RESET_DATA = "RESET_DATA"
 }
 
 const updateApplicationForm = (
@@ -53,6 +61,19 @@ const updateApplicationForm = (
           ...action.state
         }
       }
+    case FORM_ACTION.UPDATE_DATA:
+      return {
+        ...state,
+        [action.key]: {
+          ...state[action.key],
+          ...action.state
+        }
+      }
+    case FORM_ACTION.RESET_DATA:
+      return {
+        ...state,
+        [action.key]: {}
+      }
   }
 }
 
@@ -68,8 +89,26 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     updateApplicationForm,
     {} as LoanApplicationFormState
   )
-  console.log(state)
-  console.log("RE_RENDER")
+  const { id: loanApplicationId } = useParams()
+
+  const { submitLoanKYBForm } = useSubmitLoanKYBForm(
+    state[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION],
+    state[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION].id,
+    loanApplicationId
+  )
+  const { submitLoanKYCForm } = useSubmitLoanKYCForm(
+    state[LOAN_APPLICATION_STEPS.OWNER_INFORMATION],
+    state[LOAN_APPLICATION_STEPS.OWNER_INFORMATION].id,
+    loanApplicationId
+  )
+
+  const { submitLoanRequestForm } = useSubmitLoanRequestForm(
+    state[LOAN_APPLICATION_STEPS.LOAN_REQUEST],
+    state[LOAN_APPLICATION_STEPS.LOAN_REQUEST].id,
+    loanApplicationId
+  )
+
+  console.log(submitLoanKYBForm, submitLoanKYCForm, submitLoanRequestForm)
 
   return (
     <Provider value={{ ...state, dispatchFormAction }}>

@@ -82,6 +82,7 @@ export function CardWithForm() {
       action: FORM_ACTION.SET_DATA,
       key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
       state: {
+        id: "",
         loanAmount: form.getValues("loanAmount"),
         loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
         proposeUseOfLoan: form.getValues("proposeUseOfLoan")

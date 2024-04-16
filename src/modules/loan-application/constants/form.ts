@@ -4,6 +4,7 @@ import { isPossiblePhoneNumber } from "react-phone-number-input"
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
+  id: z.string(),
   fullName: z.string().min(1, { message: "Name is required" }),
   addressLine1: z.string().min(1, { message: "Address line 1 is required" }),
   addressLine2: z.string(),
@@ -42,6 +43,7 @@ export const ownerFormSchema = z.object({
 })
 
 export const businessFormSchema = z.object({
+  id: z.string(),
   businessLegalName: z.string().min(1, { message: "Name is required" }),
   businessWebsite: z.string().min(1, { message: "Enter a valid website" }),
   addressLine1: z.string().min(3, { message: "Address line 1 is required" }),
@@ -56,6 +58,7 @@ export const businessFormSchema = z.object({
 })
 
 export const financialFormSchema = z.object({
+  id: z.string(),
   incomeCategories: z
     .string()
     .array()
@@ -79,6 +82,7 @@ export const confirmationFormSchema = z.object({
 })
 
 export const loanRequestFormSchema = z.object({
+  id: z.string(),
   loanAmount: z.number().gt(0),
   loanTermInMonth: z.number().gt(1),
   proposeUseOfLoan: z.string().min(1)
