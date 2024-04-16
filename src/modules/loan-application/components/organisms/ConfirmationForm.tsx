@@ -24,6 +24,7 @@ import { useLoanApplicationContext } from "../../providers"
 import { ArrowRight } from "lucide-react"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useTenant } from "@/providers/tenant-provider"
+import { cn } from "@/lib/utils"
 
 export const ConfirmationForm = () => {
   const { saveDraftForm, isSubmitting, progress, isUploading } =
@@ -57,7 +58,12 @@ export const ConfirmationForm = () => {
   )
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-6 col-start-2">
+    <Card
+      className={cn(
+        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
+        "md:col-span-6 md:col-start-2 md:mx-0"
+      )}
+    >
       <Form {...form}>
         {CONFIRMATION_TEXTS.map((text, index) => (
           <p key={index} className="text-sm text-text-secondary">

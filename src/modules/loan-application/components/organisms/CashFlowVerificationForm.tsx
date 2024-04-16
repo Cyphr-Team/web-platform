@@ -8,6 +8,7 @@ import { isLoanReady } from "@/utils/domain.utils"
 
 import { useLoanApplicationContext } from "../../providers"
 import { LOAN_APPLICATION_STEP_STATUS } from "../../constants"
+import { cn } from "@/lib/utils"
 export const CashFlowVerificationForm = () => {
   const { tenantData } = useTenant()
 
@@ -16,7 +17,12 @@ export const CashFlowVerificationForm = () => {
   const [isConfirmedConnect, setIsConfirmedConnect] = useState(false)
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-start-2 col-span-6">
+    <Card
+      className={cn(
+        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
+        "md:col-span-6 md:col-start-2 md:mx-0"
+      )}
+    >
       <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
       <Separator />
       <div className="flex flex-col gap-y-2xl gap-x-4xl">

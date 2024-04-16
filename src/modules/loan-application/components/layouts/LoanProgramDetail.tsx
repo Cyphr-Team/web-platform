@@ -12,6 +12,7 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { Image } from "@/shared/atoms/Image"
 import { getImageURL } from "@/utils/aws.utils"
 import { CustomLabelKey, buildCustomLabel, buildIds } from "@/utils/crumb.utils"
+import { cn } from "@/lib/utils"
 
 export const ComponentWithProvider = () => {
   const { loanProgramInfo, isLoading, loanProgramDetails } =
@@ -30,8 +31,8 @@ export const ComponentWithProvider = () => {
 
   return (
     <div className="overflow-auto flex flex-col items-center flex-1">
-      <div className="grid grid-cols-8">
-        <div className="col-span-8">
+      <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
+        <div className={cn("col-span-10", "md:col-span-8")}>
           <TopBarDetail
             breads={crumbs}
             rightFooter={
@@ -44,7 +45,7 @@ export const ComponentWithProvider = () => {
           />
         </div>
 
-        <section className="col-span-8">
+        <section className={cn("col-span-10", "md:col-span-8")}>
           {isLoading ? (
             <Skeleton className="w-screen md:w-[calc(100vw-15rem)] max-w-[1200px] h-[140px] md:h-[250px] lg:h-[264px] items-center align-center flex" />
           ) : (
@@ -59,7 +60,12 @@ export const ComponentWithProvider = () => {
           )}
         </section>
 
-        <section className="p-6 md:px-0 col-span-6 col-start-2 mx-auto w-full">
+        <section
+          className={cn(
+            "pt-8 mx-auto p-6 col-span-10",
+            "md:px-0 md:col-span-6 md:col-start-2"
+          )}
+        >
           <LoanProgramDetailWelcomeLine />
 
           <Separator className="my-6" />

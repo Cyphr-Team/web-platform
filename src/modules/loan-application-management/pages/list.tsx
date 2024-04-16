@@ -10,6 +10,7 @@ import { LoanApplicationTableHeader } from "../components/table/loan-application
 import { FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
 import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryListPaginateLoanApplication"
 import { PaginationState } from "@tanstack/react-table"
+import { cn } from "@/lib/utils"
 
 export function Component() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
@@ -41,7 +42,9 @@ export function Component() {
   )
 
   return (
-    <div className="container mx-auto py-4xl">
+    <div
+      className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
+    >
       <div className="mb-3xl">
         <Breadcrumbs breads={crumbs} className="px-0" />
       </div>

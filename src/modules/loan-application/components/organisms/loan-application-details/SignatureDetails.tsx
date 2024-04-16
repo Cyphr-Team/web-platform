@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
+import { cn } from "@/lib/utils"
 import { getConfirmationTexts } from "@/modules/loan-application/constants"
 import { ConfirmationFormResponse } from "@/modules/loan-application/constants/type"
 import { useTenant } from "@/providers/tenant-provider"
@@ -21,7 +22,7 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
   )
 
   return (
-    <div className="grid grid-cols-4 ">
+    <div className={cn("flex flex-col gap-2", "md:grid md:grid-cols-4")}>
       {hasTitle && (
         <div className="col-span-1">
           <div className="flex flex-col gap-4">
@@ -29,7 +30,7 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
           </div>
         </div>
       )}
-      <div className={hasTitle ? "col-span-3" : "col-span-4"}>
+      <div className={cn("col-span-4", hasTitle && "col-span-3")}>
         <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
           {CONFIRMATION_TEXTS.map((text, index) => (
             <p key={index} className="text-sm text-text-secondary">

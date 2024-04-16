@@ -16,6 +16,7 @@ import { ColumnDef, Row } from "@tanstack/react-table"
 import { useQueryGetUserLoanApplications } from "../hooks/useQuery/useQueryUserLoanApplications"
 import { ChevronRightIcon } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { cn } from "@/lib/utils"
 
 export function Component() {
   const { data, fetchNextPage, isFetching } = useQueryGetUserLoanApplications({
@@ -157,7 +158,9 @@ export function Component() {
   }
 
   return (
-    <div className="container mx-auto py-4xl">
+    <div
+      className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
+    >
       <h1 className="text-3xl font-semibold">Loan Applications</h1>
       <p className="text-text-tertiary mt-1">
         Keep track of your loan applications and their statues

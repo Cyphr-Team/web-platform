@@ -31,9 +31,9 @@ export function Component() {
       >
         <RoleStrict>
           <Header items={DASHBOARD_NAV_ITEM} />
-          <div className="flex h-screen overflow-hidden">
+          <div className="flex h-dvh overflow-hidden">
             <SideNav items={DASHBOARD_NAV_ITEM} className="hidden md:flex" />
-            <main className="flex-1 pt-12 md:pt-0 overflow-x-hidden overflow-y-auto">
+            <main className="flex-1 pt-14 md:pt-0 overflow-x-hidden overflow-y-auto">
               <Outlet />
             </main>
           </div>

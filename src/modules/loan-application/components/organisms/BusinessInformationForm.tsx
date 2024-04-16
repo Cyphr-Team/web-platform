@@ -22,6 +22,7 @@ import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
 import { MaskInput, revertPattern, toPattern } from "@/components/ui/mask-input"
 import { ArrowRight } from "lucide-react"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { cn } from "@/lib/utils"
 
 export const BusinessInformationForm = () => {
   const {
@@ -102,7 +103,12 @@ export const BusinessInformationForm = () => {
   )
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-6 col-start-2">
+    <Card
+      className={cn(
+        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
+        "md:col-span-6 md:col-start-2 md:mx-0"
+      )}
+    >
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
       <Form {...form}>

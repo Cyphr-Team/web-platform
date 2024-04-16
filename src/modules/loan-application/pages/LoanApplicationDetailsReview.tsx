@@ -6,6 +6,7 @@ import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsH
 import { useBRLoanApplicationDetailsContext } from "../providers/BRLoanApplicationDetailsProvider"
 import { Loader2 } from "lucide-react"
 import { isLoanReady } from "@/utils/domain.utils"
+import { cn } from "@/lib/utils"
 
 export const Component = () => {
   const { isFetchingDetails, confirmationFormData } =
@@ -18,7 +19,12 @@ export const Component = () => {
           <Loader2 className="m-2 h-8 w-8 transition-all ease-out animate-spin text-primary" />
         </div>
       ) : (
-        <div className="w-full flex flex-col p-4xl gap-8">
+        <div
+          className={cn(
+            "w-full flex flex-col p-2xl gap-4",
+            "md:p-4xl md:gap-8"
+          )}
+        >
           <ApplicationDetails />
           {!isLoanReady() && (
             <>

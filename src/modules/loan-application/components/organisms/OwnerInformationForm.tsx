@@ -43,6 +43,7 @@ import { FORM_TYPE } from "../../constants/type"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { getSubdomain } from "@/utils/domain.utils"
 import { Institution } from "@/constants/tenant.constants"
+import { cn } from "@/lib/utils"
 
 export function OwnerInformationForm() {
   const {
@@ -173,7 +174,12 @@ export function OwnerInformationForm() {
   const institution = getSubdomain()
 
   return (
-    <div className="flex flex-col col-span-6 col-start-2 gap-3xl overflow-auto">
+    <div
+      className={cn(
+        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
+        "md:col-span-6 md:col-start-2 md:mx-0"
+      )}
+    >
       <Form {...form}>
         <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
           <h5 className="text-lg font-semibold">

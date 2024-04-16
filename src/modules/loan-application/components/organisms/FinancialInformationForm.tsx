@@ -25,6 +25,7 @@ import { ArrowRight, Loader2 } from "lucide-react"
 import { FileUploadedCard } from "../molecules/FileUploadedCard"
 import { FORM_TYPE } from "../../constants/type"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { cn } from "@/lib/utils"
 
 export const FinancialInformationForm = () => {
   const {
@@ -94,7 +95,12 @@ export const FinancialInformationForm = () => {
   }
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-start-2 col-span-6">
+    <Card
+      className={cn(
+        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
+        "md:col-span-6 md:col-start-2 md:mx-0"
+      )}
+    >
       <h5 className="text-lg font-semibold">Financial Information</h5>
       <Separator />
       <Form {...form}>

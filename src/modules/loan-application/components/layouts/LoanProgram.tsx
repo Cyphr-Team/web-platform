@@ -4,6 +4,7 @@ import { LoanPrograms } from "../organisms/LoanPrograms"
 import { Image } from "@/shared/atoms/Image"
 import { getImageURL } from "@/utils/aws.utils"
 import { sanitizeDOM } from "@/utils/file.utils"
+import { cn } from "@/lib/utils"
 
 const WelcomeLine = () => {
   const { tenantData } = useTenant()
@@ -27,8 +28,8 @@ export const Component = () => {
 
   return (
     <div className="overflow-auto flex flex-col items-center flex-1">
-      <div className="grid grid-cols-8">
-        <section className="col-span-8">
+      <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
+        <section className={cn("col-span-10", "md:col-span-8")}>
           <Image
             className="w-[1200px] mx-auto max-h-[292px] object-contain max-w-full border-b"
             placeholderClassName="w-[1200px] bg-slate-600 max-h-[216px] mx-auto max-w-full"
@@ -39,7 +40,12 @@ export const Component = () => {
           />
         </section>
 
-        <section className="p-6 pt-8 md:px-0 col-span-6 col-start-2 mx-auto">
+        <section
+          className={cn(
+            "pt-8 mx-auto p-6 col-span-10",
+            "md:px-0 md:col-span-6 md:col-start-2"
+          )}
+        >
           <div>
             <WelcomeLine />
           </div>

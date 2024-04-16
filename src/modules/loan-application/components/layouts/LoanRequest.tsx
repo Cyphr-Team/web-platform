@@ -39,6 +39,7 @@ import { useEffect, useMemo } from "react"
 import { useTenant } from "@/providers/tenant-provider"
 import { isLoanReady } from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
+import { cn } from "@/lib/utils"
 
 export function CardWithForm() {
   const { tenantData } = useTenant()
@@ -92,7 +93,12 @@ export function CardWithForm() {
   })
 
   return (
-    <Card className="rounded-xl col-span-4 col-start-3">
+    <Card
+      className={cn(
+        "rounded-xl mx-6 col-span-8",
+        "md:col-span-4 md:col-start-3 md:m-0"
+      )}
+    >
       <CardHeader className="text-center">
         <CardTitle className="text-lg">{loanProgramDetails?.name}</CardTitle>
         <CardDescription>
