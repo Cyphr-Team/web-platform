@@ -4,7 +4,7 @@ const getSubscriptionStatusBadge = (status?: SubscriptionStatus) => {
   switch (status) {
     case SubscriptionStatus.ACTIVE:
       return "green"
-    case SubscriptionStatus.CANCELLED:
+    case SubscriptionStatus.CANCELED:
       return "red"
     default:
       return undefined

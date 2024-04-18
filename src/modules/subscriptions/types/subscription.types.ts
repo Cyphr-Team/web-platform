@@ -5,7 +5,7 @@ enum PlanType {
 
 enum SubscriptionStatus {
   ACTIVE = "active",
-  CANCELLED = "cancelled",
+  CANCELED = "canceled",
   ENDED = "ended"
 }
 
@@ -17,16 +17,37 @@ type Limit = {
   currentUsage: number
 }
 
+type Plan = {
+  id: string
+  name: string
+  description: string
+  price: number
+  version: number
+  type: string
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+}
+
+type Instiuttion = {
+  id: string
+  name: string
+  subdomain: string
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+}
+
 type Subscription = {
   type: PlanType
-  planName: string
-  institutionName: string
   status: SubscriptionStatus
+  plan: Plan
+  institution: Instiuttion
   createdAt: string
-  nextRenewal?: string
-  price?: number
-  currency: string
-  limit?: Limit[]
+  updatedAt: string
+  deletedAt: string
+  startedAt: string
+  endedAt: string
 }
 
 export type { Subscription, Limit }

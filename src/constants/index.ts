@@ -229,7 +229,7 @@ export const API_PATH = {
     upload: "api/asset/upload"
   },
   subscriptions: {
-    all: "api/subscription",
+    all: "api/admin/subscription",
     list: () => `${API_PATH.subscriptions.all}/list`
   }
 }
