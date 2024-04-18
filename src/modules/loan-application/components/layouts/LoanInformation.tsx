@@ -23,6 +23,7 @@ import { isEmpty } from "lodash"
 import { CashFlowVerificationForm } from "../organisms/CashFlowVerificationForm"
 import { getSubdomain } from "@/utils/domain.utils"
 import { Institution } from "@/constants/tenant.constants"
+import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
 export const LoanInformationHeader = () => {
   const { loanProgramDetails } = useLoanProgramDetailContext()
   const { draftForm } = useLoanApplicationContext()
@@ -53,6 +54,7 @@ export const LoanInformationHeader = () => {
       ]}
       rightFooter={
         <div className="flex gap-2">
+          {!isEmpty(draftForm) && <CloseWithoutSave />}
           {isEmpty(draftForm) ? (
             <Button onClick={backToLoanProgram} variant="secondary">
               Close
