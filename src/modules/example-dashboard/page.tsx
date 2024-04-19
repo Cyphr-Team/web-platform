@@ -1,14 +1,18 @@
+import { cn } from "@/lib/utils"
+import { checkIsLenderAdmin } from "@/utils/check-roles"
+import { AverageApprovedLoanSizeChart } from "./components/AverageLoanSizeChart"
+import { AverageTimeToApprovalChart } from "./components/AverageTimeToApprovalChart"
+import { CurrentUsage } from "./components/CurrentUsage"
+import { FilterTimeRange } from "./components/FilterTimeRange"
+import { PortfolioGrowthChart } from "./components/PortfolioGrowthChart"
+import { RateChart } from "./components/RateChart"
 import { TotalApplicationActivity } from "./components/TotalApplicationActivity"
 import { TotalLoanActivity } from "./components/TotalLoanActivity"
-import { FilterTimeRange } from "./components/FilterTimeRange"
 import { DashboardProvider } from "./providers/dashboard-provider"
-import { RateChart } from "./components/RateChart"
-import { AverageTimeToApprovalChart } from "./components/AverageTimeToApprovalChart"
-import { AverageApprovedLoanSizeChart } from "./components/AverageLoanSizeChart"
-import { PortfolioGrowthChart } from "./components/PortfolioGrowthChart"
-import { cn } from "@/lib/utils"
 
 export function Component() {
+  const isLenderAdmin = checkIsLenderAdmin()
+
   return (
     <DashboardProvider>
       <div className="flex-col flex">
@@ -21,6 +25,7 @@ export function Component() {
             <FilterTimeRange />
           </div>
 
+          {isLenderAdmin && <CurrentUsage />}
           <TotalLoanActivity />
           <TotalApplicationActivity />
           <RateChart />

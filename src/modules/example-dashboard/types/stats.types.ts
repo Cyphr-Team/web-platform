@@ -1,5 +1,6 @@
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { TimeRangeFilterValue } from "@/types/time-range.type"
+import { Usage } from "@/types/usage.type"
 import { Dispatch } from "react"
 
 enum DashboardActionType {
@@ -82,6 +83,9 @@ type DashboardProviderState = {
 
   portfolioGrowthData?: PortfolioGrowthResponse
   isLoadingPortfolioGrowth?: boolean
+
+  usageData?: Usage
+  isLoadingUsage?: boolean
 }
 
 type LoanApprovalRateStats = {
@@ -142,5 +146,6 @@ export type {
   DashboardProviderProps,
   DashboardProviderState,
   DashboardState,
-  Stats
+  Stats,
+  Usage
 }

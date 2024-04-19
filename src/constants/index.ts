@@ -205,19 +205,21 @@ export const API_PATH = {
     markAsUnread: "api/notification/mark-unread"
   },
   dashboard: {
-    all: "api/lender/stats",
+    all: "api/lender",
+    allStats: "api/lender/stats",
     getInstitutionActivity: () =>
-      `${API_PATH.dashboard.all}/institution-activity`,
+      `${API_PATH.dashboard.allStats}/institution-activity`,
     getApprovalRate: () =>
-      `${API_PATH.dashboard.all}/performance-metrics/approval-rate`,
+      `${API_PATH.dashboard.allStats}/performance-metrics/approval-rate`,
     getIncompleteApplicationRate: () =>
-      `${API_PATH.dashboard.all}/performance-metrics/incomplete-rate`,
+      `${API_PATH.dashboard.allStats}/performance-metrics/incomplete-rate`,
     getAverageTimeToApprovalMetrics: () =>
-      `${API_PATH.dashboard.all}/performance-metrics/average-time-to-approval`,
+      `${API_PATH.dashboard.allStats}/performance-metrics/average-time-to-approval`,
     getAverageLoanSize: () =>
-      `${API_PATH.dashboard.all}/performance-metrics/average-approved-loan-size`,
+      `${API_PATH.dashboard.allStats}/performance-metrics/average-approved-loan-size`,
     getPortfolioGrowth: () =>
-      `${API_PATH.dashboard.all}/performance-metrics/portfolio-growth`
+      `${API_PATH.dashboard.allStats}/performance-metrics/portfolio-growth`,
+    getInstitutionUsage: () => `${API_PATH.dashboard.all}/usage`
   },
   institution: {
     list: "api/admin/internal/institutions",

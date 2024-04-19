@@ -13,6 +13,7 @@ import {
 } from "../types/stats.types"
 import { useQueryGetAverageApprovedLoanSize } from "../hooks/query/useQueryGetAverageLoanSize"
 import { useQueryGetPortfolioGrowth } from "../hooks/query/useQueryGetPortfolioGrowth"
+import { useQueryGetInstitutionUsage } from "../hooks/query/useQueryGetInstitutionUsage"
 
 const DashboardContext = createContext<DashboardProviderState>({
   dashboardState: DEFAULT_DASHBOARD_STATE,
@@ -74,6 +75,8 @@ export function DashboardProvider({
     DEFAULT_DASHBOARD_STATE
   )
 
+  const usageResponse = useQueryGetInstitutionUsage()
+
   const statsResponse = useQueryGetInstitutionActivity(dashboardState)
   const approvalRate = useQueryGetApprovalRate(dashboardState)
   const incompleteApplicationRate =
@@ -83,6 +86,7 @@ export function DashboardProvider({
   const averageApprovedLoanSize =
     useQueryGetAverageApprovedLoanSize(dashboardState)
   const portfolioGrowth = useQueryGetPortfolioGrowth(dashboardState)
+
   const value = useMemo(
     () => ({
       dashboardState,
@@ -104,7 +108,10 @@ export function DashboardProvider({
       isLoadingAverageApprovedLoanSize: averageApprovedLoanSize.isFetching,
 
       portfolioGrowthData: portfolioGrowth.data?.data,
-      isLoadingPortfolioGrowth: portfolioGrowth.isFetching
+      isLoadingPortfolioGrowth: portfolioGrowth.isFetching,
+
+      usageData: usageResponse.data,
+      isLoadingUsage: usageResponse.isFetching
     }),
     [
       approvalRate.data?.data,
@@ -119,7 +126,9 @@ export function DashboardProvider({
       portfolioGrowth.data?.data,
       portfolioGrowth.isFetching,
       statsResponse.data?.data,
-      statsResponse.isFetching
+      statsResponse.isFetching,
+      usageResponse.data,
+      usageResponse.isFetching
     ]
   )
 
