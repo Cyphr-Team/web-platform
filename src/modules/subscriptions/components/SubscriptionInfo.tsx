@@ -32,7 +32,7 @@ export const SubscriptionInfo = ({ data }: SubscriptionInfoProps) => {
         </span>
         {data?.plan?.type === PlanType.ANNUAL_RECURRING &&
           data?.status === SubscriptionStatus.ACTIVE && (
-            <SubscriptionLimitTable />
+            <SubscriptionLimitTable institutionId={data?.institution?.id} />
           )}
         <div className="text-xs text-text-tertiary">
           {data?.plan?.description}

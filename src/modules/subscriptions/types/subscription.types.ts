@@ -14,7 +14,24 @@ export { PlanType, SubscriptionStatus }
 type Limit = {
   unit: string
   limit: number | string
-  currentUsage: number
+  currentUsage: number | string
+}
+
+type ApplicationUsage = {
+  currentApplicationUsage?: number
+  currentApplicationLimit?: number
+  isExceeded?: false
+}
+
+type SeatUsage = {
+  currentSeatUsage?: number
+  currentSeatLimit?: number
+  isExceeded?: false
+}
+
+type Usage = {
+  application?: ApplicationUsage
+  seat?: SeatUsage
 }
 
 type Plan = {
@@ -50,4 +67,4 @@ type Subscription = {
   endedAt: string
 }
 
-export type { Subscription, Limit }
+export type { Subscription, Usage, Limit }

@@ -231,6 +231,11 @@ export const API_PATH = {
   subscriptions: {
     all: "api/admin/subscription",
     list: () => `${API_PATH.subscriptions.all}/list`
+  },
+  plan: {
+    all: "api/admin/plan",
+    institutionUsage: (institutionId: string) =>
+      `${API_PATH.plan.all}/usage/${institutionId}`
   }
 }
 
