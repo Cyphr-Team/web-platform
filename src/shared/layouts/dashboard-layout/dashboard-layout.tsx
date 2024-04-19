@@ -8,9 +8,18 @@ import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { SideNav } from "@/shared/molecules/SideNav"
 import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
 import { Loader2 } from "lucide-react"
+import { useVerifyToken } from "@/hooks/useVerifyToken"
+import { useLogout } from "@/hooks/useLogout"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
+  const isInvalidToken = !useVerifyToken()
+  const { clearUserInfo } = useLogout()
+
+  if (isInvalidToken) {
+    clearUserInfo()
+    return <Navigate to={APP_PATH.LOGIN} replace />
+  }
 
   if (isLoanApplicant)
     return <Navigate to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list} replace />

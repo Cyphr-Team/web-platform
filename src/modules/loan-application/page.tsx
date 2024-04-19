@@ -8,9 +8,18 @@ import { SideNav } from "@/shared/molecules/SideNav"
 import { navItems } from "./constants"
 import { Header } from "@/shared/layouts/dashboard-layout/dashboard-header"
 import { Loader2 } from "lucide-react"
+import { useVerifyToken } from "@/hooks/useVerifyToken"
+import { useLogout } from "@/hooks/useLogout"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
+  const isInvalidToken = !useVerifyToken()
+  const { clearUserInfo } = useLogout()
+
+  if (isInvalidToken) {
+    clearUserInfo()
+    return <Navigate to={APP_PATH.LOGIN} replace />
+  }
 
   if (!isLoanApplicant) return <Navigate to={APP_PATH.DASHBOARD} replace />
 
