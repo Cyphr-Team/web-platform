@@ -14,12 +14,22 @@ import { isAxiosError } from "axios"
 import { useResendActivate } from "../hooks/useResendActivate"
 import { useMemo } from "react"
 import { AppAlert } from "@/components/ui/alert"
-import { useSearchParams } from "react-router-dom"
-import { getAxiosError } from "@/utils/custom-error"
+import {
+  createSearchParams,
+  useNavigate,
+  useParams,
+  useSearchParams
+} from "react-router-dom"
+import { ErrorCode, getAxiosError } from "@/utils/custom-error"
+import { APP_PATH } from "@/constants"
+import { UserStartStatus } from "../../hooks/useGetStart"
 
 export function VerifyEmailForm() {
   const [searchParams] = useSearchParams()
   const token = searchParams.get("token") ?? ""
+
+  const { email } = useParams()
+  const navigate = useNavigate()
 
   const { form, inputRefs, handleInputCode, handlePasteCode } = useVerifyEmail()
   const { mutate, isPending } = useActivateByCode()
@@ -36,6 +46,22 @@ export function VerifyEmailForm() {
       { ...data, token },
       {
         onError(errorResponse) {
+          if (
+            !!email &&
+            isAxiosError(errorResponse) &&
+            errorResponse.response?.data?.code === ErrorCode.user_registered
+          ) {
+            navigate({
+              pathname: APP_PATH.VERIFY_EMAIL.activateByToken,
+              search: createSearchParams({
+                email: email,
+                status: UserStartStatus.ALREADY_VERIFIED
+              }).toString()
+            })
+
+            return
+          }
+
           form.setError("root.serverError", {
             type: "server",
             message: isAxiosError(errorResponse)

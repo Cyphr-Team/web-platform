@@ -1,10 +1,10 @@
 import { ErrorCode } from "@/utils/custom-error"
 import { useMemo } from "react"
+import { UserStartStatus } from "../../hooks/useGetStart"
+import { useActiveEmailSearchParams } from "../hooks/useActiveEmailSearchParams"
 import { BackToLoginButton } from "./BackToLoginButton"
 import { BackToSignUpPageButton } from "./BackToSignUpPageButton"
 import { GetNewEmailVerificationLinkByEmailButton } from "./GetNewEmailVerificationLinkByEmailButton"
-import { useActiveEmailSearchParams } from "../hooks/useActiveEmailSearchParams"
-import { UserStartStatus } from "../../hooks/useGetStart"
 
 interface ActiveEmailFooterProps {
   isPending: boolean
@@ -29,6 +29,10 @@ export const ActiveEmailFooter = ({
       status === UserStartStatus.EMAIL_REGISTERED
     )
       return <BackToLoginButton />
+    if (status === UserStartStatus.ALREADY_VERIFIED)
+      return (
+        <GetNewEmailVerificationLinkByEmailButton buttonContent="Continue Sign Up" />
+      )
 
     switch (errorCode) {
       case ErrorCode.token_invalid:

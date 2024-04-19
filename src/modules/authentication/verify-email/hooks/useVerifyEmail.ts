@@ -51,7 +51,7 @@ export const useVerifyEmail = () => {
       if (e.key === "ArrowRight") moveForwardOneInput(index)
 
       const value = Number(e.key)
-      if (isNaN(value)) return
+      if (isNaN(value) || e.key === " ") return
 
       changeAndValidate(index, e.key)
 
@@ -69,10 +69,9 @@ export const useVerifyEmail = () => {
 
         const paste = e.clipboardData.getData("text")
 
-        const codes = paste.split("").map((codeChar) => {
+        const codes = paste.split("").filter((codeChar) => {
           const codeNumber = Number(codeChar)
-          if (isNaN(codeNumber)) throw "Invalid code when pasting"
-          return codeChar
+          return !(isNaN(codeNumber) || codeChar === "\n" || codeChar === " ")
         })
 
         codes.slice(0, MAX_CODE_LENGTH).forEach((code, index) => {

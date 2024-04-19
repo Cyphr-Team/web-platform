@@ -31,6 +31,8 @@ export const useActiveEmailDataHeader = ({
         return UI_DATA_ACTIVATE_EMAIL_HEADER.successSendingSetupProfileEmail
       case UserStartStatus.EMAIL_REGISTERED:
         return UI_DATA_ACTIVATE_EMAIL_HEADER.signedUp(email)
+      case UserStartStatus.ALREADY_VERIFIED:
+        return UI_DATA_ACTIVATE_EMAIL_HEADER.verified(email)
     }
 
     if (errorCode === ErrorCode.user_registered) {
