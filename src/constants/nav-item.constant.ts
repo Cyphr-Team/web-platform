@@ -1,6 +1,6 @@
 import { NavItem } from "@/types/common.type"
 import { APP_PATH } from "."
-import { Bell, CalendarSearch, Send, Workflow } from "lucide-react"
+import { Bell, CalendarSearch, Flag, Send, Workflow } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { UserRoles } from "@/types/user.type"
 
@@ -16,6 +16,13 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.SUBSCRIPTIONS,
     icon: CalendarSearch,
     label: "Subscriptions",
+    roles: [UserRoles.FORESIGHT_ADMIN]
+  },
+  {
+    title: "Feature Flags",
+    href: APP_PATH.FEATURE_FLAGS,
+    icon: Flag,
+    label: "Feature Flags",
     roles: [UserRoles.FORESIGHT_ADMIN]
   },
   {

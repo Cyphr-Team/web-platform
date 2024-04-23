@@ -93,7 +93,8 @@ export const APP_PATH = {
   SETTINGS: "/settings",
   MESSAGES: "/messages",
   ONBOARD: "/onboard",
-  SUBSCRIPTIONS: "/subscriptions"
+  SUBSCRIPTIONS: "/subscriptions",
+  FEATURE_FLAGS: "/feature-flags"
 }
 
 export const API_PATH = {
@@ -238,6 +239,13 @@ export const API_PATH = {
     all: "api/admin/plan",
     institutionUsage: (institutionId: string) =>
       `${API_PATH.plan.all}/usage/${institutionId}`
+  },
+  featureFlag: {
+    all: "api/admin/feature-flag",
+    list: () => `${API_PATH.featureFlag.all}/list`,
+    create: () => `${API_PATH.featureFlag.all}`,
+    detail: (id: string) => `${API_PATH.featureFlag.all}/by-id?id=${id}`,
+    toggleStatus: (id: string) => `${API_PATH.featureFlag.all}/action?id=${id}`
   }
 }
 

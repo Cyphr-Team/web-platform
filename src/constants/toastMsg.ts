@@ -88,5 +88,23 @@ export const TOAST_MSG = {
       title: "Create institution",
       description: "Institution is successfully created"
     }
+  },
+  featureFlag: {
+    create: {
+      title: "Create feature flag",
+      description: "Feature flag is successfully created"
+    },
+    update: {
+      title: "Update feature flag",
+      description: "Feature flag is successfully updated"
+    },
+    delete: {
+      title: "Delete feature flag",
+      description: "Feature flag is successfully deleted"
+    },
+    toggleStatus: {
+      title: "Toggle status feature flag",
+      description: "Feature flag status is successfully updated"
+    }
   }
 }

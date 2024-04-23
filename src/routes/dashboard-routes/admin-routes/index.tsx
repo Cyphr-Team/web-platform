@@ -17,6 +17,11 @@ const adminRoutes = (
       path={APP_PATH.SUBSCRIPTIONS}
       lazy={() => import("@/modules/subscriptions/pages/list")}
     />
+    {/* Feature Flags */}
+    <Route
+      path={APP_PATH.FEATURE_FLAGS}
+      lazy={() => import("@/modules/feature-flag/pages/list")}
+    />
   </Route>
 )
 
