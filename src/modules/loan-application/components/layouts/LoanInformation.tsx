@@ -1,32 +1,28 @@
 import { APP_PATH } from "@/constants"
-import { LOAN_APPLICATION_STEPS } from "../../constants"
 import {
-  useLoanApplicationContext,
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext,
   useLoanProgramDetailContext
 } from "../../providers"
 import { PlaidProvider } from "../../providers/PlaidProvider"
-import { BusinessInformationForm } from "../organisms/BusinessInformationForm"
-import { ConfirmationForm } from "../organisms/ConfirmationForm"
-import { FinancialInformationForm } from "../organisms/FinancialInformationForm"
-import { OwnerInformationForm } from "../organisms/OwnerInformationForm"
-import { LoanRequest } from "./LoanRequest"
 import { TopBarDetail } from "./TopBarDetail"
 import { LoanApplicationStepNavigate } from "../organisms/LoanApplicationStepNavigate"
 import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
-import { LoanProgramDetailProvider } from "../../providers/LoanProgramDetailProvider"
 import { AlertFinishFormBeforeLeave } from "../molecules/alerts/AlertFinishFormRequest"
 import { useNavigate } from "react-router-dom"
 import { isEmpty } from "lodash"
-import { CashFlowVerificationForm } from "../organisms/CashFlowVerificationForm"
-import { getSubdomain } from "@/utils/domain.utils"
-import { Institution } from "@/constants/tenant.constants"
 import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
+import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
+import { LoanType } from "@/types/loan-program.type"
+import { getFormStrategy } from "../../services/form.services"
+import { useMemo } from "react"
+import { isLoanReady } from "@/utils/domain.utils"
 export const LoanInformationHeader = () => {
   const { loanProgramDetails } = useLoanProgramDetailContext()
-  const { draftForm } = useLoanApplicationContext()
+  const { loanRequest } = useLoanApplicationFormContext()
 
   const navigate = useNavigate()
 
@@ -54,8 +50,8 @@ export const LoanInformationHeader = () => {
       ]}
       rightFooter={
         <div className="flex gap-2">
-          {!isEmpty(draftForm) && <CloseWithoutSave />}
-          {isEmpty(draftForm) ? (
+          {!isEmpty(loanRequest) && <CloseWithoutSave />}
+          {isEmpty(loanRequest) ? (
             <Button onClick={backToLoanProgram} variant="secondary">
               Close
             </Button>
@@ -79,37 +75,28 @@ export const LoanInformationHeader = () => {
 }
 
 export const Component = () => {
-  const { step } = useLoanApplicationContext()
-  const institution = getSubdomain()
+  const { step } = useLoanApplicationProgressContext()
+  const { loanProgramDetails } = useLoanProgramDetailContext()
+  const { isSubmitting } = useLoanApplicationFormContext()
+  const loanType = isLoanReady()
+    ? LoanType.READINESS
+    : loanProgramDetails?.type ?? LoanType.MICRO
+  const formStrategy = useMemo(() => getFormStrategy(loanType), [loanType])
+
   return (
     <PlaidProvider>
-      <LoanProgramDetailProvider>
-        <LoanInformationHeader />
-        <div className="flex h-full overflow-auto flex-1 py-6 pt-0 flex-col">
-          <div className="pt-2 sticky top-0 z-10 bg-white shadow-md mb-4 px-2">
-            <LoanApplicationStepNavigate />
-          </div>
-          <div className="grid grid-cols-8">
-            {step === LOAN_APPLICATION_STEPS.LOAN_REQUEST && <LoanRequest />}
-            {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
-              <BusinessInformationForm />
-            )}
-            {step === LOAN_APPLICATION_STEPS.OWNER_INFORMATION && (
-              <OwnerInformationForm />
-            )}
-            {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION &&
-              (institution !== Institution.LoanReady ? (
-                <FinancialInformationForm />
-              ) : (
-                <CashFlowVerificationForm />
-              ))}
-            {step === LOAN_APPLICATION_STEPS.CONFIRMATION && (
-              <ConfirmationForm />
-            )}
-          </div>
+      <LoanInformationHeader />
+      <div className="flex h-full overflow-auto flex-1 py-6 pt-0 flex-col">
+        <div className="pt-2 sticky top-0 z-10 bg-white shadow-md mb-4 px-2">
+          <LoanApplicationStepNavigate />
         </div>
-        <AlertFinishFormBeforeLeave />
-      </LoanProgramDetailProvider>
+        <LoadingOverlay isLoading={isSubmitting} className="flex-1">
+          <div className="grid grid-cols-8 w-full">
+            {formStrategy.getFormComponent(step)?.component}
+          </div>
+        </LoadingOverlay>
+      </div>
+      <AlertFinishFormBeforeLeave />
     </PlaidProvider>
   )
 }

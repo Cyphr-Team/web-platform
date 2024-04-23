@@ -6,13 +6,13 @@ import { useState } from "react"
 import { useTenant } from "@/providers/tenant-provider"
 import { isLoanReady } from "@/utils/domain.utils"
 
-import { useLoanApplicationContext } from "../../providers"
+import { useLoanApplicationProgressContext } from "../../providers"
 import { LOAN_APPLICATION_STEP_STATUS } from "../../constants"
 import { cn } from "@/lib/utils"
 export const CashFlowVerificationForm = () => {
   const { tenantData } = useTenant()
 
-  const { progress } = useLoanApplicationContext()
+  const { progress } = useLoanApplicationProgressContext()
 
   const [isConfirmedConnect, setIsConfirmedConnect] = useState(false)
 

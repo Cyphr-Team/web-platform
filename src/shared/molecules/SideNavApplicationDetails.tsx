@@ -8,6 +8,7 @@ import {
 import { Check } from "lucide-react"
 import { LogoHeader } from "../atoms/LogoHeader"
 import { LoanProgramCollapsible } from "./SideNavLoanApplication"
+import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 
 function LoanProgramItem({ value }: { value: LOAN_APPLICATION_STEPS }) {
   const label = LOAN_APPLICATION_STEP_DATA[value]?.label
@@ -28,6 +29,8 @@ function LoanProgramItem({ value }: { value: LOAN_APPLICATION_STEPS }) {
 }
 
 export function SideNavApplicationDetails() {
+  const { progress } = useLoanApplicationProgressContext()
+  const lastStep = progress?.length - 1
   return (
     <div
       className={cn(
@@ -46,17 +49,18 @@ export function SideNavApplicationDetails() {
         >
           <LoanProgramCollapsible
             label={ARTCAP_MENU.APPLICATION}
-            progressText={`4/4`}
+            progressText={`${lastStep}/${lastStep}`}
             progressPercent={1}
           >
-            <LoanProgramItem value={LOAN_APPLICATION_STEPS.LOAN_REQUEST} />
-            <LoanProgramItem
-              value={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
-            />
-            <LoanProgramItem value={LOAN_APPLICATION_STEPS.OWNER_INFORMATION} />
-            <LoanProgramItem
-              value={LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION}
-            />
+            {
+              // Render each step in the loan application
+              progress.map(
+                (step, index) =>
+                  index !== lastStep && (
+                    <LoanProgramItem key={step.step} value={step.step} />
+                  )
+              )
+            }
           </LoanProgramCollapsible>
 
           <LoanProgramCollapsible
@@ -64,7 +68,7 @@ export function SideNavApplicationDetails() {
             progressText={`1/1`}
             progressPercent={1}
           >
-            <LoanProgramItem value={LOAN_APPLICATION_STEPS.CONFIRMATION} />
+            <LoanProgramItem value={progress[lastStep]?.step} />
           </LoanProgramCollapsible>
         </Accordion>
       </div>

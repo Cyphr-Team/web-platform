@@ -2,27 +2,48 @@ import { Button } from "@/components/ui/button"
 import { useConnectPlaid } from "../../../hooks/useConnectPlaid"
 import { ArrowRight, Check } from "lucide-react"
 import { useEffect } from "react"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
 import {
-  LOAN_APPLICATION_STEP_STATUS,
-  LOAN_APPLICATION_STEPS
-} from "@/modules/loan-application/constants"
-import { useLoanApplicationContext } from "@/modules/loan-application/providers"
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "@/modules/loan-application/providers"
+import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 
 interface Props {
   disabled: boolean
 }
 export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
   const { open, ready, linkSuccess } = useConnectPlaid()
-  const { changeProgress, changeStep, progress } = useLoanApplicationContext()
+  const { financialInformationForm, dispatchFormAction } =
+    useLoanApplicationFormContext()
+
+  const { finishCurrentStep, progress, getStepStatus } =
+    useLoanApplicationProgressContext()
+
   useEffect(() => {
     if (
       linkSuccess &&
-      progress[3].status !== LOAN_APPLICATION_STEP_STATUS.COMPLETE
+      !getStepStatus(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
     ) {
-      changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION, true)
-      changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        state: {
+          id: financialInformationForm?.id ?? "",
+          incomeCategories: [],
+          w2sFile: []
+        }
+      })
+      finishCurrentStep()
     }
-  }, [changeProgress, changeStep, linkSuccess, progress])
+  }, [
+    dispatchFormAction,
+    financialInformationForm?.id,
+    finishCurrentStep,
+    getStepStatus,
+    linkSuccess,
+    progress
+  ])
 
   return linkSuccess ? (
     <Button

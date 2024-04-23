@@ -11,7 +11,10 @@ import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { useLoanApplicationContext } from "../../providers"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { BusinessFormValue, businessFormSchema } from "../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
@@ -23,26 +26,25 @@ import { MaskInput, revertPattern, toPattern } from "@/components/ui/mask-input"
 import { ArrowRight } from "lucide-react"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
+import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 
 export const BusinessInformationForm = () => {
-  const {
-    draftForm,
-    saveDraftForm,
-    changeProgress,
-    changeStep,
-    setFormIsEdited
-  } = useLoanApplicationContext()
+  const { finishCurrentStep } = useLoanApplicationProgressContext()
+
+  const { businessInformation, dispatchFormAction } =
+    useLoanApplicationFormContext()
 
   const defaultValues = {
-    businessLegalName: draftForm.businessInformation?.businessLegalName ?? "",
-    addressLine1: draftForm.businessInformation?.addressLine1 ?? "",
-    addressLine2: draftForm.businessInformation?.addressLine2 ?? "",
-    state: draftForm.businessInformation?.state ?? "",
-    city: draftForm.businessInformation?.city ?? "",
-    postalCode: draftForm.businessInformation?.postalCode ?? "",
-    businessWebsite: draftForm.businessInformation?.businessWebsite ?? "",
-    businessTin: draftForm.businessInformation?.businessTin
-      ? toPattern(draftForm.businessInformation?.businessTin)
+    id: businessInformation?.id ?? "",
+    businessLegalName: businessInformation?.businessLegalName ?? "",
+    addressLine1: businessInformation?.addressLine1 ?? "",
+    addressLine2: businessInformation?.addressLine2 ?? "",
+    state: businessInformation?.state ?? "",
+    city: businessInformation?.city ?? "",
+    postalCode: businessInformation?.postalCode ?? "",
+    businessWebsite: businessInformation?.businessWebsite ?? "",
+    businessTin: businessInformation?.businessTin
+      ? toPattern(businessInformation?.businessTin)
       : ""
   }
 
@@ -51,12 +53,6 @@ export const BusinessInformationForm = () => {
     defaultValues,
     mode: "onBlur"
   })
-
-  useEffect(() => {
-    if (form.formState.isDirty && !form.formState.isSubmitted) {
-      setFormIsEdited()
-    }
-  }, [form.formState, setFormIsEdited])
 
   const { handleChangeState, handleChangeCity, STATE_DATA, state, city } =
     useSelectCities()
@@ -83,13 +79,30 @@ export const BusinessInformationForm = () => {
   }, [state, city, form])
 
   const onSubmit = (data: BusinessFormValue) => {
-    saveDraftForm(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, {
-      ...data,
-      businessTin: revertPattern(data.businessTin)
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+      state: {
+        ...data,
+        businessTin: revertPattern(data.businessTin)
+      }
     })
-    changeStep(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, true)
-    changeProgress(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
+    finishCurrentStep()
   }
+
+  useEffect(() => {
+    if (form.formState.isValidating) {
+      const data = form.getValues()
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+        state: {
+          ...data,
+          businessTin: revertPattern(data.businessTin)
+        }
+      })
+    }
+  }, [form.formState.isValidating, form, dispatchFormAction])
 
   const handleChangeEIN = useCallback(
     (ein: string) => {

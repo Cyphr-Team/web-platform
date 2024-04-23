@@ -1,9 +1,11 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { LoanType } from "@/types/loan-program.type"
+import { LOAN_APPLICATION_STEP_STATUS, LOAN_APPLICATION_STEPS } from "."
 
 export interface KYBInformation {
-  id?: string
+  id: string | null
   loanApplicationId?: string
   businessLegalName: string
   businessStreetAddress: BusinessStreetAddress
@@ -31,7 +33,7 @@ interface BusinessStreetAddress {
 }
 
 export interface KYCInformation {
-  id?: string
+  id: string | null
   loanApplicationId?: string
   fullName: string
   businessRole: string
@@ -90,7 +92,7 @@ export interface LoanProgramData {
 }
 
 export interface FinancialInformation {
-  id?: string
+  id: string | null
   loanApplicationId?: string
   incomeCategories: string[]
 }
@@ -133,7 +135,7 @@ export interface LoanProgramType {
   id: string
   institutionId: string
   name: string
-  type: string
+  type: LoanType
   description: string
   minTermInMonth: number
   maxTermInMonth: number
@@ -189,4 +191,12 @@ export interface LoanApplicationBankAccount {
 
 export interface LoanApplicationCashflowVerification {
   bankAccounts?: LoanApplicationBankAccount[]
+}
+
+export interface ApplicationStep {
+  step: LOAN_APPLICATION_STEPS
+  previousStep: LOAN_APPLICATION_STEPS
+  nextStep: LOAN_APPLICATION_STEPS
+  label: string
+  status: LOAN_APPLICATION_STEP_STATUS
 }

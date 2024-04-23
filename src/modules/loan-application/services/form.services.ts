@@ -1,9 +1,16 @@
+import { LoanType } from "@/types/loan-program.type"
 import { BusinessFormValue, OwnerFormValue } from "../constants/form"
 import {
   KYBInformationResponse,
   KYCInformationResponse
 } from "../constants/type"
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
+import {
+  MicroLoanFormStrategy,
+  ReadinessLoanFormStrategy
+} from "./form.strategy"
+
+import { MicroLoanStepStrategy, ReadinessStepStrategy } from "./steps.strategy"
 
 export const formatKybForm = (rawData: BusinessFormValue) => {
   return {
@@ -29,6 +36,7 @@ export const formatKycForm = (rawData: OwnerFormValue) => {
 
 export const reverseFormatKybForm = (rawData: KYBInformationResponse) => {
   return {
+    id: rawData.id,
     businessLegalName: rawData.businessLegalName,
     addressLine1: rawData.businessStreetAddress?.addressLine1 ?? "",
     addressLine2: rawData.businessStreetAddress?.addressLine2 ?? "",
@@ -44,6 +52,7 @@ export const reverseFormatKycForm = (
   rawData: KYCInformationResponse
 ): OwnerFormValue => {
   return {
+    id: rawData.id,
     fullName: rawData.fullName,
     businessRole: rawData.businessRole,
     addressLine1: rawData.addressLine1,
@@ -61,5 +70,27 @@ export const reverseFormatKycForm = (
     businessOwnershipPercentage: rawData.businessOwnershipPercentage
       ? rawData.businessOwnershipPercentage.toString()
       : ""
+  }
+}
+
+export function getFormStrategy(loanType: LoanType) {
+  switch (loanType) {
+    case LoanType.MICRO:
+      return new MicroLoanFormStrategy()
+    case LoanType.READINESS:
+      return new ReadinessLoanFormStrategy()
+    default:
+      throw new Error("Unsupported loan type")
+  }
+}
+
+export function getFormStepStrategy(loanType: LoanType) {
+  switch (loanType) {
+    case LoanType.MICRO:
+      return new MicroLoanStepStrategy()
+    case LoanType.READINESS:
+      return new ReadinessStepStrategy()
+    default:
+      throw new Error("Unsupported loan type")
   }
 }

@@ -12,7 +12,10 @@ import { Controller, useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { useLoanApplicationContext } from "@/modules/loan-application/providers"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "@/modules/loan-application/providers"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
 import {
   OwnerFormValue,
@@ -39,46 +42,45 @@ import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { SSN_PATTERN } from "@/constants"
 import { FileUploadedCard } from "../molecules/FileUploadedCard"
-import { FORM_TYPE } from "../../constants/type"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { getSubdomain } from "@/utils/domain.utils"
 import { Institution } from "@/constants/tenant.constants"
 import { cn } from "@/lib/utils"
+import {
+  DOCUMENT_ACTION,
+  FORM_ACTION
+} from "../../providers/LoanApplicationFormProvider"
 
 export function OwnerInformationForm() {
+  const { finishCurrentStep } = useLoanApplicationProgressContext()
   const {
-    changeProgress,
-    changeStep,
-    saveDraftForm,
-    setFormIsEdited,
-    draftForm,
-    documentsUploaded,
-    removeDocumentUploaded
-  } = useLoanApplicationContext()
+    dispatchFormAction,
+    dispatchDocumentAction,
+    documents,
+    ownerInformationForm
+  } = useLoanApplicationFormContext()
 
   const defaultValues = {
-    fullName: draftForm.ownerInformationForm?.fullName ?? "",
-    businessRole: draftForm.ownerInformationForm?.businessRole ?? "",
-    addressLine1: draftForm.ownerInformationForm?.addressLine1 ?? "",
-    addressLine2: draftForm.ownerInformationForm?.addressLine2 ?? "",
-    businessState: draftForm.ownerInformationForm?.businessState ?? "",
-    businessCity: draftForm.ownerInformationForm?.businessCity ?? "",
-    phoneNumber: draftForm.ownerInformationForm?.phoneNumber ?? "",
-    email: draftForm.ownerInformationForm?.email ?? "",
-    dateOfBirth: draftForm.ownerInformationForm?.dateOfBirth ?? "",
-    socialSecurityNumber: draftForm.ownerInformationForm?.socialSecurityNumber
-      ? toPattern(
-          draftForm.ownerInformationForm?.socialSecurityNumber,
-          SSN_PATTERN
-        )
+    id: ownerInformationForm?.id ?? "",
+    fullName: ownerInformationForm?.fullName ?? "",
+    businessRole: ownerInformationForm?.businessRole ?? "",
+    addressLine1: ownerInformationForm?.addressLine1 ?? "",
+    addressLine2: ownerInformationForm?.addressLine2 ?? "",
+    businessState: ownerInformationForm?.businessState ?? "",
+    businessCity: ownerInformationForm?.businessCity ?? "",
+    phoneNumber: ownerInformationForm?.phoneNumber ?? "",
+    email: ownerInformationForm?.email ?? "",
+    dateOfBirth: ownerInformationForm?.dateOfBirth ?? "",
+    socialSecurityNumber: ownerInformationForm?.socialSecurityNumber
+      ? toPattern(ownerInformationForm?.socialSecurityNumber, SSN_PATTERN)
       : "",
     businessOwnershipPercentage:
-      draftForm.ownerInformationForm?.businessOwnershipPercentage ?? "",
+      ownerInformationForm?.businessOwnershipPercentage ?? "",
     hasOtherSubstantialStackHolders:
-      draftForm.ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
+      ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
       "false",
-    businessZipCode: draftForm.ownerInformationForm?.businessZipCode ?? "",
-    governmentFile: draftForm.ownerInformationForm?.governmentFile ?? []
+    businessZipCode: ownerInformationForm?.businessZipCode ?? "",
+    governmentFile: ownerInformationForm?.governmentFile ?? []
   }
 
   const form = useForm<OwnerFormValue>({
@@ -124,7 +126,11 @@ export function OwnerInformationForm() {
   }
 
   const removeDocument = (id: string) => {
-    removeDocumentUploaded(id, FORM_TYPE.KYC)
+    dispatchDocumentAction({
+      action: DOCUMENT_ACTION.REMOVE_DATA,
+      key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+      state: { id }
+    })
   }
 
   const handleSelectDate = (date: Date | undefined) => {
@@ -134,12 +140,6 @@ export function OwnerInformationForm() {
       shouldTouch: true
     })
   }
-
-  useEffect(() => {
-    if (form.formState.isDirty && !form.formState.isSubmitted) {
-      setFormIsEdited()
-    }
-  }, [form.formState, setFormIsEdited])
 
   const { handleChangeState, handleChangeCity, STATE_DATA, state, city } =
     useSelectCities()
@@ -166,10 +166,24 @@ export function OwnerInformationForm() {
   }, [state, city, form])
 
   const onSubmit = (data: OwnerFormValue) => {
-    saveDraftForm(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, data)
-    changeStep(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, true)
-    changeProgress(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+      state: data
+    })
+    finishCurrentStep()
   }
+
+  useEffect(() => {
+    if (form.formState.isValidating) {
+      const data = form.getValues()
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+        state: data
+      })
+    }
+  }, [form.formState.isValidating, form, dispatchFormAction])
 
   const institution = getSubdomain()
 
@@ -180,274 +194,278 @@ export function OwnerInformationForm() {
         "md:col-span-6 md:col-start-2 md:mx-0"
       )}
     >
-      <Form {...form}>
-        <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
-          <h5 className="text-lg font-semibold">
-            Owner / Guarantor Information
-          </h5>
-          <Separator />
+      <div className="flex flex-col gap-3xl overflow-auto">
+        <Form {...form}>
+          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
+            <h5 className="text-lg font-semibold">
+              Owner / Guarantor Information
+            </h5>
+            <Separator />
 
-          <form className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
-            <TextInput
-              control={form.control}
-              name="fullName"
-              label="Full Name"
-              placeholder="i.e: Larry Latte"
-              className="col-span-3"
-              required
-            />
-            <TextInput
-              control={form.control}
-              name="businessRole"
-              label="Your Role"
-              placeholder="Founder and CEO"
-              className="col-span-3"
-              required
-            />
-            <TextInput
-              placeholder="i.e: 456 Bean Ave."
-              label="Resident Address Line #1"
-              name="addressLine1"
-              control={form.control}
-              className="col-span-6"
-              required
-            />{" "}
-            <TextInput
-              placeholder="i.e: Suite 789"
-              label="Resident Address Line #2 (Optional)"
-              name="addressLine2"
-              control={form.control}
-              className="col-span-6"
-            />
-            <AutoCompleteStates
-              options={STATE_DATA}
-              label="Business State"
-              emptyText="No results found"
-              name="businessState"
-              control={form.control}
-              onChange={handleChangeState}
-              value={form.getValues("businessState")}
-              className="col-span-6 lg:col-span-2"
-              required
-            />
-            <AutoCompleteCities
-              options={
-                STATE_DATA.find(
-                  (s) => s.name === form.getValues("businessState")
-                )?.cities ?? []
-              }
-              label="Business City"
-              emptyText="No results found"
-              name="businessCity"
-              control={form.control}
-              onChange={handleChangeCity}
-              value={form.getValues("businessCity")}
-              className="col-span-6 lg:col-span-2"
-              required
-            />
-            <TextInput
-              placeholder="i.e: 98765"
-              label="Zip Code"
-              name="businessZipCode"
-              control={form.control}
-              className="col-span-6 lg:col-span-2"
-              required
-            />
-            <TextInput
-              control={form.control}
-              name="email"
-              label="Email Address"
-              placeholder="i.e: larry@latte.com"
-              prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
-              className="col-span-6 lg:col-span-3"
-              required
-            />
-            <FormField
-              name="phoneNumber"
-              render={({ field }) => (
-                <FormItem className="col-span-6 lg:col-span-3">
-                  <FormLabel className="text-text-secondary">
-                    Phone Number
-                    <RequiredSymbol />
-                  </FormLabel>
-                  <PhoneInput
-                    international
-                    countryCallingCodeEditable={false}
-                    countrySelectComponent={CountrySelect}
-                    defaultCountry="US"
-                    placeholder="+1 (555) 000-0000"
-                    inputComponent={CustomPhoneInput}
-                    {...field}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="dateOfBirth"
-              render={({ field }) => (
-                <FormItem className="col-span-6 lg:col-span-3">
-                  <FormLabel className="text-text-secondary">
-                    Date of Birth
-                    <RequiredSymbol />
-                  </FormLabel>
-                  <CalendarDatePicker
-                    value={field.value}
-                    onSelectDate={handleSelectDate}
-                    className="w-full"
-                  />
-                  <div className="text-sm text-text-tertiary">
-                    The US date format is mm-dd-yyyy
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name={"socialSecurityNumber"}
-              render={({ field }) => (
-                <FormItem className="col-span-6 lg:col-span-3">
-                  <FormLabel className="text-text-secondary">
-                    SSN/ITIN
-                    <RequiredSymbol />
-                  </FormLabel>
-                  <FormControl>
-                    <MaskInput
-                      placeholder="i.e: 123-45-6789"
-                      handleChange={handleChangeSSN}
-                      className="text-base"
-                      pattern={SSN_PATTERN}
+            <form className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
+              <TextInput
+                control={form.control}
+                name="fullName"
+                label="Full Name"
+                placeholder="i.e: Larry Latte"
+                className="col-span-3"
+                required
+              />
+              <TextInput
+                control={form.control}
+                name="businessRole"
+                label="Your Role"
+                placeholder="Founder and CEO"
+                className="col-span-3"
+                required
+              />
+              <TextInput
+                placeholder="i.e: 456 Bean Ave."
+                label="Resident Address Line #1"
+                name="addressLine1"
+                control={form.control}
+                className="col-span-6"
+                required
+              />{" "}
+              <TextInput
+                placeholder="i.e: Suite 789"
+                label="Resident Address Line #2 (Optional)"
+                name="addressLine2"
+                control={form.control}
+                className="col-span-6"
+              />
+              <AutoCompleteStates
+                options={STATE_DATA}
+                label="Business State"
+                emptyText="No results found"
+                name="businessState"
+                control={form.control}
+                onChange={handleChangeState}
+                value={form.getValues("businessState")}
+                className="col-span-6 lg:col-span-2"
+                required
+              />
+              <AutoCompleteCities
+                options={
+                  STATE_DATA.find(
+                    (s) => s.name === form.getValues("businessState")
+                  )?.cities ?? []
+                }
+                label="Business City"
+                emptyText="No results found"
+                name="businessCity"
+                control={form.control}
+                onChange={handleChangeCity}
+                value={form.getValues("businessCity")}
+                className="col-span-6 lg:col-span-2"
+                required
+              />
+              <TextInput
+                placeholder="i.e: 98765"
+                label="Zip Code"
+                name="businessZipCode"
+                control={form.control}
+                className="col-span-6 lg:col-span-2"
+                required
+              />
+              <TextInput
+                control={form.control}
+                name="email"
+                label="Email Address"
+                placeholder="i.e: larry@latte.com"
+                prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
+                className="col-span-6 lg:col-span-3"
+                required
+              />
+              <FormField
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem className="col-span-6 lg:col-span-3">
+                    <FormLabel className="text-text-secondary">
+                      Phone Number
+                      <RequiredSymbol />
+                    </FormLabel>
+                    <PhoneInput
+                      international
+                      countryCallingCodeEditable={false}
+                      countrySelectComponent={CountrySelect}
+                      defaultCountry="US"
+                      placeholder="+1 (555) 000-0000"
+                      inputComponent={CustomPhoneInput}
                       {...field}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="businessOwnershipPercentage"
-              render={({ field }) => (
-                <FormItem className="col-span-6 lg:col-span-3">
-                  <FormLabel className="text-text-secondary">
-                    What percent of the business do you own?
-                    <RequiredSymbol />
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="businessOwnershipPercentage"
-                      placeholder="i.e: 70"
-                      min={0}
-                      max={100}
-                      className="text-base input-number-remove-arrow"
-                      suffixIcon={<span className="text-text-tertiary">%</span>}
-                      {...field}
-                      onChange={(e) => {
-                        if (
-                          Number(e.target.value) >= 0 &&
-                          Number(e.target.value) <= 100
-                        )
-                          field.onChange(e)
-                      }}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="dateOfBirth"
+                render={({ field }) => (
+                  <FormItem className="col-span-6 lg:col-span-3">
+                    <FormLabel className="text-text-secondary">
+                      Date of Birth
+                      <RequiredSymbol />
+                    </FormLabel>
+                    <CalendarDatePicker
+                      value={field.value}
+                      onSelectDate={handleSelectDate}
+                      className="w-full"
                     />
-                  </FormControl>
-                  <div className="text-sm text-text-tertiary">
-                    Please enter a number between 0 - 100
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div />
-            <Controller
-              control={form.control}
-              name="hasOtherSubstantialStackHolders"
-              render={({ field }) => (
-                <FormItem className="col-span-6 lg:col-span-3">
-                  <FormLabel className="text-text-secondary">
-                    Other than you, are there any individuals who own 20% or
-                    more of the business?
-                    <RequiredSymbol />
-                  </FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={(value) =>
-                        field.onChange({ target: { value } })
-                      }
-                      value={field.value === "true" ? "true" : "false"}
-                    >
-                      <SelectTrigger className="text-base">
-                        <SelectValue placeholder="Please select..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="true">
-                          <span>Yes</span>
-                        </SelectItem>
-                        <SelectItem value="false">
-                          <span>No</span>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Card>
+                    <div className="text-sm text-text-tertiary">
+                      The US date format is mm-dd-yyyy
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={"socialSecurityNumber"}
+                render={({ field }) => (
+                  <FormItem className="col-span-6 lg:col-span-3">
+                    <FormLabel className="text-text-secondary">
+                      SSN/ITIN
+                      <RequiredSymbol />
+                    </FormLabel>
+                    <FormControl>
+                      <MaskInput
+                        placeholder="i.e: 123-45-6789"
+                        handleChange={handleChangeSSN}
+                        className="text-base"
+                        pattern={SSN_PATTERN}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="businessOwnershipPercentage"
+                render={({ field }) => (
+                  <FormItem className="col-span-6 lg:col-span-3">
+                    <FormLabel className="text-text-secondary">
+                      What percent of the business do you own?
+                      <RequiredSymbol />
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="businessOwnershipPercentage"
+                        placeholder="i.e: 70"
+                        min={0}
+                        max={100}
+                        className="text-base input-number-remove-arrow"
+                        suffixIcon={
+                          <span className="text-text-tertiary">%</span>
+                        }
+                        {...field}
+                        onChange={(e) => {
+                          if (
+                            Number(e.target.value) >= 0 &&
+                            Number(e.target.value) <= 100
+                          )
+                            field.onChange(e)
+                        }}
+                      />
+                    </FormControl>
+                    <div className="text-sm text-text-tertiary">
+                      Please enter a number between 0 - 100
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div />
+              <Controller
+                control={form.control}
+                name="hasOtherSubstantialStackHolders"
+                render={({ field }) => (
+                  <FormItem className="col-span-6 lg:col-span-3">
+                    <FormLabel className="text-text-secondary">
+                      Other than you, are there any individuals who own 20% or
+                      more of the business?
+                      <RequiredSymbol />
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={(value) =>
+                          field.onChange({ target: { value } })
+                        }
+                        value={field.value === "true" ? "true" : "false"}
+                      >
+                        <SelectTrigger className="text-base">
+                          <SelectValue placeholder="Please select..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="true">
+                            <span>Yes</span>
+                          </SelectItem>
+                          <SelectItem value="false">
+                            <span>No</span>
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Card>
 
-        {institution !== Institution.LoanReady && (
-          <Card className="p-4xl gap-2xl flex flex-col">
-            <div>
-              <h5 className="text-lg font-semibold">Government ID</h5>
-              <p className="text-text-tertiary">
-                {`Please upload a government-issued identification document. Accepted
+          {institution !== Institution.LoanReady && (
+            <Card className="p-4xl gap-2xl flex flex-col">
+              <div>
+                <h5 className="text-lg font-semibold">Government ID</h5>
+                <p className="text-text-tertiary">
+                  {`Please upload a government-issued identification document. Accepted
               documents include a passport, driver’s license, state identification
               card, and national ID card.`}
-              </p>
-            </div>
-            <FormField
-              control={form.control}
-              name="governmentFile"
-              render={() => (
-                <FormItem>
-                  <DragDropFileInput onFileSelect={handleSelectFile} />
-                  {form.getValues("governmentFile") &&
-                    form.getValues("governmentFile").length > 0 &&
-                    Array.from(form.getValues("governmentFile")).map(
-                      (file: File, index: number) => (
-                        <FileUploadCard
-                          key={index}
-                          file={file}
-                          index={index}
-                          handleRemoveFile={handleRemoveFile}
+                </p>
+              </div>
+              <FormField
+                control={form.control}
+                name="governmentFile"
+                render={() => (
+                  <FormItem>
+                    <DragDropFileInput onFileSelect={handleSelectFile} />
+                    {form.getValues("governmentFile") &&
+                      form.getValues("governmentFile").length > 0 &&
+                      Array.from(form.getValues("governmentFile")).map(
+                        (file: File, index: number) => (
+                          <FileUploadCard
+                            key={index}
+                            file={file}
+                            index={index}
+                            handleRemoveFile={handleRemoveFile}
+                          />
+                        )
+                      )}{" "}
+                    {!!documents.ownerInformationForm?.length &&
+                      documents.ownerInformationForm.map((val) => (
+                        <FileUploadedCard
+                          key={val.id}
+                          file={val}
+                          handleRemoveFile={removeDocument}
                         />
-                      )
-                    )}{" "}
-                  {!!documentsUploaded.kycDocuments.length &&
-                    documentsUploaded.kycDocuments.map((val) => (
-                      <FileUploadedCard
-                        key={val.id}
-                        file={val}
-                        handleRemoveFile={removeDocument}
-                      />
-                    ))}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </Card>
-        )}
+                      ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </Card>
+          )}
 
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Next <ArrowRight className="ml-1 w-4" />
-        </Button>
-      </Form>
+          <Button
+            disabled={!form.formState.isValid}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            Next <ArrowRight className="ml-1 w-4" />
+          </Button>
+        </Form>
+      </div>
     </div>
   )
 }

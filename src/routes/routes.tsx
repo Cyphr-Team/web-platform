@@ -10,14 +10,15 @@ import {
 import { applicantRoutes } from "./applicant-routes"
 import { authenticationRoutes } from "./authentication-routes"
 import { dashboardRoutes } from "./dashboard-routes"
-import { institutionLoader } from "./loader"
 import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
-
+import { institutionLoader } from "./loader"
 /**
  * App routes ("/").
- * get institution metadata   ->  if success return children routes.
- *                            ->  if fail return not found layout.
+ * get institution metadata
+ * ->  if success return children routes.
+ * ->  if fail return not found layout.
  */
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route

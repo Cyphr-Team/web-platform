@@ -1,22 +1,29 @@
 import { ButtonLoading } from "@/components/ui/button"
-import { useLoanApplicationContext } from "../../providers"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "../../providers"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
 } from "../../constants"
+import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
 
 export const LoanApplicationSave = () => {
-  const { saveForm, isSubmitting, isUploading, changeStep, progress } =
-    useLoanApplicationContext()
+  const { submitLoanForm, isSubmitting } = useLoanApplicationFormContext()
+  const { progress, dispatchProgress } = useLoanApplicationProgressContext()
 
   const isCompleteLoanRequestForm =
     progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
   const onConfirmed = () => {
     if (!isCompleteLoanRequestForm) {
-      changeStep(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+      dispatchProgress({
+        type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
+        step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+      })
     } else {
-      saveForm()
+      submitLoanForm()
     }
   }
 
@@ -34,7 +41,7 @@ export const LoanApplicationSave = () => {
       confirmText={confirmText}
       description={description}
     >
-      <ButtonLoading variant="outline" isLoading={isSubmitting || isUploading}>
+      <ButtonLoading variant="outline" isLoading={isSubmitting}>
         Save & Close
       </ButtonLoading>
     </CustomAlertDialog>

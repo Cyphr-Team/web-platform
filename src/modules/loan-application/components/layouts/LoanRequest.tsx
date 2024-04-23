@@ -30,7 +30,8 @@ import {
 } from "@/components/ui/select"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import {
-  useLoanApplicationContext,
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext,
   useLoanProgramDetailContext
 } from "../../providers"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -40,31 +41,32 @@ import { useTenant } from "@/providers/tenant-provider"
 import { isLoanReady } from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
 import { cn } from "@/lib/utils"
+import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 
 export function CardWithForm() {
   const { tenantData } = useTenant()
   const { name } = tenantData ?? {}
 
-  const {
-    changeStep,
-    changeProgress,
-    saveDraftForm,
-    setFormIsEdited,
-    draftForm
-  } = useLoanApplicationContext()
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
-
+  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { loanRequest, dispatchFormAction } = useLoanApplicationFormContext()
   const minLoanAmount = loanProgramDetails?.minLoanAmount ?? 0
   const maxLoanAmount = loanProgramDetails?.maxLoanAmount ?? 0
 
   const defaultValues = useMemo(() => {
     return {
-      loanAmount: draftForm.loanRequest?.loanAmount ?? minLoanAmount ?? 0,
+      id: loanRequest?.id ?? "",
+      loanAmount: loanRequest?.loanAmount ?? minLoanAmount ?? 0,
       loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-      proposeUseOfLoan:
-        draftForm.loanRequest?.proposeUseOfLoan ?? UseOfLoan.OTHER
+      proposeUseOfLoan: loanRequest?.proposeUseOfLoan ?? UseOfLoan.OTHER
     }
-  }, [draftForm, loanProgramDetails, minLoanAmount])
+  }, [
+    loanProgramDetails?.maxTermInMonth,
+    loanRequest?.id,
+    loanRequest?.loanAmount,
+    loanRequest?.proposeUseOfLoan,
+    minLoanAmount
+  ])
 
   const form = useForm({
     resolver: zodResolver(loanRequestFormSchema),
@@ -75,21 +77,21 @@ export function CardWithForm() {
     form.reset(defaultValues)
   }, [defaultValues, form])
 
-  useEffect(() => {
-    if (form.formState.isDirty && !form.formState.isSubmitted) {
-      setFormIsEdited()
-    }
-  }, [form.formState, setFormIsEdited])
-
   const handleSubmit = form.handleSubmit(() => {
     if (!loanProgramDetails) return
-    saveDraftForm(LOAN_APPLICATION_STEPS.LOAN_REQUEST, {
-      loanAmount: form.getValues("loanAmount"),
-      loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-      proposeUseOfLoan: form.getValues("proposeUseOfLoan")
+    // Set data to form context
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+      state: {
+        id: form.getValues("id") ?? "",
+        loanAmount: form.getValues("loanAmount"),
+        loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
+        proposeUseOfLoan: form.getValues("proposeUseOfLoan")
+      }
     })
-    changeStep(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, true)
-    changeProgress(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+    // Change step status to next step
+    finishCurrentStep()
   })
 
   return (

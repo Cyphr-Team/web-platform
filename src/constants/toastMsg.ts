@@ -56,6 +56,10 @@ export const TOAST_MSG = {
       title: "Submit Loan Decision",
       description: "Loan Decision is submitted successfully"
     },
+    createSuccess: {
+      title: "Create Loan Application",
+      description: "Loan Application is created successfully"
+    },
     submitSuccess: {
       title: "Submit Loan Application",
       description: "Loan Application is submitted successfully"

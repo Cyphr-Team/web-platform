@@ -3,25 +3,30 @@ import { Button, ButtonLoading } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { APP_PATH } from "@/constants"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
-import { useLoanApplicationContext } from "@/modules/loan-application/providers"
+import {
+  useLoanApplicationContext,
+  useLoanApplicationFormContext
+} from "@/modules/loan-application/providers"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { useNavigate } from "react-router-dom"
 import { CustomAlertDialog } from "./AlertDialog"
 import { cn } from "@/lib/utils"
+import { CloseWithoutSave } from "@/modules/loan-application/components/atoms/CloseWithoutSave"
 
 export const ApplicationDetailsHeader = () => {
   const { loanApplicationDetails, isFetchingDetails } =
     useBRLoanApplicationDetailsContext()
-  const { saveForm, isSubmitting, isUploading } = useLoanApplicationContext()
+  const { isSubmitting, isUploading } = useLoanApplicationContext()
+  const { submitLoanForm } = useLoanApplicationFormContext()
   const status = loanApplicationDetails?.status ?? LoanApplicationStatus.DRAFT
   const navigate = useNavigate()
 
   const onConfirmed = () => {
     if (status === LoanApplicationStatus.DRAFT.toLowerCase()) {
       // Save and close
-      saveForm()
+      submitLoanForm()
     } else {
       // Close
       navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
@@ -52,20 +57,23 @@ export const ApplicationDetailsHeader = () => {
         )}
       </div>
       {status === LoanApplicationStatus.DRAFT.toLowerCase() ? (
-        <CustomAlertDialog
-          onConfirmed={onConfirmed}
-          title="Save & Close"
-          cancelText="Cancel"
-          confirmText="Save & Close"
-          description="Are you sure you want to save and close this loan application"
-        >
-          <ButtonLoading
-            variant="outline"
-            isLoading={isSubmitting || isUploading}
+        <div className="flex gap-2">
+          <CloseWithoutSave />
+          <CustomAlertDialog
+            onConfirmed={onConfirmed}
+            title="Save & Close"
+            cancelText="Cancel"
+            confirmText="Save & Close"
+            description="Are you sure you want to save and close this loan application"
           >
-            Save & Close
-          </ButtonLoading>
-        </CustomAlertDialog>
+            <ButtonLoading
+              variant="outline"
+              isLoading={isSubmitting || isUploading}
+            >
+              Save & Close
+            </ButtonLoading>
+          </CustomAlertDialog>
+        </div>
       ) : (
         <Button variant="outline" onClick={onConfirmed}>
           Close

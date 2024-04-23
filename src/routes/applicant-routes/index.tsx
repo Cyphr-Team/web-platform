@@ -7,11 +7,13 @@ import { availableLoanProgramRoutes } from "./available-loan-program-routes"
 import { notificationRoutes } from "./notification-routes"
 import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { LoanApplicationDetailLayout } from "@/shared/layouts/LoanApplicationDetailLayout"
-import { LoanApplicationProvider } from "@/modules/loan-application/providers/LoanApplicationProvider"
 import { LoanApplicationFormLayout } from "@/shared/layouts/LoanApplicationFormLayout"
 import { LoanApplicationEdit } from "@/modules/loan-application/pages/LoanApplicationEdit"
 import { Suspense } from "react"
 import { Loader2 } from "lucide-react"
+import { LoanApplicationFormProvider } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
+import { LoanProgressProvider } from "@/modules/loan-application/providers/LoanProgressProvider"
+import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -51,11 +53,15 @@ const applicantRoutes = (
     />
     <Route
       element={
-        <BRLoanApplicationDetailsProvider>
-          <LoanApplicationDetailLayout>
-            <Outlet />
-          </LoanApplicationDetailLayout>
-        </BRLoanApplicationDetailsProvider>
+        <LoanProgressProvider>
+          <LoanApplicationFormProvider>
+            <BRLoanApplicationDetailsProvider>
+              <LoanApplicationDetailLayout>
+                <Outlet />
+              </LoanApplicationDetailLayout>
+            </BRLoanApplicationDetailsProvider>
+          </LoanApplicationFormProvider>
+        </LoanProgressProvider>
       }
     >
       <Route
@@ -71,21 +77,29 @@ const applicantRoutes = (
     <Route
       path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
       element={
-        <BRLoanApplicationDetailsProvider>
-          <LoanApplicationProvider>
-            <LoanApplicationFormLayout>
-              <LoanApplicationEdit />
-            </LoanApplicationFormLayout>
-          </LoanApplicationProvider>
-        </BRLoanApplicationDetailsProvider>
+        <LoanApplicationFormProvider>
+          <LoanProgressProvider>
+            <BRLoanApplicationDetailsProvider>
+              <LoanApplicationFormLayout>
+                <LoanApplicationEdit />
+              </LoanApplicationFormLayout>
+            </BRLoanApplicationDetailsProvider>
+          </LoanProgressProvider>
+        </LoanApplicationFormProvider>
       }
     />
 
     <Route
       element={
-        <LoanApplicationFormLayout>
-          <Outlet />
-        </LoanApplicationFormLayout>
+        <LoanProgramDetailProvider>
+          <LoanProgressProvider>
+            <LoanApplicationFormLayout>
+              <LoanApplicationFormProvider>
+                <Outlet />
+              </LoanApplicationFormProvider>
+            </LoanApplicationFormLayout>
+          </LoanProgressProvider>
+        </LoanProgramDetailProvider>
       }
     >
       <Route
@@ -99,16 +113,19 @@ const applicantRoutes = (
     </Route>
 
     <Route
-      path={APP_PATH.LOAN_APPLICATION.SUBMISSION}
       element={
-        <LoanApplicationProvider>
+        <LoanApplicationFormProvider>
           <Outlet />
-        </LoanApplicationProvider>
+        </LoanApplicationFormProvider>
       }
-      lazy={() =>
-        import("@/modules/loan-application/components/layouts/LoanSubmission")
-      }
-    />
+    >
+      <Route
+        path={APP_PATH.LOAN_APPLICATION.SUBMISSION}
+        lazy={() =>
+          import("@/modules/loan-application/components/layouts/LoanSubmission")
+        }
+      />
+    </Route>
   </Route>
 )
 

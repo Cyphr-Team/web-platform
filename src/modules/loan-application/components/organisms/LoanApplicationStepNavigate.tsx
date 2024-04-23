@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button"
-import { LOAN_APPLICATION_STEP_DATA } from "../../constants"
-import { useLoanApplicationContext } from "../../providers"
+import { LOAN_APPLICATION_STEPS } from "../../constants"
+import { useLoanApplicationProgressContext } from "../../providers"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
 
 export function LoanApplicationStepNavigate() {
-  const { step, changeStep } = useLoanApplicationContext()
-  const stepData = LOAN_APPLICATION_STEP_DATA[step]
+  const { dispatchProgress, currentStep } = useLoanApplicationProgressContext()
+
+  const changeStep = (step: LOAN_APPLICATION_STEPS) => {
+    dispatchProgress({ type: LOAN_PROGRESS_ACTION.CHANGE_STEP, step })
+  }
 
   return (
     <div className="mb-2 gap-2 grid grid-cols-8">
@@ -20,9 +24,9 @@ export function LoanApplicationStepNavigate() {
           variant="outline"
           size="icon"
           className="rounded-lg"
-          disabled={!stepData.previousStep}
+          disabled={!currentStep?.previousStep}
           onClick={() => {
-            changeStep(stepData.previousStep)
+            currentStep?.previousStep && changeStep(currentStep.previousStep)
           }}
         >
           <ChevronLeft className="w-5" />
@@ -31,16 +35,16 @@ export function LoanApplicationStepNavigate() {
         <span
           className={cn("text-xl font-semibold text-center", "md:text-2xl")}
         >
-          {stepData.label}
+          {currentStep?.label}
         </span>
 
         <Button
           variant="outline"
           size="icon"
           className="rounded-lg"
-          disabled={!stepData.nextStep}
+          disabled={!currentStep?.nextStep}
           onClick={() => {
-            changeStep(stepData.nextStep)
+            currentStep?.nextStep && changeStep(currentStep.nextStep)
           }}
         >
           <ChevronRight className="w-5" />

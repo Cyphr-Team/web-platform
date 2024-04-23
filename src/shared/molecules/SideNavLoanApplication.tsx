@@ -10,30 +10,35 @@ import { cn } from "@/lib/utils"
 import {
   ARTCAP_MENU,
   LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_DATA,
   LOAN_APPLICATION_STEP_STATUS
 } from "@/modules/loan-application/constants"
-import { useLoanApplicationContext } from "@/modules/loan-application/providers"
+import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { Check } from "lucide-react"
 import { LogoHeader } from "../atoms/LogoHeader"
+import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function LoanProgramItem({
   value,
   finished
-}: {
+}: Readonly<{
   value: LOAN_APPLICATION_STEPS
   finished?: boolean
-}) {
-  const { changeStep, step } = useLoanApplicationContext()
+}>) {
+  const { dispatchProgress, step, getStep } =
+    useLoanApplicationProgressContext()
 
   const active = step === value
-  const label = LOAN_APPLICATION_STEP_DATA[value]?.label
+  const label = getStep(value)?.label
 
   //Only allow changing step if it's not active
   const handleChangeStep = () => {
-    if (!active) changeStep(value)
+    if (!active)
+      dispatchProgress({
+        type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
+        step: value
+      })
   }
 
   return (
@@ -90,14 +95,16 @@ export function LoanProgramCollapsible({
 }
 
 export function SideNavLoanApplication({ className }: SidebarProps) {
-  const { progress } = useLoanApplicationContext()
+  const { progress, getStepStatus } = useLoanApplicationProgressContext()
+
   const progressPercent = progress.filter(
     (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
   ).length
   const progressText = `${progressPercent}/4`
 
-  const signatureStatus =
-    progress[4].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+  const signatureStatus = getStepStatus(LOAN_APPLICATION_STEPS.CONFIRMATION)
+
+  const confirmationStep = progress[progress.length - 1]
 
   return (
     <div
@@ -121,30 +128,21 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
             progressPercent={progressPercent / 4}
             progressText={progressText}
           >
-            <LoanProgramItem
-              value={LOAN_APPLICATION_STEPS.LOAN_REQUEST}
-              finished={
-                progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
-              }
-            />
-            <LoanProgramItem
-              value={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
-              finished={
-                progress[1].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
-              }
-            />
-            <LoanProgramItem
-              value={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
-              finished={
-                progress[2].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
-              }
-            />
-            <LoanProgramItem
-              value={LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION}
-              finished={
-                progress[3].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
-              }
-            />
+            {
+              // Render each step in the loan application
+              progress.map(
+                (step, index) =>
+                  index !== progress.length - 1 && (
+                    <LoanProgramItem
+                      key={step.step}
+                      value={step.step}
+                      finished={
+                        step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+                      }
+                    />
+                  )
+              )
+            }
           </LoanProgramCollapsible>
 
           <LoanProgramCollapsible
@@ -153,9 +151,10 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
             progressText={`${signatureStatus ? 1 : 0 / 1}/1`}
           >
             <LoanProgramItem
-              value={LOAN_APPLICATION_STEPS.CONFIRMATION}
+              value={confirmationStep?.step}
               finished={
-                progress[4].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+                confirmationStep?.status ===
+                LOAN_APPLICATION_STEP_STATUS.COMPLETE
               }
             />
           </LoanProgramCollapsible>

@@ -14,36 +14,39 @@ import { useForm } from "react-hook-form"
 import { FinancialFormValue, financialFormSchema } from "../../constants/form"
 import { Button } from "@/components/ui/button"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
-import { useLoanApplicationContext } from "../../providers"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "../../providers"
 import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { ConnectPlaidButton } from "../molecules/ConnectPlaidButton"
 import { FileUploadCard } from "../molecules/FileUploadCard"
 import { useQueryGetIncomeCategories } from "../../hooks/useQuery/useQueryIncomeCategories"
 import { capitalizeWords } from "@/utils"
-import { useEffect } from "react"
 import { ArrowRight, Loader2 } from "lucide-react"
 import { FileUploadedCard } from "../molecules/FileUploadedCard"
-import { FORM_TYPE } from "../../constants/type"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
+import {
+  DOCUMENT_ACTION,
+  FORM_ACTION
+} from "../../providers/LoanApplicationFormProvider"
+import { useEffect } from "react"
 
 export const FinancialInformationForm = () => {
+  const { finishCurrentStep } = useLoanApplicationProgressContext()
   const {
-    draftForm,
-    documentsUploaded,
-    removeDocumentUploaded,
-    changeProgress,
-    changeStep,
-    saveDraftForm,
-    setFormIsEdited
-  } = useLoanApplicationContext()
-
+    financialInformationForm,
+    documents,
+    dispatchFormAction,
+    dispatchDocumentAction
+  } = useLoanApplicationFormContext()
   const form = useForm<FinancialFormValue>({
     resolver: zodResolver(financialFormSchema),
     defaultValues: {
-      incomeCategories:
-        draftForm.financialInformationForm?.incomeCategories ?? [],
-      w2sFile: draftForm.financialInformationForm?.w2sFile ?? []
+      id: financialInformationForm?.id ?? "",
+      incomeCategories: financialInformationForm?.incomeCategories ?? [],
+      w2sFile: financialInformationForm?.w2sFile ?? []
     },
     mode: "onChange"
   })
@@ -68,11 +71,6 @@ export const FinancialInformationForm = () => {
       shouldTouch: true
     })
   }
-  useEffect(() => {
-    if (form.formState.isDirty && !form.formState.isSubmitted) {
-      setFormIsEdited()
-    }
-  }, [form.formState, setFormIsEdited])
 
   const handleRemoveFile = (index: number) => {
     const currentFiles = form.getValues("w2sFile")
@@ -85,14 +83,33 @@ export const FinancialInformationForm = () => {
   }
 
   const removeDocument = (id: string) => {
-    removeDocumentUploaded(id, FORM_TYPE.FINANCIAL)
+    dispatchDocumentAction({
+      action: DOCUMENT_ACTION.REMOVE_DATA,
+      key: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+      state: { id }
+    })
   }
 
   const onSubmit = (data: FinancialFormValue) => {
-    saveDraftForm(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, data)
-    changeStep(LOAN_APPLICATION_STEPS.CONFIRMATION, true)
-    changeProgress(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+      state: data
+    })
+
+    finishCurrentStep()
   }
+
+  useEffect(() => {
+    if (form.formState.isValidating) {
+      const data = form.getValues()
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        state: data
+      })
+    }
+  }, [form.formState.isValidating, form, dispatchFormAction])
 
   return (
     <Card
@@ -182,8 +199,8 @@ export const FinancialInformationForm = () => {
                       />
                     )
                   )}
-                {!!documentsUploaded.financialDocuments.length &&
-                  documentsUploaded.financialDocuments.map((val) => (
+                {!!documents.financialInformationForm?.length &&
+                  documents.financialInformationForm.map((val) => (
                     <FileUploadedCard
                       key={val.id}
                       file={val}

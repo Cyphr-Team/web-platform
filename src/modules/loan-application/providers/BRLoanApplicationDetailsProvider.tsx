@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { createContext, useContext } from "use-context-selector"
 import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useParams } from "react-router-dom"
@@ -19,6 +19,17 @@ import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialFor
 import { useQueryGetDocumentsByForm } from "../hooks/useQuery/useQueryGetDocuments"
 import { UserLoanApplication } from "@/types/loan-application.type"
 import { useQueryGetUserLoanApplicationDetails } from "../hooks/useQuery/useQueryUserLoanApplicationDetails"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "."
+import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
+import { LOAN_APPLICATION_STEPS } from "../constants"
+import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
+import {
+  reverseFormatKybForm,
+  reverseFormatKycForm
+} from "../services/form.services"
 
 type BRLoanApplicationDetailsContext = {
   loanProgramDetails?: LoanProgramType
@@ -36,14 +47,7 @@ type BRLoanApplicationDetailsContext = {
 
 export const BRLoanApplicationDetailsContext =
   createContext<BRLoanApplicationDetailsContext>({
-    loanProgramDetails: undefined,
-    loanProgramInfo: undefined,
     isLoading: false,
-    kybFormData: undefined,
-    kycFormData: undefined,
-    confirmationFormData: undefined,
-    financialFormData: undefined,
-    loanApplicationDetails: undefined,
     isFetchingDetails: false
   })
 
@@ -55,11 +59,14 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   children
 }) => {
   const { loanProgramId, id: loanApplicationId } = useParams()
+  const { dispatchProgress } = useLoanApplicationProgressContext()
+  const { dispatchFormAction } = useLoanApplicationFormContext()
 
   const loanProgramQuery = useQueryGetLoanProgramDetails(loanProgramId!)
 
-  const loanApplicationDetailsReviewQuery =
-    useQueryGetUserLoanApplicationDetails(loanApplicationId!)
+  const loanApplicationDetailsQuery = useQueryGetUserLoanApplicationDetails(
+    loanApplicationId!
+  )
 
   const kybFormQuery = useQueryGetKybForm(loanApplicationId!)
   const kycFormQuery = useQueryGetKycForm(loanApplicationId!)
@@ -74,6 +81,67 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     loanProgramQuery.data?.type ?? ""
   )
 
+  const changeDataAndProgress = useCallback(
+    (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {
+      dispatchProgress({
+        type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+        progress
+      })
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: progress,
+        state: data
+      })
+    },
+    [dispatchProgress, dispatchFormAction]
+  )
+  // Save data to edit form
+  // KYB Form
+  useEffect(() => {
+    if (kybFormQuery.data) {
+      changeDataAndProgress(
+        reverseFormatKybForm(kybFormQuery.data),
+        LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+      )
+    }
+  }, [changeDataAndProgress, kybFormQuery.data])
+  // KYC Form
+  useEffect(() => {
+    if (kycFormQuery.data) {
+      changeDataAndProgress(
+        reverseFormatKycForm(kycFormQuery.data),
+        LOAN_APPLICATION_STEPS.OWNER_INFORMATION
+      )
+    }
+  }, [changeDataAndProgress, kycFormQuery.data])
+  // Financial Form
+  useEffect(() => {
+    if (financialFormQuery.data) {
+      changeDataAndProgress(
+        {
+          ...financialFormQuery.data,
+          incomeCategories: financialFormQuery.data.incomeCategories ?? [],
+          w2sFile: []
+        },
+        LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+      )
+    }
+  }, [changeDataAndProgress, financialFormQuery.data])
+  // Loan Request Form
+  useEffect(() => {
+    if (loanApplicationDetailsQuery.data) {
+      changeDataAndProgress(
+        {
+          id: loanApplicationDetailsQuery.data.id,
+          loanAmount: loanApplicationDetailsQuery.data.loanAmount,
+          loanTermInMonth: loanApplicationDetailsQuery.data.loanTermInMonth,
+          proposeUseOfLoan: loanApplicationDetailsQuery.data.proposeUseOfLoan
+        },
+        LOAN_APPLICATION_STEPS.LOAN_REQUEST
+      )
+    }
+  }, [changeDataAndProgress, loanApplicationDetailsQuery.data])
+
   const value = useMemo(
     () => ({
       loanProgramInfo,
@@ -82,11 +150,11 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kycFormData: kycFormQuery.data,
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
-      loanApplicationDetails: loanApplicationDetailsReviewQuery.data,
+      loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
       isFetchingDetails:
-        loanApplicationDetailsReviewQuery.isLoading ||
+        loanApplicationDetailsQuery.isLoading ||
         kybFormQuery.isLoading ||
         kycFormQuery.isLoading ||
         confirmationFormQuery.isLoading ||
@@ -107,8 +175,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       confirmationFormQuery.isLoading,
       financialFormQuery.data,
       financialFormQuery.isLoading,
-      loanApplicationDetailsReviewQuery.data,
-      loanApplicationDetailsReviewQuery.isLoading,
+      loanApplicationDetailsQuery.data,
+      loanApplicationDetailsQuery.isLoading,
       kycDocuments.data,
       kycDocuments.isLoading,
       financialDocuments.data,

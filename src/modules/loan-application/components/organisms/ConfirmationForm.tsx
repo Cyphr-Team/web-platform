@@ -13,22 +13,27 @@ import {
   ConfirmationFormValue,
   confirmationFormSchema
 } from "../../constants/form"
-import { ButtonLoading } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS,
   getConfirmationTexts
 } from "../../constants"
 import { Input } from "@/components/ui/input"
-import { useLoanApplicationContext } from "../../providers"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "../../providers"
 import { ArrowRight } from "lucide-react"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useTenant } from "@/providers/tenant-provider"
 import { cn } from "@/lib/utils"
+import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 
 export const ConfirmationForm = () => {
-  const { saveDraftForm, isSubmitting, progress, isUploading } =
-    useLoanApplicationContext()
+  const { dispatchFormAction } = useLoanApplicationFormContext()
+
+  const { progress } = useLoanApplicationProgressContext()
 
   const form = useForm<ConfirmationFormValue>({
     resolver: zodResolver(confirmationFormSchema),
@@ -40,7 +45,11 @@ export const ConfirmationForm = () => {
   })
 
   const onSubmit = (data: ConfirmationFormValue) => {
-    saveDraftForm(LOAN_APPLICATION_STEPS.CONFIRMATION, data)
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      state: data,
+      key: LOAN_APPLICATION_STEPS.CONFIRMATION
+    })
   }
 
   //check other progress completed
@@ -116,16 +125,15 @@ export const ConfirmationForm = () => {
           />
         </form>
 
-        <ButtonLoading
+        <Button
           type="submit"
-          isLoading={isSubmitting || isUploading}
           disabled={!form.formState.isValid || !isPreviousStepsCompleted}
           className="w-full flex items-center gap-1"
           onClick={form.handleSubmit(onSubmit)}
         >
           <span>Submit application</span>
           <ArrowRight className="w-5" />
-        </ButtonLoading>
+        </Button>
       </Form>
     </Card>
   )

@@ -129,12 +129,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
   const queryClient = useQueryClient()
 
   // Initial financialInformationForm for submitting request in the background
-  const [draftForm, setDraftForm] = useState<DraftApplicationForm>({
-    financialInformationForm: {
-      incomeCategories: [],
-      w2sFile: []
-    }
-  })
+  const [draftForm, setDraftForm] = useState<DraftApplicationForm>({})
 
   const [loanApplicationId, setLoanApplicationId] = useState<string>("")
 
@@ -335,8 +330,8 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
 
         if (isEqual(responseData, ownerInformationForm)) return
         const res = await updateLoanKyc({
-          id: kycFormId,
-          ...formatKycForm(ownerInformationForm!)
+          ...formatKycForm(ownerInformationForm!),
+          id: kycFormId
         })
         if (draftForm.ownerInformationForm?.governmentFile.length) {
           await uploadDocuments(
@@ -386,8 +381,8 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
 
         if (isEqual(responseData, businessInformation)) return
         await updateLoanKyb({
-          id: kybFormId,
-          ...formattedData
+          ...formattedData,
+          id: kybFormId
         })
       } else {
         await submitLoanKyb({
@@ -440,6 +435,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         }
       } else {
         const res = await submitLoanFinancialInformation({
+          id: null,
           incomeCategories: financialInformationForm?.incomeCategories ?? [],
           loanApplicationId: loanApplicationId
         })
@@ -514,6 +510,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         return {
           ...prev,
           loanRequest: {
+            id: loanApplicationDetails.id,
             loanAmount: loanApplicationDetails.loanAmount,
             proposeUseOfLoan: loanApplicationDetails.proposeUseOfLoan,
             loanTermInMonth: loanApplicationDetails.loanTermInMonth

@@ -1,23 +1,31 @@
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
 import { useBRLoanApplicationDetailsContext } from "../providers/BRLoanApplicationDetailsProvider"
 import { Loader2 } from "lucide-react"
-import { LoanRequest } from "../components/layouts/LoanRequest"
 import { AlertFinishFormBeforeLeave } from "../components/molecules/alerts/AlertFinishFormRequest"
-import { BusinessInformationForm } from "../components/organisms/BusinessInformationForm"
-import { ConfirmationForm } from "../components/organisms/ConfirmationForm"
-import { FinancialInformationForm } from "../components/organisms/FinancialInformationForm"
 import { LoanApplicationStepNavigate } from "../components/organisms/LoanApplicationStepNavigate"
-import { OwnerInformationForm } from "../components/organisms/OwnerInformationForm"
-import { LOAN_APPLICATION_STEPS } from "../constants"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
 import { PlaidProvider } from "../providers/PlaidProvider"
-import { useLoanApplicationContext } from "../providers"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "../providers"
+import { LoanType } from "@/types/loan-program.type"
+import { useMemo } from "react"
+import { getFormStrategy } from "../services/form.services"
+import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
 import { isLoanReady } from "@/utils/domain.utils"
-import { CashFlowVerificationForm } from "../components/organisms/CashFlowVerificationForm"
 
 export const LoanApplicationEdit = () => {
-  const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
-  const { step } = useLoanApplicationContext()
+  const { isFetchingDetails, loanProgramDetails } =
+    useBRLoanApplicationDetailsContext()
+  const { step } = useLoanApplicationProgressContext()
+  const { isSubmitting } = useLoanApplicationFormContext()
+  const loanType = isLoanReady()
+    ? LoanType.READINESS
+    : loanProgramDetails?.type ?? LoanType.MICRO
+  const formStrategy = useMemo(() => getFormStrategy(loanType), [loanType])
+
+  formStrategy.generateComponents()
 
   return (
     <>
@@ -33,26 +41,11 @@ export const LoanApplicationEdit = () => {
               <div className="pt-2 sticky top-0 z-10 bg-white shadow-md mb-4 px-2">
                 <LoanApplicationStepNavigate />
               </div>
-              <div className="grid grid-cols-8">
-                {step === LOAN_APPLICATION_STEPS.LOAN_REQUEST && (
-                  <LoanRequest />
-                )}
-                {step === LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION && (
-                  <BusinessInformationForm />
-                )}
-                {step === LOAN_APPLICATION_STEPS.OWNER_INFORMATION && (
-                  <OwnerInformationForm />
-                )}
-                {step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION &&
-                  (!isLoanReady() ? (
-                    <FinancialInformationForm />
-                  ) : (
-                    <CashFlowVerificationForm />
-                  ))}
-                {step === LOAN_APPLICATION_STEPS.CONFIRMATION && (
-                  <ConfirmationForm />
-                )}
-              </div>
+              <LoadingOverlay isLoading={isSubmitting}>
+                <div className="grid grid-cols-8 w-full">
+                  {formStrategy.getFormComponent(step)?.component}
+                </div>
+              </LoadingOverlay>
             </div>
             <AlertFinishFormBeforeLeave />
           </LoanProgramDetailProvider>

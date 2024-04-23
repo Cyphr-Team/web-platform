@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
+import { useLoanApplicationFormContext } from "../../providers"
 
 export const CloseWithoutSave = () => {
+  const { isSubmitting } = useLoanApplicationFormContext()
+
   const onConfirmed = () => {
     // Back to home page
     window.location.href = "/"
@@ -18,7 +21,10 @@ export const CloseWithoutSave = () => {
       description={description}
       actionClassName="bg-red-500 hover:bg-red-600 text-white"
     >
-      <Button className="bg-error hover:opacity-90 hover:bg-error">
+      <Button
+        disabled={isSubmitting}
+        className="bg-error hover:opacity-90 hover:bg-error"
+      >
         Close without save
       </Button>
     </CustomAlertDialog>
