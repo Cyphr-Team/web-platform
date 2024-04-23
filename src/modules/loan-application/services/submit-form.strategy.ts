@@ -5,7 +5,6 @@ import { useQueryClient } from "@tanstack/react-query"
 import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { TOAST_MSG } from "@/constants/toastMsg"
-import { QUERY_KEY } from "../constants/query-key"
 import { useSubmitLoanConfirmationForm } from "../hooks/useForm/useSubmitLoanConfirmationForm"
 import { useSubmitLoanFinancialForm } from "../hooks/useForm/useSubmitLoanFinancialForm"
 import { useSubmitLoanKYBForm } from "../hooks/useForm/useSubmitLoanKYBForm"
@@ -22,6 +21,7 @@ import {
 import { APP_PATH } from "@/constants"
 import { FORM_TYPE } from "../constants/type"
 import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
+import { loanApplicationUserKeys } from "@/constants/query-key"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -152,7 +152,7 @@ export const useSubmitLoanForm = (
       handleSubmitFormError(error as AxiosError)
     } finally {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.GET_LOAN_APPLICATIONS]
+        queryKey: loanApplicationUserKeys.lists()
       })
     }
   }, [

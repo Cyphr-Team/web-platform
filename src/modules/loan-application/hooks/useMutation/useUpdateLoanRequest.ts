@@ -8,7 +8,7 @@ import {
   UserLoanApplication,
   UserLoanApplicationRequest
 } from "@/types/loan-application.type"
-import { QUERY_KEY } from "../../constants/query-key"
+import { loanApplicationUserKeys } from "@/constants/query-key"
 
 export const useUpdateLoanApplication = ({ id }: { id: string }) => {
   const queryClient = useQueryClient()
@@ -27,7 +27,7 @@ export const useUpdateLoanApplication = ({ id }: { id: string }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.GET_USER_LOAN_APPLICATION_DETAILS]
+        queryKey: loanApplicationUserKeys.detail(id)
       })
     }
   })

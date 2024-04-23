@@ -44,9 +44,9 @@ import { APP_PATH } from "@/constants"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { isLoanReady } from "@/utils/domain.utils"
 import { useQueryClient } from "@tanstack/react-query"
-import { QUERY_KEY } from "../constants/query-key"
 import { getAxiosError } from "@/utils/custom-error"
 import { AxiosError } from "axios"
+import { loanApplicationUserKeys } from "@/constants/query-key"
 
 type FormType = {
   [key in LOAN_APPLICATION_STEPS]:
@@ -642,7 +642,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
                 })
               } finally {
                 queryClient.invalidateQueries({
-                  queryKey: [QUERY_KEY.GET_LOAN_APPLICATIONS]
+                  queryKey: loanApplicationUserKeys.lists()
                 })
               }
             },
@@ -694,7 +694,7 @@ export const LoanApplicationProvider: React.FC<Props> = ({ children }) => {
         })
       } finally {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY.GET_LOAN_APPLICATIONS]
+          queryKey: loanApplicationUserKeys.lists()
         })
       }
     }

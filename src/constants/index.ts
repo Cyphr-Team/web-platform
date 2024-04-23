@@ -123,7 +123,7 @@ export const API_PATH = {
     }
   },
   loanProgram: {
-    list: "api/user-loan/micro-loan/program/list",
+    list: "api/user-loan/program/list",
     detail: (id: string) => `api/user-loan/micro-loan/program?id=${id}`,
     cdfi: {
       all: "api/admin-loan/micro-loan/program",
@@ -139,7 +139,7 @@ export const API_PATH = {
     }
   },
   application: {
-    list: "api/user-loan/micro-loan/application/list",
+    list: "api/user-loan/application/list",
     details: "api/user-loan/micro-loan/application",
     create: "api/user-loan/micro-loan/application",
     update: (id: string) => `api/user-loan/micro-loan/application/?id=${id}`,

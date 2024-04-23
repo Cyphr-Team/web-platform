@@ -7,6 +7,15 @@ export const notificationKeys = {
   detail: (id: number) => [...notificationKeys.details(), id] as const
 }
 
+export const loanApplicationUserKeys = {
+  all: ["loanApplicationUser"] as const,
+  lists: () => [...loanApplicationUserKeys.all, "list"] as const,
+  list: (filters: string) =>
+    [...loanApplicationUserKeys.lists(), { filters }] as const,
+  details: () => [...loanApplicationUserKeys.all, "detail"] as const,
+  detail: (id: string) => [...loanApplicationUserKeys.details(), id] as const
+}
+
 export const loanApplicationKeys = {
   all: ["loanApplication"] as const,
   lists: () => [...loanApplicationKeys.all, "list"] as const,

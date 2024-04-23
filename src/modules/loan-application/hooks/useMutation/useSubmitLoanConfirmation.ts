@@ -7,7 +7,7 @@ import {
 import { ErrorResponse } from "react-router-dom"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { QUERY_KEY } from "../../constants/query-key"
+import { loanApplicationUserKeys } from "@/constants/query-key"
 
 export const useSubmitLoanConfirmation = () => {
   const queryClient = useQueryClient()
@@ -25,7 +25,7 @@ export const useSubmitLoanConfirmation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.GET_LOAN_APPLICATIONS]
+        queryKey: loanApplicationUserKeys.lists()
       })
     }
   })

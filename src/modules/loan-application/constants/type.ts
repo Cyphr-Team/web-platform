@@ -131,12 +131,20 @@ export enum FORM_TYPE {
   FINANCIAL = "FINANCIAL"
 }
 
-export interface LoanProgramType {
+export interface BaseLoanProgramType {
   id: string
   institutionId: string
   name: string
   type: LoanType
   description: string
+  createdAt: string
+  updatedAt: string
+  deletedAt?: string
+  coverPhotoUrl?: string
+}
+
+export interface MicroLoanProgramType extends BaseLoanProgramType {
+  id: string
   minTermInMonth: number
   maxTermInMonth: number
   interestRate: number
@@ -145,10 +153,6 @@ export interface LoanProgramType {
   originationFee: number
   minLoanAmount: number
   maxLoanAmount: number
-  createdAt: string
-  updatedAt: string
-  deletedAt?: string
-  coverPhotoUrl?: string
 }
 
 enum LoanProgramInterestRateType {
@@ -160,7 +164,7 @@ enum LoanProgramInterestRateType {
 
 export interface UserLoanApplicationDetailsResponse {
   id: string
-  loanProgram: LoanProgramType
+  loanProgram: BaseLoanProgramType
   applicantId: string
   businessId: string
   status: LoanApplicationStatus

@@ -9,9 +9,9 @@ import {
   KYBInformationResponse,
   KYCInformationResponse,
   LoanProgramData,
-  LoanProgramType
+  MicroLoanProgramType
 } from "../constants/type"
-import { useQueryGetLoanProgramDetails } from "../hooks/useQuery/useQueryLoanProgramDetails"
+import { useQueryGetMicroLoanProgramDetails } from "../hooks/useQuery/useQueryLoanProgramDetails"
 import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
 import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
 import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
@@ -32,7 +32,7 @@ import {
 } from "../services/form.services"
 
 type BRLoanApplicationDetailsContext = {
-  loanProgramDetails?: LoanProgramType
+  loanProgramDetails?: MicroLoanProgramType
   loanProgramInfo?: LoanProgramData
   kybFormData?: KYBInformationResponse
   kycFormData?: KYCInformationResponse
@@ -62,7 +62,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const { dispatchProgress } = useLoanApplicationProgressContext()
   const { dispatchFormAction } = useLoanApplicationFormContext()
 
-  const loanProgramQuery = useQueryGetLoanProgramDetails(loanProgramId!)
+  const loanProgramQuery = useQueryGetMicroLoanProgramDetails(loanProgramId!)
 
   const loanApplicationDetailsQuery = useQueryGetUserLoanApplicationDetails(
     loanApplicationId!
