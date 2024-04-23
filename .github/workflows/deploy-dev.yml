@@ -2,7 +2,7 @@ name: Deploy Dev
 
 on:
   push:
-    branches: ["master"]
+    branches: ["release/*"]
     paths:
       - ".github/workflows/deploy-dev.yml"
       - "src/**/*"
