@@ -30,7 +30,7 @@ export const ComponentWithProvider = () => {
   })
 
   return (
-    <div className="overflow-auto flex flex-col items-center flex-1">
+    <div className="overflow-auto flex flex-col flex-1">
       <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
         <div className={cn("col-span-10", "md:col-span-8")}>
           <TopBarDetail
@@ -47,22 +47,21 @@ export const ComponentWithProvider = () => {
 
         <section className={cn("col-span-10", "md:col-span-8")}>
           {isLoading ? (
-            <Skeleton className="w-screen md:w-[calc(100vw-15rem)] max-w-[1200px] h-[140px] md:h-[250px] lg:h-[264px] items-center align-center flex" />
+            <Skeleton className="w-screen md:w-[calc(100vw-15rem)] h-36 md:h-60 lg:max-h-64 items-center align-center flex" />
           ) : (
             <Image
-              className="w-[1200px] mx-auto max-h-[292px] object-contain max-w-full border-b"
+              className="mx-auto max-h-72 object-contain max-w-full border-b"
               src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
-              placeholderClassName="w-[1200px] bg-slate-600 max-h-[264px] mx-auto max-w-full"
+              placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
               alt="Cover Photo for Loan Program"
               height={359}
-              width={1200}
             />
           )}
         </section>
 
         <section
           className={cn(
-            "pt-8 mx-auto p-6 col-span-10",
+            "pt-8 p-6 col-span-10",
             "md:px-0 md:col-span-6 md:col-start-2"
           )}
         >

@@ -79,7 +79,7 @@ export function Component() {
     useQueryGetUnreadNotifications()
 
   return (
-    <div className="container mx-auto py-4xl overflow-auto">
+    <div className="mx-auto p-6 pt-6 md:p-8 overflow-auto">
       {/* Top bar */}
       <div className="mb-3xl">
         <Breadcrumbs breads={crumbs} className="px-0" />

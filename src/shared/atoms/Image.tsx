@@ -13,8 +13,8 @@ type ImageProps = {
 } & PlaceholderImageProps
 
 type PlaceholderImageProps = {
-  width: number
-  height: number
+  width?: number
+  height?: number
   placeholderClassName?: string
   alt: string
 }

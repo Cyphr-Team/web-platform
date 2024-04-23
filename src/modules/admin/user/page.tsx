@@ -20,7 +20,7 @@ export function Component() {
   })
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="mx-auto p-6 pt-6 md:p-8">
       <DialogSendInvite />
       {/* TODO: Implement get users (include invited users) */}
       <DataTable
