@@ -1,5 +1,5 @@
 import { API_PATH } from "@/constants"
-import { getRequest } from "@/services/client.service"
+import { postRequest } from "@/services/client.service"
 import { ListResponse, PaginateParams } from "@/types/common.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
@@ -20,12 +20,15 @@ export const useQueryFeatureFlags = ({ limit, offset }: Params) => {
       }).toString()
     ),
     queryFn: async () => {
-      const response = await getRequest<Params, ListFeatureFlagsResponse>({
+      const response = await postRequest<Params, ListFeatureFlagsResponse>({
         path: API_PATH.featureFlag.list(),
-        params: { limit, offset }
+        data: {
+          limit,
+          offset
+        }
       })
 
-      return response
+      return response.data
     },
     placeholderData: keepPreviousData
   })

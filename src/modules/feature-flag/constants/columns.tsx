@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { FeatureFlag } from "../../../types/feature-flag.types"
 import { formatDate } from "@/utils/date.utils"
 import { ConfirmToggleStatusFeatureFlag } from "../components/ToggleStatusFeatureFlag"
+import { DeleteFeatureFlagModal } from "../components/DeteleFeatureFlagModal"
 
 export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   {
@@ -41,6 +42,19 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     cell: ({ row }) => {
       const data = row.original
       return <div>{formatDate(data.updatedAt)}</div>
+    }
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    size: 100,
+    cell: ({ row }) => {
+      const data = row.original
+      return (
+        <div className="flex justify-center">
+          <DeleteFeatureFlagModal featureFlag={data} />
+        </div>
+      )
     }
   }
 ]

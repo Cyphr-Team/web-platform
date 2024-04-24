@@ -28,6 +28,7 @@ import {
   useCreateFeatureFlagMutation
 } from "../hooks/useMutation/useCreateFeatureFlagMutation"
 import { useQueryFeatureFlagDetails } from "../hooks/useQuery/useQueryFeatureFlagDetails"
+import { useUpdateFeatureFlagMutation } from "../hooks/useMutation/useUpdateFeatureFlagMutation"
 
 type Props = {
   id: string
@@ -42,7 +43,11 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
 
   const onOpenChange = (open: boolean) => {
     if (!open) {
-      form.reset()
+      form.reset({
+        key: "",
+        description: "",
+        tags: []
+      })
       setDetailId("")
     }
     setOpen(open)
@@ -51,12 +56,12 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
 
   const form = useForm<z.infer<typeof createFeatureFlagForm>>({
     resolver: zodResolver(createFeatureFlagForm),
-    defaultValues: useMemo(() => {
+    values: useMemo(() => {
       if (featureFlagDetails.data) {
         return {
           key: featureFlagDetails.data.key,
-          description: featureFlagDetails.data.description,
-          tags: featureFlagDetails.data.tags
+          description: featureFlagDetails.data.description ?? "",
+          tags: featureFlagDetails.data.tags ?? []
         }
       }
       return {
@@ -68,9 +73,28 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
     mode: "onChange"
   })
 
+  const handleInputKey = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputText = event.target.value
+    const textWithUnderscores = inputText.replace(/ /g, "_")
+    form.setValue("key", textWithUnderscores)
+  }
+
   const { mutate, isPending } = useCreateFeatureFlagMutation()
+  const { mutate: editFeatureFlag, isPending: isUpdating } =
+    useUpdateFeatureFlagMutation()
 
   const formSubmit = form.handleSubmit((data) => {
+    if (id.length) {
+      editFeatureFlag(
+        { ...data, id },
+        {
+          onSuccess() {
+            onOpenChange(false)
+          }
+        }
+      )
+      return
+    }
     mutate(
       { ...data },
       {
@@ -109,9 +133,10 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
                   </div>
                   <FormControl>
                     <Input
-                      placeholder="i.e: SUBCRIPTION_FEATURE_CREATE"
+                      placeholder="i.e: SUBSCRIPTION_FEATURE_CREATE"
                       wrapperClassName="col-span-3 w-full"
                       {...field}
+                      onChange={handleInputKey}
                     />
                   </FormControl>
                   <FormMessage />
@@ -164,8 +189,8 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
             <DialogFooter>
               <ButtonLoading
                 type="submit"
-                isLoading={isPending}
-                disabled={!form.formState.isValid}
+                isLoading={isPending || isUpdating}
+                disabled={!form.formState.isValid || !form.formState.isDirty}
               >
                 {id.length ? "Update" : "Create"}
               </ButtonLoading>

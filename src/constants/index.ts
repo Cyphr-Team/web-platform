@@ -251,7 +251,9 @@ export const API_PATH = {
     list: () => `${API_PATH.featureFlag.all}/list`,
     create: () => `${API_PATH.featureFlag.all}`,
     detail: (id: string) => `${API_PATH.featureFlag.all}/by-id?id=${id}`,
-    toggleStatus: (id: string) => `${API_PATH.featureFlag.all}/action?id=${id}`
+    toggleStatus: (id: string) => `${API_PATH.featureFlag.all}/action?id=${id}`,
+    delete: (id: string) => `${API_PATH.featureFlag.all}/delete-by-id?id=${id}`,
+    update: () => `${API_PATH.featureFlag.all}/update`
   }
 }
 
