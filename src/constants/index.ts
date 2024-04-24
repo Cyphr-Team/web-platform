@@ -120,6 +120,9 @@ export const API_PATH = {
       all: "api/admin",
       sendInvitation: "api/admin/user/invite",
       list: () => `${API_PATH.admin.user.all}/users`
+    },
+    invitation: {
+      list: "api/admin/invitation/list"
     }
   },
   loanProgram: {

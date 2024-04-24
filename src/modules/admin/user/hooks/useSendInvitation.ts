@@ -16,7 +16,8 @@ export const adminSendInvitationForm = z.object({
     .min(1, "Please select a role.")
     .transform((role) => role.toLocaleLowerCase()),
   institutionId: z.string().min(1, "InstitutionId is required."),
-  email: z.string().email({ message: "Enter a valid email address." })
+  email: z.string().email({ message: "Enter a valid email address." }),
+  expirationDays: z.string().min(1, "Please select an expiration day.")
 })
 
 export type AdminSendInvitationValue = z.infer<
@@ -31,10 +32,10 @@ export const useSendInvitation = () => {
     AxiosError<ErrorResponse>,
     AdminSendInvitationValue
   >({
-    mutationFn: ({ email, roles, institutionId, baseUrl }) => {
+    mutationFn: ({ email, roles, institutionId, baseUrl, expirationDays }) => {
       return postRequest({
         path: API_PATH.admin.user.sendInvitation,
-        data: { email, roles: [roles], institutionId, baseUrl },
+        data: { email, roles: [roles], institutionId, baseUrl, expirationDays },
         customHeader: customRequestHeader.customHeaders
       })
     },

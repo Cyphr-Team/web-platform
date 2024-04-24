@@ -42,6 +42,8 @@ import { useQueryGetListInstitution } from "../hooks/useQuery/useQueryGetListIns
 import { checkIsForesightAdmin } from "@/utils/check-roles"
 import { getSubdomain, getTenantDomain } from "@/utils/domain.utils"
 import { APP_PATH } from "@/constants"
+import { EXPIRATION_DAYS } from "@/modules/admin/user/constants/expiration-days.constants.ts"
+import { ExpirationDays } from "@/types/expiration-day.type.ts"
 
 export function DialogSendInvite() {
   const [open, setOpen] = useState(false)
@@ -70,7 +72,8 @@ export function DialogSendInvite() {
     values: {
       email: "",
       roles: "",
-      institutionId: data?.institutionId ?? ""
+      institutionId: data?.institutionId ?? "",
+      expirationDays: ExpirationDays.THIRTY_DAYS
     }
   })
 
@@ -152,6 +155,31 @@ export function DialogSendInvite() {
                       {INVITE_ROLES.map((role) => (
                         <SelectItem key={role.value} value={role.value}>
                           {role.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="expirationDays"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Expired in</FormLabel>
+                  <Select onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="30 Days" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {EXPIRATION_DAYS.map((day) => (
+                        <SelectItem key={day.value} value={day.value}>
+                          {day.label}
                         </SelectItem>
                       ))}
                     </SelectContent>

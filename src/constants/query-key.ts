@@ -59,6 +59,12 @@ export const subscriptionKeys = {
   list: (filters: string) => [...subscriptionKeys.lists(), { filters }] as const
 }
 
+export const invitationKeys = {
+  all: ["invitation"] as const,
+  lists: () => [...invitationKeys.all, "list"] as const,
+  list: (filters: string) => [...invitationKeys.lists(), { filters }] as const
+}
+
 export const featureFlagKeys = {
   all: ["featureFlag"] as const,
   lists: () => [...featureFlagKeys.all, "list"] as const,
