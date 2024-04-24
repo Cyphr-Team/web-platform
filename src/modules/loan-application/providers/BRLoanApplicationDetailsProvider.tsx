@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useMemo } from "react"
-import { createContext, useContext } from "use-context-selector"
+import { createContext } from "use-context-selector"
 import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import {
   ConfirmationFormResponse,
   DocumentUploadedResponse,
   FinancialInformationResponse,
   KYBInformationResponse,
   KYCInformationResponse,
-  LoanProgramData,
-  MicroLoanProgramType
+  LoanProgramData
 } from "../constants/type"
-import { useQueryGetMicroLoanProgramDetails } from "../hooks/useQuery/useQueryLoanProgramDetails"
+import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
 import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
 import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
 import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
@@ -30,9 +29,10 @@ import {
   reverseFormatKybForm,
   reverseFormatKycForm
 } from "../services/form.services"
+import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
 
-type BRLoanApplicationDetailsContext = {
-  loanProgramDetails?: MicroLoanProgramType
+type BRLoanApplicationDetailsContext<T> = {
+  loanProgramDetails?: T
   loanProgramInfo?: LoanProgramData
   kybFormData?: KYBInformationResponse
   kycFormData?: KYCInformationResponse
@@ -45,11 +45,12 @@ type BRLoanApplicationDetailsContext = {
   isFetchingDetails: boolean
 }
 
-export const BRLoanApplicationDetailsContext =
-  createContext<BRLoanApplicationDetailsContext>({
-    isLoading: false,
-    isFetchingDetails: false
-  })
+export const MicroLoanBRLoanApplicationDetailsContext = createContext<
+  BRLoanApplicationDetailsContext<MicroLoanProgramType>
+>({
+  isLoading: false,
+  isFetchingDetails: false
+})
 
 type Props = {
   children: React.ReactNode
@@ -58,11 +59,16 @@ type Props = {
 export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   children
 }) => {
+  const { state } = useLocation()
+
   const { loanProgramId, id: loanApplicationId } = useParams()
   const { dispatchProgress } = useLoanApplicationProgressContext()
   const { dispatchFormAction } = useLoanApplicationFormContext()
 
-  const loanProgramQuery = useQueryGetMicroLoanProgramDetails(loanProgramId!)
+  const loanProgramQuery = useQueryLoanProgramDetailsByType(
+    state?.loanProgramDetails?.type ?? "",
+    loanProgramId!
+  )
 
   const loanApplicationDetailsQuery = useQueryGetUserLoanApplicationDetails(
     loanApplicationId!
@@ -183,14 +189,18 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       financialDocuments.isLoading
     ]
   )
-
-  return (
-    <BRLoanApplicationDetailsContext.Provider value={value}>
-      {children}
-    </BRLoanApplicationDetailsContext.Provider>
-  )
-}
-
-export const useBRLoanApplicationDetailsContext = () => {
-  return useContext(BRLoanApplicationDetailsContext)
+  switch (loanProgramQuery.data?.type) {
+    case LoanType.MICRO:
+      return (
+        <MicroLoanBRLoanApplicationDetailsContext.Provider value={value}>
+          {children}
+        </MicroLoanBRLoanApplicationDetailsContext.Provider>
+      )
+    default:
+      return (
+        <MicroLoanBRLoanApplicationDetailsContext.Provider value={value}>
+          {children}
+        </MicroLoanBRLoanApplicationDetailsContext.Provider>
+      )
+  }
 }

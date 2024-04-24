@@ -3,8 +3,8 @@ import { getRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
 import { ErrorResponse, ListResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
-import { BaseLoanProgramType } from "../../constants/type"
 import { AxiosError } from "axios"
+import { BaseLoanProgramType } from "@/types/loan-program.type"
 
 export const useQueryGetLoanPrograms = () => {
   return useQuery<ListResponse<BaseLoanProgramType>, AxiosError<ErrorResponse>>(

@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { TextInputDisplay } from "../../atoms/TextInputDisplay"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { capitalizeWords, toCurrency } from "@/utils"
+import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 
 export const LoanRequestDetails = () => {
   const { loanApplicationDetails } = useBRLoanApplicationDetailsContext()

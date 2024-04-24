@@ -10,8 +10,8 @@ import { APP_PATH } from "@/constants"
 import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
-import { BaseLoanProgramType } from "../../constants/type"
 import { sanitizeDOM } from "@/utils/file.utils"
+import { BaseLoanProgramType } from "@/types/loan-program.type"
 
 type CardProps = React.ComponentProps<typeof Card> & {
   loanProgram: BaseLoanProgramType

@@ -1,4 +1,3 @@
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { FinancialFormDetails } from "../../molecules/loan-application-details/FinancialFormDetails"
 import { KybFormDetails } from "../../molecules/loan-application-details/KybFormDetails"
 import { KycFormDetails } from "../../molecules/loan-application-details/KycFormDetails"
@@ -6,6 +5,7 @@ import { LoanRequestDetails } from "../../molecules/loan-application-details/Loa
 import { CashFlowTable } from "./CashFlowTable"
 import { isLoanReady } from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
+import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 
 export const ApplicationDetails = () => {
   const { kybFormData, kycFormData } = useBRLoanApplicationDetailsContext()

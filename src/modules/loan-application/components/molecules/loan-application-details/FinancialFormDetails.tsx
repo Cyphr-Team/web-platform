@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
+import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { capitalizeWords } from "@/utils"
 
 export const FinancialFormDetails = () => {

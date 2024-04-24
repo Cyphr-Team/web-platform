@@ -3,10 +3,10 @@ import { ApplicationDetails } from "../components/organisms/loan-application-det
 import { SignatureDetails } from "../components/organisms/loan-application-details/SignatureDetails"
 import { DocumentationDetails } from "../components/organisms/loan-application-details/DocumentationDetails"
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
-import { useBRLoanApplicationDetailsContext } from "../providers/BRLoanApplicationDetailsProvider"
 import { Loader2 } from "lucide-react"
 import { isLoanReady } from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
+import { useBRLoanApplicationDetailsContext } from "../providers"
 
 export const Component = () => {
   const { isFetchingDetails, confirmationFormData } =

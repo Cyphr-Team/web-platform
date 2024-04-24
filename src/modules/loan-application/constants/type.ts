@@ -1,8 +1,8 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { LoanType } from "@/types/loan-program.type"
 import { LOAN_APPLICATION_STEP_STATUS, LOAN_APPLICATION_STEPS } from "."
+import { BaseLoanProgramType } from "@/types/loan-program.type"
 
 export interface KYBInformation {
   id: string | null
@@ -129,37 +129,6 @@ export enum FORM_TYPE {
   KYB = "KYB",
   KYC = "KYC",
   FINANCIAL = "FINANCIAL"
-}
-
-export interface BaseLoanProgramType {
-  id: string
-  institutionId: string
-  name: string
-  type: LoanType
-  description: string
-  createdAt: string
-  updatedAt: string
-  deletedAt?: string
-  coverPhotoUrl?: string
-}
-
-export interface MicroLoanProgramType extends BaseLoanProgramType {
-  id: string
-  minTermInMonth: number
-  maxTermInMonth: number
-  interestRate: number
-  interestRateType: LoanProgramInterestRateType
-  interestRateDescription: string
-  originationFee: number
-  minLoanAmount: number
-  maxLoanAmount: number
-}
-
-enum LoanProgramInterestRateType {
-  FIXED = "FIXED",
-  VARIABLE = "VARIABLE",
-  FLOATING = "FLOATING",
-  PROMOTIONAL = "PROMOTIONAL"
 }
 
 export interface UserLoanApplicationDetailsResponse {

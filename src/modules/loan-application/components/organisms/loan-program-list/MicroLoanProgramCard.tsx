@@ -14,7 +14,7 @@ import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
 import { APP_PATH } from "@/constants"
-import { MicroLoanProgramType } from "@/modules/loan-application/constants/type"
+import { MicroLoanProgramType } from "@/types/loan-program.type"
 
 type MicroLoanProgramCardProps = React.ComponentProps<typeof Card> & {
   loanProgram: MicroLoanProgramType
@@ -81,6 +81,7 @@ export const MicroLoanProgramCard = ({
             to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
               loanProgram.id
             )}
+            state={{ loanProgram }}
           >
             Learn More
             <ArrowRight className="ml-1 h-4 w-4" />

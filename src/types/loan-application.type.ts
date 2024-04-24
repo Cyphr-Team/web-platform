@@ -1,5 +1,5 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
-import { BaseLoanProgramType } from "@/modules/loan-application/constants/type"
+import { BaseLoanProgramType } from "./loan-program.type"
 
 /* ----- ENUM -----
  * LoanApplicationStatus

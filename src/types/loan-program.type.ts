@@ -31,4 +31,35 @@ interface LoanProgram {
   originationFee: number
 }
 
-export type { LoanProgram }
+interface BaseLoanProgramType {
+  id: string
+  institutionId: string
+  name: string
+  type: LoanType
+  description: string
+  createdAt: string
+  updatedAt: string
+  deletedAt?: string
+  coverPhotoUrl?: string
+}
+
+export interface MicroLoanProgramType extends BaseLoanProgramType {
+  id: string
+  minTermInMonth: number
+  maxTermInMonth: number
+  interestRate: number
+  interestRateType: LoanProgramInterestRateType
+  interestRateDescription: string
+  originationFee: number
+  minLoanAmount: number
+  maxLoanAmount: number
+}
+
+enum LoanProgramInterestRateType {
+  FIXED = "FIXED",
+  VARIABLE = "VARIABLE",
+  FLOATING = "FLOATING",
+  PROMOTIONAL = "PROMOTIONAL"
+}
+
+export type { LoanProgram, BaseLoanProgramType }

@@ -1,6 +1,10 @@
 import { Card } from "@/components/ui/card"
-import { BaseLoanProgramType, MicroLoanProgramType } from "../../constants/type"
-import { LoanType } from "@/types/loan-program.type"
+
+import {
+  BaseLoanProgramType,
+  LoanType,
+  MicroLoanProgramType
+} from "@/types/loan-program.type"
 import { MicroLoanProgramCard } from "../organisms/loan-program-list/MicroLoanProgramCard"
 
 type CardProps = React.ComponentProps<typeof Card> & {

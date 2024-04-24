@@ -4,10 +4,10 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { APP_PATH } from "@/constants"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import {
+  useBRLoanApplicationDetailsContext,
   useLoanApplicationContext,
   useLoanApplicationFormContext
 } from "@/modules/loan-application/providers"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { useNavigate } from "react-router-dom"

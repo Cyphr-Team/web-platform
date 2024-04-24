@@ -1,11 +1,11 @@
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
-import { useBRLoanApplicationDetailsContext } from "../providers/BRLoanApplicationDetailsProvider"
 import { Loader2 } from "lucide-react"
 import { AlertFinishFormBeforeLeave } from "../components/molecules/alerts/AlertFinishFormRequest"
 import { LoanApplicationStepNavigate } from "../components/organisms/LoanApplicationStepNavigate"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
 import { PlaidProvider } from "../providers/PlaidProvider"
 import {
+  useBRLoanApplicationDetailsContext,
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../providers"

@@ -1,8 +1,8 @@
 import fileIcon from "@/assets/file.svg"
 import { Card } from "@/components/ui/card"
 import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { DownloadDocumentButton } from "../../atoms/DownloadDocumentButton"
+import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 type Props = {
   file: DocumentUploadedResponse
   index: string

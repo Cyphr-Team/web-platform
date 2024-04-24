@@ -1,3 +1,5 @@
+import { LoanType } from "@/types/loan-program.type"
+
 export const APP_PATH = {
   INDEX: "/",
   DASHBOARD: "/",
@@ -127,7 +129,8 @@ export const API_PATH = {
   },
   loanProgram: {
     list: "api/user-loan/program/list",
-    detail: (id: string) => `api/user-loan/micro-loan/program?id=${id}`,
+    detail: (id: string, loanType: string = LoanType.MICRO) =>
+      `api/user-loan/${loanType}-loan/program?id=${id}`,
     cdfi: {
       all: "api/admin-loan/micro-loan/program",
       create: () => API_PATH.loanProgram.cdfi.all,

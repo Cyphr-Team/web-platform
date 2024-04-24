@@ -35,7 +35,6 @@ import {
   reverseFormatKycForm
 } from "../services/form.services"
 import { useUpdateLoanKybInformation } from "../hooks/useMutation/useUpdateLoanKybInformation"
-import { useBRLoanApplicationDetailsContext } from "./BRLoanApplicationDetailsProvider"
 import { useUpdateLoanKycInformation } from "../hooks/useMutation/useUpdateLoanKycInformation"
 import { useUpdateLoanFinancialInformation } from "../hooks/useMutation/useUpdateLoanFinancialInformation"
 import { useMutateDeleteDocuments } from "../hooks/useMutation/useDeleteDocumentsMutation"
@@ -47,6 +46,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { getAxiosError } from "@/utils/custom-error"
 import { AxiosError } from "axios"
 import { loanApplicationUserKeys } from "@/constants/query-key"
+import { useBRLoanApplicationDetailsContext } from "."
 
 type FormType = {
   [key in LOAN_APPLICATION_STEPS]:

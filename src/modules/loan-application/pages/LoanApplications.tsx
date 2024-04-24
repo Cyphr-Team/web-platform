@@ -148,12 +148,14 @@ export function Component() {
         APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(
           detail.original.id,
           detail.original.loanProgram.id
-        )
+        ),
+        { state: { loanProgramDetails: detail.original.loanProgram } }
       )
     } else {
       navigate(
         APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(detail.original.id)
-      )
+      ),
+        { state: { loanProgramDetails: detail.original.loanProgram } }
     }
   }
 
