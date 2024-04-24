@@ -3,10 +3,6 @@ name: Deploy Dev
 on:
   push:
     branches: ["release/*"]
-    paths:
-      - ".github/workflows/deploy-dev.yml"
-      - "src/**/*"
-      - "yarn.lock"
 
 env:
   # GA variables
