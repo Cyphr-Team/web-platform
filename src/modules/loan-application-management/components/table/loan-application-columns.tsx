@@ -131,6 +131,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
         <ButtonReviewLoanApplication
           loanApplicationStatus={row.original.status}
           loanApplicationId={row.original.id}
+          loanProgramType={row.original.programType}
         />
       )
     }

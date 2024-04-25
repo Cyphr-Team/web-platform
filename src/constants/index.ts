@@ -1,4 +1,5 @@
 import { LoanType } from "@/types/loan-program.type"
+import { snakeCaseToUrlPattern } from "@/utils"
 
 export const APP_PATH = {
   INDEX: "/",
@@ -130,7 +131,7 @@ export const API_PATH = {
   loanProgram: {
     list: "api/user-loan/program/list",
     detail: (id: string, loanType: string = LoanType.MICRO) =>
-      `api/user-loan/${loanType}-loan/program?id=${id}`,
+      `api/user-loan/${snakeCaseToUrlPattern(loanType)}-loan/program?id=${id}`,
     cdfi: {
       all: "api/admin-loan/micro-loan/program",
       create: () => API_PATH.loanProgram.cdfi.all,
@@ -147,11 +148,13 @@ export const API_PATH = {
   application: {
     list: "api/user-loan/application/list",
     details: (loanType: LoanType) =>
-      `api/user-loan/${loanType}-loan/application`,
+      `api/user-loan/${snakeCaseToUrlPattern(loanType)}-loan/application`,
     create: (loanType: LoanType) =>
-      `api/user-loan/${loanType}-loan/application`,
+      `api/user-loan/${snakeCaseToUrlPattern(loanType)}-loan/application`,
     update: (id: string, loanType: LoanType) =>
-      `api/user-loan/${loanType}-loan/application/?id=${id}`,
+      `api/user-loan/${snakeCaseToUrlPattern(
+        loanType
+      )}-loan/application/?id=${id}`,
     detail: (id: string) => `api/user-loan/application/?id=${id}`,
     kybForm: "api/form/kyb",
     kycForm: "api/form/kyc",
@@ -164,8 +167,10 @@ export const API_PATH = {
     getCashflowVerification: (id: string) =>
       `api/user-loan/application/${id}/cash-flow`
   },
+  // For loan officer
   loanApplication: {
-    details: "api/loan-officer/micro-loan/application",
+    details: (loanType: LoanType = LoanType.MICRO) =>
+      `api/loan-officer/${snakeCaseToUrlPattern(loanType)}-loan/application`,
     list: "api/loan-officer/applications",
     getDocuments: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/documents`,

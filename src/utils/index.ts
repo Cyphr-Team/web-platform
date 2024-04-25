@@ -81,6 +81,9 @@ export const convertToCamelCase = (str: string) => {
 export const snakeCaseToText = (str: string) => {
   return str.replace(/_/g, " ")
 }
+export const snakeCaseToUrlPattern = (str: string) => {
+  return str.replace(/_/g, "-")
+}
 
 export const camelCaseToText = (str: string) => {
   try {

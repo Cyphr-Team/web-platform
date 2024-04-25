@@ -1,6 +1,6 @@
 import { UserMicroLoanApplication } from "@/types/loan-application.type"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { createContext, useContext } from "use-context-selector"
 import { DEFAULT_TRANSACTION_TAGS } from "../constants"
 import { ApplicationKybDetailResponse } from "../constants/types/business.type"
@@ -14,7 +14,7 @@ import {
 import { LoanApplicationsKyc } from "../constants/types/kyc"
 import { LoanSummary } from "../constants/types/loan-summary.type"
 import { useQueryGetBankAccounts } from "../hooks/useQuery/cash-flow/useQueryGetBankAccounts"
-import { useQueryGetApplicationDetails } from "../hooks/useQuery/useQueryApplicationDetails"
+import { useQueryGetApplicationDetailsByType } from "../hooks/useQuery/useQueryApplicationDetails"
 import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
 import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
 import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
@@ -64,6 +64,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const [selectedTags, setSelectedTags] = useState<TRANSACTION_TAG[]>(
     DEFAULT_TRANSACTION_TAGS
   )
+  const { state } = useLocation()
 
   const params = useParams()
 
@@ -75,9 +76,10 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     applicationId: params.id!
   })
 
-  const userLoanApplicationQuery = useQueryGetApplicationDetails({
-    applicationId: params.id!
-  })
+  const userLoanApplicationQuery = useQueryGetApplicationDetailsByType(
+    state?.applicationDetail.type,
+    params.id!
+  )
 
   const loanSummaryQuery = useQueryGetLoanSummary({
     applicationId: params.id

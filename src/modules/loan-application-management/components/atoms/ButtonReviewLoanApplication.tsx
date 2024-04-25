@@ -4,13 +4,16 @@ import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { ChevronRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useReviewLoanApplication } from "../../hooks/useMutation/useReviewLoanApplication"
+import { LoanType } from "@/types/loan-program.type"
 
 export const ButtonReviewLoanApplication = ({
   loanApplicationStatus,
-  loanApplicationId
+  loanApplicationId,
+  loanProgramType
 }: {
   loanApplicationStatus: LoanApplicationStatus
   loanApplicationId: string
+  loanProgramType: LoanType
 }) => {
   const navigate = useNavigate()
   const {
@@ -27,7 +30,14 @@ export const ButtonReviewLoanApplication = ({
     navigate(
       APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
         loanApplicationId
-      )
+      ),
+      {
+        state: {
+          applicationDetail: {
+            type: loanProgramType
+          }
+        }
+      }
     )
   }
 

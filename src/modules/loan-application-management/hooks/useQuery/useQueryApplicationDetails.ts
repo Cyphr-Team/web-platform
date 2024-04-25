@@ -4,22 +4,47 @@ import { useQuery } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
 import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { AxiosError } from "axios"
+import { LoanType } from "@/types/loan-program.type"
 
-export const useQueryGetApplicationDetails = ({
-  applicationId
-}: {
+export const useQueryGetApplicationDetailsByType = (
+  type: LoanType,
   applicationId: string
-}) => {
-  return useQuery<UserMicroLoanApplication, ErrorResponse>({
-    queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_DETAILS, applicationId],
-    queryFn: () => {
+) => {
+  const microLoanApplicationDetailsQuery =
+    useQueryGetMicroLoanApplicationDetails(applicationId)
+
+  switch (type) {
+    case LoanType.MICRO:
+      return microLoanApplicationDetailsQuery
+    default:
+      return microLoanApplicationDetailsQuery
+  }
+}
+
+export const useQueryGetMicroLoanApplicationDetails = (
+  applicationId: string
+) => {
+  return useQueryGetApplicationDetails<UserMicroLoanApplication>(
+    QUERY_KEY.GET_LOAN_APPLICATION_DETAILS,
+    () => {
       return getRequest({
-        path: API_PATH.loanApplication.details,
-        params: {
-          id: applicationId
-        }
+        path: API_PATH.loanApplication.details(LoanType.MICRO),
+        params: { id: applicationId }
       })
     },
-    enabled: !!applicationId
+    !!applicationId
+  )
+}
+
+export const useQueryGetApplicationDetails = <T>(
+  queryKey: string,
+  queryFn: () => Promise<T>,
+  enabled: boolean = false
+) => {
+  return useQuery<T, AxiosError<ErrorResponse>>({
+    queryKey: [queryKey],
+    queryFn: queryFn,
+    enabled: enabled
   })
 }
