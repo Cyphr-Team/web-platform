@@ -16,8 +16,8 @@ import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
 import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
 import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialForm"
 import { useQueryGetDocumentsByForm } from "../hooks/useQuery/useQueryGetDocuments"
-import { UserLoanApplication } from "@/types/loan-application.type"
-import { useQueryGetUserLoanApplicationDetails } from "../hooks/useQuery/useQueryUserLoanApplicationDetails"
+import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { useQueryLoanApplicationDetailsByType } from "../hooks/useQuery/useQueryUserLoanApplicationDetails"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
@@ -38,7 +38,7 @@ type BRLoanApplicationDetailsContext<T> = {
   kycFormData?: KYCInformationResponse
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
-  loanApplicationDetails?: UserLoanApplication
+  loanApplicationDetails?: UserMicroLoanApplication
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
   isLoading: boolean
@@ -70,8 +70,12 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     loanProgramId!
   )
 
-  const loanApplicationDetailsQuery = useQueryGetUserLoanApplicationDetails(
-    loanApplicationId!
+  const loanApplicationDetailsQuery = useQueryLoanApplicationDetailsByType(
+    loanApplicationId!,
+    loanProgramQuery.data?.type ?? LoanType.MICRO
+  )
+  const loanProgramInfo = useGetLoanProgramDetail(
+    loanProgramQuery.data?.type ?? ""
   )
 
   const kybFormQuery = useQueryGetKybForm(loanApplicationId!)
@@ -82,10 +86,6 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     financialFormQuery.data?.id ?? ""
   )
   const kycDocuments = useQueryGetDocumentsByForm(kycFormQuery.data?.id ?? "")
-
-  const loanProgramInfo = useGetLoanProgramDetail(
-    loanProgramQuery.data?.type ?? ""
-  )
 
   const changeDataAndProgress = useCallback(
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {

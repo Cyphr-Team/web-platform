@@ -1,5 +1,4 @@
 import { Await, Navigate, Outlet, useLoaderData } from "react-router-dom"
-import { LoanApplicationProvider } from "./providers/LoanApplicationProvider"
 import { UserInfo } from "@/types/user.type"
 import { Suspense } from "react"
 import { APP_PATH } from "@/constants"
@@ -39,15 +38,14 @@ export function Component() {
       >
         <RoleStrict>
           <Header items={navItems} />
-          <LoanApplicationProvider>
-            <div className="flex h-dvh overflow-hidden">
-              <SideNav items={navItems} className="hidden md:flex" />
-              {/* For auto scroll to top, this tag must be overflow-hidden */}
-              <main className="flex flex-1 pt-14 md:pt-0 overflow-hidden">
-                <Outlet />
-              </main>
-            </div>
-          </LoanApplicationProvider>
+
+          <div className="flex h-dvh overflow-hidden">
+            <SideNav items={navItems} className="hidden md:flex" />
+            {/* For auto scroll to top, this tag must be overflow-hidden */}
+            <main className="flex flex-1 pt-14 md:pt-0 overflow-hidden">
+              <Outlet />
+            </main>
+          </div>
         </RoleStrict>
       </Await>
     </Suspense>

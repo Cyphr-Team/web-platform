@@ -1,8 +1,9 @@
+import { LoanType } from "@/types/loan-program.type"
 import { LoanRequestFormValue } from "../../constants/form"
-import { useCreateLoanApplication } from "../useCreateLoanApplication"
-import { useUpdateLoanApplication } from "../useMutation/useUpdateLoanRequest"
+import { useCreateLoanApplicationMutation } from "../useMutation/useCreateLoanApplicationMutation"
+import { useUpdateLoanApplicationMutation } from "../useMutation/useUpdateLoanRequest"
 
-export const useSubmitLoanRequestForm = (
+export const useSubmitMicroLoanRequestForm = (
   rawData: LoanRequestFormValue,
   formId: string,
   loanProgramId?: string
@@ -10,12 +11,12 @@ export const useSubmitLoanRequestForm = (
   const {
     mutateAsync: createLoanApplication,
     isPending: isCreatingLoanApplication
-  } = useCreateLoanApplication()
+  } = useCreateLoanApplicationMutation(LoanType.MICRO)
 
   const {
     mutateAsync: updateLoanApplication,
     isPending: isUpdatingLoanApplication
-  } = useUpdateLoanApplication({ id: formId })
+  } = useUpdateLoanApplicationMutation(formId, LoanType.MICRO)
 
   // Call API
   const submitLoanRequestForm = async () => {

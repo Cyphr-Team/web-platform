@@ -9,7 +9,7 @@ import { useSubmitLoanConfirmationForm } from "../hooks/useForm/useSubmitLoanCon
 import { useSubmitLoanFinancialForm } from "../hooks/useForm/useSubmitLoanFinancialForm"
 import { useSubmitLoanKYBForm } from "../hooks/useForm/useSubmitLoanKYBForm"
 import { useSubmitLoanKYCForm } from "../hooks/useForm/useSubmitLoanKYCForm"
-import { useSubmitLoanRequestForm } from "../hooks/useForm/useSubmitLoanRequest"
+import { useSubmitMicroLoanRequestForm } from "../hooks/useForm/useSubmitLoanRequest"
 import { LoanType } from "@/types/loan-program.type"
 import {
   BusinessFormValue,
@@ -41,7 +41,7 @@ export const useSubmitLoanForm = (
     useSubmitLoanKYCForm(ownerData, ownerData?.id ?? "")
 
   const { submitLoanRequestForm, isLoading: isSubmittingLoanRequest } =
-    useSubmitLoanRequestForm(
+    useSubmitMicroLoanRequestForm(
       loanRequestData,
       loanRequestData?.id ?? "",
       loanProgramId

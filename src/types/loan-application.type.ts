@@ -1,5 +1,5 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
-import { BaseLoanProgramType } from "./loan-program.type"
+import { MicroLoanProgramType } from "./loan-program.type"
 
 /* ----- ENUM -----
  * LoanApplicationStatus
@@ -63,9 +63,9 @@ interface LoanProgram {
   createdAt: string
   updatedAt: string
 }
-interface UserLoanApplication {
+interface UserMicroLoanApplication {
   id: string
-  loanProgram: BaseLoanProgramType
+  loanProgram: MicroLoanProgramType
   applicantId: string
   businessId: string
   loanAmount: number
@@ -78,7 +78,7 @@ interface UserLoanApplication {
   decisionNote: string
 }
 
-interface UserLoanApplicationRequest {
+interface UserMicroLoanApplicationRequest {
   loanAmount: number
   loanTermInMonth: number
   proposeUseOfLoan: string
@@ -90,10 +90,10 @@ interface ListLoanProgramResponse {
 }
 
 export type {
-  UserLoanApplication,
+  UserMicroLoanApplication,
   LoanApplication,
   Applicant,
   LoanProgram,
   ListLoanProgramResponse,
-  UserLoanApplicationRequest
+  UserMicroLoanApplicationRequest
 }

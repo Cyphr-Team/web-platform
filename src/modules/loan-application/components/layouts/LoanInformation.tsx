@@ -11,7 +11,6 @@ import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplicatio
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
-import { AlertFinishFormBeforeLeave } from "../molecules/alerts/AlertFinishFormRequest"
 import { useNavigate } from "react-router-dom"
 import { isEmpty } from "lodash"
 import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
@@ -96,7 +95,6 @@ export const Component = () => {
           </div>
         </LoadingOverlay>
       </div>
-      <AlertFinishFormBeforeLeave />
     </PlaidProvider>
   )
 }

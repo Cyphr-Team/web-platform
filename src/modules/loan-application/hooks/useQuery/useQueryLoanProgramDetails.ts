@@ -1,41 +1,36 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
-import { useQuery } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
-import { AxiosError } from "axios"
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
+import { useQueryDetailsFactory } from "."
 
-export const useQueryLoanProgramDetailsByType = (type: string, id: string) => {
-  const microLoanDetailsQuery = useQueryGetMicroLoanProgramDetails(id)
+export const useQueryLoanProgramDetailsByType = (
+  loanType: LoanType,
+  id: string
+) => {
+  const microLoanQuery = useQueryLoanProgramDetails<MicroLoanProgramType>(
+    id,
+    LoanType.MICRO
+  )
 
-  switch (type) {
+  switch (loanType) {
     case LoanType.MICRO:
-      return microLoanDetailsQuery
+      return microLoanQuery
     default:
-      return microLoanDetailsQuery
+      return microLoanQuery
   }
 }
 
-export const useQueryGetLoanProgramDetails = <T>(
+export const useQueryLoanProgramDetails = <T>(
   id: string,
-  queryKey: string,
-  queryFn: () => Promise<T>
+  loanType: LoanType
 ) => {
-  return useQuery<T, AxiosError<ErrorResponse>>({
-    queryKey: [queryKey, id],
-    queryFn: queryFn,
-    enabled: !!id
-  })
-}
-
-export const useQueryGetMicroLoanProgramDetails = (id: string) => {
-  return useQueryGetLoanProgramDetails<MicroLoanProgramType>(
+  return useQueryDetailsFactory<T>(
     id,
-    QUERY_KEY.GET_LOAN_PROGRAM_DETAILS,
+    [QUERY_KEY.GET_LOAN_PROGRAM_DETAILS],
     () => {
       return getRequest({
-        path: API_PATH.loanProgram.detail(id!, LoanType.MICRO)
+        path: API_PATH.loanProgram.detail(id!, loanType)
       })
     }
   )

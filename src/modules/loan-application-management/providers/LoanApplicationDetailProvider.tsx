@@ -1,4 +1,4 @@
-import { UserLoanApplication } from "@/types/loan-application.type"
+import { UserMicroLoanApplication } from "@/types/loan-application.type"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
 import { createContext, useContext } from "use-context-selector"
@@ -23,7 +23,7 @@ import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
   loanKycDetail?: LoanApplicationsKyc
-  loanApplicationDetails?: UserLoanApplication
+  loanApplicationDetails?: UserMicroLoanApplication
   cashFlowAnalysis?: ApplicationCashFlow
   onChangeTimePeriod: (key: string, period: string) => void
   isFetchingCashflow: boolean

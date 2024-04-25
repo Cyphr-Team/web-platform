@@ -1,34 +1,47 @@
 import { API_PATH } from "@/constants"
 import { putRequest } from "@/services/client.service"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { useQueryClient } from "@tanstack/react-query"
 import { customRequestHeader } from "@/utils/request-header"
 import {
-  UserLoanApplication,
-  UserLoanApplicationRequest
+  UserMicroLoanApplication,
+  UserMicroLoanApplicationRequest
 } from "@/types/loan-application.type"
 import { loanApplicationUserKeys } from "@/constants/query-key"
+import { LoanType } from "@/types/loan-program.type"
+import { useMutationFactory } from "."
 
-export const useUpdateLoanApplication = ({ id }: { id: string }) => {
+export const useUpdateLoanApplicationMutation = (
+  id: string,
+  loanType: LoanType
+) => {
+  const microLoanMutation = useUpdateLoanApplication<
+    UserMicroLoanApplicationRequest,
+    UserMicroLoanApplication
+  >(id, loanType)
+
+  switch (loanType) {
+    case LoanType.MICRO:
+      return microLoanMutation
+    default:
+      return microLoanMutation
+  }
+}
+
+const useUpdateLoanApplication = <R, T>(id: string, loanType: LoanType) => {
   const queryClient = useQueryClient()
 
-  return useMutation<
-    AxiosResponse<UserLoanApplication>,
-    AxiosError<ErrorResponse>,
-    UserLoanApplicationRequest
-  >({
-    mutationFn: (data) => {
+  return useMutationFactory<R, T>(
+    (data) => {
       return putRequest({
-        path: API_PATH.application.update(id),
+        path: API_PATH.application.update(id, loanType),
         data,
         customHeader: customRequestHeader.customHeaders
       })
     },
-    onSuccess: () => {
+    () => {
       queryClient.invalidateQueries({
         queryKey: loanApplicationUserKeys.detail(id)
       })
     }
-  })
+  )
 }

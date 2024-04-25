@@ -5,7 +5,7 @@ import { getBadgeVariantByStatus } from "@/modules/loan-application-management/s
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import {
   LoanApplicationStatus,
-  UserLoanApplication
+  UserMicroLoanApplication
 } from "@/types/loan-application.type"
 import {
   convertToReadableDate,
@@ -26,7 +26,7 @@ export function Component() {
 
   const navigate = useNavigate()
 
-  const loanApplicationColumns: ColumnDef<UserLoanApplication>[] = [
+  const loanApplicationColumns: ColumnDef<UserMicroLoanApplication>[] = [
     {
       id: "applicant",
       accessorKey: "loanProgram",
@@ -142,7 +142,7 @@ export function Component() {
     { id: "preventCrashUI", size: 0 }
   ]
 
-  const handleClickDetail = (detail: Row<UserLoanApplication>) => {
+  const handleClickDetail = (detail: Row<UserMicroLoanApplication>) => {
     if (detail.original.status === LoanApplicationStatus.DRAFT.toLowerCase()) {
       navigate(
         APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(

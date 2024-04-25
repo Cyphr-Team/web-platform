@@ -146,9 +146,12 @@ export const API_PATH = {
   },
   application: {
     list: "api/user-loan/application/list",
-    details: "api/user-loan/micro-loan/application",
-    create: "api/user-loan/micro-loan/application",
-    update: (id: string) => `api/user-loan/micro-loan/application/?id=${id}`,
+    details: (loanType: LoanType) =>
+      `api/user-loan/${loanType}-loan/application`,
+    create: (loanType: LoanType) =>
+      `api/user-loan/${loanType}-loan/application`,
+    update: (id: string, loanType: LoanType) =>
+      `api/user-loan/${loanType}-loan/application/?id=${id}`,
     detail: (id: string) => `api/user-loan/application/?id=${id}`,
     kybForm: "api/form/kyb",
     kycForm: "api/form/kyc",

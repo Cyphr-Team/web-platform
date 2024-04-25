@@ -5,7 +5,6 @@ import { APP_PATH } from "@/constants"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import {
   useBRLoanApplicationDetailsContext,
-  useLoanApplicationContext,
   useLoanApplicationFormContext
 } from "@/modules/loan-application/providers"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
@@ -18,8 +17,7 @@ import { CloseWithoutSave } from "@/modules/loan-application/components/atoms/Cl
 export const ApplicationDetailsHeader = () => {
   const { loanApplicationDetails, isFetchingDetails } =
     useBRLoanApplicationDetailsContext()
-  const { isSubmitting, isUploading } = useLoanApplicationContext()
-  const { submitLoanForm } = useLoanApplicationFormContext()
+  const { submitLoanForm, isSubmitting } = useLoanApplicationFormContext()
   const status = loanApplicationDetails?.status ?? LoanApplicationStatus.DRAFT
   const navigate = useNavigate()
 
@@ -66,10 +64,7 @@ export const ApplicationDetailsHeader = () => {
             confirmText="Save & Close"
             description="Are you sure you want to save and close this loan application"
           >
-            <ButtonLoading
-              variant="outline"
-              isLoading={isSubmitting || isUploading}
-            >
+            <ButtonLoading variant="outline" isLoading={isSubmitting}>
               Save & Close
             </ButtonLoading>
           </CustomAlertDialog>
