@@ -80,7 +80,12 @@ export const APP_PATH = {
 
   // ADMIN USERS
   ADMIN_USERS: {
-    index: "/users"
+    USER: {
+      index: "/users"
+    },
+    INVITATION: {
+      index: "/invitations"
+    }
   },
 
   // Loan Program
@@ -125,7 +130,10 @@ export const API_PATH = {
       list: () => `${API_PATH.admin.user.all}/users`
     },
     invitation: {
-      list: "api/admin/invitation/list"
+      all: "api/admin/invitation",
+      list: "api/admin/invitation/list",
+      delete: (invitationId: string) =>
+        `${API_PATH.admin.invitation.all}/${invitationId}`
     }
   },
   loanProgram: {

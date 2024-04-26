@@ -12,7 +12,7 @@ export const getReferenceResource = (
       referenceResource = APP_PATH.SETUP_PROFILE
       break
     case NotificationReferenceType.USER_LIST:
-      referenceResource = APP_PATH.ADMIN_USERS.index
+      referenceResource = APP_PATH.ADMIN_USERS.USER.index
       break
     case NotificationReferenceType.USER_ACCEPTED_INVITATION:
       referenceResource = APP_PATH.ACCEPT_INVITE

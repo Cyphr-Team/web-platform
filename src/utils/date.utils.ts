@@ -29,3 +29,20 @@ export const requestDate = (date?: string | Date) => {
     return format(new Date(), FORMAT_REQUEST_DATE)
   }
 }
+
+export const calculateDaysUntilExpiration = (
+  expirationDays: number,
+  sentAt: string
+) => {
+  const millisecondsPerDay = 1000 * 60 * 60 * 24
+  const sentDate = new Date(sentAt)
+  const currentDate = new Date()
+
+  // Calculate the number of days until expiration based on the difference between the current date and the sent date
+  return (
+    expirationDays -
+    Math.floor(
+      (currentDate.getTime() - sentDate.getTime()) / millisecondsPerDay
+    )
+  )
+}

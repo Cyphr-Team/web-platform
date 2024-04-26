@@ -3,6 +3,10 @@ export const TOAST_MSG = {
     sendInvitation: {
       title: "Send invitation",
       description: "Sending invitation successfully"
+    },
+    revokeInvitation: {
+      title: "Revoke invitation",
+      description: "Revoke invitation successfully"
     }
   },
   loanProgram: {

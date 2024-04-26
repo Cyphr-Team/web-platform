@@ -72,7 +72,7 @@ export function DialogSendInvite() {
     values: {
       email: "",
       roles: "",
-      institutionId: data?.institutionId ?? "",
+      institutionId: isForesightAdmin ? "" : data?.institutionId ?? "",
       expirationDays: ExpirationDays.THIRTY_DAYS
     }
   })

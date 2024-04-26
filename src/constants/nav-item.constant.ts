@@ -40,7 +40,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
   },
   {
     title: "Users",
-    href: APP_PATH.ADMIN_USERS.index,
+    href: APP_PATH.ADMIN_USERS.USER.index,
     icon: Icons.user,
     label: "users",
     roles: [UserRoles.CDFI_ADMIN, UserRoles.FORESIGHT_ADMIN]

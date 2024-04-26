@@ -2,6 +2,8 @@ import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { PaginationState } from "@tanstack/react-table"
 import { useQueryListPaginateInvitation } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateInvitation.ts"
 import { useState } from "react"
+import { DropdownAction } from "@/modules/admin/user/table/dropdown-action.tsx"
+import { calculateDaysUntilExpiration } from "@/utils/date.utils.ts"
 
 export const DataFlex = () => {
   const [pagination] = useState<PaginationState>({
@@ -14,30 +16,17 @@ export const DataFlex = () => {
     offset: pagination.pageIndex * pagination.pageSize
   })
 
-  const calculateDaysUntilExpiration = (
-    expirationDays: number,
-    sentAt: string
-  ) => {
-    try {
-      const millisecondsPerDay = 1000 * 60 * 60 * 24
-      const sentDate = new Date(sentAt)
-      const currentDate = new Date()
-      return (
-        expirationDays -
-        Math.ceil(
-          (currentDate.getTime() - sentDate.getTime()) / millisecondsPerDay
-        )
-      )
-    } catch (e) {
-      return null
-    }
-  }
-
   return (
     <div className="sticky top-0">
       <h1 className="text-l font-medium mb-4">
-        There are {data?.total ?? 0} active invitations
+        {data && data.total !== undefined && (
+          <span>
+            There {data.total < 2 ? "is" : "are"} {data.total} active invitation
+            {data.total > 1 && "s"}
+          </span>
+        )}
       </h1>
+
       {data?.data.map((invitation) => {
         const daysUntilExpiration = calculateDaysUntilExpiration(
           invitation.expirationDays,
@@ -46,7 +35,7 @@ export const DataFlex = () => {
         return (
           <div
             key={invitation.id}
-            className="border border-gray-200 p-4 mb-1 rounded-none flex items-center justify-between"
+            className="border border-gray-200 p-2 mb-1 rounded-none flex items-center justify-between"
           >
             <div className="flex items-center">
               <h2 className="text-gray-600">
@@ -56,13 +45,24 @@ export const DataFlex = () => {
                 </span>
               </h2>
             </div>
-            <div className="text-right">
+            <div className="text-right flex items-center justify-between">
               <p className="text-gray-600">
-                Expires in{" "}
-                <span className="font-semibold">
-                  {daysUntilExpiration} days
-                </span>{" "}
+                {daysUntilExpiration < 1 ? (
+                  <span className="font-semibold">Expired</span>
+                ) : (
+                  <>
+                    Expires in{" "}
+                    <span className="font-semibold">
+                      {daysUntilExpiration === 1
+                        ? "1 day"
+                        : `${daysUntilExpiration} days`}
+                    </span>{" "}
+                  </>
+                )}
               </p>
+              <div className="min-w-0">
+                <DropdownAction invitation={invitation}></DropdownAction>
+              </div>
             </div>
           </div>
         )

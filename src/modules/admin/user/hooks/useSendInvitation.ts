@@ -15,7 +15,7 @@ export const adminSendInvitationForm = z.object({
     .string()
     .min(1, "Please select a role.")
     .transform((role) => role.toLocaleLowerCase()),
-  institutionId: z.string().min(1, "InstitutionId is required."),
+  institutionId: z.string().min(1, "Please select an institution."),
   email: z.string().email({ message: "Enter a valid email address." }),
   expirationDays: z.string().min(1, "Please select an expiration day.")
 })
