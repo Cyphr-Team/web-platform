@@ -1,5 +1,9 @@
+import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { useDashboard } from "../providers/dashboard-provider"
-import { DashboardCard } from "./DashboardCard"
+import { DashboardSingleNumberCard } from "./atoms/DashboardSingleNumberCard"
+import { LoanApplicationActivityChart } from "./LoanApplicationActivityChart"
+import { StatsTitle } from "./atoms/StatsTitle"
 
 export const TotalApplicationActivity = () => {
   const { isLoading, statsData } = useDashboard()
@@ -13,33 +17,43 @@ export const TotalApplicationActivity = () => {
 
   return (
     <div>
-      <h1 className="text-xl font-medium mb-2">Total Application Activity</h1>
+      <StatsTitle>Application Activity</StatsTitle>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <DashboardCard
+        <DashboardSingleNumberCard
           isLoading={isLoading}
-          title="Total Applications in Draft"
-          value={data.totalApplicationsDraft}
-          className="bg-gray-300 bg-opacity-10"
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          title="Total Applications Submitted"
+          title="Submitted"
           value={data.totalApplicationsSubmitted}
-          className="text-blue-700 bg-blue-500 border-blue-300 bg-opacity-10"
+          variantColor={getBadgeVariantByStatus(
+            LoanApplicationStatus.SUBMITTED
+          )}
+          unit="Apps"
         />
-        <DashboardCard
+        <DashboardSingleNumberCard
           isLoading={isLoading}
-          title="Total Applications in Progress"
+          title="In Review"
           value={data.totalApplicationsInReview}
-          className="text-yellow-700 bg-yellow-500 border-yellow-300 bg-opacity-10"
+          variantColor={getBadgeVariantByStatus(
+            LoanApplicationStatus.IN_REVIEW
+          )}
+          unit="Apps"
         />
-        <DashboardCard
+        <DashboardSingleNumberCard
           isLoading={isLoading}
-          title="Total Applications Finished"
+          title="Approved"
           value={data.totalApplicationsUnderwritten}
-          className="text-green-700 bg-green-500 border-success-200 bg-opacity-10"
+          variantColor={getBadgeVariantByStatus(LoanApplicationStatus.APPROVED)}
+          unit="Apps"
+        />
+        <DashboardSingleNumberCard
+          isLoading={isLoading}
+          title="Denied"
+          value={data.totalApplicationsUnderwritten}
+          variantColor={getBadgeVariantByStatus(LoanApplicationStatus.DENIED)}
+          unit="Apps"
         />
       </div>
+
+      <LoanApplicationActivityChart />
     </div>
   )
 }

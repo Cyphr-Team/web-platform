@@ -24,13 +24,17 @@ export const TimePeriodsSelection: React.FC<Props> = ({
         onChangeTimePeriod(value)
       }}
     >
-      <SelectTrigger className="pr-1.5 focus:ring-0 w-28 font-medium">
-        <SelectValue>{timePeriod.toUpperCase()}</SelectValue>
+      <SelectTrigger className="pr-1.5 focus:ring-0 w-28 font-medium capitalize">
+        <SelectValue>{timePeriod}</SelectValue>
       </SelectTrigger>
       <SelectContent position="popper">
         {TIME_PERIODS.map((option, id: number) => (
-          <SelectItem key={`${option}-${id}`} value={option ?? ""}>
-            {option.toUpperCase()}
+          <SelectItem
+            className="capitalize"
+            key={`${option}-${id}`}
+            value={option ?? ""}
+          >
+            {option}
           </SelectItem>
         ))}
       </SelectContent>

@@ -27,7 +27,6 @@ export function SelectTimeRange({
   return (
     <div className="w-[200px]">
       <AutoCompleteInput
-        label="Time range"
         control={control}
         name={name}
         options={timeRangeOptions}

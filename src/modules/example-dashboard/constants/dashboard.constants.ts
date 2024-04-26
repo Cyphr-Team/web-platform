@@ -27,4 +27,35 @@ const DEFAULT_DASHBOARD_STATE: DashboardState = {
   portfolioGrowthFrequency: GRAPH_FREQUENCY.MONTHLY
 }
 
-export { QUERY_KEY, DEFAULT_DASHBOARD_STATE }
+const LABEL_CONFIG = {
+  fontSize: 14,
+  position: "top",
+  fontWeight: "500",
+  fill: "black"
+} as const
+
+const CARTESIAN_GRID = {
+  strokeDasharray: "3 3",
+  vertical: false
+}
+
+const CHART_DEFAULT = {
+  fontSize: 12,
+  submittedColor: "#4A86E8",
+  closedColor: "#000000",
+  deniedColor: "#EA4335",
+  approvedColor: "#34A853",
+  inreviewColor: "#FBBC04",
+  draftColor: "#cccccc",
+  draftLineColor: "#B3B3B3",
+  approvalLineColor: "#5A9151",
+  deniedLineColor: "#B24638"
+}
+
+export {
+  QUERY_KEY,
+  DEFAULT_DASHBOARD_STATE,
+  LABEL_CONFIG,
+  CARTESIAN_GRID,
+  CHART_DEFAULT
+}

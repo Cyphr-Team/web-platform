@@ -7,7 +7,7 @@ import { DateRange } from "react-day-picker"
 import { useForm } from "react-hook-form"
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
-import { SelectTimeRange } from "./SelectTimeRange"
+import { SelectTimeRange } from "./atoms/SelectTimeRange"
 import { useCallback, useState } from "react"
 import debounce from "lodash.debounce"
 import { startOfMonth, subMonths } from "date-fns"
@@ -61,10 +61,10 @@ export const FilterTimeRange = () => {
   }
 
   return (
-    <div className="border p-4 rounded-lg bg-zinc-300 bg-opacity-10 w-full">
+    <div>
       <Form {...form}>
         <form>
-          <div className="flex items-end gap-4 flex-wrap">
+          <div className="flex items-end gap-2 flex-wrap">
             <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />
 
             {showDatePicker && (

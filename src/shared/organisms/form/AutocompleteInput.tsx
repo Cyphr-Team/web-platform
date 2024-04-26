@@ -33,7 +33,7 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   onChange: (value: string) => void
   options: IOption[]
   emptyText?: string
-  label: string
+  label?: string
   control: Control<T>
   name: FieldPath<T>
   placeholder?: string
@@ -60,7 +60,9 @@ export const AutoCompleteInput = <T extends FieldValues>(
       name={name}
       render={() => (
         <FormItem>
-          <FormLabel className="text-text-secondary">{label}</FormLabel>
+          {label && (
+            <FormLabel className="text-text-secondary">{label}</FormLabel>
+          )}
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
