@@ -308,6 +308,7 @@ export function OwnerInformationForm() {
                       <RequiredSymbol />
                     </FormLabel>
                     <CalendarDatePicker
+                      id="dateOfBirth"
                       value={field.value}
                       onSelectDate={handleSelectDate}
                       className="w-full"

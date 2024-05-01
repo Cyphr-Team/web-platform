@@ -29,13 +29,15 @@ export function CalendarDatePicker({
   onSelectDate,
   disabled,
   toDate,
-  fromDate
+  fromDate,
+  id
 }: CalendarDatePickerProps) {
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            id={`${id}-button`}
             disabled={disabled}
             variant={"outline"}
             className={cn(
@@ -53,6 +55,7 @@ export function CalendarDatePicker({
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
+            id={`${id}-calendar`}
             mode="single"
             selected={value ? new Date(value) : undefined}
             onSelect={(date) => {
