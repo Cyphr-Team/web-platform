@@ -3,6 +3,7 @@ import { ErrorCode } from "@/utils/custom-error"
 import { LucideIcon } from "lucide-react"
 import { ReactNode } from "react"
 import { UserRoles } from "./user.type"
+import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 
 // --- RESPONSE ---
 interface SuccessResponse {
@@ -45,6 +46,7 @@ export type { ListResponse }
 interface NavItem {
   title: string
   href?: string
+  featureFlag?: FEATURE_FLAGS | FEATURE_FLAGS[]
   disabled?: boolean
   external?: boolean
   icon: LucideIcon | ((props: IconProps) => JSX.Element)

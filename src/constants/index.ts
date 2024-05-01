@@ -264,6 +264,7 @@ export const API_PATH = {
   },
   featureFlag: {
     all: "api/admin/feature-flag",
+    public: "api/feature-flag/list",
     list: () => `${API_PATH.featureFlag.all}/list`,
     create: () => `${API_PATH.featureFlag.all}`,
     detail: (id: string) => `${API_PATH.featureFlag.all}/by-id?id=${id}`,

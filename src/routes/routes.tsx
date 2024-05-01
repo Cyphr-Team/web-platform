@@ -11,7 +11,7 @@ import { applicantRoutes } from "./applicant-routes"
 import { authenticationRoutes } from "./authentication-routes"
 import { dashboardRoutes } from "./dashboard-routes"
 import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
-import { institutionLoader } from "./loader"
+import { featureFlagsLoader, institutionLoader } from "./loader"
 /**
  * App routes ("/").
  * get institution metadata
@@ -27,24 +27,26 @@ const routes = createBrowserRouter(
       element={<GlobalLayouts />}
       errorElement={<InstitutionNotFoundLayout />}
     >
-      {/* AUTHENTICATION ROUTES */}
-      {/* EXCEPT THIS CASE, WHEN WE ALREADY LOGGED IN AND ACCEPT OUR OWN INVITATION */}
-      <Route element={<ActiveEmailLayout />}>
-        <Route
-          path={APP_PATH.ACCEPT_INVITE}
-          lazy={() => import("@/modules/authentication/accept-invite/page")}
-        />
+      <Route loader={featureFlagsLoader}>
+        {/* AUTHENTICATION ROUTES */}
+        {/* EXCEPT THIS CASE, WHEN WE ALREADY LOGGED IN AND ACCEPT OUR OWN INVITATION */}
+        <Route element={<ActiveEmailLayout />}>
+          <Route
+            path={APP_PATH.ACCEPT_INVITE}
+            lazy={() => import("@/modules/authentication/accept-invite/page")}
+          />
+        </Route>
+
+        {authenticationRoutes}
+
+        {/* DASHBOARD ROUTES */}
+        {dashboardRoutes}
+
+        {/* BORROWER ONBOARDING ROUTES */}
+        {applicantRoutes}
+
+        <Route path="*" element={<NotFoundLayout />} />
       </Route>
-
-      {authenticationRoutes}
-
-      {/* DASHBOARD ROUTES */}
-      {dashboardRoutes}
-
-      {/* BORROWER ONBOARDING ROUTES */}
-      {applicantRoutes}
-
-      <Route path="*" element={<NotFoundLayout />} />
     </Route>
   )
 )

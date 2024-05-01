@@ -3,6 +3,7 @@ import { APP_PATH } from "."
 import { Bell, CalendarSearch, Flag, Send, Workflow } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { UserRoles } from "@/types/user.type"
+import { FEATURE_FLAGS } from "./feature-flag.constants"
 
 export const DASHBOARD_NAV_ITEM: NavItem[] = [
   {
@@ -16,7 +17,8 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.SUBSCRIPTIONS,
     icon: CalendarSearch,
     label: "Subscriptions",
-    roles: [UserRoles.FORESIGHT_ADMIN]
+    roles: [UserRoles.FORESIGHT_ADMIN],
+    featureFlag: FEATURE_FLAGS.SUBSCRIPTION_MANAGEMENT
   },
   {
     title: "Feature Flags",

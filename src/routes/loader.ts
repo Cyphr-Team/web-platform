@@ -1,5 +1,6 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
+import { featureFlagsService } from "@/services/feature-flag.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
 import { TInstitutionResponse } from "@/types/institution.type"
 import { isAxiosError } from "axios"
@@ -34,4 +35,9 @@ export const institutionLoader = async () => {
         throw new Error("Institution Not found")
     }
   }
+}
+
+export const featureFlagsLoader = async () => {
+  await featureFlagsService.handleFetchFeatureFlags()
+  return null
 }

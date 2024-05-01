@@ -7,6 +7,7 @@ import { useQueryGetUnreadNotifications } from "@/modules/notification/hooks/use
 import { APP_PATH } from "@/constants"
 import { cn } from "@/lib/utils"
 import { BadgeUnreadNotifications } from "@/modules/notification/components/atoms/BadgeUnreadNotifications"
+import { FeatureFlagsRenderer } from "../FeatureFlagRenderer"
 
 interface DashboardNavProps {
   readonly items: NavItem[]
@@ -48,14 +49,19 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
         <TooltipProvider>
           {items.map((item) => {
             const badge = getBadgeByHref(item.href)
+            const NavLinkComponent = isCollapsed
+              ? DashboardCollapsedNavLink
+              : DashboardNavLink
             return (
-              <RoleBase roles={item.roles} key={item.label}>
-                {isCollapsed ? (
-                  <DashboardCollapsedNavLink item={item} badge={badge} />
-                ) : (
-                  <DashboardNavLink item={item} badge={badge} />
-                )}
-              </RoleBase>
+              <FeatureFlagsRenderer
+                key={item.label}
+                ffKey={item.featureFlag}
+                fallBackChildren={<></>}
+              >
+                <RoleBase roles={item.roles} key={item.label}>
+                  <NavLinkComponent item={item} badge={badge} />
+                </RoleBase>
+              </FeatureFlagsRenderer>
             )
           })}
         </TooltipProvider>
