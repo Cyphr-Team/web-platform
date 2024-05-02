@@ -26,7 +26,7 @@ export const useQueryGetMicroLoanApplicationDetails = (
   applicationId: string
 ) => {
   return useQueryGetApplicationDetails<UserMicroLoanApplication>(
-    QUERY_KEY.GET_LOAN_APPLICATION_DETAILS,
+    [QUERY_KEY.GET_LOAN_APPLICATION_DETAILS, applicationId],
     () => {
       return getRequest({
         path: API_PATH.loanApplication.details(LoanType.MICRO),
@@ -38,7 +38,7 @@ export const useQueryGetMicroLoanApplicationDetails = (
 }
 
 export const useQueryGetApplicationDetails = <T>(
-  queryKey: string,
+  queryKey: string[],
   queryFn: () => Promise<T>,
   enabled: boolean = false
 ) => {
