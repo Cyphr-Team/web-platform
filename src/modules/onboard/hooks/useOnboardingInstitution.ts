@@ -10,6 +10,7 @@ import { ErrorResponse } from "react-router-dom"
 import { OnboardingFormValue } from "../types"
 import { UserRoles } from "@/types/user.type"
 import { getTenantDomain } from "@/utils/domain.utils"
+import { ExpirationDays } from "@/types/expiration-day.type"
 
 export const useOnboardingInstitution = () => {
   return useMutation<
@@ -44,7 +45,8 @@ export const useOnboardingInstitution = () => {
           email: data.adminEmail,
           roles: [UserRoles.CDFI_ADMIN.toLowerCase()],
           institutionId: institution.data.id,
-          baseUrl: `${baseUrl}/accept-invite`
+          baseUrl: `${baseUrl}/accept-invite`,
+          expirationDays: ExpirationDays.SEVEN_DAYS
         }
       })
 
