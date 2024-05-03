@@ -151,7 +151,8 @@ export const API_PATH = {
     },
     loanOfficer: {
       list: "api/loan-officer/programs/list"
-    }
+    },
+    adminSelectLoanProgramList: "api/admin-loan/program/list"
   },
   application: {
     list: "api/user-loan/application/list",
@@ -313,6 +314,8 @@ export const PASSWORD_REGEX = {
 // QUERY REQUEST
 
 export const REQUEST_LIMIT_PARAM = 25
+
+export const REQUEST_LIMIT_PARAM_FOR_SELECT = 200
 
 export const MAX_REMEMBER_ME_DAYS = 30
 

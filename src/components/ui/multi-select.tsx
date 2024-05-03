@@ -5,7 +5,6 @@ import {
   useFormContext
 } from "react-hook-form"
 
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -25,8 +24,10 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 import { Option } from "@/types/common.type"
+import { Check, ChevronDown } from "lucide-react"
+import { ReactNode } from "react"
 
 export function MultiSelect<
   TFieldValues extends FieldValues,
@@ -35,12 +36,14 @@ export function MultiSelect<
   options,
   name,
   field,
-  label
+  label,
+  prefixIcon
 }: {
   options: Option[]
   name: string
   field: ControllerRenderProps<TFieldValues, TName>
-  label: string
+  label?: string
+  prefixIcon?: ReactNode
 }) {
   const { getValues, setValue } = useFormContext()
 
@@ -68,7 +71,7 @@ export function MultiSelect<
 
   return (
     <FormItem className="flex flex-col flex-1 md:flex-none">
-      <FormLabel>{label}</FormLabel>
+      {label && <FormLabel>{label}</FormLabel>}
 
       <Popover>
         <PopoverTrigger asChild>
@@ -76,19 +79,22 @@ export function MultiSelect<
             <Button
               variant="outline"
               className={cn(
-                "min-w-[200px] w-full md:w-[300px] justify-between",
+                "min-w-[200px] w-full md:w-[300px] px-3.5",
                 !field.value && "text-muted-foreground"
               )}
             >
-              <p className="truncate">
-                {field.value.length > 0
-                  ? field.value.map((v: Option) => v.label).join(", ")
-                  : "All"}
-              </p>
-              <p className="ml-2 shrink-0 flex items-center">
-                {!!field.value.length && <span>({field.value.length})</span>}
-                <ChevronsUpDown className="ml-0.5 h-4 w-4 opacity-50" />
-              </p>
+              {prefixIcon}
+              <div className="flex justify-between flex-1 min-w-0">
+                <p className="truncate font-normal">
+                  {field.value.length > 0
+                    ? field.value.map((v: Option) => v.label).join(", ")
+                    : "All"}
+                </p>
+                <p className="ml-2 shrink-0 flex items-center">
+                  {!!field.value.length && <span>({field.value.length})</span>}
+                  <ChevronDown className="ml-0.5 h-5 w-5 opacity-50" />
+                </p>
+              </div>
             </Button>
           </FormControl>
         </PopoverTrigger>

@@ -18,13 +18,13 @@ export function Component() {
       <div className="flex-col flex">
         <div
           className={cn(
-            "flex flex-wrap items-center justify-between space-y-2 p-5 bg-white border-b sticky top-0 z-20",
+            "flex flex-wrap items-center justify-between gap-2 p-5 bg-white border-b sticky top-0 z-20",
             "md:px-8"
           )}
         >
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center">
             <FilterTimeRange />
           </div>
         </div>
@@ -36,8 +36,10 @@ export function Component() {
           <Separator />
 
           <PerformanceMetrics />
-          <AverageLoanSizeOfAllLoanProgram />
-          <AverageApprovedLoanSizeChart />
+          <div className="flex gap-4 flex-wrap mt-8">
+            <AverageLoanSizeOfAllLoanProgram />
+            <AverageApprovedLoanSizeChart />
+          </div>
           <AverageTimeToApprovalChart />
         </div>
       </div>

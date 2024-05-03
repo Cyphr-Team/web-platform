@@ -7,13 +7,22 @@ import { Button } from "./button"
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   wrapperClassName?: string
+  suffixClassName?: string
   suffixIcon?: React.ReactNode
   prefixIcon?: React.ReactNode
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { wrapperClassName, className, type, prefixIcon, suffixIcon, ...props },
+    {
+      wrapperClassName,
+      suffixClassName,
+      className,
+      type,
+      prefixIcon,
+      suffixIcon,
+      ...props
+    },
     ref
   ) => {
     return (
@@ -35,7 +44,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {suffixIcon && (
-          <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none border-l border-0">
+          <div
+            className={cn(
+              "absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none border-l border-0",
+              suffixClassName
+            )}
+          >
             {suffixIcon}
           </div>
         )}

@@ -46,23 +46,31 @@ export function DatePickerWithRange({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
+              "w-[300px] justify-start text-left font-normal px-3.5",
+              !date && "text-muted-foreground",
+              "group-[.date-select-coupling]:rounded-l-none group-[.date-select-coupling]:border-l-0 group-[.date-select-coupling]:justify-between"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
+            <CalendarIcon
+              className={cn(
+                "mr-2 h-4 w-4 order-0 text-muted-foreground",
+                "group-[.date-select-coupling]:order-1 group-[.date-select-coupling]:mr-0"
+              )}
+            />
+            <div>
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "LLL dd, y")} -{" "}
+                    {format(date.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  <>{format(date.from, "LLL dd, y")} - Pick to date</>
+                )
               ) : (
-                <>{format(date.from, "LLL dd, y")} - Pick to date</>
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
+                <span>Pick a date</span>
+              )}
+            </div>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">

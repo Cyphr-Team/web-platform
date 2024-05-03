@@ -28,7 +28,7 @@ const DEFAULT_DASHBOARD_STATE: DashboardState = {
 }
 
 const LABEL_CONFIG = {
-  fontSize: 14,
+  fontSize: 12,
   position: "top",
   fontWeight: "500",
   fill: "black"
@@ -46,10 +46,10 @@ const CHART_DEFAULT = {
   deniedColor: "#EA4335",
   approvedColor: "#34A853",
   inreviewColor: "#FBBC04",
-  draftColor: "#cccccc",
+  draftColor: "#B3B3B3",
   draftLineColor: "#B3B3B3",
-  approvalLineColor: "#5A9151",
-  deniedLineColor: "#B24638"
+  approvalLineColor: "#34A853",
+  deniedLineColor: "#EA4335"
 }
 
 export {

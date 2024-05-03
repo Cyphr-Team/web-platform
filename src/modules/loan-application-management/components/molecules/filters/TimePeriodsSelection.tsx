@@ -5,17 +5,21 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
-
-const TIME_PERIODS = ["monthly", "weekly", "daily"]
+import { TIME_PERIODS } from "@/constants/date.constants"
+import { cn } from "@/lib/utils"
 
 type Props = {
   onChangeTimePeriod: (timePeriod: string) => void
   timePeriod: string
+  timePeriods?: string[]
+  className?: string
 }
 
 export const TimePeriodsSelection: React.FC<Props> = ({
   onChangeTimePeriod,
-  timePeriod
+  timePeriod,
+  timePeriods = TIME_PERIODS,
+  className
 }) => {
   return (
     <Select
@@ -24,11 +28,16 @@ export const TimePeriodsSelection: React.FC<Props> = ({
         onChangeTimePeriod(value)
       }}
     >
-      <SelectTrigger className="pr-1.5 focus:ring-0 w-28 font-medium capitalize">
+      <SelectTrigger
+        className={cn(
+          "pr-1.5 focus:ring-0 w-28 font-medium capitalize",
+          className
+        )}
+      >
         <SelectValue>{timePeriod}</SelectValue>
       </SelectTrigger>
       <SelectContent position="popper">
-        {TIME_PERIODS.map((option, id: number) => (
+        {timePeriods.map((option, id: number) => (
           <SelectItem
             className="capitalize"
             key={`${option}-${id}`}

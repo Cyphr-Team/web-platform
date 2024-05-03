@@ -4,6 +4,7 @@ import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardSingleNumberCard } from "./atoms/DashboardSingleNumberCard"
 import { LoanApplicationActivityChart } from "./LoanApplicationActivityChart"
 import { StatsTitle } from "./atoms/StatsTitle"
+import { LoanApplicationDecisionRateChart } from "./LoanApplicationDecisionRateChart"
 
 export const TotalApplicationActivity = () => {
   const { isLoading, statsData } = useDashboard()
@@ -53,7 +54,10 @@ export const TotalApplicationActivity = () => {
         />
       </div>
 
-      <LoanApplicationActivityChart />
+      <div className="flex gap-4 flex-wrap md:flex-nowrap mt-8">
+        <LoanApplicationActivityChart />
+        <LoanApplicationDecisionRateChart />
+      </div>
     </div>
   )
 }

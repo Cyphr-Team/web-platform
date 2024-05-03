@@ -1,4 +1,6 @@
 import {
+  FORMAT_CHART_MONTHLY,
+  FORMAT_CHART_WEEKLY,
   FORMAT_DATE_M_D_Y,
   FORMAT_DATE_M_D_Y_TIME,
   FORMAT_REQUEST_DATE
@@ -27,6 +29,22 @@ export const requestDate = (date?: string | Date) => {
   } catch {
     console.error("Error with format request date")
     return format(new Date(), FORMAT_REQUEST_DATE)
+  }
+}
+
+export const formatChartMonthly = (date?: string | Date) => {
+  try {
+    return format(date ?? "", FORMAT_CHART_MONTHLY)
+  } catch {
+    return date?.toString() ?? ""
+  }
+}
+
+export const formatChartWeekly = (date?: string | Date) => {
+  try {
+    return format(date ?? "", FORMAT_CHART_WEEKLY)
+  } catch {
+    return date?.toString() ?? ""
   }
 }
 

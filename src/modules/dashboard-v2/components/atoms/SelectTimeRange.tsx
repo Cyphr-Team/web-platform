@@ -21,7 +21,7 @@ export function SelectTimeRange({
     customOnChange?.(value as TimeRangeValue)
   }
 
-  const name = "timeRange.selectedTimeRange"
+  const name = "timeRange"
   const value = watch(name)
 
   return (
@@ -31,7 +31,7 @@ export function SelectTimeRange({
         name={name}
         options={timeRangeOptions}
         onChange={onChangeTimeRange}
-        value={value ?? ""}
+        value={value.selectedTimeRange ?? ""}
         placeholder="Select time range.."
       />
     </div>
