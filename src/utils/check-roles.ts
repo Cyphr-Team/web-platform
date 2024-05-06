@@ -10,6 +10,21 @@ const getUserRoles = () => {
   return userInfo.roles
 }
 
+const mapRoleToDisplay = (role: UserRoles) => {
+  switch (role) {
+    case UserRoles.CDFI_ADMIN:
+      return "Lender Admin"
+    case UserRoles.LOAN_OFFICER:
+      return "Loan Officer"
+    case UserRoles.LOAN_APPLICANT:
+      return "Loan Applicant"
+    case UserRoles.FORESIGHT_ADMIN:
+      return "Foresight Admin"
+    default:
+      return "Unknown"
+  }
+}
+
 const checkIsLoanApplicant = () => {
   const userInfo = inMemoryJWTService.getUserInfo()
   if (!userInfo) return false
@@ -45,6 +60,7 @@ const checkIsLenderAdmin = () => {
 }
 
 export {
+  mapRoleToDisplay,
   checkIsLenderAdmin,
   checkIsForesightAdmin,
   checkIsLoanApplicant,

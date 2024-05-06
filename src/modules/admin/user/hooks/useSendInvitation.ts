@@ -1,7 +1,7 @@
 import { API_PATH } from "@/constants"
 import * as z from "zod"
 import { postRequest } from "@/services/client.service"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type"
 import { UserInfo } from "@/types/user.type"
 import { AxiosError, AxiosResponse } from "axios"
@@ -9,6 +9,7 @@ import { customRequestHeader } from "@/utils/request-header"
 import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
+import { invitationKeys } from "@/constants/query-key"
 
 export const adminSendInvitationForm = z.object({
   roles: z
@@ -27,6 +28,8 @@ export type AdminSendInvitationValue = z.infer<
 }
 
 export const useSendInvitation = () => {
+  const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<UserInfo>,
     AxiosError<ErrorResponse>,
@@ -41,6 +44,7 @@ export const useSendInvitation = () => {
     },
     onSuccess: () => {
       toastSuccess(TOAST_MSG.user.sendInvitation)
+      queryClient.invalidateQueries({ queryKey: invitationKeys.lists() })
     },
     onError: (error) => {
       toastError({

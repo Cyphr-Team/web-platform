@@ -2,7 +2,7 @@ import { UserRoles } from "@/types/user.type"
 
 const INVITE_ROLES = [
   {
-    label: "CDFI Admin",
+    label: "Lender Admin",
     value: UserRoles.CDFI_ADMIN
   },
   {

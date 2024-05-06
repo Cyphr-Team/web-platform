@@ -1,7 +1,8 @@
 import { Badge } from "@/components/ui/badge"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { UserDetailInfo } from "@/types/user.type"
-import { convertToReadableDateAgo, snakeCaseToText } from "@/utils"
+import { UserDetailInfo, UserRoles } from "@/types/user.type"
+import { convertToReadableDateAgo } from "@/utils"
+import { mapRoleToDisplay } from "@/utils/check-roles"
 import { ColumnDef } from "@tanstack/react-table"
 
 export const columns: ColumnDef<UserDetailInfo>[] = [
@@ -32,13 +33,16 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
       return <DataTableColumnHeader column={column} title="Roles" />
     },
     cell: ({ row }) => {
-      const roles: string[] = row.getValue("roles")
+      const roles: UserRoles[] = row.getValue("roles")
+      const displayedRoles = roles.map(mapRoleToDisplay)
 
-      return roles.map((role) => (
-        <Badge key={role} className="capitalize">
-          {snakeCaseToText(role)}
-        </Badge>
-      ))
+      return displayedRoles.map((role) => {
+        return (
+          <Badge key={role} className="capitalize">
+            {role}
+          </Badge>
+        )
+      })
     }
   },
   {

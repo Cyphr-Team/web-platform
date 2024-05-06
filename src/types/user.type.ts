@@ -34,7 +34,7 @@ interface UserDetailInfo {
   email: string
   avatar: string
   status: UserStatus
-  roles: UserRoles
+  roles: UserRoles[]
   loggedInAt: string
   authProvider: string
   createdAt: string
