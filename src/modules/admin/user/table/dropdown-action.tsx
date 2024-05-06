@@ -13,7 +13,12 @@ export const DropdownAction = ({ invitation }: { invitation: Invitation }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button
+          variant="ghost"
+          size="icon"
+          id={invitation.id}
+          name="btn-menu-invitation"
+        >
           <MoreVertical />
         </Button>
       </DropdownMenuTrigger>
