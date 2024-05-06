@@ -10,7 +10,7 @@ import { toCurrency } from "@/utils"
 type CashFlowGlanceItemProps = {
   title: string
   description: string
-  value: number
+  value?: number
   isNegative?: boolean
   isCurrency?: boolean
 }
@@ -34,7 +34,7 @@ export const CashFlowGlanceItem = ({
           >
             <p className="text-sm font-medium">{title}</p>
             <p className={cn(`text-xs`, isNegative && "text-error-500")}>
-              {isCurrency ? toCurrency(value) : value}
+              {value != null ? (isCurrency ? toCurrency(value) : value) : "-"}
             </p>
           </div>
         </TooltipTrigger>

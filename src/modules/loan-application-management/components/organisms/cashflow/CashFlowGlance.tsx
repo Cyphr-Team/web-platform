@@ -29,7 +29,7 @@ export const CashFlowGlance = () => {
                   value={
                     cashFlowAnalysis?.cashFlowGlance[
                       item.key as keyof CashFlowGlanceType
-                    ] ?? `-`
+                    ]
                   }
                   isNegative={item.isNegative}
                   isCurrency={item.isCurrency}
