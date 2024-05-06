@@ -35,7 +35,6 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
     cell: ({ row }) => {
       const roles: UserRoles[] = row.getValue("roles")
       const displayedRoles = roles.map(mapRoleToDisplay)
-
       return displayedRoles.map((role) => {
         return (
           <Badge key={role} className="capitalize">

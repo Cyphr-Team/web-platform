@@ -11,7 +11,7 @@ const getUserRoles = () => {
 }
 
 const mapRoleToDisplay = (role: UserRoles) => {
-  switch (role) {
+  switch (role.toUpperCase()) {
     case UserRoles.CDFI_ADMIN:
       return "Lender Admin"
     case UserRoles.LOAN_OFFICER:
