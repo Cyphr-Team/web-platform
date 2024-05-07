@@ -126,8 +126,12 @@ export const API_PATH = {
   admin: {
     user: {
       all: "api/admin",
+      get: "api/admin/user",
       sendInvitation: "api/admin/user/invite",
-      list: () => `${API_PATH.admin.user.all}/users`
+      updateRoles: "api/admin/user/update-roles",
+      list: () => `${API_PATH.admin.user.all}/users`,
+      delete: (userId: string) =>
+        `${API_PATH.admin.user.all}/user/${userId}/deactivate`
     },
     invitation: {
       all: "api/admin/invitation",

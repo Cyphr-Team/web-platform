@@ -6,10 +6,14 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { MoreVertical } from "lucide-react"
-import { ButtonRevokeInvitation } from "../components/revoke-invitation-button"
 import { Invitation } from "@/types/invitation.type.ts"
+import { ButtonRevokeInvitation } from "@/modules/admin/user/components/RevokeInvitationButton.tsx"
 
-export const DropdownAction = ({ invitation }: { invitation: Invitation }) => {
+export const RevokeInvitationAction = ({
+  invitation
+}: {
+  invitation: Invitation
+}) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

@@ -2,7 +2,7 @@ import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { PaginationState } from "@tanstack/react-table"
 import { useQueryListPaginateInvitation } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateInvitation.ts"
 import { useState } from "react"
-import { DropdownAction } from "@/modules/admin/user/table/dropdown-action.tsx"
+import { RevokeInvitationAction } from "@/modules/admin/user/table/revoke-invitation-action.tsx"
 import { calculateDaysUntilExpiration } from "@/utils/date.utils.ts"
 
 export const DataFlex = () => {
@@ -35,7 +35,7 @@ export const DataFlex = () => {
         return (
           <div
             key={invitation.id}
-            className="border border-gray-200 p-2 mb-1 rounded-none flex items-center justify-between"
+            className="border border-gray-500 p-1.5 mb-0.5 flex items-center justify-between"
           >
             <div className="flex items-center">
               <h2 className="text-gray-600">
@@ -61,7 +61,9 @@ export const DataFlex = () => {
                 )}
               </p>
               <div className="min-w-0">
-                <DropdownAction invitation={invitation}></DropdownAction>
+                <RevokeInvitationAction
+                  invitation={invitation}
+                ></RevokeInvitationAction>
               </div>
             </div>
           </div>

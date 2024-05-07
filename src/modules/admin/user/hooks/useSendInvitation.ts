@@ -43,8 +43,8 @@ export const useSendInvitation = () => {
       })
     },
     onSuccess: () => {
-      toastSuccess(TOAST_MSG.user.sendInvitation)
       queryClient.invalidateQueries({ queryKey: invitationKeys.lists() })
+      toastSuccess(TOAST_MSG.user.sendInvitation)
     },
     onError: (error) => {
       toastError({

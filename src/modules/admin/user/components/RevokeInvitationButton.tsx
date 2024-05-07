@@ -36,7 +36,8 @@ export const ButtonRevokeInvitation = ({
       confirmText="Confirm"
       description={
         <span>
-          <strong>Revoke this invitation?</strong> This action is permanent.
+          <strong>Revoke this invitation?</strong> This action is permanent and
+          cannot be undone.
         </span>
       }
       actionClassName="bg-red-500 hover:bg-red-600 text-white"

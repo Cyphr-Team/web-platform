@@ -7,6 +7,14 @@ export const TOAST_MSG = {
     revokeInvitation: {
       title: "Revoke invitation",
       description: "Revoke invitation successfully"
+    },
+    editUserRole: {
+      title: "Edit user roles",
+      description: "Edit user roles successfully"
+    },
+    deactivateUser: {
+      title: "Deactivate user",
+      description: "Deactivate user successfully"
     }
   },
   loanProgram: {

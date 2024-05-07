@@ -2,8 +2,10 @@ import { Badge } from "@/components/ui/badge"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { UserDetailInfo, UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
-import { mapRoleToDisplay } from "@/utils/check-roles"
 import { ColumnDef } from "@tanstack/react-table"
+import React from "react"
+import { EditUserRolesAction } from "@/modules/admin/user/table/edit-user-roles-action.tsx"
+import { mapRoleToDisplay } from "@/utils/check-roles.ts"
 
 export const columns: ColumnDef<UserDetailInfo>[] = [
   {
@@ -35,13 +37,22 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
     cell: ({ row }) => {
       const roles: UserRoles[] = row.getValue("roles")
       const displayedRoles = roles.map(mapRoleToDisplay)
-      return displayedRoles.map((role) => {
-        return (
-          <Badge key={role} className="capitalize">
-            {role}
-          </Badge>
-        )
-      })
+
+      return (
+        <div className="flex items-center">
+          {displayedRoles.map((role) => (
+            <React.Fragment key={role}>
+              <Badge
+                key={role}
+                className="flex items-center capitalize pr-3 text-primary"
+              >
+                {role}
+              </Badge>
+            </React.Fragment>
+          ))}
+          <EditUserRolesAction userId={row.original.id} />
+        </div>
+      )
     }
   },
   {
