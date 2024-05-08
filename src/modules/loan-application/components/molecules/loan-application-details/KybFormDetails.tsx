@@ -2,6 +2,8 @@ import { Card } from "@/components/ui/card"
 import { TextInputDisplay } from "../../atoms/TextInputDisplay"
 import { getStateName } from "@/modules/loan-application/hooks/useSelectCities"
 import { KYBInformationResponse } from "@/modules/loan-application/constants/type"
+import { toPattern } from "@/components/ui/mask-input"
+import { EIN_PATTERN } from "@/constants"
 
 interface KybFormDetailsProps {
   kybFormData?: KYBInformationResponse
@@ -43,7 +45,7 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
         />
         <TextInputDisplay
           label="Employer Identification Number (EIN)"
-          value={kybFormData?.businessTin}
+          value={toPattern(kybFormData?.businessTin ?? "", EIN_PATTERN)}
           className="col-span-3"
         />
         <TextInputDisplay

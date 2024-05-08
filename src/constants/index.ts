@@ -283,6 +283,7 @@ export const phoneRegex =
   /^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$/
 
 export const SSN_PATTERN = "000-00-0000"
+export const EIN_PATTERN = "00-0000000"
 
 export interface QueryResponse<T> {
   data: T

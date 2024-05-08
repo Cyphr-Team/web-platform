@@ -27,6 +27,7 @@ import { ArrowRight } from "lucide-react"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
+import { EIN_PATTERN } from "@/constants"
 
 export const BusinessInformationForm = () => {
   const { finishCurrentStep } = useLoanApplicationProgressContext()
@@ -193,6 +194,7 @@ export const BusinessInformationForm = () => {
                 </FormLabel>
                 <FormControl>
                   <MaskInput
+                    pattern={EIN_PATTERN}
                     placeholder="i.e: 12-3456789"
                     handleChange={handleChangeEIN}
                     className="text-base"
