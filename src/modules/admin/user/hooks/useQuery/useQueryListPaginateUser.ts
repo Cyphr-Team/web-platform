@@ -1,29 +1,49 @@
 import { API_PATH } from "@/constants"
 import { userKeys } from "@/constants/query-key"
-import { getRequest } from "@/services/client.service"
+import { postRequest } from "@/services/client.service"
 import { ListResponse, PaginateParams } from "@/types/common.type"
 import { UserDetailInfo } from "@/types/user.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
+import * as z from "zod"
 
 type ListUserResponse = ListResponse<UserDetailInfo>
 
-type Params = PaginateParams
+export const UserFilterSchema = z.object({
+  institutionIds: z.array(z.object({ label: z.string(), value: z.string() }))
+})
 
-export const useQueryListPaginateUser = ({ limit, offset }: Params) => {
+export type UserFilterValues = z.infer<typeof UserFilterSchema>
+
+export type FilterParams = {
+  institutionIds?: string[]
+}
+
+type Params = PaginateParams & Partial<FilterParams>
+
+export const useQueryListPaginateUser = ({
+  limit,
+  offset,
+  institutionIds
+}: Params) => {
   return useQuery<ListUserResponse>({
     queryKey: userKeys.list(
       createSearchParams({
         limit: limit.toString(),
-        offset: offset.toString()
+        offset: offset.toString(),
+        institutionIds: institutionIds ?? []
       }).toString()
     ),
     queryFn: async () => {
-      const response = await getRequest<Params, ListUserResponse>({
+      const response = await postRequest<Params, ListUserResponse>({
         path: API_PATH.admin.user.list(),
-        params: { limit, offset }
+        data: {
+          limit,
+          offset,
+          institutionIds: institutionIds?.length ? institutionIds : undefined
+        }
       })
-      return response
+      return response.data
     },
     placeholderData: keepPreviousData
   })

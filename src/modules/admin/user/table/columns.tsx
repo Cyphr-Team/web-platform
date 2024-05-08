@@ -2,12 +2,13 @@ import { Badge } from "@/components/ui/badge"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { UserDetailInfo, UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
-import { ColumnDef } from "@tanstack/react-table"
-import React from "react"
+import { AccessorKeyColumnDef } from "@tanstack/react-table"
 import { EditUserRolesAction } from "@/modules/admin/user/table/edit-user-roles-action.tsx"
 import { mapRoleToDisplay } from "@/utils/check-roles.ts"
 
-export const columns: ColumnDef<UserDetailInfo>[] = [
+export const columns: AccessorKeyColumnDef<
+  UserDetailInfo & { institutionName?: string }
+>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -41,18 +42,24 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
       return (
         <div className="flex items-center">
           {displayedRoles.map((role) => (
-            <React.Fragment key={role}>
-              <Badge
-                key={role}
-                className="flex items-center capitalize pr-3 text-primary"
-              >
-                {role}
-              </Badge>
-            </React.Fragment>
+            <Badge
+              key={role}
+              className="flex items-center capitalize pr-3 text-primary"
+            >
+              {role}
+            </Badge>
           ))}
           <EditUserRolesAction userId={row.original.id} />
         </div>
       )
+    }
+  },
+  {
+    accessorKey: "institution",
+    header: () => <p>Institution</p>,
+    size: 150,
+    cell: ({ row }) => {
+      return <div>{row.original.institutionName}</div>
     }
   },
   {
