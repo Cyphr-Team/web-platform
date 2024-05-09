@@ -2,21 +2,32 @@ import { DatePickerWithRange } from "@/components/ui/date-picker-with-range"
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { MultiSelect } from "@/components/ui/multi-select"
 import { REQUEST_LIMIT_PARAM_FOR_SELECT } from "@/constants"
-import { TimeRangeFilterSchema } from "@/constants/time-range-filter.constants"
 import { Option } from "@/types/common.type"
-import { TimeRangeFilterValue, TimeRangeValue } from "@/types/time-range.type"
+import { TimeRangeValue } from "@/types/time-range.type"
+import { checkIsLenderAdmin } from "@/utils/check-roles"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { startOfMonth, subMonths } from "date-fns"
 import debounce from "lodash.debounce"
 import { ClipboardCheck } from "lucide-react"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { DateRange } from "react-day-picker"
-import { useForm } from "react-hook-form"
+import { DeepPartial, useForm } from "react-hook-form"
+import * as z from "zod"
 import { useQuerySelectLoanProgramList } from "../../../hooks/useQuerySelectList/useQuerySelectLoanProgramList"
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
 import { SelectTimeRange } from "./atoms/SelectTimeRange"
-import { checkIsLenderAdmin } from "@/utils/check-roles"
+
+const FilterSchema = z.object({
+  loanProgramIds: z.array(z.object({ label: z.string(), value: z.string() })),
+  timeRange: z.object({
+    selectedTimeRange: z.string().optional(),
+    from: z.date().optional(),
+    to: z.date().optional()
+  })
+})
+
+type FilterValues = z.infer<typeof FilterSchema>
 
 export const FilterTimeRange = () => {
   const { dashboardState, dashboardDispatch } = useDashboard()
@@ -31,9 +42,9 @@ export const FilterTimeRange = () => {
   })
 
   const loanProgramOptions: Option[] =
-    data?.data?.map((el) => ({
-      label: el.name,
-      value: el.name.toLowerCase()
+    data?.data?.map((loanProgram) => ({
+      label: loanProgram.name,
+      value: loanProgram.id
     })) ?? []
 
   // 3 months before now
@@ -42,35 +53,37 @@ export const FilterTimeRange = () => {
   // TODO: Support officer
   const isLenderAdmin = checkIsLenderAdmin()
 
-  const form = useForm<
-    TimeRangeFilterValue & {
-      programNames: string[]
-    }
-  >({
-    resolver: zodResolver(TimeRangeFilterSchema),
+  const form = useForm<FilterValues>({
+    resolver: zodResolver(FilterSchema),
     defaultValues: {
       timeRange: dashboardState.filter.timeRange,
-      programNames: []
+      loanProgramIds: []
     }
   })
 
   // Will be created only once initially
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSubmit = useCallback(
-    debounce(
-      form.handleSubmit((data) => {
+    debounce((formValues: DeepPartial<FilterValues>) => {
+      if (formValues.timeRange)
         dashboardDispatch({
           type: DashboardActionType.UpdateTimeRange,
-          payload: data.timeRange
+          payload: formValues.timeRange
         })
-      }),
-      400
-    ),
+
+      if (formValues.loanProgramIds)
+        dashboardDispatch({
+          type: DashboardActionType.UpdateLoanProgramIds,
+          payload:
+            formValues.loanProgramIds
+              ?.map((loanProgram) => loanProgram?.value ?? "")
+              .filter(Boolean) ?? []
+        })
+    }, 400),
     []
   )
 
   const customSelectTimeRangeOnChange = () => {
-    handleSubmit()
     setShowDatePicker(
       form.getValues("timeRange").selectedTimeRange !== TimeRangeValue.ALL_TIME
     )
@@ -82,8 +95,15 @@ export const FilterTimeRange = () => {
       to: range?.to,
       selectedTimeRange: TimeRangeValue.CUSTOM
     })
-    if (range?.from && range?.to) handleSubmit()
   }
+
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      handleSubmit(value)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [form, handleSubmit])
 
   return (
     <div>
@@ -93,13 +113,13 @@ export const FilterTimeRange = () => {
             {isLenderAdmin && (
               <FormField
                 control={form.control}
-                name="programNames"
+                name="loanProgramIds"
                 render={({ field }) => (
                   <MultiSelect
                     prefixIcon={
                       <ClipboardCheck className="w-5 h-5 text-muted-foreground mr-2" />
                     }
-                    name="programNames"
+                    name="loanProgramIds"
                     field={field}
                     options={loanProgramOptions}
                   />

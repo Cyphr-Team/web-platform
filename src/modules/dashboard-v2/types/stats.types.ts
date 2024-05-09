@@ -1,5 +1,5 @@
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
-import { TimeRangeFilterValue } from "@/types/time-range.type"
+import { TimeRange, TimeRangeFilterValue } from "@/types/time-range.type"
 import { Usage } from "@/types/usage.type"
 import { Dispatch } from "react"
 
@@ -9,7 +9,8 @@ enum DashboardActionType {
   UpdateIncompleteApplicationRateFrequency = "UpdateIncompleteApplicationRateFrequency",
   UpdateAverageTimeToApprovalMetricsFrequency = "UpdateAverageTimeToApprovalMetricsFrequency",
   UpdateAverageLoanSizeFrequency = "UpdateAverageLoanSizeFrequency",
-  UpdatePortfolioGrowthFrequency = "UpdatePortfolioGrowthFrequency"
+  UpdatePortfolioGrowthFrequency = "UpdatePortfolioGrowthFrequency",
+  UpdateLoanProgramIds = "UpdateLoanProgramIds"
 }
 
 export { DashboardActionType }
@@ -39,6 +40,10 @@ type DashboardAction =
       type: DashboardActionType.UpdatePortfolioGrowthFrequency
       payload: DashboardState["portfolioGrowthFrequency"]
     }
+  | {
+      type: DashboardActionType.UpdateLoanProgramIds
+      payload: DashboardState["loanProgramIds"]
+    }
 
 type DashboardState = {
   filter: TimeRangeFilterValue
@@ -47,6 +52,7 @@ type DashboardState = {
   averageTimeToApprovalMetricsFrequency: GRAPH_FREQUENCY
   averageLoanSizeFrequency: GRAPH_FREQUENCY
   portfolioGrowthFrequency: GRAPH_FREQUENCY
+  loanProgramIds: string[]
 }
 
 type Stats = {
@@ -86,6 +92,9 @@ type DashboardProviderState = {
 
   usageData?: Usage
   isLoadingUsage?: boolean
+
+  averageApprovalRateData?: AverageApprovalRateResponse
+  isLoadingAverageApprovalRate?: boolean
 }
 
 type LoanApprovalRateStats = {
@@ -95,6 +104,20 @@ type LoanApprovalRateStats = {
   noApplicationsSubmitted: number
   /** @deprecated unused data */
   noApplicationsApproved: number
+}
+
+type StatsFilter = {
+  timeRange: TimeRange
+}
+
+type AverageApprovalRateResponse = {
+  averageApprovalRate: number
+  percentRate: number
+}
+
+type AverageApprovalRateRequest = {
+  filter: StatsFilter
+  loanProgramIds?: string[]
 }
 
 type ApprovalRateResponse = {
@@ -137,15 +160,17 @@ type PortfolioGrowthStats = {
   loanSize: number
 }
 export type {
-  AverageTimeToApprovalMetricsResponse,
-  IncompleteApplicationRateResponse,
   ApprovalRateResponse,
+  AverageApprovalRateRequest,
+  AverageApprovalRateResponse,
   AverageApprovedLoanSizeResponse,
-  PortfolioGrowthResponse,
+  AverageTimeToApprovalMetricsResponse,
   DashboardAction,
   DashboardProviderProps,
   DashboardProviderState,
   DashboardState,
+  IncompleteApplicationRateResponse,
+  PortfolioGrowthResponse,
   Stats,
   Usage
 }

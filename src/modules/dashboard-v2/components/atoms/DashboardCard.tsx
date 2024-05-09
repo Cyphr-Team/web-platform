@@ -13,8 +13,6 @@ type DashboardCardProps = {
   unit?: string
 
   percentRate?: number
-  positive?: boolean
-  negative?: boolean
   revert?: boolean
 }
 
@@ -26,8 +24,6 @@ export const DashboardCard = ({
   isLoading,
   unit,
   percentRate,
-  positive,
-  negative,
   revert
 }: PropsWithChildren<DashboardCardProps>) => {
   return (
@@ -45,14 +41,9 @@ export const DashboardCard = ({
               {unit && <span> {unit}</span>}
             </div>
 
-            {!!percentRate && (
+            {percentRate !== null && percentRate !== undefined && (
               <div>
-                <DashboardStatsRate
-                  percentRate={percentRate}
-                  positive={positive}
-                  negative={negative}
-                  revert={revert}
-                />
+                <DashboardStatsRate percentRate={percentRate} revert={revert} />
               </div>
             )}
           </div>

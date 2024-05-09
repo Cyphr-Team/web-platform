@@ -13,3 +13,9 @@ export function checkEnabledFeatureFlag(key: FEATURE_FLAGS) {
 export function checkEnabledFeatureFlags(keys: FEATURE_FLAGS[]) {
   return keys.every((key) => checkEnabledFeatureFlag(key))
 }
+
+function isEnableDashboardV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2)
+}
+
+export { isEnableDashboardV2 }

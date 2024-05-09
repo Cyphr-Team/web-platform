@@ -24,7 +24,8 @@ const DEFAULT_DASHBOARD_STATE: DashboardState = {
   incompleteApplicationRateFrequency: GRAPH_FREQUENCY.MONTHLY,
   averageTimeToApprovalMetricsFrequency: GRAPH_FREQUENCY.MONTHLY,
   averageLoanSizeFrequency: GRAPH_FREQUENCY.MONTHLY,
-  portfolioGrowthFrequency: GRAPH_FREQUENCY.MONTHLY
+  portfolioGrowthFrequency: GRAPH_FREQUENCY.MONTHLY,
+  loanProgramIds: []
 }
 
 const LABEL_CONFIG = {

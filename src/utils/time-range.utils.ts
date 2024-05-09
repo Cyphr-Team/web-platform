@@ -1,17 +1,18 @@
+import { TimeRangeValue } from "@/types/time-range.type"
 import {
-  startOfDay,
   endOfDay,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
   endOfMonth,
-  subMonths,
-  subDays,
-  subWeeks,
+  endOfWeek,
+  endOfYear,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
   startOfYear,
+  subDays,
+  subMonths,
+  subWeeks,
   subYears
 } from "date-fns"
-import { TimeRangeValue } from "@/types/time-range.type"
 
 const getTimeRangeDates = (timeRange: TimeRangeValue) => {
   try {
@@ -46,13 +47,16 @@ const getTimeRangeDates = (timeRange: TimeRangeValue) => {
         to = endOfMonth(subMonths(now, 1))
         break
       case TimeRangeValue.LAST_3_MONTHS:
-        from = startOfMonth(subMonths(now, 2))
+        from = startOfMonth(subMonths(now, 3))
+        to = endOfMonth(subMonths(now, 1))
         break
       case TimeRangeValue.LAST_6_MONTHS:
-        from = startOfMonth(subMonths(now, 5))
+        from = startOfMonth(subMonths(now, 6))
+        to = endOfMonth(subMonths(now, 1))
         break
       case TimeRangeValue.LAST_YEAR:
         from = startOfYear(subYears(now, 1))
+        to = endOfYear(subYears(now, 1))
         break
       case TimeRangeValue.ALL_TIME:
         from = startOfYear(1970)

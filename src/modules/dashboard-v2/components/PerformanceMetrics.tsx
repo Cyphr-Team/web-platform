@@ -4,7 +4,12 @@ import { DashboardCard } from "./atoms/DashboardCard"
 import { StatsTitle } from "./atoms/StatsTitle"
 
 export const PerformanceMetrics = () => {
-  const { statsData, isLoading } = useDashboard()
+  const {
+    statsData,
+    isLoading,
+    isLoadingAverageApprovalRate,
+    averageApprovalRateData
+  } = useDashboard()
 
   const data = {
     // Only show usage for Lender Admin
@@ -23,30 +28,30 @@ export const PerformanceMetrics = () => {
           value={10}
           unit="Days"
           percentRate={27}
-          positive={true}
           revert
         />
         <DashboardCard
           title="Average Approval Rate"
-          isLoading={isLoading}
-          value={10}
+          isLoading={isLoadingAverageApprovalRate}
+          value={Math.round(
+            (averageApprovalRateData?.averageApprovalRate ?? 0) * 100
+          )}
           unit="%"
-          percentRate={25}
-          positive={true}
+          percentRate={Math.round(
+            (averageApprovalRateData?.percentRate ?? 0) * 100
+          )}
         />
         <DashboardCard
           title="Average Loan Size"
           isLoading={isLoading}
           value={toCurrency(10, 0)}
           percentRate={15}
-          negative={true}
         />
         <DashboardCard
           title="Total Approved Loan Amount"
           isLoading={isLoading}
           value={data.aggregateLoanAmount}
           percentRate={30}
-          negative={true}
         />
       </div>
     </div>

@@ -24,28 +24,25 @@ export interface DashboardStatsRateProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof statsVariants> {
   percentRate?: number
-  positive?: boolean
-  negative?: boolean
   revert?: boolean
 }
 
 function DashboardStatsRate({
-  percentRate,
-  positive,
-  negative,
+  percentRate = 0,
   className,
   revert,
   ...props
 }: Readonly<DashboardStatsRateProps>) {
   const arrow = revert ? [ArrowDown, ArrowUp] : [ArrowUp, ArrowDown]
-  const variant = positive ? "positive" : negative ? "negative" : "neutral"
+  const variant =
+    percentRate > 0 ? "positive" : percentRate < 0 ? "negative" : "neutral"
 
-  const Icon = positive ? arrow[0] : negative ? arrow[1] : null
+  const Icon = percentRate > 0 ? arrow[0] : percentRate < 0 ? arrow[1] : null
 
   return (
     <div className={cn(statsVariants({ variant }), className)} {...props}>
       {Icon && <Icon className="h-3 w-3" strokeWidth={3} />}
-      {percentRate}%
+      {Math.abs(percentRate)}%
     </div>
   )
 }
