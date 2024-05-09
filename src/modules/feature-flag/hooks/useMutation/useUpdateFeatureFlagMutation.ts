@@ -29,10 +29,13 @@ export const useUpdateFeatureFlagMutation = () => {
         data
       })
     },
-    onSuccess() {
+    onSuccess(res) {
       toastSuccess(TOAST_MSG.featureFlag.update)
       queryClient.invalidateQueries({
         queryKey: featureFlagKeys.lists()
+      })
+      queryClient.invalidateQueries({
+        queryKey: featureFlagKeys.detail(res.data.id)
       })
     },
     onError(error) {
