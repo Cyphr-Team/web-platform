@@ -36,7 +36,7 @@ export const DashboardCard = ({
       <CardContent className="md:pt-0 flex-1">
         {!isLoading ? (
           <div className="flex flex-wrap justify-between items-center gap-1">
-            <div className="text-3xl font-semibold whitespace-nowrap">
+            <div className="text-3xl font-semibold break-world">
               {value ?? 0}
               {unit && <span> {unit}</span>}
             </div>

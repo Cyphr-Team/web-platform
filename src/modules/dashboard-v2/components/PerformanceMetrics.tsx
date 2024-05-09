@@ -1,21 +1,37 @@
-import { toCurrency } from "@/utils"
+import { toCurrency, toPercent } from "@/utils"
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardCard } from "./atoms/DashboardCard"
 import { StatsTitle } from "./atoms/StatsTitle"
 
 export const PerformanceMetrics = () => {
   const {
-    statsData,
     isLoading,
     isLoadingAverageApprovalRate,
-    averageApprovalRateData
+    averageApprovalRateData,
+    aggregateApprovedLoanAmountData,
+    isLoadingAggregateApprovedLoanAmount
   } = useDashboard()
 
   const data = {
-    // Only show usage for Lender Admin
-    usageOfApplications: statsData?.totalApplication ?? 0,
-    totalApprovedLoans: toCurrency(statsData?.totalApplicationApproved ?? 0, 0),
-    aggregateLoanAmount: toCurrency(statsData?.totalLoanAmount ?? 0, 0)
+    approvalRate: toPercent(averageApprovalRateData?.averageApprovalRate),
+    totalLoanAmount: toCurrency(
+      aggregateApprovedLoanAmountData?.totalApprovedLoanAmount,
+      0
+    ),
+    averageLoanSize: toCurrency(
+      aggregateApprovedLoanAmountData?.averageApprovedLoanSize,
+      0
+    )
+  }
+
+  const percentRateData = {
+    approvalPercentRate: toPercent(averageApprovalRateData?.percentRate),
+    totalLoanAmountPercentRate: toPercent(
+      aggregateApprovedLoanAmountData?.percentRate
+    ),
+    averageApprovedLoanSizePercentRate: toPercent(
+      aggregateApprovedLoanAmountData?.averageApprovedLoanSizePercentRate
+    )
   }
 
   return (
@@ -32,26 +48,22 @@ export const PerformanceMetrics = () => {
         />
         <DashboardCard
           title="Average Approval Rate"
-          isLoading={isLoadingAverageApprovalRate}
-          value={Math.round(
-            (averageApprovalRateData?.averageApprovalRate ?? 0) * 100
-          )}
           unit="%"
-          percentRate={Math.round(
-            (averageApprovalRateData?.percentRate ?? 0) * 100
-          )}
+          isLoading={isLoadingAverageApprovalRate}
+          value={data.approvalRate}
+          percentRate={percentRateData.approvalPercentRate}
         />
         <DashboardCard
           title="Average Loan Size"
-          isLoading={isLoading}
-          value={toCurrency(10, 0)}
-          percentRate={15}
+          isLoading={isLoadingAggregateApprovedLoanAmount}
+          value={data.averageLoanSize}
+          percentRate={percentRateData.averageApprovedLoanSizePercentRate}
         />
         <DashboardCard
           title="Total Approved Loan Amount"
-          isLoading={isLoading}
-          value={data.aggregateLoanAmount}
-          percentRate={30}
+          isLoading={isLoadingAggregateApprovedLoanAmount}
+          value={data.totalLoanAmount}
+          percentRate={percentRateData.totalLoanAmountPercentRate}
         />
       </div>
     </div>

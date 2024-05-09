@@ -125,3 +125,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .rdp-tbody tr:first-child {
   justify-content: flex-end;
 }
+
+.break-world { 
+  word-break: break-word;
+}

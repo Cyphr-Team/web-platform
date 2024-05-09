@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useReducer } from "react"
 import { DEFAULT_DASHBOARD_STATE } from "../constants/dashboard.constants"
+import { useQueryGetAggregateApprovedLoanAmount } from "../hooks/query/useQueryGetAggregateApprovedLoanAmount"
 import { useQueryGetApprovalRate } from "../hooks/query/useQueryGetApprovalRate"
 import { useQueryGetAverageApprovalRate } from "../hooks/query/useQueryGetAverageApprovalRate"
 import { useQueryGetAverageApprovedLoanSize } from "../hooks/query/useQueryGetAverageLoanSize"
@@ -32,6 +33,8 @@ export function DashboardProvider({
 
   // Data V2
   const averageApprovalRate = useQueryGetAverageApprovalRate(dashboardState)
+  const aggregateApprovedLoanAmount =
+    useQueryGetAggregateApprovedLoanAmount(dashboardState)
 
   const statsResponse = useQueryGetInstitutionActivity(dashboardState)
   const approvalRate = useQueryGetApprovalRate(dashboardState)
@@ -70,7 +73,11 @@ export function DashboardProvider({
       isLoadingUsage: usageResponse.isFetching,
 
       averageApprovalRateData: averageApprovalRate.data?.data,
-      isLoadingAverageApprovalRate: averageApprovalRate.isFetching
+      isLoadingAverageApprovalRate: averageApprovalRate.isFetching,
+
+      aggregateApprovedLoanAmountData: aggregateApprovedLoanAmount.data?.data,
+      isLoadingAggregateApprovedLoanAmount:
+        aggregateApprovedLoanAmount.isFetching
     }),
     [
       approvalRate.data?.data,
@@ -90,7 +97,10 @@ export function DashboardProvider({
       usageResponse.isFetching,
 
       averageApprovalRate.data?.data,
-      averageApprovalRate.isFetching
+      averageApprovalRate.isFetching,
+
+      aggregateApprovedLoanAmount.data?.data,
+      aggregateApprovedLoanAmount.isFetching
     ]
   )
 

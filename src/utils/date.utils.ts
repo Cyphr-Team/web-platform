@@ -27,7 +27,6 @@ export const requestDate = (date?: string | Date) => {
   try {
     return format(date ?? "", FORMAT_REQUEST_DATE)
   } catch {
-    console.error("Error with format request date")
     return format(new Date(), FORMAT_REQUEST_DATE)
   }
 }

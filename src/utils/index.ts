@@ -66,12 +66,16 @@ export const capitalizeWords = (string: string) =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
 
-export const toCurrency = (value: number, maximumFractionDigits = 2) => {
+export const toCurrency = (value?: number, maximumFractionDigits = 2) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits
   }).format(value ?? 0)
+}
+
+export const toPercent = (data?: number) => {
+  return Math.round((data ?? 0) * 100)
 }
 
 export const convertToCamelCase = (str: string) => {
