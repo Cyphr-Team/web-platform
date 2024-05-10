@@ -1,4 +1,4 @@
-import { ButtonLoading } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { X } from "lucide-react"
 import { useState } from "react"
@@ -39,19 +39,19 @@ export const DeleteCurrentLoanButton = ({
       }
       actionClassName="bg-red-500 hover:bg-red-600 text-white"
     >
-      <ButtonLoading
+      <Button
         variant="ghost"
-        className="cursor-pointer text-center"
+        className="cursor-pointer text-center p-0 hover:bg-white"
         type="button"
         name={`btn-delete-current-loan-${index + 1}`}
-        onClick={(e) => {
+        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.preventDefault()
           e.stopPropagation()
           setIsOpen(true)
         }}
       >
         <X size={20} />
-      </ButtonLoading>
+      </Button>
     </CustomAlertDialog>
   )
 }

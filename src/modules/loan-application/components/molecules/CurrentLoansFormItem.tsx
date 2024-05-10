@@ -35,7 +35,7 @@ export const CurrentLoansFormItem = ({
         subtitle="The financial institution providing the loan"
         name={`loans[${index}].lenderName`}
         control={form.control}
-        className="col-span-6 grid grid-cols-2 gap-x-2xl flex-auto h-10"
+        className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10"
         isRowDirection
         required
       />
@@ -45,7 +45,7 @@ export const CurrentLoansFormItem = ({
         subtitle="i.e: a term loan, revolving credit, etc."
         name={`loans[${index}].loanType`}
         control={form.control}
-        className="col-span-6 grid grid-cols-2 gap-x-2xl flex-auto h-10"
+        className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10"
         isRowDirection
         required
       />
@@ -53,7 +53,7 @@ export const CurrentLoansFormItem = ({
         control={form.control}
         name={`loans[${index}].loanBalance`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-2 gap-y-1xl gap-x-2xl flex-auto h-10">
+          <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-medium">
                 Outstanding loan balance
@@ -95,7 +95,7 @@ export const CurrentLoansFormItem = ({
         control={form.control}
         name={`loans[${index}].monthlyPayment`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-2 gap-x-2xl flex-auto h-10">
+          <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-medium">
                 Monthly payment amount
@@ -137,7 +137,7 @@ export const CurrentLoansFormItem = ({
         control={form.control}
         name={`loans[${index}].remainingDuration`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-2 gap-x-2xl flex-auto h-10">
+          <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 lg:gap-y-0 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-medium">
                 Loan term remaining (in months)

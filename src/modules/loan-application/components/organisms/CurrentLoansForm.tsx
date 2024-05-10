@@ -118,7 +118,7 @@ export const CurrentLoansForm = () => {
                 name="hasOutstandingLoans"
                 render={({ field }) => (
                   <FormItem className="grid grid-cols-6 gap-x-2xl">
-                    <FormLabel className="text-text-secondary col-span-4">
+                    <FormLabel className="text-text-secondary col-span-6 lg:col-span-4">
                       <p className="text-sm text-text-secondary font-medium">
                         Does your business currently have outstanding loans?
                       </p>
@@ -134,7 +134,7 @@ export const CurrentLoansForm = () => {
                         }}
                         value={field.value}
                       >
-                        <SelectTrigger className="text-base col-span-1 col-end-7">
+                        <SelectTrigger className="text-base col-span-6 lg:col-span-2 lg:col-end-7">
                           <SelectValue placeholder="Please select..." />
                         </SelectTrigger>
                         <SelectContent>
@@ -167,7 +167,7 @@ export const CurrentLoansForm = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  className="mt-4 col-span-1 max-w-36"
+                  className="ml-auto mr-0 mt-4 col-span-1 max-w-36"
                   onClick={handleAddLoan}
                 >
                   <Plus className="mr-1 w-4" /> Add Loan
