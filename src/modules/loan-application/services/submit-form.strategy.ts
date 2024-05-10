@@ -16,12 +16,14 @@ import {
   ConfirmationFormValue,
   FinancialFormValue,
   LoanRequestFormValue,
-  OwnerFormValue
+  OwnerFormValue,
+  CurrentLoansFormValue
 } from "../constants/form"
 import { APP_PATH } from "@/constants"
 import { FORM_TYPE } from "../constants/type"
 import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
 import { loanApplicationUserKeys } from "@/constants/query-key"
+import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -29,6 +31,7 @@ export const useSubmitLoanForm = (
   businessData: BusinessFormValue,
   ownerData: OwnerFormValue,
   financialData: FinancialFormValue,
+  currentLoansData: CurrentLoansFormValue,
   confirmationData: ConfirmationFormValue
 ) => {
   const navigate = useNavigate()
@@ -49,6 +52,12 @@ export const useSubmitLoanForm = (
 
   const { submitLoanFinancialForm, isLoading: isSubmittingFinancial } =
     useSubmitLoanFinancialForm(financialData, financialData?.id ?? "")
+
+  //TODO
+  const { isLoading: isSubmittingCurrentLoans } = useSubmitCurrentLoansForm(
+    currentLoansData,
+    currentLoansData?.id ?? ""
+  )
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -180,6 +189,7 @@ export const useSubmitLoanForm = (
       isSubmittingKYB ||
       isSubmittingKYC ||
       isSubmittingFinancial ||
+      isSubmittingCurrentLoans ||
       isSubmittingConfirmation ||
       isUploading
   }

@@ -4,6 +4,7 @@ import { APP_PATH } from "@/constants"
 import { Bell } from "lucide-react"
 import { getSubdomain } from "@/utils/domain.utils"
 import { Institution } from "@/constants/tenant.constants"
+import { LoanApplicationStepsData } from "./type"
 
 export const navItems: NavItem[] = [
   {
@@ -76,6 +77,7 @@ export enum LOAN_APPLICATION_STEPS {
   BUSINESS_INFORMATION = "businessInformation",
   OWNER_INFORMATION = "ownerInformationForm",
   FINANCIAL_INFORMATION = "financialInformationForm",
+  CURRENT_LOANS = "currentLoansForm",
   CONFIRMATION = "confirmationForm"
 }
 
@@ -144,19 +146,25 @@ export const LOAN_APPLICATION_STEP_DATA_LOAN_READY = {
   },
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: {
     previousStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
-    nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+    nextStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
     label: "Cash Flow Verification",
     parent: ARTCAP_MENU.APPLICATION
   },
-  [LOAN_APPLICATION_STEPS.CONFIRMATION]: {
+  [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: {
     previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+    nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+    label: "Current Loans",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.CONFIRMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
     nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
     label: "Review and Sign",
     parent: ARTCAP_MENU.SIGNATURE
   }
 }
 
-const getLoanApplicationStep = () => {
+const getLoanApplicationStep = (): LoanApplicationStepsData => {
   if (getSubdomain() === Institution.LoanReady)
     return LOAN_APPLICATION_STEP_DATA_LOAN_READY
   return LOAN_APPLICATION_STEP_DATA_DEFAULT

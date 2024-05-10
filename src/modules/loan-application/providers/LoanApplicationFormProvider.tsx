@@ -5,7 +5,8 @@ import {
   ConfirmationFormValue,
   FinancialFormValue,
   LoanRequestFormValue,
-  OwnerFormValue
+  OwnerFormValue,
+  CurrentLoansFormValue
 } from "../constants/form"
 import { createContext } from "use-context-selector"
 import { useUpdateEffect } from "react-use"
@@ -19,6 +20,7 @@ type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: BusinessFormValue
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: OwnerFormValue
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: FinancialFormValue
+  [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: CurrentLoansFormValue
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: ConfirmationFormValue
 }
 
@@ -39,6 +41,7 @@ export type FormStateType =
   | BusinessFormValue
   | OwnerFormValue
   | FinancialFormValue
+  | CurrentLoansFormValue
   | ConfirmationFormValue
   | LoanRequestFormValue
 
@@ -149,6 +152,7 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     state[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION],
     state[LOAN_APPLICATION_STEPS.OWNER_INFORMATION],
     state[LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION],
+    state[LOAN_APPLICATION_STEPS.CURRENT_LOANS],
     state[LOAN_APPLICATION_STEPS.CONFIRMATION]
   )
 

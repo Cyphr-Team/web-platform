@@ -97,8 +97,15 @@ class ReadinessStepStrategy extends StepStrategy {
       {
         step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
         previousStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
-        nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        nextStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
         label: "Cash Flow Verification",
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      },
+      {
+        step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        label: "Current Loans",
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
       },
       {

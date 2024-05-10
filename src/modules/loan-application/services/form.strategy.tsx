@@ -7,6 +7,7 @@ import { OwnerInformationForm } from "../components/organisms/OwnerInformationFo
 import { ConfirmationForm } from "../components/organisms/ConfirmationForm"
 import { CashFlowVerificationForm } from "../components/organisms/CashFlowVerificationForm"
 import { FinancialInformationForm } from "../components/organisms/FinancialInformationForm"
+import { CurrentLoansForm } from "../components/organisms/CurrentLoansForm"
 
 interface FormComponent<T extends ReactNode> {
   formType: FORM_TYPE | null
@@ -89,6 +90,11 @@ class ReadinessLoanFormStrategy extends FormStrategy {
         formType: FORM_TYPE.KYC,
         step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
         component: <CashFlowVerificationForm />
+      },
+      {
+        formType: FORM_TYPE.CURRENT_LOANS,
+        step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        component: <CurrentLoansForm />
       },
       {
         formType: null,

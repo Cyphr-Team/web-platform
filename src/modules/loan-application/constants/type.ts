@@ -1,7 +1,11 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { LOAN_APPLICATION_STEP_STATUS, LOAN_APPLICATION_STEPS } from "."
+import {
+  ARTCAP_MENU,
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS
+} from "."
 import { BaseLoanProgramType } from "@/types/loan-program.type"
 
 export interface KYBInformation {
@@ -128,7 +132,8 @@ export interface DocumentUpload {
 export enum FORM_TYPE {
   KYB = "KYB",
   KYC = "KYC",
-  FINANCIAL = "FINANCIAL"
+  FINANCIAL = "FINANCIAL",
+  CURRENT_LOANS = "CURRENT_LOANS"
 }
 
 export interface UserLoanApplicationDetailsResponse {
@@ -172,4 +177,15 @@ export interface ApplicationStep {
   nextStep: LOAN_APPLICATION_STEPS
   label: string
   status: LOAN_APPLICATION_STEP_STATUS
+}
+
+export interface ApplicationStepData {
+  previousStep: LOAN_APPLICATION_STEPS
+  nextStep: LOAN_APPLICATION_STEPS
+  parent: ARTCAP_MENU
+  label: string
+}
+
+export interface LoanApplicationStepsData {
+  [key: string]: ApplicationStepData
 }
