@@ -98,6 +98,9 @@ type DashboardProviderState = {
 
   aggregateApprovedLoanAmountData?: AggregateApprovalLoanAmountResponse
   isLoadingAggregateApprovedLoanAmount?: boolean
+
+  averageTimeToApprovalData?: AverageTimeToApprovalResponse
+  isLoadingAverageTimeToApproval?: boolean
 }
 
 type LoanApprovalRateStats = {
@@ -111,6 +114,11 @@ type LoanApprovalRateStats = {
 
 type StatsFilter = {
   timeRange: TimeRange
+}
+
+type AverageTimeToApprovalResponse = {
+  averageTimeToApproval: number
+  percentRate: number
 }
 
 type AggregateApprovalLoanAmountResponse = {
@@ -170,6 +178,7 @@ type PortfolioGrowthStats = {
   loanSize: number
 }
 export type {
+  AverageTimeToApprovalResponse,
   AggregateApprovalLoanAmountResponse,
   ApprovalRateResponse,
   RateRequest,

@@ -4,6 +4,7 @@ import { useQueryGetAggregateApprovedLoanAmount } from "../hooks/query/useQueryG
 import { useQueryGetApprovalRate } from "../hooks/query/useQueryGetApprovalRate"
 import { useQueryGetAverageApprovalRate } from "../hooks/query/useQueryGetAverageApprovalRate"
 import { useQueryGetAverageApprovedLoanSize } from "../hooks/query/useQueryGetAverageLoanSize"
+import { useQueryGetAverageTimeToApproval } from "../hooks/query/useQueryGetAverageTimeToApproval"
 import { useQueryGetAverageTimeToApprovalMetrics } from "../hooks/query/useQueryGetAverageTimeToApprovalMetrics"
 import { useQueryGetIncompleteApplicationRate } from "../hooks/query/useQueryGetIncompleteApplicationRate"
 import { useQueryGetInstitutionActivity } from "../hooks/query/useQueryGetInstitutionActivity"
@@ -35,6 +36,7 @@ export function DashboardProvider({
   const averageApprovalRate = useQueryGetAverageApprovalRate(dashboardState)
   const aggregateApprovedLoanAmount =
     useQueryGetAggregateApprovedLoanAmount(dashboardState)
+  const averageTimeToApproval = useQueryGetAverageTimeToApproval(dashboardState)
 
   const statsResponse = useQueryGetInstitutionActivity(dashboardState)
   const approvalRate = useQueryGetApprovalRate(dashboardState)
@@ -77,7 +79,10 @@ export function DashboardProvider({
 
       aggregateApprovedLoanAmountData: aggregateApprovedLoanAmount.data?.data,
       isLoadingAggregateApprovedLoanAmount:
-        aggregateApprovedLoanAmount.isFetching
+        aggregateApprovedLoanAmount.isFetching,
+
+      averageTimeToApprovalData: averageTimeToApproval.data?.data,
+      isLoadingAverageTimeToApproval: averageTimeToApproval.isFetching
     }),
     [
       approvalRate.data?.data,
@@ -100,7 +105,10 @@ export function DashboardProvider({
       averageApprovalRate.isFetching,
 
       aggregateApprovedLoanAmount.data?.data,
-      aggregateApprovedLoanAmount.isFetching
+      aggregateApprovedLoanAmount.isFetching,
+
+      averageTimeToApproval.data?.data,
+      averageTimeToApproval.isFetching
     ]
   )
 

@@ -5,14 +5,18 @@ import { StatsTitle } from "./atoms/StatsTitle"
 
 export const PerformanceMetrics = () => {
   const {
-    isLoading,
     isLoadingAverageApprovalRate,
     averageApprovalRateData,
     aggregateApprovedLoanAmountData,
-    isLoadingAggregateApprovedLoanAmount
+    isLoadingAggregateApprovedLoanAmount,
+    averageTimeToApprovalData,
+    isLoadingAverageTimeToApproval
   } = useDashboard()
 
   const data = {
+    averageTimeToApproval: Math.round(
+      averageTimeToApprovalData?.averageTimeToApproval ?? 0
+    ),
     approvalRate: toPercent(averageApprovalRateData?.averageApprovalRate),
     totalLoanAmount: toCurrency(
       aggregateApprovedLoanAmountData?.totalApprovedLoanAmount,
@@ -25,6 +29,9 @@ export const PerformanceMetrics = () => {
   }
 
   const percentRateData = {
+    averageTimeToApprovalPercentRate: toPercent(
+      averageTimeToApprovalData?.percentRate
+    ),
     approvalPercentRate: toPercent(averageApprovalRateData?.percentRate),
     totalLoanAmountPercentRate: toPercent(
       aggregateApprovedLoanAmountData?.percentRate
@@ -40,10 +47,10 @@ export const PerformanceMetrics = () => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCard
           title="Average Time to Approval"
-          isLoading={isLoading}
-          value={10}
+          isLoading={isLoadingAverageTimeToApproval}
+          value={data.averageTimeToApproval}
           unit="Days"
-          percentRate={27}
+          percentRate={percentRateData.averageTimeToApprovalPercentRate}
           revert
         />
         <DashboardCard
