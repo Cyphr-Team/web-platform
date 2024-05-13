@@ -6,7 +6,7 @@
 
 import { Institution } from "@/constants/tenant.constants"
 
-const DEFAULT_DEMO_SUBDOMAIN = "capsight"
+const DEFAULT_DEMO_SUBDOMAIN = "foresight"
 
 function getSubdomain(): string {
   // return "loanready" // for testing

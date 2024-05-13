@@ -10,11 +10,11 @@ import {
 import { TopNav } from "./components/molecules/TopNav.tsx"
 import { checkIsForesightAdmin } from "@/utils/check-roles.ts"
 import { useCallback, useState } from "react"
-import { useQueryGetListInstitution } from "./hooks/useQuery/useQueryGetListInstitution.ts"
 import { UserDetailInfo } from "@/types/user.type.ts"
 import { UserTableHeader } from "./table/user-table-header.tsx"
 import debounce from "lodash.debounce"
 import { cn } from "@/lib/utils.ts"
+import { useQueryGetListAllInstitution } from "./hooks/useQuery/useQueryGetListAllInstitution.ts"
 
 export default async function ExampleTablePage() {}
 
@@ -27,7 +27,7 @@ export function Component() {
   })
   const isForesightAdmin = checkIsForesightAdmin()
 
-  const listInstitution = useQueryGetListInstitution({
+  const listInstitution = useQueryGetListAllInstitution({
     enabled: isForesightAdmin
   })
 
@@ -35,7 +35,7 @@ export function Component() {
     return {
       ...user,
       institutionName:
-        listInstitution.data?.data.find(
+        listInstitution.data?.find(
           (institution) => institution.id === user.institutionId
         )?.name ?? "Unknown"
     }

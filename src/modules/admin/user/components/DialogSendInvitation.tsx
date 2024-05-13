@@ -38,24 +38,24 @@ import {
 
 import { useGetUserInformation } from "@/hooks/useGetUserInformation"
 import { Option } from "@/types/common.type"
-import { useQueryGetListInstitution } from "../hooks/useQuery/useQueryGetListInstitution"
 import { checkIsForesightAdmin } from "@/utils/check-roles"
 import { getSubdomain, getTenantDomain } from "@/utils/domain.utils"
 import { APP_PATH } from "@/constants"
 import { EXPIRATION_DAYS } from "@/modules/admin/user/constants/expiration-days.constants.ts"
 import { ExpirationDays } from "@/types/expiration-day.type.ts"
+import { useQueryGetListAllInstitution } from "../hooks/useQuery/useQueryGetListAllInstitution"
 
 export function DialogSendInvite() {
   const [open, setOpen] = useState(false)
   const { data } = useGetUserInformation()
   const isForesightAdmin = checkIsForesightAdmin()
 
-  const listInstitution = useQueryGetListInstitution({
+  const listInstitution = useQueryGetListAllInstitution({
     enabled: isForesightAdmin
   })
 
   const institutionOptions: Option[] =
-    listInstitution.data?.data.map((institution) => ({
+    listInstitution.data?.map((institution) => ({
       value: institution.id,
       label: institution.name
     })) ?? []
@@ -81,7 +81,7 @@ export function DialogSendInvite() {
 
   const getBaseUrl = (institutionId: string) => {
     const subdomain =
-      listInstitution.data?.data.find(
+      listInstitution.data?.find(
         (institution) => institution.id === institutionId
       )?.subdomain ?? getSubdomain()
 

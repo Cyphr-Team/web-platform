@@ -27,7 +27,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Option } from "@/types/common.type"
 import { Check, ChevronDown } from "lucide-react"
-import { ReactNode } from "react"
+import { ReactNode, useCallback, useEffect, useState } from "react"
 
 export function MultiSelect<
   TFieldValues extends FieldValues,
@@ -37,28 +37,55 @@ export function MultiSelect<
   name,
   field,
   label,
-  prefixIcon
+  prefixIcon,
+  defaultValue
 }: {
   options: Option[]
   name: string
   field: ControllerRenderProps<TFieldValues, TName>
   label?: string
   prefixIcon?: ReactNode
+  defaultValue?: Option
 }) {
   const { getValues, setValue } = useFormContext()
+  const [loadedOptions, setLoadedOptions] = useState<Option[]>([])
+  const [searchValue, setSearchValue] = useState("")
 
-  const handleOptionClick = (option: Option) => {
-    const selected = getValues(name)
-    const isInclude =
-      selected.findIndex((select: Option) => select.value === option.value) > -1
+  const onSearch = useCallback((value: string) => {
+    setSearchValue(value.toLowerCase())
+  }, [])
 
-    if (isInclude) {
-      setValue(
-        name,
-        selected.filter((select: Option) => select.value !== option.value)
+  useEffect(() => {
+    if (searchValue.length) {
+      setLoadedOptions(
+        options.filter((option) =>
+          option.label.toLowerCase().includes(searchValue)
+        )
       )
     } else {
-      setValue(name, [...selected, option])
+      setLoadedOptions(options)
+    }
+  }, [options, searchValue])
+
+  const handleOptionClick = (option: Option) => {
+    if (option.value === defaultValue?.value) {
+      setValue(name, [defaultValue])
+    } else {
+      const selected = getValues(name).filter(
+        (select: Option) => select.value !== defaultValue?.value
+      )
+      const isInclude = selected.some(
+        (select: Option) => select.value === option.value
+      )
+
+      if (isInclude) {
+        setValue(
+          name,
+          selected.filter((select: Option) => select.value !== option.value)
+        )
+      } else {
+        setValue(name, [...selected, option])
+      }
     }
   }
 
@@ -101,12 +128,18 @@ export function MultiSelect<
 
         <PopoverContent className="w-full md:w-[300px] p-0">
           <Command>
-            <CommandInput placeholder="Search..." className="h-9" />
+            <CommandInput
+              placeholder="Search..."
+              className="h-9"
+              onValueChange={(value) => {
+                onSearch(value)
+              }}
+            />
 
             <CommandEmpty>No result found.</CommandEmpty>
 
-            <CommandGroup>
-              {options.map((option) => (
+            <CommandGroup className="h-56 overflow-scroll">
+              {loadedOptions.map((option) => (
                 <CommandItem
                   value={option.label}
                   key={option.value}

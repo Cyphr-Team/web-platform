@@ -6,46 +6,56 @@ import { MultiSelect } from "@/components/ui/multi-select"
 import { useEffect } from "react"
 
 import { Option } from "@/types/common.type"
-import { useQueryGetListInstitution } from "../hooks/useQuery/useQueryGetListInstitution"
 import { checkIsForesightAdmin } from "@/utils/check-roles"
 import {
   FilterParams,
   UserFilterSchema,
   UserFilterValues
 } from "../hooks/useQuery/useQueryListPaginateUser"
+import { useQueryGetListAllInstitution } from "../hooks/useQuery/useQueryGetListAllInstitution"
 
 type Props = {
   onSearch: (formValues: FilterParams) => void
+}
+
+const allOption: Option = {
+  label: "All",
+  value: ""
 }
 
 export function UserTableHeader({ onSearch }: React.PropsWithChildren<Props>) {
   const form = useForm<UserFilterValues>({
     resolver: zodResolver(UserFilterSchema),
     defaultValues: {
-      institutionIds: []
+      institutionIds: [allOption]
     }
   })
 
   const isForesightAdmin = checkIsForesightAdmin()
 
-  const listInstitutionQuery = useQueryGetListInstitution({
+  const listInstitutionQuery = useQueryGetListAllInstitution({
     enabled: isForesightAdmin
   })
-  const institutionOptions: Option[] =
-    listInstitutionQuery.data?.data.map((institution) => ({
+
+  const institutionOptions: Option[] = [allOption].concat(
+    listInstitutionQuery.data?.map((institution) => ({
       label: institution.name,
       value: institution.id.toLowerCase()
     })) ?? []
+  )
 
   useEffect(() => {
     const subscription = form.watch((value) => {
       onSearch({
-        institutionIds: value.institutionIds?.map((v) => v?.value ?? "") ?? []
+        institutionIds:
+          value.institutionIds
+            ?.map((v) => v?.value ?? "")
+            ?.filter((v) => v !== allOption.value) ?? []
       })
     })
 
     return () => subscription.unsubscribe()
-  }, [form, onSearch])
+  })
 
   return (
     <Form {...form}>
@@ -60,6 +70,7 @@ export function UserTableHeader({ onSearch }: React.PropsWithChildren<Props>) {
                 name="institutionIds"
                 field={field}
                 options={institutionOptions}
+                defaultValue={allOption}
               />
             )}
           />

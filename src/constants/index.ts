@@ -262,6 +262,7 @@ export const API_PATH = {
   },
   institution: {
     list: "api/admin/internal/institutions",
+    listAll: "api/admin/institution/list-all",
     create: "api/admin/institution/create",
     updateInstitutionMetadata: "api/admin/institution-metadata/update",
     getInstitutionMetadata: "api/users/public/institution-metadata"
