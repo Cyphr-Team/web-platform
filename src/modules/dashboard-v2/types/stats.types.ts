@@ -10,7 +10,8 @@ enum DashboardActionType {
   UpdateAverageTimeToApprovalMetricsFrequency = "UpdateAverageTimeToApprovalMetricsFrequency",
   UpdateAverageLoanSizeFrequency = "UpdateAverageLoanSizeFrequency",
   UpdatePortfolioGrowthFrequency = "UpdatePortfolioGrowthFrequency",
-  UpdateLoanProgramIds = "UpdateLoanProgramIds"
+  UpdateLoanProgramIds = "UpdateLoanProgramIds",
+  UpdateLoanApplicationActivitiesFrequency = "UpdateLoanApplicationActivitiesFrequency"
 }
 
 export { DashboardActionType }
@@ -44,6 +45,10 @@ type DashboardAction =
       type: DashboardActionType.UpdateLoanProgramIds
       payload: DashboardState["loanProgramIds"]
     }
+  | {
+      type: DashboardActionType.UpdateLoanApplicationActivitiesFrequency
+      payload: DashboardState["loanApplicationActivitiesFrequency"]
+    }
 
 type DashboardState = {
   filter: TimeRangeFilterValue
@@ -52,6 +57,7 @@ type DashboardState = {
   averageTimeToApprovalMetricsFrequency: GRAPH_FREQUENCY
   averageLoanSizeFrequency: GRAPH_FREQUENCY
   portfolioGrowthFrequency: GRAPH_FREQUENCY
+  loanApplicationActivitiesFrequency: GRAPH_FREQUENCY
   loanProgramIds: string[]
 }
 
@@ -101,6 +107,9 @@ type DashboardProviderState = {
 
   averageTimeToApprovalData?: AverageTimeToApprovalResponse
   isLoadingAverageTimeToApproval?: boolean
+
+  loanApplicationActivitiesData?: LoanApplicationActivitiesResponse
+  isLoadingLoanApplicationActivities?: boolean
 }
 
 type LoanApprovalRateStats = {
@@ -121,6 +130,10 @@ type AverageTimeToApprovalResponse = {
   percentRate: number
 }
 
+type LoanApplicationActivitiesResponse = {
+  loanApplicationActivities: LoanApplicationActivities[]
+}
+
 type AggregateApprovalLoanAmountResponse = {
   totalApprovedLoanAmount: number
   percentRate: number
@@ -136,6 +149,12 @@ type AverageApprovalRateResponse = {
 type RateRequest = {
   filter: StatsFilter
   loanProgramIds?: string[]
+}
+
+type FrequencyRequest = {
+  filter: StatsFilter
+  loanProgramIds?: string[]
+  frequency: string
 }
 
 type ApprovalRateResponse = {
@@ -177,8 +196,21 @@ type PortfolioGrowthStats = {
   date: string
   loanSize: number
 }
+
+type LoanApplicationActivities = {
+  date: string
+  totalApplicationApproved: number
+  totalApplicationSubmitted: number
+  totalApplicationInReview: number
+  totalApplicationDraft: number
+  totalApplicationDenied: number
+  totalApplicationClose: number
+}
+
 export type {
   AverageTimeToApprovalResponse,
+  FrequencyRequest,
+  LoanApplicationActivitiesResponse,
   AggregateApprovalLoanAmountResponse,
   ApprovalRateResponse,
   RateRequest,

@@ -19,7 +19,8 @@ import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
 
 // TODO: Integrate API
 export const LoanApplicationActivityChart = () => {
-  const { dashboardDispatch, dashboardState } = useDashboard()
+  const { loanApplicationActivitiesData, dashboardDispatch, dashboardState } =
+    useDashboard()
 
   const [activeSeries, setActiveSeries] = useState<Array<string>>([])
 
@@ -33,48 +34,13 @@ export const LoanApplicationActivityChart = () => {
 
   const handleChangeTimePeriod = (timePeriod: string) => {
     dashboardDispatch({
-      type: DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency,
+      type: DashboardActionType.UpdateLoanApplicationActivitiesFrequency,
       payload: timePeriod as GRAPH_FREQUENCY
     })
   }
 
-  // Example data, TODO: Replace with API data
-  const frameData = [
-    {
-      name: "2024-04-01",
-      total: 100,
-      draft: 45,
-      submitted: 23,
-      inreview: 12,
-      approved: 5,
-      denied: 10,
-      closed: 2
-    },
-    {
-      name: "2024-05-01",
-      total: 200,
-      draft: 145,
-      submitted: 123,
-      inreview: 112,
-      approved: 15,
-      denied: 110,
-      closed: 12
-    },
-    {
-      name: "2024-06-01",
-      total: 30,
-      draft: 15,
-      submitted: 15,
-      inreview: 5,
-      approved: 4,
-      denied: 3,
-      closed: 2
-    }
-  ]
-
   const formatDateByTimePeriod =
-    dashboardState.averageTimeToApprovalMetricsFrequency ===
-    GRAPH_FREQUENCY.WEEKLY
+    dashboardState.loanApplicationActivitiesFrequency === GRAPH_FREQUENCY.WEEKLY
       ? formatChartWeekly
       : formatChartMonthly
 
@@ -86,7 +52,7 @@ export const LoanApplicationActivityChart = () => {
           className="h-8"
           onChangeTimePeriod={handleChangeTimePeriod}
           timePeriod={
-            dashboardState.averageTimeToApprovalMetricsFrequency ??
+            dashboardState.loanApplicationActivitiesFrequency ??
             GRAPH_FREQUENCY.MONTHLY
           }
           timePeriods={TIME_PERIODS_LONG}
@@ -95,12 +61,17 @@ export const LoanApplicationActivityChart = () => {
 
       <ResponsiveContainer width="100%" height="95%" className="-mx-8">
         <ComposedChart
-          data={frameData.map((v) => ({
-            ...v,
-            incompleteRate: Math.round((v.draft / v.total) * 100),
-            approvalRate: Math.round((v.approved / v.submitted) * 100),
-            deniedRate: Math.round((v.denied / v.submitted) * 100)
-          }))}
+          data={loanApplicationActivitiesData?.loanApplicationActivities.map(
+            (v) => ({
+              name: v.date,
+              draft: v.totalApplicationDraft,
+              submitted: v.totalApplicationSubmitted,
+              inreview: v.totalApplicationInReview,
+              approved: v.totalApplicationApproved,
+              denied: v.totalApplicationDenied,
+              closed: v.totalApplicationClose
+            })
+          )}
           margin={{
             top: 20,
             right: 20,

@@ -54,6 +54,12 @@ export function dashboardReducer(
         loanProgramIds: action.payload
       }
     }
+    case DashboardActionType.UpdateLoanApplicationActivitiesFrequency: {
+      return {
+        ...state,
+        loanApplicationActivitiesFrequency: action.payload
+      }
+    }
     default:
       return state
   }

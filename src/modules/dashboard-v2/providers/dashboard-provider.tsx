@@ -15,6 +15,7 @@ import {
   DashboardProviderState
 } from "../types/stats.types"
 import { dashboardReducer } from "./dashboard-reducer"
+import { useQueryGetLoanApplicationActivities } from "../hooks/query/useQueryGetLoanApplicationActivities"
 
 const DashboardContext = createContext<DashboardProviderState>({
   dashboardState: DEFAULT_DASHBOARD_STATE,
@@ -37,6 +38,8 @@ export function DashboardProvider({
   const aggregateApprovedLoanAmount =
     useQueryGetAggregateApprovedLoanAmount(dashboardState)
   const averageTimeToApproval = useQueryGetAverageTimeToApproval(dashboardState)
+  const loanApplicationActivities =
+    useQueryGetLoanApplicationActivities(dashboardState)
 
   const statsResponse = useQueryGetInstitutionActivity(dashboardState)
   const approvalRate = useQueryGetApprovalRate(dashboardState)
@@ -82,7 +85,10 @@ export function DashboardProvider({
         aggregateApprovedLoanAmount.isFetching,
 
       averageTimeToApprovalData: averageTimeToApproval.data?.data,
-      isLoadingAverageTimeToApproval: averageTimeToApproval.isFetching
+      isLoadingAverageTimeToApproval: averageTimeToApproval.isFetching,
+
+      loanApplicationActivitiesData: loanApplicationActivities.data?.data,
+      isLoadingLoanApplicationActivities: loanApplicationActivities.isFetching
     }),
     [
       approvalRate.data?.data,
@@ -108,7 +114,10 @@ export function DashboardProvider({
       aggregateApprovedLoanAmount.isFetching,
 
       averageTimeToApproval.data?.data,
-      averageTimeToApproval.isFetching
+      averageTimeToApproval.isFetching,
+
+      loanApplicationActivities.data?.data,
+      loanApplicationActivities.isFetching
     ]
   )
 
