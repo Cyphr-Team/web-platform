@@ -19,18 +19,18 @@ import { DashboardActionType } from "../types/stats.types"
 
 // TODO: Integrate API
 export function AverageApprovedLoanSizeChart() {
-  const { averageApprovedLoanSizeData, dashboardDispatch, dashboardState } =
+  const { averageApprovedLoanAmountData, dashboardDispatch, dashboardState } =
     useDashboard()
 
   const handleChangeTimePeriod = (timePeriod: string) => {
     dashboardDispatch({
-      type: DashboardActionType.UpdateAverageLoanSizeFrequency,
+      type: DashboardActionType.UpdateAverageApprovedLoanAmount,
       payload: timePeriod as GRAPH_FREQUENCY
     })
   }
 
   const formatDateByTimePeriod =
-    dashboardState.averageLoanSizeFrequency === GRAPH_FREQUENCY.WEEKLY
+    dashboardState.averageApprovedLoanAmountFrequency === GRAPH_FREQUENCY.WEEKLY
       ? formatChartWeekly
       : formatChartMonthly
 
@@ -38,22 +38,23 @@ export function AverageApprovedLoanSizeChart() {
     <div className="bg-white p-4 md:p-6 rounded-xl border flex-1">
       <div className="flex justify-between gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">Average Approved Loan Amount</h2>
-        {!!averageApprovedLoanSizeData?.averageApprovedLoanSize.length && (
-          <TimePeriodsSelection
-            className="h-8"
-            onChangeTimePeriod={handleChangeTimePeriod}
-            timePeriod={
-              dashboardState.averageLoanSizeFrequency ?? GRAPH_FREQUENCY.MONTHLY
-            }
-            timePeriods={TIME_PERIODS_LONG}
-          />
-        )}
+        <TimePeriodsSelection
+          className="h-8"
+          onChangeTimePeriod={handleChangeTimePeriod}
+          timePeriod={
+            dashboardState.averageApprovedLoanAmountFrequency ??
+            GRAPH_FREQUENCY.MONTHLY
+          }
+          timePeriods={TIME_PERIODS_LONG}
+        />
       </div>
 
       <div className="w-full h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
-            data={averageApprovedLoanSizeData?.averageApprovedLoanSize ?? []}
+            data={
+              averageApprovedLoanAmountData?.averageApprovedLoanAmount ?? []
+            }
             margin={{ left: 20, top: 10 }}
           >
             <CartesianGrid {...CARTESIAN_GRID} />
@@ -81,12 +82,14 @@ export function AverageApprovedLoanSizeChart() {
               yAxisId="left"
               tickFormatter={(value) => `${toCurrency(value, 0)}`}
               fontSize={CHART_DEFAULT.fontSize}
+              tickLine={false}
+              axisLine={false}
             />
 
             <Bar
               barSize={36}
-              name="Loan Size"
-              dataKey="loanSize"
+              name="Loan Amount"
+              dataKey="averageApprovedLoanAmount"
               fill={CHART_DEFAULT.submittedColor}
               yAxisId="left"
             />

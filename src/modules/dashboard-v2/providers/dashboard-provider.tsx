@@ -10,13 +10,14 @@ import { useQueryGetAverageTimeToDecision } from "../hooks/query/useQueryGetAver
 import { useQueryGetIncompleteApplicationRate } from "../hooks/query/useQueryGetIncompleteApplicationRate"
 import { useQueryGetInstitutionActivity } from "../hooks/query/useQueryGetInstitutionActivity"
 import { useQueryGetInstitutionUsage } from "../hooks/query/useQueryGetInstitutionUsage"
-import { useQueryGetLoanApplicationActivities } from "../hooks/query/useQueryGetLoanApplicationActivities"
 import { useQueryGetPortfolioGrowth } from "../hooks/query/useQueryGetPortfolioGrowth"
 import {
   DashboardProviderProps,
   DashboardProviderState
 } from "../types/stats.types"
 import { dashboardReducer } from "./dashboard-reducer"
+import { useQueryGetLoanApplicationActivities } from "../hooks/query/useQueryGetLoanApplicationActivities"
+import { useQueryGetAverageApprovedLoanAmount } from "../hooks/query/useQueryGetAverageApprovedLoanAmount"
 
 const DashboardContext = createContext<DashboardProviderState>({
   dashboardState: DEFAULT_DASHBOARD_STATE,
@@ -42,6 +43,8 @@ export function DashboardProvider({
   const loanApplicationActivities =
     useQueryGetLoanApplicationActivities(dashboardState)
   const averageTimeToDecision = useQueryGetAverageTimeToDecision(dashboardState)
+  const averageApprovedLoanAmount =
+    useQueryGetAverageApprovedLoanAmount(dashboardState)
 
   const statsResponse = useQueryGetInstitutionActivity(dashboardState)
   const approvalRate = useQueryGetApprovalRate(dashboardState)
@@ -93,7 +96,10 @@ export function DashboardProvider({
       isLoadingLoanApplicationActivities: loanApplicationActivities.isFetching,
 
       averageTimeToDecisionData: averageTimeToDecision.data?.data,
-      isLoadingAverageTimeToDecision: averageTimeToDecision.isFetching
+      isLoadingAverageTimeToDecision: averageTimeToDecision.isFetching,
+
+      averageApprovedLoanAmountData: averageApprovedLoanAmount.data?.data,
+      isLoadingAverageApprovedLoanAmount: averageApprovedLoanAmount.isFetching
     }),
     [
       approvalRate.data?.data,
@@ -125,7 +131,10 @@ export function DashboardProvider({
       loanApplicationActivities.isFetching,
 
       averageTimeToDecision.data?.data,
-      averageTimeToDecision.isFetching
+      averageTimeToDecision.isFetching,
+
+      averageApprovedLoanAmount.data?.data,
+      averageApprovedLoanAmount.isFetching
     ]
   )
 

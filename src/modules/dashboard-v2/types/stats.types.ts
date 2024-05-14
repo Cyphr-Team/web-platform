@@ -18,7 +18,8 @@ enum DashboardActionType {
   UpdatePortfolioGrowthFrequency = "UpdatePortfolioGrowthFrequency",
   UpdateLoanProgramIds = "UpdateLoanProgramIds",
   UpdateLoanApplicationActivitiesFrequency = "UpdateLoanApplicationActivitiesFrequency",
-  UpdateAverageTimeToDecisionFrequency = "UpdateAverageTimeToDecisionFrequency"
+  UpdateAverageTimeToDecisionFrequency = "UpdateAverageTimeToDecisionFrequency",
+  UpdateAverageApprovedLoanAmount = "UpdateAverageApprovedLoanAmount"
 }
 
 export { DashboardActionType }
@@ -60,6 +61,10 @@ type DashboardAction =
       type: DashboardActionType.UpdateAverageTimeToDecisionFrequency
       payload: DashboardState["averageTimeToDecisionFrequency"]
     }
+  | {
+      type: DashboardActionType.UpdateAverageApprovedLoanAmount
+      payload: DashboardState["averageApprovedLoanAmountFrequency"]
+    }
 
 type DashboardState = {
   filter: TimeRangeFilterValue
@@ -70,6 +75,7 @@ type DashboardState = {
   portfolioGrowthFrequency: GRAPH_FREQUENCY
   loanApplicationActivitiesFrequency: GRAPH_FREQUENCY
   averageTimeToDecisionFrequency: GRAPH_FREQUENCY
+  averageApprovedLoanAmountFrequency: GRAPH_FREQUENCY
   loanProgramIds: string[]
 }
 
@@ -125,6 +131,9 @@ type DashboardProviderState = {
 
   averageTimeToDecisionData?: AverageTimeToDecisionResponse
   isLoadingAverageTimeToDecision?: boolean
+
+  averageApprovedLoanAmountData?: AverageApprovalLoanAmountResponse
+  isLoadingAverageApprovedLoanAMount?: boolean
 }
 
 type LoanApprovalRateStats = {
@@ -147,6 +156,9 @@ type AverageTimeToApprovalResponse = {
 
 type LoanApplicationActivitiesResponse = {
   loanApplicationActivities: LoanApplicationActivities[]
+}
+type AverageApprovalLoanAmountResponse = {
+  averageApprovedLoanAmount: AverageApprovalLoanAmount[]
 }
 
 type AverageTimeToDecisionResponse = {
@@ -226,6 +238,11 @@ type LoanApplicationActivities = {
   totalApplicationClose: number
 }
 
+type AverageApprovalLoanAmount = {
+  date: string
+  averageApprovedLoanAmount: number
+}
+
 /**
  * Date form yyyy-MM-dd
  */
@@ -233,11 +250,13 @@ type LoanApplicationStatisticAverageTimeToDecision = {
   data: Record<DecisionType, number>
   date: string
 }
+
 export type {
   AverageTimeToApprovalResponse,
   FrequencyRequest,
   LoanApplicationActivitiesResponse,
   AverageTimeToDecisionResponse,
+  AverageApprovalLoanAmountResponse,
   AggregateApprovalLoanAmountResponse,
   ApprovalRateResponse,
   RateRequest,

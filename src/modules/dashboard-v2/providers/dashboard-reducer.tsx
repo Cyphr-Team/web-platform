@@ -48,6 +48,12 @@ export function dashboardReducer(
         portfolioGrowthFrequency: action.payload
       }
     }
+    case DashboardActionType.UpdateAverageApprovedLoanAmount: {
+      return {
+        ...state,
+        averageApprovedLoanAmountFrequency: action.payload
+      }
+    }
     case DashboardActionType.UpdateLoanProgramIds: {
       return {
         ...state,
