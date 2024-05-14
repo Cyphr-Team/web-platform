@@ -18,18 +18,6 @@ export function dashboardReducer(
         }
       }
     }
-    case DashboardActionType.UpdateApprovalRateFrequency: {
-      return {
-        ...state,
-        approvalRateFrequency: action.payload
-      }
-    }
-    case DashboardActionType.UpdateIncompleteApplicationRateFrequency: {
-      return {
-        ...state,
-        incompleteApplicationRateFrequency: action.payload
-      }
-    }
     case DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency: {
       return {
         ...state,
@@ -40,12 +28,6 @@ export function dashboardReducer(
       return {
         ...state,
         averageLoanSizeFrequency: action.payload
-      }
-    }
-    case DashboardActionType.UpdatePortfolioGrowthFrequency: {
-      return {
-        ...state,
-        portfolioGrowthFrequency: action.payload
       }
     }
     case DashboardActionType.UpdateAverageApprovedLoanAmount: {
@@ -70,6 +52,12 @@ export function dashboardReducer(
       return {
         ...state,
         averageTimeToDecisionFrequency: action.payload
+      }
+    }
+    case DashboardActionType.UpdateLoanApplicationRatesFrequency: {
+      return {
+        ...state,
+        loanApplicationRatesFrequency: action.payload
       }
     }
     default:

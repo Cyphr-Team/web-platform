@@ -10,10 +10,10 @@ export const TotalApplicationActivity = () => {
   const { isLoading, statsData } = useDashboard()
 
   const data = {
-    totalApplicationsDraft: statsData?.totalApplicationDraft,
     totalApplicationsSubmitted: statsData?.totalApplicationSubmitted,
     totalApplicationsInReview: statsData?.totalApplicationInReview,
-    totalApplicationsUnderwritten: statsData?.totalApplicationUnderwritten
+    totalApplicationsDenied: statsData?.totalApplicationDenied,
+    totalApplicationsApproved: statsData?.totalApplicationApproved
   }
 
   return (
@@ -41,14 +41,14 @@ export const TotalApplicationActivity = () => {
         <DashboardSingleNumberCard
           isLoading={isLoading}
           title="Approved"
-          value={data.totalApplicationsUnderwritten}
+          value={data.totalApplicationsApproved}
           variantColor={getBadgeVariantByStatus(LoanApplicationStatus.APPROVED)}
           unit="Apps"
         />
         <DashboardSingleNumberCard
           isLoading={isLoading}
           title="Denied"
-          value={data.totalApplicationsUnderwritten}
+          value={data.totalApplicationsDenied}
           variantColor={getBadgeVariantByStatus(LoanApplicationStatus.DENIED)}
           unit="Apps"
         />

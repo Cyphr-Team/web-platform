@@ -7,34 +7,43 @@ import { ErrorResponse } from "react-router-dom"
 import { QUERY_KEY } from "../../constants/dashboard.constants"
 import {
   DashboardState,
-  RateRequest,
-  StatsResponse
+  LoanApplicationRatesResponse,
+  RateRequest
 } from "../../types/stats.types"
 import { useTimeRangeFilter } from "./useTimeRangeFilter"
 
-export const useQueryGetInstitutionActivity = ({
+export const useQueryGetLoanApplicationRates = ({
   filter,
-  loanProgramIds
+  loanProgramIds,
+  loanApplicationRatesFrequency
 }: DashboardState) => {
   const timeRangeFilter = useTimeRangeFilter(filter)
 
-  return useQuery<AxiosResponse<StatsResponse>, AxiosError<ErrorResponse>>({
+  return useQuery<
+    AxiosResponse<LoanApplicationRatesResponse>,
+    AxiosError<ErrorResponse>
+  >({
     queryKey: [
-      QUERY_KEY.INSTITUTION_ACTIVITIES,
+      QUERY_KEY.LOAN_APPLICATION_RATES,
       filter.timeRange.from,
       filter.timeRange.to,
-      loanProgramIds
+      loanProgramIds,
+      loanApplicationRatesFrequency
     ],
     queryFn: async () => {
       if (!timeRangeFilter.from || !timeRangeFilter.to)
         throw new Error("Invalid 'from', 'to' date")
 
-      return postRequest<RateRequest, StatsResponse>({
-        path: API_PATH.dashboardV1.getInstitutionActivity(),
+      return postRequest<
+        RateRequest & { frequency: string },
+        LoanApplicationRatesResponse
+      >({
+        path: API_PATH.dashboardV1.getLoanApplicationRates(),
         data: {
           filter: {
             timeRange: { from: timeRangeFilter.from, to: timeRangeFilter.to }
           },
+          frequency: loanApplicationRatesFrequency.toLowerCase(),
           loanProgramIds: loanProgramIds.length ? loanProgramIds : undefined
         }
       })

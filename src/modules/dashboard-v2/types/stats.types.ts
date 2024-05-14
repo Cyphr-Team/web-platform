@@ -12,10 +12,9 @@ enum DecisionType {
 enum DashboardActionType {
   UpdateTimeRange = "UpdateTimeRange",
   UpdateApprovalRateFrequency = "UpdateApprovalRateFrequency",
-  UpdateIncompleteApplicationRateFrequency = "UpdateIncompleteApplicationRateFrequency",
+  UpdateLoanApplicationRatesFrequency = "UpdateLoanApplicationRatesFrequency",
   UpdateAverageTimeToApprovalMetricsFrequency = "UpdateAverageTimeToApprovalMetricsFrequency",
   UpdateAverageLoanSizeFrequency = "UpdateAverageLoanSizeFrequency",
-  UpdatePortfolioGrowthFrequency = "UpdatePortfolioGrowthFrequency",
   UpdateLoanProgramIds = "UpdateLoanProgramIds",
   UpdateLoanApplicationActivitiesFrequency = "UpdateLoanApplicationActivitiesFrequency",
   UpdateAverageTimeToDecisionFrequency = "UpdateAverageTimeToDecisionFrequency",
@@ -30,24 +29,12 @@ type DashboardAction =
       payload: DashboardState["filter"]["timeRange"]
     }
   | {
-      type: DashboardActionType.UpdateApprovalRateFrequency
-      payload: DashboardState["approvalRateFrequency"]
-    }
-  | {
-      type: DashboardActionType.UpdateIncompleteApplicationRateFrequency
-      payload: DashboardState["incompleteApplicationRateFrequency"]
-    }
-  | {
       type: DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency
       payload: DashboardState["averageTimeToApprovalMetricsFrequency"]
     }
   | {
       type: DashboardActionType.UpdateAverageLoanSizeFrequency
       payload: DashboardState["averageLoanSizeFrequency"]
-    }
-  | {
-      type: DashboardActionType.UpdatePortfolioGrowthFrequency
-      payload: DashboardState["portfolioGrowthFrequency"]
     }
   | {
       type: DashboardActionType.UpdateLoanProgramIds
@@ -65,6 +52,10 @@ type DashboardAction =
       type: DashboardActionType.UpdateAverageApprovedLoanAmount
       payload: DashboardState["averageApprovedLoanAmountFrequency"]
     }
+  | {
+      type: DashboardActionType.UpdateLoanApplicationRatesFrequency
+      payload: DashboardState["loanApplicationRatesFrequency"]
+    }
 
 type DashboardState = {
   filter: TimeRangeFilterValue
@@ -76,18 +67,15 @@ type DashboardState = {
   loanApplicationActivitiesFrequency: GRAPH_FREQUENCY
   averageTimeToDecisionFrequency: GRAPH_FREQUENCY
   averageApprovedLoanAmountFrequency: GRAPH_FREQUENCY
+  loanApplicationRatesFrequency: GRAPH_FREQUENCY
   loanProgramIds: string[]
 }
 
-type Stats = {
-  totalApplication: number
-  applicationUsageLimit: number
+type StatsResponse = {
   totalApplicationApproved: number
-  totalLoanAmount: number
   totalApplicationSubmitted: number
   totalApplicationInReview: number
-  totalApplicationDraft: number
-  totalApplicationUnderwritten: number
+  totalApplicationDenied: number
 }
 
 type DashboardProviderProps = {
@@ -97,22 +85,11 @@ type DashboardProviderProps = {
 type DashboardProviderState = {
   dashboardState: DashboardState
   dashboardDispatch: Dispatch<DashboardAction>
-  statsData?: Stats
+  statsData?: StatsResponse
   isLoading?: boolean
-  approvalRateData?: ApprovalRateResponse
-  isLoadingApprovalRate?: boolean
-
-  incompleteApplicationRateData?: IncompleteApplicationRateResponse
-  isLoadingIncompleteApplicationRate?: boolean
-
-  averageTimeToApprovalMetricsData?: AverageTimeToApprovalMetricsResponse
-  isLoadingAverageTimeToApprovalMetrics?: boolean
 
   averageApprovedLoanSizeData?: AverageApprovedLoanSizeResponse
   isLoadingAverageApprovedLoanSize?: boolean
-
-  portfolioGrowthData?: PortfolioGrowthResponse
-  isLoadingPortfolioGrowth?: boolean
 
   usageData?: Usage
   isLoadingUsage?: boolean
@@ -134,15 +111,9 @@ type DashboardProviderState = {
 
   averageApprovedLoanAmountData?: AverageApprovalLoanAmountResponse
   isLoadingAverageApprovedLoanAMount?: boolean
-}
 
-type LoanApprovalRateStats = {
-  date: string
-  rate: number
-  /** @deprecated unused data */
-  noApplicationsSubmitted: number
-  /** @deprecated unused data */
-  noApplicationsApproved: number
+  loanApplicationRatesData?: LoanApplicationRatesResponse
+  isLoadingLoanApplicationRates?: boolean
 }
 
 type StatsFilter = {
@@ -153,28 +124,30 @@ type AverageTimeToApprovalResponse = {
   averageTimeToApproval: number
   percentRate: number
 }
-
 type LoanApplicationActivitiesResponse = {
   loanApplicationActivities: LoanApplicationActivities[]
 }
 type AverageApprovalLoanAmountResponse = {
   averageApprovedLoanAmount: AverageApprovalLoanAmount[]
 }
-
 type AverageTimeToDecisionResponse = {
   averageTimeToDecision: LoanApplicationStatisticAverageTimeToDecision[]
 }
-
 type AggregateApprovalLoanAmountResponse = {
   totalApprovedLoanAmount: number
   percentRate: number
   averageApprovedLoanSize: number
   averageApprovedLoanSizePercentRate: number
 }
-
 type AverageApprovalRateResponse = {
   averageApprovalRate: number
   percentRate: number
+}
+type AverageApprovedLoanSizeResponse = {
+  averageApprovedLoanSize: AverageApprovedLoanSizeStats[]
+}
+type LoanApplicationRatesResponse = {
+  incompleteApplicationRate: LoanApplicationRate[]
 }
 
 type RateRequest = {
@@ -188,44 +161,13 @@ type FrequencyRequest = {
   frequency: string
 }
 
-type ApprovalRateResponse = {
-  loanApprovalRate: LoanApprovalRateStats[]
-}
-
-type IncompleteApplicationRateStats = {
+type LoanApplicationRate = {
   date: string
   rate: number
 }
-
-type IncompleteApplicationRateResponse = {
-  incompleteApplicationRate: IncompleteApplicationRateStats[]
-}
-
-type AverageTimeToApprovalStats = {
-  date: string
-  averageTimeToApproval: number
-}
-
-type AverageTimeToApprovalMetricsResponse = {
-  averageTimeToApproval: AverageTimeToApprovalStats[]
-}
-
 type AverageApprovedLoanSizeStats = {
   date: string
   value: Map<string, number>
-}
-
-type AverageApprovedLoanSizeResponse = {
-  averageApprovedLoanSize: AverageApprovedLoanSizeStats[]
-}
-
-type PortfolioGrowthResponse = {
-  growthSize: PortfolioGrowthStats[]
-}
-
-type PortfolioGrowthStats = {
-  date: string
-  loanSize: number
 }
 
 type LoanApplicationActivities = {
@@ -252,23 +194,20 @@ type LoanApplicationStatisticAverageTimeToDecision = {
 }
 
 export type {
-  AverageTimeToApprovalResponse,
-  FrequencyRequest,
-  LoanApplicationActivitiesResponse,
-  AverageTimeToDecisionResponse,
-  AverageApprovalLoanAmountResponse,
+  LoanApplicationRatesResponse,
   AggregateApprovalLoanAmountResponse,
-  ApprovalRateResponse,
-  RateRequest,
+  AverageApprovalLoanAmountResponse,
   AverageApprovalRateResponse,
   AverageApprovedLoanSizeResponse,
-  AverageTimeToApprovalMetricsResponse,
+  AverageTimeToApprovalResponse,
+  AverageTimeToDecisionResponse,
   DashboardAction,
   DashboardProviderProps,
   DashboardProviderState,
   DashboardState,
-  IncompleteApplicationRateResponse,
-  PortfolioGrowthResponse,
-  Stats,
+  FrequencyRequest,
+  LoanApplicationActivitiesResponse,
+  RateRequest,
+  StatsResponse,
   Usage
 }
