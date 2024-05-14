@@ -9,6 +9,7 @@ import {
   DashboardState
 } from "../../types/stats.types"
 import { useTimeRangeFilter } from "./useTimeRangeFilter"
+import { isEnableDashboardV2 } from "@/utils/feature-flag.utils"
 
 export const useQueryGetAverageApprovedLoanSize = ({
   filter,
@@ -23,14 +24,18 @@ export const useQueryGetAverageApprovedLoanSize = ({
     queryKey: [QUERY_KEY.AVERAGE_LOAN_SIZE, filter, averageLoanSizeFrequency],
     queryFn: () => {
       return postRequest({
-        path: API_PATH.dashboard.getAverageLoanSize(),
+        path: API_PATH.dashboardV1.getAverageLoanSize(),
         data: {
           filter: { timeRange: timeRangeFilter },
           frequency: averageLoanSizeFrequency.toLowerCase()
         }
       })
     },
-    enabled: !!(filter.timeRange.from && filter.timeRange.to),
+    enabled: !!(
+      filter.timeRange.from &&
+      filter.timeRange.to &&
+      isEnableDashboardV2()
+    ),
     placeholderData: keepPreviousData
   })
 }

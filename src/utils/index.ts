@@ -78,6 +78,13 @@ export const toPercent = (data?: number) => {
   return Math.round((data ?? 0) * 100)
 }
 
+export const textToCamelCaseFieldPattern = (str: string) => {
+  // e.g. "Loan Program" -> "loanProgram"
+  return str
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())
+}
+
 export const convertToCamelCase = (str: string) => {
   return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase())
 }

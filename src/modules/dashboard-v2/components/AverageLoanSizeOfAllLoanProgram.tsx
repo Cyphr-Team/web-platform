@@ -10,7 +10,12 @@ import {
 } from "recharts"
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { getRandomColor } from "@/modules/loan-application-management/services"
-import { capitalizeWords, snakeCaseToText, toCurrency } from "@/utils"
+import {
+  capitalizeWords,
+  textToCamelCaseFieldPattern,
+  snakeCaseToText,
+  toCurrency
+} from "@/utils"
 import { useState } from "react"
 import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
@@ -18,10 +23,12 @@ import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
 import { TIME_PERIODS_LONG } from "@/constants/date.constants"
 import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
+import { useQueryGetLoanProgramList } from "@/modules/loan-application-management/hooks/useQuery/useQueryLoanProgramList"
 
 // TODO: Integrate API
 export const AverageLoanSizeOfAllLoanProgram = () => {
-  const { dashboardDispatch, dashboardState } = useDashboard()
+  const { averageApprovedLoanSizeData, dashboardDispatch, dashboardState } =
+    useDashboard()
 
   const [activeSeries, setActiveSeries] = useState<Array<string>>([])
 
@@ -40,28 +47,10 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
     })
   }
 
-  // Example data, TODO: Replace with API data
-  const frameData = [
-    {
-      date: "2024-04-01",
-      demo_loan_program: 200000,
-      loan_ready: 250000,
-      loan_readiness: 212500
-    },
-    {
-      date: "2024-05-01",
-      demo_loan_program: 300000,
-      loan_ready: 30000,
-      loan_readiness: 325000
-    },
-    {
-      date: "2024-06-01",
-      demo_loan_program: 10000,
-      loan_ready: 5000,
-      loan_readiness: 125000
-    }
-  ]
-  const keys = Object.keys(frameData[0]).filter((v) => v !== "date")
+  const loanPrograms = useQueryGetLoanProgramList()
+
+  const keys =
+    loanPrograms.data?.loanPrograms.map((program) => program.name) ?? []
 
   const formatDateByTimePeriod =
     dashboardState.averageTimeToApprovalMetricsFrequency ===
@@ -79,8 +68,7 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
           className="h-8"
           onChangeTimePeriod={handleChangeTimePeriod}
           timePeriod={
-            dashboardState.averageTimeToApprovalMetricsFrequency ??
-            GRAPH_FREQUENCY.MONTHLY
+            dashboardState.averageLoanSizeFrequency ?? GRAPH_FREQUENCY.MONTHLY
           }
           timePeriods={TIME_PERIODS_LONG}
         />
@@ -88,7 +76,10 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
 
       <div className="w-full h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={frameData} margin={{ left: 20, top: 10 }}>
+          <ComposedChart
+            data={averageApprovedLoanSizeData?.averageApprovedLoanSize ?? []}
+            margin={{ left: 20, top: 10 }}
+          >
             <CartesianGrid {...CARTESIAN_GRID} />
             <Tooltip
               cursor={{ fill: "transparent" }}
@@ -122,7 +113,7 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
                 hide={activeSeries.includes(key)}
                 key={key}
                 barSize={18}
-                dataKey={key}
+                dataKey={`value.${textToCamelCaseFieldPattern(key)}`}
                 fill={getRandomColor(index)}
                 name={capitalizeWords(snakeCaseToText(key))}
               />

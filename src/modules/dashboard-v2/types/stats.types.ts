@@ -181,7 +181,7 @@ type AverageTimeToApprovalMetricsResponse = {
 
 type AverageApprovedLoanSizeStats = {
   date: string
-  loanSize: number
+  value: Map<string, number>
 }
 
 type AverageApprovedLoanSizeResponse = {
