@@ -126,7 +126,10 @@ export function MultiSelect<
           </FormControl>
         </PopoverTrigger>
 
-        <PopoverContent className="w-full md:w-[300px] p-0">
+        <PopoverContent
+          className="w-full md:w-[300px] p-0"
+          onCloseAutoFocus={() => setSearchValue("")}
+        >
           <Command>
             <CommandInput
               placeholder="Search..."
