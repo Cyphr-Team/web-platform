@@ -260,7 +260,9 @@ export const API_PATH = {
     getLoanApplicationActivities: () =>
       `${API_PATH.dashboardV1.all}/application-activity/loan-application-activities`,
     getAverageLoanSize: () =>
-      `${API_PATH.dashboardV1.all}/performance-metrics/average-approved-loan-size`
+      `${API_PATH.dashboardV1.all}/performance-metrics/average-approved-loan-size`,
+    getAverageTimeToDecision: () =>
+      `${API_PATH.dashboardV1.all}/performance-metrics/average-time-to-decision`
   },
   institution: {
     list: "api/admin/internal/institutions",

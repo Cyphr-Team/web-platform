@@ -60,6 +60,12 @@ export function dashboardReducer(
         loanApplicationActivitiesFrequency: action.payload
       }
     }
+    case DashboardActionType.UpdateAverageTimeToDecisionFrequency: {
+      return {
+        ...state,
+        averageTimeToDecisionFrequency: action.payload
+      }
+    }
     default:
       return state
   }
