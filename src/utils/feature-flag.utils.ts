@@ -18,4 +18,8 @@ function isEnableDashboardV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2)
 }
 
-export { isEnableDashboardV2 }
+function isEnableCashFlowV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.CASH_FLOW_V2)
+}
+
+export { isEnableDashboardV2, isEnableCashFlowV2 }

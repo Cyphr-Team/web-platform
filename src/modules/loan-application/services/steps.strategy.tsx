@@ -1,3 +1,4 @@
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 import {
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS
@@ -97,25 +98,31 @@ class ReadinessStepStrategy extends StepStrategy {
       {
         step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
         previousStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
-        nextStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        nextStep: isEnableCashFlowV2()
+          ? LOAN_APPLICATION_STEPS.CURRENT_LOANS
+          : LOAN_APPLICATION_STEPS.CONFIRMATION,
         label: "Cash Flow Verification",
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
       },
       {
-        step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
-        previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
-        nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
-        label: "Current Loans",
-        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
-      },
-      {
         step: LOAN_APPLICATION_STEPS.CONFIRMATION,
-        previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        previousStep: isEnableCashFlowV2()
+          ? LOAN_APPLICATION_STEPS.CURRENT_LOANS
+          : LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
         nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
         label: "Review and Sign",
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
       }
     ]
+    if (isEnableCashFlowV2()) {
+      this.steps.splice(4, 0, {
+        step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        label: "Current Loans",
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      })
+    }
     return this.steps
   }
 }

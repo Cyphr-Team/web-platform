@@ -5,6 +5,7 @@ import { Bell } from "lucide-react"
 import { getSubdomain } from "@/utils/domain.utils"
 import { Institution } from "@/constants/tenant.constants"
 import { LoanApplicationStepsData } from "./type"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 export const navItems: NavItem[] = [
   {
@@ -146,7 +147,9 @@ export const LOAN_APPLICATION_STEP_DATA_LOAN_READY = {
   },
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: {
     previousStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
-    nextStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+    nextStep: isEnableCashFlowV2()
+      ? LOAN_APPLICATION_STEPS.CURRENT_LOANS
+      : LOAN_APPLICATION_STEPS.CONFIRMATION,
     label: "Cash Flow Verification",
     parent: ARTCAP_MENU.APPLICATION
   },
@@ -157,7 +160,9 @@ export const LOAN_APPLICATION_STEP_DATA_LOAN_READY = {
     parent: ARTCAP_MENU.APPLICATION
   },
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: {
-    previousStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+    previousStep: isEnableCashFlowV2()
+      ? LOAN_APPLICATION_STEPS.CURRENT_LOANS
+      : LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
     nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
     label: "Review and Sign",
     parent: ARTCAP_MENU.SIGNATURE

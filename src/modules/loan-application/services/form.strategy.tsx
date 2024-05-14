@@ -8,6 +8,7 @@ import { ConfirmationForm } from "../components/organisms/ConfirmationForm"
 import { CashFlowVerificationForm } from "../components/organisms/CashFlowVerificationForm"
 import { FinancialInformationForm } from "../components/organisms/FinancialInformationForm"
 import { CurrentLoansForm } from "../components/organisms/CurrentLoansForm"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 interface FormComponent<T extends ReactNode> {
   formType: FORM_TYPE | null
@@ -92,16 +93,18 @@ class ReadinessLoanFormStrategy extends FormStrategy {
         component: <CashFlowVerificationForm />
       },
       {
-        formType: FORM_TYPE.CURRENT_LOANS,
-        step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
-        component: <CurrentLoansForm />
-      },
-      {
         formType: null,
         step: LOAN_APPLICATION_STEPS.CONFIRMATION,
         component: <ConfirmationForm />
       }
     ]
+    if (isEnableCashFlowV2()) {
+      this.formsComponents.splice(4, 0, {
+        formType: FORM_TYPE.CURRENT_LOANS,
+        step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        component: <CurrentLoansForm />
+      })
+    }
     return this.formsComponents
   }
 }
