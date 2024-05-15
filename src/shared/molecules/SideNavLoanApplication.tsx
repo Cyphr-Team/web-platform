@@ -104,7 +104,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
   const progressPercent = progress.filter(
     (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
   ).length
-  const progressText = `${progressPercent}/4`
+  const progressText = `${progressPercent}/5`
 
   const signatureStatus = getStepStatus(LOAN_APPLICATION_STEPS.CONFIRMATION)
 
@@ -129,7 +129,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
         >
           <LoanProgramCollapsible
             label={ARTCAP_MENU.APPLICATION}
-            progressPercent={progressPercent / 4}
+            progressPercent={progressPercent / 5}
             progressText={progressText}
           >
             {

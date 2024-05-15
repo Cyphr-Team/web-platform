@@ -90,17 +90,22 @@ export const loanRequestFormSchema = z.object({
 
 const LoanItemFormSchema = z.object({
   id: z.string(),
-  lenderName: z.string(),
-  loanType: z.string(),
-  loanBalance: z.number(),
-  monthlyPayment: z.number(),
-  remainingDuration: z.string()
+  lenderName: z.string().min(1, { message: "Lender name is required" }),
+  loanType: z.string().min(1, { message: "Loan type is required" }),
+  outstandingLoanBalance: z
+    .number()
+    .min(1, { message: "Balance must be higher than 0" }),
+  monthlyPaymentAmount: z
+    .number()
+    .min(1, { message: "Payment must be higher than 0" }),
+  loanTermRemainingInMonths: z
+    .number()
+    .min(1, { message: "Loan term is required" })
 })
 
 export const currentLoansFormSchema = z.object({
-  id: z.string().nullable(),
   hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
-  loans: z.array(LoanItemFormSchema)
+  current_loans: z.array(LoanItemFormSchema)
 })
 
 export type BusinessFormValue = z.infer<typeof businessFormSchema>

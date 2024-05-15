@@ -53,11 +53,8 @@ export const useSubmitLoanForm = (
   const { submitLoanFinancialForm, isLoading: isSubmittingFinancial } =
     useSubmitLoanFinancialForm(financialData, financialData?.id ?? "")
 
-  //TODO
-  const { isLoading: isSubmittingCurrentLoans } = useSubmitCurrentLoansForm(
-    currentLoansData,
-    currentLoansData?.id ?? ""
-  )
+  const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
+    useSubmitCurrentLoansForm(currentLoansData)
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -138,6 +135,9 @@ export const useSubmitLoanForm = (
             )
           }
         }
+        if (currentLoansData) {
+          await submitCurrentLoansForm(loanRequestId)
+        }
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -147,6 +147,9 @@ export const useSubmitLoanForm = (
         if (businessData) await submitLoanKYBForm(loanRequestId)
         if (ownerData) await submitLoanKYCForm(loanRequestId)
         await submitLoanFinancialForm(loanRequestId)
+        if (currentLoansData) {
+          await submitCurrentLoansForm(loanRequestId)
+        }
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -174,8 +177,10 @@ export const useSubmitLoanForm = (
     ownerData,
     financialData,
     confirmationData,
+    currentLoansData,
     submitLoanConfirmationForm,
     submitLoanKYCForm,
+    submitCurrentLoansForm,
     uploadDocuments,
     submitLoanFinancialForm,
     handleSubmitFormError,

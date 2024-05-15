@@ -31,6 +31,7 @@ import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
 import { useEffect, useMemo, useState } from "react"
 import { CurrentLoansFormItem } from "../molecules/CurrentLoansFormItem"
+import _uniqueId from "lodash/uniqueId"
 
 export const CurrentLoansForm = () => {
   const { dispatchFormAction, currentLoansForm } =
@@ -39,12 +40,13 @@ export const CurrentLoansForm = () => {
   const [loanCount, setLoanCount] = useState(0)
 
   const defaultValues = useMemo(() => {
+    setLoanCount(currentLoansForm?.current_loans.length)
     return {
       hasOutstandingLoans:
         currentLoansForm?.hasOutstandingLoans.toString() ?? "",
-      loans: currentLoansForm?.loans ?? []
+      current_loans: currentLoansForm?.current_loans ?? []
     }
-  }, [currentLoansForm?.hasOutstandingLoans, currentLoansForm?.loans])
+  }, [currentLoansForm?.hasOutstandingLoans, currentLoansForm?.current_loans])
 
   const form = useForm<CurrentLoansFormValue>({
     resolver: zodResolver(currentLoansFormSchema),
@@ -53,21 +55,26 @@ export const CurrentLoansForm = () => {
   })
 
   const handleAddLoan = () => {
-    form.setValue(`loans.${loanCount}`, {
-      id: loanCount.toString(), // Default values for the new loan item
+    form.setValue(`current_loans.${loanCount}`, {
+      id: _uniqueId("loan-add-item-"),
       lenderName: "",
       loanType: "",
-      loanBalance: 0,
-      monthlyPayment: 0,
-      remainingDuration: ""
+      outstandingLoanBalance: 0,
+      monthlyPaymentAmount: 0,
+      loanTermRemainingInMonths: 0
     })
     setLoanCount(loanCount + 1)
   }
 
   const handleRemoveLoan = (index: number) => {
-    const currentLoans = form.getValues().loans
+    const currentLoans = form.getValues().current_loans
     const updatedLoans = currentLoans.filter((_, i) => i !== index)
-    form.setValue("loans", updatedLoans)
+    form.setValue("current_loans", updatedLoans)
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+      state: form.getValues()
+    })
     setLoanCount(loanCount - 1)
   }
 
@@ -82,7 +89,11 @@ export const CurrentLoansForm = () => {
 
   const checkIfLoansAvailable = () => {
     const hasOutstandingLoans = form.getValues().hasOutstandingLoans === "true"
-    if (hasOutstandingLoans && loanCount == 0) {
+    if (
+      hasOutstandingLoans &&
+      loanCount == 0 &&
+      form.getValues().current_loans.length == 0
+    ) {
       // Add default loan form when user chooses YES
       handleAddLoan()
     }
@@ -90,14 +101,12 @@ export const CurrentLoansForm = () => {
   }
 
   useEffect(() => {
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
-        state: data
-      })
-    }
+    const data = form.getValues()
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+      state: data
+    })
   }, [form.formState.isValidating, form, dispatchFormAction])
 
   return (
@@ -120,11 +129,12 @@ export const CurrentLoansForm = () => {
                   <FormItem className="grid grid-cols-6 gap-x-2xl">
                     <FormLabel className="text-text-secondary col-span-6 lg:col-span-4">
                       <p className="text-sm text-text-secondary font-medium">
-                        Does your business currently have outstanding loans?
+                        Does your business currently have outstanding
+                        current_loans?
                       </p>
                       <p className="text-sm text-text-tertiary font-medium">
-                        (ex: term loans, revolving credit, equipment financing,
-                        etc.)
+                        (ex: term current_loans, revolving credit, equipment
+                        financing, etc.)
                       </p>
                     </FormLabel>
                     <FormControl>
@@ -157,7 +167,7 @@ export const CurrentLoansForm = () => {
             </form>
             {checkIfLoansAvailable() && (
               <div className="mt-6 flex flex-col gap-3xl">
-                {form.getValues().loans.map((item, index: number) => (
+                {form.getValues().current_loans.map((item, index: number) => (
                   <CurrentLoansFormItem
                     key={item.id}
                     index={index}
