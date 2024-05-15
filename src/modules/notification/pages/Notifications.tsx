@@ -79,7 +79,12 @@ export function Component() {
     useQueryGetUnreadNotifications()
 
   return (
-    <div className="mx-auto p-6 pt-6 md:p-8 overflow-auto">
+    <div
+      className={cn(
+        "container mx-auto px-2xl py-2xl overflow-auto",
+        "md:px-4xl md:py-4xl"
+      )}
+    >
       {/* Top bar */}
       <div className="mb-3xl">
         <Breadcrumbs breads={crumbs} className="px-0" />
@@ -135,8 +140,13 @@ export function Component() {
           </div>
         </div>
       )}
+
       {total === 0 ? (
-        "No results."
+        !isFetching ? (
+          "No results."
+        ) : (
+          ""
+        )
       ) : (
         <Fragment>
           {notifications.map((notification, index) => (

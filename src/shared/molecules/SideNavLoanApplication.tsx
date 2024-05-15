@@ -48,6 +48,7 @@ export function LoanProgramItem({
         active && "bg-lime-400/40"
       )}
       onClick={handleChangeStep}
+      id={`step-${value}`}
     >
       <div
         className={cn(
@@ -78,7 +79,10 @@ export function LoanProgramCollapsible({
       value={label}
       className="w-full bg-white rounded-lg shadow-md"
     >
-      <AccordionTrigger className="flex-row-reverse w-full px-4 py-2">
+      <AccordionTrigger
+        className="flex-row-reverse w-full px-4 py-2"
+        id={`parent-step-${label.toLowerCase()}`}
+      >
         <div className="flex items-center justify-between flex-1 ml-3 font-semibold">
           <div>{label}</div>
           <div>
