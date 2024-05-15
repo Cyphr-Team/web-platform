@@ -6,10 +6,10 @@ enum UserRoles {
   CDFI_ADMIN = "CDFI_ADMIN"
 }
 enum UserStatus {
-  UNVERIFIED,
-  REGISTERING,
-  ACTIVE,
-  DISABLED
+  UNVERIFIED = "UNVERIFIED",
+  REGISTERING = "REGISTERING",
+  ACTIVE = "ACTIVE",
+  DEACTIVATED = "DEACTIVATED"
 }
 
 export { UserStatus, UserRoles }

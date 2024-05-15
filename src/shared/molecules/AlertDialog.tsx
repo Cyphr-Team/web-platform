@@ -16,8 +16,8 @@ type Props = {
   description?: React.ReactNode
   children?: React.ReactNode
   isOpen?: boolean
-  cancelText: string
-  confirmText: string
+  cancelText?: string
+  confirmText?: string
   onCanceled?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   onConfirmed?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
@@ -27,8 +27,8 @@ export const CustomAlertDialog: React.FC<Props> = ({
   isOpen,
   onCanceled,
   onConfirmed,
-  confirmText,
-  cancelText,
+  confirmText = null,
+  cancelText = null,
   description,
   actionClassName
 }) => {
@@ -41,12 +41,19 @@ export const CustomAlertDialog: React.FC<Props> = ({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCanceled}>
-            {cancelText}
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirmed} className={actionClassName}>
-            {confirmText}
-          </AlertDialogAction>
+          {cancelText && (
+            <AlertDialogCancel onClick={onCanceled}>
+              {cancelText}
+            </AlertDialogCancel>
+          )}
+          {confirmText && (
+            <AlertDialogAction
+              onClick={onConfirmed}
+              className={actionClassName}
+            >
+              {confirmText}
+            </AlertDialogAction>
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

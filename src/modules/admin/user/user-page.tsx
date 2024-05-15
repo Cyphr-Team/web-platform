@@ -78,7 +78,9 @@ export function Component() {
       <DataTable
         columns={
           isForesightAdmin
-            ? columns
+            ? columns.filter((column) => {
+                return column.accessorKey !== "edit"
+              })
             : columns.filter((column) => {
                 return column.accessorKey !== "institution"
               })

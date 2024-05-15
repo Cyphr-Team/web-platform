@@ -1,11 +1,12 @@
 import React, { useState } from "react"
 import { ButtonLoading } from "@/components/ui/button.tsx"
-import { PlusCircle, Send } from "lucide-react"
+import { PlusCircle } from "lucide-react"
 import { useEditUserRole } from "@/modules/admin/user/hooks/useEditUserRole.ts"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
 import { EDIT_ROLES } from "@/modules/admin/user/constants/edit-roles.constants.ts"
 import { cn } from "@/lib/utils.ts"
 import { UserRoles } from "@/types/user.type.ts"
+
 export const EditUserRolesButton = ({
   userId,
   roles,
@@ -26,8 +27,8 @@ export const EditUserRolesButton = ({
     e.stopPropagation()
     mutate({ userId: userId, newRoles: roles.filter((role) => role !== null) })
     setIsOpen(false)
-    setIsUserEditFormOpen(false)
     setIsConfirmed(true)
+    setIsUserEditFormOpen(false)
   }
   const labels = EDIT_ROLES.map((roleValue) => {
     const role = roles.find((role) => role === roleValue.value.toLowerCase())
@@ -35,27 +36,43 @@ export const EditUserRolesButton = ({
   })
 
   return (
-    <CustomAlertDialog
-      isOpen={isOpen}
-      onConfirmed={handleEditUserRoles}
-      onCanceled={(e) => {
-        e.stopPropagation()
-        setIsOpen(false)
-      }}
-      title="Are you sure you want to update the roles for this user?"
-      cancelText="Cancel"
-      confirmText="Confirm"
-      description={
-        <span>
-          They will now have the roles of{" "}
-          {labels.filter((role) => role !== null).join(" and ")}.
-        </span>
-      }
-    >
+    <>
+      {roles.length > 0 ? (
+        <CustomAlertDialog
+          isOpen={isOpen}
+          onConfirmed={handleEditUserRoles}
+          onCanceled={(e) => {
+            e.stopPropagation()
+            setIsOpen(false)
+          }}
+          title="Are you sure you want to modify the roles for this user?"
+          cancelText="Cancel"
+          confirmText="Confirm"
+          description={
+            <span>
+              This user will now have the roles of{" "}
+              <strong>
+                {labels.filter((role) => role !== null).join(" and ")}
+              </strong>
+            </span>
+          }
+        />
+      ) : (
+        <CustomAlertDialog
+          isOpen={isOpen}
+          onCanceled={(e) => {
+            e.stopPropagation()
+            setIsOpen(false)
+          }}
+          title="You are not allowed to remove all roles for this user"
+          cancelText="Cancel"
+        />
+      )}
       <ButtonLoading
         type="button"
+        id={userId}
         isLoading={isPending}
-        className={cn("h-8 w-full cursor-pointer text-center")}
+        className={cn("h-max cursor-pointer text-center")}
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -64,8 +81,8 @@ export const EditUserRolesButton = ({
         disabled={isConfirmed}
       >
         <PlusCircle size={16} className="text-sm mr-1.5" />
-        Submit {!isPending && <Send className="ml-1.5" size="16" />}
+        Submit {!isPending}
       </ButtonLoading>
-    </CustomAlertDialog>
+    </>
   )
 }

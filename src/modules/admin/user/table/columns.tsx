@@ -3,7 +3,7 @@ import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { UserDetailInfo, UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
 import { AccessorKeyColumnDef } from "@tanstack/react-table"
-import { EditUserRolesAction } from "@/modules/admin/user/table/edit-user-roles-action.tsx"
+import { ModifyUserPermissionAction } from "@/modules/admin/user/table/modify-user-permission-action.tsx"
 import { mapRoleToDisplay } from "@/utils/check-roles.ts"
 
 export const columns: AccessorKeyColumnDef<
@@ -42,17 +42,17 @@ export const columns: AccessorKeyColumnDef<
       return (
         <div className="flex items-center">
           {displayedRoles.map((role) => (
-            <Badge
-              key={role}
-              className="flex items-center capitalize pr-3 text-primary"
-            >
-              {role}
-            </Badge>
+            <Badge key={role}>{role}</Badge>
           ))}
-          <EditUserRolesAction userId={row.original.id} />
         </div>
       )
     }
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    )
   },
   {
     accessorKey: "institution",
@@ -70,6 +70,22 @@ export const columns: AccessorKeyColumnDef<
       const application = row.original
 
       return <div>{convertToReadableDateAgo(application.loggedInAt)}</div>
+    }
+  },
+  {
+    accessorKey: "edit",
+    header: () => <p>Edit</p>,
+    size: 150,
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <ModifyUserPermissionAction
+            userId={row.original.id}
+            status={row.original.status}
+            roles={row.original.roles}
+          />
+        </div>
+      )
     }
   }
 ]

@@ -1,56 +1,45 @@
 import React from "react"
 import { CheckCircle2, MinusCircle } from "lucide-react"
 import { UserRoles } from "@/types/user.type.ts"
-import { Badge } from "@/components/ui/badge.tsx"
 import * as ToggleGroup from "@radix-ui/react-toggle-group"
+import { cn } from "@/lib/utils.ts"
 
 interface MultiChoicesProps {
   role: { value: UserRoles; label: string }
   isSelected: boolean
-  isHovered: boolean
   onClick: () => void
-  onMouseEnter: () => void
-  onMouseLeave: () => void
+  description?: string
+  itemClassName: string
+  iconClassName: string
 }
 
 export const MultiChoices: React.FC<MultiChoicesProps> = ({
   role,
   isSelected,
-  isHovered,
   onClick,
-  onMouseEnter,
-  onMouseLeave
+  description,
+  itemClassName,
+  iconClassName
 }) => {
-  const icon = isSelected ? (
-    <CheckCircle2 size={16} className="text-sm mr-1.5" />
-  ) : (
-    <MinusCircle size={16} className="text-sm mr-1.5" />
-  )
-
-  const badgeClassName = isSelected
-    ? "flex items-center capitalize p-1 text-primary checked"
-    : `flex items-center capitalize p-1 w-full ${
-        isHovered ? "text-destructive cursor-pointer" : ""
-      } text-center`
-
   return (
-    <div
-      className="flex items-center justify-between mb-0.5"
-      style={{ padding: "3px", backgroundColor: "white" }}
-    >
-      <ToggleGroup.Root type="multiple" aria-label="Text formatting">
-        <ToggleGroup.Item
-          value={role.label}
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        >
-          <Badge className={badgeClassName}>
-            {icon}
-            {role.label}
-          </Badge>
-        </ToggleGroup.Item>
-      </ToggleGroup.Root>
-    </div>
+    <ToggleGroup.Root type="multiple" aria-label="Text formatting">
+      <ToggleGroup.Item
+        value={role.label}
+        onClick={onClick}
+        className={cn("border border-gray-400 py-2 px-4 w-full", itemClassName)}
+      >
+        <div className={cn("flex items-center p-1", iconClassName)}>
+          {isSelected ? (
+            <CheckCircle2 size={16} className="mr-1.5" />
+          ) : (
+            <MinusCircle size={16} className="mr-1.5" />
+          )}
+          {role.label}
+        </div>
+        <div className="font-normal text-left py-2 px-2 text-sm">
+          {description}
+        </div>
+      </ToggleGroup.Item>
+    </ToggleGroup.Root>
   )
 }

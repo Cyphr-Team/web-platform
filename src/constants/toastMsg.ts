@@ -2,19 +2,23 @@ export const TOAST_MSG = {
   user: {
     sendInvitation: {
       title: "Send invitation",
-      description: "Sending invitation successfully"
+      description: "Invitation has been sent successfully"
     },
     revokeInvitation: {
       title: "Revoke invitation",
-      description: "Revoke invitation successfully"
+      description: "Invitation has been revoked successfully"
     },
     editUserRole: {
       title: "Edit user roles",
-      description: "Edit user roles successfully"
+      description: "User roles are edited successfully"
     },
     deactivateUser: {
       title: "Deactivate user",
-      description: "Deactivate user successfully"
+      description: "User is deactivated successfully"
+    },
+    reactivateUser: {
+      title: "Reactivate user",
+      description: "User is reactivated successfully"
     }
   },
   loanProgram: {

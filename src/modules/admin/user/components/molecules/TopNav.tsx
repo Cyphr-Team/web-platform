@@ -22,7 +22,7 @@ export function TopNav({ className, ...props }: Props) {
               to={example.href}
               key={example.href}
               className={cn(
-                " px-xs pb-lg font-semibold border-b-2",
+                "px-xs pb-lg font-semibold items-center justify-center text-center transition-colors border-b-2 border-transparent whitespace-nowrap",
                 "hover:text-primary hover:border-primary",
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === "/")
