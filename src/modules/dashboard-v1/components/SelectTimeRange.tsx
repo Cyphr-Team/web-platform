@@ -5,9 +5,11 @@ import { getTimeRangeDates } from "@/utils/time-range.utils"
 import { useFormContext } from "react-hook-form"
 
 export function SelectTimeRange({
-  customOnChange
+  customOnChange,
+  showLabel
 }: {
   customOnChange?: (value?: TimeRangeValue) => void
+  showLabel?: boolean
 }) {
   const { setValue, control, watch } = useFormContext<TimeRangeFilterValue>()
 
@@ -27,7 +29,7 @@ export function SelectTimeRange({
   return (
     <div className="w-[200px]">
       <AutoCompleteInput
-        label="Time range"
+        label={showLabel ? "Time Range" : undefined}
         control={control}
         name={name}
         options={timeRangeOptions}

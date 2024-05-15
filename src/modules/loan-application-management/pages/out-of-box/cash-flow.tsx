@@ -1,5 +1,9 @@
-import { CashflowGlanceReport } from "../../components/organisms/cashflow/report/CashflowGlance"
+import { CashflowGlanceReport } from "../../components/organisms/out-of-box/cash-flow/CashflowGlance"
 
 export function Component() {
-  return <CashflowGlanceReport />
+  return (
+    <div className="px-20 py-2">
+      <CashflowGlanceReport />
+    </div>
+  )
 }

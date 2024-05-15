@@ -6,13 +6,19 @@ import { DateHeader } from "@/modules/loan-application/components/organisms/Midd
 import { Badge } from "@/components/ui/badge"
 import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
+import { cn } from "@/lib/utils"
 
 type Props = {
   data: AccountSummaryType
   isLoading: boolean
+  className: string
 }
 
-export const BankAccountReport: React.FC<Props> = ({ data, isLoading }) => {
+export const BankAccountReport: React.FC<Props> = ({
+  data,
+  isLoading,
+  className
+}) => {
   const formatHeader = (header: string) => {
     // CHASE SAVINGS PLAID SAVING 1111 (3r4WXxlv4N)
     // remove (3r4WXxlv4N) from the header
@@ -21,7 +27,7 @@ export const BankAccountReport: React.FC<Props> = ({ data, isLoading }) => {
     return headerParts.join(" ")
   }
   return (
-    <Card className="border-r-0 border-b-0">
+    <Card className={cn("border-r-0 border-b-0", className)}>
       <CardHeader className="border-b px-8 md:py-4 border-r rounded-tr-md">
         <div className="flex justify-between items-center flex-wrap gap-1">
           <CardTitle className="font-semibold text-2xl flex items-center gap-3">
@@ -56,44 +62,13 @@ export const BankAccountReport: React.FC<Props> = ({ data, isLoading }) => {
             isLoading={isLoading}
           />
           <InformationRow
-            label="Begin Date"
-            value={data.beginDate}
-            isLoading={isLoading}
-          />
-          <InformationRow
-            label="Average Transaction Size"
-            value={toCurrency(data.averageTransactionSize ?? 0)}
-            isLoading={isLoading}
-          />
-          <InformationRow
-            label="End Date"
-            value={data.endDate}
-            isLoading={isLoading}
-          />
-
-          <InformationRow
-            label="Max Deposit"
-            value={toCurrency(data.maxDeposit ?? 0)}
-            isLoading={isLoading}
-          />
-          <InformationRow
             label="Beginning Balance"
             value={toCurrency(data.beginBalance ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Average Deposit"
-            value={toCurrency(data.averageDeposit ?? 0)}
-            isLoading={isLoading}
-          />
-          <InformationRow
             label="Ending Balance"
             value={toCurrency(data.endBalance ?? 0)}
-            isLoading={isLoading}
-          />
-          <InformationRow
-            label="Max Withdrawal"
-            value={toCurrency(data.maxWithdrawal ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
@@ -103,9 +78,8 @@ export const BankAccountReport: React.FC<Props> = ({ data, isLoading }) => {
             isLoading={isLoading}
           />
           <InformationRow
-            label="Average Withdrawal"
-            value={toCurrency(data.averageWithdrawal ?? 0)}
-            className="rounded-br-md"
+            label="Average Transaction Size"
+            value={toCurrency(data.averageTransactionSize ?? 0)}
             isLoading={isLoading}
           />
         </div>

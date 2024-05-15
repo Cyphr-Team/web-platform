@@ -1,8 +1,10 @@
 import { APP_PATH } from "@/constants"
 import { handleCrumb } from "@/utils/crumb.utils"
-import { isLoanReady } from "@/utils/domain.utils"
+import { getSubdomain, isLoanReady } from "@/utils/domain.utils"
 import { Route } from "react-router-dom"
 import { documentRoutes } from "./document-routes"
+import { Institution } from "@/constants/tenant.constants"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 /**
  * Loan application management routes ("/application"). Loan officer review loan application.
@@ -53,15 +55,25 @@ const loanApplicationManagementRoutes = (
       {/* CASH FLOW - LOAN READY CASH FLOW */}
       <Route
         path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
-        lazy={() =>
-          isLoanReady()
-            ? import(
-                "@/modules/loan-application-management/pages/out-of-box/cash-flow"
-              )
-            : import(
+        lazy={() => {
+          switch (getSubdomain()) {
+            case Institution.LoanReady:
+              if (isEnableCashFlowV2()) {
+                return import(
+                  "@/modules/loan-application-management/pages/out-of-box/cash-flow"
+                )
+              } else {
+                return import(
+                  "@/modules/loan-application-management/pages/custom/cash-flow"
+                )
+              }
+            // TODO: Add CyphrV2 case
+            default:
+              return import(
                 "@/modules/loan-application-management/components/pages/CashFlow.page"
               )
-        }
+          }
+        }}
       />
     </Route>
   </Route>

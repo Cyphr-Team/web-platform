@@ -5,6 +5,8 @@ import { useLoanApplicationDetailContext } from "../../providers/LoanApplication
 import { TopNav } from "../molecules/TopNav"
 import { BasicInformation } from "../organisms/BasicInformation"
 import { useParams } from "react-router-dom"
+import { cn } from "@/lib/utils"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 type Props = {
   children: React.ReactNode
@@ -33,7 +35,14 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
         <BasicInformation />
         <TopNav />
       </div>
-      <div className="p-4xl pt-3xl flex-1 overflow-auto">{children}</div>
+      <div
+        className={cn(
+          "p-4xl pt-3xl flex-1 overflow-auto",
+          isEnableCashFlowV2() && "bg-gray-50"
+        )}
+      >
+        {children}
+      </div>
     </div>
   )
 }

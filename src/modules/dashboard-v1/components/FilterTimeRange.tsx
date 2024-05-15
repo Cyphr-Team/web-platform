@@ -65,7 +65,10 @@ export const FilterTimeRange = () => {
       <Form {...form}>
         <form>
           <div className="flex items-end gap-4 flex-wrap">
-            <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />
+            <SelectTimeRange
+              customOnChange={customSelectTimeRangeOnChange}
+              showLabel={false}
+            />
 
             {showDatePicker && (
               <div className="flex items-center gap-2 flex-wrap">

@@ -47,6 +47,16 @@ export interface RevenueExpenseTag {
   expense: number
 }
 
+export interface NoiTotalDebtPaymentGraphType {
+  date: string
+  tags: NoiTotalDebtPaymentTag
+}
+
+export interface NoiTotalDebtPaymentTag {
+  noi: number
+  totalDebtPayment: number
+}
+
 export interface SummaryGraphType {
   date: string
   tags: SummaryTag

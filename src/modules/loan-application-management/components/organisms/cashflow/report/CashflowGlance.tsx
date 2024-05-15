@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { InformationRow } from "../../../atoms/InformationRow"
 import { toCurrency } from "@/utils"
-import { BankAccountReport } from "./BankAccountReport"
+import { BankAccountReport } from "../BankAccountReport"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 

@@ -22,4 +22,8 @@ function isEnableCashFlowV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.CASH_FLOW_V2)
 }
 
-export { isEnableDashboardV2, isEnableCashFlowV2 }
+function isEnabledCashFlowV2DummyData() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.CASH_FLOW_V2_DUMMY_DATA)
+}
+
+export { isEnableDashboardV2, isEnableCashFlowV2, isEnabledCashFlowV2DummyData }

@@ -1,0 +1,1052 @@
+[
+  {
+      "date": "2024-02-02",
+      "tags": {
+          "revenue": 14584,
+          "expense": 2167
+      }
+  },
+  {
+      "date": "2024-02-03",
+      "tags": {
+          "revenue": 13176,
+          "expense": 2398
+      }
+  },
+  {
+      "date": "2024-02-04",
+      "tags": {
+          "revenue": 14269,
+          "expense": 1052
+      }
+  },
+  {
+      "date": "2024-02-05",
+      "tags": {
+          "revenue": 11230,
+          "expense": 1200
+      }
+  },
+  {
+      "date": "2024-02-06",
+      "tags": {
+          "revenue": 8485,
+          "expense": 1940
+      }
+  },
+  {
+      "date": "2024-02-07",
+      "tags": {
+          "revenue": 13131,
+          "expense": 2071
+      }
+  },
+  {
+      "date": "2024-02-08",
+      "tags": {
+          "revenue": 13369,
+          "expense": 1916
+      }
+  },
+  {
+      "date": "2024-02-09",
+      "tags": {
+          "revenue": 10334,
+          "expense": 2069
+      }
+  },
+  {
+      "date": "2024-02-10",
+      "tags": {
+          "revenue": 9546,
+          "expense": 1633
+      }
+  },
+  {
+      "date": "2024-02-11",
+      "tags": {
+          "revenue": 7837,
+          "expense": 1096
+      }
+  },
+  {
+      "date": "2024-02-12",
+      "tags": {
+          "revenue": 5627,
+          "expense": 2396
+      }
+  },
+  {
+      "date": "2024-02-13",
+      "tags": {
+          "revenue": 5305,
+          "expense": 1518
+      }
+  },
+  {
+      "date": "2024-02-14",
+      "tags": {
+          "revenue": 10237,
+          "expense": 1121
+      }
+  },
+  {
+      "date": "2024-02-15",
+      "tags": {
+          "revenue": 12988,
+          "expense": 2327
+      }
+  },
+  {
+      "date": "2024-02-16",
+      "tags": {
+          "revenue": 12027,
+          "expense": 1933
+      }
+  },
+  {
+      "date": "2024-02-17",
+      "tags": {
+          "revenue": 8751,
+          "expense": 2056
+      }
+  },
+  {
+      "date": "2024-02-18",
+      "tags": {
+          "revenue": 10954,
+          "expense": 1291
+      }
+  },
+  {
+      "date": "2024-02-19",
+      "tags": {
+          "revenue": 5088,
+          "expense": 1452
+      }
+  },
+  {
+      "date": "2024-02-20",
+      "tags": {
+          "revenue": 9878,
+          "expense": 2246
+      }
+  },
+  {
+      "date": "2024-02-21",
+      "tags": {
+          "revenue": 14848,
+          "expense": 1141
+      }
+  },
+  {
+      "date": "2024-02-22",
+      "tags": {
+          "revenue": 11061,
+          "expense": 2305
+      }
+  },
+  {
+      "date": "2024-02-23",
+      "tags": {
+          "revenue": 11095,
+          "expense": 1162
+      }
+  },
+  {
+      "date": "2024-02-24",
+      "tags": {
+          "revenue": 9253,
+          "expense": 1224
+      }
+  },
+  {
+      "date": "2024-02-25",
+      "tags": {
+          "revenue": 13053,
+          "expense": 1702
+      }
+  },
+  {
+      "date": "2024-02-26",
+      "tags": {
+          "revenue": 10873,
+          "expense": 2422
+      }
+  },
+  {
+      "date": "2024-02-27",
+      "tags": {
+          "revenue": 7533,
+          "expense": 1939
+      }
+  },
+  {
+      "date": "2024-02-28",
+      "tags": {
+          "revenue": 8007,
+          "expense": 2462
+      }
+  },
+  {
+      "date": "2024-02-29",
+      "tags": {
+          "revenue": 6648,
+          "expense": 1212
+      }
+  },
+  {
+      "date": "2024-03-01",
+      "tags": {
+          "revenue": 14829,
+          "expense": 2404
+      }
+  },
+  {
+      "date": "2024-03-02",
+      "tags": {
+          "revenue": 10497,
+          "expense": 2024
+      }
+  },
+  {
+      "date": "2024-03-03",
+      "tags": {
+          "revenue": 12996,
+          "expense": 1952
+      }
+  },
+  {
+      "date": "2024-03-04",
+      "tags": {
+          "revenue": 11408,
+          "expense": 2035
+      }
+  },
+  {
+      "date": "2024-03-05",
+      "tags": {
+          "revenue": 11139,
+          "expense": 2184
+      }
+  },
+  {
+      "date": "2024-03-06",
+      "tags": {
+          "revenue": 14393,
+          "expense": 1675
+      }
+  },
+  {
+      "date": "2024-03-07",
+      "tags": {
+          "revenue": 9837,
+          "expense": 1909
+      }
+  },
+  {
+      "date": "2024-03-08",
+      "tags": {
+          "revenue": 9443,
+          "expense": 1672
+      }
+  },
+  {
+      "date": "2024-03-09",
+      "tags": {
+          "revenue": 11293,
+          "expense": 2492
+      }
+  },
+  {
+      "date": "2024-03-10",
+      "tags": {
+          "revenue": 13042,
+          "expense": 1788
+      }
+  },
+  {
+      "date": "2024-03-11",
+      "tags": {
+          "revenue": 12327,
+          "expense": 2195
+      }
+  },
+  {
+      "date": "2024-03-12",
+      "tags": {
+          "revenue": 13120,
+          "expense": 2101
+      }
+  },
+  {
+      "date": "2024-03-13",
+      "tags": {
+          "revenue": 6403,
+          "expense": 1553
+      }
+  },
+  {
+      "date": "2024-03-14",
+      "tags": {
+          "revenue": 11635,
+          "expense": 1338
+      }
+  },
+  {
+      "date": "2024-03-15",
+      "tags": {
+          "revenue": 11957,
+          "expense": 1093
+      }
+  },
+  {
+      "date": "2024-03-16",
+      "tags": {
+          "revenue": 11655,
+          "expense": 1572
+      }
+  },
+  {
+      "date": "2024-03-17",
+      "tags": {
+          "revenue": 14699,
+          "expense": 1480
+      }
+  },
+  {
+      "date": "2024-03-18",
+      "tags": {
+          "revenue": 14602,
+          "expense": 1183
+      }
+  },
+  {
+      "date": "2024-03-19",
+      "tags": {
+          "revenue": 9944,
+          "expense": 2317
+      }
+  },
+  {
+      "date": "2024-03-20",
+      "tags": {
+          "revenue": 9784,
+          "expense": 1961
+      }
+  },
+  {
+      "date": "2024-03-21",
+      "tags": {
+          "revenue": 8745,
+          "expense": 1025
+      }
+  },
+  {
+      "date": "2024-03-22",
+      "tags": {
+          "revenue": 5217,
+          "expense": 1363
+      }
+  },
+  {
+      "date": "2024-03-23",
+      "tags": {
+          "revenue": 6364,
+          "expense": 1231
+      }
+  },
+  {
+      "date": "2024-03-24",
+      "tags": {
+          "revenue": 9279,
+          "expense": 2066
+      }
+  },
+  {
+      "date": "2024-03-25",
+      "tags": {
+          "revenue": 12897,
+          "expense": 1142
+      }
+  },
+  {
+      "date": "2024-03-26",
+      "tags": {
+          "revenue": 9947,
+          "expense": 1606
+      }
+  },
+  {
+      "date": "2024-03-27",
+      "tags": {
+          "revenue": 8978,
+          "expense": 1051
+      }
+  },
+  {
+      "date": "2024-03-28",
+      "tags": {
+          "revenue": 7640,
+          "expense": 1404
+      }
+  },
+  {
+      "date": "2024-03-29",
+      "tags": {
+          "revenue": 13458,
+          "expense": 1316
+      }
+  },
+  {
+      "date": "2024-03-30",
+      "tags": {
+          "revenue": 13062,
+          "expense": 1751
+      }
+  },
+  {
+      "date": "2024-03-31",
+      "tags": {
+          "revenue": 14061,
+          "expense": 1145
+      }
+  },
+  {
+      "date": "2024-04-01",
+      "tags": {
+          "revenue": 13226,
+          "expense": 2175
+      }
+  },
+  {
+      "date": "2024-04-02",
+      "tags": {
+          "revenue": 10453,
+          "expense": 1839
+      }
+  },
+  {
+      "date": "2024-04-03",
+      "tags": {
+          "revenue": 11192,
+          "expense": 1967
+      }
+  },
+  {
+      "date": "2024-04-04",
+      "tags": {
+          "revenue": 11455,
+          "expense": 1391
+      }
+  },
+  {
+      "date": "2024-04-05",
+      "tags": {
+          "revenue": 9404,
+          "expense": 1650
+      }
+  },
+  {
+      "date": "2024-04-06",
+      "tags": {
+          "revenue": 8114,
+          "expense": 2180
+      }
+  },
+  {
+      "date": "2024-04-07",
+      "tags": {
+          "revenue": 7974,
+          "expense": 2217
+      }
+  },
+  {
+      "date": "2024-04-08",
+      "tags": {
+          "revenue": 8518,
+          "expense": 2078
+      }
+  },
+  {
+      "date": "2024-04-09",
+      "tags": {
+          "revenue": 10600,
+          "expense": 2272
+      }
+  },
+  {
+      "date": "2024-04-10",
+      "tags": {
+          "revenue": 10586,
+          "expense": 1033
+      }
+  },
+  {
+      "date": "2024-04-11",
+      "tags": {
+          "revenue": 11869,
+          "expense": 1329
+      }
+  },
+  {
+      "date": "2024-04-12",
+      "tags": {
+          "revenue": 5223,
+          "expense": 2492
+      }
+  },
+  {
+      "date": "2024-04-13",
+      "tags": {
+          "revenue": 11020,
+          "expense": 1957
+      }
+  },
+  {
+      "date": "2024-04-14",
+      "tags": {
+          "revenue": 12117,
+          "expense": 2411
+      }
+  },
+  {
+      "date": "2024-04-15",
+      "tags": {
+          "revenue": 13089,
+          "expense": 1766
+      }
+  },
+  {
+      "date": "2024-04-16",
+      "tags": {
+          "revenue": 7062,
+          "expense": 1484
+      }
+  },
+  {
+      "date": "2024-04-17",
+      "tags": {
+          "revenue": 6499,
+          "expense": 1427
+      }
+  },
+  {
+      "date": "2024-04-18",
+      "tags": {
+          "revenue": 5384,
+          "expense": 1842
+      }
+  },
+  {
+      "date": "2024-04-19",
+      "tags": {
+          "revenue": 12254,
+          "expense": 1685
+      }
+  },
+  {
+      "date": "2024-04-20",
+      "tags": {
+          "revenue": 10262,
+          "expense": 2320
+      }
+  },
+  {
+      "date": "2024-04-21",
+      "tags": {
+          "revenue": 13095,
+          "expense": 1180
+      }
+  },
+  {
+      "date": "2024-04-22",
+      "tags": {
+          "revenue": 9416,
+          "expense": 2054
+      }
+  },
+  {
+      "date": "2024-04-23",
+      "tags": {
+          "revenue": 9547,
+          "expense": 1030
+      }
+  },
+  {
+      "date": "2024-04-24",
+      "tags": {
+          "revenue": 14797,
+          "expense": 1661
+      }
+  },
+  {
+      "date": "2024-04-25",
+      "tags": {
+          "revenue": 10416,
+          "expense": 2365
+      }
+  },
+  {
+      "date": "2024-04-26",
+      "tags": {
+          "revenue": 5232,
+          "expense": 1209
+      }
+  },
+  {
+      "date": "2024-04-27",
+      "tags": {
+          "revenue": 6855,
+          "expense": 1246
+      }
+  },
+  {
+      "date": "2024-04-28",
+      "tags": {
+          "revenue": 6685,
+          "expense": 1815
+      }
+  },
+  {
+      "date": "2024-04-29",
+      "tags": {
+          "revenue": 9116,
+          "expense": 1617
+      }
+  },
+  {
+      "date": "2024-04-30",
+      "tags": {
+          "revenue": 11900,
+          "expense": 1940
+      }
+  },
+  {
+      "date": "2024-05-01",
+      "tags": {
+          "revenue": 11811,
+          "expense": 1874
+      }
+  },
+  {
+      "date": "2024-05-02",
+      "tags": {
+          "revenue": 12559,
+          "expense": 1895
+      }
+  },
+  {
+      "date": "2024-05-03",
+      "tags": {
+          "revenue": 13494,
+          "expense": 2276
+      }
+  },
+  {
+      "date": "2024-05-04",
+      "tags": {
+          "revenue": 10727,
+          "expense": 2043
+      }
+  },
+  {
+      "date": "2024-05-05",
+      "tags": {
+          "revenue": 12826,
+          "expense": 1260
+      }
+  },
+  {
+      "date": "2024-05-06",
+      "tags": {
+          "revenue": 11670,
+          "expense": 2077
+      }
+  },
+  {
+      "date": "2024-05-07",
+      "tags": {
+          "revenue": 14519,
+          "expense": 2437
+      }
+  },
+  {
+      "date": "2024-05-08",
+      "tags": {
+          "revenue": 9939,
+          "expense": 1029
+      }
+  },
+  {
+      "date": "2024-05-09",
+      "tags": {
+          "revenue": 12491,
+          "expense": 1430
+      }
+  },
+  {
+      "date": "2024-05-10",
+      "tags": {
+          "revenue": 7181,
+          "expense": 1584
+      }
+  },
+  {
+      "date": "2024-05-11",
+      "tags": {
+          "revenue": 13709,
+          "expense": 2066
+      }
+  },
+  {
+      "date": "2024-05-12",
+      "tags": {
+          "revenue": 11438,
+          "expense": 1257
+      }
+  },
+  {
+      "date": "2024-05-13",
+      "tags": {
+          "revenue": 12413,
+          "expense": 1000
+      }
+  },
+  {
+      "date": "2024-05-14",
+      "tags": {
+          "revenue": 12508,
+          "expense": 2278
+      }
+  },
+  {
+      "date": "2024-05-15",
+      "tags": {
+          "revenue": 10608,
+          "expense": 2230
+      }
+  },
+  {
+      "date": "2024-05-16",
+      "tags": {
+          "revenue": 8706,
+          "expense": 1567
+      }
+  },
+  {
+      "date": "2024-05-17",
+      "tags": {
+          "revenue": 8694,
+          "expense": 1891
+      }
+  },
+  {
+      "date": "2024-05-18",
+      "tags": {
+          "revenue": 13662,
+          "expense": 1136
+      }
+  },
+  {
+      "date": "2024-05-19",
+      "tags": {
+          "revenue": 10228,
+          "expense": 1308
+      }
+  },
+  {
+      "date": "2024-05-20",
+      "tags": {
+          "revenue": 14846,
+          "expense": 2177
+      }
+  },
+  {
+      "date": "2024-05-21",
+      "tags": {
+          "revenue": 6813,
+          "expense": 2067
+      }
+  },
+  {
+      "date": "2024-05-22",
+      "tags": {
+          "revenue": 6237,
+          "expense": 1167
+      }
+  },
+  {
+      "date": "2024-05-23",
+      "tags": {
+          "revenue": 13420,
+          "expense": 1046
+      }
+  },
+  {
+      "date": "2024-05-24",
+      "tags": {
+          "revenue": 12052,
+          "expense": 2253
+      }
+  },
+  {
+      "date": "2024-05-25",
+      "tags": {
+          "revenue": 14840,
+          "expense": 2143
+      }
+  },
+  {
+      "date": "2024-05-26",
+      "tags": {
+          "revenue": 8766,
+          "expense": 1055
+      }
+  },
+  {
+      "date": "2024-05-27",
+      "tags": {
+          "revenue": 7030,
+          "expense": 2052
+      }
+  },
+  {
+      "date": "2024-05-28",
+      "tags": {
+          "revenue": 5136,
+          "expense": 1214
+      }
+  },
+  {
+      "date": "2024-05-29",
+      "tags": {
+          "revenue": 14221,
+          "expense": 2347
+      }
+  },
+  {
+      "date": "2024-05-30",
+      "tags": {
+          "revenue": 9499,
+          "expense": 1444
+      }
+  },
+  {
+      "date": "2024-05-31",
+      "tags": {
+          "revenue": 9804,
+          "expense": 1070
+      }
+  },
+  {
+      "date": "2024-06-01",
+      "tags": {
+          "revenue": 5955,
+          "expense": 1072
+      }
+  },
+  {
+      "date": "2024-06-02",
+      "tags": {
+          "revenue": 6113,
+          "expense": 1145
+      }
+  },
+  {
+      "date": "2024-06-03",
+      "tags": {
+          "revenue": 11975,
+          "expense": 2118
+      }
+  },
+  {
+      "date": "2024-06-04",
+      "tags": {
+          "revenue": 14470,
+          "expense": 2360
+      }
+  },
+  {
+      "date": "2024-06-05",
+      "tags": {
+          "revenue": 7881,
+          "expense": 1959
+      }
+  },
+  {
+      "date": "2024-06-06",
+      "tags": {
+          "revenue": 14067,
+          "expense": 1461
+      }
+  },
+  {
+      "date": "2024-06-07",
+      "tags": {
+          "revenue": 14630,
+          "expense": 1192
+      }
+  },
+  {
+      "date": "2024-06-08",
+      "tags": {
+          "revenue": 5151,
+          "expense": 2359
+      }
+  },
+  {
+      "date": "2024-06-09",
+      "tags": {
+          "revenue": 11066,
+          "expense": 2271
+      }
+  },
+  {
+      "date": "2024-06-10",
+      "tags": {
+          "revenue": 13004,
+          "expense": 2046
+      }
+  },
+  {
+      "date": "2024-06-11",
+      "tags": {
+          "revenue": 13614,
+          "expense": 1880
+      }
+  },
+  {
+      "date": "2024-06-12",
+      "tags": {
+          "revenue": 11491,
+          "expense": 2255
+      }
+  },
+  {
+      "date": "2024-06-13",
+      "tags": {
+          "revenue": 14299,
+          "expense": 1327
+      }
+  },
+  {
+      "date": "2024-06-14",
+      "tags": {
+          "revenue": 7109,
+          "expense": 1666
+      }
+  },
+  {
+      "date": "2024-06-15",
+      "tags": {
+          "revenue": 10076,
+          "expense": 1305
+      }
+  },
+  {
+      "date": "2024-06-16",
+      "tags": {
+          "revenue": 6957,
+          "expense": 1738
+      }
+  },
+  {
+      "date": "2024-06-17",
+      "tags": {
+          "revenue": 9712,
+          "expense": 1949
+      }
+  },
+  {
+      "date": "2024-06-18",
+      "tags": {
+          "revenue": 14195,
+          "expense": 1114
+      }
+  },
+  {
+      "date": "2024-06-19",
+      "tags": {
+          "revenue": 5070,
+          "expense": 1569
+      }
+  },
+  {
+      "date": "2024-06-20",
+      "tags": {
+          "revenue": 11618,
+          "expense": 1123
+      }
+  },
+  {
+      "date": "2024-06-21",
+      "tags": {
+          "revenue": 6792,
+          "expense": 1984
+      }
+  },
+  {
+      "date": "2024-06-22",
+      "tags": {
+          "revenue": 14116,
+          "expense": 2079
+      }
+  },
+  {
+      "date": "2024-06-23",
+      "tags": {
+          "revenue": 12513,
+          "expense": 1915
+      }
+  },
+  {
+      "date": "2024-06-24",
+      "tags": {
+          "revenue": 10383,
+          "expense": 2314
+      }
+  },
+  {
+      "date": "2024-06-25",
+      "tags": {
+          "revenue": 13012,
+          "expense": 1530
+      }
+  },
+  {
+      "date": "2024-06-26",
+      "tags": {
+          "revenue": 14700,
+          "expense": 1015
+      }
+  },
+  {
+      "date": "2024-06-27",
+      "tags": {
+          "revenue": 7678,
+          "expense": 1027
+      }
+  },
+  {
+      "date": "2024-06-28",
+      "tags": {
+          "revenue": 9309,
+          "expense": 1746
+      }
+  },
+  {
+      "date": "2024-06-29",
+      "tags": {
+          "revenue": 10675,
+          "expense": 2117
+      }
+  },
+  {
+      "date": "2024-06-30",
+      "tags": {
+          "revenue": 5080,
+          "expense": 1815
+      }
+  }
+]
