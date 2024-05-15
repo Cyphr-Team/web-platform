@@ -129,12 +129,11 @@ export const CurrentLoansForm = () => {
                   <FormItem className="grid grid-cols-6 gap-x-2xl">
                     <FormLabel className="text-text-secondary col-span-6 lg:col-span-4">
                       <p className="text-sm text-text-secondary font-medium">
-                        Does your business currently have outstanding
-                        current_loans?
+                        Does your business currently have outstanding loans?
                       </p>
                       <p className="text-sm text-text-tertiary font-medium">
-                        (ex: term current_loans, revolving credit, equipment
-                        financing, etc.)
+                        (ex: term loans, revolving credit, equipment financing,
+                        etc.)
                       </p>
                     </FormLabel>
                     <FormControl>
@@ -153,9 +152,6 @@ export const CurrentLoansForm = () => {
                           </SelectItem>
                           <SelectItem value="false">
                             <span>No</span>
-                          </SelectItem>
-                          <SelectItem value="not-sure">
-                            <span>Not sure</span>
                           </SelectItem>
                         </SelectContent>
                       </Select>

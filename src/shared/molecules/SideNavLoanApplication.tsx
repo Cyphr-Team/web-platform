@@ -16,6 +16,7 @@ import { useLoanApplicationProgressContext } from "@/modules/loan-application/pr
 import { Check } from "lucide-react"
 import { LogoHeader } from "../atoms/LogoHeader"
 import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -104,7 +105,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
   const progressPercent = progress.filter(
     (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
   ).length
-  const progressText = `${progressPercent}/5`
+  const progressText = `${progressPercent}/${isEnableCashFlowV2() ? "5" : "4"}`
 
   const signatureStatus = getStepStatus(LOAN_APPLICATION_STEPS.CONFIRMATION)
 
@@ -129,7 +130,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
         >
           <LoanProgramCollapsible
             label={ARTCAP_MENU.APPLICATION}
-            progressPercent={progressPercent / 5}
+            progressPercent={progressPercent / (isEnableCashFlowV2() ? 5 : 4)}
             progressText={progressText}
           >
             {

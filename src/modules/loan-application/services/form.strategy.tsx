@@ -98,6 +98,39 @@ class ReadinessLoanFormStrategy extends FormStrategy {
         component: <ConfirmationForm />
       }
     ]
+    return this.formsComponents
+  }
+}
+
+class CyphrV2LoanFormStrategy extends FormStrategy {
+  generateComponents(): FormComponent<ReactNode>[] {
+    this.formsComponents = [
+      {
+        formType: null,
+        step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+        component: <LoanRequest />
+      },
+      {
+        formType: FORM_TYPE.KYB,
+        step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+        component: <BusinessInformationForm />
+      },
+      {
+        formType: FORM_TYPE.KYC,
+        step: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+        component: <OwnerInformationForm />
+      },
+      {
+        formType: FORM_TYPE.KYC,
+        step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        component: <CashFlowVerificationForm />
+      },
+      {
+        formType: null,
+        step: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        component: <ConfirmationForm />
+      }
+    ]
     if (isEnableCashFlowV2()) {
       this.formsComponents.splice(4, 0, {
         formType: FORM_TYPE.CURRENT_LOANS,
@@ -109,4 +142,9 @@ class ReadinessLoanFormStrategy extends FormStrategy {
   }
 }
 
-export { FormStrategy, MicroLoanFormStrategy, ReadinessLoanFormStrategy }
+export {
+  FormStrategy,
+  MicroLoanFormStrategy,
+  ReadinessLoanFormStrategy,
+  CyphrV2LoanFormStrategy
+}

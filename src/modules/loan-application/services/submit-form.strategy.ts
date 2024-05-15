@@ -24,6 +24,7 @@ import { FORM_TYPE } from "../constants/type"
 import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -135,8 +136,10 @@ export const useSubmitLoanForm = (
             )
           }
         }
-        if (currentLoansData) {
-          await submitCurrentLoansForm(loanRequestId)
+        if (isEnableCashFlowV2()) {
+          if (currentLoansData) {
+            await submitCurrentLoansForm(loanRequestId)
+          }
         }
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
@@ -147,8 +150,10 @@ export const useSubmitLoanForm = (
         if (businessData) await submitLoanKYBForm(loanRequestId)
         if (ownerData) await submitLoanKYCForm(loanRequestId)
         await submitLoanFinancialForm(loanRequestId)
-        if (currentLoansData) {
-          await submitCurrentLoansForm(loanRequestId)
+        if (isEnableCashFlowV2()) {
+          if (currentLoansData) {
+            await submitCurrentLoansForm(loanRequestId)
+          }
         }
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)

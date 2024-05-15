@@ -9,7 +9,8 @@ import { Institution } from "@/constants/tenant.constants"
 const DEFAULT_DEMO_SUBDOMAIN = "capsight"
 
 function getSubdomain(): string {
-  // return "loanready" // for testing
+  // return Institution.CyphrV2 // for Cyphr 2.0
+  // return "loanready" // for LoanReady
 
   try {
     const { host } = window.location
@@ -40,4 +41,8 @@ function isLoanReady(): boolean {
   return getSubdomain() === Institution.LoanReady
 }
 
-export { getSubdomain, isLoanReady, getTenantDomain }
+function isCyphrBank(): boolean {
+  return getSubdomain() === Institution.CyphrV2
+}
+
+export { getSubdomain, isLoanReady, isCyphrBank, getTenantDomain }
