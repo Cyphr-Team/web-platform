@@ -42,7 +42,7 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
 
   const handleChangeTimePeriod = (timePeriod: string) => {
     dashboardDispatch({
-      type: DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency,
+      type: DashboardActionType.UpdateAverageLoanSizeFrequency,
       payload: timePeriod as GRAPH_FREQUENCY
     })
   }
@@ -53,8 +53,7 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
     loanPrograms.data?.loanPrograms.map((program) => program.name) ?? []
 
   const formatDateByTimePeriod =
-    dashboardState.averageTimeToApprovalMetricsFrequency ===
-    GRAPH_FREQUENCY.WEEKLY
+    dashboardState.averageLoanSizeFrequency === GRAPH_FREQUENCY.WEEKLY
       ? formatChartWeekly
       : formatChartMonthly
 
