@@ -105,7 +105,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
   const progressPercent = progress.filter(
     (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
   ).length
-  const progressText = `${progressPercent}/${isEnableCashFlowV2() ? "5" : "4"}`
+  const progressText = `${progressPercent}/${isEnableCashFlowV2() ? "6" : "4"}`
 
   const signatureStatus = getStepStatus(LOAN_APPLICATION_STEPS.CONFIRMATION)
 
@@ -130,7 +130,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
         >
           <LoanProgramCollapsible
             label={ARTCAP_MENU.APPLICATION}
-            progressPercent={progressPercent / (isEnableCashFlowV2() ? 5 : 4)}
+            progressPercent={progressPercent / (isEnableCashFlowV2() ? 6 : 4)}
             progressText={progressText}
           >
             {

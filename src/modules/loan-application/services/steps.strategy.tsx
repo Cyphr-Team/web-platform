@@ -151,7 +151,7 @@ class CyphrV2StepStrategy extends StepStrategy {
         step: LOAN_APPLICATION_STEPS.CONFIRMATION,
         previousStep: isEnableCashFlowV2()
           ? LOAN_APPLICATION_STEPS.CURRENT_LOANS
-          : LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+          : LOAN_APPLICATION_STEPS.OPERATING_EXPENSES,
         nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
         label: "Review and Sign",
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
@@ -161,8 +161,15 @@ class CyphrV2StepStrategy extends StepStrategy {
       this.steps.splice(4, 0, {
         step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
         previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
-        nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        nextStep: LOAN_APPLICATION_STEPS.OPERATING_EXPENSES,
         label: "Current Loans",
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      })
+      this.steps.splice(5, 0, {
+        step: LOAN_APPLICATION_STEPS.OPERATING_EXPENSES,
+        previousStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        label: "Operating Expenses",
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
       })
     }

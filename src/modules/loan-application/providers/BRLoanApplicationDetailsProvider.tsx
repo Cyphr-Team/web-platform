@@ -31,6 +31,7 @@ import {
   reverseFormatKycForm
 } from "../services/form.services"
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
+import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -84,6 +85,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const confirmationFormQuery = useQueryGetConfirmationForm(loanApplicationId!)
   const financialFormQuery = useQueryGetFinancialForm(loanApplicationId!)
   const currentLoansFormQuery = useQueryGetCurrentLoansForm(loanApplicationId!)
+  const operatingExpensesFormQuery = useQueryGetOperatingExpensesForm(
+    loanApplicationId!
+  )
   const financialDocuments = useQueryGetDocumentsByForm(
     financialFormQuery.data?.id ?? ""
   )
@@ -150,6 +154,17 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       )
     }
   }, [changeDataAndProgress, currentLoansFormQuery.data])
+  // Operating Expenses Form
+  useEffect(() => {
+    if (operatingExpensesFormQuery.data) {
+      changeDataAndProgress(
+        {
+          ...operatingExpensesFormQuery.data
+        },
+        LOAN_APPLICATION_STEPS.OPERATING_EXPENSES
+      )
+    }
+  }, [changeDataAndProgress, operatingExpensesFormQuery.data])
   // Loan Request Form
   useEffect(() => {
     if (loanApplicationDetailsQuery.data) {
@@ -182,6 +197,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         kycFormQuery.isLoading ||
         confirmationFormQuery.isLoading ||
         financialFormQuery.isLoading ||
+        currentLoansFormQuery.isLoading ||
+        operatingExpensesFormQuery.isLoading ||
         kycDocuments.isLoading ||
         financialDocuments.isLoading,
       isLoading: loanProgramQuery.isLoading
@@ -203,7 +220,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kycDocuments.data,
       kycDocuments.isLoading,
       financialDocuments.data,
-      financialDocuments.isLoading
+      financialDocuments.isLoading,
+      currentLoansFormQuery.isLoading,
+      operatingExpensesFormQuery.isLoading
     ]
   )
   switch (loanProgramQuery.data?.type) {

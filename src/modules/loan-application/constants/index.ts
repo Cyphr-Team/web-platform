@@ -79,6 +79,7 @@ export enum LOAN_APPLICATION_STEPS {
   OWNER_INFORMATION = "ownerInformationForm",
   FINANCIAL_INFORMATION = "financialInformationForm",
   CURRENT_LOANS = "currentLoansForm",
+  OPERATING_EXPENSES = "operatingExpensesForm",
   CONFIRMATION = "confirmationForm"
 }
 
@@ -153,15 +154,56 @@ export const LOAN_APPLICATION_STEP_DATA_LOAN_READY = {
     label: "Cash Flow Verification",
     parent: ARTCAP_MENU.APPLICATION
   },
+  [LOAN_APPLICATION_STEPS.CONFIRMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+    nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
+    label: "Review and Sign",
+    parent: ARTCAP_MENU.SIGNATURE
+  }
+}
+
+export const LOAN_APPLICATION_STEP_DATA_CYPHRV2 = {
+  [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: {
+    previousStep: "" as unknown as LOAN_APPLICATION_STEPS,
+    nextStep: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+    label: "Loan Request",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+    nextStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+    label: "Business Information",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+    nextStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+    label: "Individual Information",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: {
+    previousStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+    nextStep: isEnableCashFlowV2()
+      ? LOAN_APPLICATION_STEPS.CURRENT_LOANS
+      : LOAN_APPLICATION_STEPS.CONFIRMATION,
+    label: "Cash Flow Verification",
+    parent: ARTCAP_MENU.APPLICATION
+  },
   [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: {
     previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
-    nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+    nextStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
     label: "Current Loans",
+    parent: ARTCAP_MENU.APPLICATION
+  },
+  [LOAN_APPLICATION_STEPS.OPERATING_EXPENSES]: {
+    previousStep: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+    nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+    label: "Operating Expenses",
     parent: ARTCAP_MENU.APPLICATION
   },
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: {
     previousStep: isEnableCashFlowV2()
-      ? LOAN_APPLICATION_STEPS.CURRENT_LOANS
+      ? LOAN_APPLICATION_STEPS.OPERATING_EXPENSES
       : LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
     nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
     label: "Review and Sign",
@@ -172,6 +214,8 @@ export const LOAN_APPLICATION_STEP_DATA_LOAN_READY = {
 const getLoanApplicationStep = (): LoanApplicationStepsData => {
   if (getSubdomain() === Institution.LoanReady)
     return LOAN_APPLICATION_STEP_DATA_LOAN_READY
+  if (getSubdomain() === Institution.CyphrV2)
+    return LOAN_APPLICATION_STEP_DATA_CYPHRV2
   return LOAN_APPLICATION_STEP_DATA_DEFAULT
 }
 

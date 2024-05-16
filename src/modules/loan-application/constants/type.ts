@@ -150,6 +150,46 @@ export interface CurrentLoanInformationResponse {
   loanTermRemainingInMonths: number
 }
 
+export interface OperatingExpensesInformation {
+  loanApplicationId?: string
+  costOfGoodsSold: number
+  rent: number
+  salariesAndWages: number
+  payrollTaxes: number
+  salesAndMarketingExpenses: number
+  accountingFees: number
+  legalFees: number
+  officeSupplies: number
+  maintenanceAndRepairs: number
+  utilities: number
+  insurance: number
+  duesAndSubscriptions: number
+  travelAndEntertainment: number
+  depreciation: number
+  bankCharges: number
+  otherOperatingExpenses: number
+}
+
+export interface OperatingExpensesInformationResponse {
+  id: string
+  costOfGoodsSold: number
+  rent: number
+  salariesAndWages: number
+  payrollTaxes: number
+  salesAndMarketingExpenses: number
+  accountingFees: number
+  legalFees: number
+  officeSupplies: number
+  maintenanceAndRepairs: number
+  utilities: number
+  insurance: number
+  duesAndSubscriptions: number
+  travelAndEntertainment: number
+  depreciation: number
+  bankCharges: number
+  otherOperatingExpenses: number
+}
+
 export interface ConfirmationForm {
   loanApplicationId: string
   printName: string
@@ -173,7 +213,8 @@ export enum FORM_TYPE {
   KYB = "KYB",
   KYC = "KYC",
   FINANCIAL = "FINANCIAL",
-  CURRENT_LOANS = "CURRENT_LOANS"
+  CURRENT_LOANS = "CURRENT_LOANS",
+  OPERATING_EXPENSES = "OPERATING_EXPENSES"
 }
 
 export interface UserLoanApplicationDetailsResponse {

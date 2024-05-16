@@ -108,6 +108,36 @@ export const currentLoansFormSchema = z.object({
   current_loans: z.array(LoanItemFormSchema)
 })
 
+export const operatingExpensesFormSchema = z.object({
+  id: z.string().nullable(),
+  costOfGoodsSold: z.number().min(0, { message: "This value is required" }),
+  rent: z.number().min(0, { message: "This value is required" }),
+  salariesAndWages: z.number().min(0, { message: "This value is required" }),
+  payrollTaxes: z.number().min(0, { message: "This value is required" }),
+  salesAndMarketingExpenses: z
+    .number()
+    .min(0, { message: "This value is required" }),
+  accountingFees: z.number().min(0, { message: "This value is required" }),
+  legalFees: z.number().min(0, { message: "This value is required" }),
+  officeSupplies: z.number().min(0, { message: "This value is required" }),
+  maintenanceAndRepairs: z
+    .number()
+    .min(0, { message: "This value is required" }),
+  utilities: z.number().min(0, { message: "This value is required" }),
+  insurance: z.number().min(0, { message: "This value is required" }),
+  duesAndSubscriptions: z
+    .number()
+    .min(0, { message: "This value is required" }),
+  travelAndEntertainment: z
+    .number()
+    .min(0, { message: "This value is required" }),
+  depreciation: z.number().min(0, { message: "This value is required" }),
+  bankCharges: z.number().min(0, { message: "This value is required" }),
+  otherOperatingExpenses: z
+    .number()
+    .min(0, { message: "This value is required" })
+})
+
 export type BusinessFormValue = z.infer<typeof businessFormSchema>
 
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
@@ -119,3 +149,7 @@ export type ConfirmationFormValue = z.infer<typeof confirmationFormSchema>
 export type LoanRequestFormValue = z.infer<typeof loanRequestFormSchema>
 
 export type CurrentLoansFormValue = z.infer<typeof currentLoansFormSchema>
+
+export type OperatingExpensesFormValue = z.infer<
+  typeof operatingExpensesFormSchema
+>

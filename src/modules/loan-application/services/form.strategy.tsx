@@ -9,6 +9,7 @@ import { CashFlowVerificationForm } from "../components/organisms/CashFlowVerifi
 import { FinancialInformationForm } from "../components/organisms/FinancialInformationForm"
 import { CurrentLoansForm } from "../components/organisms/CurrentLoansForm"
 import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
+import { OperatingExpensesForm } from "../components/organisms/OperatingExpensesForm"
 
 interface FormComponent<T extends ReactNode> {
   formType: FORM_TYPE | null
@@ -136,6 +137,11 @@ class CyphrV2LoanFormStrategy extends FormStrategy {
         formType: FORM_TYPE.CURRENT_LOANS,
         step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
         component: <CurrentLoansForm />
+      })
+      this.formsComponents.splice(5, 0, {
+        formType: FORM_TYPE.OPERATING_EXPENSES,
+        step: LOAN_APPLICATION_STEPS.OPERATING_EXPENSES,
+        component: <OperatingExpensesForm />
       })
     }
     return this.formsComponents
