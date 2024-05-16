@@ -165,6 +165,7 @@ export interface DocumentUploadedResponse {
 export interface LoanApplicationBankAccount {
   bankAccountPk?: string
   bankAccountName?: string
+  createdAt: string
 }
 
 export interface LoanApplicationCashflowVerification {

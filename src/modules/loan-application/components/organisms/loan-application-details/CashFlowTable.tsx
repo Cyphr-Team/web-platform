@@ -14,6 +14,12 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
     header: () => <div className="flex items-center space-x-2">Account</div>
   },
   {
+    accessorKey: "createdAt",
+    header: () => (
+      <div className="flex items-center space-x-2">Connected on</div>
+    )
+  },
+  {
     id: "status",
     header: () => <div className="flex items-center space-x-2">Status</div>,
     cell: () => {
