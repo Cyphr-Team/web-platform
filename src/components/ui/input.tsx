@@ -28,10 +28,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
+    const defaultClasses =
+      "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
     const readOnlyClasses = useMemo(() => {
       return readOnly
-        ? "disabled:text-amber-50 text-gray-700 border-2 pointer-events-none bg-gray-200 focus-visible:ring-primary focus-visible:ring-offset-2 cursor-not-allowed opacity-50 focus:ring-transparent focus-visible:ring-none-400 font-medium"
-        : "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        ? `${defaultClasses} disabled:text-amber-50 text-gray-700 border-2 pointer-events-none bg-gray-200 focus-visible:ring-primary focus-visible:ring-offset-2 cursor-not-allowed opacity-50 focus:ring-transparent focus-visible:ring-none-400 font-medium`
+        : { defaultClasses }
     }, [readOnly])
 
     return (
@@ -45,7 +47,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           readOnly={readOnly}
           type={type}
           className={cn(
-            "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             readOnlyClasses,
             prefixIcon && "pl-9",
             className,
@@ -68,7 +69,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     )
   }
 )
-
 Input.displayName = "Input"
 
 const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
