@@ -2,10 +2,9 @@ import {
   FORMAT_CHART_MONTHLY,
   FORMAT_CHART_WEEKLY,
   FORMAT_DATE_M_D_Y,
-  FORMAT_DATE_M_D_Y_TIME,
-  FORMAT_REQUEST_DATE
+  FORMAT_DATE_M_D_Y_TIME
 } from "@/constants/date.constants"
-import { format } from "date-fns"
+import { endOfDay, format, startOfDay } from "date-fns"
 
 export const formatBirthday = (date?: string) => {
   try {
@@ -23,11 +22,19 @@ export const formatDate = (date?: string) => {
   }
 }
 
-export const requestDate = (date?: string | Date) => {
+export const requestFromDate = (date: Date) => {
   try {
-    return format(date ?? "", FORMAT_REQUEST_DATE)
+    return startOfDay(date).toISOString()
   } catch {
-    return format(new Date(), FORMAT_REQUEST_DATE)
+    return date.toISOString()
+  }
+}
+
+export const requestToDate = (date: Date) => {
+  try {
+    return endOfDay(date).toISOString()
+  } catch {
+    return date.toISOString()
   }
 }
 

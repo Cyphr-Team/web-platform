@@ -28,7 +28,7 @@ interface TimeRangeSelectProps {
 type TimeRangeFilterValue = z.infer<typeof TimeRangeFilterSchema>
 
 /**
- * String with date format - YYYY-mm-dd (FORMAT_REQUEST_DATE)
+ * String with date format - toISOString - ISO 8601
  */
 type TimeRange = {
   from: string
