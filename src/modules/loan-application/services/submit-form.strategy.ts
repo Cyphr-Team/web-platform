@@ -57,8 +57,11 @@ export const useSubmitLoanForm = (
   const { submitLoanFinancialForm, isLoading: isSubmittingFinancial } =
     useSubmitLoanFinancialForm(financialData, financialData?.id ?? "")
 
-  const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
-    useSubmitCurrentLoansForm(currentLoansData)
+  const {
+    submitCurrentLoansForm,
+    deleteCurrentLoanForm,
+    isLoading: isSubmittingCurrentLoans
+  } = useSubmitCurrentLoansForm(currentLoansData)
 
   const {
     submitOperatingExpensesForm,
@@ -114,6 +117,30 @@ export const useSubmitLoanForm = (
         : TOAST_MSG.loanApplication.submitError.description
     })
   }, [])
+
+  const deleteCurrentLoansForm = useCallback(
+    async (id: string) => {
+      try {
+        if (isEnableCashFlowV2()) {
+          if (currentLoansData) {
+            await deleteCurrentLoanForm(id)
+          }
+        }
+      } catch (error) {
+        handleSubmitFormError(error as AxiosError)
+      } finally {
+        queryClient.invalidateQueries({
+          queryKey: loanApplicationUserKeys.lists()
+        })
+      }
+    },
+    [
+      currentLoansData,
+      deleteCurrentLoanForm,
+      handleSubmitFormError,
+      queryClient
+    ]
+  )
 
   const submitLoanForm = useCallback(async () => {
     try {
@@ -213,6 +240,7 @@ export const useSubmitLoanForm = (
 
   return {
     submitLoanForm,
+    deleteCurrentLoansForm,
     isLoading:
       isSubmittingLoanRequest ||
       isSubmittingKYB ||

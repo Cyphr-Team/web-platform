@@ -34,7 +34,7 @@ import { CurrentLoansFormItem } from "../molecules/CurrentLoansFormItem"
 import _uniqueId from "lodash/uniqueId"
 
 export const CurrentLoansForm = () => {
-  const { dispatchFormAction, currentLoansForm } =
+  const { dispatchFormAction, currentLoansForm, deleteCurrentLoansForm } =
     useLoanApplicationFormContext()
   const { finishCurrentStep } = useLoanApplicationProgressContext()
   const [loanCount, setLoanCount] = useState(0)
@@ -68,6 +68,10 @@ export const CurrentLoansForm = () => {
 
   const handleRemoveLoan = (index: number) => {
     const currentLoans = form.getValues().current_loans
+    // Delete if form is saved in DB
+    if (!currentLoans[index].id.startsWith("loan-add-item-")) {
+      deleteCurrentLoansForm(currentLoans[index].id)
+    }
     const updatedLoans = currentLoans.filter((_, i) => i !== index)
     form.setValue("current_loans", updatedLoans)
     dispatchFormAction({
@@ -75,6 +79,7 @@ export const CurrentLoansForm = () => {
       key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
       state: form.getValues()
     })
+
     setLoanCount(loanCount - 1)
   }
 

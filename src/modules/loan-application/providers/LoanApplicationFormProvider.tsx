@@ -34,6 +34,7 @@ type LoanDocumentsState = {
 interface LoanApplicationFormContext extends LoanApplicationFormState {
   dispatchFormAction: Dispatch<Action>
   submitLoanForm: () => void
+  deleteCurrentLoansForm: (id: string) => void
   dispatchDocumentAction: Dispatch<DocumentAction>
   documents: LoanDocumentsState
   isSubmitting: boolean
@@ -149,16 +150,17 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
 
   const loanType = loanProgramDetails?.type ?? LoanType.MICRO
 
-  const { submitLoanForm, isLoading } = useSubmitLoanForm(
-    loanType,
-    state[LOAN_APPLICATION_STEPS.LOAN_REQUEST],
-    state[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION],
-    state[LOAN_APPLICATION_STEPS.OWNER_INFORMATION],
-    state[LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION],
-    state[LOAN_APPLICATION_STEPS.CURRENT_LOANS],
-    state[LOAN_APPLICATION_STEPS.OPERATING_EXPENSES],
-    state[LOAN_APPLICATION_STEPS.CONFIRMATION]
-  )
+  const { submitLoanForm, deleteCurrentLoansForm, isLoading } =
+    useSubmitLoanForm(
+      loanType,
+      state[LOAN_APPLICATION_STEPS.LOAN_REQUEST],
+      state[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION],
+      state[LOAN_APPLICATION_STEPS.OWNER_INFORMATION],
+      state[LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION],
+      state[LOAN_APPLICATION_STEPS.CURRENT_LOANS],
+      state[LOAN_APPLICATION_STEPS.OPERATING_EXPENSES],
+      state[LOAN_APPLICATION_STEPS.CONFIRMATION]
+    )
 
   //Trigger submit form when the confirmation form is submitted
   useUpdateEffect(() => {
@@ -174,9 +176,10 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
       dispatchDocumentAction,
       isSubmitting: isLoading,
       dispatchFormAction,
-      submitLoanForm
+      submitLoanForm,
+      deleteCurrentLoansForm
     }),
-    [state, documents, isLoading, submitLoanForm]
+    [state, documents, isLoading, submitLoanForm, deleteCurrentLoansForm]
   )
   return <Provider value={providerValues}>{props.children}</Provider>
 }
