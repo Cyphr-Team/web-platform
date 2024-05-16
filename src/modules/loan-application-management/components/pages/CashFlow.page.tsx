@@ -11,3 +11,5 @@ export const Component = () => {
 }
 
 Component.displayName = "CashFlowPage"
+
+export default Component

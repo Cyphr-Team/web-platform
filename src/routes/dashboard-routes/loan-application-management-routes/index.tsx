@@ -1,14 +1,24 @@
 import { APP_PATH } from "@/constants"
 import { handleCrumb } from "@/utils/crumb.utils"
-import { getSubdomain, isLoanReady } from "@/utils/domain.utils"
+import { isLoanReady } from "@/utils/domain.utils"
 import { Route } from "react-router-dom"
 import { documentRoutes } from "./document-routes"
-import { Institution } from "@/constants/tenant.constants"
-import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
+import { FeatureFlagsRenderer } from "@/shared/layouts/FeatureFlagRenderer"
+import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
+import { CashFlowCustom } from "@/modules/loan-application-management/pages/custom/cash-flow"
+import { CashFlowOutOfBox } from "@/modules/loan-application-management/pages/out-of-box/cash-flow"
+import { lazy } from "react"
 
 /**
  * Loan application management routes ("/application"). Loan officer review loan application.
  */
+
+const CashFlowPage = lazy(
+  () =>
+    import(
+      "@/modules/loan-application-management/components/pages/CashFlow.page"
+    )
+)
 const loanApplicationManagementRoutes = (
   <Route
     path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}
@@ -55,25 +65,18 @@ const loanApplicationManagementRoutes = (
       {/* CASH FLOW - LOAN READY CASH FLOW */}
       <Route
         path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
-        lazy={() => {
-          switch (getSubdomain()) {
-            case Institution.LoanReady:
-              if (isEnableCashFlowV2()) {
-                return import(
-                  "@/modules/loan-application-management/pages/out-of-box/cash-flow"
-                )
-              } else {
-                return import(
-                  "@/modules/loan-application-management/pages/custom/cash-flow"
-                )
-              }
-            // TODO: Add CyphrV2 case
-            default:
-              return import(
-                "@/modules/loan-application-management/components/pages/CashFlow.page"
-              )
-          }
-        }}
+        element={
+          isLoanReady() ? (
+            <FeatureFlagsRenderer
+              ffKey={FEATURE_FLAGS.CASH_FLOW_V2}
+              fallBackChildren={<CashFlowCustom />}
+            >
+              <CashFlowOutOfBox />
+            </FeatureFlagsRenderer>
+          ) : (
+            <CashFlowPage />
+          )
+        }
       />
     </Route>
   </Route>

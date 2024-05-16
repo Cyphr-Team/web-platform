@@ -1,5 +1,5 @@
 import { CashflowGlanceReport } from "../../components/organisms/cashflow/report/CashflowGlance"
 
-export function Component() {
+export function CashFlowCustom() {
   return <CashflowGlanceReport />
 }
