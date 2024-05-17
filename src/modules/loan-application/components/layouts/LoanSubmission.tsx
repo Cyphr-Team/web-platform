@@ -20,7 +20,7 @@ export function Component() {
 
   return (
     <div className="p-4 lg:p-8 h-full w-full flex">
-      <div className="mx-auto flex w-full flex-col space-y-8 sm:w-[360px]">
+      <div className="m-auto flex w-full flex-col space-y-8 sm:w-[360px]">
         <div className="flex flex-col text-center gap-4xl">
           <div className="flex justify-center relative">
             <img

@@ -13,7 +13,8 @@ import { isEnableDashboardV2 } from "@/utils/feature-flag.utils"
 
 export const useQueryGetAverageApprovedLoanSize = ({
   filter,
-  averageLoanSizeFrequency
+  averageLoanSizeFrequency,
+  loanProgramIds
 }: DashboardState) => {
   const timeRangeFilter = useTimeRangeFilter(filter)
 
@@ -21,13 +22,19 @@ export const useQueryGetAverageApprovedLoanSize = ({
     AxiosResponse<AverageApprovedLoanSizeResponse>,
     AxiosError<ErrorResponse>
   >({
-    queryKey: [QUERY_KEY.AVERAGE_LOAN_SIZE, filter, averageLoanSizeFrequency],
+    queryKey: [
+      QUERY_KEY.AVERAGE_LOAN_SIZE,
+      filter,
+      averageLoanSizeFrequency,
+      loanProgramIds
+    ],
     queryFn: () => {
       return postRequest({
         path: API_PATH.dashboardV1.getAverageLoanSize(),
         data: {
           filter: { timeRange: timeRangeFilter },
-          frequency: averageLoanSizeFrequency.toLowerCase()
+          frequency: averageLoanSizeFrequency.toLowerCase(),
+          loanProgramIds: loanProgramIds?.length ? loanProgramIds : undefined
         }
       })
     },

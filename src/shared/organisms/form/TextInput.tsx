@@ -50,10 +50,10 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
       render={({ field }) => (
         <FormItem className={props.className}>
           <FormLabel className="text-text-secondary">
-            <p>
+            <label>
               {label}
               {required && <RequiredSymbol />}
-            </p>
+            </label>
             {subtitle && <p className="mt-2 text-text-tertiary">{subtitle}</p>}
           </FormLabel>
 

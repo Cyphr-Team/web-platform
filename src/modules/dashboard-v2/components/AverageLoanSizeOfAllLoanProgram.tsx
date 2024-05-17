@@ -50,7 +50,13 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
   const loanPrograms = useQueryGetLoanProgramList()
 
   const keys =
-    loanPrograms.data?.loanPrograms.map((program) => program.name) ?? []
+    loanPrograms.data?.loanPrograms
+      .filter((program) =>
+        dashboardState?.loanProgramIds?.length
+          ? dashboardState.loanProgramIds.includes(program.id)
+          : true
+      )
+      .map((program) => program.name) ?? []
 
   const formatDateByTimePeriod =
     dashboardState.averageLoanSizeFrequency === GRAPH_FREQUENCY.WEEKLY

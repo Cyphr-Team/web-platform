@@ -177,7 +177,7 @@ type LoanApplicationActivities = {
   totalApplicationInReview: number
   totalApplicationDraft: number
   totalApplicationDenied: number
-  totalApplicationClose: number
+  totalApplicationClosed: number
 }
 
 type AverageApprovalLoanAmount = {

@@ -4,9 +4,10 @@
  * @returns e.g. intrust-bank
  */
 
+import { APP_CONFIGS } from "@/configs"
 import { Institution } from "@/constants/tenant.constants"
 
-const DEFAULT_DEMO_SUBDOMAIN = "capsight"
+const DEFAULT_DEMO_SUBDOMAIN = APP_CONFIGS.VITE_BASE_SUBDOMAIN
 
 function getSubdomain(): string {
   // return "loanready" // for testing

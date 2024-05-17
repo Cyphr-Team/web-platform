@@ -69,7 +69,7 @@ export const LoanApplicationActivityChart = () => {
               inreview: v.totalApplicationInReview,
               approved: v.totalApplicationApproved,
               denied: v.totalApplicationDenied,
-              closed: v.totalApplicationClose
+              closed: v.totalApplicationClosed
             })
           )}
           margin={{
