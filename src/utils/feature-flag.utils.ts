@@ -30,7 +30,12 @@ function isEnabledCashFlowV2DummyData() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.CASH_FLOW_V2_DUMMY_DATA)
 }
 
+function isEnablePersonaKycV1() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.PERSONA_KYC_V1)
+}
+
 export {
+  isEnablePersonaKycV1,
   isEnableDashboardV2,
   isEnableCashFlowV2,
   isEnableCashFlowV2Async,

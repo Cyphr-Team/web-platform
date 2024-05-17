@@ -1,34 +1,36 @@
+import { Button, ButtonLoading } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { usePersona } from "@/lib/persona/usePersona"
+import { cn } from "@/lib/utils"
+import { useTenant } from "@/providers/tenant-provider"
+import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
-import {
-  ConfirmationFormValue,
-  confirmationFormSchema
-} from "../../constants/form"
-import { Button } from "@/components/ui/button"
 import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS,
   getConfirmationTexts
 } from "../../constants"
-import { Input } from "@/components/ui/input"
+import {
+  ConfirmationFormValue,
+  confirmationFormSchema
+} from "../../constants/form"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../../providers"
-import { ArrowRight } from "lucide-react"
-import { TextInput } from "@/shared/organisms/form/TextInput"
-import { useTenant } from "@/providers/tenant-provider"
-import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
+import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 
 export const ConfirmationForm = () => {
   const { dispatchFormAction } = useLoanApplicationFormContext()
@@ -66,6 +68,11 @@ export const ConfirmationForm = () => {
     tenant?.tenantData?.name ?? ""
   )
 
+  /**
+   * Persona Kyc
+   */
+  const { handleOpenPersona, isOpening, isCompleted } = usePersona()
+
   return (
     <Card
       className={cn(
@@ -91,7 +98,7 @@ export const ConfirmationForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder=""
+                    placeholder="Your signature"
                     className="text-3xl island-moments-regular"
                     {...field}
                     disabled={true}
@@ -125,15 +132,30 @@ export const ConfirmationForm = () => {
           />
         </form>
 
-        <Button
-          type="submit"
-          disabled={!form.formState.isValid || !isPreviousStepsCompleted}
-          className="w-full flex items-center gap-1"
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          <span>Submit application</span>
-          <ArrowRight className="w-5" />
-        </Button>
+        {!isCompleted && isEnablePersonaKycV1() && (
+          <ButtonLoading
+            type="submit"
+            disabled={!form.formState.isValid || !isPreviousStepsCompleted}
+            className="w-full flex items-center gap-1"
+            onClick={handleOpenPersona}
+            isLoading={isOpening}
+          >
+            <span>Complete identity verification</span>
+            <ArrowRight className="w-5" />
+          </ButtonLoading>
+        )}
+
+        {(isCompleted || !isEnablePersonaKycV1()) && (
+          <Button
+            type="submit"
+            disabled={!form.formState.isValid || !isPreviousStepsCompleted}
+            className="w-full flex items-center gap-1"
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            <span>Submit application</span>
+            <ArrowRight className="w-5" />
+          </Button>
+        )}
       </Form>
     </Card>
   )

@@ -11,7 +11,6 @@ interface ImportMetaEnv {
   readonly VITE_FIREBASE_MEASUREMENT_ID: string
   readonly VITE_PUBLIC_ENDPOINT: string
   readonly VITE_BASE_SUBDOMAIN: string
-  readonly VITE_PERSONA_TEMPLATE_ID: string
   readonly VITE_PERSONA_ENVIRONMENT: "sandbox" | "production"
 }
 
