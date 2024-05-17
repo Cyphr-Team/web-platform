@@ -1,3 +1,16 @@
+import { TIME_PERIODS_LONG } from "@/constants/date.constants"
+import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { useQueryGetLoanProgramList } from "@/modules/loan-application-management/hooks/useQuery/useQueryLoanProgramList"
+import { getRandomColor } from "@/modules/loan-application-management/services"
+import {
+  capitalizeWords,
+  snakeCaseToText,
+  textToCamelCaseFieldPattern,
+  toCurrency
+} from "@/utils"
+import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
+import { useState } from "react"
 import {
   Bar,
   CartesianGrid,
@@ -9,21 +22,10 @@ import {
   YAxis
 } from "recharts"
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
-import { getRandomColor } from "@/modules/loan-application-management/services"
-import {
-  capitalizeWords,
-  textToCamelCaseFieldPattern,
-  snakeCaseToText,
-  toCurrency
-} from "@/utils"
-import { useState } from "react"
-import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
-import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
-import { TIME_PERIODS_LONG } from "@/constants/date.constants"
-import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
-import { useQueryGetLoanProgramList } from "@/modules/loan-application-management/hooks/useQuery/useQueryLoanProgramList"
+import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
+import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
 
 // TODO: Integrate API
 export const AverageLoanSizeOfAllLoanProgram = () => {
@@ -47,11 +49,14 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
     })
   }
 
-  const loanPrograms = useQueryGetLoanProgramList()
+  const loanProgramsResposne = useQueryGetLoanProgramList()
+  const loanPrograms = isEnableLenderDashboardV2DummyData()
+    ? loanProgramsDummyData
+    : loanProgramsResposne.data?.loanPrograms
 
   const keys =
-    loanPrograms.data?.loanPrograms
-      .filter((program) =>
+    loanPrograms
+      ?.filter((program) =>
         dashboardState?.loanProgramIds?.length
           ? dashboardState.loanProgramIds.includes(program.id)
           : true
@@ -115,7 +120,9 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
 
             {keys.map((key, index) => (
               <Bar
-                hide={activeSeries.includes(key)}
+                hide={activeSeries.includes(
+                  `value.${textToCamelCaseFieldPattern(key)}`
+                )}
                 key={key}
                 barSize={18}
                 dataKey={`value.${textToCamelCaseFieldPattern(key)}`}

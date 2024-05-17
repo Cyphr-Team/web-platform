@@ -1,3 +1,13 @@
+import { aggregateApprovedLoanAmountDummyData } from "@/constants/data/dashboard/aggregateApprovedLoanAmount"
+import { averageApprovalRateDummyData } from "@/constants/data/dashboard/averageApprovalRate"
+import { averageApprovedLoanAmountDummyData } from "@/constants/data/dashboard/averageApprovedLoanAmount"
+import { averageApprovedLoanSizeDummyData } from "@/constants/data/dashboard/averageApprovedLoanSize"
+import { averageTimeToApprovalDummyData } from "@/constants/data/dashboard/averageTimeToApproval"
+import { averageTimeToDecisionDummyData } from "@/constants/data/dashboard/averageTimeToDecision"
+import { incompleteRateDummyData } from "@/constants/data/dashboard/incompleteRate"
+import { institutionActivityDummyData } from "@/constants/data/dashboard/institutionActivity"
+import { loanApplicationActivitiesDummyData } from "@/constants/data/dashboard/loanApplicationActivities"
+import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
 import { createContext, useContext, useMemo, useReducer } from "react"
 import { DEFAULT_DASHBOARD_STATE } from "../constants/dashboard.constants"
 import { useQueryGetAggregateApprovedLoanAmount } from "../hooks/query/useQueryGetAggregateApprovedLoanAmount"
@@ -9,12 +19,13 @@ import { useQueryGetAverageTimeToDecision } from "../hooks/query/useQueryGetAver
 import { useQueryGetInstitutionActivity } from "../hooks/query/useQueryGetInstitutionActivity"
 import { useQueryGetInstitutionUsage } from "../hooks/query/useQueryGetInstitutionUsage"
 import { useQueryGetLoanApplicationActivities } from "../hooks/query/useQueryGetLoanApplicationActivities"
+import { useQueryGetLoanApplicationRates } from "../hooks/query/useQueryGetLoanApplicationRates"
 import {
   DashboardProviderProps,
   DashboardProviderState
 } from "../types/stats.types"
 import { dashboardReducer } from "./dashboard-reducer"
-import { useQueryGetLoanApplicationRates } from "../hooks/query/useQueryGetLoanApplicationRates"
+import { usageDummyData } from "@/constants/data/dashboard/usage"
 
 const DashboardContext = createContext<DashboardProviderState>({
   dashboardState: DEFAULT_DASHBOARD_STATE,
@@ -51,35 +62,55 @@ export function DashboardProvider({
     () => ({
       dashboardState,
       dashboardDispatch,
-      statsData: statsResponse.data?.data,
+      statsData: isEnableLenderDashboardV2DummyData()
+        ? institutionActivityDummyData
+        : statsResponse.data?.data,
       isLoading: statsResponse.isFetching,
 
-      averageApprovedLoanSizeData: averageApprovedLoanSize.data?.data,
+      averageApprovedLoanSizeData: isEnableLenderDashboardV2DummyData()
+        ? averageApprovedLoanSizeDummyData
+        : averageApprovedLoanSize.data?.data,
       isLoadingAverageApprovedLoanSize: averageApprovedLoanSize.isFetching,
 
-      usageData: usageResponse.data,
+      usageData: isEnableLenderDashboardV2DummyData()
+        ? usageDummyData
+        : usageResponse.data,
       isLoadingUsage: usageResponse.isFetching,
 
-      averageApprovalRateData: averageApprovalRate.data?.data,
+      averageApprovalRateData: isEnableLenderDashboardV2DummyData()
+        ? averageApprovalRateDummyData
+        : averageApprovalRate.data?.data,
       isLoadingAverageApprovalRate: averageApprovalRate.isFetching,
 
-      aggregateApprovedLoanAmountData: aggregateApprovedLoanAmount.data?.data,
+      aggregateApprovedLoanAmountData: isEnableLenderDashboardV2DummyData()
+        ? aggregateApprovedLoanAmountDummyData
+        : aggregateApprovedLoanAmount.data?.data,
       isLoadingAggregateApprovedLoanAmount:
         aggregateApprovedLoanAmount.isFetching,
 
-      averageTimeToApprovalData: averageTimeToApproval.data?.data,
+      averageTimeToApprovalData: isEnableLenderDashboardV2DummyData()
+        ? averageTimeToApprovalDummyData
+        : averageTimeToApproval.data?.data,
       isLoadingAverageTimeToApproval: averageTimeToApproval.isFetching,
 
-      loanApplicationActivitiesData: loanApplicationActivities.data?.data,
+      loanApplicationActivitiesData: isEnableLenderDashboardV2DummyData()
+        ? loanApplicationActivitiesDummyData
+        : loanApplicationActivities.data?.data,
       isLoadingLoanApplicationActivities: loanApplicationActivities.isFetching,
 
-      averageTimeToDecisionData: averageTimeToDecision.data?.data,
+      averageTimeToDecisionData: isEnableLenderDashboardV2DummyData()
+        ? averageTimeToDecisionDummyData
+        : averageTimeToDecision.data?.data,
       isLoadingAverageTimeToDecision: averageTimeToDecision.isFetching,
 
-      averageApprovedLoanAmountData: averageApprovedLoanAmount.data?.data,
+      averageApprovedLoanAmountData: isEnableLenderDashboardV2DummyData()
+        ? averageApprovedLoanAmountDummyData
+        : averageApprovedLoanAmount.data?.data,
       isLoadingAverageApprovedLoanAmount: averageApprovedLoanAmount.isFetching,
 
-      loanApplicationRatesData: loanApplicationRates.data?.data,
+      loanApplicationRatesData: isEnableLenderDashboardV2DummyData()
+        ? incompleteRateDummyData
+        : loanApplicationRates.data?.data,
       isLoadingLoanApplicationRates: loanApplicationRates.isLoading
     }),
     [

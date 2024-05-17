@@ -17,6 +17,8 @@ import { useQuerySelectLoanProgramList } from "../../../hooks/useQuerySelectList
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
 import { SelectTimeRange } from "./atoms/SelectTimeRange"
+import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
+import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
 
 const FilterSchema = z.object({
   loanProgramIds: z.array(z.object({ label: z.string(), value: z.string() })),
@@ -41,8 +43,12 @@ export const FilterTimeRange = () => {
     offset: 0
   })
 
+  const loanPrograms = isEnableLenderDashboardV2DummyData()
+    ? loanProgramsDummyData
+    : data?.data
+
   const loanProgramOptions: Option[] =
-    data?.data?.map((loanProgram) => ({
+    loanPrograms?.map((loanProgram) => ({
       label: loanProgram.name,
       value: loanProgram.id
     })) ?? []

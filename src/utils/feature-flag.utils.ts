@@ -34,8 +34,15 @@ function isEnablePersonaKycV1() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PERSONA_KYC_V1)
 }
 
+function isEnableLenderDashboardV2DummyData() {
+  return (
+    checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2) &&
+    checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2_DUMMY_DATA)
+  )
+}
 export {
   isEnablePersonaKycV1,
+  isEnableLenderDashboardV2DummyData,
   isEnableDashboardV2,
   isEnableCashFlowV2,
   isEnableCashFlowV2Async,
