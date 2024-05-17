@@ -226,10 +226,6 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kybFormQuery.isLoading,
       kycFormQuery.data,
       kycFormQuery.isLoading,
-      currentLoansFormQuery.data,
-      currentLoansFormQuery.isLoading,
-      operatingExpensesFormQuery.data,
-      operatingExpensesFormQuery.isLoading,
       confirmationFormQuery.data,
       confirmationFormQuery.isLoading,
       financialFormQuery.data,
@@ -240,6 +236,12 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kycDocuments.isLoading,
       currentLoanDocuments.data,
       currentLoanDocuments.isLoading,
+      currentLoansFormQuery.data,
+      currentLoansFormQuery.isLoading,
+      operatingExpensesDocuments.data,
+      operatingExpensesDocuments.isLoading,
+      operatingExpensesFormQuery.data,
+      operatingExpensesFormQuery.isLoading,
       financialDocuments.data,
       financialDocuments.isLoading
     ]
