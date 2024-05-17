@@ -1,10 +1,8 @@
 import { APP_PATH } from "@/constants"
 import { handleCrumb } from "@/utils/crumb.utils"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isCyphrBank, isLoanReady } from "@/utils/domain.utils"
 import { Route } from "react-router-dom"
 import { documentRoutes } from "./document-routes"
-import { FeatureFlagsRenderer } from "@/shared/layouts/FeatureFlagRenderer"
-import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 import { CashFlowCustom } from "@/modules/loan-application-management/pages/custom/cash-flow"
 import { CashFlowOutOfBox } from "@/modules/loan-application-management/pages/out-of-box/cash-flow"
 import { lazy } from "react"
@@ -62,17 +60,14 @@ const loanApplicationManagementRoutes = (
         }
       />
 
-      {/* CASH FLOW - LOAN READY CASH FLOW */}
+      {/* CASH FLOW - LOAN READY CASH FLOW - OUT OF BOX CASH FLOW */}
       <Route
         path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
         element={
           isLoanReady() ? (
-            <FeatureFlagsRenderer
-              ffKey={FEATURE_FLAGS.CASH_FLOW_V2}
-              fallBackChildren={<CashFlowCustom />}
-            >
-              <CashFlowOutOfBox />
-            </FeatureFlagsRenderer>
+            <CashFlowCustom />
+          ) : isCyphrBank() ? (
+            <CashFlowOutOfBox />
           ) : (
             <CashFlowPage />
           )

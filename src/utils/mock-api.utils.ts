@@ -1,7 +1,5 @@
-import {
-  NoiTotalDebtPaymentGraphType,
-  RevenueExpenseGraphType
-} from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { RevenueExpenseGraphType } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { NoiTotalDebtPaymentGraphType } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
 import { startOfMonth, subMonths } from "date-fns"
 
 type TimeRangeFilter = {

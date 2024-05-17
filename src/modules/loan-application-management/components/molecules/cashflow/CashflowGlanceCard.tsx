@@ -4,7 +4,7 @@ import React from "react"
 
 type Props = {
   title: string
-  value: number
+  value?: number
   isCurrency?: boolean
   isPercent?: boolean
 }
@@ -20,7 +20,13 @@ export const CashflowGlanceCard: React.FC<Props> = ({
       <CardHeader className="text-text-tertiary text-sm">{title}</CardHeader>
       <CardContent>
         <span className="text-2xl lg:text-3xl font-semibold ">
-          {isCurrency ? toCurrency(value, 0) : isPercent ? `${value} %` : value}
+          {value
+            ? isCurrency
+              ? toCurrency(value)
+              : isPercent
+                ? `${value}%`
+                : value
+            : "N/A"}
         </span>
       </CardContent>
     </Card>

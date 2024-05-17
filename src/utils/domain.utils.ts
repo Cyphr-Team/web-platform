@@ -11,6 +11,7 @@ const DEFAULT_DEMO_SUBDOMAIN = APP_CONFIGS.VITE_BASE_SUBDOMAIN
 
 function getSubdomain(): string {
   // return "loanready" // for testing
+  // return Institution.CyphrV2 // for testing
 
   try {
     const { host } = window.location
@@ -41,4 +42,8 @@ function isLoanReady(): boolean {
   return getSubdomain() === Institution.LoanReady
 }
 
-export { getSubdomain, isLoanReady, getTenantDomain }
+function isCyphrBank(): boolean {
+  return getSubdomain() === Institution.CyphrV2
+}
+
+export { getSubdomain, isLoanReady, isCyphrBank, getTenantDomain }

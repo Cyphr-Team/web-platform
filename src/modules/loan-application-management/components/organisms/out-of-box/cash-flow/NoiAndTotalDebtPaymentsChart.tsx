@@ -11,61 +11,73 @@ import {
   YAxis
 } from "recharts"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
-import {
-  GRAPH_FREQUENCY,
-  NoiTotalDebtPaymentGraphType
-} from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { useState } from "react"
 import { NoData } from "../../../atoms/NoData"
 import { TimePeriodsSelection } from "../../../molecules/filters/TimePeriodsSelection"
 import { getCashFlowChartMockData } from "@/utils/mock-api.utils"
 import noiTotalDebtPayment from "@/constants/data/cash-flow-noi-total-debt-payment.json"
 import { isEnabledCashFlowV2DummyData } from "@/utils/feature-flag.utils"
+import { useParams } from "react-router-dom"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
+import { NoiTotalDebtPaymentGraphType } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
+import { startOfMonth, subMonths } from "date-fns"
+import { useQueryGetNoiTotalDebtPaymentGraph } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/v2/useQueryGetCashFlowNoiTotalDebtPaymentGraph"
 
-type Props = {
-  filters: {
-    from?: Date
-    to?: Date
-  }
-}
-
-export function NoiAndTotalDebtPaymentsChart({ filters }: Props) {
+export function NoiAndTotalDebtPaymentsChart() {
   const [periodFilter, setPeriodFilter] = useState<GRAPH_FREQUENCY>(
     GRAPH_FREQUENCY.MONTHLY
   )
+
+  const isCashFlowDummyDataFlagOn = isEnabledCashFlowV2DummyData()
+
+  const params = useParams()
 
   const handleChangeTimePeriod = (timePeriod: string) => {
     setPeriodFilter(timePeriod as GRAPH_FREQUENCY)
   }
 
-  let data: NoiTotalDebtPaymentGraphType[]
+  const { newCashFlowFilter } = useLoanApplicationDetailContext()
 
-  if (isEnabledCashFlowV2DummyData()) {
-    data = getCashFlowChartMockData(noiTotalDebtPayment, {
-      from: filters.from,
-      to: filters.to
+  const { data, isFetching } = useQueryGetNoiTotalDebtPaymentGraph({
+    applicationId: params.id!,
+    filters: {
+      frequency: periodFilter ?? GRAPH_FREQUENCY.MONTHLY,
+      timeRangeFilter: newCashFlowFilter.timeRangeFilter
+    }
+  })
+
+  let noiTotalDebtPaymentData: NoiTotalDebtPaymentGraphType[]
+
+  if (isCashFlowDummyDataFlagOn) {
+    noiTotalDebtPaymentData = getCashFlowChartMockData(noiTotalDebtPayment, {
+      from: newCashFlowFilter.timeRangeFilter.from
+        ? new Date(newCashFlowFilter.timeRangeFilter.from)
+        : startOfMonth(subMonths(new Date(), 2)),
+      to: newCashFlowFilter.timeRangeFilter.from
+        ? new Date(newCashFlowFilter.timeRangeFilter.from)
+        : new Date()
     }) as NoiTotalDebtPaymentGraphType[]
   } else {
-    // TODO: Call API to get data
-    data = []
+    noiTotalDebtPaymentData = data?.noiVsTotalDebtPaymentGraph ?? []
   }
 
   return (
     <Card className="mt-4 p-4 gap-4 min-h-40">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">NOI vs Debt Payments</h3>
-        {!!data.length && (
+        {!!noiTotalDebtPaymentData.length && (
           <TimePeriodsSelection
             onChangeTimePeriod={handleChangeTimePeriod}
             timePeriod={periodFilter}
           />
         )}
       </div>
-      <LoadingWrapper isLoading={false}>
-        {data.length ? (
+      <LoadingWrapper isLoading={isFetching}>
+        {noiTotalDebtPaymentData.length ? (
           <ResponsiveContainer width="90%" height={500}>
             <BarChart
-              data={data}
+              data={noiTotalDebtPaymentData}
               margin={{
                 top: 40,
                 right: 5,
@@ -74,6 +86,15 @@ export function NoiAndTotalDebtPaymentsChart({ filters }: Props) {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip
+                cursor={{ fill: "transparent" }}
+                wrapperClassName="text-sm"
+                formatter={(value) =>
+                  Number(value) < 0
+                    ? `-${Math.abs(Number(value))}`
+                    : Number(value)
+                }
+              />
               <Bar
                 name="NOI"
                 dataKey="tags.noi"

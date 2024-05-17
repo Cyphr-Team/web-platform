@@ -21,51 +21,65 @@ import { getCashFlowChartMockData } from "@/utils/mock-api.utils"
 import { NoData } from "../../../atoms/NoData"
 import { TimePeriodsSelection } from "../../../molecules/filters/TimePeriodsSelection"
 import revenueAndExpenseMockData from "@/constants/data/cash-flow-revenue-expenses.json"
+import { useQueryGetRevenueExpenseGraph } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/v2/useQueryGetCashFlowRevenueExpenseGraph"
+import { useParams } from "react-router-dom"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
+import { startOfMonth, subMonths } from "date-fns"
 
-type Props = {
-  filters: {
-    from?: Date
-    to?: Date
-  }
-}
-
-export function RevenueAndExpenseChart({ filters }: Props) {
+export function RevenueAndExpenseChart() {
   const [periodFilter, setPeriodFilter] = useState<GRAPH_FREQUENCY>(
     GRAPH_FREQUENCY.MONTHLY
   )
+
+  const isCashFlowDummyDataFlagOn = isEnabledCashFlowV2DummyData()
+
+  const params = useParams()
 
   const handleChangeTimePeriod = (timePeriod: string) => {
     setPeriodFilter(timePeriod as GRAPH_FREQUENCY)
   }
 
-  let data: RevenueExpenseGraphType[]
+  const { newCashFlowFilter } = useLoanApplicationDetailContext()
 
-  if (isEnabledCashFlowV2DummyData()) {
-    data = getCashFlowChartMockData(revenueAndExpenseMockData, {
-      from: filters.from,
-      to: filters.to
+  const { data, isFetching } = useQueryGetRevenueExpenseGraph({
+    applicationId: params.id!,
+    filters: {
+      frequency: periodFilter ?? GRAPH_FREQUENCY.MONTHLY,
+      timeRangeFilter: newCashFlowFilter.timeRangeFilter
+    }
+  })
+
+  let revenueExpenseData: RevenueExpenseGraphType[]
+
+  if (isCashFlowDummyDataFlagOn) {
+    revenueExpenseData = getCashFlowChartMockData(revenueAndExpenseMockData, {
+      from: newCashFlowFilter.timeRangeFilter.from
+        ? new Date(newCashFlowFilter.timeRangeFilter.from)
+        : startOfMonth(subMonths(new Date(), 2)),
+      to: newCashFlowFilter.timeRangeFilter.from
+        ? new Date(newCashFlowFilter.timeRangeFilter.from)
+        : new Date()
     }) as RevenueExpenseGraphType[]
   } else {
-    // TODO: Call API to get data
-    data = []
+    revenueExpenseData = data?.revenueVsExpenseGraph ?? []
   }
 
   return (
     <Card className="mt-4 p-4 gap-4 min-h-40">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Revenue vs Expense</h3>
-        {!!data.length && (
+        {!!revenueExpenseData.length && (
           <TimePeriodsSelection
             onChangeTimePeriod={handleChangeTimePeriod}
             timePeriod={periodFilter}
           />
         )}
       </div>
-      <LoadingWrapper isLoading={false}>
-        {data?.length ? (
+      <LoadingWrapper isLoading={isFetching}>
+        {revenueExpenseData?.length ? (
           <ResponsiveContainer width="90%" height={500}>
             <BarChart
-              data={data}
+              data={revenueExpenseData}
               margin={{
                 top: 40,
                 right: 5,

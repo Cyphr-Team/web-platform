@@ -19,6 +19,11 @@ import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFl
 import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
 import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
 import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
+import {
+  BaseCashFlowFilters,
+  CashFlowGlanceResponse
+} from "../constants/types/v2/cashflow.type"
+import { useQueryGetCashFlowGlance } from "../hooks/useQuery/cash-flow/v2/useQueryGetCashFlowGlance"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -37,6 +42,11 @@ type LoanApplicationDetailContextType = {
   selectedTags: TRANSACTION_TAG[]
   filters: CashFlowRequestFilters
   cashFlowAccounts: BankAccount[]
+  // new Cash Flow 2.0
+  newCashFlowGlance?: CashFlowGlanceResponse
+  isFetchingNewCashFlow: boolean
+  onChangeNewTimeRangeFilter: (from: string | null, to: string | null) => void
+  newCashFlowFilter: BaseCashFlowFilters
 }
 
 export const LoanApplicationDetailContext =
@@ -51,7 +61,12 @@ export const LoanApplicationDetailContext =
     onChangeAccountFilter: () => {},
     filters: {} as CashFlowRequestFilters,
     cashFlowAccounts: [],
-    onChangeTimeRangeFilter: () => {}
+    onChangeTimeRangeFilter: () => {},
+    // new Cash Flow 2.0
+    newCashFlowGlance: {} as CashFlowGlanceResponse,
+    isFetchingNewCashFlow: false,
+    newCashFlowFilter: {} as BaseCashFlowFilters,
+    onChangeNewTimeRangeFilter: () => {}
   })
 
 type Props = {
@@ -101,15 +116,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
 
   const [filters, setFilters] = useState<CashFlowRequestFilters>(defaultFilters)
 
-  const cashFlowQuery = useQueryGetCashFlowAnalysis(
-    {
-      applicationId: params.id!
-    },
-    {
-      ...filters
-    }
-  )
-
   useEffect(() => {
     if (bankAccountsQuery.data?.bankAccounts.length === 0) return
     const listBankAccount =
@@ -154,6 +160,45 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     },
     []
   )
+  // New Cash Flow 2.0
+  const newDefaultFilters = {
+    timeRangeFilter: {
+      from: null,
+      to: null
+    },
+    frequency: GRAPH_FREQUENCY.MONTHLY
+  }
+  const [newCashFlowFilter, setNewCashFlowFilter] =
+    useState<BaseCashFlowFilters>(newDefaultFilters)
+
+  const cashFlowQuery = useQueryGetCashFlowAnalysis(
+    {
+      applicationId: params.id!
+    },
+    {
+      ...filters
+    }
+  )
+
+  const newCashFlowGlanceQuery = useQueryGetCashFlowGlance({
+    applicationId: params.id!,
+    filters: {
+      timeRangeFilter: newCashFlowFilter.timeRangeFilter
+    }
+  })
+
+  const onChangeNewTimeRangeFilter = useCallback(
+    (from: string | null, to: string | null) => {
+      setNewCashFlowFilter((prev) => ({
+        ...prev,
+        timeRangeFilter: {
+          from,
+          to
+        }
+      }))
+    },
+    []
+  )
 
   const providerValues = useMemo(
     () => ({
@@ -174,7 +219,12 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       selectedTags,
       onChangeTimePeriod,
       onChangeAccountFilter,
-      onChangeTimeRangeFilter
+      onChangeTimeRangeFilter,
+      // new Cash Flow 2.0
+      isFetchingNewCashFlow: newCashFlowGlanceQuery.isLoading,
+      newCashFlowGlance: newCashFlowGlanceQuery.data,
+      newCashFlowFilter,
+      onChangeNewTimeRangeFilter
     }),
     [
       kybDetailQuery.data,
@@ -193,7 +243,13 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       selectedTags,
       onChangeTimePeriod,
       onChangeAccountFilter,
-      onChangeTimeRangeFilter
+      onChangeTimeRangeFilter,
+      // new Cash Flow 2.0
+
+      newCashFlowGlanceQuery.data,
+      newCashFlowGlanceQuery.isLoading,
+      newCashFlowFilter,
+      onChangeNewTimeRangeFilter
     ]
   )
 

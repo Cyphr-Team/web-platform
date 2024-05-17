@@ -219,7 +219,14 @@ export const API_PATH = {
     getTransactionTags: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/cash-flow/transaction-tags`,
     getRevenueExpense: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/cash-flow/revenue-expense`
+      `api/loan-officer/applications/${applicationId}/cash-flow/revenue-expense`,
+    // Cash Flow 2.0
+    getCashFlowGlanceV2: (applicationId: string) =>
+      `api/v2/loan-officer/applications/${applicationId}/cash-flow/glance`,
+    getCashFlowRevenueVsExpenseGraph: (applicationId: string) =>
+      `api/v2/loan-officer/applications/${applicationId}/cash-flow/revenue-expense`,
+    getCashFlowNoiVsTotalDebtPaymentGraph: (applicationId: string) =>
+      `api/v2/loan-officer/applications/${applicationId}/cash-flow/noi-total-debt-payment`
   },
   document: {
     getDocumentDownloadForOfficer:
