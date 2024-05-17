@@ -175,6 +175,7 @@ export const API_PATH = {
     kycForm: "api/form/kyc",
     financialForm: "api/form/financial",
     confirmationForm: "api/form/confirmation",
+    currentLoansForm: "api/form/current-loan",
     uploadDocument: "api/form/document/upload",
     documents: "api/form/document/by-form-id",
     deleteDocuments: "api/form/document/delete",

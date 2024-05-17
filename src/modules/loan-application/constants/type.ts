@@ -110,6 +110,46 @@ export interface FinancialInformationResponse {
   updatedAt: string
 }
 
+export interface CurrentLoanInformation {
+  id: string
+  lenderName: string
+  loanType: string
+  outstandingLoanBalance: number
+  monthlyPaymentAmount: number
+  loanTermRemainingInMonths: number
+}
+
+export interface CurrentLoansInformation {
+  loanApplicationId?: string
+  currentLoans?: {
+    id: string
+    lenderName: string
+    loanType: string
+    outstandingLoanBalance: number
+    monthlyPaymentAmount: number
+    loanTermRemainingInMonths: number
+  }[]
+}
+
+export interface CurrentLoansInformationResponse {
+  currentLoanForms: {
+    id: string
+    lenderName: string
+    loanType: string
+    outstandingLoanBalance: number
+    monthlyPaymentAmount: number
+    loanTermRemainingInMonths: number
+  }[]
+}
+
+export interface CurrentLoanInformationResponse {
+  lenderName: string
+  loanType: string
+  outstandingLoanBalance: number
+  monthlyPaymentAmount: number
+  loanTermRemainingInMonths: number
+}
+
 export interface ConfirmationForm {
   loanApplicationId: string
   printName: string

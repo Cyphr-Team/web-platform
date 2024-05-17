@@ -29,22 +29,25 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Plus } from "lucide-react"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo } from "react"
 import { CurrentLoansFormItem } from "../molecules/CurrentLoansFormItem"
+import _uniqueId from "lodash/uniqueId"
+
+export const NEW_CURRENT_LOAN_PREFIX = "loan-add-item-"
+export const DELETE_CURRENT_LOAN_PREFIX = "loan-delete-item-"
 
 export const CurrentLoansForm = () => {
   const { dispatchFormAction, currentLoansForm } =
     useLoanApplicationFormContext()
   const { finishCurrentStep } = useLoanApplicationProgressContext()
-  const [loanCount, setLoanCount] = useState(0)
 
   const defaultValues = useMemo(() => {
     return {
       hasOutstandingLoans:
         currentLoansForm?.hasOutstandingLoans.toString() ?? "",
-      loans: currentLoansForm?.loans ?? []
+      currentLoans: currentLoansForm?.currentLoans ?? []
     }
-  }, [currentLoansForm?.hasOutstandingLoans, currentLoansForm?.loans])
+  }, [currentLoansForm?.hasOutstandingLoans, currentLoansForm?.currentLoans])
 
   const form = useForm<CurrentLoansFormValue>({
     resolver: zodResolver(currentLoansFormSchema),
@@ -53,22 +56,45 @@ export const CurrentLoansForm = () => {
   })
 
   const handleAddLoan = () => {
-    form.setValue(`loans.${loanCount}`, {
-      id: loanCount.toString(), // Default values for the new loan item
+    const currentLoans = form.getValues().currentLoans
+    currentLoans.push({
+      id: _uniqueId(NEW_CURRENT_LOAN_PREFIX),
       lenderName: "",
       loanType: "",
-      loanBalance: 0,
-      monthlyPayment: 0,
-      remainingDuration: ""
+      outstandingLoanBalance: 0,
+      monthlyPaymentAmount: 0,
+      loanTermRemainingInMonths: 0
     })
-    setLoanCount(loanCount + 1)
+    if (currentLoans.length > 1) {
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        state: { ...form.getValues(), currentLoans }
+      })
+    }
   }
 
   const handleRemoveLoan = (index: number) => {
-    const currentLoans = form.getValues().loans
-    const updatedLoans = currentLoans.filter((_, i) => i !== index)
-    form.setValue("loans", updatedLoans)
-    setLoanCount(loanCount - 1)
+    const currentLoans = form.getValues().currentLoans
+    // Must delete in DB
+    if (!currentLoans[index].id.startsWith(NEW_CURRENT_LOAN_PREFIX)) {
+      currentLoans[index].id =
+        DELETE_CURRENT_LOAN_PREFIX + currentLoans[index].id
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        state: { ...form.getValues(), currentLoans }
+      })
+    } else {
+      // Delete in FE only
+      const updatedLoans = currentLoans.filter((_, i) => i !== index)
+      form.setValue("currentLoans", updatedLoans)
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        state: { ...form.getValues(), currentLoans: updatedLoans }
+      })
+    }
   }
 
   const onSubmit = (data: CurrentLoansFormValue) => {
@@ -80,9 +106,13 @@ export const CurrentLoansForm = () => {
     finishCurrentStep()
   }
 
+  const isFirstLoan = (hasOutstandingLoans: boolean) => {
+    return hasOutstandingLoans && form.getValues().currentLoans.length == 0
+  }
+
   const checkIfLoansAvailable = () => {
     const hasOutstandingLoans = form.getValues().hasOutstandingLoans === "true"
-    if (hasOutstandingLoans && loanCount == 0) {
+    if (isFirstLoan(hasOutstandingLoans)) {
       // Add default loan form when user chooses YES
       handleAddLoan()
     }
@@ -90,14 +120,12 @@ export const CurrentLoansForm = () => {
   }
 
   useEffect(() => {
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
-        state: data
-      })
-    }
+    const data = form.getValues()
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+      state: data
+    })
   }, [form.formState.isValidating, form, dispatchFormAction])
 
   return (
@@ -144,9 +172,6 @@ export const CurrentLoansForm = () => {
                           <SelectItem value="false">
                             <span>No</span>
                           </SelectItem>
-                          <SelectItem value="not-sure">
-                            <span>Not sure</span>
-                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -157,13 +182,18 @@ export const CurrentLoansForm = () => {
             </form>
             {checkIfLoansAvailable() && (
               <div className="mt-6 flex flex-col gap-3xl">
-                {form.getValues().loans.map((item, index: number) => (
-                  <CurrentLoansFormItem
-                    key={item.id}
-                    index={index}
-                    onRemove={handleRemoveLoan}
-                  />
-                ))}
+                {form.getValues().currentLoans.map((item, index: number) => {
+                  if (item.id.startsWith(DELETE_CURRENT_LOAN_PREFIX)) {
+                    return <></>
+                  }
+                  return (
+                    <CurrentLoansFormItem
+                      key={item.id}
+                      index={index}
+                      onRemove={handleRemoveLoan}
+                    />
+                  )
+                })}
                 <Button
                   type="button"
                   variant="outline"

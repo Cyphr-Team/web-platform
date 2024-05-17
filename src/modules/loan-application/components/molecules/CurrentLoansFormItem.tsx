@@ -23,17 +23,19 @@ export const CurrentLoansFormItem = ({
   const form = useFormContext()
 
   return (
-    <Card className="grid grid-cols-6 gap-2xl p-4xl rounded-lg h-fit">
+    <Card className="grid grid-cols-6 gap-4xl p-4xl rounded-lg h-fit">
       <div className="flex flex-row items-center justify-between col-span-6">
         <h5 className="text-md font-semibold">LOAN #{index + 1}</h5>
-        <DeleteCurrentLoanButton index={index} onRemove={onRemove} />
+        {form.getValues().currentLoans.length > 1 && (
+          <DeleteCurrentLoanButton index={index} onRemove={onRemove} />
+        )}
       </div>
 
       <TextInput
         placeholder="i.e: Bank of America"
         label="Lender name"
         subtitle="The financial institution providing the loan"
-        name={`loans[${index}].lenderName`}
+        name={`currentLoans[${index}].lenderName`}
         control={form.control}
         className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10"
         isRowDirection
@@ -43,7 +45,7 @@ export const CurrentLoansFormItem = ({
         placeholder="i.e: Term Loan"
         label="Loan type"
         subtitle="i.e: a term loan, revolving credit, etc."
-        name={`loans[${index}].loanType`}
+        name={`currentLoans[${index}].loanType`}
         control={form.control}
         className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10"
         isRowDirection
@@ -51,7 +53,7 @@ export const CurrentLoansFormItem = ({
       />
       <FormField
         control={form.control}
-        name={`loans[${index}].loanBalance`}
+        name={`currentLoans[${index}].outstandingLoanBalance`}
         render={({ field }) => (
           <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
@@ -66,7 +68,7 @@ export const CurrentLoansFormItem = ({
             <FormControl>
               <Input
                 {...field}
-                type={`loans[${index}].loanBalance`}
+                type={`currentLoans[${index}].outstandingLoanBalance`}
                 placeholder="i.e: 55,000"
                 min={0}
                 className="text-base input-number-remove-arrow -mt-2"
@@ -93,7 +95,7 @@ export const CurrentLoansFormItem = ({
       />
       <FormField
         control={form.control}
-        name={`loans[${index}].monthlyPayment`}
+        name={`currentLoans[${index}].monthlyPaymentAmount`}
         render={({ field }) => (
           <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
@@ -108,7 +110,7 @@ export const CurrentLoansFormItem = ({
             <FormControl>
               <Input
                 {...field}
-                type={`loans[${index}].monthlyPayment`}
+                type={`currentLoans[${index}].monthlyPaymentAmount`}
                 placeholder="i.e: 5,000"
                 min={0}
                 className="text-base input-number-remove-arrow -mt-2"
@@ -135,7 +137,7 @@ export const CurrentLoansFormItem = ({
       />
       <FormField
         control={form.control}
-        name={`loans[${index}].remainingDuration`}
+        name={`currentLoans[${index}].loanTermRemainingInMonths`}
         render={({ field }) => (
           <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 lg:gap-y-0 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
@@ -149,7 +151,7 @@ export const CurrentLoansFormItem = ({
             </FormLabel>
             <FormControl>
               <Input
-                type={`loans[${index}].remainingDuration`}
+                type={`currentLoans[${index}].loanTermRemainingInMonths`}
                 placeholder="i.e: 11"
                 min={0}
                 className="text-base input-number-remove-arrow -mt-2"
@@ -159,7 +161,8 @@ export const CurrentLoansFormItem = ({
                 required
                 {...field}
                 onChange={(e) => {
-                  if (Number(e.target.value) >= 0) field.onChange(e)
+                  if (Number(e.target.value) >= 0)
+                    field.onChange(Number(e.target.value))
                 }}
               />
             </FormControl>

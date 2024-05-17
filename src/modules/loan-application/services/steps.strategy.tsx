@@ -98,6 +98,49 @@ class ReadinessStepStrategy extends StepStrategy {
       {
         step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
         previousStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+        nextStep: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        label: "Cash Flow Verification",
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      },
+      {
+        step: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        previousStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        nextStep: "" as unknown as LOAN_APPLICATION_STEPS,
+        label: "Review and Sign",
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      }
+    ]
+    return this.steps
+  }
+}
+
+class CyphrV2StepStrategy extends StepStrategy {
+  generateSteps(): ApplicationStep[] {
+    this.steps = [
+      {
+        step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+        previousStep: "" as unknown as LOAN_APPLICATION_STEPS,
+        nextStep: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+        label: "Loan Request",
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      },
+      {
+        step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+        previousStep: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+        nextStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+        label: "Business Information",
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      },
+      {
+        step: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+        previousStep: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+        nextStep: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        label: "Individual Information",
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      },
+      {
+        step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        previousStep: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
         nextStep: isEnableCashFlowV2()
           ? LOAN_APPLICATION_STEPS.CURRENT_LOANS
           : LOAN_APPLICATION_STEPS.CONFIRMATION,
@@ -127,4 +170,4 @@ class ReadinessStepStrategy extends StepStrategy {
   }
 }
 
-export { MicroLoanStepStrategy, ReadinessStepStrategy }
+export { MicroLoanStepStrategy, ReadinessStepStrategy, CyphrV2StepStrategy }

@@ -24,6 +24,7 @@ import { FORM_TYPE } from "../constants/type"
 import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -53,11 +54,8 @@ export const useSubmitLoanForm = (
   const { submitLoanFinancialForm, isLoading: isSubmittingFinancial } =
     useSubmitLoanFinancialForm(financialData, financialData?.id ?? "")
 
-  //TODO
-  const { isLoading: isSubmittingCurrentLoans } = useSubmitCurrentLoansForm(
-    currentLoansData,
-    currentLoansData?.id ?? ""
-  )
+  const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
+    useSubmitCurrentLoansForm(currentLoansData)
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -138,6 +136,11 @@ export const useSubmitLoanForm = (
             )
           }
         }
+        if (isEnableCashFlowV2()) {
+          if (currentLoansData) {
+            await submitCurrentLoansForm(loanRequestId)
+          }
+        }
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -147,6 +150,11 @@ export const useSubmitLoanForm = (
         if (businessData) await submitLoanKYBForm(loanRequestId)
         if (ownerData) await submitLoanKYCForm(loanRequestId)
         await submitLoanFinancialForm(loanRequestId)
+        if (isEnableCashFlowV2()) {
+          if (currentLoansData) {
+            await submitCurrentLoansForm(loanRequestId)
+          }
+        }
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -174,8 +182,10 @@ export const useSubmitLoanForm = (
     ownerData,
     financialData,
     confirmationData,
+    currentLoansData,
     submitLoanConfirmationForm,
     submitLoanKYCForm,
+    submitCurrentLoansForm,
     uploadDocuments,
     submitLoanFinancialForm,
     handleSubmitFormError,

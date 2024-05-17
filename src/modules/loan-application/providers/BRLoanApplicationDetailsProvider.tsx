@@ -15,6 +15,7 @@ import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
 import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
 import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
 import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialForm"
+import { useQueryGetCurrentLoansForm } from "../hooks/useQuery/useQueryCurrentLoansForm"
 import { useQueryGetDocumentsByForm } from "../hooks/useQuery/useQueryGetDocuments"
 import { UserMicroLoanApplication } from "@/types/loan-application.type"
 import { useQueryLoanApplicationDetailsByType } from "../hooks/useQuery/useQueryUserLoanApplicationDetails"
@@ -82,6 +83,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const kycFormQuery = useQueryGetKycForm(loanApplicationId!)
   const confirmationFormQuery = useQueryGetConfirmationForm(loanApplicationId!)
   const financialFormQuery = useQueryGetFinancialForm(loanApplicationId!)
+  const currentLoansFormQuery = useQueryGetCurrentLoansForm(loanApplicationId!)
   const financialDocuments = useQueryGetDocumentsByForm(
     financialFormQuery.data?.id ?? ""
   )
@@ -133,6 +135,21 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       )
     }
   }, [changeDataAndProgress, financialFormQuery.data])
+  // Current Loans Form
+  useEffect(() => {
+    if (currentLoansFormQuery.data) {
+      changeDataAndProgress(
+        {
+          hasOutstandingLoans:
+            currentLoansFormQuery.data.currentLoanForms.length > 0
+              ? "true"
+              : "false",
+          currentLoans: currentLoansFormQuery.data.currentLoanForms
+        },
+        LOAN_APPLICATION_STEPS.CURRENT_LOANS
+      )
+    }
+  }, [changeDataAndProgress, currentLoansFormQuery.data])
   // Loan Request Form
   useEffect(() => {
     if (loanApplicationDetailsQuery.data) {

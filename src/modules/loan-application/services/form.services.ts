@@ -6,11 +6,17 @@ import {
 } from "../constants/type"
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
 import {
+  CyphrV2LoanFormStrategy,
   MicroLoanFormStrategy,
   ReadinessLoanFormStrategy
 } from "./form.strategy"
 
-import { MicroLoanStepStrategy, ReadinessStepStrategy } from "./steps.strategy"
+import {
+  CyphrV2StepStrategy,
+  MicroLoanStepStrategy,
+  ReadinessStepStrategy
+} from "./steps.strategy"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 export const formatKybForm = (rawData: BusinessFormValue) => {
   return {
@@ -76,7 +82,9 @@ export const reverseFormatKycForm = (
 export function getFormStrategy(loanType: LoanType) {
   switch (loanType) {
     case LoanType.MICRO:
-      return new MicroLoanFormStrategy()
+      return isEnableCashFlowV2()
+        ? new CyphrV2LoanFormStrategy()
+        : new MicroLoanFormStrategy()
     case LoanType.READINESS:
       return new ReadinessLoanFormStrategy()
     default:
@@ -87,7 +95,9 @@ export function getFormStrategy(loanType: LoanType) {
 export function getFormStepStrategy(loanType: LoanType) {
   switch (loanType) {
     case LoanType.MICRO:
-      return new MicroLoanStepStrategy()
+      return isEnableCashFlowV2()
+        ? new CyphrV2StepStrategy()
+        : new MicroLoanStepStrategy()
     case LoanType.READINESS:
       return new ReadinessStepStrategy()
     default:
