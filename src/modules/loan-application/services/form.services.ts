@@ -2,7 +2,8 @@ import { LoanType } from "@/types/loan-program.type"
 import { BusinessFormValue, OwnerFormValue } from "../constants/form"
 import {
   KYBInformationResponse,
-  KYCInformationResponse
+  KYCInformationResponse,
+  OperatingExpensesInformationResponse
 } from "../constants/type"
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
 import {
@@ -76,6 +77,29 @@ export const reverseFormatKycForm = (
     businessOwnershipPercentage: rawData.businessOwnershipPercentage
       ? rawData.businessOwnershipPercentage.toString()
       : ""
+  }
+}
+
+export const reverseFormatOperatingExpensesForm = (
+  rawData: OperatingExpensesInformationResponse
+) => {
+  return {
+    id: rawData.id,
+    costOfGoodsSold: rawData.costOfGoodsSold,
+    rent: rawData.costOfGoodsSold,
+    salariesAndWages: rawData.costOfGoodsSold,
+    payrollTaxes: rawData.costOfGoodsSold,
+    salesAndMarketingExpenses: rawData.costOfGoodsSold,
+    accountingFees: rawData.costOfGoodsSold,
+    legalFees: rawData.costOfGoodsSold,
+    officeSupplies: rawData.costOfGoodsSold,
+    maintenanceAndRepairs: rawData.costOfGoodsSold,
+    utilities: rawData.costOfGoodsSold,
+    insurance: rawData.costOfGoodsSold,
+    duesAndSubscriptions: rawData.costOfGoodsSold,
+    travelAndEntertainment: rawData.costOfGoodsSold,
+    depreciation: rawData.costOfGoodsSold,
+    bankCharges: rawData.costOfGoodsSold
   }
 }
 

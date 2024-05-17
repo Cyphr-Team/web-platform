@@ -19,6 +19,8 @@ import { LoanDecisionEnum } from "../../constants/types/application"
 import { Badge } from "@/components/ui/badge"
 import { getBadgeVariantByStatus } from "../../services"
 import { BusinessName } from "@/modules/loan-application/components/organisms/Middesk/BusinessName"
+import { CurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/CurrentLoanFormDetails.tsx"
+import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/OperatingExpenseFormDetails.tsx"
 
 export function Component() {
   const { loanSummary, loanApplicationDetails } =
@@ -78,6 +80,12 @@ export function Component() {
           <p className="text-4xl font-semibold ">Loan Application</p>
           <KybFormDetails kybFormData={loanSummary?.kybForm} />
           <KycFormDetails kycFormData={loanSummary?.kycForm} />
+          <CurrentLoanFormDetails
+            currentLoanFormData={loanSummary?.currentLoanForm}
+          />
+          <OperatingExpensesFormDetails
+            operatingExpensesFormData={loanSummary?.operatingExpensesForm}
+          />
           <SignatureDetails
             confirmationFormData={loanSummary?.confirmationForm}
             hasTitle={false}

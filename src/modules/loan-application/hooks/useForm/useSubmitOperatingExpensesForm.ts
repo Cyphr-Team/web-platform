@@ -12,7 +12,6 @@ export const useSubmitOperatingExpensesForm = (
 
   const { mutateAsync: submitOperatingExpenses, isPending: isSubmitting } =
     useSubmitOperatingExpensesInformation()
-  console.log("should be calling")
   // Call API
   const submitOperatingExpensesForm = async (loanApplicationId: string) => {
     if (formId.length) {
