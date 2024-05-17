@@ -106,6 +106,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
       isEnableCashFlowV2()
         ? key != LOAN_APPLICATION_STEPS.CONFIRMATION
         : key != LOAN_APPLICATION_STEPS.CURRENT_LOANS &&
+          key != LOAN_APPLICATION_STEPS.OPERATING_EXPENSES &&
           key != LOAN_APPLICATION_STEPS.CONFIRMATION
   ).length
 

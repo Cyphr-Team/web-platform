@@ -17,7 +17,8 @@ import {
   FinancialFormValue,
   LoanRequestFormValue,
   OwnerFormValue,
-  CurrentLoansFormValue
+  CurrentLoansFormValue,
+  OperatingExpensesFormValue
 } from "../constants/form"
 import { APP_PATH } from "@/constants"
 import { FORM_TYPE } from "../constants/type"
@@ -25,6 +26,7 @@ import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
 import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
+import { useSubmitOperatingExpensesForm } from "../hooks/useForm/useSubmitOperatingExpensesForm"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -33,6 +35,7 @@ export const useSubmitLoanForm = (
   ownerData: OwnerFormValue,
   financialData: FinancialFormValue,
   currentLoansData: CurrentLoansFormValue,
+  operatingExpensesData: OperatingExpensesFormValue,
   confirmationData: ConfirmationFormValue
 ) => {
   const navigate = useNavigate()
@@ -56,6 +59,14 @@ export const useSubmitLoanForm = (
 
   const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
     useSubmitCurrentLoansForm(currentLoansData)
+
+  const {
+    submitOperatingExpensesForm,
+    isLoading: isSubmittingOperatingExpenses
+  } = useSubmitOperatingExpensesForm(
+    operatingExpensesData,
+    operatingExpensesData?.id ?? ""
+  )
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -140,6 +151,9 @@ export const useSubmitLoanForm = (
           if (currentLoansData) {
             await submitCurrentLoansForm(loanRequestId)
           }
+          if (operatingExpensesData) {
+            await submitOperatingExpensesForm(loanRequestId)
+          }
         }
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
@@ -153,6 +167,9 @@ export const useSubmitLoanForm = (
         if (isEnableCashFlowV2()) {
           if (currentLoansData) {
             await submitCurrentLoansForm(loanRequestId)
+          }
+          if (operatingExpensesData) {
+            await submitOperatingExpensesForm(loanRequestId)
           }
         }
         if (confirmationData) {
@@ -182,12 +199,14 @@ export const useSubmitLoanForm = (
     ownerData,
     financialData,
     confirmationData,
-    currentLoansData,
-    submitLoanConfirmationForm,
     submitLoanKYCForm,
-    submitCurrentLoansForm,
     uploadDocuments,
     submitLoanFinancialForm,
+    currentLoansData,
+    operatingExpensesData,
+    submitCurrentLoansForm,
+    submitOperatingExpensesForm,
+    submitLoanConfirmationForm,
     handleSubmitFormError,
     queryClient
   ])
@@ -200,6 +219,7 @@ export const useSubmitLoanForm = (
       isSubmittingKYC ||
       isSubmittingFinancial ||
       isSubmittingCurrentLoans ||
+      isSubmittingOperatingExpenses ||
       isSubmittingConfirmation ||
       isUploading
   }

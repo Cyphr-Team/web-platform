@@ -61,7 +61,6 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
 
   return {
     isLoading: isUpdating || isSubmitting || isDeleting,
-    submitCurrentLoansForm,
-    deleteCurrentLoanForm
+    submitCurrentLoansForm
   }
 }
