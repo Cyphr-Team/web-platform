@@ -17,6 +17,7 @@ import { Check } from "lucide-react"
 import { LogoHeader } from "../atoms/LogoHeader"
 import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
 import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
+import { isCyphrBank } from "@/utils/domain.utils"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -103,7 +104,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
   const { progress, getStepStatus } = useLoanApplicationProgressContext()
   const progressStepLength = Object.values(LOAN_APPLICATION_STEPS).filter(
     (key) =>
-      isEnableCashFlowV2()
+      isEnableCashFlowV2() && isCyphrBank()
         ? key != LOAN_APPLICATION_STEPS.CONFIRMATION
         : key != LOAN_APPLICATION_STEPS.CURRENT_LOANS &&
           key != LOAN_APPLICATION_STEPS.OPERATING_EXPENSES &&
