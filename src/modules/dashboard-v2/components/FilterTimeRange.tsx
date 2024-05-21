@@ -2,9 +2,10 @@ import { DatePickerWithRange } from "@/components/ui/date-picker-with-range"
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { MultiSelect } from "@/components/ui/multi-select"
 import { REQUEST_LIMIT_PARAM_FOR_SELECT } from "@/constants"
+import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
 import { Option } from "@/types/common.type"
 import { TimeRangeValue } from "@/types/time-range.type"
-import { checkIsLenderAdmin } from "@/utils/check-roles"
+import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { startOfMonth, subMonths } from "date-fns"
 import debounce from "lodash.debounce"
@@ -17,8 +18,6 @@ import { useQuerySelectLoanProgramList } from "../../../hooks/useQuerySelectList
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
 import { SelectTimeRange } from "./atoms/SelectTimeRange"
-import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
-import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
 
 const FilterSchema = z.object({
   loanProgramIds: z.array(z.object({ label: z.string(), value: z.string() })),
@@ -55,9 +54,6 @@ export const FilterTimeRange = () => {
 
   // 3 months before now
   const threeMonthsBefore = startOfMonth(subMonths(new Date(), 2))
-
-  // TODO: Support officer
-  const isLenderAdmin = checkIsLenderAdmin()
 
   const form = useForm<FilterValues>({
     resolver: zodResolver(FilterSchema),
@@ -116,22 +112,20 @@ export const FilterTimeRange = () => {
       <Form {...form}>
         <form>
           <div className="flex flex-wrap gap-4">
-            {isLenderAdmin && (
-              <FormField
-                control={form.control}
-                name="loanProgramIds"
-                render={({ field }) => (
-                  <MultiSelect
-                    prefixIcon={
-                      <ClipboardCheck className="w-5 h-5 text-muted-foreground mr-2" />
-                    }
-                    name="loanProgramIds"
-                    field={field}
-                    options={loanProgramOptions}
-                  />
-                )}
-              />
-            )}
+            <FormField
+              control={form.control}
+              name="loanProgramIds"
+              render={({ field }) => (
+                <MultiSelect
+                  prefixIcon={
+                    <ClipboardCheck className="w-5 h-5 text-muted-foreground mr-2" />
+                  }
+                  name="loanProgramIds"
+                  field={field}
+                  options={loanProgramOptions}
+                />
+              )}
+            />
 
             <div className="group date-select-coupling flex items-end">
               <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />

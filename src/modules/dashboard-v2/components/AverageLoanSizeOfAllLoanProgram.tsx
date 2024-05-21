@@ -1,7 +1,9 @@
+import { REQUEST_LIMIT_PARAM_FOR_SELECT } from "@/constants"
+import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
 import { TIME_PERIODS_LONG } from "@/constants/date.constants"
+import { useQuerySelectLoanProgramList } from "@/hooks/useQuerySelectList/useQuerySelectLoanProgramList"
 import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
-import { useQueryGetLoanProgramList } from "@/modules/loan-application-management/hooks/useQuery/useQueryLoanProgramList"
 import { getRandomColor } from "@/modules/loan-application-management/services"
 import {
   capitalizeWords,
@@ -10,6 +12,7 @@ import {
   toCurrency
 } from "@/utils"
 import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
+import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
 import { useState } from "react"
 import {
   Bar,
@@ -24,8 +27,6 @@ import {
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
-import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
-import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
 
 // TODO: Integrate API
 export const AverageLoanSizeOfAllLoanProgram = () => {
@@ -49,10 +50,14 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
     })
   }
 
-  const loanProgramsResposne = useQueryGetLoanProgramList()
+  const { data } = useQuerySelectLoanProgramList({
+    limit: REQUEST_LIMIT_PARAM_FOR_SELECT,
+    offset: 0
+  })
+
   const loanPrograms = isEnableLenderDashboardV2DummyData()
     ? loanProgramsDummyData
-    : loanProgramsResposne.data?.loanPrograms
+    : data?.data
 
   const keys =
     loanPrograms
