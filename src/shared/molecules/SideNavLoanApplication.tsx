@@ -16,8 +16,6 @@ import { useLoanApplicationProgressContext } from "@/modules/loan-application/pr
 import { Check } from "lucide-react"
 import { LogoHeader } from "../atoms/LogoHeader"
 import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
-import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
-import { isCyphrBank, isKccBank } from "@/utils/domain.utils.ts"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -102,14 +100,8 @@ export function LoanProgramCollapsible({
 
 export function SideNavLoanApplication({ className }: SidebarProps) {
   const { progress, getStepStatus } = useLoanApplicationProgressContext()
-  const progressStepLength = Object.values(LOAN_APPLICATION_STEPS).filter(
-    (key) =>
-      isEnableCashFlowV2() && isCyphrBank() && isKccBank()
-        ? key != LOAN_APPLICATION_STEPS.CONFIRMATION
-        : key != LOAN_APPLICATION_STEPS.CURRENT_LOANS &&
-          key != LOAN_APPLICATION_STEPS.OPERATING_EXPENSES &&
-          key != LOAN_APPLICATION_STEPS.CONFIRMATION
-  ).length
+
+  const progressStepLength = progress.length - 1
 
   const progressPercent = progress.filter(
     (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE

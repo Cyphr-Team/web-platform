@@ -148,9 +148,55 @@ class CyphrV2LoanFormStrategy extends FormStrategy {
   }
 }
 
+class LenderForumLoanFormStrategy extends FormStrategy {
+  generateComponents(): FormComponent<ReactNode>[] {
+    this.formsComponents = [
+      {
+        formType: null,
+        step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+        component: <LoanRequest />
+      },
+      {
+        formType: FORM_TYPE.KYB,
+        step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+        component: <BusinessInformationForm />
+      },
+      {
+        formType: FORM_TYPE.KYC,
+        step: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+        component: <OwnerInformationForm />
+      },
+      {
+        formType: FORM_TYPE.FINANCIAL,
+        step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        component: <FinancialInformationForm />
+      },
+      {
+        formType: null,
+        step: LOAN_APPLICATION_STEPS.CONFIRMATION,
+        component: <ConfirmationForm />
+      }
+    ]
+    if (isEnableCashFlowV2()) {
+      this.formsComponents.splice(4, 0, {
+        formType: FORM_TYPE.CURRENT_LOANS,
+        step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        component: <CurrentLoansForm />
+      })
+      this.formsComponents.splice(5, 0, {
+        formType: FORM_TYPE.OPERATING_EXPENSES,
+        step: LOAN_APPLICATION_STEPS.OPERATING_EXPENSES,
+        component: <OperatingExpensesForm />
+      })
+    }
+    return this.formsComponents
+  }
+}
+
 export {
   FormStrategy,
   MicroLoanFormStrategy,
   ReadinessLoanFormStrategy,
-  CyphrV2LoanFormStrategy
+  CyphrV2LoanFormStrategy,
+  LenderForumLoanFormStrategy
 }

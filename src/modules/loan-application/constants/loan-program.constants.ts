@@ -306,6 +306,47 @@ const LOAN_READINESS_PROGRAM: LoanProgramData = {
   isUnderConstruction: false
 }
 
+const KCC_LENDER_FORUM_PROGRAM: LoanProgramData = {
+  id: "KCC_LENDER_FORUM",
+  name: "Lender’s Forum Application",
+  type: "micro",
+  faqs: {
+    SBA_preferred_lending_partner:
+      "Small Business Administration (SBA) loans are designed for businesses just starting out or wishing to expand when conventional financing is not suitable.",
+    Lines_of_credit:
+      "Useful when you have seasonal, cyclical or fluctuating cash needs. We offer both revolving and non-revolving options with interest-only monthly payments based on a variable interest rate. Use for the purchase of inventory, covering unexpected expenses, or cash flow management.",
+    eligibility: [
+      "Small Business Owner",
+      "EIN",
+      "Seeking a loan types: term, micro, lines of capital, or startup lending products"
+    ],
+
+    how_to_get_started:
+      "To get started, just click the 'Start application' button and fill out the form.",
+    required_documents: `
+    1. One form of Picture ID
+    2. Resume / Portfolio / Work Experience
+    3. Most recent year of both Business and Personal Tax Returns including all schedules
+    4. Two most recent paystubs (if applicable)
+    5. Fictitious Name Certification (for Sole Proprietors)
+
+    Applicants with registered businesses will also be required to submit (if applicable):
+
+    1. EIN Tax Forms
+    2. 3 months business bank statements
+    3. Business tax returns and debt schedule
+    4. Certificate of Good Standing and Articles of Organization (for LLCs)
+    5. Operating Agreement (for LLCs) or By-Laws (for Corporations)
+    `
+  },
+  contact: {
+    mail: "spiess@kcchamber.com",
+    phone: "(800) 895-2265",
+    location: "13423 W 92nd St Lenexa, KS 66215"
+  },
+  isUnderConstruction: false
+}
+
 const ALTCAP_LOAN_PROGRAMS: LoanProgramData[] = [
   ALTCAP_ARTCAP_EXPRESS,
   ALTCAP_SMALL_BUSINESS_LOAN,
@@ -315,4 +356,4 @@ const ALTCAP_LOAN_PROGRAMS: LoanProgramData[] = [
 
 const LOAN_READY_PROGRAMS: LoanProgramData[] = [LOAN_READINESS_PROGRAM]
 
-export { ALTCAP_LOAN_PROGRAMS, LOAN_READY_PROGRAMS }
+export { ALTCAP_LOAN_PROGRAMS, LOAN_READY_PROGRAMS, KCC_LENDER_FORUM_PROGRAM }

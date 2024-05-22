@@ -1,7 +1,8 @@
 // ENUM
 enum LoanType {
   MICRO = "micro",
-  READINESS = "readiness"
+  READINESS = "readiness",
+  LENDERS_FORUM = "lenders_forum"
 }
 
 enum InterestRateType {

@@ -7,12 +7,14 @@ import {
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
 import {
   CyphrV2LoanFormStrategy,
+  LenderForumLoanFormStrategy,
   MicroLoanFormStrategy,
   ReadinessLoanFormStrategy
 } from "./form.strategy"
 
 import {
   CyphrV2StepStrategy,
+  LenderForumStepStrategy,
   MicroLoanStepStrategy,
   ReadinessStepStrategy
 } from "./steps.strategy"
@@ -88,6 +90,8 @@ export function getFormStrategy(loanType: LoanType) {
         : new MicroLoanFormStrategy()
     case LoanType.READINESS:
       return new ReadinessLoanFormStrategy()
+    case LoanType.LENDERS_FORUM:
+      return new LenderForumLoanFormStrategy()
     default:
       throw new Error("Unsupported loan type")
   }
@@ -101,6 +105,8 @@ export function getFormStepStrategy(loanType: LoanType) {
         : new MicroLoanStepStrategy()
     case LoanType.READINESS:
       return new ReadinessStepStrategy()
+    case LoanType.LENDERS_FORUM:
+      return new LenderForumStepStrategy()
     default:
       throw new Error("Unsupported loan type")
   }

@@ -18,7 +18,7 @@ import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
 import { LoanType } from "@/types/loan-program.type"
 import { getFormStrategy } from "../../services/form.services"
 import { useMemo } from "react"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 export const LoanInformationHeader = () => {
   const { loanProgramDetails } = useLoanProgramDetailContext()
   const { loanRequest } = useLoanApplicationFormContext()
@@ -77,9 +77,18 @@ export const Component = () => {
   const { step } = useLoanApplicationProgressContext()
   const { loanProgramDetails } = useLoanProgramDetailContext()
   const { isSubmitting } = useLoanApplicationFormContext()
-  const loanType = isLoanReady()
-    ? LoanType.READINESS
-    : loanProgramDetails?.type ?? LoanType.MICRO
+
+  const getLoanType = () => {
+    if (isLoanReady()) {
+      return LoanType.READINESS
+    }
+    if (isKccBank()) {
+      return LoanType.LENDERS_FORUM
+    }
+    return loanProgramDetails?.type ?? LoanType.MICRO
+  }
+
+  const loanType = getLoanType()
   const formStrategy = useMemo(() => getFormStrategy(loanType), [loanType])
 
   return (

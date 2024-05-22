@@ -12,6 +12,8 @@ import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { sanitizeDOM } from "@/utils/file.utils"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
+import { isKccBank } from "@/utils/domain.utils"
+import { KCC_LENDER_FORUM_PROGRAM } from "../../constants/loan-program.constants"
 
 type CardProps = React.ComponentProps<typeof Card> & {
   loanProgram: BaseLoanProgramType
@@ -29,7 +31,9 @@ export const LoanProgramLongCard = ({
       <CardHeader className="space-y-5 pb-0 md:pb-0">
         <CardTitle className="tracking-normal">
           <p id="loan-type" className="text-sm mb-0.5 capitalize">
-            {loanType ?? loanProgram.type}
+            {isKccBank()
+              ? KCC_LENDER_FORUM_PROGRAM.name
+              : loanType ?? loanProgram.type}
           </p>
           <p className="font-bold">{loanProgram.name}</p>
         </CardTitle>

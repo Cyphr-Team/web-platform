@@ -15,7 +15,7 @@ import { getFormStepStrategy } from "../services/form.services"
 import { useLoanProgramDetailContext } from "."
 import { LoanType } from "@/types/loan-program.type"
 import { ApplicationStep } from "../constants/type"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 
 interface LoanApplicationStepsState {
   step: LOAN_APPLICATION_STEPS
@@ -110,11 +110,17 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
 
   const { loanProgramDetails } = useLoanProgramDetailContext()
 
-  const steps = getFormStepStrategy(
-    isLoanReady()
-      ? LoanType.READINESS
-      : loanProgramDetails?.type ?? LoanType.MICRO
-  )
+  const getLoanType = () => {
+    if (isLoanReady()) {
+      return LoanType.READINESS
+    }
+    if (isKccBank()) {
+      return LoanType.LENDERS_FORUM
+    }
+    return loanProgramDetails?.type ?? LoanType.MICRO
+  }
+
+  const steps = getFormStepStrategy(getLoanType())
 
   useEffect(() => {
     if (state.progress.length === 0)
