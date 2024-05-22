@@ -6,9 +6,11 @@ import { QUERY_KEY } from "../../../constants/query-key"
 import { BankAccountsResponse } from "../../../constants/types/cashflow.type"
 
 export const useQueryGetBankAccounts = ({
-  applicationId
+  applicationId,
+  enabledByInstitution
 }: {
   applicationId: string
+  enabledByInstitution: boolean
 }) => {
   return useQuery<BankAccountsResponse, ErrorResponse>({
     queryKey: [QUERY_KEY.GET_BANK_ACCOUNTS, applicationId],
@@ -17,6 +19,6 @@ export const useQueryGetBankAccounts = ({
         path: API_PATH.loanApplicationDetails.getBankAccounts(applicationId)
       })
     },
-    enabled: !!applicationId
+    enabled: enabledByInstitution && !!applicationId
   })
 }

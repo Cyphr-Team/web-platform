@@ -32,8 +32,6 @@ const FilterSchema = z.object({
 
 export const CashflowGlanceReport = () => {
   const {
-    cashFlowAnalysis,
-    isFetchingCashflow,
     newCashFlowGlance,
     isFetchingNewCashFlow,
     onChangeNewTimeRangeFilter
@@ -178,18 +176,18 @@ export const CashflowGlanceReport = () => {
         <SectionTitle>Connected Bank Accounts</SectionTitle>
         <div>
           <LoadingWrapper
-            isLoading={isFetchingCashflow}
+            isLoading={isFetchingNewCashFlow}
             className={cn(
-              isFetchingCashflow &&
+              isFetchingNewCashFlow &&
                 "pb-10 gap-4 rounded-lg border bg-white min-h-40 flex items-center justify-center shadow-sm"
             )}
           >
-            {cashFlowAnalysis?.bankAccountSummary ? (
-              cashFlowAnalysis?.bankAccountSummary?.map((data, index) => (
+            {newCashFlowGlance?.bankAccountSummary ? (
+              newCashFlowGlance?.bankAccountSummary?.map((data, index) => (
                 <BankAccountReport
                   key={index}
                   data={data}
-                  isLoading={isFetchingCashflow}
+                  isLoading={isFetchingNewCashFlow}
                   className="mb-6"
                 />
               ))

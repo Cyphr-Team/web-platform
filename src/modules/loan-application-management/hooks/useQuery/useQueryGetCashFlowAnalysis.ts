@@ -11,7 +11,8 @@ export const useQueryGetCashFlowAnalysis = (
   filterParams: {
     applicationId: string
   },
-  reqParams: CashFlowRequestFilters
+  reqParams: CashFlowRequestFilters,
+  enabledByInstitution: boolean
 ) => {
   return useQuery<ApplicationCashFlow>({
     queryKey: [QUERY_KEY.GET_CASH_FLOW_ANALYSIS, filterParams, reqParams],
@@ -30,6 +31,9 @@ export const useQueryGetCashFlowAnalysis = (
       })
       return response.data
     },
-    enabled: !!filterParams.applicationId && !!reqParams.accountFilter?.length
+    enabled:
+      enabledByInstitution &&
+      !!filterParams.applicationId &&
+      !!reqParams.accountFilter?.length
   })
 }

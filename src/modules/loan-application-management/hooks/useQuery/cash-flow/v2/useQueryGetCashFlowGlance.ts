@@ -9,10 +9,12 @@ import { QUERY_KEY } from "@/modules/loan-application-management/constants/query
 
 export const useQueryGetCashFlowGlance = ({
   applicationId,
-  filters
+  filters,
+  enabledByInstitution
 }: {
   applicationId: string
   filters: BaseCashFlowFilters
+  enabledByInstitution: boolean
 }) => {
   return useQuery<CashFlowGlanceResponse>({
     queryKey: [QUERY_KEY.GET_CASH_FLOW_GLANCE_V2, applicationId, filters],
@@ -33,6 +35,6 @@ export const useQueryGetCashFlowGlance = ({
       })
       return response.data
     },
-    enabled: !!applicationId
+    enabled: enabledByInstitution && !!applicationId
   })
 }

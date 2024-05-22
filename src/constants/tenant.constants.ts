@@ -1,5 +1,6 @@
 enum Institution {
   IntrustBank = "intrust",
+  Capsight = "capsight",
   LoanReady = "loanready",
   Foresight = "foresight",
   CyphrV2 = "cyphr-bank",

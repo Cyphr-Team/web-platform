@@ -1,15 +1,15 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { toCurrency } from "@/utils"
 import { InformationRow } from "../../../atoms/InformationRow"
-import { AccountSummaryType } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 import { Badge } from "@/components/ui/badge"
 import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { cn } from "@/lib/utils"
+import { BankAccountSummary } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
 
 type Props = {
-  data: AccountSummaryType
+  data: BankAccountSummary
   isLoading: boolean
   className: string
 }
@@ -31,7 +31,7 @@ export const BankAccountReport: React.FC<Props> = ({
       <CardHeader className="border-b px-8 md:py-4 border-r rounded-tr-md">
         <div className="flex justify-between items-center flex-wrap gap-1">
           <CardTitle className="font-semibold text-2xl flex items-center gap-3">
-            {formatHeader(data.bankAccountName)}
+            {formatHeader(data.bankAccountName ?? "N/A")}
             <Badge
               isDot
               variant="soft"
@@ -53,12 +53,12 @@ export const BankAccountReport: React.FC<Props> = ({
         <div className="grid grid-cols-2">
           <InformationRow
             label="Account Holder"
-            value={data.accountHolder}
+            value={data.accountHolder ?? "N/A"}
             isLoading={isLoading}
           />
           <InformationRow
             label="Days of Negative Balance"
-            value={data.numDaysNegativeBalance.toString()}
+            value={data.numDaysNegativeBalance?.toString() ?? "N/A"}
             isLoading={isLoading}
           />
           <InformationRow

@@ -35,6 +35,10 @@ function getTenantDomain(subdomain: string) {
   }
 }
 
+function isCapsight(): boolean {
+  return getSubdomain() === Institution.Capsight
+}
+
 function isLoanReady(): boolean {
   return getSubdomain() === Institution.LoanReady
 }
@@ -47,4 +51,11 @@ function isKccBank(): boolean {
   return getSubdomain() === Institution.KCChamber
 }
 
-export { getSubdomain, isLoanReady, isCyphrBank, getTenantDomain, isKccBank }
+export {
+  getSubdomain,
+  isLoanReady,
+  isCyphrBank,
+  isCapsight,
+  getTenantDomain,
+  isKccBank
+}
