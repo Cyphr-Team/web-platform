@@ -115,11 +115,11 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "h-full flex-col hidden md:flex bg-background-disabled w-96 flex-shrink-0 border-r mb-3xl",
+        "h-full flex-col hidden md:flex bg-background-disabled w-96 flex-shrink-0 shadow-sm mb-3xl",
         className
       )}
     >
-      <div className="pl-3xl pr-2xl items-center mb-3xl justify-between flex bg-white border-b h-20">
+      <div className="pl-3xl pr-2xl items-center mb-4 justify-between flex bg-white border-b h-20">
         <LogoHeader className="justify-center" />
       </div>
 

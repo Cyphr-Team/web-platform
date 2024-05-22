@@ -15,8 +15,8 @@ export const usePersona = () => {
     (referenceId: string, inquiryId: string) => {
       personaClientRef.current = new Client({
         environment: APP_CONFIGS.VITE_PERSONA_ENVIRONMENT,
-        inquiryId: inquiryId,
-        referenceId: referenceId,
+        inquiryId,
+        referenceId,
         onComplete: () => {
           setIsCompleted(true)
         },

@@ -13,7 +13,9 @@ export const LoanApplicationDetailLayout = ({
       )}
     >
       <SideNavApplicationDetails />
-      <div className="w-full overflow-auto flex flex-col">{children}</div>
+      <div className="shadow-[0px_4px_8px_-2px_rgba(16,24,40,0.10),_0px_2px_4px_-2px_rgba(16,24,40,0.06)] w-full overflow-auto flex flex-col">
+        {children}
+      </div>
     </div>
   )
 }

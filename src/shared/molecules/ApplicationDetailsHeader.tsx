@@ -39,7 +39,15 @@ export const ApplicationDetailsHeader = () => {
       )}
     >
       <div className="flex items-center gap-2">
-        <h4 className={cn("text-lg font-semibold", "md:text-2xl")}>Status:</h4>
+        <h4 className={cn("text-lg font-semibold ml-0 md:ml-3", "md:text-2xl")}>
+          {status &&
+            status === LoanApplicationStatus.DRAFT.toLowerCase() &&
+            loanApplicationDetails?.loanProgram?.name}
+
+          {!isFetchingDetails &&
+            status !== LoanApplicationStatus.DRAFT.toLowerCase() &&
+            "Status:"}
+        </h4>
         {isFetchingDetails ? (
           <Skeleton className="w-20 h-8" />
         ) : (

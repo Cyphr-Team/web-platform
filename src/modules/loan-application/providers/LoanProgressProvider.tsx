@@ -1,3 +1,6 @@
+import { LoanType } from "@/types/loan-program.type"
+import { toPercent } from "@/utils"
+import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 import {
   Dispatch,
   ReactNode,
@@ -6,16 +9,14 @@ import {
   useMemo,
   useReducer
 } from "react"
-import {
-  LOAN_APPLICATION_STEP_STATUS,
-  LOAN_APPLICATION_STEPS
-} from "../constants"
 import { createContext } from "use-context-selector"
-import { getFormStepStrategy } from "../services/form.services"
 import { useLoanProgramDetailContext } from "."
-import { LoanType } from "@/types/loan-program.type"
+import {
+  LOAN_APPLICATION_STEPS,
+  LOAN_APPLICATION_STEP_STATUS
+} from "../constants"
 import { ApplicationStep } from "../constants/type"
-import { isKccBank, isLoanReady } from "@/utils/domain.utils"
+import { getFormStepStrategy } from "../services/form.services"
 
 interface LoanApplicationStepsState {
   step: LOAN_APPLICATION_STEPS
@@ -52,6 +53,7 @@ interface LoanApplicationStatusContext extends LoanApplicationStepsState {
   getStepStatus: (step: string) => boolean
   steps: ApplicationStep[]
   currentStep: ApplicationStep | undefined
+  percentComplete: number
 }
 
 const reducer = (
@@ -161,9 +163,23 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
     }
   }, [state.step, steps])
 
+  /**
+   * Calculate progress percent
+   */
+  const percentComplete = useMemo(() => {
+    if (!state.progress?.length) return 0
+
+    return toPercent(
+      state.progress.filter(
+        (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+      ).length / state.progress.length
+    )
+  }, [state.progress])
+
   const providerValues = useMemo(
     () => ({
       ...state,
+      percentComplete,
       dispatchProgress,
       getStep,
       getStepStatus,
@@ -171,7 +187,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
       steps: steps.getSteps(),
       currentStep: steps.getStep(state.step)
     }),
-    [finishCurrentStep, getStep, getStepStatus, state, steps]
+    [percentComplete, finishCurrentStep, getStep, getStepStatus, state, steps]
   )
 
   return <Provider value={providerValues}>{props.children}</Provider>

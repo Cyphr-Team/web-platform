@@ -11,6 +11,7 @@ import { useBRLoanApplicationDetailsContext } from "../providers"
 export const Component = () => {
   const { isFetchingDetails, confirmationFormData } =
     useBRLoanApplicationDetailsContext()
+
   return (
     <>
       <ApplicationDetailsHeader />

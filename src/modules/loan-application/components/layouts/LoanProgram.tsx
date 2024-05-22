@@ -31,7 +31,7 @@ export const Component = () => {
       <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
         <section className={cn("col-span-10", "md:col-span-8")}>
           <Image
-            className="mx-auto max-h-72 object-contain max-w-full border-b h-72"
+            className="mx-auto max-h-72 object-cover w-full max-w-full border-b h-72"
             placeholderClassName="bg-slate-600 max-h-72 mx-auto max-w-full"
             src={getImageURL(tenantData?.loanProgramOverviewHeroImage)}
             alt="Cover Photo for Institution"
