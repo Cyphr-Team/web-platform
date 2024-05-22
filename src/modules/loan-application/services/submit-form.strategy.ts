@@ -21,15 +21,20 @@ import {
   OperatingExpensesFormValue
 } from "../constants/form"
 import { APP_PATH } from "@/constants"
-import { FORM_TYPE } from "../constants/type"
+import { ApplicationStep, FORM_TYPE } from "../constants/type"
 import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
 import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 import { useSubmitOperatingExpensesForm } from "../hooks/useForm/useSubmitOperatingExpensesForm"
+import {
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS
+} from "../constants"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
+  progress: ApplicationStep[],
   loanRequestData: LoanRequestFormValue,
   businessData: BusinessFormValue,
   ownerData: OwnerFormValue,
@@ -115,6 +120,13 @@ export const useSubmitLoanForm = (
     })
   }, [])
 
+  const isCompleteSteps = useCallback(
+    (step: LOAN_APPLICATION_STEPS) =>
+      progress.find((item) => item.step === step)?.status ===
+      LOAN_APPLICATION_STEP_STATUS.COMPLETE,
+    [progress]
+  )
+
   const submitLoanForm = useCallback(async () => {
     try {
       const {
@@ -122,8 +134,15 @@ export const useSubmitLoanForm = (
       } = await submitLoanRequestForm()
       let isSubmitted = false
       if (loanType === LoanType.MICRO) {
-        if (businessData) await submitLoanKYBForm(loanRequestId)
-        if (ownerData) {
+        if (
+          businessData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
+        )
+          await submitLoanKYBForm(loanRequestId)
+        if (
+          ownerData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+        ) {
           const {
             data: { id: ownerFormId }
           } = await submitLoanKYCForm(loanRequestId)
@@ -135,7 +154,10 @@ export const useSubmitLoanForm = (
             )
           }
         }
-        if (financialData) {
+        if (
+          financialData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+        ) {
           const {
             data: { id: financialFormId }
           } = await submitLoanFinancialForm(loanRequestId)
@@ -148,10 +170,16 @@ export const useSubmitLoanForm = (
           }
         }
         if (isEnableCashFlowV2()) {
-          if (currentLoansData) {
+          if (
+            currentLoansData &&
+            isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
+          ) {
             await submitCurrentLoansForm(loanRequestId)
           }
-          if (operatingExpensesData) {
+          if (
+            operatingExpensesData &&
+            isCompleteSteps(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
+          ) {
             await submitOperatingExpensesForm(loanRequestId)
           }
         }
@@ -195,6 +223,7 @@ export const useSubmitLoanForm = (
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
     businessData,
+    isCompleteSteps,
     submitLoanKYBForm,
     ownerData,
     financialData,

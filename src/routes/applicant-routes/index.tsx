@@ -77,15 +77,15 @@ const applicantRoutes = (
     <Route
       path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
       element={
-        <LoanApplicationFormProvider>
-          <LoanProgressProvider>
+        <LoanProgressProvider>
+          <LoanApplicationFormProvider>
             <BRLoanApplicationDetailsProvider>
               <LoanApplicationFormLayout>
                 <LoanApplicationEdit />
               </LoanApplicationFormLayout>
             </BRLoanApplicationDetailsProvider>
-          </LoanProgressProvider>
-        </LoanApplicationFormProvider>
+          </LoanApplicationFormProvider>
+        </LoanProgressProvider>
       }
     />
 

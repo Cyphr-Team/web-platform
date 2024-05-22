@@ -12,7 +12,10 @@ import {
 import { createContext } from "use-context-selector"
 import { useUpdateEffect } from "react-use"
 import { useSubmitLoanForm } from "../services/submit-form.strategy"
-import { useLoanProgramDetailContext } from "."
+import {
+  useLoanApplicationProgressContext,
+  useLoanProgramDetailContext
+} from "."
 import { LoanType } from "@/types/loan-program.type"
 import { DocumentUploadedResponse } from "../constants/type"
 
@@ -146,11 +149,13 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
   )
 
   const { loanProgramDetails } = useLoanProgramDetailContext()
+  const { progress } = useLoanApplicationProgressContext()
 
   const loanType = loanProgramDetails?.type ?? LoanType.MICRO
 
   const { submitLoanForm, isLoading } = useSubmitLoanForm(
     loanType,
+    progress,
     state[LOAN_APPLICATION_STEPS.LOAN_REQUEST],
     state[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION],
     state[LOAN_APPLICATION_STEPS.OWNER_INFORMATION],
