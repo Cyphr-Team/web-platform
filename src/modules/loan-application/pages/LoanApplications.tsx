@@ -149,7 +149,12 @@ export function Component() {
           detail.original.id,
           detail.original.loanProgram.id
         ),
-        { state: { loanProgramDetails: detail.original.loanProgram } }
+        {
+          state: {
+            loanProgramDetails: detail.original.loanProgram,
+            backUrl: APP_PATH.LOAN_APPLICATION.APPLICATIONS.index
+          }
+        }
       )
     } else {
       navigate(
