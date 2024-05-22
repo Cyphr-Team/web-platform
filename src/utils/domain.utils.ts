@@ -43,4 +43,8 @@ function isCyphrBank(): boolean {
   return getSubdomain() === Institution.CyphrV2
 }
 
-export { getSubdomain, isLoanReady, isCyphrBank, getTenantDomain }
+function isKccBank(): boolean {
+  return getSubdomain() === Institution.KCChamber
+}
+
+export { getSubdomain, isLoanReady, isCyphrBank, getTenantDomain, isKccBank }

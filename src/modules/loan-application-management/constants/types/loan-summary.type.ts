@@ -4,8 +4,10 @@ import { LoanApplicationsKyc } from "./kyc"
 import { MiddeskStatus } from "./middesk.type"
 import {
   ConfirmationFormResponse,
+  CurrentLoanInformationResponse,
   KYBInformationResponse,
-  KYCInformationResponse
+  KYCInformationResponse,
+  OperatingExpensesInformationResponse
 } from "@/modules/loan-application/constants/type"
 
 enum SummaryCollectStatus {
@@ -32,6 +34,8 @@ type LoanSummary = {
   loanType?: string
   kybForm?: KYBInformationResponse
   kycForm?: KYCInformationResponse
+  currentLoanForms?: CurrentLoanInformationResponse[]
+  operatingExpensesForm?: OperatingExpensesInformationResponse
   confirmationForm?: ConfirmationFormResponse
 } & Pick<LoanApplicationsKyc, "personalInfo" | "idCheck" | "checkLists">
 

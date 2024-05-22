@@ -2,7 +2,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
 import { Link, useLocation, useParams } from "react-router-dom"
 import { APPLICATION_MENU } from "../../constants"
-import { isCyphrBank, isLoanReady } from "@/utils/domain.utils"
+import { isCyphrBank, isKccBank, isLoanReady } from "@/utils/domain.utils"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -11,7 +11,7 @@ export function TopNav({ className, ...props }: Props) {
   const { id } = useParams()
 
   let applicationMenu = APPLICATION_MENU(id!)
-  if (isLoanReady() || isCyphrBank()) {
+  if (isLoanReady() || isCyphrBank() || isKccBank()) {
     applicationMenu = APPLICATION_MENU(id!).filter(
       (el) => el.name != "Documents"
     )

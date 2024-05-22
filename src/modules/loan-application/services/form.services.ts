@@ -17,6 +17,7 @@ import {
   ReadinessStepStrategy
 } from "./steps.strategy"
 import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
+import { isCyphrBank } from "@/utils/domain.utils.ts"
 
 export const formatKybForm = (rawData: BusinessFormValue) => {
   return {
@@ -82,7 +83,7 @@ export const reverseFormatKycForm = (
 export function getFormStrategy(loanType: LoanType) {
   switch (loanType) {
     case LoanType.MICRO:
-      return isEnableCashFlowV2()
+      return isEnableCashFlowV2() && isCyphrBank()
         ? new CyphrV2LoanFormStrategy()
         : new MicroLoanFormStrategy()
     case LoanType.READINESS:
@@ -95,7 +96,7 @@ export function getFormStrategy(loanType: LoanType) {
 export function getFormStepStrategy(loanType: LoanType) {
   switch (loanType) {
     case LoanType.MICRO:
-      return isEnableCashFlowV2()
+      return isEnableCashFlowV2() && isCyphrBank()
         ? new CyphrV2StepStrategy()
         : new MicroLoanStepStrategy()
     case LoanType.READINESS:

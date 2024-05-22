@@ -4,11 +4,13 @@ import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useLocation, useParams } from "react-router-dom"
 import {
   ConfirmationFormResponse,
+  CurrentLoansInformationResponse,
   DocumentUploadedResponse,
   FinancialInformationResponse,
   KYBInformationResponse,
   KYCInformationResponse,
-  LoanProgramData
+  LoanProgramData,
+  OperatingExpensesInformationResponse
 } from "../constants/type"
 import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
 import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
@@ -38,6 +40,8 @@ type BRLoanApplicationDetailsContext<T> = {
   loanProgramInfo?: LoanProgramData
   kybFormData?: KYBInformationResponse
   kycFormData?: KYCInformationResponse
+  currentLoanFormData?: CurrentLoansInformationResponse
+  operatingExpensesFormData?: OperatingExpensesInformationResponse
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
   loanApplicationDetails?: UserMicroLoanApplication
@@ -92,7 +96,10 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     financialFormQuery.data?.id ?? ""
   )
   const kycDocuments = useQueryGetDocumentsByForm(kycFormQuery.data?.id ?? "")
-
+  const currentLoanDocuments = useQueryGetCurrentLoansForm(loanApplicationId!)
+  const operatingExpensesDocuments = useQueryGetOperatingExpensesForm(
+    loanApplicationId!
+  )
   const changeDataAndProgress = useCallback(
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {
       dispatchProgress({
@@ -186,6 +193,10 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       loanProgramDetails: loanProgramQuery.data,
       kybFormData: kybFormQuery.data,
       kycFormData: kycFormQuery.data,
+      currentLoanDocuments: currentLoanDocuments.data,
+      currentLoanFormData: currentLoansFormQuery.data,
+      operatingExpensesFormDocuments: operatingExpensesDocuments.data,
+      operatingExpensesFormData: operatingExpensesFormQuery.data,
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
@@ -195,6 +206,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         loanApplicationDetailsQuery.isLoading ||
         kybFormQuery.isLoading ||
         kycFormQuery.isLoading ||
+        currentLoanDocuments.isLoading ||
+        operatingExpensesDocuments.isLoading ||
         confirmationFormQuery.isLoading ||
         financialFormQuery.isLoading ||
         currentLoansFormQuery.isLoading ||
@@ -211,6 +224,14 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kybFormQuery.isLoading,
       kycFormQuery.data,
       kycFormQuery.isLoading,
+      currentLoanDocuments.data,
+      currentLoanDocuments.isLoading,
+      currentLoansFormQuery.data,
+      currentLoansFormQuery.isLoading,
+      operatingExpensesDocuments.data,
+      operatingExpensesDocuments.isLoading,
+      operatingExpensesFormQuery.data,
+      operatingExpensesFormQuery.isLoading,
       confirmationFormQuery.data,
       confirmationFormQuery.isLoading,
       financialFormQuery.data,
@@ -220,9 +241,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kycDocuments.data,
       kycDocuments.isLoading,
       financialDocuments.data,
-      financialDocuments.isLoading,
-      currentLoansFormQuery.isLoading,
-      operatingExpensesFormQuery.isLoading
+      financialDocuments.isLoading
     ]
   )
   switch (loanProgramQuery.data?.type) {

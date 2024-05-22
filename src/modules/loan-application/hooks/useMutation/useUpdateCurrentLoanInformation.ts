@@ -5,15 +5,15 @@ import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import {
-  CurrentLoanInformation,
-  CurrentLoanInformationResponse
+  CurrentLoansInformationResponse,
+  CurrentLoansInformationData
 } from "../../constants/type"
 
 export const useUpdateCurrentLoanInformation = () => {
   return useMutation<
-    AxiosResponse<CurrentLoanInformationResponse>,
+    AxiosResponse<CurrentLoansInformationResponse>,
     AxiosError<ErrorResponse>,
-    CurrentLoanInformation
+    CurrentLoansInformationData
   >({
     mutationFn: (data) => {
       return putRequest({

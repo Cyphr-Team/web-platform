@@ -1,6 +1,6 @@
 import { APP_PATH } from "@/constants"
 import { handleCrumb } from "@/utils/crumb.utils"
-import { isCyphrBank, isLoanReady } from "@/utils/domain.utils"
+import { isCyphrBank, isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { Route } from "react-router-dom"
 import { documentRoutes } from "./document-routes"
 import { CashFlowCustom } from "@/modules/loan-application-management/pages/custom/cash-flow"
@@ -52,11 +52,17 @@ const loanApplicationManagementRoutes = (
       <Route
         path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
         lazy={() =>
-          isLoanReady()
+          isCyphrBank() || isKccBank()
             ? import(
                 "@/modules/loan-application-management/pages/out-of-box/loan-summary"
               )
-            : import("@/modules/loan-application-management/pages/loan-summary")
+            : isLoanReady()
+              ? import(
+                  "@/modules/loan-application-management/pages/custom/loan-summary"
+                )
+              : import(
+                  "@/modules/loan-application-management/pages/loan-summary"
+                )
         }
       />
 
@@ -66,7 +72,7 @@ const loanApplicationManagementRoutes = (
         element={
           isLoanReady() ? (
             <CashFlowCustom />
-          ) : isCyphrBank() ? (
+          ) : isCyphrBank() || isKccBank() ? (
             <CashFlowOutOfBox />
           ) : (
             <CashFlowPage />

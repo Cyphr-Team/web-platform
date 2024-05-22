@@ -3,12 +3,19 @@ import { KybFormDetails } from "../../molecules/loan-application-details/KybForm
 import { KycFormDetails } from "../../molecules/loan-application-details/KycFormDetails"
 import { LoanRequestDetails } from "../../molecules/loan-application-details/LoanRequestDetails"
 import { CashFlowTable } from "./CashFlowTable"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isCyphrBank, isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
+import { CurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/CurrentLoanFormDetails.tsx"
+import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/OperatingExpenseFormDetails.tsx"
 
 export const ApplicationDetails = () => {
-  const { kybFormData, kycFormData } = useBRLoanApplicationDetailsContext()
+  const {
+    kybFormData,
+    kycFormData,
+    currentLoanFormData,
+    operatingExpensesFormData
+  } = useBRLoanApplicationDetailsContext()
 
   return (
     <div className={cn("flex flex-col gap-2", "md:grid md:grid-cols-4")}>
@@ -22,6 +29,16 @@ export const ApplicationDetails = () => {
           <LoanRequestDetails />
           <KybFormDetails kybFormData={kybFormData} />
           <KycFormDetails kycFormData={kycFormData} />
+          {(isCyphrBank() || isKccBank()) && (
+            <>
+              <CurrentLoanFormDetails
+                currentLoanFormData={currentLoanFormData}
+              />
+              <OperatingExpensesFormDetails
+                operatingExpensesFormData={operatingExpensesFormData}
+              />
+            </>
+          )}
           <FinancialFormDetails />
           {isLoanReady() && <CashFlowTable />}
         </div>
