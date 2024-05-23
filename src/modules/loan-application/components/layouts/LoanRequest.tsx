@@ -37,16 +37,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loanRequestFormSchema } from "../../constants/form"
 import { useEffect, useMemo } from "react"
-import { useTenant } from "@/providers/tenant-provider"
 import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 
 export function CardWithForm() {
-  const { tenantData } = useTenant()
-  const { name } = tenantData ?? {}
-
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
   const { finishCurrentStep } = useLoanApplicationProgressContext()
   const { loanRequest, dispatchFormAction } = useLoanApplicationFormContext()
@@ -104,7 +100,7 @@ export function CardWithForm() {
       <CardHeader className="text-center">
         <CardTitle className="text-lg">{loanProgramDetails?.name}</CardTitle>
         <CardDescription>
-          Thank you for your interest in working with {name}.{` `}
+          Thank you for your interest in working with us.{` `}
           <span className="block">
             What is the loan amount you are requesting? (Please note, the actual
             loan amount you qualify for will be communicated by the lender.)

@@ -21,10 +21,8 @@ import {
   OwnerFormValue,
   ownerFormSchema
 } from "@/modules/loan-application/constants/form"
-import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import { ArrowRight, Mail } from "lucide-react"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
-import { FileUploadCard } from "../molecules/FileUploadCard"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../hooks/useSelectCities"
 import { useEffect, useCallback } from "react"
@@ -34,23 +32,14 @@ import PhoneInput from "react-phone-number-input"
 import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { SSN_PATTERN } from "@/constants"
-import { FileUploadedCard } from "../molecules/FileUploadedCard"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
-import {
-  DOCUMENT_ACTION,
-  FORM_ACTION
-} from "../../providers/LoanApplicationFormProvider"
+import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 
 export function OwnerInformationForm() {
   const { finishCurrentStep } = useLoanApplicationProgressContext()
-  const {
-    dispatchFormAction,
-    dispatchDocumentAction,
-    documents,
-    ownerInformationForm
-  } = useLoanApplicationFormContext()
+  const { dispatchFormAction, ownerInformationForm } =
+    useLoanApplicationFormContext()
 
   const defaultValues = {
     id: ownerInformationForm?.id ?? "",
@@ -81,21 +70,6 @@ export function OwnerInformationForm() {
     mode: "onBlur"
   })
 
-  const handleSelectFile = (files: FileList) => {
-    const currentFiles = form.getValues("governmentFile")
-
-    const mergedFiles =
-      files && currentFiles
-        ? [...currentFiles, ...Array.from(files)]
-        : Array.from(files)
-
-    form.setValue("governmentFile", mergedFiles, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    })
-  }
-
   const handleChangeSSN = useCallback(
     (ssn: string) => {
       form.setValue("socialSecurityNumber", ssn, {
@@ -106,24 +80,6 @@ export function OwnerInformationForm() {
     },
     [form]
   )
-
-  const handleRemoveFile = (index: number) => {
-    const currentFiles = form.getValues("governmentFile")
-    const newFiles = currentFiles.filter((_, i) => i !== index)
-    form.setValue("governmentFile", newFiles, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    })
-  }
-
-  const removeDocument = (id: string) => {
-    dispatchDocumentAction({
-      action: DOCUMENT_ACTION.REMOVE_DATA,
-      key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
-      state: { id }
-    })
-  }
 
   const handleSelectDate = (date: Date | undefined) => {
     form.setValue("dateOfBirth", date?.toISOString() ?? "", {
@@ -370,67 +326,14 @@ export function OwnerInformationForm() {
               />
               <div />
             </form>
-            {(isKccBank() || isLoanReady()) && (
-              <Button
-                disabled={!form.formState.isValid}
-                onClick={form.handleSubmit(onSubmit)}
-              >
-                Next <ArrowRight className="ml-1 w-4" />
-              </Button>
-            )}
+
+            <Button
+              disabled={!form.formState.isValid}
+              onClick={form.handleSubmit(onSubmit)}
+            >
+              Next <ArrowRight className="ml-1 w-4" />
+            </Button>
           </Card>
-
-          {(!isKccBank() || !isLoanReady()) && (
-            <>
-              <Card className="p-4xl gap-2xl flex flex-col">
-                <div>
-                  <h5 className="text-lg font-semibold">Government ID</h5>
-                  <p className="text-text-tertiary">
-                    {`Please upload a government-issued identification document. Accepted
-              documents include a passport, driver’s license, state identification
-              card, and national ID card.`}
-                  </p>
-                </div>
-                <FormField
-                  control={form.control}
-                  name="governmentFile"
-                  render={() => (
-                    <FormItem>
-                      <DragDropFileInput onFileSelect={handleSelectFile} />
-                      {form.getValues("governmentFile") &&
-                        form.getValues("governmentFile").length > 0 &&
-                        Array.from(form.getValues("governmentFile")).map(
-                          (file: File, index: number) => (
-                            <FileUploadCard
-                              key={index}
-                              file={file}
-                              index={index}
-                              handleRemoveFile={handleRemoveFile}
-                            />
-                          )
-                        )}{" "}
-                      {!!documents.ownerInformationForm?.length &&
-                        documents.ownerInformationForm.map((val) => (
-                          <FileUploadedCard
-                            key={val.id}
-                            file={val}
-                            handleRemoveFile={removeDocument}
-                          />
-                        ))}
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </Card>
-
-              <Button
-                disabled={!form.formState.isValid}
-                onClick={form.handleSubmit(onSubmit)}
-              >
-                Next <ArrowRight className="ml-1 w-4" />
-              </Button>
-            </>
-          )}
         </Form>
       </div>
     </div>

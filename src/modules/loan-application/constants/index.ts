@@ -25,14 +25,15 @@ export const navItems: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
     icon: Bell,
     label: "Notifications"
-  },
-  {
-    title: "Settings",
-    href: APP_PATH.LOAN_APPLICATION.SETTINGS,
-    icon: Icons.setting,
-    label: "Settings",
-    className: "mt-auto mb-3"
   }
+  // Hide because it's not implemented yet
+  // {
+  //   title: "Settings",
+  //   href: APP_PATH.LOAN_APPLICATION.SETTINGS,
+  //   icon: Icons.setting,
+  //   label: "Settings",
+  //   className: "mt-auto mb-3"
+  // }
 ]
 
 export const TEXTS = {

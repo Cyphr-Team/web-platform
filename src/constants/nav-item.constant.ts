@@ -1,6 +1,6 @@
 import { NavItem } from "@/types/common.type"
 import { APP_PATH } from "."
-import { Bell, CalendarSearch, Flag, Send, Workflow } from "lucide-react"
+import { CalendarSearch, Flag, Send, Workflow } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { UserRoles } from "@/types/user.type"
 import { FEATURE_FLAGS } from "./feature-flag.constants"
@@ -34,12 +34,13 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     label: "Applications",
     roles: [UserRoles.LOAN_OFFICER]
   },
-  {
-    title: "Messages",
-    href: APP_PATH.MESSAGES,
-    icon: Icons.messageChatCircle,
-    label: "Messages"
-  },
+  // Hide because havent implemented yet
+  // {
+  //   title: "Messages",
+  //   href: APP_PATH.MESSAGES,
+  //   icon: Icons.messageChatCircle,
+  //   label: "Messages"
+  // },
   {
     title: "Users",
     href: APP_PATH.ADMIN_USERS.USER.index,
@@ -54,24 +55,26 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     label: "Loan Programs",
     roles: [UserRoles.CDFI_ADMIN]
   },
-  {
-    title: "Notifications",
-    href: APP_PATH.NOTIFICATION.list,
-    icon: Bell,
-    label: "Notifications"
-  },
+  // Hide because havent implemented yet
+  // {
+  //   title: "Notifications",
+  //   href: APP_PATH.NOTIFICATION.list,
+  //   icon: Bell,
+  //   label: "Notifications"
+  // },
   {
     title: "Onboard",
     href: APP_PATH.ONBOARD,
     icon: Send,
     label: "Onboard",
     roles: [UserRoles.FORESIGHT_ADMIN]
-  },
-  {
-    title: "Settings",
-    href: APP_PATH.SETTINGS,
-    icon: Icons.setting,
-    label: "Settings",
-    className: "mt-auto mb-3"
   }
+  // Hide because havent implemented yet
+  // {
+  //   title: "Settings",
+  //   href: APP_PATH.SETTINGS,
+  //   icon: Icons.setting,
+  //   label: "Settings",
+  //   className: "mt-auto mb-3"
+  // }
 ]

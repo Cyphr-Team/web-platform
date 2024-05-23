@@ -41,7 +41,7 @@ export const LoanProgramLongCard = ({
         {!!loanProgram.description && (
           <CardDescription className="text-foreground flex items-center">
             <span
-              className="text-lg line-clamp-4"
+              className="text-lg line-clamp-4 whitespace-pre-wrap"
               dangerouslySetInnerHTML={{
                 __html: sanitizeDOM(loanProgram.description)
               }}
