@@ -22,6 +22,7 @@ export const LoanProgramDetailWelcomeLine = () => {
             dangerouslySetInnerHTML={{
               __html: sanitizeDOM(loanProgramDetails?.description)
             }}
+            className="text-justify"
           />
         )}
       </div>

@@ -315,29 +315,7 @@ const KCC_LENDER_FORUM_PROGRAM: LoanProgramData = {
       "Small Business Administration (SBA) loans are designed for businesses just starting out or wishing to expand when conventional financing is not suitable.",
     Lines_of_credit:
       "Useful when you have seasonal, cyclical or fluctuating cash needs. We offer both revolving and non-revolving options with interest-only monthly payments based on a variable interest rate. Use for the purchase of inventory, covering unexpected expenses, or cash flow management.",
-    eligibility: [
-      "Small Business Owner",
-      "EIN",
-      "Seeking a loan types: term, micro, lines of capital, or startup lending products"
-    ],
-
-    how_to_get_started:
-      "To get started, just click the 'Start application' button and fill out the form.",
-    required_documents: `
-    1. One form of Picture ID
-    2. Resume / Portfolio / Work Experience
-    3. Most recent year of both Business and Personal Tax Returns including all schedules
-    4. Two most recent paystubs (if applicable)
-    5. Fictitious Name Certification (for Sole Proprietors)
-
-    Applicants with registered businesses will also be required to submit (if applicable):
-
-    1. EIN Tax Forms
-    2. 3 months business bank statements
-    3. Business tax returns and debt schedule
-    4. Certificate of Good Standing and Articles of Organization (for LLCs)
-    5. Operating Agreement (for LLCs) or By-Laws (for Corporations)
-    `
+    required_documents: `N/A`
   },
   contact: {
     mail: "spiess@kcchamber.com",

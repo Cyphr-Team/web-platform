@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -21,8 +21,6 @@ import {
   OwnerFormValue,
   ownerFormSchema
 } from "@/modules/loan-application/constants/form"
-import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
-import { ArrowRight, Mail } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -30,6 +28,8 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
+import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
+import { ArrowRight, Mail } from "lucide-react"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { FileUploadCard } from "../molecules/FileUploadCard"
 import { TextInput } from "@/shared/organisms/form/TextInput"
@@ -43,8 +43,7 @@ import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { SSN_PATTERN } from "@/constants"
 import { FileUploadedCard } from "../molecules/FileUploadedCard"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { getSubdomain } from "@/utils/domain.utils"
-import { Institution } from "@/constants/tenant.constants"
+import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
 import {
   DOCUMENT_ACTION,
@@ -184,8 +183,6 @@ export function OwnerInformationForm() {
       })
     }
   }, [form.formState.isValidating, form, dispatchFormAction])
-
-  const institution = getSubdomain()
 
   return (
     <div
@@ -414,57 +411,67 @@ export function OwnerInformationForm() {
                 )}
               />
             </form>
+            {(isKccBank() || isLoanReady()) && (
+              <Button
+                disabled={!form.formState.isValid}
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                Next <ArrowRight className="ml-1 w-4" />
+              </Button>
+            )}
           </Card>
 
-          {institution !== Institution.LoanReady && (
-            <Card className="p-4xl gap-2xl flex flex-col">
-              <div>
-                <h5 className="text-lg font-semibold">Government ID</h5>
-                <p className="text-text-tertiary">
-                  {`Please upload a government-issued identification document. Accepted
+          {(!isKccBank() || !isLoanReady()) && (
+            <>
+              <Card className="p-4xl gap-2xl flex flex-col">
+                <div>
+                  <h5 className="text-lg font-semibold">Government ID</h5>
+                  <p className="text-text-tertiary">
+                    {`Please upload a government-issued identification document. Accepted
               documents include a passport, driver’s license, state identification
               card, and national ID card.`}
-                </p>
-              </div>
-              <FormField
-                control={form.control}
-                name="governmentFile"
-                render={() => (
-                  <FormItem>
-                    <DragDropFileInput onFileSelect={handleSelectFile} />
-                    {form.getValues("governmentFile") &&
-                      form.getValues("governmentFile").length > 0 &&
-                      Array.from(form.getValues("governmentFile")).map(
-                        (file: File, index: number) => (
-                          <FileUploadCard
-                            key={index}
-                            file={file}
-                            index={index}
-                            handleRemoveFile={handleRemoveFile}
+                  </p>
+                </div>
+                <FormField
+                  control={form.control}
+                  name="governmentFile"
+                  render={() => (
+                    <FormItem>
+                      <DragDropFileInput onFileSelect={handleSelectFile} />
+                      {form.getValues("governmentFile") &&
+                        form.getValues("governmentFile").length > 0 &&
+                        Array.from(form.getValues("governmentFile")).map(
+                          (file: File, index: number) => (
+                            <FileUploadCard
+                              key={index}
+                              file={file}
+                              index={index}
+                              handleRemoveFile={handleRemoveFile}
+                            />
+                          )
+                        )}{" "}
+                      {!!documents.ownerInformationForm?.length &&
+                        documents.ownerInformationForm.map((val) => (
+                          <FileUploadedCard
+                            key={val.id}
+                            file={val}
+                            handleRemoveFile={removeDocument}
                           />
-                        )
-                      )}{" "}
-                    {!!documents.ownerInformationForm?.length &&
-                      documents.ownerInformationForm.map((val) => (
-                        <FileUploadedCard
-                          key={val.id}
-                          file={val}
-                          handleRemoveFile={removeDocument}
-                        />
-                      ))}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </Card>
-          )}
+                        ))}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </Card>
 
-          <Button
-            disabled={!form.formState.isValid}
-            onClick={form.handleSubmit(onSubmit)}
-          >
-            Next <ArrowRight className="ml-1 w-4" />
-          </Button>
+              <Button
+                disabled={!form.formState.isValid}
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                Next <ArrowRight className="ml-1 w-4" />
+              </Button>
+            </>
+          )}
         </Form>
       </div>
     </div>

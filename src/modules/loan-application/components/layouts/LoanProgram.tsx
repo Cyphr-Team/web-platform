@@ -16,7 +16,7 @@ const WelcomeLine = () => {
         Welcome to {name}!
       </h2>
       <p
-        className="text-lg whitespace-pre-wrap"
+        className="text-lg whitespace-pre-wrap text-justify"
         dangerouslySetInnerHTML={{ __html: sanitizeDOM(loanProgramWelcome) }}
       />
     </section>

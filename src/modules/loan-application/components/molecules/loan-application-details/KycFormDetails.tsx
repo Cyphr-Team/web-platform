@@ -79,12 +79,6 @@ export const KycFormDetails: React.FC<KycFormDetailsProps> = ({
               : "N/A"
           }
         />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Other than you, are there any individuals who own 20% or
-          more of the business?"
-          value={kycFormData?.hasOtherSubstantialStackHolders ? "Yes" : "No"}
-        />
       </div>
     </Card>
   )

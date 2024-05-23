@@ -105,7 +105,10 @@ export function CardWithForm() {
         <CardTitle className="text-lg">{loanProgramDetails?.name}</CardTitle>
         <CardDescription>
           Thank you for your interest in working with {name}.{` `}
-          <span className="block">What amount will you be requesting?</span>
+          <span className="block">
+            What is the loan amount you are requesting? (Please note, the actual
+            loan amount you qualify for will be communicated by the lender.)
+          </span>
         </CardDescription>
       </CardHeader>
 

@@ -169,7 +169,7 @@ class LenderForumLoanFormStrategy extends FormStrategy {
       {
         formType: FORM_TYPE.FINANCIAL,
         step: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
-        component: <FinancialInformationForm />
+        component: <CashFlowVerificationForm />
       },
       {
         formType: null,
