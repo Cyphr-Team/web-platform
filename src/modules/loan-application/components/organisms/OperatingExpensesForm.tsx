@@ -24,7 +24,6 @@ import { ArrowRight } from "lucide-react"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
 import { useEffect, useMemo, useState } from "react"
-import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { toCurrency } from "@/utils"
 import { Input } from "@/components/ui/input"
 
@@ -242,7 +241,6 @@ export const OperatingExpensesForm = () => {
                       <FormLabel className="text-text-secondary">
                         <p className="text-sm text-text-secondary font-medium">
                           {item.title}
-                          <RequiredSymbol />
                         </p>
                         <p className="text-sm text-text-tertiary font-medium leading-3">
                           {item.subtitle}
@@ -256,7 +254,6 @@ export const OperatingExpensesForm = () => {
                           min={0}
                           className="text-base input-number-remove-arrow -mt-2 mb-2"
                           value={toCurrency(field.value, 0)}
-                          required
                           onChange={(e) => {
                             const value =
                               parseFloat(
