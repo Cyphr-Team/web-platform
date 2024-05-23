@@ -11,7 +11,6 @@ import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplicatio
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { LoanType } from "@/types/loan-program.type"
 import { isKccBank, isLoanReady } from "@/utils/domain.utils"
-import { isEmpty } from "lodash"
 import { useEffect, useMemo, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import {
@@ -24,12 +23,22 @@ import { getFormStrategy } from "../../services/form.services"
 import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { TopBarDetail } from "./TopBarDetail"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
 
 export const LoanInformationHeader = () => {
   const { loanProgramDetails, isLoading } = useLoanProgramDetailContext()
-  const { loanRequest } = useLoanApplicationFormContext()
 
   const navigate = useNavigate()
+
+  const { getStepStatus } = useLoanApplicationProgressContext()
+
+  const checkStepStatus =
+    getStepStatus(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION) ||
+    getStepStatus(LOAN_APPLICATION_STEPS.CURRENT_LOANS) ||
+    getStepStatus(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION) ||
+    getStepStatus(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES) ||
+    getStepStatus(LOAN_APPLICATION_STEPS.OWNER_INFORMATION) ||
+    getStepStatus(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
 
   const backToLoanProgram = () => {
     navigate(
@@ -38,7 +47,6 @@ export const LoanInformationHeader = () => {
       )
     )
   }
-
   return (
     <TopBarDetail
       leftFooter={
@@ -63,14 +71,17 @@ export const LoanInformationHeader = () => {
       }
       rightFooter={
         <div className="flex gap-2">
-          {!isEmpty(loanRequest) && <CloseWithoutSave />}
-          {isEmpty(loanRequest) ? (
+          {checkStepStatus ? (
+            <>
+              <CloseWithoutSave />
+              <LoanApplicationSave />
+            </>
+          ) : (
             <Button onClick={backToLoanProgram} variant="secondary">
               Close
             </Button>
-          ) : (
-            <LoanApplicationSave />
           )}
+
           <div className="block md:hidden">
             <Drawer>
               <DrawerTrigger asChild>

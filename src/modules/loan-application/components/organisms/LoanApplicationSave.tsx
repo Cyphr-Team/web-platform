@@ -20,7 +20,7 @@ export const LoanApplicationSave = () => {
     if (!isCompleteLoanRequestForm) {
       dispatchProgress({
         type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
-        step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+        step: LOAN_APPLICATION_STEPS.LOAN_REQUEST
       })
     } else {
       submitLoanForm()
