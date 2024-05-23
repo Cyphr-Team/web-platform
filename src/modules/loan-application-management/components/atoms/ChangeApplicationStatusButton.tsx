@@ -107,7 +107,6 @@ export const ChangeApplicationStatusButton = () => {
       : data?.toUpperCase() === LoanApplicationStatus.DENIED
         ? "Not Ideal Time to Apply"
         : snakeCaseToText(data ?? "")
-
   return (
     <div className="flex items-center gap-2 self-start md:self-center">
       <div className="flex items-center text-sm font-medium">Status:</div>
@@ -118,29 +117,31 @@ export const ChangeApplicationStatusButton = () => {
           setIsSuccess={setIsSuccess}
         />
       ) : (
-        <div className="flex items-center">
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger>
-                <Badge
-                  isDot
-                  variant="soft"
-                  variantColor={getBadgeVariantByStatus(data)}
-                  className="capitalize px-4 py-2 relative"
-                >
-                  {textButton}
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent className="flex items-center gap-1">
-                <BadgeInfo className="w-5 text-blue-500" />
-                {getApplicationTipByStatus(
-                  data,
-                  !!loanApplicationDetails?.loanProgram?.deletedAt
-                )}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger color={getBadgeVariantByStatus(data)}>
+              <Badge
+                isDot
+                variant="soft"
+                variantColor={getBadgeVariantByStatus(data)}
+                className={`capitalize h-10 w-48 rounded-full relative justify-center ${
+                  data !== LoanApplicationStatus.DENIED.toLowerCase()
+                    ? "text-sm"
+                    : ""
+                }`}
+              >
+                {textButton}
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent className="flex items-center gap-1">
+              <BadgeInfo className="w-5 text-blue-500" />
+              {getApplicationTipByStatus(
+                data,
+                !!loanApplicationDetails?.loanProgram?.deletedAt
+              )}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )}
 
       <Dialog open={isSuccess} onOpenChange={setIsSuccess}>
