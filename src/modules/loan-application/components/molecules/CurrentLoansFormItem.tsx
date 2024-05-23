@@ -22,6 +22,16 @@ export const CurrentLoansFormItem = ({
 }) => {
   const form = useFormContext()
 
+  const numberInputOnWheelPreventChange = (
+    e: React.WheelEvent<HTMLInputElement>
+  ) => {
+    // Prevent the input value change
+    e.currentTarget.blur()
+
+    // Prevent the page/container from scrolling
+    e.stopPropagation()
+  }
+
   return (
     <Card className="grid grid-cols-6 gap-4xl p-4xl rounded-lg h-fit">
       <div className="flex flex-row items-center justify-between col-span-6">
@@ -38,6 +48,7 @@ export const CurrentLoansFormItem = ({
         name={`currentLoans[${index}].lenderName`}
         control={form.control}
         className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10"
+        inputClassName="ml-auto max-w-80"
         isRowDirection
         required
       />
@@ -48,6 +59,7 @@ export const CurrentLoansFormItem = ({
         name={`currentLoans[${index}].loanType`}
         control={form.control}
         className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10"
+        inputClassName="ml-auto max-w-80"
         isRowDirection
         required
       />
@@ -57,7 +69,7 @@ export const CurrentLoansFormItem = ({
         render={({ field }) => (
           <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
-              <p className="text-sm text-text-secondary font-medium">
+              <p className="text-sm text-text-secondary font-semibold">
                 Outstanding loan balance
                 <RequiredSymbol />
               </p>
@@ -71,7 +83,7 @@ export const CurrentLoansFormItem = ({
                 type={`currentLoans[${index}].outstandingLoanBalance`}
                 placeholder="i.e: 55,000"
                 min={0}
-                className="text-base input-number-remove-arrow -mt-2"
+                className="text-base input-number-remove-arrow -mt-2 ml-auto max-w-80"
                 value={toCurrency(field.value, 0)}
                 required
                 onChange={(e) => {
@@ -99,7 +111,7 @@ export const CurrentLoansFormItem = ({
         render={({ field }) => (
           <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
-              <p className="text-sm text-text-secondary font-medium">
+              <p className="text-sm text-text-secondary font-semibold">
                 Monthly payment amount
                 <RequiredSymbol />
               </p>
@@ -113,7 +125,7 @@ export const CurrentLoansFormItem = ({
                 type={`currentLoans[${index}].monthlyPaymentAmount`}
                 placeholder="i.e: 5,000"
                 min={0}
-                className="text-base input-number-remove-arrow -mt-2"
+                className="text-base input-number-remove-arrow -mt-2 ml-auto max-w-80"
                 value={toCurrency(field.value, 0)}
                 required
                 onChange={(e) => {
@@ -141,7 +153,7 @@ export const CurrentLoansFormItem = ({
         render={({ field }) => (
           <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 lg:gap-y-0 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10">
             <FormLabel className="text-text-secondary">
-              <p className="text-sm text-text-secondary font-medium">
+              <p className="text-sm text-text-secondary font-semibold">
                 Loan term remaining (in months)
                 <RequiredSymbol />
               </p>
@@ -154,7 +166,7 @@ export const CurrentLoansFormItem = ({
                 type={`currentLoans[${index}].loanTermRemainingInMonths`}
                 placeholder="i.e: 11"
                 min={0}
-                className="text-base input-number-remove-arrow -mt-2"
+                className="text-base input-number-remove-arrow -mt-2 ml-auto max-w-80"
                 suffixIcon={
                   <span className="text-text-tertiary -mt-2">months</span>
                 }
@@ -163,6 +175,45 @@ export const CurrentLoansFormItem = ({
                 onChange={(e) => {
                   if (Number(e.target.value) >= 0)
                     field.onChange(Number(e.target.value))
+                }}
+              />
+            </FormControl>
+            <FormMessage style={{ marginTop: -1 }} />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`currentLoans[${index}].annualInterestRate`}
+        render={({ field }) => (
+          <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 lg:gap-y-0 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10">
+            <FormLabel className="text-text-secondary">
+              <p className="text-sm text-text-secondary font-semibold">
+                Annual interest rate
+                <RequiredSymbol />
+              </p>
+              <p className="text-sm text-text-tertiary font-medium">
+                The interest rate charged yearly
+              </p>
+            </FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                placeholder="e.g 1.05"
+                max={100}
+                className="text-base input-number-remove-arrow -mt-2 ml-auto max-w-80"
+                onWheel={numberInputOnWheelPreventChange}
+                suffixIcon={<span className="text-text-tertiary -mt-2">%</span>}
+                required
+                {...field}
+                onChange={(e) => {
+                  const value = e.target.value
+                  // Ensure the value is not negative
+                  if (Number(value) >= 0) {
+                    // Convert the value to a float with two decimal places
+                    const floatValue = parseFloat(parseFloat(value).toFixed(2))
+                    field.onChange(floatValue)
+                  }
                 }}
               />
             </FormControl>

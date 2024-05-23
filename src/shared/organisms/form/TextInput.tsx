@@ -49,12 +49,18 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
       name={name}
       render={({ field }) => (
         <FormItem className={props.className}>
-          <FormLabel className="text-text-secondary">
+          <FormLabel
+            className={`text-text-secondary ${
+              isRowDirection && "lg:-mt-2 font-semibold"
+            }`}
+          >
             <label>
               {label}
               {required && <RequiredSymbol />}
             </label>
-            {subtitle && <p className="mt-2 text-text-tertiary">{subtitle}</p>}
+            {subtitle && (
+              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+            )}
           </FormLabel>
 
           <FormControl className={`${isRowDirection && "lg:-mt-2"}`}>

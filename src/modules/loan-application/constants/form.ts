@@ -98,7 +98,11 @@ const LoanItemFormSchema = z.object({
     .min(1, { message: "Payment must be higher than 0" }),
   loanTermRemainingInMonths: z
     .number()
-    .min(1, { message: "Loan term is required" })
+    .min(1, { message: "Loan term is required" }),
+  annualInterestRate: z
+    .number()
+    .min(0.01, { message: "Interest rate must be higher than 0" })
+    .max(100, { message: "Interest rate must not be higher than 100" })
 })
 
 export const currentLoansFormSchema = z.object({

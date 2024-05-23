@@ -63,7 +63,8 @@ export const CurrentLoansForm = () => {
       loanType: "",
       outstandingLoanBalance: 0,
       monthlyPaymentAmount: 0,
-      loanTermRemainingInMonths: 0
+      loanTermRemainingInMonths: 0,
+      annualInterestRate: 0
     })
     if (currentLoans.length > 1) {
       dispatchFormAction({
@@ -162,7 +163,7 @@ export const CurrentLoansForm = () => {
                         }}
                         value={field.value}
                       >
-                        <SelectTrigger className="text-base col-span-6 lg:col-span-2 lg:col-end-7">
+                        <SelectTrigger className="text-base col-span-6 lg:col-span-2 lg:max-w-40 lg:col-end-7 lg:ml-auto">
                           <SelectValue placeholder="Please select..." />
                         </SelectTrigger>
                         <SelectContent>

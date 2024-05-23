@@ -25,10 +25,12 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
   const submitCurrentLoansForm = async (loanApplicationId: string) => {
     // Delete related forms in DB
     if (rawData.hasOutstandingLoans == "false") {
-      rawData.currentLoans = rawData.currentLoans.map(({ id, ...data }) => ({
-        ...data,
-        id: DELETE_CURRENT_LOAN_PREFIX + id
-      }))
+      rawData.currentLoans = rawData.currentLoans
+        .filter((item) => !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX))
+        .map(({ id, ...data }) => ({
+          ...data,
+          id: DELETE_CURRENT_LOAN_PREFIX + id
+        }))
     }
     const deletePromise = rawData.currentLoans
       .filter((form) => form.id.startsWith(DELETE_CURRENT_LOAN_PREFIX))

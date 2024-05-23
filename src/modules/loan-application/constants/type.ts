@@ -121,6 +121,7 @@ export interface CurrentLoansInformationData {
   outstandingLoanBalance: number
   monthlyPaymentAmount: number
   loanTermRemainingInMonths: number
+  annualInterestRate: number
 }
 
 export interface CurrentLoanInformationResponse {
@@ -130,6 +131,7 @@ export interface CurrentLoanInformationResponse {
   outstandingLoanBalance: number
   monthlyPaymentAmount: number
   loanTermRemainingInMonths: number
+  annualInterestRate: number
 }
 
 export interface CurrentLoansInformationResponse {
