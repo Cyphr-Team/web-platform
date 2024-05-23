@@ -6,6 +6,8 @@ import {
 } from "../constants/type"
 import { KYC_STATUS } from "../constants/types/kyc"
 import { RANDOM_LINE_COLORS } from "../constants"
+import { isLoanReady } from "@/utils/domain.utils"
+import { LoanDecisionEnum } from "../constants/types/application"
 
 export const getClassNameFromStatus = (
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS | AUTHENTICITY_LEVEL
@@ -46,6 +48,17 @@ export const getBadgeVariantByStatus = (status?: LoanApplicationStatus) => {
       return "green"
     default:
       return undefined
+  }
+}
+
+export const getDecisionTextByStatus = (decision?: LoanDecisionEnum) => {
+  switch (decision) {
+    case LoanDecisionEnum.APPROVED:
+      return isLoanReady() ? "Ideal Applicant" : "Approved"
+    case LoanDecisionEnum.DENIED:
+      return isLoanReady() ? "Not Ideal Time to Apply" : "Denied"
+    default:
+      return ""
   }
 }
 

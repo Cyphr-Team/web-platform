@@ -14,9 +14,11 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
 import { Bankruptcy } from "@/modules/loan-application/components/organisms/Middesk/Bankruptcy"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
-import { LoanDecisionEnum } from "../../constants/types/application"
 import { Badge } from "@/components/ui/badge"
-import { getBadgeVariantByStatus } from "../../services"
+import {
+  getBadgeVariantByStatus,
+  getDecisionTextByStatus
+} from "../../services"
 import { BusinessName } from "@/modules/loan-application/components/organisms/Middesk/BusinessName"
 import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/cashflow/report/CashflowGlance.tsx"
 
@@ -52,10 +54,7 @@ export function Component() {
                 className="capitalize px-4 py-2 relative w-fit"
               >
                 <p className="text-base">
-                  {loanApplicationDetails?.decision ===
-                  LoanDecisionEnum.APPROVED
-                    ? "Ideal Applicant"
-                    : "Not Ideal Time to Apply"}
+                  {getDecisionTextByStatus(loanApplicationDetails?.decision)}
                 </p>
               </Badge>
               {!!loanApplicationDetails?.decisionNote?.length && (

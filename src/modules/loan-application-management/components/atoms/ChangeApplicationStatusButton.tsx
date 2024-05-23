@@ -30,6 +30,7 @@ import {
 } from "../../services"
 import { LoanDecisionSubmitted } from "../organisms/LoanDecisionSubmited"
 import { ChangeApplicationStatusDialog } from "./ChangeApplicationStatusDialog"
+import { isLoanReady } from "@/utils/domain.utils"
 
 const ApplicationStatusDropDown = ({
   currentDecision,
@@ -86,6 +87,17 @@ const ApplicationStatusDropDown = ({
   )
 }
 
+const getApplicationStatusTextButton = (status?: LoanApplicationStatus) => {
+  switch (status) {
+    case LoanApplicationStatus.APPROVED:
+      return isLoanReady() ? "Ideal Applicant" : "Approved"
+    case LoanApplicationStatus.DENIED:
+      return isLoanReady() ? "Not Ideal Time to Apply" : "Denied"
+    default:
+      return snakeCaseToText(status ?? "")
+  }
+}
+
 export const ChangeApplicationStatusButton = () => {
   const { id } = useParams()
   const [isSuccess, setIsSuccess] = useState<boolean>()
@@ -101,12 +113,7 @@ export const ChangeApplicationStatusButton = () => {
   if (isLoading)
     return <Skeleton className="w-40 h-8 self-start md:self-center" />
 
-  const textButton =
-    data?.toUpperCase() === LoanApplicationStatus.APPROVED
-      ? "Ideal Applicant"
-      : data?.toUpperCase() === LoanApplicationStatus.DENIED
-        ? "Not Ideal Time to Apply"
-        : snakeCaseToText(data ?? "")
+  const textButton = getApplicationStatusTextButton(data)
 
   return (
     <div className="flex items-center gap-2 self-start md:self-center">
