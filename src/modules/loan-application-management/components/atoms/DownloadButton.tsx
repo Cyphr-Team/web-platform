@@ -5,13 +5,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { isEnableDownloadCSVAndJSONSummary } from "@/utils/feature-flag.utils"
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import { DownloadCloud } from "lucide-react"
 import { RefObject, useState } from "react"
-import { useQueryDownloadLoanSummary } from "../../hooks/useQuery/useQueryDownloadLoanSummary"
 import { useParams } from "react-router-dom"
 import { LoanSummaryDownloadType } from "../../constants/type"
+import { useQueryDownloadLoanSummary } from "../../hooks/useQuery/useQueryDownloadLoanSummary"
 
 export const DownloadButton = ({
   elementToExportRef,
@@ -126,16 +127,21 @@ export const DownloadButton = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent itemProp="className" className="cursor-pointer">
         <DropdownMenuItem onClick={downloadPdf}>File PDF</DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={handleClickDownload(LoanSummaryDownloadType.CSV)}
-        >
-          File CSV
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={handleClickDownload(LoanSummaryDownloadType.JSON)}
-        >
-          File JSON
-        </DropdownMenuItem>
+        {/* MVP-1385: hide because its not ready */}
+        {isEnableDownloadCSVAndJSONSummary() && (
+          <>
+            <DropdownMenuItem
+              onClick={handleClickDownload(LoanSummaryDownloadType.CSV)}
+            >
+              File CSV
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleClickDownload(LoanSummaryDownloadType.JSON)}
+            >
+              File JSON
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { toCurrency } from "@/utils"
 import { InformationRow } from "../../../atoms/InformationRow"
+import { formatPhoneNumberIntl } from "react-phone-number-input"
 
 export const ApplicationOverview = () => {
   const { loanSummary, loanApplicationDetails } =
@@ -35,7 +36,9 @@ export const ApplicationOverview = () => {
         <InformationRow label="Amount Requested" value={loanAmount} />
         <InformationRow
           label="Phone Number"
-          value={personalInfo?.phoneNumber ?? "N/A"}
+          value={
+            formatPhoneNumberIntl(personalInfo?.phoneNumber ?? "") || "N/A"
+          }
         />
         <InformationRow
           label="Proposed Use of Loan"

@@ -75,7 +75,7 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
 
   return (
     <div className="bg-white p-4 md:p-6 rounded-xl border flex-1">
-      <div className="flex flex-wrap justify-between gap-2 items-center mb-8">
+      <div className="flex justify-between gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">
           Average Loan Size of All Loan Programs
         </h2>

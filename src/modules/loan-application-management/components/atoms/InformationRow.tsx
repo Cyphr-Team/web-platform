@@ -30,11 +30,11 @@ export const InformationRow: React.FC<Props> = ({
         {label}
       </p>
     </div>
-    <div className="py-xl xl:py-3xl pl-xl xl:pl-3xl flex items-center  col-span-1 break-words">
+    <div className="py-xl xl:py-3xl pl-xl xl:pl-3xl flex items-center col-span-1 break-words pr-xl">
       {isLoading ? (
         <Skeleton className="w-[80%] h-full" />
       ) : (
-        <p className="font-medium text-sm break-words">{value}</p>
+        <p className="font-medium text-sm break-all">{value}</p>
       )}
     </div>
   </div>

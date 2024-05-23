@@ -40,7 +40,13 @@ function isEnableLenderDashboardV2DummyData() {
     checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2_DUMMY_DATA)
   )
 }
+
+function isEnableDownloadCSVAndJSONSummary() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.DOWNLOAD_CSV_AND_JSON_SUMMARY)
+}
+
 export {
+  isEnableDownloadCSVAndJSONSummary,
   isEnablePersonaKycV1,
   isEnableLenderDashboardV2DummyData,
   isEnableDashboardV2,

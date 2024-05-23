@@ -132,7 +132,7 @@ export const Component = () => {
       <Progress
         value={percentComplete}
         className="h-2 rounded-none bg-background-disabled overflow-visible z-30 relative"
-        indicatorClassName="after:hidden after:md:block after:content-[attr(attr-percentValue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
+        indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
       />
 
       <div

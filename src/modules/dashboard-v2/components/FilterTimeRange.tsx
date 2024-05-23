@@ -112,20 +112,24 @@ export const FilterTimeRange = () => {
       <Form {...form}>
         <form>
           <div className="flex flex-wrap gap-4">
-            <FormField
-              control={form.control}
-              name="loanProgramIds"
-              render={({ field }) => (
-                <MultiSelect
-                  prefixIcon={
-                    <ClipboardCheck className="w-5 h-5 text-muted-foreground mr-2" />
-                  }
-                  name="loanProgramIds"
-                  field={field}
-                  options={loanProgramOptions}
-                />
-              )}
-            />
+            {/* If the Lender only has 1 loan program, we should just hide this field. */}
+            {loanProgramOptions.length > 1 && (
+              <FormField
+                control={form.control}
+                name="loanProgramIds"
+                render={({ field }) => (
+                  <MultiSelect
+                    customAllText="All programs"
+                    prefixIcon={
+                      <ClipboardCheck className="w-5 h-5 text-muted-foreground mr-2" />
+                    }
+                    name="loanProgramIds"
+                    field={field}
+                    options={loanProgramOptions}
+                  />
+                )}
+              />
+            )}
 
             <div className="group date-select-coupling flex items-end">
               <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />

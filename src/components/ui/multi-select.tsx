@@ -38,8 +38,10 @@ export function MultiSelect<
   field,
   label,
   prefixIcon,
-  defaultValue
+  defaultValue,
+  customAllText
 }: {
+  customAllText?: string
   options: Option[]
   name: string
   field: ControllerRenderProps<TFieldValues, TName>
@@ -115,7 +117,7 @@ export function MultiSelect<
                 <p className="truncate font-normal">
                   {field.value.length > 0
                     ? field.value.map((v: Option) => v.label).join(", ")
-                    : "All"}
+                    : customAllText ?? "All"}
                 </p>
                 <p className="ml-2 shrink-0 flex items-center">
                   {!!field.value.length && <span>({field.value.length})</span>}
