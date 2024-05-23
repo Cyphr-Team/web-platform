@@ -30,15 +30,17 @@ export const formatKybForm = (rawData: BusinessFormValue) => {
       city: rawData.city,
       state: getStateCode(rawData.state),
       postalCode: rawData.postalCode
-    }
+    },
+    businessWebsite: rawData.businessWebsite.length
+      ? rawData.businessWebsite
+      : undefined
   }
 }
 
 export const formatKycForm = (rawData: OwnerFormValue) => {
   return {
     ...rawData,
-    hasOtherSubstantialStackHolders:
-      rawData.hasOtherSubstantialStackHolders === "true",
+    hasOtherSubstantialStackHolders: undefined,
     businessOwnershipPercentage: Number(rawData.businessOwnershipPercentage)
   }
 }

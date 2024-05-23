@@ -13,7 +13,7 @@ export interface KYBInformation {
   loanApplicationId?: string
   businessLegalName: string
   businessStreetAddress: BusinessStreetAddress
-  businessWebsite: string
+  businessWebsite?: string
   businessTin: string
 }
 
@@ -51,7 +51,7 @@ export interface KYCInformation {
   dateOfBirth: string
   socialSecurityNumber: string
   businessOwnershipPercentage: number
-  hasOtherSubstantialStackHolders: boolean
+  hasOtherSubstantialStackHolders?: boolean
 }
 
 export interface KYCInformationResponse {

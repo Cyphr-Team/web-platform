@@ -215,7 +215,6 @@ export const BusinessInformationForm = () => {
             inputClassName="pl-16"
             prefix="https://"
             prefixIcon={<p className="text-text-secondary">https://</p>}
-            required
           />
         </form>
       </Form>

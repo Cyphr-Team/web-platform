@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, Controller } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -21,13 +21,6 @@ import {
   OwnerFormValue,
   ownerFormSchema
 } from "@/modules/loan-application/constants/form"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import { ArrowRight, Mail } from "lucide-react"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
@@ -376,40 +369,6 @@ export function OwnerInformationForm() {
                 )}
               />
               <div />
-              <Controller
-                control={form.control}
-                name="hasOtherSubstantialStackHolders"
-                render={({ field }) => (
-                  <FormItem className="col-span-6 lg:col-span-3">
-                    <FormLabel className="text-text-secondary">
-                      Other than you, are there any individuals who own 20% or
-                      more of the business?
-                      <RequiredSymbol />
-                    </FormLabel>
-                    <FormControl>
-                      <Select
-                        onValueChange={(value) =>
-                          field.onChange({ target: { value } })
-                        }
-                        value={field.value === "true" ? "true" : "false"}
-                      >
-                        <SelectTrigger className="text-base">
-                          <SelectValue placeholder="Please select..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="true">
-                            <span>Yes</span>
-                          </SelectItem>
-                          <SelectItem value="false">
-                            <span>No</span>
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </form>
             {(isKccBank() || isLoanReady()) && (
               <Button
