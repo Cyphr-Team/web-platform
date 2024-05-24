@@ -4,8 +4,14 @@ import { Client } from "persona"
 import { useCallback, useRef, useState } from "react"
 import { useCreateSmartKyc } from "./persona.client"
 
+interface IPersonaInquiryData {
+  inquiryId: string
+  status: string
+  fields: unknown
+}
+
 export const usePersona = () => {
-  const [isCompleted, setIsCompleted] = useState<boolean>(false)
+  const [completeData, setCompleteData] = useState<IPersonaInquiryData>()
 
   const personaClientRef = useRef<Client | null>()
 
@@ -17,8 +23,8 @@ export const usePersona = () => {
         environment: APP_CONFIGS.VITE_PERSONA_ENVIRONMENT,
         inquiryId,
         referenceId,
-        onComplete: () => {
-          setIsCompleted(true)
+        onComplete: (inquiryData) => {
+          setCompleteData(inquiryData)
         },
         onCancel: () => {
           console.warn("Client cancels persona")
@@ -53,5 +59,10 @@ export const usePersona = () => {
     }
   }, [createSmartKyc, storePersonaClient])
 
-  return { handleOpenPersona, isOpening: createSmartKyc.isPending, isCompleted }
+  return {
+    handleOpenPersona,
+    isOpening: createSmartKyc.isPending,
+    completeData: completeData,
+    isCompleted: !!completeData
+  }
 }

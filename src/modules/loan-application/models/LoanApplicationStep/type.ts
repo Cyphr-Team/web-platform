@@ -14,7 +14,8 @@ enum LOAN_APPLICATION_STEPS {
   CASH_FLOW_VERIFICATION = "cashFlowVerification",
   CURRENT_LOANS = "currentLoansForm",
   OPERATING_EXPENSES = "operatingExpensesForm",
-  CONFIRMATION = "confirmationForm"
+  CONFIRMATION = "confirmationForm",
+  IDENTITY_VERIFICATION = "identityVerificationForm"
 }
 
 enum STEP_MENU {

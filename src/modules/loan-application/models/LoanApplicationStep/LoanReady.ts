@@ -1,3 +1,4 @@
+import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { LoanApplicationStep, ILoanApplicationStepStrategy } from "./base"
 
 export class LoanReadyLoanApplicationStep
@@ -10,10 +11,13 @@ export class LoanReadyLoanApplicationStep
   }
 
   _buildSteps() {
-    return this._build_LoanRequestStep()
+    this._build_LoanRequestStep()
       ._build_BusinessInformationStep()
       ._build_OwnerInformationStep()
       ._build_CashFlowVerification()
-      ._build_ConfirmationStep()
+
+    if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
+
+    return this._build_ConfirmationStep()
   }
 }

@@ -140,6 +140,15 @@ export const operatingExpensesFormSchema = z.object({
     .min(0, { message: "This value is required" })
 })
 
+export const identityVerificationSchema = z.object({
+  inquiryId: z.string(),
+  status: z.string()
+})
+
+export type IdentityVerificationValue = z.infer<
+  typeof identityVerificationSchema
+>
+
 export type BusinessFormValue = z.infer<typeof businessFormSchema>
 
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>

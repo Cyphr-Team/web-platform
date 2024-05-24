@@ -1,4 +1,4 @@
-import { Button, ButtonLoading } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
   Form,
@@ -9,7 +9,6 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { usePersona } from "@/lib/persona/usePersona"
 import { cn } from "@/lib/utils"
 import { useTenant } from "@/providers/tenant-provider"
 import { TextInput } from "@/shared/organisms/form/TextInput"
@@ -22,15 +21,14 @@ import {
   confirmationFormSchema
 } from "../../constants/form"
 import {
+  LOAN_APPLICATION_STEPS,
+  LOAN_APPLICATION_STEP_STATUS
+} from "../../models/LoanApplicationStep/type"
+import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../../providers"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
-import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
-import {
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
-} from "../../models/LoanApplicationStep/type"
 
 export const ConfirmationForm = () => {
   const { dispatchFormAction } = useLoanApplicationFormContext()
@@ -67,11 +65,6 @@ export const ConfirmationForm = () => {
   const CONFIRMATION_TEXTS = getConfirmationTexts(
     tenant?.tenantData?.name ?? ""
   )
-
-  /**
-   * Persona Kyc
-   */
-  const { handleOpenPersona, isOpening, isCompleted } = usePersona()
 
   return (
     <Card
@@ -132,30 +125,15 @@ export const ConfirmationForm = () => {
           />
         </form>
 
-        {!isCompleted && isEnablePersonaKycV1() && (
-          <ButtonLoading
-            type="submit"
-            disabled={!form.formState.isValid || !isPreviousStepsCompleted}
-            className="w-full flex items-center gap-1"
-            onClick={handleOpenPersona}
-            isLoading={isOpening}
-          >
-            <span>Complete identity verification</span>
-            <ArrowRight className="w-5" />
-          </ButtonLoading>
-        )}
-
-        {(isCompleted || !isEnablePersonaKycV1()) && (
-          <Button
-            type="submit"
-            disabled={!form.formState.isValid || !isPreviousStepsCompleted}
-            className="w-full flex items-center gap-1"
-            onClick={form.handleSubmit(onSubmit)}
-          >
-            <span>Submit application</span>
-            <ArrowRight className="w-5" />
-          </Button>
-        )}
+        <Button
+          type="submit"
+          disabled={!form.formState.isValid || !isPreviousStepsCompleted}
+          className="w-full flex items-center gap-1"
+          onClick={form.handleSubmit(onSubmit)}
+        >
+          <span>Submit application</span>
+          <ArrowRight className="w-5" />
+        </Button>
       </Form>
     </Card>
   )

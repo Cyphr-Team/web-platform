@@ -5,6 +5,7 @@ import { CashFlowVerificationForm } from "../components/organisms/CashFlowVerifi
 import { ConfirmationForm } from "../components/organisms/ConfirmationForm"
 import { CurrentLoansForm } from "../components/organisms/CurrentLoansForm"
 import { FinancialInformationForm } from "../components/organisms/FinancialInformationForm"
+import { IdentityVerificationForm } from "../components/organisms/IdentityVerificationForm"
 import { OperatingExpensesForm } from "../components/organisms/OperatingExpensesForm"
 import { OwnerInformationForm } from "../components/organisms/OwnerInformationForm"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
@@ -31,6 +32,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <ConfirmationForm />
       case LOAN_APPLICATION_STEPS.OPERATING_EXPENSES:
         return <OperatingExpensesForm />
+      case LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION:
+        return <IdentityVerificationForm />
       default:
         return null
     }

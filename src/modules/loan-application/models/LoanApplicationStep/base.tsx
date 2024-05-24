@@ -131,6 +131,21 @@ export class LoanApplicationStep {
     return this
   }
 
+  _build_IdentityVerificationStep(): this {
+    this.#steps = [
+      ...this.#steps,
+      {
+        step: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION,
+        formType: null,
+        label: "Identity Verification",
+        parent: STEP_MENU.SIGNATURE,
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      }
+    ]
+
+    return this
+  }
+
   getSteps(): ILoanApplicationStep[] {
     return this.#steps
   }
