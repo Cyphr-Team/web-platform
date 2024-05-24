@@ -2,12 +2,12 @@ import { Button } from "@/components/ui/button"
 import { useConnectPlaid } from "../../../hooks/useConnectPlaid"
 import { ArrowRight, Check } from "lucide-react"
 import { useEffect } from "react"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface Props {
   disabled: boolean
@@ -23,11 +23,11 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
   useEffect(() => {
     if (
       linkSuccess &&
-      !getStepStatus(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+      !getStepStatus(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
     ) {
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
+        key: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
         state: {
           id: financialInformationForm?.id ?? "",
           incomeCategories: [],

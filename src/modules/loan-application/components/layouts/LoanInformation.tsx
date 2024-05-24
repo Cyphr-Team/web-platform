@@ -9,21 +9,19 @@ import { getBadgeVariantByStatus } from "@/modules/loan-application-management/s
 import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
 import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplication"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { LoanType } from "@/types/loan-program.type"
-import { isKccBank, isLoanReady } from "@/utils/domain.utils"
-import { useEffect, useMemo, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
+import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext,
   useLoanProgramDetailContext
 } from "../../providers"
 import { PlaidProvider } from "../../providers/PlaidProvider"
-import { getFormStrategy } from "../../services/form.services"
 import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { TopBarDetail } from "./TopBarDetail"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
+import { useGetFormByStep } from "../../hooks/useGetFormByStep"
 
 export const LoanInformationHeader = () => {
   const { loanProgramDetails, isLoading } = useLoanProgramDetailContext()
@@ -100,21 +98,10 @@ export const LoanInformationHeader = () => {
 
 export const Component = () => {
   const { step, percentComplete } = useLoanApplicationProgressContext()
-  const { loanProgramDetails } = useLoanProgramDetailContext()
+
   const { isSubmitting } = useLoanApplicationFormContext()
 
-  const getLoanType = () => {
-    if (isLoanReady()) {
-      return LoanType.READINESS
-    }
-    if (isKccBank()) {
-      return LoanType.LENDERS_FORUM
-    }
-    return loanProgramDetails?.type ?? LoanType.MICRO
-  }
-
-  const loanType = getLoanType()
-  const formStrategy = useMemo(() => getFormStrategy(loanType), [loanType])
+  const componentByStep = useGetFormByStep(step)
 
   /**
    * Implement scroll to top when navigate step
@@ -140,9 +127,7 @@ export const Component = () => {
         className="flex h-full overflow-auto flex-1 py-6 flex-col pt-10"
       >
         <LoadingOverlay isLoading={isSubmitting} className="flex-1">
-          <div className="grid grid-cols-8 w-full">
-            {formStrategy.getFormComponent(step)?.component}
-          </div>
+          <div className="grid grid-cols-8 w-full">{componentByStep}</div>
         </LoadingOverlay>
       </div>
     </PlaidProvider>

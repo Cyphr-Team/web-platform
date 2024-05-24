@@ -1,47 +1,49 @@
+import { APP_PATH } from "@/constants"
+import { loanApplicationUserKeys } from "@/constants/query-key"
+import { TOAST_MSG } from "@/constants/toastMsg"
+import { LoanType } from "@/types/loan-program.type"
+import { toastError, toastSuccess } from "@/utils"
+import { getAxiosError } from "@/utils/custom-error"
+import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
+import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { useQueryClient } from "@tanstack/react-query"
-import { toastError, toastSuccess } from "@/utils"
-import { getAxiosError } from "@/utils/custom-error"
-import { TOAST_MSG } from "@/constants/toastMsg"
+import {
+  BusinessFormValue,
+  ConfirmationFormValue,
+  CurrentLoansFormValue,
+  FinancialFormValue,
+  LoanRequestFormValue,
+  OperatingExpensesFormValue,
+  OwnerFormValue
+} from "../constants/form"
+import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
 import { useSubmitLoanConfirmationForm } from "../hooks/useForm/useSubmitLoanConfirmationForm"
 import { useSubmitLoanFinancialForm } from "../hooks/useForm/useSubmitLoanFinancialForm"
 import { useSubmitLoanKYBForm } from "../hooks/useForm/useSubmitLoanKYBForm"
 import { useSubmitLoanKYCForm } from "../hooks/useForm/useSubmitLoanKYCForm"
 import { useSubmitMicroLoanRequestForm } from "../hooks/useForm/useSubmitLoanRequest"
-import { LoanType } from "@/types/loan-program.type"
-import {
-  BusinessFormValue,
-  ConfirmationFormValue,
-  FinancialFormValue,
-  LoanRequestFormValue,
-  OwnerFormValue,
-  CurrentLoansFormValue,
-  OperatingExpensesFormValue
-} from "../constants/form"
-import { APP_PATH } from "@/constants"
-import { ApplicationStep, FORM_TYPE } from "../constants/type"
-import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
-import { loanApplicationUserKeys } from "@/constants/query-key"
-import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
-import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 import { useSubmitOperatingExpensesForm } from "../hooks/useForm/useSubmitOperatingExpensesForm"
+import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
 import {
-  LOAN_APPLICATION_STEP_STATUS,
-  LOAN_APPLICATION_STEPS
-} from "../constants"
+  FORM_TYPE,
+  ILoanApplicationStep,
+  LOAN_APPLICATION_STEPS,
+  LOAN_APPLICATION_STEP_STATUS
+} from "../models/LoanApplicationStep/type"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
-  progress: ApplicationStep[],
+  progress: ILoanApplicationStep[],
   loanRequestData: LoanRequestFormValue,
   businessData: BusinessFormValue,
   ownerData: OwnerFormValue,
   financialData: FinancialFormValue,
   currentLoansData: CurrentLoansFormValue,
   operatingExpensesData: OperatingExpensesFormValue,
-  confirmationData: ConfirmationFormValue
+  confirmationData: ConfirmationFormValue,
+  cashflowData: FinancialFormValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -61,6 +63,11 @@ export const useSubmitLoanForm = (
 
   const { submitLoanFinancialForm, isLoading: isSubmittingFinancial } =
     useSubmitLoanFinancialForm(financialData, financialData?.id ?? "")
+
+  const {
+    submitLoanFinancialForm: submitCashFlowForm,
+    isLoading: isSubmittingCashFlow
+  } = useSubmitLoanFinancialForm(cashflowData, cashflowData?.id ?? "")
 
   const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
     useSubmitCurrentLoansForm(currentLoansData)
@@ -168,7 +175,22 @@ export const useSubmitLoanForm = (
               FORM_TYPE.FINANCIAL
             )
           }
+        } else if (
+          cashflowData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+        ) {
+          const {
+            data: { id: financialFormId }
+          } = await submitCashFlowForm(loanRequestId)
+          if (cashflowData.w2sFile.length) {
+            await uploadDocuments(
+              financialFormId,
+              cashflowData.w2sFile,
+              FORM_TYPE.FINANCIAL
+            )
+          }
         }
+
         if (isEnableCashFlowV2()) {
           if (
             currentLoansData &&
@@ -227,10 +249,12 @@ export const useSubmitLoanForm = (
     submitLoanKYBForm,
     ownerData,
     financialData,
+    cashflowData,
     confirmationData,
     submitLoanKYCForm,
     uploadDocuments,
     submitLoanFinancialForm,
+    submitCashFlowForm,
     currentLoansData,
     operatingExpensesData,
     submitCurrentLoansForm,
@@ -243,6 +267,7 @@ export const useSubmitLoanForm = (
   return {
     submitLoanForm,
     isLoading:
+      isSubmittingCashFlow ||
       isSubmittingLoanRequest ||
       isSubmittingKYB ||
       isSubmittingKYC ||

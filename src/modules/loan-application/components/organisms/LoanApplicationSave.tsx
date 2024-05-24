@@ -1,14 +1,14 @@
 import { ButtonLoading } from "@/components/ui/button"
+import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../../providers"
-import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
+import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
 import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
-} from "../../constants"
-import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
+} from "../../models/LoanApplicationStep/type"
 
 export const LoanApplicationSave = () => {
   const { submitLoanForm, isSubmitting } = useLoanApplicationFormContext()
@@ -16,6 +16,7 @@ export const LoanApplicationSave = () => {
 
   const isCompleteLoanRequestForm =
     progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+
   const onConfirmed = () => {
     if (!isCompleteLoanRequestForm) {
       dispatchProgress({

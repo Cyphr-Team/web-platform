@@ -26,7 +26,6 @@ import {
   useLoanApplicationProgressContext
 } from "."
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
-import { LOAN_APPLICATION_STEPS } from "../constants"
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import {
   reverseFormatKybForm,
@@ -34,6 +33,7 @@ import {
 } from "../services/form.services"
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
 import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
+import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -143,6 +143,14 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
           w2sFile: []
         },
         LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+      )
+      changeDataAndProgress(
+        {
+          ...financialFormQuery.data,
+          incomeCategories: financialFormQuery.data.incomeCategories ?? [],
+          w2sFile: []
+        },
+        LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION
       )
     }
   }, [changeDataAndProgress, financialFormQuery.data])

@@ -28,7 +28,6 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
-import { LOAN_APPLICATION_STEPS } from "../../constants"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext,
@@ -41,6 +40,7 @@ import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
+import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 
 export function CardWithForm() {
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()

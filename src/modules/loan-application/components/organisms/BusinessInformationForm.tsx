@@ -15,7 +15,6 @@ import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../../providers"
-import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { BusinessFormValue, businessFormSchema } from "../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../hooks/useSelectCities"
@@ -28,6 +27,7 @@ import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { EIN_PATTERN } from "@/constants"
+import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 
 export const BusinessInformationForm = () => {
   const { finishCurrentStep } = useLoanApplicationProgressContext()

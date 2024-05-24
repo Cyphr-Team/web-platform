@@ -7,15 +7,16 @@ import {
 import { CircularProgress } from "@/components/ui/circular-progress"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import {
-  ARTCAP_MENU,
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
-} from "@/modules/loan-application/constants"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { Check } from "lucide-react"
 import { LogoHeader } from "../atoms/LogoHeader"
 import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
+import {
+  ILoanApplicationStep,
+  LOAN_APPLICATION_STEPS,
+  LOAN_APPLICATION_STEP_STATUS,
+  STEP_MENU
+} from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -23,21 +24,19 @@ export function LoanProgramItem({
   value,
   finished
 }: Readonly<{
-  value: LOAN_APPLICATION_STEPS
+  value: ILoanApplicationStep
   finished?: boolean
 }>) {
-  const { dispatchProgress, step, getStep } =
-    useLoanApplicationProgressContext()
+  const { dispatchProgress, step } = useLoanApplicationProgressContext()
 
-  const active = step === value
-  const label = getStep(value)?.label
+  const active = step === value.step
 
   //Only allow changing step if it's not active
   const handleChangeStep = () => {
     if (!active)
       dispatchProgress({
         type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
-        step: value
+        step: value.step
       })
   }
 
@@ -59,7 +58,7 @@ export function LoanProgramItem({
       >
         <Check className={cn("w-5 text-white", !finished && "hidden")} />
       </div>
-      {label}
+      {value.label}
     </li>
   )
 }
@@ -127,10 +126,10 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
         <Accordion
           type="multiple"
           className="w-full flex flex-col gap-2"
-          defaultValue={[ARTCAP_MENU.APPLICATION]}
+          defaultValue={[STEP_MENU.APPLICATION]}
         >
           <LoanProgramCollapsible
-            label={ARTCAP_MENU.APPLICATION}
+            label={STEP_MENU.APPLICATION}
             progressPercent={progressPercent / progressStepLength}
             progressText={progressText}
           >
@@ -141,7 +140,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
                   index !== progress.length - 1 && (
                     <LoanProgramItem
                       key={step.step}
-                      value={step.step}
+                      value={step}
                       finished={
                         step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
                       }
@@ -152,12 +151,12 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
           </LoanProgramCollapsible>
 
           <LoanProgramCollapsible
-            label={ARTCAP_MENU.SIGNATURE}
+            label={STEP_MENU.SIGNATURE}
             progressPercent={signatureStatus ? 1 : 0 / 1}
             progressText={`${signatureStatus ? 1 : 0 / 1}/1`}
           >
             <LoanProgramItem
-              value={confirmationStep?.step}
+              value={confirmationStep}
               finished={
                 confirmationStep?.status ===
                 LOAN_APPLICATION_STEP_STATUS.COMPLETE

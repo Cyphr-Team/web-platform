@@ -22,10 +22,10 @@ import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
 import { useEffect, useMemo, useState } from "react"
 import { toCurrency } from "@/utils"
 import { Input } from "@/components/ui/input"
+import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 
 type OperatingExpensesFieldDataType = {
   name:

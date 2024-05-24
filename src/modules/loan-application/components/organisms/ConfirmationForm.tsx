@@ -16,11 +16,7 @@ import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
-import {
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS,
-  getConfirmationTexts
-} from "../../constants"
+import { getConfirmationTexts } from "../../constants"
 import {
   ConfirmationFormValue,
   confirmationFormSchema
@@ -31,6 +27,10 @@ import {
 } from "../../providers"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
+import {
+  LOAN_APPLICATION_STEPS,
+  LOAN_APPLICATION_STEP_STATUS
+} from "../../models/LoanApplicationStep/type"
 
 export const ConfirmationForm = () => {
   const { dispatchFormAction } = useLoanApplicationFormContext()

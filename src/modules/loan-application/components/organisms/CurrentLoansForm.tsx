@@ -1,8 +1,5 @@
-import { cn } from "@/lib/utils"
-import {
-  useLoanApplicationFormContext,
-  useLoanApplicationProgressContext
-} from "../../providers"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -17,21 +14,24 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
+import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
+import _uniqueId from "lodash/uniqueId"
+import { ArrowRight, Plus } from "lucide-react"
+import { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import {
-  currentLoansFormSchema,
-  CurrentLoansFormValue
+  CurrentLoansFormValue,
+  currentLoansFormSchema
 } from "../../constants/form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Plus } from "lucide-react"
+import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "../../providers"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
-import { useEffect, useMemo } from "react"
 import { CurrentLoansFormItem } from "../molecules/CurrentLoansFormItem"
-import _uniqueId from "lodash/uniqueId"
 
 export const NEW_CURRENT_LOAN_PREFIX = "loan-add-item-"
 export const DELETE_CURRENT_LOAN_PREFIX = "loan-delete-item-"

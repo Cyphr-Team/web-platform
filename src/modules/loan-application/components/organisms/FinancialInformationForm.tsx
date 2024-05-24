@@ -18,7 +18,6 @@ import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../../providers"
-import { LOAN_APPLICATION_STEPS } from "../../constants"
 import { ConnectPlaidButton } from "../molecules/ConnectPlaidButton"
 import { FileUploadCard } from "../molecules/FileUploadCard"
 import { useQueryGetIncomeCategories } from "../../hooks/useQuery/useQueryIncomeCategories"
@@ -32,6 +31,7 @@ import {
   FORM_ACTION
 } from "../../providers/LoanApplicationFormProvider"
 import { useEffect } from "react"
+import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 
 export const FinancialInformationForm = () => {
   const { finishCurrentStep } = useLoanApplicationProgressContext()

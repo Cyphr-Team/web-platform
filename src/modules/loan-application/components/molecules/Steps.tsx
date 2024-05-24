@@ -1,4 +1,4 @@
-import { LOAN_APPLICATION_STEP_STATUS } from "../../constants"
+import { LOAN_APPLICATION_STEP_STATUS } from "../../models/LoanApplicationStep/type"
 import { Icons } from "../atoms/icon"
 import { cn } from "@/lib/utils"
 

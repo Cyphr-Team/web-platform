@@ -1,17 +1,15 @@
 import { Accordion } from "@/components/ui/accordion"
 import { cn } from "@/lib/utils"
-import {
-  ARTCAP_MENU,
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_DATA
-} from "@/modules/loan-application/constants"
+import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { Check } from "lucide-react"
 import { LogoHeader } from "../atoms/LogoHeader"
 import { LoanProgramCollapsible } from "./SideNavLoanApplication"
-import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
+import {
+  ILoanApplicationStep,
+  STEP_MENU
+} from "@/modules/loan-application/models/LoanApplicationStep/type"
 
-function LoanProgramItem({ value }: { value: LOAN_APPLICATION_STEPS }) {
-  const label = LOAN_APPLICATION_STEP_DATA[value]?.label
+function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
   return (
     <li className="flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer">
       <div
@@ -23,7 +21,7 @@ function LoanProgramItem({ value }: { value: LOAN_APPLICATION_STEPS }) {
       >
         <Check className="w-5 rounded-md bg-active text-text-senary" />
       </div>
-      {label}
+      {value.label}
     </li>
   )
 }
@@ -45,10 +43,10 @@ export function SideNavApplicationDetails() {
         <Accordion
           type="multiple"
           className="w-full flex flex-col gap-2"
-          defaultValue={[ARTCAP_MENU.APPLICATION]}
+          defaultValue={[STEP_MENU.APPLICATION]}
         >
           <LoanProgramCollapsible
-            label={ARTCAP_MENU.APPLICATION}
+            label={STEP_MENU.APPLICATION}
             progressText={`${lastStep}/${lastStep}`}
             progressPercent={1}
           >
@@ -57,18 +55,18 @@ export function SideNavApplicationDetails() {
               progress.map(
                 (step, index) =>
                   index !== lastStep && (
-                    <LoanProgramItem key={step.step} value={step.step} />
+                    <LoanProgramItem key={step.step} value={step} />
                   )
               )
             }
           </LoanProgramCollapsible>
 
           <LoanProgramCollapsible
-            label={ARTCAP_MENU.SIGNATURE}
+            label={STEP_MENU.SIGNATURE}
             progressText={`1/1`}
             progressPercent={1}
           >
-            <LoanProgramItem value={progress[lastStep]?.step} />
+            <LoanProgramItem value={progress[lastStep]} />
           </LoanProgramCollapsible>
         </Accordion>
       </div>

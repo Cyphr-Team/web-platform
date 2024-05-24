@@ -7,14 +7,26 @@ import { useTenant } from "@/providers/tenant-provider"
 import { isLoanReady } from "@/utils/domain.utils"
 
 import { useLoanApplicationProgressContext } from "../../providers"
-import { LOAN_APPLICATION_STEP_STATUS } from "../../constants"
 import { cn } from "@/lib/utils"
+import {
+  LOAN_APPLICATION_STEPS,
+  LOAN_APPLICATION_STEP_STATUS
+} from "../../models/LoanApplicationStep/type"
+
 export const CashFlowVerificationForm = () => {
   const { tenantData } = useTenant()
 
   const { progress } = useLoanApplicationProgressContext()
 
   const [isConfirmedConnect, setIsConfirmedConnect] = useState(false)
+
+  const isComplete = () => {
+    return (
+      progress.find(
+        (item) => item.step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+      )?.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+    )
+  }
 
   return (
     <Card
@@ -66,10 +78,7 @@ export const CashFlowVerificationForm = () => {
           <div className="flex gap-2 mt-1">
             <Checkbox
               className="w-5 h-5"
-              checked={
-                isConfirmedConnect ||
-                progress[3].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
-              }
+              checked={isConfirmedConnect || isComplete()}
               onCheckedChange={(value: boolean) => {
                 setIsConfirmedConnect(value)
               }}

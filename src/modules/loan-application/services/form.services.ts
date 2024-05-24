@@ -1,25 +1,9 @@
-import { LoanType } from "@/types/loan-program.type"
 import { BusinessFormValue, OwnerFormValue } from "../constants/form"
 import {
   KYBInformationResponse,
   KYCInformationResponse
 } from "../constants/type"
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
-import {
-  CyphrV2LoanFormStrategy,
-  LenderForumLoanFormStrategy,
-  MicroLoanFormStrategy,
-  ReadinessLoanFormStrategy
-} from "./form.strategy"
-
-import {
-  CyphrV2StepStrategy,
-  LenderForumStepStrategy,
-  MicroLoanStepStrategy,
-  ReadinessStepStrategy
-} from "./steps.strategy"
-import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
-import { isCyphrBank } from "@/utils/domain.utils.ts"
 
 export const formatKybForm = (rawData: BusinessFormValue) => {
   return {
@@ -81,35 +65,5 @@ export const reverseFormatKycForm = (
     businessOwnershipPercentage: rawData.businessOwnershipPercentage
       ? rawData.businessOwnershipPercentage.toString()
       : ""
-  }
-}
-
-export function getFormStrategy(loanType: LoanType) {
-  switch (loanType) {
-    case LoanType.MICRO:
-      return isEnableCashFlowV2() && isCyphrBank()
-        ? new CyphrV2LoanFormStrategy()
-        : new MicroLoanFormStrategy()
-    case LoanType.READINESS:
-      return new ReadinessLoanFormStrategy()
-    case LoanType.LENDERS_FORUM:
-      return new LenderForumLoanFormStrategy()
-    default:
-      throw new Error("Unsupported loan type")
-  }
-}
-
-export function getFormStepStrategy(loanType: LoanType) {
-  switch (loanType) {
-    case LoanType.MICRO:
-      return isEnableCashFlowV2() && isCyphrBank()
-        ? new CyphrV2StepStrategy()
-        : new MicroLoanStepStrategy()
-    case LoanType.READINESS:
-      return new ReadinessStepStrategy()
-    case LoanType.LENDERS_FORUM:
-      return new LenderForumStepStrategy()
-    default:
-      throw new Error("Unsupported loan type")
   }
 }

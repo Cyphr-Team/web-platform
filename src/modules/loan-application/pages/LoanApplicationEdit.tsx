@@ -1,7 +1,9 @@
+import { Progress } from "@/components/ui/progress"
+import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
-import { LoanType } from "@/types/loan-program.type"
 import { Loader2 } from "lucide-react"
-import { useEffect, useMemo, useRef } from "react"
+import { useEffect, useRef } from "react"
+import { useGetFormByStep } from "../hooks/useGetFormByStep"
 import {
   useBRLoanApplicationDetailsContext,
   useLoanApplicationFormContext,
@@ -9,28 +11,13 @@ import {
 } from "../providers"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
 import { PlaidProvider } from "../providers/PlaidProvider"
-import { getFormStrategy } from "../services/form.services"
-import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
-import { isKccBank, isLoanReady } from "@/utils/domain.utils"
-import { Progress } from "@/components/ui/progress"
 
 export const LoanApplicationEdit = () => {
-  const { isFetchingDetails, loanProgramDetails } =
-    useBRLoanApplicationDetailsContext()
+  const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
   const { step, percentComplete } = useLoanApplicationProgressContext()
   const { isSubmitting } = useLoanApplicationFormContext()
-  const getLoanType = () => {
-    if (isLoanReady()) {
-      return LoanType.READINESS
-    }
-    if (isKccBank()) {
-      return LoanType.LENDERS_FORUM
-    }
-    return loanProgramDetails?.type ?? LoanType.MICRO
-  }
+  const componentByStep = useGetFormByStep(step)
 
-  const loanType = getLoanType()
-  const formStrategy = useMemo(() => getFormStrategy(loanType), [loanType])
   /**
    * Implement scroll to top when navigate step
    */
@@ -61,9 +48,7 @@ export const LoanApplicationEdit = () => {
               className="flex h-full overflow-auto flex-1 py-6 flex-col pt-8"
             >
               <LoadingOverlay isLoading={isSubmitting}>
-                <div className="grid grid-cols-8 w-full">
-                  {formStrategy.getFormComponent(step)?.component}
-                </div>
+                <div className="grid grid-cols-8 w-full">{componentByStep}</div>
               </LoadingOverlay>
             </div>
           </LoanProgramDetailProvider>

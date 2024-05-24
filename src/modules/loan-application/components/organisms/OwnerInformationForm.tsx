@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -7,33 +9,32 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { MaskInput, toPattern } from "@/components/ui/mask-input"
+import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import {
-  useLoanApplicationFormContext,
-  useLoanApplicationProgressContext
-} from "@/modules/loan-application/providers"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/constants"
+import { SSN_PATTERN } from "@/constants"
+import { cn } from "@/lib/utils"
 import {
   OwnerFormValue,
   ownerFormSchema
 } from "@/modules/loan-application/constants/form"
-import { ArrowRight, Mail } from "lucide-react"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "@/modules/loan-application/providers"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { TextInput } from "@/shared/organisms/form/TextInput"
-import { useSelectCities } from "../../hooks/useSelectCities"
-import { useEffect, useCallback } from "react"
-import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
-import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ArrowRight, Mail } from "lucide-react"
+import { useCallback, useEffect } from "react"
+import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
-import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
-import { MaskInput, toPattern } from "@/components/ui/mask-input"
-import { SSN_PATTERN } from "@/constants"
-import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { cn } from "@/lib/utils"
+import { useSelectCities } from "../../hooks/useSelectCities"
+import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
+import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
+
+import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 
 export function OwnerInformationForm() {

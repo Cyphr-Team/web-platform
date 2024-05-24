@@ -1,29 +1,30 @@
+import { LoanType } from "@/types/loan-program.type"
 import { Dispatch, ReactNode, useMemo, useReducer } from "react"
-import { LOAN_APPLICATION_STEPS } from "../constants"
-import {
-  BusinessFormValue,
-  ConfirmationFormValue,
-  FinancialFormValue,
-  LoanRequestFormValue,
-  OwnerFormValue,
-  CurrentLoansFormValue,
-  OperatingExpensesFormValue
-} from "../constants/form"
-import { createContext } from "use-context-selector"
 import { useUpdateEffect } from "react-use"
-import { useSubmitLoanForm } from "../services/submit-form.strategy"
+import { createContext } from "use-context-selector"
 import {
   useLoanApplicationProgressContext,
   useLoanProgramDetailContext
 } from "."
-import { LoanType } from "@/types/loan-program.type"
+import {
+  BusinessFormValue,
+  ConfirmationFormValue,
+  CurrentLoansFormValue,
+  FinancialFormValue,
+  LoanRequestFormValue,
+  OperatingExpensesFormValue,
+  OwnerFormValue
+} from "../constants/form"
 import { DocumentUploadedResponse } from "../constants/type"
+import { useSubmitLoanForm } from "../services/submit-form.strategy"
+import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 
 type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: BusinessFormValue
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: OwnerFormValue
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: FinancialFormValue
+  [LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]: FinancialFormValue
   [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: CurrentLoansFormValue
   [LOAN_APPLICATION_STEPS.OPERATING_EXPENSES]: OperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: ConfirmationFormValue
@@ -162,7 +163,8 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     state[LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION],
     state[LOAN_APPLICATION_STEPS.CURRENT_LOANS],
     state[LOAN_APPLICATION_STEPS.OPERATING_EXPENSES],
-    state[LOAN_APPLICATION_STEPS.CONFIRMATION]
+    state[LOAN_APPLICATION_STEPS.CONFIRMATION],
+    state[LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]
   )
 
   //Trigger submit form when the confirmation form is submitted

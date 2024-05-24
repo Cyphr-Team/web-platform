@@ -1,6 +1,6 @@
-import { LoanType } from "@/types/loan-program.type"
+import { Institution } from "@/constants/tenant.constants"
 import { toPercent } from "@/utils"
-import { isKccBank, isLoanReady } from "@/utils/domain.utils"
+import { getSubdomain } from "@/utils/domain.utils"
 import {
   Dispatch,
   ReactNode,
@@ -10,31 +10,32 @@ import {
   useReducer
 } from "react"
 import { createContext } from "use-context-selector"
-import { useLoanProgramDetailContext } from "."
+import { LoanApplicationStepStrategy } from "../models/LoanApplicationStep"
 import {
+  ILoanApplicationStep,
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
-} from "../constants"
-import { ApplicationStep } from "../constants/type"
-import { getFormStepStrategy } from "../services/form.services"
+} from "../models/LoanApplicationStep/type"
 
 interface LoanApplicationStepsState {
   step: LOAN_APPLICATION_STEPS
-  progress: ApplicationStep[]
+  progress: ILoanApplicationStep[]
 }
 
 export enum LOAN_PROGRESS_ACTION {
   CHANGE_STEP = "CHANGE_STEP",
   CHANGE_PROGRESS = "CHANGE_PROGRESS",
-  INIT = "INIT"
+  INIT = "INIT",
+  NEXT_STEP = "NEXT_STEP"
 }
 
-type Action = StepAction | ProgressAction | InitAction
+type Action = StepAction | ProgressAction | InitAction | NextStepAction
 
-type InitAction = {
-  type: LOAN_PROGRESS_ACTION.INIT
-  progress: ApplicationStep[]
+type NextStepAction = {
+  type: LOAN_PROGRESS_ACTION.NEXT_STEP
 }
+
+type InitAction = { type: LOAN_PROGRESS_ACTION.INIT }
 
 type ProgressAction = {
   type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS
@@ -47,13 +48,14 @@ type StepAction = {
 }
 
 interface LoanApplicationStatusContext extends LoanApplicationStepsState {
-  dispatchProgress: Dispatch<Action>
-  finishCurrentStep: () => void
-  getStep: (step: string) => ApplicationStep | undefined
-  getStepStatus: (step: string) => boolean
-  steps: ApplicationStep[]
-  currentStep: ApplicationStep | undefined
+  getCurrentStepIndex: () => number
+  getCurrentStep: () => ILoanApplicationStep | undefined
+  progress: ILoanApplicationStep[]
+  step: LOAN_APPLICATION_STEPS
   percentComplete: number
+  dispatchProgress: Dispatch<Action>
+  getStepStatus: (step: string) => boolean
+  finishCurrentStep: () => void
 }
 
 const reducer = (
@@ -61,6 +63,15 @@ const reducer = (
   action: Action
 ): LoanApplicationStepsState => {
   switch (action.type) {
+    case LOAN_PROGRESS_ACTION.NEXT_STEP: {
+      const currentStepIndex = state.progress.findIndex(
+        (stepItem) => stepItem.step === state.step
+      )
+      const nextStepIndex =
+        currentStepIndex + 1 < state.progress.length ? currentStepIndex + 1 : 0
+
+      return { ...state, step: state.progress[nextStepIndex].step }
+    }
     case LOAN_PROGRESS_ACTION.CHANGE_STEP:
       return {
         ...state,
@@ -72,22 +83,19 @@ const reducer = (
           item.step === action.progress &&
           item.status !== LOAN_APPLICATION_STEP_STATUS.COMPLETE
         ) {
-          return {
-            ...item,
-            status: LOAN_APPLICATION_STEP_STATUS.COMPLETE
-          }
+          return { ...item, status: LOAN_APPLICATION_STEP_STATUS.COMPLETE }
         }
         return item
       })
-      return {
-        ...state,
-        progress: newProgress
-      }
+
+      return { ...state, progress: newProgress }
     }
     case LOAN_PROGRESS_ACTION.INIT:
       return {
         ...state,
-        progress: action.progress
+        progress: new LoanApplicationStepStrategy(getSubdomain() as Institution)
+          .getStrategy()
+          .getSteps()
       }
     default:
       return state
@@ -108,86 +116,71 @@ const { Provider } = LoanProgressContext
 export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
   props
 ) => {
-  const [state, dispatchProgress] = useReducer(reducer, initSteps)
-
-  const { loanProgramDetails } = useLoanProgramDetailContext()
-
-  const getLoanType = () => {
-    if (isLoanReady()) {
-      return LoanType.READINESS
-    }
-    if (isKccBank()) {
-      return LoanType.LENDERS_FORUM
-    }
-    return loanProgramDetails?.type ?? LoanType.MICRO
-  }
-
-  const steps = getFormStepStrategy(getLoanType())
+  const [{ progress, step }, dispatchProgress] = useReducer(reducer, initSteps)
 
   useEffect(() => {
-    if (state.progress.length === 0)
-      dispatchProgress({
-        type: LOAN_PROGRESS_ACTION.INIT,
-        progress: steps.getSteps()
-      })
-  }, [state.progress.length, steps])
-
-  const getStep = useCallback(
-    (step: string) => {
-      return steps.getStep(step)
-    },
-    [steps]
-  )
+    dispatchProgress({ type: LOAN_PROGRESS_ACTION.INIT })
+  }, [])
 
   const getStepStatus = useCallback(
     (step: string) => {
       return (
-        state.progress.find((item) => item.step === step)?.status ===
+        progress.find((item) => item.step === step)?.status ===
         LOAN_APPLICATION_STEP_STATUS.COMPLETE
       )
     },
-    [state.progress]
+    [progress]
   )
 
   const finishCurrentStep = useCallback(() => {
     dispatchProgress({
       type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
-      progress: state.step
+      progress: step
     })
-    const nextStep = steps.getStep(state.step)?.nextStep
-    if (nextStep) {
-      dispatchProgress({
-        type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
-        step: nextStep
-      })
-    }
-  }, [state.step, steps])
+    dispatchProgress({ type: LOAN_PROGRESS_ACTION.NEXT_STEP })
+  }, [step])
+
+  const getCurrentStepIndex = useCallback(() => {
+    return progress.findIndex((item) => item.step === step)
+  }, [progress, step])
+
+  const getCurrentStep = useCallback(() => {
+    return progress.find((item) => item.step === step)
+  }, [progress, step])
 
   /**
    * Calculate progress percent
    */
   const percentComplete = useMemo(() => {
-    if (!state.progress?.length) return 0
+    if (!progress?.length) return 0
 
     return toPercent(
-      state.progress.filter(
+      progress.filter(
         (step) => step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
-      ).length / state.progress.length
+      ).length / progress.length
     )
-  }, [state.progress])
+  }, [progress])
 
   const providerValues = useMemo(
     () => ({
-      ...state,
+      getCurrentStepIndex,
+      getCurrentStep,
+      progress,
+      step,
       percentComplete,
       dispatchProgress,
-      getStep,
       getStepStatus,
-      finishCurrentStep,
-      steps: steps.getSteps(),
-      currentStep: steps.getStep(state.step)
+      finishCurrentStep
     }),
-    [percentComplete, finishCurrentStep, getStep, getStepStatus, state, steps]
+    [
+      getCurrentStepIndex,
+      getCurrentStep,
+      percentComplete,
+      finishCurrentStep,
+      getStepStatus,
+      progress,
+      step
+    ]
   )
 
   return <Provider value={providerValues}>{props.children}</Provider>
