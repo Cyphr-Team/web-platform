@@ -24,7 +24,12 @@ import {
   CashFlowGlanceResponse
 } from "../constants/types/v2/cashflow.type"
 import { useQueryGetCashFlowGlance } from "../hooks/useQuery/cash-flow/v2/useQueryGetCashFlowGlance"
-import { isCapsight, isCyphrBank, isLoanReady } from "@/utils/domain.utils"
+import {
+  isCapsight,
+  isCyphrBank,
+  isKccBank,
+  isLoanReady
+} from "@/utils/domain.utils"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -189,7 +194,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     filters: {
       timeRangeFilter: newCashFlowFilter.timeRangeFilter
     },
-    enabledByInstitution: isCyphrBank() // TODO: should have an enum of institution having out-of-the-box UI
+    enabledByInstitution: isCyphrBank() || isKccBank() // TODO: should have an enum of institution having out-of-the-box UI
   })
 
   const onChangeNewTimeRangeFilter = useCallback(
