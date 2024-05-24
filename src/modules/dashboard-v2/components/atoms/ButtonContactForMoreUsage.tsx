@@ -14,7 +14,7 @@ export const ButtonContactForMoreUsage = ({
       className="px-0 h-7 text-text-secondary w-full flex justify-between text-xs"
       asChild
     >
-      <a href="mailto:support@tryforesight.io?subject=Contact%20Sales">
+      <a href="mailto:info@cyphrai.com?subject=Contact%20Sales">
         <span className="flex items-center">
           <Mail className="mr-0.5 h-4" />
           {content}

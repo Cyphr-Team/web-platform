@@ -29,7 +29,7 @@ export function UpdateInstitutionMetadata() {
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="e.g. help@tryforesight.io"
+                  placeholder="e.g. info@cyphrai.com"
                   className="text-base"
                   maxLength={63}
                   {...field}

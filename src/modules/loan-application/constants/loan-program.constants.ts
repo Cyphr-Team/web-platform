@@ -293,7 +293,7 @@ const LOAN_READINESS_PROGRAM: LoanProgramData = {
       "To get started, just click the 'Test My Readiness' button and fill out the form."
   },
   contact: {
-    mail: "support@tryforesight.io"
+    mail: "info@cyphrai.com"
   },
   loanPurposes: [
     { label: "Working Capital", value: "working_capital" },

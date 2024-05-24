@@ -76,7 +76,7 @@ const dashboardRoutes = (
       }
     />
 
-    {/* FORESIGHT ADMIN */}
+    {/* ADMIN DASHBOARD */}
     {adminRoutes}
   </Route>
 )

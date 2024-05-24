@@ -41,4 +41,4 @@ export function Component() {
   )
 }
 
-Component.displayName = "ForesightSubscriptionPage"
+Component.displayName = "SubscriptionPage"

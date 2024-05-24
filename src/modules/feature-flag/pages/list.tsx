@@ -51,4 +51,4 @@ export function Component() {
   )
 }
 
-Component.displayName = "ForesightFeatureFlagPage"
+Component.displayName = "FeatureFlagPage"

@@ -5,7 +5,7 @@ import { FeatureFlagsRenderer } from "@/shared/layouts/FeatureFlagRenderer"
 import { Route } from "react-router-dom"
 
 /**
- * Foresight admin routes ("/").
+ * Cyphr admin routes ("/").
  */
 const adminRoutes = (
   <Route path={APP_PATH.INDEX} lazy={() => import("@/modules/onboard/layout")}>

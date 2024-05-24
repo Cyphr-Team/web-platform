@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The main service for the project Foresight report
+The main service for the project Cyphr report
 
 ## Key Features
 

@@ -41,7 +41,7 @@ const SuccessMessage = () => {
       <p>
         Here is the link to their portal:{" "}
         <a
-          href={window.location.origin.replace("foresight", values.subdomain)}
+          href={getTenantDomain(values.subdomain)}
           className="text-blue-700 font-semibold underline"
           rel="noopener noreferrer"
           target="_blank"

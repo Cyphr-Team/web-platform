@@ -1,5 +1,5 @@
 /**
- * Get subdomain e.g. https://intrust-bank.tryforesight.link/, https://intrust-bank.portal.tryforesight.link/
+ * Get subdomain e.g. https://intrust-bank.cyphrai.link/, https://intrust-bank.portal.cyphrai.link/
  *                    http://intrust-bank.localhost:5173/login
  * @returns e.g. intrust-bank
  */
@@ -27,9 +27,13 @@ function getSubdomain(): string {
   }
 }
 
+/**
+ * When admin send invitation to institution's user, the baseUrl should be institution's baseURL
+ * So we need to change the subdomain from [admin].cyphrai.dev / [admin].cyphrai.com
+ */
 function getTenantDomain(subdomain: string) {
   try {
-    return window.location.origin.replace("foresight", subdomain)
+    return window.location.origin.replace("admin", subdomain)
   } catch {
     return ""
   }

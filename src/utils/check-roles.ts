@@ -19,7 +19,7 @@ const mapRoleToDisplay = (role: UserRoles) => {
     case UserRoles.LOAN_APPLICANT:
       return "Loan Applicant"
     case UserRoles.FORESIGHT_ADMIN:
-      return "Foresight Admin"
+      return "Cyphr Admin"
     default:
       return "Unknown"
   }

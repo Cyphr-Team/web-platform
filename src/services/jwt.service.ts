@@ -14,11 +14,11 @@ export const parseJwt = (token: string) => {
   }
 }
 
-const REFRESH_TOKEN_LS_KEY = "foresight-web-refresh_token"
-const USER_INFO_LS_KEY = "foresight-web-user_info"
+const REFRESH_TOKEN_LS_KEY = "cyphr-web-refresh_token"
+const USER_INFO_LS_KEY = "cyphr-web-user_info"
 
 export const inMemoryJWTManager = () => {
-  let logoutEventName = "foresight-web-logout"
+  let logoutEventName = "cyphr-web-logout"
   let inMemoryJWT: string | null = null
   let refreshToken: string
   let userInfo: UserInfo | null = null
