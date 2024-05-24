@@ -33,7 +33,7 @@ import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 export const ConfirmationForm = () => {
   const { dispatchFormAction } = useLoanApplicationFormContext()
 
-  const { progress } = useLoanApplicationProgressContext()
+  const { progress, finishCurrentStep } = useLoanApplicationProgressContext()
 
   const form = useForm<ConfirmationFormValue>({
     resolver: zodResolver(confirmationFormSchema),
@@ -50,6 +50,7 @@ export const ConfirmationForm = () => {
       state: data,
       key: LOAN_APPLICATION_STEPS.CONFIRMATION
     })
+    finishCurrentStep()
   }
 
   //check other progress completed

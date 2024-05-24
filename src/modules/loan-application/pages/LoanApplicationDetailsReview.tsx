@@ -4,7 +4,7 @@ import { SignatureDetails } from "../components/organisms/loan-application-detai
 import { DocumentationDetails } from "../components/organisms/loan-application-details/DocumentationDetails"
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
 import { Loader2 } from "lucide-react"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
 import { useBRLoanApplicationDetailsContext } from "../providers"
 
@@ -27,7 +27,7 @@ export const Component = () => {
           )}
         >
           <ApplicationDetails />
-          {!isLoanReady() && (
+          {!(isLoanReady() || isKccBank()) && (
             <>
               <Separator />
               <DocumentationDetails />

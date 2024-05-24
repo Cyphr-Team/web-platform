@@ -24,7 +24,7 @@ const Progress = React.forwardRef<
         "h-full w-full flex-1 bg-primary transition-all",
         indicatorClassName
       )}
-      data-percentvalue={`${value}%`}
+      data-percentvalue={value !== 100 ? `${value}%` : ""}
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
     />
   </ProgressPrimitive.Root>

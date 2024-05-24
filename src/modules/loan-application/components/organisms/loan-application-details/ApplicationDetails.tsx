@@ -40,7 +40,7 @@ export const ApplicationDetails = () => {
             </>
           )}
           <FinancialFormDetails />
-          {isLoanReady() && <CashFlowTable />}
+          {(isLoanReady() || isKccBank()) && <CashFlowTable />}
         </div>
       </div>
     </div>

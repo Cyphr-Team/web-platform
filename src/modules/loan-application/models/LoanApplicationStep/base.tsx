@@ -122,7 +122,7 @@ export class LoanApplicationStep {
       {
         step: LOAN_APPLICATION_STEPS.CONFIRMATION,
         formType: null,
-        label: "Review and Sign",
+        label: "Sign and Submit",
         parent: STEP_MENU.SIGNATURE,
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
       }

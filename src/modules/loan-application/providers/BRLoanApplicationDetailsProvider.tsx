@@ -194,6 +194,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       )
     }
   }, [changeDataAndProgress, loanApplicationDetailsQuery.data])
+  /**
+   * TODO: Add api get Persona inquiry for KYC data
+   */
 
   const value = useMemo(
     () => ({

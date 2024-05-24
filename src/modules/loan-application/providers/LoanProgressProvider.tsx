@@ -68,7 +68,9 @@ const reducer = (
         (stepItem) => stepItem.step === state.step
       )
       const nextStepIndex =
-        currentStepIndex + 1 < state.progress.length ? currentStepIndex + 1 : 0
+        currentStepIndex + 1 < state.progress.length ? currentStepIndex + 1 : -1
+
+      if (nextStepIndex === -1) return state
 
       return { ...state, step: state.progress[nextStepIndex].step }
     }

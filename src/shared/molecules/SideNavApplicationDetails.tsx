@@ -1,13 +1,22 @@
-import { Accordion } from "@/components/ui/accordion"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@/components/ui/accordion"
+import { CircularProgress } from "@/components/ui/circular-progress"
+import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
-import { Check } from "lucide-react"
-import { LogoHeader } from "../atoms/LogoHeader"
-import { LoanProgramCollapsible } from "./SideNavLoanApplication"
 import {
   ILoanApplicationStep,
-  STEP_MENU
+  LOAN_APPLICATION_STEPS,
+  LOAN_APPLICATION_STEP_STATUS
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
+import groupBy from "lodash.groupby"
+import { Check } from "lucide-react"
+import { useMemo } from "react"
+import { LogoHeader } from "../atoms/LogoHeader"
 
 function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
   return (
@@ -26,9 +35,66 @@ function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
   )
 }
 
+/**
+ * The different between [SideNavApplicationDetails] and [SideNavLoanApplication] is the completeStep condition
+ * Because in [BRLoanApplicationDetailsProvider]:
+ * - We dont update [confirmationForm] and the status for confirmation is [INCOMPLETE]
+ * - If we do, then we will trigger submit loan application from [LoanApplicationFormProvider]
+ */
+export function LoanProgramCollapsible({
+  label,
+  progress,
+  children
+}: React.PropsWithChildren<{
+  label: string
+  progress: ILoanApplicationStep[]
+}>) {
+  const completeStep = progress.filter(
+    (step) =>
+      step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE ||
+      step.step === LOAN_APPLICATION_STEPS.CONFIRMATION
+  ).length
+  const progressText = `${completeStep}/${progress.length.toString()}`
+
+  return (
+    <AccordionItem
+      value={label}
+      className="w-full bg-white rounded-lg shadow-md"
+    >
+      <AccordionTrigger
+        className="flex-row-reverse w-full px-4 py-2"
+        id={`parent-step-${label.toLowerCase()}`}
+      >
+        <div className="flex items-center justify-between flex-1 ml-3 font-semibold">
+          <div>{label}</div>
+          <div>
+            <CircularProgress
+              percent={completeStep / progress.length}
+              text={progressText}
+            />
+          </div>
+        </div>
+      </AccordionTrigger>
+      <AccordionContent className="pb-0">
+        <Separator />
+        <ul className="px-2 py-4 gap-1 flex flex-col">
+          {/* Render each step in the loan application */}
+          {children}
+        </ul>
+      </AccordionContent>
+    </AccordionItem>
+  )
+}
+
 export function SideNavApplicationDetails() {
   const { progress } = useLoanApplicationProgressContext()
-  const lastStep = progress?.length - 1
+
+  const menuGroupByParent = useMemo(() => {
+    return groupBy(progress, (x) => {
+      return x.parent
+    })
+  }, [progress])
+
   return (
     <div
       className={cn(
@@ -41,33 +107,22 @@ export function SideNavApplicationDetails() {
 
       <div className="px-xl flex-col flex-1 md:flex">
         <Accordion
+          key={progress.length}
           type="multiple"
           className="w-full flex flex-col gap-2"
-          defaultValue={[STEP_MENU.APPLICATION]}
+          defaultValue={Object.keys(menuGroupByParent)}
         >
-          <LoanProgramCollapsible
-            label={STEP_MENU.APPLICATION}
-            progressText={`${lastStep}/${lastStep}`}
-            progressPercent={1}
-          >
-            {
-              // Render each step in the loan application
-              progress.map(
-                (step, index) =>
-                  index !== lastStep && (
-                    <LoanProgramItem key={step.step} value={step} />
-                  )
-              )
-            }
-          </LoanProgramCollapsible>
-
-          <LoanProgramCollapsible
-            label={STEP_MENU.SIGNATURE}
-            progressText={`1/1`}
-            progressPercent={1}
-          >
-            <LoanProgramItem value={progress[lastStep]} />
-          </LoanProgramCollapsible>
+          {Object.keys(menuGroupByParent).map((parentMenu) => (
+            <LoanProgramCollapsible
+              key={parentMenu}
+              label={parentMenu}
+              progress={menuGroupByParent[parentMenu]}
+            >
+              {menuGroupByParent[parentMenu].map((step) => (
+                <LoanProgramItem key={step.step} value={step} />
+              ))}
+            </LoanProgramCollapsible>
+          ))}
         </Accordion>
       </div>
     </div>

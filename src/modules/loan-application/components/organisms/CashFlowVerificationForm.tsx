@@ -1,17 +1,16 @@
 import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { ConnectBankAccountsButton } from "../molecules/out-of-box/ConnectBankAccountsButton"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useState } from "react"
+import { Separator } from "@/components/ui/separator"
 import { useTenant } from "@/providers/tenant-provider"
-import { isLoanReady } from "@/utils/domain.utils"
+import { useState } from "react"
+import { ConnectBankAccountsButton } from "../molecules/out-of-box/ConnectBankAccountsButton"
 
-import { useLoanApplicationProgressContext } from "../../providers"
 import { cn } from "@/lib/utils"
 import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
 } from "../../models/LoanApplicationStep/type"
+import { useLoanApplicationProgressContext } from "../../providers"
 
 export const CashFlowVerificationForm = () => {
   const { tenantData } = useTenant()
@@ -64,15 +63,6 @@ export const CashFlowVerificationForm = () => {
             helping us determine the best loan option for your business needs.
           </p>
         </div>
-        {isLoanReady() && (
-          <div className="text-sm">
-            <em>
-              <span className="font-semibold">Note:</span> Some banks are not
-              currently available as options because we are still working with
-              them to establish secure connections.
-            </em>
-          </div>
-        )}
         <div className="flex flex-col gap-lg">
           <ConnectBankAccountsButton disabled={!isConfirmedConnect} />
           <div className="flex gap-2 mt-1">
