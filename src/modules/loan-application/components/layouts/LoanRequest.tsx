@@ -102,8 +102,11 @@ export function CardWithForm() {
         <CardDescription>
           Thank you for your interest in working with us.{` `}
           <span className="block">
-            What is the loan amount you are requesting? (Please note, the actual
-            loan amount you qualify for will be communicated by the lender.)
+            What is the loan amount you are requesting?
+          </span>
+          <span className="block mt-1">
+            (Please note, the actual loan amount you qualify for will be
+            communicated by the lender.)
           </span>
         </CardDescription>
       </CardHeader>

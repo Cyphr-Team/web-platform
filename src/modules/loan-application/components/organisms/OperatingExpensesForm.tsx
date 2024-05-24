@@ -217,11 +217,13 @@ export const OperatingExpensesForm = () => {
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
           <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
-            <h5 className="text-lg font-semibold">Operating Expenses</h5>
+            <h5 className="text-lg font-semibold">
+              Operating Expenses (monthly)
+            </h5>
             <p className="text-sm text-text-secondary font-medium">
               Operating Expenses are costs directly related to the day-to-day
               functioning of your business. Please specify the amount for the
-              expense categories below. For categories which don't apply, please
+              expense categories below. For categories which don’t apply, please
               leave them blank.
             </p>
             <p className="text-sm text-text-tertiary font-medium">
@@ -230,19 +232,19 @@ export const OperatingExpensesForm = () => {
               Losses, and Litigation Costs)
             </p>
             <Separator />
-            <form className="grid grid-cols-6 gap-y-8xl lg:gap-y-4xl mb-3">
+            <form className="grid grid-cols-6 gap-y-8xl xl:gap-y-4xl mb-3">
               {OPERATING_EXPENSES_FIELD_DATA.map((item) => (
                 <FormField
                   key={item.name}
                   control={form.control}
                   name={item.name}
                   render={({ field }) => (
-                    <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
+                    <FormItem className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
                       <FormLabel className="text-text-secondary">
-                        <p className="text-sm text-text-secondary font-medium">
+                        <p className="text-sm text-text-secondary font-semibold">
                           {item.title}
                         </p>
-                        <p className="text-sm text-text-tertiary font-medium leading-3">
+                        <p className="text-sm text-text-tertiary font-medium leading-4 mt-1">
                           {item.subtitle}
                         </p>
                       </FormLabel>
@@ -251,8 +253,13 @@ export const OperatingExpensesForm = () => {
                           {...field}
                           type={item.name}
                           placeholder="i.e: 5,000"
+                          suffixIcon={
+                            <span className="text-text-tertiary/75 -mt-4">
+                              / mo
+                            </span>
+                          }
                           min={0}
-                          className="text-base input-number-remove-arrow -mt-2 mb-2"
+                          className="text-base input-number-remove-arrow -mt-2 mb-2 ml-auto xl:max-w-80"
                           value={toCurrency(field.value, 0)}
                           onChange={(e) => {
                             const value =
@@ -278,11 +285,10 @@ export const OperatingExpensesForm = () => {
               ))}
             </form>
             <Separator />
-            <div className="container grid grid-cols-1 lg:grid-cols-2 justify-space-between p-0">
+            <div className="container grid grid-cols-1 xl:grid-cols-2 justify-space-between p-0">
               <p className="font-bold">TOTAL MONTHLY OPERATING EXPENSE</p>
-              <p className="font-bold lg:ml-auto lg:mr-0">
-                {toCurrency(Math.round(totalExpenses), 0)}
-                /mo
+              <p className="font-bold xl:ml-auto xl:mr-0">
+                {toCurrency(Math.round(totalExpenses), 0)}/ mo
               </p>
             </div>
           </Card>

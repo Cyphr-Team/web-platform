@@ -63,7 +63,7 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
             )}
           </FormLabel>
 
-          <FormControl className={`${isRowDirection && "lg:-mt-2"}`}>
+          <FormControl className={`${isRowDirection && "xl:-mt-4"}`}>
             <Input
               {...field}
               {...inputProps}

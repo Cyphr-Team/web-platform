@@ -47,8 +47,8 @@ export const CurrentLoansFormItem = ({
         subtitle="The financial institution providing the loan"
         name={`currentLoans[${index}].lenderName`}
         control={form.control}
-        className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10"
-        inputClassName="ml-auto max-w-80"
+        className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10"
+        inputClassName="xl:ml-auto xl:max-w-80"
         isRowDirection
         required
       />
@@ -58,8 +58,8 @@ export const CurrentLoansFormItem = ({
         subtitle="i.e: a term loan, revolving credit, etc."
         name={`currentLoans[${index}].loanType`}
         control={form.control}
-        className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10"
-        inputClassName="ml-auto max-w-80"
+        className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10"
+        inputClassName="xl:ml-auto xl:max-w-80"
         isRowDirection
         required
       />
@@ -67,7 +67,7 @@ export const CurrentLoansFormItem = ({
         control={form.control}
         name={`currentLoans[${index}].outstandingLoanBalance`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
+          <FormItem className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-semibold">
                 Outstanding loan balance
@@ -83,7 +83,7 @@ export const CurrentLoansFormItem = ({
                 type={`currentLoans[${index}].outstandingLoanBalance`}
                 placeholder="i.e: 55,000"
                 min={0}
-                className="text-base input-number-remove-arrow -mt-2 ml-auto max-w-80"
+                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
                 value={toCurrency(field.value, 0)}
                 required
                 onChange={(e) => {
@@ -109,7 +109,7 @@ export const CurrentLoansFormItem = ({
         control={form.control}
         name={`currentLoans[${index}].monthlyPaymentAmount`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-1 lg:grid-cols-2 gap-y-1 lg:gap-y-0 gap-x-2xl flex-auto lg:h-10">
+          <FormItem className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-semibold">
                 Monthly payment amount
@@ -125,7 +125,7 @@ export const CurrentLoansFormItem = ({
                 type={`currentLoans[${index}].monthlyPaymentAmount`}
                 placeholder="i.e: 5,000"
                 min={0}
-                className="text-base input-number-remove-arrow -mt-2 ml-auto max-w-80"
+                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
                 value={toCurrency(field.value, 0)}
                 required
                 onChange={(e) => {
@@ -151,7 +151,7 @@ export const CurrentLoansFormItem = ({
         control={form.control}
         name={`currentLoans[${index}].loanTermRemainingInMonths`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 lg:gap-y-0 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10">
+          <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 xl:gap-y-0 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10">
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-semibold">
                 Loan term remaining (in months)
@@ -166,7 +166,7 @@ export const CurrentLoansFormItem = ({
                 type={`currentLoans[${index}].loanTermRemainingInMonths`}
                 placeholder="i.e: 11"
                 min={0}
-                className="text-base input-number-remove-arrow -mt-2 ml-auto max-w-80"
+                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
                 suffixIcon={
                   <span className="text-text-tertiary -mt-2">months</span>
                 }
@@ -186,7 +186,7 @@ export const CurrentLoansFormItem = ({
         control={form.control}
         name={`currentLoans[${index}].annualInterestRate`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 lg:gap-y-0 lg:grid-cols-2 gap-x-2xl flex-auto lg:h-10">
+          <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 xl:gap-y-0 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10">
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-semibold">
                 Annual interest rate
@@ -201,7 +201,7 @@ export const CurrentLoansFormItem = ({
                 type="number"
                 placeholder="e.g 1.05"
                 max={100}
-                className="text-base input-number-remove-arrow -mt-2 ml-auto max-w-80"
+                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
                 onWheel={numberInputOnWheelPreventChange}
                 suffixIcon={<span className="text-text-tertiary -mt-2">%</span>}
                 required
