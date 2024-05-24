@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Dot } from "@/components/ui/dot"
@@ -125,29 +124,26 @@ export const ChangeApplicationStatusButton = () => {
           setIsSuccess={setIsSuccess}
         />
       ) : (
-        <div className="flex items-center">
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger>
-                <Badge
-                  isDot
-                  variant="soft"
-                  variantColor={getBadgeVariantByStatus(data)}
-                  className="capitalize px-4 py-2 relative"
-                >
-                  {textButton}
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent className="flex items-center gap-1">
-                <BadgeInfo className="w-5 text-blue-500" />
-                {getApplicationTipByStatus(
-                  data,
-                  !!loanApplicationDetails?.loanProgram?.deletedAt
-                )}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger color={getBadgeVariantByStatus(data)}>
+              <Button
+                variant="outline"
+                className="capitalize h-10 w-48 rounded-full relative justify-center text-sm"
+              >
+                <Dot variantColor={getBadgeVariantByStatus(data)} />
+                {textButton}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="flex items-center gap-1">
+              <BadgeInfo className="w-5 text-blue-500" />
+              {getApplicationTipByStatus(
+                data,
+                !!loanApplicationDetails?.loanProgram?.deletedAt
+              )}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )}
 
       <Dialog open={isSuccess} onOpenChange={setIsSuccess}>

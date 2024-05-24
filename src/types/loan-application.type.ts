@@ -8,7 +8,6 @@ import { MicroLoanProgramType, LoanType } from "./loan-program.type"
 enum LoanApplicationStatus {
   DRAFT = "DRAFT",
   SUBMITTED = "SUBMITTED",
-  PROCESSING = "PROCESSING",
   READY_FOR_REVIEW = "READY_FOR_REVIEW",
   IN_REVIEW = "IN_REVIEW",
   CANCELLED = "CANCELLED",
