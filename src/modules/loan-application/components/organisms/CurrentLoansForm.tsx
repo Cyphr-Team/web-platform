@@ -159,6 +159,19 @@ export const CurrentLoansForm = () => {
                     <FormControl>
                       <Select
                         onValueChange={(value) => {
+                          if (value == "false") {
+                            // Delete new records only - so that if user turns back to YES, the fetched data persists
+                            const updatedLoans = form
+                              .getValues()
+                              .currentLoans.filter(
+                                (item) =>
+                                  !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
+                              )
+                            form.reset({
+                              hasOutstandingLoans: "false",
+                              currentLoans: updatedLoans
+                            })
+                          }
                           field.onChange({ target: { value } })
                         }}
                         value={field.value}
