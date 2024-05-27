@@ -28,7 +28,10 @@ export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
       : []
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+    <Card
+      className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item"
+      id="current-loans"
+    >
       <h5 className="text-lg font-semibold">Current Loans</h5>
       {currentLoanForms.length == 0 ? (
         <span className="text-sm text-muted-foreground">No results</span>

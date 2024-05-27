@@ -25,8 +25,12 @@ import { OperatingExpensesFormDetails } from "@/modules/loan-application/compone
 import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary/CashflowGlance.tsx"
 
 export function Component() {
-  const { loanSummary, loanApplicationDetails } =
-    useLoanApplicationDetailContext()
+  const {
+    loanSummary,
+    loanApplicationDetails,
+    isFetchingCashflow,
+    isFetchingNewCashFlow
+  } = useLoanApplicationDetailContext()
 
   const applicationOverviewRef = useRef<HTMLDivElement>(null)
   const loanApplicationRef = useRef<HTMLDivElement>(null)
@@ -45,7 +49,11 @@ export function Component() {
   return (
     <div className="lg:flex gap-3xl w-full flex-col" id="loan-summary">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
-        <div ref={applicationOverviewRef} className="flex flex-col gap-3xl">
+        <div
+          id="application-overview"
+          ref={applicationOverviewRef}
+          className="flex flex-col gap-3xl"
+        >
           {!!loanApplicationDetails?.decision && (
             <div className="flex flex-col gap-2">
               <Badge
@@ -70,13 +78,22 @@ export function Component() {
           <div className="space-y-3xl">
             <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
               <p className="text-4xl font-semibold ">Application Overview</p>
-              <DownloadButton elementToExportRef={elementToExportRef} />
+              <DownloadButton
+                elementToExportRef={elementToExportRef}
+                disabled={isFetchingCashflow || isFetchingNewCashFlow}
+              />
             </div>
             <ApplicationOverview />
           </div>
         </div>
-        <div className="space-y-3xl flex flex-col" ref={loanApplicationRef}>
-          <p className="text-4xl font-semibold ">Loan Application</p>
+        <div
+          className="space-y-3xl flex flex-col"
+          id="loan-application"
+          ref={loanApplicationRef}
+        >
+          <p className="text-4xl font-semibold loan-application-header">
+            Loan Application
+          </p>
           <KybFormDetails kybFormData={loanSummary?.kybForm} />
           <KycFormDetails kycFormData={loanSummary?.kycForm} />
           <CurrentLoanFormDetails
@@ -94,6 +111,7 @@ export function Component() {
         <div className="space-y-3xl">
           <div
             className="flex flex-col space-y-3xl"
+            id="business-verification-p1"
             ref={businessVerificationRefP1}
           >
             <p className="text-4xl font-semibold ">Business Verification</p>
@@ -106,6 +124,7 @@ export function Component() {
 
           <div
             className="flex flex-col space-y-3xl"
+            id="business-verification-p2"
             ref={businessVerificationRefP2}
           >
             <People />
@@ -114,7 +133,11 @@ export function Component() {
           </div>
         </div>
 
-        <div className="flex flex-col space-y-3xl" ref={cashFlowReportRef}>
+        <div
+          className="flex flex-col space-y-3xl"
+          id="cash-flow-report"
+          ref={cashFlowReportRef}
+        >
           <p className="text-4xl font-semibold ">Cash Flow Report</p>
           <CashflowGlanceReport />
         </div>

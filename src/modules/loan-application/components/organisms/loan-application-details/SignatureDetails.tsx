@@ -22,7 +22,13 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
   )
 
   return (
-    <div className={cn("flex flex-col gap-2", "md:grid md:grid-cols-4")}>
+    <div
+      className={cn(
+        "flex flex-col gap-2",
+        "md:grid md:grid-cols-4",
+        "loan-application-item"
+      )}
+    >
       {hasTitle && (
         <div className="col-span-1">
           <div className="flex flex-col gap-4">
