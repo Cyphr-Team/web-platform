@@ -168,9 +168,9 @@ export function Component() {
     <div
       className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
     >
-      <h1 className="text-3xl font-semibold">Loan Applications</h1>
+      <h1 className="text-3xl font-semibold">Your Applications</h1>
       <p className="text-text-tertiary mt-1">
-        Keep track of your loan applications and their statues
+        Keep track of your applications and their statuses
       </p>
       <InfiniteDataTable
         columns={loanApplicationColumns}

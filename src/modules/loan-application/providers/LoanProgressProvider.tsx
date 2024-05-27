@@ -92,13 +92,22 @@ const reducer = (
 
       return { ...state, progress: newProgress }
     }
-    case LOAN_PROGRESS_ACTION.INIT:
-      return {
-        ...state,
-        progress: new LoanApplicationStepStrategy(getSubdomain() as Institution)
-          .getStrategy()
-          .getSteps()
+    case LOAN_PROGRESS_ACTION.INIT: {
+      // if data has been initialized -> no need to recreate
+      if (state.progress.length > 0) {
+        return state
+      } else {
+        // else create new form
+        return {
+          ...state,
+          progress: new LoanApplicationStepStrategy(
+            getSubdomain() as Institution
+          )
+            .getStrategy()
+            .getSteps()
+        }
       }
+    }
     default:
       return state
   }
