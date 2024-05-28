@@ -4,7 +4,10 @@ import { TOAST_MSG } from "@/constants/toastMsg"
 import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
-import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
+import {
+  isEnableCashFlowV2,
+  isEnablePersonaKycV1
+} from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { useCallback } from "react"
@@ -14,6 +17,7 @@ import {
   ConfirmationFormValue,
   CurrentLoansFormValue,
   FinancialFormValue,
+  IdentityVerificationValue,
   LoanRequestFormValue,
   OperatingExpensesFormValue,
   OwnerFormValue
@@ -32,6 +36,7 @@ import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
 } from "../models/LoanApplicationStep/type"
+import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -43,14 +48,24 @@ export const useSubmitLoanForm = (
   currentLoansData: CurrentLoansFormValue,
   operatingExpensesData: OperatingExpensesFormValue,
   confirmationData: ConfirmationFormValue,
-  cashflowData: FinancialFormValue
+  cashflowData: FinancialFormValue,
+  identityVerificationData: IdentityVerificationValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { loanProgramId } = useParams()
 
+  /**
+   * Mutate action for submitting Persona's inquiry KYC
+   */
+  const {
+    submitLoanIdentityVerification,
+    isLoading: isSubmittingIdentityVerification
+  } = useSubmitLoanIdentityVerification(identityVerificationData)
+
   const { submitLoanKYBForm, isLoading: isSubmittingKYB } =
     useSubmitLoanKYBForm(businessData, businessData?.id ?? "")
+
   const { submitLoanKYCForm, isLoading: isSubmittingKYC } =
     useSubmitLoanKYCForm(ownerData, ownerData?.id ?? "")
 
@@ -140,6 +155,15 @@ export const useSubmitLoanForm = (
         data: { id: loanRequestId }
       } = await submitLoanRequestForm()
       let isSubmitted = false
+
+      /**
+       * Submit identity verification - Link inquiry id
+       * Note: Always handle before submit loan confirmation
+       */
+      if (identityVerificationData?.inquiryId && isEnablePersonaKycV1()) {
+        await submitLoanIdentityVerification(loanRequestId)
+      }
+
       if (loanType === LoanType.MICRO) {
         if (
           businessData &&
@@ -241,9 +265,11 @@ export const useSubmitLoanForm = (
     }
   }, [
     submitLoanRequestForm,
+    identityVerificationData?.inquiryId,
     loanType,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
+    submitLoanIdentityVerification,
     businessData,
     isCompleteSteps,
     submitLoanKYBForm,
@@ -275,6 +301,7 @@ export const useSubmitLoanForm = (
       isSubmittingCurrentLoans ||
       isSubmittingOperatingExpenses ||
       isSubmittingConfirmation ||
-      isUploading
+      isUploading ||
+      isSubmittingIdentityVerification
   }
 }

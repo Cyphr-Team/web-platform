@@ -182,7 +182,8 @@ export const API_PATH = {
     deleteDocuments: "api/form/document/delete",
     getIncomeCategories: "api/form/financial/income-categories",
     getCashflowVerification: (id: string) =>
-      `api/user-loan/application/${id}/cash-flow`
+      `api/user-loan/application/${id}/cash-flow`,
+    linkInquiry: "api/form/smart-kyc/inquiry/link"
   },
   // For loan officer
   loanApplication: {
