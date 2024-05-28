@@ -110,14 +110,18 @@ export const DownloadButton = ({
     }
   }
 
-  const processContent = async (doc: jsPDF, content: HTMLElement) => {
+  const processContent = async (
+    doc: jsPDF,
+    content: HTMLElement,
+    addPage = true
+  ) => {
     const clonedContent = content.cloneNode(true) as HTMLElement
     document.body.appendChild(clonedContent)
 
     adjustFontSize(clonedContent)
     await addContentToPdf(doc, clonedContent)
     // Add a new page for the next image
-    doc.addPage()
+    if (addPage) doc.addPage()
     // Remove the cloned content
     clonedContent.remove()
   }
@@ -145,7 +149,7 @@ export const DownloadButton = ({
 
         for (const section of miniSections) {
           if (section.id == "current-loans" && section.children.length > 2) {
-            const MAX_LOANS_PER_PAGE = 6
+            const MAX_LOANS_PER_PAGE = 4
             for (
               let i = 0;
               i < section.children.length;
@@ -183,6 +187,7 @@ export const DownloadButton = ({
             }
           } else {
             const clonedContent = document.createElement("div")
+            clonedContent.classList.add("space-y-3xl")
             if (!isHeaderPrinted) {
               clonedContent.appendChild(header.cloneNode(true))
               isHeaderPrinted = true
@@ -198,6 +203,8 @@ export const DownloadButton = ({
             }
           }
         }
+      } else if (elementToExportRef[elementToExportRef.length - 1] == ref) {
+        await processContent(doc, content, false)
       } else {
         await processContent(doc, content)
       }

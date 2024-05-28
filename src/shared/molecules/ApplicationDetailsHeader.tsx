@@ -67,10 +67,10 @@ export const ApplicationDetailsHeader = () => {
           <CloseWithoutSave />
           <CustomAlertDialog
             onConfirmed={onConfirmed}
-            title="Save & Close"
+            title="Save & Close?"
             cancelText="Cancel"
             confirmText="Save & Close"
-            description="Are you sure you want to save and close this loan application"
+            description="Are you sure you want to save and close this loan application?"
           >
             <ButtonLoading variant="outline" isLoading={isSubmitting}>
               Save & Close

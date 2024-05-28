@@ -28,7 +28,7 @@ export const LoanApplicationSave = () => {
     }
   }
 
-  const confirmText = isCompleteLoanRequestForm ? "Save & Close?" : "Go to form"
+  const confirmText = isCompleteLoanRequestForm ? "Save & Close" : "Go to form"
 
   const description = isCompleteLoanRequestForm
     ? `Are you sure you want to save and close this application?`
@@ -37,7 +37,7 @@ export const LoanApplicationSave = () => {
   return (
     <CustomAlertDialog
       onConfirmed={onConfirmed}
-      title="Save & Close"
+      title="Save & Close?"
       cancelText="Cancel"
       confirmText={confirmText}
       description={description}
