@@ -30,6 +30,9 @@ import {
   isKccBank,
   isLoanReady
 } from "@/utils/domain.utils"
+import { TimeRangeValue } from "@/types/time-range.type.ts"
+import { getTimeRangeDates } from "@/utils/time-range.utils.ts"
+import { format } from "date-fns"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -181,8 +184,14 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   // New Cash Flow 2.0
   const newDefaultFilters = {
     timeRangeFilter: {
-      from: null,
-      to: null
+      from: format(
+        getTimeRangeDates(TimeRangeValue.LAST_3_MONTHS).from,
+        "yyyy-MM-dd"
+      ),
+      to: format(
+        getTimeRangeDates(TimeRangeValue.LAST_3_MONTHS).to,
+        "yyyy-MM-dd"
+      )
     },
     frequency: GRAPH_FREQUENCY.MONTHLY
   }
