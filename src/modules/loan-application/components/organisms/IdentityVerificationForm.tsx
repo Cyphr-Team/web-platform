@@ -61,10 +61,15 @@ export const IdentityVerificationForm = () => {
 
   const defaultValues: IdentityVerificationValue = useMemo(() => {
     return {
+      smartKycId: identityVerificationForm?.smartKycId,
       inquiryId: identityVerificationForm?.inquiryId,
       status: identityVerificationForm?.status
     }
-  }, [identityVerificationForm?.inquiryId, identityVerificationForm?.status])
+  }, [
+    identityVerificationForm?.inquiryId,
+    identityVerificationForm?.smartKycId,
+    identityVerificationForm?.status
+  ])
 
   const form = useForm<IdentityVerificationValue>({
     resolver: zodResolver(identityVerificationSchema),

@@ -36,7 +36,8 @@ export const LoanInformationHeader = () => {
     getStepStatus(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION) ||
     getStepStatus(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES) ||
     getStepStatus(LOAN_APPLICATION_STEPS.OWNER_INFORMATION) ||
-    getStepStatus(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+    getStepStatus(LOAN_APPLICATION_STEPS.LOAN_REQUEST) ||
+    getStepStatus(LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
 
   const backToLoanProgram = () => {
     navigate(

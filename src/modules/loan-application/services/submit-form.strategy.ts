@@ -161,7 +161,10 @@ export const useSubmitLoanForm = (
        * Note: Always handle before submit loan confirmation
        */
       if (identityVerificationData?.inquiryId && isEnablePersonaKycV1()) {
-        await submitLoanIdentityVerification(loanRequestId)
+        // Only handle if this application haven't linked before - 1 application only link once
+        if (!identityVerificationData?.smartKycId) {
+          await submitLoanIdentityVerification(loanRequestId)
+        }
       }
 
       if (loanType === LoanType.MICRO) {
@@ -256,6 +259,9 @@ export const useSubmitLoanForm = (
         isSubmitted,
         loanRequestId
       )
+      queryClient.invalidateQueries({
+        queryKey: loanApplicationUserKeys.detail(loanRequestId)
+      })
     } catch (error) {
       handleSubmitFormError(error as AxiosError)
     } finally {
@@ -266,6 +272,7 @@ export const useSubmitLoanForm = (
   }, [
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
+    identityVerificationData?.smartKycId,
     loanType,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,

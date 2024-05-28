@@ -183,7 +183,8 @@ export const API_PATH = {
     getIncomeCategories: "api/form/financial/income-categories",
     getCashflowVerification: (id: string) =>
       `api/user-loan/application/${id}/cash-flow`,
-    linkInquiry: "api/form/smart-kyc/inquiry/link"
+    linkInquiry: "api/form/smart-kyc/inquiry/link",
+    getInquiry: "api/form/smart-kyc/inquiry/by-application-id"
   },
   // For loan officer
   loanApplication: {

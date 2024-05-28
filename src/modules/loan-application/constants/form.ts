@@ -141,6 +141,7 @@ export const operatingExpensesFormSchema = z.object({
 })
 
 export const identityVerificationSchema = z.object({
+  smartKycId: z.string().optional(),
   inquiryId: z.string(),
   status: z.string()
 })

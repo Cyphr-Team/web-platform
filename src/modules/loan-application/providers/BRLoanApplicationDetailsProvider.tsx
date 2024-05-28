@@ -34,6 +34,7 @@ import {
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
 import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import { useQueryGetIdentityVerification } from "../hooks/useQuery/useQueryGetIdentityVerification"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -82,6 +83,13 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   )
   const loanProgramInfo = useGetLoanProgramDetail(
     loanProgramQuery.data?.type ?? ""
+  )
+
+  /**
+   * Return the persona inquiry verification status for the loan application
+   */
+  const identityVerificationQuery = useQueryGetIdentityVerification(
+    loanApplicationId!
   )
 
   const kybFormQuery = useQueryGetKybForm(loanApplicationId!)
@@ -194,9 +202,30 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       )
     }
   }, [changeDataAndProgress, loanApplicationDetailsQuery.data])
+
   /**
-   * TODO: Add api get Persona inquiry for KYC data
+   * Handle update identity verification data when edit draft application
    */
+  useEffect(() => {
+    if (
+      identityVerificationQuery.data?.inquiryId &&
+      identityVerificationQuery.data?.personaStatus
+    ) {
+      changeDataAndProgress(
+        {
+          smartKycId: identityVerificationQuery.data?.id,
+          inquiryId: identityVerificationQuery.data.inquiryId,
+          status: identityVerificationQuery.data.personaStatus?.toLowerCase()
+        },
+        LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    identityVerificationQuery.data?.id,
+    identityVerificationQuery.data?.inquiryId,
+    identityVerificationQuery.data?.personaStatus
+  ])
 
   const value = useMemo(
     () => ({

@@ -17,4 +17,4 @@ interface ILinkInquiryResponse {
   data?: ILinkInquiryData
 }
 
-export type { ILinkInquiryResponse }
+export type { ILinkInquiryResponse, ILinkInquiryData }
