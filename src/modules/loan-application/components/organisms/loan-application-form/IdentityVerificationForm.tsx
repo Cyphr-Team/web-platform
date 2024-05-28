@@ -19,13 +19,13 @@ import { useForm } from "react-hook-form"
 import {
   IdentityVerificationValue,
   identityVerificationSchema
-} from "../../constants/form"
-import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
+} from "../../../constants/form"
+import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../providers"
-import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
+} from "../../../providers"
+import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 
 const VerifyInfoItem = ({
   leftIcon,

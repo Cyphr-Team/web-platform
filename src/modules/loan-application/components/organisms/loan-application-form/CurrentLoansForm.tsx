@@ -24,14 +24,14 @@ import { Controller, useForm } from "react-hook-form"
 import {
   CurrentLoansFormValue,
   currentLoansFormSchema
-} from "../../constants/form"
-import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
+} from "../../../constants/form"
+import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../providers"
-import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
-import { CurrentLoansFormItem } from "../molecules/CurrentLoansFormItem"
+} from "../../../providers"
+import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
+import { CurrentLoansFormItem } from "../../molecules/CurrentLoansFormItem"
 
 export const NEW_CURRENT_LOAN_PREFIX = "loan-add-item-"
 export const DELETE_CURRENT_LOAN_PREFIX = "loan-delete-item-"
@@ -133,7 +133,7 @@ export const CurrentLoansForm = () => {
     <div
       className={cn(
         "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-0"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
     >
       <div className="flex flex-col gap-3xl overflow-auto">

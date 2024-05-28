@@ -94,7 +94,8 @@ export function CardWithForm() {
     <Card
       className={cn(
         "rounded-xl mx-6 col-span-8",
-        "md:col-span-4 md:col-start-3 md:m-0"
+        "md:col-span-4 md:col-start-3 md:mx-auto",
+        "max-w-lg"
       )}
     >
       <CardHeader className="text-center">
@@ -104,7 +105,7 @@ export function CardWithForm() {
           <span className="block">
             What is the loan amount you are requesting?
           </span>
-          <span className="block mt-1">
+          <span className="block mt-1 italic">
             (Please note, the actual loan amount you qualify for will be
             communicated by the lender.)
           </span>

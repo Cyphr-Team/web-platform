@@ -15,20 +15,20 @@ import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { getConfirmationTexts } from "../../constants"
+import { getConfirmationTexts } from "../../../constants"
 import {
   ConfirmationFormValue,
   confirmationFormSchema
-} from "../../constants/form"
+} from "../../../constants/form"
 import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
-} from "../../models/LoanApplicationStep/type"
+} from "../../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../providers"
-import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
+} from "../../../providers"
+import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 
 export const ConfirmationForm = () => {
   const { dispatchFormAction } = useLoanApplicationFormContext()

@@ -24,13 +24,13 @@ export const DocumentationDetails = () => {
   const { kycDocuments, financialDocuments } =
     useBRLoanApplicationDetailsContext()
   return (
-    <div className="grid grid-cols-4 ">
+    <div className="grid grid-cols-4">
       <div className="col-span-1">
         <div className="flex flex-col gap-4">
           <h3 className="text-2xl font-semibold">Documentation</h3>
         </div>
       </div>
-      <div className="col-span-3 gap-2xl flex flex-col">
+      <div className="col-span-3 gap-2xl flex flex-col max-w-screen-sm">
         {!!kycDocuments?.length && (
           <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
             <h5 className="text-lg font-semibold">Government ID</h5>

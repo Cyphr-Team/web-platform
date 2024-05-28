@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../providers"
+} from "../../../providers"
 import {
   Form,
   FormControl,
@@ -15,17 +15,17 @@ import { useForm } from "react-hook-form"
 import {
   operatingExpensesFormSchema,
   OperatingExpensesFormValue
-} from "../../constants/form"
+} from "../../../constants/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
+import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 import { useEffect, useMemo, useState } from "react"
 import { toCurrency } from "@/utils"
 import { Input } from "@/components/ui/input"
-import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
+import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 
 type OperatingExpensesFieldDataType = {
   name:
@@ -211,7 +211,7 @@ export const OperatingExpensesForm = () => {
     <div
       className={cn(
         "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-0"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
     >
       <div className="flex flex-col gap-3xl overflow-auto">

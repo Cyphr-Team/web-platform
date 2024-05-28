@@ -3,14 +3,14 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { useTenant } from "@/providers/tenant-provider"
 import { useState } from "react"
-import { ConnectBankAccountsButton } from "../molecules/out-of-box/ConnectBankAccountsButton"
+import { ConnectBankAccountsButton } from "../../molecules/out-of-box/ConnectBankAccountsButton"
 
 import { cn } from "@/lib/utils"
 import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
-} from "../../models/LoanApplicationStep/type"
-import { useLoanApplicationProgressContext } from "../../providers"
+} from "../../../models/LoanApplicationStep/type"
+import { useLoanApplicationProgressContext } from "../../../providers"
 
 export const CashFlowVerificationForm = () => {
   const { tenantData } = useTenant()
@@ -31,7 +31,7 @@ export const CashFlowVerificationForm = () => {
     <Card
       className={cn(
         "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-0"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
     >
       <h5 className="text-lg font-semibold">Cash Flow Verification</h5>

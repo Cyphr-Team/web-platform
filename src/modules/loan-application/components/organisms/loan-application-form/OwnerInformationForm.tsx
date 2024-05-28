@@ -30,12 +30,12 @@ import { ArrowRight, Mail } from "lucide-react"
 import { useCallback, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
-import { useSelectCities } from "../../hooks/useSelectCities"
-import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
-import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
+import { useSelectCities } from "../../../hooks/useSelectCities"
+import { AutoCompleteCities } from "../../molecules/AutoCompleteCities"
+import { AutoCompleteStates } from "../../molecules/AutoCompleteStates"
 
-import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
-import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
+import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
+import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 
 export function OwnerInformationForm() {
   const { finishCurrentStep } = useLoanApplicationProgressContext()
@@ -138,7 +138,7 @@ export function OwnerInformationForm() {
     <div
       className={cn(
         "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-0"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
     >
       <div className="flex flex-col gap-3xl overflow-auto">
@@ -260,7 +260,7 @@ export function OwnerInformationForm() {
                       onSelectDate={handleSelectDate}
                       className="w-full"
                     />
-                    <div className="text-sm text-text-tertiary">
+                    <div className="text-xs text-text-tertiary">
                       The US date format is mm-dd-yyyy
                     </div>
                     <FormMessage />
@@ -318,7 +318,7 @@ export function OwnerInformationForm() {
                         }}
                       />
                     </FormControl>
-                    <div className="text-sm text-text-tertiary">
+                    <div className="text-xs text-text-tertiary">
                       Please enter a number between 0 - 100
                     </div>
                     <FormMessage />

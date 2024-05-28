@@ -11,27 +11,30 @@ import { Separator } from "@/components/ui/separator"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useForm } from "react-hook-form"
-import { FinancialFormValue, financialFormSchema } from "../../constants/form"
+import {
+  FinancialFormValue,
+  financialFormSchema
+} from "../../../constants/form"
 import { Button } from "@/components/ui/button"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../providers"
-import { ConnectPlaidButton } from "../molecules/ConnectPlaidButton"
-import { FileUploadCard } from "../molecules/FileUploadCard"
-import { useQueryGetIncomeCategories } from "../../hooks/useQuery/useQueryIncomeCategories"
+} from "../../../providers"
+import { ConnectPlaidButton } from "../../molecules/ConnectPlaidButton"
+import { FileUploadCard } from "../../molecules/FileUploadCard"
+import { useQueryGetIncomeCategories } from "../../../hooks/useQuery/useQueryIncomeCategories"
 import { capitalizeWords } from "@/utils"
 import { ArrowRight, Loader2 } from "lucide-react"
-import { FileUploadedCard } from "../molecules/FileUploadedCard"
+import { FileUploadedCard } from "../../molecules/FileUploadedCard"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
 import {
   DOCUMENT_ACTION,
   FORM_ACTION
-} from "../../providers/LoanApplicationFormProvider"
+} from "../../../providers/LoanApplicationFormProvider"
 import { useEffect } from "react"
-import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
+import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 
 export const FinancialInformationForm = () => {
   const { finishCurrentStep } = useLoanApplicationProgressContext()

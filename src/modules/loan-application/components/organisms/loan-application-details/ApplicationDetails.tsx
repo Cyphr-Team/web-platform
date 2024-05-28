@@ -24,7 +24,7 @@ export const ApplicationDetails = () => {
           <h3 className="text-2xl font-semibold">Application</h3>
         </div>
       </div>
-      <div className="col-span-3">
+      <div className="col-span-3 max-w-screen-sm">
         <div className="flex flex-col gap-4">
           <LoanRequestDetails />
           <KybFormDetails kybFormData={kybFormData} />

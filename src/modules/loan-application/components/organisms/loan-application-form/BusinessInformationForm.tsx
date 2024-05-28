@@ -14,20 +14,20 @@ import { Card } from "@/components/ui/card"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../providers"
-import { BusinessFormValue, businessFormSchema } from "../../constants/form"
+} from "../../../providers"
+import { BusinessFormValue, businessFormSchema } from "../../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
-import { useSelectCities } from "../../hooks/useSelectCities"
+import { useSelectCities } from "../../../hooks/useSelectCities"
 import { useCallback, useEffect } from "react"
-import { AutoCompleteStates } from "../molecules/AutoCompleteStates"
-import { AutoCompleteCities } from "../molecules/AutoCompleteCities"
+import { AutoCompleteStates } from "../../molecules/AutoCompleteStates"
+import { AutoCompleteCities } from "../../molecules/AutoCompleteCities"
 import { MaskInput, revertPattern, toPattern } from "@/components/ui/mask-input"
 import { ArrowRight } from "lucide-react"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
-import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
+import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 import { EIN_PATTERN } from "@/constants"
-import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
+import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 
 export const BusinessInformationForm = () => {
   const { finishCurrentStep } = useLoanApplicationProgressContext()
@@ -120,7 +120,7 @@ export const BusinessInformationForm = () => {
     <Card
       className={cn(
         "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-0"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
     >
       <h5 className="text-lg font-semibold">Business Information</h5>

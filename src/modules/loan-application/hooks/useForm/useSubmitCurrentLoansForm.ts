@@ -1,7 +1,7 @@
 import {
   DELETE_CURRENT_LOAN_PREFIX,
   NEW_CURRENT_LOAN_PREFIX
-} from "../../components/organisms/CurrentLoansForm"
+} from "../../components/organisms/loan-application-form/CurrentLoansForm"
 import { CurrentLoansFormValue } from "../../constants/form"
 import { useDeleteCurentLoanInformation } from "../useMutation/useDeleteCurrentLoanInformation"
 import { useSubmitCurrentLoansInformation } from "../useMutation/useSubmitCurrentLoansInformation"
