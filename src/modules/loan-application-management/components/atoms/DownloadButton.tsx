@@ -30,50 +30,57 @@ export const DownloadButton = ({
     const elementsWithSmText = clonedContent.querySelectorAll(".text-sm")
     elementsWithSmText.forEach((el) => {
       el.classList.remove("text-sm")
-      el.classList.add("text-2xl")
+      el.classList.add("text-5xl")
     })
-
     const elementsWithXsText = clonedContent.querySelectorAll(".text-xs")
     elementsWithXsText.forEach((el) => {
       el.classList.remove("text-xs")
-      el.classList.add("text-xl")
+      el.classList.add("text-5xl")
+    })
+    const elementsWithBaseText = clonedContent.querySelectorAll(".text-base")
+    elementsWithBaseText.forEach((el) => {
+      el.classList.remove("text-base")
+      el.classList.add("text-5xl")
     })
     const elementsWithLgText = clonedContent.querySelectorAll(".text-lg")
     elementsWithLgText.forEach((el) => {
       el.classList.remove("text-lg")
-      el.classList.add("text-3xl")
+      el.classList.add("text-5xl")
     })
     const elementsWith1XlText = clonedContent.querySelectorAll(".text-1xl")
     elementsWith1XlText.forEach((el) => {
       el.classList.remove("text-1xl")
-      el.classList.add("text-2xl")
+      el.classList.add("text-5xl")
+    })
+    const elementsWith2XlText = clonedContent.querySelectorAll(".text-2xl")
+    elementsWith2XlText.forEach((el) => {
+      el.classList.remove("text-2xl")
+      el.classList.add("text-5xl")
     })
     const elementsWith3XlText = clonedContent.querySelectorAll(".text-3xl")
     elementsWith3XlText.forEach((el) => {
       el.classList.remove("text-3xl")
-      el.classList.add("text-2xl")
+      el.classList.add("text-7xl")
     })
-    const elementsWithCard = clonedContent.querySelectorAll(".h-32")
-    elementsWithCard.forEach((el) => {
+    const elementsWith4XlText = clonedContent.querySelectorAll(".text-4xl")
+    elementsWith4XlText.forEach((el) => {
+      el.classList.remove("text-4xl")
+      el.classList.add("text-7xl")
+    })
+    const elementsWithCardGlance = clonedContent.querySelectorAll(".h-32")
+    elementsWithCardGlance.forEach((el) => {
       el.classList.remove("h-32")
-      el.classList.add("h-36")
-    })
-    const elementsWithCardText = clonedContent.querySelectorAll(
-      ".text-text-tertiary.text-2xl"
-    )
-    elementsWithCardText.forEach((el) => {
-      el.classList.remove("text-2xl")
-      el.classList.add("text-xl")
+      el.classList.add("h-54")
     })
     const elementsP = clonedContent.querySelectorAll("p")
     elementsP.forEach((el) => {
       el.classList.add("text-2xl")
     })
-
-    const elementsWithTextBase = clonedContent.querySelectorAll(".text-base")
-    elementsWithTextBase.forEach((el) => {
-      el.classList.remove("text-base")
-      el.classList.add("text-2xl")
+    const elementsPStatusElement = clonedContent.querySelectorAll(
+      "div.flex.flex-col.flex-1 > p.font-medium"
+    )
+    elementsPStatusElement.forEach((el) => {
+      el.classList.add("text-xl")
     })
   }
 

@@ -29,7 +29,7 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
   })
 
   return (
-    <div className="flex flex-col w-full h-full max-w-screen-2xl pt-4xl mx-auto">
+    <div className="flex flex-col w-full h-full pt-4xl">
       <Breadcrumbs breads={crumbs} />
       <div className="flex flex-col space-y-3xl border-b mt-xl">
         <BasicInformation />

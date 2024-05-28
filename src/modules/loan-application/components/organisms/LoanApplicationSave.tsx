@@ -28,10 +28,10 @@ export const LoanApplicationSave = () => {
     }
   }
 
-  const confirmText = isCompleteLoanRequestForm ? "Save & Close" : "Go to form"
+  const confirmText = isCompleteLoanRequestForm ? "Save & Close?" : "Go to form"
 
   const description = isCompleteLoanRequestForm
-    ? `Are you sure you want to save and close this loan application`
+    ? `Are you sure you want to save and close this application?`
     : `Please finish "Loan Request" form before save and close.`
 
   return (
