@@ -1,5 +1,3 @@
-import { TIME_PERIODS_LONG } from "@/constants/date.constants"
-import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { toCurrency } from "@/utils"
 import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
@@ -15,19 +13,10 @@ import {
 } from "recharts"
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
-import { DashboardActionType } from "../types/stats.types"
 
 // TODO: Integrate API
 export function AverageApprovedLoanSizeChart() {
-  const { averageApprovedLoanAmountData, dashboardDispatch, dashboardState } =
-    useDashboard()
-
-  const handleChangeTimePeriod = (timePeriod: string) => {
-    dashboardDispatch({
-      type: DashboardActionType.UpdateAverageApprovedLoanAmount,
-      payload: timePeriod as GRAPH_FREQUENCY
-    })
-  }
+  const { averageApprovedLoanAmountData, dashboardState } = useDashboard()
 
   const formatDateByTimePeriod =
     dashboardState.averageApprovedLoanAmountFrequency === GRAPH_FREQUENCY.WEEKLY
@@ -38,15 +27,6 @@ export function AverageApprovedLoanSizeChart() {
     <div className="bg-white p-4 md:p-6 rounded-xl border flex-1">
       <div className="flex justify-between gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">Average Approved Loan Amount</h2>
-        <TimePeriodsSelection
-          className="h-8"
-          onChangeTimePeriod={handleChangeTimePeriod}
-          timePeriod={
-            dashboardState.averageApprovedLoanAmountFrequency ??
-            GRAPH_FREQUENCY.MONTHLY
-          }
-          timePeriods={TIME_PERIODS_LONG}
-        />
       </div>
 
       <div className="w-full h-[400px]">

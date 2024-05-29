@@ -1,5 +1,3 @@
-import { TIME_PERIODS_LONG } from "@/constants/date.constants"
-import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
 import {
@@ -13,18 +11,9 @@ import {
 } from "recharts"
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
-import { DashboardActionType } from "../types/stats.types"
 
 export const LoanApplicationDecisionRateChart = () => {
-  const { loanApplicationRatesData, dashboardDispatch, dashboardState } =
-    useDashboard()
-
-  const handleChangeTimePeriod = (timePeriod: string) => {
-    dashboardDispatch({
-      type: DashboardActionType.UpdateLoanApplicationRatesFrequency,
-      payload: timePeriod as GRAPH_FREQUENCY
-    })
-  }
+  const { loanApplicationRatesData, dashboardState } = useDashboard()
 
   const formatDateByTimePeriod =
     dashboardState.loanApplicationRatesFrequency === GRAPH_FREQUENCY.WEEKLY
@@ -35,15 +24,6 @@ export const LoanApplicationDecisionRateChart = () => {
     <div className="w-full h-[500px] bg-white p-4 md:p-6 rounded-xl border">
       <div className="flex flex-wrap justify-between gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">Incomplete Application Rates</h2>
-        <TimePeriodsSelection
-          className="h-8"
-          onChangeTimePeriod={handleChangeTimePeriod}
-          timePeriod={
-            dashboardState.loanApplicationRatesFrequency ??
-            GRAPH_FREQUENCY.MONTHLY
-          }
-          timePeriods={TIME_PERIODS_LONG}
-        />
       </div>
 
       <ResponsiveContainer width="100%" height="95%" className="-mx-8">

@@ -1,8 +1,6 @@
 import { REQUEST_LIMIT_PARAM_FOR_SELECT } from "@/constants"
 import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
-import { TIME_PERIODS_LONG } from "@/constants/date.constants"
 import { useQuerySelectLoanProgramList } from "@/hooks/useQuerySelectList/useQuerySelectLoanProgramList"
-import { TimePeriodsSelection } from "@/modules/loan-application-management/components/molecules/filters/TimePeriodsSelection"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { getRandomColor } from "@/modules/loan-application-management/services"
 import {
@@ -26,12 +24,10 @@ import {
 } from "recharts"
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
-import { DashboardActionType } from "../types/stats.types"
 
 // TODO: Integrate API
 export const AverageLoanSizeOfAllLoanProgram = () => {
-  const { averageApprovedLoanSizeData, dashboardDispatch, dashboardState } =
-    useDashboard()
+  const { averageApprovedLoanSizeData, dashboardState } = useDashboard()
 
   const [activeSeries, setActiveSeries] = useState<Array<string>>([])
 
@@ -41,13 +37,6 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
     } else {
       setActiveSeries((prev) => [...prev, dataKey])
     }
-  }
-
-  const handleChangeTimePeriod = (timePeriod: string) => {
-    dashboardDispatch({
-      type: DashboardActionType.UpdateAverageLoanSizeFrequency,
-      payload: timePeriod as GRAPH_FREQUENCY
-    })
   }
 
   const { data } = useQuerySelectLoanProgramList({
@@ -79,14 +68,6 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
         <h2 className="text-xl text-zinc-500">
           Average Loan Size of All Loan Programs
         </h2>
-        <TimePeriodsSelection
-          className="h-8"
-          onChangeTimePeriod={handleChangeTimePeriod}
-          timePeriod={
-            dashboardState.averageLoanSizeFrequency ?? GRAPH_FREQUENCY.MONTHLY
-          }
-          timePeriods={TIME_PERIODS_LONG}
-        />
       </div>
 
       <div className="w-full h-[400px]">
