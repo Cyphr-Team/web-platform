@@ -86,7 +86,7 @@ export function MiddeskTable<TData, TValue>({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    className="h-24 text-center text-base"
+                    className="h-24 text-center text-base text-gray-500"
                   >
                     {noResultText}
                   </TableCell>

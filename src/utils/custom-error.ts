@@ -5,7 +5,8 @@ export enum ErrorCode {
   token_invalid = "token_invalid",
   token_invalid_or_expired = "token_invalid_or_expired",
   rate_limit_exceeded = "rate_limit_exceeded",
-  user_registered = "user_registered"
+  user_registered = "user_registered",
+  cash_flow_not_ready = "cash_flow_not_ready"
 }
 
 export const getAxiosError = (
@@ -35,6 +36,8 @@ export const getCustomErrorMsgByCode = (code: ErrorCode) => {
       return "Too many attempts to generate an email reset password. Please wait 60 seconds"
     case ErrorCode.user_registered:
       return "This email is already verified, please go back to the sign up page to process the last step."
+    case ErrorCode.cash_flow_not_ready:
+      return "Bank accounts are not ready to view"
     default:
       return ""
   }

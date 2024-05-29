@@ -7,6 +7,7 @@ import { LoanApplicationBankAccount } from "@/modules/loan-application/constants
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { ColumnDef } from "@tanstack/react-table"
 import { useParams } from "react-router-dom"
+import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -39,10 +40,14 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
 
 export const CashFlowTable = () => {
   const { id: loanApplicationId } = useParams()
-  const { data, isLoading } =
+  const { data, isLoading, isError, error } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
 
   const bankAccounts = data?.bankAccounts ?? []
+  const noResultText =
+    isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
+      ? getCustomErrorMsgByCode(ErrorCode.cash_flow_not_ready)
+      : "No bank accounts detected"
 
   return (
     <Card>
@@ -59,7 +64,7 @@ export const CashFlowTable = () => {
           columns={columns}
           data={bankAccounts}
           isLoading={isLoading}
-          noResultText="No bank accounts detected"
+          noResultText={noResultText}
         />
       </CardContent>
     </Card>
