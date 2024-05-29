@@ -91,15 +91,15 @@ const reducer = (
   }
 }
 
-const initSteps: LoanApplicationStepsState = {
+const initSteps: () => LoanApplicationStepsState = () => ({
   step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
   progress: new LoanApplicationStepStrategy(getSubdomain() as Institution)
     .getStrategy()
     .getSteps()
-}
+})
 
 export const LoanProgressContext = createContext<LoanApplicationStatusContext>(
-  initSteps as LoanApplicationStatusContext
+  initSteps() as LoanApplicationStatusContext
 )
 
 const { Provider } = LoanProgressContext
@@ -107,7 +107,10 @@ const { Provider } = LoanProgressContext
 export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
   props
 ) => {
-  const [{ progress, step }, dispatchProgress] = useReducer(reducer, initSteps)
+  const [{ progress, step }, dispatchProgress] = useReducer(
+    reducer,
+    initSteps()
+  )
 
   const getStepStatus = useCallback(
     (step: string) => {
