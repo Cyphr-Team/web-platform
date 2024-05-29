@@ -1,14 +1,7 @@
 import { Institution } from "@/constants/tenant.constants"
 import { toPercent } from "@/utils"
 import { getSubdomain } from "@/utils/domain.utils"
-import {
-  Dispatch,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer
-} from "react"
+import { Dispatch, ReactNode, useCallback, useMemo, useReducer } from "react"
 import { createContext } from "use-context-selector"
 import { LoanApplicationStepStrategy } from "../models/LoanApplicationStep"
 import {
@@ -92,22 +85,6 @@ const reducer = (
 
       return { ...state, progress: newProgress }
     }
-    case LOAN_PROGRESS_ACTION.INIT: {
-      // if data has been initialized -> no need to recreate
-      if (state.progress.length > 0) {
-        return state
-      } else {
-        // else create new form
-        return {
-          ...state,
-          progress: new LoanApplicationStepStrategy(
-            getSubdomain() as Institution
-          )
-            .getStrategy()
-            .getSteps()
-        }
-      }
-    }
     default:
       return state
   }
@@ -115,7 +92,9 @@ const reducer = (
 
 const initSteps: LoanApplicationStepsState = {
   step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
-  progress: []
+  progress: new LoanApplicationStepStrategy(getSubdomain() as Institution)
+    .getStrategy()
+    .getSteps()
 }
 
 export const LoanProgressContext = createContext<LoanApplicationStatusContext>(
@@ -128,10 +107,6 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
   props
 ) => {
   const [{ progress, step }, dispatchProgress] = useReducer(reducer, initSteps)
-
-  useEffect(() => {
-    dispatchProgress({ type: LOAN_PROGRESS_ACTION.INIT })
-  }, [])
 
   const getStepStatus = useCallback(
     (step: string) => {

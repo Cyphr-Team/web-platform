@@ -184,7 +184,7 @@ export const getApplicationTipByStatus = (
     case LoanApplicationStatus.IN_REVIEW:
       return ""
     default:
-      return "Application details are being verified."
+      return "Application still in draft."
   }
 }
 

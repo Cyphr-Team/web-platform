@@ -47,7 +47,12 @@ export const toastSuccess = ({
   title: string
   description: ReactNode
 }) => {
-  toast.success(title, { description })
+  toast.success(title, {
+    description,
+    style: {
+      alignItems: "start"
+    }
+  })
 }
 
 export const toastError = ({

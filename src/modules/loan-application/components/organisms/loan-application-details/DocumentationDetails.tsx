@@ -41,18 +41,22 @@ export const DocumentationDetails = () => {
             </div>
           </Card>
         )}
-        <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
-          <h5 className="text-lg font-semibold">Financial Documents</h5>
-          <div className="flex flex-col gap-y-2xl">
-            {financialDocuments?.length ? (
-              financialDocuments?.map((val) => (
-                <FileCard file={val} index={val.id} key={val.id} />
-              ))
-            ) : (
-              <span className="text-sm text-muted-foreground">No results</span>
-            )}
-          </div>
-        </Card>
+        {!!financialDocuments?.length && (
+          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+            <h5 className="text-lg font-semibold">Financial Documents</h5>
+            <div className="flex flex-col gap-y-2xl">
+              {financialDocuments?.length ? (
+                financialDocuments?.map((val) => (
+                  <FileCard file={val} index={val.id} key={val.id} />
+                ))
+              ) : (
+                <span className="text-sm text-muted-foreground">
+                  No results
+                </span>
+              )}
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   )
