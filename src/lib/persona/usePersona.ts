@@ -54,7 +54,7 @@ export const usePersona = () => {
       console.error(e)
       toastError({
         title: "Persona",
-        description: "Something when wrongs"
+        description: "Something when wrong"
       })
     }
   }, [createSmartKyc, storePersonaClient])
