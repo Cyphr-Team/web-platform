@@ -10,6 +10,7 @@ import { Route } from "react-router-dom"
 import { adminRoutes } from "./admin-routes"
 import { loanApplicationManagementRoutes } from "./loan-application-management-routes"
 import { notificationRoutes } from "./notification-routes"
+import { isKccBank } from "@/utils/domain.utils"
 
 /**
  * Dashboard routes ("/*"), no unauthenticated or loan applicant allowed to see these pages.
@@ -39,11 +40,14 @@ const dashboardRoutes = (
     {loanApplicationManagementRoutes}
 
     {/* LOAN PROGRAM */}
-    <Route
-      path={APP_PATH.LOAN_PROGRAM.index}
-      lazy={() => import("@/modules/admin/loan-program/page")}
-      handle={handleCrumb(APP_PATH.LOAN_PROGRAM.index)}
-    />
+    {/* Hide with KCC */}
+    {!isKccBank() && (
+      <Route
+        path={APP_PATH.LOAN_PROGRAM.index}
+        lazy={() => import("@/modules/admin/loan-program/page")}
+        handle={handleCrumb(APP_PATH.LOAN_PROGRAM.index)}
+      />
+    )}
 
     {/* NOTIFICATION */}
     {notificationRoutes}

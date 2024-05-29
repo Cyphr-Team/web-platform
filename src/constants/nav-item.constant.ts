@@ -4,6 +4,7 @@ import { CalendarSearch, Flag, Send, Workflow } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { UserRoles } from "@/types/user.type"
 import { FEATURE_FLAGS } from "./feature-flag.constants"
+import { isKccBank } from "@/utils/domain.utils"
 
 export const DASHBOARD_NAV_ITEM: NavItem[] = [
   {
@@ -53,7 +54,8 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.LOAN_PROGRAM.index,
     icon: Workflow,
     label: "Loan Programs",
-    roles: [UserRoles.CDFI_ADMIN]
+    roles: [UserRoles.CDFI_ADMIN],
+    disabled: isKccBank()
   },
   // Hide because havent implemented yet
   // {

@@ -53,15 +53,17 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
               ? DashboardCollapsedNavLink
               : DashboardNavLink
             return (
-              <FeatureFlagsRenderer
-                key={item.label}
-                ffKey={item.featureFlag}
-                fallBackChildren={<></>}
-              >
-                <RoleBase roles={item.roles} key={item.label}>
-                  <NavLinkComponent item={item} badge={badge} />
-                </RoleBase>
-              </FeatureFlagsRenderer>
+              !item.disabled && (
+                <FeatureFlagsRenderer
+                  key={item.label}
+                  ffKey={item.featureFlag}
+                  fallBackChildren={<></>}
+                >
+                  <RoleBase roles={item.roles} key={item.label}>
+                    <NavLinkComponent item={item} badge={badge} />
+                  </RoleBase>
+                </FeatureFlagsRenderer>
+              )
             )
           })}
         </TooltipProvider>

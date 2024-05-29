@@ -48,7 +48,7 @@ export function LoanProgramItem({
         active && "bg-lime-400/40"
       )}
       onClick={handleChangeStep}
-      id={`step-${value}`}
+      id={`step-${value.step}`}
     >
       <div
         className={cn(
