@@ -39,7 +39,7 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
       <div
         className={cn("col-span-4", hasTitle && "col-span-3 max-w-screen-sm")}
       >
-        <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+        <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto shadow-none">
           {CONFIRMATION_TEXTS.map((text, index) => (
             <p key={index} className="text-sm text-text-secondary">
               <strong>{text.title}</strong> {text.content}

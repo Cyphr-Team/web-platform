@@ -16,7 +16,7 @@ export const MiddeskCard = ({
 }: MiddeskCardProps) => {
   return (
     <div id={id}>
-      <Card>
+      <Card className="shadow-none">
         <CardHeader className="border-b px-8 md:py-4">
           <div className="flex justify-between items-center flex-wrap gap-1">
             <CardTitle className="font-semibold text-2xl flex items-center gap-3">

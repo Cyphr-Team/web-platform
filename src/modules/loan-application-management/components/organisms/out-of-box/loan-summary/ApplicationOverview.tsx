@@ -13,7 +13,7 @@ export const ApplicationOverview = () => {
     ? toCurrency(loanApplicationDetails?.loanAmount, 0)
     : "$-"
   return (
-    <Card className="border-r-0 border-b-0">
+    <Card className="border-r-0 border-b-0 shadow-none bg-white">
       <div className="grid grid-cols-2">
         <InformationRow
           label="Business Name"

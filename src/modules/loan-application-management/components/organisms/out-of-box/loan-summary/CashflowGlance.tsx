@@ -13,7 +13,7 @@ export const CashflowGlanceReport = () => {
     useLoanApplicationDetailContext()
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto shadow-none">
       <div className="flex flex-col space-y-3xl">
         <SectionTitle>Cash Flow at a Glance</SectionTitle>
 

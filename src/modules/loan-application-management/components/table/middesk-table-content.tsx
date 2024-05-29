@@ -29,7 +29,7 @@ export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
               className="flex-shrink-0 self-start mt-1"
               variantColor="green"
             />
-            <p>{data?.name ?? "-"}</p>
+            <p className="text-base">{data?.name ?? "-"}</p>
           </div>
         )
       }
@@ -47,7 +47,7 @@ export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
 
         return (
           <div className="min-w-0">
-            <p className="truncate">{submitted}</p>
+            <p className="truncate text-base">{submitted}</p>
           </div>
         )
       }

@@ -12,7 +12,7 @@ export const KycFormDetails: React.FC<KycFormDetailsProps> = ({
   kycFormData
 }) => {
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
       <h5 className="text-lg font-semibold">Owner Information</h5>
       <div className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
         <TextInputDisplay

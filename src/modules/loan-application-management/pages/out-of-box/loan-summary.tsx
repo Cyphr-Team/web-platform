@@ -32,27 +32,21 @@ export function Component() {
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
 
-  const applicationOverviewRef = useRef<HTMLDivElement>(null)
-  const loanApplicationRef = useRef<HTMLDivElement>(null)
-  const businessVerificationRefP1 = useRef<HTMLDivElement>(null)
-  const businessVerificationRefP2 = useRef<HTMLDivElement>(null)
-  const cashFlowReportRef = useRef<HTMLDivElement>(null)
+  const page_1 = useRef<HTMLDivElement>(null)
+  const page_2 = useRef<HTMLDivElement>(null)
+  const page_3 = useRef<HTMLDivElement>(null)
+  const page_4 = useRef<HTMLDivElement>(null)
+  const page_5 = useRef<HTMLDivElement>(null)
 
-  const elementToExportRef = [
-    applicationOverviewRef,
-    loanApplicationRef,
-    businessVerificationRefP1,
-    businessVerificationRefP2,
-    cashFlowReportRef
-  ]
+  const elementToExportRef = [page_1, page_2, page_3, page_4, page_5]
 
   return (
     <div className="lg:flex gap-3xl w-full flex-col" id="loan-summary">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
         <div
           id="application-overview"
-          ref={applicationOverviewRef}
           className="flex flex-col gap-3xl"
+          ref={page_1}
         >
           {!!loanApplicationDetails?.decision && (
             <div className="flex flex-col gap-2">
@@ -75,26 +69,25 @@ export function Component() {
               )}
             </div>
           )}
-          <div className="space-y-3xl">
-            <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
-              <p className="text-4xl font-semibold ">Application Overview</p>
-              <DownloadButton
-                elementToExportRef={elementToExportRef}
-                disabled={isFetchingCashflow || isFetchingNewCashFlow}
-              />
-            </div>
-            <ApplicationOverview />
+
+          <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
+            <p className="text-4xl font-semibold ">Application Overview</p>
+            <DownloadButton
+              elementToExportRef={elementToExportRef}
+              disabled={isFetchingCashflow || isFetchingNewCashFlow}
+            />
           </div>
+          <ApplicationOverview />
+          <KybFormDetails kybFormData={loanSummary?.kybForm} />
         </div>
         <div
           className="space-y-3xl flex flex-col"
           id="loan-application"
-          ref={loanApplicationRef}
+          ref={page_2}
         >
           <p className="text-4xl font-semibold loan-application-header">
             Loan Application
           </p>
-          <KybFormDetails kybFormData={loanSummary?.kybForm} />
           <KycFormDetails kycFormData={loanSummary?.kycForm} />
           <CurrentLoanFormDetails
             currentLoanFormData={loanSummary?.currentLoanForms}
@@ -108,35 +101,33 @@ export function Component() {
           />
         </div>
 
-        <div className="space-y-3xl">
-          <div
-            className="flex flex-col space-y-3xl"
-            id="business-verification-p1"
-            ref={businessVerificationRefP1}
-          >
-            <p className="text-4xl font-semibold ">Business Verification</p>
-            <BusinessDetail isDownloadAble={false} />
-            <BusinessName />
-            <OfficeAddress />
-            <Secretary />
-            <TinMatch />
-          </div>
+        <div
+          className="flex flex-col space-y-3xl"
+          id="business-verification-p1"
+          ref={page_3}
+        >
+          <p className="text-4xl font-semibold ">Business Verification</p>
+          <BusinessDetail isDownloadAble={false} />
+          <BusinessName />
+          <OfficeAddress />
+        </div>
 
-          <div
-            className="flex flex-col space-y-3xl"
-            id="business-verification-p2"
-            ref={businessVerificationRefP2}
-          >
-            <People />
-            <WatchList />
-            <Bankruptcy />
-          </div>
+        <div
+          className="flex flex-col space-y-3xl"
+          id="business-verification-p2"
+          ref={page_4}
+        >
+          <Secretary />
+          <TinMatch />
+          <People />
+          <WatchList />
+          <Bankruptcy />
         </div>
 
         <div
           className="flex flex-col space-y-3xl"
           id="cash-flow-report"
-          ref={cashFlowReportRef}
+          ref={page_5}
         >
           <p className="text-4xl font-semibold ">Cash Flow Report</p>
           <CashflowGlanceReport />

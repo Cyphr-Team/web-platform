@@ -27,67 +27,54 @@ export const DownloadButton = ({
   const { id: loanApplicationId } = useParams()
 
   const adjustFontSize = (clonedContent: HTMLElement) => {
+    const elementsWith2XlText = clonedContent.querySelectorAll(".text-2xl")
+    elementsWith2XlText.forEach((el) => {
+      el.classList.remove("text-2xl")
+      el.classList.add("text-3xl")
+    })
+
+    const elementsWith1XlText = clonedContent.querySelectorAll(".text-xl")
+    elementsWith1XlText.forEach((el) => {
+      el.classList.remove("text-xl")
+      el.classList.add("text-2xl")
+    })
+
+    const elementsWithLgText = clonedContent.querySelectorAll(".text-lg")
+    elementsWithLgText.forEach((el) => {
+      el.classList.remove("text-lg")
+      el.classList.add("text-2xl")
+    })
+
+    const elementsWithBaseText = clonedContent.querySelectorAll(".text-base")
+    elementsWithBaseText.forEach((el) => {
+      el.classList.remove("text-base")
+      el.classList.add("text-xl")
+    })
+
     const elementsWithSmText = clonedContent.querySelectorAll(".text-sm")
     elementsWithSmText.forEach((el) => {
       el.classList.remove("text-sm")
-      el.classList.add("text-5xl")
+      el.classList.add("text-xl")
     })
     const elementsWithXsText = clonedContent.querySelectorAll(".text-xs")
     elementsWithXsText.forEach((el) => {
       el.classList.remove("text-xs")
-      el.classList.add("text-5xl")
+      el.classList.add("text-xl")
     })
-    const elementsWithBaseText = clonedContent.querySelectorAll(".text-base")
-    elementsWithBaseText.forEach((el) => {
-      el.classList.remove("text-base")
-      el.classList.add("text-5xl")
-    })
-    const elementsWithLgText = clonedContent.querySelectorAll(".text-lg")
-    elementsWithLgText.forEach((el) => {
-      el.classList.remove("text-lg")
-      el.classList.add("text-5xl")
-    })
-    const elementsWith1XlText = clonedContent.querySelectorAll(".text-1xl")
-    elementsWith1XlText.forEach((el) => {
-      el.classList.remove("text-1xl")
-      el.classList.add("text-5xl")
-    })
-    const elementsWith2XlText = clonedContent.querySelectorAll(".text-2xl")
-    elementsWith2XlText.forEach((el) => {
-      el.classList.remove("text-2xl")
-      el.classList.add("text-5xl")
-    })
-    const elementsWith3XlText = clonedContent.querySelectorAll(".text-3xl")
-    elementsWith3XlText.forEach((el) => {
-      el.classList.remove("text-3xl")
-      el.classList.add("text-7xl")
-    })
-    const elementsWith4XlText = clonedContent.querySelectorAll(".text-4xl")
-    elementsWith4XlText.forEach((el) => {
-      el.classList.remove("text-4xl")
-      el.classList.add("text-7xl")
-    })
+
     const elementsWithCardGlance = clonedContent.querySelectorAll(".h-32")
     elementsWithCardGlance.forEach((el) => {
       el.classList.remove("h-32")
       el.classList.add("h-54")
-    })
-    const elementsP = clonedContent.querySelectorAll("p")
-    elementsP.forEach((el) => {
-      el.classList.add("text-2xl")
-    })
-    const elementsPStatusElement = clonedContent.querySelectorAll(
-      "div.flex.flex-col.flex-1 > p.font-medium"
-    )
-    elementsPStatusElement.forEach((el) => {
-      el.classList.add("text-xl")
     })
   }
 
   const addContentToPdf = async (doc: jsPDF, content: HTMLElement) => {
     const [pageWidth, pageHeight] = [210, 297]
     const canvas = await html2canvas(content)
-    const imgData = canvas.toDataURL("image/jpeg")
+    const imgData = canvas.toDataURL("image/jpeg", {
+      scale: 10
+    })
 
     // Set the desired width of the image in the PDF (in millimeters)
     const imgWidth = (pageWidth * 80) / 100 // A4 width
@@ -116,8 +103,8 @@ export const DownloadButton = ({
     addPage = true
   ) => {
     const clonedContent = content.cloneNode(true) as HTMLElement
+    clonedContent.style.width = "1200px"
     document.body.appendChild(clonedContent)
-
     adjustFontSize(clonedContent)
     await addContentToPdf(doc, clonedContent)
     // Add a new page for the next image
@@ -156,6 +143,7 @@ export const DownloadButton = ({
               i += MAX_LOANS_PER_PAGE
             ) {
               const clonedContent = document.createElement("div")
+              clonedContent.style.width = "1200px"
               if (!isHeaderPrinted) {
                 clonedContent.appendChild(header.cloneNode(true))
                 isHeaderPrinted = true
@@ -187,6 +175,7 @@ export const DownloadButton = ({
             }
           } else {
             const clonedContent = document.createElement("div")
+            clonedContent.style.width = "1200px"
             clonedContent.classList.add("space-y-3xl")
             if (!isHeaderPrinted) {
               clonedContent.appendChild(header.cloneNode(true))

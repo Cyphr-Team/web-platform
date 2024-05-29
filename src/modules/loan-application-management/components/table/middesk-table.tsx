@@ -73,7 +73,7 @@ export function MiddeskTable<TData, TValue>({
                   onClick={() => handleClickDetail && handleClickDetail(row)}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="text-base">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
