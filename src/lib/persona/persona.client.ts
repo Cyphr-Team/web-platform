@@ -1,6 +1,7 @@
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
 import { SmartKyc } from "./persona.types"
+import { CreatePersonaInquiryRequest } from "@/types/kyc/request/CreatePersonaInquiryRequest"
 
 const PERSONA_ENDPOINTS = {
   all: "api/form/smart-kyc",
@@ -10,9 +11,10 @@ const PERSONA_ENDPOINTS = {
 
 const useCreateSmartKyc = () => {
   return useMutation({
-    mutationFn: () => {
-      return postRequest<unknown, SmartKyc>({
-        path: PERSONA_ENDPOINTS.createSmartKyc()
+    mutationFn: (request: CreatePersonaInquiryRequest) => {
+      return postRequest<typeof request, SmartKyc>({
+        path: PERSONA_ENDPOINTS.createSmartKyc(),
+        data: request
       })
     }
   })

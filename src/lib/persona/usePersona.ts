@@ -3,6 +3,7 @@ import { toastError } from "@/utils"
 import { Client } from "persona"
 import { useCallback, useRef, useState } from "react"
 import { useCreateSmartKyc } from "./persona.client"
+import { CreatePersonaInquiryRequest } from "@/types/kyc/request/CreatePersonaInquiryRequest"
 
 interface IPersonaInquiryData {
   inquiryId: string
@@ -10,7 +11,11 @@ interface IPersonaInquiryData {
   fields: unknown
 }
 
-export const usePersona = () => {
+interface IUsePersona {
+  applicationId?: string
+}
+
+export const usePersona = ({ applicationId }: IUsePersona) => {
   const [completeData, setCompleteData] = useState<IPersonaInquiryData>()
 
   const personaClientRef = useRef<Client | null>()
@@ -18,11 +23,12 @@ export const usePersona = () => {
   const createSmartKyc = useCreateSmartKyc()
 
   const storePersonaClient = useCallback(
-    (referenceId: string, inquiryId: string) => {
+    (referenceId: string, inquiryId: string, sessionToken?: string) => {
       personaClientRef.current = new Client({
         environment: APP_CONFIGS.VITE_PERSONA_ENVIRONMENT,
         inquiryId,
         referenceId,
+        sessionToken,
         onComplete: (inquiryData) => {
           setCompleteData(inquiryData)
         },
@@ -41,12 +47,18 @@ export const usePersona = () => {
 
   const handleOpenPersona = useCallback(async () => {
     try {
-      const createResponse = await createSmartKyc.mutateAsync()
+      const createPersonaInquiryRequest: CreatePersonaInquiryRequest = {
+        applicationId
+      }
+      const createResponse = await createSmartKyc.mutateAsync(
+        createPersonaInquiryRequest
+      )
       const smartKyc = createResponse.data
 
       const personaClient = storePersonaClient(
         smartKyc.referenceId,
-        smartKyc.inquiryId
+        smartKyc.inquiryId,
+        smartKyc?.sessionToken
       )
 
       personaClient.open()
@@ -57,7 +69,7 @@ export const usePersona = () => {
         description: "Something when wrongs"
       })
     }
-  }, [createSmartKyc, storePersonaClient])
+  }, [applicationId, createSmartKyc, storePersonaClient])
 
   return {
     handleOpenPersona,

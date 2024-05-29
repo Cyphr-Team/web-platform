@@ -22,6 +22,7 @@ interface SmartKyc {
   createdAt: string
   updatedAt?: string
   expiredAt?: string
+  sessionToken?: string
 }
 
 export type { SmartKyc }

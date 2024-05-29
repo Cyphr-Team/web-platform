@@ -41,6 +41,7 @@ type StepAction = {
 }
 
 interface LoanApplicationStatusContext extends LoanApplicationStepsState {
+  completeCurrentStep: () => void
   getCurrentStepIndex: () => number
   getCurrentStep: () => ILoanApplicationStep | undefined
   progress: ILoanApplicationStep[]
@@ -126,6 +127,16 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
     dispatchProgress({ type: LOAN_PROGRESS_ACTION.NEXT_STEP })
   }, [step])
 
+  /**
+   * This function is use for complete third party step (e.g Persona KYC)
+   */
+  const completeCurrentStep = useCallback(() => {
+    dispatchProgress({
+      type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+      progress: step
+    })
+  }, [step])
+
   const getCurrentStepIndex = useCallback(() => {
     return progress.findIndex((item) => item.step === step)
   }, [progress, step])
@@ -147,7 +158,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
     )
   }, [progress])
 
-  const providerValues = useMemo(
+  const providerValues: LoanApplicationStatusContext = useMemo(
     () => ({
       getCurrentStepIndex,
       getCurrentStep,
@@ -156,9 +167,11 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
       percentComplete,
       dispatchProgress,
       getStepStatus,
+      completeCurrentStep,
       finishCurrentStep
     }),
     [
+      completeCurrentStep,
       getCurrentStepIndex,
       getCurrentStep,
       percentComplete,

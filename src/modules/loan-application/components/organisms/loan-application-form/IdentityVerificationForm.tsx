@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { ReactNode, useEffect, useMemo } from "react"
+import { ReactNode, useCallback, useEffect, useMemo } from "react"
 
 import { Button, ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
@@ -50,14 +50,18 @@ const VerifyInfoItem = ({
 }
 
 export const IdentityVerificationForm = () => {
+  const { dispatchFormAction, identityVerificationForm } =
+    useLoanApplicationFormContext()
+
   /**
    * Persona Kyc
    */
-  const { handleOpenPersona, isOpening, completeData } = usePersona()
+  const { handleOpenPersona, isOpening, completeData } = usePersona({
+    applicationId: identityVerificationForm?.applicationId
+  })
 
-  const { dispatchFormAction, identityVerificationForm } =
-    useLoanApplicationFormContext()
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, completeCurrentStep } =
+    useLoanApplicationProgressContext()
 
   const defaultValues: IdentityVerificationValue = useMemo(() => {
     return {
@@ -76,12 +80,19 @@ export const IdentityVerificationForm = () => {
     defaultValues
   })
 
+  const setCompleteData = useCallback(
+    (data: IdentityVerificationValue) => {
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION,
+        state: data
+      })
+    },
+    [dispatchFormAction]
+  )
+
   const onSubmit = (data: IdentityVerificationValue) => {
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION,
-      state: data
-    })
+    setCompleteData(data)
     finishCurrentStep()
   }
 
@@ -96,8 +107,21 @@ export const IdentityVerificationForm = () => {
       form.setValue("status", completeData?.status, {
         shouldValidate: true
       })
+
+      /**
+       * This extra code will help us mark done the identity verification step
+       *  when the client finish verify Persona
+       */
+      const defaultValue = form.getValues()
+      const identityVerificationValue: IdentityVerificationValue = {
+        ...defaultValue,
+        inquiryId: completeData?.inquiryId,
+        status: completeData?.status
+      }
+      setCompleteData(identityVerificationValue)
+      completeCurrentStep()
     }
-  }, [completeData, form])
+  }, [completeCurrentStep, completeData, form, setCompleteData])
 
   return (
     <Form {...form}>

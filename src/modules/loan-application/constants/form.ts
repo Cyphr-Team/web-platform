@@ -141,6 +141,13 @@ export const operatingExpensesFormSchema = z.object({
 })
 
 export const identityVerificationSchema = z.object({
+  /**
+   * This is use for the flow:
+   *  1. The client open the Persona Inquiry but didn't finish it
+   *  2. The client save draft - save & close -> we have applicationId now, we also link the inquiryId to this application
+   *  3. The client go back to the application and continue the persona Inquiry -> should send the applicationId to server
+   */
+  applicationId: z.string().optional(),
   smartKycId: z.string().optional(),
   inquiryId: z.string(),
   status: z.string()

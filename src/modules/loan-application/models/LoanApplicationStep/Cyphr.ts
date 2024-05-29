@@ -1,5 +1,4 @@
-import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
-import { LoanApplicationStep, ILoanApplicationStepStrategy } from "./base"
+import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
 export class CyphrLoanApplicationStep
   extends LoanApplicationStep
@@ -17,8 +16,6 @@ export class CyphrLoanApplicationStep
       ._build_CashFlowVerification()
       ._build_CurrentLoansStep()
       ._build_OpertaingExpensesStep()
-
-    if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
 
     return this._build_ConfirmationStep()
   }
