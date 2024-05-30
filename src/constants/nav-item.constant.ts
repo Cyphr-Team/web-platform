@@ -33,7 +33,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
     icon: Icons.folderCheck,
     label: "Applications",
-    roles: [UserRoles.LOAN_OFFICER]
+    roles: [UserRoles.CDFI_ADMIN, UserRoles.LOAN_OFFICER]
   },
   // Hide because havent implemented yet
   // {

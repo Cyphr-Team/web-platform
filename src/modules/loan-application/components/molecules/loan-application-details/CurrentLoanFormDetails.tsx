@@ -7,6 +7,7 @@ import {
   CurrentLoansInformationResponse
 } from "@/modules/loan-application/constants/type.ts"
 import {
+  checkIsLenderAdmin,
   checkIsLoanApplicant,
   checkIsLoanOfficer
 } from "@/utils/check-roles.ts"
@@ -20,12 +21,13 @@ interface CurrentLoanFormDetailsProps {
 export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
   currentLoanFormData
 }) => {
-  const currentLoanForms = checkIsLoanOfficer()
-    ? (currentLoanFormData as CurrentLoanInformationResponse[])
-    : checkIsLoanApplicant()
-      ? (currentLoanFormData as CurrentLoansInformationResponse)
-          ?.currentLoanForms
-      : []
+  const currentLoanForms =
+    checkIsLoanOfficer() || checkIsLenderAdmin()
+      ? (currentLoanFormData as CurrentLoanInformationResponse[])
+      : checkIsLoanApplicant()
+        ? (currentLoanFormData as CurrentLoansInformationResponse)
+            ?.currentLoanForms
+        : []
 
   return (
     <Card
