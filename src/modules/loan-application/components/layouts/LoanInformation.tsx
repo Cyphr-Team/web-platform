@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
-import { APP_PATH } from "@/constants"
 import { cn } from "@/lib/utils"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
@@ -40,11 +39,7 @@ export const LoanInformationHeader = () => {
     getStepStatus(LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
 
   const backToLoanProgram = () => {
-    navigate(
-      APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
-        loanProgramDetails?.id ?? ""
-      )
-    )
+    navigate(-1)
   }
   return (
     <TopBarDetail
