@@ -4,6 +4,7 @@ import { toCurrency } from "@/utils"
 import { Badge } from "@/components/ui/badge"
 import { ChangeApplicationStatusButton } from "../atoms/ChangeApplicationStatusButton"
 import { getUseOfLoan } from "../../services"
+import { isKccBank } from "@/utils/domain.utils"
 
 const BasicInformationSkeleton = () => {
   return (
@@ -31,13 +32,15 @@ export const BasicInformation = () => {
         <h1 className="text-3xl font-semibold whitespace-nowrap">
           {businessName ?? ""} {!!businessName && "•"} {loanAmount}
         </h1>
-        <div className="flex gap-2 flex-wrap">
-          <Badge className="py-xs px-lg border h-7">
-            <p className="text-sm font-medium">
-              {getUseOfLoan(loanApplicationDetails?.proposeUseOfLoan)}
-            </p>
-          </Badge>
-        </div>
+        {!isKccBank() && (
+          <div className="flex gap-2 flex-wrap">
+            <Badge className="py-xs px-lg border h-7">
+              <p className="text-sm font-medium">
+                {getUseOfLoan(loanApplicationDetails?.proposeUseOfLoan)}
+              </p>
+            </Badge>
+          </div>
+        )}
       </div>
 
       <ChangeApplicationStatusButton />
