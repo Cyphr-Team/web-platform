@@ -16,8 +16,6 @@ import debounce from "lodash.debounce"
 import { cn } from "@/lib/utils.ts"
 import { useQueryGetListAllInstitution } from "./hooks/useQuery/useQueryGetListAllInstitution.ts"
 
-export default async function ExampleTablePage() {}
-
 export function Component() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
 
@@ -99,4 +97,4 @@ export function Component() {
   )
 }
 
-Component.displayName = "SampleLazyRoute"
+Component.displayName = "UserPage"
