@@ -155,7 +155,6 @@ export const CurrentLoansFormItem = ({
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-semibold">
                 Loan term remaining (in months)
-                <RequiredSymbol />
               </p>
               <p className="text-sm text-text-tertiary font-medium">
                 Remaining duration of the loan
