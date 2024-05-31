@@ -11,6 +11,7 @@ import {
 } from "recharts"
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
+import { ChartHintToolTip } from "./atoms/ChartHintToolTip"
 
 export const LoanApplicationDecisionRateChart = () => {
   const { loanApplicationRatesData, dashboardState } = useDashboard()
@@ -22,14 +23,35 @@ export const LoanApplicationDecisionRateChart = () => {
 
   return (
     <div className="w-full h-[500px] bg-white p-4 md:p-6 rounded-xl border">
-      <div className="flex flex-wrap justify-between gap-2 items-center mb-8">
+      <div className="flex gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">Incomplete Application Rates</h2>
+        <ChartHintToolTip
+          head={
+            <>
+              <strong>Incomplete Application Rates</strong> represent the
+              proportion of applications that were started but not completed
+            </>
+          }
+          formula="(Draft Apps / Total Apps) * 100"
+          formulaExplain={
+            <>
+              <li>
+                <strong>Draft Apps:</strong> Applications that have been started
+                but not submitted.
+              </li>
+              <li>
+                <strong>Total Apps:</strong> The total number of applications,
+                including both completed and draft applications.
+              </li>
+            </>
+          }
+        />
       </div>
 
       <ResponsiveContainer width="100%" height="95%" className="-mx-8">
         <ComposedChart
           data={loanApplicationRatesData?.incompleteApplicationRate?.map(
-            (v) => ({ date: v.date, incompleteRate: v.rate })
+            (v) => ({ date: v.date, incompleteRate: v.rate * 100 })
           )}
           margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
         >

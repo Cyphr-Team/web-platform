@@ -16,7 +16,7 @@ export const DashBoardToolTip = ({ content }: { content: ReactNode }) => {
           <HelpCircle
             width={16}
             height={16}
-            className="inline text-text-secondary"
+            className="flex-shrink-0 inline text-text-secondary"
           />
         </TooltipTrigger>
         <TooltipPortal>

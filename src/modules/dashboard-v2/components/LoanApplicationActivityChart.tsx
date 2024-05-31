@@ -13,8 +13,8 @@ import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { useDashboard } from "../providers/dashboard-provider"
 import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
+import { ChartHintToolTip } from "./atoms/ChartHintToolTip"
 
-// TODO: Integrate API
 export const LoanApplicationActivityChart = () => {
   const { loanApplicationActivitiesData, dashboardState } = useDashboard()
 
@@ -35,8 +35,44 @@ export const LoanApplicationActivityChart = () => {
 
   return (
     <div className="w-full h-[500px] bg-white p-4 md:p-6 rounded-xl border">
-      <div className="flex flex-wrap justify-between gap-2 items-center mb-8">
+      <div className="flex gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">Loan Application Activities</h2>
+        <ChartHintToolTip
+          head={
+            <>
+              <strong>Loan Application Activities</strong> represent the number
+              of loan applications at each stage of the application process.
+            </>
+          }
+          formula={null}
+          formulaExplain={
+            <>
+              <li>
+                <strong>Draft:</strong> # of Applications which were started but
+                haven't been submitted.
+              </li>
+              <li>
+                <strong>Submitted:</strong> # of Applications which completed
+                all steps and have been submitted by Applicant.
+              </li>
+              <li>
+                <strong>In-Review:</strong> # of Submitted Apps ready for review
+                + have been viewed at least once by the Lender.
+              </li>
+              <li>
+                <strong>Approved:</strong> # of Applications which were
+                approved.
+              </li>
+              <li>
+                <strong>Denied:</strong> # of Applications which were denied.
+              </li>
+              <li>
+                <strong>Closed:</strong> # of Applications which were closed
+                (enriched w/ by whom and for what reason).
+              </li>
+            </>
+          }
+        />
       </div>
 
       <ResponsiveContainer width="100%" height="95%" className="-mx-8">
