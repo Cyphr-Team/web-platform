@@ -75,7 +75,12 @@ export const BusinessDetail = ({
                         ? [detailData?.source]
                         : undefined
                     }
-                    sourceContent={detailData?.subLabel}
+                    // Only have a trigger button when the data or description is available
+                    sourceContent={
+                      detailData?.source?.state || detailData?.message
+                        ? detailData?.subLabel
+                        : ""
+                    }
                     description={detailData?.message}
                   />
                 )
