@@ -40,4 +40,11 @@ interface UserDetailInfo {
   createdAt: string
 }
 
-export type { UserInfo, UserDetailInfo }
+interface WhitelistedUser {
+  id: string
+  name: string
+  email: string
+  institutionId: string
+}
+
+export type { UserInfo, WhitelistedUser, UserDetailInfo }

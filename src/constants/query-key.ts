@@ -72,3 +72,9 @@ export const featureFlagKeys = {
   details: () => [...featureFlagKeys.all, "detail"] as const,
   detail: (id: string) => [...featureFlagKeys.details(), id] as const
 }
+
+export const whitelistedUserKeys = {
+  all: ["whitelistedUser"] as const,
+  lists: () => [...whitelistedUserKeys.all, "list"] as const,
+  list: (filters: string) => [...featureFlagKeys.lists(), { filters }] as const
+}

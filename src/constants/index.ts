@@ -311,6 +311,9 @@ export const API_PATH = {
     toggleStatus: (id: string) => `${API_PATH.featureFlag.all}/action?id=${id}`,
     delete: (id: string) => `${API_PATH.featureFlag.all}/delete-by-id?id=${id}`,
     update: () => `${API_PATH.featureFlag.all}/update`
+  },
+  whitelistedUser: {
+    all: "api/admin/whitelisted-user"
   }
 }
 

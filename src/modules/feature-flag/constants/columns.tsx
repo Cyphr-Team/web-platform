@@ -3,6 +3,7 @@ import { FeatureFlag } from "../../../types/feature-flag.types"
 import { formatDate } from "@/utils/date.utils"
 import { ConfirmToggleStatusFeatureFlag } from "../components/ToggleStatusFeatureFlag"
 import { DeleteFeatureFlagModal } from "../components/DeteleFeatureFlagModal"
+import { WhitelistedUser } from "@/types/user.type"
 
 export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   {
@@ -56,5 +57,32 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
         </div>
       )
     }
+  }
+]
+
+export const whitelistedUsersColumns: ColumnDef<WhitelistedUser>[] = [
+  {
+    id: "key",
+    header: "ID",
+    accessorKey: "id",
+    size: 250
+  },
+  {
+    id: "name",
+    header: "Name",
+    accessorKey: "name",
+    size: 250
+  },
+  {
+    id: "email",
+    header: "Email",
+    accessorKey: "email",
+    size: 250
+  },
+  {
+    id: "institution",
+    header: "Institution",
+    accessorKey: "institution",
+    size: 250
   }
 ]
