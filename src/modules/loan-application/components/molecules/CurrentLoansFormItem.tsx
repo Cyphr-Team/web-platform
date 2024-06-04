@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { toCurrency } from "@/utils"
 import { DeleteCurrentLoanButton } from "../atoms/DeleteCurrentLoanButton"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { DELETE_CURRENT_LOAN_PREFIX } from "../organisms/loan-application-form/CurrentLoansForm"
 
 export const CurrentLoansFormItem = ({
   index,
@@ -36,7 +37,12 @@ export const CurrentLoansFormItem = ({
     <Card className="grid grid-cols-6 gap-4xl p-4xl rounded-lg h-fit">
       <div className="flex flex-row items-center justify-between col-span-6">
         <h5 className="text-md font-semibold">LOAN #{index + 1}</h5>
-        {form.getValues().currentLoans.length > 1 && (
+        {form
+          .getValues()
+          .currentLoans.filter(
+            (item: { id: string }) =>
+              !item.id.startsWith(DELETE_CURRENT_LOAN_PREFIX)
+          ).length > 1 && (
           <DeleteCurrentLoanButton index={index} onRemove={onRemove} />
         )}
       </div>

@@ -40,12 +40,16 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
         )
       })
     // Create new forms in DB if these are new
-    const submitPromise = submitCurrentLoans({
-      currentLoans: rawData.currentLoans.filter((form) =>
-        form.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
-      ),
-      loanApplicationId
-    })
+    const newCurrentLoans = rawData.currentLoans.filter((form) =>
+      form.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
+    )
+    const submitPromise =
+      newCurrentLoans.length > 0
+        ? submitCurrentLoans({
+            currentLoans: newCurrentLoans,
+            loanApplicationId
+          })
+        : Promise.resolve()
     // Update forms in DB if these are new
     const updatePromises = rawData.currentLoans
       .filter(

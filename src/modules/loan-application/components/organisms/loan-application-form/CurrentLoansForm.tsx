@@ -121,12 +121,14 @@ export const CurrentLoansForm = () => {
   }
 
   useEffect(() => {
-    const data = form.getValues()
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
-      state: data
-    })
+    if (form.formState.isValidating) {
+      const data = form.getValues()
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+        state: data
+      })
+    }
   }, [form.formState.isValidating, form, dispatchFormAction])
 
   return (

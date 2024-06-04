@@ -29,12 +29,13 @@ export const DeleteCurrentLoanButton = ({
         e.stopPropagation()
         setIsOpen(false)
       }}
-      title="Remove this current loan?"
+      title="Delete this current loan?"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
         <span>
-          <strong>Delete Loan #{index + 1}?</strong> This action is permanent.
+          Delete Loan #{index + 1}? This action is permanent and cannot be
+          undone.
         </span>
       }
       actionClassName="bg-red-500 hover:bg-red-600 text-white"
