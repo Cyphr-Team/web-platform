@@ -23,7 +23,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
   },
   {
     title: "Feature Flags",
-    href: APP_PATH.FEATURE_FLAGS,
+    href: APP_PATH.FEATURE_FLAGS.index,
     icon: Flag,
     label: "Feature Flags",
     roles: [UserRoles.FORESIGHT_ADMIN]

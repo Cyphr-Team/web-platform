@@ -1,16 +1,13 @@
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import React, { useState } from "react"
-import { FeatureFlag } from "../../../types/feature-flag.types"
 import { Button } from "@/components/ui/button"
 import { Trash } from "lucide-react"
-import { useDeleteFeatureFlagMutation } from "../hooks/useMutation/useDeleteFeatureFlagMutation"
 
 type Props = {
-  featureFlag: FeatureFlag
+  id: string
 }
 
-export const DeleteFeatureFlagModal: React.FC<Props> = ({ featureFlag }) => {
-  const { mutate } = useDeleteFeatureFlagMutation(featureFlag.id)
+export const RemoveWhitelistedUserModal: React.FC<Props> = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const confirmDelete = (
@@ -18,8 +15,8 @@ export const DeleteFeatureFlagModal: React.FC<Props> = ({ featureFlag }) => {
   ) => {
     e.preventDefault()
     e.stopPropagation()
-    mutate(undefined)
     setIsOpen(false)
+    console.log(`Removing user with id: ${id}`)
   }
 
   return (
@@ -30,15 +27,10 @@ export const DeleteFeatureFlagModal: React.FC<Props> = ({ featureFlag }) => {
         e.stopPropagation()
         setIsOpen(false)
       }}
-      title="Delete this feature flag?"
+      title="Remove this user?"
       cancelText="Cancel"
       confirmText="Confirm"
-      description={
-        <span>
-          Delete this feature flag? This action is permanent and cannot be
-          undone.
-        </span>
-      }
+      description={<span> Remove this user from the whitelist?</span>}
       actionClassName="bg-red-500 hover:bg-red-600 text-white"
     >
       <Button

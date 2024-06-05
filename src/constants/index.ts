@@ -102,7 +102,12 @@ export const APP_PATH = {
   MESSAGES: "/messages",
   ONBOARD: "/onboard",
   SUBSCRIPTIONS: "/subscriptions",
-  FEATURE_FLAGS: "/feature-flags"
+  FEATURE_FLAGS: {
+    index: "/feature-flags",
+    whitelistedUser: `/feature-flags/:id/whitelisted-users`,
+    whitelisted: (featureFlagId: string) =>
+      `/feature-flags/${featureFlagId}/whitelisted-users`
+  }
 }
 
 export const API_PATH = {

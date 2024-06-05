@@ -4,6 +4,8 @@ import { formatDate } from "@/utils/date.utils"
 import { ConfirmToggleStatusFeatureFlag } from "../components/ToggleStatusFeatureFlag"
 import { DeleteFeatureFlagModal } from "../components/DeteleFeatureFlagModal"
 import { WhitelistedUser } from "@/types/user.type"
+import { WhitelistedUsersRedirectButton } from "../components/WhitelistedUsersRedirectButton"
+import { RemoveWhitelistedUserModal } from "../components/RemoveWhitelistedUserModal"
 
 export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   {
@@ -52,8 +54,9 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     cell: ({ row }) => {
       const data = row.original
       return (
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-1">
           <DeleteFeatureFlagModal featureFlag={data} />
+          <WhitelistedUsersRedirectButton id={data.id} />
         </div>
       )
     }
@@ -84,5 +87,18 @@ export const whitelistedUsersColumns: ColumnDef<WhitelistedUser>[] = [
     header: "Institution",
     accessorKey: "institution",
     size: 250
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    size: 250,
+    cell: ({ row }) => {
+      const data = row.original
+      return (
+        <div className="flex justify-center">
+          <RemoveWhitelistedUserModal id={data.id} />
+        </div>
+      )
+    }
   }
 ]

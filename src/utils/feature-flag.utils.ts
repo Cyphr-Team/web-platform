@@ -45,6 +45,11 @@ function isEnableDownloadCSVAndJSONSummary() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.DOWNLOAD_CSV_AND_JSON_SUMMARY)
 }
 
+function isEnableWhitelistedUsers() {
+  return true
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.WHITELISTED_USERS)
+}
+
 export {
   isEnableDownloadCSVAndJSONSummary,
   isEnablePersonaKycV1,
@@ -52,5 +57,6 @@ export {
   isEnableDashboardV2,
   isEnableCashFlowV2,
   isEnableCashFlowV2Async,
-  isEnabledCashFlowV2DummyData
+  isEnabledCashFlowV2DummyData,
+  isEnableWhitelistedUsers
 }
