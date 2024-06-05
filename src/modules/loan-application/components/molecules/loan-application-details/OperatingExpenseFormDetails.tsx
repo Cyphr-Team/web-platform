@@ -1,6 +1,12 @@
 import { Card } from "@/components/ui/card"
-import { TextInputDisplay } from "../../atoms/TextInputDisplay"
-import { OperatingExpensesInformationResponse } from "@/modules/loan-application/constants/type"
+import {
+  OPERATING_EXPENSES_FIELD_DATA,
+  OperatingExpensesInformationResponse
+} from "@/modules/loan-application/constants/type"
+
+import { Separator } from "@/components/ui/separator"
+import { OperatingExpensesDisplay } from "../../atoms/OperatingExpensesDisplay"
+import { useMemo } from "react"
 import { toCurrency } from "@/utils"
 
 interface OperatingExpensesFormDetails {
@@ -10,92 +16,42 @@ interface OperatingExpensesFormDetails {
 export const OperatingExpensesFormDetails: React.FC<
   OperatingExpensesFormDetails
 > = ({ operatingExpensesFormData }) => {
+  const totalMonthlyOperatingExpenses = useMemo(() => {
+    return OPERATING_EXPENSES_FIELD_DATA.reduce(
+      (acc, item) =>
+        acc +
+        (operatingExpensesFormData?.[item.name]
+          ? Number(operatingExpensesFormData?.[item.name])
+          : 0),
+      0
+    )
+  }, [operatingExpensesFormData])
+
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
-      <h5 className="text-lg font-semibold">Operating Expenses</h5>
-      <div className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
-        <TextInputDisplay
-          className="col-span-3"
-          label="Cost of Goods Sold"
-          value={toCurrency(operatingExpensesFormData?.costOfGoodsSold)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Rent"
-          value={toCurrency(operatingExpensesFormData?.rent)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Salaries and Wages"
-          value={toCurrency(operatingExpensesFormData?.salariesAndWages)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Payroll Taxes"
-          value={toCurrency(operatingExpensesFormData?.payrollTaxes)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Sales and Marketing Expenses"
-          value={toCurrency(
-            operatingExpensesFormData?.salesAndMarketingExpenses
-          )}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Accounting Fees"
-          value={toCurrency(operatingExpensesFormData?.accountingFees)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Legal Fees"
-          value={toCurrency(operatingExpensesFormData?.legalFees)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Office Supplies"
-          value={toCurrency(operatingExpensesFormData?.officeSupplies)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Maintenance and Repairs"
-          value={toCurrency(operatingExpensesFormData?.maintenanceAndRepairs)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Utilities"
-          value={toCurrency(operatingExpensesFormData?.utilities)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Insurance"
-          value={toCurrency(operatingExpensesFormData?.insurance)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Dues and Subscriptions"
-          value={toCurrency(operatingExpensesFormData?.duesAndSubscriptions)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Travel and Entertainment"
-          value={toCurrency(operatingExpensesFormData?.travelAndEntertainment)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Depreciation"
-          value={toCurrency(operatingExpensesFormData?.depreciation)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Bank Charges"
-          value={toCurrency(operatingExpensesFormData?.bankCharges)}
-        />
-        <TextInputDisplay
-          className="col-span-3"
-          label="Other Operating Expenses"
-          value={toCurrency(operatingExpensesFormData?.otherOperatingExpenses)}
-        />
+      <h5 className="text-lg font-semibold">Operating Expenses (monthly) </h5>
+      <Separator />
+      <div className="flex flex-col gap-2xl">
+        {OPERATING_EXPENSES_FIELD_DATA.map(
+          (item) =>
+            Number(operatingExpensesFormData?.[item.name]) > 0 && (
+              <OperatingExpensesDisplay
+                key={item.name}
+                label={item.title}
+                description={item.subtitle}
+                value={operatingExpensesFormData?.[item.name]}
+              />
+            )
+        )}
+      </div>
+      <Separator />
+      <div className="flex justify-between">
+        <p className="text-sm font-bold text-text-secondary">
+          TOTAL MONTHLY OPERATING EXPENSE
+        </p>
+        <p className="font-bold text-base text-text-primary">
+          {toCurrency(totalMonthlyOperatingExpenses)} / mo
+        </p>
       </div>
     </Card>
   )

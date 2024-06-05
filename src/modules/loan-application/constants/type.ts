@@ -227,3 +227,109 @@ export interface LoanApplicationBankAccount {
 export interface LoanApplicationCashflowVerification {
   bankAccounts?: LoanApplicationBankAccount[]
 }
+
+export type OperatingExpensesFieldDataType = {
+  name:
+    | "costOfGoodsSold"
+    | "rent"
+    | "salariesAndWages"
+    | "payrollTaxes"
+    | "salesAndMarketingExpenses"
+    | "accountingFees"
+    | "legalFees"
+    | "officeSupplies"
+    | "maintenanceAndRepairs"
+    | "utilities"
+    | "insurance"
+    | "duesAndSubscriptions"
+    | "travelAndEntertainment"
+    | "depreciation"
+    | "bankCharges"
+    | "otherOperatingExpenses"
+  title: string
+  subtitle: string
+}[]
+
+export const OPERATING_EXPENSES_FIELD_DATA: OperatingExpensesFieldDataType = [
+  {
+    name: "costOfGoodsSold",
+    title: "Cost of Goods Sold (COGS)",
+    subtitle: "Direct costs related to producing goods or services"
+  },
+  {
+    name: "rent",
+    title: "Rent",
+    subtitle: "The cost of leasing office space or facilities"
+  },
+  {
+    name: "salariesAndWages",
+    title: "Salaries and Wages",
+    subtitle: "Payments to employees and contractors"
+  },
+  {
+    name: "payrollTaxes",
+    title: "Payroll Taxes",
+    subtitle:
+      "Contributions for Social Security, Medicare, and unemployment insurance"
+  },
+  {
+    name: "salesAndMarketingExpenses",
+    title: "Sales and Marketing Expenses",
+    subtitle: "Costs related to promoting and selling"
+  },
+  {
+    name: "accountingFees",
+    title: "Accounting Fees",
+    subtitle: "Fees paid to accountants for financial services"
+  },
+  {
+    name: "legalFees",
+    title: "Legal Fees",
+    subtitle: "Fees paid to lawyers for legal services"
+  },
+  {
+    name: "officeSupplies",
+    title: "Office Supplies",
+    subtitle: "Expenses for stationery, printer ink, etc."
+  },
+  {
+    name: "maintenanceAndRepairs",
+    title: "Maintenance and Repairs",
+    subtitle: "Costs incurred for maintaining equipment or facilities"
+  },
+  {
+    name: "utilities",
+    title: "Utilities",
+    subtitle: "Electricity, water, and other utilities bills"
+  },
+  {
+    name: "insurance",
+    title: "Insurance",
+    subtitle: "Costs to cover against unexpected damage"
+  },
+  {
+    name: "duesAndSubscriptions",
+    title: "Dues and Subscriptions",
+    subtitle: "Recurring fees such as software licenses, membership dues, etc."
+  },
+  {
+    name: "travelAndEntertainment",
+    title: "Travel and Entertainment",
+    subtitle: "Costs such as airfare, lodging, meals, transportation, etc"
+  },
+  {
+    name: "depreciation",
+    title: "Depreciation",
+    subtitle: "The periodic conversion of assets' value into an expense"
+  },
+  {
+    name: "bankCharges",
+    title: "Bank Charges",
+    subtitle: "Fees associated with banking services"
+  },
+  {
+    name: "otherOperatingExpenses",
+    title: "Other Operating Expenses",
+    subtitle: "Expenses not already captured in the above categories"
+  }
+]

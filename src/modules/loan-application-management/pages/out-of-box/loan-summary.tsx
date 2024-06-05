@@ -23,6 +23,7 @@ import { BusinessName } from "@/modules/loan-application/components/organisms/Mi
 import { CurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/CurrentLoanFormDetails.tsx"
 import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/OperatingExpenseFormDetails.tsx"
 import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary/CashflowGlance.tsx"
+import { Separator } from "@/components/ui/separator"
 
 export function Component() {
   const {
@@ -37,8 +38,9 @@ export function Component() {
   const page_3 = useRef<HTMLDivElement>(null)
   const page_4 = useRef<HTMLDivElement>(null)
   const page_5 = useRef<HTMLDivElement>(null)
+  const page_6 = useRef<HTMLDivElement>(null)
 
-  const elementToExportRef = [page_1, page_2, page_3, page_4, page_5]
+  const elementToExportRef = [page_1, page_2, page_3, page_4, page_5, page_6]
 
   return (
     <div className="lg:flex gap-3xl w-full flex-col" id="loan-summary">
@@ -78,34 +80,38 @@ export function Component() {
             />
           </div>
           <ApplicationOverview />
+          <Separator />
+          <p className="text-4xl font-semibold loan-application-header">
+            Loan Application
+          </p>
           <KybFormDetails kybFormData={loanSummary?.kybForm} />
+          <KycFormDetails kycFormData={loanSummary?.kycForm} />
         </div>
         <div
           className="space-y-3xl flex flex-col"
           id="loan-application"
           ref={page_2}
         >
-          <p className="text-4xl font-semibold loan-application-header">
-            Loan Application
-          </p>
-          <KycFormDetails kycFormData={loanSummary?.kycForm} />
           <CurrentLoanFormDetails
             currentLoanFormData={loanSummary?.currentLoanForms}
           />
+        </div>
+        <div className="space-y-3xl flex flex-col" ref={page_3}>
           <OperatingExpensesFormDetails
             operatingExpensesFormData={loanSummary?.operatingExpensesForm}
-          />
-          <SignatureDetails
-            confirmationFormData={loanSummary?.confirmationForm}
-            hasTitle={false}
           />
         </div>
 
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p1"
-          ref={page_3}
+          ref={page_4}
         >
+          <SignatureDetails
+            confirmationFormData={loanSummary?.confirmationForm}
+            hasTitle={false}
+          />
+          <Separator />
           <p className="text-4xl font-semibold ">Business Verification</p>
           <BusinessDetail isDownloadAble={false} />
           <BusinessName />
@@ -115,7 +121,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p2"
-          ref={page_4}
+          ref={page_5}
         >
           <Secretary />
           <TinMatch />
@@ -127,7 +133,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="cash-flow-report"
-          ref={page_5}
+          ref={page_6}
         >
           <p className="text-4xl font-semibold ">Cash Flow Report</p>
           <CashflowGlanceReport />
