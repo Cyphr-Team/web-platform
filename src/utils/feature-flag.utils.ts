@@ -18,18 +18,6 @@ function isEnableDashboardV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2)
 }
 
-function isEnableCashFlowV2() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.CASH_FLOW_V2)
-}
-
-async function isEnableCashFlowV2Async() {
-  return await checkEnabledFeatureFlag(FEATURE_FLAGS.CASH_FLOW_V2)
-}
-
-function isEnabledCashFlowV2DummyData() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.CASH_FLOW_V2_DUMMY_DATA)
-}
-
 function isEnablePersonaKycV1() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PERSONA_KYC_V1)
 }
@@ -49,8 +37,5 @@ export {
   isEnableDownloadCSVAndJSONSummary,
   isEnablePersonaKycV1,
   isEnableLenderDashboardV2DummyData,
-  isEnableDashboardV2,
-  isEnableCashFlowV2,
-  isEnableCashFlowV2Async,
-  isEnabledCashFlowV2DummyData
+  isEnableDashboardV2
 }

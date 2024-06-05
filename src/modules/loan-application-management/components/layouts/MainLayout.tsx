@@ -1,7 +1,6 @@
 import { TopNav } from "../molecules/TopNav"
 import { BasicInformation } from "../organisms/BasicInformation"
 import { cn } from "@/lib/utils"
-import { isEnableCashFlowV2 } from "@/utils/feature-flag.utils"
 
 type Props = {
   children: React.ReactNode
@@ -14,12 +13,7 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
         <BasicInformation />
         <TopNav />
       </div>
-      <div
-        className={cn(
-          "p-4xl pt-3xl flex-1 overflow-auto",
-          isEnableCashFlowV2() && "bg-gray-50"
-        )}
-      >
+      <div className={cn("p-4xl pt-3xl flex-1 overflow-auto bg-gray-50")}>
         {children}
       </div>
     </div>
