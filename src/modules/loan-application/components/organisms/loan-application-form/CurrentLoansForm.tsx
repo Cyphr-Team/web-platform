@@ -173,6 +173,15 @@ export const CurrentLoansForm = () => {
                               hasOutstandingLoans: "false",
                               currentLoans: updatedLoans
                             })
+                            dispatchFormAction({
+                              action: FORM_ACTION.SET_DATA,
+                              key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+                              state: {
+                                ...form.getValues(),
+                                hasOutstandingLoans: "false",
+                                currentLoans: updatedLoans
+                              }
+                            })
                           }
                           field.onChange({ target: { value } })
                         }}
