@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { toCurrency } from "@/utils"
 import { DeleteCurrentLoanButton } from "../atoms/DeleteCurrentLoanButton"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { DELETE_CURRENT_LOAN_PREFIX } from "../organisms/loan-application-form/CurrentLoansForm"
+import { DELETE_CURRENT_LOAN_PREFIX } from "../../constants"
 
 export const CurrentLoansFormItem = ({
   index,
@@ -93,12 +93,14 @@ export const CurrentLoansFormItem = ({
                 value={toCurrency(field.value, 0)}
                 required
                 onChange={(e) => {
+                  field.onBlur()
                   const value =
                     parseFloat(e.target.value.replace(/[^0-9.]/g, "")) || 0
                   if (isNaN(value) || value.toString().length > 18) return
                   field.onChange(value)
                 }}
                 onBlur={(e) => {
+                  field.onBlur()
                   const value = parseFloat(
                     e.target.value.replace(/[^0-9.]/g, "")
                   )
@@ -135,12 +137,14 @@ export const CurrentLoansFormItem = ({
                 value={toCurrency(field.value, 0)}
                 required
                 onChange={(e) => {
+                  field.onBlur()
                   const value =
                     parseFloat(e.target.value.replace(/[^0-9.]/g, "")) || 0
                   if (isNaN(value) || value.toString().length > 18) return
                   field.onChange(value)
                 }}
                 onBlur={(e) => {
+                  field.onBlur()
                   const value = parseFloat(
                     e.target.value.replace(/[^0-9.]/g, "")
                   )
@@ -179,6 +183,7 @@ export const CurrentLoansFormItem = ({
                 required
                 {...field}
                 onChange={(e) => {
+                  field.onBlur()
                   if (Number(e.target.value) >= 0 && e.target.value.length < 10)
                     field.onChange(Number(e.target.value))
                 }}
@@ -213,6 +218,7 @@ export const CurrentLoansFormItem = ({
                 required
                 {...field}
                 onChange={(e) => {
+                  field.onBlur()
                   const value = e.target.value
                   // Ensure the value is not negative
                   if (Number(value) >= 0) {

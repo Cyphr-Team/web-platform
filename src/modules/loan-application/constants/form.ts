@@ -81,7 +81,7 @@ export const confirmationFormSchema = z.object({
 
 export const loanRequestFormSchema = z.object({
   id: z.string(),
-  loanAmount: z.number().gt(0),
+  loanAmount: z.number(),
   loanTermInMonth: z.number().gt(1),
   proposeUseOfLoan: z.string().min(1)
 })
@@ -150,6 +150,12 @@ export const identityVerificationSchema = z.object({
   inquiryId: z.string(),
   status: z.string()
 })
+
+export const reviewApplicationSchema = z.object({
+  isReviewed: z.boolean()
+})
+
+export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
 
 export type IdentityVerificationValue = z.infer<
   typeof identityVerificationSchema

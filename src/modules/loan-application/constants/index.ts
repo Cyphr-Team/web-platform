@@ -116,3 +116,6 @@ export const REGEX_PATTERN = {
   EIN: /^\d{9}$/,
   WEBSITE: /^(http|https):\/\/[^ "]+$/
 }
+
+export const NEW_CURRENT_LOAN_PREFIX = "loan-add-item-"
+export const DELETE_CURRENT_LOAN_PREFIX = "loan-delete-item-"

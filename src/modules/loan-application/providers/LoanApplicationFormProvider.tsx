@@ -14,7 +14,8 @@ import {
   IdentityVerificationValue,
   LoanRequestFormValue,
   OperatingExpensesFormValue,
-  OwnerFormValue
+  OwnerFormValue,
+  ReviewApplicationValue
 } from "../constants/form"
 import { DocumentUploadedResponse } from "../constants/type"
 import { useSubmitLoanForm } from "../services/submit-form.strategy"
@@ -30,6 +31,7 @@ type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: CurrentLoansFormValue
   [LOAN_APPLICATION_STEPS.OPERATING_EXPENSES]: OperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: ConfirmationFormValue
+  [LOAN_APPLICATION_STEPS.REVIEW_APPLICATION]: ReviewApplicationValue
 }
 
 type LoanDocumentsState = {
@@ -54,6 +56,7 @@ export type FormStateType =
   | ConfirmationFormValue
   | LoanRequestFormValue
   | IdentityVerificationValue
+  | ReviewApplicationValue
 
 export type Action = {
   action: FORM_ACTION

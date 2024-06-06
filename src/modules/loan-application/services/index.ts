@@ -6,6 +6,7 @@ import {
   LinkToken,
   SetAccessTokenRequest
 } from "../constants"
+import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 
 export const exchangePublicTokenForAccessToken = async (
   publicToken: string,
@@ -90,4 +91,10 @@ export const getInfo = async (dispatch: React.Dispatch<PlaidAction>) => {
     }
   })
   return { paymentInitiation }
+}
+
+export const isReviewApplicationStep = (
+  currentStep: LOAN_APPLICATION_STEPS
+) => {
+  return currentStep === LOAN_APPLICATION_STEPS.REVIEW_APPLICATION
 }

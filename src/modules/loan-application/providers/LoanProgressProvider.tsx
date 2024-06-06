@@ -19,10 +19,16 @@ export enum LOAN_PROGRESS_ACTION {
   CHANGE_STEP = "CHANGE_STEP",
   CHANGE_PROGRESS = "CHANGE_PROGRESS",
   INIT = "INIT",
-  NEXT_STEP = "NEXT_STEP"
+  NEXT_STEP = "NEXT_STEP",
+  REMOVE_COMPLETE = "REMOVE_COMPLETE"
 }
 
-type Action = StepAction | ProgressAction | InitAction | NextStepAction
+type Action =
+  | StepAction
+  | ProgressAction
+  | InitAction
+  | NextStepAction
+  | RemoveCompleteAction
 
 type NextStepAction = {
   type: LOAN_PROGRESS_ACTION.NEXT_STEP
@@ -40,8 +46,15 @@ type StepAction = {
   step: LOAN_APPLICATION_STEPS
 }
 
+type RemoveCompleteAction = {
+  type: LOAN_PROGRESS_ACTION.REMOVE_COMPLETE
+  progress: LOAN_APPLICATION_STEPS
+}
+
 interface LoanApplicationStatusContext extends LoanApplicationStepsState {
   completeCurrentStep: () => void
+  completeSpecificStep: (specificStep: LOAN_APPLICATION_STEPS) => void
+  removeCompleteSpecificStep: (specificStep: LOAN_APPLICATION_STEPS) => void
   getCurrentStepIndex: () => number
   getCurrentStep: () => ILoanApplicationStep | undefined
   progress: ILoanApplicationStep[]
@@ -80,6 +93,19 @@ const reducer = (
           item.status !== LOAN_APPLICATION_STEP_STATUS.COMPLETE
         ) {
           return { ...item, status: LOAN_APPLICATION_STEP_STATUS.COMPLETE }
+        }
+        return item
+      })
+
+      return { ...state, progress: newProgress }
+    }
+    case LOAN_PROGRESS_ACTION.REMOVE_COMPLETE: {
+      const newProgress = state.progress.map((item) => {
+        if (
+          item.step === action.progress &&
+          item.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+        ) {
+          return { ...item, status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE }
         }
         return item
       })
@@ -140,6 +166,26 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
     })
   }, [step])
 
+  const completeSpecificStep = useCallback(
+    (specificStep: LOAN_APPLICATION_STEPS) => {
+      dispatchProgress({
+        type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+        progress: specificStep
+      })
+    },
+    []
+  )
+
+  const removeCompleteSpecificStep = useCallback(
+    (specificStep: LOAN_APPLICATION_STEPS) => {
+      dispatchProgress({
+        type: LOAN_PROGRESS_ACTION.REMOVE_COMPLETE,
+        progress: specificStep
+      })
+    },
+    []
+  )
+
   const getCurrentStepIndex = useCallback(() => {
     return progress.findIndex((item) => item.step === step)
   }, [progress, step])
@@ -171,9 +217,12 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
       dispatchProgress,
       getStepStatus,
       completeCurrentStep,
-      finishCurrentStep
+      finishCurrentStep,
+      completeSpecificStep,
+      removeCompleteSpecificStep
     }),
     [
+      removeCompleteSpecificStep,
       completeCurrentStep,
       getCurrentStepIndex,
       getCurrentStep,
@@ -181,7 +230,8 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
       finishCurrentStep,
       getStepStatus,
       progress,
-      step
+      step,
+      completeSpecificStep
     ]
   )
 

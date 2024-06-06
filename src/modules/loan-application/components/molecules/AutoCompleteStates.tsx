@@ -69,7 +69,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
     <FormField
       control={control}
       name={name}
-      render={() => (
+      render={({ field }) => (
         <FormItem className={className}>
           <FormLabel className="text-text-secondary">
             {label}
@@ -79,6 +79,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Input
+                  name={name}
                   value={value || "Select state..."}
                   className="text-sm"
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
@@ -107,6 +108,8 @@ export const AutoCompleteStates = <T extends FieldValues>(
                           key={option.id}
                           value={option.name}
                           onSelect={(currentValue) => {
+                            field.onBlur()
+                            field.onChange(currentValue)
                             onChange(currentValue)
                             setOpen(false)
                           }}

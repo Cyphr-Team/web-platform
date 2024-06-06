@@ -9,6 +9,7 @@ import { IdentityVerificationForm } from "../components/organisms/loan-applicati
 import { OperatingExpensesForm } from "../components/organisms/loan-application-form/OperatingExpensesForm"
 import { OwnerInformationForm } from "../components/organisms/loan-application-form/OwnerInformationForm"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import { ReviewApplication } from "../components/organisms/loan-application-form/ReviewApplication"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -34,6 +35,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <OperatingExpensesForm />
       case LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION:
         return <IdentityVerificationForm />
+      case LOAN_APPLICATION_STEPS.REVIEW_APPLICATION:
+        return <ReviewApplication />
       default:
         return null
     }

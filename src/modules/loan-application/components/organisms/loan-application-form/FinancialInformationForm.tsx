@@ -35,9 +35,10 @@ import {
 } from "../../../providers/LoanApplicationFormProvider"
 import { useEffect } from "react"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 export const FinancialInformationForm = () => {
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const {
     financialInformationForm,
     documents,
@@ -216,12 +217,14 @@ export const FinancialInformationForm = () => {
           />
         </div>
 
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Next <ArrowRight className="ml-1 w-4" />
-        </Button>
+        {!isReviewApplicationStep(step) && (
+          <Button
+            disabled={!form.formState.isValid}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            Next <ArrowRight className="ml-1 w-4" />
+          </Button>
+        )}
       </Form>
     </Card>
   )

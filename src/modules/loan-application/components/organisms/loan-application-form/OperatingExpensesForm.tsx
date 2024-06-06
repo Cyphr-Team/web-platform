@@ -26,12 +26,14 @@ import { useEffect, useMemo, useState } from "react"
 import { toCurrency } from "@/utils"
 import { Input } from "@/components/ui/input"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { OPERATING_EXPENSES_FIELD_DATA } from "@/modules/loan-application/constants/type"
 
 export const OperatingExpensesForm = () => {
   const { dispatchFormAction, operatingExpensesForm } =
     useLoanApplicationFormContext()
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const [totalExpenses, setTotalExpenses] = useState(0)
 
   const defaultValues = useMemo(() => {
@@ -79,7 +81,7 @@ export const OperatingExpensesForm = () => {
   const form = useForm<OperatingExpensesFormValue>({
     resolver: zodResolver(operatingExpensesFormSchema),
     defaultValues,
-    mode: "onChange"
+    mode: "onBlur"
   })
 
   const onSubmit = (data: OperatingExpensesFormValue) => {
@@ -101,6 +103,8 @@ export const OperatingExpensesForm = () => {
       state: { id, ...expenses }
     })
   }, [form.formState.isValidating, form, dispatchFormAction, setTotalExpenses])
+
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
 
   return (
     <div
@@ -157,6 +161,7 @@ export const OperatingExpensesForm = () => {
                           className="text-base input-number-remove-arrow -mt-2 mb-2 ml-auto xl:max-w-80"
                           value={toCurrency(field.value, 0)}
                           onChange={(e) => {
+                            field.onBlur()
                             const value =
                               parseFloat(
                                 e.target.value.replace(/[^0-9.]/g, "")
@@ -165,6 +170,7 @@ export const OperatingExpensesForm = () => {
                             field.onChange(value)
                           }}
                           onBlur={(e) => {
+                            field.onBlur()
                             const value = parseFloat(
                               e.target.value.replace(/[^0-9.]/g, "")
                             )
@@ -187,12 +193,14 @@ export const OperatingExpensesForm = () => {
               </p>
             </div>
           </Card>
-          <Button
-            disabled={!form.formState.isValid}
-            onClick={form.handleSubmit(onSubmit)}
-          >
-            Next <ArrowRight className="ml-1 w-4" />
-          </Button>
+          {!isReviewApplicationStep(step) && (
+            <Button
+              disabled={!form.formState.isValid}
+              onClick={form.handleSubmit(onSubmit)}
+            >
+              Next <ArrowRight className="ml-1 w-4" />
+            </Button>
+          )}
         </Form>
       </div>
     </div>

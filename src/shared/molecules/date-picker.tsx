@@ -46,7 +46,7 @@ export function CalendarDatePicker({
             )}
           >
             {value ? (
-              format(value, "MM - dd - y")
+              <span id={`${id}-value`}>{format(value, "MM - dd - y")}</span>
             ) : (
               <span className="text-text-tertiary">i.e: 01/01/1990</span>
             )}

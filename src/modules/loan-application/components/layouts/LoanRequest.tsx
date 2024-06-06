@@ -41,10 +41,12 @@ import { UseOfLoan } from "@/types/loan-application.type"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
+import { isReviewApplicationStep } from "../../services"
+import { useAutoCompleteStepEffect } from "../../hooks/useAutoCompleteStepEffect"
 
 export function CardWithForm() {
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { loanRequest, dispatchFormAction } = useLoanApplicationFormContext()
   const minLoanAmount = loanProgramDetails?.minLoanAmount ?? 0
   const maxLoanAmount = loanProgramDetails?.maxLoanAmount ?? 0
@@ -66,7 +68,8 @@ export function CardWithForm() {
 
   const form = useForm({
     resolver: zodResolver(loanRequestFormSchema),
-    defaultValues: defaultValues
+    defaultValues: defaultValues,
+    mode: "all"
   })
 
   useEffect(() => {
@@ -90,12 +93,38 @@ export function CardWithForm() {
     finishCurrentStep()
   })
 
+  useEffect(() => {
+    /**
+     * Auto saving
+     */
+    if (form.formState.isValidating) {
+      const data = form.getValues()
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+        state: {
+          id: data.id ?? "",
+          loanAmount: data.loanAmount,
+          loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
+          proposeUseOfLoan: data.proposeUseOfLoan
+        }
+      })
+    }
+  }, [
+    form.formState.isValidating,
+    form,
+    dispatchFormAction,
+    loanProgramDetails?.maxTermInMonth
+  ])
+
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+
   return (
     <Card
       className={cn(
         "rounded-xl mx-6 col-span-8",
         "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-lg"
+        "max-w-screen-sm"
       )}
     >
       <CardHeader className="text-center">
@@ -228,15 +257,17 @@ export function CardWithForm() {
             </div>
           </CardContent>
 
-          <CardFooter>
-            <Button
-              className="w-full"
-              type="submit"
-              disabled={!form.formState.isValid}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
-          </CardFooter>
+          {!isReviewApplicationStep(step) && (
+            <CardFooter>
+              <Button
+                className="w-full"
+                type="submit"
+                disabled={!form.formState.isValid}
+              >
+                Next <ArrowRight className="ml-1 w-4" />
+              </Button>
+            </CardFooter>
+          )}
         </form>
       </Form>
     </Card>

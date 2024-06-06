@@ -29,6 +29,10 @@ export const LoanInformationHeader = () => {
 
   const { getStepStatus } = useLoanApplicationProgressContext()
 
+  /**
+   * No need to check [LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION.REVIEW_APPLICATION]
+   * Because its review step
+   */
   const checkStepStatus =
     getStepStatus(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION) ||
     getStepStatus(LOAN_APPLICATION_STEPS.CURRENT_LOANS) ||

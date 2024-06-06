@@ -33,8 +33,13 @@ function isEnableDownloadCSVAndJSONSummary() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.DOWNLOAD_CSV_AND_JSON_SUMMARY)
 }
 
+function isEnableReviewApplicationStep() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.REVIEW_APPLICATION_STEP)
+}
+
 export {
   isEnableDownloadCSVAndJSONSummary,
+  isEnableReviewApplicationStep,
   isEnablePersonaKycV1,
   isEnableLenderDashboardV2DummyData,
   isEnableDashboardV2
