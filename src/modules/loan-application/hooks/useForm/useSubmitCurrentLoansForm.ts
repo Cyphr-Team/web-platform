@@ -29,7 +29,9 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
         .filter((item) => !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX))
         .map(({ id, ...data }) => ({
           ...data,
-          id: DELETE_CURRENT_LOAN_PREFIX + id
+          id: id.startsWith(DELETE_CURRENT_LOAN_PREFIX)
+            ? id
+            : DELETE_CURRENT_LOAN_PREFIX + id
         }))
     }
     const deletePromise = rawData.currentLoans

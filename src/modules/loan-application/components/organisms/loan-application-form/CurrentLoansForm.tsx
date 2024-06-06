@@ -66,7 +66,15 @@ export const CurrentLoansForm = () => {
       loanTermRemainingInMonths: 0,
       annualInterestRate: 0
     })
+    form.setValue("currentLoans", currentLoans)
     if (currentLoans.length > 1) {
+      form.reset(
+        {
+          hasOutstandingLoans: "true",
+          currentLoans
+        },
+        { keepValues: true }
+      )
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
@@ -78,9 +86,20 @@ export const CurrentLoansForm = () => {
   const handleRemoveLoan = (index: number) => {
     const currentLoans = form.getValues().currentLoans
     // Must delete in DB
-    if (!currentLoans[index].id.startsWith(NEW_CURRENT_LOAN_PREFIX)) {
+    if (
+      !currentLoans[index].id.startsWith(NEW_CURRENT_LOAN_PREFIX) &&
+      !currentLoans[index].id.startsWith(DELETE_CURRENT_LOAN_PREFIX)
+    ) {
       currentLoans[index].id =
         DELETE_CURRENT_LOAN_PREFIX + currentLoans[index].id
+      form.setValue("currentLoans", currentLoans)
+      form.reset(
+        {
+          hasOutstandingLoans: "true",
+          currentLoans
+        },
+        { keepValues: true }
+      )
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
@@ -90,6 +109,13 @@ export const CurrentLoansForm = () => {
       // Delete in FE only
       const updatedLoans = currentLoans.filter((_, i) => i !== index)
       form.setValue("currentLoans", updatedLoans)
+      form.reset(
+        {
+          hasOutstandingLoans: "true",
+          currentLoans: updatedLoans
+        },
+        { keepValues: true }
+      )
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,

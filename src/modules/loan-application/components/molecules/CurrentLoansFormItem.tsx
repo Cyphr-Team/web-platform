@@ -34,7 +34,7 @@ export const CurrentLoansFormItem = ({
   }
 
   return (
-    <Card className="grid grid-cols-6 gap-4xl p-4xl rounded-lg h-fit">
+    <Card className="grid grid-cols-6 gap-4xl p-5xl rounded-lg h-fit">
       <div className="flex flex-row items-center justify-between col-span-6">
         <h5 className="text-md font-semibold">LOAN #{index + 1}</h5>
         {form
@@ -95,14 +95,14 @@ export const CurrentLoansFormItem = ({
                 onChange={(e) => {
                   const value =
                     parseFloat(e.target.value.replace(/[^0-9.]/g, "")) || 0
-                  if (isNaN(value)) return
+                  if (isNaN(value) || value.toString().length > 18) return
                   field.onChange(value)
                 }}
                 onBlur={(e) => {
                   const value = parseFloat(
                     e.target.value.replace(/[^0-9.]/g, "")
                   )
-                  if (isNaN(value)) return
+                  if (isNaN(value) || value.toString().length > 18) return
                   return field.onChange(value)
                 }}
               />
@@ -137,14 +137,14 @@ export const CurrentLoansFormItem = ({
                 onChange={(e) => {
                   const value =
                     parseFloat(e.target.value.replace(/[^0-9.]/g, "")) || 0
-                  if (isNaN(value)) return
+                  if (isNaN(value) || value.toString().length > 18) return
                   field.onChange(value)
                 }}
                 onBlur={(e) => {
                   const value = parseFloat(
                     e.target.value.replace(/[^0-9.]/g, "")
                   )
-                  if (isNaN(value)) return
+                  if (isNaN(value) || value.toString().length > 18) return
                   return field.onChange(value)
                 }}
               />
@@ -171,6 +171,7 @@ export const CurrentLoansFormItem = ({
                 type={`currentLoans[${index}].loanTermRemainingInMonths`}
                 placeholder="i.e: 11"
                 min={0}
+                max={100000}
                 className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
                 suffixIcon={
                   <span className="text-text-tertiary -mt-2">months</span>
@@ -178,7 +179,7 @@ export const CurrentLoansFormItem = ({
                 required
                 {...field}
                 onChange={(e) => {
-                  if (Number(e.target.value) >= 0)
+                  if (Number(e.target.value) >= 0 && e.target.value.length < 10)
                     field.onChange(Number(e.target.value))
                 }}
               />
@@ -204,7 +205,7 @@ export const CurrentLoansFormItem = ({
             <FormControl>
               <Input
                 type="number"
-                placeholder="e.g 1.05"
+                placeholder="i.e 1.05"
                 max={100}
                 className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
                 onWheel={numberInputOnWheelPreventChange}
