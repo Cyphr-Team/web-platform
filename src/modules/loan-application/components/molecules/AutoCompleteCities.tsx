@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { CityType } from "@/types/common.type"
+import { capitalizeWords } from "@/utils"
 import { CheckIcon, Search } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
@@ -167,7 +168,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
                           value={option.name}
                           onSelect={(currentValue) => {
                             field.onBlur()
-                            field.onChange(currentValue)
+                            field.onChange(capitalizeWords(currentValue))
                             onSelect(currentValue)
                           }}
                         >

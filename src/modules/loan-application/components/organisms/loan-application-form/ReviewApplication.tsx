@@ -23,13 +23,18 @@ export const ReviewApplication = () => {
     useLoanApplicationProgressContext()
   const { dispatchFormAction } = useLoanApplicationFormContext()
 
+  /**
+   * TODO: Implement review application for [CASH_FLOW_VERIFICATION] and [FINANCIAL_INFORMATION]
+   * Because these forms are relevant to Plaid - complex behavior should be more carefull
+   */
   const progressFilter = useMemo(() => {
     return progress.filter(
       (prog) =>
         prog.step != step &&
         prog.step != LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION &&
         prog.step != LOAN_APPLICATION_STEPS.CONFIRMATION &&
-        prog.step != LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION
+        prog.step != LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION &&
+        prog.step != LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
     )
   }, [step, progress])
 
@@ -53,7 +58,15 @@ export const ReviewApplication = () => {
       key: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
       state: data
     })
-    finishCurrentStep()
+    /**
+     * Because [useAutoCompleteStepEffect] is using setTimeout with 0ms,
+     * If the onBlur and Click submit button event both trigger at the same time,
+     * The final check should be [finishCurrentStep],
+     * To ensure that final check we should use setTimeout with 10ms.
+     */
+    setTimeout(() => {
+      finishCurrentStep()
+    }, 10)
   }
 
   return (
