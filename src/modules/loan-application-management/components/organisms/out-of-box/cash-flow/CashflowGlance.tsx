@@ -135,7 +135,7 @@ export const CashflowGlanceReport = () => {
               "pb-10 gap-4 rounded-lg border bg-white min-h-40 flex items-center justify-center shadow-sm"
           )}
         >
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
             <CashflowGlanceCard
               title="Revenue / Gross Income"
               value={newCashFlowGlance?.cashFlowGlance.revenue}

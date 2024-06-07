@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 import { toCurrency } from "@/utils"
 import React from "react"
 
@@ -16,19 +16,17 @@ export const CashflowGlanceCard: React.FC<Props> = ({
   isPercent
 }) => {
   return (
-    <Card className="rounded-xl h-32 shadow-none">
-      <CardHeader className="text-text-tertiary text-sm">{title}</CardHeader>
-      <CardContent>
-        <span className="text-2xl lg:text-3xl font-semibold ">
-          {value
-            ? isCurrency
-              ? toCurrency(value)
-              : isPercent
-                ? `${value}%`
-                : value
-            : "N/A"}
-        </span>
-      </CardContent>
+    <Card className="rounded-xl h-32 shadow-none p-3xl flex flex-col justify-between">
+      <p className="text-text-tertiary text-sm">{title}</p>
+      <span className="text-2xl 2xl:text-3xl font-semibold mt-md">
+        {value
+          ? isCurrency
+            ? toCurrency(value)
+            : isPercent
+              ? `${value}%`
+              : value
+          : "N/A"}
+      </span>
     </Card>
   )
 }
