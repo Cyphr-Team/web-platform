@@ -21,6 +21,7 @@ type UsageCardProps = {
   warnThreshold?: number
   unit?: string
   cta?: ReactNode
+  isNotFoundSubscription?: boolean
 }
 
 export const UsageCard = ({
@@ -33,7 +34,8 @@ export const UsageCard = ({
   alertThreshold,
   warnThreshold,
   unit,
-  cta
+  cta,
+  isNotFoundSubscription
 }: PropsWithChildren<UsageCardProps>) => {
   const percentUsage = limit ? Math.round((currentUsage / limit) * 100) : 0
   const isAlerting =
@@ -50,35 +52,46 @@ export const UsageCard = ({
 
         <div className="flex flex-wrap justify-between gap-1 items-center">
           <p className="font-bold">
-            {currentUsage} / {limit}{" "}
-            {unit && <span className="text-sm">{unit}</span>}
-            <span className="ml-1">{icon}</span>
+            {isNotFoundSubscription ? (
+              <span className="text-sm">No subscription found</span>
+            ) : (
+              <>
+                <span>
+                  {currentUsage} / {limit}{" "}
+                  {unit && <span className="text-sm">{unit}</span>}
+                </span>
+                <span className="ml-1">{icon}</span>
+              </>
+            )}
           </p>
         </div>
       </CardHeader>
 
-      <CardContent className="md:p-3 md:pt-0 z-10 rounded-b-2xl bg-white border-b flex-1">
-        {!isLoading ? (
-          <div className="flex flex-col gap-2">
-            <Progress
-              value={percentUsage}
-              className="rounded"
-              indicatorClassName={cn(
-                isAlerting && "bg-red-400",
-                isWarning && "bg-yellow-400"
-              )}
-            />
-          </div>
-        ) : (
-          <Skeleton className="w-full h-4" />
-        )}
-      </CardContent>
+      {!isNotFoundSubscription && (
+        <CardContent className="md:p-3 md:pt-0 z-10 rounded-b-2xl bg-white border-b flex-1">
+          {!isLoading ? (
+            <div className="flex flex-col gap-2">
+              <Progress
+                value={percentUsage}
+                className="rounded"
+                indicatorClassName={cn(
+                  isAlerting && "bg-red-400",
+                  isWarning && "bg-yellow-400"
+                )}
+              />
+            </div>
+          ) : (
+            <Skeleton className="w-full h-4" />
+          )}
+        </CardContent>
+      )}
 
       {!!cta && (
         <CardFooter
           className={cn(
             "bg-slate-100 pb-0 pr-1 px-2 pt-4 -mt-4",
-            "md:px-2 md:pr-1 md:pb-0 md:pt-4"
+            "md:px-2 md:pr-1 md:pb-0 md:pt-4",
+            isNotFoundSubscription && "pt-0 md:pt-0 mt-auto"
           )}
         >
           {cta}

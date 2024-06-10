@@ -37,10 +37,15 @@ function isEnableReviewApplicationStep() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.REVIEW_APPLICATION_STEP)
 }
 
+function isEnableSubscriptionManagement() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.SUBSCRIPTION_MANAGEMENT)
+}
+
 export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
   isEnablePersonaKycV1,
   isEnableLenderDashboardV2DummyData,
-  isEnableDashboardV2
+  isEnableDashboardV2,
+  isEnableSubscriptionManagement
 }

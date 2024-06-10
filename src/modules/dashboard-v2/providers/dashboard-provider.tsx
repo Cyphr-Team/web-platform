@@ -76,6 +76,7 @@ export function DashboardProvider({
         ? usageDummyData
         : usageResponse.data,
       isLoadingUsage: usageResponse.isFetching,
+      usageError: usageResponse.error,
 
       averageApprovalRateData: isEnableLenderDashboardV2DummyData()
         ? averageApprovalRateDummyData
@@ -122,6 +123,7 @@ export function DashboardProvider({
       statsResponse.data?.data,
       statsResponse.isFetching,
 
+      usageResponse.error,
       usageResponse.data,
       usageResponse.isFetching,
 

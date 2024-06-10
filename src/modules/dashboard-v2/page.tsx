@@ -9,6 +9,7 @@ import { PerformanceMetrics } from "./components/PerformanceMetrics"
 import { DashboardProvider } from "./providers/dashboard-provider"
 import { AverageLoanSizeOfAllLoanProgram } from "./components/AverageLoanSizeOfAllLoanProgram"
 import { Separator } from "@/components/ui/separator"
+import { isEnableSubscriptionManagement } from "@/utils/feature-flag.utils"
 
 export function Component() {
   const isLenderAdmin = checkIsLenderAdmin()
@@ -30,7 +31,9 @@ export function Component() {
         </div>
 
         <div className={cn("flex-1 space-y-6 p-6 pt-6 bg-active", "md:p-8")}>
-          {isLenderAdmin && <CurrentUsage />}
+          {isLenderAdmin && isEnableSubscriptionManagement() && (
+            <CurrentUsage />
+          )}
           <TotalApplicationActivity />
 
           <Separator />

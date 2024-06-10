@@ -6,7 +6,8 @@ export enum ErrorCode {
   token_invalid_or_expired = "token_invalid_or_expired",
   rate_limit_exceeded = "rate_limit_exceeded",
   user_registered = "user_registered",
-  cash_flow_not_ready = "cash_flow_not_ready"
+  cash_flow_not_ready = "cash_flow_not_ready",
+  susbscription_not_found = "not_found"
 }
 
 export const getAxiosError = (

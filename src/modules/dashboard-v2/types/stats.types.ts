@@ -91,6 +91,7 @@ type DashboardProviderState = {
   averageApprovedLoanSizeData?: AverageApprovedLoanSizeResponse
   isLoadingAverageApprovedLoanSize?: boolean
 
+  usageError?: Error | null
   usageData?: Usage
   isLoadingUsage?: boolean
 
