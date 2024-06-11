@@ -22,7 +22,7 @@ export const CashFlowVerificationForm = () => {
   const isComplete = () => {
     return (
       progress.find(
-        (item) => item.step === LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+        (item) => item.step === LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION
       )?.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
     )
   }

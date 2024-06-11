@@ -36,6 +36,7 @@ import {
 import { useEffect } from "react"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 
 export const FinancialInformationForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -114,6 +115,8 @@ export const FinancialInformationForm = () => {
       })
     }
   }, [form.formState.isValidating, form, dispatchFormAction])
+
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
 
   return (
     <Card

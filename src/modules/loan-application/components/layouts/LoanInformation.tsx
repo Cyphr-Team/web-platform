@@ -34,6 +34,7 @@ export const LoanInformationHeader = () => {
    * Because its review step
    */
   const checkStepStatus =
+    getStepStatus(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION) ||
     getStepStatus(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION) ||
     getStepStatus(LOAN_APPLICATION_STEPS.CURRENT_LOANS) ||
     getStepStatus(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION) ||

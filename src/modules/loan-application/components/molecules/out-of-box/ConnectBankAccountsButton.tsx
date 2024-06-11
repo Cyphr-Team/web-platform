@@ -17,7 +17,7 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
   const { financialInformationForm, dispatchFormAction } =
     useLoanApplicationFormContext()
 
-  const { finishCurrentStep, progress, getStepStatus } =
+  const { completeSpecificStep, progress, getStepStatus } =
     useLoanApplicationProgressContext()
 
   useEffect(() => {
@@ -34,12 +34,12 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
           w2sFile: []
         }
       })
-      finishCurrentStep()
+      completeSpecificStep(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
     }
   }, [
     dispatchFormAction,
     financialInformationForm?.id,
-    finishCurrentStep,
+    completeSpecificStep,
     getStepStatus,
     linkSuccess,
     progress
