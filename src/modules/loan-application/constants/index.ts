@@ -33,10 +33,9 @@ export const navItems: NavItem[] = [
 ]
 
 export type PlaidInfo = {
-  accessToken: string
+  plaidInstitutionId: string
   itemId: string
   requestId: string
-  products: string[]
   error?: string
 }
 

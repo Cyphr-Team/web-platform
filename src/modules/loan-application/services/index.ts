@@ -36,11 +36,10 @@ export const exchangePublicTokenForAccessToken = async (
     type: "SET_STATE",
     state: {
       itemId: data.itemId,
-      accessToken: data.accessToken,
       isItemAccess: true
     }
   })
-  return data.accessToken
+  return data
 }
 
 export const generateToken = async (dispatch: React.Dispatch<PlaidAction>) => {
@@ -69,30 +68,6 @@ export const generateToken = async (dispatch: React.Dispatch<PlaidAction>) => {
   }
   // Save the link_token to be used later in the Oauth flow.
   localStorage.setItem("link_token", data.linkToken)
-}
-
-export const getInfo = async (dispatch: React.Dispatch<PlaidAction>) => {
-  const response = await postRequest<null, PlaidInfo>({
-    path: ENDPOINTS.PLAID.INFO
-  })
-  if (!response.status) {
-    dispatch({ type: "SET_STATE", state: { backend: false } })
-    return { paymentInitiation: false }
-  }
-
-  const data = response.data
-
-  const paymentInitiation: boolean =
-    data.products.includes("payment_initiation")
-
-  dispatch({
-    type: "SET_STATE",
-    state: {
-      products: data.products,
-      isPaymentInitiation: paymentInitiation
-    }
-  })
-  return { paymentInitiation }
 }
 
 export const isReviewApplicationStep = (
