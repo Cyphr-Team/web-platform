@@ -41,11 +41,16 @@ function isEnableSubscriptionManagement() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.SUBSCRIPTION_MANAGEMENT)
 }
 
+function isEnabledBankAccountConnectionV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.BANK_ACCOUNT_CONNECTION_V2)
+}
+
 export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
   isEnablePersonaKycV1,
   isEnableLenderDashboardV2DummyData,
   isEnableDashboardV2,
-  isEnableSubscriptionManagement
+  isEnableSubscriptionManagement,
+  isEnabledBankAccountConnectionV2
 }

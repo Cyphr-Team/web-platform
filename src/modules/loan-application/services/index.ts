@@ -39,6 +39,7 @@ export const exchangePublicTokenForAccessToken = async (
       isItemAccess: true
     }
   })
+  return data.accessToken
 }
 
 export const generateToken = async (dispatch: React.Dispatch<PlaidAction>) => {

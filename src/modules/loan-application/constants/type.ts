@@ -222,6 +222,7 @@ export interface DocumentUploadedResponse {
 export interface LoanApplicationBankAccount {
   bankAccountPk?: string
   bankAccountName?: string
+  connectedOn?: string
 }
 
 export interface LoanApplicationCashflowVerification {
@@ -333,3 +334,9 @@ export const OPERATING_EXPENSES_FIELD_DATA: OperatingExpensesFieldDataType = [
     subtitle: "Expenses not already captured in the above categories"
   }
 ]
+export interface PlaidItemInfo {
+  plaidAccessToken: string
+  itemId: string
+  institutionId: string
+  requestId: string
+}
