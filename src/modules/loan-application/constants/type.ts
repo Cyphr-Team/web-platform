@@ -220,6 +220,7 @@ export interface DocumentUploadedResponse {
 }
 
 export interface LoanApplicationBankAccount {
+  institutionName?: string
   bankAccountPk?: string
   bankAccountName?: string
   connectedOn?: string

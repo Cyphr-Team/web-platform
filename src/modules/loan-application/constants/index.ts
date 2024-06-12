@@ -92,6 +92,22 @@ export type PlaidAction = {
   state: Partial<PlaidState>
 }
 
+export interface IPlaidAccountProviderData {
+  id: string
+  name: string
+  mask?: string
+  type?: string
+  subtype?: string
+  verificationStatus?: string
+  connectedOn?: string
+}
+
+export type IPlaidInstitutionProviderData = {
+  institutionId: string
+  institutionName: string
+  accounts: IPlaidAccountProviderData[]
+}
+
 export interface PlaidState {
   linkSuccess: boolean
   isItemAccess: boolean
@@ -107,6 +123,7 @@ export interface PlaidState {
     errorCode: string
     errorType: string
   }
+  institutions: IPlaidInstitutionProviderData[]
 }
 
 export const REGEX_PATTERN = {

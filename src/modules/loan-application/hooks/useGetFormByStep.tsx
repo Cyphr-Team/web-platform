@@ -15,6 +15,7 @@ import { isEnabledBankAccountConnectionV2 } from "@/utils/feature-flag.utils"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
+ * Also remember to update the ReviewApplicationStep
  */
 export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   const componentStep = useMemo(() => {

@@ -1,3 +1,8 @@
+import {
+  ILoanApplicationStep,
+  LOAN_APPLICATION_STEPS
+} from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { isEnabledBankAccountConnectionV2 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 import { LoanRequest } from "../../layouts/LoanRequest"
 import { BusinessInformationForm } from "./BusinessInformationForm"
@@ -8,10 +13,7 @@ import { FinancialInformationForm } from "./FinancialInformationForm"
 import { IdentityVerificationForm } from "./IdentityVerificationForm"
 import { OperatingExpensesForm } from "./OperatingExpensesForm"
 import { OwnerInformationForm } from "./OwnerInformationForm"
-import {
-  ILoanApplicationStep,
-  LOAN_APPLICATION_STEPS
-} from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { CashFlowVerificationFormV2 } from "./v2/CashFlowVerificationForm"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -31,7 +33,11 @@ export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
-        return <CashFlowVerificationForm />
+        if (isEnabledBankAccountConnectionV2()) {
+          return <CashFlowVerificationFormV2 />
+        } else {
+          return <CashFlowVerificationForm />
+        }
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:

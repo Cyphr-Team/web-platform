@@ -16,7 +16,8 @@ const initialState: PlaidState = {
     errorType: "",
     errorCode: "",
     errorMessage: ""
-  }
+  },
+  institutions: []
 }
 
 interface PlaidContext extends PlaidState {

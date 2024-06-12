@@ -31,6 +31,7 @@ export const exchangePublicTokenForAccessToken = async (
   }
   const data = response.data
 
+  // TODO: Refactor - Replace accessToken
   dispatch({
     type: "SET_STATE",
     state: {

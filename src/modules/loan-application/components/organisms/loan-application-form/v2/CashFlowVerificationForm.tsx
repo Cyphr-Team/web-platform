@@ -2,30 +2,39 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { useTenant } from "@/providers/tenant-provider"
-import { useCallback, useState } from "react"
+import { useMemo, useState } from "react"
 
 import { cn } from "@/lib/utils"
 
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
+import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
+import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
+import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
-  useLoanApplicationProgressContext
+  useLoanApplicationProgressContext,
+  usePlaidContext
 } from "@/modules/loan-application/providers"
-import {
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
-} from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/v2/ConnectBankAccountsButton"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
-import { ColumnDef } from "@tanstack/react-table"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
-import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { Badge } from "@/components/ui/badge"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { ColumnDef } from "@tanstack/react-table"
+import { format } from "date-fns"
+import { ArrowRight } from "lucide-react"
+import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/v2/ConnectBankAccountsButton"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
+  {
+    accessorKey: "institutionName",
+    header: () => (
+      <div className="flex items-center space-x-2 text-gray-700">
+        Institution
+      </div>
+    )
+  },
   {
     accessorKey: "bankAccountName",
     header: () => (
@@ -67,44 +76,34 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
 ]
 
 export const CashFlowVerificationFormV2 = () => {
-  const { tenantData } = useTenant()
-
-  const [isConfirmedConnect, setIsConfirmedConnect] = useState(false)
-
-  // FIXME - Refactor this using form context stored in useLoanApplicationFormContext
-  const [connectedAccounts, setConnectedAccounts] = useState<
-    LoanApplicationBankAccount[]
-  >([])
-
-  const { finishCurrentStep, progress, completeSpecificStep } =
+  const { finishCurrentStep, completeSpecificStep, step } =
     useLoanApplicationProgressContext()
+
   const { financialInformationForm, dispatchFormAction } =
     useLoanApplicationFormContext()
 
-  const fetchConnectedAccounts = () => {
-    // TODO: call api to fetch connected accounts
-    setConnectedAccounts([
-      ...connectedAccounts,
-      {
-        bankAccountPk: "JP MORGAN SAVINGS PLAID SAVING",
-        bankAccountName: "JP Morgan",
-        connectedOn: "04/15/2024"
-      },
-      {
-        bankAccountPk: "CHASE SAVINGS PLAID CREDIT",
-        bankAccountName: "Chase",
-        connectedOn: "04/15/2024"
-      }
-    ])
-  }
+  const { tenantData } = useTenant()
 
-  const isComplete = useCallback(() => {
-    return (
-      progress.find(
-        (item) => item.step === LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION
-      )?.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
-    )
-  }, [progress])
+  const { institutions } = usePlaidContext()
+
+  const connectedAccounts: LoanApplicationBankAccount[] = useMemo(() => {
+    return institutions
+      .map((ins) =>
+        ins.accounts.map((account) => ({
+          institutionName: ins.institutionName,
+          bankAccountPk: account.id,
+          bankAccountName: account.name,
+          connectedOn: account.connectedOn
+            ? account.connectedOn
+            : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
+        }))
+      )
+      .flat()
+  }, [institutions])
+
+  const [isConfirmedConnect, setIsConfirmedConnect] = useState(
+    connectedAccounts.length > 0
+  )
 
   const handleNextClick = () => {
     dispatchFormAction({
@@ -121,11 +120,7 @@ export const CashFlowVerificationFormV2 = () => {
   }
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6"
-      )}
-    >
+    <>
       <Card
         className={cn(
           "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
@@ -155,7 +150,8 @@ export const CashFlowVerificationFormV2 = () => {
             <div className="flex gap-2 mt-1">
               <Checkbox
                 className="w-5 h-5"
-                checked={isConfirmedConnect || isComplete()}
+                disabled={!!connectedAccounts.length}
+                checked={!!connectedAccounts.length || isConfirmedConnect}
                 onCheckedChange={(value: boolean) => {
                   setIsConfirmedConnect(value)
                 }}
@@ -173,19 +169,20 @@ export const CashFlowVerificationFormV2 = () => {
       {(!!connectedAccounts.length || isConfirmedConnect) && (
         <Card
           className={cn(
-            "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 w-full",
-            "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+            "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 mt-6",
+            "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
           )}
         >
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center gap-2">
             <h5 className="text-lg font-semibold">Connected Accounts</h5>
             <ConnectBankAccountsButton
               disabled={!isConfirmedConnect}
               hasConnectedAccounts={!!connectedAccounts.length}
-              fetchConnectedAccounts={fetchConnectedAccounts}
             />
           </div>
+
           <Separator />
+
           <div className="flex flex-col gap-x-4xl gap-y-1 items-center p-0">
             {connectedAccounts.length <= 0 && (
               <>
@@ -196,6 +193,7 @@ export const CashFlowVerificationFormV2 = () => {
                 <Separator />
               </>
             )}
+
             {!!connectedAccounts.length && (
               <div className="flex flex-col w-full">
                 <Card className="border-none shadow-none">
@@ -211,18 +209,21 @@ export const CashFlowVerificationFormV2 = () => {
                   </CardContent>
                 </Card>
                 <Separator />
-                <Button
-                  className="w-full mt-5"
-                  disabled={!connectedAccounts.length}
-                  onClick={handleNextClick}
-                >
-                  Next <ArrowRight className="ml-1.5 w-5 h-5" />
-                </Button>
+
+                {!isReviewApplicationStep(step) && (
+                  <Button
+                    className="w-full mt-5"
+                    disabled={!connectedAccounts.length}
+                    onClick={handleNextClick}
+                  >
+                    Next <ArrowRight className="ml-1.5 w-5 h-5" />
+                  </Button>
+                )}
               </div>
             )}
           </div>
         </Card>
       )}
-    </div>
+    </>
   )
 }
