@@ -22,7 +22,11 @@ export const ownerFormSchema = z.object({
     }),
   email: z.string().email({ message: "Enter a valid email address" }),
   dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
-  socialSecurityNumber: z.string().min(1, { message: "SSN/ITIN is required" }),
+  /**
+   * Min 11 mean 9 numbers and 2 dashes '-'
+   * refer: SSN_PATTERN
+   */
+  socialSecurityNumber: z.string().min(11, { message: "SSN/ITIN is required" }),
   businessOwnershipPercentage: z
     .string()
     .min(1, { message: "Ownership percent is required" }),
@@ -53,7 +57,11 @@ export const businessFormSchema = z.object({
     .string()
     .min(1, { message: "Zip code is required" })
     .regex(REGEX_PATTERN.ZIP_CODE, "Enter a valid zip code"),
-  businessTin: z.string().min(1, { message: "EIN is required" })
+  /**
+   * Min 10 mean 9 numbers and 1 dashes '-'
+   * refer: EIN_PATTERN
+   */
+  businessTin: z.string().min(10, { message: "EIN is required" })
 })
 
 export const financialFormSchema = z.object({
