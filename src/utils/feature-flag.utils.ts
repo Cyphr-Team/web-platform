@@ -45,6 +45,10 @@ function isEnabledBankAccountConnectionV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.BANK_ACCOUNT_CONNECTION_V2)
 }
 
+function migrateUserRoleEnabled() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.MIGRATE_USER_ROLE)
+}
+
 export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
@@ -52,5 +56,6 @@ export {
   isEnableLenderDashboardV2DummyData,
   isEnableDashboardV2,
   isEnableSubscriptionManagement,
-  isEnabledBankAccountConnectionV2
+  isEnabledBankAccountConnectionV2,
+  migrateUserRoleEnabled
 }

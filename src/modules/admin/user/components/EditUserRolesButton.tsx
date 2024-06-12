@@ -3,7 +3,7 @@ import { ButtonLoading } from "@/components/ui/button.tsx"
 import { PlusCircle } from "lucide-react"
 import { useEditUserRole } from "@/modules/admin/user/hooks/useEditUserRole.ts"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
-import { EDIT_ROLES } from "@/modules/admin/user/constants/edit-roles.constants.ts"
+import { editRoleOptions } from "@/modules/admin/user/constants/roles.constants.ts"
 import { cn } from "@/lib/utils.ts"
 import { UserRoles } from "@/types/user.type.ts"
 
@@ -30,7 +30,7 @@ export const EditUserRolesButton = ({
     setIsConfirmed(true)
     setIsUserEditFormOpen(false)
   }
-  const labels = EDIT_ROLES.map((roleValue) => {
+  const labels = editRoleOptions().map((roleValue) => {
     const role = roles.find((role) => role === roleValue.value.toLowerCase())
     return !role ? null : roleValue.label
   })

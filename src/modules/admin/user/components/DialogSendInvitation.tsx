@@ -30,7 +30,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusCircle, Send } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { INVITE_ROLES } from "../constants/invite-roles.constants"
 import {
   adminSendInvitationForm,
   useSendInvitation
@@ -44,6 +43,7 @@ import { APP_PATH } from "@/constants"
 import { EXPIRATION_DAYS } from "@/modules/admin/user/constants/expiration-days.constants.ts"
 import { ExpirationDays } from "@/types/expiration-day.type.ts"
 import { useQueryGetListAllInstitution } from "../hooks/useQuery/useQueryGetListAllInstitution"
+import { inviteRoleOptions } from "@/modules/admin/user/constants/roles.constants.ts"
 
 export function DialogSendInvite() {
   const [open, setOpen] = useState(false)
@@ -152,7 +152,7 @@ export function DialogSendInvite() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {INVITE_ROLES.map((role) => (
+                      {inviteRoleOptions().map((role) => (
                         <SelectItem key={role.value} value={role.value}>
                           {role.label}
                         </SelectItem>
