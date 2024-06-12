@@ -24,6 +24,7 @@ export const useQueryGetLoanApplicationRates = ({
     AxiosError<ErrorResponse>
   >({
     queryKey: [
+      QUERY_KEY.DASHBOARD_V2,
       QUERY_KEY.LOAN_APPLICATION_RATES,
       filter.timeRange.from,
       filter.timeRange.to,

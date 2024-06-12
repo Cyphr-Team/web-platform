@@ -24,6 +24,7 @@ export const useQueryGetAverageTimeToDecision = ({
     AxiosError<ErrorResponse>
   >({
     queryKey: [
+      QUERY_KEY.DASHBOARD_V2,
       QUERY_KEY.AVERAGE_TIME_TO_DECISION,
       filter.timeRange.from,
       filter.timeRange.to,

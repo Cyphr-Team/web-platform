@@ -23,6 +23,7 @@ export const useQueryGetAverageApprovedLoanSize = ({
     AxiosError<ErrorResponse>
   >({
     queryKey: [
+      QUERY_KEY.DASHBOARD_V2,
       QUERY_KEY.AVERAGE_LOAN_SIZE,
       filter,
       averageLoanSizeFrequency,
