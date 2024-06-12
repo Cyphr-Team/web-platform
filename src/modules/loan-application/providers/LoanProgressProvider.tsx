@@ -61,6 +61,10 @@ interface LoanApplicationStatusContext extends LoanApplicationStepsState {
   step: LOAN_APPLICATION_STEPS
   percentComplete: number
   dispatchProgress: Dispatch<Action>
+
+  /**
+   * The function return 'true' if the 'step' is complete
+   */
   getStepStatus: (step: string) => boolean
   finishCurrentStep: () => void
 }
