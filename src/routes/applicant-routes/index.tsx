@@ -54,15 +54,17 @@ const applicantRoutes = (
     />
     <Route
       element={
-        <LoanProgressProvider>
-          <LoanApplicationFormProvider>
-            <BRLoanApplicationDetailsProvider>
-              <LoanApplicationDetailLayout>
-                <Outlet />
-              </LoanApplicationDetailLayout>
-            </BRLoanApplicationDetailsProvider>
-          </LoanApplicationFormProvider>
-        </LoanProgressProvider>
+        <PlaidProvider>
+          <LoanProgressProvider>
+            <LoanApplicationFormProvider>
+              <BRLoanApplicationDetailsProvider>
+                <LoanApplicationDetailLayout>
+                  <Outlet />
+                </LoanApplicationDetailLayout>
+              </BRLoanApplicationDetailsProvider>
+            </LoanApplicationFormProvider>
+          </LoanProgressProvider>
+        </PlaidProvider>
       }
     >
       <Route
