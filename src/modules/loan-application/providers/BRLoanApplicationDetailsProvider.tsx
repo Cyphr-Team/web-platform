@@ -1,7 +1,13 @@
+import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
 import { useCallback, useEffect, useMemo } from "react"
-import { createContext } from "use-context-selector"
-import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useLocation, useParams } from "react-router-dom"
+import { createContext } from "use-context-selector"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext,
+  usePlaidContext
+} from "."
 import {
   ConfirmationFormResponse,
   CurrentLoansInformationResponse,
@@ -12,31 +18,27 @@ import {
   LoanProgramData,
   OperatingExpensesInformationResponse
 } from "../constants/type"
-import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
-import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
-import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
+import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
-import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialForm"
 import { useQueryGetCurrentLoansForm } from "../hooks/useQuery/useQueryCurrentLoansForm"
+import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialForm"
 import { useQueryGetDocumentsByForm } from "../hooks/useQuery/useQueryGetDocuments"
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { useQueryGetIdentityVerification } from "../hooks/useQuery/useQueryGetIdentityVerification"
+import { useQueryGetPlaidItemIds } from "../hooks/useQuery/useQueryGetPlaidItemIds"
+import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
+import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
+import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
+import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
 import { useQueryLoanApplicationDetailsByType } from "../hooks/useQuery/useQueryUserLoanApplicationDetails"
-import {
-  useLoanApplicationFormContext,
-  useLoanApplicationProgressContext
-} from "."
-import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
-import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
+import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 import {
   reverseFormatCurrentLoansForm,
   reverseFormatKybForm,
   reverseFormatKycForm,
   reverseFormatOperatingExpensesForm
 } from "../services/form.services"
-import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
-import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
-import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
-import { useQueryGetIdentityVerification } from "../hooks/useQuery/useQueryGetIdentityVerification"
+import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
+import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -73,6 +75,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const { loanProgramId, id: loanApplicationId } = useParams()
   const { dispatchProgress } = useLoanApplicationProgressContext()
   const { dispatchFormAction } = useLoanApplicationFormContext()
+  const { dispatch: plaidDispatch } = usePlaidContext()
 
   const loanProgramQuery = useQueryLoanProgramDetailsByType(
     state?.loanProgramDetails?.type ?? "",
@@ -93,6 +96,11 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const identityVerificationQuery = useQueryGetIdentityVerification(
     loanApplicationId!
   )
+
+  /**
+   * Return the Plaid ItemIds
+   */
+  const plaidItemIdsQuery = useQueryGetPlaidItemIds(loanApplicationId!)
 
   const kybFormQuery = useQueryGetKybForm(loanApplicationId!)
   const kycFormQuery = useQueryGetKycForm(loanApplicationId!)
@@ -217,6 +225,28 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     identityVerificationQuery.data?.personaStatus
   ])
 
+  /**
+   * Handle retrieve list Plaid ItemIds
+   */
+  useEffect(() => {
+    if (plaidItemIdsQuery.data?.data?.plaidItems) {
+      plaidDispatch({
+        type: "SET_STATE",
+        state: {
+          fetchedItemIds:
+            plaidItemIdsQuery.data?.data?.plaidItems?.map(
+              (plaidItem) => plaidItem.itemId
+            ) ?? []
+        }
+      })
+    }
+  }, [plaidDispatch, plaidItemIdsQuery.data?.data])
+
+  /**
+   * TODO: Handle retrieve list bank account
+   * TODO: How to remove fetchedItemIds
+   */
+
   const value = useMemo(
     () => ({
       loanProgramInfo,
@@ -239,7 +269,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         currentLoansFormQuery.isLoading ||
         operatingExpensesFormQuery.isLoading ||
         kycDocuments.isLoading ||
-        financialDocuments.isLoading,
+        financialDocuments.isLoading ||
+        plaidItemIdsQuery.isLoading,
       isLoading: loanProgramQuery.isLoading
     }),
     [
@@ -263,7 +294,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kycDocuments.data,
       kycDocuments.isLoading,
       financialDocuments.data,
-      financialDocuments.isLoading
+      financialDocuments.isLoading,
+      plaidItemIdsQuery.isLoading
     ]
   )
   switch (loanProgramQuery.data?.type) {

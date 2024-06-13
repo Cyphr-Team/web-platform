@@ -4,6 +4,7 @@ import { TOAST_MSG } from "@/constants/toastMsg"
 import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
+import { isCyphrBank, isKccBank } from "@/utils/domain.utils"
 import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
@@ -19,7 +20,9 @@ import {
   OperatingExpensesFormValue,
   OwnerFormValue
 } from "../constants/form"
+import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
 import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
+import { useSubmitLinkPlaidItemIds } from "../hooks/useForm/useSubmitLinkPlaidItemIds"
 import { useSubmitLoanConfirmationForm } from "../hooks/useForm/useSubmitLoanConfirmationForm"
 import { useSubmitLoanFinancialForm } from "../hooks/useForm/useSubmitLoanFinancialForm"
 import { useSubmitLoanKYBForm } from "../hooks/useForm/useSubmitLoanKYBForm"
@@ -33,8 +36,6 @@ import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
 } from "../models/LoanApplicationStep/type"
-import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
-import { isCyphrBank, isKccBank } from "@/utils/domain.utils"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -47,11 +48,18 @@ export const useSubmitLoanForm = (
   operatingExpensesData: OperatingExpensesFormValue,
   confirmationData: ConfirmationFormValue,
   cashflowData: FinancialFormValue,
-  identityVerificationData: IdentityVerificationValue
+  identityVerificationData: IdentityVerificationValue,
+  plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { loanProgramId } = useParams()
+
+  /**
+   * Mutate action for submitting Plaid's itemId Clash flow verification
+   */
+  const { submitLinkPlaidItemds, isLoading: isSubmitLinkPlaidItemIds } =
+    useSubmitLinkPlaidItemIds(plaidItemIds)
 
   /**
    * Mutate action for submitting Persona's inquiry KYC
@@ -165,6 +173,10 @@ export const useSubmitLoanForm = (
         }
       }
 
+      if (plaidItemIds.length) {
+        await submitLinkPlaidItemds(loanRequestId)
+      }
+
       if (loanType === LoanType.MICRO) {
         if (
           businessData &&
@@ -252,6 +264,7 @@ export const useSubmitLoanForm = (
           isSubmitted = true
         }
       }
+
       handleSubmitFormSuccess(
         loanRequestData?.id?.length > 0,
         isSubmitted,
@@ -271,9 +284,12 @@ export const useSubmitLoanForm = (
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
+    plaidItemIds.length,
     loanType,
+    submitLinkPlaidItemds,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
+    queryClient,
     submitLoanIdentityVerification,
     businessData,
     isCompleteSteps,
@@ -291,8 +307,7 @@ export const useSubmitLoanForm = (
     submitCurrentLoansForm,
     submitOperatingExpensesForm,
     submitLoanConfirmationForm,
-    handleSubmitFormError,
-    queryClient
+    handleSubmitFormError
   ])
 
   return {
@@ -307,6 +322,7 @@ export const useSubmitLoanForm = (
       isSubmittingOperatingExpenses ||
       isSubmittingConfirmation ||
       isUploading ||
-      isSubmittingIdentityVerification
+      isSubmittingIdentityVerification ||
+      isSubmitLinkPlaidItemIds
   }
 }

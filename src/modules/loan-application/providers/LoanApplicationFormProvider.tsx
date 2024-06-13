@@ -4,7 +4,8 @@ import { useUpdateEffect } from "react-use"
 import { createContext } from "use-context-selector"
 import {
   useLoanApplicationProgressContext,
-  useLoanProgramDetailContext
+  useLoanProgramDetailContext,
+  usePlaidContext
 } from "."
 import {
   BusinessFormValue,
@@ -150,6 +151,8 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     {} as LoanApplicationFormState
   )
 
+  const { itemIds: plaidItemIds } = usePlaidContext()
+
   const [documents, dispatchDocumentAction] = useReducer(
     updateLoanDocuments,
     {} as LoanDocumentsState
@@ -160,7 +163,6 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
 
   const loanType = loanProgramDetails?.type ?? LoanType.MICRO
 
-  // TODO: Handle submit persona inquiry
   const { submitLoanForm, isLoading } = useSubmitLoanForm(
     loanType,
     progress,
@@ -172,7 +174,8 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     state[LOAN_APPLICATION_STEPS.OPERATING_EXPENSES],
     state[LOAN_APPLICATION_STEPS.CONFIRMATION],
     state[LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION],
-    state[LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION]
+    state[LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION],
+    plaidItemIds
   )
 
   //Trigger submit form when the confirmation form is submitted

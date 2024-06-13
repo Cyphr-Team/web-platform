@@ -1,4 +1,4 @@
-import { useReducer, Dispatch, ReactNode } from "react"
+import { Dispatch, ReactNode, useReducer } from "react"
 import { createContext } from "use-context-selector"
 import { PlaidAction, PlaidState } from "../constants"
 
@@ -9,6 +9,8 @@ const initialState: PlaidState = {
   linkToken: "", // Don't set to null or error message will show up briefly when site loads
   accessToken: null,
   itemId: null,
+  itemIds: [],
+  fetchedItemIds: [],
   isError: false,
   backend: true,
   products: ["transactions"],
@@ -32,8 +34,13 @@ const { Provider } = PlaidContext
 
 const reducer = (state: PlaidState, action: PlaidAction): PlaidState => {
   switch (action.type) {
-    case "SET_STATE":
-      return { ...state, ...action.state }
+    case "SET_STATE": {
+      const newItemIds = action.state.itemId
+        ? [...new Set([...state.itemIds, action.state.itemId])]
+        : action.state.itemIds ?? state.itemIds
+
+      return { ...state, ...action.state, itemIds: newItemIds }
+    }
     default:
       return { ...state }
   }

@@ -184,7 +184,9 @@ export const API_PATH = {
     getCashflowVerification: (id: string) =>
       `api/user-loan/application/${id}/cash-flow`,
     linkInquiry: "api/form/smart-kyc/inquiry/link",
-    getInquiry: "api/form/smart-kyc/inquiry/by-application-id"
+    getInquiry: "api/form/smart-kyc/inquiry/by-application-id",
+    linkPlaidItem: "api/plaid/item/link",
+    getPlaidItemIds: "api/plaid/item/list"
   },
   // For loan officer
   loanApplication: {

@@ -71,7 +71,6 @@ export const useLazyConnectPlaidEffect = () => {
         dispatch({ type: "SET_STATE", state: { isItemAccess: false } })
       }
 
-      // TODO: Handle store itemId
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } })
 
       updateAccounts(metadata)

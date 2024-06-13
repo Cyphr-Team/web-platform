@@ -7,35 +7,28 @@ import {
   SetAccessTokenRequest
 } from "../constants"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import { AxiosResponse } from "axios"
 
 export const exchangePublicTokenForAccessToken = async (
   publicToken: string,
   dispatch: React.Dispatch<PlaidAction>
 ) => {
-  const response = await postRequest<SetAccessTokenRequest, PlaidInfo>({
+  const response = await postRequest<
+    SetAccessTokenRequest,
+    AxiosResponse<PlaidInfo>
+  >({
     path: ENDPOINTS.PLAID.SET_ACCESS_TOKEN,
     data: {
       publicToken: publicToken
     }
   })
-  if (!response.status) {
-    dispatch({
-      type: "SET_STATE",
-      state: {
-        itemId: `no item_id retrieved`,
-        accessToken: `no access_token retrieved`,
-        isItemAccess: false
-      }
-    })
-    return
-  }
-  const data = response.data
 
-  // TODO: Refactor - Replace accessToken
+  const data = response?.data?.data
+
   dispatch({
     type: "SET_STATE",
     state: {
-      itemId: data.itemId,
+      itemId: data?.itemId,
       isItemAccess: true
     }
   })

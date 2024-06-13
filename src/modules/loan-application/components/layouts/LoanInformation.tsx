@@ -10,17 +10,16 @@ import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplicatio
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
+import { useGetFormByStep } from "../../hooks/useGetFormByStep"
 import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext,
   useLoanProgramDetailContext
 } from "../../providers"
-import { PlaidProvider } from "../../providers/PlaidProvider"
 import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { TopBarDetail } from "./TopBarDetail"
-import { useGetFormByStep } from "../../hooks/useGetFormByStep"
 
 export const LoanInformationHeader = () => {
   const { loanProgramDetails, isLoading } = useLoanProgramDetailContext()
@@ -114,7 +113,7 @@ export const Component = () => {
   }, [step])
 
   return (
-    <PlaidProvider>
+    <>
       <LoanInformationHeader />
 
       <Progress
@@ -131,6 +130,6 @@ export const Component = () => {
           <div className="grid grid-cols-8 w-full">{componentByStep}</div>
         </LoadingOverlay>
       </div>
-    </PlaidProvider>
+    </>
   )
 }

@@ -114,6 +114,17 @@ export interface PlaidState {
   linkToken: string | null
   accessToken: string | null
   itemId: string | null
+
+  /**
+   * ItemIds get from server via API
+   */
+  fetchedItemIds: string[]
+
+  /**
+   * ItemIds get from plaid after exchange token
+   */
+  itemIds: string[]
+
   isError: boolean
   backend: boolean
   products: string[]

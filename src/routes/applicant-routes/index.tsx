@@ -14,6 +14,7 @@ import { Loader2 } from "lucide-react"
 import { LoanApplicationFormProvider } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { LoanProgressProvider } from "@/modules/loan-application/providers/LoanProgressProvider"
 import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider"
+import { PlaidProvider } from "@/modules/loan-application/providers/PlaidProvider"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -77,29 +78,33 @@ const applicantRoutes = (
     <Route
       path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
       element={
-        <LoanProgressProvider>
-          <LoanApplicationFormProvider>
-            <BRLoanApplicationDetailsProvider>
-              <LoanApplicationFormLayout>
-                <LoanApplicationEdit />
-              </LoanApplicationFormLayout>
-            </BRLoanApplicationDetailsProvider>
-          </LoanApplicationFormProvider>
-        </LoanProgressProvider>
+        <PlaidProvider>
+          <LoanProgressProvider>
+            <LoanApplicationFormProvider>
+              <BRLoanApplicationDetailsProvider>
+                <LoanApplicationFormLayout>
+                  <LoanApplicationEdit />
+                </LoanApplicationFormLayout>
+              </BRLoanApplicationDetailsProvider>
+            </LoanApplicationFormProvider>
+          </LoanProgressProvider>
+        </PlaidProvider>
       }
     />
 
     <Route
       element={
-        <LoanProgramDetailProvider>
-          <LoanProgressProvider>
-            <LoanApplicationFormLayout>
-              <LoanApplicationFormProvider>
-                <Outlet />
-              </LoanApplicationFormProvider>
-            </LoanApplicationFormLayout>
-          </LoanProgressProvider>
-        </LoanProgramDetailProvider>
+        <PlaidProvider>
+          <LoanProgramDetailProvider>
+            <LoanProgressProvider>
+              <LoanApplicationFormLayout>
+                <LoanApplicationFormProvider>
+                  <Outlet />
+                </LoanApplicationFormProvider>
+              </LoanApplicationFormLayout>
+            </LoanProgressProvider>
+          </LoanProgramDetailProvider>
+        </PlaidProvider>
       }
     >
       <Route
