@@ -3,7 +3,7 @@ import { loanApplicationUserKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
-import { getAxiosError } from "@/utils/custom-error"
+import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { isCyphrBank, isKccBank } from "@/utils/domain.utils"
 import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
@@ -138,15 +138,25 @@ export const useSubmitLoanForm = (
     [businessData?.businessLegalName, navigate]
   )
 
-  const handleSubmitFormError = useCallback((error: AxiosError) => {
-    const message = getAxiosError(error)?.message
-    toastError({
-      title: TOAST_MSG.loanApplication.submitError.title,
-      description: message.length
-        ? message
-        : TOAST_MSG.loanApplication.submitError.description
-    })
-  }, [])
+  const handleSubmitFormError = useCallback(
+    (error: AxiosError) => {
+      const message = getAxiosError(error)?.message
+      const code = getAxiosError(error)?.code
+      toastError({
+        title: TOAST_MSG.loanApplication.submitError.title,
+        description: message.length
+          ? message
+          : TOAST_MSG.loanApplication.submitError.description
+      })
+      if (code == ErrorCode.institution_subscription_limit_reached) {
+        // Wait for 2 seconds before navigating
+        setTimeout(() => {
+          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+        }, 2000)
+      }
+    },
+    [navigate]
+  )
 
   const isCompleteSteps = useCallback(
     (step: LOAN_APPLICATION_STEPS) =>

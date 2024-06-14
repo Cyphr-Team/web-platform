@@ -5,6 +5,7 @@ export enum ErrorCode {
   token_invalid = "token_invalid",
   token_invalid_or_expired = "token_invalid_or_expired",
   rate_limit_exceeded = "rate_limit_exceeded",
+  institution_subscription_limit_reached = "institution_subscription_limit_reached",
   user_registered = "user_registered",
   cash_flow_not_ready = "cash_flow_not_ready",
   susbscription_not_found = "not_found"
