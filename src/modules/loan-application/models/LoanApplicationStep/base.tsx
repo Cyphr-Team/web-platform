@@ -56,7 +56,7 @@ export class LoanApplicationStep {
     return this
   }
 
-  _build_CashFlowVerification(): this {
+  _build_CashFlowVerificationStep(): this {
     this.#steps = [
       ...this.#steps,
       {
@@ -101,7 +101,7 @@ export class LoanApplicationStep {
     return this
   }
 
-  _build_OpertaingExpensesStep(): this {
+  _build_OperatingExpensesStep(): this {
     this.#steps = [
       ...this.#steps,
       {

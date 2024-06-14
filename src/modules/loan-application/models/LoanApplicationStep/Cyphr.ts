@@ -14,9 +14,9 @@ export class CyphrLoanApplicationStep
     this._build_LoanRequestStep()
       ._build_BusinessInformationStep()
       ._build_OwnerInformationStep()
-      ._build_CashFlowVerification()
+      ._build_CashFlowVerificationStep()
       ._build_CurrentLoansStep()
-      ._build_OpertaingExpensesStep()
+      ._build_OperatingExpensesStep()
 
     if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
 

@@ -83,15 +83,17 @@ const applicantRoutes = (
       path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
       element={
         <PlaidProvider>
-          <LoanProgressProvider>
-            <LoanApplicationFormProvider>
-              <BRLoanApplicationDetailsProvider>
-                <LoanApplicationFormLayout>
-                  <LoanApplicationEdit />
-                </LoanApplicationFormLayout>
-              </BRLoanApplicationDetailsProvider>
-            </LoanApplicationFormProvider>
-          </LoanProgressProvider>
+          <LoanProgramDetailProvider>
+            <LoanProgressProvider>
+              <LoanApplicationFormProvider>
+                <BRLoanApplicationDetailsProvider>
+                  <LoanApplicationFormLayout>
+                    <LoanApplicationEdit />
+                  </LoanApplicationFormLayout>
+                </BRLoanApplicationDetailsProvider>
+              </LoanApplicationFormProvider>
+            </LoanProgressProvider>
+          </LoanProgramDetailProvider>
         </PlaidProvider>
       }
     />

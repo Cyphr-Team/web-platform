@@ -2,6 +2,7 @@ import { LoanDecisionEnum } from "@/modules/loan-application-management/constant
 import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
+import { FORM_TYPE } from "../models/LoanApplicationStep/type"
 
 export interface KYBInformation {
   id: string | null
@@ -340,4 +341,12 @@ export interface PlaidItemInfo {
   itemId: string
   institutionId: string
   requestId: string
+}
+
+export interface LoanProgramFormsConfiguration {
+  id: string
+  loanProgramId: string
+  forms: FORM_TYPE[]
+  createdAt: string
+  updatedAt: string
 }
