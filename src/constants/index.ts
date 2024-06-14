@@ -232,7 +232,9 @@ export const API_PATH = {
     getCashFlowRevenueVsExpenseGraph: (applicationId: string) =>
       `api/v2/loan-officer/applications/${applicationId}/cash-flow/revenue-expense`,
     getCashFlowNoiVsTotalDebtPaymentGraph: (applicationId: string) =>
-      `api/v2/loan-officer/applications/${applicationId}/cash-flow/noi-total-debt-payment`
+      `api/v2/loan-officer/applications/${applicationId}/cash-flow/noi-total-debt-payment`,
+    getSmartKycPersonaDetail: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/identity-verification`
   },
   document: {
     getDocumentDownloadForOfficer:

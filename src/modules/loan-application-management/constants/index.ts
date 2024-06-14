@@ -3,23 +3,36 @@ import { APP_PATH } from "@/constants"
 import { KybDetailLiensData } from "./type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { AccountSummaryType, TRANSACTION_TAG } from "./types/cashflow.type"
+
+export enum ApplicationMenuName {
+  business = "Business Verification",
+  identity = "Identity Verification",
+  document = "Documents",
+  cashflow = "Cash Flow",
+  loanSummary = "Loan Summary"
+}
+
 export const APPLICATION_MENU = (id: string) => [
   {
-    name: "Business Verification",
+    name: ApplicationMenuName.business as string,
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
       id
     )
   },
   {
-    name: "Documents",
+    name: ApplicationMenuName.identity as string,
+    href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYC.replace(":id", id)
+  },
+  {
+    name: ApplicationMenuName.document as string,
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.details(id)
   },
   {
-    name: "Cash Flow",
+    name: ApplicationMenuName.cashflow as string,
     href: `/application/${id}/cash-flow`
   },
   {
-    name: "Loan Summary",
+    name: ApplicationMenuName.loanSummary as string,
     href: `/application/${id}/loan-summary`
   }
 ]

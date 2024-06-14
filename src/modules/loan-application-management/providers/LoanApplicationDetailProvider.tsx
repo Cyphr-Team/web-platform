@@ -33,10 +33,14 @@ import {
 import { TimeRangeValue } from "@/types/time-range.type.ts"
 import { getTimeRangeDates } from "@/utils/time-range.utils.ts"
 import { format } from "date-fns"
+import { useQueryGetSmartKyc } from "../hooks/useQuery/smart-kyc/useQueryGetSmartKyc"
+import { SmartKyc } from "../../../lib/persona/persona.types"
+import { isEnablePersonaKycV1 } from "../../../utils/feature-flag.utils"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
   loanKycDetail?: LoanApplicationsKyc
+  loanSmartKycDetail?: SmartKyc
   loanApplicationDetails?: UserMicroLoanApplication
   cashFlowAnalysis?: ApplicationCashFlow
   onChangeTimePeriod: (key: string, period: string) => void
@@ -44,6 +48,7 @@ type LoanApplicationDetailContextType = {
   isFetchingBankAccount: boolean
   isFetchingSummary: boolean
   isLoading: boolean
+  isLoadingLoanSmartKycDetail: boolean
   loanSummary?: LoanSummary
   onChangeTransactionTags: (option: TRANSACTION_TAG[]) => void
   onChangeAccountFilter: (value: string[]) => void
@@ -61,6 +66,7 @@ type LoanApplicationDetailContextType = {
 export const LoanApplicationDetailContext =
   createContext<LoanApplicationDetailContextType>({
     isLoading: false,
+    isLoadingLoanSmartKycDetail: false,
     isFetchingCashflow: false,
     isFetchingSummary: false,
     isFetchingBankAccount: false,
@@ -112,6 +118,10 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const bankAccountsQuery = useQueryGetBankAccounts({
     applicationId: params.id!,
     enabledByInstitution: isLoanReady() || isCapsight() // TODO: should have an enum of institution having out-of-the-box UI
+  })
+  const loanSmartKycDetailQuery = useQueryGetSmartKyc({
+    applicationId: params.id,
+    enabledByInstitution: isKccBank() && isEnablePersonaKycV1()
   })
 
   const defaultFilters = {
@@ -223,6 +233,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     () => ({
       loanKybDetail: kybDetailQuery.data,
       loanKycDetail: kycDetailQuery.data,
+      loanSmartKycDetail: loanSmartKycDetailQuery.data,
       loanApplicationDetails: userLoanApplicationQuery.data,
       loanSummary: loanSummaryQuery.data,
       cashFlowAnalysis: cashFlowQuery.data,
@@ -233,6 +244,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       isFetchingCashflow:
         cashFlowQuery.isLoading || bankAccountsQuery.isLoading,
       isLoading: kybDetailQuery.isLoading,
+      isLoadingLoanSmartKycDetail: loanSmartKycDetailQuery.isLoading,
       onChangeTransactionTags,
 
       selectedTags,
@@ -249,6 +261,8 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       kybDetailQuery.data,
       kybDetailQuery.isLoading,
       kycDetailQuery.data,
+      loanSmartKycDetailQuery.data,
+      loanSmartKycDetailQuery.isLoading,
       userLoanApplicationQuery.data,
       loanSummaryQuery.data,
       loanSummaryQuery.isLoading,

@@ -5,14 +5,19 @@ import {
   TaskFieldStatus
 } from "./business.type"
 import { KYC_STATUS } from "./kyc"
+import { IdentityVerificationStatus } from "./smart-kyc"
 
 /* ----- ENUM -----
- * MiddeskStatus
+ * InsightStatusc
  */
 
-type MiddeskStatus = KYC_STATUS | TaskFieldStatus | SourceStatus
+type InsightStatus =
+  | KYC_STATUS
+  | TaskFieldStatus
+  | SourceStatus
+  | IdentityVerificationStatus
 
-export type { MiddeskStatus }
+export type { InsightStatus }
 
 /* ----- Type -----
  * MiddeskTableContentReport
@@ -23,7 +28,7 @@ type MiddeskTableContentReport = {
   submitted?: boolean
   notes?: string
   sources?: BusinessRegistrationSource[]
-  status?: MiddeskStatus
+  status?: InsightStatus
   renderNote?: ReactNode
 }
 

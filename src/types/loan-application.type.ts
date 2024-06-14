@@ -52,6 +52,7 @@ interface LoanApplication {
   progress: number
   businessName?: string
   applicationIdNumber: number
+  personaInquiryId?: string
 }
 interface LoanProgram {
   id: string

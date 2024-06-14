@@ -1,14 +1,14 @@
 import { Badge } from "@/components/ui/badge"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { snakeCaseToText } from "@/utils"
 import { ReactNode } from "react"
-import { InsightStatus } from "../../../loan-application-management/constants/types/middesk.type"
+import { getBadgeVariantByIdentityVerificationStatus } from "../../../../loan-application-management/services/identity-verification.service"
+import { IdentityVerificationStatus } from "../../../../loan-application-management/constants/types/smart-kyc"
 
-export const MiddeskBadge = ({
+export const IdentityVerificationBadge = ({
   status,
   label
 }: {
-  status?: InsightStatus
+  status?: IdentityVerificationStatus
   label?: ReactNode
 }) => {
   if (!status) return ""
@@ -17,7 +17,7 @@ export const MiddeskBadge = ({
     <Badge
       isDot
       variant="soft"
-      variantColor={getBadgeVariantByInsightStatus(status)}
+      variantColor={getBadgeVariantByIdentityVerificationStatus(status)}
       className="capitalize text-sm rounded-lg"
       isDotBefore={false}
       border

@@ -7,7 +7,7 @@ import { MiddeskTable } from "@/modules/loan-application-management/components/t
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
 import { BusinessSosDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { ColumnDef } from "@tanstack/react-table"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
@@ -69,7 +69,7 @@ const columns: ColumnDef<BusinessSosDetail>[] = [
             <>
               <Dot
                 className="flex-shrink-0 self-start mt-1"
-                variantColor={getBadgeVariantByMiddeskStatus(
+                variantColor={getBadgeVariantByInsightStatus(
                   data.source.status
                 )}
               />

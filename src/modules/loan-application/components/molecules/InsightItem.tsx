@@ -7,13 +7,13 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import { MiddeskStatus } from "@/modules/loan-application-management/constants/types/middesk.type"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { InsightStatus } from "@/modules/loan-application-management/constants/types/middesk.type"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { ReactNode } from "react"
 
 type InsightItemProps = {
   title: string
-  status?: MiddeskStatus
+  status?: InsightStatus
   noBorder?: boolean
   label?: ReactNode
   toolTipContent?: ReactNode
@@ -53,7 +53,7 @@ export const InsightItem: React.FC<InsightItemProps> = ({
                 </span>
                 <Dot
                   className="flex-shrink-0 -mr-0.5"
-                  variantColor={getBadgeVariantByMiddeskStatus(status)}
+                  variantColor={getBadgeVariantByInsightStatus(status)}
                 />
               </div>
             )}

@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { ColumnDef } from "@tanstack/react-table"
@@ -23,7 +23,7 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
           <Badge
             isDot
             variant="soft"
-            variantColor={getBadgeVariantByMiddeskStatus(
+            variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.SUCCESS
             )}
             className="capitalize text-sm rounded-lg"

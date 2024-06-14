@@ -7,14 +7,14 @@ import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
 import { DateHeader } from "./DateHeader"
 import { WatchListHit } from "./WatchListHit"
-import { MiddeskStatus } from "@/modules/loan-application-management/constants/types/middesk.type"
 import { Dot } from "@/components/ui/dot"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
+import { InsightStatus } from "../../../../loan-application-management/constants/types/middesk.type"
 
 const columns: ColumnDef<
   Pick<BusinessWatchlistData, "businessName" | "people"> & {
-    status?: MiddeskStatus
+    status?: InsightStatus
   }
 >[] = [
   {
@@ -27,7 +27,7 @@ const columns: ColumnDef<
         <div className="flex items-start">
           <Dot
             className="flex-shrink-0 self-start mt-1"
-            variantColor={getBadgeVariantByMiddeskStatus(data?.status)}
+            variantColor={getBadgeVariantByInsightStatus(data?.status)}
           />
           <p>{data?.businessName ?? "-"}</p>
         </div>
@@ -45,7 +45,7 @@ const columns: ColumnDef<
           {data?.people && (
             <Dot
               className="flex-shrink-0 self-start mt-1"
-              variantColor={getBadgeVariantByMiddeskStatus(data?.status)}
+              variantColor={getBadgeVariantByInsightStatus(data?.status)}
             />
           )}
           <p>{data?.people ?? "-"}</p>

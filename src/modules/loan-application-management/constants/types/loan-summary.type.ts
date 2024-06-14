@@ -1,7 +1,6 @@
 import { UseOfLoan } from "@/types/loan-application.type"
 import { LoanApplicationsKyb } from "../type"
 import { LoanApplicationsKyc } from "./kyc"
-import { MiddeskStatus } from "./middesk.type"
 import {
   ConfirmationFormResponse,
   CurrentLoanInformationResponse,
@@ -9,6 +8,7 @@ import {
   KYCInformationResponse,
   OperatingExpensesInformationResponse
 } from "@/modules/loan-application/constants/type"
+import { InsightStatus } from "./middesk.type"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -21,7 +21,7 @@ export { SummaryCollectStatus }
 
 type SummaryCashFlowDocumentation = {
   value?: string
-  verification?: MiddeskStatus
+  verification?: InsightStatus
 }
 
 type LoanSummary = {
