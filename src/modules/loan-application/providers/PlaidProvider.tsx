@@ -19,6 +19,7 @@ const initialState: PlaidState = {
     errorCode: "",
     errorMessage: ""
   },
+  isConnecting: false,
   institutions: []
 }
 

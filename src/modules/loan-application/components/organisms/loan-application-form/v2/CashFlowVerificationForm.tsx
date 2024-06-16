@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { useTenant } from "@/providers/tenant-provider"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -15,6 +15,7 @@ import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-manag
 import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
+  useBRLoanApplicationDetailsContext,
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext,
   usePlaidContext
@@ -25,6 +26,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { ArrowRight } from "lucide-react"
 import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/v2/ConnectBankAccountsButton"
+import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
+import { toastError } from "@/utils"
+import { useUpdateEffect } from "react-use"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -84,7 +88,9 @@ export const CashFlowVerificationFormV2 = () => {
 
   const { tenantData } = useTenant()
 
-  const { institutions } = usePlaidContext()
+  const { institutions, linkTokenError, isConnecting } = usePlaidContext()
+
+  const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
 
   const connectedAccounts: LoanApplicationBankAccount[] = useMemo(() => {
     return institutions
@@ -106,18 +112,37 @@ export const CashFlowVerificationFormV2 = () => {
   )
 
   const handleNextClick = () => {
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
-      state: {
-        id: financialInformationForm?.id ?? "",
-        incomeCategories: [],
-        w2sFile: []
-      }
-    })
-    completeSpecificStep(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
     finishCurrentStep()
   }
+
+  useEffect(() => {
+    if (connectedAccounts.length > 0) {
+      completeSpecificStep(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
+        state: {
+          id: financialInformationForm?.id ?? "",
+          incomeCategories: [],
+          w2sFile: []
+        }
+      })
+    }
+  }, [
+    completeSpecificStep,
+    connectedAccounts,
+    dispatchFormAction,
+    financialInformationForm?.id
+  ])
+
+  useUpdateEffect(() => {
+    if (linkTokenError.errorMessage) {
+      toastError({
+        title: "Connect Bank Account Error",
+        description: linkTokenError.errorMessage
+      })
+    }
+  }, [linkTokenError])
 
   return (
     <>
@@ -176,8 +201,12 @@ export const CashFlowVerificationFormV2 = () => {
           <div className="flex flex-row justify-between items-center gap-2">
             <h5 className="text-lg font-semibold">Connected Accounts</h5>
             <ConnectBankAccountsButton
-              disabled={!isConfirmedConnect}
+              disabled={
+                !connectedAccounts.length &&
+                (!isConfirmedConnect || isFetchingDetails)
+              }
               hasConnectedAccounts={!!connectedAccounts.length}
+              isLoadingData={isConnecting || isFetchingDetails}
             />
           </div>
 
@@ -196,29 +225,31 @@ export const CashFlowVerificationFormV2 = () => {
 
             {!!connectedAccounts.length && (
               <div className="flex flex-col w-full">
-                <Card className="border-none shadow-none">
-                  <CardContent className="p-0 md:p-0">
-                    <MiddeskTable
-                      tableClassName="text-gray-700 font-sm"
-                      cellClassName="py-6"
-                      columns={columns}
-                      data={connectedAccounts}
-                      isLoading={false}
-                      noResultText={"No connected accounts found"}
-                    />
-                  </CardContent>
-                </Card>
-                <Separator />
+                <LoadingWrapper isLoading={isFetchingDetails}>
+                  <Card className="border-none shadow-none">
+                    <CardContent className="p-0 md:p-0">
+                      <MiddeskTable
+                        tableClassName="text-gray-700 font-sm"
+                        cellClassName="py-6"
+                        columns={columns}
+                        data={connectedAccounts}
+                        noResultText={"No connected accounts found"}
+                      />
+                    </CardContent>
+                  </Card>
 
-                {!isReviewApplicationStep(step) && (
-                  <Button
-                    className="w-full mt-5"
-                    disabled={!connectedAccounts.length}
-                    onClick={handleNextClick}
-                  >
-                    Next <ArrowRight className="ml-1.5 w-5 h-5" />
-                  </Button>
-                )}
+                  <Separator />
+
+                  {!isReviewApplicationStep(step) && (
+                    <Button
+                      className="w-full mt-5"
+                      disabled={!connectedAccounts.length}
+                      onClick={handleNextClick}
+                    >
+                      Next <ArrowRight className="ml-1.5 w-5 h-5" />
+                    </Button>
+                  )}
+                </LoadingWrapper>
               </div>
             )}
           </div>

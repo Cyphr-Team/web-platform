@@ -39,6 +39,9 @@ import {
 } from "../services/form.services"
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
+import { useQueryGetPlaidConnectedBankAccountsByApplicationId } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
+import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
+import _ from "lodash"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -52,6 +55,7 @@ type BRLoanApplicationDetailsContext<T> = {
   loanApplicationDetails?: UserMicroLoanApplication
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
+  plaidConnectedBankAccountsByApplicationId?: IPlaidConnectedBankAccountsByApplicationIdGetResponse
   isLoading: boolean
   isFetchingDetails: boolean
 }
@@ -101,6 +105,12 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    * Return the Plaid ItemIds
    */
   const plaidItemIdsQuery = useQueryGetPlaidItemIds(loanApplicationId!)
+
+  /**
+   * Return Plaid connected bank accounts by application
+   */
+  const plaidConnectedAccountsQuery =
+    useQueryGetPlaidConnectedBankAccountsByApplicationId(loanApplicationId!)
 
   const kybFormQuery = useQueryGetKybForm(loanApplicationId!)
   const kycFormQuery = useQueryGetKycForm(loanApplicationId!)
@@ -230,9 +240,24 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    */
   useEffect(() => {
     if (plaidItemIdsQuery.data?.data?.plaidItems) {
+      // group the same institution
+      const ins = _.mapValues(
+        _.groupBy(
+          plaidConnectedAccountsQuery.data?.data?.institutions,
+          "institutionId"
+        ),
+        (ins) => ins
+      )
+      const institutions = Object.entries(ins).map(([insId, ins]) => ({
+        institutionId: insId,
+        institutionName: ins[0].institutionName,
+        itemId: ins[0].itemId,
+        accounts: ins.flatMap(({ accounts }) => accounts)
+      }))
       plaidDispatch({
         type: "SET_STATE",
         state: {
+          institutions: institutions ?? [],
           fetchedItemIds:
             plaidItemIdsQuery.data?.data?.plaidItems?.map(
               (plaidItem) => plaidItem.itemId
@@ -240,11 +265,14 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         }
       })
     }
-  }, [plaidDispatch, plaidItemIdsQuery.data?.data])
+  }, [
+    plaidConnectedAccountsQuery.data?.data?.institutions,
+    plaidDispatch,
+    plaidItemIdsQuery.data?.data
+  ])
 
   /**
-   * TODO: Handle retrieve list bank account
-   * TODO: How to remove fetchedItemIds
+   * TODO: How to remove linkedItemIds
    */
 
   const value = useMemo(
@@ -260,6 +288,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
+      plaidConnectedBankAccountsByApplicationId:
+        plaidConnectedAccountsQuery.data?.data,
       isFetchingDetails:
         loanApplicationDetailsQuery.isLoading ||
         kybFormQuery.isLoading ||
@@ -270,7 +300,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         operatingExpensesFormQuery.isLoading ||
         kycDocuments.isLoading ||
         financialDocuments.isLoading ||
-        plaidItemIdsQuery.isLoading,
+        plaidItemIdsQuery.isLoading ||
+        plaidConnectedAccountsQuery.isLoading,
       isLoading: loanProgramQuery.isLoading
     }),
     [
@@ -295,7 +326,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kycDocuments.isLoading,
       financialDocuments.data,
       financialDocuments.isLoading,
-      plaidItemIdsQuery.isLoading
+      plaidItemIdsQuery.isLoading,
+      plaidConnectedAccountsQuery.data,
+      plaidConnectedAccountsQuery.isLoading
     ]
   )
   switch (loanProgramQuery.data?.type) {

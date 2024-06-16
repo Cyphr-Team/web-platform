@@ -186,7 +186,9 @@ export const API_PATH = {
     linkInquiry: "api/form/smart-kyc/inquiry/link",
     getInquiry: "api/form/smart-kyc/inquiry/by-application-id",
     linkPlaidItem: "api/plaid/item/link",
-    getPlaidItemIds: "api/plaid/item/list"
+    getPlaidItemIds: "api/plaid/item/list",
+    getPlaidConnectedBankAccountsByApplicationId:
+      "api/plaid/item/connected-bank-accounts/by-application-id"
   },
   // For loan officer
   loanApplication: {
