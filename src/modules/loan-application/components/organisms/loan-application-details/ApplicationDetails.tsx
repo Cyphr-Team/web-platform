@@ -14,6 +14,7 @@ export const ApplicationDetails = () => {
     kybFormData,
     kycFormData,
     currentLoanFormData,
+    financialFormData,
     operatingExpensesFormData
   } = useBRLoanApplicationDetailsContext()
 
@@ -27,19 +28,25 @@ export const ApplicationDetails = () => {
       <div className="col-span-3 max-w-screen-sm">
         <div className="flex flex-col gap-4">
           <LoanRequestDetails />
-          <KybFormDetails kybFormData={kybFormData} />
-          <KycFormDetails kycFormData={kycFormData} />
+          {kybFormData && <KybFormDetails kybFormData={kybFormData} />}
+          {kycFormData && <KycFormDetails kycFormData={kycFormData} />}
           {(isCyphrBank() || isKccBank()) && (
             <>
-              <CurrentLoanFormDetails
-                currentLoanFormData={currentLoanFormData}
-              />
-              <OperatingExpensesFormDetails
-                operatingExpensesFormData={operatingExpensesFormData}
-              />
+              {currentLoanFormData && (
+                <CurrentLoanFormDetails
+                  currentLoanFormData={currentLoanFormData}
+                />
+              )}
+              {operatingExpensesFormData && (
+                <OperatingExpensesFormDetails
+                  operatingExpensesFormData={operatingExpensesFormData}
+                />
+              )}
             </>
           )}
-          <FinancialFormDetails />
+          {financialFormData && (
+            <FinancialFormDetails financialFormData={financialFormData} />
+          )}
           {(isLoanReady() || isKccBank() || isCyphrBank()) && <CashFlowTable />}
         </div>
       </div>

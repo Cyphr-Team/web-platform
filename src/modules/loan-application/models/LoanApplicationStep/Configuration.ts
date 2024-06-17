@@ -15,6 +15,8 @@ export class ConfigurationLoanApplicationStep
   }
 
   _buildSteps(formTypes: FORM_TYPE[] = []) {
+    // Currently, we MUST HAVE LoanRequestStep and ConfirmationStep
+    // We will separate them later
     this._build_LoanRequestStep()
     formTypes.forEach((formType) => {
       switch (formType) {

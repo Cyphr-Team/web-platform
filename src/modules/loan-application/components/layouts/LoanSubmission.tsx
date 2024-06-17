@@ -13,7 +13,8 @@ export function Component() {
   const handleGoToDetail = () => {
     navigate(
       APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(
-        location.state?.applicationId
+        location.state?.applicationId,
+        location.state?.loanProgramId
       )
     )
   }

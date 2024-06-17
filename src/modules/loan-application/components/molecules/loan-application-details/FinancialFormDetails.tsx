@@ -1,10 +1,15 @@
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
+import { FinancialInformationResponse } from "@/modules/loan-application/constants/type"
 import { capitalizeWords } from "@/utils"
 
-export const FinancialFormDetails = () => {
-  const { financialFormData } = useBRLoanApplicationDetailsContext()
+type Props = {
+  financialFormData: FinancialInformationResponse
+}
+
+export const FinancialFormDetails: React.FC<Props> = ({
+  financialFormData
+}) => {
   return financialFormData?.incomeCategories?.length ? (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
       <h5 className="text-lg font-semibold">Financial Information</h5>

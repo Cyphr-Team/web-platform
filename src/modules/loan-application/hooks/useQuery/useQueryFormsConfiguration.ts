@@ -5,6 +5,7 @@ import { QUERY_KEY } from "../../constants/query-key"
 import { API_PATH } from "@/constants"
 import { ErrorResponse } from "@/types/common.type"
 import { LoanProgramFormsConfiguration } from "../../constants/type"
+import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 
 export const useQueryGetFormsConfiguration = (id: string) => {
   return useQuery<LoanProgramFormsConfiguration, AxiosError<ErrorResponse>>({
@@ -15,6 +16,6 @@ export const useQueryGetFormsConfiguration = (id: string) => {
         params: { id }
       })
     },
-    enabled: !!id
+    enabled: !!id && formsConfigurationEnabled()
   })
 }
