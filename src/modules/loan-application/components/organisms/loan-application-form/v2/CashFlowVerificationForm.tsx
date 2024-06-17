@@ -104,10 +104,10 @@ export const CashFlowVerificationFormV2 = () => {
             : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
         }))
       )
-      .sort((a, b) => {
-        return a[0].institutionName.localeCompare(b[0].institutionName)
-      })
       .flat()
+      .sort((a, b) => {
+        return a.institutionName.localeCompare(b.institutionName)
+      })
   }, [institutions])
 
   const [isConfirmedConnect, setIsConfirmedConnect] = useState(
@@ -205,10 +205,7 @@ export const CashFlowVerificationFormV2 = () => {
           <div className="flex flex-row justify-between items-center gap-2">
             <h5 className="text-lg font-semibold">Connected Accounts</h5>
             <ConnectBankAccountsButton
-              disabled={
-                !connectedAccounts.length &&
-                (!isConfirmedConnect || isFetchingDetails)
-              }
+              disabled={!isConfirmedConnect || isFetchingDetails}
               hasConnectedAccounts={!!connectedAccounts.length}
               isLoadingData={isConnecting || isFetchingDetails}
             />
