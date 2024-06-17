@@ -7,7 +7,8 @@ export enum ErrorCode {
   rate_limit_exceeded = "rate_limit_exceeded",
   user_registered = "user_registered",
   cash_flow_not_ready = "cash_flow_not_ready",
-  susbscription_not_found = "not_found"
+  susbscription_not_found = "not_found",
+  bank_already_linked = "bank_already_linked"
 }
 
 export const getAxiosError = (

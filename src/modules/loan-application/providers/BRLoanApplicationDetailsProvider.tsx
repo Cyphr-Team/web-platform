@@ -241,13 +241,11 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   useEffect(() => {
     if (plaidItemIdsQuery.data?.data?.plaidItems) {
       // group the same institution
-      const ins = _.mapValues(
-        _.groupBy(
-          plaidConnectedAccountsQuery.data?.data?.institutions,
-          "institutionId"
-        ),
-        (ins) => ins
+      const ins = _.groupBy(
+        plaidConnectedAccountsQuery.data?.data?.institutions,
+        "institutionId"
       )
+
       const institutions = Object.entries(ins).map(([insId, ins]) => ({
         institutionId: insId,
         institutionName: ins[0].institutionName,

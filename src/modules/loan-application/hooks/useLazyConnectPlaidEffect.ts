@@ -9,6 +9,7 @@ import {
 import { usePlaidContext } from "../providers"
 import { exchangePublicTokenForAccessToken } from "../services"
 import { IPlaidInstitutionProviderData } from "../constants"
+import { ErrorCode } from "@/utils/custom-error"
 
 /**
  * TODO: Correctly handle error
@@ -74,9 +75,9 @@ export const useLazyConnectPlaidEffect = () => {
             state: {
               isConnecting: false,
               linkTokenError: {
-                errorCode: "INSTITUTION_ALREADY_LINKED",
+                errorCode: ErrorCode.bank_already_linked,
                 errorMessage: `${metadata.institution.name} is already linked`,
-                errorType: "INSTITUTION_ALREADY_LINKED"
+                errorType: ErrorCode.bank_already_linked
               }
             }
           })
