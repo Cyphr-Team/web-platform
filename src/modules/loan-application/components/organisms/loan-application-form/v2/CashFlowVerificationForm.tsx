@@ -104,6 +104,9 @@ export const CashFlowVerificationFormV2 = () => {
             : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
         }))
       )
+      .sort((a, b) => {
+        return a[0].institutionName.localeCompare(b[0].institutionName)
+      })
       .flat()
   }, [institutions])
 
