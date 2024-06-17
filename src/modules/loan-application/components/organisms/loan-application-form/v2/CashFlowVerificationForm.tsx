@@ -118,6 +118,7 @@ export const CashFlowVerificationFormV2 = () => {
   useEffect(() => {
     if (connectedAccounts.length > 0) {
       completeSpecificStep(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+      // TODO: remove financial form submission when form configuration is ready
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
