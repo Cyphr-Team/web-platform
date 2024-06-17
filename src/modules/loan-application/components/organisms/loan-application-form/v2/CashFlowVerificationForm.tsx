@@ -207,7 +207,7 @@ export const CashFlowVerificationFormV2 = () => {
             <ConnectBankAccountsButton
               disabled={!isConfirmedConnect || isFetchingDetails}
               hasConnectedAccounts={!!connectedAccounts.length}
-              isLoadingData={isConnecting || isFetchingDetails}
+              isBankAccountsLoading={isConnecting || isFetchingDetails}
             />
           </div>
 

@@ -240,22 +240,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    */
   useEffect(() => {
     if (plaidItemIdsQuery.data?.data?.plaidItems) {
-      // group the same institution
-      const ins = _.groupBy(
-        plaidConnectedAccountsQuery.data?.data?.institutions,
-        "institutionId"
-      )
-
-      const institutions = Object.entries(ins).map(([insId, ins]) => ({
-        institutionId: insId,
-        institutionName: ins[0].institutionName,
-        itemId: ins[0].itemId,
-        accounts: ins.flatMap(({ accounts }) => accounts)
-      }))
       plaidDispatch({
         type: "SET_STATE",
         state: {
-          institutions: institutions ?? [],
           fetchedItemIds:
             plaidItemIdsQuery.data?.data?.plaidItems?.map(
               (plaidItem) => plaidItem.itemId
@@ -263,12 +250,35 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         }
       })
     }
-  }, [
-    plaidConnectedAccountsQuery.data?.data?.institutions,
-    plaidDispatch,
-    plaidItemIdsQuery.data?.data
-  ])
+  }, [plaidDispatch, plaidItemIdsQuery.data?.data])
 
+  /**
+   * Handle retrieve list Plaid connected bank accounts
+   */
+  useEffect(() => {
+    if (plaidConnectedAccountsQuery.data?.data?.institutions) {
+      // group the same institution
+      const connectedBankAccountsGroup = _.groupBy(
+        plaidConnectedAccountsQuery.data?.data?.institutions,
+        "institutionId"
+      )
+
+      const institutions = Object.entries(connectedBankAccountsGroup).map(
+        ([insId, connectedBankAccounts]) => ({
+          institutionId: insId,
+          institutionName: connectedBankAccounts[0].institutionName,
+          itemId: connectedBankAccounts[0].itemId,
+          accounts: connectedBankAccounts.flatMap(({ accounts }) => accounts)
+        })
+      )
+      plaidDispatch({
+        type: "SET_STATE",
+        state: {
+          institutions: institutions ?? []
+        }
+      })
+    }
+  }, [plaidConnectedAccountsQuery.data?.data?.institutions, plaidDispatch])
   /**
    * TODO: How to remove linkedItemIds
    */
@@ -325,7 +335,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       financialDocuments.data,
       financialDocuments.isLoading,
       plaidItemIdsQuery.isLoading,
-      plaidConnectedAccountsQuery.data,
+      plaidConnectedAccountsQuery.data?.data,
       plaidConnectedAccountsQuery.isLoading
     ]
   )
