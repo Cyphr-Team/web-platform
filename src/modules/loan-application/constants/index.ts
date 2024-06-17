@@ -1,6 +1,7 @@
 import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { NavItem } from "@/types/common.type"
+import { isKccBank } from "@/utils/domain.utils"
 import { Bell } from "lucide-react"
 
 export const navItems: NavItem[] = [
@@ -20,7 +21,8 @@ export const navItems: NavItem[] = [
     title: "Notifications",
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
     icon: Bell,
-    label: "Notifications"
+    label: "Notifications",
+    disabled: isKccBank() // Hide for KCC Bank
   }
   // Hide because it's not implemented yet
   // {
