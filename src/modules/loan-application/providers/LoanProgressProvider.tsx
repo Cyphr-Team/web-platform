@@ -245,7 +245,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
         forms: loanProgramFormsConfiguration?.forms
       })
     }
-  }, [loanProgramFormsConfiguration])
+  }, [loanProgramFormsConfiguration?.forms])
 
   const providerValues: LoanApplicationStatusContext = useMemo(
     () => ({

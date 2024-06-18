@@ -5,7 +5,7 @@ enum FORM_TYPE {
   CASH_FLOW = "cash_flow",
   IDENTITY_VERIFICATION = "identity_verification",
   REVIEW_APPLICATION = "review_application",
-  CURRENT_LOANS = "current_loans",
+  CURRENT_LOAN = "current_loan",
   OPERATING_EXPENSES = "operating_expenses"
 }
 

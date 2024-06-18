@@ -91,7 +91,7 @@ export class LoanApplicationStep {
       ...this.#steps,
       {
         step: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
-        formType: FORM_TYPE.CURRENT_LOANS,
+        formType: FORM_TYPE.CURRENT_LOAN,
         label: "Current Loans",
         parent: STEP_MENU.APPLICATION,
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE

@@ -32,10 +32,7 @@ function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
 }
 
 /**
- * The different between [SideNavApplicationDetails] and [SideNavLoanApplication] is the completeStep condition
- * Because in [BRLoanApplicationDetailsProvider]:
- * - We dont update [confirmationForm] and the status for confirmation is [INCOMPLETE]
- * - If we do, then we will trigger submit loan application from [LoanApplicationFormProvider]
+In the loan application details, all the steps MUST be finished
  */
 function LoanProgramCollapsible({
   label,

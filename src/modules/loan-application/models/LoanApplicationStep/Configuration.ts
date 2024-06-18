@@ -29,7 +29,7 @@ export class ConfigurationLoanApplicationStep
         case FORM_TYPE.FINANCIAL:
           this._build_FinancialInformationStep()
           break
-        case FORM_TYPE.CURRENT_LOANS:
+        case FORM_TYPE.CURRENT_LOAN:
           this._build_CurrentLoansStep()
           break
         case FORM_TYPE.CASH_FLOW:
