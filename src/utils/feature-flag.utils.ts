@@ -42,7 +42,7 @@ function isEnableSubscriptionManagement() {
 }
 
 function isEnabledBankAccountConnectionV2() {
-  return !checkEnabledFeatureFlag(FEATURE_FLAGS.BANK_ACCOUNT_CONNECTION_V2)
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.BANK_ACCOUNT_CONNECTION_V2)
 }
 
 function migrateUserRoleEnabled() {
