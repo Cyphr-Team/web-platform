@@ -8,10 +8,12 @@ import { useState } from "react"
 interface Props {
   disabled: boolean
   hasConnectedAccounts: boolean
+  isBankAccountsLoading?: boolean
 }
 export const ConnectBankAccountsButton: React.FC<Props> = ({
   disabled,
-  hasConnectedAccounts
+  hasConnectedAccounts,
+  isBankAccountsLoading
 }) => {
   const [isLoading, setIsLoading] = useState(false)
 
@@ -29,7 +31,7 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({
     <ButtonLoading
       className=" border rounded-lg text-primary bg-white text-gray-700 px-lg py-md hover:bg-zinc-100"
       onClick={handleOnClick}
-      isLoading={isLoading}
+      isLoading={isLoading || isBankAccountsLoading}
       disabled={disabled}
       type="button"
     >

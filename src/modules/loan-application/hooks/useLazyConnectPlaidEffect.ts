@@ -9,6 +9,7 @@ import {
 import { usePlaidContext } from "../providers"
 import { exchangePublicTokenForAccessToken } from "../services"
 import { IPlaidInstitutionProviderData } from "../constants"
+import { ErrorCode } from "@/utils/custom-error"
 
 /**
  * TODO: Correctly handle error
@@ -52,7 +53,6 @@ export const useLazyConnectPlaidEffect = () => {
           verificationStatus: account.verification_status
         }))
       }
-
       dispatch({
         type: "SET_STATE",
         state: { institutions: [...newInstituions, newAddedInstitution] }
@@ -63,6 +63,28 @@ export const useLazyConnectPlaidEffect = () => {
 
   const onSuccess = useCallback(
     async (publicToken: string, metadata: PlaidLinkOnSuccessMetadata) => {
+      // If the institution is linked before, send error
+      if (metadata?.institution?.institution_id) {
+        const isLinked = institutions.some(
+          (ins) => ins.institutionId === metadata.institution?.institution_id
+        )
+
+        if (isLinked) {
+          dispatch({
+            type: "SET_STATE",
+            state: {
+              isConnecting: false,
+              linkTokenError: {
+                errorCode: ErrorCode.bank_already_linked,
+                errorMessage: `${metadata.institution.name} is already linked`,
+                errorType: ErrorCode.bank_already_linked
+              }
+            }
+          })
+          removeLinkToken()
+          return
+        }
+      }
       // If the access_token is needed, send publicToken to server
       await exchangePublicTokenForAccessToken(publicToken, dispatch)
 
@@ -71,13 +93,21 @@ export const useLazyConnectPlaidEffect = () => {
         dispatch({ type: "SET_STATE", state: { isItemAccess: false } })
       }
 
-      dispatch({ type: "SET_STATE", state: { linkSuccess: true } })
+      dispatch({
+        type: "SET_STATE",
+        state: { linkSuccess: true, isConnecting: false }
+      })
 
       updateAccounts(metadata)
-
       removeLinkToken()
     },
-    [dispatch, isPaymentInitiation, removeLinkToken, updateAccounts]
+    [
+      dispatch,
+      institutions,
+      isPaymentInitiation,
+      removeLinkToken,
+      updateAccounts
+    ]
   )
 
   const onExit = useCallback(
@@ -136,9 +166,13 @@ export const useLazyConnectPlaidEffect = () => {
    */
   useEffect(() => {
     if (ready) {
+      dispatch({
+        type: "SET_STATE",
+        state: { isConnecting: true }
+      })
       open()
     }
-  }, [ready, open])
+  }, [ready, open, dispatch])
 
   return { open, ready, linkSuccess }
 }

@@ -135,6 +135,7 @@ export interface PlaidState {
     errorCode: string
     errorType: string
   }
+  isConnecting: boolean
   institutions: IPlaidInstitutionProviderData[]
 }
 
