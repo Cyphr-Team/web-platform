@@ -49,6 +49,12 @@ function migrateUserRoleEnabled() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.MIGRATE_USER_ROLE)
 }
 
+function isEnableIdentityVerificationSectionView() {
+  return checkEnabledFeatureFlag(
+    FEATURE_FLAGS.IDENTITY_VERIFICATION_SECTION_VIEW
+  )
+}
+
 export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
@@ -57,5 +63,6 @@ export {
   isEnableDashboardV2,
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
-  migrateUserRoleEnabled
+  migrateUserRoleEnabled,
+  isEnableIdentityVerificationSectionView
 }

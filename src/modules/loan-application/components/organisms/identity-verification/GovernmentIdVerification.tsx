@@ -31,6 +31,11 @@ export const GovernmentIdVerification = () => {
       : IdentityVerificationStatus.UNVERIFIED
   }
 
+  const numberOfPhotos = [
+    passedGovVerification?.frontPhotoUrl,
+    passedGovVerification?.backPhotoUrl
+  ].filter(Boolean).length
+
   const joinString = (
     separator?: string,
     ...args: (string | null | undefined)[]
@@ -79,74 +84,88 @@ export const GovernmentIdVerification = () => {
     </p>
   )
 
-  const verifiedInformation = (
-    <div className="py-4">
-      <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-x-4 w-full">
-        <GovernmentImageDivider
-          photoUrl={passedGovVerification?.frontPhotoUrl}
-          title="Front photo"
-        />
-        <GovernmentImageDivider
-          photoUrl={passedGovVerification?.backPhotoUrl}
-          title="Back photo"
-        />
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <SummaryItem
-          title="Full name"
-          subtitle1={joinString(
-            passedGovVerification?.nameFirst,
-            passedGovVerification?.nameMiddle,
-            passedGovVerification?.nameLast
+  const verifiedInformation = () => {
+    const classNameGridVariants = {
+      1: `my-4 grid grid-cols-1 gap-x-4 w-full`,
+      2: `my-4 grid grid-cols-1 md:grid-cols-2 gap-x-4 w-full`
+    }
+    const classNameGrid =
+      classNameGridVariants[
+        numberOfPhotos as keyof typeof classNameGridVariants
+      ]
+    return (
+      <div className="py-4">
+        <div className={classNameGrid}>
+          {!!passedGovVerification?.frontPhotoUrl && (
+            <GovernmentImageDivider
+              photoUrl={passedGovVerification?.frontPhotoUrl}
+              title="Front photo"
+            />
           )}
-        />
-        <SummaryItem
-          title="Address"
-          subtitle1={joinString(
-            passedGovVerification?.addressStreet1,
-            passedGovVerification?.addressCity,
-            passedGovVerification?.addressSubdivision,
-            passedGovVerification?.addressPostalCode
+          {!!passedGovVerification?.backPhotoUrl && (
+            <GovernmentImageDivider
+              photoUrl={passedGovVerification?.backPhotoUrl}
+              title="Back photo"
+            />
           )}
-        />
-        <SummaryItem title="Sex" subtitle1="Male" />
-        <SummaryItem
-          title="Date of birth"
-          subtitle1={passedGovVerification?.birthdate ?? "N/A"}
-          subtitle2={calculateAge(passedGovVerification?.birthdate)}
-        />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <SummaryItem
+            title="Full name"
+            subtitle1={joinString(
+              passedGovVerification?.nameFirst,
+              passedGovVerification?.nameMiddle,
+              passedGovVerification?.nameLast
+            )}
+          />
+          <SummaryItem
+            title="Address"
+            subtitle1={joinString(
+              passedGovVerification?.addressStreet1,
+              passedGovVerification?.addressCity,
+              passedGovVerification?.addressSubdivision,
+              passedGovVerification?.addressPostalCode
+            )}
+          />
+          <SummaryItem title="Sex" subtitle1="Male" />
+          <SummaryItem
+            title="Date of birth"
+            subtitle1={passedGovVerification?.birthdate ?? "N/A"}
+            subtitle2={calculateAge(passedGovVerification?.birthdate)}
+          />
+        </div>
+        <div className=" my-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <SummaryItem
+            title="ID number"
+            subtitle1={
+              passedGovVerification?.identificationNumber ??
+              passedGovVerification?.documentNumber ??
+              "N/A"
+            }
+          />
+          <SummaryItem
+            title="Issuing country"
+            subtitle1={passedGovVerification?.countryCode ?? "N/A"}
+          />
+          <SummaryItem
+            title="Issue date"
+            subtitle1={passedGovVerification?.issueDate ?? "N/A"}
+          />
+          <SummaryItem
+            title="Expiration date"
+            subtitle1={passedGovVerification?.expirationDate ?? "N/A"}
+          />
+        </div>
       </div>
-      <div className=" my-6 grid grid-cols-2 md:grid-cols-4 gap-6">
-        <SummaryItem
-          title="ID number"
-          subtitle1={
-            passedGovVerification?.identificationNumber ??
-            passedGovVerification?.documentNumber ??
-            "N/A"
-          }
-        />
-        <SummaryItem
-          title="Issuing country"
-          subtitle1={passedGovVerification?.countryCode ?? "N/A"}
-        />
-        <SummaryItem
-          title="Issue date"
-          subtitle1={passedGovVerification?.issueDate ?? "N/A"}
-        />
-        <SummaryItem
-          title="Expiration date"
-          subtitle1={passedGovVerification?.expirationDate ?? "N/A"}
-        />
-      </div>
-    </div>
-  )
+    )
+  }
 
   const content = (
     <LoadingWrapper
       className={isLoadingLoanSmartKycDetail ? "p-12" : "p-0"}
       isLoading={isLoadingLoanSmartKycDetail}
     >
-      {passedGovVerification != null ? verifiedInformation : emptyInformation}
+      {passedGovVerification != null ? verifiedInformation() : emptyInformation}
     </LoadingWrapper>
   )
 

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 import { Link, useLocation, useParams } from "react-router-dom"
 import { isCyphrBank, isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
-import { isEnablePersonaKycV1 } from "../../../../utils/feature-flag.utils"
+import { isEnableIdentityVerificationSectionView } from "../../../../utils/feature-flag.utils"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -26,7 +26,7 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.loanSummary as string
     ]
     // Hide Identity Verication tab when FF off
-    if (!isEnablePersonaKycV1()) {
+    if (!isEnableIdentityVerificationSectionView()) {
       menuItems = menuItems.filter(
         (e) => e != (ApplicationMenuName.identity as string)
       )

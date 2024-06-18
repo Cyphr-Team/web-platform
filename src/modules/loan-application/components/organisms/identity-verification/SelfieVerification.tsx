@@ -31,6 +31,12 @@ export const SelfieVerification = () => {
       : IdentityVerificationStatus.UNVERIFIED
   }
 
+  const numberOfPhotos = [
+    passedSelfieVerification?.leftPhotoUrl,
+    passedSelfieVerification?.centerPhotoUrl,
+    passedSelfieVerification?.rightPhotoUrl
+  ].filter(Boolean).length
+
   const badge = !isLoadingLoanSmartKycDetail && (
     <IdentityVerificationBadge
       status={getSelfieVerificationHeaderStatus()}
@@ -46,33 +52,50 @@ export const SelfieVerification = () => {
     </p>
   )
 
-  const verifiedSelfie = (
-    <div className="py-4">
-      <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-x-4 w-full">
-        <SelfieImageDivider
-          photoUrl={passedSelfieVerification?.leftPhotoUrl}
-          title="Look Left"
-          description="Live (autocapture)"
-        />
-        <SelfieImageDivider
-          photoUrl={passedSelfieVerification?.centerPhotoUrl}
-          title="Look Ahead"
-          description="Live (autocapture)"
-        />
-        <SelfieImageDivider
-          photoUrl={passedSelfieVerification?.rightPhotoUrl}
-          title="Look Right"
-          description="Live (autocapture)"
-        />
+  const verifiedSelfie = () => {
+    const classNameGridVariants = {
+      1: "p-4 grid grid-cols-1 md:grid-cols-1",
+      2: "p-4 grid grid-cols-1 md:grid-cols-2",
+      3: "p-4 grid grid-cols-1 md:grid-cols-3"
+    }
+    const classNameGrid =
+      classNameGridVariants[
+        numberOfPhotos as keyof typeof classNameGridVariants
+      ]
+    return (
+      <div className="py-4">
+        <div className={classNameGrid}>
+          {!!passedSelfieVerification?.leftPhotoUrl && (
+            <SelfieImageDivider
+              photoUrl={passedSelfieVerification?.leftPhotoUrl}
+              title="Look Left"
+              description="Live (autocapture)"
+            />
+          )}
+          {!!passedSelfieVerification?.centerPhotoUrl && (
+            <SelfieImageDivider
+              photoUrl={passedSelfieVerification?.centerPhotoUrl}
+              title="Look Ahead"
+              description="Live (autocapture)"
+            />
+          )}
+          {!!passedSelfieVerification?.rightPhotoUrl && (
+            <SelfieImageDivider
+              photoUrl={passedSelfieVerification?.rightPhotoUrl}
+              title="Look Right"
+              description="Live (autocapture)"
+            />
+          )}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
   const content = (
     <LoadingWrapper
       className={cn("p-0", isLoadingLoanSmartKycDetail && "p-12")}
       isLoading={isLoadingLoanSmartKycDetail}
     >
-      {passedSelfieVerification !== null ? verifiedSelfie : emptyInformation}
+      {passedSelfieVerification !== null ? verifiedSelfie() : emptyInformation}
     </LoadingWrapper>
   )
   return (

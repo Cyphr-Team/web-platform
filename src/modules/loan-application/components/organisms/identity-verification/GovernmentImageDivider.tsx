@@ -16,12 +16,13 @@ export const GovernmentImageDivider = ({
           alt="import"
         />
       ) : (
-        <div className="h-5/6 m-4 max-w-160 flex flex-row self-center items-center">
+        <div className="h-5/6 m-4 max-w-160 flex flex-col self-center items-center justify-center">
           <Image
             className="max-w-120 w-12 h-12 sm:w-22 sm:h-22 shrink"
             strokeWidth={0.75}
-            color="#777777"
+            color="#a0aec0"
           />
+          <h1 className="mt-4 text-gray-500">No image available</h1>
         </div>
       )}
       <h2 className="text-center align-middle font-bold">{title}</h2>
