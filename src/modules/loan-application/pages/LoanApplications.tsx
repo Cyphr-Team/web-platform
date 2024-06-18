@@ -77,7 +77,7 @@ export function Component() {
           className="text-right w-full"
         />
       ),
-      size: 150,
+      size: 200,
       enableSorting: false,
       cell: ({ row }) => {
         const application = row.original
@@ -125,7 +125,7 @@ export function Component() {
       cell: ({ row }) => {
         return (
           <div
-            className="font-medium flex gap-2 items-center cursor-pointer"
+            className="font-medium flex gap-2 items-center cursor-pointer justify-end"
             onClick={() => handleClickDetail(row)}
           >
             {row.original.status ===
@@ -138,8 +138,7 @@ export function Component() {
           </div>
         )
       }
-    },
-    { id: "preventCrashUI", size: 0 }
+    }
   ]
 
   const handleClickDetail = (detail: Row<UserMicroLoanApplication>) => {
