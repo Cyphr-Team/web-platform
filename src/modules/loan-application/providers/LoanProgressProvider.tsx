@@ -7,7 +7,8 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useReducer
+  useReducer,
+  useState
 } from "react"
 import { createContext } from "use-context-selector"
 import { LoanApplicationStepStrategy } from "../models/LoanApplicationStep"
@@ -72,6 +73,7 @@ interface LoanApplicationStatusContext extends LoanApplicationStepsState {
   getCurrentStepIndex: () => number
   getCurrentStep: () => ILoanApplicationStep | undefined
   progress: ILoanApplicationStep[]
+  isInitialized: boolean
   step: LOAN_APPLICATION_STEPS
   percentComplete: number
   dispatchProgress: Dispatch<Action>
@@ -162,6 +164,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
   props
 ) => {
   const { loanProgramFormsConfiguration } = useLoanProgramDetailContext()
+  const [isInitialized, setIsInitialized] = useState(false)
 
   const [{ progress, step }, dispatchProgress] = useReducer(
     reducer,
@@ -244,6 +247,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
         type: LOAN_PROGRESS_ACTION.INIT,
         forms: loanProgramFormsConfiguration?.forms
       })
+      setIsInitialized(true)
     }
   }, [loanProgramFormsConfiguration?.forms])
 
@@ -254,6 +258,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
       progress,
       step,
       percentComplete,
+      isInitialized: formsConfigurationEnabled() ? isInitialized : true,
       dispatchProgress,
       getStepStatus,
       completeCurrentStep,
@@ -266,6 +271,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
       completeCurrentStep,
       getCurrentStepIndex,
       getCurrentStep,
+      isInitialized,
       percentComplete,
       finishCurrentStep,
       getStepStatus,
