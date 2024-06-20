@@ -100,7 +100,6 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
       }
     )
   })
-
   return (
     <Dialog open={open || !!id.length} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>

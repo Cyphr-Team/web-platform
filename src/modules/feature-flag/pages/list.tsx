@@ -9,8 +9,7 @@ import { useState } from "react"
 import { useQueryFeatureFlags } from "../hooks/useQuery/useQueryFeatureFlags"
 import { featureFlagColumns } from "../constants/columns"
 import { CreateNewFeatureFlagDialog } from "../components/DialogCreateNewFeatureFlag"
-import { FAKE_DATA } from "../constants"
-import { FeatureFlag } from "../../../types/feature-flag.types"
+import { FeatureFlag } from "@/types/feature-flag.types.ts"
 
 export function Component() {
   const crumbs = useBreadcrumb()
@@ -42,7 +41,7 @@ export function Component() {
         tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
         isLoading={isFetching}
         columns={featureFlagColumns}
-        data={data?.data ?? FAKE_DATA}
+        data={data?.data ?? []}
         total={data?.total ?? 0}
         pagination={pagination}
         setPagination={setPagination}

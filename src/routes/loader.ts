@@ -13,9 +13,20 @@ import { defer } from "react-router-dom"
  *
  * @returns An object containing a promise for user data.
  */
-export const userLoader = async () => {
-  const userPromise = inMemoryJWTService.getNewAccessToken()
-  return defer({ userPromise })
+export const userLoader = () => {
+  return inMemoryJWTService
+    .getNewAccessToken()
+    .then(async (user) => {
+      const accessToken = inMemoryJWTService.getToken()
+      if (accessToken) {
+        await featureFlagsService.handleFetchFeatureFlags(accessToken)
+      }
+      return user
+    })
+    .catch(() => {
+      const userPromise = inMemoryJWTService.getNewAccessToken()
+      return defer({ userPromise })
+    })
 }
 
 export const institutionLoader = async () => {
@@ -35,9 +46,4 @@ export const institutionLoader = async () => {
         throw new Error("Institution Not found")
     }
   }
-}
-
-export const featureFlagsLoader = async () => {
-  await featureFlagsService.handleFetchFeatureFlags()
-  return null
 }

@@ -103,4 +103,24 @@ interface UserDetailInfo {
   createdAt: string
 }
 
-export type { UserInfo, UserDetailInfo }
+interface WhitelistedUser {
+  id: string
+  userId: string
+  featureFlagId: string
+}
+
+interface WhitelistedUserResponse {
+  id: string
+  userId: string
+  featureFlagId: string
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+}
+
+export type {
+  UserInfo,
+  WhitelistedUser,
+  UserDetailInfo,
+  WhitelistedUserResponse
+}

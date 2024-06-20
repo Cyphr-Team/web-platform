@@ -68,7 +68,19 @@ export const invitationKeys = {
 export const featureFlagKeys = {
   all: ["featureFlag"] as const,
   lists: () => [...featureFlagKeys.all, "list"] as const,
+  listsById: () => [...featureFlagKeys.all, "listById"] as const,
   list: (filters: string) => [...featureFlagKeys.lists(), { filters }] as const,
+  listById: (filters: string) =>
+    [...featureFlagKeys.listsById(), { filters }] as const,
   details: () => [...featureFlagKeys.all, "detail"] as const,
   detail: (id: string) => [...featureFlagKeys.details(), id] as const
+}
+
+export const whitelistUserKeys = {
+  all: ["whitelistUser"] as const,
+  detail: (id: string) => [...whitelistUserKeys.details(), id] as const,
+  details: () => [...whitelistUserKeys.all, "detail"] as const,
+  lists: () => [...whitelistUserKeys.all, "list"] as const,
+  list: (filters: string) =>
+    [...whitelistUserKeys.lists(), { filters }] as const
 }

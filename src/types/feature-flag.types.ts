@@ -4,6 +4,7 @@ type FeatureFlag = {
   description?: string
   tags?: string[]
   status: FeatureFlagStatus
+  rolloutType: FeatureFlagRolloutType
   createdAt: string
   updatedAt: string
 }
@@ -13,5 +14,10 @@ enum FeatureFlagStatus {
   OFF = "off"
 }
 
+enum FeatureFlagRolloutType {
+  WHITELIST = "whitelist",
+  FULL = "full"
+}
+
 export type { FeatureFlag }
-export { FeatureFlagStatus }
+export { FeatureFlagStatus, FeatureFlagRolloutType }
