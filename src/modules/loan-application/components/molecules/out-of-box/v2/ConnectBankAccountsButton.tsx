@@ -16,7 +16,6 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({
   isBankAccountsLoading
 }) => {
   const [isLoading, setIsLoading] = useState(false)
-
   const { dispatch } = usePlaidContext()
 
   const handleOnClick = async () => {

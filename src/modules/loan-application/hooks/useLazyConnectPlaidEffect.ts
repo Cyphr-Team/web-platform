@@ -125,6 +125,12 @@ export const useLazyConnectPlaidEffect = () => {
         })
       }
 
+      dispatch({
+        type: "SET_STATE",
+        state: {
+          isConnecting: false
+        }
+      })
       removeLinkToken()
     },
     [dispatch, removeLinkToken]
