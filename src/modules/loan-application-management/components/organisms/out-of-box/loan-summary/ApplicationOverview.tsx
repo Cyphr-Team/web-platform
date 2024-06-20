@@ -3,6 +3,7 @@ import { useLoanApplicationDetailContext } from "@/modules/loan-application-mana
 import { toCurrency } from "@/utils"
 import { InformationRow } from "../../../atoms/InformationRow"
 import { formatPhoneNumberIntl } from "react-phone-number-input"
+import { formatBusinessStreetAddress } from "@/modules/loan-application/constants"
 
 export const ApplicationOverview = () => {
   const { loanSummary, loanApplicationDetails } =
@@ -12,12 +13,29 @@ export const ApplicationOverview = () => {
   const loanAmount = loanApplicationDetails?.loanAmount
     ? toCurrency(loanApplicationDetails?.loanAmount, 0)
     : "$-"
+  // Business Name and Address fetched from Middesk (post-verification) or from KYB form (pre-verification).
+  // If KYB form has not yet been submitted, return "N/A"
+  const getBusinessName = () => {
+    if (businessInfo?.businessName?.verification) {
+      return businessInfo?.businessName?.value ?? "N/A"
+    }
+    return loanSummary?.kybForm?.businessLegalName ?? "N/A"
+  }
+  const getBusinessAddress = () => {
+    if (businessInfo?.businessName?.verification) {
+      return loanSummary?.businessInfo?.officeAddresses?.value ?? "N/A"
+    }
+    return loanSummary?.kybForm?.businessStreetAddress
+      ? formatBusinessStreetAddress(loanSummary?.kybForm?.businessStreetAddress)
+      : "N/A"
+  }
+
   return (
     <Card className="border-r-0 border-b-0 shadow-none bg-white">
       <div className="grid grid-cols-2">
         <InformationRow
           label="Business Name"
-          value={businessInfo?.businessName?.value ?? "N/A"}
+          value={getBusinessName()}
           className="rounded-tl-md"
         />
         <InformationRow
@@ -47,7 +65,7 @@ export const ApplicationOverview = () => {
         />
         <InformationRow
           label="Office Address"
-          value={loanSummary?.businessInfo?.officeAddresses?.value ?? "N/A"}
+          value={getBusinessAddress()}
           className="rounded-br-md"
         />
       </div>

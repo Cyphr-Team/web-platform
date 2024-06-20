@@ -71,6 +71,13 @@ export const capitalizeWords = (string: string) =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
 
+export const joinString = (
+  separator?: string,
+  ...args: (string | null | undefined)[]
+) => {
+  return args.filter(Boolean).join(separator ?? ", ")
+}
+
 export const toCurrency = (value?: number, maximumFractionDigits = 2) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",

@@ -23,7 +23,7 @@ export interface KYBInformationResponse {
   updatedAt: string
 }
 
-interface BusinessStreetAddress {
+export interface BusinessStreetAddress {
   addressLine1: string
   addressLine2: string
   city: string

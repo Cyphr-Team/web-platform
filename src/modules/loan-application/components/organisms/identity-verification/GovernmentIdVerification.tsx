@@ -10,6 +10,7 @@ import { getPassedGovVerification } from "../../../../loan-application-managemen
 import { GovernmentImageDivider } from "./GovernmentImageDivider"
 import { IdentityVerificationStatus } from "../../../../loan-application-management/constants/types/smart-kyc"
 import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "../../../../loan-application-management/constants/insight-toc.constant"
+import { joinString } from "@/utils"
 
 export const GovernmentIdVerification = () => {
   const { loanSmartKycDetail, isLoadingLoanSmartKycDetail } =
@@ -35,13 +36,6 @@ export const GovernmentIdVerification = () => {
     passedGovVerification?.frontPhotoUrl,
     passedGovVerification?.backPhotoUrl
   ].filter(Boolean).length
-
-  const joinString = (
-    separator?: string,
-    ...args: (string | null | undefined)[]
-  ) => {
-    return args.filter(Boolean).join(separator ?? ", ")
-  }
 
   function calculateAge(birthdateString?: string): string {
     if (birthdateString == null) {
