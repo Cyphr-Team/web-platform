@@ -150,7 +150,8 @@ export const convertToReadableDateAgo = (date: string) => {
   if (!date) {
     return "N/A"
   }
-  return intlFormatDistance(new Date(date), Date.now())
+  // Add a 1-second padding to avoid "now" text message
+  return intlFormatDistance(new Date(date), Date.now() + 1000)
 }
 
 /**

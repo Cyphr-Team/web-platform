@@ -63,7 +63,7 @@ export const CurrentLoansForm = () => {
 
   const handleAddLoan = () => {
     const currentLoans = form.getValues().currentLoans
-    currentLoans.push({
+    const newLength = currentLoans.push({
       id: _uniqueId(NEW_CURRENT_LOAN_PREFIX),
       lenderName: "",
       loanType: "",
@@ -73,6 +73,10 @@ export const CurrentLoansForm = () => {
       annualInterestRate: 0
     })
     form.setValue("currentLoans", currentLoans, { shouldValidate: true })
+    // Defer validation error when a new form is added
+    form.trigger("currentLoans").then(() => {
+      form.clearErrors(`currentLoans.${newLength - 1}`)
+    })
   }
 
   const handleRemoveLoan = (index: number) => {
