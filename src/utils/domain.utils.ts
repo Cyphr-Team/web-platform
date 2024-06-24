@@ -7,7 +7,7 @@
 import { APP_CONFIGS } from "@/configs"
 import { Institution } from "@/constants/tenant.constants"
 
-const DEFAULT_DEMO_SUBDOMAIN = "kcchamber"
+const DEFAULT_DEMO_SUBDOMAIN = APP_CONFIGS.VITE_BASE_SUBDOMAIN
 
 function getSubdomain(): string {
   try {

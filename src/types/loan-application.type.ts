@@ -71,6 +71,8 @@ interface UserMicroLoanApplication {
   loanTermInMonth: number
   proposeUseOfLoan: UseOfLoan
   status: LoanApplicationStatus
+  progress: number
+  currentStep: number
   createdAt: string
   updatedAt: string
   decision: LoanDecisionEnum

@@ -27,6 +27,7 @@ export const LoanApplicationEdit = () => {
     containerRef.current.scrollTop = 0
   }, [step])
 
+  console.log(step, percentComplete)
   return (
     <>
       <ApplicationDetailsHeader />
