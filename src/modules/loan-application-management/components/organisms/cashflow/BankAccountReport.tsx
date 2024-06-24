@@ -3,7 +3,7 @@ import { toCurrency } from "@/utils"
 import { AccountSummaryType } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 import { Badge } from "@/components/ui/badge"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { InformationRow } from "../../atoms/InformationRow"
 
@@ -29,7 +29,7 @@ export const BankAccountReport: React.FC<Props> = ({ data, isLoading }) => {
             <Badge
               isDot
               variant="soft"
-              variantColor={getBadgeVariantByMiddeskStatus(
+              variantColor={getBadgeVariantByInsightStatus(
                 TaskFieldStatus.SUCCESS
               )}
               className="capitalize text-sm rounded-lg"

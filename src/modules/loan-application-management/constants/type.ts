@@ -1,9 +1,9 @@
-import { MiddeskStatus } from "./types/middesk.type"
+import { InsightStatus } from "./types/middesk.type"
 
 export type Verification = {
   value: string
   verification?: {
-    status?: MiddeskStatus
+    status?: InsightStatus
     subLabel?: string
   }
 }

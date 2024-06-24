@@ -24,6 +24,7 @@ interface DataTableProps<TData, TValue> {
   isFilterView?: boolean
   handleClickDetail?: (row: Row<TData>) => void
   tableClassName?: string
+  cellClassName?: string
   isLoading?: boolean
   noResultText?: string
 }
@@ -33,6 +34,7 @@ export function MiddeskTable<TData, TValue>({
   data,
   handleClickDetail,
   tableClassName,
+  cellClassName,
   isLoading,
   noResultText = "No results."
 }: DataTableProps<TData, TValue>) {
@@ -73,7 +75,10 @@ export function MiddeskTable<TData, TValue>({
                   onClick={() => handleClickDetail && handleClickDetail(row)}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="text-base">
+                    <TableCell
+                      key={cell.id}
+                      className={cn("text-base", cellClassName)}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

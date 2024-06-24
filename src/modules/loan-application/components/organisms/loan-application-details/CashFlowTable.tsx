@@ -2,12 +2,14 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { ColumnDef } from "@tanstack/react-table"
 import { useParams } from "react-router-dom"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
+import { Button } from "@/components/ui/button"
+import { useMemo } from "react"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -23,7 +25,7 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
           <Badge
             isDot
             variant="soft"
-            variantColor={getBadgeVariantByMiddeskStatus(
+            variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.SUCCESS
             )}
             className="capitalize text-sm rounded-lg"
@@ -40,14 +42,21 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
 
 export const CashFlowTable = () => {
   const { id: loanApplicationId } = useParams()
-  const { data, isLoading, isError, error } =
+  const { data, isLoading, isError, error, refetch } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
 
   const bankAccounts = data?.bankAccounts ?? []
-  const noResultText =
-    isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
+  const isCashFlowNotReady = useMemo(() => {
+    return (
+      isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
+    )
+  }, [isError, error])
+
+  const noResultText = useMemo(() => {
+    return isCashFlowNotReady
       ? getCustomErrorMsgByCode(ErrorCode.cash_flow_not_ready)
       : "No bank accounts detected"
+  }, [isCashFlowNotReady])
 
   return (
     <Card>
@@ -56,6 +65,12 @@ export const CashFlowTable = () => {
           <CardTitle className="font-semibold text-lg flex items-center gap-3">
             Cash Flow Verification
           </CardTitle>
+          {/* Display this button when cash flow is not ready or empty */}
+          {(isCashFlowNotReady || !data?.bankAccounts?.length) && (
+            <Button disabled={isLoading} onClick={() => refetch()}>
+              Refresh
+            </Button>
+          )}
         </div>
       </CardHeader>
 

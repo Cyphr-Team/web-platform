@@ -18,7 +18,7 @@ import {
 import { BusinessFormValue, businessFormSchema } from "../../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../../hooks/useSelectCities"
-import { useCallback, useEffect } from "react"
+import { useEffect } from "react"
 import { AutoCompleteStates } from "../../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../../molecules/AutoCompleteCities"
 import { MaskInput, revertPattern, toPattern } from "@/components/ui/mask-input"
@@ -28,9 +28,11 @@ import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 import { EIN_PATTERN } from "@/constants"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 
 export const BusinessInformationForm = () => {
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const { businessInformation, dispatchFormAction } =
     useLoanApplicationFormContext()
@@ -58,6 +60,28 @@ export const BusinessInformationForm = () => {
   const { handleChangeState, handleChangeCity, STATE_DATA, state, city } =
     useSelectCities()
 
+  const onSubmit = (data: BusinessFormValue) => {
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+      state: {
+        ...data,
+        businessTin: revertPattern(data.businessTin)
+      }
+    })
+    finishCurrentStep()
+  }
+
+  useEffect(() => {
+    if (city) {
+      form.setValue("city", city, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    }
+  }, [city, form])
+
   useEffect(() => {
     if (state) {
       form.setValue("state", state, {
@@ -70,26 +94,7 @@ export const BusinessInformationForm = () => {
         shouldTouch: true
       })
     }
-    if (city) {
-      form.setValue("city", city, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    }
-  }, [state, city, form])
-
-  const onSubmit = (data: BusinessFormValue) => {
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
-      state: {
-        ...data,
-        businessTin: revertPattern(data.businessTin)
-      }
-    })
-    finishCurrentStep()
-  }
+  }, [form, state])
 
   useEffect(() => {
     if (form.formState.isValidating) {
@@ -105,16 +110,7 @@ export const BusinessInformationForm = () => {
     }
   }, [form.formState.isValidating, form, dispatchFormAction])
 
-  const handleChangeEIN = useCallback(
-    (ein: string) => {
-      form.setValue("businessTin", ein, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    },
-    [form]
-  )
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
 
   return (
     <Card
@@ -122,6 +118,7 @@ export const BusinessInformationForm = () => {
         "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
         "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
+      id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
     >
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
@@ -196,7 +193,6 @@ export const BusinessInformationForm = () => {
                   <MaskInput
                     pattern={EIN_PATTERN}
                     placeholder="i.e: 12-3456789"
-                    handleChange={handleChangeEIN}
                     className="text-base"
                     required
                     {...field}
@@ -218,12 +214,15 @@ export const BusinessInformationForm = () => {
           />
         </form>
       </Form>
-      <Button
-        disabled={!form.formState.isValid}
-        onClick={form.handleSubmit(onSubmit)}
-      >
-        Next <ArrowRight className="ml-1 w-4" />
-      </Button>
+
+      {!isReviewApplicationStep(step) && (
+        <Button
+          disabled={!form.formState.isValid}
+          onClick={form.handleSubmit(onSubmit)}
+        >
+          Next <ArrowRight className="ml-1 w-4" />
+        </Button>
+      )}
     </Card>
   )
 }

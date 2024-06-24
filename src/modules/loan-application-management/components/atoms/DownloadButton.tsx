@@ -84,7 +84,7 @@ export const DownloadButton = ({
     // Margin left and top
     const marginLeft = (pageWidth * 20) / 200
     let heightLeft = imgHeight
-    let position = marginLeft
+    let position = marginLeft / 2
 
     doc.addImage(imgData, "JPEG", marginLeft, position, imgWidth, imgHeight)
     heightLeft -= pageHeight
@@ -130,67 +130,32 @@ export const DownloadButton = ({
       if (!ref.current) return
       const content = ref.current
       if (content.id === "loan-application") {
-        let isHeaderPrinted = false
-        const header = content.querySelectorAll(".loan-application-header")[0]
-        const miniSections = content.querySelectorAll(".loan-application-item")
+        const MAX_LOANS_PER_PAGE = 5
 
-        for (const section of miniSections) {
-          if (section.id == "current-loans" && section.children.length > 2) {
-            const MAX_LOANS_PER_PAGE = 4
-            for (
-              let i = 0;
-              i < section.children.length;
-              i += MAX_LOANS_PER_PAGE
-            ) {
-              const clonedContent = document.createElement("div")
-              clonedContent.style.width = "1200px"
-              if (!isHeaderPrinted) {
-                clonedContent.appendChild(header.cloneNode(true))
-                isHeaderPrinted = true
-              }
+        const currentLoanItems =
+          content.querySelector("#current-loans")?.children ?? []
 
-              const pageSection = document.createElement("div")
-              pageSection.classList.add("loan-application-item")
+        for (let i = 0; i < currentLoanItems.length; i += MAX_LOANS_PER_PAGE) {
+          const clonedContent = document.createElement("div")
+          clonedContent.style.width = "1200px"
+          const pageSection = document.createElement("div")
+          pageSection.classList.add("loan-application-item")
 
-              for (
-                let j = i;
-                j < i + MAX_LOANS_PER_PAGE && j < section.children.length;
-                j++
-              ) {
-                const sectionElement = section.children[j] as HTMLElement
-                sectionElement.style.marginBottom = "30px" // Add padding between sections
-                pageSection.appendChild(section.children[j].cloneNode(true))
-              }
-
-              clonedContent.appendChild(pageSection)
-              document.body.appendChild(clonedContent)
-
-              adjustFontSize(clonedContent)
-
-              await addContentToPdf(doc, clonedContent)
-
-              clonedContent.remove()
-
-              doc.addPage()
-            }
-          } else {
-            const clonedContent = document.createElement("div")
-            clonedContent.style.width = "1200px"
-            clonedContent.classList.add("space-y-3xl")
-            if (!isHeaderPrinted) {
-              clonedContent.appendChild(header.cloneNode(true))
-              isHeaderPrinted = true
-            }
-            clonedContent.appendChild(section.cloneNode(true))
-            document.body.appendChild(clonedContent)
-            adjustFontSize(clonedContent)
-            await addContentToPdf(doc, clonedContent)
-
-            clonedContent.remove()
-            if (miniSections[miniSections.length - 1] !== section) {
-              doc.addPage()
-            }
+          for (
+            let j = i;
+            j < i + MAX_LOANS_PER_PAGE && j < currentLoanItems.length;
+            j++
+          ) {
+            const sectionElement = currentLoanItems[j] as HTMLElement
+            sectionElement.style.marginBottom = "30px" // Add padding between sections
+            pageSection.appendChild(currentLoanItems[j].cloneNode(true))
           }
+          clonedContent.appendChild(pageSection)
+          document.body.appendChild(clonedContent)
+          adjustFontSize(clonedContent)
+          await addContentToPdf(doc, clonedContent)
+          clonedContent.remove()
+          doc.addPage()
         }
       } else if (elementToExportRef[elementToExportRef.length - 1] == ref) {
         await processContent(doc, content, false)

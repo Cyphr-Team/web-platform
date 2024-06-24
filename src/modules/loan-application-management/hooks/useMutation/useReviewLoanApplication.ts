@@ -5,6 +5,7 @@ import { ErrorResponse, SuccessResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { loanApplicationKeys } from "@/constants/query-key"
+import { QUERY_KEY } from "@/modules/dashboard-v2/constants/dashboard.constants"
 
 export const useReviewLoanApplication = (applicationId: string) => {
   const queryClient = useQueryClient()
@@ -19,6 +20,7 @@ export const useReviewLoanApplication = (applicationId: string) => {
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: loanApplicationKeys.lists() })
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DASHBOARD_V2] })
       }
     }
   )

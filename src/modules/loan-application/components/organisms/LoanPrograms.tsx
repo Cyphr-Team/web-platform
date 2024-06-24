@@ -3,6 +3,8 @@ import { useQueryGetLoanPrograms } from "../../hooks/useQuery/useQueryLoanProgra
 import { LoanProgramCard } from "../molecules/LoanProgramCard"
 import { LoanProgramLongCard } from "../molecules/LoanProgramLongCard"
 import { ALTCAP_LOAN_PROGRAMS } from "../../constants/loan-program.constants"
+import { isKccBank } from "@/utils/domain.utils"
+import { KCLoanProgramCard } from "../molecules/custom/KCLoanProgramCard"
 
 export const LoanPrograms = () => {
   const { tenantData } = useTenant()
@@ -21,13 +23,20 @@ export const LoanPrograms = () => {
       <section className="mt-6">
         {tenantData?.customFieldsOnDemand?.showLongCard ? (
           <div className="flex flex-col gap-6">
-            {loanPrograms.data?.data?.map((loanProgram) => (
-              <LoanProgramLongCard
-                key={loanProgram.id}
-                loanProgram={loanProgram}
-                loanType="Loan Readiness"
-              />
-            ))}
+            {loanPrograms.data?.data?.map((loanProgram) =>
+              isKccBank() ? (
+                <KCLoanProgramCard
+                  key={loanProgram.id}
+                  loanProgram={loanProgram}
+                />
+              ) : (
+                <LoanProgramLongCard
+                  key={loanProgram.id}
+                  loanProgram={loanProgram}
+                  loanType="Loan Readiness"
+                />
+              )
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-6 md:gap-y-11">

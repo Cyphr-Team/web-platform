@@ -129,6 +129,8 @@ export const API_PATH = {
       get: "api/admin/user",
       sendInvitation: "api/admin/user/invite",
       updateRoles: "api/admin/user/update-roles",
+      listUsersByInstitutionId: `api/admin/users/by-institution`,
+      listUsersByUserIds: "api/admin/users/by-user-ids",
       list: () => `${API_PATH.admin.user.all}/users`,
       deactivate: (userId: string) =>
         `${API_PATH.admin.user.all}/user/${userId}/deactivate`,
@@ -184,7 +186,11 @@ export const API_PATH = {
     getCashflowVerification: (id: string) =>
       `api/user-loan/application/${id}/cash-flow`,
     linkInquiry: "api/form/smart-kyc/inquiry/link",
-    getInquiry: "api/form/smart-kyc/inquiry/by-application-id"
+    getInquiry: "api/form/smart-kyc/inquiry/by-application-id",
+    linkPlaidItem: "api/plaid/item/link",
+    getPlaidItemIds: "api/plaid/item/list",
+    getPlaidConnectedBankAccountsByApplicationId:
+      "api/plaid/item/connected-bank-accounts/by-application-id"
   },
   // For loan officer
   loanApplication: {
@@ -230,7 +236,9 @@ export const API_PATH = {
     getCashFlowRevenueVsExpenseGraph: (applicationId: string) =>
       `api/v2/loan-officer/applications/${applicationId}/cash-flow/revenue-expense`,
     getCashFlowNoiVsTotalDebtPaymentGraph: (applicationId: string) =>
-      `api/v2/loan-officer/applications/${applicationId}/cash-flow/noi-total-debt-payment`
+      `api/v2/loan-officer/applications/${applicationId}/cash-flow/noi-total-debt-payment`,
+    getSmartKycPersonaDetail: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/identity-verification`
   },
   document: {
     getDocumentDownloadForOfficer:
@@ -306,11 +314,20 @@ export const API_PATH = {
     all: "api/admin/feature-flag",
     public: "api/feature-flag/list",
     list: () => `${API_PATH.featureFlag.all}/list`,
+    listFeatureFlagByUserId: () => "api/feature-flag/list/by-user-id",
     create: () => `${API_PATH.featureFlag.all}`,
     detail: (id: string) => `${API_PATH.featureFlag.all}/by-id?id=${id}`,
     toggleStatus: (id: string) => `${API_PATH.featureFlag.all}/action?id=${id}`,
+    toggleRolloutType: (id: string) =>
+      `${API_PATH.featureFlag.all}/rollout-type/update?id=${id}`,
     delete: (id: string) => `${API_PATH.featureFlag.all}/delete-by-id?id=${id}`,
     update: () => `${API_PATH.featureFlag.all}/update`
+  },
+  whitelistUser: {
+    all: "api/admin/whitelist-user",
+    detail: (id: string) =>
+      `api/admin/whitelist-user/by-feature-flag-id?id=${id}`,
+    update: () => "api/admin/whitelist-user"
   }
 }
 

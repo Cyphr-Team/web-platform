@@ -4,7 +4,6 @@ import { IMaskInput } from "react-imask"
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string
-  handleChange: (str: string) => void
   wrapperClassName?: string
   suffixIcon?: ReactNode
   prefixIcon?: ReactNode

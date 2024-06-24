@@ -1,7 +1,9 @@
 import { BusinessFormValue, OwnerFormValue } from "../constants/form"
 import {
+  CurrentLoansInformationResponse,
   KYBInformationResponse,
-  KYCInformationResponse
+  KYCInformationResponse,
+  OperatingExpensesInformationResponse
 } from "../constants/type"
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
 
@@ -65,5 +67,38 @@ export const reverseFormatKycForm = (
     businessOwnershipPercentage: rawData.businessOwnershipPercentage
       ? rawData.businessOwnershipPercentage.toString()
       : ""
+  }
+}
+
+export const reverseFormatCurrentLoansForm = (
+  rawData: CurrentLoansInformationResponse
+) => {
+  return {
+    hasOutstandingLoans: rawData.currentLoanForms.length > 0 ? "true" : "false",
+    currentLoans: rawData.currentLoanForms ?? []
+  }
+}
+
+export const reverseFormatOperatingExpensesForm = (
+  rawData: OperatingExpensesInformationResponse
+) => {
+  return {
+    id: rawData.id,
+    costOfGoodsSold: rawData.costOfGoodsSold,
+    rent: rawData.rent,
+    salariesAndWages: rawData.salariesAndWages,
+    payrollTaxes: rawData.payrollTaxes,
+    salesAndMarketingExpenses: rawData.salesAndMarketingExpenses,
+    accountingFees: rawData.accountingFees,
+    legalFees: rawData.legalFees,
+    officeSupplies: rawData.officeSupplies,
+    maintenanceAndRepairs: rawData.maintenanceAndRepairs,
+    utilities: rawData.utilities,
+    insurance: rawData.insurance,
+    duesAndSubscriptions: rawData.duesAndSubscriptions,
+    travelAndEntertainment: rawData.travelAndEntertainment,
+    depreciation: rawData.depreciation,
+    bankCharges: rawData.bankCharges,
+    otherOperatingExpenses: rawData.otherOperatingExpenses
   }
 }

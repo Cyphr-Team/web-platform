@@ -119,8 +119,30 @@ export const TOAST_MSG = {
       description: "Feature flag is successfully deleted"
     },
     toggleStatus: {
-      title: "Toggle status feature flag",
+      title: "Toggle feature flag status",
       description: "Feature flag status is successfully updated"
+    },
+    toggleWhitelist: {
+      title: "Toggle feature flag whitelist users",
+      description: "Feature flag whitelist is successfully updated"
+    }
+  },
+  whitelistUser: {
+    update: {
+      title: "Update whitelist user",
+      description: "Whitelist users are successfully updated"
+    },
+    updateUserNotFound: {
+      title: "Update invalid whitelist user",
+      description: "Email not found"
+    },
+    updateDuplicatedUser: {
+      title: "Update duplicated whitelist user",
+      description: "User is already in the whitelist"
+    },
+    updateIncompleteField: {
+      title: "Email and Institution are required",
+      description: "Please complete all fields before adding to the whitelist."
     }
   }
 }

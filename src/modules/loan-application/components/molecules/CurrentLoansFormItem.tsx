@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { toCurrency } from "@/utils"
 import { DeleteCurrentLoanButton } from "../atoms/DeleteCurrentLoanButton"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { DELETE_CURRENT_LOAN_PREFIX } from "../../constants"
 
 export const CurrentLoansFormItem = ({
   index,
@@ -33,10 +34,15 @@ export const CurrentLoansFormItem = ({
   }
 
   return (
-    <Card className="grid grid-cols-6 gap-4xl p-4xl rounded-lg h-fit">
+    <Card className="grid grid-cols-6 gap-4xl p-5xl rounded-lg h-fit">
       <div className="flex flex-row items-center justify-between col-span-6">
         <h5 className="text-md font-semibold">LOAN #{index + 1}</h5>
-        {form.getValues().currentLoans.length > 1 && (
+        {form
+          .getValues()
+          .currentLoans.filter(
+            (item: { id: string }) =>
+              !item.id.startsWith(DELETE_CURRENT_LOAN_PREFIX)
+          ).length > 1 && (
           <DeleteCurrentLoanButton index={index} onRemove={onRemove} />
         )}
       </div>
@@ -87,16 +93,18 @@ export const CurrentLoansFormItem = ({
                 value={toCurrency(field.value, 0)}
                 required
                 onChange={(e) => {
+                  field.onBlur()
                   const value =
                     parseFloat(e.target.value.replace(/[^0-9.]/g, "")) || 0
-                  if (isNaN(value)) return
+                  if (isNaN(value) || value.toString().length > 18) return
                   field.onChange(value)
                 }}
                 onBlur={(e) => {
+                  field.onBlur()
                   const value = parseFloat(
                     e.target.value.replace(/[^0-9.]/g, "")
                   )
-                  if (isNaN(value)) return
+                  if (isNaN(value) || value.toString().length > 18) return
                   return field.onChange(value)
                 }}
               />
@@ -129,16 +137,18 @@ export const CurrentLoansFormItem = ({
                 value={toCurrency(field.value, 0)}
                 required
                 onChange={(e) => {
+                  field.onBlur()
                   const value =
                     parseFloat(e.target.value.replace(/[^0-9.]/g, "")) || 0
-                  if (isNaN(value)) return
+                  if (isNaN(value) || value.toString().length > 18) return
                   field.onChange(value)
                 }}
                 onBlur={(e) => {
+                  field.onBlur()
                   const value = parseFloat(
                     e.target.value.replace(/[^0-9.]/g, "")
                   )
-                  if (isNaN(value)) return
+                  if (isNaN(value) || value.toString().length > 18) return
                   return field.onChange(value)
                 }}
               />
@@ -155,7 +165,6 @@ export const CurrentLoansFormItem = ({
             <FormLabel className="text-text-secondary">
               <p className="text-sm text-text-secondary font-semibold">
                 Loan term remaining (in months)
-                <RequiredSymbol />
               </p>
               <p className="text-sm text-text-tertiary font-medium">
                 Remaining duration of the loan
@@ -166,6 +175,7 @@ export const CurrentLoansFormItem = ({
                 type={`currentLoans[${index}].loanTermRemainingInMonths`}
                 placeholder="i.e: 11"
                 min={0}
+                max={100000}
                 className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
                 suffixIcon={
                   <span className="text-text-tertiary -mt-2">months</span>
@@ -173,7 +183,8 @@ export const CurrentLoansFormItem = ({
                 required
                 {...field}
                 onChange={(e) => {
-                  if (Number(e.target.value) >= 0)
+                  field.onBlur()
+                  if (Number(e.target.value) >= 0 && e.target.value.length < 10)
                     field.onChange(Number(e.target.value))
                 }}
               />
@@ -199,7 +210,7 @@ export const CurrentLoansFormItem = ({
             <FormControl>
               <Input
                 type="number"
-                placeholder="e.g 1.05"
+                placeholder="i.e 1.05"
                 max={100}
                 className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
                 onWheel={numberInputOnWheelPreventChange}
@@ -207,6 +218,7 @@ export const CurrentLoansFormItem = ({
                 required
                 {...field}
                 onChange={(e) => {
+                  field.onBlur()
                   const value = e.target.value
                   // Ensure the value is not negative
                   if (Number(value) >= 0) {

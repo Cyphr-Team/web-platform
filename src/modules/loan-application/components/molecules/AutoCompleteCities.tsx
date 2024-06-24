@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { CityType } from "@/types/common.type"
+import { capitalizeWords } from "@/utils"
 import { CheckIcon, Search } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
@@ -119,7 +120,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
     <FormField
       control={control}
       name={name}
-      render={() => (
+      render={({ field }) => (
         <FormItem className={className}>
           <FormLabel className="text-text-secondary">
             {label}
@@ -129,6 +130,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild disabled={!options?.length}>
                 <Input
+                  name={name}
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
                   className="text-sm"
                   value={
@@ -165,6 +167,8 @@ export const AutoCompleteCities = <T extends FieldValues>(
                           key={option.id}
                           value={option.name}
                           onSelect={(currentValue) => {
+                            field.onBlur()
+                            field.onChange(capitalizeWords(currentValue))
                             onSelect(currentValue)
                           }}
                         >

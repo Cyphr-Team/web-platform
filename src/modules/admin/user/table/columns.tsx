@@ -4,7 +4,7 @@ import { UserDetailInfo, UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
 import { AccessorKeyColumnDef } from "@tanstack/react-table"
 import { ModifyUserPermissionAction } from "@/modules/admin/user/table/modify-user-permission-action.tsx"
-import { mapRoleToDisplay } from "@/utils/check-roles.ts"
+import { nameByRole } from "@/modules/admin/user/constants/roles.constants.ts"
 
 export const columns: AccessorKeyColumnDef<
   UserDetailInfo & { institutionName?: string }
@@ -37,7 +37,7 @@ export const columns: AccessorKeyColumnDef<
     },
     cell: ({ row }) => {
       const roles: UserRoles[] = row.getValue("roles")
-      const displayedRoles = roles.map(mapRoleToDisplay)
+      const displayedRoles = roles.map(nameByRole)
 
       return (
         <div className="flex items-center">

@@ -2,7 +2,7 @@ import { Dot } from "@/components/ui/dot"
 import { Skeleton } from "@/components/ui/skeleton"
 import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { ReactNode } from "react"
 
 export const MiddeskDetailItem = ({
@@ -22,7 +22,7 @@ export const MiddeskDetailItem = ({
       <div className="mt-1.5 text-base">{value ?? UNKNOWN_VALUE}</div>
       <div className="flex items-center mt-1 text-base">
         {!!status && (
-          <Dot variantColor={getBadgeVariantByMiddeskStatus(status)} />
+          <Dot variantColor={getBadgeVariantByInsightStatus(status)} />
         )}
         {toolTip}
       </div>

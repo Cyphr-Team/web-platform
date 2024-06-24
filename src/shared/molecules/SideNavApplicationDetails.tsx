@@ -52,7 +52,8 @@ export function LoanProgramCollapsible({
   const completeStep = progress.filter(
     (step) =>
       step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE ||
-      step.step === LOAN_APPLICATION_STEPS.CONFIRMATION
+      step.step === LOAN_APPLICATION_STEPS.CONFIRMATION ||
+      step.step === LOAN_APPLICATION_STEPS.REVIEW_APPLICATION
   ).length
   const progressText = `${completeStep}/${progress.length.toString()}`
 

@@ -2,16 +2,16 @@ import { Dot } from "@/components/ui/dot"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
 import { BusinessTinDetail } from "@/modules/loan-application-management/constants/types/business.type"
-import { MiddeskStatus } from "@/modules/loan-application-management/constants/types/middesk.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { ColumnDef } from "@tanstack/react-table"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
 import { DateHeader } from "./DateHeader"
-import { getBadgeVariantByMiddeskStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
+import { InsightStatus } from "../../../../loan-application-management/constants/types/middesk.type"
 
-const columns: ColumnDef<BusinessTinDetail & { status?: MiddeskStatus }>[] = [
+const columns: ColumnDef<BusinessTinDetail & { status?: InsightStatus }>[] = [
   {
     accessorKey: "matchedBusinessName",
     header: () => <MiddeskTableHeader title={"TIN matched business"} />,
@@ -22,7 +22,7 @@ const columns: ColumnDef<BusinessTinDetail & { status?: MiddeskStatus }>[] = [
         <div className="min-w-0 flex items-center">
           <Dot
             className="flex-shrink-0 self-start mt-1"
-            variantColor={getBadgeVariantByMiddeskStatus(data?.status)}
+            variantColor={getBadgeVariantByInsightStatus(data?.status)}
           />
           <p>{data?.matchedBusinessName ?? "-"}</p>
         </div>

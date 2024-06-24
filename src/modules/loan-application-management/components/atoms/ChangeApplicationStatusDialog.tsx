@@ -25,6 +25,8 @@ import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { useSubmitLoanDecision } from "../../hooks/useMutation/useSubmitLoanDecision"
 import { getSelectInfoByDecision } from "../../services"
+import { useQueryClient } from "@tanstack/react-query"
+import { QUERY_KEY } from "@/modules/dashboard-v2/constants/dashboard.constants"
 
 const FormSchema = z.object({
   note: z.string().optional(),
@@ -47,6 +49,7 @@ export function ChangeApplicationStatusDialog({
   setSuccess?: (value?: boolean) => void
 }) {
   const { mutate, isPending } = useSubmitLoanDecision()
+  const queryClient = useQueryClient()
 
   const form = useForm<FormValue>({
     resolver: zodResolver(FormSchema),
@@ -63,6 +66,7 @@ export function ChangeApplicationStatusDialog({
         onSuccess: () => {
           onCancel()
           setSuccess?.(true)
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DASHBOARD_V2] })
         }
       }
     )

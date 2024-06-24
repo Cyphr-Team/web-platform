@@ -43,7 +43,7 @@ export const DeleteFeatureFlagModal: React.FC<Props> = ({ featureFlag }) => {
     >
       <Button
         size="sm"
-        className="btn-error"
+        className="bg-error"
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()

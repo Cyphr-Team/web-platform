@@ -45,6 +45,18 @@ const loanApplicationManagementRoutes = (
         }
       />
 
+      {/* IDENTITY VERIFICATION */}
+      {isKccBank() && (
+        <Route
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYC}
+          lazy={() =>
+            import(
+              "@/modules/loan-application-management/components/pages/IdentityVerification.page"
+            )
+          }
+        />
+      )}
+
       {/* DOCUMENTS */}
       {documentRoutes}
 

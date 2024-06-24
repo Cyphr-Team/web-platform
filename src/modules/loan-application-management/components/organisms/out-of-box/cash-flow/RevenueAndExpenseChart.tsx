@@ -16,22 +16,16 @@ import {
   RevenueExpenseGraphType
 } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { useState } from "react"
-import { isEnabledCashFlowV2DummyData } from "@/utils/feature-flag.utils"
-import { getCashFlowChartMockData } from "@/utils/mock-api.utils"
 import { NoData } from "../../../atoms/NoData"
 import { TimePeriodsSelection } from "../../../molecules/filters/TimePeriodsSelection"
-import revenueAndExpenseMockData from "@/constants/data/cash-flow-revenue-expenses.json"
 import { useQueryGetRevenueExpenseGraph } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/v2/useQueryGetCashFlowRevenueExpenseGraph"
 import { useParams } from "react-router-dom"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { startOfMonth, subMonths } from "date-fns"
 
 export function RevenueAndExpenseChart() {
   const [periodFilter, setPeriodFilter] = useState<GRAPH_FREQUENCY>(
     GRAPH_FREQUENCY.MONTHLY
   )
-
-  const isCashFlowDummyDataFlagOn = isEnabledCashFlowV2DummyData()
 
   const params = useParams()
 
@@ -49,20 +43,8 @@ export function RevenueAndExpenseChart() {
     }
   })
 
-  let revenueExpenseData: RevenueExpenseGraphType[]
-
-  if (isCashFlowDummyDataFlagOn) {
-    revenueExpenseData = getCashFlowChartMockData(revenueAndExpenseMockData, {
-      from: newCashFlowFilter.timeRangeFilter.from
-        ? new Date(newCashFlowFilter.timeRangeFilter.from)
-        : startOfMonth(subMonths(new Date(), 2)),
-      to: newCashFlowFilter.timeRangeFilter.from
-        ? new Date(newCashFlowFilter.timeRangeFilter.from)
-        : new Date()
-    }) as RevenueExpenseGraphType[]
-  } else {
-    revenueExpenseData = data?.revenueVsExpenseGraph ?? []
-  }
+  const revenueExpenseData: RevenueExpenseGraphType[] =
+    data?.revenueVsExpenseGraph ?? []
 
   return (
     <Card className="mt-4 p-4 gap-4 min-h-40">

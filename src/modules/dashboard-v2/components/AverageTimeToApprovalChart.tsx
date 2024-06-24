@@ -12,6 +12,7 @@ import {
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
 import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
+import { ChartHintToolTip } from "./atoms/ChartHintToolTip"
 
 export function AverageTimeToApprovalChart() {
   const { averageTimeToDecisionData, dashboardState } = useDashboard()
@@ -23,8 +24,38 @@ export function AverageTimeToApprovalChart() {
 
   return (
     <div className="mt-8 bg-white p-4 md:p-6 rounded-xl border">
-      <div className="flex justify-between gap-2 items-center mb-8">
+      <div className="flex gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">Average Time To Decision</h2>
+        <ChartHintToolTip
+          head={
+            <>
+              <strong>Average Time To Decision</strong> represents the average
+              number of days it takes to reach a decision (
+              <span className="text-green-500">approval</span> or{" "}
+              <span className="text-red-500">denial</span>) for loan
+              applications.
+            </>
+          }
+          formula="Sum of Days to Decision / Underwritten Apps"
+          formulaExplain={
+            <>
+              <li>
+                <strong>Days to Decision:</strong> The number of days from
+                application submission to the final decision (approval or
+                denial).
+              </li>
+              <li>
+                <strong>Underwritten Apps:</strong> The total number of
+                applications that have received a decision, including both
+                approved and denied applications.
+              </li>
+              <li>
+                <strong>Time to Decision:</strong> Includes both Time to
+                Approval and Time to Denial.
+              </li>
+            </>
+          }
+        />
       </div>
 
       <ResponsiveContainer width="100%" height={350}>

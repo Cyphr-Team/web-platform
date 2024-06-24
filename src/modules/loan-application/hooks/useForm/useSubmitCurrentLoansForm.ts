@@ -1,9 +1,9 @@
 import {
   DELETE_CURRENT_LOAN_PREFIX,
   NEW_CURRENT_LOAN_PREFIX
-} from "../../components/organisms/loan-application-form/CurrentLoansForm"
+} from "../../constants"
 import { CurrentLoansFormValue } from "../../constants/form"
-import { useDeleteCurentLoanInformation } from "../useMutation/useDeleteCurrentLoanInformation"
+import { useDeleteCurrentLoanInformation } from "../useMutation/useDeleteCurrentLoanInformation"
 import { useSubmitCurrentLoansInformation } from "../useMutation/useSubmitCurrentLoansInformation"
 import { useUpdateCurrentLoanInformation } from "../useMutation/useUpdateCurrentLoanInformation"
 
@@ -12,7 +12,7 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
     useUpdateCurrentLoanInformation()
 
   const { mutateAsync: deleteCurrentLoan, isPending: isDeleting } =
-    useDeleteCurentLoanInformation()
+    useDeleteCurrentLoanInformation()
 
   const { mutateAsync: submitCurrentLoans, isPending: isSubmitting } =
     useSubmitCurrentLoansInformation()
@@ -29,7 +29,9 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
         .filter((item) => !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX))
         .map(({ id, ...data }) => ({
           ...data,
-          id: DELETE_CURRENT_LOAN_PREFIX + id
+          id: id.startsWith(DELETE_CURRENT_LOAN_PREFIX)
+            ? id
+            : DELETE_CURRENT_LOAN_PREFIX + id
         }))
     }
     const deletePromise = rawData.currentLoans
@@ -40,12 +42,16 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
         )
       })
     // Create new forms in DB if these are new
-    const submitPromise = submitCurrentLoans({
-      currentLoans: rawData.currentLoans.filter((form) =>
-        form.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
-      ),
-      loanApplicationId
-    })
+    const newCurrentLoans = rawData.currentLoans.filter((form) =>
+      form.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
+    )
+    const submitPromise =
+      newCurrentLoans.length > 0
+        ? submitCurrentLoans({
+            currentLoans: newCurrentLoans,
+            loanApplicationId
+          })
+        : Promise.resolve()
     // Update forms in DB if these are new
     const updatePromises = rawData.currentLoans
       .filter(

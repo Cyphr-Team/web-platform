@@ -1,6 +1,7 @@
 import * as z from "zod"
 import { REGEX_PATTERN } from "."
 import { isPossiblePhoneNumber } from "react-phone-number-input"
+import { PlaidItemInfo } from "./type"
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
@@ -21,7 +22,11 @@ export const ownerFormSchema = z.object({
     }),
   email: z.string().email({ message: "Enter a valid email address" }),
   dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
-  socialSecurityNumber: z.string().min(1, { message: "SSN/ITIN is required" }),
+  /**
+   * Min 11 mean 9 numbers and 2 dashes '-'
+   * refer: SSN_PATTERN
+   */
+  socialSecurityNumber: z.string().min(11, { message: "SSN/ITIN is required" }),
   businessOwnershipPercentage: z
     .string()
     .min(1, { message: "Ownership percent is required" }),
@@ -52,7 +57,11 @@ export const businessFormSchema = z.object({
     .string()
     .min(1, { message: "Zip code is required" })
     .regex(REGEX_PATTERN.ZIP_CODE, "Enter a valid zip code"),
-  businessTin: z.string().min(1, { message: "EIN is required" })
+  /**
+   * Min 10 mean 9 numbers and 1 dashes '-'
+   * refer: EIN_PATTERN
+   */
+  businessTin: z.string().min(10, { message: "EIN is required" })
 })
 
 export const financialFormSchema = z.object({
@@ -81,7 +90,7 @@ export const confirmationFormSchema = z.object({
 
 export const loanRequestFormSchema = z.object({
   id: z.string(),
-  loanAmount: z.number().gt(0),
+  loanAmount: z.number(),
   loanTermInMonth: z.number().gt(1),
   proposeUseOfLoan: z.string().min(1)
 })
@@ -96,9 +105,7 @@ const LoanItemFormSchema = z.object({
   monthlyPaymentAmount: z
     .number()
     .min(1, { message: "Payment must be higher than 0" }),
-  loanTermRemainingInMonths: z
-    .number()
-    .min(1, { message: "Loan term is required" }),
+  loanTermRemainingInMonths: z.number(),
   annualInterestRate: z
     .number({ invalid_type_error: "Interest rate must not be blank" })
     .min(0.01, { message: "Interest rate must be higher than 0" })
@@ -153,6 +160,23 @@ export const identityVerificationSchema = z.object({
   status: z.string()
 })
 
+export const reviewApplicationSchema = z.object({
+  isReviewed: z.boolean()
+})
+
+export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
+
+export const cashFlowSchema = z.object({
+  /**
+   * This is use for the flow:
+   *  1. The client confirm the understand checkbox but have not finished the bank account connection
+   *  2. The client save draft - save & close -> we have applicationId now, we also link the application id to the plaid items of each bank
+   *  3. The client go back to the application and connect more bank account, the connected bank account should be shown
+   */
+  applicationId: z.string().optional(),
+  plaidItemInfo: z.custom<PlaidItemInfo[]>()
+})
+
 export type IdentityVerificationValue = z.infer<
   typeof identityVerificationSchema
 >
@@ -172,3 +196,5 @@ export type CurrentLoansFormValue = z.infer<typeof currentLoansFormSchema>
 export type OperatingExpensesFormValue = z.infer<
   typeof operatingExpensesFormSchema
 >
+
+export type CashFlowFormValue = z.infer<typeof cashFlowSchema>

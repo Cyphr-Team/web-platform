@@ -15,21 +15,15 @@ import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants
 import { useState } from "react"
 import { NoData } from "../../../atoms/NoData"
 import { TimePeriodsSelection } from "../../../molecules/filters/TimePeriodsSelection"
-import { getCashFlowChartMockData } from "@/utils/mock-api.utils"
-import noiTotalDebtPayment from "@/constants/data/cash-flow-noi-total-debt-payment.json"
-import { isEnabledCashFlowV2DummyData } from "@/utils/feature-flag.utils"
 import { useParams } from "react-router-dom"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { NoiTotalDebtPaymentGraphType } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
-import { startOfMonth, subMonths } from "date-fns"
 import { useQueryGetNoiTotalDebtPaymentGraph } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/v2/useQueryGetCashFlowNoiTotalDebtPaymentGraph"
 
 export function NoiAndTotalDebtPaymentsChart() {
   const [periodFilter, setPeriodFilter] = useState<GRAPH_FREQUENCY>(
     GRAPH_FREQUENCY.MONTHLY
   )
-
-  const isCashFlowDummyDataFlagOn = isEnabledCashFlowV2DummyData()
 
   const params = useParams()
 
@@ -47,20 +41,8 @@ export function NoiAndTotalDebtPaymentsChart() {
     }
   })
 
-  let noiTotalDebtPaymentData: NoiTotalDebtPaymentGraphType[]
-
-  if (isCashFlowDummyDataFlagOn) {
-    noiTotalDebtPaymentData = getCashFlowChartMockData(noiTotalDebtPayment, {
-      from: newCashFlowFilter.timeRangeFilter.from
-        ? new Date(newCashFlowFilter.timeRangeFilter.from)
-        : startOfMonth(subMonths(new Date(), 2)),
-      to: newCashFlowFilter.timeRangeFilter.from
-        ? new Date(newCashFlowFilter.timeRangeFilter.from)
-        : new Date()
-    }) as NoiTotalDebtPaymentGraphType[]
-  } else {
-    noiTotalDebtPaymentData = data?.noiVsTotalDebtPaymentGraph ?? []
-  }
+  const noiTotalDebtPaymentData: NoiTotalDebtPaymentGraphType[] =
+    data?.noiVsTotalDebtPaymentGraph ?? []
 
   return (
     <Card className="mt-4 p-4 gap-4 min-h-40">

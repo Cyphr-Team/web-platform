@@ -19,9 +19,8 @@ export const useConnectPlaid = () => {
       // 'payment_initiation' products do not require the public_token to be exchanged for an access_token.
       if (isPaymentInitiation) {
         dispatch({ type: "SET_STATE", state: { isItemAccess: false } })
-      } else {
-        exchangePublicTokenForAccessToken(public_token, dispatch)
       }
+
       // set linkSuccess to true and trigger the redirect
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } })
       window.history.pushState("", "", currentPathName)

@@ -4,6 +4,11 @@ import { DashboardState } from "../types/stats.types"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 
 const QUERY_KEY = {
+  /**
+   * Use for invalidate all the api in dashboard v2
+   */
+  DASHBOARD_V2: "DASHBOARD_V2",
+
   INSTITUTION_USAGE: "INSTITUTION_USAGE",
   LOAN_APPLICATION_RATES: "LOAN_APPLICATION_RATES",
   AVERAGE_LOAN_SIZE: "AVERAGE_LOAN_SIZE",

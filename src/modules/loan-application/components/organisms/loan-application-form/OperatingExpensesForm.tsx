@@ -26,117 +26,14 @@ import { useEffect, useMemo, useState } from "react"
 import { toCurrency } from "@/utils"
 import { Input } from "@/components/ui/input"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
-
-type OperatingExpensesFieldDataType = {
-  name:
-    | "costOfGoodsSold"
-    | "rent"
-    | "salariesAndWages"
-    | "payrollTaxes"
-    | "salesAndMarketingExpenses"
-    | "accountingFees"
-    | "legalFees"
-    | "officeSupplies"
-    | "maintenanceAndRepairs"
-    | "utilities"
-    | "insurance"
-    | "duesAndSubscriptions"
-    | "travelAndEntertainment"
-    | "depreciation"
-    | "bankCharges"
-    | "otherOperatingExpenses"
-  title: string
-  subtitle: string
-}[]
-
-const OPERATING_EXPENSES_FIELD_DATA: OperatingExpensesFieldDataType = [
-  {
-    name: "costOfGoodsSold",
-    title: "Cost of Goods Sold (COGS)",
-    subtitle: "Direct costs related to producing goods or services"
-  },
-  {
-    name: "rent",
-    title: "Rent",
-    subtitle: "The cost of leasing office space or facilities"
-  },
-  {
-    name: "salariesAndWages",
-    title: "Salaries and Wages",
-    subtitle: "Payments to employees and contractors"
-  },
-  {
-    name: "payrollTaxes",
-    title: "Payroll Taxes",
-    subtitle:
-      "Contributions for Social Security, Medicare, and unemployment insurance"
-  },
-  {
-    name: "salesAndMarketingExpenses",
-    title: "Sales and Marketing Expenses",
-    subtitle: "Costs related to promoting and selling"
-  },
-  {
-    name: "accountingFees",
-    title: "Accounting Fees",
-    subtitle: "Fees paid to accountants for financial services"
-  },
-  {
-    name: "legalFees",
-    title: "Legal Fees",
-    subtitle: "Fees paid to lawyers for legal services"
-  },
-  {
-    name: "officeSupplies",
-    title: "Office Supplies",
-    subtitle: "Expenses for stationery, printer ink, etc."
-  },
-  {
-    name: "maintenanceAndRepairs",
-    title: "Maintenance and Repairs",
-    subtitle: "Costs incurred for maintaining equipment or facilities"
-  },
-  {
-    name: "utilities",
-    title: "Utilities",
-    subtitle: "Electricity, water, and other utilities bills"
-  },
-  {
-    name: "insurance",
-    title: "Insurance",
-    subtitle: "Costs to cover against unexpected damage"
-  },
-  {
-    name: "duesAndSubscriptions",
-    title: "Dues and Subscriptions",
-    subtitle: "Recurring fees such as software licenses, membership dues, etc."
-  },
-  {
-    name: "travelAndEntertainment",
-    title: "Travel and Entertainment",
-    subtitle: "Costs such as airfare, lodging, meals, transportation, etc"
-  },
-  {
-    name: "depreciation",
-    title: "Depreciation",
-    subtitle: "The periodic conversion of assets' value into an expense"
-  },
-  {
-    name: "bankCharges",
-    title: "Bank Charges",
-    subtitle: "Fees associated with banking services"
-  },
-  {
-    name: "otherOperatingExpenses",
-    title: "Other Operating Expenses",
-    subtitle: "Expenses not already captured in the above categories"
-  }
-]
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { OPERATING_EXPENSES_FIELD_DATA } from "@/modules/loan-application/constants/type"
 
 export const OperatingExpensesForm = () => {
   const { dispatchFormAction, operatingExpensesForm } =
     useLoanApplicationFormContext()
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const [totalExpenses, setTotalExpenses] = useState(0)
 
   const defaultValues = useMemo(() => {
@@ -184,7 +81,7 @@ export const OperatingExpensesForm = () => {
   const form = useForm<OperatingExpensesFormValue>({
     resolver: zodResolver(operatingExpensesFormSchema),
     defaultValues,
-    mode: "onChange"
+    mode: "onBlur"
   })
 
   const onSubmit = (data: OperatingExpensesFormValue) => {
@@ -206,6 +103,8 @@ export const OperatingExpensesForm = () => {
       state: { id, ...expenses }
     })
   }, [form.formState.isValidating, form, dispatchFormAction, setTotalExpenses])
+
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
 
   return (
     <div
@@ -262,6 +161,7 @@ export const OperatingExpensesForm = () => {
                           className="text-base input-number-remove-arrow -mt-2 mb-2 ml-auto xl:max-w-80"
                           value={toCurrency(field.value, 0)}
                           onChange={(e) => {
+                            field.onBlur()
                             const value =
                               parseFloat(
                                 e.target.value.replace(/[^0-9.]/g, "")
@@ -270,6 +170,7 @@ export const OperatingExpensesForm = () => {
                             field.onChange(value)
                           }}
                           onBlur={(e) => {
+                            field.onBlur()
                             const value = parseFloat(
                               e.target.value.replace(/[^0-9.]/g, "")
                             )
@@ -292,12 +193,14 @@ export const OperatingExpensesForm = () => {
               </p>
             </div>
           </Card>
-          <Button
-            disabled={!form.formState.isValid}
-            onClick={form.handleSubmit(onSubmit)}
-          >
-            Next <ArrowRight className="ml-1 w-4" />
-          </Button>
+          {!isReviewApplicationStep(step) && (
+            <Button
+              disabled={!form.formState.isValid}
+              onClick={form.handleSubmit(onSubmit)}
+            >
+              Next <ArrowRight className="ml-1 w-4" />
+            </Button>
+          )}
         </Form>
       </div>
     </div>

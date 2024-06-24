@@ -3,11 +3,9 @@ import { loanApplicationUserKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
-import { getAxiosError } from "@/utils/custom-error"
-import {
-  isEnableCashFlowV2,
-  isEnablePersonaKycV1
-} from "@/utils/feature-flag.utils"
+import { ErrorCode, getAxiosError } from "@/utils/custom-error"
+import { isCyphrBank, isKccBank } from "@/utils/domain.utils"
+import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { useCallback } from "react"
@@ -22,7 +20,9 @@ import {
   OperatingExpensesFormValue,
   OwnerFormValue
 } from "../constants/form"
+import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
 import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
+import { useSubmitLinkPlaidItemIds } from "../hooks/useForm/useSubmitLinkPlaidItemIds"
 import { useSubmitLoanConfirmationForm } from "../hooks/useForm/useSubmitLoanConfirmationForm"
 import { useSubmitLoanFinancialForm } from "../hooks/useForm/useSubmitLoanFinancialForm"
 import { useSubmitLoanKYBForm } from "../hooks/useForm/useSubmitLoanKYBForm"
@@ -36,7 +36,6 @@ import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
 } from "../models/LoanApplicationStep/type"
-import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -49,11 +48,18 @@ export const useSubmitLoanForm = (
   operatingExpensesData: OperatingExpensesFormValue,
   confirmationData: ConfirmationFormValue,
   cashflowData: FinancialFormValue,
-  identityVerificationData: IdentityVerificationValue
+  identityVerificationData: IdentityVerificationValue,
+  plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { loanProgramId } = useParams()
+
+  /**
+   * Mutate action for submitting Plaid's itemId Clash flow verification
+   */
+  const { submitLinkPlaidItemds, isLoading: isSubmitLinkPlaidItemIds } =
+    useSubmitLinkPlaidItemIds(plaidItemIds)
 
   /**
    * Mutate action for submitting Persona's inquiry KYC
@@ -132,15 +138,25 @@ export const useSubmitLoanForm = (
     [businessData?.businessLegalName, navigate]
   )
 
-  const handleSubmitFormError = useCallback((error: AxiosError) => {
-    const message = getAxiosError(error)?.message
-    toastError({
-      title: TOAST_MSG.loanApplication.submitError.title,
-      description: message.length
-        ? message
-        : TOAST_MSG.loanApplication.submitError.description
-    })
-  }, [])
+  const handleSubmitFormError = useCallback(
+    (error: AxiosError) => {
+      const message = getAxiosError(error)?.message
+      const code = getAxiosError(error)?.code
+      toastError({
+        title: TOAST_MSG.loanApplication.submitError.title,
+        description: message.length
+          ? message
+          : TOAST_MSG.loanApplication.submitError.description
+      })
+      if (code == ErrorCode.institution_subscription_limit_reached) {
+        // Wait for 2 seconds before navigating
+        setTimeout(() => {
+          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+        }, 2000)
+      }
+    },
+    [navigate]
+  )
 
   const isCompleteSteps = useCallback(
     (step: LOAN_APPLICATION_STEPS) =>
@@ -165,6 +181,10 @@ export const useSubmitLoanForm = (
         if (!identityVerificationData?.smartKycId) {
           await submitLoanIdentityVerification(loanRequestId)
         }
+      }
+
+      if (plaidItemIds.length) {
+        await submitLinkPlaidItemds(loanRequestId)
       }
 
       if (loanType === LoanType.MICRO) {
@@ -218,7 +238,7 @@ export const useSubmitLoanForm = (
           }
         }
 
-        if (isEnableCashFlowV2()) {
+        if (isKccBank() || isCyphrBank()) {
           if (
             currentLoansData &&
             isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
@@ -241,7 +261,7 @@ export const useSubmitLoanForm = (
         if (businessData) await submitLoanKYBForm(loanRequestId)
         if (ownerData) await submitLoanKYCForm(loanRequestId)
         await submitLoanFinancialForm(loanRequestId)
-        if (isEnableCashFlowV2()) {
+        if (isKccBank() || isCyphrBank()) {
           if (currentLoansData) {
             await submitCurrentLoansForm(loanRequestId)
           }
@@ -254,6 +274,7 @@ export const useSubmitLoanForm = (
           isSubmitted = true
         }
       }
+
       handleSubmitFormSuccess(
         loanRequestData?.id?.length > 0,
         isSubmitted,
@@ -273,9 +294,12 @@ export const useSubmitLoanForm = (
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
+    plaidItemIds.length,
     loanType,
+    submitLinkPlaidItemds,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
+    queryClient,
     submitLoanIdentityVerification,
     businessData,
     isCompleteSteps,
@@ -293,8 +317,7 @@ export const useSubmitLoanForm = (
     submitCurrentLoansForm,
     submitOperatingExpensesForm,
     submitLoanConfirmationForm,
-    handleSubmitFormError,
-    queryClient
+    handleSubmitFormError
   ])
 
   return {
@@ -309,6 +332,7 @@ export const useSubmitLoanForm = (
       isSubmittingOperatingExpenses ||
       isSubmittingConfirmation ||
       isUploading ||
-      isSubmittingIdentityVerification
+      isSubmittingIdentityVerification ||
+      isSubmitLinkPlaidItemIds
   }
 }

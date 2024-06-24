@@ -4,7 +4,8 @@ import { useUpdateEffect } from "react-use"
 import { createContext } from "use-context-selector"
 import {
   useLoanApplicationProgressContext,
-  useLoanProgramDetailContext
+  useLoanProgramDetailContext,
+  usePlaidContext
 } from "."
 import {
   BusinessFormValue,
@@ -14,7 +15,8 @@ import {
   IdentityVerificationValue,
   LoanRequestFormValue,
   OperatingExpensesFormValue,
-  OwnerFormValue
+  OwnerFormValue,
+  ReviewApplicationValue
 } from "../constants/form"
 import { DocumentUploadedResponse } from "../constants/type"
 import { useSubmitLoanForm } from "../services/submit-form.strategy"
@@ -30,6 +32,7 @@ type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: CurrentLoansFormValue
   [LOAN_APPLICATION_STEPS.OPERATING_EXPENSES]: OperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: ConfirmationFormValue
+  [LOAN_APPLICATION_STEPS.REVIEW_APPLICATION]: ReviewApplicationValue
 }
 
 type LoanDocumentsState = {
@@ -54,6 +57,7 @@ export type FormStateType =
   | ConfirmationFormValue
   | LoanRequestFormValue
   | IdentityVerificationValue
+  | ReviewApplicationValue
 
 export type Action = {
   action: FORM_ACTION
@@ -147,6 +151,8 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     {} as LoanApplicationFormState
   )
 
+  const { itemIds: plaidItemIds } = usePlaidContext()
+
   const [documents, dispatchDocumentAction] = useReducer(
     updateLoanDocuments,
     {} as LoanDocumentsState
@@ -157,7 +163,6 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
 
   const loanType = loanProgramDetails?.type ?? LoanType.MICRO
 
-  // TODO: Handle submit persona inquiry
   const { submitLoanForm, isLoading } = useSubmitLoanForm(
     loanType,
     progress,
@@ -169,7 +174,8 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     state[LOAN_APPLICATION_STEPS.OPERATING_EXPENSES],
     state[LOAN_APPLICATION_STEPS.CONFIRMATION],
     state[LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION],
-    state[LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION]
+    state[LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION],
+    plaidItemIds
   )
 
   //Trigger submit form when the confirmation form is submitted

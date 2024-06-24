@@ -45,12 +45,12 @@ export function Component() {
     <div
       className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
     >
-      <div className="mb-3xl">
-        <Breadcrumbs breads={crumbs} className="px-0" />
-      </div>
-      <h1 className="mb-3xl text-3xl font-semibold">Loan Applications</h1>
+      <div className="flex flex-wrap justify-between gap-4">
+        <div className="flex flex-col gap-1">
+          <Breadcrumbs breads={crumbs} className="px-0" />
+          <h1 className="text-2xl font-semibold">Loan Applications</h1>
+        </div>
 
-      <div className="bg-gray-100 bg-opacity-60 p-5 rounded-lg">
         <LoanApplicationTableHeader onSearch={handleSearch} />
       </div>
 

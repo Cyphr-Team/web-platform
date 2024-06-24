@@ -1,7 +1,10 @@
 import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { NavItem } from "@/types/common.type"
+import { isKccBank } from "@/utils/domain.utils"
 import { Bell } from "lucide-react"
+import { BusinessStreetAddress } from "./type"
+import { joinString } from "@/utils"
 
 export const navItems: NavItem[] = [
   {
@@ -20,7 +23,8 @@ export const navItems: NavItem[] = [
     title: "Notifications",
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
     icon: Bell,
-    label: "Notifications"
+    label: "Notifications",
+    disabled: isKccBank() // Hide for KCC Bank
   }
   // Hide because it's not implemented yet
   // {
@@ -33,10 +37,9 @@ export const navItems: NavItem[] = [
 ]
 
 export type PlaidInfo = {
-  accessToken: string
+  plaidInstitutionId: string
   itemId: string
   requestId: string
-  products: string[]
   error?: string
 }
 
@@ -76,6 +79,18 @@ export const getConfirmationTexts = (tenant: string) => {
   ]
 }
 
+export const formatBusinessStreetAddress = (
+  address?: BusinessStreetAddress
+): string => {
+  const addressLine = joinString(
+    ", ",
+    address?.addressLine1,
+    address?.addressLine2
+  )
+  const addressStateCode = joinString(" ", address?.state, address?.postalCode)
+  return joinString(", ", addressLine, address?.city, addressStateCode)
+}
+
 export const ENDPOINTS = {
   PLAID: {
     INFO: "api/plaid/info",
@@ -92,6 +107,22 @@ export type PlaidAction = {
   state: Partial<PlaidState>
 }
 
+export interface IPlaidAccountProviderData {
+  id: string
+  name: string
+  mask?: string
+  type?: string
+  subtype?: string
+  verificationStatus?: string
+  connectedOn?: string
+}
+
+export type IPlaidInstitutionProviderData = {
+  institutionId: string
+  institutionName: string
+  accounts: IPlaidAccountProviderData[]
+}
+
 export interface PlaidState {
   linkSuccess: boolean
   isItemAccess: boolean
@@ -99,6 +130,17 @@ export interface PlaidState {
   linkToken: string | null
   accessToken: string | null
   itemId: string | null
+
+  /**
+   * ItemIds get from server via API
+   */
+  fetchedItemIds: string[]
+
+  /**
+   * ItemIds get from plaid after exchange token
+   */
+  itemIds: string[]
+
   isError: boolean
   backend: boolean
   products: string[]
@@ -107,6 +149,8 @@ export interface PlaidState {
     errorCode: string
     errorType: string
   }
+  isConnecting: boolean
+  institutions: IPlaidInstitutionProviderData[]
 }
 
 export const REGEX_PATTERN = {
@@ -116,3 +160,6 @@ export const REGEX_PATTERN = {
   EIN: /^\d{9}$/,
   WEBSITE: /^(http|https):\/\/[^ "]+$/
 }
+
+export const NEW_CURRENT_LOAN_PREFIX = "loan-add-item-"
+export const DELETE_CURRENT_LOAN_PREFIX = "loan-delete-item-"

@@ -1,8 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table"
-import { FeatureFlag } from "../../../types/feature-flag.types"
+import { FeatureFlag } from "@/types/feature-flag.types.ts"
 import { formatDate } from "@/utils/date.utils"
 import { ConfirmToggleStatusFeatureFlag } from "../components/ToggleStatusFeatureFlag"
-import { DeleteFeatureFlagModal } from "../components/DeteleFeatureFlagModal"
+import { DialogModifyWhitelistUsers } from "@/modules/feature-flag/components/DialogModifyWhitelistUsers.tsx"
+import { ConfirmToggleWhitelistFeatureFlag } from "@/modules/feature-flag/components/ToggleWhitelistFeatureFlag.tsx"
+import { DeleteFeatureFlagModal } from "@/modules/feature-flag/components/DeteleFeatureFlagModal.tsx"
 
 export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   {
@@ -27,6 +29,15 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     }
   },
   {
+    id: "rolloutType",
+    header: "Whitelist",
+    size: 100,
+    cell: ({ row }) => {
+      const data = row.original
+      return <ConfirmToggleWhitelistFeatureFlag featureFlag={data} />
+    }
+  },
+  {
     id: "createdAt",
     header: "Created At",
     size: 100,
@@ -45,8 +56,8 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     }
   },
   {
-    id: "actions",
-    header: "Actions",
+    id: "delete",
+    header: "Delete",
     size: 100,
     cell: ({ row }) => {
       const data = row.original
@@ -55,6 +66,15 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
           <DeleteFeatureFlagModal featureFlag={data} />
         </div>
       )
+    }
+  },
+  {
+    id: "whitelist",
+    header: "Whitelist Users",
+    size: 100,
+    cell: ({ row }) => {
+      const data = row.original
+      return <DialogModifyWhitelistUsers featureFlag={data} />
     }
   }
 ]

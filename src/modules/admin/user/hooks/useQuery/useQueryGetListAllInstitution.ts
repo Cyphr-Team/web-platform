@@ -11,7 +11,7 @@ export const useQueryGetListAllInstitution = ({
   enabled: boolean
 }) => {
   return useQuery<Institution[], ErrorResponse>({
-    queryKey: [QUERY_KEY.LIST_ALL_INSTITUTION],
+    queryKey: [QUERY_KEY.LIST_ALL_INSTITUTIONS],
     queryFn: () => {
       return getRequest({
         path: API_PATH.institution.listAll

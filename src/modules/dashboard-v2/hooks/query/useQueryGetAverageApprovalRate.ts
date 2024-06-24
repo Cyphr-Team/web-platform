@@ -23,6 +23,7 @@ export const useQueryGetAverageApprovalRate = ({
     AxiosError<ErrorResponse>
   >({
     queryKey: [
+      QUERY_KEY.DASHBOARD_V2,
       QUERY_KEY.AVERAGE_APPROVAL_RATE,
       filter.timeRange.from,
       filter.timeRange.to,

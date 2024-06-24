@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse } from "react-router-dom"
 import { OnboardingFormValue } from "../types"
-import { UserRoles } from "@/types/user.type"
+import { workspaceAdminRoles } from "@/types/user.type"
 import { getTenantDomain } from "@/utils/domain.utils"
 import { ExpirationDays } from "@/types/expiration-day.type"
 
@@ -43,7 +43,7 @@ export const useOnboardingInstitution = () => {
         path: API_PATH.admin.user.sendInvitation,
         data: {
           email: data.adminEmail,
-          roles: [UserRoles.CDFI_ADMIN.toLowerCase()],
+          roles: [workspaceAdminRoles()],
           institutionId: institution.data.id,
           baseUrl: `${baseUrl}/accept-invite`,
           expirationDays: ExpirationDays.SEVEN_DAYS

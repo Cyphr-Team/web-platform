@@ -61,12 +61,12 @@ export function LoanApplicationTableHeader({
   return (
     <Form {...form}>
       <form className="space-y-6" onSubmit={onSubmit}>
-        <div className="flex w-full items-center flex-wrap gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <FormField
             control={form.control}
             name="search"
             render={({ field }) => (
-              <FormItem className="flex flex-col flex-[200px] shrink-0 min-w-[200px]">
+              <FormItem className="flex flex-col">
                 <FormLabel className="whitespace-nowrap">
                   Search for application
                 </FormLabel>
@@ -75,7 +75,7 @@ export function LoanApplicationTableHeader({
                     prefixIcon={<Search className="h-5 w-5 opacity-50" />}
                     type="text"
                     placeholder="Business name or ID"
-                    className="pl-9"
+                    className="pl-9 md:w-[300px]"
                     autoComplete="new-password"
                     {...field}
                   />
@@ -83,7 +83,6 @@ export function LoanApplicationTableHeader({
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="status"

@@ -24,6 +24,7 @@ export const useQueryGetAverageApprovedLoanAmount = ({
     AxiosError<ErrorResponse>
   >({
     queryKey: [
+      QUERY_KEY.DASHBOARD_V2,
       QUERY_KEY.AVERAGE_APPROVED_LOAN_AMOUNT,
       filter.timeRange.from,
       filter.timeRange.to,

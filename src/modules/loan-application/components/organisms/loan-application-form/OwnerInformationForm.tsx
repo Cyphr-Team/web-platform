@@ -27,7 +27,7 @@ import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight, Mail } from "lucide-react"
-import { useCallback, useEffect } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
 import { useSelectCities } from "../../../hooks/useSelectCities"
@@ -36,9 +36,11 @@ import { AutoCompleteStates } from "../../molecules/AutoCompleteStates"
 
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 
 export function OwnerInformationForm() {
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { dispatchFormAction, ownerInformationForm } =
     useLoanApplicationFormContext()
 
@@ -71,17 +73,6 @@ export function OwnerInformationForm() {
     mode: "onBlur"
   })
 
-  const handleChangeSSN = useCallback(
-    (ssn: string) => {
-      form.setValue("socialSecurityNumber", ssn, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    },
-    [form]
-  )
-
   const handleSelectDate = (date: Date | undefined) => {
     form.setValue("dateOfBirth", date?.toISOString() ?? "", {
       shouldValidate: true,
@@ -92,6 +83,25 @@ export function OwnerInformationForm() {
 
   const { handleChangeState, handleChangeCity, STATE_DATA, state, city } =
     useSelectCities()
+
+  const onSubmit = (data: OwnerFormValue) => {
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
+      state: data
+    })
+    finishCurrentStep()
+  }
+
+  useEffect(() => {
+    if (city) {
+      form.setValue("businessCity", city, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    }
+  }, [city, form])
 
   useEffect(() => {
     if (state) {
@@ -105,23 +115,7 @@ export function OwnerInformationForm() {
         shouldTouch: true
       })
     }
-    if (city) {
-      form.setValue("businessCity", city, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    }
-  }, [state, city, form])
-
-  const onSubmit = (data: OwnerFormValue) => {
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
-      state: data
-    })
-    finishCurrentStep()
-  }
+  }, [form, state])
 
   useEffect(() => {
     if (form.formState.isValidating) {
@@ -134,12 +128,15 @@ export function OwnerInformationForm() {
     }
   }, [form.formState.isValidating, form, dispatchFormAction])
 
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+
   return (
     <div
       className={cn(
         "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
         "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
+      id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
     >
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
@@ -279,7 +276,6 @@ export function OwnerInformationForm() {
                     <FormControl>
                       <MaskInput
                         placeholder="i.e: 123-45-6789"
-                        handleChange={handleChangeSSN}
                         className="text-base"
                         pattern={SSN_PATTERN}
                         {...field}
@@ -328,12 +324,14 @@ export function OwnerInformationForm() {
               <div />
             </form>
 
-            <Button
-              disabled={!form.formState.isValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            {!isReviewApplicationStep(step) && (
+              <Button
+                disabled={!form.formState.isValid}
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                Next <ArrowRight className="ml-1 w-4" />
+              </Button>
+            )}
           </Card>
         </Form>
       </div>

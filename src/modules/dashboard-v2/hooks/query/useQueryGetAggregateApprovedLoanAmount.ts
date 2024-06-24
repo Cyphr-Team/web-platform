@@ -23,6 +23,7 @@ export const useQueryGetAggregateApprovedLoanAmount = ({
     AxiosError<ErrorResponse>
   >({
     queryKey: [
+      QUERY_KEY.DASHBOARD_V2,
       QUERY_KEY.AGGREGATE_ARPPOVED_LOAN_AMOUNT,
       filter.timeRange.from,
       filter.timeRange.to,

@@ -76,7 +76,7 @@ export function SetupProfileForm() {
   const { mutate, isPending, isSuccess } = useAcceptInvite()
 
   const { count } = useCountdown({
-    initialCount: 4,
+    initialCount: 2,
     isStart: isSuccess
   })
 
@@ -111,6 +111,7 @@ export function SetupProfileForm() {
                       className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
                       {...field}
                       disabled={true}
+                      autoComplete="username"
                     />
                   </FormControl>
                   <FormMessage />
@@ -131,6 +132,7 @@ export function SetupProfileForm() {
                     className="text-base"
                     {...field}
                     disabled={isPending}
+                    autoComplete="name"
                   />
                 </FormControl>
                 <FormMessage />

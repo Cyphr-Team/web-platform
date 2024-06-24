@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
-import { APP_PATH } from "@/constants"
 import { cn } from "@/lib/utils"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
@@ -11,17 +10,16 @@ import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplicatio
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
+import { useGetFormByStep } from "../../hooks/useGetFormByStep"
 import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext,
   useLoanProgramDetailContext
 } from "../../providers"
-import { PlaidProvider } from "../../providers/PlaidProvider"
 import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { TopBarDetail } from "./TopBarDetail"
-import { useGetFormByStep } from "../../hooks/useGetFormByStep"
 
 export const LoanInformationHeader = () => {
   const { loanProgramDetails, isLoading } = useLoanProgramDetailContext()
@@ -30,7 +28,12 @@ export const LoanInformationHeader = () => {
 
   const { getStepStatus } = useLoanApplicationProgressContext()
 
+  /**
+   * No need to check [LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION.REVIEW_APPLICATION]
+   * Because its review step
+   */
   const checkStepStatus =
+    getStepStatus(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION) ||
     getStepStatus(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION) ||
     getStepStatus(LOAN_APPLICATION_STEPS.CURRENT_LOANS) ||
     getStepStatus(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION) ||
@@ -40,11 +43,7 @@ export const LoanInformationHeader = () => {
     getStepStatus(LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
 
   const backToLoanProgram = () => {
-    navigate(
-      APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
-        loanProgramDetails?.id ?? ""
-      )
-    )
+    navigate(-1)
   }
   return (
     <TopBarDetail
@@ -114,7 +113,7 @@ export const Component = () => {
   }, [step])
 
   return (
-    <PlaidProvider>
+    <>
       <LoanInformationHeader />
 
       <Progress
@@ -131,6 +130,6 @@ export const Component = () => {
           <div className="grid grid-cols-8 w-full">{componentByStep}</div>
         </LoadingOverlay>
       </div>
-    </PlaidProvider>
+    </>
   )
 }

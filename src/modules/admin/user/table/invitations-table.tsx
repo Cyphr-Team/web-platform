@@ -1,12 +1,18 @@
 import { REQUEST_LIMIT_PARAM } from "@/constants"
-import { PaginationState } from "@tanstack/react-table"
+import {
+  getCoreRowModel,
+  PaginationState,
+  useReactTable
+} from "@tanstack/react-table"
 import { useQueryListPaginateInvitation } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateInvitation.ts"
 import { useState } from "react"
 import { RevokeInvitationAction } from "@/modules/admin/user/table/revoke-invitation-action.tsx"
 import { calculateDaysUntilExpiration } from "@/utils/date.utils.ts"
+import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
+import { Invitation } from "@/types/invitation.type"
 
-export const DataFlex = () => {
-  const [pagination] = useState<PaginationState>({
+export const InvitationTable = () => {
+  const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: REQUEST_LIMIT_PARAM
   })
@@ -14,6 +20,18 @@ export const DataFlex = () => {
   const { data } = useQueryListPaginateInvitation({
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize
+  })
+
+  const invitations: Invitation[] = data?.data ?? []
+
+  const table = useReactTable({
+    columns: [],
+    data: invitations,
+    rowCount: data?.total ?? 0,
+    state: { pagination },
+    onPaginationChange: setPagination,
+    getCoreRowModel: getCoreRowModel(),
+    manualPagination: true
   })
 
   return (
@@ -34,8 +52,9 @@ export const DataFlex = () => {
         )
         return (
           <div
+            id={invitation.recipientEmail}
             key={invitation.id}
-            className="border border-gray-500 p-1.5 mb-0.5 flex items-center justify-between"
+            className="border border-gray-100 px-3 py-1.5 mb-2 flex items-center justify-between shadow-md rounded-md text-sm"
           >
             <div className="flex items-center">
               <h2 className="text-gray-600">
@@ -69,6 +88,9 @@ export const DataFlex = () => {
           </div>
         )
       })}
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <DataTablePagination table={table} />
+      </div>
     </div>
   )
 }

@@ -20,6 +20,7 @@ export const useQueryGetInstitutionActivity = ({
 
   return useQuery<AxiosResponse<StatsResponse>, AxiosError<ErrorResponse>>({
     queryKey: [
+      QUERY_KEY.DASHBOARD_V2,
       QUERY_KEY.INSTITUTION_ACTIVITIES,
       filter.timeRange.from,
       filter.timeRange.to,

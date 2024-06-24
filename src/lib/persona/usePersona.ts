@@ -32,9 +32,6 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
         onComplete: (inquiryData) => {
           setCompleteData(inquiryData)
         },
-        onCancel: () => {
-          console.warn("Client cancels persona")
-        },
         onError: (error) => {
           console.error("Client got error", error)
         }
@@ -47,6 +44,16 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
 
   const handleOpenPersona = useCallback(async () => {
     try {
+      /**
+       * If we have one, no need to request more from server.
+       * By keeping the credential for the current render.
+       * When the client cancel and start again.
+       */
+      if (personaClientRef.current) {
+        personaClientRef.current.open()
+        return
+      }
+
       const createPersonaInquiryRequest: CreatePersonaInquiryRequest = {
         applicationId
       }

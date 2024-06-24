@@ -3,6 +3,7 @@ import { TextInputDisplay } from "../../atoms/TextInputDisplay"
 import { formatPhoneNumber } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
 import { KYCInformationResponse } from "@/modules/loan-application/constants/type"
+import { Separator } from "@/components/ui/separator"
 
 interface KycFormDetailsProps {
   kycFormData?: KYCInformationResponse
@@ -13,7 +14,8 @@ export const KycFormDetails: React.FC<KycFormDetailsProps> = ({
 }) => {
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
-      <h5 className="text-lg font-semibold">Owner Information</h5>
+      <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
+      <Separator />
       <div className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
         <TextInputDisplay
           className="col-span-3"

@@ -1,10 +1,73 @@
-// ENUM
+/**
+ * Enumeration representing different user roles within a financial institution or platform.
+ */
 enum UserRoles {
-  LOAN_OFFICER = "LOAN_OFFICER",
-  LOAN_APPLICANT = "LOAN_APPLICANT",
-  FORESIGHT_ADMIN = "FORESIGHT_ADMIN",
-  CDFI_ADMIN = "CDFI_ADMIN"
+  /**
+   * The loan applicant is the person who applies for loan programs
+   */
+  APPLICANT = "APPLICANT",
+
+  /**
+   * The reviewer who processes review for the applications applied for loan programs.
+   */
+  REVIEWER = "REVIEWER",
+
+  /**
+   * The institution administrator with administrative control over organizational settings and
+   * user management within the specific financial institution.
+   */
+  WORKSPACE_ADMIN = "WORKSPACE_ADMIN",
+
+  /**
+   * The platform administrator with advanced privileges, overseeing and managing the whole system,
+   * which may include configuration, monitoring, and maintenance the financial institutions.
+   */
+  PLATFORM_ADMIN = "PLATFORM_ADMIN"
 }
+
+const applicantRoles = () => {
+  return [UserRoles.APPLICANT]
+}
+
+const applicantRole = () => {
+  return UserRoles.APPLICANT
+}
+
+const reviewerRole = () => {
+  return UserRoles.REVIEWER
+}
+
+const reviewerRoles = () => {
+  return [UserRoles.REVIEWER]
+}
+
+const workspaceAdminRole = () => {
+  return UserRoles.WORKSPACE_ADMIN
+}
+
+const workspaceAdminRoles = () => {
+  return [UserRoles.WORKSPACE_ADMIN]
+}
+
+const platformAdminRoles = () => {
+  return [UserRoles.PLATFORM_ADMIN]
+}
+
+const platformAdminRole = () => {
+  return UserRoles.PLATFORM_ADMIN
+}
+
+export {
+  applicantRoles,
+  applicantRole,
+  reviewerRole,
+  reviewerRoles,
+  workspaceAdminRole,
+  workspaceAdminRoles,
+  platformAdminRoles,
+  platformAdminRole
+}
+
 enum UserStatus {
   UNVERIFIED = "UNVERIFIED",
   REGISTERING = "REGISTERING",
@@ -40,4 +103,24 @@ interface UserDetailInfo {
   createdAt: string
 }
 
-export type { UserInfo, UserDetailInfo }
+interface WhitelistedUser {
+  id: string
+  userId: string
+  featureFlagId: string
+}
+
+interface WhitelistedUserResponse {
+  id: string
+  userId: string
+  featureFlagId: string
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+}
+
+export type {
+  UserInfo,
+  WhitelistedUser,
+  UserDetailInfo,
+  WhitelistedUserResponse
+}

@@ -34,7 +34,7 @@ export function ActiveEmailLayout() {
         <div className="text-sm text-text-tertiary">
           {tenantData?.name && (
             <div className="capitalize absolute bottom-8 left-8">
-              © {tenantData?.name} 2023
+              © {tenantData?.name} 2024
             </div>
           )}
 

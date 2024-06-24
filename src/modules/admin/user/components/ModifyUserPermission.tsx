@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { EditUserRolesButton } from "@/modules/admin/user/components/EditUserRolesButton.tsx"
-import { EDIT_ROLES } from "@/modules/admin/user/constants/edit-roles.constants.ts"
+import { editRoleOptions } from "@/modules/admin/user/constants/roles.constants.ts"
 import { UserRoles } from "@/types/user.type.ts"
+import { isReviewerRole } from "@/utils/check-roles"
 import { MultiChoices } from "@/components/ui/multi-choice-selection.tsx"
 import {
   Dialog,
@@ -25,9 +26,6 @@ export const ModifyUserPermission = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedRoles, setSelectedRoles] = useState<UserRoles[]>([])
-  const isLoanOfficer = (role: UserRoles): boolean => {
-    return role === UserRoles.LOAN_OFFICER
-  }
 
   useEffect(() => {
     if (roles) {
@@ -70,7 +68,7 @@ export const ModifyUserPermission = ({
           <DialogDescription>Modify User's permission</DialogDescription>
         </DialogHeader>
         <form className="flex flex-col gap-4 p-4 bg-gray-200 rounded-lg">
-          {EDIT_ROLES.map((role) => (
+          {editRoleOptions().map((role) => (
             <MultiChoices
               role={role}
               isSelected={selectedRoles.includes(
@@ -78,7 +76,7 @@ export const ModifyUserPermission = ({
               )}
               onClick={() => handleRoleClick(role.value)}
               description={
-                isLoanOfficer(role.value)
+                isReviewerRole(role.value)
                   ? "Manages loan applications, interacts with borrowers, ensures lending process efficiency."
                   : "Manages administrative aspects, ensures platform functionality, and oversees user management."
               }

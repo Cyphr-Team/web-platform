@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { StateType } from "@/types/common.type"
+import { capitalizeWords } from "@/utils"
 import { CheckIcon, Search } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
@@ -69,7 +70,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
     <FormField
       control={control}
       name={name}
-      render={() => (
+      render={({ field }) => (
         <FormItem className={className}>
           <FormLabel className="text-text-secondary">
             {label}
@@ -79,6 +80,7 @@ export const AutoCompleteStates = <T extends FieldValues>(
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Input
+                  name={name}
                   value={value || "Select state..."}
                   className="text-sm"
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
@@ -107,6 +109,8 @@ export const AutoCompleteStates = <T extends FieldValues>(
                           key={option.id}
                           value={option.name}
                           onSelect={(currentValue) => {
+                            field.onBlur()
+                            field.onChange(capitalizeWords(currentValue))
                             onChange(currentValue)
                             setOpen(false)
                           }}

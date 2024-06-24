@@ -146,6 +146,21 @@ export class LoanApplicationStep {
     return this
   }
 
+  _build_ReviewApplicationStep(): this {
+    this.#steps = [
+      ...this.#steps,
+      {
+        step: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
+        formType: null,
+        label: "Review Application",
+        parent: STEP_MENU.SIGNATURE,
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      }
+    ]
+
+    return this
+  }
+
   getSteps(): ILoanApplicationStep[] {
     return this.#steps
   }

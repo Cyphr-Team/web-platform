@@ -6,38 +6,33 @@ import {
   LinkToken,
   SetAccessTokenRequest
 } from "../constants"
+import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import { AxiosResponse } from "axios"
 
 export const exchangePublicTokenForAccessToken = async (
   publicToken: string,
   dispatch: React.Dispatch<PlaidAction>
 ) => {
-  const response = await postRequest<SetAccessTokenRequest, PlaidInfo>({
+  const response = await postRequest<
+    SetAccessTokenRequest,
+    AxiosResponse<PlaidInfo>
+  >({
     path: ENDPOINTS.PLAID.SET_ACCESS_TOKEN,
     data: {
       publicToken: publicToken
     }
   })
-  if (!response.status) {
-    dispatch({
-      type: "SET_STATE",
-      state: {
-        itemId: `no item_id retrieved`,
-        accessToken: `no access_token retrieved`,
-        isItemAccess: false
-      }
-    })
-    return
-  }
-  const data = response.data
+
+  const data = response?.data?.data
 
   dispatch({
     type: "SET_STATE",
     state: {
-      itemId: data.itemId,
-      accessToken: data.accessToken,
+      itemId: data?.itemId,
       isItemAccess: true
     }
   })
+  return data
 }
 
 export const generateToken = async (dispatch: React.Dispatch<PlaidAction>) => {
@@ -68,26 +63,8 @@ export const generateToken = async (dispatch: React.Dispatch<PlaidAction>) => {
   localStorage.setItem("link_token", data.linkToken)
 }
 
-export const getInfo = async (dispatch: React.Dispatch<PlaidAction>) => {
-  const response = await postRequest<null, PlaidInfo>({
-    path: ENDPOINTS.PLAID.INFO
-  })
-  if (!response.status) {
-    dispatch({ type: "SET_STATE", state: { backend: false } })
-    return { paymentInitiation: false }
-  }
-
-  const data = response.data
-
-  const paymentInitiation: boolean =
-    data.products.includes("payment_initiation")
-
-  dispatch({
-    type: "SET_STATE",
-    state: {
-      products: data.products,
-      isPaymentInitiation: paymentInitiation
-    }
-  })
-  return { paymentInitiation }
+export const isReviewApplicationStep = (
+  currentStep: LOAN_APPLICATION_STEPS
+) => {
+  return currentStep === LOAN_APPLICATION_STEPS.REVIEW_APPLICATION
 }

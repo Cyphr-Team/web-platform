@@ -10,7 +10,6 @@ import {
   useLoanApplicationProgressContext
 } from "../providers"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
-import { PlaidProvider } from "../providers/PlaidProvider"
 
 export const LoanApplicationEdit = () => {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
@@ -42,18 +41,16 @@ export const LoanApplicationEdit = () => {
           <Loader2 className="m-2 h-8 w-8 transition-all ease-out animate-spin text-primary" />
         </div>
       ) : (
-        <PlaidProvider>
-          <LoanProgramDetailProvider>
-            <div
-              ref={containerRef}
-              className="flex h-full overflow-auto flex-1 py-6 flex-col pt-8"
-            >
-              <LoadingOverlay isLoading={isSubmitting}>
-                <div className="grid grid-cols-8 w-full">{componentByStep}</div>
-              </LoadingOverlay>
-            </div>
-          </LoanProgramDetailProvider>
-        </PlaidProvider>
+        <LoanProgramDetailProvider>
+          <div
+            ref={containerRef}
+            className="flex h-full overflow-auto flex-1 py-6 flex-col pt-8"
+          >
+            <LoadingOverlay isLoading={isSubmitting}>
+              <div className="grid grid-cols-8 w-full">{componentByStep}</div>
+            </LoadingOverlay>
+          </div>
+        </LoanProgramDetailProvider>
       )}
     </>
   )

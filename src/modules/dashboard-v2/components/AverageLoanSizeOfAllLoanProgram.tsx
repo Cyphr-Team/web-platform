@@ -24,8 +24,8 @@ import {
 } from "recharts"
 import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
+import { ChartHintToolTip } from "./atoms/ChartHintToolTip"
 
-// TODO: Integrate API
 export const AverageLoanSizeOfAllLoanProgram = () => {
   const { averageApprovedLoanSizeData, dashboardState } = useDashboard()
 
@@ -64,10 +64,31 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
 
   return (
     <div className="bg-white p-4 md:p-6 rounded-xl border flex-1">
-      <div className="flex justify-between gap-2 items-center mb-8">
+      <div className="flex gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">
           Average Loan Size of All Loan Programs
         </h2>
+        <ChartHintToolTip
+          head={
+            <>
+              <strong>Average Loan Size of All Loan Programs</strong> represents
+              the average amount of loan approved of each loan programs
+            </>
+          }
+          formula="Total Loan Volume Approved / Approved Apps"
+          formulaExplain={
+            <>
+              <li>
+                <strong>Total Loan Volume Approved:</strong> The total dollar
+                amount of all approved loans.
+              </li>
+              <li>
+                <strong>Approved Apps:</strong> The total number of loan
+                applications that have been approved.
+              </li>
+            </>
+          }
+        />
       </div>
 
       <div className="w-full h-[400px]">
