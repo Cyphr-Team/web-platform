@@ -10,13 +10,15 @@ import {
 import {
   convertToReadableDate,
   convertToReadableDateAgo,
-  snakeCaseToText
+  snakeCaseToText,
+  toCurrency
 } from "@/utils"
 import { ColumnDef, Row } from "@tanstack/react-table"
 import { useQueryGetUserLoanApplications } from "../hooks/useQuery/useQueryUserLoanApplications"
 import { ChevronRightIcon } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
+import { Progress } from "@/components/ui/progress.tsx"
 
 export function Component() {
   const { data, fetchNextPage, isFetching } = useQueryGetUserLoanApplications({
@@ -44,6 +46,28 @@ export function Component() {
         )
       },
       size: 300
+    },
+    {
+      accessorKey: "loanAmount",
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Ammount request"
+          className="text-right w-full"
+        />
+      ),
+      size: 150,
+      cell: ({ row }) => {
+        const application = row.original
+
+        return (
+          <div className="min-w-0">
+            <p className="truncate text-right">
+              {toCurrency(application.loanAmount)}
+            </p>
+          </div>
+        )
+      }
     },
     {
       accessorKey: "createdAt",
@@ -101,7 +125,7 @@ export function Component() {
           className="text-right"
         />
       ),
-      size: 200,
+      size: 100,
       cell: ({ row }) => {
         const application = row.original
 
@@ -115,6 +139,31 @@ export function Component() {
             >
               {snakeCaseToText(application.status ?? "Draft")}
             </Badge>
+          </div>
+        )
+      }
+    },
+    {
+      accessorKey: "progress",
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Progress"
+          className="text-right"
+        />
+      ),
+      size: 150,
+      cell: ({ row }) => {
+        const application = row.original
+        return (
+          <div className="relative">
+            <Progress
+              value={Math.round(100 * application.currentStep)}
+              className="flex items-center justify-end"
+            ></Progress>
+            <span className="absolute top-1/2 transform -translate-y-1/2 pl-2 right-[-30px] ">
+              {Math.round(100 * application.currentStep)}
+            </span>
           </div>
         )
       }
@@ -138,8 +187,7 @@ export function Component() {
           </div>
         )
       }
-    },
-    { id: "preventCrashUI", size: 0 }
+    }
   ]
 
   const handleClickDetail = (detail: Row<UserMicroLoanApplication>) => {
