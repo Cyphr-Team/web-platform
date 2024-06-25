@@ -4,6 +4,8 @@ import { Client } from "persona"
 import { useCallback, useRef, useState } from "react"
 import { useCreateSmartKyc } from "./persona.client"
 import { CreatePersonaInquiryRequest } from "@/types/kyc/request/CreatePersonaInquiryRequest"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../utils/feature-flag.utils"
+import { EPersonaStatus } from "../../types/kyc"
 
 interface IPersonaInquiryData {
   inquiryId: string
@@ -16,7 +18,7 @@ interface IUsePersona {
 }
 
 export const usePersona = ({ applicationId }: IUsePersona) => {
-  const [completeData, setCompleteData] = useState<IPersonaInquiryData>()
+  const [inquiryData, setInquiryData] = useState<IPersonaInquiryData>()
 
   const personaClientRef = useRef<Client | null>()
 
@@ -30,7 +32,23 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
         referenceId,
         sessionToken,
         onComplete: (inquiryData) => {
-          setCompleteData(inquiryData)
+          setInquiryData(inquiryData)
+        },
+        onCancel: ({
+          inquiryId
+        }: {
+          inquiryId?: string
+          sessionToken?: string
+        }) => {
+          if (isEnableNewInquiryPersonaKycCreatingLogic()) {
+            if (inquiryId != undefined) {
+              setInquiryData({
+                inquiryId: inquiryId,
+                status: EPersonaStatus.UNKNOWN.toLowerCase(),
+                fields: null
+              })
+            }
+          }
         },
         onError: (error) => {
           console.error("Client got error", error)
@@ -81,7 +99,7 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
   return {
     handleOpenPersona,
     isOpening: createSmartKyc.isPending,
-    completeData: completeData,
-    isCompleted: !!completeData
+    inquiryData: inquiryData,
+    isCompleted: !!inquiryData
   }
 }

@@ -51,6 +51,10 @@ function isEnableIdentityVerificationSectionView() {
   )
 }
 
+function isEnableNewInquiryPersonaKycCreatingLogic() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.NEW_PERSONA_KYC_CREATING_LOGIC)
+}
+
 export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
@@ -59,5 +63,6 @@ export {
   isEnableDashboardV2,
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
-  isEnableIdentityVerificationSectionView
+  isEnableIdentityVerificationSectionView,
+  isEnableNewInquiryPersonaKycCreatingLogic
 }
