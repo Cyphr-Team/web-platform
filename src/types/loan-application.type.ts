@@ -70,6 +70,7 @@ interface UserMicroLoanApplication {
   businessId: string
   loanAmount: number
   loanTermInMonth: number
+  latestProgress: number
   proposeUseOfLoan: UseOfLoan
   status: LoanApplicationStatus
   createdAt: string
