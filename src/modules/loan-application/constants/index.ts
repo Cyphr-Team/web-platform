@@ -3,6 +3,8 @@ import { APP_PATH } from "@/constants"
 import { NavItem } from "@/types/common.type"
 import { isKccBank } from "@/utils/domain.utils"
 import { Bell } from "lucide-react"
+import { BusinessStreetAddress } from "./type"
+import { joinString } from "@/utils"
 
 export const navItems: NavItem[] = [
   {
@@ -75,6 +77,18 @@ export const getConfirmationTexts = (tenant: string) => {
       content: `that my signature below authorizes ${tenant} to run an OFAC (Office of Foreign Assets Control) search in order to comply with the Department of Treasury`
     }
   ]
+}
+
+export const formatBusinessStreetAddress = (
+  address?: BusinessStreetAddress
+): string => {
+  const addressLine = joinString(
+    ", ",
+    address?.addressLine1,
+    address?.addressLine2
+  )
+  const addressStateCode = joinString(" ", address?.state, address?.postalCode)
+  return joinString(", ", addressLine, address?.city, addressStateCode)
 }
 
 export const ENDPOINTS = {

@@ -88,11 +88,10 @@ class InquirySessionResponse {
 
 export type {
   SmartKyc,
-  PersonaStatus,
   PersonaGovernmentId,
   PersonaSelfie,
   PersonaInquiryBehavior,
   InquirySessionResponse
 }
 
-export { PersonaVerificationStatus }
+export { PersonaVerificationStatus, PersonaStatus }

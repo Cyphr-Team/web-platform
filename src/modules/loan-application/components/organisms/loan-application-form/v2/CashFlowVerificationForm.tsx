@@ -110,9 +110,11 @@ export const CashFlowVerificationFormV2 = () => {
       })
   }, [institutions])
 
-  const [isConfirmedConnect, setIsConfirmedConnect] = useState(
-    connectedAccounts.length > 0
-  )
+  const [isConfirmedConnect, setIsConfirmedConnect] = useState(false)
+
+  const canConnect = useMemo(() => {
+    return !!connectedAccounts.length || isConfirmedConnect
+  }, [isConfirmedConnect, connectedAccounts.length])
 
   const handleNextClick = () => {
     finishCurrentStep()
@@ -180,7 +182,7 @@ export const CashFlowVerificationFormV2 = () => {
               <Checkbox
                 className="w-5 h-5"
                 disabled={!!connectedAccounts.length}
-                checked={!!connectedAccounts.length || isConfirmedConnect}
+                checked={canConnect}
                 onCheckedChange={(value: boolean) => {
                   setIsConfirmedConnect(value)
                 }}
@@ -205,7 +207,7 @@ export const CashFlowVerificationFormV2 = () => {
           <div className="flex flex-row justify-between items-center gap-2">
             <h5 className="text-lg font-semibold">Connected Accounts</h5>
             <ConnectBankAccountsButton
-              disabled={!isConfirmedConnect || isFetchingDetails}
+              disabled={!canConnect || isFetchingDetails}
               hasConnectedAccounts={!!connectedAccounts.length}
               isBankAccountsLoading={isConnecting || isFetchingDetails}
             />

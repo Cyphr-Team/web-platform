@@ -1,28 +1,7 @@
-// ENUM
 /**
- * TODO: Clean up deprecated roles after migrating user roles.
+ * Enumeration representing different user roles within a financial institution or platform.
  */
 enum UserRoles {
-  /**
-   * @deprecated This will be replaced by REVIEWER
-   */
-  LOAN_OFFICER = "LOAN_OFFICER",
-
-  /**
-   * @deprecated This will be replaced by APPLICANT
-   */
-  LOAN_APPLICANT = "LOAN_APPLICANT",
-
-  /**
-   * @deprecated This will be replaced by PLATFORM_ADMIN
-   */
-  FORESIGHT_ADMIN = "FORESIGHT_ADMIN",
-
-  /**
-   * @deprecated This will be replaced by WORKSPACE_ADMIN
-   */
-  CDFI_ADMIN = "CDFI_ADMIN",
-
   /**
    * The loan applicant is the person who applies for loan programs
    */
@@ -47,7 +26,7 @@ enum UserRoles {
 }
 
 const applicantRoles = () => {
-  return [UserRoles.APPLICANT, UserRoles.LOAN_APPLICANT]
+  return [UserRoles.APPLICANT]
 }
 
 const applicantRole = () => {
@@ -59,7 +38,7 @@ const reviewerRole = () => {
 }
 
 const reviewerRoles = () => {
-  return [UserRoles.REVIEWER, UserRoles.LOAN_OFFICER]
+  return [UserRoles.REVIEWER]
 }
 
 const workspaceAdminRole = () => {
@@ -67,11 +46,11 @@ const workspaceAdminRole = () => {
 }
 
 const workspaceAdminRoles = () => {
-  return [UserRoles.WORKSPACE_ADMIN, UserRoles.CDFI_ADMIN]
+  return [UserRoles.WORKSPACE_ADMIN]
 }
 
 const platformAdminRoles = () => {
-  return [UserRoles.PLATFORM_ADMIN, UserRoles.FORESIGHT_ADMIN]
+  return [UserRoles.PLATFORM_ADMIN]
 }
 
 const platformAdminRole = () => {
@@ -124,4 +103,24 @@ interface UserDetailInfo {
   createdAt: string
 }
 
-export type { UserInfo, UserDetailInfo }
+interface WhitelistedUser {
+  id: string
+  userId: string
+  featureFlagId: string
+}
+
+interface WhitelistedUserResponse {
+  id: string
+  userId: string
+  featureFlagId: string
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+}
+
+export type {
+  UserInfo,
+  WhitelistedUser,
+  UserDetailInfo,
+  WhitelistedUserResponse
+}

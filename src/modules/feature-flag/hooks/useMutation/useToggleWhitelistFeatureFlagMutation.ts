@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AxiosResponse, AxiosError } from "axios"
 import { ErrorResponse } from "react-router-dom"
-import { FeatureFlag, FeatureFlagStatus } from "@/types/feature-flag.types.ts"
+import {
+  FeatureFlag,
+  FeatureFlagRolloutType
+} from "@/types/feature-flag.types.ts"
 import { postRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
 import { toastError, toastSuccess } from "@/utils"
@@ -9,24 +12,24 @@ import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
 import { featureFlagKeys } from "@/constants/query-key"
 
-export const useToggleStatusFeatureFlagMutation = (id: string) => {
+export const useToggleRolloutTypeFeatureFlagMutation = (id: string) => {
   const queryClient = useQueryClient()
 
   return useMutation<
     AxiosResponse<FeatureFlag>,
     AxiosError<ErrorResponse>,
     {
-      status: FeatureFlagStatus
+      rolloutType: FeatureFlagRolloutType
     }
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.featureFlag.toggleStatus(id),
+        path: API_PATH.featureFlag.toggleRolloutType(id),
         data
       })
     },
     onSuccess() {
-      toastSuccess(TOAST_MSG.featureFlag.toggleStatus)
+      toastSuccess(TOAST_MSG.featureFlag.toggleWhitelist)
       queryClient.invalidateQueries({
         queryKey: featureFlagKeys.lists()
       })
@@ -36,7 +39,7 @@ export const useToggleStatusFeatureFlagMutation = (id: string) => {
     },
     onError(error) {
       toastError({
-        ...TOAST_MSG.featureFlag.toggleStatus,
+        ...TOAST_MSG.featureFlag.toggleWhitelist,
         description: getAxiosError(error).message
       })
     }

@@ -2,14 +2,7 @@ import { Switch } from "@/components/ui/switch"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useToggleStatusFeatureFlagMutation } from "../hooks/useMutation/useToggleStatusFeatureFlagMutation"
 import React, { useState } from "react"
-import {
-  FeatureFlag,
-  FeatureFlagStatus
-} from "../../../types/feature-flag.types"
-
-export const ToggleStatusFeatureFlag = () => {
-  return <Switch />
-}
+import { FeatureFlag, FeatureFlagStatus } from "@/types/feature-flag.types.ts"
 
 type Props = {
   featureFlag: FeatureFlag
@@ -26,13 +19,19 @@ export const ConfirmToggleStatusFeatureFlag: React.FC<Props> = ({
   ) => {
     e.preventDefault()
     e.stopPropagation()
-    mutate({
-      status:
-        featureFlag.status === FeatureFlagStatus.ON
-          ? FeatureFlagStatus.OFF
-          : FeatureFlagStatus.ON
-    })
-    setIsOpen(false)
+    mutate(
+      {
+        status:
+          featureFlag.status === FeatureFlagStatus.ON
+            ? FeatureFlagStatus.OFF
+            : FeatureFlagStatus.ON
+      },
+      {
+        onSuccess() {
+          setIsOpen(false)
+        }
+      }
+    )
   }
 
   return (

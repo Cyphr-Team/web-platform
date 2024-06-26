@@ -18,7 +18,7 @@ import {
 import { useForm } from "react-hook-form"
 import {
   IdentityVerificationValue,
-  identityVerificationSchema
+  createIdentityVerificationSchema
 } from "../../../constants/form"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 import {
@@ -26,6 +26,9 @@ import {
   useLoanApplicationProgressContext
 } from "../../../providers"
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
+import { PersonaStatus } from "../../../../../lib/persona/persona.types"
+import { useParams } from "react-router-dom"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../../../utils/feature-flag.utils"
 
 const VerifyInfoItem = ({
   leftIcon,
@@ -53,11 +56,12 @@ export const IdentityVerificationForm = () => {
   const { dispatchFormAction, identityVerificationForm } =
     useLoanApplicationFormContext()
 
+  const { id: loanApplicationId } = useParams()
   /**
    * Persona Kyc
    */
-  const { handleOpenPersona, isOpening, completeData } = usePersona({
-    applicationId: identityVerificationForm?.applicationId
+  const { handleOpenPersona, isOpening, inquiryData } = usePersona({
+    applicationId: loanApplicationId
   })
 
   const { finishCurrentStep, completeCurrentStep } =
@@ -76,11 +80,11 @@ export const IdentityVerificationForm = () => {
   ])
 
   const form = useForm<IdentityVerificationValue>({
-    resolver: zodResolver(identityVerificationSchema),
+    resolver: zodResolver(createIdentityVerificationSchema()),
     defaultValues
   })
 
-  const setCompleteData = useCallback(
+  const dispatchInquiryData = useCallback(
     (data: IdentityVerificationValue) => {
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
@@ -92,7 +96,7 @@ export const IdentityVerificationForm = () => {
   )
 
   const onSubmit = (data: IdentityVerificationValue) => {
-    setCompleteData(data)
+    dispatchInquiryData(data)
     finishCurrentStep()
   }
 
@@ -100,28 +104,39 @@ export const IdentityVerificationForm = () => {
    * Listen completeData to update form value
    */
   useEffect(() => {
-    if (completeData) {
-      form.setValue("inquiryId", completeData?.inquiryId, {
+    if (inquiryData) {
+      form.setValue("inquiryId", inquiryData?.inquiryId, {
         shouldValidate: true
       })
-      form.setValue("status", completeData?.status, {
-        shouldValidate: true
-      })
-
-      /**
-       * This extra code will help us mark done the identity verification step
-       *  when the client finish verify Persona
-       */
+      if (isEnableNewInquiryPersonaKycCreatingLogic()) {
+        if (
+          inquiryData?.status?.toLowerCase() ===
+          PersonaStatus.COMPLETED.toLowerCase()
+        ) {
+          form.setValue("status", inquiryData?.status, {
+            shouldValidate: true
+          })
+          /**
+           * The completeCurrentStep function will help us mark done the identity verification step
+           *  when the client finish verify Persona
+           */
+          completeCurrentStep()
+        }
+      } else {
+        form.setValue("status", inquiryData?.status, {
+          shouldValidate: true
+        })
+        completeCurrentStep()
+      }
       const defaultValue = form.getValues()
       const identityVerificationValue: IdentityVerificationValue = {
         ...defaultValue,
-        inquiryId: completeData?.inquiryId,
-        status: completeData?.status
+        inquiryId: inquiryData?.inquiryId,
+        status: inquiryData?.status
       }
-      setCompleteData(identityVerificationValue)
-      completeCurrentStep()
+      dispatchInquiryData(identityVerificationValue)
     }
-  }, [completeCurrentStep, completeData, form, setCompleteData])
+  }, [completeCurrentStep, inquiryData, form, dispatchInquiryData])
 
   return (
     <Form {...form}>

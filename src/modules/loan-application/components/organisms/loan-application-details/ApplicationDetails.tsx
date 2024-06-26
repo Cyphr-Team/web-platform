@@ -30,19 +30,14 @@ export const ApplicationDetails = () => {
           <LoanRequestDetails />
           {kybFormData && <KybFormDetails kybFormData={kybFormData} />}
           {kycFormData && <KycFormDetails kycFormData={kycFormData} />}
-          {(isCyphrBank() || isKccBank()) && (
-            <>
-              {currentLoanFormData && (
-                <CurrentLoanFormDetails
-                  currentLoanFormData={currentLoanFormData}
-                />
-              )}
-              {operatingExpensesFormData && (
-                <OperatingExpensesFormDetails
-                  operatingExpensesFormData={operatingExpensesFormData}
-                />
-              )}
-            </>
+
+          {currentLoanFormData && (
+            <CurrentLoanFormDetails currentLoanFormData={currentLoanFormData} />
+          )}
+          {operatingExpensesFormData && (
+            <OperatingExpensesFormDetails
+              operatingExpensesFormData={operatingExpensesFormData}
+            />
           )}
           {financialFormData && (
             <FinancialFormDetails financialFormData={financialFormData} />

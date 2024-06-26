@@ -8,6 +8,8 @@ import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-a
 import { ColumnDef } from "@tanstack/react-table"
 import { useParams } from "react-router-dom"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
+import { Button } from "@/components/ui/button"
+import { useMemo } from "react"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -40,14 +42,21 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
 
 export const CashFlowTable = () => {
   const { id: loanApplicationId } = useParams()
-  const { data, isLoading, isError, error } =
+  const { data, isLoading, isError, error, refetch } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
 
   const bankAccounts = data?.bankAccounts ?? []
-  const noResultText =
-    isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
+  const isCashFlowNotReady = useMemo(() => {
+    return (
+      isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
+    )
+  }, [isError, error])
+
+  const noResultText = useMemo(() => {
+    return isCashFlowNotReady
       ? getCustomErrorMsgByCode(ErrorCode.cash_flow_not_ready)
       : "No bank accounts detected"
+  }, [isCashFlowNotReady])
 
   return (
     <Card>
@@ -56,6 +65,12 @@ export const CashFlowTable = () => {
           <CardTitle className="font-semibold text-lg flex items-center gap-3">
             Cash Flow Verification
           </CardTitle>
+          {/* Display this button when cash flow is not ready or empty */}
+          {(isCashFlowNotReady || !data?.bankAccounts?.length) && (
+            <Button disabled={isLoading} onClick={() => refetch()}>
+              Refresh
+            </Button>
+          )}
         </div>
       </CardHeader>
 

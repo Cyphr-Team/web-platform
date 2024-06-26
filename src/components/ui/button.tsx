@@ -83,7 +83,7 @@ const ButtonLoading = React.forwardRef<
         {children}
         <Loader2
           className={cn(
-            "ml-0 h-4 w-0 transition-all ease-out",
+            "ml-0 h-4 w-0 transition-all ease-out flex-shrink-0",
             isLoading && "animate-spin ml-2 w-4"
           )}
         />

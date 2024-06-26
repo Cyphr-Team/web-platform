@@ -200,6 +200,9 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
                       <TableCell
                         key={cell.id}
                         style={{ width: cell.column.getSize() }}
+                        className={cn({
+                          "mr-0 ml-auto": cell.column.id === "action"
+                        })}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

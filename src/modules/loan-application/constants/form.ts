@@ -2,6 +2,8 @@ import * as z from "zod"
 import { REGEX_PATTERN } from "."
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import { PlaidItemInfo } from "./type"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
+import { EPersonaStatus } from "../../../types/kyc"
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
@@ -147,18 +149,26 @@ export const operatingExpensesFormSchema = z.object({
     .min(0, { message: "This value is required" })
 })
 
-export const identityVerificationSchema = z.object({
-  /**
-   * This is use for the flow:
-   *  1. The client open the Persona Inquiry but didn't finish it
-   *  2. The client save draft - save & close -> we have applicationId now, we also link the inquiryId to this application
-   *  3. The client go back to the application and continue the persona Inquiry -> should send the applicationId to server
-   */
-  applicationId: z.string().optional(),
-  smartKycId: z.string().optional(),
-  inquiryId: z.string(),
-  status: z.string()
-})
+export const createIdentityVerificationSchema = () => {
+  return z.object({
+    /**
+     * This is use for the flow:
+     *  1. The client open the Persona Inquiry but didn't finish it
+     *  2. The client save draft - save & close -> we have applicationId now, we also link the inquiryId to this application
+     *  3. The client go back to the application and continue the persona Inquiry -> should send the applicationId to server
+     */
+    applicationId: z.string().optional(),
+    smartKycId: z.string().optional(),
+    inquiryId: z.string(),
+    status: z.string().refine((status) => {
+      if (isEnableNewInquiryPersonaKycCreatingLogic()) {
+        return status.toLowerCase() === EPersonaStatus.COMPLETED.toLowerCase()
+      } else {
+        return true // Accept any status when new logic is not enabled
+      }
+    })
+  })
+}
 
 export const reviewApplicationSchema = z.object({
   isReviewed: z.boolean()
@@ -178,7 +188,7 @@ export const cashFlowSchema = z.object({
 })
 
 export type IdentityVerificationValue = z.infer<
-  typeof identityVerificationSchema
+  ReturnType<typeof createIdentityVerificationSchema>
 >
 
 export type BusinessFormValue = z.infer<typeof businessFormSchema>

@@ -9,7 +9,8 @@ enum EPersonaStatus {
   PENDING = "PENDING",
   COMPLETED = "COMPLETED",
   FAILED = "FAILED",
-  EXPIRED = "EXPIRED"
+  EXPIRED = "EXPIRED",
+  UNKNOWN = "UNKNOWN" // This is not the real status of Persona, it just existed on our system
 }
 
 export { EPersonaStatus, EDecisionStatus }

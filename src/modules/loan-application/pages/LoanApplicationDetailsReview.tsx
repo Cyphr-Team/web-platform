@@ -40,3 +40,7 @@ export const Component = () => {
     </>
   )
 }
+
+Component.displayName = "LoanApplicationDetailsReview"
+
+export default Component

@@ -46,6 +46,8 @@ import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { useQueryGetPlaidConnectedBankAccountsByApplicationId } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
 import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
 import _ from "lodash"
+import { EPersonaStatus } from "../../../types/kyc"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 
 type BRLoanApplicationDetailsContext<T> = {
@@ -281,14 +283,37 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       formInConfigurations(FORM_TYPE.IDENTITY_VERIFICATION) &&
       isInitialized
     ) {
-      changeDataAndProgress(
-        {
-          smartKycId: identityVerificationQuery.data?.id,
-          inquiryId: identityVerificationQuery.data.inquiryId,
-          status: identityVerificationQuery.data.personaStatus?.toLowerCase()
-        },
-        LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
-      )
+      if (isEnableNewInquiryPersonaKycCreatingLogic()) {
+        if (
+          identityVerificationQuery.data?.personaStatus.toLowerCase() ===
+          EPersonaStatus.COMPLETED.toLowerCase()
+        ) {
+          dispatchProgress({
+            // turn on green tick
+            type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+            progress: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
+          })
+        }
+
+        dispatchFormAction({
+          action: FORM_ACTION.SET_DATA,
+          key: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION,
+          state: {
+            smartKycId: identityVerificationQuery.data?.id,
+            inquiryId: identityVerificationQuery.data.inquiryId,
+            status: identityVerificationQuery.data.personaStatus?.toLowerCase()
+          }
+        })
+      } else {
+        changeDataAndProgress(
+          {
+            smartKycId: identityVerificationQuery.data?.id,
+            inquiryId: identityVerificationQuery.data.inquiryId,
+            status: identityVerificationQuery.data.personaStatus?.toLowerCase()
+          },
+          LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
+        )
+      }
     }
   }, [
     changeDataAndProgress,
@@ -296,6 +321,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     identityVerificationQuery.data?.id,
     identityVerificationQuery.data?.inquiryId,
     identityVerificationQuery.data?.personaStatus,
+    dispatchFormAction,
+    dispatchProgress,
     isInitialized
   ])
 

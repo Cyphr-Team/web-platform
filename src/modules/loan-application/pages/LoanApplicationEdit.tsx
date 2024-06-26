@@ -11,7 +11,7 @@ import {
 } from "../providers"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
 
-export const LoanApplicationEdit = () => {
+export const Component = () => {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
   const { step, percentComplete } = useLoanApplicationProgressContext()
   const { isSubmitting } = useLoanApplicationFormContext()
@@ -54,3 +54,7 @@ export const LoanApplicationEdit = () => {
     </>
   )
 }
+
+Component.displayName = "LoanApplicationEdit"
+
+export default Component

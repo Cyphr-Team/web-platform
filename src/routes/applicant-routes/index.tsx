@@ -8,8 +8,7 @@ import { notificationRoutes } from "./notification-routes"
 import { BRLoanApplicationDetailsProvider } from "@/modules/loan-application/providers/BRLoanApplicationDetailsProvider"
 import { LoanApplicationDetailLayout } from "@/shared/layouts/LoanApplicationDetailLayout"
 import { LoanApplicationFormLayout } from "@/shared/layouts/LoanApplicationFormLayout"
-import { LoanApplicationEdit } from "@/modules/loan-application/pages/LoanApplicationEdit"
-import { Suspense } from "react"
+import { lazy, Suspense } from "react"
 import { Loader2 } from "lucide-react"
 import { LoanApplicationFormProvider } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { LoanProgressProvider } from "@/modules/loan-application/providers/LoanProgressProvider"
@@ -22,6 +21,14 @@ import { isKccBank } from "@/utils/domain.utils"
  * get user   ->  if success return children routes.
  *            ->  if fail navigate to ("/login").
  */
+
+const LoanApplicationEdit = lazy(
+  () => import("@/modules/loan-application/pages/LoanApplicationEdit")
+)
+const LoanApplicationDetailsReview = lazy(
+  () => import("@/modules/loan-application/pages/LoanApplicationDetailsReview")
+)
+
 const applicantRoutes = (
   <Route
     loader={userLoader}
@@ -61,9 +68,7 @@ const applicantRoutes = (
             <LoanProgressProvider>
               <LoanApplicationFormProvider>
                 <BRLoanApplicationDetailsProvider>
-                  <LoanApplicationDetailLayout>
-                    <Outlet />
-                  </LoanApplicationDetailLayout>
+                  <Outlet />
                 </BRLoanApplicationDetailsProvider>
               </LoanApplicationFormProvider>
             </LoanProgressProvider>
@@ -73,33 +78,25 @@ const applicantRoutes = (
     >
       <Route
         path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.detail}
-        lazy={() =>
-          import(
-            "@/modules/loan-application/pages/LoanApplicationDetailsReview"
-          )
+        element={
+          <LoanApplicationDetailLayout>
+            <Outlet />
+          </LoanApplicationDetailLayout>
         }
-      />
+      >
+        <Route index element={<LoanApplicationDetailsReview />} />
+      </Route>
+      <Route
+        path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
+        element={
+          <LoanApplicationFormLayout>
+            <Outlet />
+          </LoanApplicationFormLayout>
+        }
+      >
+        <Route index element={<LoanApplicationEdit />} />
+      </Route>
     </Route>
-
-    <Route
-      path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
-      element={
-        <PlaidProvider>
-          <LoanProgramDetailProvider>
-            <LoanProgressProvider>
-              <LoanApplicationFormProvider>
-                <BRLoanApplicationDetailsProvider>
-                  <LoanApplicationFormLayout>
-                    <LoanApplicationEdit />
-                  </LoanApplicationFormLayout>
-                </BRLoanApplicationDetailsProvider>
-              </LoanApplicationFormProvider>
-            </LoanProgressProvider>
-          </LoanProgramDetailProvider>
-        </PlaidProvider>
-      }
-    />
-
     <Route
       element={
         <PlaidProvider>

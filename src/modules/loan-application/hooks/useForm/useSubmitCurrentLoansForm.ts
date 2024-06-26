@@ -23,17 +23,16 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
   }
 
   const submitCurrentLoansForm = async (loanApplicationId: string) => {
+    // if select "No" in "Do you have any outstanding loans?"
+    const noOutstandingLoansPromise =
+      rawData.hasOutstandingLoans === "false"
+        ? submitCurrentLoans({
+            currentLoans: [],
+            loanApplicationId
+          })
+        : Promise.resolve()
+
     // Delete related forms in DB
-    if (rawData.hasOutstandingLoans == "false") {
-      rawData.currentLoans = rawData.currentLoans
-        .filter((item) => !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX))
-        .map(({ id, ...data }) => ({
-          ...data,
-          id: id.startsWith(DELETE_CURRENT_LOAN_PREFIX)
-            ? id
-            : DELETE_CURRENT_LOAN_PREFIX + id
-        }))
-    }
     const deletePromise = rawData.currentLoans
       .filter((form) => form.id.startsWith(DELETE_CURRENT_LOAN_PREFIX))
       .map((form) => {
@@ -52,7 +51,7 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
             loanApplicationId
           })
         : Promise.resolve()
-    // Update forms in DB if these are new
+    // Update forms in DB if these are not new or deleted
     const updatePromises = rawData.currentLoans
       .filter(
         (form) =>
@@ -61,6 +60,7 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
       )
       .map((form) => updateCurrentLoan({ ...form }))
     return await Promise.all([
+      noOutstandingLoansPromise,
       ...updatePromises,
       ...deletePromise,
       submitPromise
