@@ -14,7 +14,7 @@ export class LoanReadyLoanApplicationStep
     this._build_LoanRequestStep()
       ._build_BusinessInformationStep()
       ._build_OwnerInformationStep()
-      ._build_CashFlowVerification()
+      ._build_CashFlowVerificationStep()
 
     if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
 

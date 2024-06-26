@@ -1,9 +1,12 @@
 enum FORM_TYPE {
-  KYB = "KYB",
-  KYC = "KYC",
-  FINANCIAL = "FINANCIAL",
-  CURRENT_LOANS = "CURRENT_LOANS",
-  OPERATING_EXPENSES = "OPERATING_EXPENSES"
+  KYB = "kyb",
+  KYC = "kyc",
+  FINANCIAL = "financial",
+  CASH_FLOW = "cash_flow",
+  IDENTITY_VERIFICATION = "identity_verification",
+  REVIEW_APPLICATION = "review_application",
+  CURRENT_LOAN = "current_loan",
+  OPERATING_EXPENSES = "operating_expenses"
 }
 
 enum LOAN_APPLICATION_STEPS {

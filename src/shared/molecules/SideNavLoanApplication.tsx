@@ -64,7 +64,7 @@ export function LoanProgramItem({
   )
 }
 
-export function LoanProgramCollapsible({
+function LoanProgramCollapsible({
   label,
   progress,
   children

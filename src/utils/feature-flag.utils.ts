@@ -55,6 +55,9 @@ function isEnableNewInquiryPersonaKycCreatingLogic() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.NEW_PERSONA_KYC_CREATING_LOGIC)
 }
 
+function formsConfigurationEnabled() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION)
+}
 export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
@@ -64,5 +67,6 @@ export {
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
   isEnableIdentityVerificationSectionView,
-  isEnableNewInquiryPersonaKycCreatingLogic
+  isEnableNewInquiryPersonaKycCreatingLogic,
+  formsConfigurationEnabled
 }

@@ -23,8 +23,10 @@ export const getReferenceResource = (
       referenceResource = APP_PATH.LOAN_APPLICATION.APPLICATIONS.index
       break
     case NotificationReferenceType.LOAN_APPLICATION_DETAILS:
-      referenceResource =
-        APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(referenceId)
+      referenceResource = APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(
+        referenceId,
+        "" // TODO: Add the loan program id
+      )
       break
 
     // Loan application review types for loan officer

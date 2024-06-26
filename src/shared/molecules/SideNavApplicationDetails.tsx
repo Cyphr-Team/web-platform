@@ -7,11 +7,7 @@ import {
 import { CircularProgress } from "@/components/ui/circular-progress"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import {
-  ILoanApplicationStep,
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
-} from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { ILoanApplicationStep } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import groupBy from "lodash.groupby"
 import { Check } from "lucide-react"
@@ -36,12 +32,9 @@ function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
 }
 
 /**
- * The different between [SideNavApplicationDetails] and [SideNavLoanApplication] is the completeStep condition
- * Because in [BRLoanApplicationDetailsProvider]:
- * - We dont update [confirmationForm] and the status for confirmation is [INCOMPLETE]
- * - If we do, then we will trigger submit loan application from [LoanApplicationFormProvider]
+In the loan application details, all the steps MUST be finished
  */
-export function LoanProgramCollapsible({
+function LoanProgramCollapsible({
   label,
   progress,
   children
@@ -49,13 +42,7 @@ export function LoanProgramCollapsible({
   label: string
   progress: ILoanApplicationStep[]
 }>) {
-  const completeStep = progress.filter(
-    (step) =>
-      step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE ||
-      step.step === LOAN_APPLICATION_STEPS.CONFIRMATION ||
-      step.step === LOAN_APPLICATION_STEPS.REVIEW_APPLICATION
-  ).length
-  const progressText = `${completeStep}/${progress.length.toString()}`
+  const progressText = `${progress.length.toString()}/${progress.length.toString()}`
 
   return (
     <AccordionItem
@@ -69,10 +56,7 @@ export function LoanProgramCollapsible({
         <div className="flex items-center justify-between flex-1 ml-3 font-semibold">
           <div>{label}</div>
           <div>
-            <CircularProgress
-              percent={completeStep / progress.length}
-              text={progressText}
-            />
+            <CircularProgress percent={1} text={progressText} />
           </div>
         </div>
       </AccordionTrigger>

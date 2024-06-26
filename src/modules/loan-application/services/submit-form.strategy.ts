@@ -117,7 +117,8 @@ export const useSubmitLoanForm = (
         navigate(APP_PATH.LOAN_APPLICATION.SUBMISSION, {
           state: {
             applicationId: applicationId,
-            businessName: businessData?.businessLegalName
+            businessName: businessData?.businessLegalName,
+            loanProgramId: loanProgramId
           }
         })
       } else {
@@ -135,7 +136,7 @@ export const useSubmitLoanForm = (
         navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
       }
     },
-    [businessData?.businessLegalName, navigate]
+    [businessData?.businessLegalName, loanProgramId, navigate]
   )
 
   const handleSubmitFormError = useCallback(

@@ -6,6 +6,7 @@ import { createContext } from "use-context-selector"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext,
+  useLoanProgramDetailContext,
   usePlaidContext
 } from "."
 import {
@@ -30,7 +31,10 @@ import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
 import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
 import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
 import { useQueryLoanApplicationDetailsByType } from "../hooks/useQuery/useQueryUserLoanApplicationDetails"
-import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import {
+  FORM_TYPE,
+  LOAN_APPLICATION_STEPS
+} from "../models/LoanApplicationStep/type"
 import {
   reverseFormatCurrentLoansForm,
   reverseFormatKybForm,
@@ -44,6 +48,7 @@ import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/p
 import _ from "lodash"
 import { EPersonaStatus } from "../../../types/kyc"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
+import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -79,9 +84,11 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const { state } = useLocation()
 
   const { loanProgramId, id: loanApplicationId } = useParams()
-  const { dispatchProgress } = useLoanApplicationProgressContext()
+  const { dispatchProgress, isInitialized } =
+    useLoanApplicationProgressContext()
   const { dispatchFormAction } = useLoanApplicationFormContext()
   const { dispatch: plaidDispatch } = usePlaidContext()
+  const { loanProgramFormsConfiguration } = useLoanProgramDetailContext()
 
   const loanProgramQuery = useQueryLoanProgramDetailsByType(
     state?.loanProgramDetails?.type ?? "",
@@ -140,28 +147,58 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     },
     [dispatchProgress, dispatchFormAction]
   )
+
+  const formInConfigurations = useCallback(
+    (form: FORM_TYPE) =>
+      formsConfigurationEnabled()
+        ? loanProgramFormsConfiguration?.forms?.includes(form) ?? false
+        : true,
+    [loanProgramFormsConfiguration]
+  )
   // Save data to edit form
   // KYB Form
   useEffect(() => {
-    if (kybFormQuery.data) {
+    if (
+      kybFormQuery.data &&
+      formInConfigurations(FORM_TYPE.KYB) &&
+      isInitialized
+    ) {
       changeDataAndProgress(
         reverseFormatKybForm(kybFormQuery.data),
         LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
       )
     }
-  }, [changeDataAndProgress, kybFormQuery.data])
+  }, [
+    changeDataAndProgress,
+    formInConfigurations,
+    isInitialized,
+    kybFormQuery.data
+  ])
   // KYC Form
   useEffect(() => {
-    if (kycFormQuery.data) {
+    if (
+      kycFormQuery.data &&
+      formInConfigurations(FORM_TYPE.KYC) &&
+      isInitialized
+    ) {
       changeDataAndProgress(
         reverseFormatKycForm(kycFormQuery.data),
         LOAN_APPLICATION_STEPS.OWNER_INFORMATION
       )
     }
-  }, [changeDataAndProgress, kycFormQuery.data])
+  }, [
+    changeDataAndProgress,
+    formInConfigurations,
+    isInitialized,
+    kycFormQuery.data
+  ])
   // Financial Form
   useEffect(() => {
-    if (financialFormQuery.data) {
+    if (
+      financialFormQuery.data &&
+      formInConfigurations(FORM_TYPE.FINANCIAL) &&
+      isInitialized
+    ) {
       changeDataAndProgress(
         {
           ...financialFormQuery.data,
@@ -179,28 +216,51 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION
       )
     }
-  }, [changeDataAndProgress, financialFormQuery.data])
+  }, [
+    changeDataAndProgress,
+    financialFormQuery.data,
+    formInConfigurations,
+    isInitialized
+  ])
   // Current Loans Form
   useEffect(() => {
-    if (currentLoansFormQuery.data) {
+    if (
+      currentLoansFormQuery.data &&
+      formInConfigurations(FORM_TYPE.CURRENT_LOAN) &&
+      isInitialized
+    ) {
       changeDataAndProgress(
         reverseFormatCurrentLoansForm(currentLoansFormQuery.data),
         LOAN_APPLICATION_STEPS.CURRENT_LOANS
       )
     }
-  }, [changeDataAndProgress, currentLoansFormQuery.data])
+  }, [
+    changeDataAndProgress,
+    currentLoansFormQuery.data,
+    formInConfigurations,
+    isInitialized
+  ])
   // Operating Expenses Form
   useEffect(() => {
-    if (operatingExpensesFormQuery.data) {
+    if (
+      operatingExpensesFormQuery.data &&
+      formInConfigurations(FORM_TYPE.OPERATING_EXPENSES) &&
+      isInitialized
+    ) {
       changeDataAndProgress(
         reverseFormatOperatingExpensesForm(operatingExpensesFormQuery.data),
         LOAN_APPLICATION_STEPS.OPERATING_EXPENSES
       )
     }
-  }, [changeDataAndProgress, operatingExpensesFormQuery.data])
+  }, [
+    changeDataAndProgress,
+    formInConfigurations,
+    isInitialized,
+    operatingExpensesFormQuery.data
+  ])
   // Loan Request Form
   useEffect(() => {
-    if (loanApplicationDetailsQuery.data) {
+    if (loanApplicationDetailsQuery.data && isInitialized) {
       changeDataAndProgress(
         {
           id: loanApplicationDetailsQuery.data.id,
@@ -211,7 +271,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         LOAN_APPLICATION_STEPS.LOAN_REQUEST
       )
     }
-  }, [changeDataAndProgress, loanApplicationDetailsQuery.data])
+  }, [changeDataAndProgress, isInitialized, loanApplicationDetailsQuery.data])
 
   /**
    * Handle update identity verification data when edit draft application
@@ -219,7 +279,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   useEffect(() => {
     if (
       identityVerificationQuery.data?.inquiryId &&
-      identityVerificationQuery.data?.personaStatus
+      identityVerificationQuery.data?.personaStatus &&
+      formInConfigurations(FORM_TYPE.IDENTITY_VERIFICATION) &&
+      isInitialized
     ) {
       if (isEnableNewInquiryPersonaKycCreatingLogic()) {
         if (
@@ -255,11 +317,13 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     }
   }, [
     changeDataAndProgress,
+    formInConfigurations,
     identityVerificationQuery.data?.id,
     identityVerificationQuery.data?.inquiryId,
     identityVerificationQuery.data?.personaStatus,
     dispatchFormAction,
-    dispatchProgress
+    dispatchProgress,
+    isInitialized
   ])
 
   /**

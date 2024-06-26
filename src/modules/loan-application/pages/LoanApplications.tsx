@@ -157,9 +157,12 @@ export function Component() {
       )
     } else {
       navigate(
-        APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(detail.original.id)
-      ),
+        APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(
+          detail.original.id,
+          detail.original.loanProgram.id
+        ),
         { state: { loanProgramDetails: detail.original.loanProgram } }
+      )
     }
   }
 
