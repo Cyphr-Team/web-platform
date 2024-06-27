@@ -20,6 +20,7 @@ export const useToggleRolloutTypeFeatureFlagMutation = (id: string) => {
     AxiosError<ErrorResponse>,
     {
       rolloutType: FeatureFlagRolloutType
+      reason?: string
     }
   >({
     mutationFn: (data) => {

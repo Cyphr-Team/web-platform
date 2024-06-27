@@ -17,6 +17,7 @@ export const useToggleStatusFeatureFlagMutation = (id: string) => {
     AxiosError<ErrorResponse>,
     {
       status: FeatureFlagStatus
+      reason?: string
     }
   >({
     mutationFn: (data) => {
