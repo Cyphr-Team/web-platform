@@ -171,6 +171,7 @@ export function Component() {
         }
       },
       {
+        id: "action",
         accessorKey: "detail",
         header: () => <p></p>,
         size: 150,
