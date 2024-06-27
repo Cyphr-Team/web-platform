@@ -3,8 +3,7 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import React, { useState } from "react"
 import {
   FeatureFlag,
-  FeatureFlagRolloutType,
-  FeatureFlagStatus
+  FeatureFlagRolloutType
 } from "@/types/feature-flag.types.ts"
 import { useToggleRolloutTypeFeatureFlagMutation } from "@/modules/feature-flag/hooks/useMutation/useToggleWhitelistFeatureFlagMutation.ts"
 import { Input } from "@/components/ui/input"
@@ -79,7 +78,7 @@ export const ConfirmToggleWhitelistFeatureFlag: React.FC<Props> = ({
           e.stopPropagation()
           setIsOpen(true)
         }}
-        disabled={featureFlag.status === FeatureFlagStatus.OFF}
+        disabled={!featureFlag.enabled}
         checked={featureFlag.rolloutType === FeatureFlagRolloutType.WHITELIST}
       />
     </CustomAlertDialog>

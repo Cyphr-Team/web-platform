@@ -2,7 +2,7 @@ import { Switch } from "@/components/ui/switch"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useToggleStatusFeatureFlagMutation } from "../hooks/useMutation/useToggleStatusFeatureFlagMutation"
 import React, { useState } from "react"
-import { FeatureFlag, FeatureFlagStatus } from "@/types/feature-flag.types.ts"
+import { FeatureFlag } from "@/types/feature-flag.types.ts"
 import { Input } from "@/components/ui/input"
 
 type Props = {
@@ -23,10 +23,7 @@ export const ConfirmToggleStatusFeatureFlag: React.FC<Props> = ({
     e.stopPropagation()
     mutate(
       {
-        status:
-          featureFlag.status === FeatureFlagStatus.ON
-            ? FeatureFlagStatus.OFF
-            : FeatureFlagStatus.ON,
+        enabled: !featureFlag.enabled,
         reason: msg
       },
       {
@@ -64,15 +61,13 @@ export const ConfirmToggleStatusFeatureFlag: React.FC<Props> = ({
       actionClassName="bg-red-500 hover:bg-red-600 text-white"
     >
       <Switch
-        data-state={
-          featureFlag.status === FeatureFlagStatus.ON ? "checked" : "unchecked"
-        }
+        data-state={featureFlag.enabled ? "checked" : "unchecked"}
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
           setIsOpen(true)
         }}
-        checked={featureFlag.status === FeatureFlagStatus.ON}
+        checked={featureFlag.enabled}
       />
     </CustomAlertDialog>
   )
