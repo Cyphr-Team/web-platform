@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AxiosResponse, AxiosError } from "axios"
 import { ErrorResponse } from "react-router-dom"
-import { FeatureFlag, FeatureFlagStatus } from "@/types/feature-flag.types.ts"
+import { FeatureFlag } from "@/types/feature-flag.types.ts"
 import { postRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
 import { toastError, toastSuccess } from "@/utils"
@@ -16,7 +16,8 @@ export const useToggleStatusFeatureFlagMutation = (id: string) => {
     AxiosResponse<FeatureFlag>,
     AxiosError<ErrorResponse>,
     {
-      status: FeatureFlagStatus
+      enabled: boolean
+      reason?: string
     }
   >({
     mutationFn: (data) => {

@@ -3,15 +3,10 @@ type FeatureFlag = {
   key: string
   description?: string
   tags?: string[]
-  status: FeatureFlagStatus
+  enabled: boolean
   rolloutType: FeatureFlagRolloutType
   createdAt: string
   updatedAt: string
-}
-
-enum FeatureFlagStatus {
-  ON = "on",
-  OFF = "off"
 }
 
 enum FeatureFlagRolloutType {
@@ -20,4 +15,4 @@ enum FeatureFlagRolloutType {
 }
 
 export type { FeatureFlag }
-export { FeatureFlagStatus, FeatureFlagRolloutType }
+export { FeatureFlagRolloutType }
