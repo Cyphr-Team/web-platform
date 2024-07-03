@@ -5,6 +5,12 @@ enum LoanType {
   LENDERS_FORUM = "lenders_forum"
 }
 
+enum ProgramStatus {
+  DRAFT = "draft",
+  ACTIVATED = "activated",
+  DEACTIVATED = "deactivated"
+}
+
 enum InterestRateType {
   FIXED = "fixed",
   VARIABLE = "variable",
@@ -12,13 +18,14 @@ enum InterestRateType {
   PROMOTIONAL = "promotional"
 }
 
-export { LoanType, InterestRateType }
+export { LoanType, InterestRateType, ProgramStatus }
 
 // INTERFACE
 interface LoanProgram {
   id: string
   institutionId: string
   name: string
+  status: ProgramStatus
   type: string
   createdAt: string
   description: string

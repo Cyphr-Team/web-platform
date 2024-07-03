@@ -40,12 +40,12 @@ export const useCreateLoanProgram = ({ detailId }: { detailId?: string }) => {
     mutationFn: (data) => {
       return detailId
         ? patchRequest({
-            path: API_PATH.loanProgram.cdfi.update(),
+            path: API_PATH.loanProgram.workspaceAdmin.update(),
             data: { ...data, programId: detailId },
             customHeader: customRequestHeader.customHeaders
           })
         : postRequest({
-            path: API_PATH.loanProgram.cdfi.create(),
+            path: API_PATH.loanProgram.workspaceAdmin.create(),
             data,
             customHeader: customRequestHeader.customHeaders
           })

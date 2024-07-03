@@ -58,6 +58,11 @@ function isEnableNewInquiryPersonaKycCreatingLogic() {
 function formsConfigurationEnabled() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION)
 }
+
+function loanProgramChangesManagementEnabled() {
+  return true
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_CHANGES_MANAGEMENT)
+}
 export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
@@ -68,5 +73,6 @@ export {
   isEnabledBankAccountConnectionV2,
   isEnableIdentityVerificationSectionView,
   isEnableNewInquiryPersonaKycCreatingLogic,
-  formsConfigurationEnabled
+  formsConfigurationEnabled,
+  loanProgramChangesManagementEnabled
 }

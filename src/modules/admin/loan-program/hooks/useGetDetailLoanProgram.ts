@@ -14,7 +14,7 @@ export const useGetDetailLoanProgram = ({
     queryKey: loanProgramKeys.detail(loanProgramId!),
     queryFn: () => {
       return getRequest({
-        path: API_PATH.loanProgram.cdfi.detail(),
+        path: API_PATH.loanProgram.workspaceAdmin.detail(),
         params: {
           id: loanProgramId
         }

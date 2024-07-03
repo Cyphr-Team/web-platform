@@ -36,11 +36,16 @@ import {
 import {
   InterestRateType,
   LoanProgram,
-  LoanType
+  LoanType,
+  ProgramStatus
 } from "@/types/loan-program.type"
 import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
+import { useUpdateLoanProgram } from "../hooks/useUpdateLoanProgram"
+import { FormsConfigurationDialog } from "./forms-configuration-dialog"
+import { FeatureFlagsRenderer } from "@/shared/layouts/FeatureFlagRenderer"
+import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 
 type Props = {
   defaultData?: LoanProgram
@@ -104,13 +109,21 @@ export function CreateLoanProgramDialog({
 
   const { mutate, isPending } = useCreateLoanProgram({ detailId })
 
-  const formSubmit = form.handleSubmit((data) =>
-    mutate(data, {
-      onSuccess() {
-        onOpenChange(false)
-      }
+  const { mutate: updateLoanProgram, isPending: isUpdatePending } =
+    useUpdateLoanProgram({
+      loanProgramId: detailId,
+      status: ProgramStatus.DRAFT
     })
-  )
+
+  const isProcessing = isPending || isUpdatePending
+
+  const formSubmit = form.handleSubmit((data) => {
+    if (detailId) {
+      updateLoanProgram(data)
+    } else {
+      mutate(data)
+    }
+  })
 
   useEffect(() => {
     form.reset(defaultData)
@@ -379,10 +392,18 @@ export function CreateLoanProgramDialog({
                 </div>
               </LoadingWrapper>
             </ScrollArea>
+            <FeatureFlagsRenderer
+              ffKey={FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION}
+            >
+              <div className="p-6 w-full justify-end flex">
+                <FormsConfigurationDialog detailId={detailId} />
+              </div>
+            </FeatureFlagsRenderer>
+
             <DialogFooter className="px-6 border-t pt-4">
-              <ButtonLoading type="submit" isLoading={isPending}>
+              <ButtonLoading type="submit" isLoading={isProcessing}>
                 {detailId ? "Update" : "Add"}{" "}
-                {!isPending && <Plus className="ml-1.5" size="16" />}
+                {!isProcessing && <Plus className="ml-1.5" size="16" />}
               </ButtonLoading>
             </DialogFooter>
           </form>

@@ -33,6 +33,10 @@ export const TOAST_MSG = {
     delete: {
       title: "Deleting loan program",
       description: "Loan program has been deleted successfully"
+    },
+    updateStatus: {
+      title: "Updating loan program status",
+      description: "Loan program status is updated successfully"
     }
   },
   loanApplication: {

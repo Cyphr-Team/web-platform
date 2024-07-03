@@ -10,6 +10,7 @@ import { Institution } from "@/constants/tenant.constants"
 const DEFAULT_DEMO_SUBDOMAIN = APP_CONFIGS.VITE_BASE_SUBDOMAIN
 
 function getSubdomain(): string {
+  return Institution.Capsight
   try {
     const { host } = window.location
     const isDev = host.includes("localhost")

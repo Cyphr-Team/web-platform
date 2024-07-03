@@ -27,7 +27,7 @@ export const useGetListLoanProgram = ({ limit, offset }: PaginateParams) => {
         PaginateParams,
         ListLoanProgramResponse
       >({
-        path: API_PATH.loanProgram.cdfi.list(),
+        path: API_PATH.loanProgram.workspaceAdmin.list(),
         params: { limit, offset: (pageParam as number) * limit },
         customHeader: customRequestHeader.customHeaders
       })

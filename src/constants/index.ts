@@ -149,14 +149,16 @@ export const API_PATH = {
     list: "api/user-loan/program/list",
     detail: (id: string, loanType: string = LoanType.MICRO) =>
       `api/user-loan/${snakeCaseToUrlPattern(loanType)}-loan/program?id=${id}`,
-    cdfi: {
+    workspaceAdmin: {
       all: "api/admin-loan/micro-loan/program",
-      create: () => API_PATH.loanProgram.cdfi.all,
-      list: () => `${API_PATH.loanProgram.cdfi.all}/list`,
-      detail: () => API_PATH.loanProgram.cdfi.all,
-      update: () => API_PATH.loanProgram.cdfi.all,
+      create: () => API_PATH.loanProgram.workspaceAdmin.all,
+      list: () => `${API_PATH.loanProgram.workspaceAdmin.all}/list`,
+      detail: () => API_PATH.loanProgram.workspaceAdmin.all,
+      update: () => API_PATH.loanProgram.workspaceAdmin.all,
       delete: (loanProgramId: string) =>
-        `api/admin-loan/program/${loanProgramId}`
+        `api/admin-loan/program/${loanProgramId}`,
+      updateStatus: (loanProgramId: string) =>
+        `api/admin-loan/program/${loanProgramId}/update-status`
     },
     loanOfficer: {
       list: "api/loan-officer/programs/list"
