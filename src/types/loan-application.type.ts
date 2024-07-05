@@ -89,11 +89,24 @@ interface ListLoanProgramResponse {
   loanPrograms: LoanProgram[]
 }
 
+/**
+ * Assigned application
+ */
+interface IAssigneeApplication {
+  id: string
+  applicationIdNumber: number
+  captureStage: LoanApplicationStatus
+  scoredAt?: string | null
+  createdAt: string
+  submittedAt?: string | null
+}
+
 export type {
   UserMicroLoanApplication,
   LoanApplication,
   Applicant,
   LoanProgram,
   ListLoanProgramResponse,
-  UserMicroLoanApplicationRequest
+  UserMicroLoanApplicationRequest,
+  IAssigneeApplication
 }

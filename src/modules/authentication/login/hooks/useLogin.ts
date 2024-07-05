@@ -3,7 +3,7 @@ import { axiosClient } from "@/services/client.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
 import { ErrorResponse } from "@/types/common.type"
 import { UserInfo } from "@/types/user.type"
-import { checkIsLoanApplicant } from "@/utils/check-roles"
+import { checkIsJudge, checkIsLoanApplicant } from "@/utils/check-roles"
 import {
   customRequestHeader,
   headerWithRememberMe
@@ -50,6 +50,9 @@ export const useLogin = () => {
 
       if (checkIsLoanApplicant())
         return navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
+
+      if (checkIsJudge())
+        return navigate(APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX)
 
       return navigate(APP_PATH.INDEX)
     }

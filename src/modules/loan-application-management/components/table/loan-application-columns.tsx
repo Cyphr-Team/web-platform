@@ -5,15 +5,19 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
-import { LoanApplication } from "@/types/loan-application.type"
+import {
+  IAssigneeApplication,
+  LoanApplication
+} from "@/types/loan-application.type"
 import { snakeCaseToText, toCurrency } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { getBadgeVariantByStatus } from "../../services"
 
+import { ClipboardCopy } from "@/components/ui/clipboard-copy"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
+import { FilterableColumnHeader } from "@/shared/molecules/table/column-filter"
 import { format } from "date-fns"
 import { ButtonReviewLoanApplication } from "../atoms/ButtonReviewLoanApplication"
-import { ClipboardCopy } from "@/components/ui/clipboard-copy"
 
 export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
@@ -137,3 +141,214 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     }
   }
 ]
+
+/**
+ * Columns for workspace admin list applications
+ */
+
+export const assignLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
+  {
+    id: "select",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="ID" />
+    ),
+    cell: ({ row }) => {
+      const application = row.original
+      return <span> #{application.applicationIdNumber}</span>
+    },
+    size: 80
+  },
+  {
+    id: "companyName",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Company Name" />
+    ),
+    cell: () => {
+      return "TODO"
+    },
+    size: 200
+  },
+  {
+    id: "roundOneJudges",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Round 1 Judges" />
+    ),
+    cell: () => {
+      return "TODO"
+    },
+    size: 200
+  },
+  {
+    id: "roundOneAvgScore",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Round 1 Avg. Score" />
+    ),
+    cell: () => {
+      return "TODO"
+    },
+    size: 200
+  },
+  {
+    id: "roundTwoJudges",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Round 2 Judges" />
+    ),
+    cell: () => {
+      return "TODO"
+    },
+    size: 200
+  },
+  {
+    id: "roundTwoAvgScore",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Round 2 Avg. Score" />
+    ),
+    cell: () => {
+      return "TODO"
+    },
+    size: 200
+  },
+  {
+    id: "scoredcard",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Scorecard Status" />
+    ),
+    cell: () => {
+      return "TODO"
+    },
+    size: 200
+  },
+  {
+    id: "roundStatus",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Round Status" />
+    ),
+    cell: () => {
+      return "TODO"
+    },
+    size: 200
+  },
+  {
+    id: "createdAt",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Created On" />
+    ),
+    size: 150,
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div>
+          {application.createdAt
+            ? format(application.createdAt, FORMAT_DATE_M_D_Y)
+            : "N/A"}
+        </div>
+      )
+    }
+  },
+  {
+    id: "submittedAt",
+    header: ({ column }) => (
+      <FilterableColumnHeader column={column} title="Submitted On" />
+    ),
+    size: 150,
+    cell: () => {
+      return "TODO"
+    }
+  },
+  {
+    id: "action",
+    header: ({ column }) => (
+      <FilterableColumnHeader disabled column={column} title="Docs" />
+    ),
+    cell: () => {
+      return "TODO"
+    }
+  }
+]
+
+/**
+ * Columns for judge list applications
+ */
+
+export const assigneeLoanApplicationColumns: ColumnDef<IAssigneeApplication>[] =
+  [
+    {
+      id: "select",
+      header: ({ column }) => (
+        <FilterableColumnHeader column={column} title="ID" />
+      ),
+      cell: ({ row }) => {
+        const application = row.original
+        return <span> #{application.applicationIdNumber}</span>
+      },
+      size: 80
+    },
+    {
+      id: "companyName",
+      header: ({ column }) => (
+        <FilterableColumnHeader column={column} title="Company Name" />
+      ),
+      cell: () => {
+        return "TODO"
+      },
+      size: 200
+    },
+    {
+      id: "round",
+      header: ({ column }) => (
+        <FilterableColumnHeader column={column} title="Round" />
+      ),
+      cell: () => {
+        return "TODO"
+      },
+      size: 200
+    },
+    {
+      id: "scoredcard",
+      header: ({ column }) => (
+        <FilterableColumnHeader column={column} title="Scorecard Status" />
+      ),
+      cell: () => {
+        return "TODO"
+      },
+      size: 200
+    },
+    {
+      id: "createdAt",
+      header: ({ column }) => (
+        <FilterableColumnHeader column={column} title="Created On" />
+      ),
+      size: 150,
+      cell: ({ row }) => {
+        const application = row.original
+
+        return (
+          <div>
+            {application.createdAt
+              ? format(application.createdAt, FORMAT_DATE_M_D_Y)
+              : "N/A"}
+          </div>
+        )
+      }
+    },
+    {
+      id: "submittedAt",
+      header: ({ column }) => (
+        <FilterableColumnHeader column={column} title="Submitted On" />
+      ),
+      size: 150,
+      cell: () => {
+        return "TODO"
+      }
+    },
+    {
+      id: "action",
+      header: ({ column }) => (
+        <FilterableColumnHeader disabled column={column} title="Docs" />
+      ),
+      cell: () => {
+        return "TODO"
+      }
+    }
+  ]

@@ -3,16 +3,20 @@ import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { DataTable } from "@/components/ui/data-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
+import { cn } from "@/lib/utils"
+import { checkIsJudge } from "@/utils/check-roles"
+import { isLaunchKC } from "@/utils/domain.utils"
+import { PaginationState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
 import { loanApplicationColumns } from "../components/table/loan-application-columns"
 import { LoanApplicationTableHeader } from "../components/table/loan-application-header"
 import { FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
 import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryListPaginateLoanApplication"
-import { PaginationState } from "@tanstack/react-table"
-import { cn } from "@/lib/utils"
+import { WorkspaceAdminApplicationList } from "./launch-kc/workspace-admin-list"
+import { JudgeApplicationList } from "./launch-kc/judge-list"
 
-export function Component() {
+export function BaseApplicationList() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
 
   const crumbs = useBreadcrumb()
@@ -65,6 +69,16 @@ export function Component() {
       />
     </div>
   )
+}
+
+export function Component() {
+  if (isLaunchKC()) {
+    if (checkIsJudge()) return <JudgeApplicationList />
+
+    return <WorkspaceAdminApplicationList />
+  }
+
+  return <BaseApplicationList />
 }
 
 Component.displayName = "LoanApplication"
