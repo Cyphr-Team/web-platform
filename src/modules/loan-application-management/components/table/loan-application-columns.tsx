@@ -18,6 +18,7 @@ import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { FilterableColumnHeader } from "@/shared/molecules/table/column-filter"
 import { format } from "date-fns"
 import { ButtonReviewLoanApplication } from "../atoms/ButtonReviewLoanApplication"
+import { ApplicationRoundSelectionPopover } from "../organisms/ApplicationRoundSelectionPopover"
 
 export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
@@ -223,8 +224,17 @@ export const assignLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
     header: ({ column }) => (
       <FilterableColumnHeader column={column} title="Round Status" />
     ),
-    cell: () => {
-      return "TODO"
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div className="text-center cursor-pointer w-[250px]">
+          <ApplicationRoundSelectionPopover
+            applicationId={application.id}
+            roundStatus={application.status}
+          />
+        </div>
+      )
     },
     size: 200
   },
