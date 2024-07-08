@@ -65,7 +65,7 @@ function StatusRoundBadge({
   return (
     <div
       className={cn(
-        "h-6 inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-normal",
+        "h-7 inline-flex items-center whitespace-nowrap rounded-full px-2 text-xs font-normal",
         "text-gray-900 bg-opacity-80",
         getBadgeVariantByRound(round),
         className

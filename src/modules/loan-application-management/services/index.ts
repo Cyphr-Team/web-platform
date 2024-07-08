@@ -1,13 +1,15 @@
 import { DotVariantProps } from "@/components/ui/dot"
+import { FORMAT_DATE_M_D_Y_TIME_UPPERCASE } from "@/constants/date.constants"
 import { LoanApplicationStatus, UseOfLoan } from "@/types/loan-application.type"
+import { isLoanReady } from "@/utils/domain.utils"
+import { format } from "date-fns"
+import { RANDOM_LINE_COLORS } from "../constants"
 import {
   AUTHENTICITY_LEVEL,
   KYB_VERIFIED_FIELD_STATUS
 } from "../constants/type"
-import { KYC_STATUS } from "../constants/types/kyc"
-import { RANDOM_LINE_COLORS } from "../constants"
-import { isLoanReady } from "@/utils/domain.utils"
 import { LoanDecisionEnum } from "../constants/types/application"
+import { KYC_STATUS } from "../constants/types/kyc"
 
 export const getClassNameFromStatus = (
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS | AUTHENTICITY_LEVEL
@@ -215,4 +217,15 @@ export const getAuthenticityDataByScore = (score: number) => {
 
 export const getRandomColor = (index: number) => {
   return RANDOM_LINE_COLORS[index % RANDOM_LINE_COLORS.length]
+}
+
+export const getScoredTooltipContent = (scoredAt: string) => {
+  try {
+    return `Completed scorecard on ${format(
+      scoredAt,
+      FORMAT_DATE_M_D_Y_TIME_UPPERCASE
+    )}`
+  } catch {
+    return ""
+  }
 }

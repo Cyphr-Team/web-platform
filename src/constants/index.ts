@@ -206,6 +206,12 @@ export const API_PATH = {
     reviewLoanApplication: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/review`
   },
+  judgeApplication: {
+    all: "api/judge/loan-applications",
+    list: () => `${API_PATH.judgeApplication.all}`,
+    detail: (applicationId: string) =>
+      `${API_PATH.judgeApplication.all}/${applicationId}/score`
+  },
   loanApplicationDetails: {
     all: "api/loan-officer/applications",
     getStatusDetail: (applicationId: string) =>

@@ -1,0 +1,40 @@
+import { Button } from "@/components/ui/button"
+import { APP_PATH } from "@/constants"
+import { ChevronRight } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+
+export const ButtonViewDetailLoanApplication = ({
+  loanApplicationId,
+  loanProgramType
+}: {
+  loanApplicationId: string
+  loanProgramType: string
+}) => {
+  const navigate = useNavigate()
+
+  const handleClickDetail = async () => {
+    navigate(
+      APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
+        loanApplicationId
+      ),
+      {
+        state: {
+          applicationDetail: {
+            type: loanProgramType
+          }
+        }
+      }
+    )
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      className="flex items-center gap-0.5 px-2 pr-1 h-8"
+      onClick={handleClickDetail}
+    >
+      Review
+      <ChevronRight className="w-4" />
+    </Button>
+  )
+}
