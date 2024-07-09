@@ -3,6 +3,7 @@ import { putRequest } from "@/services/client.service"
 import { useQueryClient } from "@tanstack/react-query"
 import { customRequestHeader } from "@/utils/request-header"
 import {
+  LoanMeta,
   UserMicroLoanApplication,
   UserMicroLoanApplicationRequest
 } from "@/types/loan-application.type"
@@ -16,7 +17,7 @@ export const useUpdateLoanApplicationMutation = (
 ) => {
   const microLoanMutation = useUpdateLoanApplication<
     UserMicroLoanApplicationRequest,
-    UserMicroLoanApplication
+    UserMicroLoanApplication<LoanMeta>
   >(id, loanType)
 
   switch (loanType) {

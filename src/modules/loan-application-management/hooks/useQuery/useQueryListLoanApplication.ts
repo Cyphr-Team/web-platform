@@ -1,5 +1,5 @@
 import { ListResponse, PaginateParams } from "@/types/common.type"
-import { LoanApplication } from "@/types/loan-application.type"
+import { LoanApplication, LoanMeta } from "@/types/loan-application.type"
 import { API_PATH } from "@/constants"
 import { loanApplicationKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
@@ -8,7 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
 import * as z from "zod"
 
-type ListLoanApplicationResponse = ListResponse<LoanApplication>
+type ListLoanApplicationResponse = ListResponse<LoanApplication<LoanMeta>>
 
 export const LoanApplicationFilterSchema = z.object({
   status: z.array(z.object({ label: z.string(), value: z.string() })),

@@ -1,4 +1,7 @@
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import {
+  LoanMeta,
+  UserMicroLoanApplication
+} from "@/types/loan-application.type"
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
 import { useCallback, useEffect, useMemo } from "react"
 import { useLocation, useParams } from "react-router-dom"
@@ -59,7 +62,7 @@ type BRLoanApplicationDetailsContext<T> = {
   operatingExpensesFormData?: OperatingExpensesInformationResponse
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
-  loanApplicationDetails?: UserMicroLoanApplication
+  loanApplicationDetails?: UserMicroLoanApplication<LoanMeta>
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
   plaidConnectedBankAccountsByApplicationId?: IPlaidConnectedBankAccountsByApplicationIdGetResponse

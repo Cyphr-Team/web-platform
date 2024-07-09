@@ -1,5 +1,7 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import { MicroLoanProgramType, LoanType } from "./loan-program.type"
+import { isLaunchKC } from "@/utils/domain.utils.ts"
+import { ListResponse } from "@/types/common.type.ts"
 
 /* ----- ENUM -----
  * LoanApplicationStatus
@@ -33,7 +35,11 @@ enum UseOfLoan {
   OTHER = "other"
 }
 
-export { LoanApplicationStatus, UseOfLoan }
+const getMetaType = (): LoanMeta => {
+  return isLaunchKC() ? ({} as LaunchKCMeta) : null
+}
+
+export { LoanApplicationStatus, UseOfLoan, getMetaType }
 
 // INTERFACE
 interface Applicant {
@@ -47,7 +53,7 @@ interface Applicant {
   authProvider: string
   created_at: string
 }
-interface LoanApplication {
+interface LoanApplication<T> {
   id: string
   loanProgramId: string
   applicantId: string
@@ -61,6 +67,7 @@ interface LoanApplication {
   businessName?: string
   applicationIdNumber: number
   personaInquiryId?: string
+  meta: T
 }
 interface LoanProgram {
   id: string
@@ -71,7 +78,17 @@ interface LoanProgram {
   createdAt: string
   updatedAt: string
 }
-interface UserMicroLoanApplication {
+
+interface LaunchKCMeta {
+  applicationCaptureStage: string
+  comment: string
+  createdAt: string
+  scoredAt: string
+  type: string
+  userId: number
+}
+
+interface UserMicroLoanApplication<T> extends ListResponse {
   id: string
   loanProgram: MicroLoanProgramType
   applicantId: string
@@ -84,6 +101,7 @@ interface UserMicroLoanApplication {
   updatedAt: string
   decision: LoanDecisionEnum
   decisionNote: string
+  meta: T
 }
 
 interface UserMicroLoanApplicationRequest {
@@ -109,6 +127,8 @@ interface IAssigneeApplication {
   submittedAt?: string | null
 }
 
+type LoanMeta = LaunchKCMeta | null
+
 export type {
   UserMicroLoanApplication,
   LoanApplication,
@@ -116,5 +136,7 @@ export type {
   LoanProgram,
   ListLoanProgramResponse,
   UserMicroLoanApplicationRequest,
-  IAssigneeApplication
+  IAssigneeApplication,
+  LaunchKCMeta,
+  LoanMeta
 }

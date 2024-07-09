@@ -1,4 +1,7 @@
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import {
+  LoanMeta,
+  UserMicroLoanApplication
+} from "@/types/loan-application.type"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { createContext, useContext } from "use-context-selector"
@@ -41,7 +44,7 @@ type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
   loanKycDetail?: LoanApplicationsKyc
   loanSmartKycDetail?: SmartKyc
-  loanApplicationDetails?: UserMicroLoanApplication
+  loanApplicationDetails?: UserMicroLoanApplication<LoanMeta>
   cashFlowAnalysis?: ApplicationCashFlow
   onChangeTimePeriod: (key: string, period: string) => void
   isFetchingCashflow: boolean

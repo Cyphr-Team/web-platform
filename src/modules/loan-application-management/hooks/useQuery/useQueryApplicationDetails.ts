@@ -3,7 +3,10 @@ import { getRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import {
+  LoanMeta,
+  UserMicroLoanApplication
+} from "@/types/loan-application.type"
 import { AxiosError } from "axios"
 import { LoanType } from "@/types/loan-program.type"
 
@@ -25,7 +28,7 @@ export const useQueryGetApplicationDetailsByType = (
 export const useQueryGetMicroLoanApplicationDetails = (
   applicationId: string
 ) => {
-  return useQueryGetApplicationDetails<UserMicroLoanApplication>(
+  return useQueryGetApplicationDetails<UserMicroLoanApplication<LoanMeta>>(
     [QUERY_KEY.GET_LOAN_APPLICATION_DETAILS, applicationId],
     () => {
       return getRequest({

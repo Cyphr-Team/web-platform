@@ -3,6 +3,7 @@ import { postRequest } from "@/services/client.service"
 
 import { customRequestHeader } from "@/utils/request-header"
 import {
+  LoanMeta,
   UserMicroLoanApplication,
   UserMicroLoanApplicationRequest
 } from "@/types/loan-application.type"
@@ -22,7 +23,7 @@ const useCreateLoanApplication = <R, T>(loanType: LoanType) => {
 export const useCreateLoanApplicationMutation = (loanType: LoanType) => {
   const microLoanMutation = useCreateLoanApplication<
     UserMicroLoanApplicationRequest,
-    UserMicroLoanApplication
+    UserMicroLoanApplication<LoanMeta>
   >(loanType)
 
   switch (loanType) {

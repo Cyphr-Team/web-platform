@@ -7,7 +7,8 @@ import {
 } from "@/components/ui/tooltip"
 import {
   IAssigneeApplication,
-  LoanApplication
+  LoanApplication,
+  LoanMeta
 } from "@/types/loan-application.type"
 import { snakeCaseToText, toCurrency } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
@@ -20,13 +21,12 @@ import { format } from "date-fns"
 import { ButtonReviewLoanApplication } from "../atoms/ButtonReviewLoanApplication"
 import { ApplicationRoundSelectionPopover } from "../organisms/ApplicationRoundSelectionPopover"
 
-export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
+export const loanApplicationColumns: ColumnDef<LoanApplication<LoanMeta>>[] = [
   {
     id: "select",
     header: "ID",
     cell: ({ row }) => {
       const application = row.original
-
       return (
         <TooltipProvider>
           <Tooltip delayDuration={0}>
@@ -147,7 +147,9 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
  * Columns for workspace admin list applications
  */
 
-export const assignLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
+export const assignLoanApplicationColumns: ColumnDef<
+  LoanApplication<LoanMeta>
+>[] = [
   {
     id: "select",
     header: ({ column }) => (

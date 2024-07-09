@@ -4,6 +4,7 @@ import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import {
+  LoanMeta,
   LoanApplicationStatus,
   UserMicroLoanApplication
 } from "@/types/loan-application.type"
@@ -26,7 +27,9 @@ export function Component() {
 
   const navigate = useNavigate()
 
-  const loanApplicationColumns: ColumnDef<UserMicroLoanApplication>[] = [
+  const loanApplicationColumns: ColumnDef<
+    UserMicroLoanApplication<LoanMeta>
+  >[] = [
     {
       id: "applicant",
       accessorKey: "loanProgram",
@@ -37,7 +40,7 @@ export function Component() {
         const application = row.original
         return (
           <div className="min-w-0">
-            <p className="text-sm text-muted-foreground mt-0.5 truncate ">
+            <p className="text-sm text-muted-foreground mt-0.5 truncate">
               {application.loanProgram.name}
             </p>
           </div>
@@ -58,7 +61,6 @@ export function Component() {
       size: 150,
       cell: ({ row }) => {
         const application = row.original
-
         return (
           <div className="min-w-0">
             <p className="truncate capitalize text-right">
@@ -81,7 +83,6 @@ export function Component() {
       enableSorting: false,
       cell: ({ row }) => {
         const application = row.original
-
         return (
           <div className="min-w-0">
             <p className="truncate text-right">
@@ -141,7 +142,9 @@ export function Component() {
     }
   ]
 
-  const handleClickDetail = (detail: Row<UserMicroLoanApplication>) => {
+  const handleClickDetail = (
+    detail: Row<UserMicroLoanApplication<LoanMeta>>
+  ) => {
     if (detail.original.status === LoanApplicationStatus.DRAFT.toLowerCase()) {
       navigate(
         APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(
