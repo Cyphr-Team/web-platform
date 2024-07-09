@@ -191,22 +191,6 @@ export const getApplicationTipByStatus = (
       return "This application is ready for review."
     case LoanApplicationStatus.CANCELLED:
       return "This application has been cancelled."
-    case LoanApplicationStatus.ELIMINATED_AFTER_INITIAL_REVIEW:
-      return "This application has been eliminated after the initial review."
-    case LoanApplicationStatus.ROUND_1:
-      return "This application is in round 1."
-    case LoanApplicationStatus.ROUND_2:
-      return "This application is in round 2."
-    case LoanApplicationStatus.ROUND_3:
-      return "This application is in round 3."
-    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_1:
-      return "This application has been eliminated after round 1."
-    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_2:
-      return "This application has been eliminated after round 2."
-    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_3:
-      return "This application has been eliminated after round 3."
-    case LoanApplicationStatus.PENDING_SUBMISSION:
-      return "This application is pending submission."
     default:
       return "The status of this application is unknown."
   }
