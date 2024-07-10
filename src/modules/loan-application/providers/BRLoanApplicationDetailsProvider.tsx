@@ -46,7 +46,7 @@ import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { useQueryGetPlaidConnectedBankAccountsByApplicationId } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
 import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
 import _ from "lodash"
-import { EPersonaStatus } from "../../../types/kyc"
+import { EDecisionStatus, EPersonaStatus } from "../../../types/kyc"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 
@@ -286,7 +286,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       if (isEnableNewInquiryPersonaKycCreatingLogic()) {
         if (
           identityVerificationQuery.data?.personaStatus.toLowerCase() ===
-          EPersonaStatus.COMPLETED.toLowerCase()
+            EPersonaStatus.COMPLETED.toLowerCase() ||
+          identityVerificationQuery.data?.personaStatus.toLowerCase() ===
+            EDecisionStatus.APPROVED.toLowerCase()
         ) {
           dispatchProgress({
             // turn on green tick

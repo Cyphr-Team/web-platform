@@ -111,7 +111,9 @@ export const IdentityVerificationForm = () => {
       if (isEnableNewInquiryPersonaKycCreatingLogic()) {
         if (
           inquiryData?.status?.toLowerCase() ===
-          PersonaStatus.COMPLETED.toLowerCase()
+            PersonaStatus.COMPLETED.toLowerCase() ||
+          inquiryData?.status?.toLowerCase() ===
+            PersonaStatus.APPROVED.toLowerCase()
         ) {
           form.setValue("status", inquiryData?.status, {
             shouldValidate: true

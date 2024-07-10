@@ -3,7 +3,7 @@ import { REGEX_PATTERN } from "."
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import { PlaidItemInfo } from "./type"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
-import { EPersonaStatus } from "../../../types/kyc"
+import { EDecisionStatus, EPersonaStatus } from "../../../types/kyc"
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
@@ -162,7 +162,10 @@ export const createIdentityVerificationSchema = () => {
     inquiryId: z.string(),
     status: z.string().refine((status) => {
       if (isEnableNewInquiryPersonaKycCreatingLogic()) {
-        return status.toLowerCase() === EPersonaStatus.COMPLETED.toLowerCase()
+        return (
+          status.toLowerCase() === EPersonaStatus.COMPLETED.toLowerCase() ||
+          status.toLowerCase() === EDecisionStatus.APPROVED.toLowerCase()
+        )
       } else {
         return true // Accept any status when new logic is not enabled
       }
