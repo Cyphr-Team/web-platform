@@ -1,13 +1,15 @@
 import { DotVariantProps } from "@/components/ui/dot"
+import { FORMAT_DATE_M_D_Y_TIME_UPPERCASE } from "@/constants/date.constants"
 import { LoanApplicationStatus, UseOfLoan } from "@/types/loan-application.type"
+import { isLoanReady } from "@/utils/domain.utils"
+import { format } from "date-fns"
+import { RANDOM_LINE_COLORS } from "../constants"
 import {
   AUTHENTICITY_LEVEL,
   KYB_VERIFIED_FIELD_STATUS
 } from "../constants/type"
-import { KYC_STATUS } from "../constants/types/kyc"
-import { RANDOM_LINE_COLORS } from "../constants"
-import { isLoanReady } from "@/utils/domain.utils"
 import { LoanDecisionEnum } from "../constants/types/application"
+import { KYC_STATUS } from "../constants/types/kyc"
 
 export const getClassNameFromStatus = (
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS | AUTHENTICITY_LEVEL
@@ -180,11 +182,35 @@ export const getApplicationTipByStatus = (
   switch (status?.toUpperCase()) {
     case LoanApplicationStatus.APPROVED:
     case LoanApplicationStatus.DENIED:
-      return "This application is already underwritten."
+      return "This application has already been underwritten."
     case LoanApplicationStatus.IN_REVIEW:
-      return ""
+      return "This application is currently under review."
+    case LoanApplicationStatus.SUBMITTED:
+      return "This application has been submitted."
+    case LoanApplicationStatus.DRAFT:
+      return "This application is still in draft."
+    case LoanApplicationStatus.READY_FOR_REVIEW:
+      return "This application is ready for review."
+    case LoanApplicationStatus.CANCELLED:
+      return "This application has been cancelled."
+    case LoanApplicationStatus.ELIMINATED_AFTER_INITIAL_REVIEW:
+      return "This application has been eliminated after the initial review."
+    case LoanApplicationStatus.ROUND_1:
+      return "This application is in round 1."
+    case LoanApplicationStatus.ROUND_2:
+      return "This application is in round 2."
+    case LoanApplicationStatus.ROUND_3:
+      return "This application is in round 3."
+    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_1:
+      return "This application has been eliminated after round 1."
+    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_2:
+      return "This application has been eliminated after round 2."
+    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_3:
+      return "This application has been eliminated after round 3."
+    case LoanApplicationStatus.PENDING_SUBMISSION:
+      return "This application is pending submission."
     default:
-      return "Application still in draft."
+      return "The status of this application is unknown."
   }
 }
 
@@ -215,4 +241,15 @@ export const getAuthenticityDataByScore = (score: number) => {
 
 export const getRandomColor = (index: number) => {
   return RANDOM_LINE_COLORS[index % RANDOM_LINE_COLORS.length]
+}
+
+export const getScoredTooltipContent = (scoredAt: string) => {
+  try {
+    return `Completed scorecard on ${format(
+      scoredAt,
+      FORMAT_DATE_M_D_Y_TIME_UPPERCASE
+    )}`
+  } catch {
+    return ""
+  }
 }

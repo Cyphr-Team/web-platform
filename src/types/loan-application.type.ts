@@ -130,13 +130,13 @@ interface IAssigneeApplication {
 type LoanMeta = LaunchKCMeta | null
 
 export type {
-  UserMicroLoanApplication,
-  LoanApplication,
   Applicant,
-  LoanProgram,
   ListLoanProgramResponse,
-  UserMicroLoanApplicationRequest,
   IAssigneeApplication,
   LaunchKCMeta,
-  LoanMeta
+  LoanMeta,
+  LoanApplication,
+  LoanProgram,
+  UserMicroLoanApplication,
+  UserMicroLoanApplicationRequest
 }

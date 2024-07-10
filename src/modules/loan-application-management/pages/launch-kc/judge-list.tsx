@@ -2,12 +2,25 @@ import { DataTable } from "@/components/ui/data-table"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
-import { assigneeLoanApplicationColumns } from "../../components/table/loan-application-columns"
+import { judgeLoanApplicationColumns } from "../../components/table/loan-application-columns"
+import { useState } from "react"
+import { PaginationState } from "@tanstack/react-table"
+import { REQUEST_LIMIT_PARAM } from "@/constants"
+import { useQueryListPaginateJudgeLoanApplication } from "../../hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 
-// TODO: Integrate API table
 // TODO: Integrate API filters
 export function JudgeApplicationList() {
   const crumbs = useBreadcrumb()
+
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: REQUEST_LIMIT_PARAM
+  })
+
+  const { data, isFetching } = useQueryListPaginateJudgeLoanApplication({
+    limit: pagination.pageSize,
+    offset: pagination.pageIndex * pagination.pageSize
+  })
 
   return (
     <div
@@ -22,9 +35,12 @@ export function JudgeApplicationList() {
 
       <DataTable
         tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
-        columns={assigneeLoanApplicationColumns}
-        data={[]}
-        total={0}
+        columns={judgeLoanApplicationColumns}
+        isLoading={isFetching}
+        data={data?.data ?? []}
+        total={data?.total ?? 0}
+        pagination={pagination}
+        setPagination={setPagination}
       />
     </div>
   )

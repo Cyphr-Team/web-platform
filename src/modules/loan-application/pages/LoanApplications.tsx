@@ -105,7 +105,6 @@ export function Component() {
       size: 200,
       cell: ({ row }) => {
         const application = row.original
-
         return (
           <div className="font-medium">
             <Badge

@@ -27,6 +27,15 @@ export const loanApplicationKeys = {
     [...loanApplicationKeys.all, "status-detail", id] as const
 }
 
+export const judgeLoanApplicationKeys = {
+  all: ["judgeLoanApplication"] as const,
+  lists: () => [...judgeLoanApplicationKeys.all, "list"] as const,
+  list: (filters: string) =>
+    [...judgeLoanApplicationKeys.lists(), { filters }] as const,
+  details: () => [...judgeLoanApplicationKeys.all, "detail"] as const,
+  detail: (id: string) => [...judgeLoanApplicationKeys.details(), id] as const
+}
+
 export const loanApplicationDocumentKeys = {
   all: ["loanApplicationDocument"] as const,
   lists: () => [...loanApplicationDocumentKeys.all, "list"] as const,
