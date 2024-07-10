@@ -82,9 +82,10 @@ export const AutoCompleteUserEmail = <T extends FieldValues>(
                   value={selected.label || "Select email..."}
                   className="text-sm"
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
+                  style={{ textAlign: "left" }}
                 />
               </PopoverTrigger>
-              <PopoverContent className="w-72 p-0" align="start">
+              <PopoverContent className="w-82 p-0" align="start">
                 <Command
                   filter={(value, search) => {
                     return value.startsWith(search) ? 1 : 0
@@ -94,16 +95,19 @@ export const AutoCompleteUserEmail = <T extends FieldValues>(
                     placeholder="Search user"
                     className="h-9"
                     value={searchValue}
-                    onValueChange={(value) => {
-                      onSearch(value)
+                    onValueChange={(searchInput) => {
+                      onSearch(searchInput)
                     }}
                   />
                   <CommandEmpty>{emptyText}</CommandEmpty>
-                  <CommandGroup className="h-60 overflow-auto">
+                  <CommandGroup
+                    className="h-60 overflow-auto"
+                    onWheel={(e) => e.stopPropagation()}
+                  >
                     {options?.map((option) => (
                       <CommandItem
-                        key={option.value}
-                        value={option.value}
+                        key={option.label}
+                        value={option.label}
                         onSelect={() => {
                           field.onBlur()
                           field.onChange(option)
