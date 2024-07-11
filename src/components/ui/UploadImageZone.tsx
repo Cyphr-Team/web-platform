@@ -1,20 +1,23 @@
 import { ACCEPTED_IMAGE_FORMAT } from "@/constants"
-import { IPreviewFile, useUploadFile } from "../../hooks/useUploadFile"
+import { IPreviewFile, useUploadFile } from "@/hooks/useUploadFile.ts"
 import { Card } from "@/components/ui/card"
-import { LoadingStates } from "../../hooks/useLoadingFile"
+import { LoadingStates } from "@/hooks/useLoadingFile.ts"
 import { Loader2, UploadCloud } from "lucide-react"
 
 export const UploadImageZone = ({
   accept = ACCEPTED_IMAGE_FORMAT,
   name,
-  handleUploadPhoto
+  handleUploadPhoto,
+  subdomain
 }: {
   accept?: string
   name: string
   handleUploadPhoto: (file: IPreviewFile) => void
+  subdomain: string
 }) => {
   const { onChangeFile, file, loadingState } = useUploadFile({
-    handleUploadPhoto
+    handleUploadPhoto,
+    subdomain
   })
 
   return (
