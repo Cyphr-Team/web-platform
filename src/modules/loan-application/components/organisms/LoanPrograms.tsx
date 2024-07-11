@@ -3,14 +3,35 @@ import { useQueryGetLoanPrograms } from "../../hooks/useQuery/useQueryLoanProgra
 import { LoanProgramCard } from "../molecules/LoanProgramCard"
 import { LoanProgramLongCard } from "../molecules/LoanProgramLongCard"
 import { ALTCAP_LOAN_PROGRAMS } from "../../constants/loan-program.constants"
-import { isKccBank } from "@/utils/domain.utils"
+import { isKccBank, isLaunchKC } from "@/utils/domain.utils"
 import { KCLoanProgramCard } from "../molecules/custom/KCLoanProgramCard"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
 export const LoanPrograms = () => {
   const { tenantData } = useTenant()
   const { loanProgramOverview } = tenantData ?? {}
 
   const loanPrograms = useQueryGetLoanPrograms()
+  const navigate = useNavigate()
+
+  // ONLY FOR LAUNCH KC
+  useEffect(() => {
+    const loanProgramsData = loanPrograms.data?.data
+    if (
+      isLaunchKC() &&
+      loanProgramsData?.length &&
+      loanProgramsData?.length > 0
+    ) {
+      navigate(
+        APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
+          loanPrograms.data?.data[0].id ?? ""
+        )
+      )
+    }
+  }, [loanPrograms.data?.data, navigate])
+
   return (
     <>
       <section>
