@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react"
 import {
   isCyphrBank,
   isKccBank,
+  isLaunchKC,
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
@@ -32,7 +33,13 @@ export const Component = () => {
           )}
         >
           <ApplicationDetails />
-          {!(isLoanReady() || isKccBank() || isCyphrBank() || isSbb()) && (
+          {!(
+            isLoanReady() ||
+            isKccBank() ||
+            isCyphrBank() ||
+            isSbb() ||
+            isLaunchKC()
+          ) && (
             <>
               <Separator />
               <DocumentationDetails />

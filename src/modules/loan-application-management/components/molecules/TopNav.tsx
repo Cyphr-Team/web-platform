@@ -38,7 +38,12 @@ export function TopNav({ className, ...props }: Props) {
       )
     }
   } else if (isLaunchKC()) {
-    menuItems = menuItems.filter((menu) => menu != ApplicationMenuName.identity)
+    menuItems = [
+      ApplicationMenuName.business as string,
+      ApplicationMenuName.identity as string,
+      ApplicationMenuName.cashflow as string,
+      ApplicationMenuName.loanSummary as string
+    ]
   } else if (isSbb()) {
     menuItems = [
       ApplicationMenuName.business as string,

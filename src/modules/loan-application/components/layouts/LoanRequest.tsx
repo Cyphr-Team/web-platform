@@ -36,7 +36,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loanRequestFormSchema } from "../../constants/form"
 import { useEffect, useMemo } from "react"
-import { isKccBank, isLoanReady, isSbb } from "@/utils/domain.utils"
+import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
@@ -220,38 +220,43 @@ export function CardWithForm() {
                     />
                   )}
 
-                  {!isLoanReady() && !isKccBank() && !isSbb() && (
-                    <FormField
-                      control={form.control}
-                      name="proposeUseOfLoan"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Proposed Use of Loan</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Please select..." />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {loanProgramInfo?.loanPurposes?.map((purpose) => (
-                                <SelectItem
-                                  key={purpose.value}
-                                  value={purpose.value}
-                                >
-                                  {purpose.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
+                  {!isLoanReady() &&
+                    !isKccBank() &&
+                    !isSbb() &&
+                    !isLaunchKC() && (
+                      <FormField
+                        control={form.control}
+                        name="proposeUseOfLoan"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Proposed Use of Loan</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Please select..." />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {loanProgramInfo?.loanPurposes?.map(
+                                  (purpose) => (
+                                    <SelectItem
+                                      key={purpose.value}
+                                      value={purpose.value}
+                                    >
+                                      {purpose.label}
+                                    </SelectItem>
+                                  )
+                                )}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
                 </div>
               </div>
             </div>

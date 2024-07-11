@@ -6,6 +6,7 @@ import { CashFlowTable } from "./CashFlowTable"
 import {
   isCyphrBank,
   isKccBank,
+  isLaunchKC,
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
@@ -47,9 +48,11 @@ export const ApplicationDetails = () => {
           {financialFormData && (
             <FinancialFormDetails financialFormData={financialFormData} />
           )}
-          {(isLoanReady() || isKccBank() || isCyphrBank() || isSbb()) && (
-            <CashFlowTable />
-          )}
+          {(isLoanReady() ||
+            isKccBank() ||
+            isCyphrBank() ||
+            isSbb() ||
+            isLaunchKC()) && <CashFlowTable />}
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { KCChamberLoanApplicationStep } from "./KCChamber"
 import { LoanReadyLoanApplicationStep } from "./LoanReady"
 import { CapsightLoanApplicationStep } from "./Capsight"
 import { SBBLoanApplicationStep } from "./SBB"
+import { LaunchKCLoanApplicationStep } from "./LaunchKC"
 
 export class LoanApplicationStepStrategy {
   #strategy
@@ -22,6 +23,9 @@ export class LoanApplicationStepStrategy {
         break
       case Institution.Capsight:
         this.#strategy = new CapsightLoanApplicationStep()
+        break
+      case Institution.LaunchKC:
+        this.#strategy = new LaunchKCLoanApplicationStep()
         break
       case Institution.SBB:
         this.#strategy = new SBBLoanApplicationStep()

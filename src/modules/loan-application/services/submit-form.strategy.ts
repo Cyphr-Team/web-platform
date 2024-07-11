@@ -4,7 +4,7 @@ import { TOAST_MSG } from "@/constants/toastMsg"
 import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
-import { isCyphrBank, isKccBank, isSbb } from "@/utils/domain.utils"
+import { isCyphrBank, isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
@@ -239,7 +239,7 @@ export const useSubmitLoanForm = (
           }
         }
 
-        if (isKccBank() || isCyphrBank() || isSbb()) {
+        if (isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()) {
           if (
             currentLoansData &&
             isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
@@ -262,7 +262,7 @@ export const useSubmitLoanForm = (
         if (businessData) await submitLoanKYBForm(loanRequestId)
         if (ownerData) await submitLoanKYCForm(loanRequestId)
         await submitLoanFinancialForm(loanRequestId)
-        if (isKccBank() || isCyphrBank() || isSbb()) {
+        if (isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()) {
           if (currentLoansData) {
             await submitCurrentLoansForm(loanRequestId)
           }

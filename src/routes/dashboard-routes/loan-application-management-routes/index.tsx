@@ -3,6 +3,7 @@ import { handleCrumb } from "@/utils/crumb.utils"
 import {
   isCyphrBank,
   isKccBank,
+  isLaunchKC,
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
@@ -51,7 +52,7 @@ const loanApplicationManagementRoutes = (
       />
 
       {/* IDENTITY VERIFICATION */}
-      {(isKccBank() || isSbb()) && (
+      {(isKccBank() || isSbb() || isLaunchKC()) && (
         <Route
           path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYC}
           lazy={() =>
@@ -69,7 +70,7 @@ const loanApplicationManagementRoutes = (
       <Route
         path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
         lazy={() =>
-          isCyphrBank() || isKccBank() || isSbb()
+          isCyphrBank() || isKccBank() || isSbb() || isLaunchKC()
             ? import(
                 "@/modules/loan-application-management/pages/out-of-box/loan-summary"
               )
@@ -89,7 +90,7 @@ const loanApplicationManagementRoutes = (
         element={
           isLoanReady() ? (
             <CashFlowCustom />
-          ) : isCyphrBank() || isKccBank() || isSbb() ? (
+          ) : isCyphrBank() || isKccBank() || isSbb() || isLaunchKC() ? (
             <CashFlowOutOfBox />
           ) : (
             <CashFlowPage />
