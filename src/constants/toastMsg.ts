@@ -150,5 +150,13 @@ export const TOAST_MSG = {
       title: "Email and Institution are required",
       description: "Please complete all fields before adding to the whitelist."
     }
+  },
+  workspaceAdmin: {
+    select_round_success: {
+      title: "Application Round Selected Successfully"
+    },
+    select_round_error: {
+      title: "Failed to Select Application Round"
+    }
   }
 }

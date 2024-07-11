@@ -19,3 +19,8 @@ export interface LoanDecisionResponse {
   createdAt: string
   updatedAt: string
 }
+
+export interface SelectRoundLoanApplication {
+  applicationId: string
+  status: LoanApplicationStatus
+}

@@ -145,6 +145,9 @@ export const API_PATH = {
         `${API_PATH.admin.invitation.all}/${invitationId}`
     }
   },
+  workspaceAdmin: {
+    selectRoundLoanApplication: "api/workspace-admin/applications/round"
+  },
   loanProgram: {
     list: "api/user-loan/program/list",
     detail: (id: string, loanType: string = LoanType.MICRO) =>
