@@ -24,8 +24,7 @@ const cashflowTimeRangeOptions: TimeRangeOption[] = [
   { label: "Last month", value: TimeRangeValue.LAST_MONTH },
   { label: "Last 3 months", value: TimeRangeValue.LAST_3_MONTHS },
   { label: "Last 6 months", value: TimeRangeValue.LAST_6_MONTHS },
-  { label: "Last 12 months", value: TimeRangeValue.LAST_12_MONTHS },
-  { label: "Custom", value: TimeRangeValue.CUSTOM }
+  { label: "Last 12 months", value: TimeRangeValue.LAST_12_MONTHS }
 ]
 
 const cashflowDefaultTimeRange = TimeRangeValue.LAST_12_MONTHS
