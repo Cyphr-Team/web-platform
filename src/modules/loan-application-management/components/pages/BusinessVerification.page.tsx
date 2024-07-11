@@ -7,8 +7,14 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
+import { checkIsJudge } from "@/utils/check-roles"
+import { isLaunchKC } from "@/utils/domain.utils"
+import { ScoreCard } from "../organisms/ScoreCard"
+import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
 
 export const Component = () => {
+  const isJudge = checkIsJudge()
+
   return (
     <div className="lg:flex gap-3xl w-full">
       <Insights />
@@ -23,6 +29,8 @@ export const Component = () => {
         <WatchList />
         <Bankruptcy />
       </div>
+
+      {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}
     </div>
   )
 }

@@ -12,7 +12,7 @@ export const ButtonViewDetailLoanApplication = ({
 }) => {
   const navigate = useNavigate()
 
-  const handleClickDetail = async () => {
+  const handleClickDetail = () => {
     navigate(
       APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
         loanApplicationId

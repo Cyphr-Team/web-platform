@@ -1,14 +1,18 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { MainLayout } from "../components/layouts/MainLayout"
 import { LoanApplicationDetailProvider } from "../providers/LoanApplicationDetailProvider"
-import { checkIsLenderAdmin, checkIsLoanOfficer } from "@/utils/check-roles"
+import {
+  checkIsLenderAdmin,
+  checkIsLoanOfficer,
+  checkIsJudge
+} from "@/utils/check-roles"
 import { APP_PATH } from "@/constants"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
-  const isLoanOfficerOrLenderAdmin =
-    checkIsLoanOfficer() || checkIsLenderAdmin()
+  const isLoanOfficerOrLenderAdminOrJudge =
+    checkIsLoanOfficer() || checkIsLenderAdmin() || checkIsJudge()
 
-  if (!isLoanOfficerOrLenderAdmin)
+  if (!isLoanOfficerOrLenderAdminOrJudge)
     return <Navigate to={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX} replace />
 
   return children

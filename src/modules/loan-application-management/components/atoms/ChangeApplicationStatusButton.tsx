@@ -30,6 +30,7 @@ import {
 import { LoanDecisionSubmitted } from "../organisms/LoanDecisionSubmited"
 import { ChangeApplicationStatusDialog } from "./ChangeApplicationStatusDialog"
 import { isLoanReady } from "@/utils/domain.utils"
+import { checkIsJudge } from "@/utils/check-roles"
 
 const ApplicationStatusDropDown = ({
   currentDecision,
@@ -106,6 +107,7 @@ export const ChangeApplicationStatusButton = () => {
   })
 
   const isAbleToUpdateDecision =
+    !checkIsJudge() &&
     data?.toUpperCase() === LoanApplicationStatus.IN_REVIEW &&
     !loanApplicationDetails?.loanProgram?.deletedAt
 

@@ -233,3 +233,7 @@ export function downloadFile(blob: Blob, filename: string) {
     document.body.removeChild(link)
   }
 }
+
+export function roundToOneDecimalPlace(number: number) {
+  return Math.round(number * 10) / 10
+}

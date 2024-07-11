@@ -3,6 +3,7 @@ import { APP_PATH } from "."
 import { CalendarSearch, Flag, Send, Workflow } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import {
+  judgeRoles,
   platformAdminRoles,
   reviewerRoles,
   workspaceAdminRoles
@@ -15,7 +16,10 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     title: "Dashboard",
     href: APP_PATH.DASHBOARD,
     icon: Icons.lineChart,
-    label: "Dashboard"
+    label: "Dashboard",
+    roles: reviewerRoles()
+      .concat(workspaceAdminRoles())
+      .concat(platformAdminRoles())
   },
   {
     title: "Subscriptions",
@@ -37,7 +41,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
     icon: Icons.folderCheck,
     label: "Applications",
-    roles: reviewerRoles().concat(workspaceAdminRoles())
+    roles: reviewerRoles().concat(workspaceAdminRoles()).concat(judgeRoles())
   },
   // Hide because havent implemented yet
   // {

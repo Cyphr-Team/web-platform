@@ -99,5 +99,6 @@ export {
   isReviewerRole,
   isApplicant,
   isPlatformAdmin,
+  isWorkspaceAdmin,
   isJudge
 }

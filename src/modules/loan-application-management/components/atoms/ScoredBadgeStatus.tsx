@@ -39,7 +39,7 @@ export const ScoredBadgeStatus = ({
         <ScoredTooltip tooltipContent={getScoredTooltipContent(scoredAt)}>
           <Badge
             variantColor="lightBlue"
-            className="h-7 text-black font-normal bg-opacity-100"
+            className="h-7 text-black font-normal bg-opacity-100 whitespace-nowrap"
           >
             Scorecard Submitted
           </Badge>
@@ -48,7 +48,7 @@ export const ScoredBadgeStatus = ({
         <span>
           <Badge
             variantColor="orange"
-            className="h-7 text-black font-normal bg-opacity-20"
+            className="h-7 text-black font-normal bg-opacity-20 whitespace-nowrap"
           >
             Incomplete scorecard
           </Badge>

@@ -57,7 +57,13 @@ function isEnableNewInquiryPersonaKycCreatingLogic() {
 function formsConfigurationEnabled() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION)
 }
+
+function isEnableJudgeSubmitScore() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.JUDGE_SUBMIT_SCORE)
+}
+
 export {
+  isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
   isEnablePersonaKycV1,

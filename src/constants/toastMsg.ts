@@ -85,6 +85,12 @@ export const TOAST_MSG = {
       description: "Loan Application is updated successfully"
     }
   },
+  judgeLoanApplication: {
+    submitScoreSuccess: {
+      title: "Submit Score",
+      description: "Score is submitted successfully"
+    }
+  },
   notification: {
     markAsRead: {
       title: "Mark as read",

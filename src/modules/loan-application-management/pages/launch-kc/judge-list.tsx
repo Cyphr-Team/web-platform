@@ -1,17 +1,13 @@
 import { DataTable } from "@/components/ui/data-table"
-import { useBreadcrumb } from "@/hooks/useBreadcrumb"
-import { cn } from "@/lib/utils"
-import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
-import { judgeLoanApplicationColumns } from "../../components/table/loan-application-columns"
-import { useState } from "react"
-import { PaginationState } from "@tanstack/react-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
+import { cn } from "@/lib/utils"
+import { PaginationState } from "@tanstack/react-table"
+import { useState } from "react"
+import { judgeLoanApplicationColumns } from "../../components/table/loan-application-columns"
 import { useQueryListPaginateJudgeLoanApplication } from "../../hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 
 // TODO: Integrate API filters
 export function JudgeApplicationList() {
-  const crumbs = useBreadcrumb()
-
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: REQUEST_LIMIT_PARAM
@@ -27,8 +23,7 @@ export function JudgeApplicationList() {
       className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
     >
       <div className="flex flex-wrap justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <Breadcrumbs breads={crumbs} className="px-0" />
+        <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-semibold">Loan Applications</h1>
         </div>
       </div>
