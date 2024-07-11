@@ -18,6 +18,7 @@ import { useQuerySelectLoanProgramList } from "../../../hooks/useQuerySelectList
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
 import { SelectTimeRange } from "./atoms/SelectTimeRange"
+import { dashboardTimeRangeOptions } from "@/constants/time-range-filter.constants"
 
 const FilterSchema = z.object({
   loanProgramIds: z.array(z.object({ label: z.string(), value: z.string() })),
@@ -132,7 +133,10 @@ export const FilterTimeRange = () => {
             )}
 
             <div className="group date-select-coupling flex items-end">
-              <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />
+              <SelectTimeRange
+                timeRangeOptions={dashboardTimeRangeOptions}
+                customOnChange={customSelectTimeRangeOnChange}
+              />
 
               {showDatePicker && (
                 <div className="flex items-center gap-2 flex-wrap">

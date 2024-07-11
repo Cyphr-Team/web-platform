@@ -1,13 +1,18 @@
-import { timeRangeOptions } from "@/constants/time-range-filter.constants"
 import { AutoCompleteInput } from "@/shared/organisms/form/AutocompleteInput"
-import { TimeRangeFilterValue, TimeRangeValue } from "@/types/time-range.type"
+import {
+  TimeRangeFilterValue,
+  TimeRangeOption,
+  TimeRangeValue
+} from "@/types/time-range.type"
 import { getTimeRangeDates } from "@/utils/time-range.utils"
 import { useFormContext } from "react-hook-form"
 
 export function SelectTimeRange({
+  timeRangeOptions,
   customOnChange,
   showLabel
 }: {
+  timeRangeOptions: TimeRangeOption[]
   customOnChange?: (value?: TimeRangeValue) => void
   showLabel?: boolean
 }) {

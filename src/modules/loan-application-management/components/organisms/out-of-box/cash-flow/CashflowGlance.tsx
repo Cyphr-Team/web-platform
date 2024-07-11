@@ -19,6 +19,10 @@ import { CashflowGlanceCard } from "../../../molecules/cashflow/CashflowGlanceCa
 import { BankAccountReport } from "./BankAccountReport"
 import { RevenueAndExpenseChart } from "./RevenueAndExpenseChart"
 import { format } from "date-fns"
+import {
+  cashflowDefaultTimeRange,
+  cashflowTimeRangeOptions
+} from "@/constants/time-range-filter.constants"
 
 type FilterValues = z.infer<typeof FilterSchema>
 
@@ -43,8 +47,8 @@ export const CashflowGlanceReport = () => {
     resolver: zodResolver(FilterSchema),
     defaultValues: {
       timeRange: {
-        selectedTimeRange: TimeRangeValue.LAST_3_MONTHS,
-        ...getTimeRangeDates(TimeRangeValue.LAST_3_MONTHS)
+        selectedTimeRange: cashflowDefaultTimeRange,
+        ...getTimeRangeDates(cashflowDefaultTimeRange)
       }
     }
   })
@@ -100,6 +104,7 @@ export const CashflowGlanceReport = () => {
             <form>
               <div className="group date-select-coupling flex items-end">
                 <SelectTimeRange
+                  timeRangeOptions={cashflowTimeRangeOptions}
                   customOnChange={customSelectTimeRangeOnChange}
                   showLabel={false}
                 />

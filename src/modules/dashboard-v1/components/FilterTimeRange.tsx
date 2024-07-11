@@ -1,6 +1,9 @@
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range"
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
-import { TimeRangeFilterSchema } from "@/constants/time-range-filter.constants"
+import {
+  TimeRangeFilterSchema,
+  dashboardTimeRangeOptions
+} from "@/constants/time-range-filter.constants"
 import { TimeRangeFilterValue, TimeRangeValue } from "@/types/time-range.type"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DateRange } from "react-day-picker"
@@ -66,6 +69,7 @@ export const FilterTimeRange = () => {
         <form>
           <div className="flex items-end gap-4 flex-wrap">
             <SelectTimeRange
+              timeRangeOptions={dashboardTimeRangeOptions}
               customOnChange={customSelectTimeRangeOnChange}
               showLabel={false}
             />
