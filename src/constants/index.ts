@@ -129,6 +129,8 @@ export const API_PATH = {
       all: "api/admin",
       get: "api/admin/user",
       sendInvitation: "api/admin/user/invite",
+      sendBulkListInvitation: "api/admin/invitation/bulk-invite-list",
+      sendBulkCsvInvitation: "api/admin/invitation/bulk-invite-csv",
       updateRoles: "api/admin/user/update-roles",
       listUsersByInstitutionId: `api/admin/users/by-institution`,
       listUsersByUserIds: "api/admin/users/by-user-ids",
@@ -141,6 +143,7 @@ export const API_PATH = {
     invitation: {
       all: "api/admin/invitation",
       list: "api/admin/invitation/list",
+      bulkInviteCsvTemplate: "api/admin/invitation/bulk-invite-csv-template",
       delete: (invitationId: string) =>
         `${API_PATH.admin.invitation.all}/${invitationId}`
     }

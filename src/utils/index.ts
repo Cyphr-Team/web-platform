@@ -37,6 +37,11 @@ export function checkValidPhoneNumber(phone: string) {
   return phoneRegex.test(phone)
 }
 
+export const checkValidEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
 /**
  * Reference: [sonner](https://ui.shadcn.com/docs/components/sonner)
  */
@@ -236,4 +241,8 @@ export function downloadFile(blob: Blob, filename: string) {
 
 export function roundToOneDecimalPlace(number: number) {
   return Math.round(number * 10) / 10
+}
+
+export function removeWhitespace(str: string) {
+  return str.replace(/\s/g, "")
 }
