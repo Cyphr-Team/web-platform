@@ -325,6 +325,61 @@ const KCC_LENDER_FORUM_PROGRAM: LoanProgramData = {
   isUnderConstruction: false
 }
 
+const SBB_LOAN_PROGRAMS: LoanProgramData[] = [
+  {
+    id: "SBB_BUSINESS_ACCOUNTS",
+    name: "Business Banking Accounts",
+    type: "Business Accounts",
+    faqs: {
+      about:
+        "We are a Member FDIC bank that's focused on personalized support for all our business customers, no matter how small. \nBased in Lenexa, Kansas and serving customers across the United States",
+      eligibility:
+        "Useful when you have seasonal, cyclical or fluctuating cash needs. We offer both revolving and non-revolving options with interest-only monthly payments based on a variable interest rate. Use for the purchase of inventory, covering unexpected expenses, or cash flow management.",
+      types_of_business_accounts: `•	Free Business Checking
+•	High-Yield Business Savings
+•	Business Certificate of Deposit`,
+      required_documents: `•	One form of Photo Identification such as a Driver's License or Passport
+•	Business EIN Letter
+• Certificate of Good Standing from your Secretary of State's Office
+•	Fictitious Name Certification (for Sole Proprietors)
+•	Articles of Organization and Operating Agreement (for LLCs)
+•	By-Laws (for Corporations)
+    `
+    },
+    contact: {
+      mail: "placeholder@sbb.com",
+      phone: "",
+      location: ""
+    },
+    isUnderConstruction: false
+  },
+  {
+    id: "SBB_TERM_LOAN",
+    name: "Term Loan",
+    type: "Term Loan",
+    faqs: {
+      about:
+        "We are a Member FDIC bank that's focused on personalized support for all our business customers, no matter how small. \nBased in Lenexa, Kansas and serving customers across the United States",
+      eligibility:
+        "Useful when you have seasonal, cyclical or fluctuating cash needs. We offer both revolving and non-revolving options with interest-only monthly payments based on a variable interest rate. Use for the purchase of inventory, covering unexpected expenses, or cash flow management.",
+      collateral: "Collateral is required",
+      required_documents: `    •	One form of Photo Identification such as a Driver's License or Passport
+    •	Business EIN Letter
+    • Certificate of Good Standing from your Secretary of State's Office
+    •	Fictitious Name Certification (for Sole Proprietors)
+    •	Articles of Organization and Operating Agreement (for LLCs)
+    •	By-Laws (for Corporations)
+    `
+    },
+    contact: {
+      mail: "placeholder@sbb.com",
+      phone: "",
+      location: ""
+    },
+    isUnderConstruction: false
+  }
+]
+
 const ALTCAP_LOAN_PROGRAMS: LoanProgramData[] = [
   ALTCAP_ARTCAP_EXPRESS,
   ALTCAP_SMALL_BUSINESS_LOAN,
@@ -334,4 +389,9 @@ const ALTCAP_LOAN_PROGRAMS: LoanProgramData[] = [
 
 const LOAN_READY_PROGRAMS: LoanProgramData[] = [LOAN_READINESS_PROGRAM]
 
-export { ALTCAP_LOAN_PROGRAMS, LOAN_READY_PROGRAMS, KCC_LENDER_FORUM_PROGRAM }
+export {
+  ALTCAP_LOAN_PROGRAMS,
+  LOAN_READY_PROGRAMS,
+  KCC_LENDER_FORUM_PROGRAM,
+  SBB_LOAN_PROGRAMS
+}

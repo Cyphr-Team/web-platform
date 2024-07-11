@@ -3,12 +3,13 @@ import { useQueryGetLoanPrograms } from "../../hooks/useQuery/useQueryLoanProgra
 import { LoanProgramCard } from "../molecules/LoanProgramCard"
 import { LoanProgramLongCard } from "../molecules/LoanProgramLongCard"
 import { ALTCAP_LOAN_PROGRAMS } from "../../constants/loan-program.constants"
-import { isKccBank, isLaunchKC } from "@/utils/domain.utils"
+import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { KCLoanProgramCard } from "../molecules/custom/KCLoanProgramCard"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { sanitizeDOM } from "@/utils/file.utils"
+import { SBBLoanProgramCard } from "../molecules/custom/SBBLoanProgramCard"
 
 export const LoanPrograms = () => {
   const { tenantData } = useTenant()
@@ -37,7 +38,7 @@ export const LoanPrograms = () => {
     <>
       <section>
         <h2 className="text-3xl md:text-4xl font-semibold mb-6">
-          Our Loan Programs
+          {isSbb() ? "Our Programs" : "Our Loan Programs"}
         </h2>
         <p
           className="text-lg whitespace-pre-wrap text-justify"
@@ -49,18 +50,31 @@ export const LoanPrograms = () => {
         {tenantData?.customFieldsOnDemand?.showLongCard ? (
           <div className="flex flex-col gap-6">
             {loanPrograms.data?.data?.map((loanProgram) =>
-              isKccBank() ? (
-                <KCLoanProgramCard
-                  key={loanProgram.id}
-                  loanProgram={loanProgram}
-                />
-              ) : (
-                <LoanProgramLongCard
-                  key={loanProgram.id}
-                  loanProgram={loanProgram}
-                  loanType="Loan Readiness"
-                />
-              )
+              (() => {
+                if (isKccBank()) {
+                  return (
+                    <KCLoanProgramCard
+                      key={loanProgram.id}
+                      loanProgram={loanProgram}
+                    />
+                  )
+                } else if (isSbb()) {
+                  return (
+                    <SBBLoanProgramCard
+                      key={loanProgram.id}
+                      loanProgram={loanProgram}
+                    />
+                  )
+                } else {
+                  return (
+                    <LoanProgramLongCard
+                      key={loanProgram.id}
+                      loanProgram={loanProgram}
+                      loanType="Loan Readiness"
+                    />
+                  )
+                }
+              })()
             )}
           </div>
         ) : (

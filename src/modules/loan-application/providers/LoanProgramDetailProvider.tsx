@@ -37,7 +37,8 @@ export const LoanProgramDetailProvider: React.FC<Props> = ({ children }) => {
   )
 
   const loanProgramInfo = useGetLoanProgramDetail(
-    loanProgramQuery.data?.type ?? ""
+    loanProgramQuery.data?.type ?? "",
+    loanProgramQuery.data?.name
   )
 
   const loanProgramFormsConfigurationQuery = useQueryGetFormsConfiguration(

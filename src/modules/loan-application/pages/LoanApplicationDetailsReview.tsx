@@ -4,7 +4,12 @@ import { SignatureDetails } from "../components/organisms/loan-application-detai
 import { DocumentationDetails } from "../components/organisms/loan-application-details/DocumentationDetails"
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
 import { Loader2 } from "lucide-react"
-import { isCyphrBank, isKccBank, isLoanReady } from "@/utils/domain.utils"
+import {
+  isCyphrBank,
+  isKccBank,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
 import { useBRLoanApplicationDetailsContext } from "../providers"
 
@@ -27,7 +32,7 @@ export const Component = () => {
           )}
         >
           <ApplicationDetails />
-          {!(isLoanReady() || isKccBank() || isCyphrBank()) && (
+          {!(isLoanReady() || isKccBank() || isCyphrBank() || isSbb()) && (
             <>
               <Separator />
               <DocumentationDetails />

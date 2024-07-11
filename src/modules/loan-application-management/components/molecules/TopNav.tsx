@@ -5,7 +5,8 @@ import {
   isCyphrBank,
   isKccBank,
   isLaunchKC,
-  isLoanReady
+  isLoanReady,
+  isSbb
 } from "@/utils/domain.utils"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { isEnableIdentityVerificationSectionView } from "../../../../utils/feature-flag.utils"
@@ -38,6 +39,19 @@ export function TopNav({ className, ...props }: Props) {
     }
   } else if (isLaunchKC()) {
     menuItems = menuItems.filter((menu) => menu != ApplicationMenuName.identity)
+  } else if (isSbb()) {
+    menuItems = [
+      ApplicationMenuName.business as string,
+      ApplicationMenuName.identity as string,
+      ApplicationMenuName.document as string,
+      ApplicationMenuName.cashflow as string,
+      ApplicationMenuName.loanSummary as string
+    ]
+    if (!isEnableIdentityVerificationSectionView()) {
+      menuItems = menuItems.filter(
+        (e) => e != (ApplicationMenuName.identity as string)
+      )
+    }
   }
 
   menuItems = menuItems.filter(Boolean)

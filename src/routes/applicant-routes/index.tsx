@@ -14,7 +14,7 @@ import { LoanApplicationFormProvider } from "@/modules/loan-application/provider
 import { LoanProgressProvider } from "@/modules/loan-application/providers/LoanProgressProvider"
 import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider"
 import { PlaidProvider } from "@/modules/loan-application/providers/PlaidProvider"
-import { isKccBank } from "@/utils/domain.utils"
+import { isKccBank, isSbb } from "@/utils/domain.utils"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -53,7 +53,7 @@ const applicantRoutes = (
 
     {/* --- NOTIFICATION --- */}
     {/* Temporarily hide for kcc bank */}
-    {!isKccBank() && notificationRoutes}
+    {(!isKccBank() || !isSbb()) && notificationRoutes}
 
     <Route
       path={APP_PATH.LOAN_APPLICATION.SETTINGS}

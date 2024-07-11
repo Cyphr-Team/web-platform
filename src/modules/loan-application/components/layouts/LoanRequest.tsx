@@ -36,7 +36,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loanRequestFormSchema } from "../../constants/form"
 import { useEffect, useMemo } from "react"
-import { isKccBank, isLoanReady } from "@/utils/domain.utils"
+import { isKccBank, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
@@ -220,7 +220,7 @@ export function CardWithForm() {
                     />
                   )}
 
-                  {!isLoanReady() && !isKccBank() && (
+                  {!isLoanReady() && !isKccBank() && !isSbb() && (
                     <FormField
                       control={form.control}
                       name="proposeUseOfLoan"

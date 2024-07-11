@@ -9,7 +9,7 @@ import {
   workspaceAdminRoles
 } from "@/types/user.type"
 import { FEATURE_FLAGS } from "./feature-flag.constants"
-import { isKccBank } from "@/utils/domain.utils"
+import { isKccBank, isSbb } from "@/utils/domain.utils"
 
 export const DASHBOARD_NAV_ITEM: NavItem[] = [
   {
@@ -63,7 +63,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     icon: Workflow,
     label: "Loan Programs",
     roles: workspaceAdminRoles(),
-    disabled: isKccBank()
+    disabled: isKccBank() || isSbb()
   },
   // Hide because havent implemented yet
   // {

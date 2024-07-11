@@ -5,7 +5,8 @@ enum Institution {
   Foresight = "foresight",
   CyphrV2 = "cyphr-bank",
   KCChamber = "kcchamber",
-  LaunchKC = "launchkc"
+  LaunchKC = "launchkc",
+  SBB = "sbb"
 }
 
 type InstitutionData = {

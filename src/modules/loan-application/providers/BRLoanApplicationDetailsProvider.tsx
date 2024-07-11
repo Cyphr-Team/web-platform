@@ -100,7 +100,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     loanProgramQuery.data?.type ?? LoanType.MICRO
   )
   const loanProgramInfo = useGetLoanProgramDetail(
-    loanProgramQuery.data?.type ?? ""
+    loanProgramQuery.data?.type ?? "",
+    loanProgramQuery.data?.name
   )
 
   /**

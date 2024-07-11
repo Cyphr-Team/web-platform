@@ -3,7 +3,12 @@ import { KybFormDetails } from "../../molecules/loan-application-details/KybForm
 import { KycFormDetails } from "../../molecules/loan-application-details/KycFormDetails"
 import { LoanRequestDetails } from "../../molecules/loan-application-details/LoanRequestDetails"
 import { CashFlowTable } from "./CashFlowTable"
-import { isCyphrBank, isKccBank, isLoanReady } from "@/utils/domain.utils"
+import {
+  isCyphrBank,
+  isKccBank,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { CurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/CurrentLoanFormDetails.tsx"
@@ -42,7 +47,9 @@ export const ApplicationDetails = () => {
           {financialFormData && (
             <FinancialFormDetails financialFormData={financialFormData} />
           )}
-          {(isLoanReady() || isKccBank() || isCyphrBank()) && <CashFlowTable />}
+          {(isLoanReady() || isKccBank() || isCyphrBank() || isSbb()) && (
+            <CashFlowTable />
+          )}
         </div>
       </div>
     </div>
