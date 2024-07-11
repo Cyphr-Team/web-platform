@@ -6,4 +6,5 @@ export enum ASSET_TYPE {
 export interface IUploadPhotoReqParams {
   file: File
   type: ASSET_TYPE
+  subdomain: string
 }

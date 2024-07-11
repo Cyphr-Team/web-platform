@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { SelectInstitution } from "./components/SelectInstitution"
 import SuccessMessage from "./components/SuccessMessage"
 import { UpdateInstitutionMetadata } from "./components/UpdateInstitutionMetadata"
-import { useMultipleStepForm } from "../../hooks/useMultipleStepForm"
+import { useMultipleStepForm } from "@/hooks/useMultipleStepForm.ts"
 import { OnboardingFormValue, onboardingForm } from "./types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form"
@@ -77,7 +77,11 @@ export function Component() {
             >
               <div>
                 {currentStepIndex === 0 && <SelectInstitution />}
-                {currentStepIndex === 1 && <UpdateInstitutionMetadata />}
+                {currentStepIndex === 1 && (
+                  <UpdateInstitutionMetadata
+                    subdomain={form.watch("subdomain")}
+                  />
+                )}
               </div>
 
               <div className="w-full items-center flex justify-between mt-4">

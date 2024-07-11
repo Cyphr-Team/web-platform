@@ -28,13 +28,15 @@ export interface IUseUploadFileProps {
   handleRemovePhoto?: () => void
   initialImage?: IPreviewFile | null
   accept?: string
+  subdomain: string
 }
 
 export const useUploadFile = ({
   handleUploadPhoto,
   handleRemovePhoto,
   initialImage = null,
-  accept = ACCEPTED_IMAGE_FORMAT
+  accept = ACCEPTED_IMAGE_FORMAT,
+  subdomain
 }: IUseUploadFileProps) => {
   const [file, setFile] = useState<IPreviewFile | null>(initialImage)
   const { loadingState, startLoading, finishLoading, endLoading } =
@@ -69,7 +71,8 @@ export const useUploadFile = ({
     uploadMutate.mutate(
       {
         file: targetFile as File,
-        type: ASSET_TYPE.IMAGE
+        type: ASSET_TYPE.IMAGE,
+        subdomain: subdomain
       },
       {
         onSuccess: (data: AxiosResponse<IUploadResponse>) => {

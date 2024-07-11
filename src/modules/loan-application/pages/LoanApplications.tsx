@@ -58,7 +58,6 @@ export function Component() {
       size: 150,
       cell: ({ row }) => {
         const application = row.original
-
         return (
           <div className="min-w-0">
             <p className="truncate capitalize text-right">
@@ -81,7 +80,6 @@ export function Component() {
       enableSorting: false,
       cell: ({ row }) => {
         const application = row.original
-
         return (
           <div className="min-w-0">
             <p className="truncate text-right">
@@ -104,7 +102,6 @@ export function Component() {
       size: 200,
       cell: ({ row }) => {
         const application = row.original
-
         return (
           <div className="font-medium">
             <Badge

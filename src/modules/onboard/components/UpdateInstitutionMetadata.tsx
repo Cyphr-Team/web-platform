@@ -8,10 +8,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { useFormContext } from "react-hook-form"
-import { UploadImageZone } from "../../../components/ui/UploadImageZone"
+import { UploadImageZone } from "@/components/ui/UploadImageZone.tsx"
 import { OnboardingFormValue } from "../types"
 
-export function UpdateInstitutionMetadata() {
+export function UpdateInstitutionMetadata({
+  subdomain
+}: {
+  subdomain: string
+}) {
   const form = useFormContext<OnboardingFormValue>()
 
   return (
@@ -55,6 +59,7 @@ export function UpdateInstitutionMetadata() {
                   handleUploadPhoto={(file) => {
                     field.onChange(file.url)
                   }}
+                  subdomain={subdomain}
                 />
               </FormControl>
               <FormMessage />
@@ -77,6 +82,7 @@ export function UpdateInstitutionMetadata() {
                   handleUploadPhoto={(file) => {
                     field.onChange(file.url)
                   }}
+                  subdomain={subdomain}
                 />
               </FormControl>
               <FormMessage />
