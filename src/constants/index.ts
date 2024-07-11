@@ -197,6 +197,11 @@ export const API_PATH = {
     getPlaidConnectedBankAccountsByApplicationId:
       "api/plaid/item/connected-bank-accounts/by-application-id"
   },
+  // For workspace admin
+  loanApplicationAdmin: {
+    viewJudgesScores: (applicationId: string) =>
+      `api/workspace-admin/loan-applications/${applicationId}/scorecard`
+  },
   // For loan officer
   loanApplication: {
     details: (loanType: LoanType = LoanType.MICRO) =>

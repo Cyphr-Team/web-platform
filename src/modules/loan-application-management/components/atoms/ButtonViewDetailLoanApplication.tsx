@@ -17,13 +17,7 @@ export const ButtonViewDetailLoanApplication = ({
       APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
         loanApplicationId
       ),
-      {
-        state: {
-          applicationDetail: {
-            type: loanProgramType
-          }
-        }
-      }
+      { state: { applicationDetail: { type: loanProgramType } } }
     )
   }
 

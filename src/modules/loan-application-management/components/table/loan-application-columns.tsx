@@ -276,8 +276,15 @@ export const assignLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
     header: ({ column }) => (
       <FilterableColumnHeader disabled column={column} title="Docs" />
     ),
-    cell: () => {
-      return "TODO"
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <ButtonViewDetailLoanApplication
+          loanApplicationId={application?.id}
+          loanProgramType={application?.programType}
+        />
+      )
     }
   }
 ]

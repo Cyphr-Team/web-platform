@@ -49,7 +49,7 @@ const checkRolesMatchWithUserRoles = (roles: UserRoles[]) => {
   return roles.some((role) => userRoles.includes(role.toLowerCase()))
 }
 
-const checkIsLenderAdmin = () => {
+const checkIsWorkspaceAdmin = () => {
   const userInfo = inMemoryJWTService.getUserInfo()
 
   if (!userInfo) return false
@@ -90,7 +90,7 @@ const isJudge = (roles: string[]): boolean => {
 }
 
 export {
-  checkIsLenderAdmin,
+  checkIsWorkspaceAdmin,
   checkIsForesightAdmin,
   checkIsLoanApplicant,
   checkRolesMatchWithUserRoles,

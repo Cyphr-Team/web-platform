@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { checkIsLenderAdmin } from "@/utils/check-roles"
+import { checkIsWorkspaceAdmin } from "@/utils/check-roles"
 import { AverageApprovedLoanSizeChart } from "./components/AverageLoanSizeChart"
 import { AverageTimeToApprovalChart } from "./components/AverageTimeToApprovalChart"
 import { CurrentUsage } from "./components/atoms/CurrentUsage"
@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator"
 import { isEnableSubscriptionManagement } from "@/utils/feature-flag.utils"
 
 export function Component() {
-  const isLenderAdmin = checkIsLenderAdmin()
+  const isLenderAdmin = checkIsWorkspaceAdmin()
 
   return (
     <DashboardProvider>

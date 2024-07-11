@@ -3,7 +3,11 @@ import { LoanApplicationStatus } from "../loan-application.type"
 /**
  * Application Score
  */
-interface ILaunchKCApplicationScore {
+
+interface IScore {
+  [key: string]: number
+}
+interface ILaunchKCApplicationScore extends IScore {
   productOrService: number
   marketOpportunity: number
   businessModel: number
@@ -21,4 +25,28 @@ interface IApplicationScore<T> {
   scoredAt?: string
 }
 
-export type { ILaunchKCApplicationScore, IApplicationScore }
+/**
+ * Application Scores Detail
+ */
+interface IScoreInfo<T> {
+  judgeName: string
+  score: T
+}
+
+interface IScoresItemByStage<T> {
+  stage: string
+  scoreInfo: IScoreInfo<T>[]
+}
+
+interface IApplicationScoresResponse<T> {
+  id: string
+  applicationId: string
+  scores: IScoresItemByStage<T>[]
+}
+
+export type {
+  IScore,
+  ILaunchKCApplicationScore,
+  IApplicationScore,
+  IApplicationScoresResponse
+}

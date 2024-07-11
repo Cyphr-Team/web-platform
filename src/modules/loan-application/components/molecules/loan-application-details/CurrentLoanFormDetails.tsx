@@ -7,7 +7,7 @@ import {
   CurrentLoansInformationResponse
 } from "@/modules/loan-application/constants/type.ts"
 import {
-  checkIsLenderAdmin,
+  checkIsWorkspaceAdmin,
   checkIsLoanApplicant,
   checkIsLoanOfficer
 } from "@/utils/check-roles.ts"
@@ -22,7 +22,7 @@ export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
   currentLoanFormData
 }) => {
   const currentLoanForms =
-    checkIsLoanOfficer() || checkIsLenderAdmin()
+    checkIsLoanOfficer() || checkIsWorkspaceAdmin()
       ? (currentLoanFormData as CurrentLoanInformationResponse[])
       : checkIsLoanApplicant()
         ? (currentLoanFormData as CurrentLoansInformationResponse)
