@@ -8,6 +8,7 @@ import { KCLoanProgramCard } from "../molecules/custom/KCLoanProgramCard"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
+import { sanitizeDOM } from "@/utils/file.utils"
 
 export const LoanPrograms = () => {
   const { tenantData } = useTenant()
@@ -38,7 +39,10 @@ export const LoanPrograms = () => {
         <h2 className="text-3xl md:text-4xl font-semibold mb-6">
           Our Loan Programs
         </h2>
-        <p className="text-lg whitespace-pre-wrap">{loanProgramOverview}</p>
+        <p
+          className="text-lg whitespace-pre-wrap text-justify"
+          dangerouslySetInnerHTML={{ __html: sanitizeDOM(loanProgramOverview) }}
+        />
       </section>
 
       <section className="mt-6">
