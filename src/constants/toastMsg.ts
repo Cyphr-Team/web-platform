@@ -83,6 +83,14 @@ export const TOAST_MSG = {
     updateSuccess: {
       title: "Updated Loan Application",
       description: "Loan Application is updated successfully"
+    },
+    updateJudgesSuccess: {
+      title: "Updated successfully",
+      description: "Updated the assigned judges successfully"
+    },
+    updateJudgesFailed: {
+      title: "Updated failed",
+      description: "Updated the assigned judges failed"
     }
   },
   judgeLoanApplication: {

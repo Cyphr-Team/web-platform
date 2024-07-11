@@ -36,6 +36,22 @@ export const judgeLoanApplicationKeys = {
   detail: (id: string) => [...judgeLoanApplicationKeys.details(), id] as const
 }
 
+export const workspaceAdminAssignJudge = {
+  all: ["judgeLoanApplication"] as const,
+  assignableJudges: (applicationId: string) =>
+    [
+      ...workspaceAdminAssignJudge.all,
+      "assignable",
+      { applicationId }
+    ] as const,
+  getApplicationWithStageScoresResponse: (applicationId: string) =>
+    [
+      ...workspaceAdminAssignJudge.all,
+      "applicationWithStageScoresResponse",
+      { applicationId }
+    ] as const
+}
+
 export const loanApplicationDocumentKeys = {
   all: ["loanApplicationDocument"] as const,
   lists: () => [...loanApplicationDocumentKeys.all, "list"] as const,

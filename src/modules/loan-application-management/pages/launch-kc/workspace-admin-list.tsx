@@ -3,11 +3,44 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { assignLoanApplicationColumns } from "../../components/table/loan-application-columns"
+import { LoanType } from "../../../../types/loan-program.type"
+import {
+  LoanApplication,
+  LoanApplicationStatus
+} from "../../../../types/loan-application.type"
 
 // TODO: Integrate API table
 // TODO: Integrate API filters
 export function WorkspaceAdminApplicationList() {
   const crumbs = useBreadcrumb()
+  // TODO: Remove mock data
+  const mockDataRow: LoanApplication = {
+    id: "123456789",
+    loanProgramId: "987654321",
+    applicantId: "ABCDE12345",
+    programType: LoanType.MICRO, // Assuming LoanType is an enum defined elsewhere
+    programName: "Small Business Loan",
+    createdAt: "2024-07-07T12:00:00Z", // Example date and time
+    applicant: {
+      // Assuming Applicant is another interface or type
+      id: "string",
+      institutionId: "string",
+      name: "string",
+      email: "string",
+      status: "string",
+      roles: [""],
+      loggedInAt: "string",
+      authProvider: "string",
+      created_at: "string"
+      // other applicant properties as needed
+    },
+    requestedLoanAmount: 100000,
+    status: LoanApplicationStatus.APPROVED, // Assuming LoanApplicationStatus is an enum
+    progress: 0.5, // Example progress (50% complete)
+    businessName: "Example Inc.", // Optional field
+    applicationIdNumber: 987654, // Example application ID number
+    personaInquiryId: "54321" // Optional field
+  }
 
   return (
     <div
@@ -23,7 +56,19 @@ export function WorkspaceAdminApplicationList() {
       <DataTable
         tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
         columns={assignLoanApplicationColumns}
-        data={[]}
+        data={[
+          // TODO: Remove mock data
+          mockDataRow,
+          mockDataRow,
+          mockDataRow,
+          mockDataRow,
+          mockDataRow,
+          mockDataRow,
+          mockDataRow,
+          mockDataRow,
+          mockDataRow,
+          mockDataRow
+        ]}
         total={0}
       />
     </div>

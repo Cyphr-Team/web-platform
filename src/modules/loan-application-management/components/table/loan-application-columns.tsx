@@ -24,6 +24,7 @@ import { ButtonViewDetailLoanApplication } from "../atoms/ButtonViewDetailLoanAp
 import { ScoredBadgeStatus } from "../atoms/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../atoms/StatusRoundBadge"
 import { ApplicationRoundSelectionPopover } from "../organisms/ApplicationRoundSelectionPopover"
+import { AssigningJudgeRow } from "../../../loan-application/components/organisms/application-assigning/AssigningJudgeRow"
 
 export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
@@ -177,10 +178,14 @@ export const assignLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
     id: "roundOneJudges",
     header: ({ column }) => (
-      <FilterableColumnHeader column={column} title="Round 1 Judges" />
+      <FilterableColumnHeader
+        column={column}
+        title="Round 1 Judges"
+        className="justify-center"
+      />
     ),
-    cell: () => {
-      return "TODO"
+    cell: ({ row }) => {
+      return <AssigningJudgeRow row={row} />
     },
     size: 200
   },
@@ -197,10 +202,14 @@ export const assignLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
     id: "roundTwoJudges",
     header: ({ column }) => (
-      <FilterableColumnHeader column={column} title="Round 2 Judges" />
+      <FilterableColumnHeader
+        column={column}
+        title="Round 2 Judges"
+        className="justify-center"
+      />
     ),
-    cell: () => {
-      return "TODO"
+    cell: ({ row }) => {
+      return <AssigningJudgeRow row={row} />
     },
     size: 200
   },

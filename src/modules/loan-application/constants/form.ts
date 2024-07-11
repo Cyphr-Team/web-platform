@@ -190,6 +190,13 @@ export const cashFlowSchema = z.object({
   plaidItemInfo: z.custom<PlaidItemInfo[]>()
 })
 
+export const assigningJudgeFormSchema = z.object({
+  user: z.object({
+    value: z.string().min(1, "User id is required"),
+    label: z.string().min(1, "User email is required")
+  })
+})
+
 export type IdentityVerificationValue = z.infer<
   ReturnType<typeof createIdentityVerificationSchema>
 >
@@ -211,3 +218,5 @@ export type OperatingExpensesFormValue = z.infer<
 >
 
 export type CashFlowFormValue = z.infer<typeof cashFlowSchema>
+
+export type AssigningJudgeFormValue = z.infer<typeof assigningJudgeFormSchema>

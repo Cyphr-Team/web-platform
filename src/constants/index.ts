@@ -146,7 +146,8 @@ export const API_PATH = {
     }
   },
   workspaceAdmin: {
-    selectRoundLoanApplication: "api/workspace-admin/applications/round"
+    selectRoundLoanApplication: "api/workspace-admin/applications/round",
+    getAssignableList: "api/workspace-admin/judge/assignable-list"
   },
   loanProgram: {
     list: "api/user-loan/program/list",
@@ -254,7 +255,13 @@ export const API_PATH = {
     getCashFlowNoiVsTotalDebtPaymentGraph: (applicationId: string) =>
       `api/v2/loan-officer/applications/${applicationId}/cash-flow/noi-total-debt-payment`,
     getSmartKycPersonaDetail: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/identity-verification`
+      `api/loan-officer/applications/${applicationId}/identity-verification`,
+    // Judge
+    getAssignableJudges: () => `api/workspace-admin/judge/assignable-list`,
+    updateAssignedJudges: () =>
+      `api/workspace-admin/loan-applications/judge/update`,
+    getApplicationWithStageScoresResponse: () =>
+      `api/workspace-admin/application/by-id`
   },
   document: {
     getDocumentDownloadForOfficer:
