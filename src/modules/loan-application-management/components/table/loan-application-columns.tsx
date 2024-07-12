@@ -27,13 +27,13 @@ import { getScorecardStatusByApplicationStage } from "../../services/score.servi
 import { ButtonReviewLoanApplication } from "../atoms/ButtonReviewLoanApplication"
 import { ButtonViewDetailLoanApplication } from "../atoms/ButtonViewDetailLoanApplication"
 import { ScoreBadge } from "../atoms/ScoreBadge"
-import { ScorecardStatusBadge } from "../atoms/ScorecardStatusBadge"
 import { ScoredBadgeStatus } from "../atoms/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../atoms/StatusRoundBadge"
 import { ApplicationRoundSelectionPopover } from "../organisms/ApplicationRoundSelectionPopover"
 import { AssigningJudgeRow } from "../../../loan-application/components/organisms/application-assigning/AssigningJudgeRow"
 import { LoanStage } from "../../constants/types/application"
 import { CustomJudgeAvatar, ToolTipJudgeAvatar } from "../atoms/JudgeAvatar"
+import { NudgeJudgesPopover } from "../organisms/NudgeJudgesPopover"
 
 export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
@@ -342,7 +342,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
 
         return (
           <div className="text-center">
-            <ScorecardStatusBadge
+            <NudgeJudgesPopover
               numberOfScoredJudge={scoredcardStatus.numberOfScoredJudge}
               numberOfJudge={scoredcardStatus.numberOfJudge}
             />
