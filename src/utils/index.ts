@@ -246,3 +246,7 @@ export function roundToOneDecimalPlace(number: number) {
 export function removeWhitespace(str: string) {
   return str.replace(/\s/g, "")
 }
+
+export const sanitizeNumber = (number?: number | null) => {
+  return Number(number) || 0
+}

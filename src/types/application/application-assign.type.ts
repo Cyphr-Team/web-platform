@@ -1,12 +1,26 @@
 import { LoanApplicationStatus } from "../loan-application.type"
 import { LoanType } from "../loan-program.type"
 import { UserDetailInfo } from "../user.type"
-import {
-  IApplicationScore,
-  ILaunchKCApplicationScore
-} from "./application-score.type"
+import { IScore } from "./application-score.type"
 
-interface IScoreInfo<T = IApplicationScore<ILaunchKCApplicationScore>> {
+import { LoanApplicationStage } from "./application-stage.type"
+
+/**
+ * Below are server model
+ */
+
+/**
+ * This interface has _score suffix
+ */
+interface ILaunchKCApplicationAssignScore extends IScore {
+  businessModelScore: number
+  executionScore: number
+  launchKcfitScore: number
+  marketOpportunityScore: number
+  productOrServiceScore: number
+}
+
+interface IScoreInfo<T = ILaunchKCApplicationAssignScore> {
   judgeId: string
   judgeName: string
   judgeEmail: string
@@ -14,20 +28,18 @@ interface IScoreInfo<T = IApplicationScore<ILaunchKCApplicationScore>> {
   score?: T | null
 }
 
-interface IApplicationScoreByStage<
-  T = IApplicationScore<ILaunchKCApplicationScore>
-> {
+interface IApplicationScoreByStage<T = ILaunchKCApplicationAssignScore> {
   stage: LoanApplicationStatus
   scoreInfo: IScoreInfo<T>[]
 }
 
 interface IApplicationWithStageScoresResponse<
-  T = IApplicationScore<ILaunchKCApplicationScore>
+  T = ILaunchKCApplicationAssignScore
 > {
   id: string
   applicationIdNumber: number
   status: LoanApplicationStatus
-  stage?: LoanApplicationStatus
+  loanStage: LoanApplicationStage
   createdAt: string
   businessName?: string
   programType: LoanType
@@ -35,22 +47,27 @@ interface IApplicationWithStageScoresResponse<
   stages: IApplicationScoreByStage<T>[]
 }
 
-interface IWorkspaceAdminApplicationScore
-  extends IApplicationWithStageScoresResponse {
-  roundOneJudges: IScoreInfo[]
-  roundOneAvgScore: number
-  roundOneNumberOfScoredJudge: number
-
-  roundTwoJudges: IScoreInfo[]
-  roundTwoAvgScore: number
-  roundTwoNumberOfScoredJudge: number
-}
-
 interface JudgeInfo {
   id: string
   name: string
   email: string
   avatar?: string
+}
+
+/**
+ * Below are local model
+ */
+interface IStageInfo {
+  judges: IScoreInfo[]
+  avgScore: number
+  numberOfScoredJudge: number
+  scoredJudges: IScoreInfo[]
+}
+
+interface IWorkspaceAdminApplicationScore
+  extends IApplicationWithStageScoresResponse {
+  roundOne: IStageInfo
+  roundTwo: IStageInfo
 }
 
 const convertUserDetailInfoToJudgeInfo = (
@@ -64,12 +81,14 @@ const convertUserDetailInfoToJudgeInfo = (
   }
 }
 
+export { convertUserDetailInfoToJudgeInfo }
+
 export type {
-  IScoreInfo,
+  IStageInfo,
+  ILaunchKCApplicationAssignScore,
   IApplicationScoreByStage,
   IApplicationWithStageScoresResponse,
+  IScoreInfo,
   IWorkspaceAdminApplicationScore,
   JudgeInfo
 }
-
-export { convertUserDetailInfoToJudgeInfo }

@@ -15,12 +15,13 @@ const badgeVariants = cva(
         green: "text-green-700 bg-green-500 border-success-200",
         blue: "text-blue-700 bg-blue-500 border-blue-300",
         orange: "text-orange-700 bg-orange-500 border-orange-300",
-        lightBlue: "text-blue-700 bg-[#C0D8D8] border-blue-300"
+        lightBlue: "text-blue-700 bg-[#C0D8D8] border-blue-300",
+        white: "text-black bg-white border-black"
       },
       variant: {
         soft: "bg-opacity-10",
         solid: "text-white",
-        outline: ""
+        outline: "bg-opacity-10 border border-black text-black"
       }
     },
     defaultVariants: {
@@ -39,7 +40,8 @@ const dotVariants = cva("w-3 h-3 mr-1", {
       green: "text-green-500",
       blue: "text-blue-500",
       orange: "text-orange-500",
-      lightBlue: "text-blue-500"
+      lightBlue: "text-blue-500",
+      white: "text-black"
     }
   },
   defaultVariants: {

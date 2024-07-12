@@ -5,22 +5,24 @@ import {
 } from "@/components/ui/accordion"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
-import { ScoreCardDetail } from "../molecules/ScoreCardDetail"
-import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
+import { ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
 import { ChevronDown, ChevronRight } from "lucide-react"
+import { ScoreCardDetail } from "../molecules/ScoreCardDetail"
 
-const calculateAverageScore = (scores: ILaunchKCApplicationScore): number => {
+const calculateAverageScore = (
+  scores: ILaunchKCApplicationAssignScore
+): number => {
   const totalScore = Object.values(scores).reduce((sum, item) => sum + item, 0)
   const averageScore = totalScore / Object.values(scores).length
   return Math.round(averageScore * 10) / 10 // Round to one decimal place
 }
 
 // Generics Props: We can use this to pass any type of score data
-// Example: ILaunchKCApplicationScore, IAnotherBankApplicationScore, etc.
-interface IScoreCardByJudgeProps<T = ILaunchKCApplicationScore> {
+// Example: ILaunchKCApplicationAssignScore, IAnotherBankApplicationScore, etc.
+interface IScoreCardByJudgeProps<T = ILaunchKCApplicationAssignScore> {
   id: string
   name: string
-  scoreData: T
+  scoreData?: T
 }
 
 export const ScoreCardListDetailByJudge = ({
@@ -28,7 +30,8 @@ export const ScoreCardListDetailByJudge = ({
   name,
   scoreData
 }: IScoreCardByJudgeProps) => {
-  const avgScore = calculateAverageScore(scoreData)
+  const avgScore = scoreData ? calculateAverageScore(scoreData) : 0
+
   return (
     <AccordionItem value={id} key={id} className="border-b-0">
       <AccordionTrigger
@@ -59,6 +62,7 @@ export const ScoreCardListDetailByJudge = ({
           </span>
         </div>
       </AccordionTrigger>
+
       <AccordionContent>
         <ScoreCardDetail scoreData={scoreData} />
       </AccordionContent>

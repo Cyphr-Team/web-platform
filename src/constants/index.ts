@@ -204,7 +204,9 @@ export const API_PATH = {
   // For workspace admin
   loanApplicationAdmin: {
     viewJudgesScores: (applicationId: string) =>
-      `api/workspace-admin/loan-applications/${applicationId}/scorecard`
+      `api/workspace-admin/loan-applications/${applicationId}/scorecard`,
+    all: "api/workspace-admin/application",
+    list: () => `${API_PATH.loanApplicationAdmin.all}/list`
   },
   // For loan officer
   loanApplication: {

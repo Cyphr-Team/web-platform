@@ -1,46 +1,26 @@
 import { DataTable } from "@/components/ui/data-table"
+import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
-import { assignLoanApplicationColumns } from "../../components/table/loan-application-columns"
-import { LoanType } from "../../../../types/loan-program.type"
-import {
-  LoanApplication,
-  LoanApplicationStatus
-} from "../../../../types/loan-application.type"
+import { PaginationState } from "@tanstack/react-table"
+import { useState } from "react"
+import { workspaceAdminApplicationColumns } from "../../components/table/loan-application-columns"
+import { useQueryListPaginatedLoanApplicationScore } from "../../hooks/useQuery/useQueryListPaginatedLoanApplicationScore"
 
-// TODO: Integrate API table
 // TODO: Integrate API filters
 export function WorkspaceAdminApplicationList() {
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: REQUEST_LIMIT_PARAM
+  })
+
+  const { data, isFetching } = useQueryListPaginatedLoanApplicationScore({
+    limit: pagination.pageSize,
+    offset: pagination.pageIndex * pagination.pageSize
+  })
+
   const crumbs = useBreadcrumb()
-  // TODO: Remove mock data
-  const mockDataRow: LoanApplication = {
-    id: "123456789",
-    loanProgramId: "987654321",
-    applicantId: "ABCDE12345",
-    programType: LoanType.MICRO, // Assuming LoanType is an enum defined elsewhere
-    programName: "Small Business Loan",
-    createdAt: "2024-07-07T12:00:00Z", // Example date and time
-    applicant: {
-      // Assuming Applicant is another interface or type
-      id: "string",
-      institutionId: "string",
-      name: "string",
-      email: "string",
-      status: "string",
-      roles: [""],
-      loggedInAt: "string",
-      authProvider: "string",
-      created_at: "string"
-      // other applicant properties as needed
-    },
-    requestedLoanAmount: 100000,
-    status: LoanApplicationStatus.APPROVED, // Assuming LoanApplicationStatus is an enum
-    progress: 0.5, // Example progress (50% complete)
-    businessName: "Example Inc.", // Optional field
-    applicationIdNumber: 987654, // Example application ID number
-    personaInquiryId: "54321" // Optional field
-  }
 
   return (
     <div
@@ -54,22 +34,13 @@ export function WorkspaceAdminApplicationList() {
       </div>
 
       <DataTable
-        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
-        columns={assignLoanApplicationColumns}
-        data={[
-          // TODO: Remove mock data
-          mockDataRow,
-          mockDataRow,
-          mockDataRow,
-          mockDataRow,
-          mockDataRow,
-          mockDataRow,
-          mockDataRow,
-          mockDataRow,
-          mockDataRow,
-          mockDataRow
-        ]}
-        total={0}
+        tableContainerClassName="flex flex-col flex-1 overflow-hidden h-[85vh]"
+        columns={workspaceAdminApplicationColumns}
+        isLoading={isFetching}
+        data={data?.data ?? []}
+        total={data?.total ?? 0}
+        pagination={pagination}
+        setPagination={setPagination}
       />
     </div>
   )

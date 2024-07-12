@@ -13,11 +13,10 @@ export const useQueryApplicationWithStageScoresResponse = ({
   enabled: boolean
 }) => {
   return useQuery<IApplicationWithStageScoresResponse, ErrorResponse>({
-    queryKey: [
+    queryKey:
       workspaceAdminAssignJudge.getApplicationWithStageScoresResponse(
         applicationId
-      )
-    ],
+      ),
     queryFn: async () => {
       const result = await getRequest<
         { applicationId: string },

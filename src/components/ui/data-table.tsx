@@ -61,7 +61,7 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="rounded-md border relative max-h-full overflow-auto">
         <Table isLoading={isLoading} className="text-sm">
-          <TableHeader className="bg-gray-100 sticky top-0">
+          <TableHeader className="bg-gray-100 sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

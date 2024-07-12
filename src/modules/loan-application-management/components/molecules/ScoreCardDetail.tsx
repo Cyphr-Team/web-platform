@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
-import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
+import { ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
+import { sanitizeNumber } from "@/utils"
 import { translateToLaunchKCScoreItems } from "@/utils/score.utils"
 
 interface IScoreItem {
@@ -38,12 +39,13 @@ const Scores = ({ score }: IScoreItem) => {
 
 // Generics Props: We can use this to pass any type of score data
 // Example: ILaunchKCApplicationScore, IAnotherBankApplicationScore, etc.
-interface IScoreCardDetailProps<T = ILaunchKCApplicationScore> {
-  scoreData: T
+interface IScoreCardDetailProps<T = ILaunchKCApplicationAssignScore> {
+  scoreData?: T
 }
 
 export const ScoreCardDetail = ({ scoreData }: IScoreCardDetailProps) => {
   const data = translateToLaunchKCScoreItems(scoreData)
+
   return (
     <div className="flex flex-col gap-2 mt-4">
       {data.map((item, index) => (
@@ -51,7 +53,8 @@ export const ScoreCardDetail = ({ scoreData }: IScoreCardDetailProps) => {
           <span className="font-semibold text-text-tertiary text-xs">
             {item.name}
           </span>
-          <Scores name={item.name} score={item.score} />
+
+          <Scores name={item.name} score={sanitizeNumber(item.score)} />
         </div>
       ))}
     </div>

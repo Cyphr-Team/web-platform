@@ -32,7 +32,9 @@ export const Component = () => {
       </div>
 
       {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}
-      {isLaunchKC() && isWorkspaceAdmin && <ScoreCardListDetail />}
+      {isLaunchKC() && isWorkspaceAdmin && isEnableJudgeSubmitScore() && (
+        <ScoreCardListDetail />
+      )}
     </div>
   )
 }

@@ -52,6 +52,17 @@ export const workspaceAdminAssignJudge = {
     ] as const
 }
 
+export const workspaceAdminLoanApplicationScoreKeys = {
+  all: ["workspaceAdminLoanApplicationScore"] as const,
+  lists: () => [...workspaceAdminLoanApplicationScoreKeys.all, "list"] as const,
+  list: (filters: string) =>
+    [...workspaceAdminLoanApplicationScoreKeys.lists(), { filters }] as const,
+  details: () =>
+    [...workspaceAdminLoanApplicationScoreKeys.all, "detail"] as const,
+  detail: (id: string) =>
+    [...workspaceAdminLoanApplicationScoreKeys.details(), id] as const
+}
+
 export const loanApplicationDocumentKeys = {
   all: ["loanApplicationDocument"] as const,
   lists: () => [...loanApplicationDocumentKeys.all, "list"] as const,

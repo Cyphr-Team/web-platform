@@ -18,12 +18,13 @@ export const ScoreCardBox = ({
       className={cn(
         "mt-5 mb-4 w-fit",
         hasBorder && "border border-gray-300 rounded-md",
-        multiple && "p-4 w-full"
+        multiple && "p-2 w-full pb-1"
       )}
     >
-      <div className="uppercase text-xs font-medium text-gray-400 mb-2.5">
+      <div className="uppercase text-xs font-medium text-zinc-500 mb-1">
         {name}
       </div>
+
       <span
         className={cn(
           multiple ? "text-md lg:text-3xl" : "text-md lg:text-5xl",

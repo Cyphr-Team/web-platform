@@ -7,24 +7,46 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
-import { ScoreCardBox } from "../atoms/ScoreCardBox"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { ScoreCardBox } from "../atoms/ScoreCardBox"
 
-import { useQueryScoreApplicationDetails } from "../../hooks/useQuery/useQueryScoreApplicationDetails"
-import { useParams } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import { capitalizeWords, snakeCaseToText } from "@/utils"
 import {
   calculateAvgScorePerRound,
   calculateTotalScore
 } from "@/utils/score.utils"
-import { ScoreCardListDetailByJudge } from "./ScoreCardListDetailByJudge"
-import { StatusRoundBadge } from "../atoms/StatusRoundBadge"
-import { capitalizeWords, snakeCaseToText } from "@/utils"
+import { DropdownMenuRadioGroup } from "@radix-ui/react-dropdown-menu"
+import { useState } from "react"
+import { useParams } from "react-router-dom"
 import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
-
-// TODO: Integrate API to get current status for an application
+import { useQueryScoreApplicationDetails } from "../../hooks/useQuery/useQueryScoreApplicationDetails"
+import { StatusRoundBadge } from "../atoms/StatusRoundBadge"
+import { ScoreCardListDetailByJudge } from "./ScoreCardListDetailByJudge"
+import {
+  isAbleToViewScoreRound1,
+  isAbleToViewScoreRound2
+} from "../../services/status.service"
 
 export const ScoreCardListDetail = () => {
   const params = useParams()
+
+  const LIST_FILTER_STATUS = [
+    LoanApplicationStatus.ROUND_1.toLowerCase(),
+    LoanApplicationStatus.ROUND_2.toLowerCase()
+  ]
+
+  const [selectedFilterStatus, setSelectedFilterStatus] =
+    useState<LoanApplicationStatus>()
+
   // Get Application Detail
   const { data, isFetching } = useQueryScoreApplicationDetails({
     applicationId: params.id!
@@ -39,11 +61,37 @@ export const ScoreCardListDetail = () => {
     data,
     LoanApplicationStatus.ROUND_1
   )
+
   const avgScoreRound2 = calculateAvgScorePerRound(
     data,
     LoanApplicationStatus.ROUND_2
   )
+
+  const scoresRound1 =
+    data?.scores?.find(
+      (item) => item.stage === LoanApplicationStatus.ROUND_2.toLowerCase()
+    )?.scoreInfo || []
+
+  const scoreRound2 =
+    data?.scores?.find(
+      (item) => item.stage === LoanApplicationStatus.ROUND_1.toLowerCase()
+    )?.scoreInfo || []
+
   const totalScore = calculateTotalScore(avgScoreRound1, avgScoreRound2)
+
+  const isSelectedRound1 =
+    selectedFilterStatus?.toUpperCase() == LoanApplicationStatus.ROUND_1
+
+  const isSelectedRound2 =
+    selectedFilterStatus?.toUpperCase() == LoanApplicationStatus.ROUND_2
+
+  const ableToViewRound1 =
+    (!selectedFilterStatus && isAbleToViewScoreRound1(statusData)) ||
+    isSelectedRound1
+
+  const ableToViewRound2 =
+    (!selectedFilterStatus && isAbleToViewScoreRound2(statusData)) ||
+    isSelectedRound2
 
   return (
     <Card className="h-fit max-h-full top-0 z-10 mb-4 flex-shrink-0 mt-6 lg:mt-0">
@@ -75,18 +123,64 @@ export const ScoreCardListDetail = () => {
           />
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-xs">Application round</span>
-          <StatusRoundBadge round={(statusData ?? "") as LoanApplicationStatus}>
-            {capitalizeWords(snakeCaseToText(statusData ?? ""))}
-          </StatusRoundBadge>
+          <span className="text-xs text-text-tertiary">Application Round</span>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="w-auto h-auto p-1 rounded-full"
+              >
+                <StatusRoundBadge
+                  round={
+                    (selectedFilterStatus ??
+                      statusData ??
+                      "") as LoanApplicationStatus
+                  }
+                >
+                  {capitalizeWords(
+                    snakeCaseToText(selectedFilterStatus ?? statusData ?? "")
+                  )}
+                </StatusRoundBadge>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40">
+              <DropdownMenuLabel className="text-xs">
+                Toggle filter by stage
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup
+                value={selectedFilterStatus}
+                onValueChange={(value) => {
+                  setSelectedFilterStatus((preState) =>
+                    preState === value
+                      ? undefined
+                      : (value as LoanApplicationStatus)
+                  )
+                }}
+              >
+                {LIST_FILTER_STATUS.map((filterStatus) => (
+                  <DropdownMenuRadioItem
+                    value={filterStatus}
+                    className="cursor-pointer"
+                  >
+                    <StatusRoundBadge
+                      round={(filterStatus ?? "") as LoanApplicationStatus}
+                    >
+                      {capitalizeWords(snakeCaseToText(filterStatus ?? ""))}
+                    </StatusRoundBadge>
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         <Accordion
           type="multiple"
           defaultValue={["scored-card-round-1", "scored-card-round-2"]}
         >
-          {/* ROUND 2 */}
-          {avgScoreRound2 > 0 && (
+          {ableToViewRound2 && (
             <AccordionItem
               value="scored-card-round-2"
               key="scored-card-round-2"
@@ -94,7 +188,7 @@ export const ScoreCardListDetail = () => {
             >
               <AccordionTrigger
                 className={cn(
-                  "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
+                  "justify-between w-full hover:no-underline text-base font-medium text-left border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
                 )}
               >
                 <div className="w-full flex justify-between items-center">
@@ -118,28 +212,26 @@ export const ScoreCardListDetail = () => {
               <AccordionContent>
                 <Accordion type="multiple">
                   {!isFetching &&
-                    data &&
-                    data.scores
-                      .find(
-                        (item) =>
-                          item.stage ===
-                          LoanApplicationStatus.ROUND_2.toLowerCase()
-                      )
-                      ?.scoreInfo.map((item, index) => (
+                    (scoresRound1.length > 0 ? (
+                      scoresRound1.map((item, index) => (
                         <ScoreCardListDetailByJudge
                           key={`${LoanApplicationStatus.ROUND_2}_${index}_${item.judgeName}`}
                           id={`${LoanApplicationStatus.ROUND_2}_${index}_${item.judgeName}`}
                           name={item.judgeName}
                           scoreData={item.score}
                         />
-                      ))}
+                      ))
+                    ) : (
+                      <div className="mt-2 text-xs text-text-tertiary">
+                        No judge has been assigned for this loan application.
+                      </div>
+                    ))}
                 </Accordion>
               </AccordionContent>
             </AccordionItem>
           )}
 
-          {/* ROUND 1 */}
-          {avgScoreRound1 > 0 && (
+          {ableToViewRound1 && (
             <AccordionItem
               value="scored-card-round-1"
               key="scored-card-round-1"
@@ -171,21 +263,20 @@ export const ScoreCardListDetail = () => {
               <AccordionContent>
                 <Accordion type="multiple">
                   {!isFetching &&
-                    data &&
-                    data.scores
-                      .find(
-                        (item) =>
-                          item.stage ===
-                          LoanApplicationStatus.ROUND_1.toLowerCase()
-                      )
-                      ?.scoreInfo.map((item, index) => (
+                    (scoreRound2?.length > 0 ? (
+                      scoreRound2.map((item, index) => (
                         <ScoreCardListDetailByJudge
                           key={`${LoanApplicationStatus.ROUND_1}_${index}_${item.judgeName}`}
                           id={`${LoanApplicationStatus.ROUND_1}_${index}_${item.judgeName}`}
                           name={item.judgeName}
                           scoreData={item.score}
                         />
-                      ))}
+                      ))
+                    ) : (
+                      <div className="mt-2 text-xs text-text-tertiary">
+                        No judge has been assigned for this loan application.
+                      </div>
+                    ))}
                 </Accordion>
               </AccordionContent>
             </AccordionItem>

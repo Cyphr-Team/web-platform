@@ -29,7 +29,7 @@ export function JudgeApplicationList() {
       </div>
 
       <DataTable
-        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
+        tableContainerClassName="flex flex-col flex-1 overflow-hidden h-[80vh]"
         columns={judgeLoanApplicationColumns}
         isLoading={isFetching}
         data={data?.data ?? []}

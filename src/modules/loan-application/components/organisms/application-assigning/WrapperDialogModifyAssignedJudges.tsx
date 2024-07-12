@@ -1,3 +1,4 @@
+import assignJudgePlusIcon from "@/assets/assign-judge-plus.svg"
 import { Button, ButtonLoading } from "@/components/ui/button.tsx"
 import {
   Dialog,
@@ -16,27 +17,28 @@ import {
   AssigningJudgeFormValue,
   assigningJudgeFormSchema
 } from "../../../constants/form"
-import assignJudgePlusIcon from "@/assets/assign-judge-plus.svg"
 
+import { JudgeAvatar } from "@/modules/loan-application-management/components/atoms/JudgeAvatar"
+import { getStageScoreInfo } from "@/modules/loan-application-management/services/score.service"
+import { X } from "lucide-react"
 import { cn } from "../../../../../lib/utils"
-import { MultiSelect } from "./MultiSelectJudge"
-import { useUpdateJudgesApplication } from "../../../../loan-application-management/hooks/useMutation/useUpdateJudgesApplication"
-import { LoanStage } from "../../../../loan-application-management/constants/types/application"
-import { UpdateAssignedJudgeRequest } from "../../../../loan-application-management/constants/types/judge"
-import { toastError } from "../../../../../utils"
-import { useQueryApplicationWithStageScoresResponse } from "../../../../loan-application-management/hooks/useQuery/useQueryApplicationWithStageScoresResponse"
-import { useQueryGetAssignableJudgeList } from "../../../../loan-application-management/hooks/useQuery/useQueryGetAssignableList"
-import { ChevronDown, X } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   JudgeInfo,
   convertUserDetailInfoToJudgeInfo
 } from "../../../../../types/application/application-assign.type"
+import { toastError } from "../../../../../utils"
+import { LoanStage } from "../../../../loan-application-management/constants/types/application"
+import { UpdateAssignedJudgeRequest } from "../../../../loan-application-management/constants/types/judge"
+import { useUpdateJudgesApplication } from "../../../../loan-application-management/hooks/useMutation/useUpdateJudgesApplication"
+import { useQueryApplicationWithStageScoresResponse } from "../../../../loan-application-management/hooks/useQuery/useQueryApplicationWithStageScoresResponse"
+import { useQueryGetAssignableJudgeList } from "../../../../loan-application-management/hooks/useQuery/useQueryGetAssignableList"
+import { MultiSelect } from "./MultiSelectJudge"
 
 type Props = {
   applicationId: string
   currentStage: LoanStage
   onCloseDialogContent: () => void
+  disabled: boolean
 }
 /**
  * Logic flow:
@@ -44,18 +46,20 @@ type Props = {
  * - Then the search popup open, we handle internally "search popup", then close it, will call the onClose to update assignedOffline and assignableOffline
  * - When submit, send the assignedOffline to server
  */
-
 export const WrapperDialogModifyAssignedJudges = ({
   applicationId,
-  currentStage
+  currentStage,
+  disabled
 }: {
   applicationId: string
   currentStage: LoanStage
+  disabled: boolean
 }) => {
   const [open, setOpen] = useState(false)
   const onOpenChange = (open: boolean) => {
     setOpen(open)
   }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger
@@ -66,14 +70,27 @@ export const WrapperDialogModifyAssignedJudges = ({
           setOpen(true)
         }}
       >
-        <img
-          src={assignJudgePlusIcon}
-          className="logo w-5 h-5 mr-2"
-          alt="add-judge"
-        />
+        <Button
+          size="icon"
+          variant="ghost"
+          className={cn(
+            "p-0 h-auto w-auto flex-shrink-0 mr-1",
+            disabled && "opacity-20"
+          )}
+          type="button"
+          disabled={disabled}
+        >
+          <img
+            src={assignJudgePlusIcon}
+            className="logo w-5 h-5"
+            alt="add-judge"
+          />
+        </Button>
       </DialogTrigger>
+
       {open && (
         <DialogModifyAssignedJudges
+          disabled={disabled}
           applicationId={applicationId}
           currentStage={currentStage}
           onCloseDialogContent={() => {
@@ -110,44 +127,6 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       enabled: !!applicationId
     })
 
-  useEffect(() => {
-    if (assignableJudgesOnlineQuery.data) {
-      // Make a copy of the data to sort
-      const judgeInfosOnline = assignableJudgesOnlineQuery.data.map((e) => {
-        return convertUserDetailInfoToJudgeInfo(e)
-      })
-      const sortedData = [...judgeInfosOnline].sort((a, b) => {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
-      })
-      setAssignableOffline(sortedData)
-    }
-  }, [assignableJudgesOnlineQuery.data])
-
-  useEffect(() => {
-    if (applicationWithStageScoresResponseQuery.data) {
-      const currentStage =
-        applicationWithStageScoresResponseQuery.data.stage ?? LoanStage.ROUND_1 // TODO: Remove mock data
-      const applicationScore =
-        applicationWithStageScoresResponseQuery.data.stages.find(
-          (e) => e.stage.toLowerCase() == currentStage.toLowerCase()
-        )
-      if (applicationScore) {
-        const judges = applicationScore.scoreInfo.map((e) => {
-          const judgeInfo: JudgeInfo = {
-            id: e.judgeId,
-            name: e.judgeName,
-            email: e.judgeEmail,
-            avatar: e.judgeAvatar ?? ""
-          }
-          return judgeInfo
-        })
-        setAssignedOffline(judges)
-      }
-    }
-  }, [applicationWithStageScoresResponseQuery.data]) // Assigned
-
   const { mutate, isPending } = useUpdateJudgesApplication(applicationId)
   const [assignableOffline, setAssignableOffline] = useState<JudgeInfo[]>([])
   const [assignedOffline, setAssignedOffline] = useState<JudgeInfo[]>([])
@@ -171,15 +150,62 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       }
     })
   }
+
+  const stageInfo = applicationWithStageScoresResponseQuery?.data?.stages
+    ? getStageScoreInfo(
+        applicationWithStageScoresResponseQuery.data.stages,
+        currentStage
+      )
+    : null
+
+  useEffect(() => {
+    if (applicationWithStageScoresResponseQuery.data) {
+      const applicationScore =
+        applicationWithStageScoresResponseQuery.data.stages.find(
+          (e) => e.stage.toLowerCase() == currentStage.toLowerCase()
+        )
+
+      if (applicationScore) {
+        const judges = applicationScore.scoreInfo.map((judge) => {
+          const judgeInfo: JudgeInfo = {
+            id: judge.judgeId,
+            name: judge.judgeName,
+            email: judge.judgeEmail,
+            avatar: judge.judgeAvatar ?? ""
+          }
+          return judgeInfo
+        })
+
+        setAssignedOffline(judges)
+      }
+    }
+  }, [applicationWithStageScoresResponseQuery.data, currentStage])
+
+  useEffect(() => {
+    if (assignableJudgesOnlineQuery.data) {
+      const judgeInfosOnline = assignableJudgesOnlineQuery.data.map((e) => {
+        return convertUserDetailInfoToJudgeInfo(e)
+      })
+      const sortedData = [...judgeInfosOnline].sort((a, b) => {
+        if (a.name < b.name) return -1
+        if (a.name > b.name) return 1
+        return 0
+      })
+      setAssignableOffline(sortedData)
+    }
+  }, [assignableJudgesOnlineQuery.data])
+
   return (
     <DialogContent className="min-w-[50%] h-[80%] p-0 overflow-hidden flex flex-col">
       <DialogHeader className="p-4 sm:p-6 pb-0 sm:pb-0">
-        <DialogTitle>Assign this Application</DialogTitle>
+        <DialogTitle className="font-semibold text-xl">
+          Assign this Application
+        </DialogTitle>
       </DialogHeader>
       <Form {...form}>
         <form className="flex flex-col flex-1 overflow-hidden p-4 sm:p-6 pt-0 sm:pt-0">
           <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-3 items-start">
-            <div className="flex lg:flex-row gap-3 w-full">
+            <div className="flex lg:flex-row gap-3 w-full mt-1">
               <MultiSelect
                 options={assignableOffline}
                 defaultValue={[]}
@@ -201,18 +227,20 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
             </div>
           </div>
           <div className="mt-6 flex flex-row justify-between">
-            <span className="text-base font-bold">People with Access</span>
-            <span className="text-base font-bold">Role</span>
+            <span className="text-lg font-semibold">People with Access</span>
+            <span className="text-lg font-semibold">Role</span>
           </div>
-          <Separator className="mt-3" />
-          <div className="overflow-auto flex-1">
+
+          <Separator className="mt-3 shadow" />
+
+          <div className="overflow-auto flex flex-col flex-1">
             {assignedOffline.map((judge) => {
               return (
-                <div className=" flex flex-row items-center mt-4 mb-4">
-                  <X
-                    className="w-5 h-5 mr-4"
-                    color="#CCCCCC"
-                    strokeWidth={3}
+                <div className="flex flex-row items-center mt-3 mb-3">
+                  <Button
+                    variant="ghost"
+                    className="w-auto h-auto p-1 mr-1"
+                    type="button"
                     onClick={() => {
                       const newAssignableOffline = [
                         judge,
@@ -228,32 +256,47 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                       setAssignedOffline(newAssignedOffline)
                       setAssignableOffline(newAssignableOffline)
                     }}
-                  />
-                  <Avatar
-                    className={cn(
-                      "h-8 w-8 rounded-full overflow-hidden outline outline-slate-400 bg-white"
-                    )}
                   >
-                    <AvatarImage src={judge.avatar} alt={judge.name ?? ""} />
-                    <AvatarFallback className="flex flex-row align-middle items-center justify-center h-full">
-                      {judge.name?.slice(0, 2)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="ml-4 flex flex-col">
+                    <X
+                      className="w-4 h-4 text-stone-300 flex-shrink-0"
+                      strokeWidth={2.75}
+                    />
+                  </Button>
+
+                  <div className="flex-shrink-0 relative">
+                    <JudgeAvatar
+                      avatar={judge?.avatar}
+                      name={judge?.name}
+                      email={judge?.name}
+                      isScored={stageInfo?.scoredJudges?.some(
+                        (scoredJudge) => scoredJudge?.judgeId === judge?.id
+                      )}
+                    />
+                  </div>
+
+                  <div className="ml-2 flex flex-col">
                     <span className="text-sm">{judge.name}</span>
-                    <span className="text-xs text-slate-400	">
+                    <span className="text-xs text-text-tertiary">
                       {judge.email}
                     </span>
                   </div>
                   <div className="flex-1 flex-row justify-center"></div>
-                  <span className="text-sm">Judge</span>
-                  <ChevronDown className="w-6 h-6 ml-9 mr-2" color="#344054" />
+                  <span className="text-xs font-medium mr-2 text-zinc-700">
+                    Judge
+                  </span>
                 </div>
               )
             })}
           </div>
+
+          <div className="ml-auto mt-8 mb-4 font-semibold text-base mr-3">
+            Total People Assigned:{" "}
+            <span className="ml-1">{assignedOffline.length}</span>
+          </div>
+
           <Separator className="-mx-8 w-[200%]" />
-          <DialogFooter className="mt-6 ">
+
+          <DialogFooter className="mt-4 ">
             <Button
               variant="outline"
               onClick={() => {
@@ -271,7 +314,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                 handledUpdateAssignedJudge()
               }}
             >
-              Submit
+              Send
             </ButtonLoading>
           </DialogFooter>
         </form>

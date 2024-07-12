@@ -84,6 +84,7 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
 
   const [open, setOpen] = React.useState(false)
   const [selectedStatus, setSelectedStatus] = React.useState(roundStatus)
+
   return (
     <div className="flex items-center justify-center space-x-4">
       <Popover open={open} onOpenChange={setOpen}>
@@ -125,7 +126,7 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
                     }}
                   >
                     <Checkbox
-                      checked={_.eq(selectedStatus, status)}
+                      checked={_.eq(selectedStatus?.toUpperCase(), status)}
                       className=" h-5 w-5 data-[state=checked]:bg-gray-600 border-gray-300 border-2"
                     />
                     <StatusRoundBadge round={status}>

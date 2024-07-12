@@ -15,7 +15,7 @@ export const useQueryGetAssignableJudgeList = ({
   enabled: boolean
 }) => {
   return useQuery<UserDetailInfo[], ErrorResponse>({
-    queryKey: [workspaceAdminAssignJudge.assignableJudges(applicationId)],
+    queryKey: workspaceAdminAssignJudge.assignableJudges(applicationId),
     queryFn: async () => {
       return getRequest<
         { applicationId: string; searchString?: string },

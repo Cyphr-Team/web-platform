@@ -11,7 +11,11 @@ import {
   ApplicationScore,
   UpdateAssignedJudgeRequest
 } from "../../constants/types/judge"
-import { workspaceAdminAssignJudge } from "../../../../constants/query-key"
+import {
+  workspaceAdminAssignJudge,
+  workspaceAdminLoanApplicationScoreKeys
+} from "../../../../constants/query-key"
+import { QUERY_KEY as LOAN_APPLICATION_QUERY_KEY } from "../../constants/query-key"
 
 export const useUpdateJudgesApplication = (applicationId: string) => {
   const queryClient = useQueryClient()
@@ -30,13 +34,20 @@ export const useUpdateJudgesApplication = (applicationId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [workspaceAdminAssignJudge.assignableJudges(applicationId)]
+        queryKey: workspaceAdminAssignJudge.assignableJudges(applicationId)
       })
       queryClient.invalidateQueries({
-        queryKey: [
+        queryKey:
           workspaceAdminAssignJudge.getApplicationWithStageScoresResponse(
             applicationId
           )
+      })
+      queryClient.invalidateQueries({
+        queryKey: workspaceAdminLoanApplicationScoreKeys.lists()
+      })
+      queryClient.invalidateQueries({
+        queryKey: [
+          LOAN_APPLICATION_QUERY_KEY.GET_LOAN_APPLICATION_SCORE_DETAILS
         ]
       })
       toastSuccess(TOAST_MSG.loanApplication.updateJudgesSuccess)
