@@ -1,8 +1,6 @@
-import { API_PATH } from "@/constants"
-import { getRequest } from "@/services/client.service"
 import { featureFlagsService } from "@/services/feature-flag.service"
+import { institutionService } from "@/services/institution.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
-import { TInstitutionResponse } from "@/types/institution.type"
 import { isAxiosError } from "axios"
 import { defer } from "react-router-dom"
 
@@ -32,11 +30,9 @@ export const userLoader = () => {
 export const institutionLoader = async () => {
   try {
     // Attempt to fetch institution metadata using an HTTP request
-    const institution = await getRequest<unknown, TInstitutionResponse>({
-      path: API_PATH.institution.getInstitutionMetadata
-    })
+    const institution = await institutionService.handleFetchInstitution()
 
-    return institution.data
+    return institution
   } catch (error) {
     console.error(error)
 

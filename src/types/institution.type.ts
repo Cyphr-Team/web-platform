@@ -11,6 +11,7 @@ type TInstitutionMetaData = {
 type TInstitutionResponse = {
   data: {
     name: string
+    key: string
     metadata: TInstitutionMetaData
   }
   success: boolean

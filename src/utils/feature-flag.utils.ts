@@ -62,7 +62,12 @@ function isEnableJudgeSubmitScore() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.JUDGE_SUBMIT_SCORE)
 }
 
+function isEnableIdentityInstitutionByKey() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.IDENTITY_INSTITUTION_BY_KEY)
+}
+
 export {
+  isEnableIdentityInstitutionByKey,
   isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,

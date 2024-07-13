@@ -6,14 +6,14 @@ import {
   LOAN_READY_PROGRAMS,
   SBB_LOAN_PROGRAMS
 } from "../constants/loan-program.constants"
-import { getSubdomain } from "@/utils/domain.utils"
+import { getInstitutionKey } from "@/utils/domain.utils"
 
 export const useGetLoanProgramDetail = (
   type: string,
   name: string | undefined
 ) => {
   const loanProgramData = useMemo(() => {
-    switch (getSubdomain()) {
+    switch (getInstitutionKey()) {
       case Institution.IntrustBank:
         return undefined
       case Institution.LoanReady:

@@ -1,6 +1,6 @@
 import { Institution } from "@/constants/tenant.constants"
 import { toPercent } from "@/utils"
-import { getSubdomain } from "@/utils/domain.utils"
+import { getInstitutionKey } from "@/utils/domain.utils"
 import {
   Dispatch,
   ReactNode,
@@ -142,7 +142,7 @@ const reducer = (
 const initProgress = (forms?: FORM_TYPE[]) => {
   return formsConfigurationEnabled()
     ? new ConfigurationLoanApplicationStep(forms).getSteps()
-    : new LoanApplicationStepStrategy(getSubdomain() as Institution)
+    : new LoanApplicationStepStrategy(getInstitutionKey() as Institution)
         .getStrategy()
         .getSteps()
 }

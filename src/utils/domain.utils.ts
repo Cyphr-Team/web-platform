@@ -6,6 +6,8 @@
 
 import { APP_CONFIGS } from "@/configs"
 import { Institution } from "@/constants/tenant.constants"
+import { isEnableIdentityInstitutionByKey } from "./feature-flag.utils"
+import { institutionService } from "@/services/institution.service"
 
 const DEFAULT_DEMO_SUBDOMAIN = APP_CONFIGS.VITE_BASE_SUBDOMAIN
 
@@ -27,6 +29,14 @@ function getSubdomain(): string {
   }
 }
 
+function getInstitutionKey(): string {
+  if (isEnableIdentityInstitutionByKey()) {
+    return institutionService.getInstitution().key
+  }
+
+  return getSubdomain()
+}
+
 /**
  * When admin send invitation to institution's user, the baseUrl should be institution's baseURL
  * So we need to change the subdomain from [admin].cyphrai.dev / [admin].cyphrai.com
@@ -40,36 +50,37 @@ function getTenantDomain(subdomain: string) {
 }
 
 function isCapsight(): boolean {
-  return getSubdomain() === Institution.Capsight
+  return getInstitutionKey() === Institution.Capsight
 }
 
 function isLoanReady(): boolean {
-  return getSubdomain() === Institution.LoanReady
+  return getInstitutionKey() === Institution.LoanReady
 }
 
 function isCyphrBank(): boolean {
-  return getSubdomain() === Institution.CyphrV2
+  return getInstitutionKey() === Institution.CyphrV2
 }
 
 function isKccBank(): boolean {
-  return getSubdomain() === Institution.KCChamber
+  return getInstitutionKey() === Institution.KCChamber
 }
 
 function isLaunchKC(): boolean {
-  return getSubdomain() === Institution.LaunchKC
+  return getInstitutionKey() === Institution.LaunchKC
 }
 
 function isSbb(): boolean {
-  return getSubdomain() === Institution.SBB
+  return getInstitutionKey() === Institution.SBB
 }
 
 export {
+  getInstitutionKey,
   getSubdomain,
-  isLoanReady,
-  isCyphrBank,
-  isCapsight,
   getTenantDomain,
+  isCapsight,
+  isCyphrBank,
   isKccBank,
   isLaunchKC,
+  isLoanReady,
   isSbb
 }
