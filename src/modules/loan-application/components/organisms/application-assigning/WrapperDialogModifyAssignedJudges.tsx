@@ -26,7 +26,6 @@ import {
   JudgeInfo,
   convertUserDetailInfoToJudgeInfo
 } from "../../../../../types/application/application-assign.type"
-import { toastError } from "../../../../../utils"
 import { LoanStage } from "../../../../loan-application-management/constants/types/application"
 import { UpdateAssignedJudgeRequest } from "../../../../loan-application-management/constants/types/judge"
 import { useUpdateJudgesApplication } from "../../../../loan-application-management/hooks/useMutation/useUpdateJudgesApplication"
@@ -107,8 +106,6 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
   currentStage,
   onCloseDialogContent
 }) => {
-  const MAXIMUM_JUDGES_IN_ONE_APPLICATION_STAGE = 8
-
   const form = useForm<AssigningJudgeFormValue>({
     resolver: zodResolver(assigningJudgeFormSchema),
     defaultValues: {
@@ -132,13 +129,6 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
   const [assignedOffline, setAssignedOffline] = useState<JudgeInfo[]>([])
 
   const handledUpdateAssignedJudge = () => {
-    if (assignedOffline.length > MAXIMUM_JUDGES_IN_ONE_APPLICATION_STAGE) {
-      toastError({
-        title: "Error",
-        description: `The assigned judge maximum is ${MAXIMUM_JUDGES_IN_ONE_APPLICATION_STAGE}`
-      })
-      return
-    }
     const updateRequest: UpdateAssignedJudgeRequest = {
       userIds: assignedOffline.map((e) => e.id),
       applicationId: applicationId,
