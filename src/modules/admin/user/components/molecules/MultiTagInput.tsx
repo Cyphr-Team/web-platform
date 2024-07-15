@@ -42,11 +42,13 @@ export const MultiTagInput = () => {
 
   const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement
-    if (event.key === " ") {
+    event.preventDefault()
+    if (event.key === "Enter") {
       const trimmedValue = removeWhitespace(target.value)
       if (trimmedValue && checkValidEmail(trimmedValue)) {
         addTag(trimmedValue)
         form.setValue("emails", [...tags, trimmedValue])
+        form.trigger("emails")
         target.value = ""
       }
     }
@@ -65,7 +67,14 @@ export const MultiTagInput = () => {
               <span className="text-sm">{tag}</span>
               <i
                 className="material-icons ml-1 cursor-pointer"
-                onClick={() => removeTag(index)}
+                onClick={() => {
+                  removeTag(index)
+                  form.setValue(
+                    "emails",
+                    tags.filter((_, i) => i !== index)
+                  )
+                  form.trigger("emails")
+                }}
               >
                 <X size={14} className="text-gray-400" />
               </i>

@@ -24,13 +24,8 @@ import { BulkUploadCsv } from "./molecules/BulkUploadCsv"
 import { MultiTagInput } from "./molecules/MultiTagInput"
 import { APP_PATH } from "@/constants"
 import { AccessList } from "./molecules/AccessList"
-import { UserDetailInfo } from "@/types/user.type"
 
-interface DialogSendBulkInviteProps {
-  userInfos: UserDetailInfo[]
-}
-
-export function DialogSendBulkInvite({ userInfos }: DialogSendBulkInviteProps) {
+export function DialogSendBulkInvite() {
   const [open, setOpen] = useState(false)
   const onOpenChange = (open: boolean) => {
     if (!open) {
@@ -81,7 +76,7 @@ export function DialogSendBulkInvite({ userInfos }: DialogSendBulkInviteProps) {
           <form onSubmit={formSubmit} className="flex flex-col space-y-3">
             <MultiTagInput />
 
-            <AccessList userInfos={userInfos} />
+            <AccessList />
 
             <DialogFooter className="flex w-full">
               <Button
@@ -96,6 +91,7 @@ export function DialogSendBulkInvite({ userInfos }: DialogSendBulkInviteProps) {
                 type="submit"
                 className="w-full mb-2"
                 isLoading={isPendingInputList}
+                disabled={!form.formState.isValid}
               >
                 Send {<Send className="ml-1.5" size="16" />}
               </ButtonLoading>

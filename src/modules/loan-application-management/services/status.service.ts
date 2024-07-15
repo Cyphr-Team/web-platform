@@ -39,12 +39,27 @@ const isRound3 = (currentStatus?: LoanApplicationStatus) => {
   )
 }
 
+const hasDecision = (currentStatus?: LoanApplicationStatus) => {
+  return isRound(
+    [LoanApplicationStatus.DENIED, LoanApplicationStatus.APPROVED],
+    currentStatus
+  )
+}
+
 const isAbleToViewScoreRound2 = (currentStatus?: LoanApplicationStatus) => {
-  return isRound2(currentStatus) || isRound3(currentStatus)
+  return (
+    isRound2(currentStatus) ||
+    isRound3(currentStatus) ||
+    hasDecision(currentStatus)
+  )
 }
 
 const isAbleToViewScoreRound1 = (currentStatus?: LoanApplicationStatus) => {
-  return isRound1(currentStatus) || isAbleToViewScoreRound2(currentStatus)
+  return (
+    isRound1(currentStatus) ||
+    isAbleToViewScoreRound2(currentStatus) ||
+    hasDecision(currentStatus)
+  )
 }
 
 export { isAbleToViewScoreRound1, isAbleToViewScoreRound2 }

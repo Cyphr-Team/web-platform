@@ -1,13 +1,25 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { DeleteUserButton } from "./DeleteUserButton"
-import { UserDetailInfo } from "@/types/user.type"
+import { UserDetailInfo, UserRoles } from "@/types/user.type"
 import { nameByRole } from "../../constants/roles.constants"
+import { useQueryListPaginateUser } from "../../hooks/useQuery/useQueryListPaginateUser"
 
-interface AccessListProps {
-  userInfos: UserDetailInfo[]
-}
-export function AccessList({ userInfos }: AccessListProps) {
-  const [users, setUsers] = useState<UserDetailInfo[]>(userInfos)
+export function AccessList() {
+  const { data, isFetching } = useQueryListPaginateUser({
+    // TODO: Pagination for infinite scrolling
+    limit: Infinity,
+    offset: 0
+  })
+  const [users, setUsers] = useState<UserDetailInfo[]>([])
+
+  useEffect(() => {
+    // Filter out applicants - only show users with roles other than "Applicant"
+    const accessList =
+      data?.data.filter(
+        (user) => user.roles[0].toLocaleUpperCase() !== UserRoles.APPLICANT
+      ) ?? []
+    setUsers(accessList)
+  }, [data?.data, isFetching])
 
   const removeUser = (userId: string) => {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId))

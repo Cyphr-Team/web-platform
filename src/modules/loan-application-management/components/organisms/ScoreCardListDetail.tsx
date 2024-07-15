@@ -9,23 +9,11 @@ import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { ScoreCardBox } from "../atoms/ScoreCardBox"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import {
   calculateAvgScorePerRound,
   calculateTotalScore
 } from "@/utils/score.utils"
-import { DropdownMenuRadioGroup } from "@radix-ui/react-dropdown-menu"
-import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
 import { useQueryScoreApplicationDetails } from "../../hooks/useQuery/useQueryScoreApplicationDetails"
@@ -38,14 +26,6 @@ import {
 
 export const ScoreCardListDetail = () => {
   const params = useParams()
-
-  const LIST_FILTER_STATUS = [
-    LoanApplicationStatus.ROUND_1.toLowerCase(),
-    LoanApplicationStatus.ROUND_2.toLowerCase()
-  ]
-
-  const [selectedFilterStatus, setSelectedFilterStatus] =
-    useState<LoanApplicationStatus>()
 
   // Get Application Detail
   const { data, isFetching } = useQueryScoreApplicationDetails({
@@ -79,19 +59,9 @@ export const ScoreCardListDetail = () => {
 
   const totalScore = calculateTotalScore(avgScoreRound1, avgScoreRound2)
 
-  const isSelectedRound1 =
-    selectedFilterStatus?.toUpperCase() == LoanApplicationStatus.ROUND_1
+  const ableToViewRound1 = isAbleToViewScoreRound1(statusData)
 
-  const isSelectedRound2 =
-    selectedFilterStatus?.toUpperCase() == LoanApplicationStatus.ROUND_2
-
-  const ableToViewRound1 =
-    (!selectedFilterStatus && isAbleToViewScoreRound1(statusData)) ||
-    isSelectedRound1
-
-  const ableToViewRound2 =
-    (!selectedFilterStatus && isAbleToViewScoreRound2(statusData)) ||
-    isSelectedRound2
+  const ableToViewRound2 = isAbleToViewScoreRound2(statusData)
 
   return (
     <Card className="h-fit max-h-full top-0 z-10 mb-4 flex-shrink-0 mt-6 lg:mt-0">
@@ -125,55 +95,9 @@ export const ScoreCardListDetail = () => {
         <div className="flex justify-between items-center">
           <span className="text-xs text-text-tertiary">Application Round</span>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="w-auto h-auto p-1 rounded-full"
-              >
-                <StatusRoundBadge
-                  round={
-                    (selectedFilterStatus ??
-                      statusData ??
-                      "") as LoanApplicationStatus
-                  }
-                >
-                  {capitalizeWords(
-                    snakeCaseToText(selectedFilterStatus ?? statusData ?? "")
-                  )}
-                </StatusRoundBadge>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40">
-              <DropdownMenuLabel className="text-xs">
-                Toggle filter by stage
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup
-                value={selectedFilterStatus}
-                onValueChange={(value) => {
-                  setSelectedFilterStatus((preState) =>
-                    preState === value
-                      ? undefined
-                      : (value as LoanApplicationStatus)
-                  )
-                }}
-              >
-                {LIST_FILTER_STATUS.map((filterStatus) => (
-                  <DropdownMenuRadioItem
-                    value={filterStatus}
-                    className="cursor-pointer"
-                  >
-                    <StatusRoundBadge
-                      round={(filterStatus ?? "") as LoanApplicationStatus}
-                    >
-                      {capitalizeWords(snakeCaseToText(filterStatus ?? ""))}
-                    </StatusRoundBadge>
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <StatusRoundBadge round={(statusData ?? "") as LoanApplicationStatus}>
+            {capitalizeWords(snakeCaseToText(statusData ?? ""))}
+          </StatusRoundBadge>
         </div>
 
         <Accordion

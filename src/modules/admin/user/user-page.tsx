@@ -77,7 +77,7 @@ export function Component() {
       >
         {isForesightAdmin && <UserTableHeader onSearch={handleSearch} />}
         {isLaunchKC() && isWorkspaceAdmin ? (
-          <DialogSendBulkInvite userInfos={userDetailInfos} />
+          <DialogSendBulkInvite />
         ) : (
           <DialogSendInvite />
         )}
