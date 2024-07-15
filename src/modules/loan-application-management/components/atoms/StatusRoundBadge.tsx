@@ -14,6 +14,7 @@ export const getBadgeVariantByRound = (round: LoanApplicationStatus) => {
     case LoanApplicationStatus.PENDING_SUBMISSION:
       return "bg-gray-300"
     case LoanApplicationStatus.READY_FOR_REVIEW:
+    case LoanApplicationStatus.IN_REVIEW:
       return "bg-yellow-400 bg-opacity-40"
     case LoanApplicationStatus.ELIMINATED_AFTER_INITIAL_REVIEW:
     case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_1:
@@ -26,6 +27,10 @@ export const getBadgeVariantByRound = (round: LoanApplicationStatus) => {
       return "bg-sky-200"
     case LoanApplicationStatus.ROUND_3:
       return "bg-sky-300"
+    case LoanApplicationStatus.APPROVED:
+      return "bg-green-200"
+    case LoanApplicationStatus.DENIED:
+      return "bg-red-200"
     default:
       return undefined
   }
@@ -33,11 +38,12 @@ export const getBadgeVariantByRound = (round: LoanApplicationStatus) => {
 
 export const getBadgeIconByRound = (
   round: LoanApplicationStatus
-): ((props: IconProps) => JSX.Element) => {
+): ((props: IconProps) => JSX.Element) | undefined => {
   switch (round.toUpperCase()) {
     case LoanApplicationStatus.PENDING_SUBMISSION:
       return Icons.clock
     case LoanApplicationStatus.READY_FOR_REVIEW:
+    case LoanApplicationStatus.IN_REVIEW:
     case LoanApplicationStatus.ELIMINATED_AFTER_INITIAL_REVIEW:
       return Icons.thumpsUp
     case LoanApplicationStatus.ROUND_1:
@@ -50,7 +56,7 @@ export const getBadgeIconByRound = (
     case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_3:
       return Icons.numberThreeCircle
     default:
-      return Icons.clock
+      return undefined
   }
 }
 
@@ -72,7 +78,7 @@ function StatusRoundBadge({
       )}
       {...props}
     >
-      <RoundBadgeIcon className="mr-1" />
+      {RoundBadgeIcon && <RoundBadgeIcon className="mr-1" />}
       {children}
     </div>
   )

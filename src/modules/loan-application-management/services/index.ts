@@ -81,7 +81,7 @@ const buildDecisionInfo = (
 })
 
 export const getSelectInfoByDecision = (decision?: LoanApplicationStatus) => {
-  switch (decision) {
+  switch (decision?.toUpperCase()) {
     case LoanApplicationStatus.APPROVED:
       return buildDecisionInfo(
         "green",
@@ -90,6 +90,8 @@ export const getSelectInfoByDecision = (decision?: LoanApplicationStatus) => {
       )
     case LoanApplicationStatus.DENIED:
       return buildDecisionInfo("red", "Denied", LoanApplicationStatus.DENIED)
+    case LoanApplicationStatus.ROUND_3:
+      return buildDecisionInfo("blue", "Round 3", LoanApplicationStatus.ROUND_3)
     default:
       return buildDecisionInfo("yellow", "In Review", null)
   }

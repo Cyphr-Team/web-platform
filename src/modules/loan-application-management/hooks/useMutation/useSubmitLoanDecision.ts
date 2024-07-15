@@ -12,7 +12,10 @@ import {
   LoanDecision,
   LoanDecisionResponse
 } from "../../constants/types/application"
-import { loanApplicationKeys } from "@/constants/query-key"
+import {
+  loanApplicationKeys,
+  workspaceAdminLoanApplicationScoreKeys
+} from "@/constants/query-key"
 import { QUERY_KEY } from "../../constants/query-key"
 
 export const useSubmitLoanDecision = () => {
@@ -49,6 +52,12 @@ export const useSubmitLoanDecision = () => {
       })
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_DETAILS]
+      })
+      queryClient.invalidateQueries({
+        queryKey: workspaceAdminLoanApplicationScoreKeys.lists()
+      })
+      queryClient.invalidateQueries({
+        queryKey: workspaceAdminLoanApplicationScoreKeys.detail(params.id!)
       })
     }
   })
