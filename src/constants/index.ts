@@ -41,6 +41,12 @@ export const APP_PATH = {
     },
     INDEX: "/loan",
     SUBMISSION: "/loan/submission",
+    PRE_QUALIFICATION: {
+      index: "/loan/pre-qualification",
+      detail: "/loan/pre-qualification/:loanProgramId",
+      detailWithId: (loanProgramId: string) =>
+        `/loan/pre-qualification/${loanProgramId}`
+    },
     INFORMATION: {
       detail: "/loan/loan-program/:loanProgramId/information",
       detailWithId: (loanProgramId: string) =>
@@ -203,7 +209,8 @@ export const API_PATH = {
     linkPlaidItem: "api/plaid/item/link",
     getPlaidItemIds: "api/plaid/item/list",
     getPlaidConnectedBankAccountsByApplicationId:
-      "api/plaid/item/connected-bank-accounts/by-application-id"
+      "api/plaid/item/connected-bank-accounts/by-application-id",
+    preQualification: "api/form/pre-qualification"
   },
   // For workspace admin
   loanApplicationAdmin: {

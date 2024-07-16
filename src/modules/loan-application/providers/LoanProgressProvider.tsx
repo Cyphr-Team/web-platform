@@ -32,7 +32,8 @@ export enum LOAN_PROGRESS_ACTION {
   CHANGE_PROGRESS = "CHANGE_PROGRESS",
   INIT = "INIT",
   NEXT_STEP = "NEXT_STEP",
-  REMOVE_COMPLETE = "REMOVE_COMPLETE"
+  REMOVE_COMPLETE = "REMOVE_COMPLETE",
+  BUILD_STEP = "BUILD_STEP"
 }
 
 type Action =
@@ -41,6 +42,12 @@ type Action =
   | InitAction
   | NextStepAction
   | RemoveCompleteAction
+  | BuildStepAction
+
+type BuildStepAction = {
+  type: LOAN_PROGRESS_ACTION.BUILD_STEP
+  progress: ILoanApplicationStep[]
+}
 
 type NextStepAction = {
   type: LOAN_PROGRESS_ACTION.NEXT_STEP
@@ -72,6 +79,7 @@ interface LoanApplicationStatusContext extends LoanApplicationStepsState {
   removeCompleteSpecificStep: (specificStep: LOAN_APPLICATION_STEPS) => void
   getCurrentStepIndex: () => number
   getCurrentStep: () => ILoanApplicationStep | undefined
+  buildSpecificStep: () => void
   progress: ILoanApplicationStep[]
   isInitialized: boolean
   step: LOAN_APPLICATION_STEPS
@@ -98,7 +106,6 @@ const reducer = (
         currentStepIndex + 1 < state.progress.length ? currentStepIndex + 1 : -1
 
       if (nextStepIndex === -1) return state
-
       return { ...state, step: state.progress[nextStepIndex].step }
     }
     case LOAN_PROGRESS_ACTION.CHANGE_STEP:
@@ -134,23 +141,39 @@ const reducer = (
     }
     case LOAN_PROGRESS_ACTION.INIT:
       return initSteps(action.forms)
+
+    case LOAN_PROGRESS_ACTION.BUILD_STEP: {
+      const newProgress = action.progress.filter(
+        (val) =>
+          state.progress.findIndex((item) => item.step === val.step) === -1
+      )
+      return {
+        ...state,
+        progress: state.progress.concat(newProgress)
+      }
+    }
+
     default:
       return state
   }
 }
 
+const applicationStrategy = new LoanApplicationStepStrategy(
+  getSubdomain() as Institution
+).getStrategy()
+
+const steps = applicationStrategy.getSteps()
+
 const initProgress = (forms?: FORM_TYPE[]) => {
   return formsConfigurationEnabled()
     ? new ConfigurationLoanApplicationStep(forms).getSteps()
-    : new LoanApplicationStepStrategy(getSubdomain() as Institution)
-        .getStrategy()
-        .getSteps()
+    : steps
 }
 
 const initSteps: (forms?: FORM_TYPE[]) => LoanApplicationStepsState = (
   forms
 ) => ({
-  step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+  step: steps[0].step,
   progress: initProgress(forms)
 })
 
@@ -219,6 +242,14 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
     []
   )
 
+  const buildSpecificStep = useCallback(() => {
+    applicationStrategy._buildSteps()
+    dispatchProgress({
+      type: LOAN_PROGRESS_ACTION.BUILD_STEP,
+      progress: applicationStrategy.getSteps()
+    })
+  }, [])
+
   const getCurrentStepIndex = useCallback(() => {
     return progress.findIndex((item) => item.step === step)
   }, [progress, step])
@@ -264,6 +295,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
       completeCurrentStep,
       finishCurrentStep,
       completeSpecificStep,
+      buildSpecificStep,
       removeCompleteSpecificStep
     }),
     [
@@ -271,6 +303,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
       completeCurrentStep,
       getCurrentStepIndex,
       getCurrentStep,
+      buildSpecificStep,
       isInitialized,
       percentComplete,
       finishCurrentStep,

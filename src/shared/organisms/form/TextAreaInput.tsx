@@ -1,0 +1,84 @@
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
+import { Textarea } from "@/components/ui/textarea"
+import { cn } from "@/lib/utils"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { ChangeEventHandler, FocusEventHandler } from "react"
+import { Control, FieldPath, FieldValues } from "react-hook-form"
+
+interface ITextAreaInputType<T extends FieldValues> {
+  prefix?: string
+  suffix?: string
+  required?: boolean
+  label: string
+  placeholder?: string
+  control: Control<T>
+  name: FieldPath<T>
+  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  className?: string
+  inputClassName?: string
+  subtitle?: string
+  isRowDirection?: boolean
+}
+
+export const TextAreaInput = <T extends FieldValues>(
+  props: ITextAreaInputType<T>
+) => {
+  const {
+    control,
+    name,
+    label,
+    placeholder,
+    prefix,
+    inputClassName,
+    required,
+    subtitle,
+    isRowDirection,
+    ...inputProps
+  } = props
+
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className={props.className}>
+          <FormLabel
+            className={`text-text-secondary ${
+              isRowDirection && "lg:-mt-2 font-semibold"
+            }`}
+          >
+            <label>
+              {label}
+              {required && <RequiredSymbol />}
+            </label>
+            {subtitle && (
+              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+            )}
+          </FormLabel>
+
+          <FormControl className={`${isRowDirection && "xl:-mt-4"}`}>
+            <Textarea
+              {...field}
+              {...inputProps}
+              placeholder={placeholder}
+              prefix={prefix}
+              className={cn("text-base", inputClassName)}
+            />
+          </FormControl>
+          {isRowDirection && subtitle ? (
+            <FormMessage style={{ marginTop: -1 }} />
+          ) : (
+            <FormMessage />
+          )}
+        </FormItem>
+      )}
+    />
+  )
+}

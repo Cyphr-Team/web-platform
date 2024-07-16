@@ -14,6 +14,12 @@ import { IdentityVerificationForm } from "./IdentityVerificationForm"
 import { OperatingExpensesForm } from "./OperatingExpensesForm"
 import { OwnerInformationForm } from "./OwnerInformationForm"
 import { CashFlowVerificationFormV2 } from "./v2/CashFlowVerificationForm"
+import { ProductServiceForm } from "./product-service/ProductServiceForm"
+import { BusinessModelForm } from "./business-model/BusinessModelForm"
+import { DocumentUploadsForm } from "./DocumentUploadForm"
+import { ExecutionForm } from "./execution/ExecutionForm"
+import { LaunchKCFitForm } from "./launchkc-fit/LaunchKcFitForm"
+import { MarketOpportunityForm } from "./market-opportunity/MarketOpportunityForm"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -48,6 +54,18 @@ export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
         return <OperatingExpensesForm />
       case LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION:
         return <IdentityVerificationForm />
+      case LOAN_APPLICATION_STEPS.PRODUCT_SERVICE:
+        return <ProductServiceForm />
+      case LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY:
+        return <MarketOpportunityForm />
+      case LOAN_APPLICATION_STEPS.BUSINESS_MODEL:
+        return <BusinessModelForm />
+      case LOAN_APPLICATION_STEPS.EXECUTION:
+        return <ExecutionForm />
+      case LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS:
+        return <DocumentUploadsForm />
+      case LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT:
+        return <LaunchKCFitForm />
       default:
         return null
     }

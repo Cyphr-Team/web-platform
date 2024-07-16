@@ -12,6 +12,13 @@ import { OwnerInformationForm } from "../components/organisms/loan-application-f
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 import { ReviewApplication } from "../components/organisms/loan-application-form/ReviewApplication"
 import { isEnabledBankAccountConnectionV2 } from "@/utils/feature-flag.utils"
+import { ProductServiceForm } from "../components/organisms/loan-application-form/product-service/ProductServiceForm"
+import { MarketOpportunityForm } from "../components/organisms/loan-application-form/market-opportunity/MarketOpportunityForm"
+import { BusinessModelForm } from "../components/organisms/loan-application-form/business-model/BusinessModelForm"
+import { ExecutionForm } from "../components/organisms/loan-application-form/execution/ExecutionForm"
+import { DocumentUploadsForm } from "../components/organisms/loan-application-form/DocumentUploadForm"
+import { LaunchKCFitForm } from "../components/organisms/loan-application-form/launchkc-fit/LaunchKcFitForm"
+import { PreQualificationForm } from "../components/layouts/custom/launch-kc/LaunchKCPreQualification"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -44,6 +51,20 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <IdentityVerificationForm />
       case LOAN_APPLICATION_STEPS.REVIEW_APPLICATION:
         return <ReviewApplication />
+      case LOAN_APPLICATION_STEPS.PRODUCT_SERVICE:
+        return <ProductServiceForm />
+      case LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY:
+        return <MarketOpportunityForm />
+      case LOAN_APPLICATION_STEPS.BUSINESS_MODEL:
+        return <BusinessModelForm />
+      case LOAN_APPLICATION_STEPS.EXECUTION:
+        return <ExecutionForm />
+      case LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS:
+        return <DocumentUploadsForm />
+      case LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT:
+        return <LaunchKCFitForm />
+      case LOAN_APPLICATION_STEPS.PRE_QUALIFICATION:
+        return <PreQualificationForm />
       default:
         return null
     }

@@ -241,7 +241,10 @@ export const ComponentWithProvider = () => {
               {loanProgramInfo?.isUnderConstruction ? (
                 <LoanProgramDetailUnderConstruction />
               ) : (
-                <LoanProgramDetailApply btnText={loanProgramInfo?.startBtn} />
+                <LoanProgramDetailApply
+                  className="bg-lime-300 text-black"
+                  btnText={loanProgramInfo?.startBtn}
+                />
               )}
             </div>
           </section>

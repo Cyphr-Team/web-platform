@@ -94,7 +94,8 @@ export const loanRequestFormSchema = z.object({
   id: z.string(),
   loanAmount: z.number(),
   loanTermInMonth: z.number().gt(1),
-  proposeUseOfLoan: z.string().min(1)
+  proposeUseOfLoan: z.string().min(1),
+  applicationId: z.string().optional()
 })
 
 const LoanItemFormSchema = z.object({
@@ -196,6 +197,103 @@ export const assigningJudgeFormSchema = z.object({
     label: z.string().min(1, "User email is required")
   })
 })
+export const preQualificationSchema = z.object({
+  isCompanyBasedInUs: z.boolean(),
+  foundingTeamEligibleToWorkInUs: z.boolean(),
+  isForProfitTechCompany: z.boolean(),
+  hasMvpWithRevenueUnderOneMillion: z.boolean(),
+  willingToOperateInKansasCityMo: z.string()
+})
+
+export const productServiceFormSchema = z.object({
+  id: z.string().nullable(),
+  productOrService: z.string().min(1, { message: "This field is required" }),
+  problemAddressed: z.string().min(1, { message: "This field is required" }),
+  valueProposition: z.string().min(1, { message: "This field is required" }),
+  validatedNeed: z.string().min(1, { message: "This field is required" }),
+  intellectualProperty: z.string().min(1, { message: "This field is required" })
+})
+
+export const marketOpportunityFormSchema = z.object({
+  id: z.string().nullable(),
+  marketServed: z.string().min(1, { message: "This field is required" }),
+  competitors: z.string().min(1, { message: "This field is required" }),
+  accessMarket: z.string().min(1, { message: "This field is required" })
+})
+
+export const businessModelFormSchema = z.object({
+  id: z.string().nullable(),
+  howDoYouMakeMoney: z.string().min(1, { message: "This field is required" }),
+  revenueToDate: z.string().min(1, { message: "This field is required" }),
+  revenueLastMonth: z.string().min(1, { message: "This field is required" }),
+  revenueLastYear: z.string().min(1, { message: "This field is required" }),
+  nearTermGrowthStrategy: z
+    .string()
+    .min(1, { message: "This field is required" })
+})
+
+export const executionFormSchema = z.object({
+  id: z.string().nullable(),
+  monthlyBurn: z.string().min(1, { message: "This field is required" }),
+  measureMetrics: z.string().min(1, { message: "This field is required" }),
+  latestMilestone: z.string().min(1, { message: "This field is required" }),
+  nextMilestone: z.string().min(1, { message: "This field is required" }),
+  nearTermChallenges: z.string().min(1, { message: "This field is required" }),
+  currentStage: z.string().min(1, { message: "This field is required" }),
+  supportAreas: z.array(z.string()),
+  partnerships: z.array(z.string()),
+  fundingSources: z.array(
+    z.object({
+      source: z.string().min(1, { message: "This field is required" }),
+      amount: z.string().min(1, { message: "This field is required" })
+    })
+  ),
+  founders: z.array(
+    z.object({
+      name: z.string().min(1, { message: "This field is required" }),
+      title: z.string().min(1, { message: "This field is required" }),
+      relevantExperience: z
+        .string()
+        .min(1, { message: "This field is required" }),
+      skills: z.string().min(1, { message: "This field is required" })
+    })
+  )
+})
+
+export const documentUploadsFormSchema = z.object({
+  executiveSummary: z.custom<File[]>().refine(
+    (file) => {
+      if (file?.length) {
+        return file && ACCEPTED_FILE_TYPES.includes(file[0]?.type)
+      }
+      return true
+    },
+    {
+      message: "Please choose PNG, JPG, PDF format files only"
+    }
+  ),
+  pitchDeck: z.custom<File[]>().refine(
+    (file) => {
+      if (file?.length) {
+        return file && ACCEPTED_FILE_TYPES.includes(file[0]?.type)
+      }
+      return true
+    },
+    {
+      message: "Please choose PNG, JPG, PDF format files only"
+    }
+  )
+})
+
+export const launchKcFitFormSchema = z.object({
+  id: z.string().nullable(),
+  referralSource: z.string().min(1, { message: "This field is required" }),
+  founderKcTies: z.string().min(1, { message: "This field is required" }),
+  awardImpact: z.string().min(1, { message: "This field is required" }),
+  inclusionApproach: z.string().min(1, { message: "This field is required" }),
+  prevLaunchKcApp: z.string().min(1, { message: "This field is required" }),
+  progressSinceLastApp: z.string().min(1, { message: "This field is required" })
+})
 
 export type IdentityVerificationValue = z.infer<
   ReturnType<typeof createIdentityVerificationSchema>
@@ -220,3 +318,18 @@ export type OperatingExpensesFormValue = z.infer<
 export type CashFlowFormValue = z.infer<typeof cashFlowSchema>
 
 export type AssigningJudgeFormValue = z.infer<typeof assigningJudgeFormSchema>
+export type PreQualificationFormValue = z.infer<typeof preQualificationSchema>
+
+export type ProductServiceFormValue = z.infer<typeof productServiceFormSchema>
+
+export type MarketOpportunityFormValue = z.infer<
+  typeof marketOpportunityFormSchema
+>
+
+export type BusinessModelFormValue = z.infer<typeof businessModelFormSchema>
+
+export type ExecutionFormValue = z.infer<typeof executionFormSchema>
+
+export type DocumentUploadsFormValue = z.infer<typeof documentUploadsFormSchema>
+
+export type LaunchKCFitFormValue = z.infer<typeof launchKcFitFormSchema>

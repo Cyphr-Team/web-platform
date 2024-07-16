@@ -9,13 +9,20 @@ import {
 } from "."
 import {
   BusinessFormValue,
+  BusinessModelFormValue,
   ConfirmationFormValue,
   CurrentLoansFormValue,
+  DocumentUploadsFormValue,
+  ExecutionFormValue,
   FinancialFormValue,
   IdentityVerificationValue,
+  LaunchKCFitFormValue,
   LoanRequestFormValue,
+  MarketOpportunityFormValue,
   OperatingExpensesFormValue,
   OwnerFormValue,
+  ProductServiceFormValue,
+  PreQualificationFormValue,
   ReviewApplicationValue
 } from "../constants/form"
 import { DocumentUploadedResponse } from "../constants/type"
@@ -33,11 +40,19 @@ type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.OPERATING_EXPENSES]: OperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: ConfirmationFormValue
   [LOAN_APPLICATION_STEPS.REVIEW_APPLICATION]: ReviewApplicationValue
+  [LOAN_APPLICATION_STEPS.PRODUCT_SERVICE]: ProductServiceFormValue
+  [LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY]: MarketOpportunityFormValue
+  [LOAN_APPLICATION_STEPS.BUSINESS_MODEL]: BusinessModelFormValue
+  [LOAN_APPLICATION_STEPS.EXECUTION]: ExecutionFormValue
+  [LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS]: DocumentUploadsFormValue
+  [LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT]: LaunchKCFitFormValue
+  [LOAN_APPLICATION_STEPS.PRE_QUALIFICATION]: PreQualificationFormValue
 }
 
 type LoanDocumentsState = {
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: DocumentUploadedResponse[]
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: DocumentUploadedResponse[]
+  [LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS]: DocumentUploadedResponse[]
 }
 
 interface LoanApplicationFormContext extends LoanApplicationFormState {
@@ -58,6 +73,13 @@ export type FormStateType =
   | LoanRequestFormValue
   | IdentityVerificationValue
   | ReviewApplicationValue
+  | ProductServiceFormValue
+  | MarketOpportunityFormValue
+  | BusinessModelFormValue
+  | ExecutionFormValue
+  | DocumentUploadsFormValue
+  | LaunchKCFitFormValue
+  | PreQualificationFormValue
 
 export type Action = {
   action: FORM_ACTION
@@ -71,6 +93,7 @@ type DocumentAction = {
   key:
     | LOAN_APPLICATION_STEPS.OWNER_INFORMATION
     | LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+    | LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS
 }
 
 export enum FORM_ACTION {

@@ -351,3 +351,23 @@ export interface LoanProgramFormsConfiguration {
   createdAt: string
   updatedAt: string
 }
+
+export interface PreQualificationResponse {
+  isQualified: boolean
+  applicationId: string
+  loanProgramId: string
+  isCompanyBasedInUs: boolean
+  foundingTeamEligibleToWorkInUs: boolean
+  isForProfitTechCompany: boolean
+  hasMvpWithRevenueUnderOneMillion: boolean
+  willingToOperateInKansasCityMo: string
+}
+
+export interface PreQualificationFormRequest {
+  loanProgramId: string
+  isCompanyBasedInUs: boolean
+  foundingTeamEligibleToWorkInUs: boolean
+  isForProfitTechCompany: boolean
+  hasMvpWithRevenueUnderOneMillion: boolean
+  willingToOperateInKansasCityMo: string
+}
