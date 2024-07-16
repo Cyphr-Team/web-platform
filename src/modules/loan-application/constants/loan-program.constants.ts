@@ -333,8 +333,6 @@ const SBB_LOAN_PROGRAMS: LoanProgramData[] = [
     faqs: {
       about:
         "We are a Member FDIC bank that's focused on personalized support for all our business customers, no matter how small. \nBased in Lenexa, Kansas and serving customers across the United States",
-      eligibility:
-        "Useful when you have seasonal, cyclical or fluctuating cash needs. We offer both revolving and non-revolving options with interest-only monthly payments based on a variable interest rate. Use for the purchase of inventory, covering unexpected expenses, or cash flow management.",
       types_of_business_accounts: `•	Free Business Checking
 •	High-Yield Business Savings
 •	Business Certificate of Deposit`,
@@ -347,9 +345,8 @@ const SBB_LOAN_PROGRAMS: LoanProgramData[] = [
     `
     },
     contact: {
-      mail: "placeholder@sbb.com",
-      phone: "",
-      location: ""
+      name: "Julie Moreno",
+      phone: "1-855-635-9696"
     },
     isUnderConstruction: false
   },
@@ -360,8 +357,6 @@ const SBB_LOAN_PROGRAMS: LoanProgramData[] = [
     faqs: {
       about:
         "We are a Member FDIC bank that's focused on personalized support for all our business customers, no matter how small. \nBased in Lenexa, Kansas and serving customers across the United States",
-      eligibility:
-        "Useful when you have seasonal, cyclical or fluctuating cash needs. We offer both revolving and non-revolving options with interest-only monthly payments based on a variable interest rate. Use for the purchase of inventory, covering unexpected expenses, or cash flow management.",
       collateral: "Collateral is required",
       required_documents: `    •	One form of Photo Identification such as a Driver's License or Passport
     •	Business EIN Letter
@@ -372,9 +367,8 @@ const SBB_LOAN_PROGRAMS: LoanProgramData[] = [
     `
     },
     contact: {
-      mail: "placeholder@sbb.com",
-      phone: "",
-      location: ""
+      name: "Julie Moreno",
+      phone: "1-855-635-9696"
     },
     isUnderConstruction: false
   }

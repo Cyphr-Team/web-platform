@@ -74,6 +74,7 @@ export interface LoanProgramContactData {
   phone?: string
   location?: string
   mail?: string
+  name?: string
 }
 export interface LoanProgramData {
   id: string
