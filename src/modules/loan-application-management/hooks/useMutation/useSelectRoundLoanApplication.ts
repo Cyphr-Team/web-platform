@@ -2,7 +2,8 @@ import { API_PATH } from "@/constants"
 import {
   loanApplicationKeys,
   workspaceAdminAssignJudge,
-  workspaceAdminLoanApplicationScoreKeys
+  workspaceAdminLoanApplicationScoreKeys,
+  workspaceAdminNudgeKeys
 } from "@/constants/query-key"
 import { QUERY_KEY as QUERY_KEY_DASHBOARD } from "@/modules/dashboard-v2/constants/dashboard.constants"
 import {
@@ -42,6 +43,10 @@ export const useSelectRoundLoanApplication = () => {
           workspaceAdminAssignJudge.getApplicationWithStageScoresResponse(
             params?.applicationId
           )
+      })
+
+      queryClient.invalidateQueries({
+        queryKey: workspaceAdminNudgeKeys.getActiveNudges(params?.applicationId)
       })
 
       queryClient.invalidateQueries({
