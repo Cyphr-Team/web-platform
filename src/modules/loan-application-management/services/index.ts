@@ -90,8 +90,6 @@ export const getSelectInfoByDecision = (decision?: LoanApplicationStatus) => {
       )
     case LoanApplicationStatus.DENIED:
       return buildDecisionInfo("red", "Denied", LoanApplicationStatus.DENIED)
-    case LoanApplicationStatus.ROUND_3:
-      return buildDecisionInfo("blue", "Round 3", LoanApplicationStatus.ROUND_3)
     default:
       return buildDecisionInfo("yellow", "In Review", null)
   }
