@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { DeleteUserButton } from "./DeleteUserButton"
-import { UserDetailInfo, UserRoles } from "@/types/user.type"
+import { UserDetailInfo, UserRoles, UserStatus } from "@/types/user.type"
 import { nameByRole } from "../../constants/roles.constants"
 import { useQueryListPaginateUser } from "../../hooks/useQuery/useQueryListPaginateUser"
 
@@ -13,10 +13,13 @@ export function AccessList() {
   const [users, setUsers] = useState<UserDetailInfo[]>([])
 
   useEffect(() => {
-    // Filter out applicants - only show users with roles other than "Applicant"
+    // Filter out applicants - only show users with roles other than "Applicant" and are ACTIVE
     const accessList =
       data?.data.filter(
-        (user) => user.roles[0].toLocaleUpperCase() !== UserRoles.APPLICANT
+        (user) =>
+          !user.roles.includes(
+            UserRoles.APPLICANT.toLowerCase() as UserRoles
+          ) && user.status === UserStatus.ACTIVE
       ) ?? []
     setUsers(accessList)
   }, [data?.data, isFetching])
