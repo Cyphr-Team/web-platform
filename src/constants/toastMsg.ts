@@ -160,11 +160,18 @@ export const TOAST_MSG = {
     }
   },
   workspaceAdmin: {
-    select_round_success: {
+    selectRoundSuccess: {
       title: "Application Round Selected Successfully"
     },
-    select_round_error: {
+    selectRoundError: {
       title: "Failed to Select Application Round"
+    },
+    sendNudgeSuccess: {
+      title: "Nudge Sent",
+      description: "Nudge has been sent successfully"
+    },
+    sendNudgeError: {
+      title: "Failed to Send Nudge"
     }
   }
 }

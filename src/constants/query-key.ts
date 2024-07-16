@@ -63,6 +63,12 @@ export const workspaceAdminLoanApplicationScoreKeys = {
     [...workspaceAdminLoanApplicationScoreKeys.details(), id] as const
 }
 
+export const workspaceAdminNudgeKeys = {
+  all: ["workspaceAdminNudgeKeys"] as const,
+  getActiveNudges: (applicationId: string) =>
+    [...workspaceAdminNudgeKeys.all, "activeNudges", { applicationId }] as const
+}
+
 export const loanApplicationDocumentKeys = {
   all: ["loanApplicationDocument"] as const,
   lists: () => [...loanApplicationDocumentKeys.all, "list"] as const,

@@ -333,18 +333,32 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       cell: ({ row }) => {
         const application = row.original
 
-        if (application.roundOne.judges.length == 0) return ""
+        if (
+          application.roundOne.judges == null ||
+          application.roundOne.judges?.length == 0
+        )
+          return ""
 
         const scoredcardStatus =
           getScorecardStatusByApplicationStage(application)
 
         if (scoredcardStatus.numberOfJudge == 0) return ""
 
+        const currentRoundAssignedJudges =
+          application.roundTwo.judges?.length > 0
+            ? application.roundTwo.judges
+            : application.roundOne.judges
+        const completedScorecardJudges =
+          application.roundTwo.judges?.length > 0
+            ? application.roundTwo.scoredJudges
+            : application.roundOne.scoredJudges
+
         return (
           <div className="text-center">
             <NudgeJudgesPopover
-              numberOfScoredJudge={scoredcardStatus.numberOfScoredJudge}
-              numberOfJudge={scoredcardStatus.numberOfJudge}
+              assignedJudges={currentRoundAssignedJudges}
+              completedScorecardJudges={completedScorecardJudges}
+              applicationId={application.id}
             />
           </div>
         )

@@ -62,7 +62,7 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
       {
         onSuccess: () => {
           toastSuccess({
-            title: TOAST_MSG.workspaceAdmin.select_round_success.title,
+            title: TOAST_MSG.workspaceAdmin.selectRoundSuccess.title,
             description: `Application round status has been changed to ${capitalizeWords(
               convertStatusToText(value)
             )}`
@@ -72,7 +72,7 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
         },
         onError: (e) => {
           toastError({
-            title: TOAST_MSG.workspaceAdmin.select_round_error.title,
+            title: TOAST_MSG.workspaceAdmin.selectRoundError.title,
             description:
               e.response?.data.message ??
               "Something went wrong. Please try again."

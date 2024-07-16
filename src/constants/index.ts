@@ -150,7 +150,11 @@ export const API_PATH = {
   },
   workspaceAdmin: {
     selectRoundLoanApplication: "api/workspace-admin/applications/round",
-    getAssignableList: "api/workspace-admin/judge/assignable-list"
+    getAssignableList: "api/workspace-admin/judge/assignable-list",
+    // Nudge
+    getActiveNudges: (applicationId: string) =>
+      `api/workspace-admin/loan-applications/${applicationId}/judge/active-nudges`,
+    sendNudge: `api/workspace-admin/loan-applications/judge/send-nudge`
   },
   loanProgram: {
     list: "api/user-loan/program/list",
