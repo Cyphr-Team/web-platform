@@ -2,6 +2,9 @@ import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
 import { SmartKyc } from "./persona.types"
 import { CreatePersonaInquiryRequest } from "@/types/kyc/request/CreatePersonaInquiryRequest"
+import { toastError } from "../../utils"
+import { TOAST_MSG } from "../../constants/toastMsg"
+import { getAxiosError } from "../../utils/custom-error"
 
 const PERSONA_ENDPOINTS = {
   all: "api/form/smart-kyc",
@@ -15,6 +18,12 @@ const useCreateSmartKyc = () => {
       return postRequest<typeof request, SmartKyc>({
         path: PERSONA_ENDPOINTS.createSmartKyc(),
         data: request
+      })
+    },
+    onError: (error) => {
+      toastError({
+        ...TOAST_MSG.identityVerification.createFailed,
+        description: getAxiosError(error).message
       })
     }
   })

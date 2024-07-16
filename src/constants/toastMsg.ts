@@ -86,7 +86,7 @@ export const TOAST_MSG = {
     },
     updateJudgesSuccess: {
       title: "Updated successfully",
-      description: "Updated the assigned judges successfully"
+      description: "Update the assigned judges successfully"
     },
     updateJudgesFailed: {
       title: "Updated failed",
@@ -172,6 +172,11 @@ export const TOAST_MSG = {
     },
     sendNudgeError: {
       title: "Failed to Send Nudge"
+    }
+  },
+  identityVerification: {
+    createFailed: {
+      title: "Identity Verification failed"
     }
   }
 }
