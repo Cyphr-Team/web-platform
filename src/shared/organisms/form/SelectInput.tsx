@@ -40,6 +40,7 @@ interface ISelectInputType<T extends FieldValues> {
   subtitle?: string
   isRowDirection?: boolean
   options: IOption[]
+  disabled?: boolean
 }
 
 export const SelectInput = <T extends FieldValues>(
@@ -53,7 +54,8 @@ export const SelectInput = <T extends FieldValues>(
     subtitle,
     isRowDirection,
     options,
-    inputClassName
+    inputClassName,
+    disabled
   } = props
 
   return (
@@ -83,6 +85,7 @@ export const SelectInput = <T extends FieldValues>(
                 field.onChange(value.toString())
               }}
               value={field.value}
+              disabled={disabled}
             >
               <SelectTrigger
                 className={cn(
@@ -92,7 +95,7 @@ export const SelectInput = <T extends FieldValues>(
               >
                 <SelectValue placeholder="Please select" />
               </SelectTrigger>
-              <SelectContent className="max-w-screen-sm">
+              <SelectContent className="max-w-screen-sm xl:!max-w-full">
                 {options.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     <span className="text-sm">{option.label}</span>

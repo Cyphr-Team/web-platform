@@ -50,6 +50,7 @@ import { EDecisionStatus, EPersonaStatus } from "../../../types/kyc"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 import { useQueryGetPreQualificationForm } from "../hooks/useQuery/useQueryPreQualificationForm"
+import { isLaunchKC } from "@/utils/domain.utils"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -96,7 +97,11 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     loanProgramId!
   )
 
-  const [isQualified, setIsQualified] = useState(false)
+  const [passPreQualification, setIsPassQualification] = useState(false)
+
+  // Check if the user is qualified
+  // Only check with LaunchKC
+  const isQualified = isLaunchKC() ? passPreQualification : true
 
   const loanApplicationDetailsQuery = useQueryLoanApplicationDetailsByType(
     loanApplicationId!,
@@ -179,7 +184,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
       buildSpecificStep()
 
-      setIsQualified(true)
+      setIsPassQualification(true)
     }
   }, [
     buildSpecificStep,

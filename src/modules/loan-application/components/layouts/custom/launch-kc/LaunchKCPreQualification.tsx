@@ -62,7 +62,7 @@ const options = [
       "Yes, the company and 51% of the founding team are located in Kansas City, Missouri."
   },
   {
-    value: "no_but_willing_to_relocate",
+    value: "no_but_will_change",
     label:
       "No, but I am willing to relocate the company and 51% of the founding team to Kansas City, Missouri and establish an operating presence."
   },
@@ -80,7 +80,7 @@ export const PreQualificationForm = () => {
 
   const [isQualified, setIsQualified] = useState(true)
 
-  const { dispatchFormAction, preQualification } =
+  const { dispatchFormAction, preQualification, loanRequest } =
     useLoanApplicationFormContext()
 
   const { mutate, isPending } = useSubmitPreQualificationForm()
@@ -116,8 +116,27 @@ export const PreQualificationForm = () => {
                 id: "",
                 applicationId: response.data.applicationId,
                 loanAmount: 0,
-                loanTermInMonth: 0,
+                loanTermInMonth: 1,
                 proposeUseOfLoan: "other"
+              }
+            })
+            dispatchFormAction({
+              action: FORM_ACTION.SET_DATA,
+              key: LOAN_APPLICATION_STEPS.PRE_QUALIFICATION,
+              state: {
+                isCompanyBasedInUs: form.getValues("isCompanyBasedInUs"),
+                foundingTeamEligibleToWorkInUs: form.getValues(
+                  "foundingTeamEligibleToWorkInUs"
+                ),
+                isForProfitTechCompany: form.getValues(
+                  "isForProfitTechCompany"
+                ),
+                hasMvpWithRevenueUnderOneMillion: form.getValues(
+                  "hasMvpWithRevenueUnderOneMillion"
+                ),
+                willingToOperateInKansasCityMo: form.getValues(
+                  "willingToOperateInKansasCityMo"
+                )
               }
             })
             buildSpecificStep()
@@ -159,6 +178,7 @@ export const PreQualificationForm = () => {
                           field.onChange(value === "true")
                         }}
                         value={field.value?.toString()}
+                        disabled={!!loanRequest?.applicationId?.length}
                       >
                         <SelectTrigger className="text-sm max-w-40 col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select" />
@@ -185,24 +205,27 @@ export const PreQualificationForm = () => {
               control={form.control}
               name="willingToOperateInKansasCityMo"
               options={options}
+              disabled={!!loanRequest?.applicationId?.length}
             />
-            <CustomAlertDialog
-              onConfirmed={onConfirmed}
-              actionClassName="bg-black hover:bg-black/80"
-              title="Are you sure?"
-              cancelText="Go back"
-              confirmText="Yes, submit"
-              description="Once you hit submit, you will not be able to make any changes or modify your answers."
-            >
-              <ButtonLoading
-                disabled={!form.formState.isValid}
-                variant="outline"
-                isLoading={isPending}
-                className=" text-white bg-primary hover:bg-primary/80 hover:text-white"
+            {!loanRequest?.applicationId?.length && (
+              <CustomAlertDialog
+                onConfirmed={onConfirmed}
+                actionClassName="bg-black hover:bg-black/80"
+                title="Are you sure?"
+                cancelText="Go back"
+                confirmText="Yes, submit"
+                description="Once you hit submit, you will not be able to make any changes or modify your answers."
               >
-                Submit <ArrowRight className="ml-1 w-4" />
-              </ButtonLoading>
-            </CustomAlertDialog>
+                <ButtonLoading
+                  disabled={!form.formState.isValid}
+                  variant="outline"
+                  isLoading={isPending}
+                  className=" text-white bg-primary hover:bg-primary/80 hover:text-white"
+                >
+                  Submit <ArrowRight className="ml-1 w-4" />
+                </ButtonLoading>
+              </CustomAlertDialog>
+            )}
           </form>
         </Form>
       ) : (
