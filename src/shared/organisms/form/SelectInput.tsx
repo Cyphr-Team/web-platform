@@ -16,7 +16,7 @@ import {
 import { cn } from "@/lib/utils"
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { ChangeEventHandler, FocusEventHandler } from "react"
+import { ChangeEventHandler, FocusEventHandler, ReactNode } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 type IOption = {
@@ -28,7 +28,7 @@ interface ISelectInputType<T extends FieldValues> {
   prefix?: string
   suffix?: string
   required?: boolean
-  prefixIcon?: React.ReactNode
+  prefixIcon?: ReactNode
   label: string
   placeholder?: string
   control: Control<T>

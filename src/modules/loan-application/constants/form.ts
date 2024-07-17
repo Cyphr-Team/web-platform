@@ -2,8 +2,9 @@ import * as z from "zod"
 import { REGEX_PATTERN } from "."
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import { PlaidItemInfo } from "./type"
-import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
-import { EDecisionStatus, EPersonaStatus } from "../../../types/kyc"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
+import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
+
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
@@ -64,6 +65,24 @@ export const businessFormSchema = z.object({
    * refer: EIN_PATTERN
    */
   businessTin: z.string().min(10, { message: "EIN is required" })
+})
+
+export const launchKCBusinessFormSchema = businessFormSchema.extend({
+  // in the future we should use [FIELD_NAMES.YEAR_FOUNDED] pattern instead of yearFounded
+  // it provide single truth for us to reduce unwanted error
+  yearFounded: z
+    .string()
+    .min(1, { message: "Year Founded is required" })
+    .refine((value) => parseInt(value) > 1900, { message: "Invalid year" }),
+  legalStructure: z.string().min(1, { message: "Legal Structure is required" }),
+  primaryIndustry: z
+    .string()
+    .min(1, { message: "Primary Industry is required" }),
+  primaryIndustryOther: z.string().nullable(),
+  companyDescription: z
+    .string()
+    .min(1, { message: "Company Description is required" })
+    .max(255, { message: "Company Description is too long" })
 })
 
 export const financialFormSchema = z.object({
@@ -300,6 +319,10 @@ export type IdentityVerificationValue = z.infer<
 >
 
 export type BusinessFormValue = z.infer<typeof businessFormSchema>
+
+export type LaunchKCBusinessFormValue = z.infer<
+  typeof launchKCBusinessFormSchema
+>
 
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
 

@@ -8,6 +8,8 @@ import {
   PreQualificationFormRequest,
   PreQualificationResponse
 } from "../../constants/type"
+import { toastError } from "@/utils"
+
 export const useSubmitPreQualificationForm = () => {
   return useMutation<
     AxiosResponse<PreQualificationResponse>,
@@ -20,6 +22,9 @@ export const useSubmitPreQualificationForm = () => {
         data,
         customHeader: customRequestHeader.customHeaders
       })
+    },
+    onError: (error) => {
+      toastError({ title: "Something went wrong!", description: error.message })
     }
   })
 }

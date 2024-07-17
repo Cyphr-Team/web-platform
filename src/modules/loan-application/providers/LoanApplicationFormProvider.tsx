@@ -16,13 +16,14 @@ import {
   ExecutionFormValue,
   FinancialFormValue,
   IdentityVerificationValue,
+  LaunchKCBusinessFormValue,
   LaunchKCFitFormValue,
   LoanRequestFormValue,
   MarketOpportunityFormValue,
   OperatingExpensesFormValue,
   OwnerFormValue,
-  ProductServiceFormValue,
   PreQualificationFormValue,
+  ProductServiceFormValue,
   ReviewApplicationValue
 } from "../constants/form"
 import { DocumentUploadedResponse } from "../constants/type"
@@ -31,7 +32,9 @@ import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 
 type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
-  [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: BusinessFormValue
+  [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]:
+    | BusinessFormValue
+    | LaunchKCBusinessFormValue
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: OwnerFormValue
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: FinancialFormValue
   [LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]: FinancialFormValue

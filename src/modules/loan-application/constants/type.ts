@@ -11,6 +11,12 @@ export interface KYBInformation {
   businessStreetAddress: BusinessStreetAddress
   businessWebsite?: string
   businessTin: string
+  yearFounded?: string
+  // field for launchKC
+  legalStructure?: string
+  primaryIndustry?: string
+  primaryIndustryOther?: string
+  companyDescription?: string
 }
 
 export interface KYBInformationResponse {
@@ -22,6 +28,12 @@ export interface KYBInformationResponse {
   businessTin: string
   createdAt: string
   updatedAt: string
+  // field for launchKC
+  yearFounded?: string
+  legalStructure?: string
+  primaryIndustry?: string
+  primaryIndustryOther?: string
+  companyDescription?: string
 }
 
 export interface BusinessStreetAddress {
@@ -76,6 +88,7 @@ export interface LoanProgramContactData {
   mail?: string
   name?: string
 }
+
 export interface LoanProgramData {
   id: string
   type: string
@@ -337,6 +350,7 @@ export const OPERATING_EXPENSES_FIELD_DATA: OperatingExpensesFieldDataType = [
     subtitle: "Expenses not already captured in the above categories"
   }
 ]
+
 export interface PlaidItemInfo {
   plaidAccessToken: string
   itemId: string

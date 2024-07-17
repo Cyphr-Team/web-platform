@@ -19,18 +19,24 @@ import { ExecutionForm } from "../components/organisms/loan-application-form/exe
 import { DocumentUploadsForm } from "../components/organisms/loan-application-form/DocumentUploadForm"
 import { LaunchKCFitForm } from "../components/organisms/loan-application-form/launchkc-fit/LaunchKcFitForm"
 import { PreQualificationForm } from "../components/layouts/custom/launch-kc/LaunchKCPreQualification"
+import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
+import { isLaunchKC } from "@/utils/domain.utils.ts"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
  * Also remember to update the ReviewApplicationStep
  */
 export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
-  const componentStep = useMemo(() => {
+  return useMemo(() => {
     switch (step) {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
         return <LoanRequest />
       case LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION:
-        return <BusinessInformationForm />
+        return isLaunchKC() ? (
+          <LaunchKCBusinessInformationForm />
+        ) : (
+          <BusinessInformationForm />
+        )
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
@@ -69,6 +75,4 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return null
     }
   }, [step])
-
-  return componentStep
 }
