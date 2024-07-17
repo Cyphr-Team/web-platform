@@ -158,24 +158,32 @@ const reducer = (
   }
 }
 
-const applicationStrategy = new LoanApplicationStepStrategy(
-  getSubdomain() as Institution
-).getStrategy()
-
-const steps = applicationStrategy.getSteps()
+/**
+ * The init progress should be worked lazy
+ * The init progress should be inside a component life-cycle to get all the feature as a component did
+ * E.g features - Feature flag.
+ */
+const getApplicationStrategy = () =>
+  new LoanApplicationStepStrategy(getSubdomain() as Institution).getStrategy()
 
 const initProgress = (forms?: FORM_TYPE[]) => {
   return formsConfigurationEnabled()
     ? new ConfigurationLoanApplicationStep(forms).getSteps()
-    : steps
+    : new LoanApplicationStepStrategy(getSubdomain() as Institution)
+        .getStrategy()
+        .getSteps()
 }
 
 const initSteps: (forms?: FORM_TYPE[]) => LoanApplicationStepsState = (
   forms
-) => ({
-  step: steps[0].step,
-  progress: initProgress(forms)
-})
+) => {
+  const steps = initProgress(forms)
+
+  return {
+    step: steps[0].step,
+    progress: steps
+  }
+}
 
 export const LoanProgressContext = createContext<LoanApplicationStatusContext>(
   initSteps() as LoanApplicationStatusContext
@@ -243,7 +251,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
   )
 
   const buildSpecificStep = useCallback(() => {
-    applicationStrategy._buildSteps()
+    const applicationStrategy = getApplicationStrategy()._buildSteps()
     dispatchProgress({
       type: LOAN_PROGRESS_ACTION.BUILD_STEP,
       progress: applicationStrategy.getSteps()
