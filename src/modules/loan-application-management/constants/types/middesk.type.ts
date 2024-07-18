@@ -1,23 +1,6 @@
 import { ReactNode } from "react"
-import {
-  BusinessRegistrationSource,
-  SourceStatus,
-  TaskFieldStatus
-} from "./business.type"
-import { KYC_STATUS } from "./kyc"
-import { IdentityVerificationStatus } from "./smart-kyc"
-
-/* ----- ENUM -----
- * InsightStatusc
- */
-
-type InsightStatus =
-  | KYC_STATUS
-  | TaskFieldStatus
-  | SourceStatus
-  | IdentityVerificationStatus
-
-export type { InsightStatus }
+import { BusinessRegistrationSource } from "./business.type"
+import { InsightStatus } from "./insight.type"
 
 /* ----- Type -----
  * MiddeskTableContentReport

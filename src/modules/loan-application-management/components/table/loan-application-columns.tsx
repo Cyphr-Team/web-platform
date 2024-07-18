@@ -23,16 +23,16 @@ import { IWorkspaceAdminApplicationScore } from "@/types/application/application
 import { IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
 import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
 import { format } from "date-fns"
+import { AssigningJudgeRow } from "../../../loan-application/components/organisms/application-assigning/AssigningJudgeRow"
+import { LoanStage } from "../../constants/types/application"
 import { getScorecardStatusByApplicationStage } from "../../services/score.service"
 import { ButtonReviewLoanApplication } from "../atoms/ButtonReviewLoanApplication"
 import { ButtonViewDetailLoanApplication } from "../atoms/ButtonViewDetailLoanApplication"
+import { CustomJudgeAvatar, ToolTipJudgeAvatar } from "../atoms/JudgeAvatar"
 import { ScoreBadge } from "../atoms/ScoreBadge"
-import { ScoredBadgeStatus } from "../atoms/ScoredBadgeStatus"
+import { ScoredBadgeStatusWithTooltip } from "../atoms/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../atoms/StatusRoundBadge"
 import { ApplicationRoundSelectionPopover } from "../organisms/ApplicationRoundSelectionPopover"
-import { AssigningJudgeRow } from "../../../loan-application/components/organisms/application-assigning/AssigningJudgeRow"
-import { LoanStage } from "../../constants/types/application"
-import { CustomJudgeAvatar, ToolTipJudgeAvatar } from "../atoms/JudgeAvatar"
 import { NudgeJudgesPopover } from "../organisms/NudgeJudgesPopover"
 
 export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
@@ -450,7 +450,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
   IJudgeLoanApplicationResponse<ILaunchKCApplicationScore>
 >[] = [
   {
-    id: "select",
+    id: "applicationIdNumber",
     header: ({ column }) => (
       <FilterableColumnHeader column={column} title="ID" />
     ),
@@ -465,7 +465,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
     size: 80
   },
   {
-    id: "companyName",
+    id: "businessName",
     header: ({ column }) => (
       <FilterableColumnHeader column={column} title="Company Name" />
     ),
@@ -480,7 +480,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
     size: 200
   },
   {
-    id: "round",
+    id: "applicationCaptureStage",
     header: ({ column }) => (
       <FilterableColumnHeader column={column} title="Round" />
     ),
@@ -498,7 +498,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
     size: 150
   },
   {
-    id: "scoredcard",
+    id: "scoredAt",
     header: ({ column }) => (
       <FilterableColumnHeader column={column} title="Scorecard Status" />
     ),
@@ -507,7 +507,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
 
       return (
         <div className="text-center">
-          <ScoredBadgeStatus
+          <ScoredBadgeStatusWithTooltip
             loanApplicationId={app?.application?.id}
             loanProgramType={app?.application?.programType}
             scoredAt={app?.scoredAt}

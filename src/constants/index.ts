@@ -210,7 +210,14 @@ export const API_PATH = {
     getPlaidItemIds: "api/plaid/item/list",
     getPlaidConnectedBankAccountsByApplicationId:
       "api/plaid/item/connected-bank-accounts/by-application-id",
-    preQualification: "api/form/pre-qualification"
+    preQualification: {
+      index: "api/form/pre-qualification",
+      detail: "api/form/pre-qualification/by-application-id"
+    },
+    productServiceForm: {
+      all: "api/form/product-service",
+      detail: "api/form/product-service/by-application-id"
+    }
   },
   // For workspace admin
   loanApplicationAdmin: {
@@ -375,6 +382,7 @@ export const phoneRegex =
 
 export const SSN_PATTERN = "000-00-0000"
 export const EIN_PATTERN = "00-0000000"
+export const YEAR_PATTERN = "0000"
 
 export interface QueryResponse<T> {
   data: T

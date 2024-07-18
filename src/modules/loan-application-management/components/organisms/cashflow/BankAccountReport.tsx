@@ -3,9 +3,9 @@ import { toCurrency } from "@/utils"
 import { AccountSummaryType } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 import { Badge } from "@/components/ui/badge"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { InformationRow } from "../../atoms/InformationRow"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 
 type Props = {
   data: AccountSummaryType

@@ -1,4 +1,4 @@
-import { InsightStatus } from "./types/middesk.type"
+import { InsightStatus } from "./types/insight.type"
 
 export type Verification = {
   value: string

@@ -2,10 +2,9 @@ import { Column } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import {
-  DropdownMenu,
-  DropdownMenuTrigger
-} from "@radix-ui/react-dropdown-menu"
+
+import { SortOrder } from "@/types/common.type"
+import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react"
 
 interface IFilterableColumn<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -17,7 +16,8 @@ interface IFilterableColumn<TData, TValue>
 export function FilterableColumnHeader<TData, TValue>({
   title,
   className,
-  disabled
+  disabled,
+  column
 }: IFilterableColumn<TData, TValue>) {
   if (disabled)
     return (
@@ -26,21 +26,32 @@ export function FilterableColumnHeader<TData, TValue>({
       </div>
     )
 
+  const toggleSorting = () => column.toggleSorting()
+
+  const sortIcon = () => {
+    switch (column.getIsSorted()) {
+      case SortOrder.ASC.toLowerCase():
+        return <ChevronUp className="ml-2 h-4 w-4" />
+      case SortOrder.DESC.toLowerCase():
+        return <ChevronDown className="ml-2 h-4 w-4" />
+      default:
+        return <ChevronsUpDown className="ml-2 h-4 w-4" />
+    }
+  }
+
   return (
     <div
       className={cn("flex items-center justify-center space-x-2", className)}
     >
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 data-[state=open]:bg-accent cursor-default text-black"
-          >
-            <span>{title}</span>
-          </Button>
-        </DropdownMenuTrigger>
-      </DropdownMenu>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-8 data-[state=open]:bg-accent text-black"
+        onClick={toggleSorting}
+      >
+        <span>{title}</span>
+        {sortIcon()}
+      </Button>
     </div>
   )
 }

@@ -67,7 +67,6 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
               convertStatusToText(value)
             )}`
           })
-          setSelectedStatus(value)
           setOpen(false)
         },
         onError: (e) => {
@@ -83,15 +82,14 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
   }
 
   const [open, setOpen] = React.useState(false)
-  const [selectedStatus, setSelectedStatus] = React.useState(roundStatus)
 
   return (
     <div className="flex items-center justify-center space-x-4">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button className="bg-transparent hover:bg-transparent">
-            <StatusRoundBadge round={selectedStatus}>
-              {capitalizeWords(convertStatusToText(selectedStatus))}
+            <StatusRoundBadge round={roundStatus}>
+              {capitalizeWords(convertStatusToText(roundStatus))}
             </StatusRoundBadge>
           </Button>
         </PopoverTrigger>
@@ -126,7 +124,7 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
                     }}
                   >
                     <Checkbox
-                      checked={_.eq(selectedStatus?.toUpperCase(), status)}
+                      checked={_.eq(roundStatus?.toUpperCase(), status)}
                       className=" h-5 w-5 data-[state=checked]:bg-gray-600 border-gray-300 border-2"
                     />
                     <StatusRoundBadge round={status}>

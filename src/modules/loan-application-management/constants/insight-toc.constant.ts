@@ -7,7 +7,8 @@ export const INSIGHT_TOC = {
   watchLists: "Watchlists",
   industryClassification: "Industry-Classification",
   bankruptcies: "Bankruptcies",
-  website: "Website"
+  website: "Website",
+  adverseMedia: "Adverse Media"
 }
 
 export const INSIGHT_IDENTITY_VERIFICATION_TOC = {

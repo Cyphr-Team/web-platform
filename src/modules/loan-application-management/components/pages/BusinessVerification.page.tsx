@@ -15,8 +15,9 @@ import {
   isEnableKYBV2
 } from "@/utils/feature-flag.utils"
 import { ScoreCardListDetail } from "../organisms/ScoreCardListDetail"
-import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
-import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
+import { IndustryClassification } from "../../../loan-application/components/organisms/Middesk/IndustryClassification.tsx"
+import { Website } from "../../../loan-application/components/organisms/Middesk/Website.tsx"
+import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia"
 
 export const Component = () => {
   const isJudge = checkIsJudge()
@@ -36,6 +37,7 @@ export const Component = () => {
         {isEnableKYBV2() && <IndustryClassification />}
         <Bankruptcy />
         {isEnableKYBV2() && <Website />}
+        {isEnableKYBV2() && <AdverseMedia />}
       </div>
 
       {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}

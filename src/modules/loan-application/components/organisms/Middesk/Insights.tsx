@@ -6,7 +6,7 @@ import { TaskFieldStatus } from "@/modules/loan-application-management/constants
 import { useMemo } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
-import { isEnableKYBV2 } from "@/utils/feature-flag.utils.ts"
+import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 
 export const Insights = () => {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
@@ -112,12 +112,13 @@ export const Insights = () => {
         />
         {isEnableKYBV2() && (
           <InsightItem
-            title="Website"
-            status={insights?.website?.status}
-            label={insights?.website?.subLabel}
-            toolTipContent={insights?.website?.message}
-            href={INSIGHT_TOC.website}
+            title="Adverse Media"
+            status={insights?.adverseMedia?.status}
+            label={insights?.adverseMedia?.subLabel}
+            toolTipContent={insights?.adverseMedia?.message}
+            href={INSIGHT_TOC.adverseMedia}
             isLoading={isLoading}
+            noBorder
           />
         )}
       </CardContent>

@@ -3,6 +3,7 @@ import { APP_PATH } from "@/constants"
 import { KybDetailLiensData } from "./type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { AccountSummaryType, TRANSACTION_TAG } from "./types/cashflow.type"
+import { LoanApplicationStage } from "@/types/application/application-stage.type"
 
 export enum ApplicationMenuName {
   business = "Business Verification",
@@ -120,6 +121,16 @@ export const LOAN_STATUS: Option[] = [
   { label: "Approved", value: LoanApplicationStatus.APPROVED },
   { label: "Denied", value: LoanApplicationStatus.DENIED },
   { label: "Canceled", value: LoanApplicationStatus.CANCELLED }
+]
+
+export const ASSIGNABLE_STAGE: Option[] = [
+  { label: "Round 1", value: LoanApplicationStage.ROUND_1 },
+  { label: "Round 2", value: LoanApplicationStage.ROUND_2 }
+]
+
+export const SCORED_STATUS: Option[] = [
+  { label: "Incomplete scorecard", value: "false" },
+  { label: "Scorecard Submitted", value: "true" }
 ]
 
 export const LOAN_PRODUCTS: Option[] = [{ label: "Micro Loan", value: "MICRO" }]

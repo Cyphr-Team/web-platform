@@ -7,9 +7,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
 import { DateHeader } from "./DateHeader"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
-import { InsightStatus } from "../../../../loan-application-management/constants/types/middesk.type"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
+import { InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
 
 const columns: ColumnDef<BusinessTinDetail & { status?: InsightStatus }>[] = [
   {

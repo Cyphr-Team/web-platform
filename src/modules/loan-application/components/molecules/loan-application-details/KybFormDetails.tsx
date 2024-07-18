@@ -5,6 +5,7 @@ import { KYBInformationResponse } from "@/modules/loan-application/constants/typ
 import { toPattern } from "@/components/ui/mask-input"
 import { EIN_PATTERN } from "@/constants"
 import { Separator } from "@/components/ui/separator"
+import React from "react"
 
 interface KybFormDetailsProps {
   kybFormData?: KYBInformationResponse
@@ -17,44 +18,82 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
-      <div className="grid grid-cols-3 gap-y-2xl gap-x-4xl">
+      <div className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
         <TextInputDisplay
-          className="col-span-3"
+          className="col-span-12"
           label="Business Legal Name"
           value={kybFormData?.businessLegalName}
         />
         <TextInputDisplay
-          className="col-span-3"
+          className="col-span-12"
           label="Business Street Address Line #1"
           value={kybFormData?.businessStreetAddress.addressLine1}
         />
         <TextInputDisplay
-          className="col-span-3"
+          className="col-span-12"
           label="Business Street Address Line #2"
           value={kybFormData?.businessStreetAddress.addressLine2}
         />
         <TextInputDisplay
+          className="col-span-4"
           label="Business City"
           value={kybFormData?.businessStreetAddress.city}
         />
         <TextInputDisplay
+          className="col-span-4"
           label="Business State"
           value={getStateName(kybFormData?.businessStreetAddress.state ?? "")}
         />
         <TextInputDisplay
+          className="col-span-4"
           label="Business Zip Code"
           value={kybFormData?.businessStreetAddress.postalCode}
         />
         <TextInputDisplay
           label="Employer Identification Number (EIN)"
           value={toPattern(kybFormData?.businessTin ?? "", EIN_PATTERN)}
-          className="col-span-3"
+          className="col-span-5"
         />
+        {kybFormData?.yearFounded && (
+          <TextInputDisplay
+            label="Year Founded"
+            value={kybFormData.yearFounded}
+            className="col-span-3"
+          />
+        )}
+        {kybFormData?.legalStructure && (
+          <TextInputDisplay
+            label="Legal Structure"
+            value={kybFormData.legalStructure}
+            className="col-span-4"
+          />
+        )}
         <TextInputDisplay
           label="Business Website"
           value={kybFormData?.businessWebsite}
-          className="col-span-3"
+          className="col-span-12"
         />
+        {kybFormData?.primaryIndustry && (
+          <TextInputDisplay
+            label="Primary Industry"
+            value={kybFormData.primaryIndustry}
+            className="col-span-6"
+          />
+        )}
+        {kybFormData?.primaryIndustryOther && (
+          <TextInputDisplay
+            label="Primary Industry (Other)"
+            value={kybFormData.primaryIndustryOther}
+            className="col-span-6"
+          />
+        )}
+        {kybFormData?.companyDescription && (
+          <TextInputDisplay
+            label="Describe your company in one sentence"
+            value={kybFormData.companyDescription}
+            className="col-span-12"
+          />
+        )}
       </div>
     </Card>
   )

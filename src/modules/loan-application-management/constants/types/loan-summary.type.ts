@@ -8,7 +8,8 @@ import {
   KYCInformationResponse,
   OperatingExpensesInformationResponse
 } from "@/modules/loan-application/constants/type"
-import { InsightStatus } from "./middesk.type"
+import { ProductServiceFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/type"
+import { InsightStatus } from "./insight.type"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -36,6 +37,7 @@ type LoanSummary = {
   kycForm?: KYCInformationResponse
   currentLoanForms?: CurrentLoanInformationResponse[]
   operatingExpensesForm?: OperatingExpensesInformationResponse
+  productServiceForm?: ProductServiceFormResponse
   confirmationForm?: ConfirmationFormResponse
 } & Pick<LoanApplicationsKyc, "personalInfo" | "idCheck" | "checkLists">
 

@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
@@ -29,6 +28,7 @@ import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/v2/Conn
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { toastError } from "@/utils"
 import { useUpdateEffect } from "react-use"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {

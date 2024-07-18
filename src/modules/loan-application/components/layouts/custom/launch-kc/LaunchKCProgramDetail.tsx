@@ -15,6 +15,147 @@ import { LoanProgramDetailUnderConstruction } from "../../../organisms/loan-prog
 import { LoanProgramDetailWelcomeLine } from "../../../organisms/loan-program-detail/LoanProgramDetailWelcomeLine"
 import { sanitizeDOM } from "@/utils/file.utils"
 
+const ELEMENTS_TYPE = {
+  title: "title",
+  text: "text",
+  list: "list"
+}
+
+type Element = {
+  type: string
+  content: string | string[]
+  size?: string
+}
+
+const loanProgramText: Element[] = [
+  {
+    type: ELEMENTS_TYPE.title,
+    content: "About",
+    size: "3xl"
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "We believe the promise of tomorrow starts with championing the people building it today. At LaunchKC, we look for companies that are:"
+  },
+  {
+    type: ELEMENTS_TYPE.list,
+    content: [
+      "Founders with pre-seed and seed stage companies",
+      "Companies with an innovative and scalable business model",
+      "Technology-enabled solutions",
+      "Diverse founder teams with a desire to help Kansas City’s ecosystem grow",
+      "A strong desire to grow your business in Kansas City"
+    ]
+  },
+  {
+    type: ELEMENTS_TYPE.title,
+    content: "Funding & Support",
+    size: "3xl"
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "For nearly a decade, LaunchKC has provided early-stage startups with the tools, resources, capital, and talent they need to thrive and grow. If you are accepted into the 2025 LaunchKC Grants Program cohort, you will receive:"
+  },
+  {
+    type: ELEMENTS_TYPE.list,
+    content: [
+      "$55,000 in equity-free funding",
+      "Mentorship and networking opportunities",
+      "Customized educational programming",
+      "Support with office space in Downtown Kansas City for the year"
+    ]
+  },
+  {
+    type: ELEMENTS_TYPE.title,
+    content: "Eligibility Requirements",
+    size: "3xl"
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "We believe the promise of tomorrow starts with championing the people building it today. At LaunchKC, we look for companies that are:"
+  },
+  {
+    type: ELEMENTS_TYPE.list,
+    content: [
+      "U.S.-based, for-profit, pre-seed, and seed-stage with under $1 million in revenue",
+      "Creating technology-enabled products or services with at least an MVP",
+      "Innovative with a scalable business model",
+      "Created with diversity and inclusion in mind",
+      "Willing to locate their business headquarters, significant operations, and 51% of the founding team in Kansas City, Missouri for at least one year"
+    ]
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "To be considered, please complete the application in its entirety by September 16, 2024."
+  },
+  {
+    type: ELEMENTS_TYPE.title,
+    content: "Selection Process and Timeline:"
+  },
+  {
+    type: ELEMENTS_TYPE.list,
+    content: [
+      "Application Period: August 14th - September 16th, 2024",
+      "Initial Review for Eligibility: September",
+      "Round 1 Application Review: September - October",
+      "Round 2: Second Application Review: October",
+      "Round 3: In-person Interview: Week of October 28th",
+      "Winners Notified: Early November",
+      "Winners Announced: November 19th at LaunchKC event",
+      "Program Year: January 2025 - December 2025"
+    ]
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "Please note, in-person attendance is required for Round 3 interviews the week of October 28th, the LaunchKC event on November 19th, and quarterly programming events throughout 2025."
+  },
+  {
+    type: ELEMENTS_TYPE.title,
+    content: "Application Requirements"
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "We have partnered with Cyphr to ensure a secure and efficient application submission experience."
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content: "To submit your application, you will need to:"
+  },
+  {
+    type: ELEMENTS_TYPE.list,
+    content: [
+      "Upload a pitch deck",
+      "Upload a photo of your ID to verify your identity",
+      "Connect your business bank account"
+    ]
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "Cyphr ensures the confidentiality and security of your personal information. Access to your financial data is limited to LaunchKC’s administrative staff and will not be sold to third parties. Cyphr employs robust security measures, including encryption, secure servers, and access controls, to protect your data from unauthorized access, alteration, disclosure, or destruction."
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "To process your application, Cyphr may share your data with trusted third-party vendors who assist with application processing, legal diligence, identity verification, and customer support. You have the right to access or delete your personal information, and to object to or restrict its processing. For any inquiries or to exercise these rights, please contact us or the Cyphr team at support@cyphrai.com."
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content:
+      "Only complete applications submitted by 11:59 PM EST on September 16, 2024, will be considered."
+  },
+  {
+    type: ELEMENTS_TYPE.text,
+    content: "We look forward to your application!"
+  }
+]
+
 export const ComponentWithProvider = () => {
   const { loanProgramInfo, isLoading, loanProgramDetails } =
     useLoanProgramDetailContext()
@@ -29,129 +170,6 @@ export const ComponentWithProvider = () => {
       buildIds(CustomLabelKey.documentDetail, loanProgramDetails?.id)
     )
   })
-
-  const ELEMENTS_TYPE = {
-    title: "title",
-    text: "text",
-    list: "list"
-  }
-
-  type Element = {
-    type: string
-    content: string | string[]
-    size?: string
-  }
-
-  const loanProgramText: Element[] = [
-    {
-      type: ELEMENTS_TYPE.title,
-      content: "About",
-      size: "3xl"
-    },
-    {
-      type: ELEMENTS_TYPE.text,
-      content:
-        "We believe the promise of tomorrow starts with championing the people building it today. At LaunchKC, we look for companies that are:"
-    },
-    {
-      type: ELEMENTS_TYPE.list,
-      content: [
-        "Founders with pre-seed and seed stage companies",
-        "Companies with an innovative and scalable business model",
-        "Technology-enabled solutions",
-        "Diverse founder teams with a desire to help Kansas City’s ecosystem grow",
-        "A strong desire to grow your business in Kansas City"
-      ]
-    },
-    {
-      type: ELEMENTS_TYPE.title,
-      content: "Funding & Support",
-      size: "3xl"
-    },
-    {
-      type: ELEMENTS_TYPE.text,
-      content:
-        "For nearly a decade, LaunchKC has given early-stage startups the tools, resources, capital, and talent they need to thrive and grow. Each year, our grant recipients receive a share of a $500,000 investment and also receive:"
-    },
-    {
-      type: ELEMENTS_TYPE.list,
-      content: [
-        "One-on-one mentorship with industry experts",
-        "Curated programming, fundraising support, and access to the LaunchKC network",
-        "Free office space in Downtown Kansas City"
-      ]
-    },
-    {
-      type: ELEMENTS_TYPE.title,
-      content: "Eligibility Requirements",
-      size: "3xl"
-    },
-    {
-      type: ELEMENTS_TYPE.text,
-      content:
-        "Thank you for your interest in applying to the 2024 LaunchKC Grants Program! To be considered, please complete the application in its entirety by <strong>September 16, 2024</strong>."
-    },
-    {
-      type: ELEMENTS_TYPE.title,
-      content: "Awardees will receive:",
-      size: "3xl"
-    },
-    {
-      type: ELEMENTS_TYPE.list,
-      content: [
-        "$50,000 in equity-free funding",
-        "Office space in Downtown Kansas City",
-        "Customized quarterly programming",
-        "Mentorship and networking opportunities"
-      ]
-    },
-    {
-      type: ELEMENTS_TYPE.title,
-      content: "Eligibility Criteria:",
-      size: "3xl"
-    },
-    {
-      type: ELEMENTS_TYPE.list,
-      content: [
-        "Must be a for-profit entity",
-        "Provide a technology-based product, service, or solution",
-        "Have a scalable business model",
-        "Be an early-stage company (validated idea stage through seed stage funding; less than $1 million in revenue)",
-        "Be a US based company",
-        "Willing to relocate to Kansas City, Missouri for at least one year. This includes business headquarters, significant operations, and 51% of the founding team (or 1 Founder and 51% of the team). Your HQ must be within Kansas City county lines."
-      ]
-    },
-    {
-      type: ELEMENTS_TYPE.title,
-      content: "Selection Process and Timeline:"
-    },
-    {
-      type: ELEMENTS_TYPE.list,
-      content: [
-        "Initial Review for Eligibility (September)",
-        "Round 1: Application Review (September - October)",
-        "Round 2: Second Application Review (October)",
-        "Round 3: In-person Interview (Week of October 30th)",
-        "Winners notified (Early November)",
-        "Winners announced to public at LaunchKC event (November 14th)",
-        "Program year runs January 2024 - December 2024"
-      ]
-    },
-    {
-      type: ELEMENTS_TYPE.title,
-      content: "Important Notes:"
-    },
-    {
-      type: ELEMENTS_TYPE.list,
-      content: [
-        "In-person participation is required for Round 3 interviews the week of October 28th, the LaunchKC event on November 19th, and quarterly programming events throughout 2025.",
-        "The application consists of multiple choice, short answer, and short essay questions. All questions are required.",
-        "You will need to upload a one-page executive summary and a pitch deck.",
-        "Ensure you have your driver’s license or government ID and access to your bank statements.",
-        "Only complete applications submitted by 11:59 PM EST on September 16, 2024 will be considered."
-      ]
-    }
-  ]
 
   const renderElement = (element: Element) => {
     switch (element.type) {
@@ -174,7 +192,7 @@ export const ComponentWithProvider = () => {
         )
       case ELEMENTS_TYPE.list:
         return (
-          <ul className="list-disc list-inside text-lg whitespace-pre-wrap">
+          <ul className="list-disc list-inside text-lg whitespace-pre-wrap pl-8">
             {Array.isArray(element.content) &&
               element.content.map((item, index) => <li key={index}>{item}</li>)}
           </ul>
@@ -242,7 +260,7 @@ export const ComponentWithProvider = () => {
                 <LoanProgramDetailUnderConstruction />
               ) : (
                 <LoanProgramDetailApply
-                  className="bg-lime-300 text-black"
+                  className="bg-lime-400 text-black hover:bg-lime-300"
                   btnText={loanProgramInfo?.startBtn}
                 />
               )}

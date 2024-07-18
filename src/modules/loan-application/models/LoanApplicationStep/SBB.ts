@@ -21,9 +21,9 @@ export class SBBLoanApplicationStep
       ._build_CurrentLoansStep()
       ._build_OperatingExpensesStep()
 
-    if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
-
     if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
+
+    if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
 
     return this._build_ConfirmationStep()
   }

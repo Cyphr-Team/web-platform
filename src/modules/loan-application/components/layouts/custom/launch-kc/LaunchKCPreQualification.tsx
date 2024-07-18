@@ -29,11 +29,11 @@ import {
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
 import { useSubmitPreQualificationForm } from "@/modules/loan-application/hooks/useForm/useSubmitPreQualificationForm"
-import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { useParams } from "react-router-dom"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
+import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 
 const questions = [
   {
@@ -80,7 +80,7 @@ export const PreQualificationForm = () => {
 
   const [isQualified, setIsQualified] = useState(true)
 
-  const { dispatchFormAction, preQualification, loanRequest } =
+  const { dispatchFormAction, preQualification } =
     useLoanApplicationFormContext()
 
   const { mutate, isPending } = useSubmitPreQualificationForm()
@@ -89,6 +89,7 @@ export const PreQualificationForm = () => {
     resolver: zodResolver(preQualificationSchema),
     mode: "onChange",
     defaultValues: {
+      applicationId: preQualification?.applicationId ?? "",
       isCompanyBasedInUs: preQualification?.isCompanyBasedInUs,
       foundingTeamEligibleToWorkInUs:
         preQualification?.foundingTeamEligibleToWorkInUs,
@@ -96,11 +97,12 @@ export const PreQualificationForm = () => {
       hasMvpWithRevenueUnderOneMillion:
         preQualification?.hasMvpWithRevenueUnderOneMillion,
       willingToOperateInKansasCityMo:
-        preQualification?.willingToOperateInKansasCityMo
+        preQualification?.willingToOperateInKansasCityMo?.toLowerCase()
     }
   })
 
-  const onConfirmed = () => {
+  // TODO: hide these complex logic like onSuccess into hooks
+  const onConfirmed = useCallback(() => {
     mutate(
       {
         ...form.getValues(),
@@ -124,6 +126,7 @@ export const PreQualificationForm = () => {
               action: FORM_ACTION.SET_DATA,
               key: LOAN_APPLICATION_STEPS.PRE_QUALIFICATION,
               state: {
+                applicationId: response.data.applicationId,
                 isCompanyBasedInUs: form.getValues("isCompanyBasedInUs"),
                 foundingTeamEligibleToWorkInUs: form.getValues(
                   "foundingTeamEligibleToWorkInUs"
@@ -147,7 +150,14 @@ export const PreQualificationForm = () => {
         }
       }
     )
-  }
+  }, [
+    buildSpecificStep,
+    dispatchFormAction,
+    finishCurrentStep,
+    form,
+    loanProgramId,
+    mutate
+  ])
 
   return (
     <Card
@@ -159,6 +169,7 @@ export const PreQualificationForm = () => {
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>
       <Separator />
       {isQualified ? (
+        // TODO: move this out to a variable
         <Form {...form}>
           <form className="flex flex-col gap-y-2xl gap-x-4xl">
             {questions.map((question) => (
@@ -178,7 +189,7 @@ export const PreQualificationForm = () => {
                           field.onChange(value === "true")
                         }}
                         value={field.value?.toString()}
-                        disabled={!!loanRequest?.applicationId?.length}
+                        disabled={!!preQualification?.applicationId?.length}
                       >
                         <SelectTrigger className="text-sm max-w-40 col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select" />
@@ -205,9 +216,9 @@ export const PreQualificationForm = () => {
               control={form.control}
               name="willingToOperateInKansasCityMo"
               options={options}
-              disabled={!!loanRequest?.applicationId?.length}
+              disabled={!!preQualification?.applicationId?.length}
             />
-            {!loanRequest?.applicationId?.length && (
+            {!preQualification?.applicationId?.length && (
               <CustomAlertDialog
                 onConfirmed={onConfirmed}
                 actionClassName="bg-black hover:bg-black/80"

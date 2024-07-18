@@ -1,3 +1,5 @@
+import { JudgeListParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
+
 export const notificationKeys = {
   all: ["notification"] as const,
   lists: () => [...notificationKeys.all, "list"] as const,
@@ -30,7 +32,7 @@ export const loanApplicationKeys = {
 export const judgeLoanApplicationKeys = {
   all: ["judgeLoanApplication"] as const,
   lists: () => [...judgeLoanApplicationKeys.all, "list"] as const,
-  list: (filters: string) =>
+  list: (filters: JudgeListParams) =>
     [...judgeLoanApplicationKeys.lists(), { filters }] as const,
   details: () => [...judgeLoanApplicationKeys.all, "detail"] as const,
   detail: (id: string) => [...judgeLoanApplicationKeys.details(), id] as const

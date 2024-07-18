@@ -4,27 +4,22 @@ import { useMutation } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
-import {
-  PreQualificationFormRequest,
-  PreQualificationResponse
-} from "../../constants/type"
-import { toastError } from "@/utils"
 
-export const useSubmitPreQualificationForm = () => {
+import { ProductServiceFormResponse } from "../../components/organisms/loan-application-form/product-service/type"
+import { ProductServiceFormValue } from "../../constants/form"
+
+export const useSubmitProductServiceForm = () => {
   return useMutation<
-    AxiosResponse<PreQualificationResponse>,
+    AxiosResponse<ProductServiceFormResponse>,
     AxiosError<ErrorResponse>,
-    PreQualificationFormRequest
+    ProductServiceFormValue
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.application.preQualification.index,
+        path: API_PATH.application.productServiceForm.all,
         data,
         customHeader: customRequestHeader.customHeaders
       })
-    },
-    onError: (error) => {
-      toastError({ title: "Something went wrong!", description: error.message })
     }
   })
 }

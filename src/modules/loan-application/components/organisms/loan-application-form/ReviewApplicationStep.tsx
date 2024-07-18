@@ -20,6 +20,8 @@ import { DocumentUploadsForm } from "./DocumentUploadForm"
 import { ExecutionForm } from "./execution/ExecutionForm"
 import { LaunchKCFitForm } from "./launchkc-fit/LaunchKcFitForm"
 import { MarketOpportunityForm } from "./market-opportunity/MarketOpportunityForm"
+import { isLaunchKC } from "@/utils/domain.utils.ts"
+import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -27,15 +29,19 @@ interface IReviewStep {
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
- * This hook doesn't include the review componenet, so it won't make an infinity loop
+ * This hook doesn't include the review component, so it won't make an infinity loop
  */
-export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
+export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   const componentStep = useMemo(() => {
     switch (step) {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
         return <LoanRequest />
       case LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION:
-        return <BusinessInformationForm />
+        return isLaunchKC() ? (
+          <LaunchKCBusinessInformationForm />
+        ) : (
+          <BusinessInformationForm />
+        )
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
@@ -75,7 +81,7 @@ export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
 }
 
 export const ReviewApplicationStep = ({ stepProgress }: IReviewStep) => {
-  const componentByStep = useGetFormByStepLmao(stepProgress.step)
+  const componentByStep = useGetReviewFormByStep(stepProgress.step)
 
   return <div className="w-full">{componentByStep}</div>
 }
