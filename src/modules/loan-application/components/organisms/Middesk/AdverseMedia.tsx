@@ -8,6 +8,8 @@ import { MiddeskTable } from "@/modules/loan-application-management/components/t
 import { ColumnDef } from "@tanstack/react-table"
 import { useMemo } from "react"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
+import { Badge } from "@/components/ui/badge"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 
 const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
   {
@@ -34,7 +36,14 @@ const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
     cell: ({ row }) => {
       const data = row.original
       return (
-        <MiddeskBadge status={data.risk.status} label={data.risk.subLabel} />
+        <Badge
+          isDot={true}
+          variant="soft"
+          variantColor={getBadgeVariantByInsightStatus(data?.risk?.status)}
+          className="capitalize text-sm text-text-tertiary rounded-lg bg-transparent pl-0"
+        >
+          {data?.risk?.subLabel ?? "--"}
+        </Badge>
       )
     }
   },
@@ -53,23 +62,18 @@ export const AdverseMedia = () => {
   const memoizedColumns = useMemo(() => columns, [])
 
   const adverseMedia = loanKybDetail?.businessAdverseMedia
-
+  const insight = loanKybDetail?.insights.adverseMedia
   const badge = useMemo(
-    () => (
-      <MiddeskBadge
-        status={adverseMedia?.status}
-        label={adverseMedia?.subLabel}
-      />
-    ),
-    [adverseMedia?.status, adverseMedia?.subLabel]
+    () => <MiddeskBadge status={insight?.status} label={insight?.subLabel} />,
+    [insight?.status, insight?.subLabel]
   )
-
   const headerTitle = <>Adverse Media {badge}</>
 
   const content = useMemo(() => {
     const data = adverseMedia?.data ?? []
     return (
       <MiddeskTable
+        tableClassName="table-fixed"
         columns={memoizedColumns}
         data={data}
         isLoading={isLoading}
