@@ -12,7 +12,7 @@ export const Insights = () => {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const insights = loanKybDetail?.insights
-  console.log(insights)
+
   const numberOfSuccess = useMemo(
     () =>
       insights
