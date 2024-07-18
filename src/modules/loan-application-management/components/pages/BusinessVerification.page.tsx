@@ -10,8 +10,13 @@ import { WatchList } from "@/modules/loan-application/components/organisms/Midde
 import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
 import { isLaunchKC } from "@/utils/domain.utils"
 import { ScoreCard } from "../organisms/ScoreCard"
-import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
+import {
+  isEnableJudgeSubmitScore,
+  isEnableKYBV2
+} from "@/utils/feature-flag.utils"
 import { ScoreCardListDetail } from "../organisms/ScoreCardListDetail"
+import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
+import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
 
 export const Component = () => {
   const isJudge = checkIsJudge()
@@ -28,7 +33,9 @@ export const Component = () => {
         <TinMatch />
         <People />
         <WatchList />
+        {isEnableKYBV2() && <IndustryClassification />}
         <Bankruptcy />
+        {isEnableKYBV2() && <Website />}
       </div>
 
       {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}

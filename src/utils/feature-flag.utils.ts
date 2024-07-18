@@ -62,6 +62,10 @@ function isEnableJudgeSubmitScore() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.JUDGE_SUBMIT_SCORE)
 }
 
+function isEnableKYBV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.KYB_V2)
+}
+
 export {
   isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
@@ -73,5 +77,6 @@ export {
   isEnabledBankAccountConnectionV2,
   isEnableIdentityVerificationSectionView,
   isEnableNewInquiryPersonaKycCreatingLogic,
-  formsConfigurationEnabled
+  formsConfigurationEnabled,
+  isEnableKYBV2
 }

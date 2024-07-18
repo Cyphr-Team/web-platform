@@ -106,6 +106,10 @@ export const convertToCamelCase = (str: string) => {
   return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase())
 }
 
+export const capitalizeFirstOnly = (str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+}
+
 export const snakeCaseToText = (str: string) => {
   return str.replace(/_/g, " ")
 }
@@ -249,4 +253,42 @@ export function removeWhitespace(str: string) {
 
 export const sanitizeNumber = (number?: number | null) => {
   return Number(number) || 0
+}
+
+export const formatDate = (dateString: string, separator: string) => {
+  if (!dateString) return "."
+  const date = new Date(dateString)
+  return date.toISOString().split(separator)[0]
+}
+
+export const convertDateTimeToLocal = (
+  dateString: string,
+  separator: string,
+  connector: string
+) => {
+  const date = new Date(dateString)
+
+  const options = {
+    month: "2-digit" as const,
+    day: "2-digit" as const,
+    year: "numeric" as const,
+    hour: "numeric" as const,
+    minute: "2-digit" as const
+  }
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date)
+
+  const [datePart, timePart] = formattedDate.split(`${separator} `)
+
+  return `${datePart} ${connector} ${timePart}`
+}
+
+export const formatBoundaryValues = (data?: string[]): string => {
+  if (!data || data.length === 0) {
+    return "-"
+  }
+  if (data.length === 1) {
+    return data[0]
+  }
+  return `${data[0]}-${data[data.length - 1]}`
 }

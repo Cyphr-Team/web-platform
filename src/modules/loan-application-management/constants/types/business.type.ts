@@ -31,7 +31,9 @@ export { TaskFieldStatus, SourceStatus, SubLabel }
  * Tin
  * People
  * Watch list
+ * Industry Classification
  * Bankruptcies
+ * Website
  * Application KYB Detail Response
  */
 // Source
@@ -56,6 +58,8 @@ type BusinessInsight = {
   people?: InsightData
   watchlists?: InsightData
   bankruptcies?: InsightData
+  industry?: InsightData
+  website?: InsightData
 }
 
 // Business Detail
@@ -171,6 +175,53 @@ type BusinessBankruptcyData = {
   data: BusinessBankruptcyDetail[]
 }
 
+// Industry Classification
+type BusinessIndustryClassificationDetail = {
+  classificationSystem?: string
+  code?: string[]
+  category?: string
+  confidence?: number
+}
+
+type BusinessIndustryClassificationData = {
+  subLabel?: SubLabel
+  data: BusinessIndustryClassificationDetail[]
+}
+
+export const BusinessIndustryClassificationHighRiskCategory = {
+  ADULT_CONTENT: "ADULT_CONTENT",
+  AGGREGATION: "AGGREGATION",
+  CANNABIS: "CANNABIS",
+  BRANDED_GOODS: "BRANDED_GOODS",
+  DRUG_OF_CONCERN: "DRUG_OF_CONCERN",
+  DRUG_PARAPHERNALIA: "DRUG_PARAPHERNALIA",
+  GAMBLING: "GAMBLING",
+  GET_RICH_QUICK: "GET_RICH_QUICK",
+  GIFT_CARD: "GIFT_CARD",
+  HIGH_RISK: "HIGH_RISK",
+  INVESTMENT_CREDIT: "INVESTMENT_CREDIT",
+  MONEY_LEGAL: "MONEY_LEGAL",
+  MULTI_LEVEL_MARKETING: "MULTI_LEVEL_MARKETING",
+  PSEUDO_PHARMACEUTICAL: "PSEUDO_PHARMACEUTICAL",
+  REGULATED_ILLEGAL: "REGULATED_ILLEGAL",
+  SOCIAL_MEDIA_ACTIVITY: "SOCIAL_MEDIA_ACTIVITY"
+}
+
+// Website
+type BusinessWebsiteDetail = {
+  status?: string
+  identifiedWebPresence?: string
+  website?: string
+  created?: string
+  phoneNumber?: string[]
+  online?: string
+}
+
+type BusinessWebsiteData = {
+  subLabel?: SubLabel
+  data: BusinessWebsiteDetail
+}
+
 // Application KYB Detail Response
 type ApplicationKybDetailResponse = {
   insights: BusinessInsight
@@ -183,6 +234,8 @@ type ApplicationKybDetailResponse = {
   businessPeople: BusinessPeopleData
   businessWatchlist: BusinessWatchlistData
   businessBankruptcies: BusinessBankruptcyData
+  businessIndustryClassification: BusinessIndustryClassificationData
+  businessWebsite: BusinessWebsiteData
 }
 
 export type {
@@ -196,5 +249,9 @@ export type {
   BusinessWatchlistData,
   BusinessBankruptcyDetail,
   BusinessAddressDetail,
-  BusinessSosData
+  BusinessSosData,
+  BusinessIndustryClassificationDetail,
+  BusinessIndustryClassificationData,
+  BusinessWebsiteData,
+  BusinessWebsiteDetail
 }
