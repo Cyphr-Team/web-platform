@@ -210,7 +210,14 @@ export const API_PATH = {
     getPlaidItemIds: "api/plaid/item/list",
     getPlaidConnectedBankAccountsByApplicationId:
       "api/plaid/item/connected-bank-accounts/by-application-id",
-    preQualification: "api/form/pre-qualification"
+    preQualification: {
+      index: "api/form/pre-qualification",
+      detail: "api/form/pre-qualification/by-application-id"
+    },
+    productServiceForm: {
+      all: "api/form/product-service",
+      detail: "api/form/product-service/by-application-id"
+    }
   },
   // For workspace admin
   loanApplicationAdmin: {

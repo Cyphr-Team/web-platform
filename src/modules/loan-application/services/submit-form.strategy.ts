@@ -18,7 +18,8 @@ import {
   IdentityVerificationValue,
   LoanRequestFormValue,
   OperatingExpensesFormValue,
-  OwnerFormValue
+  OwnerFormValue,
+  ProductServiceFormValue
 } from "../constants/form"
 import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
 import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
@@ -36,6 +37,7 @@ import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
 } from "../models/LoanApplicationStep/type"
+import { useSubmitLoanProductServiceForm } from "../hooks/useForm/useSubmitProductServiceForm"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -49,6 +51,7 @@ export const useSubmitLoanForm = (
   confirmationData: ConfirmationFormValue,
   cashflowData: FinancialFormValue,
   identityVerificationData: IdentityVerificationValue,
+  productServiceData: ProductServiceFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -100,6 +103,9 @@ export const useSubmitLoanForm = (
     operatingExpensesData,
     operatingExpensesData?.id ?? ""
   )
+
+  const { submitProductServiceForm, isLoading: isSubmittingProductService } =
+    useSubmitLoanProductServiceForm(productServiceData)
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -253,6 +259,12 @@ export const useSubmitLoanForm = (
             await submitOperatingExpensesForm(loanRequestId)
           }
         }
+        if (
+          productServiceData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
+        ) {
+          await submitProductServiceForm()
+        }
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -295,19 +307,20 @@ export const useSubmitLoanForm = (
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
-    plaidItemIds.length,
+    plaidItemIds?.length,
     loanType,
-    submitLinkPlaidItemds,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
     queryClient,
     submitLoanIdentityVerification,
+    submitLinkPlaidItemds,
     businessData,
     isCompleteSteps,
     submitLoanKYBForm,
     ownerData,
     financialData,
     cashflowData,
+    productServiceData,
     confirmationData,
     submitLoanKYCForm,
     uploadDocuments,
@@ -317,6 +330,7 @@ export const useSubmitLoanForm = (
     operatingExpensesData,
     submitCurrentLoansForm,
     submitOperatingExpensesForm,
+    submitProductServiceForm,
     submitLoanConfirmationForm,
     handleSubmitFormError
   ])
@@ -334,6 +348,7 @@ export const useSubmitLoanForm = (
       isSubmittingConfirmation ||
       isUploading ||
       isSubmittingIdentityVerification ||
-      isSubmitLinkPlaidItemIds
+      isSubmitLinkPlaidItemIds ||
+      isSubmittingProductService
   }
 }

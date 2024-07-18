@@ -11,7 +11,7 @@ export const useQueryGetPreQualificationForm = (id: string) => {
     queryKey: [QUERY_KEY.GET_PRE_QUALIFICATION_FORM, id],
     queryFn: () => {
       return getRequest({
-        path: API_PATH.application.preQualification,
+        path: API_PATH.application.preQualification.detail,
         params: { applicationId: id }
       })
     },

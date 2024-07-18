@@ -217,6 +217,7 @@ export const assigningJudgeFormSchema = z.object({
   })
 })
 export const preQualificationSchema = z.object({
+  applicationId: z.string().nullable(),
   isCompanyBasedInUs: z.boolean(),
   foundingTeamEligibleToWorkInUs: z.boolean(),
   isForProfitTechCompany: z.boolean(),
@@ -226,10 +227,11 @@ export const preQualificationSchema = z.object({
 
 export const productServiceFormSchema = z.object({
   id: z.string().nullable(),
-  productOrService: z.string().min(1, { message: "This field is required" }),
-  problemAddressed: z.string().min(1, { message: "This field is required" }),
-  valueProposition: z.string().min(1, { message: "This field is required" }),
-  validatedNeed: z.string().min(1, { message: "This field is required" }),
+  loanApplicationId: z.string().nullable(),
+  businessType: z.string().min(1, { message: "This field is required" }),
+  solutionFocus: z.string().min(1, { message: "This field is required" }),
+  businessValue: z.string().min(1, { message: "This field is required" }),
+  proofOfMarket: z.string().min(1, { message: "This field is required" }),
   intellectualProperty: z.string().min(1, { message: "This field is required" })
 })
 

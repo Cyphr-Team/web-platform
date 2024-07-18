@@ -37,15 +37,17 @@ import { productServiceFormQuestions } from "./constants"
 
 export const ProductServiceForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-  const { productServiceForm, dispatchFormAction } =
+  const { productServiceForm, loanRequest, dispatchFormAction } =
     useLoanApplicationFormContext()
 
   const defaultValues = {
     id: productServiceForm?.id ?? "",
-    productOrService: productServiceForm?.productOrService ?? "",
-    problemAddressed: productServiceForm?.problemAddressed ?? "",
-    valueProposition: productServiceForm?.valueProposition ?? "",
-    validatedNeed: productServiceForm?.validatedNeed ?? "",
+    loanApplicationId:
+      productServiceForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
+    businessType: productServiceForm?.businessType ?? "",
+    solutionFocus: productServiceForm?.solutionFocus ?? "",
+    businessValue: productServiceForm?.businessValue ?? "",
+    proofOfMarket: productServiceForm?.proofOfMarket ?? "",
     intellectualProperty: productServiceForm?.intellectualProperty ?? ""
   }
   const form = useForm<ProductServiceFormValue>({
@@ -91,7 +93,7 @@ export const ProductServiceForm = () => {
             <form className="flex flex-col gap-4xl">
               <Controller
                 control={form.control}
-                name="productOrService"
+                name="businessType"
                 render={({ field }) => (
                   <FormItem className="flex">
                     <FormLabel className="text-text-secondary">

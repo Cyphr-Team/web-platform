@@ -80,7 +80,7 @@ export const PreQualificationForm = () => {
 
   const [isQualified, setIsQualified] = useState(true)
 
-  const { dispatchFormAction, preQualification, loanRequest } =
+  const { dispatchFormAction, preQualification } =
     useLoanApplicationFormContext()
 
   const { mutate, isPending } = useSubmitPreQualificationForm()
@@ -89,6 +89,7 @@ export const PreQualificationForm = () => {
     resolver: zodResolver(preQualificationSchema),
     mode: "onChange",
     defaultValues: {
+      applicationId: preQualification?.applicationId ?? "",
       isCompanyBasedInUs: preQualification?.isCompanyBasedInUs,
       foundingTeamEligibleToWorkInUs:
         preQualification?.foundingTeamEligibleToWorkInUs,
@@ -96,7 +97,7 @@ export const PreQualificationForm = () => {
       hasMvpWithRevenueUnderOneMillion:
         preQualification?.hasMvpWithRevenueUnderOneMillion,
       willingToOperateInKansasCityMo:
-        preQualification?.willingToOperateInKansasCityMo
+        preQualification?.willingToOperateInKansasCityMo?.toLowerCase()
     }
   })
 
@@ -125,6 +126,7 @@ export const PreQualificationForm = () => {
               action: FORM_ACTION.SET_DATA,
               key: LOAN_APPLICATION_STEPS.PRE_QUALIFICATION,
               state: {
+                applicationId: response.data.applicationId,
                 isCompanyBasedInUs: form.getValues("isCompanyBasedInUs"),
                 foundingTeamEligibleToWorkInUs: form.getValues(
                   "foundingTeamEligibleToWorkInUs"
@@ -187,7 +189,7 @@ export const PreQualificationForm = () => {
                           field.onChange(value === "true")
                         }}
                         value={field.value?.toString()}
-                        disabled={!!loanRequest?.applicationId?.length}
+                        disabled={!!preQualification?.applicationId?.length}
                       >
                         <SelectTrigger className="text-sm max-w-40 col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select" />
@@ -214,9 +216,9 @@ export const PreQualificationForm = () => {
               control={form.control}
               name="willingToOperateInKansasCityMo"
               options={options}
-              disabled={!!loanRequest?.applicationId?.length}
+              disabled={!!preQualification?.applicationId?.length}
             />
-            {!loanRequest?.applicationId?.length && (
+            {!preQualification?.applicationId?.length && (
               <CustomAlertDialog
                 onConfirmed={onConfirmed}
                 actionClassName="bg-black hover:bg-black/80"
