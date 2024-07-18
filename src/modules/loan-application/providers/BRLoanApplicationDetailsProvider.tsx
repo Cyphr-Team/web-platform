@@ -53,6 +53,8 @@ import { useQueryGetPreQualificationForm } from "../hooks/useQuery/useQueryPreQu
 import { isLaunchKC } from "@/utils/domain.utils"
 import { useQueryProductServiceForm } from "../hooks/useQuery/useQueryProductServiceForm"
 import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
+import { useQueryLaunchKCFitForm } from "../hooks/useQuery/useQueryLaunchKCFitForm"
+import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -64,6 +66,7 @@ type BRLoanApplicationDetailsContext<T> = {
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
   productServiceFormData?: ProductServiceFormResponse
+  launchKCFitFormData?: LaunchKcFitFormResponse
   loanApplicationDetails?: UserMicroLoanApplication
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
@@ -151,6 +154,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   )
 
   const productServiceFormQuery = useQueryProductServiceForm(loanApplicationId!)
+  const launchKCFitFormQuery = useQueryLaunchKCFitForm(loanApplicationId!)
 
   const changeDataAndProgress = useCallback(
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {
@@ -355,6 +359,30 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     productServiceFormQuery.data
   ])
 
+  // LaunchKC Fit Form
+  useEffect(() => {
+    if (launchKCFitFormQuery.data && isInitialized && isQualified) {
+      changeDataAndProgress(
+        {
+          id: launchKCFitFormQuery.data.id,
+          loanApplicationId: launchKCFitFormQuery.data.loanApplicationId,
+          referralSource: launchKCFitFormQuery.data.referralSource,
+          founderTies: launchKCFitFormQuery.data.founderTies,
+          impact: launchKCFitFormQuery.data.impact,
+          equityInclusion: launchKCFitFormQuery.data.equityInclusion,
+          applied: launchKCFitFormQuery.data.applied,
+          progress: launchKCFitFormQuery.data.progress
+        },
+        LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    isInitialized,
+    isQualified,
+    launchKCFitFormQuery.data
+  ])
+
   /**
    * Handle update identity verification data when edit draft application
    */
@@ -471,6 +499,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
       productServiceFormData: productServiceFormQuery.data,
+      launchKCFitFormData: launchKCFitFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
@@ -486,6 +515,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         operatingExpensesFormQuery.isLoading ||
         kycDocuments.isLoading ||
         financialDocuments.isLoading ||
+        productServiceFormQuery.isLoading ||
+        launchKCFitFormQuery.isLoading ||
         plaidItemIdsQuery.isLoading ||
         plaidConnectedAccountsQuery.isLoading,
       isLoading: loanProgramQuery.isLoading
@@ -507,6 +538,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       financialFormQuery.data,
       financialFormQuery.isLoading,
       productServiceFormQuery.data,
+      productServiceFormQuery.isLoading,
+      launchKCFitFormQuery.data,
+      launchKCFitFormQuery.isLoading,
       loanApplicationDetailsQuery.data,
       loanApplicationDetailsQuery.isLoading,
       kycDocuments.data,

@@ -217,6 +217,10 @@ export const API_PATH = {
     productServiceForm: {
       all: "api/form/product-service",
       detail: "api/form/product-service/by-application-id"
+    },
+    launchKCFitForm: {
+      index: "api/form/launchkc-fit",
+      detail: "api/form/launchkc-fit/by-application-id"
     }
   },
   // For workspace admin

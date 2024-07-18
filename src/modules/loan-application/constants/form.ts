@@ -308,12 +308,13 @@ export const documentUploadsFormSchema = z.object({
 
 export const launchKcFitFormSchema = z.object({
   id: z.string().nullable(),
+  loanApplicationId: z.string().nullable(),
   referralSource: z.string().min(1, { message: "This field is required" }),
-  founderKcTies: z.string().min(1, { message: "This field is required" }),
-  awardImpact: z.string().min(1, { message: "This field is required" }),
-  inclusionApproach: z.string().min(1, { message: "This field is required" }),
-  prevLaunchKcApp: z.string().min(1, { message: "This field is required" }),
-  progressSinceLastApp: z.string().min(1, { message: "This field is required" })
+  founderTies: z.string().min(1, { message: "This field is required" }),
+  impact: z.string().min(1, { message: "This field is required" }),
+  equityInclusion: z.string().min(1, { message: "This field is required" }),
+  applied: z.boolean(),
+  progress: z.string().min(1, { message: "This field is required" })
 })
 
 export type IdentityVerificationValue = z.infer<

@@ -16,6 +16,7 @@ import {
   CurrentLoansFormValue,
   FinancialFormValue,
   IdentityVerificationValue,
+  LaunchKCFitFormValue,
   LoanRequestFormValue,
   OperatingExpensesFormValue,
   OwnerFormValue,
@@ -38,6 +39,7 @@ import {
   LOAN_APPLICATION_STEP_STATUS
 } from "../models/LoanApplicationStep/type"
 import { useSubmitLoanProductServiceForm } from "../hooks/useForm/useSubmitProductServiceForm"
+import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKCFitForm"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -52,6 +54,7 @@ export const useSubmitLoanForm = (
   cashflowData: FinancialFormValue,
   identityVerificationData: IdentityVerificationValue,
   productServiceData: ProductServiceFormValue,
+  launchKCFitData: LaunchKCFitFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -106,6 +109,9 @@ export const useSubmitLoanForm = (
 
   const { submitProductServiceForm, isLoading: isSubmittingProductService } =
     useSubmitLoanProductServiceForm(productServiceData)
+
+  const { submitLoanLaunchKCFitForm, isLoading: isSubmittingLaunchKCFit } =
+    useSubmitLoanLaunchKCFitForm(launchKCFitData)
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -265,6 +271,13 @@ export const useSubmitLoanForm = (
         ) {
           await submitProductServiceForm()
         }
+        if (
+          launchKCFitData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
+        ) {
+          await submitLoanLaunchKCFitForm()
+        }
+
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -307,7 +320,7 @@ export const useSubmitLoanForm = (
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
-    plaidItemIds?.length,
+    plaidItemIds.length,
     loanType,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
@@ -321,6 +334,7 @@ export const useSubmitLoanForm = (
     financialData,
     cashflowData,
     productServiceData,
+    launchKCFitData,
     confirmationData,
     submitLoanKYCForm,
     uploadDocuments,
@@ -331,6 +345,7 @@ export const useSubmitLoanForm = (
     submitCurrentLoansForm,
     submitOperatingExpensesForm,
     submitProductServiceForm,
+    submitLoanLaunchKCFitForm,
     submitLoanConfirmationForm,
     handleSubmitFormError
   ])
@@ -349,6 +364,7 @@ export const useSubmitLoanForm = (
       isUploading ||
       isSubmittingIdentityVerification ||
       isSubmitLinkPlaidItemIds ||
-      isSubmittingProductService
+      isSubmittingProductService ||
+      isSubmittingLaunchKCFit
   }
 }

@@ -37,17 +37,19 @@ import { questions } from "./constants"
 
 export const LaunchKCFitForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-  const { launchKcFitForm, dispatchFormAction } =
+  const { launchKcFitForm, dispatchFormAction, loanRequest } =
     useLoanApplicationFormContext()
 
   const defaultValues = {
     id: launchKcFitForm?.id ?? "",
+    loanApplicationId:
+      launchKcFitForm?.loanApplicationId ?? loanRequest.applicationId ?? "",
     referralSource: launchKcFitForm?.referralSource ?? "",
-    founderKcTies: launchKcFitForm?.founderKcTies ?? "",
-    awardImpact: launchKcFitForm?.awardImpact ?? "",
-    inclusionApproach: launchKcFitForm?.inclusionApproach ?? "",
-    prevLaunchKcApp: launchKcFitForm?.prevLaunchKcApp ?? "",
-    progressSinceLastApp: launchKcFitForm?.progressSinceLastApp ?? ""
+    founderTies: launchKcFitForm?.founderTies ?? "",
+    impact: launchKcFitForm?.impact ?? "",
+    equityInclusion: launchKcFitForm?.equityInclusion ?? "",
+    applied: launchKcFitForm?.applied ?? false,
+    progress: launchKcFitForm?.progress ?? ""
   }
 
   const form = useForm<LaunchKCFitFormValue>({
@@ -101,7 +103,7 @@ export const LaunchKCFitForm = () => {
               ))}
               <Controller
                 control={form.control}
-                name="prevLaunchKcApp"
+                name="applied"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between">
                     <FormLabel className="text-text-secondary">
@@ -113,9 +115,9 @@ export const LaunchKCFitForm = () => {
                       <Select
                         onValueChange={(value) => {
                           field.onBlur()
-                          field.onChange(value.toString())
+                          field.onChange(value === "yes" ? true : false)
                         }}
-                        value={field.value}
+                        value={field.value ? "yes" : "no"}
                       >
                         <SelectTrigger className="text-base col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select" />
@@ -135,10 +137,10 @@ export const LaunchKCFitForm = () => {
                 )}
               />
               <TextAreaInput
-                key="progressSinceLastApp"
+                key="progress"
                 label="If yes, what progress have you made since your previous application?"
                 control={form.control}
-                name="progressSinceLastApp"
+                name="progress"
               />
             </form>
           </Card>

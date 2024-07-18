@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils"
 
 type AnswersTextDisplayProps = {
   label: string
-  value?: string | null
+  value?: string
   className?: string
 }
 

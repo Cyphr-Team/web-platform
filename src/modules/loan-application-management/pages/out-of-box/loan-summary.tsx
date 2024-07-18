@@ -25,6 +25,7 @@ import { OperatingExpensesFormDetails } from "@/modules/loan-application/compone
 import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary/CashflowGlance.tsx"
 import { Separator } from "@/components/ui/separator"
 import { ProductServiceFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/ProductServiceFormDetails"
+import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
 
 export function Component() {
   const {
@@ -42,15 +43,7 @@ export function Component() {
   const page_6 = useRef<HTMLDivElement>(null)
   const page_7 = useRef<HTMLDivElement>(null)
 
-  const elementToExportRef = [
-    page_1,
-    page_2,
-    page_3,
-    page_4,
-    page_5,
-    page_6,
-    page_7
-  ]
+  const elementToExportRef = [page_1, page_2, page_3, page_5, page_6, page_7]
 
   return (
     <div className="lg:flex gap-3xl w-full flex-col" id="loan-summary">
@@ -111,11 +104,15 @@ export function Component() {
             operatingExpensesFormData={loanSummary?.operatingExpensesForm}
           />
         </div>
-        {loanSummary?.productServiceForm && (
-          <div className="space-y-3xl flex flex-col" ref={page_4}>
+
+        <div className="space-y-3xl flex flex-col" ref={page_4}>
+          {loanSummary?.productServiceForm && (
             <ProductServiceFormDetails data={loanSummary?.productServiceForm} />
-          </div>
-        )}
+          )}
+          {loanSummary?.launchKCFitForm && (
+            <LaunchKcFitFormDetails data={loanSummary?.launchKCFitForm} />
+          )}
+        </div>
 
         <div
           className="flex flex-col space-y-3xl"

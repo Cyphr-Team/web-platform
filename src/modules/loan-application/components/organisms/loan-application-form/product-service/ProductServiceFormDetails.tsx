@@ -9,7 +9,7 @@ type Props = {
 
 export const ProductServiceFormDetails: React.FC<Props> = ({ data }) => {
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item">
       <h5 className="text-lg font-semibold">Product and Service</h5>
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <AnswersTextDisplay
@@ -23,7 +23,9 @@ export const ProductServiceFormDetails: React.FC<Props> = ({ data }) => {
             <AnswersTextDisplay
               key={ind}
               label={item.question}
-              value={data?.[item.field as keyof ProductServiceFormResponse]}
+              value={data?.[
+                item.field as keyof ProductServiceFormResponse
+              ]?.toString()}
             />
           ))}
         </div>
