@@ -71,6 +71,10 @@ function isEnableKYBV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.KYB_V2)
 }
 
+function isEnableKycReOrder() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.KYC_REORDER)
+}
+
 export {
   isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
@@ -83,5 +87,6 @@ export {
   isEnableIdentityVerificationSectionView,
   isEnableNewInquiryPersonaKycCreatingLogic,
   isEnableKYBV2,
-  formsConfigurationEnabled
+  formsConfigurationEnabled,
+  isEnableKycReOrder
 }

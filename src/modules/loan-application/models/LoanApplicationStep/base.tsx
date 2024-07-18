@@ -6,13 +6,16 @@ import {
   LOAN_APPLICATION_STEP_STATUS,
   STEP_MENU
 } from "./type"
+import { isEnableKycReOrder } from "@/utils/feature-flag.utils"
 
 export interface ILoanApplicationStepStrategy {
   _buildSteps(): this
+  isEnabledKycReOrder: boolean
 }
 
 export class LoanApplicationStep {
   #steps: ILoanApplicationStep[] = []
+  isEnabledKycReOrder = isEnableKycReOrder()
 
   _build_PreQualificationStep(): this {
     this.#steps = uniqBy(
@@ -182,7 +185,9 @@ export class LoanApplicationStep {
           step: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION,
           formType: null,
           label: "Identity Verification",
-          parent: STEP_MENU.SIGNATURE,
+          parent: this.isEnabledKycReOrder
+            ? STEP_MENU.APPLICATION
+            : STEP_MENU.SIGNATURE,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],
