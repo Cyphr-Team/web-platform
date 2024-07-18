@@ -2,7 +2,7 @@ import { Dot } from "@/components/ui/dot"
 import { Skeleton } from "@/components/ui/skeleton"
 import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { ReactNode } from "react"
 
 export const MiddeskDetailItem = ({

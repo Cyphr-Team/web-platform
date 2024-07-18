@@ -10,8 +10,12 @@ import { WatchList } from "@/modules/loan-application/components/organisms/Midde
 import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
 import { isLaunchKC } from "@/utils/domain.utils"
 import { ScoreCard } from "../organisms/ScoreCard"
-import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
+import {
+  isEnableJudgeSubmitScore,
+  isEnableKYBV2
+} from "@/utils/feature-flag.utils"
 import { ScoreCardListDetail } from "../organisms/ScoreCardListDetail"
+import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia"
 
 export const Component = () => {
   const isJudge = checkIsJudge()
@@ -28,6 +32,7 @@ export const Component = () => {
         <TinMatch />
         <People />
         <WatchList />
+        {isEnableKYBV2() && <AdverseMedia />}
         <Bankruptcy />
       </div>
 

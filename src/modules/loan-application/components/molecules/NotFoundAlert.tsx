@@ -1,8 +1,8 @@
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Dot } from "@/components/ui/dot"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { ReactNode } from "react"
-import { InsightStatus } from "../../../loan-application-management/constants/types/middesk.type"
 
 export const NotFoundAlert = ({
   status,

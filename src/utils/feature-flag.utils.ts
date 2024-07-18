@@ -62,6 +62,15 @@ function isEnableJudgeSubmitScore() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.JUDGE_SUBMIT_SCORE)
 }
 
+/**
+ * Changes on KYB for HRE
+ * 1. Industry Classification
+ * 2. Adverse Media
+ */
+function isEnableKYBV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.KYB_V2)
+}
+
 export {
   isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
@@ -73,5 +82,6 @@ export {
   isEnabledBankAccountConnectionV2,
   isEnableIdentityVerificationSectionView,
   isEnableNewInquiryPersonaKycCreatingLogic,
+  isEnableKYBV2,
   formsConfigurationEnabled
 }

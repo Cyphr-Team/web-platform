@@ -8,9 +8,9 @@ import { MiddeskCard } from "../../molecules/MiddeskCard"
 import { DateHeader } from "./DateHeader"
 import { WatchListHit } from "./WatchListHit"
 import { Dot } from "@/components/ui/dot"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
-import { InsightStatus } from "../../../../loan-application-management/constants/types/middesk.type"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
+import { InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
 
 const columns: ColumnDef<
   Pick<BusinessWatchlistData, "businessName" | "people"> & {

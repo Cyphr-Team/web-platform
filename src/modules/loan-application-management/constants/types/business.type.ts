@@ -15,11 +15,7 @@ enum SourceStatus {
   UNKNOWN = "UNKNOWN"
 }
 
-enum SubLabel {
-  VERIFIED = "VERIFIED"
-}
-
-export { TaskFieldStatus, SourceStatus, SubLabel }
+export { TaskFieldStatus, SourceStatus }
 
 /* ----- TYPE -----
  * Source
@@ -32,6 +28,7 @@ export { TaskFieldStatus, SourceStatus, SubLabel }
  * People
  * Watch list
  * Bankruptcies
+ * Adverse Media
  * Application KYB Detail Response
  */
 // Source
@@ -44,7 +41,7 @@ type BusinessRegistrationSource = {
 // Insights
 type InsightData = {
   category?: string
-  subLabel?: SubLabel
+  subLabel?: string
   status?: TaskFieldStatus
   message?: string
 }
@@ -56,12 +53,13 @@ type BusinessInsight = {
   people?: InsightData
   watchlists?: InsightData
   bankruptcies?: InsightData
+  adverseMedia?: InsightData
 }
 
 // Business Detail
 type BusinessDetailData = {
   value?: string
-  subLabel?: SubLabel
+  subLabel?: string
   status?: TaskFieldStatus
   source: BusinessRegistrationSource
   message?: string
@@ -83,7 +81,7 @@ type BusinessNameDetail = {
   source: BusinessRegistrationSource
 }
 type BusinessNameData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessNameDetail[]
 }
 
@@ -98,7 +96,7 @@ type BusinessAddressDetail = {
   registeredAgent: boolean
 }
 type BusinessAddressData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessAddressDetail[]
 }
 
@@ -114,7 +112,7 @@ type BusinessSosData = {
   active: number
   inactive: number
   unknown: number
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessSosDetail[]
 }
 
@@ -124,7 +122,7 @@ type BusinessTinDetail = {
   tin?: string
 }
 type BusinessTinData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessTinDetail
 }
 
@@ -136,7 +134,7 @@ type BusinessPeopleDetail = {
   title: string[]
 }
 type BusinessPeopleData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessPeopleDetail[]
 }
 
@@ -167,8 +165,28 @@ type BusinessBankruptcyDetail = {
   court?: string
 }
 type BusinessBankruptcyData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessBankruptcyDetail[]
+}
+
+// Adverse Media
+type BusinessAdverseMediaScreened = {
+  value: string
+  fieldName: string
+}
+type BusinessAdverseMediaRisk = {
+  sublabel: string
+  status: TaskFieldStatus
+}
+type BusinessAdverseMediaDetail = {
+  screened: BusinessAdverseMediaScreened
+  risk: BusinessAdverseMediaRisk
+  mediaSources: string
+}
+type BusinessAdverseMediaData = {
+  status: TaskFieldStatus
+  subLabel?: string
+  data: BusinessAdverseMediaDetail[]
 }
 
 // Application KYB Detail Response
@@ -196,5 +214,9 @@ export type {
   BusinessWatchlistData,
   BusinessBankruptcyDetail,
   BusinessAddressDetail,
-  BusinessSosData
+  BusinessSosData,
+  BusinessAdverseMediaData,
+  BusinessAdverseMediaDetail,
+  BusinessAdverseMediaScreened,
+  BusinessAdverseMediaRisk
 }

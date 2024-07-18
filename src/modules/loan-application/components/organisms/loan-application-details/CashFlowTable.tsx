@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { ColumnDef } from "@tanstack/react-table"
@@ -10,6 +9,7 @@ import { useParams } from "react-router-dom"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
 import { Button } from "@/components/ui/button"
 import { useMemo } from "react"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {

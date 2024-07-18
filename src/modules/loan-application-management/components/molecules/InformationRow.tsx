@@ -2,7 +2,7 @@ import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
 import { MiddeskBadge } from "@/modules/loan-application/components/molecules/MiddeskBadge"
 import { ReactNode } from "react"
-import { InsightStatus } from "../../constants/types/middesk.type"
+import { InsightStatus } from "../../constants/types/insight.type"
 
 type Props = {
   label?: ReactNode

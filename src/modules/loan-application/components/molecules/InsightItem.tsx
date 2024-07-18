@@ -7,8 +7,8 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import { InsightStatus } from "@/modules/loan-application-management/constants/types/middesk.type"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
+import { InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { ReactNode } from "react"
 
 type InsightItemProps = {
