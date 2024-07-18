@@ -1,21 +1,59 @@
-import { Badge } from "@/components/ui/badge"
+import { Badge, BadgeProps } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { APP_PATH } from "@/constants"
 import { useNavigate } from "react-router-dom"
 import { getScoredTooltipContent } from "../../services"
 import { ScoredTooltip } from "./ScoredTooltip"
+import { cn } from "@/lib/utils"
 
-interface IScoredBadgeStatusProps {
+interface IScoredBadgeStatusWithToolTipProps {
   loanApplicationId: string
   loanProgramType: string
-  scoredAt?: string | null
+  scoredAt?: string
+}
+
+interface IScoredBadgeStatusProps {
+  scoredAt?: string | boolean
 }
 
 export const ScoredBadgeStatus = ({
+  scoredAt,
+  children
+}: React.PropsWithChildren<IScoredBadgeStatusProps>) => {
+  const variant: {
+    variantColor: BadgeProps["variantColor"]
+    text: string
+    className: string
+  } = scoredAt
+    ? {
+        variantColor: "lightBlue",
+        text: "Scorecard Submitted",
+        className: "bg-opacity-100"
+      }
+    : {
+        variantColor: "orange",
+        text: "Incomplete scorecard",
+        className: "bg-opacity-20"
+      }
+
+  return (
+    <Badge
+      variantColor={variant.variantColor}
+      className={cn(
+        "h-7 text-black font-normal bg-opacity-100 whitespace-nowrap",
+        variant.className
+      )}
+    >
+      {children || variant.text}
+    </Badge>
+  )
+}
+
+export const ScoredBadgeStatusWithTooltip = ({
   loanApplicationId,
   scoredAt,
   loanProgramType
-}: IScoredBadgeStatusProps) => {
+}: IScoredBadgeStatusWithToolTipProps) => {
   const navigate = useNavigate()
 
   const handleClickDetail = () => {
@@ -27,6 +65,8 @@ export const ScoredBadgeStatus = ({
     )
   }
 
+  const scoredBadgeStatus = <ScoredBadgeStatus scoredAt={scoredAt} />
+
   return (
     <Button
       onClick={handleClickDetail}
@@ -37,22 +77,10 @@ export const ScoredBadgeStatus = ({
     >
       {scoredAt ? (
         <ScoredTooltip tooltipContent={getScoredTooltipContent(scoredAt)}>
-          <Badge
-            variantColor="lightBlue"
-            className="h-7 text-black font-normal bg-opacity-100 whitespace-nowrap"
-          >
-            Scorecard Submitted
-          </Badge>
+          {scoredBadgeStatus}
         </ScoredTooltip>
       ) : (
-        <span>
-          <Badge
-            variantColor="orange"
-            className="h-7 text-black font-normal bg-opacity-20 whitespace-nowrap"
-          >
-            Incomplete scorecard
-          </Badge>
-        </span>
+        <span>{scoredBadgeStatus}</span>
       )}
     </Button>
   )

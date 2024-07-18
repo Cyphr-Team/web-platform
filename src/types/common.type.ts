@@ -25,6 +25,15 @@ interface Option {
 export type { Option }
 
 // --- PARAMS WHEN FETCHING LISTS ---
+enum SortOrder {
+  DESC = "DESC",
+  ASC = "ASC",
+  DESC_NULLS_LAST = "DESC_NULLS_LAST",
+  ASC_NULLS_FIRST = "ASC_NULLS_FIRST"
+}
+
+export { SortOrder }
+
 interface PaginateParams {
   limit: number
   offset: number

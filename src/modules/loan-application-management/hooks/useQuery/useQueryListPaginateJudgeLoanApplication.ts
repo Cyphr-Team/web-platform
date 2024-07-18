@@ -3,34 +3,69 @@ import { judgeLoanApplicationKeys } from "@/constants/query-key"
 import { postRequest } from "@/services/client.service"
 import { IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
 import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
-import { ListResponse, PaginateParams } from "@/types/common.type"
+import { ListResponse, PaginateParams, SortOrder } from "@/types/common.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { createSearchParams } from "react-router-dom"
+import * as z from "zod"
 
 type ListJudgeLoanApplicationResponse = ListResponse<
   IJudgeLoanApplicationResponse<ILaunchKCApplicationScore>
 >
 
-type Params = PaginateParams
+export const judgeLoanApplicationFilterSchema = z.object({
+  applicationCaptureStages: z
+    .array(z.object({ label: z.string(), value: z.string() }))
+    .optional(),
+  isScoreds: z
+    .array(z.object({ label: z.string(), value: z.string() }))
+    .optional()
+})
+
+export type JudgeLoanApplicationFilterValues = z.infer<
+  typeof judgeLoanApplicationFilterSchema
+>
+
+type JudeLoanApplicationSort = {
+  submittedAt?: SortOrder
+  createdAt?: SortOrder
+  scoredAt?: SortOrder
+  applicationIdNumber?: SortOrder
+  businessName?: SortOrder
+  applicationCaptureStage?: SortOrder
+}
+
+export type JudgeListParams = PaginateParams & {
+  filter: {
+    applicationCaptureStages?: string[]
+    isScoreds?: boolean[]
+  }
+} & {
+  searchField?: string
+} & {
+  sort?: JudeLoanApplicationSort
+}
 
 export const useQueryListPaginateJudgeLoanApplication = ({
   limit,
-  offset
-}: Params) => {
+  offset,
+  sort,
+  filter,
+  searchField
+}: JudgeListParams) => {
   return useQuery<ListJudgeLoanApplicationResponse>({
-    queryKey: judgeLoanApplicationKeys.list(
-      createSearchParams({
-        limit: limit.toString(),
-        offset: offset.toString()
-      }).toString()
-    ),
+    queryKey: judgeLoanApplicationKeys.list({
+      limit,
+      offset,
+      filter,
+      searchField,
+      sort
+    }),
     queryFn: async () => {
       const baseApplicationsResponse = await postRequest<
-        Params,
+        JudgeListParams,
         ListJudgeLoanApplicationResponse
       >({
         path: API_PATH.judgeApplication.list(),
-        data: { limit, offset }
+        data: { limit, offset, filter, searchField, sort }
       })
 
       return baseApplicationsResponse.data

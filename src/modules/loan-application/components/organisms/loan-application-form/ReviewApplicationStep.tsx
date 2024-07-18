@@ -31,7 +31,7 @@ interface IReviewStep {
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
  * This hook doesn't include the review component, so it won't make an infinity loop
  */
-export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
+export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   const componentStep = useMemo(() => {
     switch (step) {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
@@ -81,7 +81,7 @@ export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
 }
 
 export const ReviewApplicationStep = ({ stepProgress }: IReviewStep) => {
-  const componentByStep = useGetFormByStepLmao(stepProgress.step)
+  const componentByStep = useGetReviewFormByStep(stepProgress.step)
 
   return <div className="w-full">{componentByStep}</div>
 }

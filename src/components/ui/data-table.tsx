@@ -3,8 +3,10 @@ import {
   OnChangeFn,
   PaginationState,
   Row,
+  SortingState,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table"
 
@@ -27,7 +29,9 @@ interface DataTableProps<TData, TValue> {
   isFilterView?: boolean
   handleClickDetail?: (row: Row<TData>) => void
   pagination?: PaginationState
+  sorting?: SortingState
   setPagination?: OnChangeFn<PaginationState>
+  setSorting?: OnChangeFn<SortingState>
   total: number
   isLoading?: boolean
   tableContainerClassName?: string
@@ -42,16 +46,21 @@ export function DataTable<TData, TValue>({
   setPagination,
   total,
   isLoading,
-  tableContainerClassName
+  tableContainerClassName,
+  setSorting,
+  sorting
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     rowCount: total,
-    state: { pagination },
+    state: { pagination, sorting },
     onPaginationChange: setPagination,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
-    manualPagination: !!pagination
+    manualPagination: !!pagination,
+    getSortedRowModel: getSortedRowModel(),
+    enableSortingRemoval: true
   })
 
   return (
