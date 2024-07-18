@@ -29,7 +29,6 @@ import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 import { PersonaStatus } from "../../../../../lib/persona/persona.types"
 import { useParams } from "react-router-dom"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../../../utils/feature-flag.utils"
-import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 const VerifyInfoItem = ({
   leftIcon,
@@ -65,7 +64,7 @@ export const IdentityVerificationForm = () => {
     applicationId: loanApplicationId
   })
 
-  const { finishCurrentStep, completeSpecificStep, step } =
+  const { finishCurrentStep, completeCurrentStep } =
     useLoanApplicationProgressContext()
 
   const defaultValues: IdentityVerificationValue = useMemo(() => {
@@ -123,13 +122,13 @@ export const IdentityVerificationForm = () => {
            * The completeCurrentStep function will help us mark done the identity verification step
            *  when the client finish verify Persona
            */
-          completeSpecificStep(LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
+          completeCurrentStep()
         }
       } else {
         form.setValue("status", inquiryData?.status, {
           shouldValidate: true
         })
-        completeSpecificStep(LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
+        completeCurrentStep()
       }
       const defaultValue = form.getValues()
       const identityVerificationValue: IdentityVerificationValue = {
@@ -139,25 +138,14 @@ export const IdentityVerificationForm = () => {
       }
       dispatchInquiryData(identityVerificationValue)
     }
-  }, [completeSpecificStep, inquiryData, form, dispatchInquiryData])
-
-  const renderNextButton = (
-    <div className="flex flex-col gap-lg">
-      <Button
-        disabled={!form.formState.isValid}
-        onClick={form.handleSubmit(onSubmit)}
-      >
-        Next <ArrowRight className="ml-1.5 w-5 h-5" />
-      </Button>
-    </div>
-  )
+  }, [completeCurrentStep, inquiryData, form, dispatchInquiryData])
 
   return (
     <Form {...form}>
       <Card
         className={cn(
           "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+          "md:col-span-6 md:col-start-2 md:mx-0"
         )}
       >
         <div className="flex gap-2 justify-between items-center">
@@ -174,7 +162,7 @@ export const IdentityVerificationForm = () => {
               </ButtonLoading>
             ) : (
               <div className="rounded-lg flex items-center justify-center gap-1 font-semibold text-white bg-primary h-10 px-4 py-2">
-                Completed <Check className="w-5 h-5" />
+                Verified <Check className="w-5 h-5" />
               </div>
             )}
           </div>
@@ -211,7 +199,15 @@ export const IdentityVerificationForm = () => {
               }
             />
           </div>
-          {!isReviewApplicationStep(step) && renderNextButton}
+
+          <div className="flex flex-col gap-lg">
+            <Button
+              disabled={!form.formState.isValid}
+              onClick={form.handleSubmit(onSubmit)}
+            >
+              Next <ArrowRight className="ml-1.5 w-5 h-5" />
+            </Button>
+          </div>
         </div>
       </Card>
     </Form>

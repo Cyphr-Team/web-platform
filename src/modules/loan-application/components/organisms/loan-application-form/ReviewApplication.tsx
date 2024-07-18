@@ -22,10 +22,13 @@ export const ReviewApplication = () => {
   const { progress, step, finishCurrentStep } =
     useLoanApplicationProgressContext()
   const { dispatchFormAction } = useLoanApplicationFormContext()
+
   const progressFilter = useMemo(() => {
     return progress.filter(
       (prog) =>
-        prog.step != step && prog.step != LOAN_APPLICATION_STEPS.CONFIRMATION
+        prog.step != step &&
+        prog.step != LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION &&
+        prog.step != LOAN_APPLICATION_STEPS.CONFIRMATION
     )
   }, [step, progress])
 

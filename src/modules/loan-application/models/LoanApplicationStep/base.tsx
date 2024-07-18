@@ -182,7 +182,7 @@ export class LoanApplicationStep {
           step: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION,
           formType: null,
           label: "Identity Verification",
-          parent: STEP_MENU.APPLICATION,
+          parent: STEP_MENU.SIGNATURE,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],
@@ -209,7 +209,6 @@ export class LoanApplicationStep {
 
     return this
   }
-
   _build_ProductServiceStep(): this {
     this.#steps = uniqBy(
       [

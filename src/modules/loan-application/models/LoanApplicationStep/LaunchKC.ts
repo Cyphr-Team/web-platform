@@ -18,11 +18,9 @@ export class LaunchKCLoanApplicationStep
   }
 
   _buildSteps() {
-    this._build_BusinessInformationStep()._build_OwnerInformationStep()
-
-    if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
-
-    this._build_CashFlowVerificationStep()
+    this._build_BusinessInformationStep()
+      ._build_OwnerInformationStep()
+      ._build_CashFlowVerificationStep()
       ._build_CurrentLoansStep()
       ._build_OperatingExpensesStep()
       ._build_ProductServiceStep()
@@ -33,6 +31,8 @@ export class LaunchKCLoanApplicationStep
       ._build_LaunchKCFitStep()
 
     if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
+
+    if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
 
     return this._build_ConfirmationStep()
   }
