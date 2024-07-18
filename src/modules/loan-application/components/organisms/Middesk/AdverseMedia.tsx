@@ -37,6 +37,14 @@ const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
         <MiddeskBadge status={data.risk.status} label={data.risk.subLabel} />
       )
     }
+  },
+  {
+    accessorKey: "mediaSources",
+    header: () => <div className="text-left">Media sources</div>,
+    cell: ({ row }) => {
+      const data = row.original
+      return <p>{data.mediaSources}</p>
+    }
   }
 ]
 
