@@ -172,10 +172,10 @@ type BusinessBankruptcyData = {
 // Adverse Media
 type BusinessAdverseMediaScreened = {
   value: string
-  fieldName: string
+  field: string
 }
 type BusinessAdverseMediaRisk = {
-  sublabel: string
+  subLabel: string
   status: TaskFieldStatus
 }
 type BusinessAdverseMediaDetail = {
@@ -201,6 +201,7 @@ type ApplicationKybDetailResponse = {
   businessPeople: BusinessPeopleData
   businessWatchlist: BusinessWatchlistData
   businessBankruptcies: BusinessBankruptcyData
+  businessAdverseMedia: BusinessAdverseMediaData
 }
 
 export type {
