@@ -1,8 +1,4 @@
-import {
-  BusinessAdverseMediaData,
-  BusinessAdverseMediaDetail,
-  TaskFieldStatus
-} from "@/modules/loan-application-management/constants/types/business.type"
+import { BusinessAdverseMediaDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
@@ -11,35 +7,9 @@ import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/ins
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { ColumnDef } from "@tanstack/react-table"
 import { useMemo } from "react"
-
-const mockData: BusinessAdverseMediaData = {
-  subLabel: "High risk",
-  status: TaskFieldStatus.FAILURE,
-  data: [
-    {
-      screened: {
-        value: "Business with adverse media high risk",
-        fieldName: "Business name"
-      },
-      risk: {
-        sublabel: "High risk",
-        status: TaskFieldStatus.FAILURE
-      },
-      mediaSources: "4"
-    },
-    {
-      screened: {
-        value: "John Smith",
-        fieldName: "Person"
-      },
-      risk: {
-        sublabel: "High risk",
-        status: TaskFieldStatus.FAILURE
-      },
-      mediaSources: "7"
-    }
-  ]
-}
+import { capitalizeWords, snakeCaseToText } from "@/utils"
+import { Badge } from "@/components/ui/badge"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 
 const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
   {
@@ -52,7 +22,9 @@ const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
         <div className="min-w-0">
           <p>{data.screened.value}</p>
           <p className="text-sm text-text-tertiary">
-            {data.screened.fieldName}
+            {capitalizeWords(
+              snakeCaseToText(data.screened.field.toLowerCase())
+            )}
           </p>
         </div>
       )
@@ -64,30 +36,51 @@ const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
     cell: ({ row }) => {
       const data = row.original
       return (
-        <MiddeskBadge status={data.risk.status} label={data.risk.sublabel} />
+        <Badge
+          isDot={true}
+          variant="soft"
+          variantColor={getBadgeVariantByInsightStatus(data?.risk?.status)}
+          className="capitalize text-sm text-text-tertiary rounded-lg bg-transparent pl-0"
+        >
+          {data?.risk?.subLabel ?? "--"}
+        </Badge>
       )
+    }
+  },
+  {
+    accessorKey: "mediaSources",
+    header: () => <div className="text-left">Media sources</div>,
+    cell: ({ row }) => {
+      const data = row.original
+      return <p>{data.mediaSources}</p>
     }
   }
 ]
 
 export const AdverseMedia = () => {
-  const { isLoading } = useLoanApplicationDetailContext()
+  const { isLoading, loanKybDetail } = useLoanApplicationDetailContext()
   const memoizedColumns = useMemo(() => columns, [])
 
-  const badge = (
-    <MiddeskBadge status={mockData.status} label={mockData.subLabel} />
+  const adverseMedia = loanKybDetail?.businessAdverseMedia
+  const insight = loanKybDetail?.insights.adverseMedia
+  const badge = useMemo(
+    () => <MiddeskBadge status={insight?.status} label={insight?.subLabel} />,
+    [insight?.status, insight?.subLabel]
   )
-
   const headerTitle = <>Adverse Media {badge}</>
 
-  const content = (
-    <MiddeskTable
-      columns={memoizedColumns}
-      data={mockData.data}
-      isLoading={isLoading}
-      noResultText={"No adverse media found"}
-    />
-  )
+  const content = useMemo(() => {
+    const data = adverseMedia?.data ?? []
+    return (
+      <MiddeskTable
+        tableClassName="table-fixed"
+        columns={memoizedColumns}
+        data={data}
+        isLoading={isLoading}
+      />
+    )
+  }, [adverseMedia?.data, isLoading, memoizedColumns])
+
   return (
     <MiddeskCard
       id={INSIGHT_TOC.adverseMedia}

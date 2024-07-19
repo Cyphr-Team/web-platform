@@ -25,6 +25,7 @@ export const Insights = () => {
         : 0,
     [insights]
   )
+  const insightsTotal = insights ? Object.entries(insights).length : 0
 
   return (
     <Card className="h-fit lg:sticky top-0 z-10 mb-4 flex-shrink-0">
@@ -34,7 +35,9 @@ export const Insights = () => {
           {isLoading ? (
             <Skeleton className="w-16 h-4" />
           ) : (
-            <div>{numberOfSuccess}/7</div>
+            <div>
+              {numberOfSuccess}/{insightsTotal}
+            </div>
           )}
         </CardTitle>
         <Separator />

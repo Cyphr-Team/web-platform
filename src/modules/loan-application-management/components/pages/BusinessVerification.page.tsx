@@ -32,8 +32,8 @@ export const Component = () => {
         <TinMatch />
         <People />
         <WatchList />
-        {isEnableKYBV2() && <AdverseMedia />}
         <Bankruptcy />
+        {isEnableKYBV2() && <AdverseMedia />}
       </div>
 
       {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}
