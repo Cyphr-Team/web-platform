@@ -215,9 +215,7 @@ export const IdentityVerificationForm = () => {
               }
             />
           </div>
-          {!isReviewApplicationStep(step) &&
-            !isEnableKycReOrder() &&
-            renderNextButton}
+          {!isReviewApplicationStep(step) && renderNextButton}
         </div>
       </Card>
     </Form>

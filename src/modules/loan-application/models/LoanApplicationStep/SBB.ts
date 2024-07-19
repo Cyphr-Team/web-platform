@@ -17,13 +17,14 @@ export class SBBLoanApplicationStep
     this._build_LoanRequestStep()
       ._build_BusinessInformationStep()
       ._build_OwnerInformationStep()
-      ._build_FinancialInformationStep()
+
+    if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
+
+    this._build_FinancialInformationStep()
       ._build_CurrentLoansStep()
       ._build_OperatingExpensesStep()
 
     if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
-
-    if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
 
     return this._build_ConfirmationStep()
   }
