@@ -107,16 +107,16 @@ export const useSendBulkCsvInvitation = () => {
       queryClient.invalidateQueries({ queryKey: invitationKeys.lists() })
       if (data.failedInvitations > 0) {
         toastError({
-          ...TOAST_MSG.user.sendInvitation,
+          ...TOAST_MSG.user.sendBulkCSVInvitation,
           description: `Failed to send ${data.failedInvitations} invitations.`
         })
       } else {
-        toastSuccess(TOAST_MSG.user.sendInvitation)
+        toastSuccess(TOAST_MSG.user.sendBulkCSVInvitation)
       }
     },
     onError: (error) => {
       toastError({
-        ...TOAST_MSG.user.sendInvitation,
+        ...TOAST_MSG.user.sendBulkInvitation,
         description: getAxiosError(error).message
       })
     }
@@ -147,16 +147,16 @@ export const useSendBulkInvitation = () => {
       queryClient.invalidateQueries({ queryKey: invitationKeys.lists() })
       if (data.failedInvitations > 0) {
         toastError({
-          ...TOAST_MSG.user.sendInvitation,
+          ...TOAST_MSG.user.sendBulkInvitation,
           description: `Failed to send ${data.failedInvitations} invitations.`
         })
       } else {
-        toastSuccess(TOAST_MSG.user.sendInvitation)
+        toastSuccess(TOAST_MSG.user.sendBulkInvitation)
       }
     },
     onError: (error) => {
       toastError({
-        ...TOAST_MSG.user.sendInvitation,
+        ...TOAST_MSG.user.sendBulkInvitation,
         description: getAxiosError(error).message
       })
     }

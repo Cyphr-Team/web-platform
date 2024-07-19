@@ -3,6 +3,7 @@ import { DeleteUserButton } from "./DeleteUserButton"
 import { UserDetailInfo, UserRoles, UserStatus } from "@/types/user.type"
 import { nameByRole } from "../../constants/roles.constants"
 import { useQueryListPaginateUser } from "../../hooks/useQuery/useQueryListPaginateUser"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function AccessList() {
   const { data, isFetching } = useQueryListPaginateUser({
@@ -56,14 +57,10 @@ export function AccessList() {
                   }
                   onRemove={() => removeUser(user.id)}
                 />
-                <img
-                  src={
-                    user.avatar ??
-                    "https://cdn-icons-png.flaticon.com/128/64/64572.png"
-                  }
-                  alt={user.name}
-                  className="w-10 h-10 rounded-full mx-3"
-                />
+                <Avatar className="w-10 h-10 rounded-full mx-3">
+                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
+                </Avatar>
                 <div className="w-full">
                   <p className="font-normal text-base text-gray-800">
                     {user.name}

@@ -4,6 +4,14 @@ export const TOAST_MSG = {
       title: "Send invitation",
       description: "Invitation has been sent successfully"
     },
+    sendBulkInvitation: {
+      title: "Send Bulk invitation",
+      description: "Invitation(s) has been sent successfully"
+    },
+    sendBulkCSVInvitation: {
+      title: "Send Bulk CSV invitation",
+      description: "Invitation(s) has been sent successfully"
+    },
     revokeInvitation: {
       title: "Revoke invitation",
       description: "Invitation has been revoked successfully"

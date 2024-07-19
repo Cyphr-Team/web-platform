@@ -15,9 +15,12 @@ import {
   Download,
   Upload
 } from "lucide-react"
-import { ChangeEvent, useEffect, useRef, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
 import { useSendBulkCsvInvitation } from "../../hooks/useSendInvitation"
 import { APP_PATH } from "@/constants"
+import { IMemberImport } from "@/types/upload.type"
+import { convertJsonArrayToCsv } from "@/utils/file.utils"
+import { downloadCSVFile } from "@/utils"
 
 const UPLOAD_STATUS = {
   UPLOADING: {
@@ -28,18 +31,24 @@ const UPLOAD_STATUS = {
   },
   SUCCESS: {
     name: "SUCCESS",
-    message: "All records have been successfully added",
+    message: "All records have been successfully added.",
     color: "bg-green-200",
     icon: <CheckCircle className="text-green-600 mr-2" />
   },
-  FAILED: {
-    name: "FAILED",
+  VALIDATION_FAILED: {
+    name: "VALIDATION_FAILED",
     message: "There were errors with your CSV. Please try again.",
     color: "bg-red-200",
     icon: <AlertOctagon className="text-red-600 mr-2" />
   },
-  PARTIAL: {
-    name: "PARTIAL",
+  SENDING_FAILED: {
+    name: "SENDING_FAILED",
+    message: "All invitations are failed to send. Please review the errors.",
+    color: "bg-red-200",
+    icon: <AlertOctagon className="text-red-600 mr-2" />
+  },
+  SENDING_PARTIAL: {
+    name: "SENDING_PARTIAL",
     message: "The CSV is partially uploaded. Please review the errors.",
     color: "bg-yellow-200",
     icon: <AlertTriangle className="text-yellow-600 mr-2" />
@@ -58,6 +67,16 @@ export function BulkUploadCsv() {
   const [preventCacheCount, setPreventCacheCount] = useState(0)
   const { mutate: mutateSendCsv, data } = useSendBulkCsvInvitation()
 
+  const downloadCsv = useCallback(() => {
+    if (!data?.data) return
+    // Prepare CSV
+    const headers: (keyof IMemberImport)[] = ["email", "role", "reason"]
+    const csvString = convertJsonArrayToCsv(data.data.detail, headers)
+    // Prepare download
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-")
+    downloadCSVFile(csvString, `invitation_details_${timestamp}.csv`)
+  }, [data?.data])
+
   const handleClickDownload = () => {
     setPreventCacheCount((preState) => preState + 1)
   }
@@ -73,9 +92,9 @@ export function BulkUploadCsv() {
     if (statuses.totalInvitations === statuses.successfulInvitations) {
       setUploadStatus(UPLOAD_STATUS.SUCCESS)
     } else if (statuses.totalInvitations === statuses.failedInvitations) {
-      setUploadStatus(UPLOAD_STATUS.FAILED)
+      setUploadStatus(UPLOAD_STATUS.SENDING_FAILED)
     } else {
-      setUploadStatus(UPLOAD_STATUS.PARTIAL)
+      setUploadStatus(UPLOAD_STATUS.SENDING_PARTIAL)
     }
   }, [data?.data])
 
@@ -86,6 +105,8 @@ export function BulkUploadCsv() {
     setUploadStatus(UPLOAD_STATUS.UNKNOWN)
     if (csvFileInputRef.current) {
       csvFileInputRef.current.click()
+      // Reset currentRef for the next upload processes to be executed.
+      csvFileInputRef.current.value = ""
     }
   }
 
@@ -94,38 +115,61 @@ export function BulkUploadCsv() {
     if (file) {
       const baseUrl = `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`
       const expirationDays = "SEVEN_DAYS"
-      mutateSendCsv({ file, baseUrl, expirationDays })
+      mutateSendCsv(
+        { file, baseUrl, expirationDays },
+        {
+          onError: () => {
+            setUploadStatus(UPLOAD_STATUS.VALIDATION_FAILED)
+          }
+        }
+      )
     }
   }
 
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className={cn("border border-dashed px-2 rounded-md", uploadStatus.color)}
-    >
-      <AccordionItem value="csv-upload-instructions" className="border-0">
-        <AccordionTrigger className="flex flex-1 w-full items-center justify-between group hover:no-underline">
-          {[
-            UPLOAD_STATUS.FAILED,
-            UPLOAD_STATUS.PARTIAL,
-            UPLOAD_STATUS.SUCCESS
-          ].includes(uploadStatus) ? (
-            <div className="flex text-base items-center font-light">
-              {uploadStatus?.icon}
-              <span className="font-bold mr-1">CSV: </span>
-              {uploadStatus.message}
-            </div>
-          ) : (
-            <span className="text-base font-light align-start text-wrap text-left">
-              <span className="font-semibold">Tip:</span> Inviting more than 10
-              people at once?{" "}
-              <span className="underline font-semibold">Upload CSV</span>
-            </span>
+    <>
+      {[
+        UPLOAD_STATUS.VALIDATION_FAILED,
+        UPLOAD_STATUS.SENDING_FAILED,
+        UPLOAD_STATUS.SENDING_PARTIAL,
+        UPLOAD_STATUS.SUCCESS
+      ].includes(uploadStatus) && (
+        <div
+          className={cn(
+            "border border-dashed px-2 py-3 rounded-md flex text-base items-center font-light",
+            uploadStatus.color
           )}
-        </AccordionTrigger>
+        >
+          {uploadStatus?.icon}
+          <span className="font-bold mr-1">CSV: </span>
+          {uploadStatus.message}
+          {data && (
+            <Button
+              onClick={downloadCsv}
+              variant="link"
+              className="p-1 font-medium underline"
+            >
+              View Details.
+            </Button>
+          )}
+        </div>
+      )}
+      <Accordion
+        type="single"
+        collapsible
+        className="border border-dashed px-2 rounded-md"
+      >
+        <AccordionItem value="csv-upload-instructions" className="border-0">
+          <AccordionTrigger className="flex flex-1 w-full items-center justify-between group hover:no-underline">
+            <div className="flex text-base items-center font-light">
+              <span className="text-base font-light align-start text-wrap text-left">
+                <span className="font-semibold">Tip:</span> Inviting more than
+                10 people at once?{" "}
+                <span className="underline font-semibold">Upload CSV</span>
+              </span>
+            </div>
+          </AccordionTrigger>
 
-        {uploadStatus != UPLOAD_STATUS.SUCCESS && (
           <AccordionContent>
             <ol className="text-base list-decimal list-inside space-y-2">
               <li className="md:items-center flex flex-col md:flex-row mt-2 w-full justify-between">
@@ -155,21 +199,13 @@ export function BulkUploadCsv() {
                 </span>
                 <ul className="list-none list-inside space-y-1 text-base mt-1">
                   <li className="ml-2 font-light text-sm">
-                    <span className="font-medium">First_Name:</span> Member’s
-                    First_Name
-                  </li>
-                  <li className="ml-2 font-light text-sm">
-                    <span className="font-medium">Last_Name:</span> Member’s
-                    Last_Name
-                  </li>
-                  <li className="ml-2 font-light text-sm">
                     <span className="font-medium">Email:</span> Member’s Email
                     Address
                   </li>
                   <li className="ml-2">
                     <Accordion type="single" collapsible defaultValue="roles">
                       <AccordionItem value="roles" className="border-0">
-                        <AccordionTrigger className="flex flex-auto w-full items-start md:items-center justify-start md:justify-between group hover:no-underline">
+                        <AccordionTrigger className="py-1 flex flex-auto w-full items-start md:items-center justify-start md:justify-between group hover:no-underline">
                           <span className="align-start text-wrap text-left font-light">
                             <span className="font-semibold">Role:</span> Add
                             member’s role based on the following roles
@@ -181,7 +217,7 @@ export function BulkUploadCsv() {
                               <span className="font-medium">
                                 Workspace Admin:
                               </span>{" "}
-                              The workspace Admin can invite users, oversee
+                              The Workspace Admin can invite users, oversee
                               applications, and maintain comprehensive control
                               over the system, ensuring its smooth operation and
                               security.
@@ -229,8 +265,8 @@ export function BulkUploadCsv() {
               </li>
             </ol>
           </AccordionContent>
-        )}
-      </AccordionItem>
-    </Accordion>
+        </AccordionItem>
+      </Accordion>
+    </>
   )
 }

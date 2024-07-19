@@ -9,8 +9,14 @@ export interface IUploadPhotoReqParams {
   subdomain: string
 }
 
+export interface IMemberImport {
+  email: string
+  role: string
+  reason?: string
+}
+
 export interface InvitationDetail {
-  data: { success: string[]; failed: string[] }
+  detail: IMemberImport[]
   failedInvitations: number
   successfulInvitations: number
   totalInvitations: number

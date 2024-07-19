@@ -9,7 +9,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog"
 import { Form } from "@/components/ui/form"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusCircle, Send } from "lucide-react"
@@ -26,7 +26,15 @@ import { APP_PATH } from "@/constants"
 import { AccessList } from "./molecules/AccessList"
 
 export function DialogSendBulkInvite() {
+  const contentRef = useRef<HTMLDivElement | null>(null)
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0
+    }
+  }, [])
+
   const onOpenChange = (open: boolean) => {
     if (!open) {
       form.reset()
@@ -66,7 +74,7 @@ export function DialogSendBulkInvite() {
           Invite
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] h-full md:h-auto md:max-h-[900px] overflow-y-auto">
+      <DialogContent className="sm:max-w-[700px] h-full md:h-auto md:max-h-dvh overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Invite members to LaunchKC</DialogTitle>
           <DialogDescription></DialogDescription>

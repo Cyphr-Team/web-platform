@@ -41,8 +41,8 @@ export const MultiTagInput = () => {
   const form = useFormContext()
 
   const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
-    const target = event.target as HTMLInputElement
     event.preventDefault()
+    const target = event.target as HTMLInputElement
     if (event.key === "Enter") {
       const trimmedValue = removeWhitespace(target.value)
       if (trimmedValue && checkValidEmail(trimmedValue)) {
@@ -51,6 +51,13 @@ export const MultiTagInput = () => {
         form.trigger("emails")
         target.value = ""
       }
+    }
+  }
+
+  // This function is added to prevent auto-submitting the form when pressing Enter key
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault()
     }
   }
 
@@ -83,8 +90,10 @@ export const MultiTagInput = () => {
           <Input
             type="text"
             onKeyUp={handleKeyUp}
+            onKeyDown={handleKeyDown}
             placeholder="Type to add..."
-            className="rounded-sm w-auto border-1 m-1"
+            className="rounded-sm w-full border-1 m-1"
+            wrapperClassName="w-full"
           />
         </div>
 
