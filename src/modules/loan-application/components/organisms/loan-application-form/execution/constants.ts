@@ -3,12 +3,12 @@ import { ExecutionFormResponse } from "./type"
 export const questions = [
   {
     question: "What metrics do you use to measure the growth of your business?",
-    field: "measureMetrics"
+    field: "growthMetric"
   },
   {
     question:
       "What is the most recent product development or traction milestone you have achieved?",
-    field: "latestMilestone"
+    field: "recentMilestone"
   },
   {
     question:
@@ -18,32 +18,32 @@ export const questions = [
   {
     question:
       "What are the greatest near-term challenges facing your company? How do you plan to confront them?",
-    field: "nearTermChallenges"
+    field: "greatestChallenge"
   }
 ]
 
 export const currentStage = [
   {
     label: "Idea stage",
-    value: "idea_stage"
+    value: "idea"
   },
   {
     label: "Developing a minimum viable product (MVP)",
-    value: "developing_mvp"
+    value: "mvp"
   },
   {
     label: "Launched MVP to early adopters and pilot partners",
-    value: "launched_mvp"
+    value: "pilot_launch"
   },
   {
     label:
       "Between MVP and having a whole product ready for a full commercial launch",
-    value: "between_mvp_and_whole_product"
+    value: "beta"
   },
   {
     label:
       "Developed a scalable business model and go-to-market strategy, now scaling sales and marketing efforts to generate significant revenue",
-    value: "scaling_sales_and_marketing"
+    value: "growth"
   }
 ]
 
@@ -58,11 +58,11 @@ export const supportAreas = [
   },
   {
     label: "C. Human Resources",
-    value: "human_resources"
+    value: "human_resource"
   },
   {
     label: "D. Financial Modeling",
-    value: "financial_modeling"
+    value: "financial"
   },
   {
     label: "E. Marketing",
@@ -77,27 +77,27 @@ export const supportAreas = [
 export const partnerships = [
   {
     label: "A. Joint ventures",
-    value: "joint_ventures"
+    value: "joint_venture"
   },
   {
     label: "B. Marketing alliances",
-    value: "marketing_alliances"
+    value: "marketing_alliance"
   },
   {
     label: "C. Licensing arrangements",
-    value: "licensing_arrangements"
+    value: "licensing_arrangement"
   },
   {
     label: "D. Selling/distribution agreements",
-    value: "selling_distribution_agreements"
+    value: "distribution_agreement"
   },
   {
     label: "E. Channel partnerships",
-    value: "channel_partnerships"
+    value: "channel_partnership"
   },
   {
     label: "F. Software agreements",
-    value: "software_agreements"
+    value: "software_agreement"
   }
 ]
 
@@ -134,13 +134,13 @@ export const cashBurnOptions = [
 
 export const FAKE_DATA = {
   id: "1",
-  monthlyBurn: "1000",
-  measureMetrics: "We measure growth by tracking our monthly active users",
-  latestMilestone:
+  monthlyExpenseRange: "1000",
+  growthMetric: "We measure growth by tracking our monthly active users",
+  recentMilestone:
     "We recently launched a new feature that has increased user engagement",
   nextMilestone:
     "Our next milestone is to reach 100,000 monthly active users within the next 6 months",
-  nearTermChallenges:
+  greatestChallenge:
     "Our greatest challenge is increasing user retention. We plan to address this by improving our onboarding process",
   currentStage: currentStage.find((stage) => stage.value === "developing_mvp")
     ?.label,
@@ -164,7 +164,7 @@ export const FAKE_DATA = {
     {
       name: "John Doe",
       title: "CEO",
-      relevantExperience: "John has 5 years of experience in the tech industry",
+      background: "John has 5 years of experience in the tech industry",
       skills: "John is skilled in product management and software development"
     }
   ]

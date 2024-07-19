@@ -221,7 +221,8 @@ export const API_PATH = {
     launchKCFitForm: {
       index: "api/form/launchkc-fit",
       detail: "api/form/launchkc-fit/by-application-id"
-    }
+    },
+    executionForm: "api/form/execution"
   },
   // For workspace admin
   loanApplicationAdmin: {

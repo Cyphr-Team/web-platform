@@ -28,7 +28,8 @@ export const ApplicationDetails = () => {
     financialFormData,
     operatingExpensesFormData,
     productServiceFormData,
-    launchKCFitFormData
+    launchKCFitFormData,
+    executionFormData
   } = useBRLoanApplicationDetailsContext()
 
   return (
@@ -61,11 +62,13 @@ export const ApplicationDetails = () => {
           {launchKCFitFormData && (
             <LaunchKcFitFormDetails data={launchKCFitFormData} />
           )}
+          {executionFormData && (
+            <ExecutionFormDetails data={executionFormData} />
+          )}
           {isLaunchKC() && (
             <>
               <MarketOpportunityFormDetails />
               <BusinessModelFormDetails />
-              <ExecutionFormDetails />
             </>
           )}
 

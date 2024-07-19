@@ -11,6 +11,7 @@ import {
 import { ProductServiceFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/type"
 import { LaunchKcFitFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/type"
 import { InsightStatus } from "./insight.type"
+import { ExecutionFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/execution/type"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -40,6 +41,7 @@ type LoanSummary = {
   operatingExpensesForm?: OperatingExpensesInformationResponse
   productServiceForm?: ProductServiceFormResponse
   launchKCFitForm?: LaunchKcFitFormResponse
+  executionForm?: ExecutionFormResponse
   confirmationForm?: ConfirmationFormResponse
 } & Pick<LoanApplicationsKyc, "personalInfo" | "idCheck" | "checkLists">
 

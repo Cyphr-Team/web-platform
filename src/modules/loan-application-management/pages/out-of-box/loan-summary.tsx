@@ -26,6 +26,7 @@ import { CashflowGlanceReport } from "@/modules/loan-application-management/comp
 import { Separator } from "@/components/ui/separator"
 import { ProductServiceFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/ProductServiceFormDetails"
 import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
+import { ExecutionFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/execution/ExecutionFormDetails"
 
 export function Component() {
   const {
@@ -111,6 +112,9 @@ export function Component() {
           )}
           {loanSummary?.launchKCFitForm && (
             <LaunchKcFitFormDetails data={loanSummary?.launchKCFitForm} />
+          )}
+          {loanSummary?.executionForm && (
+            <ExecutionFormDetails data={loanSummary?.executionForm} />
           )}
         </div>
 

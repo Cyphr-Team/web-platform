@@ -16,7 +16,7 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight, Plus } from "lucide-react"
+import { ArrowRight, Plus, X } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Control, useForm } from "react-hook-form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
@@ -40,7 +40,7 @@ type FundingSource = {
 interface Founder {
   name: string
   title: string
-  relevantExperience: string
+  background: string
   skills: string
 }
 
@@ -100,6 +100,10 @@ const FundingSources: React.FC<FundingSourcesProps> = ({ control }) => {
     ])
   }
 
+  const removeFundingSource = (index: number) => () => {
+    setFundingSources((prev) => prev.filter((_, ind) => ind !== index))
+  }
+
   return (
     <Card className="flex flex-col gap-2xl p-xl rounded-lg h-fit">
       <h5 className="text-sm font-semibold">
@@ -108,7 +112,19 @@ const FundingSources: React.FC<FundingSourcesProps> = ({ control }) => {
       </h5>
       {fundingSources.map((_, ind) => (
         <div className="flex flex-col" key={ind}>
-          <h5 className="font-semibold text-sm">FUNDING SOURCE #{ind + 1}</h5>
+          <div className="flex justify-between">
+            <h5 className="font-semibold text-sm">FUNDING SOURCE #{ind + 1}</h5>
+            {ind > 0 && (
+              <Button
+                type="button"
+                variant="ghost"
+                className="p-4"
+                onClick={removeFundingSource(ind)}
+              >
+                <X className="w-4" />
+              </Button>
+            )}
+          </div>
           <SelectInput
             inputClassName="w-40"
             className="flex items-center justify-between !text-sm"
@@ -149,7 +165,7 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
     {
       name: "",
       title: "",
-      relevantExperience: "",
+      background: "",
       skills: ""
     }
   ])
@@ -160,10 +176,14 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
       {
         name: "",
         title: "",
-        relevantExperience: "",
+        background: "",
         skills: ""
       }
     ])
+  }
+
+  const removeFounder = (index: number) => () => {
+    setFounders((prev) => prev.filter((_, ind) => ind !== index))
   }
 
   return (
@@ -173,7 +193,19 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
       </h5>
       {founders.map((_, ind) => (
         <div className="flex flex-col" key={ind}>
-          <h5 className="font-semibold text-sm">FOUNDER #{ind + 1}</h5>
+          <div className="flex justify-between">
+            <h5 className="font-semibold text-sm">FOUNDER #{ind + 1}</h5>
+            {ind > 0 && (
+              <Button
+                type="button"
+                variant="ghost"
+                className="p-4"
+                onClick={removeFounder(ind)}
+              >
+                <X className="w-4" />
+              </Button>
+            )}
+          </div>
           <TextInput
             className="flex items-center justify-between"
             inputClassName="w-40"
@@ -191,7 +223,7 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
           <TextAreaInput
             label="What relevant business experience, education, or industry knowledge do they have?"
             control={control}
-            name={`founders.${ind}.relevantExperience`}
+            name={`founders.${ind}.background`}
           />
           <TextAreaInput
             label="What skills do they have to ensure the success of your company?"
@@ -219,10 +251,12 @@ export const ExecutionForm = () => {
 
   const defaultValues = {
     id: executionForm?.id ?? "",
-    monthlyBurn: executionForm?.monthlyBurn ?? "",
-    measureMetrics: executionForm?.measureMetrics ?? "",
-    latestMilestone: executionForm?.latestMilestone ?? "",
+    loanApplicationId: executionForm?.loanApplicationId ?? "",
+    monthlyExpenseRange: executionForm?.monthlyExpenseRange ?? "",
+    growthMetric: executionForm?.growthMetric ?? "",
+    recentMilestone: executionForm?.recentMilestone ?? "",
     nextMilestone: executionForm?.nextMilestone ?? "",
+    greatestChallenge: executionForm?.greatestChallenge ?? "",
     supportAreas: executionForm?.supportAreas ?? [],
     partnerships: executionForm?.partnerships ?? [],
     currentStage: executionForm?.currentStage ?? "",
@@ -239,7 +273,7 @@ export const ExecutionForm = () => {
   const onSubmit = (data: ExecutionFormValue) => {
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.BUSINESS_MODEL,
+      key: LOAN_APPLICATION_STEPS.EXECUTION,
       state: data
     })
     finishCurrentStep()
@@ -250,13 +284,13 @@ export const ExecutionForm = () => {
       const data = form.getValues()
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.BUSINESS_MODEL,
+        key: LOAN_APPLICATION_STEPS.EXECUTION,
         state: data
       })
     }
   }, [form.formState.isValidating, form, dispatchFormAction])
 
-  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EXECUTION)
 
   return (
     <div
@@ -274,10 +308,10 @@ export const ExecutionForm = () => {
               <SelectInput
                 className="flex items-center"
                 inputClassName="w-40"
-                key="monthlyBurn"
+                key="monthlyExpenseRange"
                 label="How much cash does your company go through each month?"
                 control={form.control}
-                name="monthlyBurn"
+                name="monthlyExpenseRange"
                 options={cashBurnOptions}
               />
               {questions.map((q) => (

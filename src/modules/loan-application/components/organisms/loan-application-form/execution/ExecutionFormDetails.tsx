@@ -21,10 +21,12 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <div className="flex flex-col gap-y-4xl">
           <AnswersTextDisplay
-            key="monthlyBurn"
+            key="monthlyExpenseRange"
             label="How much cash does your company go through each month?"
             value={
-              FAKE_DATA["monthlyBurn" as keyof ExecutionFormResponse] as string
+              FAKE_DATA[
+                "monthlyExpenseRange" as keyof ExecutionFormResponse
+              ] as string
             }
           />
           {questions.map((item, ind) => (

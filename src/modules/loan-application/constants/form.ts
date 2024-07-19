@@ -255,11 +255,12 @@ export const businessModelFormSchema = z.object({
 
 export const executionFormSchema = z.object({
   id: z.string().nullable(),
-  monthlyBurn: z.string().min(1, { message: "This field is required" }),
-  measureMetrics: z.string().min(1, { message: "This field is required" }),
-  latestMilestone: z.string().min(1, { message: "This field is required" }),
+  loanApplicationId: z.string().nullable(),
+  monthlyExpenseRange: z.string().min(1, { message: "This field is required" }),
+  growthMetric: z.string().min(1, { message: "This field is required" }),
+  recentMilestone: z.string().min(1, { message: "This field is required" }),
   nextMilestone: z.string().min(1, { message: "This field is required" }),
-  nearTermChallenges: z.string().min(1, { message: "This field is required" }),
+  greatestChallenge: z.string().min(1, { message: "This field is required" }),
   currentStage: z.string().min(1, { message: "This field is required" }),
   supportAreas: z.array(z.string()),
   partnerships: z.array(z.string()),
@@ -273,9 +274,7 @@ export const executionFormSchema = z.object({
     z.object({
       name: z.string().min(1, { message: "This field is required" }),
       title: z.string().min(1, { message: "This field is required" }),
-      relevantExperience: z
-        .string()
-        .min(1, { message: "This field is required" }),
+      background: z.string().min(1, { message: "This field is required" }),
       skills: z.string().min(1, { message: "This field is required" })
     })
   )

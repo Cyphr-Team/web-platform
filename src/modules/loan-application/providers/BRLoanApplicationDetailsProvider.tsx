@@ -55,6 +55,8 @@ import { useQueryProductServiceForm } from "../hooks/useQuery/useQueryProductSer
 import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import { useQueryLaunchKCFitForm } from "../hooks/useQuery/useQueryLaunchKCFitForm"
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
+import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
+import { useQueryExecutionForm } from "../hooks/useQuery/useQueryExecutionForm"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -67,6 +69,7 @@ type BRLoanApplicationDetailsContext<T> = {
   financialFormData?: FinancialInformationResponse
   productServiceFormData?: ProductServiceFormResponse
   launchKCFitFormData?: LaunchKcFitFormResponse
+  executionFormData?: ExecutionFormResponse
   loanApplicationDetails?: UserMicroLoanApplication
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
@@ -155,6 +158,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
   const productServiceFormQuery = useQueryProductServiceForm(loanApplicationId!)
   const launchKCFitFormQuery = useQueryLaunchKCFitForm(loanApplicationId!)
+  const executionFormQuery = useQueryExecutionForm(loanApplicationId!)
 
   const changeDataAndProgress = useCallback(
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {
@@ -500,6 +504,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       financialFormData: financialFormQuery.data,
       productServiceFormData: productServiceFormQuery.data,
       launchKCFitFormData: launchKCFitFormQuery.data,
+      executionFormData: executionFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
@@ -515,6 +520,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         operatingExpensesFormQuery.isLoading ||
         kycDocuments.isLoading ||
         financialDocuments.isLoading ||
+        executionFormQuery.isLoading ||
         productServiceFormQuery.isLoading ||
         launchKCFitFormQuery.isLoading ||
         plaidItemIdsQuery.isLoading ||
@@ -541,6 +547,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       productServiceFormQuery.isLoading,
       launchKCFitFormQuery.data,
       launchKCFitFormQuery.isLoading,
+      executionFormQuery.data,
+      executionFormQuery.isLoading,
       loanApplicationDetailsQuery.data,
       loanApplicationDetailsQuery.isLoading,
       kycDocuments.data,
