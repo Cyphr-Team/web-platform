@@ -93,6 +93,17 @@ export const Insights = () => {
         />
         {isEnableKYBV2() && (
           <InsightItem
+            title="Adverse Media"
+            status={insights?.adverseMedia?.status}
+            label={insights?.adverseMedia?.subLabel}
+            toolTipContent={insights?.adverseMedia?.message}
+            href={INSIGHT_TOC.adverseMedia}
+            isLoading={isLoading}
+            noBorder
+          />
+        )}
+        {isEnableKYBV2() && (
+          <InsightItem
             title="Industry Classification"
             status={insights?.industry?.status}
             label={insights?.industry?.subLabel}
@@ -112,13 +123,12 @@ export const Insights = () => {
         />
         {isEnableKYBV2() && (
           <InsightItem
-            title="Adverse Media"
-            status={insights?.adverseMedia?.status}
-            label={insights?.adverseMedia?.subLabel}
-            toolTipContent={insights?.adverseMedia?.message}
-            href={INSIGHT_TOC.adverseMedia}
+            title="Website"
+            status={insights?.website?.status}
+            label={insights?.website?.subLabel}
+            toolTipContent={insights?.website?.message}
+            href={INSIGHT_TOC.website}
             isLoading={isLoading}
-            noBorder
           />
         )}
       </CardContent>

@@ -36,8 +36,8 @@ export const Component = () => {
         <WatchList />
         {isEnableKYBV2() && <IndustryClassification />}
         <Bankruptcy />
-        {isEnableKYBV2() && <Website />}
         {isEnableKYBV2() && <AdverseMedia />}
+        <Website />
       </div>
 
       {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}
