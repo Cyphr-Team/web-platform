@@ -25,7 +25,8 @@ export const Insights = () => {
         : 0,
     [insights]
   )
-  const insightsTotal = insights ? Object.entries(insights).length : 0
+  const insightsTotal =
+    isEnableKYBV2() && insights ? Object.entries(insights).length : 7
 
   return (
     <Card className="h-fit lg:sticky top-0 z-10 mb-4 flex-shrink-0">
