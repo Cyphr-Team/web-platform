@@ -26,7 +26,7 @@ export const useSelectRoundLoanApplication = () => {
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.workspaceAdmin.selectRoundLoanApplication, // INVALIDATE
+        path: API_PATH.workspaceAdmin.selectRoundLoanApplication,
         customHeader: customRequestHeader.customHeaders,
         data
       })
