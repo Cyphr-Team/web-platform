@@ -12,6 +12,7 @@ import { useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import {
   BusinessFormValue,
+  BusinessModelFormValue,
   ConfirmationFormValue,
   CurrentLoansFormValue,
   ExecutionFormValue,
@@ -42,6 +43,7 @@ import {
 import { useSubmitLoanProductServiceForm } from "../hooks/useForm/useSubmitProductServiceForm"
 import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKCFitForm"
 import { useSubmitExecutionForm } from "../hooks/useForm/useSubmitExecutionForm"
+import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -58,6 +60,7 @@ export const useSubmitLoanForm = (
   productServiceData: ProductServiceFormValue,
   launchKCFitData: LaunchKCFitFormValue,
   executionData: ExecutionFormValue,
+  businessModelData: BusinessModelFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -118,6 +121,9 @@ export const useSubmitLoanForm = (
 
   const { submitLoanExecutionForm, isLoading: isSubmittingExecution } =
     useSubmitExecutionForm(executionData)
+
+  const { submitLoanBusinessModelForm, isLoading: isSubmittingBusinessModel } =
+    useSubmitLoanBusinessModelForm(businessModelData)
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -290,6 +296,13 @@ export const useSubmitLoanForm = (
           await submitLoanExecutionForm()
         }
 
+        if (
+          businessModelData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
+        ) {
+          await submitLoanBusinessModelForm()
+        }
+
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -348,6 +361,7 @@ export const useSubmitLoanForm = (
     productServiceData,
     launchKCFitData,
     executionData,
+    businessModelData,
     confirmationData,
     submitLoanKYCForm,
     uploadDocuments,
@@ -360,6 +374,7 @@ export const useSubmitLoanForm = (
     submitProductServiceForm,
     submitLoanLaunchKCFitForm,
     submitLoanExecutionForm,
+    submitLoanBusinessModelForm,
     submitLoanConfirmationForm,
     handleSubmitFormError
   ])
@@ -380,6 +395,7 @@ export const useSubmitLoanForm = (
       isSubmitLinkPlaidItemIds ||
       isSubmittingProductService ||
       isSubmittingLaunchKCFit ||
-      isSubmittingExecution
+      isSubmittingExecution ||
+      isSubmittingBusinessModel
   }
 }

@@ -244,13 +244,16 @@ export const marketOpportunityFormSchema = z.object({
 
 export const businessModelFormSchema = z.object({
   id: z.string().nullable(),
-  howDoYouMakeMoney: z.string().min(1, { message: "This field is required" }),
-  revenueToDate: z.string().min(1, { message: "This field is required" }),
-  revenueLastMonth: z.string().min(1, { message: "This field is required" }),
-  revenueLastYear: z.string().min(1, { message: "This field is required" }),
-  nearTermGrowthStrategy: z
+  loanApplicationId: z.string().nullable(),
+  description: z.string().min(1, { message: "This field is required" }),
+  totalRevenueRange: z.string().min(1, { message: "This field is required" }),
+  lastMonthRevenueRange: z
     .string()
-    .min(1, { message: "This field is required" })
+    .min(1, { message: "This field is required" }),
+  lastYearRevenueRange: z
+    .string()
+    .min(1, { message: "This field is required" }),
+  scalePlan: z.string().min(1, { message: "This field is required" })
 })
 
 export const executionFormSchema = z.object({

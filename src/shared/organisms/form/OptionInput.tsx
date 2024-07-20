@@ -42,7 +42,7 @@ export const OptionInput = <T extends FieldValues>(
 
   return (
     <Controller
-      key="nearTermGrowthStrategy"
+      key="scalePlan"
       control={control}
       name={name}
       render={({ field }) => (

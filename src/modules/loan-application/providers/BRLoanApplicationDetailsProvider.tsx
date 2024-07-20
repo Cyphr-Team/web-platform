@@ -57,6 +57,8 @@ import { useQueryLaunchKCFitForm } from "../hooks/useQuery/useQueryLaunchKCFitFo
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
 import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
 import { useQueryExecutionForm } from "../hooks/useQuery/useQueryExecutionForm"
+import { useQueryBusinessModelForm } from "../hooks/useQuery/useQueryBusinessModelForm"
+import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -70,6 +72,7 @@ type BRLoanApplicationDetailsContext<T> = {
   productServiceFormData?: ProductServiceFormResponse
   launchKCFitFormData?: LaunchKcFitFormResponse
   executionFormData?: ExecutionFormResponse
+  businessModelFormData?: BusinessModelFormResponse
   loanApplicationDetails?: UserMicroLoanApplication
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
@@ -159,6 +162,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const productServiceFormQuery = useQueryProductServiceForm(loanApplicationId!)
   const launchKCFitFormQuery = useQueryLaunchKCFitForm(loanApplicationId!)
   const executionFormQuery = useQueryExecutionForm(loanApplicationId!)
+  const businessModelFormQuery = useQueryBusinessModelForm(loanApplicationId!)
 
   const changeDataAndProgress = useCallback(
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {
@@ -387,6 +391,30 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     launchKCFitFormQuery.data
   ])
 
+  // Bussiness Model Form
+  useEffect(() => {
+    if (businessModelFormQuery.data && isInitialized && isQualified) {
+      changeDataAndProgress(
+        {
+          id: businessModelFormQuery.data.id,
+          loanApplicationId: businessModelFormQuery.data.loanApplicationId,
+          description: businessModelFormQuery.data.description,
+          scalePlan: businessModelFormQuery.data.scalePlan,
+          totalRevenueRange: businessModelFormQuery.data.totalRevenueRange,
+          lastMonthRevenueRange:
+            businessModelFormQuery.data.lastMonthRevenueRange,
+          lastYearRevenueRange: businessModelFormQuery.data.lastYearRevenueRange
+        },
+        LOAN_APPLICATION_STEPS.BUSINESS_MODEL
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    isInitialized,
+    isQualified,
+    businessModelFormQuery.data
+  ])
+
   /**
    * Handle update identity verification data when edit draft application
    */
@@ -505,6 +533,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       productServiceFormData: productServiceFormQuery.data,
       launchKCFitFormData: launchKCFitFormQuery.data,
       executionFormData: executionFormQuery.data,
+      productModelFormData: businessModelFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
@@ -523,6 +552,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         executionFormQuery.isLoading ||
         productServiceFormQuery.isLoading ||
         launchKCFitFormQuery.isLoading ||
+        businessModelFormQuery.isLoading ||
         plaidItemIdsQuery.isLoading ||
         plaidConnectedAccountsQuery.isLoading,
       isLoading: loanProgramQuery.isLoading
@@ -549,6 +579,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       launchKCFitFormQuery.isLoading,
       executionFormQuery.data,
       executionFormQuery.isLoading,
+      businessModelFormQuery.data,
+      businessModelFormQuery.isLoading,
       loanApplicationDetailsQuery.data,
       loanApplicationDetailsQuery.isLoading,
       kycDocuments.data,

@@ -222,7 +222,11 @@ export const API_PATH = {
       index: "api/form/launchkc-fit",
       detail: "api/form/launchkc-fit/by-application-id"
     },
-    executionForm: "api/form/execution"
+    executionForm: "api/form/execution",
+    businessModelForm: {
+      index: "api/form/business-model",
+      detail: "api/form/business-model/by-application-id"
+    }
   },
   // For workspace admin
   loanApplicationAdmin: {

@@ -4,7 +4,7 @@ import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 
 import { questions } from "./constants"
 import { LaunchKcFitFormResponse } from "./type"
-
+import { get } from "lodash"
 type Props = {
   data?: LaunchKcFitFormResponse
 }
@@ -19,9 +19,7 @@ export const LaunchKcFitFormDetails: React.FC<Props> = ({ data }) => {
             <AnswersTextDisplay
               key={ind}
               label={item.question}
-              value={data?.[
-                item.field as keyof LaunchKcFitFormResponse
-              ]?.toString()}
+              value={get(data, item.field, "")}
             />
           ))}
           <AnswersTextDisplay

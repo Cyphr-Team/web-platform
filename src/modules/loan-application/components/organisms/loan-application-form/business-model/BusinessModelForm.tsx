@@ -26,16 +26,18 @@ import { questions, strategies } from "./constants"
 
 export const BusinessModelForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-  const { businessModelForm, dispatchFormAction } =
+  const { businessModelForm, loanRequest, dispatchFormAction } =
     useLoanApplicationFormContext()
 
   const defaultValues = {
     id: businessModelForm?.id ?? "",
-    howDoYouMakeMoney: businessModelForm?.howDoYouMakeMoney ?? "",
-    nearTermGrowthStrategy: businessModelForm?.nearTermGrowthStrategy ?? "",
-    revenueToDate: businessModelForm?.revenueToDate ?? "",
-    revenueLastMonth: businessModelForm?.revenueLastMonth ?? "",
-    revenueLastYear: businessModelForm?.revenueLastYear ?? ""
+    loanApplicationId:
+      businessModelForm?.loanApplicationId ?? loanRequest?.id ?? "",
+    description: businessModelForm?.description ?? "",
+    scalePlan: businessModelForm?.scalePlan ?? "",
+    totalRevenueRange: businessModelForm?.totalRevenueRange ?? "",
+    lastMonthRevenueRange: businessModelForm?.lastMonthRevenueRange ?? "",
+    lastYearRevenueRange: businessModelForm?.lastYearRevenueRange ?? ""
   }
 
   const form = useForm<BusinessModelFormValue>({
@@ -80,6 +82,7 @@ export const BusinessModelForm = () => {
         <form className="flex flex-col gap-4xl">
           {questions.map((q) => (
             <SelectInput
+              inputClassName="!max-w-52"
               className="flex items-center"
               key={q.field}
               label={q.question}
@@ -89,17 +92,18 @@ export const BusinessModelForm = () => {
             />
           ))}
           <SelectInput
+            key="scalePlan"
             label="What are your business’ near-term plans to scale?"
             control={form.control}
-            name="nearTermGrowthStrategy"
+            name="scalePlan"
             options={strategies}
             inputClassName="!max-w-full"
           />
           <TextAreaInput
-            key="howDoYouMakeMoney"
+            key="description"
             label="How do you, or will you make money?"
             control={form.control}
-            name="howDoYouMakeMoney"
+            name="description"
           />
         </form>
       </Form>

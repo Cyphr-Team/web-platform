@@ -1,61 +1,61 @@
 export const revenueToDateOptions = [
   {
     label: "No revenue",
-    value: "0"
+    value: "no_revenue"
   },
   {
     label: "$1 - $5,000",
-    value: "1-5000"
+    value: "one_to_five_thousands"
   },
   {
     label: "$5,001 - $50,000",
-    value: "5001-50000"
+    value: "five_thousands_one_to_fifty_thousands"
   },
   {
     label: "$50,001 - $100,000",
-    value: "50001-100000"
+    value: "fifty_thousands_one_to_one_hundred_thousands"
   },
   {
     label: "$100,001 - $500,000",
-    value: "100001-500000"
+    value: "one_hundred_thousands_one_to_two_fifty_thousands"
   },
   {
     label: "$500,001 - $1,000,000",
-    value: "500001-1000000"
+    value: "five_hundred_thousands_one_to_one_million"
   },
   {
     label: "Over $1,000,000",
-    value: ">1000000"
+    value: "over_one_million"
   }
 ]
 
 export const revenueLastMonthOptions = [
   {
     label: "No revenue",
-    value: "0"
+    value: "no_revenue"
   },
   {
     label: "$1 - $5,000",
-    value: "1-5000"
+    value: "one_to_five_thousands"
   },
   {
     label: "$5,001 - $50,000",
-    value: "5001-50000"
+    value: "five_thousands_one_to_fifty_thousands"
   },
   {
     label: "$50,001 - $100,000",
-    value: "50001-100000"
+    value: "fifty_thousands_one_to_one_hundred_thousands"
   },
   {
     label: "$100,001 - $250,000",
-    value: "100001-250000"
+    value: "one_hundred_thousands_one_to_two_fifty_thousands"
   },
   {
     label: "$250,001 - $500,000",
-    value: "250001-500000"
+    value: "two_fifty_thousands_one_to_five_hundred_thousands"
   },
   {
     label: "Over $500,000",
-    value: ">500000"
+    value: "over_five_hundred_thousands"
   }
 ]

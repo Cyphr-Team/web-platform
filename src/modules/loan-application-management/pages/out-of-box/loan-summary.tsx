@@ -27,6 +27,7 @@ import { Separator } from "@/components/ui/separator"
 import { ProductServiceFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/ProductServiceFormDetails"
 import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
 import { ExecutionFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/execution/ExecutionFormDetails"
+import { BusinessModelFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/BusinessModelFormDetails"
 
 export function Component() {
   const {
@@ -108,13 +109,16 @@ export function Component() {
 
         <div className="space-y-3xl flex flex-col" ref={page_4}>
           {loanSummary?.productServiceForm && (
-            <ProductServiceFormDetails data={loanSummary?.productServiceForm} />
+            <ProductServiceFormDetails data={loanSummary.productServiceForm} />
           )}
           {loanSummary?.launchKCFitForm && (
-            <LaunchKcFitFormDetails data={loanSummary?.launchKCFitForm} />
+            <LaunchKcFitFormDetails data={loanSummary.launchKCFitForm} />
           )}
           {loanSummary?.executionForm && (
-            <ExecutionFormDetails data={loanSummary?.executionForm} />
+            <ExecutionFormDetails data={loanSummary.executionForm} />
+          )}
+          {loanSummary?.businessModelForm && (
+            <BusinessModelFormDetails data={loanSummary.businessModelForm} />
           )}
         </div>
 

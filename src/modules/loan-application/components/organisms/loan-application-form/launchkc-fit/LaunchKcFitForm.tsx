@@ -43,7 +43,7 @@ export const LaunchKCFitForm = () => {
   const defaultValues = {
     id: launchKcFitForm?.id ?? "",
     loanApplicationId:
-      launchKcFitForm?.loanApplicationId ?? loanRequest.applicationId ?? "",
+      launchKcFitForm?.loanApplicationId ?? loanRequest?.id ?? "",
     referralSource: launchKcFitForm?.referralSource ?? "",
     founderTies: launchKcFitForm?.founderTies ?? "",
     impact: launchKcFitForm?.impact ?? "",

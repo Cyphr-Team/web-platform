@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card"
 import { productServiceFormQuestions } from "./constants"
 import { ProductServiceFormResponse } from "./type"
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
-
+import { get } from "lodash"
 type Props = {
   data?: ProductServiceFormResponse
 }
@@ -16,16 +16,14 @@ export const ProductServiceFormDetails: React.FC<Props> = ({ data }) => {
           className="!flex-row justify-between"
           key="businessType"
           label="Core business is a product or service"
-          value={"Product"}
+          value={data?.businessType}
         />
         <div className="flex flex-col gap-y-4xl">
           {productServiceFormQuestions.map((item, ind) => (
             <AnswersTextDisplay
               key={ind}
               label={item.question}
-              value={data?.[
-                item.field as keyof ProductServiceFormResponse
-              ]?.toString()}
+              value={get(data, item.field, "")}
             />
           ))}
         </div>
