@@ -25,7 +25,8 @@ export const Insights = () => {
         : 0,
     [insights]
   )
-  const insightsTotal = insights ? Object.entries(insights).length : 0
+  const insightsTotal =
+    isEnableKYBV2() && insights ? Object.entries(insights).length : 7
 
   return (
     <Card className="h-fit lg:sticky top-0 z-10 mb-4 flex-shrink-0">
@@ -91,6 +92,16 @@ export const Insights = () => {
           href={INSIGHT_TOC.watchLists}
           isLoading={isLoading}
         />
+        {isEnableKYBV2() && (
+          <InsightItem
+            title="Industry Classification"
+            status={insights?.industry?.status}
+            label={insights?.industry?.subLabel}
+            toolTipContent={insights?.industry?.message}
+            href={INSIGHT_TOC.industryClassification}
+            isLoading={isLoading}
+          />
+        )}
         <InsightItem
           title="Bankruptcies"
           status={insights?.bankruptcies?.status}
@@ -100,6 +111,16 @@ export const Insights = () => {
           isLoading={isLoading}
           noBorder
         />
+        {isEnableKYBV2() && (
+          <InsightItem
+            title="Website"
+            status={insights?.website?.status}
+            label={insights?.website?.subLabel}
+            toolTipContent={insights?.website?.message}
+            href={INSIGHT_TOC.website}
+            isLoading={isLoading}
+          />
+        )}
         {isEnableKYBV2() && (
           <InsightItem
             title="Adverse Media"

@@ -5,8 +5,10 @@ export const INSIGHT_TOC = {
   tinMatch: "TIN-Match",
   people: "People",
   watchLists: "Watchlists",
+  industryClassification: "Industry-Classification",
+  website: "Website",
   bankruptcies: "Bankruptcies",
-  adverseMedia: "Adverse Media"
+  adverseMedia: "Adverse-Media"
 }
 
 export const INSIGHT_IDENTITY_VERIFICATION_TOC = {

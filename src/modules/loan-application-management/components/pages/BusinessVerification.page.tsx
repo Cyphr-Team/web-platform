@@ -15,6 +15,8 @@ import {
   isEnableKYBV2
 } from "@/utils/feature-flag.utils"
 import { ScoreCardListDetail } from "../organisms/ScoreCardListDetail"
+import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification"
+import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website"
 import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia"
 
 export const Component = () => {
@@ -32,7 +34,9 @@ export const Component = () => {
         <TinMatch />
         <People />
         <WatchList />
+        {isEnableKYBV2() && <IndustryClassification />}
         <Bankruptcy />
+        {isEnableKYBV2() && <Website />}
         {isEnableKYBV2() && <AdverseMedia />}
       </div>
 
