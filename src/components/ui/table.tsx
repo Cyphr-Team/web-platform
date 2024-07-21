@@ -9,7 +9,7 @@ const Table = React.forwardRef<
     isLoading?: boolean
   }
 >(({ className, isLoading, ...props }, ref) => (
-  <div className="relative w-full">
+  <div className="relative min-w-fit max-w-full">
     {isLoading && (
       <div className="top-0 absolute h-full w-full bg-zinc-50/50 z-10 rounded">
         <div className="sticky top-1/2 left-1/2 mt-12 justify-center items-center w-full flex flex-col">

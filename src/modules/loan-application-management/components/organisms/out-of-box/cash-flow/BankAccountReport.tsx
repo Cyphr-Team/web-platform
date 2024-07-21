@@ -3,10 +3,10 @@ import { toCurrency } from "@/utils"
 import { InformationRow } from "../../../atoms/InformationRow"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 import { Badge } from "@/components/ui/badge"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { cn } from "@/lib/utils"
 import { BankAccountSummary } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 
 type Props = {
   data: BankAccountSummary

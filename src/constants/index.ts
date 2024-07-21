@@ -41,6 +41,12 @@ export const APP_PATH = {
     },
     INDEX: "/loan",
     SUBMISSION: "/loan/submission",
+    PRE_QUALIFICATION: {
+      index: "/loan/pre-qualification",
+      detail: "/loan/pre-qualification/:loanProgramId",
+      detailWithId: (loanProgramId: string) =>
+        `/loan/pre-qualification/${loanProgramId}`
+    },
     INFORMATION: {
       detail: "/loan/loan-program/:loanProgramId/information",
       detailWithId: (loanProgramId: string) =>
@@ -129,6 +135,8 @@ export const API_PATH = {
       all: "api/admin",
       get: "api/admin/user",
       sendInvitation: "api/admin/user/invite",
+      sendBulkListInvitation: "api/admin/invitation/bulk-invite-list",
+      sendBulkCsvInvitation: "api/admin/invitation/bulk-invite-csv",
       updateRoles: "api/admin/user/update-roles",
       listUsersByInstitutionId: `api/admin/users/by-institution`,
       listUsersByUserIds: "api/admin/users/by-user-ids",
@@ -141,9 +149,18 @@ export const API_PATH = {
     invitation: {
       all: "api/admin/invitation",
       list: "api/admin/invitation/list",
+      bulkInviteCsvTemplate: "api/admin/invitation/bulk-invite-csv-template",
       delete: (invitationId: string) =>
         `${API_PATH.admin.invitation.all}/${invitationId}`
     }
+  },
+  workspaceAdmin: {
+    selectRoundLoanApplication: "api/workspace-admin/applications/round",
+    getAssignableList: "api/workspace-admin/judge/assignable-list",
+    // Nudge
+    getActiveNudges: (applicationId: string) =>
+      `api/workspace-admin/loan-applications/${applicationId}/judge/active-nudges`,
+    sendNudge: `api/workspace-admin/loan-applications/judge/send-nudge`
   },
   loanProgram: {
     list: "api/user-loan/program/list",
@@ -192,7 +209,31 @@ export const API_PATH = {
     linkPlaidItem: "api/plaid/item/link",
     getPlaidItemIds: "api/plaid/item/list",
     getPlaidConnectedBankAccountsByApplicationId:
-      "api/plaid/item/connected-bank-accounts/by-application-id"
+      "api/plaid/item/connected-bank-accounts/by-application-id",
+    preQualification: {
+      index: "api/form/pre-qualification",
+      detail: "api/form/pre-qualification/by-application-id"
+    },
+    productServiceForm: {
+      all: "api/form/product-service",
+      detail: "api/form/product-service/by-application-id"
+    },
+    launchKCFitForm: {
+      index: "api/form/launchkc-fit",
+      detail: "api/form/launchkc-fit/by-application-id"
+    },
+    executionForm: "api/form/execution",
+    businessModelForm: {
+      index: "api/form/business-model",
+      detail: "api/form/business-model/by-application-id"
+    }
+  },
+  // For workspace admin
+  loanApplicationAdmin: {
+    viewJudgesScores: (applicationId: string) =>
+      `api/workspace-admin/loan-applications/${applicationId}/scorecard`,
+    all: "api/workspace-admin/application",
+    list: () => `${API_PATH.loanApplicationAdmin.all}/list`
   },
   // For loan officer
   loanApplication: {
@@ -205,6 +246,12 @@ export const API_PATH = {
       `api/loan-officer/applications/${applicationId}/underwrite`,
     reviewLoanApplication: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/review`
+  },
+  judgeApplication: {
+    all: "api/judge/loan-applications",
+    list: () => `${API_PATH.judgeApplication.all}`,
+    detail: (applicationId: string) =>
+      `${API_PATH.judgeApplication.all}/${applicationId}/score`
   },
   loanApplicationDetails: {
     all: "api/loan-officer/applications",
@@ -240,7 +287,13 @@ export const API_PATH = {
     getCashFlowNoiVsTotalDebtPaymentGraph: (applicationId: string) =>
       `api/v2/loan-officer/applications/${applicationId}/cash-flow/noi-total-debt-payment`,
     getSmartKycPersonaDetail: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/identity-verification`
+      `api/loan-officer/applications/${applicationId}/identity-verification`,
+    // Judge
+    getAssignableJudges: () => `api/workspace-admin/judge/assignable-list`,
+    updateAssignedJudges: () =>
+      `api/workspace-admin/loan-applications/judge/update`,
+    getApplicationWithStageScoresResponse: () =>
+      `api/workspace-admin/application/by-id`
   },
   document: {
     getDocumentDownloadForOfficer:
@@ -338,6 +391,7 @@ export const phoneRegex =
 
 export const SSN_PATTERN = "000-00-0000"
 export const EIN_PATTERN = "00-0000000"
+export const YEAR_PATTERN = "0000"
 
 export interface QueryResponse<T> {
   data: T

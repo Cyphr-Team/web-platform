@@ -3,19 +3,23 @@ import { APP_PATH } from "."
 import { CalendarSearch, Flag, Send, Workflow } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import {
+  judgeRoles,
   platformAdminRoles,
   reviewerRoles,
   workspaceAdminRoles
 } from "@/types/user.type"
 import { FEATURE_FLAGS } from "./feature-flag.constants"
-import { isKccBank } from "@/utils/domain.utils"
+import { isKccBank, isSbb } from "@/utils/domain.utils"
 
 export const DASHBOARD_NAV_ITEM: NavItem[] = [
   {
     title: "Dashboard",
     href: APP_PATH.DASHBOARD,
     icon: Icons.lineChart,
-    label: "Dashboard"
+    label: "Dashboard",
+    roles: reviewerRoles()
+      .concat(workspaceAdminRoles())
+      .concat(platformAdminRoles())
   },
   {
     title: "Subscriptions",
@@ -37,7 +41,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
     icon: Icons.folderCheck,
     label: "Applications",
-    roles: reviewerRoles().concat(workspaceAdminRoles())
+    roles: reviewerRoles().concat(workspaceAdminRoles()).concat(judgeRoles())
   },
   // Hide because havent implemented yet
   // {
@@ -59,7 +63,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     icon: Workflow,
     label: "Loan Programs",
     roles: workspaceAdminRoles(),
-    disabled: isKccBank()
+    disabled: isKccBank() || isSbb()
   },
   // Hide because havent implemented yet
   // {

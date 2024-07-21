@@ -7,8 +7,21 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
+import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
+import { isLaunchKC } from "@/utils/domain.utils"
+import { ScoreCard } from "../organisms/ScoreCard"
+import {
+  isEnableJudgeSubmitScore,
+  isEnableKYBV2
+} from "@/utils/feature-flag.utils"
+import { ScoreCardListDetail } from "../organisms/ScoreCardListDetail"
+import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification"
+import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website"
+import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia"
 
 export const Component = () => {
+  const isJudge = checkIsJudge()
+  const isWorkspaceAdmin = checkIsWorkspaceAdmin()
   return (
     <div className="lg:flex gap-3xl w-full">
       <Insights />
@@ -21,8 +34,16 @@ export const Component = () => {
         <TinMatch />
         <People />
         <WatchList />
+        {isEnableKYBV2() && <IndustryClassification />}
         <Bankruptcy />
+        {isEnableKYBV2() && <Website />}
+        {isEnableKYBV2() && <AdverseMedia />}
       </div>
+
+      {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}
+      {isLaunchKC() && isWorkspaceAdmin && isEnableJudgeSubmitScore() && (
+        <ScoreCardListDetail />
+      )}
     </div>
   )
 }

@@ -8,13 +8,18 @@ import {
   useQueryListPaginateUser
 } from "./hooks/useQuery/useQueryListPaginateUser"
 import { TopNav } from "./components/molecules/TopNav.tsx"
-import { checkIsForesightAdmin } from "@/utils/check-roles.ts"
+import {
+  checkIsForesightAdmin,
+  checkIsWorkspaceAdmin
+} from "@/utils/check-roles.ts"
 import { useCallback, useState } from "react"
 import { UserDetailInfo } from "@/types/user.type.ts"
 import { UserTableHeader } from "./table/user-table-header.tsx"
 import debounce from "lodash.debounce"
 import { cn } from "@/lib/utils.ts"
 import { useQueryGetListAllInstitution } from "./hooks/useQuery/useQueryGetListAllInstitution.ts"
+import { DialogSendBulkInvite } from "./components/DialogSendBulkInvitation.tsx"
+import { isLaunchKC } from "@/utils/domain.utils.ts"
 
 export function Component() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
@@ -24,6 +29,7 @@ export function Component() {
     pageSize: REQUEST_LIMIT_PARAM
   })
   const isForesightAdmin = checkIsForesightAdmin()
+  const isWorkspaceAdmin = checkIsWorkspaceAdmin()
 
   const listInstitution = useQueryGetListAllInstitution({
     enabled: isForesightAdmin
@@ -70,7 +76,11 @@ export function Component() {
         )}
       >
         {isForesightAdmin && <UserTableHeader onSearch={handleSearch} />}
-        <DialogSendInvite />
+        {isLaunchKC() && isWorkspaceAdmin ? (
+          <DialogSendBulkInvite />
+        ) : (
+          <DialogSendInvite />
+        )}
       </div>
       {/* TODO: Implement get users (include invited users) */}
       <DataTable

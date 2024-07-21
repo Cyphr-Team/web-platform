@@ -57,7 +57,26 @@ function isEnableNewInquiryPersonaKycCreatingLogic() {
 function formsConfigurationEnabled() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION)
 }
+
+function isEnableJudgeSubmitScore() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.JUDGE_SUBMIT_SCORE)
+}
+
+/**
+ * Changes on KYB for HRE
+ * 1. Industry Classification
+ * 2. Adverse Media
+ */
+function isEnableKYBV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.KYB_V2)
+}
+
+function isEnableKycReOrder() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.KYC_REORDER)
+}
+
 export {
+  isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
   isEnablePersonaKycV1,
@@ -67,5 +86,7 @@ export {
   isEnabledBankAccountConnectionV2,
   isEnableIdentityVerificationSectionView,
   isEnableNewInquiryPersonaKycCreatingLogic,
-  formsConfigurationEnabled
+  isEnableKYBV2,
+  formsConfigurationEnabled,
+  isEnableKycReOrder
 }

@@ -14,6 +14,14 @@ import { IdentityVerificationForm } from "./IdentityVerificationForm"
 import { OperatingExpensesForm } from "./OperatingExpensesForm"
 import { OwnerInformationForm } from "./OwnerInformationForm"
 import { CashFlowVerificationFormV2 } from "./v2/CashFlowVerificationForm"
+import { ProductServiceForm } from "./product-service/ProductServiceForm"
+import { BusinessModelForm } from "./business-model/BusinessModelForm"
+import { DocumentUploadsForm } from "./DocumentUploadForm"
+import { ExecutionForm } from "./execution/ExecutionForm"
+import { LaunchKCFitForm } from "./launchkc-fit/LaunchKcFitForm"
+import { MarketOpportunityForm } from "./market-opportunity/MarketOpportunityForm"
+import { isLaunchKC } from "@/utils/domain.utils.ts"
+import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -21,15 +29,19 @@ interface IReviewStep {
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
- * This hook doesn't include the review componenet, so it won't make an infinity loop
+ * This hook doesn't include the review component, so it won't make an infinity loop
  */
-export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
+export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   const componentStep = useMemo(() => {
     switch (step) {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
         return <LoanRequest />
       case LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION:
-        return <BusinessInformationForm />
+        return isLaunchKC() ? (
+          <LaunchKCBusinessInformationForm />
+        ) : (
+          <BusinessInformationForm />
+        )
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
@@ -48,6 +60,18 @@ export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
         return <OperatingExpensesForm />
       case LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION:
         return <IdentityVerificationForm />
+      case LOAN_APPLICATION_STEPS.PRODUCT_SERVICE:
+        return <ProductServiceForm />
+      case LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY:
+        return <MarketOpportunityForm />
+      case LOAN_APPLICATION_STEPS.BUSINESS_MODEL:
+        return <BusinessModelForm />
+      case LOAN_APPLICATION_STEPS.EXECUTION:
+        return <ExecutionForm />
+      case LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS:
+        return <DocumentUploadsForm />
+      case LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT:
+        return <LaunchKCFitForm />
       default:
         return null
     }
@@ -57,7 +81,7 @@ export const useGetFormByStepLmao = (step: LOAN_APPLICATION_STEPS) => {
 }
 
 export const ReviewApplicationStep = ({ stepProgress }: IReviewStep) => {
-  const componentByStep = useGetFormByStepLmao(stepProgress.step)
+  const componentByStep = useGetReviewFormByStep(stepProgress.step)
 
   return <div className="w-full">{componentByStep}</div>
 }

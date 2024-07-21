@@ -20,6 +20,28 @@ export const axiosClient = applyCaseMiddleware(
   }
 )
 
+axiosClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      try {
+        // If the request is unauthorized, get a new access token
+        const newInfo = await inMemoryJWTService.getNewAccessToken()
+        if (newInfo) {
+          // If the access token is successfully refreshed, retry the request
+          const originalRequest = error.config
+          originalRequest.headers.Authorization = `Bearer ${newInfo.accessToken}`
+          return axiosClient(originalRequest)
+        }
+      } catch (e) {
+        // If the access token cannot be refreshed, redirect the user to the login page
+        inMemoryJWTService.eraseToken()
+      }
+    }
+    return Promise.reject(error)
+  }
+)
+
 type GetParams<T> = {
   path: string
   config?: AxiosRequestConfig

@@ -2,8 +2,9 @@ import * as z from "zod"
 import { REGEX_PATTERN } from "."
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import { PlaidItemInfo } from "./type"
-import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
-import { EPersonaStatus } from "../../../types/kyc"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
+import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
+
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ownerFormSchema = z.object({
@@ -66,6 +67,24 @@ export const businessFormSchema = z.object({
   businessTin: z.string().min(10, { message: "EIN is required" })
 })
 
+export const launchKCBusinessFormSchema = businessFormSchema.extend({
+  // in the future we should use [FIELD_NAMES.YEAR_FOUNDED] pattern instead of yearFounded
+  // it provide single truth for us to reduce unwanted error
+  yearFounded: z
+    .string()
+    .min(1, { message: "Year Founded is required" })
+    .refine((value) => parseInt(value) > 1900, { message: "Invalid year" }),
+  legalStructure: z.string().min(1, { message: "Legal Structure is required" }),
+  primaryIndustry: z
+    .string()
+    .min(1, { message: "Primary Industry is required" }),
+  primaryIndustryOther: z.string().nullable(),
+  companyDescription: z
+    .string()
+    .min(1, { message: "Company Description is required" })
+    .max(255, { message: "Company Description is too long" })
+})
+
 export const financialFormSchema = z.object({
   id: z.string(),
   incomeCategories: z
@@ -94,7 +113,8 @@ export const loanRequestFormSchema = z.object({
   id: z.string(),
   loanAmount: z.number(),
   loanTermInMonth: z.number().gt(1),
-  proposeUseOfLoan: z.string().min(1)
+  proposeUseOfLoan: z.string().min(1),
+  applicationId: z.string().optional()
 })
 
 const LoanItemFormSchema = z.object({
@@ -162,7 +182,10 @@ export const createIdentityVerificationSchema = () => {
     inquiryId: z.string(),
     status: z.string().refine((status) => {
       if (isEnableNewInquiryPersonaKycCreatingLogic()) {
-        return status.toLowerCase() === EPersonaStatus.COMPLETED.toLowerCase()
+        return (
+          status.toLowerCase() === EPersonaStatus.COMPLETED.toLowerCase() ||
+          status.toLowerCase() === EDecisionStatus.APPROVED.toLowerCase()
+        )
       } else {
         return true // Accept any status when new logic is not enabled
       }
@@ -187,11 +210,124 @@ export const cashFlowSchema = z.object({
   plaidItemInfo: z.custom<PlaidItemInfo[]>()
 })
 
+export const assigningJudgeFormSchema = z.object({
+  user: z.object({
+    value: z.string().min(1, "User id is required"),
+    label: z.string().min(1, "User email is required")
+  })
+})
+export const preQualificationSchema = z.object({
+  applicationId: z.string().nullable(),
+  isCompanyBasedInUs: z.boolean(),
+  foundingTeamEligibleToWorkInUs: z.boolean(),
+  isForProfitTechCompany: z.boolean(),
+  hasMvpWithRevenueUnderOneMillion: z.boolean(),
+  willingToOperateInKansasCityMo: z.string()
+})
+
+export const productServiceFormSchema = z.object({
+  id: z.string().nullable(),
+  loanApplicationId: z.string().nullable(),
+  businessType: z.string().min(1, { message: "This field is required" }),
+  solutionFocus: z.string().min(1, { message: "This field is required" }),
+  businessValue: z.string().min(1, { message: "This field is required" }),
+  proofOfMarket: z.string().min(1, { message: "This field is required" }),
+  intellectualProperty: z.string().min(1, { message: "This field is required" })
+})
+
+export const marketOpportunityFormSchema = z.object({
+  id: z.string().nullable(),
+  marketServed: z.string().min(1, { message: "This field is required" }),
+  competitors: z.string().min(1, { message: "This field is required" }),
+  accessMarket: z.string().min(1, { message: "This field is required" })
+})
+
+export const businessModelFormSchema = z.object({
+  id: z.string().nullable(),
+  loanApplicationId: z.string().nullable(),
+  description: z.string().min(1, { message: "This field is required" }),
+  totalRevenueRange: z.string().min(1, { message: "This field is required" }),
+  lastMonthRevenueRange: z
+    .string()
+    .min(1, { message: "This field is required" }),
+  lastYearRevenueRange: z
+    .string()
+    .min(1, { message: "This field is required" }),
+  scalePlan: z.string().min(1, { message: "This field is required" })
+})
+
+export const executionFormSchema = z.object({
+  id: z.string().nullable(),
+  loanApplicationId: z.string().nullable(),
+  monthlyExpenseRange: z.string().min(1, { message: "This field is required" }),
+  growthMetric: z.string().min(1, { message: "This field is required" }),
+  recentMilestone: z.string().min(1, { message: "This field is required" }),
+  nextMilestone: z.string().min(1, { message: "This field is required" }),
+  greatestChallenge: z.string().min(1, { message: "This field is required" }),
+  currentStage: z.string().min(1, { message: "This field is required" }),
+  supportAreas: z.array(z.string()),
+  partnerships: z.array(z.string()),
+  fundingSources: z.array(
+    z.object({
+      source: z.string().min(1, { message: "This field is required" }),
+      amount: z.string().min(1, { message: "This field is required" })
+    })
+  ),
+  founders: z.array(
+    z.object({
+      name: z.string().min(1, { message: "This field is required" }),
+      title: z.string().min(1, { message: "This field is required" }),
+      background: z.string().min(1, { message: "This field is required" }),
+      skills: z.string().min(1, { message: "This field is required" })
+    })
+  )
+})
+
+export const documentUploadsFormSchema = z.object({
+  executiveSummary: z.custom<File[]>().refine(
+    (file) => {
+      if (file?.length) {
+        return file && ACCEPTED_FILE_TYPES.includes(file[0]?.type)
+      }
+      return true
+    },
+    {
+      message: "Please choose PNG, JPG, PDF format files only"
+    }
+  ),
+  pitchDeck: z.custom<File[]>().refine(
+    (file) => {
+      if (file?.length) {
+        return file && ACCEPTED_FILE_TYPES.includes(file[0]?.type)
+      }
+      return true
+    },
+    {
+      message: "Please choose PNG, JPG, PDF format files only"
+    }
+  )
+})
+
+export const launchKcFitFormSchema = z.object({
+  id: z.string().nullable(),
+  loanApplicationId: z.string().nullable(),
+  referralSource: z.string().min(1, { message: "This field is required" }),
+  founderTies: z.string().min(1, { message: "This field is required" }),
+  impact: z.string().min(1, { message: "This field is required" }),
+  equityInclusion: z.string().min(1, { message: "This field is required" }),
+  applied: z.boolean(),
+  progress: z.string().min(1, { message: "This field is required" })
+})
+
 export type IdentityVerificationValue = z.infer<
   ReturnType<typeof createIdentityVerificationSchema>
 >
 
 export type BusinessFormValue = z.infer<typeof businessFormSchema>
+
+export type LaunchKCBusinessFormValue = z.infer<
+  typeof launchKCBusinessFormSchema
+>
 
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
 
@@ -208,3 +344,20 @@ export type OperatingExpensesFormValue = z.infer<
 >
 
 export type CashFlowFormValue = z.infer<typeof cashFlowSchema>
+
+export type AssigningJudgeFormValue = z.infer<typeof assigningJudgeFormSchema>
+export type PreQualificationFormValue = z.infer<typeof preQualificationSchema>
+
+export type ProductServiceFormValue = z.infer<typeof productServiceFormSchema>
+
+export type MarketOpportunityFormValue = z.infer<
+  typeof marketOpportunityFormSchema
+>
+
+export type BusinessModelFormValue = z.infer<typeof businessModelFormSchema>
+
+export type ExecutionFormValue = z.infer<typeof executionFormSchema>
+
+export type DocumentUploadsFormValue = z.infer<typeof documentUploadsFormSchema>
+
+export type LaunchKCFitFormValue = z.infer<typeof launchKcFitFormSchema>

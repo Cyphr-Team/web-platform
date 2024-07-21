@@ -6,16 +6,17 @@ import {
 } from "../../providers"
 import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
 import {
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS
 } from "../../models/LoanApplicationStep/type"
+import { isLaunchKC } from "@/utils/domain.utils.ts"
 
 export const LoanApplicationSave = () => {
   const { submitLoanForm, isSubmitting } = useLoanApplicationFormContext()
   const { progress, dispatchProgress } = useLoanApplicationProgressContext()
 
   const isCompleteLoanRequestForm =
-    progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+    isLaunchKC() || progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
 
   const onConfirmed = () => {
     if (!isCompleteLoanRequestForm) {

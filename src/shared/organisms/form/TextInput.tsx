@@ -8,7 +8,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { ChangeEventHandler, FocusEventHandler } from "react"
+import React, { ChangeEventHandler, FocusEventHandler } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 interface ITextInputType<T extends FieldValues> {

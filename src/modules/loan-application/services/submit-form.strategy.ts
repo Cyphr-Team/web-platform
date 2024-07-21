@@ -4,7 +4,7 @@ import { TOAST_MSG } from "@/constants/toastMsg"
 import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
-import { isCyphrBank, isKccBank } from "@/utils/domain.utils"
+import { isCyphrBank, isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
@@ -12,13 +12,17 @@ import { useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import {
   BusinessFormValue,
+  BusinessModelFormValue,
   ConfirmationFormValue,
   CurrentLoansFormValue,
+  ExecutionFormValue,
   FinancialFormValue,
   IdentityVerificationValue,
+  LaunchKCFitFormValue,
   LoanRequestFormValue,
   OperatingExpensesFormValue,
-  OwnerFormValue
+  OwnerFormValue,
+  ProductServiceFormValue
 } from "../constants/form"
 import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
 import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
@@ -36,6 +40,10 @@ import {
   LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS
 } from "../models/LoanApplicationStep/type"
+import { useSubmitLoanProductServiceForm } from "../hooks/useForm/useSubmitProductServiceForm"
+import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKCFitForm"
+import { useSubmitExecutionForm } from "../hooks/useForm/useSubmitExecutionForm"
+import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -49,6 +57,10 @@ export const useSubmitLoanForm = (
   confirmationData: ConfirmationFormValue,
   cashflowData: FinancialFormValue,
   identityVerificationData: IdentityVerificationValue,
+  productServiceData: ProductServiceFormValue,
+  launchKCFitData: LaunchKCFitFormValue,
+  executionData: ExecutionFormValue,
+  businessModelData: BusinessModelFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -100,6 +112,18 @@ export const useSubmitLoanForm = (
     operatingExpensesData,
     operatingExpensesData?.id ?? ""
   )
+
+  const { submitProductServiceForm, isLoading: isSubmittingProductService } =
+    useSubmitLoanProductServiceForm(productServiceData)
+
+  const { submitLoanLaunchKCFitForm, isLoading: isSubmittingLaunchKCFit } =
+    useSubmitLoanLaunchKCFitForm(launchKCFitData)
+
+  const { submitLoanExecutionForm, isLoading: isSubmittingExecution } =
+    useSubmitExecutionForm(executionData)
+
+  const { submitLoanBusinessModelForm, isLoading: isSubmittingBusinessModel } =
+    useSubmitLoanBusinessModelForm(businessModelData)
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -239,7 +263,7 @@ export const useSubmitLoanForm = (
           }
         }
 
-        if (isKccBank() || isCyphrBank()) {
+        if (isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()) {
           if (
             currentLoansData &&
             isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
@@ -253,6 +277,32 @@ export const useSubmitLoanForm = (
             await submitOperatingExpensesForm(loanRequestId)
           }
         }
+        if (
+          productServiceData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
+        ) {
+          await submitProductServiceForm()
+        }
+        if (
+          launchKCFitData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
+        ) {
+          await submitLoanLaunchKCFitForm()
+        }
+        if (
+          executionData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.EXECUTION)
+        ) {
+          await submitLoanExecutionForm()
+        }
+
+        if (
+          businessModelData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
+        ) {
+          await submitLoanBusinessModelForm()
+        }
+
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -262,7 +312,7 @@ export const useSubmitLoanForm = (
         if (businessData) await submitLoanKYBForm(loanRequestId)
         if (ownerData) await submitLoanKYCForm(loanRequestId)
         await submitLoanFinancialForm(loanRequestId)
-        if (isKccBank() || isCyphrBank()) {
+        if (isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()) {
           if (currentLoansData) {
             await submitCurrentLoansForm(loanRequestId)
           }
@@ -297,17 +347,21 @@ export const useSubmitLoanForm = (
     identityVerificationData?.smartKycId,
     plaidItemIds.length,
     loanType,
-    submitLinkPlaidItemds,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
     queryClient,
     submitLoanIdentityVerification,
+    submitLinkPlaidItemds,
     businessData,
     isCompleteSteps,
     submitLoanKYBForm,
     ownerData,
     financialData,
     cashflowData,
+    productServiceData,
+    launchKCFitData,
+    executionData,
+    businessModelData,
     confirmationData,
     submitLoanKYCForm,
     uploadDocuments,
@@ -317,6 +371,10 @@ export const useSubmitLoanForm = (
     operatingExpensesData,
     submitCurrentLoansForm,
     submitOperatingExpensesForm,
+    submitProductServiceForm,
+    submitLoanLaunchKCFitForm,
+    submitLoanExecutionForm,
+    submitLoanBusinessModelForm,
     submitLoanConfirmationForm,
     handleSubmitFormError
   ])
@@ -334,6 +392,10 @@ export const useSubmitLoanForm = (
       isSubmittingConfirmation ||
       isUploading ||
       isSubmittingIdentityVerification ||
-      isSubmitLinkPlaidItemIds
+      isSubmitLinkPlaidItemIds ||
+      isSubmittingProductService ||
+      isSubmittingLaunchKCFit ||
+      isSubmittingExecution ||
+      isSubmittingBusinessModel
   }
 }

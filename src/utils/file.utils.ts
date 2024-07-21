@@ -38,6 +38,38 @@ export const getFileExtension = (fileName: string): string => {
   }
 }
 
+/**
+ * Converts an array of JSON objects to a CSV string.
+ * @param jsonArray - The array of JSON objects.
+ * @param headers - The headers to include in the CSV.
+ * @returns The CSV string.
+ */
+export const convertJsonArrayToCsv = <T>(
+  jsonArray: T[],
+  headers: (keyof T)[]
+): string => {
+  try {
+    const csvRows = []
+
+    // Get headers
+    csvRows.push(headers.join(","))
+
+    // Loop through rows
+    for (const row of jsonArray) {
+      // Wrap values in quotes for data that contains commas
+      const values = headers.map((header) =>
+        row[header] ? `"${row[header]}"` : ""
+      )
+      csvRows.push(values.join(","))
+    }
+
+    return csvRows.join("\n")
+  } catch (error) {
+    console.error("Error converting JSON to CSV:", error)
+    return ""
+  }
+}
+
 export const sanitizeDOM = (elem?: string) => {
   try {
     return DOMPurify.sanitize(elem ?? "")

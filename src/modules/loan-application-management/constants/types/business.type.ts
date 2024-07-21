@@ -15,11 +15,7 @@ enum SourceStatus {
   UNKNOWN = "UNKNOWN"
 }
 
-enum SubLabel {
-  VERIFIED = "VERIFIED"
-}
-
-export { TaskFieldStatus, SourceStatus, SubLabel }
+export { TaskFieldStatus, SourceStatus }
 
 /* ----- TYPE -----
  * Source
@@ -31,7 +27,10 @@ export { TaskFieldStatus, SourceStatus, SubLabel }
  * Tin
  * People
  * Watch list
+ * Industry Classification
  * Bankruptcies
+ * Website
+ * Adverse Media
  * Application KYB Detail Response
  */
 // Source
@@ -44,7 +43,7 @@ type BusinessRegistrationSource = {
 // Insights
 type InsightData = {
   category?: string
-  subLabel?: SubLabel
+  subLabel?: string
   status?: TaskFieldStatus
   message?: string
 }
@@ -56,12 +55,15 @@ type BusinessInsight = {
   people?: InsightData
   watchlists?: InsightData
   bankruptcies?: InsightData
+  industry?: InsightData
+  website?: InsightData
+  adverseMedia?: InsightData
 }
 
 // Business Detail
 type BusinessDetailData = {
   value?: string
-  subLabel?: SubLabel
+  subLabel?: string
   status?: TaskFieldStatus
   source: BusinessRegistrationSource
   message?: string
@@ -83,7 +85,7 @@ type BusinessNameDetail = {
   source: BusinessRegistrationSource
 }
 type BusinessNameData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessNameDetail[]
 }
 
@@ -98,7 +100,7 @@ type BusinessAddressDetail = {
   registeredAgent: boolean
 }
 type BusinessAddressData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessAddressDetail[]
 }
 
@@ -114,7 +116,7 @@ type BusinessSosData = {
   active: number
   inactive: number
   unknown: number
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessSosDetail[]
 }
 
@@ -124,7 +126,7 @@ type BusinessTinDetail = {
   tin?: string
 }
 type BusinessTinData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessTinDetail
 }
 
@@ -136,7 +138,7 @@ type BusinessPeopleDetail = {
   title: string[]
 }
 type BusinessPeopleData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessPeopleDetail[]
 }
 
@@ -167,8 +169,79 @@ type BusinessBankruptcyDetail = {
   court?: string
 }
 type BusinessBankruptcyData = {
-  subLabel?: SubLabel
+  subLabel?: string
   data: BusinessBankruptcyDetail[]
+}
+
+// Industry Classification
+type BusinessIndustryClassificationDetail = {
+  classificationSystem?: string
+  code?: string[]
+  category?: string
+  confidence?: number
+}
+
+type BusinessIndustryClassificationData = {
+  subLabel?: string
+  data: BusinessIndustryClassificationDetail[]
+}
+
+export const BusinessIndustryClassificationHighRiskCategory = {
+  ADULT_CONTENT: "ADULT_CONTENT",
+  AGGREGATION: "AGGREGATION",
+  CANNABIS: "CANNABIS",
+  BRANDED_GOODS: "BRANDED_GOODS",
+  DRUG_OF_CONCERN: "DRUG_OF_CONCERN",
+  DRUG_PARAPHERNALIA: "DRUG_PARAPHERNALIA",
+  GAMBLING: "GAMBLING",
+  GET_RICH_QUICK: "GET_RICH_QUICK",
+  GIFT_CARD: "GIFT_CARD",
+  HIGH_RISK: "HIGH_RISK",
+  INVESTMENT_CREDIT: "INVESTMENT_CREDIT",
+  MONEY_LEGAL: "MONEY_LEGAL",
+  MULTI_LEVEL_MARKETING: "MULTI_LEVEL_MARKETING",
+  PSEUDO_PHARMACEUTICAL: "PSEUDO_PHARMACEUTICAL",
+  REGULATED_ILLEGAL: "REGULATED_ILLEGAL",
+  SOCIAL_MEDIA_ACTIVITY: "SOCIAL_MEDIA_ACTIVITY"
+}
+
+// Website
+type BusinessWebsiteDetail = {
+  status?: string
+  identifiedWebPresence?: string
+  website?: string
+  created?: string
+  phoneNumber?: string[]
+  online?: string
+}
+
+type BusinessWebsiteData = {
+  subLabel?: string
+  data: BusinessWebsiteDetail
+}
+export enum BusinessWebsiteFieldStatus {
+  Online = "online",
+  Offline = "offline",
+  Unknown = "unknown"
+}
+// Adverse Media
+type BusinessAdverseMediaScreened = {
+  value: string
+  field: string
+}
+type BusinessAdverseMediaRisk = {
+  subLabel: string
+  status: TaskFieldStatus
+}
+type BusinessAdverseMediaDetail = {
+  screened: BusinessAdverseMediaScreened
+  risk: BusinessAdverseMediaRisk
+  mediaSources: string
+}
+type BusinessAdverseMediaData = {
+  status: TaskFieldStatus
+  subLabel?: string
+  data: BusinessAdverseMediaDetail[]
 }
 
 // Application KYB Detail Response
@@ -183,6 +256,9 @@ type ApplicationKybDetailResponse = {
   businessPeople: BusinessPeopleData
   businessWatchlist: BusinessWatchlistData
   businessBankruptcies: BusinessBankruptcyData
+  businessIndustryClassification: BusinessIndustryClassificationData
+  businessWebsite: BusinessWebsiteData
+  businessAdverseMedia: BusinessAdverseMediaData
 }
 
 export type {
@@ -196,5 +272,13 @@ export type {
   BusinessWatchlistData,
   BusinessBankruptcyDetail,
   BusinessAddressDetail,
-  BusinessSosData
+  BusinessSosData,
+  BusinessIndustryClassificationDetail,
+  BusinessIndustryClassificationData,
+  BusinessWebsiteData,
+  BusinessWebsiteDetail,
+  BusinessAdverseMediaData,
+  BusinessAdverseMediaDetail,
+  BusinessAdverseMediaScreened,
+  BusinessAdverseMediaRisk
 }

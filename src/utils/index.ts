@@ -37,6 +37,11 @@ export function checkValidPhoneNumber(phone: string) {
   return phoneRegex.test(phone)
 }
 
+export const checkValidEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
 /**
  * Reference: [sonner](https://ui.shadcn.com/docs/components/sonner)
  */
@@ -99,6 +104,10 @@ export const textToCamelCaseFieldPattern = (str: string) => {
 
 export const convertToCamelCase = (str: string) => {
   return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase())
+}
+
+export const capitalizeFirstOnly = (str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
 export const snakeCaseToText = (str: string) => {
@@ -232,4 +241,59 @@ export function downloadFile(blob: Blob, filename: string) {
     link.click()
     document.body.removeChild(link)
   }
+}
+
+export function roundToOneDecimalPlace(number: number) {
+  return Math.round(number * 10) / 10
+}
+
+export function removeWhitespace(str: string) {
+  return str.replace(/\s/g, "")
+}
+
+export const sanitizeNumber = (number?: number | null) => {
+  return Number(number) || 0
+}
+
+export const formatDate = (dateString: string, separator: string) => {
+  if (!dateString) return "."
+  const date = new Date(dateString)
+  return date.toISOString().split(separator)[0]
+}
+
+export const convertDateTimeToLocal = (
+  dateString: string,
+  separator: string,
+  connector: string
+) => {
+  try {
+    const date = new Date(dateString)
+
+    const options = {
+      month: "2-digit" as const,
+      day: "2-digit" as const,
+      year: "numeric" as const,
+      hour: "numeric" as const,
+      minute: "2-digit" as const
+    }
+
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date)
+
+    const [datePart, timePart] = formattedDate.split(`${separator}`)
+
+    return `${datePart} ${connector} ${timePart}`
+  } catch (error) {
+    console.error("Error converting date:", error)
+    return "---"
+  }
+}
+
+export const formatBoundaryValues = (data?: string[]): string => {
+  if (!data || data.length === 0) {
+    return "-"
+  }
+  if (data.length === 1) {
+    return data[0]
+  }
+  return `${data[0]}-${data[data.length - 1]}`
 }

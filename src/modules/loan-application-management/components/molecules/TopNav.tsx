@@ -1,7 +1,13 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
 import { Link, useLocation, useParams } from "react-router-dom"
-import { isCyphrBank, isKccBank, isLoanReady } from "@/utils/domain.utils"
+import {
+  isCyphrBank,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { isEnableIdentityVerificationSectionView } from "../../../../utils/feature-flag.utils"
 
@@ -26,6 +32,26 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.loanSummary as string
     ]
     // Hide Identity Verication tab when FF off
+    if (!isEnableIdentityVerificationSectionView()) {
+      menuItems = menuItems.filter(
+        (e) => e != (ApplicationMenuName.identity as string)
+      )
+    }
+  } else if (isLaunchKC()) {
+    menuItems = [
+      ApplicationMenuName.business as string,
+      ApplicationMenuName.identity as string,
+      ApplicationMenuName.cashflow as string,
+      ApplicationMenuName.loanSummary as string
+    ]
+  } else if (isSbb()) {
+    menuItems = [
+      ApplicationMenuName.business as string,
+      ApplicationMenuName.identity as string,
+      ApplicationMenuName.document as string,
+      ApplicationMenuName.cashflow as string,
+      ApplicationMenuName.loanSummary as string
+    ]
     if (!isEnableIdentityVerificationSectionView()) {
       menuItems = menuItems.filter(
         (e) => e != (ApplicationMenuName.identity as string)

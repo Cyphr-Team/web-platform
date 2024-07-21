@@ -5,7 +5,9 @@ import {
   FORMAT_DATE_M_D_Y_TIME,
   FORMAT_REQUEST_DATE
 } from "@/constants/date.constants"
-import { format } from "date-fns"
+import { format, interval, isValid, parse } from "date-fns"
+import { util } from "zod"
+import find = util.find
 
 export const formatBirthday = (date?: string) => {
   try {
@@ -61,5 +63,28 @@ export const calculateDaysUntilExpiration = (
     Math.floor(
       (currentDate.getTime() - sentDate.getTime()) / millisecondsPerDay
     )
+  )
+}
+
+export const validTimeRange = (
+  start: string | number | Date,
+  end: string | number | Date
+): boolean => {
+  try {
+    interval(start, end, { assertPositive: true })
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+export const validFormat = (value: string) => {
+  const allowedFormat = ["MM/dd/yyyy", "MMM dd, yyyy", "MMM dd yyyy"]
+  const newDate = new Date()
+  return (
+    find(
+      allowedFormat.map((fmt) => isValid(parse(value, fmt, newDate))),
+      (value) => value
+    ) !== undefined
   )
 }

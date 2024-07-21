@@ -1,0 +1,209 @@
+import { Command as CommandPrimitive } from "cmdk"
+import { ControllerRenderProps, Path } from "react-hook-form"
+
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandItem,
+  CommandList
+} from "@/components/ui/command"
+import { FormItem, FormMessage } from "@/components/ui/form"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
+import { Option } from "@/types/common.type"
+import { ChevronDown, X } from "lucide-react"
+import { KeyboardEvent, ReactNode, useCallback, useEffect, useRef } from "react"
+import { Checkbox } from "./checkbox"
+import { Separator } from "./separator"
+
+export function MultiSelectRound<
+  TFieldValues extends Record<string, Option[]>,
+  TName extends Path<TFieldValues>
+>({
+  options,
+  field,
+  label,
+  labelHOC
+}: {
+  options: Option[]
+  field: ControllerRenderProps<TFieldValues, TName>
+  label: string
+  labelHOC?: (option: Option, close?: ReactNode) => ReactNode
+}) {
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const isSelected = useCallback(
+    (option: Option) => {
+      return field.value.some((select: Option) => select.value === option.value)
+    },
+    [field.value]
+  )
+
+  const handleOptionClick = useCallback(
+    (option: Option) => () => {
+      if (isSelected(option)) {
+        field.onChange(
+          field.value.filter((select: Option) => select.value !== option.value)
+        )
+      } else {
+        field.onChange([...field.value, option])
+      }
+    },
+    [field, isSelected]
+  )
+
+  const handleSearchOnKeyDown = useCallback(
+    (searchOnKeyDownEvent: KeyboardEvent<HTMLDivElement>) => {
+      const inputValueLength = searchInputRef.current?.value?.length ?? 0
+      const allowDelete =
+        !inputValueLength &&
+        !!field.value.length &&
+        (searchOnKeyDownEvent.key === "Backspace" ||
+          searchOnKeyDownEvent.key === "Delete")
+
+      if (!allowDelete) return
+
+      const currentValue = field.value
+
+      field.onChange(currentValue.slice(0, -1))
+    },
+    [field]
+  )
+
+  const clearAllValue = useCallback(() => {
+    field.onChange([])
+  }, [field])
+
+  const focusInput = useCallback(() => {
+    searchInputRef.current?.scrollIntoView()
+    searchInputRef.current?.focus()
+  }, [])
+
+  const additionLabel = field.value.length > 0 && (
+    <>
+      :{" "}
+      {field.value.length === options.length ? "All" : `+${field.value.length}`}
+    </>
+  )
+
+  useEffect(() => {
+    focusInput()
+  }, [field.value, focusInput])
+
+  return (
+    <FormItem className="flex flex-col">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className={cn(
+              "rounded-full text-slate-700",
+              !!field.value.length && "border-primary"
+            )}
+          >
+            <span className="font-semibold">
+              {label}
+              {additionLabel}
+            </span>
+
+            <ChevronDown className="ml-0.5 h-5 w-5 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+
+        <PopoverContent className="w-[244px] p-0">
+          <Command>
+            <div className="flex flex-col h-auto max-h-96 overflow-hidden">
+              <div>
+                <div className="p-4 pb-0">
+                  <div className="border-primary border shadow-lg rounded-lg overflow-hidden">
+                    <div
+                      className={cn(
+                        "w-full gap-2 p-3 py-2.5",
+                        "flex flex-wrap max-h-24 overflow-auto overscroll-contain"
+                      )}
+                      onClick={focusInput}
+                    >
+                      {field.value.map(
+                        (option: Option) =>
+                          (
+                            <div key={option.value}>
+                              {labelHOC?.(
+                                option,
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="ml-1 w-auto h-auto p-0"
+                                  type="button"
+                                  onClick={handleOptionClick(option)}
+                                >
+                                  <X className="w-3 h-3" strokeWidth={3} />
+                                </Button>
+                              )}
+                            </div>
+                          ) || option.label
+                      )}
+
+                      <div className="max-w-32">
+                        <CommandPrimitive.Input
+                          ref={searchInputRef}
+                          onKeyDown={handleSearchOnKeyDown}
+                          className={cn(
+                            "bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+                            "flex h-6 p-0 w-full text-sm placeholder:text-muted-foreground"
+                          )}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="px-4 font-semibold text-xs py-2 pb-1">
+                  {label}
+                </div>
+              </div>
+
+              <CommandEmpty>No result found.</CommandEmpty>
+
+              <CommandList className="overflow-auto">
+                {options.map((option) => (
+                  <CommandItem
+                    className="cursor-pointer gap-3 px-4 h-10 rounded-none"
+                    value={option.label}
+                    key={option.value}
+                    onSelect={handleOptionClick(option)}
+                  >
+                    <Checkbox
+                      className={cn(
+                        "border-2 border-zinc-300 rounded-[3px] w-5 h-5",
+                        "data-[state=checked]:bg-slate-600 data-[state=checked]:border-none data-[state=checked]:text-white",
+                        "[&>span>svg>path]:stroke-[3]"
+                      )}
+                      checked={isSelected(option)}
+                    />
+                    {labelHOC ? labelHOC(option) : option.label}
+                  </CommandItem>
+                ))}
+              </CommandList>
+            </div>
+
+            <Separator className="my-1.5" />
+
+            <Button
+              size="sm"
+              className="mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary px-4 rounded-none"
+              variant="ghost"
+              onClick={clearAllValue}
+            >
+              Clear selection
+            </Button>
+          </Command>
+        </PopoverContent>
+      </Popover>
+      <FormMessage />
+    </FormItem>
+  )
+}

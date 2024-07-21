@@ -3,11 +3,13 @@ import { UploadCloud } from "lucide-react"
 import { Card } from "@/components/ui/card"
 
 interface DragDropFileInputProps {
-  onFileSelect: (files: FileList) => void
+  onFileSelect: (files: FileList, field?: string) => void
+  field?: string
 }
 
 export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
-  onFileSelect
+  onFileSelect,
+  field
 }) => {
   const [dragActive, setDragActive] = useState(false)
 
@@ -26,13 +28,13 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
     event.stopPropagation()
     setDragActive(false)
     if (event.dataTransfer.files?.[0]) {
-      onFileSelect(event.dataTransfer.files)
+      onFileSelect(event.dataTransfer.files, field)
     }
   }
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      onFileSelect(event.target.files)
+      onFileSelect(event.target.files, field)
     }
   }
 

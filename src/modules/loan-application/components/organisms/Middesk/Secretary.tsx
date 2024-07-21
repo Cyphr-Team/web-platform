@@ -7,13 +7,13 @@ import { MiddeskTable } from "@/modules/loan-application-management/components/t
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
 import { BusinessSosDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/middesk.service"
 import { ColumnDef } from "@tanstack/react-table"
 import { MiddeskBadge } from "../../molecules/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/MiddeskCard"
 import { SourceToolTip } from "../../molecules/SourceToolTip"
 import { DateHeader } from "./DateHeader"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 
 const columns: ColumnDef<BusinessSosDetail>[] = [
   {

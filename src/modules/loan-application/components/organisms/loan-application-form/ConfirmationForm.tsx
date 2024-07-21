@@ -15,7 +15,10 @@ import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { getConfirmationTexts } from "../../../constants"
+import {
+  getConfirmationTexts,
+  launchKcConfirmationTexts
+} from "../../../constants"
 import {
   ConfirmationFormValue,
   confirmationFormSchema
@@ -29,6 +32,8 @@ import {
   useLoanApplicationProgressContext
 } from "../../../providers"
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
+import { sanitizeDOM } from "@/utils/file.utils"
+import { isLaunchKC } from "@/utils/domain.utils"
 
 export const ConfirmationForm = () => {
   const { dispatchFormAction } = useLoanApplicationFormContext()
@@ -63,21 +68,27 @@ export const ConfirmationForm = () => {
 
   const tenant = useTenant()
 
-  const CONFIRMATION_TEXTS = getConfirmationTexts(
-    tenant?.tenantData?.name ?? ""
-  )
+  const CONFIRMATION_TEXTS = isLaunchKC()
+    ? launchKcConfirmationTexts
+    : getConfirmationTexts(tenant?.tenantData?.name ?? "")
 
   return (
     <Card
       className={cn(
         "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-0"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full"
       )}
     >
       <Form {...form}>
         {CONFIRMATION_TEXTS.map((text, index) => (
           <p key={index} className="text-sm text-text-secondary">
-            <strong>{text.title}</strong> {text.content}
+            <strong>{text.title}</strong>
+            <p
+              className="whitespace-pre-wrap"
+              dangerouslySetInnerHTML={{
+                __html: sanitizeDOM(text.content)
+              }}
+            />
           </p>
         ))}
 

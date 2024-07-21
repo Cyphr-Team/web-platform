@@ -61,23 +61,23 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
   )
 
   const handleOpenPersona = useCallback(async () => {
+    /**
+     * If we have one, no need to request more from server.
+     * By keeping the credential for the current render.
+     * When the client cancel and start again.
+     */
+    const createPersonaInquiryRequest: CreatePersonaInquiryRequest = {
+      applicationId
+    }
+    const createResponse = await createSmartKyc.mutateAsync(
+      createPersonaInquiryRequest
+    )
     try {
-      /**
-       * If we have one, no need to request more from server.
-       * By keeping the credential for the current render.
-       * When the client cancel and start again.
-       */
       if (personaClientRef.current) {
         personaClientRef.current.open()
         return
       }
 
-      const createPersonaInquiryRequest: CreatePersonaInquiryRequest = {
-        applicationId
-      }
-      const createResponse = await createSmartKyc.mutateAsync(
-        createPersonaInquiryRequest
-      )
       const smartKyc = createResponse.data
 
       const personaClient = storePersonaClient(
@@ -89,6 +89,7 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
       personaClient.open()
     } catch (e) {
       console.error(e)
+      // Open Persona client failed
       toastError({
         title: "Persona",
         description: "Something went wrong"

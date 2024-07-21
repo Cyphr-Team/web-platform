@@ -4,7 +4,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ErrorResponse, SuccessResponse } from "@/types/common.type"
 import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
-import { loanApplicationKeys } from "@/constants/query-key"
+import {
+  loanApplicationKeys,
+  workspaceAdminLoanApplicationScoreKeys
+} from "@/constants/query-key"
 import { QUERY_KEY } from "@/modules/dashboard-v2/constants/dashboard.constants"
 
 export const useReviewLoanApplication = (applicationId: string) => {
@@ -21,6 +24,13 @@ export const useReviewLoanApplication = (applicationId: string) => {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: loanApplicationKeys.lists() })
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DASHBOARD_V2] })
+        queryClient.invalidateQueries({
+          queryKey: workspaceAdminLoanApplicationScoreKeys.lists()
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: loanApplicationKeys.statusDetail(applicationId)
+        })
       }
     }
   )

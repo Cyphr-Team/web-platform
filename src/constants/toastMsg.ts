@@ -4,6 +4,14 @@ export const TOAST_MSG = {
       title: "Send invitation",
       description: "Invitation has been sent successfully"
     },
+    sendBulkInvitation: {
+      title: "Send Bulk invitation",
+      description: "Invitation(s) has been sent successfully"
+    },
+    sendBulkCSVInvitation: {
+      title: "Send Bulk CSV invitation",
+      description: "Invitation(s) has been sent successfully"
+    },
     revokeInvitation: {
       title: "Revoke invitation",
       description: "Invitation has been revoked successfully"
@@ -83,6 +91,20 @@ export const TOAST_MSG = {
     updateSuccess: {
       title: "Updated Loan Application",
       description: "Loan Application is updated successfully"
+    },
+    updateJudgesSuccess: {
+      title: "Updated successfully",
+      description: "Update the assigned judges successfully"
+    },
+    updateJudgesFailed: {
+      title: "Updated failed",
+      description: "Updated the assigned judges failed"
+    }
+  },
+  judgeLoanApplication: {
+    submitScoreSuccess: {
+      title: "Submit Score",
+      description: "Score is submitted successfully"
     }
   },
   notification: {
@@ -143,6 +165,26 @@ export const TOAST_MSG = {
     updateIncompleteField: {
       title: "Email and Institution are required",
       description: "Please complete all fields before adding to the whitelist."
+    }
+  },
+  workspaceAdmin: {
+    selectRoundSuccess: {
+      title: "Application Round Selected Successfully"
+    },
+    selectRoundError: {
+      title: "Failed to Select Application Round"
+    },
+    sendNudgeSuccess: {
+      title: "Nudge Sent",
+      description: "Nudge has been sent successfully"
+    },
+    sendNudgeError: {
+      title: "Failed to Send Nudge"
+    }
+  },
+  identityVerification: {
+    createFailed: {
+      title: "Identity Verification failed"
     }
   }
 }

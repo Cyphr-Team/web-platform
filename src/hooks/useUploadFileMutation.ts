@@ -22,7 +22,10 @@ export const useUploadFileMutation = () => {
         }
       }
 
-      return postRequest({ path: API_PATH.asset.upload, data: request })
+      return postRequest({
+        path: API_PATH.asset.upload,
+        data: request
+      })
     }
   })
 }

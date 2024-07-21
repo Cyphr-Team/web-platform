@@ -6,6 +6,7 @@ import { TaskFieldStatus } from "@/modules/loan-application-management/constants
 import { useMemo } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
+import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 
 export const Insights = () => {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
@@ -24,6 +25,8 @@ export const Insights = () => {
         : 0,
     [insights]
   )
+  const insightsTotal =
+    isEnableKYBV2() && insights ? Object.entries(insights).length : 7
 
   return (
     <Card className="h-fit lg:sticky top-0 z-10 mb-4 flex-shrink-0">
@@ -33,7 +36,9 @@ export const Insights = () => {
           {isLoading ? (
             <Skeleton className="w-16 h-4" />
           ) : (
-            <div>{numberOfSuccess}/7</div>
+            <div>
+              {numberOfSuccess}/{insightsTotal}
+            </div>
           )}
         </CardTitle>
         <Separator />
@@ -87,6 +92,16 @@ export const Insights = () => {
           href={INSIGHT_TOC.watchLists}
           isLoading={isLoading}
         />
+        {isEnableKYBV2() && (
+          <InsightItem
+            title="Industry Classification"
+            status={insights?.industry?.status}
+            label={insights?.industry?.subLabel}
+            toolTipContent={insights?.industry?.message}
+            href={INSIGHT_TOC.industryClassification}
+            isLoading={isLoading}
+          />
+        )}
         <InsightItem
           title="Bankruptcies"
           status={insights?.bankruptcies?.status}
@@ -96,6 +111,27 @@ export const Insights = () => {
           isLoading={isLoading}
           noBorder
         />
+        {isEnableKYBV2() && (
+          <InsightItem
+            title="Website"
+            status={insights?.website?.status}
+            label={insights?.website?.subLabel}
+            toolTipContent={insights?.website?.message}
+            href={INSIGHT_TOC.website}
+            isLoading={isLoading}
+          />
+        )}
+        {isEnableKYBV2() && (
+          <InsightItem
+            title="Adverse Media"
+            status={insights?.adverseMedia?.status}
+            label={insights?.adverseMedia?.subLabel}
+            toolTipContent={insights?.adverseMedia?.message}
+            href={INSIGHT_TOC.adverseMedia}
+            isLoading={isLoading}
+            noBorder
+          />
+        )}
       </CardContent>
     </Card>
   )

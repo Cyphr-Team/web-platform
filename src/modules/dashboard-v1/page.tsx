@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { checkIsLenderAdmin } from "@/utils/check-roles"
+import { checkIsWorkspaceAdmin } from "@/utils/check-roles"
 import { AverageApprovedLoanSizeChart } from "./components/AverageLoanSizeChart"
 import { AverageTimeToApprovalChart } from "./components/AverageTimeToApprovalChart"
 import { CurrentUsage } from "./components/CurrentUsage"
@@ -11,7 +11,7 @@ import { TotalLoanActivity } from "./components/TotalLoanActivity"
 import { DashboardProvider } from "./providers/dashboard-provider"
 
 export function Component() {
-  const isLenderAdmin = checkIsLenderAdmin()
+  const isLenderAdmin = checkIsWorkspaceAdmin()
 
   return (
     <DashboardProvider>

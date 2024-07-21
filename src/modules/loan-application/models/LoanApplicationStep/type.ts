@@ -6,7 +6,14 @@ enum FORM_TYPE {
   IDENTITY_VERIFICATION = "identity_verification",
   REVIEW_APPLICATION = "review_application",
   CURRENT_LOAN = "current_loan",
-  OPERATING_EXPENSES = "operating_expenses"
+  OPERATING_EXPENSES = "operating_expenses",
+  PRODUCT_SERVICE = "product_service",
+  MARKET_OPPORTUNITY = "market_opportunity",
+  BUSINESS_MODEL = "business_model",
+  EXECUTION = "execution",
+  DOCUMENT_UPLOADS = "document_uploads",
+  LAUNCH_KC_FIT = "launch_kc_fit",
+  PRE_QUALIFICATION = "pre_qualification"
 }
 
 enum LOAN_APPLICATION_STEPS {
@@ -19,10 +26,18 @@ enum LOAN_APPLICATION_STEPS {
   OPERATING_EXPENSES = "operatingExpensesForm",
   CONFIRMATION = "confirmationForm",
   IDENTITY_VERIFICATION = "identityVerificationForm",
-  REVIEW_APPLICATION = "reviewApplication"
+  REVIEW_APPLICATION = "reviewApplication",
+  PRODUCT_SERVICE = "productServiceForm",
+  MARKET_OPPORTUNITY = "marketOpportunityForm",
+  BUSINESS_MODEL = "businessModelForm",
+  EXECUTION = "executionForm",
+  DOCUMENT_UPLOADS = "documentUploadForm",
+  LAUNCH_KC_FIT = "launchKcFitForm",
+  PRE_QUALIFICATION = "preQualification"
 }
 
 enum STEP_MENU {
+  PRE_QUALIFICATION = "PRE-QUALIFICATION",
   APPLICATION = "APPLICATION",
   SIGNATURE = "VERIFY AND SIGN"
 }

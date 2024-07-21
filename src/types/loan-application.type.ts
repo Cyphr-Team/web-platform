@@ -1,5 +1,5 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
-import { MicroLoanProgramType, LoanType } from "./loan-program.type"
+import { LoanType, MicroLoanProgramType } from "./loan-program.type"
 
 /* ----- ENUM -----
  * LoanApplicationStatus
@@ -13,7 +13,15 @@ enum LoanApplicationStatus {
   CANCELLED = "CANCELLED",
   DENIED = "DENIED",
   APPROVED = "APPROVED",
-  UNKNOWN = "UNKNOWN"
+  UNKNOWN = "UNKNOWN",
+  ELIMINATED_AFTER_INITIAL_REVIEW = "ELIMINATED_AFTER_INITIAL_REVIEW",
+  ROUND_1 = "ROUND_1",
+  ROUND_2 = "ROUND_2",
+  ROUND_3 = "ROUND_3",
+  ELIMINATED_AFTER_ROUND_1 = "ELIMINATED_AFTER_ROUND_1",
+  ELIMINATED_AFTER_ROUND_2 = "ELIMINATED_AFTER_ROUND_2",
+  ELIMINATED_AFTER_ROUND_3 = "ELIMINATED_AFTER_ROUND_3",
+  PENDING_SUBMISSION = "PENDING_SUBMISSION"
 }
 
 enum UseOfLoan {
@@ -39,7 +47,7 @@ interface Applicant {
   authProvider: string
   created_at: string
 }
-interface LoanApplication {
+interface LoanApplication<T = unknown> {
   id: string
   loanProgramId: string
   applicantId: string
@@ -53,6 +61,7 @@ interface LoanApplication {
   businessName?: string
   applicationIdNumber: number
   personaInquiryId?: string
+  meta?: T
 }
 interface LoanProgram {
   id: string
@@ -91,10 +100,10 @@ interface ListLoanProgramResponse {
 }
 
 export type {
-  UserMicroLoanApplication,
-  LoanApplication,
   Applicant,
-  LoanProgram,
   ListLoanProgramResponse,
+  LoanApplication,
+  LoanProgram,
+  UserMicroLoanApplication,
   UserMicroLoanApplicationRequest
 }

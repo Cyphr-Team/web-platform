@@ -12,8 +12,8 @@ import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { sanitizeDOM } from "@/utils/file.utils"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
-import { isKccBank } from "@/utils/domain.utils"
 import { KCC_LENDER_FORUM_PROGRAM } from "../../constants/loan-program.constants"
+import { isKccBank } from "@/utils/domain.utils"
 
 type CardProps = React.ComponentProps<typeof Card> & {
   loanProgram: BaseLoanProgramType

@@ -1,5 +1,6 @@
 import {
   applicantRoles,
+  judgeRoles,
   platformAdminRoles,
   reviewerRoles,
   UserRoles,
@@ -48,12 +49,20 @@ const checkRolesMatchWithUserRoles = (roles: UserRoles[]) => {
   return roles.some((role) => userRoles.includes(role.toLowerCase()))
 }
 
-const checkIsLenderAdmin = () => {
+const checkIsWorkspaceAdmin = () => {
   const userInfo = inMemoryJWTService.getUserInfo()
 
   if (!userInfo) return false
 
   return isWorkspaceAdmin(userInfo.roles)
+}
+
+const checkIsJudge = () => {
+  const userInfo = inMemoryJWTService.getUserInfo()
+
+  if (!userInfo) return false
+
+  return isJudge(userInfo.roles)
 }
 
 const isReviewerRole = (role: UserRoles): boolean => {
@@ -76,13 +85,20 @@ const isPlatformAdmin = (roles: string[]): boolean => {
   return platformAdminRoles().some((role) => hasRole(roles, role))
 }
 
+const isJudge = (roles: string[]): boolean => {
+  return judgeRoles().some((role) => hasRole(roles, role))
+}
+
 export {
-  checkIsLenderAdmin,
+  checkIsWorkspaceAdmin,
   checkIsForesightAdmin,
   checkIsLoanApplicant,
   checkRolesMatchWithUserRoles,
   checkIsLoanOfficer,
+  checkIsJudge,
   isReviewerRole,
   isApplicant,
-  isPlatformAdmin
+  isPlatformAdmin,
+  isWorkspaceAdmin,
+  isJudge
 }

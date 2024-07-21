@@ -143,7 +143,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
         <LogoHeader className="justify-center" />
       </div>
 
-      <div className="px-xl flex-col flex-1 md:flex">
+      <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll">
         <Accordion
           type="multiple"
           className="w-full flex flex-col gap-2"

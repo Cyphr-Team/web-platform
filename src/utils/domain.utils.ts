@@ -55,11 +55,21 @@ function isKccBank(): boolean {
   return getSubdomain() === Institution.KCChamber
 }
 
+function isLaunchKC(): boolean {
+  return getSubdomain() === Institution.LaunchKC
+}
+
+function isSbb(): boolean {
+  return getSubdomain() === Institution.SBB
+}
+
 export {
   getSubdomain,
   isLoanReady,
   isCyphrBank,
   isCapsight,
   getTenantDomain,
-  isKccBank
+  isKccBank,
+  isLaunchKC,
+  isSbb
 }

@@ -29,7 +29,8 @@ import {
 } from "../../services"
 import { LoanDecisionSubmitted } from "../organisms/LoanDecisionSubmited"
 import { ChangeApplicationStatusDialog } from "./ChangeApplicationStatusDialog"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isLaunchKC, isLoanReady } from "@/utils/domain.utils"
+import { statusesAbleToMakeDecision } from "@/utils/loan-application-status.utils"
 
 const ApplicationStatusDropDown = ({
   currentDecision,
@@ -42,7 +43,6 @@ const ApplicationStatusDropDown = ({
     useState<LoanApplicationStatus>()
 
   const currentDecisionInfo = getSelectInfoByDecision(currentDecision)
-
   return (
     <>
       <DropdownMenu>
@@ -105,15 +105,16 @@ export const ChangeApplicationStatusButton = () => {
     applicationId: id
   })
 
+  const currentStatus = data?.toUpperCase()
   const isAbleToUpdateDecision =
-    data?.toUpperCase() === LoanApplicationStatus.IN_REVIEW &&
+    !isLaunchKC() &&
+    statusesAbleToMakeDecision.some((status) => status === currentStatus) &&
     !loanApplicationDetails?.loanProgram?.deletedAt
 
   if (isLoading)
     return <Skeleton className="w-40 h-8 self-start md:self-center" />
 
   const textButton = getApplicationStatusTextButton(data)
-
   return (
     <div className="flex items-center gap-2 self-start md:self-center">
       <div className="flex items-center text-sm font-medium">Status:</div>

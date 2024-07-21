@@ -11,6 +11,12 @@ export interface KYBInformation {
   businessStreetAddress: BusinessStreetAddress
   businessWebsite?: string
   businessTin: string
+  yearFounded?: string
+  // field for launchKC
+  legalStructure?: string
+  primaryIndustry?: string
+  primaryIndustryOther?: string
+  companyDescription?: string
 }
 
 export interface KYBInformationResponse {
@@ -22,6 +28,12 @@ export interface KYBInformationResponse {
   businessTin: string
   createdAt: string
   updatedAt: string
+  // field for launchKC
+  yearFounded?: string
+  legalStructure?: string
+  primaryIndustry?: string
+  primaryIndustryOther?: string
+  companyDescription?: string
 }
 
 export interface BusinessStreetAddress {
@@ -74,7 +86,9 @@ export interface LoanProgramContactData {
   phone?: string
   location?: string
   mail?: string
+  name?: string
 }
+
 export interface LoanProgramData {
   id: string
   type: string
@@ -336,6 +350,7 @@ export const OPERATING_EXPENSES_FIELD_DATA: OperatingExpensesFieldDataType = [
     subtitle: "Expenses not already captured in the above categories"
   }
 ]
+
 export interface PlaidItemInfo {
   plaidAccessToken: string
   itemId: string
@@ -349,4 +364,24 @@ export interface LoanProgramFormsConfiguration {
   forms: FORM_TYPE[]
   createdAt: string
   updatedAt: string
+}
+
+export interface PreQualificationResponse {
+  isQualified: boolean
+  applicationId: string
+  loanProgramId: string
+  isCompanyBasedInUs: boolean
+  foundingTeamEligibleToWorkInUs: boolean
+  isForProfitTechCompany: boolean
+  hasMvpWithRevenueUnderOneMillion: boolean
+  willingToOperateInKansasCityMo: string
+}
+
+export interface PreQualificationFormRequest {
+  loanProgramId: string
+  isCompanyBasedInUs: boolean
+  foundingTeamEligibleToWorkInUs: boolean
+  isForProfitTechCompany: boolean
+  hasMvpWithRevenueUnderOneMillion: boolean
+  willingToOperateInKansasCityMo: string
 }

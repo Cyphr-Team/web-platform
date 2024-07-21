@@ -3,11 +3,22 @@ import { KybFormDetails } from "../../molecules/loan-application-details/KybForm
 import { KycFormDetails } from "../../molecules/loan-application-details/KycFormDetails"
 import { LoanRequestDetails } from "../../molecules/loan-application-details/LoanRequestDetails"
 import { CashFlowTable } from "./CashFlowTable"
-import { isCyphrBank, isKccBank, isLoanReady } from "@/utils/domain.utils"
+import {
+  isCyphrBank,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { CurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/CurrentLoanFormDetails.tsx"
 import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/OperatingExpenseFormDetails.tsx"
+import { ProductServiceFormDetails } from "../loan-application-form/product-service/ProductServiceFormDetails"
+import { MarketOpportunityFormDetails } from "../loan-application-form/market-opportunity/MarketOpportunityFormDetails"
+import { BusinessModelFormDetails } from "../loan-application-form/business-model/BusinessModelFormDetails"
+import { LaunchKcFitFormDetails } from "../loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
+import { ExecutionFormDetails } from "../loan-application-form/execution/ExecutionFormDetails"
 
 export const ApplicationDetails = () => {
   const {
@@ -15,7 +26,11 @@ export const ApplicationDetails = () => {
     kycFormData,
     currentLoanFormData,
     financialFormData,
-    operatingExpensesFormData
+    operatingExpensesFormData,
+    productServiceFormData,
+    launchKCFitFormData,
+    executionFormData,
+    businessModelFormData
   } = useBRLoanApplicationDetailsContext()
 
   return (
@@ -42,7 +57,29 @@ export const ApplicationDetails = () => {
           {financialFormData && (
             <FinancialFormDetails financialFormData={financialFormData} />
           )}
-          {(isLoanReady() || isKccBank() || isCyphrBank()) && <CashFlowTable />}
+          {productServiceFormData && (
+            <ProductServiceFormDetails data={productServiceFormData} />
+          )}
+          {launchKCFitFormData && (
+            <LaunchKcFitFormDetails data={launchKCFitFormData} />
+          )}
+          {executionFormData && (
+            <ExecutionFormDetails data={executionFormData} />
+          )}
+          {businessModelFormData && (
+            <BusinessModelFormDetails data={businessModelFormData} />
+          )}
+          {isLaunchKC() && (
+            <>
+              <MarketOpportunityFormDetails />
+            </>
+          )}
+
+          {(isLoanReady() ||
+            isKccBank() ||
+            isCyphrBank() ||
+            isSbb() ||
+            isLaunchKC()) && <CashFlowTable />}
         </div>
       </div>
     </div>

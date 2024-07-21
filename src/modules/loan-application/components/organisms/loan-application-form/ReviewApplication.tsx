@@ -17,6 +17,7 @@ import {
 } from "../../../constants/form"
 import { useLoanApplicationFormContext } from "../../../providers"
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
+import { isEnableKycReOrder } from "@/utils/feature-flag.utils"
 
 export const ReviewApplication = () => {
   const { progress, step, finishCurrentStep } =
@@ -27,8 +28,9 @@ export const ReviewApplication = () => {
     return progress.filter(
       (prog) =>
         prog.step != step &&
-        prog.step != LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION &&
-        prog.step != LOAN_APPLICATION_STEPS.CONFIRMATION
+        prog.step != LOAN_APPLICATION_STEPS.CONFIRMATION &&
+        (isEnableKycReOrder() ||
+          prog.step != LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
     )
   }, [step, progress])
 

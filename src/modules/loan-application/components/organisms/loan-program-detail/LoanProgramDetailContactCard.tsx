@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card"
 import { Icon } from "@/components/ui/icons"
 import { useLoanProgramDetailContext } from "@/modules/loan-application/providers"
-import { Mail, Map, Phone } from "lucide-react"
+import { Mail, Map, Phone, UserRound } from "lucide-react"
 
 function ContactItem({
   Icon,
@@ -39,6 +39,12 @@ export function LoanProgramDetailContactCard() {
         <ul className="flex flex-col gap-4">
           {loanProgramInfo?.contact?.mail && (
             <ContactItem Icon={Mail} content={loanProgramInfo?.contact?.mail} />
+          )}
+          {loanProgramInfo?.contact?.name && (
+            <ContactItem
+              Icon={UserRound}
+              content={loanProgramInfo?.contact?.name}
+            />
           )}
           {loanProgramInfo?.contact?.phone && (
             <ContactItem

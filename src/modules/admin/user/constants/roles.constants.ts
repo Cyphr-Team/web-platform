@@ -1,5 +1,6 @@
 import {
   applicantRole,
+  judgeRole,
   platformAdminRole,
   reviewerRole,
   UserRoles,
@@ -21,6 +22,11 @@ const reviewerRoleOption = {
   value: reviewerRole()
 }
 
+const judgeRoleOption = {
+  label: "Judge",
+  value: judgeRole()
+}
+
 const applicantRoleOption = {
   label: "Applicant",
   value: applicantRole()
@@ -30,6 +36,8 @@ const nameByRole = (role: UserRoles) => {
   switch (role.toUpperCase()) {
     case applicantRole():
       return applicantRoleOption.label
+    case judgeRole():
+      return judgeRoleOption.label
     case reviewerRole():
       return reviewerRoleOption.label
     case workspaceAdminRole():
@@ -49,4 +57,13 @@ const inviteRoleOptions = () => {
   return [workspaceAdminRoleOption, reviewerRoleOption, applicantRoleOption]
 }
 
-export { nameByRole, editRoleOptions, inviteRoleOptions }
+const inviteLaunchKCRoleOptions = () => {
+  return [workspaceAdminRoleOption, judgeRoleOption]
+}
+
+export {
+  nameByRole,
+  editRoleOptions,
+  inviteRoleOptions,
+  inviteLaunchKCRoleOptions
+}

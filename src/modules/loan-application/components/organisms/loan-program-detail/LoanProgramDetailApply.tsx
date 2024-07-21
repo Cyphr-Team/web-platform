@@ -5,10 +5,12 @@ import { useNavigate, useParams } from "react-router-dom"
 
 interface Props {
   btnText?: string
+  className?: string
 }
 
 export const LoanProgramDetailApply: React.FC<Props> = ({
-  btnText = "Start Application"
+  btnText = "Start Application",
+  className
 }) => {
   const navigate = useNavigate()
   const { loanProgramId } = useParams()
@@ -18,7 +20,7 @@ export const LoanProgramDetailApply: React.FC<Props> = ({
   }
 
   return (
-    <Button onClick={onSubmit}>
+    <Button onClick={onSubmit} className={className}>
       {btnText} <ArrowRight className="ml-1 w-4" />
     </Button>
   )

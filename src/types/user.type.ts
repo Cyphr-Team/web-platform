@@ -3,6 +3,11 @@
  */
 enum UserRoles {
   /**
+   * The judge is the person who invited by workspace admin to view and score the application
+   */
+  JUDGE = "JUDGE",
+
+  /**
    * The loan applicant is the person who applies for loan programs
    */
   APPLICANT = "APPLICANT",
@@ -57,7 +62,17 @@ const platformAdminRole = () => {
   return UserRoles.PLATFORM_ADMIN
 }
 
+const judgeRoles = () => {
+  return [UserRoles.JUDGE]
+}
+
+const judgeRole = () => {
+  return UserRoles.JUDGE
+}
+
 export {
+  judgeRoles,
+  judgeRole,
   applicantRoles,
   applicantRole,
   reviewerRole,

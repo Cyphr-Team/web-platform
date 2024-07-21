@@ -21,8 +21,13 @@ export const ApplicationDetailsHeader = () => {
   const status = loanApplicationDetails?.status ?? LoanApplicationStatus.DRAFT
   const navigate = useNavigate()
 
+  const editableStatuses = [
+    LoanApplicationStatus.DRAFT.toLowerCase(),
+    LoanApplicationStatus.PENDING_SUBMISSION.toLowerCase()
+  ]
+
   const onConfirmed = () => {
-    if (status === LoanApplicationStatus.DRAFT.toLowerCase()) {
+    if (editableStatuses.includes(status)) {
       // Save and close
       submitLoanForm()
     } else {
@@ -41,11 +46,11 @@ export const ApplicationDetailsHeader = () => {
       <div className="flex items-center gap-2">
         <h4 className={cn("text-lg font-semibold ml-0 md:ml-3", "md:text-2xl")}>
           {status &&
-            status === LoanApplicationStatus.DRAFT.toLowerCase() &&
+            editableStatuses.includes(status) &&
             loanApplicationDetails?.loanProgram?.name}
 
           {!isFetchingDetails &&
-            status !== LoanApplicationStatus.DRAFT.toLowerCase() &&
+            !editableStatuses.includes(status) &&
             "Status:"}
         </h4>
         {isFetchingDetails ? (
@@ -62,7 +67,7 @@ export const ApplicationDetailsHeader = () => {
           </Badge>
         )}
       </div>
-      {status === LoanApplicationStatus.DRAFT.toLowerCase() ? (
+      {editableStatuses.includes(status) ? (
         <div className="flex gap-2">
           <CloseWithoutSave />
           <CustomAlertDialog

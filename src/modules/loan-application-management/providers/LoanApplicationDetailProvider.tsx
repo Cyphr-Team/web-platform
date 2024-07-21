@@ -28,7 +28,9 @@ import {
   isCapsight,
   isCyphrBank,
   isKccBank,
-  isLoanReady
+  isLaunchKC,
+  isLoanReady,
+  isSbb
 } from "@/utils/domain.utils"
 import { TimeRangeValue } from "@/types/time-range.type.ts"
 import { getTimeRangeDates } from "@/utils/time-range.utils.ts"
@@ -122,7 +124,8 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const loanSmartKycDetailQuery = useQueryGetSmartKyc({
     applicationId: params.id,
     enabledByInstitution:
-      isKccBank() && isEnableIdentityVerificationSectionView()
+      (isKccBank() || isSbb() || isLaunchKC()) &&
+      isEnableIdentityVerificationSectionView()
   })
 
   const defaultFilters = {
@@ -214,7 +217,8 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     filters: {
       timeRangeFilter: newCashFlowFilter.timeRangeFilter
     },
-    enabledByInstitution: isCyphrBank() || isKccBank() // TODO: should have an enum of institution having out-of-the-box UI
+    enabledByInstitution:
+      isCyphrBank() || isKccBank() || isSbb() || isLaunchKC() // TODO: should have an enum of institution having out-of-the-box UI
   })
 
   const onChangeNewTimeRangeFilter = useCallback(

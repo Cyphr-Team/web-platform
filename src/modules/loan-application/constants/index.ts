@@ -1,7 +1,7 @@
 import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { NavItem } from "@/types/common.type"
-import { isKccBank } from "@/utils/domain.utils"
+import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { Bell } from "lucide-react"
 import { BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
@@ -24,7 +24,7 @@ export const navItems: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
     icon: Bell,
     label: "Notifications",
-    disabled: isKccBank() // Hide for KCC Bank
+    disabled: isKccBank() || isSbb() || isLaunchKC() // Hide for KCC Bank and SBB
   }
   // Hide because it's not implemented yet
   // {
@@ -57,6 +57,24 @@ export type LinkTokenError = {
   errorCode: string
   errorType: string
 }
+
+export const launchKcConfirmationTexts = [
+  {
+    title: "Disclaimer \n",
+    content: `\n LaunchKC advises that you not share any trade secrets or other confidential information within this application. During the application review process, applicant information may be shared with individuals within the LaunchKC staff and volunteers on the selection committee. LaunchKC does not make any claims to keep your information confidential. LaunchKC relies on a selection committee made up of business leaders, entrepreneurial support leaders, entrepreneurs, and technical experts to aid in the evaluation of applicants \n 
+LaunchKC conducts both personal and business due diligence. We reserve the right to conduct background checks on all founders, co-founders, and/or individuals with any equity stake in the business. LaunchKC, as a steward of public/private dollars, has an obligation to our donors to ensure that the resources that are given to LaunchKC will be used in a manner consistent with the mission of the organization.\n
+The LaunchKC Grants Program is not a public solicitation for capital. Please do not include your valuation, capitalization table, a formal request for an equity investment, or other terms associated with a more traditional equity financing capital raise.\n
+The LaunchKC Grants Program does not discriminate on the basis of age, disability, race, ethnicity, religion, veteran/military status, sex, sexual orientation, socioeconomic status, and/or nationality. Applicants will be asked to share personal identifying information for the purposes of LaunchKC’s own database. All members of the selection committee are clearly instructed on LaunchKC’s non-discrimination policy and are expected to comply when reviewing and evaluating applications.\n
+LaunchKC expressly prohibits any form of harassment related to staff and volunteers. Improper interference with the ability of any LaunchKC employees and/or volunteers to perform their job duties in regard to the Grants Program may result in disqualification from the Grants Program as well as additional punitive action, as appropriate.`
+  },
+  {
+    title: "Certification of Accuracy and Authorization \n",
+    content: `\n By submitting this loan application, I hereby certify that all information provided herein is true, accurate, and complete to the best of my knowledge and belief. I understand that any false or misleading statements may result in the disqualification of this application and potential legal consequences.\n
+I further affirm that I am authorized to submit this application on behalf of the Company, and that I have the necessary authority to enter into agreements and commitments on behalf of the company.\n
+I acknowledge and agree that the lender may verify the information provided, and I consent to the lender obtaining any additional information necessary to process this application, including credit reports and financial statements.\n
+By signing below, I confirm my understanding and agreement to the terms and conditions stated above.\n`
+  }
+]
 
 export const getConfirmationTexts = (tenant: string) => {
   return [

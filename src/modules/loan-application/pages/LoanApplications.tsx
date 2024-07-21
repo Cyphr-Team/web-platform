@@ -29,6 +29,11 @@ export function Component() {
 
   const navigate = useNavigate()
 
+  const editableStatuses = [
+    LoanApplicationStatus.DRAFT.toLowerCase(),
+    LoanApplicationStatus.PENDING_SUBMISSION.toLowerCase()
+  ]
+
   const loanApplicationColumns: AccessorKeyColumnDef<UserMicroLoanApplication>[] =
     [
       {
@@ -181,8 +186,7 @@ export function Component() {
               className="font-medium flex gap-2 items-center cursor-pointer justify-end"
               onClick={() => handleClickDetail(row)}
             >
-              {row.original.status ===
-              LoanApplicationStatus.DRAFT.toLowerCase() ? (
+              {editableStatuses.includes(row.original.status) ? (
                 <p>Continue</p>
               ) : (
                 <p>Review</p>
@@ -195,7 +199,7 @@ export function Component() {
     ]
 
   const handleClickDetail = (detail: Row<UserMicroLoanApplication>) => {
-    if (detail.original.status === LoanApplicationStatus.DRAFT.toLowerCase()) {
+    if (editableStatuses.includes(detail.original.status)) {
       navigate(
         APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(
           detail.original.id,

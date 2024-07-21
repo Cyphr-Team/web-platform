@@ -1,3 +1,5 @@
+import { JudgeListParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
+
 export const notificationKeys = {
   all: ["notification"] as const,
   lists: () => [...notificationKeys.all, "list"] as const,
@@ -25,6 +27,48 @@ export const loanApplicationKeys = {
   detail: (id: number) => [...loanApplicationKeys.details(), id] as const,
   statusDetail: (id: string) =>
     [...loanApplicationKeys.all, "status-detail", id] as const
+}
+
+export const judgeLoanApplicationKeys = {
+  all: ["judgeLoanApplication"] as const,
+  lists: () => [...judgeLoanApplicationKeys.all, "list"] as const,
+  list: (filters: JudgeListParams) =>
+    [...judgeLoanApplicationKeys.lists(), { filters }] as const,
+  details: () => [...judgeLoanApplicationKeys.all, "detail"] as const,
+  detail: (id: string) => [...judgeLoanApplicationKeys.details(), id] as const
+}
+
+export const workspaceAdminAssignJudge = {
+  all: ["judgeLoanApplication"] as const,
+  assignableJudges: (applicationId: string) =>
+    [
+      ...workspaceAdminAssignJudge.all,
+      "assignable",
+      { applicationId }
+    ] as const,
+  getApplicationWithStageScoresResponse: (applicationId: string) =>
+    [
+      ...workspaceAdminAssignJudge.all,
+      "applicationWithStageScoresResponse",
+      { applicationId }
+    ] as const
+}
+
+export const workspaceAdminLoanApplicationScoreKeys = {
+  all: ["workspaceAdminLoanApplicationScore"] as const,
+  lists: () => [...workspaceAdminLoanApplicationScoreKeys.all, "list"] as const,
+  list: (filters: string) =>
+    [...workspaceAdminLoanApplicationScoreKeys.lists(), { filters }] as const,
+  details: () =>
+    [...workspaceAdminLoanApplicationScoreKeys.all, "detail"] as const,
+  detail: (id: string) =>
+    [...workspaceAdminLoanApplicationScoreKeys.details(), id] as const
+}
+
+export const workspaceAdminNudgeKeys = {
+  all: ["workspaceAdminNudgeKeys"] as const,
+  getActiveNudges: (applicationId: string) =>
+    [...workspaceAdminNudgeKeys.all, "activeNudges", { applicationId }] as const
 }
 
 export const loanApplicationDocumentKeys = {
