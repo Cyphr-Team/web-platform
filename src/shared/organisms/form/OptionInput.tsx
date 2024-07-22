@@ -148,6 +148,7 @@ export const OptionInput = <T extends FieldValues>(
                 field.onBlur()
                 field.onChange(value)
               }}
+              onChange={field.onBlur}
             >
               {options.map((option) => (
                 <div className="flex items-center w-full" key={option.value}>

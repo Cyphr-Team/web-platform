@@ -54,17 +54,17 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
           value={toPattern(kybFormData?.businessTin ?? "", EIN_PATTERN)}
           className="col-span-5"
         />
-        {kybFormData?.yearFounded && (
+        {kybFormData?.metadata?.yearFounded && (
           <TextInputDisplay
             label="Year Founded"
-            value={kybFormData.yearFounded}
+            value={kybFormData.metadata.yearFounded}
             className="col-span-3"
           />
         )}
-        {kybFormData?.legalStructure && (
+        {kybFormData?.metadata?.legalStructure && (
           <TextInputDisplay
             label="Legal Structure"
-            value={kybFormData.legalStructure}
+            value={kybFormData.metadata.legalStructure}
             className="col-span-4"
           />
         )}
@@ -73,24 +73,24 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
           value={kybFormData?.businessWebsite}
           className="col-span-12"
         />
-        {kybFormData?.primaryIndustry && (
+        {kybFormData?.metadata?.primaryIndustry && (
           <TextInputDisplay
             label="Primary Industry"
-            value={kybFormData.primaryIndustry}
+            value={kybFormData.metadata.primaryIndustry}
             className="col-span-6"
           />
         )}
-        {kybFormData?.primaryIndustryOther && (
+        {kybFormData?.metadata?.primaryIndustryOther && (
           <TextInputDisplay
             label="Primary Industry (Other)"
-            value={kybFormData.primaryIndustryOther}
+            value={kybFormData.metadata.primaryIndustryOther}
             className="col-span-6"
           />
         )}
-        {kybFormData?.companyDescription && (
+        {kybFormData?.metadata?.companyDescription && (
           <TextInputDisplay
             label="Describe your company in one sentence"
-            value={kybFormData.companyDescription}
+            value={kybFormData.metadata.companyDescription}
             className="col-span-12"
           />
         )}

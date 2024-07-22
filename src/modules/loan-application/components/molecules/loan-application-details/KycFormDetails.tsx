@@ -29,37 +29,37 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             <TextInputDisplay
               className="col-span-3"
               label="First Name"
-              value={kycFormData?.firstName}
+              value={kycFormData?.metadata?.firstName}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Last Name"
-              value={kycFormData?.lastName}
+              value={kycFormData?.metadata?.lastName}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Title"
-              value={kycFormData?.title}
+              value={kycFormData?.metadata?.title}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Gender Identity"
-              value={kycFormData?.genderIdentity}
+              value={kycFormData?.metadata?.genderIdentity}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Racial identification"
-              value={kycFormData?.racialIdentification}
+              value={kycFormData?.metadata?.racialIdentification}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Ethnic identification"
-              value={kycFormData?.ethnicIdentification}
+              value={kycFormData?.metadata?.ethnicIdentification}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Preferred Pronounce"
-              value={kycFormData?.preferredPronoun}
+              value={kycFormData?.metadata?.preferredPronoun}
             />
           </>
         )}
@@ -115,17 +115,18 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           label="SSN/ITIN"
           value={kycFormData?.socialSecurityNumber}
         />
+
         {isLaunchKC() && (
           <>
             <TextInputDisplay
               className="col-span-3"
               label="Are you a founder or co-founder of the company applying"
-              value={kycFormData?.areFounderOrCoFounder}
+              value={kycFormData?.metadata?.areFounderOrCoFounder}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Full-time founder"
-              value={kycFormData?.areFullTimeFounder}
+              value={kycFormData?.metadata?.areFullTimeFounder}
             />
           </>
         )}

@@ -67,7 +67,9 @@ export const SelectInput = <T extends FieldValues>(
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={props.className}>
+        // Most of our form use validate mode is 'onBlur'
+        // So, I trigger onBlur when FormItem change to validate the input
+        <FormItem onChange={field.onBlur} className={props.className}>
           <FormLabel
             className={cn(
               `text-text-secondary ${

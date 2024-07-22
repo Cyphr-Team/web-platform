@@ -1,10 +1,10 @@
-import { BusinessFormValue } from "../../constants/form"
+import { IBusinessFormValue } from "../../constants/form"
 import { formatKybForm } from "../../services/form.services"
 import { useSubmitLoanKybInformation } from "../useMutation/useSubmitLoanKybInformation"
 import { useUpdateLoanKybInformation } from "../useMutation/useUpdateLoanKybInformation"
 
 export const useSubmitLoanKYBForm = (
-  rawData: BusinessFormValue,
+  rawData: IBusinessFormValue,
   formId: string
 ) => {
   const { mutateAsync: updateLoanKyb, isPending: isUpdatingLoanKyb } =

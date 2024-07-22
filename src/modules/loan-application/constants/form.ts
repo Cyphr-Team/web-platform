@@ -51,7 +51,7 @@ export const ownerFormSchema = z.object({
 export const launchKCOwnerFormSchema = ownerFormSchema.extend({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  title: z.string().optional(),
+  title: z.string().min(1, { message: "Title is required" }),
   genderIdentity: z.string().min(1, { message: "Gender Identity is required" }),
   preferredPronoun: z
     .string()
@@ -98,7 +98,7 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
   primaryIndustry: z
     .string()
     .min(1, { message: "Primary Industry is required" }),
-  primaryIndustryOther: z.string().nullable(),
+  primaryIndustryOther: z.string(),
   companyDescription: z
     .string()
     .min(1, { message: "Company Description is required" })
@@ -383,3 +383,12 @@ export type ExecutionFormValue = z.infer<typeof executionFormSchema>
 export type DocumentUploadsFormValue = z.infer<typeof documentUploadsFormSchema>
 
 export type LaunchKCFitFormValue = z.infer<typeof launchKcFitFormSchema>
+
+/**
+ * Export type for provider, this use for centralize possible field of all form.
+ * I use polymorphism approach for multiple schema form value.
+ * In Typescript, I use type intersection to easily handle missing or addition field
+ * */
+export type IBusinessFormValue = BusinessFormValue & LaunchKCBusinessFormValue
+
+export type IOwnerFormValue = OwnerFormValue & LaunchKCOwnerFormValue

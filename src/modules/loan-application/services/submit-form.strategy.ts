@@ -11,17 +11,17 @@ import { AxiosError } from "axios"
 import { useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import {
-  BusinessFormValue,
   BusinessModelFormValue,
   ConfirmationFormValue,
   CurrentLoansFormValue,
   ExecutionFormValue,
   FinancialFormValue,
+  IBusinessFormValue,
   IdentityVerificationValue,
+  IOwnerFormValue,
   LaunchKCFitFormValue,
   LoanRequestFormValue,
   OperatingExpensesFormValue,
-  OwnerFormValue,
   ProductServiceFormValue
 } from "../constants/form"
 import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
@@ -49,8 +49,8 @@ export const useSubmitLoanForm = (
   loanType: LoanType,
   progress: ILoanApplicationStep[],
   loanRequestData: LoanRequestFormValue,
-  businessData: BusinessFormValue,
-  ownerData: OwnerFormValue,
+  businessData: IBusinessFormValue,
+  ownerData: IOwnerFormValue,
   financialData: FinancialFormValue,
   currentLoansData: CurrentLoansFormValue,
   operatingExpensesData: OperatingExpensesFormValue,
@@ -169,7 +169,7 @@ export const useSubmitLoanForm = (
       const code = getAxiosError(error)?.code
       toastError({
         title: TOAST_MSG.loanApplication.submitError.title,
-        description: message.length
+        description: message?.length
           ? message
           : TOAST_MSG.loanApplication.submitError.description
       })

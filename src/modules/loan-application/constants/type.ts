@@ -11,12 +11,14 @@ export interface KYBInformation {
   businessStreetAddress: BusinessStreetAddress
   businessWebsite?: string
   businessTin: string
-  yearFounded?: string
-  // field for launchKC
-  legalStructure?: string
-  primaryIndustry?: string
-  primaryIndustryOther?: string
-  companyDescription?: string
+  metadata?: Partial<{
+    // field for launchKC
+    yearFounded: string
+    legalStructure: string
+    primaryIndustry: string
+    primaryIndustryOther: string
+    companyDescription: string
+  }>
 }
 
 export interface KYBInformationResponse {
@@ -28,13 +30,14 @@ export interface KYBInformationResponse {
   businessTin: string
   createdAt: string
   updatedAt: string
-  // field for launchKC
-  metadata?: string
-  yearFounded?: string
-  legalStructure?: string
-  primaryIndustry?: string
-  primaryIndustryOther?: string
-  companyDescription?: string
+  metadata?: Partial<{
+    // field for launchKC
+    yearFounded: string
+    legalStructure: string
+    primaryIndustry: string
+    primaryIndustryOther: string
+    companyDescription: string
+  }>
 }
 
 export interface BusinessStreetAddress {
@@ -61,6 +64,17 @@ export interface KYCInformation {
   socialSecurityNumber: string
   businessOwnershipPercentage: number
   hasOtherSubstantialStackHolders?: boolean
+  metadata?: Partial<{
+    firstName: string
+    lastName: string
+    title: string
+    genderIdentity: string
+    preferredPronoun: string
+    racialIdentification: string
+    ethnicIdentification: string
+    areFounderOrCoFounder: string
+    areFullTimeFounder: string
+  }>
 }
 
 export interface KYCInformationResponse {
@@ -81,17 +95,18 @@ export interface KYCInformationResponse {
   hasOtherSubstantialStackHolders: boolean
   createdAt: string
   updatedAt: string
-  // LaunchKC Field
-  metadata?: string
-  firstName?: string
-  lastName?: string
-  title?: string
-  genderIdentity?: string
-  preferredPronoun?: string
-  racialIdentification?: string
-  ethnicIdentification?: string
-  areFounderOrCoFounder?: string
-  areFullTimeFounder?: string
+  metadata?: Partial<{
+    // LaunchKC Field
+    firstName: string
+    lastName: string
+    title: string
+    genderIdentity: string
+    preferredPronoun: string
+    racialIdentification: string
+    ethnicIdentification: string
+    areFounderOrCoFounder: string
+    areFullTimeFounder: string
+  }>
 }
 
 export interface LoanProgramContactData {
