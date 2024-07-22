@@ -11,7 +11,7 @@ import {
 import { Form } from "@/components/ui/form.tsx"
 import { Separator } from "@/components/ui/separator"
 import { zodResolver } from "@hookform/resolvers/zod"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import {
   AssigningJudgeFormValue,
@@ -148,6 +148,18 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       )
     : null
 
+  const onMultiSelectClose = useCallback(
+    (selectedJudges: JudgeInfo[]) => {
+      const newAssignedOffline = [...selectedJudges, ...assignedOffline]
+      const newAssignableOffline = assignableOffline.filter(
+        (itemA) => !selectedJudges.some((itemB) => itemB.id === itemA.id)
+      )
+      setAssignedOffline(newAssignedOffline)
+      setAssignableOffline(newAssignableOffline)
+    },
+    [assignableOffline, assignedOffline]
+  )
+
   useEffect(() => {
     if (applicationWithStageScoresResponseQuery.data) {
       const applicationScore =
@@ -200,19 +212,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                 options={assignableOffline}
                 defaultValue={[]}
                 placeholder="Invite others by name, email"
-                maxCount={8}
-                onClose={(selectedJudges) => {
-                  const newAssignedOffline = [
-                    ...selectedJudges,
-                    ...assignedOffline
-                  ]
-                  const newAssignableOffline = assignableOffline.filter(
-                    (itemA) =>
-                      !selectedJudges.some((itemB) => itemB.id === itemA.id)
-                  )
-                  setAssignedOffline(newAssignedOffline)
-                  setAssignableOffline(newAssignableOffline)
-                }}
+                onClose={onMultiSelectClose}
               />
             </div>
           </div>
@@ -226,7 +226,10 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
           <div className="overflow-auto flex flex-col flex-1">
             {assignedOffline.map((judge) => {
               return (
-                <div className="flex flex-row items-center mt-3 mb-3">
+                <div
+                  className="flex flex-row items-center mt-3 mb-3"
+                  key={judge.id}
+                >
                   <Button
                     variant="ghost"
                     className="w-auto h-auto p-1 mr-1"

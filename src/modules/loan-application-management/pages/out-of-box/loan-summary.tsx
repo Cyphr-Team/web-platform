@@ -1,35 +1,40 @@
 import { Card } from "@/components/ui/card"
 
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
+import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary/CashflowGlance.tsx"
+import { CurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/CurrentLoanFormDetails.tsx"
+import { KybFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/KybFormDetails"
+import { KycFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/KycFormDetails"
+import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/OperatingExpenseFormDetails.tsx"
+import { SignatureDetails } from "@/modules/loan-application/components/organisms/loan-application-details/SignatureDetails"
+import { BusinessModelFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/BusinessModelFormDetails"
+import { ExecutionFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/execution/ExecutionFormDetails"
+import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
+import { MarketOpportunityFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/MarketOpportunityFormDetails.tsx"
+import { ProductServiceFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/ProductServiceFormDetails"
+import { Bankruptcy } from "@/modules/loan-application/components/organisms/Middesk/Bankruptcy"
+import { BusinessDetail } from "@/modules/loan-application/components/organisms/Middesk/BusinessDetail"
+import { BusinessName } from "@/modules/loan-application/components/organisms/Middesk/BusinessName"
+import { OfficeAddress } from "@/modules/loan-application/components/organisms/Middesk/OfficeAddress"
+import { People } from "@/modules/loan-application/components/organisms/Middesk/People"
+import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
+import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
+import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
+import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
+import { isLaunchKC } from "@/utils/domain.utils"
+import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
+import { get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
 import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary/ApplicationOverview"
-import { KybFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/KybFormDetails"
-import { KycFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/KycFormDetails"
-import { SignatureDetails } from "@/modules/loan-application/components/organisms/loan-application-details/SignatureDetails"
-import { BusinessDetail } from "@/modules/loan-application/components/organisms/Middesk/BusinessDetail"
-import { OfficeAddress } from "@/modules/loan-application/components/organisms/Middesk/OfficeAddress"
-import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
-import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
-import { People } from "@/modules/loan-application/components/organisms/Middesk/People"
-import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
-import { Bankruptcy } from "@/modules/loan-application/components/organisms/Middesk/Bankruptcy"
+import { ScoreCard } from "../../components/organisms/ScoreCard"
+import { ScoreCardListDetail } from "../../components/organisms/ScoreCardListDetail"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
-import { Badge } from "@/components/ui/badge"
 import {
   getBadgeVariantByStatus,
   getDecisionTextByStatus
 } from "../../services"
-import { BusinessName } from "@/modules/loan-application/components/organisms/Middesk/BusinessName"
-import { CurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/CurrentLoanFormDetails.tsx"
-import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/OperatingExpenseFormDetails.tsx"
-import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary/CashflowGlance.tsx"
-import { Separator } from "@/components/ui/separator"
-import { ProductServiceFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/ProductServiceFormDetails"
-import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
-import { ExecutionFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/execution/ExecutionFormDetails"
-import { BusinessModelFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/BusinessModelFormDetails"
-import { MarketOpportunityFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/MarketOpportunityFormDetails.tsx"
-import { get } from "lodash"
 
 export function Component() {
   const {
@@ -38,6 +43,9 @@ export function Component() {
     isFetchingCashflow,
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
+
+  const isJudge = checkIsJudge()
+  const isWorkspaceAdmin = checkIsWorkspaceAdmin()
 
   const page_1 = useRef<HTMLDivElement>(null)
   const page_2 = useRef<HTMLDivElement>(null)
@@ -59,7 +67,7 @@ export function Component() {
   ]
 
   return (
-    <div className="lg:flex gap-3xl w-full flex-col" id="loan-summary">
+    <div className="lg:flex gap-3xl w-full" id="loan-summary">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
         <div
           id="application-overview"
@@ -163,6 +171,10 @@ export function Component() {
           <CashflowGlanceReport />
         </div>
       </Card>
+      {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}
+      {isLaunchKC() && isWorkspaceAdmin && isEnableJudgeSubmitScore() && (
+        <ScoreCardListDetail />
+      )}
     </div>
   )
 }

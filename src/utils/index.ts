@@ -297,3 +297,18 @@ export const formatBoundaryValues = (data?: string[]): string => {
   }
   return `${data[0]}-${data[data.length - 1]}`
 }
+
+export const getAbbreviationForName = (name?: string) => {
+  if (typeof name != "string") return name
+
+  const nameArray = name.trim().split(" ")
+  if (nameArray.length === 1) {
+    return nameArray[0].charAt(0).toUpperCase()
+  }
+
+  const initials =
+    nameArray[0].charAt(0).toUpperCase() +
+    nameArray[nameArray.length - 1].charAt(0).toUpperCase()
+
+  return initials
+}

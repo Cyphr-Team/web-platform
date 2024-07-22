@@ -6,13 +6,15 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import { Check, UserRound } from "lucide-react"
+import { getAbbreviationForName } from "@/utils"
+import { Check } from "lucide-react"
 
 interface IListAvatar {
   name: string
   avatar?: string
   email?: string
   isScored?: boolean
+  className?: string
 }
 
 export const CustomJudgeAvatar = ({ children }: React.PropsWithChildren) => {
@@ -43,26 +45,12 @@ export const ToolTipJudgeAvatar = ({
           className="hover:-translate-y-1 relative transition-transform"
         >
           <div className={cn("[&:not(:first-child)]:-ml-1.5 ")}>
-            {avatar ? (
-              <Avatar
-                className={cn(
-                  "h-7 w-7 rounded-full border border-slate-400 bg-white"
-                )}
-              >
-                <AvatarImage src={avatar ?? ""} alt={email ?? ""} />
-                <AvatarFallback className="flex flex-row align-middle items-center justify-center bg-gray-100 h-full cursor-default">
-                  {name?.slice(0, 2)}
-                </AvatarFallback>
-              </Avatar>
-            ) : (
-              <div className="border rounded-full border-zinc-700 bg-white shadow-md">
-                <UserRound className="text-zinc-700 h-7 w-7" strokeWidth={1} />
-              </div>
-            )}
-
-            {isScored && (
-              <Check className="w-3 h-3 p-0.5 flex-shrink-0 text-white absolute bg-green-500 bg-opacity-80 rounded-full left-1/2 top-0 -translate-x-1/2 -translate-y-1/2" />
-            )}
+            <JudgeAvatar
+              name={name}
+              avatar={avatar}
+              email={email}
+              isScored={isScored}
+            />
           </div>
         </TooltipTrigger>
         <TooltipContent>
@@ -74,25 +62,26 @@ export const ToolTipJudgeAvatar = ({
   )
 }
 
-export const JudgeAvatar = ({ name, avatar, email, isScored }: IListAvatar) => {
+export const JudgeAvatar = ({
+  name,
+  avatar,
+  email,
+  isScored,
+  className
+}: IListAvatar) => {
   return (
-    <div className={cn("[&:not(:first-child)]:-ml-1.5 ")}>
-      {avatar ? (
-        <Avatar
-          className={cn(
-            "h-7 w-7 rounded-full border border-slate-400 bg-white"
-          )}
-        >
-          <AvatarImage src={avatar ?? ""} alt={email ?? ""} />
-          <AvatarFallback className="flex flex-row align-middle items-center justify-center bg-gray-100 h-full cursor-default">
-            {name?.slice(0, 2)}
-          </AvatarFallback>
-        </Avatar>
-      ) : (
-        <div className="border rounded-full border-zinc-700 bg-white shadow-md">
-          <UserRound className="text-zinc-700 h-7 w-7" strokeWidth={1} />
-        </div>
-      )}
+    <div>
+      <Avatar
+        className={cn(
+          "h-8 w-8 rounded-full border border-slate-400 bg-white",
+          className
+        )}
+      >
+        <AvatarImage src={avatar ?? ""} alt={email ?? ""} />
+        <AvatarFallback className="flex flex-row align-middle items-center justify-center bg-gray-100 h-full cursor-default text-black">
+          {getAbbreviationForName(name)}
+        </AvatarFallback>
+      </Avatar>
 
       {isScored && (
         <Check className="w-3 h-3 p-0.5 flex-shrink-0 text-white absolute bg-green-500 bg-opacity-80 rounded-full left-1/2 top-0 -translate-x-1/2 -translate-y-1/2" />

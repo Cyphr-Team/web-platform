@@ -1,9 +1,8 @@
 // src/components/multi-select.tsx
 
-import { CheckIcon, CircleUserRound, Search, X } from "lucide-react"
+import { CheckIcon, Search, X } from "lucide-react"
 import * as React from "react"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -20,7 +19,7 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import { useEffect } from "react"
+import { JudgeAvatar } from "@/modules/loan-application-management/components/atoms/JudgeAvatar"
 import { JudgeInfo } from "../../../../../types/application/application-assign.type"
 
 /**
@@ -42,37 +41,6 @@ interface MultiSelectProps {
    */
   placeholder?: string
 
-  /**
-   * Animation duration in seconds for the visual effects (e.g., bouncing badges).
-   * Optional, defaults to 0 (no animation).
-   */
-  animation?: number
-
-  /**
-   * Maximum number of items to display. Extra selected items will be summarized.
-   * Optional, defaults to 3.
-   */
-  maxCount?: number
-
-  /**
-   * The modality of the popover. When set to true, interaction with outside elements
-   * will be disabled and only popover content will be visible to screen readers.
-   * Optional, defaults to false.
-   */
-  modalPopover?: boolean
-
-  /**
-   * If true, renders the multi-select component as a child of another component.
-   * Optional, defaults to false.
-   */
-  asChild?: boolean
-
-  /**
-   * Additional class names to apply custom styles to the multi-select component.
-   * Optional, can be used to add custom styles.
-   */
-  className?: string
-
   onClose: (value: JudgeInfo[]) => void
 }
 
@@ -85,7 +53,6 @@ export const MultiSelect = React.forwardRef<
       options,
       defaultValue = [],
       placeholder = "Select options",
-      modalPopover = false,
       onClose,
       ...props
     },
@@ -94,19 +61,6 @@ export const MultiSelect = React.forwardRef<
     const [selectedValues, setSelectedValues] =
       React.useState<JudgeInfo[]>(defaultValue)
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false)
-
-    useEffect(() => {
-      setSelectedValues([])
-      if (isPopoverOpen === false) {
-        onClose(selectedValues)
-      }
-    }, [isPopoverOpen, onClose, selectedValues])
-
-    React.useEffect(() => {
-      if (JSON.stringify(selectedValues) !== JSON.stringify(defaultValue)) {
-        setSelectedValues(selectedValues)
-      }
-    }, [defaultValue, selectedValues])
 
     const handleInputKeyDown = (
       event: React.KeyboardEvent<HTMLInputElement>
@@ -127,21 +81,25 @@ export const MultiSelect = React.forwardRef<
       setSelectedValues(newSelectedValues)
     }
 
-    const handleTogglePopover = () => {
-      setIsPopoverOpen(!isPopoverOpen)
+    const handleClickToOpen = () => {
+      setIsPopoverOpen((preState) => !preState)
+    }
+
+    const handleTogglePopover = (open: boolean) => {
+      if (open === false) {
+        onClose(selectedValues)
+      }
+      setSelectedValues([])
+      setIsPopoverOpen(open)
     }
 
     return (
-      <Popover
-        open={isPopoverOpen}
-        onOpenChange={setIsPopoverOpen}
-        modal={modalPopover}
-      >
+      <Popover open={isPopoverOpen} onOpenChange={handleTogglePopover}>
         <PopoverTrigger asChild>
           <Button
             ref={ref}
             {...props}
-            onClick={handleTogglePopover}
+            onClick={handleClickToOpen}
             className={cn(
               "flex w-full p-2.5 rounded-lg border min-h-12 h-auto justify-between bg-white hover:bg-white",
               isPopoverOpen && "border-black shadow-lg"
@@ -158,34 +116,19 @@ export const MultiSelect = React.forwardRef<
                     const option = options.find((o) => o.id === value.id)
                     return (
                       <div
+                        key={(option?.email ?? "") + (option?.name ?? "")}
                         className="flex rounded-md p-1 py-0.5 justify-center items-center border-stone-300 border"
                         onClick={(event) => {
                           event.preventDefault()
                           event.stopPropagation()
                         }}
                       >
-                        {option?.avatar ? (
-                          <Avatar
-                            className={
-                              "h-6 w-6 rounded-full overflow-hidden bg-slate-200 justify-center align-middle"
-                            }
-                          >
-                            <AvatarImage
-                              src={option.avatar}
-                              alt={option.name}
-                            />
-                            <AvatarFallback className="flex align-middle items-center justify-center h-full">
-                              <span className="text-black text-xs">
-                                {option?.name?.slice(0, 2)}
-                              </span>
-                            </AvatarFallback>
-                          </Avatar>
-                        ) : (
-                          <CircleUserRound
-                            className="text-black w-5 h-5"
-                            strokeWidth={1}
-                          />
-                        )}
+                        <JudgeAvatar
+                          avatar={option?.avatar}
+                          name={option?.name ?? ""}
+                          email={option?.name}
+                          className="h-5 w-5 text-xs"
+                        />
 
                         <span className="ml-1 font-semibold text-black overflow-hidden text-sm">
                           {option?.name}
@@ -225,7 +168,14 @@ export const MultiSelect = React.forwardRef<
               onKeyDown={handleInputKeyDown}
             />
             <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
+              {!options.length ? (
+                <div className="py-6 text-center text-sm">
+                  No results found.
+                </div>
+              ) : (
+                <CommandEmpty>No results found.</CommandEmpty>
+              )}
+
               <CommandGroup onWheel={(e) => e.stopPropagation()}>
                 {options.map((option) => {
                   const isSelected = selectedValues
@@ -249,26 +199,13 @@ export const MultiSelect = React.forwardRef<
                         <CheckIcon className="h-4 w-4" strokeWidth={2} />
                       </div>
 
-                      {option.avatar ? (
-                        <Avatar
-                          className={cn(
-                            "h-6 w-6 rounded-full overflow-hidden bg-slate-200"
-                          )}
-                        >
-                          <AvatarImage
-                            src={option.avatar}
-                            alt={option.name ?? ""}
-                          />
-                          <AvatarFallback className="flex flex-row align-middle items-center justify-center h-full">
-                            {option.name?.slice(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                      ) : (
-                        <CircleUserRound
-                          className="text-zinc-700 w-10 h-10"
-                          strokeWidth={0.5}
-                        />
-                      )}
+                      <JudgeAvatar
+                        avatar={option?.avatar}
+                        name={option?.name ?? ""}
+                        email={option?.name}
+                        className="h-9 w-9 m-0.5"
+                      />
+
                       <div className="ml-2">
                         <div className="text-sm font-medium">{option.name}</div>
                         <div className="text-text-tertiary text-xs">
