@@ -26,7 +26,7 @@ export class LaunchKCLoanApplicationStep
       ._build_CurrentLoansStep()
       ._build_OperatingExpensesStep()
       ._build_ProductServiceStep()
-      //._build_MarketOpportunityStep()
+      ._build_MarketOpportunityStep()
       ._build_BusinessModelStep()
       // hide because it's not implemented
       // ._build_ExecutionStep()

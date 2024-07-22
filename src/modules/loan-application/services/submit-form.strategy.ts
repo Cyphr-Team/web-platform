@@ -21,6 +21,7 @@ import {
   IOwnerFormValue,
   LaunchKCFitFormValue,
   LoanRequestFormValue,
+  MarketOpportunityFormValue,
   OperatingExpensesFormValue,
   ProductServiceFormValue
 } from "../constants/form"
@@ -44,6 +45,7 @@ import { useSubmitLoanProductServiceForm } from "../hooks/useForm/useSubmitProdu
 import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKCFitForm"
 import { useSubmitExecutionForm } from "../hooks/useForm/useSubmitExecutionForm"
 import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
+import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
 
 export const useSubmitLoanForm = (
   loanType: LoanType,
@@ -61,6 +63,7 @@ export const useSubmitLoanForm = (
   launchKCFitData: LaunchKCFitFormValue,
   executionData: ExecutionFormValue,
   businessModelData: BusinessModelFormValue,
+  marketOportunityData: MarketOpportunityFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -101,6 +104,11 @@ export const useSubmitLoanForm = (
     submitLoanFinancialForm: submitCashFlowForm,
     isLoading: isSubmittingCashFlow
   } = useSubmitLoanFinancialForm(cashflowData, cashflowData?.id ?? "")
+
+  const {
+    submitLoanMarketOpportunity,
+    isLoading: isSubmitLoanMarketOpportunity
+  } = useSubmitMarketOpportunity(marketOportunityData)
 
   const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
     useSubmitCurrentLoansForm(currentLoansData)
@@ -208,7 +216,7 @@ export const useSubmitLoanForm = (
         }
       }
 
-      if (plaidItemIds.length) {
+      if (plaidItemIds?.length) {
         await submitLinkPlaidItemds(loanRequestId)
       }
 
@@ -216,8 +224,10 @@ export const useSubmitLoanForm = (
         if (
           businessData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
-        )
+        ) {
           await submitLoanKYBForm(loanRequestId)
+        }
+
         if (
           ownerData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
@@ -233,6 +243,7 @@ export const useSubmitLoanForm = (
             )
           }
         }
+
         if (
           financialData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
@@ -277,18 +288,28 @@ export const useSubmitLoanForm = (
             await submitOperatingExpensesForm(loanRequestId)
           }
         }
+
         if (
           productServiceData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
         ) {
           await submitProductServiceForm()
         }
+
+        if (
+          marketOportunityData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
+        ) {
+          await submitLoanMarketOpportunity(loanRequestId)
+        }
+
         if (
           launchKCFitData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
         ) {
           await submitLoanLaunchKCFitForm()
         }
+
         if (
           executionData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.EXECUTION)
@@ -345,7 +366,7 @@ export const useSubmitLoanForm = (
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
-    plaidItemIds.length,
+    plaidItemIds?.length,
     loanType,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
@@ -354,15 +375,16 @@ export const useSubmitLoanForm = (
     submitLinkPlaidItemds,
     businessData,
     isCompleteSteps,
-    submitLoanKYBForm,
     ownerData,
     financialData,
     cashflowData,
     productServiceData,
+    marketOportunityData,
     launchKCFitData,
     executionData,
     businessModelData,
     confirmationData,
+    submitLoanKYBForm,
     submitLoanKYCForm,
     uploadDocuments,
     submitLoanFinancialForm,
@@ -372,6 +394,7 @@ export const useSubmitLoanForm = (
     submitCurrentLoansForm,
     submitOperatingExpensesForm,
     submitProductServiceForm,
+    submitLoanMarketOpportunity,
     submitLoanLaunchKCFitForm,
     submitLoanExecutionForm,
     submitLoanBusinessModelForm,
@@ -396,6 +419,7 @@ export const useSubmitLoanForm = (
       isSubmittingProductService ||
       isSubmittingLaunchKCFit ||
       isSubmittingExecution ||
-      isSubmittingBusinessModel
+      isSubmittingBusinessModel ||
+      isSubmitLoanMarketOpportunity
   }
 }

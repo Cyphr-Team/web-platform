@@ -13,6 +13,7 @@ import { LaunchKcFitFormResponse } from "@/modules/loan-application/components/o
 import { InsightStatus } from "./insight.type"
 import { ExecutionFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/execution/type"
 import { BusinessModelFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/type"
+import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -41,6 +42,7 @@ type LoanSummary = {
   currentLoanForms?: CurrentLoanInformationResponse[]
   operatingExpensesForm?: OperatingExpensesInformationResponse
   productServiceForm?: ProductServiceFormResponse
+  marketOpportunityForm?: MarketOpportunityFormResponse
   launchKCFitForm?: LaunchKcFitFormResponse
   executionForm?: ExecutionFormResponse
   businessModelForm?: BusinessModelFormResponse

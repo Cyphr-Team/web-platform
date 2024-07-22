@@ -46,8 +46,8 @@ import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { useQueryGetPlaidConnectedBankAccountsByApplicationId } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
 import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
 import _ from "lodash"
-import { EDecisionStatus, EPersonaStatus } from "../../../types/kyc"
-import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../../utils/feature-flag.utils"
+import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 import { useQueryGetPreQualificationForm } from "../hooks/useQuery/useQueryPreQualificationForm"
 import { isLaunchKC } from "@/utils/domain.utils"
@@ -59,6 +59,8 @@ import { ExecutionFormResponse } from "../components/organisms/loan-application-
 import { useQueryExecutionForm } from "../hooks/useQuery/useQueryExecutionForm"
 import { useQueryBusinessModelForm } from "../hooks/useQuery/useQueryBusinessModelForm"
 import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
+import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
+import { useQueryMarketOpportunity } from "@/modules/loan-application/hooks/useQuery/useQueryMarketOpportunity.ts"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -70,6 +72,7 @@ type BRLoanApplicationDetailsContext<T> = {
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
   productServiceFormData?: ProductServiceFormResponse
+  marketOpportunityFormData?: MarketOpportunityFormResponse
   launchKCFitFormData?: LaunchKcFitFormResponse
   executionFormData?: ExecutionFormResponse
   businessModelFormData?: BusinessModelFormResponse
@@ -160,6 +163,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   )
 
   const productServiceFormQuery = useQueryProductServiceForm(loanApplicationId!)
+  const marketOpportunityFormQuery = useQueryMarketOpportunity(
+    loanApplicationId!
+  )
   const launchKCFitFormQuery = useQueryLaunchKCFitForm(loanApplicationId!)
   const executionFormQuery = useQueryExecutionForm(loanApplicationId!)
   const businessModelFormQuery = useQueryBusinessModelForm(loanApplicationId!)
@@ -367,6 +373,21 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     productServiceFormQuery.data
   ])
 
+  // Market Opportunity Form
+  useEffect(() => {
+    if (marketOpportunityFormQuery.data && isInitialized && isQualified) {
+      changeDataAndProgress(
+        marketOpportunityFormQuery.data,
+        LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    isInitialized,
+    isQualified,
+    marketOpportunityFormQuery.data
+  ])
+
   // LaunchKC Fit Form
   useEffect(() => {
     if (launchKCFitFormQuery.data && isInitialized && isQualified) {
@@ -391,7 +412,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     launchKCFitFormQuery.data
   ])
 
-  // Bussiness Model Form
+  // Business Model Form
   useEffect(() => {
     if (businessModelFormQuery.data && isInitialized && isQualified) {
       changeDataAndProgress(
@@ -531,6 +552,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
       productServiceFormData: productServiceFormQuery.data,
+      marketOpportunityFormData: marketOpportunityFormQuery.data,
       launchKCFitFormData: launchKCFitFormQuery.data,
       executionFormData: executionFormQuery.data,
       productModelFormData: businessModelFormQuery.data,
@@ -551,6 +573,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         financialDocuments.isLoading ||
         executionFormQuery.isLoading ||
         productServiceFormQuery.isLoading ||
+        marketOpportunityFormQuery.isLoading ||
         launchKCFitFormQuery.isLoading ||
         businessModelFormQuery.isLoading ||
         plaidItemIdsQuery.isLoading ||
@@ -575,6 +598,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       financialFormQuery.isLoading,
       productServiceFormQuery.data,
       productServiceFormQuery.isLoading,
+      marketOpportunityFormQuery.data,
+      marketOpportunityFormQuery.isLoading,
       launchKCFitFormQuery.data,
       launchKCFitFormQuery.isLoading,
       executionFormQuery.data,

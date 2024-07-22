@@ -28,6 +28,8 @@ import { ProductServiceFormDetails } from "@/modules/loan-application/components
 import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
 import { ExecutionFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/execution/ExecutionFormDetails"
 import { BusinessModelFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/BusinessModelFormDetails"
+import { MarketOpportunityFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/MarketOpportunityFormDetails.tsx"
+import { get } from "lodash"
 
 export function Component() {
   const {
@@ -46,6 +48,15 @@ export function Component() {
   const page_7 = useRef<HTMLDivElement>(null)
 
   const elementToExportRef = [page_1, page_2, page_3, page_5, page_6, page_7]
+
+  // we can easily adjust the order of form here
+  const formsOrder = [
+    { key: "productServiceForm", Component: ProductServiceFormDetails },
+    { key: "marketOpportunityForm", Component: MarketOpportunityFormDetails },
+    { key: "launchKCFitForm", Component: LaunchKcFitFormDetails },
+    { key: "executionForm", Component: ExecutionFormDetails },
+    { key: "businessModelForm", Component: BusinessModelFormDetails }
+  ]
 
   return (
     <div className="lg:flex gap-3xl w-full flex-col" id="loan-summary">
@@ -107,19 +118,12 @@ export function Component() {
           />
         </div>
 
+        {/* Loan summary */}
         <div className="space-y-3xl flex flex-col" ref={page_4}>
-          {loanSummary?.productServiceForm && (
-            <ProductServiceFormDetails data={loanSummary.productServiceForm} />
-          )}
-          {loanSummary?.launchKCFitForm && (
-            <LaunchKcFitFormDetails data={loanSummary.launchKCFitForm} />
-          )}
-          {loanSummary?.executionForm && (
-            <ExecutionFormDetails data={loanSummary.executionForm} />
-          )}
-          {loanSummary?.businessModelForm && (
-            <BusinessModelFormDetails data={loanSummary.businessModelForm} />
-          )}
+          {formsOrder.map(({ key, Component }) => {
+            const formData = get(loanSummary, key)
+            return formData && <Component key={key} data={formData} />
+          })}
         </div>
 
         <div

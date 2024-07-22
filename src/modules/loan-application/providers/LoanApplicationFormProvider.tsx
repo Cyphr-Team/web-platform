@@ -209,6 +209,7 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     state[LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT],
     state[LOAN_APPLICATION_STEPS.EXECUTION],
     state[LOAN_APPLICATION_STEPS.BUSINESS_MODEL],
+    state[LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY],
     plaidItemIds
   )
 

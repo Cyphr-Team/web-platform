@@ -36,8 +36,8 @@ import { TimeRangeValue } from "@/types/time-range.type.ts"
 import { getTimeRangeDates } from "@/utils/time-range.utils.ts"
 import { format } from "date-fns"
 import { useQueryGetSmartKyc } from "../hooks/useQuery/smart-kyc/useQueryGetSmartKyc"
-import { SmartKyc } from "../../../lib/persona/persona.types"
-import { isEnableIdentityVerificationSectionView } from "../../../utils/feature-flag.utils"
+import { SmartKyc } from "@/lib/persona/persona.types.ts"
+import { isEnableIdentityVerificationSectionView } from "@/utils/feature-flag.utils.ts"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse

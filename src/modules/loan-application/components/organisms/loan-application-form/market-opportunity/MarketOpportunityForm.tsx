@@ -24,14 +24,18 @@ import { questions } from "./contants"
 
 export const MarketOpportunityForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-  const { marketOpportunityForm, dispatchFormAction } =
+  const { marketOpportunityForm, dispatchFormAction, loanRequest } =
     useLoanApplicationFormContext()
 
   const defaultValues = {
     id: marketOpportunityForm?.id ?? "",
-    marketServed: marketOpportunityForm?.marketServed ?? "",
-    competitors: marketOpportunityForm?.competitors ?? "",
-    accessMarket: marketOpportunityForm?.accessMarket ?? ""
+    loanApplicationId:
+      marketOpportunityForm?.loanApplicationId ??
+      loanRequest.applicationId ??
+      "",
+    marketTarget: marketOpportunityForm?.marketTarget ?? "",
+    competitor: marketOpportunityForm?.competitor ?? "",
+    potentialCustomer: marketOpportunityForm?.potentialCustomer ?? ""
   }
   const form = useForm<MarketOpportunityFormValue>({
     resolver: zodResolver(marketOpportunityFormSchema),

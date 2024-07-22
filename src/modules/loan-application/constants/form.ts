@@ -257,9 +257,10 @@ export const productServiceFormSchema = z.object({
 
 export const marketOpportunityFormSchema = z.object({
   id: z.string().nullable(),
-  marketServed: z.string().min(1, { message: "This field is required" }),
-  competitors: z.string().min(1, { message: "This field is required" }),
-  accessMarket: z.string().min(1, { message: "This field is required" })
+  loanApplicationId: z.string().nullable(),
+  marketTarget: z.string().min(1, { message: "This field is required" }),
+  competitor: z.string().min(1, { message: "This field is required" }),
+  potentialCustomer: z.string().min(1, { message: "This field is required" })
 })
 
 export const businessModelFormSchema = z.object({

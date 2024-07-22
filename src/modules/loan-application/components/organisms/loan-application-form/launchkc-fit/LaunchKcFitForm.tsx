@@ -10,8 +10,8 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import {
-  LaunchKCFitFormValue,
-  launchKcFitFormSchema
+  launchKcFitFormSchema,
+  LaunchKCFitFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -24,10 +24,10 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
-  SelectItem
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select"
 import { ArrowRight } from "lucide-react"
 import { useEffect } from "react"
@@ -43,7 +43,7 @@ export const LaunchKCFitForm = () => {
   const defaultValues = {
     id: launchKcFitForm?.id ?? "",
     loanApplicationId:
-      launchKcFitForm?.loanApplicationId ?? loanRequest?.id ?? "",
+      launchKcFitForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
     referralSource: launchKcFitForm?.referralSource ?? "",
     founderTies: launchKcFitForm?.founderTies ?? "",
     impact: launchKcFitForm?.impact ?? "",

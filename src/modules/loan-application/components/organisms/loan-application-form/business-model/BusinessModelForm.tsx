@@ -32,7 +32,7 @@ export const BusinessModelForm = () => {
   const defaultValues = {
     id: businessModelForm?.id ?? "",
     loanApplicationId:
-      businessModelForm?.loanApplicationId ?? loanRequest?.id ?? "",
+      businessModelForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
     description: businessModelForm?.description ?? "",
     scalePlan: businessModelForm?.scalePlan ?? "",
     totalRevenueRange: businessModelForm?.totalRevenueRange ?? "",
