@@ -73,3 +73,113 @@ export const PRIMARY_INDUSTRY: Option[] = [
     value: "Other"
   }
 ]
+
+export const TITLE_OPTIONS: Option[] = [
+  {
+    label: "Mr.",
+    value: "mr"
+  },
+  {
+    label: "Mrs.",
+    value: "mrs"
+  },
+  {
+    label: "Ms.",
+    value: "ms"
+  },
+  {
+    label: "Miss",
+    value: "miss"
+  },
+  {
+    label: "N/a",
+    value: "not_applicable"
+  }
+]
+
+export const GENDER_IDENTITY_OPTIONS: Option[] = [
+  {
+    label: "Woman",
+    value: "woman"
+  },
+  {
+    label: "Man",
+    value: "man"
+  },
+  {
+    label: "Transgender Woman/Trans Feminine",
+    value: "transgender_woman_or_trans_feminine"
+  },
+  {
+    label: "Transgender Man/Trans Masculine",
+    value: "transgender_man_or_trans_masculine"
+  },
+  {
+    label: "Non-Binary/Genderqueer/Gender Fluid",
+    value: "non_binary"
+  },
+  {
+    label: "Prefer not to say",
+    value: "not_to_say"
+  }
+]
+
+export const PREFERRED_PRONOUN_OPTIONS: Option[] = [
+  {
+    label: "She/Her/Hers",
+    value: "she_her_hers"
+  },
+  {
+    label: "He/Him/His",
+    value: "he_him_his"
+  },
+  {
+    label: "They/Them/Theirs",
+    value: "they_them_theirs"
+  }
+]
+
+export const ETHNIC_IDENTIFICATION_OPTIONS: Option[] = [
+  {
+    label: "Hispanic or Latino or Spanish Origin",
+    value: "hispanic_latino_spanish_origin"
+  },
+  {
+    label: "Not Hispanic or Latino or Spanish Origin",
+    value: "not_hispanic_latino_spanish_origin"
+  }
+]
+
+export const RACIAL_IDENTIFICATION_OPTIONS: Option[] = [
+  {
+    label: "American Indian or Alaska Native",
+    value: "american_india_or_alaska_native"
+  },
+  {
+    label: "Asian",
+    value: "asian"
+  },
+  {
+    label: "Black or African American",
+    value: "black_or_african_american"
+  },
+  {
+    label: "Native Hawaiian or Other Pacific Islander",
+    value: "native_hawaiian_or_other_pacific_islander"
+  },
+  {
+    label: "White",
+    value: "white"
+  }
+]
+
+export const YES_NO_OPTIONS: Option[] = [
+  {
+    label: "Yes",
+    value: "yes"
+  },
+  {
+    label: "No",
+    value: "no"
+  }
+]

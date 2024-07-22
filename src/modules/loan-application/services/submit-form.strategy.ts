@@ -37,8 +37,8 @@ import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
 import {
   FORM_TYPE,
   ILoanApplicationStep,
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS
 } from "../models/LoanApplicationStep/type"
 import { useSubmitLoanProductServiceForm } from "../hooks/useForm/useSubmitProductServiceForm"
 import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKCFitForm"

@@ -29,6 +29,7 @@ export interface KYBInformationResponse {
   createdAt: string
   updatedAt: string
   // field for launchKC
+  metadata?: string
   yearFounded?: string
   legalStructure?: string
   primaryIndustry?: string
@@ -80,6 +81,17 @@ export interface KYCInformationResponse {
   hasOtherSubstantialStackHolders: boolean
   createdAt: string
   updatedAt: string
+  // LaunchKC Field
+  metadata?: string
+  firstName?: string
+  lastName?: string
+  title?: string
+  genderIdentity?: string
+  preferredPronoun?: string
+  racialIdentification?: string
+  ethnicIdentification?: string
+  areFounderOrCoFounder?: string
+  areFullTimeFounder?: string
 }
 
 export interface LoanProgramContactData {

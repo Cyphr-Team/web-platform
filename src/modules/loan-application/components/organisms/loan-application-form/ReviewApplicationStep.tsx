@@ -22,6 +22,7 @@ import { LaunchKCFitForm } from "./launchkc-fit/LaunchKcFitForm"
 import { MarketOpportunityForm } from "./market-opportunity/MarketOpportunityForm"
 import { isLaunchKC } from "@/utils/domain.utils.ts"
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
+import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -43,7 +44,11 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
           <BusinessInformationForm />
         )
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
-        return <OwnerInformationForm />
+        return isLaunchKC() ? (
+          <LaunchKCOwnerInformationForm />
+        ) : (
+          <OwnerInformationForm />
+        )
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />

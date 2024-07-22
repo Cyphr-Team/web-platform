@@ -48,6 +48,26 @@ export const ownerFormSchema = z.object({
   )
 })
 
+export const launchKCOwnerFormSchema = ownerFormSchema.extend({
+  firstName: z.string().min(1, { message: "First name is required" }),
+  lastName: z.string().min(1, { message: "Last name is required" }),
+  title: z.string().optional(),
+  genderIdentity: z.string().min(1, { message: "Gender Identity is required" }),
+  preferredPronoun: z
+    .string()
+    .min(1, { message: "Preferred Pronounce is required" }),
+  racialIdentification: z
+    .string()
+    .min(1, { message: "Racial Identification is required" }),
+  ethnicIdentification: z
+    .string()
+    .min(1, { message: "Ethnic Identification is required" }),
+  areFounderOrCoFounder: z
+    .string()
+    .min(1, { message: "This field is required" }),
+  areFullTimeFounder: z.string().min(1, { message: "This field is required" })
+})
+
 export const businessFormSchema = z.object({
   id: z.string(),
   businessLegalName: z.string().min(1, { message: "Name is required" }),
@@ -330,6 +350,8 @@ export type LaunchKCBusinessFormValue = z.infer<
 >
 
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
+
+export type LaunchKCOwnerFormValue = z.infer<typeof launchKCOwnerFormSchema>
 
 export type FinancialFormValue = z.infer<typeof financialFormSchema>
 

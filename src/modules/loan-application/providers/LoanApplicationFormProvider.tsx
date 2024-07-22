@@ -18,6 +18,7 @@ import {
   IdentityVerificationValue,
   LaunchKCBusinessFormValue,
   LaunchKCFitFormValue,
+  LaunchKCOwnerFormValue,
   LoanRequestFormValue,
   MarketOpportunityFormValue,
   OperatingExpensesFormValue,
@@ -35,7 +36,9 @@ type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]:
     | BusinessFormValue
     | LaunchKCBusinessFormValue
-  [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: OwnerFormValue
+  [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]:
+    | OwnerFormValue
+    | LaunchKCOwnerFormValue
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: FinancialFormValue
   [LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]: FinancialFormValue
   [LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION]: IdentityVerificationValue
@@ -81,8 +84,11 @@ export type FormStateType =
   | BusinessModelFormValue
   | ExecutionFormValue
   | DocumentUploadsFormValue
-  | LaunchKCFitFormValue
   | PreQualificationFormValue
+  // for launch KC only
+  | LaunchKCFitFormValue
+  | LaunchKCBusinessFormValue
+  | LaunchKCOwnerFormValue
 
 export type Action = {
   action: FORM_ACTION

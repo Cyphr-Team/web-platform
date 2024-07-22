@@ -24,6 +24,7 @@ interface ITextInputType<T extends FieldValues> {
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   className?: string
   inputClassName?: string
+  labelClassName?: string
   subtitle?: string
   isRowDirection?: boolean
 }
@@ -40,6 +41,7 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
     required,
     subtitle,
     isRowDirection,
+    labelClassName,
     ...inputProps
   } = props
 
@@ -50,9 +52,12 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
       render={({ field }) => (
         <FormItem className={props.className}>
           <FormLabel
-            className={`text-text-secondary ${
-              isRowDirection && "lg:-mt-2 font-semibold"
-            }`}
+            className={cn(
+              `text-text-secondary ${
+                isRowDirection && "lg:-mt-2 font-semibold"
+              }`,
+              labelClassName
+            )}
           >
             <label>
               {label}

@@ -37,7 +37,9 @@ interface ISelectInputType<T extends FieldValues> {
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   className?: string
   inputClassName?: string
+  labelClassName?: string
   subtitle?: string
+  subtitleClassName?: string
   isRowDirection?: boolean
   options: IOption[]
   disabled?: boolean
@@ -55,6 +57,8 @@ export const SelectInput = <T extends FieldValues>(
     isRowDirection,
     options,
     inputClassName,
+    labelClassName,
+    subtitleClassName,
     disabled
   } = props
 
@@ -65,16 +69,26 @@ export const SelectInput = <T extends FieldValues>(
       render={({ field }) => (
         <FormItem className={props.className}>
           <FormLabel
-            className={`text-text-secondary ${
-              isRowDirection && "lg:-mt-2 font-semibold"
-            }`}
+            className={cn(
+              `text-text-secondary ${
+                isRowDirection && "lg:-mt-2 font-semibold"
+              }`,
+              labelClassName
+            )}
           >
             <label>
               {label}
               {required && <RequiredSymbol />}
             </label>
             {subtitle && (
-              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+              <p
+                className={cn(
+                  "mt-2 text-text-tertiary font-medium",
+                  subtitleClassName
+                )}
+              >
+                {subtitle}
+              </p>
             )}
           </FormLabel>
 

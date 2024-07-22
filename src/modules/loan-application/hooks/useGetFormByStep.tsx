@@ -21,6 +21,7 @@ import { LaunchKCFitForm } from "../components/organisms/loan-application-form/l
 import { PreQualificationForm } from "../components/layouts/custom/launch-kc/LaunchKCPreQualification"
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
 import { isLaunchKC } from "@/utils/domain.utils.ts"
+import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -38,7 +39,11 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
           <BusinessInformationForm />
         )
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
-        return <OwnerInformationForm />
+        return isLaunchKC() ? (
+          <LaunchKCOwnerInformationForm />
+        ) : (
+          <OwnerInformationForm />
+        )
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />
