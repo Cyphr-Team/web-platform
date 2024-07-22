@@ -85,6 +85,7 @@ interface UserMicroLoanApplication {
   updatedAt: string
   decision: LoanDecisionEnum
   decisionNote: string
+  latestProgress: number
 }
 
 interface UserMicroLoanApplicationRequest {
