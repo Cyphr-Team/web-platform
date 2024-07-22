@@ -18,7 +18,7 @@ const RoleStrict = ({ children }: React.PropsWithChildren) => {
 
   if (isInvalidToken) {
     clearUserInfo()
-    return <Navigate to={APP_PATH.LOGIN} replace />
+    return <Navigate to={APP_PATH.SIGN_UP} replace />
   }
 
   if (isLoanApplicant)
@@ -36,7 +36,7 @@ export function Component() {
     <Suspense fallback={<Loader2 className="animate-spin" />}>
       <Await
         resolve={userPromise}
-        errorElement={<Navigate to={APP_PATH.LOGIN} replace />}
+        errorElement={<Navigate to={APP_PATH.SIGN_UP} replace />}
       >
         <RoleStrict>
           <Header items={DASHBOARD_NAV_ITEM} />

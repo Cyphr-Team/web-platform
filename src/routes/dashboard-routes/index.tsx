@@ -15,7 +15,7 @@ import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 /**
  * Dashboard routes ("/*"), no unauthenticated or loan applicant allowed to see these pages.
  * get user   ->  if success return children routes.
- *            ->  if fail clear credential, navigate to ("/login")
+ *            ->  if fail due to unauthenticated, clear credential (if any), navigate to ("/sign-up")
  */
 const dashboardRoutes = (
   <Route
