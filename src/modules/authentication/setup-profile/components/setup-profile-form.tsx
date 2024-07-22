@@ -94,7 +94,7 @@ export function SetupProfileForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
-                <FormControl>
+                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
                     placeholder="Enter your email"
                     className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
@@ -113,7 +113,7 @@ export function SetupProfileForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Name</FormLabel>
-                <FormControl>
+                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
                     placeholder="Enter your name"
                     className="text-base"
@@ -132,7 +132,7 @@ export function SetupProfileForm() {
             render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
-                <FormControl>
+                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <InputPassword
                     placeholder="Create a password"
                     className="text-base"

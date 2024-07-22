@@ -12,11 +12,7 @@ export function LoginFormSection() {
           <LogoHeader />
         </div>
 
-        <h1 className="text-3xl font-semibold tracking-tight mt-6">Login</h1>
-
-        <p className="text-muted-foreground mt-3">
-          Welcome back! Please enter your details.
-        </p>
+        <h1 className="text-4xl font-semibold tracking-tight mt-6">Log in</h1>
       </div>
 
       <LoginForm />

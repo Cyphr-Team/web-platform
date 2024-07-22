@@ -12,11 +12,11 @@ export function SignUpFormSection() {
           <LogoHeader />
         </div>
 
-        <h1 className="text-3xl font-semibold tracking-tight mt-6">
+        <h1 className="text-4xl font-semibold tracking-tight mt-6">
           Create an account
         </h1>
 
-        <p className="text-muted-foreground mt-3">
+        <p className="text-muted-foreground mt-3 text-sm font-normal">
           Accelerate your access to financing
         </p>
       </div>

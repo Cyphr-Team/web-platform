@@ -23,7 +23,7 @@ export default function SignUpGoogleButton() {
         Sign up with Google
       </ButtonLoading>
 
-      <SeparatorWithText text="OR" />
+      <SeparatorWithText text="or" />
     </>
   )
 }

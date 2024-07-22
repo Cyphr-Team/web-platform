@@ -43,7 +43,8 @@ export function LoginForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormControl>
+                <FormLabel>Email</FormLabel>
+                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
                     type="email"
                     placeholder="Enter your email"
@@ -63,7 +64,8 @@ export function LoginForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormControl>
+                <FormLabel>Password</FormLabel>
+                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <InputPassword
                     placeholder="••••••••"
                     className="text-base"
@@ -112,6 +114,7 @@ export function LoginForm() {
           {Boolean(errorMsg) && <ErrorMessage>{errorMsg}</ErrorMessage>}
 
           <ButtonLoading
+            disabled={!form.formState.isValid}
             isLoading={isPending}
             className="ml-auto w-full text-base"
             type="submit"
