@@ -78,6 +78,11 @@ function isEnableKycReOrder() {
 /**
  * Changes on Authentication Flow - MFA with Stytch
  */
+
+function isEnableSignUpReorder() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.SIGNUP_REORDER)
+}
+
 function isEnableMultiFactorAuthentication() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.MULTI_FACTOR_AUTHENTICATION)
 }
@@ -96,5 +101,6 @@ export {
   isEnableKYBV2,
   formsConfigurationEnabled,
   isEnableKycReOrder,
+  isEnableSignUpReorder,
   isEnableMultiFactorAuthentication
 }

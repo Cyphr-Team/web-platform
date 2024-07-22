@@ -10,6 +10,7 @@ import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
 import { Loader2 } from "lucide-react"
 import { useVerifyToken } from "@/hooks/useVerifyToken"
 import { useLogout } from "@/hooks/useLogout"
+import { isEnableSignUpReorder } from "@/utils/feature-flag.utils"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
@@ -18,7 +19,12 @@ const RoleStrict = ({ children }: React.PropsWithChildren) => {
 
   if (isInvalidToken) {
     clearUserInfo()
-    return <Navigate to={APP_PATH.SIGN_UP} replace />
+    return (
+      <Navigate
+        to={isEnableSignUpReorder() ? APP_PATH.SIGN_UP : APP_PATH.LOGIN}
+        replace
+      />
+    )
   }
 
   if (isLoanApplicant)
@@ -36,7 +42,12 @@ export function Component() {
     <Suspense fallback={<Loader2 className="animate-spin" />}>
       <Await
         resolve={userPromise}
-        errorElement={<Navigate to={APP_PATH.SIGN_UP} replace />}
+        errorElement={
+          <Navigate
+            to={isEnableSignUpReorder() ? APP_PATH.SIGN_UP : APP_PATH.LOGIN}
+            replace
+          />
+        }
       >
         <RoleStrict>
           <Header items={DASHBOARD_NAV_ITEM} />
