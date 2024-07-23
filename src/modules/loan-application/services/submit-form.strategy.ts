@@ -8,7 +8,7 @@ import { isCyphrBank, isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
-import { useCallback } from "react"
+import { Dispatch, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import {
   BusinessModelFormValue,
@@ -46,8 +46,10 @@ import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKC
 import { useSubmitExecutionForm } from "../hooks/useForm/useSubmitExecutionForm"
 import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
 import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
+import { Action, FORM_ACTION } from "../providers/LoanApplicationFormProvider"
 
 export const useSubmitLoanForm = (
+  dispatchFormAction: Dispatch<Action>,
   loanType: LoanType,
   progress: ILoanApplicationStep[],
   loanRequestData: LoanRequestFormValue,
@@ -63,7 +65,7 @@ export const useSubmitLoanForm = (
   launchKCFitData: LaunchKCFitFormValue,
   executionData: ExecutionFormValue,
   businessModelData: BusinessModelFormValue,
-  marketOportunityData: MarketOpportunityFormValue,
+  marketOpportunityData: MarketOpportunityFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -108,7 +110,7 @@ export const useSubmitLoanForm = (
   const {
     submitLoanMarketOpportunity,
     isLoading: isSubmitLoanMarketOpportunity
-  } = useSubmitMarketOpportunity(marketOportunityData)
+  } = useSubmitMarketOpportunity(marketOpportunityData)
 
   const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
     useSubmitCurrentLoansForm(currentLoansData)
@@ -200,9 +202,17 @@ export const useSubmitLoanForm = (
 
   const submitLoanForm = useCallback(async () => {
     try {
-      const {
-        data: { id: loanRequestId }
-      } = await submitLoanRequestForm()
+      const { data } = await submitLoanRequestForm()
+
+      const loanRequestId = data.id
+      if (loanRequestId) {
+        dispatchFormAction({
+          action: FORM_ACTION.UPDATE_DATA,
+          key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+          state: data
+        })
+      }
+
       let isSubmitted = false
 
       /**
@@ -297,7 +307,7 @@ export const useSubmitLoanForm = (
         }
 
         if (
-          marketOportunityData &&
+          marketOpportunityData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
         ) {
           await submitLoanMarketOpportunity(loanRequestId)
@@ -374,6 +384,7 @@ export const useSubmitLoanForm = (
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
     queryClient,
+    dispatchFormAction,
     submitLoanIdentityVerification,
     submitLinkPlaidItemds,
     businessData,
@@ -382,7 +393,7 @@ export const useSubmitLoanForm = (
     financialData,
     cashflowData,
     productServiceData,
-    marketOportunityData,
+    marketOpportunityData,
     launchKCFitData,
     executionData,
     businessModelData,

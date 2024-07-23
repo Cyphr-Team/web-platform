@@ -2,7 +2,6 @@ import { LoanType } from "@/types/loan-program.type"
 import { LoanRequestFormValue } from "../../constants/form"
 import { useCreateLoanApplicationMutation } from "../useMutation/useCreateLoanApplicationMutation"
 import { useUpdateLoanApplicationMutation } from "../useMutation/useUpdateLoanRequest"
-
 export const useSubmitMicroLoanRequestForm = (
   rawData: LoanRequestFormValue,
   formId: string,

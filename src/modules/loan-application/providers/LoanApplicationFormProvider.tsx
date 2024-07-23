@@ -197,6 +197,7 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
   const loanType = loanProgramDetails?.type ?? LoanType.MICRO
 
   const { submitLoanForm, isLoading } = useSubmitLoanForm(
+    dispatchFormAction,
     loanType,
     progress,
     state[LOAN_APPLICATION_STEPS.LOAN_REQUEST],
