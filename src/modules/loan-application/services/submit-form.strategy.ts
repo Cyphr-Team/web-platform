@@ -203,13 +203,15 @@ export const useSubmitLoanForm = (
   const submitLoanForm = useCallback(async () => {
     try {
       const { data } = await submitLoanRequestForm()
-
       const loanRequestId = data.id
       if (loanRequestId) {
         dispatchFormAction({
           action: FORM_ACTION.UPDATE_DATA,
           key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
-          state: data
+          state: {
+            ...data,
+            applicationId: data.id
+          }
         })
       }
 

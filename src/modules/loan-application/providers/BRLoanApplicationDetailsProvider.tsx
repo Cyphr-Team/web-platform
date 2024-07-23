@@ -335,6 +335,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       changeDataAndProgress(
         {
           id: loanApplicationDetailsQuery.data.id,
+          applicationId: loanApplicationDetailsQuery.data.id,
           loanAmount: loanApplicationDetailsQuery.data.loanAmount,
           loanTermInMonth: loanApplicationDetailsQuery.data.loanTermInMonth,
           proposeUseOfLoan: loanApplicationDetailsQuery.data.proposeUseOfLoan

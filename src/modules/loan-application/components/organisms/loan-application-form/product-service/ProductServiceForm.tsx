@@ -39,7 +39,6 @@ export const ProductServiceForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { productServiceForm, loanRequest, dispatchFormAction } =
     useLoanApplicationFormContext()
-
   const defaultValues = {
     id: productServiceForm?.id ?? "",
     loanApplicationId:

@@ -31,12 +31,6 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.cashflow as string,
       ApplicationMenuName.loanSummary as string
     ]
-    // Hide Identity Verication tab when FF off
-    if (!isEnablePersonaKycV1()) {
-      menuItems = menuItems.filter(
-        (e) => e != (ApplicationMenuName.identity as string)
-      )
-    }
   } else if (isLaunchKC()) {
     menuItems = [
       ApplicationMenuName.business as string,
@@ -52,11 +46,12 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.cashflow as string,
       ApplicationMenuName.loanSummary as string
     ]
-    if (!isEnablePersonaKycV1()) {
-      menuItems = menuItems.filter(
-        (e) => e != (ApplicationMenuName.identity as string)
-      )
-    }
+  }
+  // Hide Identity Verication tab when FF off
+  if (!isEnablePersonaKycV1()) {
+    menuItems = menuItems.filter(
+      (e) => e != (ApplicationMenuName.identity as string)
+    )
   }
 
   menuItems = menuItems.filter(Boolean)
