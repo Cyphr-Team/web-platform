@@ -10,7 +10,7 @@ import { LoanType } from "@/types/loan-program.type"
 import { useMutationFactory } from "."
 
 const useCreateLoanApplication = <R, T>(loanType: LoanType) => {
-  return useMutationFactory<R, T>((data) => {
+  return useMutationFactory<R, T>((data: R) => {
     return postRequest({
       path: API_PATH.application.create(loanType),
       data,

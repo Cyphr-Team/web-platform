@@ -90,7 +90,7 @@ const loanProgramText: Element[] = [
   {
     type: ELEMENTS_TYPE.text,
     content:
-      "To be considered, please complete the application in its entirety by September 16, 2024."
+      "To be considered, please complete the application in its entirety by <b>September 16, 2024.</b>"
   },
   {
     type: ELEMENTS_TYPE.title,
@@ -112,7 +112,7 @@ const loanProgramText: Element[] = [
   {
     type: ELEMENTS_TYPE.text,
     content:
-      "Please note, in-person attendance is required for Round 3 interviews the week of October 28th, the LaunchKC event on November 19th, and quarterly programming events throughout 2025."
+      "<b>Please note, in-person attendance is required for Round 3 interviews the week of October 28th, the LaunchKC event on November 19th, and quarterly programming events throughout 2025.</b>"
   },
   {
     type: ELEMENTS_TYPE.title,
@@ -148,7 +148,7 @@ const loanProgramText: Element[] = [
   {
     type: ELEMENTS_TYPE.text,
     content:
-      "Only complete applications submitted by 11:59 PM EST on September 16, 2024, will be considered."
+      "Only complete applications submitted by <b>11:59 PM EST on September 16, 2024,</b> will be considered."
   },
   {
     type: ELEMENTS_TYPE.text,
