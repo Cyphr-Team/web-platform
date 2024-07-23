@@ -13,9 +13,10 @@ export const useSubmitLoanKYBForm = (
   const { mutateAsync: submitLoanKyb, isPending: isSubmittingLoanKyb } =
     useSubmitLoanKybInformation()
 
-  const formattedData = rawData && formatKybForm(rawData)
   // Call API
   const submitLoanKYBForm = async (loanApplicationId: string) => {
+    const formattedData = rawData && formatKybForm(rawData)
+
     if (formId.length) {
       // Update KYB
       await updateLoanKyb({ ...formattedData, id: formId })

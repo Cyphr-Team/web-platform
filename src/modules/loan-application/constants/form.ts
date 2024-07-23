@@ -94,7 +94,13 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
   yearFounded: z
     .string()
     .min(1, { message: "Year Founded is required" })
-    .refine((value) => parseInt(value) > 1900, { message: "Invalid year" }),
+    .refine(
+      (value) => {
+        const year = parseInt(value)
+        return 1900 < year && year < 2090
+      },
+      { message: "Invalid year" }
+    ),
   legalStructure: z.string().min(1, { message: "Legal Structure is required" }),
   primaryIndustry: z
     .string()

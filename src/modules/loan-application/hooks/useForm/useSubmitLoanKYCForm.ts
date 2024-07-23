@@ -13,9 +13,9 @@ export const useSubmitLoanKYCForm = (
   const { mutateAsync: submitLoanKyc, isPending: isSubmitting } =
     useSubmitLoanKycInformation()
   // Call API
+
   const submitLoanKYCForm = async (loanApplicationId: string) => {
     const formattedData = rawData && formatKycForm(rawData)
-
     if (formId.length) {
       // Update KYC
       return await updateLoanKyc({ ...formattedData })

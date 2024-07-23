@@ -20,6 +20,19 @@ import { isLaunchKC } from "@/utils/domain.utils.ts"
 import { get, set, without } from "lodash"
 
 export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
+  const formattedForm: KYBInformation = {
+    ...(rawData as BusinessFormValue),
+    businessStreetAddress: {
+      addressLine1: rawData.addressLine1,
+      addressLine2: rawData.addressLine2,
+      city: rawData.city,
+      state: getStateCode(rawData.state),
+      postalCode: rawData.postalCode
+    },
+    businessWebsite: rawData.businessWebsite.length
+      ? rawData.businessWebsite
+      : undefined
+  }
   if (isLaunchKC()) {
     /**
      * function "without" act like Omit, but it's for string[]. For example
@@ -34,26 +47,22 @@ export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
       ...Object.keys(businessFormSchema.shape)
     )
 
-    return formatFromSchema(launchKcKybMetadata, rawData) as KYBInformation
+    return formatMetadataFromSchema(
+      launchKcKybMetadata,
+      formattedForm
+    ) as KYBInformation
   }
 
-  // base case
-  return {
-    ...(rawData as BusinessFormValue),
-    businessStreetAddress: {
-      addressLine1: rawData.addressLine1,
-      addressLine2: rawData.addressLine2,
-      city: rawData.city,
-      state: getStateCode(rawData.state),
-      postalCode: rawData.postalCode
-    },
-    businessWebsite: rawData.businessWebsite.length
-      ? rawData.businessWebsite
-      : undefined
-  }
+  return formattedForm
 }
 
 export const formatKycForm = (rawData: IOwnerFormValue): KYCInformation => {
+  const formattedForm = {
+    ...rawData,
+    hasOtherSubstantialStackHolders: undefined,
+    businessOwnershipPercentage: Number(rawData.businessOwnershipPercentage)
+  }
+
   if (isLaunchKC()) {
     const launchKcKycMetadata = without(
       Object.keys(launchKCOwnerFormSchema.shape),
@@ -61,16 +70,15 @@ export const formatKycForm = (rawData: IOwnerFormValue): KYCInformation => {
     )
 
     return {
-      ...(formatFromSchema(launchKcKycMetadata, rawData) as KYCInformation),
+      ...(formatMetadataFromSchema(
+        launchKcKycMetadata,
+        formattedForm
+      ) as KYCInformation),
       fullName: `${rawData?.firstName} ${rawData?.lastName}`
     }
   }
 
-  return {
-    ...rawData,
-    hasOtherSubstantialStackHolders: undefined,
-    businessOwnershipPercentage: Number(rawData.businessOwnershipPercentage)
-  }
+  return formattedForm
 }
 
 export const reverseFormatKybForm = (rawData: KYBInformationResponse) => {
@@ -170,7 +178,10 @@ export const reverseFormatOperatingExpensesForm = (
   }
 }
 
-const formatFromSchema = (metadataFields: string[], rawData: object) => {
+const formatMetadataFromSchema = (
+  metadataFields: string[],
+  rawData: object
+) => {
   // mustHaveFields contain all field that required in the object
   const mustHaveFields = without(Object.keys(rawData), ...metadataFields)
   // define a new empty form object
