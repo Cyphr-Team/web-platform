@@ -47,3 +47,8 @@ export const institutionLoader = async () => {
     }
   }
 }
+
+export const featureFlagsPublicLoader = async () => {
+  await featureFlagsService.handleFetchFeatureFlags("")
+  return null
+}

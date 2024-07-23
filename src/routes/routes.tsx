@@ -11,7 +11,7 @@ import { applicantRoutes } from "./applicant-routes"
 import { authenticationRoutes } from "./authentication-routes"
 import { dashboardRoutes } from "./dashboard-routes"
 import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
-import { institutionLoader } from "./loader"
+import { featureFlagsPublicLoader, institutionLoader } from "./loader"
 /**
  * App routes ("/").
  * get institution metadata
@@ -27,7 +27,7 @@ const routes = createBrowserRouter(
       element={<GlobalLayouts />}
       errorElement={<InstitutionNotFoundLayout />}
     >
-      <Route>
+      <Route loader={featureFlagsPublicLoader}>
         {/* AUTHENTICATION ROUTES */}
         {/* EXCEPT THIS CASE, WHEN WE ALREADY LOGGED IN AND ACCEPT OUR OWN INVITATION */}
         <Route element={<ActiveEmailLayout />}>

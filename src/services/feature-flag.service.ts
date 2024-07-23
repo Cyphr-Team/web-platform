@@ -41,14 +41,24 @@ export const featureFlagsManager = () => {
     page = 0,
     accessToken = ""
   ) => {
-    return postRequest({
-      path: API_PATH.featureFlag.listFeatureFlagByUserId(),
-      customHeader: headerWithTemporaryToken(accessToken),
-      data: {
-        offset: page,
-        limit: FEATURE_FLAGS_PER_PAGE
-      }
-    }).then((res) => res.data as ListResponse<FeatureFlag>)
+    if (accessToken === "") {
+      return postRequest({
+        path: API_PATH.featureFlag.public,
+        data: {
+          offset: page,
+          limit: FEATURE_FLAGS_PER_PAGE
+        }
+      }).then((res) => res.data as ListResponse<FeatureFlag>)
+    } else {
+      return postRequest({
+        path: API_PATH.featureFlag.listFeatureFlagByUserId(),
+        customHeader: headerWithTemporaryToken(accessToken),
+        data: {
+          offset: page,
+          limit: FEATURE_FLAGS_PER_PAGE
+        }
+      }).then((res) => res.data as ListResponse<FeatureFlag>)
+    }
   }
 
   return {
