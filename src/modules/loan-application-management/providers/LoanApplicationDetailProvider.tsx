@@ -36,8 +36,8 @@ import { TimeRangeValue } from "@/types/time-range.type.ts"
 import { getTimeRangeDates } from "@/utils/time-range.utils.ts"
 import { format } from "date-fns"
 import { useQueryGetSmartKyc } from "../hooks/useQuery/smart-kyc/useQueryGetSmartKyc"
-import { SmartKyc } from "@/lib/persona/persona.types.ts"
-import { isEnableIdentityVerificationSectionView } from "@/utils/feature-flag.utils.ts"
+import { SmartKyc } from "../../../lib/persona/persona.types"
+import { isEnablePersonaKycV1 } from "../../../utils/feature-flag.utils"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -124,8 +124,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const loanSmartKycDetailQuery = useQueryGetSmartKyc({
     applicationId: params.id,
     enabledByInstitution:
-      (isKccBank() || isSbb() || isLaunchKC()) &&
-      isEnableIdentityVerificationSectionView()
+      (isKccBank() || isSbb() || isLaunchKC()) && isEnablePersonaKycV1()
   })
 
   const defaultFilters = {

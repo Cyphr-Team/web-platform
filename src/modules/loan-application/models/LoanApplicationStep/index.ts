@@ -6,33 +6,30 @@ import { LoanReadyLoanApplicationStep } from "./LoanReady"
 import { CapsightLoanApplicationStep } from "./Capsight"
 import { SBBLoanApplicationStep } from "./SBB"
 import { LaunchKCLoanApplicationStep } from "./LaunchKC"
+import { matchSubdomain } from "@/utils/domain.utils"
 
 export class LoanApplicationStepStrategy {
   #strategy
 
+  institutionLoanApplicationSteps = {
+    [Institution.KCChamber]: KCChamberLoanApplicationStep,
+    [Institution.CyphrV2]: CyphrLoanApplicationStep,
+    [Institution.LoanReady]: LoanReadyLoanApplicationStep,
+    [Institution.Capsight]: CapsightLoanApplicationStep,
+    [Institution.LaunchKC]: LaunchKCLoanApplicationStep,
+    [Institution.SBB]: SBBLoanApplicationStep
+  }
+
   constructor(institution: Institution) {
-    switch (institution) {
-      case Institution.KCChamber:
-        this.#strategy = new KCChamberLoanApplicationStep()
-        break
-      case Institution.CyphrV2:
-        this.#strategy = new CyphrLoanApplicationStep()
-        break
-      case Institution.LoanReady:
-        this.#strategy = new LoanReadyLoanApplicationStep()
-        break
-      case Institution.Capsight:
-        this.#strategy = new CapsightLoanApplicationStep()
-        break
-      case Institution.LaunchKC:
-        this.#strategy = new LaunchKCLoanApplicationStep()
-        break
-      case Institution.SBB:
-        this.#strategy = new SBBLoanApplicationStep()
-        break
-      default:
-        this.#strategy = new DefaultLoanApplicationStep()
+    for (const [key, LoanApplicationStep] of Object.entries(
+      this.institutionLoanApplicationSteps
+    )) {
+      if (matchSubdomain(institution, key)) {
+        this.#strategy = new LoanApplicationStep()
+        return
+      }
     }
+    this.#strategy = new DefaultLoanApplicationStep()
   }
 
   getStrategy() {

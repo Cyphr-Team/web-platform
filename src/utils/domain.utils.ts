@@ -27,6 +27,16 @@ function getSubdomain(): string {
   }
 }
 
+function getRootSubdomain(subdomain: string): string {
+  // example: launchkc-rep -> launchkc
+  return subdomain.replace(new RegExp("-rep" + "$"), "")
+}
+
+function matchSubdomain(subdomainToMatch: string, subdomain: string): boolean {
+  const regex = new RegExp(`^${subdomain}(?:-rep)?$`)
+  return regex.test(subdomainToMatch)
+}
+
 /**
  * When admin send invitation to institution's user, the baseUrl should be institution's baseURL
  * So we need to change the subdomain from [admin].cyphrai.dev / [admin].cyphrai.com
@@ -40,31 +50,33 @@ function getTenantDomain(subdomain: string) {
 }
 
 function isCapsight(): boolean {
-  return getSubdomain() === Institution.Capsight
+  return matchSubdomain(getSubdomain(), Institution.Capsight)
 }
 
 function isLoanReady(): boolean {
-  return getSubdomain() === Institution.LoanReady
+  return matchSubdomain(getSubdomain(), Institution.LoanReady)
 }
 
 function isCyphrBank(): boolean {
-  return getSubdomain() === Institution.CyphrV2
+  return matchSubdomain(getSubdomain(), Institution.CyphrV2)
 }
 
 function isKccBank(): boolean {
-  return getSubdomain() === Institution.KCChamber
+  return matchSubdomain(getSubdomain(), Institution.KCChamber)
 }
 
 function isLaunchKC(): boolean {
-  return getSubdomain() === Institution.LaunchKC
+  return matchSubdomain(getSubdomain(), Institution.LaunchKC)
 }
 
 function isSbb(): boolean {
-  return getSubdomain() === Institution.SBB
+  return matchSubdomain(getSubdomain(), Institution.SBB)
 }
 
 export {
   getSubdomain,
+  getRootSubdomain,
+  matchSubdomain,
   isLoanReady,
   isCyphrBank,
   isCapsight,

@@ -7,6 +7,7 @@ import { useMemo } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
+import { isSbb } from "@/utils/domain.utils"
 
 export const Insights = () => {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
@@ -92,7 +93,7 @@ export const Insights = () => {
           href={INSIGHT_TOC.watchLists}
           isLoading={isLoading}
         />
-        {isEnableKYBV2() && (
+        {isEnableKYBV2() && isSbb() && (
           <InsightItem
             title="Industry Classification"
             status={insights?.industry?.status}
@@ -111,7 +112,7 @@ export const Insights = () => {
           isLoading={isLoading}
           noBorder
         />
-        {isEnableKYBV2() && (
+        {isEnableKYBV2() && isSbb() && (
           <InsightItem
             title="Website"
             status={insights?.website?.status}
@@ -121,7 +122,7 @@ export const Insights = () => {
             isLoading={isLoading}
           />
         )}
-        {isEnableKYBV2() && (
+        {isEnableKYBV2() && isSbb() && (
           <InsightItem
             title="Adverse Media"
             status={insights?.adverseMedia?.status}

@@ -9,7 +9,7 @@ import {
   isSbb
 } from "@/utils/domain.utils"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
-import { isEnableIdentityVerificationSectionView } from "../../../../utils/feature-flag.utils"
+import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -32,7 +32,7 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.loanSummary as string
     ]
     // Hide Identity Verication tab when FF off
-    if (!isEnableIdentityVerificationSectionView()) {
+    if (!isEnablePersonaKycV1()) {
       menuItems = menuItems.filter(
         (e) => e != (ApplicationMenuName.identity as string)
       )
@@ -52,7 +52,7 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.cashflow as string,
       ApplicationMenuName.loanSummary as string
     ]
-    if (!isEnableIdentityVerificationSectionView()) {
+    if (!isEnablePersonaKycV1()) {
       menuItems = menuItems.filter(
         (e) => e != (ApplicationMenuName.identity as string)
       )

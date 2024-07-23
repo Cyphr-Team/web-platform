@@ -44,12 +44,6 @@ function isEnabledBankAccountConnectionV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.BANK_ACCOUNT_CONNECTION_V2)
 }
 
-function isEnableIdentityVerificationSectionView() {
-  return checkEnabledFeatureFlag(
-    FEATURE_FLAGS.IDENTITY_VERIFICATION_SECTION_VIEW
-  )
-}
-
 function isEnableNewInquiryPersonaKycCreatingLogic() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.NEW_PERSONA_KYC_CREATING_LOGIC)
 }
@@ -107,7 +101,6 @@ export {
   isEnableDashboardV2,
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
-  isEnableIdentityVerificationSectionView,
   isEnableNewInquiryPersonaKycCreatingLogic,
   isEnableKYBV2,
   formsConfigurationEnabled,
