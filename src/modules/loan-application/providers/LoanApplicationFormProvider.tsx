@@ -13,6 +13,7 @@ import {
   ConfirmationFormValue,
   CurrentLoansFormValue,
   DocumentUploadsFormValue,
+  ESignFormValue,
   ExecutionFormValue,
   FinancialFormValue,
   IBusinessFormValue,
@@ -43,6 +44,7 @@ type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: CurrentLoansFormValue
   [LOAN_APPLICATION_STEPS.OPERATING_EXPENSES]: OperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: ConfirmationFormValue
+  [LOAN_APPLICATION_STEPS.E_SIGN]: ESignFormValue
   [LOAN_APPLICATION_STEPS.REVIEW_APPLICATION]: ReviewApplicationValue
   [LOAN_APPLICATION_STEPS.PRODUCT_SERVICE]: ProductServiceFormValue
   [LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY]: MarketOpportunityFormValue
@@ -83,6 +85,7 @@ export type FormStateType =
   | ExecutionFormValue
   | DocumentUploadsFormValue
   | PreQualificationFormValue
+  | ESignFormValue
   // for launch KC only
   | LaunchKCFitFormValue
   | LaunchKCBusinessFormValue

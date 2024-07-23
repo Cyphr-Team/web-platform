@@ -3,7 +3,7 @@ import {
   LOAN_APPLICATION_STEPS
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { isEnabledBankAccountConnectionV2 } from "@/utils/feature-flag.utils"
-import { useMemo } from "react"
+import { forwardRef, useMemo } from "react"
 import { LoanRequest } from "../../layouts/LoanRequest"
 import { BusinessInformationForm } from "./BusinessInformationForm"
 import { CashFlowVerificationForm } from "./CashFlowVerificationForm"
@@ -85,8 +85,14 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   return componentStep
 }
 
-export const ReviewApplicationStep = ({ stepProgress }: IReviewStep) => {
-  const componentByStep = useGetReviewFormByStep(stepProgress.step)
+export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(
+  ({ stepProgress }: IReviewStep, ref) => {
+    const componentByStep = useGetReviewFormByStep(stepProgress.step)
 
-  return <div className="w-full">{componentByStep}</div>
-}
+    return (
+      <div className="w-full h-full" ref={ref}>
+        {componentByStep}
+      </div>
+    )
+  }
+)

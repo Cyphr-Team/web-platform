@@ -1,27 +1,31 @@
+import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
+import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
+import { isLaunchKC } from "@/utils/domain.utils.ts"
+import {
+  isEnabledBankAccountConnectionV2,
+  isEnablePandaDocESign
+} from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
+import { PreQualificationForm } from "../components/layouts/custom/launch-kc/LaunchKCPreQualification"
 import { LoanRequest } from "../components/layouts/LoanRequest"
+import { BusinessModelForm } from "../components/organisms/loan-application-form/business-model/BusinessModelForm"
 import { BusinessInformationForm } from "../components/organisms/loan-application-form/BusinessInformationForm"
 import { CashFlowVerificationForm } from "../components/organisms/loan-application-form/CashFlowVerificationForm"
-import { CashFlowVerificationFormV2 } from "../components/organisms/loan-application-form/v2/CashFlowVerificationForm"
 import { ConfirmationForm } from "../components/organisms/loan-application-form/ConfirmationForm"
 import { CurrentLoansForm } from "../components/organisms/loan-application-form/CurrentLoansForm"
+import { DocumentUploadsForm } from "../components/organisms/loan-application-form/DocumentUploadForm"
+import { ESignForm } from "../components/organisms/loan-application-form/ESignForm"
+import { ExecutionForm } from "../components/organisms/loan-application-form/execution/ExecutionForm"
 import { FinancialInformationForm } from "../components/organisms/loan-application-form/FinancialInformationForm"
 import { IdentityVerificationForm } from "../components/organisms/loan-application-form/IdentityVerificationForm"
+import { LaunchKCFitForm } from "../components/organisms/loan-application-form/launchkc-fit/LaunchKcFitForm"
+import { MarketOpportunityForm } from "../components/organisms/loan-application-form/market-opportunity/MarketOpportunityForm"
 import { OperatingExpensesForm } from "../components/organisms/loan-application-form/OperatingExpensesForm"
 import { OwnerInformationForm } from "../components/organisms/loan-application-form/OwnerInformationForm"
-import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
-import { ReviewApplication } from "../components/organisms/loan-application-form/ReviewApplication"
-import { isEnabledBankAccountConnectionV2 } from "@/utils/feature-flag.utils"
 import { ProductServiceForm } from "../components/organisms/loan-application-form/product-service/ProductServiceForm"
-import { MarketOpportunityForm } from "../components/organisms/loan-application-form/market-opportunity/MarketOpportunityForm"
-import { BusinessModelForm } from "../components/organisms/loan-application-form/business-model/BusinessModelForm"
-import { ExecutionForm } from "../components/organisms/loan-application-form/execution/ExecutionForm"
-import { DocumentUploadsForm } from "../components/organisms/loan-application-form/DocumentUploadForm"
-import { LaunchKCFitForm } from "../components/organisms/loan-application-form/launchkc-fit/LaunchKcFitForm"
-import { PreQualificationForm } from "../components/layouts/custom/launch-kc/LaunchKCPreQualification"
-import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
-import { isLaunchKC } from "@/utils/domain.utils.ts"
-import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
+import { ReviewApplication } from "../components/organisms/loan-application-form/ReviewApplication"
+import { CashFlowVerificationFormV2 } from "../components/organisms/loan-application-form/v2/CashFlowVerificationForm"
+import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -55,7 +59,11 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
         return <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
-        return <ConfirmationForm />
+        if (isEnablePandaDocESign()) {
+          return <ESignForm />
+        } else {
+          return <ConfirmationForm />
+        }
       case LOAN_APPLICATION_STEPS.OPERATING_EXPENSES:
         return <OperatingExpensesForm />
       case LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION:

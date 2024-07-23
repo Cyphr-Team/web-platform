@@ -328,6 +328,9 @@ export const useSubmitLoanForm = (
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
         }
+        /**
+         * TODO - ESign handle link ESign document ID to application
+         */
       } else if (loanType === LoanType.READINESS) {
         // Customize submission steps for Readiness loan type
         if (businessData) await submitLoanKYBForm(loanRequestId)

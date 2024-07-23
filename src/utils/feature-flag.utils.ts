@@ -87,7 +87,18 @@ function isEnableMultiFactorAuthentication() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.MULTI_FACTOR_AUTHENTICATION)
 }
 
+/*
+ * Replace step Sign and Submit with ESign with PandaDoc
+ * 1. Applicant - Submit application - Last step confirmation
+ * 2. Applicant - Application detail
+ * 3. Workspace admin - Loan summary
+ */
+function isEnablePandaDocESign() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.PANDA_DOC_ESIGN_V1)
+}
+
 export {
+  isEnablePandaDocESign,
   isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,

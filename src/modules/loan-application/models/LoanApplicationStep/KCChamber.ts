@@ -3,7 +3,7 @@ import {
   isEnablePersonaKycV1,
   isEnableReviewApplicationStep
 } from "@/utils/feature-flag.utils"
-import { LoanApplicationStep, ILoanApplicationStepStrategy } from "./base"
+import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
 export class KCChamberLoanApplicationStep
   extends LoanApplicationStep

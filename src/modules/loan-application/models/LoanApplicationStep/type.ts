@@ -25,6 +25,7 @@ enum LOAN_APPLICATION_STEPS {
   CURRENT_LOANS = "currentLoansForm",
   OPERATING_EXPENSES = "operatingExpensesForm",
   CONFIRMATION = "confirmationForm",
+  E_SIGN = "eSignForm",
   IDENTITY_VERIFICATION = "identityVerificationForm",
   REVIEW_APPLICATION = "reviewApplication",
   PRODUCT_SERVICE = "productServiceForm",

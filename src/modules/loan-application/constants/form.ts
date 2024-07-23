@@ -4,6 +4,7 @@ import { isPossiblePhoneNumber } from "react-phone-number-input"
 import { PlaidItemInfo } from "./type"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
+import jsPDF from "jspdf"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -129,6 +130,14 @@ export const confirmationFormSchema = z.object({
   signatureDate: z.string()
 })
 
+/**
+ * documentId, sessionId to support flow E-Sign
+ */
+export const eSignFormSchema = z.object({
+  documentId: z.string().optional(),
+  sessionId: z.string().optional()
+})
+
 export const loanRequestFormSchema = z.object({
   id: z.string(),
   loanAmount: z.number(),
@@ -214,7 +223,9 @@ export const createIdentityVerificationSchema = () => {
 }
 
 export const reviewApplicationSchema = z.object({
-  isReviewed: z.boolean()
+  isReviewed: z.boolean(),
+  pdf: z.custom<jsPDF>().optional(),
+  totalPage: z.number().optional()
 })
 
 export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
@@ -357,6 +368,8 @@ export type LaunchKCOwnerFormValue = z.infer<typeof launchKCOwnerFormSchema>
 export type FinancialFormValue = z.infer<typeof financialFormSchema>
 
 export type ConfirmationFormValue = z.infer<typeof confirmationFormSchema>
+
+export type ESignFormValue = z.infer<typeof eSignFormSchema>
 
 export type LoanRequestFormValue = z.infer<typeof loanRequestFormSchema>
 
