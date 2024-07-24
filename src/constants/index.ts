@@ -18,6 +18,7 @@ export const APP_PATH = {
     detail: (email: string) => `/verify-email/${email}`,
     activateByToken: "/activation"
   },
+  MAGIC_LINK: "/magic-link",
   SETUP_PROFILE: "/setup-profile",
   ACCEPT_INVITE: "/accept-invite",
 

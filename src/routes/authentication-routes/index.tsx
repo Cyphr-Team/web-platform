@@ -27,6 +27,12 @@ const authenticationRoutes = (
         lazy={() => import("@/modules/authentication/verify-email/page")}
       />
 
+      {/* MAGIC LINK CALLBACK */}
+      <Route
+        path={APP_PATH.MAGIC_LINK}
+        lazy={() => import("@/modules/authentication/magic-link/page")}
+      />
+
       {/* ACTIVE EMAIL, EXPIRED, ALREADY SIGN UP, EMAIL ALREADY ASSOCIATE */}
       <Route
         path={APP_PATH.VERIFY_EMAIL.activateByToken}

@@ -27,6 +27,15 @@ export const TOAST_MSG = {
     reactivateUser: {
       title: "Reactivate user",
       description: "User is reactivated successfully"
+    },
+    // Notifications for Stytch MFA
+    stytchMagicLink: {
+      title: "Stytch Magic Link",
+      description: "Magic link has been sent successfully"
+    },
+    stytchOTP: {
+      title: "Stytch OTP",
+      description: "Magic link has been sent successfully"
     }
   },
   loanProgram: {

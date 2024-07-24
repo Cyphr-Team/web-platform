@@ -15,6 +15,7 @@ export const parseJwt = (token: string) => {
 }
 
 const REFRESH_TOKEN_LS_KEY = "cyphr-web-refresh_token"
+const REFRESH_TOKEN_TEMP_LS_KEY = "cyphr-web-temp_refresh_token"
 const USER_INFO_LS_KEY = "cyphr-web-user_info"
 
 export const inMemoryJWTManager = () => {
@@ -34,6 +35,23 @@ export const inMemoryJWTManager = () => {
   const setRefreshToken = (token: string) => {
     refreshToken = token
     localStorage.setItem(REFRESH_TOKEN_LS_KEY, token)
+  }
+
+  const setTemporaryRefreshToken = (token: string) => {
+    refreshToken = token
+    localStorage.setItem(REFRESH_TOKEN_TEMP_LS_KEY, token)
+  }
+
+  /**
+   * Stytch MFA process requires a temporary refresh token (from our backend) to be stored in local storage.
+   * After the MFA process is completed, the temporary refresh token is transferred to the permanent storage.
+   * Then the temporary refresh token is removed from local storage. User are authenticated and redirected to the appropriate page.
+   */
+  const transferRefreshToken = () => {
+    const tempToken = localStorage.getItem(REFRESH_TOKEN_TEMP_LS_KEY) ?? ""
+    refreshToken = tempToken
+    localStorage.setItem(REFRESH_TOKEN_LS_KEY, tempToken)
+    localStorage.removeItem(REFRESH_TOKEN_TEMP_LS_KEY)
   }
 
   // The method makes a call to the refresh-token endpoint
@@ -115,7 +133,9 @@ export const inMemoryJWTManager = () => {
     setToken,
     setLogoutEventName,
     setRefreshToken,
-    getNewAccessToken
+    getNewAccessToken,
+    setTemporaryRefreshToken,
+    transferRefreshToken
   }
 }
 
