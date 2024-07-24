@@ -26,8 +26,13 @@ export const Insights = () => {
         : 0,
     [insights]
   )
+
   const insightsTotal =
-    isEnableKYBV2() && insights ? Object.entries(insights).length : 7
+    isEnableKYBV2() && isSbb()
+      ? insights
+        ? Object.entries(insights).length
+        : 10
+      : 7
 
   return (
     <Card className="h-fit lg:sticky top-0 z-10 mb-4 flex-shrink-0">
