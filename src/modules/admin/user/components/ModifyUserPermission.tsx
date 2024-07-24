@@ -13,7 +13,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog"
-import { ButtonDeactivateUser } from "@/modules/admin/user/components/DeactivateUserButton.tsx"
 import { Edit } from "lucide-react"
 import { Button } from "@/components/ui/button.tsx"
 
@@ -94,12 +93,6 @@ export const ModifyUserPermission = ({
           ))}
         </form>
         <div className="flex flex-col-reverse sm:flex-row sm:space-x-2 sm:justify-between pt-4">
-          <DialogFooter>
-            <ButtonDeactivateUser
-              userId={userId}
-              setIsUserEditFormOpen={setIsOpen}
-            />
-          </DialogFooter>
           <DialogFooter>
             <EditUserRolesButton
               userId={userId}

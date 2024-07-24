@@ -38,6 +38,8 @@ export const useQueryDownloadBulkCsvInvitationTemplate = ({
 
       return data
     },
-    enabled: !!type && !!preventCacheCount
+    enabled: !!type && !!preventCacheCount,
+    // Prevent cache
+    staleTime: Infinity
   })
 }

@@ -5,13 +5,7 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useDeactivateUser } from "@/modules/admin/user/hooks/useDeactivateUser.ts"
 import { cn } from "@/lib/utils.ts"
 
-export const ButtonDeactivateUser = ({
-  userId,
-  setIsUserEditFormOpen
-}: {
-  userId: string
-  setIsUserEditFormOpen: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
+export const ButtonDeactivateUser = ({ userId }: { userId: string }) => {
   const [isOpen, setIsOpen] = useState(false)
   const { mutate, isPending } = useDeactivateUser()
   const [isConfirmed, setIsConfirmed] = useState(false)
@@ -23,7 +17,6 @@ export const ButtonDeactivateUser = ({
     e.stopPropagation()
     mutate({ userId: userId })
     setIsOpen(false)
-    setIsUserEditFormOpen(false)
     setIsConfirmed(true)
   }
 
@@ -49,10 +42,12 @@ export const ButtonDeactivateUser = ({
       actionClassName="bg-red-500 hover:bg-red-600 text-white"
     >
       <ButtonLoading
+        variant="ghost"
         type="submit"
         id={userId}
+        size="icon"
         isLoading={isPending}
-        className={cn("h-max cursor-pointer bg-red-500 hover:bg-red-600")}
+        className={cn("h-max cursor-pointer text-red-900 p-2")}
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -60,8 +55,8 @@ export const ButtonDeactivateUser = ({
         }}
         disabled={isConfirmed}
       >
-        <MinusCircle size={16} className="text-sm mr-1.5" />
-        Deactivate {!isPending}
+        <MinusCircle className="w-5 h-5" />
+        {!isPending}
       </ButtonLoading>
     </CustomAlertDialog>
   )

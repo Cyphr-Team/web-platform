@@ -74,11 +74,11 @@ export const columns: AccessorKeyColumnDef<
   },
   {
     accessorKey: "edit",
-    header: () => <p>Edit</p>,
+    header: () => <p className="p-2">Action</p>,
     size: 150,
     cell: ({ row }) => {
       return (
-        <div className="flex items-center">
+        <div className="flex items-center text-center">
           <ModifyUserPermissionAction
             userId={row.original.id}
             status={row.original.status}

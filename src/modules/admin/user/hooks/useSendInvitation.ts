@@ -23,7 +23,9 @@ export const adminSendInvitationForm = z.object({
 })
 
 export const adminSendBulkInvitationForm = z.object({
-  emails: z.array(z.string()).nonempty("Please enter at least one email."),
+  emails: z
+    .array(z.string().min(1).max(254))
+    .nonempty("Please enter at least one email."),
   role: z
     .string()
     .min(1, "Please select a role.")
@@ -105,7 +107,12 @@ export const useSendBulkCsvInvitation = () => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({ queryKey: invitationKeys.lists() })
-      if (data.failedInvitations > 0) {
+      if (data.totalInvitations === 0) {
+        toastError({
+          ...TOAST_MSG.user.sendBulkCSVInvitation,
+          description: "No invitations were sent."
+        })
+      } else if (data.failedInvitations > 0) {
         toastError({
           ...TOAST_MSG.user.sendBulkCSVInvitation,
           description: `Failed to send ${data.failedInvitations} invitations.`

@@ -89,12 +89,16 @@ export function BulkUploadCsv() {
   useEffect(() => {
     if (!data?.data) return
     const statuses = data?.data
-    if (statuses.totalInvitations === statuses.successfulInvitations) {
-      setUploadStatus(UPLOAD_STATUS.SUCCESS)
-    } else if (statuses.totalInvitations === statuses.failedInvitations) {
-      setUploadStatus(UPLOAD_STATUS.SENDING_FAILED)
-    } else {
-      setUploadStatus(UPLOAD_STATUS.SENDING_PARTIAL)
+    switch (true) {
+      case statuses.totalInvitations === statuses.failedInvitations:
+        setUploadStatus(UPLOAD_STATUS.SENDING_FAILED)
+        break
+      case statuses.totalInvitations === statuses.successfulInvitations:
+        setUploadStatus(UPLOAD_STATUS.SUCCESS)
+        break
+      default:
+        setUploadStatus(UPLOAD_STATUS.SENDING_PARTIAL)
+        break
     }
   }, [data?.data])
 
@@ -157,7 +161,7 @@ export function BulkUploadCsv() {
       <Accordion
         type="single"
         collapsible
-        className="border border-dashed px-2 rounded-md"
+        className="border border-dashed px-2 rounded-md h-fit"
       >
         <AccordionItem value="csv-upload-instructions" className="border-0">
           <AccordionTrigger className="flex flex-1 w-full items-center justify-between group hover:no-underline">
