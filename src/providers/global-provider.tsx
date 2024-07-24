@@ -8,7 +8,7 @@ import { APP_CONFIGS } from "@/configs"
 
 export function GlobalProvider() {
   const stytch = createStytchB2BUIClient(
-    APP_CONFIGS.VITE_STYTCH_PUBLIC_TOKEN_DEV ?? ""
+    APP_CONFIGS.VITE_STYTCH_PUBLIC_TOKEN ?? ""
   )
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">

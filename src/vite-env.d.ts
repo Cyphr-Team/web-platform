@@ -12,7 +12,7 @@ interface ImportMetaEnv {
   readonly VITE_PUBLIC_ENDPOINT: string
   readonly VITE_BASE_SUBDOMAIN: string
   readonly VITE_PERSONA_ENVIRONMENT: "sandbox" | "production"
-  readonly VITE_STYTCH_PUBLIC_TOKEN_DEV: string
+  readonly VITE_STYTCH_PUBLIC_TOKEN: string
 }
 
 interface ImportMeta {
