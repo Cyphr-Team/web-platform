@@ -6,7 +6,7 @@ import {
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
-import { PreQualificationForm } from "../components/layouts/custom/launch-kc/LaunchKCPreQualification"
+import { PreQualificationForm } from "../components/organisms/loan-application-form/pre-qualification/LaunchKCPreQualification"
 import { LoanRequest } from "../components/layouts/LoanRequest"
 import { BusinessModelForm } from "../components/organisms/loan-application-form/business-model/BusinessModelForm"
 import { BusinessInformationForm } from "../components/organisms/loan-application-form/BusinessInformationForm"

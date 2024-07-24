@@ -19,6 +19,7 @@ import { MarketOpportunityFormDetails } from "../loan-application-form/market-op
 import { BusinessModelFormDetails } from "../loan-application-form/business-model/BusinessModelFormDetails"
 import { LaunchKcFitFormDetails } from "../loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
 import { ExecutionFormDetails } from "../loan-application-form/execution/ExecutionFormDetails"
+import { PreQualificationFormDetails } from "../loan-application-form/pre-qualification/PreQualificationFormDetails"
 
 export const ApplicationDetails = () => {
   const {
@@ -30,7 +31,9 @@ export const ApplicationDetails = () => {
     productServiceFormData,
     launchKCFitFormData,
     executionFormData,
-    businessModelFormData
+    businessModelFormData,
+    marketOpportunityFormData,
+    preQualificationFormData
   } = useBRLoanApplicationDetailsContext()
 
   return (
@@ -42,7 +45,11 @@ export const ApplicationDetails = () => {
       </div>
       <div className="col-span-3 max-w-screen-sm">
         <div className="flex flex-col gap-4">
-          <LoanRequestDetails />
+          {isLaunchKC() ? (
+            <PreQualificationFormDetails data={preQualificationFormData} />
+          ) : (
+            <LoanRequestDetails />
+          )}
           {kybFormData && <KybFormDetails kybFormData={kybFormData} />}
           {kycFormData && <KycFormDetails kycFormData={kycFormData} />}
 
@@ -60,19 +67,18 @@ export const ApplicationDetails = () => {
           {productServiceFormData && (
             <ProductServiceFormDetails data={productServiceFormData} />
           )}
+          {marketOpportunityFormData && (
+            <MarketOpportunityFormDetails data={marketOpportunityFormData} />
+          )}
+          {businessModelFormData && (
+            <BusinessModelFormDetails data={businessModelFormData} />
+          )}
+
           {launchKCFitFormData && (
             <LaunchKcFitFormDetails data={launchKCFitFormData} />
           )}
           {executionFormData && (
             <ExecutionFormDetails data={executionFormData} />
-          )}
-          {businessModelFormData && (
-            <BusinessModelFormDetails data={businessModelFormData} />
-          )}
-          {isLaunchKC() && (
-            <>
-              <MarketOpportunityFormDetails />
-            </>
           )}
 
           {(isLoanReady() ||

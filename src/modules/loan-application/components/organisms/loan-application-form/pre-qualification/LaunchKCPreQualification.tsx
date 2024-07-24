@@ -36,44 +36,7 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/useMutation/useCreateLoanApplicationMutation"
 import { LoanType } from "@/types/loan-program.type"
-
-const questions = [
-  {
-    field: preQualificationSchema.keyof().Enum.isCompanyBasedInUs,
-    label: "Is the Company based in the United States?"
-  },
-  {
-    field: preQualificationSchema.keyof().Enum.foundingTeamEligibleToWorkInUs,
-    label:
-      "Are all members of the founding team eligible to work in the United States?"
-  },
-  {
-    field: preQualificationSchema.keyof().Enum.isForProfitTechCompany,
-    label:
-      "Is your Company a for profit entity that provides a technology-based product, service, or solution?"
-  },
-  {
-    field: preQualificationSchema.keyof().Enum.hasMvpWithRevenueUnderOneMillion,
-    label: "Do you have a minimum viable product with revenue under 1 million?"
-  }
-]
-const options = [
-  {
-    value: "yes",
-    label:
-      "Yes, the company and 51% of the founding team are located in Kansas City, Missouri."
-  },
-  {
-    value: "no_but_will_change",
-    label:
-      "No, but I am willing to relocate the company and 51% of the founding team to Kansas City, Missouri and establish an operating presence."
-  },
-  {
-    value: "no",
-    label:
-      "No, I am not willing to relocate the company and 51% of the founding team to Kansas City, Missouri"
-  }
-]
+import { options, questions } from "./constants"
 
 export const PreQualificationForm = () => {
   const { finishCurrentStep, buildSpecificStep } =

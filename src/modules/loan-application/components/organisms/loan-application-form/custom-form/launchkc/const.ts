@@ -183,3 +183,48 @@ export const YES_NO_OPTIONS: Option[] = [
     value: "no"
   }
 ]
+
+export const getLabelFromValue = (options: Option[], value: string): string => {
+  const option = options.find((opt) => opt.value === value)
+  return option ? option.label : value // Return value if option not found because it's an other value
+}
+
+export const getOptionsByField = (field: string): Option[] => {
+  switch (field) {
+    case LAUNCH_KC_KYC_FIELD_NAMES.TITLE:
+      return TITLE_OPTIONS
+    case LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY:
+      return GENDER_IDENTITY_OPTIONS
+    case LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN:
+      return PREFERRED_PRONOUN_OPTIONS
+    case LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION:
+      return ETHNIC_IDENTIFICATION_OPTIONS
+    case LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION:
+      return RACIAL_IDENTIFICATION_OPTIONS
+    default:
+      return []
+  }
+}
+
+export const enum LAUNCH_KC_KYC_FIELD_NAMES {
+  ID = "id",
+  ADDRESS_LINE1 = "addressLine1",
+  ADDRESS_LINE2 = "addressLine2",
+  BUSINESS_CITY = "businessCity",
+  BUSINESS_STATE = "businessState",
+  BUSINESS_ZIP_CODE = "businessZipCode",
+  PHONE_NUMBER = "phoneNumber",
+  EMAIL = "email",
+  DATE_OF_BIRTH = "dateOfBirth",
+  SOCIAL_SECURITY_NUMBER = "socialSecurityNumber",
+  BUSINESS_OWNERSHIP_PERCENTAGE = "businessOwnershipPercentage",
+  FIRST_NAME = "firstName",
+  LAST_NAME = "lastName",
+  TITLE = "title",
+  GENDER_IDENTITY = "genderIdentity",
+  PREFERRED_PRONOUN = "preferredPronoun",
+  RACIAL_IDENTIFICATION = "racialIdentification",
+  ETHNIC_IDENTIFICATION = "ethnicIdentification",
+  ARE_FOUNDER_OR_CO_FOUNDER = "areFounderOrCoFounder",
+  ARE_FULL_TIME_FOUNDER = "areFullTimeFounder"
+}

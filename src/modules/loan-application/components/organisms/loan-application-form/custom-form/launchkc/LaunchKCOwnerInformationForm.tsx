@@ -41,37 +41,12 @@ import { AutoCompleteCities } from "@/modules/loan-application/components/molecu
 import { SelectInput } from "@/shared/organisms/form/SelectInput.tsx"
 import { OptionInput } from "@/shared/organisms/form/OptionInput.tsx"
 import {
-  ETHNIC_IDENTIFICATION_OPTIONS,
-  GENDER_IDENTITY_OPTIONS,
-  PREFERRED_PRONOUN_OPTIONS,
-  RACIAL_IDENTIFICATION_OPTIONS,
+  LAUNCH_KC_KYC_FIELD_NAMES,
+  getOptionsByField,
   TITLE_OPTIONS,
   YES_NO_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/const.ts"
 import { get, set } from "lodash"
-
-const enum FIELD_NAMES {
-  ID = "id",
-  ADDRESS_LINE1 = "addressLine1",
-  ADDRESS_LINE2 = "addressLine2",
-  BUSINESS_CITY = "businessCity",
-  BUSINESS_STATE = "businessState",
-  BUSINESS_ZIP_CODE = "businessZipCode",
-  PHONE_NUMBER = "phoneNumber",
-  EMAIL = "email",
-  DATE_OF_BIRTH = "dateOfBirth",
-  SOCIAL_SECURITY_NUMBER = "socialSecurityNumber",
-  BUSINESS_OWNERSHIP_PERCENTAGE = "businessOwnershipPercentage",
-  FIRST_NAME = "firstName",
-  LAST_NAME = "lastName",
-  TITLE = "title",
-  GENDER_IDENTITY = "genderIdentity",
-  PREFERRED_PRONOUN = "preferredPronoun",
-  RACIAL_IDENTIFICATION = "racialIdentification",
-  ETHNIC_IDENTIFICATION = "ethnicIdentification",
-  ARE_FOUNDER_OR_COFOUNDER = "areFounderOrCoFounder",
-  ARE_FULL_TIME_FOUNDER = "areFullTimeFounder"
-}
 
 export function LaunchKCOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -91,7 +66,7 @@ export function LaunchKCOwnerInformationForm() {
       field,
       ""
     )
-    if (field === FIELD_NAMES.SOCIAL_SECURITY_NUMBER) {
+    if (field === LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER) {
       defaultVal = launchKcOwnerInformationForm?.[field]
         ? toPattern(launchKcOwnerInformationForm[field], SSN_PATTERN)
         : ""
@@ -107,11 +82,15 @@ export function LaunchKCOwnerInformationForm() {
   })
 
   const handleSelectDate = (date: Date | undefined) => {
-    form.setValue(FIELD_NAMES.DATE_OF_BIRTH, date?.toISOString() ?? "", {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    })
+    form.setValue(
+      LAUNCH_KC_KYC_FIELD_NAMES.DATE_OF_BIRTH,
+      date?.toISOString() ?? "",
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      }
+    )
   }
 
   const { handleChangeState, handleChangeCity, STATE_DATA, state, city } =
@@ -128,7 +107,7 @@ export function LaunchKCOwnerInformationForm() {
 
   useEffect(() => {
     if (city) {
-      form.setValue(FIELD_NAMES.BUSINESS_CITY, city, {
+      form.setValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY, city, {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
@@ -138,12 +117,12 @@ export function LaunchKCOwnerInformationForm() {
 
   useEffect(() => {
     if (state) {
-      form.setValue(FIELD_NAMES.BUSINESS_STATE, state, {
+      form.setValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_STATE, state, {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
       })
-      form.setValue(FIELD_NAMES.BUSINESS_CITY, "", {
+      form.setValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY, "", {
         shouldDirty: true,
         shouldTouch: true
       })
@@ -185,7 +164,7 @@ export function LaunchKCOwnerInformationForm() {
             <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
               <TextInput
                 control={form.control}
-                name={FIELD_NAMES.FIRST_NAME}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.FIRST_NAME}
                 label="First Name"
                 placeholder="i.e: Larry"
                 className="col-span-4"
@@ -193,7 +172,7 @@ export function LaunchKCOwnerInformationForm() {
               />
               <TextInput
                 control={form.control}
-                name={FIELD_NAMES.LAST_NAME}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.LAST_NAME}
                 label="Last Name"
                 placeholder="i.e: Latte"
                 className="col-span-4"
@@ -203,18 +182,20 @@ export function LaunchKCOwnerInformationForm() {
                 label="Title"
                 placeholder="Please Select"
                 control={form.control}
-                name={FIELD_NAMES.TITLE}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.TITLE}
                 className="col-span-4"
                 inputClassName="xl:ml-0 xl:max-w-80"
                 options={TITLE_OPTIONS}
                 required
               />
               <OptionInput
-                name={FIELD_NAMES.GENDER_IDENTITY}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY}
                 label="Which best describes your gender identity?"
                 control={form.control}
                 className="col-span-12"
-                options={GENDER_IDENTITY_OPTIONS}
+                options={getOptionsByField(
+                  LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY
+                )}
                 hasOtherOption={true}
                 otherText="Prefer to self-describe"
                 required
@@ -222,18 +203,22 @@ export function LaunchKCOwnerInformationForm() {
               <OptionInput
                 label="Which best describes your preferred pronoun?"
                 control={form.control}
-                name={FIELD_NAMES.PREFERRED_PRONOUN}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN}
                 className="col-span-12"
                 hasOtherOption={true}
-                options={PREFERRED_PRONOUN_OPTIONS}
+                options={getOptionsByField(
+                  LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN
+                )}
                 required
               />
               <SelectInput
                 label="Racial identification"
                 placeholder="Please Select"
                 control={form.control}
-                name={FIELD_NAMES.RACIAL_IDENTIFICATION}
-                options={RACIAL_IDENTIFICATION_OPTIONS}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION}
+                options={getOptionsByField(
+                  LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION
+                )}
                 className="col-span-6"
                 inputClassName="xl:ml-0 xl:max-w-80"
                 required
@@ -242,8 +227,10 @@ export function LaunchKCOwnerInformationForm() {
                 label="Ethnic identification"
                 placeholder="Please Select"
                 control={form.control}
-                name={FIELD_NAMES.ETHNIC_IDENTIFICATION}
-                options={ETHNIC_IDENTIFICATION_OPTIONS}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION}
+                options={getOptionsByField(
+                  LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION
+                )}
                 className="col-span-6"
                 inputClassName="xl:ml-0 xl:max-w-80"
                 required
@@ -251,7 +238,7 @@ export function LaunchKCOwnerInformationForm() {
               <TextInput
                 placeholder="i.e: 456 Bean Ave."
                 label="Resident Address Line #1"
-                name={FIELD_NAMES.ADDRESS_LINE1}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE1}
                 control={form.control}
                 className="col-span-12"
                 required
@@ -259,7 +246,7 @@ export function LaunchKCOwnerInformationForm() {
               <TextInput
                 placeholder="i.e: Suite 789"
                 label="Resident Address Line #2 (Optional)"
-                name={FIELD_NAMES.ADDRESS_LINE2}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE2}
                 control={form.control}
                 className="col-span-12"
               />
@@ -267,7 +254,7 @@ export function LaunchKCOwnerInformationForm() {
                 options={STATE_DATA}
                 label="State"
                 emptyText="No results found"
-                name={FIELD_NAMES.BUSINESS_STATE}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_STATE}
                 control={form.control}
                 onChange={handleChangeState}
                 value={form.getValues("businessState")}
@@ -282,24 +269,24 @@ export function LaunchKCOwnerInformationForm() {
                 }
                 label="City"
                 emptyText="No results found"
-                name={FIELD_NAMES.BUSINESS_CITY}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY}
                 control={form.control}
                 onChange={handleChangeCity}
-                value={form.getValues(FIELD_NAMES.BUSINESS_CITY)}
+                value={form.getValues(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY)}
                 className="col-span-12 lg:col-span-4"
                 required
               />
               <TextInput
                 placeholder="i.e: 98765"
                 label="Zip Code"
-                name={FIELD_NAMES.BUSINESS_ZIP_CODE}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE}
                 control={form.control}
                 className="col-span-12 lg:col-span-4"
                 required
               />
               <TextInput
                 control={form.control}
-                name={FIELD_NAMES.EMAIL}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.EMAIL}
                 label="Email Address"
                 placeholder="i.e: larry@latte.com"
                 prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
@@ -307,7 +294,7 @@ export function LaunchKCOwnerInformationForm() {
                 required
               />
               <FormField
-                name={FIELD_NAMES.PHONE_NUMBER}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.PHONE_NUMBER}
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-6">
                     <FormLabel className="text-text-secondary">
@@ -329,7 +316,7 @@ export function LaunchKCOwnerInformationForm() {
               />
               <FormField
                 control={form.control}
-                name={FIELD_NAMES.DATE_OF_BIRTH}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.DATE_OF_BIRTH}
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-6">
                     <FormLabel className="text-text-secondary">
@@ -351,7 +338,7 @@ export function LaunchKCOwnerInformationForm() {
               />
               <FormField
                 control={form.control}
-                name={FIELD_NAMES.SOCIAL_SECURITY_NUMBER}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER}
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-6">
                     <FormLabel className="text-text-secondary">
@@ -376,7 +363,7 @@ export function LaunchKCOwnerInformationForm() {
                 subtitleClassName="text-sm text-text-secondary font-normal"
                 placeholder="Please Select"
                 control={form.control}
-                name={FIELD_NAMES.ARE_FOUNDER_OR_COFOUNDER}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.ARE_FOUNDER_OR_CO_FOUNDER}
                 options={YES_NO_OPTIONS}
                 className="flex items-center col-span-12"
                 required
@@ -384,7 +371,7 @@ export function LaunchKCOwnerInformationForm() {
               <SelectInput
                 label="Are you a full-time founder?"
                 control={form.control}
-                name={FIELD_NAMES.ARE_FULL_TIME_FOUNDER}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.ARE_FULL_TIME_FOUNDER}
                 options={YES_NO_OPTIONS}
                 className="col-span-5"
                 inputClassName="xl:ml-0 xl:max-w-80"
@@ -392,7 +379,7 @@ export function LaunchKCOwnerInformationForm() {
               />
               <FormField
                 control={form.control}
-                name={FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}
+                name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-7">
                     <FormLabel className="text-text-secondary">

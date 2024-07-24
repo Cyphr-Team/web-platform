@@ -13,7 +13,7 @@ export const ProductServiceFormDetails: React.FC<Props> = ({ data }) => {
       <h5 className="text-lg font-semibold">Product and Service</h5>
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <AnswersTextDisplay
-          className="!flex-row justify-between"
+          className="!flex-row justify-between capitalize"
           key="businessType"
           label="Core business is a product or service"
           value={data?.businessType}

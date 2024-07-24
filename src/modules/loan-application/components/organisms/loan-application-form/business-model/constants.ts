@@ -49,3 +49,11 @@ export const strategies = [
     value: "other"
   }
 ]
+
+export const getQuestionLabel = (field: string) => {
+  return questions.find((item) => item.field === field)?.question ?? ""
+}
+
+export const getStrategyLabel = (value: string) => {
+  return strategies.find((item) => item.value === value)?.label ?? ""
+}

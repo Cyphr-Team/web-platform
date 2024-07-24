@@ -6,7 +6,12 @@ import { Separator } from "@/components/ui/separator"
 import { FC } from "react"
 import { TextInputDisplay } from "@/modules/loan-application/components/atoms/TextInputDisplay.tsx"
 import { isLaunchKC } from "@/utils/domain.utils.ts"
-
+import {
+  LAUNCH_KC_KYC_FIELD_NAMES,
+  getLabelFromValue,
+  getOptionsByField
+} from "../../organisms/loan-application-form/custom-form/launchkc/const"
+import { get } from "lodash"
 interface KycFormDetailsProps {
   kycFormData?: KYCInformationResponse
 }
@@ -39,27 +44,46 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             <TextInputDisplay
               className="col-span-3"
               label="Title"
-              value={kycFormData?.metadata?.title}
+              value={getLabelFromValue(
+                getOptionsByField(LAUNCH_KC_KYC_FIELD_NAMES.TITLE),
+                get(kycFormData, "metadata.title", "")
+              )}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Gender Identity"
-              value={kycFormData?.metadata?.genderIdentity}
+              value={getLabelFromValue(
+                getOptionsByField(LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY),
+                get(kycFormData, "metadata.genderIdentity", "")
+              )}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Racial identification"
-              value={kycFormData?.metadata?.racialIdentification}
+              value={getLabelFromValue(
+                getOptionsByField(
+                  LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION
+                ),
+                get(kycFormData, "metadata.racialIdentification", "")
+              )}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Ethnic identification"
-              value={kycFormData?.metadata?.ethnicIdentification}
+              value={getLabelFromValue(
+                getOptionsByField(
+                  LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION
+                ),
+                get(kycFormData, "metadata.ethnicIdentification", "")
+              )}
             />
             <TextInputDisplay
               className="col-span-3"
               label="Preferred Pronounce"
-              value={kycFormData?.metadata?.preferredPronoun}
+              value={getLabelFromValue(
+                getOptionsByField(LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN),
+                get(kycFormData, "metadata.preferredPronoun", "")
+              )}
             />
           </>
         )}
@@ -119,12 +143,12 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
         {isLaunchKC() && (
           <>
             <TextInputDisplay
-              className="col-span-3"
+              className="col-span-3 capitalize"
               label="Are you a founder or co-founder of the company applying"
               value={kycFormData?.metadata?.areFounderOrCoFounder}
             />
             <TextInputDisplay
-              className="col-span-3"
+              className="col-span-3 capitalize"
               label="Full-time founder"
               value={kycFormData?.metadata?.areFullTimeFounder}
             />

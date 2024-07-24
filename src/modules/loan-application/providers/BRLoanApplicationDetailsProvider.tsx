@@ -17,7 +17,8 @@ import {
   KYBInformationResponse,
   KYCInformationResponse,
   LoanProgramData,
-  OperatingExpensesInformationResponse
+  OperatingExpensesInformationResponse,
+  PreQualificationResponse
 } from "../constants/type"
 import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
@@ -77,6 +78,7 @@ type BRLoanApplicationDetailsContext<T> = {
   executionFormData?: ExecutionFormResponse
   businessModelFormData?: BusinessModelFormResponse
   loanApplicationDetails?: UserMicroLoanApplication
+  preQualificationFormData?: PreQualificationResponse
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
   plaidConnectedBankAccountsByApplicationId?: IPlaidConnectedBankAccountsByApplicationIdGetResponse
@@ -556,11 +558,13 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       operatingExpensesFormData: operatingExpensesFormQuery.data,
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
+      businessModelFormData: businessModelFormQuery.data,
       productServiceFormData: productServiceFormQuery.data,
       marketOpportunityFormData: marketOpportunityFormQuery.data,
       launchKCFitFormData: launchKCFitFormQuery.data,
       executionFormData: executionFormQuery.data,
       productModelFormData: businessModelFormQuery.data,
+      preQualificationFormData: preQualificationFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
@@ -601,6 +605,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       confirmationFormQuery.isLoading,
       financialFormQuery.data,
       financialFormQuery.isLoading,
+      businessModelFormQuery.data,
+      businessModelFormQuery.isLoading,
       productServiceFormQuery.data,
       productServiceFormQuery.isLoading,
       marketOpportunityFormQuery.data,
@@ -609,8 +615,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       launchKCFitFormQuery.isLoading,
       executionFormQuery.data,
       executionFormQuery.isLoading,
-      businessModelFormQuery.data,
-      businessModelFormQuery.isLoading,
+      preQualificationFormQuery.data,
       loanApplicationDetailsQuery.data,
       loanApplicationDetailsQuery.isLoading,
       kycDocuments.data,
