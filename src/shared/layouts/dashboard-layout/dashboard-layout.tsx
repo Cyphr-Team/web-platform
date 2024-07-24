@@ -19,12 +19,7 @@ const RoleStrict = ({ children }: React.PropsWithChildren) => {
 
   if (isInvalidToken) {
     clearUserInfo()
-    return (
-      <Navigate
-        to={isEnableSignUpReorder() ? APP_PATH.SIGN_UP : APP_PATH.LOGIN}
-        replace
-      />
-    )
+    return <Navigate to={APP_PATH.LOGIN} replace />
   }
 
   if (isLoanApplicant)
