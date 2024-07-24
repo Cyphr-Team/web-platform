@@ -34,6 +34,8 @@ import { useParams } from "react-router-dom"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/useMutation/useCreateLoanApplicationMutation"
+import { LoanType } from "@/types/loan-program.type"
 
 const questions = [
   {
@@ -83,6 +85,11 @@ export const PreQualificationForm = () => {
   const { dispatchFormAction, preQualification } =
     useLoanApplicationFormContext()
 
+  const {
+    mutateAsync: createLoanApplication,
+    isPending: isCreatingLoanApplication
+  } = useCreateLoanApplicationMutation(LoanType.MICRO)
+
   const { mutate, isPending } = useSubmitPreQualificationForm()
 
   const form = useForm<PreQualificationFormValue>({
@@ -109,39 +116,28 @@ export const PreQualificationForm = () => {
         loanProgramId: loanProgramId!
       },
       {
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
           if (response.data.isQualified) {
-            dispatchFormAction({
-              action: FORM_ACTION.SET_DATA,
-              key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
-              state: {
-                id: "",
-                applicationId: response.data.applicationId,
-                loanAmount: 0,
-                loanTermInMonth: 1,
-                proposeUseOfLoan: "other"
-              }
+            // Create loan application after pass pre-qualification
+            const res = await createLoanApplication({
+              loanProgramId,
+              loanAmount: 0,
+              loanTermInMonth: 1,
+              proposeUseOfLoan: "other",
+              applicationId: response.data.applicationId
             })
-            dispatchFormAction({
-              action: FORM_ACTION.SET_DATA,
-              key: LOAN_APPLICATION_STEPS.PRE_QUALIFICATION,
-              state: {
-                applicationId: response.data.applicationId,
-                isCompanyBasedInUs: form.getValues("isCompanyBasedInUs"),
-                foundingTeamEligibleToWorkInUs: form.getValues(
-                  "foundingTeamEligibleToWorkInUs"
-                ),
-                isForProfitTechCompany: form.getValues(
-                  "isForProfitTechCompany"
-                ),
-                hasMvpWithRevenueUnderOneMillion: form.getValues(
-                  "hasMvpWithRevenueUnderOneMillion"
-                ),
-                willingToOperateInKansasCityMo: form.getValues(
-                  "willingToOperateInKansasCityMo"
-                )
-              }
-            })
+
+            if (res.data) {
+              dispatchFormAction({
+                action: FORM_ACTION.UPDATE_DATA,
+                key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+                state: {
+                  ...res.data,
+                  applicationId: res.data.id
+                }
+              })
+            }
+
             buildSpecificStep()
             finishCurrentStep()
           } else {
@@ -152,6 +148,7 @@ export const PreQualificationForm = () => {
     )
   }, [
     buildSpecificStep,
+    createLoanApplication,
     dispatchFormAction,
     finishCurrentStep,
     form,
@@ -230,7 +227,7 @@ export const PreQualificationForm = () => {
                 <ButtonLoading
                   disabled={!form.formState.isValid}
                   variant="outline"
-                  isLoading={isPending}
+                  isLoading={isPending || isCreatingLoanApplication}
                   className=" text-white bg-primary hover:bg-primary/80 hover:text-white"
                 >
                   Submit <ArrowRight className="ml-1 w-4" />

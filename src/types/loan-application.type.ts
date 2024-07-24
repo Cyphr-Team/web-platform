@@ -93,6 +93,7 @@ interface UserMicroLoanApplicationRequest {
   loanTermInMonth: number
   proposeUseOfLoan: string
   loanProgramId?: string
+  applicationId?: string
 }
 
 interface ListLoanProgramResponse {
