@@ -68,6 +68,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-3">
         {isFilterView && <DataTableViewOptions table={table} />}
       </div>
+
       <div className="rounded-md border relative max-h-full overflow-auto">
         <Table isLoading={isLoading} className="text-sm">
           <TableHeader className="bg-gray-100 sticky top-0 z-10">

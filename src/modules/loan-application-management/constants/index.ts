@@ -10,7 +10,8 @@ export enum ApplicationMenuName {
   identity = "Identity Verification",
   document = "Documents",
   cashflow = "Cash Flow",
-  loanSummary = "Loan Summary"
+  loanSummary = "Loan Summary",
+  debtSchedule = "Debt Schedule"
 }
 
 export const APPLICATION_MENU = (id: string) => [
@@ -35,6 +36,10 @@ export const APPLICATION_MENU = (id: string) => [
   {
     name: ApplicationMenuName.loanSummary as string,
     href: `/application/${id}/loan-summary`
+  },
+  {
+    name: ApplicationMenuName.debtSchedule as string,
+    href: `/application/${id}/debt-schedule`
   }
 ]
 

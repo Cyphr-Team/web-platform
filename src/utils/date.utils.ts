@@ -5,7 +5,7 @@ import {
   FORMAT_DATE_M_D_Y_TIME,
   FORMAT_REQUEST_DATE
 } from "@/constants/date.constants"
-import { format, interval, isValid, parse } from "date-fns"
+import { format, interval, isEqual, isValid, parse } from "date-fns"
 import { util } from "zod"
 import find = util.find
 
@@ -87,4 +87,14 @@ export const validFormat = (value: string) => {
       (value) => value
     ) !== undefined
   )
+}
+
+export const isEqualDate = (date1: string, date2: string) => {
+  try {
+    const d1 = new Date(date1)
+    const d2 = new Date(date2)
+    return isEqual(d1, d2)
+  } catch {
+    return false
+  }
 }

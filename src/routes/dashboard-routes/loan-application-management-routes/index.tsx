@@ -97,6 +97,16 @@ const loanApplicationManagementRoutes = (
           )
         }
       />
+
+      {/* DEBT SCHEDULE */}
+      <Route
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DEBT_SCHEDULE}
+        lazy={() =>
+          import(
+            "@/modules/loan-application-management/pages/sbb/debt-schedule"
+          )
+        }
+      />
     </Route>
   </Route>
 )

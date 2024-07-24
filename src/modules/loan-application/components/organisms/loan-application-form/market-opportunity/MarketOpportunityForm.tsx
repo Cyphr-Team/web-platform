@@ -31,7 +31,7 @@ export const MarketOpportunityForm = () => {
     id: marketOpportunityForm?.id ?? "",
     loanApplicationId:
       marketOpportunityForm?.loanApplicationId ??
-      loanRequest.applicationId ??
+      loanRequest?.applicationId ??
       "",
     marketTarget: marketOpportunityForm?.marketTarget ?? "",
     competitor: marketOpportunityForm?.competitor ?? "",

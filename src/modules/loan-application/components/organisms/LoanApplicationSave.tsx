@@ -16,7 +16,7 @@ export const LoanApplicationSave = () => {
   const { progress, dispatchProgress } = useLoanApplicationProgressContext()
 
   const isCompleteLoanRequestForm =
-    loanRequest.applicationId ||
+    loanRequest?.applicationId ||
     progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
 
   const onConfirmed = () => {

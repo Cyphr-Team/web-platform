@@ -82,7 +82,8 @@ export const APP_PATH = {
       index: "/application/:id/document/:documentId",
       detail: (id: string, documentId: string) =>
         `/application/${id}/document/${documentId}`
-    }
+    },
+    DEBT_SCHEDULE: "/application/:id/debt-schedule"
   },
 
   // ADMIN USERS
