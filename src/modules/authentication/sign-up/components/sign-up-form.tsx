@@ -21,7 +21,7 @@ import { useState } from "react"
 import { AlertTriangle } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { CheckedState } from "@radix-ui/react-checkbox"
-import { isSbb } from "@/utils/domain.utils"
+import { isEnableTermAgreementsCheckbox } from "@/utils/feature-flag.utils"
 
 export function SignUpForm() {
   const { isPending, mutate } = useGetStart()
@@ -37,7 +37,7 @@ export function SignUpForm() {
   })
 
   const formSubmit = form.handleSubmit((data) => {
-    if (isSbb()) {
+    if (isEnableTermAgreementsCheckbox()) {
       if (!agreedToTerms) {
         setShowError(true)
       } else {
@@ -50,7 +50,7 @@ export function SignUpForm() {
   })
 
   const handleCheckboxChange = (checked: CheckedState) => {
-    if (isSbb()) {
+    if (isEnableTermAgreementsCheckbox()) {
       const value = checked.valueOf() as boolean
       setAgreedToTerms(value)
       if (value) {
@@ -85,7 +85,7 @@ export function SignUpForm() {
             )}
           />
 
-          {isSbb() && (
+          {isEnableTermAgreementsCheckbox() && (
             <FormItem className="space-y-4">
               <div className="flex items-center space-x-2">
                 <Checkbox

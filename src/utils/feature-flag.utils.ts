@@ -77,6 +77,10 @@ function isEnableSignUpReorder() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.SIGNUP_REORDER)
 }
 
+function isEnableTermAgreementsCheckbox() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.TERM_AGREEMENTS_CHECKBOX)
+}
+
 function isEnableMultiFactorAuthentication() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.MULTI_FACTOR_AUTHENTICATION)
 }
@@ -116,5 +120,6 @@ export {
   formsConfigurationEnabled,
   isEnableKycReOrder,
   isEnableSignUpReorder,
-  isEnableMultiFactorAuthentication
+  isEnableMultiFactorAuthentication,
+  isEnableTermAgreementsCheckbox
 }
