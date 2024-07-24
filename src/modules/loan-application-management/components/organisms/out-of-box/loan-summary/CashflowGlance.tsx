@@ -1,6 +1,5 @@
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { SectionTitle } from "../../../atoms/cashflows/SectionTitle"
-import { Separator } from "@/components/ui/separator"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { NoData } from "../../../atoms/NoData"
 import { cn } from "@/lib/utils"
@@ -24,7 +23,7 @@ export const CashflowGlanceReport = () => {
               "pb-10 gap-4 rounded-lg border bg-white min-h-40 flex items-center justify-center shadow-sm"
           )}
         >
-          <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
             <CashflowGlanceCard
               title="Revenue / Gross Income"
               value={newCashFlowGlance?.cashFlowGlance.revenue}
@@ -61,7 +60,6 @@ export const CashflowGlanceReport = () => {
             />
           </div>
         </LoadingWrapper>
-        <Separator />
         <SectionTitle>Connected Bank Accounts</SectionTitle>
         <div>
           <LoadingWrapper

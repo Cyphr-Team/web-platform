@@ -160,6 +160,7 @@ export function Component() {
           <People />
           <WatchList />
           <Bankruptcy />
+          <Separator />
         </div>
 
         <div
