@@ -6,7 +6,9 @@ import { useLoanApplicationProgressContext } from "../providers"
 export const useAutoCompleteStepEffect = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any, any, any>,
-  specificStep: LOAN_APPLICATION_STEPS
+  specificStep: LOAN_APPLICATION_STEPS,
+  // use logicalValidState  when we need to add more special logic to mark complete
+  logicalValidState?: boolean
 ) => {
   const { completeSpecificStep, removeCompleteSpecificStep } =
     useLoanApplicationProgressContext()
@@ -17,7 +19,12 @@ export const useAutoCompleteStepEffect = (
    */
   const updateCompleteStatus = useCallback(() => {
     setTimeout(() => {
-      if (form.formState.isValid) {
+      const isValid =
+        logicalValidState !== undefined
+          ? form.formState.isValid && logicalValidState
+          : form.formState.isValid
+
+      if (isValid) {
         completeSpecificStep(specificStep)
         removeCompleteSpecificStep(LOAN_APPLICATION_STEPS.REVIEW_APPLICATION)
       } else {
@@ -28,6 +35,7 @@ export const useAutoCompleteStepEffect = (
   }, [
     completeSpecificStep,
     form.formState.isValid,
+    logicalValidState,
     removeCompleteSpecificStep,
     specificStep
   ])
@@ -44,7 +52,8 @@ export const useAutoCompleteStepEffect = (
     updateCompleteStatus,
     form.formState.isValid,
     form.formState.isDirty,
-    form.formState.isValidating
+    form.formState.isValidating,
+    logicalValidState
   ])
 
   return updateCompleteStatus

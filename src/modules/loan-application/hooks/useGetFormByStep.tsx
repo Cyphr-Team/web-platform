@@ -13,7 +13,6 @@ import { BusinessInformationForm } from "../components/organisms/loan-applicatio
 import { CashFlowVerificationForm } from "../components/organisms/loan-application-form/CashFlowVerificationForm"
 import { ConfirmationForm } from "../components/organisms/loan-application-form/ConfirmationForm"
 import { CurrentLoansForm } from "../components/organisms/loan-application-form/CurrentLoansForm"
-import { DocumentUploadsForm } from "../components/organisms/loan-application-form/DocumentUploadForm"
 import { ESignForm } from "../components/organisms/loan-application-form/ESignForm"
 import { ExecutionForm } from "../components/organisms/loan-application-form/execution/ExecutionForm"
 import { FinancialInformationForm } from "../components/organisms/loan-application-form/FinancialInformationForm"
@@ -26,6 +25,12 @@ import { ProductServiceForm } from "../components/organisms/loan-application-for
 import { ReviewApplication } from "../components/organisms/loan-application-form/ReviewApplication"
 import { CashFlowVerificationFormV2 } from "../components/organisms/loan-application-form/v2/CashFlowVerificationForm"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import { DocumentUploadsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
+import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
+import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+import { FictitiousNameCertificationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { CertificateGoodStandingForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -84,6 +89,16 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <LaunchKCFitForm />
       case LOAN_APPLICATION_STEPS.PRE_QUALIFICATION:
         return <PreQualificationForm />
+      case LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER:
+        return <BusinessEinLetterForm />
+      case LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING:
+        return <CertificateGoodStandingForm />
+      case LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION:
+        return <ArticlesOfOrganizationForm />
+      case LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION:
+        return <FictitiousNameCertificationForm />
+      case LOAN_APPLICATION_STEPS.BY_LAWS:
+        return <ByLawsForm />
       default:
         return null
     }

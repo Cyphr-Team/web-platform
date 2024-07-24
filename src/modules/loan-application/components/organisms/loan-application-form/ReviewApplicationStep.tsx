@@ -23,6 +23,11 @@ import { MarketOpportunityForm } from "./market-opportunity/MarketOpportunityFor
 import { isLaunchKC } from "@/utils/domain.utils.ts"
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
+import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
+import { CertificateGoodStandingForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { FictitiousNameCertificationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -33,7 +38,7 @@ interface IReviewStep {
  * This hook doesn't include the review component, so it won't make an infinity loop
  */
 export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
-  const componentStep = useMemo(() => {
+  return useMemo(() => {
     switch (step) {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
         return <LoanRequest />
@@ -77,12 +82,20 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <DocumentUploadsForm />
       case LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT:
         return <LaunchKCFitForm />
+      case LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER:
+        return <BusinessEinLetterForm />
+      case LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING:
+        return <CertificateGoodStandingForm />
+      case LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION:
+        return <ArticlesOfOrganizationForm />
+      case LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION:
+        return <FictitiousNameCertificationForm />
+      case LOAN_APPLICATION_STEPS.BY_LAWS:
+        return <ByLawsForm />
       default:
         return null
     }
   }, [step])
-
-  return componentStep
 }
 
 export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(

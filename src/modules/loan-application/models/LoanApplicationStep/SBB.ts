@@ -2,7 +2,7 @@ import {
   isEnablePersonaKycV1,
   isEnableReviewApplicationStep
 } from "@/utils/feature-flag.utils"
-import { LoanApplicationStep, ILoanApplicationStepStrategy } from "./base"
+import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
 export class SBBLoanApplicationStep
   extends LoanApplicationStep
@@ -23,6 +23,12 @@ export class SBBLoanApplicationStep
     this._build_FinancialInformationStep()
       ._build_CurrentLoansStep()
       ._build_OperatingExpensesStep()
+
+    this._build_BusinessEINLetterStep()
+      ._build_CertificateOfGoodStanding()
+      ._build_FictitiousNameCertification()
+      ._build_ArticlesOfOrganization()
+      ._build_ByLaws()
 
     if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
 

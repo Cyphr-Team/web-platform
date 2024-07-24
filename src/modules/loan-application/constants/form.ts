@@ -8,6 +8,27 @@ import jsPDF from "jspdf"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
+export const ZodFileTypeFactory = (
+  acceptedFileTypes: string[] = ACCEPTED_FILE_TYPES,
+  message: string = "Please choose PNG, JPG, PDF format files only"
+) => {
+  return z.custom<File[]>().refine(
+    (files) => {
+      if (files?.length) {
+        let checkResult = true
+        files.forEach((file) => {
+          checkResult = checkResult && acceptedFileTypes.includes(file.type)
+        })
+        return files && checkResult
+      }
+      return false
+    },
+    {
+      message
+    }
+  )
+}
+
 export const ownerFormSchema = z.object({
   id: z.string().nullable(),
   fullName: z.string().min(1, { message: "Name is required" }),

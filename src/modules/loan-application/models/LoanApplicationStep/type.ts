@@ -13,7 +13,12 @@ enum FORM_TYPE {
   EXECUTION = "execution",
   DOCUMENT_UPLOADS = "document_uploads",
   LAUNCH_KC_FIT = "launch_kc_fit",
-  PRE_QUALIFICATION = "pre_qualification"
+  PRE_QUALIFICATION = "pre_qualification",
+  BUSINESS_EIN_LETTER = "business_ein_letter",
+  CERTIFICATE_GOOD_STANDING = "certificate_good_standing",
+  FICTITIOUS_NAME_CERTIFICATION = "fictitious_name_certification",
+  ARTICLES_OF_ORGANIZATION = "articles_of_organization_and_operating_agreement",
+  BY_LAWS = "by_laws"
 }
 
 enum LOAN_APPLICATION_STEPS {
@@ -34,12 +39,18 @@ enum LOAN_APPLICATION_STEPS {
   EXECUTION = "executionForm",
   DOCUMENT_UPLOADS = "documentUploadForm",
   LAUNCH_KC_FIT = "launchKcFitForm",
-  PRE_QUALIFICATION = "preQualification"
+  PRE_QUALIFICATION = "preQualification",
+  BUSINESS_EIN_LETTER = "businessEINLetter",
+  CERTIFICATE_GOOD_STANDING = "certificateOfGoodStanding",
+  FICTITIOUS_NAME_CERTIFICATION = "fictitiousNameCertification",
+  ARTICLES_OF_ORGANIZATION = "articlesOfOrganizationAndOperatingAgreement",
+  BY_LAWS = "bylaws"
 }
 
 enum STEP_MENU {
   PRE_QUALIFICATION = "PRE-QUALIFICATION",
   APPLICATION = "APPLICATION",
+  DOCUMENTATION = "DOCUMENTATION",
   SIGNATURE = "VERIFY AND SIGN"
 }
 

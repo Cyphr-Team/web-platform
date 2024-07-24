@@ -1,5 +1,5 @@
 import { LoanType } from "@/types/loan-program.type"
-import { Dispatch, ReactNode, useMemo, useReducer } from "react"
+import React, { Dispatch, ReactNode, useMemo, useReducer } from "react"
 import { useUpdateEffect } from "react-use"
 import { createContext } from "use-context-selector"
 import {
@@ -33,6 +33,11 @@ import {
 import { DocumentUploadedResponse } from "../constants/type"
 import { useSubmitLoanForm } from "../services/submit-form.strategy"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
+import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
 
 type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -53,12 +58,24 @@ type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS]: DocumentUploadsFormValue
   [LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT]: LaunchKCFitFormValue
   [LOAN_APPLICATION_STEPS.PRE_QUALIFICATION]: PreQualificationFormValue
+  // SBB
+  [LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION]: ArticlesOfOrganizationFormValue
+  [LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER]: BusinessEinLetterFormValue
+  [LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING]: CertificateGoodStandingFormValue
+  [LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION]: FictitiousNameCertificationFormValue
+  [LOAN_APPLICATION_STEPS.BY_LAWS]: ByLawsFormValue
 }
 
-type LoanDocumentsState = {
+export type LoanDocumentsState = {
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: DocumentUploadedResponse[]
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: DocumentUploadedResponse[]
   [LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS]: DocumentUploadedResponse[]
+  // SBB
+  [LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION]: DocumentUploadedResponse[]
+  [LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER]: DocumentUploadedResponse[]
+  [LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING]: DocumentUploadedResponse[]
+  [LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION]: DocumentUploadedResponse[]
+  [LOAN_APPLICATION_STEPS.BY_LAWS]: DocumentUploadedResponse[]
 }
 
 interface LoanApplicationFormContext extends LoanApplicationFormState {
@@ -90,6 +107,12 @@ export type FormStateType =
   | LaunchKCFitFormValue
   | LaunchKCBusinessFormValue
   | LaunchKCOwnerFormValue
+  // sbb documentation form
+  | ArticlesOfOrganizationFormValue
+  | BusinessEinLetterFormValue
+  | ByLawsFormValue
+  | CertificateGoodStandingFormValue
+  | FictitiousNameCertificationFormValue
 
 export type Action = {
   action: FORM_ACTION
@@ -100,11 +123,19 @@ export type Action = {
 type DocumentAction = {
   action: DOCUMENT_ACTION
   state: DocumentUploadedResponse | { id: string }
-  key:
-    | LOAN_APPLICATION_STEPS.OWNER_INFORMATION
-    | LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
-    | LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS
+  key: DOCUMENT_KEY
 }
+
+export type DOCUMENT_KEY =
+  | LOAN_APPLICATION_STEPS.OWNER_INFORMATION
+  | LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+  | LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS
+  // SBB
+  | LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION
+  | LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER
+  | LOAN_APPLICATION_STEPS.BY_LAWS
+  | LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING
+  | LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION
 
 export enum FORM_ACTION {
   GET_DATA = "GET_DATA",

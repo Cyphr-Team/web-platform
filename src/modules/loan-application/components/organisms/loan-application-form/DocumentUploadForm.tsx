@@ -1,30 +1,35 @@
-import { Card } from "@/components/ui/card"
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
-import { Separator } from "@/components/ui/separator"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import {
-  DocumentUploadsFormValue,
-  documentUploadsFormSchema
+  documentUploadsFormSchema,
+  DocumentUploadsFormValue
 } from "../../../constants/form"
-import { Button } from "@/components/ui/button"
-import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { ArrowRight } from "lucide-react"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../../providers"
-import { FileUploadCard } from "../../molecules/FileUploadCard"
-import { ArrowRight } from "lucide-react"
-import { FileUploadedCard } from "../../molecules/FileUploadedCard"
-import { cn } from "@/lib/utils"
+} from "@/modules/loan-application/providers"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import {
   DOCUMENT_ACTION,
   FORM_ACTION
-} from "../../../providers/LoanApplicationFormProvider"
+} from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { useEffect } from "react"
-import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
+import { cn } from "@/lib/utils.ts"
+import { Card } from "@/components/ui/card.tsx"
+import { Separator } from "@/components/ui/separator.tsx"
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormMessage
+} from "@/components/ui/form.tsx"
+import { DragDropFileInput } from "@/shared/molecules/DragFileInput.tsx"
+import { FileUploadCard } from "@/modules/loan-application/components/molecules/FileUploadCard.tsx"
+import { FileUploadedCard } from "@/modules/loan-application/components/molecules/FileUploadedCard.tsx"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { Button } from "@/components/ui/button.tsx"
 
 export const DocumentUploadsForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()

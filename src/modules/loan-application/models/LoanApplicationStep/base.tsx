@@ -2,20 +2,21 @@ import { uniqBy } from "lodash"
 import {
   FORM_TYPE,
   ILoanApplicationStep,
-  LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS,
   STEP_MENU
 } from "./type"
 import { isEnableKycReOrder } from "@/utils/feature-flag.utils"
 
 export interface ILoanApplicationStepStrategy {
-  _buildSteps(): this
   isEnabledKycReOrder: boolean
+
+  _buildSteps(): this
 }
 
 export class LoanApplicationStep {
-  #steps: ILoanApplicationStep[] = []
   isEnabledKycReOrder = isEnableKycReOrder()
+  #steps: ILoanApplicationStep[] = []
 
   _build_PreQualificationStep(): this {
     this.#steps = uniqBy(
@@ -32,6 +33,91 @@ export class LoanApplicationStep {
       "step"
     )
 
+    return this
+  }
+
+  _build_BusinessEINLetterStep(): this {
+    this.#steps = uniqBy(
+      [
+        ...this.#steps,
+        {
+          step: LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER,
+          formType: null,
+          label: "Business EIN Letter",
+          parent: STEP_MENU.DOCUMENTATION,
+          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        }
+      ],
+      "step"
+    )
+    return this
+  }
+
+  _build_CertificateOfGoodStanding(): this {
+    this.#steps = uniqBy(
+      [
+        ...this.#steps,
+        {
+          step: LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING,
+          formType: null,
+          label: "Certificate of Good Standing",
+          parent: STEP_MENU.DOCUMENTATION,
+          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        }
+      ],
+      "step"
+    )
+    return this
+  }
+
+  _build_FictitiousNameCertification(): this {
+    this.#steps = uniqBy(
+      [
+        ...this.#steps,
+        {
+          step: LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION,
+          formType: null,
+          label: "Fictitious Name Certification",
+          parent: STEP_MENU.DOCUMENTATION,
+          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        }
+      ],
+      "step"
+    )
+    return this
+  }
+
+  _build_ArticlesOfOrganization(): this {
+    this.#steps = uniqBy(
+      [
+        ...this.#steps,
+        {
+          step: LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION,
+          formType: null,
+          label: "Articles of Organization and Operating Agreement",
+          parent: STEP_MENU.DOCUMENTATION,
+          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        }
+      ],
+      "step"
+    )
+    return this
+  }
+
+  _build_ByLaws(): this {
+    this.#steps = uniqBy(
+      [
+        ...this.#steps,
+        {
+          step: LOAN_APPLICATION_STEPS.BY_LAWS,
+          formType: null,
+          label: "By laws",
+          parent: STEP_MENU.DOCUMENTATION,
+          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        }
+      ],
+      "step"
+    )
     return this
   }
 
@@ -214,6 +300,7 @@ export class LoanApplicationStep {
 
     return this
   }
+
   _build_ProductServiceStep(): this {
     this.#steps = uniqBy(
       [
@@ -303,6 +390,7 @@ export class LoanApplicationStep {
 
     return this
   }
+
   _build_LaunchKCFitStep(): this {
     this.#steps = uniqBy(
       [
