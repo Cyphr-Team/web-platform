@@ -78,7 +78,17 @@ export const LaunchKCFitForm = () => {
     }
   }, [form.formState.isValidating, form, dispatchFormAction])
 
-  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
+  // apply = true => progress must be fill
+  // apply = false => don't care
+  const isFormValid =
+    form.formState.isValid &&
+    (form.watch("applied") ? !!form.watch("progress") : true)
+
+  useAutoCompleteStepEffect(
+    form,
+    LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT,
+    isFormValid
+  )
 
   return (
     <div
@@ -115,7 +125,7 @@ export const LaunchKCFitForm = () => {
                       <Select
                         onValueChange={(value) => {
                           field.onBlur()
-                          field.onChange(value === "yes" ? true : false)
+                          field.onChange(value === "yes")
                         }}
                         value={field.value ? "yes" : "no"}
                       >
@@ -147,7 +157,7 @@ export const LaunchKCFitForm = () => {
 
           {!isReviewApplicationStep(step) && (
             <Button
-              disabled={!form.formState.isValid}
+              disabled={!isFormValid}
               onClick={form.handleSubmit(onSubmit)}
             >
               Next <ArrowRight className="ml-1 w-4" />

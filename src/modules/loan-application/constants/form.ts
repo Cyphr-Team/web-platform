@@ -16,12 +16,13 @@ export const ZodFileTypeFactory = (
     (files) => {
       if (files?.length) {
         let checkResult = true
+        // assert all file type
         files.forEach((file) => {
           checkResult = checkResult && acceptedFileTypes.includes(file.type)
         })
         return files && checkResult
       }
-      return false
+      return true
     },
     {
       message
@@ -376,7 +377,7 @@ export const launchKcFitFormSchema = z.object({
   impact: z.string().min(1, { message: "This field is required" }),
   equityInclusion: z.string().min(1, { message: "This field is required" }),
   applied: z.boolean(),
-  progress: z.string().min(1, { message: "This field is required" })
+  progress: z.string()
 })
 
 export type IdentityVerificationValue = z.infer<
