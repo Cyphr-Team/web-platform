@@ -96,8 +96,9 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
     .min(1, { message: "Year Founded is required" })
     .refine(
       (value) => {
-        const year = parseInt(value)
-        return 1900 < year && year < 2090
+        const inputYear = parseInt(value)
+        const currentYear = new Date().getFullYear()
+        return 1900 < inputYear && inputYear <= currentYear
       },
       { message: "Invalid year" }
     ),

@@ -97,11 +97,7 @@ export const reverseFormatKybForm = (rawData: KYBInformationResponse) => {
   if (isLaunchKC()) {
     return {
       ...formInformation,
-      yearFounded: get(rawData, "metadata.yearFounded", ""),
-      legalStructure: get(rawData, "metadata.legalStructure", ""),
-      primaryIndustry: get(rawData, "metadata.primaryIndustry", ""),
-      primaryIndustryOther: get(rawData, "metadata.primaryIndustryOther", ""),
-      companyDescription: get(rawData, "metadata.companyDescription", "")
+      ...get(rawData, "metadata", {})
     }
   }
 
@@ -132,14 +128,7 @@ export const reverseFormatKycForm = (rawData: KYCInformationResponse) => {
   if (isLaunchKC()) {
     return {
       ...formInformation,
-      firstName: get(rawData, "metadata.firstName", ""),
-      lastName: get(rawData, "metadata.lastName", ""),
-      genderIdentity: get(rawData, "metadata.genderIdentity", ""),
-      preferredPronoun: get(rawData, "metadata.preferredPronoun", ""),
-      racialIdentification: get(rawData, "metadata.racialIdentification", ""),
-      ethnicIdentification: get(rawData, "metadata.ethnicIdentification", ""),
-      areFullTimeFounder: get(rawData, "metadata.areFullTimeFounder", ""),
-      areFounderOrCoFounder: get(rawData, "metadata.areFounderOrCoFounder", "")
+      ...get(rawData, "metadata", {})
     }
   }
   return formInformation
