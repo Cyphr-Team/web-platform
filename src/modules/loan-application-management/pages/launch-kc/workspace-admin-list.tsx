@@ -8,7 +8,6 @@ import { useState } from "react"
 import { workspaceAdminApplicationColumns } from "../../components/table/loan-application-columns"
 import { useQueryListPaginatedLoanApplicationScore } from "../../hooks/useQuery/useQueryListPaginatedLoanApplicationScore"
 
-// TODO: Integrate API filters
 export function WorkspaceAdminApplicationList() {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,

@@ -91,7 +91,17 @@ function isEnablePandaDocESign() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PANDA_DOC_ESIGN_V1)
 }
 
+/*
+ * Replace the workspace-admin-list with workspace-admin-list-filter
+ */
+function isEnableWorkspaceAdminFilterApplicationScores() {
+  return checkEnabledFeatureFlag(
+    FEATURE_FLAGS.WORKSPACE_ADMIN_FILTER_APPLICATION_SCORES
+  )
+}
+
 export {
+  isEnableWorkspaceAdminFilterApplicationScores,
   isEnablePandaDocESign,
   isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,

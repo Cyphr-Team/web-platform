@@ -2,12 +2,11 @@ import { API_PATH } from "@/constants"
 import { workspaceAdminLoanApplicationScoreKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
 import {
-  IWorkspaceAdminApplicationScore,
-  IApplicationWithStageScoresResponse
+  IApplicationWithStageScoresResponse,
+  IWorkspaceAdminApplicationScore
 } from "@/types/application/application-assign.type"
 import { ListResponse, PaginateParams } from "@/types/common.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { createSearchParams } from "react-router-dom"
 import { getWorkspaceAdminApplicationScores } from "../../services/score.service"
 
 type IListWorkspaceAdminApplicationScoreResponse =
@@ -23,12 +22,10 @@ export const useQueryListPaginatedLoanApplicationScore = ({
   offset
 }: Params) => {
   return useQuery<IListWorkspaceAdminApplicationScore>({
-    queryKey: workspaceAdminLoanApplicationScoreKeys.list(
-      createSearchParams({
-        limit: limit.toString(),
-        offset: offset.toString()
-      }).toString()
-    ),
+    queryKey: workspaceAdminLoanApplicationScoreKeys.list({
+      limit,
+      offset
+    }),
     queryFn: async () => {
       const response = await getRequest<
         Params,

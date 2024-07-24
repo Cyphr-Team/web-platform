@@ -1,3 +1,4 @@
+import { WorkspaceAdminListApplicationScoreParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
 import { JudgeListParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 
 export const notificationKeys = {
@@ -39,7 +40,8 @@ export const judgeLoanApplicationKeys = {
 }
 
 export const workspaceAdminAssignJudge = {
-  all: ["judgeLoanApplication"] as const,
+  all: ["workspaceAdminLoanApplication"] as const,
+  lists: () => [...workspaceAdminAssignJudge.all, "list"] as const,
   assignableJudges: (applicationId: string) =>
     [
       ...workspaceAdminAssignJudge.all,
@@ -57,7 +59,7 @@ export const workspaceAdminAssignJudge = {
 export const workspaceAdminLoanApplicationScoreKeys = {
   all: ["workspaceAdminLoanApplicationScore"] as const,
   lists: () => [...workspaceAdminLoanApplicationScoreKeys.all, "list"] as const,
-  list: (filters: string) =>
+  list: (filters: WorkspaceAdminListApplicationScoreParams) =>
     [...workspaceAdminLoanApplicationScoreKeys.lists(), { filters }] as const,
   details: () =>
     [...workspaceAdminLoanApplicationScoreKeys.all, "detail"] as const,

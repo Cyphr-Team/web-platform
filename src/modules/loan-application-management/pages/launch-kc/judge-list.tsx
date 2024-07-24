@@ -106,58 +106,52 @@ export function JudgeApplicationList() {
 
       <div className="mt-4">
         <Form {...filterForm}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-            }}
-          >
-            <div className="flex gap-3 flex-wrap">
-              <div className="flex-1 flex gap-3">
-                <FormField
-                  control={filterForm.control}
-                  name="isScoreds"
-                  render={({ field }) => (
-                    <MultiSelectRound
-                      label="Scorecard Status"
-                      field={field}
-                      options={SCORED_STATUS}
-                      labelHOC={(option, close) => (
-                        <ScoredBadgeStatus scoredAt={option.value === "true"}>
-                          {option.label} {close}
-                        </ScoredBadgeStatus>
-                      )}
-                    />
-                  )}
-                />
-                <FormField
-                  control={filterForm.control}
-                  name="applicationCaptureStages"
-                  render={({ field }) => (
-                    <MultiSelectRound
-                      label="Round"
-                      field={field}
-                      options={ASSIGNABLE_STAGE}
-                      labelHOC={(option, close) => (
-                        <StatusRoundBadge
-                          round={option.value as LoanApplicationStatus}
-                        >
-                          {option.label} {close}
-                        </StatusRoundBadge>
-                      )}
-                    />
-                  )}
-                />
-              </div>
-              <div className="flex-shrink-0 min-w-[300px] mt-auto">
-                <Input
-                  prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
-                  placeholder="Search by 'Company Name'"
-                  name="search"
-                  onChange={handleSearch}
-                />
-              </div>
+          <div className="flex gap-3 flex-wrap">
+            <div className="flex-1 flex gap-3">
+              <FormField
+                control={filterForm.control}
+                name="isScoreds"
+                render={({ field }) => (
+                  <MultiSelectRound
+                    label="Scorecard Status"
+                    field={field}
+                    options={SCORED_STATUS}
+                    labelHOC={(option, close) => (
+                      <ScoredBadgeStatus scoredAt={option.value === "true"}>
+                        {option.label} {close}
+                      </ScoredBadgeStatus>
+                    )}
+                  />
+                )}
+              />
+              <FormField
+                control={filterForm.control}
+                name="applicationCaptureStages"
+                render={({ field }) => (
+                  <MultiSelectRound
+                    label="Round"
+                    field={field}
+                    options={ASSIGNABLE_STAGE}
+                    labelHOC={(option, close) => (
+                      <StatusRoundBadge
+                        round={option.value as LoanApplicationStatus}
+                      >
+                        {option.label} {close}
+                      </StatusRoundBadge>
+                    )}
+                  />
+                )}
+              />
             </div>
-          </form>
+            <div className="flex-shrink-0 min-w-[300px] mt-auto">
+              <Input
+                prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
+                placeholder="Search by 'Company Name'"
+                name="search"
+                onChange={handleSearch}
+              />
+            </div>
+          </div>
         </Form>
       </div>
 

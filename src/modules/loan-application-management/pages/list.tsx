@@ -15,6 +15,8 @@ import { FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
 import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryListPaginateLoanApplication"
 import { WorkspaceAdminApplicationList } from "./launch-kc/workspace-admin-list"
 import { JudgeApplicationList } from "./launch-kc/judge-list"
+import { isEnableWorkspaceAdminFilterApplicationScores } from "@/utils/feature-flag.utils"
+import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin-list-filter"
 
 export function BaseApplicationList() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
@@ -74,6 +76,9 @@ export function BaseApplicationList() {
 export function Component() {
   if (isLaunchKC()) {
     if (checkIsJudge()) return <JudgeApplicationList />
+
+    if (isEnableWorkspaceAdminFilterApplicationScores())
+      return <WorkspaceAdminApplicationListFilter />
 
     return <WorkspaceAdminApplicationList />
   }

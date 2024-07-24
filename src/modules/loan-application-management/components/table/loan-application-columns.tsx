@@ -34,6 +34,7 @@ import { ScoredBadgeStatusWithTooltip } from "../atoms/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../atoms/StatusRoundBadge"
 import { ApplicationRoundSelectionPopover } from "../organisms/ApplicationRoundSelectionPopover"
 import { NudgeJudgesPopover } from "../organisms/NudgeJudgesPopover"
+import { renderFilterableHeader } from "@/utils/table.utils"
 
 export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
@@ -165,10 +166,8 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
 export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicationScore>[] =
   [
     {
-      id: "select",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="ID" />
-      ),
+      id: "applicationIdNumber",
+      header: renderFilterableHeader("ID"),
       cell: ({ row }) => {
         const application = row.original
         return (
@@ -178,10 +177,8 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       size: 80
     },
     {
-      id: "companyName",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Company Name" />
-      ),
+      id: "businessName",
+      header: renderFilterableHeader("Company Name"),
       cell: ({ row }) => {
         const app = row.original
         return <div className="text-center">{app?.businessName ?? "N/A"}</div>
@@ -190,9 +187,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundOneJudges",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Round 1 Judges" />
-      ),
+      header: renderFilterableHeader("Round 1 Judges", true),
       cell: ({ row }) => {
         const application = row.original
         const remainAvatar = application.roundOne.judges?.length - 8
@@ -234,9 +229,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundOneAvgScore",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Round 1 Avg. Score" />
-      ),
+      header: renderFilterableHeader("Round 1 Avg. Score", true),
       cell: ({ row }) => {
         const application = row.original
 
@@ -260,9 +253,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundTwoJudges",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Round 2 Judges" />
-      ),
+      header: renderFilterableHeader("Round 2 Judges", true),
       cell: ({ row }) => {
         const application = row.original
         const remainAvatar = application.roundTwo.judges?.length - 8
@@ -301,9 +292,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundTwoAvgScore",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Round 2 Avg. Score" />
-      ),
+      header: renderFilterableHeader("Round 2 Avg. Score", true),
       cell: ({ row }) => {
         const application = row.original
 
@@ -327,9 +316,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "scoredcard",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Scorecard Status" />
-      ),
+      header: renderFilterableHeader("Scorecard Status", true),
       cell: ({ row }) => {
         const application = row.original
 
@@ -367,9 +354,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundStatus",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Round Status" />
-      ),
+      header: renderFilterableHeader("Round Status", true),
       cell: ({ row }) => {
         const application = row.original
 
@@ -386,9 +371,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "createdAt",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Created On" />
-      ),
+      header: renderFilterableHeader("Created On"),
       size: 150,
       cell: ({ row }) => {
         const application = row.original
@@ -404,9 +387,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "submittedAt",
-      header: ({ column }) => (
-        <FilterableColumnHeader column={column} title="Submitted On" />
-      ),
+      header: renderFilterableHeader("Submitted On"),
       size: 150,
       cell: ({ row }) => {
         const app = row.original

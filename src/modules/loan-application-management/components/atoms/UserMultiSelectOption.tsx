@@ -1,0 +1,44 @@
+import { Option } from "@/types/common.type"
+import { ReactNode } from "react"
+import { JudgeAvatar } from "./JudgeAvatar"
+
+interface IUserMultiSelectOptionParams {
+  option: Option
+  close: ReactNode
+}
+
+const CONCATENATE_CHAR = "$"
+
+/**
+ * The multiselect also contain avatar, therefore
+ * We need to get it by concat the avatar to name and get it later
+ */
+export const buildUserMultiSelectLabelHelper = (
+  name?: string,
+  avatar?: string
+) => {
+  return [name, avatar].map((value) => value ?? "").join(CONCATENATE_CHAR)
+}
+
+export const UserMultiSelectOption = ({
+  option,
+  close
+}: IUserMultiSelectOptionParams) => {
+  const [name, avatar] = option.label.split(CONCATENATE_CHAR)
+
+  return (
+    <div className="flex items-center parent-border">
+      <JudgeAvatar
+        avatar={avatar}
+        name={name ?? ""}
+        className="h-5 w-5 text-xs"
+      />
+
+      <div className="ml-1.5">
+        <div className="text-sm group-[.selected]:font-medium">{name}</div>
+      </div>
+
+      <div className="text-stone-400 h-4 flex items-center">{close}</div>
+    </div>
+  )
+}

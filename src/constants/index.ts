@@ -295,6 +295,7 @@ export const API_PATH = {
       `api/loan-officer/applications/${applicationId}/identity-verification`,
     // Judge
     getAssignableJudges: () => `api/workspace-admin/judge/assignable-list`,
+    getJudges: () => `api/workspace-admin/judge/list`,
     updateAssignedJudges: () =>
       `api/workspace-admin/loan-applications/judge/update`,
     getApplicationWithStageScoresResponse: () =>
