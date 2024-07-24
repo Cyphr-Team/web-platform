@@ -1,19 +1,33 @@
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 
+/**
+ * We use a try-catch block when calling the 'addContentToPdf' function because:
+ * - Some forms do not need to be included in the Review Application step,
+ *   so their canvas height can be 0, leading to an error. In such cases, we will ignore these forms.
+ *
+ * @see addContentToPdf
+ */
 const processContent = async (
   doc: jsPDF,
   content: HTMLElement,
   addPage = true
 ): Promise<number> => {
+  let totalPage = 0
   const clonedContent = content.cloneNode(true) as HTMLElement
-  clonedContent.style.width = "1200px"
-  document.body.appendChild(clonedContent)
-  const totalPage = await addContentToPdf(doc, clonedContent)
-  // Add a new page for the next image
-  if (addPage) doc.addPage()
-  // Remove the cloned content
-  clonedContent.remove()
+
+  try {
+    clonedContent.style.width = "1200px"
+    document.body.appendChild(clonedContent)
+    totalPage = await addContentToPdf(doc, clonedContent)
+    // Add a new page for the next image
+    if (addPage) doc.addPage()
+  } catch (e) {
+    console.error("Generate form failed", e)
+  } finally {
+    // Remove the cloned content
+    clonedContent?.remove()
+  }
 
   return totalPage
 }
@@ -24,6 +38,9 @@ const addContentToPdf = async (
 ): Promise<number> => {
   const [pageWidth, pageHeight] = [210, 297]
   const canvas = await html2canvas(content)
+
+  if (canvas.height === 0) return 0
+
   const imgData = canvas.toDataURL("image/jpeg")
 
   // Set the desired width of the image in the PDF (in millimeters)
