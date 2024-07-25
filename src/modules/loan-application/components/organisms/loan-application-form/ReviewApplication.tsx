@@ -9,6 +9,10 @@ import { ReviewApplicationStep } from "./ReviewApplicationStep"
 import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { getPDF } from "@/modules/loan-application/services/pdf.service"
+import {
+  isEnableKycReOrder,
+  isEnablePandaDocESign
+} from "@/utils/feature-flag.utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -18,8 +22,6 @@ import {
 } from "../../../constants/form"
 import { useLoanApplicationFormContext } from "../../../providers"
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
-import { isEnableKycReOrder } from "@/utils/feature-flag.utils"
-import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
 
 export const ReviewApplication = () => {
   const { progress, step, finishCurrentStep } =

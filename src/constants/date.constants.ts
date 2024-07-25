@@ -13,11 +13,15 @@ const FORMAT_CHART_WEEKLY = "MMM dd"
 // MMM dd, y h:mm a = Jul 05, 2024 1:28 AM
 const FORMAT_DATE_M_D_Y_TIME_UPPERCASE = "MMM dd, y h:mm a"
 
+// MM-dd-yyyy_HH-mm = 07-25-2024_19-35, use for download file
+const FORMAT_DATE_MM_DD_YYYY_HH_MM = "MM-dd-yyyy_HH-mm"
+
 const TIME_PERIODS = ["monthly", "weekly", "daily"]
 
 const TIME_PERIODS_LONG = ["monthly", "weekly"]
 
 export {
+  FORMAT_DATE_MM_DD_YYYY_HH_MM,
   FORMAT_CHART_MONTHLY,
   FORMAT_CHART_WEEKLY,
   TIME_PERIODS_LONG,

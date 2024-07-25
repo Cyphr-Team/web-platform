@@ -60,8 +60,13 @@ export const LoanInformationHeader = () => {
   return (
     <TopBarDetail
       leftFooter={
-        <div className="hidden md:flex gap-2 items-center justify-center ml-4 md:ml-8">
-          <h4 className={cn("text-lg font-semibold", "md:text-2xl")}>
+        <div className="hidden md:flex gap-2 items-center justify-center ml-4 md:ml-8 min-w-20">
+          <h4
+            className={cn(
+              "text-lg font-semibold truncate min-w-20",
+              "md:text-2xl"
+            )}
+          >
             {isLoading ? (
               <Skeleton className="w-40 h-8" />
             ) : (

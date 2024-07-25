@@ -26,6 +26,7 @@ interface IESignDocument {
   uuid?: string
   signSession?: IESignSession
   recipient?: IESignRecipient
+  updatedAt?: string
 }
 
 interface IESignSession {

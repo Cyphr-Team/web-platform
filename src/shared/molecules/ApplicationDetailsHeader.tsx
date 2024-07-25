@@ -39,12 +39,18 @@ export const ApplicationDetailsHeader = () => {
   return (
     <nav
       className={cn(
-        "w-full p-4 pr-2 shrink-0 flex justify-between items-center sticky top-0 bg-white border-b border-t z-20",
+        "gap-4 w-full p-4 pr-2 shrink-0 flex justify-between items-center sticky top-0 bg-white border-b border-t z-20",
         "md:h-20 md:pr-8 md:border-t-0 md:p-5"
       )}
     >
-      <div className="flex items-center gap-2">
-        <h4 className={cn("text-lg font-semibold ml-0 md:ml-3", "md:text-2xl")}>
+      <div className="flex items-center gap-2 min-w-20">
+        <h4
+          className={cn(
+            "text-lg font-semibold ml-0 md:ml-3 truncate min-w-20",
+            "md:text-2xl"
+          )}
+          title={loanApplicationDetails?.loanProgram?.name}
+        >
           {status &&
             editableStatuses.includes(status) &&
             loanApplicationDetails?.loanProgram?.name}

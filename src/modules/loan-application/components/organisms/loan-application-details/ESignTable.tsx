@@ -1,42 +1,18 @@
-import { ButtonLoading } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
-import { useDownloadESignDocument } from "@/modules/loan-application/hooks/useESign/useDownloadESignDocument"
-import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
-import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
+import { useGetESignDocument } from "@/modules/loan-application/hooks/useQuery/form/useGetESignDocument"
+import { formatDate } from "@/utils/date.utils"
 import { renderHeader } from "@/utils/table.utils"
 import { ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns"
 import { FileDown } from "lucide-react"
-import { useMemo } from "react"
 import { useParams } from "react-router-dom"
+import { ButtonDownloadESignDocument } from "../../atoms/ButtonDownloadESignDocument"
 
-export interface ILoanApplicationESignDocument {
-  signedAt: string
+interface ILoanApplicationESignDocument {
+  signedAt?: string
   name: string
   documentId: string
-}
-
-const ButtonDownloadESignDocument = ({
-  documentId
-}: {
-  documentId: string
-}) => {
-  const downloadMutate = useDownloadESignDocument()
-  const handleDownloadESignDocument = async () => {
-    await downloadMutate.mutateAsync(documentId)
-  }
-
-  return (
-    <ButtonLoading
-      isLoading={downloadMutate.isPending}
-      variant="ghost"
-      onClick={handleDownloadESignDocument}
-    >
-      <FileDown className="w-4 h-4" />
-    </ButtonLoading>
-  )
 }
 
 const columns: ColumnDef<ILoanApplicationESignDocument>[] = [
@@ -56,7 +32,7 @@ const columns: ColumnDef<ILoanApplicationESignDocument>[] = [
 
       return (
         <div className="min-w-0">
-          {format(new Date(signature.signedAt), FORMAT_DATE_MM_DD_YYYY)}
+          {formatDate(signature.signedAt, FORMAT_DATE_MM_DD_YYYY)}
         </div>
       )
     }
@@ -69,42 +45,32 @@ const columns: ColumnDef<ILoanApplicationESignDocument>[] = [
 
       return (
         <div className="min-w-0 text-right">
-          <ButtonDownloadESignDocument documentId={signature.documentId} />
+          <ButtonDownloadESignDocument documentId={signature.documentId}>
+            <FileDown className="w-4 h-4" />
+          </ButtonDownloadESignDocument>
         </div>
       )
     }
   }
 ]
 
-/**
- * TODO - ESign get signature table
- */
 export const ESignTable = () => {
-  const { id: loanApplicationId } = useParams()
-  const { isLoading, isError, error } =
-    useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
+  const { id: applicationId } = useParams()
+  const { isLoading, data } = useGetESignDocument({
+    applicationId,
+    enabled: !!applicationId
+  })
 
-  const eSignDocuments: ILoanApplicationESignDocument[] = isLoading
-    ? []
-    : [
-        {
-          name: "E-Signed Application",
-          signedAt: format(new Date(), FORMAT_DATE_MM_DD_YYYY),
-          documentId: ""
-        }
-      ]
-
-  const isCashFlowNotReady = useMemo(() => {
-    return (
-      isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
-    )
-  }, [isError, error])
-
-  const noResultText = useMemo(() => {
-    return isCashFlowNotReady
-      ? getCustomErrorMsgByCode(ErrorCode.cash_flow_not_ready)
-      : "No bank accounts detected"
-  }, [isCashFlowNotReady])
+  const eSignDocuments: ILoanApplicationESignDocument[] =
+    isLoading || !data?.documentId
+      ? []
+      : [
+          {
+            name: "E-Signed Application",
+            signedAt: data?.updatedAt,
+            documentId: data.documentId
+          }
+        ]
 
   return (
     <Card>
@@ -116,12 +82,11 @@ export const ESignTable = () => {
         </div>
       </CardHeader>
 
-      <CardContent className="px-5">
+      <CardContent className="px-5 overflow-auto">
         <MiddeskTable
           columns={columns}
           data={eSignDocuments}
           isLoading={isLoading}
-          noResultText={noResultText}
         />
       </CardContent>
     </Card>

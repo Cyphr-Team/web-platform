@@ -17,9 +17,12 @@ export const formatBirthday = (date?: string) => {
   }
 }
 
-export const formatDate = (date?: string) => {
+export const formatDate = (
+  date?: string,
+  dateFormat: string = FORMAT_DATE_M_D_Y_TIME
+) => {
   try {
-    return format(date ?? "", FORMAT_DATE_M_D_Y_TIME)
+    return format(date ?? "", dateFormat)
   } catch {
     return date
   }

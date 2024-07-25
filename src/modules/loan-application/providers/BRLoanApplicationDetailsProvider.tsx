@@ -1,5 +1,16 @@
+import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
+import { useQueryMarketOpportunity } from "@/modules/loan-application/hooks/useQuery/useQueryMarketOpportunity.ts"
+import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import { UserMicroLoanApplication } from "@/types/loan-application.type"
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
+import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
+import { isLaunchKC } from "@/utils/domain.utils"
+import {
+  formsConfigurationEnabled,
+  isEnablePandaDocESign
+} from "@/utils/feature-flag.utils"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
+import _ from "lodash"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { createContext } from "use-context-selector"
@@ -9,6 +20,10 @@ import {
   useLoanProgramDetailContext,
   usePlaidContext
 } from "."
+import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
+import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
+import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
+import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import {
   ConfirmationFormResponse,
   CurrentLoansInformationResponse,
@@ -21,16 +36,23 @@ import {
   PreQualificationResponse
 } from "../constants/type"
 import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
+import { useGetESignDocument } from "../hooks/useQuery/form/useGetESignDocument"
+import { useQueryBusinessModelForm } from "../hooks/useQuery/useQueryBusinessModelForm"
 import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
 import { useQueryGetCurrentLoansForm } from "../hooks/useQuery/useQueryCurrentLoansForm"
+import { useQueryExecutionForm } from "../hooks/useQuery/useQueryExecutionForm"
 import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialForm"
 import { useQueryGetDocumentsByForm } from "../hooks/useQuery/useQueryGetDocuments"
 import { useQueryGetIdentityVerification } from "../hooks/useQuery/useQueryGetIdentityVerification"
+import { useQueryGetPlaidConnectedBankAccountsByApplicationId } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
 import { useQueryGetPlaidItemIds } from "../hooks/useQuery/useQueryGetPlaidItemIds"
 import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
 import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
+import { useQueryLaunchKCFitForm } from "../hooks/useQuery/useQueryLaunchKCFitForm"
 import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
 import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
+import { useQueryGetPreQualificationForm } from "../hooks/useQuery/useQueryPreQualificationForm"
+import { useQueryProductServiceForm } from "../hooks/useQuery/useQueryProductServiceForm"
 import { useQueryLoanApplicationDetailsByType } from "../hooks/useQuery/useQueryUserLoanApplicationDetails"
 import {
   FORM_TYPE,
@@ -44,24 +66,6 @@ import {
 } from "../services/form.services"
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
-import { useQueryGetPlaidConnectedBankAccountsByApplicationId } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
-import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
-import _ from "lodash"
-import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
-import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
-import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
-import { useQueryGetPreQualificationForm } from "../hooks/useQuery/useQueryPreQualificationForm"
-import { isLaunchKC } from "@/utils/domain.utils"
-import { useQueryProductServiceForm } from "../hooks/useQuery/useQueryProductServiceForm"
-import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
-import { useQueryLaunchKCFitForm } from "../hooks/useQuery/useQueryLaunchKCFitForm"
-import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
-import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
-import { useQueryExecutionForm } from "../hooks/useQuery/useQueryExecutionForm"
-import { useQueryBusinessModelForm } from "../hooks/useQuery/useQueryBusinessModelForm"
-import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
-import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
-import { useQueryMarketOpportunity } from "@/modules/loan-application/hooks/useQuery/useQueryMarketOpportunity.ts"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -135,6 +139,14 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const identityVerificationQuery = useQueryGetIdentityVerification(
     loanApplicationId!
   )
+
+  /**
+   * Return the document id for the loan application
+   */
+  const eSignQuery = useGetESignDocument({
+    applicationId: loanApplicationId,
+    enabled: !!loanApplicationId && isEnablePandaDocESign()
+  })
 
   /**
    * Return the Plaid ItemIds
@@ -551,8 +563,28 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    */
 
   /**
-   * TODO - ESign handle update ESign form data when edit draft application
+   * Handle update ESign detail for form data
+   * Note: Store documentId only, the session can be created again
    */
+  useEffect(() => {
+    if (eSignQuery.data?.documentId && isInitialized) {
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.E_SIGN,
+        state: { documentId: eSignQuery.data.documentId }
+      })
+      dispatchProgress({
+        // turn on green tick
+        type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+        progress: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION
+      })
+    }
+  }, [
+    dispatchFormAction,
+    dispatchProgress,
+    eSignQuery.data?.documentId,
+    isInitialized
+  ])
 
   const value = useMemo(
     () => ({

@@ -5,7 +5,10 @@ import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { isCyphrBank, isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
-import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
+import {
+  isEnablePandaDocESign,
+  isEnablePersonaKycV1
+} from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { Dispatch, useCallback } from "react"
@@ -14,6 +17,7 @@ import {
   BusinessModelFormValue,
   ConfirmationFormValue,
   CurrentLoansFormValue,
+  ESignFormValue,
   ExecutionFormValue,
   FinancialFormValue,
   IBusinessFormValue,
@@ -47,6 +51,7 @@ import { useSubmitExecutionForm } from "../hooks/useForm/useSubmitExecutionForm"
 import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
 import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
 import { Action, FORM_ACTION } from "../providers/LoanApplicationFormProvider"
+import { useSubmitESignDocument } from "../hooks/useForm/useSubmitESignDocument"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -66,6 +71,7 @@ export const useSubmitLoanForm = (
   executionData: ExecutionFormValue,
   businessModelData: BusinessModelFormValue,
   marketOpportunityData: MarketOpportunityFormValue,
+  eSignData: ESignFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -85,6 +91,12 @@ export const useSubmitLoanForm = (
     submitLoanIdentityVerification,
     isLoading: isSubmittingIdentityVerification
   } = useSubmitLoanIdentityVerification(identityVerificationData)
+
+  /**
+   * Mutate action for submitting E Sign document - PandaDoc
+   */
+  const { submitESignDocument, isLoading: isSubmittingESignDocument } =
+    useSubmitESignDocument(eSignData)
 
   const { submitLoanKYBForm, isLoading: isSubmittingKYB } =
     useSubmitLoanKYBForm(businessData, businessData?.id ?? "")
@@ -148,7 +160,11 @@ export const useSubmitLoanForm = (
           description: TOAST_MSG.loanApplication.submitSuccess.description
         })
         // Navigate to submission page with applicationId
-        navigate(APP_PATH.LOAN_APPLICATION.SUBMISSION, {
+        let navigateLink = APP_PATH.LOAN_APPLICATION.SUBMISSION
+        if (eSignData?.documentId) {
+          navigateLink = `${navigateLink}?documentId=${eSignData.documentId}`
+        }
+        navigate(navigateLink, {
           state: {
             applicationId: applicationId,
             businessName: businessData?.businessLegalName,
@@ -170,7 +186,12 @@ export const useSubmitLoanForm = (
         navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
       }
     },
-    [businessData?.businessLegalName, loanProgramId, navigate]
+    [
+      businessData?.businessLegalName,
+      eSignData?.documentId,
+      loanProgramId,
+      navigate
+    ]
   )
 
   const handleSubmitFormError = useCallback(
@@ -226,6 +247,13 @@ export const useSubmitLoanForm = (
         if (!identityVerificationData?.smartKycId) {
           await submitLoanIdentityVerification(loanRequestId)
         }
+      }
+
+      /**
+       * Submit e sign document - Link document id
+       */
+      if (eSignData?.documentId && isEnablePandaDocESign()) {
+        await submitESignDocument(loanRequestId)
       }
 
       if (plaidItemIds?.length) {
@@ -340,9 +368,6 @@ export const useSubmitLoanForm = (
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
         }
-        /**
-         * TODO - ESign handle link ESign document ID to application
-         */
       } else if (loanType === LoanType.READINESS) {
         // Customize submission steps for Readiness loan type
         if (businessData) await submitLoanKYBForm(loanRequestId)
@@ -381,6 +406,7 @@ export const useSubmitLoanForm = (
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
+    eSignData?.documentId,
     plaidItemIds?.length,
     loanType,
     handleSubmitFormSuccess,
@@ -388,6 +414,7 @@ export const useSubmitLoanForm = (
     queryClient,
     dispatchFormAction,
     submitLoanIdentityVerification,
+    submitESignDocument,
     submitLinkPlaidItemds,
     businessData,
     isCompleteSteps,
@@ -436,6 +463,7 @@ export const useSubmitLoanForm = (
       isSubmittingLaunchKCFit ||
       isSubmittingExecution ||
       isSubmittingBusinessModel ||
-      isSubmitLoanMarketOpportunity
+      isSubmitLoanMarketOpportunity ||
+      isSubmittingESignDocument
   }
 }

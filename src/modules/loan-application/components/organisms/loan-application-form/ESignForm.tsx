@@ -1,6 +1,5 @@
 import { AppAlert } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Button, ButtonLoading } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import {
   eSignFormSchema,
@@ -23,13 +22,15 @@ import {
   sessionAbleDocumentStatus
 } from "@/types/esign/document.type"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight, Loader2 } from "lucide-react"
-import { useCallback, useEffect } from "react"
+import { ArrowRight, Loader2, RefreshCw } from "lucide-react"
+import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
 export const ESignForm = () => {
   const { dispatchFormAction, eSignForm } = useLoanApplicationFormContext()
   const { progress, finishCurrentStep } = useLoanApplicationProgressContext()
+  const [isShowCreateSessionBtn, setIsShowCreateSessionBtn] = useState(false)
+  const [isShowCreateDocumentBtn, setIsShowCreateDocumentBtn] = useState(false)
 
   // Get the PDF result from review application
   const { reviewApplication } = useLoanApplicationFormContext()
@@ -74,22 +75,18 @@ export const ESignForm = () => {
    * Create document by using the pdf that generate from the 'Review Application' step
    *
    * Note:
-   * - Need to save the documentId for later use
+   * - Need to save the documentId for later use to preventing create new document every time
    */
-  const { mutate: mutateCreateDocument } = useCreateESignDocumentByFile()
-  const handleCreateESignDocument = useCallback(async () => {
-    if (documentId) return
+  const { mutate: mutateCreateDocument, isPending: isCreatingDocument } =
+    useCreateESignDocumentByFile()
+  const createDocument = useCallback(() => {
     if (!reviewApplication?.pdf) return
 
     mutateCreateDocument(
-      {
-        pdf: reviewApplication?.pdf,
-        totalPage: reviewApplication?.totalPage
-      },
+      { pdf: reviewApplication?.pdf, totalPage: reviewApplication?.totalPage },
       {
         onSuccess(response) {
           form.setValue("documentId", response.data.documentId)
-
           dispatchFormAction({
             action: FORM_ACTION.SET_DATA,
             state: {
@@ -98,20 +95,30 @@ export const ESignForm = () => {
             },
             key: LOAN_APPLICATION_STEPS.E_SIGN
           })
+          setIsShowCreateDocumentBtn(false)
+        },
+        onError() {
+          setIsShowCreateDocumentBtn(true)
         }
       }
     )
   }, [
     dispatchFormAction,
-    documentId,
     form,
     mutateCreateDocument,
     reviewApplication?.pdf,
     reviewApplication?.totalPage
   ])
 
+  const handleCreateESignDocument = useCallback(async () => {
+    if (documentId) return
+    if (!reviewApplication?.pdf) return
+
+    createDocument()
+  }, [createDocument, documentId, reviewApplication?.pdf])
+
   useEffect(() => {
-    handleCreateESignDocument() // TODO - ESign handle replace stale document when client update new data
+    handleCreateESignDocument()
   }, [handleCreateESignDocument])
   // ------ End create document
 
@@ -121,27 +128,39 @@ export const ESignForm = () => {
    * Create session, embedded with sessionId to view / sign the document
    *
    * Note:
-   * - No need to save to form data, can be created multiple times
+   * - Need to save the sessionId for later use to prevent throttle
    */
-  const { mutate: mutateSessionDocument } = useCreateESignSession()
+  const { mutate: mutateSessionDocument, isPending: isCreatingSession } =
+    useCreateESignSession()
+  const createSession = useCallback(() => {
+    if (!documentId) return
+    mutateSessionDocument(documentId, {
+      onSuccess(response) {
+        form.setValue("sessionId", response.data.id)
+        dispatchFormAction({
+          action: FORM_ACTION.SET_DATA,
+          state: { ...form.getValues(), sessionId: response.data.id },
+          key: LOAN_APPLICATION_STEPS.E_SIGN
+        })
+        setIsShowCreateSessionBtn(false)
+      },
+      onError() {
+        setIsShowCreateSessionBtn(true)
+      }
+    })
+  }, [dispatchFormAction, documentId, form, mutateSessionDocument])
   const handleCreateESignSession = useCallback(async () => {
     if (!documentId) return
     if (sessionId) return
-
     const documentStatus = documentStatusResponse.data?.status?.toUpperCase()
     if (!sessionAbleDocumentStatus.some((status) => status === documentStatus))
       return
 
-    mutateSessionDocument(documentId, {
-      onSuccess(response) {
-        form.setValue("sessionId", response.data.id)
-      }
-    })
+    createSession()
   }, [
+    createSession,
     documentId,
     documentStatusResponse.data?.status,
-    form,
-    mutateSessionDocument,
     sessionId
   ])
 
@@ -172,17 +191,17 @@ export const ESignForm = () => {
   }
 
   return (
-    <Card
+    <div
       className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-0",
+        "flex flex-col gap-2xl rounded-lg h-fit overflow-auto col-span-6 p-0.5",
+        "col-start-2",
         "h-full flex-1"
       )}
     >
       {sessionId ? (
         <div className="w-full h-full">
           <iframe
-            className="h-[70vh] w-full"
+            className="h-[70vh] w-full border"
             src={`https://app.pandadoc.com/s/${sessionId}/`}
           />
 
@@ -201,12 +220,65 @@ export const ESignForm = () => {
             </Button>
           </div>
         </div>
+      ) : isShowCreateSessionBtn || isShowCreateDocumentBtn ? (
+        <div className="flex flex-col items-center gap-4 h-full">
+          <AppAlert
+            variant="error"
+            title="Request document error."
+            description={
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <p>
+                  Too many attempts to generate a document. Please try again
+                  later.
+                </p>
+                {isShowCreateDocumentBtn && (
+                  <ButtonLoading
+                    variant="outline"
+                    isLoading={isCreatingDocument}
+                    type="button"
+                    className="flex items-center gap-1 py-1 px-2 h-auto ml-auto mb-2"
+                    onClick={() => createDocument()}
+                  >
+                    <span>Retry</span>
+                    <RefreshCw className="w-4" />
+                  </ButtonLoading>
+                )}
+                {!isShowCreateDocumentBtn && isShowCreateSessionBtn && (
+                  <ButtonLoading
+                    variant="outline"
+                    isLoading={isCreatingSession}
+                    type="button"
+                    className="flex items-center gap-1 py-1 px-2 h-auto ml-auto mb-2"
+                    onClick={() => createSession()}
+                  >
+                    <span>Retry</span>
+                    <RefreshCw className="w-4" />
+                  </ButtonLoading>
+                )}
+              </div>
+            }
+          />
+        </div>
       ) : (
         <div className="flex items-center gap-1 h-full">
-          <span>Generating document for signing</span>
-          <Loader2 className="w-5 h-5 animate-spin text-black" />.
+          <AppAlert
+            variant="success"
+            title="Generating!"
+            description={
+              <div>
+                <p>
+                  Please wait a moment while we generate your document for
+                  signing.
+                </p>
+                <p>
+                  Thank you for your patience...
+                  <Loader2 className="w-4 h-4 ml-0.5 animate-spin inline-block mb-1" />
+                </p>
+              </div>
+            }
+          />
         </div>
       )}
-    </Card>
+    </div>
   )
 }

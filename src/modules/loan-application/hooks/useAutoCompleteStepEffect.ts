@@ -1,7 +1,11 @@
 import { useCallback, useEffect } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
-import { useLoanApplicationProgressContext } from "../providers"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "../providers"
+import { FORM_ACTION } from "../providers/LoanApplicationFormProvider"
 
 export const useAutoCompleteStepEffect = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -10,6 +14,7 @@ export const useAutoCompleteStepEffect = (
   // use logicalValidState  when we need to add more special logic to mark complete
   logicalValidState?: boolean
 ) => {
+  const { eSignForm, dispatchFormAction } = useLoanApplicationFormContext()
   const { completeSpecificStep, removeCompleteSpecificStep } =
     useLoanApplicationProgressContext()
 
@@ -26,14 +31,24 @@ export const useAutoCompleteStepEffect = (
 
       if (isValid) {
         completeSpecificStep(specificStep)
-        removeCompleteSpecificStep(LOAN_APPLICATION_STEPS.REVIEW_APPLICATION)
       } else {
         removeCompleteSpecificStep(specificStep)
-        removeCompleteSpecificStep(LOAN_APPLICATION_STEPS.REVIEW_APPLICATION)
+      }
+      removeCompleteSpecificStep(LOAN_APPLICATION_STEPS.REVIEW_APPLICATION)
+
+      // Remove document after the user edit loan application data
+      if (eSignForm?.documentId) {
+        dispatchFormAction({
+          action: FORM_ACTION.SET_DATA,
+          state: { documentId: "", sessionId: "" },
+          key: LOAN_APPLICATION_STEPS.E_SIGN
+        })
       }
     })
   }, [
     completeSpecificStep,
+    dispatchFormAction,
+    eSignForm?.documentId,
     form.formState.isValid,
     logicalValidState,
     removeCompleteSpecificStep,

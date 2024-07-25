@@ -90,7 +90,7 @@ export function SideNavApplicationDetails() {
         <LogoHeader className="justify-center" />
       </div>
 
-      <div className="px-xl flex-col flex-1 md:flex">
+      <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4">
         <Accordion
           key={progress.length}
           type="multiple"

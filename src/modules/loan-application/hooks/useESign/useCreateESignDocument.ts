@@ -25,7 +25,7 @@ export const useCreateESignDocumentByFile = () => {
     mutationFn: ({
       pdf,
       totalPage = 0,
-      silent = false
+      silent = true
     }: IESignCreateDocumentRequest) => {
       const formData = new FormData()
       const pdfBlob = pdf.output("blob")
