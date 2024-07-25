@@ -27,6 +27,7 @@ export function Component() {
       adminEmail: "",
       name: "",
       subdomain: "",
+      key: "",
       logo: "",
       textLogo: "",
       supportEmail: ""
@@ -38,7 +39,12 @@ export function Component() {
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (currentStepIndex === 0) {
-      const validStep1 = await form.trigger(["name", "subdomain", "adminEmail"])
+      const validStep1 = await form.trigger([
+        "name",
+        "subdomain",
+        "key",
+        "adminEmail"
+      ])
       if (validStep1) nextStep()
     } else if (currentStepIndex === 1) {
       const validStep2 = await form.trigger([

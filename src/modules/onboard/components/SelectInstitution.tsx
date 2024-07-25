@@ -125,6 +125,28 @@ export function SelectInstitution() {
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="key"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-text-secondary">
+                Institution Key
+                <RequiredSymbol />
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="e.g. foresight"
+                  className="text-base"
+                  maxLength={63}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div>
           <p className="text-text-tertiary flex gap-2">
             <Globe className="w-5" />
