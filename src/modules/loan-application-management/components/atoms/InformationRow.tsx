@@ -34,7 +34,9 @@ export const InformationRow: React.FC<Props> = ({
       {isLoading ? (
         <Skeleton className="w-[80%] h-full" />
       ) : (
-        <p className="font-medium text-sm break-all">{value}</p>
+        <p className="font-medium text-sm truncate overflow-ellipsis hover:overflow-visible hover:whitespace-normal hover:break-words max-w-full">
+          {value}
+        </p>
       )}
     </div>
   </div>

@@ -168,7 +168,7 @@ export const CashFlowVerificationFormV2 = () => {
               the loan approval process. Learn how it works{" "}
               <a
                 href="https://plaid.com/legal/#consumers"
-                className=" underline"
+                className="underline text-[#1264A3]"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -204,8 +204,23 @@ export const CashFlowVerificationFormV2 = () => {
             "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
           )}
         >
-          <div className="flex flex-row justify-between items-center gap-2">
-            <h5 className="text-lg font-semibold">Connected Accounts</h5>
+          <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-2">
+            <div>
+              <h5 className="text-lg font-semibold">Connected Accounts</h5>
+              <span className="text-sm font-medium text-gray-700">
+                Having trouble connecting your bank accounts? Click{" "}
+                <a
+                  href="https://support-my.plaid.com/hc/en-us/categories/4405983222679-Connecting-Financial-Accounts"
+                  className="underline text-[#1264A3]"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  here
+                </a>{" "}
+                for help.
+              </span>
+            </div>
+
             <ConnectBankAccountsButton
               disabled={!canConnect || isFetchingDetails}
               hasConnectedAccounts={!!connectedAccounts.length}
