@@ -22,8 +22,11 @@ import { Secretary } from "@/modules/loan-application/components/organisms/Midde
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
 import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
-import { isLaunchKC } from "@/utils/domain.utils"
-import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import {
+  isEnableJudgeSubmitScore,
+  isEnableKYBV2
+} from "@/utils/feature-flag.utils"
 import { get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
@@ -35,6 +38,9 @@ import {
   getBadgeVariantByStatus,
   getDecisionTextByStatus
 } from "../../services"
+import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
+import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
+import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia.tsx"
 
 export function Component() {
   const {
@@ -159,7 +165,10 @@ export function Component() {
           <TinMatch />
           <People />
           <WatchList />
+          {isEnableKYBV2() && isSbb() && <IndustryClassification />}
           <Bankruptcy />
+          {isEnableKYBV2() && isSbb() && <Website />}
+          {isEnableKYBV2() && isSbb() && <AdverseMedia />}
           <Separator />
         </div>
 
