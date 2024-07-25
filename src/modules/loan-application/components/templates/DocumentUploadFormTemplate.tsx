@@ -40,6 +40,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Checkbox } from "@/components/ui/checkbox.tsx"
 import { CheckedState } from "@radix-ui/react-checkbox"
+import { get, set } from "lodash"
 
 /**
  * This implementation is only work on the schema like this
@@ -93,7 +94,22 @@ export const DocumentUploadFormTemplate = ({
   const form = useForm<FormType>({
     resolver: zodResolver(schema),
     mode: "onChange",
-    defaultValues: formState[specificStep] as FormType
+    // TODO: move this to outside
+    defaultValues: async () => {
+      const data: FormType = {
+        [fileField]: get(formState[specificStep], fileField, [])
+      }
+
+      if (checkboxField !== undefined) {
+        set(
+          data,
+          checkboxField,
+          get(formState[specificStep], checkboxField, false)
+        )
+      }
+
+      return data
+    }
   })
 
   const handleSelectFile = useCallback(
