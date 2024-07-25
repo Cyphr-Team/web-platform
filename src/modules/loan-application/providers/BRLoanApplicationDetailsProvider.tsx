@@ -419,16 +419,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   useEffect(() => {
     if (businessModelFormQuery.data && isInitialized && isQualified) {
       changeDataAndProgress(
-        {
-          id: businessModelFormQuery.data.id,
-          loanApplicationId: businessModelFormQuery.data.loanApplicationId,
-          description: businessModelFormQuery.data.description,
-          scalePlan: businessModelFormQuery.data.scalePlan,
-          totalRevenueRange: businessModelFormQuery.data.totalRevenueRange,
-          lastMonthRevenueRange:
-            businessModelFormQuery.data.lastMonthRevenueRange,
-          lastYearRevenueRange: businessModelFormQuery.data.lastYearRevenueRange
-        },
+        businessModelFormQuery.data,
         LOAN_APPLICATION_STEPS.BUSINESS_MODEL
       )
     }
@@ -437,6 +428,21 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     isInitialized,
     isQualified,
     businessModelFormQuery.data
+  ])
+
+  // Execution Form
+  useEffect(() => {
+    if (executionFormQuery.data && isInitialized && isQualified) {
+      changeDataAndProgress(
+        executionFormQuery.data,
+        LOAN_APPLICATION_STEPS.EXECUTION
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    isInitialized,
+    isQualified,
+    executionFormQuery.data
   ])
 
   /**

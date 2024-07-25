@@ -11,7 +11,7 @@ export const useQueryExecutionForm = (id: string) => {
     queryKey: [QUERY_KEY.GET_EXECUTION_FORM, id],
     queryFn: () => {
       return getRequest({
-        path: API_PATH.application.executionForm,
+        path: API_PATH.application.executionForm.detail,
         params: { applicationId: id }
       })
     },

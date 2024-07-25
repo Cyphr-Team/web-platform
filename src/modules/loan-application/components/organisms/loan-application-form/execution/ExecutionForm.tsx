@@ -24,68 +24,32 @@ import { OptionInput } from "@/shared/organisms/form/OptionInput"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import {
-  cashBurnOptions,
-  currentStage,
-  partnerships,
   questions,
-  supportAreas
+  getOptionsByField,
+  LAUNCH_KC_EXECUTION_FIELD_NAMES,
+  jobTypes
 } from "./constants"
 import { MultiCheckboxesInput } from "@/shared/organisms/form/MultiCheckboxesInput"
 
 type FundingSource = {
-  source: string
+  sourceType: string
   amount: string
 }
 
 interface Founder {
   name: string
-  title: string
+  jobType: string
   background: string
-  skills: string
+  skill: string
 }
 
-const funding_sources_options = [
-  {
-    label: "Bank Loans",
-    value: "bank_loan"
-  },
-  {
-    label: "Friends and family",
-    value: "friends_and_family"
-  },
-  {
-    label: "Venture capital",
-    value: "venture_capital"
-  },
-  {
-    label: "Angel investors",
-    value: "angel_investors"
-  },
-  {
-    label: "Crowdfunding",
-    value: "crowdfunding"
-  },
-  {
-    label: "Debt",
-    value: "debt"
-  },
-  {
-    label: "Non-dilutive grant",
-    value: "non_dilutive_grant"
-  },
-
-  {
-    label: "Startup/Pitch Competitions",
-    value: "startup_pitch_competitions"
-  }
-]
 type FundingSourcesProps = {
   control: Control<ExecutionFormValue>
 }
 const FundingSources: React.FC<FundingSourcesProps> = ({ control }) => {
   const [fundingSources, setFundingSources] = useState<FundingSource[]>([
     {
-      source: "",
+      sourceType: "",
       amount: ""
     }
   ])
@@ -94,7 +58,7 @@ const FundingSources: React.FC<FundingSourcesProps> = ({ control }) => {
     setFundingSources((prev) => [
       ...prev,
       {
-        source: "",
+        sourceType: "",
         amount: ""
       }
     ])
@@ -128,9 +92,11 @@ const FundingSources: React.FC<FundingSourcesProps> = ({ control }) => {
           <SelectInput
             inputClassName="w-40"
             className="flex items-center justify-between !text-sm"
-            options={funding_sources_options}
+            options={getOptionsByField(
+              LAUNCH_KC_EXECUTION_FIELD_NAMES.FUNDING_SOURCES
+            )}
             label="Funding Source"
-            name={`fundingSources.${ind}.source`}
+            name={`fundingSources.${ind}.sourceType`}
             control={control}
           />
           <TextInput
@@ -164,9 +130,9 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
   const [founders, setFounders] = useState<Founder[]>([
     {
       name: "",
-      title: "",
+      jobType: "",
       background: "",
-      skills: ""
+      skill: ""
     }
   ])
 
@@ -175,9 +141,9 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
       ...prev,
       {
         name: "",
-        title: "",
+        jobType: "",
         background: "",
-        skills: ""
+        skill: ""
       }
     ])
   }
@@ -213,12 +179,12 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
             name={`founders.${ind}.name`}
             control={control}
           />
-          <TextInput
-            className="flex items-center justify-between"
-            inputClassName="w-40"
+          <SelectInput
+            className="flex items-center justify-between !text-sm"
             label="Full time or part time"
-            name={`founders.${ind}.title`}
             control={control}
+            name={`founders.${ind}.jobType`}
+            options={jobTypes}
           />
           <TextAreaInput
             label="What relevant business experience, education, or industry knowledge do they have?"
@@ -228,7 +194,7 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
           <TextAreaInput
             label="What skills do they have to ensure the success of your company?"
             control={control}
-            name={`founders.${ind}.skills`}
+            name={`founders.${ind}.skill`}
           />
         </div>
       ))}
@@ -247,19 +213,21 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
 
 export const ExecutionForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-  const { executionForm, dispatchFormAction } = useLoanApplicationFormContext()
+  const { executionForm, dispatchFormAction, loanRequest } =
+    useLoanApplicationFormContext()
 
   const defaultValues = {
     id: executionForm?.id ?? "",
-    loanApplicationId: executionForm?.loanApplicationId ?? "",
+    loanApplicationId:
+      executionForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
     monthlyExpenseRange: executionForm?.monthlyExpenseRange ?? "",
     growthMetric: executionForm?.growthMetric ?? "",
     recentMilestone: executionForm?.recentMilestone ?? "",
     nextMilestone: executionForm?.nextMilestone ?? "",
     greatestChallenge: executionForm?.greatestChallenge ?? "",
-    supportAreas: executionForm?.supportAreas ?? [],
-    partnerships: executionForm?.partnerships ?? [],
-    currentStage: executionForm?.currentStage ?? "",
+    businessModels: executionForm?.businessModels ?? [],
+    partnershipTypes: executionForm?.partnershipTypes ?? [],
+    businessStage: executionForm?.businessStage ?? "",
     fundingSources: executionForm?.fundingSources ?? [],
     founders: executionForm?.founders ?? []
   }
@@ -307,12 +275,14 @@ export const ExecutionForm = () => {
             <form className="flex flex-col gap-4xl">
               <SelectInput
                 className="flex items-center"
-                inputClassName="w-40"
-                key="monthlyExpenseRange"
+                inputClassName="!max-w-52"
+                key={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
                 label="How much cash does your company go through each month?"
                 control={form.control}
-                name="monthlyExpenseRange"
-                options={cashBurnOptions}
+                name={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
+                options={getOptionsByField(
+                  LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE
+                )}
               />
               {questions.map((q) => (
                 <TextAreaInput
@@ -323,25 +293,31 @@ export const ExecutionForm = () => {
                 />
               ))}
               <OptionInput
-                key="currentStage"
+                key="businessStage"
                 label="Which best describes the current stage of your product or service?"
                 control={form.control}
-                name="currentStage"
-                options={currentStage}
+                name="businessStage"
+                options={getOptionsByField(
+                  LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_STAGE
+                )}
               />
               <MultiCheckboxesInput
-                key="supportAreas"
+                key={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
                 label="What areas do you need the most support? (You can select more than 1)"
                 control={form.control}
-                name="supportAreas"
-                options={supportAreas}
+                name={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
+                options={getOptionsByField(
+                  LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL
+                )}
               />
               <MultiCheckboxesInput
-                key="partnerships"
+                key={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
                 label="What alliances or partnerships have you entered? (You can select more than 1)"
                 control={form.control}
-                name="partnerships"
-                options={partnerships}
+                name={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
+                options={getOptionsByField(
+                  LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE
+                )}
               />
               <FundingSources control={form.control} />
               <Founders control={form.control} />

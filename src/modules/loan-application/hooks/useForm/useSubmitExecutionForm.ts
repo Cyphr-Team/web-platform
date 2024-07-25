@@ -40,7 +40,7 @@ const useSubmitLoanExecutionForm = () => {
   >({
     mutationFn: (data) => {
       return postRequest({
-        path: API_PATH.application.executionForm,
+        path: API_PATH.application.executionForm.index,
         data,
         customHeader: customRequestHeader.customHeaders
       })
@@ -57,7 +57,7 @@ const useUpdateLoanExecutionForm = () => {
   >({
     mutationFn: (data) => {
       return putRequest({
-        path: API_PATH.application.executionForm,
+        path: API_PATH.application.executionForm.index,
         data,
         customHeader: customRequestHeader.customHeaders
       })

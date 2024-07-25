@@ -325,21 +325,21 @@ export const executionFormSchema = z.object({
   recentMilestone: z.string().min(1, { message: "This field is required" }),
   nextMilestone: z.string().min(1, { message: "This field is required" }),
   greatestChallenge: z.string().min(1, { message: "This field is required" }),
-  currentStage: z.string().min(1, { message: "This field is required" }),
-  supportAreas: z.array(z.string()),
-  partnerships: z.array(z.string()),
+  businessStage: z.string().min(1, { message: "This field is required" }),
+  businessModels: z.array(z.string()),
+  partnershipTypes: z.array(z.string()),
   fundingSources: z.array(
     z.object({
-      source: z.string().min(1, { message: "This field is required" }),
+      sourceType: z.string().min(1, { message: "This field is required" }),
       amount: z.string().min(1, { message: "This field is required" })
     })
   ),
   founders: z.array(
     z.object({
       name: z.string().min(1, { message: "This field is required" }),
-      title: z.string().min(1, { message: "This field is required" }),
+      jobType: z.string().min(1, { message: "This field is required" }),
       background: z.string().min(1, { message: "This field is required" }),
-      skills: z.string().min(1, { message: "This field is required" })
+      skill: z.string().min(1, { message: "This field is required" })
     })
   )
 })
