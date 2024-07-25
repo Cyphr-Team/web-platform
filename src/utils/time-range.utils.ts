@@ -54,6 +54,10 @@ const getTimeRangeDates = (timeRange: TimeRangeValue) => {
         from = startOfMonth(subMonths(now, 6))
         to = endOfMonth(subMonths(now, 1))
         break
+      case TimeRangeValue.LAST_12_MONTHS:
+        from = startOfMonth(subMonths(now, 12))
+        to = endOfMonth(subMonths(now, 1))
+        break
       case TimeRangeValue.LAST_YEAR:
         from = startOfYear(subYears(now, 1))
         to = endOfYear(subYears(now, 1))

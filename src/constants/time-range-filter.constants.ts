@@ -19,6 +19,15 @@ const timeRangeOptions: TimeRangeOption[] = [
   { label: "Custom", value: TimeRangeValue.CUSTOM }
 ]
 
+const timeRangeExtendedOptions: TimeRangeOption[] = [
+  { label: "This month", value: TimeRangeValue.THIS_MONTH },
+  { label: "Last month", value: TimeRangeValue.LAST_MONTH },
+  { label: "Last 3 months", value: TimeRangeValue.LAST_3_MONTHS },
+  { label: "Last 6 Months", value: TimeRangeValue.LAST_6_MONTHS },
+  { label: "Last 12 Months", value: TimeRangeValue.LAST_12_MONTHS },
+  { label: "Custom", value: TimeRangeValue.CUSTOM }
+]
+
 const TimeRangeFilterSchema = z.object({
   timeRange: z.object({
     selectedTimeRange: z.string().optional(),
@@ -27,4 +36,4 @@ const TimeRangeFilterSchema = z.object({
   })
 })
 
-export { timeRangeOptions, TimeRangeFilterSchema }
+export { timeRangeOptions, timeRangeExtendedOptions, TimeRangeFilterSchema }

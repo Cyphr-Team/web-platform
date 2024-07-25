@@ -43,8 +43,8 @@ export const CashflowGlanceReport = () => {
     resolver: zodResolver(FilterSchema),
     defaultValues: {
       timeRange: {
-        selectedTimeRange: TimeRangeValue.LAST_3_MONTHS,
-        ...getTimeRangeDates(TimeRangeValue.LAST_3_MONTHS)
+        selectedTimeRange: TimeRangeValue.LAST_12_MONTHS,
+        ...getTimeRangeDates(TimeRangeValue.LAST_12_MONTHS)
       }
     }
   })
@@ -102,6 +102,7 @@ export const CashflowGlanceReport = () => {
                 <SelectTimeRange
                   customOnChange={customSelectTimeRangeOnChange}
                   showLabel={false}
+                  showExtendedTimeRange={true}
                 />
 
                 {showDatePicker && (
@@ -138,36 +139,36 @@ export const CashflowGlanceReport = () => {
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
             <CashflowGlanceCard
               title="Revenue / Gross Income"
-              value={newCashFlowGlance?.cashFlowGlance.revenue}
+              value={newCashFlowGlance?.cashFlowGlance?.revenue}
               isCurrency={true}
             />
             <CashflowGlanceCard
               title="Operating Expenses"
-              value={newCashFlowGlance?.cashFlowGlance.operatingExpenses}
+              value={newCashFlowGlance?.cashFlowGlance?.operatingExpenses}
               isCurrency={true}
             />
             <CashflowGlanceCard
               title="Net Operating Income (NOI)"
-              value={newCashFlowGlance?.cashFlowGlance.netOperatingIncome}
+              value={newCashFlowGlance?.cashFlowGlance?.netOperatingIncome}
               isCurrency={true}
             />
             <CashflowGlanceCard
               title="Operating Margin"
-              value={newCashFlowGlance?.cashFlowGlance.operatingMargin}
+              value={newCashFlowGlance?.cashFlowGlance?.operatingMargin}
               isPercent={true}
             />
             <CashflowGlanceCard
               title="Total Debt Service (TDS)"
-              value={newCashFlowGlance?.cashFlowGlance.totalDebtService}
+              value={newCashFlowGlance?.cashFlowGlance?.totalDebtService}
               isCurrency={true}
             />
             <CashflowGlanceCard
               title="Debt Service Coverage (DSCR)"
-              value={newCashFlowGlance?.cashFlowGlance.debtServiceCoverage}
+              value={newCashFlowGlance?.cashFlowGlance?.debtServiceCoverage}
             />
             <CashflowGlanceCard
               title="Debt-to-Income (DTI)"
-              value={newCashFlowGlance?.cashFlowGlance.debtToIncome}
+              value={newCashFlowGlance?.cashFlowGlance?.debtToIncome}
               isPercent={true}
             />
           </div>
