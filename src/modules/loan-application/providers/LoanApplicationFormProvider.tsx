@@ -17,6 +17,7 @@ import {
   ExecutionFormValue,
   FinancialFormValue,
   IBusinessFormValue,
+  ICurrentLoanFormValue,
   IdentityVerificationValue,
   IOwnerFormValue,
   LaunchKCBusinessFormValue,
@@ -46,7 +47,7 @@ type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: FinancialFormValue
   [LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]: FinancialFormValue
   [LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION]: IdentityVerificationValue
-  [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: CurrentLoansFormValue
+  [LOAN_APPLICATION_STEPS.CURRENT_LOANS]: ICurrentLoanFormValue
   [LOAN_APPLICATION_STEPS.OPERATING_EXPENSES]: OperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.CONFIRMATION]: ConfirmationFormValue
   [LOAN_APPLICATION_STEPS.E_SIGN]: ESignFormValue

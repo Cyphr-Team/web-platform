@@ -312,3 +312,31 @@ export const getAbbreviationForName = (name?: string) => {
 
   return initials
 }
+
+export function calculateTotalPayment(
+  annualInterestRate: number,
+  loanTermRemaining: number,
+  outstandingLoanBalance: number
+) {
+  const monthlyInterestRate = Math.pow(1 + annualInterestRate / 100, 1 / 12) - 1
+
+  const monthlyPayment =
+    (outstandingLoanBalance * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -loanTermRemaining))
+
+  if (isNaN(monthlyPayment) || !isFinite(monthlyPayment)) {
+    return 0
+  }
+
+  return Number(monthlyPayment.toFixed(2))
+}
+
+export function parseAndValidateNumber(input: string, limit: number) {
+  const sanitizedValue = parseFloat(input.replace(/[^0-9.]/g, "")) || 0
+
+  if (isNaN(sanitizedValue) || sanitizedValue.toString().length > limit) {
+    return null
+  }
+
+  return sanitizedValue
+}

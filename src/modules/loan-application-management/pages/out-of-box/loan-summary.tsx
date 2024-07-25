@@ -38,6 +38,7 @@ import {
   getBadgeVariantByStatus,
   getDecisionTextByStatus
 } from "../../services"
+import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/SbbCurrentLoanFormDetails.tsx"
 import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
 import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia.tsx"
@@ -122,16 +123,21 @@ export function Component() {
           id="loan-application"
           ref={page_2}
         >
-          <CurrentLoanFormDetails
-            currentLoanFormData={loanSummary?.currentLoanForms}
-          />
+          {isSbb() ? (
+            <SbbCurrentLoanFormDetails
+              currentLoanFormData={loanSummary?.currentLoanForms}
+            />
+          ) : (
+            <CurrentLoanFormDetails
+              currentLoanFormData={loanSummary?.currentLoanForms}
+            />
+          )}
         </div>
         <div className="space-y-3xl flex flex-col" ref={page_3}>
           <OperatingExpensesFormDetails
             operatingExpensesFormData={loanSummary?.operatingExpensesForm}
           />
         </div>
-
         {/* Loan summary */}
         <div className="space-y-3xl flex flex-col" ref={page_4}>
           {formsOrder.map(({ key, Component }) => {

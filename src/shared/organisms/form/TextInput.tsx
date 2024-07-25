@@ -8,7 +8,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import React, { ChangeEventHandler, FocusEventHandler } from "react"
+import React, {
+  ChangeEventHandler,
+  CSSProperties,
+  FocusEventHandler
+} from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 interface ITextInputType<T extends FieldValues> {
@@ -25,8 +29,11 @@ interface ITextInputType<T extends FieldValues> {
   className?: string
   inputClassName?: string
   labelClassName?: string
+  formMessageClassName?: string
   subtitle?: string
   isRowDirection?: boolean
+  wrapperClassName?: string
+  style?: CSSProperties | undefined
 }
 
 export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
@@ -42,6 +49,9 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
     subtitle,
     isRowDirection,
     labelClassName,
+    formMessageClassName,
+    wrapperClassName,
+    style,
     ...inputProps
   } = props
 
@@ -70,6 +80,7 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
 
           <FormControl className={`${isRowDirection && "xl:-mt-4"}`}>
             <Input
+              wrapperClassName={wrapperClassName}
               {...field}
               {...inputProps}
               placeholder={placeholder}
@@ -79,9 +90,12 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
             />
           </FormControl>
           {isRowDirection && subtitle ? (
-            <FormMessage style={{ marginTop: -1 }} />
+            <FormMessage
+              style={{ marginTop: -1 }}
+              className={formMessageClassName}
+            />
           ) : (
-            <FormMessage />
+            <FormMessage style={style} className={formMessageClassName} />
           )}
         </FormItem>
       )}

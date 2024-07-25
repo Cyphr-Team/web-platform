@@ -9,7 +9,7 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { toCurrency } from "@/utils"
+import { parseAndValidateNumber, toCurrency } from "@/utils"
 import { DeleteCurrentLoanButton } from "../atoms/DeleteCurrentLoanButton"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { DELETE_CURRENT_LOAN_PREFIX } from "../../constants"
@@ -94,9 +94,7 @@ export const CurrentLoansFormItem = ({
                 required
                 onChange={(e) => {
                   field.onBlur()
-                  const value =
-                    parseFloat(e.target.value.replace(/[^0-9.]/g, "")) || 0
-                  if (isNaN(value) || value.toString().length > 18) return
+                  const value = parseAndValidateNumber(e.target.value, 18)
                   field.onChange(value)
                 }}
                 onBlur={(e) => {
@@ -138,9 +136,7 @@ export const CurrentLoansFormItem = ({
                 required
                 onChange={(e) => {
                   field.onBlur()
-                  const value =
-                    parseFloat(e.target.value.replace(/[^0-9.]/g, "")) || 0
-                  if (isNaN(value) || value.toString().length > 18) return
+                  const value = parseAndValidateNumber(e.target.value, 18)
                   field.onChange(value)
                 }}
                 onBlur={(e) => {

@@ -8,8 +8,6 @@ type Props = {
 }
 
 export const PreQualificationFormDetails: React.FC<Props> = ({ data }) => {
-  console.log(data)
-
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item">
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>

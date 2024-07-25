@@ -20,9 +20,10 @@ import { DocumentUploadsForm } from "./DocumentUploadForm"
 import { ExecutionForm } from "./execution/ExecutionForm"
 import { LaunchKCFitForm } from "./launchkc-fit/LaunchKcFitForm"
 import { MarketOpportunityForm } from "./market-opportunity/MarketOpportunityForm"
-import { isLaunchKC } from "@/utils/domain.utils.ts"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
+import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/SBBCurrentLoanForm.tsx"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
 import { CertificateGoodStandingForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
 import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
@@ -63,7 +64,7 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
-        return <CurrentLoansForm />
+        return isSbb() ? <SBBCurrentLoanForm /> : <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
         return <ConfirmationForm />
       case LOAN_APPLICATION_STEPS.OPERATING_EXPENSES:

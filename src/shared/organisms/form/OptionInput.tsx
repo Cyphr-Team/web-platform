@@ -126,7 +126,6 @@ export const OptionInput = <T extends FieldValues>(
 
   return (
     <Controller
-      key="scalePlan"
       control={control}
       name={name}
       render={({ field }) => (
@@ -150,15 +149,15 @@ export const OptionInput = <T extends FieldValues>(
               }}
               onChange={field.onBlur}
             >
-              {options.map((option) => (
-                <div className="flex items-center w-full" key={option.value}>
+              {options.map((option, index) => (
+                <div className="flex items-center w-full" key={index}>
                   <RadioGroupItem
-                    id={option.value}
+                    id={`${name}-${option.value}-${index}`}
                     value={option.value}
                     className="w-4 h-4 mr-2 text-rich-black border-rich-black"
                   />
                   <Label
-                    htmlFor={option.value}
+                    htmlFor={`${name}-${option.value}-${index}`}
                     className={cn(
                       "w-full text-sm text-text-secondary font-normal cursor-pointer"
                     )}

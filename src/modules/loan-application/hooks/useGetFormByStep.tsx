@@ -1,6 +1,6 @@
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
-import { isLaunchKC } from "@/utils/domain.utils.ts"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import {
   isEnabledBankAccountConnectionV2,
   isEnablePandaDocESign
@@ -25,6 +25,7 @@ import { ProductServiceForm } from "../components/organisms/loan-application-for
 import { ReviewApplication } from "../components/organisms/loan-application-form/ReviewApplication"
 import { CashFlowVerificationFormV2 } from "../components/organisms/loan-application-form/v2/CashFlowVerificationForm"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/SBBCurrentLoanForm.tsx"
 import { DocumentUploadsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
 import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
@@ -62,7 +63,7 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
-        return <CurrentLoansForm />
+        return isSbb() ? <SBBCurrentLoanForm /> : <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
         if (isEnablePandaDocESign()) {
           return <ESignForm />

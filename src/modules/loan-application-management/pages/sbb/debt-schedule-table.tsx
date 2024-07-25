@@ -127,7 +127,7 @@ const columns: ColumnDef<DebtScheduleType>[] = [
     ),
     cell: ({ row }) => {
       const account = row.original
-      return <p className="truncate">{account.annualInterestRate}</p>
+      return <p className="truncate">{account.annualInterestRate}%</p>
     }
   }
 ]
