@@ -42,6 +42,7 @@ import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components
 import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
 import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia.tsx"
+import { IdentityVerificationDetails } from "@/modules/loan-application/components/molecules/loan-application-details/IdentityVerificationDetails"
 
 export function Component() {
   const {
@@ -61,8 +62,17 @@ export function Component() {
   const page_5 = useRef<HTMLDivElement>(null)
   const page_6 = useRef<HTMLDivElement>(null)
   const page_7 = useRef<HTMLDivElement>(null)
+  const page_8 = useRef<HTMLDivElement>(null)
 
-  const elementToExportRef = [page_1, page_2, page_3, page_5, page_6, page_7]
+  const elementToExportRef = [
+    page_1,
+    page_2,
+    page_3,
+    page_5,
+    page_6,
+    page_7,
+    page_8
+  ]
 
   // we can easily adjust the order of form here
   const formsOrder = [
@@ -113,7 +123,7 @@ export function Component() {
           <ApplicationOverview />
           <Separator />
           <p className="text-4xl font-semibold loan-application-header">
-            Loan Application
+            Application Details
           </p>
           <KybFormDetails kybFormData={loanSummary?.kybForm} />
           <KycFormDetails kycFormData={loanSummary?.kycForm} />
@@ -180,8 +190,18 @@ export function Component() {
 
         <div
           className="flex flex-col space-y-3xl"
-          id="cash-flow-report"
+          id="identity-verification"
           ref={page_7}
+        >
+          <p className="text-4xl font-semibold ">Identity Verification</p>
+          <IdentityVerificationDetails />
+          <Separator />
+        </div>
+
+        <div
+          className="flex flex-col space-y-3xl"
+          id="cash-flow-report"
+          ref={page_8}
         >
           <p className="text-4xl font-semibold ">Cash Flow Report</p>
           <CashflowGlanceReport />

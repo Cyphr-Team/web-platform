@@ -10,7 +10,7 @@ export enum ApplicationMenuName {
   identity = "Identity Verification",
   document = "Documents",
   cashflow = "Cash Flow",
-  loanSummary = "Loan Summary",
+  loanSummary = "Application Summary",
   debtSchedule = "Debt Schedule"
 }
 
