@@ -6,43 +6,11 @@ import {
   IStageInfo,
   IWorkspaceAdminApplicationScore
 } from "@/types/application/application-assign.type"
-import { LoanApplicationStage } from "@/types/application/application-stage.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { roundToOneDecimalPlace, sanitizeNumber } from "@/utils"
 import { LoanStage } from "../constants/types/application"
 
 const NUMBER_OF_LAUNCH_KC_SCORES = 5
-
-/**
- * The function will based on the current application stage
- * To return the correct UI
- * number of assigned judge / number of assigned judge that scored the application
- */
-const getScorecardStatusByApplicationStage = (
-  workspaceAdminApplicationScore: IWorkspaceAdminApplicationScore
-): {
-  numberOfJudge: number
-  numberOfScoredJudge: number
-} => {
-  // If the current application stage is [LoanApplicationStage.ROUND_1]
-  // Get the info from ROUND_1
-  if (
-    workspaceAdminApplicationScore.loanStage?.toUpperCase() ===
-    LoanApplicationStage.ROUND_1
-  )
-    return {
-      numberOfJudge: workspaceAdminApplicationScore.roundOne.judges.length,
-      numberOfScoredJudge:
-        workspaceAdminApplicationScore.roundOne.numberOfScoredJudge
-    }
-
-  // Else get the info from ROUND_2
-  return {
-    numberOfJudge: workspaceAdminApplicationScore.roundTwo.judges.length,
-    numberOfScoredJudge:
-      workspaceAdminApplicationScore.roundTwo.numberOfScoredJudge
-  }
-}
 
 const getTotalScore = (
   score?: ILaunchKCApplicationAssignScore | null
@@ -126,8 +94,4 @@ const getWorkspaceAdminApplicationScores = (
   })
 }
 
-export {
-  getStageScoreInfo,
-  getScorecardStatusByApplicationStage,
-  getWorkspaceAdminApplicationScores
-}
+export { getStageScoreInfo, getWorkspaceAdminApplicationScores }

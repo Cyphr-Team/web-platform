@@ -6,7 +6,8 @@ import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { PaginationState } from "@tanstack/react-table"
 import { useState } from "react"
 import { workspaceAdminApplicationColumns } from "../../components/table/loan-application-columns"
-import { useQueryListPaginatedLoanApplicationScore } from "../../hooks/useQuery/useQueryListPaginatedLoanApplicationScore"
+import { useQueryListPaginateLoanApplication } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateLoanApplication.ts"
+import { LaunchKCStageResponse } from "@/types/application/application-assign.type.ts"
 
 export function WorkspaceAdminApplicationList() {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -14,10 +15,14 @@ export function WorkspaceAdminApplicationList() {
     pageSize: REQUEST_LIMIT_PARAM
   })
 
-  const { data, isFetching } = useQueryListPaginatedLoanApplicationScore({
-    limit: pagination.pageSize,
-    offset: pagination.pageIndex * pagination.pageSize
-  })
+  const { data, isFetching } =
+    useQueryListPaginateLoanApplication<LaunchKCStageResponse>({
+      limit: pagination.pageSize,
+      offset: pagination.pageIndex * pagination.pageSize,
+      status: [],
+      search: "",
+      programNames: []
+    })
 
   const crumbs = useBreadcrumb()
 

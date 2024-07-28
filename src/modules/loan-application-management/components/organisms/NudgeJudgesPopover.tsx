@@ -18,14 +18,14 @@ import { useState } from "react"
 import { ToolTipJudgeAvatar } from "../atoms/JudgeAvatar"
 import { useQueryGetActiveNudges } from "../../hooks/useQuery/useQueryGetActiveNudges"
 import {
-  ILaunchKCApplicationAssignScore,
-  IScoreInfo
+  IScoreInfo,
+  LaunchKCScoreResponse
 } from "@/types/application/application-assign.type"
 import { useSendNudge } from "../../hooks/useMutation/useSendNudge"
 
 interface IScorecardStatusBadgeProps {
-  assignedJudges: IScoreInfo<ILaunchKCApplicationAssignScore>[]
-  completedScorecardJudges: IScoreInfo<ILaunchKCApplicationAssignScore>[]
+  assignedJudges: IScoreInfo<LaunchKCScoreResponse>[]
+  completedScorecardJudges: IScoreInfo<LaunchKCScoreResponse>[]
   applicationId: string
 }
 

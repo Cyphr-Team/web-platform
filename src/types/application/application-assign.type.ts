@@ -1,4 +1,4 @@
-import { LoanApplicationStatus } from "../loan-application.type"
+import { Applicant, LoanApplicationStatus } from "../loan-application.type"
 import { LoanType } from "../loan-program.type"
 import { UserDetailInfo } from "../user.type"
 import { IScore } from "./application-score.type"
@@ -29,8 +29,49 @@ interface IScoreInfo<T = ILaunchKCApplicationAssignScore> {
 }
 
 interface IApplicationScoreByStage<T = ILaunchKCApplicationAssignScore> {
-  stage: LoanApplicationStatus
+  stage: LoanApplicationStage
   scoreInfo: IScoreInfo<T>[]
+}
+
+interface LaunchKCScoreResponse extends IScore {
+  productOrService: number
+  marketOpportunity: number
+  businessModel: number
+  execution: number
+  launchKcfit: number
+}
+
+interface LaunchKCStageResponse {
+  applicationCaptureStage: LoanApplicationStage
+  stages?: IApplicationScoreByStage<LaunchKCScoreResponse>[]
+}
+
+interface Default {}
+
+interface LoanApplicationResponse<T> {
+  id: string
+  applicationIdNumber: number
+  loanProgramId: string
+  applicantId: string
+  programType: LoanType
+  programName: string
+  status: LoanApplicationStatus
+  progress: string
+  decision: string
+  businessName: string
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+  applicant: Applicant
+  requestedLoanAmount: number
+  underwrittenAt: string
+  submittedAt: string
+  loanMeta?: T
+}
+
+interface ApplicationResponse<T> extends LoanApplicationResponse<T> {
+  roundOne: IStageInfo
+  roundTwo: IStageInfo
 }
 
 interface IApplicationWithStageScoresResponse<
@@ -90,5 +131,10 @@ export type {
   IApplicationWithStageScoresResponse,
   IScoreInfo,
   IWorkspaceAdminApplicationScore,
-  JudgeInfo
+  JudgeInfo,
+  LoanApplicationResponse,
+  LaunchKCStageResponse,
+  LaunchKCScoreResponse,
+  ApplicationResponse,
+  Default
 }

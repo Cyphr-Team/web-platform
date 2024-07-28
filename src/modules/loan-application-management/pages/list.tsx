@@ -16,7 +16,7 @@ import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryL
 import { WorkspaceAdminApplicationList } from "./launch-kc/workspace-admin-list"
 import { JudgeApplicationList } from "./launch-kc/judge-list"
 import { isEnableWorkspaceAdminFilterApplicationScores } from "@/utils/feature-flag.utils"
-import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin-list-filter"
+import { Default } from "@/types/application/application-assign.type.ts"
 
 export function BaseApplicationList() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
@@ -28,7 +28,7 @@ export function BaseApplicationList() {
     pageSize: REQUEST_LIMIT_PARAM
   })
 
-  const { data, isFetching } = useQueryListPaginateLoanApplication({
+  const { data, isFetching } = useQueryListPaginateLoanApplication<Default>({
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize,
     ...filterParams
@@ -78,7 +78,7 @@ export function Component() {
     if (checkIsJudge()) return <JudgeApplicationList />
 
     if (isEnableWorkspaceAdminFilterApplicationScores())
-      return <WorkspaceAdminApplicationListFilter />
+      return <WorkspaceAdminApplicationList />
 
     return <WorkspaceAdminApplicationList />
   }
