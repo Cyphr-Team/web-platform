@@ -5,6 +5,7 @@ import { PlaidItemInfo } from "./type"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import jsPDF from "jspdf"
+import { isSbb } from "@/utils/domain.utils"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -94,7 +95,17 @@ export const launchKCOwnerFormSchema = ownerFormSchema.extend({
 export const businessFormSchema = z.object({
   id: z.string(),
   businessLegalName: z.string().min(1, { message: "Name is required" }),
-  businessWebsite: z.string(),
+  businessWebsite: z.string().refine(
+    (value) => {
+      if (isSbb()) {
+        return value.length > 0
+      }
+      return true
+    },
+    {
+      message: "Business Website is required"
+    }
+  ),
   addressLine1: z.string().min(3, { message: "Address line 1 is required" }),
   addressLine2: z.string(),
   city: z.string().min(1, { message: "City is required" }),

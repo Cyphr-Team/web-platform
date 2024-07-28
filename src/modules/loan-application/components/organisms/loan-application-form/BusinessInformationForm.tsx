@@ -30,6 +30,7 @@ import { EIN_PATTERN } from "@/constants"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { isSbb } from "@/utils/domain.utils.ts"
 
 export const BusinessInformationForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -211,6 +212,7 @@ export const BusinessInformationForm = () => {
             inputClassName="pl-16"
             prefix="https://"
             prefixIcon={<p className="text-text-secondary">https://</p>}
+            required={isSbb()}
           />
         </form>
       </Form>
