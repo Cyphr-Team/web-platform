@@ -25,7 +25,8 @@ import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
 import { isLaunchKC, isSbb } from "@/utils/domain.utils"
 import {
   isEnableJudgeSubmitScore,
-  isEnableKYBV2
+  isEnableKYBV2,
+  isEnablePersonaKycV1
 } from "@/utils/feature-flag.utils"
 import { get } from "lodash"
 import { useRef } from "react"
@@ -42,7 +43,8 @@ import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components
 import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
 import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia.tsx"
-import { IdentityVerificationDetails } from "@/modules/loan-application/components/molecules/loan-application-details/IdentityVerificationDetails"
+import { CashFlowTable } from "@/modules/loan-application/components/molecules/loan-application-details/CashFlowTable.tsx"
+import { IdentityVerificationDetails } from "@/modules/loan-application/components/molecules/loan-application-details/IdentityVerificationDetails.tsx"
 
 export function Component() {
   const {
@@ -127,6 +129,7 @@ export function Component() {
           </p>
           <KybFormDetails kybFormData={loanSummary?.kybForm} />
           <KycFormDetails kycFormData={loanSummary?.kycForm} />
+          <CashFlowTable />
         </div>
         <div
           className="space-y-3xl flex flex-col"
@@ -193,9 +196,7 @@ export function Component() {
           id="identity-verification"
           ref={page_7}
         >
-          <p className="text-4xl font-semibold ">Identity Verification</p>
-          <IdentityVerificationDetails />
-          <Separator />
+          {isEnablePersonaKycV1() && <IdentityVerificationDetails />}
         </div>
 
         <div

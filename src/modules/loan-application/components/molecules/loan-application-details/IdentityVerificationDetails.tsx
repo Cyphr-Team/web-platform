@@ -14,11 +14,12 @@ import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { getTimeFromSecs } from "@/utils/get-time-from-secs"
 import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { joinString } from "@/utils"
+import { Separator } from "@/components/ui/separator.tsx"
 
 export const IdentityVerificationDetails: React.FC = () => {
   const { loanSmartKycDetail, isLoadingLoanSmartKycDetail } =
     useLoanApplicationDetailContext()
-  console.log(loanSmartKycDetail?.governmentVerifications)
+
   const getSummaryStatus = (): IdentityVerificationStatus => {
     const passedGovernment = getPassedGovVerification({
       govermentVerifications: loanSmartKycDetail?.governmentVerifications
@@ -171,6 +172,7 @@ export const IdentityVerificationDetails: React.FC = () => {
 
   return (
     <>
+      <p className="text-4xl font-semibold ">Identity Verification</p>
       <IdentityVerificationCard
         id={INSIGHT_IDENTITY_VERIFICATION_TOC.summary}
         headerTitle={headerTitle}
@@ -210,6 +212,7 @@ export const IdentityVerificationDetails: React.FC = () => {
           </p>
         }
       />
+      <Separator />
     </>
   )
 }
