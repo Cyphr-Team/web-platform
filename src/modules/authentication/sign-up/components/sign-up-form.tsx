@@ -17,17 +17,11 @@ import {
   useGetStart
 } from "../../hooks/useGetStart"
 import { useSearchParams } from "react-router-dom"
-import { useState } from "react"
-import { AlertTriangle } from "lucide-react"
-import { Checkbox } from "@/components/ui/checkbox"
-import { CheckedState } from "@radix-ui/react-checkbox"
 import { isEnableTermAgreementsCheckbox } from "@/utils/feature-flag.utils"
 
 export function SignUpForm() {
   const { isPending, mutate } = useGetStart()
   const [searchParams] = useSearchParams()
-  const [agreedToTerms, setAgreedToTerms] = useState(false)
-  const [showError, setShowError] = useState(false)
 
   const form = useForm<GetStartUserFormValue>({
     resolver: zodResolver(getStartFormSchema),
@@ -37,27 +31,8 @@ export function SignUpForm() {
   })
 
   const formSubmit = form.handleSubmit((data) => {
-    if (isEnableTermAgreementsCheckbox()) {
-      if (!agreedToTerms) {
-        setShowError(true)
-      } else {
-        setShowError(false)
-        mutate(data)
-      }
-    } else {
-      mutate(data)
-    }
+    mutate(data)
   })
-
-  const handleCheckboxChange = (checked: CheckedState) => {
-    if (isEnableTermAgreementsCheckbox()) {
-      const value = checked.valueOf() as boolean
-      setAgreedToTerms(value)
-      if (value) {
-        setShowError(false)
-      }
-    }
-  }
 
   return (
     <div className="flex flex-col space-y-6">
@@ -86,49 +61,28 @@ export function SignUpForm() {
           />
 
           {isEnableTermAgreementsCheckbox() && (
-            <FormItem className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="terms"
-                  checked={agreedToTerms}
-                  onCheckedChange={handleCheckboxChange}
-                  className="h-4 w-4"
-                />
-                <FormLabel
-                  htmlFor="terms"
-                  className="text-xs text-muted-foreground"
-                >
-                  I agree to the{" "}
-                  <a
-                    href="https://www.cyphrai.com/terms"
-                    className="underline"
-                    rel="noopener noreferrer"
-                    target="terms"
-                  >
-                    Terms of Service
-                  </a>{" "}
-                  and{" "}
-                  <a
-                    href="https://www.cyphrai.com/privacy"
-                    className="underline"
-                    rel="noopener noreferrer"
-                    target="privacy"
-                  >
-                    Privacy Policy
-                  </a>
-                  .
-                </FormLabel>
-              </div>
-              {showError && (
-                <FormMessage className="flex text-base items-center font-light rounded-md p-2 border-2 border-[#FB9999] bg-[#FEE6E6]">
-                  <AlertTriangle size={32} className="text-[#C40000] mr-2" />
-                  <span className="text-xs text-[#B42318] font-medium">
-                    You must accept the Terms of Service and Privacy Policy to
-                    create an account
-                  </span>
-                </FormMessage>
-              )}
-            </FormItem>
+            <div className="text-xs text-muted-foreground">
+              By clicking "Create account" or "Continue with Google", you
+              acknowledge that you understand and agree to the{" "}
+              <a
+                href="https://www.cyphrai.com/terms"
+                className="underline"
+                rel="noopener noreferrer"
+                target="terms"
+              >
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://www.cyphrai.com/privacy"
+                className="underline"
+                rel="noopener noreferrer"
+                target="privacy"
+              >
+                Privacy Policy
+              </a>
+              .
+            </div>
           )}
 
           <ButtonLoading
