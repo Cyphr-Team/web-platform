@@ -373,12 +373,12 @@ export class LoanApplicationStep {
     return this
   }
 
-  _build_DocumentUploadsStep(): this {
+  _build_BusinessDocumentsStep(): this {
     this.#steps = uniqBy(
       [
         ...this.#steps,
         {
-          step: LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS,
+          step: LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS,
           formType: FORM_TYPE.DOCUMENT_UPLOADS,
           label: "Document Uploads",
           parent: STEP_MENU.APPLICATION,

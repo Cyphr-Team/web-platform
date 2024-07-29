@@ -28,9 +28,8 @@ export class LaunchKCLoanApplicationStep
       ._build_ProductServiceStep()
       ._build_MarketOpportunityStep()
       ._build_BusinessModelStep()
-      // hide because it's not implemented
       ._build_ExecutionStep()
-      // ._build_DocumentUploadsStep()
+      ._build_BusinessDocumentsStep()
       ._build_LaunchKCFitStep()
 
     if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()

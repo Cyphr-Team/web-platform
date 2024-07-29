@@ -198,7 +198,10 @@ export const FinancialInformationForm = () => {
               name="w2sFile"
               render={() => (
                 <FormItem>
-                  <DragDropFileInput onFileSelect={handleSelectFile} />
+                  <DragDropFileInput
+                    id="w2sFile"
+                    onFileSelect={handleSelectFile}
+                  />
                   {form.getValues("w2sFile") &&
                     Array.from(form.getValues("w2sFile")).map(
                       (file: File, index: number) => (

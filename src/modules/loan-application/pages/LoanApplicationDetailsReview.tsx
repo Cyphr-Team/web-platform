@@ -13,6 +13,7 @@ import {
 } from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
 import { useBRLoanApplicationDetailsContext } from "../providers"
+import { LaunchKCBusinessDocumentsDetails } from "../components/organisms/loan-application-form/custom-form/launchkc/BusinessDocumentsDetails"
 
 export const Component = () => {
   const { isFetchingDetails, confirmationFormData } =
@@ -43,6 +44,12 @@ export const Component = () => {
             <>
               <Separator />
               <DocumentationDetails />
+            </>
+          )}
+          {isLaunchKC() && (
+            <>
+              <Separator />
+              <LaunchKCBusinessDocumentsDetails />
             </>
           )}
           <Separator />

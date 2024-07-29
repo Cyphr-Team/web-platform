@@ -15,8 +15,8 @@ export const FileUploadedCard: React.FC<Props> = ({
   return (
     <Card className="p-xl gap-2xl flex" key={file.id}>
       <img src={fileIcon} className="logo w-8 h-8" alt="file" />
-      <div className="flex flex-col">
-        <p className="text-sm">{file.originFileName}</p>
+      <div className="flex flex-col max-w-xs">
+        <p className="text-sm truncate">{file.originFileName}</p>
       </div>
       <Button
         type="button"

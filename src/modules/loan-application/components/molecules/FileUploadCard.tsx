@@ -17,8 +17,8 @@ export const FileUploadCard: React.FC<Props> = ({
   return (
     <Card className="p-xl gap-2xl flex" key={index}>
       <img src={fileIcon} className="logo w-8 h-8" alt="file" />
-      <div className="flex flex-col">
-        <p className="text-sm">{file.name}</p>
+      <div className="flex flex-col max-w-xs">
+        <p className="text-sm truncate">{file.name}</p>
         <p className="text-sm text-text-tertiary">
           {`${convertFileSizeToMB(file.size)} MB`}
         </p>

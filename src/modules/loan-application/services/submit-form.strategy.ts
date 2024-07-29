@@ -18,6 +18,7 @@ import {
   ConfirmationFormValue,
   CurrentLoansFormValue,
   ESignFormValue,
+  DocumentUploadsFormValue,
   ExecutionFormValue,
   FinancialFormValue,
   IBusinessFormValue,
@@ -52,6 +53,7 @@ import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusine
 import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
 import { Action, FORM_ACTION } from "../providers/LoanApplicationFormProvider"
 import { useSubmitESignDocument } from "../hooks/useForm/useSubmitESignDocument"
+import { useUploadBusinessDocuments } from "../hooks/useForm/useUploadBusinessDocuments"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -72,6 +74,7 @@ export const useSubmitLoanForm = (
   businessModelData: BusinessModelFormValue,
   marketOpportunityData: MarketOpportunityFormValue,
   eSignData: ESignFormValue,
+  documentUploadsData: DocumentUploadsFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -151,6 +154,9 @@ export const useSubmitLoanForm = (
     useSubmitLoanConfirmationForm(confirmationData)
 
   const { uploadDocuments, isUploading } = useUploadFormDocuments()
+
+  const { uploadBusinessDocuments, isUploading: isUploadingBusinessDocuments } =
+    useUploadBusinessDocuments()
 
   const handleSubmitFormSuccess = useCallback(
     (isUpdated: boolean, isSubmitted: boolean, applicationId?: string) => {
@@ -364,6 +370,18 @@ export const useSubmitLoanForm = (
           await submitLoanBusinessModelForm()
         }
 
+        if (
+          documentUploadsData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS)
+        ) {
+          await uploadBusinessDocuments(
+            loanRequestId,
+            documentUploadsData.executiveSummary?.[0],
+            documentUploadsData.pitchDeck?.[0],
+            documentUploadsData.id ?? ""
+          )
+        }
+
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -426,6 +444,7 @@ export const useSubmitLoanForm = (
     launchKCFitData,
     executionData,
     businessModelData,
+    documentUploadsData,
     confirmationData,
     submitLoanKYBForm,
     submitLoanKYCForm,
@@ -441,6 +460,7 @@ export const useSubmitLoanForm = (
     submitLoanLaunchKCFitForm,
     submitLoanExecutionForm,
     submitLoanBusinessModelForm,
+    uploadBusinessDocuments,
     submitLoanConfirmationForm,
     handleSubmitFormError
   ])
@@ -464,6 +484,7 @@ export const useSubmitLoanForm = (
       isSubmittingExecution ||
       isSubmittingBusinessModel ||
       isSubmitLoanMarketOpportunity ||
-      isSubmittingESignDocument
+      isSubmittingESignDocument ||
+      isUploadingBusinessDocuments
   }
 }

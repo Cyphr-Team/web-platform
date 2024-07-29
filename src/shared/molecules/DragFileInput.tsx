@@ -3,13 +3,17 @@ import { UploadCloud } from "lucide-react"
 import { Card } from "@/components/ui/card"
 
 interface DragDropFileInputProps {
+  multiple?: boolean
   onFileSelect: (files: FileList, field?: string) => void
   field?: string
+  id: string
 }
 
 export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
   onFileSelect,
-  field
+  field,
+  id,
+  multiple = true
 }) => {
   const [dragActive, setDragActive] = useState(false)
 
@@ -40,7 +44,6 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
 
   return (
     <form
-      id="form-file-upload"
       onDragEnter={handleDrag}
       onDragOver={handleDrag}
       onDragLeave={handleDrag}
@@ -48,13 +51,13 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
     >
       <input
         type="file"
-        id="input-file-upload"
-        multiple={true}
+        id={id}
+        multiple={multiple}
         onChange={handleFileSelect}
         style={{ display: "none" }}
         accept="application/pdf" // Temporarily remove image/png, image/jpeg
       />
-      <label htmlFor="input-file-upload">
+      <label htmlFor={id}>
         <Card
           data-drag={dragActive}
           className="p-xl gap-lg flex flex-col items-center justify-content data-[drag='true']:border-primary cursor-pointer"
@@ -65,7 +68,9 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
           <div className="text-text-tertiary text-sm text-center">
             <span className="text-primary font-semibold">Click to upload</span>
             <span> or drag and drop</span>
-            <p className="text-xs">PDF</p>
+            <p className="text-xs">
+              (only PDF files are supported at this time)
+            </p>
             {/* Temporarily remove image/png, image/jpeg */}
           </div>
         </Card>

@@ -30,7 +30,16 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
           <AnswersTextDisplay
             key="monthlyExpenseRange"
             label="How much cash does your company go through each month?"
-            value={get(data, "monthlyExpenseRange", "")}
+            value={getLabelByValue(
+              get(
+                data,
+                LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE,
+                ""
+              ),
+              getOptionsByField(
+                LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE
+              )
+            )}
           />
           {questions.map((item, ind) => (
             <AnswersTextDisplay

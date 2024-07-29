@@ -1,7 +1,7 @@
 import * as z from "zod"
 import { REGEX_PATTERN } from "."
 import { isPossiblePhoneNumber } from "react-phone-number-input"
-import { PlaidItemInfo } from "./type"
+import { DocumentUploadedResponse, PlaidItemInfo } from "./type"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import jsPDF from "jspdf"
@@ -365,6 +365,7 @@ export const executionFormSchema = z.object({
 })
 
 export const documentUploadsFormSchema = z.object({
+  id: z.string().nullable(),
   executiveSummary: z.custom<File[]>().refine(
     (file) => {
       if (file?.length) {
@@ -386,7 +387,9 @@ export const documentUploadsFormSchema = z.object({
     {
       message: "Please choose PNG, JPG, PDF format files only"
     }
-  )
+  ),
+  uploadedExecutiveSummary: z.custom<DocumentUploadedResponse[]>().nullable(),
+  uploadedPitchDesk: z.custom<DocumentUploadedResponse[]>().nullable()
 })
 
 export const launchKcFitFormSchema = z.object({

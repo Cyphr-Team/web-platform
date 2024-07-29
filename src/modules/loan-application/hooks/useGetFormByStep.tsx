@@ -26,7 +26,7 @@ import { ReviewApplication } from "../components/organisms/loan-application-form
 import { CashFlowVerificationFormV2 } from "../components/organisms/loan-application-form/v2/CashFlowVerificationForm"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/SBBCurrentLoanForm.tsx"
-import { DocumentUploadsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
+import { LaunchKCBusinessDocumentsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
 import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
 import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
@@ -84,8 +84,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <BusinessModelForm />
       case LOAN_APPLICATION_STEPS.EXECUTION:
         return <ExecutionForm />
-      case LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS:
-        return <DocumentUploadsForm />
+      case LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS:
+        return <LaunchKCBusinessDocumentsForm />
       case LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT:
         return <LaunchKCFitForm />
       case LOAN_APPLICATION_STEPS.PRE_QUALIFICATION:

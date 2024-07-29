@@ -37,7 +37,7 @@ enum LOAN_APPLICATION_STEPS {
   MARKET_OPPORTUNITY = "marketOpportunityForm",
   BUSINESS_MODEL = "businessModelForm",
   EXECUTION = "executionForm",
-  DOCUMENT_UPLOADS = "documentUploadForm",
+  LAUNCH_KC_BUSINESS_DOCUMENTS = "documentUploadForm",
   LAUNCH_KC_FIT = "launchKcFitForm",
   PRE_QUALIFICATION = "preQualification",
   BUSINESS_EIN_LETTER = "businessEINLetter",

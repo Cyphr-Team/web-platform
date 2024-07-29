@@ -261,6 +261,13 @@ export interface DocumentUploadedResponse {
   updatedAt: string
 }
 
+export interface BusinessDocumentsResponse {
+  id: string
+  loanApplicationId?: string
+  executiveSummary: DocumentUploadedResponse
+  pitchDeck: DocumentUploadedResponse
+}
+
 export interface LoanApplicationBankAccount {
   institutionName?: string
   bankAccountPk?: string

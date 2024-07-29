@@ -235,6 +235,10 @@ export const API_PATH = {
     marketOpportunity: {
       index: "api/form/market-opportunity",
       detail: "api/form/market-opportunity/by-application-id"
+    },
+    businessDocuments: {
+      index: "api/form/document-upload",
+      detail: "api/form/document-upload/by-application-id"
     }
   },
   // For workspace admin

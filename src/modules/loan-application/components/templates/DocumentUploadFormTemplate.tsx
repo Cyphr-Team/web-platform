@@ -209,6 +209,7 @@ export const DocumentUploadFormTemplate = ({
               render={() => (
                 <FormItem>
                   <DragDropFileInput
+                    id={fileField}
                     onFileSelect={handleSelectFile(fileField)}
                   />
                   {Array.from((form.watch(fileField) as File[]) ?? []).map(

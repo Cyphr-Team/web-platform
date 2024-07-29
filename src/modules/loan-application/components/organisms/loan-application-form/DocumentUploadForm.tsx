@@ -5,16 +5,14 @@ import {
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { ArrowRight } from "lucide-react"
 import {
+  useBRLoanApplicationDetailsContext,
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  DOCUMENT_ACTION,
-  FORM_ACTION
-} from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
-import { useEffect } from "react"
+import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
+import { useEffect, useMemo } from "react"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
 import { cn } from "@/lib/utils.ts"
 import { Card } from "@/components/ui/card.tsx"
@@ -27,43 +25,78 @@ import {
 } from "@/components/ui/form.tsx"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput.tsx"
 import { FileUploadCard } from "@/modules/loan-application/components/molecules/FileUploadCard.tsx"
-import { FileUploadedCard } from "@/modules/loan-application/components/molecules/FileUploadedCard.tsx"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { Button } from "@/components/ui/button.tsx"
+import { FileUploadedCard } from "../../molecules/FileUploadedCard"
 
-export const DocumentUploadsForm = () => {
+export const LaunchKCBusinessDocumentsForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-  const { documents, dispatchFormAction, dispatchDocumentAction } =
+  const { dispatchFormAction, documentUploadForm } =
     useLoanApplicationFormContext()
+  const { businessDocumentsFormData } = useBRLoanApplicationDetailsContext()
+
+  const defaultValues = useMemo(() => {
+    return {
+      id: documentUploadForm?.id ?? "",
+      executiveSummary: documentUploadForm?.executiveSummary ?? [],
+      pitchDeck: documentUploadForm?.pitchDeck ?? [],
+      uploadedExecutiveSummary: businessDocumentsFormData?.executiveSummary
+        ? [businessDocumentsFormData?.executiveSummary]
+        : [],
+      uploadedPitchDesk: businessDocumentsFormData?.pitchDeck
+        ? [businessDocumentsFormData?.pitchDeck]
+        : []
+    }
+  }, [documentUploadForm, businessDocumentsFormData])
+
   const form = useForm<DocumentUploadsFormValue>({
     resolver: zodResolver(documentUploadsFormSchema),
-    mode: "onChange"
+    mode: "onChange",
+    defaultValues
   })
+
+  const isFormValid =
+    (form.getValues("executiveSummary").length > 0 ||
+      !!form.getValues("uploadedExecutiveSummary")?.length) &&
+    (form.getValues("pitchDeck").length > 0 ||
+      !!form.getValues("uploadedPitchDesk")?.length)
 
   const handleSelectFile = (
     files: FileList,
-    field: keyof DocumentUploadsFormValue
+    field: "executiveSummary" | "pitchDeck"
   ) => {
-    const currentFiles = form.getValues(field)
-
-    const mergedFiles =
-      files && currentFiles
-        ? [...currentFiles, ...Array.from(files)]
-        : Array.from(files)
-
-    form.setValue(field, mergedFiles, {
+    // Replace the current file with the new file because we only allow one file
+    form.setValue(field, Array.from(files), {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true
     })
+
+    // Remove the uploaded file if there is any
+    if (field === "executiveSummary") {
+      form.setValue("uploadedExecutiveSummary", null, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    }
+    if (field === "pitchDeck") {
+      form.setValue("uploadedPitchDesk", null, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    }
   }
 
   const handleRemoveFile = (
     index: number,
-    field: keyof DocumentUploadsFormValue
+    field: "executiveSummary" | "pitchDeck"
   ) => {
     const currentFiles = form.getValues(field)
-    const newFiles = currentFiles.filter((_, i) => i !== index)
+
+    const newFiles = currentFiles?.filter((_, i) => i !== index) ?? []
+
     form.setValue(field, newFiles, {
       shouldValidate: true,
       shouldDirty: true,
@@ -71,18 +104,18 @@ export const DocumentUploadsForm = () => {
     })
   }
 
-  const removeDocument = (id: string) => {
-    dispatchDocumentAction({
-      action: DOCUMENT_ACTION.REMOVE_DATA,
-      key: LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS,
-      state: { id }
+  const removeDocument = (key: keyof DocumentUploadsFormValue) => () => {
+    form.setValue(key, null, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
     })
   }
 
   const onSubmit = (data: DocumentUploadsFormValue) => {
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS,
+      key: LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS,
       state: data
     })
 
@@ -94,13 +127,22 @@ export const DocumentUploadsForm = () => {
       const data = form.getValues()
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS,
+        key: LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS,
         state: data
       })
     }
   }, [form.formState.isValidating, form, dispatchFormAction])
 
-  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.DOCUMENT_UPLOADS)
+  useAutoCompleteStepEffect(
+    form,
+    LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS,
+    isFormValid
+  )
+
+  const uploadedExecutiveSummary = form.getValues(
+    "uploadedExecutiveSummary"
+  )?.[0]
+  const uploadedPitchDesk = form.getValues("uploadedPitchDesk")?.[0]
 
   return (
     <div
@@ -125,11 +167,12 @@ export const DocumentUploadsForm = () => {
                 render={() => (
                   <FormItem>
                     <DragDropFileInput
+                      id="executiveSummary"
                       onFileSelect={(files) =>
                         handleSelectFile(files, "executiveSummary")
                       }
                     />
-                    {form.getValues("executiveSummary") &&
+                    {!!form.getValues("executiveSummary").length &&
                       Array.from(form.getValues("executiveSummary")).map(
                         (file: File, index: number) => (
                           <FileUploadCard
@@ -142,14 +185,16 @@ export const DocumentUploadsForm = () => {
                           />
                         )
                       )}
-                    {!!documents.financialInformationForm?.length &&
-                      documents.financialInformationForm.map((val) => (
+                    {!form.getValues("executiveSummary").length &&
+                      !!uploadedExecutiveSummary && (
                         <FileUploadedCard
-                          key={val.id}
-                          file={val}
-                          handleRemoveFile={removeDocument}
+                          key={uploadedExecutiveSummary.id}
+                          file={uploadedExecutiveSummary}
+                          handleRemoveFile={removeDocument(
+                            "uploadedExecutiveSummary"
+                          )}
                         />
-                      ))}
+                      )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -166,11 +211,13 @@ export const DocumentUploadsForm = () => {
                 render={() => (
                   <FormItem>
                     <DragDropFileInput
+                      id="pitchDeck"
                       onFileSelect={(files) =>
                         handleSelectFile(files, "pitchDeck")
                       }
+                      multiple={false}
                     />
-                    {form.getValues("pitchDeck") &&
+                    {!!form.getValues("pitchDeck").length &&
                       Array.from(form.getValues("pitchDeck")).map(
                         (file: File, index: number) => (
                           <FileUploadCard
@@ -183,14 +230,14 @@ export const DocumentUploadsForm = () => {
                           />
                         )
                       )}
-                    {!!documents.financialInformationForm?.length &&
-                      documents.financialInformationForm.map((val) => (
+                    {!form.getValues("pitchDeck").length &&
+                      !!uploadedPitchDesk && (
                         <FileUploadedCard
-                          key={val.id}
-                          file={val}
-                          handleRemoveFile={removeDocument}
+                          key={uploadedPitchDesk.id}
+                          file={uploadedPitchDesk}
+                          handleRemoveFile={removeDocument("uploadedPitchDesk")}
                         />
-                      ))}
+                      )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -199,7 +246,7 @@ export const DocumentUploadsForm = () => {
 
             {!isReviewApplicationStep(step) && (
               <Button
-                disabled={!form.formState.isValid}
+                disabled={!isFormValid}
                 onClick={form.handleSubmit(onSubmit)}
               >
                 Next <ArrowRight className="ml-1 w-4" />

@@ -25,6 +25,7 @@ import { ExecutionFormResponse } from "../components/organisms/loan-application-
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
 import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import {
+  BusinessDocumentsResponse,
   ConfirmationFormResponse,
   CurrentLoansInformationResponse,
   DocumentUploadedResponse,
@@ -66,6 +67,8 @@ import {
 } from "../services/form.services"
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
+import { useQueryBusinessDocuments } from "../hooks/useQuery/useQueryBusinessDocuments"
+import { DocumentUploadsFormValue } from "../constants/form"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -83,6 +86,7 @@ type BRLoanApplicationDetailsContext<T> = {
   businessModelFormData?: BusinessModelFormResponse
   loanApplicationDetails?: UserMicroLoanApplication
   preQualificationFormData?: PreQualificationResponse
+  businessDocumentsFormData?: BusinessDocumentsResponse
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
   plaidConnectedBankAccountsByApplicationId?: IPlaidConnectedBankAccountsByApplicationIdGetResponse
@@ -183,6 +187,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const launchKCFitFormQuery = useQueryLaunchKCFitForm(loanApplicationId!)
   const executionFormQuery = useQueryExecutionForm(loanApplicationId!)
   const businessModelFormQuery = useQueryBusinessModelForm(loanApplicationId!)
+  const businessDocumentsUploadedFormQuery = useQueryBusinessDocuments(
+    loanApplicationId!
+  )
 
   const changeDataAndProgress = useCallback(
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {
@@ -457,6 +464,31 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     executionFormQuery.data
   ])
 
+  // Document Upload Form
+  useEffect(() => {
+    if (
+      businessDocumentsUploadedFormQuery.data &&
+      isInitialized &&
+      isQualified
+    ) {
+      changeDataAndProgress(
+        {
+          id: businessDocumentsUploadedFormQuery.data.id,
+          uploadedExecutiveSummary: [
+            businessDocumentsUploadedFormQuery.data.executiveSummary
+          ],
+          uploadedPitchDesk: [businessDocumentsUploadedFormQuery.data.pitchDeck]
+        } as DocumentUploadsFormValue,
+        LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS
+      )
+    }
+  }, [
+    businessDocumentsUploadedFormQuery.data,
+    changeDataAndProgress,
+    isInitialized,
+    isQualified
+  ])
+
   /**
    * Handle update identity verification data when edit draft application
    */
@@ -606,6 +638,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
+      businessDocumentsFormData: businessDocumentsUploadedFormQuery.data,
       plaidConnectedBankAccountsByApplicationId:
         plaidConnectedAccountsQuery.data?.data,
       isFetchingDetails:
@@ -660,6 +693,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       kycDocuments.isLoading,
       financialDocuments.data,
       financialDocuments.isLoading,
+      businessDocumentsUploadedFormQuery.data,
       plaidConnectedAccountsQuery.data?.data,
       plaidConnectedAccountsQuery.isLoading,
       plaidItemIdsQuery.isLoading
