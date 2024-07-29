@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator"
 import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 
-import { Value, formatPhoneNumberIntl } from "react-phone-number-input"
+import { formatPhoneNumberIntl, Value } from "react-phone-number-input"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 import { InformationRow } from "../../molecules/InformationRow"
 
@@ -39,7 +39,7 @@ export const BusinessInfoSummary = () => {
       />
       <Separator />
       <InformationRow
-        label="Phone Number"
+        label="Phone number"
         value={formatPhoneNumberIntl(
           (personalInfo?.phoneNumber ?? "") as Value
         )}

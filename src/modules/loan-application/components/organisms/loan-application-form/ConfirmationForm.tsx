@@ -20,12 +20,12 @@ import {
   launchKcConfirmationTexts
 } from "../../../constants"
 import {
-  ConfirmationFormValue,
-  confirmationFormSchema
+  confirmationFormSchema,
+  ConfirmationFormValue
 } from "../../../constants/form"
 import {
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS
 } from "../../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
@@ -113,7 +113,7 @@ export const ConfirmationForm = () => {
             )}
           />{" "}
           <TextInput
-            label="Print Name"
+            label="Print name"
             control={form.control}
             name="printName"
             required

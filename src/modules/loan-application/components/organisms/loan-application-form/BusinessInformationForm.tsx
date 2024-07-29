@@ -15,7 +15,7 @@ import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../../../providers"
-import { BusinessFormValue, businessFormSchema } from "../../../constants/form"
+import { businessFormSchema, BusinessFormValue } from "../../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../../hooks/useSelectCities"
 import { useEffect } from "react"
@@ -126,7 +126,7 @@ export const BusinessInformationForm = () => {
         <form className="grid grid-cols-3 gap-y-2xl gap-x-4xl">
           <TextInput
             placeholder="i.e: Larry's Latte"
-            label="Business Legal Name"
+            label="Business legal name"
             control={form.control}
             name="businessLegalName"
             className="col-span-3"
@@ -134,7 +134,7 @@ export const BusinessInformationForm = () => {
           />
           <TextInput
             placeholder="i.e: 123 Coffee Lane"
-            label="Business Street Address Line #1"
+            label="Business street address line #1"
             name="addressLine1"
             control={form.control}
             className="col-span-3"
@@ -149,7 +149,7 @@ export const BusinessInformationForm = () => {
           />
           <AutoCompleteStates
             options={STATE_DATA}
-            label="Business State"
+            label="Business state"
             emptyText="No results found"
             name="state"
             control={form.control}
@@ -163,7 +163,7 @@ export const BusinessInformationForm = () => {
               STATE_DATA.find((s) => s.name === form.getValues("state"))
                 ?.cities ?? []
             }
-            label="Business City"
+            label="Business city"
             emptyText="No results found"
             name="city"
             control={form.control}
@@ -174,7 +174,7 @@ export const BusinessInformationForm = () => {
           />
           <TextInput
             placeholder="i.e: 97531"
-            label="Business Zip Code"
+            label="Business zip code"
             name="postalCode"
             control={form.control}
             className="col-span-3 lg:col-span-1"
@@ -186,7 +186,7 @@ export const BusinessInformationForm = () => {
             render={({ field }) => (
               <FormItem className="col-span-3">
                 <FormLabel className="text-text-secondary">
-                  Employer Identification Number (EIN)
+                  EIN
                   <RequiredSymbol />
                 </FormLabel>
                 <FormControl>
@@ -204,7 +204,7 @@ export const BusinessInformationForm = () => {
           />
           <TextInput
             placeholder="www.larryslatte.com"
-            label="Business Website"
+            label="Business website"
             name="businessWebsite"
             control={form.control}
             className="col-span-3"

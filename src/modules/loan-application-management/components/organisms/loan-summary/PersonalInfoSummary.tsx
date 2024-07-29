@@ -21,12 +21,12 @@ export const PersonalInfoSummary = () => {
       />
       <Separator />
       <InformationRow
-        label="Residential Address"
+        label="Residential address"
         value={personalInfo?.residentialAddress ?? UNKNOWN_VALUE}
       />
       <Separator />
       <InformationRow
-        label="Email Address"
+        label="Email address"
         value={personalInfo?.email ?? UNKNOWN_VALUE}
       />
     </>

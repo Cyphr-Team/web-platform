@@ -41,8 +41,8 @@ import { AutoCompleteCities } from "@/modules/loan-application/components/molecu
 import { SelectInput } from "@/shared/organisms/form/SelectInput.tsx"
 import { OptionInput } from "@/shared/organisms/form/OptionInput.tsx"
 import {
-  LAUNCH_KC_KYC_FIELD_NAMES,
   getOptionsByField,
+  LAUNCH_KC_KYC_FIELD_NAMES,
   TITLE_OPTIONS,
   YES_NO_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/const.ts"
@@ -165,7 +165,7 @@ export function LaunchKCOwnerInformationForm() {
               <TextInput
                 control={form.control}
                 name={LAUNCH_KC_KYC_FIELD_NAMES.FIRST_NAME}
-                label="First Name"
+                label="First name"
                 placeholder="i.e: Larry"
                 className="col-span-4"
                 required
@@ -173,7 +173,7 @@ export function LaunchKCOwnerInformationForm() {
               <TextInput
                 control={form.control}
                 name={LAUNCH_KC_KYC_FIELD_NAMES.LAST_NAME}
-                label="Last Name"
+                label="Last name"
                 placeholder="i.e: Latte"
                 className="col-span-4"
                 required
@@ -237,7 +237,7 @@ export function LaunchKCOwnerInformationForm() {
               />
               <TextInput
                 placeholder="i.e: 456 Bean Ave."
-                label="Resident Address Line #1"
+                label="Resident address line #1"
                 name={LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE1}
                 control={form.control}
                 className="col-span-12"
@@ -245,7 +245,7 @@ export function LaunchKCOwnerInformationForm() {
               />
               <TextInput
                 placeholder="i.e: Suite 789"
-                label="Resident Address Line #2 (Optional)"
+                label="Resident address line #2 (optional)"
                 name={LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE2}
                 control={form.control}
                 className="col-span-12"
@@ -278,7 +278,7 @@ export function LaunchKCOwnerInformationForm() {
               />
               <TextInput
                 placeholder="i.e: 98765"
-                label="Zip Code"
+                label="Zip code"
                 name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE}
                 control={form.control}
                 className="col-span-12 lg:col-span-4"
@@ -287,7 +287,7 @@ export function LaunchKCOwnerInformationForm() {
               <TextInput
                 control={form.control}
                 name={LAUNCH_KC_KYC_FIELD_NAMES.EMAIL}
-                label="Email Address"
+                label="Email address"
                 placeholder="i.e: larry@latte.com"
                 prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
                 className="col-span-12 lg:col-span-6"

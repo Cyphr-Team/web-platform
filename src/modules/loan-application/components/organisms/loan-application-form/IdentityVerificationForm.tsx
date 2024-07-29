@@ -17,8 +17,8 @@ import {
 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
-  IdentityVerificationValue,
-  createIdentityVerificationSchema
+  createIdentityVerificationSchema,
+  IdentityVerificationValue
 } from "../../../constants/form"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 import {
@@ -26,12 +26,12 @@ import {
   useLoanApplicationProgressContext
 } from "../../../providers"
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
-import { PersonaStatus } from "../../../../../lib/persona/persona.types"
+import { PersonaStatus } from "@/lib/persona/persona.types.ts"
 import { useParams } from "react-router-dom"
 import {
   isEnableKycReOrder,
   isEnableNewInquiryPersonaKycCreatingLogic
-} from "../../../../../utils/feature-flag.utils"
+} from "@/utils/feature-flag.utils.ts"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 const VerifyInfoItem = ({

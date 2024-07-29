@@ -124,10 +124,10 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
       },
       { message: "Invalid year" }
     ),
-  legalStructure: z.string().min(1, { message: "Legal Structure is required" }),
+  legalStructure: z.string().min(1, { message: "Legal structure is required" }),
   primaryIndustry: z
     .string()
-    .min(1, { message: "Primary Industry is required" }),
+    .min(1, { message: "Primary industry is required" }),
   primaryIndustryOther: z.string(),
   companyDescription: z
     .string()

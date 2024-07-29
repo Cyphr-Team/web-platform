@@ -7,11 +7,12 @@ import { FC } from "react"
 import { TextInputDisplay } from "@/modules/loan-application/components/atoms/TextInputDisplay.tsx"
 import { isLaunchKC } from "@/utils/domain.utils.ts"
 import {
-  LAUNCH_KC_KYC_FIELD_NAMES,
   getLabelFromValue,
-  getOptionsByField
+  getOptionsByField,
+  LAUNCH_KC_KYC_FIELD_NAMES
 } from "../../organisms/loan-application-form/custom-form/launchkc/const"
 import { get } from "lodash"
+
 interface KycFormDetailsProps {
   kycFormData?: KYCInformationResponse
 }

@@ -24,10 +24,10 @@ import { OptionInput } from "@/shared/organisms/form/OptionInput"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import {
-  questions,
   getOptionsByField,
+  jobTypes,
   LAUNCH_KC_EXECUTION_FIELD_NAMES,
-  jobTypes
+  questions
 } from "./constants"
 import { MultiCheckboxesInput } from "@/shared/organisms/form/MultiCheckboxesInput"
 
@@ -116,7 +116,7 @@ const FundingSources: React.FC<FundingSourcesProps> = ({ control }) => {
         onClick={handleAddFundingSource}
       >
         <Plus className="w-4" />
-        Funding source
+        Add funding source
       </Button>
     </Card>
   )
@@ -205,7 +205,7 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
         onClick={handleAddFounder}
       >
         <Plus className="w-4" />
-        Founder
+        Add founder
       </Button>
     </Card>
   )

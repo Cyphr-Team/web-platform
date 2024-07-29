@@ -83,11 +83,11 @@ export const businessModel: Option[] = [
     value: "strategy"
   },
   {
-    label: "Human Resources",
+    label: "Human resources",
     value: "human_resource"
   },
   {
-    label: "Financial Modeling",
+    label: "Financial modeling",
     value: "financial"
   },
   {
@@ -160,7 +160,7 @@ export const monthlyExpenseRangeOptions: Option[] = [
 
 export const fundingSourcesOptions: Option[] = [
   {
-    label: "Bank Loans",
+    label: "Bank loans",
     value: "bank_loan"
   },
   {
@@ -189,7 +189,7 @@ export const fundingSourcesOptions: Option[] = [
   },
 
   {
-    label: "Startup/Pitch Competitions",
+    label: "Startup/Pitch competitions",
     value: "startup_competitions"
   }
 ]

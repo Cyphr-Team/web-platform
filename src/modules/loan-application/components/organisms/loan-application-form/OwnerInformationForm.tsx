@@ -165,7 +165,7 @@ export function OwnerInformationForm() {
               />
               <TextInput
                 placeholder="i.e: 456 Bean Ave."
-                label="Resident Address Line #1"
+                label="Resident address line #1"
                 name="addressLine1"
                 control={form.control}
                 className="col-span-6"
@@ -173,14 +173,14 @@ export function OwnerInformationForm() {
               />{" "}
               <TextInput
                 placeholder="i.e: Suite 789"
-                label="Resident Address Line #2 (Optional)"
+                label="Resident address line #2 (optional)"
                 name="addressLine2"
                 control={form.control}
                 className="col-span-6"
               />
               <AutoCompleteStates
                 options={STATE_DATA}
-                label="Business State"
+                label="Business state"
                 emptyText="No results found"
                 name="businessState"
                 control={form.control}
@@ -195,7 +195,7 @@ export function OwnerInformationForm() {
                     (s) => s.name === form.getValues("businessState")
                   )?.cities ?? []
                 }
-                label="Business City"
+                label="Business city"
                 emptyText="No results found"
                 name="businessCity"
                 control={form.control}
@@ -206,7 +206,7 @@ export function OwnerInformationForm() {
               />
               <TextInput
                 placeholder="i.e: 98765"
-                label="Zip Code"
+                label="Zip code"
                 name="businessZipCode"
                 control={form.control}
                 className="col-span-6 lg:col-span-2"
@@ -215,7 +215,7 @@ export function OwnerInformationForm() {
               <TextInput
                 control={form.control}
                 name="email"
-                label="Email Address"
+                label="Email address"
                 placeholder="i.e: larry@latte.com"
                 prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
                 className="col-span-6 lg:col-span-3"

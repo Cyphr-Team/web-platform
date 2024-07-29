@@ -15,7 +15,7 @@ import { MiddeskTableHeader } from "@/modules/loan-application-management/compon
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { MiddeskBadge } from "@/modules/loan-application/components/molecules/MiddeskBadge"
-import { formatDate, convertDateTimeToLocal } from "@/utils"
+import { convertDateTimeToLocal, formatDate } from "@/utils"
 
 const getLabelByDataKey = (key: keyof BusinessWebsiteDetail) => {
   switch (key) {
@@ -60,7 +60,7 @@ const columns: ColumnDef<BusinessWebsiteDetail>[] = [
   },
   {
     accessorKey: "phoneNumber",
-    header: () => <MiddeskTableHeader title="Phone Number" />,
+    header: () => <MiddeskTableHeader title="Phone number" />,
     cell: ({ row }) => {
       const data = row.original
       const phoneNumbers = data.phoneNumber

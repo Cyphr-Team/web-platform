@@ -140,7 +140,7 @@ export const LaunchKCBusinessInformationForm = () => {
         <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
           <TextInput
             placeholder="i.e: Larry's Latte"
-            label="Business Legal Name"
+            label="Business legal name"
             control={form.control}
             name={FIELD_NAMES.BUSINESS_LEGAL_NAME}
             className="col-span-12"
@@ -148,7 +148,7 @@ export const LaunchKCBusinessInformationForm = () => {
           />
           <TextInput
             placeholder="i.e: 123 Coffee Lane"
-            label="Business Street Address Line #1"
+            label="Business street address line #1"
             name={FIELD_NAMES.ADDRESS_LINE1}
             control={form.control}
             className="col-span-12"
@@ -156,14 +156,14 @@ export const LaunchKCBusinessInformationForm = () => {
           />
           <TextInput
             placeholder="i.e: Suite 321"
-            label="Business Street Address Line #2 (Optional)"
+            label="Business street address line #2 (optional)"
             name={FIELD_NAMES.ADDRESS_LINE2}
             control={form.control}
             className="col-span-12"
           />
           <AutoCompleteStates
             options={STATE_DATA}
-            label="Business State"
+            label="Business state"
             emptyText="No results found"
             name={FIELD_NAMES.STATE}
             control={form.control}
@@ -178,7 +178,7 @@ export const LaunchKCBusinessInformationForm = () => {
                 (s) => s.name === form.getValues(FIELD_NAMES.STATE)
               )?.cities ?? []
             }
-            label="Business City"
+            label="Business city"
             emptyText="No results found"
             name={FIELD_NAMES.CITY}
             control={form.control}
@@ -189,14 +189,14 @@ export const LaunchKCBusinessInformationForm = () => {
           />
           <TextInput
             placeholder="i.e: 97531"
-            label="Business Zip Code"
+            label="Business zip code"
             name={FIELD_NAMES.POSTAL_CODE}
             control={form.control}
             className="col-span-12 lg:col-span-4"
             required
           />
           <RHFMaskInput
-            label="Employer Identification Number (EIN)"
+            label="EIN"
             name={FIELD_NAMES.BUSINESS_TIN}
             pattern={EIN_PATTERN}
             placeholder="i.e: 12-3456789"
@@ -216,7 +216,7 @@ export const LaunchKCBusinessInformationForm = () => {
             required
           />
           <SelectInput
-            label="Legal Structure"
+            label="Legal structure"
             placeholder="Please Select"
             control={form.control}
             name={FIELD_NAMES.LEGAL_STRUCTURE}
@@ -227,7 +227,7 @@ export const LaunchKCBusinessInformationForm = () => {
           />
           <TextInput
             placeholder="www.larryslatte.com"
-            label="Business Website"
+            label="Business website"
             name={FIELD_NAMES.BUSINESS_WEBSITE}
             control={form.control}
             className="col-span-12"
@@ -236,7 +236,7 @@ export const LaunchKCBusinessInformationForm = () => {
             prefixIcon={<p className="text-text-secondary">https://</p>}
           />
           <SelectInput
-            label="Primary Industry"
+            label="Primary industry"
             placeholder="Please Select"
             control={form.control}
             name={FIELD_NAMES.PRIMARY_INDUSTRY}
@@ -246,7 +246,7 @@ export const LaunchKCBusinessInformationForm = () => {
             required
           />
           <TextInput
-            label="Primary Industry (Other): Please describe"
+            label="Primary industry (other): Please describe"
             control={form.control}
             name={FIELD_NAMES.PRIMARY_INDUSTRY_OTHER}
             className="col-span-8"
