@@ -22,21 +22,21 @@ export function TopNav({ className, ...props }: Props) {
     menuItems = [
       ApplicationMenuName.business as string,
       ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.loanSummary as string
+      ApplicationMenuName.applicationSummary as string
     ]
   } else if (isKccBank()) {
     menuItems = [
       ApplicationMenuName.business as string,
       ApplicationMenuName.identity as string,
       ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.loanSummary as string
+      ApplicationMenuName.applicationSummary as string
     ]
   } else if (isLaunchKC()) {
     menuItems = [
       ApplicationMenuName.business as string,
       ApplicationMenuName.identity as string,
       ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.loanSummary as string
+      ApplicationMenuName.applicationSummary as string
     ]
   } else if (isSbb()) {
     menuItems = [
@@ -45,7 +45,7 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.document as string,
       ApplicationMenuName.cashflow as string,
       ApplicationMenuName.debtSchedule as string,
-      ApplicationMenuName.loanSummary as string
+      ApplicationMenuName.applicationSummary as string
     ]
   }
   // Hide Identity Verication tab when FF off

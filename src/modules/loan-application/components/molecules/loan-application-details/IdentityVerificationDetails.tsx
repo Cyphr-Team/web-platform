@@ -13,7 +13,7 @@ import { SummaryItem } from "../../organisms/identity-verification/IdentityVerif
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { getTimeFromSecs } from "@/utils/get-time-from-secs"
 import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
-import { joinString } from "@/utils"
+import { calculateAge, joinString } from "@/utils"
 import { Separator } from "@/components/ui/separator.tsx"
 
 export const IdentityVerificationDetails: React.FC = () => {
@@ -44,7 +44,7 @@ export const IdentityVerificationDetails: React.FC = () => {
   }
 
   const content = (
-    <div className="py-4 ">
+    <div className="py-4">
       <LoadingWrapper
         className={isLoadingLoanSmartKycDetail ? "p-12" : "p-0"}
         isLoading={isLoadingLoanSmartKycDetail}
@@ -76,32 +76,6 @@ export const IdentityVerificationDetails: React.FC = () => {
   const passedGovVerification = getPassedGovVerification({
     govermentVerifications: loanSmartKycDetail?.governmentVerifications
   })
-  function calculateAge(birthdateString?: string): string {
-    if (birthdateString == null) {
-      return "N/A"
-    }
-    const birthdate: Date = new Date(birthdateString)
-    const today: Date = new Date()
-    const birthYear: number = birthdate.getFullYear()
-    const birthMonth: number = birthdate.getMonth()
-    const birthDay: number = birthdate.getDate()
-
-    const todayYear: number = today.getFullYear()
-    const todayMonth: number = today.getMonth()
-    const todayDay: number = today.getDate()
-
-    let age: number = todayYear - birthYear
-
-    // Check if the birthday for this year has passed
-    if (
-      todayMonth < birthMonth ||
-      (todayMonth === birthMonth && todayDay < birthDay)
-    ) {
-      age--
-    }
-
-    return `(${age} years old)`
-  }
 
   const verifiedInformation = () => {
     return (
@@ -158,10 +132,10 @@ export const IdentityVerificationDetails: React.FC = () => {
   }
   const emptyInformation = (
     <p className="text-center align-middle mt-12">
-      There is not any successful Government Id Verification
+      There have been no successful Government ID Verifications.
     </p>
   )
-  const govcontent = (
+  const govContent = (
     <LoadingWrapper
       className={isLoadingLoanSmartKycDetail ? "p-12" : "p-0"}
       isLoading={isLoadingLoanSmartKycDetail}
@@ -191,7 +165,7 @@ export const IdentityVerificationDetails: React.FC = () => {
             }
           />
         }
-        content={govcontent}
+        content={govContent}
       />
       <IdentityVerificationCard
         id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
@@ -207,7 +181,7 @@ export const IdentityVerificationDetails: React.FC = () => {
         }
         content={
           <p className="align-middle mt-4 text-gray-700 ">
-            Applicant has submitted selfie captures which have ben successful
+            Applicant has submitted selfie captures which have been successful
             verifies.
           </p>
         }

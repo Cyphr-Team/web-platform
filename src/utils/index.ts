@@ -340,3 +340,30 @@ export function parseAndValidateNumber(input: string, limit: number) {
 
   return sanitizedValue
 }
+
+export function calculateAge(birthdateString?: string): string {
+  if (birthdateString == null) {
+    return "N/A"
+  }
+  const birthdate: Date = new Date(birthdateString)
+  const today: Date = new Date()
+  const birthYear: number = birthdate.getFullYear()
+  const birthMonth: number = birthdate.getMonth()
+  const birthDay: number = birthdate.getDate()
+
+  const todayYear: number = today.getFullYear()
+  const todayMonth: number = today.getMonth()
+  const todayDay: number = today.getDate()
+
+  let age: number = todayYear - birthYear
+
+  // Check if the birthday for this year has passed
+  if (
+    todayMonth < birthMonth ||
+    (todayMonth === birthMonth && todayDay < birthDay)
+  ) {
+    age--
+  }
+
+  return `(${age} years old)`
+}
