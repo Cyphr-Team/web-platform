@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card"
-
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary/CashflowGlance.tsx"
@@ -22,7 +21,13 @@ import { Secretary } from "@/modules/loan-application/components/organisms/Midde
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
 import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import {
+  isCyphrBank,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import {
   isEnableJudgeSubmitScore,
   isEnableKYBV2,
@@ -56,6 +61,10 @@ export function Component() {
 
   const isJudge = checkIsJudge()
   const isWorkspaceAdmin = checkIsWorkspaceAdmin()
+  const shouldDisplayCashFlowTable =
+    isLoanReady() || isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()
+  const shouldDisplayIdentityVerification = isEnablePersonaKycV1()
+  const shouldDisplayHighRiskEntity = isEnableKYBV2() && isSbb()
 
   const page_1 = useRef<HTMLDivElement>(null)
   const page_2 = useRef<HTMLDivElement>(null)
@@ -65,15 +74,19 @@ export function Component() {
   const page_6 = useRef<HTMLDivElement>(null)
   const page_7 = useRef<HTMLDivElement>(null)
   const page_8 = useRef<HTMLDivElement>(null)
+  const page_9 = useRef<HTMLDivElement>(null)
+  const page_10 = useRef<HTMLDivElement>(null)
 
   const elementToExportRef = [
     page_1,
-    page_2,
+    ...(shouldDisplayCashFlowTable ? [page_2] : []),
     page_3,
-    page_5,
+    page_4,
     page_6,
     page_7,
-    page_8
+    ...(shouldDisplayHighRiskEntity ? [page_8] : []),
+    ...(shouldDisplayIdentityVerification ? [page_9] : []),
+    page_10
   ]
 
   // we can easily adjust the order of form here
@@ -129,12 +142,16 @@ export function Component() {
           </p>
           <KybFormDetails kybFormData={loanSummary?.kybForm} />
           <KycFormDetails kycFormData={loanSummary?.kycForm} />
-          <CashFlowTable />
         </div>
+        {shouldDisplayCashFlowTable && (
+          <div className="space-y-3xl flex flex-col" ref={page_2}>
+            <CashFlowTable />
+          </div>
+        )}
         <div
           className="space-y-3xl flex flex-col"
           id="loan-application"
-          ref={page_2}
+          ref={page_3}
         >
           {isSbb() ? (
             <SbbCurrentLoanFormDetails
@@ -146,13 +163,13 @@ export function Component() {
             />
           )}
         </div>
-        <div className="space-y-3xl flex flex-col" ref={page_3}>
+        <div className="space-y-3xl flex flex-col" ref={page_4}>
           <OperatingExpensesFormDetails
             operatingExpensesFormData={loanSummary?.operatingExpensesForm}
           />
         </div>
         {/* Loan summary */}
-        <div className="space-y-3xl flex flex-col" ref={page_4}>
+        <div className="space-y-3xl flex flex-col" ref={page_5}>
           {formsOrder.map(({ key, Component }) => {
             const formData = get(loanSummary, key)
             return formData && <Component key={key} data={formData} />
@@ -162,7 +179,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p1"
-          ref={page_5}
+          ref={page_6}
         >
           <SignatureDetails
             confirmationFormData={loanSummary?.confirmationForm}
@@ -178,31 +195,43 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p2"
-          ref={page_6}
+          ref={page_7}
         >
           <Secretary />
           <TinMatch />
           <People />
           <WatchList />
-          {isEnableKYBV2() && isSbb() && <IndustryClassification />}
           <Bankruptcy />
-          {isEnableKYBV2() && isSbb() && <Website />}
-          {isEnableKYBV2() && isSbb() && <AdverseMedia />}
           <Separator />
         </div>
 
-        <div
-          className="flex flex-col space-y-3xl"
-          id="identity-verification"
-          ref={page_7}
-        >
-          {isEnablePersonaKycV1() && <IdentityVerificationDetails />}
-        </div>
+        {shouldDisplayHighRiskEntity && (
+          <div
+            className="flex flex-col space-y-3xl"
+            id="business-verification-p3"
+            ref={page_8}
+          >
+            <IndustryClassification />
+            <Website />
+            <AdverseMedia />
+            <Separator />
+          </div>
+        )}
+
+        {shouldDisplayIdentityVerification && (
+          <div
+            className="space-y-3xl flex flex-col"
+            id="identity-verification"
+            ref={page_9}
+          >
+            <IdentityVerificationDetails />
+          </div>
+        )}
 
         <div
           className="flex flex-col space-y-3xl"
           id="cash-flow-report"
-          ref={page_8}
+          ref={page_10}
         >
           <p className="text-4xl font-semibold ">Cash Flow Report</p>
           <CashflowGlanceReport />
