@@ -34,37 +34,37 @@ export const ApplicationOverview = () => {
     <Card className="border-r-0 border-b-0 shadow-none bg-white">
       <div className="grid grid-cols-2">
         <InformationRow
-          label="Business Name"
+          label="Business name"
           value={getBusinessName()}
           className="rounded-tl-md"
         />
         <InformationRow
-          label="Business Owner"
+          label="Business owner"
           value={personalInfo?.name ?? "N/A"}
           className="rounded-tr-md"
         />
         <InformationRow
-          label="Loan Program"
+          label="Loan program"
           value={loanApplicationDetails?.loanProgram?.name ?? "N/A"}
         />
         <InformationRow
-          label="Email Address"
+          label="Email address"
           value={personalInfo?.email ?? "N/A"}
         />
-        <InformationRow label="Amount Requested" value={loanAmount} />
+        <InformationRow label="Amount requested" value={loanAmount} />
         <InformationRow
-          label="Phone Number"
+          label="Phone number"
           value={
             formatPhoneNumberIntl(personalInfo?.phoneNumber ?? "") || "N/A"
           }
         />
         <InformationRow
-          label="Proposed Use of Loan"
+          label="Proposed use of loan"
           value={loanSummary?.proposeUseOfLoan ?? "N/A"}
           className="rounded-bl-md"
         />
         <InformationRow
-          label="Office Address"
+          label="Office address"
           value={getBusinessAddress()}
           className="rounded-br-md"
         />

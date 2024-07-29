@@ -78,7 +78,7 @@ export const launchKCOwnerFormSchema = ownerFormSchema.extend({
   genderIdentity: z.string().min(1, { message: "Gender Identity is required" }),
   preferredPronoun: z
     .string()
-    .min(1, { message: "Preferred Pronounce is required" }),
+    .min(1, { message: "Preferred Pronoun is required" }),
   racialIdentification: z
     .string()
     .min(1, { message: "Racial Identification is required" }),

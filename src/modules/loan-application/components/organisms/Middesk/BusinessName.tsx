@@ -51,7 +51,7 @@ export const BusinessName = () => {
 
   const content = (
     <MiddeskTableContent
-      nameTitle="Business Name"
+      nameTitle="Business name"
       data={data}
       isLoading={isLoading}
     />

@@ -21,68 +21,68 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
       <div className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
         <TextInputDisplay
           className="col-span-12"
-          label="Business Legal Name"
+          label="Business legal name"
           value={kybFormData?.businessLegalName}
         />
         <TextInputDisplay
           className="col-span-12"
-          label="Business Street Address Line #1"
+          label="Business street address line #1"
           value={kybFormData?.businessStreetAddress.addressLine1}
         />
         <TextInputDisplay
           className="col-span-12"
-          label="Business Street Address Line #2"
+          label="Business street address line #2"
           value={kybFormData?.businessStreetAddress.addressLine2}
         />
         <TextInputDisplay
           className="col-span-4"
-          label="Business City"
+          label="Business city"
           value={kybFormData?.businessStreetAddress.city}
         />
         <TextInputDisplay
           className="col-span-4"
-          label="Business State"
+          label="Business state"
           value={getStateName(kybFormData?.businessStreetAddress.state ?? "")}
         />
         <TextInputDisplay
           className="col-span-4"
-          label="Business Zip Code"
+          label="Business zip code"
           value={kybFormData?.businessStreetAddress.postalCode}
         />
         <TextInputDisplay
-          label="Employer Identification Number (EIN)"
+          label="EIN"
           value={toPattern(kybFormData?.businessTin ?? "", EIN_PATTERN)}
           className="col-span-5"
         />
         {kybFormData?.metadata?.yearFounded && (
           <TextInputDisplay
-            label="Year Founded"
+            label="Year founded"
             value={kybFormData.metadata.yearFounded}
             className="col-span-3"
           />
         )}
         {kybFormData?.metadata?.legalStructure && (
           <TextInputDisplay
-            label="Legal Structure"
+            label="Legal structure"
             value={kybFormData.metadata.legalStructure}
             className="col-span-4"
           />
         )}
         <TextInputDisplay
-          label="Business Website"
+          label="Business website"
           value={kybFormData?.businessWebsite}
           className="col-span-12"
         />
         {kybFormData?.metadata?.primaryIndustry && (
           <TextInputDisplay
-            label="Primary Industry"
+            label="Primary industry"
             value={kybFormData.metadata.primaryIndustry}
             className="col-span-6"
           />
         )}
         {kybFormData?.metadata?.primaryIndustryOther && (
           <TextInputDisplay
-            label="Primary Industry (Other)"
+            label="Primary industry (other)"
             value={kybFormData.metadata.primaryIndustryOther}
             className="col-span-6"
           />

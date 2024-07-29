@@ -46,64 +46,64 @@ export const BankAccountReport: React.FC<Props> = ({ data, isLoading }) => {
       <CardContent className="!p-0">
         <div className="grid grid-cols-2">
           <InformationRow
-            label="Account Holder"
+            label="Account holder"
             value={data.accountHolder}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Days of Negative Balance"
+            label="Days of negative balance"
             value={data.numDaysNegativeBalance.toString()}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Begin Date"
+            label="Begin date"
             value={data.beginDate}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Average Transaction Size"
+            label="Average transaction size"
             value={toCurrency(data.averageTransactionSize ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="End Date"
+            label="End date"
             value={data.endDate}
             isLoading={isLoading}
           />
 
           <InformationRow
-            label="Max Deposit"
+            label="Max deposit"
             value={toCurrency(data.maxDeposit ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Beginning Balance"
+            label="Beginning balance"
             value={toCurrency(data.beginBalance ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Average Deposit"
+            label="Average deposit"
             value={toCurrency(data.averageDeposit ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Ending Balance"
+            label="Ending balance"
             value={toCurrency(data.endBalance ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Max Withdrawal"
+            label="Max withdrawal"
             value={toCurrency(data.maxWithdrawal ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Average Daily Balance"
+            label="Average daily balance"
             value={toCurrency(data.averageDailyBalance ?? 0)}
             className="rounded-bl-md"
             isLoading={isLoading}
           />
           <InformationRow
-            label="Average Withdrawal"
+            label="Average withdrawal"
             value={toCurrency(data.averageWithdrawal ?? 0)}
             className="rounded-br-md"
             isLoading={isLoading}

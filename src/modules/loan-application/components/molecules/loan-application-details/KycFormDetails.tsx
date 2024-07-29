@@ -25,7 +25,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
         {!isLaunchKC() && (
           <TextInputDisplay
             className="col-span-3"
-            label="Full Name"
+            label="Full name"
             value={kycFormData?.fullName}
           />
         )}
@@ -33,12 +33,12 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           <>
             <TextInputDisplay
               className="col-span-3"
-              label="First Name"
+              label="First name"
               value={kycFormData?.metadata?.firstName}
             />
             <TextInputDisplay
               className="col-span-3"
-              label="Last Name"
+              label="Last name"
               value={kycFormData?.metadata?.lastName}
             />
             <TextInputDisplay
@@ -51,7 +51,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             />
             <TextInputDisplay
               className="col-span-3"
-              label="Gender Identity"
+              label="Gender identity"
               value={getLabelFromValue(
                 getOptionsByField(LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY),
                 get(kycFormData, "metadata.genderIdentity", "")
@@ -79,7 +79,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             />
             <TextInputDisplay
               className="col-span-3"
-              label="Preferred Pronounce"
+              label="Preferred pronoun"
               value={getLabelFromValue(
                 getOptionsByField(LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN),
                 get(kycFormData, "metadata.preferredPronoun", "")
@@ -90,48 +90,48 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
         {!isLaunchKC() && (
           <TextInputDisplay
             className="col-span-3"
-            label="Your Role"
+            label="Your role"
             value={kycFormData?.businessRole}
           />
         )}
         <TextInputDisplay
           className="col-span-6"
-          label="Resident Address Line #1"
+          label="Resident address line #1"
           value={kycFormData?.addressLine1}
         />
         <TextInputDisplay
           className="col-span-6"
-          label="Resident Address Line #2"
+          label="Resident address line #2"
           value={kycFormData?.addressLine2}
         />
         <TextInputDisplay
           className="col-span-2"
-          label="Business City"
+          label="Business city"
           value={kycFormData?.businessCity}
         />
         <TextInputDisplay
-          label="Business State"
+          label="Business state"
           className="col-span-2"
           value={kycFormData?.businessState}
         />
         <TextInputDisplay
-          label="Zip Code"
+          label="Zip code"
           className="col-span-2"
           value={kycFormData?.businessZipCode}
         />
         <TextInputDisplay
           className="col-span-3"
-          label="Email Address"
+          label="Email address"
           value={kycFormData?.email}
         />
         <TextInputDisplay
           className="col-span-3"
-          label="Phone Number"
+          label="Phone number"
           value={formatPhoneNumber(kycFormData?.phoneNumber ?? "") || ""}
         />
         <TextInputDisplay
           className="col-span-3"
-          label="Date of Birth"
+          label="Date of birth"
           value={formatBirthday(kycFormData?.dateOfBirth)}
         />
         <TextInputDisplay
@@ -143,12 +143,12 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
         {isLaunchKC() && (
           <>
             <TextInputDisplay
-              className="col-span-3 capitalize"
+              className="col-span-3"
               label="Are you a founder or co-founder of the company applying"
               value={kycFormData?.metadata?.areFounderOrCoFounder}
             />
             <TextInputDisplay
-              className="col-span-3 capitalize"
+              className="col-span-3"
               label="Full-time founder"
               value={kycFormData?.metadata?.areFullTimeFounder}
             />
@@ -156,7 +156,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
         )}
         <TextInputDisplay
           className="col-span-3"
-          label="Business Ownership Percentage"
+          label="Business ownership percentage"
           value={
             kycFormData?.businessOwnershipPercentage
               ? `${kycFormData?.businessOwnershipPercentage}%`

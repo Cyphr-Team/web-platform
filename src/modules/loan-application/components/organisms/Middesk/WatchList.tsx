@@ -19,7 +19,7 @@ const columns: ColumnDef<
 >[] = [
   {
     accessorKey: "businessName",
-    header: () => <MiddeskTableHeader title={"Screened Business"} />,
+    header: () => <MiddeskTableHeader title={"Screened business"} />,
     cell: ({ row }) => {
       const data = row.original
 
@@ -36,7 +36,7 @@ const columns: ColumnDef<
   },
   {
     accessorKey: "people",
-    header: () => <MiddeskTableHeader title="Screened Individual" />,
+    header: () => <MiddeskTableHeader title="Screened individual" />,
     cell: ({ row }) => {
       const data = row.original
 

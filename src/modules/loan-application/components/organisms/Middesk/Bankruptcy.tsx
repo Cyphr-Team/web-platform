@@ -21,7 +21,7 @@ export const Bankruptcy = () => {
 
       {!isLoading && (
         <div className="mt-4">
-          <NotFoundAlert status={status} label="No Bankruptcies Found" />
+          <NotFoundAlert status={status} label="No bankruptcies found" />
         </div>
       )}
     </>

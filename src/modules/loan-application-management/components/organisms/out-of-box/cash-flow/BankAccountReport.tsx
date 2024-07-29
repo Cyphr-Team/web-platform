@@ -52,33 +52,33 @@ export const BankAccountReport: React.FC<Props> = ({
       <CardContent className="!p-0">
         <div className="grid grid-cols-2">
           <InformationRow
-            label="Account Holder"
+            label="Account holder"
             value={data.accountHolder ?? "N/A"}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Days of Negative Balance"
+            label="Days of negative balance"
             value={data.numDaysNegativeBalance?.toString() ?? "N/A"}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Beginning Balance"
+            label="Beginning balance"
             value={toCurrency(data.beginBalance ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Ending Balance"
+            label="Ending balance"
             value={toCurrency(data.endBalance ?? 0)}
             isLoading={isLoading}
           />
           <InformationRow
-            label="Average Daily Balance"
+            label="Average daily balance"
             value={toCurrency(data.averageDailyBalance ?? 0)}
             className="rounded-bl-md"
             isLoading={isLoading}
           />
           <InformationRow
-            label="Average Transaction Size"
+            label="Average transaction size"
             value={toCurrency(data.averageTransactionSize ?? 0)}
             isLoading={isLoading}
           />
