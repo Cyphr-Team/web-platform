@@ -15,8 +15,8 @@ import { LoanApplicationStepStrategy } from "../models/LoanApplicationStep"
 import {
   FORM_TYPE,
   ILoanApplicationStep,
-  LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS
 } from "../models/LoanApplicationStep/type"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 import { ConfigurationLoanApplicationStep } from "../models/LoanApplicationStep/Configuration"
@@ -166,18 +166,19 @@ const reducer = (
 const getApplicationStrategy = () =>
   new LoanApplicationStepStrategy(getSubdomain() as Institution).getStrategy()
 
-const initProgress = (forms?: FORM_TYPE[]) => {
+const initProgress = (forms?: FORM_TYPE[], args?: unknown) => {
   return formsConfigurationEnabled()
     ? new ConfigurationLoanApplicationStep(forms).getSteps()
-    : new LoanApplicationStepStrategy(getSubdomain() as Institution)
+    : new LoanApplicationStepStrategy(getSubdomain() as Institution, args)
         .getStrategy()
         .getSteps()
 }
 
-const initSteps: (forms?: FORM_TYPE[]) => LoanApplicationStepsState = (
-  forms
-) => {
-  const steps = initProgress(forms)
+const initSteps: (
+  forms?: FORM_TYPE[],
+  args?: unknown
+) => LoanApplicationStepsState = (forms, args) => {
+  const steps = initProgress(forms, args)
 
   return {
     step: steps[0].step,
@@ -194,12 +195,16 @@ const { Provider } = LoanProgressContext
 export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
   props
 ) => {
-  const { loanProgramFormsConfiguration } = useLoanProgramDetailContext()
+  const { loanProgramFormsConfiguration, loanProgramInfo } =
+    useLoanProgramDetailContext()
+
   const [isInitialized, setIsInitialized] = useState(false)
 
   const [{ progress, step }, dispatchProgress] = useReducer(
     reducer,
-    initSteps()
+    // cast loanProgramInfo to unknown like wrap it into a chest.
+    // only who has the key (the actual type) can use it
+    initSteps([], loanProgramInfo as unknown)
   )
 
   const getStepStatus = useCallback(

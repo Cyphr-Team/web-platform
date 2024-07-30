@@ -9,8 +9,6 @@ import { LaunchKCLoanApplicationStep } from "./LaunchKC"
 import { matchSubdomain } from "@/utils/domain.utils"
 
 export class LoanApplicationStepStrategy {
-  #strategy
-
   institutionLoanApplicationSteps = {
     [Institution.KCChamber]: KCChamberLoanApplicationStep,
     [Institution.CyphrV2]: CyphrLoanApplicationStep,
@@ -19,13 +17,18 @@ export class LoanApplicationStepStrategy {
     [Institution.LaunchKC]: LaunchKCLoanApplicationStep,
     [Institution.SBB]: SBBLoanApplicationStep
   }
+  #strategy
 
-  constructor(institution: Institution) {
+  /**
+   * [options] params is optional, use for adding more data to constructor of each tenant
+   * Look at constructor of SBBLoanApplicationStep for more detail
+   * */
+  constructor(institution: Institution, options?: unknown) {
     for (const [key, LoanApplicationStep] of Object.entries(
       this.institutionLoanApplicationSteps
     )) {
       if (matchSubdomain(institution, key)) {
-        this.#strategy = new LoanApplicationStep()
+        this.#strategy = new LoanApplicationStep(options)
         return
       }
     }

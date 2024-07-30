@@ -1,4 +1,6 @@
 enum FORM_TYPE {
+  LOAN_REQUEST = "loanRequest",
+  CONFIRMATION = "confirmationForm",
   KYB = "kyb",
   KYC = "kyc",
   FINANCIAL = "financial",

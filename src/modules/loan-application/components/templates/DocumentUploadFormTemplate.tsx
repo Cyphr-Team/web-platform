@@ -86,6 +86,7 @@ export const DocumentUploadFormTemplate = ({
   type FormType = zodInfer<typeof schema>
 
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
+
   const { documents, dispatchFormAction, dispatchDocumentAction } =
     useLoanApplicationFormContext()
   const formState = useLoanApplicationFormContext()

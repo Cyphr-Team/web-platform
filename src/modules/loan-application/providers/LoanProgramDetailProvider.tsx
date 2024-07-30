@@ -8,7 +8,7 @@ import {
 } from "../constants/type"
 import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
-import { useQueryGetFormsConfiguration } from "../hooks/useQuery/useQueryFormsConfiguration"
+import { useQueryGetFormsConfiguration } from "@/modules/loan-application/hooks/useQuery/useQueryFormsConfiguration.ts"
 
 export type LoanProgramDetailType<T> = {
   loanProgramFormsConfiguration?: LoanProgramFormsConfiguration

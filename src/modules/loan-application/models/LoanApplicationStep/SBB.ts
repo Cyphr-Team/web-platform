@@ -3,24 +3,43 @@ import {
   isEnableReviewApplicationStep
 } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
+import { LoanProgramData } from "@/modules/loan-application/constants/type.ts"
+
+const CURRENT_PROGRAM_KEY = "CURRENT_LOAN_PROGRAM"
+const PROGRAM = {
+  TERM_LOAN: "SBB_TERM_LOAN",
+  BUSINESS_BANK_ACCOUNT: "SBB_BUSINESS_ACCOUNTS"
+}
 
 export class SBBLoanApplicationStep
   extends LoanApplicationStep
   implements ILoanApplicationStepStrategy
 {
-  constructor() {
+  #targetProgram
+
+  constructor(program: unknown) {
     super()
+    // must type cast here to use
+    this.#targetProgram = (program as LoanProgramData)?.id
+    if (this.#targetProgram !== undefined) {
+      localStorage.setItem(CURRENT_PROGRAM_KEY, this.#targetProgram)
+    } else {
+      this.#targetProgram = localStorage.getItem(CURRENT_PROGRAM_KEY)
+    }
+
     this._buildSteps()
   }
 
   _buildSteps() {
-    this._build_LoanRequestStep()
-      ._build_BusinessInformationStep()
-      ._build_OwnerInformationStep()
+    if (this.#targetProgram === PROGRAM.TERM_LOAN) {
+      this._build_LoanRequestStep()
+    }
+
+    this._build_BusinessInformationStep()._build_OwnerInformationStep()
 
     if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
 
-    this._build_FinancialInformationStep()
+    this._build_CashFlowVerificationStep()
       ._build_CurrentLoansStep()
       ._build_OperatingExpensesStep()
 

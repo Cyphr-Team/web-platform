@@ -2,6 +2,9 @@ import { LoanType } from "@/types/loan-program.type"
 import { LoanRequestFormValue } from "../../constants/form"
 import { useCreateLoanApplicationMutation } from "../useMutation/useCreateLoanApplicationMutation"
 import { useUpdateLoanApplicationMutation } from "../useMutation/useUpdateLoanRequest"
+import { UserMicroLoanApplicationRequest } from "@/types/loan-application.type.ts"
+import { get } from "lodash"
+
 export const useSubmitMicroLoanRequestForm = (
   rawData: LoanRequestFormValue,
   formId: string,
@@ -21,12 +24,17 @@ export const useSubmitMicroLoanRequestForm = (
   const submitLoanRequestForm = async () => {
     if (formId?.length) {
       // Update
-      const res = await updateLoanApplication({ ...rawData })
-      return res
+      return await updateLoanApplication(rawData)
     } else {
       // Create
-      const res = await createLoanApplication({ loanProgramId, ...rawData })
-      return res
+      const loanRequest: UserMicroLoanApplicationRequest = {
+        loanProgramId: loanProgramId!,
+        loanTermInMonth: get(rawData, "loanTermInMonth", 1),
+        loanAmount: get(rawData, "loanAmount", 0),
+        proposeUseOfLoan: get(rawData, "proposeUseOfLoan", "other"),
+        applicationId: rawData?.applicationId
+      }
+      return await createLoanApplication(loanRequest)
     }
   }
   return {

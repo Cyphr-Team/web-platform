@@ -9,6 +9,7 @@ import {
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS
 } from "../../models/LoanApplicationStep/type"
+import { isSbb } from "@/utils/domain.utils.ts"
 
 export const LoanApplicationSave = () => {
   const { submitLoanForm, isSubmitting, loanRequest } =
@@ -17,6 +18,13 @@ export const LoanApplicationSave = () => {
 
   const isCompleteLoanRequestForm =
     loanRequest?.applicationId ||
+    /**
+     * This condition just apply for SBB. Because SBB have two different loan program.
+     * So we must check the first step contain loan request or not.
+     * If it contains loan request, user forced to complete them
+     * or else, user don't need to complete the first step
+     * */
+    (isSbb() && progress[0].step !== LOAN_APPLICATION_STEPS.LOAN_REQUEST) ||
     progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
 
   const onConfirmed = () => {
@@ -31,7 +39,6 @@ export const LoanApplicationSave = () => {
   }
 
   const confirmText = isCompleteLoanRequestForm ? "Save & Close" : "Go to form"
-
   const description = isCompleteLoanRequestForm
     ? `Are you sure you want to save and close this application?`
     : `Please finish "Loan Request" form before save and close.`
