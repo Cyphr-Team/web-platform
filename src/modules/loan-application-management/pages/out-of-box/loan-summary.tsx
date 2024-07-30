@@ -42,11 +42,13 @@ import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components
 import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
 import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia.tsx"
+import { PreQualificationFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-qualification/PreQualificationFormDetails"
 
 export function Component() {
   const {
     loanSummary,
     loanApplicationDetails,
+    loanApplicationPrequalificationDetails,
     isFetchingCashflow,
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
@@ -61,8 +63,18 @@ export function Component() {
   const page_5 = useRef<HTMLDivElement>(null)
   const page_6 = useRef<HTMLDivElement>(null)
   const page_7 = useRef<HTMLDivElement>(null)
+  const page_8 = useRef<HTMLDivElement>(null)
 
-  const elementToExportRef = [page_1, page_2, page_3, page_5, page_6, page_7]
+  const elementToExportRef = [
+    page_1,
+    ...(isLaunchKC() ? [page_2] : []), // Conditionally include page_2 if isLaunchKC() returns true
+    page_3,
+    page_4,
+    page_6,
+    // page_5 is skipped
+    page_7,
+    page_8
+  ]
 
   // we can easily adjust the order of form here
   const formsOrder = [
@@ -111,17 +123,39 @@ export function Component() {
             />
           </div>
           <ApplicationOverview />
+          {isLaunchKC() && (
+            <PreQualificationFormDetails
+              data={loanApplicationPrequalificationDetails}
+            />
+          )}
           <Separator />
-          <p className="text-4xl font-semibold loan-application-header">
-            Loan Application
-          </p>
-          <KybFormDetails kybFormData={loanSummary?.kybForm} />
-          <KycFormDetails kycFormData={loanSummary?.kycForm} />
+          {!isLaunchKC() && (
+            <>
+              <p className="text-4xl font-semibold loan-application-header">
+                Loan Application
+              </p>
+              <KybFormDetails kybFormData={loanSummary?.kybForm} />
+              <KycFormDetails kycFormData={loanSummary?.kycForm} />
+            </>
+          )}
         </div>
+        {isLaunchKC() && (
+          <div
+            className="space-y-3xl flex flex-col"
+            id="application-overview"
+            ref={page_2}
+          >
+            <p className="text-4xl font-semibold loan-application-header">
+              Loan Application
+            </p>
+            <KybFormDetails kybFormData={loanSummary?.kybForm} />
+            <KycFormDetails kycFormData={loanSummary?.kycForm} />
+          </div>
+        )}
         <div
           className="space-y-3xl flex flex-col"
           id="loan-application"
-          ref={page_2}
+          ref={page_3}
         >
           {isSbb() ? (
             <SbbCurrentLoanFormDetails
@@ -133,13 +167,13 @@ export function Component() {
             />
           )}
         </div>
-        <div className="space-y-3xl flex flex-col" ref={page_3}>
+        <div className="space-y-3xl flex flex-col" ref={page_4}>
           <OperatingExpensesFormDetails
             operatingExpensesFormData={loanSummary?.operatingExpensesForm}
           />
         </div>
         {/* Loan summary */}
-        <div className="space-y-3xl flex flex-col" ref={page_4}>
+        <div className="space-y-3xl flex flex-col" ref={page_5}>
           {formsOrder.map(({ key, Component }) => {
             const formData = get(loanSummary, key)
             return formData && <Component key={key} data={formData} />
@@ -149,7 +183,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p1"
-          ref={page_5}
+          ref={page_6}
         >
           <SignatureDetails
             confirmationFormData={loanSummary?.confirmationForm}
@@ -165,7 +199,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p2"
-          ref={page_6}
+          ref={page_7}
         >
           <Secretary />
           <TinMatch />
@@ -181,7 +215,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="cash-flow-report"
-          ref={page_7}
+          ref={page_8}
         >
           <p className="text-4xl font-semibold ">Cash Flow Report</p>
           <CashflowGlanceReport />

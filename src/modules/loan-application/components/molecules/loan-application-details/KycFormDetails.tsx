@@ -47,7 +47,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
               label="Title"
               value={getLabelFromValue(
                 getOptionsByField(LAUNCH_KC_KYC_FIELD_NAMES.TITLE),
-                get(kycFormData, "metadata.title", "")
+                get(kycFormData, "metadata.title", "N/A")
               )}
             />
             <TextInputDisplay
@@ -55,7 +55,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
               label="Gender identity"
               value={getLabelFromValue(
                 getOptionsByField(LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY),
-                get(kycFormData, "metadata.genderIdentity", "")
+                get(kycFormData, "metadata.genderIdentity", "N/A")
               )}
             />
             <TextInputDisplay
@@ -65,7 +65,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
                 getOptionsByField(
                   LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION
                 ),
-                get(kycFormData, "metadata.racialIdentification", "")
+                get(kycFormData, "metadata.racialIdentification", "N/A")
               )}
             />
             <TextInputDisplay
@@ -75,7 +75,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
                 getOptionsByField(
                   LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION
                 ),
-                get(kycFormData, "metadata.ethnicIdentification", "")
+                get(kycFormData, "metadata.ethnicIdentification", "N/A")
               )}
             />
             <TextInputDisplay
@@ -83,7 +83,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
               label="Preferred pronoun"
               value={getLabelFromValue(
                 getOptionsByField(LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN),
-                get(kycFormData, "metadata.preferredPronoun", "")
+                get(kycFormData, "metadata.preferredPronoun", "N/A")
               )}
             />
           </>
@@ -128,7 +128,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
         <TextInputDisplay
           className="col-span-3"
           label="Phone number"
-          value={formatPhoneNumber(kycFormData?.phoneNumber ?? "") || ""}
+          value={formatPhoneNumber(kycFormData?.phoneNumber ?? "N/A") || "N/A"}
         />
         <TextInputDisplay
           className="col-span-3"

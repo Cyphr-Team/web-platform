@@ -8,6 +8,7 @@ import { formatBusinessStreetAddress } from "@/modules/loan-application/constant
 export const ApplicationOverview = () => {
   const { loanSummary, loanApplicationDetails } =
     useLoanApplicationDetailContext()
+
   const businessInfo = loanSummary?.businessInfo
   const personalInfo = loanSummary?.personalInfo
   const loanAmount = loanApplicationDetails?.loanAmount
@@ -31,44 +32,46 @@ export const ApplicationOverview = () => {
   }
 
   return (
-    <Card className="border-r-0 border-b-0 shadow-none bg-white">
-      <div className="grid grid-cols-2">
-        <InformationRow
-          label="Business name"
-          value={getBusinessName()}
-          className="rounded-tl-md"
-        />
-        <InformationRow
-          label="Business owner"
-          value={personalInfo?.name ?? "N/A"}
-          className="rounded-tr-md"
-        />
-        <InformationRow
-          label="Loan program"
-          value={loanApplicationDetails?.loanProgram?.name ?? "N/A"}
-        />
-        <InformationRow
-          label="Email address"
-          value={personalInfo?.email ?? "N/A"}
-        />
-        <InformationRow label="Amount requested" value={loanAmount} />
-        <InformationRow
-          label="Phone number"
-          value={
-            formatPhoneNumberIntl(personalInfo?.phoneNumber ?? "") || "N/A"
-          }
-        />
-        <InformationRow
-          label="Proposed use of loan"
-          value={loanSummary?.proposeUseOfLoan ?? "N/A"}
-          className="rounded-bl-md"
-        />
-        <InformationRow
-          label="Office address"
-          value={getBusinessAddress()}
-          className="rounded-br-md"
-        />
-      </div>
-    </Card>
+    <>
+      <Card className="border-r-0 border-b-0 shadow-none bg-white">
+        <div className="grid grid-cols-2">
+          <InformationRow
+            label="Business name"
+            value={getBusinessName()}
+            className="rounded-tl-md"
+          />
+          <InformationRow
+            label="Business owner"
+            value={personalInfo?.name ?? "N/A"}
+            className="rounded-tr-md"
+          />
+          <InformationRow
+            label="Loan program"
+            value={loanApplicationDetails?.loanProgram?.name ?? "N/A"}
+          />
+          <InformationRow
+            label="Email address"
+            value={personalInfo?.email ?? "N/A"}
+          />
+          <InformationRow label="Amount requested" value={loanAmount} />
+          <InformationRow
+            label="Phone number"
+            value={
+              formatPhoneNumberIntl(personalInfo?.phoneNumber ?? "") || "N/A"
+            }
+          />
+          <InformationRow
+            label="Proposed use of loan"
+            value={loanSummary?.proposeUseOfLoan ?? "N/A"}
+            className="rounded-bl-md"
+          />
+          <InformationRow
+            label="Office address"
+            value={getBusinessAddress()}
+            className="rounded-br-md"
+          />
+        </div>
+      </Card>
+    </>
   )
 }

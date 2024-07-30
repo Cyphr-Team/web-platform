@@ -71,7 +71,9 @@ export const DownloadButton = ({
 
   const addContentToPdf = async (doc: jsPDF, content: HTMLElement) => {
     const [pageWidth, pageHeight] = [210, 297]
-    const canvas = await html2canvas(content)
+    // Fix scaling to 2 will resolve the gray section issue
+    // Ref: https://stackoverflow.com/questions/58921942/html2canvas-grey-background-removal
+    const canvas = await html2canvas(content, { scale: 2 })
     const imgData = canvas.toDataURL("image/jpeg", {
       scale: 10
     })

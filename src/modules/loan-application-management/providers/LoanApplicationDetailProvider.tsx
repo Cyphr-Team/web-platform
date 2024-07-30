@@ -38,6 +38,8 @@ import { format } from "date-fns"
 import { useQueryGetSmartKyc } from "../hooks/useQuery/smart-kyc/useQueryGetSmartKyc"
 import { SmartKyc } from "../../../lib/persona/persona.types"
 import { isEnablePersonaKycV1 } from "../../../utils/feature-flag.utils"
+import { useQueryGetPreQualificationForm } from "@/modules/loan-application/hooks/useQuery/useQueryPreQualificationForm"
+import { PreQualificationResponse } from "@/modules/loan-application/constants/type"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -52,6 +54,7 @@ type LoanApplicationDetailContextType = {
   isLoading: boolean
   isLoadingLoanSmartKycDetail: boolean
   loanSummary?: LoanSummary
+  loanApplicationPrequalificationDetails?: PreQualificationResponse
   onChangeTransactionTags: (option: TRANSACTION_TAG[]) => void
   onChangeAccountFilter: (value: string[]) => void
   onChangeTimeRangeFilter: (from: string | null, to: string | null) => void
@@ -107,6 +110,8 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const kycDetailQuery = useQueryGetKyc({
     applicationId: params.id!
   })
+
+  const preQualificationFormQuery = useQueryGetPreQualificationForm(params.id!)
 
   const userLoanApplicationQuery = useQueryGetApplicationDetailsByType(
     state?.applicationDetail.type,
@@ -238,6 +243,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       loanKybDetail: kybDetailQuery.data,
       loanKycDetail: kycDetailQuery.data,
       loanSmartKycDetail: loanSmartKycDetailQuery.data,
+      loanApplicationPrequalificationDetails: preQualificationFormQuery.data,
       loanApplicationDetails: userLoanApplicationQuery.data,
       loanSummary: loanSummaryQuery.data,
       cashFlowAnalysis: cashFlowQuery.data,
@@ -267,6 +273,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       kycDetailQuery.data,
       loanSmartKycDetailQuery.data,
       loanSmartKycDetailQuery.isLoading,
+      preQualificationFormQuery.data,
       userLoanApplicationQuery.data,
       loanSummaryQuery.data,
       loanSummaryQuery.isLoading,
@@ -281,8 +288,8 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       onChangeTimePeriod,
       onChangeAccountFilter,
       onChangeTimeRangeFilter,
-      // new Cash Flow 2.0
 
+      // new Cash Flow 2.0
       newCashFlowGlanceQuery.data,
       newCashFlowGlanceQuery.isLoading,
       newCashFlowFilter,

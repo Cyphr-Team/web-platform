@@ -42,7 +42,9 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
         <TextInputDisplay
           className="col-span-4"
           label="Business state"
-          value={getStateName(kybFormData?.businessStreetAddress.state ?? "")}
+          value={getStateName(
+            kybFormData?.businessStreetAddress.state ?? "N/A"
+          )}
         />
         <TextInputDisplay
           className="col-span-4"
