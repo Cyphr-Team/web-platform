@@ -23,6 +23,7 @@ const CashFlowPage = lazy(
       "@/modules/loan-application-management/components/pages/CashFlow.page"
     )
 )
+
 const loanApplicationManagementRoutes = (
   <Route
     path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}

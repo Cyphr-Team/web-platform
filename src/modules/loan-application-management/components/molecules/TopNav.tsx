@@ -10,6 +10,7 @@ import {
 } from "@/utils/domain.utils"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
+import { checkIsWorkspaceAdmin } from "../../../../utils/check-roles"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -32,12 +33,21 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.loanSummary as string
     ]
   } else if (isLaunchKC()) {
-    menuItems = [
-      ApplicationMenuName.business as string,
-      ApplicationMenuName.identity as string,
-      ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.loanSummary as string
-    ]
+    if (checkIsWorkspaceAdmin()) {
+      menuItems = [
+        ApplicationMenuName.business as string,
+        ApplicationMenuName.identity as string,
+        ApplicationMenuName.cashflow as string,
+        ApplicationMenuName.loanSummary as string
+      ]
+    } else {
+      // In Launch KC, this else case means the Judge role only
+      menuItems = [
+        ApplicationMenuName.business as string,
+        ApplicationMenuName.cashflow as string,
+        ApplicationMenuName.loanSummary as string
+      ]
+    }
   } else if (isSbb()) {
     menuItems = [
       ApplicationMenuName.business as string,
