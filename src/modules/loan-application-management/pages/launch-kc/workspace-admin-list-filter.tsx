@@ -24,6 +24,44 @@ import {
   loanApplicationScoreFilterSchema,
   LoanApplicationScoreFilterValues
 } from "../../hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
+import { StatusRoundBadge } from "../../components/atoms/StatusRoundBadge"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { capitalizeWords } from "@/utils"
+
+const ROUND_STATUS_OPTIONS: Option[] = [
+  {
+    value: LoanApplicationStatus.PENDING_SUBMISSION,
+    label: "Pending submission"
+  },
+  { value: LoanApplicationStatus.READY_FOR_REVIEW, label: "Ready for review" },
+
+  { value: LoanApplicationStatus.ROUND_1, label: "Round 1" },
+  { value: LoanApplicationStatus.ROUND_2, label: "Round 2" },
+  { value: LoanApplicationStatus.ROUND_3, label: "Round 3" },
+
+  {
+    value: LoanApplicationStatus.ELIMINATED_AFTER_INITIAL_REVIEW,
+    label: "Eliminated after initial review"
+  },
+  {
+    value: LoanApplicationStatus.ELIMINATED_AFTER_ROUND_1,
+    label: "Eliminated after round 1"
+  },
+  {
+    value: LoanApplicationStatus.ELIMINATED_AFTER_ROUND_2,
+    label: "Eliminated after round 2"
+  },
+  {
+    value: LoanApplicationStatus.ELIMINATED_AFTER_ROUND_3,
+    label: "Eliminated after round 3"
+  }
+]
+const roundOptionToStatus = (roundOption: Option) => {
+  const status = Object.values(LoanApplicationStatus).find(
+    (value) => value.toLowerCase() === roundOption.value.toLowerCase()
+  )
+  return status ?? LoanApplicationStatus.UNKNOWN
+}
 
 export function WorkspaceAdminApplicationListFilter() {
   const crumbs = useBreadcrumb()
@@ -127,18 +165,38 @@ export function WorkspaceAdminApplicationListFilter() {
 
       <div className="mt-4">
         <Form {...filterForm}>
-          <div className="flex gap-3 flex-wrap">
-            <div className="flex-1 flex gap-3">
+          <div className="flex gap-3 flex-wrap ">
+            <div className="flex">
               <FormField
                 control={filterForm.control}
                 name="judgeIds"
                 render={({ field }) => (
                   <MultiSelectRound
                     label="Judges"
+                    subLabel="Users"
                     field={field}
                     options={judgeOptions}
                     labelHOC={(option, close) => (
                       <UserMultiSelectOption option={option} close={close} />
+                    )}
+                  />
+                )}
+              />
+            </div>
+            <div className="flex-1 flex">
+              <FormField
+                control={filterForm.control}
+                name="statuses"
+                render={({ field }) => (
+                  <MultiSelectRound
+                    label="Round"
+                    subLabel="Select Application Round"
+                    field={field}
+                    options={ROUND_STATUS_OPTIONS}
+                    labelHOC={(option, close) => (
+                      <StatusRoundBadge round={roundOptionToStatus(option)}>
+                        {capitalizeWords(option.label)} {close}
+                      </StatusRoundBadge>
                     )}
                   />
                 )}

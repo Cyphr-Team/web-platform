@@ -28,11 +28,13 @@ export function MultiSelectRound<
   options,
   field,
   label,
+  subLabel,
   labelHOC
 }: {
   options: Option[]
   field: ControllerRenderProps<TFieldValues, TName>
   label: string
+  subLabel?: string
   labelHOC?: (option: Option, close?: ReactNode) => ReactNode
 }) {
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -165,7 +167,7 @@ export function MultiSelectRound<
                   </div>
                 </div>
                 <div className="px-4 font-semibold text-xs py-2 pb-1">
-                  {label}
+                  {subLabel ?? label}
                 </div>
               </div>
 
