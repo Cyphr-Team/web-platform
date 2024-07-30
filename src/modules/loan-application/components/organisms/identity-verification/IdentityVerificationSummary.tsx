@@ -42,7 +42,7 @@ export const IdentificationSummary = () => {
   const headerTitle = <>Summary {badge}</>
 
   const content = (
-    <div className="py-4 ">
+    <div className="py-4">
       <LoadingWrapper
         className={isLoadingLoanSmartKycDetail ? "p-12" : "p-0"}
         isLoading={isLoadingLoanSmartKycDetail}

@@ -22,7 +22,7 @@ export function Component() {
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
         <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap">
           <div className="flex gap-sm flex-col">
-            <p className="text-4xl font-semibold ">Loan Summary</p>
+            <p className="text-4xl font-semibold ">Application Summary</p>
             <div className="flex gap-2">
               <Badge border>
                 <p className="text-sm font-medium">

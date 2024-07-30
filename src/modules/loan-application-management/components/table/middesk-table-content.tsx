@@ -29,7 +29,9 @@ export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
               className="flex-shrink-0 self-start mt-1"
               variantColor="green"
             />
-            <p className="text-base">{data?.name ?? "-"}</p>
+            <p className="text-base items-center truncate overflow-ellipsis whitespace-normal break-all">
+              {data?.name ?? "-"}
+            </p>
           </div>
         )
       }

@@ -23,14 +23,14 @@ export function TopNav({ className, ...props }: Props) {
     menuItems = [
       ApplicationMenuName.business as string,
       ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.loanSummary as string
+      ApplicationMenuName.applicationSummary as string
     ]
   } else if (isKccBank()) {
     menuItems = [
       ApplicationMenuName.business as string,
       ApplicationMenuName.identity as string,
       ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.loanSummary as string
+      ApplicationMenuName.applicationSummary as string
     ]
   } else if (isLaunchKC()) {
     if (checkIsWorkspaceAdmin()) {
@@ -38,14 +38,14 @@ export function TopNav({ className, ...props }: Props) {
         ApplicationMenuName.business as string,
         ApplicationMenuName.identity as string,
         ApplicationMenuName.cashflow as string,
-        ApplicationMenuName.loanSummary as string
+        ApplicationMenuName.applicationSummary as string
       ]
     } else {
       // In Launch KC, this else case means the Judge role only
       menuItems = [
         ApplicationMenuName.business as string,
         ApplicationMenuName.cashflow as string,
-        ApplicationMenuName.loanSummary as string
+        ApplicationMenuName.applicationSummary as string
       ]
     }
   } else if (isSbb()) {
@@ -55,7 +55,7 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.document as string,
       ApplicationMenuName.cashflow as string,
       ApplicationMenuName.debtSchedule as string,
-      ApplicationMenuName.loanSummary as string
+      ApplicationMenuName.applicationSummary as string
     ]
   }
   // Hide Identity Verication tab when FF off

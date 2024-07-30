@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card"
-
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary/CashflowGlance.tsx"
@@ -22,10 +21,17 @@ import { Secretary } from "@/modules/loan-application/components/organisms/Midde
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
 import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import {
+  isCyphrBank,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import {
   isEnableJudgeSubmitScore,
-  isEnableKYBV2
+  isEnableKYBV2,
+  isEnablePersonaKycV1
 } from "@/utils/feature-flag.utils"
 import { get } from "lodash"
 import { useRef } from "react"
@@ -42,19 +48,25 @@ import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components
 import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
 import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia.tsx"
-import { PreQualificationFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-qualification/PreQualificationFormDetails"
+import { CashFlowTable } from "@/modules/loan-application/components/molecules/loan-application-details/CashFlowTable.tsx"
+import { IdentityVerificationDetails } from "@/modules/loan-application/components/molecules/loan-application-details/IdentityVerificationDetails.tsx"
+import { PreQualificationFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-qualification/PreQualificationFormDetails.tsx"
 
 export function Component() {
   const {
     loanSummary,
     loanApplicationDetails,
-    loanApplicationPrequalificationDetails,
     isFetchingCashflow,
-    isFetchingNewCashFlow
+    isFetchingNewCashFlow,
+    loanApplicationPrequalificationDetails
   } = useLoanApplicationDetailContext()
 
   const isJudge = checkIsJudge()
   const isWorkspaceAdmin = checkIsWorkspaceAdmin()
+  const shouldDisplayCashFlowTable =
+    isLoanReady() || isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()
+  const shouldDisplayIdentityVerification = isEnablePersonaKycV1()
+  const shouldDisplayHighRiskEntity = isEnableKYBV2() && isSbb()
 
   const page_1 = useRef<HTMLDivElement>(null)
   const page_2 = useRef<HTMLDivElement>(null)
@@ -64,16 +76,21 @@ export function Component() {
   const page_6 = useRef<HTMLDivElement>(null)
   const page_7 = useRef<HTMLDivElement>(null)
   const page_8 = useRef<HTMLDivElement>(null)
+  const page_9 = useRef<HTMLDivElement>(null)
+  const page_10 = useRef<HTMLDivElement>(null)
+  const page_11 = useRef<HTMLDivElement>(null)
 
   const elementToExportRef = [
     page_1,
-    ...(isLaunchKC() ? [page_2] : []), // Conditionally include page_2 if isLaunchKC() returns true
-    page_3,
+    ...(isLaunchKC() ? [page_2] : []),
+    ...(shouldDisplayCashFlowTable ? [page_3] : []),
     page_4,
-    page_6,
-    // page_5 is skipped
+    page_5,
     page_7,
-    page_8
+    page_8,
+    ...(shouldDisplayHighRiskEntity ? [page_9] : []),
+    ...(shouldDisplayIdentityVerification ? [page_10] : []),
+    page_11
   ]
 
   // we can easily adjust the order of form here
@@ -152,10 +169,15 @@ export function Component() {
             <KycFormDetails kycFormData={loanSummary?.kycForm} />
           </div>
         )}
+        {shouldDisplayCashFlowTable && (
+          <div className="space-y-3xl flex flex-col" ref={page_3}>
+            <CashFlowTable />
+          </div>
+        )}
         <div
           className="space-y-3xl flex flex-col"
           id="loan-application"
-          ref={page_3}
+          ref={page_4}
         >
           {isSbb() ? (
             <SbbCurrentLoanFormDetails
@@ -167,13 +189,13 @@ export function Component() {
             />
           )}
         </div>
-        <div className="space-y-3xl flex flex-col" ref={page_4}>
+        <div className="space-y-3xl flex flex-col" ref={page_5}>
           <OperatingExpensesFormDetails
             operatingExpensesFormData={loanSummary?.operatingExpensesForm}
           />
         </div>
         {/* Loan summary */}
-        <div className="space-y-3xl flex flex-col" ref={page_5}>
+        <div className="space-y-3xl flex flex-col" ref={page_6}>
           {formsOrder.map(({ key, Component }) => {
             const formData = get(loanSummary, key)
             return formData && <Component key={key} data={formData} />
@@ -183,7 +205,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p1"
-          ref={page_6}
+          ref={page_7}
         >
           <SignatureDetails
             confirmationFormData={loanSummary?.confirmationForm}
@@ -199,23 +221,43 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p2"
-          ref={page_7}
+          ref={page_8}
         >
           <Secretary />
           <TinMatch />
           <People />
           <WatchList />
-          {isEnableKYBV2() && isSbb() && <IndustryClassification />}
           <Bankruptcy />
-          {isEnableKYBV2() && isSbb() && <Website />}
-          {isEnableKYBV2() && isSbb() && <AdverseMedia />}
           <Separator />
         </div>
+
+        {shouldDisplayHighRiskEntity && (
+          <div
+            className="flex flex-col space-y-3xl"
+            id="business-verification-p3"
+            ref={page_9}
+          >
+            <IndustryClassification />
+            <Website />
+            <AdverseMedia />
+            <Separator />
+          </div>
+        )}
+
+        {shouldDisplayIdentityVerification && (
+          <div
+            className="space-y-3xl flex flex-col"
+            id="identity-verification"
+            ref={page_10}
+          >
+            <IdentityVerificationDetails />
+          </div>
+        )}
 
         <div
           className="flex flex-col space-y-3xl"
           id="cash-flow-report"
-          ref={page_8}
+          ref={page_11}
         >
           <p className="text-4xl font-semibold ">Cash Flow Report</p>
           <CashflowGlanceReport />

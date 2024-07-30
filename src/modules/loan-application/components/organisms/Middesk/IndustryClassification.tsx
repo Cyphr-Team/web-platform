@@ -33,7 +33,7 @@ const columns: ColumnDef<BusinessIndustryClassificationDetail>[] = [
     cell: ({ row }) => {
       const data = row.original
       return (
-        <div className="min-w-0 flex items-center ">
+        <div className="min-w-0 flex items-center">
           {data.category && isHighRiskCategory(data.category) && (
             <Dot className="truncate text-red-500" />
           )}
@@ -68,11 +68,13 @@ const columns: ColumnDef<BusinessIndustryClassificationDetail>[] = [
     accessorKey: "confidence",
     header: () => (
       <div className="flex items-center">
-        <MiddeskTableHeader title="Confidence" />
+        <div className="mr-1">
+          <MiddeskTableHeader title="Confidence" />
+        </div>
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger>
-              <Info size={24} className="pl-2" />
+              <Info size={24} />
             </TooltipTrigger>
             <TooltipContent className="bg-slate-600">
               <div className="text-white max-w-72 font-light">
