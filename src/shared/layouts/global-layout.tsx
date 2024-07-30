@@ -1,8 +1,10 @@
 import { useInstitutionData } from "@/hooks/useInstitutionData"
 import { TenantProvider } from "@/providers/tenant-provider"
 import { useTheme } from "@/providers/theme-provider"
+import { getImageURL } from "@/utils/aws.utils"
 import { getRootSubdomain, getSubdomain } from "@/utils/domain.utils"
 import { useEffect } from "react"
+import { Helmet } from "react-helmet-async"
 
 import { Outlet } from "react-router-dom"
 
@@ -19,6 +21,16 @@ export const GlobalLayouts = () => {
   return (
     <div>
       <TenantProvider initInstitution={institutionData}>
+        <Helmet>
+          {!!institutionData?.customFieldsOnDemand?.favicon && (
+            <link
+              rel="icon"
+              type="image/png"
+              href={getImageURL(institutionData?.customFieldsOnDemand?.favicon)}
+            />
+          )}
+          <title>{institutionData.name}</title>
+        </Helmet>
         <Outlet />
       </TenantProvider>
     </div>

@@ -34,6 +34,11 @@ type InstitutionData = {
    */
   customFieldsOnDemand?: {
     showLongCard?: boolean
+
+    /**
+     * @example "asset/subdomain/logo.png"
+     */
+    favicon?: string
   }
 }
 
