@@ -152,6 +152,7 @@ export function SetupProfileForm() {
                     className="text-base"
                     {...field}
                     disabled={isPending}
+                    autoComplete="new-password"
                   />
                 </FormControl>
               </FormItem>
@@ -170,6 +171,7 @@ export function SetupProfileForm() {
                     className="text-base"
                     {...field}
                     disabled={isPending}
+                    autoComplete="new-password"
                   />
                 </FormControl>
                 <FormMessage />

@@ -53,7 +53,7 @@ export function SetupProfileForm() {
   const { mutate, isPending, isSuccess } = useSetupProfile()
 
   const { count } = useCountdown({
-    initialCount: 4,
+    initialCount: 2,
     isStart: isSuccess
   })
 
@@ -96,6 +96,7 @@ export function SetupProfileForm() {
                 <FormLabel>Email</FormLabel>
                 <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
+                    autoComplete="username"
                     placeholder="Enter your email"
                     className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
                     {...field}
@@ -112,13 +113,14 @@ export function SetupProfileForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Display Name</FormLabel>
                 <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
                     placeholder="Enter your name"
                     className="text-base"
                     {...field}
                     disabled={isPending}
+                    autoComplete="name"
                   />
                 </FormControl>
                 <FormMessage />
@@ -138,6 +140,7 @@ export function SetupProfileForm() {
                     className="text-base"
                     {...field}
                     disabled={isPending}
+                    autoComplete="new-password"
                   />
                 </FormControl>
                 {fieldState.error?.message && (
@@ -163,6 +166,7 @@ export function SetupProfileForm() {
                     className="text-base"
                     {...field}
                     disabled={isPending}
+                    autoComplete="new-password"
                   />
                 </FormControl>
                 <FormMessage />
