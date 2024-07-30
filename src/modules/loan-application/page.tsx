@@ -20,7 +20,10 @@ const RoleStrict = ({ children }: React.PropsWithChildren) => {
     return <Navigate to={APP_PATH.LOGIN} replace />
   }
 
-  if (!isLoanApplicant) return <Navigate to={APP_PATH.DASHBOARD} replace />
+  // If not an applicant, redirect to default page for that role and institution
+  if (!isLoanApplicant) {
+    return <Navigate to={APP_PATH.INDEX} replace />
+  }
 
   return children
 }

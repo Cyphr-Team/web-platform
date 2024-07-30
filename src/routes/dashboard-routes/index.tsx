@@ -11,6 +11,7 @@ import { adminRoutes } from "./admin-routes"
 import { loanApplicationManagementRoutes } from "./loan-application-management-routes"
 import { notificationRoutes } from "./notification-routes"
 import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { Component as LoanApplicationManagementComponent } from "@/modules/loan-application-management/pages/list"
 
 /**
  * Dashboard routes ("/*"), no unauthenticated or loan applicant allowed to see these pages.
@@ -29,9 +30,19 @@ const dashboardRoutes = (
       element={
         <FeatureFlagsRenderer
           ffKey={FEATURE_FLAGS.LENDER_DASHBOARD_V2}
-          fallBackChildren={<DashboardV1 />}
+          fallBackChildren={
+            isLaunchKC() ? (
+              <LoanApplicationManagementComponent />
+            ) : (
+              <DashboardV1 />
+            )
+          }
         >
-          <DashboardV2 />
+          {isLaunchKC() ? (
+            <LoanApplicationManagementComponent />
+          ) : (
+            <DashboardV2 />
+          )}
         </FeatureFlagsRenderer>
       }
     />

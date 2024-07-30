@@ -10,7 +10,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Mail } from "lucide-react"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
 import { inMemoryJWTService } from "@/services/jwt.service"
-import { checkIsJudge, checkIsLoanApplicant } from "@/utils/check-roles"
+import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { SESSION_DURATION_MINUTES } from "../constants/session"
 
 export function MagicLinkSection() {
@@ -36,8 +36,6 @@ export function MagicLinkSection() {
         inMemoryJWTService.transferRefreshToken()
         if (checkIsLoanApplicant()) {
           navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
-        } else if (checkIsJudge()) {
-          navigate(APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX)
         } else {
           navigate(APP_PATH.INDEX)
         }

@@ -9,7 +9,7 @@ import {
   workspaceAdminRoles
 } from "@/types/user.type"
 import { FEATURE_FLAGS } from "./feature-flag.constants"
-import { isKccBank, isSbb } from "@/utils/domain.utils"
+import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 
 export const DASHBOARD_NAV_ITEM: NavItem[] = [
   {
@@ -19,7 +19,8 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     label: "Dashboard",
     roles: reviewerRoles()
       .concat(workspaceAdminRoles())
-      .concat(platformAdminRoles())
+      .concat(platformAdminRoles()),
+    disabled: isLaunchKC() // Temporary hidden for FF: HIDE_LENDER_DASHBOARD_LAUNCHKC
   },
   {
     title: "Subscriptions",

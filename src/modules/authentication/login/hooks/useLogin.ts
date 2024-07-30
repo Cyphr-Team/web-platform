@@ -5,7 +5,7 @@ import { inMemoryJWTService } from "@/services/jwt.service"
 import { ErrorResponse } from "@/types/common.type"
 import { UserInfo } from "@/types/user.type"
 import { toastError } from "@/utils"
-import { checkIsJudge, checkIsLoanApplicant } from "@/utils/check-roles"
+import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { getSubdomain } from "@/utils/domain.utils"
 import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
 import {
@@ -89,8 +89,6 @@ export const useLogin = () => {
 
         if (checkIsLoanApplicant()) {
           navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
-        } else if (checkIsJudge()) {
-          navigate(APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX)
         } else {
           navigate(APP_PATH.INDEX)
         }
