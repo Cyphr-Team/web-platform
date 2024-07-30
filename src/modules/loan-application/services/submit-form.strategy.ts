@@ -258,7 +258,7 @@ export const useSubmitLoanForm = (
       /**
        * Submit e sign document - Link document id
        */
-      if (eSignData?.documentId && isEnablePandaDocESign()) {
+      if (eSignData?.documentId && isEnablePandaDocESign() && isSbb()) {
         await submitESignDocument(loanRequestId)
       }
 

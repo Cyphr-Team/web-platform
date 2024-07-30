@@ -22,6 +22,7 @@ import {
 } from "../../../constants/form"
 import { useLoanApplicationFormContext } from "../../../providers"
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
+import { isSbb } from "@/utils/domain.utils"
 
 export const ReviewApplication = () => {
   const { progress, step, finishCurrentStep } =
@@ -61,7 +62,7 @@ export const ReviewApplication = () => {
   })
 
   const onSubmit = async (data: ReviewApplicationValue) => {
-    if (isEnablePandaDocESign()) {
+    if (isSbb() && isEnablePandaDocESign()) {
       try {
         setIsGenPDF(true)
         const { pdf, totalPage } = await getPDF(itemsRef)

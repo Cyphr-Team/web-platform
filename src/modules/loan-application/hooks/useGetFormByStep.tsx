@@ -65,7 +65,7 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
         return isSbb() ? <SBBCurrentLoanForm /> : <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
-        if (isEnablePandaDocESign()) {
+        if (isSbb() && isEnablePandaDocESign()) {
           return <ESignForm />
         } else {
           return <ConfirmationForm />

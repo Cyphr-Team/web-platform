@@ -4,7 +4,7 @@ import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import { UserMicroLoanApplication } from "@/types/loan-application.type"
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
 import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
-import { isLaunchKC } from "@/utils/domain.utils"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils"
 import {
   formsConfigurationEnabled,
   isEnablePandaDocESign
@@ -149,7 +149,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    */
   const eSignQuery = useGetESignDocument({
     applicationId: loanApplicationId,
-    enabled: !!loanApplicationId && isEnablePandaDocESign()
+    enabled: !!loanApplicationId && isSbb() && isEnablePandaDocESign()
   })
 
   /**
