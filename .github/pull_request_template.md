@@ -27,3 +27,6 @@ Explain the thought process behind your approach and how it aligns with best pra
 
 ## Test Plan
 <!--- Please input steps on how to test this PR, including evidence in the form of captured images or videos. If this is not necessary, provide the reason why. --->
+
+## Related Issues
+<!---Add a reference section for management tickets, and relevant conversations.--->
