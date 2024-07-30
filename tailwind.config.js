@@ -113,7 +113,7 @@ module.exports = {
           senary: "hsl(var(--text-senary))"
         },
         nav: {
-          active: "hsl(var(--nav-active))"
+          active: "#EEFFC0"
         }
       },
       spacing: {

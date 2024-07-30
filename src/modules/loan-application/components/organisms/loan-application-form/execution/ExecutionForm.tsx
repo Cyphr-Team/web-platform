@@ -95,7 +95,7 @@ const FundingSources: React.FC<FundingSourcesProps> = ({ control }) => {
             options={getOptionsByField(
               LAUNCH_KC_EXECUTION_FIELD_NAMES.FUNDING_SOURCES
             )}
-            label="Funding Source"
+            label="Funding source"
             name={`fundingSources.${ind}.sourceType`}
             control={control}
           />
@@ -175,7 +175,7 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
           <TextInput
             className="flex items-center justify-between"
             inputClassName="w-40"
-            label="First and Last name"
+            label="First and last name"
             name={`founders.${ind}.name`}
             control={control}
           />
@@ -276,7 +276,7 @@ export const ExecutionForm = () => {
               <SelectInput
                 className="flex items-center"
                 inputClassName="!max-w-52"
-                labelClassName="leading-relaxed"
+                labelClassName="leading-relaxed mt-2"
                 key={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
                 label="How much cash does your company go through each month?"
                 control={form.control}
