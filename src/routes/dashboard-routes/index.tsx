@@ -1,9 +1,6 @@
 import { APP_PATH } from "@/constants"
-import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
-import { Component as DashboardV1 } from "@/modules/dashboard-v1/page"
 import { Component as DashboardV2 } from "@/modules/dashboard-v2/page"
 import { userLoader } from "@/routes/loader"
-import { FeatureFlagsRenderer } from "@/shared/layouts/FeatureFlagRenderer"
 import { Component as DashboardLayout } from "@/shared/layouts/dashboard-layout/dashboard-layout"
 import { handleCrumb } from "@/utils/crumb.utils"
 import { Route } from "react-router-dom"
@@ -28,22 +25,7 @@ const dashboardRoutes = (
     <Route
       index
       element={
-        <FeatureFlagsRenderer
-          ffKey={FEATURE_FLAGS.LENDER_DASHBOARD_V2}
-          fallBackChildren={
-            isLaunchKC() ? (
-              <LoanApplicationManagementComponent />
-            ) : (
-              <DashboardV1 />
-            )
-          }
-        >
-          {isLaunchKC() ? (
-            <LoanApplicationManagementComponent />
-          ) : (
-            <DashboardV2 />
-          )}
-        </FeatureFlagsRenderer>
+        isLaunchKC() ? <LoanApplicationManagementComponent /> : <DashboardV2 />
       }
     />
 

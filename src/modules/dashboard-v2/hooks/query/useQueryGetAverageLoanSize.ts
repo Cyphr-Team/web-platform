@@ -9,7 +9,6 @@ import {
   DashboardState
 } from "../../types/stats.types"
 import { useTimeRangeFilter } from "./useTimeRangeFilter"
-import { isEnableDashboardV2 } from "@/utils/feature-flag.utils"
 
 export const useQueryGetAverageApprovedLoanSize = ({
   filter,
@@ -39,11 +38,7 @@ export const useQueryGetAverageApprovedLoanSize = ({
         }
       })
     },
-    enabled: !!(
-      filter.timeRange.from &&
-      filter.timeRange.to &&
-      isEnableDashboardV2()
-    ),
+    enabled: !!(filter.timeRange.from && filter.timeRange.to),
     placeholderData: keepPreviousData
   })
 }

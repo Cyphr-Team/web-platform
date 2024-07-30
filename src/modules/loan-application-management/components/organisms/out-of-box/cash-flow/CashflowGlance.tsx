@@ -1,5 +1,5 @@
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { SelectTimeRange } from "@/modules/dashboard-v1/components/SelectTimeRange"
+import { SelectTimeRange } from "../../../atoms/SelectTimeRange"
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range"
 import * as z from "zod"

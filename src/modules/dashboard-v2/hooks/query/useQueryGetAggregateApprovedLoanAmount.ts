@@ -1,6 +1,5 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { isEnableDashboardV2 } from "@/utils/feature-flag.utils"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse } from "react-router-dom"
@@ -43,11 +42,7 @@ export const useQueryGetAggregateApprovedLoanAmount = ({
         }
       })
     },
-    enabled: !!(
-      filter.timeRange.from &&
-      filter.timeRange.to &&
-      isEnableDashboardV2()
-    ),
+    enabled: !!(filter.timeRange.from && filter.timeRange.to),
     placeholderData: keepPreviousData
   })
 }

@@ -13,19 +13,12 @@ export function checkEnabledFeatureFlags(keys: FEATURE_FLAGS[]) {
   return keys.every((key) => checkEnabledFeatureFlag(key))
 }
 
-function isEnableDashboardV2() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2)
-}
-
 function isEnablePersonaKycV1() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PERSONA_KYC_V1)
 }
 
 function isEnableLenderDashboardV2DummyData() {
-  return (
-    checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2) &&
-    checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2_DUMMY_DATA)
-  )
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2_DUMMY_DATA)
 }
 
 function isEnableDownloadCSVAndJSONSummary() {
@@ -112,7 +105,6 @@ export {
   isEnableReviewApplicationStep,
   isEnablePersonaKycV1,
   isEnableLenderDashboardV2DummyData,
-  isEnableDashboardV2,
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
   isEnableNewInquiryPersonaKycCreatingLogic,
