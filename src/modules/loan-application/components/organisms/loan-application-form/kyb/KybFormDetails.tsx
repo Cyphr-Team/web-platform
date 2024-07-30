@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card"
-import { TextInputDisplay } from "../../atoms/TextInputDisplay"
+import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { getStateName } from "@/modules/loan-application/hooks/useSelectCities"
 import { KYBInformationResponse } from "@/modules/loan-application/constants/type"
 import { toPattern } from "@/components/ui/mask-input"

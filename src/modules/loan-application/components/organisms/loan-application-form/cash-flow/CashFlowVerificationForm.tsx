@@ -3,14 +3,14 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { useTenant } from "@/providers/tenant-provider"
 import { useState } from "react"
-import { ConnectBankAccountsButton } from "../../molecules/out-of-box/ConnectBankAccountsButton"
+import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/ConnectBankAccountsButton"
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { ArrowRight } from "lucide-react"
-import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
-import { useLoanApplicationProgressContext } from "../../../providers"
+import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
+import { useLoanApplicationProgressContext } from "../../../../providers"
 
 export const CashFlowVerificationForm = () => {
   const { tenantData } = useTenant()

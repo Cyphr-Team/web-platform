@@ -20,24 +20,24 @@ import {
   DELETE_CURRENT_LOAN_PREFIX,
   NEW_CURRENT_LOAN_PREFIX
 } from "@/modules/loan-application/constants"
+import {
+  currentLoansFormSchema,
+  CurrentLoansFormValue
+} from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "@/modules/loan-application/providers"
+import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import _uniqueId from "lodash/uniqueId"
 import { ArrowRight, Plus } from "lucide-react"
 import React, { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
-import {
-  CurrentLoansFormValue,
-  currentLoansFormSchema
-} from "../../../constants/form"
-import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
-import {
-  useLoanApplicationFormContext,
-  useLoanApplicationProgressContext
-} from "../../../providers"
-import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
-import { CurrentLoansFormItem } from "../../molecules/CurrentLoansFormItem"
+import { CurrentLoansFormItem } from "../../../molecules/CurrentLoansFormItem"
 
 export const CurrentLoansForm = () => {
   const { dispatchFormAction, currentLoansForm } =

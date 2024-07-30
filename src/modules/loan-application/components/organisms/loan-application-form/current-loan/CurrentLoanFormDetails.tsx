@@ -1,6 +1,6 @@
 import React from "react"
 import { Card } from "@/components/ui/card"
-import { TextInputDisplay } from "../../atoms/TextInputDisplay"
+import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { toCurrency } from "@/utils"
 import {
   CurrentLoanInformationResponse,

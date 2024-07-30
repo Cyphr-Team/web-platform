@@ -10,7 +10,7 @@ import {
   getLabelFromValue,
   getOptionsByField,
   LAUNCH_KC_KYC_FIELD_NAMES
-} from "../../organisms/loan-application-form/custom-form/launchkc/const"
+} from "../custom-form/launchkc/const"
 import { get } from "lodash"
 
 interface KycFormDetailsProps {

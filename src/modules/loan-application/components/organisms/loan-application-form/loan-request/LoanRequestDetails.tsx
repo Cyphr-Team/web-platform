@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card"
-import { TextInputDisplay } from "../../atoms/TextInputDisplay"
+import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { capitalizeWords, toCurrency } from "@/utils"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 

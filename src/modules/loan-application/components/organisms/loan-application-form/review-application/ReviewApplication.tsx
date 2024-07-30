@@ -19,9 +19,9 @@ import { useForm } from "react-hook-form"
 import {
   ReviewApplicationValue,
   reviewApplicationSchema
-} from "../../../constants/form"
-import { useLoanApplicationFormContext } from "../../../providers"
-import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
+} from "../../../../constants/form"
+import { useLoanApplicationFormContext } from "../../../../providers"
+import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { isSbb } from "@/utils/domain.utils"
 
 export const ReviewApplication = () => {

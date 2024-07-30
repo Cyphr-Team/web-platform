@@ -5,7 +5,7 @@ import { getConfirmationTexts } from "@/modules/loan-application/constants"
 import { ConfirmationFormResponse } from "@/modules/loan-application/constants/type"
 import { useTenant } from "@/providers/tenant-provider"
 import { format } from "date-fns"
-import { ESignTable } from "./ESignTable"
+import { ESignTable } from "../../loan-application-details/ESignTable"
 import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
 import { isSbb } from "@/utils/domain.utils"
 

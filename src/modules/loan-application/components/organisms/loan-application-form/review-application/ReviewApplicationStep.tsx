@@ -1,43 +1,44 @@
+import {
+  ILoanApplicationStep,
+  LOAN_APPLICATION_STEPS
+} from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { isEnabledBankAccountConnectionV2 } from "@/utils/feature-flag.utils"
+import { forwardRef, useMemo } from "react"
+import { LoanRequest } from "../../../layouts/LoanRequest"
+import { BusinessInformationForm } from "../kyb/KybForm"
+import { CashFlowVerificationForm } from "../cash-flow/CashFlowVerificationForm"
+import { ConfirmationForm } from "../confirmation/ConfirmationForm"
+import { CurrentLoansForm } from "../current-loan/CurrentLoansForm"
+import { FinancialInformationForm } from "../financial-information/FinancialInformationForm"
+import { IdentityVerificationForm } from "../IdentityVerificationForm"
+import { OperatingExpensesForm } from "../operating-expenses/OperatingExpensesForm"
+import { OwnerInformationForm } from "../kyc/KycForm"
+import { CashFlowVerificationFormV2 } from "../cash-flow/CashFlowVerificationFormV2"
+import { ProductServiceForm } from "../product-service/ProductServiceForm"
+import { BusinessModelForm } from "../business-model/BusinessModelForm"
+import { LaunchKCBusinessDocumentsForm } from "../DocumentUploadForm"
+import { ExecutionForm } from "../execution/ExecutionForm"
+import { LaunchKCFitForm } from "../launchkc-fit/LaunchKcFitForm"
+import { MarketOpportunityForm } from "../market-opportunity/MarketOpportunityForm"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
-import {
-  isEnabledBankAccountConnectionV2,
-  isEnablePandaDocESign
-} from "@/utils/feature-flag.utils"
-import { useMemo } from "react"
-import { PreQualificationForm } from "../components/organisms/loan-application-form/pre-qualification/LaunchKCPreQualification"
-import { LoanRequest } from "../components/layouts/LoanRequest"
-import { BusinessModelForm } from "../components/organisms/loan-application-form/business-model/BusinessModelForm"
-import { BusinessInformationForm } from "../components/organisms/loan-application-form/kyb/KybForm"
-import { CashFlowVerificationForm } from "../components/organisms/loan-application-form/cash-flow/CashFlowVerificationForm"
-import { ConfirmationForm } from "../components/organisms/loan-application-form/confirmation/ConfirmationForm"
-import { CurrentLoansForm } from "../components/organisms/loan-application-form/current-loan/CurrentLoansForm"
-import { ESignForm } from "../components/organisms/loan-application-form/ESignForm"
-import { ExecutionForm } from "../components/organisms/loan-application-form/execution/ExecutionForm"
-import { FinancialInformationForm } from "../components/organisms/loan-application-form/financial-information/FinancialInformationForm"
-import { IdentityVerificationForm } from "../components/organisms/loan-application-form/IdentityVerificationForm"
-import { LaunchKCFitForm } from "../components/organisms/loan-application-form/launchkc-fit/LaunchKcFitForm"
-import { MarketOpportunityForm } from "../components/organisms/loan-application-form/market-opportunity/MarketOpportunityForm"
-import { OperatingExpensesForm } from "../components/organisms/loan-application-form/operating-expenses/OperatingExpensesForm"
-import { OwnerInformationForm } from "../components/organisms/loan-application-form/kyc/KycForm"
-import { ProductServiceForm } from "../components/organisms/loan-application-form/product-service/ProductServiceForm"
-import { ReviewApplication } from "../components/organisms/loan-application-form/review-application/ReviewApplication"
-import { CashFlowVerificationFormV2 } from "../components/organisms/loan-application-form/cash-flow/CashFlowVerificationFormV2"
-import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/SBBCurrentLoanForm.tsx"
-import { LaunchKCBusinessDocumentsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
-import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
-import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
-import { FictitiousNameCertificationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { CertificateGoodStandingForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { FictitiousNameCertificationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+
+interface IReviewStep {
+  stepProgress: ILoanApplicationStep
+}
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
- * Also remember to update the ReviewApplicationStep
+ * This hook doesn't include the review component, so it won't make an infinity loop
  */
-export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
+export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   return useMemo(() => {
     switch (step) {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
@@ -65,17 +66,11 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
         return isSbb() ? <SBBCurrentLoanForm /> : <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
-        if (isSbb() && isEnablePandaDocESign()) {
-          return <ESignForm />
-        } else {
-          return <ConfirmationForm />
-        }
+        return <ConfirmationForm />
       case LOAN_APPLICATION_STEPS.OPERATING_EXPENSES:
         return <OperatingExpensesForm />
       case LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION:
         return <IdentityVerificationForm />
-      case LOAN_APPLICATION_STEPS.REVIEW_APPLICATION:
-        return <ReviewApplication />
       case LOAN_APPLICATION_STEPS.PRODUCT_SERVICE:
         return <ProductServiceForm />
       case LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY:
@@ -88,8 +83,6 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <LaunchKCBusinessDocumentsForm />
       case LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT:
         return <LaunchKCFitForm />
-      case LOAN_APPLICATION_STEPS.PRE_QUALIFICATION:
-        return <PreQualificationForm />
       case LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER:
         return <BusinessEinLetterForm />
       case LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING:
@@ -105,3 +98,15 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
     }
   }, [step])
 }
+
+export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(
+  ({ stepProgress }: IReviewStep, ref) => {
+    const componentByStep = useGetReviewFormByStep(stepProgress.step)
+
+    return (
+      <div className="w-full h-full" ref={ref}>
+        {componentByStep}
+      </div>
+    )
+  }
+)

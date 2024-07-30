@@ -5,7 +5,7 @@ import {
 } from "@/modules/loan-application/constants/type"
 
 import { Separator } from "@/components/ui/separator"
-import { OperatingExpensesDisplay } from "../../atoms/OperatingExpensesDisplay"
+import { OperatingExpensesDisplay } from "../../../atoms/OperatingExpensesDisplay"
 import { useMemo } from "react"
 import { toCurrency } from "@/utils"
 

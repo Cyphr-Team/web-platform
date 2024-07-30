@@ -18,20 +18,20 @@ import { useForm } from "react-hook-form"
 import {
   getConfirmationTexts,
   launchKcConfirmationTexts
-} from "../../../constants"
+} from "../../../../constants"
 import {
   confirmationFormSchema,
   ConfirmationFormValue
-} from "../../../constants/form"
+} from "../../../../constants/form"
 import {
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS
-} from "../../../models/LoanApplicationStep/type"
+} from "../../../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../../providers"
-import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
+} from "../../../../providers"
+import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { sanitizeDOM } from "@/utils/file.utils"
 import { isLaunchKC } from "@/utils/domain.utils"
 

@@ -14,27 +14,27 @@ import { useForm } from "react-hook-form"
 import {
   FinancialFormValue,
   financialFormSchema
-} from "../../../constants/form"
+} from "../../../../constants/form"
 import { Button } from "@/components/ui/button"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
-} from "../../../providers"
-import { ConnectPlaidButton } from "../../molecules/ConnectPlaidButton"
-import { FileUploadCard } from "../../molecules/FileUploadCard"
-import { useQueryGetIncomeCategories } from "../../../hooks/useQuery/useQueryIncomeCategories"
+} from "../../../../providers"
+import { ConnectPlaidButton } from "../../../molecules/ConnectPlaidButton"
+import { FileUploadCard } from "../../../molecules/FileUploadCard"
+import { useQueryGetIncomeCategories } from "../../../../hooks/useQuery/useQueryIncomeCategories"
 import { capitalizeWords } from "@/utils"
 import { ArrowRight, Loader2 } from "lucide-react"
-import { FileUploadedCard } from "../../molecules/FileUploadedCard"
+import { FileUploadedCard } from "../../../molecules/FileUploadedCard"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
 import {
   DOCUMENT_ACTION,
   FORM_ACTION
-} from "../../../providers/LoanApplicationFormProvider"
+} from "../../../../providers/LoanApplicationFormProvider"
 import { useEffect } from "react"
-import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
+import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 

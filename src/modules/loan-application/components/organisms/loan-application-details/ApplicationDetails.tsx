@@ -1,7 +1,7 @@
-import { FinancialFormDetails } from "../../molecules/loan-application-details/FinancialFormDetails"
-import { KybFormDetails } from "../../molecules/loan-application-details/KybFormDetails"
-import { KycFormDetails } from "../../molecules/loan-application-details/KycFormDetails"
-import { LoanRequestDetails } from "../../molecules/loan-application-details/LoanRequestDetails"
+import { FinancialFormDetails } from "../loan-application-form/financial-information/FinancialFormDetails"
+import { KybFormDetails } from "../loan-application-form/kyb/KybFormDetails"
+import { KycFormDetails } from "../loan-application-form/kyc/KycFormDetails"
+import { LoanRequestDetails } from "../loan-application-form/loan-request/LoanRequestDetails"
 import { CashFlowTable } from "./CashFlowTable"
 import {
   isCyphrBank,
@@ -12,8 +12,8 @@ import {
 } from "@/utils/domain.utils"
 import { cn } from "@/lib/utils"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
-import { CurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/CurrentLoanFormDetails.tsx"
-import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/molecules/loan-application-details/OperatingExpenseFormDetails.tsx"
+import { CurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormDetails"
+import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/operating-expenses/OperatingExpenseFormDetails"
 import { ProductServiceFormDetails } from "../loan-application-form/product-service/ProductServiceFormDetails"
 import { MarketOpportunityFormDetails } from "../loan-application-form/market-opportunity/MarketOpportunityFormDetails"
 import { BusinessModelFormDetails } from "../loan-application-form/business-model/BusinessModelFormDetails"

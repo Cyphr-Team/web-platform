@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator"
 import { ApplicationDetails } from "../components/organisms/loan-application-details/ApplicationDetails"
-import { SignatureDetails } from "../components/organisms/loan-application-details/SignatureDetails"
+import { SignatureDetails } from "../components/organisms/loan-application-form/confirmation/SignatureDetails"
 import { DocumentationDetails } from "../components/organisms/loan-application-details/DocumentationDetails"
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
 import { Loader2 } from "lucide-react"
