@@ -22,7 +22,7 @@ export const BasicInformation = () => {
 
   const loanAmount = loanApplicationDetails?.loanAmount
     ? toCurrency(loanApplicationDetails?.loanAmount, 0)
-    : "$-"
+    : ""
 
   const businessName = loanKybDetail?.businessDetails?.name?.value
 

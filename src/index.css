@@ -39,6 +39,7 @@
     --error-secondary: 4 95% 94%;
     --disabled: 221 13% 46%;
     --primary-solid: 222 41% 8%;
+    --nav-active: 76 100% 88%;
   }
 
   .dark {
@@ -62,10 +63,12 @@
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
   }
+
   .launchkc {
     --primary: 195 46% 5%;
     --ring: 195 46% 5%;
   }
+
   .sbb {
     --primary: 195 46% 5%;
     --ring: 195 46% 5%;
@@ -76,6 +79,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground box-border;
   }
@@ -130,10 +134,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-weight: 400;
   font-style: normal;
 }
+
 .rdp-tbody tr:first-child {
   justify-content: flex-end;
 }
 
-.break-world { 
+.break-world {
   word-break: break-word;
 }

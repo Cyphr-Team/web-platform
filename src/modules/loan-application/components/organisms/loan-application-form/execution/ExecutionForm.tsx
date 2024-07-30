@@ -158,7 +158,7 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
         For each founder, describe the following:
       </h5>
       {founders.map((_, ind) => (
-        <div className="flex flex-col" key={ind}>
+        <div className="flex flex-col gap-2" key={ind}>
           <div className="flex justify-between">
             <h5 className="font-semibold text-sm">FOUNDER #{ind + 1}</h5>
             {ind > 0 && (
@@ -175,7 +175,7 @@ const Founders: React.FC<FounderProps> = ({ control }) => {
           <TextInput
             className="flex items-center justify-between"
             inputClassName="w-40"
-            label="First and Last Name"
+            label="First and Last name"
             name={`founders.${ind}.name`}
             control={control}
           />
@@ -276,6 +276,7 @@ export const ExecutionForm = () => {
               <SelectInput
                 className="flex items-center"
                 inputClassName="!max-w-52"
+                labelClassName="leading-relaxed"
                 key={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
                 label="How much cash does your company go through each month?"
                 control={form.control}

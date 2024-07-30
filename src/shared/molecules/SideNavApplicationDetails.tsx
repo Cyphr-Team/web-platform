@@ -32,7 +32,7 @@ function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
 }
 
 /**
-In the loan application details, all the steps MUST be finished
+ In the loan application details, all the steps MUST be finished
  */
 function LoanProgramCollapsible({
   label,

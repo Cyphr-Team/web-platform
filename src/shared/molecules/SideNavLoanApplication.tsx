@@ -45,7 +45,7 @@ export function LoanProgramItem({
     <li
       className={cn(
         "flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer",
-        active && "bg-lime-400/40"
+        active && "bg-nav-active"
       )}
       onClick={handleChangeStep}
       id={`step-${value.step}`}

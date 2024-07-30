@@ -1,4 +1,5 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
+// eslint-disable-next-line no-undef
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -110,6 +111,9 @@ module.exports = {
           secondary: "hsl(var(--text-secondary))",
           tertiary: "hsl(var(--text-tertiary))",
           senary: "hsl(var(--text-senary))"
+        },
+        nav: {
+          active: "hsl(var(--nav-active))"
         }
       },
       spacing: {
@@ -151,5 +155,6 @@ module.exports = {
       }
     }
   },
+  // eslint-disable-next-line no-undef
   plugins: [require("tailwindcss-animate")]
 }

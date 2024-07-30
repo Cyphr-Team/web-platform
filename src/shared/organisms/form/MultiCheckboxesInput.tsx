@@ -63,7 +63,7 @@ export const MultiCheckboxesInput = <T extends FieldValues>(
               >
                 <FormControl>
                   <Checkbox
-                    className="w-5 h-5"
+                    className="w-5 h-5 text-rich-black border-rich-black"
                     checked={field.value?.includes(option.value)}
                     onCheckedChange={(checked) => {
                       return checked
