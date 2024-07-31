@@ -51,13 +51,7 @@ export const LoanApplicationSave = () => {
       confirmText={confirmText}
       description={description}
     >
-      <ButtonLoading
-        variant="outline"
-        isLoading={isSubmitting}
-        className="text-rich-black"
-      >
-        Save & Close
-      </ButtonLoading>
+      <ButtonLoading isLoading={isSubmitting}>Save & Close</ButtonLoading>
     </CustomAlertDialog>
   )
 }

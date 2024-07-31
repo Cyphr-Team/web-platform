@@ -453,7 +453,16 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   useEffect(() => {
     if (executionFormQuery.data && isInitialized && isQualified) {
       changeDataAndProgress(
-        executionFormQuery.data,
+        {
+          ...executionFormQuery.data,
+          fundingSources: executionFormQuery.data.fundingSources.map(
+            (value) => ({
+              id: value.id,
+              sourceType: value.sourceType,
+              amount: `${value.amount}`
+            })
+          )
+        },
         LOAN_APPLICATION_STEPS.EXECUTION
       )
     }

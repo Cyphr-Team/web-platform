@@ -43,6 +43,7 @@ interface ISelectInputType<T extends FieldValues> {
   isRowDirection?: boolean
   options: IOption[]
   disabled?: boolean
+  messageClassName?: string
 }
 
 export const SelectInput = <T extends FieldValues>(
@@ -59,7 +60,8 @@ export const SelectInput = <T extends FieldValues>(
     inputClassName,
     labelClassName,
     subtitleClassName,
-    disabled
+    disabled,
+    messageClassName
   } = props
 
   return (
@@ -121,9 +123,12 @@ export const SelectInput = <T extends FieldValues>(
             </Select>
           </FormControl>
           {isRowDirection && subtitle ? (
-            <FormMessage style={{ marginTop: -1 }} />
+            <FormMessage
+              style={{ marginTop: -1 }}
+              className={messageClassName}
+            />
           ) : (
-            <FormMessage />
+            <FormMessage className={messageClassName} />
           )}
         </FormItem>
       )}
