@@ -19,7 +19,7 @@ export const IdentificationSummary = () => {
 
   const getSummaryStatus = (): IdentityVerificationStatus => {
     const passedGovernment = getPassedGovVerification({
-      govermentVerifications: loanSmartKycDetail?.governmentVerifications
+      governmentVerifications: loanSmartKycDetail?.governmentVerifications
     })
     const passedSelfie = getPassedSelfieVerification({
       selfieVers: loanSmartKycDetail?.selfies

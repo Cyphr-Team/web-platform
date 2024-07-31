@@ -28,6 +28,7 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <div className="flex flex-col gap-y-4xl">
           <AnswersTextDisplay
+            className="!flex-row justify-between"
             key="monthlyExpenseRange"
             label="How much cash does your company go through each month?"
             value={getLabelByValue(

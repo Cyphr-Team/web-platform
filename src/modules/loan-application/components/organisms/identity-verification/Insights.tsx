@@ -21,7 +21,7 @@ export const Insights = () => {
   const totalStep = 2
   const govermentIdStep = (): IdentityVerificationStatus => {
     const passedGov = getPassedGovVerification({
-      govermentVerifications: loanSmartKycDetail?.governmentVerifications
+      governmentVerifications: loanSmartKycDetail?.governmentVerifications
     })
     return passedGov != null
       ? IdentityVerificationStatus.VERIFIED

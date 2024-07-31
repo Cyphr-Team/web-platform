@@ -21,7 +21,7 @@ export const GovernmentIdVerification = () => {
 
   useEffect(() => {
     const passed = getPassedGovVerification({
-      govermentVerifications: loanSmartKycDetail?.governmentVerifications
+      governmentVerifications: loanSmartKycDetail?.governmentVerifications
     })
     setPassedGovVerification(passed)
   }, [loanSmartKycDetail?.governmentVerifications])

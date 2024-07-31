@@ -36,7 +36,6 @@ import {
 import { get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
-import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary/ApplicationOverview"
 import { ScoreCard } from "../../components/organisms/ScoreCard"
 import { ScoreCardListDetail } from "../../components/organisms/ScoreCardListDetail"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
@@ -51,6 +50,7 @@ import { AdverseMedia } from "@/modules/loan-application/components/organisms/Mi
 import { CashFlowTable } from "@/modules/loan-application/components/molecules/loan-application-details/CashFlowTable.tsx"
 import { IdentityVerificationDetails } from "@/modules/loan-application/components/molecules/loan-application-details/IdentityVerificationDetails.tsx"
 import { PreQualificationFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-qualification/PreQualificationFormDetails.tsx"
+import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary"
 
 export function Component() {
   const {
@@ -170,9 +170,9 @@ export function Component() {
               ref={page_2}
             >
               <KybFormDetails kybFormData={loanSummary?.kybForm} />
-              <div className="space-y-3xl flex flex-col" ref={page_3}>
-                <KycFormDetails kycFormData={loanSummary?.kycForm} />
-              </div>
+            </div>
+            <div className="space-y-3xl flex flex-col" ref={page_3}>
+              <KycFormDetails kycFormData={loanSummary?.kycForm} />
             </div>
           </>
         )}

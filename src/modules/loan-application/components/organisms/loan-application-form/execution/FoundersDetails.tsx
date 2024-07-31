@@ -27,6 +27,7 @@ export const FoundersDetails: React.FC<Props> = ({ data }) => {
                 value={get(founder, "name", "")}
               />
               <AnswersTextDisplay
+                valueClassName="capitalize"
                 className="!flex-row justify-between"
                 key={`${founder.id}-jobType`}
                 label="Full time or part time"

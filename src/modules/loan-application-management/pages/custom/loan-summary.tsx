@@ -2,7 +2,6 @@ import { Card } from "@/components/ui/card"
 
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
-import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary/ApplicationOverview"
 import { KybFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/KybFormDetails"
 import { KycFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/KycFormDetails"
 import { SignatureDetails } from "@/modules/loan-application/components/organisms/loan-application-form/confirmation/SignatureDetails"
@@ -21,6 +20,7 @@ import {
 } from "../../services"
 import { BusinessName } from "@/modules/loan-application/components/organisms/Middesk/BusinessName"
 import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/cashflow/report/CashflowGlance.tsx"
+import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary"
 
 export function Component() {
   const { loanSummary, loanApplicationDetails } =

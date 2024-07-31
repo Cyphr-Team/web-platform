@@ -20,14 +20,14 @@ export const getBadgeVariantByIdentityVerificationStatus = (
 }
 
 export const getPassedGovVerification = ({
-  govermentVerifications
+  governmentVerifications
 }: {
-  govermentVerifications?: PersonaGovernmentId[]
+  governmentVerifications?: PersonaGovernmentId[]
 }): PersonaGovernmentId | null => {
-  if (govermentVerifications == null) return null
+  if (governmentVerifications == null) return null
 
   const passed =
-    govermentVerifications.find(
+    governmentVerifications.find(
       (govVer) =>
         govVer.status?.toLowerCase() ===
         PersonaVerificationStatus.PASSED.toLowerCase()

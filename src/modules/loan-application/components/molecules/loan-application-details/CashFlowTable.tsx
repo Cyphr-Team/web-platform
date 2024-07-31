@@ -19,10 +19,10 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   },
   {
     id: "status",
-    header: () => <div className="flex items-center">Status</div>,
+    header: () => <div className="flex items-center float-right">Status</div>,
     cell: () => {
       return (
-        <div className="min-w-0">
+        <div className="min-w-0 text-right">
           <Badge
             isDot
             variant="soft"
@@ -61,7 +61,7 @@ export const CashFlowTable = () => {
 
   return (
     <Card>
-      <CardHeader className="border-b mx-8 px-0 md:px-0 md:py-4">
+      <CardHeader className="mx-8 px-0 md:px-0 md:py-4">
         <div className="flex justify-between items-center flex-wrap gap-1">
           <CardTitle className="font-semibold text-lg flex items-center gap-3">
             Connected Accounts

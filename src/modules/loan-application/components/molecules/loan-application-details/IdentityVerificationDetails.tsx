@@ -22,7 +22,7 @@ export const IdentityVerificationDetails: React.FC = () => {
 
   const getSummaryStatus = (): IdentityVerificationStatus => {
     const passedGovernment = getPassedGovVerification({
-      govermentVerifications: loanSmartKycDetail?.governmentVerifications
+      governmentVerifications: loanSmartKycDetail?.governmentVerifications
     })
     const passedSelfie = getPassedSelfieVerification({
       selfieVers: loanSmartKycDetail?.selfies
@@ -74,7 +74,7 @@ export const IdentityVerificationDetails: React.FC = () => {
   )
 
   const passedGovVerification = getPassedGovVerification({
-    govermentVerifications: loanSmartKycDetail?.governmentVerifications
+    governmentVerifications: loanSmartKycDetail?.governmentVerifications
   })
 
   const verifiedInformation = () => {

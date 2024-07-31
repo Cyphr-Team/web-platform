@@ -5,7 +5,7 @@ import { InformationRow } from "../../../atoms/InformationRow"
 import { formatPhoneNumberIntl } from "react-phone-number-input"
 import { formatBusinessStreetAddress } from "@/modules/loan-application/constants"
 
-export const ApplicationOverview = () => {
+export const BaseApplicationOverview = () => {
   const { loanSummary, loanApplicationDetails } =
     useLoanApplicationDetailContext()
 

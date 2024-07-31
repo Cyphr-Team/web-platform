@@ -15,6 +15,7 @@ import { InsightStatus } from "./insight.type"
 import { ExecutionFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/execution/type"
 import { BusinessModelFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/type"
 import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
+import { SmartKyc } from "@/lib/persona/persona.types"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -49,6 +50,7 @@ type LoanSummary = {
   executionForm?: ExecutionFormResponse
   businessModelForm?: BusinessModelFormResponse
   confirmationForm?: ConfirmationFormResponse
+  smartKycPersonaDetail?: SmartKyc
 } & Pick<LoanApplicationsKyc, "personalInfo" | "idCheck" | "checkLists">
 
 export type { LoanSummary }

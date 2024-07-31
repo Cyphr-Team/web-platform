@@ -139,6 +139,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER)}
           />
           <AnswersTextDisplay
+            valueClassName="capitalize"
             className="!flex-row justify-between"
             label="Are you a founder or co-founder of the company applying"
             value={getMetadataValue(
@@ -146,6 +147,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             )}
           />
           <AnswersTextDisplay
+            valueClassName="capitalize"
             className="!flex-row justify-between"
             label="Full-time founder"
             value={getMetadataValue(

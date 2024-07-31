@@ -48,7 +48,7 @@ export const SelfieVerification = () => {
 
   const emptyInformation = (
     <p className="text-center align-middle mt-12">
-      There is not any successful Selfie Verification
+      There have been no successful Selfie Verifications
     </p>
   )
 
