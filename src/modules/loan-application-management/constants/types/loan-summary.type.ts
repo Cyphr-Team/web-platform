@@ -6,7 +6,8 @@ import {
   CurrentLoanInformationResponse,
   KYBInformationResponse,
   KYCInformationResponse,
-  OperatingExpensesInformationResponse
+  OperatingExpensesInformationResponse,
+  PreQualificationResponse
 } from "@/modules/loan-application/constants/type"
 import { ProductServiceFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/type"
 import { LaunchKcFitFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/type"
@@ -41,6 +42,7 @@ type LoanSummary = {
   kycForm?: KYCInformationResponse
   currentLoanForms?: CurrentLoanInformationResponse[]
   operatingExpensesForm?: OperatingExpensesInformationResponse
+  preQualificationForm?: PreQualificationResponse
   productServiceForm?: ProductServiceFormResponse
   marketOpportunityForm?: MarketOpportunityFormResponse
   launchKCFitForm?: LaunchKcFitFormResponse

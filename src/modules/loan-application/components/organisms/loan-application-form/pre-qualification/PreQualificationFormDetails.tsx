@@ -13,25 +13,25 @@ export const PreQualificationFormDetails: React.FC<Props> = ({ data }) => {
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <AnswersTextDisplay
-          className="!flex-row justify-between capitalize"
+          className="!flex-row justify-between"
           key="isCompanyBasedInUs"
           label="Company based in the US"
           value="Yes"
         />
         <AnswersTextDisplay
-          className="!flex-row justify-between capitalize"
+          className="!flex-row justify-between"
           key="foundingTeamEligibleToWorkInUs"
           label="Founding team eligible to work in the US"
           value="Yes"
         />
         <AnswersTextDisplay
-          className="!flex-row justify-between capitalize"
+          className="!flex-row justify-between"
           key="isForProfitTechCompany"
           label="Your company is a for-profit technology provider (product, service, solution)"
           value="Yes"
         />
         <AnswersTextDisplay
-          className="!flex-row justify-between capitalize"
+          className="!flex-row justify-between"
           key="hasMvpWithRevenueUnderOneMillion"
           label="Your company has a minimum viable product with revenue under 1 million."
           value="Yes"

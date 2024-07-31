@@ -38,7 +38,6 @@ import { format } from "date-fns"
 import { useQueryGetSmartKyc } from "../hooks/useQuery/smart-kyc/useQueryGetSmartKyc"
 import { SmartKyc } from "../../../lib/persona/persona.types"
 import { isEnablePersonaKycV1 } from "../../../utils/feature-flag.utils"
-import { useQueryGetPreQualificationForm } from "@/modules/loan-application/hooks/useQuery/useQueryPreQualificationForm"
 import { PreQualificationResponse } from "@/modules/loan-application/constants/type"
 
 type LoanApplicationDetailContextType = {
@@ -110,8 +109,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const kycDetailQuery = useQueryGetKyc({
     applicationId: params.id!
   })
-
-  const preQualificationFormQuery = useQueryGetPreQualificationForm(params.id!)
 
   const userLoanApplicationQuery = useQueryGetApplicationDetailsByType(
     state?.applicationDetail.type,
@@ -243,7 +240,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       loanKybDetail: kybDetailQuery.data,
       loanKycDetail: kycDetailQuery.data,
       loanSmartKycDetail: loanSmartKycDetailQuery.data,
-      loanApplicationPrequalificationDetails: preQualificationFormQuery.data,
       loanApplicationDetails: userLoanApplicationQuery.data,
       loanSummary: loanSummaryQuery.data,
       cashFlowAnalysis: cashFlowQuery.data,
@@ -273,7 +269,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       kycDetailQuery.data,
       loanSmartKycDetailQuery.data,
       loanSmartKycDetailQuery.isLoading,
-      preQualificationFormQuery.data,
       userLoanApplicationQuery.data,
       loanSummaryQuery.data,
       loanSummaryQuery.isLoading,

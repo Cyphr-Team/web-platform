@@ -57,8 +57,7 @@ export function Component() {
     loanSummary,
     loanApplicationDetails,
     isFetchingCashflow,
-    isFetchingNewCashFlow,
-    loanApplicationPrequalificationDetails
+    isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
 
   const isJudge = checkIsJudge()
@@ -142,7 +141,7 @@ export function Component() {
           <ApplicationOverview />
           {isLaunchKC() && (
             <PreQualificationFormDetails
-              data={loanApplicationPrequalificationDetails}
+              data={loanSummary?.preQualificationForm}
             />
           )}
           <Separator />
