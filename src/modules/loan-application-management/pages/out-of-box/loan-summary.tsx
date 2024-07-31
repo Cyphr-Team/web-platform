@@ -20,19 +20,8 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
-import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
-import {
-  isCyphrBank,
-  isKccBank,
-  isLaunchKC,
-  isLoanReady,
-  isSbb
-} from "@/utils/domain.utils"
-import {
-  isEnableJudgeSubmitScore,
-  isEnableKYBV2,
-  isEnablePersonaKycV1
-} from "@/utils/feature-flag.utils"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
 import { get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
@@ -50,6 +39,8 @@ import { AdverseMedia } from "@/modules/loan-application/components/organisms/Mi
 import { CashFlowTable } from "@/modules/loan-application/components/molecules/loan-application-details/CashFlowTable.tsx"
 import { IdentityVerificationDetails } from "@/modules/loan-application/components/molecules/loan-application-details/IdentityVerificationDetails.tsx"
 import { PreQualificationFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-qualification/PreQualificationFormDetails.tsx"
+import usePermissions from "@/hooks/usePermissions"
+import { concat } from "lodash"
 import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary"
 
 export function Component() {
@@ -60,12 +51,14 @@ export function Component() {
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
 
-  const isJudge = checkIsJudge()
-  const isWorkspaceAdmin = checkIsWorkspaceAdmin()
-  const shouldDisplayCashFlowTable =
-    isLoanReady() || isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()
-  const shouldDisplayIdentityVerification = isEnablePersonaKycV1()
-  const shouldDisplayHighRiskEntity = isEnableKYBV2() && isSbb()
+  const {
+    isJudge,
+    isWorkspaceAdmin,
+    shouldDisplayCashFlowTable,
+    shouldDisplayIdentityVerification,
+    shouldDisplayHighRiskEntity,
+    shouldDisplayCashFlowReport
+  } = usePermissions()
 
   const page_1 = useRef<HTMLDivElement>(null)
   const page_2 = useRef<HTMLDivElement>(null)
@@ -81,19 +74,19 @@ export function Component() {
   const page_12 = useRef<HTMLDivElement>(null)
   const page_13 = useRef<HTMLDivElement>(null)
 
-  const elementToExportRef = [
+  const elementToExportRef = concat(
     page_1,
-    ...(isLaunchKC() ? [page_2, page_3] : []),
-    ...(shouldDisplayCashFlowTable ? [page_4] : []),
+    isLaunchKC() ? [page_2, page_3] : [],
+    shouldDisplayCashFlowTable ? [page_4] : [],
     page_5,
     page_6,
-    ...(isLaunchKC() ? [page_7, page_8] : []),
+    isLaunchKC() ? [page_7, page_8] : [],
     page_9,
     page_10,
-    ...(shouldDisplayHighRiskEntity ? [page_11] : []),
-    ...(shouldDisplayIdentityVerification ? [page_12] : []),
-    page_13
-  ]
+    shouldDisplayHighRiskEntity ? [page_11] : [],
+    shouldDisplayIdentityVerification ? [page_12] : [],
+    shouldDisplayCashFlowReport ? [page_13] : []
+  )
 
   // we can easily adjust the order of form here
   const formsOrder = [
@@ -271,14 +264,16 @@ export function Component() {
           </div>
         )}
 
-        <div
-          className="flex flex-col space-y-3xl"
-          id="cash-flow-report"
-          ref={page_13}
-        >
-          <p className="text-4xl font-semibold ">Cash Flow Report</p>
-          <CashflowGlanceReport />
-        </div>
+        {shouldDisplayCashFlowReport && (
+          <div
+            className="flex flex-col space-y-3xl"
+            id="cash-flow-report"
+            ref={page_13}
+          >
+            <p className="text-4xl font-semibold">Cash Flow Report</p>
+            <CashflowGlanceReport />
+          </div>
+        )}
       </Card>
       {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}
       {isLaunchKC() && isWorkspaceAdmin && isEnableJudgeSubmitScore() && (

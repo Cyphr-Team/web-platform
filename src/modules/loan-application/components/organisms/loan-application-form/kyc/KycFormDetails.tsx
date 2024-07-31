@@ -13,6 +13,7 @@ import {
 } from "../custom-form/launchkc/const"
 import { get } from "lodash"
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
+import { checkIsJudge } from "@/utils/check-roles"
 
 interface KycFormDetailsProps {
   kycFormData?: KYCInformationResponse
@@ -133,11 +134,13 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
               getValue(LAUNCH_KC_KYC_FIELD_NAMES.DATE_OF_BIRTH)
             )}
           />
-          <AnswersTextDisplay
-            className="!flex-row justify-between"
-            label="SSN/ITIN"
-            value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER)}
-          />
+          {!checkIsJudge() && (
+            <AnswersTextDisplay
+              className="!flex-row justify-between"
+              label="SSN/ITIN"
+              value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER)}
+            />
+          )}
           <AnswersTextDisplay
             valueClassName="capitalize"
             className="!flex-row justify-between"
@@ -220,11 +223,13 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             label="Date of birth"
             value={formatBirthday(kycFormData?.dateOfBirth)}
           />
-          <TextInputDisplay
-            className="col-span-3"
-            label="SSN/ITIN"
-            value={kycFormData?.socialSecurityNumber}
-          />
+          {!checkIsJudge() && (
+            <TextInputDisplay
+              className="col-span-3"
+              label="SSN/ITIN"
+              value={kycFormData?.socialSecurityNumber}
+            />
+          )}
           <TextInputDisplay
             className="col-span-3"
             label="Business ownership percentage"

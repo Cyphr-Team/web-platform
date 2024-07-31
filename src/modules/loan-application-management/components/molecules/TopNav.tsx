@@ -44,7 +44,6 @@ export function TopNav({ className, ...props }: Props) {
       // In Launch KC, this else case means the Judge role only
       menuItems = [
         ApplicationMenuName.business as string,
-        ApplicationMenuName.cashflow as string,
         ApplicationMenuName.applicationSummary as string
       ]
     }
