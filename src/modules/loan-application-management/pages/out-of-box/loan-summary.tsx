@@ -145,16 +145,17 @@ export function Component() {
             />
           </div>
           <ApplicationOverview />
+          <Separator />
+
           {isLaunchKC() && (
             <PreQualificationFormDetails
               data={loanSummary?.preQualificationForm}
             />
           )}
-          <Separator />
           {!isLaunchKC() && (
             <>
               <p className="text-4xl font-semibold loan-application-header">
-                Loan Application
+                Application Details
               </p>
               <KybFormDetails kybFormData={loanSummary?.kybForm} />
               <KycFormDetails kycFormData={loanSummary?.kycForm} />
@@ -168,13 +169,10 @@ export function Component() {
               id="application-overview"
               ref={page_2}
             >
-              <p className="text-4xl font-semibold loan-application-header">
-                Loan Application
-              </p>
               <KybFormDetails kybFormData={loanSummary?.kybForm} />
-            </div>
-            <div className="space-y-3xl flex flex-col" ref={page_3}>
-              <KycFormDetails kycFormData={loanSummary?.kycForm} />
+              <div className="space-y-3xl flex flex-col" ref={page_3}>
+                <KycFormDetails kycFormData={loanSummary?.kycForm} />
+              </div>
             </div>
           </>
         )}

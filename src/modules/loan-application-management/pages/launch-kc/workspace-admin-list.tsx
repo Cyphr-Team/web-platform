@@ -28,7 +28,7 @@ export function WorkspaceAdminApplicationList() {
       <div className="flex flex-wrap justify-between gap-4">
         <div className="flex flex-col gap-1">
           <Breadcrumbs breads={crumbs} className="px-0" />
-          <h1 className="text-2xl font-semibold">Loan Applications</h1>
+          <h1 className="text-2xl font-semibold">Application</h1>
         </div>
       </div>
 
