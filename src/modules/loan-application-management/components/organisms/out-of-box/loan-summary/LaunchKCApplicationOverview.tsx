@@ -20,7 +20,7 @@ const VerificationStatus = ({
   return (
     <div className="grid-cols-2 grid grid-flow-row border border-t-0 border-l-0">
       <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex items-center">
-        <p className="text-sm  break-words whitespace-nowrap text-foreground font-medium">
+        <p className="text-sm  break-words whitespace-nowrap text-text-tertiary">
           {label}
         </p>
       </div>
@@ -84,11 +84,11 @@ export const LaunchKCApplicationOverview = () => {
       <div className="grid grid-cols-2">
         <VerificationStatus
           isVerified={businessVerificationStatus}
-          label="Business Verification"
+          label="Business verification"
         />
         <VerificationStatus
           isVerified={identityVerificationStatus}
-          label="Identity Verification"
+          label="Identity verification"
         />
         <InformationRow
           label="Business name"
