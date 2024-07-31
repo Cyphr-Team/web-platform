@@ -83,9 +83,7 @@ export const ApplicationDetailsHeader = () => {
             confirmText="Save & Close"
             description="Are you sure you want to save and close this loan application?"
           >
-            <ButtonLoading variant="outline" isLoading={isSubmitting}>
-              Save & Close
-            </ButtonLoading>
+            <ButtonLoading isLoading={isSubmitting}>Save & Close</ButtonLoading>
           </CustomAlertDialog>
         </div>
       ) : (

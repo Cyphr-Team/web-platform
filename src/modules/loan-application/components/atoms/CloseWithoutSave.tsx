@@ -24,11 +24,12 @@ export const CloseWithoutSave = () => {
       cancelText="Cancel"
       confirmText="Yes, Close"
       description={description}
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      actionClassName="text-white"
     >
       <Button
+        variant="outline"
         disabled={isSubmitting}
-        className="bg-error hover:opacity-90 hover:bg-error"
+        className="hover:opacity-90"
       >
         Close without saving
       </Button>
