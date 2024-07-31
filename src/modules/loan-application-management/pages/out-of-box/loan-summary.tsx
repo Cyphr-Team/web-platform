@@ -78,25 +78,31 @@ export function Component() {
   const page_9 = useRef<HTMLDivElement>(null)
   const page_10 = useRef<HTMLDivElement>(null)
   const page_11 = useRef<HTMLDivElement>(null)
+  const page_12 = useRef<HTMLDivElement>(null)
+  const page_13 = useRef<HTMLDivElement>(null)
 
   const elementToExportRef = [
     page_1,
-    ...(isLaunchKC() ? [page_2] : []),
-    ...(shouldDisplayCashFlowTable ? [page_3] : []),
-    page_4,
+    ...(isLaunchKC() ? [page_2, page_3] : []),
+    ...(shouldDisplayCashFlowTable ? [page_4] : []),
     page_5,
-    page_7,
-    page_8,
-    ...(shouldDisplayHighRiskEntity ? [page_9] : []),
-    ...(shouldDisplayIdentityVerification ? [page_10] : []),
-    page_11
+    page_6,
+    ...(isLaunchKC() ? [page_7, page_8] : []),
+    page_9,
+    page_10,
+    ...(shouldDisplayHighRiskEntity ? [page_11] : []),
+    ...(shouldDisplayIdentityVerification ? [page_12] : []),
+    page_13
   ]
 
   // we can easily adjust the order of form here
   const formsOrder = [
     { key: "productServiceForm", Component: ProductServiceFormDetails },
     { key: "marketOpportunityForm", Component: MarketOpportunityFormDetails },
-    { key: "launchKCFitForm", Component: LaunchKcFitFormDetails },
+    { key: "launchKcfitForm", Component: LaunchKcFitFormDetails }
+  ]
+  // split the form into two groups to avoid overflow
+  const formsOrder_2 = [
     { key: "executionForm", Component: ExecutionFormDetails },
     { key: "businessModelForm", Component: BusinessModelFormDetails }
   ]
@@ -156,27 +162,31 @@ export function Component() {
           )}
         </div>
         {isLaunchKC() && (
-          <div
-            className="space-y-3xl flex flex-col"
-            id="application-overview"
-            ref={page_2}
-          >
-            <p className="text-4xl font-semibold loan-application-header">
-              Loan Application
-            </p>
-            <KybFormDetails kybFormData={loanSummary?.kybForm} />
-            <KycFormDetails kycFormData={loanSummary?.kycForm} />
-          </div>
+          <>
+            <div
+              className="space-y-3xl flex flex-col"
+              id="application-overview"
+              ref={page_2}
+            >
+              <p className="text-4xl font-semibold loan-application-header">
+                Loan Application
+              </p>
+              <KybFormDetails kybFormData={loanSummary?.kybForm} />
+            </div>
+            <div className="space-y-3xl flex flex-col" ref={page_3}>
+              <KycFormDetails kycFormData={loanSummary?.kycForm} />
+            </div>
+          </>
         )}
         {shouldDisplayCashFlowTable && (
-          <div className="space-y-3xl flex flex-col" ref={page_3}>
+          <div className="space-y-3xl flex flex-col" ref={page_4}>
             <CashFlowTable />
           </div>
         )}
         <div
           className="space-y-3xl flex flex-col"
           id="loan-application"
-          ref={page_4}
+          ref={page_5}
         >
           {isSbb() ? (
             <SbbCurrentLoanFormDetails
@@ -188,23 +198,33 @@ export function Component() {
             />
           )}
         </div>
-        <div className="space-y-3xl flex flex-col" ref={page_5}>
+        <div className="space-y-3xl flex flex-col" ref={page_6}>
           <OperatingExpensesFormDetails
             operatingExpensesFormData={loanSummary?.operatingExpensesForm}
           />
         </div>
         {/* Loan summary */}
-        <div className="space-y-3xl flex flex-col" ref={page_6}>
-          {formsOrder.map(({ key, Component }) => {
-            const formData = get(loanSummary, key)
-            return formData && <Component key={key} data={formData} />
-          })}
-        </div>
+        {isLaunchKC() && (
+          <>
+            <div className="space-y-3xl flex flex-col" ref={page_7}>
+              {formsOrder.map(({ key, Component }) => {
+                const formData = get(loanSummary, key)
+                return formData && <Component key={key} data={formData} />
+              })}
+            </div>
+            <div className="space-y-3xl flex flex-col" ref={page_8}>
+              {formsOrder_2.map(({ key, Component }) => {
+                const formData = get(loanSummary, key)
+                return formData && <Component key={key} data={formData} />
+              })}
+            </div>
+          </>
+        )}
 
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p1"
-          ref={page_7}
+          ref={page_9}
         >
           <SignatureDetails
             confirmationFormData={loanSummary?.confirmationForm}
@@ -220,7 +240,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="business-verification-p2"
-          ref={page_8}
+          ref={page_10}
         >
           <Secretary />
           <TinMatch />
@@ -234,7 +254,7 @@ export function Component() {
           <div
             className="flex flex-col space-y-3xl"
             id="business-verification-p3"
-            ref={page_9}
+            ref={page_11}
           >
             <IndustryClassification />
             <Website />
@@ -247,7 +267,7 @@ export function Component() {
           <div
             className="space-y-3xl flex flex-col"
             id="identity-verification"
-            ref={page_10}
+            ref={page_12}
           >
             <IdentityVerificationDetails />
           </div>
@@ -256,7 +276,7 @@ export function Component() {
         <div
           className="flex flex-col space-y-3xl"
           id="cash-flow-report"
-          ref={page_11}
+          ref={page_13}
         >
           <p className="text-4xl font-semibold ">Cash Flow Report</p>
           <CashflowGlanceReport />

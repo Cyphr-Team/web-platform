@@ -53,7 +53,7 @@ type LoanApplicationDetailContextType = {
   isLoading: boolean
   isLoadingLoanSmartKycDetail: boolean
   loanSummary?: LoanSummary
-  loanApplicationPrequalificationDetails?: PreQualificationResponse
+  loanApplicationPreQualificationDetails?: PreQualificationResponse
   onChangeTransactionTags: (option: TRANSACTION_TAG[]) => void
   onChangeAccountFilter: (value: string[]) => void
   onChangeTimeRangeFilter: (from: string | null, to: string | null) => void

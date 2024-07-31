@@ -52,7 +52,11 @@ export const ApplicationDetails = () => {
           )}
           {kybFormData && <KybFormDetails kybFormData={kybFormData} />}
           {kycFormData && <KycFormDetails kycFormData={kycFormData} />}
-
+          {(isLoanReady() ||
+            isKccBank() ||
+            isCyphrBank() ||
+            isSbb() ||
+            isLaunchKC()) && <CashFlowTable />}
           {currentLoanFormData && (
             <CurrentLoanFormDetails currentLoanFormData={currentLoanFormData} />
           )}
@@ -73,19 +77,12 @@ export const ApplicationDetails = () => {
           {businessModelFormData && (
             <BusinessModelFormDetails data={businessModelFormData} />
           )}
-
-          {launchKCFitFormData && (
-            <LaunchKcFitFormDetails data={launchKCFitFormData} />
-          )}
           {executionFormData && (
             <ExecutionFormDetails data={executionFormData} />
           )}
-
-          {(isLoanReady() ||
-            isKccBank() ||
-            isCyphrBank() ||
-            isSbb() ||
-            isLaunchKC()) && <CashFlowTable />}
+          {launchKCFitFormData && (
+            <LaunchKcFitFormDetails data={launchKCFitFormData} />
+          )}
         </div>
       </div>
     </div>

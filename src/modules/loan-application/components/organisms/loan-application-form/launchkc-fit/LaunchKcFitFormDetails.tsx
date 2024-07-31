@@ -28,11 +28,13 @@ export const LaunchKcFitFormDetails: React.FC<Props> = ({ data }) => {
             label="Have you applied to LaunchKC previously"
             value={data?.applied ? "Yes" : "No"}
           />
-          <AnswersTextDisplay
-            key="progress"
-            label="If Yes, what progress, have you made since your previous application"
-            value={data?.progress}
-          />
+          {data?.applied && (
+            <AnswersTextDisplay
+              key="progress"
+              label="If Yes, what progress, have you made since your previous application"
+              value={data?.progress}
+            />
+          )}
         </div>
       </div>
     </Card>

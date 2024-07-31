@@ -115,7 +115,7 @@ export const GENDER_IDENTITY_OPTIONS: Option[] = [
     value: "transgender_man_or_trans_masculine"
   },
   {
-    label: "Non-Binary/Genderqueer/Gender Fluid",
+    label: "Non-Binary/Gender Queer/Gender Fluid",
     value: "non_binary"
   },
   {
@@ -226,5 +226,8 @@ export const enum LAUNCH_KC_KYC_FIELD_NAMES {
   RACIAL_IDENTIFICATION = "racialIdentification",
   ETHNIC_IDENTIFICATION = "ethnicIdentification",
   ARE_FOUNDER_OR_CO_FOUNDER = "areFounderOrCoFounder",
-  ARE_FULL_TIME_FOUNDER = "areFullTimeFounder"
+  ARE_FULL_TIME_FOUNDER = "areFullTimeFounder",
+
+  // this field contains the metadata of the form
+  METADATA = "metadata"
 }
