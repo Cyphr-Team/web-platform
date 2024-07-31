@@ -27,6 +27,8 @@ import {
 import { StatusRoundBadge } from "../../components/atoms/StatusRoundBadge"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { capitalizeWords } from "@/utils"
+import { WorkspaceAdminApplicationStatusCard } from "../../components/atoms/WorkspaceAdminApplicationStatusCard"
+import { useQueryApplicationStageStat } from "../../hooks/useQuery/useQueryApplicationStageStat"
 
 const ROUND_STATUS_OPTIONS: Option[] = [
   {
@@ -64,6 +66,10 @@ const roundOptionToStatus = (roundOption: Option) => {
 }
 
 export function WorkspaceAdminApplicationListFilter() {
+  // Get the application stage stat
+  const stageStatResponse = useQueryApplicationStageStat()
+  const stageStat = stageStatResponse?.data
+
   const crumbs = useBreadcrumb()
 
   // Get list judges for multiselect
@@ -162,6 +168,8 @@ export function WorkspaceAdminApplicationListFilter() {
           <h1 className="text-2xl font-semibold">Application</h1>
         </div>
       </div>
+
+      <WorkspaceAdminApplicationStatusCard stageStat={stageStat} />
 
       <div className="mt-4">
         <Form {...filterForm}>

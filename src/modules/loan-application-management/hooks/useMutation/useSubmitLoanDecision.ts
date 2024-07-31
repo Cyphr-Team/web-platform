@@ -14,6 +14,7 @@ import {
 } from "../../constants/types/application"
 import {
   loanApplicationKeys,
+  workspaceAdminAssignJudge,
   workspaceAdminLoanApplicationScoreKeys
 } from "@/constants/query-key"
 import { QUERY_KEY } from "../../constants/query-key"
@@ -58,6 +59,9 @@ export const useSubmitLoanDecision = () => {
       })
       queryClient.invalidateQueries({
         queryKey: workspaceAdminLoanApplicationScoreKeys.detail(params.id!)
+      })
+      queryClient.invalidateQueries({
+        queryKey: workspaceAdminAssignJudge.applicationStageStat()
       })
     }
   })

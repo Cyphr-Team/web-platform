@@ -4,9 +4,12 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { PaginationState } from "@tanstack/react-table"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { workspaceAdminApplicationColumns } from "../../components/table/loan-application-columns"
 import { useQueryListPaginatedLoanApplicationScore } from "../../hooks/useQuery/useQueryListPaginatedLoanApplicationScore"
+import { WorkspaceAdminApplicationStatusCard } from "../../components/atoms/WorkspaceAdminApplicationStatusCard"
+import { useQueryApplicationStageStat } from "../../hooks/useQuery/useQueryApplicationStageStat"
+import { IWorkspaceAdminApplicationStageStat } from "../../../../types/application/application-assign.type"
 
 export function WorkspaceAdminApplicationList() {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -18,6 +21,13 @@ export function WorkspaceAdminApplicationList() {
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize
   })
+
+  // Get the application stage stat
+  const stageStatResponse = useQueryApplicationStageStat()
+  const stageStat: IWorkspaceAdminApplicationStageStat | undefined =
+    useMemo(() => {
+      return stageStatResponse?.data
+    }, [stageStatResponse?.data])
 
   const crumbs = useBreadcrumb()
 
@@ -31,6 +41,8 @@ export function WorkspaceAdminApplicationList() {
           <h1 className="text-2xl font-semibold">Application</h1>
         </div>
       </div>
+
+      <WorkspaceAdminApplicationStatusCard stageStat={stageStat} />
 
       <DataTable
         tableContainerClassName="flex flex-col flex-1 overflow-hidden h-[85vh]"

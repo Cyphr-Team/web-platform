@@ -6,6 +6,7 @@ import { AxiosError, AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import {
   loanApplicationKeys,
+  workspaceAdminAssignJudge,
   workspaceAdminLoanApplicationScoreKeys
 } from "@/constants/query-key"
 import { QUERY_KEY } from "@/modules/dashboard-v2/constants/dashboard.constants"
@@ -30,6 +31,10 @@ export const useReviewLoanApplication = (applicationId: string) => {
 
         queryClient.invalidateQueries({
           queryKey: loanApplicationKeys.statusDetail(applicationId)
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: workspaceAdminAssignJudge.applicationStageStat()
         })
       }
     }

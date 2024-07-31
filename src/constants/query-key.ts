@@ -53,7 +53,9 @@ export const workspaceAdminAssignJudge = {
       ...workspaceAdminAssignJudge.all,
       "applicationWithStageScoresResponse",
       { applicationId }
-    ] as const
+    ] as const,
+  applicationStageStat: () =>
+    [...workspaceAdminAssignJudge.all, "stageStat"] as const
 }
 
 export const workspaceAdminLoanApplicationScoreKeys = {

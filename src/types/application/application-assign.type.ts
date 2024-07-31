@@ -70,6 +70,14 @@ interface IWorkspaceAdminApplicationScore
   roundTwo: IStageInfo
 }
 
+interface IWorkspaceAdminApplicationStageStat {
+  totalApplicationPendingSubmission?: number
+  totalApplicationReadyToReview?: number
+  totalApplicationRound1?: number
+  totalApplicationRound2?: number
+  totalApplicationRound3?: number
+}
+
 const convertUserDetailInfoToJudgeInfo = (
   userDetail: UserDetailInfo
 ): JudgeInfo => {
@@ -90,5 +98,6 @@ export type {
   IApplicationWithStageScoresResponse,
   IScoreInfo,
   IWorkspaceAdminApplicationScore,
-  JudgeInfo
+  JudgeInfo,
+  IWorkspaceAdminApplicationStageStat
 }

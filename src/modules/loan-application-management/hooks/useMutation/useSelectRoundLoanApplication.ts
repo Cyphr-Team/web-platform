@@ -60,6 +60,10 @@ export const useSelectRoundLoanApplication = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_DASHBOARD.DASHBOARD_V2]
       })
+
+      queryClient.invalidateQueries({
+        queryKey: workspaceAdminAssignJudge.applicationStageStat()
+      })
     }
   })
 }

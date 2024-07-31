@@ -6,6 +6,7 @@ import { IconProps, Icons } from "../../../../components/ui/icons"
 
 interface StatusRoundBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   round: LoanApplicationStatus
+  isShowIcon?: boolean
   className?: string
 }
 
@@ -64,6 +65,7 @@ function StatusRoundBadge({
   className,
   round,
   children,
+  isShowIcon = true,
   ...props
 }: Readonly<StatusRoundBadgeProps>) {
   const RoundBadgeIcon = getBadgeIconByRound(round)
@@ -78,7 +80,7 @@ function StatusRoundBadge({
       )}
       {...props}
     >
-      {RoundBadgeIcon && <RoundBadgeIcon className="mr-1" />}
+      {isShowIcon && RoundBadgeIcon && <RoundBadgeIcon className="mr-1" />}
       {children}
     </div>
   )
