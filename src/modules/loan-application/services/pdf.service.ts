@@ -69,9 +69,9 @@ const addContentToPdf = async (
 }
 
 export const getPDF = async (
-  itemsRef: React.MutableRefObject<(HTMLDivElement | null)[]>
+  pdfElements: HTMLDivElement[]
 ): Promise<{ pdf: jsPDF; totalPage: number }> => {
-  if (!itemsRef.current.length) return { pdf: new jsPDF(), totalPage: 0 }
+  if (!pdfElements.length) return { pdf: new jsPDF(), totalPage: 0 }
 
   const style = document.createElement("style")
   document.head.appendChild(style)
@@ -82,10 +82,10 @@ export const getPDF = async (
 
   const doc = new jsPDF("p", "mm")
   let totalPage = 0
-  for (let idx = 0; idx < itemsRef.current.length; ++idx) {
-    const content = itemsRef.current[idx]
-    if (!content) return { pdf: new jsPDF(), totalPage: 0 }
-    if (idx == itemsRef.current.length - 1) {
+  for (let idx = 0; idx < pdfElements.length; ++idx) {
+    const content = pdfElements[idx]
+    if (!content) continue
+    if (idx == pdfElements.length - 1) {
       const processedPage = await processContent(doc, content, false)
       totalPage += processedPage
     } else {

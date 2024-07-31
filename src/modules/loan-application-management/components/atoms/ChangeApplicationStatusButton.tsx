@@ -130,7 +130,7 @@ export const ChangeApplicationStatusButton = () => {
             <TooltipTrigger color={getBadgeVariantByStatus(data)}>
               <Button
                 variant="outline"
-                className="capitalize h-10 w-48 rounded-full relative justify-center text-sm"
+                className="capitalize h-10 min-w-48 rounded-full relative justify-center text-sm"
               >
                 <Dot variantColor={getBadgeVariantByStatus(data)} />
                 {textButton}

@@ -52,7 +52,7 @@ export function LoanProgramItem({
     >
       <div
         className={cn(
-          "w-6 h-6 rounded-md bg-white flex justify-center items-center border",
+          "w-6 h-6 rounded-md bg-white flex justify-center items-center border flex-shrink-0",
           active && "ring-4 ring-stone-400/[.14]",
           finished && "bg-primary border-0"
         )}

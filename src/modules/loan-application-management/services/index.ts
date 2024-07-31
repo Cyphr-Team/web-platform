@@ -41,7 +41,14 @@ export const getBadgeVariantByStatus = (status?: LoanApplicationStatus) => {
   switch (statusUppercase) {
     case LoanApplicationStatus.SUBMITTED:
     case LoanApplicationStatus.READY_FOR_REVIEW:
+    case LoanApplicationStatus.ROUND_1:
+    case LoanApplicationStatus.ROUND_2:
+    case LoanApplicationStatus.ROUND_3:
       return "blue"
+    case LoanApplicationStatus.ELIMINATED_AFTER_INITIAL_REVIEW:
+    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_1:
+    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_2:
+    case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_3:
     case LoanApplicationStatus.DENIED:
       return "red"
     case LoanApplicationStatus.IN_REVIEW:

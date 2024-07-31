@@ -1,14 +1,15 @@
 import {
   LOAN_APPLICATION_STEPS,
-  LOAN_APPLICATION_STEP_STATUS
+  LOAN_APPLICATION_STEP_STATUS,
+  STEP_MENU
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { useMemo, useRef, useState } from "react"
-import { ReviewApplicationStep } from "./ReviewApplicationStep"
 
 import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { getPDF } from "@/modules/loan-application/services/pdf.service"
+import { isSbb } from "@/utils/domain.utils"
 import {
   isEnableKycReOrder,
   isEnablePandaDocESign
@@ -22,7 +23,18 @@ import {
 } from "../../../../constants/form"
 import { useLoanApplicationFormContext } from "../../../../providers"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
-import { isSbb } from "@/utils/domain.utils"
+import { ReviewApplicationGroup } from "./ReviewApplicationGroup"
+
+const REQUIRED_REVIEW = [
+  {
+    key: STEP_MENU.APPLICATION,
+    label: "Application"
+  },
+  {
+    key: STEP_MENU.DOCUMENTATION,
+    label: "Documentation"
+  }
+]
 
 export const ReviewApplication = () => {
   const { progress, step, finishCurrentStep } =
@@ -32,7 +44,9 @@ export const ReviewApplication = () => {
    * This ref is responsible for the content of all the form
    * This ref is use for generate a PDF for ESign
    */
-  const itemsRef = useRef<Array<HTMLDivElement | null>>([])
+  const itemsRef = useRef<
+    Partial<Record<LOAN_APPLICATION_STEPS, HTMLDivElement>>
+  >({})
   const [isGenPDF, setIsGenPDF] = useState(false)
 
   const { dispatchFormAction } = useLoanApplicationFormContext()
@@ -65,7 +79,7 @@ export const ReviewApplication = () => {
     if (isSbb() && isEnablePandaDocESign()) {
       try {
         setIsGenPDF(true)
-        const { pdf, totalPage } = await getPDF(itemsRef)
+        const { pdf, totalPage } = await getPDF(Object.values(itemsRef.current))
 
         dispatchFormAction({
           action: FORM_ACTION.SET_DATA,
@@ -96,19 +110,16 @@ export const ReviewApplication = () => {
 
   return (
     <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6 mx-4 md:mx-8">
-      <div className="col-span-2 text-2xl font-semibold">Application</div>
-      <div className="col-span-6 flex flex-col gap-6">
-        {progressFilter.map((prog, idx) => {
-          return (
-            <ReviewApplicationStep
-              ref={(e) => {
-                itemsRef.current[idx] = e
-              }}
-              key={prog.step}
-              stepProgress={prog}
-            />
-          )
-        })}
+      {REQUIRED_REVIEW.map((requiredReview) => (
+        <ReviewApplicationGroup
+          key={requiredReview.key}
+          label={requiredReview.label}
+          parentKey={requiredReview.key}
+          itemsRef={itemsRef}
+        />
+      ))}
+
+      <div className="col-start-3 col-span-6">
         <Form {...form}>
           <ButtonLoading
             isLoading={isGenPDF}

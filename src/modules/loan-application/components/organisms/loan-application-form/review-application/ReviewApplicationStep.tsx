@@ -103,6 +103,11 @@ export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(
   ({ stepProgress }: IReviewStep, ref) => {
     const componentByStep = useGetReviewFormByStep(stepProgress.step)
 
+    /**
+     * Some forms (e.g., PreQualification) are not required to be included in the review application step.
+     */
+    if (!componentByStep) return null
+
     return (
       <div className="w-full h-full" ref={ref}>
         {componentByStep}

@@ -19,7 +19,7 @@ function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
     <li className="flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer">
       <div
         className={cn(
-          "w-6 h-6 rounded-md flex justify-center items-center border",
+          "w-6 h-6 rounded-md flex justify-center items-center border flex-shrink-0",
           "ring-2 ring-stone-400/[.14]",
           "bg-active border-0"
         )}
