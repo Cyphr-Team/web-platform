@@ -64,6 +64,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Preferred pronoun"
             value={getOptionValue(
               LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN,
@@ -72,6 +73,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Racial identification"
             value={getOptionValue(
               LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION,
@@ -80,6 +82,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Ethnic identification"
             value={getOptionValue(
               LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION,
@@ -89,26 +92,31 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Resident address line #1"
+            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE1) ?? "N/A"}
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Resident address line #2"
+            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE2) ?? "N/A"}
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="City"
+            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY) ?? "N/A"}
           />
           <AnswersTextDisplay
             label="State"
             className="!flex-row justify-between"
+            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_STATE) ?? "N/A"}
           />
           <AnswersTextDisplay
             label="Zip code"
             className="!flex-row justify-between"
+            valueClassName="text-right"
             value={
               getValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE) ?? "N/A"
             }
@@ -116,11 +124,13 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Email address"
+            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.EMAIL) ?? "N/A"}
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Phone number"
+            valueClassName="text-right"
             value={
               formatPhoneNumber(
                 getValue(LAUNCH_KC_KYC_FIELD_NAMES.PHONE_NUMBER) ?? "N/A"
@@ -130,6 +140,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Date of birth"
+            valueClassName="text-right"
             value={formatBirthday(
               getValue(LAUNCH_KC_KYC_FIELD_NAMES.DATE_OF_BIRTH)
             )}
@@ -138,6 +149,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             <AnswersTextDisplay
               className="!flex-row justify-between"
               label="SSN/ITIN"
+              valueClassName="text-right"
               value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER)}
             />
           )}

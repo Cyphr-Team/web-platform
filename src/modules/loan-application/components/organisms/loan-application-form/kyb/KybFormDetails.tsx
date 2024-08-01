@@ -30,26 +30,31 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
         <div className="flex flex-col gap-4xl">
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Business legal name"
             value={kybFormData?.businessLegalName}
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Business street address line #1"
             value={kybFormData?.businessStreetAddress.addressLine1}
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Business street address line #2"
             value={kybFormData?.businessStreetAddress.addressLine2}
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Business city"
             value={kybFormData?.businessStreetAddress.city}
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Business state"
             value={getStateName(
               kybFormData?.businessStreetAddress.state ?? "N/A"
@@ -57,17 +62,20 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="Business zip code"
             value={kybFormData?.businessStreetAddress.postalCode}
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
+            valueClassName="text-right"
             label="EIN"
             value={toPattern(kybFormData?.businessTin ?? "", EIN_PATTERN)}
           />
           {kybFormData?.metadata?.yearFounded && (
             <AnswersTextDisplay
               className="!flex-row justify-between"
+              valueClassName="text-right"
               label="Year founded"
               value={kybFormData.metadata.yearFounded}
             />
@@ -75,6 +83,7 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
           {kybFormData?.metadata?.legalStructure && (
             <AnswersTextDisplay
               className="!flex-row justify-between"
+              valueClassName="text-right"
               label="Legal structure"
               value={getLabelFromValue(
                 LEGAL_STRUCTURE_OPTIONS,
