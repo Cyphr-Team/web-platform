@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { format } from "date-fns"
-import {} from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -13,22 +12,33 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { CalendarPlus } from "lucide-react"
+import { FooterProps } from "react-day-picker"
 
 interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
+  triggerClassName?: string
+  customFooter?: (props: FooterProps) => JSX.Element | null
   value?: string
   fromDate?: Date
   toDate?: Date
+  prefixLabel?: string
+  placeholder?: string
+  align?: "start" | "end" | "center"
   onSelectDate?: (date: Date | undefined) => void
   disabled?: boolean
 }
 
 export function CalendarDatePicker({
   className,
+  triggerClassName,
+  customFooter,
   value,
   onSelectDate,
   disabled,
   toDate,
+  prefixLabel,
+  placeholder = "i.e: 01/01/1990",
+  align = "start",
   fromDate,
   id
 }: CalendarDatePickerProps) {
@@ -42,18 +52,22 @@ export function CalendarDatePicker({
             variant={"outline"}
             className={cn(
               "w-full pl-3 text-left font-normal flex justify-between gap-2 text-base",
-              !value && "text-muted-foreground"
+              !value && "text-muted-foreground",
+              triggerClassName
             )}
           >
+            {prefixLabel && (
+              <span className="text-slate-700">{prefixLabel}</span>
+            )}
             {value ? (
               <span id={`${id}-value`}>{format(value, "MM - dd - y")}</span>
             ) : (
-              <span className="text-text-tertiary">i.e: 01/01/1990</span>
+              <span className="text-text-tertiary">{placeholder}</span>
             )}
             <CalendarPlus className="h-5 w-5 text-text-tertiary" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="w-auto p-0" align={align}>
           <Calendar
             id={`${id}-calendar`}
             mode="single"
@@ -69,6 +83,7 @@ export function CalendarDatePicker({
               date > new Date() ||
               date < new Date(1900, 0, 1)
             }
+            customFooter={customFooter}
             initialFocus
           />
         </PopoverContent>

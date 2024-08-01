@@ -19,7 +19,9 @@ export const loanApplicationScoreFilterSchema = z.object({
     .optional(),
   scoredCardStatuses: z
     .array(z.object({ label: z.string(), value: z.string() }))
-    .optional()
+    .optional(),
+  createdOn: z.date().optional(),
+  submittedOn: z.date().optional()
 })
 
 export type LoanApplicationScoreFilterValues = z.infer<
@@ -46,6 +48,8 @@ export type WorkspaceAdminListApplicationScoreParams = PaginateParams & {
     statuses: string[]
     judgeIds: string[]
     scoredCardStatuses: string[]
+    createdOn?: Date | undefined
+    submittedOn?: Date | undefined
   }>
 } & {
   searchField?: string

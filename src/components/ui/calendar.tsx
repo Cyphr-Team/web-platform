@@ -11,10 +11,12 @@ import {
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker, DropdownProps } from "react-day-picker"
+import { DayPicker, DropdownProps, FooterProps } from "react-day-picker"
 import { ScrollArea } from "./scroll"
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  customFooter?: (props: FooterProps, classNames?: string) => JSX.Element | null
+}
 
 function CalendarDropDown({ value, onChange, children, name }: DropdownProps) {
   const options = React.Children.toArray(children) as React.ReactElement<
@@ -58,6 +60,7 @@ export function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  customFooter,
   ...props
 }: CalendarProps) {
   return (
@@ -102,6 +105,7 @@ export function Calendar({
         ...classNames
       }}
       components={{
+        Footer: customFooter,
         Dropdown: (props) => <CalendarDropDown {...props} />,
         IconLeft: () => <ChevronLeft className="h-4 w-4" />,
         IconRight: () => <ChevronRight className="h-4 w-4" />

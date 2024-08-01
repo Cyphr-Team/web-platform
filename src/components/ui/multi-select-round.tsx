@@ -1,5 +1,5 @@
 import { Command as CommandPrimitive } from "cmdk"
-import { ControllerRenderProps, Path } from "react-hook-form"
+import { ControllerRenderProps, FieldValues, Path } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,7 +22,7 @@ import { Checkbox } from "./checkbox"
 import { Separator } from "./separator"
 
 export function MultiSelectRound<
-  TFieldValues extends Record<string, Option[]>,
+  TFieldValues extends FieldValues,
   TName extends Path<TFieldValues>
 >({
   options,
@@ -105,7 +105,7 @@ export function MultiSelectRound<
             variant="outline"
             className={cn(
               "rounded-full text-slate-700",
-              !!field.value.length && "border-primary"
+              !!field.value.length && "border-slate-500"
             )}
           >
             <span className="font-semibold">
@@ -122,7 +122,7 @@ export function MultiSelectRound<
             <div className="flex flex-col h-auto max-h-96 overflow-hidden">
               <div>
                 <div className="p-4 pb-0">
-                  <div className="border-primary border shadow-lg rounded-lg overflow-hidden">
+                  <div className="border-slate-500 border focus-within:shadow-lg rounded-lg overflow-hidden">
                     <div
                       className={cn(
                         "w-full gap-2 p-3 py-2.5",
@@ -155,6 +155,7 @@ export function MultiSelectRound<
 
                       <div className="max-w-32">
                         <CommandPrimitive.Input
+                          placeholder="Search"
                           ref={searchInputRef}
                           onKeyDown={handleSearchOnKeyDown}
                           className={cn(

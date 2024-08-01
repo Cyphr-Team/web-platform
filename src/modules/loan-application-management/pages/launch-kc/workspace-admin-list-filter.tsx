@@ -12,7 +12,7 @@ import { capitalizeWords } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PaginationState, SortingState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
-import { Search } from "lucide-react"
+import { CalendarPlus, Search, Trash } from "lucide-react"
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { StatusRoundBadge } from "../../components/atoms/StatusRoundBadge"
@@ -29,6 +29,10 @@ import {
   LoanApplicationScoreFilterValues,
   useQueryListPaginatedLoanApplicationScoreGroupByApplicationId
 } from "../../hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
+import { AddFilterPopover } from "../../components/molecules/filters/AddFilterPopover"
+import { CalendarDatePicker } from "@/shared/molecules/date-picker"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 
 const ROUND_STATUS_OPTIONS: Option[] = [
   {
@@ -65,6 +69,28 @@ const roundOptionToStatus = (roundOption: Option) => {
   return status ?? LoanApplicationStatus.UNKNOWN
 }
 
+const enum FormFieldNames {
+  JUDGE_IDS = "judgeIds",
+  STATUSES = "statuses",
+  SEARCH = "search",
+  CREATED_ON = "createdOn",
+  SUBMITTED_ON = "submittedOn"
+}
+
+const enum FilterOptions {
+  CREATED_ON = "createdOn",
+  SUBMITTED_ON = "submittedOn"
+}
+
+const ADD_FILTER_OPTIONS: Option[] = [
+  { value: FilterOptions.CREATED_ON, label: "Created On", icon: CalendarPlus },
+  {
+    value: FilterOptions.SUBMITTED_ON,
+    label: "Submitted On",
+    icon: CalendarPlus
+  }
+]
+
 export function WorkspaceAdminApplicationListFilter() {
   // Get the application stage stat
   const stageStatResponse = useQueryApplicationStageStat()
@@ -88,19 +114,21 @@ export function WorkspaceAdminApplicationListFilter() {
     resolver: zodResolver(loanApplicationScoreFilterSchema),
     defaultValues: {
       statuses: [],
-      judgeIds: []
+      judgeIds: [],
+      createdOn: undefined,
+      submittedOn: undefined
     }
   })
+
   const getFilter = useCallback(() => {
-    const getWatchValue = (formKey: keyof LoanApplicationScoreFilterValues) => {
-      return filterForm.watch(formKey)?.map((option) => option.value)
-    }
+    const mapToLowerCase = (options?: Option[]) =>
+      options?.map((item) => item.value.toLowerCase())
 
     return {
-      statuses: getWatchValue("statuses")?.map((status) =>
-        status.toLowerCase()
-      ),
-      judgeIds: getWatchValue("judgeIds")
+      statuses: mapToLowerCase(filterForm.watch(FormFieldNames.STATUSES)),
+      judgeIds: mapToLowerCase(filterForm.watch(FormFieldNames.JUDGE_IDS)),
+      createdOn: filterForm.watch(FormFieldNames.CREATED_ON),
+      submittedOn: filterForm.watch(FormFieldNames.SUBMITTED_ON)
     }
   }, [filterForm])
 
@@ -150,6 +178,49 @@ export function WorkspaceAdminApplicationListFilter() {
       searchField
     })
 
+  // Extended filters
+  const [selectedFilterOptions, setSelectedFilterOptions] = useState<Option[]>(
+    []
+  )
+
+  // Date filters
+  const handleSetDate = (fieldName: FilterOptions, date?: Date) => {
+    const formField = fieldName as keyof LoanApplicationScoreFilterValues
+    if (formField) {
+      filterForm.setValue(formField, date)
+    }
+  }
+
+  const handleClickToDeleteFilter = (filterOptionName: FilterOptions) => () => {
+    // Reset date filter
+    const formField = filterOptionName as keyof LoanApplicationScoreFilterValues
+    if (formField) {
+      filterForm.setValue(formField, undefined)
+    }
+
+    // Remove selected filter option
+    setSelectedFilterOptions((prev) =>
+      prev.filter((selectedOption) => selectedOption.value !== filterOptionName)
+    )
+  }
+
+  const renderCustomCalendarFooter =
+    (filterOptionName: FilterOptions) => () => (
+      <div className="custom-footer hover:text-red-600 mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary">
+        <Separator className="my-1.5" />
+        <Button
+          className="w-full h-auto content-start cursor-pointer gap-3 px-1 py-1 rounded-none hover:text-red-600"
+          variant="ghost"
+          onClick={handleClickToDeleteFilter(filterOptionName)}
+        >
+          <div className="w-full flex justify-start items-center">
+            <Trash className="h-4 mr-1" />
+            <span>Delete filter</span>
+          </div>
+        </Button>
+      </div>
+    )
+
   useEffect(() => {
     const watchFilter = filterForm.watch(() => {
       resetTableToFirstPage()
@@ -173,44 +244,94 @@ export function WorkspaceAdminApplicationListFilter() {
 
       <div className="mt-4">
         <Form {...filterForm}>
-          <div className="flex gap-3 flex-wrap ">
-            <div className="flex">
-              <FormField
-                control={filterForm.control}
-                name="judgeIds"
-                render={({ field }) => (
-                  <MultiSelectRound
-                    label="Judges"
-                    subLabel="Users"
-                    field={field}
-                    options={judgeOptions}
-                    labelHOC={(option, close) => (
-                      <UserMultiSelectOption option={option} close={close} />
-                    )}
-                  />
-                )}
+          <div className="grid xl:grid-cols-4 gap-4">
+            <div className="col-span-3 py-1 flex gap-3 overflow-x-auto">
+              <div className="flex">
+                <FormField
+                  control={filterForm.control}
+                  name="judgeIds"
+                  render={({ field }) => (
+                    <MultiSelectRound
+                      label="Judges"
+                      subLabel="Users"
+                      field={field}
+                      options={judgeOptions}
+                      labelHOC={(option, close) => (
+                        <UserMultiSelectOption option={option} close={close} />
+                      )}
+                    />
+                  )}
+                />
+              </div>
+
+              <div className="flex">
+                <FormField
+                  control={filterForm.control}
+                  name="statuses"
+                  render={({ field }) => (
+                    <MultiSelectRound
+                      label="Round"
+                      subLabel="Select Application Round"
+                      field={field}
+                      options={ROUND_STATUS_OPTIONS}
+                      labelHOC={(option, close) => (
+                        <StatusRoundBadge round={roundOptionToStatus(option)}>
+                          {capitalizeWords(option.label)} {close}
+                        </StatusRoundBadge>
+                      )}
+                    />
+                  )}
+                />
+              </div>
+
+              {/* Render extended filters */}
+              {selectedFilterOptions.map((option) => {
+                const selectedFilterOptionName =
+                  option.value as keyof LoanApplicationScoreFilterValues
+                const filterOption = option.value as FilterOptions
+                return (
+                  <div key={option.value} className="flex">
+                    <FormField
+                      control={filterForm.control}
+                      name={selectedFilterOptionName}
+                      render={({ field: { value } }) => (
+                        <CalendarDatePicker
+                          id={option.value}
+                          value={value?.toString()}
+                          onSelectDate={(date) =>
+                            handleSetDate(filterOption, date)
+                          }
+                          customFooter={renderCustomCalendarFooter(
+                            filterOption
+                          )}
+                          className="w-full"
+                          triggerClassName={cn(
+                            "rounded-full font-semibold text-sm",
+                            value && "border-slate-500"
+                          )}
+                          prefixLabel={option.label + `${value ? ":" : ""}`}
+                          placeholder=""
+                          align="center"
+                        />
+                      )}
+                    />
+                  </div>
+                )
+              })}
+
+              {/** Add filters button */}
+              <AddFilterPopover
+                className="flex"
+                options={ADD_FILTER_OPTIONS.filter((option) => {
+                  return !selectedFilterOptions.some(
+                    (selectedOption) => selectedOption.value === option.value
+                  )
+                })}
+                setSelectedFilterOptions={setSelectedFilterOptions}
               />
             </div>
-            <div className="flex-1 flex">
-              <FormField
-                control={filterForm.control}
-                name="statuses"
-                render={({ field }) => (
-                  <MultiSelectRound
-                    label="Round"
-                    subLabel="Select Application Round"
-                    field={field}
-                    options={ROUND_STATUS_OPTIONS}
-                    labelHOC={(option, close) => (
-                      <StatusRoundBadge round={roundOptionToStatus(option)}>
-                        {capitalizeWords(option.label)} {close}
-                      </StatusRoundBadge>
-                    )}
-                  />
-                )}
-              />
-            </div>
-            <div className="flex-shrink-0 min-w-[300px] mt-auto">
+
+            <div className="flex-1 flex-shrink-0 min-w-[200px] mt-auto  py-1">
               <Input
                 prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
                 placeholder="Search by 'Company Name'"

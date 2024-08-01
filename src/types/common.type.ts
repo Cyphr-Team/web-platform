@@ -20,6 +20,7 @@ export type { ErrorResponse, SuccessResponse }
 interface Option {
   label: string
   value: string
+  icon?: LucideIcon | ((props: IconProps) => JSX.Element)
 }
 
 export type { Option }
