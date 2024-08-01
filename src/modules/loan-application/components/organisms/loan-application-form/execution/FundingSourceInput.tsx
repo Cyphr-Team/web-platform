@@ -100,7 +100,7 @@ const EditFundingSourceFormSchema = z.object({
 
 const EditFundingSource = memo((props: EditFundingSourceProps) => {
   const { onUpdate, index, value, onRemove, onBlur } = props
-
+  const outerForm = useFormContext<ExecutionFormValue>()
   const form = useForm<z.infer<typeof EditFundingSourceFormSchema>>({
     resolver: zodResolver(EditFundingSourceFormSchema),
     mode: "onBlur",
@@ -133,7 +133,7 @@ const EditFundingSource = memo((props: EditFundingSourceProps) => {
         <h5 className="font-semibold text-sm text-center align-middle">
           FUNDING SOURCE #{index + 1}
         </h5>
-        {index > 0 && (
+        {outerForm.getValues("fundingSources").length > 1 && (
           <Button
             type="button"
             variant="ghost"

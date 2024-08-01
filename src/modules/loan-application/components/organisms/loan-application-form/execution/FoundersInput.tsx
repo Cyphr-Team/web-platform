@@ -97,6 +97,7 @@ interface EditFounderProps {
 
 const EditFounder = (props: EditFounderProps) => {
   const { onUpdate, index, value, onRemove, onBlur } = props
+  const outerForm = useFormContext<ExecutionFormValue>()
   const { control, getValues } = useForm<z.infer<typeof EditFounderFormSchema>>(
     {
       resolver: zodResolver(EditFounderFormSchema),
@@ -114,7 +115,7 @@ const EditFounder = (props: EditFounderProps) => {
     <div className="flex flex-col gap-2" key={value.id}>
       <div className="flex justify-between items-center">
         <h5 className="font-semibold text-sm">FOUNDER #{index + 1}</h5>
-        {index > 0 && (
+        {outerForm.getValues("founders").length > 1 && (
           <Button
             type="button"
             variant="ghost"
