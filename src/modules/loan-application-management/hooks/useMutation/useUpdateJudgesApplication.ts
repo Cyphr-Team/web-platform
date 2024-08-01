@@ -13,7 +13,8 @@ import {
 } from "../../constants/types/judge"
 import {
   workspaceAdminAssignJudge,
-  workspaceAdminLoanApplicationScoreKeys
+  workspaceAdminLoanApplicationScoreKeys,
+  workspaceAdminNudgeKeys
 } from "../../../../constants/query-key"
 import { QUERY_KEY as LOAN_APPLICATION_QUERY_KEY } from "../../constants/query-key"
 
@@ -49,6 +50,9 @@ export const useUpdateJudgesApplication = (applicationId: string) => {
         queryKey: [
           LOAN_APPLICATION_QUERY_KEY.GET_LOAN_APPLICATION_SCORE_DETAILS
         ]
+      })
+      queryClient.invalidateQueries({
+        queryKey: workspaceAdminNudgeKeys.getActiveNudges(applicationId)
       })
       toastSuccess(TOAST_MSG.loanApplication.updateJudgesSuccess)
     },

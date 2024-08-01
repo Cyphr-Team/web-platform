@@ -14,19 +14,24 @@ export const ModifyUserPermissionAction = ({
   status: UserStatus
   roles: UserRoles[]
 }) => {
+  const isJudgePending =
+    roles.includes(UserRoles.JUDGE.toLowerCase() as UserRoles) &&
+    status === UserStatus.PENDING
   return (
     <div>
       {!isApplicant(roles) &&
         !isPlatformAdmin(roles) &&
-        (status !== UserStatus.ACTIVE ? (
+        (!isJudgePending && status !== UserStatus.ACTIVE ? (
           <ButtonReactivateUser userId={userId} />
         ) : (
-          <>
-            <ButtonDeactivateUser userId={userId} />
-            {!isLaunchKC() && (
-              <ModifyUserPermission userId={userId} roles={roles} />
-            )}
-          </>
+          !isJudgePending && (
+            <>
+              <ButtonDeactivateUser userId={userId} />
+              {!isLaunchKC() && (
+                <ModifyUserPermission userId={userId} roles={roles} />
+              )}
+            </>
+          )
         ))}
     </div>
   )

@@ -85,9 +85,8 @@ export {
 
 enum UserStatus {
   UNVERIFIED = "UNVERIFIED",
-  REGISTERING = "REGISTERING",
   ACTIVE = "ACTIVE",
-  DEACTIVATED = "DEACTIVATED"
+  PENDING = "PENDING"
 }
 
 export { UserStatus, UserRoles }

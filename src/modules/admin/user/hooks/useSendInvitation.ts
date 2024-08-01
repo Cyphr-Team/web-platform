@@ -9,7 +9,7 @@ import { customRequestHeader } from "@/utils/request-header"
 import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
-import { invitationKeys } from "@/constants/query-key"
+import { invitationKeys, userKeys } from "@/constants/query-key"
 import { InvitationDetail } from "@/types/upload.type"
 
 export const adminSendInvitationForm = z.object({
@@ -107,6 +107,7 @@ export const useSendBulkCsvInvitation = () => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({ queryKey: invitationKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
       if (data.totalInvitations === 0) {
         toastError({
           ...TOAST_MSG.user.sendBulkCSVInvitation,
@@ -152,6 +153,7 @@ export const useSendBulkInvitation = () => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({ queryKey: invitationKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
       if (data.failedInvitations > 0) {
         toastError({
           ...TOAST_MSG.user.sendBulkInvitation,
