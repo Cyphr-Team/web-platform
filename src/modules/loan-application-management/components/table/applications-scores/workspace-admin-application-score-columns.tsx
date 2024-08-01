@@ -17,6 +17,7 @@ import { CustomJudgeAvatar, ToolTipJudgeAvatar } from "../../atoms/JudgeAvatar"
 import { ScoreBadge } from "../../atoms/ScoreBadge"
 import { ApplicationRoundSelectionPopover } from "../../organisms/ApplicationRoundSelectionPopover"
 import { NudgeJudgesPopover } from "../../organisms/NudgeJudgesPopover"
+import { WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
 
 /**
  * Columns for workspace admin list applications
@@ -25,8 +26,8 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
   [
     {
       id: "applicationIdNumber",
-      header: renderFilterableHeader("ID"),
       enableHiding: false,
+      header: renderFilterableHeader({ title: "ID" }),
       meta: { columnViewName: "ID" },
       cell: ({ row }) => {
         const application = row.original
@@ -38,7 +39,8 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "businessName",
-      header: renderFilterableHeader("Company Name"),
+      header: renderFilterableHeader({ title: "Company Name" }),
+      enableSorting: true,
       meta: { columnViewName: "Company Name" },
       cell: ({ row }) => {
         const app = row.original
@@ -48,8 +50,14 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundOneJudges",
-      header: renderFilterableHeader("Round 1 Judges", true),
-      meta: { columnViewName: "Round 1 Judges" },
+      header: renderFilterableHeader({
+        title: "Round 1 Judges",
+        isCanSort: false
+      }),
+      meta: {
+        columnViewName: "Round 1 Judges",
+        filterID: WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS.judgeIds
+      },
       cell: ({ row }) => {
         const application = row.original
         const remainAvatar = application.roundOne.judges?.length - 8
@@ -91,7 +99,10 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundOneAvgScore",
-      header: renderFilterableHeader("Round 1 Avg. Score", true),
+      header: renderFilterableHeader({
+        title: "Round 1 Avg. Score",
+        disabled: true
+      }),
       meta: { columnViewName: "Round 1 Avg. Score" },
       cell: ({ row }) => {
         const application = row.original
@@ -116,8 +127,14 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundTwoJudges",
-      header: renderFilterableHeader("Round 2 Judges", true),
-      meta: { columnViewName: "Round 2 Judges" },
+      header: renderFilterableHeader({
+        title: "Round 2 Judges",
+        isCanSort: false
+      }),
+      meta: {
+        columnViewName: "Round 2 Judges",
+        filterID: WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS.judgeIds
+      },
       cell: ({ row }) => {
         const application = row.original
         const remainAvatar = application.roundTwo.judges?.length - 8
@@ -156,7 +173,10 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundTwoAvgScore",
-      header: renderFilterableHeader("Round 2 Avg. Score", true),
+      header: renderFilterableHeader({
+        title: "Round 2 Avg. Score",
+        disabled: true
+      }),
       meta: { columnViewName: "Round 2 Avg. Score" },
       cell: ({ row }) => {
         const application = row.original
@@ -181,7 +201,10 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "scoredcard",
-      header: renderFilterableHeader("Scorecard Status", true),
+      header: renderFilterableHeader({
+        title: "Scorecard Status",
+        disabled: true
+      }),
       meta: { columnViewName: "Scorecard Status" },
       cell: ({ row }) => {
         const application = row.original
@@ -220,8 +243,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "roundStatus",
-      header: renderFilterableHeader("Round Status", true),
-      meta: { columnViewName: "Round Status" },
+      header: renderFilterableHeader({ title: "Round Status" }),
+      meta: {
+        columnViewName: "Round Status",
+        filterID: WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS.statuses
+      },
       cell: ({ row }) => {
         const application = row.original
 
@@ -238,8 +264,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "createdAt",
-      header: renderFilterableHeader("Created On"),
-      meta: { columnViewName: "Created On" },
+      header: renderFilterableHeader({ title: "Created On" }),
+      meta: {
+        columnViewName: "Created On",
+        filterID: `${WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS.createdOn}-button`
+      },
       size: 150,
       cell: ({ row }) => {
         const application = row.original
@@ -255,8 +284,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     },
     {
       id: "submittedAt",
-      header: renderFilterableHeader("Submitted On"),
-      meta: { columnViewName: "Submitted On" },
+      header: renderFilterableHeader({ title: "Submitted On" }),
+      meta: {
+        columnViewName: "Submitted On",
+        filterID: `${WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS.submittedOn}-button`
+      },
       size: 150,
       cell: ({ row }) => {
         const app = row.original

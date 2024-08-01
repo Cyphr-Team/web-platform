@@ -1,4 +1,7 @@
-import { FilterableColumnHeader } from "@/shared/molecules/table/column-filter"
+import {
+  FilterableColumnHeader,
+  IFilterableColumn
+} from "@/shared/molecules/table/column-filter"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { Column } from "@tanstack/react-table"
 
@@ -13,9 +16,15 @@ const renderHeader =
   )
 
 const renderFilterableHeader =
-  <T,>(title: string, disabled?: boolean, className?: string) =>
-  ({ column }: { column: Column<T> }) => (
+  <TData, TValue>({
+    title,
+    disabled,
+    className,
+    isCanSort
+  }: Omit<IFilterableColumn<TData, TValue>, "column">) =>
+  ({ column }: { column: Column<TData> }) => (
     <FilterableColumnHeader
+      isCanSort={isCanSort}
       column={column}
       title={title}
       disabled={disabled}

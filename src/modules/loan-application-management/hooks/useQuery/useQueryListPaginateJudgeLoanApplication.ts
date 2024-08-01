@@ -24,6 +24,16 @@ export type JudgeLoanApplicationFilterValues = z.infer<
   typeof judgeLoanApplicationFilterSchema
 >
 
+type JudgeLoanApplicationFilterKeys = keyof JudgeLoanApplicationFilterValues
+
+export const JUDGE_APPLICATION_FILTER_KEYS: Record<
+  JudgeLoanApplicationFilterKeys,
+  JudgeLoanApplicationFilterKeys
+> = {
+  applicationCaptureStages: "applicationCaptureStages",
+  isScoreds: "isScoreds"
+}
+
 type JudeLoanApplicationSort = {
   submittedAt?: SortOrder
   createdAt?: SortOrder

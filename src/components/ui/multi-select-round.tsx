@@ -102,6 +102,7 @@ export function MultiSelectRound<
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            id={field.name}
             variant="outline"
             className={cn(
               "rounded-full text-slate-700",
@@ -117,7 +118,7 @@ export function MultiSelectRound<
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="w-[244px] p-0">
+        <PopoverContent className="min-w-[244px] p-0">
           <Command>
             <div className="flex flex-col h-auto max-h-96 overflow-hidden">
               <div>

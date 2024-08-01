@@ -66,8 +66,8 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     manualPagination: !!pagination,
     getSortedRowModel: manualSorting ? undefined : getSortedRowModel(),
-    manualSorting: manualSorting,
-    enableSortingRemoval: true
+    enableSortingRemoval: true,
+    manualSorting
   })
 
   return (

@@ -186,8 +186,11 @@ export function WorkspaceAdminApplicationListFilter() {
   // Date filters
   const handleSetDate = (fieldName: FilterOptions, date?: Date) => {
     const formField = fieldName as keyof LoanApplicationScoreFilterValues
+    const startOfSelectedDate = date
+      ? new Date(date.setHours(0, 0, 0, 0))
+      : undefined
     if (formField) {
-      filterForm.setValue(formField, date)
+      filterForm.setValue(formField, startOfSelectedDate)
     }
   }
 
@@ -206,20 +209,42 @@ export function WorkspaceAdminApplicationListFilter() {
 
   const renderCustomCalendarFooter =
     (filterOptionName: FilterOptions) => () => (
-      <div className="custom-footer hover:text-red-600 mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary">
-        <Separator className="my-1.5" />
-        <Button
-          className="w-full h-auto content-start cursor-pointer gap-3 px-1 py-1 rounded-none hover:text-red-600"
-          variant="ghost"
-          onClick={handleClickToDeleteFilter(filterOptionName)}
-        >
-          <div className="w-full flex justify-start items-center">
-            <Trash className="h-4 mr-1" />
-            <span>Delete filter</span>
-          </div>
-        </Button>
-      </div>
+      <tfoot className="custom-footer hover:text-red-600 mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary">
+        <tr>
+          <td>
+            <Separator className="my-1.5" />
+            <Button
+              className="w-full h-auto content-start cursor-pointer gap-3 px-1 py-1 rounded-none hover:text-red-600"
+              variant="ghost"
+              onClick={handleClickToDeleteFilter(filterOptionName)}
+            >
+              <div className="w-full flex justify-start items-center">
+                <Trash className="h-4 mr-1" />
+                <span>Delete filter</span>
+              </div>
+            </Button>
+          </td>
+        </tr>
+      </tfoot>
     )
+
+  /**
+   * Handle magic click filter from table column
+   */
+  const isIncludedExtendedFilter = useCallback(
+    (option: Option) => {
+      return selectedFilterOptions.some(
+        (selectedOption) => selectedOption.value === option.value
+      )
+    },
+    [selectedFilterOptions]
+  )
+
+  const handleMagicClickFilter = (option: Option) => () => {
+    if (!isIncludedExtendedFilter(option)) {
+      setSelectedFilterOptions((pre) => [...pre, option])
+    }
+  }
 
   useEffect(() => {
     const watchFilter = filterForm.watch(() => {
@@ -285,18 +310,24 @@ export function WorkspaceAdminApplicationListFilter() {
               </div>
 
               {/* Render extended filters */}
-              {selectedFilterOptions.map((option) => {
+              {ADD_FILTER_OPTIONS.map((option) => {
                 const selectedFilterOptionName =
                   option.value as keyof LoanApplicationScoreFilterValues
                 const filterOption = option.value as FilterOptions
+                const isShown = isIncludedExtendedFilter(option)
+
                 return (
-                  <div key={option.value} className="flex">
+                  <div
+                    key={option.value}
+                    className={cn("hidden", isShown && "flex")}
+                  >
                     <FormField
                       control={filterForm.control}
                       name={selectedFilterOptionName}
-                      render={({ field: { value } }) => (
+                      render={({ field: { value, name } }) => (
                         <CalendarDatePicker
-                          id={option.value}
+                          onCustomClick={handleMagicClickFilter(option)}
+                          id={name}
                           value={value?.toString()}
                           onSelectDate={(date) =>
                             handleSetDate(filterOption, date)
@@ -309,6 +340,7 @@ export function WorkspaceAdminApplicationListFilter() {
                             "rounded-full font-semibold text-sm",
                             value && "border-slate-500"
                           )}
+                          contentClassName={isShown ? "block" : "hidden"}
                           prefixLabel={option.label + `${value ? ":" : ""}`}
                           placeholder=""
                           align="center"

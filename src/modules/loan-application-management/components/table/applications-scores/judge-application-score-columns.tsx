@@ -13,6 +13,7 @@ import { ButtonViewDetailLoanApplication } from "../../atoms/ButtonViewDetailLoa
 import { ScoredBadgeStatusWithTooltip } from "../../atoms/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../../atoms/StatusRoundBadge"
 import { renderFilterableHeader } from "@/utils/table.utils"
+import { JUDGE_APPLICATION_FILTER_KEYS } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 
 /**
  * Columns for judge list applications
@@ -22,8 +23,8 @@ export const judgeLoanApplicationColumns: ColumnDef<
 >[] = [
   {
     id: "applicationIdNumber",
-    header: renderFilterableHeader("ID"),
     enableHiding: false,
+    header: renderFilterableHeader({ title: "ID" }),
     meta: { columnViewName: "ID" },
     cell: ({ row }) => {
       const app = row.original
@@ -37,7 +38,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
   },
   {
     id: "businessName",
-    header: renderFilterableHeader("Company Name"),
+    header: renderFilterableHeader({ title: "Company Name" }),
     meta: { columnViewName: "Company Name" },
     cell: ({ row }) => {
       const app = row.original
@@ -51,8 +52,11 @@ export const judgeLoanApplicationColumns: ColumnDef<
   },
   {
     id: "applicationCaptureStage",
-    header: renderFilterableHeader("Round"),
-    meta: { columnViewName: "Round" },
+    header: renderFilterableHeader({ title: "Round" }),
+    meta: {
+      columnViewName: "Round",
+      filterID: JUDGE_APPLICATION_FILTER_KEYS.applicationCaptureStages
+    },
     cell: ({ row }) => {
       const app = row.original
 
@@ -68,8 +72,11 @@ export const judgeLoanApplicationColumns: ColumnDef<
   },
   {
     id: "scoredAt",
-    header: renderFilterableHeader("Scorecard Status"),
-    meta: { columnViewName: "Scorecard Status" },
+    header: renderFilterableHeader({ title: "Scorecard Status" }),
+    meta: {
+      columnViewName: "Scorecard Status",
+      filterID: JUDGE_APPLICATION_FILTER_KEYS.isScoreds
+    },
     cell: ({ row }) => {
       const app = row.original
 
@@ -87,7 +94,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
   },
   {
     id: "createdAt",
-    header: renderFilterableHeader("Created On"),
+    header: renderFilterableHeader({ title: "Created On" }),
     meta: { columnViewName: "Created On" },
     size: 150,
     cell: ({ row }) => {
@@ -104,7 +111,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
   },
   {
     id: "submittedAt",
-    header: renderFilterableHeader("Submitted On"),
+    header: renderFilterableHeader({ title: "Submitted On" }),
     meta: { columnViewName: "Submitted On" },
     size: 150,
     cell: ({ row }) => {

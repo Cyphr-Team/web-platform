@@ -28,6 +28,19 @@ export type LoanApplicationScoreFilterValues = z.infer<
   typeof loanApplicationScoreFilterSchema
 >
 
+type LoanApplicationScoreFilterKeys = keyof LoanApplicationScoreFilterValues
+
+export const WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS: Record<
+  LoanApplicationScoreFilterKeys,
+  LoanApplicationScoreFilterKeys
+> = {
+  statuses: "statuses",
+  judgeIds: "judgeIds",
+  scoredCardStatuses: "scoredCardStatuses",
+  createdOn: "createdOn",
+  submittedOn: "submittedOn"
+}
+
 type IListWorkspaceAdminApplicationScoreResponse =
   ListResponse<IApplicationWithStageScoresResponse>
 

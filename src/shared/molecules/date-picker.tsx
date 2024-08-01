@@ -17,6 +17,7 @@ import { FooterProps } from "react-day-picker"
 interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
   triggerClassName?: string
+  contentClassName?: string
   customFooter?: (props: FooterProps) => JSX.Element | null
   value?: string
   fromDate?: Date
@@ -26,11 +27,14 @@ interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   align?: "start" | "end" | "center"
   onSelectDate?: (date: Date | undefined) => void
   disabled?: boolean
+  onCustomClick?: VoidFunction
 }
 
 export function CalendarDatePicker({
+  onCustomClick,
   className,
   triggerClassName,
+  contentClassName,
   customFooter,
   value,
   onSelectDate,
@@ -47,6 +51,7 @@ export function CalendarDatePicker({
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            onClick={onCustomClick}
             id={`${id}-button`}
             disabled={disabled}
             variant={"outline"}
@@ -67,7 +72,10 @@ export function CalendarDatePicker({
             <CalendarPlus className="h-5 w-5 text-text-tertiary" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align={align}>
+        <PopoverContent
+          className={cn("w-auto p-0", contentClassName)}
+          align={align}
+        >
           <Calendar
             id={`${id}-calendar`}
             mode="single"
