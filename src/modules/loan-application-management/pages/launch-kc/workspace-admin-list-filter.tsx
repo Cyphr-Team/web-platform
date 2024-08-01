@@ -7,28 +7,28 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { Option, SortOrder } from "@/types/common.type"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { capitalizeWords } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PaginationState, SortingState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { Search } from "lucide-react"
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { StatusRoundBadge } from "../../components/atoms/StatusRoundBadge"
 import {
   buildUserMultiSelectLabelHelper,
   UserMultiSelectOption
 } from "../../components/atoms/UserMultiSelectOption"
-import { workspaceAdminApplicationColumns } from "../../components/table/loan-application-columns"
+import { WorkspaceAdminApplicationStatusCard } from "../../components/atoms/WorkspaceAdminApplicationStatusCard"
+import { workspaceAdminApplicationColumns } from "../../components/table/applications-scores/workspace-admin-application-score-columns"
+import { useQueryApplicationStageStat } from "../../hooks/useQuery/useQueryApplicationStageStat"
 import { useQueryGetJudgeList } from "../../hooks/useQuery/useQueryGetJudgeList"
 import {
-  useQueryListPaginatedLoanApplicationScoreGroupByApplicationId,
   loanApplicationScoreFilterSchema,
-  LoanApplicationScoreFilterValues
+  LoanApplicationScoreFilterValues,
+  useQueryListPaginatedLoanApplicationScoreGroupByApplicationId
 } from "../../hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
-import { StatusRoundBadge } from "../../components/atoms/StatusRoundBadge"
-import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { capitalizeWords } from "@/utils"
-import { WorkspaceAdminApplicationStatusCard } from "../../components/atoms/WorkspaceAdminApplicationStatusCard"
-import { useQueryApplicationStageStat } from "../../hooks/useQuery/useQueryApplicationStageStat"
 
 const ROUND_STATUS_OPTIONS: Option[] = [
   {
@@ -223,7 +223,8 @@ export function WorkspaceAdminApplicationListFilter() {
       </div>
 
       <DataTable
-        tableContainerClassName="flex flex-col flex-1 overflow-hidden h-[85vh]"
+        isFilterView
+        tableContainerClassName="flex flex-col flex-1 h-[85vh]"
         columns={workspaceAdminApplicationColumns}
         isLoading={isFetching}
         data={data?.data ?? []}
@@ -232,6 +233,7 @@ export function WorkspaceAdminApplicationListFilter() {
         setPagination={setPagination}
         sorting={sorting}
         setSorting={setSorting}
+        manualSorting
       />
     </div>
   )

@@ -35,6 +35,7 @@ interface DataTableProps<TData, TValue> {
   total: number
   isLoading?: boolean
   tableContainerClassName?: string
+  manualSorting?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -48,7 +49,8 @@ export function DataTable<TData, TValue>({
   isLoading,
   tableContainerClassName,
   setSorting,
-  sorting
+  sorting,
+  manualSorting
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -59,7 +61,8 @@ export function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: !!pagination,
-    getSortedRowModel: getSortedRowModel(),
+    getSortedRowModel: manualSorting ? undefined : getSortedRowModel(),
+    manualSorting: manualSorting,
     enableSortingRemoval: true
   })
 

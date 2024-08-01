@@ -14,13 +14,13 @@ import { ChangeEvent, useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { ScoredBadgeStatus } from "../../components/atoms/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../../components/atoms/StatusRoundBadge"
-import { judgeLoanApplicationColumns } from "../../components/table/loan-application-columns"
 import { ASSIGNABLE_STAGE, SCORED_STATUS } from "../../constants"
 import {
   judgeLoanApplicationFilterSchema,
   JudgeLoanApplicationFilterValues,
   useQueryListPaginateJudgeLoanApplication
 } from "../../hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
+import { judgeLoanApplicationColumns } from "../../components/table/applications-scores/judge-application-score-columns"
 
 export function JudgeApplicationList() {
   const filterForm = useForm<JudgeLoanApplicationFilterValues>({
@@ -156,7 +156,8 @@ export function JudgeApplicationList() {
       </div>
 
       <DataTable
-        tableContainerClassName="flex flex-col flex-1 overflow-hidden h-[80vh]"
+        isFilterView
+        tableContainerClassName="flex flex-col flex-1 h-[80vh]"
         columns={judgeLoanApplicationColumns}
         isLoading={isFetching}
         data={data?.data ?? []}
@@ -165,6 +166,7 @@ export function JudgeApplicationList() {
         setPagination={setPagination}
         sorting={sorting}
         setSorting={setSorting}
+        manualSorting
       />
     </div>
   )

@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import "@tanstack/react-table"
 
 interface ImportMetaEnv {
   readonly VITE_API_ENDPOINT: string
@@ -17,4 +18,10 @@ interface ImportMetaEnv {
 
 interface ImportMeta {
   readonly env: ImportMetaEnv
+}
+
+declare module "@tanstack/react-table" {
+  interface ColumnMeta {
+    columnViewName?: string
+  }
 }
