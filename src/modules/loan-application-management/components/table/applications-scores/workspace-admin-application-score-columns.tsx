@@ -26,6 +26,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
     {
       id: "applicationIdNumber",
       header: renderFilterableHeader("ID"),
+      enableHiding: false,
       meta: { columnViewName: "ID" },
       cell: ({ row }) => {
         const application = row.original
@@ -225,7 +226,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
         const application = row.original
 
         return (
-          <div className="text-center cursor-pointer w-[250px]">
+          <div className="text-center cursor-pointer w-[250px] mx-auto">
             <ApplicationRoundSelectionPopover
               applicationId={application.id}
               roundStatus={application.status}

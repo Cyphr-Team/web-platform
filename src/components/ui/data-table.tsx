@@ -22,6 +22,7 @@ import {
 import { cn } from "@/lib/utils"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
 import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
+import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -52,12 +53,15 @@ export function DataTable<TData, TValue>({
   sorting,
   manualSorting
 }: DataTableProps<TData, TValue>) {
+  const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.id!))
+
   const table = useReactTable({
     data,
     columns,
     rowCount: total,
-    state: { pagination, sorting },
+    state: { pagination, sorting, columnOrder },
     onPaginationChange: setPagination,
+    onColumnOrderChange: setColumnOrder,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: !!pagination,

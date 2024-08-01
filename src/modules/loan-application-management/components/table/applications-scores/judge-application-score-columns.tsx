@@ -23,6 +23,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
   {
     id: "applicationIdNumber",
     header: renderFilterableHeader("ID"),
+    enableHiding: false,
     meta: { columnViewName: "ID" },
     cell: ({ row }) => {
       const app = row.original
