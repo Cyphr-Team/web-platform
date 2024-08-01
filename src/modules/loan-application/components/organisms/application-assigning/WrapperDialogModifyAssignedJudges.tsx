@@ -126,7 +126,12 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
 
   const { mutate, isPending } = useUpdateJudgesApplication(applicationId)
   const [assignableOffline, setAssignableOffline] = useState<JudgeInfo[]>([])
+  const [defaultAssignedOnline, setDefaultAssignedOnline] = useState<
+    JudgeInfo[]
+  >([])
   const [assignedOffline, setAssignedOffline] = useState<JudgeInfo[]>([])
+  const [searchBarJudges, setSearchBarJudges] = useState<JudgeInfo[]>([])
+  const [isSendButtonType, setIsSendButtonType] = useState<boolean>(false)
 
   const handledUpdateAssignedJudge = () => {
     const updateRequest: UpdateAssignedJudgeRequest = {
@@ -148,7 +153,33 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       )
     : null
 
-  const onMultiSelectClose = useCallback(
+  const checkIsSendOrSave = useCallback(
+    ({
+      offlineData,
+      onlineData
+    }: {
+      offlineData: JudgeInfo[]
+      onlineData: JudgeInfo[]
+    }) => {
+      const offlineDataId = offlineData.map((item) => item.id)
+      const onlineDataId = onlineData.map((item) => item.id)
+
+      const addingJudges = offlineDataId.filter(
+        (judgeId) => onlineDataId.indexOf(judgeId) < 0
+      )
+
+      const removingJudges = onlineDataId.filter(
+        (judgeId) => offlineDataId.indexOf(judgeId) < 0
+      )
+
+      const isSendButton =
+        addingJudges.length > 0 && removingJudges.length === 0
+      setIsSendButtonType(isSendButton)
+    },
+    [setIsSendButtonType] // Dependencies array
+  )
+
+  const onAddButtonTap = useCallback(
     (selectedJudges: JudgeInfo[]) => {
       const newAssignedOffline = [...selectedJudges, ...assignedOffline]
       const newAssignableOffline = assignableOffline.filter(
@@ -156,8 +187,19 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       )
       setAssignedOffline(newAssignedOffline)
       setAssignableOffline(newAssignableOffline)
+
+      checkIsSendOrSave({
+        offlineData: newAssignedOffline,
+        onlineData: defaultAssignedOnline
+      })
+      setSearchBarJudges([])
     },
-    [assignableOffline, assignedOffline]
+    [
+      assignableOffline,
+      assignedOffline,
+      defaultAssignedOnline,
+      checkIsSendOrSave
+    ]
   )
 
   useEffect(() => {
@@ -177,7 +219,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
           }
           return judgeInfo
         })
-
+        setDefaultAssignedOnline(judges)
         setAssignedOffline(judges)
       }
     }
@@ -210,9 +252,12 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
             <div className="flex lg:flex-row gap-3 w-full mt-1">
               <MultiSelect
                 options={assignableOffline}
-                defaultValue={[]}
+                defaultValue={searchBarJudges}
                 placeholder="Invite others by name, email"
-                onClose={onMultiSelectClose}
+                onAddButtonTap={onAddButtonTap}
+                onChangeValues={(value) => {
+                  setSearchBarJudges(value)
+                }}
               />
             </div>
           </div>
@@ -248,6 +293,11 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                       )
                       setAssignedOffline(newAssignedOffline)
                       setAssignableOffline(newAssignableOffline)
+
+                      checkIsSendOrSave({
+                        offlineData: newAssignedOffline,
+                        onlineData: defaultAssignedOnline
+                      })
                     }}
                   >
                     <X
@@ -307,7 +357,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                 handledUpdateAssignedJudge()
               }}
             >
-              Send
+              {isSendButtonType ? "Send" : "Save"}
             </ButtonLoading>
           </DialogFooter>
         </form>

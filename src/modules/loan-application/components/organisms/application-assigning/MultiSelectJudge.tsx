@@ -1,7 +1,11 @@
-// src/components/multi-select.tsx
-
 import { CheckIcon, Search, X } from "lucide-react"
-import * as React from "react"
+import {
+  MouseEvent,
+  KeyboardEvent,
+  forwardRef,
+  useEffect,
+  useState
+} from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -41,30 +45,33 @@ interface MultiSelectProps {
    */
   placeholder?: string
 
-  onClose: (value: JudgeInfo[]) => void
+  onChangeValues: (value: JudgeInfo[]) => void
+
+  onAddButtonTap: (value: JudgeInfo[]) => void
 }
 
-export const MultiSelect = React.forwardRef<
-  HTMLButtonElement,
-  MultiSelectProps
->(
+export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
   (
     {
       options,
       defaultValue = [],
       placeholder = "Select options",
-      onClose,
+      onChangeValues,
+      onAddButtonTap,
       ...props
     },
     ref
   ) => {
     const [selectedValues, setSelectedValues] =
-      React.useState<JudgeInfo[]>(defaultValue)
-    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false)
+      useState<JudgeInfo[]>(defaultValue)
 
-    const handleInputKeyDown = (
-      event: React.KeyboardEvent<HTMLInputElement>
-    ) => {
+    useEffect(() => {
+      onChangeValues(selectedValues)
+    }, [onChangeValues, selectedValues])
+
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+
+    const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
         setIsPopoverOpen(true)
       } else if (event.key === "Backspace" && !event.currentTarget.value) {
@@ -86,11 +93,13 @@ export const MultiSelect = React.forwardRef<
     }
 
     const handleTogglePopover = (open: boolean) => {
-      if (open === false) {
-        onClose(selectedValues)
-      }
-      setSelectedValues([])
       setIsPopoverOpen(open)
+    }
+
+    const handleAddJudge = (e: MouseEvent<HTMLButtonElement>) => {
+      onAddButtonTap(selectedValues)
+      setSelectedValues([])
+      e.stopPropagation()
     }
 
     return (
@@ -101,16 +110,14 @@ export const MultiSelect = React.forwardRef<
             {...props}
             onClick={handleClickToOpen}
             className={cn(
-              "flex w-full p-2.5 rounded-lg border min-h-12 h-auto justify-between bg-white hover:bg-white",
+              "flex w-full p-2 rounded-lg border min-h-16 h-auto justify-start bg-white hover:bg-white",
               isPopoverOpen && "border-black shadow-lg"
             )}
           >
-            {!!selectedValues.length && (
-              <Search className="h-5 w-5 cursor-pointer text-zinc-600 mr-2 flex-shrink-0 self-start mt-0.5" />
-            )}
+            <Search className="h-6 w-6 cursor-pointer text-zinc-600 mr-2 self-start mt-3" />
 
             {selectedValues.length > 0 ? (
-              <div className="flex justify-between items-center w-full">
+              <div className="flex justify-between items-top flex-1 ">
                 <div className="flex flex-wrap items-center gap-2">
                   {selectedValues.map((value) => {
                     const option = options.find((o) => o.id === value.id)
@@ -145,14 +152,16 @@ export const MultiSelect = React.forwardRef<
                     )
                   })}
                 </div>
+                {selectedValues.length > 0 && (
+                  <Button type="button" onClick={handleAddJudge}>
+                    Add
+                  </Button>
+                )}
               </div>
             ) : (
-              <div className="flex items-center w-full mx-auto">
-                <Search className="h-5 w-5 cursor-pointer text-zinc-600 mr-2 -mt-0.5" />
-                <span className="text-sm text-gray-300 font-normal">
-                  {placeholder}
-                </span>
-              </div>
+              <span className="text-sm text-gray-300 font-normal">
+                {placeholder}
+              </span>
             )}
           </Button>
         </PopoverTrigger>
