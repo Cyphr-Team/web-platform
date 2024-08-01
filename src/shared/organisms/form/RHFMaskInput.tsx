@@ -7,13 +7,19 @@ import {
 } from "@/components/ui/form"
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { FieldPath, FieldValues, useFormContext } from "react-hook-form"
+import {
+  Control,
+  FieldPath,
+  FieldValues,
+  useFormContext
+} from "react-hook-form"
 import { MaskInput } from "@/components/ui/mask-input.tsx"
 
 interface IMaskInputProps<T extends FieldValues> {
   name: FieldPath<T>
   label: string
   pattern: string
+  control?: Control<T>
   placeholder?: string
   className?: string
   inputClassName?: string
@@ -30,7 +36,7 @@ interface IMaskInputProps<T extends FieldValues> {
 export const RHFMaskInput = <T extends FieldValues>(
   props: IMaskInputProps<T>
 ) => {
-  const { control } = useFormContext()
+  const { control: defaultControl } = useFormContext()
   const {
     name,
     label,
@@ -39,12 +45,13 @@ export const RHFMaskInput = <T extends FieldValues>(
     className,
     inputClassName,
     labelClassName,
-    required
+    required,
+    control
   } = props
 
   return (
     <FormField
-      control={control}
+      control={(control as Control<FieldValues>) ?? defaultControl}
       name={name}
       render={({ field }) => (
         <FormItem className={className}>

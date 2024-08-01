@@ -352,10 +352,7 @@ export const executionFormSchema = z.object({
     z.object({
       id: z.string(),
       sourceType: z.string().min(1, { message: "This field is required" }),
-      amount: z
-        .string()
-        .min(1, { message: "This field is required" })
-        .refine((val) => !isNaN(parseInt(val)), { message: "Invalid number" })
+      amount: z.string().min(1, { message: "This field is required" })
     })
   ),
   founders: z.array(

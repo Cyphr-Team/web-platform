@@ -1,6 +1,5 @@
 import {
   FieldArrayWithId,
-  Form,
   useFieldArray,
   useForm,
   useFormContext,
@@ -15,19 +14,13 @@ import { Button } from "@/components/ui/button.tsx"
 import { Plus, X } from "lucide-react"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel
-} from "@/components/ui/form.tsx"
-import { Input } from "@/components/ui/input.tsx"
 import { SelectInput } from "@/shared/organisms/form/SelectInput.tsx"
 import {
   getOptionsByField,
   LAUNCH_KC_EXECUTION_FIELD_NAMES
 } from "@/modules/loan-application/components/organisms/loan-application-form/execution/constants.ts"
-import { memo } from "react"
+import { memo, useCallback, useEffect } from "react"
+import { RHFMaskInput } from "@/shared/organisms/form/RHFMaskInput.tsx"
 
 type FundingSource = {
   id: string
@@ -42,23 +35,25 @@ export const FundingSourceInput = () => {
     name: "fundingSources"
   })
   const { dispatchFormAction } = useLoanApplicationFormContext()
-
   const handleAddFundingSource = () => {
     append({ id: "", sourceType: "", amount: "" })
   }
 
-  const onBlur = () => {
+  const onBlur = useCallback(() => {
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
       key: LOAN_APPLICATION_STEPS.EXECUTION,
       state: getValues()
     })
-  }
+  }, [dispatchFormAction, getValues])
 
-  const onRemove = (index: number) => () => {
-    remove(index)
-    onBlur()
-  }
+  const onRemove = useCallback(
+    (index: number) => {
+      remove(index)
+      onBlur()
+    },
+    [onBlur, remove]
+  )
 
   return (
     <Card className="flex flex-col gap-2xl p-xl rounded-lg h-fit">
@@ -72,7 +67,7 @@ export const FundingSourceInput = () => {
           onUpdate={update}
           index={index}
           value={source}
-          onRemove={onRemove(index)}
+          onRemove={onRemove}
           onBlur={onBlur}
         />
       ))}
@@ -93,86 +88,82 @@ interface EditFundingSourceProps {
   index: number
   value: FieldArrayWithId<ExecutionFormValue, "fundingSources", "id">
   onUpdate: (index: number, values: FundingSource) => void
-  onRemove: VoidFunction
+  onRemove: (index: number) => void
   onBlur: VoidFunction
 }
 
 const EditFundingSourceFormSchema = z.object({
   id: z.string(),
   sourceType: z.string().min(1, { message: "This field is required" }),
-  amount: z
-    .string()
-    .min(1, { message: "This field is required" })
-    .refine((val) => !isNaN(parseInt(val)), { message: "Invalid number" })
+  amount: z.string().min(1, { message: "This field is required" })
 })
 
 const EditFundingSource = memo((props: EditFundingSourceProps) => {
   const { onUpdate, index, value, onRemove, onBlur } = props
+
   const form = useForm<z.infer<typeof EditFundingSourceFormSchema>>({
     resolver: zodResolver(EditFundingSourceFormSchema),
     mode: "onBlur",
     defaultValues: value
   })
 
-  const handleOnBlur = () => {
+  const handleOnBlur = useCallback(() => {
     onUpdate(index, form.getValues())
     onBlur()
-  }
+  }, [form, index, onBlur, onUpdate])
 
-  // use custom hook to enhance performance
-  const formState = useFormState({ control: form.control })
+  const handleRemove = useCallback(() => {
+    onRemove(index)
+  }, [onRemove, index])
+
+  const { isValidating } = useFormState({
+    control: form.control,
+    name: "amount"
+  })
+
+  useEffect(() => {
+    if (isValidating) {
+      handleOnBlur()
+    }
+  }, [handleOnBlur, isValidating])
 
   return (
     <div className="flex flex-col" key={value.id}>
-      <div className="flex justify-between">
-        <h5 className="font-semibold text-sm">FUNDING SOURCE #{index + 1}</h5>
+      <div className="flex justify-between items-center">
+        <h5 className="font-semibold text-sm text-center align-middle">
+          FUNDING SOURCE #{index + 1}
+        </h5>
         {index > 0 && (
           <Button
             type="button"
             variant="ghost"
             className="p-4"
-            onClick={onRemove}
+            onClick={handleRemove}
           >
             <X className="w-4" />
           </Button>
         )}
       </div>
-      <Form {...form}>
-        <SelectInput
-          inputClassName="w-40"
-          className="flex items-center justify-between !text-sm"
-          options={getOptionsByField(
-            LAUNCH_KC_EXECUTION_FIELD_NAMES.FUNDING_SOURCES
-          )}
-          label="Funding source"
-          name="sourceType"
-          control={form.control}
-          onBlur={handleOnBlur}
-        />
-        <FormField
-          key="amount"
-          control={form.control}
-          name="amount"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between">
-              <FormLabel className="text-text-secondary">Funding</FormLabel>
-              {!formState.isValid && (
-                <p className="text-sm font-medium text-destructive">
-                  Invalid Funding
-                </p>
-              )}
-              <FormControl>
-                <Input
-                  {...field}
-                  prefixIcon="$"
-                  className="text-base w-40 "
-                  onBlur={handleOnBlur}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      </Form>
+      <SelectInput
+        name="sourceType"
+        label="Funding source"
+        control={form.control}
+        className="flex flex-row items-center justify-between !text-sm  "
+        inputClassName="w-56 md:max-w-40 xl:max-w-56"
+        options={getOptionsByField(
+          LAUNCH_KC_EXECUTION_FIELD_NAMES.FUNDING_SOURCES
+        )}
+      />
+      <RHFMaskInput
+        name="amount"
+        label="Funding"
+        control={form.control}
+        pattern={NUMBER_PATTERN}
+        className="flex flex-row items-center w-full justify-between "
+        inputClassName="w-56 md:max-w-40 xl:max-w-56 xl:w-56"
+      />
     </div>
   )
 })
+
+const NUMBER_PATTERN = "000000000000000000000000000000"
