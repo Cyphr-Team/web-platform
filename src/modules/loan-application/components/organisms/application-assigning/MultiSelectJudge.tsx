@@ -190,9 +190,10 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                   const isSelected = selectedValues
                     .map((e) => e.id)
                     .includes(option.id)
-
+                  const value = option.email + " " + option.name
                   return (
                     <CommandItem
+                      value={value}
                       key={option.id}
                       onSelect={() => toggleOption(option)}
                       className="cursor-pointer"
