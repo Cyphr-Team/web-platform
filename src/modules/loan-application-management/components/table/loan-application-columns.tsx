@@ -63,6 +63,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     size: 250
   },
   {
+    id: "programName",
     accessorKey: "programName",
     header: "Loan program",
     size: 200,
@@ -77,6 +78,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     }
   },
   {
+    id: "loanAmount",
     accessorKey: "loanAmount",
     header: () => <p className="text-right">Amount requested</p>,
     size: 100,
@@ -88,6 +90,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     }
   },
   {
+    id: "createdAt",
     accessorKey: "createdAt",
     header: () => <p>Created on</p>,
     size: 150,
@@ -104,6 +107,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     }
   },
   {
+    id: "status",
     accessorKey: "status",
     header: "Status",
     size: 150,
