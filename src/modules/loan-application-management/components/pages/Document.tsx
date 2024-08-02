@@ -40,7 +40,6 @@ export function Component() {
   const handleSearch = (keyword: string) => {
     setKeyword(keyword)
   }
-
   return (
     <div>
       <div className="rounded-t-xl border px-6 py-5">

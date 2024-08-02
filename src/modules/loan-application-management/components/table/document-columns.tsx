@@ -9,6 +9,7 @@ import { format } from "date-fns"
 import { ChevronRight } from "lucide-react"
 import { BadgeAuthenticityScore } from "../atoms/BadgeAuthenticityScore"
 import { DownloadDocumentButton } from "./download-document-button"
+import { checkIsJudge } from "@/utils/check-roles"
 
 export const columns: ColumnDef<LoanDocument>[] = [
   {
@@ -46,15 +47,14 @@ export const columns: ColumnDef<LoanDocument>[] = [
     size: 150,
     enableSorting: false,
     cell: ({ row }) => {
-      const document = row.original
-
+      const { ocrolusDocumentType, type: documentType } = row.original ?? {}
+      const type =
+        ocrolusDocumentType?.toString() !== ""
+          ? ocrolusDocumentType
+          : documentType
       return (
         <div className="font-medium">
-          <Badge variant="soft">
-            {snakeCaseToText(
-              document?.ocrolusDocumentType ?? ""
-            )?.toUpperCase()}
-          </Badge>
+          <Badge variant="soft">{snakeCaseToText(type)?.toUpperCase()}</Badge>
         </div>
       )
     }
@@ -109,6 +109,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
             documentId={document.id}
             fileName={document.name}
             text="Download"
+            disabled={checkIsJudge()}
           />
         </div>
       )

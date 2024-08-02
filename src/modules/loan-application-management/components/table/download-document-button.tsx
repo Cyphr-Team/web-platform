@@ -13,11 +13,13 @@ import { useQueryDownloadDocumentForOfficer } from "../../hooks/useQuery/useQuer
 export const DownloadDocumentButton = ({
   documentId,
   fileName,
-  text
+  text,
+  disabled
 }: {
   documentId: string
   fileName?: string
   text?: string
+  disabled?: boolean
 }) => {
   const [preventCacheCount, setPreventCacheCount] = useState(0)
 
@@ -43,6 +45,7 @@ export const DownloadDocumentButton = ({
             size={text ? "sm" : "icon"}
             onClick={handleDownloadDocument}
             isLoading={downloadFile.isLoading}
+            disabled={disabled}
           >
             <div className="flex items-center">
               {text && <span className="mr-1">{text}</span>}

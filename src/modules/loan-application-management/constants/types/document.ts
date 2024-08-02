@@ -104,7 +104,14 @@ export type PayStubCapturedType = {
 export enum DocumentType {
   BANK_STATEMENT = "bank_statement",
   W2 = "form",
-  PAY_STUB = "paystub"
+  PAY_STUB = "paystub",
+  EXECUTIVE_SUMMARY = "executive_summary",
+  PITCH_DECK = "pitch_deck",
+  BUSINESS_EIN_LETTER = "business_ein_letter",
+  CERTIFICATE_OF_GOOD_STANDING = "certificate_of_good_standing",
+  FICTITIOUS_NAME_CERTIFICATION = "fictitious_name_certification",
+  ARTICLES_OF_ORGANIZATION_AND_OPERATING_AGREEMENT = "articles_of_organization_and_operating_agreement",
+  BY_LAWS = "by_laws"
 }
 
 export type AuthenticityType = {

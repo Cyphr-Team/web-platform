@@ -37,6 +37,7 @@ export function TopNav({ className, ...props }: Props) {
       menuItems = [
         ApplicationMenuName.business as string,
         ApplicationMenuName.identity as string,
+        ApplicationMenuName.document as string,
         ApplicationMenuName.cashflow as string,
         ApplicationMenuName.applicationSummary as string
       ]
@@ -45,6 +46,7 @@ export function TopNav({ className, ...props }: Props) {
       menuItems = [
         ApplicationMenuName.business as string,
         ApplicationMenuName.identity as string,
+        ApplicationMenuName.document as string,
         ApplicationMenuName.applicationSummary as string
       ]
     }
