@@ -11,6 +11,8 @@ import { GovernmentImageDivider } from "./GovernmentImageDivider"
 import { IdentityVerificationStatus } from "../../../../loan-application-management/constants/types/smart-kyc"
 import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "../../../../loan-application-management/constants/insight-toc.constant"
 import { calculateAge, joinString } from "@/utils"
+import { isLaunchKC } from "../../../../../utils/domain.utils"
+import { checkIsWorkspaceAdmin } from "../../../../../utils/check-roles"
 
 export const GovernmentIdVerification = () => {
   const { loanSmartKycDetail, isLoadingLoanSmartKycDetail } =
@@ -136,9 +138,12 @@ export const GovernmentIdVerification = () => {
     </LoadingWrapper>
   )
 
+  const isHiddenSensitiveData = isLaunchKC() && !checkIsWorkspaceAdmin() // In LaunchKC, only WSAdmin can view this
+
   return (
     <IdentityVerificationCard
       id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
+      isHideSensitiveData={isHiddenSensitiveData}
       headerTitle={headerTitle}
       headerRight={
         <DateHeader

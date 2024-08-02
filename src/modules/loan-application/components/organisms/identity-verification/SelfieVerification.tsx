@@ -10,6 +10,8 @@ import { LoadingWrapper } from "../../../../../shared/atoms/LoadingWrapper"
 import { getPassedSelfieVerification } from "../../../../loan-application-management/services/identity-verification.service"
 import { cn } from "../../../../../lib/utils"
 import { SelfieImageDivider } from "./SelfieImageDivider"
+import { isLaunchKC } from "../../../../../utils/domain.utils"
+import { checkIsWorkspaceAdmin } from "../../../../../utils/check-roles"
 
 export const SelfieVerification = () => {
   const { loanSmartKycDetail, isLoadingLoanSmartKycDetail } =
@@ -98,9 +100,11 @@ export const SelfieVerification = () => {
       {passedSelfieVerification !== null ? verifiedSelfie() : emptyInformation}
     </LoadingWrapper>
   )
+  const isHiddenSensitiveData = isLaunchKC() && !checkIsWorkspaceAdmin() // In LaunchKC, only WSAdmin can view this
   return (
     <IdentityVerificationCard
       id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
+      isHideSensitiveData={isHiddenSensitiveData}
       headerTitle={headerTitle}
       headerRight={
         <DateHeader

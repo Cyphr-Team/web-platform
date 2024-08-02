@@ -11,13 +11,15 @@ type IdentityVerificationCardProp = {
   headerTitle: ReactNode
   headerRight?: ReactNode
   id?: string
+  isHideSensitiveData?: boolean
 }
 
 export const IdentityVerificationCard = ({
   content,
   headerTitle,
   headerRight,
-  id
+  id,
+  isHideSensitiveData = false
 }: IdentityVerificationCardProp) => {
   return (
     <div id={id}>
@@ -32,9 +34,11 @@ export const IdentityVerificationCard = ({
           </div>
         </CardHeader>
 
-        <CardContent className="px-5">
-          <div className="mb-5">{content}</div>
-        </CardContent>
+        {!isHideSensitiveData && (
+          <CardContent className="px-5">
+            <div className="mb-5">{content}</div>
+          </CardContent>
+        )}
       </Card>
     </div>
   )
