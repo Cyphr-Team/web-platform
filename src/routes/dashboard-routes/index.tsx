@@ -53,12 +53,14 @@ const dashboardRoutes = (
     {/* USERS MANAGEMENT */}
     <Route
       path={APP_PATH.ADMIN_USERS.USER.index}
+      handle={handleCrumb(APP_PATH.ADMIN_USERS.USER.index)}
       lazy={() => import("@/modules/admin/user/user-page.tsx")}
     />
 
     {/* INVITATIONS MANAGEMENT */}
     <Route
       path={APP_PATH.ADMIN_USERS.INVITATION.index}
+      handle={handleCrumb(APP_PATH.ADMIN_USERS.INVITATION.index)}
       lazy={() => import("@/modules/admin/user/invitation-page.tsx")}
     />
 
