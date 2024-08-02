@@ -42,14 +42,28 @@ import { PreQualificationFormDetails } from "@/modules/loan-application/componen
 import usePermissions from "@/hooks/usePermissions"
 import { concat } from "lodash"
 import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary"
+import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
+import { useParams } from "react-router-dom"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
 
 export function Component() {
+  const params = useParams()
   const {
     loanSummary,
     loanApplicationDetails,
     isFetchingCashflow,
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
+
+  // Get Application Status
+  const { data: statusData } = useQueryGetLoanApplicationDetailStatus({
+    applicationId: params.id!
+  })
+
+  const notAllowToDownloadStatuses: string[] = [
+    LoanApplicationStatus.DRAFT,
+    LoanApplicationStatus.PENDING_SUBMISSION
+  ]
 
   const {
     isJudge,
@@ -145,10 +159,15 @@ export function Component() {
 
           <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
             <p className="text-4xl font-semibold ">Application Overview</p>
-            <DownloadButton
-              elementToExportRef={elementToExportRef}
-              disabled={isFetchingCashflow || isFetchingNewCashFlow}
-            />
+            {statusData &&
+              !notAllowToDownloadStatuses.includes(
+                statusData.toUpperCase()
+              ) && (
+                <DownloadButton
+                  elementToExportRef={elementToExportRef}
+                  disabled={isFetchingCashflow || isFetchingNewCashFlow}
+                />
+              )}
           </div>
           <ApplicationOverview />
           <Separator />
