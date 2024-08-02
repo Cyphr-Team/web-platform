@@ -1,5 +1,6 @@
 import { APP_PATH } from "@/constants"
 import { inMemoryJWTService } from "@/services/jwt.service"
+import { isAdmin } from "@/utils/domain.utils"
 import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
 import { useStytchB2BClient } from "@stytch/nextjs/dist/b2b"
 import { useCallback } from "react"
@@ -15,7 +16,7 @@ export const useLogout = () => {
 
   const signOut = useCallback(async () => {
     clearUserInfo()
-    if (isEnableMultiFactorAuthentication()) {
+    if (isEnableMultiFactorAuthentication() && !isAdmin()) {
       try {
         await stytchClient.session.revoke()
       } catch (e) {

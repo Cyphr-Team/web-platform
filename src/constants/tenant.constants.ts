@@ -1,4 +1,5 @@
 enum Institution {
+  Admin = "admin",
   IntrustBank = "intrust",
   Capsight = "capsight",
   LoanReady = "loanready",

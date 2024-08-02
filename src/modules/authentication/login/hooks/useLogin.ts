@@ -6,7 +6,7 @@ import { ErrorResponse } from "@/types/common.type"
 import { UserInfo } from "@/types/user.type"
 import { toastError } from "@/utils"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
-import { getSubdomain } from "@/utils/domain.utils"
+import { getSubdomain, isAdmin } from "@/utils/domain.utils"
 import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
 import {
   customRequestHeader,
@@ -49,8 +49,10 @@ export const useLogin = () => {
     },
     onSuccess: async ({ data }) => {
       // Start MFA process if FF enabled and session is not present
+      // And the current portal is Admin Portal
       if (
         isEnableMultiFactorAuthentication() &&
+        !isAdmin() &&
         !stytchClient.session.getInfo().session
       ) {
         try {

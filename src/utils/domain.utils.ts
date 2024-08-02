@@ -49,6 +49,10 @@ function getTenantDomain(subdomain: string) {
   }
 }
 
+function isAdmin(): boolean {
+  return matchSubdomain(getSubdomain(), Institution.Admin)
+}
+
 function isCapsight(): boolean {
   return matchSubdomain(getSubdomain(), Institution.Capsight)
 }
@@ -77,6 +81,7 @@ export {
   getSubdomain,
   getRootSubdomain,
   matchSubdomain,
+  isAdmin,
   isLoanReady,
   isCyphrBank,
   isCapsight,
