@@ -100,5 +100,6 @@ export {
   isApplicant,
   isPlatformAdmin,
   isWorkspaceAdmin,
-  isJudge
+  isJudge,
+  getUserRoles
 }

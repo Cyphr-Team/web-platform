@@ -1,13 +1,14 @@
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { RoleBase } from "@/shared/molecules/RoleBase"
-import { NavItem } from "@/types/common.type"
-import { DashboardCollapsedNavLink } from "./dashboard-collapsed-nav-link"
-import { DashboardNavLink } from "./dashboard-nav-link"
-import { useQueryGetUnreadNotifications } from "@/modules/notification/hooks/useQuery/useQueryGetUnreadNotifications"
 import { APP_PATH } from "@/constants"
 import { cn } from "@/lib/utils"
 import { BadgeUnreadNotifications } from "@/modules/notification/components/atoms/BadgeUnreadNotifications"
+import { useQueryGetUnreadNotifications } from "@/modules/notification/hooks/useQuery/useQueryGetUnreadNotifications"
+import { RoleBase } from "@/shared/molecules/RoleBase"
+import { NavItem } from "@/types/common.type"
 import { FeatureFlagsRenderer } from "../FeatureFlagRenderer"
+import { FeatureRenderer } from "../FeatureRenderer"
+import { DashboardCollapsedNavLink } from "./dashboard-collapsed-nav-link"
+import { DashboardNavLink } from "./dashboard-nav-link"
 
 interface DashboardNavProps {
   readonly items: NavItem[]
@@ -52,6 +53,7 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
             const NavLinkComponent = isCollapsed
               ? DashboardCollapsedNavLink
               : DashboardNavLink
+
             return (
               !item.disabled && (
                 <FeatureFlagsRenderer
@@ -60,7 +62,9 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
                   fallBackChildren={<></>}
                 >
                   <RoleBase roles={item.roles} key={item.label}>
-                    <NavLinkComponent item={item} badge={badge} />
+                    <FeatureRenderer featureKey={item.featureKey}>
+                      <NavLinkComponent item={item} badge={badge} />
+                    </FeatureRenderer>
                   </RoleBase>
                 </FeatureFlagsRenderer>
               )

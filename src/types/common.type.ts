@@ -1,9 +1,10 @@
 import { IconProps } from "@/components/ui/icons"
+import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
+import { FeatureKey } from "@/hooks/useCanAccess"
 import { ErrorCode } from "@/utils/custom-error"
 import { LucideIcon } from "lucide-react"
 import { ReactNode } from "react"
 import { UserRoles } from "./user.type"
-import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 
 // --- RESPONSE ---
 interface SuccessResponse {
@@ -63,6 +64,7 @@ interface NavItem {
   label?: string
   description?: string
   roles?: UserRoles[]
+  featureKey: FeatureKey
   className?: string
 }
 interface NavItemWithChildren extends NavItem {

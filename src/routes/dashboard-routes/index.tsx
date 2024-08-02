@@ -1,20 +1,23 @@
 import { APP_PATH } from "@/constants"
 import { Component as DashboardV2 } from "@/modules/dashboard-v2/page"
+import { Component as LoanApplicationManagementComponent } from "@/modules/loan-application-management/pages/list"
 import { userLoader } from "@/routes/loader"
+import { ProtectedRoute } from "@/shared/atoms/ProtectedRoute"
 import { Component as DashboardLayout } from "@/shared/layouts/dashboard-layout/dashboard-layout"
 import { handleCrumb } from "@/utils/crumb.utils"
+import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { Route } from "react-router-dom"
 import { adminRoutes } from "./admin-routes"
 import { loanApplicationManagementRoutes } from "./loan-application-management-routes"
 import { notificationRoutes } from "./notification-routes"
-import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
-import { Component as LoanApplicationManagementComponent } from "@/modules/loan-application-management/pages/list"
+import { FeatureKey } from "@/hooks/useCanAccess"
 
 /**
  * Dashboard routes ("/*"), no unauthenticated or loan applicant allowed to see these pages.
  * get user   ->  if success return children routes.
  *            ->  if fail due to unauthenticated, clear credential (if any), navigate to ("/sign-up")
  */
+
 const dashboardRoutes = (
   <Route
     loader={userLoader}
@@ -35,11 +38,13 @@ const dashboardRoutes = (
     {/* LOAN PROGRAM */}
     {/* Hide with KCC */}
     {(!isKccBank() || !isSbb() || !isLaunchKC()) && (
-      <Route
-        path={APP_PATH.LOAN_PROGRAM.index}
-        lazy={() => import("@/modules/admin/loan-program/page")}
-        handle={handleCrumb(APP_PATH.LOAN_PROGRAM.index)}
-      />
+      <Route element={<ProtectedRoute featureKey={FeatureKey.LOAN_PROGRAM} />}>
+        <Route
+          path={APP_PATH.LOAN_PROGRAM.index}
+          lazy={() => import("@/modules/admin/loan-program/page")}
+          handle={handleCrumb(APP_PATH.LOAN_PROGRAM.index)}
+        />
+      </Route>
     )}
 
     {/* NOTIFICATION */}

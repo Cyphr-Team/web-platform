@@ -5,26 +5,30 @@ import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { Bell } from "lucide-react"
 import { BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
+import { FeatureKey } from "@/hooks/useCanAccess"
 
 export const navItems: NavItem[] = [
   {
     title: "Home",
     href: APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list,
     icon: Icons.home,
-    label: "Home"
+    label: "Home",
+    featureKey: FeatureKey.APPLICANT_HOME
   },
   {
     title: "Applications",
     href: APP_PATH.LOAN_APPLICATION.APPLICATIONS.index,
     icon: Icons.folderCheck,
-    label: "Applications"
+    label: "Applications",
+    featureKey: FeatureKey.APPLICANT_APPLICATION
   },
   {
     title: "Notifications",
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
     icon: Bell,
     label: "Notifications",
-    disabled: isKccBank() || isSbb() || isLaunchKC() // Hide for KCC Bank and SBB
+    disabled: isKccBank() || isSbb() || isLaunchKC(), // Hide for KCC Bank and SBB,
+    featureKey: FeatureKey.APPLICANT_APPLICATION
   }
   // Hide because it's not implemented yet
   // {
