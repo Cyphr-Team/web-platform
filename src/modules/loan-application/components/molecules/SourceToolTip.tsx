@@ -72,7 +72,7 @@ export const SourceToolTip = ({
             variant="ghost"
             className="p-0 border-b rounded-none border-dashed border-black font-normal text-base h-6"
           >
-            {sourceContent}
+            <p className="break-words">{sourceContent}</p>
           </Button>
         </TooltipTrigger>
         <TooltipPortal>
@@ -86,7 +86,7 @@ export const SourceToolTip = ({
             {description && (
               <div
                 className={cn(
-                  "px-4 font-semibold text-sm",
+                  "px-4 font-semibold text-sm break-words",
                   !!data?.length && "border-b pb-2"
                 )}
               >

@@ -91,11 +91,8 @@ export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
   ]
 
   return (
-    <MiddeskTable
-      isLoading={isLoading}
-      tableClassName={"table-fixed"}
-      columns={columns}
-      data={data}
-    />
+    <div className="overflow-x-auto">
+      <MiddeskTable isLoading={isLoading} columns={columns} data={data} />
+    </div>
   )
 }

@@ -45,7 +45,7 @@ export function MiddeskTable<TData, TValue>({
   })
 
   return (
-    <div>
+    <div className="overflow-x-auto">
       <Table className={tableClassName}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

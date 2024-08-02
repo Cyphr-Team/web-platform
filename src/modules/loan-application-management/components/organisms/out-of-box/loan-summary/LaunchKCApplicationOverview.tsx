@@ -18,13 +18,11 @@ const VerificationStatus = ({
   label: string
 }) => {
   return (
-    <div className="grid-cols-2 grid grid-flow-row border border-t-0 border-l-0">
+    <div className="md:grid-cols-2 grid grid-flow-row border border-t-0 border-l-0">
       <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex items-center">
-        <p className="text-sm  break-words whitespace-nowrap text-text-tertiary">
-          {label}
-        </p>
+        <p className="text-sm text-text-tertiary break-words">{label}</p>
       </div>
-      <div className="py-xl xl:py-3xl pl-xl xl:pl-3xl flex items-center col-span-1 break-words pr-xl gap-1">
+      <div className="pb-xl md:pt-xl xl:py-3xl pl-xl xl:pl-3xl flex items-center col-span-1 break-words pr-xl gap-1">
         {isVerified ? <Dot variantColor="green" /> : <Dot variantColor="red" />}
         <p className="font-medium text-sm truncate overflow-ellipsis overflow-visible whitespace-normal break-words max-w-full">
           {isVerified ? "Verified" : "Not Verified"}
