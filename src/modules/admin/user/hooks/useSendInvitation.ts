@@ -23,13 +23,21 @@ export const adminSendInvitationForm = z.object({
 })
 
 export const adminSendBulkInvitationForm = z.object({
-  emails: z
-    .array(z.string().min(1).max(254))
-    .nonempty("Please enter at least one email."),
-  role: z
-    .string()
-    .min(1, "Please select a role.")
-    .transform((role) => role.toLocaleLowerCase())
+  invitations: z
+    .array(
+      z.object({
+        email: z
+          .string()
+          .min(1, "Email is required.")
+          .max(254, "Email is too long.")
+          .email("Invalid email format."),
+        role: z
+          .string()
+          .min(1, "Role is required.")
+          .transform((role) => role.toLocaleLowerCase())
+      })
+    )
+    .nonempty("Please enter at least one invitation.")
 })
 
 export const adminSendBulkCsvInvitationForm = z.object({
@@ -139,12 +147,11 @@ export const useSendBulkInvitation = () => {
     AxiosError<ErrorResponse>,
     AdminSendBulkInvitationValue
   >({
-    mutationFn: ({ emails, role, baseUrl, expirationDays }) => {
+    mutationFn: ({ invitations, baseUrl, expirationDays }) => {
       return postRequest({
         path: API_PATH.admin.user.sendBulkListInvitation,
         data: {
-          emails,
-          role: role,
+          invitations,
           baseUrl,
           expirationDays
         },

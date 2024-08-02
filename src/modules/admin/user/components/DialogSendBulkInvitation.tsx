@@ -21,7 +21,7 @@ import {
 } from "../hooks/useSendInvitation"
 
 import { BulkUploadCsv } from "./molecules/BulkUploadCsv"
-import { MultiTagInput } from "./molecules/MultiTagInput"
+import { InvitationInput } from "./molecules/InvitationInput"
 import { APP_PATH } from "@/constants"
 import { AccessList } from "./molecules/AccessList"
 
@@ -44,9 +44,8 @@ export function DialogSendBulkInvite() {
 
   const form = useForm<z.infer<typeof adminSendBulkInvitationForm>>({
     resolver: zodResolver(adminSendBulkInvitationForm),
-    values: {
-      emails: [""],
-      role: ""
+    defaultValues: {
+      invitations: []
     }
   })
 
@@ -74,15 +73,17 @@ export function DialogSendBulkInvite() {
           Invite
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] h-full md:h-auto md:max-h-dvh overflow-y-auto">
+      <DialogContent className="sm:max-w-[700px] max-h-full md:h-auto md:max-h-dvh overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Invite members to LaunchKC</DialogTitle>
+          <DialogTitle className="flex flex-row items-center">
+            Invite members to LaunchKC
+          </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <BulkUploadCsv />
         <Form {...form}>
           <form onSubmit={formSubmit} className="flex flex-col space-y-3">
-            <MultiTagInput />
+            <InvitationInput />
 
             <AccessList />
 

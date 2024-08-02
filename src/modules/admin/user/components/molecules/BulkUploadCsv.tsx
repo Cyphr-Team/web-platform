@@ -13,6 +13,7 @@ import {
   AlertTriangle,
   CheckCircle,
   Download,
+  Info,
   Upload
 } from "lucide-react"
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
@@ -21,6 +22,12 @@ import { APP_PATH } from "@/constants"
 import { IMemberImport } from "@/types/upload.type"
 import { convertJsonArrayToCsv } from "@/utils/file.utils"
 import { downloadCSVFile } from "@/utils"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip"
 
 const UPLOAD_STATUS = {
   UPLOADING: {
@@ -119,6 +126,7 @@ export function BulkUploadCsv() {
     if (file) {
       const baseUrl = `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`
       const expirationDays = "SEVEN_DAYS"
+      setUploadStatus(UPLOAD_STATUS.UPLOADING)
       mutateSendCsv(
         { file, baseUrl, expirationDays },
         {
@@ -140,22 +148,38 @@ export function BulkUploadCsv() {
       ].includes(uploadStatus) && (
         <div
           className={cn(
-            "border border-dashed px-2 py-3 rounded-md flex text-base items-center font-light",
+            "border border-dashed px-2 py-3 rounded-md flex flex-row text-base items-center font-light",
             uploadStatus.color
           )}
         >
-          {uploadStatus?.icon}
-          <span className="font-bold mr-1">CSV: </span>
-          {uploadStatus.message}
-          {data && (
-            <Button
-              onClick={downloadCsv}
-              variant="link"
-              className="p-1 font-medium underline"
-            >
-              View Details.
-            </Button>
-          )}
+          <div className="self-start">{uploadStatus?.icon}</div>
+          <div className="flex flex-col self-start">
+            <div className="flex flex-row self-start">
+              <span className="font-bold mr-1">CSV: </span>
+              <span>
+                {uploadStatus.message}
+                {data && (
+                  <Button
+                    onClick={downloadCsv}
+                    variant="link"
+                    className="p-0 px-1 pt-0.5 h-7 font-medium underline items-start"
+                  >
+                    View Details.
+                  </Button>
+                )}
+              </span>
+            </div>
+
+            {[UPLOAD_STATUS.SENDING_PARTIAL, UPLOAD_STATUS.SUCCESS].includes(
+              uploadStatus
+            ) && (
+              <div className="text-sm text-muted-foreground">
+                Please note that it will take a few minutes to add all new team
+                members to the system. We will notify you once the process is
+                complete.
+              </div>
+            )}
+          </div>
         </div>
       )}
       <Accordion
@@ -166,10 +190,27 @@ export function BulkUploadCsv() {
         <AccordionItem value="csv-upload-instructions" className="border-0">
           <AccordionTrigger className="flex flex-1 w-full items-center justify-between group hover:no-underline">
             <div className="flex text-base items-center font-light">
-              <span className="text-base font-light align-start text-wrap text-left">
-                <span className="font-semibold">Tip:</span> Inviting more than
-                10 people at once?{" "}
-                <span className="underline font-semibold">Upload CSV</span>
+              <span className="text-base font-light align-start text-wrap text-left flex flex-col md:flex-row align-center md:space-x-1">
+                <span className="font-semibold mr-1">Tip: </span> Inviting more
+                than 10 people at once?{" "}
+                <span className="flex flex-row">
+                  <span className="underline font-semibold">Upload CSV</span>
+                  <TooltipProvider delayDuration={0}>
+                    <Tooltip>
+                      <TooltipTrigger className="ml-2">
+                        <Info size={20} />
+                      </TooltipTrigger>
+                      <TooltipContent
+                        className="bg-black transform"
+                        sideOffset={0}
+                      >
+                        <div className="text-white max-w-72 font-light">
+                          Maximum of 100 emails per session
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </span>
               </span>
             </div>
           </AccordionTrigger>
@@ -243,9 +284,9 @@ export function BulkUploadCsv() {
                 <span className="font-bold">
                   Step 3: Upload your files to send out the invites
                 </span>
-                <Button
+                <ButtonLoading
                   variant="outline"
-                  // type="submit"
+                  isLoading={uploadStatus === UPLOAD_STATUS.UPLOADING}
                   className="ml-2 my-2 md:my-0 p-2"
                   onClick={handleCsvFileInputClick}
                 >
@@ -258,7 +299,7 @@ export function BulkUploadCsv() {
                       Begin import
                     </span>
                   </span>
-                </Button>
+                </ButtonLoading>
                 <input
                   type="file"
                   accept=".csv"
