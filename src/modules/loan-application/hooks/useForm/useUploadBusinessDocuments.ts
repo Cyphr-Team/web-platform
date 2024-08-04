@@ -7,10 +7,20 @@ import { toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
 import { QUERY_KEY } from "../../constants/query-key"
+import { BusinessDocumentsResponse } from "../../constants/type"
+import { AxiosError, AxiosResponse } from "axios"
+import { ErrorResponse } from "@/types/common.type"
 
-export const useUploadBusinessDocuments = () => {
+export const useUploadBusinessDocuments = (
+  onSuccess: (data: BusinessDocumentsResponse) => void
+) => {
   const { mutateAsync: create, isUploading: isCreating } = useCreate()
   const { mutateAsync: update, isUploading: isUpdating } = useUpdate()
+
+  const onSubmitSuccess = useCallback(
+    (data: BusinessDocumentsResponse) => onSuccess(data),
+    [onSuccess]
+  )
 
   const uploadBusinessDocuments = useCallback(
     async (
@@ -37,16 +47,22 @@ export const useUploadBusinessDocuments = () => {
       if (formId) {
         await update(request)
       } else {
-        await create(request)
+        await create(request, {
+          onSuccess: (res) => onSubmitSuccess(res.data)
+        })
       }
     },
-    [create, update]
+    [create, onSubmitSuccess, update]
   )
   return { uploadBusinessDocuments, isUploading: isCreating || isUpdating }
 }
 
 const useCreate = () => {
-  const mutation = useMutation({
+  const mutation = useMutation<
+    AxiosResponse<BusinessDocumentsResponse>,
+    AxiosError<ErrorResponse>,
+    FormData
+  >({
     mutationFn: (data: FormData) => {
       return postRequest({
         path: API_PATH.application.businessDocuments.index,

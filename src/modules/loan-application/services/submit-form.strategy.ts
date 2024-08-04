@@ -6,11 +6,13 @@ import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { isCyphrBank, isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import {
+  isEnableNewInquiryPersonaKycCreatingLogic,
+  isEnableNewSubmitFormStrategy,
   isEnablePandaDocESign,
   isEnablePersonaKycV1
 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { AxiosError, isAxiosError } from "axios"
 import { Dispatch, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import {
@@ -51,9 +53,26 @@ import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKC
 import { useSubmitExecutionForm } from "../hooks/useForm/useSubmitExecutionForm"
 import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
 import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
-import { Action, FORM_ACTION } from "../providers/LoanApplicationFormProvider"
+import {
+  Action,
+  FORM_ACTION,
+  FormStateType
+} from "../providers/LoanApplicationFormProvider"
 import { useSubmitESignDocument } from "../hooks/useForm/useSubmitESignDocument"
 import { useUploadBusinessDocuments } from "../hooks/useForm/useUploadBusinessDocuments"
+import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
+import {
+  CurrentLoansInformationResponse,
+  FinancialInformationResponse,
+  KYBInformationResponse,
+  KYCInformationResponse,
+  OperatingExpensesInformationResponse
+} from "../constants/type"
+import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
+import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
+import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
+import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
+import { MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -81,6 +100,19 @@ export const useSubmitLoanForm = (
   const queryClient = useQueryClient()
   const { loanProgramId } = useParams()
 
+  const updateDataAfterSubmit = (
+    data: FormStateType,
+    key: LOAN_APPLICATION_STEPS
+  ) => {
+    dispatchFormAction({
+      action: FORM_ACTION.UPDATE_DATA,
+      key: key,
+      state: {
+        ...data
+      }
+    })
+  }
+
   /**
    * Mutate action for submitting Plaid's itemId Clash flow verification
    */
@@ -93,7 +125,28 @@ export const useSubmitLoanForm = (
   const {
     submitLoanIdentityVerification,
     isLoading: isSubmittingIdentityVerification
-  } = useSubmitLoanIdentityVerification(identityVerificationData)
+  } = useSubmitLoanIdentityVerification(identityVerificationData, (data) => {
+    if (data.inquiryId && data.personaStatus)
+      if (isEnableNewInquiryPersonaKycCreatingLogic()) {
+        updateDataAfterSubmit(
+          {
+            smartKycId: data.id,
+            inquiryId: data.inquiryId,
+            status: data.personaStatus?.toLowerCase()
+          },
+          LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
+        )
+      } else {
+        updateDataAfterSubmit(
+          {
+            smartKycId: data?.id,
+            inquiryId: data.inquiryId,
+            status: data.personaStatus?.toLowerCase()
+          },
+          LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
+        )
+      }
+  })
 
   /**
    * Mutate action for submitting E Sign document - PandaDoc
@@ -101,11 +154,29 @@ export const useSubmitLoanForm = (
   const { submitESignDocument, isLoading: isSubmittingESignDocument } =
     useSubmitESignDocument(eSignData)
 
+  // KYB
+  const updateKYBData = (data: KYBInformationResponse) =>
+    updateDataAfterSubmit(
+      reverseFormatKybForm(data),
+      LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+    )
   const { submitLoanKYBForm, isLoading: isSubmittingKYB } =
-    useSubmitLoanKYBForm(businessData, businessData?.id ?? "")
+    useSubmitLoanKYBForm({
+      rawData: businessData,
+      onSuccess: updateKYBData
+    })
+  // KYC
+  const updateKYCData = (data: KYCInformationResponse) =>
+    updateDataAfterSubmit(
+      reverseFormatKycForm(data),
+      LOAN_APPLICATION_STEPS.OWNER_INFORMATION
+    )
 
   const { submitLoanKYCForm, isLoading: isSubmittingKYC } =
-    useSubmitLoanKYCForm(ownerData, ownerData?.id ?? "")
+    useSubmitLoanKYCForm({
+      rawData: ownerData,
+      onSuccess: updateKYCData
+    })
 
   const { submitLoanRequestForm, isLoading: isSubmittingLoanRequest } =
     useSubmitMicroLoanRequestForm(
@@ -113,42 +184,106 @@ export const useSubmitLoanForm = (
       loanRequestData?.id ?? "",
       loanProgramId
     )
-
+  const updateFinancialData = (data: FinancialInformationResponse) =>
+    updateDataAfterSubmit(
+      {
+        ...data,
+        incomeCategories: data.incomeCategories ?? [],
+        w2sFile: []
+      },
+      LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+    )
   const { submitLoanFinancialForm, isLoading: isSubmittingFinancial } =
-    useSubmitLoanFinancialForm(financialData, financialData?.id ?? "")
+    useSubmitLoanFinancialForm({
+      rawData: financialData,
+      onSuccess: updateFinancialData
+    })
 
   const {
     submitLoanFinancialForm: submitCashFlowForm,
     isLoading: isSubmittingCashFlow
-  } = useSubmitLoanFinancialForm(cashflowData, cashflowData?.id ?? "")
+  } = useSubmitLoanFinancialForm({
+    rawData: cashflowData,
+    onSuccess: updateFinancialData
+  })
+
+  // Market Opportunity
+  const updateMarketOpportunityData = (data: MarketOpportunityFormResponse) =>
+    updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
 
   const {
     submitLoanMarketOpportunity,
     isLoading: isSubmitLoanMarketOpportunity
-  } = useSubmitMarketOpportunity(marketOpportunityData)
+  } = useSubmitMarketOpportunity({
+    rawData: marketOpportunityData,
+    onSuccess: updateMarketOpportunityData
+  })
+
+  // Current Loans
+  const updateCurrentLoansData = (data: CurrentLoansInformationResponse) =>
+    updateDataAfterSubmit(
+      {
+        hasOutstandingLoans: data.currentLoanForms?.length ? "true" : "",
+        currentLoans: data.currentLoanForms
+      },
+      LOAN_APPLICATION_STEPS.CURRENT_LOANS
+    )
 
   const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
-    useSubmitCurrentLoansForm(currentLoansData)
+    useSubmitCurrentLoansForm({
+      rawData: currentLoansData,
+      onSuccess: updateCurrentLoansData
+    })
+
+  // Operating Expenses
+  const updateExpensesData = (data: OperatingExpensesInformationResponse) =>
+    updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
 
   const {
     submitOperatingExpensesForm,
     isLoading: isSubmittingOperatingExpenses
-  } = useSubmitOperatingExpensesForm(
-    operatingExpensesData,
-    operatingExpensesData?.id ?? ""
-  )
+  } = useSubmitOperatingExpensesForm({
+    rawData: operatingExpensesData,
+    onSuccess: updateExpensesData
+  })
 
+  // Product Service
+  const updateProductServiceData = (data: ProductServiceFormResponse) =>
+    updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
   const { submitProductServiceForm, isLoading: isSubmittingProductService } =
-    useSubmitLoanProductServiceForm(productServiceData)
+    useSubmitLoanProductServiceForm({
+      rawData: productServiceData,
+      onSuccess: updateProductServiceData
+    })
 
+  // Launch KC Fit
+  const updateLaunchKCFitData = (data: LaunchKcFitFormResponse) =>
+    updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
   const { submitLoanLaunchKCFitForm, isLoading: isSubmittingLaunchKCFit } =
-    useSubmitLoanLaunchKCFitForm(launchKCFitData)
+    useSubmitLoanLaunchKCFitForm({
+      rawData: launchKCFitData,
+      onSuccess: updateLaunchKCFitData
+    })
+
+  // Execution
+  const updateLoanExecutionData = (data: ExecutionFormResponse) =>
+    updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.EXECUTION)
 
   const { submitLoanExecutionForm, isLoading: isSubmittingExecution } =
-    useSubmitExecutionForm(executionData)
+    useSubmitExecutionForm({
+      rawData: executionData,
+      onSuccess: updateLoanExecutionData
+    })
+
+  // Business Model
+  const updateLoanBusinessModelData = (data: BusinessModelFormResponse) =>
+    updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
 
   const { submitLoanBusinessModelForm, isLoading: isSubmittingBusinessModel } =
-    useSubmitLoanBusinessModelForm(businessModelData)
+    useSubmitLoanBusinessModelForm({
+      rawData: businessModelData,
+      onSuccess: updateLoanBusinessModelData
+    })
 
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
@@ -156,7 +291,16 @@ export const useSubmitLoanForm = (
   const { uploadDocuments, isUploading } = useUploadFormDocuments()
 
   const { uploadBusinessDocuments, isUploading: isUploadingBusinessDocuments } =
-    useUploadBusinessDocuments()
+    useUploadBusinessDocuments((data) =>
+      updateDataAfterSubmit(
+        {
+          id: data.id,
+          uploadedExecutiveSummary: [data.executiveSummary],
+          uploadedPitchDesk: [data.pitchDeck]
+        } as DocumentUploadsFormValue,
+        LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS
+      )
+    )
 
   const handleSubmitFormSuccess = useCallback(
     (isUpdated: boolean, isSubmitted: boolean, applicationId?: string) => {
@@ -227,7 +371,7 @@ export const useSubmitLoanForm = (
     [progress]
   )
 
-  const submitLoanForm = useCallback(async () => {
+  const submitLoanFormV0 = useCallback(async () => {
     try {
       const { data } = await submitLoanRequestForm()
       const loanRequestId = data.id
@@ -464,6 +608,255 @@ export const useSubmitLoanForm = (
     submitLoanConfirmationForm,
     handleSubmitFormError
   ])
+
+  const submitLoanFormV1 = useCallback(async () => {
+    try {
+      // Submit loan request form
+      const { data } = await submitLoanRequestForm()
+      const loanRequestId = data.id
+      if (loanRequestId) {
+        dispatchFormAction({
+          action: FORM_ACTION.UPDATE_DATA,
+          key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+          state: {
+            ...data,
+            applicationId: data.id
+          }
+        })
+      }
+
+      let isSubmitted = false
+
+      const submitPromises = []
+
+      // Submit identity verification - Link inquiry id
+      if (identityVerificationData?.inquiryId && isEnablePersonaKycV1()) {
+        // Only handle if this application haven't linked before - 1 application only link once
+        if (!identityVerificationData?.smartKycId) {
+          submitPromises.push(submitLoanIdentityVerification(loanRequestId))
+        }
+      }
+
+      // Submit e sign document - Link document id
+      if (eSignData?.documentId && isEnablePandaDocESign() && isSbb()) {
+        submitPromises.push(submitESignDocument(loanRequestId))
+      }
+
+      // Submit Plaid's itemId Clash flow verification
+      if (plaidItemIds?.length) {
+        submitPromises.push(submitLinkPlaidItemds(loanRequestId))
+      }
+
+      // Submit KYB form
+      if (
+        businessData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
+      ) {
+        submitPromises.push(submitLoanKYBForm(loanRequestId))
+      }
+
+      // Submit Current Loans form
+      if (
+        currentLoansData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
+      ) {
+        submitPromises.push(submitCurrentLoansForm(loanRequestId))
+      }
+
+      // Submit Operating Expenses form
+      if (
+        operatingExpensesData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
+      ) {
+        submitPromises.push(submitOperatingExpensesForm(loanRequestId))
+      }
+
+      // Submit Product Service form
+      if (
+        productServiceData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
+      ) {
+        submitPromises.push(submitProductServiceForm())
+      }
+
+      // Submit Market Opportunity form
+
+      if (
+        marketOpportunityData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
+      ) {
+        submitPromises.push(submitLoanMarketOpportunity(loanRequestId))
+      }
+
+      // Submit Launch KC Fit form
+      if (
+        launchKCFitData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
+      ) {
+        submitPromises.push(submitLoanLaunchKCFitForm())
+      }
+
+      // Submit Execution form
+      if (executionData && isCompleteSteps(LOAN_APPLICATION_STEPS.EXECUTION)) {
+        submitPromises.push(submitLoanExecutionForm())
+      }
+
+      // Submit Business Model form
+      if (
+        businessModelData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
+      ) {
+        submitPromises.push(submitLoanBusinessModelForm())
+      }
+
+      // Upload Business Documents
+      if (
+        documentUploadsData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS)
+      ) {
+        submitPromises.push(
+          uploadBusinessDocuments(
+            loanRequestId,
+            documentUploadsData.executiveSummary?.[0],
+            documentUploadsData.pitchDeck?.[0],
+            documentUploadsData.id ?? ""
+          )
+        )
+      }
+
+      // Wait for all submitPromises to resolve
+      const results = await Promise.allSettled(submitPromises)
+
+      // These steps are only for forms has file upload
+      // Submit KYC form
+      if (
+        ownerData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+      ) {
+        const {
+          data: { id: ownerFormId }
+        } = await submitLoanKYCForm(loanRequestId)
+        if (ownerData.governmentFile.length) {
+          await uploadDocuments(
+            ownerFormId,
+            ownerData.governmentFile,
+            FORM_TYPE.KYC
+          )
+        }
+      }
+
+      // Submit Financial form
+      if (
+        financialData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+      ) {
+        const {
+          data: { id: financialFormId }
+        } = await submitLoanFinancialForm(loanRequestId)
+        if (financialData.w2sFile.length) {
+          await uploadDocuments(
+            financialFormId,
+            financialData.w2sFile,
+            FORM_TYPE.FINANCIAL
+          )
+        }
+      } else if (
+        cashflowData &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+      ) {
+        const {
+          data: { id: financialFormId }
+        } = await submitCashFlowForm(loanRequestId)
+        if (cashflowData.w2sFile.length) {
+          await uploadDocuments(
+            financialFormId,
+            cashflowData.w2sFile,
+            FORM_TYPE.FINANCIAL
+          )
+        }
+      }
+
+      // Handle the first errors in the results
+      const error = results.find(
+        (result): result is PromiseRejectedResult =>
+          result.status === "rejected"
+      )
+
+      if (error && error.reason) {
+        if (isAxiosError(error.reason)) {
+          handleSubmitFormError(error.reason as AxiosError)
+        }
+        return
+      }
+
+      // Submit Confirmation form
+      if (confirmationData) {
+        await submitLoanConfirmationForm(loanRequestId)
+        isSubmitted = true
+      }
+
+      handleSubmitFormSuccess(
+        loanRequestData?.id?.length > 0,
+        isSubmitted,
+        loanRequestId
+      )
+      queryClient.invalidateQueries({
+        queryKey: loanApplicationUserKeys.detail(loanRequestId)
+      })
+    } catch (error) {
+      handleSubmitFormError(error as AxiosError)
+    } finally {
+      queryClient.invalidateQueries({
+        queryKey: loanApplicationUserKeys.lists()
+      })
+    }
+  }, [
+    businessData,
+    businessModelData,
+    cashflowData,
+    confirmationData,
+    currentLoansData,
+    dispatchFormAction,
+    documentUploadsData,
+    eSignData?.documentId,
+    executionData,
+    financialData,
+    handleSubmitFormError,
+    handleSubmitFormSuccess,
+    identityVerificationData?.inquiryId,
+    identityVerificationData?.smartKycId,
+    isCompleteSteps,
+    launchKCFitData,
+    loanRequestData?.id?.length,
+    marketOpportunityData,
+    operatingExpensesData,
+    ownerData,
+    plaidItemIds?.length,
+    productServiceData,
+    queryClient,
+    submitCashFlowForm,
+    submitCurrentLoansForm,
+    submitESignDocument,
+    submitLinkPlaidItemds,
+    submitLoanBusinessModelForm,
+    submitLoanConfirmationForm,
+    submitLoanExecutionForm,
+    submitLoanFinancialForm,
+    submitLoanIdentityVerification,
+    submitLoanKYBForm,
+    submitLoanKYCForm,
+    submitLoanLaunchKCFitForm,
+    submitLoanMarketOpportunity,
+    submitLoanRequestForm,
+    submitOperatingExpensesForm,
+    submitProductServiceForm,
+    uploadBusinessDocuments,
+    uploadDocuments
+  ])
+
+  const submitLoanForm = isEnableNewSubmitFormStrategy()
+    ? submitLoanFormV1
+    : submitLoanFormV0
 
   return {
     submitLoanForm,

@@ -4,22 +4,34 @@ import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse } from "@/types/common.type"
 import { postRequest, putRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
-import { customRequestHeader } from "@/utils/request-header"
 import { LaunchKcFitFormResponse } from "../../components/organisms/loan-application-form/launchkc-fit/type"
 import { QUERY_KEY } from "../../constants/query-key"
+import { useCallback } from "react"
+type Props = {
+  rawData: LaunchKCFitFormValue
+  onSuccess: (data: LaunchKcFitFormResponse) => void
+}
 
-export const useSubmitLoanLaunchKCFitForm = (rawData: LaunchKCFitFormValue) => {
+export const useSubmitLoanLaunchKCFitForm = ({ rawData, onSuccess }: Props) => {
   const { mutateAsync: update, isPending: isUpdating } = useUpdate()
-
   const { mutateAsync: submit, isPending: isSubmitting } = useSubmit()
 
+  const onSubmitSuccess = useCallback(
+    (data: LaunchKcFitFormResponse) => onSuccess(data),
+    [onSuccess]
+  )
   const submitLoanLaunchKCFitForm = async () => {
     if (rawData?.id?.length) {
       await update({ ...rawData })
     } else {
-      await submit({
-        ...rawData
-      })
+      await submit(
+        {
+          ...rawData
+        },
+        {
+          onSuccess: (res) => onSubmitSuccess(res.data)
+        }
+      )
     }
   }
   return {
@@ -37,8 +49,7 @@ const useSubmit = () => {
     mutationFn: (data) => {
       return postRequest({
         path: API_PATH.application.launchKCFitForm.index,
-        data,
-        customHeader: customRequestHeader.customHeaders
+        data
       })
     }
   })
@@ -54,8 +65,7 @@ const useUpdate = () => {
     mutationFn: (data) => {
       return putRequest({
         path: API_PATH.application.launchKCFitForm.index,
-        data,
-        customHeader: customRequestHeader.customHeaders
+        data
       })
     },
     onSuccess: () => {

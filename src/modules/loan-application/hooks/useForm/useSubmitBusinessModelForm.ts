@@ -4,24 +4,40 @@ import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse } from "@/types/common.type"
 import { postRequest, putRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
-import { customRequestHeader } from "@/utils/request-header"
 import { QUERY_KEY } from "../../constants/query-key"
 import { BusinessModelFormResponse } from "../../components/organisms/loan-application-form/business-model/type"
+import { useCallback } from "react"
 
-export const useSubmitLoanBusinessModelForm = (
+type Props = {
   rawData: BusinessModelFormValue
-) => {
+  onSuccess: (data: BusinessModelFormResponse) => void
+}
+
+export const useSubmitLoanBusinessModelForm = ({
+  rawData,
+  onSuccess
+}: Props) => {
   const { mutateAsync: update, isPending: isUpdating } = useUpdate()
 
   const { mutateAsync: submit, isPending: isSubmitting } = useSubmit()
+
+  const onSubmitSuccess = useCallback(
+    (data: BusinessModelFormResponse) => onSuccess(data),
+    [onSuccess]
+  )
 
   const submitLoanBusinessModelForm = async () => {
     if (rawData?.id?.length) {
       await update({ ...rawData })
     } else {
-      await submit({
-        ...rawData
-      })
+      await submit(
+        {
+          ...rawData
+        },
+        {
+          onSuccess: (res) => onSubmitSuccess(res.data)
+        }
+      )
     }
   }
   return {
@@ -39,8 +55,7 @@ const useSubmit = () => {
     mutationFn: (data) => {
       return postRequest({
         path: API_PATH.application.businessModelForm.index,
-        data,
-        customHeader: customRequestHeader.customHeaders
+        data
       })
     }
   })
@@ -56,8 +71,7 @@ const useUpdate = () => {
     mutationFn: (data) => {
       return putRequest({
         path: API_PATH.application.businessModelForm.index,
-        data,
-        customHeader: customRequestHeader.customHeaders
+        data
       })
     },
     onSuccess: () => {

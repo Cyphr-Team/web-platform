@@ -97,6 +97,14 @@ function isEnableWorkspaceAdminFilterApplicationScores() {
   )
 }
 
+/*
+ * New Submit Form Strategy - Submit form using Promise.all
+ */
+
+function isEnableNewSubmitFormStrategy() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.NEW_SUBMIT_FORM_STRATEGY)
+}
+
 export {
   isEnableWorkspaceAdminFilterApplicationScores,
   isEnablePandaDocESign,
@@ -113,5 +121,6 @@ export {
   isEnableKycReOrder,
   isEnableSignUpReorder,
   isEnableMultiFactorAuthentication,
-  isEnableTermAgreementsCheckbox
+  isEnableTermAgreementsCheckbox,
+  isEnableNewSubmitFormStrategy
 }

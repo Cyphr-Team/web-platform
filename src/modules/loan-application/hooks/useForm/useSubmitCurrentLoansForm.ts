@@ -1,13 +1,20 @@
+import { useCallback } from "react"
 import {
   DELETE_CURRENT_LOAN_PREFIX,
   NEW_CURRENT_LOAN_PREFIX
 } from "../../constants"
 import { CurrentLoansFormValue } from "../../constants/form"
+import { CurrentLoansInformationResponse } from "../../constants/type"
 import { useDeleteCurrentLoanInformation } from "../useMutation/useDeleteCurrentLoanInformation"
 import { useSubmitCurrentLoansInformation } from "../useMutation/useSubmitCurrentLoansInformation"
 import { useUpdateCurrentLoanInformation } from "../useMutation/useUpdateCurrentLoanInformation"
 
-export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
+type Props = {
+  rawData: CurrentLoansFormValue
+  onSuccess: (data: CurrentLoansInformationResponse) => void
+}
+
+export const useSubmitCurrentLoansForm = ({ rawData, onSuccess }: Props) => {
   const { mutateAsync: updateCurrentLoan, isPending: isUpdating } =
     useUpdateCurrentLoanInformation()
 
@@ -17,6 +24,11 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
   const { mutateAsync: submitCurrentLoans, isPending: isSubmitting } =
     useSubmitCurrentLoansInformation()
 
+  const onSubmitSuccess = useCallback(
+    (data: CurrentLoansInformationResponse) => onSuccess(data),
+    [onSuccess]
+  )
+
   // Call API
   const deleteCurrentLoanForm = async (currentLoanId: string) => {
     return await deleteCurrentLoan({ id: currentLoanId })
@@ -25,10 +37,15 @@ export const useSubmitCurrentLoansForm = (rawData: CurrentLoansFormValue) => {
   const submitCurrentLoansForm = async (loanApplicationId: string) => {
     // if select "No" in "Do you have any outstanding loans?"
     if (rawData.hasOutstandingLoans === "false") {
-      return await submitCurrentLoans({
-        currentLoans: [],
-        loanApplicationId
-      })
+      return await submitCurrentLoans(
+        {
+          currentLoans: [],
+          loanApplicationId
+        },
+        {
+          onSuccess: (res) => onSubmitSuccess(res.data)
+        }
+      )
     } else {
       // Delete related forms in DB
       const deletePromise = rawData.currentLoans

@@ -414,16 +414,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   useEffect(() => {
     if (launchKCFitFormQuery.data && isInitialized && isQualified) {
       changeDataAndProgress(
-        {
-          id: launchKCFitFormQuery.data.id,
-          loanApplicationId: launchKCFitFormQuery.data.loanApplicationId,
-          referralSource: launchKCFitFormQuery.data.referralSource,
-          founderTies: launchKCFitFormQuery.data.founderTies,
-          impact: launchKCFitFormQuery.data.impact,
-          equityInclusion: launchKCFitFormQuery.data.equityInclusion,
-          applied: launchKCFitFormQuery.data.applied,
-          progress: launchKCFitFormQuery.data.progress
-        },
+        launchKCFitFormQuery.data,
         LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT
       )
     }
