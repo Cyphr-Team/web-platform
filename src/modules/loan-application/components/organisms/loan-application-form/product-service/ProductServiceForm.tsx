@@ -10,8 +10,8 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import {
-  ProductServiceFormValue,
-  productServiceFormSchema
+  productServiceFormSchema,
+  ProductServiceFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -24,10 +24,10 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
-  SelectItem
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select"
 import { ArrowRight } from "lucide-react"
 import { useEffect } from "react"
@@ -94,14 +94,10 @@ export const ProductServiceForm = () => {
                 control={form.control}
                 name="businessType"
                 render={({ field }) => (
-                  <FormItem className="flex">
+                  <FormItem className="flex items-center">
                     <FormLabel className="text-text-secondary">
                       <p className="text-sm text-text-secondary font-medium">
-                        Is your core business a product or service
-                      </p>
-                      <p className="text-sm text-text-tertiary font-medium">
-                        (ex: term loan, revolving credit, equipment financing,
-                        etc.)
+                        Is your core business a product of service
                       </p>
                     </FormLabel>
                     <FormControl>
