@@ -41,7 +41,7 @@ export function checkValidEmail(email: string) {
   const emailRegex = new RegExp(
     "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
   )
-  return emailRegex.test(email)
+  return emailRegex.test(email.toLowerCase())
 }
 
 /**
