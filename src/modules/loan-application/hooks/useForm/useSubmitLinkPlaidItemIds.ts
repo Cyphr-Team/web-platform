@@ -2,7 +2,15 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useLinkPlaidItemId } from "../useMutation/useLinkPlaidItemId"
 import { QUERY_KEY } from "../../constants/query-key"
 
-export const useSubmitLinkPlaidItemIds = (plaidItemIds: string[]) => {
+type Props = {
+  plaidItemIds: string[]
+  onSuccess: (plaidItemIds: string[]) => void
+}
+
+export const useSubmitLinkPlaidItemIds = ({
+  plaidItemIds,
+  onSuccess
+}: Props) => {
   const { mutateAsync, isPending } = useLinkPlaidItemId()
 
   const queryClient = useQueryClient()
@@ -15,7 +23,12 @@ export const useSubmitLinkPlaidItemIds = (plaidItemIds: string[]) => {
           itemId
         })
       )
-    )
+    ).then((responses) => {
+      const isSuccess = responses.every((response) => response.status === 200)
+      if (isSuccess) {
+        onSuccess(plaidItemIds)
+      }
+    })
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY.GET_PLAID_ITEM_IDS, loanApplicationId]
     })

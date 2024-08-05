@@ -67,7 +67,7 @@ export const PreQualificationForm = () => {
       hasMvpWithRevenueUnderOneMillion:
         preQualification?.hasMvpWithRevenueUnderOneMillion,
       willingToOperateInKansasCityMo:
-        preQualification?.willingToOperateInKansasCityMo?.toLowerCase()
+        preQualification?.willingToOperateInKansasCityMo
     }
   })
 

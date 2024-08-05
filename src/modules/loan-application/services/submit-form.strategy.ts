@@ -73,6 +73,7 @@ import { ExecutionFormResponse } from "../components/organisms/loan-application-
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
 import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
 import { MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
+import { usePlaidContext } from "../providers"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -99,6 +100,7 @@ export const useSubmitLoanForm = (
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { loanProgramId } = useParams()
+  const { dispatch: plaidDispatch } = usePlaidContext()
 
   const updateDataAfterSubmit = (
     data: FormStateType,
@@ -116,8 +118,18 @@ export const useSubmitLoanForm = (
   /**
    * Mutate action for submitting Plaid's itemId Clash flow verification
    */
+  const updatePlaidItemIds = (plaidItemIds: string[]) => {
+    plaidDispatch({
+      type: "SET_STATE",
+      state: {
+        fetchedItemIds: plaidItemIds,
+        itemIds: [] // Reset itemIds after submit to avoid duplicate
+      }
+    })
+  }
+
   const { submitLinkPlaidItemds, isLoading: isSubmitLinkPlaidItemIds } =
-    useSubmitLinkPlaidItemIds(plaidItemIds)
+    useSubmitLinkPlaidItemIds({ plaidItemIds, onSuccess: updatePlaidItemIds })
 
   /**
    * Mutate action for submitting Persona's inquiry KYC
@@ -187,11 +199,21 @@ export const useSubmitLoanForm = (
   const updateFinancialData = (data: FinancialInformationResponse) =>
     updateDataAfterSubmit(
       {
-        ...data,
+        id: data.id,
         incomeCategories: data.incomeCategories ?? [],
         w2sFile: []
       },
       LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+    )
+
+  const updateCashFlowData = (data: FinancialInformationResponse) =>
+    updateDataAfterSubmit(
+      {
+        id: data.id,
+        incomeCategories: data.incomeCategories ?? [],
+        w2sFile: []
+      },
+      LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION
     )
   const { submitLoanFinancialForm, isLoading: isSubmittingFinancial } =
     useSubmitLoanFinancialForm({
@@ -204,7 +226,7 @@ export const useSubmitLoanForm = (
     isLoading: isSubmittingCashFlow
   } = useSubmitLoanFinancialForm({
     rawData: cashflowData,
-    onSuccess: updateFinancialData
+    onSuccess: updateCashFlowData
   })
 
   // Market Opportunity
