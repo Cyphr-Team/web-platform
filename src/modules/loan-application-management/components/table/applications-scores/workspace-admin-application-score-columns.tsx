@@ -199,13 +199,18 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       },
       size: 200
     },
+
     {
       id: "scoredcard",
       header: renderFilterableHeader({
         title: "Scorecard Status",
-        disabled: true
+        disabled: false,
+        isCanSort: false
       }),
-      meta: { columnViewName: "Scorecard Status" },
+      meta: {
+        columnViewName: "Scorecard Status",
+        filterID: WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS.scorecards
+      },
       cell: ({ row }) => {
         const application = row.original
 

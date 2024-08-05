@@ -343,6 +343,22 @@ export function parseAndValidateNumber(input: string, limit: number) {
   return sanitizedValue
 }
 
+export function parseAndValidateNumberOrUndefined(
+  input: string,
+  limit: number
+) {
+  if (input === "") {
+    return undefined
+  }
+  const sanitizedValue = parseFloat(input.replace(/[^0-9.]/g, "")) || 0
+
+  if (isNaN(sanitizedValue) || sanitizedValue.toString().length > limit) {
+    return null
+  }
+
+  return sanitizedValue
+}
+
 export function calculateAge(birthdateString?: string): string {
   if (birthdateString == null) {
     return "N/A"

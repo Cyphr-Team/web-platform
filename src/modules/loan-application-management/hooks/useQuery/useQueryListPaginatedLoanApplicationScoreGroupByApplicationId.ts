@@ -17,8 +17,11 @@ export const loanApplicationScoreFilterSchema = z.object({
   judgeIds: z
     .array(z.object({ label: z.string(), value: z.string() }))
     .optional(),
-  scoredCardStatuses: z
-    .array(z.object({ label: z.string(), value: z.string() }))
+  scorecards: z
+    .object({
+      numberOfScored: z.number().optional(),
+      numberOfAssigned: z.number().optional()
+    })
     .optional(),
   createdOn: z.date().optional(),
   submittedOn: z.date().optional()
@@ -36,7 +39,7 @@ export const WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS: Record<
 > = {
   statuses: "statuses",
   judgeIds: "judgeIds",
-  scoredCardStatuses: "scoredCardStatuses",
+  scorecards: "scorecards",
   createdOn: "createdOn",
   submittedOn: "submittedOn"
 }
@@ -60,7 +63,10 @@ export type WorkspaceAdminListApplicationScoreParams = PaginateParams & {
   filter?: Partial<{
     statuses: string[]
     judgeIds: string[]
-    scoredCardStatuses: string[]
+    scorecards?: {
+      numberOfScored?: number | undefined
+      numberOfAssigned?: number | undefined
+    }
     createdOn?: Date | undefined
     submittedOn?: Date | undefined
   }>

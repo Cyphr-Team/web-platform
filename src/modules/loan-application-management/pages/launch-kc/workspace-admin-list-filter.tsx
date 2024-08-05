@@ -33,6 +33,8 @@ import { AddFilterPopover } from "../../components/molecules/filters/AddFilterPo
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { ScorecardFilterPopover } from "../../components/molecules/filters/ScorecardFilterPopover"
+import { isEnableWorkspaceAdminFilterByScorecard } from "@/utils/feature-flag.utils"
 
 const ROUND_STATUS_OPTIONS: Option[] = [
   {
@@ -70,6 +72,7 @@ const roundOptionToStatus = (roundOption: Option) => {
 }
 
 const enum FormFieldNames {
+  SCORECARDS = "scorecards",
   JUDGE_IDS = "judgeIds",
   STATUSES = "statuses",
   SEARCH = "search",
@@ -116,7 +119,8 @@ export function WorkspaceAdminApplicationListFilter() {
       statuses: [],
       judgeIds: [],
       createdOn: undefined,
-      submittedOn: undefined
+      submittedOn: undefined,
+      scorecards: undefined
     }
   })
 
@@ -128,7 +132,8 @@ export function WorkspaceAdminApplicationListFilter() {
       statuses: mapToLowerCase(filterForm.watch(FormFieldNames.STATUSES)),
       judgeIds: mapToLowerCase(filterForm.watch(FormFieldNames.JUDGE_IDS)),
       createdOn: filterForm.watch(FormFieldNames.CREATED_ON),
-      submittedOn: filterForm.watch(FormFieldNames.SUBMITTED_ON)
+      submittedOn: filterForm.watch(FormFieldNames.SUBMITTED_ON),
+      scorecards: filterForm.watch(FormFieldNames.SCORECARDS)
     }
   }, [filterForm])
 
@@ -271,10 +276,21 @@ export function WorkspaceAdminApplicationListFilter() {
         <Form {...filterForm}>
           <div className="grid xl:grid-cols-4 gap-4">
             <div className="col-span-3 py-1 flex gap-3 overflow-x-auto">
+              {isEnableWorkspaceAdminFilterByScorecard() && (
+                <div className="flex">
+                  <FormField
+                    control={filterForm.control}
+                    name={FormFieldNames.SCORECARDS}
+                    render={({ field }) => {
+                      return <ScorecardFilterPopover field={field} />
+                    }}
+                  />
+                </div>
+              )}
               <div className="flex">
                 <FormField
                   control={filterForm.control}
-                  name="judgeIds"
+                  name={FormFieldNames.JUDGE_IDS}
                   render={({ field }) => (
                     <MultiSelectRound
                       label="Judges"
@@ -292,7 +308,7 @@ export function WorkspaceAdminApplicationListFilter() {
               <div className="flex">
                 <FormField
                   control={filterForm.control}
-                  name="statuses"
+                  name={FormFieldNames.STATUSES}
                   render={({ field }) => (
                     <MultiSelectRound
                       label="Round"
@@ -353,7 +369,6 @@ export function WorkspaceAdminApplicationListFilter() {
 
               {/** Add filters button */}
               <AddFilterPopover
-                className="flex"
                 options={ADD_FILTER_OPTIONS.filter((option) => {
                   return !selectedFilterOptions.some(
                     (selectedOption) => selectedOption.value === option.value

@@ -105,7 +105,17 @@ function isEnableNewSubmitFormStrategy() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.NEW_SUBMIT_FORM_STRATEGY)
 }
 
+/*
+ * Show the filter by scorecard in workspace-admin-list-filter
+ */
+function isEnableWorkspaceAdminFilterByScorecard() {
+  return checkEnabledFeatureFlag(
+    FEATURE_FLAGS.WORKSPACE_ADMIN_FILTER_BY_SCORECARD
+  )
+}
+
 export {
+  isEnableWorkspaceAdminFilterByScorecard,
   isEnableWorkspaceAdminFilterApplicationScores,
   isEnablePandaDocESign,
   isEnableJudgeSubmitScore,
