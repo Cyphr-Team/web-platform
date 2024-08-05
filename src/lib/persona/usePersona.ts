@@ -1,7 +1,7 @@
 import { APP_CONFIGS } from "@/configs"
 import { toastError } from "@/utils"
 import { Client } from "persona"
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useCreateSmartKyc } from "./persona.client"
 import { CreatePersonaInquiryRequest } from "@/types/kyc/request/CreatePersonaInquiryRequest"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../utils/feature-flag.utils"
@@ -34,12 +34,7 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
         onComplete: (inquiryData) => {
           setInquiryData(inquiryData)
         },
-        onCancel: ({
-          inquiryId
-        }: {
-          inquiryId?: string
-          sessionToken?: string
-        }) => {
+        onCancel: ({ inquiryId }: { inquiryId?: string }) => {
           if (isEnableNewInquiryPersonaKycCreatingLogic()) {
             if (inquiryId != undefined) {
               setInquiryData({
@@ -96,6 +91,12 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
       })
     }
   }, [applicationId, createSmartKyc, storePersonaClient])
+
+  useEffect(() => {
+    return () => {
+      personaClientRef.current?.destroy()
+    }
+  }, [])
 
   return {
     handleOpenPersona,
