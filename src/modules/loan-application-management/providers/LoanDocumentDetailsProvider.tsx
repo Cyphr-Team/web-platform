@@ -22,6 +22,7 @@ type LoanDocumentDetailsContextType = {
   selectedPage: VisualizationPage | null
   handleSelectPage: (page: VisualizationPage) => void
   handleSelectVisualization: (visualization: Visualization) => void
+  isLoadingDetail?: boolean
 }
 
 export const LoanDocumentDetailsContext =
@@ -34,7 +35,8 @@ export const LoanDocumentDetailsContext =
     selectedVisualization: null,
     selectedPage: null,
     handleSelectPage: () => {},
-    handleSelectVisualization: () => {}
+    handleSelectVisualization: () => {},
+    isLoadingDetail: true
   })
 
 type Props = {
@@ -153,6 +155,7 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
       zoomOut,
       visualizationDetails: visualizationDetails,
       documentDetails: documentDetails.data,
+      isLoadingDetail: documentDetails.isLoading,
       selectedVisualization,
       selectedPage,
       handleSelectPage,
@@ -160,6 +163,7 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
     }),
     [
       documentDetails.data,
+      documentDetails.isLoading,
       scale,
       selectedPage,
       selectedVisualization,

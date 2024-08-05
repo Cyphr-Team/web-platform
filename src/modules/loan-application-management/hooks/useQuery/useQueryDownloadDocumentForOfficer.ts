@@ -13,7 +13,7 @@ export const useQueryDownloadDocumentForOfficer = ({
 }: {
   documentId?: string
   fileName?: string
-  preventCacheCount?: number
+  preventCacheCount: number
 }) => {
   return useQuery<string, ErrorResponse>({
     queryKey: [QUERY_KEY.GET_DOCUMENT_DOWNLOAD, documentId, preventCacheCount],
@@ -27,9 +27,17 @@ export const useQueryDownloadDocumentForOfficer = ({
         }
       })
 
-      downloadPDFFile(data, fileName ?? "document")
+      // Only download if needed
+      if (fileName) {
+        downloadPDFFile(data, fileName ?? "document")
+      }
 
-      return data
+      const pdfBlob = new Blob([data], {
+        type: "application/pdf"
+      })
+
+      // Return blob for preview
+      return URL.createObjectURL(pdfBlob)
     },
     enabled: !!documentId && !!preventCacheCount
   })

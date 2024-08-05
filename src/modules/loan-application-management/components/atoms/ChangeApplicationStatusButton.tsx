@@ -127,7 +127,7 @@ export const ChangeApplicationStatusButton = () => {
       ) : (
         <TooltipProvider delayDuration={0}>
           <Tooltip>
-            <TooltipTrigger color={getBadgeVariantByStatus(data)}>
+            <TooltipTrigger color={getBadgeVariantByStatus(data)} asChild>
               <Button
                 variant="outline"
                 className="capitalize h-10 min-w-48 rounded-full relative justify-center text-sm"

@@ -1,15 +1,17 @@
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
+import { FeatureKey } from "@/hooks/useCanAccess"
+import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { LoanDocument } from "@/types/loan-document.type"
 import { snakeCaseToText } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
-import { ChevronRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { BadgeAuthenticityScore } from "../atoms/BadgeAuthenticityScore"
 import { DownloadDocumentButton } from "./download-document-button"
-import { checkIsJudge } from "@/utils/check-roles"
 
 export const columns: ColumnDef<LoanDocument>[] = [
   {
@@ -98,34 +100,25 @@ export const columns: ColumnDef<LoanDocument>[] = [
     }
   },
   {
-    id: "download",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
-    size: 100,
-    cell: ({ row }) => {
-      const document = row.original
-      return (
-        <div className="flex content-end justify-end items-center">
-          <DownloadDocumentButton
-            documentId={document.id}
-            fileName={document.name}
-            text="Download"
-            disabled={checkIsJudge()}
-          />
-        </div>
-      )
-    }
-  },
-  {
     id: "action",
     header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
-    size: 100,
-    cell: () => {
+    size: 50,
+    cell: ({ row }) => {
+      const document = row.original
+
       return (
-        <div className="flex content-end justify-end items-center">
-          <p className=" font-semibold text-gray-500">Review</p>
-          <div>
-            <ChevronRight className="text-gray-500" />
-          </div>
+        <div className="flex content-end justify-end items-center gap-2">
+          <FeatureRenderer featureKey={FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT}>
+            <DownloadDocumentButton
+              documentId={document.id}
+              fileName={document.name}
+              className="text-gray-500"
+            />
+          </FeatureRenderer>
+
+          <Button variant="ghost" size="icon" className="text-gray-500">
+            <ArrowRight className="w-5 h-5" />
+          </Button>
         </div>
       )
     }

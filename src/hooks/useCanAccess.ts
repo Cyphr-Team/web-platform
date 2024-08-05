@@ -15,7 +15,13 @@ export const enum FeatureKey {
   FEATURE_FLAG = "featureFlag",
   APPLICATION = "application",
   USER = "user",
-  ONBOARD = "onboard"
+  ONBOARD = "onboard",
+
+  /**
+   * Access applicant document
+   */
+  APPLICANT_DOCUMENT = "document",
+  DOWNLOAD_APPLICANT_DOCUMENT = "downloadApplicantDocument"
 }
 
 interface IUseCanProps {
@@ -30,6 +36,9 @@ const getEntitlement = () => {
     [Institution.LaunchKC]: {
       [FeatureKey.LOAN_PROGRAM]: {
         [UserRoles.WORKSPACE_ADMIN]: false
+      },
+      [FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT]: {
+        [UserRoles.WORKSPACE_ADMIN]: true
       }
     }
   }

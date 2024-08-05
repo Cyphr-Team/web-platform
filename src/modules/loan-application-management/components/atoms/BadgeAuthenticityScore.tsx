@@ -23,7 +23,7 @@ const generateTooltip = (header: string, content: string, cellText: string) => (
             {cellText}
           </p>
         </TooltipTrigger>
-        <TooltipContent side="left" sideOffset={5}>
+        <TooltipContent side="left" sideOffset={5} className="z-10">
           <Card className="max-w-80 rounded-md shadow-2xl border-none md:p-4">
             <CardHeader className="flex flex-row items-center justify-between md:p-0 md:pb-1">
               <CardTitle className="text-sm font-semibold mt-0 mb-0 pb-0 ">

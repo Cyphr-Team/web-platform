@@ -10,17 +10,21 @@ import { FileDown } from "lucide-react"
 import { useState } from "react"
 import { useQueryDownloadDocumentForOfficer } from "../../hooks/useQuery/useQueryDownloadDocumentForOfficer"
 
-export const DownloadDocumentButton = ({
-  documentId,
-  fileName,
-  text,
-  disabled
-}: {
+interface IDownloadDocumentButtonProps {
   documentId: string
   fileName?: string
   text?: string
   disabled?: boolean
-}) => {
+  className?: string
+}
+
+export const DownloadDocumentButton = ({
+  documentId,
+  fileName,
+  text,
+  disabled,
+  className
+}: IDownloadDocumentButtonProps) => {
   const [preventCacheCount, setPreventCacheCount] = useState(0)
 
   const downloadFile = useQueryDownloadDocumentForOfficer({
@@ -46,10 +50,11 @@ export const DownloadDocumentButton = ({
             onClick={handleDownloadDocument}
             isLoading={downloadFile.isLoading}
             disabled={disabled}
+            className={className}
           >
             <div className="flex items-center">
               {text && <span className="mr-1">{text}</span>}
-              <FileDown />
+              <FileDown className="w-6 h-6 p-0.5" />
             </div>
           </ButtonLoading>
         </TooltipTrigger>

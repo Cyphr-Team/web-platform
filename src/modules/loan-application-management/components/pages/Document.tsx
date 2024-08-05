@@ -3,13 +3,13 @@ import { columns } from "../table/document-columns"
 import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { useQueryDocument } from "../../hooks/useQuery/useQueryDocument"
 
-import { PaginationState, Row } from "@tanstack/react-table"
-import { LoanDocument, LoanDocumentStatus } from "@/types/loan-document.type"
-import { DocumentTableHeader } from "../table/document-header"
-import { useNavigate, useParams } from "react-router-dom"
-import { useState } from "react"
 import { ButtonLoading } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
+import { LoanDocument } from "@/types/loan-document.type"
+import { PaginationState, Row } from "@tanstack/react-table"
+import { useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import { DocumentTableHeader } from "../table/document-header"
 
 export function Component() {
   const navigate = useNavigate()
@@ -22,7 +22,6 @@ export function Component() {
   })
 
   const handleClickDetail = (detail: Row<LoanDocument>) => {
-    if (detail.original.status === LoanDocumentStatus.UNCHECKED) return
     navigate(
       APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.detail(
         LoanApplicationID!,

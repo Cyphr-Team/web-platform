@@ -1,12 +1,34 @@
-import path from "path";
-import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import path from "path"
+import { defineConfig } from "vite"
+
+import { createRequire } from "node:module"
+
+import { normalizePath } from "vite"
+import { viteStaticCopy } from "vite-plugin-static-copy"
+
+const require = createRequire(import.meta.url)
+const cMapsDir = normalizePath(
+  path.join(path.dirname(require.resolve("pdfjs-dist/package.json")), "cmaps")
+)
+const standardFontsDir = normalizePath(
+  path.join(
+    path.dirname(require.resolve("pdfjs-dist/package.json")),
+    "standard_fonts"
+  )
+)
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        { src: cMapsDir, dest: "" },
+        { src: standardFontsDir, dest: "" }
+      ]
+    })
+  ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-});
+      "@": path.resolve(__dirname, "./src")
+    }
+  }
+})
