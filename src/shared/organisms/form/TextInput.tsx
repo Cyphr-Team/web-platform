@@ -8,24 +8,21 @@ import {
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import React, {
-  ChangeEventHandler,
-  CSSProperties,
-  FocusEventHandler
-} from "react"
+import React, { CSSProperties } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 interface ITextInputType<T extends FieldValues> {
+  label: string
+  name: FieldPath<T>
+  control: Control<T>
   prefix?: string
   suffix?: string
   required?: boolean
   prefixIcon?: React.ReactNode
-  label: string
   placeholder?: string
-  control: Control<T>
-  name: FieldPath<T>
-  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  // Not allowed to override this because the field will become uncontrolled
+  // onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  // onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   className?: string
   inputClassName?: string
   labelClassName?: string
@@ -38,21 +35,24 @@ interface ITextInputType<T extends FieldValues> {
 
 export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
   const {
-    control,
-    name,
     label,
-    placeholder,
+    name,
+    control,
     prefix,
-    prefixIcon,
-    inputClassName,
+    // suffix,
     required,
-    subtitle,
-    isRowDirection,
+    prefixIcon,
+    placeholder,
+    // onChange,
+    // onBlur,
+    // className,
+    inputClassName,
     labelClassName,
     formMessageClassName,
+    subtitle,
+    isRowDirection,
     wrapperClassName,
-    style,
-    ...inputProps
+    style
   } = props
 
   return (
@@ -81,12 +81,11 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
           <FormControl className={`${isRowDirection && "xl:-mt-4"}`}>
             <Input
               wrapperClassName={wrapperClassName}
-              {...field}
-              {...inputProps}
               placeholder={placeholder}
               prefix={prefix}
               prefixIcon={prefixIcon}
               className={cn("text-base", inputClassName)}
+              {...field}
             />
           </FormControl>
           {isRowDirection && subtitle ? (

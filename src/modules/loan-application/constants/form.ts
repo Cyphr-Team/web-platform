@@ -350,14 +350,14 @@ export const executionFormSchema = z.object({
   partnershipTypes: z.array(z.string()),
   fundingSources: z.array(
     z.object({
-      id: z.string(),
+      id: z.string().optional(),
       sourceType: z.string().min(1, { message: "This field is required" }),
       amount: z.string().min(1, { message: "This field is required" })
     })
   ),
   founders: z.array(
     z.object({
-      id: z.string(),
+      id: z.string().optional(),
       name: z.string().min(1, { message: "This field is required" }),
       jobType: z.string().min(1, { message: "This field is required" }),
       background: z.string().min(1, { message: "This field is required" }),

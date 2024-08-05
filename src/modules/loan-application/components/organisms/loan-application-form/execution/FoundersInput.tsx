@@ -1,7 +1,6 @@
 import {
   FieldArrayWithId,
   useFieldArray,
-  useForm,
   useFormContext
 } from "react-hook-form"
 import { ExecutionFormValue } from "@/modules/loan-application/constants/form.ts"
@@ -15,27 +14,18 @@ import { TextInput } from "@/shared/organisms/form/TextInput.tsx"
 import { SelectInput } from "@/shared/organisms/form/SelectInput.tsx"
 import { jobTypes } from "@/modules/loan-application/components/organisms/loan-application-form/execution/constants.ts"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput.tsx"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-
-interface Founder {
-  id: string
-  name: string
-  jobType: string
-  background: string
-  skill: string
-}
+import { memo } from "react"
 
 export const FoundersInput = () => {
   const { control, getValues } = useFormContext<ExecutionFormValue>()
-  const { fields, append, update, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "founders"
   })
   const { dispatchFormAction } = useLoanApplicationFormContext()
 
   const handleAddFounder = () => {
-    append({ id: "", name: "", jobType: "", background: "", skill: "" })
+    append({ name: "", jobType: "", background: "", skill: "" })
   }
 
   const onBlur = () => {
@@ -61,9 +51,7 @@ export const FoundersInput = () => {
           key={founder.id}
           index={index}
           value={founder}
-          onUpdate={update}
           onRemove={onRemove(index)}
-          onBlur={onBlur}
         />
       ))}
       <Button
@@ -79,43 +67,21 @@ export const FoundersInput = () => {
   )
 }
 
-const EditFounderFormSchema = z.object({
-  id: z.string(),
-  name: z.string().min(1, { message: "This field is required" }),
-  jobType: z.string().min(1, { message: "This field is required" }),
-  background: z.string().min(1, { message: "This field is required" }),
-  skill: z.string().min(1, { message: "This field is required" })
-})
-
 interface EditFounderProps {
   index: number
-  value: FieldArrayWithId<ExecutionFormValue, "founders", "id">
-  onUpdate: (index: number, values: Founder) => void
+  value: FieldArrayWithId<ExecutionFormValue, "founders">
   onRemove: VoidFunction
-  onBlur: VoidFunction
 }
 
-const EditFounder = (props: EditFounderProps) => {
-  const { onUpdate, index, value, onRemove, onBlur } = props
-  const outerForm = useFormContext<ExecutionFormValue>()
-  const { control, getValues } = useForm<z.infer<typeof EditFounderFormSchema>>(
-    {
-      resolver: zodResolver(EditFounderFormSchema),
-      mode: "onBlur",
-      defaultValues: value
-    }
-  )
-
-  const handleOnblur = () => {
-    onUpdate(index, getValues())
-    onBlur()
-  }
+const EditFounder = memo((props: EditFounderProps) => {
+  const { index, value, onRemove } = props
+  const form = useFormContext<ExecutionFormValue>()
 
   return (
     <div className="flex flex-col gap-2" key={value.id}>
       <div className="flex justify-between items-center">
         <h5 className="font-semibold text-sm">FOUNDER #{index + 1}</h5>
-        {outerForm.getValues("founders").length > 1 && (
+        {form.getValues("founders").length > 1 && (
           <Button
             type="button"
             variant="ghost"
@@ -128,33 +94,30 @@ const EditFounder = (props: EditFounderProps) => {
       </div>
       <TextInput
         className="flex items-center justify-between"
-        inputClassName="w-56 md:max-w-40 xl:max-w-56 xl:w-56"
+        inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
         label="First and last name"
-        name="name"
-        control={control}
-        onBlur={handleOnblur}
+        formMessageClassName="hidden"
+        control={form.control}
+        {...form.register(`founders.${index}.name` as const)}
       />
       <SelectInput
         className="flex items-center justify-between !text-sm"
         label="Full time or part time"
-        inputClassName="w-56 md:max-w-40 xl:max-w-56 xl:w-56"
-        control={control}
-        name="jobType"
+        inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
+        control={form.control}
         options={jobTypes}
-        onBlur={handleOnblur}
+        {...form.register(`founders.${index}.jobType` as const)}
       />
       <TextAreaInput
         label="What relevant business experience, education, or industry knowledge do they have?"
-        control={control}
-        name="background"
-        onBlur={handleOnblur}
+        control={form.control}
+        {...form.register(`founders.${index}.background` as const)}
       />
       <TextAreaInput
         label="What skills do they have to ensure the success of your company?"
-        control={control}
-        name="skill"
-        onBlur={handleOnblur}
+        control={form.control}
+        {...form.register(`founders.${index}.skill` as const)}
       />
     </div>
   )
-}
+})

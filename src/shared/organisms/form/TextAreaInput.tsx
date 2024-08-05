@@ -8,19 +8,19 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { ChangeEventHandler, FocusEventHandler } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 interface ITextAreaInputType<T extends FieldValues> {
+  label: string
+  name: FieldPath<T>
+  control: Control<T>
   prefix?: string
   suffix?: string
   required?: boolean
-  label: string
   placeholder?: string
-  control: Control<T>
-  name: FieldPath<T>
-  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  // Not allowed to override this because the field will become uncontrolled
+  // onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  // onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   className?: string
   inputClassName?: string
   subtitle?: string
@@ -31,16 +31,15 @@ export const TextAreaInput = <T extends FieldValues>(
   props: ITextAreaInputType<T>
 ) => {
   const {
-    control,
-    name,
     label,
-    placeholder,
+    name,
+    control,
     prefix,
+    placeholder,
     inputClassName,
     required,
     subtitle,
-    isRowDirection,
-    ...inputProps
+    isRowDirection
   } = props
 
   return (
@@ -66,7 +65,6 @@ export const TextAreaInput = <T extends FieldValues>(
           <FormControl className={`${isRowDirection && "xl:-mt-4"}`}>
             <Textarea
               {...field}
-              {...inputProps}
               placeholder={placeholder}
               prefix={prefix}
               className={cn("text-base", inputClassName)}

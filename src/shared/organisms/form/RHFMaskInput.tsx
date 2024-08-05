@@ -24,6 +24,7 @@ interface IMaskInputProps<T extends FieldValues> {
   className?: string
   inputClassName?: string
   labelClassName?: string
+  hideMessage?: boolean
   required?: boolean
 }
 
@@ -46,7 +47,8 @@ export const RHFMaskInput = <T extends FieldValues>(
     inputClassName,
     labelClassName,
     required,
-    control
+    control,
+    hideMessage = false
   } = props
 
   return (
@@ -68,7 +70,7 @@ export const RHFMaskInput = <T extends FieldValues>(
               {...field}
             />
           </FormControl>
-          <FormMessage />
+          {!hideMessage && <FormMessage />}
         </FormItem>
       )}
     />
