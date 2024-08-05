@@ -10,6 +10,7 @@ import {
   useLoanApplicationProgressContext
 } from "../providers"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
+import { cn } from "@/lib/utils"
 
 export const Component = () => {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
@@ -35,22 +36,24 @@ export const Component = () => {
         indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
       />
 
-      {isFetchingDetails ? (
+      {isFetchingDetails && (
         <div className="w-full h-full flex justify-center items-center">
           <Loader2 className="m-2 h-8 w-8 transition-all ease-out animate-spin text-primary" />
         </div>
-      ) : (
-        <LoanProgramDetailProvider>
-          <div
-            ref={containerRef}
-            className="flex h-full overflow-auto flex-1 py-6 flex-col pt-8"
-          >
-            <LoadingOverlay isLoading={isSubmitting}>
-              <div className="grid grid-cols-8 w-full">{componentByStep}</div>
-            </LoadingOverlay>
-          </div>
-        </LoanProgramDetailProvider>
       )}
+      <LoanProgramDetailProvider>
+        <div
+          ref={containerRef}
+          className={cn(
+            "flex h-full overflow-auto flex-1 py-6 flex-col pt-8",
+            isFetchingDetails && "hidden"
+          )}
+        >
+          <LoadingOverlay isLoading={isSubmitting}>
+            <div className="grid grid-cols-8 w-full">{componentByStep}</div>
+          </LoadingOverlay>
+        </div>
+      </LoanProgramDetailProvider>
     </>
   )
 }
