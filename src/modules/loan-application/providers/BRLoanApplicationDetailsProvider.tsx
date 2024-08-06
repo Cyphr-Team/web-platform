@@ -111,11 +111,14 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const { state } = useLocation()
 
   const { loanProgramId, id: loanApplicationId } = useParams()
-  const { dispatchProgress, isInitialized, buildSpecificStep } =
+  const { dispatchProgress, isInitialized, progress, buildSpecificStep } =
     useLoanApplicationProgressContext()
   const { dispatchFormAction } = useLoanApplicationFormContext()
   const { dispatch: plaidDispatch } = usePlaidContext()
   const { loanProgramFormsConfiguration } = useLoanProgramDetailContext()
+
+  const isEnabledQuery = (step: LOAN_APPLICATION_STEPS) =>
+    progress.map((item) => item.step).includes(step)
 
   const loanProgramQuery = useQueryLoanProgramDetailsByType(
     state?.loanProgramDetails?.type ?? "",
@@ -155,41 +158,87 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   /**
    * Return the Plaid ItemIds
    */
-  const plaidItemIdsQuery = useQueryGetPlaidItemIds(loanApplicationId!)
+  const plaidItemIdsQuery = useQueryGetPlaidItemIds({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+  })
 
   /**
    * Return Plaid connected bank accounts by application
    */
   const plaidConnectedAccountsQuery =
-    useQueryGetPlaidConnectedBankAccountsByApplicationId(loanApplicationId!)
+    useQueryGetPlaidConnectedBankAccountsByApplicationId({
+      applicationId: loanApplicationId!,
+      enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+    })
 
-  const kybFormQuery = useQueryGetKybForm(loanApplicationId!)
-  const kycFormQuery = useQueryGetKycForm(loanApplicationId!)
-  const confirmationFormQuery = useQueryGetConfirmationForm(loanApplicationId!)
-  const financialFormQuery = useQueryGetFinancialForm(loanApplicationId!)
-  const currentLoansFormQuery = useQueryGetCurrentLoansForm(loanApplicationId!)
-  const operatingExpensesFormQuery = useQueryGetOperatingExpensesForm(
-    loanApplicationId!
-  )
+  const kybFormQuery = useQueryGetKybForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
+  })
+  const kycFormQuery = useQueryGetKycForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+  })
+
+  const confirmationFormQuery = useQueryGetConfirmationForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CONFIRMATION)
+  })
+
+  const financialFormQuery = useQueryGetFinancialForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+  })
+
+  const currentLoansFormQuery = useQueryGetCurrentLoansForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
+  })
+
+  const operatingExpensesFormQuery = useQueryGetOperatingExpensesForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
+  })
+
   const financialDocuments = useQueryGetDocumentsByForm(
     financialFormQuery.data?.id ?? ""
   )
   const kycDocuments = useQueryGetDocumentsByForm(kycFormQuery.data?.id ?? "")
 
-  const preQualificationFormQuery = useQueryGetPreQualificationForm(
-    loanApplicationId!
-  )
+  const preQualificationFormQuery = useQueryGetPreQualificationForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PRE_QUALIFICATION)
+  })
 
-  const productServiceFormQuery = useQueryProductServiceForm(loanApplicationId!)
-  const marketOpportunityFormQuery = useQueryMarketOpportunity(
-    loanApplicationId!
-  )
-  const launchKCFitFormQuery = useQueryLaunchKCFitForm(loanApplicationId!)
-  const executionFormQuery = useQueryExecutionForm(loanApplicationId!)
-  const businessModelFormQuery = useQueryBusinessModelForm(loanApplicationId!)
-  const businessDocumentsUploadedFormQuery = useQueryBusinessDocuments(
-    loanApplicationId!
-  )
+  const productServiceFormQuery = useQueryProductServiceForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
+  })
+  const marketOpportunityFormQuery = useQueryMarketOpportunity({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
+  })
+
+  const launchKCFitFormQuery = useQueryLaunchKCFitForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
+  })
+
+  const executionFormQuery = useQueryExecutionForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.EXECUTION)
+  })
+
+  const businessModelFormQuery = useQueryBusinessModelForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
+  })
+
+  const businessDocumentsUploadedFormQuery = useQueryBusinessDocuments({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS)
+  })
 
   const changeDataAndProgress = useCallback(
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {

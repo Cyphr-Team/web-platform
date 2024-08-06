@@ -13,3 +13,8 @@ export const useQueryDetailsFactory = <T>(
     enabled: !!id
   })
 }
+
+export type FormDetailsQueryProps = {
+  applicationId: string
+  enabled?: boolean
+}

@@ -1,23 +1,17 @@
 import { API_PATH } from "@/constants"
-import { postRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
 import { IPlaidItemListResponse } from "@/types/plaid/response/PlaidItemListResponse"
-import { useQuery } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
+import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
+import { FormDetailsQueryProps } from "."
+import { AxiosResponse } from "axios"
 
-export const useQueryGetPlaidItemIds = (appId: string) => {
-  return useQuery<
-    AxiosResponse<IPlaidItemListResponse>,
-    AxiosError<ErrorResponse>
-  >({
-    queryKey: [QUERY_KEY.GET_PLAID_ITEM_IDS, appId],
-    queryFn: () => {
-      return postRequest({
-        path: API_PATH.application.getPlaidItemIds,
-        data: { applicationId: appId }
-      })
-    },
-    enabled: !!appId
+export const useQueryGetPlaidItemIds = ({
+  applicationId,
+  enabled
+}: FormDetailsQueryProps) =>
+  useQueryFormByApplicationId<AxiosResponse<IPlaidItemListResponse>>({
+    applicationId,
+    queryKey: [QUERY_KEY.GET_PLAID_ITEM_IDS],
+    enabled,
+    path: API_PATH.application.getPlaidItemIds
   })
-}
