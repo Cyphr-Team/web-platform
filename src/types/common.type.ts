@@ -18,9 +18,9 @@ interface ErrorResponse {
 export type { ErrorResponse, SuccessResponse }
 
 // --- SELECT OPTION ---
-interface Option {
+interface Option<T = string> {
   label: string
-  value: string
+  value: T
   icon?: LucideIcon | ((props: IconProps) => JSX.Element)
 }
 

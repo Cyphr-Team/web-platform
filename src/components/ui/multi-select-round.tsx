@@ -1,5 +1,5 @@
 import { Command as CommandPrimitive } from "cmdk"
-import { ControllerRenderProps, FieldValues, Path } from "react-hook-form"
+import { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,8 +22,9 @@ import { Checkbox } from "./checkbox"
 import { Separator } from "./separator"
 
 export function MultiSelectRound<
-  TFieldValues extends FieldValues,
-  TName extends Path<TFieldValues>
+  OptionType extends string = string,
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   options,
   field,
@@ -31,26 +32,30 @@ export function MultiSelectRound<
   subLabel,
   labelHOC
 }: {
-  options: Option[]
+  options: Option<OptionType>[]
   field: ControllerRenderProps<TFieldValues, TName>
   label: string
   subLabel?: string
-  labelHOC?: (option: Option, close?: ReactNode) => ReactNode
+  labelHOC?: (option: Option<OptionType>, close?: ReactNode) => ReactNode
 }) {
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   const isSelected = useCallback(
-    (option: Option) => {
-      return field.value.some((select: Option) => select.value === option.value)
+    (option: Option<OptionType>) => {
+      return field.value.some(
+        (select: Option<OptionType>) => select.value === option.value
+      )
     },
     [field.value]
   )
 
   const handleOptionClick = useCallback(
-    (option: Option) => () => {
+    (option: Option<OptionType>) => () => {
       if (isSelected(option)) {
         field.onChange(
-          field.value.filter((select: Option) => select.value !== option.value)
+          field.value.filter(
+            (select: Option<OptionType>) => select.value !== option.value
+          )
         )
       } else {
         field.onChange([...field.value, option])
@@ -132,7 +137,7 @@ export function MultiSelectRound<
                       onClick={focusInput}
                     >
                       {field.value.map(
-                        (option: Option) =>
+                        (option: Option<OptionType>) =>
                           (
                             <div
                               key={option.value}

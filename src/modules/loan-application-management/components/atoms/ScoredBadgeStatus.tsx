@@ -58,7 +58,8 @@ export const ScoredBadgeStatusWithTooltip = ({
 
   const handleClickDetail = () => {
     navigate(
-      APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
+      APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY.replace(
+        ":id",
         loanApplicationId
       ),
       { state: { applicationDetail: { type: loanProgramType } } }

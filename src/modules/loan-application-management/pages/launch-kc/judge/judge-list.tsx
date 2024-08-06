@@ -1,26 +1,24 @@
 import { DataTable } from "@/components/ui/data-table"
-import { Form, FormField } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { MultiSelectRound } from "@/components/ui/multi-select-round"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { cn } from "@/lib/utils"
+import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
+import { IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
+import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
 import { SortOrder } from "@/types/common.type"
-import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { PaginationState, SortingState } from "@tanstack/react-table"
+import { PaginationState, SortingState, Table } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { Search } from "lucide-react"
-import { ChangeEvent, useCallback, useEffect, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
-import { ScoredBadgeStatus } from "../../components/atoms/ScoredBadgeStatus"
-import { StatusRoundBadge } from "../../components/atoms/StatusRoundBadge"
-import { ASSIGNABLE_STAGE, SCORED_STATUS } from "../../constants"
+import { judgeLoanApplicationColumns } from "../../../components/table/applications-scores/judge-application-score-columns"
 import {
   judgeLoanApplicationFilterSchema,
   JudgeLoanApplicationFilterValues,
   useQueryListPaginateJudgeLoanApplication
-} from "../../hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
-import { judgeLoanApplicationColumns } from "../../components/table/applications-scores/judge-application-score-columns"
+} from "../../../hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
+import { Filter } from "./filter"
 
 export function JudgeApplicationList() {
   const filterForm = useForm<JudgeLoanApplicationFilterValues>({
@@ -94,6 +92,34 @@ export function JudgeApplicationList() {
     return () => watchFilter.unsubscribe()
   }, [filterForm, resetTable])
 
+  const renderHeaderFilter = useMemo(
+    () =>
+      (
+        table: Table<IJudgeLoanApplicationResponse<ILaunchKCApplicationScore>>
+      ) => {
+        return (
+          <div className="flex items-center flex-wrap w-full gap-4">
+            <div className="flex-[2] min-w-0 overflow-x-auto py-1">
+              <Filter filterForm={filterForm} />
+            </div>
+
+            <div className="justify-items-end flex flex-1 gap-3 py-1">
+              <Input
+                wrapperClassName="flex-1"
+                prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
+                placeholder="Search by 'Company Name'"
+                name="search"
+                onChange={handleSearch}
+              />
+
+              <DataTableViewOptions table={table} />
+            </div>
+          </div>
+        )
+      },
+    [filterForm, handleSearch]
+  )
+
   return (
     <div
       className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
@@ -104,59 +130,8 @@ export function JudgeApplicationList() {
         </div>
       </div>
 
-      <div className="mt-4">
-        <Form {...filterForm}>
-          <div className="flex gap-3 flex-wrap">
-            <div className="flex-1 flex gap-3">
-              <FormField
-                control={filterForm.control}
-                name="isScoreds"
-                render={({ field }) => (
-                  <MultiSelectRound
-                    label="Scorecard Status"
-                    field={field}
-                    options={SCORED_STATUS}
-                    labelHOC={(option, close) => (
-                      <ScoredBadgeStatus scoredAt={option.value === "true"}>
-                        {option.label} {close}
-                      </ScoredBadgeStatus>
-                    )}
-                  />
-                )}
-              />
-              <FormField
-                control={filterForm.control}
-                name="applicationCaptureStages"
-                render={({ field }) => (
-                  <MultiSelectRound
-                    label="Round"
-                    field={field}
-                    options={ASSIGNABLE_STAGE}
-                    labelHOC={(option, close) => (
-                      <StatusRoundBadge
-                        round={option.value as LoanApplicationStatus}
-                      >
-                        {option.label} {close}
-                      </StatusRoundBadge>
-                    )}
-                  />
-                )}
-              />
-            </div>
-            <div className="flex-shrink-0 min-w-[300px] mt-auto">
-              <Input
-                prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
-                placeholder="Search by 'Company Name'"
-                name="search"
-                onChange={handleSearch}
-              />
-            </div>
-          </div>
-        </Form>
-      </div>
-
       <DataTable
-        isFilterView
+        headerFilter={renderHeaderFilter}
         tableContainerClassName="flex flex-col flex-1 h-[80vh]"
         columns={judgeLoanApplicationColumns}
         isLoading={isFetching}

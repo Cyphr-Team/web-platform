@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { PaginationState } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
-import { IWorkspaceAdminApplicationStageStat } from "../../../../types/application/application-assign.type"
-import { WorkspaceAdminApplicationStatusCard } from "../../components/atoms/WorkspaceAdminApplicationStatusCard"
-import { workspaceAdminApplicationColumns } from "../../components/table/applications-scores/workspace-admin-application-score-columns"
-import { useQueryApplicationStageStat } from "../../hooks/useQuery/useQueryApplicationStageStat"
-import { useQueryListPaginatedLoanApplicationScore } from "../../hooks/useQuery/useQueryListPaginatedLoanApplicationScore"
+import { IWorkspaceAdminApplicationStageStat } from "../../../../../types/application/application-assign.type"
+import { WorkspaceAdminApplicationStatusCard } from "../../../components/atoms/WorkspaceAdminApplicationStatusCard"
+import { workspaceAdminApplicationColumns } from "../../../components/table/applications-scores/workspace-admin-application-score-columns"
+import { useQueryApplicationStageStat } from "../../../hooks/useQuery/useQueryApplicationStageStat"
+import { useQueryListPaginatedLoanApplicationScore } from "../../../hooks/useQuery/useQueryListPaginatedLoanApplicationScore"
 
 export function WorkspaceAdminApplicationList() {
   const [pagination, setPagination] = useState<PaginationState>({

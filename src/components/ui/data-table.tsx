@@ -1,3 +1,4 @@
+import type { Table as TableType } from "@tanstack/react-table"
 import {
   ColumnDef,
   OnChangeFn,
@@ -22,7 +23,7 @@ import {
 import { cn } from "@/lib/utils"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
 import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -37,6 +38,7 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean
   tableContainerClassName?: string
   manualSorting?: boolean
+  headerFilter?: (table: TableType<TData>) => ReactNode
 }
 
 export function DataTable<TData, TValue>({
@@ -51,7 +53,8 @@ export function DataTable<TData, TValue>({
   tableContainerClassName,
   setSorting,
   sorting,
-  manualSorting
+  manualSorting,
+  headerFilter
 }: DataTableProps<TData, TValue>) {
   const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.id!))
 
@@ -73,7 +76,9 @@ export function DataTable<TData, TValue>({
   return (
     <div className={tableContainerClassName}>
       <div className="flex items-center py-3">
-        {isFilterView && <DataTableViewOptions table={table} />}
+        {headerFilter
+          ? headerFilter(table)
+          : isFilterView && <DataTableViewOptions table={table} />}
       </div>
 
       <div className="rounded-md border relative max-h-full overflow-auto">

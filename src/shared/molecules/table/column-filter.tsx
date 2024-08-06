@@ -13,13 +13,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { SortOrder } from "@/types/common.type"
-import {
-  ArrowDown,
-  ArrowUp,
-  ChevronDown,
-  ListFilter,
-  LucideIcon
-} from "lucide-react"
+import { ArrowDown, ArrowUp, ListFilter, LucideIcon } from "lucide-react"
 import { FocusEvent, ReactNode } from "react"
 
 export interface IFilterableColumn<TData, TValue>
@@ -134,7 +128,7 @@ export function FilterableColumnHeader<TData, TValue>({
             size="sm"
             className="flex text-black w-full rounded-0 font-semibold"
           >
-            <span>{title}</span> <ChevronDown className="w-4 h-4 ml-2" />
+            <span>{title}</span> <ListFilter className="w-4 h-4 ml-2" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

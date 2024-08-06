@@ -456,12 +456,11 @@ export function DataTableViewOptions<TData>({
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          size="sm"
-          className="ml-auto flex rounded-full text-slate-700 font-semibold"
+          className="flex text-slate-700 font-semibold rounded-md"
           onClick={handleOpen}
         >
+          <Eye className="h-5 w-5 flex-shrink-0 mr-1" />
           View
-          <Eye className="ml-2 h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

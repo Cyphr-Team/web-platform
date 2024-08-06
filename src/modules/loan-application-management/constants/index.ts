@@ -1,9 +1,8 @@
-import { Option } from "@/types/common.type"
 import { APP_PATH } from "@/constants"
-import { KybDetailLiensData } from "./type"
+import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { KybDetailLiensData } from "./type"
 import { AccountSummaryType, TRANSACTION_TAG } from "./types/cashflow.type"
-import { LoanApplicationStage } from "@/types/application/application-stage.type"
 
 export enum ApplicationMenuName {
   business = "Business Verification",
@@ -128,9 +127,9 @@ export const LOAN_STATUS: Option[] = [
   { label: "Canceled", value: LoanApplicationStatus.CANCELLED }
 ]
 
-export const ASSIGNABLE_STAGE: Option[] = [
-  { label: "Round 1", value: LoanApplicationStage.ROUND_1 },
-  { label: "Round 2", value: LoanApplicationStage.ROUND_2 }
+export const ASSIGNABLE_STAGE: Option<LoanApplicationStatus>[] = [
+  { label: "Round 1", value: LoanApplicationStatus.ROUND_1 },
+  { label: "Round 2", value: LoanApplicationStatus.ROUND_2 }
 ]
 
 export const SCORED_STATUS: Option[] = [

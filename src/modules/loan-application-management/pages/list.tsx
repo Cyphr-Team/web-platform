@@ -6,6 +6,7 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { checkIsJudge } from "@/utils/check-roles"
 import { isLaunchKC } from "@/utils/domain.utils"
+import { isEnableWorkspaceAdminFilterApplicationScores } from "@/utils/feature-flag.utils"
 import { PaginationState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
@@ -13,10 +14,9 @@ import { loanApplicationColumns } from "../components/table/loan-application-col
 import { LoanApplicationTableHeader } from "../components/table/loan-application-header"
 import { FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
 import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryListPaginateLoanApplication"
-import { WorkspaceAdminApplicationList } from "./launch-kc/workspace-admin-list"
-import { JudgeApplicationList } from "./launch-kc/judge-list"
-import { isEnableWorkspaceAdminFilterApplicationScores } from "@/utils/feature-flag.utils"
-import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin-list-filter"
+import { JudgeApplicationList } from "./launch-kc/judge/judge-list"
+import { WorkspaceAdminApplicationList } from "./launch-kc/workspace-admin/workspace-admin-list"
+import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin/workspace-admin-list-filter"
 
 export function BaseApplicationList() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
