@@ -25,12 +25,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight, Loader2, RefreshCw } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import { useParams } from "react-router-dom"
 
 export const ESignForm = () => {
   const { dispatchFormAction, eSignForm } = useLoanApplicationFormContext()
   const { progress, finishCurrentStep } = useLoanApplicationProgressContext()
   const [isShowCreateSessionBtn, setIsShowCreateSessionBtn] = useState(false)
   const [isShowCreateDocumentBtn, setIsShowCreateDocumentBtn] = useState(false)
+
+  // Get loan program id
+  const { loanProgramId } = useParams()
 
   // Get the PDF result from review application
   const { reviewApplication } = useLoanApplicationFormContext()
@@ -83,7 +87,11 @@ export const ESignForm = () => {
     if (!reviewApplication?.pdf) return
 
     mutateCreateDocument(
-      { pdf: reviewApplication?.pdf, totalPage: reviewApplication?.totalPage },
+      {
+        pdf: reviewApplication?.pdf,
+        totalPage: reviewApplication?.totalPage,
+        programId: loanProgramId ?? ""
+      },
       {
         onSuccess(response) {
           form.setValue("documentId", response.data.documentId)
@@ -107,7 +115,8 @@ export const ESignForm = () => {
     form,
     mutateCreateDocument,
     reviewApplication?.pdf,
-    reviewApplication?.totalPage
+    reviewApplication?.totalPage,
+    loanProgramId
   ])
 
   const handleCreateESignDocument = useCallback(async () => {

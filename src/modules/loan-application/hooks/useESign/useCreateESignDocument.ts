@@ -8,6 +8,7 @@ interface IESignCreateDocumentRequest {
   pdf: jsPDF
   totalPage?: number
   silent?: boolean
+  programId: string
 }
 
 export const useCreateESignDocument = () => {
@@ -25,7 +26,8 @@ export const useCreateESignDocumentByFile = () => {
     mutationFn: ({
       pdf,
       totalPage = 0,
-      silent = true
+      silent = true,
+      programId
     }: IESignCreateDocumentRequest) => {
       const formData = new FormData()
       const pdfBlob = pdf.output("blob")
@@ -36,6 +38,7 @@ export const useCreateESignDocumentByFile = () => {
       formData.append("file", pdfFile)
       formData.append("total_page", totalPage.toString())
       formData.append("silent", silent.toString())
+      formData.append("program_id", programId)
 
       return postRequest<FormData, IESignDocument>({
         path: E_SIGN_CLIENT.ENDPOINTS.createDocumentByFile(),
