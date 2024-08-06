@@ -17,12 +17,10 @@ export const useQueryGetJudgeScore = ({
   return useQuery<IApplicationScore<ILaunchKCApplicationScore>>({
     queryKey: judgeLoanApplicationKeys.detail(applicationId!),
     queryFn: async () => {
-      const baseApplicationsResponse = await getRequest<
+      return await getRequest<
         IGetJudgeScoreParams,
         IApplicationScore<ILaunchKCApplicationScore>
       >({ path: API_PATH.judgeApplication.detail(applicationId!) })
-
-      return baseApplicationsResponse
     },
     placeholderData: keepPreviousData,
     enabled: !!applicationId

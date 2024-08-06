@@ -29,8 +29,10 @@ export const useSubmitScore = ({ applicationId }: ISubmitScoreParams) => {
         path: API_PATH.judgeApplication.detail(applicationId),
         data: {
           score: {
-            ...data
-          }
+            ...data,
+            comment: undefined // ignore comment in score
+          },
+          comment: data.comment
         }
       })
     },

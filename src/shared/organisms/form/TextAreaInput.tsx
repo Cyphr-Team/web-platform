@@ -25,6 +25,7 @@ interface ITextAreaInputType<T extends FieldValues> {
   inputClassName?: string
   subtitle?: string
   isRowDirection?: boolean
+  disable?: boolean
 }
 
 export const TextAreaInput = <T extends FieldValues>(
@@ -39,7 +40,8 @@ export const TextAreaInput = <T extends FieldValues>(
     inputClassName,
     required,
     subtitle,
-    isRowDirection
+    isRowDirection,
+    disable = false
   } = props
 
   return (
@@ -68,6 +70,7 @@ export const TextAreaInput = <T extends FieldValues>(
               placeholder={placeholder}
               prefix={prefix}
               className={cn("text-base", inputClassName)}
+              disabled={disable}
             />
           </FormControl>
           {isRowDirection && subtitle ? (

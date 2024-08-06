@@ -24,6 +24,7 @@ interface IApplicationScore<T> {
   score?: T
   applicationCaptureStage: LoanApplicationStatus
   scoredAt?: string
+  comment?: string
 }
 
 /**
