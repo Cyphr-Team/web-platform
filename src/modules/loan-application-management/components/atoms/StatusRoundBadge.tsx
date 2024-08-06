@@ -23,11 +23,11 @@ export const getBadgeVariantByRound = (round: LoanApplicationStatus) => {
     case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_3:
       return "bg-red-200"
     case LoanApplicationStatus.ROUND_1:
-      return "bg-sky-200 bg-opacity-70"
+      return "bg-[#108BB1] text-white"
     case LoanApplicationStatus.ROUND_2:
-      return "bg-sky-200"
+      return "bg-[#21718A] text-white"
     case LoanApplicationStatus.ROUND_3:
-      return "bg-sky-300"
+      return "bg-[#01485E] text-white"
     case LoanApplicationStatus.APPROVED:
       return "bg-green-200"
     case LoanApplicationStatus.DENIED:
