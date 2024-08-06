@@ -2,7 +2,7 @@ import { ProductServiceFormResponse } from "./type"
 
 export const productServiceFormQuestions = [
   {
-    question: "What is the problem your product of service addresses?",
+    question: "What is the problem your product or service addresses?",
     field: "solutionFocus"
   },
   {
