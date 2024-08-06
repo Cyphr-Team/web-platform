@@ -4,8 +4,16 @@ export const questions = [
     field: "referralSource"
   },
   {
+    question: "Where is your business currently based?",
+    field: "businessLocation"
+  },
+  {
     question: "Do any of your founders have ties to Kansas City, Mo?",
     field: "founderTies"
+  },
+  {
+    question: "Why is Kansas City the right location for your business?",
+    field: "locationChoiceReason"
   },
   {
     question: "What will this award make possible for your business?",

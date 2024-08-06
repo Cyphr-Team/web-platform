@@ -398,7 +398,11 @@ export const launchKcFitFormSchema = z.object({
   id: z.string().nullable(),
   loanApplicationId: z.string().nullable(),
   referralSource: z.string().min(1, { message: "This field is required" }),
+  businessLocation: z.string().min(1, { message: "This field is required" }),
   founderTies: z.string().min(1, { message: "This field is required" }),
+  locationChoiceReason: z
+    .string()
+    .min(1, { message: "This field is required" }),
   impact: z.string().min(1, { message: "This field is required" }),
   equityInclusion: z.string().min(1, { message: "This field is required" }),
   applied: z.boolean(),

@@ -45,7 +45,9 @@ export const LaunchKCFitForm = () => {
     loanApplicationId:
       launchKcFitForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
     referralSource: launchKcFitForm?.referralSource ?? "",
+    businessLocation: launchKcFitForm?.businessLocation ?? "",
     founderTies: launchKcFitForm?.founderTies ?? "",
+    locationChoiceReason: launchKcFitForm?.locationChoiceReason ?? "",
     impact: launchKcFitForm?.impact ?? "",
     equityInclusion: launchKcFitForm?.equityInclusion ?? "",
     applied: launchKcFitForm?.applied ?? false,
