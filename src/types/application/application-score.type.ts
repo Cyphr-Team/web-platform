@@ -32,6 +32,8 @@ interface IApplicationScore<T> {
 interface IScoreInfo<T> {
   judgeName: string
   score?: T
+  scoredAt?: string
+  comment?: string
 }
 
 interface IScoresItemByStage<T> {
