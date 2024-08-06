@@ -49,6 +49,19 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       size: 200
     },
     {
+      id: "email",
+      header: renderFilterableHeader({
+        title: "Applicant's Email",
+        disabled: true
+      }),
+      meta: { columnViewName: "Applicant's Email" },
+      cell: ({ row }) => {
+        const app = row.original
+        return <div className="text-center">{app?.email ?? "N/A"}</div>
+      },
+      size: 200
+    },
+    {
       id: "roundOneJudges",
       header: renderFilterableHeader({
         title: "Round 1 Judges",

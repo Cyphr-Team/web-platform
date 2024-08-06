@@ -41,6 +41,7 @@ interface IApplicationWithStageScoresResponse<
   status: LoanApplicationStatus
   loanStage: LoanApplicationStage
   createdAt: string
+  email?: string
   businessName?: string
   programType: LoanType
   submittedAt?: string

@@ -48,14 +48,17 @@ export const getBadgeIconByRound = (
     case LoanApplicationStatus.ELIMINATED_AFTER_INITIAL_REVIEW:
       return Icons.thumpsUp
     case LoanApplicationStatus.ROUND_1:
+      return Icons.numberOneCircleWhite
     case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_1:
-      return Icons.numberOneCircle
+      return Icons.numberOneCircleBlack
     case LoanApplicationStatus.ROUND_2:
+      return Icons.numberTwoCircleWhite
     case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_2:
-      return Icons.numberTwoCircle
+      return Icons.numberTwoCircleBlack
     case LoanApplicationStatus.ROUND_3:
+      return Icons.numberThreeCircleWhite
     case LoanApplicationStatus.ELIMINATED_AFTER_ROUND_3:
-      return Icons.numberThreeCircle
+      return Icons.numberThreeCircleBlack
     default:
       return undefined
   }
