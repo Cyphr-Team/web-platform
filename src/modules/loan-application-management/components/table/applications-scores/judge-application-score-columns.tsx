@@ -14,6 +14,7 @@ import { ScoredBadgeStatusWithTooltip } from "../../atoms/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../../atoms/StatusRoundBadge"
 import { renderFilterableHeader } from "@/utils/table.utils"
 import { JUDGE_APPLICATION_FILTER_KEYS } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
+import { ScoreBadge } from "@/modules/loan-application-management/components/atoms/ScoreBadge.tsx"
 
 /**
  * Columns for judge list applications
@@ -87,6 +88,28 @@ export const judgeLoanApplicationColumns: ColumnDef<
             loanProgramType={app?.application?.programType}
             scoredAt={app?.scoredAt}
           />
+        </div>
+      )
+    },
+    size: 200
+  },
+  {
+    id: "score",
+    header: renderFilterableHeader({ title: "Scorecard Score" }),
+    meta: { columnViewName: "Scorecard Score" },
+    cell: ({ row }) => {
+      const originalScore = row.original.score ?? {}
+      // if not finish then leave it blank
+      if (Object.keys(originalScore).length === 0) {
+        return
+      }
+      const scoreList = Object.values(originalScore) as number[]
+      const avgScore =
+        scoreList.reduce((prev, cur) => prev + cur) / scoreList.length
+
+      return (
+        <div className="text-center">
+          <ScoreBadge score={avgScore} isFinished={true} />
         </div>
       )
     },

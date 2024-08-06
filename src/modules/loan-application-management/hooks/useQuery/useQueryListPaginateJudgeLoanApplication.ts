@@ -38,6 +38,7 @@ type JudeLoanApplicationSort = {
   submittedAt?: SortOrder
   createdAt?: SortOrder
   scoredAt?: SortOrder
+  score?: SortOrder
   applicationIdNumber?: SortOrder
   businessName?: SortOrder
   applicationCaptureStage?: SortOrder
