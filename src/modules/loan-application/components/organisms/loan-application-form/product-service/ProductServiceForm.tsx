@@ -97,7 +97,7 @@ export const ProductServiceForm = () => {
                   <FormItem className="flex items-center">
                     <FormLabel className="text-text-secondary">
                       <p className="text-sm text-text-secondary font-medium">
-                        Is your core business a product of service
+                        Is your core business a product or service?
                       </p>
                     </FormLabel>
                     <FormControl>
