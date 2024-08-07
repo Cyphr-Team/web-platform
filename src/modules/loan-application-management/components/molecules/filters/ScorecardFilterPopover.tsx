@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import useBoolean from "@/hooks/useBoolean"
 import { cn } from "@/lib/utils"
 import { parseAndValidateNumberOrUndefined } from "@/utils"
+import { get } from "lodash"
 import { ChevronDown } from "lucide-react"
 import { useCallback } from "react"
 import { ControllerRenderProps, FieldValues, Path } from "react-hook-form"
@@ -43,6 +44,39 @@ export const ScorecardFilterPopover = <
     setOpen(false)
   }, [field, setOpen])
 
+  const getAdditionLabel = (): string | null => {
+    try {
+      const numberOfScored = get(
+        field.value,
+        SCORECARD_FILTER_FIELDS_NAME.NUMBER_OF_SCORED
+      )
+      const numberOfAssigned = get(
+        field.value,
+        SCORECARD_FILTER_FIELDS_NAME.NUMBER_OF_ASSIGNED
+      )
+
+      if (numberOfScored >= 0) {
+        return numberOfAssigned >= 0
+          ? `: ${numberOfScored} of ${numberOfAssigned} scored` // Both values are 'number'
+          : `: ${numberOfScored} scored` // Only 'numberOfScored' is 'number'
+      }
+
+      // Only assigned is a number
+      if (numberOfAssigned >= 0) {
+        return `: ${numberOfAssigned} assignee${
+          numberOfAssigned > 1 ? "s" : ""
+        }`
+      }
+
+      return null
+    } catch (e) {
+      console.error("Something went wrong when showing the label scorecard", e)
+      return null
+    }
+  }
+
+  const additionLabel = getAdditionLabel()
+
   return (
     <div className={cn("flex items-center justify-center", className)}>
       <Popover open={open} onOpenChange={setOpen}>
@@ -50,9 +84,13 @@ export const ScorecardFilterPopover = <
           <Button
             id={field.name}
             variant="ghost"
-            className="text-sm font-semibold border border-input h-10 px-4 py-2 rounded-full text-slate-700"
+            className={cn(
+              "text-sm font-semibold border border-input h-10 px-4 py-2 rounded-full text-slate-700",
+              additionLabel && "border-slate-500"
+            )}
           >
             Scorecard Status
+            {additionLabel}
             <ChevronDown className="ml-0.5 h-5 w-5 opacity-50" />
           </Button>
         </PopoverTrigger>

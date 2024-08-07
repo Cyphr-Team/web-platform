@@ -161,12 +161,13 @@ export function MultiSelectRound<
 
                       <div className="max-w-32">
                         <CommandPrimitive.Input
+                          autoFocus
                           placeholder="Search"
                           ref={searchInputRef}
                           onKeyDown={handleSearchOnKeyDown}
                           className={cn(
-                            "bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
-                            "flex h-6 p-0 w-full text-sm placeholder:text-muted-foreground"
+                            "h-full bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+                            "flex p-0 w-full text-sm placeholder:text-muted-foreground"
                           )}
                         />
                       </div>
@@ -178,9 +179,11 @@ export function MultiSelectRound<
                 </div>
               </div>
 
-              <CommandEmpty>No result found.</CommandEmpty>
+              <CommandEmpty className="py-3 text-center text-sm">
+                No result found.
+              </CommandEmpty>
 
-              <CommandList className="overflow-auto">
+              <CommandList className="overflow-y-auto">
                 {options.map((option) => (
                   <CommandItem
                     className="cursor-pointer gap-3 px-4 h-10 rounded-none"
