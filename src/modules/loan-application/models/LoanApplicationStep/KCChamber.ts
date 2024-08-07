@@ -1,7 +1,8 @@
 import {
   isEnableKycReOrder,
   isEnablePersonaKycV1,
-  isEnableReviewApplicationStep
+  isEnableReviewApplicationStep,
+  isIgnoredKycAndCashFlowSubmission
 } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
@@ -15,16 +16,17 @@ export class KCChamberLoanApplicationStep
   }
 
   _buildSteps() {
-    this._build_LoanRequestStep()
-      ._build_BusinessInformationStep()
-      ._build_OwnerInformationStep()
+    this._build_LoanRequestStep()._build_BusinessInformationStep()
+
+    if (!isIgnoredKycAndCashFlowSubmission()) this._build_OwnerInformationStep()
 
     if (isEnablePersonaKycV1() && isEnableKycReOrder())
       this._build_IdentityVerificationStep()
 
-    this._build_CashFlowVerificationStep()
-      ._build_CurrentLoansStep()
-      ._build_OperatingExpensesStep()
+    if (!isIgnoredKycAndCashFlowSubmission())
+      this._build_CashFlowVerificationStep()
+
+    this._build_CurrentLoansStep()._build_OperatingExpensesStep()
 
     if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
 

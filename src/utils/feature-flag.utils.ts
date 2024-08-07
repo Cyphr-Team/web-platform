@@ -1,5 +1,6 @@
 import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 import { featureFlagsService } from "@/services/feature-flag.service"
+import { getRootSubdomain, getSubdomain } from "@/utils/domain.utils.ts"
 
 export function checkEnabledFeatureFlag(key: FEATURE_FLAGS) {
   const featureFlags = featureFlagsService.getFeatureFlags()
@@ -114,6 +115,16 @@ function isEnableWorkspaceAdminFilterByScorecard() {
   )
 }
 
+/*
+ * Allow applicants to submit applications without KYC and CashFlow on the replicate portal
+ */
+function isIgnoredKycAndCashFlowSubmission() {
+  return (
+    checkEnabledFeatureFlag(FEATURE_FLAGS.IGNORE_KYC_AND_CASH_FLOW) &&
+    getSubdomain() != getRootSubdomain(getSubdomain())
+  )
+}
+
 export {
   isEnableWorkspaceAdminFilterByScorecard,
   isEnableWorkspaceAdminFilterApplicationScores,
@@ -132,5 +143,6 @@ export {
   isEnableSignUpReorder,
   isEnableMultiFactorAuthentication,
   isEnableTermAgreementsCheckbox,
-  isEnableNewSubmitFormStrategy
+  isEnableNewSubmitFormStrategy,
+  isIgnoredKycAndCashFlowSubmission
 }
