@@ -385,3 +385,35 @@ export function calculateAge(birthdateString?: string): string {
 
   return `(${age} years old)`
 }
+
+/**
+ * Converts a date string to a new date string with months added and formatted as MM/DD/YYYY.
+ *
+ * @param dateString - The original date as a string.
+ * @param monthsToAdd - The number of months to add to the original date.
+ * @returns The new date formatted as MM/DD/YYYY.
+ */
+export const convertMonthYearAndAddMonths = (
+  dateString: string,
+  monthsToAdd: number
+): string => {
+  // Parse the date string to create a Date object
+  const date = new Date(dateString)
+
+  // Increase the month by the specified number of months
+  const newMonth = date.getMonth() + monthsToAdd
+
+  // Set the date to the last day of the new month
+  const newDate = new Date(date.getFullYear(), newMonth + 1, 0)
+
+  // Format the date to MM-DD-YYYY
+  const month = ("0" + (newDate.getMonth() + 1)).slice(-2)
+  const year = newDate.getFullYear()
+
+  return `${month}/${year}`
+}
+
+export const roundAndConvertToUSLocale = (value?: number) => {
+  const roundedNumber = Math.round(value ?? 0)
+  return new Intl.NumberFormat().format(roundedNumber)
+}

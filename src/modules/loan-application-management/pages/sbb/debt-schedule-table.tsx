@@ -16,6 +16,7 @@ import {
   getCoreRowModel,
   useReactTable
 } from "@tanstack/react-table"
+import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
 
 type DebtScheduleType = {
   lenderName: string
@@ -25,25 +26,6 @@ type DebtScheduleType = {
   loanTermRemainingInMonths: number
   annualInterestRate: number
 }
-
-const FAKE_DATA: DebtScheduleType[] = [
-  {
-    lenderName: "Bank of America",
-    loanType: "Personal Loan",
-    outstandingLoanBalance: 10000,
-    monthlyPaymentAmount: 500,
-    loanTermRemainingInMonths: 12,
-    annualInterestRate: 5
-  },
-  {
-    lenderName: "Chase",
-    loanType: "Auto Loan",
-    outstandingLoanBalance: 20000,
-    monthlyPaymentAmount: 1000,
-    loanTermRemainingInMonths: 24,
-    annualInterestRate: 10
-  }
-]
 
 const columns: ColumnDef<DebtScheduleType>[] = [
   {
@@ -133,8 +115,10 @@ const columns: ColumnDef<DebtScheduleType>[] = [
 ]
 
 export const DebtScheduleTable = () => {
+  const { loanSummary } = useLoanApplicationDetailContext()
+  const currentLoan = loanSummary?.currentLoanForms
   const table = useReactTable({
-    data: FAKE_DATA,
+    data: currentLoan ?? [],
     columns: columns.map((c) => ({ ...c, enableSorting: false })),
     getCoreRowModel: getCoreRowModel()
   })
@@ -144,7 +128,7 @@ export const DebtScheduleTable = () => {
         Debt Schedule
       </p>
       <div className="rounded-md border relative max-h-full overflow-auto">
-        <Table className="text-sm">
+        <Table className="text-sm bg-white">
           <TableHeader className="bg-gray-100 sticky top-0 z-10 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -166,7 +150,7 @@ export const DebtScheduleTable = () => {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-white">
+          <TableBody className="bg-white border-b-2 border-black">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -174,7 +158,7 @@ export const DebtScheduleTable = () => {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="text-center">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -194,22 +178,22 @@ export const DebtScheduleTable = () => {
               </TableRow>
             )}
           </TableBody>
-          <TableFooter>
+          <TableFooter className="bg-white">
             <TableRow>
               <TableCell colSpan={2} className="text-center uppercase">
                 Total
               </TableCell>
-              <TableCell>
+              <TableCell className="text-center">
                 {toCurrency(
-                  FAKE_DATA.reduce(
+                  currentLoan?.reduce(
                     (acc, curr) => acc + curr.outstandingLoanBalance,
                     0
                   )
                 )}
               </TableCell>
-              <TableCell colSpan={3}>
+              <TableCell colSpan={1} className="text-center">
                 {toCurrency(
-                  FAKE_DATA.reduce(
+                  currentLoan?.reduce(
                     (acc, curr) => acc + curr.monthlyPaymentAmount,
                     0
                   )

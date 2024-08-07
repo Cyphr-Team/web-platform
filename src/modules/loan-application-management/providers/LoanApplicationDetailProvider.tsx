@@ -39,6 +39,8 @@ import { useQueryGetSmartKyc } from "../hooks/useQuery/smart-kyc/useQueryGetSmar
 import { SmartKyc } from "../../../lib/persona/persona.types"
 import { isEnablePersonaKycV1 } from "../../../utils/feature-flag.utils"
 import { PreQualificationResponse } from "@/modules/loan-application/constants/type"
+import { useQueryFullAmortization } from "../hooks/useQuery/useQueryFullAmortizations"
+import { FullAmortizationResponse } from "../constants/types/debt-schedule.type"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -52,7 +54,9 @@ type LoanApplicationDetailContextType = {
   isFetchingSummary: boolean
   isLoading: boolean
   isLoadingLoanSmartKycDetail: boolean
+  isLoadingFullAmortization: boolean
   loanSummary?: LoanSummary
+  fullAmortization?: FullAmortizationResponse
   loanApplicationPreQualificationDetails?: PreQualificationResponse
   onChangeTransactionTags: (option: TRANSACTION_TAG[]) => void
   onChangeAccountFilter: (value: string[]) => void
@@ -74,6 +78,7 @@ export const LoanApplicationDetailContext =
     isFetchingCashflow: false,
     isFetchingSummary: false,
     isFetchingBankAccount: false,
+    isLoadingFullAmortization: false,
     onChangeTransactionTags: () => {},
     selectedTags: [],
     onChangeTimePeriod: () => {},
@@ -119,6 +124,10 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     applicationId: params.id
   })
 
+  const fullAmortizationQuery = useQueryFullAmortization({
+    applicationId: params.id!,
+    enabledByInstitution: isSbb() || isLoanReady()
+  })
   const bankAccountsQuery = useQueryGetBankAccounts({
     applicationId: params.id!,
     enabledByInstitution: isLoanReady() || isCapsight() // TODO: should have an enum of institution having out-of-the-box UI
@@ -242,6 +251,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       loanSmartKycDetail: loanSmartKycDetailQuery.data,
       loanApplicationDetails: userLoanApplicationQuery.data,
       loanSummary: loanSummaryQuery.data,
+      fullAmortization: fullAmortizationQuery.data,
       cashFlowAnalysis: cashFlowQuery.data,
       cashFlowAccounts: bankAccountsQuery.data?.bankAccounts ?? [],
       filters,
@@ -251,6 +261,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
         cashFlowQuery.isLoading || bankAccountsQuery.isLoading,
       isLoading: kybDetailQuery.isLoading,
       isLoadingLoanSmartKycDetail: loanSmartKycDetailQuery.isLoading,
+      isLoadingFullAmortization: fullAmortizationQuery.isLoading,
       onChangeTransactionTags,
 
       selectedTags,
@@ -272,6 +283,8 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       userLoanApplicationQuery.data,
       loanSummaryQuery.data,
       loanSummaryQuery.isLoading,
+      fullAmortizationQuery.data,
+      fullAmortizationQuery.isLoading,
       cashFlowQuery.data,
       cashFlowQuery.isLoading,
       bankAccountsQuery.data?.bankAccounts,
@@ -283,10 +296,9 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       onChangeTimePeriod,
       onChangeAccountFilter,
       onChangeTimeRangeFilter,
-
+      newCashFlowGlanceQuery.isLoading,
       // new Cash Flow 2.0
       newCashFlowGlanceQuery.data,
-      newCashFlowGlanceQuery.isLoading,
       newCashFlowFilter,
       onChangeNewTimeRangeFilter
     ]

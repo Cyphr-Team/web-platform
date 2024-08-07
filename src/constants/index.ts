@@ -308,7 +308,9 @@ export const API_PATH = {
     updateAssignedJudges: () =>
       `api/workspace-admin/loan-applications/judge/update`,
     getApplicationWithStageScoresResponse: () =>
-      `api/workspace-admin/application/by-id`
+      `api/workspace-admin/application/by-id`,
+    getFullAmortizationSchedule: (applicationId: string) =>
+      `api/loan-officer/applications/${applicationId}/full-amortization-schedule`
   },
   document: {
     getDocumentDownloadForOfficer:

@@ -6,66 +6,40 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import * as _ from "lodash"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { toCurrency } from "@/utils"
-import { get } from "lodash"
+import {
+  convertMonthYearAndAddMonths,
+  roundAndConvertToUSLocale,
+  toCurrency
+} from "@/utils"
+import { get, first } from "lodash"
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable
 } from "@tanstack/react-table"
-import { isEqualDate } from "@/utils/date.utils"
-import { isBefore } from "date-fns"
+import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
+import {
+  FullAmortizationResponse,
+  PaymentDetail
+} from "../../constants/types/debt-schedule.type"
 
 type AmortizationScheduleType = {
   date: string
-  data: {
-    openingBalance: number
-    totalPayment: number
-    principalPayment: number
-    interestPayment: number
-    closingBalance: number
-  }
+  data: Omit<PaymentDetail, "month">
 }
-
-const FAKE_DATA_A: AmortizationScheduleType[] = _.times(12, (i) => ({
-  date: `2024-${i + 1 < 10 ? 0 : ""}${i + 1}`,
-  data: {
-    openingBalance: 10000 + i * 1000,
-    totalPayment: 1000 + i * 100,
-    principalPayment: 500 + i * 50,
-    interestPayment: 500 + i * 50,
-    closingBalance: 10000 + i * 1000
-  }
-}))
-
-const FAKE_DATA_B: AmortizationScheduleType[] = _.times(12, (i) => ({
-  date: `2024-${i + 1 < 10 ? 0 : ""}${i + 1}`,
-  data: {
-    openingBalance: 10000 + i * 1000,
-    totalPayment: 1000 + i * 100,
-    principalPayment: 500 + i * 50,
-    interestPayment: 500 + i * 50,
-    closingBalance: 10000 + i * 1000
-  }
-})).concat(
-  _.times(12, (i) => ({
-    date: `2025-${i + 1 < 10 ? 0 : ""}${i + 1}`,
-    data: {
-      openingBalance: 10000 + i * 1000,
-      totalPayment: 1000 + i * 100,
-      principalPayment: 500 + i * 50,
-      interestPayment: 500 + i * 50,
-      closingBalance: 10000 + i * 1000
-    }
-  }))
-)
+const enum PAYMENT {
+  OPENING_PAYMENT = "openingPayment",
+  TOTAL_PAYMENT = "totalPayment",
+  INTEREST_PAYMENT = "interestPayment",
+  PRINCIPAL_PAYMENT = "principalPayment",
+  CLOSING_BALANCE = "closingBalance"
+}
 
 const columns: ColumnDef<AmortizationScheduleType>[] = [
   {
-    id: "openingBalance",
+    id: PAYMENT.OPENING_PAYMENT,
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
@@ -75,7 +49,7 @@ const columns: ColumnDef<AmortizationScheduleType>[] = [
     )
   },
   {
-    id: "totalPayment",
+    id: PAYMENT.TOTAL_PAYMENT,
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
@@ -85,17 +59,7 @@ const columns: ColumnDef<AmortizationScheduleType>[] = [
     )
   },
   {
-    id: "principalPayment",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Principal Payment"
-        className="truncate"
-      />
-    )
-  },
-  {
-    id: "interestPayment",
+    id: PAYMENT.INTEREST_PAYMENT,
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
@@ -105,7 +69,17 @@ const columns: ColumnDef<AmortizationScheduleType>[] = [
     )
   },
   {
-    id: "closingBalance",
+    id: PAYMENT.PRINCIPAL_PAYMENT,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Principal Payment"
+        className="truncate"
+      />
+    )
+  },
+  {
+    id: PAYMENT.CLOSING_BALANCE,
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
@@ -128,19 +102,23 @@ const TableData = ({
     columns,
     getCoreRowModel: getCoreRowModel()
   })
-  const payments = ["totalPayment", "principalPayment", "interestPayment"]
+  const payments = [
+    PAYMENT.TOTAL_PAYMENT.toString(),
+    PAYMENT.INTEREST_PAYMENT.toString(),
+    PAYMENT.PRINCIPAL_PAYMENT.toString()
+  ]
 
   return (
     <div className="rounded-md border relative max-h-full overflow-auto">
       <Table isLoading={false} className="text-sm relative">
         <TableBody className="bg-white">
           <TableRow key="date" className="relative">
-            <TableHead className="text-sm font-medium sticky left-0 bg-white text-black w-52 ">
+            <TableHead className="text-sm font-medium sticky left-0 bg-gray-100 text-black w-52 ">
               {loanName}
             </TableHead>
             {data.map((row) => (
               <TableCell
-                className="text-sm font-medium border-l text-center"
+                className="text-sm font-medium border-l bg-gray-100 text-center"
                 key={row.date}
               >
                 {row.date}
@@ -156,14 +134,21 @@ const TableData = ({
                 className="text-sm border-l text-center"
                 key={row.date}
               >
-                {toCurrency(row.data.openingBalance)}
+                {toCurrency(row.data.openingBalance, 0)}
               </TableCell>
             ))}
           </TableRow>
           {table.getFlatHeaders().map((header) => {
             return (
               payments.includes(header.id) && (
-                <TableRow key={header.id} className="relative w-max">
+                <TableRow
+                  key={header.id}
+                  className={`relative w-max ${
+                    header.id === PAYMENT.PRINCIPAL_PAYMENT
+                      ? "border-b-2 border-black"
+                      : ""
+                  }`}
+                >
                   <TableHead
                     key={header.id}
                     className="text-sm font-normal sticky left-0 text-black bg-white !min-w-52"
@@ -179,7 +164,9 @@ const TableData = ({
                   {data.map((row) => {
                     return (
                       <TableCell className="text-red-500 !min-w-52 border-l text-center">
-                        {toCurrency(get(row.data, header.id, 0))}
+                        (
+                        {roundAndConvertToUSLocale(get(row.data, header.id, 0))}
+                        )
                       </TableCell>
                     )
                   })}
@@ -193,7 +180,7 @@ const TableData = ({
             </TableHead>
             {data.map((row) => (
               <TableCell className="text-sm font-medium !w-52 border-l text-center">
-                {toCurrency(row.data.closingBalance)}
+                {toCurrency(row.data.closingBalance, 0)}
               </TableCell>
             ))}
           </TableRow>
@@ -202,73 +189,57 @@ const TableData = ({
     </div>
   )
 }
-
-const calculateMonthlyPayment = (
-  data: AmortizationScheduleType[][]
-): {
-  date: string
-  totalPayment: number
-}[] => {
-  // We must calculate the total monthly payment
-  // Create a range of month that we must pay
-  // Calculate the total payment each month
-  // Find the range of months
-  // Create a new Set() and sort it
-  if (!data.length) return []
-  try {
-    const months = new Set(data.map((d) => d.map((d) => d.date)).flat())
-
-    // Create a range of months with the minimum and maximum date
-    const range = Array.from(months).sort((a, b) => {
-      return isBefore(new Date(a), new Date(b)) ? -1 : 1
-    })
-    // Calculate the total payment each month
-    const totalPayment = range.map((r) => {
-      return data
-        .map((d) => {
-          return d.find((d) => isEqualDate(d.date, r))?.data.totalPayment ?? 0
-        })
-        .reduce((acc, curr) => acc + curr, 0)
-    })
-    // return the total payment along with date
-    return range.map((r, i) => ({
-      date: r,
-      totalPayment: totalPayment[i]
-    }))
-  } catch {
-    return []
-  }
-}
-
+const AmortizationScheduleTableUnit = ({
+  fullAmortization,
+  createdDate
+}: {
+  fullAmortization?: FullAmortizationResponse
+  createdDate: string
+}) =>
+  fullAmortization?.amortizationSchedule.map((entry) => (
+    <div className="rounded-md border relative max-h-full overflow-auto">
+      <TableData
+        data={entry.paymentDetail.map((detail) => ({
+          //We plus the number of months to the started date to calculate the current date
+          date: convertMonthYearAndAddMonths(createdDate, detail.month - 1),
+          data: detail
+        }))}
+        loanName={entry.lenderName}
+      />
+    </div>
+  ))
 export const AmortizationScheduleTable = () => {
-  const data_loan_a = FAKE_DATA_A
-  const data_loan_b = FAKE_DATA_B
-  const totalMonthlyPayment = calculateMonthlyPayment([
-    data_loan_a,
-    data_loan_b
-  ])
+  const { fullAmortization } = useLoanApplicationDetailContext()
+
+  const totalMonthlyPayment = fullAmortization?.totalMonthlyPayment
+  //Currently we are using the date that the user input the form (form created date) as the start date.
+  const createdDate =
+    first(
+      fullAmortization?.amortizationSchedule.map((entry) => entry.createdAt)
+    ) ?? new Date().toDateString()
 
   return (
     <div className="flex flex-col gap-6 ">
       <p className="text-2xl font-semibold ">Amortization Schedule</p>
-      <div className="rounded-md border relative max-h-full overflow-auto">
-        <TableData data={data_loan_a} loanName="Loan A" />
-      </div>
-      <div className="rounded-md border relative max-h-full overflow-auto">
-        <TableData data={data_loan_b} loanName="Loan B" />
-      </div>
+      <AmortizationScheduleTableUnit
+        fullAmortization={fullAmortization}
+        createdDate={createdDate}
+      />
       <div className="rounded-md border relative max-h-full overflow-auto">
         <Table className="text-sm bg-white">
           <TableHeader>
             <TableRow>
               <TableCell className="text-sm font-medium sticky left-0 bg-white text-black !min-w-52"></TableCell>
-              {totalMonthlyPayment.map((payment) => {
+              {totalMonthlyPayment?.map((payment) => {
                 return (
                   <TableCell
-                    className="font-medium border-l !min-w-52 text-center"
-                    key={payment.date}
+                    className="bg-gray-100 font-medium border-l !min-w-52 text-center"
+                    key={payment.month}
                   >
-                    {payment.date}
+                    {convertMonthYearAndAddMonths(
+                      createdDate,
+                      payment.month - 1
+                    )}
                   </TableCell>
                 )
               })}
@@ -277,15 +248,15 @@ export const AmortizationScheduleTable = () => {
           <TableBody>
             <TableRow>
               <TableCell className="text-sm font-medium sticky left-0 bg-white text-black !min-w-52">
-                Total Monthly Payment
+                TOTAL MONTHLY PAYMENT
               </TableCell>
-              {totalMonthlyPayment.map((payment) => {
+              {totalMonthlyPayment?.map((payment) => {
                 return (
                   <TableCell
                     className="text-red-500 font-medium border-l !min-w-52 text-center"
-                    key={payment.date}
+                    key={payment.month}
                   >
-                    {toCurrency(payment.totalPayment)}
+                    {toCurrency(payment.amount, 0)}
                   </TableCell>
                 )
               })}
