@@ -226,7 +226,7 @@ export function OwnerInformationForm() {
                 render={({ field }) => (
                   <FormItem className="col-span-6 lg:col-span-3">
                     <FormLabel className="text-text-secondary">
-                      Phone Number
+                      Phone number
                       <RequiredSymbol />
                     </FormLabel>
                     <PhoneInput
@@ -248,7 +248,7 @@ export function OwnerInformationForm() {
                 render={({ field }) => (
                   <FormItem className="col-span-6 lg:col-span-3">
                     <FormLabel className="text-text-secondary">
-                      Date of Birth
+                      Date of birth
                       <RequiredSymbol />
                     </FormLabel>
                     <CalendarDatePicker

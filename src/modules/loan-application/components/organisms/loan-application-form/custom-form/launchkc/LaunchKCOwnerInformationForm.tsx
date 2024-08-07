@@ -298,7 +298,7 @@ export function LaunchKCOwnerInformationForm() {
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-6">
                     <FormLabel className="text-text-secondary">
-                      Phone Number
+                      Phone number
                       <RequiredSymbol />
                     </FormLabel>
                     <PhoneInput
@@ -320,7 +320,7 @@ export function LaunchKCOwnerInformationForm() {
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-6">
                     <FormLabel className="text-text-secondary">
-                      Date of Birth
+                      Date of birth
                       <RequiredSymbol />
                     </FormLabel>
                     <CalendarDatePicker

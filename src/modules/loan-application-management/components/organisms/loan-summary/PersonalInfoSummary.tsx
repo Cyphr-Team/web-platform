@@ -16,7 +16,7 @@ export const PersonalInfoSummary = () => {
       />
       <Separator />
       <InformationRow
-        label="Date of Birth"
+        label="Date of birth"
         value={formatBirthday(personalInfo?.dateOfBirth) ?? UNKNOWN_VALUE}
       />
       <Separator />
