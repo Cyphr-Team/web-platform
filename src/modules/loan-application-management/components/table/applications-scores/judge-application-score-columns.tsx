@@ -80,7 +80,6 @@ export const judgeLoanApplicationColumns: ColumnDef<
     },
     cell: ({ row }) => {
       const app = row.original
-
       return (
         <div className="text-center">
           <ScoredBadgeStatusWithTooltip

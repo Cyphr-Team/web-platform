@@ -24,6 +24,7 @@ interface IApplicationScore<T> {
   score?: T
   applicationCaptureStage: LoanApplicationStatus
   scoredAt?: string
+  comment?: string
 }
 
 /**
@@ -32,6 +33,8 @@ interface IApplicationScore<T> {
 interface IScoreInfo<T> {
   judgeName: string
   score?: T
+  scoredAt?: string
+  comment?: string
 }
 
 interface IScoresItemByStage<T> {
@@ -47,6 +50,7 @@ interface IApplicationScoresResponse<T> {
 
 export type {
   IScore,
+  IScoreInfo,
   IApplicationScore,
   ILaunchKCApplicationScore,
   IApplicationScoresResponse

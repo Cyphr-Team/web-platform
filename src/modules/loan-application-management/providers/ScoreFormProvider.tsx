@@ -10,6 +10,8 @@ export const scoreSchema = z.object({
 
   // use UseForm as a Provider to pass down needed data
   applicationCaptureStage: z.string().optional(),
+  // judge's feedback
+  comment: z.string().optional(),
 
   productOrService: z.number(),
   marketOpportunity: z.number(),
@@ -41,7 +43,8 @@ export const useScoreFormProvider = () => {
       marketOpportunity: 0,
       businessModel: 0,
       execution: 0,
-      launchKcfit: 0
+      launchKcfit: 0,
+      comment: ""
     }
   })
 
@@ -53,10 +56,12 @@ export const useScoreFormProvider = () => {
       marketOpportunity: detailScore?.score?.marketOpportunity ?? 0,
       businessModel: detailScore?.score?.businessModel ?? 0,
       execution: detailScore?.score?.execution ?? 0,
-      launchKcfit: detailScore?.score?.launchKcfit ?? 0
+      launchKcfit: detailScore?.score?.launchKcfit ?? 0,
+      comment: detailScore?.comment ?? ""
     })
   }, [
     detailScore?.applicationCaptureStage,
+    detailScore?.comment,
     detailScore?.score?.businessModel,
     detailScore?.score?.execution,
     detailScore?.score?.launchKcfit,

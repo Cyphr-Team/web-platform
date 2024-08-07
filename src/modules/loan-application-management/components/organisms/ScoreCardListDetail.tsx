@@ -23,6 +23,7 @@ import {
   isAbleToViewScoreRound1,
   isAbleToViewScoreRound2
 } from "../../services/status.service"
+import { FeedbackCardDetail } from "@/modules/loan-application-management/components/molecules/FeedbackCardDetail.tsx"
 
 export const ScoreCardListDetail = () => {
   const params = useParams()
@@ -63,6 +64,8 @@ export const ScoreCardListDetail = () => {
 
   const ableToViewRound2 = isAbleToViewScoreRound2(statusData)
 
+  const feedbackList = [...scoresRound1, ...scoreRound2]
+
   return (
     <Card className="h-fit max-h-full top-0 z-10 mb-4 flex-shrink-0 mt-6 lg:mt-0">
       <CardHeader className="!pb-0 px-0 md:px-0">
@@ -102,7 +105,11 @@ export const ScoreCardListDetail = () => {
 
         <Accordion
           type="multiple"
-          defaultValue={["scored-card-round-1", "scored-card-round-2"]}
+          defaultValue={[
+            "scored-card-round-1",
+            "scored-card-round-2",
+            "feedback"
+          ]}
         >
           {ableToViewRound2 && (
             <AccordionItem
@@ -202,6 +209,29 @@ export const ScoreCardListDetail = () => {
                       </div>
                     ))}
                 </Accordion>
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
+          {/* If admin want to view the feedback, they must be able to view round 1 */}
+          {ableToViewRound1 && (
+            <AccordionItem
+              value="feedback"
+              key="feedback"
+              className="border-b-0"
+            >
+              <AccordionTrigger
+                className={cn(
+                  "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
+                )}
+              >
+                <div className="w-full flex justify-between items-center">
+                  <span>Feedback to applicant</span>
+                </div>
+              </AccordionTrigger>
+
+              <AccordionContent>
+                <FeedbackCardDetail feedbackList={feedbackList} />
               </AccordionContent>
             </AccordionItem>
           )}

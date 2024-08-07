@@ -29,8 +29,19 @@ export const useSubmitScore = ({ applicationId }: ISubmitScoreParams) => {
         path: API_PATH.judgeApplication.detail(applicationId),
         data: {
           score: {
-            ...data
-          }
+            ...data,
+            /**
+             * We want our data look like this before send it to BE:
+             * { score: {execution: 2, businessModel: 2,...}, comment: "cu khoai mon" }
+             *
+             * But the data itself contain field `comment`, so if we spread the data
+             * directly to score, it will look like this:
+             * { score: { comment: "cu khoai mon", execution: 2, businessModel: 2,...}, comment: "cu khoai mon" }
+             * It's unnecessary, so I added `comment: undefined` to remove the comment in score object
+             * */
+            comment: undefined
+          },
+          comment: data.comment
         }
       })
     },

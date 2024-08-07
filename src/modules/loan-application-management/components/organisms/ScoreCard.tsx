@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion"
-import { ButtonLoading } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Icons } from "@/components/ui/icons"
@@ -19,6 +18,8 @@ import { ScoreCardRubric } from "../molecules/ScoreCardRubric"
 import { useSubmitScore } from "../../hooks/useMutation/useSubmitScore"
 import { useParams } from "react-router-dom"
 import { roundToOneDecimalPlace } from "@/utils"
+import { ButtonLoading } from "@/components/ui/button.tsx"
+import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput.tsx"
 
 export const ScoreCard = () => {
   const { id: applicationId } = useParams()
@@ -29,6 +30,8 @@ export const ScoreCard = () => {
   const submitScore = useSubmitScore({
     applicationId: applicationId
   })
+
+  const isScored = form.watch("isScored")
 
   const formSubmit = form.handleSubmit((data: IScoreFormValues) => {
     submitScore.mutate(data)
@@ -74,7 +77,11 @@ export const ScoreCard = () => {
 
             <Accordion
               type="multiple"
-              defaultValue={["card-rubric", "scored-card"]}
+              defaultValue={[
+                "card-rubric",
+                "scored-card",
+                "feedback-card-form"
+              ]}
             >
               <AccordionItem
                 value="card-rubric"
@@ -128,9 +135,50 @@ export const ScoreCard = () => {
                     deselect a rocket by clicking on it again.
                   </div>
                   <ScoreCardForm />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem
+                value="feedback-card-form"
+                key="feedback-card-form"
+                className="border-b-0"
+              >
+                <AccordionTrigger
+                  className={cn(
+                    "justify-between w-full hover:no-underline text-base font-medium text-left border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
+                  )}
+                >
+                  Feedback to applicant
+                </AccordionTrigger>
+                <AccordionContent>
+                  {/* Render comment if this application is scored, else render text input */}
+                  {isScored && (
+                    <div className="mt-4 text-xs text-text-tertiary">
+                      {form.watch("comment")}
+                    </div>
+                  )}
+                  {/* If not scored, render input */}
+                  {!isScored && (
+                    <>
+                      <div className="mt-4 text-xs text-text-tertiary">
+                        Please provide your feedback on the applicant’s
+                        application. Note this feedback will be shared with the
+                        applicant to help them understand their strengths and
+                        areas of improvement.
+                      </div>
+                      <TextAreaInput
+                        label=""
+                        name="comment"
+                        control={form.control}
+                        placeholder="Leave feedback..."
+                        className="p-2"
+                        inputClassName="focus-within:shadow-lg"
+                      />
+                    </>
+                  )}
 
                   <div className="flex flex-col mt-4">
-                    {!form.watch("isScored") && (
+                    {!isScored && (
                       <>
                         <ButtonLoading
                           className="self-end"
