@@ -9,13 +9,9 @@ import { useNavigate } from "react-router-dom"
 export const useLogout = () => {
   const stytchClient = useStytchB2BClient()
   const navigate = useNavigate()
-  const clearUserInfo = useCallback(() => {
+  const clearUserInfo = useCallback(async () => {
     inMemoryJWTService.eraseToken()
     sessionStorage.clear()
-  }, [])
-
-  const signOut = useCallback(async () => {
-    clearUserInfo()
     if (isEnableMultiFactorAuthentication() && !isAdmin()) {
       try {
         await stytchClient.session.revoke()
@@ -23,8 +19,12 @@ export const useLogout = () => {
         console.error("Failed to revoke Stytch session", e)
       }
     }
+  }, [stytchClient.session])
+
+  const signOut = useCallback(async () => {
+    clearUserInfo()
     navigate(APP_PATH.LOGIN, { replace: true })
-  }, [clearUserInfo, stytchClient.session, navigate])
+  }, [clearUserInfo, navigate])
 
   return { signOut, clearUserInfo }
 }

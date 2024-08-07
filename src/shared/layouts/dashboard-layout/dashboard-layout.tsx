@@ -10,22 +10,30 @@ import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
 import { Loader2 } from "lucide-react"
 import { useVerifyToken } from "@/hooks/useVerifyToken"
 import { useLogout } from "@/hooks/useLogout"
-import { isEnableSignUpReorder } from "@/utils/feature-flag.utils"
+import {
+  isEnableMultiFactorAuthentication,
+  isEnableSignUpReorder
+} from "@/utils/feature-flag.utils"
+import { useVerifyStytchToken } from "@/hooks/useVerifyStytchToken"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
   const isInvalidToken = !useVerifyToken()
+  const isInvalidStytchToken = !useVerifyStytchToken()
   const { clearUserInfo } = useLogout()
 
-  if (isInvalidToken) {
-    clearUserInfo()
-    return <Navigate to={APP_PATH.LOGIN} replace />
+  switch (true) {
+    case isEnableMultiFactorAuthentication() && isInvalidStytchToken:
+    case isInvalidToken:
+      clearUserInfo()
+      return <Navigate to={APP_PATH.LOGIN} replace />
+    case isLoanApplicant:
+      return (
+        <Navigate to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list} replace />
+      )
+    default:
+      return children
   }
-
-  if (isLoanApplicant)
-    return <Navigate to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list} replace />
-
-  return children
 }
 
 export function Component() {
