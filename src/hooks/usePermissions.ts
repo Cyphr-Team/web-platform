@@ -21,6 +21,7 @@ const usePermissions = () => {
       isLoanReady() || isKccBank() || isCyphrBank() || isSbb() || isLaunchKC(),
     []
   )
+  const shouldDisplayOperatingExpensesSection = useMemo(() => !isLaunchKC(), [])
 
   // Feature-flag checks
   const shouldDisplayIdentityVerification = useMemo(
@@ -40,7 +41,8 @@ const usePermissions = () => {
     shouldDisplayCashFlowTable,
     shouldDisplayIdentityVerification,
     shouldDisplayHighRiskEntity,
-    shouldDisplayCashFlowReport
+    shouldDisplayCashFlowReport,
+    shouldDisplayOperatingExpensesSection
   }
 }
 

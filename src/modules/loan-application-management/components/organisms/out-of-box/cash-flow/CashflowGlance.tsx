@@ -19,6 +19,8 @@ import { CashflowGlanceCard } from "../../../molecules/cashflow/CashflowGlanceCa
 import { BankAccountReport } from "./BankAccountReport"
 import { RevenueAndExpenseChart } from "./RevenueAndExpenseChart"
 import { format } from "date-fns"
+import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
+import { FeatureKey } from "@/hooks/useCanAccess"
 
 type FilterValues = z.infer<typeof FilterSchema>
 
@@ -142,30 +144,38 @@ export const CashflowGlanceReport = () => {
               value={newCashFlowGlance?.cashFlowGlance?.revenue}
               isCurrency={true}
             />
-            <CashflowGlanceCard
-              title="Operating Expenses"
-              value={newCashFlowGlance?.cashFlowGlance?.operatingExpenses}
-              isCurrency={true}
-            />
-            <CashflowGlanceCard
-              title="Net Operating Income (NOI)"
-              value={newCashFlowGlance?.cashFlowGlance?.netOperatingIncome}
-              isCurrency={true}
-            />
-            <CashflowGlanceCard
-              title="Operating Margin"
-              value={newCashFlowGlance?.cashFlowGlance?.operatingMargin}
-              isPercent={true}
-            />
+            <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
+              <CashflowGlanceCard
+                title="Operating Expenses"
+                value={newCashFlowGlance?.cashFlowGlance?.operatingExpenses}
+                isCurrency={true}
+              />
+            </FeatureRenderer>
+            <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
+              <CashflowGlanceCard
+                title="Net Operating Income (NOI)"
+                value={newCashFlowGlance?.cashFlowGlance?.netOperatingIncome}
+                isCurrency={true}
+              />
+            </FeatureRenderer>
+            <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
+              <CashflowGlanceCard
+                title="Operating Margin"
+                value={newCashFlowGlance?.cashFlowGlance?.operatingMargin}
+                isPercent={true}
+              />
+            </FeatureRenderer>
             <CashflowGlanceCard
               title="Total Debt Service (TDS)"
               value={newCashFlowGlance?.cashFlowGlance?.totalDebtService}
               isCurrency={true}
             />
-            <CashflowGlanceCard
-              title="Debt Service Coverage (DSCR)"
-              value={newCashFlowGlance?.cashFlowGlance?.debtServiceCoverage}
-            />
+            <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
+              <CashflowGlanceCard
+                title="Debt Service Coverage (DSCR)"
+                value={newCashFlowGlance?.cashFlowGlance?.debtServiceCoverage}
+              />
+            </FeatureRenderer>
             <CashflowGlanceCard
               title="Debt-to-Income (DTI)"
               value={newCashFlowGlance?.cashFlowGlance?.debtToIncome}
@@ -200,7 +210,9 @@ export const CashflowGlanceReport = () => {
         <Separator />
         <SectionTitle>Charts and Trends</SectionTitle>
         <RevenueAndExpenseChart />
-        <NoiAndTotalDebtPaymentsChart />
+        <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
+          <NoiAndTotalDebtPaymentsChart />
+        </FeatureRenderer>
       </div>
     </div>
   )

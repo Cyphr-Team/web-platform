@@ -71,7 +71,8 @@ export function Component() {
     shouldDisplayCashFlowTable,
     shouldDisplayIdentityVerification,
     shouldDisplayHighRiskEntity,
-    shouldDisplayCashFlowReport
+    shouldDisplayCashFlowReport,
+    shouldDisplayOperatingExpensesSection
   } = usePermissions()
 
   const page_1 = useRef<HTMLDivElement>(null)
@@ -94,7 +95,7 @@ export function Component() {
     isLaunchKC() ? [page_2, page_3] : [],
     shouldDisplayCashFlowTable ? [page_4] : [],
     page_5,
-    page_6,
+    shouldDisplayOperatingExpensesSection ? page_6 : [],
     isLaunchKC() ? [page_7, page_8, page_9] : [],
     page_10,
     page_11,
@@ -221,11 +222,13 @@ export function Component() {
             />
           )}
         </div>
-        <div className="space-y-3xl flex flex-col" ref={page_6}>
-          <OperatingExpensesFormDetails
-            operatingExpensesFormData={loanSummary?.operatingExpensesForm}
-          />
-        </div>
+        {shouldDisplayOperatingExpensesSection && (
+          <div className="space-y-3xl flex flex-col" ref={page_6}>
+            <OperatingExpensesFormDetails
+              operatingExpensesFormData={loanSummary?.operatingExpensesForm}
+            />
+          </div>
+        )}
         {/* Loan summary */}
         {isLaunchKC() && (
           <>

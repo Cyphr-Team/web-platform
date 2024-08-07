@@ -20,6 +20,8 @@ import { BusinessModelFormDetails } from "../loan-application-form/business-mode
 import { LaunchKcFitFormDetails } from "../loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
 import { ExecutionFormDetails } from "../loan-application-form/execution/ExecutionFormDetails"
 import { PreQualificationFormDetails } from "../loan-application-form/pre-qualification/PreQualificationFormDetails"
+import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
+import { FeatureKey } from "@/hooks/useCanAccess"
 
 export const ApplicationDetails = () => {
   const {
@@ -60,11 +62,13 @@ export const ApplicationDetails = () => {
           {currentLoanFormData && (
             <CurrentLoanFormDetails currentLoanFormData={currentLoanFormData} />
           )}
-          {operatingExpensesFormData && (
-            <OperatingExpensesFormDetails
-              operatingExpensesFormData={operatingExpensesFormData}
-            />
-          )}
+          <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
+            {operatingExpensesFormData && (
+              <OperatingExpensesFormDetails
+                operatingExpensesFormData={operatingExpensesFormData}
+              />
+            )}
+          </FeatureRenderer>
           {financialFormData && (
             <FinancialFormDetails financialFormData={financialFormData} />
           )}

@@ -10,6 +10,7 @@ export const enum FeatureKey {
   APPLICANT_APPLICATION = "applicantApplication",
   APPLICANT_NOTIFICATION = "applicantNotification",
   LOAN_PROGRAM = "loanProgram",
+  OPERATING_EXPENSE = "operatingExpense",
   DASHBOARD = "dashboard",
   SUBSCRIPTION = "subscription",
   FEATURE_FLAG = "featureFlag",
@@ -39,6 +40,11 @@ const getEntitlement = () => {
       },
       [FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT]: {
         [UserRoles.WORKSPACE_ADMIN]: true
+      },
+      [FeatureKey.OPERATING_EXPENSE]: {
+        [UserRoles.WORKSPACE_ADMIN]: false,
+        [UserRoles.JUDGE]: false,
+        [UserRoles.APPLICANT]: false
       }
     }
   }
