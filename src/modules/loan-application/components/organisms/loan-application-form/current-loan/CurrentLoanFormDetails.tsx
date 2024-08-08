@@ -6,11 +6,8 @@ import {
   CurrentLoanInformationResponse,
   CurrentLoansInformationResponse
 } from "@/modules/loan-application/constants/type.ts"
-import {
-  checkIsWorkspaceAdmin,
-  checkIsLoanApplicant,
-  checkIsLoanOfficer
-} from "@/utils/check-roles.ts"
+
+import { get } from "lodash"
 
 interface CurrentLoanFormDetailsProps {
   currentLoanFormData?:
@@ -22,12 +19,9 @@ export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
   currentLoanFormData
 }) => {
   const currentLoanForms =
-    checkIsLoanOfficer() || checkIsWorkspaceAdmin()
-      ? (currentLoanFormData as CurrentLoanInformationResponse[])
-      : checkIsLoanApplicant()
-        ? (currentLoanFormData as CurrentLoansInformationResponse)
-            ?.currentLoanForms
-        : []
+    Array.isArray(currentLoanFormData) && currentLoanFormData.length > 0
+      ? currentLoanFormData
+      : get(currentLoanFormData, "currentLoanForms", [])
 
   return (
     <Card
