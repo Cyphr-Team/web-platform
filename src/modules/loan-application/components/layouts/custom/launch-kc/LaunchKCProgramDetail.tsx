@@ -18,36 +18,17 @@ import { sanitizeDOM } from "@/utils/file.utils"
 const ELEMENTS_TYPE = {
   title: "title",
   text: "text",
-  list: "list"
+  list: "list",
+  divider: "divider"
 }
 
 type Element = {
   type: string
-  content: string | string[]
+  content?: string | string[]
   size?: string
 }
 
 const loanProgramText: Element[] = [
-  {
-    type: ELEMENTS_TYPE.title,
-    content: "About",
-    size: "3xl"
-  },
-  {
-    type: ELEMENTS_TYPE.text,
-    content:
-      "We believe the promise of tomorrow starts with championing the people building it today. At LaunchKC, we look for companies that are:"
-  },
-  {
-    type: ELEMENTS_TYPE.list,
-    content: [
-      "Founders with pre-seed and seed stage companies",
-      "Companies with an innovative and scalable business model",
-      "Technology-enabled solutions",
-      "Diverse founder teams with a desire to help Kansas City’s ecosystem grow",
-      "A strong desire to grow your business in Kansas City"
-    ]
-  },
   {
     type: ELEMENTS_TYPE.title,
     content: "Funding & Support",
@@ -66,6 +47,9 @@ const loanProgramText: Element[] = [
       "Customized educational programming",
       "Support with office space in Downtown Kansas City for the year"
     ]
+  },
+  {
+    type: ELEMENTS_TYPE.divider
   },
   {
     type: ELEMENTS_TYPE.title,
@@ -197,6 +181,8 @@ export const ComponentWithProvider = () => {
               element.content.map((item, index) => <li key={index}>{item}</li>)}
           </ul>
         )
+      case ELEMENTS_TYPE.divider:
+        return <Separator className="my-6" />
       default:
         return null
     }
@@ -244,7 +230,7 @@ export const ComponentWithProvider = () => {
         >
           <LoanProgramDetailWelcomeLine />
 
-          <Separator className="my-6" />
+          <br className="my-6" />
 
           {loanProgramText.map((element, index) => (
             <div key={index} className="mb-6">
