@@ -32,6 +32,12 @@ export const useSubmitLinkPlaidItemIds = ({
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY.GET_PLAID_ITEM_IDS, loanApplicationId]
     })
+    queryClient.invalidateQueries({
+      queryKey: [
+        QUERY_KEY.GET_PLAID_CONNECTED_BANK_ACCOUNTS_BY_APPLICATION_ID,
+        loanApplicationId
+      ]
+    })
   }
 
   return {

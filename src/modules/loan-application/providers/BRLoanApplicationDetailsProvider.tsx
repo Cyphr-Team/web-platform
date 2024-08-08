@@ -188,7 +188,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
   const financialFormQuery = useQueryGetFinancialForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+    enabled:
+      isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION) ||
+      isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
   })
 
   const currentLoansFormQuery = useQueryGetCurrentLoansForm({
