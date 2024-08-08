@@ -77,7 +77,10 @@ export function MiddeskTable<TData, TValue>({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className={cn("text-base", cellClassName)}
+                      className={cn(
+                        "text-base break-words whitespace-normal overflow-clip",
+                        cellClassName
+                      )}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
