@@ -125,6 +125,12 @@ function isIgnoredKycAndCashFlowSubmission() {
   )
 }
 
+function isEnableExecutionFormNewMonthlyExpense() {
+  return checkEnabledFeatureFlag(
+    FEATURE_FLAGS.EXECUTION_FORM_NEW_MONTHLY_EXPENSE
+  )
+}
+
 export {
   isEnableWorkspaceAdminFilterByScorecard,
   isEnableWorkspaceAdminFilterApplicationScores,
@@ -144,5 +150,6 @@ export {
   isEnableMultiFactorAuthentication,
   isEnableTermAgreementsCheckbox,
   isEnableNewSubmitFormStrategy,
-  isIgnoredKycAndCashFlowSubmission
+  isIgnoredKycAndCashFlowSubmission,
+  isEnableExecutionFormNewMonthlyExpense
 }

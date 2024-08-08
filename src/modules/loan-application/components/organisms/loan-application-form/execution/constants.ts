@@ -161,6 +161,35 @@ export const monthlyExpenseRangeOptions: Option[] = [
   {
     label: "More than $15,000",
     value: "more_than_fifteen_thousands"
+  },
+  // ========================== old options ===================================
+  {
+    label: "No revenue",
+    value: "no_revenue"
+  },
+  {
+    label: "$1 - $5,000",
+    value: "one_to_five_thousands"
+  },
+  {
+    label: "$5,001 - $50,000",
+    value: "five_thousands_one_to_fifty_thousands"
+  },
+  {
+    label: "$50,001 - $100,000",
+    value: "fifty_thousands_one_to_one_hundred_thousands"
+  },
+  {
+    label: "$100,001 - $500,000",
+    value: "one_hundred_thousands_one_to_two_fifty_thousands"
+  },
+  {
+    label: "$500,001 - $1,000,000",
+    value: "five_hundred_thousands_one_to_one_million"
+  },
+  {
+    label: "Over $1,000,000",
+    value: "over_one_million"
   }
 ]
 

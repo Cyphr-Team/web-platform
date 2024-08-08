@@ -28,8 +28,10 @@ import { useForm } from "react-hook-form"
 import {
   getOptionsByField,
   LAUNCH_KC_EXECUTION_FIELD_NAMES,
+  monthlyExpenseRangeOptions,
   questions
 } from "./constants"
+import { isEnableExecutionFormNewMonthlyExpense } from "@/utils/feature-flag.utils.ts"
 
 export const ExecutionForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -92,6 +94,10 @@ export const ExecutionForm = () => {
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EXECUTION)
 
+  const monthlyExpenseOptions = isEnableExecutionFormNewMonthlyExpense()
+    ? monthlyExpenseRangeOptions.slice(0, 7)
+    : monthlyExpenseRangeOptions.slice(7)
+
   return (
     <div
       className={cn(
@@ -113,9 +119,7 @@ export const ExecutionForm = () => {
                 label="How much cash does your company go through each month?"
                 control={form.control}
                 name={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
-                options={getOptionsByField(
-                  LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE
-                )}
+                options={monthlyExpenseOptions}
               />
               {questions.map((q) => (
                 <TextAreaInput
