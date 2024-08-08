@@ -135,7 +135,14 @@ export const ExecutionForm = () => {
               />
               <MultiCheckboxesInput
                 key={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
-                label="What areas do you need the most support? (You can select more than 1)"
+                label={
+                  <span>
+                    What areas do you need the most support?
+                    <span className="font-normal">
+                      &nbsp;(You can select more than 1)
+                    </span>
+                  </span>
+                }
                 control={form.control}
                 name={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
                 options={getOptionsByField(
@@ -144,7 +151,14 @@ export const ExecutionForm = () => {
               />
               <MultiCheckboxesInput
                 key={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
-                label="What alliances or partnerships have you entered? (You can select more than 1)"
+                label={
+                  <span>
+                    What alliances or partnerships have you entered?
+                    <span className="font-normal">
+                      &nbsp;(You can select more than 1)
+                    </span>
+                  </span>
+                }
                 control={form.control}
                 name={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
                 options={getOptionsByField(

@@ -102,7 +102,7 @@ const EditFounder = memo((props: EditFounderProps) => {
       />
       <SelectInput
         className="flex items-center justify-between !text-sm"
-        label="Full time or part time"
+        label="Full-time or part-time"
         inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
         control={form.control}
         options={jobTypes}

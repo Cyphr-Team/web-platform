@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form"
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { ChangeEventHandler, FocusEventHandler } from "react"
+import { ChangeEventHandler, FocusEventHandler, ReactNode } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
 type IOption = {
@@ -21,7 +21,7 @@ interface IOptionInputType<T extends FieldValues> {
   suffix?: string
   required?: boolean
   prefixIcon?: React.ReactNode
-  label: string
+  label: ReactNode
   placeholder?: string
   control: Control<T>
   name: FieldPath<T>

@@ -30,7 +30,7 @@ export const FoundersDetails: React.FC<Props> = ({ data }) => {
                 valueClassName="capitalize"
                 className="!flex-row justify-between"
                 key={`${founder.id}-jobType`}
-                label="Full time or part time"
+                label="Full-time or part-time"
                 value={snakeCaseToText(get(founder, "jobType", ""))}
               />
               <AnswersTextDisplay
