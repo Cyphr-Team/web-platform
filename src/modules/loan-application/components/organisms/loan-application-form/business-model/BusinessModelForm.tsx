@@ -23,6 +23,7 @@ import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 
 import { questions, strategies } from "./constants"
+import { TextInput } from "@/shared/organisms/form/TextInput.tsx"
 
 export const BusinessModelForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -34,6 +35,7 @@ export const BusinessModelForm = () => {
     loanApplicationId:
       businessModelForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
     description: businessModelForm?.description ?? "",
+    annualPayroll: businessModelForm?.annualPayroll ?? "",
     scalePlan: businessModelForm?.scalePlan ?? "",
     totalRevenueRange: businessModelForm?.totalRevenueRange ?? "",
     lastMonthRevenueRange: businessModelForm?.lastMonthRevenueRange ?? "",
@@ -83,7 +85,7 @@ export const BusinessModelForm = () => {
           {questions.map((q) => (
             <SelectInput
               inputClassName="!max-w-52"
-              className="flex items-center"
+              className="flex items-center justify-between"
               key={q.field}
               label={q.question}
               control={form.control}
@@ -91,6 +93,17 @@ export const BusinessModelForm = () => {
               options={q.options}
             />
           ))}
+          <TextInput
+            prefixIcon="$"
+            key="annualPayroll"
+            name="annualPayroll"
+            control={form.control}
+            inputClassName="!max-w-52"
+            className="flex flex-row items-center w-full justify-between"
+            label="What is your annual payroll?"
+            placeholder="i.e: 55,000"
+            formMessageClassName="hidden"
+          />
           <SelectInput
             key="scalePlan"
             label="What are your business’ near-term plans to scale?"

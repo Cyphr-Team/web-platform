@@ -107,7 +107,7 @@ export const ExecutionForm = () => {
               <SelectInput
                 className="flex items-center"
                 inputClassName="!max-w-52"
-                labelClassName="leading-relaxed mt-2"
+                labelClassName="leading-relaxed mt-2 pt-2"
                 key={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
                 label="How much cash does your company go through each month?"
                 control={form.control}

@@ -46,6 +46,12 @@ export const BusinessModelFormDetails: React.FC<Props> = ({ data }) => {
             )}
           />
           <AnswersTextDisplay
+            className="!flex-row justify-between"
+            key="annualPayroll"
+            label="What is your annual payroll?"
+            value={get(data, "annualPayroll", "") as string}
+          />
+          <AnswersTextDisplay
             key="scalePlan"
             label="What are your business’ near term plans to scale?"
             value={getStrategyLabel(get(data, "scalePlan", ""))}

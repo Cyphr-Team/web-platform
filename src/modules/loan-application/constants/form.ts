@@ -334,6 +334,9 @@ export const businessModelFormSchema = z.object({
   lastYearRevenueRange: z
     .string()
     .min(1, { message: "This field is required" }),
+  annualPayroll: z.coerce
+    .number()
+    .min(1, { message: "This field is required" }),
   scalePlan: z.string().min(1, { message: "This field is required" })
 })
 
