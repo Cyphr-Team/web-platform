@@ -22,7 +22,6 @@ import {
 } from "."
 import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
 import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
-import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
 import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import {
   BusinessDocumentsResponse,
@@ -69,6 +68,7 @@ import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { useQueryBusinessDocuments } from "../hooks/useQuery/useQueryBusinessDocuments"
 import { DocumentUploadsFormValue } from "../constants/form"
+import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T

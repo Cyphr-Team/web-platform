@@ -8,10 +8,7 @@ import { Separator } from "@/components/ui/separator"
 import React from "react"
 import { isLaunchKC } from "@/utils/domain.utils"
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
-import {
-  getLabelFromValue,
-  LEGAL_STRUCTURE_OPTIONS
-} from "../custom-form/launchkc/const"
+import { getLabelFromValue, LEGAL_STRUCTURE_OPTIONS } from "./launchkc/const"
 import { get } from "lodash"
 
 interface KybFormDetailsProps {

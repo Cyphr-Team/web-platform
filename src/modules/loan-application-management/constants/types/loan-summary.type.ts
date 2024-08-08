@@ -10,12 +10,12 @@ import {
   PreQualificationResponse
 } from "@/modules/loan-application/constants/type"
 import { ProductServiceFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/type"
-import { LaunchKcFitFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/type"
 import { InsightStatus } from "./insight.type"
 import { ExecutionFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/execution/type"
 import { BusinessModelFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/type"
 import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
 import { SmartKyc } from "@/lib/persona/persona.types"
+import { LaunchKcFitFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",

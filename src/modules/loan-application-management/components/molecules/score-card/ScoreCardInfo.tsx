@@ -1,7 +1,7 @@
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
-import { ScoreCardBox } from "../atoms/ScoreCardBox"
-import { StatusRoundBadge } from "../atoms/StatusRoundBadge"
+import { ScoreCardBox } from "../../atoms/score/ScoreCardBox"
+import { StatusRoundBadge } from "../../atoms/StatusRoundBadge"
 
 interface IScoreCardInfo {
   name: string

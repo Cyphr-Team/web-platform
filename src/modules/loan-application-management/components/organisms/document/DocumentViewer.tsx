@@ -1,7 +1,7 @@
-import { useLoanDocumentDetailsContext } from "../../providers/LoanDocumentDetailsProvider"
-import { PageList } from "../molecules/documents/PageList"
-import { PageViewer } from "../molecules/documents/PageViewer"
-import { PageViewerPanel } from "../molecules/documents/PageViewerPanel"
+import { useLoanDocumentDetailsContext } from "../../../providers/LoanDocumentDetailsProvider"
+import { PageList } from "../../molecules/documents/PageList"
+import { PageViewer } from "../../molecules/documents/PageViewer"
+import { PageViewerPanel } from "../../molecules/documents/PageViewerPanel"
 import { Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 

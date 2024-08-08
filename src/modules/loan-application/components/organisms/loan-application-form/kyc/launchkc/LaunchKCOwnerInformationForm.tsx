@@ -40,13 +40,13 @@ import { AutoCompleteStates } from "@/modules/loan-application/components/molecu
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities.tsx"
 import { SelectInput } from "@/shared/organisms/form/SelectInput.tsx"
 import { OptionInput } from "@/shared/organisms/form/OptionInput.tsx"
-import {
-  getOptionsByField,
-  LAUNCH_KC_KYC_FIELD_NAMES,
-  TITLE_OPTIONS,
-  YES_NO_OPTIONS
-} from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/const.ts"
 import { get, set } from "lodash"
+import {
+  getKycOptionsByField,
+  TITLE_OPTIONS,
+  YES_NO_OPTIONS,
+  LAUNCH_KC_KYC_FIELD_NAMES
+} from "./const"
 
 export function LaunchKCOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -193,7 +193,7 @@ export function LaunchKCOwnerInformationForm() {
                 label="Which best describes your gender identity?"
                 control={form.control}
                 className="col-span-12"
-                options={getOptionsByField(
+                options={getKycOptionsByField(
                   LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY
                 )}
                 hasOtherOption={true}
@@ -206,7 +206,7 @@ export function LaunchKCOwnerInformationForm() {
                 name={LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN}
                 className="col-span-12"
                 hasOtherOption={true}
-                options={getOptionsByField(
+                options={getKycOptionsByField(
                   LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN
                 )}
                 required
@@ -216,7 +216,7 @@ export function LaunchKCOwnerInformationForm() {
                 placeholder="Please Select"
                 control={form.control}
                 name={LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION}
-                options={getOptionsByField(
+                options={getKycOptionsByField(
                   LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION
                 )}
                 className="col-span-6"
@@ -228,7 +228,7 @@ export function LaunchKCOwnerInformationForm() {
                 placeholder="Please Select"
                 control={form.control}
                 name={LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION}
-                options={getOptionsByField(
+                options={getKycOptionsByField(
                   LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION
                 )}
                 className="col-span-6"

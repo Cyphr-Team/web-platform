@@ -7,7 +7,7 @@ import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
 import { ChevronDown, ChevronRight } from "lucide-react"
-import { ScoreCardDetail } from "../molecules/ScoreCardDetail"
+import { ScoreCardDetail } from "../../molecules/score-card/ScoreCardDetail"
 
 const calculateAverageScore = (
   scores: ILaunchKCApplicationAssignScore

@@ -1,7 +1,7 @@
-import { SignalsDetectedRow } from "../molecules/signals/SignalsDetectedRow"
-import { SignalRow } from "../molecules/signals/SignalRow"
-import { AuthenticityScore } from "../molecules/signals/Authenticity"
-import { useLoanDocumentDetailsContext } from "../../providers/LoanDocumentDetailsProvider"
+import { SignalsDetectedRow } from "../../molecules/signals/SignalsDetectedRow"
+import { SignalRow } from "../../molecules/signals/SignalRow"
+import { AuthenticityScore } from "../../molecules/signals/Authenticity"
+import { useLoanDocumentDetailsContext } from "../../../providers/LoanDocumentDetailsProvider"
 
 export const DocumentSignalsDetect: React.FC = () => {
   const { documentDetails } = useLoanDocumentDetailsContext()

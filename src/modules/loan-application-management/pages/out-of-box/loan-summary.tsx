@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary/CashflowGlance.tsx"
+import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/out-of-box/cash-flow/CashflowGlance"
 import { CurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormDetails"
 import { KybFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/KybFormDetails"
 import { KycFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/KycFormDetails"
@@ -9,7 +9,6 @@ import { OperatingExpensesFormDetails } from "@/modules/loan-application/compone
 import { SignatureDetails } from "@/modules/loan-application/components/organisms/loan-application-form/confirmation/SignatureDetails"
 import { BusinessModelFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/BusinessModelFormDetails"
 import { ExecutionFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/execution/ExecutionFormDetails"
-import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
 import { MarketOpportunityFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/MarketOpportunityFormDetails.tsx"
 import { ProductServiceFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/ProductServiceFormDetails"
 import { Bankruptcy } from "@/modules/loan-application/components/organisms/Middesk/Bankruptcy"
@@ -25,14 +24,14 @@ import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
 import { get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
-import { ScoreCard } from "../../components/organisms/ScoreCard"
-import { ScoreCardListDetail } from "../../components/organisms/ScoreCardListDetail"
+import { ScoreCard } from "../../components/organisms/score-card/ScoreCard"
+import { ScoreCardListDetail } from "../../components/organisms/score-card/ScoreCardListDetail"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
 import {
   getBadgeVariantByStatus,
   getDecisionTextByStatus
 } from "../../services"
-import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/SbbCurrentLoanFormDetails"
+import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/sbb/SbbCurrentLoanFormDetails"
 import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
 import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia.tsx"
@@ -45,12 +44,14 @@ import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-
 import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
 import { useParams } from "react-router-dom"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
 
 export function Component() {
   const params = useParams()
   const {
     loanSummary,
     loanApplicationDetails,
+    newCashFlowGlance,
     isFetchingCashflow,
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
@@ -302,7 +303,12 @@ export function Component() {
             ref={page_14}
           >
             <p className="text-4xl font-semibold">Cash Flow Report</p>
-            <CashflowGlanceReport />
+            <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto shadow-none">
+              <CashflowGlanceReport
+                newCashFlowGlance={newCashFlowGlance}
+                isFetchingNewCashFlow={isFetchingNewCashFlow}
+              />
+            </Card>
           </div>
         )}
       </Card>

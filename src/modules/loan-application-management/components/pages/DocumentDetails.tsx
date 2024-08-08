@@ -5,8 +5,8 @@ import {
 } from "../../providers/LoanDocumentDetailsProvider"
 import { ViewSignalsDetails } from "../atoms/ViewSignalsDetails"
 import { DocumentToolbar } from "../molecules/documents/DocumentToolbar"
-import { DocumentSignalsDetails } from "../organisms/DocumentSignalsDetails"
-import { DocumentViewer } from "../organisms/DocumentViewer"
+import { DocumentViewer } from "../organisms/document/DocumentViewer"
+import { DocumentSignalsDetails } from "../organisms/document/DocumentSignalsDetails"
 
 const PDFDocumentPreview = lazy(() => import("./PDFDocumentPreview"))
 

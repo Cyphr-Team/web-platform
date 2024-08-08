@@ -87,6 +87,20 @@ npx shadcn-ui@latest add [component]
 ├── modules // This folder contains specific business domain folders and files.
 │   ├── domain-a // Specific domain A files will be here
 │   │   ├── components // React UI components if this domain will be here
+│   │   │   ├── atoms
+│   │   │   │   ├── name-of-groups-components // Group of components have the same properties
+│   │   │   │   │   ├── institution-A // Custom components for specific domains will be here
+│   │   │   │   ├── badge // Example badge
+│   │   │   │   │   ├── BadgeStatus.tsx
+│   │   │   │   │   ├── BadgeAuthenticity.tsx
+│   │   │   │   │   ├── launch-kc
+│   │   │   │   │   │   └── LaunchKCBadgeStatus.tsx
+│   │   │   ├── molecules
+│   │   │   ├── organisms
+│   │   ├── pages // React pages of this domain
+│   │   │   ├── institution-A // Specifics pages of institutions.
+│   │   │   │   └── page-name.tsx
+│   │   │   └── page-name.tsx
 │   │   ├── hooks // React custom hooks of this domain
 │   │   │   └── index.ts
 │   │   ├── providers // React context provider files of this domain

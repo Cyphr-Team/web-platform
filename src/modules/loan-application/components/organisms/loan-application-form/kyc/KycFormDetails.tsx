@@ -7,10 +7,10 @@ import { FC } from "react"
 import { TextInputDisplay } from "@/modules/loan-application/components/atoms/TextInputDisplay.tsx"
 import { isLaunchKC } from "@/utils/domain.utils.ts"
 import {
-  getLabelFromValue,
-  getOptionsByField,
+  getKycLabelFromValue,
+  getKycOptionsByField,
   LAUNCH_KC_KYC_FIELD_NAMES
-} from "../custom-form/launchkc/const"
+} from "./launchkc/const"
 import { get } from "lodash"
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 import { checkIsJudge } from "@/utils/check-roles"
@@ -26,8 +26,8 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
     get(kycFormData, `${LAUNCH_KC_KYC_FIELD_NAMES.METADATA}.${field}`, "N/A")
 
   const getOptionValue = (field: string, isMetaData?: boolean) => {
-    return getLabelFromValue(
-      getOptionsByField(field),
+    return getKycLabelFromValue(
+      getKycOptionsByField(field),
       isMetaData ? getMetadataValue(field) : getValue(field)
     )
   }

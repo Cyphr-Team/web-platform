@@ -12,9 +12,9 @@ import {
   XAxis,
   YAxis
 } from "recharts"
-import { NoData } from "../../atoms/NoData"
-import { TimePeriodsSelection } from "../filters/TimePeriodsSelection"
-import { TransactionTagsFilters } from "../../atoms/cashflows/TransactionsTagsFilter"
+import { NoData } from "../../../atoms/NoData"
+import { TimePeriodsSelection } from "../../filters/TimePeriodsSelection"
+import { TransactionTagsFilters } from "../../../atoms/cashflows/TransactionsTagsFilter"
 import { getRandomColor } from "@/modules/loan-application-management/services"
 import { useParams } from "react-router-dom"
 import {

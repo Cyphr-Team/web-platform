@@ -11,11 +11,11 @@ import { cn } from "@/lib/utils"
 import {
   IScoreFormValues,
   useScoreFormProvider
-} from "../../providers/ScoreFormProvider"
-import { ScoreCardForm } from "../molecules/ScoreCardForm"
-import { ScoreCardInfo } from "../molecules/ScoreCardInfo"
-import { ScoreCardRubric } from "../molecules/ScoreCardRubric"
-import { useSubmitScore } from "../../hooks/useMutation/useSubmitScore"
+} from "../../../providers/ScoreFormProvider"
+import { ScoreCardForm } from "../../molecules/score-card/ScoreCardForm"
+import { ScoreCardInfo } from "../../molecules/score-card/ScoreCardInfo"
+import { ScoreCardRubric } from "../../molecules/score-card/ScoreCardRubric"
+import { useSubmitScore } from "../../../hooks/useMutation/useSubmitScore"
 import { useParams } from "react-router-dom"
 import { roundToOneDecimalPlace } from "@/utils"
 import { ButtonLoading } from "@/components/ui/button.tsx"

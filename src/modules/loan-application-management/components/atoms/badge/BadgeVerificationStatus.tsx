@@ -1,7 +1,7 @@
-import { KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
-import { VerificationIcon } from "./VerificationIcon"
-import { getClassNameFromStatus } from "../../services"
-import { KYC_STATUS } from "../../constants/types/kyc"
+import { KYB_VERIFIED_FIELD_STATUS } from "../../../constants/type"
+import { VerificationIcon } from "../VerificationIcon"
+import { getClassNameFromStatus } from "../../../services"
+import { KYC_STATUS } from "../../../constants/types/kyc"
 import { Badge } from "@/components/ui/badge"
 
 type Props = {

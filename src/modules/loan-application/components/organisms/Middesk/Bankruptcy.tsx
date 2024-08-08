@@ -1,6 +1,6 @@
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { MiddeskBadge } from "../../molecules/MiddeskBadge"
-import { MiddeskCard } from "../../molecules/MiddeskCard"
+import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
+import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import { NotFoundAlert } from "../../molecules/NotFoundAlert"
 import { BankruptcyFound } from "./BankruptcyFound"
 import { DateHeader } from "./DateHeader"

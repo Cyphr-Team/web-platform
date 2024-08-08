@@ -1,10 +1,9 @@
 import { Card } from "@/components/ui/card"
 
-import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
-
 import { questions } from "./constants"
 import { LaunchKcFitFormResponse } from "./type"
 import { get } from "lodash"
+import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
 type Props = {
   data?: LaunchKcFitFormResponse
 }

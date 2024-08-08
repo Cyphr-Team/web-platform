@@ -70,10 +70,10 @@ import {
 } from "../constants/type"
 import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
-import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/launchkc-fit/type"
 import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
 import { MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
 import { usePlaidContext } from "../providers"
+import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,

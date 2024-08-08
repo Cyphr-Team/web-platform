@@ -8,21 +8,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { ScoreCardBox } from "../atoms/ScoreCardBox"
+import { ScoreCardBox } from "../../atoms/score/ScoreCardBox"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import {
   calculateAvgScorePerRound,
   calculateTotalScore
 } from "@/utils/score.utils"
 import { useParams } from "react-router-dom"
-import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
-import { useQueryScoreApplicationDetails } from "../../hooks/useQuery/useQueryScoreApplicationDetails"
-import { StatusRoundBadge } from "../atoms/StatusRoundBadge"
+import { useQueryGetLoanApplicationDetailStatus } from "../../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
+import { useQueryScoreApplicationDetails } from "../../../hooks/useQuery/useQueryScoreApplicationDetails"
+import { StatusRoundBadge } from "../../atoms/StatusRoundBadge"
 import { ScoreCardListDetailByJudge } from "./ScoreCardListDetailByJudge"
 import {
   isAbleToViewScoreRound1,
   isAbleToViewScoreRound2
-} from "../../services/status.service"
+} from "../../../services/status.service"
 import { FeedbackCardDetail } from "@/modules/loan-application-management/components/molecules/FeedbackCardDetail.tsx"
 
 export const ScoreCardListDetail = () => {

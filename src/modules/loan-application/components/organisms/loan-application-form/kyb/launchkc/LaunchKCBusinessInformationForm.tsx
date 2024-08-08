@@ -29,7 +29,7 @@ import { RHFMaskInput } from "@/shared/organisms/form/RHFMaskInput.tsx"
 import {
   LEGAL_STRUCTURE_OPTIONS,
   PRIMARY_INDUSTRY
-} from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/const.ts"
+} from "@/modules/loan-application/components/organisms/loan-application-form/kyb/launchkc/const"
 import {
   launchKCBusinessFormSchema,
   LaunchKCBusinessFormValue

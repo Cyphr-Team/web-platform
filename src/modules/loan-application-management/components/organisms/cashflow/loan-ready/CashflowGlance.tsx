@@ -11,7 +11,6 @@ export const CashflowGlanceReport = () => {
 
   return (
     <div className="flex flex-col space-y-3xl">
-      {" "}
       <Card className="border-r-0 border-b-0">
         <CardHeader className="border-b px-8 md:py-4 border-r rounded-tr-md">
           <div className="flex justify-between items-center flex-wrap gap-1">

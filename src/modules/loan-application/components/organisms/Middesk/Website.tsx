@@ -4,17 +4,17 @@ import {
   TaskFieldStatus
 } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { MiddeskCard } from "../../molecules/MiddeskCard"
+import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import {
   MiddeskDetailItem,
   MiddeskDetailItemSkeleton
-} from "../../molecules/MiddeskDetailItem"
+} from "../../molecules/middesk/MiddeskDetailItem"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { ColumnDef } from "@tanstack/react-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
-import { MiddeskBadge } from "@/modules/loan-application/components/molecules/MiddeskBadge"
+import { MiddeskBadge } from "@/modules/loan-application/components/molecules/middesk/MiddeskBadge"
 import { convertDateTimeToLocal, formatDate } from "@/utils"
 
 const getLabelByDataKey = (key: keyof BusinessWebsiteDetail) => {

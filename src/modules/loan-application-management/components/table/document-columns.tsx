@@ -10,7 +10,7 @@ import { snakeCaseToText } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { ArrowRight } from "lucide-react"
-import { BadgeAuthenticityScore } from "../atoms/BadgeAuthenticityScore"
+import { BadgeAuthenticityScore } from "../atoms/badge/BadgeAuthenticityScore"
 import { DownloadDocumentButton } from "./download-document-button"
 
 export const columns: ColumnDef<LoanDocument>[] = [

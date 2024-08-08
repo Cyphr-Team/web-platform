@@ -4,9 +4,9 @@ import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse } from "@/types/common.type"
 import { postRequest, putRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
-import { LaunchKcFitFormResponse } from "../../components/organisms/loan-application-form/launchkc-fit/type"
 import { QUERY_KEY } from "../../constants/query-key"
 import { useCallback } from "react"
+import { LaunchKcFitFormResponse } from "../../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 type Props = {
   rawData: LaunchKCFitFormValue
   onSuccess: (data: LaunchKcFitFormResponse) => void

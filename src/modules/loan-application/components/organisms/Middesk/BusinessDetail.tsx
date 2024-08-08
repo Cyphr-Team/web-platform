@@ -1,11 +1,11 @@
 import { BusinessDetail as BusinessDetailType } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { mappedStateAbbreviations } from "@/utils/state.utils"
-import { MiddeskCard } from "../../molecules/MiddeskCard"
+import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import {
   MiddeskDetailItem,
   MiddeskDetailItemSkeleton
-} from "../../molecules/MiddeskDetailItem"
+} from "../../molecules/middesk/MiddeskDetailItem"
 import { SourceToolTip } from "../../molecules/SourceToolTip"
 import { DownloadPDF } from "./DownloadPDF"
 

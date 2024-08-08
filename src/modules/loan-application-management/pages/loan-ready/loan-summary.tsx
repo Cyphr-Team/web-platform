@@ -19,7 +19,7 @@ import {
   getDecisionTextByStatus
 } from "../../services"
 import { BusinessName } from "@/modules/loan-application/components/organisms/Middesk/BusinessName"
-import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/cashflow/report/CashflowGlance.tsx"
+import { CashflowGlanceReport } from "@/modules/loan-application-management/components/organisms/cashflow/loan-ready/CashflowGlance.tsx"
 import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary"
 
 export function Component() {
@@ -115,4 +115,4 @@ export function Component() {
   )
 }
 
-Component.displayName = "LoanSummary"
+Component.displayName = "LoanReadyLoanSummary"

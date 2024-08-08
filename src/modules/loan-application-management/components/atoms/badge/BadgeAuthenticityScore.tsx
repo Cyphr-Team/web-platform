@@ -7,7 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@radix-ui/react-tooltip"
-import { getBadgeVariantByAuthenticityScore } from "../../services"
+import { getBadgeVariantByAuthenticityScore } from "../../../services"
 
 type Props = {
   status: LoanDocumentAuthenticityScoreStatus

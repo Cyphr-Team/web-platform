@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import {
   IScoreFormValues,
   useScoreFormContext
-} from "../../providers/ScoreFormProvider"
+} from "../../../providers/ScoreFormProvider"
 
 interface IScoresProps {
   selectedScore: number

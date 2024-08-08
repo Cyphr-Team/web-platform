@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/accordion"
 import { ChevronDownIcon, ChevronRightIcon, Loader2 } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
-import { ScorecardStatusBadge } from "../atoms/ScorecardStatusBadge"
+import { ScorecardStatusBadge } from "../atoms/score/ScorecardStatusBadge"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { ToolTipJudgeAvatar } from "../atoms/JudgeAvatar"

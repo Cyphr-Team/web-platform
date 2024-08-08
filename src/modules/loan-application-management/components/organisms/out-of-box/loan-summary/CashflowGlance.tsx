@@ -3,11 +3,11 @@ import { SectionTitle } from "../../../atoms/cashflows/SectionTitle"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { NoData } from "../../../atoms/NoData"
 import { cn } from "@/lib/utils"
-import { CashflowGlanceCard } from "../../../molecules/cashflow/CashflowGlanceCard"
 import { BankAccountReport } from "@/modules/loan-application-management/components/organisms/out-of-box/cash-flow/BankAccountReport.tsx"
 import { Card } from "@/components/ui/card.tsx"
 import { FeatureKey } from "@/hooks/useCanAccess"
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
+import { CashflowGlanceCard } from "../../../atoms/cashflows/CashflowGlanceCard"
 
 export const CashflowGlanceReport = () => {
   const { newCashFlowGlance, isFetchingNewCashFlow } =

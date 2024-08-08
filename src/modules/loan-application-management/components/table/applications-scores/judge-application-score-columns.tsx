@@ -10,11 +10,11 @@ import { IJudgeLoanApplicationResponse } from "@/types/application/application-j
 import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
 import { format } from "date-fns"
 import { ButtonViewDetailLoanApplication } from "../../atoms/ButtonViewDetailLoanApplication"
-import { ScoredBadgeStatusWithTooltip } from "../../atoms/ScoredBadgeStatus"
+import { ScoredBadgeStatusWithTooltip } from "../../atoms/score/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../../atoms/StatusRoundBadge"
 import { renderFilterableHeader } from "@/utils/table.utils"
 import { JUDGE_APPLICATION_FILTER_KEYS } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
-import { ScoreBadge } from "@/modules/loan-application-management/components/atoms/ScoreBadge.tsx"
+import { ScoreBadge } from "@/modules/loan-application-management/components/atoms/score/ScoreBadge"
 
 /**
  * Columns for judge list applications

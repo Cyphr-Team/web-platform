@@ -2,8 +2,8 @@ import { MiddeskTableContent } from "@/modules/loan-application-management/compo
 import { MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { useMemo } from "react"
-import { MiddeskBadge } from "../../molecules/MiddeskBadge"
-import { MiddeskCard } from "../../molecules/MiddeskCard"
+import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
+import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import { DateHeader } from "./DateHeader"
 import {
   BusinessNameDetail,

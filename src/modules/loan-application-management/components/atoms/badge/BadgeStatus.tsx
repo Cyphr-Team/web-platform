@@ -1,9 +1,9 @@
 import { Badge } from "@/components/ui/badge"
-import { KYC_STATUS } from "../../constants"
+import { KYC_STATUS } from "../../../constants"
 import { AlertTriangle, Check, MinusSquare, X } from "lucide-react"
-import { KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
+import { KYB_VERIFIED_FIELD_STATUS } from "../../../constants/type"
 import { LoanDocumentStatus } from "@/types/loan-document.type"
-import { SummaryCollectStatus } from "../../constants/types/loan-summary.type"
+import { SummaryCollectStatus } from "../../../constants/types/loan-summary.type"
 
 type Props = {
   status: string

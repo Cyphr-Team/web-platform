@@ -1,5 +1,5 @@
-import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCBusinessInformationForm.tsx"
-import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/LaunchKCOwnerInformationForm.tsx"
+import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/launchkc/LaunchKCBusinessInformationForm"
+import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/LaunchKCOwnerInformationForm"
 import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import {
   isEnabledBankAccountConnectionV2,
@@ -17,7 +17,6 @@ import { ESignForm } from "../components/organisms/loan-application-form/ESignFo
 import { ExecutionForm } from "../components/organisms/loan-application-form/execution/ExecutionForm"
 import { FinancialInformationForm } from "../components/organisms/loan-application-form/financial-information/FinancialInformationForm"
 import { IdentityVerificationForm } from "../components/organisms/loan-application-form/IdentityVerificationForm"
-import { LaunchKCFitForm } from "../components/organisms/loan-application-form/launchkc-fit/LaunchKcFitForm"
 import { MarketOpportunityForm } from "../components/organisms/loan-application-form/market-opportunity/MarketOpportunityForm"
 import { OperatingExpensesForm } from "../components/organisms/loan-application-form/operating-expenses/OperatingExpensesForm"
 import { OwnerInformationForm } from "../components/organisms/loan-application-form/kyc/KycForm"
@@ -25,13 +24,14 @@ import { ProductServiceForm } from "../components/organisms/loan-application-for
 import { ReviewApplication } from "../components/organisms/loan-application-form/review-application/ReviewApplication"
 import { CashFlowVerificationFormV2 } from "../components/organisms/loan-application-form/cash-flow/CashFlowVerificationFormV2"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
-import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/SBBCurrentLoanForm.tsx"
+import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/sbb/SbbCurrentLoanForm"
 import { LaunchKCBusinessDocumentsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
 import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
 import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
 import { FictitiousNameCertificationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { CertificateGoodStandingForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { LaunchKCFitForm } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother

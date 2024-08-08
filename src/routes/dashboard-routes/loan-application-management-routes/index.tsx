@@ -9,7 +9,7 @@ import {
 } from "@/utils/domain.utils"
 import { Route } from "react-router-dom"
 import { documentRoutes } from "./document-routes"
-import { CashFlowCustom } from "@/modules/loan-application-management/pages/custom/cash-flow"
+import { LoanReadyCashFlow } from "@/modules/loan-application-management/pages/loan-ready/cash-flow"
 import { CashFlowOutOfBox } from "@/modules/loan-application-management/pages/out-of-box/cash-flow"
 import { lazy } from "react"
 
@@ -77,7 +77,7 @@ const loanApplicationManagementRoutes = (
               )
             : isLoanReady()
               ? import(
-                  "@/modules/loan-application-management/pages/custom/loan-summary"
+                  "@/modules/loan-application-management/pages/loan-ready/loan-summary"
                 )
               : import(
                   "@/modules/loan-application-management/pages/loan-summary"
@@ -90,7 +90,7 @@ const loanApplicationManagementRoutes = (
         path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
         element={
           isLoanReady() ? (
-            <CashFlowCustom />
+            <LoanReadyCashFlow />
           ) : isCyphrBank() || isKccBank() || isSbb() || isLaunchKC() ? (
             <CashFlowOutOfBox />
           ) : (

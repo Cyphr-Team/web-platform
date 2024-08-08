@@ -17,11 +17,11 @@ import { OperatingExpensesFormDetails } from "@/modules/loan-application/compone
 import { ProductServiceFormDetails } from "../loan-application-form/product-service/ProductServiceFormDetails"
 import { MarketOpportunityFormDetails } from "../loan-application-form/market-opportunity/MarketOpportunityFormDetails"
 import { BusinessModelFormDetails } from "../loan-application-form/business-model/BusinessModelFormDetails"
-import { LaunchKcFitFormDetails } from "../loan-application-form/launchkc-fit/LaunchKcFitFormDetails"
 import { ExecutionFormDetails } from "../loan-application-form/execution/ExecutionFormDetails"
 import { PreQualificationFormDetails } from "../loan-application-form/pre-qualification/PreQualificationFormDetails"
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import { FeatureKey } from "@/hooks/useCanAccess"
+import { LaunchKcFitFormDetails } from "../loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
 
 export const ApplicationDetails = () => {
   const {

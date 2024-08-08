@@ -1,13 +1,13 @@
 import { CASH_FLOW_GLANCE } from "@/modules/loan-application-management/constants"
 import { CashFlowGlanceItem } from "../../atoms/CashFlowGlanceItem"
-import { AccountBalanceChart } from "../../molecules/cashflow/AccountBalanceChart"
+import { AccountBalanceChart } from "../../molecules/cashflow/chart/AccountBalanceChart"
 import { Card } from "@/components/ui/card"
-import { RevenueAndExpenseChart } from "../../molecules/cashflow/RevenueAndExpenseChart"
-import { SummaryChart } from "../../molecules/cashflow/SummaryChart"
+import { SummaryChart } from "../../molecules/cashflow/chart/SummaryChart"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { CashFlowGlanceType } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { NoData } from "../../atoms/NoData"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
+import { RevenueAndExpenseChart } from "../../molecules/cashflow/chart/RevenueAndExpenseChart"
 
 export const CashFlowGlance = () => {
   const { cashFlowAnalysis, isFetchingCashflow } =

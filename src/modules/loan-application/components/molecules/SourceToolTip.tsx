@@ -12,7 +12,7 @@ import { MiddeskTableHeader } from "@/modules/loan-application-management/compon
 import { BusinessRegistrationSource } from "@/modules/loan-application-management/constants/types/business.type"
 import { ColumnDef } from "@tanstack/react-table"
 import { ReactNode } from "react"
-import { MiddeskBadge } from "./MiddeskBadge"
+import { MiddeskBadge } from "./middesk/MiddeskBadge"
 import { cn } from "@/lib/utils"
 import { mappedStateAbbreviations } from "@/utils/state.utils"
 

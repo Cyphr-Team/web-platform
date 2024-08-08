@@ -3,11 +3,11 @@ import {
   DocumentType,
   PayStubCapturedType,
   W2DocumentType
-} from "../../constants/types/document"
-import { useLoanDocumentDetailsContext } from "../../providers/LoanDocumentDetailsProvider"
-import { BankStatement } from "../molecules/capture/BankStatement"
-import { W2Document } from "../molecules/capture/W2Document"
-import { PayStubDocument } from "./capture/PayStub"
+} from "../../../constants/types/document"
+import { useLoanDocumentDetailsContext } from "../../../providers/LoanDocumentDetailsProvider"
+import { BankStatement } from "../../molecules/capture/BankStatement"
+import { W2Document } from "../../molecules/capture/W2Document"
+import { PayStubDocument } from "../capture/PayStub"
 
 export const DocumentCapture: React.FC = () => {
   const { documentDetails } = useLoanDocumentDetailsContext()

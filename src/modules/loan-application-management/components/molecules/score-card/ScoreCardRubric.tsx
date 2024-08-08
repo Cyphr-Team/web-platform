@@ -2,7 +2,7 @@ import { Icons } from "@/components/ui/icons"
 import {
   SCORE_SYSTEMS,
   SCORE_SYSTEMS_EXPLAINS
-} from "../../constants/launchkc/scoreSystem"
+} from "../../../constants/launchkc/scoreSystem"
 
 export const ScoreCardRubric = () => {
   return (

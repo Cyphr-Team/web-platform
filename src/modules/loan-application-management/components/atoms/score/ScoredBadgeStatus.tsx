@@ -2,7 +2,7 @@ import { Badge, BadgeProps } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { APP_PATH } from "@/constants"
 import { useNavigate } from "react-router-dom"
-import { getScoredTooltipContent } from "../../services"
+import { getScoredTooltipContent } from "../../../services"
 import { ScoredTooltip } from "./ScoredTooltip"
 import { cn } from "@/lib/utils"
 
