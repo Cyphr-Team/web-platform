@@ -67,7 +67,9 @@ export const useLogin = () => {
             email_address: data.username,
             organization_id: org.organization?.organization_id ?? "",
             login_redirect_url: `${window.location.origin}${APP_PATH.MAGIC_LINK}`,
-            signup_redirect_url: `${window.location.origin}${APP_PATH.MAGIC_LINK}`
+            signup_redirect_url: `${window.location.origin}${APP_PATH.MAGIC_LINK}`,
+            login_template_id: "cyphr-bank-login",
+            signup_template_id: "cyphr-bank-signup"
           })
           // Navigate to Magic Link Info page
           return navigate(
