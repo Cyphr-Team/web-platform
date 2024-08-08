@@ -3,6 +3,8 @@ import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
+import { FoundersInput } from "@/modules/loan-application/components/organisms/loan-application-form/execution/FoundersInput.tsx"
+import { FundingSourceInput } from "@/modules/loan-application/components/organisms/loan-application-form/execution/FundingSourceInput.tsx"
 import {
   executionFormSchema,
   ExecutionFormValue
@@ -15,21 +17,19 @@ import {
 } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { MultiCheckboxesInput } from "@/shared/organisms/form/MultiCheckboxesInput"
+import { OptionInput } from "@/shared/organisms/form/OptionInput"
+import { SelectInput } from "@/shared/organisms/form/SelectInput"
+import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { OptionInput } from "@/shared/organisms/form/OptionInput"
-import { SelectInput } from "@/shared/organisms/form/SelectInput"
-import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import {
   getOptionsByField,
   LAUNCH_KC_EXECUTION_FIELD_NAMES,
   questions
 } from "./constants"
-import { MultiCheckboxesInput } from "@/shared/organisms/form/MultiCheckboxesInput"
-import { FundingSourceInput } from "@/modules/loan-application/components/organisms/loan-application-form/execution/FundingSourceInput.tsx"
-import { FoundersInput } from "@/modules/loan-application/components/organisms/loan-application-form/execution/FoundersInput.tsx"
 
 export const ExecutionForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -45,9 +45,10 @@ export const ExecutionForm = () => {
     recentMilestone: executionForm?.recentMilestone ?? "",
     nextMilestone: executionForm?.nextMilestone ?? "",
     greatestChallenge: executionForm?.greatestChallenge ?? "",
-    businessModels: executionForm?.businessModels ?? [],
     partnershipTypes: executionForm?.partnershipTypes ?? [],
     businessStage: executionForm?.businessStage ?? "",
+    businessModels: executionForm?.businessModels ?? [],
+    businessModelsOtherText: executionForm?.businessModelsOtherText ?? "",
     fundingSources: executionForm?.fundingSources ?? [
       {
         sourceType: "",
@@ -138,7 +139,7 @@ export const ExecutionForm = () => {
                 label={
                   <span>
                     What areas do you need the most support?
-                    <span className="font-normal">
+                    <span className="font-normal italic">
                       &nbsp;(You can select more than 1)
                     </span>
                   </span>
@@ -154,7 +155,7 @@ export const ExecutionForm = () => {
                 label={
                   <span>
                     What alliances or partnerships have you entered?
-                    <span className="font-normal">
+                    <span className="font-normal italic">
                       &nbsp;(You can select more than 1)
                     </span>
                   </span>

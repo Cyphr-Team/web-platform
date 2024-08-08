@@ -1,12 +1,16 @@
-import { AxiosError, AxiosResponse } from "axios"
-import { ExecutionFormResponse } from "../../components/organisms/loan-application-form/execution/type"
-import { ExecutionFormValue } from "../../constants/form"
-import { ErrorResponse } from "@/types/common.type"
-import { postRequest, putRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
+import { postRequest, putRequest } from "@/services/client.service"
+import { ErrorResponse } from "@/types/common.type"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { QUERY_KEY } from "../../constants/query-key"
+import { AxiosError, AxiosResponse } from "axios"
 import { useCallback } from "react"
+import { transformExecutionFormToRequest } from "../../components/organisms/loan-application-form/execution/constants"
+import {
+  ExecutionFormRequest,
+  ExecutionFormResponse
+} from "../../components/organisms/loan-application-form/execution/type"
+import { ExecutionFormValue } from "../../constants/form"
+import { QUERY_KEY } from "../../constants/query-key"
 
 type Props = {
   rawData: ExecutionFormValue
@@ -28,19 +32,15 @@ export const useSubmitExecutionForm = ({ rawData, onSuccess }: Props) => {
   const submitLoanExecutionForm = async () => {
     if (rawData.id?.length) {
       // Update Execution Form
-      await update({ ...rawData })
+      await update(transformExecutionFormToRequest(rawData))
     } else {
       // Create Execution Form
-      await submit(
-        {
-          ...rawData
-        },
-        {
-          onSuccess: (res) => onSubmitSuccess(res.data)
-        }
-      )
+      await submit(transformExecutionFormToRequest(rawData), {
+        onSuccess: (res) => onSubmitSuccess(res.data)
+      })
     }
   }
+
   return {
     isLoading: isSubmitting || isUpdating,
     submitLoanExecutionForm
@@ -51,7 +51,7 @@ const useSubmitLoanExecutionForm = () => {
   return useMutation<
     AxiosResponse<ExecutionFormResponse>,
     AxiosError<ErrorResponse>,
-    ExecutionFormValue
+    ExecutionFormRequest
   >({
     mutationFn: (data) => {
       return postRequest({
@@ -67,7 +67,7 @@ const useUpdateLoanExecutionForm = () => {
   return useMutation<
     AxiosResponse<ExecutionFormResponse>,
     AxiosError<ErrorResponse>,
-    ExecutionFormValue
+    ExecutionFormRequest
   >({
     mutationFn: (data) => {
       return putRequest({

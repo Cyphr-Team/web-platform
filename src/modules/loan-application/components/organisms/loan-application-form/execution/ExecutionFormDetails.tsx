@@ -5,23 +5,49 @@ import {
   MultiAnswersTextDisplay
 } from "../../../atoms/AnswersTextDisplay"
 
-import { ExecutionFormResponse } from "./type"
+import { get } from "lodash"
+import { useMemo } from "react"
 import {
+  BUSINESS_MODEL_OTHER_OPTION,
   getLabelByValue,
   getLabelsByValues,
   getOptionsByField,
   LAUNCH_KC_EXECUTION_FIELD_NAMES,
   questions
 } from "./constants"
-import { get } from "lodash"
 import { FoundersDetails } from "./FoundersDetails"
 import { FundingSourceDetails } from "./FundingSourceDetails"
+import { ExecutionFormResponse } from "./type"
 
 type Props = {
   data?: ExecutionFormResponse
 }
 
 export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
+  const businessModels = useMemo(() => {
+    const businessModelOptions = getOptionsByField(
+      LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL
+    )
+
+    // TODO: we've won... but at what cost?
+    return (
+      data?.businessModels
+        ?.sort((vLeft, vRight) =>
+          vLeft.businessModel === BUSINESS_MODEL_OTHER_OPTION
+            ? 1
+            : vLeft.businessModel.localeCompare(vRight.businessModel)
+        )
+        .map((businessModel) =>
+          [
+            getLabelByValue(businessModel?.businessModel, businessModelOptions),
+            businessModel?.otherMessage
+          ]
+            .filter((v) => !!v)
+            .join(": ")
+        ) ?? []
+    )
+  }, [data?.businessModels])
+
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
       <h5 className="text-lg font-semibold">Execution</h5>
@@ -59,15 +85,12 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
           />
           <MultiAnswersTextDisplay
             key="businessModels"
-            label="What areas do you need the most support? (You can select more than 1) ?"
-            value={getLabelsByValues(
-              get(data, LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL, []),
-              getOptionsByField(LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL)
-            )}
+            label="What areas do you need the most support? (You can select more than 1)"
+            value={businessModels}
           />
           <MultiAnswersTextDisplay
             key="partnershipType"
-            label="What alliances or partnerships have you entered? (You can select more than 1) ?"
+            label="What alliances or partnerships have you entered? (You can select more than 1)"
             value={getLabelsByValues(
               get(data, LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE, []),
               getOptionsByField(

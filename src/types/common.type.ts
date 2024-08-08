@@ -24,7 +24,11 @@ interface Option<T = string> {
   icon?: LucideIcon | ((props: IconProps) => JSX.Element)
 }
 
-export type { Option }
+interface IOptionWithOther<T = string> extends Option<T> {
+  readonly otherFieldName?: string
+}
+
+export type { IOptionWithOther, Option }
 
 // --- PARAMS WHEN FETCHING LISTS ---
 enum SortOrder {

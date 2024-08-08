@@ -1,4 +1,7 @@
-import { Option } from "@/types/common.type"
+import { IOptionWithOther, Option } from "@/types/common.type"
+import { get } from "lodash"
+import { ExecutionFormRequest, ExecutionFormResponse } from "./type"
+import { ExecutionFormValue } from "@/modules/loan-application/constants/form"
 
 export const enum LAUNCH_KC_EXECUTION_FIELD_NAMES {
   ID = "id",
@@ -10,6 +13,7 @@ export const enum LAUNCH_KC_EXECUTION_FIELD_NAMES {
   GREATEST_CHALLENGE = "greatestChallenge",
   BUSINESS_STAGE = "businessStage",
   BUSINESS_MODEL = "businessModels",
+  BUSINESS_MODEL_OTHER_TEXT = "businessModelsOtherText",
   PARTNERSHIP_TYPE = "partnershipTypes",
   FUNDING_SOURCES = "fundingSources",
   FOUNDERS = "founders"
@@ -73,7 +77,8 @@ export const jobTypes: Option[] = [
   }
 ]
 
-export const businessModel: Option[] = [
+export const BUSINESS_MODEL_OTHER_OPTION = "other"
+export const businessModel: IOptionWithOther[] = [
   {
     label: "Business model",
     value: "business_model"
@@ -96,7 +101,8 @@ export const businessModel: Option[] = [
   },
   {
     label: "Other",
-    value: "other"
+    value: BUSINESS_MODEL_OTHER_OPTION,
+    otherFieldName: LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL_OTHER_TEXT
   }
 ]
 
@@ -133,28 +139,28 @@ export const monthlyExpenseRangeOptions: Option[] = [
     value: "no_revenue"
   },
   {
-    label: "$1 - $5,000",
-    value: "one_to_five_thousands"
+    label: "$1 - $1,000",
+    value: "one_to_one_thousand"
   },
   {
-    label: "$5,001 - $50,000",
-    value: "five_thousands_one_to_fifty_thousands"
+    label: "$1,001 - $3,000",
+    value: "one_thousand_one_to_three_thousands"
   },
   {
-    label: "$50,001 - $100,000",
-    value: "fifty_thousands_one_to_one_hundred_thousands"
+    label: "$3,001 - $6,000",
+    value: "three_thousand_one_to_six_thousands"
   },
   {
-    label: "$100,001 - $500,000",
-    value: "one_hundred_thousands_one_to_two_fifty_thousands"
+    label: "$6,001 - $10,000",
+    value: "six_thousands_one_to_ten_thousands"
   },
   {
-    label: "$500,001 - $1,000,000",
-    value: "five_hundred_thousands_one_to_one_million"
+    label: "$10,001 - $15,000",
+    value: "ten_thousands_one_to_fifteen_thousands"
   },
   {
-    label: "Over $1,000,000",
-    value: "over_one_million"
+    label: "More than $15,000",
+    value: "more_than_fifteen_thousands"
   }
 ]
 
@@ -218,4 +224,52 @@ export const getOptionsByField = (field: string) => {
     default:
       return []
   }
+}
+
+// TODO: we've won... but at what cost?
+export const transformExecutionResponseToForm = (
+  data: ExecutionFormResponse
+): ExecutionFormValue => {
+  const otherOption = data?.businessModels?.find(
+    (val) => val?.businessModel?.startsWith(BUSINESS_MODEL_OTHER_OPTION)
+  )
+
+  return {
+    ...data,
+    id: get(data, "id", ""),
+    businessModels: data?.businessModels.map(
+      (businessModel) => businessModel?.businessModel
+    ),
+    businessModelsOtherText: otherOption?.otherMessage ?? ""
+  }
+}
+
+export function transformExecutionFormToRequest(
+  data: ExecutionFormValue
+): ExecutionFormRequest {
+  const formatted = { ...data }
+  return {
+    ...formatted,
+    businessModelsOtherText: undefined,
+    businessModels: getBusinessModels({
+      businessModels: formatted.businessModels,
+      otherMessage: data.businessModelsOtherText
+    })
+  }
+}
+
+interface GetBusinessModelsProps {
+  businessModels: string[]
+  otherMessage?: string
+}
+
+const getBusinessModels = ({
+  businessModels,
+  otherMessage
+}: GetBusinessModelsProps) => {
+  return businessModels.map((businessModel) => ({
+    businessModel,
+    otherMessage:
+      businessModel === BUSINESS_MODEL_OTHER_OPTION ? otherMessage : undefined
+  }))
 }

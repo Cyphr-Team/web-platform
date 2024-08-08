@@ -115,7 +115,7 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
   // it provide single truth for us to reduce unwanted error
   yearFounded: z
     .string()
-    .min(1, { message: "Year Founded is required" })
+    .min(1, { message: "Year founded is required" })
     .refine(
       (value) => {
         const inputYear = parseInt(value)
@@ -350,6 +350,7 @@ export const executionFormSchema = z.object({
   greatestChallenge: z.string().min(1, { message: "This field is required" }),
   businessStage: z.string().min(1, { message: "This field is required" }),
   businessModels: z.array(z.string()),
+  businessModelsOtherText: z.string().optional(),
   partnershipTypes: z.array(z.string()),
   fundingSources: z.array(
     z.object({

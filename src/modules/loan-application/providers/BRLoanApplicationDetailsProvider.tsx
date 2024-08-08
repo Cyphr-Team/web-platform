@@ -21,8 +21,10 @@ import {
   usePlaidContext
 } from "."
 import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
+import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
 import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
 import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
+import { DocumentUploadsFormValue } from "../constants/form"
 import {
   BusinessDocumentsResponse,
   ConfirmationFormResponse,
@@ -37,6 +39,7 @@ import {
 } from "../constants/type"
 import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useGetESignDocument } from "../hooks/useQuery/form/useGetESignDocument"
+import { useQueryBusinessDocuments } from "../hooks/useQuery/useQueryBusinessDocuments"
 import { useQueryBusinessModelForm } from "../hooks/useQuery/useQueryBusinessModelForm"
 import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
 import { useQueryGetCurrentLoansForm } from "../hooks/useQuery/useQueryCurrentLoansForm"
@@ -66,8 +69,6 @@ import {
 } from "../services/form.services"
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
-import { useQueryBusinessDocuments } from "../hooks/useQuery/useQueryBusinessDocuments"
-import { DocumentUploadsFormValue } from "../constants/form"
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 
 type BRLoanApplicationDetailsContext<T> = {
@@ -496,7 +497,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     if (executionFormQuery.data && isInitialized && isQualified) {
       changeDataAndProgress(
         {
-          ...executionFormQuery.data,
+          ...transformExecutionResponseToForm(executionFormQuery.data),
           fundingSources: executionFormQuery.data.fundingSources.map(
             (value) => ({
               id: value.id,

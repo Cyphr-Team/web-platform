@@ -74,6 +74,7 @@ import { BusinessModelFormResponse } from "../components/organisms/loan-applicat
 import { MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
 import { usePlaidContext } from "../providers"
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
+import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -289,7 +290,10 @@ export const useSubmitLoanForm = (
 
   // Execution
   const updateLoanExecutionData = (data: ExecutionFormResponse) =>
-    updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.EXECUTION)
+    updateDataAfterSubmit(
+      transformExecutionResponseToForm(data),
+      LOAN_APPLICATION_STEPS.EXECUTION
+    )
 
   const { submitLoanExecutionForm, isLoading: isSubmittingExecution } =
     useSubmitExecutionForm({
