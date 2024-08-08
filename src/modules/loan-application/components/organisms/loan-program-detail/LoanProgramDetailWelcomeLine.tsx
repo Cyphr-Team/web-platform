@@ -12,10 +12,10 @@ export const LoanProgramDetailWelcomeLine = () => {
 
   return (
     <section>
-      <h2 className="text-3xl md:text-4xl font-semibold mb-6">
+      <h2 className="text-[2rem] font-semibold mb-6">
         {isLoading ? <Skeleton className="w-full h-8" /> : welcomeMessage}
       </h2>
-      <div className="text-xl whitespace-pre-wrap">
+      <div className="text-base whitespace-pre-wrap">
         {isLoading ? (
           <Skeleton className="w-full h-8" />
         ) : (

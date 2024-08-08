@@ -78,7 +78,7 @@ const loanProgramText: Element[] = [
   },
   {
     type: ELEMENTS_TYPE.title,
-    content: "Selection Process and Timeline:"
+    content: "Selection Process and Timeline"
   },
   {
     type: ELEMENTS_TYPE.list,
@@ -159,14 +159,12 @@ export const ComponentWithProvider = () => {
     switch (element.type) {
       case ELEMENTS_TYPE.title:
         return (
-          <h2 className="text-3xl md:text-4xl font-semibold mb-6">
-            {element.content}
-          </h2>
+          <h2 className="text-2xl font-semibold mb-6">{element.content}</h2>
         )
       case ELEMENTS_TYPE.text:
         return (
           <div
-            className="text-lg whitespace-pre-wrap"
+            className="text-base whitespace-pre-wrap"
             dangerouslySetInnerHTML={{
               __html: !Array.isArray(element.content)
                 ? sanitizeDOM(element.content)
@@ -176,7 +174,7 @@ export const ComponentWithProvider = () => {
         )
       case ELEMENTS_TYPE.list:
         return (
-          <ul className="list-disc list-inside text-lg whitespace-pre-wrap pl-8">
+          <ul className="list-disc list-inside text-base whitespace-pre-wrap pl-8">
             {Array.isArray(element.content) &&
               element.content.map((item, index) => <li key={index}>{item}</li>)}
           </ul>
