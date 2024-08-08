@@ -29,7 +29,7 @@ import {
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
 import { useSubmitPreQualificationForm } from "@/modules/loan-application/hooks/useForm/useSubmitPreQualificationForm"
-import { useCallback, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
@@ -37,6 +37,7 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/useMutation/useCreateLoanApplicationMutation"
 import { LoanType } from "@/types/loan-program.type"
 import { options, questions } from "./constants"
+import { useUpdateEffect } from "react-use"
 
 export const PreQualificationForm = () => {
   const { finishCurrentStep, buildSpecificStep } =
@@ -52,13 +53,10 @@ export const PreQualificationForm = () => {
     mutateAsync: createLoanApplication,
     isPending: isCreatingLoanApplication
   } = useCreateLoanApplicationMutation(LoanType.MICRO)
-
   const { mutate, isPending } = useSubmitPreQualificationForm()
 
-  const form = useForm<PreQualificationFormValue>({
-    resolver: zodResolver(preQualificationSchema),
-    mode: "onChange",
-    defaultValues: {
+  const defaultValues = useMemo(() => {
+    return {
       applicationId: preQualification?.applicationId ?? "",
       isCompanyBasedInUs: preQualification?.isCompanyBasedInUs,
       foundingTeamEligibleToWorkInUs:
@@ -69,7 +67,17 @@ export const PreQualificationForm = () => {
       willingToOperateInKansasCityMo:
         preQualification?.willingToOperateInKansasCityMo
     }
+  }, [preQualification])
+
+  const form = useForm<PreQualificationFormValue>({
+    resolver: zodResolver(preQualificationSchema),
+    mode: "onChange",
+    defaultValues
   })
+
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [defaultValues])
 
   // TODO: hide these complex logic like onSuccess into hooks
   const onConfirmed = useCallback(() => {
