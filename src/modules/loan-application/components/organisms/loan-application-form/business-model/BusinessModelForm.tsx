@@ -79,6 +79,10 @@ export const BusinessModelForm = () => {
       id={LOAN_APPLICATION_STEPS.BUSINESS_MODEL}
     >
       <h5 className="text-lg font-semibold">Business Model</h5>
+      <p className="text-sm text-text-secondary font-normal">
+        This data is being collected for the sole purpose of this application.
+        It will remain confidential and not be distributed in any way.
+      </p>
       <Separator />
       <Form {...form}>
         <form className="flex flex-col gap-4xl">
