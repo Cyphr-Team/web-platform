@@ -75,16 +75,16 @@ export const launchKCOwnerFormSchema = ownerFormSchema.extend({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
   title: z.string().min(1, { message: "Title is required" }),
-  genderIdentity: z.string().min(1, { message: "Gender Identity is required" }),
+  genderIdentity: z.string().min(1, { message: "Gender identity is required" }),
   preferredPronoun: z
     .string()
-    .min(1, { message: "Preferred Pronoun is required" }),
+    .min(1, { message: "Preferred pronoun is required" }),
   racialIdentification: z
     .string()
-    .min(1, { message: "Racial Identification is required" }),
+    .min(1, { message: "Racial identification is required" }),
   ethnicIdentification: z
     .string()
-    .min(1, { message: "Ethnic Identification is required" }),
+    .min(1, { message: "Ethnic identification is required" }),
   areFounderOrCoFounder: z
     .string()
     .min(1, { message: "This field is required" }),
@@ -131,8 +131,8 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
   primaryIndustryOther: z.string(),
   companyDescription: z
     .string()
-    .min(1, { message: "Company Description is required" })
-    .max(255, { message: "Company Description is too long" })
+    .min(1, { message: "Company description is required" })
+    .max(255, { message: "Company description is too long" })
 })
 
 export const financialFormSchema = z.object({

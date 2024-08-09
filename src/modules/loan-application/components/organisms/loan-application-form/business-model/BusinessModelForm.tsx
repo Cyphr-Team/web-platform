@@ -105,7 +105,7 @@ export const BusinessModelForm = () => {
             inputClassName="!max-w-52"
             className="flex flex-row items-center w-full justify-between"
             label="What is your annual payroll?"
-            placeholder="i.e: 55,000"
+            placeholder="i.e: 55.00"
             formMessageClassName="hidden"
           />
           <SelectInput
