@@ -18,10 +18,6 @@ function isEnablePersonaKycV1() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PERSONA_KYC_V1)
 }
 
-function isEnableLenderDashboardV2DummyData() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.LENDER_DASHBOARD_V2_DUMMY_DATA)
-}
-
 function isEnableDownloadCSVAndJSONSummary() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.DOWNLOAD_CSV_AND_JSON_SUMMARY)
 }
@@ -139,7 +135,6 @@ export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableReviewApplicationStep,
   isEnablePersonaKycV1,
-  isEnableLenderDashboardV2DummyData,
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
   isEnableNewInquiryPersonaKycCreatingLogic,

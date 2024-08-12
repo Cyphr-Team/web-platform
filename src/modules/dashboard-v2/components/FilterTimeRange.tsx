@@ -2,10 +2,8 @@ import { DatePickerWithRange } from "@/components/ui/date-picker-with-range"
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { MultiSelect } from "@/components/ui/multi-select"
 import { REQUEST_LIMIT_PARAM_FOR_SELECT } from "@/constants"
-import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
 import { Option } from "@/types/common.type"
 import { TimeRangeValue } from "@/types/time-range.type"
-import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { startOfMonth, subMonths } from "date-fns"
 import debounce from "lodash.debounce"
@@ -42,9 +40,7 @@ export const FilterTimeRange = () => {
     offset: 0
   })
 
-  const loanPrograms = isEnableLenderDashboardV2DummyData()
-    ? loanProgramsDummyData
-    : data?.data
+  const loanPrograms = data?.data
 
   const loanProgramOptions: Option[] =
     loanPrograms?.map((loanProgram) => ({

@@ -1,5 +1,4 @@
 import { REQUEST_LIMIT_PARAM_FOR_SELECT } from "@/constants"
-import { loanProgramsDummyData } from "@/constants/data/dashboard/loanPrograms"
 import { useQuerySelectLoanProgramList } from "@/hooks/useQuerySelectList/useQuerySelectLoanProgramList"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { getRandomColor } from "@/modules/loan-application-management/services"
@@ -10,7 +9,6 @@ import {
   toCurrency
 } from "@/utils"
 import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
-import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
 import { useState } from "react"
 import {
   Bar,
@@ -44,9 +42,7 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
     offset: 0
   })
 
-  const loanPrograms = isEnableLenderDashboardV2DummyData()
-    ? loanProgramsDummyData
-    : data?.data
+  const loanPrograms = data?.data
 
   const keys =
     loanPrograms

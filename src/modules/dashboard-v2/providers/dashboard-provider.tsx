@@ -1,13 +1,3 @@
-import { aggregateApprovedLoanAmountDummyData } from "@/constants/data/dashboard/aggregateApprovedLoanAmount"
-import { averageApprovalRateDummyData } from "@/constants/data/dashboard/averageApprovalRate"
-import { averageApprovedLoanAmountDummyData } from "@/constants/data/dashboard/averageApprovedLoanAmount"
-import { averageApprovedLoanSizeDummyData } from "@/constants/data/dashboard/averageApprovedLoanSize"
-import { averageTimeToApprovalDummyData } from "@/constants/data/dashboard/averageTimeToApproval"
-import { averageTimeToDecisionDummyData } from "@/constants/data/dashboard/averageTimeToDecision"
-import { incompleteRateDummyData } from "@/constants/data/dashboard/incompleteRate"
-import { institutionActivityDummyData } from "@/constants/data/dashboard/institutionActivity"
-import { loanApplicationActivitiesDummyData } from "@/constants/data/dashboard/loanApplicationActivities"
-import { isEnableLenderDashboardV2DummyData } from "@/utils/feature-flag.utils"
 import { createContext, useContext, useMemo, useReducer } from "react"
 import { DEFAULT_DASHBOARD_STATE } from "../constants/dashboard.constants"
 import { useQueryGetAggregateApprovedLoanAmount } from "../hooks/query/useQueryGetAggregateApprovedLoanAmount"
@@ -25,7 +15,6 @@ import {
   DashboardProviderState
 } from "../types/stats.types"
 import { dashboardReducer } from "./dashboard-reducer"
-import { usageDummyData } from "@/constants/data/dashboard/usage"
 
 const DashboardContext = createContext<DashboardProviderState>({
   dashboardState: DEFAULT_DASHBOARD_STATE,
@@ -62,56 +51,36 @@ export function DashboardProvider({
     () => ({
       dashboardState,
       dashboardDispatch,
-      statsData: isEnableLenderDashboardV2DummyData()
-        ? institutionActivityDummyData
-        : statsResponse.data?.data,
+      statsData: statsResponse.data?.data,
       isLoading: statsResponse.isFetching,
 
-      averageApprovedLoanSizeData: isEnableLenderDashboardV2DummyData()
-        ? averageApprovedLoanSizeDummyData
-        : averageApprovedLoanSize.data?.data,
+      averageApprovedLoanSizeData: averageApprovedLoanSize.data?.data,
       isLoadingAverageApprovedLoanSize: averageApprovedLoanSize.isFetching,
 
-      usageData: isEnableLenderDashboardV2DummyData()
-        ? usageDummyData
-        : usageResponse.data,
+      usageData: usageResponse.data,
       isLoadingUsage: usageResponse.isFetching,
       usageError: usageResponse.error,
 
-      averageApprovalRateData: isEnableLenderDashboardV2DummyData()
-        ? averageApprovalRateDummyData
-        : averageApprovalRate.data?.data,
+      averageApprovalRateData: averageApprovalRate.data?.data,
       isLoadingAverageApprovalRate: averageApprovalRate.isFetching,
 
-      aggregateApprovedLoanAmountData: isEnableLenderDashboardV2DummyData()
-        ? aggregateApprovedLoanAmountDummyData
-        : aggregateApprovedLoanAmount.data?.data,
+      aggregateApprovedLoanAmountData: aggregateApprovedLoanAmount.data?.data,
       isLoadingAggregateApprovedLoanAmount:
         aggregateApprovedLoanAmount.isFetching,
 
-      averageTimeToApprovalData: isEnableLenderDashboardV2DummyData()
-        ? averageTimeToApprovalDummyData
-        : averageTimeToApproval.data?.data,
+      averageTimeToApprovalData: averageTimeToApproval.data?.data,
       isLoadingAverageTimeToApproval: averageTimeToApproval.isFetching,
 
-      loanApplicationActivitiesData: isEnableLenderDashboardV2DummyData()
-        ? loanApplicationActivitiesDummyData
-        : loanApplicationActivities.data?.data,
+      loanApplicationActivitiesData: loanApplicationActivities.data?.data,
       isLoadingLoanApplicationActivities: loanApplicationActivities.isFetching,
 
-      averageTimeToDecisionData: isEnableLenderDashboardV2DummyData()
-        ? averageTimeToDecisionDummyData
-        : averageTimeToDecision.data?.data,
+      averageTimeToDecisionData: averageTimeToDecision.data?.data,
       isLoadingAverageTimeToDecision: averageTimeToDecision.isFetching,
 
-      averageApprovedLoanAmountData: isEnableLenderDashboardV2DummyData()
-        ? averageApprovedLoanAmountDummyData
-        : averageApprovedLoanAmount.data?.data,
+      averageApprovedLoanAmountData: averageApprovedLoanAmount.data?.data,
       isLoadingAverageApprovedLoanAmount: averageApprovedLoanAmount.isFetching,
 
-      loanApplicationRatesData: isEnableLenderDashboardV2DummyData()
-        ? incompleteRateDummyData
-        : loanApplicationRates.data?.data,
+      loanApplicationRatesData: loanApplicationRates.data?.data,
       isLoadingLoanApplicationRates: loanApplicationRates.isLoading
     }),
     [
