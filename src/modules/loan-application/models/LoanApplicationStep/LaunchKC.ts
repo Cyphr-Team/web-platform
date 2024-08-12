@@ -19,11 +19,10 @@ export class LaunchKCLoanApplicationStep
   }
 
   _buildSteps() {
-    this._build_BusinessInformationStep()
+    this._build_BusinessInformationStep()._build_OwnerInformationStep()
 
-    if (!isIgnoredKycAndCashFlowSubmission()) this._build_OwnerInformationStep()
-
-    if (isEnablePersonaKycV1()) this._build_IdentityVerificationStep()
+    if (isEnablePersonaKycV1() && !isIgnoredKycAndCashFlowSubmission())
+      this._build_IdentityVerificationStep()
 
     if (!isIgnoredKycAndCashFlowSubmission())
       this._build_CashFlowVerificationStep()

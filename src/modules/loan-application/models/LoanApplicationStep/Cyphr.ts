@@ -14,10 +14,12 @@ export class CyphrLoanApplicationStep
   }
 
   _buildSteps() {
-    this._build_LoanRequestStep()._build_BusinessInformationStep()
+    this._build_LoanRequestStep()
+      ._build_BusinessInformationStep()
+      ._build_OwnerInformationStep()
 
     if (!isIgnoredKycAndCashFlowSubmission())
-      this._build_OwnerInformationStep()._build_CashFlowVerificationStep()
+      this._build_CashFlowVerificationStep()
 
     this._build_CurrentLoansStep()._build_OperatingExpensesStep()
 

@@ -16,11 +16,15 @@ export class KCChamberLoanApplicationStep
   }
 
   _buildSteps() {
-    this._build_LoanRequestStep()._build_BusinessInformationStep()
+    this._build_LoanRequestStep()
+      ._build_BusinessInformationStep()
+      ._build_OwnerInformationStep()
 
-    if (!isIgnoredKycAndCashFlowSubmission()) this._build_OwnerInformationStep()
-
-    if (isEnablePersonaKycV1() && isEnableKycReOrder())
+    if (
+      isEnablePersonaKycV1() &&
+      isEnableKycReOrder() &&
+      !isIgnoredKycAndCashFlowSubmission()
+    )
       this._build_IdentityVerificationStep()
 
     if (!isIgnoredKycAndCashFlowSubmission())
@@ -30,7 +34,11 @@ export class KCChamberLoanApplicationStep
 
     if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
 
-    if (isEnablePersonaKycV1() && !isEnableKycReOrder())
+    if (
+      isEnablePersonaKycV1() &&
+      !isEnableKycReOrder() &&
+      !isIgnoredKycAndCashFlowSubmission()
+    )
       this._build_IdentityVerificationStep()
 
     return this._build_ConfirmationStep()
