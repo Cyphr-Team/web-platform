@@ -3,15 +3,22 @@ import { DocumentUploadFormTemplate } from "@/modules/loan-application/component
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form.ts"
 
-import { infer as zodInfer, object } from "zod"
+import { custom, infer as zodInfer, object } from "zod"
+import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 
 export const certificateGoodStandingFormSchema = object({
-  certificateGoodStanding: ZodFileTypeFactory(["application/pdf"])
+  files: ZodFileTypeFactory(
+    ["application/pdf"],
+    "Please choose PDF format files only"
+  ).optional(),
+  uploadedFiles: custom<DocumentUploadedResponse[]>().optional()
 })
 
 export type CertificateGoodStandingFormValue = zodInfer<
   typeof certificateGoodStandingFormSchema
->
+> & {
+  formId?: string
+}
 
 export const CertificateGoodStandingForm = () => {
   return (
@@ -20,7 +27,6 @@ export const CertificateGoodStandingForm = () => {
       description="Please upload your Certificate of Good Standing issued by your state's Secretary of State office"
       schema={certificateGoodStandingFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING}
-      loanDocumentState={LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING}
     />
   )
 }

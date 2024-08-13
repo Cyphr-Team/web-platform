@@ -40,7 +40,7 @@ import { CertificateGoodStandingFormValue } from "@/modules/loan-application/com
 import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
 
-type LoanApplicationFormState = {
+export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: IBusinessFormValue
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: IOwnerFormValue
@@ -70,12 +70,7 @@ type LoanApplicationFormState = {
 export type LoanDocumentsState = {
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: DocumentUploadedResponse[]
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: DocumentUploadedResponse[]
-  // SBB
-  [LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION]: DocumentUploadedResponse[]
-  [LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER]: DocumentUploadedResponse[]
-  [LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING]: DocumentUploadedResponse[]
-  [LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION]: DocumentUploadedResponse[]
-  [LOAN_APPLICATION_STEPS.BY_LAWS]: DocumentUploadedResponse[]
+  [LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS]: DocumentUploadedResponse[]
 }
 
 interface LoanApplicationFormContext extends LoanApplicationFormState {
@@ -123,18 +118,11 @@ export type Action = {
 type DocumentAction = {
   action: DOCUMENT_ACTION
   state: DocumentUploadedResponse | { id: string }
-  key: DOCUMENT_KEY
+  key:
+    | LOAN_APPLICATION_STEPS.OWNER_INFORMATION
+    | LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
+    | LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS
 }
-
-export type DOCUMENT_KEY =
-  | LOAN_APPLICATION_STEPS.OWNER_INFORMATION
-  | LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION
-  // SBB
-  | LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION
-  | LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER
-  | LOAN_APPLICATION_STEPS.BY_LAWS
-  | LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING
-  | LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION
 
 export enum FORM_ACTION {
   GET_DATA = "GET_DATA",
@@ -246,6 +234,11 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     state[LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY],
     state[LOAN_APPLICATION_STEPS.E_SIGN],
     state[LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS],
+    state[LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION],
+    state[LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER],
+    state[LOAN_APPLICATION_STEPS.BY_LAWS],
+    state[LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING],
+    state[LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION],
     plaidItemIds
   )
 

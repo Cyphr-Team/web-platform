@@ -3,6 +3,7 @@ import { customRequestHeader } from "@/utils/request-header"
 import axios, { AxiosRequestConfig, RawAxiosRequestHeaders } from "axios"
 import applyCaseMiddleware from "axios-case-converter"
 import { inMemoryJWTService } from "./jwt.service"
+import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 
 export const axiosClient = applyCaseMiddleware(
   axios.create({
@@ -149,4 +150,46 @@ export const delRequest = <T, R>({
     },
     ...config
   })
+}
+
+/**
+ * @function requestToFormData use for adding formValue to upload document
+ *
+ * Example usage:
+ * const { mutateAsync, isUploading } = useMutateUploadDocument();
+ *
+ * const uploadDocuments = useCallback(
+ *   async (formId: string, files: File[], documentType: FORM_TYPE) => {
+ *     await requestToFormData(
+ *       { formId, files, documentType },
+ *       async (request: FormData) => {
+ *         await mutateAsync(request, {
+ *           onSuccess: (res) => res
+ *         });
+ *       }
+ *     );
+ *   },
+ *   [mutateAsync]
+ * );
+ *
+ * return { uploadDocuments, isUploading };
+ */
+export const requestToFormData = (requestBody: {
+  formId: string
+  files: File[]
+  documentType: FORM_TYPE
+}) => {
+  const formData = new FormData()
+
+  for (const [key, value] of Object.entries(requestBody)) {
+    if (Array.isArray(value)) {
+      value.forEach((file: File) => {
+        formData.append(key, file)
+      })
+    } else if (value) {
+      formData.append(key, value + "")
+    }
+  }
+
+  return formData
 }

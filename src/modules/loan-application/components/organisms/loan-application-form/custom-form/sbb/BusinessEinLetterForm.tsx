@@ -3,15 +3,22 @@ import { DocumentUploadFormTemplate } from "@/modules/loan-application/component
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form.ts"
 
-import { infer as zodInfer, object } from "zod"
+import { custom, infer as zodInfer, object } from "zod"
+import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 
 export const businessEinLetterFormSchema = object({
-  businessEinLetter: ZodFileTypeFactory(["application/pdf"])
+  files: ZodFileTypeFactory(
+    ["application/pdf"],
+    "Please choose PDF format files only"
+  ).optional(),
+  uploadedFiles: custom<DocumentUploadedResponse[]>().optional()
 })
 
 export type BusinessEinLetterFormValue = zodInfer<
   typeof businessEinLetterFormSchema
->
+> & {
+  formId?: string
+}
 
 export const BusinessEinLetterForm = () => {
   return (
@@ -20,7 +27,6 @@ export const BusinessEinLetterForm = () => {
       description="Please upload a copy of your Business EIN Letter"
       schema={businessEinLetterFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER}
-      loanDocumentState={LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER}
     />
   )
 }

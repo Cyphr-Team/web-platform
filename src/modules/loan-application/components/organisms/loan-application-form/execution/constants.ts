@@ -133,6 +133,17 @@ export const partnershipType: Option[] = [
   }
 ]
 
+/**
+ * monthlyExpenseRangeOptions has two parts:
+ * part1: new range
+ * part2: old range
+ *
+ * LengthOfNewOptions is use for index the at the execution form.
+ * That's mean we only show the first [LengthOfNewOptions] for user.
+ * If new range has more, we must increase LENGTH_OF_NEW_OPTIONS for fit with
+ * the number of new range options.
+ * */
+export const LENGTH_OF_NEW_OPTIONS = 7
 export const monthlyExpenseRangeOptions: Option[] = [
   {
     label: "No revenue",

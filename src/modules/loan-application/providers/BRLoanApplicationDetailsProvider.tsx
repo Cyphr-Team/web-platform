@@ -70,6 +70,7 @@ import {
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
+import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/useQuery/useQuerySbbDocumentForm.ts"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -243,12 +244,21 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS)
   })
 
+  // SBB document form
+  const sbbDocumentQuery = useQuerySbbDocumentForm(loanApplicationId!)
+
   const changeDataAndProgress = useCallback(
-    (data: FormStateType, progress: LOAN_APPLICATION_STEPS) => {
-      dispatchProgress({
-        type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
-        progress
-      })
+    (
+      data: FormStateType,
+      progress: LOAN_APPLICATION_STEPS,
+      isDone: boolean = true
+    ) => {
+      if (isDone) {
+        dispatchProgress({
+          type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+          progress
+        })
+      }
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: progress,
@@ -669,6 +679,65 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     eSignQuery.data?.documentId,
     isInitialized
   ])
+
+  /**
+   * Handle SBB document query
+   * */
+  useEffect(() => {
+    const data = sbbDocumentQuery.data
+    if (data?.id) {
+      changeDataAndProgress(
+        {
+          formId: data.id,
+          files: [],
+          uploadedFiles: data.articlesOfOrganizationAndOperatingAgreement,
+          notHaveDoc:
+            data.articlesOfOrganizationAndOperatingAgreement.length === 0
+        },
+        LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION
+      )
+
+      changeDataAndProgress(
+        {
+          formId: data.id,
+          files: [],
+          uploadedFiles: data.businessEinLetter
+        },
+        LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER,
+        data.businessEinLetter.length > 0
+      )
+
+      changeDataAndProgress(
+        {
+          formId: data.id,
+          files: [],
+          uploadedFiles: data.certificateOfGoodStanding
+        },
+        LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING,
+        data.certificateOfGoodStanding.length > 0
+      )
+
+      changeDataAndProgress(
+        {
+          formId: data.id,
+          files: [],
+          uploadedFiles: data.fictitiousNameCertification,
+          notHaveDoc: data.fictitiousNameCertification.length === 0
+        },
+        LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION
+      )
+
+      changeDataAndProgress(
+        {
+          formId: data.id,
+          files: [],
+          uploadedFiles: data.byLaws,
+          notHaveDoc: data.byLaws.length === 0
+        },
+        LOAN_APPLICATION_STEPS.BY_LAWS
+      )
+    }
+  }, [changeDataAndProgress, sbbDocumentQuery.data])
 
   const value = useMemo(
     () => ({

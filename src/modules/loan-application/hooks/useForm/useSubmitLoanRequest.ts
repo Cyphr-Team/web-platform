@@ -29,8 +29,8 @@ export const useSubmitMicroLoanRequestForm = (
       // Create
       const loanRequest: UserMicroLoanApplicationRequest = {
         loanProgramId: loanProgramId!,
-        loanTermInMonth: get(rawData, "loanTermInMonth", 1),
-        loanAmount: get(rawData, "loanAmount", 0),
+        loanTermInMonth: get(rawData, "loanTermInMonth", 6),
+        loanAmount: get(rawData, "loanAmount", 1000),
         proposeUseOfLoan: get(rawData, "proposeUseOfLoan", "other"),
         applicationId: rawData?.applicationId
       }

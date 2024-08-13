@@ -19,12 +19,7 @@ import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
-import {
-  DOCUMENT_ACTION,
-  DOCUMENT_KEY,
-  FORM_ACTION,
-  LoanDocumentsState
-} from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
+import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { FileUploadCard } from "@/modules/loan-application/components/molecules/FileUploadCard.tsx"
 import { FileUploadedCard } from "@/modules/loan-application/components/molecules/FileUploadedCard.tsx"
 import {
@@ -40,7 +35,11 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Checkbox } from "@/components/ui/checkbox.tsx"
 import { CheckedState } from "@radix-ui/react-checkbox"
-import { get, set } from "lodash"
+import { get, remove, set } from "lodash"
+import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { toastError } from "@/utils"
+import { useDeleteSbbDocument } from "@/modules/loan-application/hooks/useMutation/useDeleteSbbDocument.ts"
 
 /**
  * This implementation is only work on the schema like this
@@ -61,16 +60,24 @@ interface Props {
   schema: ZodObject<
     Record<
       string,
-      | ZodEffects<ZodType<File[], ZodTypeDef, File[]>, File[], File[]>
+      | ZodOptional<
+          ZodEffects<ZodType<File[], ZodTypeDef, File[]>, File[], File[]>
+        >
+      | ZodOptional<
+          ZodType<
+            DocumentUploadedResponse[],
+            ZodTypeDef,
+            DocumentUploadedResponse[]
+          >
+        >
       | ZodOptional<ZodBoolean>
     >,
     "strip",
     ZodTypeAny,
-    Record<string, File[] | boolean>,
-    Record<string, File[] | boolean>
+    Record<string, File[] | DocumentUploadedResponse[] | boolean>,
+    Record<string, File[] | DocumentUploadedResponse[] | boolean>
   >
-  specificStep: DOCUMENT_KEY
-  loanDocumentState: keyof LoanDocumentsState
+  specificStep: LOAN_APPLICATION_STEPS
 }
 
 export const DocumentUploadFormTemplate = ({
@@ -79,39 +86,46 @@ export const DocumentUploadFormTemplate = ({
   hasCheckbox = false,
   checkboxLabel,
   schema,
-  specificStep,
-  loanDocumentState
+  specificStep
 }: Props) => {
   // Define a new local type based on the schema
   type FormType = zodInfer<typeof schema>
 
+  const { mutateAsync: deleteDocument } = useDeleteSbbDocument()
+
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-
-  const { documents, dispatchFormAction, dispatchDocumentAction } =
-    useLoanApplicationFormContext()
   const formState = useLoanApplicationFormContext()
+  const { dispatchFormAction } = formState
 
-  const [fileField, checkboxField] = Object.keys(schema.shape)
+  const [fileField, uploadedFileField, checkboxField] = Object.keys(
+    schema.shape
+  )
   const form = useForm<FormType>({
     resolver: zodResolver(schema),
     mode: "onChange",
     // TODO: move this to outside
     defaultValues: async () => {
       const data: FormType = {
-        [fileField]: get(formState[specificStep], fileField, [])
+        [fileField]: get(formState[specificStep], fileField, []),
+        [uploadedFileField]: get(formState[specificStep], uploadedFileField, [])
       }
-
+      // if the checkboxField contain in form
       if (checkboxField !== undefined) {
-        set(
-          data,
-          checkboxField,
-          get(formState[specificStep], checkboxField, false)
-        )
+        const hasDocuments = get(formState[specificStep], checkboxField, false)
+        // set the checkbox field, if form has document, then checkbox is false
+        // otherwise, set default is true.
+        set(data, checkboxField, hasDocuments)
       }
-
       return data
     }
   })
+
+  const filesValue = form.watch(fileField) as File[]
+  const uploadedFiles = form.watch(
+    uploadedFileField
+  ) as DocumentUploadedResponse[]
+  const checkboxValue =
+    checkboxField !== undefined && (form.watch(checkboxField) as boolean)
 
   const handleSelectFile = useCallback(
     (field: keyof FormType) => (files: FileList) => {
@@ -145,13 +159,30 @@ export const DocumentUploadFormTemplate = ({
 
   const removeDocument = useCallback(
     (id: string) => {
-      dispatchDocumentAction({
-        action: DOCUMENT_ACTION.REMOVE_DATA,
-        key: specificStep,
-        state: { id }
-      })
+      deleteDocument(
+        { id },
+        {
+          onSuccess: () => {
+            const newFiles = remove(
+              uploadedFiles,
+              (document) => document.id !== id
+            )
+            form.setValue(uploadedFileField, newFiles, {
+              shouldValidate: true,
+              shouldDirty: true,
+              shouldTouch: true
+            })
+          },
+          onError: (error) => {
+            toastError({
+              title: error.name,
+              description: error.message
+            })
+          }
+        }
+      )
     },
-    [dispatchDocumentAction, specificStep]
+    [deleteDocument, form, uploadedFileField, uploadedFiles]
   )
 
   const onSubmit = (data: FormType) => {
@@ -167,13 +198,43 @@ export const DocumentUploadFormTemplate = ({
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+      /**
+       *
+       * */
+      const updatedData = {
+        // get the value from formValues, use string indexes because `checkboxField` can be different through form
+        [checkboxField]: data[checkboxField],
+        // get the value from checkbox, if checkbox is true, the filesField is empty, otherwise get the filesField
+        [fileField]: data[checkboxField] ? [] : data[fileField],
+        // same logic as above
+        [uploadedFileField]: data[checkboxField] ? [] : data[uploadedFileField]
+      }
+
+      // if user tick not to upload document
+      if (data[checkboxField]) {
+        form.setValue(fileField, [])
+        // delete all files on server
+        uploadedFiles.forEach((file) => removeDocument(file.id))
+        form.setValue(uploadedFileField, [])
+      }
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: specificStep,
-        state: data
+        state: updatedData
       })
     }
-  }, [form.formState.isValidating, form, dispatchFormAction, specificStep])
+  }, [
+    form.formState.isValidating,
+    form,
+    dispatchFormAction,
+    specificStep,
+    fileField,
+    checkboxField,
+    uploadedFileField,
+    uploadedFiles,
+    removeDocument
+  ])
 
   /**
    * Scenario 1: Has checkbox
@@ -181,12 +242,11 @@ export const DocumentUploadFormTemplate = ({
    * Scenario 2: Does not have checkbox
    * - True if: FILES is not empty
    * */
-  const filesValue = form.watch(fileField) as File[]
-  const checkboxValue =
-    checkboxField !== undefined && (form.watch(checkboxField) as boolean)
-  const isValid = checkboxValue // check if this form has checkbox or not
-    ? filesValue === undefined || filesValue?.length === 0 // case FILES is empty and CHECKBOX is true
-    : filesValue !== undefined && filesValue.length !== 0 // case FILES is not empty
+  const isValid =
+    uploadedFiles?.length > 0 ||
+    (checkboxValue // check if this form has checkbox or not
+      ? filesValue === undefined || filesValue?.length === 0 // case FILES is empty and CHECKBOX is true
+      : filesValue !== undefined && filesValue?.length !== 0) // case FILES is not empty
 
   useAutoCompleteStepEffect(form, specificStep, isValid)
 
@@ -224,7 +284,11 @@ export const DocumentUploadFormTemplate = ({
                     )
                   )}
                   {/* Display all files */}
-                  {(documents[loanDocumentState] ?? []).map((val) => (
+                  {Array.from(
+                    (form.watch(
+                      uploadedFileField
+                    ) as DocumentUploadedResponse[]) ?? []
+                  ).map((val) => (
                     <FileUploadedCard
                       key={val.id}
                       file={val}

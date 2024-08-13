@@ -3,14 +3,21 @@ import { DocumentUploadFormTemplate } from "@/modules/loan-application/component
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form.ts"
 
-import { boolean, infer as zodInfer, object } from "zod"
+import { boolean, custom, infer as zodInfer, object } from "zod"
+import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 
 export const byLawFormSchema = object({
-  byLaw: ZodFileTypeFactory(["application/pdf"]),
-  notCorporation: boolean().optional()
+  files: ZodFileTypeFactory(
+    ["application/pdf"],
+    "Please choose PDF format files only"
+  ).optional(),
+  uploadedFiles: custom<DocumentUploadedResponse[]>().optional(),
+  notHaveDoc: boolean().optional()
 })
 
-export type ByLawsFormValue = zodInfer<typeof byLawFormSchema>
+export type ByLawsFormValue = zodInfer<typeof byLawFormSchema> & {
+  formId?: string
+}
 
 export const ByLawsForm = () => {
   return (
@@ -19,7 +26,6 @@ export const ByLawsForm = () => {
       description="If you are a Corporation, please upload your By-Laws. If you are not, please select the checkbox below indicating that you are not a Corporation."
       schema={byLawFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.BY_LAWS}
-      loanDocumentState={LOAN_APPLICATION_STEPS.BY_LAWS}
       hasCheckbox
       checkboxLabel="I am not a Corporation so I don’t need to upload By-Laws."
     />

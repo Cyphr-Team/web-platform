@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form"
 import {
   getOptionsByField,
   LAUNCH_KC_EXECUTION_FIELD_NAMES,
+  LENGTH_OF_NEW_OPTIONS,
   monthlyExpenseRangeOptions,
   questions
 } from "./constants"
@@ -95,8 +96,8 @@ export const ExecutionForm = () => {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EXECUTION)
 
   const monthlyExpenseOptions = isEnableExecutionFormNewMonthlyExpense()
-    ? monthlyExpenseRangeOptions.slice(0, 7)
-    : monthlyExpenseRangeOptions.slice(7)
+    ? monthlyExpenseRangeOptions.slice(0, LENGTH_OF_NEW_OPTIONS)
+    : monthlyExpenseRangeOptions.slice(LENGTH_OF_NEW_OPTIONS)
 
   return (
     <div

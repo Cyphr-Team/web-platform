@@ -19,8 +19,8 @@ import {
   BusinessModelFormValue,
   ConfirmationFormValue,
   CurrentLoansFormValue,
-  ESignFormValue,
   DocumentUploadsFormValue,
+  ESignFormValue,
   ExecutionFormValue,
   FinancialFormValue,
   IBusinessFormValue,
@@ -75,6 +75,12 @@ import { MarketOpportunityFormResponse } from "../components/organisms/loan-appl
 import { usePlaidContext } from "../providers"
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
+import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
+import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { useUploadSbbDocument } from "@/modules/loan-application/hooks/useForm/useSubmitSbbDocument.ts"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -96,6 +102,11 @@ export const useSubmitLoanForm = (
   marketOpportunityData: MarketOpportunityFormValue,
   eSignData: ESignFormValue,
   documentUploadsData: DocumentUploadsFormValue,
+  articlesOfOrganizationData: ArticlesOfOrganizationFormValue,
+  businessEinLetterData: BusinessEinLetterFormValue,
+  byLawsData: ByLawsFormValue,
+  certificateGoodStandingData: CertificateGoodStandingFormValue,
+  fictitiousNameCertificationData: FictitiousNameCertificationFormValue,
   plaidItemIds: string[]
 ) => {
   const navigate = useNavigate()
@@ -314,6 +325,15 @@ export const useSubmitLoanForm = (
   const { submitLoanConfirmationForm, isLoading: isSubmittingConfirmation } =
     useSubmitLoanConfirmationForm(confirmationData)
 
+  const { submitSbbDocument, isLoading: isSubmittingSbbDocument } =
+    useUploadSbbDocument({
+      articlesOfOrganizationData,
+      businessEinLetterData,
+      byLawsData,
+      certificateGoodStandingData,
+      fictitiousNameCertificationData
+    })
+
   const { uploadDocuments, isUploading } = useUploadFormDocuments()
 
   const { uploadBusinessDocuments, isUploading: isUploadingBusinessDocuments } =
@@ -505,6 +525,10 @@ export const useSubmitLoanForm = (
           }
         }
 
+        if (isSbb()) {
+          await submitSbbDocument(loanRequestId!)
+        }
+
         if (
           productServiceData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
@@ -625,6 +649,7 @@ export const useSubmitLoanForm = (
     operatingExpensesData,
     submitCurrentLoansForm,
     submitOperatingExpensesForm,
+    submitSbbDocument,
     submitProductServiceForm,
     submitLoanMarketOpportunity,
     submitLoanLaunchKCFitForm,
@@ -748,6 +773,11 @@ export const useSubmitLoanForm = (
             documentUploadsData.id ?? ""
           )
         )
+      }
+
+      // submit sbb document
+      if (isSbb()) {
+        submitPromises.push(submitSbbDocument(loanRequestId!))
       }
 
       // Wait for all submitPromises to resolve
@@ -876,6 +906,7 @@ export const useSubmitLoanForm = (
     submitLoanRequestForm,
     submitOperatingExpensesForm,
     submitProductServiceForm,
+    submitSbbDocument,
     uploadBusinessDocuments,
     uploadDocuments
   ])
@@ -904,6 +935,7 @@ export const useSubmitLoanForm = (
       isSubmittingBusinessModel ||
       isSubmitLoanMarketOpportunity ||
       isSubmittingESignDocument ||
-      isUploadingBusinessDocuments
+      isUploadingBusinessDocuments ||
+      isSubmittingSbbDocument
   }
 }

@@ -3,16 +3,23 @@ import { DocumentUploadFormTemplate } from "@/modules/loan-application/component
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form.ts"
 
-import { boolean, infer as zodInfer, object } from "zod"
+import { boolean, custom, infer as zodInfer, object } from "zod"
+import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 
 export const articlesOfOrganizationFormSchema = object({
-  articlesOfOrganization: ZodFileTypeFactory(["application/pdf"]),
-  notLCC: boolean().optional()
+  files: ZodFileTypeFactory(
+    ["application/pdf"],
+    "Please choose PDF format files only"
+  ).optional(),
+  uploadedFiles: custom<DocumentUploadedResponse[]>().optional(),
+  notHaveDoc: boolean().optional()
 })
 
 export type ArticlesOfOrganizationFormValue = zodInfer<
   typeof articlesOfOrganizationFormSchema
->
+> & {
+  formId?: string
+}
 
 export const ArticlesOfOrganizationForm = () => {
   return (
@@ -21,7 +28,6 @@ export const ArticlesOfOrganizationForm = () => {
       description="If you are a Limited Liability Company (LLC), please upload your Articles of Organization and Operating Agreement. If you are not, please select the checkbox below indicating that you are not an LLC."
       schema={articlesOfOrganizationFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION}
-      loanDocumentState={LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION}
       hasCheckbox
       checkboxLabel="I am not a Limited Liability Company (LLC) so I don’t need to upload Articles of Organization and Operating Agreement."
     />

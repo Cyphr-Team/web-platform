@@ -17,7 +17,7 @@ enum FORM_TYPE {
   LAUNCH_KC_FIT = "launch_kc_fit",
   PRE_QUALIFICATION = "pre_qualification",
   BUSINESS_EIN_LETTER = "business_ein_letter",
-  CERTIFICATE_GOOD_STANDING = "certificate_good_standing",
+  CERTIFICATE_OF_GOOD_STANDING = "certificate_of_good_standing",
   FICTITIOUS_NAME_CERTIFICATION = "fictitious_name_certification",
   ARTICLES_OF_ORGANIZATION = "articles_of_organization_and_operating_agreement",
   BY_LAWS = "by_laws"

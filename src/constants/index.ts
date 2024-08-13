@@ -240,6 +240,13 @@ export const API_PATH = {
     businessDocuments: {
       index: "api/form/document-upload",
       detail: "api/form/document-upload/by-application-id"
+    },
+    sbbDocument: {
+      index: "api/form/sbb-documents/by-application-id",
+      upload: "api/form/sbb-documents/documents/upload",
+      submit: "api/form/sbb-documents/submit",
+      deleteByType: "api/form/sbb-documents/documents/delete-by-type",
+      deleteById: "api/form/sbb-documents/documents/delete-by-id"
     }
   },
   // For workspace admin

@@ -419,3 +419,24 @@ export interface PreQualificationFormRequest {
   hasMvpWithRevenueUnderOneMillion: boolean
   willingToOperateInKansasCityMo: string
 }
+
+interface SBBUploadDocumentForm<T> {
+  id: string // FORM ID
+  loanApplicationId: string
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
+  businessEinLetter: T[]
+  certificateOfGoodStanding: T[]
+  fictitiousNameCertification: T[]
+  articlesOfOrganizationAndOperatingAgreement: T[]
+  byLaws: T[]
+}
+
+export interface SBBUploadDocumentRequest extends DocumentUpload {}
+
+export interface SBBUploadDocumentFormResponse
+  extends SBBUploadDocumentForm<DocumentUploadedResponse> {}
+
+export interface SBBDeleteDocumentResponse
+  extends SBBUploadDocumentForm<DocumentUploadedResponse> {}
