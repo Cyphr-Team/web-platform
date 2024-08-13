@@ -5,7 +5,7 @@ const ENDPOINTS = {
   getDocumentStatus: (id: string) => `${ENDPOINTS.all}/${id}`,
   getDocumentByAppId: () => `${ENDPOINTS.all}/by-application-id`,
   createSessionDocument: (id: string) => `${ENDPOINTS.all}/${id}/session`,
-  downloadDocument: (id: string) => `${ENDPOINTS.all}/${id}/download`,
+  downloadDocument: () => `${ENDPOINTS.all}/download`,
   linkDocument: () => `${ENDPOINTS.all}/link`
 }
 

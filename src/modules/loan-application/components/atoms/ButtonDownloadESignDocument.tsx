@@ -4,16 +4,23 @@ import { useDownloadESignDocument } from "../../hooks/useESign/useDownloadESignD
 interface IButtonDownloadESignDocumentProps {
   documentId: string
   className?: string
+  documentName?: string
 }
 
 export const ButtonDownloadESignDocument = ({
   documentId,
-  children,
-  className
+  className,
+  documentName,
+  children
 }: React.PropsWithChildren<IButtonDownloadESignDocumentProps>) => {
   const downloadMutate = useDownloadESignDocument()
   const handleDownloadESignDocument = async () => {
-    await downloadMutate.mutateAsync(documentId)
+    if (documentId) {
+      await downloadMutate.mutateAsync({
+        documentId: documentId,
+        documentName: documentName
+      })
+    }
   }
 
   return (

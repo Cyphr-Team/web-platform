@@ -12,6 +12,7 @@ import { ButtonDownloadESignDocument } from "../../atoms/ButtonDownloadESignDocu
 interface ILoanApplicationESignDocument {
   signedAt?: string
   name: string
+  documentName?: string
   documentId: string
 }
 
@@ -45,7 +46,10 @@ const columns: ColumnDef<ILoanApplicationESignDocument>[] = [
 
       return (
         <div className="min-w-0 text-right">
-          <ButtonDownloadESignDocument documentId={signature.documentId}>
+          <ButtonDownloadESignDocument
+            documentId={signature.documentId}
+            documentName={signature.documentName}
+          >
             <FileDown className="w-4 h-4" />
           </ButtonDownloadESignDocument>
         </div>
@@ -67,11 +71,11 @@ export const ESignTable = () => {
       : [
           {
             name: "E-Signed Application",
+            documentName: data.documentName,
             signedAt: data?.updatedAt,
             documentId: data.documentId
           }
         ]
-
   return (
     <Card>
       <CardHeader className="border-b mx-8 px-0 md:px-0 md:py-4">

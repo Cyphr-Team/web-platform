@@ -17,7 +17,7 @@ export { PandaDocDocumentStatus, sessionAbleDocumentStatus }
 
 interface IESignDocument {
   documentId: string
-  name?: string
+  documentName?: string
   status?: PandaDocDocumentStatus
   dateCreated?: string
   dateModified?: string
