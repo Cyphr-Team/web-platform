@@ -23,6 +23,13 @@ export const navItems: NavItem[] = [
     featureKey: FeatureKey.APPLICANT_APPLICATION
   },
   {
+    title: "Financials",
+    href: APP_PATH.LOAN_APPLICATION.FINANCIALS.INDEX,
+    icon: Icons.financials,
+    label: "Financials",
+    featureKey: FeatureKey.FINANCIAL
+  },
+  {
     title: "Notifications",
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
     icon: Bell,
