@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils"
-import { InputHTMLAttributes, ReactNode, forwardRef } from "react"
+import { forwardRef, InputHTMLAttributes, ReactNode } from "react"
 import { IMaskInput } from "react-imask"
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface MaskInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string
   wrapperClassName?: string
   suffixIcon?: ReactNode
@@ -71,7 +71,7 @@ const revertPattern = (
     .join("")
 }
 
-const MaskInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+const MaskInput = forwardRef<HTMLInputElement, MaskInputProps>((props, ref) => {
   const {
     onChange,
     className,

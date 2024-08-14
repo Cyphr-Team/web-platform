@@ -4,28 +4,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from "@/components/ui/form"
+} from "@/components/ui/form.tsx"
 
-import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
+import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
 import {
   Control,
   FieldPath,
   FieldValues,
   useFormContext
 } from "react-hook-form"
-import { MaskInput } from "@/components/ui/mask-input.tsx"
+import { MaskInput, MaskInputProps } from "@/components/ui/mask-input.tsx"
+import { memo } from "react"
 
-interface IMaskInputProps<T extends FieldValues> {
+export interface RHFMaskInputProps<T extends FieldValues>
+  extends Partial<MaskInputProps> {
   name: FieldPath<T>
   label: string
   pattern: string
+
   control?: Control<T>
   placeholder?: string
-  className?: string
-  inputClassName?: string
-  labelClassName?: string
-  hideMessage?: boolean
   required?: boolean
+  className?: string
+  hideMessage?: boolean
+  styleProps?: {
+    inputClassName?: string
+    labelClassName?: string
+  }
 }
 
 /**
@@ -34,9 +39,7 @@ interface IMaskInputProps<T extends FieldValues> {
  *
  * MUST USE THIS INSIDE A FORM OR ELSE IT WILL CRASH
  * */
-export const RHFMaskInput = <T extends FieldValues>(
-  props: IMaskInputProps<T>
-) => {
+const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
   const { control: defaultControl } = useFormContext()
   const {
     name,
@@ -44,16 +47,17 @@ export const RHFMaskInput = <T extends FieldValues>(
     placeholder,
     pattern,
     className,
-    inputClassName,
-    labelClassName,
+    styleProps = {},
     required,
     control,
     hideMessage = false
   } = props
 
+  const { inputClassName, labelClassName } = styleProps
+
   return (
     <FormField
-      control={(control as Control<FieldValues>) ?? defaultControl}
+      control={(control as Control) ?? defaultControl}
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
@@ -76,3 +80,5 @@ export const RHFMaskInput = <T extends FieldValues>(
     />
   )
 }
+
+export default memo(RHFMaskInput)

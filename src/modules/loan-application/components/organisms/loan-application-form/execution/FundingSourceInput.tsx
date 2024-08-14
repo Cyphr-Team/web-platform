@@ -16,7 +16,7 @@ import {
   LAUNCH_KC_EXECUTION_FIELD_NAMES
 } from "@/modules/loan-application/components/organisms/loan-application-form/execution/constants.ts"
 import { memo, useCallback } from "react"
-import { RHFMaskInput } from "@/shared/organisms/form/RHFMaskInput.tsx"
+import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 
 export const FundingSourceInput = () => {
   const { control, getValues } = useFormContext<ExecutionFormValue>()
@@ -115,10 +115,9 @@ const EditFundingSource = memo((props: EditFundingSourceProps) => {
       />
       <RHFMaskInput
         label="Funding"
-        control={form.control}
         pattern={NUMBER_PATTERN}
         className="flex flex-row items-center w-full justify-between "
-        inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
+        styleProps={{ inputClassName: "w-56 md:max-w-56 xl:max-w-56 xl:w-56" }}
         hideMessage
         {...form.register(`fundingSources.${index}.amount` as const)}
       />

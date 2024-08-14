@@ -25,7 +25,6 @@ import { AutoCompleteCities } from "@/modules/loan-application/components/molecu
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates.tsx"
 import { SelectInput } from "@/shared/organisms/form/SelectInput.tsx"
 import _ from "lodash"
-import { RHFMaskInput } from "@/shared/organisms/form/RHFMaskInput.tsx"
 import {
   LEGAL_STRUCTURE_OPTIONS,
   PRIMARY_INDUSTRY
@@ -34,6 +33,7 @@ import {
   launchKCBusinessFormSchema,
   LaunchKCBusinessFormValue
 } from "@/modules/loan-application/constants/form.ts"
+import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 
 const enum FIELD_NAMES {
   ID = "id",
@@ -201,8 +201,10 @@ export const LaunchKCBusinessInformationForm = () => {
             pattern={EIN_PATTERN}
             placeholder="i.e: 12-3456789"
             className="col-span-12 lg:col-span-5"
-            labelClassName="text-text-secondary"
-            inputClassName="text-base"
+            styleProps={{
+              labelClassName: "text-text-secondary",
+              inputClassName: "text-base"
+            }}
             required
           />
           <RHFMaskInput
@@ -211,8 +213,10 @@ export const LaunchKCBusinessInformationForm = () => {
             pattern={YEAR_PATTERN}
             placeholder="YYYY"
             className="col-span-3"
-            labelClassName="text-text-secondary"
-            inputClassName="text-base"
+            styleProps={{
+              labelClassName: "text-text-secondary",
+              inputClassName: "text-base"
+            }}
             required
           />
           <SelectInput

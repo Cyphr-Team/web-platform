@@ -24,7 +24,7 @@ export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
     ...(rawData as BusinessFormValue),
     businessStreetAddress: {
       addressLine1: rawData.addressLine1,
-      addressLine2: rawData.addressLine2,
+      addressLine2: get(rawData, "addressLine2", ""),
       city: rawData.city,
       state: getStateCode(rawData.state),
       postalCode: rawData.postalCode

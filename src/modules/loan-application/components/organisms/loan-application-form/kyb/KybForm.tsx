@@ -1,11 +1,4 @@
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form"
+import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
@@ -24,15 +17,15 @@ import { useSelectCities } from "../../../../hooks/useSelectCities"
 import { useEffect } from "react"
 import { AutoCompleteStates } from "../../../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../../../molecules/AutoCompleteCities"
-import { MaskInput, revertPattern, toPattern } from "@/components/ui/mask-input"
+import { revertPattern, toPattern } from "@/components/ui/mask-input"
 import { ArrowRight } from "lucide-react"
-import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { EIN_PATTERN } from "@/constants"
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 import { useUpdateEffect } from "react-use"
 
 export const BusinessInformationForm = () => {
@@ -188,27 +181,13 @@ export const BusinessInformationForm = () => {
             className="col-span-3 lg:col-span-1"
             required
           />
-          <FormField
-            control={form.control}
-            name={"businessTin"}
-            render={({ field }) => (
-              <FormItem className="col-span-3">
-                <FormLabel className="text-text-secondary">
-                  EIN
-                  <RequiredSymbol />
-                </FormLabel>
-                <FormControl>
-                  <MaskInput
-                    pattern={EIN_PATTERN}
-                    placeholder="i.e: 12-3456789"
-                    className="text-base"
-                    required
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+          <RHFMaskInput
+            className="col-span-3"
+            name="inessTin"
+            label="EIN"
+            placeholder="i.e: 12-3456789"
+            pattern={EIN_PATTERN}
+            required
           />
           <TextInput
             placeholder="www.larryslatte.com"

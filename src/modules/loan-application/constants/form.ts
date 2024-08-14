@@ -96,7 +96,7 @@ export const businessFormSchema = z.object({
   businessLegalName: z.string().min(1, { message: "Name is required" }),
   businessWebsite: z.string(),
   addressLine1: z.string().min(3, { message: "Address line 1 is required" }),
-  addressLine2: z.string(),
+  addressLine2: z.string().optional(),
   city: z.string().min(1, { message: "City is required" }),
   state: z.string().min(1, { message: "State is required" }),
   postalCode: z
