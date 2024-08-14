@@ -131,6 +131,10 @@ function isEnableExecutionFormNewMonthlyExpense() {
   )
 }
 
+function isEnableFinancialProjection() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.FINANCIAL_PROJECTION_TAB)
+}
+
 export {
   isEnableWorkspaceAdminFilterByScorecard,
   isEnableWorkspaceAdminFilterApplicationScores,
@@ -150,5 +154,6 @@ export {
   isEnableTermAgreementsCheckbox,
   isEnableNewSubmitFormStrategy,
   isIgnoredKycAndCashFlowSubmission,
-  isEnableExecutionFormNewMonthlyExpense
+  isEnableExecutionFormNewMonthlyExpense,
+  isEnableFinancialProjection
 }
