@@ -3,15 +3,25 @@ import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { FeatureKey } from "@/hooks/useCanAccess"
+import { ButtonDownloadESignDocument } from "@/modules/loan-application/components/atoms/ButtonDownloadESignDocument"
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { LoanDocument } from "@/types/loan-document.type"
 import { snakeCaseToText } from "@/utils"
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, FileDown } from "lucide-react"
+import { DocumentType } from "../../constants/types/document"
 import { BadgeAuthenticityScore } from "../atoms/badge/BadgeAuthenticityScore"
 import { DownloadDocumentButton } from "./download-document-button"
+
+const getDocumentType = (document: LoanDocument) => {
+  const { ocrolusDocumentType, type: documentType } = document ?? {}
+
+  return ocrolusDocumentType?.toString() !== ""
+    ? ocrolusDocumentType
+    : documentType
+}
 
 export const columns: ColumnDef<LoanDocument>[] = [
   {
@@ -30,9 +40,11 @@ export const columns: ColumnDef<LoanDocument>[] = [
           </div>
           <div className="min-w-0">
             <p className="truncate">{document.name}</p>
-            <p className="text-sm text-muted-foreground mt-0.5 truncate ">
-              {document.fileSize} KB
-            </p>
+            {document.fileSize && (
+              <p className="text-sm text-muted-foreground mt-0.5 truncate ">
+                {document.fileSize} KB
+              </p>
+            )}
           </div>
         </div>
       )
@@ -49,11 +61,8 @@ export const columns: ColumnDef<LoanDocument>[] = [
     size: 150,
     enableSorting: false,
     cell: ({ row }) => {
-      const { ocrolusDocumentType, type: documentType } = row.original ?? {}
-      const type =
-        ocrolusDocumentType?.toString() !== ""
-          ? ocrolusDocumentType
-          : documentType
+      const type = getDocumentType(row.original)
+
       return (
         <div className="font-medium">
           <Badge variant="soft">{snakeCaseToText(type)?.toUpperCase()}</Badge>
@@ -105,18 +114,32 @@ export const columns: ColumnDef<LoanDocument>[] = [
     size: 50,
     cell: ({ row }) => {
       const document = row.original
+      const type = getDocumentType(row.original)
+
+      const downloadButton =
+        type.toLowerCase() === DocumentType.E_SIGN ? (
+          <ButtonDownloadESignDocument
+            id={document.id}
+            documentName={document.name}
+          >
+            <div className="flex items-center">
+              <FileDown className="w-6 h-6 p-0.5" />
+            </div>
+          </ButtonDownloadESignDocument>
+        ) : (
+          <DownloadDocumentButton
+            documentId={document.id}
+            fileName={document.name}
+          />
+        )
 
       return (
-        <div className="flex content-end justify-end items-center gap-2">
+        <div className="flex content-end justify-end items-center gap-2 text-gray-500">
           <FeatureRenderer featureKey={FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT}>
-            <DownloadDocumentButton
-              documentId={document.id}
-              fileName={document.name}
-              className="text-gray-500"
-            />
+            {downloadButton}
           </FeatureRenderer>
 
-          <Button variant="ghost" size="icon" className="text-gray-500">
+          <Button variant="ghost" size="icon">
             <ArrowRight className="w-5 h-5" />
           </Button>
         </div>

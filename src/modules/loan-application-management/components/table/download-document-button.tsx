@@ -46,7 +46,7 @@ export const DownloadDocumentButton = ({
         <TooltipTrigger asChild>
           <ButtonLoading
             variant="ghost"
-            size={text ? "sm" : "icon"}
+            size="sm"
             onClick={handleDownloadDocument}
             isLoading={downloadFile.isLoading}
             disabled={disabled}

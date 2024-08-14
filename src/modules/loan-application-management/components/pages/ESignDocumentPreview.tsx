@@ -1,19 +1,22 @@
 import { AppAlert } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
+import { SEARCH_PARAM_KEY } from "@/constants/routes.constants"
 import { FeatureKey } from "@/hooks/useCanAccess"
+import { ButtonDownloadESignDocument } from "@/modules/loan-application/components/atoms/ButtonDownloadESignDocument"
+import { useGetESignDocumentBlob } from "@/modules/loan-application/hooks/useESign/useGetESignDocumentBlob"
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
-import { useParams } from "react-router-dom"
-import { useQueryDownloadDocumentForOfficer } from "../../hooks/useQuery/useQueryDownloadDocumentForOfficer"
+import { FileDown } from "lucide-react"
+import { useParams, useSearchParams } from "react-router-dom"
 import { PDFDocument } from "../atoms/PDFDocument"
 import { BackButton } from "../molecules/documents/BackButton"
-import { DownloadDocumentButton } from "../table/download-document-button"
 
-const PDFDocumentPreview = () => {
+export const ESignDocumentPreview = () => {
   const params = useParams()
+  const [search] = useSearchParams()
+  const fileName = search.get(SEARCH_PARAM_KEY.DOCUMENT_NAME) ?? ""
 
-  const downloadFile = useQueryDownloadDocumentForOfficer({
-    documentId: params.documentId,
-    preventCacheCount: -1 // Not effect flow download document
+  const downloadFile = useGetESignDocumentBlob({
+    id: params.documentId
   })
 
   if (downloadFile.isLoading)
@@ -38,11 +41,15 @@ const PDFDocumentPreview = () => {
         <BackButton />
 
         <FeatureRenderer featureKey={FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT}>
-          <DownloadDocumentButton
-            documentId={params.documentId}
-            fileName="detail_document"
-            text="Download document"
-          />
+          <ButtonDownloadESignDocument
+            id={params.documentId}
+            documentName={fileName}
+          >
+            <div className="flex items-center">
+              <span className="mr-1">Download document</span>
+              <FileDown className="w-6 h-6 p-0.5" />
+            </div>
+          </ButtonDownloadESignDocument>
         </FeatureRenderer>
       </div>
 
@@ -50,5 +57,3 @@ const PDFDocumentPreview = () => {
     </div>
   )
 }
-
-export default PDFDocumentPreview

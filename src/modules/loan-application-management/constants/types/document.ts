@@ -111,7 +111,8 @@ export enum DocumentType {
   CERTIFICATE_OF_GOOD_STANDING = "certificate_of_good_standing",
   FICTITIOUS_NAME_CERTIFICATION = "fictitious_name_certification",
   ARTICLES_OF_ORGANIZATION_AND_OPERATING_AGREEMENT = "articles_of_organization_and_operating_agreement",
-  BY_LAWS = "by_laws"
+  BY_LAWS = "by_laws",
+  E_SIGN = "e_sign"
 }
 
 export type AuthenticityType = {

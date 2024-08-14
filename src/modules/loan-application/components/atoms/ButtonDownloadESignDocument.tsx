@@ -2,7 +2,8 @@ import { ButtonLoading } from "@/components/ui/button"
 import { useDownloadESignDocument } from "../../hooks/useESign/useDownloadESignDocument"
 
 interface IButtonDownloadESignDocumentProps {
-  documentId: string
+  documentId?: string
+  id?: string
   className?: string
   documentName?: string
 }
@@ -11,12 +12,18 @@ export const ButtonDownloadESignDocument = ({
   documentId,
   className,
   documentName,
+  id,
   children
 }: React.PropsWithChildren<IButtonDownloadESignDocumentProps>) => {
   const downloadMutate = useDownloadESignDocument()
-  const handleDownloadESignDocument = async () => {
-    if (documentId) {
+  const handleDownloadESignDocument = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation()
+
+    if (documentId || id) {
       await downloadMutate.mutateAsync({
+        id,
         documentId: documentId,
         documentName: documentName
       })

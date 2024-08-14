@@ -5,10 +5,11 @@ import { useQueryDocument } from "../../hooks/useQuery/useQueryDocument"
 
 import { ButtonLoading } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
+import { SEARCH_PARAM_KEY } from "@/constants/routes.constants"
 import { LoanDocument } from "@/types/loan-document.type"
 import { PaginationState, Row } from "@tanstack/react-table"
 import { useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { createSearchParams, useNavigate, useParams } from "react-router-dom"
 import { DocumentTableHeader } from "../table/document-header"
 
 export function Component() {
@@ -22,12 +23,18 @@ export function Component() {
   })
 
   const handleClickDetail = (detail: Row<LoanDocument>) => {
-    navigate(
-      APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.detail(
+    const document = detail.original
+
+    navigate({
+      pathname: APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.detail(
         LoanApplicationID!,
         detail.original.id
-      )
-    )
+      ),
+      search: createSearchParams({
+        [SEARCH_PARAM_KEY.DOCUMENT_TYPE]: document.type,
+        [SEARCH_PARAM_KEY.DOCUMENT_NAME]: document.name
+      }).toString()
+    })
   }
 
   const { data, isFetching, refetch } = useQueryDocument({

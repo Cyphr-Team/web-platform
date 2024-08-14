@@ -10,7 +10,8 @@ const ENDPOINTS = {
 }
 
 const E_SIGN_QUERY_KEYS = {
-  documentStatus: "status"
+  documentStatus: "status",
+  pdfDocument: "pdfDocument"
 }
 
 export const E_SIGN_CLIENT = {
