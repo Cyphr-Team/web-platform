@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table"
 
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { toCurrency } from "@/utils"
+import { snakeCaseToText, toCurrency } from "@/utils"
 import {
   ColumnDef,
   flexRender,
@@ -49,7 +49,11 @@ const columns: ColumnDef<DebtScheduleType>[] = [
     ),
     cell: ({ row }) => {
       const account = row.original
-      return <p className="truncate text-left">{account.loanType}</p>
+      return (
+        <p className="truncate text-left capitalize">
+          {snakeCaseToText(account.loanType)}
+        </p>
+      )
     }
   },
   {

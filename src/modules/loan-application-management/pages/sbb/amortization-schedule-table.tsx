@@ -24,13 +24,17 @@ import {
   FullAmortizationResponse,
   PaymentDetail
 } from "../../constants/types/debt-schedule.type"
+import { DebtSchedulePdf } from "./debt-schedule-pdf"
+import { ButtonLoading } from "@/components/ui/button"
+import { getPDF } from "@/modules/loan-application/services/pdf.service"
+import { useRef, useState } from "react"
 
-type AmortizationScheduleType = {
+export type AmortizationScheduleType = {
   date: string
   data: Omit<PaymentDetail, "month">
 }
-const enum PAYMENT {
-  OPENING_PAYMENT = "openingPayment",
+export const enum PAYMENT {
+  OPENING_BALANCE = "openingBalance",
   TOTAL_PAYMENT = "totalPayment",
   INTEREST_PAYMENT = "interestPayment",
   PRINCIPAL_PAYMENT = "principalPayment",
@@ -39,7 +43,7 @@ const enum PAYMENT {
 
 const columns: ColumnDef<AmortizationScheduleType>[] = [
   {
-    id: PAYMENT.OPENING_PAYMENT,
+    id: PAYMENT.OPENING_BALANCE,
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
@@ -163,7 +167,10 @@ const TableData = ({
                   </TableHead>
                   {data.map((row) => {
                     return (
-                      <TableCell className="text-red-500 !min-w-52 border-l text-center">
+                      <TableCell
+                        key={row.date}
+                        className="text-red-500 !min-w-52 border-l text-center"
+                      >
                         (
                         {roundAndConvertToUSLocale(get(row.data, header.id, 0))}
                         )
@@ -179,7 +186,10 @@ const TableData = ({
               Closing Balance
             </TableHead>
             {data.map((row) => (
-              <TableCell className="text-sm font-medium !w-52 border-l text-center">
+              <TableCell
+                className="text-sm font-medium !w-52 border-l text-center"
+                key={row.date}
+              >
                 {toCurrency(row.data.closingBalance, 0)}
               </TableCell>
             ))}
@@ -197,7 +207,10 @@ const AmortizationScheduleTableUnit = ({
   createdDate: string
 }) =>
   fullAmortization?.amortizationSchedule.map((entry) => (
-    <div className="rounded-md border relative max-h-full overflow-auto">
+    <div
+      className="rounded-md border relative max-h-full overflow-auto"
+      key={entry.createdAt}
+    >
       <TableData
         data={entry.paymentDetail.map((detail) => ({
           //We plus the number of months to the started date to calculate the current date
@@ -209,6 +222,7 @@ const AmortizationScheduleTableUnit = ({
     </div>
   ))
 export const AmortizationScheduleTable = () => {
+  const [isExporting, setIsExporting] = useState(false)
   const { fullAmortization } = useLoanApplicationDetailContext()
 
   const totalMonthlyPayment = fullAmortization?.totalMonthlyPayment
@@ -218,9 +232,45 @@ export const AmortizationScheduleTable = () => {
       fullAmortization?.amortizationSchedule.map((entry) => entry.createdAt)
     ) ?? new Date().toDateString()
 
+  const elementToExportRef = useRef<Partial<Record<string, HTMLDivElement>>>({})
+
+  const exportToPdf = async () => {
+    try {
+      setIsExporting(true)
+      if (elementToExportRef.current) {
+        const { pdf } = await getPDF(
+          Object.values(elementToExportRef.current).filter(
+            (element) => element !== undefined
+          ) as HTMLDivElement[],
+          true
+        )
+
+        pdf.save(`amortization_schedule_${new Date().valueOf()}.pdf`)
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsExporting(false)
+    }
+  }
+
   return (
     <div className="flex flex-col gap-6 ">
-      <p className="text-2xl font-semibold ">Amortization Schedule</p>
+      <div className="flex justify-between">
+        <p className="text-2xl font-semibold">Amortization Schedule</p>
+        <ButtonLoading isLoading={isExporting} onClick={exportToPdf}>
+          Export
+        </ButtonLoading>
+      </div>
+
+      <div className="hidden">
+        <DebtSchedulePdf
+          amortization={fullAmortization}
+          itemsRef={elementToExportRef}
+          createdDate={createdDate}
+        />
+      </div>
+
       <AmortizationScheduleTableUnit
         fullAmortization={fullAmortization}
         createdDate={createdDate}

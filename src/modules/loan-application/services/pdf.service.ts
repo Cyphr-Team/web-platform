@@ -8,9 +8,14 @@ import jsPDF from "jspdf"
  *
  * @see addContentToPdf
  */
+
+const PAGE_WIDTH = 210
+const PAGE_HEIGHT = 297
+
 const processContent = async (
   doc: jsPDF,
   content: HTMLElement,
+  hasFooter = false,
   addPage = true
 ): Promise<number> => {
   let totalPage = 0
@@ -20,6 +25,24 @@ const processContent = async (
     clonedContent.style.width = "1200px"
     document.body.appendChild(clonedContent)
     totalPage = await addContentToPdf(doc, clonedContent)
+
+    if (hasFooter) {
+      // Add footer to page
+      doc.setFontSize(10)
+
+      // Add a line to separate
+      doc.setLineWidth(0.5)
+      doc.setDrawColor(234, 236, 240) // Set color to grey
+
+      // Draw a line at the bottom of the page to separate content and footer
+
+      doc.line(20, PAGE_HEIGHT - 10, PAGE_WIDTH - 20, PAGE_HEIGHT - 10)
+      doc.text(
+        `Page ${doc.internal.pages.length - 1}`,
+        PAGE_WIDTH - 110,
+        PAGE_HEIGHT - 5
+      )
+    }
     // Add a new page for the next image
     if (addPage) doc.addPage()
   } catch (e) {
@@ -69,7 +92,8 @@ const addContentToPdf = async (
 }
 
 export const getPDF = async (
-  pdfElements: HTMLDivElement[]
+  pdfElements: HTMLDivElement[],
+  hasFooter?: boolean
 ): Promise<{ pdf: jsPDF; totalPage: number }> => {
   if (!pdfElements.length) return { pdf: new jsPDF(), totalPage: 0 }
 
@@ -86,10 +110,10 @@ export const getPDF = async (
     const content = pdfElements[idx]
     if (!content) continue
     if (idx == pdfElements.length - 1) {
-      const processedPage = await processContent(doc, content, false)
+      const processedPage = await processContent(doc, content, hasFooter, false)
       totalPage += processedPage
     } else {
-      const processedPage = await processContent(doc, content)
+      const processedPage = await processContent(doc, content, hasFooter)
       totalPage += processedPage
     }
   }

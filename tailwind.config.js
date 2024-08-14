@@ -110,7 +110,8 @@ module.exports = {
           foreground: "hsl(var(--text-foreground))",
           secondary: "hsl(var(--text-secondary))",
           tertiary: "hsl(var(--text-tertiary))",
-          senary: "hsl(var(--text-senary))"
+          senary: "hsl(var(--text-senary))",
+          primary: "hsl(var(--text-primary))"
         },
         nav: {
           active: "#EEFFC0"

@@ -16,7 +16,7 @@ interface AmortizationSchedule {
   lenderName: string
 }
 
-interface TotalMonthlyPayment {
+export interface TotalMonthlyPayment {
   month: number
   amount: number
 }

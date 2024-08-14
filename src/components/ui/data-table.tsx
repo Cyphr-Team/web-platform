@@ -26,19 +26,19 @@ import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
 import { ReactNode, useState } from "react"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  isFilterView?: boolean
-  handleClickDetail?: (row: Row<TData>) => void
-  pagination?: PaginationState
-  sorting?: SortingState
-  setPagination?: OnChangeFn<PaginationState>
-  setSorting?: OnChangeFn<SortingState>
-  total: number
-  isLoading?: boolean
-  tableContainerClassName?: string
-  manualSorting?: boolean
-  headerFilter?: (table: TableType<TData>) => ReactNode
+  readonly columns: ColumnDef<TData, TValue>[]
+  readonly data: TData[]
+  readonly isFilterView?: boolean
+  readonly handleClickDetail?: (row: Row<TData>) => void
+  readonly pagination?: PaginationState
+  readonly sorting?: SortingState
+  readonly setPagination?: OnChangeFn<PaginationState>
+  readonly setSorting?: OnChangeFn<SortingState>
+  readonly total: number
+  readonly isLoading?: boolean
+  readonly tableContainerClassName?: string
+  readonly manualSorting?: boolean
+  readonly headerFilter?: (table: TableType<TData>) => ReactNode
 }
 
 export function DataTable<TData, TValue>({
