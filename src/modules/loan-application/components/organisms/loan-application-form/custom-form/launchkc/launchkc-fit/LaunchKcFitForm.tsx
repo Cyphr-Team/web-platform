@@ -34,6 +34,7 @@ import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { questions } from "./constants"
+import { useUpdateEffect } from "react-use"
 
 export const LaunchKCFitForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -68,6 +69,10 @@ export const LaunchKCFitForm = () => {
     })
     finishCurrentStep()
   }
+  // Update form values when launchKcFitForm changes
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [launchKcFitForm])
 
   useEffect(() => {
     if (form.formState.isValidating) {

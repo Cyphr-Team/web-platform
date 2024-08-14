@@ -21,6 +21,7 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { questions } from "./contants"
+import { useUpdateEffect } from "react-use"
 
 export const MarketOpportunityForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -51,6 +52,11 @@ export const MarketOpportunityForm = () => {
     })
     finishCurrentStep()
   }
+
+  // Update form values when marketOpportunityForm changes
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [marketOpportunityForm])
 
   useEffect(() => {
     if (form.formState.isValidating) {

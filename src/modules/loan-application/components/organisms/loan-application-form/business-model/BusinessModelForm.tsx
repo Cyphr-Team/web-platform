@@ -24,6 +24,7 @@ import { SelectInput } from "@/shared/organisms/form/SelectInput"
 
 import { questions, strategies } from "./constants"
 import { TextInput } from "@/shared/organisms/form/TextInput.tsx"
+import { useUpdateEffect } from "react-use"
 
 export const BusinessModelForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -47,6 +48,11 @@ export const BusinessModelForm = () => {
     mode: "onChange",
     defaultValues
   })
+
+  // Update form values when launchKcFitForm changes
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [businessModelForm])
 
   const onSubmit = (data: BusinessModelFormValue) => {
     dispatchFormAction({

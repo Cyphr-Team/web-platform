@@ -38,6 +38,7 @@ import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/t
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useUpdateEffect } from "react-use"
 
 export function OwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -92,6 +93,11 @@ export function OwnerInformationForm() {
     })
     finishCurrentStep()
   }
+
+  // Update form values when ownerInformationForm changes
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [ownerInformationForm])
 
   useEffect(() => {
     if (city) {

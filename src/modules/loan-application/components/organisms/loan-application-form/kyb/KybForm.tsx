@@ -33,6 +33,7 @@ import { EIN_PATTERN } from "@/constants"
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useUpdateEffect } from "react-use"
 
 export const BusinessInformationForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -74,6 +75,10 @@ export const BusinessInformationForm = () => {
     })
     finishCurrentStep()
   }
+  // Update form values when businessInformation changes
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [businessInformation])
 
   useEffect(() => {
     if (city) {

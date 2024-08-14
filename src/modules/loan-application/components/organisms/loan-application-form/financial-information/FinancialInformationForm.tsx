@@ -37,6 +37,7 @@ import { useEffect } from "react"
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useUpdateEffect } from "react-use"
 
 export const FinancialInformationForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -46,15 +47,22 @@ export const FinancialInformationForm = () => {
     dispatchFormAction,
     dispatchDocumentAction
   } = useLoanApplicationFormContext()
+  const defaultValues = {
+    id: financialInformationForm?.id ?? "",
+    incomeCategories: financialInformationForm?.incomeCategories ?? [],
+    w2sFile: financialInformationForm?.w2sFile ?? []
+  }
+
   const form = useForm<FinancialFormValue>({
     resolver: zodResolver(financialFormSchema),
-    defaultValues: {
-      id: financialInformationForm?.id ?? "",
-      incomeCategories: financialInformationForm?.incomeCategories ?? [],
-      w2sFile: financialInformationForm?.w2sFile ?? []
-    },
+    defaultValues,
     mode: "onChange"
   })
+
+  // Update form values when financialInformationForm changes
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [financialInformationForm])
 
   const incomeCategories = useQueryGetIncomeCategories()
   const items = incomeCategories.data?.map((val) => ({

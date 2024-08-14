@@ -33,6 +33,7 @@ import {
   questions
 } from "./constants"
 import { isEnableExecutionFormNewMonthlyExpense } from "@/utils/feature-flag.utils.ts"
+import { useUpdateEffect } from "react-use"
 
 export const ExecutionForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -82,6 +83,12 @@ export const ExecutionForm = () => {
     })
     finishCurrentStep()
   }
+
+  // Update form values when productServiceForm changes
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [executionForm])
+
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()

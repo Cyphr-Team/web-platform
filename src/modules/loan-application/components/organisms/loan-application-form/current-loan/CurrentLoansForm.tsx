@@ -38,6 +38,7 @@ import { ArrowRight, Plus } from "lucide-react"
 import React, { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { CurrentLoansFormItem } from "../../../molecules/CurrentLoansFormItem"
+import { useUpdateEffect } from "react-use"
 
 export const CurrentLoansForm = () => {
   const { dispatchFormAction, currentLoansForm } =
@@ -57,6 +58,11 @@ export const CurrentLoansForm = () => {
     defaultValues,
     mode: "onBlur"
   })
+
+  // Update form values when currentLoansForm changes
+  useUpdateEffect(() => {
+    form.reset(defaultValues)
+  }, [currentLoansForm])
 
   const currentLoansWatch = form.watch("currentLoans")
   const hasOutstandingLoansWatch = form.watch("hasOutstandingLoans")
