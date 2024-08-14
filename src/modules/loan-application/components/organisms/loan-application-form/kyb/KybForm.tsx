@@ -183,7 +183,7 @@ export const BusinessInformationForm = () => {
           />
           <RHFMaskInput
             className="col-span-3"
-            name="inessTin"
+            name="businessTin"
             label="EIN"
             placeholder="i.e: 12-3456789"
             pattern={EIN_PATTERN}
