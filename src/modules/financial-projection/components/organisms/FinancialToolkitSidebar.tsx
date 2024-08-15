@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils.ts"
-import { FC, memo, PropsWithChildren, useState } from "react"
+import { FC, memo, PropsWithChildren, useCallback, useState } from "react"
 import {
   Accordion,
   AccordionContent,
@@ -8,9 +8,11 @@ import {
 } from "@/components/ui/accordion.tsx"
 import {
   GROUPED_FINANCIAL_ITEM,
-  INPUT_GROUP
+  INPUT_GROUP,
+  SCREEN
 } from "@/modules/financial-projection/constants"
 import { Separator } from "@/components/ui/separator.tsx"
+import { useFinancialToolkitStore } from "@/modules/financial-projection/store/useFinancialToolkitStore.ts"
 
 interface Props {}
 
@@ -19,15 +21,20 @@ const FinancialToolkitSidebar: FC<Props> = () => {
     INPUT_GROUP.PROFIT_AND_LOST
   ])
 
+  const handleSetAccordion = useCallback(
+    (opens: string[]) => {
+      setAccordionValue(opens as INPUT_GROUP[])
+    },
+    [setAccordionValue]
+  )
+
   return (
     <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4 max-h-[50vh] md:max-h-full">
       <Accordion
         type="multiple"
         className="w-full flex flex-col gap-2"
         value={accordionValue}
-        onValueChange={(opens) => {
-          setAccordionValue(opens as INPUT_GROUP[])
-        }}
+        onValueChange={handleSetAccordion}
       >
         {Object.keys(GROUPED_FINANCIAL_ITEM).map((section) => (
           <CollapsibleItem label={section} key={section}>
@@ -73,12 +80,14 @@ const CollapsibleItem: FC<CollapsibleItemProps> = ({ label, children }) => {
 }
 
 const FormTabItem = ({ label }: { label: string }) => {
-  // TODO: handle active with zustand store
-  const active = false
+  const currentScreen = useFinancialToolkitStore.use.currentScreen()
+  const { setCurrentScreen } = useFinancialToolkitStore.use.action()
+
+  const active = currentScreen === label
 
   const handleChangeStep = () => {
     if (!active) {
-      console.log("Change Step with store")
+      setCurrentScreen(label as SCREEN)
     }
   }
 

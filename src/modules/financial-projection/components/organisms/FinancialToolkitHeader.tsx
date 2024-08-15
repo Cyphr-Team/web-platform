@@ -2,11 +2,22 @@ import { cn } from "@/lib/utils.ts"
 import { Button, ButtonLoading } from "@/components/ui/button.tsx"
 import { CloseWithoutSave } from "@/modules/loan-application/components/atoms/CloseWithoutSave.tsx"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
-import { FC, memo } from "react"
+import { FC, memo, useCallback } from "react"
+import { SCREEN } from "@/modules/financial-projection/constants"
+import { useFinancialToolkitStore } from "@/modules/financial-projection/store/useFinancialToolkitStore.ts"
 
 interface Props {}
 
 const FinancialToolkitHeader: FC<Props> = () => {
+  const { setCurrentScreen } = useFinancialToolkitStore.use.action()
+
+  const handleSetCurrentScreen = useCallback(
+    (target: SCREEN) => () => {
+      setCurrentScreen(target)
+    },
+    [setCurrentScreen]
+  )
+
   return (
     <nav
       className={cn(
@@ -15,10 +26,16 @@ const FinancialToolkitHeader: FC<Props> = () => {
       )}
     >
       <div className="flex items-center gap-2 min-w-20">
-        <Button>Assumptions</Button>
-        <Button>Income</Button>
-        <Button>Balance</Button>
-        <Button>Cash Flow</Button>
+        <Button onClick={handleSetCurrentScreen(SCREEN.ASSUMPTIONS)}>
+          Assumptions
+        </Button>
+        <Button onClick={handleSetCurrentScreen(SCREEN.INCOME)}>Income</Button>
+        <Button onClick={handleSetCurrentScreen(SCREEN.BALANCE)}>
+          Balance
+        </Button>
+        <Button onClick={handleSetCurrentScreen(SCREEN.CASH_FLOW)}>
+          Cash Flow
+        </Button>
       </div>
       <div className="flex gap-2">
         <CloseWithoutSave />

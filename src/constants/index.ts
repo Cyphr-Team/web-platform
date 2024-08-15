@@ -412,6 +412,12 @@ export const API_PATH = {
     detail: (id: string) =>
       `api/admin/whitelist-user/by-feature-flag-id?id=${id}`,
     update: () => "api/admin/whitelist-user"
+  },
+  financialProjection: {
+    company: {
+      // TODO: fix this
+      list: "api/financial-projection/company"
+    }
   }
 }
 
