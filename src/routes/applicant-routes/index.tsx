@@ -15,7 +15,6 @@ import { LoanProgressProvider } from "@/modules/loan-application/providers/LoanP
 import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider"
 import { PlaidProvider } from "@/modules/loan-application/providers/PlaidProvider"
 import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
-import { isEnableFinancialProjection } from "@/utils/feature-flag.utils.ts"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -56,12 +55,10 @@ const applicantRoutes = (
         path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}
         lazy={() => import("@/modules/loan-application/pages/LoanApplications")}
       />
-      {isEnableFinancialProjection() && (
-        <Route
-          path={APP_PATH.LOAN_APPLICATION.FINANCIALS.INDEX}
-          element={<FinancialToolkitPage />}
-        />
-      )}
+      <Route
+        path={APP_PATH.LOAN_APPLICATION.FINANCIAL.index}
+        element={<FinancialToolkitPage />}
+      />
     </Route>
 
     {/* --- NOTIFICATION --- */}

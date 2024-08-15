@@ -6,7 +6,7 @@ import { Bell } from "lucide-react"
 import { BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
 import { FeatureKey } from "@/hooks/useCanAccess"
-import { isEnableFinancialProjection } from "@/utils/feature-flag.utils.ts"
+import { FEATURE_FLAGS } from "@/constants/feature-flag.constants.ts"
 
 export const navItems: NavItem[] = [
   {
@@ -24,12 +24,12 @@ export const navItems: NavItem[] = [
     featureKey: FeatureKey.APPLICANT_APPLICATION
   },
   {
-    title: "Financials",
-    href: APP_PATH.LOAN_APPLICATION.FINANCIALS.INDEX,
-    icon: Icons.financials,
-    label: "Financials",
+    title: "Financial",
+    href: APP_PATH.LOAN_APPLICATION.FINANCIAL.index,
+    icon: Icons.financial,
+    label: "Financial",
     featureKey: FeatureKey.FINANCIAL,
-    disabled: !isEnableFinancialProjection() // hide if not enable new feature
+    featureFlag: FEATURE_FLAGS.FINANCIAL_PROJECTION_TAB
   },
   {
     title: "Notifications",

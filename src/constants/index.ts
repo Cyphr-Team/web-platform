@@ -59,8 +59,10 @@ export const APP_PATH = {
       detail: "/loan/notifications/:id",
       details: (id: string) => `/loan/notifications/${id}`
     },
-    FINANCIALS: {
-      INDEX: "/loan/financials"
+    FINANCIAL: {
+      index: "/loan/financial",
+      detail: "/loan/financial/:id",
+      details: (id: string) => `/loan/financial/${id}`
     }
   },
 
