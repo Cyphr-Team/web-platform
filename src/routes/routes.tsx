@@ -12,7 +12,6 @@ import { authenticationRoutes } from "./authentication-routes"
 import { dashboardRoutes } from "./dashboard-routes"
 import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
 import { featureFlagsPublicLoader, institutionLoader } from "./loader"
-import { financialProjectionRoute } from "@/routes/financial-projection-routes"
 
 /**
  * App routes ("/").
@@ -46,8 +45,6 @@ const routes = createBrowserRouter(
 
         {/* BORROWER ONBOARDING ROUTES */}
         {applicantRoutes}
-
-        {financialProjectionRoute}
 
         <Route path="*" element={<NotFoundLayout />} />
       </Route>

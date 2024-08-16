@@ -3,12 +3,18 @@ import { CompanyTable } from "@/modules/financial-projection/components/organism
 import { FinancialCompany } from "@/modules/financial-projection/types"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Button } from "@/components/ui/button.tsx"
+import { useNavigate } from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
 interface Props {
   data: FinancialCompany[]
 }
 
 const FinancialToolkitTemplate = ({ data }: Props) => {
+  const navigate = useNavigate()
+  const navigateToCreateCompany = () => () => {
+    navigate(APP_PATH.LOAN_APPLICATION.FINANCIAL.company.create)
+  }
   return (
     <section className="w-full h-dvh text-center mt-10">
       <h2 className="text-3xl md:text-4xl font-semibold mb-6">
@@ -26,7 +32,9 @@ const FinancialToolkitTemplate = ({ data }: Props) => {
             toolkit
           </div>
         )}
-        <Button className="w-56 mr-10">Add new company</Button>
+        <Button className="w-56 mr-10" onClick={navigateToCreateCompany()}>
+          Add new company
+        </Button>
       </div>
     </section>
   )

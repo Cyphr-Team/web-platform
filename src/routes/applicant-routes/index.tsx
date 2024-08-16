@@ -15,6 +15,7 @@ import { LoanProgressProvider } from "@/modules/loan-application/providers/LoanP
 import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider"
 import { PlaidProvider } from "@/modules/loan-application/providers/PlaidProvider"
 import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { financialProjectionRoute } from "../financial-projection-routes"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -43,6 +44,7 @@ const applicantRoutes = (
     element={<ApplicantLayout />}
   >
     {availableLoanProgramRoutes}
+    {financialProjectionRoute}
 
     <Route
       element={

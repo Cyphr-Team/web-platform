@@ -30,6 +30,7 @@ export interface RHFTextInputProps<T extends FieldValues> {
 
   prefix?: string
   suffix?: string
+  description?: string
   required?: boolean
   prefixIcon?: React.ReactNode
   onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>

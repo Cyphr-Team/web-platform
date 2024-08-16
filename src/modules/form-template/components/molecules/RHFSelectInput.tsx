@@ -23,6 +23,7 @@ import {
   SelectTriggerProps
 } from "@radix-ui/react-select"
 import { memo } from "react"
+import { DescriptionTooltip } from "../atoms/DescriptionTooltip"
 
 type IOption = {
   value: string
@@ -36,6 +37,7 @@ export interface RHFSelectInputProps<T extends FieldValues> {
 
   placeholder?: string
   subtitle?: string
+  description?: string
 
   selectProps?: SelectProps
   selectTriggerProps?: SelectTriggerProps
@@ -62,6 +64,7 @@ const RHFSelectInput = <T extends FieldValues>(
     label,
     required,
     subtitle,
+    description,
     options,
     styleProps = {},
     disabled,
@@ -87,9 +90,14 @@ const RHFSelectInput = <T extends FieldValues>(
       render={({ field }) => (
         <FormItem className={className}>
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
-            <label>
+            <label className="items-center inline-flex">
               {label}
               {required && <RequiredSymbol />}
+              {description && (
+                <div className="ml-1">
+                  <DescriptionTooltip description={description} />
+                </div>
+              )}
             </label>
             {subtitle && (
               <p
