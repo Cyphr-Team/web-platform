@@ -21,20 +21,22 @@ const FinancialToolkitTemplate = ({ data }: Props) => {
         Welcome to Financial Toolkit
       </h2>
       <Separator />
-      <div className="flex flex-col justify-center items-end">
-        {data.length > 0 ? (
-          <div className="p-2 px-10 w-full">
-            <CompanyTable data={data} />
-          </div>
-        ) : (
-          <div className="text-xl md:text-2xl mb-6 p-2">
-            Welcome! Add your company to leverage Financial Projection from our
-            toolkit
-          </div>
-        )}
-        <Button className="w-56 mr-10" onClick={navigateToCreateCompany()}>
-          Add new company
-        </Button>
+      <div className="flex w-full justify-center">
+        <div className="flex flex-col justify-center items-end w-full max-w-screen-md">
+          {data.length > 0 ? (
+            <div className="p-2 px-10 w-full">
+              <CompanyTable data={data} />
+            </div>
+          ) : (
+            <div className="text-xl md:text-2xl mb-6 p-2">
+              Welcome! Add your company to leverage Financial Projection from
+              our toolkit
+            </div>
+          )}
+          <Button className="w-56 mr-10" onClick={navigateToCreateCompany()}>
+            Add new company
+          </Button>
+        </div>
       </div>
     </section>
   )

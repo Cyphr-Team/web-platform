@@ -1,8 +1,8 @@
-import { QUERY_KEY } from "@/modules/financial-projection/constants"
 import { useQuery } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type.ts"
 import { FinancialCompany } from "@/modules/financial-projection/types"
 import { useFinancialToolkitStore } from "@/modules/financial-projection/store/useFinancialToolkitStore.ts"
+import { QUERY_KEY } from "../constants/query-key"
 
 type QueryFinancialCompanyResponse = FinancialCompany[]
 

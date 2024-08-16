@@ -25,10 +25,6 @@ export const GROUPED_FINANCIAL_ITEM = {
   [INPUT_GROUP.REVIEW_AND_GENERATE]: ["Export Forecast For Use"]
 }
 
-export const QUERY_KEY = {
-  FINANCIAL_COMPANY: "FINANCIAL_COMPANY"
-}
-
 export const enum SCREEN {
   // [INPUT_GROUP.PROFIT_AND_LOST]
   INPUT_REVENUE = "Revenue",

@@ -16,7 +16,9 @@ const CompanyTable: FC<Props> = ({ data }) => {
 
   const onClickCompany = useCallback(
     (companyId: string) => () => {
-      replace(APP_PATH.LOAN_APPLICATION.FINANCIAL.details(companyId))
+      replace(
+        APP_PATH.LOAN_APPLICATION.FINANCIAL.company.scenarios.list(companyId)
+      )
     },
     [replace]
   )

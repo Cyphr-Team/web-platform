@@ -67,7 +67,12 @@ export const APP_PATH = {
         index: "/loan/financial/company",
         create: "/loan/financial/company/create",
         detail: "/loan/financial/company/:id",
-        details: (id: string) => `/loan/financial/company/${id}`
+        details: (id: string) => `/loan/financial/company/${id}`,
+        scenarios: {
+          index: "/loan/financial/company/:companyId/scenarios",
+          list: (companyId: string) =>
+            `/loan/financial/company/${companyId}/scenarios`
+        }
       }
     }
   },
@@ -422,7 +427,12 @@ export const API_PATH = {
   financialProjection: {
     company: {
       // TODO: fix this
-      list: "api/financial-projection/company"
+      list: "api/financial-projection/company",
+      scenario: {
+        create: "api/financial-projection/scenarios/create",
+        list: "api/financial-projection/scenarios/list",
+        update: "api/financial-projection/scenarios/update"
+      }
     }
   }
 }

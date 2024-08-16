@@ -15,3 +15,9 @@ export interface FinancialProjection {
   companyId: string
   name?: string
 }
+
+export interface FinancialScenario {
+  id: string
+  financialCompanyId: string
+  name: string
+}

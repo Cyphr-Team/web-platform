@@ -195,5 +195,33 @@ export const TOAST_MSG = {
     createFailed: {
       title: "Identity Verification failed"
     }
+  },
+  financialProjection: {
+    scenarios: {
+      createFailed: {
+        title: "Create scenario failed",
+        description: "Failed to create scenario"
+      },
+      updateFailed: {
+        title: "Update scenario failed",
+        description: "Failed to update scenario"
+      },
+      deleteFailed: {
+        title: "Delete scenario failed",
+        description: "Failed to delete scenario"
+      },
+      createSuccess: {
+        title: "Create scenario success",
+        description: "Scenario is created successfully"
+      },
+      updateSuccess: {
+        title: "Update scenario success",
+        description: "Scenario is updated successfully"
+      },
+      deleteSuccess: {
+        title: "Delete scenario success",
+        description: "Scenario is deleted successfully"
+      }
+    }
   }
 }

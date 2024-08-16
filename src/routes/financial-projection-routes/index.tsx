@@ -18,6 +18,13 @@ const CreateNewCompanyPage = lazy(
     )
 )
 
+const FinancialCompanyScenariosPage = lazy(
+  () =>
+    import(
+      "@/modules/financial-projection/components/pages/scenarios/FinancialCompanyScenariosPage"
+    )
+)
+
 export const financialProjectionRoute = (
   <Route path={APP_PATH.LOAN_APPLICATION.FINANCIAL.index}>
     <Route index element={<FinancialToolkitPage />} />
@@ -30,6 +37,10 @@ export const financialProjectionRoute = (
     <Route
       path={APP_PATH.LOAN_APPLICATION.FINANCIAL.company.create}
       element={<CreateNewCompanyPage />}
+    />
+    <Route
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.company.scenarios.index}
+      element={<FinancialCompanyScenariosPage />}
     />
   </Route>
 )
