@@ -100,7 +100,7 @@ export const BusinessInformationForm = () => {
   return (
     <Card
       className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6",
+        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
         "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
       id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}

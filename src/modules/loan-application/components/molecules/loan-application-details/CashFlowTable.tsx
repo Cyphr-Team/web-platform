@@ -60,7 +60,7 @@ export const CashFlowTable = () => {
   }, [isCashFlowNotReady])
 
   return (
-    <Card>
+    <Card className="shadow-none">
       <CardHeader className="mx-8 px-0 md:px-0 md:py-4">
         <div className="flex justify-between items-center flex-wrap gap-1">
           <CardTitle className="font-semibold text-lg flex items-center gap-3">

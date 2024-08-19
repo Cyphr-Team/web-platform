@@ -55,7 +55,7 @@ export const SbbCurrentLoanFormDetails = ({
   }
 
   return (
-    <Card className="p-5xl rounded-lg space-y-2 gap-x-4xl grid grid-cols-12 gap-y-2xl">
+    <Card className="p-5xl rounded-lg space-y-2 gap-x-4xl grid grid-cols-12 gap-y-2xl shadow-none">
       <div className="flex flex-row items-center justify-between col-span-12">
         <h5 className="text-md font-semibold">LOAN #{index + 1}</h5>
         {form

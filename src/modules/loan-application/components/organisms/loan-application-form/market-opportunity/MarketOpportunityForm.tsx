@@ -78,7 +78,7 @@ export const MarketOpportunityForm = () => {
     >
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
+          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none">
             <h5 className="text-lg font-semibold">Market Opportunity</h5>
             <Separator />
             <form className="flex flex-col gap-4xl">

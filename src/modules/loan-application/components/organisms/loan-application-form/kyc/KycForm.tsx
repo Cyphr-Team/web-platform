@@ -149,7 +149,7 @@ export function OwnerInformationForm() {
     >
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
+          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none">
             <h5 className="text-lg font-semibold">
               Owner / Guarantor Information
             </h5>

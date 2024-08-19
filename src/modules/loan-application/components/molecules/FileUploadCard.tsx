@@ -15,7 +15,7 @@ export const FileUploadCard: React.FC<Props> = ({
   handleRemoveFile
 }) => {
   return (
-    <Card className="p-xl gap-2xl flex" key={index}>
+    <Card className="p-xl gap-2xl flex shadow-none" key={index}>
       <img src={fileIcon} className="logo w-8 h-8" alt="file" />
       <div className="flex flex-col max-w-xs">
         <p className="text-sm truncate">{file.name}</p>

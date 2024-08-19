@@ -80,7 +80,7 @@ export const ProductServiceForm = () => {
   return (
     <div
       className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
+        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6 shadow-none",
         "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
     >

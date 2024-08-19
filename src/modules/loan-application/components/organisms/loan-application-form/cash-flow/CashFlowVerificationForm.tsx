@@ -36,7 +36,7 @@ export const CashFlowVerificationForm = () => {
         "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
       )}
     >
-      <Card className="flex flex-col gap-2xl p-4xl">
+      <Card className="flex flex-col gap-2xl p-4xl shadow-none">
         <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
         <Separator />
         <div className="flex flex-col gap-y-2xl gap-x-4xl">

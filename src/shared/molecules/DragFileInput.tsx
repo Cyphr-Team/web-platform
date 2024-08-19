@@ -60,7 +60,7 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
       <label htmlFor={id}>
         <Card
           data-drag={dragActive}
-          className="p-xl gap-lg flex flex-col items-center justify-content data-[drag='true']:border-primary cursor-pointer"
+          className="p-xl gap-lg flex flex-col items-center justify-content data-[drag='true']:border-primary cursor-pointer shadow-none"
         >
           <div className="border p-md rounded-md">
             <UploadCloud className="h-5 w-5" />

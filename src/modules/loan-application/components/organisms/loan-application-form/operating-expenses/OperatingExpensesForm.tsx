@@ -58,25 +58,7 @@ export const OperatingExpensesForm = () => {
       bankCharges: operatingExpensesForm?.bankCharges ?? 0,
       otherOperatingExpenses: operatingExpensesForm?.otherOperatingExpenses ?? 0
     }
-  }, [
-    operatingExpensesForm?.accountingFees,
-    operatingExpensesForm?.bankCharges,
-    operatingExpensesForm?.costOfGoodsSold,
-    operatingExpensesForm?.depreciation,
-    operatingExpensesForm?.duesAndSubscriptions,
-    operatingExpensesForm?.id,
-    operatingExpensesForm?.insurance,
-    operatingExpensesForm?.legalFees,
-    operatingExpensesForm?.maintenanceAndRepairs,
-    operatingExpensesForm?.officeSupplies,
-    operatingExpensesForm?.otherOperatingExpenses,
-    operatingExpensesForm?.payrollTaxes,
-    operatingExpensesForm?.rent,
-    operatingExpensesForm?.salariesAndWages,
-    operatingExpensesForm?.salesAndMarketingExpenses,
-    operatingExpensesForm?.travelAndEntertainment,
-    operatingExpensesForm?.utilities
-  ])
+  }, [operatingExpensesForm])
 
   const form = useForm<OperatingExpensesFormValue>({
     resolver: zodResolver(operatingExpensesFormSchema),
@@ -116,7 +98,7 @@ export const OperatingExpensesForm = () => {
     >
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
+          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none">
             <h5 className="text-lg font-semibold">
               Operating Expenses (monthly)
             </h5>
