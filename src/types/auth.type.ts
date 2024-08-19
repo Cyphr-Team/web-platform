@@ -15,4 +15,46 @@ interface ResendCodeResponse {
   email: string
 }
 
-export type { ResendCodeRequest, ResendCodeResponse }
+// -- STYTCH AUTH TYPES --
+interface StytchMember {
+  organizationId: string
+  memberId: string
+  mfaEnrolled: boolean
+  mfaPhoneNumber: string
+  mfaPhoneNumberVerified: boolean
+}
+
+interface StytchOrganization {
+  organizationId: string
+  organizationName: string
+  organizationSlug: string
+  mfaMethods: string
+}
+
+interface StytchPasswordAuthenticateResponse {
+  requestId: string
+  member: StytchMember
+  intermediateSessionToken: string
+}
+
+interface StytchSendOtpResponse {
+  requestId: string
+  memberId: string
+}
+
+interface StytchAuthOtpResponse {
+  requestId: string
+  memberId: string
+  sessionToken: string
+  sessionJwt: string
+}
+
+export type {
+  ResendCodeRequest,
+  ResendCodeResponse,
+  StytchMember,
+  StytchOrganization,
+  StytchSendOtpResponse,
+  StytchAuthOtpResponse,
+  StytchPasswordAuthenticateResponse
+}

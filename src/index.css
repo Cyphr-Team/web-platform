@@ -144,3 +144,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .break-world {
   word-break: break-word;
 }
+
+.shadow-primary {
+  box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.15);
+}
+
+.text-subtitle {
+  color: hsla(201, 24%, 23%, 1);
+}

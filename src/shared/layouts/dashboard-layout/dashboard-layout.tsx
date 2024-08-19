@@ -14,17 +14,14 @@ import {
   isEnableMultiFactorAuthentication,
   isEnableSignUpReorder
 } from "@/utils/feature-flag.utils"
-import { useVerifyStytchToken } from "@/hooks/useVerifyStytchToken"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
   const isInvalidToken = !useVerifyToken()
-  const isInvalidStytchToken = !useVerifyStytchToken()
   const { clearUserInfo } = useLogout()
 
   switch (true) {
-    case isEnableMultiFactorAuthentication() && isInvalidStytchToken:
-    case isInvalidToken:
+    case isEnableMultiFactorAuthentication() && isInvalidToken:
       clearUserInfo()
       return <Navigate to={APP_PATH.LOGIN} replace />
     case isLoanApplicant:

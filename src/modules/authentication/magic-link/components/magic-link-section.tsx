@@ -9,7 +9,6 @@ import { toastError } from "@/utils"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Mail } from "lucide-react"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
-import { inMemoryJWTService } from "@/services/jwt.service"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { SESSION_DURATION_MINUTES } from "../constants/session"
 
@@ -33,7 +32,6 @@ export function MagicLinkSection() {
           magic_links_token: searchParams.get("token") ?? "",
           session_duration_minutes: SESSION_DURATION_MINUTES
         })
-        inMemoryJWTService.transferRefreshToken()
         if (checkIsLoanApplicant()) {
           navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
         } else {

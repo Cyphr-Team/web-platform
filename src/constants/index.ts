@@ -18,6 +18,8 @@ export const APP_PATH = {
     detail: (email: string) => `/verify-email/${email}`,
     activateByToken: "/activation"
   },
+  SETUP_PHONE: "/setup-phone",
+  VERIFY_PHONE: "/verify-phone",
   MAGIC_LINK: "/magic-link",
   SETUP_PROFILE: "/setup-profile",
   ACCEPT_INVITE: "/accept-invite",
@@ -146,7 +148,11 @@ export const API_PATH = {
     acceptInvite: "api/users/public/invitation/accept"
   },
   login: {
-    loginBySocial: "login/social"
+    loginByPassword: "login",
+    loginBySocial: "login/social",
+    // MFA
+    sendSmsOtp: "login/send-sms-otp",
+    activateBySmsOtpCode: "login/sms"
   },
   admin: {
     user: {

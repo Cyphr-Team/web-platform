@@ -15,8 +15,9 @@ export const parseJwt = (token: string) => {
 }
 
 const REFRESH_TOKEN_LS_KEY = "cyphr-web-refresh_token"
-const REFRESH_TOKEN_TEMP_LS_KEY = "cyphr-web-temp_refresh_token"
 const USER_INFO_LS_KEY = "cyphr-web-user_info"
+export const INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY =
+  "cyphr-web-intermediate_session_token"
 
 export const inMemoryJWTManager = () => {
   let logoutEventName = "cyphr-web-logout"
@@ -37,21 +38,20 @@ export const inMemoryJWTManager = () => {
     localStorage.setItem(REFRESH_TOKEN_LS_KEY, token)
   }
 
-  const setTemporaryRefreshToken = (token: string) => {
-    refreshToken = token
-    localStorage.setItem(REFRESH_TOKEN_TEMP_LS_KEY, token)
+  /**
+   * Sets the intermediate session token in local storage.
+   * We would need to use it when MFA is enabled
+   * This is the connection token between First Factor and Second Factor
+   *
+   * @param {string} token - The intermediate session token to be set.
+   * @return {void}
+   */
+  const setIntermediateSessionToken = (token: string) => {
+    localStorage.setItem(INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY, token)
   }
 
-  /**
-   * Stytch MFA process requires a temporary refresh token (from our backend) to be stored in local storage.
-   * After the MFA process is completed, the temporary refresh token is transferred to the permanent storage.
-   * Then the temporary refresh token is removed from local storage. User are authenticated and redirected to the appropriate page.
-   */
-  const transferRefreshToken = () => {
-    const tempToken = localStorage.getItem(REFRESH_TOKEN_TEMP_LS_KEY) ?? ""
-    refreshToken = tempToken
-    localStorage.setItem(REFRESH_TOKEN_LS_KEY, tempToken)
-    localStorage.removeItem(REFRESH_TOKEN_TEMP_LS_KEY)
+  const clearIntermediateSessionToken = () => {
+    localStorage.deleteItem(INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY)
   }
 
   // The method makes a call to the refresh-token endpoint
@@ -117,6 +117,7 @@ export const inMemoryJWTManager = () => {
     refreshToken = ""
     localStorage.removeItem(REFRESH_TOKEN_LS_KEY)
     localStorage.removeItem(USER_INFO_LS_KEY)
+    localStorage.removeItem(INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY)
     inMemoryJWT = null
     userInfo = null
     window.localStorage.setItem(logoutEventName, String(Date.now()))
@@ -134,8 +135,8 @@ export const inMemoryJWTManager = () => {
     setLogoutEventName,
     setRefreshToken,
     getNewAccessToken,
-    setTemporaryRefreshToken,
-    transferRefreshToken
+    setIntermediateSessionToken,
+    clearIntermediateSessionToken
   }
 }
 

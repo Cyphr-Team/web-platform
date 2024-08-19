@@ -32,27 +32,31 @@ export function SetupProfileSection() {
   ) : null
 
   return (
-    <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
-      <div className="flex flex-col">
-        <div className="flex justify-center relative sm:-mx-8 mx-0">
-          {conditionAlert}
+    <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
+      <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
+        <div className="flex flex-col items-center">
+          <div className="flex justify-center relative sm:-mx-8 mx-0">
+            {conditionAlert}
+          </div>
+
+          <h1 className="text-3xl font-semibold tracking-tight mt-6">
+            Sign up
+          </h1>
+
+          <div className="text-muted-foreground mt-3">
+            <p>Start your loan application right away</p>
+          </div>
         </div>
 
-        <h1 className="text-3xl font-semibold tracking-tight mt-6">Sign up</h1>
+        <SetupProfileForm />
 
-        <div className="text-muted-foreground mt-3">
-          <p>Start your loan application right away</p>
-        </div>
+        <p className="px-8 text-center text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Button variant="link" className="p-0 text-primary" asChild>
+            <Link to={APP_PATH.LOGIN}>Log in</Link>
+          </Button>
+        </p>
       </div>
-
-      <SetupProfileForm />
-
-      <p className="px-8 text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
-        <Button variant="link" className="p-0 text-primary" asChild>
-          <Link to={APP_PATH.LOGIN}>Log in</Link>
-        </Button>
-      </p>
     </div>
   )
 }

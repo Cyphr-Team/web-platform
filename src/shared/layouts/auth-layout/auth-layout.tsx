@@ -27,7 +27,7 @@ export function AuthLayout() {
   if (checkLoggedIn) return <Loader2 className="animate-spin" />
 
   return (
-    <div>
+    <div className="bg-gradient-to-t from-[#b3f00d] to-60% to-white">
       <Outlet />
     </div>
   )
