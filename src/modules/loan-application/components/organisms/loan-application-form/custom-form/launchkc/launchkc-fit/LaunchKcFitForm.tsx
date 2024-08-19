@@ -30,35 +30,37 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { ArrowRight } from "lucide-react"
-import { useEffect } from "react"
+import { useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { questions } from "./constants"
-import { useUpdateEffect } from "react-use"
 
 export const LaunchKCFitForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { launchKcFitForm, dispatchFormAction, loanRequest } =
     useLoanApplicationFormContext()
 
-  const defaultValues = {
-    id: launchKcFitForm?.id ?? "",
-    loanApplicationId:
-      launchKcFitForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
-    referralSource: launchKcFitForm?.referralSource ?? "",
-    businessLocation: launchKcFitForm?.businessLocation ?? "",
-    founderTies: launchKcFitForm?.founderTies ?? "",
-    locationChoiceReason: launchKcFitForm?.locationChoiceReason ?? "",
-    impact: launchKcFitForm?.impact ?? "",
-    equityInclusion: launchKcFitForm?.equityInclusion ?? "",
-    applied: launchKcFitForm?.applied ?? false,
-    progress: launchKcFitForm?.progress ?? ""
-  }
+  const defaultValues = useMemo(
+    () => ({
+      id: launchKcFitForm?.id ?? "",
+      loanApplicationId:
+        launchKcFitForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
+      referralSource: launchKcFitForm?.referralSource ?? "",
+      businessLocation: launchKcFitForm?.businessLocation ?? "",
+      founderTies: launchKcFitForm?.founderTies ?? "",
+      locationChoiceReason: launchKcFitForm?.locationChoiceReason ?? "",
+      impact: launchKcFitForm?.impact ?? "",
+      equityInclusion: launchKcFitForm?.equityInclusion ?? "",
+      applied: launchKcFitForm?.applied ?? false,
+      progress: launchKcFitForm?.progress ?? ""
+    }),
+    [launchKcFitForm, loanRequest]
+  )
 
   const form = useForm<LaunchKCFitFormValue>({
     resolver: zodResolver(launchKcFitFormSchema),
     mode: "onChange",
-    defaultValues
+    values: defaultValues
   })
 
   const onSubmit = (data: LaunchKCFitFormValue) => {
@@ -69,21 +71,6 @@ export const LaunchKCFitForm = () => {
     })
     finishCurrentStep()
   }
-  // Update form values when launchKcFitForm changes
-  useUpdateEffect(() => {
-    form.reset(defaultValues)
-  }, [launchKcFitForm])
-
-  useEffect(() => {
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT,
-        state: data
-      })
-    }
-  }, [form.formState.isValidating, form, dispatchFormAction])
 
   // apply = true => progress must be fill
   // apply = false => don't care

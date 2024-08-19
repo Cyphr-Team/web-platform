@@ -34,7 +34,6 @@ import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { productServiceFormQuestions } from "./constants"
-import { useUpdateEffect } from "react-use"
 
 export const ProductServiceForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -53,13 +52,8 @@ export const ProductServiceForm = () => {
   const form = useForm<ProductServiceFormValue>({
     resolver: zodResolver(productServiceFormSchema),
     mode: "onBlur",
-    defaultValues
+    values: defaultValues
   })
-
-  // Update form values when productServiceForm changes
-  useUpdateEffect(() => {
-    form.reset(defaultValues)
-  }, [productServiceForm])
 
   const onSubmit = (data: ProductServiceFormValue) => {
     dispatchFormAction({

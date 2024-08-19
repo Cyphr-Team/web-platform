@@ -17,31 +17,34 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { questions } from "./contants"
-import { useUpdateEffect } from "react-use"
 
 export const MarketOpportunityForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { marketOpportunityForm, dispatchFormAction, loanRequest } =
     useLoanApplicationFormContext()
 
-  const defaultValues = {
-    id: marketOpportunityForm?.id ?? "",
-    loanApplicationId:
-      marketOpportunityForm?.loanApplicationId ??
-      loanRequest?.applicationId ??
-      "",
-    marketTarget: marketOpportunityForm?.marketTarget ?? "",
-    competitor: marketOpportunityForm?.competitor ?? "",
-    potentialCustomer: marketOpportunityForm?.potentialCustomer ?? ""
-  }
+  const defaultValues = useMemo(
+    () => ({
+      id: marketOpportunityForm?.id ?? "",
+      loanApplicationId:
+        marketOpportunityForm?.loanApplicationId ??
+        loanRequest?.applicationId ??
+        "",
+      marketTarget: marketOpportunityForm?.marketTarget ?? "",
+      competitor: marketOpportunityForm?.competitor ?? "",
+      potentialCustomer: marketOpportunityForm?.potentialCustomer ?? ""
+    }),
+    [marketOpportunityForm, loanRequest]
+  )
+
   const form = useForm<MarketOpportunityFormValue>({
     resolver: zodResolver(marketOpportunityFormSchema),
     mode: "onBlur",
-    defaultValues
+    values: defaultValues
   })
 
   const onSubmit = (data: MarketOpportunityFormValue) => {
@@ -52,11 +55,6 @@ export const MarketOpportunityForm = () => {
     })
     finishCurrentStep()
   }
-
-  // Update form values when marketOpportunityForm changes
-  useUpdateEffect(() => {
-    form.reset(defaultValues)
-  }, [marketOpportunityForm])
 
   useEffect(() => {
     if (form.formState.isValidating) {

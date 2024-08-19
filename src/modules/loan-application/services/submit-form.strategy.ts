@@ -81,6 +81,7 @@ import { ByLawsFormValue } from "@/modules/loan-application/components/organisms
 import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
 import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { useUploadSbbDocument } from "@/modules/loan-application/hooks/useForm/useSubmitSbbDocument.ts"
+import { revertPattern } from "@/components/ui/mask-input"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -186,7 +187,10 @@ export const useSubmitLoanForm = (
     )
   const { submitLoanKYBForm, isLoading: isSubmittingKYB } =
     useSubmitLoanKYBForm({
-      rawData: businessData,
+      rawData: {
+        ...businessData,
+        businessTin: revertPattern(businessData?.businessTin ?? "")
+      },
       onSuccess: updateKYBData
     })
   // KYC

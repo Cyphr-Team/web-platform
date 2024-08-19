@@ -14,7 +14,7 @@ import {
 } from "../../../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../../../hooks/useSelectCities"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { AutoCompleteStates } from "../../../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../../../molecules/AutoCompleteCities"
 import { revertPattern, toPattern } from "@/components/ui/mask-input"
@@ -26,7 +26,6 @@ import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/t
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
-import { useUpdateEffect } from "react-use"
 
 export const BusinessInformationForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -34,23 +33,26 @@ export const BusinessInformationForm = () => {
   const { businessInformation, dispatchFormAction } =
     useLoanApplicationFormContext()
 
-  const defaultValues = {
-    id: businessInformation?.id ?? "",
-    businessLegalName: businessInformation?.businessLegalName ?? "",
-    addressLine1: businessInformation?.addressLine1 ?? "",
-    addressLine2: businessInformation?.addressLine2 ?? "",
-    state: businessInformation?.state ?? "",
-    city: businessInformation?.city ?? "",
-    postalCode: businessInformation?.postalCode ?? "",
-    businessWebsite: businessInformation?.businessWebsite ?? "",
-    businessTin: businessInformation?.businessTin
-      ? toPattern(businessInformation?.businessTin)
-      : ""
-  }
+  const defaultValues = useMemo(
+    () => ({
+      id: businessInformation?.id ?? "",
+      businessLegalName: businessInformation?.businessLegalName ?? "",
+      addressLine1: businessInformation?.addressLine1 ?? "",
+      addressLine2: businessInformation?.addressLine2 ?? "",
+      state: businessInformation?.state ?? "",
+      city: businessInformation?.city ?? "",
+      postalCode: businessInformation?.postalCode ?? "",
+      businessWebsite: businessInformation?.businessWebsite ?? "",
+      businessTin: businessInformation?.businessTin
+        ? toPattern(businessInformation?.businessTin)
+        : ""
+    }),
+    [businessInformation]
+  )
 
   const form = useForm<BusinessFormValue>({
     resolver: zodResolver(businessFormSchema),
-    defaultValues,
+    values: defaultValues,
     mode: "onBlur"
   })
 
@@ -68,10 +70,6 @@ export const BusinessInformationForm = () => {
     })
     finishCurrentStep()
   }
-  // Update form values when businessInformation changes
-  useUpdateEffect(() => {
-    form.reset(defaultValues)
-  }, [businessInformation])
 
   useEffect(() => {
     if (city) {
@@ -96,20 +94,6 @@ export const BusinessInformationForm = () => {
       })
     }
   }, [form, state])
-
-  useEffect(() => {
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
-        state: {
-          ...data,
-          businessTin: revertPattern(data.businessTin)
-        }
-      })
-    }
-  }, [form.formState.isValidating, form, dispatchFormAction])
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
 

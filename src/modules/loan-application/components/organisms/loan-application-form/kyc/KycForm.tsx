@@ -27,7 +27,7 @@ import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight, Mail } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
 import { useSelectCities } from "../../../../hooks/useSelectCities"
@@ -45,32 +45,35 @@ export function OwnerInformationForm() {
   const { dispatchFormAction, ownerInformationForm } =
     useLoanApplicationFormContext()
 
-  const defaultValues = {
-    id: ownerInformationForm?.id ?? "",
-    fullName: ownerInformationForm?.fullName ?? "",
-    businessRole: ownerInformationForm?.businessRole ?? "",
-    addressLine1: ownerInformationForm?.addressLine1 ?? "",
-    addressLine2: ownerInformationForm?.addressLine2 ?? "",
-    businessState: ownerInformationForm?.businessState ?? "",
-    businessCity: ownerInformationForm?.businessCity ?? "",
-    phoneNumber: ownerInformationForm?.phoneNumber ?? "",
-    email: ownerInformationForm?.email ?? "",
-    dateOfBirth: ownerInformationForm?.dateOfBirth ?? "",
-    socialSecurityNumber: ownerInformationForm?.socialSecurityNumber
-      ? toPattern(ownerInformationForm?.socialSecurityNumber, SSN_PATTERN)
-      : "",
-    businessOwnershipPercentage:
-      ownerInformationForm?.businessOwnershipPercentage ?? "",
-    hasOtherSubstantialStackHolders:
-      ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
-      "false",
-    businessZipCode: ownerInformationForm?.businessZipCode ?? "",
-    governmentFile: ownerInformationForm?.governmentFile ?? []
-  }
+  const defaultValues = useMemo(
+    () => ({
+      id: ownerInformationForm?.id ?? "",
+      fullName: ownerInformationForm?.fullName ?? "",
+      businessRole: ownerInformationForm?.businessRole ?? "",
+      addressLine1: ownerInformationForm?.addressLine1 ?? "",
+      addressLine2: ownerInformationForm?.addressLine2 ?? "",
+      businessState: ownerInformationForm?.businessState ?? "",
+      businessCity: ownerInformationForm?.businessCity ?? "",
+      phoneNumber: ownerInformationForm?.phoneNumber ?? "",
+      email: ownerInformationForm?.email ?? "",
+      dateOfBirth: ownerInformationForm?.dateOfBirth ?? "",
+      socialSecurityNumber: ownerInformationForm?.socialSecurityNumber
+        ? toPattern(ownerInformationForm?.socialSecurityNumber, SSN_PATTERN)
+        : "",
+      businessOwnershipPercentage:
+        ownerInformationForm?.businessOwnershipPercentage ?? "",
+      hasOtherSubstantialStackHolders:
+        ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
+        "false",
+      businessZipCode: ownerInformationForm?.businessZipCode ?? "",
+      governmentFile: ownerInformationForm?.governmentFile ?? []
+    }),
+    [ownerInformationForm]
+  )
 
   const form = useForm<OwnerFormValue>({
     resolver: zodResolver(ownerFormSchema),
-    defaultValues,
+    values: defaultValues,
     mode: "onBlur"
   })
 

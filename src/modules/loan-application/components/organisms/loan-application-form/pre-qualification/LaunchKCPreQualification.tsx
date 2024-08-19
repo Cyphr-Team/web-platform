@@ -37,7 +37,6 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/useMutation/useCreateLoanApplicationMutation"
 import { LoanType } from "@/types/loan-program.type"
 import { options, questions } from "./constants"
-import { useUpdateEffect } from "react-use"
 
 export const PreQualificationForm = () => {
   const { finishCurrentStep, buildSpecificStep } =
@@ -72,12 +71,8 @@ export const PreQualificationForm = () => {
   const form = useForm<PreQualificationFormValue>({
     resolver: zodResolver(preQualificationSchema),
     mode: "onChange",
-    defaultValues
+    values: defaultValues
   })
-
-  useUpdateEffect(() => {
-    form.reset(defaultValues)
-  }, [defaultValues])
 
   // TODO: hide these complex logic like onSuccess into hooks
   const onConfirmed = useCallback(() => {

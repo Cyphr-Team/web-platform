@@ -17,42 +17,41 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
-import { useEffect } from "react"
+import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 
 import { questions, strategies } from "./constants"
 import { TextInput } from "@/shared/organisms/form/TextInput.tsx"
-import { useUpdateEffect } from "react-use"
 
 export const BusinessModelForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { businessModelForm, loanRequest, dispatchFormAction } =
     useLoanApplicationFormContext()
 
-  const defaultValues = {
-    id: businessModelForm?.id ?? "",
-    loanApplicationId:
-      businessModelForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
-    description: businessModelForm?.description ?? "",
-    annualPayroll: businessModelForm?.annualPayroll ?? "",
-    scalePlan: businessModelForm?.scalePlan ?? "",
-    totalRevenueRange: businessModelForm?.totalRevenueRange ?? "",
-    lastMonthRevenueRange: businessModelForm?.lastMonthRevenueRange ?? "",
-    lastYearRevenueRange: businessModelForm?.lastYearRevenueRange ?? ""
-  }
+  const defaultValues = useMemo(
+    () => ({
+      id: businessModelForm?.id ?? "",
+      loanApplicationId:
+        businessModelForm?.loanApplicationId ??
+        loanRequest?.applicationId ??
+        "",
+      description: businessModelForm?.description ?? "",
+      annualPayroll: businessModelForm?.annualPayroll ?? "",
+      scalePlan: businessModelForm?.scalePlan ?? "",
+      totalRevenueRange: businessModelForm?.totalRevenueRange ?? "",
+      lastMonthRevenueRange: businessModelForm?.lastMonthRevenueRange ?? "",
+      lastYearRevenueRange: businessModelForm?.lastYearRevenueRange ?? ""
+    }),
+    [businessModelForm, loanRequest]
+  )
 
   const form = useForm<BusinessModelFormValue>({
     resolver: zodResolver(businessModelFormSchema),
     mode: "onChange",
-    defaultValues
+    values: defaultValues
   })
-
-  // Update form values when launchKcFitForm changes
-  useUpdateEffect(() => {
-    form.reset(defaultValues)
-  }, [businessModelForm])
 
   const onSubmit = (data: BusinessModelFormValue) => {
     dispatchFormAction({
@@ -62,17 +61,6 @@ export const BusinessModelForm = () => {
     })
     finishCurrentStep()
   }
-
-  useEffect(() => {
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.BUSINESS_MODEL,
-        state: data
-      })
-    }
-  }, [form.formState.isValidating, form, dispatchFormAction])
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
 

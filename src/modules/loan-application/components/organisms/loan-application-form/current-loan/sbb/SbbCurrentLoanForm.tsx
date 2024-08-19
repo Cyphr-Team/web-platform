@@ -25,7 +25,7 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import _uniqueId from "lodash/uniqueId"
 import { ArrowRight, Plus } from "lucide-react"
-import React, { useEffect, useMemo } from "react"
+import React, { useMemo } from "react"
 import { Controller, ControllerRenderProps, useForm } from "react-hook-form"
 import {
   useLoanApplicationFormContext,
@@ -59,7 +59,7 @@ export const SBBCurrentLoanForm = () => {
 
   const form = useForm<SbbCurrentLoansFormValue>({
     resolver: zodResolver(sbbCurrentLoansFormSchema),
-    defaultValues,
+    values: defaultValues,
     mode: "onBlur"
   })
 
@@ -144,17 +144,6 @@ export const SBBCurrentLoanForm = () => {
     })
     finishCurrentStep()
   }
-
-  useEffect(() => {
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
-        state: data
-      })
-    }
-  }, [form.formState.isValidating, form, dispatchFormAction])
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.CURRENT_LOANS)
 

@@ -23,7 +23,6 @@ import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
-import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import {
   getOptionsByField,
@@ -33,46 +32,49 @@ import {
   questions
 } from "./constants"
 import { isEnableExecutionFormNewMonthlyExpense } from "@/utils/feature-flag.utils.ts"
-import { useUpdateEffect } from "react-use"
+import { useMemo } from "react"
 
 export const ExecutionForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { executionForm, dispatchFormAction, loanRequest } =
     useLoanApplicationFormContext()
 
-  const defaultValues = {
-    id: executionForm?.id ?? "",
-    loanApplicationId:
-      executionForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
-    monthlyExpenseRange: executionForm?.monthlyExpenseRange ?? "",
-    growthMetric: executionForm?.growthMetric ?? "",
-    recentMilestone: executionForm?.recentMilestone ?? "",
-    nextMilestone: executionForm?.nextMilestone ?? "",
-    greatestChallenge: executionForm?.greatestChallenge ?? "",
-    partnershipTypes: executionForm?.partnershipTypes ?? [],
-    businessStage: executionForm?.businessStage ?? "",
-    businessModels: executionForm?.businessModels ?? [],
-    businessModelsOtherText: executionForm?.businessModelsOtherText ?? "",
-    fundingSources: executionForm?.fundingSources ?? [
-      {
-        sourceType: "",
-        amount: ""
-      }
-    ],
-    founders: executionForm?.founders ?? [
-      {
-        name: "",
-        jobType: "",
-        background: "",
-        skill: ""
-      }
-    ]
-  }
+  const defaultValues = useMemo(
+    () => ({
+      id: executionForm?.id ?? "",
+      loanApplicationId:
+        executionForm?.loanApplicationId ?? loanRequest?.applicationId ?? "",
+      monthlyExpenseRange: executionForm?.monthlyExpenseRange ?? "",
+      growthMetric: executionForm?.growthMetric ?? "",
+      recentMilestone: executionForm?.recentMilestone ?? "",
+      nextMilestone: executionForm?.nextMilestone ?? "",
+      greatestChallenge: executionForm?.greatestChallenge ?? "",
+      partnershipTypes: executionForm?.partnershipTypes ?? [],
+      businessStage: executionForm?.businessStage ?? "",
+      businessModels: executionForm?.businessModels ?? [],
+      businessModelsOtherText: executionForm?.businessModelsOtherText ?? "",
+      fundingSources: executionForm?.fundingSources ?? [
+        {
+          sourceType: "",
+          amount: ""
+        }
+      ],
+      founders: executionForm?.founders ?? [
+        {
+          name: "",
+          jobType: "",
+          background: "",
+          skill: ""
+        }
+      ]
+    }),
+    [executionForm, loanRequest]
+  )
 
   const form = useForm<ExecutionFormValue>({
     resolver: zodResolver(executionFormSchema),
     mode: "onBlur",
-    defaultValues
+    values: defaultValues
   })
 
   const onSubmit = (data: ExecutionFormValue) => {
@@ -83,22 +85,6 @@ export const ExecutionForm = () => {
     })
     finishCurrentStep()
   }
-
-  // Update form values when productServiceForm changes
-  useUpdateEffect(() => {
-    form.reset(defaultValues)
-  }, [executionForm])
-
-  useEffect(() => {
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.EXECUTION,
-        state: data
-      })
-    }
-  }, [form.formState.isValidating, form, dispatchFormAction])
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EXECUTION)
 

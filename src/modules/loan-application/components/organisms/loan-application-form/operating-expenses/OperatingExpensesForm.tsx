@@ -29,7 +29,6 @@ import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/t
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { OPERATING_EXPENSES_FIELD_DATA } from "@/modules/loan-application/constants/type"
-import { useUpdateEffect } from "react-use"
 
 export const OperatingExpensesForm = () => {
   const { dispatchFormAction, operatingExpensesForm } =
@@ -82,7 +81,8 @@ export const OperatingExpensesForm = () => {
   const form = useForm<OperatingExpensesFormValue>({
     resolver: zodResolver(operatingExpensesFormSchema),
     defaultValues,
-    mode: "onBlur"
+    mode: "onBlur",
+    values: defaultValues
   })
 
   const onSubmit = (data: OperatingExpensesFormValue) => {
@@ -93,11 +93,6 @@ export const OperatingExpensesForm = () => {
     })
     finishCurrentStep()
   }
-
-  // Update form values when operatingExpensesForm changes
-  useUpdateEffect(() => {
-    form.reset(defaultValues)
-  }, [operatingExpensesForm])
 
   useEffect(() => {
     const { id, ...expenses } = form.getValues()

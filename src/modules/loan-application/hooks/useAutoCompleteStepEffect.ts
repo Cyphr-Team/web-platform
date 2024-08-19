@@ -61,6 +61,12 @@ export const useAutoCompleteStepEffect = (
      * The client touched the form first
      */
     if (form.formState.isDirty || form.formState.isValidating) {
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: specificStep,
+        state: form.getValues()
+      })
+
       updateCompleteStatus()
     }
   }, [
@@ -68,7 +74,10 @@ export const useAutoCompleteStepEffect = (
     form.formState.isValid,
     form.formState.isDirty,
     form.formState.isValidating,
-    logicalValidState
+    logicalValidState,
+    form,
+    dispatchFormAction,
+    specificStep
   ])
 
   return updateCompleteStatus
