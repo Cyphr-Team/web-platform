@@ -21,3 +21,11 @@ export interface FinancialScenario {
   financialCompanyId: string
   name: string
 }
+
+export interface DirectCost {
+  id: string
+  name: string
+  financialProjectId: string
+  startingMonth: string
+  percentageCost: number
+}

@@ -2,8 +2,13 @@ import { Route } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { lazy } from "react"
 import { FinancialToolkitLayout } from "@/modules/financial-projection/components/layout"
-import { FinancialToolkitPage } from "@/modules/financial-projection/components/pages"
 
+const FinancialToolkitPage = lazy(
+  () =>
+    import(
+      "@/modules/financial-projection/components/pages/FinancialToolkitPage"
+    )
+)
 const FinancialToolkitDetailPage = lazy(
   () =>
     import(

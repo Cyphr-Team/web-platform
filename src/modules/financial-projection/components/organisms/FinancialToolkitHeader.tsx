@@ -26,14 +26,28 @@ const FinancialToolkitHeader: FC<Props> = () => {
       )}
     >
       <div className="flex items-center gap-2 min-w-20">
-        <Button onClick={handleSetCurrentScreen(SCREEN.ASSUMPTIONS)}>
+        <Button
+          variant="outline"
+          onClick={handleSetCurrentScreen(SCREEN.ASSUMPTIONS)}
+        >
           Assumptions
         </Button>
-        <Button onClick={handleSetCurrentScreen(SCREEN.INCOME)}>Income</Button>
-        <Button onClick={handleSetCurrentScreen(SCREEN.BALANCE)}>
+        <Button
+          variant="outline"
+          onClick={handleSetCurrentScreen(SCREEN.INCOME)}
+        >
+          Income
+        </Button>
+        <Button
+          variant="outline"
+          onClick={handleSetCurrentScreen(SCREEN.BALANCE)}
+        >
           Balance
         </Button>
-        <Button onClick={handleSetCurrentScreen(SCREEN.CASH_FLOW)}>
+        <Button
+          variant="outline"
+          onClick={handleSetCurrentScreen(SCREEN.CASH_FLOW)}
+        >
           Cash Flow
         </Button>
       </div>

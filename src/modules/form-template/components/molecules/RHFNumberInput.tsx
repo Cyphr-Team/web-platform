@@ -14,7 +14,7 @@ import {
   useFormContext
 } from "react-hook-form"
 import { MaskInput, MaskInputProps } from "@/components/ui/mask-input.tsx"
-import { memo } from "react"
+import { memo, ReactNode } from "react"
 import { NUMBER_PATTERN } from "@/constants"
 
 export interface RHFNumberInputProps<T extends FieldValues>
@@ -26,9 +26,12 @@ export interface RHFNumberInputProps<T extends FieldValues>
   placeholder?: string
   required?: boolean
   className?: string
+  suffixIcon?: ReactNode
+  direction?: "row" | "column"
   styleProps?: {
     inputClassName?: string
     labelClassName?: string
+    messageClassName?: string
   }
 }
 
@@ -50,10 +53,11 @@ const RHFNumberInput = <T extends FieldValues>(
     styleProps = {},
     required,
     control,
+    direction,
     ...other
   } = props
 
-  const { inputClassName, labelClassName } = styleProps
+  const { inputClassName, labelClassName, messageClassName } = styleProps
 
   return (
     <FormField
@@ -64,6 +68,9 @@ const RHFNumberInput = <T extends FieldValues>(
           <FormLabel className={labelClassName}>
             {label}
             {required && <RequiredSymbol />}
+            {direction === "row" && (
+              <FormMessage className={messageClassName} />
+            )}
           </FormLabel>
           <FormControl>
             <MaskInput
@@ -73,9 +80,12 @@ const RHFNumberInput = <T extends FieldValues>(
               required
               {...field}
               {...other}
+              value={`${field.value}`}
             />
           </FormControl>
-          <FormMessage />
+          {direction === "column" && (
+            <FormMessage className={messageClassName} />
+          )}
         </FormItem>
       )}
     />

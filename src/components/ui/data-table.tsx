@@ -1,13 +1,13 @@
 import type { Table as TableType } from "@tanstack/react-table"
 import {
   ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
   OnChangeFn,
   PaginationState,
   Row,
   SortingState,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table"
 

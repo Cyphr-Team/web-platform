@@ -13,6 +13,9 @@ import {
   subWeeks,
   subYears
 } from "date-fns"
+import { Option } from "@/types/common.type.ts"
+import { formatDate } from "@/utils/date.utils.ts"
+import { FORMAT_DATE_MM_YYYY } from "@/constants/date.constants.ts"
 
 const getTimeRangeDates = (timeRange: TimeRangeValue) => {
   try {
@@ -75,4 +78,35 @@ const getTimeRangeDates = (timeRange: TimeRangeValue) => {
   }
 }
 
-export { getTimeRangeDates }
+const generateMonthsList = (startYear: number, endYear: number): Option[] => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ]
+  const result: Option[] = []
+
+  for (let year = startYear; year <= endYear; year++) {
+    for (let monthIndex = 0; monthIndex < months.length; monthIndex++) {
+      const date = new Date(year, monthIndex) // Create a Date object for the first day of the month
+      const label = formatDate(date.toISOString(), FORMAT_DATE_MM_YYYY) ?? ""
+      result.push({
+        label: label,
+        value: date.toDateString()
+      })
+    }
+  }
+
+  return result
+}
+
+export { getTimeRangeDates, generateMonthsList }
