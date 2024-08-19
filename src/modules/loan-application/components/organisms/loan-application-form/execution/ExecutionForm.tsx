@@ -74,7 +74,8 @@ export const ExecutionForm = () => {
   const form = useForm<ExecutionFormValue>({
     resolver: zodResolver(executionFormSchema),
     mode: "onBlur",
-    values: defaultValues
+    // values: defaultValues
+    defaultValues
   })
 
   const onSubmit = (data: ExecutionFormValue) => {

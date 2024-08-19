@@ -356,7 +356,12 @@ export const executionFormSchema = z.object({
     z.object({
       id: z.string().optional(),
       sourceType: z.string().min(1, { message: "This field is required" }),
-      amount: z.string().min(1, { message: "This field is required" })
+      amount: z
+        .string()
+        .min(1, { message: "This field is required" })
+        .refine((value) => parseInt(value) > 0, {
+          message: "Amount must be greater than zero"
+        })
     })
   ),
   founders: z.array(
