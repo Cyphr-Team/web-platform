@@ -439,6 +439,13 @@ export const API_PATH = {
         list: "api/financial-projection/scenarios/list",
         update: "api/financial-projection/scenarios/update"
       }
+    },
+    revenueTransactional: {
+      submit: "api/financial-projection/form/transactional",
+      findById: "api/financial-projection/form/transactional/by-id",
+      findByFinancialProjectionId:
+        "api/financial-projection/form/transactional/by-financial-projection-id",
+      update: "api/financial-projection/form/transactional/update"
     }
   }
 }

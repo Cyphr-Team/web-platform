@@ -222,6 +222,13 @@ export const TOAST_MSG = {
         title: "Delete scenario success",
         description: "Scenario is deleted successfully"
       }
+    },
+
+    transactionalMarketplaceRevenue: {
+      submitFail: {
+        title: "Fail to submit transactional/marketplace revenue",
+        description: "Fail to submit transactional/marketplace revenue"
+      }
     }
   }
 }

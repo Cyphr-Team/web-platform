@@ -2,8 +2,8 @@ import { DirectCost } from "@/modules/financial-projection/types"
 import { useFinancialToolkitStore } from "@/modules/financial-projection/store/useFinancialToolkitStore.ts"
 import { useQuery } from "@tanstack/react-query"
 import { ErrorResponse } from "@/types/common.type.ts"
-import { QUERY_KEY } from "@/modules/financial-projection/constants"
 import { useEffect } from "react"
+import { QUERY_KEY } from "@/modules/financial-projection/constants/query-key.ts"
 
 type QueryFinancialDirectCostsResponse = DirectCost[]
 

@@ -29,3 +29,13 @@ export interface DirectCost {
   startingMonth: string
   percentageCost: number
 }
+
+export interface TransactionalMarketplaceRevenue {
+  id?: string
+  financialProjectionId?: string
+  newCustomerRate: number
+  returnCustomerRate: number
+  averageMonthlyTransactionPerCustomer: number
+  averageTransactionSize: number
+  takeRate: number
+}
