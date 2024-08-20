@@ -1,5 +1,6 @@
 import { APP_PATH } from "@/constants"
 import { inMemoryJWTService } from "@/services/jwt.service"
+import { BgGradient } from "@/shared/atoms/bg-gradient"
 import { Loader2 } from "lucide-react"
 import { useState } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
@@ -27,8 +28,9 @@ export function AuthLayout() {
   if (checkLoggedIn) return <Loader2 className="animate-spin" />
 
   return (
-    <div className="bg-gradient-to-t from-[#b3f00d] to-60% to-white">
+    <div>
       <Outlet />
+      <BgGradient />
     </div>
   )
 }
