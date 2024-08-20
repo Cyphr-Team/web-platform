@@ -7,6 +7,7 @@ import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "../../constants/query-key"
 import { BusinessModelFormResponse } from "../../components/organisms/loan-application-form/business-model/type"
 import { useCallback } from "react"
+import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 
 type Props = {
   rawData: BusinessModelFormValue
@@ -27,17 +28,18 @@ export const useSubmitLoanBusinessModelForm = ({
   )
 
   const submitLoanBusinessModelForm = async () => {
-    if (rawData?.id?.length) {
-      await update({ ...rawData })
+    const data = {
+      ...rawData,
+      // additional format for sure
+      annualPayroll: USDFormatter(rawData?.annualPayroll).value
+    }
+
+    if (data?.id?.length) {
+      await update(data)
     } else {
-      await submit(
-        {
-          ...rawData
-        },
-        {
-          onSuccess: (res) => onSubmitSuccess(res.data)
-        }
-      )
+      await submit(data, {
+        onSuccess: (res) => onSubmitSuccess(res.data)
+      })
     }
   }
   return {

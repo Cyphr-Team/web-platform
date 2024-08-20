@@ -23,7 +23,7 @@ import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 
 import { questions, strategies } from "./constants"
-import { TextInput } from "@/shared/organisms/form/TextInput.tsx"
+import RHFCurrencyInput from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 
 export const BusinessModelForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -38,7 +38,7 @@ export const BusinessModelForm = () => {
         loanRequest?.applicationId ??
         "",
       description: businessModelForm?.description ?? "",
-      annualPayroll: businessModelForm?.annualPayroll ?? "",
+      annualPayroll: businessModelForm?.annualPayroll, // don't need to set custom value
       scalePlan: businessModelForm?.scalePlan ?? "",
       totalRevenueRange: businessModelForm?.totalRevenueRange ?? "",
       lastMonthRevenueRange: businessModelForm?.lastMonthRevenueRange ?? "",
@@ -57,7 +57,9 @@ export const BusinessModelForm = () => {
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
       key: LOAN_APPLICATION_STEPS.BUSINESS_MODEL,
-      state: data
+      state: {
+        ...data
+      }
     })
     finishCurrentStep()
   }
@@ -91,16 +93,17 @@ export const BusinessModelForm = () => {
               options={q.options}
             />
           ))}
-          <TextInput
+          <RHFCurrencyInput
             prefixIcon="$"
             key="annualPayroll"
             name="annualPayroll"
-            control={form.control}
-            inputClassName="!max-w-52"
             className="flex flex-row items-center w-full justify-between"
             label="What is your annual payroll?"
-            placeholder="i.e: 55.00"
-            formMessageClassName="hidden"
+            placeholder="i.e: 55,000"
+            styleProps={{
+              messageClassName: "hidden",
+              inputClassName: "!max-w-52"
+            }}
           />
           <SelectInput
             key="scalePlan"
