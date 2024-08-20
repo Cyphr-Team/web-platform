@@ -39,3 +39,13 @@ export interface TransactionalMarketplaceRevenue {
   averageTransactionSize: number
   takeRate: number
 }
+
+export interface SaasRevenue {
+  id?: string
+  financialProjectionId?: string
+  totalNewCustomerRate: number
+  churnRate: number
+  monthlyPrice: number
+  startingDate: string
+  endDate: string
+}

@@ -3,6 +3,7 @@ import { SCREEN } from "@/modules/financial-projection/constants"
 import {
   DirectCost,
   FinancialCompany,
+  SaasRevenue,
   TransactionalMarketplaceRevenue
 } from "@/modules/financial-projection/types"
 import { createSelectors } from "@/utils/store.ts"
@@ -12,6 +13,7 @@ interface FinancialToolkitSlice {
   companies: FinancialCompany[]
   directCosts: DirectCost[]
   transactionalMarketplaceRevenue: TransactionalMarketplaceRevenue[]
+  saasRevenue: SaasRevenue[]
   action: {
     setCurrentScreen: (screen: SCREEN) => void
     setCompanies: (companies: FinancialCompany[]) => void
@@ -22,6 +24,8 @@ interface FinancialToolkitSlice {
     setTransactionalMarketplaceRevenue: (
       data: TransactionalMarketplaceRevenue[]
     ) => void
+    // Saas Revenue
+    setSaasRevenue: (data: SaasRevenue[]) => void
   }
 }
 
@@ -30,6 +34,7 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
   companies: [],
   directCosts: [],
   transactionalMarketplaceRevenue: [],
+  saasRevenue: [],
   action: {
     setCurrentScreen: (screen: SCREEN) => set({ currentScreen: screen }),
     setCompanies: (companies: FinancialCompany[]) => set({ companies }),
@@ -53,7 +58,9 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
       }),
     // Transactional Marketplace Revenue
     setTransactionalMarketplaceRevenue: (data) =>
-      set({ transactionalMarketplaceRevenue: data })
+      set({ transactionalMarketplaceRevenue: data }),
+    // Saas Revenue
+    setSaasRevenue: (data) => set({ saasRevenue: data })
   }
 }))
 

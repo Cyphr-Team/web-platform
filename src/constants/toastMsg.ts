@@ -229,6 +229,12 @@ export const TOAST_MSG = {
         title: "Fail to submit transactional/marketplace revenue",
         description: "Fail to submit transactional/marketplace revenue"
       }
+    },
+    saasRevenue: {
+      submitFail: {
+        title: "Fail to submit SaaS revenue",
+        description: "Fail to submit SaaS revenue"
+      }
     }
   }
 }
