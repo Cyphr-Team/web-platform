@@ -1,19 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  FieldValues,
-  SubmitHandler,
-  useForm,
-  UseFormProps,
-  UseFormReturn
-} from "react-hook-form"
-import { infer as zodInfer, ZodTypeAny } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { FieldValues, UseFormReturn } from "react-hook-form"
 import {
   ComponentType,
+  createElement,
+  PropsWithChildren,
   ReactElement,
-  ReactNode,
-  useCallback,
-  useEffect,
   useMemo
 } from "react"
 import { RHFCheckboxProps } from "@/modules/form-template/components/molecules/RHFCheckbox.tsx"
@@ -34,12 +25,6 @@ import {
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
 import { cn } from "@/lib/utils.ts"
-import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { Button } from "@/components/ui/button.tsx"
-import { ArrowRight } from "lucide-react"
-import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import { Card } from "@/components/ui/card.tsx"
 
 export const enum FieldType {
   TEXT = "text",
@@ -48,8 +33,7 @@ export const enum FieldType {
   MASK = "mask",
   SELECT = "select",
   MULTI_SELECT = "multiSelect",
-  OPTION = "option",
-  CUSTOM = "custom"
+  OPTION = "option"
 }
 
 export const ComponentMapper: { [key: string]: ComponentType<any> } = {
@@ -76,95 +60,58 @@ export interface Block {
   name: string
   type: FieldType
   props?: BlockProps<any>
-  render?: (props?: BlockProps<any>) => ReactElement
 }
 
-export interface Props<TSchemaTypeAny extends ZodTypeAny> {
-  title: string
-  description?: ReactNode
-  schema: TSchemaTypeAny
+export interface Props extends PropsWithChildren {
+  form: UseFormReturn
   blocks: Block[]
-  onSubmit: SubmitHandler<any>
+  onSubmit: VoidFunction
+  submitProps?: BlockProps<any>
+  renderSubmit?: (props?: BlockProps<any>) => ReactElement
   className?: string
-  formProps?: UseFormProps<any>
-  onValidating?: (form: UseFormReturn<zodInfer<TSchemaTypeAny>>) => any
+}
+
+export const renderBlockComponents = (blocks: Block[]) => {
+  return blocks.map(({ type, props, name }) => {
+    const Component = ComponentMapper[type]
+
+    /**
+     * use createElement instead of <Component /> because createElement will return ReactElement
+     * The <Component /> return JSX.Element which will contain deprecated keyword JSX
+     * */
+    return createElement(Component, {
+      key: name,
+      className: "col-span-12",
+      name: name,
+      ...props
+    })
+  })
 }
 
 /**
  * INPUT: formSchema, element, element's props
  * OUTPUT: stateless FormTemplate
  * */
-export const FormTemplate = <TSchemaTypeAny extends ZodTypeAny>(
-  props: Props<TSchemaTypeAny>
-) => {
-  const { schema, blocks, onSubmit, formProps, className, onValidating } = props
-  const { getCurrentStep } = useLoanApplicationProgressContext()
+export const FormTemplate = (props: Props) => {
+  const {
+    form,
+    blocks,
+    onSubmit,
+    className,
+    children,
+    renderSubmit,
+    submitProps
+  } = props
 
-  type FormType = zodInfer<typeof schema>
-
-  const form = useForm<FormType>({
-    resolver: zodResolver(schema),
-    mode: "onBlur",
-    ...formProps
-  })
-
-  const process = useCallback(
-    (blocks: Block[]) =>
-      blocks.map(({ type, props, render, name }) => {
-        const Component = ComponentMapper[type]
-
-        if (type === FieldType.CUSTOM && render !== undefined) {
-          return render(props)
-        }
-
-        return (
-          <Component
-            key={name}
-            className="col-span-12"
-            name={name}
-            {...props}
-          />
-        )
-      }),
-    []
-  )
-
-  const componentList = useMemo(() => process(blocks), [process, blocks])
-
-  // TODO: handle process
-  useEffect(() => {
-    if (onValidating !== undefined && form.formState.isValidating) {
-      onValidating(form)
-    }
-  }, [form, form.formState.isValidating, onValidating])
+  const componentList = useMemo(() => renderBlockComponents(blocks), [blocks])
 
   return (
-    <Card
-      className={cn(Object.values(layout))}
-      id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
-    >
-      <h5 className="text-lg font-semibold">Business Information</h5>
-      <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
-        <div className={cn("grid grid-cols-12 gap-4", className)}>
-          {componentList}
-        </div>
-      </RHFProvider>
-
-      {!isReviewApplicationStep(getCurrentStep()!.step) && (
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Next <ArrowRight className="ml-1 w-4" />
-        </Button>
-      )}
-    </Card>
+    <RHFProvider methods={form} onSubmit={onSubmit}>
+      <div className={cn("grid grid-cols-12 gap-4 items-center", className)}>
+        {componentList}
+        {children}
+      </div>
+      {renderSubmit && renderSubmit(submitProps)}
+    </RHFProvider>
   )
-}
-
-const layout = {
-  base: "border bg-card text-card-foreground shadow-sm flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 max-w-screen-sm",
-  sm: "",
-  md: "md:col-span-6 md:col-start-2 md:mx-auto md:w-full",
-  lg: ""
 }

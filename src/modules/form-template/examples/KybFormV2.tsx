@@ -3,44 +3,34 @@ import {
   FieldType,
   FormTemplate
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
-import { memo, useCallback, useState } from "react"
+import { memo, useCallback } from "react"
 
 import * as z from "zod"
-import { UseFormReturn } from "react-hook-form"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { cn } from "@/lib/utils.ts"
+import { Card } from "@/components/ui/card.tsx"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { Button } from "@/components/ui/button.tsx"
+import RHFCurrencyInput from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 
 const enum FormField {
   BANK_NUMBER = "bankNumber",
-  BANK_ACCOUNT = "bankAccount",
   BANK_NAME = "bankName",
   EXPIRES = "exp",
   FIRST_NAME = "firstName",
   LAST_NAME = "lastName",
-  CURRENT_BALANCE = "currentBalance",
-  DOB = "dob"
+  BALANCE = "BALANCE"
 }
 
 const schema = z.object({
-  [FormField.FIRST_NAME]: z
-    .string()
-    .refine((value) => value.includes("Cu Khoai Mon"), {
-      message: "First name must contain 'Cu Khoai Mon'"
-    }),
-  [FormField.LAST_NAME]: z
-    .string()
-    .refine((value) => value.includes("Cu Khoai Mon"), {
-      message: "Last name must contain 'Cu Khoai Mon'"
-    }),
-  [FormField.DOB]: z.string(),
+  [FormField.FIRST_NAME]: z.string(),
+  [FormField.LAST_NAME]: z.string(),
   [FormField.BANK_NUMBER]: z.string(),
-  [FormField.BANK_ACCOUNT]: z.string(),
   [FormField.BANK_NAME]: z.string(),
   [FormField.EXPIRES]: z.string(),
-  [FormField.CURRENT_BALANCE]: z.coerce
-    .number()
-    .gt(1000, { message: "Your balance must greater than 1000$" })
+  [FormField.BALANCE]: z.number().optional()
 })
-
-type FormValues = z.infer<typeof schema>
 
 const blocks: Block[] = [
   {
@@ -49,7 +39,7 @@ const blocks: Block[] = [
     props: {
       label: "First name",
       placeholder: "i.e: Cu Khoai Mon",
-      className: "col-span-4",
+      className: "col-span-6",
       required: true
     }
   },
@@ -59,26 +49,8 @@ const blocks: Block[] = [
     props: {
       label: "Last name",
       placeholder: "i.e: Cu Khoai Mon",
-      className: "col-span-4",
+      className: "col-span-6",
       required: true
-    }
-  },
-  {
-    type: FieldType.CUSTOM,
-    name: FormField.DOB,
-    props: {
-      label: "Date Of Bird",
-      className: "col-span-4",
-      required: true
-    },
-    render: (props) => {
-      const { label, className } = props!
-      return (
-        <div className={className}>
-          <div>{label}</div>
-          <div className="text-xs">Created By Cu Khoai Mon</div>
-        </div>
-      )
     }
   },
   {
@@ -99,75 +71,71 @@ const blocks: Block[] = [
     }
   },
   {
-    type: FieldType.SELECT,
-    name: FormField.BANK_ACCOUNT,
-    props: {
-      label: "Bank account",
-      className: "col-span-4",
-      options: [
-        { value: "vcb", label: "VCB" },
-        { value: "agb", label: "Agribank" },
-        { value: "sbb", label: "SBB" },
-        { value: "kc88", label: "KC88" }
-      ],
-      required: true
-    }
-  },
-  {
     type: FieldType.MASK,
     name: FormField.EXPIRES,
     props: {
       label: "Expires Date",
       pattern: "00-0000",
-      className: "col-span-4",
-      placeholder: "MM-YYYY"
-    }
-  },
-  {
-    type: FieldType.NUMBER,
-    name: FormField.CURRENT_BALANCE,
-    props: {
-      label: "Current Balance",
-      className: "col-span-4",
-      suffix: "$"
+      className: "col-span-6",
+      placeholder: "MM-YYYY",
+      required: true
     }
   }
 ]
 
 const KybFormV2 = () => {
-  const [count, setCount] = useState(0)
+  const form = useForm({
+    resolver: zodResolver(schema),
+    mode: "onBlur"
+  })
 
-  const blockWithState: Block = {
-    name: "CuKhoaiMon",
-    type: FieldType.CUSTOM,
-    render: () => {
-      return (
-        <div className="col-span-12">
-          <div className="text-2xl">You clicked {count} times</div>
-          <button onClick={() => setCount(count + 1)}>Click!</button>
-        </div>
-      )
-    }
-  }
+  const onSubmit = form.handleSubmit((data) => {
+    console.log(data)
+  })
 
-  const onSubmit = useCallback(() => {
-    console.log("KybFormV2 submitted")
-  }, [])
-
-  const onValidating = useCallback((methods: UseFormReturn<FormValues>) => {
-    console.log("VALIDATING", methods.getValues())
-  }, [])
+  const renderSubmitButton = useCallback(
+    () => (
+      <Button type="submit" className="w-full">
+        Submit
+      </Button>
+    ),
+    []
+  )
 
   return (
-    <FormTemplate
-      title="Individual Information"
-      className="grid grid-cols-12"
-      schema={schema}
-      blocks={[...blocks, blockWithState]}
-      onSubmit={onSubmit}
-      onValidating={onValidating}
-    />
+    <Card
+      className={cn(Object.values(layout))}
+      id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
+    >
+      <FormTemplate
+        form={form}
+        className="grid grid-cols-12"
+        blocks={blocks}
+        onSubmit={onSubmit}
+        renderSubmit={renderSubmitButton}
+      >
+        <div className="col-span-6">
+          <RHFCurrencyInput
+            label="Enter your balance"
+            name={FormField.BALANCE}
+            styleProps={{
+              inputClassName: "col-span-4"
+            }}
+          />
+        </div>
+        <div className="col-span-12 text-2xl text-center py-2 mb-2">
+          That is another way to render custom field
+        </div>
+      </FormTemplate>
+    </Card>
   )
 }
 
 export default memo(KybFormV2)
+
+const layout = {
+  base: "border bg-card text-card-foreground shadow-sm flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 max-w-screen-sm",
+  sm: "",
+  md: "md:col-span-6 md:col-start-2 md:mx-auto md:w-full",
+  lg: ""
+}
