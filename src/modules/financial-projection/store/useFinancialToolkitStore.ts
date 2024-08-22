@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { SCREEN } from "@/modules/financial-projection/constants"
 import {
+  ContractRevenue,
   DirectCost,
   FinancialCompany,
   RecurringCharge,
@@ -16,6 +17,7 @@ interface FinancialToolkitSlice {
   transactionalMarketplaceRevenue: TransactionalMarketplaceRevenue[]
   saasRevenue: SaasRevenue[]
   recurringCharges: RecurringCharge[]
+  contractRevenues: ContractRevenue[]
   action: {
     setCurrentScreen: (screen: SCREEN) => void
     setCompanies: (companies: FinancialCompany[]) => void
@@ -28,6 +30,8 @@ interface FinancialToolkitSlice {
     setSaasRevenue: (data: SaasRevenue[]) => void
     // Recurring Charges
     setRecurringCharges: (data: RecurringCharge[]) => void
+    // Contract revenues
+    setContractRevenues: (data: ContractRevenue[]) => void
   }
 }
 
@@ -38,6 +42,7 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
   transactionalMarketplaceRevenue: [],
   saasRevenue: [],
   recurringCharges: [],
+  contractRevenues: [],
   action: {
     setCurrentScreen: (screen: SCREEN) => set({ currentScreen: screen }),
     setCompanies: (companies: FinancialCompany[]) => set({ companies }),
@@ -49,7 +54,9 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
     // Saas Revenue
     setSaasRevenue: (data) => set({ saasRevenue: data }),
     // Recurring charges
-    setRecurringCharges: (data) => set({ recurringCharges: data })
+    setRecurringCharges: (data) => set({ recurringCharges: data }),
+    // Contract Revenues
+    setContractRevenues: (data) => set({ contractRevenues: data })
   }
 }))
 

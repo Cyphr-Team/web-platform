@@ -25,6 +25,12 @@ import {
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
 import { cn } from "@/lib/utils.ts"
+import RHFCalendarPickerInput, {
+  RHFCalendarPickerInputProps
+} from "@/modules/form-template/components/molecules/RHFCalendarPickerInput.tsx"
+import RHFCurrencyInput, {
+  RHFCurrencyInputProps
+} from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 
 export const enum FieldType {
   TEXT = "text",
@@ -33,7 +39,9 @@ export const enum FieldType {
   MASK = "mask",
   SELECT = "select",
   MULTI_SELECT = "multiSelect",
-  OPTION = "option"
+  OPTION = "option",
+  DATE = "date",
+  CURRENCY = "currency"
 }
 
 export const ComponentMapper: { [key: string]: ComponentType<any> } = {
@@ -43,7 +51,9 @@ export const ComponentMapper: { [key: string]: ComponentType<any> } = {
   [FieldType.MASK]: RHFMaskInput,
   [FieldType.SELECT]: RHFSelectInput,
   [FieldType.MULTI_SELECT]: RHFMultiSelectInput,
-  [FieldType.OPTION]: RHFOptionInput
+  [FieldType.OPTION]: RHFOptionInput,
+  [FieldType.DATE]: RHFCalendarPickerInput,
+  [FieldType.CURRENCY]: RHFCurrencyInput
 }
 
 export type BlockProps<T extends FieldValues> = Partial<
@@ -54,6 +64,8 @@ export type BlockProps<T extends FieldValues> = Partial<
   | RHFOptionInputProps<T>
   | RHFSelectInputProps<T>
   | RHFTextInputProps<T>
+  | RHFCalendarPickerInputProps<T>
+  | RHFCurrencyInputProps<T>
 >
 
 export interface Block {

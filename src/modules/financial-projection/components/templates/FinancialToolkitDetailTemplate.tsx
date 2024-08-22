@@ -1,8 +1,8 @@
 import { ComponentType, FC } from "react"
 import { SCREEN } from "@/modules/financial-projection/constants"
 import { useFinancialToolkitStore } from "@/modules/financial-projection/store/useFinancialToolkitStore.ts"
-import DirectCostForm from "@/modules/financial-projection/components/organisms/DirectCostForm.tsx"
 import RecurringChargesForm from "@/modules/financial-projection/components/organisms/RecurringChargesForm.tsx"
+import ContractRevenueForm from "@/modules/financial-projection/components/organisms/ContractRevenueForm.tsx"
 
 // TODO: remove this
 const KhoaiMon = () => {
@@ -12,7 +12,7 @@ const KhoaiMon = () => {
 // TODO: CHANGE THE COMPONENT HERE
 const ScreenMapper: { [key: string]: ComponentType } = {
   [SCREEN.INPUT_RECURRING_CHARGES]: RecurringChargesForm, // TODO: fix me
-  [SCREEN.INPUT_CONTRACT_REVENUE]: DirectCostForm,
+  [SCREEN.INPUT_CONTRACT_REVENUE]: ContractRevenueForm,
   [SCREEN.INPUT_UNIT_SALES]: KhoaiMon, // TODO: fix me
   [SCREEN.INPUT_BILLABLE_HOURS]: KhoaiMon, // TODO: fix me
 

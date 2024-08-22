@@ -65,3 +65,12 @@ export interface RecurringCharge {
   renewedSubscriptions: number // Renewed Subscriptions (count)
   startDate: string
 }
+
+export interface ContractRevenue {
+  id?: string
+  financialProjectionId?: string
+  name: string
+  monthlyRevenue: number
+  startDate: string
+  endDate: string
+}
