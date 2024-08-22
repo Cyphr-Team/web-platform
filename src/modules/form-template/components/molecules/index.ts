@@ -5,4 +5,8 @@ export { default as RHFSelectInput } from "./RHFSelectInput"
 export { default as RHFTextInput } from "./RHFTextInput"
 export { default as RHFNumberInput } from "./RHFNumberInput"
 export { default as RHFCheckbox } from "./RHFCheckbox"
+export { default as RHFCurrencyInput } from "./RHFCurrencyInput"
+export { default as RHFPercentageInput } from "./RHFPercentageInput"
+export { default as RHFCalendarPickerInput } from "./RHFCalendarPickerInput"
+
 export { default as CalendarPickerPopover } from "./CalendarPickerPopover"

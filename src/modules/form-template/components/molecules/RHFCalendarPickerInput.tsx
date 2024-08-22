@@ -15,6 +15,7 @@ import {
   useFormContext
 } from "react-hook-form"
 import { cn } from "@/lib/utils.ts"
+import { memo } from "react"
 
 export interface RHFCalendarPickerInputProps<T extends FieldValues> {
   name: FieldPath<T>
@@ -91,4 +92,4 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
   )
 }
 
-export default RHFCalendarPickerInput
+export default memo(RHFCalendarPickerInput)

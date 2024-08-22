@@ -74,3 +74,12 @@ export interface ContractRevenue {
   startDate: string
   endDate: string
 }
+
+export interface PeopleExpense {
+  id?: string
+  financialProjectionId?: string
+  name: string
+  salary: number
+  benefit: number
+  startDate: string
+}

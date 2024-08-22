@@ -16,21 +16,20 @@ import { RHFSelectInputProps } from "@/modules/form-template/components/molecule
 import { RHFTextInputProps } from "@/modules/form-template/components/molecules/RHFTextInput.tsx"
 import RHFProvider from "@/modules/form-template/providers/RHFProvider.tsx"
 import {
+  RHFCalendarPickerInput,
   RHFCheckbox,
+  RHFCurrencyInput,
   RHFMaskInput,
   RHFMultiSelectInput,
   RHFNumberInput,
   RHFOptionInput,
+  RHFPercentageInput,
   RHFSelectInput,
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
 import { cn } from "@/lib/utils.ts"
-import RHFCalendarPickerInput, {
-  RHFCalendarPickerInputProps
-} from "@/modules/form-template/components/molecules/RHFCalendarPickerInput.tsx"
-import RHFCurrencyInput, {
-  RHFCurrencyInputProps
-} from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
+import { RHFCalendarPickerInputProps } from "@/modules/form-template/components/molecules/RHFCalendarPickerInput.tsx"
+import { RHFCurrencyInputProps } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 
 export const enum FieldType {
   TEXT = "text",
@@ -41,7 +40,8 @@ export const enum FieldType {
   MULTI_SELECT = "multiSelect",
   OPTION = "option",
   DATE = "date",
-  CURRENCY = "currency"
+  CURRENCY = "currency",
+  PERCENTAGE = "percentage"
 }
 
 export const ComponentMapper: { [key: string]: ComponentType<any> } = {
@@ -53,7 +53,8 @@ export const ComponentMapper: { [key: string]: ComponentType<any> } = {
   [FieldType.MULTI_SELECT]: RHFMultiSelectInput,
   [FieldType.OPTION]: RHFOptionInput,
   [FieldType.DATE]: RHFCalendarPickerInput,
-  [FieldType.CURRENCY]: RHFCurrencyInput
+  [FieldType.CURRENCY]: RHFCurrencyInput,
+  [FieldType.PERCENTAGE]: RHFPercentageInput
 }
 
 export type BlockProps<T extends FieldValues> = Partial<

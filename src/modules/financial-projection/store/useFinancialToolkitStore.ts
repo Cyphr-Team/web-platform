@@ -4,6 +4,7 @@ import {
   ContractRevenue,
   DirectCost,
   FinancialCompany,
+  PeopleExpense,
   RecurringCharge,
   SaasRevenue,
   TransactionalMarketplaceRevenue
@@ -18,6 +19,7 @@ interface FinancialToolkitSlice {
   saasRevenue: SaasRevenue[]
   recurringCharges: RecurringCharge[]
   contractRevenues: ContractRevenue[]
+  peopleExpenses: PeopleExpense[]
   action: {
     setCurrentScreen: (screen: SCREEN) => void
     setCompanies: (companies: FinancialCompany[]) => void
@@ -32,6 +34,8 @@ interface FinancialToolkitSlice {
     setRecurringCharges: (data: RecurringCharge[]) => void
     // Contract revenues
     setContractRevenues: (data: ContractRevenue[]) => void
+    // People expenses
+    setPeopleExpenses: (data: PeopleExpense[]) => void
   }
 }
 
@@ -43,6 +47,7 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
   saasRevenue: [],
   recurringCharges: [],
   contractRevenues: [],
+  peopleExpenses: [],
   action: {
     setCurrentScreen: (screen: SCREEN) => set({ currentScreen: screen }),
     setCompanies: (companies: FinancialCompany[]) => set({ companies }),
@@ -56,7 +61,9 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
     // Recurring charges
     setRecurringCharges: (data) => set({ recurringCharges: data }),
     // Contract Revenues
-    setContractRevenues: (data) => set({ contractRevenues: data })
+    setContractRevenues: (data) => set({ contractRevenues: data }),
+    // People expenses
+    setPeopleExpenses: (data) => set({ peopleExpenses: data })
   }
 }))
 
