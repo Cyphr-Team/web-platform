@@ -409,6 +409,40 @@ export class LoanApplicationStep {
     return this
   }
 
+  _build_BusinessInformationStepPartOne(): this {
+    this.#steps = uniqBy(
+      [
+        ...this.#steps,
+        {
+          step: LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE,
+          formType: FORM_TYPE.KYB,
+          label: "Business Information (part 1)",
+          parent: STEP_MENU.APPLICATION,
+          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        }
+      ],
+      "step"
+    )
+    return this
+  }
+
+  _build_BusinessInformationStepPartTwo(): this {
+    this.#steps = uniqBy(
+      [
+        ...this.#steps,
+        {
+          step: LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO,
+          formType: FORM_TYPE.KYB,
+          label: "Business Information (part 2)",
+          parent: STEP_MENU.APPLICATION,
+          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        }
+      ],
+      "step"
+    )
+    return this
+  }
+
   getSteps(): ILoanApplicationStep[] {
     return this.#steps
   }

@@ -39,6 +39,10 @@ import { BusinessEinLetterFormValue } from "@/modules/loan-application/component
 import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
 import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+import {
+  SbbKybFormPartOneValue,
+  SbbKybFormPartTwoValue
+} from "../components/organisms/loan-application-form/kyb/sbb/const"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -60,6 +64,8 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT]: LaunchKCFitFormValue
   [LOAN_APPLICATION_STEPS.PRE_QUALIFICATION]: PreQualificationFormValue
   // SBB
+  [LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE]: SbbKybFormPartOneValue
+  [LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO]: SbbKybFormPartTwoValue
   [LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION]: ArticlesOfOrganizationFormValue
   [LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER]: BusinessEinLetterFormValue
   [LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING]: CertificateGoodStandingFormValue
@@ -102,6 +108,9 @@ export type FormStateType =
   | LaunchKCFitFormValue
   | LaunchKCBusinessFormValue
   | LaunchKCOwnerFormValue
+  // for SBB only
+  | SbbKybFormPartOneValue
+  | SbbKybFormPartTwoValue
   // sbb documentation form
   | ArticlesOfOrganizationFormValue
   | BusinessEinLetterFormValue

@@ -33,7 +33,7 @@ const RHFMultiSelectInput = <T extends FieldValues>(
   props: RHFMultiSelectInputProps<T>
 ) => {
   const { control } = useFormContext()
-  const { name, label, required, subtitle, options } = props
+  const { name, label, required, subtitle, options, className } = props
 
   const renderOption = useCallback(
     (option: IOption, index: number) => (
@@ -75,7 +75,7 @@ const RHFMultiSelectInput = <T extends FieldValues>(
   )
 
   return (
-    <FormItem>
+    <FormItem className={className}>
       <FormLabel className="text-sm text-text-secondary font-medium">
         {label}
         {required && <RequiredSymbol />}

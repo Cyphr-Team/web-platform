@@ -26,6 +26,8 @@ enum FORM_TYPE {
 enum LOAN_APPLICATION_STEPS {
   LOAN_REQUEST = "loanRequest",
   BUSINESS_INFORMATION = "businessInformation",
+  SBB_BUSINESS_INFORMATION_PART_ONE = "sbbBusinessInformationPartOne",
+  SBB_BUSINESS_INFORMATION_PART_TWO = "sbbBusinessInformationPartTwo",
   OWNER_INFORMATION = "ownerInformationForm",
   FINANCIAL_INFORMATION = "financialInformationForm",
   CASH_FLOW_VERIFICATION = "cashFlowVerification",

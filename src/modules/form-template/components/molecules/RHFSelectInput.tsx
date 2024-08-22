@@ -91,13 +91,15 @@ const RHFSelectInput = <T extends FieldValues>(
         <FormItem className={className}>
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             <label className="items-center inline-flex">
-              {label}
-              {required && <RequiredSymbol />}
-              {description && (
-                <div className="ml-1">
-                  <DescriptionTooltip description={description} />
-                </div>
-              )}
+              <span>
+                {label}
+                {required && <RequiredSymbol />}
+                {description && (
+                  <span className="ml-1">
+                    <DescriptionTooltip description={description} />
+                  </span>
+                )}
+              </span>
             </label>
             {subtitle && (
               <p

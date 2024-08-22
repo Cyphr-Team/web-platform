@@ -32,6 +32,8 @@ import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/comp
 import { BusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/KybForm.tsx"
 import { LaunchKCFitForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitForm.tsx"
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/LaunchKCOwnerInformationForm.tsx"
+import { SBBKybFormPartOne } from "../components/organisms/loan-application-form/kyb/sbb/SBBKybFormPartOne"
+import { SBBKybFormPartTwo } from "../components/organisms/loan-application-form/kyb/sbb/SbbKybFormPartTwo"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -48,6 +50,10 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         ) : (
           <BusinessInformationForm />
         )
+      case LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE:
+        return <SBBKybFormPartOne />
+      case LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO:
+        return <SBBKybFormPartTwo />
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
         return isLaunchKC() ? (
           <LaunchKCOwnerInformationForm />

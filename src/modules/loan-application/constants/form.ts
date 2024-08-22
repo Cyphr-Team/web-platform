@@ -5,6 +5,10 @@ import { DocumentUploadedResponse, PlaidItemInfo } from "./type"
 import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import jsPDF from "jspdf"
+import {
+  SbbKybFormPartOneValue,
+  SbbKybFormPartTwoValue
+} from "../components/organisms/loan-application-form/kyb/sbb/const"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -473,7 +477,10 @@ export type LaunchKCFitFormValue = z.infer<typeof launchKcFitFormSchema>
  * I use polymorphism approach for multiple schema form value.
  * In Typescript, I use type intersection to easily handle missing or addition field
  * */
-export type IBusinessFormValue = BusinessFormValue & LaunchKCBusinessFormValue
+export type IBusinessFormValue = BusinessFormValue &
+  LaunchKCBusinessFormValue &
+  SbbKybFormPartOneValue &
+  SbbKybFormPartTwoValue
 
 export type IOwnerFormValue = OwnerFormValue & LaunchKCOwnerFormValue
 

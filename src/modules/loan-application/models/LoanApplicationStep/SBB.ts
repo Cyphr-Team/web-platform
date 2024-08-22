@@ -36,7 +36,9 @@ export class SBBLoanApplicationStep
       this._build_LoanRequestStep()
     }
 
-    this._build_BusinessInformationStep()._build_OwnerInformationStep()
+    this._build_BusinessInformationStepPartOne()._build_BusinessInformationStepPartTwo()
+
+    this._build_OwnerInformationStep()
 
     if (isEnablePersonaKycV1() && !isIgnoredKycAndCashFlowSubmission())
       this._build_IdentityVerificationStep()
