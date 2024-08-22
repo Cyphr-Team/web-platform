@@ -4,6 +4,7 @@ import { useFinancialToolkitStore } from "@/modules/financial-projection/store/u
 import RecurringChargesForm from "@/modules/financial-projection/components/organisms/RecurringChargesForm.tsx"
 import ContractRevenueForm from "@/modules/financial-projection/components/organisms/ContractRevenueForm.tsx"
 import PeopleExpenseForm from "@/modules/financial-projection/components/organisms/PeopleExpensesForm.tsx"
+import UnitSalesForm from "@/modules/financial-projection/components/organisms/UnitSalesForm.tsx"
 
 // TODO: remove this
 const KhoaiMon = () => {
@@ -14,7 +15,7 @@ const KhoaiMon = () => {
 const ScreenMapper: { [key: string]: ComponentType } = {
   [SCREEN.INPUT_RECURRING_CHARGES]: RecurringChargesForm,
   [SCREEN.INPUT_CONTRACT_REVENUE]: ContractRevenueForm,
-  [SCREEN.INPUT_UNIT_SALES]: KhoaiMon, // TODO: fix me
+  [SCREEN.INPUT_UNIT_SALES]: UnitSalesForm,
   [SCREEN.INPUT_BILLABLE_HOURS]: KhoaiMon, // TODO: fix me
 
   [SCREEN.INPUT_PEOPLE]: PeopleExpenseForm,

@@ -13,7 +13,8 @@ import {
   Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
-import { Progress } from "@/components/ui/progress.tsx"
+import { v4 } from "uuid"
+import { ProgressCell } from "@/modules/financial-projection/components/molecules"
 
 const enum FormField {
   ID = "id",
@@ -52,10 +53,7 @@ const columns: ColumnDef<PeopleExpense>[] = [
     accessorKey: "benefit",
     header: "Benefit",
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-2 w-[175px]">
-        <Progress value={row.original.benefit} />
-        <div>{row.original.benefit}%</div>
-      </div>
+      <ProgressCell className="w-56" value={row.original.benefit} />
     )
   },
   {
@@ -119,16 +117,23 @@ const PeopleExpenseForm = () => {
 
   const onAdd = useCallback(
     (people: PeopleExpense) => {
-      setPeopleExpenses([...peopleExpenses, people])
+      setPeopleExpenses([
+        ...peopleExpenses,
+        {
+          ...people,
+          id: v4()
+        } as PeopleExpense
+      ])
     },
     [peopleExpenses, setPeopleExpenses]
   )
 
   const onEdit = useCallback(
     (people: PeopleExpense) => {
-      const idx = peopleExpenses.findIndex((value) => value.id === people.id)
-      peopleExpenses[idx] = people
-      setPeopleExpenses([...peopleExpenses])
+      const updatedPeopleExpenses = peopleExpenses.map((value) =>
+        value.id === people.id ? people : value
+      )
+      setPeopleExpenses(updatedPeopleExpenses)
     },
     [peopleExpenses, setPeopleExpenses]
   )

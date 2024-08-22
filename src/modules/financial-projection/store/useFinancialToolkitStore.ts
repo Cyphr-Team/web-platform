@@ -7,7 +7,8 @@ import {
   PeopleExpense,
   RecurringCharge,
   SaasRevenue,
-  TransactionalMarketplaceRevenue
+  TransactionalMarketplaceRevenue,
+  UnitSale
 } from "@/modules/financial-projection/types"
 import { createSelectors } from "@/utils/store.ts"
 
@@ -20,6 +21,7 @@ interface FinancialToolkitSlice {
   recurringCharges: RecurringCharge[]
   contractRevenues: ContractRevenue[]
   peopleExpenses: PeopleExpense[]
+  unitSales: UnitSale[]
   action: {
     setCurrentScreen: (screen: SCREEN) => void
     setCompanies: (companies: FinancialCompany[]) => void
@@ -36,6 +38,8 @@ interface FinancialToolkitSlice {
     setContractRevenues: (data: ContractRevenue[]) => void
     // People expenses
     setPeopleExpenses: (data: PeopleExpense[]) => void
+    // Unit sales
+    setUnitSales: (data: UnitSale[]) => void
   }
 }
 
@@ -48,6 +52,7 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
   recurringCharges: [],
   contractRevenues: [],
   peopleExpenses: [],
+  unitSales: [],
   action: {
     setCurrentScreen: (screen: SCREEN) => set({ currentScreen: screen }),
     setCompanies: (companies: FinancialCompany[]) => set({ companies }),
@@ -63,7 +68,9 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
     // Contract Revenues
     setContractRevenues: (data) => set({ contractRevenues: data }),
     // People expenses
-    setPeopleExpenses: (data) => set({ peopleExpenses: data })
+    setPeopleExpenses: (data) => set({ peopleExpenses: data }),
+    // Unit Sales
+    setUnitSales: (data) => set({ unitSales: data })
   }
 }))
 

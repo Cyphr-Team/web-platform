@@ -83,3 +83,13 @@ export interface PeopleExpense {
   benefit: number
   startDate: string
 }
+
+export interface UnitSale {
+  id?: string
+  financialProjectionId?: string
+  name: string
+  unitPrice: number
+  expectedMonthlyTransaction: number
+  monthlyIncreaseTransaction: number
+  startDate: string
+}

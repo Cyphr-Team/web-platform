@@ -14,6 +14,7 @@ import {
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import { generateMonthsList } from "@/utils/time-range.utils.ts"
+import { v4 } from "uuid"
 
 const enum FormField {
   ID = "id",
@@ -259,18 +260,23 @@ const RecurringChargesForm = () => {
 
   const onAdd = useCallback(
     (recurringCharge: RecurringCharge) => {
-      setRecurringCharges([...recurringCharges, recurringCharge])
+      setRecurringCharges([
+        ...recurringCharges,
+        {
+          ...recurringCharge,
+          id: v4()
+        } as RecurringCharge
+      ])
     },
     [recurringCharges, setRecurringCharges]
   )
 
   const onEdit = useCallback(
     (recurringCharge: RecurringCharge) => {
-      const idx = recurringCharges.findIndex(
-        (value) => value.id === recurringCharge.id
+      const updatedRecurringCharges = recurringCharges.map((charge) =>
+        charge.id === recurringCharge.id ? recurringCharge : charge
       )
-      recurringCharges[idx] = recurringCharge
-      setRecurringCharges([...recurringCharges])
+      setRecurringCharges(updatedRecurringCharges)
     },
     [recurringCharges, setRecurringCharges]
   )

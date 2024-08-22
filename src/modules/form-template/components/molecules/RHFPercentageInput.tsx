@@ -86,6 +86,7 @@ const RHFPercentageInput = <T extends FieldValues>(
               wrapperClassName={wrapperClassName}
               {...field}
               {...inputProps}
+              suffixIcon="%"
               value={field.value}
               onChange={(e) => {
                 field.onBlur()

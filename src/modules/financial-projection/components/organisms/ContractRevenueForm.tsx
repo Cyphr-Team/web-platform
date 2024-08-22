@@ -13,6 +13,7 @@ import {
   Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
+import { v4 } from "uuid"
 
 const enum FormField {
   ID = "id",
@@ -118,18 +119,23 @@ const ContractRevenueForm = () => {
 
   const onAdd = useCallback(
     (contractRevenue: ContractRevenue) => {
-      setContractRevenues([...contractRevenues, contractRevenue])
+      setContractRevenues([
+        ...contractRevenues,
+        {
+          ...contractRevenue,
+          id: v4()
+        } as ContractRevenue
+      ])
     },
     [contractRevenues, setContractRevenues]
   )
 
   const onEdit = useCallback(
     (contractRevenue: ContractRevenue) => {
-      const idx = contractRevenues.findIndex(
-        (value) => value.id === contractRevenue.id
+      const updatedUnitSales = contractRevenues.map((value) =>
+        value.id === contractRevenue.id ? contractRevenue : value
       )
-      contractRevenues[idx] = contractRevenue
-      setContractRevenues([...contractRevenues])
+      setContractRevenues(updatedUnitSales)
     },
     [contractRevenues, setContractRevenues]
   )
