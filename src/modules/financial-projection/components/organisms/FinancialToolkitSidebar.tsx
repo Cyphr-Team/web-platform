@@ -18,7 +18,7 @@ interface Props {}
 
 const FinancialToolkitSidebar: FC<Props> = () => {
   const [accordionValue, setAccordionValue] = useState<INPUT_GROUP[]>([
-    INPUT_GROUP.PROFIT_AND_LOST
+    INPUT_GROUP.REVENUE
   ])
 
   const handleSetAccordion = useCallback(

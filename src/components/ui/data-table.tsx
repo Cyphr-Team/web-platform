@@ -36,9 +36,11 @@ interface DataTableProps<TData, TValue> {
   readonly setSorting?: OnChangeFn<SortingState>
   readonly total: number
   readonly isLoading?: boolean
-  readonly tableContainerClassName?: string
   readonly manualSorting?: boolean
   readonly headerFilter?: (table: TableType<TData>) => ReactNode
+  readonly tableContainerClassName?: string
+  readonly tableCellClassName?: string
+  readonly tableHeaderClassName?: string
 }
 
 export function DataTable<TData, TValue>({
@@ -54,7 +56,9 @@ export function DataTable<TData, TValue>({
   setSorting,
   sorting,
   manualSorting,
-  headerFilter
+  headerFilter,
+  tableCellClassName,
+  tableHeaderClassName
 }: DataTableProps<TData, TValue>) {
   const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.id!))
 
@@ -83,7 +87,12 @@ export function DataTable<TData, TValue>({
 
       <div className="rounded-md border relative max-h-full overflow-auto">
         <Table isLoading={isLoading} className="text-sm">
-          <TableHeader className="bg-gray-100 sticky top-0 z-10">
+          <TableHeader
+            className={cn(
+              "bg-gray-100 sticky top-0 z-10",
+              tableHeaderClassName
+            )}
+          >
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -111,7 +120,7 @@ export function DataTable<TData, TValue>({
                   onClick={() => handleClickDetail && handleClickDetail(row)}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className={tableCellClassName}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

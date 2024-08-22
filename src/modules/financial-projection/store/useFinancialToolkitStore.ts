@@ -3,6 +3,7 @@ import { SCREEN } from "@/modules/financial-projection/constants"
 import {
   DirectCost,
   FinancialCompany,
+  RecurringCharge,
   SaasRevenue,
   TransactionalMarketplaceRevenue
 } from "@/modules/financial-projection/types"
@@ -14,53 +15,41 @@ interface FinancialToolkitSlice {
   directCosts: DirectCost[]
   transactionalMarketplaceRevenue: TransactionalMarketplaceRevenue[]
   saasRevenue: SaasRevenue[]
+  recurringCharges: RecurringCharge[]
   action: {
     setCurrentScreen: (screen: SCREEN) => void
     setCompanies: (companies: FinancialCompany[]) => void
     setDirectCost: (directCosts: DirectCost[]) => void
-    addDirectCost: (directCost: DirectCost) => void
-    editDirectCost: (directCost: DirectCost) => void
     // Transactional Marketplace Revenue
     setTransactionalMarketplaceRevenue: (
       data: TransactionalMarketplaceRevenue[]
     ) => void
     // Saas Revenue
     setSaasRevenue: (data: SaasRevenue[]) => void
+    // Recurring Charges
+    setRecurringCharges: (data: RecurringCharge[]) => void
   }
 }
 
 const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
-  currentScreen: SCREEN.INPUT_REVENUE,
+  currentScreen: SCREEN.INPUT_RECURRING_CHARGES,
   companies: [],
   directCosts: [],
   transactionalMarketplaceRevenue: [],
   saasRevenue: [],
+  recurringCharges: [],
   action: {
     setCurrentScreen: (screen: SCREEN) => set({ currentScreen: screen }),
     setCompanies: (companies: FinancialCompany[]) => set({ companies }),
     // Direct Costs
     setDirectCost: (directCosts) => set({ directCosts }),
-    addDirectCost: (directCost) =>
-      set((state) => {
-        return {
-          directCosts: [...state.directCosts, directCost]
-        }
-      }),
-    editDirectCost: (directCost) =>
-      set((state) => {
-        const idx = state.directCosts.findIndex(
-          (value) => value.id === directCost.id
-        )
-        state.directCosts[idx] = directCost
-        return {
-          directCosts: [...state.directCosts]
-        }
-      }),
     // Transactional Marketplace Revenue
     setTransactionalMarketplaceRevenue: (data) =>
       set({ transactionalMarketplaceRevenue: data }),
     // Saas Revenue
-    setSaasRevenue: (data) => set({ saasRevenue: data })
+    setSaasRevenue: (data) => set({ saasRevenue: data }),
+    // Recurring charges
+    setRecurringCharges: (data) => set({ recurringCharges: data })
   }
 }))
 

@@ -2,6 +2,7 @@ import { ComponentType, FC } from "react"
 import { SCREEN } from "@/modules/financial-projection/constants"
 import { useFinancialToolkitStore } from "@/modules/financial-projection/store/useFinancialToolkitStore.ts"
 import DirectCostForm from "@/modules/financial-projection/components/organisms/DirectCostForm.tsx"
+import RecurringChargesForm from "@/modules/financial-projection/components/organisms/RecurringChargesForm.tsx"
 
 // TODO: remove this
 const KhoaiMon = () => {
@@ -10,16 +11,19 @@ const KhoaiMon = () => {
 
 // TODO: CHANGE THE COMPONENT HERE
 const ScreenMapper: { [key: string]: ComponentType } = {
-  [SCREEN.INPUT_REVENUE]: KhoaiMon, // TODO: fix me
-  [SCREEN.INPUT_DIRECT_COSTS]: DirectCostForm,
-  [SCREEN.INPUT_OPERATING_EXPENSES]: KhoaiMon, // TODO: fix me
-  [SCREEN.INPUT_TAX_RATES]: KhoaiMon, // TODO: fix me
-  [SCREEN.INPUT_INITIAL_BALANCES]: KhoaiMon, // TODO: fix me
-  [SCREEN.INPUT_INITIAL_LIABILITIES]: KhoaiMon, // TODO: fix me
-  [SCREEN.INPUT_INITIAL_EQUITY]: KhoaiMon, // TODO: fix me
+  [SCREEN.INPUT_RECURRING_CHARGES]: RecurringChargesForm, // TODO: fix me
+  [SCREEN.INPUT_CONTRACT_REVENUE]: DirectCostForm,
+  [SCREEN.INPUT_UNIT_SALES]: KhoaiMon, // TODO: fix me
+  [SCREEN.INPUT_BILLABLE_HOURS]: KhoaiMon, // TODO: fix me
+
+  [SCREEN.INPUT_PEOPLE]: KhoaiMon, // TODO: fix me
+  [SCREEN.INPUT_COST_OF_GOODS_SOLD]: KhoaiMon, // TODO: fix me
+  [SCREEN.INPUT_GENERAL_ADMIN]: KhoaiMon, // TODO: fix me
+  [SCREEN.INPUT_TAXES]: KhoaiMon, // TODO: fix me
+
   [SCREEN.INPUT_ASSETS]: KhoaiMon, // TODO: fix me
-  [SCREEN.INPUT_DEBT_FINANCING]: KhoaiMon, // TODO: fix me
-  [SCREEN.INPUT_EQUITY_FINANCING]: KhoaiMon, // TODO: fix me
+  [SCREEN.INPUT_DEBT_SCHEDULE]: KhoaiMon, // TODO: fix me
+  [SCREEN.INPUT_EQUITY]: KhoaiMon, // TODO: fix me
 
   [SCREEN.EXPORT_FORECAST_FOR_USE]: KhoaiMon, // TODO: fix me
 

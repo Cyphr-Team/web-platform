@@ -19,8 +19,24 @@ const enum DIALOG {
 
 const DirectCostForm = () => {
   const directCosts = useFinancialToolkitStore.use.directCosts()
-  const { setDirectCost, setCurrentScreen, addDirectCost, editDirectCost } =
+  const { setDirectCost, setCurrentScreen } =
     useFinancialToolkitStore.use.action()
+
+  const addDirectCost = useCallback(
+    (directCost: DirectCost) => {
+      setDirectCost([...directCosts, directCost])
+    },
+    [directCosts, setDirectCost]
+  )
+
+  const editDirectCost = useCallback(
+    (directCost: DirectCost) => {
+      const idx = directCosts.findIndex((value) => value.id === directCost.id)
+      directCosts[idx] = directCost
+      setDirectCost([...directCosts])
+    },
+    [directCosts, setDirectCost]
+  )
 
   const [dialog, setDialog] = useState<DIALOG>()
 
@@ -136,7 +152,7 @@ const DirectCostForm = () => {
           <Button
             className="w-56"
             // TODO: handle screen using custom hooks
-            onClick={() => setCurrentScreen(SCREEN.INPUT_OPERATING_EXPENSES)}
+            onClick={() => setCurrentScreen(SCREEN.INPUT_UNIT_SALES)}
           >
             Next
           </Button>

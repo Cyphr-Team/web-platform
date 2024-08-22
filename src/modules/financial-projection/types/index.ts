@@ -49,3 +49,19 @@ export interface SaasRevenue {
   startingDate: string
   endDate: string
 }
+
+export interface RecurringCharge {
+  id?: string
+  financialProjectionId?: string
+  name: string
+  newCustomersMonthly: number // New Customers (Monthly)
+  annualChurnRate: number // Annual Churn Rate (percentage)
+  annualPrice: number // Annual Price (currency)
+  frequencyMonths: number // Frequency (Months)
+  upfrontFee: number // Upfront Fee (currency)
+  billedSubscriptions: number // Billed Subscriptions (count)
+  subscriptionsAvailableForRenewal: number // Subscriptions Available for Renewal (count)
+  churnedSubscriptions: number // Churned Subscriptions (count)
+  renewedSubscriptions: number // Renewed Subscriptions (count)
+  startDate: string
+}
