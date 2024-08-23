@@ -33,6 +33,7 @@ export interface RHFNumberInputProps<T extends FieldValues>
     labelClassName?: string
     messageClassName?: string
   }
+  subtitle?: string
 }
 
 /**
@@ -54,6 +55,7 @@ const RHFNumberInput = <T extends FieldValues>(
     required,
     control,
     direction,
+    subtitle,
     ...other
   } = props
 
@@ -85,6 +87,9 @@ const RHFNumberInput = <T extends FieldValues>(
           </FormControl>
           {direction === "column" && (
             <FormMessage className={messageClassName} />
+          )}
+          {subtitle && (
+            <div className="text-xs text-text-tertiary">{subtitle}</div>
           )}
         </FormItem>
       )}

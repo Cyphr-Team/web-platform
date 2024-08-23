@@ -77,6 +77,10 @@ function isSbb(): boolean {
   return matchSubdomain(getSubdomain(), Institution.SBB)
 }
 
+function isKansasCity(): boolean {
+  return matchSubdomain(getSubdomain(), Institution.KansasCity)
+}
+
 export {
   getSubdomain,
   getRootSubdomain,
@@ -88,5 +92,6 @@ export {
   getTenantDomain,
   isKccBank,
   isLaunchKC,
-  isSbb
+  isSbb,
+  isKansasCity
 }

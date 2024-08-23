@@ -30,6 +30,7 @@ export interface RHFPercentageInputProps<T extends FieldValues> {
     inputClassName?: string
     labelClassName?: string
     messageClassName?: string
+    subtitleClassName?: string
   }
   direction?: "row" | "column"
   prefix?: string
@@ -57,8 +58,13 @@ const RHFPercentageInput = <T extends FieldValues>(
     ...inputProps
   } = props
 
-  const { wrapperClassName, inputClassName, labelClassName, messageClassName } =
-    styleProps
+  const {
+    wrapperClassName,
+    inputClassName,
+    labelClassName,
+    messageClassName,
+    subtitleClassName
+  } = styleProps
 
   return (
     <FormField
@@ -71,11 +77,6 @@ const RHFPercentageInput = <T extends FieldValues>(
               <label>
                 {label}
                 {required && <RequiredSymbol />}
-                {subtitle && (
-                  <p className="mt-2 text-text-tertiary font-medium">
-                    {subtitle}
-                  </p>
-                )}
               </label>
               {direction === "row" && <FormMessage />}
             </div>
@@ -107,6 +108,16 @@ const RHFPercentageInput = <T extends FieldValues>(
           </FormControl>
           {direction === "column" && (
             <FormMessage className={messageClassName} />
+          )}
+          {subtitle && (
+            <p
+              className={cn(
+                "mt-2 text-text-tertiary font-medium",
+                subtitleClassName
+              )}
+            >
+              {subtitle}
+            </p>
           )}
         </FormItem>
       )}

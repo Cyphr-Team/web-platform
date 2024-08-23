@@ -36,13 +36,20 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loanRequestFormSchema } from "../../constants/form"
 import { useEffect, useMemo } from "react"
-import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isKansasCity,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "../../services"
 import { useAutoCompleteStepEffect } from "../../hooks/useAutoCompleteStepEffect"
+import { RHFTextInput } from "../../../form-template/components/molecules"
 
 export function CardWithForm() {
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
@@ -56,13 +63,17 @@ export function CardWithForm() {
       id: loanRequest?.id ?? "",
       loanAmount: loanRequest?.loanAmount ?? minLoanAmount ?? 0,
       loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-      proposeUseOfLoan: loanRequest?.proposeUseOfLoan ?? UseOfLoan.OTHER
+      proposeUseOfLoan:
+        loanRequest?.proposeUseOfLoan ??
+        (isKansasCity() ? "" : UseOfLoan.OTHER),
+      requestingInstitution: loanRequest?.requestingInstitution ?? ""
     }
   }, [
     loanProgramDetails?.maxTermInMonth,
     loanRequest?.id,
     loanRequest?.loanAmount,
     loanRequest?.proposeUseOfLoan,
+    loanRequest?.requestingInstitution,
     minLoanAmount
   ])
 
@@ -86,7 +97,8 @@ export function CardWithForm() {
         id: form.getValues("id") ?? "",
         loanAmount: form.getValues("loanAmount"),
         loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-        proposeUseOfLoan: form.getValues("proposeUseOfLoan")
+        proposeUseOfLoan: form.getValues("proposeUseOfLoan"),
+        requestingInstitution: form.getValues("requestingInstitution")
       }
     })
     // Change step status to next step
@@ -223,7 +235,8 @@ export function CardWithForm() {
                   {!isLoanReady() &&
                     !isKccBank() &&
                     !isSbb() &&
-                    !isLaunchKC() && (
+                    !isLaunchKC() &&
+                    !isKansasCity() && (
                       <FormField
                         control={form.control}
                         name="proposeUseOfLoan"
@@ -257,6 +270,24 @@ export function CardWithForm() {
                         )}
                       />
                     )}
+
+                  {isKansasCity() && (
+                    <RHFTextInput
+                      name="proposeUseOfLoan"
+                      placeholder="i.e. Equipment loan "
+                      label="Proposed use of loan"
+                      className="mt-6 space-y-2"
+                    />
+                  )}
+
+                  {isKansasCity() && (
+                    <RHFTextInput
+                      name="requestingInstitution"
+                      placeholder="Enter bank or financial institution"
+                      label="Which bank or financial institution are you requesting or planning to request a loan from?"
+                      className="mt-6 space-y-2"
+                    />
+                  )}
                 </div>
               </div>
             </div>

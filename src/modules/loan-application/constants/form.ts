@@ -95,6 +95,16 @@ export const launchKCOwnerFormSchema = ownerFormSchema.extend({
   areFullTimeFounder: z.string().min(1, { message: "This field is required" })
 })
 
+export const kansasCityOwnerFormSchema = ownerFormSchema.extend({
+  businessRole: z.string(),
+  residentStreetAddress: z.string(),
+  title: z.string(),
+  genderIdentity: z.string(),
+  racialIdentification: z.string(),
+  ethnicIdentification: z.string(),
+  personalCreditScore: z.string()
+})
+
 export const businessFormSchema = z.object({
   id: z.string(),
   businessLegalName: z.string().min(1, { message: "Name is required" }),
@@ -139,6 +149,16 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
     .max(255, { message: "Company description is too long" })
 })
 
+export const kansasCityBusinessFormSchema = businessFormSchema.extend({
+  dba: z.string(),
+  otherRelatedBusiness: z.string(),
+  anyOtherOwnerOver20Percentage: z.string(),
+  typeOfBusiness: z.string(),
+  numberOfFullTimeEmployee: z.string(),
+  numberOfPartTimeEmployee: z.string(),
+  tenNinetyNineContractorOrOther: z.string()
+})
+
 export const financialFormSchema = z.object({
   id: z.string(),
   incomeCategories: z
@@ -175,8 +195,11 @@ export const loanRequestFormSchema = z.object({
   id: z.string(),
   loanAmount: z.number(),
   loanTermInMonth: z.number().gt(1),
-  proposeUseOfLoan: z.string().min(1),
-  applicationId: z.string().optional()
+  proposeUseOfLoan: z
+    .string()
+    .min(1, { message: "Proposed used of loan is required" }),
+  applicationId: z.string().optional(),
+  requestingInstitution: z.string().optional()
 })
 
 const LoanItemFormSchema = z.object({
@@ -433,9 +456,15 @@ export type LaunchKCBusinessFormValue = z.infer<
   typeof launchKCBusinessFormSchema
 >
 
+export type KansasCityBusinessFormValue = z.infer<
+  typeof kansasCityBusinessFormSchema
+>
+
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
 
 export type LaunchKCOwnerFormValue = z.infer<typeof launchKCOwnerFormSchema>
+
+export type KansasCityOwnerFormValue = z.infer<typeof kansasCityOwnerFormSchema>
 
 export type FinancialFormValue = z.infer<typeof financialFormSchema>
 
@@ -480,9 +509,12 @@ export type LaunchKCFitFormValue = z.infer<typeof launchKcFitFormSchema>
 export type IBusinessFormValue = BusinessFormValue &
   LaunchKCBusinessFormValue &
   SbbKybFormPartOneValue &
-  SbbKybFormPartTwoValue
+  SbbKybFormPartTwoValue &
+  KansasCityBusinessFormValue
 
-export type IOwnerFormValue = OwnerFormValue & LaunchKCOwnerFormValue
+export type IOwnerFormValue = OwnerFormValue &
+  LaunchKCOwnerFormValue &
+  KansasCityOwnerFormValue
 
 export type ICurrentLoanFormValue = CurrentLoansFormValue &
   SbbCurrentLoansFormValue

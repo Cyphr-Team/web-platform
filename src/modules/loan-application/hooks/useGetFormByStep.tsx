@@ -1,4 +1,4 @@
-import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
+import { isKansasCity, isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import {
   isEnabledBankAccountConnectionV2,
   isEnablePandaDocESign
@@ -34,6 +34,8 @@ import { LaunchKCFitForm } from "@/modules/loan-application/components/organisms
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/LaunchKCOwnerInformationForm.tsx"
 import { SBBKybFormPartOne } from "../components/organisms/loan-application-form/kyb/sbb/SBBKybFormPartOne"
 import { SBBKybFormPartTwo } from "../components/organisms/loan-application-form/kyb/sbb/SbbKybFormPartTwo"
+import { KansasCityOwnerInformationForm } from "../components/organisms/loan-application-form/kyc/kansascity/KansasCityOwnerInformationForm"
+import { KansasCityBusinessInformationForm } from "../components/organisms/loan-application-form/kyb/kansascity/KansasCityBusinessInformationForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -45,21 +47,26 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
         return <LoanRequest />
       case LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION:
-        return isLaunchKC() ? (
-          <LaunchKCBusinessInformationForm />
-        ) : (
-          <BusinessInformationForm />
-        )
+        if (isLaunchKC()) {
+          return <LaunchKCBusinessInformationForm />
+        }
+        if (isKansasCity()) {
+          return <KansasCityBusinessInformationForm />
+        }
+        return <BusinessInformationForm />
       case LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE:
         return <SBBKybFormPartOne />
       case LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO:
         return <SBBKybFormPartTwo />
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
-        return isLaunchKC() ? (
-          <LaunchKCOwnerInformationForm />
-        ) : (
-          <OwnerInformationForm />
-        )
+        if (isLaunchKC()) {
+          return <LaunchKCOwnerInformationForm />
+        }
+        if (isKansasCity()) {
+          return <KansasCityOwnerInformationForm />
+        }
+        return <OwnerInformationForm />
+
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />

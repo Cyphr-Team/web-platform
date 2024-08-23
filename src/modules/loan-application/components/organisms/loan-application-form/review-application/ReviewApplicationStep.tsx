@@ -20,7 +20,7 @@ import { LaunchKCBusinessDocumentsForm } from "../DocumentUploadForm"
 import { ExecutionForm } from "../execution/ExecutionForm"
 import { LaunchKCFitForm } from "../custom-form/launchkc/launchkc-fit/LaunchKcFitForm"
 import { MarketOpportunityForm } from "../market-opportunity/MarketOpportunityForm"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
+import { isKansasCity, isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/launchkc/LaunchKCBusinessInformationForm"
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/LaunchKCOwnerInformationForm"
 import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/sbb/SbbCurrentLoanForm"
@@ -29,6 +29,7 @@ import { CertificateGoodStandingForm } from "@/modules/loan-application/componen
 import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
 import { FictitiousNameCertificationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+import { KansasCityOwnerInformationForm } from "../kyc/kansascity/KansasCityOwnerInformationForm"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -50,11 +51,14 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
           <BusinessInformationForm />
         )
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
-        return isLaunchKC() ? (
-          <LaunchKCOwnerInformationForm />
-        ) : (
-          <OwnerInformationForm />
-        )
+        if (isLaunchKC()) {
+          return <LaunchKCOwnerInformationForm />
+        }
+        if (isKansasCity()) {
+          return <KansasCityOwnerInformationForm />
+        }
+        return <OwnerInformationForm />
+
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />

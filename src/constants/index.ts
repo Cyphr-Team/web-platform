@@ -463,6 +463,7 @@ export const phoneRegex =
 export const SSN_PATTERN = "000-00-0000"
 export const EIN_PATTERN = "00-0000000"
 export const YEAR_PATTERN = "0000"
+export const MM_YYYY_PATTERN = "00/0000"
 export const NUMBER_PATTERN = "0000000000000000000000000000000000000000"
 
 export interface QueryResponse<T> {
