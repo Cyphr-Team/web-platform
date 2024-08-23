@@ -159,7 +159,7 @@ export const monthlyExpenseRangeOptions: Option[] = [
   },
   {
     label: "$3,001 - $6,000",
-    value: "three_thousand_one_to_six_thousands"
+    value: "three_thousands_one_to_six_thousands"
   },
   {
     label: "$6,001 - $10,000",
