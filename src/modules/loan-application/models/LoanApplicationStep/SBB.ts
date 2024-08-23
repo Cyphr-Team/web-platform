@@ -1,7 +1,8 @@
 import {
   isEnablePersonaKycV1,
   isEnableReviewApplicationStep,
-  isIgnoredKycAndCashFlowSubmission
+  isIgnoredCashFlowSubmission,
+  isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 import { LoanProgramData } from "@/modules/loan-application/constants/type.ts"
@@ -40,11 +41,10 @@ export class SBBLoanApplicationStep
 
     this._build_OwnerInformationStep()
 
-    if (isEnablePersonaKycV1() && !isIgnoredKycAndCashFlowSubmission())
+    if (isEnablePersonaKycV1() && !isIgnoredKycSubmission())
       this._build_IdentityVerificationStep()
 
-    if (!isIgnoredKycAndCashFlowSubmission())
-      this._build_CashFlowVerificationStep()
+    if (!isIgnoredCashFlowSubmission()) this._build_CashFlowVerificationStep()
 
     this._build_CurrentLoansStep()._build_OperatingExpensesStep()
 

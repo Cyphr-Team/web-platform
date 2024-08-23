@@ -1,10 +1,6 @@
 import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 import { featureFlagsService } from "@/services/feature-flag.service"
-import {
-  getRootSubdomain,
-  getSubdomain,
-  isLaunchKC
-} from "@/utils/domain.utils.ts"
+import { isLaunchKC } from "@/utils/domain.utils.ts"
 
 export function checkEnabledFeatureFlag(key: FEATURE_FLAGS) {
   const featureFlags = featureFlagsService.getFeatureFlags()
@@ -116,13 +112,17 @@ function isEnableWorkspaceAdminFilterByScorecard() {
 }
 
 /*
- * Allow applicants to submit applications without KYC and CashFlow on the replicate portal
+ * Allow applicants to submit applications without KYC step
  */
-function isIgnoredKycAndCashFlowSubmission() {
-  return (
-    checkEnabledFeatureFlag(FEATURE_FLAGS.IGNORE_KYC_AND_CASH_FLOW) &&
-    getSubdomain() != getRootSubdomain(getSubdomain())
-  )
+function isIgnoredKycSubmission() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.IGNORE_KYC_SUBMISSION)
+}
+
+/*
+ * Allow applicants to submit applications without CashFLow step
+ */
+function isIgnoredCashFlowSubmission() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.IGNORE_CASHFLOW_SUBMISSION)
 }
 
 function isEnableExecutionFormNewMonthlyExpense() {
@@ -153,7 +153,8 @@ export {
   isEnableMultiFactorAuthentication,
   isEnableTermAgreementsCheckbox,
   isEnableNewSubmitFormStrategy,
-  isIgnoredKycAndCashFlowSubmission,
+  isIgnoredKycSubmission,
+  isIgnoredCashFlowSubmission,
   isEnableExecutionFormNewMonthlyExpense,
   isEnableFinancialProjection
 }

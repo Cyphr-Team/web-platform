@@ -1,6 +1,6 @@
 import {
   isEnableReviewApplicationStep,
-  isIgnoredKycAndCashFlowSubmission
+  isIgnoredCashFlowSubmission
 } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
@@ -18,8 +18,7 @@ export class KansasCityLoanApplicationStep
       ._build_OwnerInformationStep()
       ._build_BusinessInformationStep()
 
-    if (!isIgnoredKycAndCashFlowSubmission())
-      this._build_CashFlowVerificationStep()
+    if (!isIgnoredCashFlowSubmission()) this._build_CashFlowVerificationStep()
 
     this._build_CurrentLoansStep()._build_OperatingExpensesStep()
 
