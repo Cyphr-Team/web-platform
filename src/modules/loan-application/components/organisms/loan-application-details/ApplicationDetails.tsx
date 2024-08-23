@@ -22,6 +22,7 @@ import { PreQualificationFormDetails } from "../loan-application-form/pre-qualif
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import { FeatureKey } from "@/hooks/useCanAccess"
 import { LaunchKcFitFormDetails } from "../loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
+import { isIgnoredCashFlowSubmission } from "@/utils/feature-flag.utils.ts"
 
 export const ApplicationDetails = () => {
   const {
@@ -58,7 +59,8 @@ export const ApplicationDetails = () => {
             isKccBank() ||
             isCyphrBank() ||
             isSbb() ||
-            isLaunchKC()) && <CashFlowTable />}
+            isLaunchKC()) &&
+            !isIgnoredCashFlowSubmission() && <CashFlowTable />}
           {currentLoanFormData && (
             <CurrentLoanFormDetails currentLoanFormData={currentLoanFormData} />
           )}
