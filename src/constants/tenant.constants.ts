@@ -41,6 +41,7 @@ type InstitutionData = {
      * @example "asset/subdomain/logo.png"
      */
     favicon?: string
+    stytchOrganizationId?: string
   }
 }
 

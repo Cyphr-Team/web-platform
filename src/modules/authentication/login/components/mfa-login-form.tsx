@@ -9,7 +9,6 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input, InputPassword } from "@/components/ui/input"
-import { LoginGoogleButton } from "./login-google-button"
 import { APP_PATH } from "@/constants"
 import { Checkbox } from "@/components/ui/checkbox"
 import { LoginFormValue, loginFormSchema } from "../hooks/useLogin"
@@ -17,6 +16,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link, useSearchParams } from "react-router-dom"
 import { useStytchLogin } from "../hooks/useStytchLogin"
+import { LoginGoogleButtonMFA } from "./mfa-login-google-button"
 
 export function MfaLoginForm() {
   const [searchParams] = useSearchParams()
@@ -125,7 +125,7 @@ export function MfaLoginForm() {
         </form>
       </Form>
 
-      <LoginGoogleButton />
+      <LoginGoogleButtonMFA />
     </div>
   )
 }

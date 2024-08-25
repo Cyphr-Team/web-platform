@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { Button } from "@/components/ui/button"
 import { useStytchB2BClient } from "@stytch/nextjs/dist/b2b"
@@ -11,34 +11,52 @@ import { Mail } from "lucide-react"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { SESSION_DURATION_MINUTES } from "../constants/session"
+import { RedirectParam } from "../constants/params"
 
-export function MagicLinkSection() {
+export function RedirectSection() {
   const stytchClient = useStytchB2BClient()
   const navigate = useNavigate()
   const [email, setEmail] = useState("")
+  const [searchParams] = useSearchParams()
 
   /**
-   * Handles the Stytch callback for magic link authentication.
-   * This function is responsible for authenticating the magic link token and performing the necessary actions based on the authentication result.
-   * If the token is valid, it transfers the refresh token, checks the user role, and navigates to the appropriate page.
-   * If the token is not present or invalid, it sets the email from the query parameters.
-   * @returns {Promise<void>} A promise that resolves when the authentication process is completed.
+   * Handle redirect from Stytch B2B login flow after a user has been authenticated.
+   *
+   * @remarks
+   * This function is called on the redirect page after a user has been authenticated
+   * via the Stytch B2B login flow. It uses the `stytch_token_type` and `token` query
+   * params to authenticate the user with Stytch and log them in.
+   *
+   * If the user is a loan applicant, it redirects them to the loan application
+   * page. Otherwise, it redirects them to the dashboard.
+   *
+   * @see {@link https://stytch.com/docs/api/b2b/oauth#flow}
    */
   const handleStytchCallback = useCallback(async () => {
     try {
-      const searchParams = new URLSearchParams(window.location.search)
-      if (searchParams.has("token")) {
-        await stytchClient.magicLinks.authenticate({
-          magic_links_token: searchParams.get("token") ?? "",
-          session_duration_minutes: SESSION_DURATION_MINUTES
-        })
+      const stytch_token_type = searchParams.get(
+        RedirectParam.STYTCH_TOKEN_TYPE
+      )
+      const token = searchParams.get(RedirectParam.TOKEN)
+      if (stytch_token_type && token) {
+        if (stytch_token_type === RedirectParam.OAUTH) {
+          stytchClient.oauth.authenticate({
+            oauth_token: token,
+            session_duration_minutes: SESSION_DURATION_MINUTES
+          })
+        } else if (stytch_token_type === RedirectParam.MAGIC_LINKS) {
+          stytchClient.magicLinks.authenticate({
+            magic_links_token: token,
+            session_duration_minutes: 60
+          })
+        }
         if (checkIsLoanApplicant()) {
           navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
         } else {
           navigate(APP_PATH.INDEX)
         }
-      } else if (searchParams.has("email")) {
-        setEmail(searchParams.get("email") ?? "")
+      } else if (searchParams.has(RedirectParam.EMAIL)) {
+        setEmail(searchParams.get(RedirectParam.EMAIL) ?? "")
       }
     } catch (e) {
       toastError({
@@ -46,7 +64,7 @@ export function MagicLinkSection() {
         description: "Failed to authenticate magic link or it was expired"
       })
     }
-  }, [navigate, stytchClient.magicLinks])
+  }, [navigate, searchParams, stytchClient.magicLinks, stytchClient.oauth])
 
   useEffect(() => {
     handleStytchCallback()
@@ -90,7 +108,7 @@ export function MagicLinkSection() {
 
             <div className="text-muted-foreground mt-3">
               <p>
-                You will be redirected to home page once the magic link is
+                You will be redirected to home page once your account is
                 verified.
               </p>
             </div>
