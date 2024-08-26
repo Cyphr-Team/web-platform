@@ -187,7 +187,7 @@ const UnitSalesForm = () => {
 
   return (
     <DialogFormBase
-      modelName="recurring charge"
+      modelName="unit sale"
       data={unitSales}
       columns={columns}
       form={form}

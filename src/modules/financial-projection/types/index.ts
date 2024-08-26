@@ -93,3 +93,14 @@ export interface UnitSale {
   monthlyIncreaseTransaction: number
   startDate: string
 }
+
+export interface BillableHour {
+  id?: string
+  financialProjectionId?: string
+  name: string
+  expectedMonthlyCustomers: number
+  monthlyIncreaseCustomers: number
+  startDate: string
+  averageMonthlyHoursBilledPerCustomer: number
+  averageHourlyRate: number
+}

@@ -16,14 +16,15 @@ import {
 import { MaskInput, MaskInputProps } from "@/components/ui/mask-input.tsx"
 import { memo, ReactNode } from "react"
 import { NUMBER_PATTERN } from "@/constants"
+import { cn } from "@/lib/utils.ts"
 
 export interface RHFNumberInputProps<T extends FieldValues>
   extends Partial<MaskInputProps> {
   name: FieldPath<T>
   label: string
 
-  control?: Control<T>
   placeholder?: string
+  subtitle?: string
   required?: boolean
   className?: string
   suffixIcon?: ReactNode
@@ -33,7 +34,6 @@ export interface RHFNumberInputProps<T extends FieldValues>
     labelClassName?: string
     messageClassName?: string
   }
-  subtitle?: string
 }
 
 /**
@@ -45,7 +45,7 @@ export interface RHFNumberInputProps<T extends FieldValues>
 const RHFNumberInput = <T extends FieldValues>(
   props: RHFNumberInputProps<T>
 ) => {
-  const { control: defaultControl } = useFormContext()
+  const { control } = useFormContext()
   const {
     name,
     label,
@@ -53,7 +53,6 @@ const RHFNumberInput = <T extends FieldValues>(
     className,
     styleProps = {},
     required,
-    control,
     direction,
     subtitle,
     ...other
@@ -63,16 +62,23 @@ const RHFNumberInput = <T extends FieldValues>(
 
   return (
     <FormField
-      control={(control as Control<T>) ?? defaultControl}
+      control={control as Control<T>}
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          <FormLabel className={labelClassName}>
-            {label}
-            {required && <RequiredSymbol />}
-            {direction === "row" && (
-              <FormMessage className={messageClassName} />
-            )}
+          <FormLabel className={cn("text-text-secondary", labelClassName)}>
+            <div className="flex flex-col">
+              <label>
+                {label}
+                {required && <RequiredSymbol />}
+                {subtitle && (
+                  <p className="mt-2 text-text-tertiary font-medium">
+                    {subtitle}
+                  </p>
+                )}
+              </label>
+              {direction === "row" && <FormMessage />}
+            </div>
           </FormLabel>
           <FormControl>
             <MaskInput

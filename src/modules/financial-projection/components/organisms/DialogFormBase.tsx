@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button.tsx"
 import { ColumnDef } from "@tanstack/react-table"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { FieldValues, UseFormReturn } from "react-hook-form"
 import {
   AlertDialog,
@@ -51,7 +51,7 @@ const DialogFormBase = <TData,>(props: DialogFormBaseProps<TData>) => {
     onEdit,
     onNextStep
   } = props
-
+  // form
   const [dialog, setDialog] = useState<DIALOG_MODE | undefined>(undefined)
 
   const setCurrentDialog = useCallback(
@@ -78,7 +78,7 @@ const DialogFormBase = <TData,>(props: DialogFormBaseProps<TData>) => {
   )
 
   const handleClickAdd = useCallback(() => {
-    form.reset(undefined)
+    form.reset()
     setDialog(DIALOG_MODE.ADD)
   }, [form])
 
@@ -98,7 +98,12 @@ const DialogFormBase = <TData,>(props: DialogFormBaseProps<TData>) => {
         header: "",
         cell: ({ row }) => {
           const handleEdit = () => {
-            form.reset(row.original as FieldValues)
+            Object.entries(row.original as FieldValues).forEach(
+              ([key, value]) => {
+                form.setValue(key, value)
+              }
+            )
+
             setDialog(DIALOG_MODE.EDIT)
           }
           const handleDelete = () => {
@@ -189,23 +194,29 @@ const Dialog = (props: DialogProps) => {
     confirmText
   } = props
 
+  const { reset, formState } = form
+
   const onSubmit = useCallback(
     (formValues: FieldValues) => {
       onConfirm(formValues)
-      form.reset()
     },
-    [form, onConfirm]
+    [onConfirm]
   )
 
   const handleAbort = useCallback(() => {
-    form.reset()
     onAbort()
-  }, [form, onAbort])
+  }, [onAbort])
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset()
+    }
+  }, [formState, reset])
 
   // use AlertDialog to prevent close dialog when user click outside the dialog
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="w-[40rem] max-w-[40rem] max-h-[60vh] overflow-y-auto">
+      <AlertDialogContent className="max-w-[56rem] max-h-[60vh] overflow-y-auto">
         <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
           <AlertDialogHeader>
             <AlertDialogTitle className="text-2xl mb-2">

@@ -50,6 +50,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
     subtitle,
     styleProps = {},
     direction = "row",
+    className,
     ...inputProps
   } = props
 
@@ -61,7 +62,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={props.className}>
+        <FormItem className={cn(className)}>
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             <div className="flex flex-col">
               <label>

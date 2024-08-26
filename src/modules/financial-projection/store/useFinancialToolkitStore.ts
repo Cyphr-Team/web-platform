@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { SCREEN } from "@/modules/financial-projection/constants"
 import {
+  BillableHour,
   ContractRevenue,
   DirectCost,
   FinancialCompany,
@@ -22,6 +23,7 @@ interface FinancialToolkitSlice {
   contractRevenues: ContractRevenue[]
   peopleExpenses: PeopleExpense[]
   unitSales: UnitSale[]
+  billableHours: BillableHour[]
   action: {
     setCurrentScreen: (screen: SCREEN) => void
     setCompanies: (companies: FinancialCompany[]) => void
@@ -40,6 +42,8 @@ interface FinancialToolkitSlice {
     setPeopleExpenses: (data: PeopleExpense[]) => void
     // Unit sales
     setUnitSales: (data: UnitSale[]) => void
+    // Billable hours
+    setBillableHours: (data: BillableHour[]) => void
   }
 }
 
@@ -53,6 +57,7 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
   contractRevenues: [],
   peopleExpenses: [],
   unitSales: [],
+  billableHours: [],
   action: {
     setCurrentScreen: (screen: SCREEN) => set({ currentScreen: screen }),
     setCompanies: (companies: FinancialCompany[]) => set({ companies }),
@@ -70,7 +75,9 @@ const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
     // People expenses
     setPeopleExpenses: (data) => set({ peopleExpenses: data }),
     // Unit Sales
-    setUnitSales: (data) => set({ unitSales: data })
+    setUnitSales: (data) => set({ unitSales: data }),
+    // Billable Hours
+    setBillableHours: (data) => set({ billableHours: data })
   }
 }))
 
