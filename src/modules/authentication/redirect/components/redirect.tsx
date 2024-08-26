@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react"
-import { Link, useNavigate, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { Button } from "@/components/ui/button"
 import { useStytchB2BClient } from "@stytch/nextjs/dist/b2b"
@@ -9,13 +9,13 @@ import { toastError } from "@/utils"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Mail } from "lucide-react"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
-import { checkIsLoanApplicant } from "@/utils/check-roles"
-import { SESSION_DURATION_MINUTES } from "../constants/session"
+// import { checkIsLoanApplicant } from "@/utils/check-roles"
+// import { SESSION_DURATION_MINUTES } from "../constants/session"
 import { RedirectParam } from "../constants/params"
 
 export function RedirectSection() {
   const stytchClient = useStytchB2BClient()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [searchParams] = useSearchParams()
 
@@ -40,21 +40,23 @@ export function RedirectSection() {
       const token = searchParams.get(RedirectParam.TOKEN)
       if (stytch_token_type && token) {
         if (stytch_token_type === RedirectParam.OAUTH) {
-          stytchClient.oauth.authenticate({
-            oauth_token: token,
-            session_duration_minutes: SESSION_DURATION_MINUTES
-          })
+          // TODO: Add OAuth flow
+          // stytchClient.oauth.authenticate({
+          //   oauth_token: token,
+          //   session_duration_minutes: SESSION_DURATION_MINUTES
+          // })
         } else if (stytch_token_type === RedirectParam.MAGIC_LINKS) {
           stytchClient.magicLinks.authenticate({
             magic_links_token: token,
             session_duration_minutes: 60
           })
         }
-        if (checkIsLoanApplicant()) {
-          navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
-        } else {
-          navigate(APP_PATH.INDEX)
-        }
+        // TODO: Remove - For Testing Purposes
+        // if (checkIsLoanApplicant()) {
+        //   navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
+        // } else {
+        //   navigate(APP_PATH.INDEX)
+        // }
       } else if (searchParams.has(RedirectParam.EMAIL)) {
         setEmail(searchParams.get(RedirectParam.EMAIL) ?? "")
       }
@@ -64,7 +66,7 @@ export function RedirectSection() {
         description: "Failed to authenticate magic link or it was expired"
       })
     }
-  }, [navigate, searchParams, stytchClient.magicLinks, stytchClient.oauth])
+  }, [searchParams, stytchClient.magicLinks])
 
   useEffect(() => {
     handleStytchCallback()
