@@ -234,6 +234,21 @@ const SBBLoanItemFormSchema = z.object({
     .max(50, { message: "Interest rate must not be higher than 50" })
 })
 
+const KansasCityLoanItemFormSchema = LoanItemFormSchema.extend({
+  id: z.string(),
+  lenderName: z.string().min(1, { message: "Lender name is required" }),
+  loanType: z.string().min(1, { message: "Loan type is required" }),
+  originalLoanAmount: z
+    .number()
+    .min(1, { message: "Original loan amount must be higher than 0" }),
+  monthlyPaymentAmount: z.number(),
+  loanTermRemainingInMonths: z.number(),
+  annualInterestRate: z
+    .number({ invalid_type_error: "Interest rate must not be blank" })
+    .min(0.01, { message: "Interest rate must be higher than 0" })
+    .max(50, { message: "Interest rate must not be higher than 50" })
+})
+
 export const currentLoansFormSchema = z.object({
   hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
   currentLoans: z.array(LoanItemFormSchema)
@@ -242,6 +257,11 @@ export const currentLoansFormSchema = z.object({
 export const sbbCurrentLoansFormSchema = z.object({
   hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
   currentLoans: z.array(SBBLoanItemFormSchema)
+})
+
+export const kansasCityCurrentLoansFormSchema = z.object({
+  hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
+  currentLoans: z.array(KansasCityLoanItemFormSchema)
 })
 
 export const operatingExpensesFormSchema = z.object({
@@ -478,6 +498,10 @@ export type CurrentLoansFormValue = z.infer<typeof currentLoansFormSchema>
 
 export type SbbCurrentLoansFormValue = z.infer<typeof sbbCurrentLoansFormSchema>
 
+export type KansasCityCurrentLoansFormValue = z.infer<
+  typeof kansasCityCurrentLoansFormSchema
+>
+
 export type OperatingExpensesFormValue = z.infer<
   typeof operatingExpensesFormSchema
 >
@@ -517,4 +541,5 @@ export type IOwnerFormValue = OwnerFormValue &
   KansasCityOwnerFormValue
 
 export type ICurrentLoanFormValue = CurrentLoansFormValue &
-  SbbCurrentLoansFormValue
+  SbbCurrentLoansFormValue &
+  KansasCityCurrentLoansFormValue

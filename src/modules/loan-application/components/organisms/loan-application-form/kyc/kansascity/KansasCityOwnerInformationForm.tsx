@@ -35,7 +35,6 @@ import {
 } from "../../../../../../../components/ui/phone-input"
 import { SelectInput } from "../../../../../../../shared/organisms/form/SelectInput"
 import { RHFPercentageInput } from "@/modules/form-template/components/molecules"
-
 export function KansasCityOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { dispatchFormAction, ownerInformationForm } =
@@ -177,7 +176,6 @@ export function KansasCityOwnerInformationForm() {
                 )}
                 className="col-span-6"
                 inputClassName="xl:ml-0 xl:max-w-80"
-                required
               />
               <SelectInput
                 label="Gender"
@@ -189,7 +187,6 @@ export function KansasCityOwnerInformationForm() {
                 )}
                 className="col-span-6"
                 inputClassName="xl:ml-0 xl:max-w-80"
-                required
               />
               <SelectInput
                 label="Racial identification"
@@ -201,7 +198,6 @@ export function KansasCityOwnerInformationForm() {
                 )}
                 className="col-span-6"
                 inputClassName="xl:ml-0 xl:max-w-80"
-                required
               />
               <SelectInput
                 label="Ethnic identification"
@@ -213,7 +209,6 @@ export function KansasCityOwnerInformationForm() {
                 )}
                 className="col-span-6"
                 inputClassName="xl:ml-0 xl:max-w-80"
-                required
               />
               <SelectInput
                 label="Personal credit score"
@@ -225,7 +220,6 @@ export function KansasCityOwnerInformationForm() {
                 )}
                 className="col-span-4"
                 inputClassName="xl:ml-0 xl:max-w-80"
-                required
               />
               <RHFPercentageInput
                 label="What percent of the business do you own?"
@@ -233,6 +227,7 @@ export function KansasCityOwnerInformationForm() {
                 placeholder="Enter percentage"
                 min={0}
                 max={100}
+                isString={true}
                 className="col-span-8 lg:col-span-7"
                 styleProps={{
                   labelClassName: "text-text-secondary",
@@ -244,7 +239,6 @@ export function KansasCityOwnerInformationForm() {
               />
               <div />
             </form>
-
             {!isReviewApplicationStep(step) && (
               <Button
                 disabled={!form.formState.isValid}

@@ -19,7 +19,7 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isKansasCity, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
 import { get } from "lodash"
 import { useRef } from "react"
@@ -45,6 +45,7 @@ import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/use
 import { useParams } from "react-router-dom"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
+import { KansasCityCurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/kansascity/KansasCityCurrentLoanFormDetails"
 
 export function Component() {
   const params = useParams()
@@ -128,6 +129,29 @@ export function Component() {
       forms: [{ key: "businessModelForm", Component: LaunchKcFitFormDetails }]
     }
   ]
+
+  // Define the function to determine which component to render
+  const renderCurrentLoanFormDetails = () => {
+    if (isSbb()) {
+      return (
+        <SbbCurrentLoanFormDetails
+          currentLoanFormData={loanSummary?.currentLoanForms}
+        />
+      )
+    }
+    if (isKansasCity()) {
+      return (
+        <KansasCityCurrentLoanFormDetails
+          currentLoanFormData={loanSummary?.currentLoanForms}
+        />
+      )
+    }
+    return (
+      <CurrentLoanFormDetails
+        currentLoanFormData={loanSummary?.currentLoanForms}
+      />
+    )
+  }
 
   return (
     <div className="lg:flex gap-3xl w-full" id="loan-summary">
@@ -213,15 +237,7 @@ export function Component() {
           id="loan-application"
           ref={page_5}
         >
-          {isSbb() ? (
-            <SbbCurrentLoanFormDetails
-              currentLoanFormData={loanSummary?.currentLoanForms}
-            />
-          ) : (
-            <CurrentLoanFormDetails
-              currentLoanFormData={loanSummary?.currentLoanForms}
-            />
-          )}
+          {renderCurrentLoanFormDetails()}
         </div>
         {shouldDisplayOperatingExpensesSection && (
           <div className="space-y-3xl flex flex-col" ref={page_6}>

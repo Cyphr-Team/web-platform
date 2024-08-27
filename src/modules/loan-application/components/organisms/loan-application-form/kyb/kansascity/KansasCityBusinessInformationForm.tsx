@@ -4,7 +4,6 @@ import {
   RHFMaskInput,
   RHFNumberInput
 } from "@/modules/form-template/components/molecules"
-
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   KansasCityBusinessFormValue,
@@ -118,7 +117,6 @@ export const KansasCityBusinessInformationForm = () => {
             control={form.control}
             name={FIELD_NAMES.BUSINESS_LEGAL_NAME}
             className="col-span-7"
-            required
           />
           <TextInput
             placeholder="i.e: Larry’s Latte LLC"
@@ -126,7 +124,6 @@ export const KansasCityBusinessInformationForm = () => {
             control={form.control}
             name={FIELD_NAMES.DBA}
             className="col-span-5"
-            required
           />
           <TextInput
             placeholder="i.e: Larry’s Latte LLC"
@@ -134,7 +131,6 @@ export const KansasCityBusinessInformationForm = () => {
             control={form.control}
             name={FIELD_NAMES.OTHER_RELATED_BUSINESS}
             className="col-span-12"
-            required
           />
           <TextInput
             placeholder="Start typing your address"
@@ -142,7 +138,6 @@ export const KansasCityBusinessInformationForm = () => {
             control={form.control}
             name={FIELD_NAMES.ADDRESS_LINE1}
             className="col-span-12"
-            required
           />
           <TextInput
             placeholder="Start typing your address"
@@ -150,7 +145,6 @@ export const KansasCityBusinessInformationForm = () => {
             control={form.control}
             name={FIELD_NAMES.ADDRESS_LINE2}
             className="col-span-12"
-            required
           />
           <TextInput
             placeholder=""
@@ -158,7 +152,6 @@ export const KansasCityBusinessInformationForm = () => {
             control={form.control}
             name={FIELD_NAMES.ANY_OTHER_OWNER_OVER_20_PERCENTAGE}
             className="col-span-12"
-            required
           />
           <RHFMaskInput
             label="EIN"
@@ -170,7 +163,6 @@ export const KansasCityBusinessInformationForm = () => {
               labelClassName: "text-text-secondary",
               inputClassName: "text-base"
             }}
-            required
           />
           <SelectInput
             label="Type of business"
@@ -180,7 +172,6 @@ export const KansasCityBusinessInformationForm = () => {
             className="col-span-6"
             inputClassName="xl:ml-0 xl:max-w-80"
             options={TYPE_OF_BUSINESS_OPTIONS}
-            required
           />
           <TextInput
             placeholder="i.e. larrylatte.com"
@@ -199,7 +190,6 @@ export const KansasCityBusinessInformationForm = () => {
               labelClassName: "text-text-secondary",
               inputClassName: "text-base"
             }}
-            required
           />
 
           <RHFNumberInput
@@ -208,6 +198,7 @@ export const KansasCityBusinessInformationForm = () => {
             placeholder="i.e: 3"
             className="col-span-6 lg:col-span-6"
             styleProps={{
+              labelClassName: "text-text-secondary",
               inputClassName: "text-base input-number-remove-arrow"
             }}
             subtitle="Full time employees who receive a paycheck from the business"

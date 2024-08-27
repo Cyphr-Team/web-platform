@@ -58,7 +58,6 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
           return <KansasCityOwnerInformationForm />
         }
         return <OwnerInformationForm />
-
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />

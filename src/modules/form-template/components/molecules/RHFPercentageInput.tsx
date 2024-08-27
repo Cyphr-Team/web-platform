@@ -24,6 +24,7 @@ export interface RHFPercentageInputProps<T extends FieldValues> {
   className?: string
   min?: number
   max?: number
+  isString?: boolean
 
   styleProps?: {
     wrapperClassName?: string
@@ -55,6 +56,7 @@ const RHFPercentageInput = <T extends FieldValues>(
     direction = "row",
     min = 0,
     max = 100,
+    isString = false,
     ...inputProps
   } = props
 
@@ -91,16 +93,23 @@ const RHFPercentageInput = <T extends FieldValues>(
               value={field.value}
               onChange={(e) => {
                 field.onBlur()
-                const value = parseFloat(e.target.value)
-                if (value >= min && value <= max) {
-                  field.onChange(e.target.value)
+                const fieldValue = e.target.value
+                const parseFloatValue = parseFloat(fieldValue)
+                if (parseFloatValue >= min && parseFloatValue <= max) {
+                  const value = isString ? fieldValue.toString() : fieldValue
+                  field.onChange(value)
                 }
               }}
               onBlur={(e) => {
                 field.onBlur()
                 const value = PercentageFormatter(e.target.value)
+                const numberPercentage = Number.isNaN(value.value)
+                  ? undefined
+                  : value.value
                 field.onChange(
-                  Number.isNaN(value.value) ? undefined : value.value
+                  isString
+                    ? numberPercentage?.toString() ?? ""
+                    : numberPercentage
                 )
               }}
               className={cn("text-base", inputClassName)}

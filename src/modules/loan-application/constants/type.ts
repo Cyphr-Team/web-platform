@@ -238,6 +238,9 @@ export interface CurrentLoanInformationResponse {
   monthlyPaymentAmount: number
   loanTermRemainingInMonths: number
   annualInterestRate: number
+  metadata?: Partial<{
+    originalLoanAmount: string
+  }>
 }
 
 export interface CurrentLoansInformationResponse {

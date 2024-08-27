@@ -36,6 +36,7 @@ import { SBBKybFormPartOne } from "../components/organisms/loan-application-form
 import { SBBKybFormPartTwo } from "../components/organisms/loan-application-form/kyb/sbb/SbbKybFormPartTwo"
 import { KansasCityOwnerInformationForm } from "../components/organisms/loan-application-form/kyc/kansascity/KansasCityOwnerInformationForm"
 import { KansasCityBusinessInformationForm } from "../components/organisms/loan-application-form/kyb/kansascity/KansasCityBusinessInformationForm"
+import { KansasCityCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/kansascity/KansasCityCurrentLoanForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -66,7 +67,6 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
           return <KansasCityOwnerInformationForm />
         }
         return <OwnerInformationForm />
-
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />
@@ -76,7 +76,13 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
-        return isSbb() ? <SBBCurrentLoanForm /> : <CurrentLoansForm />
+        if (isSbb()) {
+          return <SBBCurrentLoanForm />
+        }
+        if (isKansasCity()) {
+          return <KansasCityCurrentLoanForm />
+        }
+        return <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
         if (isSbb() && isEnablePandaDocESign()) {
           return <ESignForm />
