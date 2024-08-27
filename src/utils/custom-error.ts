@@ -34,13 +34,13 @@ export const getAxiosError = (
 export const getCustomErrorMsgByCode = (code: ErrorCode) => {
   switch (code) {
     case ErrorCode.token_invalid_or_expired:
-      return "Please go back to the forgot password page and request the new email"
+      return "Please go back to the forgot password page and request the new email."
     case ErrorCode.rate_limit_exceeded:
-      return "Too many attempts to generate an email reset password. Please wait 60 seconds"
+      return "Too many attempts to generate an email reset password. Please wait 60 seconds."
     case ErrorCode.user_registered:
       return "This email is already verified, please go back to the sign up page to process the last step."
     case ErrorCode.cash_flow_not_ready:
-      return "Bank accounts are not ready to view"
+      return "Bank accounts are not ready to view."
     default:
       return ""
   }

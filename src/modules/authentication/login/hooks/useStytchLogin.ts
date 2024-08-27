@@ -41,7 +41,7 @@ export const useStytchLogin = () => {
         }
       )
     },
-    onSuccess: async ({ data }) => {
+    onSuccess: async ({ data }, { remember }) => {
       const { intermediateSessionToken, member } = data
 
       inMemoryJWTService.setIntermediateSessionToken(intermediateSessionToken)
@@ -70,7 +70,7 @@ export const useStytchLogin = () => {
         // Else we need to navigate to the MFA verification page
         else {
           navigate(APP_PATH.VERIFY_PHONE, {
-            state: { member }
+            state: { member, remember }
           })
         }
       }

@@ -1,5 +1,5 @@
 import { ErrorResponse } from "@/types/common.type"
-import { API_PATH, APP_PATH } from "@/constants"
+import { API_PATH, APP_PATH, MAX_REMEMBER_ME_DAYS } from "@/constants"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
 import { useNavigate } from "react-router-dom"
@@ -12,8 +12,18 @@ import {
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { StytchMember } from "@/types/auth.type"
 import { UserInfo } from "@/types/user.type"
+import {
+  customRequestHeader,
+  headerWithRememberMe
+} from "@/utils/request-header"
 
-export const useActivateByCode = ({ member }: { member: StytchMember }) => {
+export const useActivateByCode = ({
+  member,
+  remember
+}: {
+  member: StytchMember
+  remember: boolean | undefined
+}) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -32,7 +42,10 @@ export const useActivateByCode = ({ member }: { member: StytchMember }) => {
           intermediateSession: localStorage.getItem(
             INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY
           )
-        }
+        },
+        customHeader: remember
+          ? headerWithRememberMe(MAX_REMEMBER_ME_DAYS)
+          : customRequestHeader.customHeaders
       })
     },
     onSuccess({ data }) {

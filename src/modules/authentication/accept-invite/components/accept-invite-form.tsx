@@ -30,6 +30,8 @@ import { AppAlert } from "@/components/ui/alert"
 import { PasswordMatch } from "../../components/password-match"
 import { parseJwt } from "@/services/jwt.service"
 import { useLogout } from "@/hooks/useLogout"
+import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
+import { useStytchLogin } from "../../login/hooks/useStytchLogin"
 
 export function SetupProfileForm() {
   const [searchParams] = useSearchParams()
@@ -71,9 +73,12 @@ export function SetupProfileForm() {
     })
   )
 
-  const errorMsg = form.formState.errors.root?.serverError?.message
-
   const { mutate, isPending, isSuccess } = useAcceptInvite()
+
+  const { mutate: mutateLogin, error: errorLogin } = useStytchLogin()
+
+  const errorMsg =
+    form.formState.errors.root?.serverError?.message ?? errorLogin?.message
 
   const { count } = useCountdown({
     initialCount: 2,
@@ -82,17 +87,22 @@ export function SetupProfileForm() {
 
   useEffect(() => {
     if (count < 1) {
-      navigate({
-        pathname: APP_PATH.LOGIN,
-        search: createSearchParams({
-          email:
-            searchParams.get("email") ??
-            parseJwt(searchParams.get("token")!)?.email ??
-            ""
-        }).toString()
-      })
+      if (isEnableMultiFactorAuthentication()) {
+        const { email, password } = form.getValues()
+        mutateLogin({ email, password })
+      } else {
+        navigate({
+          pathname: APP_PATH.LOGIN,
+          search: createSearchParams({
+            email:
+              searchParams.get("email") ??
+              parseJwt(searchParams.get("token")!)?.email ??
+              ""
+          }).toString()
+        })
+      }
     }
-  }, [searchParams, count, navigate])
+  }, [searchParams, count, navigate, form, mutateLogin])
 
   return (
     <div className="flex flex-col space-y-4">
@@ -196,7 +206,9 @@ export function SetupProfileForm() {
               <AppAlert
                 variant="success"
                 title="Your sign up has been completed"
-                description={`You'll be redirected to the login page after ${count} seconds`}
+                description={`You'll be redirected to the ${
+                  isEnableMultiFactorAuthentication() ? "phone setup" : "login"
+                } page after ${count} seconds`}
               />
             )}
 

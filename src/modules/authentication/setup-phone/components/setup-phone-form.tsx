@@ -64,7 +64,7 @@ function ResetPhoneForm() {
       {Boolean(errorMsg) && (
         <div>
           <ErrorMessage className="whitespace-pre-wrap">
-            {`${errorMsg}. ${getCustomErrorMsgByCode(errorCode!)}.`}
+            {`${errorMsg}. ${getCustomErrorMsgByCode(errorCode!)}`}
           </ErrorMessage>
         </div>
       )}
