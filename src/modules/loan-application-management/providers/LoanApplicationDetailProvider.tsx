@@ -1,7 +1,21 @@
+import { PreQualificationResponse } from "@/modules/loan-application/constants/type"
 import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { TimeRangeValue } from "@/types/time-range.type.ts"
+import {
+  isCapsight,
+  isCyphrBank,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
+import { getTimeRangeDates } from "@/utils/time-range.utils.ts"
+import { format } from "date-fns"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { createContext, useContext } from "use-context-selector"
+import { SmartKyc } from "../../../lib/persona/persona.types"
+import { isEnablePersonaKycV1 } from "../../../utils/feature-flag.utils"
 import { DEFAULT_TRANSACTION_TAGS } from "../constants"
 import { ApplicationKybDetailResponse } from "../constants/types/business.type"
 import {
@@ -11,36 +25,22 @@ import {
   GRAPH_FREQUENCY,
   TRANSACTION_TAG
 } from "../constants/types/cashflow.type"
+import { FullAmortizationResponse } from "../constants/types/debt-schedule.type"
 import { LoanApplicationsKyc } from "../constants/types/kyc"
 import { LoanSummary } from "../constants/types/loan-summary.type"
-import { useQueryGetBankAccounts } from "../hooks/useQuery/cash-flow/useQueryGetBankAccounts"
-import { useQueryGetApplicationDetailsByType } from "../hooks/useQuery/useQueryApplicationDetails"
-import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
-import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
-import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
-import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
 import {
   BaseCashFlowFilters,
   CashFlowGlanceResponse
 } from "../constants/types/v2/cashflow.type"
+import { useQueryGetBankAccounts } from "../hooks/useQuery/cash-flow/useQueryGetBankAccounts"
 import { useQueryGetCashFlowGlance } from "../hooks/useQuery/cash-flow/v2/useQueryGetCashFlowGlance"
-import {
-  isCapsight,
-  isCyphrBank,
-  isKccBank,
-  isLaunchKC,
-  isLoanReady,
-  isSbb
-} from "@/utils/domain.utils"
-import { TimeRangeValue } from "@/types/time-range.type.ts"
-import { getTimeRangeDates } from "@/utils/time-range.utils.ts"
-import { format } from "date-fns"
 import { useQueryGetSmartKyc } from "../hooks/useQuery/smart-kyc/useQueryGetSmartKyc"
-import { SmartKyc } from "../../../lib/persona/persona.types"
-import { isEnablePersonaKycV1 } from "../../../utils/feature-flag.utils"
-import { PreQualificationResponse } from "@/modules/loan-application/constants/type"
+import { useQueryGetApplicationDetailsByType } from "../hooks/useQuery/useQueryApplicationDetails"
 import { useQueryFullAmortization } from "../hooks/useQuery/useQueryFullAmortizations"
-import { FullAmortizationResponse } from "../constants/types/debt-schedule.type"
+import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
+import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
+import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
+import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
 
 type LoanApplicationDetailContextType = {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -228,7 +228,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
       timeRangeFilter: newCashFlowFilter.timeRangeFilter
     },
     enabledByInstitution:
-      isCyphrBank() || isKccBank() || isSbb() || isLaunchKC() // TODO: should have an enum of institution having out-of-the-box UI
+      isCyphrBank() || isKccBank() || isSbb() || isLaunchKC() || isLoanReady() // TODO: should have an enum of institution having out-of-the-box UI
   })
 
   const onChangeNewTimeRangeFilter = useCallback(

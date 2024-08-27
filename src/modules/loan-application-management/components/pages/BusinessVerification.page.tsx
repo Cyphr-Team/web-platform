@@ -9,9 +9,9 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
-import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website"
-import { isSbb } from "@/utils/domain.utils"
+import { isLoanReady, isSbb } from "@/utils/domain.utils"
+import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 
 export const Component = () => {
   return (
@@ -26,10 +26,12 @@ export const Component = () => {
         <TinMatch />
         <People />
         <WatchList />
-        {isEnableKYBV2() && isSbb() && <IndustryClassification />}
+        {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
+          <IndustryClassification />
+        )}
         <Bankruptcy />
-        {isEnableKYBV2() && isSbb() && <Website />}
-        {isEnableKYBV2() && isSbb() && <AdverseMedia />}
+        {isEnableKYBV2() && (isSbb() || isLoanReady()) && <Website />}
+        {isEnableKYBV2() && (isSbb() || isLoanReady()) && <AdverseMedia />}
       </div>
     </div>
   )

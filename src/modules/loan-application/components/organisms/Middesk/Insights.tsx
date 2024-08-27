@@ -1,13 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import InsightItem from "../../molecules/InsightItem"
-import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { useMemo } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
+import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
+import { isLoanReady, isSbb } from "@/utils/domain.utils"
 import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
-import { isSbb } from "@/utils/domain.utils"
+import { useMemo } from "react"
+import InsightItem from "../../molecules/InsightItem"
 
 export const Insights = () => {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
@@ -28,7 +28,7 @@ export const Insights = () => {
   )
 
   const insightsTotal =
-    isEnableKYBV2() && isSbb()
+    isEnableKYBV2() && (isSbb() || isLoanReady())
       ? insights
         ? Object.entries(insights).length
         : 10
@@ -98,7 +98,7 @@ export const Insights = () => {
           href={INSIGHT_TOC.watchLists}
           isLoading={isLoading}
         />
-        {isEnableKYBV2() && isSbb() && (
+        {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
           <InsightItem
             title="Industry Classification"
             status={insights?.industry?.status}
@@ -117,7 +117,7 @@ export const Insights = () => {
           isLoading={isLoading}
           noBorder
         />
-        {isEnableKYBV2() && isSbb() && (
+        {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
           <InsightItem
             title="Website"
             status={insights?.website?.status}
@@ -127,7 +127,7 @@ export const Insights = () => {
             isLoading={isLoading}
           />
         )}
-        {isEnableKYBV2() && isSbb() && (
+        {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
           <InsightItem
             title="Adverse Media"
             status={insights?.adverseMedia?.status}

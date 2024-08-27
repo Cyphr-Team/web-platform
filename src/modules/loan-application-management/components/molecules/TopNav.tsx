@@ -1,6 +1,5 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
-import { Link, useLocation, useParams } from "react-router-dom"
 import {
   isCyphrBank,
   isKccBank,
@@ -8,9 +7,10 @@ import {
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
-import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
+import { Link, useLocation, useParams } from "react-router-dom"
 import { checkIsWorkspaceAdmin } from "../../../../utils/check-roles"
+import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -21,50 +21,50 @@ export function TopNav({ className, ...props }: Props) {
   let menuItems: (string | null)[] = APPLICATION_MENU(id!).map((e) => e.name)
   if (isLoanReady() || isCyphrBank()) {
     menuItems = [
-      ApplicationMenuName.business as string,
-      ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.applicationSummary as string
+      ApplicationMenuName.business,
+      ApplicationMenuName.cashflow,
+      ApplicationMenuName.debtSchedule,
+      ApplicationMenuName.applicationSummary,
+      ApplicationMenuName.loanReadiness
     ]
   } else if (isKccBank()) {
     menuItems = [
-      ApplicationMenuName.business as string,
-      ApplicationMenuName.identity as string,
-      ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.applicationSummary as string
+      ApplicationMenuName.business,
+      ApplicationMenuName.identity,
+      ApplicationMenuName.cashflow,
+      ApplicationMenuName.applicationSummary
     ]
   } else if (isLaunchKC()) {
     if (checkIsWorkspaceAdmin()) {
       menuItems = [
-        ApplicationMenuName.business as string,
-        ApplicationMenuName.identity as string,
-        ApplicationMenuName.document as string,
-        ApplicationMenuName.cashflow as string,
-        ApplicationMenuName.applicationSummary as string
+        ApplicationMenuName.business,
+        ApplicationMenuName.identity,
+        ApplicationMenuName.document,
+        ApplicationMenuName.cashflow,
+        ApplicationMenuName.applicationSummary
       ]
     } else {
       // In Launch KC, this else case means the Judge role only
       menuItems = [
-        ApplicationMenuName.business as string,
-        ApplicationMenuName.identity as string,
-        ApplicationMenuName.document as string,
-        ApplicationMenuName.applicationSummary as string
+        ApplicationMenuName.business,
+        ApplicationMenuName.identity,
+        ApplicationMenuName.document,
+        ApplicationMenuName.applicationSummary
       ]
     }
   } else if (isSbb()) {
     menuItems = [
-      ApplicationMenuName.business as string,
-      ApplicationMenuName.identity as string,
-      ApplicationMenuName.document as string,
-      ApplicationMenuName.cashflow as string,
-      ApplicationMenuName.debtSchedule as string,
-      ApplicationMenuName.applicationSummary as string
+      ApplicationMenuName.business,
+      ApplicationMenuName.identity,
+      ApplicationMenuName.document,
+      ApplicationMenuName.cashflow,
+      ApplicationMenuName.debtSchedule,
+      ApplicationMenuName.applicationSummary
     ]
   }
-  // Hide Identity Verication tab when FF off
+  // Hide Identity Verification tab when FF off
   if (!isEnablePersonaKycV1()) {
-    menuItems = menuItems.filter(
-      (e) => e != (ApplicationMenuName.identity as string)
-    )
+    menuItems = menuItems.filter((e) => e != ApplicationMenuName.identity)
   }
 
   menuItems = menuItems.filter(Boolean)

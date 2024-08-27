@@ -1,9 +1,6 @@
 import { Separator } from "@/components/ui/separator"
-import { ApplicationDetails } from "../components/organisms/loan-application-details/ApplicationDetails"
-import { SignatureDetails } from "../components/organisms/loan-application-form/confirmation/SignatureDetails"
-import { DocumentationDetails } from "../components/organisms/loan-application-details/DocumentationDetails"
+import { cn } from "@/lib/utils"
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
-import { Loader2 } from "lucide-react"
 import {
   isCyphrBank,
   isKccBank,
@@ -11,9 +8,12 @@ import {
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
-import { cn } from "@/lib/utils"
-import { useBRLoanApplicationDetailsContext } from "../providers"
+import { Loader2 } from "lucide-react"
+import { ApplicationDetails } from "../components/organisms/loan-application-details/ApplicationDetails"
+import { DocumentationDetails } from "../components/organisms/loan-application-details/DocumentationDetails"
+import { SignatureDetails } from "../components/organisms/loan-application-form/confirmation/SignatureDetails"
 import { LaunchKCBusinessDocumentsDetails } from "../components/organisms/loan-application-form/custom-form/launchkc/BusinessDocumentsDetails"
+import { useBRLoanApplicationDetailsContext } from "../providers"
 
 export const Component = () => {
   const { isFetchingDetails, confirmationFormData } =

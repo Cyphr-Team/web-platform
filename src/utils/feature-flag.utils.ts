@@ -135,6 +135,10 @@ function isEnableFinancialProjection() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.FINANCIAL_PROJECTION_TAB)
 }
 
+function isEnableDummyLoanReadiness() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.DUMMY_LOAN_READINESS)
+}
+
 export {
   isEnableWorkspaceAdminFilterByScorecard,
   isEnableWorkspaceAdminFilterApplicationScores,
@@ -156,5 +160,6 @@ export {
   isIgnoredKycSubmission,
   isIgnoredCashFlowSubmission,
   isEnableExecutionFormNewMonthlyExpense,
-  isEnableFinancialProjection
+  isEnableFinancialProjection,
+  isEnableDummyLoanReadiness
 }

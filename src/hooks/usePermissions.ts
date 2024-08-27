@@ -1,4 +1,3 @@
-import { useMemo } from "react"
 import { checkIsJudge, checkIsWorkspaceAdmin } from "@/utils/check-roles"
 import {
   isCyphrBank,
@@ -8,6 +7,7 @@ import {
   isSbb
 } from "@/utils/domain.utils"
 import { isEnableKYBV2, isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
+import { useMemo } from "react"
 
 const usePermissions = () => {
   // Role checks

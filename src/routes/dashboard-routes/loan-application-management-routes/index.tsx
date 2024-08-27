@@ -1,4 +1,6 @@
 import { APP_PATH } from "@/constants"
+import { LoanReadyCashFlow } from "@/modules/loan-application-management/pages/loan-ready/cash-flow"
+import { CashFlowOutOfBox } from "@/modules/loan-application-management/pages/out-of-box/cash-flow"
 import { handleCrumb } from "@/utils/crumb.utils"
 import {
   isCyphrBank,
@@ -7,11 +9,9 @@ import {
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
+import { lazy } from "react"
 import { Route } from "react-router-dom"
 import { documentRoutes } from "./document-routes"
-import { LoanReadyCashFlow } from "@/modules/loan-application-management/pages/loan-ready/cash-flow"
-import { CashFlowOutOfBox } from "@/modules/loan-application-management/pages/out-of-box/cash-flow"
-import { lazy } from "react"
 
 /**
  * Loan application management routes ("/application"). Loan officer review loan application.
@@ -105,6 +105,16 @@ const loanApplicationManagementRoutes = (
         lazy={() =>
           import(
             "@/modules/loan-application-management/pages/sbb/debt-schedule"
+          )
+        }
+      />
+
+      {/* LOAN READINESS ROUTE */}
+      <Route
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_READINESS.detail}
+        lazy={() =>
+          import(
+            "@/modules/loan-application-management/pages/cyphr-flex/LoanReadiness"
           )
         }
       />

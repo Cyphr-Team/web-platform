@@ -102,7 +102,11 @@ export const APP_PATH = {
       detail: (id: string, documentId: string) =>
         `/application/${id}/document/${documentId}`
     },
-    DEBT_SCHEDULE: "/application/:id/debt-schedule"
+    DEBT_SCHEDULE: "/application/:id/debt-schedule",
+    LOAN_READINESS: {
+      detail: "/application/:id/readiness",
+      details: (id: string) => `/application/${id}/readiness`
+    }
   },
 
   // ADMIN USERS
@@ -340,6 +344,10 @@ export const API_PATH = {
       `api/workspace-admin/application/by-id`,
     getFullAmortizationSchedule: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/full-amortization-schedule`
+  },
+  loanReadiness: {
+    getLoanReadinessAssessment: (applicationId: string) =>
+      `api/loan-readiness/application/${applicationId}/assessment`
   },
   document: {
     getDocumentDownloadForOfficer:

@@ -1,9 +1,10 @@
+import { CriteriaName } from "@/modules/assessment/interface/Rating/type.ts"
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
-import { FORM_TYPE } from "../models/LoanApplicationStep/type"
 import { SbbKybFormFields } from "../components/organisms/loan-application-form/kyb/sbb/const"
+import { FORM_TYPE } from "../models/LoanApplicationStep/type"
 
 export interface KYBInformation {
   id: string | null
@@ -512,3 +513,29 @@ export interface SBBUploadDocumentFormResponse
 
 export interface SBBDeleteDocumentResponse
   extends SBBUploadDocumentForm<DocumentUploadedResponse> {}
+
+export interface ApplicationCriteriaResponse {
+  criteriaName: string
+  ratingLevel: string
+  description: string
+}
+
+export interface ApplicationScoreResponse {
+  score: number
+  ratingLevel: string
+  category: string
+  actionPlan: string
+}
+
+export const criteriaNameMapping: Record<string, CriteriaName> = {
+  businessAge: CriteriaName.BUSINESS_AGE,
+  annualRevenue: CriteriaName.ANNUAL_REVENUE,
+  profitability: CriteriaName.PROFITABILITY,
+  creditScore: CriteriaName.CREDIT_SCORE,
+  cashFlowStability: CriteriaName.CASH_FLOW_STABILITY,
+  debtToIncomeRatio: CriteriaName.DEBT_TO_INCOME_RATIO,
+  industryRisk: CriteriaName.INDUSTRY_RISK,
+  loanAmount: CriteriaName.LOAN_AMOUNT,
+  employeeCount: CriteriaName.EMPLOYEE_COUNT,
+  existingLoans: CriteriaName.EXISTING_LOANS
+}

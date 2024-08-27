@@ -1,17 +1,16 @@
 import { Column } from "@tanstack/react-table"
 
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenuContent,
+  DropdownMenuItem
+} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import {
   DropdownMenu,
   DropdownMenuTrigger
 } from "@radix-ui/react-dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { ChevronDown, ChevronUp, ChevronsUpDown, EyeOff } from "lucide-react"
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator
-} from "@/components/ui/dropdown-menu"
+import { ChevronDown, ChevronUp, ChevronsUpDown } from "lucide-react"
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -55,11 +54,6 @@ export function DataTableColumnHeader<TData, TValue>({
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
             <ChevronDown className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Desc
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <EyeOff className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Hide
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

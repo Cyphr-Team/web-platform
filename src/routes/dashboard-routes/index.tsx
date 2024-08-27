@@ -1,4 +1,5 @@
 import { APP_PATH } from "@/constants"
+import { FeatureKey } from "@/hooks/useCanAccess"
 import { Component as DashboardV2 } from "@/modules/dashboard-v2/page"
 import { Component as LoanApplicationManagementComponent } from "@/modules/loan-application-management/pages/list"
 import { userLoader } from "@/routes/loader"
@@ -10,7 +11,6 @@ import { Route } from "react-router-dom"
 import { adminRoutes } from "./admin-routes"
 import { loanApplicationManagementRoutes } from "./loan-application-management-routes"
 import { notificationRoutes } from "./notification-routes"
-import { FeatureKey } from "@/hooks/useCanAccess"
 
 /**
  * Dashboard routes ("/*"), no unauthenticated or loan applicant allowed to see these pages.

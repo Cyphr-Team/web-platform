@@ -1,8 +1,9 @@
-import { FinancialFormDetails } from "../loan-application-form/financial-information/FinancialFormDetails"
-import { KybFormDetails } from "../loan-application-form/kyb/KybFormDetails"
-import { KycFormDetails } from "../loan-application-form/kyc/KycFormDetails"
-import { LoanRequestDetails } from "../loan-application-form/loan-request/LoanRequestDetails"
-import { CashFlowTable } from "./CashFlowTable"
+import { FeatureKey } from "@/hooks/useCanAccess"
+import { cn } from "@/lib/utils"
+import { CurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormDetails"
+import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/operating-expenses/OperatingExpenseFormDetails"
+import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
+import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import {
   isCyphrBank,
   isKccBank,
@@ -10,18 +11,17 @@ import {
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
-import { cn } from "@/lib/utils"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
-import { CurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormDetails"
-import { OperatingExpensesFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/operating-expenses/OperatingExpenseFormDetails"
-import { ProductServiceFormDetails } from "../loan-application-form/product-service/ProductServiceFormDetails"
-import { MarketOpportunityFormDetails } from "../loan-application-form/market-opportunity/MarketOpportunityFormDetails"
 import { BusinessModelFormDetails } from "../loan-application-form/business-model/BusinessModelFormDetails"
-import { ExecutionFormDetails } from "../loan-application-form/execution/ExecutionFormDetails"
-import { PreQualificationFormDetails } from "../loan-application-form/pre-qualification/PreQualificationFormDetails"
-import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
-import { FeatureKey } from "@/hooks/useCanAccess"
 import { LaunchKcFitFormDetails } from "../loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
+import { ExecutionFormDetails } from "../loan-application-form/execution/ExecutionFormDetails"
+import { FinancialFormDetails } from "../loan-application-form/financial-information/FinancialFormDetails"
+import { KybFormDetails } from "../loan-application-form/kyb/KybFormDetails"
+import { KycFormDetails } from "../loan-application-form/kyc/KycFormDetails"
+import { LoanRequestDetails } from "../loan-application-form/loan-request/LoanRequestDetails"
+import { MarketOpportunityFormDetails } from "../loan-application-form/market-opportunity/MarketOpportunityFormDetails"
+import { PreQualificationFormDetails } from "../loan-application-form/pre-qualification/PreQualificationFormDetails"
+import { ProductServiceFormDetails } from "../loan-application-form/product-service/ProductServiceFormDetails"
+import { CashFlowTable } from "./CashFlowTable"
 
 export const ApplicationDetails = () => {
   const {

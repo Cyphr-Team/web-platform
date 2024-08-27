@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/tooltip"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { snakeCaseToText } from "@/utils"
+import { isLaunchKC, isLoanReady } from "@/utils/domain.utils"
+import { statusesAbleToMakeDecision } from "@/utils/loan-application-status.utils"
 import { BadgeInfo, ChevronDown } from "lucide-react"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
@@ -29,8 +31,6 @@ import {
 } from "../../services"
 import { LoanDecisionSubmitted } from "../organisms/LoanDecisionSubmited"
 import { ChangeApplicationStatusDialog } from "./ChangeApplicationStatusDialog"
-import { isLaunchKC, isLoanReady } from "@/utils/domain.utils"
-import { statusesAbleToMakeDecision } from "@/utils/loan-application-status.utils"
 
 const ApplicationStatusDropDown = ({
   currentDecision,
