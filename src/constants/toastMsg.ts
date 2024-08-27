@@ -235,6 +235,12 @@ export const TOAST_MSG = {
         title: "Fail to submit SaaS revenue",
         description: "Fail to submit SaaS revenue"
       }
+    },
+    recurringCharges: {
+      submitFail: {
+        title: "Fail to submit recurring charges",
+        description: "Fail to submit recurring charges"
+      }
     }
   }
 }

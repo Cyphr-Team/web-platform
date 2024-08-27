@@ -59,10 +59,6 @@ export interface RecurringCharge {
   annualPrice: number // Annual Price (currency)
   frequencyMonths: number // Frequency (Months)
   upfrontFee: number // Upfront Fee (currency)
-  billedSubscriptions: number // Billed Subscriptions (count)
-  subscriptionsAvailableForRenewal: number // Subscriptions Available for Renewal (count)
-  churnedSubscriptions: number // Churned Subscriptions (count)
-  renewedSubscriptions: number // Renewed Subscriptions (count)
   startDate: string
 }
 

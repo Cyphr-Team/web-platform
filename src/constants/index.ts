@@ -461,6 +461,13 @@ export const API_PATH = {
       findByFinancialProjectionId:
         "api/financial-projection/form/saas/by-financial-projection-id",
       update: "api/financial-projection/form/saas/update"
+    },
+    recurringCharges: {
+      submit: "api/financial-projection/form/recurring-charge",
+      findById: "api/financial-projection/form/recurring-charge/by-id",
+      findByFinancialProjectionId:
+        "api/financial-projection/form/recurring-charge/by-financial-projection-id",
+      update: "api/financial-projection/form/recurring-charge/update"
     }
   }
 }

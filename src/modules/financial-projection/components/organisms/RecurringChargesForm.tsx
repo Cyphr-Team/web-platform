@@ -25,10 +25,6 @@ const enum FormField {
   ANNUAL_PRICE = "annualPrice",
   FREQUENCY_MONTHS = "frequencyMonths",
   UPFRONT_FEE = "upfrontFee",
-  BILLED_SUBSCRIPTIONS = "billedSubscriptions",
-  SUBSCRIPTIONS_AVAILABLE_FOR_RENEWAL = "subscriptionsAvailableForRenewal",
-  CHURNED_SUBSCRIPTIONS = "churnedSubscriptions",
-  RENEWED_SUBSCRIPTIONS = "renewedSubscriptions",
   START_DATE = "startDate"
 }
 
@@ -41,10 +37,6 @@ const schema = z.object({
   [FormField.ANNUAL_PRICE]: z.coerce.number().min(0),
   [FormField.FREQUENCY_MONTHS]: z.coerce.number().min(1),
   [FormField.UPFRONT_FEE]: z.coerce.number().min(0),
-  [FormField.BILLED_SUBSCRIPTIONS]: z.coerce.number().min(0),
-  [FormField.SUBSCRIPTIONS_AVAILABLE_FOR_RENEWAL]: z.coerce.number().min(0),
-  [FormField.CHURNED_SUBSCRIPTIONS]: z.coerce.number().min(0),
-  [FormField.RENEWED_SUBSCRIPTIONS]: z.coerce.number().min(0),
   [FormField.START_DATE]: z.string()
 })
 
@@ -104,40 +96,6 @@ const columns: ColumnDef<RecurringCharge>[] = [
     header: "Upfront Fee ($)",
     cell: ({ row }) => (
       <div className="text-left">${row.original.upfrontFee.toFixed(2)}</div>
-    )
-  },
-  {
-    id: "billedSubscriptions",
-    accessorKey: "billedSubscriptions",
-    header: "Billed Subscriptions",
-    cell: ({ row }) => (
-      <div className="text-left">{row.original.billedSubscriptions}</div>
-    )
-  },
-  {
-    id: "subscriptionsAvailableForRenewal",
-    accessorKey: "subscriptionsAvailableForRenewal",
-    header: "Subscriptions Available for Renewal",
-    cell: ({ row }) => (
-      <div className="text-left">
-        {row.original.subscriptionsAvailableForRenewal}
-      </div>
-    )
-  },
-  {
-    id: "churnedSubscriptions",
-    accessorKey: "churnedSubscriptions",
-    header: "Churned Subscriptions",
-    cell: ({ row }) => (
-      <div className="text-left">{row.original.churnedSubscriptions}</div>
-    )
-  },
-  {
-    id: "renewedSubscriptions",
-    accessorKey: "renewedSubscriptions",
-    header: "Renewed Subscriptions",
-    cell: ({ row }) => (
-      <div className="text-left">{row.original.renewedSubscriptions}</div>
     )
   }
 ]
@@ -208,42 +166,6 @@ const blocks: Block[] = [
       className: "col-span-6",
       required: true,
       prefixIcon: <span className="text-text-tertiary">$</span>
-    }
-  },
-  {
-    type: FieldType.NUMBER,
-    name: FormField.BILLED_SUBSCRIPTIONS,
-    props: {
-      label: "Billed Subscriptions",
-      className: "col-span-6",
-      required: true
-    }
-  },
-  {
-    type: FieldType.NUMBER,
-    name: FormField.SUBSCRIPTIONS_AVAILABLE_FOR_RENEWAL,
-    props: {
-      label: "Subscriptions Available for Renewal",
-      className: "col-span-6",
-      required: true
-    }
-  },
-  {
-    type: FieldType.NUMBER,
-    name: FormField.CHURNED_SUBSCRIPTIONS,
-    props: {
-      label: "Churned Subscriptions",
-      className: "col-span-6",
-      required: true
-    }
-  },
-  {
-    type: FieldType.NUMBER,
-    name: FormField.RENEWED_SUBSCRIPTIONS,
-    props: {
-      label: "Renewed Subscriptions",
-      className: "col-span-6",
-      required: true
     }
   }
 ]
