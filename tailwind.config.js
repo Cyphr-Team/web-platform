@@ -115,6 +115,9 @@ module.exports = {
         },
         nav: {
           active: "#EEFFC0"
+        },
+        table: {
+          heading: "#F9FAFB"
         }
       },
       spacing: {
