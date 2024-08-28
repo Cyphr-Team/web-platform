@@ -29,8 +29,8 @@ import { APP_PATH, PasswordRegex } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { PasswordMatch } from "../../components/password-match"
 import { PASSWORD_REGEX_TEXT } from "../../hooks/usePasswordMatch"
-import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
 import { useStytchLogin } from "../../login/hooks/useStytchLogin"
+import { isEnableMFA } from "@/services/jwt.service"
 
 export function SetupProfileForm() {
   const [searchParams] = useSearchParams()
@@ -64,7 +64,7 @@ export function SetupProfileForm() {
 
   useEffect(() => {
     if (count < 1) {
-      if (isEnableMultiFactorAuthentication()) {
+      if (isEnableMFA()) {
         const { email, password } = form.getValues()
         mutateLogin({ email, password })
       } else {
@@ -202,7 +202,7 @@ export function SetupProfileForm() {
                 variant="success"
                 title="Your sign up has been completed"
                 description={`You'll be redirected to the ${
-                  isEnableMultiFactorAuthentication() ? "phone setup" : "login"
+                  isEnableMFA() ? "phone setup" : "login"
                 } page after ${count} seconds`}
               />
             )}

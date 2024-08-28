@@ -3,8 +3,7 @@ import { APP_PATH } from "@/constants"
 import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { Link } from "react-router-dom"
 import { LoginForm } from "./login-form"
-import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
-import { isAdmin } from "@/utils/domain.utils"
+import { isEnableMFA } from "@/services/jwt.service"
 import { MfaLoginForm } from "./mfa-login-form"
 
 export function LoginFormSection() {
@@ -24,11 +23,7 @@ export function LoginFormSection() {
           </div>
         </div>
 
-        {isEnableMultiFactorAuthentication() && !isAdmin() ? (
-          <MfaLoginForm />
-        ) : (
-          <LoginForm />
-        )}
+        {isEnableMFA() ? <MfaLoginForm /> : <LoginForm />}
 
         <p className="px-8 text-center text-sm text-muted-foreground">
           Don’t have an account?{" "}

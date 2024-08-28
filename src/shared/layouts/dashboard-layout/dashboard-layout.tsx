@@ -10,7 +10,6 @@ import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
 import { Loader2 } from "lucide-react"
 import { useVerifyToken } from "@/hooks/useVerifyToken"
 import { useLogout } from "@/hooks/useLogout"
-import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
@@ -18,7 +17,7 @@ const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const { clearUserInfo } = useLogout()
 
   switch (true) {
-    case isEnableMultiFactorAuthentication() && isInvalidToken:
+    case isInvalidToken:
       clearUserInfo()
       return <Navigate to={APP_PATH.LOGIN} replace />
     case isLoanApplicant:
