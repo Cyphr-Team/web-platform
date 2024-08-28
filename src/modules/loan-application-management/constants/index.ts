@@ -34,12 +34,12 @@ export const APPLICATION_MENU = (id: string) => [
     href: `/application/${id}/cash-flow`
   },
   {
-    name: ApplicationMenuName.applicationSummary as string,
-    href: `/application/${id}/loan-summary`
-  },
-  {
     name: ApplicationMenuName.debtSchedule as string,
     href: `/application/${id}/debt-schedule`
+  },
+  {
+    name: ApplicationMenuName.applicationSummary as string,
+    href: `/application/${id}/loan-summary`
   },
   {
     name: ApplicationMenuName.loanReadiness,
