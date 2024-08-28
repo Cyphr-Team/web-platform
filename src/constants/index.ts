@@ -133,7 +133,16 @@ export const APP_PATH = {
   MESSAGES: "/messages",
   ONBOARD: "/onboard",
   SUBSCRIPTIONS: "/subscriptions",
-  FEATURE_FLAGS: "/feature-flags"
+  FEATURE_FLAGS: "/feature-flags",
+
+  CONFERENCE_DEMO: {
+    applicant: {
+      index: "/demo/applicant/loan"
+    },
+    admin: {
+      index: "/demo/admin/dashboard"
+    }
+  }
 }
 
 export const API_PATH = {

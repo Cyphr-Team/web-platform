@@ -12,6 +12,8 @@ import { authenticationRoutes } from "./authentication-routes"
 import { dashboardRoutes } from "./dashboard-routes"
 import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
 import { featureFlagsPublicLoader, institutionLoader } from "./loader"
+import { conferenceDemoRoutes } from "@/routes/conference-demo-routes"
+import { isEnableConferenceDemo } from "@/utils/feature-flag.utils.ts"
 
 /**
  * App routes ("/").
@@ -37,6 +39,8 @@ const routes = createBrowserRouter(
             lazy={() => import("@/modules/authentication/accept-invite/page")}
           />
         </Route>
+
+        {isEnableConferenceDemo() && conferenceDemoRoutes}
 
         {authenticationRoutes}
 
