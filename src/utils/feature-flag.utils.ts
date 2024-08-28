@@ -63,10 +63,6 @@ function isEnableKycReOrder() {
  * Changes on Authentication Flow - MFA with Stytch
  */
 
-function isEnableTermAgreementsCheckbox() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.TERM_AGREEMENTS_CHECKBOX)
-}
-
 /**
  * Checks if Multi-Factor Authentication is enabled for all Portals.
  * @returns {boolean} - True if the feature flag for MFA is enabled, otherwise false.
@@ -172,7 +168,6 @@ export {
   isEnableKycReOrder,
   isEnableMultiFactorAuthentication,
   isEnableMultiFactorAuthenticationForAdminPortal,
-  isEnableTermAgreementsCheckbox,
   isEnableNewSubmitFormStrategy,
   isIgnoredKycSubmission,
   isIgnoredCashFlowSubmission,

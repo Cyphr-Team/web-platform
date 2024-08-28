@@ -17,7 +17,6 @@ import {
   useGetStart
 } from "../../hooks/useGetStart"
 import { useSearchParams } from "react-router-dom"
-import { isEnableTermAgreementsCheckbox } from "@/utils/feature-flag.utils"
 
 export function SignUpForm() {
   const { isPending, mutate } = useGetStart()
@@ -60,30 +59,28 @@ export function SignUpForm() {
             )}
           />
 
-          {isEnableTermAgreementsCheckbox() && (
-            <div className="text-xs text-muted-foreground">
-              By clicking "Create account" or "Continue with Google", you
-              acknowledge that you understand and agree to the{" "}
-              <a
-                href="https://www.cyphrai.com/terms"
-                className="underline"
-                rel="noopener noreferrer"
-                target="terms"
-              >
-                Terms of Service
-              </a>{" "}
-              and{" "}
-              <a
-                href="https://www.cyphrai.com/privacy"
-                className="underline"
-                rel="noopener noreferrer"
-                target="privacy"
-              >
-                Privacy Policy
-              </a>
-              .
-            </div>
-          )}
+          <div className="text-xs text-muted-foreground">
+            By clicking "Create account" or "Continue with Google", you
+            acknowledge that you understand and agree to the{" "}
+            <a
+              href="https://www.cyphrai.com/terms"
+              className="underline"
+              rel="noopener noreferrer"
+              target="terms"
+            >
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://www.cyphrai.com/privacy"
+              className="underline"
+              rel="noopener noreferrer"
+              target="privacy"
+            >
+              Privacy Policy
+            </a>
+            .
+          </div>
 
           <ButtonLoading
             isLoading={isPending}
