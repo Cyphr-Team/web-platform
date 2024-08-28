@@ -10,10 +10,7 @@ import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
 import { Loader2 } from "lucide-react"
 import { useVerifyToken } from "@/hooks/useVerifyToken"
 import { useLogout } from "@/hooks/useLogout"
-import {
-  isEnableMultiFactorAuthentication,
-  isEnableSignUpReorder
-} from "@/utils/feature-flag.utils"
+import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
@@ -42,12 +39,7 @@ export function Component() {
     <Suspense fallback={<Loader2 className="animate-spin" />}>
       <Await
         resolve={userPromise}
-        errorElement={
-          <Navigate
-            to={isEnableSignUpReorder() ? APP_PATH.SIGN_UP : APP_PATH.LOGIN}
-            replace
-          />
-        }
+        errorElement={<Navigate to={APP_PATH.SIGN_UP} replace />}
       >
         <RoleStrict>
           <Header items={DASHBOARD_NAV_ITEM} />
