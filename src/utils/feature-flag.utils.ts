@@ -67,9 +67,20 @@ function isEnableTermAgreementsCheckbox() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.TERM_AGREEMENTS_CHECKBOX)
 }
 
+/**
+ * Checks if Multi-Factor Authentication is enabled for all Portals.
+ * @returns {boolean} - True if the feature flag for MFA is enabled, otherwise false.
+ */
+
 function isEnableMultiFactorAuthentication() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.MULTI_FACTOR_AUTHENTICATION)
 }
+
+/**
+ * Checks if Multi-Factor Authentication is enabled for the Admin Portal.
+ * This flag is only used for the Admin Portal, and only works when the MULTI_FACTOR_AUTHENTICATION flag is also enabled.
+ * @returns {boolean} - True if the feature flag for MFA in Admin Portal is enabled, otherwise false.
+ */
 
 function isEnableMultiFactorAuthenticationForAdminPortal() {
   return checkEnabledFeatureFlag(

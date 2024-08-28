@@ -10,14 +10,15 @@ import {
 import { isAdmin } from "@/utils/domain.utils"
 import { MfaLoginForm } from "./mfa-login-form"
 
-export function LoginFormSection() {
-  const isEnableMFA = () => {
-    if (!isEnableMultiFactorAuthentication()) return false
-    if (isAdmin() && !isEnableMultiFactorAuthenticationForAdminPortal()) {
-      return false
-    }
-    return true
+export const isEnableMFA = () => {
+  if (!isEnableMultiFactorAuthentication()) return false
+  if (isAdmin() && !isEnableMultiFactorAuthenticationForAdminPortal()) {
+    return false
   }
+  return true
+}
+
+export function LoginFormSection() {
   return (
     <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
