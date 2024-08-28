@@ -28,9 +28,8 @@ import { useEffect } from "react"
 import { APP_PATH } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { PasswordMatch } from "../../components/password-match"
-import { parseJwt } from "@/services/jwt.service"
+import { isEnableMFA, parseJwt } from "@/services/jwt.service"
 import { useLogout } from "@/hooks/useLogout"
-import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
 import { useStytchLogin } from "../../login/hooks/useStytchLogin"
 
 export function SetupProfileForm() {
@@ -87,7 +86,7 @@ export function SetupProfileForm() {
 
   useEffect(() => {
     if (count < 1) {
-      if (isEnableMultiFactorAuthentication()) {
+      if (isEnableMFA()) {
         const { email, password } = form.getValues()
         mutateLogin({ email, password })
       } else {
@@ -207,7 +206,7 @@ export function SetupProfileForm() {
                 variant="success"
                 title="Your sign up has been completed"
                 description={`You'll be redirected to the ${
-                  isEnableMultiFactorAuthentication() ? "phone setup" : "login"
+                  isEnableMFA() ? "phone setup" : "login"
                 } page after ${count} seconds`}
               />
             )}

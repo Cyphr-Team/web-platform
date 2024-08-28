@@ -3,20 +3,8 @@ import { APP_PATH } from "@/constants"
 import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { Link } from "react-router-dom"
 import { LoginForm } from "./login-form"
-import {
-  isEnableMultiFactorAuthentication,
-  isEnableMultiFactorAuthenticationForAdminPortal
-} from "@/utils/feature-flag.utils"
-import { isAdmin } from "@/utils/domain.utils"
+import { isEnableMFA } from "@/services/jwt.service"
 import { MfaLoginForm } from "./mfa-login-form"
-
-export const isEnableMFA = () => {
-  if (!isEnableMultiFactorAuthentication()) return false
-  if (isAdmin() && !isEnableMultiFactorAuthenticationForAdminPortal()) {
-    return false
-  }
-  return true
-}
 
 export function LoginFormSection() {
   return (

@@ -5,6 +5,20 @@ import { postRequest } from "./client.service"
 import { UserInfo } from "@/types/user.type"
 import { customRequestHeader } from "@/utils/request-header"
 
+import {
+  isEnableMultiFactorAuthentication,
+  isEnableMultiFactorAuthenticationForAdminPortal
+} from "@/utils/feature-flag.utils"
+import { isAdmin } from "@/utils/domain.utils"
+
+export const isEnableMFA = () => {
+  if (!isEnableMultiFactorAuthentication()) return false
+  if (isAdmin() && !isEnableMultiFactorAuthenticationForAdminPortal()) {
+    return false
+  }
+  return true
+}
+
 export const parseJwt = (token: string) => {
   try {
     if (!token) return null

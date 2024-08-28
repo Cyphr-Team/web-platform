@@ -18,7 +18,7 @@ const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const { clearUserInfo } = useLogout()
 
   switch (true) {
-    case isEnableMultiFactorAuthentication() && isInvalidToken:
+    case isInvalidToken:
       clearUserInfo()
       return <Navigate to={APP_PATH.LOGIN} replace />
     case isLoanApplicant:
