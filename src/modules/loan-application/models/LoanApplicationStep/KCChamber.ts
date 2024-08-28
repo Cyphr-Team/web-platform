@@ -1,7 +1,6 @@
 import {
   isEnableKycReOrder,
   isEnablePersonaKycV1,
-  isEnableReviewApplicationStep,
   isIgnoredCashFlowSubmission,
   isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
@@ -32,7 +31,7 @@ export class KCChamberLoanApplicationStep
 
     this._build_CurrentLoansStep()._build_OperatingExpensesStep()
 
-    if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
+    this._build_ReviewApplicationStep()
 
     if (
       isEnablePersonaKycV1() &&

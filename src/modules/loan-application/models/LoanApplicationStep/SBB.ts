@@ -1,6 +1,5 @@
 import {
   isEnablePersonaKycV1,
-  isEnableReviewApplicationStep,
   isIgnoredCashFlowSubmission,
   isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
@@ -55,7 +54,7 @@ export class SBBLoanApplicationStep
       ._build_ArticlesOfOrganization()
       ._build_ByLaws()
 
-    if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
+    this._build_ReviewApplicationStep()
 
     return this._build_ConfirmationStep()
   }

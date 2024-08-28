@@ -1,6 +1,5 @@
 import {
   isEnablePersonaKycV1,
-  isEnableReviewApplicationStep,
   isIgnoredCashFlowSubmission,
   isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
@@ -35,7 +34,7 @@ export class LaunchKCLoanApplicationStep
       ._build_BusinessDocumentsStep()
       ._build_LaunchKCFitStep()
 
-    if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
+    this._build_ReviewApplicationStep()
 
     return this._build_ConfirmationStep()
   }

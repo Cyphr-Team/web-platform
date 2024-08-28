@@ -1,4 +1,3 @@
-import { isEnableReviewApplicationStep } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
 export class DefaultLoanApplicationStep
@@ -16,7 +15,7 @@ export class DefaultLoanApplicationStep
       ._build_OwnerInformationStep()
       ._build_FinancialInformationStep()
 
-    if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
+    this._build_ReviewApplicationStep()
 
     return this._build_ConfirmationStep()
   }

@@ -1,7 +1,4 @@
-import {
-  isEnableReviewApplicationStep,
-  isIgnoredCashFlowSubmission
-} from "@/utils/feature-flag.utils"
+import { isIgnoredCashFlowSubmission } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
 export class KansasCityLoanApplicationStep
@@ -22,7 +19,7 @@ export class KansasCityLoanApplicationStep
 
     this._build_CurrentLoansStep()._build_OperatingExpensesStep()
 
-    if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
+    this._build_ReviewApplicationStep()
 
     return this._build_ConfirmationStep()
   }

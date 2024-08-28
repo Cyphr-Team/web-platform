@@ -1,7 +1,4 @@
-import {
-  isEnableReviewApplicationStep,
-  isIgnoredCashFlowSubmission
-} from "@/utils/feature-flag.utils"
+import { isIgnoredCashFlowSubmission } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
 export class LoanReadyLoanApplicationStep
@@ -20,7 +17,7 @@ export class LoanReadyLoanApplicationStep
 
     if (!isIgnoredCashFlowSubmission()) this._build_CashFlowVerificationStep()
 
-    if (isEnableReviewApplicationStep()) this._build_ReviewApplicationStep()
+    this._build_ReviewApplicationStep()
 
     return this._build_ConfirmationStep()
   }
