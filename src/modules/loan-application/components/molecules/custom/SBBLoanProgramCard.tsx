@@ -13,6 +13,7 @@ import { Link } from "react-router-dom"
 import { sanitizeDOM } from "@/utils/file.utils"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
 import { SBB_LOAN_PROGRAMS } from "@/modules/loan-application/constants/loan-program.constants"
+import { Badge } from "@/components/ui/badge"
 
 //THIS COMPONENT IS ONLY USED FOR SBB
 type CardProps = React.ComponentProps<typeof Card> & {
@@ -50,6 +51,12 @@ export const SBBLoanProgramCard = ({
       </CardHeader>
 
       <CardFooter className="mt-5">
+        <Badge
+          variant="outline"
+          className="h-7 text-sm px-lg py-xs font-semibold border-gray"
+        >
+          {foundLoanProgram?.type}
+        </Badge>
         <Button className="ml-auto" asChild>
           <Link
             to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(

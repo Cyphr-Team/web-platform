@@ -8,10 +8,11 @@ import { useLoanProgramDetailContext } from "@/modules/loan-application/provider
 import { LoanProgramDetailContactCard } from "./LoanProgramDetailContactCard"
 import { Minus, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { capitalizeWords, snakeCaseToText } from "@/utils"
+import { snakeCaseToText } from "@/utils"
 import { LoanProgramDetailApply } from "./LoanProgramDetailApply"
 import { LoanProgramDetailUnderConstruction } from "./LoanProgramDetailUnderConstruction"
 import { Skeleton } from "@/components/ui/skeleton"
+import { isSbb } from "@/utils/domain.utils"
 
 export const LoanProgramDetailFAQ = () => {
   const { loanProgramInfo, isLoading } = useLoanProgramDetailContext()
@@ -49,7 +50,12 @@ export const LoanProgramDetailFAQ = () => {
           {loanProgramInfo?.isUnderConstruction ? (
             <LoanProgramDetailUnderConstruction />
           ) : (
-            <LoanProgramDetailApply btnText={loanProgramInfo?.startBtn} />
+            <LoanProgramDetailApply
+              className={cn(
+                isSbb() && "bg-lime-400 text-black hover:bg-lime-300"
+              )}
+              btnText={loanProgramInfo?.startBtn}
+            />
           )}
         </div>
       </section>
@@ -75,7 +81,7 @@ const FAQ = () => {
               openIcon={<Plus className="h-5 w-5" />}
               closeIcon={<Minus className="h-5 w-5" />}
             >
-              {capitalizeWords(snakeCaseToText(key))}
+              {snakeCaseToText(key)}
             </AccordionTrigger>
             <AccordionContent className="whitespace-pre-wrap">
               {Array.isArray(answer)

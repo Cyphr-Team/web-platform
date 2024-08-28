@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 import { useQueryGetLoanPrograms } from "../../hooks/useQuery/useQueryLoanPrograms"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
-import { isLaunchKC } from "@/utils/domain.utils"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { APP_PATH } from "@/constants"
 
 const WelcomeLine = () => {
@@ -17,9 +17,11 @@ const WelcomeLine = () => {
 
   return (
     <section>
-      <h2 className="text-3xl md:text-4xl font-semibold mb-6">
-        Welcome to {name}!
-      </h2>
+      {!isSbb() && (
+        <h2 className="text-3xl md:text-4xl font-semibold mb-6">
+          Welcome to {name}!
+        </h2>
+      )}
       <p
         className="text-lg whitespace-pre-wrap text-justify"
         dangerouslySetInnerHTML={{ __html: sanitizeDOM(loanProgramWelcome) }}

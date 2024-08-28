@@ -283,13 +283,13 @@ const LOAN_READINESS_PROGRAM: LoanProgramData = {
   faqs: {
     about:
       "LoanReady turns the tables on traditional lending processes. With our innovative platform, you gain unparalleled insights into your business's financial health as seen through the lens of a potential lender.",
-    eligibility: [
+    Eligibility: [
       "Small Business Owner",
       "EIN",
       "Seeking a loan types: term, micro, lines of capital, or startup lending products"
     ],
-    fees: "Applicants will only be charged an origination fee of $45.",
-    how_to_get_started:
+    Fees: "Applicants will only be charged an origination fee of $45.",
+    How_to_get_started:
       "To get started, just click the 'Test My Readiness' button and fill out the form."
   },
   contact: {
@@ -315,7 +315,7 @@ const KCC_LENDER_FORUM_PROGRAM: LoanProgramData = {
       "Small Business Administration (SBA) loans are designed for businesses just starting out or wishing to expand when conventional financing is not suitable.",
     Lines_of_credit:
       "Useful when you have seasonal, cyclical or fluctuating cash needs. We offer both revolving and non-revolving options with interest-only monthly payments based on a variable interest rate. Use for the purchase of inventory, covering unexpected expenses, or cash flow management.",
-    required_documents: `N/A`
+    Required_documents: `N/A`
   },
   contact: {
     mail: "spiess@kcchamber.com",
@@ -328,47 +328,25 @@ const KCC_LENDER_FORUM_PROGRAM: LoanProgramData = {
 const SBB_LOAN_PROGRAMS: LoanProgramData[] = [
   {
     id: "SBB_BUSINESS_ACCOUNTS",
-    name: "Business Banking Accounts",
-    type: "Business Accounts",
+    name: "Account Onboarding",
+    type: "Accounts",
     faqs: {
-      about:
-        "We are a Member FDIC bank that's focused on personalized support for all our business customers, no matter how small. \nBased in Lenexa, Kansas and serving customers across the United States",
-      types_of_business_accounts: `•	Free Business Checking
+      How_to_get_started:
+        "Click on “Start application” below. Please note we require borrowers to have a deposit account at the bank.",
+      Types_of_Business_accounts: `•	Free Business Checking
 •	High-Yield Business Savings
 •	Business Certificate of Deposit`,
-      required_documents: `•	One form of Photo Identification such as a Driver's License or Passport
+      List_of_required_documents: `•	One form of Photo Identification such as a Driver's License or Passport
 •	Business EIN Letter
 • Certificate of Good Standing from your Secretary of State's Office
-•	Fictitious Name Certification (for Sole Proprietors)
+•	Fictitious name certification (if your business uses a fictitious business name)
 •	Articles of Organization and Operating Agreement (for LLCs)
 •	By-Laws (for Corporations)
     `
     },
     contact: {
-      name: "Julie Moreno",
-      phone: "1-855-635-9696"
-    },
-    isUnderConstruction: false
-  },
-  {
-    id: "SBB_TERM_LOAN",
-    name: "Term Loan",
-    type: "Term Loan",
-    faqs: {
-      about:
-        "We are a Member FDIC bank that's focused on personalized support for all our business customers, no matter how small. \nBased in Lenexa, Kansas and serving customers across the United States",
-      collateral: "Collateral is required",
-      required_documents: `    •	One form of Photo Identification such as a Driver's License or Passport
-    •	Business EIN Letter
-    • Certificate of Good Standing from your Secretary of State's Office
-    •	Fictitious Name Certification (for Sole Proprietors)
-    •	Articles of Organization and Operating Agreement (for LLCs)
-    •	By-Laws (for Corporations)
-    `
-    },
-    contact: {
-      name: "Julie Moreno",
-      phone: "1-855-635-9696"
+      phone: "(855) 635-9696",
+      mail: "support@sbbancshares.com"
     },
     isUnderConstruction: false
   }
