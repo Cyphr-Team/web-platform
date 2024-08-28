@@ -5,6 +5,7 @@ import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
 import { SbbKybFormFields } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { FORM_TYPE } from "../models/LoanApplicationStep/type"
+import { SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
 
 export interface KYBInformation {
   id: string | null
@@ -134,17 +135,19 @@ export interface KYCInformation {
   socialSecurityNumber: string
   businessOwnershipPercentage: number
   hasOtherSubstantialStackHolders?: boolean
-  metadata?: Partial<{
-    firstName: string
-    lastName: string
-    title: string
-    genderIdentity: string
-    preferredPronoun: string
-    racialIdentification: string
-    ethnicIdentification: string
-    areFounderOrCoFounder: string
-    areFullTimeFounder: string
-  }>
+  metadata?: Partial<
+    {
+      firstName: string
+      lastName: string
+      title: string
+      genderIdentity: string
+      preferredPronoun: string
+      racialIdentification: string
+      ethnicIdentification: string
+      areFounderOrCoFounder: string
+      areFullTimeFounder: string
+    } & SbbKycMetadata
+  >
 }
 
 export interface KYCInformationResponse {

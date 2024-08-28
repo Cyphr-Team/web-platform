@@ -22,6 +22,7 @@ export interface RHFCalendarPickerInputProps<T extends FieldValues> {
   label: string
   subtitle?: string
   required?: boolean
+  className?: string
   styleProps?: {
     itemClassName?: string
     labelClassName?: string
@@ -44,7 +45,6 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
   } = props
 
   const {
-    itemClassName,
     labelClassName,
     calendarClassName,
     subtitleClassName,
@@ -58,37 +58,33 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
     }
 
   return (
-    <>
-      <FormField
-        control={control}
-        name={name}
-        render={({ field }) => (
-          <FormItem className={cn("w-full col-span-12", itemClassName)}>
-            <FormLabel className={cn("text-text-secondary", labelClassName)}>
-              {label}
-              {required && <RequiredSymbol />}
-            </FormLabel>
-            <FormControl>
-              <CalendarDatePicker
-                id={name}
-                value={field.value}
-                onSelectDate={handleSelectDate(field)}
-                className={cn("w-full", calendarClassName)}
-                triggerClassName="w-full"
-                contentClassName="w-full"
-              />
-            </FormControl>
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className={cn("w-full col-span-12", props.className)}>
+          <FormLabel className={cn("text-text-secondary", labelClassName)}>
+            {label}
+            {required && <RequiredSymbol />}
+          </FormLabel>
+          <FormControl>
+            <CalendarDatePicker
+              id={name}
+              value={field.value}
+              onSelectDate={handleSelectDate(field)}
+              className={cn("w-full", calendarClassName)}
+              triggerClassName="w-full"
+              contentClassName="w-full"
+            />
+          </FormControl>
 
-            <div
-              className={cn("text-xs text-text-tertiary", subtitleClassName)}
-            >
-              {subtitle}
-            </div>
-            <FormMessage className={messageClassName} />
-          </FormItem>
-        )}
-      />
-    </>
+          <div className={cn("text-xs text-text-tertiary", subtitleClassName)}>
+            {subtitle}
+          </div>
+          <FormMessage className={messageClassName} />
+        </FormItem>
+      )}
+    />
   )
 }
 

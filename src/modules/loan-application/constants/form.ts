@@ -9,6 +9,7 @@ import {
   SbbKybFormPartOneValue,
   SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
+import { SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -538,7 +539,8 @@ export type IBusinessFormValue = BusinessFormValue &
 
 export type IOwnerFormValue = OwnerFormValue &
   LaunchKCOwnerFormValue &
-  KansasCityOwnerFormValue
+  KansasCityOwnerFormValue &
+  SbbKycFormValue
 
 export type ICurrentLoanFormValue = CurrentLoansFormValue &
   SbbCurrentLoansFormValue &

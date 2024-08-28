@@ -53,7 +53,7 @@ const RHFPercentageInput = <T extends FieldValues>(
     required,
     subtitle,
     styleProps = {},
-    direction = "row",
+    direction = "column",
     min = 0,
     max = 100,
     isString = false,
@@ -75,13 +75,13 @@ const RHFPercentageInput = <T extends FieldValues>(
       render={({ field }) => (
         <FormItem className={props.className}>
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
-            <div className="flex flex-col">
-              <label>
-                {label}
-                {required && <RequiredSymbol />}
-              </label>
-              {direction === "row" && <FormMessage />}
-            </div>
+            {label}
+            {required && <RequiredSymbol />}
+            {subtitle && (
+              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+            )}
+
+            {direction === "row" && <FormMessage />}
           </FormLabel>
 
           <FormControl>

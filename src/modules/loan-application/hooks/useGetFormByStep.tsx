@@ -37,6 +37,7 @@ import { SBBKybFormPartTwo } from "../components/organisms/loan-application-form
 import { KansasCityOwnerInformationForm } from "../components/organisms/loan-application-form/kyc/kansascity/KansasCityOwnerInformationForm"
 import { KansasCityBusinessInformationForm } from "../components/organisms/loan-application-form/kyb/kansascity/KansasCityBusinessInformationForm"
 import { KansasCityCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/kansascity/KansasCityCurrentLoanForm"
+import { SbbKycForm } from "../components/organisms/loan-application-form/kyc/sbb/SbbKycForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -65,6 +66,9 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         }
         if (isKansasCity()) {
           return <KansasCityOwnerInformationForm />
+        }
+        if (isSbb()) {
+          return <SbbKycForm />
         }
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:

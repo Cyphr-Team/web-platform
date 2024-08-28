@@ -28,6 +28,7 @@ export interface RHFTextInputProps<T extends FieldValues> {
     messageClassName?: string
   }
 
+  isRowDirection?: boolean
   prefix?: string
   suffix?: string
   description?: string
@@ -44,6 +45,7 @@ const RHFTextInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
     label,
     required,
     subtitle,
+    isRowDirection = false,
     multiline = false,
     styleProps = {},
     ...inputProps
@@ -59,13 +61,19 @@ const RHFTextInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={props.className}>
+        <FormItem
+          className={cn(
+            isRowDirection && "flex items-center justify-between",
+            props.className
+          )}
+        >
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             {label}
             {required && <RequiredSymbol />}
             {subtitle && (
               <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
             )}
+            {isRowDirection && <FormMessage className={messageClassName} />}
           </FormLabel>
 
           <FormControl>
@@ -76,8 +84,7 @@ const RHFTextInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
               className={cn("text-base", inputClassName)}
             />
           </FormControl>
-
-          <FormMessage className={messageClassName} />
+          {!isRowDirection && <FormMessage className={messageClassName} />}
         </FormItem>
       )}
     />

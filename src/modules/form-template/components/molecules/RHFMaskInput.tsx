@@ -15,6 +15,7 @@ import {
 } from "react-hook-form"
 import { MaskInput, MaskInputProps } from "@/components/ui/mask-input.tsx"
 import { memo } from "react"
+import { cn } from "@/lib/utils"
 
 export interface RHFMaskInputProps<T extends FieldValues>
   extends Partial<MaskInputProps> {
@@ -66,14 +67,10 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          <FormLabel className={labelClassName}>
-            <div className="flex flex-col">
-              <label>
-                {label}
-                {required && <RequiredSymbol />}
-              </label>
-              {direction === "row" && <FormMessage />}
-            </div>
+          <FormLabel className={cn("text-text-secondary", labelClassName)}>
+            {label}
+            {required && <RequiredSymbol />}
+            {direction === "row" && <FormMessage className="mt-1" />}
           </FormLabel>
           <FormControl>
             <MaskInput

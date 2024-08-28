@@ -16,7 +16,7 @@ import {
   OperatingExpensesInformationResponse
 } from "../constants/type"
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
-import { isLaunchKC } from "@/utils/domain.utils.ts"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import { get, set, without } from "lodash"
 
 export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
@@ -129,6 +129,12 @@ export const reverseFormatKycForm = (rawData: KYCInformationResponse) => {
     return {
       ...formInformation,
       ...get(rawData, "metadata", {})
+    }
+  }
+  if (isSbb()) {
+    return {
+      ...formInformation,
+      metadata: get(rawData, "metadata", {})
     }
   }
   return formInformation

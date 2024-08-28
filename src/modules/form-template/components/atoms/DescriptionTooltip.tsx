@@ -4,13 +4,20 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils"
 
 import { InfoIcon } from "lucide-react"
 
 export const DescriptionTooltip = ({
-  description
+  description,
+  side = "right",
+  sideOffset = 8,
+  className
 }: {
   description: string
+  side?: "top" | "right" | "bottom" | "left"
+  sideOffset?: number
+  className?: string
 }) => {
   return (
     <TooltipProvider>
@@ -19,9 +26,9 @@ export const DescriptionTooltip = ({
           <InfoIcon className="w-4 h-4" />
         </TooltipTrigger>
         <TooltipContent
-          side="bottom"
-          sideOffset={20}
-          className="text-white bg-black p-1 w-48"
+          side={side}
+          sideOffset={sideOffset}
+          className={cn("text-white bg-black p-1 w-48", className)}
         >
           <p className="text-xs">{description}</p>
         </TooltipContent>
