@@ -2,14 +2,24 @@ import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { PropsWithChildren, ReactNode } from "react"
-import { boolean, object } from "zod"
-import { FieldValues, useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { RHFProvider } from "@/modules/form-template/providers"
+import { useForm } from "react-hook-form"
 import { RHFCheckbox } from "@/modules/form-template/components/molecules"
 import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 import { FileDownloadableCard } from "@/modules/loan-application/components/molecules/FileDownloadableCard.tsx"
 import { Button } from "@/components/ui/button.tsx"
+import {
+  SBB_PRE_APPLICATION_DISCLOSURES,
+  sbbPreApplicationDisclosuresSchema,
+  SbbPreApplicationDisclosuresValue
+} from "./const"
+import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "@/modules/loan-application/providers"
+import { RHFProvider } from "@/modules/form-template/providers"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 export const mockDocumentUploadedResponse: DocumentUploadedResponse = {
   id: "7a5e5b77-2b1f-4c59-8b36-1c9f3f0d6fbc",
@@ -23,23 +33,22 @@ export const mockDocumentUploadedResponse: DocumentUploadedResponse = {
   updatedAt: "2024-08-27T10:45:00Z"
 }
 
-const enum FieldName {
-  ACKNOWLEDGE_PRIVACY_POLICY = "acknowledgePrivacyPolicy"
-}
-
-const schema = object({
-  [FieldName.ACKNOWLEDGE_PRIVACY_POLICY]: boolean().refine((value) => value)
-})
-
 const SbbPrivacyPolicy = () => {
-  const methods = useForm<FieldValues>({
-    resolver: zodResolver(schema),
-    reValidateMode: "onBlur",
-    defaultValues: {
-      // TODO: fetch from provider
-      [FieldName.ACKNOWLEDGE_PRIVACY_POLICY]: false
-    }
+  const { dispatchFormAction, privacyPolicy } = useLoanApplicationFormContext()
+  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const form = useForm<SbbPreApplicationDisclosuresValue>({
+    mode: "onBlur",
+    resolver: zodResolver(sbbPreApplicationDisclosuresSchema),
+    values: privacyPolicy
   })
+  const onSubmit = (data: SbbPreApplicationDisclosuresValue) => {
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.PRIVACY_POLICY,
+      state: data
+    })
+    finishCurrentStep()
+  }
 
   return (
     <Card
@@ -62,21 +71,22 @@ const SbbPrivacyPolicy = () => {
       <QuestionAndCall />
 
       <FileDownloadableCard file={mockDocumentUploadedResponse} />
-      <RHFProvider methods={methods}>
-        <RHFCheckbox
-          name={FieldName.ACKNOWLEDGE_PRIVACY_POLICY}
-          label="I acknowledge receipt of Small Business Bank’s Privacy Policy."
-        />
-      </RHFProvider>
+      <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-2xl">
+          <RHFCheckbox
+            name={SBB_PRE_APPLICATION_DISCLOSURES.PRIVACY_POLICY}
+            label="I acknowledge receipt of Small Business Bank’s Privacy Policy."
+          />
 
-      <Button
-        disabled={
-          !methods.formState.isValid ||
-          !methods.getValues(FieldName.ACKNOWLEDGE_PRIVACY_POLICY)
-        }
-      >
-        Next
-      </Button>
+          <Button
+            disabled={
+              !form?.getValues(SBB_PRE_APPLICATION_DISCLOSURES.PRIVACY_POLICY)
+            }
+          >
+            Next
+          </Button>
+        </div>
+      </RHFProvider>
     </Card>
   )
 }
@@ -191,7 +201,7 @@ const TableInformation = () => {
       <Row variant="two">
         <Cell value="How does Small Business Bank protect my personal information?" />
         <Cell
-          className="col-span-6"
+          className="col-span-6 border-l"
           value={
             <div className="flex flex-col gap-2xl">
               <div>
@@ -212,7 +222,7 @@ const TableInformation = () => {
       <Row variant="two">
         <Cell value="How does Small Business Bank collect my personal information?" />
         <Cell
-          className="col-span-6"
+          className="col-span-6 border-l"
           value={
             <div className="flex flex-col gap-xl">
               We collect your personal information, for example, when you:
@@ -232,7 +242,7 @@ const TableInformation = () => {
       <Row variant="two">
         <Cell value="Why can’t I limit all sharing?" />
         <Cell
-          className="col-span-6"
+          className="col-span-6 border-l"
           value={
             <div className="flex flex-col gap-md">
               Federal laws give you the right to limit only:
@@ -254,10 +264,11 @@ const TableInformation = () => {
       <Row variant="two">
         <Cell value="Affiliates" />
         <Cell
-          className="col-span-6"
+          className="col-span-6 border-l"
           value={
             <div className="flex flex-col">
-              Federal laws give you the right to limit only:
+              Companies related by common ownership or control. They can be
+              financial and non-financial companies.
               <ul className="list-disc list-inside">
                 <li>
                   Small Business Bank has affiliates, but does not share your
@@ -269,17 +280,17 @@ const TableInformation = () => {
         />
       </Row>
       <Row variant="two">
-        <Cell value="Nonaffiliates" />
+        <Cell value="Non-affiliates" />
         <Cell
-          className="col-span-6"
+          className="col-span-6 border-l"
           value={
             <div className="flex flex-col">
               Companies not related by common ownership or control. They can be
-              financial and nonfinancial companies.
+              financial and non-financial companies.
               <ul className="list-disc list-inside">
                 <li>
                   Small Business Bank does not share your information with
-                  nonaffiliates so they can market to you.
+                  non-affiliates so they can market to you.
                 </li>
               </ul>
             </div>
@@ -289,7 +300,7 @@ const TableInformation = () => {
       <Row variant="two" isFinal>
         <Cell value="Joint marketing" />
         <Cell
-          className="col-span-6"
+          className="col-span-6 border-l"
           value={
             <div className="flex flex-col">
               A formal agreement between nonaffiliated financial companies that

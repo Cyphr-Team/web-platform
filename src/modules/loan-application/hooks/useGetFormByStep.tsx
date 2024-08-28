@@ -38,6 +38,8 @@ import { KansasCityOwnerInformationForm } from "../components/organisms/loan-app
 import { KansasCityBusinessInformationForm } from "../components/organisms/loan-application-form/kyb/kansascity/KansasCityBusinessInformationForm"
 import { KansasCityCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/kansascity/KansasCityCurrentLoanForm"
 import { SbbKycForm } from "../components/organisms/loan-application-form/kyc/sbb/SbbKycForm"
+import SbbPrivacyPolicy from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPrivacyPolicy"
+import { SbbPatriotAct } from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPatriotAct"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -123,6 +125,10 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <FictitiousNameCertificationForm />
       case LOAN_APPLICATION_STEPS.BY_LAWS:
         return <ByLawsForm />
+      case LOAN_APPLICATION_STEPS.PATRIOT_ACT:
+        return <SbbPatriotAct />
+      case LOAN_APPLICATION_STEPS.PRIVACY_POLICY:
+        return <SbbPrivacyPolicy />
       default:
         return null
     }

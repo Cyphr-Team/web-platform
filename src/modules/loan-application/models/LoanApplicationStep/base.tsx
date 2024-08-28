@@ -443,6 +443,11 @@ export class LoanApplicationStep {
     return this
   }
 
+  _build_extendedSteps(steps: ILoanApplicationStep[]): this {
+    this.#steps = uniqBy([...this.#steps, ...steps], "step")
+    return this
+  }
+
   getSteps(): ILoanApplicationStep[] {
     return this.#steps
   }

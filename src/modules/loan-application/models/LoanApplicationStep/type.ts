@@ -26,8 +26,7 @@ enum FORM_TYPE {
 enum LOAN_APPLICATION_STEPS {
   LOAN_REQUEST = "loanRequest",
   BUSINESS_INFORMATION = "businessInformation",
-  SBB_BUSINESS_INFORMATION_PART_ONE = "sbbBusinessInformationPartOne",
-  SBB_BUSINESS_INFORMATION_PART_TWO = "sbbBusinessInformationPartTwo",
+
   OWNER_INFORMATION = "ownerInformationForm",
   FINANCIAL_INFORMATION = "financialInformationForm",
   CASH_FLOW_VERIFICATION = "cashFlowVerification",
@@ -48,10 +47,17 @@ enum LOAN_APPLICATION_STEPS {
   CERTIFICATE_GOOD_STANDING = "certificateOfGoodStanding",
   FICTITIOUS_NAME_CERTIFICATION = "fictitiousNameCertification",
   ARTICLES_OF_ORGANIZATION = "articlesOfOrganizationAndOperatingAgreement",
-  BY_LAWS = "bylaws"
+  BY_LAWS = "bylaws",
+
+  // SBB
+  PRIVACY_POLICY = "privacyPolicy",
+  PATRIOT_ACT = "patriotAct",
+  SBB_BUSINESS_INFORMATION_PART_ONE = "sbbBusinessInformationPartOne",
+  SBB_BUSINESS_INFORMATION_PART_TWO = "sbbBusinessInformationPartTwo"
 }
 
 enum STEP_MENU {
+  PRE_APPLICATION = "PRE-APPLICATION DISCLOSURES",
   PRE_QUALIFICATION = "PRE-QUALIFICATION",
   APPLICATION = "APPLICATION",
   DOCUMENTATION = "DOCUMENTATION",
@@ -66,8 +72,8 @@ enum LOAN_APPLICATION_STEP_STATUS {
 
 export {
   STEP_MENU,
-  LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS,
   FORM_TYPE
 }
 

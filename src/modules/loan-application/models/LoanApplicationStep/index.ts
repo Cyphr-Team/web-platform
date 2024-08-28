@@ -25,12 +25,12 @@ export class LoanApplicationStepStrategy {
    * [options] params is optional, use for adding more data to constructor of each tenant
    * Look at constructor of SBBLoanApplicationStep for more detail
    * */
-  constructor(institution: Institution, options?: unknown) {
+  constructor(institution: Institution) {
     for (const [key, LoanApplicationStep] of Object.entries(
       this.institutionLoanApplicationSteps
     )) {
       if (matchSubdomain(institution, key)) {
-        this.#strategy = new LoanApplicationStep(options)
+        this.#strategy = new LoanApplicationStep()
         return
       }
     }

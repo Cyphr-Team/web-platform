@@ -166,19 +166,18 @@ const reducer = (
 const getApplicationStrategy = () =>
   new LoanApplicationStepStrategy(getSubdomain() as Institution).getStrategy()
 
-const initProgress = (forms?: FORM_TYPE[], args?: unknown) => {
+const initProgress = (forms?: FORM_TYPE[]) => {
   return formsConfigurationEnabled()
     ? new ConfigurationLoanApplicationStep(forms).getSteps()
-    : new LoanApplicationStepStrategy(getSubdomain() as Institution, args)
+    : new LoanApplicationStepStrategy(getSubdomain() as Institution)
         .getStrategy()
         .getSteps()
 }
 
-const initSteps: (
-  forms?: FORM_TYPE[],
-  args?: unknown
-) => LoanApplicationStepsState = (forms, args) => {
-  const steps = initProgress(forms, args)
+const initSteps: (forms?: FORM_TYPE[]) => LoanApplicationStepsState = (
+  forms
+) => {
+  const steps = initProgress(forms)
 
   return {
     step: steps[0].step,
@@ -195,16 +194,13 @@ const { Provider } = LoanProgressContext
 export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
   props
 ) => {
-  const { loanProgramFormsConfiguration, loanProgramInfo } =
-    useLoanProgramDetailContext()
+  const { loanProgramFormsConfiguration } = useLoanProgramDetailContext()
 
   const [isInitialized, setIsInitialized] = useState(false)
 
   const [{ progress, step }, dispatchProgress] = useReducer(
     reducer,
-    // cast loanProgramInfo to unknown like wrap it into a chest.
-    // only who has the key (the actual type) can use it
-    initSteps([], loanProgramInfo as unknown)
+    initSteps([])
   )
 
   const getStepStatus = useCallback(

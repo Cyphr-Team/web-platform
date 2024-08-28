@@ -43,6 +43,7 @@ import {
   SbbKybFormPartOneValue,
   SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
+import { SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-application-form/pre-application-disclosures/const"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -71,6 +72,8 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING]: CertificateGoodStandingFormValue
   [LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION]: FictitiousNameCertificationFormValue
   [LOAN_APPLICATION_STEPS.BY_LAWS]: ByLawsFormValue
+  [LOAN_APPLICATION_STEPS.PATRIOT_ACT]: SbbPreApplicationDisclosuresValue
+  [LOAN_APPLICATION_STEPS.PRIVACY_POLICY]: SbbPreApplicationDisclosuresValue
 }
 
 export type LoanDocumentsState = {
@@ -109,6 +112,7 @@ export type FormStateType =
   | LaunchKCBusinessFormValue
   | LaunchKCOwnerFormValue
   // for SBB only
+  | SbbPreApplicationDisclosuresValue
   | SbbKybFormPartOneValue
   | SbbKybFormPartTwoValue
   // sbb documentation form

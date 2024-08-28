@@ -22,6 +22,7 @@ import { MarketOpportunityFormDetails } from "../loan-application-form/market-op
 import { PreQualificationFormDetails } from "../loan-application-form/pre-qualification/PreQualificationFormDetails"
 import { ProductServiceFormDetails } from "../loan-application-form/product-service/ProductServiceFormDetails"
 import { CashFlowTable } from "./CashFlowTable"
+import { PreApplicationDisclosuresDetails } from "../loan-application-form/pre-application-disclosures/PreApplicationDisclosuresDetails"
 
 export const ApplicationDetails = () => {
   const {
@@ -49,6 +50,8 @@ export const ApplicationDetails = () => {
         <div className="flex flex-col gap-4">
           {isLaunchKC() ? (
             <PreQualificationFormDetails data={preQualificationFormData} />
+          ) : isSbb() ? (
+            <PreApplicationDisclosuresDetails />
           ) : (
             <LoanRequestDetails />
           )}

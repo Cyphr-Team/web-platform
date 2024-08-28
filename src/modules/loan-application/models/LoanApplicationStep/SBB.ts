@@ -5,38 +5,39 @@ import {
   isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
-import { LoanProgramData } from "@/modules/loan-application/constants/type.ts"
-
-const CURRENT_PROGRAM_KEY = "CURRENT_LOAN_PROGRAM"
-const PROGRAM = {
-  TERM_LOAN: "SBB_TERM_LOAN",
-  BUSINESS_BANK_ACCOUNT: "SBB_BUSINESS_ACCOUNTS"
-}
+import {
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS,
+  STEP_MENU
+} from "./type"
 
 export class SBBLoanApplicationStep
   extends LoanApplicationStep
   implements ILoanApplicationStepStrategy
 {
-  #targetProgram
-
-  constructor(program: unknown) {
+  constructor() {
     super()
-    // must type cast here to use
-    this.#targetProgram = (program as LoanProgramData)?.id
-    if (this.#targetProgram !== undefined) {
-      localStorage.setItem(CURRENT_PROGRAM_KEY, this.#targetProgram)
-    } else {
-      this.#targetProgram = localStorage.getItem(CURRENT_PROGRAM_KEY)
-    }
 
     this._buildSteps()
   }
 
   _buildSteps() {
-    if (this.#targetProgram === PROGRAM.TERM_LOAN) {
-      this._build_LoanRequestStep()
-    }
-
+    this._build_extendedSteps([
+      {
+        step: LOAN_APPLICATION_STEPS.PATRIOT_ACT,
+        formType: null,
+        label: "USA Patriot Act",
+        parent: STEP_MENU.PRE_APPLICATION,
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      },
+      {
+        step: LOAN_APPLICATION_STEPS.PRIVACY_POLICY,
+        formType: null,
+        label: "Privacy Policy",
+        parent: STEP_MENU.PRE_APPLICATION,
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      }
+    ])
     this._build_BusinessInformationStepPartOne()._build_BusinessInformationStepPartTwo()
 
     this._build_OwnerInformationStep()
