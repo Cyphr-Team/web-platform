@@ -3,11 +3,21 @@ import { APP_PATH } from "@/constants"
 import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { Link } from "react-router-dom"
 import { LoginForm } from "./login-form"
-import { isEnableMultiFactorAuthentication } from "@/utils/feature-flag.utils"
+import {
+  isEnableMultiFactorAuthentication,
+  isEnableMultiFactorAuthenticationForAdminPortal
+} from "@/utils/feature-flag.utils"
 import { isAdmin } from "@/utils/domain.utils"
 import { MfaLoginForm } from "./mfa-login-form"
 
 export function LoginFormSection() {
+  const isEnableMFA = () => {
+    if (!isEnableMultiFactorAuthentication()) return false
+    if (isAdmin() && !isEnableMultiFactorAuthenticationForAdminPortal()) {
+      return false
+    }
+    return true
+  }
   return (
     <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
@@ -24,11 +34,7 @@ export function LoginFormSection() {
           </div>
         </div>
 
-        {isEnableMultiFactorAuthentication() && !isAdmin() ? (
-          <MfaLoginForm />
-        ) : (
-          <LoginForm />
-        )}
+        {isEnableMFA() ? <MfaLoginForm /> : <LoginForm />}
 
         <p className="px-8 text-center text-sm text-muted-foreground">
           Don’t have an account?{" "}

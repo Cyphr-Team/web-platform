@@ -71,6 +71,12 @@ function isEnableMultiFactorAuthentication() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.MULTI_FACTOR_AUTHENTICATION)
 }
 
+function isEnableMultiFactorAuthenticationForAdminPortal() {
+  return checkEnabledFeatureFlag(
+    FEATURE_FLAGS.MULTI_FACTOR_AUTHENTICATION_ADMIN_PORTAL
+  )
+}
+
 /*
  * Replace step Sign and Submit with ESign with PandaDoc
  * 1. Applicant - Submit application - Last step confirmation
@@ -150,6 +156,7 @@ export {
   formsConfigurationEnabled,
   isEnableKycReOrder,
   isEnableMultiFactorAuthentication,
+  isEnableMultiFactorAuthenticationForAdminPortal,
   isEnableTermAgreementsCheckbox,
   isEnableNewSubmitFormStrategy,
   isIgnoredKycSubmission,
