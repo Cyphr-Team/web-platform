@@ -467,6 +467,22 @@ export const launchKcFitFormSchema = z.object({
   progress: z.string()
 })
 
+export const BINARY_VALUES = {
+  YES: "yes",
+  NO: "no"
+}
+
+export const YES_NO_OPTIONS = [
+  { value: BINARY_VALUES.YES, label: "Yes" },
+  { value: BINARY_VALUES.NO, label: "No" }
+]
+
+export const yesNoSchema = z
+  .string()
+  .refine((val) => YES_NO_OPTIONS.map((option) => option.value).includes(val), {
+    message: "Invalid option, must be 'yes' or 'no'."
+  })
+
 export type IdentityVerificationValue = z.infer<
   ReturnType<typeof createIdentityVerificationSchema>
 >

@@ -45,6 +45,8 @@ import {
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-application-form/pre-application-disclosures/const"
 
+import { merge } from "lodash"
+
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: IBusinessFormValue
@@ -252,7 +254,11 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     state[LOAN_APPLICATION_STEPS.BY_LAWS],
     state[LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING],
     state[LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION],
-    plaidItemIds
+    plaidItemIds,
+    merge(
+      state[LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE],
+      state[LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO]
+    )
   )
 
   //Trigger submit form when the confirmation form is submitted

@@ -3,7 +3,7 @@ import { LoanDecisionEnum } from "@/modules/loan-application-management/constant
 import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
-import { SbbKybFormFields } from "../components/organisms/loan-application-form/kyb/sbb/const"
+import { SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { FORM_TYPE } from "../models/LoanApplicationStep/type"
 import { SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
 
@@ -23,40 +23,85 @@ export interface KYBInformation {
     companyDescription: string
 
     // field for SBB part 1
-    [SbbKybFormFields.DBA]: string
-    [SbbKybFormFields.IS_SUBSIDIARY]: boolean
-    [SbbKybFormFields.PARENT_COMPANY]: string
-    [SbbKybFormFields.INDUSTRY_TYPE]: string
-    [SbbKybFormFields.YEARS_IN_OPERATION]: string
-    [SbbKybFormFields.CUSTOMER_TYPE]: string
-    [SbbKybFormFields.TOTAL_NUMBER_OF_EMPLOYEES]: string
-    [SbbKybFormFields.NUMBER_OF_W2_EMPLOYEES]: string
-    [SbbKybFormFields.INVOLVED_IN_WEAPONS_SALES]: string
-    [SbbKybFormFields.IS_HOLDING_COMPANY]: string
-    [SbbKybFormFields.OWNED_BY_TRUST]: string
-    [SbbKybFormFields.CBD_RELATED_BUSINESS]: string
-    [SbbKybFormFields.MARIJUANA_RELATED_BUSINESS]: string
-    [SbbKybFormFields.POLITICAL_ORG_CONTRIBUTOR]: string
+    [SBB_KYB_FORM_FIELDS.DBA]: string
+    [SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY]: string
+    [SBB_KYB_FORM_FIELDS.PARENT_COMPANY]: string
+    [SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE]: string
+    [SBB_KYB_FORM_FIELDS.YEARS_IN_OPERATION]: string
+    [SBB_KYB_FORM_FIELDS.CUSTOMER_TYPE]: string
+    [SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES]: string
+    [SBB_KYB_FORM_FIELDS.NUMBER_OF_W2_EMPLOYEES]: string
+    [SBB_KYB_FORM_FIELDS.INVOLVED_IN_WEAPONS_SALES]: string
+    [SBB_KYB_FORM_FIELDS.IS_HOLDING_COMPANY]: string
+    [SBB_KYB_FORM_FIELDS.OWNED_BY_TRUST]: string
+    [SBB_KYB_FORM_FIELDS.CBD_RELATED_BUSINESS]: string
+    [SBB_KYB_FORM_FIELDS.MARIJUANA_RELATED_BUSINESS]: string
+    [SBB_KYB_FORM_FIELDS.POLITICAL_ORG_CONTRIBUTOR]: string
 
     // field for SBB part 2
-    [SbbKybFormFields.EXPECTED_ANNUAL_SALES]: string
-    [SbbKybFormFields.EXPECTED_DEPOSITED_AMOUNT]: string
-    [SbbKybFormFields.REGULAR_CASH_DEPOSITS_WITHDRAWALS]: string
-    [SbbKybFormFields.PAYMENT_METHODS]: string
-    [SbbKybFormFields.IS_SELF_DIRECTED_IRA_ACCOUNT]: string
-    [SbbKybFormFields.MONTHLY_DEPOSIT_AMOUNT]: string
-    [SbbKybFormFields.WILL_RECEIVE_INTERNATIONAL_PAYMENTS]: string
-    [SbbKybFormFields.WILL_SEND_WIRE_TRANSFERS]: string
-    [SbbKybFormFields.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS]: string
-    [SbbKybFormFields.WILL_SEND_ELECTRONIC_TRANSFERS]: string
-    [SbbKybFormFields.WILL_RECEIVE_ELECTRONIC_TRANSFERS]: string
-    [SbbKybFormFields.IS_MONEY_SERVICE_BUSINESS]: string
-    [SbbKybFormFields.IS_OWNS_AND_OPERATES_ATMS]: string
-    [SbbKybFormFields.IS_INVOLVED_IN_GAMBLING]: string
-    [SbbKybFormFields.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES]: string
-    [SbbKybFormFields.IS_SENIOR_FOREIGN_POLITICAL_FIGURE]: string
+    [SBB_KYB_FORM_FIELDS.EXPECTED_ANNUAL_SALES]: string
+    [SBB_KYB_FORM_FIELDS.EXPECTED_DEPOSITED_AMOUNT]: string
+    [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES]: string
+    [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT]: number
+    [SBB_KYB_FORM_FIELDS.PAYMENT_METHODS]: string[]
+    [SBB_KYB_FORM_FIELDS.IS_SELF_DIRECTED_IRA_ACCOUNT]: string
+    [SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT]: string
+    [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS]: string
+    [SBB_KYB_FORM_FIELDS.WILL_SEND_WIRE_TRANSFERS]: string
+    [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS]: string
+    [SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS]: string
+    [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_ELECTRONIC_TRANSFERS]: string
+    [SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS]: string
+    [SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS]: string
+    [SBB_KYB_FORM_FIELDS.IS_INVOLVED_IN_GAMBLING]: string
+    [SBB_KYB_FORM_FIELDS.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES]: string
+    [SBB_KYB_FORM_FIELDS.IS_SENIOR_FOREIGN_POLITICAL_FIGURE]: string
   }>
 }
+
+export type KybMetadata = Partial<{
+  // field for launchKC
+  yearFounded: string
+  legalStructure: string
+  primaryIndustry: string
+  primaryIndustryOther: string
+  companyDescription: string
+
+  // field for SBB part 1
+  [SBB_KYB_FORM_FIELDS.DBA]: string
+  [SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY]: string
+  [SBB_KYB_FORM_FIELDS.PARENT_COMPANY]: string
+  [SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE]: string
+  [SBB_KYB_FORM_FIELDS.YEARS_IN_OPERATION]: string
+  [SBB_KYB_FORM_FIELDS.CUSTOMER_TYPE]: string
+  [SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES]: string
+  [SBB_KYB_FORM_FIELDS.NUMBER_OF_W2_EMPLOYEES]: string
+  [SBB_KYB_FORM_FIELDS.INVOLVED_IN_WEAPONS_SALES]: string
+  [SBB_KYB_FORM_FIELDS.IS_HOLDING_COMPANY]: string
+  [SBB_KYB_FORM_FIELDS.OWNED_BY_TRUST]: string
+  [SBB_KYB_FORM_FIELDS.CBD_RELATED_BUSINESS]: string
+  [SBB_KYB_FORM_FIELDS.MARIJUANA_RELATED_BUSINESS]: string
+  [SBB_KYB_FORM_FIELDS.POLITICAL_ORG_CONTRIBUTOR]: string
+
+  // field for SBB part 2
+  [SBB_KYB_FORM_FIELDS.EXPECTED_ANNUAL_SALES]: string
+  [SBB_KYB_FORM_FIELDS.EXPECTED_DEPOSITED_AMOUNT]: string
+  [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES]: string
+  [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT]: number
+  [SBB_KYB_FORM_FIELDS.PAYMENT_METHODS]: string[]
+  [SBB_KYB_FORM_FIELDS.IS_SELF_DIRECTED_IRA_ACCOUNT]: string
+  [SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT]: string
+  [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS]: string
+  [SBB_KYB_FORM_FIELDS.WILL_SEND_WIRE_TRANSFERS]: string
+  [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS]: string
+  [SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS]: string
+  [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_ELECTRONIC_TRANSFERS]: string
+  [SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS]: string
+  [SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS]: string
+  [SBB_KYB_FORM_FIELDS.IS_INVOLVED_IN_GAMBLING]: string
+  [SBB_KYB_FORM_FIELDS.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES]: string
+  [SBB_KYB_FORM_FIELDS.IS_SENIOR_FOREIGN_POLITICAL_FIGURE]: string
+}>
 
 export interface KYBInformationResponse {
   id: string
@@ -67,48 +112,7 @@ export interface KYBInformationResponse {
   businessTin: string
   createdAt: string
   updatedAt: string
-  metadata?: Partial<{
-    // field for launchKC
-    yearFounded: string
-    legalStructure: string
-    primaryIndustry: string
-    primaryIndustryOther: string
-    companyDescription: string
-
-    // field for SBB part 1
-    [SbbKybFormFields.DBA]: string
-    [SbbKybFormFields.IS_SUBSIDIARY]: boolean
-    [SbbKybFormFields.PARENT_COMPANY]: string
-    [SbbKybFormFields.INDUSTRY_TYPE]: string
-    [SbbKybFormFields.YEARS_IN_OPERATION]: string
-    [SbbKybFormFields.CUSTOMER_TYPE]: string
-    [SbbKybFormFields.TOTAL_NUMBER_OF_EMPLOYEES]: string
-    [SbbKybFormFields.NUMBER_OF_W2_EMPLOYEES]: string
-    [SbbKybFormFields.INVOLVED_IN_WEAPONS_SALES]: string
-    [SbbKybFormFields.IS_HOLDING_COMPANY]: string
-    [SbbKybFormFields.OWNED_BY_TRUST]: string
-    [SbbKybFormFields.CBD_RELATED_BUSINESS]: string
-    [SbbKybFormFields.MARIJUANA_RELATED_BUSINESS]: string
-    [SbbKybFormFields.POLITICAL_ORG_CONTRIBUTOR]: string
-
-    // field for SBB part 2
-    [SbbKybFormFields.EXPECTED_ANNUAL_SALES]: string
-    [SbbKybFormFields.EXPECTED_DEPOSITED_AMOUNT]: string
-    [SbbKybFormFields.REGULAR_CASH_DEPOSITS_WITHDRAWALS]: string
-    [SbbKybFormFields.PAYMENT_METHODS]: string
-    [SbbKybFormFields.IS_SELF_DIRECTED_IRA_ACCOUNT]: string
-    [SbbKybFormFields.MONTHLY_DEPOSIT_AMOUNT]: string
-    [SbbKybFormFields.WILL_RECEIVE_INTERNATIONAL_PAYMENTS]: string
-    [SbbKybFormFields.WILL_SEND_WIRE_TRANSFERS]: string
-    [SbbKybFormFields.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS]: string
-    [SbbKybFormFields.WILL_SEND_ELECTRONIC_TRANSFERS]: string
-    [SbbKybFormFields.WILL_RECEIVE_ELECTRONIC_TRANSFERS]: string
-    [SbbKybFormFields.IS_MONEY_SERVICE_BUSINESS]: string
-    [SbbKybFormFields.IS_OWNS_AND_OPERATES_ATMS]: string
-    [SbbKybFormFields.IS_INVOLVED_IN_GAMBLING]: string
-    [SbbKybFormFields.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES]: string
-    [SbbKybFormFields.IS_SENIOR_FOREIGN_POLITICAL_FIGURE]: string
-  }>
+  metadata?: KybMetadata
 }
 
 export interface BusinessStreetAddress {

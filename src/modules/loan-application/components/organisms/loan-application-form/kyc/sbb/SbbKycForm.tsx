@@ -136,10 +136,9 @@ export const SbbKycForm = () => {
 
   const form = useForm<SbbKycFormValue>({
     resolver: zodResolver(sbbKycFormSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues
   })
-
   return (
     <div className="col-span-8 md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm">
       <Form {...form}>

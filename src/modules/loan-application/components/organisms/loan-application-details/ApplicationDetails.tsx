@@ -23,6 +23,7 @@ import { PreQualificationFormDetails } from "../loan-application-form/pre-qualif
 import { ProductServiceFormDetails } from "../loan-application-form/product-service/ProductServiceFormDetails"
 import { CashFlowTable } from "./CashFlowTable"
 import { PreApplicationDisclosuresDetails } from "../loan-application-form/pre-application-disclosures/PreApplicationDisclosuresDetails"
+import { SbbKybFormDetails } from "../loan-application-form/kyb/sbb/SbbKybFormDetails"
 
 export const ApplicationDetails = () => {
   const {
@@ -55,7 +56,11 @@ export const ApplicationDetails = () => {
           ) : (
             <LoanRequestDetails />
           )}
-          {kybFormData && <KybFormDetails kybFormData={kybFormData} />}
+          {kybFormData && isSbb() ? (
+            <SbbKybFormDetails kybFormData={kybFormData} />
+          ) : (
+            <KybFormDetails kybFormData={kybFormData} />
+          )}
           {kycFormData && <KycFormDetails kycFormData={kycFormData} />}
           {(isLoanReady() ||
             isKccBank() ||

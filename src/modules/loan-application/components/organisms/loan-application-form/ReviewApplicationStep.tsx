@@ -30,6 +30,8 @@ import { FictitiousNameCertificationForm } from "@/modules/loan-application/comp
 import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
 import { LaunchKCFitForm } from "./custom-form/launchkc/launchkc-fit/LaunchKcFitForm"
 import { KansasCityOwnerInformationForm } from "./kyc/kansascity/KansasCityOwnerInformationForm"
+import { SBBKybFormPartOne } from "./kyb/sbb/SBBKybFormPartOne"
+import { SBBKybFormPartTwo } from "./kyb/sbb/SbbKybFormPartTwo"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -96,6 +98,10 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <FictitiousNameCertificationForm />
       case LOAN_APPLICATION_STEPS.BY_LAWS:
         return <ByLawsForm />
+      case LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE:
+        return <SBBKybFormPartOne />
+      case LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO:
+        return <SBBKybFormPartTwo />
       default:
         return null
     }

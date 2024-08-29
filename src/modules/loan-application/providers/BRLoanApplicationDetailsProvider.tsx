@@ -65,7 +65,8 @@ import {
   reverseFormatCurrentLoansForm,
   reverseFormatKybForm,
   reverseFormatKycForm,
-  reverseFormatOperatingExpensesForm
+  reverseFormatOperatingExpensesForm,
+  reverseFormatSbbKybForm
 } from "../services/form.services"
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
@@ -176,7 +177,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
   const kybFormQuery = useQueryGetKybForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
+    enabled:
+      isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION) ||
+      isEnabledQuery(LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE)
   })
   const kycFormQuery = useQueryGetKycForm({
     applicationId: loanApplicationId!,
@@ -308,10 +311,21 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       isInitialized &&
       isQualified
     ) {
-      changeDataAndProgress(
-        reverseFormatKybForm(kybFormQuery.data),
-        LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
-      )
+      if (isSbb()) {
+        changeDataAndProgress(
+          reverseFormatSbbKybForm(kybFormQuery.data).sbbKybFormPartOneValues,
+          LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
+        )
+        changeDataAndProgress(
+          reverseFormatSbbKybForm(kybFormQuery.data).sbbKybFormPartTwoValues,
+          LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO
+        )
+      } else {
+        changeDataAndProgress(
+          reverseFormatKybForm(kybFormQuery.data),
+          LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+        )
+      }
     }
   }, [
     changeDataAndProgress,

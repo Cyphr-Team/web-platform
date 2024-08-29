@@ -7,6 +7,7 @@ import { useFormContext } from "react-hook-form"
 import { SBB_KYC_FIELD_NAMES, SbbKycFormValue } from "./const"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { RHFOptionInput } from "@/modules/form-template/components/molecules"
+import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 
 type Props = {
   step: LOAN_APPLICATION_STEPS
@@ -38,12 +39,12 @@ export const ControlAuthorization: React.FC<Props> = ({ step, onSubmit }) => {
           {
             label:
               "Yes, I am the significant responsible person to control, manage, or direct this company indicated in the application.",
-            value: "true"
+            value: BINARY_VALUES.YES
           },
           {
             label:
               "No, I am not the significant responsible person to control, manage, or direct this company indicated in the application.",
-            value: "false"
+            value: BINARY_VALUES.NO
           }
         ]}
         name={`${SBB_KYC_FIELD_NAMES.METADATA}.${SBB_KYC_FIELD_NAMES.CONTROL_AUTHORIZATION}`}

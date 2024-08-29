@@ -2,7 +2,11 @@ import {
   Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate"
-import { ownerFormSchema } from "@/modules/loan-application/constants/form"
+import {
+  BINARY_VALUES,
+  ownerFormSchema,
+  yesNoSchema
+} from "@/modules/loan-application/constants/form"
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import * as z from "zod"
 
@@ -44,13 +48,24 @@ const sbbKycBeneficialOwnerSchema = z.object({
     .min(0, "Beneficial owner ownership percentage is required")
 })
 
-export const sbbMetadataSchema = z.object({
-  [SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS]: z.string().min(1),
-  [SBB_KYC_FIELD_NAMES.BENEFICIAL_OWNERS]: z.array(sbbKycBeneficialOwnerSchema),
-  [SBB_KYC_FIELD_NAMES.CONTROL_AUTHORIZATION]: z.string().min(1),
-  [SBB_KYC_FIELD_NAMES.FIRST_NAME]: z.string().min(1, "First name is required"),
-  [SBB_KYC_FIELD_NAMES.LAST_NAME]: z.string().min(1, "Last name is required")
-})
+export const sbbMetadataSchema = z
+  .object({
+    [SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS]: yesNoSchema,
+    [SBB_KYC_FIELD_NAMES.BENEFICIAL_OWNERS]: z.array(
+      sbbKycBeneficialOwnerSchema
+    ),
+    [SBB_KYC_FIELD_NAMES.CONTROL_AUTHORIZATION]: yesNoSchema,
+    [SBB_KYC_FIELD_NAMES.FIRST_NAME]: z
+      .string()
+      .min(1, "First name is required"),
+    [SBB_KYC_FIELD_NAMES.LAST_NAME]: z.string().min(1, "Last name is required")
+  })
+  .refine((data) => {
+    if (data[SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS] === BINARY_VALUES.NO) {
+      return true
+    }
+    return true
+  })
 
 export const sbbKycFormSchema = ownerFormSchema.extend({
   [SBB_KYC_FIELD_NAMES.METADATA]: sbbMetadataSchema
@@ -152,7 +167,8 @@ export const SBB_KYC_FORM_BLOCKS: Block[] = [
       label: "Business ownership percentage",
       placeholder: "i.e: 75",
       className: "col-span-7",
-      required: true
+      required: true,
+      isString: true
     }
   }
 ]

@@ -9,39 +9,84 @@ import {
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS
 } from "../../models/LoanApplicationStep/type"
-import { isSbb } from "@/utils/domain.utils.ts"
+import { isSbb } from "@/utils/domain.utils"
 
 export const LoanApplicationSave = () => {
   const { submitLoanForm, isSubmitting, loanRequest } =
     useLoanApplicationFormContext()
   const { progress, dispatchProgress } = useLoanApplicationProgressContext()
 
-  const isCompleteLoanRequestForm =
-    loanRequest?.applicationId ||
-    /**
-     * This condition just apply for SBB. Because SBB have two different loan program.
-     * So we must check the first step contain loan request or not.
-     * If it contains loan request, user forced to complete them
-     * or else, user don't need to complete the first step
-     * */
-    (isSbb() && progress[0].step !== LOAN_APPLICATION_STEPS.LOAN_REQUEST) ||
-    progress[0].status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+  const isSbbTenant = isSbb()
+  /**
+   * Because SBB have two business information form, we need to check if both forms are complete before save and close
+   * or else they need to go back to the first form
+   *
+   * If they have done any of the form, they can save and close the application
+   */
+
+  const isAbleToSubmitSbbKybForm = () => {
+    const partOne = progress.find(
+      (step) =>
+        step.step === LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
+    )
+
+    const partTwo = progress.find(
+      (step) =>
+        step.step === LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO
+    )
+
+    return {
+      status: partOne?.status === partTwo?.status, // if both form are complete or both are incomplete then they can save and close
+      uncompletedStep:
+        partOne?.status === LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+          ? partOne
+          : partTwo
+    }
+  }
+
+  const loanRequestStep = progress.find(
+    (val) => val.step === LOAN_APPLICATION_STEPS.LOAN_REQUEST
+  )
+
+  const isLoanRequestStepComplete =
+    loanRequestStep?.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+
+  /**
+   * If the loan request form is complete, they can save and close the application
+   * else they need to go back to the loan request form
+   *
+   * If they are editing the application (already have applicationId), they can save and close the application
+   * because they have already completed the loan request form
+   */
+
+  const isAbleToSaveApplication =
+    loanRequest?.applicationId ?? isSbbTenant
+      ? isAbleToSubmitSbbKybForm().status
+      : isLoanRequestStepComplete
+
+  const confirmDescription = isSbbTenant
+    ? "Please finish all the Business Information forms before save and close."
+    : `Please finish "Loan Request" form before save and close.`
+
+  const uncompletedStep = isSbbTenant
+    ? isAbleToSubmitSbbKybForm().uncompletedStep?.step ?? progress[0].step
+    : progress[0].step
 
   const onConfirmed = () => {
-    if (!isCompleteLoanRequestForm) {
+    if (!isAbleToSaveApplication) {
       dispatchProgress({
         type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
-        step: LOAN_APPLICATION_STEPS.LOAN_REQUEST
+        step: uncompletedStep
       })
     } else {
       submitLoanForm()
     }
   }
 
-  const confirmText = isCompleteLoanRequestForm ? "Save & Close" : "Go to form"
-  const description = isCompleteLoanRequestForm
+  const confirmText = isAbleToSaveApplication ? "Save & Close" : "Go to form"
+  const description = isAbleToSaveApplication
     ? `Are you sure you want to save and close this application?`
-    : `Please finish "Loan Request" form before save and close.`
+    : confirmDescription
 
   return (
     <CustomAlertDialog

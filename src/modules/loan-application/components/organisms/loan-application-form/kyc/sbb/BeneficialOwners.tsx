@@ -19,7 +19,10 @@ import {
   RHFSelectInput,
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
-import { YES_NO_OPTIONS } from "../../kyb/sbb/const"
+import {
+  BINARY_VALUES,
+  YES_NO_OPTIONS
+} from "@/modules/loan-application/constants/form"
 
 export const BeneficialOwnersInput = () => {
   const { control, getValues, watch } = useFormContext<SbbKycFormValue>()
@@ -69,7 +72,7 @@ interest of the company. We are required to include all beneficial owners on you
 
       {watch(
         `${SBB_KYC_FIELD_NAMES.METADATA}.${SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS}`
-      ) === "true" && (
+      ) === BINARY_VALUES.YES && (
         <>
           {fields.map((owner, index) => (
             <EditOwner

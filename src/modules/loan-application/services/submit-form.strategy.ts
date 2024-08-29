@@ -82,6 +82,11 @@ import { CertificateGoodStandingFormValue } from "@/modules/loan-application/com
 import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { useUploadSbbDocument } from "@/modules/loan-application/hooks/useForm/useSubmitSbbDocument.ts"
 import { revertPattern } from "@/components/ui/mask-input"
+import {
+  SbbKybFormPartOneValue,
+  SbbKybFormPartTwoValue
+} from "../components/organisms/loan-application-form/kyb/sbb/const"
+import { useSubmitSbbLoanKYBForm } from "../hooks/useForm/useSubmitSbbLoanKybForm"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -108,7 +113,9 @@ export const useSubmitLoanForm = (
   byLawsData: ByLawsFormValue,
   certificateGoodStandingData: CertificateGoodStandingFormValue,
   fictitiousNameCertificationData: FictitiousNameCertificationFormValue,
-  plaidItemIds: string[]
+  plaidItemIds: string[],
+  // SBB KYB
+  sbbKybFormData: SbbKybFormPartOneValue & SbbKybFormPartTwoValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -178,6 +185,21 @@ export const useSubmitLoanForm = (
    */
   const { submitESignDocument, isLoading: isSubmittingESignDocument } =
     useSubmitESignDocument(eSignData)
+
+  // SBB KYB
+  const updateSbbKYBData = (data: KYBInformationResponse) =>
+    updateDataAfterSubmit(
+      reverseFormatKybForm(data),
+      LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+    )
+  const { submitSbbLoanKYBForm, isLoading: isSubmittingSbbKYB } =
+    useSubmitSbbLoanKYBForm({
+      rawData: {
+        ...sbbKybFormData,
+        businessTin: revertPattern(sbbKybFormData?.businessTin ?? "")
+      },
+      onSuccess: updateSbbKYBData
+    })
 
   // KYB
   const updateKYBData = (data: KYBInformationResponse) =>
@@ -779,9 +801,10 @@ export const useSubmitLoanForm = (
         )
       }
 
-      // submit sbb document
+      // submit sbb forms
       if (isSbb()) {
-        submitPromises.push(submitSbbDocument(loanRequestId!))
+        submitPromises.push(submitSbbDocument(loanRequestId))
+        submitPromises.push(submitSbbLoanKYBForm(loanRequestId))
       }
 
       // Wait for all submitPromises to resolve
@@ -911,6 +934,7 @@ export const useSubmitLoanForm = (
     submitOperatingExpensesForm,
     submitProductServiceForm,
     submitSbbDocument,
+    submitSbbLoanKYBForm,
     uploadBusinessDocuments,
     uploadDocuments
   ])
@@ -940,6 +964,7 @@ export const useSubmitLoanForm = (
       isSubmitLoanMarketOpportunity ||
       isSubmittingESignDocument ||
       isUploadingBusinessDocuments ||
-      isSubmittingSbbDocument
+      isSubmittingSbbDocument ||
+      isSubmittingSbbKYB
   }
 }

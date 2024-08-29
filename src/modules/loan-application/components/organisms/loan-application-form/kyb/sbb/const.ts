@@ -3,16 +3,22 @@ import {
   Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate"
+import {
+  BINARY_VALUES,
+  YES_NO_OPTIONS,
+  yesNoSchema
+} from "@/modules/loan-application/constants/form"
 import { Option } from "@/types/common.type"
+
 import * as z from "zod"
 
-export const enum SbbKybFormFields {
-  BUSINESS_NAME = "businessName",
+export const enum SBB_KYB_FORM_FIELDS {
+  BUSINESS_NAME = "businessLegalName",
   DBA = "dba", // DBA
   IS_SUBSIDIARY = "isSubsidiary",
   PARENT_COMPANY = "parentCompany", // Parent Company
-  BUSINESS_STREET_ADDRESS = "businessStreetAddress",
-  EIN = "ein", // EIN
+  ADDRESS_LINE_1 = "addressLine1",
+  BUSINESS_TIN = "businessTin", // EIN
   BUSINESS_WEBSITE = "businessWebsite",
   INDUSTRY_TYPE = "industryType",
   YEARS_IN_OPERATION = "yearsInOperation", // Number of years operated
@@ -28,7 +34,8 @@ export const enum SbbKybFormFields {
   // PART TWO
   EXPECTED_ANNUAL_SALES = "expectedAnnualSales",
   EXPECTED_DEPOSITED_AMOUNT = "expectedDepositedAmount",
-  REGULAR_CASH_DEPOSITS_WITHDRAWALS = "regularCashDepositsWithdrawals",
+  ANTICIPATED_CASH_ACTIVITIES = "anticipatedCashActivities",
+  ANTICIPATED_CASH_AMOUNT = "anticipatedCashAmount",
   PAYMENT_METHODS = "paymentMethods",
   IS_SELF_DIRECTED_IRA_ACCOUNT = "selfDirectedIraAccount",
   MONTHLY_DEPOSIT_AMOUNT = "monthlyDepositAmount",
@@ -39,74 +46,126 @@ export const enum SbbKybFormFields {
   WILL_RECEIVE_ELECTRONIC_TRANSFERS = "willReceiveElectronicTransfers",
   WILL_RECEIVE_WIRE_TRANSFERS = "willReceiveWireTransfers",
   IS_MONEY_SERVICE_BUSINESS = "isMoneyServiceBusiness",
-  IS_OWNS_AND_OPERATES_ATMS = "isOwnsAndOperatesATMs",
+  IS_OWNS_AND_OPERATES_ATMS = "isOwnsAndOperatesAtms",
   IS_INVOLVED_IN_GAMBLING = "isInvolvedInGambling",
   IS_ALLOW_THIRD_PARTY_SLOT_MACHINES = "isAllowThirdPartySlotMachines",
   IS_SENIOR_FOREIGN_POLITICAL_FIGURE = "isSeniorForeignPoliticalFigure"
 }
 
-export const sbbKybFormSchemaPartOne = z.object({
-  [SbbKybFormFields.BUSINESS_NAME]: z
-    .string()
-    .min(1, { message: "Business name is required" }),
-  [SbbKybFormFields.DBA]: z.string(),
-  [SbbKybFormFields.PARENT_COMPANY]: z.string(),
-  [SbbKybFormFields.BUSINESS_STREET_ADDRESS]: z.string(),
-  [SbbKybFormFields.EIN]: z.string().min(10, { message: "EIN is required" }),
-  [SbbKybFormFields.BUSINESS_WEBSITE]: z.string(),
-  [SbbKybFormFields.INDUSTRY_TYPE]: z
-    .string()
-    .min(1, { message: "Industry type is required" }),
-  [SbbKybFormFields.YEARS_IN_OPERATION]: z.string().min(1, {
-    message: "Years in operation is required"
-  }),
-  [SbbKybFormFields.CUSTOMER_TYPE]: z.string().min(1, {
-    message: "Customer type is required"
-  }),
-  [SbbKybFormFields.TOTAL_NUMBER_OF_EMPLOYEES]: z.string().min(1, {
-    message: "Total number of employees is required"
-  }),
-  [SbbKybFormFields.NUMBER_OF_W2_EMPLOYEES]: z.string().min(1, {
-    message: "Number of W2 employees is required"
-  }),
-  [SbbKybFormFields.INVOLVED_IN_WEAPONS_SALES]: z.boolean(),
-  [SbbKybFormFields.IS_HOLDING_COMPANY]: z.boolean(),
-  [SbbKybFormFields.OWNED_BY_TRUST]: z.boolean(),
-  [SbbKybFormFields.CBD_RELATED_BUSINESS]: z.boolean(),
-  [SbbKybFormFields.MARIJUANA_RELATED_BUSINESS]: z.boolean(),
-  [SbbKybFormFields.POLITICAL_ORG_CONTRIBUTOR]: z.boolean()
-})
+export const sbbKybFormSchemaPartOne = z
+  .object({
+    id: z.string(),
+    [SBB_KYB_FORM_FIELDS.BUSINESS_NAME]: z
+      .string()
+      .min(1, { message: "Business name is required" }),
+    [SBB_KYB_FORM_FIELDS.DBA]: z.string(),
+    [SBB_KYB_FORM_FIELDS.PARENT_COMPANY]: z.string(),
+    [SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.ADDRESS_LINE_1]: z.string(),
+    [SBB_KYB_FORM_FIELDS.BUSINESS_TIN]: z
+      .string()
+      .min(10, { message: "EIN is required" }),
+    [SBB_KYB_FORM_FIELDS.BUSINESS_WEBSITE]: z.string(),
+    [SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE]: z
+      .string()
+      .min(1, { message: "Industry type is required" }),
+    [SBB_KYB_FORM_FIELDS.YEARS_IN_OPERATION]: z.string().min(1, {
+      message: "Years in operation is required"
+    }),
+    [SBB_KYB_FORM_FIELDS.CUSTOMER_TYPE]: z.string().min(1, {
+      message: "Customer type is required"
+    }),
+    [SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES]: z.string().min(1, {
+      message: "Total number of employees is required"
+    }),
+    [SBB_KYB_FORM_FIELDS.NUMBER_OF_W2_EMPLOYEES]: z.string().min(1, {
+      message: "Number of W2 employees is required"
+    }),
+    [SBB_KYB_FORM_FIELDS.INVOLVED_IN_WEAPONS_SALES]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.IS_HOLDING_COMPANY]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.OWNED_BY_TRUST]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.CBD_RELATED_BUSINESS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.MARIJUANA_RELATED_BUSINESS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.POLITICAL_ORG_CONTRIBUTOR]: yesNoSchema
+  })
+  .refine((val) => {
+    if (val[SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY] === BINARY_VALUES.YES) {
+      return !!val[SBB_KYB_FORM_FIELDS.PARENT_COMPANY]
+    }
+    return true
+  })
 
-export const sbbKybFormSchemaPartTwo = z.object({
-  [SbbKybFormFields.EXPECTED_ANNUAL_SALES]: z.string().min(1, {
-    message: "This field is required"
-  }),
-  [SbbKybFormFields.EXPECTED_DEPOSITED_AMOUNT]: z.string().min(1, {
-    message: "This field is required"
-  }),
-  [SbbKybFormFields.REGULAR_CASH_DEPOSITS_WITHDRAWALS]: z.string().min(1, {
-    message: "This field is required"
-  }),
-  [SbbKybFormFields.PAYMENT_METHODS]: z.array(z.string().min(1)),
-  [SbbKybFormFields.IS_SELF_DIRECTED_IRA_ACCOUNT]: z.boolean(),
-  [SbbKybFormFields.MONTHLY_DEPOSIT_AMOUNT]: z.string().min(1, {
-    message: "This field is required"
-  }),
-  [SbbKybFormFields.WILL_RECEIVE_INTERNATIONAL_PAYMENTS]: z.boolean(),
-  [SbbKybFormFields.WILL_SEND_WIRE_TRANSFERS]: z.boolean(),
-  [SbbKybFormFields.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS]: z.boolean(),
-  [SbbKybFormFields.WILL_SEND_ELECTRONIC_TRANSFERS]: z.boolean(),
-  [SbbKybFormFields.WILL_RECEIVE_ELECTRONIC_TRANSFERS]: z.boolean(),
-  [SbbKybFormFields.IS_MONEY_SERVICE_BUSINESS]: z.boolean(),
-  [SbbKybFormFields.IS_OWNS_AND_OPERATES_ATMS]: z.boolean(),
-  [SbbKybFormFields.IS_INVOLVED_IN_GAMBLING]: z.boolean(),
-  [SbbKybFormFields.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES]: z.boolean(),
-  [SbbKybFormFields.IS_SENIOR_FOREIGN_POLITICAL_FIGURE]: z.boolean()
-})
+export const sbbKybFormSchemaPartTwo = z
+  .object({
+    id: z.string(),
+    [SBB_KYB_FORM_FIELDS.EXPECTED_ANNUAL_SALES]: z.string().min(1, {
+      message: "This field is required"
+    }),
+    [SBB_KYB_FORM_FIELDS.EXPECTED_DEPOSITED_AMOUNT]: z.string().min(1, {
+      message: "This field is required"
+    }),
+    [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT]: z.coerce.number().min(0),
+    [SBB_KYB_FORM_FIELDS.PAYMENT_METHODS]: z.array(z.string().min(1)),
+    [SBB_KYB_FORM_FIELDS.IS_SELF_DIRECTED_IRA_ACCOUNT]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT]: z.string().min(1, {
+      message: "This field is required"
+    }),
+    [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.WILL_SEND_WIRE_TRANSFERS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_WIRE_TRANSFERS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS]:
+      yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_ELECTRONIC_TRANSFERS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.IS_INVOLVED_IN_GAMBLING]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES]: yesNoSchema,
+    [SBB_KYB_FORM_FIELDS.IS_SENIOR_FOREIGN_POLITICAL_FIGURE]: yesNoSchema
+  })
+  .refine((val) => {
+    if (
+      val[SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES] === BINARY_VALUES.YES
+    ) {
+      return !!val[SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT]
+    }
+    return true
+  })
 
 export type SbbKybFormPartOneValue = z.infer<typeof sbbKybFormSchemaPartOne>
 
 export type SbbKybFormPartTwoValue = z.infer<typeof sbbKybFormSchemaPartTwo>
+
+export const getLabelByValue = (value: string, options: Option[]) => {
+  const option = options.find((opt) => opt.value === value)
+  return option?.label ?? ""
+}
+
+export const getLabelsByValues = (values: string[], options: Option[]) => {
+  return values.map((value) => getLabelByValue(value, options))
+}
+export const getOptionsByField = (field: SBB_KYB_FORM_FIELDS) => {
+  switch (field) {
+    case SBB_KYB_FORM_FIELDS.YEARS_IN_OPERATION:
+      return YEARS_IN_OPERATION_OPTIONS
+    case SBB_KYB_FORM_FIELDS.CUSTOMER_TYPE:
+      return CUSTOMER_TYPE_OPTIONS
+    case SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE:
+      return INDUSTRY_TYPE_OPTIONS
+    case SBB_KYB_FORM_FIELDS.NUMBER_OF_W2_EMPLOYEES:
+      return W2_EMPLOYEES_OPTIONS
+    case SBB_KYB_FORM_FIELDS.EXPECTED_ANNUAL_SALES:
+      return EXPECTED_ANNUAL_SALES_OPTIONS
+    case SBB_KYB_FORM_FIELDS.EXPECTED_DEPOSITED_AMOUNT:
+      return EXPECTED_DEPOSITED_AMOUNT_OPTIONS
+    case SBB_KYB_FORM_FIELDS.PAYMENT_METHODS:
+      return PAYMENT_METHODS_OPTIONS
+
+    default:
+      return []
+  }
+}
 
 const YEARS_IN_OPERATION_OPTIONS = [
   {
@@ -228,21 +287,11 @@ const W2_EMPLOYEES_OPTIONS = [
     value: "GREATER_THAN_10"
   }
 ]
-export const YES_NO_OPTIONS: Option[] = [
-  {
-    label: "Yes",
-    value: "YES"
-  },
-  {
-    label: "No",
-    value: "NO"
-  }
-]
 
 const OPTION_SELECT_BLOCK = [
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.YEARS_IN_OPERATION,
+    name: SBB_KYB_FORM_FIELDS.YEARS_IN_OPERATION,
     props: {
       label: "How many years has the business been operating?",
       placeholder: "Please select",
@@ -253,7 +302,7 @@ const OPTION_SELECT_BLOCK = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.CUSTOMER_TYPE,
+    name: SBB_KYB_FORM_FIELDS.CUSTOMER_TYPE,
     props: {
       label: "What type of customers does the business cater to?",
       placeholder: "Please select",
@@ -264,7 +313,7 @@ const OPTION_SELECT_BLOCK = [
   },
   {
     type: FieldType.NUMBER,
-    name: SbbKybFormFields.TOTAL_NUMBER_OF_EMPLOYEES,
+    name: SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES,
     props: {
       label: "How many employees does your business currently have?",
       placeholder: "i.e 15",
@@ -274,7 +323,7 @@ const OPTION_SELECT_BLOCK = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.NUMBER_OF_W2_EMPLOYEES,
+    name: SBB_KYB_FORM_FIELDS.NUMBER_OF_W2_EMPLOYEES,
     props: {
       label:
         "How many W2 or 1099 employees does your business have, excluding owners?",
@@ -300,35 +349,35 @@ const OPTION_SELECT_BLOCK = [
 const YES_NO_QUESTIONS_BLOCK = [
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.INVOLVED_IN_WEAPONS_SALES,
+    name: SBB_KYB_FORM_FIELDS.INVOLVED_IN_WEAPONS_SALES,
     props: {
       label: "Does your business sell weapons online?"
     }
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.OWNED_BY_TRUST,
+    name: SBB_KYB_FORM_FIELDS.OWNED_BY_TRUST,
     props: {
       label: "Is the business owned by a trust?"
     }
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.IS_HOLDING_COMPANY,
+    name: SBB_KYB_FORM_FIELDS.IS_HOLDING_COMPANY,
     props: {
       label: "Is the business a holding company?"
     }
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.CBD_RELATED_BUSINESS,
+    name: SBB_KYB_FORM_FIELDS.CBD_RELATED_BUSINESS,
     props: {
       label: "Does the business sell, purchase or distribute CBD/hemp products?"
     }
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.MARIJUANA_RELATED_BUSINESS,
+    name: SBB_KYB_FORM_FIELDS.MARIJUANA_RELATED_BUSINESS,
     props: {
       label:
         "Does the business sell, purchase, or distribute marijuana products that are not legal in all 50 US States?"
@@ -336,7 +385,7 @@ const YES_NO_QUESTIONS_BLOCK = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.POLITICAL_ORG_CONTRIBUTOR,
+    name: SBB_KYB_FORM_FIELDS.POLITICAL_ORG_CONTRIBUTOR,
     props: {
       label:
         "Does the business make large contributions to political organizations?"
@@ -360,7 +409,7 @@ const YES_NO_QUESTIONS_BLOCK = [
 export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
   {
     type: FieldType.TEXT,
-    name: SbbKybFormFields.BUSINESS_NAME,
+    name: SBB_KYB_FORM_FIELDS.BUSINESS_NAME,
     props: {
       label: "Business legal name",
       placeholder: "Business legal name",
@@ -370,7 +419,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
   },
   {
     type: FieldType.TEXT,
-    name: SbbKybFormFields.DBA,
+    name: SBB_KYB_FORM_FIELDS.DBA,
     props: {
       label: "DBA (if applicable)",
       placeholder: "DBA",
@@ -379,7 +428,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
   },
   {
     type: FieldType.OPTION,
-    name: SbbKybFormFields.IS_SUBSIDIARY,
+    name: SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY,
     props: {
       label: "Is your business a subsidiary of another business?",
       className: "col-span-12",
@@ -389,7 +438,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
   },
   {
     type: FieldType.TEXT,
-    name: SbbKybFormFields.BUSINESS_STREET_ADDRESS,
+    name: SBB_KYB_FORM_FIELDS.ADDRESS_LINE_1,
     props: {
       label: "Business street address",
       placeholder: "Business street address",
@@ -399,7 +448,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
   },
   {
     type: FieldType.MASK,
-    name: SbbKybFormFields.EIN,
+    name: SBB_KYB_FORM_FIELDS.BUSINESS_TIN,
     props: {
       label: "Employer Identification Number (EIN)",
       placeholder: "i.e: 12-3456789",
@@ -410,7 +459,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
   },
   {
     type: FieldType.TEXT,
-    name: SbbKybFormFields.BUSINESS_WEBSITE,
+    name: SBB_KYB_FORM_FIELDS.BUSINESS_WEBSITE,
     props: {
       label: "Business website",
       placeholder: "Business website",
@@ -419,7 +468,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.INDUSTRY_TYPE,
+    name: SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE,
     props: {
       label: "What industry does the business serve?",
       placeholder: "Please select",
@@ -488,7 +537,7 @@ const PAYMENT_METHODS_OPTIONS = [
 const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.WILL_RECEIVE_INTERNATIONAL_PAYMENTS,
+    name: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS,
     props: {
       label: "Will the business receive international payments?",
       className: "col-span-12",
@@ -497,7 +546,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS,
+    name: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS,
     props: {
       label: "Will the business receive international wire transfers?",
       className: "col-span-12",
@@ -506,7 +555,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.WILL_SEND_WIRE_TRANSFERS,
+    name: SBB_KYB_FORM_FIELDS.WILL_SEND_WIRE_TRANSFERS,
     props: {
       label: "Will the business send wire transfers?",
       className: "col-span-12",
@@ -515,7 +564,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.WILL_RECEIVE_WIRE_TRANSFERS,
+    name: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_WIRE_TRANSFERS,
     props: {
       label: "Will the business receive wire transfers?",
       className: "col-span-12",
@@ -524,7 +573,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.WILL_RECEIVE_ELECTRONIC_TRANSFERS,
+    name: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_ELECTRONIC_TRANSFERS,
     props: {
       label: "Will the business receive electronic transfers (ACH)?",
       className: "col-span-12",
@@ -533,7 +582,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.WILL_SEND_ELECTRONIC_TRANSFERS,
+    name: SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS,
     props: {
       label: "Will the business send electronic transfers?",
       className: "col-span-12",
@@ -542,7 +591,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.IS_MONEY_SERVICE_BUSINESS,
+    name: SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS,
     props: {
       label:
         "To your knowledge is the business a Money Service Business (MSB)? ",
@@ -554,7 +603,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.IS_OWNS_AND_OPERATES_ATMS,
+    name: SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS,
     props: {
       label:
         "Does the business own and operate automated teller machines (ATM)?",
@@ -564,7 +613,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.IS_INVOLVED_IN_GAMBLING,
+    name: SBB_KYB_FORM_FIELDS.IS_INVOLVED_IN_GAMBLING,
     props: {
       label: "Is the business involved in gambling?",
       className: "col-span-12",
@@ -573,7 +622,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES,
+    name: SBB_KYB_FORM_FIELDS.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES,
     props: {
       label:
         "Does your business allow third party companies with slot machines on your business property?",
@@ -583,7 +632,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.IS_SENIOR_FOREIGN_POLITICAL_FIGURE,
+    name: SBB_KYB_FORM_FIELDS.IS_SENIOR_FOREIGN_POLITICAL_FIGURE,
     props: {
       label:
         "Are you or anyone associated with the business a senior foreign political figure, an immediate family member, or a close associate of a senior foreign political figure?",
@@ -608,7 +657,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
 export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.EXPECTED_ANNUAL_SALES,
+    name: SBB_KYB_FORM_FIELDS.EXPECTED_ANNUAL_SALES,
     props: {
       label: "What are the business's expected annual sales?",
       className: "col-span-12 flex justify-between items-center",
@@ -622,7 +671,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.EXPECTED_DEPOSITED_AMOUNT,
+    name: SBB_KYB_FORM_FIELDS.EXPECTED_DEPOSITED_AMOUNT,
     props: {
       label:
         "What amount of those sales do you expect to be deposited into your SBB account?",
@@ -637,7 +686,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
   },
   {
     type: FieldType.OPTION,
-    name: SbbKybFormFields.REGULAR_CASH_DEPOSITS_WITHDRAWALS,
+    name: SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES,
     props: {
       label:
         "Do you anticipate the regular deposit or withdrawal of cash with this SBB account?",
@@ -648,7 +697,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
   },
   {
     type: FieldType.MULTI_SELECT,
-    name: SbbKybFormFields.PAYMENT_METHODS,
+    name: SBB_KYB_FORM_FIELDS.PAYMENT_METHODS,
     props: {
       label: "How do you receive payments? (you may select all that apply)",
       className: "col-span-12",
@@ -658,7 +707,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.IS_SELF_DIRECTED_IRA_ACCOUNT,
+    name: SBB_KYB_FORM_FIELDS.IS_SELF_DIRECTED_IRA_ACCOUNT,
     props: {
       label:
         "Is the account opened with the intention of being a self-directed IRA account?",
@@ -673,7 +722,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
   },
   {
     type: FieldType.SELECT,
-    name: SbbKybFormFields.MONTHLY_DEPOSIT_AMOUNT,
+    name: SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT,
     props: {
       label: "How much will be deposited into your SBB account each month?",
       className: "col-span-12 flex justify-between items-center",

@@ -30,6 +30,7 @@ import {
 import { cn } from "@/lib/utils.ts"
 import { RHFCalendarPickerInputProps } from "@/modules/form-template/components/molecules/RHFCalendarPickerInput.tsx"
 import { RHFCurrencyInputProps } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
+import { RHFPercentageInputProps } from "@/modules/form-template/components/molecules/RHFPercentageInput.tsx"
 
 export const enum FieldType {
   TEXT = "text",
@@ -67,6 +68,7 @@ export type BlockProps<T extends FieldValues> = Partial<
   | RHFTextInputProps<T>
   | RHFCalendarPickerInputProps<T>
   | RHFCurrencyInputProps<T>
+  | RHFPercentageInputProps<T>
 >
 
 export interface Block {

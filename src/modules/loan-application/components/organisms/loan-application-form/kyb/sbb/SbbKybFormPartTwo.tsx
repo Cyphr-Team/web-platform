@@ -14,19 +14,23 @@ import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
   SBB_KYB_FORM_BLOCKS_PART_TWO,
-  SbbKybFormFields,
+  SBB_KYB_FORM_FIELDS,
   SbbKybFormPartTwoValue,
-  sbbKybFormSchemaPartTwo,
-  YES_NO_OPTIONS
+  sbbKybFormSchemaPartTwo
 } from "./const"
 import { ComponentMapper } from "@/modules/form-template/components/templates/FormTemplate"
 import {
-  RHFOptionInput,
-  RHFTextInput
+  RHFCurrencyInput,
+  RHFOptionInput
 } from "@/modules/form-template/components/molecules"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { useMemo } from "react"
 import { get } from "lodash"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import {
+  BINARY_VALUES,
+  YES_NO_OPTIONS
+} from "@/modules/loan-application/constants/form"
 
 export const SBBKybFormPartTwo = () => {
   const { step, finishCurrentStep } = useLoanApplicationProgressContext()
@@ -47,20 +51,26 @@ export const SBBKybFormPartTwo = () => {
 
   const defaultValues = useMemo(
     () =>
-      Object.keys(sbbKybFormSchemaPartTwo.shape).reduce(
+      // because we are using zodResolver with refined schema, we need to get shape from _def.schema instead of directly from schema
+      Object.keys(sbbKybFormSchemaPartTwo._def.schema.shape).reduce(
         (acc, key) => ({
           ...acc,
           [key]: get(sbbBusinessInformationPartTwo, key, "")
         }),
-        {}
+        {} as SbbKybFormPartTwoValue
       ),
     [sbbBusinessInformationPartTwo]
   )
   const form = useForm<SbbKybFormPartTwoValue>({
     resolver: zodResolver(sbbKybFormSchemaPartTwo),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues
   })
+
+  useAutoCompleteStepEffect(
+    form,
+    LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO
+  )
 
   return (
     <Card
@@ -75,7 +85,7 @@ export const SBBKybFormPartTwo = () => {
       <Form {...form}>
         <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
           {SBB_KYB_FORM_BLOCKS_PART_TWO.map(({ type, props, name }) => {
-            if (name !== SbbKybFormFields.REGULAR_CASH_DEPOSITS_WITHDRAWALS) {
+            if (name !== SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES) {
               const Component = ComponentMapper[type]
               return (
                 <Component
@@ -87,27 +97,31 @@ export const SBBKybFormPartTwo = () => {
               )
             } else {
               return (
-                <div className="flex flex-col col-span-12">
+                <div
+                  className="flex flex-col col-span-12"
+                  key={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES}
+                >
                   <RHFOptionInput
                     label="Do you anticipate the regular deposit or withdrawal of cash with this SBB account?"
-                    key={SbbKybFormFields.REGULAR_CASH_DEPOSITS_WITHDRAWALS}
                     className="col-span-12"
-                    name={SbbKybFormFields.REGULAR_CASH_DEPOSITS_WITHDRAWALS}
+                    name={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES}
                     options={YES_NO_OPTIONS}
                     {...props}
                   />
-                  {
-                    <RHFTextInput
+                  {form.watch(
+                    SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES
+                  ) === BINARY_VALUES.YES && (
+                    <RHFCurrencyInput
                       label="If yes, please enter the anticipated amount"
-                      key={SbbKybFormFields.PARENT_COMPANY}
+                      key={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT}
                       className="col-span-12 flex items-end gap-1"
                       styleProps={{
                         inputClassName: "border-l-0 border-r-0 border-t-0", // to-do remove ring focus
                         labelClassName: "leading-normal"
                       }}
-                      name={SbbKybFormFields.PARENT_COMPANY}
+                      name={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT}
                     />
-                  }
+                  )}
                 </div>
               )
             }

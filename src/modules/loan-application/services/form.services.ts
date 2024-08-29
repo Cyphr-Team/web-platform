@@ -1,3 +1,11 @@
+import { toPattern } from "@/components/ui/mask-input"
+import {
+  SBB_KYB_FORM_FIELDS,
+  SbbKybFormPartOneValue,
+  SbbKybFormPartTwoValue,
+  sbbKybFormSchemaPartOne,
+  sbbKybFormSchemaPartTwo
+} from "../components/organisms/loan-application-form/kyb/sbb/const"
 import {
   businessFormSchema,
   BusinessFormValue,
@@ -206,4 +214,64 @@ const formatMetadataFromSchema = (
    * how to deal with this problem
    * */
   return newForm as unknown
+}
+
+/**
+ * Because the SBB KYB form has a different structure with the normal KYB form
+ * so we need to convert the response data to two different forms
+ * SbbKybFormPartOneValue and SbbKybFormPartTwoValue
+ * */
+export const reverseFormatSbbKybForm = (rawData: KYBInformationResponse) => {
+  const formInformation = {
+    id: rawData.id,
+    businessLegalName: rawData.businessLegalName,
+    addressLine1: rawData.businessStreetAddress?.addressLine1 ?? "",
+    addressLine2: rawData.businessStreetAddress?.addressLine2 ?? "",
+    city: rawData.businessStreetAddress?.city ?? "",
+    state: getStateName(rawData.businessStreetAddress?.state) ?? "",
+    postalCode: rawData.businessStreetAddress?.postalCode ?? "",
+    businessWebsite: rawData.businessWebsite ?? "",
+    businessTin: rawData.businessTin ? toPattern(rawData?.businessTin) : ""
+  }
+
+  return {
+    ...getSbbKybMetadata(rawData),
+    ...formInformation
+  }
+}
+
+const getSbbKybMetadata = (rawData: KYBInformationResponse) => {
+  const sbbKybFormPartOneValues = Object.keys(
+    sbbKybFormSchemaPartOne._def.schema.shape
+  ).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]:
+        key === SBB_KYB_FORM_FIELDS.BUSINESS_TIN
+          ? toPattern(get(rawData.metadata, key, ""))
+          : get(rawData.metadata, key, "")
+    }),
+    {}
+  )
+
+  const sbbKybFormPartTwoValues = Object.keys(
+    sbbKybFormSchemaPartTwo._def.schema.shape
+  ).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: get(rawData.metadata, key, "")
+    }),
+    {}
+  )
+
+  return {
+    sbbKybFormPartOneValues: {
+      ...sbbKybFormPartOneValues,
+      id: rawData.id
+    } as SbbKybFormPartOneValue,
+    sbbKybFormPartTwoValues: {
+      ...sbbKybFormPartTwoValues,
+      id: rawData.id
+    } as SbbKybFormPartTwoValue
+  }
 }

@@ -14,10 +14,9 @@ import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
   SBB_KYB_FORM_BLOCKS_PART_ONE,
-  SbbKybFormFields,
+  SBB_KYB_FORM_FIELDS,
   SbbKybFormPartOneValue,
-  sbbKybFormSchemaPartOne,
-  YES_NO_OPTIONS
+  sbbKybFormSchemaPartOne
 } from "./const"
 import { ComponentMapper } from "@/modules/form-template/components/templates/FormTemplate"
 import {
@@ -28,6 +27,11 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { useMemo } from "react"
 
 import { get } from "lodash"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import {
+  BINARY_VALUES,
+  YES_NO_OPTIONS
+} from "@/modules/loan-application/constants/form"
 
 export const SBBKybFormPartOne = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -37,12 +41,13 @@ export const SBBKybFormPartOne = () => {
 
   const defaultValues = useMemo(
     () =>
-      Object.keys(sbbKybFormSchemaPartOne.shape).reduce(
+      // because we are using zodResolver with refined schema, we need to get shape from _def.schema instead of directly from schema
+      Object.keys(sbbKybFormSchemaPartOne._def.schema.shape).reduce(
         (acc, key) => ({
           ...acc,
           [key]: get(sbbBusinessInformationPartOne, key, "")
         }),
-        {}
+        {} as SbbKybFormPartOneValue
       ),
     [sbbBusinessInformationPartOne]
   )
@@ -60,9 +65,14 @@ export const SBBKybFormPartOne = () => {
 
   const form = useForm<SbbKybFormPartOneValue>({
     resolver: zodResolver(sbbKybFormSchemaPartOne),
-    defaultValues,
-    mode: "onBlur"
+    values: defaultValues,
+    mode: "onChange"
   })
+
+  useAutoCompleteStepEffect(
+    form,
+    LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
+  )
 
   return (
     <Card
@@ -77,7 +87,7 @@ export const SBBKybFormPartOne = () => {
       <Form {...form}>
         <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
           {SBB_KYB_FORM_BLOCKS_PART_ONE.map(({ type, props, name }) => {
-            if (name !== SbbKybFormFields.IS_SUBSIDIARY) {
+            if (name !== SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) {
               const Component = ComponentMapper[type]
               return (
                 <Component
@@ -89,28 +99,31 @@ export const SBBKybFormPartOne = () => {
               )
             } else {
               return (
-                <div className="flex flex-col col-span-12">
+                <div
+                  className="flex flex-col col-span-12"
+                  key={SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY}
+                >
                   <RHFOptionInput
                     label="Is your business of subsidiary of another business?"
-                    key={SbbKybFormFields.IS_SUBSIDIARY}
                     className="col-span-12"
-                    name={SbbKybFormFields.IS_SUBSIDIARY}
+                    name={SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY}
                     options={YES_NO_OPTIONS}
                     {...props}
                   />
-                  {
+                  {form.watch(SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) ===
+                    BINARY_VALUES.YES && (
                     <RHFTextInput
                       label="If yes, what is the name of the owning company?"
-                      key={SbbKybFormFields.PARENT_COMPANY}
+                      key={SBB_KYB_FORM_FIELDS.PARENT_COMPANY}
                       className="col-span-12 flex items-end gap-1"
                       styleProps={{
                         inputClassName:
                           "!max-w-40 border-l-0 border-r-0 border-t-0", // to-do remove ring focus
                         labelClassName: "leading-normal"
                       }}
-                      name={SbbKybFormFields.PARENT_COMPANY}
+                      name={SBB_KYB_FORM_FIELDS.PARENT_COMPANY}
                     />
-                  }
+                  )}
                 </div>
               )
             }
