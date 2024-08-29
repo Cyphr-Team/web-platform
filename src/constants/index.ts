@@ -140,7 +140,12 @@ export const APP_PATH = {
       index: "/demo/applicant/loan"
     },
     admin: {
-      index: "/demo/admin/dashboard"
+      index: "/demo/admin/dashboard",
+      applications: "/demo/admin/applications",
+      business: "/demo/admin/business",
+      documents: "/demo/admin/documents",
+      loanSummary: "/demo/admin/loan-summary",
+      loanReadiness: "/demo/admin/loan-readiness"
     }
   }
 }

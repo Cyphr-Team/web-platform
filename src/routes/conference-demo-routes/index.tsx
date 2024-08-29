@@ -1,14 +1,26 @@
 import { Route } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { ConferenceDemoApplicationLayout } from "@/modules/conference-demo/applicant/components/layouts"
+import ConferenceDemoAdminLayout from "@/modules/conference-demo/admin/components/layouts/AdminLayout"
+
 import ApplicationDetailPage from "@/modules/conference-demo/applicant/components/pages/ApplicationDetailPage.tsx"
+import { AdminApplicationDetails } from "@/modules/conference-demo/admin/components/pages/ApplicationDetails"
 
 export const conferenceDemoRoutes = (
-  <Route element={<ConferenceDemoApplicationLayout />}>
-    <Route
-      index
-      path={APP_PATH.CONFERENCE_DEMO.applicant.index}
-      element={<ApplicationDetailPage />}
-    />
+  <Route>
+    <Route element={<ConferenceDemoApplicationLayout />}>
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.applicant.index}
+        element={<ApplicationDetailPage />}
+      />
+    </Route>
+    <Route element={<ConferenceDemoAdminLayout />}>
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.admin.index}
+        element={<AdminApplicationDetails />}
+      />
+    </Route>
   </Route>
 )
