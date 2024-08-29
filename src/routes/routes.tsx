@@ -13,7 +13,6 @@ import { dashboardRoutes } from "./dashboard-routes"
 import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
 import { featureFlagsPublicLoader, institutionLoader } from "./loader"
 import { conferenceDemoRoutes } from "@/routes/conference-demo-routes"
-import { isEnableConferenceDemo } from "@/utils/feature-flag.utils.ts"
 
 /**
  * App routes ("/").
@@ -40,8 +39,6 @@ const routes = createBrowserRouter(
           />
         </Route>
 
-        {isEnableConferenceDemo() && conferenceDemoRoutes}
-
         {authenticationRoutes}
 
         {/* DASHBOARD ROUTES */}
@@ -49,6 +46,10 @@ const routes = createBrowserRouter(
 
         {/* BORROWER ONBOARDING ROUTES */}
         {applicantRoutes}
+
+        {/* DEMO ROUTES */}
+        {/* it should be in the last */}
+        {conferenceDemoRoutes}
 
         <Route path="*" element={<NotFoundLayout />} />
       </Route>
