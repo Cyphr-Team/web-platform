@@ -10,8 +10,8 @@ const Header: FC<Props> = () => {
   return (
     <nav
       className={cn(
-        "w-full flex justify-between items-center sticky top-0 bg-white border-b border-t ",
-        "md:h-20 md:pr-8 md:border-t-0 "
+        "w-full flex justify-between items-center sticky top-0 bg-white border-b border-t",
+        "md:h-20 md:pr-8 md:border-t-0"
       )}
     >
       <div>SBA Micro Loans</div>

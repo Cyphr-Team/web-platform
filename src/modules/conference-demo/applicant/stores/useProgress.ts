@@ -1,21 +1,79 @@
 import { create } from "zustand"
 
 import { createSelectors } from "@/utils/store.ts"
-import { SCREEN } from "@/modules/conference-demo/applicant/constants"
+import {
+  INPUT_GROUP,
+  Progress,
+  STEP
+} from "@/modules/conference-demo/applicant/constants"
+import { produce } from "immer"
+
+const initApplicationGroup = () => ({
+  [STEP.LOAN_REQUEST]: { isFinish: false, group: INPUT_GROUP.APPLICATION },
+  [STEP.BUSINESS_INFORMATION]: {
+    isFinish: false,
+    group: INPUT_GROUP.APPLICATION
+  },
+  [STEP.BUSINESS_PLAN]: { isFinish: false, group: INPUT_GROUP.APPLICATION },
+  [STEP.CASH_FLOW_VERIFICATION]: {
+    isFinish: false,
+    group: INPUT_GROUP.APPLICATION
+  }
+})
+
+const initReviewGroup = () => ({
+  [STEP.REVIEW_APPLICATION]: {
+    isFinish: false,
+    group: INPUT_GROUP.REVIEW_AND_SIGN
+  },
+  [STEP.REVIEW_AND_SUBMIT]: {
+    isFinish: false,
+    group: INPUT_GROUP.REVIEW_AND_SIGN
+  }
+})
+const initialProgress: Progress = {
+  ...initApplicationGroup(),
+  ...initReviewGroup()
+}
 
 interface ProgressSlice {
-  currentScreen: SCREEN
-
+  currentStep: STEP
+  progressDetail: Progress
+  progress: number
   action: {
-    setCurrentScreen: (screen: SCREEN) => void
+    goToStep: (step: STEP) => void
+    finishStep: (step: STEP) => void
   }
 }
 
 const useProgressBase = create<ProgressSlice>()((set) => ({
-  currentScreen: SCREEN.LOAN_REQUEST,
+  currentStep: STEP.LOAN_REQUEST,
+  progressDetail: initialProgress,
+  progress: 0,
   action: {
-    setCurrentScreen: (screen: SCREEN) => set({ currentScreen: screen })
+    goToStep: (step: STEP) => set({ currentStep: step }),
+    finishStep: (step: STEP) => {
+      set(
+        produce((state) => {
+          state.progressDetail[step].isFinish = true
+          state.progress = calculateProgress(state.progressDetail)
+        })
+      )
+    }
   }
 }))
 
 export const useProgress = createSelectors(useProgressBase)
+
+const calculateProgress = (progress: Progress): number => {
+  const { totalSteps, completedSteps } = Object.values(progress).reduce(
+    (acc, step) => {
+      acc.totalSteps++
+      if (step.isFinish) acc.completedSteps++
+      return acc
+    },
+    { totalSteps: 0, completedSteps: 0 }
+  )
+
+  return totalSteps === 0 ? 0 : Math.round((completedSteps / totalSteps) * 100)
+}

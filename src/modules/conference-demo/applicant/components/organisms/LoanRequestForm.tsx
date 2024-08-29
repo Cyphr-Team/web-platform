@@ -16,7 +16,7 @@ import { RHFTextInput } from "@/modules/form-template/components/molecules"
 import { memo, useCallback } from "react"
 import { Button } from "@/components/ui/button.tsx"
 import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
-import { SCREEN } from "@/modules/conference-demo/applicant/constants"
+import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 
 export interface LoanRequest {
@@ -35,7 +35,7 @@ const LoanRequestForm = () => {
   const minLoanAmount = 0
   const maxLoanAmount = 1_000_000
 
-  const { setCurrentScreen } = useProgress.use.action()
+  const { goToStep, finishStep } = useProgress.use.action()
 
   const data = useFormData.use.loanRequestData()
   const { setLoanRequestData } = useFormData.use.action()
@@ -48,8 +48,9 @@ const LoanRequestForm = () => {
 
   const onSubmit = useCallback(() => {
     setLoanRequestData(method.getValues() as LoanRequest)
-    setCurrentScreen(SCREEN.BUSINESS_INFORMATION)
-  }, [method, setCurrentScreen, setLoanRequestData])
+    finishStep(STEP.LOAN_REQUEST)
+    goToStep(STEP.BUSINESS_INFORMATION)
+  }, [setLoanRequestData, method, finishStep, goToStep])
 
   return (
     <Card
