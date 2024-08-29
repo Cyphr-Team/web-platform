@@ -43,10 +43,11 @@ interface ProgressSlice {
   action: {
     goToStep: (step: STEP) => void
     finishStep: (step: STEP) => void
+    checkStep: (step: STEP) => boolean
   }
 }
 
-const useProgressBase = create<ProgressSlice>()((set) => ({
+const useProgressBase = create<ProgressSlice>()((set, get) => ({
   currentStep: STEP.LOAN_REQUEST,
   progressDetail: initialProgress,
   progress: 0,
@@ -59,7 +60,8 @@ const useProgressBase = create<ProgressSlice>()((set) => ({
           state.progress = calculateProgress(state.progressDetail)
         })
       )
-    }
+    },
+    checkStep: (step: STEP) => get().progressDetail[step].isFinish
   }
 }))
 
