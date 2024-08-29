@@ -21,4 +21,4 @@ const RHFProvider = <T extends FieldValues>({
   )
 }
 
-export default memo(RHFProvider)
+export default memo(RHFProvider) as typeof RHFProvider

@@ -36,6 +36,7 @@ export interface RHFTextInputProps<T extends FieldValues> {
   prefixIcon?: React.ReactNode
   onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  disabled?: boolean
 }
 
 const RHFTextInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {

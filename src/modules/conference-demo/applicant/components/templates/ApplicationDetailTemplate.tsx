@@ -1,10 +1,11 @@
-import { ComponentType, FC, PropsWithChildren } from "react"
-import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
-import { STEP } from "@/modules/conference-demo/applicant/constants"
 import {
   BusinessInformationForm,
   LoanRequestForm
 } from "@/modules/conference-demo/applicant/components/organisms"
+import SignAndSubmitForm from "@/modules/conference-demo/applicant/components/organisms/SignAndSubmitForm"
+import { STEP } from "@/modules/conference-demo/applicant/constants"
+import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
+import { ComponentType, FC, PropsWithChildren } from "react"
 import BusinessPlanForm from "../organisms/BusinessPlanForm"
 import CashFlowVerificationForm from "../organisms/CashFlowVerificationForm"
 
@@ -20,7 +21,7 @@ const ScreenMapper: { [key: string]: ComponentType<PropsWithChildren> } = {
   [STEP.BUSINESS_INFORMATION]: BusinessInformationForm,
   [STEP.BUSINESS_PLAN]: BusinessPlanForm,
   [STEP.CASH_FLOW_VERIFICATION]: CashFlowVerificationForm,
-  [STEP.REVIEW_AND_SUBMIT]: KhoaiMon, // TODO: remove this
+  [STEP.REVIEW_AND_SUBMIT]: SignAndSubmitForm,
   [STEP.REVIEW_APPLICATION]: KhoaiMon // TODO: remove this
 }
 
