@@ -50,3 +50,14 @@ export type StepStatus = {
   isFinish: boolean
   group: INPUT_GROUP
 }
+
+export const YES_NO_OPTIONS = [
+  {
+    label: "Yes",
+    value: "YES"
+  },
+  {
+    label: "No",
+    value: "NO"
+  }
+]

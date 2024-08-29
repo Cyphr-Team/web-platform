@@ -5,6 +5,7 @@ import {
   BusinessInformationForm,
   LoanRequestForm
 } from "@/modules/conference-demo/applicant/components/organisms"
+import BusinessPlanForm from "../organisms/BusinessPlanForm"
 
 // TODO: remove this
 const KhoaiMon = ({ children }: PropsWithChildren) => {
@@ -16,7 +17,7 @@ const KhoaiMon = ({ children }: PropsWithChildren) => {
 const ScreenMapper: { [key: string]: ComponentType<PropsWithChildren> } = {
   [STEP.LOAN_REQUEST]: LoanRequestForm,
   [STEP.BUSINESS_INFORMATION]: BusinessInformationForm,
-  [STEP.BUSINESS_PLAN]: KhoaiMon, // TODO: remove this
+  [STEP.BUSINESS_PLAN]: BusinessPlanForm,
   [STEP.CASH_FLOW_VERIFICATION]: KhoaiMon, // TODO: remove this
   [STEP.REVIEW_AND_SUBMIT]: KhoaiMon, // TODO: remove this
   [STEP.REVIEW_APPLICATION]: KhoaiMon // TODO: remove this
