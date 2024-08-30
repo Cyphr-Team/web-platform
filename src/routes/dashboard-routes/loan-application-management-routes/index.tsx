@@ -70,19 +70,23 @@ const loanApplicationManagementRoutes = (
       {/* LOAN SUMMARY - LOAN READY LOAN SUMMARY */}
       <Route
         path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
-        lazy={() =>
-          isCyphrBank() || isKccBank() || isSbb() || isLaunchKC()
-            ? import(
-                "@/modules/loan-application-management/pages/out-of-box/loan-summary"
-              )
-            : isLoanReady()
-              ? import(
-                  "@/modules/loan-application-management/pages/loan-ready/loan-summary"
-                )
-              : import(
-                  "@/modules/loan-application-management/pages/loan-summary"
-                )
-        }
+        lazy={() => {
+          if (isSbb())
+            return import(
+              "@/modules/loan-application-management/pages/sbb/loan-summary"
+            )
+          if (isCyphrBank() || isKccBank() || isLaunchKC())
+            return import(
+              "@/modules/loan-application-management/pages/out-of-box/loan-summary"
+            )
+          if (isLoanReady())
+            return import(
+              "@/modules/loan-application-management/pages/loan-ready/loan-summary"
+            )
+          return import(
+            "@/modules/loan-application-management/pages/loan-summary"
+          )
+        }}
       />
 
       {/* CASH FLOW - LOAN READY CASH FLOW - OUT OF BOX CASH FLOW */}
