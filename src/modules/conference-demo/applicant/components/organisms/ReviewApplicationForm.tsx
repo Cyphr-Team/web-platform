@@ -11,11 +11,11 @@ import {
 } from "@/modules/conference-demo/applicant/stores/useProgress"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-export const ReviewApplicationForm = () => {
+const ReviewApplicationForm = () => {
   const steps = useProgressSteps()
   const currentStep = useProgress.use.currentStep()
   const { finishStep, goToStep } = useProgress.use.action()
@@ -77,6 +77,8 @@ export const ReviewApplicationForm = () => {
     </div>
   )
 }
+
+export default memo(ReviewApplicationForm)
 
 const REVIEW_GROUP = [
   {

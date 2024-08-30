@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import * as z from "zod"
 import { RHFProvider } from "@/modules/form-template/providers"
 import {
+  RHFDragAndDropFileUpload,
   RHFSelectInput,
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
@@ -21,14 +22,6 @@ import {
 } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
-import { custom } from "zod"
-import { FormField, FormItem, FormMessage } from "@/components/ui/form"
-import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
-import { FileUploadedCard } from "@/modules/loan-application/components/molecules/FileUploadedCard"
-import { FileUploadCard } from "@/modules/loan-application/components/molecules/FileUploadCard"
-import { infer as zodInfer } from "zod"
-import { remove } from "lodash"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 
 export interface BusinessPlanRequest {
@@ -59,77 +52,24 @@ const businessPlanRequestFormSchema = z.object({
   files: ZodFileTypeFactory(
     ["application/pdf"],
     "Please choose PDF format files only"
-  ).optional(),
-  uploadedFiles: custom<DocumentUploadedResponse[]>().optional()
+  ).optional()
 })
 
 const BusinessPlanForm = () => {
-  const { goToStep, finishStep } = useProgress.use.action()
+  const { goToStep } = useProgress.use.action()
+  const data = useFormData.use["Business Plan"]()
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
-  const data = useFormData.use.businessPlanData()
-  const { setBusinessPlanData } = useFormData.use.action()
 
   const method = useForm<FieldValues>({
     resolver: zodResolver(businessPlanRequestFormSchema),
     mode: "onBlur",
     defaultValues: data
   })
-  type FormType = zodInfer<typeof businessPlanRequestFormSchema>
-
-  const uploadedFiles = method.watch(
-    "uploadedFiles"
-  ) as DocumentUploadedResponse[]
 
   const onSubmit = useCallback(() => {
-    setBusinessPlanData(method.getValues() as BusinessPlanRequest)
-    finishStep(STEP.BUSINESS_PLAN)
     goToStep(STEP.CASH_FLOW_VERIFICATION)
-  }, [setBusinessPlanData, method, finishStep, goToStep])
-
-  const handleSelectFile = useCallback(
-    (field: keyof FormType) => (files: FileList) => {
-      const currentFiles = method.getValues(field) as File[]
-      const mergedFiles =
-        files && currentFiles
-          ? [...currentFiles, ...Array.from(files)]
-          : Array.from(files)
-
-      method.setValue(field, mergedFiles, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    },
-    [method]
-  )
-
-  const handleRemoveFile = useCallback(
-    (index: number, field: keyof FormType) => () => {
-      const currentFiles = method.getValues(field) as File[]
-      const newFiles = currentFiles.filter((_: File, i: number) => i !== index)
-      method.setValue(field, newFiles, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    },
-    [method]
-  )
-
-  // This is just remove the document from the FE.
-  // We do not call BE API here.
-  const removeDocument = useCallback(
-    (id: string) => {
-      const newFiles = remove(uploadedFiles, (document) => document.id !== id)
-      method.setValue("uploadedFiles", newFiles, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    },
-    [method, uploadedFiles]
-  )
+  }, [goToStep])
 
   useAutoCompleteStepEffect(method, STEP.BUSINESS_PLAN)
 
@@ -203,41 +143,7 @@ const BusinessPlanForm = () => {
                   }}
                 />
                 <div className="mt-6">
-                  <FormField
-                    control={method.control}
-                    name="files"
-                    render={() => (
-                      <FormItem>
-                        <DragDropFileInput
-                          id="files"
-                          onFileSelect={handleSelectFile("files")}
-                        />
-                        {Array.from(
-                          (method.watch("files") as File[]) ?? []
-                        ).map((file: File, index: number) => (
-                          <FileUploadCard
-                            key={file.name}
-                            file={file}
-                            index={index}
-                            handleRemoveFile={handleRemoveFile(index, "files")}
-                          />
-                        ))}
-                        {/* Display all files */}
-                        {Array.from(
-                          (method.watch(
-                            "uploadedFiles"
-                          ) as DocumentUploadedResponse[]) ?? []
-                        ).map((val) => (
-                          <FileUploadedCard
-                            key={val.id}
-                            file={val}
-                            handleRemoveFile={removeDocument}
-                          />
-                        ))}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />{" "}
+                  <RHFDragAndDropFileUpload name="files" />
                 </div>
               </div>
             </div>

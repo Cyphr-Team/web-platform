@@ -23,7 +23,7 @@ export type FictitiousNameCertificationFormValue = zodInfer<
 export const FictitiousNameCertificationForm = () => {
   return (
     <DocumentUploadFormTemplate
-      title="Fictitious Name Cerfitication"
+      title="Fictitious Name Certification"
       description="If you are a sole proprietor, please upload your Fictitious Name Certification. If you are not, please select the checkbox below indicating that you are not a sole proprietor."
       schema={fictitiousNameCertificationFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION}

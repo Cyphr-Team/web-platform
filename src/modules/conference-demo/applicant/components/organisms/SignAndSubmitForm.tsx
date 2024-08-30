@@ -15,11 +15,10 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 const SignAndSubmitForm = () => {
-  const { goToStep, finishStep } = useProgress.use.action()
+  const { goToStep } = useProgress.use.action()
 
   const steps = useProgressSteps()
-  const data = useFormData.use.signData()
-  const { setSignData } = useFormData.use.action()
+  const data = useFormData.use["Sign and Submit"]()
 
   const method = useForm<SignFormValues>({
     resolver: zodResolver(signFormSchema),
@@ -28,10 +27,8 @@ const SignAndSubmitForm = () => {
   })
 
   const onSubmit = useCallback(() => {
-    setSignData(method.getValues())
-    finishStep(STEP.REVIEW_AND_SUBMIT)
     goToStep(STEP.REVIEW_AND_SUBMIT)
-  }, [setSignData, method, finishStep, goToStep])
+  }, [goToStep])
 
   const isPreviousStepsCompleted =
     steps.filter(

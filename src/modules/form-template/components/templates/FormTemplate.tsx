@@ -19,6 +19,7 @@ import {
   RHFCalendarPickerInput,
   RHFCheckbox,
   RHFCurrencyInput,
+  RHFDragAndDropFileUpload,
   RHFMaskInput,
   RHFMultiSelectInput,
   RHFNumberInput,
@@ -42,7 +43,8 @@ export const enum FieldType {
   OPTION = "option",
   DATE = "date",
   CURRENCY = "currency",
-  PERCENTAGE = "percentage"
+  PERCENTAGE = "percentage",
+  DND_FILE = "dragAndDropFile"
 }
 
 export const ComponentMapper: { [key: string]: ComponentType<any> } = {
@@ -55,7 +57,8 @@ export const ComponentMapper: { [key: string]: ComponentType<any> } = {
   [FieldType.OPTION]: RHFOptionInput,
   [FieldType.DATE]: RHFCalendarPickerInput,
   [FieldType.CURRENCY]: RHFCurrencyInput,
-  [FieldType.PERCENTAGE]: RHFPercentageInput
+  [FieldType.PERCENTAGE]: RHFPercentageInput,
+  [FieldType.DND_FILE]: RHFDragAndDropFileUpload
 }
 
 export type BlockProps<T extends FieldValues> = Partial<

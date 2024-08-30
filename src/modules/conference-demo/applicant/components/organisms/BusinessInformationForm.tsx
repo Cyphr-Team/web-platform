@@ -33,10 +33,10 @@ export type BusinessInformation = {
 }
 
 const businessInformationFormSchema = z.object({
-  [FieldName.NAME]: z.string(),
-  [FieldName.ADDRESS]: z.string(),
-  [FieldName.EIN]: z.string(),
-  [FieldName.WEBSITE]: z.string()
+  [FieldName.NAME]: z.string().min(1, "this field is required"),
+  [FieldName.ADDRESS]: z.string().min(1, "this field is required"),
+  [FieldName.EIN]: z.string().min(1, "this field is required"),
+  [FieldName.WEBSITE]: z.string().min(1, "this field is required")
 })
 
 const blocks: Block[] = [
@@ -76,11 +76,10 @@ const blocks: Block[] = [
 ]
 
 const BusinessInformationForm = () => {
-  const { goToStep, finishStep } = useProgress.use.action()
+  const { goToStep } = useProgress.use.action()
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
-  const data = useFormData.use.businessInformationData()
-  const { setBusinessInformationData } = useFormData.use.action()
+  const data = useFormData.use["Business Information"]()
 
   const method = useForm<FieldValues>({
     resolver: zodResolver(businessInformationFormSchema),
@@ -88,9 +87,7 @@ const BusinessInformationForm = () => {
     defaultValues: data
   })
 
-  const onSubmit = method.handleSubmit((formValues: FieldValues) => {
-    setBusinessInformationData(formValues as BusinessInformation)
-    finishStep(STEP.BUSINESS_INFORMATION)
+  const onSubmit = method.handleSubmit(() => {
     goToStep(STEP.BUSINESS_PLAN)
   })
 
@@ -109,7 +106,11 @@ const BusinessInformationForm = () => {
         {renderBlockComponents(blocks)}
 
         {!isReviewApplicationStep && (
-          <Button type="submit" className="w-full mt-5">
+          <Button
+            type="submit"
+            className="w-full mt-5"
+            disabled={!method.formState.isValid}
+          >
             Next
           </Button>
         )}

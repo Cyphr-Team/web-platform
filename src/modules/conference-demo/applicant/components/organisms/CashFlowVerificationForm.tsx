@@ -125,7 +125,7 @@ const CashFlowVerificationForm = () => {
 
   const onSubmit = useCallback(() => {
     finishStep(STEP.CASH_FLOW_VERIFICATION)
-    goToStep(STEP.REVIEW_APPLICATION)
+    goToStep(STEP.BUSINESS_EIN_LETTER)
   }, [finishStep, goToStep])
 
   return (

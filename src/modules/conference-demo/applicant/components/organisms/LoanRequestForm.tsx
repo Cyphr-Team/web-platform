@@ -29,7 +29,7 @@ export interface LoanRequest {
 }
 
 const loanRequestFormSchema = z.object({
-  loanAmount: z.number(),
+  loanAmount: z.number().min(0),
   proposeUseOfLoan: z
     .string()
     .min(1, { message: "Proposed used of loan is required" })
@@ -40,10 +40,9 @@ const LoanRequestForm = () => {
   const maxLoanAmount = 1_000_000
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
-  const { goToStep, finishStep } = useProgress.use.action()
+  const { goToStep } = useProgress.use.action()
 
-  const data = useFormData.use.loanRequestData()
-  const { setLoanRequestData } = useFormData.use.action()
+  const data = useFormData.use["Loan Request"]()
 
   const method = useForm<FieldValues>({
     resolver: zodResolver(loanRequestFormSchema),
@@ -52,10 +51,8 @@ const LoanRequestForm = () => {
   })
 
   const onSubmit = useCallback(() => {
-    setLoanRequestData(method.getValues() as LoanRequest)
-    finishStep(STEP.LOAN_REQUEST)
     goToStep(STEP.BUSINESS_INFORMATION)
-  }, [setLoanRequestData, method, finishStep, goToStep])
+  }, [goToStep])
 
   useAutoCompleteStepEffect(method, STEP.LOAN_REQUEST)
 
@@ -104,7 +101,11 @@ const LoanRequestForm = () => {
           </div>
 
           {!isReviewApplicationStep && (
-            <Button type="submit" className="w-full mt-5">
+            <Button
+              type="submit"
+              className="w-full mt-5"
+              disabled={!method.formState.isValid}
+            >
               Next
             </Button>
           )}
