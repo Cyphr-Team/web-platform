@@ -206,6 +206,10 @@ export const monthlyExpenseRangeOptions: Option[] = [
 
 export const fundingSourcesOptions: Option[] = [
   {
+    label: "Bootstrapped",
+    value: "bootstrapped"
+  },
+  {
     label: "Bank loans",
     value: "bank_loan"
   },
