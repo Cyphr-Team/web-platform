@@ -14,9 +14,11 @@ const ConferenceDemoApplicationLayout = () => {
   const progress = useProgress.use.progress()
 
   return (
-    <div className={cn("absolute h-full w-full z-40", "md:mt-0 md:pb-0")}>
+    <div
+      className={cn("finovate absolute h-full w-full z-40", "md:mt-0 md:pb-0")}
+    >
       <div className="flex flex-row w-full">
-        <div className="flex-col md:flex bg-background-disabled w-72 flex-shrink-0 mb-3xl overflow-auto h-dvh z-50">
+        <div className="flex-col md:flex bg-background-disabled w-96 flex-shrink-0 mb-3xl overflow-auto h-dvh z-50">
           <div className="pl-3xl pr-2xl items-center mb-4 justify-between flex bg-white border-b h-20">
             <LogoHeader className="justify-center" />
           </div>

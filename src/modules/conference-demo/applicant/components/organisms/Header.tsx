@@ -14,7 +14,9 @@ const Header: FC<Props> = () => {
         "md:h-20 md:pr-8 md:border-t-0"
       )}
     >
-      <div>SBA Micro Loans</div>
+      <div className="text-lg font-semibold truncate min-w-20 md:text-2xl">
+        SBA Micro Loans
+      </div>
       <div className="flex gap-2">
         <CloseWithoutSave />
         <CustomAlertDialog

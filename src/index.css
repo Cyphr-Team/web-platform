@@ -69,11 +69,11 @@
     --ring: 195 46% 5%;
   }
 
-  .sbb {
+  .sbb,
+  .finovate {
     --primary: 195 46% 5%;
     --ring: 195 46% 5%;
     --text-primary: 180 4% 15%;
-
   }
 }
 

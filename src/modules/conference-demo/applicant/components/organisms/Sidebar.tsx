@@ -1,5 +1,12 @@
 import { cn } from "@/lib/utils.ts"
-import { FC, memo, PropsWithChildren, useCallback, useState } from "react"
+import {
+  FC,
+  memo,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState
+} from "react"
 import {
   Accordion,
   AccordionContent,
@@ -21,6 +28,7 @@ import { Check } from "lucide-react"
 interface Props {}
 
 const Sidebar: FC<Props> = () => {
+  const currentStep = useProgress.use.currentStep()
   const [accordionValue, setAccordionValue] = useState<INPUT_GROUP[]>([
     INPUT_GROUP.APPLICATION
   ])
@@ -31,6 +39,21 @@ const Sidebar: FC<Props> = () => {
     },
     [setAccordionValue]
   )
+
+  /**
+   * Listen the step change, if the next step is inside next parent, toggle down the parent
+   */
+  useEffect(() => {
+    const currentStepParent = Object.keys(GROUPED_STEP_ITEM).find((key) =>
+      GROUPED_STEP_ITEM[key as INPUT_GROUP].includes(currentStep)
+    )
+    if (!currentStepParent) return
+    setAccordionValue((preOpens) =>
+      preOpens.includes(currentStepParent as INPUT_GROUP)
+        ? preOpens
+        : [...preOpens, currentStepParent as INPUT_GROUP]
+    )
+  }, [currentStep])
 
   return (
     <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4 max-h-[50vh] md:max-h-full">
