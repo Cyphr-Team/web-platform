@@ -24,7 +24,7 @@ import { useLoanReadinessStore } from "./store/useLoanReadinessStore"
 interface ApplicationCriteriaProps {
   criteria: LoanReadiness["criteria"]
   isLoading: boolean
-  handleRefetch: VoidFunction
+  handleRefetch?: VoidFunction
 }
 export const ApplicationCriteria: FC<ApplicationCriteriaProps> = ({
   criteria,
@@ -65,7 +65,7 @@ export const ApplicationCriteria: FC<ApplicationCriteriaProps> = ({
             Action Plan
           </CardTitle>
 
-          {isEnableDummyLoanReadiness() && (
+          {isEnableDummyLoanReadiness() && handleRefetch && (
             <DummyButton handleRefetch={handleRefetch} />
           )}
         </div>
@@ -108,11 +108,11 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
         criteria.ratingLevel
       )
       return (
-        <div className="text-center ml-8">
+        <div className="text-center pl-2">
           <Badge
             className={cn(
               criteriaBadgeClassName,
-              "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center ml-0.5"
+              "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center"
             )}
           >
             {snakeCaseToText(criteria.ratingLevel)}

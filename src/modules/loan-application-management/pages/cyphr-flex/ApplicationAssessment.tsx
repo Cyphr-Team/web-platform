@@ -20,7 +20,7 @@ export const ApplicationAssessment: FC<ApplicationAssessmentProps> = ({
   score
 }) => {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-10">
       <ApplicationFeedBack
         isLoading={isLoading}
         category={category}
@@ -47,7 +47,7 @@ const ApplicationFeedBack: FC<ApplicationFeedBackProps> = ({
   actionPlan
 }) => {
   return (
-    <div className="flex-[3] bg-[#F2F8F8] rounded-[40px] border border-black">
+    <div className="flex-[3] bg-[#F2F8F8] rounded-[40px] border border-black shadow-[8px_8px_12px_0px_#052B1540]">
       <div className="px-8 py-4 mt-6 border-b font-semibold">
         Loan Readiness Score
       </div>
@@ -80,7 +80,7 @@ const ApplicationScore: FC<ApplicationScoreProps> = ({
   category
 }) => {
   return (
-    <div className="bg-[#002615] flex relative overflow-hidden flex-[5] p-8  rounded-[2.5rem]">
+    <div className="bg-[#002615] flex relative overflow-hidden flex-[5] p-8 rounded-[2.5rem] shadow-[8px_8px_12px_0px_#052B1540]">
       <div className="w-[70%] h-full -translate-y-3/4 absolute bg-[#B3F00D] left-1/2 -translate-x-1/2 rounded-full blur-[184px]" />
       <div className="text-white mt-auto flex flex-col gap-6">
         <span className="text-4xl font-semibold">Readiness</span>

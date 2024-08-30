@@ -37,7 +37,7 @@ export function ApplicationCircularProgress({
       <span className="absolute w-full h-full top-0 left-0 origin-center -rotate-90">
         <svg className="h-full w-full text-[#B3F00D]" viewBox="22 22 44 44">
           <circle
-            className="stroke-current transition-all duration-300 ease-[cubic-bezier(0.95,0.05,0.795,0.035)]"
+            className="stroke-current transition-all duration-1000 ease-out"
             cx="44"
             cy="44"
             r={r}
@@ -64,7 +64,7 @@ export function ApplicationCircularProgress({
       <span className="absolute w-full h-full top-0 left-0 origin-center -rotate-[87deg]">
         <svg className="h-full w-full text-[#01B604]" viewBox="22 22 44 44">
           <circle
-            className="stroke-current transition-all duration-300 ease-[cubic-bezier(0.95,0.05,0.795,0.035)]"
+            className="stroke-current transition-all duration-1000 ease-out"
             cx="44"
             cy="44"
             r={miniR}
