@@ -6,7 +6,10 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react"
 import { Button, ButtonLoading } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ArrowRight, Link } from "lucide-react"
-import { useProgress } from "../../stores/useProgress"
+import {
+  useIsReviewApplicationStep,
+  useProgress
+} from "../../stores/useProgress"
 import { STEP } from "../../constants"
 import { Badge } from "@/components/ui/badge"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
@@ -70,6 +73,7 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
 ]
 
 const CashFlowVerificationForm = () => {
+  const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep, finishStep, checkStep } = useProgress.use.action()
 
   useEffect(() => {
@@ -89,10 +93,11 @@ const CashFlowVerificationForm = () => {
     setIsConnecting(true)
     setTimeout(() => {
       setIsConnecting(false)
+      finishStep(STEP.CASH_FLOW_VERIFICATION)
       setInstitutions(PLAID_BANKING_ACCOUNTS)
       setIsFetchingDetails(false)
     }, 3000)
-  }, [])
+  }, [finishStep])
 
   const connectedAccounts: LoanApplicationBankAccount[] = useMemo(() => {
     return institutions
@@ -236,7 +241,7 @@ const CashFlowVerificationForm = () => {
 
                   <Separator />
 
-                  {!checkStep(STEP.REVIEW_APPLICATION) && (
+                  {!isReviewApplicationStep && (
                     <Button
                       className="w-full mt-5"
                       disabled={!connectedAccounts.length}

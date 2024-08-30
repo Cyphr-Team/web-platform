@@ -3,7 +3,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
-import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
+import {
+  useProgress,
+  useProgressSteps
+} from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 import { RHFTextInput } from "@/modules/form-template/components/molecules"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,6 +17,7 @@ import * as z from "zod"
 const SignAndSubmitForm = () => {
   const { goToStep, finishStep } = useProgress.use.action()
 
+  const steps = useProgressSteps()
   const data = useFormData.use.signData()
   const { setSignData } = useFormData.use.action()
 
@@ -28,6 +32,12 @@ const SignAndSubmitForm = () => {
     finishStep(STEP.REVIEW_AND_SUBMIT)
     goToStep(STEP.REVIEW_AND_SUBMIT)
   }, [setSignData, method, finishStep, goToStep])
+
+  const isPreviousStepsCompleted =
+    steps.filter(
+      ([step, stepDetail]) =>
+        step !== STEP.REVIEW_AND_SUBMIT && !stepDetail.isFinish
+    ).length === 0
 
   return (
     <Card
@@ -88,7 +98,11 @@ const SignAndSubmitForm = () => {
               />
             </div>
           </div>
-          <Button type="submit" className="w-full mt-5">
+          <Button
+            type="submit"
+            className="w-full mt-5"
+            disabled={!isPreviousStepsCompleted}
+          >
             Submit application
           </Button>
         </CardContent>

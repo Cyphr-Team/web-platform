@@ -15,9 +15,13 @@ import { RHFLoanSlider } from "@/modules/conference-demo/applicant/components/mo
 import { RHFTextInput } from "@/modules/form-template/components/molecules"
 import { memo, useCallback } from "react"
 import { Button } from "@/components/ui/button.tsx"
-import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
+import {
+  useIsReviewApplicationStep,
+  useProgress
+} from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
+import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 
 export interface LoanRequest {
   loanAmount: number
@@ -35,6 +39,7 @@ const LoanRequestForm = () => {
   const minLoanAmount = 0
   const maxLoanAmount = 1_000_000
 
+  const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep, finishStep } = useProgress.use.action()
 
   const data = useFormData.use.loanRequestData()
@@ -51,6 +56,8 @@ const LoanRequestForm = () => {
     finishStep(STEP.LOAN_REQUEST)
     goToStep(STEP.BUSINESS_INFORMATION)
   }, [setLoanRequestData, method, finishStep, goToStep])
+
+  useAutoCompleteStepEffect(method, STEP.LOAN_REQUEST)
 
   return (
     <Card
@@ -95,9 +102,12 @@ const LoanRequestForm = () => {
               </div>
             </div>
           </div>
-          <Button type="submit" className="w-full mt-5">
-            Next
-          </Button>
+
+          {!isReviewApplicationStep && (
+            <Button type="submit" className="w-full mt-5">
+              Next
+            </Button>
+          )}
         </CardContent>
       </RHFProvider>
     </Card>

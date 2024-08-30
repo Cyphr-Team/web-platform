@@ -1,11 +1,12 @@
 import { create } from "zustand"
 
-import { createSelectors } from "@/utils/store.ts"
 import {
   INPUT_GROUP,
   Progress,
-  STEP
+  STEP,
+  StepStatus
 } from "@/modules/conference-demo/applicant/constants"
+import { createSelectors } from "@/utils/store.ts"
 import { produce } from "immer"
 
 const initApplicationGroup = () => ({
@@ -20,7 +21,6 @@ const initApplicationGroup = () => ({
     group: INPUT_GROUP.APPLICATION
   }
 })
-
 const initReviewGroup = () => ({
   [STEP.REVIEW_APPLICATION]: {
     isFinish: false,
@@ -43,6 +43,7 @@ interface ProgressSlice {
   action: {
     goToStep: (step: STEP) => void
     finishStep: (step: STEP) => void
+    markStepAsUnfinished: (step: STEP) => void
     checkStep: (step: STEP) => boolean
   }
 }
@@ -61,12 +62,34 @@ const useProgressBase = create<ProgressSlice>()((set, get) => ({
         })
       )
     },
+    markStepAsUnfinished: (step: STEP) => {
+      set(
+        produce((state) => {
+          state.progressDetail[step].isFinish = false
+          state.progress = calculateProgress(state.progressDetail)
+        })
+      )
+    },
     checkStep: (step: STEP) => get().progressDetail[step].isFinish
   }
 }))
 
 export const useProgress = createSelectors(useProgressBase)
 
+/**
+ * Reuse logic below
+ */
+export const useIsReviewApplicationStep = () =>
+  useProgress(({ currentStep }) => currentStep === STEP.REVIEW_APPLICATION)
+
+export const useProgressSteps = () =>
+  useProgress(({ progressDetail }) =>
+    Object.entries<StepStatus>(progressDetail)
+  )
+
+/**
+ * Private helper function below
+ */
 const calculateProgress = (progress: Progress): number => {
   const { totalSteps, completedSteps } = Object.values(progress).reduce(
     (acc, step) => {

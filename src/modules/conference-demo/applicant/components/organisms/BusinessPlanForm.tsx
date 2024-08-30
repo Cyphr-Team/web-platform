@@ -11,7 +11,10 @@ import {
 } from "@/modules/form-template/components/molecules"
 import { memo, useCallback } from "react"
 import { Button } from "@/components/ui/button.tsx"
-import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
+import {
+  useIsReviewApplicationStep,
+  useProgress
+} from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 import {
   STEP,
   YES_NO_OPTIONS
@@ -26,6 +29,7 @@ import { FileUploadedCard } from "@/modules/loan-application/components/molecule
 import { FileUploadCard } from "@/modules/loan-application/components/molecules/FileUploadCard"
 import { infer as zodInfer } from "zod"
 import { remove } from "lodash"
+import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 
 export interface BusinessPlanRequest {
   businessPlan: string
@@ -62,6 +66,7 @@ const businessPlanRequestFormSchema = z.object({
 const BusinessPlanForm = () => {
   const { goToStep, finishStep } = useProgress.use.action()
 
+  const isReviewApplicationStep = useIsReviewApplicationStep()
   const data = useFormData.use.businessPlanData()
   const { setBusinessPlanData } = useFormData.use.action()
 
@@ -125,6 +130,8 @@ const BusinessPlanForm = () => {
     },
     [method, uploadedFiles]
   )
+
+  useAutoCompleteStepEffect(method, STEP.BUSINESS_PLAN)
 
   return (
     <Card
@@ -235,13 +242,15 @@ const BusinessPlanForm = () => {
               </div>
             </div>
           </div>
-          <Button
-            type="submit"
-            className="w-full mt-5"
-            disabled={!method.formState.isValid}
-          >
-            Next
-          </Button>
+          {!isReviewApplicationStep && (
+            <Button
+              type="submit"
+              className="w-full mt-5"
+              disabled={!method.formState.isValid}
+            >
+              Next
+            </Button>
+          )}
         </CardContent>
       </RHFProvider>
     </Card>

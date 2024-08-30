@@ -1,6 +1,7 @@
 export const enum INPUT_GROUP {
   APPLICATION = "APPLICATION",
-  REVIEW_AND_SIGN = "REVIEW AND SIGN"
+  REVIEW_AND_SIGN = "REVIEW AND SIGN",
+  DOCUMENTATION = "DOCUMENTATION"
 }
 
 export const GROUPED_STEP_ITEM = {
@@ -10,6 +11,7 @@ export const GROUPED_STEP_ITEM = {
     "Business Plan",
     "Cash Flow Verification"
   ],
+  [INPUT_GROUP.DOCUMENTATION]: [],
   [INPUT_GROUP.REVIEW_AND_SIGN]: ["Review Application", "Sign and Submit"]
 }
 
@@ -37,7 +39,7 @@ export const getStepFromLabel = (label: string): STEP => {
   return mapped[label]
 }
 
-export interface Progress {
+export interface Progress extends Record<string, StepStatus> {
   [STEP.LOAN_REQUEST]: StepStatus
   [STEP.BUSINESS_INFORMATION]: StepStatus
   [STEP.BUSINESS_PLAN]: StepStatus

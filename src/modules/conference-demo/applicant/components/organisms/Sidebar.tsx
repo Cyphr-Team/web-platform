@@ -1,19 +1,12 @@
-import { cn } from "@/lib/utils.ts"
-import {
-  FC,
-  memo,
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useState
-} from "react"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion.tsx"
+import { CircularProgress } from "@/components/ui/circular-progress.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
+import { cn } from "@/lib/utils.ts"
 import {
   getStepFromLabel,
   GROUPED_STEP_ITEM,
@@ -22,8 +15,15 @@ import {
   StepStatus
 } from "@/modules/conference-demo/applicant/constants"
 import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
-import { CircularProgress } from "@/components/ui/circular-progress.tsx"
 import { Check } from "lucide-react"
+import {
+  FC,
+  memo,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState
+} from "react"
 
 interface Props {}
 
@@ -45,7 +45,7 @@ const Sidebar: FC<Props> = () => {
    */
   useEffect(() => {
     const currentStepParent = Object.keys(GROUPED_STEP_ITEM).find((key) =>
-      GROUPED_STEP_ITEM[key as INPUT_GROUP].includes(currentStep)
+      GROUPED_STEP_ITEM[key as INPUT_GROUP].includes(currentStep as never)
     )
     if (!currentStepParent) return
     setAccordionValue((preOpens) =>
@@ -64,14 +64,17 @@ const Sidebar: FC<Props> = () => {
         onValueChange={handleSetAccordion}
       >
         {/* Iterate over group */}
-        {Object.keys(GROUPED_STEP_ITEM).map((section) => (
-          <CollapsibleItem label={section as INPUT_GROUP} key={section}>
-            {/* Map each item to component */}
-            {GROUPED_STEP_ITEM[section as INPUT_GROUP].map((inner) => (
-              <FormTabItem key={inner} label={inner as STEP} />
-            ))}
-          </CollapsibleItem>
-        ))}
+        {Object.keys(GROUPED_STEP_ITEM).map(
+          (section) =>
+            !!GROUPED_STEP_ITEM[section as INPUT_GROUP].length && (
+              <CollapsibleItem label={section as INPUT_GROUP} key={section}>
+                {/* Map each item to component */}
+                {GROUPED_STEP_ITEM[section as INPUT_GROUP].map((inner) => (
+                  <FormTabItem key={inner} label={inner as STEP} />
+                ))}
+              </CollapsibleItem>
+            )
+        )}
       </Accordion>
     </div>
   )

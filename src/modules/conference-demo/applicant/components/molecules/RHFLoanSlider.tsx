@@ -51,6 +51,7 @@ const RHFLoanSlider = (props: LoanSliderProps) => {
                   if (isNaN(value)) return
                   if (value < min) return field.onChange(min)
                   if (value > max) return field.onChange(max)
+                  field.onBlur()
                   return field.onChange(value)
                 }}
               />

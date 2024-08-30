@@ -6,7 +6,10 @@ import { cn } from "@/lib/utils"
 import * as z from "zod"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { memo } from "react"
-import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
+import {
+  useIsReviewApplicationStep,
+  useProgress
+} from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import {
   Block,
@@ -16,6 +19,7 @@ import {
 import { EIN_PATTERN } from "@/constants"
 import { Button } from "@/components/ui/button.tsx"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
+import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 
 const enum FieldName {
   NAME = "name",
@@ -74,6 +78,7 @@ const blocks: Block[] = [
 const BusinessInformationForm = () => {
   const { goToStep, finishStep } = useProgress.use.action()
 
+  const isReviewApplicationStep = useIsReviewApplicationStep()
   const data = useFormData.use.businessInformationData()
   const { setBusinessInformationData } = useFormData.use.action()
 
@@ -89,6 +94,8 @@ const BusinessInformationForm = () => {
     goToStep(STEP.BUSINESS_PLAN)
   })
 
+  useAutoCompleteStepEffect(method, STEP.BUSINESS_INFORMATION)
+
   return (
     <RHFProvider methods={method} onSubmit={onSubmit}>
       <Card
@@ -101,9 +108,11 @@ const BusinessInformationForm = () => {
         <h5 className="text-lg font-semibold">Business Information</h5>
         {renderBlockComponents(blocks)}
 
-        <Button type="submit" className="w-full mt-5">
-          Next
-        </Button>
+        {!isReviewApplicationStep && (
+          <Button type="submit" className="w-full mt-5">
+            Next
+          </Button>
+        )}
       </Card>
     </RHFProvider>
   )
