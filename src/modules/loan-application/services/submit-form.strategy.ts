@@ -804,6 +804,14 @@ export const useSubmitLoanForm = (
       // submit sbb forms
       if (isSbb()) {
         submitPromises.push(submitSbbDocument(loanRequestId))
+      }
+
+      if (
+        isSbb() &&
+        isCompleteSteps(
+          LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
+        )
+      ) {
         submitPromises.push(submitSbbLoanKYBForm(loanRequestId))
       }
 
@@ -819,7 +827,7 @@ export const useSubmitLoanForm = (
         const {
           data: { id: ownerFormId }
         } = await submitLoanKYCForm(loanRequestId)
-        if (ownerData.governmentFile.length) {
+        if (ownerData.governmentFile?.length) {
           await uploadDocuments(
             ownerFormId,
             ownerData.governmentFile,
@@ -836,7 +844,7 @@ export const useSubmitLoanForm = (
         const {
           data: { id: financialFormId }
         } = await submitLoanFinancialForm(loanRequestId)
-        if (financialData.w2sFile.length) {
+        if (financialData.w2sFile?.length) {
           await uploadDocuments(
             financialFormId,
             financialData.w2sFile,
@@ -850,7 +858,7 @@ export const useSubmitLoanForm = (
         const {
           data: { id: financialFormId }
         } = await submitCashFlowForm(loanRequestId)
-        if (cashflowData.w2sFile.length) {
+        if (cashflowData.w2sFile?.length) {
           await uploadDocuments(
             financialFormId,
             cashflowData.w2sFile,

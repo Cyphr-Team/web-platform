@@ -191,6 +191,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
           key={field.field}
           className="!flex-row justify-between"
           valueClassName="text-right"
+          labelClassName="max-w-96"
           label={field.label}
           value={label}
         />
@@ -205,6 +206,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         <AnswersTextDisplay
           key={field.field}
           className="!flex-row justify-between"
+          labelClassName="max-w-96"
           label={field.label}
           value={label}
         />
@@ -215,6 +217,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         key={field.field}
         className="!flex-row justify-between"
         valueClassName="text-right capitalize"
+        labelClassName="max-w-96"
         label={field.label}
         value={get(kybFormData?.metadata as string, field.field, "N/A")}
       />

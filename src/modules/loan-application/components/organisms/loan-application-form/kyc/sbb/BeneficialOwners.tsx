@@ -11,7 +11,11 @@ import { useLoanApplicationFormContext } from "@/modules/loan-application/provid
 
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import { SBB_KYC_FIELD_NAMES, SbbKycFormValue } from "./const"
+import {
+  SBB_KYC_FIELD_NAMES,
+  SbbKycBeneficialOwner,
+  SbbKycFormValue
+} from "./const"
 import { Separator } from "@/components/ui/separator"
 
 import {
@@ -23,6 +27,7 @@ import {
   BINARY_VALUES,
   YES_NO_OPTIONS
 } from "@/modules/loan-application/constants/form"
+import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
 
 export const BeneficialOwnersInput = () => {
   const { control, getValues, watch } = useFormContext<SbbKycFormValue>()
@@ -165,3 +170,70 @@ const EditOwner = memo((props: EditOwnerProps) => {
     </Card>
   )
 })
+
+type OwnerDetailsProps = {
+  data?: SbbKycBeneficialOwner[]
+}
+
+export const BeneficialOwnersDetails: React.FC<OwnerDetailsProps> = ({
+  data
+}) => {
+  return (
+    <div className="flex flex-col gap-2xl">
+      <h5 className="text-sm font-semibold">Beneficial Owners </h5>
+      <AnswersTextDisplay
+        className="!flex-row justify-between"
+        label="The business has other beneficial owners: "
+        value="Yes"
+      />
+      {data && data.length > 0 ? (
+        data.map((owner, index) => (
+          <OwnerDetails key={index} index={index} value={owner} />
+        ))
+      ) : (
+        <AnswersTextDisplay
+          className="!flex-row justify-between"
+          label="The business has other beneficial owners: "
+          value="No"
+        />
+      )}
+    </div>
+  )
+}
+
+const OwnerDetails = memo(
+  (props: { index: number; value: SbbKycBeneficialOwner }) => {
+    const { index, value } = props
+
+    return (
+      <Card
+        className="p-4xl rounded-lg flex flex-col gap-2 shadow-none"
+        key={index}
+      >
+        <div className="flex justify-between items-center">
+          <h5 className="font-semibold text-sm">Owner {index + 1}</h5>
+        </div>
+        <AnswersTextDisplay
+          className="!flex-row justify-between"
+          label="First and last name"
+          value={value.name}
+        />
+        <AnswersTextDisplay
+          className="!flex-row justify-between"
+          label="Email address"
+          value={value.email}
+        />
+        <AnswersTextDisplay
+          className="!flex-row justify-between"
+          label="Phone number"
+          value={value.phoneNumber}
+        />
+        <AnswersTextDisplay
+          className="!flex-row justify-between"
+          label="Percentage of the business they own"
+          value={`${value.businessOwnershipPercentage}%`}
+        />
+      </Card>
+    )
+  }
+)

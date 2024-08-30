@@ -75,6 +75,8 @@ export type SbbKycFormValue = z.infer<typeof sbbKycFormSchema>
 
 export type SbbKycMetadata = z.infer<typeof sbbMetadataSchema>
 
+export type SbbKycBeneficialOwner = z.infer<typeof sbbKycBeneficialOwnerSchema>
+
 export const SBB_KYC_FORM_BLOCKS: Block[] = [
   {
     type: FieldType.TEXT,

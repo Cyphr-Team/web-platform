@@ -22,6 +22,7 @@ import {
 } from "./const"
 import { BeneficialOwnersInput } from "./BeneficialOwners"
 import { ControlAuthorization } from "./ControlAuthorization"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 
 export const SbbKycForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -139,6 +140,9 @@ export const SbbKycForm = () => {
     mode: "onChange",
     defaultValues
   })
+
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+
   return (
     <div className="col-span-8 md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm">
       <Form {...form}>

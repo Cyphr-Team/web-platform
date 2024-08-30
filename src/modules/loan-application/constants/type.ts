@@ -172,18 +172,20 @@ export interface KYCInformationResponse {
   hasOtherSubstantialStackHolders: boolean
   createdAt: string
   updatedAt: string
-  metadata?: Partial<{
-    // LaunchKC Field
-    firstName: string
-    lastName: string
-    title: string
-    genderIdentity: string
-    preferredPronoun: string
-    racialIdentification: string
-    ethnicIdentification: string
-    areFounderOrCoFounder: string
-    areFullTimeFounder: string
-  }>
+  metadata?: Partial<
+    {
+      // LaunchKC Field
+      firstName: string
+      lastName: string
+      title: string
+      genderIdentity: string
+      preferredPronoun: string
+      racialIdentification: string
+      ethnicIdentification: string
+      areFounderOrCoFounder: string
+      areFullTimeFounder: string
+    } & SbbKycMetadata
+  >
 }
 
 export interface LoanProgramContactData {

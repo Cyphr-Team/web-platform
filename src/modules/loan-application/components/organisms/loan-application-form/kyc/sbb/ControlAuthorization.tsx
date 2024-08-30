@@ -8,6 +8,7 @@ import { SBB_KYC_FIELD_NAMES, SbbKycFormValue } from "./const"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { RHFOptionInput } from "@/modules/form-template/components/molecules"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
+import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
 
 type Props = {
   step: LOAN_APPLICATION_STEPS
@@ -59,5 +60,42 @@ export const ControlAuthorization: React.FC<Props> = ({ step, onSubmit }) => {
         </Button>
       )}
     </Card>
+  )
+}
+
+type DetailsProps = {
+  value: string
+}
+
+export const ControlAuthorizationDetails: React.FC<DetailsProps> = ({
+  value
+}) => {
+  return (
+    <div className="flex flex-col gap-2">
+      <h5 className="text-sm font-semibold">Control Authorization</h5>
+      <p className="text-sm text-primary font-normal">
+        A single individual with significant responsibility to control, manage,
+        or direct a legal entity customer, including an executive officer or
+        senior manager (e.g., a Chief Executive Officer, Chief Financial
+        Officer, Chief Operating Officer, Managing Member, General Partner,
+        President, Vice President or Treasurer); or any other individual who
+        regularly performs similar functions.
+      </p>
+      <div className="flex flex-col gap-2">
+        {value === BINARY_VALUES.YES ? (
+          <AnswersTextDisplay
+            valueClassName="text-xs"
+            label=""
+            value="Yes, I am the significant responsible person to control, manage, or direct this company indicated in the application."
+          />
+        ) : (
+          <AnswersTextDisplay
+            valueClassName="text-xs"
+            label=""
+            value="No, I am not the significant responsible person to control, manage, or direct this company indicated in the application."
+          />
+        )}
+      </div>
+    </div>
   )
 }
