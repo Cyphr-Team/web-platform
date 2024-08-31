@@ -105,12 +105,10 @@ export const useProgress = createSelectors(useProgressBase)
  * Reuse logic below
  */
 export const useIsReviewApplicationStep = () =>
-  useProgress(({ currentStep }) => currentStep === STEP.REVIEW_APPLICATION)
+  useProgress.use.currentStep() === STEP.REVIEW_APPLICATION
 
 export const useProgressSteps = () =>
-  useProgress(({ progressDetail }) =>
-    Object.entries<StepStatus>(progressDetail)
-  )
+  Object.entries<StepStatus>(useProgress.use.progressDetail())
 
 /**
  * Private helper function below

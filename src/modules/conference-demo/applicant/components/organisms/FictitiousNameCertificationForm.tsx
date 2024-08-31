@@ -1,19 +1,23 @@
-import { cn } from "@/lib/utils.ts"
 import { Button } from "@/components/ui/button.tsx"
-import { ArrowRight } from "lucide-react"
-import { RHFProvider } from "@/modules/form-template/providers"
 import { Card } from "@/components/ui/card.tsx"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { RHFDragAndDropFileUpload } from "@/modules/form-template/components/molecules"
-import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect.ts"
+import { cn } from "@/lib/utils.ts"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
-import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
-import { documentFormSchema } from "@/modules/conference-demo/applicant/types"
-import { memo } from "react"
+import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect.ts"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
+import {
+  useIsReviewApplicationStep,
+  useProgress
+} from "@/modules/conference-demo/applicant/stores/useProgress.ts"
+import { documentFormSchema } from "@/modules/conference-demo/applicant/types"
+import { RHFDragAndDropFileUpload } from "@/modules/form-template/components/molecules"
+import { RHFProvider } from "@/modules/form-template/providers"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ArrowRight } from "lucide-react"
+import { memo } from "react"
+import { useForm } from "react-hook-form"
 
 const FictitiousNameCertificationForm = () => {
+  const isReviewApplicationStep = useIsReviewApplicationStep()
   const data = useFormData.use["Fictitious Name Certification"]()
 
   const methods = useForm({
@@ -52,11 +56,16 @@ const FictitiousNameCertificationForm = () => {
               Please upload your Fictitious Name Certification
             </p>
 
-            <RHFDragAndDropFileUpload name="files" />
+            <RHFDragAndDropFileUpload
+              name="files"
+              id={STEP.FICTITIOUS_NAME_CERTIFICATION}
+            />
 
-            <Button disabled={!isValid} onClick={handleSubmit}>
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            {!isReviewApplicationStep && (
+              <Button disabled={!isValid} onClick={handleSubmit}>
+                Next <ArrowRight className="ml-1 w-4" />
+              </Button>
+            )}
           </Card>
         </RHFProvider>
       </div>

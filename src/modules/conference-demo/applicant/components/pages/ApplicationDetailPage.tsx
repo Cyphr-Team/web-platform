@@ -15,7 +15,7 @@ const ApplicationDetailPage = () => {
   }, [replace])
 
   return (
-    <div className="w-full mt-8 overflow-y-auto h-[90vh] pb-[5vh]">
+    <div className="w-full p-4 md:p-8 flex-1 overflow-auto">
       <ApplicationDetailTemplate />
     </div>
   )

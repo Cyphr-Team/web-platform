@@ -51,7 +51,7 @@ const ReviewApplicationForm = () => {
   }
 
   return (
-    <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6 mx-4 md:mx-8">
+    <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6">
       {REVIEW_GROUP.map((reviewGroup) => (
         <ReviewApplicationGroup
           key={reviewGroup.key}

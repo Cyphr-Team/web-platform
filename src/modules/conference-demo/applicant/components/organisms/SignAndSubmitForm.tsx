@@ -76,7 +76,6 @@ const SignAndSubmitForm = () => {
                 styleProps={{
                   inputClassName: "island-moments-regular text-3xl"
                 }}
-                disabled
               />
             </div>
             <div className="flex gap-4 justify-between">
@@ -116,7 +115,7 @@ const enum SIGN_FIELD_NAMES {
 }
 
 const signFormSchema = z.object({
-  [SIGN_FIELD_NAMES.PRINT_NAME]: z.string(),
+  [SIGN_FIELD_NAMES.PRINT_NAME]: z.string().min(1, "Signature is required"),
   [SIGN_FIELD_NAMES.SIGNATURE_DATE]: z.string()
 })
 

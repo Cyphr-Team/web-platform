@@ -8,13 +8,15 @@ import { CircularProgress } from "@/components/ui/circular-progress.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { cn } from "@/lib/utils.ts"
 import {
-  getStepFromLabel,
-  GROUPED_STEP_ITEM,
   INPUT_GROUP,
   STEP,
   StepStatus
 } from "@/modules/conference-demo/applicant/constants"
-import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
+import {
+  useProgress,
+  useProgressSteps
+} from "@/modules/conference-demo/applicant/stores/useProgress.ts"
+import groupBy from "lodash.groupby"
 import { Check } from "lucide-react"
 import {
   FC,
@@ -22,6 +24,7 @@ import {
   PropsWithChildren,
   useCallback,
   useEffect,
+  useMemo,
   useState
 } from "react"
 
@@ -29,6 +32,25 @@ interface Props {}
 
 const Sidebar: FC<Props> = () => {
   const currentStep = useProgress.use.currentStep()
+  const steps = useProgressSteps()
+  const stepDetail = useMemo(() => {
+    const step = steps.find(([step]) => step === currentStep)
+    if (!step) return
+    const [, stepDetail] = step
+    return stepDetail
+  }, [currentStep, steps])
+  const groups = useMemo(() => {
+    return groupBy(
+      steps.map(([step, stepDetail]) => ({
+        key: step as STEP,
+        detail: stepDetail
+      })),
+      (step) => {
+        return step.detail.group
+      }
+    )
+  }, [steps])
+
   const [accordionValue, setAccordionValue] = useState<INPUT_GROUP[]>([
     INPUT_GROUP.APPLICATION
   ])
@@ -44,16 +66,12 @@ const Sidebar: FC<Props> = () => {
    * Listen the step change, if the next step is inside next parent, toggle down the parent
    */
   useEffect(() => {
-    const currentStepParent = Object.keys(GROUPED_STEP_ITEM).find((key) =>
-      GROUPED_STEP_ITEM[key as INPUT_GROUP].includes(currentStep as never)
-    )
-    if (!currentStepParent) return
     setAccordionValue((preOpens) =>
-      preOpens.includes(currentStepParent as INPUT_GROUP)
+      !stepDetail?.group || preOpens.includes(stepDetail.group)
         ? preOpens
-        : [...preOpens, currentStepParent as INPUT_GROUP]
+        : [...preOpens, stepDetail.group]
     )
-  }, [currentStep])
+  }, [stepDetail?.group])
 
   return (
     <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4 max-h-[50vh] md:max-h-full">
@@ -64,13 +82,13 @@ const Sidebar: FC<Props> = () => {
         onValueChange={handleSetAccordion}
       >
         {/* Iterate over group */}
-        {Object.keys(GROUPED_STEP_ITEM).map(
-          (section) =>
-            !!GROUPED_STEP_ITEM[section as INPUT_GROUP].length && (
-              <CollapsibleItem label={section as INPUT_GROUP} key={section}>
+        {Object.keys(groups).map(
+          (group) =>
+            !!groups[group].length && (
+              <CollapsibleItem label={group as INPUT_GROUP} key={group}>
                 {/* Map each item to component */}
-                {GROUPED_STEP_ITEM[section as INPUT_GROUP].map((inner) => (
-                  <FormTabItem key={inner} label={inner as STEP} />
+                {groups[group].map((step) => (
+                  <FormTabItem key={step.key} step={step.key} />
                 ))}
               </CollapsibleItem>
             )
@@ -126,19 +144,19 @@ const CollapsibleItem: FC<CollapsibleItemProps> = ({ label, children }) => {
   )
 }
 
-const FormTabItem = ({ label }: { label: STEP }) => {
+const FormTabItem = ({ step }: { step: STEP }) => {
   const currentScreen = useProgress.use.currentStep()
   const progressDetail = useProgress.use.progressDetail()
 
   const { goToStep } = useProgress.use.action()
 
-  const active = currentScreen === label
+  const active = currentScreen === step
 
-  const finished = progressDetail[getStepFromLabel(label)].isFinish
+  const finished = progressDetail[step].isFinish
 
   const handleChangeStep = () => {
     if (!active) {
-      goToStep(label)
+      goToStep(step)
     }
   }
 
@@ -149,7 +167,7 @@ const FormTabItem = ({ label }: { label: STEP }) => {
         active && "bg-nav-active"
       )}
       onClick={handleChangeStep}
-      id={`step-${label}`}
+      id={`step-${step}`}
     >
       <div
         className={cn(
@@ -160,7 +178,7 @@ const FormTabItem = ({ label }: { label: STEP }) => {
       >
         <Check className={cn("w-5 text-white", !finished && "hidden")} />
       </div>
-      {label}
+      {step}
     </li>
   )
 }

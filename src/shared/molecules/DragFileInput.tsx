@@ -40,6 +40,11 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
     if (event.target.files) {
       onFileSelect(event.target.files, field)
     }
+
+    /**
+     * To handle upload the same file multiple times
+     */
+    event.target.value = ""
   }
 
   return (

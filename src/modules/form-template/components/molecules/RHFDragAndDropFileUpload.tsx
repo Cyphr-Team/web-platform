@@ -10,6 +10,7 @@ interface RHFDragAndDropFileUploadProps<T extends FieldValues> {
   name: FieldPath<T>
   uploadedFiles?: DocumentUploadedResponse[]
   onRemoveUploadedDocument?: (id: string) => void
+  id: string
 }
 
 const RHFDragAndDropFileUpload = <T extends FieldValues>(
@@ -18,7 +19,8 @@ const RHFDragAndDropFileUpload = <T extends FieldValues>(
   const {
     name,
     uploadedFiles = [],
-    onRemoveUploadedDocument = (id: string) => ({ id })
+    onRemoveUploadedDocument = (id: string) => ({ id }),
+    id
   } = props
   const { control, watch, getValues, setValue } = useFormContext()
 
@@ -65,11 +67,11 @@ const RHFDragAndDropFileUpload = <T extends FieldValues>(
       name={name}
       render={() => (
         <FormItem>
-          <DragDropFileInput id={name} onFileSelect={handleSelectFile(name)} />
+          <DragDropFileInput id={id} onFileSelect={handleSelectFile(name)} />
           {Array.from((watch(name) as File[]) ?? []).map(
             (file: File, index: number) => (
               <FileUploadCard
-                key={file.name}
+                key={file.name + index}
                 file={file}
                 index={index}
                 handleRemoveFile={handleRemoveFile(index, name)}

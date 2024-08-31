@@ -13,5 +13,5 @@ export const documentFormSchema = object({
       return files && checkResult
     }
     return false
-  })
+  }, "The document is required")
 })

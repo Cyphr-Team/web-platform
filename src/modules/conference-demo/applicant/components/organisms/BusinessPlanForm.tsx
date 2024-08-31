@@ -143,11 +143,15 @@ const BusinessPlanForm = () => {
                   }}
                 />
                 <div className="mt-6">
-                  <RHFDragAndDropFileUpload name="files" />
+                  <RHFDragAndDropFileUpload
+                    name="files"
+                    id={STEP.BUSINESS_PLAN}
+                  />
                 </div>
               </div>
             </div>
           </div>
+
           {!isReviewApplicationStep && (
             <Button
               type="submit"
