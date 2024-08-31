@@ -20,6 +20,7 @@ import {
 } from "@/modules/loan-application/providers"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 
 export const mockDocumentUploadedResponse: DocumentUploadedResponse = {
   id: "7a5e5b77-2b1f-4c59-8b36-1c9f3f0d6fbc",
@@ -37,10 +38,14 @@ const SbbPrivacyPolicy = () => {
   const { dispatchFormAction, privacyPolicy } = useLoanApplicationFormContext()
   const { finishCurrentStep } = useLoanApplicationProgressContext()
   const form = useForm<SbbPreApplicationDisclosuresValue>({
-    mode: "onBlur",
+    mode: "onChange",
     resolver: zodResolver(sbbPreApplicationDisclosuresSchema),
-    values: privacyPolicy
+    values: privacyPolicy,
+    defaultValues: {
+      [SBB_PRE_APPLICATION_DISCLOSURES.PRIVACY_POLICY]: false
+    }
   })
+
   const onSubmit = (data: SbbPreApplicationDisclosuresValue) => {
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
@@ -49,6 +54,8 @@ const SbbPrivacyPolicy = () => {
     })
     finishCurrentStep()
   }
+
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.PRIVACY_POLICY)
 
   return (
     <Card
@@ -74,6 +81,7 @@ const SbbPrivacyPolicy = () => {
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-2xl">
           <RHFCheckbox
+            control={form.control}
             name={SBB_PRE_APPLICATION_DISCLOSURES.PRIVACY_POLICY}
             label="I acknowledge receipt of Small Business Bank’s Privacy Policy."
           />

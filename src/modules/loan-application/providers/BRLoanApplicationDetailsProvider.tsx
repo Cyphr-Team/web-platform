@@ -128,6 +128,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     loanProgramId!
   )
 
+  const isSbbTenant = isSbb()
+
   const [passPreQualification, setIsPassQualification] = useState(false)
 
   // Check if the user is qualified
@@ -155,7 +157,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    */
   const eSignQuery = useGetESignDocument({
     applicationId: loanApplicationId,
-    enabled: !!loanApplicationId && isSbb() && isEnablePandaDocESign()
+    enabled: !!loanApplicationId && isSbbTenant && isEnablePandaDocESign()
   })
 
   /**
@@ -271,6 +273,28 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     [dispatchProgress, dispatchFormAction]
   )
 
+  /**
+   * Setup pre application disclosures for SBB tenant
+   * Because application disclosures are required for SBB tenant before "Save & Close"
+   * Then we assume that the user has passed the pre-application disclosures
+   * So we need to set the pre-application disclosures to true
+   */
+
+  const setupPreApplicationDisclosures = useCallback(() => {
+    changeDataAndProgress(
+      {
+        patriotAct: true
+      },
+      LOAN_APPLICATION_STEPS.PATRIOT_ACT
+    )
+    changeDataAndProgress(
+      {
+        privacyPolicy: true
+      },
+      LOAN_APPLICATION_STEPS.PRIVACY_POLICY
+    )
+  }, [changeDataAndProgress])
+
   const formInConfigurations = useCallback(
     (form: FORM_TYPE) =>
       formsConfigurationEnabled()
@@ -311,7 +335,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       isInitialized &&
       isQualified
     ) {
-      if (isSbb()) {
+      if (isSbbTenant) {
         changeDataAndProgress(
           reverseFormatSbbKybForm(kybFormQuery.data).sbbKybFormPartOneValues,
           LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
@@ -332,6 +356,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     formInConfigurations,
     isInitialized,
     isQualified,
+    isSbbTenant,
     kybFormQuery.data
   ])
   // KYC Form
@@ -439,12 +464,17 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         },
         LOAN_APPLICATION_STEPS.LOAN_REQUEST
       )
+      if (isSbbTenant) {
+        setupPreApplicationDisclosures()
+      }
     }
   }, [
     changeDataAndProgress,
     isInitialized,
     isQualified,
-    loanApplicationDetailsQuery.data
+    isSbbTenant,
+    loanApplicationDetailsQuery.data,
+    setupPreApplicationDisclosures
   ])
 
   // Product Service Form

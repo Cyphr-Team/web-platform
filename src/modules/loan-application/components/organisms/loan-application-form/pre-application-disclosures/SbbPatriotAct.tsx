@@ -17,14 +17,18 @@ import {
 } from "@/modules/loan-application/providers"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 
 export const SbbPatriotAct = () => {
   const { dispatchFormAction, patriotAct } = useLoanApplicationFormContext()
 
-  const methods = useForm({
+  const form = useForm({
     resolver: zodResolver(sbbPreApplicationDisclosuresSchema),
-    reValidateMode: "onBlur",
-    defaultValues: patriotAct
+    reValidateMode: "onChange",
+    values: patriotAct,
+    defaultValues: {
+      [SBB_PRE_APPLICATION_DISCLOSURES.PATRIOT_ACT]: false
+    }
   })
 
   const { finishCurrentStep } = useLoanApplicationProgressContext()
@@ -37,6 +41,8 @@ export const SbbPatriotAct = () => {
     })
     finishCurrentStep()
   }
+
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.PATRIOT_ACT)
 
   return (
     <Card
@@ -60,15 +66,16 @@ export const SbbPatriotAct = () => {
         to identify you. We may also ask to see your driver’s license or other
         identifying documents.
       </p>
-      <RHFProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+      <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-2xl">
           <RHFCheckbox
+            control={form.control}
             label="I acknowledge receipt of the USA Patriot Act Notification"
             name={SBB_PRE_APPLICATION_DISCLOSURES.PATRIOT_ACT}
           />
           <Button
             disabled={
-              !methods.getValues(SBB_PRE_APPLICATION_DISCLOSURES.PATRIOT_ACT)
+              !form.getValues(SBB_PRE_APPLICATION_DISCLOSURES.PATRIOT_ACT)
             }
           >
             Next

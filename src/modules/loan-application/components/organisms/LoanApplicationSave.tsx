@@ -17,6 +17,11 @@ export const LoanApplicationSave = () => {
   const { progress, dispatchProgress } = useLoanApplicationProgressContext()
 
   const isSbbTenant = isSbb()
+
+  const isStepComplete = (step: LOAN_APPLICATION_STEPS) =>
+    progress.find((val) => val.step === step)?.status ===
+    LOAN_APPLICATION_STEP_STATUS.COMPLETE
+
   /**
    * Because SBB have two business information form, we need to check if both forms are complete before save and close
    * or else they need to go back to the first form
@@ -25,22 +30,44 @@ export const LoanApplicationSave = () => {
    */
 
   const isAbleToSubmitSbbKybForm = () => {
-    const partOne = progress.find(
-      (step) =>
-        step.step === LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
+    const isCompletePartOne = isStepComplete(
+      LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
     )
 
-    const partTwo = progress.find(
-      (step) =>
-        step.step === LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO
+    const isCompletePartTwo = isStepComplete(
+      LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO
     )
 
+    const isCompletePrivacyPolicy = isStepComplete(
+      LOAN_APPLICATION_STEPS.PRIVACY_POLICY
+    )
+
+    const isCompletePatriotAct = isStepComplete(
+      LOAN_APPLICATION_STEPS.PATRIOT_ACT
+    )
+
+    const uncompletedStep = !isCompletePatriotAct
+      ? LOAN_APPLICATION_STEPS.PATRIOT_ACT
+      : !isCompletePrivacyPolicy
+        ? LOAN_APPLICATION_STEPS.PRIVACY_POLICY
+        : !isCompletePartOne
+          ? LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
+          : !isCompletePartTwo
+            ? LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO
+            : undefined
+    /**
+     * If all the forms are complete, they can save and close the application
+     * else they need to go back to the uncompleted form
+     *
+     */
+    const isAbleToSubmit =
+      // Complete both kyb form or none
+      isCompletePartOne === isCompletePartTwo &&
+      isCompletePrivacyPolicy &&
+      isCompletePatriotAct
     return {
-      status: partOne?.status === partTwo?.status, // if both form are complete or both are incomplete then they can save and close
-      uncompletedStep:
-        partOne?.status === LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
-          ? partOne
-          : partTwo
+      status: isAbleToSubmit,
+      uncompletedStep
     }
   }
 
@@ -65,11 +92,11 @@ export const LoanApplicationSave = () => {
       : isLoanRequestStepComplete
 
   const confirmDescription = isSbbTenant
-    ? "Please finish all the Business Information forms before save and close."
+    ? "Please finish all the required forms before save and close."
     : `Please finish "Loan Request" form before save and close.`
 
   const uncompletedStep = isSbbTenant
-    ? isAbleToSubmitSbbKybForm().uncompletedStep?.step ?? progress[0].step
+    ? isAbleToSubmitSbbKybForm().uncompletedStep ?? progress[0].step
     : progress[0].step
 
   const onConfirmed = () => {
