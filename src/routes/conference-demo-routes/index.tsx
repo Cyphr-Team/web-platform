@@ -6,6 +6,7 @@ import ConferenceDemoAdminLayout from "@/modules/conference-demo/admin/component
 import ApplicationDetailPage from "@/modules/conference-demo/applicant/components/pages/ApplicationDetailPage.tsx"
 import { AdminApplicationDetails } from "@/modules/conference-demo/admin/components/pages/ApplicationDetails"
 import { LoanReadinessPage } from "@/modules/conference-demo/admin/components/pages/LoanReadinessPage"
+import { ApplicationSummaryPage } from "../../modules/conference-demo/admin/components/pages/ApplicationSummaryPage"
 
 export const conferenceDemoRoutes = (
   <Route>
@@ -26,6 +27,11 @@ export const conferenceDemoRoutes = (
         index
         path={APP_PATH.CONFERENCE_DEMO.admin.loanReadiness}
         element={<LoanReadinessPage />}
+      />
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.admin.loanSummary}
+        element={<ApplicationSummaryPage />}
       />
     </Route>
   </Route>

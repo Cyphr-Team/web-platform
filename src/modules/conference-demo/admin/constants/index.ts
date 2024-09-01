@@ -29,7 +29,9 @@ export const APPLICATION_MENU = [
 
 export enum LoanDecisionEnum {
   APPROVED = "approved",
-  DENIED = "denied"
+  DENIED = "denied",
+  IN_REVIEW = "in_review",
+  REFER_TO_LOANREADY = "refer_to_loanready"
 }
 
 export const DASHBOARD_NAV_ITEM = [

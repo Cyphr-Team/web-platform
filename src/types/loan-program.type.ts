@@ -56,7 +56,7 @@ export interface MicroLoanProgramType extends BaseLoanProgramType {
   maxLoanAmount: number
 }
 
-enum LoanProgramInterestRateType {
+export enum LoanProgramInterestRateType {
   FIXED = "FIXED",
   VARIABLE = "VARIABLE",
   FLOATING = "FLOATING",
