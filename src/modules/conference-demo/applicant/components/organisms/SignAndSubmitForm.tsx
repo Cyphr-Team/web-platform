@@ -12,10 +12,15 @@ import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { memo, useCallback } from "react"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 import * as z from "zod"
+import { APP_PATH } from "../../../../../constants"
+import { toastSuccess } from "../../../../../utils"
+import { TOAST_MSG } from "../../../../../constants/toastMsg"
 
 const SignAndSubmitForm = () => {
-  const { goToStep } = useProgress.use.action()
+  const navigate = useNavigate()
+  const { finishStep } = useProgress.use.action()
 
   const steps = useProgressSteps()
   const data = useFormData.use["Sign and Submit"]()
@@ -27,8 +32,12 @@ const SignAndSubmitForm = () => {
   })
 
   const onSubmit = useCallback(() => {
-    goToStep(STEP.REVIEW_AND_SUBMIT)
-  }, [goToStep])
+    finishStep(STEP.REVIEW_AND_SUBMIT)
+    toastSuccess({
+      ...TOAST_MSG.loanApplication.createSuccess
+    })
+    navigate(APP_PATH.CONFERENCE_DEMO.applicant.list)
+  }, [finishStep, navigate])
 
   const isPreviousStepsCompleted =
     steps.filter(

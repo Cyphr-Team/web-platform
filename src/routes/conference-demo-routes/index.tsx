@@ -7,6 +7,8 @@ import ApplicationDetailPage from "@/modules/conference-demo/applicant/component
 import { AdminApplicationDetails } from "@/modules/conference-demo/admin/components/pages/ApplicationDetails"
 import { LoanReadinessPage } from "@/modules/conference-demo/admin/components/pages/LoanReadinessPage"
 import { ApplicationSummaryPage } from "../../modules/conference-demo/admin/components/pages/ApplicationSummaryPage"
+import ApplicationListPage from "../../modules/conference-demo/applicant/components/pages/ApplicationListPage"
+import ConferenceDemoApplicationListLayout from "../../modules/conference-demo/applicant/components/layouts/ConferenceDemoApplicationListLayout"
 
 export const conferenceDemoRoutes = (
   <Route>
@@ -15,6 +17,13 @@ export const conferenceDemoRoutes = (
         index
         path={APP_PATH.CONFERENCE_DEMO.applicant.index}
         element={<ApplicationDetailPage />}
+      />
+    </Route>
+    <Route element={<ConferenceDemoApplicationListLayout />}>
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.applicant.list}
+        element={<ApplicationListPage />}
       />
     </Route>
     <Route element={<ConferenceDemoAdminLayout />}>

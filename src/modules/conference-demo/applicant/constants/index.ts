@@ -1,3 +1,6 @@
+import { Icons } from "../../../../components/ui/icons"
+import { APP_PATH } from "../../../../constants"
+
 export const enum INPUT_GROUP {
   APPLICATION = "APPLICATION",
   REVIEW_AND_SIGN = "REVIEW AND SIGN",
@@ -40,6 +43,15 @@ export const YES_NO_OPTIONS = [
   {
     label: "No",
     value: "NO"
+  }
+]
+
+export const DASHBOARD_NAV_ITEM = [
+  {
+    title: "Applications",
+    href: APP_PATH.CONFERENCE_DEMO.applicant.list,
+    icon: Icons.folderCheck,
+    label: "Applications"
   }
 ]
 
