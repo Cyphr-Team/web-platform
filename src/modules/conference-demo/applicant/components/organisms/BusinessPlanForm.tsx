@@ -36,19 +36,13 @@ export interface BusinessPlanRequest {
 }
 
 const businessPlanRequestFormSchema = z.object({
-  businessPlan: z.string().min(1, { message: "Business plan is required" }),
-  businessDescription: z
-    .string()
-    .min(1, { message: "Business description is required" }),
-  socialImpact: z.string().min(1, { message: "Social impact is required" }),
-  grantsInThreeYears: z
-    .string()
-    .min(1, { message: "Grants in three years is required" }),
-  revenueGoal: z.string().min(1, { message: "Revenue goal is required" }),
-  marketPotential: z
-    .string()
-    .min(1, { message: "Market potential is required" }),
-  briefOverview: z.string().min(1, { message: "Brief overview is required" }),
+  businessPlan: z.string().optional(),
+  businessDescription: z.string().optional(),
+  socialImpact: z.string().optional(),
+  grantsInThreeYears: z.string().optional(),
+  revenueGoal: z.string().optional(),
+  marketPotential: z.string().optional(),
+  briefOverview: z.string().optional(),
   files: ZodFileTypeFactory(
     ["application/pdf"],
     "Please choose PDF format files only"
@@ -100,6 +94,12 @@ const BusinessPlanForm = () => {
                   label="Do you have a business plan?"
                   options={YES_NO_OPTIONS}
                 />
+                <div className="mt-6">
+                  <RHFDragAndDropFileUpload
+                    name="files"
+                    id={STEP.BUSINESS_PLAN}
+                  />
+                </div>
                 <div className="font-semibold text-sm mt-4">
                   Please answer the following questions
                 </div>
@@ -142,12 +142,6 @@ const BusinessPlanForm = () => {
                     labelClassName: "font-medium"
                   }}
                 />
-                <div className="mt-6">
-                  <RHFDragAndDropFileUpload
-                    name="files"
-                    id={STEP.BUSINESS_PLAN}
-                  />
-                </div>
               </div>
             </div>
           </div>

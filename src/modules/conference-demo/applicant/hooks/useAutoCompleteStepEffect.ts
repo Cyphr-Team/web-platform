@@ -20,10 +20,13 @@ export const useAutoCompleteStepEffect = (
    */
   const updateCompleteStatus = useCallback(() => {
     setTimeout(() => {
-      const isValid =
-        logicalValidState !== undefined
-          ? form.formState.isValid && logicalValidState
-          : form.formState.isValid
+      // const isValid =
+      //   logicalValidState !== undefined
+      //     ? form.formState.isValid && logicalValidState
+      //     : form.formState.isValid
+
+      // should valid of all time
+      const isValid = true
 
       if (isValid) {
         finishStep(specificStep)
@@ -32,13 +35,7 @@ export const useAutoCompleteStepEffect = (
       }
       markStepAsUnfinished(STEP.REVIEW_APPLICATION)
     })
-  }, [
-    finishStep,
-    form.formState.isValid,
-    logicalValidState,
-    specificStep,
-    markStepAsUnfinished
-  ])
+  }, [finishStep, specificStep, markStepAsUnfinished])
 
   /**
    * This effect saves draft data whenever the user changes the input.

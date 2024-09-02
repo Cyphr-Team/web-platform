@@ -16,9 +16,10 @@ import { ArrowRight } from "lucide-react"
 import { memo } from "react"
 import { useForm } from "react-hook-form"
 
-const BusinessEINLetterForm = () => {
+const BankStatementForm = () => {
   const isReviewApplicationStep = useIsReviewApplicationStep()
-  const data = useFormData.use["Business EIN Letter"]()
+  const { goToStep } = useProgress.use.action()
+  const data = useFormData.use["Bank Statements"]()
 
   const methods = useForm({
     resolver: zodResolver(documentFormSchema),
@@ -26,18 +27,16 @@ const BusinessEINLetterForm = () => {
     defaultValues: data
   })
 
-  const { goToStep } = useProgress.use.action()
-
   const {
     formState: { isValid },
     handleSubmit: onFormSubmit
   } = methods
 
   const handleSubmit = onFormSubmit(() => {
-    goToStep(STEP.CERTIFICATE_OF_GOOD_STANDING)
+    goToStep(STEP.REVIEW_APPLICATION)
   })
 
-  useAutoCompleteStepEffect(methods, STEP.BUSINESS_EIN_LETTER)
+  useAutoCompleteStepEffect(methods, STEP.BANK_STATEMENTS)
 
   return (
     <div
@@ -49,15 +48,13 @@ const BusinessEINLetterForm = () => {
       <div className="flex flex-col gap-3xl overflow-auto">
         <RHFProvider methods={methods}>
           <Card className="flex flex-col gap-y-2xl p-4xl shadow-none">
-            <h4 className="text-lg font-semibold">Business EIN Letter</h4>
+            <h4 className="text-lg font-semibold">Bank Statements</h4>
             <p className="text-sm text-text-secondary font-medium">
-              Please upload a copy of your Business EIN Letter
+              Please upload a copy of your three most recent bank statements
+              (business or personal)
             </p>
 
-            <RHFDragAndDropFileUpload
-              name="files"
-              id={STEP.BUSINESS_EIN_LETTER}
-            />
+            <RHFDragAndDropFileUpload name="files" id={STEP.BANK_STATEMENTS} />
 
             {!isReviewApplicationStep && (
               <Button disabled={!isValid} onClick={handleSubmit}>
@@ -71,4 +68,4 @@ const BusinessEINLetterForm = () => {
   )
 }
 
-export default memo(BusinessEINLetterForm)
+export default memo(BankStatementForm)

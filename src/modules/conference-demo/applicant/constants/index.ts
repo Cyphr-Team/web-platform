@@ -1,5 +1,5 @@
-import { Icons } from "../../../../components/ui/icons"
-import { APP_PATH } from "../../../../constants"
+import { Icons } from "@/components/ui/icons.tsx"
+import { APP_PATH } from "@/constants"
 
 export const enum INPUT_GROUP {
   APPLICATION = "APPLICATION",
@@ -15,11 +15,8 @@ export const enum STEP {
   CASH_FLOW_VERIFICATION = "Cash Flow Verification",
 
   // INPUT_GROUP.DOCUMENTATION
-  BUSINESS_EIN_LETTER = "Business EIN Letter",
-  CERTIFICATE_OF_GOOD_STANDING = "Certificate of Good Standing",
-  FICTITIOUS_NAME_CERTIFICATION = "Fictitious Name Certification",
-  ARTICLES_OF_ORGANIZATION = "Articles of Organization and Operating Agreement",
-  BY_LAWS = "By laws",
+  ARTICLES_OF_ORGANIZATION = "Articles of Organization",
+  BANK_STATEMENTS = "Bank Statements",
 
   // INPUT_GROUP.REVIEW_AND_SIGN
   REVIEW_APPLICATION = "Review Application",

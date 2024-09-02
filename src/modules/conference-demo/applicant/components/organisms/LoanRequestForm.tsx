@@ -29,15 +29,13 @@ export interface LoanRequest {
 }
 
 const loanRequestFormSchema = z.object({
-  loanAmount: z.number().min(0),
-  proposeUseOfLoan: z
-    .string()
-    .min(1, { message: "Proposed used of loan is required" })
+  loanAmount: z.number().optional(),
+  proposeUseOfLoan: z.string().optional()
 })
 
 const LoanRequestForm = () => {
   const minLoanAmount = 0
-  const maxLoanAmount = 1_000_000
+  const maxLoanAmount = 50_000
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep } = useProgress.use.action()

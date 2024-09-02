@@ -2,11 +2,11 @@ import {
   LoanApplicationStatus,
   UseOfLoan,
   UserMicroLoanApplication
-} from "../../../../types/loan-application.type"
+} from "@/types/loan-application.type.ts"
 import {
   LoanProgramInterestRateType,
   LoanType
-} from "../../../../types/loan-program.type"
+} from "@/types/loan-program.type.ts"
 import { LoanDecisionEnum } from "../../../loan-application-management/constants/types/application"
 
 export const PLAID_BANKING_ACCOUNTS = [

@@ -19,8 +19,7 @@ import { useForm } from "react-hook-form"
 const ArticlesOfOrganizationForm = () => {
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep } = useProgress.use.action()
-  const data =
-    useFormData.use["Articles of Organization and Operating Agreement"]()
+  const data = useFormData.use["Articles of Organization"]()
 
   const methods = useForm({
     resolver: zodResolver(documentFormSchema),
@@ -34,7 +33,7 @@ const ArticlesOfOrganizationForm = () => {
   } = methods
 
   const handleSubmit = onFormSubmit(() => {
-    goToStep(STEP.BY_LAWS)
+    goToStep(STEP.BANK_STATEMENTS)
   })
 
   useAutoCompleteStepEffect(methods, STEP.ARTICLES_OF_ORGANIZATION)
@@ -49,12 +48,9 @@ const ArticlesOfOrganizationForm = () => {
       <div className="flex flex-col gap-3xl overflow-auto">
         <RHFProvider methods={methods}>
           <Card className="flex flex-col gap-y-2xl p-4xl shadow-none">
-            <h4 className="text-lg font-semibold">
-              Articles of Organization and Operating Agreement
-            </h4>
+            <h4 className="text-lg font-semibold">Articles of Organization</h4>
             <p className="text-sm text-text-secondary font-medium">
-              Please upload your Articles of Organization and Operating
-              Agreement
+              Please upload a copy of your company’s Article of Organization
             </p>
 
             <RHFDragAndDropFileUpload

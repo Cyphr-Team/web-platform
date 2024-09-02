@@ -23,23 +23,11 @@ const initApplicationGroup = () => ({
 })
 
 const initDocumentGroup = () => ({
-  [STEP.BUSINESS_EIN_LETTER]: {
-    isFinish: false,
-    group: INPUT_GROUP.DOCUMENTATION
-  },
   [STEP.ARTICLES_OF_ORGANIZATION]: {
     isFinish: false,
     group: INPUT_GROUP.DOCUMENTATION
   },
-  [STEP.CERTIFICATE_OF_GOOD_STANDING]: {
-    isFinish: false,
-    group: INPUT_GROUP.DOCUMENTATION
-  },
-  [STEP.FICTITIOUS_NAME_CERTIFICATION]: {
-    isFinish: false,
-    group: INPUT_GROUP.DOCUMENTATION
-  },
-  [STEP.BY_LAWS]: {
+  [STEP.BANK_STATEMENTS]: {
     isFinish: false,
     group: INPUT_GROUP.DOCUMENTATION
   }

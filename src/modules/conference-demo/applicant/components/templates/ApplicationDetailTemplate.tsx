@@ -1,12 +1,9 @@
 import {
   ArticlesOfOrganizationForm,
-  BusinessEINLetterForm,
+  BankStatementForm,
   BusinessInformationForm,
   BusinessPlanForm,
-  ByLawsForm,
   CashFlowVerificationForm,
-  CertificateOfGoodStandingForm,
-  FictitiousNameCertificationForm,
   LoanRequestForm,
   ReviewApplicationForm
 } from "@/modules/conference-demo/applicant/components/organisms"
@@ -24,10 +21,7 @@ const ScreenMapper: { [key: string]: ComponentType<PropsWithChildren> } = {
   [STEP.CASH_FLOW_VERIFICATION]: CashFlowVerificationForm,
   //
   [STEP.ARTICLES_OF_ORGANIZATION]: ArticlesOfOrganizationForm,
-  [STEP.BUSINESS_EIN_LETTER]: BusinessEINLetterForm,
-  [STEP.CERTIFICATE_OF_GOOD_STANDING]: CertificateOfGoodStandingForm,
-  [STEP.FICTITIOUS_NAME_CERTIFICATION]: FictitiousNameCertificationForm,
-  [STEP.BY_LAWS]: ByLawsForm,
+  [STEP.BANK_STATEMENTS]: BankStatementForm,
   //
   [STEP.REVIEW_AND_SUBMIT]: SignAndSubmitForm,
   [STEP.REVIEW_APPLICATION]: ReviewApplicationForm

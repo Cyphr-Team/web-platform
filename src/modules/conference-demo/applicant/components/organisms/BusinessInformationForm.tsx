@@ -16,7 +16,6 @@ import {
   FieldType,
   renderBlockComponents
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
-import { EIN_PATTERN } from "@/constants"
 import { Button } from "@/components/ui/button.tsx"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
@@ -33,10 +32,10 @@ export type BusinessInformation = {
 }
 
 const businessInformationFormSchema = z.object({
-  [FieldName.NAME]: z.string().min(1, "this field is required"),
-  [FieldName.ADDRESS]: z.string().min(1, "this field is required"),
-  [FieldName.EIN]: z.string().min(1, "this field is required"),
-  [FieldName.WEBSITE]: z.string().min(1, "this field is required")
+  [FieldName.NAME]: z.string().optional(),
+  [FieldName.ADDRESS]: z.string().optional(),
+  [FieldName.EIN]: z.string().optional(),
+  [FieldName.WEBSITE]: z.string().optional()
 })
 
 const blocks: Block[] = [
@@ -57,12 +56,11 @@ const blocks: Block[] = [
     }
   },
   {
-    type: FieldType.MASK,
+    type: FieldType.TEXT,
     name: FieldName.EIN,
     props: {
       label: "Employer Identification Number (EIN)",
-      placeholder: "12-3456789",
-      pattern: EIN_PATTERN
+      placeholder: "12-34567"
     }
   },
   {

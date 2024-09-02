@@ -59,11 +59,8 @@ interface FormDataSlice {
   [STEP.BUSINESS_INFORMATION]: BusinessInformation
   [STEP.BUSINESS_PLAN]: BusinessPlanRequest
   [STEP.REVIEW_AND_SUBMIT]: SignFormValues
-  [STEP.BUSINESS_EIN_LETTER]: File[]
   [STEP.ARTICLES_OF_ORGANIZATION]: File[]
-  [STEP.CERTIFICATE_OF_GOOD_STANDING]: File[]
-  [STEP.FICTITIOUS_NAME_CERTIFICATION]: File[]
-  [STEP.BY_LAWS]: File[]
+  [STEP.BANK_STATEMENTS]: File[]
 
   action: {
     setFormData: (props: SetFormDataProps) => void
@@ -77,11 +74,8 @@ const useFormDataBase = create<FormDataSlice>()((set) => ({
     STEP.BUSINESS_INFORMATION
   ) as BusinessInformation,
   [STEP.BUSINESS_PLAN]: initData(STEP.BUSINESS_PLAN) as BusinessPlanRequest,
-  [STEP.BUSINESS_EIN_LETTER]: initData() as File[],
   [STEP.ARTICLES_OF_ORGANIZATION]: initData() as File[],
-  [STEP.CERTIFICATE_OF_GOOD_STANDING]: initData() as File[],
-  [STEP.FICTITIOUS_NAME_CERTIFICATION]: initData() as File[],
-  [STEP.BY_LAWS]: initData() as File[],
+  [STEP.BANK_STATEMENTS]: initData() as File[],
   //
   action: {
     setFormData: ({ step, data }) => set({ [step]: data })

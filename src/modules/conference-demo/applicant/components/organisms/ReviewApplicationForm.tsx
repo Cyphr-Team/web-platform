@@ -92,7 +92,7 @@ const REVIEW_GROUP = [
 ]
 
 const reviewApplicationSchema = z.object({
-  isReviewed: z.boolean()
+  isReviewed: z.boolean().optional()
 })
 
 type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
