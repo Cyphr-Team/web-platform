@@ -22,17 +22,17 @@ export const MOCK_LOAN_SUMMARY: LoanSummary = {
     }
   },
   loanType: "micro",
-  proposeUseOfLoan: UseOfLoan.OTHER,
+  proposeUseOfLoan: UseOfLoan.EQUIPMENT,
   businessInfo: {
     businessName: {
-      value: "Larry's Latte",
+      value: "Larry's Latte LLC",
       verification: {
         subLabel: "Verified",
         status: TaskFieldStatus.SUCCESS
       }
     },
     officeAddresses: {
-      value: "720 Main St.  Suite 137, MO 64105",
+      value: "123 Coffee Lane, Seattle, WA 98765-4321",
       verification: {
         subLabel: "Verified",
         status: TaskFieldStatus.SUCCESS
@@ -52,11 +52,11 @@ export const MOCK_LOAN_SUMMARY: LoanSummary = {
   },
   cashFlowDocumentation: [],
   personalInfo: {
-    name: "Cyphr",
+    name: "Latte Larry Jr.",
     dateOfBirth: "2024-08-01T17:00:00.000Z",
-    residentialAddress: "456 Bean Ave., Agoura Hills, California 23232",
-    email: "finovate@cyphrai.com",
-    phoneNumber: "+13232132131"
+    residentialAddress: "123 Coffee Lane, Seattle, WA 98765-4321",
+    email: "larry@latte.com",
+    phoneNumber: "+(909) 494-7171"
   },
   checkLists: {
     sosFillings: {
@@ -143,7 +143,7 @@ export const MOCK_LOAN_APPLICATION_DETAILS: UserMicroLoanApplication = {
   loanProgram: {
     id: "62f545fa-0651-4642-9a03-939fdf41ae55",
     institutionId: "8da26941-204b-4eaf-8275-74aa6135c144",
-    name: "Lender’s Forum Application",
+    name: "SBA Loans",
     coverPhotoUrl:
       "asset/00000000-0000-0000-0000-000000000000/e1c726b9-3e1f-41c2-9762-1fd639d15603-kcc_hero.jpeg",
     description:
@@ -162,9 +162,9 @@ export const MOCK_LOAN_APPLICATION_DETAILS: UserMicroLoanApplication = {
   },
   applicantId: "e2bd1ccc-b382-4fb1-9c8c-d74de17ff473",
   businessId: "51ee6be3-cef5-46ac-b2d4-1e8e30d70f57",
-  loanAmount: 1000.0,
+  loanAmount: 25000.0,
   loanTermInMonth: 1200,
-  proposeUseOfLoan: UseOfLoan.OTHER,
+  proposeUseOfLoan: UseOfLoan.EQUIPMENT,
   createdAt: "2024-08-29T04:23:28.975351Z",
   updatedAt: "2024-08-30T10:03:23.508662Z"
 }

@@ -9,6 +9,10 @@ import { LoanReadinessPage } from "@/modules/conference-demo/admin/components/pa
 import { ApplicationSummaryPage } from "../../modules/conference-demo/admin/components/pages/ApplicationSummaryPage"
 import ApplicationListPage from "../../modules/conference-demo/applicant/components/pages/ApplicationListPage"
 import ConferenceDemoApplicationListLayout from "../../modules/conference-demo/applicant/components/layouts/ConferenceDemoApplicationListLayout"
+import { CashFlowPage } from "../../modules/conference-demo/admin/components/pages/CashFlowPage"
+import { DocumentationPage } from "../../modules/conference-demo/admin/components/pages/DocumentationPage"
+import { BusinessVerificationPage } from "../../modules/conference-demo/admin/components/pages/BusinessVerificationPage"
+import { IdentityVerificationPage } from "../../modules/conference-demo/admin/components/pages/IdentityVerificationPage"
 
 export const conferenceDemoRoutes = (
   <Route>
@@ -36,6 +40,26 @@ export const conferenceDemoRoutes = (
         index
         path={APP_PATH.CONFERENCE_DEMO.admin.loanReadiness}
         element={<LoanReadinessPage />}
+      />
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.admin.business}
+        element={<BusinessVerificationPage />}
+      />
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.admin.identity}
+        element={<IdentityVerificationPage />}
+      />
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.admin.documents}
+        element={<DocumentationPage />}
+      />
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.admin.cashflow}
+        element={<CashFlowPage />}
       />
       <Route
         index

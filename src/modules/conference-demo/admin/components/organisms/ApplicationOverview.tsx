@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card"
-import { toCurrency } from "@/utils"
+import { snakeCaseToText, toCurrency } from "@/utils"
 import { formatPhoneNumberIntl } from "react-phone-number-input"
 import { formatBusinessStreetAddress } from "@/modules/loan-application/constants"
 import { InformationRow } from "../../../../loan-application-management/components/atoms/InformationRow"
@@ -89,8 +89,10 @@ export const ApplicationOverview = () => {
           />
           <InformationRow
             label="Proposed use of loan"
-            value={MOCK_LOAN_SUMMARY?.proposeUseOfLoan ?? "N/A"}
-            className="rounded-bl-md"
+            value={snakeCaseToText(
+              MOCK_LOAN_SUMMARY?.proposeUseOfLoan ?? "N/A"
+            )}
+            className="rounded-bl-md capitalize"
           />
           <InformationRow
             label="Office address"

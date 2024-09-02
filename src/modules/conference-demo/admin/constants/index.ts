@@ -4,8 +4,10 @@ import { LucideIcon } from "lucide-react"
 
 export enum ApplicationMenuName {
   business = "Business Verification",
-  document = "Documents",
-  applicationSummary = "Application Summary",
+  identity = "Identity Verification",
+  document = "Documentation",
+  cashflow = "Cash Flow",
+  applicationSummary = "Loan Summary",
   loanReadiness = "Loan Readiness"
 }
 export const APPLICATION_MENU = [
@@ -14,8 +16,16 @@ export const APPLICATION_MENU = [
     href: APP_PATH.CONFERENCE_DEMO.admin.business
   },
   {
+    name: ApplicationMenuName.identity,
+    href: APP_PATH.CONFERENCE_DEMO.admin.identity
+  },
+  {
     name: ApplicationMenuName.document,
     href: APP_PATH.CONFERENCE_DEMO.admin.documents
+  },
+  {
+    name: ApplicationMenuName.cashflow,
+    href: APP_PATH.CONFERENCE_DEMO.admin.cashflow
   },
   {
     name: ApplicationMenuName.applicationSummary,

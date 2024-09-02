@@ -144,6 +144,8 @@ export const APP_PATH = {
       index: "/demo/admin/dashboard",
       applications: "/demo/admin/applications",
       business: "/demo/admin/business",
+      identity: "/demo/admin/kyc",
+      cashflow: "/demo/admin/cashflow",
       documents: "/demo/admin/documents",
       loanSummary: "/demo/admin/loan-summary",
       loanReadiness: "/demo/admin/loan-readiness"

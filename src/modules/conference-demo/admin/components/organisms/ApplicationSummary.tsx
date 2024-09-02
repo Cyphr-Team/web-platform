@@ -10,7 +10,7 @@ export const ApplicationSummary = () => {
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
         <div id="application-overview" className="flex flex-col gap-3xl">
           <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
-            <p className="text-4xl font-semibold ">Application Summary</p>
+            <p className="text-4xl font-semibold ">Application Overview</p>
           </div>
         </div>
         <ApplicationOverview />
