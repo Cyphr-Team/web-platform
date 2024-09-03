@@ -7,3 +7,7 @@ export const documentFormSchema = object({
     return true
   })
 })
+
+export interface DocumentFormType {
+  files: File[]
+}

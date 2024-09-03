@@ -3,6 +3,7 @@ import { BusinessInformation } from "@/modules/conference-demo/applicant/compone
 import { LoanRequest } from "@/modules/conference-demo/applicant/components/organisms/LoanRequestForm.tsx"
 import { SignFormValues } from "@/modules/conference-demo/applicant/components/organisms/SignAndSubmitForm"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
+import { DocumentFormType } from "@/modules/conference-demo/applicant/types"
 import { createSelectors } from "@/utils/store.ts"
 import { format } from "date-fns"
 import { create } from "zustand"
@@ -40,7 +41,9 @@ const initData = (step?: STEP) => {
         signature: ""
       }
     default:
-      return []
+      return {
+        files: []
+      }
   }
 }
 
@@ -51,7 +54,7 @@ interface SetFormDataProps {
     | BusinessInformation
     | BusinessPlanRequest
     | SignFormValues
-    | File[]
+    | DocumentFormType
 }
 
 interface FormDataSlice {
@@ -59,8 +62,8 @@ interface FormDataSlice {
   [STEP.BUSINESS_INFORMATION]: BusinessInformation
   [STEP.BUSINESS_PLAN]: BusinessPlanRequest
   [STEP.REVIEW_AND_SUBMIT]: SignFormValues
-  [STEP.ARTICLES_OF_ORGANIZATION]: File[]
-  [STEP.BANK_STATEMENTS]: File[]
+  [STEP.ARTICLES_OF_ORGANIZATION]: DocumentFormType
+  [STEP.BANK_STATEMENTS]: DocumentFormType
 
   action: {
     setFormData: (props: SetFormDataProps) => void
@@ -74,8 +77,8 @@ const useFormDataBase = create<FormDataSlice>()((set) => ({
     STEP.BUSINESS_INFORMATION
   ) as BusinessInformation,
   [STEP.BUSINESS_PLAN]: initData(STEP.BUSINESS_PLAN) as BusinessPlanRequest,
-  [STEP.ARTICLES_OF_ORGANIZATION]: initData() as File[],
-  [STEP.BANK_STATEMENTS]: initData() as File[],
+  [STEP.ARTICLES_OF_ORGANIZATION]: initData() as DocumentFormType,
+  [STEP.BANK_STATEMENTS]: initData() as DocumentFormType,
   //
   action: {
     setFormData: ({ step, data }) => set({ [step]: data })

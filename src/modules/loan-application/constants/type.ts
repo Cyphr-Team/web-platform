@@ -537,14 +537,14 @@ export interface ApplicationScoreResponse {
 }
 
 export const criteriaNameMapping: Record<string, CriteriaName> = {
-  businessAge: CriteriaName.BUSINESS_AGE,
   annualRevenue: CriteriaName.ANNUAL_REVENUE,
-  profitability: CriteriaName.PROFITABILITY,
-  creditScore: CriteriaName.CREDIT_SCORE,
+  businessAge: CriteriaName.BUSINESS_AGE,
   cashFlowStability: CriteriaName.CASH_FLOW_STABILITY,
+  creditScore: CriteriaName.CREDIT_SCORE,
   debtToIncomeRatio: CriteriaName.DEBT_TO_INCOME_RATIO,
+  employeeCount: CriteriaName.EMPLOYEE_COUNT,
+  existingLoans: CriteriaName.EXISTING_LOANS,
   industryRisk: CriteriaName.INDUSTRY_RISK,
   loanAmount: CriteriaName.LOAN_AMOUNT,
-  employeeCount: CriteriaName.EMPLOYEE_COUNT,
-  existingLoans: CriteriaName.EXISTING_LOANS
+  profitability: CriteriaName.PROFITABILITY
 }

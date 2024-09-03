@@ -1,6 +1,5 @@
+import DocumentReviewOnly from "@/modules/conference-demo/applicant/components/molecules/DocumentReviewOnly"
 import {
-  ArticlesOfOrganizationForm,
-  BankStatementForm,
   BusinessInformationForm,
   LoanRequestForm
 } from "@/modules/conference-demo/applicant/components/organisms"
@@ -37,6 +36,6 @@ const ReviewScreenMapper: { [key: string]: ComponentType<PropsWithChildren> } =
     [STEP.BUSINESS_PLAN]: BusinessPlanForm,
     [STEP.CASH_FLOW_VERIFICATION]: CashFlowVerificationForm,
     //
-    [STEP.ARTICLES_OF_ORGANIZATION]: ArticlesOfOrganizationForm,
-    [STEP.BANK_STATEMENTS]: BankStatementForm
+    // Exceptional requirement, only show the uploaded document
+    [STEP.ARTICLES_OF_ORGANIZATION]: DocumentReviewOnly
   }

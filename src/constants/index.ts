@@ -138,7 +138,8 @@ export const APP_PATH = {
   CONFERENCE_DEMO: {
     applicant: {
       index: "/demo/applicant/loan",
-      list: "/demo/applicant/loan/applications"
+      list: "/demo/applicant/loan/applications",
+      readiness: "/demo/applicant/loan-readiness"
     },
     admin: {
       index: "/demo/admin/dashboard",
