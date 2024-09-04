@@ -20,7 +20,7 @@ export const APP_PATH = {
   },
   SETUP_PHONE: "/setup-phone",
   VERIFY_PHONE: "/verify-phone",
-  MAGIC_LINK: "/magic-link",
+  REDIRECT_CALLBACK: "/redirect",
   SETUP_PROFILE: "/setup-profile",
   ACCEPT_INVITE: "/accept-invite",
 

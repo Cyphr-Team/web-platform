@@ -41,6 +41,12 @@ type InstitutionData = {
      * @example "asset/subdomain/logo.png"
      */
     favicon?: string
+    /**
+     * This field is only used when MFA is enabled
+     * We can retrieve Stytch Organization ID to handle OAuth with Stytch SDK
+     * @link https://stytch.com/docs/b2b/sdks/javascript-sdk/oauth
+     */
+    stytchOrganizationId?: string
   }
 }
 

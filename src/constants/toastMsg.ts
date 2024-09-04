@@ -36,6 +36,10 @@ export const TOAST_MSG = {
     stytchOTP: {
       title: "Stytch OTP",
       description: "Magic link has been sent successfully"
+    },
+    stytchOAuth: {
+      title: "Stytch OAuth",
+      description: "OAuth has been sent successfully"
     }
   },
   loanProgram: {
