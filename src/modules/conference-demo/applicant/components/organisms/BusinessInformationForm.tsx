@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button.tsx"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
+import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
 
 const enum FieldName {
   NAME = "name",
@@ -90,6 +91,15 @@ const BusinessInformationForm = () => {
   })
 
   useAutoCompleteStepEffect(method, STEP.BUSINESS_INFORMATION)
+
+  const autofillData = {
+    [FieldName.NAME]: "Larry's Latte LLC",
+    [FieldName.ADDRESS]: "123 Coffee Lane",
+    [FieldName.EIN]: "12-3456789",
+    [FieldName.WEBSITE]: "https://larryslatte.com"
+  }
+
+  useMagic(method, autofillData, 15)
 
   return (
     <RHFProvider methods={method} onSubmit={onSubmit}>

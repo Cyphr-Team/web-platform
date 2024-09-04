@@ -23,6 +23,7 @@ import {
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
+import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
 
 export interface BusinessPlanRequest {
   businessPlan: string
@@ -66,6 +67,23 @@ const BusinessPlanForm = () => {
   }, [goToStep])
 
   useAutoCompleteStepEffect(method, STEP.BUSINESS_PLAN)
+
+  const autofillData = {
+    businessDescription:
+      "We aim to empower small-scale artisans by providing them with a platform that connects them directly with international customers.",
+    socialImpact:
+      "Our project supports local economies, preserves traditional crafts, and reduces carbon footprint by promoting eco-friendly products.",
+    grantsInThreeYears:
+      "In the next three years, we plan to apply for various sustainability and innovation grants to expand our operations and impact.",
+    revenueGoal:
+      "We aim to achieve a revenue of $1 million by the end of the second year of operation.",
+    marketPotential:
+      "The global handicraft market is expected to reach $1 trillion by 2030, and we plan to capture 0.5% of this market.",
+    briefOverview:
+      "A digital marketplace for artisans to sell sustainable products, promoting local craftsmanship and eco-friendly practices."
+  }
+
+  useMagic(method, autofillData, 5)
 
   return (
     <Card

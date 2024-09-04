@@ -22,6 +22,7 @@ import {
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
+import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
 
 export interface LoanRequest {
   loanAmount: number
@@ -51,6 +52,12 @@ const LoanRequestForm = () => {
   const onSubmit = useCallback(() => {
     goToStep(STEP.BUSINESS_INFORMATION)
   }, [goToStep])
+
+  const autofillData = {
+    proposeUseOfLoan: "Expand production capacity and increase workforce"
+  }
+
+  useMagic(method, autofillData, 15)
 
   useAutoCompleteStepEffect(method, STEP.LOAN_REQUEST)
 
