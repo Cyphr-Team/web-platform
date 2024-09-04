@@ -1,6 +1,6 @@
 import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 import { featureFlagsService } from "@/services/feature-flag.service"
-import { isLaunchKC } from "@/utils/domain.utils.ts"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 
 export function checkEnabledFeatureFlag(key: FEATURE_FLAGS) {
   const featureFlags = featureFlagsService.getFeatureFlags()
@@ -52,7 +52,11 @@ function isEnableKYBV2() {
 }
 
 function isEnableKycReOrder() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.KYC_REORDER) || isLaunchKC()
+  return (
+    checkEnabledFeatureFlag(FEATURE_FLAGS.KYC_REORDER) ||
+    isLaunchKC() ||
+    isSbb()
+  )
 }
 
 /**
