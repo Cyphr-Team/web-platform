@@ -50,7 +50,7 @@ export function SideNav({ items, className }: SidebarProps) {
                   ? DashboardCollapsedNavLink
                   : DashboardNavLink
 
-                return <NavLinkComponent item={item} />
+                return <NavLinkComponent key={item.label} item={item} />
               })}
             </TooltipProvider>
           </nav>

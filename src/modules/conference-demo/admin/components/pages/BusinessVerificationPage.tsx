@@ -1,3 +1,4 @@
+import BusinessVerification from "../organisms/BusinessVerification"
 import { Header } from "../organisms/Header"
 import { TopNav } from "../organisms/TopNav"
 
@@ -9,7 +10,7 @@ export const BusinessVerificationPage = () => {
         <TopNav />
       </div>
       <div className={"p-4xl pt-3xl flex-1 overflow-auto bg-gray-50"}>
-        Business Verification Page
+        <BusinessVerification />
       </div>
     </div>
   )

@@ -1,16 +1,20 @@
+import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
+import {
+  ApplicationKybDetailResponse,
+  SourceStatus,
+  TaskFieldStatus
+} from "@/modules/loan-application-management/constants/types/business.type"
+import { KYC_STATUS } from "@/modules/loan-application-management/constants/types/kyc"
+import { LoanSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type"
 import {
   LoanApplicationStatus,
   UseOfLoan,
   UserMicroLoanApplication
-} from "../../../../types/loan-application.type"
+} from "@/types/loan-application.type"
 import {
   LoanProgramInterestRateType,
   LoanType
-} from "../../../../types/loan-program.type"
-import { LoanDecisionEnum } from "../../../loan-application-management/constants/types/application"
-import { TaskFieldStatus } from "../../../loan-application-management/constants/types/business.type"
-import { KYC_STATUS } from "../../../loan-application-management/constants/types/kyc"
-import { LoanSummary } from "../../../loan-application-management/constants/types/loan-summary.type"
+} from "@/types/loan-program.type"
 
 export const MOCK_LOAN_SUMMARY: LoanSummary = {
   idCheck: {
@@ -86,13 +90,13 @@ export const MOCK_LOAN_SUMMARY: LoanSummary = {
       addressLine1: "456 Bean Ave.",
       addressLine2: "",
       city: "Agua Dulce",
-      state: "CA",
+      state: "WA",
       postalCode: "23233"
     },
     businessWebsite: "https://www.cyphrai.com/",
     businessTin: "232323232",
-    createdAt: "2024-08-02T17:14:41.115628Z",
-    updatedAt: "2024-08-02T17:14:41.115628Z",
+    createdAt: "2024-02-14T17:14:41.115628Z",
+    updatedAt: "2024-02-14T17:14:41.115628Z",
     metadata: {
       yearFounded: "2011",
       legalStructure: "no_legal_structure",
@@ -118,12 +122,12 @@ export const MOCK_LOAN_SUMMARY: LoanSummary = {
     socialSecurityNumber: "222-22-2222",
     businessOwnershipPercentage: 20.0,
     hasOtherSubstantialStackHolders: false,
-    createdAt: "2024-08-02T17:14:41.661791Z",
-    updatedAt: "2024-08-02T17:14:41.661791Z",
+    createdAt: "2024-02-14T17:14:41.661791Z",
+    updatedAt: "2024-02-14T17:14:41.661791Z",
     metadata: {
       title: "mr",
-      lastName: "Sang",
-      firstName: "Kha",
+      lastName: "Larry",
+      firstName: "Latte",
       genderIdentity: "man",
       preferredPronoun: "he_him_his",
       areFullTimeFounder: "yes",
@@ -191,3 +195,230 @@ export const MOCK_CONNECTED_BANK_ACCOUNTS = [
     averageTransactionSize: 3_000
   }
 ]
+
+export const MOCK_KYB_DETAIL: ApplicationKybDetailResponse = {
+  insights: {
+    businessName: {
+      category: "name",
+      subLabel: "Verified",
+      status: TaskFieldStatus.SUCCESS,
+      message: "Match identified to the submitted Business Name"
+    },
+    officeAddress: {
+      category: "address",
+      subLabel: "Verified",
+      status: TaskFieldStatus.SUCCESS,
+      message: "Match identified to the submitted Office Address"
+    },
+    sosFillings: {
+      category: "sos",
+      subLabel: "Active",
+      status: TaskFieldStatus.SUCCESS,
+      message: "2 of 2 filings are Active"
+    },
+    tin: {
+      category: "tin",
+      subLabel: "Found",
+      status: TaskFieldStatus.SUCCESS,
+      message:
+        "The IRS has a record for the submitted TIN and Business Name combination"
+    },
+    people: {
+      category: "people",
+      subLabel: "Verified",
+      status: TaskFieldStatus.SUCCESS,
+      message: "Match identified to the submitted person"
+    },
+    watchlists: {
+      category: "watchlist",
+      subLabel: "No Hits",
+      status: TaskFieldStatus.SUCCESS,
+      message: "No Watchlist hits were identified"
+    },
+    bankruptcies: {
+      category: "bankruptcies",
+      subLabel: "None Found",
+      status: TaskFieldStatus.SUCCESS,
+      message: "The business has no bankruptcy filings"
+    }
+  },
+  updatedAt: "2024-02-14T17:15:16.954Z",
+  businessDetails: {
+    name: {
+      value: "Larry's Latte LLC",
+      subLabel: "Verified",
+      status: TaskFieldStatus.SUCCESS,
+      source: {
+        link: "https://bizfileonline.sos.ca.gov/search/business",
+        status: SourceStatus.ACTIVE,
+        state: "WA"
+      },
+      message: "Match identified to the submitted Business Name"
+    },
+    address: {
+      value: "123 Coffee Lane, Seattle, WA 98765",
+      subLabel: "Verified",
+      status: TaskFieldStatus.SUCCESS,
+      source: {
+        link: "https://bizfileonline.sos.ca.gov/search/business",
+        status: SourceStatus.ACTIVE,
+        state: "WA"
+      },
+      message: "Match identified to the submitted Office Address"
+    },
+    tin: {
+      source: {},
+      value: "12-3456789",
+      subLabel: "Found",
+      status: TaskFieldStatus.SUCCESS,
+      message:
+        "The IRS has a record for the submitted TIN and Business Name combination"
+    },
+    entityType: {
+      value: "LLC",
+      subLabel: "Source",
+      source: {
+        link: "https://bizfileonline.sos.ca.gov/search/business",
+        status: SourceStatus.ACTIVE,
+        state: "WA"
+      }
+    },
+    formationState: {
+      value: "WA",
+      subLabel: "Source",
+      source: {
+        link: "https://bizfileonline.sos.ca.gov/search/business",
+        status: SourceStatus.ACTIVE,
+        state: "WA"
+      }
+    },
+    formationDate: {
+      value: "2020-02-24",
+      subLabel: "Source",
+      source: {
+        link: "https://bizfileonline.sos.ca.gov/search/business",
+        status: SourceStatus.ACTIVE,
+        state: "WA"
+      }
+    }
+  },
+  businessNames: {
+    subLabel: "Verified",
+    data: [
+      {
+        name: "Larry's Latte LLC",
+        status: TaskFieldStatus.SUCCESS,
+        submitted: true,
+        source: {
+          link: "https://bizfileonline.sos.ca.gov/search/business",
+          status: SourceStatus.ACTIVE,
+          state: "WA"
+        }
+      }
+    ]
+  },
+  businessAddresses: {
+    subLabel: "Verified",
+    data: [
+      {
+        address: "123 Coffee Lane, Seattle, WA 98765",
+        status: TaskFieldStatus.SUCCESS,
+        submitted: true,
+        source: {
+          link: "https://bizfileonline.sos.ca.gov/search/business",
+          status: SourceStatus.ACTIVE,
+          state: "WA"
+        },
+        deliverable: true,
+        cmra: false,
+        registeredAgent: false
+      },
+      {
+        address: "222 California Ave, Reno, NV 89509",
+        submitted: false,
+        source: {
+          link: "https://bizfileonline.sos.ca.gov/search/business",
+          status: SourceStatus.ACTIVE,
+          state: "WA"
+        },
+        deliverable: true,
+        cmra: false,
+        registeredAgent: false
+      }
+    ]
+  },
+  businessSosFillings: {
+    active: 2,
+    inactive: 0,
+    unknown: 0,
+    subLabel: "Active",
+    data: [
+      {
+        fileDate: "2020-02-24",
+        state: "WA",
+        status: SourceStatus.ACTIVE,
+        subStatus: "Good Standing",
+        source: {
+          link: "https://bizfileonline.sos.ca.gov/search/business",
+          status: SourceStatus.ACTIVE,
+          state: "WA"
+        }
+      },
+      {
+        fileDate: "2020-02-24",
+        state: "CO",
+        status: SourceStatus.ACTIVE,
+        source: {
+          link: "https://www.sos.state.co.us/biz/BusinessEntityCriteriaExt.do",
+          status: SourceStatus.ACTIVE,
+          state: "CO"
+        }
+      }
+    ]
+  },
+  businessTin: {
+    subLabel: "Found",
+    data: {
+      matchedBusinessName: "Larry's Latte LLC",
+      tin: "12-3456789"
+    }
+  },
+  businessPeople: {
+    subLabel: "Verified",
+    data: [
+      {
+        name: "Larry Latte",
+        submitted: true,
+        source: {
+          link: "https://bizfileonline.sos.ca.gov/search/business",
+          status: SourceStatus.ACTIVE,
+          state: "WA"
+        },
+        title: ["Founder/CEO"]
+      }
+    ]
+  },
+  businessWatchlist: {
+    businessName: "Larry's Latte LLC",
+    isBusinessNameHit: false,
+    people: "Latte Larry",
+    isPeopleHit: false,
+    data: []
+  },
+  businessBankruptcies: {
+    subLabel: "None Found",
+    data: []
+  },
+  businessIndustryClassification: {
+    data: []
+  },
+  businessWebsite: {
+    data: {
+      phoneNumber: []
+    }
+  },
+  businessAdverseMedia: {
+    status: TaskFieldStatus.SUCCESS,
+    data: []
+  }
+}
