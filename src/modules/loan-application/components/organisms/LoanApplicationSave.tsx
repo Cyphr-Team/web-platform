@@ -71,9 +71,9 @@ export const LoanApplicationSave = () => {
     }
   }
 
-  const loanRequestStep = progress.find(
-    (val) => val.step === LOAN_APPLICATION_STEPS.LOAN_REQUEST
-  )
+  const loanRequestStep =
+    progress.find((val) => val.step === LOAN_APPLICATION_STEPS.LOAN_REQUEST) ||
+    progress[0] // Default to first step if not found loan request step
 
   const isLoanRequestStepComplete =
     loanRequestStep?.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
@@ -87,9 +87,10 @@ export const LoanApplicationSave = () => {
    */
 
   const isAbleToSaveApplication =
-    loanRequest?.applicationId ?? isSbbTenant
+    loanRequest?.applicationId || // If they are editing the application
+    (isSbbTenant
       ? isAbleToSubmitSbbKybForm().status
-      : isLoanRequestStepComplete
+      : isLoanRequestStepComplete)
 
   const confirmDescription = isSbbTenant
     ? "Please finish all the required forms before save and close."
