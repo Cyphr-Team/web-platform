@@ -71,7 +71,9 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
             <UploadCloud className="h-5 w-5" />
           </div>
           <div className="text-text-tertiary text-sm text-center">
-            <span className="text-primary font-semibold">Click to upload</span>
+            <span className="text-text-primary font-semibold">
+              Click to upload
+            </span>
             <span> or drag and drop</span>
             <p className="text-xs">
               (only PDF files are supported at this time)

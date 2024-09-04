@@ -260,10 +260,14 @@ export const DocumentUploadFormTemplate = ({
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
           <Card className="flex flex-col gap-y-2xl p-4xl shadow-none">
-            <h4 className="text-lg font-semibold">{title}</h4>
-            <p className="text-sm text-text-secondary font-medium">
-              {description}
-            </p>
+            <div>
+              <h4 className="text-lg font-semibold text-text-primary">
+                {title}
+              </h4>
+              <p className="text-sm font-normal text-text-primary">
+                {description}
+              </p>
+            </div>
             <FormField
               control={form.control}
               name={fileField}
@@ -308,12 +312,13 @@ export const DocumentUploadFormTemplate = ({
                 render={({ field }) => (
                   <FormItem className="flex items-center space-x-2 space-y-0">
                     <FormControl>
-                      <div className="flex gap-2 mt-1">
+                      <div className="flex gap-2 mt-1 items-center">
                         <Checkbox
                           checked={field.value as CheckedState}
                           onCheckedChange={field.onChange}
+                          className="h-5 w-5"
                         />
-                        <p className="text-sm text-text-secondary font-normal">
+                        <p className="text-xs text-text-primary">
                           {checkboxLabel}
                         </p>
                       </div>

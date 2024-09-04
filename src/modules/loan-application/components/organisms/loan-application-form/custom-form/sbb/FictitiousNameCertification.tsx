@@ -24,11 +24,11 @@ export const FictitiousNameCertificationForm = () => {
   return (
     <DocumentUploadFormTemplate
       title="Fictitious Name Certification"
-      description="If you are a sole proprietor, please upload your Fictitious Name Certification. If you are not, please select the checkbox below indicating that you are not a sole proprietor."
+      description="If your business will be operating under a DBA (Doing Business As) or Fictitious Business Name, please upload your Fictitious Name Certification. If not, please select the checkbox below indicating you will not be using a Fictitious Business Name for your business."
       schema={fictitiousNameCertificationFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION}
       hasCheckbox
-      checkboxLabel="I am not a sole proprietor so I don’t need to upload a Fictitious Name Certification"
+      checkboxLabel="I am not operating my business using a Fictitious Business Name so I don't need to upload a Fictitious Name Certification."
     />
   )
 }
