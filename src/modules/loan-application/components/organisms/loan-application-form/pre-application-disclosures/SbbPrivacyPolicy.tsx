@@ -1,11 +1,10 @@
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
+import pdfFileIcon from "@/assets/pdf-file.svg"
 import { PropsWithChildren, ReactNode } from "react"
 import { useForm } from "react-hook-form"
 import { RHFCheckbox } from "@/modules/form-template/components/molecules"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
-import { FileDownloadableCard } from "@/modules/loan-application/components/molecules/FileDownloadableCard.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {
   SBB_PRE_APPLICATION_DISCLOSURES,
@@ -22,17 +21,8 @@ import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 
-export const mockDocumentUploadedResponse: DocumentUploadedResponse = {
-  id: "7a5e5b77-2b1f-4c59-8b36-1c9f3f0d6fbc",
-  formId: "f2b7c5d9-4b2f-4567-939e-4e81b5c8a891",
-  type: "pdf",
-  url: "https://example.com/documents/7a5e5b77-2b1f-4c59-8b36-1c9f3f0d6fbc",
-  urlExpiredAt: "2024-12-31T23:59:59Z",
-  originFileName: "SBB Privacy Notice.pdf",
-  fullPathFileName: "/uploads/documents/contract_agreement.pdf",
-  createdAt: "2024-08-27T10:45:00Z",
-  updatedAt: "2024-08-27T10:45:00Z"
-}
+const PRIVACY_POLICY_URL =
+  "https://www.smallbusinessbank.com/wp-content/uploads/2019/07/Privacy-Notice-022018.pdf"
 
 const SbbPrivacyPolicy = () => {
   const { dispatchFormAction, privacyPolicy } = useLoanApplicationFormContext()
@@ -77,13 +67,27 @@ const SbbPrivacyPolicy = () => {
       <TableInformation />
       <QuestionAndCall />
 
-      <FileDownloadableCard file={mockDocumentUploadedResponse} />
+      <Card className="p-xl gap-2xl flex shadow-none items-center">
+        <img src={pdfFileIcon} className="w-6 h-6" alt="file" />
+        <div className="text-sm flex items-center h-full">
+          SBB Privacy Notice.pdf
+        </div>
+        <Button type="button" className="ml-auto">
+          <a href={PRIVACY_POLICY_URL} target="_blank" rel="noreferrer">
+            Download now
+          </a>
+        </Button>
+      </Card>
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-2xl">
           <RHFCheckbox
             control={form.control}
             name={SBB_PRE_APPLICATION_DISCLOSURES.PRIVACY_POLICY}
             label="I acknowledge receipt of Small Business Bank’s Privacy Policy."
+            styleProps={{
+              checkboxClassName: "w-5 h-5",
+              labelClassName: "text-xs text-primary"
+            }}
           />
 
           <Button
@@ -207,7 +211,10 @@ const TableInformation = () => {
 
       <Row isHeader data={["What we do"]} variant="one" />
       <Row variant="two">
-        <Cell value="How does Small Business Bank protect my personal information?" />
+        <Cell
+          value="How does Small Business Bank protect my personal information?"
+          className="font-medium"
+        />
         <Cell
           className="col-span-6 border-l"
           value={
@@ -228,7 +235,10 @@ const TableInformation = () => {
         />
       </Row>
       <Row variant="two">
-        <Cell value="How does Small Business Bank collect my personal information?" />
+        <Cell
+          value="How does Small Business Bank collect my personal information?"
+          className="font-medium"
+        />
         <Cell
           className="col-span-6 border-l"
           value={
@@ -248,7 +258,7 @@ const TableInformation = () => {
         />
       </Row>
       <Row variant="two">
-        <Cell value="Why can’t I limit all sharing?" />
+        <Cell value="Why can’t I limit all sharing?" className="font-medium" />
         <Cell
           className="col-span-6 border-l"
           value={
@@ -270,13 +280,13 @@ const TableInformation = () => {
       </Row>
       <Row variant="one" isHeader data={["Definitions"]} />
       <Row variant="two">
-        <Cell value="Affiliates" />
+        <Cell value="Affiliates" className="font-medium" />
         <Cell
           className="col-span-6 border-l"
           value={
             <div className="flex flex-col">
               Companies related by common ownership or control. They can be
-              financial and non-financial companies.
+              financial and nonfinancial companies.
               <ul className="list-disc list-inside">
                 <li>
                   Small Business Bank has affiliates, but does not share your
@@ -288,17 +298,17 @@ const TableInformation = () => {
         />
       </Row>
       <Row variant="two">
-        <Cell value="Non-affiliates" />
+        <Cell value="Nonaffiliates" className="font-medium" />
         <Cell
           className="col-span-6 border-l"
           value={
             <div className="flex flex-col">
               Companies not related by common ownership or control. They can be
-              financial and non-financial companies.
+              financial and nonfinancial companies.
               <ul className="list-disc list-inside">
                 <li>
-                  Small Business Bank does not share your information with
-                  non-affiliates so they can market to you.
+                  Small Business Bank does not share with nonaffiliates so they
+                  can market to you.
                 </li>
               </ul>
             </div>
@@ -306,13 +316,13 @@ const TableInformation = () => {
         />
       </Row>
       <Row variant="two" isFinal>
-        <Cell value="Joint marketing" />
+        <Cell value="Joint marketing" className="font-medium" />
         <Cell
           className="col-span-6 border-l"
           value={
             <div className="flex flex-col">
               A formal agreement between nonaffiliated financial companies that
-              together market financial products or service to you.
+              together market financial products or services to you.
               <ul className="list-disc list-inside">
                 <li>Small Business Bank does not jointly market.</li>
               </ul>
@@ -364,7 +374,7 @@ const Row = (props: RowProps) => {
   )
   const renderThree = variant === "three" && (
     <>
-      <Cell value={data.at(0)} />
+      <Cell value={data.at(0)} className="font-medium" />
       <Cell value={data.at(1)} className="border-x col-span-3" />
       <Cell value={data.at(2)} className="col-span-3" />
     </>
