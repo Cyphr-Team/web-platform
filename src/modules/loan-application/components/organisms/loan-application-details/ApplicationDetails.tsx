@@ -67,11 +67,9 @@ export const ApplicationDetails = () => {
           ) : (
             <KycFormDetails kycFormData={kycFormData} />
           )}
-          {(isLoanReady() ||
-            isKccBank() ||
-            isCyphrBank() ||
-            isSbb() ||
-            isLaunchKC()) && <CashFlowTable />}
+          {(isLoanReady() || isKccBank() || isCyphrBank() || isLaunchKC()) && (
+            <CashFlowTable />
+          )}
           {currentLoanFormData && (
             <CurrentLoanFormDetails currentLoanFormData={currentLoanFormData} />
           )}

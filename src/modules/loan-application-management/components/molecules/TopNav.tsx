@@ -57,8 +57,6 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.business,
       ApplicationMenuName.identity,
       ApplicationMenuName.document,
-      ApplicationMenuName.cashflow,
-      ApplicationMenuName.debtSchedule,
       ApplicationMenuName.applicationSummary
     ]
   }
