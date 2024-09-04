@@ -168,3 +168,26 @@ export const MOCK_LOAN_APPLICATION_DETAILS: UserMicroLoanApplication = {
   createdAt: "2024-08-29T04:23:28.975351Z",
   updatedAt: "2024-08-30T10:03:23.508662Z"
 }
+
+export const MOCK_CONNECTED_BANK_ACCOUNTS = [
+  {
+    bankAccountPk: 21359100,
+    bankAccountName: "CHASE SAVINGS 1234",
+    accountHolder: "Larry’s Latte LLC",
+    numDaysNegativeBalance: 0,
+    beginBalance: 33_000,
+    endBalance: 20_000,
+    averageDailyBalance: 25_000,
+    averageTransactionSize: 3_000
+  },
+  {
+    bankAccountPk: 21359101,
+    bankAccountName: "CHASE SAVINGS 5678",
+    accountHolder: "Larry’s Latte LLC",
+    numDaysNegativeBalance: 0,
+    beginBalance: 33_000,
+    endBalance: 20_000,
+    averageDailyBalance: 25_000,
+    averageTransactionSize: 3_000
+  }
+]

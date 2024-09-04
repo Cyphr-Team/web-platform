@@ -1,3 +1,4 @@
+export { default as BankAccountReport } from "./BankAccountReport"
 export { default as KycGovernmentId } from "./KycGovernmentId"
 export { default as KycInsights } from "./KycInsights"
 export { default as KycSummary } from "./KycSummary"

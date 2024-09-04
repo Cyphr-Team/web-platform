@@ -1,3 +1,4 @@
+import { CashFlow } from "@/modules/conference-demo/admin/components/organisms"
 import { Header } from "../organisms/Header"
 import { TopNav } from "../organisms/TopNav"
 
@@ -9,7 +10,7 @@ export const CashFlowPage = () => {
         <TopNav />
       </div>
       <div className={"p-4xl pt-3xl flex-1 overflow-auto bg-gray-50"}>
-        CashFlow Page
+        <CashFlow />
       </div>
     </div>
   )
