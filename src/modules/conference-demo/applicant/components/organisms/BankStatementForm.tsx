@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form"
 
 const BankStatementForm = () => {
   const isReviewApplicationStep = useIsReviewApplicationStep()
-  const { goToStep } = useProgress.use.action()
+  const { goToStep, finishStep } = useProgress.use.action()
   const data = useFormData.use["Bank Statements"]()
 
   const methods = useForm({
@@ -33,6 +33,7 @@ const BankStatementForm = () => {
   } = methods
 
   const handleSubmit = onFormSubmit(() => {
+    finishStep(STEP.BANK_STATEMENTS)
     goToStep(STEP.REVIEW_APPLICATION)
   })
 

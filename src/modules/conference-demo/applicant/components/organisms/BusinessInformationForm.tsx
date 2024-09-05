@@ -79,6 +79,7 @@ const BusinessInformationForm = () => {
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const data = useFormData.use["Business Information"]()
+  const { setFormData } = useFormData.use.action()
 
   const method = useForm<FieldValues>({
     resolver: zodResolver(businessInformationFormSchema),
@@ -86,11 +87,15 @@ const BusinessInformationForm = () => {
     defaultValues: data
   })
 
+  useAutoCompleteStepEffect(method, STEP.BUSINESS_INFORMATION)
+
   const onSubmit = method.handleSubmit(() => {
+    setFormData({
+      step: STEP.BUSINESS_INFORMATION,
+      data: method.getValues() as BusinessInformation
+    })
     goToStep(STEP.BUSINESS_PLAN)
   })
-
-  useAutoCompleteStepEffect(method, STEP.BUSINESS_INFORMATION)
 
   const autofillData = {
     [FieldName.NAME]: "Larry's Latte LLC",
