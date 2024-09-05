@@ -75,7 +75,7 @@ const blocks: Block[] = [
 ]
 
 const BusinessInformationForm = () => {
-  const { goToStep } = useProgress.use.action()
+  const { goToStep, finishStep } = useProgress.use.action()
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const data = useFormData.use["Business Information"]()
@@ -90,10 +90,14 @@ const BusinessInformationForm = () => {
   useAutoCompleteStepEffect(method, STEP.BUSINESS_INFORMATION)
 
   const onSubmit = method.handleSubmit(() => {
+    /**
+     * DO NOT DELETE `setFormData` action or else the form will not sync that I don't know why
+     * */
     setFormData({
       step: STEP.BUSINESS_INFORMATION,
       data: method.getValues() as BusinessInformation
     })
+    finishStep(STEP.BUSINESS_INFORMATION)
     goToStep(STEP.BUSINESS_PLAN)
   })
 

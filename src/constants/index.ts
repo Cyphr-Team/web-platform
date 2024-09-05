@@ -137,20 +137,20 @@ export const APP_PATH = {
 
   CONFERENCE_DEMO: {
     applicant: {
-      index: "/demo/applicant/loan",
-      list: "/demo/applicant/loan/applications",
-      readiness: "/demo/applicant/loan-readiness"
+      index: "/applicant/loan",
+      list: "/applicant/loan/applications",
+      readiness: "/applicant/loan-readiness"
     },
     admin: {
-      index: "/demo/admin/dashboard",
-      applications: "/demo/admin/applications",
-      business: "/demo/admin/business",
-      identity: "/demo/admin/kyc",
-      cashflow: "/demo/admin/cashflow",
-      documents: "/demo/admin/documents",
-      documentDetail: "/demo/admin/document-detail",
-      loanSummary: "/demo/admin/loan-summary",
-      loanReadiness: "/demo/admin/loan-readiness"
+      index: "/admin/dashboard",
+      applications: "/admin/applications",
+      business: "/admin/business",
+      identity: "/admin/kyc",
+      cashflow: "/admin/cashflow",
+      documents: "/admin/documents",
+      documentDetail: "/admin/document-detail",
+      loanSummary: "/admin/loan-summary",
+      loanReadiness: "/admin/loan-readiness"
     }
   }
 }

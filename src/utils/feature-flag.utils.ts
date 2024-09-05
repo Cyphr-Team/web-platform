@@ -148,10 +148,6 @@ function isEnableDummyLoanReadiness() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.DUMMY_LOAN_READINESS)
 }
 
-function isEnableConferenceDemo() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.CONFERENCE_DEMO)
-}
-
 export {
   isEnableWorkspaceAdminFilterByScorecard,
   isEnableWorkspaceAdminFilterApplicationScores,
@@ -172,6 +168,5 @@ export {
   isIgnoredCashFlowSubmission,
   isEnableExecutionFormNewMonthlyExpense,
   isEnableFinancialProjection,
-  isEnableDummyLoanReadiness,
-  isEnableConferenceDemo
+  isEnableDummyLoanReadiness
 }

@@ -51,7 +51,7 @@ const businessPlanRequestFormSchema = z.object({
 })
 
 const BusinessPlanForm = () => {
-  const { goToStep } = useProgress.use.action()
+  const { goToStep, finishStep } = useProgress.use.action()
   const data = useFormData.use["Business Plan"]()
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
@@ -63,8 +63,9 @@ const BusinessPlanForm = () => {
   })
 
   const onSubmit = useCallback(() => {
+    finishStep(STEP.BUSINESS_PLAN)
     goToStep(STEP.CASH_FLOW_VERIFICATION)
-  }, [goToStep])
+  }, [finishStep, goToStep])
 
   useAutoCompleteStepEffect(method, STEP.BUSINESS_PLAN)
 

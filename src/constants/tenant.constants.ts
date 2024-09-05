@@ -8,7 +8,8 @@ enum Institution {
   KCChamber = "kcchamber",
   LaunchKC = "launchkc",
   SBB = "sbb",
-  KansasCity = "kansascity"
+  KansasCity = "kansascity",
+  Finovate = "finovate"
 }
 
 type InstitutionData = {

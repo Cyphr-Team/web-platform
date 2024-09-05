@@ -39,7 +39,7 @@ const LoanRequestForm = () => {
   const maxLoanAmount = 50_000
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
-  const { goToStep } = useProgress.use.action()
+  const { goToStep, finishStep } = useProgress.use.action()
 
   const data = useFormData.use["Loan Request"]()
 
@@ -50,8 +50,9 @@ const LoanRequestForm = () => {
   })
 
   const onSubmit = useCallback(() => {
+    finishStep(STEP.LOAN_REQUEST)
     goToStep(STEP.BUSINESS_INFORMATION)
-  }, [goToStep])
+  }, [finishStep, goToStep])
 
   const autofillData = {
     proposeUseOfLoan: "Expand production capacity and increase workforce"
