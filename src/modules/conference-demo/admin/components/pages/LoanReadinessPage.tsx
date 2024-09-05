@@ -9,7 +9,7 @@ export const LoanReadinessPage = () => {
         <Header />
         <TopNav />
       </div>
-      <div className={"p-4xl pt-3xl flex-1 overflow-auto bg-gray-50"}>
+      <div className={"p-4xl flex-1 overflow-auto bg-gray-50"}>
         <LoanReadiness />
       </div>
     </div>

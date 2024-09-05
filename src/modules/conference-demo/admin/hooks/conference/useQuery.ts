@@ -1,4 +1,7 @@
+import { MOCK_OCROLUS_DATA } from "@/modules/conference-demo/admin/constants/document-data"
+import { DocumentDetailsType } from "@/modules/conference-demo/admin/constants/type"
 import { LoanReadiness } from "@/modules/loan-application-management/constants/types/loan-readiness.type.ts"
+import { ErrorResponse } from "@/types/common.type"
 import { useQuery } from "@tanstack/react-query"
 
 export const useQueryLoanReadinessAssessmentByApplicationId = () => {
@@ -76,6 +79,15 @@ export const useQueryLoanReadinessAssessmentByApplicationId = () => {
             "The overall performance is average. This score reflects that the entity meets basic expectations but lacks strength in key areas, particularly in financial health and business operations. While the entity is likely able to meet its repayment obligations, there are significant opportunities for improvement to become more competitive and efficient. This performance level indicates a satisfactory status but highlights considerable potential for growth and enhancement."
         }
       }
+    }
+  })
+}
+
+export const useQueryGetDocumentDetails = () => {
+  return useQuery<DocumentDetailsType, ErrorResponse>({
+    queryKey: ["DEMO_OCROLUS_DOCUMENT"],
+    queryFn: () => {
+      return MOCK_OCROLUS_DATA
     }
   })
 }

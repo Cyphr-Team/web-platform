@@ -39,6 +39,7 @@ interface DataTableProps<TData, TValue> {
   readonly manualSorting?: boolean
   readonly headerFilter?: (table: TableType<TData>) => ReactNode
   readonly tableContainerClassName?: string
+  readonly tableWrapperClassName?: string
   readonly tableCellClassName?: string
   readonly tableHeaderClassName?: string
 }
@@ -53,6 +54,7 @@ export function DataTable<TData, TValue>({
   total,
   isLoading,
   tableContainerClassName,
+  tableWrapperClassName,
   setSorting,
   sorting,
   manualSorting,
@@ -85,7 +87,12 @@ export function DataTable<TData, TValue>({
           : isFilterView && <DataTableViewOptions table={table} />}
       </div>
 
-      <div className="rounded-md border relative max-h-full overflow-auto">
+      <div
+        className={cn(
+          "rounded-md border relative max-h-full overflow-auto",
+          tableWrapperClassName
+        )}
+      >
         <Table isLoading={isLoading} className="text-sm">
           <TableHeader
             className={cn(

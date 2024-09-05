@@ -4,6 +4,7 @@ import {
   SourceStatus,
   TaskFieldStatus
 } from "@/modules/loan-application-management/constants/types/business.type"
+import { DocumentType } from "@/modules/loan-application-management/constants/types/document"
 import { KYC_STATUS } from "@/modules/loan-application-management/constants/types/kyc"
 import { LoanSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type"
 import {
@@ -11,6 +12,11 @@ import {
   UseOfLoan,
   UserMicroLoanApplication
 } from "@/types/loan-application.type"
+import {
+  LoanDocumentAuthenticityScoreStatus,
+  LoanDocumentStatus,
+  OcrolusLoanDocumentType
+} from "@/types/loan-document.type"
 import {
   LoanProgramInterestRateType,
   LoanType
@@ -421,4 +427,25 @@ export const MOCK_KYB_DETAIL: ApplicationKybDetailResponse = {
     status: TaskFieldStatus.SUCCESS,
     data: []
   }
+}
+
+export const MOCK_DOCUMENTS = {
+  total: 1,
+  currentOffset: 0,
+  data: [
+    {
+      id: "36529a5a-aede-4ea3-9ff4-81bac5283d64",
+      name: "Bank Statement - Sep 2024.pdf",
+      type: DocumentType.BANK_STATEMENT,
+      status: LoanDocumentStatus.VERIFIED,
+      createdAt: new Date().toLocaleString(),
+      updatedAt: new Date().toLocaleString(),
+      authenticityScoreStatus: {
+        status: LoanDocumentAuthenticityScoreStatus.VERIFIED,
+        score: 50
+      },
+      ocrolusDocumentType: OcrolusLoanDocumentType.BANK_STATEMENT,
+      fileSize: 200
+    }
+  ]
 }

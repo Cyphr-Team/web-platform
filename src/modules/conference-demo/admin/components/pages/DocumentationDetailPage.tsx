@@ -1,8 +1,8 @@
-import { Documents } from "@/modules/conference-demo/admin/components/organisms"
+import { DocumentDetail } from "@/modules/conference-demo/admin/components/organisms"
 import { Header } from "../organisms/Header"
 import { TopNav } from "../organisms/TopNav"
 
-export const DocumentationPage = () => {
+export const DocumentationDetailPage = () => {
   return (
     <div className="flex flex-col w-full h-full md:pt-4">
       <div className="flex flex-col space-y-3xl border-b mt-xl">
@@ -10,7 +10,7 @@ export const DocumentationPage = () => {
         <TopNav />
       </div>
       <div className={"p-4xl flex-1 overflow-auto bg-gray-50"}>
-        <Documents />
+        <DocumentDetail />
       </div>
     </div>
   )

@@ -148,6 +148,7 @@ export const APP_PATH = {
       identity: "/demo/admin/kyc",
       cashflow: "/demo/admin/cashflow",
       documents: "/demo/admin/documents",
+      documentDetail: "/demo/admin/document-detail",
       loanSummary: "/demo/admin/loan-summary",
       loanReadiness: "/demo/admin/loan-readiness"
     }

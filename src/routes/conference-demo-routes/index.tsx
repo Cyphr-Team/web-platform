@@ -4,6 +4,7 @@ import { ConferenceDemoApplicationLayout } from "@/modules/conference-demo/appli
 import { Route } from "react-router-dom"
 
 import { AdminApplicationDetails } from "@/modules/conference-demo/admin/components/pages/ApplicationDetails"
+import { DocumentationDetailPage } from "@/modules/conference-demo/admin/components/pages/DocumentationDetailPage"
 import { LoanReadinessPage } from "@/modules/conference-demo/admin/components/pages/LoanReadinessPage"
 import ApplicantLoanReadinessPage from "@/modules/conference-demo/applicant/components/pages/ApplicantLoanReadinessPage"
 import ApplicationDetailPage from "@/modules/conference-demo/applicant/components/pages/ApplicationDetailPage.tsx"
@@ -60,6 +61,11 @@ export const conferenceDemoRoutes = (
         index
         path={APP_PATH.CONFERENCE_DEMO.admin.documents}
         element={<DocumentationPage />}
+      />
+      <Route
+        index
+        path={APP_PATH.CONFERENCE_DEMO.admin.documentDetail}
+        element={<DocumentationDetailPage />}
       />
       <Route
         index

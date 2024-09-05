@@ -1,0 +1,21 @@
+import SignalCount from "@/modules/conference-demo/admin/components/atoms/SignalCount"
+import { SignalsType } from "@/modules/conference-demo/admin/constants/type"
+import React from "react"
+
+type Props = {
+  signalsData: SignalsType
+}
+const SignalRow: React.FC<Props> = ({ signalsData }) => {
+  return (
+    <div className="flex flex-1 items-center justify-between py-4 text-sm font-medium border-b">
+      <div className="flex justify-start items-center gap-2">
+        <SignalCount signalCount={signalsData.signalCount} />
+        <p className="text-sm font-semibold text-gray-500">
+          {signalsData.signalDisplayName}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export default SignalRow
