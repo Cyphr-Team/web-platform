@@ -16,11 +16,9 @@ import { BadgeAuthenticityScore } from "../atoms/badge/BadgeAuthenticityScore"
 import { DownloadDocumentButton } from "./download-document-button"
 
 const getDocumentType = (document: LoanDocument) => {
-  const { ocrolusDocumentType, type: documentType } = document ?? {}
+  const { ocrolusDocumentType = "", type: documentType = "" } = document ?? {}
 
-  return ocrolusDocumentType?.toString() !== ""
-    ? ocrolusDocumentType
-    : documentType
+  return ocrolusDocumentType !== "" ? ocrolusDocumentType : documentType
 }
 
 export const columns: ColumnDef<LoanDocument>[] = [

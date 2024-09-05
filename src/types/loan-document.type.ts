@@ -30,7 +30,7 @@ interface LoanDocument {
   // Example: 200 KB
   fileSize: number
   fileType?: string
-  ocrolusDocumentType: OcrolusLoanDocumentType
+  ocrolusDocumentType?: OcrolusLoanDocumentType
   type: DocumentType
   createdAt: string
   updatedAt: string
