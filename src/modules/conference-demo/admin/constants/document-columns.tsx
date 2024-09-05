@@ -13,11 +13,9 @@ import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const getDocumentType = (document: LoanDocument) => {
-  const { ocrolusDocumentType, type: documentType } = document ?? {}
+  const { ocrolusDocumentType = "", type: documentType = "" } = document ?? {}
 
-  return ocrolusDocumentType?.toString() !== ""
-    ? ocrolusDocumentType
-    : documentType
+  return ocrolusDocumentType !== "" ? ocrolusDocumentType : documentType
 }
 
 export const documentColumns: ColumnDef<LoanDocument>[] = [
