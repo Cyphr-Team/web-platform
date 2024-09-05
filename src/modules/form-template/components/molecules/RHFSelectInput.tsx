@@ -26,8 +26,11 @@ import { memo } from "react"
 import { DescriptionTooltip } from "../atoms/DescriptionTooltip"
 
 type IOption = {
-  value: string
   label: string
+  /**
+   * TODO: check the implementation of Primitive Select because currently, it doesn't work well with type difference from string
+   * */
+  value: string
 }
 
 export interface RHFSelectInputProps<T extends FieldValues> {

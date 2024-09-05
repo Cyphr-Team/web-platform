@@ -20,7 +20,20 @@ enum FORM_TYPE {
   CERTIFICATE_OF_GOOD_STANDING = "certificate_of_good_standing",
   FICTITIOUS_NAME_CERTIFICATION = "fictitious_name_certification",
   ARTICLES_OF_ORGANIZATION = "articles_of_organization_and_operating_agreement",
-  BY_LAWS = "by_laws"
+  BY_LAWS = "by_laws",
+  //
+  FORECASTING_SETUP = "forecasting_setup",
+  // ==== REVENUE AND EXPENSES ====
+  REVENUE = "revenue",
+  PEOPLE = "people",
+  DIRECT_COSTS = "direct_cost",
+  FP_OPERATING_EXPENSES = "fp_operating_expenses",
+  TAX_RATES = "tax_rates",
+  // ==== ASSETS AND LIABILITIES ====
+  ASSETS = "assets",
+  LIABILITIES = "liabilities",
+  DEBT_FINANCING = "debt_financing",
+  EQUITY = "equity"
 }
 
 enum LOAN_APPLICATION_STEPS {
@@ -53,13 +66,33 @@ enum LOAN_APPLICATION_STEPS {
   PRIVACY_POLICY = "privacyPolicy",
   PATRIOT_ACT = "patriotAct",
   SBB_BUSINESS_INFORMATION_PART_ONE = "sbbBusinessInformationPartOne",
-  SBB_BUSINESS_INFORMATION_PART_TWO = "sbbBusinessInformationPartTwo"
+  SBB_BUSINESS_INFORMATION_PART_TWO = "sbbBusinessInformationPartTwo",
+
+  // financial projection
+  // ==== FORECASTING_SETUP ====
+  FORECASTING_SETUP = "forecastingSetup",
+  // ==== REVENUE AND EXPENSES ====
+  REVENUE = "revenue",
+  PEOPLE = "people",
+  DIRECT_COSTS = "directCost",
+  FP_OPERATING_EXPENSES = "fpOperatingExpenses",
+  TAX_RATES = "taxRates",
+  // ==== ASSETS AND LIABILITIES ====
+  ASSETS = "assets",
+  LIABILITIES = "liabilities",
+  DEBT_FINANCING = "debtFinancing",
+  EQUITY = "equity",
+  //
+  REVIEW_INPUTS = "reviewInputs"
 }
 
 enum STEP_MENU {
   PRE_APPLICATION = "PRE-APPLICATION DISCLOSURES",
   PRE_QUALIFICATION = "PRE-QUALIFICATION",
   APPLICATION = "APPLICATION",
+  FORECASTING_SETUP = "FORECASTING SETUP",
+  REVENUE_AND_EXPENSES = "REVENUE AND EXPENSES",
+  ASSETS_AND_LIABILITIES = "ASSETS AND LIABILITIES",
   DOCUMENTATION = "DOCUMENTATION",
   SIGNATURE = "REVIEW AND SIGN"
 }

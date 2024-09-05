@@ -46,6 +46,7 @@ import {
 import { SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-application-form/pre-application-disclosures/const"
 
 import { merge } from "lodash"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/type.ts"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -76,6 +77,18 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.BY_LAWS]: ByLawsFormValue
   [LOAN_APPLICATION_STEPS.PATRIOT_ACT]: SbbPreApplicationDisclosuresValue
   [LOAN_APPLICATION_STEPS.PRIVACY_POLICY]: SbbPreApplicationDisclosuresValue
+  // Financial projection
+  [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: ForecastingSetupFormValue
+  [LOAN_APPLICATION_STEPS.REVENUE]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.PEOPLE]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: object
+  [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.TAX_RATES]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.ASSETS]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.LIABILITIES]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.EQUITY]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.REVIEW_INPUTS]: object // TODO: replace this with actual type
 }
 
 export type LoanDocumentsState = {
@@ -123,6 +136,8 @@ export type FormStateType =
   | ByLawsFormValue
   | CertificateGoodStandingFormValue
   | FictitiousNameCertificationFormValue
+  // Financial projection
+  | ForecastingSetupFormValue
 
 export type Action = {
   action: FORM_ACTION

@@ -33,6 +33,7 @@ import { KansasCityOwnerInformationForm } from "../kyc/kansascity/KansasCityOwne
 import { SBBKybFormPartOne } from "../kyb/sbb/SBBKybFormPartOne"
 import { SBBKybFormPartTwo } from "../kyb/sbb/SbbKybFormPartTwo"
 import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
+import { ForecastingSetupForm } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/ForecastingSetupForm.tsx"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -106,6 +107,8 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <SBBKybFormPartOne />
       case LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO:
         return <SBBKybFormPartTwo />
+      case LOAN_APPLICATION_STEPS.FORECASTING_SETUP:
+        return <ForecastingSetupForm />
       default:
         return null
     }
