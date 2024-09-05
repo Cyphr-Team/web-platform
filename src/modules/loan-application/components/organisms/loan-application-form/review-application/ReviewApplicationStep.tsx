@@ -32,6 +32,7 @@ import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan
 import { KansasCityOwnerInformationForm } from "../kyc/kansascity/KansasCityOwnerInformationForm"
 import { SBBKybFormPartOne } from "../kyb/sbb/SBBKybFormPartOne"
 import { SBBKybFormPartTwo } from "../kyb/sbb/SbbKybFormPartTwo"
+import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -58,6 +59,9 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         }
         if (isKansasCity()) {
           return <KansasCityOwnerInformationForm />
+        }
+        if (isSbb()) {
+          return <SbbKycForm />
         }
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:

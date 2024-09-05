@@ -72,6 +72,9 @@ export const SbbPatriotAct = () => {
             control={form.control}
             label="I acknowledge receipt of the USA Patriot Act Notification"
             name={SBB_PRE_APPLICATION_DISCLOSURES.PATRIOT_ACT}
+            styleProps={{
+              labelClassName: "text-xs"
+            }}
           />
           <Button
             disabled={

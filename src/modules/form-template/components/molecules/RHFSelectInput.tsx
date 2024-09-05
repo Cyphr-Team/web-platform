@@ -124,7 +124,7 @@ const RHFSelectInput = <T extends FieldValues>(
               {...selectProps}
             >
               <SelectTrigger
-                className={cn("text-sm", inputClassName)}
+                className={cn("text-sm text-text-placeholder", inputClassName)}
                 {...selectTriggerProps}
               >
                 <SelectValue placeholder="Please select" />

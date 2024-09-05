@@ -22,7 +22,7 @@ export const DescriptionTooltip = ({
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>
-        <TooltipTrigger>
+        <TooltipTrigger type="button">
           <InfoIcon className="w-4 h-4" />
         </TooltipTrigger>
         <TooltipContent

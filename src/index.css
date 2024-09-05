@@ -74,6 +74,8 @@
     --primary: 195 46% 5%;
     --ring: 195 46% 5%;
     --text-primary: 180 4% 15%;
+    --text-placeholder: 221 13% 46%;
+    --card-foreground: 180 4% 15%;
   }
 }
 

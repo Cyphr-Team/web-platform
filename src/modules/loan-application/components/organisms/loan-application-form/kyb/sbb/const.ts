@@ -297,9 +297,7 @@ const OPTION_SELECT_BLOCK = [
     props: {
       label: "How many years has the business been operating?",
       placeholder: "Please select",
-      className: "col-span-12 flex justify-between items-center",
-      options: YEARS_IN_OPERATION_OPTIONS,
-      required: true
+      options: YEARS_IN_OPERATION_OPTIONS
     }
   },
   {
@@ -308,9 +306,7 @@ const OPTION_SELECT_BLOCK = [
     props: {
       label: "What type of customers does the business cater to?",
       placeholder: "Please select",
-      className: "col-span-12 flex justify-between items-center",
-      options: CUSTOMER_TYPE_OPTIONS,
-      required: true
+      options: CUSTOMER_TYPE_OPTIONS
     }
   },
   {
@@ -318,9 +314,7 @@ const OPTION_SELECT_BLOCK = [
     name: SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES,
     props: {
       label: "How many employees does your business currently have?",
-      placeholder: "i.e 15",
-      className: "col-span-12 flex justify-between items-center",
-      required: true
+      placeholder: "i.e 15"
     }
   },
   {
@@ -330,8 +324,6 @@ const OPTION_SELECT_BLOCK = [
       label:
         "How many W2 or 1099 employees does your business have, excluding owners?",
       placeholder: "Please select",
-      className: "col-span-12 flex justify-between items-center",
-      required: true,
       options: W2_EMPLOYEES_OPTIONS
     }
   }
@@ -339,7 +331,7 @@ const OPTION_SELECT_BLOCK = [
   ...block,
   props: {
     ...block.props,
-    className: "col-span-12 flex justify-between items-center gap-4",
+    className: "col-span-12 flex justify-between items-center gap-6",
     required: true,
     styleProps: {
       inputClassName: "!max-w-40",
@@ -397,7 +389,7 @@ const YES_NO_QUESTIONS_BLOCK = [
   ...block,
   props: {
     ...block.props,
-    className: "col-span-12 flex justify-between items-center",
+    className: "col-span-12 flex justify-between items-center gap-6",
     options: YES_NO_OPTIONS,
     required: true,
     placeholder: "Please select",
@@ -541,54 +533,42 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
     type: FieldType.SELECT,
     name: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS,
     props: {
-      label: "Will the business receive international payments?",
-      className: "col-span-12",
-      required: true
+      label: "Will the business receive international payments?"
     }
   },
   {
     type: FieldType.SELECT,
     name: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS,
     props: {
-      label: "Will the business receive international wire transfers?",
-      className: "col-span-12",
-      required: true
+      label: "Will the business receive international wire transfers?"
     }
   },
   {
     type: FieldType.SELECT,
     name: SBB_KYB_FORM_FIELDS.WILL_SEND_WIRE_TRANSFERS,
     props: {
-      label: "Will the business send wire transfers?",
-      className: "col-span-12",
-      required: true
+      label: "Will the business send wire transfers?"
     }
   },
   {
     type: FieldType.SELECT,
     name: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_WIRE_TRANSFERS,
     props: {
-      label: "Will the business receive wire transfers?",
-      className: "col-span-12",
-      required: true
+      label: "Will the business receive wire transfers?"
     }
   },
   {
     type: FieldType.SELECT,
     name: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_ELECTRONIC_TRANSFERS,
     props: {
-      label: "Will the business receive electronic transfers (ACH)?",
-      className: "col-span-12",
-      required: true
+      label: "Will the business receive electronic transfers (ACH)?"
     }
   },
   {
     type: FieldType.SELECT,
     name: SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS,
     props: {
-      label: "Will the business send electronic transfers?",
-      className: "col-span-12",
-      required: true
+      label: "Will the business send electronic transfers?"
     }
   },
   {
@@ -597,10 +577,9 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
     props: {
       label:
         "To your knowledge is the business a Money Service Business (MSB)? ",
-      className: "col-span-12",
+
       description:
-        "Money service businesses provide money orderand check cashing services to their customers.",
-      required: true
+        "Money service businesses provide money orderand check cashing services to their customers."
     }
   },
   {
@@ -608,18 +587,14 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
     name: SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS,
     props: {
       label:
-        "Does the business own and operate automated teller machines (ATM)?",
-      className: "col-span-12",
-      required: true
+        "Does the business own and operate automated teller machines (ATM)?"
     }
   },
   {
     type: FieldType.SELECT,
     name: SBB_KYB_FORM_FIELDS.IS_INVOLVED_IN_GAMBLING,
     props: {
-      label: "Is the business involved in gambling?",
-      className: "col-span-12",
-      required: true
+      label: "Is the business involved in gambling?"
     }
   },
   {
@@ -627,9 +602,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
     name: SBB_KYB_FORM_FIELDS.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES,
     props: {
       label:
-        "Does your business allow third party companies with slot machines on your business property?",
-      className: "col-span-12",
-      required: true
+        "Does your business allow third party companies with slot machines on your business property?"
     }
   },
   {
@@ -637,9 +610,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
     name: SBB_KYB_FORM_FIELDS.IS_SENIOR_FOREIGN_POLITICAL_FIGURE,
     props: {
       label:
-        "Are you or anyone associated with the business a senior foreign political figure, an immediate family member, or a close associate of a senior foreign political figure?",
-      className: "col-span-12",
-      required: true
+        "Are you or anyone associated with the business a senior foreign political figure, an immediate family member, or a close associate of a senior foreign political figure?"
     }
   }
 ].map((block) => ({
@@ -647,7 +618,8 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   props: {
     ...block.props,
     options: YES_NO_OPTIONS,
-    className: "col-span-12 flex justify-between items-center",
+    className: "col-span-12 flex justify-between items-center gap-6",
+    required: true,
     placeholder: "Please select",
     styleProps: {
       inputClassName: "!max-w-40",
@@ -677,7 +649,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
     props: {
       label:
         "What amount of those sales do you expect to be deposited into your SBB account?",
-      className: "col-span-12 flex justify-between items-center gap-4",
+      className: "col-span-12 flex justify-between items-center gap-6",
       required: true,
       options: EXPECTED_DEPOSITED_AMOUNT_OPTIONS,
       styleProps: {
@@ -701,7 +673,8 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
     type: FieldType.MULTI_SELECT,
     name: SBB_KYB_FORM_FIELDS.PAYMENT_METHODS,
     props: {
-      label: "How do you receive payments? (you may select all that apply)",
+      label: "How do you receive payments?",
+      subLabel: " (you may select all that apply)",
       className: "col-span-12",
       required: true,
       options: PAYMENT_METHODS_OPTIONS
@@ -713,7 +686,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
     props: {
       label:
         "Is the account opened with the intention of being a self-directed IRA account?",
-      className: "col-span-12 flex justify-between items-center",
+      className: "col-span-12 flex justify-between items-center gap-6",
       required: true,
       options: YES_NO_OPTIONS,
       styleProps: {
@@ -727,7 +700,7 @@ export const SBB_KYB_FORM_BLOCKS_PART_TWO: Block[] = [
     name: SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT,
     props: {
       label: "How much will be deposited into your SBB account each month?",
-      className: "col-span-12 flex justify-between items-center",
+      className: "col-span-12 flex justify-between items-center gap-6",
       required: true,
       options: EXPECTED_ANNUAL_SALES_OPTIONS,
       styleProps: {

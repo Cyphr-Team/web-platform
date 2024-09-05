@@ -66,7 +66,7 @@ export const BeneficialOwnersInput = () => {
       <RHFSelectInput
         className="flex items-center justify-between"
         styleProps={{
-          inputClassName: "w-42 min-w-42 md:max-w-42 xl:max-w-42 xl:w-42"
+          inputClassName: "w-40 md:max-w-40 xl:max-w-40 xl:w-40"
         }}
         name={`${SBB_KYC_FIELD_NAMES.METADATA}.${SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS}`}
         label="Does your business have any other beneficial owners?"

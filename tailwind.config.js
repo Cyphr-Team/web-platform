@@ -111,7 +111,8 @@ module.exports = {
           secondary: "hsl(var(--text-secondary))",
           tertiary: "hsl(var(--text-tertiary))",
           senary: "hsl(var(--text-senary))",
-          primary: "hsl(var(--text-primary))"
+          primary: "hsl(var(--text-primary))",
+          placeholder: "hsl(var(--text-placeholder))"
         },
         nav: {
           active: "#EEFFC0"

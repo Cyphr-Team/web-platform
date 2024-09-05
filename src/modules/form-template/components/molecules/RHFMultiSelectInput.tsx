@@ -27,13 +27,15 @@ export interface RHFMultiSelectInputProps<T extends FieldValues> {
   // TODO: support styling for child components
   styleProps?: object
   subtitle?: string
+  subLabel?: string
 }
 
 const RHFMultiSelectInput = <T extends FieldValues>(
   props: RHFMultiSelectInputProps<T>
 ) => {
   const { control } = useFormContext()
-  const { name, label, required, subtitle, options, className } = props
+  const { name, label, required, subtitle, options, className, subLabel } =
+    props
 
   const renderOption = useCallback(
     (option: IOption, index: number) => (
@@ -77,8 +79,16 @@ const RHFMultiSelectInput = <T extends FieldValues>(
   return (
     <FormItem className={className}>
       <FormLabel className="text-sm text-text-secondary font-medium">
-        {label}
-        {required && <RequiredSymbol />}
+        <p>
+          {label}
+          {subLabel && (
+            <span className="text-text-tertiary italic font-light">
+              {subLabel}
+            </span>
+          )}
+          {required && <RequiredSymbol />}
+        </p>
+
         {subtitle && (
           <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
         )}
