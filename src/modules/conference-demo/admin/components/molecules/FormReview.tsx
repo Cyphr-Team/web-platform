@@ -1,0 +1,36 @@
+import { Separator } from "@/components/ui/separator.tsx"
+import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay.tsx"
+import { Card } from "@/components/ui/card.tsx"
+import { memo } from "react"
+
+type DataPoint = {
+  label: string
+  value: string
+}
+
+interface Props {
+  title: string
+  data: DataPoint[]
+}
+
+const FormReview = (props: Props) => {
+  const { title, data } = props
+  return (
+    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
+      <h5 className="text-lg font-semibold">{title}</h5>
+      <Separator />
+      <div className="flex flex-col gap-4xl">
+        {data.map(({ label, value }) => (
+          <AnswersTextDisplay
+            key={value}
+            className="!flex-row justify-between"
+            valueClassName="text-right"
+            label={label}
+            value={value}
+          />
+        ))}
+      </div>
+    </Card>
+  )
+}
+export default memo(FormReview)
