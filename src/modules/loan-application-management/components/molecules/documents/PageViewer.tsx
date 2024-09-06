@@ -12,9 +12,9 @@ export const PageViewer: React.FC = () => {
   const [initScale, setInitScale] = useState(1)
 
   useEffect(() => {
-    if (parentRef.current) {
-      const scaleX = parentRef.current.offsetWidth / (image?.width ?? 1)
-      const scaleY = parentRef.current.offsetHeight / (image?.height ?? 1)
+    if (parentRef.current && image?.width && image?.height) {
+      const scaleX = parentRef.current.offsetWidth / (image?.width || 1)
+      const scaleY = parentRef.current.offsetHeight / (image?.height || 1)
       const scale = Math.min(scaleX, scaleY)
       setInitScale(scale)
     }
