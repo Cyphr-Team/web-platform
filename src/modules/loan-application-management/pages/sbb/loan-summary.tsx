@@ -24,6 +24,7 @@ import usePermissions from "@/hooks/usePermissions"
 import { PreApplicationDisclosuresDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-application-disclosures/PreApplicationDisclosuresDetails"
 import { SbbKybFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/sbb/SbbKybFormDetails"
 import { SbbKycFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/sbb/SbbKycFormDetails"
+import { SbbSubmittedDocuments } from "../../components/organisms/loan-summary/SbbDocumentUploaded"
 
 export function Component() {
   const { loanSummary, loanApplicationDetails } =
@@ -66,6 +67,7 @@ export function Component() {
           {loanSummary?.kycForm && (
             <SbbKycFormDetails kycFormData={loanSummary?.kycForm} />
           )}
+          <SbbSubmittedDocuments />
         </div>
         <div
           className="flex flex-col space-y-3xl"

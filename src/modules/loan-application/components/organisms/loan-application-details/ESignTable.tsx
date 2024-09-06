@@ -77,8 +77,8 @@ export const ESignTable = () => {
           }
         ]
   return (
-    <Card>
-      <CardHeader className="border-b mx-8 px-0 md:px-0 md:py-4">
+    <Card className="p-8 flex flex-col gap-2xl">
+      <CardHeader className="!p-0">
         <div className="flex justify-between items-center flex-wrap gap-1">
           <CardTitle className="font-semibold text-lg flex items-center gap-3">
             E-Signature
@@ -86,11 +86,13 @@ export const ESignTable = () => {
         </div>
       </CardHeader>
 
-      <CardContent className="px-5 overflow-auto">
+      <CardContent className="!p-0 overflow-auto">
         <MiddeskTable
           columns={columns}
           data={eSignDocuments}
           isLoading={isLoading}
+          cellClassName="text-sm pl-0  border-b"
+          headerCellClassName="p-0 text-text-primary text-sm font-medium"
         />
       </CardContent>
     </Card>

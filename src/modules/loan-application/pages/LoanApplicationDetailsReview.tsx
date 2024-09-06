@@ -14,6 +14,7 @@ import { DocumentationDetails } from "../components/organisms/loan-application-d
 import { SignatureDetails } from "../components/organisms/loan-application-form/confirmation/SignatureDetails"
 import { LaunchKCBusinessDocumentsDetails } from "../components/organisms/loan-application-form/custom-form/launchkc/BusinessDocumentsDetails"
 import { useBRLoanApplicationDetailsContext } from "../providers"
+import { SbbApplicantSubmittedDocuments } from "../components/organisms/loan-application-form/custom-form/sbb/SubmittedDocument"
 
 export const Component = () => {
   const { isFetchingDetails, confirmationFormData } =
@@ -44,6 +45,12 @@ export const Component = () => {
             <>
               <Separator />
               <DocumentationDetails />
+            </>
+          )}
+          {isSbb() && (
+            <>
+              <Separator />
+              <SbbApplicantSubmittedDocuments />
             </>
           )}
           {isLaunchKC() && (

@@ -25,6 +25,7 @@ interface DataTableProps<TData, TValue> {
   handleClickDetail?: (row: Row<TData>) => void
   tableClassName?: string
   cellClassName?: string
+  headerCellClassName?: string
   isLoading?: boolean
   noResultText?: string
 }
@@ -35,6 +36,7 @@ export function MiddeskTable<TData, TValue>({
   handleClickDetail,
   tableClassName,
   cellClassName,
+  headerCellClassName,
   isLoading,
   noResultText = "No results."
 }: DataTableProps<TData, TValue>) {
@@ -52,7 +54,10 @@ export function MiddeskTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="text-xs">
+                  <TableHead
+                    key={header.id}
+                    className={cn("text-xs", headerCellClassName)}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
