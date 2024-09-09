@@ -33,6 +33,7 @@
     --success: 153 91% 30%;
     --success-secondary: 141 74% 92%;
     --text-senary: 217 16% 84%;
+    --text-caption: 0, 0%, 33%, 1;
     --warning: 28 97% 44%;
     --warning-secondary: 44 98% 89%;
     --error: 4 74% 49%;
@@ -40,6 +41,7 @@
     --disabled: 221 13% 46%;
     --primary-solid: 222 41% 8%;
     --nav-active: 76 100% 88%;
+    --brand-primary-gray: 180, 10%, 35%, 1;
   }
 
   .dark {
@@ -64,7 +66,8 @@
     --ring: 142.4 71.8% 29.2%;
   }
 
-  .launchkc {
+  .launchkc,
+  .loanready {
     --primary: 195 46% 5%;
     --ring: 195 46% 5%;
   }

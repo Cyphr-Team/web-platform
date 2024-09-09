@@ -112,13 +112,20 @@ module.exports = {
           tertiary: "hsl(var(--text-tertiary))",
           senary: "hsl(var(--text-senary))",
           primary: "hsl(var(--text-primary))",
-          placeholder: "hsl(var(--text-placeholder))"
+          placeholder: "hsl(var(--text-placeholder))",
+          caption: "hsla(var(--text-caption))"
         },
         nav: {
           active: "#EEFFC0"
         },
         table: {
           heading: "#F9FAFB"
+        },
+        // New from here
+        brand: {
+          primary: {
+            gray: "hsla(var(--brand-primary-gray))"
+          }
         }
       },
       spacing: {

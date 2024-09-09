@@ -40,7 +40,8 @@ import { KansasCityCurrentLoanForm } from "@/modules/loan-application/components
 import { SbbKycForm } from "../components/organisms/loan-application-form/kyc/sbb/SbbKycForm"
 import SbbPrivacyPolicy from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPrivacyPolicy"
 import { SbbPatriotAct } from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPatriotAct"
-import { ForecastingSetupForm } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/ForecastingSetupForm.tsx"
+import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
+import { RevenueForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -132,6 +133,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <SbbPrivacyPolicy />
       case LOAN_APPLICATION_STEPS.FORECASTING_SETUP:
         return <ForecastingSetupForm />
+      case LOAN_APPLICATION_STEPS.REVENUE:
+        return <RevenueForm />
       default:
         return null
     }

@@ -46,7 +46,7 @@ import {
 import { SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-application-form/pre-application-disclosures/const"
 
 import { merge } from "lodash"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/type.ts"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
