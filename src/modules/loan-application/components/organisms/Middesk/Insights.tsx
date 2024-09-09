@@ -115,7 +115,8 @@ export const Insights = () => {
           toolTipContent={insights?.bankruptcies?.message}
           href={INSIGHT_TOC.bankruptcies}
           isLoading={isLoading}
-          noBorder
+          {...(!isEnableKYBV2() &&
+            !(isSbb() || isLoanReady()) && { noBorder: true })}
         />
         {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
           <InsightItem

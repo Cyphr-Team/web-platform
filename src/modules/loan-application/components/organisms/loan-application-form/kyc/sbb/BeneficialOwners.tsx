@@ -206,34 +206,31 @@ const OwnerDetails = memo(
     const { index, value } = props
 
     return (
-      <Card
-        className="p-4xl rounded-lg flex flex-col gap-2 shadow-none"
-        key={index}
-      >
+      <div className="flex flex-col gap-4 border-t pt-2" key={index}>
         <div className="flex justify-between items-center">
           <h5 className="font-semibold text-sm">Owner {index + 1}</h5>
         </div>
         <AnswersTextDisplay
           className="!flex-row justify-between"
-          label="First and last name"
+          label="First and last name:"
           value={value.name}
         />
         <AnswersTextDisplay
           className="!flex-row justify-between"
-          label="Email address"
+          label="Email address:"
           value={value.email}
         />
         <AnswersTextDisplay
           className="!flex-row justify-between"
-          label="Phone number"
+          label="Phone number:"
           value={value.phoneNumber}
         />
         <AnswersTextDisplay
           className="!flex-row justify-between"
-          label="Percentage of the business they own"
+          label="Percentage of the business they own:"
           value={`${value.businessOwnershipPercentage}%`}
         />
-      </Card>
+      </div>
     )
   }
 )

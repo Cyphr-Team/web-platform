@@ -34,7 +34,7 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.BUSINESS_NAME
   },
   {
-    label: "DBA (if applicable)",
+    label: "DBA (If applicable)",
     field: SBB_KYB_FORM_FIELDS.DBA
   },
   {
@@ -85,16 +85,16 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.IS_HOLDING_COMPANY
   },
   {
-    label: "The business sell, purchase or distribute CBD/hemp products:",
+    label: "The business sells, purchases, or distributes CBD/hemp products:",
     field: SBB_KYB_FORM_FIELDS.CBD_RELATED_BUSINESS
   },
   {
     label:
-      "The business sell, purchase, or distribute marijuana products that are not legal in all 50 US States:",
+      "The business sells, purchases, or distributes marijuana products that are not legal in all 50 US States:",
     field: SBB_KYB_FORM_FIELDS.MARIJUANA_RELATED_BUSINESS
   },
   {
-    label: "The business make large contributions to political organizations:",
+    label: "The business makes large contributions to political organizations:",
     field: SBB_KYB_FORM_FIELDS.POLITICAL_ORG_CONTRIBUTOR
   },
   {
@@ -133,23 +133,23 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS
   },
   {
-    label: "The business receive international wire transfers:",
+    label: "The business receives international wire transfers:",
     field: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS
   },
   {
-    label: "The  business send wire transfers:",
+    label: "The  business sends wire transfers:",
     field: SBB_KYB_FORM_FIELDS.WILL_SEND_WIRE_TRANSFERS
   },
   {
-    label: "The business receive wire transfers:",
+    label: "The business receives wire transfers:",
     field: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_WIRE_TRANSFERS
   },
   {
-    label: "The business receive electronic transfers (ACH):",
+    label: "The business receives electronic transfers (ACH):",
     field: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_ELECTRONIC_TRANSFERS
   },
   {
-    label: "The business send electronic transfers:",
+    label: "The business sends electronic transfers:",
     field: SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS
   },
   {
@@ -158,7 +158,7 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS
   },
   {
-    label: "The business own and operate automated teller machines (ATM):",
+    label: "The business owns and operate automated teller machines (ATM):",
     field: SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS
   },
   {
@@ -189,9 +189,9 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
       return (
         <AnswersTextDisplay
           key={field.field}
-          className="!flex-row justify-between"
+          className="!flex-row justify-between gap-4xl"
           valueClassName="text-right"
-          labelClassName="max-w-96"
+          labelClassName="max-w-screen-sm"
           label={field.label}
           value={label}
         />
@@ -205,8 +205,8 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
       return (
         <AnswersTextDisplay
           key={field.field}
-          className="!flex-row justify-between"
-          labelClassName="max-w-96"
+          className="!flex-row justify-between gap-4xl"
+          labelClassName="max-w-screen-sm"
           label={field.label}
           value={label}
         />
@@ -217,7 +217,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         key={field.field}
         className="!flex-row justify-between"
         valueClassName="text-right capitalize"
-        labelClassName="max-w-96"
+        labelClassName="max-w-screen-sm"
         label={field.label}
         value={get(kybFormData?.metadata as string, field.field, "N/A")}
       />

@@ -84,13 +84,13 @@ export const ControlAuthorizationDetails: React.FC<DetailsProps> = ({
       <div className="flex flex-col gap-2">
         {value === BINARY_VALUES.YES ? (
           <AnswersTextDisplay
-            valueClassName="text-xs"
+            valueClassName="text-xs font-semibold"
             label=""
             value="Yes, I am the significant responsible person to control, manage, or direct this company indicated in the application."
           />
         ) : (
           <AnswersTextDisplay
-            valueClassName="text-xs"
+            valueClassName="text-xs font-semibold"
             label=""
             value="No, I am not the significant responsible person to control, manage, or direct this company indicated in the application."
           />

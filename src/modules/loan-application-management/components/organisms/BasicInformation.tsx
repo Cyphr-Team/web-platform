@@ -15,7 +15,7 @@ const BasicInformationSkeleton = () => {
 }
 
 export const BasicInformation = () => {
-  const { isLoading, loanKybDetail, loanApplicationDetails } =
+  const { isLoading, loanKybDetail, loanApplicationDetails, loanSummary } =
     useLoanApplicationDetailContext()
 
   if (isLoading) return <BasicInformationSkeleton />
@@ -24,7 +24,9 @@ export const BasicInformation = () => {
     ? toCurrency(loanApplicationDetails?.loanAmount, 0)
     : ""
 
-  const businessName = loanKybDetail?.businessDetails?.name?.value
+  const businessName =
+    loanKybDetail?.businessDetails?.name?.value ??
+    loanSummary?.kybForm?.businessLegalName
 
   const applicationTitle = [businessName, loanAmount]
     .filter((v) => !!v)
