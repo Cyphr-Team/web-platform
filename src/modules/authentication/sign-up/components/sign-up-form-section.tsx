@@ -3,6 +3,7 @@ import { APP_PATH } from "@/constants"
 import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { Link } from "react-router-dom"
 import { SignUpForm } from "./sign-up-form"
+import { isSbb } from "@/utils/domain.utils"
 
 export function SignUpFormSection() {
   return (
@@ -18,7 +19,9 @@ export function SignUpFormSection() {
           </h1>
 
           <p className="text-muted-foreground mt-3 text-sm font-normal">
-            Accelerate your access to financing
+            {isSbb()
+              ? "Accelerate your access to business banking"
+              : "Accelerate your access to financing"}
           </p>
         </div>
 

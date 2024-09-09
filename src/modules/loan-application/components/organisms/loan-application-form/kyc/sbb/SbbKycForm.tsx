@@ -85,14 +85,7 @@ export const SbbKycForm = () => {
         [SBB_KYC_FIELD_NAMES.BENEFICIAL_OWNERS]: get(
           ownerInformationForm,
           [SBB_KYC_FIELD_NAMES.METADATA, SBB_KYC_FIELD_NAMES.BENEFICIAL_OWNERS],
-          [
-            {
-              [SBB_KYC_FIELD_NAMES.NAME]: "",
-              [SBB_KYC_FIELD_NAMES.PHONE_NUMBER]: "",
-              [SBB_KYC_FIELD_NAMES.EMAIL]: "",
-              [SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE]: 0
-            }
-          ]
+          []
         ),
         [SBB_KYC_FIELD_NAMES.CONTROL_AUTHORIZATION]: get(
           ownerInformationForm,

@@ -46,9 +46,8 @@ export function LogoHeader({
           src={getImageURL(tenantData?.textLogo)}
           placeholderClassName="bg-slate-400 rounded"
           alt="Institution text logo"
-          className="h-8 max-w-[100px]"
-          height={32}
-          width={100}
+          className="max-w-[120px]"
+          width={120}
         />
       )}
     </div>
