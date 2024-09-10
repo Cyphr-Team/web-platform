@@ -35,8 +35,11 @@ export interface RHFCurrencyInputProps<T extends FieldValues> {
   description?: string
   required?: boolean
   prefixIcon?: React.ReactNode
+  suffixIcon?: React.ReactNode
   onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+
+  isHideErrorMessage?: boolean
 }
 
 const RHFCurrencyInput = <T extends FieldValues>(
@@ -51,6 +54,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
     styleProps = {},
     direction = "row",
     className,
+    isHideErrorMessage = false,
     ...inputProps
   } = props
 
@@ -61,50 +65,73 @@ const RHFCurrencyInput = <T extends FieldValues>(
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem className={cn(className)}>
-          <FormLabel className={cn("text-text-secondary", labelClassName)}>
-            <div className="flex flex-col">
-              <label>
-                {label}
-                {required && <RequiredSymbol />}
-                {subtitle && (
-                  <p className="mt-2 text-text-tertiary font-medium">
-                    {subtitle}
-                  </p>
-                )}
-              </label>
-              {direction === "row" && <FormMessage />}
-            </div>
-          </FormLabel>
+      render={({ field, fieldState }) => {
+        const fieldValue = (() => {
+          const currency = USDFormatter(field.value)
+          // Check if the value is not a valid number
+          if (Number.isNaN(currency.value) || typeof field.value !== "number") {
+            return ""
+          }
+          // Allow empty input when the field is untouched and value is 0
+          if (fieldState.isTouched === false && field.value === 0) {
+            return ""
+          }
+          // Format the currency value
+          return currency.format()
+        })()
 
-          <FormControl>
-            <Input
-              wrapperClassName={wrapperClassName}
-              {...field}
-              {...inputProps}
-              value={
-                field.value ? USDFormatter(field.value).format() : undefined
-              }
-              onChange={(e) => {
-                field.onBlur()
-                field.onChange(USDFormatter(e.target.value).value)
-              }}
-              onBlur={(e) => {
-                field.onBlur()
-                const currency = USDFormatter(e.target.value)
-                field.onChange(
-                  Number.isNaN(currency.value) ? undefined : currency.value
-                )
-              }}
-              className={cn("text-base", inputClassName)}
-            />
-          </FormControl>
-          {direction === "column" && (
-            <FormMessage className={messageClassName} />
-          )}
-        </FormItem>
-      )}
+        return (
+          <FormItem className={cn(className)}>
+            {!!label && (
+              <FormLabel className={cn("text-text-secondary", labelClassName)}>
+                <div className="flex flex-col">
+                  <label>
+                    {label}
+                    {required && <RequiredSymbol />}
+                    {subtitle && (
+                      <p className="mt-2 text-text-tertiary font-medium">
+                        {subtitle}
+                      </p>
+                    )}
+                  </label>
+                  {direction === "row" && !isHideErrorMessage && (
+                    <FormMessage />
+                  )}
+                </div>
+              </FormLabel>
+            )}
+            <FormControl>
+              <Input
+                wrapperClassName={wrapperClassName}
+                {...field}
+                {...inputProps}
+                value={fieldValue}
+                onChange={(e) => {
+                  const value = e.target.value
+                    ? USDFormatter(e.target.value).value
+                    : e.target.value
+
+                  if (Number.isNaN(value)) return
+
+                  field.onBlur()
+                  field.onChange(value)
+                }}
+                onBlur={(e) => {
+                  const value = USDFormatter(e.target.value).value
+
+                  field.onChange(Number.isNaN(value) ? 0 : value)
+                  // The onBlur should be place after because validate won't work if we put before onChange
+                  field.onBlur()
+                }}
+                className={cn("text-base", inputClassName)}
+              />
+            </FormControl>
+            {direction === "column" && !isHideErrorMessage && (
+              <FormMessage className={messageClassName} />
+            )}
+          </FormItem>
+        )
+      }}
     />
   )
 }

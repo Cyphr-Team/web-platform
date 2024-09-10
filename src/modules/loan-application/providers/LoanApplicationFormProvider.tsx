@@ -46,7 +46,8 @@ import {
 import { SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-application-form/pre-application-disclosures/const"
 
 import { merge } from "lodash"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/type.ts"
+import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -82,7 +83,7 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.REVENUE]: object // TODO: replace this with actual type
   [LOAN_APPLICATION_STEPS.PEOPLE]: object // TODO: replace this with actual type
   [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: object
-  [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: FpOperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.TAX_RATES]: object // TODO: replace this with actual type
   [LOAN_APPLICATION_STEPS.ASSETS]: object // TODO: replace this with actual type
   [LOAN_APPLICATION_STEPS.LIABILITIES]: object // TODO: replace this with actual type
@@ -138,6 +139,7 @@ export type FormStateType =
   | FictitiousNameCertificationFormValue
   // Financial projection
   | ForecastingSetupFormValue
+  | FpOperatingExpensesFormValue
 
 export type Action = {
   action: FORM_ACTION

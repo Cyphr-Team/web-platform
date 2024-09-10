@@ -42,6 +42,7 @@ import SbbPrivacyPolicy from "../components/organisms/loan-application-form/pre-
 import { SbbPatriotAct } from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPatriotAct"
 import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
 import { RevenueForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm.tsx"
+import { FpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FpOperatingExpensesForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -135,6 +136,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <ForecastingSetupForm />
       case LOAN_APPLICATION_STEPS.REVENUE:
         return <RevenueForm />
+      case LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES:
+        return <FpOperatingExpensesForm />
       default:
         return null
     }

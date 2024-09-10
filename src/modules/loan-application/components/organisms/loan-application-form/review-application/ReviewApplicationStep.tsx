@@ -33,7 +33,7 @@ import { KansasCityOwnerInformationForm } from "../kyc/kansascity/KansasCityOwne
 import { SBBKybFormPartOne } from "../kyb/sbb/SBBKybFormPartOne"
 import { SBBKybFormPartTwo } from "../kyb/sbb/SbbKybFormPartTwo"
 import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
-import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
+import { ForecastingSetupForm } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/ForecastingSetupForm.tsx"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep

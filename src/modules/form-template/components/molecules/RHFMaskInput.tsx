@@ -37,6 +37,8 @@ export interface RHFMaskInputProps<T extends FieldValues>
     inputClassName?: string
     labelClassName?: string
   }
+
+  isHideErrorMessage?: boolean
 }
 
 /**
@@ -56,6 +58,7 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
     styleProps = {},
     required,
     control,
+    isHideErrorMessage = false,
     direction = "column"
   } = props
 
@@ -70,7 +73,9 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             {label}
             {required && <RequiredSymbol />}
-            {direction === "row" && <FormMessage className="mt-1" />}
+            {direction === "row" && !isHideErrorMessage && (
+              <FormMessage className="mt-1" />
+            )}
           </FormLabel>
           <FormControl>
             <MaskInput
@@ -81,7 +86,7 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
               {...field}
             />
           </FormControl>
-          {direction === "column" && <FormMessage />}
+          {direction === "column" && !isHideErrorMessage && <FormMessage />}
         </FormItem>
       )}
     />
