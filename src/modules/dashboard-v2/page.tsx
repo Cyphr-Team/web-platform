@@ -10,13 +10,14 @@ import { DashboardProvider } from "./providers/dashboard-provider"
 import { AverageLoanSizeOfAllLoanProgram } from "./components/AverageLoanSizeOfAllLoanProgram"
 import { Separator } from "@/components/ui/separator"
 import { isEnableSubscriptionManagement } from "@/utils/feature-flag.utils"
+import { isSbb } from "@/utils/domain.utils"
 
 export function Component() {
   const isLenderAdmin = checkIsWorkspaceAdmin()
 
   return (
     <DashboardProvider>
-      <div className="flex-col flex">
+      <div className="flex-col flex bg-active h-full">
         <div
           className={cn(
             "flex flex-wrap items-center justify-between gap-2 p-5 bg-white border-b sticky top-0 z-20",
@@ -35,15 +36,18 @@ export function Component() {
             <CurrentUsage />
           )}
           <TotalApplicationActivity />
+          {!isSbb() && (
+            <>
+              <Separator />
 
-          <Separator />
-
-          <PerformanceMetrics />
-          <div className="flex gap-4 flex-wrap mt-8">
-            <AverageLoanSizeOfAllLoanProgram />
-            <AverageApprovedLoanSizeChart />
-          </div>
-          <AverageTimeToApprovalChart />
+              <PerformanceMetrics />
+              <div className="flex gap-4 flex-wrap mt-8">
+                <AverageLoanSizeOfAllLoanProgram />
+                <AverageApprovedLoanSizeChart />
+              </div>
+              <AverageTimeToApprovalChart />
+            </>
+          )}
         </div>
       </div>
     </DashboardProvider>
