@@ -54,13 +54,15 @@ export const ComponentWithProvider = () => {
           {isLoading ? (
             <Skeleton className="w-screen md:w-[calc(100vw-15rem)] h-36 md:h-60 lg:max-h-64 items-center align-center flex" />
           ) : (
-            <Image
-              className="mx-auto max-h-72 object-cover w-full max-w-full border-b"
-              src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
-              placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
-              alt="Cover Photo for Loan Program"
-              height={359}
-            />
+            <div className="border-b h-80 flex items-center">
+              <Image
+                height={359}
+                className="mx-auto max-h-72"
+                src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
+                placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
+                alt="Cover Photo for Loan Program"
+              />
+            </div>
           )}
         </section>
 

@@ -329,14 +329,14 @@ const SBB_LOAN_PROGRAMS: LoanProgramData[] = [
   {
     id: "SBB_BUSINESS_ACCOUNTS",
     name: "Account Onboarding",
-    type: "Accounts",
+    type: "Bank Accounts",
     faqs: {
       How_to_get_started:
         "Click on “Start application” below. Please note we require borrowers to have a deposit account at the bank.",
       Types_of_Business_accounts: `•	Free Business Checking
 •	High-Yield Business Savings
 •	Business Certificate of Deposit`,
-      List_of_required_documents: `•	One form of Photo Identification such as a Driver's License or Passport
+      List_of_required_documents: `•	One form of government ids (i.e drivers license or passport)
 •	Business EIN Letter
 • Certificate of Good Standing from your Secretary of State's Office
 •	Fictitious name certification (if your business uses a fictitious business name)

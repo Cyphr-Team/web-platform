@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const LoanProgramDetailApply: React.FC<Props> = ({
-  btnText = "Start Application",
+  btnText = "Start application",
   className
 }) => {
   const navigate = useNavigate()

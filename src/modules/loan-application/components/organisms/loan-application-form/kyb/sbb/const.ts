@@ -346,7 +346,7 @@ const OPTION_SELECT_BLOCK = [
   ...block,
   props: {
     ...block.props,
-    className: "col-span-12 flex justify-between items-center gap-6",
+    className: "col-span-12 flex justify-between items-center gap-2",
     required: true,
     styleProps: {
       inputClassName: "!max-w-40",
@@ -663,7 +663,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
   props: {
     ...block.props,
     options: YES_NO_OPTIONS,
-    className: "col-span-12 flex justify-between items-center gap-6",
+    className: "col-span-12 flex justify-between items-center gap-4",
     required: true,
     placeholder: "Please select",
     styleProps: {

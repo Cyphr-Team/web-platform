@@ -44,7 +44,7 @@ export const LoanProgramDetailFAQ = () => {
 
       <section className="mt-8 px-8 py-9 bg-primary-solid rounded-2xl flex justify-between flex-wrap gap-4 items-center w-full">
         <h2 className="text-white text-2xl md:text-3xl font-semibold mx-auto md:mx-0">
-          Ready to Apply?
+          Ready to apply?
         </h2>
         <div className="mx-auto md:mx-0">
           {loanProgramInfo?.isUnderConstruction ? (
