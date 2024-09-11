@@ -81,8 +81,8 @@ export const AutoCompleteStates = <T extends FieldValues>(
               <PopoverTrigger asChild>
                 <Input
                   name={name}
-                  value={value || "Select state..."}
-                  className="text-sm"
+                  value={value || "Select state"}
+                  className="text-sm p-0"
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
                 />
               </PopoverTrigger>

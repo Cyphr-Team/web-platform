@@ -111,3 +111,12 @@ export type { Breadcrumb }
 export interface ImageDataResponse {
   fileData: string
 }
+
+export type AddressType = {
+  addressLine1: string
+  state: string
+  country: string
+  countryCode: string
+  zip: string
+  city: string
+}

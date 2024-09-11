@@ -130,7 +130,7 @@ export const SbbKycForm = () => {
 
   const form = useForm<SbbKycFormValue>({
     resolver: zodResolver(sbbKycFormSchema),
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues
   })
 

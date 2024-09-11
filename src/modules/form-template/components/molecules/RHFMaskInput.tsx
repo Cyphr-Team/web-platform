@@ -66,6 +66,7 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
       render={({ field }) => (
         <FormItem
           className={cn(
+            "text-sm",
             className,
             isRowDirection ? "flex items-center justify-between" : null
           )}
@@ -81,7 +82,7 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
             <MaskInput
               pattern={pattern}
               placeholder={placeholder}
-              className={inputClassName}
+              className={cn("text-sm", inputClassName)}
               required
               {...field}
             />

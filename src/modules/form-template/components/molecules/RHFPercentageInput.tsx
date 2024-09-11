@@ -112,7 +112,7 @@ const RHFPercentageInput = <T extends FieldValues>(
                     : numberPercentage
                 )
               }}
-              className={cn("text-base", inputClassName)}
+              className={cn("text-sm", inputClassName)}
             />
           </FormControl>
           {direction === "column" && (

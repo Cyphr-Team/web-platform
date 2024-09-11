@@ -81,7 +81,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
         })()
 
         return (
-          <FormItem className={cn(className)}>
+          <FormItem className={cn("text-sm", className)}>
             {!!label && (
               <FormLabel className={cn("text-text-secondary", labelClassName)}>
                 <div className="flex flex-col">

@@ -24,7 +24,7 @@ import {
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 
 import { get } from "lodash"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
@@ -32,6 +32,12 @@ import {
   BINARY_VALUES,
   YES_NO_OPTIONS
 } from "@/modules/loan-application/constants/form"
+import { AutoCompleteGoogleMap } from "@/modules/loan-application/components/molecules/autocomplete/AutoCompleteGoogleMap"
+import { AddressType } from "@/types/common.type"
+import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities"
+import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
+import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
+import { isEnableGoogleMapInput } from "@/utils/feature-flag.utils"
 
 export const SBBKybFormPartOne = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -66,13 +72,63 @@ export const SBBKybFormPartOne = () => {
   const form = useForm<SbbKybFormPartOneValue>({
     resolver: zodResolver(sbbKybFormSchemaPartOne),
     values: defaultValues,
-    mode: "onChange"
+    mode: "onBlur"
   })
 
   useAutoCompleteStepEffect(
     form,
     LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
   )
+
+  const handleAutoCompleteAddress = (address: AddressType) => {
+    form.setValue(SBB_KYB_FORM_FIELDS.STATE, address.state, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+    form.setValue(SBB_KYB_FORM_FIELDS.CITY, address.city, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+    form.setValue(SBB_KYB_FORM_FIELDS.POSTAL_CODE, address.zip, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+    form.setValue(SBB_KYB_FORM_FIELDS.ADDRESS_LINE_1, address.addressLine1, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+  }
+
+  const { handleChangeCity, handleChangeState, city, state, STATE_DATA } =
+    useSelectCities()
+
+  useEffect(() => {
+    if (city) {
+      form.setValue(SBB_KYB_FORM_FIELDS.CITY, city, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    }
+  }, [city, form])
+
+  useEffect(() => {
+    if (state) {
+      form.setValue(SBB_KYB_FORM_FIELDS.STATE, state, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+      form.setValue(SBB_KYB_FORM_FIELDS.CITY, "", {
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    }
+  }, [form, state])
 
   return (
     <Card
@@ -87,6 +143,61 @@ export const SBBKybFormPartOne = () => {
       <Form {...form}>
         <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
           {SBB_KYB_FORM_BLOCKS_PART_ONE.map(({ type, props, name }) => {
+            if (
+              name === SBB_KYB_FORM_FIELDS.ADDRESS_LINE_1 &&
+              isEnableGoogleMapInput()
+            ) {
+              return (
+                <AutoCompleteGoogleMap
+                  key={name}
+                  onSelect={handleAutoCompleteAddress}
+                  defaultValues={{
+                    addressLine1: defaultValues.addressLine1,
+                    state: defaultValues[SBB_KYB_FORM_FIELDS.STATE],
+                    country: "United States",
+                    countryCode: "US",
+                    zip: defaultValues.postalCode,
+                    city: defaultValues.city
+                  }}
+                />
+              )
+            }
+            if (name === SBB_KYB_FORM_FIELDS.CITY) {
+              return (
+                <AutoCompleteCities
+                  key={name}
+                  options={
+                    STATE_DATA.find((s) => s.name === form.getValues("state"))
+                      ?.cities ?? []
+                  }
+                  label="Business city"
+                  emptyText="No results found"
+                  name="city"
+                  control={form.control}
+                  onChange={handleChangeCity}
+                  value={form.getValues("city")}
+                  className="col-span-4"
+                  required
+                />
+              )
+            }
+            if (name === SBB_KYB_FORM_FIELDS.STATE) {
+              return (
+                <AutoCompleteStates
+                  key={name}
+                  options={STATE_DATA}
+                  label="Business state"
+                  emptyText="No results found"
+                  name="state"
+                  control={form.control}
+                  onChange={handleChangeState}
+                  value={form.getValues("state")}
+                  className="col-span-4"
+                  required
+                />
+              )
+            }
+
             if (name !== SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) {
               const Component = ComponentMapper[type]
               return (

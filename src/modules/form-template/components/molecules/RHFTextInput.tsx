@@ -135,7 +135,7 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
             {...field}
             {...inputProps}
             onBlur={customOnBlur}
-            className={cn("text-base", inputClassName)}
+            className={cn("text-sm", inputClassName)}
             autoFocus={inputProps.autoFocus}
           />
         </FormControl>

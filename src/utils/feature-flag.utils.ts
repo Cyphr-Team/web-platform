@@ -147,6 +147,12 @@ function isEnableFinancialProjection() {
 function isEnableDummyLoanReadiness() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.DUMMY_LOAN_READINESS)
 }
+/*
+ * Enable Google Map Input for address fields
+ */
+function isEnableGoogleMapInput() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.GOOGLE_MAP_INPUT)
+}
 
 export {
   isEnableWorkspaceAdminFilterByScorecard,
@@ -168,5 +174,6 @@ export {
   isIgnoredCashFlowSubmission,
   isEnableExecutionFormNewMonthlyExpense,
   isEnableFinancialProjection,
-  isEnableDummyLoanReadiness
+  isEnableDummyLoanReadiness,
+  isEnableGoogleMapInput
 }

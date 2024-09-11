@@ -3,6 +3,7 @@ import {
   Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate"
+import { REGEX_PATTERN } from "@/modules/loan-application/constants"
 import {
   BINARY_VALUES,
   YES_NO_OPTIONS,
@@ -13,6 +14,10 @@ import { Option } from "@/types/common.type"
 import * as z from "zod"
 
 export const enum SBB_KYB_FORM_FIELDS {
+  STATE = "state",
+  CITY = "city",
+  POSTAL_CODE = "postalCode",
+
   BUSINESS_NAME = "businessLegalName",
   DBA = "dba", // DBA
   IS_SUBSIDIARY = "isSubsidiary",
@@ -58,6 +63,16 @@ export const sbbKybFormSchemaPartOne = z
     [SBB_KYB_FORM_FIELDS.BUSINESS_NAME]: z
       .string()
       .min(1, { message: "Business name is required" }),
+    [SBB_KYB_FORM_FIELDS.CITY]: z
+      .string()
+      .min(1, { message: "City is required" }),
+    [SBB_KYB_FORM_FIELDS.STATE]: z
+      .string()
+      .min(1, { message: "State is required" }),
+    [SBB_KYB_FORM_FIELDS.POSTAL_CODE]: z
+      .string()
+      .min(1, { message: "Zip code is required" })
+      .regex(REGEX_PATTERN.ZIP_CODE, "Enter a valid zip code"),
     [SBB_KYB_FORM_FIELDS.DBA]: z.string(),
     [SBB_KYB_FORM_FIELDS.PARENT_COMPANY]: z.string(),
     [SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY]: yesNoSchema,
@@ -437,6 +452,36 @@ export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
       label: "Business street address",
       placeholder: "Business street address",
       className: "col-span-12",
+      required: true
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: SBB_KYB_FORM_FIELDS.STATE,
+    props: {
+      label: "Business state",
+      placeholder: "Business state",
+      className: "col-span-4",
+      required: true
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: SBB_KYB_FORM_FIELDS.CITY,
+    props: {
+      label: "Business city",
+      placeholder: "Business city",
+      className: "col-span-4",
+      required: true
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: SBB_KYB_FORM_FIELDS.POSTAL_CODE,
+    props: {
+      label: "Business zip code",
+      placeholder: "ie: 97531",
+      className: "col-span-4",
       required: true
     }
   },

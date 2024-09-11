@@ -14,6 +14,7 @@ interface ImportMetaEnv {
   readonly VITE_BASE_SUBDOMAIN: string
   readonly VITE_PERSONA_ENVIRONMENT: "sandbox" | "production"
   readonly VITE_STYTCH_PUBLIC_TOKEN: string
+  readonly VITE_GOOGLE_PLACE_API_KEY: string
 }
 
 interface ImportMeta {

@@ -11,17 +11,13 @@ import {
   SbbKybFormPartTwoValue
 } from "../../components/organisms/loan-application-form/kyb/sbb/const"
 import { get } from "lodash"
+import { getStateCode } from "../useSelectCities"
 
 type SbbKybFormValue = SbbKybFormPartOneValue & SbbKybFormPartTwoValue
 
 type Props = {
   rawData: SbbKybFormValue
   onSuccess: (data: KYBInformationResponse) => void
-}
-const ignoreKybData = {
-  city: "ignore",
-  state: "XX",
-  postalCode: "ignore"
 }
 
 const formatKybForm = (data: SbbKybFormValue) => {
@@ -30,7 +26,9 @@ const formatKybForm = (data: SbbKybFormValue) => {
     businessStreetAddress: {
       addressLine1: data.addressLine1,
       addressLine2: get(data, "addressLine2", ""),
-      ...ignoreKybData
+      city: data.city,
+      state: getStateCode(data.state),
+      postalCode: data.postalCode
     },
     businessWebsite: data.businessWebsite?.length
       ? data.businessWebsite

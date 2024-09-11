@@ -63,7 +63,7 @@ export const SBBKybFormPartTwo = () => {
   )
   const form = useForm<SbbKybFormPartTwoValue>({
     resolver: zodResolver(sbbKybFormSchemaPartTwo),
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues
   })
 

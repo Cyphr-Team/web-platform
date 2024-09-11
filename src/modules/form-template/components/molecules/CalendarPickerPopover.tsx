@@ -50,7 +50,7 @@ const CalendarPickerPopover = (props: Props) => {
             id={`${id}-button`}
             variant={"outline"}
             className={cn(
-              "w-full pl-3 text-left font-normal flex justify-between gap-2 text-base",
+              "w-full pl-3 text-left font-normal flex justify-between gap-2 text-sm",
               !value && "text-muted-foreground",
               triggerClassName
             )}

@@ -73,7 +73,7 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
               value={field.value}
               onSelectDate={handleSelectDate(field)}
               className={cn("w-full", calendarClassName)}
-              triggerClassName="w-full"
+              triggerClassName="w-full text-sm"
               contentClassName="w-full"
             />
           </FormControl>

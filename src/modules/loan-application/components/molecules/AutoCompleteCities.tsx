@@ -132,11 +132,11 @@ export const AutoCompleteCities = <T extends FieldValues>(
                 <Input
                   name={name}
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
-                  className="text-sm"
+                  className="text-sm p-0"
                   value={
                     value
                       ? options?.find((option) => option.name === value)?.name
-                      : "Select city..."
+                      : "Select city"
                   }
                 />
               </PopoverTrigger>
