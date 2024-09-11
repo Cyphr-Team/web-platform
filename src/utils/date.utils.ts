@@ -81,8 +81,47 @@ export const validTimeRange = (
   }
 }
 
+// Check if string is in MM/YYYY format and is in the past
+export const validFormatMMYYYY = (value: string) => {
+  // Regular expression to match MM/YYYY format
+  const regex = /^(0[1-9]|1[0-2])\/\d{4}$/
+
+  // Check if the string matches the regex
+  if (!regex.test(value)) return false
+
+  const [month, year] = value.split("/").map(Number)
+
+  // Get current year and month
+  const currentYear = new Date().getFullYear()
+  const currentMonth = new Date().getMonth() + 1 // months are zero-indexed
+
+  // Check if the year is valid and not in the past
+  if (year < currentYear || (year === currentYear && month <= currentMonth)) {
+    return true
+  }
+
+  return false
+}
+
+export const parseMMYYYYToISOString = (mmyyyy: string) => {
+  const [month, year] = mmyyyy.split("/").map(Number)
+  return new Date(Date.UTC(year, month - 1)).toISOString()
+}
+
+export const parseISOStringToMMYYYY = (isoString: string) => {
+  // Create a new Date object from the ISO string
+  const dateObj = new Date(isoString)
+
+  // Extract the day, month, and year
+  const month = String(dateObj.getUTCMonth() + 1).padStart(2, "0") // Months are 0-indexed
+  const year = dateObj.getUTCFullYear()
+
+  // Return the formatted date as DD/MM/YYYY
+  return `${month}/${year}`
+}
+
 export const validFormat = (value: string) => {
-  const allowedFormat = ["MM/dd/yyyy", "MMM dd, yyyy", "MMM dd yyyy"]
+  const allowedFormat = ["MM/dd/yyyy", "MMM dd, yyyy", "MMM dd yyyy", "MM/yyyy"]
   const newDate = new Date()
   return (
     find(

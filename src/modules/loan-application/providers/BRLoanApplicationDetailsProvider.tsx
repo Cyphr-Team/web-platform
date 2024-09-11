@@ -72,6 +72,8 @@ import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/useQuery/useQuerySbbDocumentForm.ts"
+import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/services/form.services"
+import { useQueryGetExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useQueryGetExpensePeopleForm"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -251,6 +253,16 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
   // SBB document form
   const sbbDocumentQuery = useQuerySbbDocumentForm(loanApplicationId!)
+
+  /**
+   * Financial Projection Forms
+   **/
+
+  // Expense People Form
+  const expensePeopleFormQuery = useQueryGetExpensePeopleForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PEOPLE)
+  })
 
   const changeDataAndProgress = useCallback(
     (
@@ -595,6 +607,16 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     isQualified
   ])
 
+  // Financial Projection Forms
+  useEffect(() => {
+    if (expensePeopleFormQuery.data) {
+      changeDataAndProgress(
+        reverseFormatExpensePeopleForm(expensePeopleFormQuery.data),
+        LOAN_APPLICATION_STEPS.PEOPLE
+      )
+    }
+  }, [changeDataAndProgress, expensePeopleFormQuery.data])
+
   /**
    * Handle update identity verification data when edit draft application
    */
@@ -805,6 +827,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       executionFormData: executionFormQuery.data,
       productModelFormData: businessModelFormQuery.data,
       preQualificationFormData: preQualificationFormQuery.data,
+      expensePeopleFormData: expensePeopleFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
@@ -825,6 +848,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         productServiceFormQuery.isLoading ||
         marketOpportunityFormQuery.isLoading ||
         launchKCFitFormQuery.isLoading ||
+        expensePeopleFormQuery.isLoading ||
         businessModelFormQuery.isLoading ||
         plaidItemIdsQuery.isLoading ||
         plaidConnectedAccountsQuery.isLoading,
@@ -857,6 +881,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       executionFormQuery.data,
       executionFormQuery.isLoading,
       preQualificationFormQuery.data,
+      expensePeopleFormQuery.data,
+      expensePeopleFormQuery.isLoading,
       loanApplicationDetailsQuery.data,
       loanApplicationDetailsQuery.isLoading,
       kycDocuments.data,

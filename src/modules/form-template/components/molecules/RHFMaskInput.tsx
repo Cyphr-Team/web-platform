@@ -14,7 +14,7 @@ import {
   useFormContext
 } from "react-hook-form"
 import { MaskInput, MaskInputProps } from "@/components/ui/mask-input.tsx"
-import { memo } from "react"
+import { memo, ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 export interface RHFMaskInputProps<T extends FieldValues>
@@ -22,12 +22,13 @@ export interface RHFMaskInputProps<T extends FieldValues>
   name: FieldPath<T>
   label: string
   pattern: string
-
   isRowDirection?: boolean
   control?: Control<T>
   placeholder?: string
   required?: boolean
   className?: string
+  prefixIcon?: ReactNode
+  suffixIcon?: ReactNode
   styleProps?: {
     inputClassName?: string
     labelClassName?: string
@@ -53,6 +54,8 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
     styleProps = {},
     required,
     control,
+    prefixIcon,
+    suffixIcon,
     isHideErrorMessage = false,
     isRowDirection = false
   } = props
@@ -82,7 +85,9 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
             <MaskInput
               pattern={pattern}
               placeholder={placeholder}
-              className={cn("text-sm", inputClassName)}
+              className={inputClassName}
+              prefixIcon={prefixIcon}
+              suffixIcon={suffixIcon}
               required
               {...field}
             />

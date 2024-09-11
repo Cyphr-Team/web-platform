@@ -292,6 +292,13 @@ export const API_PATH = {
       submit: "api/form/sbb-documents/submit",
       deleteByType: "api/form/sbb-documents/documents/delete-by-type",
       deleteById: "api/form/sbb-documents/documents/delete-by-id"
+    },
+    financialProjection: {
+      expensePeople: {
+        index: "api/financial-projection/form/expense-people/by-setup-id",
+        submit: "api/financial-projection/form/expense-people",
+        update: "api/financial-projection/form/expense-people/update"
+      }
     }
   },
   // For workspace admin

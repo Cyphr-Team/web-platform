@@ -44,6 +44,7 @@ import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financ
 import { RevenueForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm.tsx"
 import { FpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FpOperatingExpensesForm"
 import { DisclaimerAndDisclosure } from "@/modules/loan-application/components/organisms/loan-application-form/disclaimer-disclosure/DisclaimerAndDisclosure"
+import { PeopleForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/PeopleForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -141,6 +142,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <RevenueForm />
       case LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES:
         return <FpOperatingExpensesForm />
+      case LOAN_APPLICATION_STEPS.PEOPLE:
+        return <PeopleForm />
       default:
         return null
     }

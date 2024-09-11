@@ -87,6 +87,10 @@ import {
   SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { useSubmitSbbLoanKYBForm } from "../hooks/useForm/useSubmitSbbLoanKybForm"
+import { ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
+import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/services/form.services"
+import { useSubmitPeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useSubmitPeopleForm"
+import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -115,7 +119,9 @@ export const useSubmitLoanForm = (
   fictitiousNameCertificationData: FictitiousNameCertificationFormValue,
   plaidItemIds: string[],
   // SBB KYB
-  sbbKybFormData: SbbKybFormPartOneValue & SbbKybFormPartTwoValue
+  sbbKybFormData: SbbKybFormPartOneValue & SbbKybFormPartTwoValue,
+  // Financial Projection
+  peopleFormData: PeopleFormValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -374,6 +380,23 @@ export const useSubmitLoanForm = (
       )
     )
 
+  /**
+   * Financial Projection Forms
+   **/
+
+  // Expense People Form
+  const updatePeopleForm = (data: ExpensePeopleResponse) =>
+    updateDataAfterSubmit(
+      reverseFormatExpensePeopleForm(data),
+      LOAN_APPLICATION_STEPS.PEOPLE
+    )
+
+  const { submitPeopleForm, isLoading: isSubmittingPeopleForm } =
+    useSubmitPeopleForm({
+      rawData: peopleFormData,
+      onSuccess: updatePeopleForm
+    })
+
   const handleSubmitFormSuccess = useCallback(
     (isUpdated: boolean, isSubmitted: boolean, applicationId?: string) => {
       if (isSubmitted) {
@@ -602,6 +625,10 @@ export const useSubmitLoanForm = (
           )
         }
 
+        if (peopleFormData && isCompleteSteps(LOAN_APPLICATION_STEPS.PEOPLE)) {
+          await submitPeopleForm(loanRequestId)
+        }
+
         if (confirmationData) {
           await submitLoanConfirmationForm(loanRequestId)
           isSubmitted = true
@@ -665,6 +692,7 @@ export const useSubmitLoanForm = (
     executionData,
     businessModelData,
     documentUploadsData,
+    peopleFormData,
     confirmationData,
     submitLoanKYBForm,
     submitLoanKYCForm,
@@ -682,6 +710,7 @@ export const useSubmitLoanForm = (
     submitLoanExecutionForm,
     submitLoanBusinessModelForm,
     uploadBusinessDocuments,
+    submitPeopleForm,
     submitLoanConfirmationForm,
     handleSubmitFormError
   ])
@@ -880,6 +909,11 @@ export const useSubmitLoanForm = (
         return
       }
 
+      // Financial Projection
+      if (peopleFormData && isCompleteSteps(LOAN_APPLICATION_STEPS.PEOPLE)) {
+        await submitPeopleForm(loanRequestId)
+      }
+
       // Submit Confirmation form
       if (confirmationData) {
         await submitLoanConfirmationForm(loanRequestId)
@@ -902,49 +936,51 @@ export const useSubmitLoanForm = (
       })
     }
   }, [
-    businessData,
-    businessModelData,
-    cashflowData,
-    confirmationData,
-    currentLoansData,
-    dispatchFormAction,
-    documentUploadsData,
-    eSignData?.documentId,
-    executionData,
-    financialData,
-    handleSubmitFormError,
-    handleSubmitFormSuccess,
+    submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
-    isCompleteSteps,
-    launchKCFitData,
-    loanRequestData?.id?.length,
-    marketOpportunityData,
-    operatingExpensesData,
-    ownerData,
+    eSignData?.documentId,
     plaidItemIds?.length,
+    businessData,
+    isCompleteSteps,
+    currentLoansData,
+    operatingExpensesData,
     productServiceData,
+    marketOpportunityData,
+    launchKCFitData,
+    executionData,
+    businessModelData,
+    documentUploadsData,
+    ownerData,
+    financialData,
+    cashflowData,
+    peopleFormData,
+    confirmationData,
+    handleSubmitFormSuccess,
+    loanRequestData?.id?.length,
     queryClient,
-    submitCashFlowForm,
-    submitCurrentLoansForm,
+    dispatchFormAction,
+    submitLoanIdentityVerification,
     submitESignDocument,
     submitLinkPlaidItemds,
-    submitLoanBusinessModelForm,
-    submitLoanConfirmationForm,
-    submitLoanExecutionForm,
-    submitLoanFinancialForm,
-    submitLoanIdentityVerification,
     submitLoanKYBForm,
-    submitLoanKYCForm,
-    submitLoanLaunchKCFitForm,
-    submitLoanMarketOpportunity,
-    submitLoanRequestForm,
+    submitCurrentLoansForm,
     submitOperatingExpensesForm,
     submitProductServiceForm,
+    submitLoanMarketOpportunity,
+    submitLoanLaunchKCFitForm,
+    submitLoanExecutionForm,
+    submitLoanBusinessModelForm,
+    uploadBusinessDocuments,
     submitSbbDocument,
     submitSbbLoanKYBForm,
-    uploadBusinessDocuments,
-    uploadDocuments
+    submitLoanKYCForm,
+    uploadDocuments,
+    submitLoanFinancialForm,
+    submitCashFlowForm,
+    handleSubmitFormError,
+    submitPeopleForm,
+    submitLoanConfirmationForm
   ])
 
   const submitLoanForm = isEnableNewSubmitFormStrategy()
@@ -973,6 +1009,7 @@ export const useSubmitLoanForm = (
       isSubmittingESignDocument ||
       isUploadingBusinessDocuments ||
       isSubmittingSbbDocument ||
-      isSubmittingSbbKYB
+      isSubmittingSbbKYB ||
+      isSubmittingPeopleForm
   }
 }

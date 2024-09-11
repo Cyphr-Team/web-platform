@@ -23,6 +23,7 @@ export interface RHFCalendarPickerInputProps<T extends FieldValues> {
   subtitle?: string
   required?: boolean
   className?: string
+  placeholder?: string
   styleProps?: {
     itemClassName?: string
     labelClassName?: string
@@ -41,6 +42,7 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
     label,
     required = false,
     subtitle = "The US date format is mm-dd-yyyy",
+    placeholder,
     styleProps = {}
   } = props
 
@@ -73,6 +75,7 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
               value={field.value}
               onSelectDate={handleSelectDate(field)}
               className={cn("w-full", calendarClassName)}
+              placeholder={placeholder}
               triggerClassName="w-full text-sm"
               contentClassName="w-full"
             />

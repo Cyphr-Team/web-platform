@@ -82,7 +82,7 @@ export type BlockProps<T extends FieldValues> = Partial<
 export interface Block {
   name: string
   type: FieldType
-  props?: BlockProps<any>
+  props?: BlockProps<any> | Block[]
 }
 
 export interface Props extends PropsWithChildren {
@@ -106,6 +106,27 @@ export const renderBlockComponents = (blocks: Block[]) => {
       key: name,
       className: "col-span-12",
       name: name,
+      ...props
+    })
+  })
+}
+
+export const renderInnerBlockComponents = (
+  blocks: Block[],
+  parentName: string,
+  index: number
+) => {
+  return blocks.map(({ type, props, name }) => {
+    const Component = ComponentMapper[type]
+    const indexedName = `${parentName}.${index}.${name}`
+    /**
+     * use createElement instead of <Component /> because createElement will return ReactElement
+     * The <Component /> return JSX.Element which will contain deprecated keyword JSX
+     * */
+    return createElement(Component, {
+      key: indexedName,
+      className: "col-span-12",
+      name: indexedName,
       ...props
     })
   })

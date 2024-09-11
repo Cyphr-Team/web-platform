@@ -13,12 +13,13 @@ import {
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+
+import { renderBlockComponents } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import {
   ForecastingSetupFormBlocks,
   forecastingSetupFormSchema,
   ForecastingSetupFormValue
-} from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/type.ts"
-import { renderBlockComponents } from "@/modules/form-template/components/templates/FormTemplate.tsx"
+} from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
 
 export const ForecastingSetupForm = () => {
   const { forecastingSetup, dispatchFormAction } =

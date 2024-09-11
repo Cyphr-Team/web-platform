@@ -47,9 +47,10 @@ import {
 import { SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-application-form/pre-application-disclosures/const"
 
 import { merge } from "lodash"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/type.ts"
 import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
+import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -84,7 +85,7 @@ export type LoanApplicationFormState = {
   // Financial projection
   [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: ForecastingSetupFormValue
   [LOAN_APPLICATION_STEPS.REVENUE]: RevenueStream
-  [LOAN_APPLICATION_STEPS.PEOPLE]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.PEOPLE]: PeopleFormValue
   [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: object
   [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: FpOperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.TAX_RATES]: object // TODO: replace this with actual type
@@ -145,6 +146,7 @@ export type FormStateType =
   | ForecastingSetupFormValue
   | FpOperatingExpensesFormValue
   | RevenueStream
+  | PeopleFormValue
 
 export type Action = {
   action: FORM_ACTION
@@ -280,7 +282,8 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     merge(
       state[LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE],
       state[LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO]
-    )
+    ),
+    state[LOAN_APPLICATION_STEPS.PEOPLE]
   )
 
   //Trigger submit form when the confirmation form is submitted

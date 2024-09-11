@@ -157,3 +157,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .text-subtitle {
   color: hsla(201, 24%, 23%, 1);
 }
+
+.bg-financial-projection-card {
+  background-color: rgba(242, 248, 248, 1);
+}
+
+.text-width-match-placeholder {
+  field-sizing: content;
+}

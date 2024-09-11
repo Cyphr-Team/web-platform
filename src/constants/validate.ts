@@ -1,3 +1,4 @@
+import { validFormat } from "@/utils/date.utils"
 import * as z from "zod"
 
 // $1,000,000,000,000 (1 trillion dollars) is a substantial amount to handle on our financial platform
@@ -26,4 +27,13 @@ export const createNumberSchema = (
     })
     .min(min, customErrors.min || `Value must be at least ${min}`)
     .max(max, customErrors.max || `Value must not exceed ${max}`)
+}
+
+export const createDateSchema = () => {
+  return z
+    .string()
+    .min(1, "This field is required")
+    .refine((value) => validFormat(value), {
+      message: "This is not a valid date"
+    })
 }
