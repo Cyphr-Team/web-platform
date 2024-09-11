@@ -5,7 +5,7 @@ import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { checkIsJudge } from "@/utils/check-roles"
-import { isLaunchKC } from "@/utils/domain.utils"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { isEnableWorkspaceAdminFilterApplicationScores } from "@/utils/feature-flag.utils"
 import { PaginationState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
@@ -17,6 +17,7 @@ import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryL
 import { JudgeApplicationList } from "./launch-kc/judge/judge-list"
 import { WorkspaceAdminApplicationList } from "./launch-kc/workspace-admin/workspace-admin-list"
 import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin/workspace-admin-list-filter"
+import { SbbApplicationsList } from "./sbb/list-filter"
 
 export function BaseApplicationList() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
@@ -82,6 +83,7 @@ export function Component() {
 
     return <WorkspaceAdminApplicationList />
   }
+  if (isSbb()) return <SbbApplicationsList />
 
   return <BaseApplicationList />
 }

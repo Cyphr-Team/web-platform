@@ -141,3 +141,118 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     }
   }
 ]
+
+export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
+  {
+    id: "select",
+    header: "ID",
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <TooltipProvider>
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger className="font-medium cursor-default">
+              {application.applicationIdNumber}
+            </TooltipTrigger>
+            <TooltipContent
+              side="right"
+              className="inline-block"
+              asChild={true}
+            >
+              <ClipboardCopy
+                content={application.applicationIdNumber.toString()}
+                value={application.applicationIdNumber}
+                variant={"blue"}
+              />
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
+    },
+    enableSorting: false,
+    enableHiding: false,
+    size: 80
+  },
+  {
+    id: "applicant",
+    accessorKey: "businessName",
+    header: "Business name",
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div className="min-w-0">
+          <p className="truncate">{application.businessName ?? "N/A"}</p>
+        </div>
+      )
+    },
+    size: 250
+  },
+  {
+    id: "email",
+    accessorKey: "email",
+    header: "Email",
+    size: 200,
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div className="min-w-0">
+          <p className="truncate">{application.applicant.email}</p>
+        </div>
+      )
+    }
+  },
+  {
+    id: "createdAt",
+    accessorKey: "createdAt",
+    header: () => <p>Created on</p>,
+    size: 150,
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div>
+          {application.createdAt
+            ? format(application.createdAt, FORMAT_DATE_M_D_Y)
+            : "N/A"}
+        </div>
+      )
+    }
+  },
+  {
+    id: "status",
+    accessorKey: "status",
+    header: "Status",
+    size: 150,
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div>
+          <Badge
+            isDot
+            variant="soft"
+            variantColor={getBadgeVariantByStatus(application.status)}
+            className="capitalize"
+          >
+            {snakeCaseToText(application.status)}
+          </Badge>
+        </div>
+      )
+    }
+  },
+  {
+    id: "action",
+    cell: ({ row }) => {
+      return (
+        <ButtonReviewLoanApplication
+          loanApplicationStatus={row.original.status}
+          loanApplicationId={row.original.id}
+          loanProgramType={row.original.programType}
+        />
+      )
+    }
+  }
+]

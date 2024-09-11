@@ -56,7 +56,7 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
         <PopoverTrigger asChild>
           <Button
             variant="ghost"
-            className="text-sm font-semibold border border-input h-10 px-4 py-2 rounded-full text-slate-700"
+            className="text-sm font-semibold border border-input h-10 px-4 py-2 rounded-full text-slate-700 bg-white"
           >
             <Plus size="16" className="mr-1.5" />
             Add Filter

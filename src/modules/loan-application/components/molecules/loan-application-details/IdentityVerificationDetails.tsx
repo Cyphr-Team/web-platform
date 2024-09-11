@@ -15,6 +15,8 @@ import { getTimeFromSecs } from "@/utils/get-time-from-secs"
 import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { calculateAge, joinString } from "@/utils"
 import { Separator } from "@/components/ui/separator.tsx"
+import { isSbb } from "@/utils/domain.utils"
+import { GovernmentIdVerification } from "../../organisms/identity-verification/GovernmentIdVerification"
 
 export const IdentityVerificationDetails: React.FC = () => {
   const { loanSmartKycDetail, isLoadingLoanSmartKycDetail } =
@@ -147,26 +149,33 @@ export const IdentityVerificationDetails: React.FC = () => {
   return (
     <>
       <p className="text-4xl font-semibold ">Identity Verification</p>
-      <IdentityVerificationCard
-        id={INSIGHT_IDENTITY_VERIFICATION_TOC.summary}
-        headerTitle={headerTitle}
-        headerRight={<DateHeader date={loanSmartKycDetail?.updatedAt} />}
-        content={content}
-      />
-      <IdentityVerificationCard
-        id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
-        headerTitle={<>Government ID {badge}</>}
-        headerRight={
-          <DateHeader
-            date={
-              passedGovVerification?.completedAt ??
-              passedGovVerification?.submittedAt ??
-              passedGovVerification?.createdAt
-            }
+      {!isSbb() ? (
+        <>
+          <IdentityVerificationCard
+            id={INSIGHT_IDENTITY_VERIFICATION_TOC.summary}
+            headerTitle={headerTitle}
+            headerRight={<DateHeader date={loanSmartKycDetail?.updatedAt} />}
+            content={content}
           />
-        }
-        content={govContent}
-      />
+          <IdentityVerificationCard
+            id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
+            headerTitle={<>Government ID {badge}</>}
+            headerRight={
+              <DateHeader
+                date={
+                  passedGovVerification?.completedAt ??
+                  passedGovVerification?.submittedAt ??
+                  passedGovVerification?.createdAt
+                }
+              />
+            }
+            content={govContent}
+          />
+        </>
+      ) : (
+        <GovernmentIdVerification />
+      )}
+
       <IdentityVerificationCard
         id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
         headerTitle={<>Selfie Verification {badge}</>}

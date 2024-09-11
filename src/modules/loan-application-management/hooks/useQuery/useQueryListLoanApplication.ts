@@ -13,7 +13,9 @@ type ListLoanApplicationResponse = ListResponse<LoanApplication>
 export const LoanApplicationFilterSchema = z.object({
   status: z.array(z.object({ label: z.string(), value: z.string() })),
   programNames: z.array(z.object({ label: z.string(), value: z.string() })),
-  search: z.string()
+  search: z.string(),
+  createdOn: z.date().optional(),
+  submittedOn: z.date().optional()
 })
 
 export type LoanApplicationFilterValues = z.infer<
