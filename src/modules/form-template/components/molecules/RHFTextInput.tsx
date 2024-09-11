@@ -13,6 +13,7 @@ import React, {
   ChangeEventHandler,
   FocusEventHandler,
   memo,
+  ReactNode,
   useState
 } from "react"
 import {
@@ -23,7 +24,7 @@ import {
 } from "react-hook-form"
 
 export interface RHFTextInputProps<T extends FieldValues> {
-  label: string
+  label: ReactNode
   name: FieldPath<T>
 
   placeholder?: string

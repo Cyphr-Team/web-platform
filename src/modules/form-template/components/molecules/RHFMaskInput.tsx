@@ -22,13 +22,8 @@ export interface RHFMaskInputProps<T extends FieldValues>
   name: FieldPath<T>
   label: string
   pattern: string
-  /**
-   * @param direction: use direction to custom the location of error message
-   * @constant row => error message will occur below Label
-   * @constant column => error message will occur below Input field
-   * @constant undefined => error message is hidden
-   * */
-  direction?: "row" | "column"
+
+  isRowDirection?: boolean
   control?: Control<T>
   placeholder?: string
   required?: boolean
@@ -59,7 +54,7 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
     required,
     control,
     isHideErrorMessage = false,
-    direction = "column"
+    isRowDirection = false
   } = props
 
   const { inputClassName, labelClassName } = styleProps
@@ -69,11 +64,16 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
       control={(control as Control) ?? defaultControl}
       name={name}
       render={({ field }) => (
-        <FormItem className={className}>
+        <FormItem
+          className={cn(
+            className,
+            isRowDirection ? "flex items-center justify-between" : null
+          )}
+        >
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             {label}
             {required && <RequiredSymbol />}
-            {direction === "row" && !isHideErrorMessage && (
+            {isRowDirection && !isHideErrorMessage && (
               <FormMessage className="mt-1" />
             )}
           </FormLabel>
@@ -86,7 +86,7 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
               {...field}
             />
           </FormControl>
-          {direction === "column" && !isHideErrorMessage && <FormMessage />}
+          {!isRowDirection && !isHideErrorMessage && <FormMessage />}
         </FormItem>
       )}
     />

@@ -49,6 +49,7 @@ import { SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-
 import { merge } from "lodash"
 import { ForecastingSetupFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/type.ts"
 import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
+import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -82,7 +83,7 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.PRIVACY_POLICY]: SbbPreApplicationDisclosuresValue
   // Financial projection
   [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: ForecastingSetupFormValue
-  [LOAN_APPLICATION_STEPS.REVENUE]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.REVENUE]: RevenueStream
   [LOAN_APPLICATION_STEPS.PEOPLE]: object // TODO: replace this with actual type
   [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: object
   [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: FpOperatingExpensesFormValue
@@ -143,6 +144,7 @@ export type FormStateType =
   // Financial projection
   | ForecastingSetupFormValue
   | FpOperatingExpensesFormValue
+  | RevenueStream
 
 export type Action = {
   action: FORM_ACTION

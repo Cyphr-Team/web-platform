@@ -1,42 +1,55 @@
 import { useFieldArray, useFormContext } from "react-hook-form"
-import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
-import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { Card } from "@/components/ui/card.tsx"
 import { Button } from "@/components/ui/button.tsx"
-import { Plus, X } from "lucide-react"
-import { FC, memo, useCallback } from "react"
+import { TrashIcon, X } from "lucide-react"
+import { FC, memo, ReactNode, useCallback } from "react"
 import {
   Block,
   renderBlockComponents
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
+import { CollapsibleArrayFieldTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/CollapsibleArrayFieldTemplate.tsx"
+import { Accordion } from "@/components/ui/accordion.tsx"
+import { lowerCase, startCase } from "lodash"
+import { TooltipProvider } from "@radix-ui/react-tooltip"
+import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { useBoolean } from "@/hooks"
+import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
 
 interface ArrayFormTemplateProps {
-  name: string
+  title: string
+  subtitle: string
+
+  fieldName: RevenueType
+  dataName: string
+
   defaultEmptyObject: object
-  step: LOAN_APPLICATION_STEPS
+  onBlur: VoidFunction
+
   blocks: Block[]
+  addIcon: ReactNode
 }
 
 const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
-  const { name, defaultEmptyObject, step, blocks } = props
-  const { control, getValues } = useFormContext()
+  const {
+    title,
+    subtitle,
+    fieldName,
+    dataName,
+    defaultEmptyObject,
+    onBlur,
+    blocks,
+    addIcon
+  } = props
+  const confirmDeleteDialog = useBoolean(false)
+  const { control, getValues, setValue } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
-    name
+    name: fieldName
   })
-  const { dispatchFormAction } = useLoanApplicationFormContext()
-  const handleAddFundingSource = () => {
+
+  const handleAddItem = () => {
     append(defaultEmptyObject)
   }
-
-  const onBlur = useCallback(() => {
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: step,
-      state: getValues()
-    })
-  }, [dispatchFormAction, getValues, step])
 
   const onRemove = useCallback(
     (index: number) => () => {
@@ -46,42 +59,81 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
     [onBlur, remove]
   )
 
+  const handleClearAll = useCallback(() => {
+    setValue(fieldName, [])
+  }, [fieldName, setValue])
+
   return (
     <Card className="flex flex-col gap-2xl p-xl rounded-lg h-fit">
-      <h5 className="text-sm font-semibold">
-        Select all funding sources that apply and add the amount you have
-        received
-      </h5>
-      {fields.map((source, index) => {
-        return (
-          <div className="flex flex-col" key={source.id}>
-            <div className="flex justify-between items-center">
-              <h5 className="font-semibold text-sm text-center align-middle">
-                {getValues(name).at(index).name}
-              </h5>
-              {getValues(name).length > 1 && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="p-4"
-                  onClick={onRemove(index)}
-                >
-                  <X className="w-4" />
-                </Button>
-              )}
-            </div>
-            {renderBlockComponents(blocks)}
-          </div>
-        )
-      })}
+      <div className="flex justify-between items-center mr-5">
+        <div>
+          <h5 className="text-[18px] font-semibold">{title}</h5>
+          <div className="text-sm">{subtitle}</div>
+        </div>
+        <CustomAlertDialog
+          isOpen={confirmDeleteDialog.value}
+          onConfirmed={handleClearAll}
+          onCanceled={(e) => {
+            e.stopPropagation()
+            confirmDeleteDialog.onFalse()
+          }}
+          title="Delete this revenue stream?"
+          cancelText="Cancel"
+          confirmText="Confirm"
+          description={
+            <span>
+              Are you sure to delete this entire revenue stream? This action is
+              permanent and cannot be undone.
+            </span>
+          }
+          actionClassName="bg-red-500 hover:bg-red-600 text-white"
+        >
+          <X onClick={confirmDeleteDialog.onTrue} />
+        </CustomAlertDialog>
+      </div>
+      <Accordion type="multiple" className="flex flex-col gap-xl">
+        {fields.map((source, index) => {
+          return (
+            <CollapsibleArrayFieldTemplate
+              id={source.id}
+              key={source.id}
+              label={`${startCase(dataName)} #${index + 1}`}
+            >
+              <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-xl border">
+                <TooltipProvider>
+                  {renderBlockComponents(
+                    blocks.map((block) => {
+                      return {
+                        ...block,
+                        name: `${fieldName}.${index}.${block.name}` as const
+                      }
+                    })
+                  )}
+                </TooltipProvider>
+                {getValues(fieldName)?.length > 1 ? (
+                  <Button
+                    variant="outline"
+                    onClick={onRemove(index)}
+                    className="w-fit self-end"
+                  >
+                    <TrashIcon />
+                  </Button>
+                ) : null}
+              </div>
+            </CollapsibleArrayFieldTemplate>
+          )
+        })}
+      </Accordion>
       <Button
         type="button"
         variant="outline"
-        className="w-min ml-auto border-black gap-2"
-        onClick={handleAddFundingSource}
+        className="ml-auto border-black"
+        onClick={handleAddItem}
       >
-        <Plus className="w-4" />
-        Add funding source
+        <div className="flex gap-2 items-center w-fit">
+          {addIcon}
+          {`Add ${lowerCase(dataName)}`}
+        </div>
       </Button>
     </Card>
   )

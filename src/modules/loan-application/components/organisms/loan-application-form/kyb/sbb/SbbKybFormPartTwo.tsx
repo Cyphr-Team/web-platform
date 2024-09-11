@@ -102,11 +102,11 @@ export const SBBKybFormPartTwo = () => {
                   key={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES}
                 >
                   <RHFOptionInput
-                    label="Do you anticipate the regular deposit or withdrawal of cash with this SBB account?"
                     className="col-span-12"
                     name={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES}
                     options={YES_NO_OPTIONS}
                     {...props}
+                    label="Do you anticipate the regular deposit or withdrawal of cash with this SBB account?"
                   />
                   {form.watch(
                     SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES

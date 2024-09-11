@@ -29,7 +29,7 @@ export interface RHFCurrencyInputProps<T extends FieldValues> {
     labelClassName?: string
     messageClassName?: string
   }
-  direction?: "row" | "column"
+  isRowDirection?: boolean
   prefix?: string
   suffix?: string
   description?: string
@@ -52,7 +52,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
     required,
     subtitle,
     styleProps = {},
-    direction = "row",
+    isRowDirection,
     className,
     isHideErrorMessage = false,
     ...inputProps
@@ -73,7 +73,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
             return ""
           }
           // Allow empty input when the field is untouched and value is 0
-          if (fieldState.isTouched === false && field.value === 0) {
+          if (!fieldState.isTouched && field.value === 0) {
             return ""
           }
           // Format the currency value
@@ -94,9 +94,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
                       </p>
                     )}
                   </label>
-                  {direction === "row" && !isHideErrorMessage && (
-                    <FormMessage />
-                  )}
+                  {isRowDirection && !isHideErrorMessage && <FormMessage />}
                 </div>
               </FormLabel>
             )}
@@ -126,7 +124,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
                 className={cn("text-base", inputClassName)}
               />
             </FormControl>
-            {direction === "column" && !isHideErrorMessage && (
+            {!isRowDirection && !isHideErrorMessage && (
               <FormMessage className={messageClassName} />
             )}
           </FormItem>

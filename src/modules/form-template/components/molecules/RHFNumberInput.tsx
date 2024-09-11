@@ -28,7 +28,7 @@ export interface RHFNumberInputProps<T extends FieldValues>
   required?: boolean
   className?: string
   suffixIcon?: ReactNode
-  direction?: "row" | "column"
+  isRowDirection?: boolean
   styleProps?: {
     inputClassName?: string
     labelClassName?: string
@@ -53,7 +53,7 @@ const RHFNumberInput = <T extends FieldValues>(
     className,
     styleProps = {},
     required,
-    direction,
+    isRowDirection,
     subtitle,
     ...other
   } = props
@@ -65,7 +65,12 @@ const RHFNumberInput = <T extends FieldValues>(
       control={control as Control<T>}
       name={name}
       render={({ field }) => (
-        <FormItem className={className}>
+        <FormItem
+          className={cn(
+            className,
+            isRowDirection ? "flex justify-between items-center" : null
+          )}
+        >
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             <div className="flex flex-col">
               <label>
@@ -77,7 +82,7 @@ const RHFNumberInput = <T extends FieldValues>(
                   </p>
                 )}
               </label>
-              {direction === "row" && <FormMessage />}
+              {isRowDirection && <FormMessage />}
             </div>
           </FormLabel>
           <FormControl>
@@ -91,9 +96,7 @@ const RHFNumberInput = <T extends FieldValues>(
               value={`${field.value}`}
             />
           </FormControl>
-          {direction === "column" && (
-            <FormMessage className={messageClassName} />
-          )}
+          {!isRowDirection && <FormMessage className={messageClassName} />}
           {subtitle && (
             <div className="text-xs text-text-tertiary">{subtitle}</div>
           )}

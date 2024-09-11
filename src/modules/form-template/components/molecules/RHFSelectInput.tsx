@@ -55,6 +55,7 @@ export interface RHFSelectInputProps<T extends FieldValues> {
     itemTextClassName?: string
   }
 
+  isRowDirection?: boolean
   required?: boolean
   disabled?: boolean
 }
@@ -74,7 +75,8 @@ const RHFSelectInput = <T extends FieldValues>(
     selectProps,
     selectTriggerProps,
     selectContentProps,
-    className
+    className,
+    isRowDirection
   } = props
 
   const { control } = useFormContext()
@@ -91,7 +93,12 @@ const RHFSelectInput = <T extends FieldValues>(
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={className}>
+        <FormItem
+          className={cn(
+            isRowDirection && "flex items-center justify-between",
+            className
+          )}
+        >
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             <label className="items-center inline-flex">
               <span>

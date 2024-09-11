@@ -104,7 +104,7 @@ const DirectCostDialog = (props: DirectCostDialogProps) => {
           labelClassName: "w-full"
         },
         suffixIcon: <span className="text-text-tertiary">%</span>,
-        direction: "row"
+        isRowDirection: true
       }
     }
   ]
