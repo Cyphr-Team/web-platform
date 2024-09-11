@@ -8,6 +8,7 @@ import { useMemo, useRef, useState } from "react"
 
 import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
+import { DisclaimerAndDisclosure } from "@/modules/loan-application/components/organisms/loan-application-form/disclaimer-disclosure/DisclaimerAndDisclosure"
 import { getPDF } from "@/modules/loan-application/services/pdf.service"
 import { isSbb } from "@/utils/domain.utils"
 import {
@@ -108,6 +109,28 @@ export const ReviewApplication = () => {
     }, 10)
   }
 
+  const isShowDisclaimer = isSbb()
+  const disclaimerSection = isShowDisclaimer && (
+    <div className="col-span-8 grid grid-cols-8 gap-4">
+      <div className="col-span-2 text-2xl font-semibold max-w-screen-sm">
+        <div>Disclaimer</div>
+      </div>
+      <div className="col-span-6 flex flex-col gap-6 max-w-screen-sm">
+        <div
+          className="w-full h-full"
+          ref={(e) => {
+            if (itemsRef.current && e)
+              itemsRef.current[
+                LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
+              ] = e
+          }}
+        >
+          <DisclaimerAndDisclosure />
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6 mx-4 md:mx-8">
       {REQUIRED_REVIEW.map((requiredReview) => (
@@ -118,6 +141,8 @@ export const ReviewApplication = () => {
           itemsRef={itemsRef}
         />
       ))}
+
+      {disclaimerSection}
 
       <div className="col-start-3 col-span-6">
         <Form {...form}>

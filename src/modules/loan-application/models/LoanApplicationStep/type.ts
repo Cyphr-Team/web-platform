@@ -61,6 +61,7 @@ enum LOAN_APPLICATION_STEPS {
   FICTITIOUS_NAME_CERTIFICATION = "fictitiousNameCertification",
   ARTICLES_OF_ORGANIZATION = "articlesOfOrganizationAndOperatingAgreement",
   BY_LAWS = "bylaws",
+  DISCLAIMER_AND_DISCLOSURE = "disclaimerAndDisclosure",
 
   // SBB
   PRIVACY_POLICY = "privacyPolicy",

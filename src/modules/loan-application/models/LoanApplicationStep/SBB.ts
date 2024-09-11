@@ -48,8 +48,8 @@ export class SBBLoanApplicationStep
       ._build_FictitiousNameCertification()
       ._build_ArticlesOfOrganization()
       ._build_ByLaws()
-
-    this._build_ReviewApplicationStep()
+      ._build_DisclaimerAndDisclosure()
+      ._build_ReviewApplicationStep()
 
     return this._build_ConfirmationStep()
   }

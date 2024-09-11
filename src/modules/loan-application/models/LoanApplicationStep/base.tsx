@@ -443,6 +443,24 @@ export class LoanApplicationStep {
     return this
   }
 
+  _build_DisclaimerAndDisclosure(): this {
+    this.#steps = uniqBy(
+      [
+        ...this.#steps,
+        {
+          step: LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE,
+          formType: null,
+          label: "E-Sign Disclosure and Consent",
+          parent: STEP_MENU.SIGNATURE,
+          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+        }
+      ],
+      "step"
+    )
+
+    return this
+  }
+
   _build_extendedSteps(steps: ILoanApplicationStep[]): this {
     this.#steps = uniqBy([...this.#steps, ...steps], "step")
     return this

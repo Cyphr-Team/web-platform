@@ -1,15 +1,15 @@
+import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
+import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
+import jsPDF from "jspdf"
+import { isPossiblePhoneNumber } from "react-phone-number-input"
 import * as z from "zod"
 import { REGEX_PATTERN } from "."
-import { isPossiblePhoneNumber } from "react-phone-number-input"
-import { DocumentUploadedResponse, PlaidItemInfo } from "./type"
-import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
-import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
-import jsPDF from "jspdf"
 import {
   SbbKybFormPartOneValue,
   SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
+import { DocumentUploadedResponse, PlaidItemInfo } from "./type"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -467,6 +467,10 @@ export const launchKcFitFormSchema = z.object({
   progress: z.string()
 })
 
+export const disclaimerAndDisclosureFormSchema = z.object({
+  acknowledge: z.literal(true)
+})
+
 export const BINARY_VALUES = {
   YES: "yes",
   NO: "no"
@@ -482,6 +486,10 @@ export const yesNoSchema = z
   .refine((val) => YES_NO_OPTIONS.map((option) => option.value).includes(val), {
     message: "Invalid option, must be 'yes' or 'no'."
   })
+
+export type DisclaimerAndDisclosureFormValue = z.infer<
+  typeof disclaimerAndDisclosureFormSchema
+>
 
 export type IdentityVerificationValue = z.infer<
   ReturnType<typeof createIdentityVerificationSchema>

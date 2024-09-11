@@ -716,8 +716,13 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
         progress: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION
       })
+      changeDataAndProgress(
+        { acknowledge: true },
+        LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
+      )
     }
   }, [
+    changeDataAndProgress,
     dispatchFormAction,
     dispatchProgress,
     eSignQuery.data?.documentId,

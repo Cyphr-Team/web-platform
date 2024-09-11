@@ -1,5 +1,6 @@
 import { AppAlert } from "@/components/ui/alert"
 import { Button, ButtonLoading } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import {
   eSignFormSchema,
@@ -32,6 +33,11 @@ export const ESignForm = () => {
   const { progress, finishCurrentStep } = useLoanApplicationProgressContext()
   const [isShowCreateSessionBtn, setIsShowCreateSessionBtn] = useState(false)
   const [isShowCreateDocumentBtn, setIsShowCreateDocumentBtn] = useState(false)
+
+  const [acknowledgeDisclaimer, setAcknowledgeDisclaimer] = useState(false)
+  const acknowledgeTheDisclaimer = () => {
+    setAcknowledgeDisclaimer(true)
+  }
 
   // Get loan program id
   const { loanProgramId } = useParams()
@@ -198,6 +204,30 @@ export const ESignForm = () => {
       </div>
     )
   }
+
+  if (!acknowledgeDisclaimer)
+    return (
+      <Card
+        className={cn(
+          "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
+          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+        )}
+        id={LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE}
+      >
+        <h5 className="text-lg font-semibold">Cyphr Disclaimer</h5>
+        <p className="text-sm">
+          By submitting this application, you acknowledge that it does not form
+          a legal contract for the provision of financial services. You certify
+          that the information provided is accurate and understand that Small
+          Business Bank will rely on this accuracy during its evaluation.
+          Submission of this application—whether by mail, fax, or
+          electronically—constitutes certification by the company and the
+          guarantor(s) signing on its behalf that, to the best of their
+          knowledge, the information is true and correct.
+        </p>
+        <Button onClick={acknowledgeTheDisclaimer}>Next</Button>
+      </Card>
+    )
 
   return (
     <div

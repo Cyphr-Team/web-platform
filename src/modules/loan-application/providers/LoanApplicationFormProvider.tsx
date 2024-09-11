@@ -12,6 +12,7 @@ import {
   BusinessModelFormValue,
   ConfirmationFormValue,
   CurrentLoansFormValue,
+  DisclaimerAndDisclosureFormValue,
   DocumentUploadsFormValue,
   ESignFormValue,
   ExecutionFormValue,
@@ -68,6 +69,7 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS]: DocumentUploadsFormValue
   [LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT]: LaunchKCFitFormValue
   [LOAN_APPLICATION_STEPS.PRE_QUALIFICATION]: PreQualificationFormValue
+  [LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE]: DisclaimerAndDisclosureFormValue
   // SBB
   [LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE]: SbbKybFormPartOneValue
   [LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO]: SbbKybFormPartTwoValue
@@ -123,6 +125,7 @@ export type FormStateType =
   | DocumentUploadsFormValue
   | PreQualificationFormValue
   | ESignFormValue
+  | DisclaimerAndDisclosureFormValue
   // for launch KC only
   | LaunchKCFitFormValue
   | LaunchKCBusinessFormValue
