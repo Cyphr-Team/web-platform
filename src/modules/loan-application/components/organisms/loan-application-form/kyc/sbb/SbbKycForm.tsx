@@ -146,7 +146,9 @@ export const SbbKycForm = () => {
             )}
             id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
           >
-            <h5 className="text-lg font-semibold">Individual Information</h5>
+            <h5 className="text-lg font-semibold">
+              Owner / Guarantor Information
+            </h5>
             <Separator />
 
             <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">

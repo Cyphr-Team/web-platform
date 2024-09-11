@@ -34,7 +34,7 @@ function CountrySelect({ value, onChange, labels = en }: CountrySelectProps) {
         <Button
           variant="outline"
           aria-expanded={open}
-          className="justify-between border-r-0 rounded-r-none px-2 font-normal text-base"
+          className="justify-between border-r-0 rounded-r-none px-2 font-normal text-sm"
         >
           {value}
           <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
@@ -76,7 +76,7 @@ const CustomPhoneInput = React.forwardRef<HTMLInputElement, InputProps>(
       <Input
         ref={ref}
         {...props}
-        className="border-l-0 rounded-l-none pl-1 text-base"
+        className="border-l-0 rounded-l-none pl-1 text-sm"
         wrapperClassName="w-full"
         maxLength={15}
       />

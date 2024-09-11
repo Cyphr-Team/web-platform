@@ -9,5 +9,6 @@ export { default as RHFCurrencyInput } from "./RHFCurrencyInput"
 export { default as RHFPercentageInput } from "./RHFPercentageInput"
 export { default as RHFCalendarPickerInput } from "./RHFCalendarPickerInput"
 export { default as RHFDragAndDropFileUpload } from "./RHFDragAndDropFileUpload"
+export { default as RHFPhoneInput } from "./RHFPhoneInput"
 
 export { default as CalendarPickerPopover } from "./CalendarPickerPopover"

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Plus, X } from "lucide-react"
-import { memo } from "react"
+import { memo, useCallback, useEffect } from "react"
 import {
   FieldArrayWithId,
   useFieldArray,
@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator"
 
 import {
   RHFPercentageInput,
+  RHFPhoneInput,
   RHFSelectInput,
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
@@ -37,14 +38,14 @@ export const BeneficialOwnersInput = () => {
   })
   const { dispatchFormAction } = useLoanApplicationFormContext()
 
-  const handleAddOwner = () => {
+  const handleAddOwner = useCallback(() => {
     append({
       [SBB_KYC_FIELD_NAMES.NAME]: "",
       [SBB_KYC_FIELD_NAMES.EMAIL]: "",
       [SBB_KYC_FIELD_NAMES.PHONE_NUMBER]: "",
       [SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE]: 0
     })
-  }
+  }, [append])
 
   const onBlur = () => {
     dispatchFormAction({
@@ -58,6 +59,27 @@ export const BeneficialOwnersInput = () => {
     remove(index)
     onBlur()
   }
+
+  const watchHasBeneficialOwners = watch(
+    `${SBB_KYC_FIELD_NAMES.METADATA}.${SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS}`
+  )
+
+  useEffect(() => {
+    if (watchHasBeneficialOwners === BINARY_VALUES.NO) {
+      remove()
+    } else {
+      if (fields.length === 0) {
+        handleAddOwner()
+      }
+    }
+  }, [
+    dispatchFormAction,
+    fields.length,
+    getValues,
+    handleAddOwner,
+    remove,
+    watchHasBeneficialOwners
+  ])
 
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
@@ -138,7 +160,7 @@ const EditOwner = memo((props: EditOwnerProps) => {
       <RHFTextInput
         isRowDirection
         styleProps={{
-          inputClassName: "w-42 md:max-w-42 xl:max-w-42 xl:w-42"
+          inputClassName: "w-48 md:max-w-48 xl:max-w-48 xl:w-48"
         }}
         label="What is their first and last name?"
         name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.NAME}`}
@@ -146,23 +168,23 @@ const EditOwner = memo((props: EditOwnerProps) => {
       <RHFTextInput
         isRowDirection
         styleProps={{
-          inputClassName: "w-42 md:max-w-42 xl:max-w-42 xl:w-42"
+          inputClassName: "w-48 md:max-w-48 xl:max-w-48 xl:w-48"
         }}
         label="What is their email address?"
         name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.EMAIL}`}
-      />{" "}
-      <RHFTextInput
+      />
+      <RHFPhoneInput
         isRowDirection
         styleProps={{
-          inputClassName: "w-42 md:max-w-42 xl:max-w-42 xl:w-42"
+          inputClassName: "w-48 md:max-w-48 xl:max-w-48 xl:w-48"
         }}
         label="What is their phone number?"
         name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.PHONE_NUMBER}`}
-      />{" "}
+      />
       <RHFPercentageInput
-        className="flex items-center justify-between"
+        className="flex items-center justify-between gap-2"
         styleProps={{
-          inputClassName: "w-42 md:max-w-42 xl:max-w-42 xl:w-42"
+          inputClassName: "w-48 md:max-w-48 xl:max-w-48 xl:w-48"
         }}
         label="What percentage of the business do they own?"
         name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}`}

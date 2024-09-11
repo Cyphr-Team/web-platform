@@ -226,10 +226,13 @@ export const SBBKybFormPartOne = () => {
                     <RHFTextInput
                       label="If yes, what is the name of the owning company?"
                       key={SBB_KYB_FORM_FIELDS.PARENT_COMPANY}
-                      className="col-span-12 flex items-end gap-1"
+                      className="col-span-12 flex items-end gap-1 "
                       styleProps={{
-                        inputClassName:
-                          "!max-w-40 border-l-0 border-r-0 border-t-0", // to-do remove ring focus
+                        inputClassName: cn(
+                          "ml-2.5 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                          "text-sm text-text-secondary font-normal",
+                          "!max-w-40 border-l-0 border-r-0 border-t-0 rounded-none"
+                        ),
                         labelClassName: "leading-normal"
                       }}
                       name={SBB_KYB_FORM_FIELDS.PARENT_COMPANY}

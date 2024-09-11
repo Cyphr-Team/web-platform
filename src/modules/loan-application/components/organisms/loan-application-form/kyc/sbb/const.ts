@@ -119,7 +119,7 @@ export const SBB_KYC_FORM_BLOCKS: Block[] = [
     }
   },
   {
-    type: FieldType.TEXT,
+    type: FieldType.PHONE,
     name: SBB_KYC_FIELD_NAMES.PHONE_NUMBER,
     props: {
       label: "Phone number",

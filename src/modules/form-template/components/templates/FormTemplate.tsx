@@ -14,6 +14,7 @@ import { RHFNumberInputProps } from "@/modules/form-template/components/molecule
 import { RHFOptionInputProps } from "@/modules/form-template/components/molecules/RHFOptionInput.tsx"
 import { RHFSelectInputProps } from "@/modules/form-template/components/molecules/RHFSelectInput.tsx"
 import { RHFTextInputProps } from "@/modules/form-template/components/molecules/RHFTextInput.tsx"
+import { RHFPhoneInputProps } from "@/modules/form-template/components/molecules/RHFPhoneInput.tsx"
 import RHFProvider from "@/modules/form-template/providers/RHFProvider.tsx"
 import {
   RHFCalendarPickerInput,
@@ -26,7 +27,8 @@ import {
   RHFOptionInput,
   RHFPercentageInput,
   RHFSelectInput,
-  RHFTextInput
+  RHFTextInput,
+  RHFPhoneInput
 } from "@/modules/form-template/components/molecules"
 import { cn } from "@/lib/utils.ts"
 import { RHFCalendarPickerInputProps } from "@/modules/form-template/components/molecules/RHFCalendarPickerInput.tsx"
@@ -44,7 +46,8 @@ export const enum FieldType {
   DATE = "date",
   CURRENCY = "currency",
   PERCENTAGE = "percentage",
-  DND_FILE = "dragAndDropFile"
+  DND_FILE = "dragAndDropFile",
+  PHONE = "phone"
 }
 
 export const ComponentMapper: { [key: string]: ComponentType<any> } = {
@@ -58,7 +61,8 @@ export const ComponentMapper: { [key: string]: ComponentType<any> } = {
   [FieldType.DATE]: RHFCalendarPickerInput,
   [FieldType.CURRENCY]: RHFCurrencyInput,
   [FieldType.PERCENTAGE]: RHFPercentageInput,
-  [FieldType.DND_FILE]: RHFDragAndDropFileUpload
+  [FieldType.DND_FILE]: RHFDragAndDropFileUpload,
+  [FieldType.PHONE]: RHFPhoneInput
 }
 
 export type BlockProps<T extends FieldValues> = Partial<
@@ -72,6 +76,7 @@ export type BlockProps<T extends FieldValues> = Partial<
   | RHFCalendarPickerInputProps<T>
   | RHFCurrencyInputProps<T>
   | RHFPercentageInputProps<T>
+  | RHFPhoneInputProps<T>
 >
 
 export interface Block {
