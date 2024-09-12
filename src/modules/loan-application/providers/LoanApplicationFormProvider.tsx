@@ -54,6 +54,7 @@ import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-p
 import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
 import { FinancialStatementFormValues } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FinancialStatementForm.tsx"
+import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -93,7 +94,7 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: DirectCostsFormValue
   [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: FpOperatingExpensesFormValue
   [LOAN_APPLICATION_STEPS.TAX_RATES]: object // TODO: replace this with actual type
-  [LOAN_APPLICATION_STEPS.ASSETS]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.ASSETS]: AssetsFormValue
   [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: object // TODO: replace this with actual type
   [LOAN_APPLICATION_STEPS.EQUITY]: FpEquityFinancingFormValue
   [LOAN_APPLICATION_STEPS.REVIEW_INPUTS]: object // TODO: replace this with actual type
@@ -153,6 +154,7 @@ export type FormStateType =
   | DirectCostsFormValue
   | FpEquityFinancingFormValue
   | FinancialStatementFormValues
+  | AssetsFormValue
 
 export type Action = {
   action: FORM_ACTION
