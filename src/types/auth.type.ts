@@ -42,6 +42,11 @@ interface StytchSendOtpResponse {
   memberId: string
 }
 
+interface StytchSendMagicLinkResponse {
+  requestId: string
+  memberId: string
+}
+
 interface StytchAuthOtpResponse {
   requestId: string
   memberId: string
@@ -56,5 +61,6 @@ export type {
   StytchOrganization,
   StytchSendOtpResponse,
   StytchAuthOtpResponse,
-  StytchPasswordAuthenticateResponse
+  StytchPasswordAuthenticateResponse,
+  StytchSendMagicLinkResponse
 }

@@ -84,6 +84,17 @@ function isEnableMultiFactorAuthenticationForAdminPortal() {
   )
 }
 
+/**
+ * Checks if Multi-Factor Authentication is enabled for the LaunchKC Portal.
+ * This flag is only used for the LaunchKC Portal, and only works when the MULTI_FACTOR_AUTHENTICATION flag is also enabled.
+ * @returns {boolean} - True if the feature flag for MFA in LaunchKC Portal is enabled, otherwise false.
+ */
+function isEnableMultiFactorAuthenticationForLaunchKC() {
+  return checkEnabledFeatureFlag(
+    FEATURE_FLAGS.MULTI_FACTOR_AUTHENTICATION_LAUNCHKC
+  )
+}
+
 /*
  * Replace step Sign and Submit with ESign with PandaDoc
  * 1. Applicant - Submit application - Last step confirmation
@@ -169,6 +180,7 @@ export {
   isEnableKycReOrder,
   isEnableMultiFactorAuthentication,
   isEnableMultiFactorAuthenticationForAdminPortal,
+  isEnableMultiFactorAuthenticationForLaunchKC,
   isEnableNewSubmitFormStrategy,
   isIgnoredKycSubmission,
   isIgnoredCashFlowSubmission,

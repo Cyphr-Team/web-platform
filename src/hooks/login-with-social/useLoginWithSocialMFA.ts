@@ -11,6 +11,8 @@ import { AxiosError, AxiosResponse } from "axios"
 import { ErrorResponse, useNavigate } from "react-router-dom"
 import { toastError } from "../../utils"
 import { TOAST_MSG } from "../../constants/toastMsg"
+import { UserInfo } from "@/types/user.type"
+import { isLaunchKC } from "@/utils/domain.utils"
 
 interface LoginGoogleRequest {
   provider: SocialProvider
@@ -22,7 +24,7 @@ export const useLoginWithSocialMFA = () => {
   const navigate = useNavigate()
 
   return useMutation<
-    AxiosResponse<StytchPasswordAuthenticateResponse>,
+    AxiosResponse<StytchPasswordAuthenticateResponse & UserInfo>,
     AxiosError<ErrorResponse>,
     LoginGoogleRequest
   >({
@@ -34,6 +36,19 @@ export const useLoginWithSocialMFA = () => {
       })
     },
     onSuccess: ({ data }) => {
+      // For LaunchKC, MFA with OAuth is not enabled
+      if (isLaunchKC()) {
+        const { accessToken, refreshToken } = data
+
+        inMemoryJWTService.setToken(accessToken)
+        inMemoryJWTService.setRefreshToken(refreshToken)
+        inMemoryJWTService.setUserInfo(data)
+        queryClient.resetQueries()
+
+        navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
+        return
+      }
+      // For the remaining tenants, we need to navigate to the MFA verification page
       const { intermediateSessionToken, member } = data
 
       inMemoryJWTService.setIntermediateSessionToken(intermediateSessionToken)
@@ -52,7 +67,7 @@ export const useLoginWithSocialMFA = () => {
       // Else we need to navigate to the MFA verification page
       // If mfaPhoneNumberVerified is not True or mfaPhoneNumber is empty
       // It means that the user has not validated his/her MFA Phone Number yet
-      // Then we need to navigate him/her to the MFA phone setup page
+      // Then we need to navigate him/her to the MFA setup page
       if (
         member.mfaPhoneNumber === "" ||
         member.mfaPhoneNumberVerified !== true

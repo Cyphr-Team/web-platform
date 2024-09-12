@@ -202,7 +202,7 @@ export function SetupProfileForm() {
                 variant="success"
                 title="Your sign up has been completed"
                 description={`You'll be redirected to the ${
-                  isEnableMFA() ? "phone setup" : "login"
+                  isEnableMFA() ? "MFA setup" : "login"
                 } page after ${count} seconds`}
               />
             )}

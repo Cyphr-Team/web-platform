@@ -1,22 +1,19 @@
 import { ArrowLeft, KeySquare } from "lucide-react"
-import { Link, useNavigate, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { Button } from "@/components/ui/button"
-import { useStytchB2BClient } from "@stytch/nextjs/dist/b2b"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { toastError } from "@/utils"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { RedirectParam } from "../constants/params"
 import { SocialProvider } from "../../../../types/auth.type"
 import { useLoginWithSocialMFA } from "../../../../hooks/login-with-social/useLoginWithSocialMFA"
-import { SESSION_DURATION_MINUTES } from "../constants/session"
+import { useAuthenticateWithMagicLink } from "@/modules/authentication/magic-link/hooks/useAuthenticateWithMagicLink"
 
 export function RedirectSection() {
   const { mutate: loginBySocialMutate } = useLoginWithSocialMFA()
-  const stytchClient = useStytchB2BClient()
-  const navigate = useNavigate()
+  const { mutate: loginByMagicLinkMutate } = useAuthenticateWithMagicLink()
   const [email, setEmail] = useState("")
   const [searchParams] = useSearchParams()
   const initialized = useRef(false)
@@ -28,18 +25,19 @@ export function RedirectSection() {
   }, [searchParams])
 
   const loginByMagicLink = useCallback(
-    async (token: string) => {
-      await stytchClient.magicLinks.authenticate({
-        magic_links_token: token,
-        session_duration_minutes: SESSION_DURATION_MINUTES
-      })
-      if (checkIsLoanApplicant()) {
-        navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
-      } else {
-        navigate(APP_PATH.INDEX)
+    (token: string) => {
+      try {
+        loginByMagicLinkMutate({
+          magicLinkToken: token
+        })
+      } catch (e) {
+        toastError({
+          ...TOAST_MSG.user.stytchMagicLink,
+          description: "Failed to authenticate Magic Link or it was expired"
+        })
       }
     },
-    [navigate, stytchClient]
+    [loginByMagicLinkMutate]
   )
 
   /**

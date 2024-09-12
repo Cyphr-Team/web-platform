@@ -39,6 +39,12 @@ const authenticationRoutes = (
         lazy={() => import("@/modules/authentication/verify-phone/page")}
       />
 
+      {/* MAGIC LINK */}
+      <Route
+        path={APP_PATH.MAGIC_LINK}
+        lazy={() => import("@/modules/authentication/magic-link/page")}
+      />
+
       {/* REDIRECT CALLBACK */}
       <Route
         path={APP_PATH.REDIRECT_CALLBACK}

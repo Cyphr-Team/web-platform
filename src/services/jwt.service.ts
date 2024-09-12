@@ -7,14 +7,18 @@ import { customRequestHeader } from "@/utils/request-header"
 
 import {
   isEnableMultiFactorAuthentication,
-  isEnableMultiFactorAuthenticationForAdminPortal
+  isEnableMultiFactorAuthenticationForAdminPortal,
+  isEnableMultiFactorAuthenticationForLaunchKC
 } from "@/utils/feature-flag.utils"
-import { isAdmin } from "@/utils/domain.utils"
+import { isAdmin, isLaunchKC } from "@/utils/domain.utils"
 
 export const isEnableMFA = () => {
   if (!isEnableMultiFactorAuthentication()) return false
   if (isAdmin() && !isEnableMultiFactorAuthenticationForAdminPortal()) {
     return false
+  }
+  if (isLaunchKC()) {
+    return isEnableMultiFactorAuthenticationForLaunchKC()
   }
   return true
 }

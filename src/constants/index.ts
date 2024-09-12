@@ -18,6 +18,7 @@ export const APP_PATH = {
     detail: (email: string) => `/verify-email/${email}`,
     activateByToken: "/activation"
   },
+  MAGIC_LINK: "/magic-link",
   SETUP_PHONE: "/setup-phone",
   VERIFY_PHONE: "/verify-phone",
   REDIRECT_CALLBACK: "/redirect",
@@ -175,7 +176,9 @@ export const API_PATH = {
     loginBySocial: "login/social",
     // MFA
     sendSmsOtp: "login/send-sms-otp",
-    activateBySmsOtpCode: "login/sms"
+    activateBySmsOtpCode: "login/sms",
+    sendMagicLink: "login/send-magic-link",
+    activateByMagicLink: "login/magic-link"
   },
   admin: {
     user: {
