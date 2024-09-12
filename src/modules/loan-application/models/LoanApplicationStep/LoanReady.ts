@@ -30,6 +30,13 @@ export class LoanReadyLoanApplicationStep
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
       },
       {
+        step: LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS,
+        formType: FORM_TYPE.FINANCIAL_STATEMENTS,
+        label: "Financial Statements",
+        parent: STEP_MENU.FORECASTING_SETUP,
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      },
+      {
         step: LOAN_APPLICATION_STEPS.REVENUE,
         formType: FORM_TYPE.REVENUE,
         label: "Revenue",
@@ -89,13 +96,6 @@ export class LoanReadyLoanApplicationStep
         step: LOAN_APPLICATION_STEPS.ASSETS,
         formType: FORM_TYPE.ASSETS,
         label: "Assets",
-        parent: STEP_MENU.ASSETS_AND_LIABILITIES,
-        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
-      },
-      {
-        step: LOAN_APPLICATION_STEPS.LIABILITIES,
-        formType: FORM_TYPE.LIABILITIES,
-        label: "Liabilities",
         parent: STEP_MENU.ASSETS_AND_LIABILITIES,
         status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
       },

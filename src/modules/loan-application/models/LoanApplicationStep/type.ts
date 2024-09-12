@@ -23,6 +23,7 @@ enum FORM_TYPE {
   BY_LAWS = "by_laws",
   //
   FORECASTING_SETUP = "forecasting_setup",
+  FINANCIAL_STATEMENTS = "financial_statements",
   // ==== REVENUE AND EXPENSES ====
   REVENUE = "revenue",
   PEOPLE = "people",
@@ -72,6 +73,7 @@ enum LOAN_APPLICATION_STEPS {
   // financial projection
   // ==== FORECASTING_SETUP ====
   FORECASTING_SETUP = "forecastingSetup",
+  FINANCIAL_STATEMENTS = "financialStatements",
   // ==== REVENUE AND EXPENSES ====
   REVENUE = "revenue",
   PEOPLE = "people",
@@ -80,7 +82,6 @@ enum LOAN_APPLICATION_STEPS {
   TAX_RATES = "taxRates",
   // ==== ASSETS AND LIABILITIES ====
   ASSETS = "assets",
-  LIABILITIES = "liabilities",
   DEBT_FINANCING = "debtFinancing",
   EQUITY = "equity",
   //

@@ -47,6 +47,7 @@ import { DisclaimerAndDisclosure } from "@/modules/loan-application/components/o
 import { PeopleForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/PeopleForm"
 import { DirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/DirectCostsForm"
 import { EquityForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/EquityForm"
+import { FinancialStatementForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FinancialStatementForm.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -150,6 +151,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <PeopleForm />
       case LOAN_APPLICATION_STEPS.EQUITY:
         return <EquityForm />
+      case LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS:
+        return <FinancialStatementForm />
       default:
         return null
     }
