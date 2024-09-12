@@ -494,6 +494,13 @@ export const API_PATH = {
       findByFinancialProjectionId:
         "api/financial-projection/form/recurring-charge/by-financial-projection-id",
       update: "api/financial-projection/form/recurring-charge/update"
+    },
+    operatingExpenses: {
+      submit: "api/financial-projection/form/expense-operating",
+      findById: "api/financial-projection/form/expense-operating/by-id",
+      findBySetupId:
+        "api/financial-projection/form/expense-operating/by-setup-id",
+      update: "api/financial-projection/form/expense-operating/update"
     }
   }
 }

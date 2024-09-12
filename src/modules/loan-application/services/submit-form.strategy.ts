@@ -1,6 +1,17 @@
+import { revertPattern } from "@/components/ui/mask-input"
 import { APP_PATH } from "@/constants"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
+import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
+import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
+import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
+import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
+import { useUploadSbbDocument } from "@/modules/loan-application/hooks/useForm/useSubmitSbbDocument.ts"
+import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/hooks/useSubmitFinancialProjectionForms"
 import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
@@ -15,6 +26,16 @@ import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError, isAxiosError } from "axios"
 import { Dispatch, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
+import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
+import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
+import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
+import {
+  SbbKybFormPartOneValue,
+  SbbKybFormPartTwoValue
+} from "../components/organisms/loan-application-form/kyb/sbb/const"
+import { MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
+import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import {
   BusinessModelFormValue,
   ConfirmationFormValue,
@@ -32,35 +53,6 @@ import {
   OperatingExpensesFormValue,
   ProductServiceFormValue
 } from "../constants/form"
-import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
-import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
-import { useSubmitLinkPlaidItemIds } from "../hooks/useForm/useSubmitLinkPlaidItemIds"
-import { useSubmitLoanConfirmationForm } from "../hooks/useForm/useSubmitLoanConfirmationForm"
-import { useSubmitLoanFinancialForm } from "../hooks/useForm/useSubmitLoanFinancialForm"
-import { useSubmitLoanKYBForm } from "../hooks/useForm/useSubmitLoanKYBForm"
-import { useSubmitLoanKYCForm } from "../hooks/useForm/useSubmitLoanKYCForm"
-import { useSubmitMicroLoanRequestForm } from "../hooks/useForm/useSubmitLoanRequest"
-import { useSubmitOperatingExpensesForm } from "../hooks/useForm/useSubmitOperatingExpensesForm"
-import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
-import {
-  FORM_TYPE,
-  ILoanApplicationStep,
-  LOAN_APPLICATION_STEP_STATUS,
-  LOAN_APPLICATION_STEPS
-} from "../models/LoanApplicationStep/type"
-import { useSubmitLoanProductServiceForm } from "../hooks/useForm/useSubmitProductServiceForm"
-import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKCFitForm"
-import { useSubmitExecutionForm } from "../hooks/useForm/useSubmitExecutionForm"
-import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
-import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
-import {
-  Action,
-  FORM_ACTION,
-  FormStateType
-} from "../providers/LoanApplicationFormProvider"
-import { useSubmitESignDocument } from "../hooks/useForm/useSubmitESignDocument"
-import { useUploadBusinessDocuments } from "../hooks/useForm/useUploadBusinessDocuments"
-import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
 import {
   CurrentLoansInformationResponse,
   FinancialInformationResponse,
@@ -68,29 +60,36 @@ import {
   KYCInformationResponse,
   OperatingExpensesInformationResponse
 } from "../constants/type"
-import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
-import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
-import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
-import { MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
-import { usePlaidContext } from "../providers"
-import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
-import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
-import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
-import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
-import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
-import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
-import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
-import { useUploadSbbDocument } from "@/modules/loan-application/hooks/useForm/useSubmitSbbDocument.ts"
-import { revertPattern } from "@/components/ui/mask-input"
-import {
-  SbbKybFormPartOneValue,
-  SbbKybFormPartTwoValue
-} from "../components/organisms/loan-application-form/kyb/sbb/const"
+import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
+import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
+import { useSubmitCurrentLoansForm } from "../hooks/useForm/useSubmitCurrentLoansForm"
+import { useSubmitESignDocument } from "../hooks/useForm/useSubmitESignDocument"
+import { useSubmitExecutionForm } from "../hooks/useForm/useSubmitExecutionForm"
+import { useSubmitLoanLaunchKCFitForm } from "../hooks/useForm/useSubmitLaunchKCFitForm"
+import { useSubmitLinkPlaidItemIds } from "../hooks/useForm/useSubmitLinkPlaidItemIds"
+import { useSubmitLoanConfirmationForm } from "../hooks/useForm/useSubmitLoanConfirmationForm"
+import { useSubmitLoanFinancialForm } from "../hooks/useForm/useSubmitLoanFinancialForm"
+import { useSubmitLoanKYBForm } from "../hooks/useForm/useSubmitLoanKYBForm"
+import { useSubmitLoanKYCForm } from "../hooks/useForm/useSubmitLoanKYCForm"
+import { useSubmitMicroLoanRequestForm } from "../hooks/useForm/useSubmitLoanRequest"
+import { useSubmitOperatingExpensesForm } from "../hooks/useForm/useSubmitOperatingExpensesForm"
+import { useSubmitLoanProductServiceForm } from "../hooks/useForm/useSubmitProductServiceForm"
 import { useSubmitSbbLoanKYBForm } from "../hooks/useForm/useSubmitSbbLoanKybForm"
-import { ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
-import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/services/form.services"
-import { useSubmitPeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useSubmitPeopleForm"
-import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
+import { useUploadBusinessDocuments } from "../hooks/useForm/useUploadBusinessDocuments"
+import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
+import {
+  FORM_TYPE,
+  ILoanApplicationStep,
+  LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS
+} from "../models/LoanApplicationStep/type"
+import { usePlaidContext } from "../providers"
+import {
+  Action,
+  FORM_ACTION,
+  FormStateType
+} from "../providers/LoanApplicationFormProvider"
+import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -121,7 +120,8 @@ export const useSubmitLoanForm = (
   // SBB KYB
   sbbKybFormData: SbbKybFormPartOneValue & SbbKybFormPartTwoValue,
   // Financial Projection
-  peopleFormData: PeopleFormValue
+  peopleFormData: PeopleFormValue,
+  fpOperatingExpensesData: FpOperatingExpensesFormValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -383,18 +383,10 @@ export const useSubmitLoanForm = (
   /**
    * Financial Projection Forms
    **/
-
-  // Expense People Form
-  const updatePeopleForm = (data: ExpensePeopleResponse) =>
-    updateDataAfterSubmit(
-      reverseFormatExpensePeopleForm(data),
-      LOAN_APPLICATION_STEPS.PEOPLE
-    )
-
-  const { submitPeopleForm, isLoading: isSubmittingPeopleForm } =
-    useSubmitPeopleForm({
-      rawData: peopleFormData,
-      onSuccess: updatePeopleForm
+  const { handleSubmitFinancialProjection, isSubmittingFinancialProjection } =
+    useSubmitFinancialProjectionForms({
+      peopleFormData,
+      fpOperatingExpensesData
     })
 
   const handleSubmitFormSuccess = useCallback(
@@ -624,15 +616,6 @@ export const useSubmitLoanForm = (
             documentUploadsData.id ?? ""
           )
         }
-
-        if (peopleFormData && isCompleteSteps(LOAN_APPLICATION_STEPS.PEOPLE)) {
-          await submitPeopleForm(loanRequestId)
-        }
-
-        if (confirmationData) {
-          await submitLoanConfirmationForm(loanRequestId)
-          isSubmitted = true
-        }
       } else if (loanType === LoanType.READINESS) {
         // Customize submission steps for Readiness loan type
         if (businessData) await submitLoanKYBForm(loanRequestId)
@@ -646,10 +629,16 @@ export const useSubmitLoanForm = (
             await submitOperatingExpensesForm(loanRequestId)
           }
         }
-        if (confirmationData) {
-          await submitLoanConfirmationForm(loanRequestId)
-          isSubmitted = true
-        }
+      }
+
+      /**
+       * Financial Projection forms
+       */
+      await handleSubmitFinancialProjection(loanRequestId)
+
+      if (confirmationData) {
+        await submitLoanConfirmationForm(loanRequestId)
+        isSubmitted = true
       }
 
       handleSubmitFormSuccess(
@@ -668,6 +657,7 @@ export const useSubmitLoanForm = (
       })
     }
   }, [
+    handleSubmitFinancialProjection,
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
@@ -692,7 +682,6 @@ export const useSubmitLoanForm = (
     executionData,
     businessModelData,
     documentUploadsData,
-    peopleFormData,
     confirmationData,
     submitLoanKYBForm,
     submitLoanKYCForm,
@@ -710,7 +699,6 @@ export const useSubmitLoanForm = (
     submitLoanExecutionForm,
     submitLoanBusinessModelForm,
     uploadBusinessDocuments,
-    submitPeopleForm,
     submitLoanConfirmationForm,
     handleSubmitFormError
   ])
@@ -909,10 +897,10 @@ export const useSubmitLoanForm = (
         return
       }
 
-      // Financial Projection
-      if (peopleFormData && isCompleteSteps(LOAN_APPLICATION_STEPS.PEOPLE)) {
-        await submitPeopleForm(loanRequestId)
-      }
+      /**
+       * Financial Projection forms
+       */
+      await handleSubmitFinancialProjection(loanRequestId)
 
       // Submit Confirmation form
       if (confirmationData) {
@@ -936,6 +924,7 @@ export const useSubmitLoanForm = (
       })
     }
   }, [
+    handleSubmitFinancialProjection,
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
@@ -954,7 +943,6 @@ export const useSubmitLoanForm = (
     ownerData,
     financialData,
     cashflowData,
-    peopleFormData,
     confirmationData,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,
@@ -979,7 +967,6 @@ export const useSubmitLoanForm = (
     submitLoanFinancialForm,
     submitCashFlowForm,
     handleSubmitFormError,
-    submitPeopleForm,
     submitLoanConfirmationForm
   ])
 
@@ -1010,6 +997,6 @@ export const useSubmitLoanForm = (
       isUploadingBusinessDocuments ||
       isSubmittingSbbDocument ||
       isSubmittingSbbKYB ||
-      isSubmittingPeopleForm
+      isSubmittingFinancialProjection
   }
 }

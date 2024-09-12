@@ -1,22 +1,24 @@
-import { createNumberSchema } from "@/constants/validate"
+import { createDateSchema, createNumberSchema } from "@/constants/validate"
 import { NUMBER } from "@/modules/form-template/components/utils"
 import * as z from "zod"
 
 export const enum FpOPeratingExpensesField {
-  optionalOperationExpenses = "optionalOperationExpenses",
-  optionalOperationExpensesName = `optionalOperationExpenses.${NUMBER}.name`,
-  optionalOperationExpensesDescription = `optionalOperationExpenses.${NUMBER}.description`,
-  optionalOperationExpensesCostStartDate = `optionalOperationExpenses.${NUMBER}.costStartDate`,
-  optionalOperationExpensesMonthlyCost = `optionalOperationExpenses.${NUMBER}.monthlyCost`
+  applicationId = "applicationId",
+  operatingExpenses = "operatingExpenses",
+  operatingExpensesName = `operatingExpenses.${NUMBER}.name`,
+  operatingExpensesDescription = `operatingExpenses.${NUMBER}.description`,
+  operatingExpensesStartDate = `operatingExpenses.${NUMBER}.startDate`,
+  operatingExpensesMonthlyCost = `operatingExpenses.${NUMBER}.monthlyCost`
 }
 
 export const fpOperatingExpensesFormSchema = z.object({
-  [FpOPeratingExpensesField.optionalOperationExpenses]: z
+  [FpOPeratingExpensesField.applicationId]: z.string().optional(),
+  [FpOPeratingExpensesField.operatingExpenses]: z
     .array(
       z.object({
         name: z.string().min(1),
         description: z.string().min(1),
-        costStartDate: z.string().min(1),
+        startDate: createDateSchema(),
         monthlyCost: createNumberSchema({ min: 1 })
       })
     )
@@ -24,30 +26,30 @@ export const fpOperatingExpensesFormSchema = z.object({
 })
 
 export const FP_OPERATING_EXPENSES_DEFAULT_VALUE = {
-  [FpOPeratingExpensesField.optionalOperationExpenses]: [
+  [FpOPeratingExpensesField.operatingExpenses]: [
     {
       name: "Rent",
       description: "Sales and marketing expenses",
-      costStartDate: "",
+      startDate: "",
       monthlyCost: 0
     },
     {
       name: "Sales and marketing expenses",
       description: "Costs related to promoting and selling products/services",
-      costStartDate: "",
+      startDate: "",
       monthlyCost: 0
     },
     {
       name: "Dues and Subscriptions",
       description:
         "Recurring fees (i.e.software licenses, membership dues, etc.)",
-      costStartDate: "",
+      startDate: "",
       monthlyCost: 0
     },
     {
       name: "Accounting and legal fees",
       description: "Cost related to accounting, legal, or tax services",
-      costStartDate: "",
+      startDate: "",
       monthlyCost: 0
     }
   ]

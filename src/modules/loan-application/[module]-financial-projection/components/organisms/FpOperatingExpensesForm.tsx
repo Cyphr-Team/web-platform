@@ -48,7 +48,7 @@ export const FpOperatingExpensesForm = () => {
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: FpOPeratingExpensesField.optionalOperationExpenses
+    name: FpOPeratingExpensesField.operatingExpenses
   })
 
   const { finishCurrentStep } = useLoanApplicationProgressContext()
@@ -63,7 +63,7 @@ export const FpOperatingExpensesForm = () => {
   })
 
   const handleAddFounder = () => {
-    append({ name: "", description: "", costStartDate: "", monthlyCost: 0 })
+    append({ name: "", description: "", startDate: "", monthlyCost: 0 })
     onAutoSave()
   }
 
@@ -80,7 +80,7 @@ export const FpOperatingExpensesForm = () => {
     })
   }
 
-  const operationExpenses = form.getValues().optionalOperationExpenses
+  const operationExpenses = form.getValues().operatingExpenses
   const total = sum(
     operationExpenses.map((operationExpense) =>
       sanitizeNumber(operationExpense.monthlyCost)
@@ -163,7 +163,7 @@ export const FpOperatingExpensesForm = () => {
 interface OperatingExpensesProps {
   index: number
   value: FieldArrayWithId<
-    FpOperatingExpensesFormValue["optionalOperationExpenses"][number]
+    FpOperatingExpensesFormValue["operatingExpenses"][number]
   >
   onRemove: VoidFunction
 }
@@ -174,8 +174,7 @@ const OperatingExpenses = (props: OperatingExpensesProps) => {
 
   // Apply the requirement, we can remove only when the items > 1
   const isRemovable =
-    form.getValues(FpOPeratingExpensesField.optionalOperationExpenses).length >
-    1
+    form.getValues(FpOPeratingExpensesField.operatingExpenses).length > 1
 
   return (
     <div className="flex gap-3" key={value.id}>
@@ -189,7 +188,7 @@ const OperatingExpenses = (props: OperatingExpensesProps) => {
             name={getArrayFieldName<
               FpOPeratingExpensesField,
               FieldPath<FpOperatingExpensesFormValue>
-            >(FpOPeratingExpensesField.optionalOperationExpensesName, index)}
+            >(FpOPeratingExpensesField.operatingExpensesName, index)}
             isToggleView
             isHideErrorMessage
             autoFocus
@@ -202,10 +201,7 @@ const OperatingExpenses = (props: OperatingExpensesProps) => {
             name={getArrayFieldName<
               FpOPeratingExpensesField,
               FieldPath<FpOperatingExpensesFormValue>
-            >(
-              FpOPeratingExpensesField.optionalOperationExpensesDescription,
-              index
-            )}
+            >(FpOPeratingExpensesField.operatingExpensesDescription, index)}
             isToggleView
             isHideErrorMessage
             autoFocus
@@ -219,10 +215,7 @@ const OperatingExpenses = (props: OperatingExpensesProps) => {
           name={getArrayFieldName<
             FpOPeratingExpensesField,
             FieldPath<FpOperatingExpensesFormValue>
-          >(
-            FpOPeratingExpensesField.optionalOperationExpensesCostStartDate,
-            index
-          )}
+          >(FpOPeratingExpensesField.operatingExpensesStartDate, index)}
           isHideErrorMessage
         />
         <RHFCurrencyInput
@@ -233,10 +226,7 @@ const OperatingExpenses = (props: OperatingExpensesProps) => {
           name={getArrayFieldName<
             FpOPeratingExpensesField,
             FieldPath<FpOperatingExpensesFormValue>
-          >(
-            FpOPeratingExpensesField.optionalOperationExpensesMonthlyCost,
-            index
-          )}
+          >(FpOPeratingExpensesField.operatingExpensesMonthlyCost, index)}
           isHideErrorMessage
         />
       </div>

@@ -283,7 +283,8 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
       state[LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE],
       state[LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO]
     ),
-    state[LOAN_APPLICATION_STEPS.PEOPLE]
+    state[LOAN_APPLICATION_STEPS.PEOPLE],
+    state[LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]
   )
 
   //Trigger submit form when the confirmation form is submitted
