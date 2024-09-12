@@ -4,19 +4,21 @@ import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
+import { Option } from "@/types/common.type"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PaginationState, SortingState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { Search } from "lucide-react"
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
-import { Filter } from "./filter"
 import { sbbLoanApplicationColumns } from "../../components/table/loan-application-columns"
-import { useQueryListPaginateLoanApplication } from "../../hooks/useQuery/useQueryListPaginateLoanApplication"
 import {
+  FormFieldNames,
   LoanApplicationFilterSchema,
-  LoanApplicationFilterValues
-} from "../../hooks/useQuery/useQueryListLoanApplication"
+  LoanApplicationFilterValues,
+  useQueryListPaginateLoanApplication
+} from "../../hooks/useQuery/useQueryListPaginateLoanApplication"
+import { Filter } from "./filter"
 
 export function SbbApplicationsList() {
   const crumbs = useBreadcrumb()
@@ -30,6 +32,17 @@ export function SbbApplicationsList() {
       submittedOn: undefined
     }
   })
+
+  const filter = (() => {
+    const mapToLowerCase = (options?: Option[]) =>
+      options?.map((item) => item.value.toLowerCase())
+
+    return {
+      statuses: mapToLowerCase(filterForm.watch(FormFieldNames.STATUS)),
+      createdOn: filterForm.watch(FormFieldNames.CREATED_ON),
+      submittedOn: filterForm.watch(FormFieldNames.SUBMITTED_ON)
+    }
+  })()
 
   // Paginate state
   const [pagination, setPagination] = useState<PaginationState>({
@@ -61,7 +74,10 @@ export function SbbApplicationsList() {
   const { data, isFetching } = useQueryListPaginateLoanApplication({
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize,
-    search: searchField
+    search: searchField,
+    status: filter.statuses,
+    submittedOn: filter.submittedOn,
+    createdOn: filter.createdOn
   })
 
   useEffect(() => {
@@ -79,6 +95,7 @@ export function SbbApplicationsList() {
           <div className="flex-[2] min-w-0 overflow-x-auto py-1">
             <Filter filterForm={filterForm} />
           </div>
+
           <div className="justify-items-end flex flex-1 gap-3 py-1">
             <Input
               wrapperClassName="flex-1"

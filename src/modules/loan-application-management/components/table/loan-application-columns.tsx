@@ -12,6 +12,7 @@ import { getBadgeVariantByStatus } from "../../services"
 
 import { ClipboardCopy } from "@/components/ui/clipboard-copy"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
+import { formatDate } from "@/utils/date.utils"
 import { format } from "date-fns"
 import { ButtonReviewLoanApplication } from "../atoms/ButtonReviewLoanApplication"
 
@@ -216,6 +217,23 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
         <div>
           {application.createdAt
             ? format(application.createdAt, FORMAT_DATE_M_D_Y)
+            : "N/A"}
+        </div>
+      )
+    }
+  },
+  {
+    id: "submittedAt",
+    accessorKey: "submittedAt",
+    header: () => <p>Submitted on</p>,
+    size: 150,
+    cell: ({ row }) => {
+      const application = row.original
+
+      return (
+        <div>
+          {application.submittedAt
+            ? formatDate(application.submittedAt, FORMAT_DATE_M_D_Y)
             : "N/A"}
         </div>
       )

@@ -1,18 +1,22 @@
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Form, FormField } from "@/components/ui/form"
 import { MultiSelectRound } from "@/components/ui/multi-select-round"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
+import {
+  FormFieldNames,
+  LoanApplicationFilterValues
+} from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateLoanApplication"
+import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { capitalizeWords } from "@/utils"
+import { snakeCaseToText } from "@/utils"
 import { CalendarPlus, Trash } from "lucide-react"
 import { useCallback, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { AddFilterPopover } from "../../components/molecules/filters/AddFilterPopover"
-import { StatusRoundBadge } from "../../components/atoms/StatusRoundBadge"
-import { LoanApplicationFilterValues } from "../../hooks/useQuery/useQueryListLoanApplication"
 
 interface IFilter {
   filterForm: UseFormReturn<LoanApplicationFilterValues>
@@ -20,22 +24,15 @@ interface IFilter {
 
 const STATUS_OPTIONS: Option<LoanApplicationStatus>[] = [
   {
-    value: LoanApplicationStatus.PENDING_SUBMISSION,
-    label: "Pending submission"
+    value: LoanApplicationStatus.DRAFT,
+    label: "Draft"
   },
   { value: LoanApplicationStatus.READY_FOR_REVIEW, label: "Ready for review" },
-  { value: LoanApplicationStatus.SUBMITTED, label: "Submitted" },
+  { value: LoanApplicationStatus.SUBMITTED, label: "Processing" },
   { value: LoanApplicationStatus.IN_REVIEW, label: "In review" },
   { value: LoanApplicationStatus.APPROVED, label: "Approved" },
   { value: LoanApplicationStatus.DENIED, label: "Denied" }
 ]
-
-const enum FormFieldNames {
-  STATUS = "status",
-  SEARCH = "search",
-  CREATED_ON = "createdOn",
-  SUBMITTED_ON = "submittedOn"
-}
 
 const enum FilterOptions {
   CREATED_ON = "createdOn",
@@ -144,9 +141,15 @@ export function Filter({ filterForm }: IFilter) {
               field={field}
               options={STATUS_OPTIONS}
               labelHOC={(option, close) => (
-                <StatusRoundBadge round={option.value}>
-                  {capitalizeWords(option.label)} {close}
-                </StatusRoundBadge>
+                <Badge
+                  isDot
+                  variant="soft"
+                  variantColor={getBadgeVariantByStatus(option.value)}
+                  className="capitalize"
+                >
+                  {snakeCaseToText(option.label)}
+                  {close}
+                </Badge>
               )}
             />
           )}

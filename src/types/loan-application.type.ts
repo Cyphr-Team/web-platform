@@ -8,6 +8,7 @@ import { LoanType, MicroLoanProgramType } from "./loan-program.type"
 enum LoanApplicationStatus {
   DRAFT = "DRAFT",
   SUBMITTED = "SUBMITTED",
+  PROCESSING = "PROCESSING",
   READY_FOR_REVIEW = "READY_FOR_REVIEW",
   IN_REVIEW = "IN_REVIEW",
   CANCELLED = "CANCELLED",
@@ -54,6 +55,7 @@ interface LoanApplication<T = unknown> {
   programType: LoanType
   programName: string
   createdAt: string
+  submittedAt?: string
   applicant: Applicant
   requestedLoanAmount: number
   status: LoanApplicationStatus

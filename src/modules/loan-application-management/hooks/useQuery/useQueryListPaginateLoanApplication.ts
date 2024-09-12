@@ -10,10 +10,19 @@ import * as z from "zod"
 
 type ListLoanApplicationResponse = ListResponse<LoanApplication>
 
+export const enum FormFieldNames {
+  STATUS = "status",
+  SEARCH = "search",
+  CREATED_ON = "createdOn",
+  SUBMITTED_ON = "submittedOn"
+}
+
 export const LoanApplicationFilterSchema = z.object({
   status: z.array(z.object({ label: z.string(), value: z.string() })),
   search: z.string(),
-  programNames: z.array(z.object({ label: z.string(), value: z.string() }))
+  programNames: z.array(z.object({ label: z.string(), value: z.string() })),
+  createdOn: z.date().optional(),
+  submittedOn: z.date().optional()
 })
 
 export type LoanApplicationFilterValues = z.infer<
@@ -24,6 +33,8 @@ export type FilterParams = {
   status: string[]
   search: string
   programNames: string[]
+  submittedOn?: Date
+  createdOn?: Date
 }
 
 type Params = PaginateParams & Partial<FilterParams>
@@ -33,7 +44,9 @@ export const useQueryListPaginateLoanApplication = ({
   offset,
   status,
   search,
-  programNames
+  programNames,
+  submittedOn,
+  createdOn
 }: Params) => {
   return useQuery<ListLoanApplicationResponse>({
     queryKey: loanApplicationKeys.list(
@@ -42,7 +55,9 @@ export const useQueryListPaginateLoanApplication = ({
         offset: offset.toString(),
         search: search?.trim() ?? "",
         status: status ?? "",
-        programNames: programNames ?? ""
+        programNames: programNames ?? "",
+        submittedOn: submittedOn?.toString() ?? "",
+        createdOn: createdOn?.toString() ?? ""
       }).toString()
     ),
     queryFn: async () => {
@@ -53,7 +68,9 @@ export const useQueryListPaginateLoanApplication = ({
           offset,
           search: search?.trim() ?? "",
           status,
-          programNames
+          programNames,
+          createdOn,
+          submittedOn
         },
         customHeader: customRequestHeader.customHeaders
       })

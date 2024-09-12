@@ -40,6 +40,7 @@ export const getBadgeVariantByStatus = (status?: LoanApplicationStatus) => {
   const statusUppercase = status?.toUpperCase()
   switch (statusUppercase) {
     case LoanApplicationStatus.SUBMITTED:
+    case LoanApplicationStatus.PROCESSING:
     case LoanApplicationStatus.READY_FOR_REVIEW:
     case LoanApplicationStatus.ROUND_1:
     case LoanApplicationStatus.ROUND_2:
