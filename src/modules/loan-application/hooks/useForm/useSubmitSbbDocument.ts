@@ -74,9 +74,9 @@ export const useUploadSbbDocument = (args: Args) => {
   // Call API
   const submitSbbDocument = async (loanApplicationId: string) => {
     const formId =
-      findFormId(data) ??
-      // if it not exists, we will submit it
-      (await submit({ loanApplicationId })).data.id
+      findFormId(data) !== ""
+        ? findFormId(data)
+        : (await submit({ loanApplicationId })).data.id
 
     const tasks = data
       // Map each form data to an upload data task
@@ -104,14 +104,16 @@ export const useUploadSbbDocument = (args: Args) => {
   }
 }
 
-const findFormId = (list: object[]): string | undefined => {
+const findFormId = (list: object[]): string => {
   /**
    * Find the formId in all form. If there is any form that contain formId then return it
    * */
-  return list
-    .filter((document) => get(document, "formId") !== undefined)
-    .map((document) => get(document, "formId"))
-    .at(0)
+  return (
+    list
+      .filter((document) => get(document, "formId") !== undefined)
+      .map((document) => get(document, "formId"))
+      .at(0) ?? ""
+  )
 }
 
 const useMutateSubmitSbbDocument = () => {
