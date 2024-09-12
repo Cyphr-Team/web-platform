@@ -178,7 +178,6 @@ export const getOptionsByField = (field: SBB_KYB_FORM_FIELDS) => {
       return PAYMENT_METHODS_OPTIONS
     case SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT:
       return EXPECTED_ANNUAL_SALES_OPTIONS
-
     default:
       return []
   }

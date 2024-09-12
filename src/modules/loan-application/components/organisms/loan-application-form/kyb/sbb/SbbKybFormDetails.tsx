@@ -14,6 +14,7 @@ import { get } from "lodash"
 
 interface KybFormDetailsProps {
   kybFormData?: KYBInformationResponse
+  ref?: React.Ref<HTMLDivElement>
 }
 
 enum FIELD_TYPE {
@@ -51,7 +52,8 @@ const FIELDS: Field[] = [
   },
   {
     label: "The business serves the following industry:",
-    field: SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE
+    field: SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE,
+    type: FIELD_TYPE.OPTION
   },
   {
     label: "The business has been operating for:",
@@ -178,12 +180,13 @@ const FIELDS: Field[] = [
 ]
 
 export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
-  kybFormData
+  kybFormData,
+  ref
 }) => {
   const renderField = (field: Field) => {
     if (field.type === FIELD_TYPE.OPTION) {
       const label = getLabelByValue(
-        get(kybFormData?.metadata as string, field.field, ""),
+        get(kybFormData?.metadata, field.field, "") as string,
         getOptionsByField(field.field)
       )
       return (
@@ -199,7 +202,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
     }
     if (field.type === FIELD_TYPE.MULTI_TEXT) {
       const label = getLabelsByValues(
-        get(kybFormData?.metadata as string[], field.field, []),
+        get(kybFormData?.metadata, field.field, []) as string[],
         getOptionsByField(field.field)
       ).join(", ")
       return (
@@ -212,6 +215,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         />
       )
     }
+
     return (
       <AnswersTextDisplay
         key={field.field}
@@ -219,12 +223,21 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         valueClassName="text-right capitalize"
         labelClassName="max-w-screen-sm"
         label={field.label}
-        value={get(kybFormData?.metadata as string, field.field, "N/A")}
+        value={
+          get(
+            kybFormData?.metadata,
+            field.field,
+            get(kybFormData, field.field, "")
+          ) as string
+        }
       />
     )
   }
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
+    <Card
+      className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none"
+      ref={ref}
+    >
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
 

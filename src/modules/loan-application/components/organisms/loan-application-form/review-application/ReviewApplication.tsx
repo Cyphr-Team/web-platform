@@ -8,7 +8,6 @@ import { useMemo, useRef, useState } from "react"
 
 import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
-import { DisclaimerAndDisclosure } from "@/modules/loan-application/components/organisms/loan-application-form/disclaimer-disclosure/DisclaimerAndDisclosure"
 import { getPDF } from "@/modules/loan-application/services/pdf.service"
 import { isSbb } from "@/utils/domain.utils"
 import {
@@ -25,6 +24,8 @@ import {
 import { useLoanApplicationFormContext } from "../../../../providers"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { ReviewApplicationGroup } from "./ReviewApplicationGroup"
+import { SbbReviewApplicationDetails } from "./SbbReviewApplicationDetail"
+import { DisclaimerAndDisclosure } from "../disclaimer-disclosure/DisclaimerAndDisclosure"
 
 const REQUIRED_REVIEW = [
   {
@@ -81,7 +82,6 @@ export const ReviewApplication = () => {
       try {
         setIsGenPDF(true)
         const { pdf, totalPage } = await getPDF(Object.values(itemsRef.current))
-
         dispatchFormAction({
           action: FORM_ACTION.SET_DATA,
           key: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
@@ -109,56 +109,71 @@ export const ReviewApplication = () => {
     }, 10)
   }
 
-  const isShowDisclaimer = isSbb()
-  const disclaimerSection = isShowDisclaimer && (
-    <div className="col-span-8 grid grid-cols-8 gap-4">
-      <div className="col-span-2 text-2xl font-semibold max-w-screen-sm">
-        <div>Disclaimer</div>
-      </div>
-      <div className="col-span-6 flex flex-col gap-6 max-w-screen-sm">
-        <div
-          className="w-full h-full"
-          ref={(e) => {
-            if (itemsRef.current && e)
-              itemsRef.current[
-                LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
-              ] = e
-          }}
-        >
-          <DisclaimerAndDisclosure />
-        </div>
-      </div>
-    </div>
-  )
-
   return (
     <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6 mx-4 md:mx-8">
-      {REQUIRED_REVIEW.map((requiredReview) => (
-        <ReviewApplicationGroup
-          key={requiredReview.key}
-          label={requiredReview.label}
-          parentKey={requiredReview.key}
-          itemsRef={itemsRef}
-        />
-      ))}
-
-      {disclaimerSection}
-
-      <div className="col-start-3 col-span-6">
-        <Form {...form}>
-          <ButtonLoading
-            isLoading={isGenPDF}
-            className="mx-3 md:mx-auto max-w-screen-sm w-full"
-            disabled={
-              !form.formState.isValid ||
-              progressCompleteFilter.length !== progressFilter.length
-            }
-            onClick={form.handleSubmit(onSubmit)}
-          >
-            Confirm Application Materials <ArrowRight className="ml-1 w-4" />
-          </ButtonLoading>
-        </Form>
-      </div>
+      {isSbb() ? (
+        <>
+          <div className="col-span-8 md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm">
+            <SbbReviewApplicationDetails itemsRef={itemsRef} />
+            <div className="hidden">
+              <div
+                id="disclaimer-and-disclosure"
+                ref={(e) => {
+                  if (itemsRef.current && e)
+                    itemsRef.current[
+                      LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
+                    ] = e
+                }}
+              >
+                <DisclaimerAndDisclosure />
+              </div>
+            </div>
+          </div>
+          <div className="col-span-8 md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm w-full">
+            <Form {...form}>
+              <ButtonLoading
+                isLoading={isGenPDF}
+                className="mx-3 md:mx-auto max-w-screen-sm w-full"
+                disabled={
+                  !form.formState.isValid ||
+                  progressCompleteFilter.length !== progressFilter.length
+                }
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                Confirm application
+                <ArrowRight className="ml-1 w-4" />
+              </ButtonLoading>
+            </Form>
+          </div>
+        </>
+      ) : (
+        <>
+          {REQUIRED_REVIEW.map((requiredReview) => (
+            <ReviewApplicationGroup
+              key={requiredReview.key}
+              label={requiredReview.label}
+              parentKey={requiredReview.key}
+              itemsRef={itemsRef}
+            />
+          ))}
+          <div className="col-start-3 col-span-6">
+            <Form {...form}>
+              <ButtonLoading
+                isLoading={isGenPDF}
+                className="mx-3 md:mx-auto max-w-screen-sm w-full"
+                disabled={
+                  !form.formState.isValid ||
+                  progressCompleteFilter.length !== progressFilter.length
+                }
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                Confirm Application Materials{" "}
+                <ArrowRight className="ml-1 w-4" />
+              </ButtonLoading>
+            </Form>
+          </div>{" "}
+        </>
+      )}
     </div>
   )
 }

@@ -1,0 +1,424 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+import { PreApplicationDisclosuresDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-application-disclosures/PreApplicationDisclosuresDetails"
+import { SbbKybFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/sbb/SbbKybFormDetails"
+import { SbbKycFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/sbb/SbbKycFormDetails"
+import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
+import { SBB_KYB_FORM_FIELDS } from "../kyb/sbb/const"
+import { get, merge } from "lodash"
+import {
+  IBusinessFormValue,
+  IOwnerFormValue
+} from "@/modules/loan-application/constants/form"
+import {
+  KYBInformationResponse,
+  KYCInformationResponse
+} from "@/modules/loan-application/constants/type"
+import { SBB_KYC_FIELD_NAMES } from "../kyc/sbb/const"
+import { Separator } from "@/components/ui/separator"
+import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { IdentityVerificationForm } from "../IdentityVerificationForm"
+
+type Props = {
+  itemsRef: React.MutableRefObject<
+    Partial<Record<LOAN_APPLICATION_STEPS, HTMLDivElement | null>>
+  >
+}
+
+export const SbbReviewApplicationDetails: React.FC<Props> = ({ itemsRef }) => {
+  const {
+    sbbBusinessInformationPartOne,
+    sbbBusinessInformationPartTwo,
+    businessInformation,
+    ownerInformationForm,
+    businessEINLetter,
+    certificateOfGoodStanding,
+    fictitiousNameCertification,
+    articlesOfOrganizationAndOperatingAgreement,
+    bylaws
+  } = useLoanApplicationFormContext()
+  const data = merge(
+    sbbBusinessInformationPartOne,
+    sbbBusinessInformationPartTwo,
+    businessInformation
+  )
+
+  const convertToKybFormResponse = (
+    businessInformation: IBusinessFormValue
+  ): KYBInformationResponse => {
+    return {
+      id: "",
+      loanApplicationId: "",
+      businessLegalName: get(
+        businessInformation,
+        SBB_KYB_FORM_FIELDS.BUSINESS_NAME,
+        ""
+      ),
+      businessStreetAddress: {
+        addressLine1: businessInformation?.addressLine1 ?? "",
+        addressLine2: businessInformation?.addressLine2 ?? "",
+        city: businessInformation?.city ?? "",
+        state: businessInformation?.state ?? "",
+        postalCode: businessInformation?.postalCode ?? ""
+      },
+      businessWebsite: businessInformation?.businessWebsite ?? "",
+      businessTin: businessInformation?.businessTin ?? "",
+      metadata: {
+        [SBB_KYB_FORM_FIELDS.DBA]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.DBA,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.YEARS_IN_OPERATION]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.YEARS_IN_OPERATION,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.CUSTOMER_TYPE]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.CUSTOMER_TYPE,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.NUMBER_OF_W2_EMPLOYEES]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.NUMBER_OF_W2_EMPLOYEES,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.INVOLVED_IN_WEAPONS_SALES]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.INVOLVED_IN_WEAPONS_SALES,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.IS_HOLDING_COMPANY]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.IS_HOLDING_COMPANY,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.OWNED_BY_TRUST]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.OWNED_BY_TRUST,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.CBD_RELATED_BUSINESS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.CBD_RELATED_BUSINESS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.MARIJUANA_RELATED_BUSINESS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.MARIJUANA_RELATED_BUSINESS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.POLITICAL_ORG_CONTRIBUTOR]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.POLITICAL_ORG_CONTRIBUTOR,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.EXPECTED_ANNUAL_SALES]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.EXPECTED_ANNUAL_SALES,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.EXPECTED_DEPOSITED_AMOUNT]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.EXPECTED_DEPOSITED_AMOUNT,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.PAYMENT_METHODS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.PAYMENT_METHODS,
+          []
+        ),
+        [SBB_KYB_FORM_FIELDS.IS_SELF_DIRECTED_IRA_ACCOUNT]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.IS_SELF_DIRECTED_IRA_ACCOUNT,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.WILL_SEND_WIRE_TRANSFERS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.WILL_SEND_WIRE_TRANSFERS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_WIRE_TRANSFERS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.WILL_RECEIVE_WIRE_TRANSFERS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_WIRE_TRANSFERS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.WILL_RECEIVE_ELECTRONIC_TRANSFERS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.WILL_RECEIVE_ELECTRONIC_TRANSFERS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.IS_INVOLVED_IN_GAMBLING]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.IS_INVOLVED_IN_GAMBLING,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES,
+          ""
+        ),
+        [SBB_KYB_FORM_FIELDS.IS_SENIOR_FOREIGN_POLITICAL_FIGURE]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.IS_SENIOR_FOREIGN_POLITICAL_FIGURE,
+          ""
+        )
+      },
+      createdAt: "",
+      updatedAt: ""
+    }
+  }
+
+  const convertToKycFormResponse = (
+    ownerInformationForm: IOwnerFormValue
+  ): KYCInformationResponse => {
+    return {
+      id: "",
+      loanApplicationId: "",
+      fullName: "",
+      businessRole: get(
+        ownerInformationForm,
+        SBB_KYC_FIELD_NAMES.BUSINESS_ROLE,
+        ""
+      ),
+      email: get(ownerInformationForm, SBB_KYC_FIELD_NAMES.EMAIL, ""),
+      phoneNumber: get(
+        ownerInformationForm,
+        SBB_KYC_FIELD_NAMES.PHONE_NUMBER,
+        ""
+      ),
+      addressLine1: get(
+        ownerInformationForm,
+        SBB_KYC_FIELD_NAMES.ADDRESS_LINE1,
+        ""
+      ),
+      addressLine2: "",
+      businessCity: "",
+      businessState: "",
+      businessZipCode: "",
+      dateOfBirth: get(
+        ownerInformationForm,
+        SBB_KYC_FIELD_NAMES.DATE_OF_BIRTH,
+        ""
+      ),
+      socialSecurityNumber: get(
+        ownerInformationForm,
+        SBB_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER,
+        ""
+      ),
+      businessOwnershipPercentage: get(
+        ownerInformationForm,
+        Number(SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE),
+        0
+      ),
+      hasOtherSubstantialStackHolders: false,
+      createdAt: "",
+      updatedAt: "",
+      metadata: {
+        [SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS]: get(
+          ownerInformationForm,
+          [
+            SBB_KYC_FIELD_NAMES.METADATA,
+            SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS
+          ],
+          ""
+        ),
+        [SBB_KYC_FIELD_NAMES.BENEFICIAL_OWNERS]: get(
+          ownerInformationForm,
+          [SBB_KYC_FIELD_NAMES.METADATA, SBB_KYC_FIELD_NAMES.BENEFICIAL_OWNERS],
+          []
+        ),
+        [SBB_KYC_FIELD_NAMES.CONTROL_AUTHORIZATION]: get(
+          ownerInformationForm,
+          [
+            SBB_KYC_FIELD_NAMES.METADATA,
+            SBB_KYC_FIELD_NAMES.CONTROL_AUTHORIZATION
+          ],
+          ""
+        ),
+        [SBB_KYC_FIELD_NAMES.FIRST_NAME]: get(
+          ownerInformationForm,
+          [SBB_KYC_FIELD_NAMES.METADATA, SBB_KYC_FIELD_NAMES.FIRST_NAME],
+          ""
+        ),
+        [SBB_KYC_FIELD_NAMES.LAST_NAME]: get(
+          ownerInformationForm,
+          [SBB_KYC_FIELD_NAMES.METADATA, SBB_KYC_FIELD_NAMES.LAST_NAME],
+          ""
+        )
+      }
+    }
+  }
+
+  return (
+    <div id="loan-summary">
+      <div id="application-overview" className="flex flex-col gap-3xl">
+        <div
+          className="space-y-3xl"
+          ref={(e) => {
+            if (itemsRef.current && e)
+              itemsRef.current[LOAN_APPLICATION_STEPS.PRE_QUALIFICATION] = e
+          }}
+        >
+          <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
+            <p className="text-4xl font-semibold ">Application Summary</p>
+          </div>
+          <PreApplicationDisclosuresDetails />
+        </div>
+        <div
+          className="space-y-4xl"
+          ref={(e) => {
+            if (itemsRef.current && e)
+              itemsRef.current[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION] = e
+          }}
+        >
+          <SbbKybFormDetails kybFormData={convertToKybFormResponse(data)} />
+        </div>
+        <div
+          className="space-y-4xl"
+          ref={(e) => {
+            if (itemsRef.current && e)
+              itemsRef.current[LOAN_APPLICATION_STEPS.OWNER_INFORMATION] = e
+          }}
+        >
+          <SbbKycFormDetails
+            kycFormData={convertToKycFormResponse(ownerInformationForm)}
+          />
+        </div>
+        <div
+          className="space-y-4xl"
+          ref={(e) => {
+            if (itemsRef.current && e)
+              itemsRef.current[LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION] = e
+          }}
+        >
+          <IdentityVerificationForm />
+          <Card className="p-8 flex flex-col gap-2xl shadow-none max-w-screen-sm mx-auto">
+            <CardHeader className="!p-0">
+              <CardTitle className="font-semibold text-lg text-text-primary p-0">
+                Submitted Document
+              </CardTitle>
+            </CardHeader>
+            <Separator />
+
+            <CardContent className="overflow-auto !p-0 flex flex-col gap-4xl">
+              <AnswersTextDisplay
+                labelClassName="min-w-52"
+                className="!flex-row justify-between"
+                label="Business EIN letter"
+                value={
+                  get(businessEINLetter, "files[0].name") ??
+                  get(businessEINLetter, "uploadedFiles[0].originFileName")
+                }
+              />
+
+              <AnswersTextDisplay
+                labelClassName="min-w-52"
+                className="!flex-row justify-between"
+                label="Certificate of good standing"
+                value={
+                  get(certificateOfGoodStanding, "files[0].name") ??
+                  get(
+                    certificateOfGoodStanding,
+                    "uploadedFiles[0].originFileName"
+                  )
+                }
+              />
+
+              <AnswersTextDisplay
+                labelClassName="min-w-52"
+                className="!flex-row justify-between"
+                label="Fictitious name certification"
+                value={
+                  get(fictitiousNameCertification, "files[0].name") ??
+                  get(
+                    fictitiousNameCertification,
+                    "uploadedFiles[0].originFileName"
+                  )
+                }
+              />
+
+              <AnswersTextDisplay
+                labelClassName="min-w-52"
+                className="!flex-row justify-between"
+                label="Articles of organization and operating agreement"
+                value={
+                  get(
+                    articlesOfOrganizationAndOperatingAgreement,
+                    "files[0].name"
+                  ) ??
+                  get(
+                    articlesOfOrganizationAndOperatingAgreement,
+                    "uploadedFiles[0].originFileName"
+                  )
+                }
+              />
+
+              <AnswersTextDisplay
+                labelClassName="min-w-52"
+                className="!flex-row justify-between"
+                label="By-laws"
+                value={
+                  get(bylaws, "files[0].name") ??
+                  get(bylaws, "uploadedFiles[0].originFileName")
+                }
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}

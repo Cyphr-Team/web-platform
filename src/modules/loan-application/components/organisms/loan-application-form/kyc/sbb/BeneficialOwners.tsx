@@ -203,15 +203,21 @@ export const BeneficialOwnersDetails: React.FC<OwnerDetailsProps> = ({
   return (
     <div className="flex flex-col gap-2xl">
       <h5 className="text-sm font-semibold">Beneficial Owners </h5>
-      <AnswersTextDisplay
-        className="!flex-row justify-between"
-        label="The business has other beneficial owners: "
-        value="Yes"
-      />
       {data && data.length > 0 ? (
-        data.map((owner, index) => (
-          <OwnerDetails key={index} index={index} value={owner} />
-        ))
+        <>
+          <AnswersTextDisplay
+            className="!flex-row justify-between"
+            label="The business has other beneficial owners: "
+            value="Yes"
+          />
+          {data.map((owner, index) => (
+            <OwnerDetails
+              key={owner[SBB_KYC_FIELD_NAMES.EMAIL]}
+              index={index}
+              value={owner}
+            />
+          ))}
+        </>
       ) : (
         <AnswersTextDisplay
           className="!flex-row justify-between"
