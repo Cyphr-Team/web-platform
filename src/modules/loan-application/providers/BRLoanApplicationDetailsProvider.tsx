@@ -257,7 +257,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   })
 
   // SBB document form
-  const sbbDocumentQuery = useQuerySbbDocumentForm(loanApplicationId!)
+  const sbbDocumentQuery = useQuerySbbDocumentForm(loanApplicationId)
 
   /**
    * Financial Projection Forms

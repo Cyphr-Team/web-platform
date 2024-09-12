@@ -3,7 +3,7 @@ import { DocumentUploadFormTemplate } from "@/modules/loan-application/component
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form.ts"
 
-import { custom, infer as zodInfer, object } from "zod"
+import { custom, infer as zodInfer, object, string } from "zod"
 import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 
 export const businessEinLetterFormSchema = object({
@@ -11,14 +11,13 @@ export const businessEinLetterFormSchema = object({
     ["application/pdf"],
     "Please choose PDF format files only"
   ).optional(),
-  uploadedFiles: custom<DocumentUploadedResponse[]>().optional()
+  uploadedFiles: custom<DocumentUploadedResponse[]>().optional(),
+  formId: string().optional()
 })
 
 export type BusinessEinLetterFormValue = zodInfer<
   typeof businessEinLetterFormSchema
-> & {
-  formId?: string
-}
+>
 
 export const BusinessEinLetterForm = () => {
   return (

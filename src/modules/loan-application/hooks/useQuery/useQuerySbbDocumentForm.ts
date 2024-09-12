@@ -6,7 +6,7 @@ import { QUERY_KEY } from "../../constants/query-key"
 import { AxiosError } from "axios"
 import { SBBUploadDocumentFormResponse } from "@/modules/loan-application/constants/type.ts"
 
-export const useQuerySbbDocumentForm = (applicationId: string) => {
+export const useQuerySbbDocumentForm = (applicationId?: string) => {
   return useQuery<SBBUploadDocumentFormResponse, AxiosError<ErrorResponse>>({
     queryKey: [QUERY_KEY.GET_SBB_DOCUMENT_FORM, applicationId],
     queryFn: () => {
@@ -14,6 +14,7 @@ export const useQuerySbbDocumentForm = (applicationId: string) => {
         path: API_PATH.application.sbbDocument.index,
         params: { applicationId }
       })
-    }
+    },
+    enabled: !!applicationId
   })
 }

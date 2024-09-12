@@ -11,12 +11,12 @@ import { ErrorResponse } from "@/types/common.type.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { useCallback } from "react"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key.ts"
-import { get } from "lodash"
 import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
 import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
 import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
 import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
 import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { get } from "lodash"
 
 type Args = {
   articlesOfOrganizationData: ArticlesOfOrganizationFormValue

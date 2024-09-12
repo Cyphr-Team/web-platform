@@ -22,16 +22,7 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { FileUploadCard } from "@/modules/loan-application/components/molecules/FileUploadCard.tsx"
 import { FileUploadedCard } from "@/modules/loan-application/components/molecules/FileUploadedCard.tsx"
-import {
-  infer as zodInfer,
-  ZodBoolean,
-  ZodEffects,
-  ZodObject,
-  ZodOptional,
-  ZodType,
-  ZodTypeAny,
-  ZodTypeDef
-} from "zod"
+import { infer as zodInfer, ZodObject, ZodTypeAny } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Checkbox } from "@/components/ui/checkbox.tsx"
 import { CheckedState } from "@radix-ui/react-checkbox"
@@ -58,24 +49,11 @@ interface Props {
   hasCheckbox?: boolean
   checkboxLabel?: string
   schema: ZodObject<
-    Record<
-      string,
-      | ZodOptional<
-          ZodEffects<ZodType<File[], ZodTypeDef, File[]>, File[], File[]>
-        >
-      | ZodOptional<
-          ZodType<
-            DocumentUploadedResponse[],
-            ZodTypeDef,
-            DocumentUploadedResponse[]
-          >
-        >
-      | ZodOptional<ZodBoolean>
-    >,
+    Record<string, ZodTypeAny>,
     "strip",
     ZodTypeAny,
-    Record<string, File[] | DocumentUploadedResponse[] | boolean>,
-    Record<string, File[] | DocumentUploadedResponse[] | boolean>
+    Record<string, string | File[] | DocumentUploadedResponse[] | boolean>,
+    Record<string, string | File[] | DocumentUploadedResponse[] | boolean>
   >
   specificStep: LOAN_APPLICATION_STEPS
 }
@@ -97,9 +75,8 @@ export const DocumentUploadFormTemplate = ({
   const formState = useLoanApplicationFormContext()
   const { dispatchFormAction } = formState
 
-  const [fileField, uploadedFileField, checkboxField] = Object.keys(
-    schema.shape
-  )
+  const [fileField, uploadedFileField, formIdField, checkboxField] =
+    Object.keys(schema.shape)
   const form = useForm<FormType>({
     resolver: zodResolver(schema),
     mode: "onChange",
@@ -107,6 +84,7 @@ export const DocumentUploadFormTemplate = ({
     defaultValues: async () => {
       const data: FormType = {
         [fileField]: get(formState[specificStep], fileField, []),
+        [formIdField]: get(formState[specificStep], formIdField, ""),
         [uploadedFileField]: get(formState[specificStep], uploadedFileField, [])
       }
       // if the checkboxField contain in form
@@ -204,6 +182,7 @@ export const DocumentUploadFormTemplate = ({
       const updatedData = {
         // get the value from formValues, use string indexes because `checkboxField` can be different through form
         [checkboxField]: data[checkboxField],
+        [formIdField]: data[formIdField],
         // get the value from checkbox, if checkbox is true, the filesField is empty, otherwise get the filesField
         [fileField]: data[checkboxField] ? [] : data[fileField],
         // same logic as above
@@ -233,7 +212,8 @@ export const DocumentUploadFormTemplate = ({
     checkboxField,
     uploadedFileField,
     uploadedFiles,
-    removeDocument
+    removeDocument,
+    formIdField
   ])
 
   /**
