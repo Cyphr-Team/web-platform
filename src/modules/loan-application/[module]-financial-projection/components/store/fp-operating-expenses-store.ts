@@ -2,7 +2,7 @@ import { createDateSchema, createNumberSchema } from "@/constants/validate"
 import { NUMBER } from "@/modules/form-template/components/utils"
 import * as z from "zod"
 
-export const enum FpOPeratingExpensesField {
+export const enum FpOperatingExpensesField {
   applicationId = "applicationId",
   operatingExpenses = "operatingExpenses",
   operatingExpensesName = `operatingExpenses.${NUMBER}.name`,
@@ -12,8 +12,8 @@ export const enum FpOPeratingExpensesField {
 }
 
 export const fpOperatingExpensesFormSchema = z.object({
-  [FpOPeratingExpensesField.applicationId]: z.string().optional(),
-  [FpOPeratingExpensesField.operatingExpenses]: z
+  [FpOperatingExpensesField.applicationId]: z.string().optional(),
+  [FpOperatingExpensesField.operatingExpenses]: z
     .array(
       z.object({
         name: z.string().min(1),
@@ -26,7 +26,7 @@ export const fpOperatingExpensesFormSchema = z.object({
 })
 
 export const FP_OPERATING_EXPENSES_DEFAULT_VALUE = {
-  [FpOPeratingExpensesField.operatingExpenses]: [
+  [FpOperatingExpensesField.operatingExpenses]: [
     {
       name: "Rent",
       description: "Sales and marketing expenses",

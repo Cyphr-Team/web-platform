@@ -1,6 +1,6 @@
 import { API_PATH } from "@/constants"
 import {
-  FpOPeratingExpensesField,
+  FpOperatingExpensesField,
   FpOperatingExpensesFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
@@ -71,9 +71,9 @@ export const reverseFormatFpOperatingExpensesForm = (
   responseData: FpOperatingExpensesFormResponse
 ): FpOperatingExpensesFormValue => {
   return {
-    [FpOPeratingExpensesField.applicationId]:
+    [FpOperatingExpensesField.applicationId]:
       responseData.financialProjectionSetupId,
-    [FpOPeratingExpensesField.operatingExpenses]: responseData.forms.map(
+    [FpOperatingExpensesField.operatingExpenses]: responseData.forms.map(
       (formValue) => ({
         ...formValue,
         startDate: parseISOStringToMMYYYY(formValue.startDate)

@@ -75,7 +75,7 @@ enum LOAN_APPLICATION_STEPS {
   // ==== REVENUE AND EXPENSES ====
   REVENUE = "revenue",
   PEOPLE = "people",
-  DIRECT_COSTS = "directCost",
+  DIRECT_COSTS = "directCosts",
   FP_OPERATING_EXPENSES = "fpOperatingExpenses",
   TAX_RATES = "taxRates",
   // ==== ASSETS AND LIABILITIES ====

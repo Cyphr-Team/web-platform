@@ -45,6 +45,7 @@ import { RevenueForm } from "@/modules/loan-application/[module]-financial-proje
 import { FpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FpOperatingExpensesForm"
 import { DisclaimerAndDisclosure } from "@/modules/loan-application/components/organisms/loan-application-form/disclaimer-disclosure/DisclaimerAndDisclosure"
 import { PeopleForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/PeopleForm"
+import { DirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/DirectCostsForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -136,6 +137,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <SbbPrivacyPolicy />
       case LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE:
         return <DisclaimerAndDisclosure />
+      case LOAN_APPLICATION_STEPS.DIRECT_COSTS:
+        return <DirectCostsForm />
       case LOAN_APPLICATION_STEPS.FORECASTING_SETUP:
         return <ForecastingSetupForm />
       case LOAN_APPLICATION_STEPS.REVENUE:

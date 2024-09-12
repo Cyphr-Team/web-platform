@@ -74,13 +74,15 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
             isRowDirection ? "flex items-center justify-between" : null
           )}
         >
-          <FormLabel className={cn("text-text-secondary", labelClassName)}>
-            {label}
-            {required && <RequiredSymbol />}
-            {isRowDirection && !isHideErrorMessage && (
-              <FormMessage className="mt-1" />
-            )}
-          </FormLabel>
+          {!!label && (
+            <FormLabel className={cn("text-text-secondary", labelClassName)}>
+              {label}
+              {required && <RequiredSymbol />}
+              {isRowDirection && !isHideErrorMessage && (
+                <FormMessage className="mt-1" />
+              )}
+            </FormLabel>
+          )}
           <FormControl>
             <MaskInput
               pattern={pattern}
