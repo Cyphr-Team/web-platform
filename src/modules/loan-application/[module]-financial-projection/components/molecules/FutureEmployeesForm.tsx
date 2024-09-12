@@ -1,7 +1,7 @@
 import { memo } from "react"
 import { FieldType } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import CustomArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/CustomArrayFormTemplate"
+import PeopleArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/PeopleArrayFormTemplate"
 import { Icons } from "@/components/ui/icons"
 import { Calendar } from "lucide-react"
 import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form"
@@ -74,7 +74,7 @@ const FutureEmployeesBlock = [
 
 const FutureEmployeesForm = () => {
   return (
-    <CustomArrayFormTemplate
+    <PeopleArrayFormTemplate
       className="flex flex-col-reverse items-center"
       blockClassName="justify-between flex-col lg:flex-row lg:items-center flex-wrap gap-1 w-full"
       name="futureEmployees"

@@ -1,5 +1,5 @@
 import { memo } from "react"
-import CustomArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/CustomArrayFormTemplate.tsx"
+import PeopleArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/PeopleArrayFormTemplate.tsx"
 import { FieldType } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { UserRoundPlus } from "lucide-react"
@@ -55,7 +55,7 @@ const CurrentEmployeesBlock = [
 
 const CurrentEmployeesForm = () => {
   return (
-    <CustomArrayFormTemplate
+    <PeopleArrayFormTemplate
       className="flex flex-col-reverse lg:flex-row items-center"
       blockClassName="justify-between flex-col lg:flex-row lg:items-center w-full"
       name="currentEmployees"

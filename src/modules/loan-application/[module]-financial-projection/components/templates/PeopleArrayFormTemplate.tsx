@@ -11,7 +11,7 @@ import {
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface CustomArrayFormTemplateProps {
+interface PeopleArrayFormTemplateProps {
   title?: string
   subtitle?: string
   actionText: string
@@ -25,7 +25,7 @@ interface CustomArrayFormTemplateProps {
   canBeEmpty?: boolean
 }
 
-const CustomArrayFormTemplate: FC<CustomArrayFormTemplateProps> = (props) => {
+const PeopleArrayFormTemplate: FC<PeopleArrayFormTemplateProps> = (props) => {
   const {
     name,
     defaultEmptyObject,
@@ -122,4 +122,4 @@ const CustomArrayFormTemplate: FC<CustomArrayFormTemplateProps> = (props) => {
   )
 }
 
-export default memo(CustomArrayFormTemplate)
+export default memo(PeopleArrayFormTemplate)

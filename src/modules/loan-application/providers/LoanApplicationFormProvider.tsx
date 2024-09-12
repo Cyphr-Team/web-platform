@@ -52,6 +52,7 @@ import { RevenueStream } from "@/modules/loan-application/[module]-financial-pro
 import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
 import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -93,7 +94,7 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.ASSETS]: object // TODO: replace this with actual type
   [LOAN_APPLICATION_STEPS.LIABILITIES]: object // TODO: replace this with actual type
   [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: object // TODO: replace this with actual type
-  [LOAN_APPLICATION_STEPS.EQUITY]: object // TODO: replace this with actual type
+  [LOAN_APPLICATION_STEPS.EQUITY]: FpEquityFinancingFormValue
   [LOAN_APPLICATION_STEPS.REVIEW_INPUTS]: object // TODO: replace this with actual type
 }
 
@@ -149,6 +150,7 @@ export type FormStateType =
   | RevenueStream
   | PeopleFormValue
   | DirectCostsFormValue
+  | FpEquityFinancingFormValue
 
 export type Action = {
   action: FORM_ACTION
