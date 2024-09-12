@@ -90,6 +90,7 @@ import {
   FormStateType
 } from "../providers/LoanApplicationFormProvider"
 import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -121,7 +122,8 @@ export const useSubmitLoanForm = (
   sbbKybFormData: SbbKybFormPartOneValue & SbbKybFormPartTwoValue,
   // Financial Projection
   peopleFormData: PeopleFormValue,
-  fpOperatingExpensesData: FpOperatingExpensesFormValue
+  fpOperatingExpensesData: FpOperatingExpensesFormValue,
+  forecastingSetupData: ForecastingSetupFormValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -386,7 +388,8 @@ export const useSubmitLoanForm = (
   const { handleSubmitFinancialProjection, isSubmittingFinancialProjection } =
     useSubmitFinancialProjectionForms({
       peopleFormData,
-      fpOperatingExpensesData
+      fpOperatingExpensesData,
+      forecastingSetupData
     })
 
   const handleSubmitFormSuccess = useCallback(
@@ -904,6 +907,7 @@ export const useSubmitLoanForm = (
 
       // Submit Confirmation form
       if (confirmationData) {
+        // Submit Confirmation form
         await submitLoanConfirmationForm(loanRequestId)
         isSubmitted = true
       }
@@ -924,7 +928,6 @@ export const useSubmitLoanForm = (
       })
     }
   }, [
-    handleSubmitFinancialProjection,
     submitLoanRequestForm,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
@@ -940,9 +943,10 @@ export const useSubmitLoanForm = (
     executionData,
     businessModelData,
     documentUploadsData,
-    ownerData,
     financialData,
+    ownerData,
     cashflowData,
+    handleSubmitFinancialProjection,
     confirmationData,
     handleSubmitFormSuccess,
     loanRequestData?.id?.length,

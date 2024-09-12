@@ -5,6 +5,7 @@ import {
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 
 export const enum ForecastingSetupField {
+  ID = "id",
   FIRST_YEAR_OF_FORECAST = "firstYearOfForecast",
   LENGTH_OF_FORECAST = "lengthOfForecast"
 }
@@ -18,6 +19,7 @@ export type ForecastingSetupFormValue = {
  * I added comments so I can fix it later
  * */
 export const forecastingSetupFormSchema = z.object({
+  [ForecastingSetupField.ID]: z.string().optional(),
   [ForecastingSetupField.FIRST_YEAR_OF_FORECAST]: z
     .string()
     .min(1, "This field is required"),

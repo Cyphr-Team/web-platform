@@ -227,7 +227,6 @@ export const TOAST_MSG = {
         description: "Scenario is deleted successfully"
       }
     },
-
     transactionalMarketplaceRevenue: {
       submitFail: {
         title: "Fail to submit transactional/marketplace revenue",
@@ -244,6 +243,12 @@ export const TOAST_MSG = {
       submitFail: {
         title: "Fail to submit recurring charges",
         description: "Fail to submit recurring charges"
+      }
+    },
+    forecastingSetup: {
+      createFail: {
+        title: "Fail to create forecasting setup",
+        description: "Fail to create forecasting setup"
       }
     }
   }

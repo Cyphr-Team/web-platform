@@ -4,15 +4,19 @@ import { useSubmitPeopleForm } from "@/modules/loan-application/[module]-financi
 import { useSubmitFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
+import { useMutateForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useMutateForecastingSetup.ts"
 
 interface FormData {
   peopleFormData: PeopleFormValue
   fpOperatingExpensesData: FpOperatingExpensesFormValue
+  forecastingSetupData: ForecastingSetupFormValue
 }
 
 export const useSubmitFinancialProjectionForms = ({
   peopleFormData,
-  fpOperatingExpensesData
+  fpOperatingExpensesData,
+  forecastingSetupData
 }: FormData) => {
   const { getStepStatus } = useLoanApplicationProgressContext()
 
@@ -20,10 +24,13 @@ export const useSubmitFinancialProjectionForms = ({
   const operatingExpensesSubmission = useSubmitFpOperatingExpensesForm({
     rawData: fpOperatingExpensesData
   })
+  const forecastingSetupSubmission =
+    useMutateForecastingSetup(forecastingSetupData)
 
   const submissionHooks = {
     [LOAN_APPLICATION_STEPS.PEOPLE]: peopleSubmission,
-    [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: operatingExpensesSubmission
+    [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: operatingExpensesSubmission,
+    [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: forecastingSetupSubmission
   }
 
   const handleSubmitFinancialProjection = async (applicationId: string) => {

@@ -504,6 +504,11 @@ export const API_PATH = {
       findBySetupId:
         "api/financial-projection/form/expense-operating/by-setup-id",
       update: "api/financial-projection/form/expense-operating/update"
+    },
+    forecastingSetup: {
+      create: "api/financial-projection/setup/create",
+      update: "api/financial-projection/setup/update",
+      findById: "api/financial-projection/setup/by-application-id"
     }
   }
 }

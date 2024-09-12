@@ -73,6 +73,8 @@ import {
 } from "../services/form.services"
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
+import { useQueryForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -94,6 +96,10 @@ type BRLoanApplicationDetailsContext<T> = {
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
   plaidConnectedBankAccountsByApplicationId?: IPlaidConnectedBankAccountsByApplicationIdGetResponse
+  /**
+   * Financial projection
+   * */
+  forecastingSetup?: ForecastingSetupFormValue
   isLoading: boolean
   isFetchingDetails: boolean
 }
@@ -252,6 +258,14 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
   // SBB document form
   const sbbDocumentQuery = useQuerySbbDocumentForm(loanApplicationId!)
+
+  /**
+   * Financial Projection Forms
+   **/
+
+  const forecastingSetup = useQueryForecastingSetup({
+    applicationId: loanApplicationId
+  })
 
   const changeDataAndProgress = useCallback(
     (
@@ -791,6 +805,17 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
   const { expensePeopleFormQuery, fpOperatingExpensesFormQuery } =
     useGetFinancialProjectForms()
+  /**
+   * Handle Forecasting Setup
+   * */
+  useEffect(() => {
+    if (forecastingSetup.data?.id) {
+      changeDataAndProgress(
+        forecastingSetup.data,
+        LOAN_APPLICATION_STEPS.FORECASTING_SETUP
+      )
+    }
+  }, [changeDataAndProgress, forecastingSetup.data])
 
   const value = useMemo(
     () => ({
@@ -811,6 +836,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       preQualificationFormData: preQualificationFormQuery.data,
       expensePeopleFormData: expensePeopleFormQuery.data,
       fpOperatingExpensesFormData: fpOperatingExpensesFormQuery.data,
+      forecastingSetup: forecastingSetup.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
@@ -835,7 +861,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         plaidItemIdsQuery.isLoading ||
         plaidConnectedAccountsQuery.isLoading ||
         expensePeopleFormQuery.isLoading ||
-        fpOperatingExpensesFormQuery.isLoading,
+        fpOperatingExpensesFormQuery.isLoading ||
+        forecastingSetup.isLoading,
       isLoading: loanProgramQuery.isLoading
     }),
     [
@@ -869,6 +896,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       expensePeopleFormQuery.isLoading,
       fpOperatingExpensesFormQuery.data,
       fpOperatingExpensesFormQuery.isLoading,
+      forecastingSetup.data,
+      forecastingSetup.isLoading,
       loanApplicationDetailsQuery.data,
       loanApplicationDetailsQuery.isLoading,
       kycDocuments.data,
