@@ -14,6 +14,7 @@ import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants
 import { useDashboard } from "../providers/dashboard-provider"
 import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
 import { ChartHintToolTip } from "./atoms/ChartHintToolTip"
+import { isSbb } from "@/utils/domain.utils"
 
 export const LoanApplicationActivityChart = () => {
   const { loanApplicationActivitiesData, dashboardState } = useDashboard()
@@ -36,12 +37,19 @@ export const LoanApplicationActivityChart = () => {
   return (
     <div className="w-full h-[500px] bg-white p-4 md:p-6 rounded-xl border">
       <div className="flex gap-2 items-center mb-8">
-        <h2 className="text-xl text-zinc-500">Loan Application Activities</h2>
+        <h2 className="text-xl text-zinc-500">
+          {isSbb() ? "Application Activities" : "Loan Application Activities"}
+        </h2>
         <ChartHintToolTip
           head={
             <>
-              <strong>Loan Application Activities</strong> represent the number
-              of loan applications at each stage of the application process.
+              <strong>
+                {isSbb()
+                  ? "Application Activities"
+                  : "Loan Application Activities"}
+              </strong>{" "}
+              represent the number of loan applications at each stage of the
+              application process.
             </>
           }
           formula={null}
