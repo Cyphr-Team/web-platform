@@ -509,6 +509,13 @@ export const API_PATH = {
       create: "api/financial-projection/setup/create",
       update: "api/financial-projection/setup/update",
       findById: "api/financial-projection/setup/by-application-id"
+    },
+    taxRates: {
+      submit: "api/financial-projection/form/expense-tax-rate",
+      findById: "api/financial-projection/form/expense-tax-rate/by-id",
+      findBySetupId:
+        "api/financial-projection/form/expense-tax-rate/by-setup-id",
+      update: "api/financial-projection/form/expense-tax-rate/update"
     }
   }
 }

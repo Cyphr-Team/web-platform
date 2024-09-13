@@ -245,6 +245,12 @@ export const TOAST_MSG = {
         description: "Fail to submit recurring charges"
       }
     },
+    expenseTaxRate: {
+      submitFail: {
+        title: "Fail to submit expense tax rate",
+        description: "Fail to submit expense tax rate"
+      }
+    },
     forecastingSetup: {
       createFail: {
         title: "Fail to create forecasting setup",
