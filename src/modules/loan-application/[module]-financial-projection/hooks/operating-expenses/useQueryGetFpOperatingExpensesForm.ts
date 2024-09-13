@@ -10,7 +10,7 @@ export const useQueryGetFpOperatingExpensesForm = ({
 }: FormDetailsQueryProps) =>
   useQueryFormBySetupId<FpOperatingExpensesFormResponse>({
     setupId: applicationId,
-    queryKey: [QUERY_KEY.GET_OPERATING_EXPENSES_FORM],
+    queryKey: [QUERY_KEY.GET_FP_OPERATING_EXPENSES_FORM],
     enabled,
     path: API_PATH.financialProjection.operatingExpenses.findBySetupId
   })

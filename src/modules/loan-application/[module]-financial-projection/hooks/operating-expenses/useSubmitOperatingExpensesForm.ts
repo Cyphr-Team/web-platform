@@ -55,7 +55,7 @@ export const useSubmitFpOperatingExpensesForm = <
     const result = await mutationToUse.mutateAsync(formattedData)
 
     queryClient.invalidateQueries({
-      queryKey: [QUERY_KEY.GET_OPERATING_EXPENSES_FORM]
+      queryKey: [QUERY_KEY.GET_FP_OPERATING_EXPENSES_FORM]
     })
 
     return result
