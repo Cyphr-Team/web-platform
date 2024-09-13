@@ -6,7 +6,6 @@ import { Bell } from "lucide-react"
 import { BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
 import { FeatureKey } from "@/hooks/useCanAccess"
-import { FEATURE_FLAGS } from "@/constants/feature-flag.constants.ts"
 
 export const navItems: NavItem[] = [
   {
@@ -23,14 +22,17 @@ export const navItems: NavItem[] = [
     label: "Applications",
     featureKey: FeatureKey.APPLICANT_APPLICATION
   },
-  {
-    title: "Financial",
-    href: APP_PATH.LOAN_APPLICATION.FINANCIAL.index,
-    icon: Icons.financial,
-    label: "Financial",
-    featureKey: FeatureKey.FINANCIAL,
-    featureFlag: FEATURE_FLAGS.FINANCIAL_PROJECTION_TAB
-  },
+  /**
+   * A long, sad story about him. We pray, we wish, and we hope
+   *   {
+   *     title: "Financial",
+   *     href: APP_PATH.LOAN_APPLICATION.FINANCIAL.index,
+   *     icon: Icons.financial,
+   *     label: "Financial",
+   *     featureKey: FeatureKey.FINANCIAL,
+   *     featureFlag: FEATURE_FLAGS.FINANCIAL_PROJECTION_TAB
+   *   },
+   * */
   {
     title: "Notifications",
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,

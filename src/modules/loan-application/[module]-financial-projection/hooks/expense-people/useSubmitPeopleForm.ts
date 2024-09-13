@@ -24,11 +24,11 @@ export const useSubmitPeopleForm = <
   const queryClient = useQueryClient()
 
   const updateMutation = useCreateMutation<T, P>(
-    API_PATH.application.financialProjection.expensePeople.update
+    API_PATH.financialProjection.expensePeople.update
   )
 
   const submitMutation = useCreateMutation<T, P>(
-    API_PATH.application.financialProjection.expensePeople.submit
+    API_PATH.financialProjection.expensePeople.submit
   )
 
   const submitPeopleForm = async (
@@ -37,11 +37,10 @@ export const useSubmitPeopleForm = <
     const mutationToUse = rawData?.id?.length ? updateMutation : submitMutation
     const formattedData = rawData && formatExpensePeopleForm(rawData)
     if (!rawData?.id?.length) {
-      const result = await mutationToUse.mutateAsync({
+      return await mutationToUse.mutateAsync({
         ...formattedData,
         financialProjectionSetupId: loanApplicationId
       } as T)
-      return result
     }
 
     const result = await mutationToUse.mutateAsync(formattedData as T)

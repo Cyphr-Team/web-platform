@@ -5,7 +5,6 @@ import { LoanApplicationFormProvider } from "@/modules/loan-application/provider
 import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider"
 import { LoanProgressProvider } from "@/modules/loan-application/providers/LoanProgressProvider"
 import { PlaidProvider } from "@/modules/loan-application/providers/PlaidProvider"
-import { financialProjectionRoute } from "@/routes/financial-projection-routes"
 import { LoanApplicationDetailLayout } from "@/shared/layouts/LoanApplicationDetailLayout"
 import { LoanApplicationFormLayout } from "@/shared/layouts/LoanApplicationFormLayout"
 import { handleCrumb } from "@/utils/crumb.utils"
@@ -38,8 +37,6 @@ const applicantRoutes = (
     element={<ApplicantLayout />}
   >
     {availableLoanProgramRoutes}
-
-    {financialProjectionRoute}
 
     <Route
       element={

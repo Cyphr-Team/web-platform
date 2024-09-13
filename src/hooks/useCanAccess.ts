@@ -17,7 +17,6 @@ export const enum FeatureKey {
   APPLICATION = "application",
   USER = "user",
   ONBOARD = "onboard",
-  FINANCIAL = "financial",
 
   /**
    * Access applicant document

@@ -14,5 +14,4 @@
 export namespace useRecurringCharge {
   export { useMutateRecurringCharge as submit } from "./useMutateRecurringCharge"
   export { useQueryRecurringChargeById as getById } from "./useQueryRecurringCharge"
-  export { useQueryRecurringChargeFinancialProjectionId as getByFinancialProjectId } from "./useQueryRecurringCharge"
 }

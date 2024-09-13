@@ -12,5 +12,5 @@ export const useQueryGetExpensePeopleForm = ({
     setupId: applicationId,
     queryKey: [QUERY_KEY.GET_EXPENSE_PEOPLE_FORM],
     enabled,
-    path: API_PATH.application.financialProjection.expensePeople.index
+    path: API_PATH.financialProjection.expensePeople.index
   })

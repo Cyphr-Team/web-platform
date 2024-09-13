@@ -1,8 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ReactNode, useCallback, useEffect, useMemo } from "react"
-
-import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { usePersona } from "@/lib/persona/usePersona"
 import { cn } from "@/lib/utils"
@@ -27,6 +25,8 @@ import {
 } from "@/utils/feature-flag.utils.ts"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { FormSubmitButton } from "../../atoms/FormSubmitButton"
+import { isSbb } from "@/utils/domain.utils.ts"
+import { ButtonLoading } from "@/components/ui/button"
 
 const VerifyInfoItem = ({
   leftIcon,
@@ -138,6 +138,18 @@ export const IdentityVerificationForm = () => {
     }
   }, [completeSpecificStep, inquiryData, form, dispatchInquiryData])
 
+  const renderCompletedBtn = isSbb() ? (
+    <div className="rounded-lg flex items-center border border-success justify-center gap-1 font-semibold text-success bg-white h-10 px-4 py-2">
+      Connected
+      <Check className="w-5 h-5" />
+    </div>
+  ) : (
+    <div className="rounded-lg flex items-center justify-center gap-1 font-semibold text-white bg-primary h-10 px-4 py-2">
+      {isEnableKycReOrder() ? "Completed" : "Verified"}
+      <Check className="w-5 h-5" />
+    </div>
+  )
+
   return (
     <Form {...form}>
       <Card
@@ -159,10 +171,7 @@ export const IdentityVerificationForm = () => {
                 Start Verification <UserCheck className="w-5 h-5" />
               </ButtonLoading>
             ) : (
-              <div className="rounded-lg flex items-center justify-center gap-1 font-semibold text-white bg-primary h-10 px-4 py-2">
-                {isEnableKycReOrder() ? "Completed" : "Verified"}
-                <Check className="w-5 h-5" />
-              </div>
+              renderCompletedBtn
             )}
           </div>
         </div>

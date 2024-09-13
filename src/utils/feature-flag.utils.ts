@@ -163,13 +163,10 @@ function isEnableExecutionFormNewMonthlyExpense() {
   )
 }
 
-function isEnableFinancialProjection() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.FINANCIAL_PROJECTION_TAB)
-}
-
 function isEnableDummyLoanReadiness() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.DUMMY_LOAN_READINESS)
 }
+
 /*
  * Enable Google Map Input for address fields
  */
@@ -198,7 +195,6 @@ export {
   isIgnoredKycSubmission,
   isIgnoredCashFlowSubmission,
   isEnableExecutionFormNewMonthlyExpense,
-  isEnableFinancialProjection,
   isEnableDummyLoanReadiness,
   isEnableGoogleMapInput
 }

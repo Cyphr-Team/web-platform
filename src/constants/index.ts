@@ -61,22 +61,6 @@ export const APP_PATH = {
       list: "/loan/notifications",
       detail: "/loan/notifications/:id",
       details: (id: string) => `/loan/notifications/${id}`
-    },
-    FINANCIAL: {
-      index: "/loan/financial",
-      detail: "/loan/financial/:id",
-      details: (id: string) => `/loan/financial/${id}`,
-      company: {
-        index: "/loan/financial/company",
-        create: "/loan/financial/company/create",
-        detail: "/loan/financial/company/:id",
-        details: (id: string) => `/loan/financial/company/${id}`,
-        scenarios: {
-          index: "/loan/financial/company/:companyId/scenarios",
-          list: (companyId: string) =>
-            `/loan/financial/company/${companyId}/scenarios`
-        }
-      }
     }
   },
 
@@ -295,13 +279,6 @@ export const API_PATH = {
       submit: "api/form/sbb-documents/submit",
       deleteByType: "api/form/sbb-documents/documents/delete-by-type",
       deleteById: "api/form/sbb-documents/documents/delete-by-id"
-    },
-    financialProjection: {
-      expensePeople: {
-        index: "api/financial-projection/form/expense-people/by-setup-id",
-        submit: "api/financial-projection/form/expense-people",
-        update: "api/financial-projection/form/expense-people/update"
-      }
     }
   },
   // For workspace admin
@@ -468,35 +445,10 @@ export const API_PATH = {
     update: () => "api/admin/whitelist-user"
   },
   financialProjection: {
-    company: {
-      // TODO: fix this
-      list: "api/financial-projection/company",
-      scenario: {
-        create: "api/financial-projection/scenarios/create",
-        list: "api/financial-projection/scenarios/list",
-        update: "api/financial-projection/scenarios/update"
-      }
-    },
-    revenueTransactional: {
-      submit: "api/financial-projection/form/transactional",
-      findById: "api/financial-projection/form/transactional/by-id",
-      findByFinancialProjectionId:
-        "api/financial-projection/form/transactional/by-financial-projection-id",
-      update: "api/financial-projection/form/transactional/update"
-    },
-    saasRevenue: {
-      submit: "api/financial-projection/form/saas",
-      findById: "api/financial-projection/form/saas/by-id",
-      findByFinancialProjectionId:
-        "api/financial-projection/form/saas/by-financial-projection-id",
-      update: "api/financial-projection/form/saas/update"
-    },
-    recurringCharges: {
-      submit: "api/financial-projection/form/recurring-charge",
-      findById: "api/financial-projection/form/recurring-charge/by-id",
-      findByFinancialProjectionId:
-        "api/financial-projection/form/recurring-charge/by-financial-projection-id",
-      update: "api/financial-projection/form/recurring-charge/update"
+    expensePeople: {
+      index: "api/financial-projection/form/expense-people/by-setup-id",
+      submit: "api/financial-projection/form/expense-people",
+      update: "api/financial-projection/form/expense-people/update"
     },
     operatingExpenses: {
       submit: "api/financial-projection/form/expense-operating",
