@@ -43,7 +43,7 @@ export const BeneficialOwnersInput = () => {
       [SBB_KYC_FIELD_NAMES.NAME]: "",
       [SBB_KYC_FIELD_NAMES.EMAIL]: "",
       [SBB_KYC_FIELD_NAMES.PHONE_NUMBER]: "",
-      [SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE]: 0
+      [SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE]: ""
     })
   }, [append])
 
@@ -67,7 +67,7 @@ export const BeneficialOwnersInput = () => {
   useEffect(() => {
     if (watchHasBeneficialOwners === BINARY_VALUES.NO) {
       remove()
-    } else {
+    } else if (watchHasBeneficialOwners === BINARY_VALUES.YES) {
       if (fields.length === 0) {
         handleAddOwner()
       }

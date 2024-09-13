@@ -328,7 +328,10 @@ const OPTION_SELECT_BLOCK = [
     name: SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES,
     props: {
       label: "How many employees does your business currently have?",
-      placeholder: "i.e 15"
+      placeholder: "i.e 15",
+      styleProps: {
+        inputClassName: "!max-w-40 w-fit"
+      }
     }
   },
   {
@@ -345,11 +348,13 @@ const OPTION_SELECT_BLOCK = [
   ...block,
   props: {
     ...block.props,
-    className: "col-span-12 flex justify-between items-center gap-2",
+    className: "col-span-12 flex justify-between items-center gap-8",
     required: true,
+    isRowDirection: true,
     styleProps: {
       inputClassName: "!max-w-40",
-      labelClassName: "leading-normal"
+      labelClassName: "leading-normal",
+      ...block.props.styleProps
     }
   }
 }))
@@ -407,6 +412,7 @@ const YES_NO_QUESTIONS_BLOCK = [
     options: YES_NO_OPTIONS,
     required: true,
     placeholder: "Please select",
+    isRowDirection: true,
     styleProps: {
       inputClassName: "!max-w-40",
       labelClassName: "leading-normal"
@@ -621,7 +627,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
     name: SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS,
     props: {
       label:
-        "To your knowledge is the business a Money Service Business (MSB)? ",
+        "To your knowledge is the business a Money Service Business (MSB)?",
 
       description:
         "Money service businesses provide money orderand check cashing services to their customers."
@@ -647,7 +653,7 @@ const YES_NO_QUESTIONS_BLOCK_PART_TWO = [
     name: SBB_KYB_FORM_FIELDS.IS_ALLOW_THIRD_PARTY_SLOT_MACHINES,
     props: {
       label:
-        "Does your business allow third party companies with slot machines on your business property?"
+        "Does your business allow third-party companies with slot machines on your business property?"
     }
   },
   {

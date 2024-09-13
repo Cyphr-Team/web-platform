@@ -134,7 +134,11 @@ const RHFSelectInput = <T extends FieldValues>(
               {...selectProps}
             >
               <SelectTrigger
-                className={cn("text-sm", inputClassName)}
+                className={cn(
+                  "text-sm [&>span]:break-all",
+                  isRowDirection && "!mt-0",
+                  inputClassName
+                )}
                 {...selectTriggerProps}
               >
                 <SelectValue

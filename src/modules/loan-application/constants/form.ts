@@ -45,7 +45,10 @@ export const ownerFormSchema = z.object({
   }),
   businessCity: z.string().min(1, { message: "City is required" }),
   businessState: z.string().min(1, { message: "State is required" }),
-  businessZipCode: z.string().min(1, { message: "Zip code is required" }),
+  businessZipCode: z
+    .string()
+    .min(1, { message: "Zip code is required" })
+    .regex(REGEX_PATTERN.ZIP_CODE, "Enter a valid zip code"),
   phoneNumber: z
     .string({ required_error: "Phone number is required" })
     .refine((data) => isPossiblePhoneNumber(data), {

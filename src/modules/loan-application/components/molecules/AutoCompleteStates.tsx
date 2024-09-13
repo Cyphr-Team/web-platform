@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { StateType } from "@/types/common.type"
 import { capitalizeWords } from "@/utils"
-import { CheckIcon, Search } from "lucide-react"
+import { CheckIcon, ChevronDown } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
@@ -82,8 +82,15 @@ export const AutoCompleteStates = <T extends FieldValues>(
                 <Input
                   name={name}
                   value={value || "Select state"}
-                  className="text-sm p-0"
-                  prefixIcon={<Search className="w-5 text-muted-foreground" />}
+                  className={cn(
+                    "text-sm p-0",
+                    value === "" ? "text-text-placeholder" : ""
+                  )}
+                  suffixIcon={
+                    <ChevronDown
+                      className={cn("h-4 w-4", open ? "rotate-180" : "")}
+                    />
+                  }
                 />
               </PopoverTrigger>
               <PopoverContent className="w-72 p-0" align="start">

@@ -14,6 +14,7 @@ import { getImageURL } from "@/utils/aws.utils"
 import { CustomLabelKey, buildCustomLabel, buildIds } from "@/utils/crumb.utils"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
+import { isSbb } from "@/utils/domain.utils"
 
 export const ComponentWithProvider = () => {
   const { loanProgramInfo, isLoading, loanProgramDetails } =
@@ -44,7 +45,12 @@ export const ComponentWithProvider = () => {
               loanProgramInfo?.isUnderConstruction ? (
                 <LoanProgramDetailUnderConstruction />
               ) : (
-                <LoanProgramDetailApply btnText={loanProgramInfo?.startBtn} />
+                <LoanProgramDetailApply
+                  className={cn(
+                    isSbb() && "bg-lime-400 text-black hover:bg-lime-300"
+                  )}
+                  btnText={loanProgramInfo?.startBtn}
+                />
               )
             }
           />

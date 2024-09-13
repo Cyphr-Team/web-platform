@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { CityType } from "@/types/common.type"
 import { capitalizeWords } from "@/utils"
-import { CheckIcon, Search } from "lucide-react"
+import { CheckIcon, ChevronDown } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
@@ -131,8 +131,15 @@ export const AutoCompleteCities = <T extends FieldValues>(
               <PopoverTrigger asChild disabled={!options?.length}>
                 <Input
                   name={name}
-                  prefixIcon={<Search className="w-5 text-muted-foreground" />}
-                  className="text-sm p-0"
+                  suffixIcon={
+                    <ChevronDown
+                      className={cn("h-4 w-4", open ? "rotate-180" : "")}
+                    />
+                  }
+                  className={cn(
+                    "text-sm p-0",
+                    value === "" ? "text-text-placeholder" : ""
+                  )}
                   value={
                     value
                       ? options?.find((option) => option.name === value)?.name

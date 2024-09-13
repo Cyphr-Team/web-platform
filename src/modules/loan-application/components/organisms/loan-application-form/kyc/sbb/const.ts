@@ -13,6 +13,9 @@ import * as z from "zod"
 export const enum SBB_KYC_FIELD_NAMES {
   ID = "id",
   ADDRESS_LINE1 = "addressLine1",
+  BUSINESS_CITY = "businessCity",
+  BUSINESS_STATE = "businessState",
+  BUSINESS_ZIP_CODE = "businessZipCode",
   PHONE_NUMBER = "phoneNumber",
   EMAIL = "email",
   DATE_OF_BIRTH = "dateOfBirth",
@@ -105,6 +108,36 @@ export const SBB_KYC_FORM_BLOCKS: Block[] = [
       label: "Residential address",
       placeholder: "i.e: 123 Coffee Lane",
       className: "col-span-12",
+      required: true
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: SBB_KYC_FIELD_NAMES.BUSINESS_STATE,
+    props: {
+      label: "Business state",
+      placeholder: "Business state",
+      className: "col-span-4",
+      required: true
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: SBB_KYC_FIELD_NAMES.BUSINESS_CITY,
+    props: {
+      label: "Business city",
+      placeholder: "Business city",
+      className: "col-span-4",
+      required: true
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: SBB_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE,
+    props: {
+      label: "Business zip code",
+      placeholder: "ie: 97531",
+      className: "col-span-4",
       required: true
     }
   },
