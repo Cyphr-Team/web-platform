@@ -31,11 +31,11 @@ type Field = {
 
 const FIELDS: Field[] = [
   {
-    label: "Business legal name",
+    label: "Business legal name:",
     field: SBB_KYB_FORM_FIELDS.BUSINESS_NAME
   },
   {
-    label: "DBA (If applicable)",
+    label: "DBA (If applicable):",
     field: SBB_KYB_FORM_FIELDS.DBA
   },
   {
@@ -51,6 +51,10 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.BUSINESS_TIN
   },
   {
+    label: "Business website:",
+    field: SBB_KYB_FORM_FIELDS.BUSINESS_WEBSITE
+  },
+  {
     label: "The business serves the following industry:",
     field: SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE,
     type: FIELD_TYPE.OPTION
@@ -61,12 +65,12 @@ const FIELDS: Field[] = [
     type: FIELD_TYPE.OPTION
   },
   {
-    label: "The business caters to: ",
+    label: "The business caters to:",
     field: SBB_KYB_FORM_FIELDS.CUSTOMER_TYPE,
     type: FIELD_TYPE.OPTION
   },
   {
-    label: "The number of employees the business currently has: ",
+    label: "The number of employees the business currently has:",
     field: SBB_KYB_FORM_FIELDS.TOTAL_NUMBER_OF_EMPLOYEES
   },
   {
@@ -79,11 +83,11 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.INVOLVED_IN_WEAPONS_SALES
   },
   {
-    label: "The business owned by a trust:",
+    label: "The business is owned by a trust:",
     field: SBB_KYB_FORM_FIELDS.OWNED_BY_TRUST
   },
   {
-    label: "The business a holding company:",
+    label: "The business is a holding company:",
     field: SBB_KYB_FORM_FIELDS.IS_HOLDING_COMPANY
   },
   {
@@ -122,16 +126,16 @@ const FIELDS: Field[] = [
   },
   {
     label:
-      "The account  is opened with the intention of being a self-directed IRA account:",
+      "The account is opened with the intention of being a self-directed IRA account:",
     field: SBB_KYB_FORM_FIELDS.IS_SELF_DIRECTED_IRA_ACCOUNT
   },
   {
-    label: "The amount that will be deposited into the account monthly is: ",
+    label: "The amount that will be deposited into the account monthly is:",
     field: SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT,
     type: FIELD_TYPE.OPTION
   },
   {
-    label: "The business receive international payments:",
+    label: "The business receives international payments:",
     field: SBB_KYB_FORM_FIELDS.WILL_RECEIVE_INTERNATIONAL_PAYMENTS
   },
   {
@@ -155,12 +159,11 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.WILL_SEND_ELECTRONIC_TRANSFERS
   },
   {
-    label:
-      "To your knowledge, the business is a Money Service Business (MSB): ",
+    label: "To your knowledge, the business is a Money Service Business (MSB):",
     field: SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS
   },
   {
-    label: "The business owns and operate automated teller machines (ATM):",
+    label: "The business owns and operate automated teller machines (ATMs):",
     field: SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS
   },
   {

@@ -26,36 +26,36 @@ type Field = {
 }
 const KYC_FORM_FIELDS: Field[] = [
   {
-    label: "First name",
+    label: "First name:",
     field: SBB_KYC_FIELD_NAMES.FIRST_NAME
   },
   {
-    label: "Last name",
+    label: "Last name:",
     field: SBB_KYC_FIELD_NAMES.LAST_NAME
   },
   {
-    label: "Resident address",
+    label: "Resident address:",
     field: SBB_KYC_FIELD_NAMES.ADDRESS_LINE1
   },
   {
-    label: "Email address",
+    label: "Email address:",
     field: SBB_KYC_FIELD_NAMES.EMAIL
   },
   {
-    label: "Phone number",
+    label: "Phone number:",
     field: SBB_KYC_FIELD_NAMES.PHONE_NUMBER
   },
   {
-    label: "Date of birth",
+    label: "Date of birth:",
     field: SBB_KYC_FIELD_NAMES.DATE_OF_BIRTH,
     type: FieldTypes.DATE
   },
   {
-    label: "SSN/ITIN",
+    label: "SSN/ITIN:",
     field: SBB_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER
   },
   {
-    label: "Your role",
+    label: "Your role:",
     field: SBB_KYC_FIELD_NAMES.BUSINESS_ROLE
   },
   {

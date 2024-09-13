@@ -336,13 +336,12 @@ const SBB_LOAN_PROGRAMS: LoanProgramData[] = [
       Types_of_Business_accounts: `•	Free Business Checking
 •	High-Yield Business Savings
 •	Business Certificate of Deposit`,
-      List_of_required_documents: `•	One form of government ids (i.e drivers license or passport)
-•	Business EIN Letter
+      List_of_required_documents: `• One form of government ID (i.e driver’s license or passport)
+• Business EIN Letter
 • Certificate of Good Standing from your Secretary of State's Office
-•	Fictitious name certification (if your business uses a fictitious business name)
-•	Articles of Organization and Operating Agreement (for LLCs)
-•	By-Laws (for Corporations)
-    `
+• Fictitious name certification (if your business uses a fictitious business name)
+• Articles of Organization and Operating Agreement (for LLCs)
+• By-Laws (for Corporations)`
     },
     contact: {
       phone: "(855) 635-9696",

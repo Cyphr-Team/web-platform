@@ -63,7 +63,7 @@ export function LoanProgramDetailContactCard() {
 
       <CardFooter>
         <Button className="w-full" variant="outline" asChild>
-          <a href={`mailto:${loanProgramInfo?.contact?.mail}`}>Contact Us</a>
+          <a href={`mailto:${loanProgramInfo?.contact?.mail}`}>Contact us</a>
         </Button>
       </CardFooter>
     </Card>

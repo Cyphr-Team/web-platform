@@ -501,7 +501,8 @@ export const SBB_KYB_FORM_BLOCKS_PART_ONE: Block[] = [
     props: {
       label: "Business website",
       placeholder: "Business website",
-      className: "col-span-6"
+      className: "col-span-6",
+      required: true
     }
   },
   {
