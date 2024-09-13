@@ -23,7 +23,7 @@ export const BusinessEinLetterForm = () => {
   return (
     <DocumentUploadFormTemplate
       title="Business EIN Letter"
-      description="Please upload a copy of your Business EIN Letter"
+      description="Please upload a copy of your Business EIN Letter."
       schema={businessEinLetterFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER}
     />

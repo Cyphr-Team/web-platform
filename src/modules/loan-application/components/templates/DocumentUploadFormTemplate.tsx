@@ -263,6 +263,7 @@ export const DocumentUploadFormTemplate = ({
                         file={file}
                         index={index}
                         handleRemoveFile={handleRemoveFile(index, fileField)}
+                        version={2}
                       />
                     )
                   )}
@@ -276,6 +277,7 @@ export const DocumentUploadFormTemplate = ({
                       key={val.id}
                       file={val}
                       handleRemoveFile={removeDocument}
+                      version={2}
                     />
                   ))}
                   <FormMessage />

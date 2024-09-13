@@ -21,7 +21,7 @@ export type ByLawsFormValue = zodInfer<typeof byLawFormSchema>
 export const ByLawsForm = () => {
   return (
     <DocumentUploadFormTemplate
-      title="By Laws"
+      title="By-Laws"
       description="If you are a Corporation, please upload your By-Laws. If you are not, please select the checkbox below indicating that you are not a Corporation."
       schema={byLawFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.BY_LAWS}

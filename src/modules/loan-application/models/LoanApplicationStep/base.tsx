@@ -111,7 +111,7 @@ export class LoanApplicationStep {
         {
           step: LOAN_APPLICATION_STEPS.BY_LAWS,
           formType: null,
-          label: "By laws",
+          label: "By-laws",
           parent: STEP_MENU.DOCUMENTATION,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }

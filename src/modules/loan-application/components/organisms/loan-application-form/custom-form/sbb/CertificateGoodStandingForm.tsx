@@ -23,7 +23,7 @@ export const CertificateGoodStandingForm = () => {
   return (
     <DocumentUploadFormTemplate
       title="Certificate of Good Standing"
-      description="Please upload your Certificate of Good Standing issued by your state's Secretary of State office"
+      description="Please upload your Certificate of Good Standing issued by your state's Secretary of State office."
       schema={certificateGoodStandingFormSchema}
       specificStep={LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING}
     />

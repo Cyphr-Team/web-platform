@@ -163,7 +163,7 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.IS_MONEY_SERVICE_BUSINESS
   },
   {
-    label: "The business owns and operate automated teller machines (ATMs):",
+    label: "The business owns and operates automated teller machines (ATMs):",
     field: SBB_KYB_FORM_FIELDS.IS_OWNS_AND_OPERATES_ATMS
   },
   {
