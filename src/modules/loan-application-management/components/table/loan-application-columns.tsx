@@ -13,6 +13,7 @@ import { getBadgeVariantByStatus } from "../../services"
 import { ClipboardCopy } from "@/components/ui/clipboard-copy"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { formatDate } from "@/utils/date.utils"
+import { renderFilterableHeader } from "@/utils/table.utils"
 import { format } from "date-fns"
 import { ButtonReviewLoanApplication } from "../atoms/ButtonReviewLoanApplication"
 
@@ -145,16 +146,16 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
 
 export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
-    id: "select",
-    header: "ID",
+    id: "applicationIdNumber",
+    header: renderFilterableHeader({ title: "ID" }),
     cell: ({ row }) => {
       const application = row.original
 
       return (
         <TooltipProvider>
           <Tooltip delayDuration={0}>
-            <TooltipTrigger className="font-medium cursor-default">
-              {application.applicationIdNumber}
+            <TooltipTrigger className="font-medium cursor-default w-full">
+              <p className="text-center">{application.applicationIdNumber}</p>
             </TooltipTrigger>
             <TooltipContent
               side="right"
@@ -176,15 +177,16 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
     size: 80
   },
   {
-    id: "applicant",
-    accessorKey: "businessName",
-    header: "Business name",
+    id: "businessName",
+    header: renderFilterableHeader({ title: "Business name" }),
     cell: ({ row }) => {
       const application = row.original
 
       return (
         <div className="min-w-0">
-          <p className="truncate">{application.businessName ?? "N/A"}</p>
+          <p className="truncate text-center">
+            {application.businessName ?? "N/A"}
+          </p>
         </div>
       )
     },
@@ -192,14 +194,16 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
   },
   {
     id: "email",
-    accessorKey: "email",
-    header: "Email",
+    header: renderFilterableHeader({
+      title: "Email",
+      disabled: true
+    }),
     size: 200,
     cell: ({ row }) => {
       const application = row.original
 
       return (
-        <div className="min-w-0">
+        <div className="min-w-0 text-center">
           <p className="truncate">{application.applicant.email}</p>
         </div>
       )
@@ -208,13 +212,13 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
     id: "createdAt",
     accessorKey: "createdAt",
-    header: () => <p>Created on</p>,
+    header: renderFilterableHeader({ title: "Created on" }),
     size: 150,
     cell: ({ row }) => {
       const application = row.original
 
       return (
-        <div>
+        <div className="text-center">
           {application.createdAt
             ? format(application.createdAt, FORMAT_DATE_M_D_Y)
             : "N/A"}
@@ -225,13 +229,13 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
     id: "submittedAt",
     accessorKey: "submittedAt",
-    header: () => <p>Submitted on</p>,
+    header: renderFilterableHeader({ title: "Submitted on" }),
     size: 150,
     cell: ({ row }) => {
       const application = row.original
 
       return (
-        <div>
+        <div className="text-center">
           {application.submittedAt
             ? formatDate(application.submittedAt, FORMAT_DATE_M_D_Y)
             : "N/A"}
@@ -242,13 +246,13 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
     id: "status",
     accessorKey: "status",
-    header: "Status",
+    header: renderFilterableHeader({ title: "Status" }),
     size: 150,
     cell: ({ row }) => {
       const application = row.original
 
       return (
-        <div>
+        <div className="text-center">
           <Badge
             isDot
             variant="soft"

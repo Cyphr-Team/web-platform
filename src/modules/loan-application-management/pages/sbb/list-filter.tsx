@@ -4,7 +4,7 @@ import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
-import { Option } from "@/types/common.type"
+import { Option, SortOrder } from "@/types/common.type"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PaginationState, SortingState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
@@ -51,9 +51,14 @@ export function SbbApplicationsList() {
   })
 
   // Sort state
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "createdAt", desc: true }
-  ])
+  const [sorting, setSorting] = useState<SortingState>([])
+  const getSort = useCallback(() => {
+    if (!sorting.length) return undefined
+
+    return `${sorting[0].id}:${
+      sorting[0].desc ? SortOrder.DESC_NULLS_LAST : SortOrder.ASC_NULLS_FIRST
+    }`
+  }, [sorting])
 
   // Search state
   const [searchField, setSearchField] = useState("")
@@ -77,7 +82,8 @@ export function SbbApplicationsList() {
     search: searchField,
     status: filter.statuses,
     submittedOn: filter.submittedOn,
-    createdOn: filter.createdOn
+    createdOn: filter.createdOn,
+    sort: getSort()
   })
 
   useEffect(() => {
@@ -112,9 +118,7 @@ export function SbbApplicationsList() {
   )
 
   return (
-    <div
-      className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
-    >
+    <div className={cn("container mx-auto px-xl py-xl", "md:px-2xl md:py-2xl")}>
       <div className="flex flex-wrap justify-between gap-4">
         <div className="flex flex-col gap-1">
           <Breadcrumbs breads={crumbs} className="px-0 mb-3" />

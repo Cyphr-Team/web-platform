@@ -35,6 +35,7 @@ export type FilterParams = {
   programNames: string[]
   submittedOn?: Date
   createdOn?: Date
+  sort?: string
 }
 
 type Params = PaginateParams & Partial<FilterParams>
@@ -46,7 +47,8 @@ export const useQueryListPaginateLoanApplication = ({
   search,
   programNames,
   submittedOn,
-  createdOn
+  createdOn,
+  sort
 }: Params) => {
   return useQuery<ListLoanApplicationResponse>({
     queryKey: loanApplicationKeys.list(
@@ -57,7 +59,8 @@ export const useQueryListPaginateLoanApplication = ({
         status: status ?? "",
         programNames: programNames ?? "",
         submittedOn: submittedOn?.toString() ?? "",
-        createdOn: createdOn?.toString() ?? ""
+        createdOn: createdOn?.toString() ?? "",
+        sort: sort ?? ""
       }).toString()
     ),
     queryFn: async () => {
@@ -70,7 +73,8 @@ export const useQueryListPaginateLoanApplication = ({
           status,
           programNames,
           createdOn,
-          submittedOn
+          submittedOn,
+          sort
         },
         customHeader: customRequestHeader.customHeaders
       })
