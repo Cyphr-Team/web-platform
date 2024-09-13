@@ -18,7 +18,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const DisclaimerAndDisclosure = () => {
+interface DisclaimerAndDisclosure {
+  wrapperClassName?: string
+  defaultChecked?: boolean
+}
+export const DisclaimerAndDisclosure = ({
+  wrapperClassName,
+  defaultChecked
+}: DisclaimerAndDisclosure) => {
   const { dispatchFormAction, disclaimerAndDisclosure } =
     useLoanApplicationFormContext()
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -26,7 +33,8 @@ export const DisclaimerAndDisclosure = () => {
   const form = useForm<DisclaimerAndDisclosureFormValue>({
     resolver: zodResolver(disclaimerAndDisclosureFormSchema),
     values: {
-      acknowledge: disclaimerAndDisclosure?.acknowledge ?? false
+      acknowledge:
+        disclaimerAndDisclosure?.acknowledge ?? defaultChecked ?? false
     },
     mode: "onBlur"
   })
@@ -42,14 +50,17 @@ export const DisclaimerAndDisclosure = () => {
 
   useAutoCompleteStepEffect(
     form,
-    LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
+    LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE,
+    true,
+    true
   )
 
   return (
     <Card
       className={cn(
         "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm text-sm"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm text-sm",
+        wrapperClassName
       )}
       id={LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE}
     >
@@ -136,9 +147,9 @@ export const DisclaimerAndDisclosure = () => {
       <p>
         I request the Bank to provide me with the applicable communications,
         disclosures, advisories, documents, or periodic statements in electronic
-        format. By clicking on the “submit” button below, I am confirming that I
-        have, at a minimum, the hardware and software listed above to be able to
-        receive and retain the disclosures, advisories, or documents.
+        format. By checking below box, I confirm that I meet, at a minimum, the
+        hardware and software requirements listed above to receive and retain
+        electronic disclosures, advisories, and documents.
       </p>
 
       <Form {...form}>

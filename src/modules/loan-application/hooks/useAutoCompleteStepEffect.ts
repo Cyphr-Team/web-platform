@@ -12,7 +12,8 @@ export const useAutoCompleteStepEffect = (
   form: UseFormReturn<any, any, any>,
   specificStep: LOAN_APPLICATION_STEPS,
   // use logicalValidState  when we need to add more special logic to mark complete
-  logicalValidState?: boolean
+  logicalValidState?: boolean,
+  skipReview?: boolean
 ) => {
   const { eSignForm, dispatchFormAction } = useLoanApplicationFormContext()
   const { completeSpecificStep, removeCompleteSpecificStep } =
@@ -34,15 +35,18 @@ export const useAutoCompleteStepEffect = (
       } else {
         removeCompleteSpecificStep(specificStep)
       }
-      removeCompleteSpecificStep(LOAN_APPLICATION_STEPS.REVIEW_APPLICATION)
 
-      // Remove document after the user edit loan application data
-      if (eSignForm?.documentId) {
-        dispatchFormAction({
-          action: FORM_ACTION.SET_DATA,
-          state: { documentId: "", sessionId: "" },
-          key: LOAN_APPLICATION_STEPS.E_SIGN
-        })
+      if (!skipReview) {
+        removeCompleteSpecificStep(LOAN_APPLICATION_STEPS.REVIEW_APPLICATION)
+
+        // Remove document after the user edit loan application data
+        if (eSignForm?.documentId) {
+          dispatchFormAction({
+            action: FORM_ACTION.SET_DATA,
+            state: { documentId: "", sessionId: "" },
+            key: LOAN_APPLICATION_STEPS.E_SIGN
+          })
+        }
       }
     })
   }, [
@@ -52,6 +56,7 @@ export const useAutoCompleteStepEffect = (
     form.formState.isValid,
     logicalValidState,
     removeCompleteSpecificStep,
+    skipReview,
     specificStep
   ])
 

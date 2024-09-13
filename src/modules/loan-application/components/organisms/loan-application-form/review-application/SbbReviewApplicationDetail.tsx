@@ -344,8 +344,8 @@ export const SbbReviewApplicationDetails: React.FC<Props> = ({ itemsRef }) => {
               itemsRef.current[LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION] = e
           }}
         >
-          <IdentityVerificationForm />
-          <Card className="p-8 flex flex-col gap-2xl shadow-none max-w-screen-sm mx-auto">
+          <IdentityVerificationForm wrapperClassName="max-w-none" />
+          <Card className="p-8 flex flex-col gap-2xl shadow-none mx-auto">
             <CardHeader className="!p-0">
               <CardTitle className="font-semibold text-lg text-text-primary p-0">
                 Submitted Document

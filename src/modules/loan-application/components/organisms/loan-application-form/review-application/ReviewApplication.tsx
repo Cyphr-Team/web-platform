@@ -57,6 +57,7 @@ export const ReviewApplication = () => {
       (prog) =>
         prog.step != step &&
         prog.step != LOAN_APPLICATION_STEPS.CONFIRMATION &&
+        prog.step != LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE &&
         (isEnableKycReOrder() ||
           prog.step != LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
     )
@@ -124,7 +125,10 @@ export const ReviewApplication = () => {
                     ] = e
                 }}
               >
-                <DisclaimerAndDisclosure />
+                <DisclaimerAndDisclosure
+                  wrapperClassName="max-w-none"
+                  defaultChecked
+                />
               </div>
             </div>
           </div>

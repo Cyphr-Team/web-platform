@@ -50,7 +50,12 @@ const VerifyInfoItem = ({
   )
 }
 
-export const IdentityVerificationForm = () => {
+interface IdentityVerificationFormProps {
+  wrapperClassName?: string
+}
+export const IdentityVerificationForm = ({
+  wrapperClassName
+}: IdentityVerificationFormProps) => {
   const { dispatchFormAction, identityVerificationForm } =
     useLoanApplicationFormContext()
 
@@ -155,7 +160,8 @@ export const IdentityVerificationForm = () => {
       <Card
         className={cn(
           "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
+          wrapperClassName
         )}
       >
         <div className="flex gap-2 justify-between items-center">
