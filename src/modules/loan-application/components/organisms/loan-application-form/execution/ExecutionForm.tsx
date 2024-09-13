@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
@@ -22,7 +21,6 @@ import { OptionInput } from "@/shared/organisms/form/OptionInput"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
   getOptionsByField,
@@ -33,6 +31,7 @@ import {
 } from "./constants"
 import { isEnableExecutionFormNewMonthlyExpense } from "@/utils/feature-flag.utils.ts"
 import { useMemo } from "react"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const ExecutionForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -171,12 +170,10 @@ export const ExecutionForm = () => {
           </Card>
 
           {!isReviewApplicationStep(step) && (
-            <Button
-              disabled={!form.formState.isValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!form.formState.isValid}
+            />
           )}
         </Form>
       </div>

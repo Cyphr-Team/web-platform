@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
 
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
@@ -23,12 +22,12 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
-import { ArrowRight } from "lucide-react"
 import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/v2/ConnectBankAccountsButton"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { toastError } from "@/utils"
 import { useUpdateEffect } from "react-use"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -259,13 +258,11 @@ export const CashFlowVerificationFormV2 = () => {
                   <Separator />
 
                   {!isReviewApplicationStep(step) && (
-                    <Button
+                    <FormSubmitButton
                       className="w-full mt-5"
-                      disabled={!connectedAccounts.length}
-                      onClick={handleNextClick}
-                    >
-                      Next <ArrowRight className="ml-1.5 w-5 h-5" />
-                    </Button>
+                      onSubmit={handleNextClick}
+                      isDisabled={!connectedAccounts.length}
+                    />
                   )}
                 </LoadingWrapper>
               </div>

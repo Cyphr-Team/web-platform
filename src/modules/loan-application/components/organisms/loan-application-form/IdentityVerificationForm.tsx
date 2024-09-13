@@ -2,19 +2,12 @@ import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ReactNode, useCallback, useEffect, useMemo } from "react"
 
-import { Button, ButtonLoading } from "@/components/ui/button"
+import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { usePersona } from "@/lib/persona/usePersona"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  ArrowRight,
-  Check,
-  LockKeyhole,
-  ShieldCheck,
-  UserCheck,
-  Zap
-} from "lucide-react"
+import { Check, LockKeyhole, ShieldCheck, UserCheck, Zap } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
   createIdentityVerificationSchema,
@@ -33,6 +26,7 @@ import {
   isEnableNewInquiryPersonaKycCreatingLogic
 } from "@/utils/feature-flag.utils.ts"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { FormSubmitButton } from "../../atoms/FormSubmitButton"
 
 const VerifyInfoItem = ({
   leftIcon,
@@ -144,17 +138,6 @@ export const IdentityVerificationForm = () => {
     }
   }, [completeSpecificStep, inquiryData, form, dispatchInquiryData])
 
-  const renderNextButton = (
-    <div className="flex flex-col gap-lg">
-      <Button
-        disabled={!form.formState.isValid}
-        onClick={form.handleSubmit(onSubmit)}
-      >
-        Next <ArrowRight className="ml-1.5 w-5 h-5" />
-      </Button>
-    </div>
-  )
-
   return (
     <Form {...form}>
       <Card
@@ -215,7 +198,12 @@ export const IdentityVerificationForm = () => {
               }
             />
           </div>
-          {!isReviewApplicationStep(step) && renderNextButton}
+          {!isReviewApplicationStep(step) && (
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!form.formState.isValid}
+            />
+          )}
         </div>
       </Card>
     </Form>

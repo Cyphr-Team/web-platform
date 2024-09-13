@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
   Form,
@@ -26,7 +25,7 @@ import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight, Mail } from "lucide-react"
+import { Mail } from "lucide-react"
 import { useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
@@ -47,6 +46,7 @@ import {
   YES_NO_OPTIONS,
   LAUNCH_KC_KYC_FIELD_NAMES
 } from "./const"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 export function LaunchKCOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -417,12 +417,10 @@ export function LaunchKCOwnerInformationForm() {
             </form>
 
             {!isReviewApplicationStep(step) && (
-              <Button
-                disabled={!form.formState.isValid}
-                onClick={form.handleSubmit(onSubmit)}
-              >
-                Next <ArrowRight className="ml-1 w-4" />
-              </Button>
+              <FormSubmitButton
+                onSubmit={form.handleSubmit(onSubmit)}
+                isDisabled={!form.formState.isValid}
+              />
             )}
           </Card>
         </Form>

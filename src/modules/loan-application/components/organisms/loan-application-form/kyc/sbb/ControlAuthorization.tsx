@@ -1,14 +1,13 @@
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { ArrowRight } from "lucide-react"
 import { useFormContext } from "react-hook-form"
 import { SBB_KYC_FIELD_NAMES, SbbKycFormValue } from "./const"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { RHFOptionInput } from "@/modules/form-template/components/molecules"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 type Props = {
   step: LOAN_APPLICATION_STEPS
@@ -52,12 +51,10 @@ export const ControlAuthorization: React.FC<Props> = ({ step, onSubmit }) => {
       />
 
       {!isReviewApplicationStep(step) && (
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Next <ArrowRight className="ml-1 w-4" />
-        </Button>
+        <FormSubmitButton
+          onSubmit={form.handleSubmit(onSubmit)}
+          isDisabled={!form.formState.isValid}
+        />
       )}
     </Card>
   )

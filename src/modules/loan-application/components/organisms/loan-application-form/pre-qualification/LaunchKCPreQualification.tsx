@@ -22,7 +22,6 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { ButtonLoading } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import {
   useLoanApplicationFormContext,
@@ -196,7 +195,7 @@ export const PreQualificationForm = () => {
                   isLoading={isPending || isCreatingLoanApplication}
                   className=" text-white bg-primary hover:bg-primary/80 hover:text-white"
                 >
-                  Submit <ArrowRight className="ml-1 w-4" />
+                  Submit
                 </ButtonLoading>
               </CustomAlertDialog>
             )}

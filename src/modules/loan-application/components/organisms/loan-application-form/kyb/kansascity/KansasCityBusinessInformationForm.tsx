@@ -24,11 +24,10 @@ import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { isReviewApplicationStep } from "../../../../../services"
-import { ArrowRight } from "lucide-react"
-import { Button } from "../../../../../../../components/ui/button"
 import { EIN_PATTERN, MM_YYYY_PATTERN } from "../../../../../../../constants"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { TYPE_OF_BUSINESS_OPTIONS } from "./const"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 const enum FIELD_NAMES {
   ID = "id",
@@ -223,12 +222,10 @@ export const KansasCityBusinessInformationForm = () => {
       </Form>
 
       {!isReviewApplicationStep(step) && (
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Next <ArrowRight className="ml-1 w-4" />
-        </Button>
+        <FormSubmitButton
+          onSubmit={form.handleSubmit(onSubmit)}
+          isDisabled={!form.formState.isValid}
+        />
       )}
     </Card>
   )

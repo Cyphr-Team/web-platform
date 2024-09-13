@@ -24,7 +24,7 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import _uniqueId from "lodash/uniqueId"
-import { ArrowRight, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import React, { useMemo } from "react"
 import { Controller, ControllerRenderProps, useForm } from "react-hook-form"
 import {
@@ -39,6 +39,7 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/out-of-box/sbb/SbbCurrentLoanFormDetails.tsx"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 export const SBBCurrentLoanForm = () => {
   const { dispatchFormAction, currentLoansForm } =
@@ -224,12 +225,10 @@ export const SBBCurrentLoanForm = () => {
               )}
           </Card>
           {!isReviewApplicationStep(step) && (
-            <Button
-              disabled={!form.formState.isValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!form.formState.isValid}
+            />
           )}
         </Form>
       </div>

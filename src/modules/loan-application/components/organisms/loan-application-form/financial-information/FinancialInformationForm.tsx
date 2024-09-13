@@ -15,7 +15,6 @@ import {
   FinancialFormValue,
   financialFormSchema
 } from "../../../../constants/form"
-import { Button } from "@/components/ui/button"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import {
   useLoanApplicationFormContext,
@@ -25,7 +24,7 @@ import { ConnectPlaidButton } from "../../../molecules/ConnectPlaidButton"
 import { FileUploadCard } from "../../../molecules/FileUploadCard"
 import { useQueryGetIncomeCategories } from "../../../../hooks/useQuery/useQueryIncomeCategories"
 import { capitalizeWords } from "@/utils"
-import { ArrowRight, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import { FileUploadedCard } from "../../../molecules/FileUploadedCard"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { cn } from "@/lib/utils"
@@ -37,6 +36,7 @@ import { useEffect, useMemo } from "react"
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const FinancialInformationForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -238,12 +238,10 @@ export const FinancialInformationForm = () => {
           </div>
 
           {!isReviewApplicationStep(step) && (
-            <Button
-              disabled={!form.formState.isValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!form.formState.isValid}
+            />
           )}
         </Form>
       </Card>

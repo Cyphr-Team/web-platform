@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
@@ -16,8 +15,8 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const DisclaimerAndDisclosure = () => {
   const { dispatchFormAction, disclaimerAndDisclosure } =
@@ -170,9 +169,10 @@ export const DisclaimerAndDisclosure = () => {
         />
 
         {!isReviewApplicationStep(step) && (
-          <Button disabled={!form.formState.isValid} onClick={onSubmit}>
-            Next <ArrowRight className="ml-1 w-4" />
-          </Button>
+          <FormSubmitButton
+            onSubmit={onSubmit}
+            isDisabled={!form.formState.isValid}
+          />
         )}
       </Form>
     </Card>

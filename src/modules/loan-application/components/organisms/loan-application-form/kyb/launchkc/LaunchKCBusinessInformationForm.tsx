@@ -2,13 +2,11 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useEffect } from "react"
 import { revertPattern } from "@/components/ui/mask-input"
-import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { EIN_PATTERN, YEAR_PATTERN } from "@/constants"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
@@ -34,6 +32,7 @@ import {
   LaunchKCBusinessFormValue
 } from "@/modules/loan-application/constants/form.ts"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 const enum FIELD_NAMES {
   ID = "id",
@@ -266,12 +265,10 @@ export const LaunchKCBusinessInformationForm = () => {
       </Form>
 
       {!isReviewApplicationStep(step) && (
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Next <ArrowRight className="ml-1 w-4" />
-        </Button>
+        <FormSubmitButton
+          onSubmit={form.handleSubmit(onSubmit)}
+          isDisabled={!form.formState.isValid}
+        />
       )}
     </Card>
   )

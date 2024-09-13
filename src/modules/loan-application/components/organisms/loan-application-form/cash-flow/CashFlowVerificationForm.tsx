@@ -5,12 +5,11 @@ import { useTenant } from "@/providers/tenant-provider"
 import { useState } from "react"
 import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/ConnectBankAccountsButton"
 
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { ArrowRight } from "lucide-react"
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "../../../../providers"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const CashFlowVerificationForm = () => {
   const { tenantData } = useTenant()
@@ -89,13 +88,7 @@ export const CashFlowVerificationForm = () => {
       </Card>
 
       {!isReviewApplicationStep(step) && isComplete && (
-        <Button
-          className="w-full"
-          disabled={!isChecked}
-          onClick={handleNextClick}
-        >
-          Next <ArrowRight className="ml-1.5 w-5 h-5" />
-        </Button>
+        <FormSubmitButton onSubmit={handleNextClick} isDisabled={!isChecked} />
       )}
     </div>
   )

@@ -34,10 +34,11 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import _uniqueId from "lodash/uniqueId"
-import { ArrowRight, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import React, { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { CurrentLoansFormItem } from "../../../molecules/CurrentLoansFormItem"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const CurrentLoansForm = () => {
   const { dispatchFormAction, currentLoansForm } =
@@ -228,12 +229,10 @@ export const CurrentLoansForm = () => {
           </Card>
 
           {!isReviewApplicationStep(step) && (
-            <Button
-              disabled={!form.formState.isValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!form.formState.isValid}
+            />
           )}
         </Form>
       </div>

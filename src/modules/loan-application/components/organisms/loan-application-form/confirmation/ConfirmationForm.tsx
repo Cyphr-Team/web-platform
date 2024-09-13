@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils"
 import { useTenant } from "@/providers/tenant-provider"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
   getConfirmationTexts,
@@ -144,7 +143,6 @@ export const ConfirmationForm = () => {
           onClick={form.handleSubmit(onSubmit)}
         >
           <span>Submit application</span>
-          <ArrowRight className="w-5" />
         </Button>
       </Form>
     </Card>

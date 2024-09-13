@@ -8,9 +8,7 @@ import {
 } from "@/components/ui/form.tsx"
 import { useForm } from "react-hook-form"
 
-import { Button } from "@/components/ui/button.tsx"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput.tsx"
-import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils.ts"
 import { useCallback, useEffect } from "react"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
@@ -31,6 +29,7 @@ import { DocumentUploadedResponse } from "@/modules/loan-application/constants/t
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { toastError } from "@/utils"
 import { useDeleteSbbDocument } from "@/modules/loan-application/hooks/useMutation/useDeleteSbbDocument.ts"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 /**
  * This implementation is only work on the schema like this
@@ -309,9 +308,10 @@ export const DocumentUploadFormTemplate = ({
             )}
 
             {!isReviewApplicationStep(step) && (
-              <Button disabled={!isValid} onClick={form.handleSubmit(onSubmit)}>
-                Next <ArrowRight className="ml-1 w-4" />
-              </Button>
+              <FormSubmitButton
+                onSubmit={form.handleSubmit(onSubmit)}
+                isDisabled={!isValid}
+              />
             )}
           </Card>
         </Form>

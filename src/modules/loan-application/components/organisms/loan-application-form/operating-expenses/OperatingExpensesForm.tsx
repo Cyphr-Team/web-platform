@@ -19,8 +19,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { useEffect, useMemo, useState } from "react"
 import { toCurrency } from "@/utils"
@@ -29,6 +27,7 @@ import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/t
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { OPERATING_EXPENSES_FIELD_DATA } from "@/modules/loan-application/constants/type"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const OperatingExpensesForm = () => {
   const { dispatchFormAction, operatingExpensesForm } =
@@ -177,12 +176,10 @@ export const OperatingExpensesForm = () => {
             </div>
           </Card>
           {!isReviewApplicationStep(step) && (
-            <Button
-              disabled={!form.formState.isValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!form.formState.isValid}
+            />
           )}
         </Form>
       </div>

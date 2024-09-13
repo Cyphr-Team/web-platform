@@ -35,11 +35,12 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import React from "react"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { KansasCityCurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/out-of-box/kansascity/KansasCityCurrentLoanFormDetails"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 export const KansasCityCurrentLoanForm = () => {
   const { dispatchFormAction, currentLoansForm } =
@@ -228,12 +229,10 @@ export const KansasCityCurrentLoanForm = () => {
               )}
           </Card>
           {!isReviewApplicationStep(step) && (
-            <Button
-              disabled={!form.formState.isValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!form.formState.isValid}
+            />
           )}
         </Form>
       </div>

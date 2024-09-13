@@ -24,8 +24,6 @@ import { Card } from "../../../../../../../components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { FORM_ACTION } from "../../../../../providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "../../../../../services"
-import { Button } from "../../../../../../../components/ui/button"
-import { ArrowRight } from "lucide-react"
 import { TextInput } from "../../../../../../../shared/organisms/form/TextInput"
 import { KANSAS_CITY_KYC_FIELD_NAMES, getKycOptionsByField } from "./const"
 import PhoneInput from "react-phone-number-input"
@@ -35,6 +33,7 @@ import {
 } from "../../../../../../../components/ui/phone-input"
 import { SelectInput } from "../../../../../../../shared/organisms/form/SelectInput"
 import { RHFPercentageInput } from "@/modules/form-template/components/molecules"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 export function KansasCityOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { dispatchFormAction, ownerInformationForm } =
@@ -240,12 +239,10 @@ export function KansasCityOwnerInformationForm() {
               <div />
             </form>
             {!isReviewApplicationStep(step) && (
-              <Button
-                disabled={!form.formState.isValid}
-                onClick={form.handleSubmit(onSubmit)}
-              >
-                Next <ArrowRight className="ml-1 w-4" />
-              </Button>
+              <FormSubmitButton
+                onSubmit={form.handleSubmit(onSubmit)}
+                isDisabled={!form.formState.isValid}
+              />
             )}
           </Card>
         </Form>

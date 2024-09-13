@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
   Form,
@@ -29,11 +28,11 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
-import { ArrowRight } from "lucide-react"
 import { useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { questions } from "./constants"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 export const LaunchKCFitForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -150,12 +149,10 @@ export const LaunchKCFitForm = () => {
           </Card>
 
           {!isReviewApplicationStep(step) && (
-            <Button
-              disabled={!isFormValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!isFormValid}
+            />
           )}
         </Form>
       </div>

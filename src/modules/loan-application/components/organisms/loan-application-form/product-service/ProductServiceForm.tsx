@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
   Form,
@@ -29,11 +28,11 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
-import { ArrowRight } from "lucide-react"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { productServiceFormQuestions } from "./constants"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const ProductServiceForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -137,12 +136,10 @@ export const ProductServiceForm = () => {
           </Card>
 
           {!isReviewApplicationStep(step) && (
-            <Button
-              disabled={!form.formState.isValid}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Next <ArrowRight className="ml-1 w-4" />
-            </Button>
+            <FormSubmitButton
+              onSubmit={form.handleSubmit(onSubmit)}
+              isDisabled={!form.formState.isValid}
+            />
           )}
         </Form>
       </div>

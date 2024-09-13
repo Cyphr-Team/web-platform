@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
@@ -10,7 +9,6 @@ import {
 } from "@/modules/loan-application/providers"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
   SBB_KYB_FORM_BLOCKS_PART_ONE,
@@ -38,6 +36,7 @@ import { AutoCompleteCities } from "@/modules/loan-application/components/molecu
 import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
 import { isEnableGoogleMapInput } from "@/utils/feature-flag.utils"
+import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
 export const SBBKybFormPartOne = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -246,12 +245,10 @@ export const SBBKybFormPartOne = () => {
       </Form>
 
       {!isReviewApplicationStep(step) && (
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Next <ArrowRight className="ml-1 w-4" />
-        </Button>
+        <FormSubmitButton
+          onSubmit={form.handleSubmit(onSubmit)}
+          isDisabled={!form.formState.isValid}
+        />
       )}
     </Card>
   )

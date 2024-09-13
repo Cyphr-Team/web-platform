@@ -15,7 +15,6 @@ import {
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
   ReviewApplicationValue,
@@ -141,7 +140,6 @@ export const ReviewApplication = () => {
                 onClick={form.handleSubmit(onSubmit)}
               >
                 Confirm application
-                <ArrowRight className="ml-1 w-4" />
               </ButtonLoading>
             </Form>
           </div>
@@ -167,8 +165,7 @@ export const ReviewApplication = () => {
                 }
                 onClick={form.handleSubmit(onSubmit)}
               >
-                Confirm Application Materials{" "}
-                <ArrowRight className="ml-1 w-4" />
+                Confirm Application Materials
               </ButtonLoading>
             </Form>
           </div>{" "}

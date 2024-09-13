@@ -2,7 +2,6 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
   useLoanApplicationFormContext,
@@ -18,7 +17,6 @@ import { useEffect, useMemo } from "react"
 import { AutoCompleteStates } from "../../../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../../../molecules/AutoCompleteCities"
 import { revertPattern, toPattern } from "@/components/ui/mask-input"
-import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { EIN_PATTERN } from "@/constants"
@@ -26,6 +24,7 @@ import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/t
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
+import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const BusinessInformationForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -187,12 +186,10 @@ export const BusinessInformationForm = () => {
       </Form>
 
       {!isReviewApplicationStep(step) && (
-        <Button
-          disabled={!form.formState.isValid}
-          onClick={form.handleSubmit(onSubmit)}
-        >
-          Next <ArrowRight className="ml-1 w-4" />
-        </Button>
+        <FormSubmitButton
+          onSubmit={form.handleSubmit(onSubmit)}
+          isDisabled={!form.formState.isValid}
+        />
       )}
     </Card>
   )
