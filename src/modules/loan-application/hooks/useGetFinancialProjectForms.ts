@@ -1,3 +1,5 @@
+import { useQueryGetDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useQueryGetDirectCostsForm"
+import { reverseFormatDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
 import { useQueryGetExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useQueryGetExpensePeopleForm"
 import { useQueryGetFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useQueryGetFpOperatingExpensesForm"
 import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
@@ -77,6 +79,20 @@ export const useGetFinancialProjectForms = () => {
       )
     }
   }, [changeDataAndProgress, fpOperatingExpensesFormQuery.data, isInitialized])
+
+  // Direct Costs Form
+  const directCosts = useQueryGetDirectCostsForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DIRECT_COSTS)
+  })
+  useEffect(() => {
+    if (directCosts.data && isInitialized) {
+      changeDataAndProgress(
+        reverseFormatDirectCostsForm(directCosts.data),
+        LOAN_APPLICATION_STEPS.DIRECT_COSTS
+      )
+    }
+  }, [changeDataAndProgress, directCosts.data, isInitialized])
 
   return { expensePeopleFormQuery, fpOperatingExpensesFormQuery }
 }

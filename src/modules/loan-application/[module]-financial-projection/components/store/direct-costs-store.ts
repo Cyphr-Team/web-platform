@@ -3,6 +3,7 @@ import { NUMBER } from "@/modules/form-template/components/utils"
 import * as z from "zod"
 
 export const enum DirectCostsField {
+  applicationId = "applicationId",
   directCosts = "directCosts",
   directCostsName = `directCosts.${NUMBER}.directCostName`,
   directCostsDescription = `directCosts.${NUMBER}.directCostDescription`,
@@ -11,6 +12,7 @@ export const enum DirectCostsField {
 }
 
 export const directCostsFormSchema = z.object({
+  [DirectCostsField.applicationId]: z.string().optional(),
   [DirectCostsField.directCosts]: z
     .array(
       z.object({
