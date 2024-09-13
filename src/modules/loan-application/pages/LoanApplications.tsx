@@ -15,12 +15,13 @@ import {
 } from "@/utils"
 import { AccessorKeyColumnDef, Row } from "@tanstack/react-table"
 import { useQueryGetUserLoanApplications } from "../hooks/useQuery/useQueryUserLoanApplications"
-import { ChevronRightIcon } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { ChevronRightIcon, HelpCircle, Plus } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import { Progress } from "@/components/ui/progress"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
-import { isLaunchKC } from "@/utils/domain.utils"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { Button } from "@/components/ui/button"
 
 export function Component() {
   const { data, fetchNextPage, isFetching } = useQueryGetUserLoanApplications({
@@ -136,16 +137,21 @@ export function Component() {
         size: 190,
         cell: ({ row }) => {
           const application = row.original
+          const sbbStatus =
+            application?.status?.toUpperCase() !== LoanApplicationStatus.DRAFT
+              ? LoanApplicationStatus.SUBMITTED
+              : LoanApplicationStatus.DRAFT
+          const status = isSbb() ? sbbStatus : application?.status
 
           return (
             <div className="font-medium">
               <Badge
                 isDot
                 variant="soft"
-                variantColor={getBadgeVariantByStatus(application.status)}
+                variantColor={getBadgeVariantByStatus(status)}
                 className="capitalize"
               >
-                {snakeCaseToText(application.status ?? "Draft")}
+                {snakeCaseToText(isSbb() ? sbbStatus.toLowerCase() : status)}
               </Badge>
             </div>
           )
@@ -244,16 +250,48 @@ export function Component() {
     <div
       className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
     >
-      <h1 className="text-3xl font-semibold">Your Applications</h1>
+      <h1 className="text-3xl font-semibold">
+        {isSbb() ? "Account Applications" : "Your Applications"}
+      </h1>
       <p className="text-text-tertiary mt-1">
         Keep track of your applications and their statuses
       </p>
-      <InfiniteDataTable
-        columns={getFilteredColumns()}
-        data={data}
-        fetchNextPage={fetchNextPage}
-        isFetching={isFetching}
-      />
+      {!isFetching && !data?.pages[0]?.data?.length ? (
+        <EmptyApplications />
+      ) : (
+        <InfiniteDataTable
+          columns={getFilteredColumns()}
+          data={data}
+          fetchNextPage={fetchNextPage}
+          isFetching={isFetching}
+        />
+      )}
+    </div>
+  )
+}
+
+const EmptyApplications = () => {
+  return (
+    <div className="flex flex-col items-center text-center justify-center max-w-80 mx-auto gap-xl mt-5xl">
+      <div className="border-2 w-12 h-12 rounded-xl flex items-center">
+        <HelpCircle className="w-6 h-6 mx-auto" />
+      </div>
+      <div>
+        <p className="text-text-primary text-md font-semibold">
+          No loan applications yet?
+        </p>
+        <p className="text-text-tertiary text-sm font-normal">
+          No worries. Let’s get you started!
+        </p>
+        <p className="text-text-tertiary text-sm font-normal">
+          We’ll guide you through step-by-step.
+        </p>
+      </div>{" "}
+      <Link to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.all}>
+        <Button className="mt-4 bg-lime-400 hover:bg-lime-300 text-text-primary font-semibold text-sm">
+          Start Application <Plus className="w-4 h-4 ml-1" />
+        </Button>
+      </Link>
     </div>
   )
 }

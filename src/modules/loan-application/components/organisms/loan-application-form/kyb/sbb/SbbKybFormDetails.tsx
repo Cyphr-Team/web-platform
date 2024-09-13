@@ -47,6 +47,18 @@ const FIELDS: Field[] = [
     field: SBB_KYB_FORM_FIELDS.ADDRESS_LINE_1
   },
   {
+    label: "Business city:",
+    field: SBB_KYB_FORM_FIELDS.CITY
+  },
+  {
+    label: "Business state:",
+    field: SBB_KYB_FORM_FIELDS.STATE
+  },
+  {
+    label: "Business zip code:",
+    field: SBB_KYB_FORM_FIELDS.POSTAL_CODE
+  },
+  {
     label: "Employer Identification Number (EIN):",
     field: SBB_KYB_FORM_FIELDS.BUSINESS_TIN
   },
@@ -216,6 +228,28 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
           valueClassName="w-full max-w-40"
           label={field.label}
           value={label}
+        />
+      )
+    }
+
+    if (
+      [
+        SBB_KYB_FORM_FIELDS.CITY,
+        SBB_KYB_FORM_FIELDS.STATE,
+        SBB_KYB_FORM_FIELDS.POSTAL_CODE,
+        SBB_KYB_FORM_FIELDS.ADDRESS_LINE_1
+      ].includes(field.field)
+    ) {
+      return (
+        <AnswersTextDisplay
+          key={field.field}
+          className="!flex-row justify-between gap-8"
+          valueClassName="text-right capitalize w-full max-w-40"
+          labelClassName="max-w-screen-sm"
+          label={field.label}
+          value={
+            get(kybFormData?.businessStreetAddress, field.field, "") as string
+          }
         />
       )
     }
