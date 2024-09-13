@@ -85,8 +85,20 @@ function isEnableMultiFactorAuthenticationForAdminPortal() {
 }
 
 /**
+ * Checks if Multi-Factor Authentication is enabled for the REP Portals.
+ * This flag is only used for the REP Portals, but not for LaunchKC Rep Portal.
+ * If you want to enable MFA for LaunchKC Rep Portal, please turn on MULTI_FACTOR_AUTHENTICATION_LAUNCHKC flag too.
+ * @returns {boolean} - True if the feature flag for MFA in Reps Portal is enabled, otherwise false.
+ */
+function isEnableMultiFactorAuthenticationForRepPortals() {
+  return checkEnabledFeatureFlag(
+    FEATURE_FLAGS.MULTI_FACTOR_AUTHENTICATION_REP_PORTALS
+  )
+}
+
+/**
  * Checks if Multi-Factor Authentication is enabled for the LaunchKC Portal.
- * This flag is only used for the LaunchKC Portal, and only works when the MULTI_FACTOR_AUTHENTICATION flag is also enabled.
+ * This flag is only used for the LaunchKC Portal, and only works when the MULTI_FACTOR_AUTHENTICATION/ MULTI_FACTOR_AUTHENTICATION_REP_PORTALS (Rep only) flag is also enabled.
  * @returns {boolean} - True if the feature flag for MFA in LaunchKC Portal is enabled, otherwise false.
  */
 function isEnableMultiFactorAuthenticationForLaunchKC() {
@@ -180,6 +192,7 @@ export {
   isEnableKycReOrder,
   isEnableMultiFactorAuthentication,
   isEnableMultiFactorAuthenticationForAdminPortal,
+  isEnableMultiFactorAuthenticationForRepPortals,
   isEnableMultiFactorAuthenticationForLaunchKC,
   isEnableNewSubmitFormStrategy,
   isIgnoredKycSubmission,

@@ -37,6 +37,11 @@ function matchSubdomain(subdomainToMatch: string, subdomain: string): boolean {
   return regex.test(subdomainToMatch)
 }
 
+function isRepSubdomain(): boolean {
+  const domain = getSubdomain()
+  return getRootSubdomain(domain) !== domain
+}
+
 /**
  * When admin send invitation to institution's user, the baseUrl should be institution's baseURL
  * So we need to change the subdomain from [admin].cyphrai.dev / [admin].cyphrai.com
@@ -89,6 +94,7 @@ export {
   getSubdomain,
   getRootSubdomain,
   matchSubdomain,
+  isRepSubdomain,
   isAdmin,
   isLoanReady,
   isCyphrBank,

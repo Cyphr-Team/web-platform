@@ -10,6 +10,7 @@ import { RedirectParam } from "../constants/params"
 import { SocialProvider } from "../../../../types/auth.type"
 import { useLoginWithSocialMFA } from "../../../../hooks/login-with-social/useLoginWithSocialMFA"
 import { useAuthenticateWithMagicLink } from "@/modules/authentication/magic-link/hooks/useAuthenticateWithMagicLink"
+import { isLaunchKC } from "@/utils/domain.utils"
 
 export function RedirectSection() {
   const { mutate: loginBySocialMutate } = useLoginWithSocialMFA()
@@ -140,7 +141,7 @@ export function RedirectSection() {
               <div className="text-muted-foreground mt-3">
                 <p>
                   You will be redirected to
-                  {getTokenType() === RedirectParam.OAUTH
+                  {getTokenType() === RedirectParam.OAUTH && !isLaunchKC()
                     ? " phone verification page "
                     : " your home page "}
                   once your account is verified.
