@@ -110,7 +110,7 @@ const findFormId = (list: object[]): string => {
    * */
   return (
     list
-      .filter((document) => get(document, "formId") !== undefined)
+      .filter((document) => !!get(document, "formId"))
       .map((document) => get(document, "formId"))
       .at(0) ?? ""
   )
