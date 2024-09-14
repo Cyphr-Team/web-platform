@@ -754,17 +754,6 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         {
           formId: data.id,
           files: [],
-          uploadedFiles: data.articlesOfOrganizationAndOperatingAgreement,
-          notHaveDoc:
-            data.articlesOfOrganizationAndOperatingAgreement.length === 0
-        },
-        LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION
-      )
-
-      changeDataAndProgress(
-        {
-          formId: data.id,
-          files: [],
           uploadedFiles: data.businessEinLetter
         },
         LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER,
@@ -781,25 +770,45 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         data.certificateOfGoodStanding.length > 0
       )
 
-      changeDataAndProgress(
-        {
-          formId: data.id,
-          files: [],
-          uploadedFiles: data.fictitiousNameCertification,
-          notHaveDoc: data.fictitiousNameCertification.length === 0
-        },
-        LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION
-      )
+      /**
+       * TODO: this is just a quick-dirty fix, it will not true if user actually don't have document
+       * we will fix this problem later when we have time. It's HIGH PRIORITY
+       * */
+      if (data.articlesOfOrganizationAndOperatingAgreement.length !== 0) {
+        changeDataAndProgress(
+          {
+            formId: data.id,
+            files: [],
+            uploadedFiles: data.articlesOfOrganizationAndOperatingAgreement,
+            notHaveDoc: false
+          },
+          LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION
+        )
+      }
 
-      changeDataAndProgress(
-        {
-          formId: data.id,
-          files: [],
-          uploadedFiles: data.byLaws,
-          notHaveDoc: data.byLaws.length === 0
-        },
-        LOAN_APPLICATION_STEPS.BY_LAWS
-      )
+      if (data.fictitiousNameCertification.length !== 0) {
+        changeDataAndProgress(
+          {
+            formId: data.id,
+            files: [],
+            uploadedFiles: data.fictitiousNameCertification,
+            notHaveDoc: false
+          },
+          LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION
+        )
+      }
+
+      if (data.byLaws.length !== 0) {
+        changeDataAndProgress(
+          {
+            formId: data.id,
+            files: [],
+            uploadedFiles: data.byLaws,
+            notHaveDoc: false
+          },
+          LOAN_APPLICATION_STEPS.BY_LAWS
+        )
+      }
     }
   }, [changeDataAndProgress, sbbDocumentQuery.data])
 
