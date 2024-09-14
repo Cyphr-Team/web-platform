@@ -147,9 +147,9 @@ export const DisclaimerAndDisclosure = ({
       <p>
         I request the Bank to provide me with the applicable communications,
         disclosures, advisories, documents, or periodic statements in electronic
-        format. By checking below box, I confirm that I meet, at a minimum, the
-        hardware and software requirements listed above to receive and retain
-        electronic disclosures, advisories, and documents.
+        format. By checking the box below, I confirm that I meet, at a minimum,
+        the hardware and software requirements listed above to receive and
+        retain electronic disclosures, advisories, and documents.
       </p>
 
       <Form {...form}>
