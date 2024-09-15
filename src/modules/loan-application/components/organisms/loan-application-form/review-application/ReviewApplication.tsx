@@ -113,7 +113,7 @@ export const ReviewApplication = () => {
     <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6 mx-4">
       {isSbb() ? (
         <>
-          <div className="col-span-8 md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm">
+          <div className="col-span-8 md:mx-8 2xl:mx-auto max-w-6xl">
             <SbbReviewApplicationDetails itemsRef={itemsRef} />
             <div className="hidden">
               <div
@@ -132,11 +132,11 @@ export const ReviewApplication = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-8 md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm w-full">
+          <div className="col-span-8 2xl:w-full md:mx-8 2xl:mx-auto max-w-6xl">
             <Form {...form}>
               <ButtonLoading
                 isLoading={isGenPDF}
-                className="mx-3 md:mx-auto max-w-screen-sm w-full"
+                className="w-full"
                 disabled={
                   !form.formState.isValid ||
                   progressCompleteFilter.length !== progressFilter.length

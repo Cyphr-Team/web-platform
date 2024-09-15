@@ -208,7 +208,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         <AnswersTextDisplay
           key={field.field}
           className="!flex-row justify-between gap-8"
-          valueClassName="text-right w-full max-w-40"
+          valueClassName="text-right"
           labelClassName="max-w-screen-sm"
           label={field.label}
           value={label}
@@ -225,7 +225,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
           key={field.field}
           className="!flex-row justify-between gap-8"
           labelClassName="max-w-screen-sm"
-          valueClassName="w-full max-w-40"
+          valueClassName=""
           label={field.label}
           value={label}
         />
@@ -244,7 +244,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         <AnswersTextDisplay
           key={field.field}
           className="!flex-row justify-between gap-8"
-          valueClassName="text-right capitalize w-full max-w-40"
+          valueClassName="text-right capitalize"
           labelClassName="max-w-screen-sm"
           label={field.label}
           value={
@@ -258,7 +258,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
       <AnswersTextDisplay
         key={field.field}
         className="!flex-row justify-between gap-8"
-        valueClassName="text-right capitalize w-full max-w-40"
+        valueClassName="text-right capitalize"
         labelClassName="max-w-screen-sm"
         label={field.label}
         value={

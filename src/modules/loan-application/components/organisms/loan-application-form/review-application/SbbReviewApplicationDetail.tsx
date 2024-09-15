@@ -258,10 +258,12 @@ export const SbbReviewApplicationDetails: React.FC<Props> = ({ itemsRef }) => {
         SBB_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER,
         ""
       ),
-      businessOwnershipPercentage: get(
-        ownerInformationForm,
-        Number(SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE),
-        0
+      businessOwnershipPercentage: Number(
+        get(
+          ownerInformationForm,
+          SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE,
+          0
+        )
       ),
       hasOtherSubstantialStackHolders: false,
       createdAt: "",
