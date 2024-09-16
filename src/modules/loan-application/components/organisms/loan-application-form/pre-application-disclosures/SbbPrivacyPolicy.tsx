@@ -339,7 +339,7 @@ const QuestionAndCall = () => {
     <section>
       <div className="flex flex-row px-3 py-2 gap-xl bg-[#EAECF0] text-sm">
         <div className="font-semibold">Questions?</div>
-        <div>Call + 1 913-856-7199</div>
+        <div>Call 855-635-9696</div>
       </div>
     </section>
   )
