@@ -11,6 +11,7 @@ import {
 } from "./const"
 
 import { get } from "lodash"
+import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 
 interface KybFormDetailsProps {
   kybFormData?: KYBInformationResponse
@@ -199,6 +200,27 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
   ref
 }) => {
   const renderField = (field: Field) => {
+    if (field.field === SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) {
+      return (
+        <AnswersTextDisplay
+          key={field.field}
+          className="!flex-row justify-between gap-8"
+          valueClassName="text-right"
+          labelClassName="max-w-screen-sm"
+          label={field.label}
+          value={
+            get(kybFormData?.metadata, field.field, "") === BINARY_VALUES.YES
+              ? `Yes, ${get(
+                  kybFormData?.metadata,
+                  SBB_KYB_FORM_FIELDS.PARENT_COMPANY,
+                  ""
+                )}`
+              : "No"
+          }
+        />
+      )
+    }
+
     if (field.type === FIELD_TYPE.OPTION) {
       const label = getLabelByValue(
         get(kybFormData?.metadata, field.field, "") as string,
@@ -247,9 +269,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
           valueClassName="text-right capitalize"
           labelClassName="max-w-screen-sm"
           label={field.label}
-          value={
-            get(kybFormData?.businessStreetAddress, field.field, "") as string
-          }
+          value={get(kybFormData?.businessStreetAddress, field.field, "")}
         />
       )
     }

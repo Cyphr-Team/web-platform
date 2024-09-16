@@ -75,6 +75,11 @@ export const SbbReviewApplicationDetails: React.FC<Props> = ({ itemsRef }) => {
           SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY,
           ""
         ),
+        [SBB_KYB_FORM_FIELDS.PARENT_COMPANY]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.PARENT_COMPANY,
+          ""
+        ),
         [SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE]: get(
           businessInformation,
           SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE,
