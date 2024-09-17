@@ -16,7 +16,7 @@ import {
   ExpenseTaxRateFormValue,
   taxRatesFormSchema
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
-import { RHFPercentageInput } from "@/modules/form-template/components/molecules"
+import { RHFCurrencyInput } from "@/modules/form-template/components/molecules"
 
 export const TaxRateForm = () => {
   const { taxRates, dispatchFormAction } = useLoanApplicationFormContext()
@@ -59,19 +59,16 @@ export const TaxRateForm = () => {
           </div>
 
           <Separator />
-          <RHFPercentageInput
+          <RHFCurrencyInput
             label="Estimate your income tax rate (%)"
-            name="incomeTaxRate"
             placeholder="Income tax rate"
-            min={0}
-            max={100}
             className="flex justify-between items-center"
+            suffixIcon={<span>%</span>}
+            name="incomeTaxRate"
             styleProps={{
-              labelClassName: "text-text-secondary",
-              subtitleClassName: "text-xs text-text-tertiary"
+              labelClassName: "text-text-secondary"
             }}
-            suffix="%"
-            direction="row"
+            isHideErrorMessage
           />
 
           <div className="flex flex-col gap-2xl mt-4">

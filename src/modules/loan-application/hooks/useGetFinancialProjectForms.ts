@@ -10,6 +10,8 @@ import { reverseFormatEquityFinancingForm } from "@/modules/loan-application/[mo
 import { useQueryGetExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useQueryGetExpensePeopleForm"
 import { useQueryGetFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useQueryGetFpOperatingExpensesForm"
 import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
+import { useQueryGetTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useQueryGetTaxRateForm"
+import { reverseFormatExpenseTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useSubmitTaxRateForm"
 import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/services/form.services"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
@@ -124,6 +126,21 @@ export const useGetFinancialProjectForms = () => {
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
   })
+
+  // Tax Rates Form
+  const fpExpenseTaxRateFormQuery = useQueryGetTaxRateForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.TAX_RATES)
+  })
+  useEffect(() => {
+    if (fpExpenseTaxRateFormQuery.data && isInitialized) {
+      changeDataAndProgress(
+        reverseFormatExpenseTaxRateForm(fpExpenseTaxRateFormQuery.data),
+        LOAN_APPLICATION_STEPS.TAX_RATES
+      )
+    }
+  }, [changeDataAndProgress, fpExpenseTaxRateFormQuery.data, isInitialized])
+
   useEffect(() => {
     if (
       fpAssetsCurrentFormQuery.data &&
