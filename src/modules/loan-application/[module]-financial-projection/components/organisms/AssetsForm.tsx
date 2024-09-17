@@ -23,6 +23,7 @@ import {
   assetsFormSchema,
   AssetsFormValue,
   EMPTY_ASSET_ITEM,
+  FP_ASSETS_DEFAULT_VALUE,
   RECEIVABLE_DAYS_OPTIONS,
   USEFUL_LIFE_OPTIONS
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
@@ -109,7 +110,7 @@ export const AssetsForm = () => {
   const form = useForm<AssetsFormValue>({
     resolver: zodResolver(assetsFormSchema),
     mode: "onBlur",
-    defaultValues: { ...assets, id: assets?.id ?? "" }
+    defaultValues: assets ?? FP_ASSETS_DEFAULT_VALUE
   })
 
   const { finishCurrentStep } = useLoanApplicationProgressContext()

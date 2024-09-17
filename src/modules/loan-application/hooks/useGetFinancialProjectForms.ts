@@ -1,3 +1,8 @@
+import {
+  useQueryGetCurrentAssetsForm,
+  useQueryGetLongTermAssetsForm
+} from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useQueryGetAssetsForm"
+import { reverseFormatAssetsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useSubmitAssetsForm"
 import { useQueryGetDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useQueryGetDirectCostsForm"
 import { reverseFormatDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
 import { useQueryGetEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useQueryGetEquityFinancingForm"
@@ -109,6 +114,37 @@ export const useGetFinancialProjectForms = () => {
       )
     }
   }, [changeDataAndProgress, fpEquityFinancingFormQuery.data, isInitialized])
+
+  // Assets Form (Current & Long-Term)
+  const fpAssetsCurrentFormQuery = useQueryGetCurrentAssetsForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
+  })
+  const fpAssetsLongTermFormQuery = useQueryGetLongTermAssetsForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
+  })
+  useEffect(() => {
+    if (
+      fpAssetsCurrentFormQuery.data &&
+      fpAssetsLongTermFormQuery.data &&
+      isInitialized
+    ) {
+      changeDataAndProgress(
+        reverseFormatAssetsForm(
+          fpAssetsCurrentFormQuery.data,
+          fpAssetsLongTermFormQuery.data
+        ),
+        LOAN_APPLICATION_STEPS.ASSETS
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    fpAssetsCurrentFormQuery.data,
+    fpAssetsLongTermFormQuery.data,
+    fpEquityFinancingFormQuery.data,
+    isInitialized
+  ])
 
   return { expensePeopleFormQuery, fpOperatingExpensesFormQuery }
 }

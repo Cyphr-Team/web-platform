@@ -481,6 +481,19 @@ export const API_PATH = {
       findById: "api/financial-projection/form/equity/by-id",
       findBySetupId: "api/financial-projection/form/equity/by-setup-id",
       update: "api/financial-projection/form/equity/update"
+    },
+    assetsLongTerm: {
+      submit: "api/financial-projection/form/assets/long-term",
+      findById: "api/financial-projection/form/assets/long-term/by-id",
+      findBySetupId:
+        "api/financial-projection/form/assets/long-term/by-setup-id",
+      update: "api/financial-projection/form/assets/long-term/update"
+    },
+    assetsCurrent: {
+      submit: "api/financial-projection/form/assets/current",
+      findById: "api/financial-projection/form/assets/current/by-id",
+      findBySetupId: "api/financial-projection/form/assets/current/by-setup-id",
+      update: "api/financial-projection/form/assets/current/update"
     }
   }
 }

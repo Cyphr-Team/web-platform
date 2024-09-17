@@ -2,6 +2,7 @@ import * as z from "zod"
 import { createDateSchema } from "@/constants/validate"
 
 export const enum AssetsField {
+  APPLICATION_ID = "applicationId",
   RECEIVABLE_DAYS = "receivableDays",
   LONG_TERM_ASSETS = "longTermAssets",
   LONG_TERM_ASSETS_NAME = "name",
@@ -13,14 +14,14 @@ export const enum AssetsField {
 export type AssetsFormValue = z.infer<typeof assetsFormSchema>
 
 export const assetsFormSchema = z.object({
-  id: z.string().nullable(),
+  [AssetsField.APPLICATION_ID]: z.string().nullable(),
   [AssetsField.RECEIVABLE_DAYS]: z.string().min(1, "This field is required"),
   [AssetsField.LONG_TERM_ASSETS]: z.array(
     z.object({
       name: z.string().min(1, "This field is required"),
       purchaseDate: createDateSchema(),
       cost: z.coerce.number().min(1, "This field is required"),
-      usefulLife: z.coerce.number().min(-1, "This field is required")
+      usefulLife: z.string().min(1, "This field is required")
     })
   )
 })
@@ -32,7 +33,9 @@ export const EMPTY_ASSET_ITEM = {
   usefulLife: ""
 }
 
-export const LONG_TERM_ASSETS_DEFAULT_VALUE = {
+export const FP_ASSETS_DEFAULT_VALUE = {
+  [AssetsField.APPLICATION_ID]: null,
+  [AssetsField.RECEIVABLE_DAYS]: "",
   [AssetsField.LONG_TERM_ASSETS]: [EMPTY_ASSET_ITEM]
 }
 

@@ -93,6 +93,7 @@ import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
 import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -127,7 +128,8 @@ export const useSubmitLoanForm = (
   fpOperatingExpensesData: FpOperatingExpensesFormValue,
   forecastingSetupData: ForecastingSetupFormValue,
   directCostsData: DirectCostsFormValue,
-  equityFinancingData: FpEquityFinancingFormValue
+  equityFinancingData: FpEquityFinancingFormValue,
+  assetsData: AssetsFormValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -395,7 +397,8 @@ export const useSubmitLoanForm = (
       fpOperatingExpensesData,
       forecastingSetupData,
       directCostsData,
-      equityFinancingData
+      equityFinancingData,
+      assetsData
     })
 
   const handleSubmitFormSuccess = useCallback(

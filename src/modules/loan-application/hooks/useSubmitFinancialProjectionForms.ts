@@ -10,6 +10,11 @@ import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-f
 import { useMutateForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useMutateForecastingSetup.ts"
 import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
 import { useSubmitEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useSubmitEquityFinancingForm"
+import {
+  useSubmitCurrentAssetsForm,
+  useSubmitLongTermAssetsForm
+} from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useSubmitAssetsForm"
+import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 
 interface FormData {
   peopleFormData: PeopleFormValue
@@ -17,6 +22,7 @@ interface FormData {
   forecastingSetupData: ForecastingSetupFormValue
   directCostsData: DirectCostsFormValue
   equityFinancingData: FpEquityFinancingFormValue
+  assetsData: AssetsFormValue
 }
 
 export const useSubmitFinancialProjectionForms = ({
@@ -24,7 +30,8 @@ export const useSubmitFinancialProjectionForms = ({
   fpOperatingExpensesData,
   forecastingSetupData,
   directCostsData,
-  equityFinancingData
+  equityFinancingData,
+  assetsData
 }: FormData) => {
   const { getStepStatus } = useLoanApplicationProgressContext()
 
@@ -40,21 +47,36 @@ export const useSubmitFinancialProjectionForms = ({
   const equityFinancingSubmission = useSubmitEquityFinancingForm({
     rawData: equityFinancingData
   })
+  const assetsLongTermSubmission = useSubmitLongTermAssetsForm({
+    rawData: assetsData
+  })
+  const assetsCurrentSubmission = useSubmitCurrentAssetsForm({
+    rawData: assetsData
+  })
 
   const submissionHooks = {
-    [LOAN_APPLICATION_STEPS.PEOPLE]: peopleSubmission,
-    [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: operatingExpensesSubmission,
-    [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: forecastingSetupSubmission,
-    [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: directCostsSubmission,
-    [LOAN_APPLICATION_STEPS.EQUITY]: equityFinancingSubmission
+    [LOAN_APPLICATION_STEPS.PEOPLE]: [peopleSubmission],
+    [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: [
+      operatingExpensesSubmission
+    ],
+    [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: [forecastingSetupSubmission],
+    [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: [directCostsSubmission],
+    [LOAN_APPLICATION_STEPS.EQUITY]: [equityFinancingSubmission],
+    [LOAN_APPLICATION_STEPS.ASSETS]: [
+      assetsCurrentSubmission,
+      assetsLongTermSubmission
+    ]
   }
 
   const handleSubmitFinancialProjection = async (applicationId: string) => {
     const submissionPromises = Object.entries(submissionHooks).reduce(
       (promises, [step, hook]) => {
-        if (getStepStatus(step) && hook.submitForm) {
-          promises.push(hook.submitForm(applicationId))
-        }
+        if (!getStepStatus(step)) return promises
+        hook.forEach((item) => {
+          if (item.submitForm) {
+            promises.push(item.submitForm(applicationId))
+          }
+        })
         return promises
       },
       [] as Promise<unknown>[]
@@ -63,9 +85,9 @@ export const useSubmitFinancialProjectionForms = ({
     return Promise.allSettled(submissionPromises)
   }
 
-  const isSubmittingFinancialProjection = Object.values(submissionHooks).some(
-    (hook) => hook.isLoading
-  )
+  const isSubmittingFinancialProjection = Object.values(submissionHooks)
+    .flat()
+    .some((hook) => hook.isLoading)
 
   return {
     handleSubmitFinancialProjection,
