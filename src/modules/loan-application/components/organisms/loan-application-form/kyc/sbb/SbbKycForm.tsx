@@ -26,6 +26,9 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities"
 import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
+import { AddressType } from "@/types/common.type"
+import { AutoCompleteGoogleMap } from "@/modules/loan-application/components/molecules/autocomplete/AutoCompleteGoogleMap"
+import { isEnableGoogleMapInput } from "@/utils/feature-flag.utils"
 
 export const SbbKycForm = () => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -154,6 +157,36 @@ export const SbbKycForm = () => {
   const { handleChangeCity, handleChangeState, city, state, STATE_DATA } =
     useSelectCities()
 
+  const handleAutoCompleteAddress = (address: AddressType) => {
+    form.setValue(SBB_KYC_FIELD_NAMES.BUSINESS_STATE, address.state, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+    handleChangeState(address.state)
+    handleChangeCity(address.city)
+    form.setValue(SBB_KYC_FIELD_NAMES.BUSINESS_CITY, address.city, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+    // Remove space from postal code
+    form.setValue(
+      SBB_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE,
+      address.zip.replace(/ /g, ""),
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      }
+    )
+    form.setValue(SBB_KYC_FIELD_NAMES.ADDRESS_LINE1, address.addressLine1, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+  }
+
   useEffect(() => {
     if (city) {
       form.setValue(SBB_KYC_FIELD_NAMES.BUSINESS_CITY, city, {
@@ -195,6 +228,28 @@ export const SbbKycForm = () => {
 
             <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
               {SBB_KYC_FORM_BLOCKS.map(({ type, props, name }) => {
+                if (
+                  name === SBB_KYC_FIELD_NAMES.ADDRESS_LINE1 &&
+                  isEnableGoogleMapInput()
+                ) {
+                  return (
+                    <AutoCompleteGoogleMap
+                      key={name}
+                      onSelect={handleAutoCompleteAddress}
+                      defaultValues={{
+                        addressLine1: defaultValues.addressLine1,
+                        state:
+                          defaultValues[SBB_KYC_FIELD_NAMES.BUSINESS_STATE],
+                        country: "United States",
+                        countryCode: "US",
+                        zip: defaultValues[
+                          SBB_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE
+                        ],
+                        city: defaultValues[SBB_KYC_FIELD_NAMES.BUSINESS_CITY]
+                      }}
+                    />
+                  )
+                }
                 if (name === SBB_KYC_FIELD_NAMES.BUSINESS_CITY) {
                   return (
                     <AutoCompleteCities

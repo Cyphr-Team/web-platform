@@ -79,29 +79,6 @@ export const SBBKybFormPartOne = () => {
     LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
   )
 
-  const handleAutoCompleteAddress = (address: AddressType) => {
-    form.setValue(SBB_KYB_FORM_FIELDS.STATE, address.state, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    })
-    form.setValue(SBB_KYB_FORM_FIELDS.CITY, address.city, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    })
-    form.setValue(SBB_KYB_FORM_FIELDS.POSTAL_CODE, address.zip, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    })
-    form.setValue(SBB_KYB_FORM_FIELDS.ADDRESS_LINE_1, address.addressLine1, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    })
-  }
-
   const { handleChangeCity, handleChangeState, city, state, STATE_DATA } =
     useSelectCities()
 
@@ -128,6 +105,35 @@ export const SBBKybFormPartOne = () => {
       })
     }
   }, [form, state])
+  const handleAutoCompleteAddress = (address: AddressType) => {
+    form.setValue(SBB_KYB_FORM_FIELDS.STATE, address.state, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+    handleChangeState(address.state)
+    handleChangeCity(address.city)
+    form.setValue(SBB_KYB_FORM_FIELDS.CITY, address.city, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+    // Remove space from postal code
+    form.setValue(
+      SBB_KYB_FORM_FIELDS.POSTAL_CODE,
+      address.zip.replace(/ /g, ""),
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      }
+    )
+    form.setValue(SBB_KYB_FORM_FIELDS.ADDRESS_LINE_1, address.addressLine1, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+  }
 
   return (
     <Card
