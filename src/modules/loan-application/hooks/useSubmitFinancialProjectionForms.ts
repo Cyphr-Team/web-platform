@@ -8,19 +8,23 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { useMutateForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useMutateForecastingSetup.ts"
+import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { useSubmitEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useSubmitEquityFinancingForm"
 
 interface FormData {
   peopleFormData: PeopleFormValue
   fpOperatingExpensesData: FpOperatingExpensesFormValue
   forecastingSetupData: ForecastingSetupFormValue
   directCostsData: DirectCostsFormValue
+  equityFinancingData: FpEquityFinancingFormValue
 }
 
 export const useSubmitFinancialProjectionForms = ({
   peopleFormData,
   fpOperatingExpensesData,
   forecastingSetupData,
-  directCostsData
+  directCostsData,
+  equityFinancingData
 }: FormData) => {
   const { getStepStatus } = useLoanApplicationProgressContext()
 
@@ -33,12 +37,16 @@ export const useSubmitFinancialProjectionForms = ({
   const directCostsSubmission = useSubmitDirectCostsForm({
     rawData: directCostsData
   })
+  const equityFinancingSubmission = useSubmitEquityFinancingForm({
+    rawData: equityFinancingData
+  })
 
   const submissionHooks = {
     [LOAN_APPLICATION_STEPS.PEOPLE]: peopleSubmission,
     [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: operatingExpensesSubmission,
     [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: forecastingSetupSubmission,
-    [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: directCostsSubmission
+    [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: directCostsSubmission,
+    [LOAN_APPLICATION_STEPS.EQUITY]: equityFinancingSubmission
   }
 
   const handleSubmitFinancialProjection = async (applicationId: string) => {

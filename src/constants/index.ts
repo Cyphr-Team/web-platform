@@ -475,6 +475,12 @@ export const API_PATH = {
       findBySetupId:
         "api/financial-projection/form/expense-direct-cost/by-setup-id",
       update: "api/financial-projection/form/expense-direct-cost/update"
+    },
+    equityFinancing: {
+      submit: "api/financial-projection/form/equity",
+      findById: "api/financial-projection/form/equity/by-id",
+      findBySetupId: "api/financial-projection/form/equity/by-setup-id",
+      update: "api/financial-projection/form/equity/update"
     }
   }
 }

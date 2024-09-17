@@ -37,8 +37,9 @@ const blocks = [
       label: "Enter name of equity investment:",
       placeholder: "Name of equity investment",
       isRowDirection: true,
+      className: "flex-col w-full lg:flex-row lg:items-center justify-between",
       styleProps: {
-        inputClassName: "min-w-72"
+        inputClassName: "min-w-72 w-full"
       }
     }
   },
@@ -49,6 +50,7 @@ const blocks = [
       label: "Specify when equity investment will be received:",
       pattern: "00/0000",
       placeholder: "MM/YYYY",
+      className: "flex-col w-full lg:flex-row lg:items-center justify-between",
       isRowDirection: true,
       styleProps: {
         inputClassName: "min-w-72"
@@ -59,7 +61,7 @@ const blocks = [
     name: FieldName.AMOUNT,
     type: FieldType.CURRENCY,
     props: {
-      className: "flex flex-row items-center justify-between",
+      className: "flex-col w-full lg:flex-row lg:items-center justify-between",
       label: "Equity investment total amount:",
       isRowDirection: true,
       placeholder: "Equity investment total",

@@ -1,5 +1,7 @@
 import { useQueryGetDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useQueryGetDirectCostsForm"
 import { reverseFormatDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
+import { useQueryGetEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useQueryGetEquityFinancingForm"
+import { reverseFormatEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useSubmitEquityFinancingForm"
 import { useQueryGetExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useQueryGetExpensePeopleForm"
 import { useQueryGetFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useQueryGetFpOperatingExpensesForm"
 import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
@@ -93,6 +95,20 @@ export const useGetFinancialProjectForms = () => {
       )
     }
   }, [changeDataAndProgress, directCosts.data, isInitialized])
+
+  // Equity Financing Form
+  const fpEquityFinancingFormQuery = useQueryGetEquityFinancingForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.EQUITY)
+  })
+  useEffect(() => {
+    if (fpEquityFinancingFormQuery.data && isInitialized) {
+      changeDataAndProgress(
+        reverseFormatEquityFinancingForm(fpEquityFinancingFormQuery.data),
+        LOAN_APPLICATION_STEPS.EQUITY
+      )
+    }
+  }, [changeDataAndProgress, fpEquityFinancingFormQuery.data, isInitialized])
 
   return { expensePeopleFormQuery, fpOperatingExpensesFormQuery }
 }

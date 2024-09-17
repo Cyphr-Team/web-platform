@@ -3,6 +3,7 @@ import { NUMBER } from "@/modules/form-template/components/utils"
 import * as z from "zod"
 
 export const enum FpEquityFinancingField {
+  applicationId = "applicationId",
   equityFinancing = "equityFinancing",
   equityFinancingName = `equityFinancing.${NUMBER}.name`,
   equityFinancingReceivedDate = `equityFinancing.${NUMBER}.receivedDate`,
@@ -10,6 +11,7 @@ export const enum FpEquityFinancingField {
 }
 
 export const fpEquityFinancingFormSchema = z.object({
+  [FpEquityFinancingField.applicationId]: z.string().optional(),
   [FpEquityFinancingField.equityFinancing]: z
     .array(
       z.object({
