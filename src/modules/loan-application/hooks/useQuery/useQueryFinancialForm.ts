@@ -11,6 +11,6 @@ export const useQueryGetFinancialForm = ({
   useQueryFormByApplicationId<FinancialInformationResponse>({
     applicationId,
     queryKey: [QUERY_KEY.GET_FINANCIAL_FORM],
-    enabled,
+    enabled: enabled && !!applicationId,
     path: API_PATH.application.financialForm
   })

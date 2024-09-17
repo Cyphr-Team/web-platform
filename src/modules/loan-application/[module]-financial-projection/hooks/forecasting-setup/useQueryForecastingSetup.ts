@@ -18,7 +18,8 @@ type QueryForecastingSetupByIdResponse = ForecastingSetupFormValue & {
 }
 
 export const useQueryForecastingSetup = (
-  request: QueryForecastingSetupRequest
+  request: QueryForecastingSetupRequest,
+  enabled: boolean
 ) => {
   const query = useQuery<QueryForecastingSetupByIdResponse, ErrorResponse>({
     queryKey: [QUERY_KEY.GET_FORECASTING_SETUP_FORM, request.applicationId],
@@ -28,7 +29,7 @@ export const useQueryForecastingSetup = (
         params: { applicationId: request.applicationId }
       })
     },
-    enabled: !!request.applicationId
+    enabled: !!request.applicationId && enabled
   })
 
   return {

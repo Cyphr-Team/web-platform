@@ -4,6 +4,10 @@ import { format, intlFormatDistance } from "date-fns"
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber"
 import { ReactNode } from "react"
 import { toast } from "sonner"
+import {
+  ILoanApplicationStep,
+  LOAN_APPLICATION_STEPS
+} from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 
 export const convertFileSizeToMB = (fileSizeInBytes: number): string => {
   if (fileSizeInBytes === undefined) {
@@ -417,3 +421,8 @@ export const roundAndConvertToUSLocale = (value?: number) => {
   const roundedNumber = Math.round(value ?? 0)
   return new Intl.NumberFormat().format(roundedNumber)
 }
+
+export const isEnabledQuery = (
+  step: LOAN_APPLICATION_STEPS,
+  progress: ILoanApplicationStep[]
+) => progress.map((item) => item.step).includes(step)

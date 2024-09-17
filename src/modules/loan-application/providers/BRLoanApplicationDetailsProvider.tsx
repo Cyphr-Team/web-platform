@@ -75,6 +75,7 @@ import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { useQueryForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
+import { isEnabledQuery } from "@/utils"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -127,9 +128,6 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const { dispatch: plaidDispatch } = usePlaidContext()
   const { loanProgramFormsConfiguration } = useLoanProgramDetailContext()
 
-  const isEnabledQuery = (step: LOAN_APPLICATION_STEPS) =>
-    progress.map((item) => item.step).includes(step)
-
   const loanProgramQuery = useQueryLoanProgramDetailsByType(
     state?.loanProgramDetails?.type ?? "",
     loanProgramId!
@@ -172,7 +170,10 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    */
   const plaidItemIdsQuery = useQueryGetPlaidItemIds({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+    enabled: isEnabledQuery(
+      LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
+      progress
+    )
   })
 
   /**
@@ -181,40 +182,46 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const plaidConnectedAccountsQuery =
     useQueryGetPlaidConnectedBankAccountsByApplicationId({
       applicationId: loanApplicationId!,
-      enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+      enabled: isEnabledQuery(
+        LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
+        progress
+      )
     })
 
   const kybFormQuery = useQueryGetKybForm({
     applicationId: loanApplicationId!,
     enabled:
-      isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION) ||
-      isEnabledQuery(LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE)
+      isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, progress) ||
+      isEnabledQuery(
+        LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE,
+        progress
+      )
   })
   const kycFormQuery = useQueryGetKycForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, progress)
   })
 
   const confirmationFormQuery = useQueryGetConfirmationForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CONFIRMATION)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CONFIRMATION, progress)
   })
 
   const financialFormQuery = useQueryGetFinancialForm({
     applicationId: loanApplicationId!,
     enabled:
-      isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION) ||
-      isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+      isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, progress) ||
+      isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION, progress)
   })
 
   const currentLoansFormQuery = useQueryGetCurrentLoansForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CURRENT_LOANS, progress)
   })
 
   const operatingExpensesFormQuery = useQueryGetOperatingExpensesForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES, progress)
   })
 
   const financialDocuments = useQueryGetDocumentsByForm(
@@ -224,36 +231,39 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
   const preQualificationFormQuery = useQueryGetPreQualificationForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PRE_QUALIFICATION)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PRE_QUALIFICATION, progress)
   })
 
   const productServiceFormQuery = useQueryProductServiceForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE, progress)
   })
   const marketOpportunityFormQuery = useQueryMarketOpportunity({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY, progress)
   })
 
   const launchKCFitFormQuery = useQueryLaunchKCFitForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT, progress)
   })
 
   const executionFormQuery = useQueryExecutionForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.EXECUTION)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.EXECUTION, progress)
   })
 
   const businessModelFormQuery = useQueryBusinessModelForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_MODEL, progress)
   })
 
   const businessDocumentsUploadedFormQuery = useQueryBusinessDocuments({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS)
+    enabled: isEnabledQuery(
+      LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS,
+      progress
+    )
   })
 
   // SBB document form
@@ -263,9 +273,12 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    * Financial Projection Forms
    **/
 
-  const forecastingSetup = useQueryForecastingSetup({
-    applicationId: loanApplicationId
-  })
+  const forecastingSetup = useQueryForecastingSetup(
+    {
+      applicationId: loanApplicationId
+    },
+    isEnabledQuery(LOAN_APPLICATION_STEPS.FORECASTING_SETUP, progress)
+  )
 
   const changeDataAndProgress = useCallback(
     (

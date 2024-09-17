@@ -18,7 +18,7 @@ export const useQueryGetUserLoanApplications = ({
       }).toString()
     ),
     queryFn: async ({ pageParam = 0 }) => {
-      const response = await getRequest<
+      return await getRequest<
         PaginateParams,
         ListResponse<UserMicroLoanApplication>
       >({
@@ -28,7 +28,6 @@ export const useQueryGetUserLoanApplications = ({
           offset: (pageParam as number) * limit
         }
       })
-      return response
     },
     initialPageParam: 0,
     getNextPageParam(last, pages) {

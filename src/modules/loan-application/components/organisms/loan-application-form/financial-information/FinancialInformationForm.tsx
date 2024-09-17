@@ -1,10 +1,10 @@
 import { Card } from "@/components/ui/card"
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage
 } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
@@ -12,8 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useForm } from "react-hook-form"
 import {
-  FinancialFormValue,
-  financialFormSchema
+  financialFormSchema,
+  FinancialFormValue
 } from "../../../../constants/form"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import {
@@ -23,7 +23,7 @@ import {
 import { ConnectPlaidButton } from "../../../molecules/ConnectPlaidButton"
 import { FileUploadCard } from "../../../molecules/FileUploadCard"
 import { useQueryGetIncomeCategories } from "../../../../hooks/useQuery/useQueryIncomeCategories"
-import { capitalizeWords } from "@/utils"
+import { capitalizeWords, isEnabledQuery } from "@/utils"
 import { Loader2 } from "lucide-react"
 import { FileUploadedCard } from "../../../molecules/FileUploadedCard"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
@@ -39,7 +39,8 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export const FinancialInformationForm = () => {
-  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step, progress } =
+    useLoanApplicationProgressContext()
   const {
     financialInformationForm,
     documents,
@@ -62,7 +63,10 @@ export const FinancialInformationForm = () => {
     mode: "onChange"
   })
 
-  const incomeCategories = useQueryGetIncomeCategories()
+  const incomeCategories = useQueryGetIncomeCategories(
+    isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, progress)
+  )
+
   const items = incomeCategories.data?.map((val) => ({
     id: val,
     label: capitalizeWords(val.replace(/_/g, "-"))

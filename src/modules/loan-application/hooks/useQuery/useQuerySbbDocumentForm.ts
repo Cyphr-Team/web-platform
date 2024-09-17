@@ -5,6 +5,7 @@ import { ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
 import { AxiosError } from "axios"
 import { SBBUploadDocumentFormResponse } from "@/modules/loan-application/constants/type.ts"
+import { isSbb } from "@/utils/domain.utils.ts"
 
 export const useQuerySbbDocumentForm = (applicationId?: string) => {
   return useQuery<SBBUploadDocumentFormResponse, AxiosError<ErrorResponse>>({
@@ -15,6 +16,6 @@ export const useQuerySbbDocumentForm = (applicationId?: string) => {
         params: { applicationId }
       })
     },
-    enabled: !!applicationId
+    enabled: !!applicationId && isSbb()
   })
 }
