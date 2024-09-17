@@ -8,6 +8,9 @@ import {
 import { LoanProgram } from "@/types/loan-program.type"
 import { MoreVertical } from "lucide-react"
 import { ButtonDeleteLoanProgram } from "../components/delete-loan-program-button"
+import { FeatureFlagsRenderer } from "@/shared/layouts/FeatureFlagRenderer"
+import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
+import { ButtonChangeStatusLoanProgram } from "../components/change-status-loan-program-dialog"
 
 export const DropdownAction = ({
   loanProgram
@@ -25,6 +28,13 @@ export const DropdownAction = ({
         <DropdownMenuLabel asChild>
           <ButtonDeleteLoanProgram loanProgramId={loanProgram.id} />
         </DropdownMenuLabel>
+        <FeatureFlagsRenderer
+          ffKey={FEATURE_FLAGS.LOAN_PROGRAM_CHANGES_MANAGEMENT}
+        >
+          <DropdownMenuLabel asChild>
+            <ButtonChangeStatusLoanProgram loanProgram={loanProgram} />
+          </DropdownMenuLabel>
+        </FeatureFlagsRenderer>
       </DropdownMenuContent>
     </DropdownMenu>
   )
