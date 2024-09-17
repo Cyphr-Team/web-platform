@@ -50,6 +50,7 @@ import { EquityForm } from "@/modules/loan-application/[module]-financial-projec
 import { FinancialStatementForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FinancialStatementForm.tsx"
 import { AssetsForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/AssetsForm"
 import { TaxRateForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ExpenseTaxRateForm"
+import { DebtFinancingForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/DebtFinancingForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -157,6 +158,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <FinancialStatementForm />
       case LOAN_APPLICATION_STEPS.ASSETS:
         return <AssetsForm />
+      case LOAN_APPLICATION_STEPS.DEBT_FINANCING:
+        return <DebtFinancingForm />
       case LOAN_APPLICATION_STEPS.TAX_RATES:
         return <TaxRateForm />
       default:
