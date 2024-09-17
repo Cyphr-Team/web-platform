@@ -21,7 +21,7 @@ import { TinMatch } from "@/modules/loan-application/components/organisms/Middes
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
 import { isKansasCity, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
-import { get } from "lodash"
+import { concat, get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
 import { ScoreCard } from "../../components/organisms/score-card/ScoreCard"
@@ -39,7 +39,6 @@ import { CashFlowTable } from "@/modules/loan-application/components/molecules/l
 import { IdentityVerificationDetails } from "@/modules/loan-application/components/molecules/loan-application-details/IdentityVerificationDetails.tsx"
 import { PreQualificationFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-qualification/PreQualificationFormDetails.tsx"
 import usePermissions from "@/hooks/usePermissions"
-import { concat } from "lodash"
 import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary"
 import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
 import { useParams } from "react-router-dom"
@@ -117,7 +116,7 @@ export function Component() {
           key: "marketOpportunityForm",
           Component: MarketOpportunityFormDetails
         },
-        { key: "launchKcfitForm", Component: BusinessModelFormDetails }
+        { key: "launchKcfitForm", Component: LaunchKcFitFormDetails }
       ]
     },
     {
@@ -126,7 +125,7 @@ export function Component() {
     },
     {
       page: page_9,
-      forms: [{ key: "businessModelForm", Component: LaunchKcFitFormDetails }]
+      forms: [{ key: "businessModelForm", Component: BusinessModelFormDetails }]
     }
   ]
 
