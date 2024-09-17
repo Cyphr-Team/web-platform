@@ -26,6 +26,7 @@ import {
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
 import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import { get, set, without } from "lodash"
+import { SBB_KYC_FIELD_NAMES } from "../components/organisms/loan-application-form/kyc/sbb/const"
 
 export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
   const formattedForm: KYBInformation = {
@@ -83,6 +84,23 @@ export const formatKycForm = (rawData: IOwnerFormValue): KYCInformation => {
         formattedForm
       ) as KYCInformation),
       fullName: `${rawData?.firstName} ${rawData?.lastName}`
+    }
+  }
+
+  if (isSbb()) {
+    const firstName = get(
+      rawData,
+      [SBB_KYC_FIELD_NAMES.METADATA, SBB_KYC_FIELD_NAMES.FIRST_NAME],
+      ""
+    )
+    const lastName = get(
+      rawData,
+      [SBB_KYC_FIELD_NAMES.METADATA, SBB_KYC_FIELD_NAMES.LAST_NAME],
+      ""
+    )
+    return {
+      ...formattedForm,
+      fullName: `${firstName} ${lastName}`
     }
   }
 
