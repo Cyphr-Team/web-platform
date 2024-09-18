@@ -176,7 +176,6 @@ function isEnableGoogleMapInput() {
 }
 
 function isEnableLoanProgramChangesManagement() {
-  return true
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_CHANGES_MANAGEMENT)
 }
 

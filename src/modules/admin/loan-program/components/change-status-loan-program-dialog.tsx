@@ -19,12 +19,19 @@ export const ButtonChangeStatusLoanProgram = ({
     e.stopPropagation()
     mutate({
       loanProgramId: loanProgram.id,
-      programStatus: getProgramStatus(loanProgram.status)
+      programStatus: nextProgramStatus(loanProgram.status)
     })
     setIsOpen(false)
   }
 
-  const getProgramStatus = (status: ProgramStatus): ProgramStatus => {
+  /**
+   * This function is used to get the next status of the program
+   * Status: DRAFT -> ACTIVATED -> DEACTIVATED -> ACTIVATED
+   *
+   * @param status
+   * @returns
+   */
+  const nextProgramStatus = (status: ProgramStatus): ProgramStatus => {
     switch (status) {
       case ProgramStatus.DRAFT:
         return ProgramStatus.ACTIVATED
@@ -52,7 +59,7 @@ export const ButtonChangeStatusLoanProgram = ({
         <span>
           {`Change status of this loan program from ${
             loanProgram.status
-          } to ${getProgramStatus(loanProgram.status)}?`}
+          } to ${nextProgramStatus(loanProgram.status)}?`}
         </span>
       }
       actionClassName="bg-red-500 hover:bg-red-600 text-white"

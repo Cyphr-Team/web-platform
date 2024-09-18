@@ -13,6 +13,11 @@ import { loanProgramKeys } from "@/constants/query-key"
 import { createLoanProgramForm } from "./useCreateLoanProgram"
 
 export type UpdateLoanProgramValue = z.infer<typeof createLoanProgramForm>
+/**
+ * Hook to update loan program
+ * Allow update loan program as long as the status is draft
+ * But if the status is not draft, create a new program with rootVersionId is loanProgramId
+ */
 
 export const useUpdateLoanProgram = ({
   loanProgramId,
