@@ -25,11 +25,9 @@ import { useForm } from "react-hook-form"
 import {
   getOptionsByField,
   LAUNCH_KC_EXECUTION_FIELD_NAMES,
-  LENGTH_OF_NEW_OPTIONS,
   monthlyExpenseRangeOptions,
   questions
 } from "./constants"
-import { isEnableExecutionFormNewMonthlyExpense } from "@/utils/feature-flag.utils.ts"
 import { useMemo } from "react"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
@@ -88,10 +86,6 @@ export const ExecutionForm = () => {
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EXECUTION)
 
-  const monthlyExpenseOptions = isEnableExecutionFormNewMonthlyExpense()
-    ? monthlyExpenseRangeOptions.slice(0, LENGTH_OF_NEW_OPTIONS)
-    : monthlyExpenseRangeOptions.slice(LENGTH_OF_NEW_OPTIONS)
-
   return (
     <div
       className={cn(
@@ -113,7 +107,7 @@ export const ExecutionForm = () => {
                 label="How much cash does your company go through each month?"
                 control={form.control}
                 name={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
-                options={monthlyExpenseOptions}
+                options={monthlyExpenseRangeOptions}
               />
               {questions.map((q) => (
                 <TextAreaInput
