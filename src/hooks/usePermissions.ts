@@ -6,7 +6,7 @@ import {
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
-import { isEnableKYBV2, isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
+import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 
 const usePermissions = () => {
@@ -23,12 +23,6 @@ const usePermissions = () => {
   )
   const shouldDisplayOperatingExpensesSection = useMemo(() => !isLaunchKC(), [])
 
-  // Feature-flag checks
-  const shouldDisplayIdentityVerification = useMemo(
-    () => isEnablePersonaKycV1(),
-    []
-  )
-
   // Combination check
   const shouldDisplayHighRiskEntity = useMemo(
     () => isEnableKYBV2() && isSbb(),
@@ -39,7 +33,6 @@ const usePermissions = () => {
     isJudge,
     isWorkspaceAdmin,
     shouldDisplayCashFlowTable,
-    shouldDisplayIdentityVerification,
     shouldDisplayHighRiskEntity,
     shouldDisplayCashFlowReport,
     shouldDisplayOperatingExpensesSection

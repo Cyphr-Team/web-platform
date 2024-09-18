@@ -19,8 +19,7 @@ import { isCyphrBank, isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import {
   isEnableNewInquiryPersonaKycCreatingLogic,
   isEnableNewSubmitFormStrategy,
-  isEnablePandaDocESign,
-  isEnablePersonaKycV1
+  isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError, isAxiosError } from "axios"
@@ -494,7 +493,7 @@ export const useSubmitLoanForm = (
        * Submit identity verification - Link inquiry id
        * Note: Always handle before submit loan confirmation
        */
-      if (identityVerificationData?.inquiryId && isEnablePersonaKycV1()) {
+      if (identityVerificationData?.inquiryId) {
         // Only handle if this application haven't linked before - 1 application only link once
         if (!identityVerificationData?.smartKycId) {
           await submitLoanIdentityVerification(loanRequestId)
@@ -739,7 +738,7 @@ export const useSubmitLoanForm = (
       const submitPromises = []
 
       // Submit identity verification - Link inquiry id
-      if (identityVerificationData?.inquiryId && isEnablePersonaKycV1()) {
+      if (identityVerificationData?.inquiryId) {
         // Only handle if this application haven't linked before - 1 application only link once
         if (!identityVerificationData?.smartKycId) {
           submitPromises.push(submitLoanIdentityVerification(loanRequestId))

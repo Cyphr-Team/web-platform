@@ -70,7 +70,6 @@ export function Component() {
     isJudge,
     isWorkspaceAdmin,
     shouldDisplayCashFlowTable,
-    shouldDisplayIdentityVerification,
     shouldDisplayHighRiskEntity,
     shouldDisplayCashFlowReport,
     shouldDisplayOperatingExpensesSection
@@ -101,7 +100,7 @@ export function Component() {
     page_10,
     page_11,
     shouldDisplayHighRiskEntity ? [page_12] : [],
-    shouldDisplayIdentityVerification ? [page_13] : [],
+    page_13,
     shouldDisplayCashFlowReport ? [page_14] : []
   )
 
@@ -301,15 +300,13 @@ export function Component() {
           </div>
         )}
 
-        {shouldDisplayIdentityVerification && (
-          <div
-            className="space-y-3xl flex flex-col"
-            id="identity-verification"
-            ref={page_13}
-          >
-            <IdentityVerificationDetails />
-          </div>
-        )}
+        <div
+          className="space-y-3xl flex flex-col"
+          id="identity-verification"
+          ref={page_13}
+        >
+          <IdentityVerificationDetails />
+        </div>
 
         {shouldDisplayCashFlowReport && (
           <div

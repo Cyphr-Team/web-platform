@@ -1,5 +1,4 @@
 import {
-  isEnablePersonaKycV1,
   isIgnoredCashFlowSubmission,
   isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
@@ -21,8 +20,7 @@ export class LaunchKCLoanApplicationStep
   _buildSteps() {
     this._build_BusinessInformationStep()._build_OwnerInformationStep()
 
-    if (isEnablePersonaKycV1() && !isIgnoredKycSubmission())
-      this._build_IdentityVerificationStep()
+    if (!isIgnoredKycSubmission()) this._build_IdentityVerificationStep()
 
     if (!isIgnoredCashFlowSubmission()) this._build_CashFlowVerificationStep()
 

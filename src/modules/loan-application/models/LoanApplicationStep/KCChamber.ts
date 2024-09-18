@@ -1,6 +1,5 @@
 import {
   isEnableKycReOrder,
-  isEnablePersonaKycV1,
   isIgnoredCashFlowSubmission,
   isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
@@ -20,11 +19,7 @@ export class KCChamberLoanApplicationStep
       ._build_BusinessInformationStep()
       ._build_OwnerInformationStep()
 
-    if (
-      isEnablePersonaKycV1() &&
-      isEnableKycReOrder() &&
-      !isIgnoredKycSubmission()
-    )
+    if (isEnableKycReOrder() && !isIgnoredKycSubmission())
       this._build_IdentityVerificationStep()
 
     if (!isIgnoredCashFlowSubmission()) this._build_CashFlowVerificationStep()
@@ -33,11 +28,7 @@ export class KCChamberLoanApplicationStep
 
     this._build_ReviewApplicationStep()
 
-    if (
-      isEnablePersonaKycV1() &&
-      !isEnableKycReOrder() &&
-      !isIgnoredKycSubmission()
-    )
+    if (!isEnableKycReOrder() && !isIgnoredKycSubmission())
       this._build_IdentityVerificationStep()
 
     return this._build_ConfirmationStep()

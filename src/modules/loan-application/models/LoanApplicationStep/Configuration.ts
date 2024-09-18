@@ -1,4 +1,3 @@
-import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 import { FORM_TYPE } from "./type"
 
@@ -36,7 +35,7 @@ export class ConfigurationLoanApplicationStep
           this._build_OperatingExpensesStep()
           break
         case FORM_TYPE.IDENTITY_VERIFICATION:
-          isEnablePersonaKycV1() && this._build_IdentityVerificationStep()
+          this._build_IdentityVerificationStep()
           break
         case FORM_TYPE.REVIEW_APPLICATION:
           this._build_ReviewApplicationStep()

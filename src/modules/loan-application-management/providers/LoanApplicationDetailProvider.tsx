@@ -15,7 +15,6 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { createContext, useContext } from "use-context-selector"
 import { SmartKyc } from "../../../lib/persona/persona.types"
-import { isEnablePersonaKycV1 } from "../../../utils/feature-flag.utils"
 import { DEFAULT_TRANSACTION_TAGS } from "../constants"
 import { ApplicationKybDetailResponse } from "../constants/types/business.type"
 import {
@@ -134,8 +133,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   })
   const loanSmartKycDetailQuery = useQueryGetSmartKyc({
     applicationId: params.id,
-    enabledByInstitution:
-      (isKccBank() || isSbb() || isLaunchKC()) && isEnablePersonaKycV1()
+    enabledByInstitution: isKccBank() || isSbb() || isLaunchKC()
   })
 
   const defaultFilters = {

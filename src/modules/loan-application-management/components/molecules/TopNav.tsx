@@ -7,7 +7,6 @@ import {
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils"
-import { isEnablePersonaKycV1 } from "@/utils/feature-flag.utils"
 import { Link, useLocation, useParams } from "react-router-dom"
 import { checkIsWorkspaceAdmin } from "../../../../utils/check-roles"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
@@ -59,10 +58,6 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.document,
       ApplicationMenuName.applicationSummary
     ]
-  }
-  // Hide Identity Verification tab when FF off
-  if (!isEnablePersonaKycV1()) {
-    menuItems = menuItems.filter((e) => e != ApplicationMenuName.identity)
   }
 
   menuItems = menuItems.filter(Boolean)

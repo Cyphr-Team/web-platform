@@ -1,7 +1,4 @@
-import {
-  isEnablePersonaKycV1,
-  isIgnoredKycSubmission
-} from "@/utils/feature-flag.utils"
+import { isIgnoredKycSubmission } from "@/utils/feature-flag.utils"
 import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 import {
   LOAN_APPLICATION_STEP_STATUS,
@@ -40,8 +37,7 @@ export class SBBLoanApplicationStep
 
     this._build_OwnerInformationStep()
 
-    if (isEnablePersonaKycV1() && !isIgnoredKycSubmission())
-      this._build_IdentityVerificationStep()
+    if (!isIgnoredKycSubmission()) this._build_IdentityVerificationStep()
 
     this._build_BusinessEINLetterStep()
       ._build_CertificateOfGoodStanding()

@@ -30,8 +30,7 @@ export function Component() {
   const { loanSummary, loanApplicationDetails } =
     useLoanApplicationDetailContext()
 
-  const { shouldDisplayIdentityVerification, shouldDisplayHighRiskEntity } =
-    usePermissions()
+  const { shouldDisplayHighRiskEntity } = usePermissions()
 
   return (
     <div className="lg:flex gap-3xl w-full" id="loan-summary">
@@ -106,11 +105,9 @@ export function Component() {
           </div>
         )}
 
-        {shouldDisplayIdentityVerification && (
-          <div className="space-y-3xl flex flex-col" id="identity-verification">
-            <IdentityVerificationDetails />
-          </div>
-        )}
+        <div className="space-y-3xl flex flex-col" id="identity-verification">
+          <IdentityVerificationDetails />
+        </div>
       </Card>
     </div>
   )

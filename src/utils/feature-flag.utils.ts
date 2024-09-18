@@ -14,10 +14,6 @@ export function checkEnabledFeatureFlags(keys: FEATURE_FLAGS[]) {
   return keys.every((key) => checkEnabledFeatureFlag(key))
 }
 
-function isEnablePersonaKycV1() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.PERSONA_KYC_V1)
-}
-
 function isEnableDownloadCSVAndJSONSummary() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.DOWNLOAD_CSV_AND_JSON_SUMMARY)
 }
@@ -180,7 +176,6 @@ export {
   isEnablePandaDocESign,
   isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
-  isEnablePersonaKycV1,
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
   isEnableNewInquiryPersonaKycCreatingLogic,
