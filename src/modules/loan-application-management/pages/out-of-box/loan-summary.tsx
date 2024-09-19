@@ -151,6 +151,18 @@ export function Component() {
     )
   }
 
+  const isOverviewDownloadable =
+    statusData &&
+    !notAllowToDownloadStatuses.includes(statusData.toUpperCase()) &&
+    !isJudge
+
+  const downloadOverviewButton = isOverviewDownloadable && (
+    <DownloadButton
+      elementToExportRef={elementToExportRef}
+      disabled={isFetchingCashflow || isFetchingNewCashFlow}
+    />
+  )
+
   return (
     <div className="lg:flex gap-3xl w-full" id="loan-summary">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
@@ -183,15 +195,7 @@ export function Component() {
 
           <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
             <p className="text-4xl font-semibold ">Application Overview</p>
-            {statusData &&
-              !notAllowToDownloadStatuses.includes(
-                statusData.toUpperCase()
-              ) && (
-                <DownloadButton
-                  elementToExportRef={elementToExportRef}
-                  disabled={isFetchingCashflow || isFetchingNewCashFlow}
-                />
-              )}
+            {downloadOverviewButton}
           </div>
           <ApplicationOverview />
           <Separator />

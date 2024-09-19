@@ -23,12 +23,14 @@ interface IScoreCardByJudgeProps<T = ILaunchKCApplicationAssignScore> {
   id: string
   name: string
   scoreData?: T
+  scoredDate?: string
 }
 
 export const ScoreCardListDetailByJudge = ({
   id,
   name,
-  scoreData
+  scoreData,
+  scoredDate
 }: IScoreCardByJudgeProps) => {
   const avgScore = scoreData ? calculateAverageScore(scoreData) : 0
 
@@ -51,7 +53,7 @@ export const ScoreCardListDetailByJudge = ({
           <span
             className={cn(
               "flex items-center text-xs font-semibold",
-              avgScore == 0 && "text-gray-200"
+              !scoredDate && "text-gray-200"
             )}
           >
             <span>

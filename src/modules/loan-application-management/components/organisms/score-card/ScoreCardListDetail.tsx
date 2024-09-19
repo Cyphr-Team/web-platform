@@ -150,6 +150,7 @@ export const ScoreCardListDetail = () => {
                           id={`${LoanApplicationStatus.ROUND_2}_${index}_${item.judgeName}`}
                           name={item.judgeName}
                           scoreData={item.score}
+                          scoredDate={item?.scoredAt}
                         />
                       ))
                     ) : (
@@ -201,6 +202,7 @@ export const ScoreCardListDetail = () => {
                           id={`${LoanApplicationStatus.ROUND_1}_${index}_${item.judgeName}`}
                           name={item.judgeName}
                           scoreData={item.score}
+                          scoredDate={item?.scoredAt}
                         />
                       ))
                     ) : (

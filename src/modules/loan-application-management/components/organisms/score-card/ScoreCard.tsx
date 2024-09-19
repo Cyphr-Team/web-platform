@@ -172,7 +172,7 @@ export const ScoreCard = () => {
                         control={form.control}
                         placeholder="Leave feedback..."
                         className="p-2"
-                        inputClassName="focus-within:shadow-lg"
+                        inputClassName="focus-within:shadow-lg placeholder:text-sm"
                       />
                     </>
                   )}

@@ -28,7 +28,7 @@ export const calculateAvgScorePerRound = <T extends IScore>(
       0
     )
     // Return 0 if any judge has not scored
-    if (sumOfScores === 0) return 0
+    if (!scoreData?.scoredAt) return 0
     return acc + sumOfScores
   }, 0)
 
