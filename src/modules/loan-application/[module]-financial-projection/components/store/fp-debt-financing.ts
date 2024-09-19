@@ -119,7 +119,7 @@ export const PAYABLE_DAYS_OPTIONS = [
 export const DEBT_FINANCING_TYPE_OPTIONS: Option[] = [
   {
     label: "Term loans",
-    value: "term_loans"
+    value: "term_loan"
   },
   {
     label: "SBA loan",

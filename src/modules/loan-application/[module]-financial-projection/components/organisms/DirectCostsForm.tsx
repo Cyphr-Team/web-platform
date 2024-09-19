@@ -191,7 +191,6 @@ const DirectCosts = (props: DirectCostsProps) => {
             >(DirectCostsField.directCostsDescription, index)}
             isToggleView
             isHideErrorMessage
-            autoFocus
           />
         </div>
         <RHFMaskInput

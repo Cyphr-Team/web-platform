@@ -19,6 +19,7 @@ import React, {
 import {
   FieldPath,
   FieldValues,
+  Noop,
   useController,
   useFormContext
 } from "react-hook-form"
@@ -99,10 +100,13 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
     setIsView(value)
   }
 
-  const customOnBlur: RHFTextInputProps<T>["onBlur"] = (event) => {
-    onShow(!!event?.target?.value?.trim())()
-    props?.onBlur?.(event)
-  }
+  const customOnBlur =
+    (fieldOnBlur: Noop): RHFTextInputProps<T>["onBlur"] =>
+    (event) => {
+      onShow(!!event?.target?.value?.trim())()
+      fieldOnBlur()
+      props?.onBlur?.(event)
+    }
 
   return (
     <FormItem
@@ -134,7 +138,7 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
             wrapperClassName={wrapperClassName}
             {...field}
             {...inputProps}
-            onBlur={customOnBlur}
+            onBlur={customOnBlur(field.onBlur)}
             className={cn("text-sm", inputClassName)}
             autoFocus={inputProps.autoFocus}
           />
