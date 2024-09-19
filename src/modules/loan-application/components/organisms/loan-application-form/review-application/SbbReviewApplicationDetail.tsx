@@ -150,6 +150,11 @@ export const SbbReviewApplicationDetails: React.FC<Props> = ({ itemsRef }) => {
           SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES,
           ""
         ),
+        [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT]: get(
+          businessInformation,
+          SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT,
+          0
+        ),
         [SBB_KYB_FORM_FIELDS.PAYMENT_METHODS]: get(
           businessInformation,
           SBB_KYB_FORM_FIELDS.PAYMENT_METHODS,

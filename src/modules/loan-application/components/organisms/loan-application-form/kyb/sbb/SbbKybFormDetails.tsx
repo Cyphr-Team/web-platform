@@ -12,6 +12,7 @@ import {
 
 import { get } from "lodash"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
+import { toCurrency } from "@/utils"
 
 interface KybFormDetailsProps {
   kybFormData?: KYBInformationResponse
@@ -214,6 +215,29 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
                   kybFormData?.metadata,
                   SBB_KYB_FORM_FIELDS.PARENT_COMPANY,
                   ""
+                )}`
+              : "No"
+          }
+        />
+      )
+    }
+
+    if (field.field === SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES) {
+      return (
+        <AnswersTextDisplay
+          key={field.field}
+          className="!flex-row justify-between gap-8"
+          valueClassName="text-right"
+          labelClassName="max-w-screen-sm"
+          label={field.label}
+          value={
+            get(kybFormData?.metadata, field.field, "") === BINARY_VALUES.YES
+              ? `Yes, ${toCurrency(
+                  get(
+                    kybFormData?.metadata,
+                    SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT,
+                    0
+                  )
                 )}`
               : "No"
           }
