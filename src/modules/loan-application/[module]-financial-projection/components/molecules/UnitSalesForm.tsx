@@ -1,12 +1,13 @@
 import { FC, memo } from "react"
-import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
-import { FieldType } from "@/modules/form-template/components/templates/FormTemplate.tsx"
-import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
 import {
-  RevenueType,
-  UnitSale
-} from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+  Block,
+  FieldType
+} from "@/modules/form-template/components/templates/FormTemplate.tsx"
+import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
+import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { UnitSalesIcon } from "@/modules/loan-application/[module]-financial-projection/components/atoms/UnitSalesIcon.tsx"
+import { emptyUnitSale } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
+import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
 
 const enum FieldName {
   NAME = "name",
@@ -16,17 +17,17 @@ const enum FieldName {
   START_DATE = "startDate"
 }
 
-const blocks = [
+const blocks: Block[] = [
   {
     name: FieldName.NAME,
-    type: FieldType.TEXT,
+    type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
-      placeholder: "Enter name for revenue stream",
+      placeholder: "Name of revenue stream",
       isRowDirection: true,
-      styleProps: {
-        inputClassName: "min-w-72"
-      }
+      className: "flex items-center justify-between",
+      inputClassName: "min-w-72",
+      hideMessage: true
     }
   },
   {
@@ -44,7 +45,7 @@ const blocks = [
   },
   {
     name: FieldName.EST_UNIT_SALES,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       label: (
         <div className="flex flex-row items-center">
@@ -62,7 +63,7 @@ const blocks = [
   },
   {
     name: FieldName.EST_MONTHLY_INCREASE,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       label: (
         <div className="flex flex-row items-center">
@@ -92,14 +93,6 @@ const blocks = [
     }
   }
 ]
-
-const emptyUnitSale: UnitSale = {
-  [FieldName.NAME]: "",
-  [FieldName.EST_MONTHLY_INCREASE]: undefined,
-  [FieldName.EST_UNIT_SALES]: undefined,
-  [FieldName.PRICE]: undefined,
-  [FieldName.START_DATE]: ""
-}
 
 interface Props {
   onBlur: VoidFunction

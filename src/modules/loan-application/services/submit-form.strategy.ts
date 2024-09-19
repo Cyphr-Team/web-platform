@@ -94,6 +94,7 @@ import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financ
 import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
 import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
+import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -130,7 +131,8 @@ export const useSubmitLoanForm = (
   directCostsData: DirectCostsFormValue,
   equityFinancingData: FpEquityFinancingFormValue,
   assetsData: AssetsFormValue,
-  taxRateData: ExpenseTaxRateFormValue
+  taxRateData: ExpenseTaxRateFormValue,
+  revenueData: RevenueStream
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -400,7 +402,8 @@ export const useSubmitLoanForm = (
       directCostsData,
       equityFinancingData,
       assetsData,
-      taxRateData
+      taxRateData,
+      revenueData
     })
 
   const handleSubmitFormSuccess = useCallback(

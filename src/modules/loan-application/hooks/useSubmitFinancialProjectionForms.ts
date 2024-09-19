@@ -17,6 +17,8 @@ import {
 import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 import { useSubmitTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useSubmitTaxRateForm"
 import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
+import { useSubmitRevenueForm } from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useSubmitRevenueForm.ts"
+import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 
 interface FormData {
   peopleFormData: PeopleFormValue
@@ -26,6 +28,7 @@ interface FormData {
   equityFinancingData: FpEquityFinancingFormValue
   assetsData: AssetsFormValue
   taxRateData: ExpenseTaxRateFormValue
+  revenueData: RevenueStream
 }
 
 export const useSubmitFinancialProjectionForms = ({
@@ -35,7 +38,8 @@ export const useSubmitFinancialProjectionForms = ({
   directCostsData,
   equityFinancingData,
   assetsData,
-  taxRateData
+  taxRateData,
+  revenueData
 }: FormData) => {
   const { getStepStatus } = useLoanApplicationProgressContext()
 
@@ -51,6 +55,10 @@ export const useSubmitFinancialProjectionForms = ({
   const equityFinancingSubmission = useSubmitEquityFinancingForm({
     rawData: equityFinancingData
   })
+  const revenueSubmission = useSubmitRevenueForm({
+    rawData: revenueData
+  })
+
   const assetsLongTermSubmission = useSubmitLongTermAssetsForm({
     rawData: assetsData
   })
@@ -73,7 +81,8 @@ export const useSubmitFinancialProjectionForms = ({
       assetsCurrentSubmission,
       assetsLongTermSubmission
     ],
-    [LOAN_APPLICATION_STEPS.TAX_RATES]: [taxRateSubmission]
+    [LOAN_APPLICATION_STEPS.TAX_RATES]: [taxRateSubmission],
+    [LOAN_APPLICATION_STEPS.REVENUE]: [revenueSubmission]
   }
 
   const handleSubmitFinancialProjection = async (applicationId: string) => {

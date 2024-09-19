@@ -1,8 +1,5 @@
 import { FC, memo } from "react"
-import {
-  emptyRecurringCharge,
-  RevenueType
-} from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
 import { RecurringChargesIcon } from "@/modules/loan-application/[module]-financial-projection/components/atoms/RecurringChargesIcon.tsx"
 import {
@@ -11,16 +8,7 @@ import {
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
 import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form.ts"
-
-/**
- *   name: string
- *   startDate: string
- *   monthlyNewCustomer: number | undefined
- *   recurringCharge: number | undefined
- *   frequency: number | undefined
- *   churnRate: number | undefined
- *   upfrontFee: number | undefined
- * */
+import { emptyRecurringCharge } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 
 const enum FieldName {
   NAME = "name",
@@ -36,14 +24,14 @@ const enum FieldName {
 const blocks: Block[] = [
   {
     name: FieldName.NAME,
-    type: FieldType.TEXT,
+    type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
-      placeholder: "Enter name for revenue stream",
+      placeholder: "Name of revenue stream",
       isRowDirection: true,
-      styleProps: {
-        inputClassName: "min-w-72"
-      }
+      className: "flex items-center justify-between",
+      inputClassName: "min-w-72",
+      hideMessage: true
     }
   },
   {
@@ -61,7 +49,7 @@ const blocks: Block[] = [
   },
   {
     name: FieldName.MONTHLY_NEW_CUSTOMER,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       label: "Estimate new monthly customer sign-ups:",
       isRowDirection: true,
@@ -117,7 +105,7 @@ const blocks: Block[] = [
   },
   {
     name: FieldName.CHURN_RATE,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       label: (
         <div className="flex flex-row items-center">

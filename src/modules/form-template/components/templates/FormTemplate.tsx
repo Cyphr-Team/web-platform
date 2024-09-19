@@ -26,17 +26,22 @@ import {
   RHFNumberInput,
   RHFOptionInput,
   RHFPercentageInput,
+  RHFPhoneInput,
   RHFSelectInput,
-  RHFTextInput,
-  RHFPhoneInput
+  RHFTextInput
 } from "@/modules/form-template/components/molecules"
 import { cn } from "@/lib/utils.ts"
 import { RHFCalendarPickerInputProps } from "@/modules/form-template/components/molecules/RHFCalendarPickerInput.tsx"
 import { RHFCurrencyInputProps } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 import { RHFPercentageInputProps } from "@/modules/form-template/components/molecules/RHFPercentageInput.tsx"
+import {
+  ITextInputType,
+  TextInput
+} from "@/shared/organisms/form/TextInput.tsx"
 
 export const enum FieldType {
   TEXT = "text",
+  LEGACY_TEXT = "legacyText",
   NUMBER = "number",
   CHECKBOX = "checkbox",
   MASK = "mask",
@@ -52,6 +57,7 @@ export const enum FieldType {
 
 export const ComponentMapper: { [key: string]: ComponentType<any> } = {
   [FieldType.TEXT]: RHFTextInput,
+  [FieldType.LEGACY_TEXT]: TextInput,
   [FieldType.NUMBER]: RHFNumberInput,
   [FieldType.CHECKBOX]: RHFCheckbox,
   [FieldType.MASK]: RHFMaskInput,
@@ -77,6 +83,7 @@ export type BlockProps<T extends FieldValues> = Partial<
   | RHFCurrencyInputProps<T>
   | RHFPercentageInputProps<T>
   | RHFPhoneInputProps<T>
+  | ITextInputType<T> // legacy text input
 >
 
 export interface Block {

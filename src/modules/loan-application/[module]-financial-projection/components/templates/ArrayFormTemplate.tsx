@@ -41,7 +41,7 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
     addIcon
   } = props
   const confirmDeleteDialog = useBoolean(false)
-  const { control, getValues, setValue } = useFormContext()
+  const { control, getValues, setValue, register } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName
@@ -103,9 +103,15 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
                 <TooltipProvider>
                   {renderBlockComponents(
                     blocks.map((block) => {
+                      const indexedName = `${fieldName}.${index}.${block.name}`
                       return {
                         ...block,
-                        name: `${fieldName}.${index}.${block.name}` as const
+                        name: indexedName,
+                        props: {
+                          ...block.props,
+                          ...register(indexedName),
+                          control
+                        }
                       }
                     })
                   )}

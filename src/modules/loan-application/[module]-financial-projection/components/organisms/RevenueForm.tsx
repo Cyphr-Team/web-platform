@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { cn } from "@/lib/utils.ts"
 import { RHFProvider } from "@/modules/form-template/providers"
-import { useFieldArray, useForm } from "react-hook-form"
+import { useFieldArray, UseFieldArrayAppend, useForm } from "react-hook-form"
 
 import {
   useLoanApplicationFormContext,
@@ -12,7 +12,7 @@ import {
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
-import { FC, PropsWithChildren, useCallback } from "react"
+import { FC, memo, PropsWithChildren, useCallback, useMemo } from "react"
 import { useBoolean } from "@/hooks"
 import { AddRevenueTypeDialog } from "@/modules/loan-application/[module]-financial-projection/components/molecules/AddRevenueTypeDialog.tsx"
 import { RevenueTypeSelection } from "@/modules/loan-application/[module]-financial-projection/components/molecules/RevenueTypeSelection.tsx"
@@ -29,30 +29,39 @@ import UnitSalesForm from "@/modules/loan-application/[module]-financial-project
 import BillableHoursForm from "@/modules/loan-application/[module]-financial-projection/components/molecules/BillableHoursForm.tsx"
 import RecurringChargesForm from "@/modules/loan-application/[module]-financial-projection/components/molecules/RecurringChargesForm.tsx"
 import ContractRevenueForm from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContractsForm.tsx"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { revenueFormSchema } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 
-export const RevenueForm = () => {
+type AppendFunctions = {
+  [K in RevenueType]: UseFieldArrayAppend<RevenueStream, K>
+}
+
+const RevenueForm = () => {
   const dialog = useBoolean()
 
   const { finishCurrentStep } = useLoanApplicationProgressContext()
   const { dispatchFormAction, revenue } = useLoanApplicationFormContext()
 
   const form = useForm<RevenueStream>({
+    resolver: zodResolver(revenueFormSchema),
     mode: "onBlur",
     defaultValues: {
+      id: get(revenue, "id", ""),
+      financialProjectionSetupId: get(revenue, "financialProjectionSetupId"),
       unitSales: get(revenue, RevenueType.UNIT_SALES, []),
       billableHours: get(revenue, RevenueType.BILLABLE_HOURS, []),
       contracts: get(revenue, RevenueType.CONTRACTS, []),
-      recurringCharges: get(revenue, RevenueType.RECURRING_CHARGES, [])
+      recurringCharges: get(revenue, RevenueType.RECURRING_CHARGES, []).map(
+        (data) => ({
+          ...data,
+          hasUpfrontFee: data.upfrontFee ? "yes" : "no",
+          upfrontFee: get(data, "upfrontFee", 0)
+        })
+      )
     }
   })
 
-  const {
-    watch,
-    handleSubmit,
-    formState: { isValid },
-    control,
-    getValues
-  } = form
+  const { watch, handleSubmit, control, getValues } = form
 
   const formValues = watch()
 
@@ -63,98 +72,42 @@ export const RevenueForm = () => {
     formValues.contracts.length > 0
 
   const canRender = (field: RevenueType): boolean => {
-    return watch(field).length > 0
+    return watch(field)?.length > 0
   }
 
-  /**
-   * TODO: read this code and refactor current code
-   * import { useFieldArray, UseFieldArrayAppend, Control, FieldValues } from 'react-hook-form';
-   * import { RevenueType, UnitSale, BillableHour, RecurringCharge, Contract } from './types'; // Adjust import path as needed
-   *
-   * type RevenueData = UnitSale | BillableHour | RecurringCharge | Contract;
-   *
-   * // Define a type for the form values
-   * interface RevenueFormValues extends FieldValues {
-   *   [RevenueType.UNIT_SALES]: UnitSale[];
-   *   [RevenueType.RECURRING_CHARGES]: RecurringCharge[];
-   *   [RevenueType.CONTRACTS]: Contract[];
-   *   [RevenueType.BILLABLE_HOURS]: BillableHour[];
-   * }
-   *
-   * // Create a mapped type for append functions
-   * type AppendFunctions = {
-   *   [K in RevenueType]: UseFieldArrayAppend<RevenueFormValues, K>
-   * }
-   *
-   * const useRevenueAppend = (control: Control<RevenueFormValues>) => {
-   *   const revenueTypes = [
-   *     RevenueType.UNIT_SALES,
-   *     RevenueType.RECURRING_CHARGES,
-   *     RevenueType.CONTRACTS,
-   *     RevenueType.BILLABLE_HOURS
-   *   ] as const;
-   *
-   *   const unitSalesArray = useFieldArray({ control, name: RevenueType.UNIT_SALES });
-   *   const recurringChargesArray = useFieldArray({ control, name: RevenueType.RECURRING_CHARGES });
-   *   const contractsArray = useFieldArray({ control, name: RevenueType.CONTRACTS });
-   *   const billableHoursArray = useFieldArray({ control, name: RevenueType.BILLABLE_HOURS });
-   *
-   *   const appendFunctions: AppendFunctions = {
-   *     [RevenueType.UNIT_SALES]: unitSalesArray.append,
-   *     [RevenueType.RECURRING_CHARGES]: recurringChargesArray.append,
-   *     [RevenueType.CONTRACTS]: contractsArray.append,
-   *     [RevenueType.BILLABLE_HOURS]: billableHoursArray.append,
-   *   };
-   *
-   *   const appendFunctionFactory = <T extends RevenueType>(type: T): AppendFunctions[T] => appendFunctions[type];
-   *
-   *   const onAddItemToField = <T extends RevenueType>(type: T, data: RevenueFormValues[T][number]) => () => {
-   *     const appendFunction = appendFunctionFactory(type);
-   *     appendFunction(data as any); // Unfortunately, we still need 'any' here due to limitations in TypeScript's type inference
-   *   };
-   *
-   *   return { onAddItemToField };
-   * };
-   *
-   * export default useRevenueAppend;
-   * */
-
-  const { append: appendUnitSales } = useFieldArray({
+  const unitSalesArray = useFieldArray({
     control,
     name: RevenueType.UNIT_SALES
   })
-  const { append: appendRecurringCharges } = useFieldArray({
+  const recurringChargesArray = useFieldArray({
     control,
     name: RevenueType.RECURRING_CHARGES
   })
-  const { append: appendContracts } = useFieldArray({
-    control,
-    name: RevenueType.CONTRACTS
-  })
-  const { append: appendBillableHours } = useFieldArray({
+  const billableHoursArray = useFieldArray({
     control,
     name: RevenueType.BILLABLE_HOURS
   })
+  const contractsArray = useFieldArray({ control, name: RevenueType.CONTRACTS })
+
+  const appendFunctions: AppendFunctions = useMemo(
+    () => ({
+      [RevenueType.UNIT_SALES]: unitSalesArray.append,
+      [RevenueType.RECURRING_CHARGES]: recurringChargesArray.append,
+      [RevenueType.BILLABLE_HOURS]: billableHoursArray.append,
+      [RevenueType.CONTRACTS]: contractsArray.append
+    }),
+    [
+      billableHoursArray.append,
+      contractsArray.append,
+      recurringChargesArray.append,
+      unitSalesArray.append
+    ]
+  )
 
   const appendFunctionFactory = useCallback(
-    (type: RevenueType) => {
-      switch (type) {
-        case RevenueType.UNIT_SALES:
-          return appendUnitSales
-        case RevenueType.RECURRING_CHARGES:
-          return appendRecurringCharges
-        case RevenueType.BILLABLE_HOURS:
-          return appendBillableHours
-        case RevenueType.CONTRACTS:
-          return appendContracts
-      }
-    },
-    [
-      appendBillableHours,
-      appendContracts,
-      appendRecurringCharges,
-      appendUnitSales
-    ]
+    <T extends RevenueType>(type: T): AppendFunctions[T] =>
+      appendFunctions[type],
+    [appendFunctions]
   )
 
   const onAddItemToField = useCallback(
@@ -228,12 +181,14 @@ export const RevenueForm = () => {
         ) : null}
 
         <div className="flex flex-col gap-2xl">
-          <Button disabled={!isValid}>Next</Button>
+          <Button disabled={!form.formState.isValid}>Next</Button>
         </div>
       </RHFProvider>
     </LayoutComponent>
   )
 }
+
+export default memo(RevenueForm)
 
 const WelcomeLayout: FC<PropsWithChildren> = ({ children }) => {
   return (

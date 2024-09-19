@@ -11,7 +11,7 @@ import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import React, { CSSProperties } from "react"
 import { Control, FieldPath, FieldValues } from "react-hook-form"
 
-interface ITextInputType<T extends FieldValues> {
+export interface ITextInputType<T extends FieldValues> {
   label: string
   name: FieldPath<T>
   control: Control<T>
@@ -29,6 +29,7 @@ interface ITextInputType<T extends FieldValues> {
   formMessageClassName?: string
   subtitle?: string
   isRowDirection?: boolean
+  hideMessage?: boolean
   wrapperClassName?: string
   style?: CSSProperties | undefined
 }
@@ -52,8 +53,17 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
     subtitle,
     isRowDirection,
     wrapperClassName,
-    style
+    style,
+    hideMessage = false
   } = props
+
+  const renderMessage = !hideMessage ? (
+    isRowDirection && subtitle ? (
+      <FormMessage style={{ marginTop: -1 }} className={formMessageClassName} />
+    ) : (
+      <FormMessage style={style} className={formMessageClassName} />
+    )
+  ) : null
 
   return (
     <FormField
@@ -88,14 +98,7 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
               {...field}
             />
           </FormControl>
-          {isRowDirection && subtitle ? (
-            <FormMessage
-              style={{ marginTop: -1 }}
-              className={formMessageClassName}
-            />
-          ) : (
-            <FormMessage style={style} className={formMessageClassName} />
-          )}
+          {renderMessage}
         </FormItem>
       )}
     />

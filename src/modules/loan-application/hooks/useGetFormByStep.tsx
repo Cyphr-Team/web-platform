@@ -41,7 +41,6 @@ import { SbbKycForm } from "../components/organisms/loan-application-form/kyc/sb
 import SbbPrivacyPolicy from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPrivacyPolicy"
 import { SbbPatriotAct } from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPatriotAct"
 import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
-import { RevenueForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm.tsx"
 import { FpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FpOperatingExpensesForm"
 import { DisclaimerAndDisclosure } from "@/modules/loan-application/components/organisms/loan-application-form/disclaimer-disclosure/DisclaimerAndDisclosure"
 import { PeopleForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/PeopleForm"
@@ -51,6 +50,7 @@ import { FinancialStatementForm } from "@/modules/loan-application/[module]-fina
 import { AssetsForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/AssetsForm"
 import { TaxRateForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ExpenseTaxRateForm"
 import { DebtFinancingForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/DebtFinancingForm"
+import RevenueForm from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother

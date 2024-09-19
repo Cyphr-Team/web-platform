@@ -494,6 +494,12 @@ export const API_PATH = {
       findById: "api/financial-projection/form/assets/current/by-id",
       findBySetupId: "api/financial-projection/form/assets/current/by-setup-id",
       update: "api/financial-projection/form/assets/current/update"
+    },
+    revenueStream: {
+      submit: "api/financial-projection/form/revenue",
+      findById: "api/financial-projection/form/revenue/by-id",
+      findBySetupId: "api/financial-projection/form/revenue/by-setup-id",
+      update: "api/financial-projection/form/revenue/update"
     }
   }
 }

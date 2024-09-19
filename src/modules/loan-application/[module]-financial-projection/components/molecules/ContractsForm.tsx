@@ -1,14 +1,12 @@
 import { FC, memo } from "react"
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
-import {
-  emptyContract,
-  RevenueType
-} from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { RecurringChargesIcon } from "@/modules/loan-application/[module]-financial-projection/components/atoms/RecurringChargesIcon.tsx"
 import {
   Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
+import { emptyContract } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 
 const enum FieldName {
   NAME = "name",
@@ -20,14 +18,14 @@ const enum FieldName {
 const blocks: Block[] = [
   {
     name: FieldName.NAME,
-    type: FieldType.TEXT,
+    type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
-      placeholder: "Enter name for revenue stream",
+      placeholder: "Name of revenue stream",
       isRowDirection: true,
-      styleProps: {
-        inputClassName: "min-w-72"
-      }
+      className: "flex items-center justify-between",
+      inputClassName: "min-w-72",
+      hideMessage: true
     }
   },
   {

@@ -1,15 +1,13 @@
 import { FC, memo } from "react"
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
-import {
-  emptyBillableHour,
-  RevenueType
-} from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import {
   Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
 import { BillableHoursIcon } from "@/modules/loan-application/[module]-financial-projection/components/atoms/BillableHoursIcon.tsx"
+import { emptyBillableHour } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 
 const enum FieldName {
   NAME = "name",
@@ -23,14 +21,14 @@ const enum FieldName {
 const blocks: Block[] = [
   {
     name: FieldName.NAME,
-    type: FieldType.TEXT,
+    type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
-      placeholder: "Enter name for revenue stream",
+      placeholder: "Name of revenue stream",
       isRowDirection: true,
-      styleProps: {
-        inputClassName: "min-w-72"
-      }
+      className: "flex items-center justify-between",
+      inputClassName: "min-w-72",
+      hideMessage: true
     }
   },
   {
@@ -48,7 +46,7 @@ const blocks: Block[] = [
   },
   {
     name: FieldName.MONTHLY_NEW_CUSTOMERS,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       label: "Estimate new monthly customer sign-ups:",
       isRowDirection: true,
@@ -61,7 +59,7 @@ const blocks: Block[] = [
   },
   {
     name: FieldName.MONTHLY_NEW_CUSTOMERS_INCREASE,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       label: (
         <div className="flex flex-row items-center">
@@ -79,7 +77,7 @@ const blocks: Block[] = [
   },
   {
     name: FieldName.AVERAGE_MONTHLY_HOUR_BILLED_PER_CUSTOMER,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       label: "Estimate average monthly billed hours per customer:",
       isRowDirection: true,

@@ -8,16 +8,18 @@ import { cn } from "@/lib/utils.ts"
 import {
   BillableHour,
   Contract,
-  emptyBillableHour,
-  emptyContract,
-  emptyRecurringCharge,
-  emptyUnitSale,
   RecurringCharge,
   RevenueStream,
   RevenueType,
   UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { useFormContext } from "react-hook-form"
+import {
+  emptyBillableHour,
+  emptyContract,
+  emptyRecurringCharge,
+  emptyUnitSale
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 
 interface RevenueTypeSelectionProps {
   counter?: { [key in RevenueType]: boolean }

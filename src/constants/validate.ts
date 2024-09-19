@@ -11,20 +11,27 @@ export type CustomErrorMessages = {
   max?: string
 }
 
-export const createNumberSchema = (
-  options: {
-    min?: number
-    max?: number
-    customErrors?: CustomErrorMessages
-  } = {}
-) => {
-  const { min = 0, max = MAX_CURRENCY_AMOUNT, customErrors = {} } = options
+interface NumberSchemaOptions {
+  min?: number
+  max?: number
+  coerce?: boolean
+  customErrors?: CustomErrorMessages
+}
 
-  return z
-    .number({
-      required_error: customErrors.required || "Value is required",
-      invalid_type_error: customErrors.invalidType || "Value must be a number"
-    })
+export const createNumberSchema = (options: NumberSchemaOptions) => {
+  const {
+    min = 0,
+    max = MAX_CURRENCY_AMOUNT,
+    coerce = false,
+    customErrors = {}
+  } = options
+
+  const baseSchema = (coerce ? z.coerce : z).number({
+    required_error: customErrors.required || "Value is required",
+    invalid_type_error: customErrors.invalidType || "Value must be a number"
+  })
+
+  return baseSchema
     .min(min, customErrors.min || `Value must be at least ${min}`)
     .max(max, customErrors.max || `Value must not exceed ${max}`)
 }

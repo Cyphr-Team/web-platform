@@ -6,6 +6,7 @@ export const enum RevenueType {
 }
 
 export interface RevenueStream {
+  id?: string
   financialProjectionSetupId: string
   unitSales: UnitSale[]
   billableHours: BillableHour[]
@@ -13,7 +14,40 @@ export interface RevenueStream {
   contracts: Contract[]
 }
 
+export const enum RevenueResponseType {
+  UNIT_SALES = "revenue_unit_sale",
+  BILLABLE_HOURS = "revenue_billable_hour",
+  RECURRING_CHARGES = "revenue_recurring_charge",
+  CONTRACTS = "revenue_contract"
+}
+
+export interface SubmitRevenueStreamRequest extends RevenueStream {}
+
+interface Identifiable {
+  id: string
+  financialProjectionSetupId: string
+}
+
+export interface SubmitRevenueStreamItemResponse {
+  id: string
+  financialProjectionSetupId: string
+  formType: RevenueResponseType
+  unitSale?: UnitSale & Identifiable
+  billableHour?: BillableHour & Identifiable
+  recurringCharge?: RecurringCharge & Identifiable
+  contract?: Contract & Identifiable
+}
+
+export interface SubmitRevenueStreamResponse {
+  forms: SubmitRevenueStreamItemResponse[]
+}
+
+export interface QueryRevenueStreamRequest {}
+
+export interface QueryRevenueStreamResponse {}
+
 export interface UnitSale {
+  id?: string
   name: string
   estimateMonthlyUnitSales: number | undefined
   estimateMonthlySalesIncreaseRate: number | undefined
@@ -22,6 +56,7 @@ export interface UnitSale {
 }
 
 export interface BillableHour {
+  id?: string
   name: string
   startDate: string
   monthlyNewCustomers: number | undefined
@@ -31,52 +66,21 @@ export interface BillableHour {
 }
 
 export interface RecurringCharge {
+  id?: string
   name: string
   startDate: string
   monthlyNewCustomer: number | undefined
   recurringCharge: number | undefined
   frequency: string | number | undefined
   churnRate: number | undefined
+  hasUpfrontFee: string | undefined
   upfrontFee: number | undefined
 }
 
 export interface Contract {
+  id?: string
   name: string
   startDate: string
   endDate: string
   monthlyRevenue: number | undefined
-}
-
-export const emptyUnitSale: UnitSale = {
-  name: "",
-  estimateMonthlyUnitSales: undefined,
-  estimateMonthlySalesIncreaseRate: undefined,
-  unitPrice: undefined,
-  startDate: ""
-}
-
-export const emptyBillableHour: BillableHour = {
-  name: "",
-  startDate: "",
-  monthlyNewCustomers: undefined,
-  monthlyNewCustomerIncreaseRate: undefined,
-  averageMonthlyHourBilledPerCustomer: undefined,
-  hourlyRate: undefined
-}
-
-export const emptyRecurringCharge: RecurringCharge = {
-  name: "",
-  startDate: "",
-  monthlyNewCustomer: undefined,
-  recurringCharge: undefined,
-  frequency: undefined,
-  churnRate: undefined,
-  upfrontFee: undefined
-}
-
-export const emptyContract: Contract = {
-  name: "",
-  startDate: "",
-  endDate: "",
-  monthlyRevenue: undefined
 }

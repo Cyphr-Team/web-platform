@@ -140,3 +140,12 @@ export const isEqualDate = (date1: string, date2: string) => {
     return false
   }
 }
+
+export function formatToISOString(
+  date: string,
+  format: string = "MM/yyyy"
+): string {
+  const newDate = new Date()
+
+  return parse(date, format, newDate).toISOString()
+}

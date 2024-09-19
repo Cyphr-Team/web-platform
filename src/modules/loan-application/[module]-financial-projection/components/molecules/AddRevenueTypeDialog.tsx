@@ -13,14 +13,16 @@ import { RevenueTypeSelection } from "@/modules/loan-application/[module]-financ
 import {
   BillableHour,
   Contract,
-  emptyBillableHour,
-  emptyContract,
-  emptyRecurringCharge,
-  emptyUnitSale,
   RecurringCharge,
   RevenueType,
   UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import {
+  emptyBillableHour,
+  emptyContract,
+  emptyRecurringCharge,
+  emptyUnitSale
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 
 type RevenueCounter = {
   [key in RevenueType]: boolean

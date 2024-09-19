@@ -25,6 +25,10 @@ import {
 import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
 import { useCallback, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import {
+  reverseFormatRevenueResponse,
+  useQueryRevenueForm
+} from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useQueryRevenueForm.ts"
 
 export const useGetFinancialProjectForms = () => {
   /**
@@ -163,5 +167,29 @@ export const useGetFinancialProjectForms = () => {
     isInitialized
   ])
 
-  return { expensePeopleFormQuery, fpOperatingExpensesFormQuery }
+  // Revenue
+  const revenueFormQuery = useQueryRevenueForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.REVENUE)
+  })
+  useEffect(() => {
+    if (revenueFormQuery.data && isInitialized) {
+      const formattedData = reverseFormatRevenueResponse(revenueFormQuery.data)
+
+      changeDataAndProgress(
+        formattedData,
+        LOAN_APPLICATION_STEPS.REVENUE,
+        formattedData.billableHours.length !== 0 ||
+          formattedData.unitSales.length !== 0 ||
+          formattedData.recurringCharges.length !== 0 ||
+          formattedData.contracts.length !== 0
+      )
+    }
+  }, [changeDataAndProgress, isInitialized, revenueFormQuery.data])
+
+  return {
+    expensePeopleFormQuery,
+    fpOperatingExpensesFormQuery,
+    revenueFormQuery
+  }
 }

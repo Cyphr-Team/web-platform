@@ -7,7 +7,12 @@ import {
 } from "@/components/ui/form.tsx"
 import { cn } from "@/lib/utils.ts"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
-import React, { ChangeEventHandler, FocusEventHandler, memo } from "react"
+import React, {
+  ChangeEventHandler,
+  FocusEventHandler,
+  memo,
+  ReactNode
+} from "react"
 import { FieldPath, FieldValues, useFormContext } from "react-hook-form"
 import { Input } from "@/components/ui/input.tsx"
 import currency from "currency.js"
@@ -16,7 +21,7 @@ export const USDFormatter = (value: number | string) =>
   currency(value, { symbol: "", precision: 0, separator: ",", decimal: "." })
 
 export interface RHFCurrencyInputProps<T extends FieldValues> {
-  label: string
+  label: ReactNode
   name: FieldPath<T>
 
   placeholder?: string
