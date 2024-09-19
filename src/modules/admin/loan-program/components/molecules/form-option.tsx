@@ -14,7 +14,7 @@ export const FormOptionCard = ({
   id: string
   value: string
   formType: FORM_TYPE
-  onRemove: () => void
+  onRemove: VoidFunction
 }) => {
   return (
     <Card className="p-2 relative" id={id}>

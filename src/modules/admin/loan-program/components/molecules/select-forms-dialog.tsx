@@ -10,7 +10,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll"
 import { PlusCircle } from "lucide-react"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { Card, CardTitle } from "@/components/ui/card"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -22,13 +22,44 @@ interface Props {
   onSave: (formType: string[]) => void
 }
 
+const FormOptionCard = ({
+  checked,
+  formType,
+  onSelectForm
+}: {
+  checked: boolean
+  formType: FORM_TYPE
+  onSelectForm: (formType: FORM_TYPE) => () => void
+}) => {
+  return (
+    <Card
+      key={formType}
+      className="p-2 mb-4 relative"
+      id={formType}
+      onClick={onSelectForm(formType)}
+    >
+      <Checkbox
+        className="absolute top-2 right-2"
+        checked={checked}
+        onChange={onSelectForm(formType)}
+      />
+      <CardTitle className="text-sm">
+        {`${capitalizeWords(snakeCaseToText(formType))} Form`}
+      </CardTitle>
+      <p className="text-sm text-primary">
+        {get(FormDescription, formType, "N/A")}
+      </p>
+    </Card>
+  )
+}
+
 export const SelectFormsDialog: React.FC<Props> = ({
   selectedForms,
   onSave
 }) => {
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState<FORM_TYPE[]>([])
-  const onSelectForm = (formType: FORM_TYPE) => {
+  const onSelectForm = (formType: FORM_TYPE) => () => {
     if (selected.includes(formType)) {
       setSelected(selected.filter((selectedForm) => selectedForm !== formType))
     } else {
@@ -48,8 +79,12 @@ export const SelectFormsDialog: React.FC<Props> = ({
     setOpen(open)
   }
 
-  const remainingForms = Object.values(FORM_TYPE).filter(
-    (formType) => !selectedForms.includes(formType)
+  const remainingForms = useMemo(
+    () =>
+      Object.values(FORM_TYPE).filter(
+        (formType) => !selectedForms.includes(formType)
+      ),
+    [selectedForms]
   )
 
   return (
@@ -69,24 +104,11 @@ export const SelectFormsDialog: React.FC<Props> = ({
             {/* Render each form */}
             {remainingForms.length ? (
               remainingForms.map((formType) => (
-                <Card
-                  key={formType}
-                  className="p-2 mb-4 relative"
-                  id={formType}
-                  onClick={() => onSelectForm(formType)}
-                >
-                  <Checkbox
-                    className="absolute top-2 right-2"
-                    checked={selected.includes(formType)}
-                    onChange={() => onSelectForm(formType)}
-                  />
-                  <CardTitle className="text-sm">
-                    {`${capitalizeWords(snakeCaseToText(formType))} Form`}
-                  </CardTitle>
-                  <p className="text-sm text-primary">
-                    {get(FormDescription, formType, "N/A")}
-                  </p>
-                </Card>
+                <FormOptionCard
+                  checked={selected.includes(formType)}
+                  formType={formType}
+                  onSelectForm={onSelectForm}
+                />
               ))
             ) : (
               <p className="text-center">No forms available</p>

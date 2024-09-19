@@ -26,23 +26,18 @@ type Props = {
 const defaultFormValues = {
   formsConfiguration: []
 }
+const formsConfigurationForm = z.object({
+  formsConfiguration: z.array(z.string())
+})
 
 export function FormsConfigurationDialog({
   detailId
 }: React.PropsWithChildren<Props>) {
   const [open, setOpen] = useState(false)
 
-  const onOpenChange = (open: boolean) => {
-    setOpen(open)
-  }
-
   const programFormsConfiguration = useQueryGetFormsConfiguration(
     detailId ?? ""
   )
-
-  const formsConfigurationForm = z.object({
-    formsConfiguration: z.array(z.string())
-  })
 
   const form = useForm<z.infer<typeof formsConfigurationForm>>({
     resolver: zodResolver(formsConfigurationForm),
@@ -70,7 +65,7 @@ export function FormsConfigurationDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button type="button">Forms Configuration</Button>
       </DialogTrigger>

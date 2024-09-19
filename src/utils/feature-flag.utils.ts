@@ -35,7 +35,6 @@ function isEnableNewInquiryPersonaKycCreatingLogic() {
 }
 
 function formsConfigurationEnabled() {
-  return true
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION)
 }
 
