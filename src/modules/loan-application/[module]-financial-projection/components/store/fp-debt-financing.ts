@@ -1,13 +1,20 @@
-import * as z from "zod"
+import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { createDateSchema, createNumberSchema } from "@/constants/validate"
-import { Option } from "@/types/common.type"
 import {
   Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate"
-import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form"
+import {
+  BINARY_VALUES,
+  YES_NO_OPTIONS
+} from "@/modules/loan-application/constants/form"
+import { Option } from "@/types/common.type"
+import * as z from "zod"
 
 export const enum DebtFinancingField {
+  DEBT_FINANCING_ID = "debtFinancingId",
+  LIABILITY_ID = "liabilityId",
+  APPLICATION_ID = "applicationId",
   PAYABLE_DAYS = "payableDays",
   STARTING_PAID_IN_CAPITAL = "startingPaidInCapital",
   HAS_OUTSTANDING_LOANS = "hasOutstandingLoans",
@@ -21,43 +28,68 @@ export const enum DebtFinancingField {
   DEBT_FINANCING_ANNUAL_INTEREST_RATE = "annualInterestRate"
 }
 
-export type DebtFinancingFormValue = z.infer<typeof DebtFinancingFormSchema>
-
-export const DebtFinancingFormSchema = z.object({
-  id: z.string().nullable(),
-  [DebtFinancingField.PAYABLE_DAYS]: z
-    .string()
-    .min(1, "This field is required"),
-  [DebtFinancingField.STARTING_PAID_IN_CAPITAL]: createNumberSchema({ min: 1 }),
-  [DebtFinancingField.HAS_OUTSTANDING_LOANS]: z
-    .string()
-    .min(1, "This field is required"),
-  [DebtFinancingField.DEBT_FINANCING]: z.array(
-    z.object({
-      name: z.string().min(1, "This field is required"),
-      lenderName: z.string().min(1, "This field is required"),
-      type: z.string().min(1, "This field is required"),
-      loanDate: createDateSchema(),
-      remainingLoanBalance: createNumberSchema({ min: 1 }),
-      termsRemaining: createNumberSchema({ max: 120 }),
-      annualInterestRate: createNumberSchema({ max: 100 })
-    })
-  )
+const DebtFinancingFormItemSchema = z.object({
+  name: z.string().min(1, "This field is required"),
+  lenderName: z.string().min(1, "This field is required"),
+  type: z.string().min(1, "This field is required"),
+  loanDate: createDateSchema(),
+  remainingLoanBalance: createNumberSchema({ min: 1 }),
+  termsRemaining: z.string().min(1, "This field is required"),
+  annualInterestRate: createNumberSchema({ max: 100 })
 })
 
-export const EMPTY_DEBT_FINANCING_ITEM: DebtFinancingFormValue["debtFinancing"][number] =
-  {
-    type: "",
-    name: "",
-    lenderName: "",
-    loanDate: "",
-    remainingLoanBalance: 0,
-    termsRemaining: 0,
-    annualInterestRate: 0
-  }
+export const DebtFinancingFormSchema = z
+  .object({
+    [DebtFinancingField.DEBT_FINANCING_ID]: z.string().optional(),
+    [DebtFinancingField.LIABILITY_ID]: z.string().optional(),
+    [DebtFinancingField.APPLICATION_ID]: z.string().optional(),
+    [DebtFinancingField.PAYABLE_DAYS]: z.string().min(1, "Please select one"),
+    [DebtFinancingField.STARTING_PAID_IN_CAPITAL]: createNumberSchema(),
+    [DebtFinancingField.HAS_OUTSTANDING_LOANS]: z
+      .string()
+      .min(1, "Please select one"),
+    [DebtFinancingField.DEBT_FINANCING]: z.array(z.any())
+  })
+  .superRefine((data, ctx) => {
+    if (data[DebtFinancingField.HAS_OUTSTANDING_LOANS] === BINARY_VALUES.YES) {
+      const debtFinancingResult = z
+        .array(DebtFinancingFormItemSchema)
+        .safeParse(data[DebtFinancingField.DEBT_FINANCING])
+
+      if (!debtFinancingResult.success) {
+        debtFinancingResult.error.issues.forEach((issue) => {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: issue.message,
+            path: [DebtFinancingField.DEBT_FINANCING, ...issue.path]
+          })
+        })
+      }
+    }
+  })
+
+export type DebtFinancingFormItemValue = z.infer<
+  typeof DebtFinancingFormItemSchema
+>
+
+export type DebtFinancingFormValue = Omit<
+  z.infer<typeof DebtFinancingFormSchema>,
+  "debtFinancing"
+> & { debtFinancing: DebtFinancingFormItemValue[] }
+
+export const EMPTY_DEBT_FINANCING_ITEM: DebtFinancingFormItemValue = {
+  type: "",
+  name: "",
+  lenderName: "",
+  loanDate: "",
+  remainingLoanBalance: 0,
+  termsRemaining: "",
+  annualInterestRate: 0
+}
 
 export const DEBT_FINANCING_DEFAULT_VALUE = {
   [DebtFinancingField.PAYABLE_DAYS]: "",
+  [DebtFinancingField.HAS_OUTSTANDING_LOANS]: "",
   [DebtFinancingField.DEBT_FINANCING]: [EMPTY_DEBT_FINANCING_ITEM]
 }
 
@@ -212,6 +244,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       label: "Date of loan:",
       placeholder: "MM/DD/YYYY",
       subtitle: "",
+      isRowDirection: true,
+      dateFormat: FORMAT_DATE_MM_DD_YYYY,
       styleProps: {
         labelClassName: "flex-1",
         calendarClassName: "max-w-60"
@@ -248,7 +282,7 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
   },
   {
     name: DebtFinancingField.DEBT_FINANCING_ANNUAL_INTEREST_RATE,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       className: "flex flex-row items-center justify-between",
       label: "Annual interest rate:",
@@ -256,7 +290,7 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       placeholder: "Annual interest rate",
       suffixIcon: "%",
       styleProps: {
-        inputClassName: "min-w-60 pr-11"
+        inputClassName: "min-w-60 pr-11 text-sm"
       }
     }
   }

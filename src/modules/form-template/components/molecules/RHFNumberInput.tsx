@@ -90,7 +90,6 @@ const RHFNumberInput = <T extends FieldValues>(
               pattern={NUMBER_PATTERN}
               placeholder={placeholder}
               className={inputClassName}
-              required
               {...field}
               {...other}
               value={`${field.value}`}

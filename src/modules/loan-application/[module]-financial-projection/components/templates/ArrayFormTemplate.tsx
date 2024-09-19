@@ -18,6 +18,7 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
 interface ArrayFormTemplateProps {
   title: string
   subtitle: string
+  description?: ReactNode
 
   fieldName: RevenueType
   dataName: string
@@ -27,6 +28,7 @@ interface ArrayFormTemplateProps {
 
   blocks: Block[]
   addIcon: ReactNode
+  btnAddText?: ReactNode
 }
 
 const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
@@ -38,7 +40,14 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
     defaultEmptyObject,
     onBlur,
     blocks,
-    addIcon
+    addIcon,
+    description = (
+      <span>
+        Are you sure to delete this entire revenue stream? This action is
+        permanent and cannot be undone.
+      </span>
+    ),
+    btnAddText = `Add ${lowerCase(dataName)}`
   } = props
   const confirmDeleteDialog = useBoolean(false)
   const { control, getValues, setValue, register } = useFormContext()
@@ -80,12 +89,7 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
           title="Delete this revenue stream?"
           cancelText="Cancel"
           confirmText="Confirm"
-          description={
-            <span>
-              Are you sure to delete this entire revenue stream? This action is
-              permanent and cannot be undone.
-            </span>
-          }
+          description={description}
           actionClassName="bg-red-500 hover:bg-red-600 text-white"
         >
           <X onClick={confirmDeleteDialog.onTrue} />
@@ -138,7 +142,7 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
       >
         <div className="flex gap-2 items-center w-fit">
           {addIcon}
-          {`Add ${lowerCase(dataName)}`}
+          {btnAddText}
         </div>
       </Button>
     </Card>

@@ -121,6 +121,7 @@ const RHFSelectInput = <T extends FieldValues>(
                 {subtitle}
               </p>
             )}
+            {isRowDirection && <FormMessage />}
           </FormLabel>
 
           <FormControl>
@@ -168,7 +169,7 @@ const RHFSelectInput = <T extends FieldValues>(
           </FormControl>
           {/*TODO: handle multiple direction form message*/}
 
-          <FormMessage />
+          {!isRowDirection && <FormMessage />}
         </FormItem>
       )}
     />

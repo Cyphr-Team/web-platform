@@ -500,6 +500,19 @@ export const API_PATH = {
       findById: "api/financial-projection/form/revenue/by-id",
       findBySetupId: "api/financial-projection/form/revenue/by-setup-id",
       update: "api/financial-projection/form/revenue/update"
+    },
+    debtFinancing: {
+      submit: "api/financial-projection/form/debt-financing",
+      findById: "api/financial-projection/form/debt-financing/by-id",
+      findBySetupId: "api/financial-projection/form/debt-financing/by-setup-id",
+      update: "api/financial-projection/form/debt-financing/update"
+    },
+    liability: {
+      submit: "api/financial-projection/form/debt-financing/liability",
+      findById: "api/financial-projection/form/debt-financing/liability/by-id",
+      findBySetupId:
+        "api/financial-projection/form/debt-financing/liability/by-setup-id",
+      update: "api/financial-projection/form/debt-financing/liability/update"
     }
   }
 }

@@ -121,6 +121,12 @@ export const parseISOStringToMMYYYY = (isoString: string) => {
 }
 
 export const validFormat = (value: string) => {
+  // Allowed ISO string
+  const isoParsedDate = new Date(value)
+  if (isValid(isoParsedDate) && !isNaN(isoParsedDate.getTime())) {
+    return isoParsedDate
+  }
+
   const allowedFormat = ["MM/dd/yyyy", "MMM dd, yyyy", "MMM dd yyyy", "MM/yyyy"]
   const newDate = new Date()
   return (

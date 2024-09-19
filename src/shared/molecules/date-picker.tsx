@@ -28,6 +28,7 @@ interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   onSelectDate?: (date: Date | undefined) => void
   disabled?: boolean
   onCustomClick?: VoidFunction
+  dateFormat?: string
 }
 
 export function CalendarDatePicker({
@@ -44,7 +45,8 @@ export function CalendarDatePicker({
   placeholder = "i.e: 01/01/1990",
   align = "start",
   fromDate,
-  id
+  id,
+  dateFormat
 }: CalendarDatePickerProps) {
   return (
     <div className={cn("grid gap-2", className)}>
@@ -65,7 +67,9 @@ export function CalendarDatePicker({
               <span className="text-slate-700">{prefixLabel}</span>
             )}
             {value ? (
-              <span id={`${id}-value`}>{format(value, "MM - dd - y")}</span>
+              <span id={`${id}-value`}>
+                {format(value, dateFormat ?? "MM - dd - y")}
+              </span>
             ) : (
               <span className="text-text-tertiary">{placeholder}</span>
             )}

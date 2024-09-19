@@ -2,8 +2,15 @@ import { revertPattern } from "@/components/ui/mask-input"
 import { APP_PATH } from "@/constants"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
+import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
+import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
 import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
+import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
 import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
 import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
@@ -89,12 +96,6 @@ import {
   FormStateType
 } from "../providers/LoanApplicationFormProvider"
 import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
-import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
-import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
-import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
-import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -132,7 +133,8 @@ export const useSubmitLoanForm = (
   equityFinancingData: FpEquityFinancingFormValue,
   assetsData: AssetsFormValue,
   taxRateData: ExpenseTaxRateFormValue,
-  revenueData: RevenueStream
+  revenueData: RevenueStream,
+  debtFinancingData: DebtFinancingFormValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -403,7 +405,8 @@ export const useSubmitLoanForm = (
       equityFinancingData,
       assetsData,
       taxRateData,
-      revenueData
+      revenueData,
+      debtFinancingData
     })
 
   const handleSubmitFormSuccess = useCallback(

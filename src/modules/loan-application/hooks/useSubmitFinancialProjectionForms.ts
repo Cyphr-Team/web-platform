@@ -1,24 +1,29 @@
 import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
+import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
 import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
-import { useSubmitDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
-import { useSubmitPeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useSubmitPeopleForm"
-import { useSubmitFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
-import { useMutateForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useMutateForecastingSetup.ts"
-import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
-import { useSubmitEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useSubmitEquityFinancingForm"
 import {
   useSubmitCurrentAssetsForm,
   useSubmitLongTermAssetsForm
 } from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useSubmitAssetsForm"
-import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import { useSubmitTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useSubmitTaxRateForm"
-import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
+import {
+  useSubmitDebtFinancingForm,
+  useSubmitDebtFinancingLiabilityForm
+} from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useSubmitDebtFinancingForm"
+import { useSubmitDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
+import { useSubmitEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useSubmitEquityFinancingForm"
+import { useSubmitPeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useSubmitPeopleForm"
+import { useMutateForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useMutateForecastingSetup.ts"
+import { useSubmitFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
 import { useSubmitRevenueForm } from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useSubmitRevenueForm.ts"
+import { useSubmitTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useSubmitTaxRateForm"
+import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 
 interface FormData {
   peopleFormData: PeopleFormValue
@@ -29,6 +34,7 @@ interface FormData {
   assetsData: AssetsFormValue
   taxRateData: ExpenseTaxRateFormValue
   revenueData: RevenueStream
+  debtFinancingData: DebtFinancingFormValue
 }
 
 export const useSubmitFinancialProjectionForms = ({
@@ -39,7 +45,8 @@ export const useSubmitFinancialProjectionForms = ({
   equityFinancingData,
   assetsData,
   taxRateData,
-  revenueData
+  revenueData,
+  debtFinancingData
 }: FormData) => {
   const { getStepStatus } = useLoanApplicationProgressContext()
 
@@ -58,15 +65,26 @@ export const useSubmitFinancialProjectionForms = ({
   const revenueSubmission = useSubmitRevenueForm({
     rawData: revenueData
   })
-
+  const taxRateSubmission = useSubmitTaxRateForm({
+    rawData: taxRateData
+  })
+  /**
+   * Asset
+   */
   const assetsLongTermSubmission = useSubmitLongTermAssetsForm({
     rawData: assetsData
   })
   const assetsCurrentSubmission = useSubmitCurrentAssetsForm({
     rawData: assetsData
   })
-  const taxRateSubmission = useSubmitTaxRateForm({
-    rawData: taxRateData
+  /**
+   * Debt Financing
+   */
+  const debtFinancingSubmission = useSubmitDebtFinancingForm({
+    rawData: debtFinancingData
+  })
+  const debtFinancingLiabilitySubmission = useSubmitDebtFinancingLiabilityForm({
+    rawData: debtFinancingData
   })
 
   const submissionHooks = {
@@ -82,7 +100,11 @@ export const useSubmitFinancialProjectionForms = ({
       assetsLongTermSubmission
     ],
     [LOAN_APPLICATION_STEPS.TAX_RATES]: [taxRateSubmission],
-    [LOAN_APPLICATION_STEPS.REVENUE]: [revenueSubmission]
+    [LOAN_APPLICATION_STEPS.REVENUE]: [revenueSubmission],
+    [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: [
+      debtFinancingSubmission,
+      debtFinancingLiabilitySubmission
+    ]
   }
 
   const handleSubmitFinancialProjection = async (applicationId: string) => {

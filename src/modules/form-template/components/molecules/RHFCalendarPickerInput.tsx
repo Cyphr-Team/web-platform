@@ -31,6 +31,8 @@ export interface RHFCalendarPickerInputProps<T extends FieldValues> {
     subtitleClassName?: string
     messageClassName?: string
   }
+  isRowDirection?: boolean
+  dateFormat?: string
 }
 
 const RHFCalendarPickerInput = <T extends FieldValues>(
@@ -43,7 +45,9 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
     required = false,
     subtitle = "The US date format is mm-dd-yyyy",
     placeholder,
-    styleProps = {}
+    styleProps = {},
+    isRowDirection = false,
+    dateFormat
   } = props
 
   const {
@@ -68,6 +72,7 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             {label}
             {required && <RequiredSymbol />}
+            {isRowDirection && <FormMessage />}
           </FormLabel>
           <FormControl>
             <CalendarDatePicker
@@ -78,13 +83,14 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
               placeholder={placeholder}
               triggerClassName="w-full text-sm"
               contentClassName="w-full"
+              dateFormat={dateFormat}
             />
           </FormControl>
 
           <div className={cn("text-xs text-text-tertiary", subtitleClassName)}>
             {subtitle}
           </div>
-          <FormMessage className={messageClassName} />
+          {!isRowDirection && <FormMessage className={messageClassName} />}
         </FormItem>
       )}
     />

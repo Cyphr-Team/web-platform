@@ -2,7 +2,12 @@ import {
   useQueryGetCurrentAssetsForm,
   useQueryGetLongTermAssetsForm
 } from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useQueryGetAssetsForm"
+import {
+  useQueryGetDebtFinancingForm,
+  useQueryGetDebtFinancingLiabilityForm
+} from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useQueryGetDebtFinancing"
 import { reverseFormatAssetsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useSubmitAssetsForm"
+import { reverseFormatDebtFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/assets/useSubmitDebtFinancingForm"
 import { useQueryGetDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useQueryGetDirectCostsForm"
 import { reverseFormatDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
 import { useQueryGetEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useQueryGetEquityFinancingForm"
@@ -163,7 +168,6 @@ export const useGetFinancialProjectForms = () => {
     changeDataAndProgress,
     fpAssetsCurrentFormQuery.data,
     fpAssetsLongTermFormQuery.data,
-    fpEquityFinancingFormQuery.data,
     isInitialized
   ])
 
@@ -187,9 +191,43 @@ export const useGetFinancialProjectForms = () => {
     }
   }, [changeDataAndProgress, isInitialized, revenueFormQuery.data])
 
+  // Debt Financing
+  const debtFinancingFormQuery = useQueryGetDebtFinancingForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DEBT_FINANCING)
+  })
+  const debtFinancingLiabilityFormQuery = useQueryGetDebtFinancingLiabilityForm(
+    {
+      applicationId: loanApplicationId!,
+      enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DEBT_FINANCING)
+    }
+  )
+  useEffect(() => {
+    if (
+      (debtFinancingFormQuery?.data || debtFinancingLiabilityFormQuery?.data) &&
+      isInitialized
+    ) {
+      changeDataAndProgress(
+        reverseFormatDebtFinancingForm({
+          debtFinancingResponse: debtFinancingFormQuery.data,
+          debtFinancingLiabilityResponse: debtFinancingLiabilityFormQuery.data
+        }),
+        LOAN_APPLICATION_STEPS.DEBT_FINANCING,
+        !!(debtFinancingFormQuery.data && debtFinancingLiabilityFormQuery.data)
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    debtFinancingFormQuery.data,
+    debtFinancingLiabilityFormQuery.data,
+    isInitialized
+  ])
+
   return {
     expensePeopleFormQuery,
     fpOperatingExpensesFormQuery,
-    revenueFormQuery
+    revenueFormQuery,
+    debtFinancingFormQuery,
+    debtFinancingLiabilityFormQuery
   }
 }

@@ -26,6 +26,7 @@ import {
 } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { Plus } from "lucide-react"
+import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 
 export const DebtFinancingForm = () => {
   const { debtFinancing, dispatchFormAction } = useLoanApplicationFormContext()
@@ -109,7 +110,7 @@ export const DebtFinancingArrayForm = () => {
   }
 
   const isHaveOutStandingLoans =
-    form.watch(DebtFinancingField.HAS_OUTSTANDING_LOANS) === "yes"
+    form.watch(DebtFinancingField.HAS_OUTSTANDING_LOANS) === BINARY_VALUES.YES
 
   return (
     <Card
@@ -145,7 +146,7 @@ export const DebtFinancingArrayForm = () => {
       ) : null}
 
       <div className="flex flex-col gap-2xl">
-        <Button disabled={!form.formState.isValid}>Next</Button>
+        <Button>Next</Button>
       </div>
     </Card>
   )

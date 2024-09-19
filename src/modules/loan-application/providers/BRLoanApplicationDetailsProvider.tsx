@@ -830,7 +830,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const {
     expensePeopleFormQuery,
     fpOperatingExpensesFormQuery,
-    revenueFormQuery
+    revenueFormQuery,
+    debtFinancingFormQuery,
+    debtFinancingLiabilityFormQuery
   } = useGetFinancialProjectForms()
   /**
    * Handle Forecasting Setup
@@ -863,6 +865,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       preQualificationFormData: preQualificationFormQuery.data,
       expensePeopleFormData: expensePeopleFormQuery.data,
       fpOperatingExpensesFormData: fpOperatingExpensesFormQuery.data,
+      debtFinancingFormData: debtFinancingFormQuery.data,
+      debtFinancingLiabilityFormData: debtFinancingLiabilityFormQuery.data,
       forecastingSetup: forecastingSetup.data,
       revenueFormQuery: revenueFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
@@ -891,7 +895,10 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         expensePeopleFormQuery.isLoading ||
         fpOperatingExpensesFormQuery.isLoading ||
         forecastingSetup.isLoading ||
-        revenueFormQuery.isLoading,
+        revenueFormQuery.isLoading ||
+        debtFinancingFormQuery.isLoading ||
+        debtFinancingLiabilityFormQuery.isLoading ||
+        forecastingSetup.isLoading,
       isLoading: loanProgramQuery.isLoading
     }),
     [
@@ -925,6 +932,10 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       expensePeopleFormQuery.isLoading,
       fpOperatingExpensesFormQuery.data,
       fpOperatingExpensesFormQuery.isLoading,
+      debtFinancingFormQuery.data,
+      debtFinancingFormQuery.isLoading,
+      debtFinancingLiabilityFormQuery.data,
+      debtFinancingLiabilityFormQuery.isLoading,
       forecastingSetup.data,
       forecastingSetup.isLoading,
       revenueFormQuery.data,

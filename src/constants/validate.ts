@@ -18,7 +18,7 @@ interface NumberSchemaOptions {
   customErrors?: CustomErrorMessages
 }
 
-export const createNumberSchema = (options: NumberSchemaOptions) => {
+export const createNumberSchema = (options: NumberSchemaOptions = {}) => {
   const {
     min = 0,
     max = MAX_CURRENCY_AMOUNT,
