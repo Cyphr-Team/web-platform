@@ -125,7 +125,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
 
   const fullAmortizationQuery = useQueryFullAmortization({
     applicationId: params.id!,
-    enabledByInstitution: isSbb() || isLoanReady()
+    enabledByInstitution: isLoanReady()
   })
   const bankAccountsQuery = useQueryGetBankAccounts({
     applicationId: params.id!,
