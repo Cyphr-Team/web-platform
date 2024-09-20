@@ -9,7 +9,7 @@ import {
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import { CollapsibleArrayFieldTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/CollapsibleArrayFieldTemplate.tsx"
 import { Accordion } from "@/components/ui/accordion.tsx"
-import { lowerCase, startCase } from "lodash"
+import { lowerCase } from "lodash"
 import { TooltipProvider } from "@radix-ui/react-tooltip"
 import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { useBoolean } from "@/hooks"
@@ -51,7 +51,7 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
     btnAddText = `Add ${lowerCase(dataName)}`
   } = props
   const confirmDeleteDialog = useBoolean(false)
-  const { control, getValues, setValue, register } = useFormContext()
+  const { control, getValues, setValue, register, watch } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName
@@ -99,11 +99,15 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
       <Separator />
       <Accordion type="multiple" className="flex flex-col gap-xl">
         {fields.map((source, index) => {
+          const label = watch(`${fieldName}.${index}.name`)
+            ? watch(`${fieldName}.${index}.name`)
+            : "Untitled"
+
           return (
             <CollapsibleArrayFieldTemplate
               id={source.id}
               key={source.id}
-              label={`${startCase(dataName)} #${index + 1}`}
+              label={label}
             >
               <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-xl border">
                 <TooltipProvider>

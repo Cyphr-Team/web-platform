@@ -68,8 +68,8 @@ const blocks: Block[] = [
         </div>
       ),
       isRowDirection: true,
-      placeholder: "Monthly increase",
-      suffixIcon: "% /mo",
+      placeholder: "Monthly increase %",
+      suffixIcon: "/mo",
       styleProps: {
         inputClassName: "min-w-72"
       }

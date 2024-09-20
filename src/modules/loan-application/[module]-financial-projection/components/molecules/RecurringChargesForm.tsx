@@ -114,7 +114,7 @@ const blocks: Block[] = [
         </div>
       ),
       isRowDirection: true,
-      placeholder: "Customers not to renew",
+      placeholder: "Customers not to renew %",
       suffixIcon: "%",
       styleProps: {
         inputClassName: "min-w-72"

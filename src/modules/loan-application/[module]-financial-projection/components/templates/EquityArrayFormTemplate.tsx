@@ -25,7 +25,7 @@ interface ArrayFormTemplateProps {
 const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
   const { fieldName, defaultEmptyObject, dataName, onBlur, blocks, addIcon } =
     props
-  const { control, getValues } = useFormContext()
+  const { control, getValues, watch } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName
@@ -47,15 +47,15 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
     <>
       <Accordion type="multiple" className="flex flex-col gap-xl">
         {fields.map((source, index) => {
+          const label = watch(`${fieldName}.${index}.name`)
+            ? watch(`${fieldName}.${index}.name`)
+            : "Untitled"
+
           return (
             <CollapsibleArrayFieldTemplate
               id={source.id}
               key={source.id}
-              label={
-                getValues(fieldName).at(index).name == ""
-                  ? `${dataName} #${index + 1}`
-                  : getValues(fieldName).at(index).name
-              }
+              label={label}
               disabledBorder
             >
               <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-xl border">
