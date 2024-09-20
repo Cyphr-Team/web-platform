@@ -10,6 +10,7 @@ interface Props {
   hasConnectedAccounts: boolean
   isBankAccountsLoading?: boolean
 }
+
 export const ConnectBankAccountsButton: React.FC<Props> = ({
   disabled,
   hasConnectedAccounts,
@@ -34,8 +35,8 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({
       disabled={disabled}
       type="button"
     >
+      <Link className="w-4 mr-1" />
       {hasConnectedAccounts ? "Connect More" : "Connect"}
-      <Link className="ml-1 w-4" />
     </ButtonLoading>
   )
 }

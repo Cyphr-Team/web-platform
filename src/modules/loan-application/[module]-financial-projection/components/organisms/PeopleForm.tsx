@@ -89,8 +89,7 @@ export const PeopleForm = () => {
             <h5 className="text-sm font-normal mt-2">
               Add your current employees to their respective departments,
               including department name, employee count, total annual salaries,
-              and whether benefits are offered. Don't forget to include
-              yourself.
+              and whether benefits are offered.
             </h5>
           </div>
 

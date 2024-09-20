@@ -84,7 +84,7 @@ export const DebtFinancingLiabilityForm = () => {
         <h5 className="text-sm font-normal mt-2">
           Liabilities represent the financial obligations your business owes,
           including amounts owed by customers for past credit sales.
-          Understanding how much is owed and the time frame for collection is
+          Understanding how much is owed and the timeframe for collection is
           crucial for managing your cash flow and financial stability
         </h5>
       </div>

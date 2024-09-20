@@ -14,6 +14,7 @@ import { TooltipProvider } from "@radix-ui/react-tooltip"
 import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { useBoolean } from "@/hooks"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
+import { Separator } from "@/components/ui/separator"
 
 interface ArrayFormTemplateProps {
   title: string
@@ -76,7 +77,7 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
     <Card className="flex flex-col gap-2xl p-xl rounded-lg h-fit">
       <div className="flex justify-between items-center mr-5">
         <div>
-          <h5 className="text-[18px] font-semibold">{title}</h5>
+          <h5 className="text-[18px] font-semibold mb-4">{title}</h5>
           <div className="text-sm">{subtitle}</div>
         </div>
         <CustomAlertDialog
@@ -95,6 +96,7 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
           <X onClick={confirmDeleteDialog.onTrue} />
         </CustomAlertDialog>
       </div>
+      <Separator />
       <Accordion type="multiple" className="flex flex-col gap-xl">
         {fields.map((source, index) => {
           return (

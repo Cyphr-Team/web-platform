@@ -37,7 +37,7 @@ const CurrentAssetsFormBlocks: Block[] = [
     props: {
       label: "Days to get paid",
       subtitle:
-        "How long will you take to collect on this initial balance — that is, what payment terms do you offer your customers?",
+        "How long will you take to collect on customer balance — that is, what payment terms do you offer your customers?",
       options: RECEIVABLE_DAYS_OPTIONS,
       styleProps: {
         labelClassName: "lg:w-[90vw] lg:mr-5 leading-1",

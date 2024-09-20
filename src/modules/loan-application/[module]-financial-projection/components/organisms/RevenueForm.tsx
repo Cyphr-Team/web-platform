@@ -157,7 +157,7 @@ const RevenueForm = () => {
           onAddItemToField={onAddItemToField}
         />
 
-        <div className="flex flex-col gap-y-4xl">
+        <div className="flex flex-col gap-y-4xl mb-4">
           {canRender(RevenueType.UNIT_SALES) ? (
             <UnitSalesForm onBlur={onBlur} />
           ) : null}
@@ -173,7 +173,7 @@ const RevenueForm = () => {
         </div>
 
         {isFormDirty ? (
-          <div className="w-full flex flex-row-reverse">
+          <div className="w-full flex flex-row-reverse mb-4">
             <Button type="button" className="py-2 my-2" onClick={dialog.onTrue}>
               + Another revenue type
             </Button>

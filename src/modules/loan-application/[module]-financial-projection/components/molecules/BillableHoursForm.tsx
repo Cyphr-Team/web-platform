@@ -24,7 +24,7 @@ const blocks: Block[] = [
     type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
-      placeholder: "Name of revenue stream",
+      placeholder: "Enter name for revenue stream",
       isRowDirection: true,
       className: "flex items-center justify-between",
       inputClassName: "min-w-72",
@@ -92,9 +92,9 @@ const blocks: Block[] = [
     name: FieldName.HOURLY_RATE,
     type: FieldType.CURRENCY,
     props: {
-      label: "Hourly rate:",
+      label: "Price per hour:",
       isRowDirection: true,
-      placeholder: "Hourly rate",
+      placeholder: "Average hourly rate",
       prefixIcon: "$",
       styleProps: {
         inputClassName: "min-w-72"

@@ -27,7 +27,7 @@ const blocks: Block[] = [
     type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
-      placeholder: "Name of revenue stream",
+      placeholder: "Enter name for revenue stream",
       isRowDirection: true,
       className: "flex items-center justify-between",
       inputClassName: "min-w-72",

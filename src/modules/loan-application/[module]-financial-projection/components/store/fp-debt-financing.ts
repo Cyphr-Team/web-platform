@@ -183,7 +183,7 @@ export const DebtFinancingFormBlocks: Block[] = [
       className: "space-y-0 gap-2",
       label: "Does your business currently have outstanding loans?",
       subtitle:
-        "(ex: term loan, revolving credit, equipment financing, debt financing etc.)",
+        "(ex: term loan, revolving credit, equipment financing, debt financing, etc.)",
       options: YES_NO_OPTIONS,
       isRowDirection: true,
       styleProps: {
