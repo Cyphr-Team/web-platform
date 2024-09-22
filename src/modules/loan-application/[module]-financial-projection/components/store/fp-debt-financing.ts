@@ -34,7 +34,7 @@ const DebtFinancingFormItemSchema = z.object({
   type: z.string().min(1, "This field is required"),
   loanDate: createDateSchema(),
   remainingLoanBalance: createNumberSchema({ min: 1 }),
-  termsRemaining: z.string().min(1, "This field is required"),
+  termsRemaining: createNumberSchema({ coerce: true, max: 120 }),
   annualInterestRate: createNumberSchema({ max: 100 })
 })
 
@@ -83,7 +83,7 @@ export const EMPTY_DEBT_FINANCING_ITEM: DebtFinancingFormItemValue = {
   lenderName: "",
   loanDate: "",
   remainingLoanBalance: 0,
-  termsRemaining: "",
+  termsRemaining: 0,
   annualInterestRate: 0
 }
 
@@ -268,7 +268,7 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
   },
   {
     name: DebtFinancingField.DEBT_FINANCING_TERMS_REMAINING,
-    type: FieldType.NUMBER,
+    type: FieldType.CURRENCY,
     props: {
       className: "gap-2 space-y-0",
       label: "Loan term remaining (in months):",
@@ -276,7 +276,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       placeholder: "Loan term remaining",
       suffixIcon: "Months",
       styleProps: {
-        inputClassName: "min-w-60 pr-20 text-right max-w-60"
+        suffixClassName: "border",
+        inputClassName: "min-w-60 !pr-20 text-right max-w-60 text-sm"
       }
     }
   },

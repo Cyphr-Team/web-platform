@@ -33,6 +33,7 @@ export interface RHFCurrencyInputProps<T extends FieldValues> {
     inputClassName?: string
     labelClassName?: string
     messageClassName?: string
+    suffixClassName?: string
   }
   isRowDirection?: boolean
   prefix?: string
@@ -63,8 +64,13 @@ const RHFCurrencyInput = <T extends FieldValues>(
     ...inputProps
   } = props
 
-  const { wrapperClassName, inputClassName, labelClassName, messageClassName } =
-    styleProps
+  const {
+    wrapperClassName,
+    inputClassName,
+    labelClassName,
+    messageClassName,
+    suffixClassName
+  } = styleProps
 
   return (
     <FormField
@@ -114,6 +120,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
                 wrapperClassName={wrapperClassName}
                 {...field}
                 {...inputProps}
+                suffixClassName={suffixClassName}
                 value={fieldValue}
                 onChange={(e) => {
                   const value = e.target.value

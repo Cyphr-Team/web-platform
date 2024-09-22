@@ -151,6 +151,11 @@ export function formatToISOString(
   date: string,
   format: string = "MM/yyyy"
 ): string {
+  const isoParsedDate = new Date(date)
+  if (isValid(isoParsedDate) && !isNaN(isoParsedDate.getTime())) {
+    return isoParsedDate.toISOString()
+  }
+
   const newDate = new Date()
 
   return parse(date, format, newDate).toISOString()
