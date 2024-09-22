@@ -38,7 +38,6 @@ import { useQueryGetApplicationDetailsByType } from "../hooks/useQuery/useQueryA
 import { useQueryFullAmortization } from "../hooks/useQuery/useQueryFullAmortizations"
 import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
 import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
-import { useQueryGetKyc } from "../hooks/useQuery/useQueryGetKyc"
 import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
 
 type LoanApplicationDetailContextType = {
@@ -107,10 +106,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const params = useParams()
 
   const kybDetailQuery = useQueryGetKyb({
-    applicationId: params.id!
-  })
-
-  const kycDetailQuery = useQueryGetKyc({
     applicationId: params.id!
   })
 
@@ -245,7 +240,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
   const providerValues = useMemo(
     () => ({
       loanKybDetail: kybDetailQuery.data,
-      loanKycDetail: kycDetailQuery.data,
       loanSmartKycDetail: loanSmartKycDetailQuery.data,
       loanApplicationDetails: userLoanApplicationQuery.data,
       loanSummary: loanSummaryQuery.data,
@@ -275,7 +269,6 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     [
       kybDetailQuery.data,
       kybDetailQuery.isLoading,
-      kycDetailQuery.data,
       loanSmartKycDetailQuery.data,
       loanSmartKycDetailQuery.isLoading,
       userLoanApplicationQuery.data,
