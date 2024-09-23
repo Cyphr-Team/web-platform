@@ -14,24 +14,26 @@ const CurrentEmployeesBlock = [
     name: "departmentName",
     type: FieldType.TEXT,
     props: {
-      className: "text-sm space-y-0 m-1 w-full lg:w-auto grow",
+      className: "text-sm space-y-0 m-2 w-full lg:w-auto grow",
       placeholder: "Department name",
       prefixIcon: <Icons.idCard />,
       styleProps: {
         inputClassName: "text-sm col-span-3 w-full"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
     name: "numberOfEmployees",
     type: FieldType.NUMBER,
     props: {
-      className: "text-sm space-y-0 m-1 w-full lg:w-auto grow",
+      className: "text-sm space-y-0 m-2 w-full lg:w-auto grow",
       placeholder: "Number of employees",
       prefixIcon: <Icons.team />,
       styleProps: {
         inputClassName: "text-sm"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -39,7 +41,7 @@ const CurrentEmployeesBlock = [
     type: FieldType.CURRENCY,
     props: {
       direction: "column",
-      className: "text-sm space-y-0 m-1 w-full lg:w-auto grow",
+      className: "text-sm space-y-0 m-2 w-full lg:w-auto grow",
       placeholder: "Annual department salaries",
       prefixIcon: (
         <div className="flex justify-between w-9 text-[#667085]">
@@ -48,7 +50,8 @@ const CurrentEmployeesBlock = [
       ),
       styleProps: {
         inputClassName: "text-sm pl-12"
-      }
+      },
+      isHideErrorMessage: true
     }
   }
 ]

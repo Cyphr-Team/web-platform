@@ -37,8 +37,9 @@ export const PeopleFormBlocks: Block[] = [
       subtitle: "Benefits can include medical, dental, vision, 401(k), etc. ",
       options: YES_NO_OPTIONS,
       styleProps: {
-        labelClassName: "lg:w-[90vw] lg:mr-5 leading-1",
-        subtitleClassName: "text-sm font-normal"
+        labelClassName: "lg:w-[80vw] lg:mr-5 leading-1",
+        subtitleClassName: "text-sm font-normal",
+        inputClassName: "lg:w-[25vw]"
       },
       className: "lg:flex"
     }

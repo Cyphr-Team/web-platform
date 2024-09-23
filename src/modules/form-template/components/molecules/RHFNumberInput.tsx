@@ -29,6 +29,7 @@ export interface RHFNumberInputProps<T extends FieldValues>
   className?: string
   suffixIcon?: ReactNode
   isRowDirection?: boolean
+  isHideErrorMessage?: boolean
   styleProps?: {
     inputClassName?: string
     labelClassName?: string
@@ -54,6 +55,7 @@ const RHFNumberInput = <T extends FieldValues>(
     styleProps = {},
     required,
     isRowDirection,
+    isHideErrorMessage,
     subtitle,
     ...other
   } = props
@@ -82,7 +84,7 @@ const RHFNumberInput = <T extends FieldValues>(
                   </p>
                 )}
               </label>
-              {isRowDirection && <FormMessage />}
+              {isRowDirection && !isHideErrorMessage && <FormMessage />}
             </div>
           </FormLabel>
           <FormControl>
@@ -95,7 +97,9 @@ const RHFNumberInput = <T extends FieldValues>(
               value={`${field.value}`}
             />
           </FormControl>
-          {!isRowDirection && <FormMessage className={messageClassName} />}
+          {!isRowDirection && !isHideErrorMessage && (
+            <FormMessage className={messageClassName} />
+          )}
           {subtitle && (
             <div className="text-xs text-text-tertiary">{subtitle}</div>
           )}

@@ -22,7 +22,7 @@ const FutureEmployeesBlock = [
       styleProps: {
         labelClassName: "lg:col-span-2 lg:mr-5 leading-1",
         subtitleClassName: "text-sm font-normal",
-        inputClassName: "text-sm"
+        inputClassName: "text-sm lg:w-[13vw] ml-auto mr-0"
       },
       className: "w-full lg:grid lg:grid-cols-3 gap-1"
     }
@@ -36,7 +36,9 @@ const FutureEmployeesBlock = [
       prefixIcon: <Icons.idCard />,
       styleProps: {
         inputClassName: "text-sm"
-      }
+      },
+      //TODO: Add error message later
+      isHideErrorMessage: true
     }
   },
   {
@@ -50,7 +52,8 @@ const FutureEmployeesBlock = [
       subtitle: "",
       styleProps: {
         calendarClassName: "text-sm"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -67,7 +70,8 @@ const FutureEmployeesBlock = [
       ),
       styleProps: {
         inputClassName: "text-sm pl-12"
-      }
+      },
+      isHideErrorMessage: true
     }
   }
 ]
