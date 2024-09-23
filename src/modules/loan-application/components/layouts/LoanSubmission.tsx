@@ -31,13 +31,6 @@ const LoanSubmissionWithDocument = () => {
       >
         <div className="flex flex-col text-center gap-4xl">
           <div className="flex justify-center relative">
-            <img
-              className="max-w-[100vw] absolute w-[756px] h-[756px] -z-10 left-1/2 -translate-x-1/2 top-[28px] -translate-y-1/2 dark:opacity-15"
-              src={backgroundPatternDecorative}
-              alt="Pattern decorative"
-              width={756}
-              height={756}
-            />
             <div className="w-14 self-center">
               <AspectRatio ratio={1 / 1}>
                 <div className="w-full h-full flex justify-center items-center rounded-full bg-success-secondary">
