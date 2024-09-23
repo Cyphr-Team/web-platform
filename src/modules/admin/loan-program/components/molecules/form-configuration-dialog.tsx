@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -35,21 +35,15 @@ export function FormsConfigurationDialog({
 }: React.PropsWithChildren<Props>) {
   const [open, setOpen] = useState(false)
 
-  const programFormsConfiguration = useQueryGetFormsConfiguration(
-    detailId ?? ""
-  )
+  const programFormsConfiguration = useQueryGetFormsConfiguration(detailId)
 
   const form = useForm<z.infer<typeof formsConfigurationForm>>({
     resolver: zodResolver(formsConfigurationForm),
-    defaultValues: useMemo(
-      () =>
-        programFormsConfiguration.data
-          ? {
-              formsConfiguration: programFormsConfiguration.data.forms
-            }
-          : defaultFormValues,
-      [programFormsConfiguration.data]
-    )
+    defaultValues: programFormsConfiguration.data
+      ? {
+          formsConfiguration: programFormsConfiguration.data.forms
+        }
+      : defaultFormValues
   })
 
   const onChangeSelectedForms = (formType: string[]) => {

@@ -4,6 +4,26 @@ import { useState } from "react"
 import { LoanProgram, ProgramStatus } from "@/types/loan-program.type"
 import { useUpdateStatusLoanProgram } from "../hooks/useUpdateStatusLoanProgram"
 
+/**
+ * This function is used to get the next status of the program
+ * Status: DRAFT -> ACTIVATED -> DEACTIVATED -> ACTIVATED
+ *
+ * @param status
+ * @returns
+ */
+const nextProgramStatus = (status: ProgramStatus): ProgramStatus => {
+  switch (status) {
+    case ProgramStatus.DRAFT:
+      return ProgramStatus.ACTIVATED
+    case ProgramStatus.ACTIVATED:
+      return ProgramStatus.DEACTIVATED
+    case ProgramStatus.DEACTIVATED:
+      return ProgramStatus.ACTIVATED
+    default:
+      return ProgramStatus.DRAFT
+  }
+}
+
 export const ButtonChangeStatusLoanProgram = ({
   loanProgram
 }: {
@@ -24,34 +44,23 @@ export const ButtonChangeStatusLoanProgram = ({
     setIsOpen(false)
   }
 
-  /**
-   * This function is used to get the next status of the program
-   * Status: DRAFT -> ACTIVATED -> DEACTIVATED -> ACTIVATED
-   *
-   * @param status
-   * @returns
-   */
-  const nextProgramStatus = (status: ProgramStatus): ProgramStatus => {
-    switch (status) {
-      case ProgramStatus.DRAFT:
-        return ProgramStatus.ACTIVATED
-      case ProgramStatus.ACTIVATED:
-        return ProgramStatus.DEACTIVATED
-      case ProgramStatus.DEACTIVATED:
-        return ProgramStatus.ACTIVATED
-      default:
-        return ProgramStatus.DRAFT
-    }
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsOpen(false)
+  }
+
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsOpen(true)
   }
 
   return (
     <CustomAlertDialog
       isOpen={isOpen}
       onConfirmed={handleUpdateStatusLoanProgram}
-      onCanceled={(e) => {
-        e.stopPropagation()
-        setIsOpen(false)
-      }}
+      onCanceled={handleCancel}
       title={`Change status loan program`}
       cancelText="Cancel"
       confirmText="Confirm"
@@ -69,11 +78,7 @@ export const ButtonChangeStatusLoanProgram = ({
         variant="ghost"
         className="w-full cursor-pointer text-center hover:bg-gray-100"
         type="button"
-        onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          setIsOpen(true)
-        }}
+        onClick={handleOpen}
       >
         Update status
       </ButtonLoading>

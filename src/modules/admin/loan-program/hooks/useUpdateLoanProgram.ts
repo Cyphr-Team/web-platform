@@ -28,13 +28,17 @@ export const useUpdateLoanProgram = ({
 }) => {
   const queryClient = useQueryClient()
 
+  /**
+   * If the status is draft, update the program.
+   * Otherwise, create a new program with rootVersionId is loanProgramId.
+   * The new program will be used as a new version of the program. It has status as draft.
+   */
   return useMutation<
     AxiosResponse<LoanProgram>,
     AxiosError<ErrorResponse>,
     UpdateLoanProgramValue
   >({
     mutationFn: (data) => {
-      // If the status is draft, update the program. Otherwise, create a new program with rootVersionId is loanProgramId.
       return status === ProgramStatus.DRAFT
         ? patchRequest({
             path: API_PATH.loanProgram.cdfi.update(),

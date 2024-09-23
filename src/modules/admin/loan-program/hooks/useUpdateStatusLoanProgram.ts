@@ -19,7 +19,10 @@ export function useUpdateStatusLoanProgram() {
     { loanProgramId: string; programStatus: ProgramStatus }
   >({
     mutationFn: ({ loanProgramId, programStatus }) => {
-      if (!loanProgramId) throw new Error("Missing loan program id")
+      if (!loanProgramId) {
+        toastError({ title: "Error", description: "Missing loan program id" })
+        throw new Error("Missing loan program id")
+      }
 
       return postRequest({
         path: API_PATH.loanProgram.cdfi.updateStatus(loanProgramId),
