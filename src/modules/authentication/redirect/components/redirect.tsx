@@ -1,5 +1,5 @@
 import { ArrowLeft, KeySquare } from "lucide-react"
-import { Link, useSearchParams } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { Button } from "@/components/ui/button"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -11,6 +11,8 @@ import { SocialProvider } from "../../../../types/auth.type"
 import { useLoginWithSocialMFA } from "../../../../hooks/login-with-social/useLoginWithSocialMFA"
 import { useAuthenticateWithMagicLink } from "@/modules/authentication/magic-link/hooks/useAuthenticateWithMagicLink"
 import { isLaunchKC } from "@/utils/domain.utils"
+import { inMemoryJWTService } from "@/services/jwt.service"
+import { checkIsLoanApplicant } from "@/utils/check-roles"
 
 export function RedirectSection() {
   const { mutate: loginBySocialMutate } = useLoginWithSocialMFA()
@@ -18,6 +20,7 @@ export function RedirectSection() {
   const [email, setEmail] = useState("")
   const [searchParams] = useSearchParams()
   const initialized = useRef(false)
+  const navigate = useNavigate()
 
   const getTokenType = useCallback((): RedirectParam | null => {
     const value = searchParams.get(RedirectParam.STYTCH_TOKEN_TYPE)
@@ -85,6 +88,15 @@ export function RedirectSection() {
   const handleStytchCallback = useCallback(async () => {
     const stytchTokenType = getTokenType()
     const token = searchParams.get(RedirectParam.TOKEN)
+    // If user is already in a session, we wont need to authenticate the user again.
+    if (inMemoryJWTService.getToken() != null) {
+      if (checkIsLoanApplicant()) {
+        navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
+      } else {
+        navigate(APP_PATH.INDEX)
+      }
+      return
+    }
     if (stytchTokenType && token) {
       switch (stytchTokenType) {
         case RedirectParam.OAUTH:
@@ -98,7 +110,13 @@ export function RedirectSection() {
     if (searchParams.has(RedirectParam.EMAIL)) {
       setEmail(searchParams.get(RedirectParam.EMAIL) ?? "")
     }
-  }, [getTokenType, searchParams, handleOAuthCallback, handleMagicLinkCallback])
+  }, [
+    getTokenType,
+    searchParams,
+    navigate,
+    handleOAuthCallback,
+    handleMagicLinkCallback
+  ])
 
   useEffect(() => {
     // Only run once when the component mounts

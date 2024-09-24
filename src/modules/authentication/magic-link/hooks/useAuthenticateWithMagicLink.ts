@@ -49,8 +49,10 @@ export const useAuthenticateWithMagicLink = () => {
     onError: async () => {
       toastError({
         ...TOAST_MSG.user.stytchMagicLink,
-        description: "Authentication with magic link failed."
+        description:
+          "Failed to authenticate because Magic Link token was used/expired. Please try to login again."
       })
+      navigate(APP_PATH.LOGIN)
     }
   })
 }
