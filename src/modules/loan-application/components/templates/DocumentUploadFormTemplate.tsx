@@ -103,39 +103,10 @@ export const DocumentUploadFormTemplate = ({
   ) as DocumentUploadedResponse[]
   const checkboxValue =
     checkboxField !== undefined && (form.watch(checkboxField) as boolean)
-
-  const handleSelectFile = useCallback(
-    (field: keyof FormType) => (files: FileList) => {
-      const currentFiles = form.getValues(field) as File[]
-      const mergedFiles =
-        files && currentFiles
-          ? [...currentFiles, ...Array.from(files)]
-          : Array.from(files)
-
-      form.setValue(field, mergedFiles, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    },
-    [form]
-  )
-
-  const handleRemoveFile = useCallback(
-    (index: number, field: keyof FormType) => () => {
-      const currentFiles = form.getValues(field) as File[]
-      const newFiles = currentFiles.filter((_: File, i: number) => i !== index)
-      form.setValue(field, newFiles, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
-    },
-    [form]
-  )
+  const formIdValue = form.watch(formIdField) as string
 
   const removeDocument = useCallback(
-    (id: string) => {
+    (id: string) =>
       deleteDocument(
         { id },
         {
@@ -157,9 +128,49 @@ export const DocumentUploadFormTemplate = ({
             })
           }
         }
-      )
-    },
+      ),
     [deleteDocument, form, uploadedFileField, uploadedFiles]
+  )
+
+  const handleSelectFile = useCallback(
+    (field: keyof FormType) => (files: FileList) => {
+      // delete uploadedFiles
+      uploadedFiles?.map((file) => removeDocument(file.id))
+
+      form.setValue(uploadedFileField, [])
+      form.setValue(field, [files[0]])
+      if (checkboxField) {
+        form.setValue(checkboxField, false)
+      }
+
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: specificStep,
+        state: form.getValues()
+      })
+    },
+    [
+      checkboxField,
+      dispatchFormAction,
+      form,
+      removeDocument,
+      specificStep,
+      uploadedFileField,
+      uploadedFiles
+    ]
+  )
+
+  const handleRemoveFile = useCallback(
+    (index: number, field: keyof FormType) => () => {
+      const currentFiles = form.getValues(field) as File[]
+      const newFiles = currentFiles.filter((_: File, i: number) => i !== index)
+      form.setValue(field, newFiles, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      })
+    },
+    [form]
   )
 
   const onSubmit = (data: FormType) => {
@@ -174,22 +185,24 @@ export const DocumentUploadFormTemplate = ({
 
   useEffect(() => {
     if (form.formState.isValidating) {
-      const data = form.getValues()
-      /**
-       *
-       * */
       const updatedData = {
         // get the value from formValues, use string indexes because `checkboxField` can be different through form
-        [checkboxField]: data[checkboxField],
-        [formIdField]: data[formIdField],
-        // get the value from checkbox, if checkbox is true, the filesField is empty, otherwise get the filesField
-        [fileField]: data[checkboxField] ? [] : data[fileField],
-        // same logic as above
-        [uploadedFileField]: data[checkboxField] ? [] : data[uploadedFileField]
+        [checkboxField]: checkboxValue,
+        [formIdField]: formIdValue,
+        [fileField]: checkboxValue ? [] : filesValue,
+        [uploadedFileField]: checkboxValue ? [] : uploadedFileField
+      }
+
+      if (checkboxField) {
+        const oldLength = get(formState[specificStep], fileField, [])?.length
+
+        if (oldLength === filesValue?.length) {
+          form.setValue(fileField, [])
+        }
       }
 
       // if user tick not to upload document
-      if (data[checkboxField]) {
+      if (checkboxValue && uploadedFiles?.length > 0) {
         form.setValue(fileField, [])
         // delete all files on server
         uploadedFiles.forEach((file) => removeDocument(file.id))
@@ -212,7 +225,11 @@ export const DocumentUploadFormTemplate = ({
     uploadedFileField,
     uploadedFiles,
     removeDocument,
-    formIdField
+    formIdField,
+    filesValue,
+    checkboxValue,
+    formIdValue,
+    formState
   ])
 
   /**
@@ -256,23 +273,17 @@ export const DocumentUploadFormTemplate = ({
                     id={fileField}
                     onFileSelect={handleSelectFile(fileField)}
                   />
-                  {Array.from((form.watch(fileField) as File[]) ?? []).map(
-                    (file: File, index: number) => (
-                      <FileUploadCard
-                        key={file.name}
-                        file={file}
-                        index={index}
-                        handleRemoveFile={handleRemoveFile(index, fileField)}
-                        version={2}
-                      />
-                    )
-                  )}
+                  {filesValue?.length > 0 ? (
+                    <FileUploadCard
+                      key={filesValue[0].name}
+                      file={filesValue[0]}
+                      index={0}
+                      handleRemoveFile={handleRemoveFile(0, fileField)}
+                      version={2}
+                    />
+                  ) : null}
                   {/* Display all files */}
-                  {Array.from(
-                    (form.watch(
-                      uploadedFileField
-                    ) as DocumentUploadedResponse[]) ?? []
-                  ).map((val) => (
+                  {Array.from(uploadedFiles ?? []).map((val) => (
                     <FileUploadedCard
                       key={val.id}
                       file={val}
