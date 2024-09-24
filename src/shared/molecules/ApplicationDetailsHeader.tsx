@@ -13,12 +13,25 @@ import { useNavigate } from "react-router-dom"
 import { CustomAlertDialog } from "./AlertDialog"
 import { cn } from "@/lib/utils"
 import { CloseWithoutSave } from "@/modules/loan-application/components/atoms/CloseWithoutSave"
+import { isSbb } from "@/utils/domain.utils"
 
 export const ApplicationDetailsHeader = () => {
   const { loanApplicationDetails, isFetchingDetails } =
     useBRLoanApplicationDetailsContext()
   const { submitLoanForm, isSubmitting } = useLoanApplicationFormContext()
-  const status = loanApplicationDetails?.status ?? LoanApplicationStatus.DRAFT
+
+  const getStatus = () => {
+    if (isSbb()) {
+      return loanApplicationDetails?.status?.toUpperCase() !==
+        LoanApplicationStatus.DRAFT
+        ? LoanApplicationStatus.SUBMITTED
+        : LoanApplicationStatus.DRAFT
+    }
+    return loanApplicationDetails?.status ?? LoanApplicationStatus.DRAFT
+  }
+
+  const status = getStatus().toLowerCase()
+
   const navigate = useNavigate()
 
   const editableStatuses = [
@@ -67,7 +80,9 @@ export const ApplicationDetailsHeader = () => {
             className="text-sm"
             isDotBefore
             variant="soft"
-            variantColor={getBadgeVariantByStatus(status)}
+            variantColor={getBadgeVariantByStatus(
+              status as LoanApplicationStatus
+            )}
           >
             {capitalizeWords(snakeCaseToText(status))}
           </Badge>
