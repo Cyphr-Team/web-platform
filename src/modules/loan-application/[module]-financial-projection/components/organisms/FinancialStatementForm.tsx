@@ -39,7 +39,13 @@ const financialStatementFormSchema = object({
   uploadedFiles: ZodFileTypeFactory().optional()
 })
 
-export const FinancialStatementForm = () => {
+interface FinancialStatementFormProps {
+  wrapperClassName?: string
+}
+
+export const FinancialStatementForm = ({
+  wrapperClassName
+}: FinancialStatementFormProps) => {
   const { step } = useLoanApplicationProgressContext()
   const { finishCurrentStep } = useLoanApplicationProgressContext()
   const { financialStatements, dispatchFormAction } =
@@ -80,7 +86,8 @@ export const FinancialStatementForm = () => {
     <div
       className={cn(
         "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full",
+        wrapperClassName
       )}
     >
       <RHFProvider

@@ -27,6 +27,7 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { Plus } from "lucide-react"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 export const DebtFinancingForm = () => {
   const { debtFinancing, dispatchFormAction } = useLoanApplicationFormContext()
@@ -98,6 +99,7 @@ export const DebtFinancingLiabilityForm = () => {
 
 export const DebtFinancingArrayForm = () => {
   const { dispatchFormAction } = useLoanApplicationFormContext()
+  const { step } = useLoanApplicationProgressContext()
 
   const form = useFormContext<DebtFinancingFormValue>()
 
@@ -145,9 +147,11 @@ export const DebtFinancingArrayForm = () => {
         </div>
       ) : null}
 
-      <div className="flex flex-col gap-2xl">
-        <Button>Next</Button>
-      </div>
+      {!isReviewApplicationStep(step) && (
+        <div className="flex flex-col gap-2xl">
+          <Button>Next</Button>
+        </div>
+      )}
     </Card>
   )
 }

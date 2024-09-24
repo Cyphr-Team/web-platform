@@ -29,6 +29,7 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 import EquityArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/EquityArrayFormTemplate"
 import { Plus } from "lucide-react"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 const CurrentAssetsFormBlocks: Block[] = [
   {
@@ -113,7 +114,7 @@ export const AssetsForm = () => {
     defaultValues: assets ?? FP_ASSETS_DEFAULT_VALUE
   })
 
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const onSubmit = (data: AssetsFormValue) => {
     dispatchFormAction({
@@ -192,9 +193,11 @@ export const AssetsForm = () => {
             />
           </div>
         </Card>
-        <div className="flex flex-col gap-2xl mt-4">
-          <Button disabled={!form.formState.isValid}>Next</Button>
-        </div>
+        {!isReviewApplicationStep(step) && (
+          <div className="flex flex-col gap-2xl mt-4">
+            <Button disabled={!form.formState.isValid}>Next</Button>
+          </div>
+        )}
       </RHFProvider>
     </Card>
   )

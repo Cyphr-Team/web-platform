@@ -78,7 +78,12 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   }
 ]
 
-export const CashFlowVerificationFormV2 = () => {
+interface CashFlowVerificationFormV2Props {
+  wrapperClassName?: string
+}
+export const CashFlowVerificationFormV2 = ({
+  wrapperClassName
+}: CashFlowVerificationFormV2Props) => {
   const { finishCurrentStep, completeSpecificStep, step } =
     useLoanApplicationProgressContext()
 
@@ -154,7 +159,8 @@ export const CashFlowVerificationFormV2 = () => {
       <Card
         className={cn(
           "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
+          wrapperClassName
         )}
       >
         <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
@@ -200,7 +206,8 @@ export const CashFlowVerificationFormV2 = () => {
         <Card
           className={cn(
             "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
-            "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+            "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
+            wrapperClassName
           )}
         >
           <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-2">

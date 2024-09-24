@@ -117,16 +117,6 @@ export class LoanReadyLoanApplicationStep
 
     this._build_ReviewApplicationStep()
 
-    this._build_extendedSteps([
-      {
-        step: LOAN_APPLICATION_STEPS.REVIEW_INPUTS,
-        formType: null,
-        label: "Review Inputs",
-        parent: STEP_MENU.SIGNATURE,
-        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
-      }
-    ])
-
     return this._build_ConfirmationStep()
   }
 }

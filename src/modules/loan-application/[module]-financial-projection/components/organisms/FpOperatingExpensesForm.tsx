@@ -24,6 +24,7 @@ import {
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { sanitizeNumber, toCurrency } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { sum } from "lodash"
@@ -51,7 +52,7 @@ export const FpOperatingExpensesForm = () => {
     name: FpOperatingExpensesField.operatingExpenses
   })
 
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const onSubmit = form.handleSubmit((data) => {
     dispatchFormAction({
@@ -152,9 +153,11 @@ export const FpOperatingExpensesForm = () => {
           <p>{toCurrency(total, 0)} / mo</p>
         </div>
 
-        <div className="flex flex-col gap-2xl mt-4">
-          <Button>Next</Button>
-        </div>
+        {!isReviewApplicationStep(step) && (
+          <div className="flex flex-col gap-2xl mt-4">
+            <Button>Next</Button>
+          </div>
+        )}
       </RHFProvider>
     </Card>
   )
@@ -191,7 +194,6 @@ const OperatingExpenses = (props: OperatingExpensesProps) => {
             >(FpOperatingExpensesField.operatingExpensesName, index)}
             isToggleView
             isHideErrorMessage
-            autoFocus
           />
           <RHFTextInput
             label=""
@@ -204,7 +206,6 @@ const OperatingExpenses = (props: OperatingExpensesProps) => {
             >(FpOperatingExpensesField.operatingExpensesDescription, index)}
             isToggleView
             isHideErrorMessage
-            autoFocus
           />
         </div>
         <RHFMaskInput

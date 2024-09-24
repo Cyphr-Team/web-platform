@@ -23,6 +23,9 @@ export type DebtFinancingCommon = DebtFinancingCommonForm & IdType
 export type DebtFinancingMutateRequest = {
   financialProjectionSetupId: string | undefined
   startingPaidInCapital: number
+  /**
+   * @deprecated This property is removed in the BE side
+   */
   hasOutstandingLoans: boolean
   forms: DebtFinancingFormItemValue[]
 }

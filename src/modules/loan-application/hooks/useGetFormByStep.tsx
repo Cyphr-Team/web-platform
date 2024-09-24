@@ -1,4 +1,9 @@
-import { isKansasCity, isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
+import {
+  isKansasCity,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils.ts"
 import {
   isEnabledBankAccountConnectionV2,
   isEnablePandaDocESign
@@ -51,6 +56,7 @@ import { AssetsForm } from "@/modules/loan-application/[module]-financial-projec
 import { TaxRateForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ExpenseTaxRateForm"
 import { DebtFinancingForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/DebtFinancingForm"
 import RevenueForm from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm.tsx"
+import { FinancialProjectionReviewApplication } from "@/modules/loan-application/[module]-financial-projection/components/organisms/review-application/FinancialProjectionReviewApplication"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -111,7 +117,11 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION:
         return <IdentityVerificationForm />
       case LOAN_APPLICATION_STEPS.REVIEW_APPLICATION:
-        return <ReviewApplication />
+        return isLoanReady() ? (
+          <FinancialProjectionReviewApplication />
+        ) : (
+          <ReviewApplication />
+        )
       case LOAN_APPLICATION_STEPS.PRODUCT_SERVICE:
         return <ProductServiceForm />
       case LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY:

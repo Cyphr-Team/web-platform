@@ -19,6 +19,7 @@ import {
   ForecastingSetupFormValue
 } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { renderBlockComponents } from "@/modules/form-template/components/templates/FormTemplate.tsx"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 export const ForecastingSetupForm = () => {
   const { forecastingSetup, dispatchFormAction } =
@@ -30,7 +31,7 @@ export const ForecastingSetupForm = () => {
     defaultValues: forecastingSetup
   })
 
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const onSubmit = (data: ForecastingSetupFormValue) => {
     dispatchFormAction({
@@ -57,9 +58,11 @@ export const ForecastingSetupForm = () => {
           {renderBlockComponents(ForecastingSetupFormBlocks)}
         </div>
 
-        <div className="flex flex-col gap-2xl">
-          <Button disabled={!form.formState.isValid}>Next</Button>
-        </div>
+        {!isReviewApplicationStep(step) && (
+          <div className="flex flex-col gap-2xl">
+            <Button disabled={!form.formState.isValid}>Next</Button>
+          </div>
+        )}
       </RHFProvider>
     </Card>
   )

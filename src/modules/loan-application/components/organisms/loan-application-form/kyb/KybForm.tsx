@@ -26,7 +26,12 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const BusinessInformationForm = () => {
+interface BusinessInformationFormProps {
+  wrapperClassName?: string
+}
+export const BusinessInformationForm = ({
+  wrapperClassName
+}: BusinessInformationFormProps) => {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const { businessInformation, dispatchFormAction } =
@@ -100,7 +105,8 @@ export const BusinessInformationForm = () => {
     <Card
       className={cn(
         "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
+        wrapperClassName
       )}
       id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
     >

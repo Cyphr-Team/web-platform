@@ -31,6 +31,7 @@ import RecurringChargesForm from "@/modules/loan-application/[module]-financial-
 import ContractRevenueForm from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContractsForm.tsx"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { revenueFormSchema } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 type AppendFunctions = {
   [K in RevenueType]: UseFieldArrayAppend<RevenueStream, K>
@@ -39,7 +40,7 @@ type AppendFunctions = {
 const RevenueForm = () => {
   const dialog = useBoolean()
 
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { dispatchFormAction, revenue } = useLoanApplicationFormContext()
 
   const form = useForm<RevenueStream>({
@@ -180,9 +181,11 @@ const RevenueForm = () => {
           </div>
         ) : null}
 
-        <div className="flex flex-col gap-2xl">
-          <Button disabled={!form.formState.isValid}>Next</Button>
-        </div>
+        {!isReviewApplicationStep(step) && (
+          <div className="flex flex-col gap-2xl">
+            <Button disabled={!form.formState.isValid}>Next</Button>
+          </div>
+        )}
       </RHFProvider>
     </LayoutComponent>
   )

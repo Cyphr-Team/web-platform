@@ -83,9 +83,7 @@ enum LOAN_APPLICATION_STEPS {
   // ==== ASSETS AND LIABILITIES ====
   ASSETS = "assets",
   DEBT_FINANCING = "debtFinancing",
-  EQUITY = "equity",
-  //
-  REVIEW_INPUTS = "reviewInputs"
+  EQUITY = "equity"
 }
 
 enum STEP_MENU {

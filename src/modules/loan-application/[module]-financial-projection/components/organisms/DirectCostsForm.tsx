@@ -24,6 +24,7 @@ import {
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, X } from "lucide-react"
 import {
@@ -48,7 +49,7 @@ export const DirectCostsForm = () => {
     name: DirectCostsField.directCosts
   })
 
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const onSubmit = form.handleSubmit((data) => {
     dispatchFormAction({
@@ -142,9 +143,11 @@ export const DirectCostsForm = () => {
           </Button>
         </div>
 
-        <div className="flex flex-col gap-2xl mt-4">
-          <Button>Next</Button>
-        </div>
+        {!isReviewApplicationStep(step) && (
+          <div className="flex flex-col gap-2xl mt-4">
+            <Button>Next</Button>
+          </div>
+        )}
       </RHFProvider>
     </Card>
   )

@@ -99,7 +99,6 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.ASSETS]: AssetsFormValue
   [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: DebtFinancingFormValue
   [LOAN_APPLICATION_STEPS.EQUITY]: FpEquityFinancingFormValue
-  [LOAN_APPLICATION_STEPS.REVIEW_INPUTS]: object // TODO: replace this with actual type
 }
 
 export type LoanDocumentsState = {

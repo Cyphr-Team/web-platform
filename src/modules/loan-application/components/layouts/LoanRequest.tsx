@@ -51,7 +51,10 @@ import { isReviewApplicationStep } from "../../services"
 import { useAutoCompleteStepEffect } from "../../hooks/useAutoCompleteStepEffect"
 import { RHFTextInput } from "../../../form-template/components/molecules"
 
-export function CardWithForm() {
+interface LoanRequestProps {
+  wrapperClassName?: string
+}
+export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { loanRequest, dispatchFormAction } = useLoanApplicationFormContext()
@@ -136,7 +139,8 @@ export function CardWithForm() {
       className={cn(
         "rounded-xl mx-6 col-span-8",
         "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-screen-sm"
+        "max-w-screen-sm",
+        wrapperClassName
       )}
     >
       <CardHeader className="text-center">
@@ -310,6 +314,6 @@ export function CardWithForm() {
   )
 }
 
-export function LoanRequest() {
-  return <CardWithForm />
+export function LoanRequest(props: LoanRequestProps) {
+  return <CardWithForm {...props} />
 }

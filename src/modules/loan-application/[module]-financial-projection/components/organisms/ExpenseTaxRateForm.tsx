@@ -17,10 +17,11 @@ import {
   taxRatesFormSchema
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
 import { RHFCurrencyInput } from "@/modules/form-template/components/molecules"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 export const TaxRateForm = () => {
   const { taxRates, dispatchFormAction } = useLoanApplicationFormContext()
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const form = useForm<ExpenseTaxRateFormValue>({
     resolver: zodResolver(taxRatesFormSchema),
@@ -71,9 +72,11 @@ export const TaxRateForm = () => {
             isHideErrorMessage
           />
 
-          <div className="flex flex-col gap-2xl mt-4">
-            <Button disabled={!form.formState.isValid}>Next</Button>
-          </div>
+          {!isReviewApplicationStep(step) && (
+            <div className="flex flex-col gap-2xl mt-4">
+              <Button disabled={!form.formState.isValid}>Next</Button>
+            </div>
+          )}
         </div>
       </RHFProvider>
     </Card>

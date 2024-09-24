@@ -329,6 +329,9 @@ export const reviewApplicationSchema = z.object({
 })
 
 export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
+export type FinancialProjectionReviewApplicationValue = z.infer<
+  typeof reviewApplicationSchema
+>
 
 export const cashFlowSchema = z.object({
   /**

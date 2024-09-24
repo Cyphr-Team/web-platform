@@ -39,7 +39,12 @@ import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 
-export function OwnerInformationForm() {
+interface OwnerInformationFormProps {
+  wrapperClassName?: string
+}
+export function OwnerInformationForm({
+  wrapperClassName
+}: OwnerInformationFormProps) {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { dispatchFormAction, ownerInformationForm } =
     useLoanApplicationFormContext()
@@ -137,7 +142,8 @@ export function OwnerInformationForm() {
     <div
       className={cn(
         "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
+        wrapperClassName
       )}
       id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
     >

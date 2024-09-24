@@ -27,6 +27,7 @@ import {
   PeopleFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
 export const PeopleFormBlocks: Block[] = [
   {
@@ -55,7 +56,7 @@ export const PeopleForm = () => {
     defaultValues: { ...people, id: people?.id ?? "" }
   })
 
-  const { finishCurrentStep } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const onSubmit = (data: PeopleFormValue) => {
     dispatchFormAction({
@@ -168,9 +169,12 @@ export const PeopleForm = () => {
             />
           </div>
         </Card>
-        <div className="flex flex-col gap-2xl mt-4">
-          <Button disabled={!form.formState.isValid}>Next</Button>
-        </div>
+
+        {!isReviewApplicationStep(step) && (
+          <div className="flex flex-col gap-2xl mt-4">
+            <Button disabled={!form.formState.isValid}>Next</Button>
+          </div>
+        )}
       </RHFProvider>
     </Card>
   )
