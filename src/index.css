@@ -165,3 +165,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .text-width-match-placeholder {
   field-sizing: content;
 }
+
+.sortable-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sortable-list li {
+  user-select: none;
+  margin: 0 0 8px 0;
+  cursor: grab;
+}
+
+.sortable-list li.dragging {
+  display: none;
+}
+
+.sortable-list li.placeholder {
+  background-color: #ddd;
+  border: 1px dashed #aaa;
+}

@@ -170,6 +170,10 @@ function isEnableGoogleMapInput() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.GOOGLE_MAP_INPUT)
 }
 
+function isEnableLoanProgramChangesManagement() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_CHANGES_MANAGEMENT)
+}
+
 export {
   isEnableWorkspaceAdminFilterByScorecard,
   isEnableWorkspaceAdminFilterApplicationScores,
@@ -191,5 +195,6 @@ export {
   isIgnoredCashFlowSubmission,
   isEnableExecutionFormNewMonthlyExpense,
   isEnableDummyLoanReadiness,
+  isEnableLoanProgramChangesManagement,
   isEnableGoogleMapInput
 }

@@ -11,6 +11,9 @@ import { LoanProgram } from "@/types/loan-program.type"
 import { useState } from "react"
 import { useGetDetailLoanProgram } from "./hooks/useGetDetailLoanProgram"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
+import { isEnableLoanProgramChangesManagement } from "@/utils/feature-flag.utils"
+import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
+import { capitalizeWords } from "@/utils"
 
 export function Component() {
   const [detailId, setDetailId] = useState<string>()
@@ -25,6 +28,23 @@ export function Component() {
     limit: REQUEST_LIMIT_PARAM,
     offset: 0
   })
+
+  const tableColumns = isEnableLoanProgramChangesManagement()
+    ? columns.concat({
+        accessorKey: "status",
+        header: ({ column }) => {
+          return <DataTableColumnHeader column={column} title="Status" />
+        },
+        cell: ({ row }) => {
+          return (
+            <p className="capitalize">
+              {capitalizeWords(row.original.status ?? "N/A")}
+            </p>
+          )
+        },
+        size: 100
+      })
+    : columns
 
   const detailData = useGetDetailLoanProgram({ loanProgramId: detailId })
 
@@ -42,7 +62,7 @@ export function Component() {
       />
       <InfiniteDataTable
         handleClickDetail={handleClickDetail}
-        columns={columns}
+        columns={tableColumns}
         data={data}
         fetchNextPage={fetchNextPage}
         isFetching={isFetching}
