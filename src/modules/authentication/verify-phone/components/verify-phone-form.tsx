@@ -12,15 +12,20 @@ import { isAxiosError } from "axios"
 import { useResendActivate } from "../hooks/useResendActivate"
 import { useMemo } from "react"
 import { AppAlert } from "@/components/ui/alert"
-import { useLocation, useSearchParams } from "react-router-dom"
-import { getAxiosError } from "@/utils/custom-error"
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
+import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { useVerifyPhone } from "../hooks/useVerifyPhone"
 import { VerifyPhoneCodeInput } from "./verify-phone-input-code"
+import { TOAST_MSG } from "@/constants/toastMsg"
+import { toastError } from "@/utils"
+import { APP_PATH } from "@/constants"
+import { INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY } from "@/services/jwt.service"
 
 export function VerifyPhoneForm() {
   const { state } = useLocation()
   const [searchParams] = useSearchParams()
   const token = searchParams.get("token") ?? ""
+  const navigate = useNavigate()
 
   const { form, inputRefs, handleInputCode, handlePasteCode } = useVerifyPhone()
   const { mutate, isPending } = useActivateByCode(state)
@@ -32,7 +37,16 @@ export function VerifyPhoneForm() {
   } = useResendActivate(state)
 
   // Activate
-  const formSubmit = form.handleSubmit((data) =>
+  const formSubmit = form.handleSubmit((data) => {
+    // Check if intermediate session token is available
+    // If not, redirect to login page
+    if (localStorage.getItem(INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY) == null) {
+      toastError({
+        ...TOAST_MSG.user.stytchOTP,
+        description: "Something went wrong. Please login again."
+      })
+      navigate(APP_PATH.LOGIN)
+    }
     mutate(
       { ...data },
       {
@@ -45,10 +59,26 @@ export function VerifyPhoneForm() {
                 ""
               : errorResponse
           })
+
+          // Check if user is unauthorized
+          // If yes, redirect to login page
+          if (
+            isAxiosError(errorResponse) &&
+            errorResponse.response?.data?.code &&
+            errorResponse.response?.data?.code === ErrorCode.unauthorized
+          ) {
+            toastError({
+              ...TOAST_MSG.user.stytchOTP,
+              description:
+                errorResponse.response?.data.message ??
+                "Something went wrong. Please login again."
+            })
+            navigate(APP_PATH.LOGIN)
+          }
         }
       }
     )
-  )
+  })
 
   // Resend Error
   const errorMsg = getAxiosError(resendError).message
