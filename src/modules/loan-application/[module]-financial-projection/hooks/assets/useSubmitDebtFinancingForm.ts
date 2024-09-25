@@ -44,10 +44,10 @@ export const useSubmitDebtFinancingForm = <
       ? updateMutation
       : submitMutation
 
-    const isHasOutStandingLoans =
+    const isHasOutstandingLoans =
       rawData?.hasOutstandingLoans === BINARY_VALUES.YES
 
-    const formattedLoanForms = isHasOutStandingLoans
+    const formattedLoanForms = isHasOutstandingLoans
       ? rawData?.debtFinancing
       : []
 
@@ -56,14 +56,12 @@ export const useSubmitDebtFinancingForm = <
           financialProjectionSetupId: loanApplicationId,
           commonForm: {
             id: rawData.debtFinancingId,
-            startingPaidInCapital: rawData?.startingPaidInCapital,
-            hasOutstandingLoans: isHasOutStandingLoans
+            startingPaidInCapital: rawData?.startingPaidInCapital
           },
           loanForms: formattedLoanForms
         }
       : ({
           financialProjectionSetupId: loanApplicationId,
-          hasOutstandingLoans: isHasOutStandingLoans,
           startingPaidInCapital: rawData?.startingPaidInCapital,
           forms: formattedLoanForms
         } as T)
@@ -133,6 +131,10 @@ export const reverseFormatDebtFinancingForm = ({
   debtFinancingResponse,
   debtFinancingLiabilityResponse
 }: ReverseFormatDebtFinancingFormProps): DebtFinancingFormValue => {
+  const isHasOutstandingLoans =
+    debtFinancingResponse?.loanForms &&
+    debtFinancingResponse?.loanForms?.length > 0
+
   return {
     [DebtFinancingField.APPLICATION_ID]:
       debtFinancingResponse?.financialProjectionSetupId ??
@@ -147,14 +149,11 @@ export const reverseFormatDebtFinancingForm = ({
 
     [DebtFinancingField.STARTING_PAID_IN_CAPITAL]:
       debtFinancingResponse?.commonForm?.startingPaidInCapital ?? 0,
-    [DebtFinancingField.HAS_OUTSTANDING_LOANS]: debtFinancingResponse
-      ?.commonForm?.hasOutstandingLoans
+    [DebtFinancingField.HAS_OUTSTANDING_LOANS]: isHasOutstandingLoans
       ? BINARY_VALUES.YES
       : BINARY_VALUES.NO,
-    [DebtFinancingField.DEBT_FINANCING]:
-      debtFinancingResponse?.loanForms &&
-      debtFinancingResponse?.loanForms?.length > 0
-        ? debtFinancingResponse?.loanForms
-        : [EMPTY_DEBT_FINANCING_ITEM]
+    [DebtFinancingField.DEBT_FINANCING]: isHasOutstandingLoans
+      ? debtFinancingResponse?.loanForms
+      : [EMPTY_DEBT_FINANCING_ITEM]
   }
 }
