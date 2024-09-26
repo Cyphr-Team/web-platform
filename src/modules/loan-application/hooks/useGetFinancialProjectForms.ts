@@ -36,6 +36,10 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useQueryRevenueForm.ts"
 import { useQueryGetFinancialStatementForm } from "@/modules/loan-application/[module]-financial-projection/hooks/financial-statement/useQueryGetFinancialStatementForm"
 import { reverseFormatFinancialStatementForm } from "@/modules/loan-application/[module]-financial-projection/hooks/financial-statement/useSubmitFinancialStatementForm"
+import {
+  formatForecastSetupResult,
+  useQueryForecastingSetup
+} from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
 
 export const useGetFinancialProjectForms = () => {
   /**
@@ -239,11 +243,31 @@ export const useGetFinancialProjectForms = () => {
     isInitialized
   ])
 
+  /**
+   * Forecasting setup
+   * */
+  const forecastingSetupQuery = useQueryForecastingSetup(
+    {
+      applicationId: loanApplicationId
+    },
+    isEnabledQuery(LOAN_APPLICATION_STEPS.FORECASTING_SETUP)
+  )
+
+  useEffect(() => {
+    if (forecastingSetupQuery.data && isInitialized) {
+      changeDataAndProgress(
+        formatForecastSetupResult(forecastingSetupQuery.data),
+        LOAN_APPLICATION_STEPS.FORECASTING_SETUP
+      )
+    }
+  }, [changeDataAndProgress, forecastingSetupQuery.data, isInitialized])
+
   return {
     expensePeopleFormQuery,
     fpOperatingExpensesFormQuery,
     revenueFormQuery,
     debtFinancingFormQuery,
-    debtFinancingLiabilityFormQuery
+    debtFinancingLiabilityFormQuery,
+    forecastingSetupQuery
   }
 }

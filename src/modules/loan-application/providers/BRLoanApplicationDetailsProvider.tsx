@@ -74,9 +74,9 @@ import {
 import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
-import { useQueryForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
 import { isEnabledQuery } from "@/utils"
 import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { formatForecastSetupResult } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -270,17 +270,6 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
 
   // SBB document form
   const sbbDocumentQuery = useQuerySbbDocumentForm(loanApplicationId)
-
-  /**
-   * Financial Projection Forms
-   **/
-
-  const forecastingSetup = useQueryForecastingSetup(
-    {
-      applicationId: loanApplicationId
-    },
-    isEnabledQuery(LOAN_APPLICATION_STEPS.FORECASTING_SETUP, progress)
-  )
 
   const changeDataAndProgress = useCallback(
     (
@@ -832,19 +821,9 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     fpOperatingExpensesFormQuery,
     revenueFormQuery,
     debtFinancingFormQuery,
-    debtFinancingLiabilityFormQuery
+    debtFinancingLiabilityFormQuery,
+    forecastingSetupQuery
   } = useGetFinancialProjectForms()
-  /**
-   * Handle Forecasting Setup
-   * */
-  useEffect(() => {
-    if (forecastingSetup.data?.id) {
-      changeDataAndProgress(
-        forecastingSetup.data,
-        LOAN_APPLICATION_STEPS.FORECASTING_SETUP
-      )
-    }
-  }, [changeDataAndProgress, forecastingSetup.data])
 
   const value = useMemo(
     () => ({
@@ -867,7 +846,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       fpOperatingExpensesFormData: fpOperatingExpensesFormQuery.data,
       debtFinancingFormData: debtFinancingFormQuery.data,
       debtFinancingLiabilityFormData: debtFinancingLiabilityFormQuery.data,
-      forecastingSetup: forecastingSetup.data,
+      forecastingSetup: formatForecastSetupResult(forecastingSetupQuery.data),
       revenueFormQuery: revenueFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
@@ -894,11 +873,11 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         plaidConnectedAccountsQuery.isLoading ||
         expensePeopleFormQuery.isLoading ||
         fpOperatingExpensesFormQuery.isLoading ||
-        forecastingSetup.isLoading ||
+        forecastingSetupQuery.isLoading ||
         revenueFormQuery.isLoading ||
         debtFinancingFormQuery.isLoading ||
         debtFinancingLiabilityFormQuery.isLoading ||
-        forecastingSetup.isLoading,
+        forecastingSetupQuery.isLoading,
       isLoading: loanProgramQuery.isLoading
     }),
     [
@@ -936,8 +915,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       debtFinancingFormQuery.isLoading,
       debtFinancingLiabilityFormQuery.data,
       debtFinancingLiabilityFormQuery.isLoading,
-      forecastingSetup.data,
-      forecastingSetup.isLoading,
+      forecastingSetupQuery.data,
+      forecastingSetupQuery.isLoading,
       revenueFormQuery.data,
       revenueFormQuery.isLoading,
       loanApplicationDetailsQuery.data,
