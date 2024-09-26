@@ -1,7 +1,7 @@
 import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { NavItem } from "@/types/common.type"
-import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { Bell } from "lucide-react"
 import { BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
@@ -22,17 +22,15 @@ export const navItems: NavItem[] = [
     label: "Applications",
     featureKey: FeatureKey.APPLICANT_APPLICATION
   },
-  /**
-   * A long, sad story about him. We pray, we wish, and we hope
-   *   {
-   *     title: "Financial",
-   *     href: APP_PATH.LOAN_APPLICATION.FINANCIAL.index,
-   *     icon: Icons.financial,
-   *     label: "Financial",
-   *     featureKey: FeatureKey.FINANCIAL,
-   *     featureFlag: FEATURE_FLAGS.FINANCIAL_PROJECTION_TAB
-   *   },
-   * */
+  {
+    title: "Financial Projections",
+    href: APP_PATH.LOAN_APPLICATION.FINANCIAL.index,
+    icon: Icons.financial,
+    label: "Financial Projections",
+    featureKey: FeatureKey.FINANCIAL,
+    disabled: !isLoanReady()
+  },
+
   {
     title: "Notifications",
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,

@@ -64,6 +64,14 @@ export const APP_PATH = {
       list: "/loan/notifications",
       detail: "/loan/notifications/:id",
       details: (id: string) => `/loan/notifications/${id}`
+    },
+    FINANCIAL: {
+      index: "/loan/financial",
+      OVERVIEW: "/loan/financial/overview",
+      CASH_FLOW: "/loan/financial/cash-flow",
+      BALANCE_SHEET: "/loan/financial/balance-sheet",
+      INCOME_STATEMENT: "/loan/financial/income-statement",
+      LOAN_READY: "/loan/financial/loan-ready"
     }
   },
 

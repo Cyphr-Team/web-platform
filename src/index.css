@@ -162,6 +162,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: rgba(242, 248, 248, 1);
 }
 
+.bg-financial-projection-btn {
+  background-color: rgba(79, 97, 97, 1);
+}
+
 .text-width-match-placeholder {
   field-sizing: content;
 }

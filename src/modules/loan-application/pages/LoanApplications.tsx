@@ -270,7 +270,7 @@ export function Component() {
   )
 }
 
-const EmptyApplications = () => {
+export const EmptyApplications = () => {
   return (
     <div className="flex flex-col items-center text-center justify-center max-w-80 mx-auto gap-xl mt-5xl">
       <div className="border-2 w-12 h-12 rounded-xl flex items-center">

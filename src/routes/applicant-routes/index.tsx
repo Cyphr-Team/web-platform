@@ -8,13 +8,14 @@ import { PlaidProvider } from "@/modules/loan-application/providers/PlaidProvide
 import { LoanApplicationDetailLayout } from "@/shared/layouts/LoanApplicationDetailLayout"
 import { LoanApplicationFormLayout } from "@/shared/layouts/LoanApplicationFormLayout"
 import { handleCrumb } from "@/utils/crumb.utils"
-import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { Loader2 } from "lucide-react"
 import { lazy, Suspense } from "react"
 import { Outlet, Route } from "react-router-dom"
 import { userLoader } from "../loader"
 import { availableLoanProgramRoutes } from "./available-loan-program-routes"
 import { notificationRoutes } from "./notification-routes"
+import { applicantFinancialProjectionRoutes } from "@/routes/applicant-routes/financial-projection-routes"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -56,6 +57,8 @@ const applicantRoutes = (
         lazy={() => import("@/modules/loan-application/pages/LoanApplications")}
       />
     </Route>
+
+    {isLoanReady() && applicantFinancialProjectionRoutes}
 
     {/* --- NOTIFICATION --- */}
     {/* Temporarily hide for kcc bank */}
