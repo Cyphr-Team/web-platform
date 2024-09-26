@@ -96,6 +96,7 @@ import {
   FormStateType
 } from "../providers/LoanApplicationFormProvider"
 import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
+import { FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -134,7 +135,8 @@ export const useSubmitLoanForm = (
   assetsData: AssetsFormValue,
   taxRateData: ExpenseTaxRateFormValue,
   revenueData: RevenueStream,
-  debtFinancingData: DebtFinancingFormValue
+  debtFinancingData: DebtFinancingFormValue,
+  financialStatementData: FinancialStatementFormValue
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -406,7 +408,8 @@ export const useSubmitLoanForm = (
       assetsData,
       taxRateData,
       revenueData,
-      debtFinancingData
+      debtFinancingData,
+      financialStatementData
     })
 
   const handleSubmitFormSuccess = useCallback(

@@ -113,9 +113,13 @@ export const DirectCostsForm = () => {
 
       <Separator />
       <div className="grid grid-cols-6 w-full gap-5 items-center text-xs font-medium">
-        <p className="row-start-1 col-start-1 col-end-3">Direct cost name</p>
-        <p className="row-start-1 col-start-3 col-end-5">Cost start date</p>
-        <p className="row-start-1 col-start-5 col-end-7">
+        <p className="row-start-1 col-start-1 col-end-3 text-[#252828]">
+          Direct cost name
+        </p>
+        <p className="row-start-1 col-start-3 col-end-5 text-[#252828]">
+          Cost start date
+        </p>
+        <p className="row-start-1 col-start-5 col-end-7 text-[#252828]">
           Estimated % of overall revenue
         </p>
       </div>
@@ -145,7 +149,7 @@ export const DirectCostsForm = () => {
 
         {!isReviewApplicationStep(step) && (
           <div className="flex flex-col gap-2xl mt-4">
-            <Button>Next</Button>
+            <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}
       </RHFProvider>
@@ -174,7 +178,9 @@ const DirectCosts = (props: DirectCostsProps) => {
             label=""
             className="font-medium text-sm"
             placeholder="Direct cost name "
-            styleProps={{ inputClassName: "h-6 text-sm max-w-52 -mt-1.5" }}
+            styleProps={{
+              inputClassName: "h-6 text-sm max-w-52 -mt-1.5"
+            }}
             name={getArrayFieldName<
               DirectCostsField,
               FieldPath<DirectCostsFormValue>
@@ -200,6 +206,7 @@ const DirectCosts = (props: DirectCostsProps) => {
           label=""
           pattern={MM_YYYY_PATTERN}
           className="row-start-1 col-start-3 col-end-5 mt-0"
+          styleProps={{ inputClassName: "text-sm" }}
           placeholder="MM/YYYY"
           name={getArrayFieldName<
             DirectCostsField,
@@ -211,6 +218,7 @@ const DirectCosts = (props: DirectCostsProps) => {
           label=""
           placeholder="Overall revenue"
           className="row-start-1 col-start-5 col-end-7 mt-0"
+          styleProps={{ inputClassName: "text-sm" }}
           suffixIcon={<span>%</span>}
           name={getArrayFieldName<
             DirectCostsField,

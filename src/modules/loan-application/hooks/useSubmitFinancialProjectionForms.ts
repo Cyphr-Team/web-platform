@@ -1,4 +1,5 @@
 import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 import { DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
 import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
@@ -16,6 +17,7 @@ import {
 import { useSubmitDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
 import { useSubmitEquityFinancingForm } from "@/modules/loan-application/[module]-financial-projection/hooks/equity-financing/useSubmitEquityFinancingForm"
 import { useSubmitPeopleForm } from "@/modules/loan-application/[module]-financial-projection/hooks/expense-people/useSubmitPeopleForm"
+import { useSubmitFinancialStatementForm } from "@/modules/loan-application/[module]-financial-projection/hooks/financial-statement/useSubmitFinancialStatementForm"
 import { useMutateForecastingSetup } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useMutateForecastingSetup.ts"
 import { useSubmitFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
 import { useSubmitRevenueForm } from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useSubmitRevenueForm.ts"
@@ -35,6 +37,7 @@ interface FormData {
   taxRateData: ExpenseTaxRateFormValue
   revenueData: RevenueStream
   debtFinancingData: DebtFinancingFormValue
+  financialStatementData: FinancialStatementFormValue
 }
 
 export const useSubmitFinancialProjectionForms = ({
@@ -46,16 +49,19 @@ export const useSubmitFinancialProjectionForms = ({
   assetsData,
   taxRateData,
   revenueData,
-  debtFinancingData
+  debtFinancingData,
+  financialStatementData
 }: FormData) => {
   const { getStepStatus } = useLoanApplicationProgressContext()
-
+  const forecastingSetupSubmission =
+    useMutateForecastingSetup(forecastingSetupData)
   const peopleSubmission = useSubmitPeopleForm({ rawData: peopleFormData })
   const operatingExpensesSubmission = useSubmitFpOperatingExpensesForm({
     rawData: fpOperatingExpensesData
   })
-  const forecastingSetupSubmission =
-    useMutateForecastingSetup(forecastingSetupData)
+  const financialStatementSubmission = useSubmitFinancialStatementForm({
+    rawData: financialStatementData
+  })
   const directCostsSubmission = useSubmitDirectCostsForm({
     rawData: directCostsData
   })
@@ -87,6 +93,12 @@ export const useSubmitFinancialProjectionForms = ({
     rawData: debtFinancingData
   })
 
+  const setupHook = {
+    [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: [
+      financialStatementSubmission
+    ]
+  }
+
   const submissionHooks = {
     [LOAN_APPLICATION_STEPS.PEOPLE]: [peopleSubmission],
     [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: [
@@ -107,24 +119,28 @@ export const useSubmitFinancialProjectionForms = ({
     ]
   }
 
+  // Setup Hook must be submitted first, then submission hooks
   const handleSubmitFinancialProjection = async (applicationId: string) => {
-    const submissionPromises = Object.entries(submissionHooks).reduce(
-      (promises, [step, hook]) => {
-        if (!getStepStatus(step)) return promises
-        hook.forEach((item) => {
-          if (item.submitForm) {
-            promises.push(item.submitForm(applicationId))
-          }
-        })
-        return promises
-      },
-      [] as Promise<unknown>[]
-    )
+    const submissionPromises = [
+      ...Object.entries(setupHook),
+      ...Object.entries(submissionHooks)
+    ].reduce((promises, [step, hook]) => {
+      if (!getStepStatus(step)) return promises
+      hook.forEach((item) => {
+        if (item.submitForm) {
+          promises.push(item.submitForm(applicationId))
+        }
+      })
+      return promises
+    }, [] as Promise<unknown>[])
 
     return Promise.allSettled(submissionPromises)
   }
 
-  const isSubmittingFinancialProjection = Object.values(submissionHooks)
+  const isSubmittingFinancialProjection = [
+    ...Object.values(setupHook),
+    ...Object.values(submissionHooks)
+  ]
     .flat()
     .some((hook) => hook.isLoading)
 

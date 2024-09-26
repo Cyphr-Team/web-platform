@@ -49,7 +49,7 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
         {fields.map((source, index) => {
           const label = watch(`${fieldName}.${index}.name`)
             ? watch(`${fieldName}.${index}.name`)
-            : "Untitled"
+            : dataName
 
           return (
             <CollapsibleArrayFieldTemplate

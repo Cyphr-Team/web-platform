@@ -53,10 +53,10 @@ import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-f
 import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
-import { FinancialStatementFormValues } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FinancialStatementForm.tsx"
 import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
 import { DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
+import { FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 
 export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -90,7 +90,7 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.PRIVACY_POLICY]: SbbPreApplicationDisclosuresValue
   // Financial projection
   [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: ForecastingSetupFormValue
-  [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: FinancialStatementFormValues
+  [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: FinancialStatementFormValue
   [LOAN_APPLICATION_STEPS.REVENUE]: RevenueStream
   [LOAN_APPLICATION_STEPS.PEOPLE]: PeopleFormValue
   [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: DirectCostsFormValue
@@ -154,7 +154,7 @@ export type FormStateType =
   | PeopleFormValue
   | DirectCostsFormValue
   | FpEquityFinancingFormValue
-  | FinancialStatementFormValues
+  | FinancialStatementFormValue
   | AssetsFormValue
   | ExpenseTaxRateFormValue
   | DebtFinancingFormValue
@@ -302,7 +302,8 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     state[LOAN_APPLICATION_STEPS.ASSETS],
     state[LOAN_APPLICATION_STEPS.TAX_RATES],
     state[LOAN_APPLICATION_STEPS.REVENUE],
-    state[LOAN_APPLICATION_STEPS.DEBT_FINANCING]
+    state[LOAN_APPLICATION_STEPS.DEBT_FINANCING],
+    state[LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]
   )
 
   //Trigger submit form when the confirmation form is submitted

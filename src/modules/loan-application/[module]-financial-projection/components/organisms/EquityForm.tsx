@@ -41,7 +41,8 @@ const blocks = [
       className: "flex-col w-full lg:flex-row lg:items-center justify-between",
       styleProps: {
         inputClassName: "min-w-72 w-full"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -55,7 +56,8 @@ const blocks = [
       isRowDirection: true,
       styleProps: {
         inputClassName: "min-w-72"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -69,7 +71,8 @@ const blocks = [
       prefixIcon: "$",
       styleProps: {
         inputClassName: "min-w-72 text-sm"
-      }
+      },
+      isHideErrorMessage: true
     }
   }
 ]

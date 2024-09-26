@@ -29,7 +29,7 @@ export const FP_OPERATING_EXPENSES_DEFAULT_VALUE = {
   [FpOperatingExpensesField.operatingExpenses]: [
     {
       name: "Rent",
-      description: "Sales and marketing expenses",
+      description: "The cost of leasing office space or facilities",
       startDate: "",
       monthlyCost: 0
     },

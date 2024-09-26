@@ -52,10 +52,10 @@ export const TaxRateForm = () => {
           <div className={"flex flex-col gap-xl p-y-2"}>
             <h5 className="text-lg font-semibold">Tax Rates</h5>
             <h5 className="text-sm font-normal mt-2">
-              <strong>Income Tax:</strong> Enter a tax rate to cover income
-              taxes (federal, state, local). A 20% rate is a good estimate.
-              Taxes apply only when profitable, though unprofitable years may
-              still incur some taxes.
+              Income Tax: Enter a tax rate to cover income taxes (federal,
+              state, local). A 20% rate is a good estimate. Taxes apply only
+              when profitable, though unprofitable years may still incur some
+              taxes.
             </h5>
           </div>
 
@@ -67,7 +67,8 @@ export const TaxRateForm = () => {
             suffixIcon={<span>%</span>}
             name="incomeTaxRate"
             styleProps={{
-              labelClassName: "text-text-secondary"
+              labelClassName: "text-text-secondary",
+              inputClassName: "text-sm"
             }}
             isHideErrorMessage
           />

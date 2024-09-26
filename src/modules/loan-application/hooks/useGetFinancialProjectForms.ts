@@ -34,6 +34,8 @@ import {
   reverseFormatRevenueResponse,
   useQueryRevenueForm
 } from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useQueryRevenueForm.ts"
+import { useQueryGetFinancialStatementForm } from "@/modules/loan-application/[module]-financial-projection/hooks/financial-statement/useQueryGetFinancialStatementForm"
+import { reverseFormatFinancialStatementForm } from "@/modules/loan-application/[module]-financial-projection/hooks/financial-statement/useSubmitFinancialStatementForm"
 
 export const useGetFinancialProjectForms = () => {
   /**
@@ -69,6 +71,20 @@ export const useGetFinancialProjectForms = () => {
     },
     [dispatchProgress, dispatchFormAction]
   )
+
+  // Financial Statement Form
+  const financialStatement = useQueryGetFinancialStatementForm({
+    applicationId: loanApplicationId!,
+    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS)
+  })
+  useEffect(() => {
+    if (financialStatement.data && isInitialized) {
+      changeDataAndProgress(
+        reverseFormatFinancialStatementForm(financialStatement.data),
+        LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS
+      )
+    }
+  }, [changeDataAndProgress, financialStatement.data, isInitialized])
 
   // Expense People Form
   const expensePeopleFormQuery = useQueryGetExpensePeopleForm({

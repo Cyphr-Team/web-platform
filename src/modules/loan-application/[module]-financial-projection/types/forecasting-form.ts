@@ -44,11 +44,11 @@ export const ForecastingSetupFormBlocks: Block[] = [
       label: "What length of forecast would you like to generate?",
       options: [
         {
-          label: "Three years",
+          label: "3 years",
           value: "3"
         },
         {
-          label: "Five years",
+          label: "5 years",
           value: "5"
         }
       ]
@@ -60,7 +60,7 @@ function generateForecastOption(options?: { length?: number }): {
   value: string
   label: string
 }[] {
-  const { length = 5 } = options ?? {}
+  const { length = 4 } = options ?? {}
 
   return Array.from(new Array<number>(length))
     .fill(new Date().getFullYear())

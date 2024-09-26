@@ -26,7 +26,7 @@ export const useQueryForecastingSetup = (
     queryFn: () => {
       return getRequest({
         path: API_PATH.financialProjection.forecastingSetup.findById,
-        params: { applicationId: request.applicationId }
+        params: { id: request.applicationId }
       })
     },
     enabled: !!request.applicationId && enabled

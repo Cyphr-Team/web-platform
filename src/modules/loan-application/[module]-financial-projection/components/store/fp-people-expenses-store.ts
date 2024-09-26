@@ -18,7 +18,10 @@ export const peopleFormSchema = z.object({
     .array(
       z.object({
         departmentName: z.string().min(1, "This field is required"),
-        numberOfEmployees: z.coerce.number().min(1, "This field is required"),
+        numberOfEmployees: z.coerce
+          .number()
+          .min(1, "This field is required")
+          .max(100_000_000, "Current employees cannot exceed 100,000,000"),
         annualSalary: z.coerce.number().min(1, "This field is required")
       })
     )

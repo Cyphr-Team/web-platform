@@ -154,7 +154,8 @@ export const LiabilityFormBlocks: Block[] = [
         inputClassName: "w-48"
       },
       isRowDirection: true,
-      className: "space-y-0 gap-2"
+      className: "space-y-0 gap-2",
+      isHideErrorMessage: true
     }
   }
 ]
@@ -173,7 +174,8 @@ export const DebtFinancingFormBlocks: Block[] = [
       styleProps: {
         labelClassName: "flex-1 leading-1",
         inputClassName: "w-40 text-sm"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -190,7 +192,8 @@ export const DebtFinancingFormBlocks: Block[] = [
         labelClassName: "flex-1",
         subtitleClassName: "text-sm font-normal mt-1.5",
         inputClassName: "text-sm w-40"
-      }
+      },
+      isHideErrorMessage: true
     }
   }
 ]
@@ -206,7 +209,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       isRowDirection: true,
       styleProps: {
         inputClassName: "min-w-60"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -219,7 +223,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       isRowDirection: true,
       styleProps: {
         inputClassName: "min-w-60"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -233,7 +238,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       options: DEBT_FINANCING_TYPE_OPTIONS,
       styleProps: {
         inputClassName: "max-w-60"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -249,7 +255,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       styleProps: {
         labelClassName: "flex-1",
         calendarClassName: "max-w-60"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -263,7 +270,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       prefixIcon: "$",
       styleProps: {
         inputClassName: "min-w-60 text-sm pl-6"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -278,7 +286,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       styleProps: {
         suffixClassName: "border",
         inputClassName: "min-w-60 !pr-20 text-right max-w-60 text-sm"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -292,7 +301,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       suffixIcon: "%",
       styleProps: {
         inputClassName: "min-w-60 pr-11 text-sm"
-      }
+      },
+      isHideErrorMessage: true
     }
   }
 ]

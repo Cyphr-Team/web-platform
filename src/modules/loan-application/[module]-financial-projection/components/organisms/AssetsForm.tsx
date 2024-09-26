@@ -59,7 +59,8 @@ const LongTermAssetsFormBlocks: Block[] = [
       isRowDirection: true,
       styleProps: {
         inputClassName: "min-w-72"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -72,7 +73,8 @@ const LongTermAssetsFormBlocks: Block[] = [
       isRowDirection: true,
       styleProps: {
         inputClassName: "min-w-72"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -86,7 +88,8 @@ const LongTermAssetsFormBlocks: Block[] = [
       prefixIcon: "$",
       styleProps: {
         inputClassName: "min-w-72 text-sm"
-      }
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -100,7 +103,8 @@ const LongTermAssetsFormBlocks: Block[] = [
       placeholder: "Equity investment total",
       styleProps: {
         inputClassName: "min-w-72 w-auto text-sm"
-      }
+      },
+      isHideErrorMessage: true
     }
   }
 ]
@@ -185,7 +189,7 @@ export const AssetsForm = () => {
           <div className="flex flex-col gap-6 mb-5">
             <EquityArrayFormTemplate
               fieldName={AssetsField.LONG_TERM_ASSETS}
-              dataName="Name of Asset"
+              dataName="New Asset"
               addIcon={<Plus />}
               defaultEmptyObject={EMPTY_ASSET_ITEM}
               onBlur={onAutoSave}

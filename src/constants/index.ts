@@ -518,6 +518,13 @@ export const API_PATH = {
       findBySetupId:
         "api/financial-projection/form/debt-financing/liability/by-setup-id",
       update: "api/financial-projection/form/debt-financing/liability/update"
+    },
+    financialStatement: {
+      findBySetupId: "api/financial-projection/statement/by-setup-id",
+      upload: "api/financial-projection/statement/upload",
+      download: "api/financial-projection/statement/download",
+      update: "api/financial-projection/statement/update",
+      delete: "api/financial-projection/statement/delete"
     }
   }
 }

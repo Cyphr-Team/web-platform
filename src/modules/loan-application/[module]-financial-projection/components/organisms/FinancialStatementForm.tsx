@@ -7,13 +7,11 @@ import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
-import { object, string } from "zod"
 import {
-  YES_NO_OPTIONS,
-  ZodFileTypeFactory
+  BINARY_VALUES,
+  YES_NO_OPTIONS
 } from "@/modules/loan-application/constants/form.ts"
 import { useForm } from "react-hook-form"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
@@ -24,20 +22,11 @@ import {
   RHFSelectInput
 } from "@/modules/form-template/components/molecules"
 import { Separator } from "@/components/ui/separator.tsx"
-
-export interface FinancialStatementFormValues {
-  id?: string
-  files: File[]
-  hasDocument?: string
-  uploadedFiles?: DocumentUploadedResponse[]
-}
-
-const financialStatementFormSchema = object({
-  id: string().optional(),
-  hasDocument: string().optional(),
-  files: ZodFileTypeFactory(),
-  uploadedFiles: ZodFileTypeFactory().optional()
-})
+import {
+  FinancialStatementFormField,
+  financialStatementFormSchema,
+  FinancialStatementFormValue
+} from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 
 interface FinancialStatementFormProps {
   wrapperClassName?: string
@@ -54,20 +43,17 @@ export const FinancialStatementForm = ({
   const form = useForm({
     resolver: zodResolver(financialStatementFormSchema),
     defaultValues: {
-      id: financialStatements?.id ?? "",
+      applicationId: financialStatements?.applicationId ?? "",
       files: financialStatements?.files ?? [],
       uploadedFiles: financialStatements?.uploadedFiles ?? [],
-      hasDocument: financialStatements?.hasDocument
+      hasDocument: financialStatements?.hasDocument,
+      deletedFiles: financialStatements?.deletedFiles ?? []
     }
   })
 
-  const {
-    handleSubmit,
-    watch,
-    formState: { isValid }
-  } = form
+  const { handleSubmit, watch } = form
 
-  const onSubmit = (data: FinancialStatementFormValues) => {
+  const onSubmit = (data: FinancialStatementFormValue) => {
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
       key: LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS,
@@ -75,11 +61,41 @@ export const FinancialStatementForm = ({
     })
     finishCurrentStep()
   }
+  const isValid =
+    form.formState.isValid &&
+    (watch(FinancialStatementFormField.hasDocument) === BINARY_VALUES.YES
+      ? watch(FinancialStatementFormField.uploadedFiles).length > 0 ||
+        watch(FinancialStatementFormField.files).length > 0
+      : true)
+
+  const onRemoveUploadedDocument = (id: string) => {
+    const currentUploadedFiles = watch(
+      FinancialStatementFormField.uploadedFiles
+    ).filter((file) => file.id !== id)
+    form.setValue(
+      FinancialStatementFormField.uploadedFiles,
+      currentUploadedFiles,
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      }
+    )
+    const currentDeletedIds = [
+      id,
+      ...watch(FinancialStatementFormField.deletedFiles)
+    ]
+    form.setValue(FinancialStatementFormField.deletedFiles, currentDeletedIds, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    })
+  }
 
   useAutoCompleteStepEffect(
     form,
     LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS,
-    watch("hasDocument") === "yes" ? watch("files").length > 0 : true
+    isValid
   )
 
   return (
@@ -112,7 +128,7 @@ export const FinancialStatementForm = ({
             <Separator />
 
             <RHFSelectInput
-              name="hasDocument"
+              name={FinancialStatementFormField.hasDocument}
               options={YES_NO_OPTIONS}
               label="Do you currently have financial statements?"
               subtitle="Income statement (profit and loss), balance sheet, and/or cash flow statement"
@@ -124,11 +140,14 @@ export const FinancialStatementForm = ({
               }}
             />
 
-            {watch("hasDocument") === "yes" ? (
+            {watch(FinancialStatementFormField.hasDocument) ===
+            BINARY_VALUES.YES ? (
               <RHFDragAndDropFileUpload
                 id={LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS}
-                name="files"
-                uploadedFiles={watch("uploadedFiles")}
+                name={FinancialStatementFormField.files}
+                uploadedFiles={watch(FinancialStatementFormField.uploadedFiles)}
+                version={2}
+                onRemoveUploadedDocument={onRemoveUploadedDocument}
               />
             ) : null}
 
