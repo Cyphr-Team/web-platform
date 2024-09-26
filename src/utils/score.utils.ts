@@ -37,12 +37,10 @@ export const calculateAvgScorePerRound = <T extends IScore>(
 }
 
 // Total Score = (Avg Score 1 + Avg Score 2) / 2
-// If overall round score is 0, return 0
 export const calculateTotalScore = (
   round1Score: number,
   round2Score: number
 ) => {
-  if (round1Score == 0 || round2Score == 0) return 0
   return Math.round(((round1Score + round2Score) / 2) * 10) / 10
 }
 

@@ -5,13 +5,15 @@ interface IScoreCardProps {
   score: number
   hasBorder?: boolean
   multiple?: boolean
+  isFinishScored?: boolean
 }
 
 export const ScoreCardBox = ({
   name,
   score,
   hasBorder,
-  multiple
+  multiple,
+  isFinishScored
 }: IScoreCardProps) => {
   return (
     <div
@@ -28,7 +30,7 @@ export const ScoreCardBox = ({
       <span
         className={cn(
           multiple ? "text-md lg:text-3xl" : "text-md lg:text-5xl",
-          score === 0 && "text-gray-200"
+          !isFinishScored && "text-gray-200"
         )}
       >
         {score}

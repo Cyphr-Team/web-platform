@@ -50,21 +50,35 @@ export const ScoreCardListDetail = () => {
 
   const scoresRound1 =
     data?.scores?.find(
-      (item) => item.stage === LoanApplicationStatus.ROUND_2.toLowerCase()
-    )?.scoreInfo || []
-
-  const scoreRound2 =
-    data?.scores?.find(
       (item) => item.stage === LoanApplicationStatus.ROUND_1.toLowerCase()
     )?.scoreInfo || []
 
-  const totalScore = calculateTotalScore(avgScoreRound1, avgScoreRound2)
+  const scoresRound2 =
+    data?.scores?.find(
+      (item) => item.stage === LoanApplicationStatus.ROUND_2.toLowerCase()
+    )?.scoreInfo || []
 
   const ableToViewRound1 = isAbleToViewScoreRound1(statusData)
 
   const ableToViewRound2 = isAbleToViewScoreRound2(statusData)
 
-  const feedbackList = [...scoresRound1, ...scoreRound2]
+  const isRound1FinishScored =
+    scoresRound1.length > 0 &&
+    scoresRound1.length ===
+      scoresRound1.filter((score) => !!score?.scoredAt).length
+
+  const isRound2FinishScored =
+    scoresRound2.length > 0 &&
+    scoresRound2.length ===
+      scoresRound2.filter((score) => !!score?.scoredAt).length
+
+  const isFinishScored = isRound1FinishScored && isRound2FinishScored
+
+  const totalScore = isFinishScored
+    ? calculateTotalScore(avgScoreRound1, avgScoreRound2)
+    : 0
+
+  const feedbackList = [...scoresRound1, ...scoresRound2]
 
   return (
     <Card className="h-fit max-h-full top-0 z-10 mb-4 flex-shrink-0 mt-6 lg:mt-0">
@@ -81,18 +95,21 @@ export const ScoreCardListDetail = () => {
             score={totalScore}
             multiple={true}
             hasBorder={true}
+            isFinishScored={isFinishScored}
           />
           <ScoreCardBox
             name="Round 2"
             score={avgScoreRound2}
             multiple={true}
             hasBorder={true}
+            isFinishScored={isRound2FinishScored}
           />
           <ScoreCardBox
             name="Round 1"
             score={avgScoreRound1}
             multiple={true}
             hasBorder={true}
+            isFinishScored={isRound1FinishScored}
           />
         </div>
         <div className="flex justify-between items-center">
@@ -128,7 +145,7 @@ export const ScoreCardListDetail = () => {
                   <span
                     className={cn(
                       "flex items-center text-xs font-semibold",
-                      avgScoreRound2 == 0 && "text-gray-200"
+                      !isRound2FinishScored && "text-gray-200"
                     )}
                   >
                     <span>
@@ -143,8 +160,8 @@ export const ScoreCardListDetail = () => {
               <AccordionContent>
                 <Accordion type="multiple">
                   {!isFetching &&
-                    (scoresRound1.length > 0 ? (
-                      scoresRound1.map((item, index) => (
+                    (scoresRound2.length > 0 ? (
+                      scoresRound2.map((item, index) => (
                         <ScoreCardListDetailByJudge
                           key={`${LoanApplicationStatus.ROUND_2}_${index}_${item.judgeName}`}
                           id={`${LoanApplicationStatus.ROUND_2}_${index}_${item.judgeName}`}
@@ -180,7 +197,7 @@ export const ScoreCardListDetail = () => {
                   <span
                     className={cn(
                       "flex items-center text-xs font-semibold",
-                      avgScoreRound1 == 0 && "text-gray-200"
+                      !isRound1FinishScored && "text-gray-200"
                     )}
                   >
                     <span>
@@ -195,8 +212,8 @@ export const ScoreCardListDetail = () => {
               <AccordionContent>
                 <Accordion type="multiple">
                   {!isFetching &&
-                    (scoreRound2?.length > 0 ? (
-                      scoreRound2.map((item, index) => (
+                    (scoresRound1?.length > 0 ? (
+                      scoresRound1.map((item, index) => (
                         <ScoreCardListDetailByJudge
                           key={`${LoanApplicationStatus.ROUND_1}_${index}_${item.judgeName}`}
                           id={`${LoanApplicationStatus.ROUND_1}_${index}_${item.judgeName}`}
