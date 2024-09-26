@@ -24,6 +24,9 @@ module.exports = {
       fontFamily: {
         sans: ['"Inter"', "sans-serif"]
       },
+      gridTemplateColumns: {
+        61: "repeat(61, minmax(0, 1fr))"
+      },
       colors: {
         border: {
           DEFAULT: "hsl(var(--border))",

@@ -10,7 +10,6 @@ import {
 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 import { PreQualificationForm } from "../components/organisms/loan-application-form/pre-qualification/LaunchKCPreQualification"
-import { LoanRequest } from "../components/layouts/LoanRequest"
 import { BusinessModelForm } from "../components/organisms/loan-application-form/business-model/BusinessModelForm"
 import { CashFlowVerificationForm } from "../components/organisms/loan-application-form/cash-flow/CashFlowVerificationForm"
 import { ConfirmationForm } from "../components/organisms/loan-application-form/confirmation/ConfirmationForm"
@@ -57,6 +56,7 @@ import { TaxRateForm } from "@/modules/loan-application/[module]-financial-proje
 import { DebtFinancingForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/DebtFinancingForm"
 import RevenueForm from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm.tsx"
 import { FinancialProjectionReviewApplication } from "@/modules/loan-application/[module]-financial-projection/components/organisms/review-application/FinancialProjectionReviewApplication"
+import { LoanRequest } from "@/modules/loan-application/components/layouts/LoanRequest.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother

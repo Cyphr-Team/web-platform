@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge"
-import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
 import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
@@ -22,6 +21,7 @@ import { Progress } from "@/components/ui/progress"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 import { isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { Button } from "@/components/ui/button"
+import { InfiniteDataTable } from "@/components/ui/infinite-data-table.tsx"
 
 export function Component() {
   const { data, fetchNextPage, isFetching } = useQueryGetUserLoanApplications({
@@ -256,6 +256,7 @@ export function Component() {
       <p className="text-text-tertiary mt-1">
         Keep track of your applications and their statuses
       </p>
+
       {!isFetching && !data?.pages[0]?.data?.length ? (
         <EmptyApplications />
       ) : (
