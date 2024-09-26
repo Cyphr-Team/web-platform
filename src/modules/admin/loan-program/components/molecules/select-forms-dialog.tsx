@@ -105,6 +105,7 @@ export const SelectFormsDialog: React.FC<Props> = ({
             {remainingForms.length ? (
               remainingForms.map((formType) => (
                 <FormOptionCard
+                  key={formType}
                   checked={selected.includes(formType)}
                   formType={formType}
                   onSelectForm={onSelectForm}

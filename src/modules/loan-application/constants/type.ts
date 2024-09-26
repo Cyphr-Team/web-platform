@@ -4,7 +4,6 @@ import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
 import { SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
-import { FORM_TYPE } from "../models/LoanApplicationStep/type"
 import { SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
 
 export interface KYBInformation {
@@ -473,14 +472,6 @@ export interface PlaidItemInfo {
   itemId: string
   institutionId: string
   requestId: string
-}
-
-export interface LoanProgramFormsConfiguration {
-  id: string
-  loanProgramId: string
-  forms: FORM_TYPE[]
-  createdAt: string
-  updatedAt: string
 }
 
 export interface PreQualificationResponse {

@@ -1,3 +1,5 @@
+import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type"
+
 // ENUM
 enum LoanType {
   MICRO = "micro",
@@ -71,3 +73,11 @@ export enum LoanProgramInterestRateType {
 }
 
 export type { LoanProgram, BaseLoanProgramType }
+
+export interface LoanProgramFormsConfiguration {
+  id: string
+  loanProgramId: string
+  forms: FORM_TYPE[]
+  createdAt: string
+  updatedAt: string
+}

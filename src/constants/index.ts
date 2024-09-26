@@ -210,10 +210,14 @@ export const API_PATH = {
       delete: (loanProgramId: string) =>
         `api/admin-loan/program/${loanProgramId}`,
       updateStatus: (loanProgramId: string) =>
-        `api/admin-loan/program/${loanProgramId}/update-status`
+        `api/admin-loan/program/${loanProgramId}/update-status`,
+      configuration: (id: string) =>
+        `api/admin-loan/program/${id}/forms-configuration`
     },
+
     loanOfficer: {
-      list: "api/loan-officer/programs/list"
+      list: "api/loan-officer/programs/list",
+      createFormsConfiguration: "api/admin-loan/program/forms-configuration"
     },
     adminSelectLoanProgramList: "api/admin-loan/program/list",
     formsConfiguration: "api/user-loan/program/forms-configuration"
