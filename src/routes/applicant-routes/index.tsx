@@ -28,6 +28,12 @@ const LoanApplicationEdit = lazy(
 const LoanApplicationDetailsReview = lazy(
   () => import("@/modules/loan-application/pages/LoanApplicationDetailsReview")
 )
+const FinancialProjectionApplicationDetails = lazy(
+  () =>
+    import(
+      "@/modules/loan-application/[module]-financial-projection/components/organisms/details/FinancialProjectionApplicationDetails"
+    )
+)
 
 const applicantRoutes = (
   <Route
@@ -76,6 +82,12 @@ const applicantRoutes = (
         </PlaidProvider>
       }
     >
+      <Route
+        path={APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detail}
+        element={<Outlet />}
+      >
+        <Route index element={<FinancialProjectionApplicationDetails />} />
+      </Route>
       <Route
         path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.detail}
         element={

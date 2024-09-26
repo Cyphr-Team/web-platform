@@ -1,0 +1,1 @@
+export { useFinancialApplicationDetail } from "./useFinancialApplicationDetail"
