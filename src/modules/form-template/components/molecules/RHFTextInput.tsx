@@ -53,6 +53,7 @@ export interface RHFTextInputProps<T extends FieldValues> {
 
   isToggleView?: boolean
   isHideErrorMessage?: boolean
+  isDetail?: boolean
 }
 
 const RHFTextInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
@@ -80,6 +81,7 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
     styleProps = {},
     isToggleView = false,
     isHideErrorMessage = false,
+    isDetail,
     ...inputProps
   } = props
 
@@ -108,6 +110,31 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
       props?.onBlur?.(event)
     }
 
+  const inputRender = (() => {
+    if (isDetail) return <div className="break-words">{field.value || "-"}</div>
+
+    if (isView && isToggleView) {
+      return (
+        <div onDoubleClick={onShow(false)} className="break-words">
+          {field.value}
+        </div>
+      )
+    }
+
+    return (
+      <FormControl>
+        <InputComponent
+          wrapperClassName={wrapperClassName}
+          {...field}
+          {...inputProps}
+          onBlur={customOnBlur(field.onBlur)}
+          className={cn("text-sm", inputClassName)}
+          autoFocus={inputProps.autoFocus}
+        />
+      </FormControl>
+    )
+  })()
+
   return (
     <FormItem
       className={cn(
@@ -128,22 +155,8 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
         </FormLabel>
       )}
 
-      {isView && isToggleView ? (
-        <div onDoubleClick={onShow(false)} className="break-words">
-          {field.value}
-        </div>
-      ) : (
-        <FormControl>
-          <InputComponent
-            wrapperClassName={wrapperClassName}
-            {...field}
-            {...inputProps}
-            onBlur={customOnBlur(field.onBlur)}
-            className={cn("text-sm", inputClassName)}
-            autoFocus={inputProps.autoFocus}
-          />
-        </FormControl>
-      )}
+      {inputRender}
+
       {!isRowDirection && !isHideErrorMessage && (
         <FormMessage className={messageClassName} />
       )}

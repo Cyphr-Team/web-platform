@@ -46,6 +46,7 @@ export interface RHFCurrencyInputProps<T extends FieldValues> {
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
 
   isHideErrorMessage?: boolean
+  isDetail?: boolean
 }
 
 const RHFCurrencyInput = <T extends FieldValues>(
@@ -61,6 +62,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
     isRowDirection,
     className,
     isHideErrorMessage = false,
+    isDetail,
     ...inputProps
   } = props
 
@@ -115,33 +117,41 @@ const RHFCurrencyInput = <T extends FieldValues>(
                 </div>
               </FormLabel>
             )}
-            <FormControl>
-              <Input
-                wrapperClassName={wrapperClassName}
-                {...field}
-                {...inputProps}
-                suffixClassName={suffixClassName}
-                value={fieldValue}
-                onChange={(e) => {
-                  const value = e.target.value
-                    ? USDFormatter(e.target.value).value
-                    : e.target.value
+            {isDetail ? (
+              <div className="break-words">
+                {inputProps.prefixIcon}
+                {fieldValue || "-"}
+                {inputProps.suffixIcon}
+              </div>
+            ) : (
+              <FormControl>
+                <Input
+                  wrapperClassName={wrapperClassName}
+                  {...field}
+                  {...inputProps}
+                  suffixClassName={suffixClassName}
+                  value={fieldValue}
+                  onChange={(e) => {
+                    const value = e.target.value
+                      ? USDFormatter(e.target.value).value
+                      : e.target.value
 
-                  if (Number.isNaN(value)) return
+                    if (Number.isNaN(value)) return
 
-                  field.onBlur()
-                  field.onChange(value)
-                }}
-                onBlur={(e) => {
-                  const value = USDFormatter(e.target.value).value
+                    field.onBlur()
+                    field.onChange(value)
+                  }}
+                  onBlur={(e) => {
+                    const value = USDFormatter(e.target.value).value
 
-                  field.onChange(Number.isNaN(value) ? 0 : value)
-                  // The onBlur should be place after because validate won't work if we put before onChange
-                  field.onBlur()
-                }}
-                className={cn("text-base", inputClassName)}
-              />
-            </FormControl>
+                    field.onChange(Number.isNaN(value) ? 0 : value)
+                    // The onBlur should be place after because validate won't work if we put before onChange
+                    field.onBlur()
+                  }}
+                  className={cn("text-base", inputClassName)}
+                />
+              </FormControl>
+            )}
             {!isRowDirection && !isHideErrorMessage && (
               <FormMessage className={messageClassName} />
             )}

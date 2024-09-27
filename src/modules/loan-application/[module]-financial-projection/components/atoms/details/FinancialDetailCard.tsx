@@ -2,15 +2,22 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import React, { ReactNode } from "react"
 
-type FinancialDetailLayoutProps = React.PropsWithChildren<HeaderProps>
+type FinancialDetailLayoutProps = {
+  isSubChildren?: boolean
+} & React.PropsWithChildren<HeaderProps>
 export const FinancialDetailCard = ({
   title,
   subTitle,
-  children
+  children,
+  isSubChildren
 }: FinancialDetailLayoutProps) => {
+  const renderTitle = title ? (
+    <Header title={title} subTitle={subTitle} />
+  ) : null
+
   return (
-    <Layout>
-      <Header title={title} subTitle={subTitle} />
+    <Layout isSubChildren={isSubChildren}>
+      {renderTitle}
       <Main>{children}</Main>
     </Layout>
   )
@@ -21,10 +28,14 @@ const Main = ({ children }: React.PropsWithChildren) => {
 }
 
 interface HeaderProps {
-  title: ReactNode
+  title?: ReactNode
   subTitle?: ReactNode
 }
 const Header = ({ title, subTitle }: HeaderProps) => {
+  const renderSubTitle = subTitle ? (
+    <p className="text-sm mt-1">{subTitle}</p>
+  ) : null
+
   return (
     <nav>
       <div className="flex justify-center min-w-20 flex-col">
@@ -36,7 +47,7 @@ const Header = ({ title, subTitle }: HeaderProps) => {
         >
           {title}
         </h2>
-        {!!subTitle && <p className="text-sm mt-1">{subTitle}</p>}
+        {renderSubTitle}
       </div>
 
       <Separator className={cn("mt-2", "md:mt-5")} />
@@ -44,9 +55,20 @@ const Header = ({ title, subTitle }: HeaderProps) => {
   )
 }
 
-const Layout = ({ children }: React.PropsWithChildren) => {
+const Layout = ({
+  children,
+  isSubChildren
+}: React.PropsWithChildren<
+  Pick<FinancialDetailLayoutProps, "isSubChildren">
+>) => {
   return (
-    <section className={cn("p-4 border rounded-xl", "md:p-8")}>
+    <section
+      className={cn(
+        "p-4 border rounded-xl",
+        "md:p-8",
+        isSubChildren && "p-0 md:p-0 border-none"
+      )}
+    >
       {children}
     </section>
   )

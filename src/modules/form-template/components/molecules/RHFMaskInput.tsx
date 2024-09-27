@@ -35,6 +35,7 @@ export interface RHFMaskInputProps<T extends FieldValues>
   }
 
   isHideErrorMessage?: boolean
+  isDetail?: boolean
 }
 
 /**
@@ -57,7 +58,8 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
     prefixIcon,
     suffixIcon,
     isHideErrorMessage = false,
-    isRowDirection = false
+    isRowDirection = false,
+    isDetail
   } = props
 
   const { inputClassName, labelClassName } = styleProps
@@ -83,17 +85,22 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
               )}
             </FormLabel>
           )}
-          <FormControl>
-            <MaskInput
-              pattern={pattern}
-              placeholder={placeholder}
-              className={inputClassName}
-              prefixIcon={prefixIcon}
-              suffixIcon={suffixIcon}
-              required
-              {...field}
-            />
-          </FormControl>
+
+          {isDetail ? (
+            <div className="break-words">{field.value || "-"}</div>
+          ) : (
+            <FormControl>
+              <MaskInput
+                pattern={pattern}
+                placeholder={placeholder}
+                className={inputClassName}
+                prefixIcon={prefixIcon}
+                suffixIcon={suffixIcon}
+                required
+                {...field}
+              />
+            </FormControl>
+          )}
           {!isRowDirection && !isHideErrorMessage && <FormMessage />}
         </FormItem>
       )}

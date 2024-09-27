@@ -1,3 +1,4 @@
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { AxiosResponse } from "axios"
 import { ReactNode } from "react"
 
@@ -10,4 +11,13 @@ export interface FinancialApplicationFormDetailData {
   id: string
   title: string
   content: ReactNode
+}
+
+export interface FinancialApplicationDetailData {
+  id: LOAN_APPLICATION_STEPS
+  subId?: string
+  title: string
+  subTitle?: string
+  financialApplicationFormData: FinancialApplicationFormDetailData[]
+  subChildren?: ReactNode
 }

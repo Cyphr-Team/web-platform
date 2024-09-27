@@ -42,12 +42,20 @@ const Main = () => {
   const { financialApplicationDetailData } = useFinancialApplicationDetail()
 
   const render = financialApplicationDetailData.map(
-    ({ id, subId = "", title, subTitle, financialApplicationFormData }) => (
+    ({
+      id,
+      subId = "",
+      title,
+      subTitle,
+      financialApplicationFormData,
+      subChildren
+    }) => (
       <FinancialApplicationFormDetail
         key={id + subId}
         title={title}
         subTitle={subTitle}
         financialApplicationFormData={financialApplicationFormData}
+        subChildren={subChildren}
       />
     )
   )
