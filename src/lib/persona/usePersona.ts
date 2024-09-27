@@ -4,7 +4,6 @@ import { Client } from "persona"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useCreateSmartKyc } from "./persona.client"
 import { CreatePersonaInquiryRequest } from "@/types/kyc/request/CreatePersonaInquiryRequest"
-import { isEnableNewInquiryPersonaKycCreatingLogic } from "../../utils/feature-flag.utils"
 import { EPersonaStatus } from "../../types/kyc"
 
 interface IPersonaInquiryData {
@@ -35,14 +34,12 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
           setInquiryData(inquiryData)
         },
         onCancel: ({ inquiryId }: { inquiryId?: string }) => {
-          if (isEnableNewInquiryPersonaKycCreatingLogic()) {
-            if (inquiryId != undefined) {
-              setInquiryData({
-                inquiryId: inquiryId,
-                status: EPersonaStatus.UNKNOWN.toLowerCase(),
-                fields: null
-              })
-            }
+          if (inquiryId != undefined) {
+            setInquiryData({
+              inquiryId: inquiryId,
+              status: EPersonaStatus.UNKNOWN.toLowerCase(),
+              fields: null
+            })
           }
         },
         onError: (error) => {

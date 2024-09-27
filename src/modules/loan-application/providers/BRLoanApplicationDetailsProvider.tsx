@@ -11,7 +11,6 @@ import {
   formsConfigurationEnabled,
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
-import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
 import _ from "lodash"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
@@ -625,39 +624,28 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       isInitialized &&
       isQualified
     ) {
-      if (isEnableNewInquiryPersonaKycCreatingLogic()) {
-        if (
-          identityVerificationQuery.data?.personaStatus.toLowerCase() ===
-            EPersonaStatus.COMPLETED.toLowerCase() ||
-          identityVerificationQuery.data?.personaStatus.toLowerCase() ===
-            EDecisionStatus.APPROVED.toLowerCase()
-        ) {
-          dispatchProgress({
-            // turn on green tick
-            type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
-            progress: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
-          })
-        }
-
-        dispatchFormAction({
-          action: FORM_ACTION.SET_DATA,
-          key: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION,
-          state: {
-            smartKycId: identityVerificationQuery.data?.id,
-            inquiryId: identityVerificationQuery.data.inquiryId,
-            status: identityVerificationQuery.data.personaStatus?.toLowerCase()
-          }
+      if (
+        identityVerificationQuery.data?.personaStatus.toLowerCase() ===
+          EPersonaStatus.COMPLETED.toLowerCase() ||
+        identityVerificationQuery.data?.personaStatus.toLowerCase() ===
+          EDecisionStatus.APPROVED.toLowerCase()
+      ) {
+        dispatchProgress({
+          // turn on green tick
+          type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+          progress: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
         })
-      } else {
-        changeDataAndProgress(
-          {
-            smartKycId: identityVerificationQuery.data?.id,
-            inquiryId: identityVerificationQuery.data.inquiryId,
-            status: identityVerificationQuery.data.personaStatus?.toLowerCase()
-          },
-          LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
-        )
       }
+
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION,
+        state: {
+          smartKycId: identityVerificationQuery.data?.id,
+          inquiryId: identityVerificationQuery.data.inquiryId,
+          status: identityVerificationQuery.data.personaStatus?.toLowerCase()
+        }
+      })
     }
   }, [
     changeDataAndProgress,

@@ -26,10 +26,6 @@ function isEnabledBankAccountConnectionV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.BANK_ACCOUNT_CONNECTION_V2)
 }
 
-function isEnableNewInquiryPersonaKycCreatingLogic() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.NEW_PERSONA_KYC_CREATING_LOGIC)
-}
-
 function formsConfigurationEnabled() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION)
 }
@@ -157,7 +153,6 @@ export {
   isEnableDownloadCSVAndJSONSummary,
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
-  isEnableNewInquiryPersonaKycCreatingLogic,
   isEnableKYBV2,
   formsConfigurationEnabled,
   isEnableKycReOrder,

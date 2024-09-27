@@ -1,5 +1,4 @@
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
-import { isEnableNewInquiryPersonaKycCreatingLogic } from "@/utils/feature-flag.utils.ts"
 import jsPDF from "jspdf"
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import * as z from "zod"
@@ -310,14 +309,10 @@ export const createIdentityVerificationSchema = () => {
     smartKycId: z.string().optional(),
     inquiryId: z.string(),
     status: z.string().refine((status) => {
-      if (isEnableNewInquiryPersonaKycCreatingLogic()) {
-        return (
-          status.toLowerCase() === EPersonaStatus.COMPLETED.toLowerCase() ||
-          status.toLowerCase() === EDecisionStatus.APPROVED.toLowerCase()
-        )
-      } else {
-        return true // Accept any status when new logic is not enabled
-      }
+      return (
+        status.toLowerCase() === EPersonaStatus.COMPLETED.toLowerCase() ||
+        status.toLowerCase() === EDecisionStatus.APPROVED.toLowerCase()
+      )
     })
   })
 }

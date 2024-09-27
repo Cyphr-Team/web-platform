@@ -24,7 +24,6 @@ import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { isCyphrBank, isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 import {
-  isEnableNewInquiryPersonaKycCreatingLogic,
   isEnableNewSubmitFormStrategy,
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
@@ -180,25 +179,14 @@ export const useSubmitLoanForm = (
     isLoading: isSubmittingIdentityVerification
   } = useSubmitLoanIdentityVerification(identityVerificationData, (data) => {
     if (data.inquiryId && data.personaStatus)
-      if (isEnableNewInquiryPersonaKycCreatingLogic()) {
-        updateDataAfterSubmit(
-          {
-            smartKycId: data.id,
-            inquiryId: data.inquiryId,
-            status: data.personaStatus?.toLowerCase()
-          },
-          LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
-        )
-      } else {
-        updateDataAfterSubmit(
-          {
-            smartKycId: data?.id,
-            inquiryId: data.inquiryId,
-            status: data.personaStatus?.toLowerCase()
-          },
-          LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
-        )
-      }
+      updateDataAfterSubmit(
+        {
+          smartKycId: data?.id,
+          inquiryId: data?.inquiryId,
+          status: data?.personaStatus?.toLowerCase()
+        },
+        LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
+      )
   })
 
   /**

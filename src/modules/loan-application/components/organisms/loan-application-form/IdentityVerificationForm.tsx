@@ -19,10 +19,7 @@ import {
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 import { PersonaStatus } from "@/lib/persona/persona.types.ts"
 import { useParams } from "react-router-dom"
-import {
-  isEnableKycReOrder,
-  isEnableNewInquiryPersonaKycCreatingLogic
-} from "@/utils/feature-flag.utils.ts"
+import { isEnableKycReOrder } from "@/utils/feature-flag.utils.ts"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { FormSubmitButton } from "../../atoms/FormSubmitButton"
 import { isSbb } from "@/utils/domain.utils.ts"
@@ -111,26 +108,19 @@ export const IdentityVerificationForm = ({
       form.setValue("inquiryId", inquiryData?.inquiryId, {
         shouldValidate: true
       })
-      if (isEnableNewInquiryPersonaKycCreatingLogic()) {
-        if (
-          inquiryData?.status?.toLowerCase() ===
-            PersonaStatus.COMPLETED.toLowerCase() ||
-          inquiryData?.status?.toLowerCase() ===
-            PersonaStatus.APPROVED.toLowerCase()
-        ) {
-          form.setValue("status", inquiryData?.status, {
-            shouldValidate: true
-          })
-          /**
-           * The completeCurrentStep function will help us mark done the identity verification step
-           *  when the client finish verify Persona
-           */
-          completeSpecificStep(LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
-        }
-      } else {
+      if (
+        inquiryData?.status?.toLowerCase() ===
+          PersonaStatus.COMPLETED.toLowerCase() ||
+        inquiryData?.status?.toLowerCase() ===
+          PersonaStatus.APPROVED.toLowerCase()
+      ) {
         form.setValue("status", inquiryData?.status, {
           shouldValidate: true
         })
+        /**
+         * The completeCurrentStep function will help us mark done the identity verification step
+         *  when the client finish verify Persona
+         */
         completeSpecificStep(LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
       }
       const defaultValue = form.getValues()
