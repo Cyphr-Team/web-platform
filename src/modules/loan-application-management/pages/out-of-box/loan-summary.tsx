@@ -20,7 +20,6 @@ import { Secretary } from "@/modules/loan-application/components/organisms/Midde
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
 import { isKansasCity, isLaunchKC, isSbb } from "@/utils/domain.utils"
-import { isEnableJudgeSubmitScore } from "@/utils/feature-flag.utils"
 import { concat, get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
@@ -328,10 +327,8 @@ export function Component() {
           </div>
         )}
       </Card>
-      {isLaunchKC() && isJudge && isEnableJudgeSubmitScore() && <ScoreCard />}
-      {isLaunchKC() && isWorkspaceAdmin && isEnableJudgeSubmitScore() && (
-        <ScoreCardListDetail />
-      )}
+      {isLaunchKC() && isJudge && <ScoreCard />}
+      {isLaunchKC() && isWorkspaceAdmin && <ScoreCardListDetail />}
     </div>
   )
 }

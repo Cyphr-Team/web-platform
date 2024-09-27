@@ -34,10 +34,6 @@ function formsConfigurationEnabled() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION)
 }
 
-function isEnableJudgeSubmitScore() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.JUDGE_SUBMIT_SCORE)
-}
-
 /**
  * Changes on KYB for HRE
  * 1. Industry Classification
@@ -158,7 +154,6 @@ function isEnableLoanProgramChangesManagement() {
 
 export {
   isEnablePandaDocESign,
-  isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,
   isEnableSubscriptionManagement,
   isEnabledBankAccountConnectionV2,
