@@ -7,7 +7,6 @@ import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { capitalizeWords } from "@/utils"
-import { isEnableWorkspaceAdminFilterByScorecard } from "@/utils/feature-flag.utils"
 import { CalendarPlus, Trash } from "lucide-react"
 import { useCallback, useMemo, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
@@ -171,17 +170,15 @@ export function Filter({ filterForm }: IFilter) {
   return (
     <Form {...filterForm}>
       <div className="flex gap-3">
-        {isEnableWorkspaceAdminFilterByScorecard() && (
-          <div className="flex">
-            <FormField
-              control={filterForm.control}
-              name={FormFieldNames.SCORECARDS}
-              render={({ field }) => {
-                return <ScorecardFilterPopover field={field} />
-              }}
-            />
-          </div>
-        )}
+        <div className="flex">
+          <FormField
+            control={filterForm.control}
+            name={FormFieldNames.SCORECARDS}
+            render={({ field }) => {
+              return <ScorecardFilterPopover field={field} />
+            }}
+          />
+        </div>
 
         <FormField
           control={filterForm.control}

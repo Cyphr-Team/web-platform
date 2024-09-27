@@ -114,29 +114,11 @@ function isEnablePandaDocESign() {
 }
 
 /*
- * Replace the workspace-admin-list with workspace-admin-list-filter
- */
-function isEnableWorkspaceAdminFilterApplicationScores() {
-  return checkEnabledFeatureFlag(
-    FEATURE_FLAGS.WORKSPACE_ADMIN_FILTER_APPLICATION_SCORES
-  )
-}
-
-/*
  * New Submit Form Strategy - Submit form using Promise.all
  */
 
 function isEnableNewSubmitFormStrategy() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.NEW_SUBMIT_FORM_STRATEGY)
-}
-
-/*
- * Show the filter by scorecard in workspace-admin-list-filter
- */
-function isEnableWorkspaceAdminFilterByScorecard() {
-  return checkEnabledFeatureFlag(
-    FEATURE_FLAGS.WORKSPACE_ADMIN_FILTER_BY_SCORECARD
-  )
 }
 
 /*
@@ -175,8 +157,6 @@ function isEnableLoanProgramChangesManagement() {
 }
 
 export {
-  isEnableWorkspaceAdminFilterByScorecard,
-  isEnableWorkspaceAdminFilterApplicationScores,
   isEnablePandaDocESign,
   isEnableJudgeSubmitScore,
   isEnableDownloadCSVAndJSONSummary,

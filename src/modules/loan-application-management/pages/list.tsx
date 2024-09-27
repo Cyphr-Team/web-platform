@@ -6,7 +6,6 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { checkIsJudge } from "@/utils/check-roles"
 import { isLaunchKC, isSbb } from "@/utils/domain.utils"
-import { isEnableWorkspaceAdminFilterApplicationScores } from "@/utils/feature-flag.utils"
 import { PaginationState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
@@ -15,7 +14,6 @@ import { LoanApplicationTableHeader } from "../components/table/loan-application
 import { FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
 import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryListPaginateLoanApplication"
 import { JudgeApplicationList } from "./launch-kc/judge/judge-list"
-import { WorkspaceAdminApplicationList } from "./launch-kc/workspace-admin/workspace-admin-list"
 import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin/workspace-admin-list-filter"
 import { SbbApplicationsList } from "./sbb/list-filter"
 
@@ -78,10 +76,7 @@ export function Component() {
   if (isLaunchKC()) {
     if (checkIsJudge()) return <JudgeApplicationList />
 
-    if (isEnableWorkspaceAdminFilterApplicationScores())
-      return <WorkspaceAdminApplicationListFilter />
-
-    return <WorkspaceAdminApplicationList />
+    return <WorkspaceAdminApplicationListFilter />
   }
   if (isSbb()) return <SbbApplicationsList />
 
