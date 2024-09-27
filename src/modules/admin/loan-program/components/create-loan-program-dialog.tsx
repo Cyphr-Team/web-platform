@@ -46,6 +46,8 @@ import { useUpdateLoanProgram } from "../hooks/useUpdateLoanProgram"
 import { FeatureFlagsRenderer } from "@/shared/layouts/FeatureFlagRenderer"
 import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 import { FormsConfigurationDialog } from "./molecules/form-configuration-dialog"
+import { useCreateFormsConfiguration } from "../hooks/useCreateFormsConfiguration"
+import { useUpdateFormsConfiguration } from "../hooks/useUpdateFormsConfiguration"
 
 type Props = {
   defaultData?: LoanProgram
@@ -75,6 +77,7 @@ export function CreateLoanProgramDialog({
   isFetching
 }: React.PropsWithChildren<Props>) {
   const [open, setOpen] = useState(false)
+  const [formsConfiguration, setFormsConfiguration] = useState<string[]>([])
 
   const onOpenChange = (open: boolean) => {
     if (!open) {
@@ -107,21 +110,55 @@ export function CreateLoanProgramDialog({
     )
   })
 
-  const { mutate, isPending } = useCreateLoanProgram({ detailId })
-  const { mutate: updateLoanProgram, isPending: isUpdatePending } =
+  const { mutate: createLoanProgram, isPending: isCreateLoanProgramPending } =
+    useCreateLoanProgram({ detailId })
+  const { mutate: createFormsConfiguration, isPending: isCreateFormsPending } =
+    useCreateFormsConfiguration()
+  const { mutate: updateFormsConfiguration, isPending: isUpdateFormsPending } =
+    useUpdateFormsConfiguration()
+
+  const { mutate: updateLoanProgram, isPending: isUpdateLoanProgramPending } =
     useUpdateLoanProgram({
       loanProgramId: detailId,
       status: ProgramStatus.DRAFT
     })
-  const isProcessing = isPending || isUpdatePending
+  const isProcessing =
+    isCreateLoanProgramPending ||
+    isUpdateLoanProgramPending ||
+    isUpdateFormsPending ||
+    isCreateFormsPending
 
   const formSubmit = form.handleSubmit((data) => {
     if (detailId) {
-      updateLoanProgram(data)
+      updateLoanProgram(data, {
+        onSuccess: (data) => {
+          if (formsConfiguration.length > 0) {
+            updateFormsConfiguration({
+              loanProgramId: data.data.id,
+              forms: formsConfiguration
+            })
+          }
+          onOpenChange(false)
+        }
+      })
     } else {
-      mutate(data)
+      createLoanProgram(data, {
+        onSuccess: (data) => {
+          if (formsConfiguration.length > 0) {
+            createFormsConfiguration({
+              loanProgramId: data.data.id,
+              forms: formsConfiguration
+            })
+          }
+          onOpenChange(false)
+        }
+      })
     }
   })
+
+  const onSaveForms = (forms: string[]) => {
+    setFormsConfiguration(forms)
+  }
 
   useEffect(() => {
     form.reset(defaultData)
@@ -394,7 +431,10 @@ export function CreateLoanProgramDialog({
               ffKey={FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION}
             >
               <div className="p-6 w-full justify-end flex">
-                <FormsConfigurationDialog detailId={detailId} />
+                <FormsConfigurationDialog
+                  detailId={detailId}
+                  onSave={onSaveForms}
+                />
               </div>
             </FeatureFlagsRenderer>
             <DialogFooter className="px-6 border-t pt-4">

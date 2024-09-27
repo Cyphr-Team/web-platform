@@ -1,4 +1,4 @@
-import { DragEvent, ReactElement, useRef, useState } from "react"
+import { DragEvent, ReactElement, useRef, useState, useCallback } from "react"
 import { useUpdateEffect } from "react-use"
 
 interface DraggableListProps {
@@ -9,23 +9,26 @@ interface DraggableListProps {
 
 export const DraggableList: React.FC<DraggableListProps> = ({
   initialItems,
+  onReorder,
   customCard
 }) => {
   const [items, setItems] = useState<string[]>(initialItems)
   const [placeholderIndex, setPlaceholderIndex] = useState<number | null>(null)
-
   const draggedItem = useRef<number | null>(null)
 
-  const handleDragStart = (e: DragEvent<HTMLLIElement>, index: number) => {
-    draggedItem.current = index
-    setTimeout(() => {
-      if (e.target instanceof HTMLElement) {
-        e.target.style.display = "none"
-      }
-    }, 0)
-  }
+  const handleDragStart = useCallback(
+    (e: DragEvent<HTMLLIElement>, index: number) => {
+      draggedItem.current = index
+      setTimeout(() => {
+        if (e.target instanceof HTMLElement) {
+          e.target.style.display = "none"
+        }
+      }, 0)
+    },
+    []
+  )
 
-  const handleDragEnd = (e: DragEvent<HTMLLIElement>) => {
+  const handleDragEnd = useCallback((e: DragEvent<HTMLLIElement>) => {
     setTimeout(() => {
       if (e.target instanceof HTMLElement) {
         e.target.style.display = ""
@@ -33,46 +36,12 @@ export const DraggableList: React.FC<DraggableListProps> = ({
       draggedItem.current = null
       setPlaceholderIndex(null)
     }, 0)
-  }
+  }, [])
 
-  const handleDragOver = (e: DragEvent<HTMLUListElement>) => {
-    e.preventDefault()
-    const afterElement = getDragAfterElement(e.clientY)
-
-    if (draggedItem.current === null) return
-
-    if (afterElement == null) {
-      setPlaceholderIndex(items.length)
-    } else {
-      const afterElementIndex = items.findIndex(
-        (item) => item === afterElement.id
-      )
-      if (afterElementIndex === -1) return
-      if (afterElementIndex === placeholderIndex) return
-      setPlaceholderIndex(afterElementIndex)
-    }
-  }
-
-  const handleDrop = () => {
-    if (draggedItem.current === null || placeholderIndex === null) return
-
-    const currentItemIndex = draggedItem.current
-
-    setItems((prevItems) => {
-      const updatedItems = [...prevItems]
-      const draggedItemContent = updatedItems.splice(currentItemIndex, 1)[0]
-      updatedItems.splice(placeholderIndex, 0, draggedItemContent)
-      return updatedItems
-    })
-
-    setPlaceholderIndex(null)
-    draggedItem.current = null
-  }
-
-  const getDragAfterElement = (y: number): HTMLElement | null => {
-    const draggableElements = [
-      ...document.querySelectorAll(".draggable:not(.dragging)")
-    ] as HTMLElement[]
+  const getDragAfterElement = useCallback((y: number): HTMLElement | null => {
+    const draggableElements = Array.from(
+      document.querySelectorAll(".draggable:not(.dragging)")
+    ) as HTMLElement[]
 
     return draggableElements.reduce<HTMLElement | null>((closest, child) => {
       const box = child.getBoundingClientRect()
@@ -89,7 +58,43 @@ export const DraggableList: React.FC<DraggableListProps> = ({
         return closest
       }
     }, null)
-  }
+  }, [])
+
+  const handleDragOver = useCallback(
+    (e: DragEvent<HTMLUListElement>) => {
+      e.preventDefault()
+      const afterElement = getDragAfterElement(e.clientY)
+
+      if (draggedItem.current === null) return
+
+      if (afterElement == null) {
+        setPlaceholderIndex(items.length)
+      } else {
+        const afterElementIndex = items.findIndex(
+          (item) => item === afterElement.id
+        )
+        if (afterElementIndex === -1 || afterElementIndex === placeholderIndex)
+          return
+        setPlaceholderIndex(afterElementIndex)
+      }
+    },
+    [getDragAfterElement, items, placeholderIndex]
+  )
+
+  const handleDrop = useCallback(() => {
+    if (draggedItem.current === null || placeholderIndex === null) return
+
+    const currentItemIndex = draggedItem.current
+    const updatedItems = [...items]
+    const [draggedItemContent] = updatedItems.splice(currentItemIndex, 1)
+    updatedItems.splice(placeholderIndex, 0, draggedItemContent)
+
+    setItems(updatedItems)
+    onReorder(updatedItems)
+
+    setPlaceholderIndex(null)
+    draggedItem.current = null
+  }, [items, onReorder, placeholderIndex])
 
   useUpdateEffect(() => {
     setItems(initialItems)

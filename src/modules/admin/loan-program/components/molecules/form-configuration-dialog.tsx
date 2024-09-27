@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
@@ -12,15 +13,17 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useQueryGetFormsConfiguration } from "@/modules/loan-application/hooks/useQuery/useQueryFormsConfiguration"
 import { DraggableList } from "@/components/ui/draggable-list"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { FormOptionCard } from "./form-option"
 import { ScrollArea } from "@/components/ui/scroll"
 import { SelectFormsDialog } from "./select-forms-dialog"
+import { useGetFormsConfiguration } from "../../hooks/useGetFormsConfiguration"
+import { useUpdateEffect } from "react-use"
 
 type Props = {
   detailId?: string
+  onSave: (forms: string[]) => void
 }
 
 const defaultFormValues = {
@@ -31,11 +34,18 @@ const formsConfigurationForm = z.object({
 })
 
 export function FormsConfigurationDialog({
-  detailId
+  detailId,
+  onSave
 }: React.PropsWithChildren<Props>) {
   const [open, setOpen] = useState(false)
 
-  const programFormsConfiguration = useQueryGetFormsConfiguration(detailId)
+  const programFormsConfiguration = useGetFormsConfiguration(detailId ?? "")
+
+  useUpdateEffect(() => {
+    if (programFormsConfiguration.data) {
+      form.setValue("formsConfiguration", programFormsConfiguration.data.forms)
+    }
+  }, [programFormsConfiguration.data])
 
   const form = useForm<z.infer<typeof formsConfigurationForm>>({
     resolver: zodResolver(formsConfigurationForm),
@@ -48,7 +58,10 @@ export function FormsConfigurationDialog({
 
   const onChangeSelectedForms = (formType: string[]) => {
     const selectedForms = form.getValues("formsConfiguration")
-    form.setValue("formsConfiguration", [...selectedForms, ...formType])
+    form.setValue(
+      "formsConfiguration",
+      Array.from(new Set([...selectedForms, ...formType]))
+    )
   }
 
   const onRemoveForm = (formType: string) => () => {
@@ -56,6 +69,11 @@ export function FormsConfigurationDialog({
       "formsConfiguration",
       form.getValues("formsConfiguration").filter((v) => v !== formType)
     )
+  }
+
+  const onSaveForms = () => {
+    onSave(form.getValues("formsConfiguration"))
+    setOpen(false)
   }
 
   return (
@@ -97,6 +115,11 @@ export function FormsConfigurationDialog({
             </ScrollArea>
           </form>
         </Form>
+        <DialogFooter className="px-6 border-t pt-4">
+          <Button type="button" onClick={onSaveForms}>
+            Save
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

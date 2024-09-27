@@ -2,12 +2,13 @@ import { useMemo } from "react"
 import { createContext } from "use-context-selector"
 import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useLocation, useParams } from "react-router-dom"
-import {
-  LoanProgramData,
-  LoanProgramFormsConfiguration
-} from "../constants/type"
+import { LoanProgramData } from "../constants/type"
 import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
-import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
+import {
+  LoanProgramFormsConfiguration,
+  LoanType,
+  MicroLoanProgramType
+} from "@/types/loan-program.type"
 import { useQueryGetFormsConfiguration } from "@/modules/loan-application/hooks/useQuery/useQueryFormsConfiguration.ts"
 
 export type LoanProgramDetailType<T> = {
