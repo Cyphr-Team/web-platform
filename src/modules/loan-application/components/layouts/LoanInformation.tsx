@@ -20,6 +20,9 @@ import {
 import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { TopBarDetail } from "./TopBarDetail"
+import { isEnableChatSupport } from "@/utils/feature-flag.utils"
+import { isCyphrBank } from "@/utils/domain.utils"
+import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
 
 export const LoanInformationHeader = () => {
   const { loanProgramDetails, isLoading } = useLoanProgramDetailContext()
@@ -148,6 +151,7 @@ export const Component = () => {
       >
         <LoadingOverlay isLoading={isSubmitting} className="flex-1">
           <div className="grid grid-cols-8 w-full">{componentByStep}</div>
+          {(isEnableChatSupport() || isCyphrBank()) && <ChatSupportButton />}
         </LoadingOverlay>
       </div>
     </>

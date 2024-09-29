@@ -147,6 +147,12 @@ function isEnableGoogleMapInput() {
 function isEnableLoanProgramChangesManagement() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_CHANGES_MANAGEMENT)
 }
+/*
+ * Enable Lenda - Chat Support Bot
+ */
+function isEnableChatSupport() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.CHAT_SUPPORT)
+}
 
 export {
   isEnablePandaDocESign,
@@ -166,5 +172,6 @@ export {
   isEnableExecutionFormNewMonthlyExpense,
   isEnableDummyLoanReadiness,
   isEnableLoanProgramChangesManagement,
-  isEnableGoogleMapInput
+  isEnableGoogleMapInput,
+  isEnableChatSupport
 }

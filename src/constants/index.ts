@@ -296,6 +296,13 @@ export const API_PATH = {
       submit: "api/form/sbb-documents/submit",
       deleteByType: "api/form/sbb-documents/documents/delete-by-type",
       deleteById: "api/form/sbb-documents/documents/delete-by-id"
+    },
+    chatbot: {
+      chat: "ai/chat",
+      initSession: "ai/chat/init",
+      currentSession: "ai/chat/current-session",
+      history: "ai/chat/session-histories",
+      endSession: "ai/chat/end"
     }
   },
   // For workspace admin

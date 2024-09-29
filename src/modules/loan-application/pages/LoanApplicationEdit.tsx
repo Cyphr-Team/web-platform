@@ -11,6 +11,9 @@ import {
 } from "../providers"
 import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
 import { cn } from "@/lib/utils"
+import { isEnableChatSupport } from "@/utils/feature-flag.utils"
+import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
+import { isCyphrBank } from "@/utils/domain.utils"
 
 export const Component = () => {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
@@ -51,6 +54,7 @@ export const Component = () => {
         >
           <LoadingOverlay isLoading={isSubmitting}>
             <div className="grid grid-cols-8 w-full">{componentByStep}</div>
+            {(isEnableChatSupport() || isCyphrBank()) && <ChatSupportButton />}
           </LoadingOverlay>
         </div>
       </LoanProgramDetailProvider>
