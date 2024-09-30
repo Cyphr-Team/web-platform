@@ -4,6 +4,8 @@ import { compareDesc } from "date-fns"
 
 // $1,000,000,000,000 (1 trillion dollars) is a substantial amount to handle on our financial platform
 export const MAX_CURRENCY_AMOUNT = 1_000_000_000_000
+// Set rough longest forecasting year limit for Financial Projection
+export const LONGEST_FORECASTING_YEAR = 2050
 
 export type CustomErrorMessages = {
   required?: string
@@ -49,7 +51,10 @@ export const createDateSchema = () => {
 
         const date = formatToISOString(value)
         const lower = compareDesc(new Date(1900, 1, 1), new Date(date))
-        const upper = compareDesc(new Date(date), new Date(2050, 1, 1))
+        const upper = compareDesc(
+          new Date(date),
+          new Date(LONGEST_FORECASTING_YEAR, 1, 1)
+        )
 
         return lower !== 0 && lower !== -1 && upper !== 0 && upper !== -1
       },

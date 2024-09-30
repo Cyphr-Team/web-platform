@@ -8,6 +8,7 @@ import { useTenant } from "@/providers/tenant-provider"
 import { useCallback } from "react"
 import ChatBot, { ChatBotProvider, Params } from "react-chatbotify"
 import { markdown } from "markdown"
+import { styles } from "@/modules/chat-support/constants/styles"
 
 export const ChatSupportButton = () => {
   const { mutateAsync: mutateInit } = useInitChatSession()
@@ -35,7 +36,12 @@ export const ChatSupportButton = () => {
   }
 
   return (
-    <ChatBotProvider flow={llmFlow} settings={settings} themes={themes}>
+    <ChatBotProvider
+      flow={llmFlow}
+      settings={settings}
+      themes={themes}
+      styles={styles}
+    >
       <ChatBot />
     </ChatBotProvider>
   )

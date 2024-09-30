@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/popover"
 import { CalendarPlus } from "lucide-react"
 import { FooterProps } from "react-day-picker"
+import { validDateWithinTimeRange } from "@/utils/date.utils"
 
 interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
@@ -29,6 +30,7 @@ interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean
   onCustomClick?: VoidFunction
   dateFormat?: string
+  isEnableFutureDate?: boolean
 }
 
 export function CalendarDatePicker({
@@ -46,7 +48,8 @@ export function CalendarDatePicker({
   align = "start",
   fromDate,
   id,
-  dateFormat
+  dateFormat,
+  isEnableFutureDate
 }: CalendarDatePickerProps) {
   return (
     <div className={cn("grid gap-2", className)}>
@@ -90,11 +93,14 @@ export function CalendarDatePicker({
               }
             }}
             disabled={(date) =>
-              (fromDate && date < fromDate) ||
-              (toDate && date > toDate) ||
-              date > new Date() ||
-              date < new Date(1900, 0, 1)
+              !validDateWithinTimeRange(
+                date,
+                fromDate,
+                toDate,
+                isEnableFutureDate
+              )
             }
+            isEnableFutureDate={isEnableFutureDate}
             customFooter={customFooter}
             initialFocus
           />

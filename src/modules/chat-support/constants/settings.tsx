@@ -33,7 +33,7 @@ export const settings: Settings = {
           fontWeight: "bold"
         }}
       >
-        Lenda Bot
+        Lenda
       </div>
     ),
     showAvatar: true,

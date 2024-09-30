@@ -33,6 +33,7 @@ export interface RHFCalendarPickerInputProps<T extends FieldValues> {
   }
   isRowDirection?: boolean
   dateFormat?: string
+  isEnableFutureDate?: boolean
 }
 
 const RHFCalendarPickerInput = <T extends FieldValues>(
@@ -47,7 +48,8 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
     placeholder,
     styleProps = {},
     isRowDirection = false,
-    dateFormat
+    dateFormat,
+    isEnableFutureDate = false
   } = props
 
   const {
@@ -84,6 +86,7 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
               triggerClassName="w-full text-sm"
               contentClassName="w-full"
               dateFormat={dateFormat}
+              isEnableFutureDate={isEnableFutureDate}
             />
           </FormControl>
 

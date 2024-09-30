@@ -13,9 +13,11 @@ import { cn } from "@/lib/utils"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker, DropdownProps, FooterProps } from "react-day-picker"
 import { ScrollArea } from "./scroll"
+import { LONGEST_FORECASTING_YEAR } from "@/constants/validate"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   customFooter?: (props: FooterProps, classNames?: string) => JSX.Element | null
+  isEnableFutureDate?: boolean
 }
 
 function CalendarDropDown({ value, onChange, children, name }: DropdownProps) {
@@ -61,6 +63,7 @@ export function Calendar({
   classNames,
   showOutsideDays = true,
   customFooter,
+  isEnableFutureDate = false,
   ...props
 }: CalendarProps) {
   return (
@@ -68,7 +71,9 @@ export function Calendar({
       id={props.id}
       captionLayout="dropdown-buttons"
       fromYear={1900}
-      toYear={new Date().getFullYear()}
+      toYear={
+        isEnableFutureDate ? LONGEST_FORECASTING_YEAR : new Date().getFullYear()
+      }
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{

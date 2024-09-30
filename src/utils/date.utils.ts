@@ -160,3 +160,16 @@ export function formatToISOString(
 
   return parse(date, format, newDate).toISOString()
 }
+
+export function validDateWithinTimeRange(
+  date: Date,
+  fromDate?: Date,
+  toDate?: Date,
+  isEnableFutureDate?: boolean
+) {
+  const validFromDate = fromDate ? fromDate < date : true
+  const validToDate = toDate ? date < toDate : true
+  const validPastDate = date > new Date(1900, 0, 1)
+  const validFutureDate = isEnableFutureDate ? true : date < new Date()
+  return validFromDate && validToDate && validPastDate && validFutureDate
+}

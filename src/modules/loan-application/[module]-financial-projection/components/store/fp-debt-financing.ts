@@ -256,7 +256,8 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
         labelClassName: "flex-1",
         calendarClassName: "max-w-60"
       },
-      isHideErrorMessage: true
+      isHideErrorMessage: true,
+      isEnableFutureDate: true
     }
   },
   {
