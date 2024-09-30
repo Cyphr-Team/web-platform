@@ -1,12 +1,7 @@
-import { LoanType } from "@/types/loan-program.type"
 import React, { Dispatch, ReactNode, useMemo, useReducer } from "react"
 import { useUpdateEffect } from "react-use"
 import { createContext } from "use-context-selector"
-import {
-  useLoanApplicationProgressContext,
-  useLoanProgramDetailContext,
-  usePlaidContext
-} from "."
+import { useLoanApplicationProgressContext, usePlaidContext } from "."
 import {
   BusinessFormValue,
   BusinessModelFormValue,
@@ -259,14 +254,10 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     {} as LoanDocumentsState
   )
 
-  const { loanProgramDetails } = useLoanProgramDetailContext()
   const { progress } = useLoanApplicationProgressContext()
-
-  const loanType = loanProgramDetails?.type ?? LoanType.MICRO
 
   const { submitLoanForm, isLoading } = useSubmitLoanForm(
     dispatchFormAction,
-    loanType,
     progress,
     state[LOAN_APPLICATION_STEPS.LOAN_REQUEST],
     state[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION],

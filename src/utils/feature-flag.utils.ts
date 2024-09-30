@@ -104,15 +104,6 @@ function isEnableMultiFactorAuthenticationForLaunchKC() {
 function isEnablePandaDocESign() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PANDA_DOC_ESIGN_V1)
 }
-
-/*
- * New Submit Form Strategy - Submit form using Promise.all
- */
-
-function isEnableNewSubmitFormStrategy() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.NEW_SUBMIT_FORM_STRATEGY)
-}
-
 /*
  * Allow applicants to submit applications without KYC step
  */
@@ -166,7 +157,6 @@ export {
   isEnableMultiFactorAuthenticationForAdminPortal,
   isEnableMultiFactorAuthenticationForRepPortals,
   isEnableMultiFactorAuthenticationForLaunchKC,
-  isEnableNewSubmitFormStrategy,
   isIgnoredKycSubmission,
   isIgnoredCashFlowSubmission,
   isEnableExecutionFormNewMonthlyExpense,

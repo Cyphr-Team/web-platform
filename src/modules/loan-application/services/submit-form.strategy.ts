@@ -19,14 +19,10 @@ import { FictitiousNameCertificationFormValue } from "@/modules/loan-application
 import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
 import { useUploadSbbDocument } from "@/modules/loan-application/hooks/useForm/useSubmitSbbDocument.ts"
 import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/hooks/useSubmitFinancialProjectionForms"
-import { LoanType } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
-import { isCyphrBank, isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
-import {
-  isEnableNewSubmitFormStrategy,
-  isEnablePandaDocESign
-} from "@/utils/feature-flag.utils"
+import { isSbb } from "@/utils/domain.utils"
+import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError, isAxiosError } from "axios"
 import { Dispatch, useCallback } from "react"
@@ -99,7 +95,6 @@ import { FinancialStatementFormValue } from "@/modules/loan-application/[module]
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
-  loanType: LoanType,
   progress: ILoanApplicationStep[],
   loanRequestData: LoanRequestFormValue,
   businessData: IBusinessFormValue,
@@ -468,253 +463,12 @@ export const useSubmitLoanForm = (
       LOAN_APPLICATION_STEP_STATUS.COMPLETE,
     [progress]
   )
-
-  const submitLoanFormV0 = useCallback(async () => {
-    try {
-      const { data } = await submitLoanRequestForm()
-      const loanRequestId = data.id
-      if (loanRequestId) {
-        dispatchFormAction({
-          action: FORM_ACTION.UPDATE_DATA,
-          key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
-          state: {
-            ...data,
-            applicationId: data.id
-          }
-        })
-      }
-
-      let isSubmitted = false
-
-      /**
-       * Submit identity verification - Link inquiry id
-       * Note: Always handle before submit loan confirmation
-       */
-      if (identityVerificationData?.inquiryId) {
-        // Only handle if this application haven't linked before - 1 application only link once
-        if (!identityVerificationData?.smartKycId) {
-          await submitLoanIdentityVerification(loanRequestId)
-        }
-      }
-
-      /**
-       * Submit e sign document - Link document id
-       */
-      if (eSignData?.documentId && isEnablePandaDocESign() && isSbb()) {
-        await submitESignDocument(loanRequestId)
-      }
-
-      if (plaidItemIds?.length) {
-        await submitLinkPlaidItemds(loanRequestId)
-      }
-
-      if (loanType === LoanType.MICRO) {
-        if (
-          businessData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
-        ) {
-          await submitLoanKYBForm(loanRequestId)
-        }
-
-        if (
-          ownerData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
-        ) {
-          const {
-            data: { id: ownerFormId }
-          } = await submitLoanKYCForm(loanRequestId)
-          if (ownerData.governmentFile.length) {
-            await uploadDocuments(
-              ownerFormId,
-              ownerData.governmentFile,
-              FORM_TYPE.KYC
-            )
-          }
-        }
-
-        if (
-          financialData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
-        ) {
-          const {
-            data: { id: financialFormId }
-          } = await submitLoanFinancialForm(loanRequestId)
-          if (financialData.w2sFile.length) {
-            await uploadDocuments(
-              financialFormId,
-              financialData.w2sFile,
-              FORM_TYPE.FINANCIAL
-            )
-          }
-        } else if (
-          cashflowData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
-        ) {
-          const {
-            data: { id: financialFormId }
-          } = await submitCashFlowForm(loanRequestId)
-          if (cashflowData.w2sFile.length) {
-            await uploadDocuments(
-              financialFormId,
-              cashflowData.w2sFile,
-              FORM_TYPE.FINANCIAL
-            )
-          }
-        }
-
-        if (isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()) {
-          if (
-            currentLoansData &&
-            isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
-          ) {
-            await submitCurrentLoansForm(loanRequestId)
-          }
-          if (
-            operatingExpensesData &&
-            isCompleteSteps(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
-          ) {
-            await submitOperatingExpensesForm(loanRequestId)
-          }
-        }
-
-        if (isSbb()) {
-          await submitSbbDocument(loanRequestId!)
-        }
-
-        if (
-          productServiceData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
-        ) {
-          await submitProductServiceForm()
-        }
-
-        if (
-          marketOpportunityData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
-        ) {
-          await submitLoanMarketOpportunity(loanRequestId)
-        }
-
-        if (
-          launchKCFitData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
-        ) {
-          await submitLoanLaunchKCFitForm()
-        }
-
-        if (
-          executionData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.EXECUTION)
-        ) {
-          await submitLoanExecutionForm()
-        }
-
-        if (
-          businessModelData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
-        ) {
-          await submitLoanBusinessModelForm()
-        }
-
-        if (
-          documentUploadsData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS)
-        ) {
-          await uploadBusinessDocuments(
-            loanRequestId,
-            documentUploadsData.executiveSummary?.[0],
-            documentUploadsData.pitchDeck?.[0],
-            documentUploadsData.id ?? ""
-          )
-        }
-      } else if (loanType === LoanType.READINESS) {
-        // Customize submission steps for Readiness loan type
-        if (businessData) await submitLoanKYBForm(loanRequestId)
-        if (ownerData) await submitLoanKYCForm(loanRequestId)
-        await submitLoanFinancialForm(loanRequestId)
-        if (isKccBank() || isCyphrBank() || isSbb() || isLaunchKC()) {
-          if (currentLoansData) {
-            await submitCurrentLoansForm(loanRequestId)
-          }
-          if (operatingExpensesData) {
-            await submitOperatingExpensesForm(loanRequestId)
-          }
-        }
-      }
-
-      /**
-       * Financial Projection forms
-       */
-      await handleSubmitFinancialProjection(loanRequestId)
-
-      if (confirmationData) {
-        await submitLoanConfirmationForm(loanRequestId)
-        isSubmitted = true
-      }
-
-      handleSubmitFormSuccess(
-        loanRequestData?.id?.length > 0,
-        isSubmitted,
-        loanRequestId
-      )
-      queryClient.invalidateQueries({
-        queryKey: loanApplicationUserKeys.detail(loanRequestId)
-      })
-    } catch (error) {
-      handleSubmitFormError(error as AxiosError)
-    } finally {
-      queryClient.invalidateQueries({
-        queryKey: loanApplicationUserKeys.lists()
-      })
-    }
-  }, [
-    handleSubmitFinancialProjection,
-    submitLoanRequestForm,
-    identityVerificationData?.inquiryId,
-    identityVerificationData?.smartKycId,
-    eSignData?.documentId,
-    plaidItemIds?.length,
-    loanType,
-    handleSubmitFormSuccess,
-    loanRequestData?.id?.length,
-    queryClient,
-    dispatchFormAction,
-    submitLoanIdentityVerification,
-    submitESignDocument,
-    submitLinkPlaidItemds,
-    businessData,
-    isCompleteSteps,
-    ownerData,
-    financialData,
-    cashflowData,
-    productServiceData,
-    marketOpportunityData,
-    launchKCFitData,
-    executionData,
-    businessModelData,
-    documentUploadsData,
-    confirmationData,
-    submitLoanKYBForm,
-    submitLoanKYCForm,
-    uploadDocuments,
-    submitLoanFinancialForm,
-    submitCashFlowForm,
-    currentLoansData,
-    operatingExpensesData,
-    submitCurrentLoansForm,
-    submitOperatingExpensesForm,
-    submitSbbDocument,
-    submitProductServiceForm,
-    submitLoanMarketOpportunity,
-    submitLoanLaunchKCFitForm,
-    submitLoanExecutionForm,
-    submitLoanBusinessModelForm,
-    uploadBusinessDocuments,
-    submitLoanConfirmationForm,
-    handleSubmitFormError
-  ])
-
-  const submitLoanFormV1 = useCallback(async () => {
+  /**
+   * V0: Submit form one by one
+   * V1: Submit all forms in parallel
+   * This is the V1 version
+   */
+  const submitLoanForm = useCallback(async () => {
     try {
       // Submit loan request form
       const { data } = await submitLoanRequestForm()
@@ -981,10 +735,6 @@ export const useSubmitLoanForm = (
     handleSubmitFormError,
     submitLoanConfirmationForm
   ])
-
-  const submitLoanForm = isEnableNewSubmitFormStrategy()
-    ? submitLoanFormV1
-    : submitLoanFormV0
 
   return {
     submitLoanForm,
