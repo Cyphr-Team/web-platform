@@ -57,6 +57,7 @@ import { DebtFinancingForm } from "@/modules/loan-application/[module]-financial
 import RevenueForm from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm.tsx"
 import { FinancialProjectionReviewApplication } from "@/modules/loan-application/[module]-financial-projection/components/organisms/review-application/FinancialProjectionReviewApplication"
 import { LoanRequest } from "@/modules/loan-application/components/layouts/LoanRequest.tsx"
+import { LoanReadyLoanRequestForm } from "@/modules/loan-application/components/organisms/loan-application-form/loan-request/LoanReadyLoanRequestForm.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -66,6 +67,10 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   return useMemo(() => {
     switch (step) {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
+        if (isLoanReady()) {
+          return <LoanReadyLoanRequestForm />
+        }
+
         return <LoanRequest />
       case LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION:
         if (isLaunchKC()) {

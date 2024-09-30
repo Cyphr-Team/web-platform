@@ -196,7 +196,7 @@ export const eSignFormSchema = z.object({
 
 export const loanRequestFormSchema = z.object({
   id: z.string(),
-  loanAmount: z.number(),
+  loanAmount: z.number().gt(0),
   loanTermInMonth: z.number().gt(1),
   proposeUseOfLoan: z
     .string()
