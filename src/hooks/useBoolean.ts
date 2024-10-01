@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react"
 
 // ----------------------------------------------------------------------
 
-export interface UseBooleanReturnType {
+export interface UseBooleanReturn {
   value: boolean
   onTrue: () => void
   onFalse: () => void
@@ -21,9 +21,7 @@ export interface UseBooleanReturnType {
  *
  * @param defaultValue
  */
-export default function useBoolean(
-  defaultValue?: boolean
-): UseBooleanReturnType {
+export default function useBoolean(defaultValue?: boolean): UseBooleanReturn {
   const [value, setValue] = useState(!!defaultValue)
 
   const onTrue = useCallback(() => {

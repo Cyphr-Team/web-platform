@@ -9,11 +9,16 @@ interface TotalRowProps {
   itemClassName?: string
 }
 
+const gridMapper: { [key: number]: string } = {
+  1: "grid grid-cols-2",
+  15: "grid grid-cols-16"
+}
+
 export const DateRow = (props: TotalRowProps) => {
   const { title, data, className = "", labelClassName, itemClassName } = props
 
   return (
-    <div className={cn("grid grid-cols-61", className)}>
+    <div className={cn(gridMapper[data.length], className)}>
       <div
         className={cn(
           "col-span-1 flex items-center border border-l-0 border-b-0",

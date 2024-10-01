@@ -544,6 +544,9 @@ export const API_PATH = {
       download: "api/financial-projection/statement/download",
       update: "api/financial-projection/statement/update",
       delete: "api/financial-projection/statement/delete"
+    },
+    forecast: {
+      index: "api/financial-projection/forecast/by-setup-id"
     }
   }
 }

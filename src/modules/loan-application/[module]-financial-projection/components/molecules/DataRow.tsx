@@ -3,7 +3,11 @@ import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCu
 import { PropsWithChildren } from "react"
 
 function currencyCellFormatter(value: number) {
-  return value >= 0
+  if (value === 0) {
+    return "-"
+  }
+
+  return value > 0
     ? USDFormatter(value).format()
     : `(${USDFormatter(value * -1).format()})`
 }
@@ -11,19 +15,29 @@ function currencyCellFormatter(value: number) {
 interface DataRowProps {
   title: string
   data: number[]
+  className?: string
   collision?: boolean
   isEnd?: boolean
   layout?: "total" | "percentage" | "item"
 }
 
+const gridMapper: { [key: number]: string } = {
+  1: "grid grid-cols-2",
+  15: "grid grid-cols-16"
+}
+
 export const DataRow = (props: DataRowProps) => {
-  const { title, data, collision = false, layout = "total" } = props
+  const { title, data, collision = false, layout = "total", className } = props
 
   return (
-    <div className="grid grid-cols-61">
+    <div className={cn(gridMapper[data.length], className)}>
       <StyledComponent layout={layout} collision={collision}>
         <div
-          className={cn("text-sm", layout === "percentage" ? "italic" : null)}
+          className={cn(
+            "text-sm",
+            layout === "percentage" ? "italic" : null,
+            layout === "item" ? "pl-4" : null
+          )}
         >
           {title}
         </div>

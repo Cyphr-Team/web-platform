@@ -18,7 +18,8 @@ export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
     limit: 1000,
     offset: 0
   })
-  const [setupId, setSetupId] = useState("")
+  // FIXME: remove this
+  const [setupId, setSetupId] = useState("758ea9b2-9ac0-4660-bf5f-0bf728bb9a2a")
 
   useEffect(() => {
     if (isFetching || !data?.pages) return
@@ -46,7 +47,13 @@ export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
   }, [data?.pages, isFetching, push, setupId])
 
   return (
-    <div className={cn("px-2xl py-2xl bg-[#F9FAFB]", "md:px-4xl md:py-4xl")}>
+    <div
+      className={cn(
+        "p-2xl bg-[#F9FAFB] container",
+        "md:px-4xl md:py-4xl",
+        "overflow-scroll"
+      )}
+    >
       <h1 className="text-3xl font-semibold">Financial Projections</h1>
       <p className="text-text-tertiary mt-1 text-sm">
         This page provides two views of your business's financial health.
@@ -62,9 +69,7 @@ export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
           <TopNav id={setupId} />
         )}
       </div>
-      <div className={cn("p-4xl pt-3xl flex-1 overflow-auto bg-gray-50")}>
-        {children}
-      </div>
+      <div className="p-4xl pt-3xl flex-1 bg-gray-50">{children}</div>
     </div>
   )
 }
