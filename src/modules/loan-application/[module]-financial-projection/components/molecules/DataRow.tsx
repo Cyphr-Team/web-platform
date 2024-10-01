@@ -35,7 +35,7 @@ export const DataRow = (props: DataRowProps) => {
         <div
           className={cn(
             "text-sm",
-            layout === "percentage" ? "italic" : null,
+            layout === "percentage" ? "italic pl-4" : null,
             layout === "item" ? "pl-4" : null
           )}
         >
