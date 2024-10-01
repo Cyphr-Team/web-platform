@@ -9,7 +9,7 @@ type Props = {
   isPercent?: boolean
 }
 
-export const CashflowGlanceCard: React.FC<Props> = ({
+export const CashFlowGlanceCard: React.FC<Props> = ({
   title,
   value,
   isCurrency,

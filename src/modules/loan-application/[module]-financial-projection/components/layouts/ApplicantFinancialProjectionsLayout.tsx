@@ -1,17 +1,18 @@
 import { useQueryGetUserLoanApplications } from "@/modules/loan-application/hooks/useQuery/useQueryUserLoanApplications"
 import { TopNav } from "../molecules/TopNav"
 import { cn } from "@/lib/utils"
-import { EmptyApplications } from "@/modules/loan-application/pages/LoanApplications"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { useEffect, useState } from "react"
+import { FC, PropsWithChildren, useEffect, useState } from "react"
+import { EmptyApplications } from "@/modules/loan-application/pages/LoanApplications.tsx"
+import useRouter from "@/hooks/useRouter.ts"
+import { APP_PATH } from "@/constants"
 
-type Props = {
-  children: React.ReactNode
-}
+export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
+  props
+) => {
+  const { children } = props
+  const { push } = useRouter()
 
-export const ApplicantFinancialProjectionsLayout: React.FC<Props> = ({
-  children
-}) => {
   // TODO: Endpoint to check if there exists any submitted loan application.
   const { data, isFetching } = useQueryGetUserLoanApplications({
     limit: 1000,
@@ -20,21 +21,29 @@ export const ApplicantFinancialProjectionsLayout: React.FC<Props> = ({
   const [setupId, setSetupId] = useState("")
 
   useEffect(() => {
-    if (isFetching) return
-    const submittedApplication = data?.pages[0]?.data.filter(
-      (application) =>
-        application.status === LoanApplicationStatus.SUBMITTED.toLowerCase() ||
-        application.status === LoanApplicationStatus.APPROVED.toLowerCase() ||
-        application.status === LoanApplicationStatus.DENIED.toLowerCase() ||
-        application.status ===
-          LoanApplicationStatus.READY_FOR_REVIEW.toLowerCase() ||
-        application.status === LoanApplicationStatus.IN_REVIEW.toLowerCase()
+    if (isFetching || !data?.pages) return
+
+    const statusSet = new Set(
+      [
+        LoanApplicationStatus.SUBMITTED,
+        LoanApplicationStatus.APPROVED,
+        LoanApplicationStatus.DENIED,
+        LoanApplicationStatus.READY_FOR_REVIEW,
+        LoanApplicationStatus.IN_REVIEW
+      ].map((status) => status.toLowerCase())
     )
-    // We have 1-1 mapping between submitted application and setup id
-    if (submittedApplication && submittedApplication.length > 0) {
-      setSetupId(submittedApplication[0].id)
+
+    const submittedApplication = data.pages[0]?.data.find((application) =>
+      statusSet.has(application.status.toLowerCase())
+    )
+
+    if (submittedApplication) {
+      setSetupId(submittedApplication.id)
+      push(
+        `${APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW}#${submittedApplication.id}`
+      )
     }
-  }, [data?.pages, isFetching, setupId])
+  }, [data?.pages, isFetching, push, setupId])
 
   return (
     <div className={cn("px-2xl py-2xl bg-[#F9FAFB]", "md:px-4xl md:py-4xl")}>
