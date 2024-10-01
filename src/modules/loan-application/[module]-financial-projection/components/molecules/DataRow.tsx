@@ -18,7 +18,7 @@ interface DataRowProps {
   className?: string
   collision?: boolean
   isEnd?: boolean
-  layout?: "total" | "percentage" | "item"
+  layout?: "total" | "percentage" | "item" | "subTotal"
 }
 
 const gridMapper: { [key: number]: string } = {
@@ -68,12 +68,13 @@ export const DataRow = (props: DataRowProps) => {
 
 const layoutRenderer = {
   total: "border border-l-0 border-b-0 border-y-black font-semibold",
+  subTotal: "border border-l-0  font-semibold",
   item: "border border-l-0 border-b-0",
   percentage: "border border-l-0 border-b-0"
 }
 
 interface StyledComponentProps extends PropsWithChildren {
-  layout: "total" | "percentage" | "item"
+  layout: "total" | "percentage" | "item" | "subTotal"
   collision: boolean
 }
 
