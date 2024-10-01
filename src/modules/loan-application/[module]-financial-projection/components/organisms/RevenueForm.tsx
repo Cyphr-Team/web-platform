@@ -202,7 +202,7 @@ const WelcomeLayout: FC<PropsWithChildren> = ({ children }) => {
       )}
     >
       <h5 className="text-lg font-semibold">Revenue</h5>
-      <div className="text-text-tertiary">
+      <div className="financial-projection text-muted-foreground">
         Select one or more revenue models that best align with your business
         operations and financial reporting requirements.
       </div>

@@ -27,8 +27,9 @@ const blocks: Block[] = [
       placeholder: "Enter name for revenue stream",
       isRowDirection: true,
       className: "flex items-center justify-between",
-      inputClassName: "min-w-72",
-      hideMessage: true
+      inputClassName: "min-w-72 text-sm",
+      hideMessage: true,
+      labelClassName: "font-medium"
     }
   },
   {
@@ -40,8 +41,9 @@ const blocks: Block[] = [
       placeholder: "MM/YYYY",
       isRowDirection: true,
       styleProps: {
-        inputClassName: "min-w-72"
-      }
+        inputClassName: "min-w-72 text-sm"
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -53,8 +55,9 @@ const blocks: Block[] = [
       placeholder: "Monthly sign-ups",
       suffixIcon: "/mo",
       styleProps: {
-        inputClassName: "min-w-72"
-      }
+        inputClassName: "min-w-72 text-sm"
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -69,10 +72,11 @@ const blocks: Block[] = [
       ),
       isRowDirection: true,
       placeholder: "Monthly increase %",
-      suffixIcon: "/mo",
+      suffixIcon: "% /mo",
       styleProps: {
-        inputClassName: "min-w-72"
-      }
+        inputClassName: "min-w-72 text-sm"
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -84,8 +88,9 @@ const blocks: Block[] = [
       placeholder: "Monthly hours billed",
       suffixIcon: "/mo",
       styleProps: {
-        inputClassName: "min-w-72"
-      }
+        inputClassName: "min-w-72 text-sm"
+      },
+      isHideErrorMessage: true
     }
   },
   {
@@ -97,8 +102,9 @@ const blocks: Block[] = [
       placeholder: "Average hourly rate",
       prefixIcon: "$",
       styleProps: {
-        inputClassName: "min-w-72"
-      }
+        inputClassName: "min-w-72 text-sm"
+      },
+      isHideErrorMessage: true
     }
   }
 ]

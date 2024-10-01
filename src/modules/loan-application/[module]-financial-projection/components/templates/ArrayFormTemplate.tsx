@@ -78,7 +78,9 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
       <div className="flex justify-between items-center mr-5">
         <div>
           <h5 className="text-[18px] font-semibold mb-4">{title}</h5>
-          <div className="text-sm">{subtitle}</div>
+          <div className="text-sm financial-projection text-muted-foreground">
+            {subtitle}
+          </div>
         </div>
         <CustomAlertDialog
           isOpen={confirmDeleteDialog.value}
@@ -93,7 +95,14 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
           description={description}
           actionClassName="bg-red-500 hover:bg-red-600 text-white"
         >
-          <X onClick={confirmDeleteDialog.onTrue} />
+          <Button
+            type="button"
+            variant="ghost"
+            className="p-0 h-auto flex ml-auto mr-0"
+            onClick={confirmDeleteDialog.onTrue}
+          >
+            <X className="w-4" />
+          </Button>
         </CustomAlertDialog>
       </div>
       <Separator />

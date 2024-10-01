@@ -104,7 +104,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
             {!!label && (
               <FormLabel className={cn("text-text-secondary", labelClassName)}>
                 <div className="flex flex-col">
-                  <label>
+                  <label className={cn(isRowDirection ? "!mt-0" : null)}>
                     {label}
                     {required && <RequiredSymbol />}
                     {subtitle && (
@@ -126,7 +126,10 @@ const RHFCurrencyInput = <T extends FieldValues>(
             ) : (
               <FormControl>
                 <Input
-                  wrapperClassName={wrapperClassName}
+                  wrapperClassName={cn(
+                    wrapperClassName,
+                    isRowDirection ? "!mt-0" : null
+                  )}
                   {...field}
                   {...inputProps}
                   suffixClassName={suffixClassName}

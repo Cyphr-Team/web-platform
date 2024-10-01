@@ -103,13 +103,13 @@ export const FpOperatingExpensesForm = () => {
     >
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">Operating Expenses (Monthly)</h5>
-        <p className="text-sm">
+        <p className="text-sm financial-projection text-muted-foreground">
           Operating Expenses are costs directly related to the day-to-day
           functioning of your business. Please specify the amount for some
           common expense categories below, and add any that apply to your
           business. For categories which don’t apply, please leave them blank.
         </p>
-        <p className="text-sm">
+        <p className="text-sm financial-projection text-muted-foreground">
           (Note: This form excludes Non-Operating expenses such as Interest
           Expense, Income Taxes, Raw Materials, or Losses from Asset Sales).
         </p>

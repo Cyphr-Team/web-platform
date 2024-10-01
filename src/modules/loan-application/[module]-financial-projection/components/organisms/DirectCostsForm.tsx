@@ -96,14 +96,14 @@ export const DirectCostsForm = () => {
         <h5 className="text-lg font-semibold">
           Direct Costs (Costs of sales/COGS)
         </h5>
-        <p className="text-sm">
+        <p className="text-sm financial-projection text-muted-foreground">
           Direct Costs are expenses directly related to creating or delivering a
           product or service. Common direct costs are raw materials to make a
           product, manufacturing supplies, shipping costs, and costs of
           employees or third-party providers who directly contribute to
           production.
         </p>
-        <p className="text-sm">
+        <p className="text-sm financial-projection text-muted-foreground">
           This section shouldn’t include costs essential to keeping the business
           running, like rent for your office, salaries for your marketing team,
           or the electricity bill. Those are Operating Expenses; we’ll ask for

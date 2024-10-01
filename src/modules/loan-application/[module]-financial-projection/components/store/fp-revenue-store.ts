@@ -30,7 +30,7 @@ export const emptyRecurringCharge: RecurringCharge = {
   monthlyNewCustomer: undefined,
   recurringCharge: undefined,
   frequency: undefined,
-  churnRate: undefined,
+  churnRate: 10,
   hasUpfrontFee: undefined,
   upfrontFee: undefined
 }
@@ -83,10 +83,22 @@ const contractSchema = z.object({
   monthlyRevenue: createNumberSchema({ coerce: true })
 })
 
-export const revenueFormSchema = z.object({
-  id: z.string().optional(),
-  unitSales: z.array(unitSaleSchema),
-  billableHours: z.array(billableHourSchema),
-  recurringCharges: z.array(recurringChargeSchema),
-  contracts: z.array(contractSchema)
-})
+export const revenueFormSchema = z
+  .object({
+    id: z.string().optional(),
+    unitSales: z.array(unitSaleSchema),
+    billableHours: z.array(billableHourSchema),
+    recurringCharges: z.array(recurringChargeSchema),
+    contracts: z.array(contractSchema)
+  })
+  .refine(
+    (data) => {
+      return (
+        data.unitSales.length > 0 ||
+        data.billableHours.length > 0 ||
+        data.recurringCharges.length > 0 ||
+        data.contracts.length > 0
+      )
+    },
+    { message: "At least one of the fields is required" }
+  )

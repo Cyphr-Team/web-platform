@@ -12,7 +12,7 @@ interface Props {
 
 const ContentTooltip: FC<Props> = ({ content }) => {
   return (
-    <Tooltip>
+    <Tooltip delayDuration={500}>
       <TooltipTrigger type="button" className="ml-2 opacity-40">
         <Info size={20} />
       </TooltipTrigger>

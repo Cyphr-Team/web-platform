@@ -88,7 +88,7 @@ export const PeopleForm = () => {
         >
           <div>
             <h5 className="text-lg font-semibold">Current Employees</h5>
-            <h5 className="text-sm font-normal mt-2">
+            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
               Add your current employees to their respective departments,
               including department name, employee count, total annual salaries,
               and whether benefits are offered.
@@ -108,7 +108,7 @@ export const PeopleForm = () => {
         >
           <div>
             <h5 className="text-lg font-semibold">Future Employees</h5>
-            <h5 className="text-sm font-normal mt-2">
+            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
               Add your future headcount to the relevant department. Provide the
               department name, employee count, total annual salaries, and
               whether benefits are offered.

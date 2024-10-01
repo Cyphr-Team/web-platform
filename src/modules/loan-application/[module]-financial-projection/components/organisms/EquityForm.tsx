@@ -116,7 +116,7 @@ export const EquityForm = () => {
     >
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">Equity Financing</h5>
-        <p className="text-sm">
+        <p className="text-sm financial-projection text-muted-foreground">
           Equity investment involves raising capital by selling shares of your
           business to investors. In exchange, these investors gain partial
           ownership and a share in future profits, allowing you to grow without

@@ -117,7 +117,7 @@ export const FinancialStatementForm = ({
               <h4 className="text-lg font-semibold text-text-primary">
                 Financial Statements
               </h4>
-              <p className="text-sm font-normal text-text-primary">
+              <p className="text-sm font-normal text-text-primary financial-projection text-muted-foreground">
                 Financial statements are essential for evaluating the overall
                 health of your business. They provide a detailed view of your
                 business’s profitability, stability, and cash flow and are

@@ -51,7 +51,7 @@ export const TaxRateForm = () => {
         <div className="flex flex-col gap-2xl">
           <div className={"flex flex-col gap-xl p-y-2"}>
             <h5 className="text-lg font-semibold">Tax Rates</h5>
-            <h5 className="text-sm font-normal mt-2">
+            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
               Income Tax: Enter a tax rate to cover income taxes (federal,
               state, local). A 20% rate is a good estimate. Taxes apply only
               when profitable, though unprofitable years may still incur some

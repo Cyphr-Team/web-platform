@@ -167,7 +167,7 @@ export const CashFlowVerificationFormV2 = ({
         <Separator />
         <div className="flex flex-col gap-y-2xl gap-x-4xl">
           <div className="flex flex-col gap-y-sm">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm financial-projection text-muted-foreground">
               Connect your bank accounts securely. This step helps us understand
               your business financial health through cash flow data and expedite
               the loan approval process. Learn how it works{" "}

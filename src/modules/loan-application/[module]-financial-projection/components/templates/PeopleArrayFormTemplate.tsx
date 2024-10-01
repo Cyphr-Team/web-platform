@@ -75,7 +75,11 @@ const PeopleArrayFormTemplate: FC<PeopleArrayFormTemplateProps> = (props) => {
   return (
     <>
       {title && <h5 className="text-sm font-semibold">{title}</h5>}
-      {subtitle && <h5 className="text-sm font-medium">{subtitle}</h5>}
+      {subtitle && (
+        <h5 className="text-sm font-medium financial-projection text-muted-foreground">
+          {subtitle}
+        </h5>
+      )}
       {fields.map((source, index) => {
         return (
           <div

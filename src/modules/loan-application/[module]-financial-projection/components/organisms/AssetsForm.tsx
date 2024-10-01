@@ -158,7 +158,7 @@ export const AssetsForm = () => {
         >
           <div>
             <h5 className="text-lg font-semibold">Accounts Receivable</h5>
-            <h5 className="text-sm font-normal mt-2">
+            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
               Along with your current cash, accounts receivable are current
               assets - cash you expect to receive in the near future.
             </h5>
@@ -176,7 +176,7 @@ export const AssetsForm = () => {
         >
           <div>
             <h5 className="text-lg font-semibold">Long Term Assets</h5>
-            <h5 className="text-sm font-normal mt-2">
+            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
               Long-term assets represent significant investments your business
               has made in resources like equipment, property, and vehicles that
               are expected to provide value over several years. These assets are
