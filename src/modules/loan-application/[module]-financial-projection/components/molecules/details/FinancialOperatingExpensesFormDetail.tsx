@@ -9,11 +9,12 @@ import {
 import { getArrayFieldName } from "@/modules/form-template/components/utils"
 import { RHFProvider } from "@/modules/form-template/providers"
 import {
-  FP_OPERATING_EXPENSES_DEFAULT_VALUE,
   FpOperatingExpensesField,
   fpOperatingExpensesFormSchema,
   FpOperatingExpensesFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
+import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
+import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
 import { sanitizeNumber, toCurrency } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { sum } from "lodash"
@@ -25,10 +26,14 @@ import {
 } from "react-hook-form"
 
 export const FinancialOperatingExpensesFormDetail = () => {
+  const { fpOperatingExpensesFormQuery } = useGetFinancialProjectForms()
+
   const form = useForm<FpOperatingExpensesFormValue>({
     resolver: zodResolver(fpOperatingExpensesFormSchema),
     mode: "onBlur",
-    defaultValues: FP_OPERATING_EXPENSES_DEFAULT_VALUE
+    values: fpOperatingExpensesFormQuery.data
+      ? reverseFormatFpOperatingExpensesForm(fpOperatingExpensesFormQuery.data)
+      : { [FpOperatingExpensesField.operatingExpenses]: [] }
   })
 
   const { fields } = useFieldArray({
@@ -38,7 +43,7 @@ export const FinancialOperatingExpensesFormDetail = () => {
 
   const operationExpenses = form.getValues().operatingExpenses
   const total = sum(
-    operationExpenses.map((operationExpense) =>
+    operationExpenses?.map((operationExpense) =>
       sanitizeNumber(operationExpense.monthlyCost)
     )
   )
@@ -56,7 +61,7 @@ export const FinancialOperatingExpensesFormDetail = () => {
       </div>
       <RHFProvider methods={form}>
         <div className="flex flex-col gap-6 mb-5">
-          {fields.map((founder, index) => (
+          {fields?.map((founder, index) => (
             <OperatingExpenses key={founder.id} index={index} value={founder} />
           ))}
         </div>

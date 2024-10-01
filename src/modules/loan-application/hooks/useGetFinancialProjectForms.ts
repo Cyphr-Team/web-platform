@@ -77,18 +77,18 @@ export const useGetFinancialProjectForms = () => {
   )
 
   // Financial Statement Form
-  const financialStatement = useQueryGetFinancialStatementForm({
+  const financialStatementQuery = useQueryGetFinancialStatementForm({
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS)
   })
   useEffect(() => {
-    if (financialStatement.data && isInitialized) {
+    if (financialStatementQuery.data && isInitialized) {
       changeDataAndProgress(
-        reverseFormatFinancialStatementForm(financialStatement.data),
+        reverseFormatFinancialStatementForm(financialStatementQuery.data),
         LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS
       )
     }
-  }, [changeDataAndProgress, financialStatement.data, isInitialized])
+  }, [changeDataAndProgress, financialStatementQuery.data, isInitialized])
 
   // Expense People Form
   const expensePeopleFormQuery = useQueryGetExpensePeopleForm({
@@ -119,18 +119,18 @@ export const useGetFinancialProjectForms = () => {
   }, [changeDataAndProgress, fpOperatingExpensesFormQuery.data, isInitialized])
 
   // Direct Costs Form
-  const directCosts = useQueryGetDirectCostsForm({
+  const directCostsQuery = useQueryGetDirectCostsForm({
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DIRECT_COSTS)
   })
   useEffect(() => {
-    if (directCosts.data && isInitialized) {
+    if (directCostsQuery.data && isInitialized) {
       changeDataAndProgress(
-        reverseFormatDirectCostsForm(directCosts.data),
+        reverseFormatDirectCostsForm(directCostsQuery.data),
         LOAN_APPLICATION_STEPS.DIRECT_COSTS
       )
     }
-  }, [changeDataAndProgress, directCosts.data, isInitialized])
+  }, [changeDataAndProgress, directCostsQuery.data, isInitialized])
 
   // Equity Financing Form
   const fpEquityFinancingFormQuery = useQueryGetEquityFinancingForm({
@@ -268,6 +268,12 @@ export const useGetFinancialProjectForms = () => {
     revenueFormQuery,
     debtFinancingFormQuery,
     debtFinancingLiabilityFormQuery,
-    forecastingSetupQuery
+    forecastingSetupQuery,
+    financialStatementQuery,
+    fpEquityFinancingFormQuery,
+    fpAssetsLongTermFormQuery,
+    fpAssetsCurrentFormQuery,
+    fpExpenseTaxRateFormQuery,
+    directCostsQuery
   }
 }

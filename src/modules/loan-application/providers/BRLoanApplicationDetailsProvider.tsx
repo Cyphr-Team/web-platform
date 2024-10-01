@@ -74,8 +74,14 @@ import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
 import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { isEnabledQuery } from "@/utils"
-import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatForecastSetupResult } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
+import { FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
+
+type FinancialProjectionDetail = {
+  financialStatementData?: FinancialStatementFormResponse
+  revenueFormData?: SubmitRevenueStreamResponse
+}
 
 type BRLoanApplicationDetailsContext<T> = {
   loanProgramDetails?: T
@@ -97,14 +103,13 @@ type BRLoanApplicationDetailsContext<T> = {
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
   plaidConnectedBankAccountsByApplicationId?: IPlaidConnectedBankAccountsByApplicationIdGetResponse
-  revenueFormData?: RevenueStream
   /**
    * Financial projection
    * */
   forecastingSetup?: ForecastingSetupFormValue
   isLoading: boolean
   isFetchingDetails: boolean
-}
+} & FinancialProjectionDetail
 
 export const MicroLoanBRLoanApplicationDetailsContext = createContext<
   BRLoanApplicationDetailsContext<MicroLoanProgramType>
@@ -810,7 +815,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
     revenueFormQuery,
     debtFinancingFormQuery,
     debtFinancingLiabilityFormQuery,
-    forecastingSetupQuery
+    forecastingSetupQuery,
+    financialStatementQuery
   } = useGetFinancialProjectForms()
 
   const value = useMemo(
@@ -835,13 +841,14 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       debtFinancingFormData: debtFinancingFormQuery.data,
       debtFinancingLiabilityFormData: debtFinancingLiabilityFormQuery.data,
       forecastingSetup: formatForecastSetupResult(forecastingSetupQuery.data),
-      revenueFormQuery: revenueFormQuery.data,
+      revenueFormData: revenueFormQuery.data,
       loanApplicationDetails: loanApplicationDetailsQuery.data,
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
       businessDocumentsFormData: businessDocumentsUploadedFormQuery.data,
       plaidConnectedBankAccountsByApplicationId:
         plaidConnectedAccountsQuery.data?.data,
+      financialStatementData: financialStatementQuery?.data,
       isFetchingDetails:
         loanApplicationDetailsQuery.isLoading ||
         kybFormQuery.isLoading ||
@@ -865,7 +872,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         revenueFormQuery.isLoading ||
         debtFinancingFormQuery.isLoading ||
         debtFinancingLiabilityFormQuery.isLoading ||
-        forecastingSetupQuery.isLoading,
+        forecastingSetupQuery.isLoading ||
+        financialStatementQuery.isLoading,
       isLoading: loanProgramQuery.isLoading
     }),
     [
@@ -916,6 +924,8 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       businessDocumentsUploadedFormQuery.data,
       plaidConnectedAccountsQuery.data?.data,
       plaidConnectedAccountsQuery.isLoading,
+      financialStatementQuery?.data,
+      financialStatementQuery.isLoading,
       plaidItemIdsQuery.isLoading
     ]
   )

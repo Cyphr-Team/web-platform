@@ -8,11 +8,12 @@ import {
 import { getArrayFieldName } from "@/modules/form-template/components/utils"
 import { RHFProvider } from "@/modules/form-template/providers"
 import {
-  DIRECT_COSTS_DEFAULT_VALUE,
   DirectCostsField,
   directCostsFormSchema,
   DirectCostsFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { reverseFormatDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
+import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -23,10 +24,14 @@ import {
 } from "react-hook-form"
 
 export const DirectCostsFormDetail = () => {
+  const { directCostsQuery } = useGetFinancialProjectForms()
+
   const form = useForm<DirectCostsFormValue>({
     resolver: zodResolver(directCostsFormSchema),
     mode: "onBlur",
-    defaultValues: DIRECT_COSTS_DEFAULT_VALUE
+    values: directCostsQuery?.data
+      ? reverseFormatDirectCostsForm(directCostsQuery.data)
+      : { [DirectCostsField.directCosts]: [] }
   })
 
   const { fields } = useFieldArray({
@@ -45,7 +50,7 @@ export const DirectCostsFormDetail = () => {
       </div>
       <RHFProvider methods={form}>
         <div className="flex flex-col gap-6 mb-5">
-          {fields.map((founder, index) => (
+          {fields?.map((founder, index) => (
             <DirectCosts key={founder.id} index={index} value={founder} />
           ))}
         </div>

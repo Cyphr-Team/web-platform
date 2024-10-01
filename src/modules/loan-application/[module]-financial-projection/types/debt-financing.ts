@@ -15,6 +15,7 @@ type IdType = {
 export type DebtFinancingCommonForm = Pick<
   DebtFinancingFormValue,
   | DebtFinancingField.STARTING_PAID_IN_CAPITAL
+  | DebtFinancingField.PAYABLE_DAYS
   | DebtFinancingField.HAS_OUTSTANDING_LOANS
 >
 export type DebtFinancingForm = DebtFinancingFormItemValue

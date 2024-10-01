@@ -33,7 +33,7 @@ interface HeaderProps {
 }
 const Header = ({ title, subTitle }: HeaderProps) => {
   const renderSubTitle = subTitle ? (
-    <p className="text-sm mt-1">{subTitle}</p>
+    <div className="text-sm mt-1">{subTitle}</div>
   ) : null
 
   return (
