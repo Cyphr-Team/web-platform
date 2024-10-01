@@ -94,9 +94,7 @@ export const useSubmitFinancialProjectionForms = ({
   })
 
   const setupHook = {
-    [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: [
-      financialStatementSubmission
-    ]
+    [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: [forecastingSetupSubmission]
   }
 
   const submissionHooks = {
@@ -104,7 +102,9 @@ export const useSubmitFinancialProjectionForms = ({
     [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: [
       operatingExpensesSubmission
     ],
-    [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: [forecastingSetupSubmission],
+    [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: [
+      financialStatementSubmission
+    ],
     [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: [directCostsSubmission],
     [LOAN_APPLICATION_STEPS.EQUITY]: [equityFinancingSubmission],
     [LOAN_APPLICATION_STEPS.ASSETS]: [
@@ -121,19 +121,24 @@ export const useSubmitFinancialProjectionForms = ({
 
   // Setup Hook must be submitted first, then submission hooks
   const handleSubmitFinancialProjection = async (applicationId: string) => {
-    const submissionPromises = [
-      ...Object.entries(setupHook),
-      ...Object.entries(submissionHooks)
-    ].reduce((promises, [step, hook]) => {
-      if (!getStepStatus(step)) return promises
-      hook.forEach((item) => {
-        if (item.submitForm) {
-          promises.push(item.submitForm(applicationId))
-        }
-      })
-      return promises
-    }, [] as Promise<unknown>[])
+    if (getStepStatus(LOAN_APPLICATION_STEPS.FORECASTING_SETUP)) {
+      await forecastingSetupSubmission.submitForm(applicationId)
+    } else {
+      throw new Error("Please complete the setup step first")
+    }
 
+    const submissionPromises = Object.entries(submissionHooks).reduce(
+      (promises, [step, hook]) => {
+        if (!getStepStatus(step)) return promises
+        hook.forEach((item) => {
+          if (item.submitForm) {
+            promises.push(item.submitForm(applicationId))
+          }
+        })
+        return promises
+      },
+      [] as Promise<unknown>[]
+    )
     return Promise.allSettled(submissionPromises)
   }
 
