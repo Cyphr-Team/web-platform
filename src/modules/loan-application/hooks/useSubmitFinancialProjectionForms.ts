@@ -26,6 +26,7 @@ import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-f
 import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
+import { isLoanReady } from "@/utils/domain.utils"
 
 interface FormData {
   peopleFormData: PeopleFormValue
@@ -121,10 +122,17 @@ export const useSubmitFinancialProjectionForms = ({
 
   // Setup Hook must be submitted first, then submission hooks
   const handleSubmitFinancialProjection = async (applicationId: string) => {
-    if (getStepStatus(LOAN_APPLICATION_STEPS.FORECASTING_SETUP)) {
-      await forecastingSetupSubmission.submitForm(applicationId)
-    } else {
+    // TODO: UX to force LoanReady users submit setup form first
+    // For Loan Ready, this setup step is required. We should check if it is ready or not, and if not, throw an error
+    // For other tenants, we can skip this setup check
+    const isForecastingSetupComplete = getStepStatus(
+      LOAN_APPLICATION_STEPS.FORECASTING_SETUP
+    )
+    if (!isForecastingSetupComplete && isLoanReady()) {
       throw new Error("Please complete the setup step first")
+    }
+    if (isForecastingSetupComplete) {
+      await forecastingSetupSubmission.submitForm(applicationId)
     }
 
     const submissionPromises = Object.entries(submissionHooks).reduce(
