@@ -16,6 +16,7 @@ import { LoginFormValue, loginFormSchema, useLogin } from "../hooks/useLogin"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link, useSearchParams } from "react-router-dom"
+import { isAdmin } from "@/utils/domain.utils"
 
 export function LoginForm() {
   const [searchParams] = useSearchParams()
@@ -123,8 +124,7 @@ export function LoginForm() {
           </ButtonLoading>
         </form>
       </Form>
-
-      <LoginGoogleButton />
+      {!isAdmin() ? <LoginGoogleButton /> : null}
     </div>
   )
 }

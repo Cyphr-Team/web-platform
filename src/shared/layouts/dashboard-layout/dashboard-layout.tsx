@@ -10,6 +10,7 @@ import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
 import { Loader2 } from "lucide-react"
 import { useVerifyToken } from "@/hooks/useVerifyToken"
 import { useLogout } from "@/hooks/useLogout"
+import { isAdmin } from "@/utils/domain.utils"
 
 const RoleStrict = ({ children }: React.PropsWithChildren) => {
   const isLoanApplicant = checkIsLoanApplicant()
@@ -33,12 +34,17 @@ export function Component() {
   const { userPromise } = useLoaderData() as {
     userPromise: Promise<UserInfo>
   }
-
   return (
     <Suspense fallback={<Loader2 className="animate-spin" />}>
       <Await
         resolve={userPromise}
-        errorElement={<Navigate to={APP_PATH.SIGN_UP} replace />}
+        errorElement={
+          isAdmin() ? (
+            <Navigate to={APP_PATH.LOGIN} replace />
+          ) : (
+            <Navigate to={APP_PATH.SIGN_UP} replace />
+          )
+        }
       >
         <RoleStrict>
           <Header items={DASHBOARD_NAV_ITEM} />

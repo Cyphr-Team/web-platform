@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { LoginForm } from "./login-form"
 import { isEnableMFA } from "@/services/jwt.service"
 import { MfaLoginForm } from "./mfa-login-form"
+import { isAdmin } from "@/utils/domain.utils"
 
 export function LoginFormSection() {
   return (
@@ -24,12 +25,15 @@ export function LoginFormSection() {
         </div>
 
         {isEnableMFA() ? <MfaLoginForm /> : <LoginForm />}
-
         <p className="px-8 text-center text-sm text-muted-foreground">
-          Don’t have an account?{" "}
-          <Button variant="link" className="p-0 text-primary" asChild>
-            <Link to={APP_PATH.SIGN_UP}>Sign up</Link>
-          </Button>
+          {!isAdmin() ? (
+            <>
+              Don’t have an account?{" "}
+              <Button variant="link" className="p-0 text-primary" asChild>
+                <Link to={APP_PATH.SIGN_UP}>Sign up</Link>
+              </Button>
+            </>
+          ) : null}
         </p>
       </div>
     </div>

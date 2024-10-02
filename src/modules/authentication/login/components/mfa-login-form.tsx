@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Link, useSearchParams } from "react-router-dom"
 import { useStytchLogin } from "../hooks/useStytchLogin"
 import { LoginGoogleButtonMFA } from "./mfa-login-google-button"
+import { isAdmin } from "@/utils/domain.utils"
 
 export function MfaLoginForm() {
   const [searchParams] = useSearchParams()
@@ -124,8 +125,7 @@ export function MfaLoginForm() {
           </ButtonLoading>
         </form>
       </Form>
-
-      <LoginGoogleButtonMFA />
+      {!isAdmin() ? <LoginGoogleButtonMFA /> : null}
     </div>
   )
 }
