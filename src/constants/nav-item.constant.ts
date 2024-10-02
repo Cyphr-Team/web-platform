@@ -8,9 +8,10 @@ import {
   workspaceAdminRoles
 } from "@/types/user.type"
 import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
-import { CalendarSearch, Flag, Send, Workflow } from "lucide-react"
+import { CalendarSearch, Files, Flag, Send, Workflow } from "lucide-react"
 import { APP_PATH } from "."
 import { FEATURE_FLAGS } from "./feature-flag.constants"
+import { isEnableChatSupport } from "@/utils/feature-flag.utils"
 
 export const DASHBOARD_NAV_ITEM: NavItem[] = [
   {
@@ -40,6 +41,15 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     label: "Feature Flags",
     roles: platformAdminRoles(),
     featureKey: FeatureKey.FEATURE_FLAG
+  },
+  {
+    title: "Documents",
+    href: APP_PATH.DOCUMENTS,
+    icon: Files,
+    label: "Documents",
+    roles: platformAdminRoles(),
+    disabled: isEnableChatSupport(),
+    featureKey: FeatureKey.CHATBOT_DOCUMENT
   },
   {
     title: "Applications",

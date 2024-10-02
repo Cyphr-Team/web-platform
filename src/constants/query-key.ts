@@ -132,3 +132,12 @@ export const whitelistUserKeys = {
   list: (filters: string) =>
     [...whitelistUserKeys.lists(), { filters }] as const
 }
+
+export const chatbotDocumentKeys = {
+  all: ["chatbotDocument"] as const,
+  lists: () => [...chatbotDocumentKeys.all, "list"] as const,
+  list: (filters: object) =>
+    [...chatbotDocumentKeys.lists(), { filters }] as const,
+  download: (id: string, timestamp: number) =>
+    [...chatbotDocumentKeys.all, "download", id, timestamp] as const
+}

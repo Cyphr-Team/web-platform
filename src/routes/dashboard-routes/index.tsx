@@ -64,6 +64,12 @@ const dashboardRoutes = (
       lazy={() => import("@/modules/admin/user/invitation-page.tsx")}
     />
 
+    {/* DOCUMENT MANAGEMENT */}
+    <Route
+      path={APP_PATH.DOCUMENTS}
+      lazy={() => import("@/modules/admin/user/document-page.tsx")}
+    />
+
     {/* MESSAGES */}
     <Route
       path={APP_PATH.MESSAGES}

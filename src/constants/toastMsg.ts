@@ -28,6 +28,14 @@ export const TOAST_MSG = {
       title: "Reactivate user",
       description: "User is reactivated successfully"
     },
+    uploadDocument: {
+      title: "Upload document",
+      description: "Document is uploaded successfully"
+    },
+    deleteDocument: {
+      title: "Remove document",
+      description: "Document is removed successfully"
+    },
     // Notifications for Stytch MFA
     stytchMagicLink: {
       title: "Stytch Magic Link",

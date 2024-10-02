@@ -3,7 +3,8 @@ import { getSubdomain } from "./domain.utils"
 enum CustomHeaderKey {
   InstitutionSubdomain = "X-FS-Institution-Subdomain",
   RememberMe = "X-FS-Remember-Me",
-  Authorization = "Authorization"
+  Authorization = "Authorization",
+  ContentType = "Content-Type"
 }
 
 type CustomHeader = {
@@ -39,4 +40,16 @@ const headerWithRememberMe = (days: number) => {
   }
 }
 
-export { customRequestHeader, headerWithRememberMe, headerWithTemporaryToken }
+const headerWithContentType = (contentType: string) => {
+  return {
+    ...customRequestHeader.customHeaders,
+    [CustomHeaderKey.ContentType]: contentType
+  }
+}
+
+export {
+  customRequestHeader,
+  headerWithRememberMe,
+  headerWithTemporaryToken,
+  headerWithContentType
+}

@@ -130,6 +130,7 @@ export const APP_PATH = {
   ONBOARD: "/onboard",
   SUBSCRIPTIONS: "/subscriptions",
   FEATURE_FLAGS: "/feature-flags",
+  DOCUMENTS: "/documents",
 
   CONFERENCE_DEMO: {
     applicant: {
@@ -197,6 +198,12 @@ export const API_PATH = {
       bulkInviteCsvTemplate: "api/admin/invitation/bulk-invite-csv-template",
       delete: (invitationId: string) =>
         `${API_PATH.admin.invitation.all}/${invitationId}`
+    },
+    document: {
+      list: "api/admin/chatbot-document/list",
+      upload: "api/admin/chatbot-document",
+      delete: "api/admin/chatbot-document/delete",
+      download: "api/admin/chatbot-document/download"
     }
   },
   workspaceAdmin: {

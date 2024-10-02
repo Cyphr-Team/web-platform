@@ -18,6 +18,7 @@ export const enum FeatureKey {
   USER = "user",
   ONBOARD = "onboard",
   FINANCIAL = "financial",
+  CHATBOT_DOCUMENT = "chatbotDocument",
 
   /**
    * Access applicant document
