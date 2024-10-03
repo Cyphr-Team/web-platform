@@ -18,8 +18,8 @@ export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
     limit: 1000,
     offset: 0
   })
-  // FIXME: remove this
-  const [setupId, setSetupId] = useState("758ea9b2-9ac0-4660-bf5f-0bf728bb9a2a")
+
+  const [setupId, setSetupId] = useState("")
 
   useEffect(() => {
     if (isFetching || !data?.pages) return

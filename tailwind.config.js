@@ -25,7 +25,8 @@ module.exports = {
         sans: ['"Inter"', "sans-serif"]
       },
       gridTemplateColumns: {
-        16: "repeat(16, minmax(0, 1fr))"
+        16: "repeat(16, minmax(0, 1fr))",
+        61: "repeat(61, minmax(0, 1fr))"
       },
       colors: {
         border: {

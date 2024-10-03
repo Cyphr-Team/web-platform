@@ -20,6 +20,7 @@ import {
   HeaderMapper,
   HeaderProps
 } from "@/modules/loan-application/[module]-financial-projection/constants"
+import { get } from "lodash"
 
 export function Component() {
   const applicationId = useMemo(() => window.location.href.split("#")[1], [])
@@ -32,35 +33,38 @@ export function Component() {
     enabled: !!applicationId
   })
 
-  console.log("data", data)
+  const forecastResults = useMemo(
+    () => data ?? ({} as ForecastResultsResponse),
+    [data]
+  )
 
   const annuallyData = useMemo(
-    () => getBalanceSheet(data, ForecastPeriod.ANNUALLY),
-    [data]
+    () => getBalanceSheet(forecastResults, ForecastPeriod.ANNUALLY),
+    [forecastResults]
   )
   const annuallyTimeStamp = useMemo(
     () =>
-      data.cashFlowForecastAnnually[0].forecastData.map(
+      get(forecastResults, "cashFlowForecastAnnually[0].forecastData", []).map(
         (entry) => new Date(entry.forecastDate)
       ),
-    [data.cashFlowForecastAnnually]
+    [forecastResults]
   )
 
   const monthlyData = useMemo(
-    () => getBalanceSheet(data, ForecastPeriod.MONTHLY),
-    [data]
+    () => getBalanceSheet(forecastResults, ForecastPeriod.MONTHLY),
+    [forecastResults]
   )
   const monthlyTimeStamp = useMemo(
     () =>
-      data.cashFlowForecastMonthly[0].forecastData.map(
+      get(forecastResults, "cashFlowForecastMonthly[0].forecastData", []).map(
         (entry) => new Date(entry.forecastDate)
       ),
-    [data.cashFlowForecastMonthly]
+    [forecastResults]
   )
 
   const currentData = useMemo(
-    () => getBalanceSheet(data, ForecastPeriod.CURRENT),
-    [data]
+    () => getBalanceSheet(forecastResults, ForecastPeriod.CURRENT),
+    [forecastResults]
   )
 
   return (
