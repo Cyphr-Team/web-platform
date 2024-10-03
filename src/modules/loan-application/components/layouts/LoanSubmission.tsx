@@ -1,9 +1,11 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { ArrowDownToLine, ArrowRight, CheckCircle } from "lucide-react"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
+import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Button } from "@/components/ui/button"
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { APP_PATH } from "@/constants"
+import { LoanReadyLoanSubmission } from "@/modules/loan-application/components/layouts/LoanReady/LoanSubmission"
+import { isLoanReady } from "@/utils/domain.utils"
+import { ArrowDownToLine, ArrowRight, CheckCircle } from "lucide-react"
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { ButtonDownloadESignDocument } from "../atoms/ButtonDownloadESignDocument"
 
 const LoanSubmissionWithDocument = () => {
@@ -103,6 +105,8 @@ export function Component() {
   }
 
   if (documentId) return <LoanSubmissionWithDocument />
+
+  if (isLoanReady()) return <LoanReadyLoanSubmission />
 
   return (
     <div className="p-4 lg:p-8 h-full w-full flex">

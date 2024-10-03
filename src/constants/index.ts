@@ -37,6 +37,8 @@ export const APP_PATH = {
       edit: "/loan/:loanProgramId/applications/:id/edit",
       details: (id: string, loanProgramId: string) =>
         `/loan/${loanProgramId}/applications/${id}`,
+      financialApplicationDetails: (id: string, loanProgramId: string) =>
+        `/loan/${loanProgramId}/financial-applications/${id}`,
       editing: (id: string, loanProgramId: string) =>
         `/loan/${loanProgramId}/applications/${id}/edit`
     },
