@@ -10,7 +10,7 @@ export const SectionRow = (props: TableTitleProps) => {
   return (
     <div
       className={cn(
-        "flex items-center p-4 text-sm font-bold border-t border-t-black",
+        "flex items-center p-4 text-sm font-bold border-t border-t-black border-r",
         className
       )}
     >

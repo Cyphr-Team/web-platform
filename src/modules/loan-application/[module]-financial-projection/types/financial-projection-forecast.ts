@@ -56,7 +56,8 @@ export const enum ForecastType {
 
 export const enum ForecastPeriod {
   MONTHLY = "MONTHLY",
-  ANNUALLY = "ANNUALLY"
+  ANNUALLY = "ANNUALLY",
+  CURRENT = "CURRENT"
 }
 
 export interface ForecastDataPoint {
@@ -65,7 +66,7 @@ export interface ForecastDataPoint {
   forecastPeriod: ForecastPeriod
 }
 
-interface ForecastDataCategory {
+export interface ForecastDataCategory {
   forecastType: ForecastType
   forecastData: ForecastDataPoint[]
 }

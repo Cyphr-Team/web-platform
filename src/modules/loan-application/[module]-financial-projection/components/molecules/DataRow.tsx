@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils.ts"
 import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 import { PropsWithChildren } from "react"
+import { GridMapper } from "@/modules/loan-application/[module]-financial-projection/constants"
 
 function currencyCellFormatter(value: number) {
   if (value === 0) {
@@ -21,16 +22,11 @@ interface DataRowProps {
   layout?: "total" | "percentage" | "item" | "subTotal"
 }
 
-const gridMapper: { [key: number]: string } = {
-  1: "grid grid-cols-2",
-  15: "grid grid-cols-16"
-}
-
 export const DataRow = (props: DataRowProps) => {
   const { title, data, collision = false, layout = "total", className } = props
 
   return (
-    <div className={cn(gridMapper[data.length], className)}>
+    <div className={cn(GridMapper[data.length], className)}>
       <StyledComponent layout={layout} collision={collision}>
         <div
           className={cn(
@@ -42,7 +38,7 @@ export const DataRow = (props: DataRowProps) => {
           {title}
         </div>
       </StyledComponent>
-      {data.map((value) => {
+      {data.map((value, index) => {
         const inner =
           layout === "percentage" ? (
             <>
@@ -57,7 +53,11 @@ export const DataRow = (props: DataRowProps) => {
           )
 
         return (
-          <StyledComponent key={value} layout={layout} collision={collision}>
+          <StyledComponent
+            key={value + index}
+            layout={layout}
+            collision={collision}
+          >
             {inner}
           </StyledComponent>
         )

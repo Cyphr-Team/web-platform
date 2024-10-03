@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils.ts"
 import { ReactNode } from "react"
+import { GridMapper } from "@/modules/loan-application/[module]-financial-projection/constants"
 
 interface TotalRowProps {
   title: string
@@ -9,16 +10,11 @@ interface TotalRowProps {
   itemClassName?: string
 }
 
-const gridMapper: { [key: number]: string } = {
-  1: "grid grid-cols-2",
-  15: "grid grid-cols-16"
-}
-
 export const DateRow = (props: TotalRowProps) => {
   const { title, data, className = "", labelClassName, itemClassName } = props
 
   return (
-    <div className={cn(gridMapper[data.length], className)}>
+    <div className={cn(GridMapper[data.length], className)}>
       <div
         className={cn(
           "col-span-1 flex items-center border border-l-0 border-b-0",

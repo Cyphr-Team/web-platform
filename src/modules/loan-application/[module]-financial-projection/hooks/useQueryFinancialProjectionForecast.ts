@@ -2,7 +2,38 @@ import { FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery
 import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId.ts"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
 import { API_PATH } from "@/constants"
-import { ForecastResultsResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
+import {
+  ForecastPeriod,
+  ForecastResultsResponse,
+  ForecastType
+} from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
+import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
+
+type PossibleSheetName =
+  | "cashFlowForecastMonthly"
+  | "balanceSheetForecastMonthly"
+  | "incomeStatementForecastMonthly"
+  | "cashFlowForecastAnnually"
+  | "balanceSheetForecastAnnually"
+  | "incomeStatementForecastAnnually"
+
+export function parseForecastData(
+  data: ForecastResultsResponse,
+  sheetName: PossibleSheetName,
+  forecastType: ForecastType
+): number[] {
+  const forecastGroup = data[sheetName]
+
+  const forecast = forecastGroup.find(
+    (item) => item.forecastType === forecastType
+  )
+
+  if (!forecast) {
+    return []
+  }
+
+  return forecast.forecastData.map((item) => item.value)
+}
 
 export const useQueryFinancialProjectionForecast = ({
   applicationId,
@@ -26,1819 +57,1847 @@ export const useQueryFinancialProjectionForecast = ({
   return {
     isLoading: false,
     data: {
-      financial_projection_setup_id: "758ea9b2-9ac0-4660-bf5f-0bf728bb9a2a",
-      cash_flow_forecast_monthly: [
+      balanceSheetForecastAnnually: [
         {
-          forecast_type: "beginningCash",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1000.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 56108229
             },
             {
-              value: 7577087.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 120322944140
             },
             {
-              value: 1.0134093e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 263310367748409
             }
-          ]
+          ],
+          forecastType: "accountPayable"
         },
         {
-          forecast_type: "changeInAccountPayable",
-          forecast_data: [
+          forecastData: [
             {
-              value: 8666718.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 130648169
             },
             {
-              value: 7363421.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 280267694415
             },
             {
-              value: 1.3868071e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 613327756590287
             }
-          ]
+          ],
+          forecastType: "accountReceivable"
         },
         {
-          forecast_type: "changeInAccountReceivable",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.0142853e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 206
             },
             {
-              value: 1.7151587e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 826
             },
             {
-              value: 3.2302841e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 1446
             }
-          ]
+          ],
+          forecastType: "accumulatedDepreciation"
         },
         {
-          forecast_type: "changeInCash",
-          forecast_data: [
+          forecastData: [
             {
-              value: 7578087.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 49950062
             },
             {
-              value: 2557005.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 114875448751
             },
             {
-              value: 4943457.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 251298866094580
             }
-          ]
+          ],
+          forecastType: "accumulatedRetainedEarnings"
         },
         {
-          forecast_type: "changeInFixedAsset",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4042.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 24589340
             },
             {
-              value: 0.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 45069300366
             },
             {
-              value: 0.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 98718522745520
             }
-          ]
+          ],
+          forecastType: "cash"
         },
         {
-          forecast_type: "changeInPaidInCapital",
-          forecast_data: [
+          forecastData: [
             {
-              value: 0.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 4042
             },
             {
-              value: 3373.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 4042
             },
             {
-              value: 0.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 4042
             }
-          ]
+          ],
+          forecastType: "fixedAsset"
         },
         {
-          forecast_type: "depreciation",
-          forecast_data: [
+          forecastData: [
             {
-              value: 51.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 3362
             },
             {
-              value: 51.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 628
             },
             {
-              value: 51.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "longTermDebt"
         },
         {
-          forecast_type: "endingCash",
-          forecast_data: [
+          forecastData: [
             {
-              value: 7577087.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 4373
             },
             {
-              value: 1.0134093e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 4373
             },
             {
-              value: 1.507755e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 4373
             }
-          ]
+          ],
+          forecastType: "paidInCapital"
         },
         {
-          forecast_type: "longTermDebt",
-          forecast_data: [
+          forecastData: [
             {
-              value: 8676.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 106062664
             },
             {
-              value: 0.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 235198397264
             },
             {
-              value: 0.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 514609233847363
             }
-          ]
+          ],
+          forecastType: "totalAssets"
         },
         {
-          forecast_type: "netIncome",
-          forecast_data: [
+          forecastData: [
             {
-              value: 3902037.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 106058829
             },
             {
-              value: 7227736.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 235198394049
             },
             {
-              value: 1.349126e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 514609233844767
             }
-          ]
+          ],
+          forecastType: "totalCurrentAssets"
         },
         {
-          forecast_type: "repaymentOfDebt",
-          forecast_data: [
+          forecastData: [
             {
-              value: 429.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 49954435
             },
             {
-              value: 437.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 114875453124
             },
             {
-              value: 445.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 251298866098953
             }
-          ]
+          ],
+          forecastType: "totalEquity"
         },
         {
-          forecast_type: "totalFinancingCashFlow",
-          forecast_data: [
+          forecastData: [
             {
-              value: 0.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 56111591
             },
             {
-              value: 3373.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 120322944768
             },
             {
-              value: 0.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 263310367748409
             }
-          ]
+          ],
+          forecastType: "totalLiabilities"
         },
         {
-          forecast_type: "totalInvestingCashFlow",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4042.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 106066026
             },
             {
-              value: 0.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 235198397892
             },
             {
-              value: 0.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 514609233847362
             }
-          ]
-        },
-        {
-          forecast_type: "totalOperatingCashFlows",
-          forecast_data: [
-            {
-              value: 7574045.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 2560378.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 4943457.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
-            }
-          ]
+          ],
+          forecastType: "totalLiabilityAndEquity"
         }
       ],
-      balance_sheet_forecast_monthly: [
+      balanceSheetForecastMonthly: [
         {
-          forecast_type: "accountPayable",
-          forecast_data: [
+          forecastData: [
             {
-              value: 8666718.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 8666718
             },
             {
-              value: 1.603014e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 16030140
             },
             {
-              value: 2.9898211e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 29898211
             }
-          ]
+          ],
+          forecastType: "accountPayable"
         },
         {
-          forecast_type: "accountReceivable",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.0142853e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 20142853
             },
             {
-              value: 3.7294441e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 37294441
             },
             {
-              value: 6.9597283e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 69597283
             }
-          ]
+          ],
+          forecastType: "accountReceivable"
         },
         {
-          forecast_type: "accumulatedDepreciation",
-          forecast_data: [
+          forecastData: [
             {
-              value: 51.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 51
             },
             {
-              value: 103.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 103
             },
             {
-              value: 154.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 154
             }
-          ]
+          ],
+          forecastType: "accumulatedDepreciation"
         },
         {
-          forecast_type: "accumulatedRetainedEarnings",
-          forecast_data: [
+          forecastData: [
             {
-              value: 3902037.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3902037
             },
             {
-              value: 1.1129773e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 11129773
             },
             {
-              value: 2.4621034e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 24621034
             }
-          ]
+          ],
+          forecastType: "accumulatedRetainedEarnings"
         },
         {
-          forecast_type: "cash",
-          forecast_data: [
+          forecastData: [
             {
-              value: 7577087.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 7577087
             },
             {
-              value: 1.0134093e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 10134093
             },
             {
-              value: 1.507755e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 15077550
             }
-          ]
+          ],
+          forecastType: "cash"
         },
         {
-          forecast_type: "fixedAsset",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4042.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4042
             },
             {
-              value: 4042.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4042
             },
             {
-              value: 4042.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4042
             }
-          ]
+          ],
+          forecastType: "fixedAsset"
         },
         {
-          forecast_type: "longTermDebt",
-          forecast_data: [
+          forecastData: [
             {
-              value: 3834.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3834
             },
             {
-              value: 3684.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3684
             },
             {
-              value: 3527.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3527
             }
-          ]
+          ],
+          forecastType: "longTermDebt"
         },
         {
-          forecast_type: "paidInCapital",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1000.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 1000
             },
             {
-              value: 4373.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4373
             },
             {
-              value: 4373.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4373
             }
-          ]
+          ],
+          forecastType: "paidInCapital"
         },
         {
-          forecast_type: "totalAssets",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.2569756e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 12569756
             },
             {
-              value: 2.7164287e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 27164287
             },
             {
-              value: 5.4523619e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 54523619
             }
-          ]
+          ],
+          forecastType: "totalAssets"
         },
         {
-          forecast_type: "totalCurrentAssets",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.2565765e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 12565765
             },
             {
-              value: 2.7160348e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 27160348
             },
             {
-              value: 5.4519732e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 54519732
             }
-          ]
+          ],
+          forecastType: "totalCurrentAssets"
         },
         {
-          forecast_type: "totalEquity",
-          forecast_data: [
+          forecastData: [
             {
-              value: 3903037.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3903037
             },
             {
-              value: 1.1134146e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 11134146
             },
             {
-              value: 2.4625407e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 24625407
             }
-          ]
+          ],
+          forecastType: "totalEquity"
         },
         {
-          forecast_type: "totalLiabilities",
-          forecast_data: [
+          forecastData: [
             {
-              value: 8670552.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 8670552
             },
             {
-              value: 1.6033824e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 16033824
             },
             {
-              value: 2.9901738e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 29901738
             }
-          ]
+          ],
+          forecastType: "totalLiabilities"
         },
         {
-          forecast_type: "totalLiabilityAndEquity",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.257359e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 12573590
             },
             {
-              value: 2.7167971e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 27167971
             },
             {
-              value: 5.4527146e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 54527146
             }
-          ]
+          ],
+          forecastType: "totalLiabilityAndEquity"
         }
       ],
-      income_statement_forecast_monthly: [
+      cashFlowForecastAnnually: [
         {
-          forecast_type: "billableHour",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.8801312e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 1000
             },
             {
-              value: 3.5724372e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 24589340
             },
             {
-              value: 6.7879881e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 45069300366
             }
-          ]
+          ],
+          forecastType: "beginningCash"
         },
         {
-          forecast_type: "contractRevenue",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4343.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 56108229
             },
             {
-              value: 4343.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 120266835911
             },
             {
-              value: 4343.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 263190044804268
             }
-          ]
+          ],
+          forecastType: "changeInAccountPayable"
         },
         {
-          forecast_type: "depreciation",
-          forecast_data: [
+          forecastData: [
             {
-              value: 51.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 130648169
             },
             {
-              value: 51.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 280137046245
             },
             {
-              value: 51.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 613047488895872
             }
-          ]
+          ],
+          forecastType: "changeInAccountReceivable"
         },
         {
-          forecast_type: "directCostRevenue",
-          forecast_data: [
+          forecastData: [
             {
-              value: 5896101.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 24590340
             },
             {
-              value: 1.0916615e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 45044711025
             },
             {
-              value: 2.0372119e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 98673453445154
             }
-          ]
+          ],
+          forecastType: "changeInCash"
         },
         {
-          forecast_type: "ebit",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.5671677e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 4042
             },
             {
-              value: 2.9027863e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             },
             {
-              value: 5.4182547e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "changeInFixedAsset"
         },
         {
-          forecast_type: "ebitda",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.5671728e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 3373
             },
             {
-              value: 2.9027915e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             },
             {
-              value: 5.4182599e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "changeInPaidInCapital"
         },
         {
-          forecast_type: "grossProfit",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.5685527e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 206
             },
             {
-              value: 2.9041714e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 619
             },
             {
-              value: 5.4196398e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 619
             }
-          ]
+          ],
+          forecastType: "depreciation"
         },
         {
-          forecast_type: "grossProfitMargin",
-          forecast_data: [
+          forecastData: [
             {
-              value: 0.73,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 24589340
             },
             {
-              value: 0.73,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 45069300366
             },
             {
-              value: 0.73,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 98718522745520
             }
-          ]
+          ],
+          forecastType: "endingCash"
         },
         {
-          forecast_type: "interestExpense",
-          forecast_data: [
+          forecastData: [
             {
-              value: 209.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 8676
             },
             {
-              value: 201.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             },
             {
-              value: 193.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "longTermDebt"
         },
         {
-          forecast_type: "netIncome",
-          forecast_data: [
+          forecastData: [
             {
-              value: 3902037.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 49950062
             },
             {
-              value: 7227736.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 114825498688
             },
             {
-              value: 1.349126e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 251183990645829
             }
-          ]
+          ],
+          forecastType: "netIncome"
         },
         {
-          forecast_type: "netProfitMargin",
-          forecast_data: [
+          forecastData: [
             {
-              value: 0.18,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 1766
             },
             {
-              value: 0.18,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 6281
             },
             {
-              value: 0.18,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 628
             }
-          ]
+          ],
+          forecastType: "repaymentOfDebt"
         },
         {
-          forecast_type: "operatingExpenses",
-          forecast_data: [
+          forecastData: [
             {
-              value: 12295.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 3373
             },
             {
-              value: 12295.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             },
             {
-              value: 12295.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "totalFinancingCashFlow"
         },
         {
-          forecast_type: "recurringCharge",
-          forecast_data: [
+          forecastData: [
             {
-              value: 279009.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 4042
             },
             {
-              value: 558018.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             },
             {
-              value: 837027.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "totalInvestingCashFlow"
         },
         {
-          forecast_type: "revenue",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.1581629e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 24589671
             },
             {
-              value: 3.995833e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 45044711025
             },
             {
-              value: 7.4568517e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 98673453445154
             }
-          ]
-        },
-        {
-          forecast_type: "salariesAndBenefits",
-          forecast_data: [
-            {
-              value: 1504.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 1504.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 1504.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
-            }
-          ]
-        },
-        {
-          forecast_type: "taxes",
-          forecast_data: [
-            {
-              value: 1.1769429e7,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 2.1799925e7,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 4.0691093e7,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
-            }
-          ]
-        },
-        {
-          forecast_type: "totalOperatingExpenses",
-          forecast_data: [
-            {
-              value: 13799.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 13799.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 13799.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
-            }
-          ]
-        },
-        {
-          forecast_type: "unitSale",
-          forecast_data: [
-            {
-              value: 2496965.0,
-              forecast_date: "09/29/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 3671596.0,
-              forecast_date: "10/30/2024",
-              forecast_period: "MONTHLY"
-            },
-            {
-              value: 5847266.0,
-              forecast_date: "11/29/2024",
-              forecast_period: "MONTHLY"
-            }
-          ]
+          ],
+          forecastType: "totalOperatingCashFlows"
         }
       ],
-      cash_flow_forecast_annually: [
+      cashFlowForecastMonthly: [
         {
-          forecast_type: "beginningCash",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1000.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 1000
             },
             {
-              value: 2.458934e7,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 7577087
             },
             {
-              value: 4.5069300366e10,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 10134093
             }
-          ]
+          ],
+          forecastType: "beginningCash"
         },
         {
-          forecast_type: "changeInAccountPayable",
-          forecast_data: [
+          forecastData: [
             {
-              value: 5.6108229e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 8666718
             },
             {
-              value: 1.20266835911e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 7363421
             },
             {
-              value: 2.63190044804268e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 13868071
             }
-          ]
+          ],
+          forecastType: "changeInAccountPayable"
         },
         {
-          forecast_type: "changeInAccountReceivable",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.30648169e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 20142853
             },
             {
-              value: 2.80137046245e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 17151587
             },
             {
-              value: 6.13047488895872e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 32302841
             }
-          ]
+          ],
+          forecastType: "changeInAccountReceivable"
         },
         {
-          forecast_type: "changeInCash",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.459034e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 7578087
             },
             {
-              value: 4.5044711025e10,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 2557005
             },
             {
-              value: 9.8673453445154e13,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4943457
             }
-          ]
+          ],
+          forecastType: "changeInCash"
         },
         {
-          forecast_type: "changeInFixedAsset",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4042.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4042
             },
             {
-              value: 0.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             },
             {
-              value: 0.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "changeInFixedAsset"
         },
         {
-          forecast_type: "changeInPaidInCapital",
-          forecast_data: [
+          forecastData: [
             {
-              value: 3373.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             },
             {
-              value: 0.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3373
             },
             {
-              value: 0.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "changeInPaidInCapital"
         },
         {
-          forecast_type: "depreciation",
-          forecast_data: [
+          forecastData: [
             {
-              value: 206.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 51
             },
             {
-              value: 619.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 51
             },
             {
-              value: 619.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 51
             }
-          ]
+          ],
+          forecastType: "depreciation"
         },
         {
-          forecast_type: "endingCash",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.458934e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 7577087
             },
             {
-              value: 4.5069300366e10,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 10134093
             },
             {
-              value: 9.871852274552e13,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 15077550
             }
-          ]
+          ],
+          forecastType: "endingCash"
         },
         {
-          forecast_type: "longTermDebt",
-          forecast_data: [
+          forecastData: [
             {
-              value: 8676.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 8676
             },
             {
-              value: 0.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             },
             {
-              value: 0.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "longTermDebt"
         },
         {
-          forecast_type: "netIncome",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4.9950062e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3902037
             },
             {
-              value: 1.14825498688e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 7227736
             },
             {
-              value: 2.51183990645829e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 13491260
             }
-          ]
+          ],
+          forecastType: "netIncome"
         },
         {
-          forecast_type: "repaymentOfDebt",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1766.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 429
             },
             {
-              value: 6281.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 437
             },
             {
-              value: 628.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 445
             }
-          ]
+          ],
+          forecastType: "repaymentOfDebt"
         },
         {
-          forecast_type: "totalFinancingCashFlow",
-          forecast_data: [
+          forecastData: [
             {
-              value: 3373.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             },
             {
-              value: 0.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3373
             },
             {
-              value: 0.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "totalFinancingCashFlow"
         },
         {
-          forecast_type: "totalInvestingCashFlow",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4042.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4042
             },
             {
-              value: 0.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             },
             {
-              value: 0.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "totalInvestingCashFlow"
         },
         {
-          forecast_type: "totalOperatingCashFlows",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.4589671e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 7574045
             },
             {
-              value: 4.5044711025e10,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 2560378
             },
             {
-              value: 9.8673453445154e13,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4943457
             }
-          ]
+          ],
+          forecastType: "totalOperatingCashFlows"
         }
       ],
-      balance_sheet_forecast_annually: [
+      financialProjectionSetupId: "758ea9b2-9ac0-4660-bf5f-0bf728bb9a2a",
+      incomeStatementForecastAnnually: [
         {
-          forecast_type: "accountPayable",
-          forecast_data: [
+          forecastData: [
             {
-              value: 5.6108229e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 251384127
             },
             {
-              value: 1.2032294414e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 602732462323
             },
             {
-              value: 2.63310367748409e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 1334879544531258
             }
-          ]
+          ],
+          forecastType: "billableHour"
         },
         {
-          forecast_type: "accountReceivable",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.30648169e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 17372
             },
             {
-              value: 2.80267694415e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 13029
             },
             {
-              value: 6.13327756590287e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0
             }
-          ]
+          ],
+          forecastType: "contractRevenue"
         },
         {
-          forecast_type: "accumulatedDepreciation",
-          forecast_data: [
+          forecastData: [
             {
-              value: 206.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 206
             },
             {
-              value: 826.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 619
             },
             {
-              value: 1446.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 619
             }
-          ]
+          ],
+          forecastType: "depreciation"
         },
         {
-          forecast_type: "accumulatedRetainedEarnings",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4.9950062e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 75427421
             },
             {
-              value: 1.14875448751e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 173342450307
             },
             {
-              value: 2.5129886609458e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 379191318138597
             }
-          ]
+          ],
+          forecastType: "directCostRevenue"
         },
         {
-          forecast_type: "cash",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.458934e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 200605834
             },
             {
-              value: 4.5069300366e10,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 461146586659
             },
             {
-              value: 9.871852274552e13,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 1008771046770586
             }
-          ]
+          ],
+          forecastType: "ebit"
         },
         {
-          forecast_type: "fixedAsset",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4042.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 200606040
             },
             {
-              value: 4042.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 461146587279
             },
             {
-              value: 4042.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 1008771046771207
             }
-          ]
+          ],
+          forecastType: "ebitda"
         },
         {
-          forecast_type: "longTermDebt",
-          forecast_data: [
+          forecastData: [
             {
-              value: 3362.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 200661237
             },
             {
-              value: 628.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 461146752867
             },
             {
-              value: 0.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 1008771046936794
             }
-          ]
+          ],
+          forecastType: "grossProfit"
         },
         {
-          forecast_type: "paidInCapital",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4373.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 0.73
             },
             {
-              value: 4373.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 0.73
             },
             {
-              value: 4373.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0.73
             }
-          ]
+          ],
+          forecastType: "grossProfitMargin"
         },
         {
-          forecast_type: "totalAssets",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.06062664e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 790
             },
             {
-              value: 2.35198397264e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 1389
             },
             {
-              value: 5.14609233847363e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 46
             }
-          ]
+          ],
+          forecastType: "interestExpense"
         },
         {
-          forecast_type: "totalCurrentAssets",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.06058829e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 49950062
             },
             {
-              value: 2.35198394049e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 114825498688
             },
             {
-              value: 5.14609233844767e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 251183990645829
             }
-          ]
+          ],
+          forecastType: "netIncome"
         },
         {
-          forecast_type: "totalEquity",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4.9954435e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 0.18
             },
             {
-              value: 1.14875453124e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 0.18
             },
             {
-              value: 2.51298866098953e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 0.18
             }
-          ]
+          ],
+          forecastType: "netProfitMargin"
         },
         {
-          forecast_type: "totalLiabilities",
-          forecast_data: [
+          forecastData: [
             {
-              value: 5.6111591e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 49180
             },
             {
-              value: 1.20322944768e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 147540
             },
             {
-              value: 2.63310367748409e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 147540
             }
-          ]
+          ],
+          forecastType: "operatingExpenses"
         },
         {
-          forecast_type: "totalLiabilityAndEquity",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.06066026e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 2790090
             },
             {
-              value: 2.35198397892e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 54536130
             },
             {
-              value: 5.14609233847362e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 154012105
             }
-          ]
+          ],
+          forecastType: "recurringCharge"
+        },
+        {
+          forecastData: [
+            {
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 276088658
+            },
+            {
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 634489203175
+            },
+            {
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 1387962365075392
+            }
+          ],
+          forecastType: "revenue"
+        },
+        {
+          forecastData: [
+            {
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 6016
+            },
+            {
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 18048
+            },
+            {
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 18048
+            }
+          ],
+          forecastType: "salariesAndBenefits"
+        },
+        {
+          forecastData: [
+            {
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 150654981
+            },
+            {
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 346321086581
+            },
+            {
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 757587056124710
+            }
+          ],
+          forecastType: "taxes"
+        },
+        {
+          forecastData: [
+            {
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 55196
+            },
+            {
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 165588
+            },
+            {
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 165588
+            }
+          ],
+          forecastType: "totalOperatingExpenses"
+        },
+        {
+          forecastData: [
+            {
+              forecastDate: "2024",
+              forecastPeriod: "ANNUALLY",
+              value: 21897068
+            },
+            {
+              forecastDate: "2025",
+              forecastPeriod: "ANNUALLY",
+              value: 31702191692
+            },
+            {
+              forecastDate: "2026",
+              forecastPeriod: "ANNUALLY",
+              value: 53082666532028
+            }
+          ],
+          forecastType: "unitSale"
         }
       ],
-      income_statement_forecast_annually: [
+      incomeStatementForecastMonthly: [
         {
-          forecast_type: "billableHour",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.51384127e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 18801312
             },
             {
-              value: 6.02732462323e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 35724372
             },
             {
-              value: 1.334879544531258e15,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 67879881
             }
-          ]
+          ],
+          forecastType: "billableHour"
         },
         {
-          forecast_type: "contractRevenue",
-          forecast_data: [
+          forecastData: [
             {
-              value: 17372.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4343
             },
             {
-              value: 13029.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4343
             },
             {
-              value: 0.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 4343
             }
-          ]
+          ],
+          forecastType: "contractRevenue"
         },
         {
-          forecast_type: "depreciation",
-          forecast_data: [
+          forecastData: [
             {
-              value: 206.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 51
             },
             {
-              value: 619.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 51
             },
             {
-              value: 619.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 51
             }
-          ]
+          ],
+          forecastType: "depreciation"
         },
         {
-          forecast_type: "directCostRevenue",
-          forecast_data: [
+          forecastData: [
             {
-              value: 7.5427421e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 5896101
             },
             {
-              value: 1.73342450307e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 10916615
             },
             {
-              value: 3.79191318138597e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 20372119
             }
-          ]
+          ],
+          forecastType: "directCostRevenue"
         },
         {
-          forecast_type: "ebit",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.00605834e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 15671677
             },
             {
-              value: 4.61146586659e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 29027863
             },
             {
-              value: 1.008771046770586e15,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 54182547
             }
-          ]
+          ],
+          forecastType: "ebit"
         },
         {
-          forecast_type: "ebitda",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.0060604e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 15671728
             },
             {
-              value: 4.61146587279e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 29027915
             },
             {
-              value: 1.008771046771207e15,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 54182599
             }
-          ]
+          ],
+          forecastType: "ebitda"
         },
         {
-          forecast_type: "grossProfit",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.00661237e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 15685527
             },
             {
-              value: 4.61146752867e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 29041714
             },
             {
-              value: 1.008771046936794e15,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 54196398
             }
-          ]
+          ],
+          forecastType: "grossProfit"
         },
         {
-          forecast_type: "grossProfitMargin",
-          forecast_data: [
+          forecastData: [
             {
-              value: 0.73,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0.73
             },
             {
-              value: 0.73,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0.73
             },
             {
-              value: 0.73,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0.73
             }
-          ]
+          ],
+          forecastType: "grossProfitMargin"
         },
         {
-          forecast_type: "interestExpense",
-          forecast_data: [
+          forecastData: [
             {
-              value: 790.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 209
             },
             {
-              value: 1389.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 201
             },
             {
-              value: 46.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 193
             }
-          ]
+          ],
+          forecastType: "interestExpense"
         },
         {
-          forecast_type: "netIncome",
-          forecast_data: [
+          forecastData: [
             {
-              value: 4.9950062e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3902037
             },
             {
-              value: 1.14825498688e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 7227736
             },
             {
-              value: 2.51183990645829e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 13491260
             }
-          ]
+          ],
+          forecastType: "netIncome"
         },
         {
-          forecast_type: "netProfitMargin",
-          forecast_data: [
+          forecastData: [
             {
-              value: 0.18,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0.18
             },
             {
-              value: 0.18,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0.18
             },
             {
-              value: 0.18,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 0.18
             }
-          ]
+          ],
+          forecastType: "netProfitMargin"
         },
         {
-          forecast_type: "operatingExpenses",
-          forecast_data: [
+          forecastData: [
             {
-              value: 49180.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 12295
             },
             {
-              value: 147540.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 12295
             },
             {
-              value: 147540.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 12295
             }
-          ]
+          ],
+          forecastType: "operatingExpenses"
         },
         {
-          forecast_type: "recurringCharge",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2790090.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 279009
             },
             {
-              value: 5.453613e7,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 558018
             },
             {
-              value: 1.54012105e8,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 837027
             }
-          ]
+          ],
+          forecastType: "recurringCharge"
         },
         {
-          forecast_type: "revenue",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.76088658e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 21581629
             },
             {
-              value: 6.34489203175e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 39958330
             },
             {
-              value: 1.387962365075392e15,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 74568517
             }
-          ]
+          ],
+          forecastType: "revenue"
         },
         {
-          forecast_type: "salariesAndBenefits",
-          forecast_data: [
+          forecastData: [
             {
-              value: 6016.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 1504
             },
             {
-              value: 18048.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 1504
             },
             {
-              value: 18048.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 1504
             }
-          ]
+          ],
+          forecastType: "salariesAndBenefits"
         },
         {
-          forecast_type: "taxes",
-          forecast_data: [
+          forecastData: [
             {
-              value: 1.50654981e8,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 11769429
             },
             {
-              value: 3.46321086581e11,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 21799925
             },
             {
-              value: 7.5758705612471e14,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 40691093
             }
-          ]
+          ],
+          forecastType: "taxes"
         },
         {
-          forecast_type: "totalOperatingExpenses",
-          forecast_data: [
+          forecastData: [
             {
-              value: 55196.0,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 13799
             },
             {
-              value: 165588.0,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 13799
             },
             {
-              value: 165588.0,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 13799
             }
-          ]
+          ],
+          forecastType: "totalOperatingExpenses"
         },
         {
-          forecast_type: "unitSale",
-          forecast_data: [
+          forecastData: [
             {
-              value: 2.1897068e7,
-              forecast_date: "2024",
-              forecast_period: "ANNUALLY"
+              forecastDate: "09/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 2496965
             },
             {
-              value: 3.1702191692e10,
-              forecast_date: "2025",
-              forecast_period: "ANNUALLY"
+              forecastDate: "10/30/2024",
+              forecastPeriod: "MONTHLY",
+              value: 3671596
             },
             {
-              value: 5.3082666532028e13,
-              forecast_date: "2026",
-              forecast_period: "ANNUALLY"
+              forecastDate: "11/29/2024",
+              forecastPeriod: "MONTHLY",
+              value: 5847266
             }
-          ]
+          ],
+          forecastType: "unitSale"
         }
       ]
-    }
+    } as unknown as ForecastResultsResponse
   }
+}
+
+interface getDataPointsFactoryArgs {
+  dataSource: ForecastResultsResponse
+  sheetName:
+    | "cashFlowForecast"
+    | "incomeStatementForecast"
+    | "balanceSheetForecast"
+  dataPoints: ForecastType[]
+  period: ForecastPeriod
+}
+
+export function getDataPointsFactory(
+  args: getDataPointsFactoryArgs
+): ForecastRowData {
+  const { dataSource, sheetName, dataPoints, period } = args
+  const source: PossibleSheetName =
+    period === ForecastPeriod.ANNUALLY || ForecastPeriod.CURRENT
+      ? `${sheetName}Annually`
+      : `${sheetName}Monthly`
+
+  const result: ForecastRowData = {} as ForecastRowData
+  dataPoints.forEach((point) => {
+    const data = parseForecastData(dataSource, source, point)
+    result[point] = period === ForecastPeriod.CURRENT ? [data[0]] : data
+  })
+
+  return result
 }
