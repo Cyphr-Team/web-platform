@@ -31,16 +31,31 @@ export const FinancialApplicationAssessment: FC<
 }
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => (
-  <div className="flex flex-col md:flex-row gap-10 flex-wrap">{children}</div>
+  <div className="flex flex-col md:flex-row gap-3 md:gap-6 lg:gap-10 flex-wrap">
+    {children}
+  </div>
 )
 
-const AssessmentLayout: FC<PropsWithChildren> = ({ children }) => (
-  <div className="flex-[2.25] bg-[#F2F8F8] rounded-[40px] border border-black shadow-[8px_8px_12px_0px_#052B1540]">
-    <div className="px-8 py-4 mt-6 border-b font-semibold flex gap-2">
+interface AssessmentLayoutProps {
+  className?: string
+}
+const AssessmentLayout: FC<PropsWithChildren<AssessmentLayoutProps>> = ({
+  children,
+  className
+}) => (
+  <div
+    className={cn(
+      "bg-[#F2F8F8] rounded-3xl lg:rounded-[40px] border border-[#EAECF0] shadow-[0px_4px_12px_0px_#00000026]",
+      className
+    )}
+  >
+    <div className="px-4 py-3 pb-2.5 lg:pb-3.5 lg:px-8 lg:py-4 border-b font-semibold flex gap-2">
       <span>{<Icons.scoreLevel />}</span>
       <span className="whitespace-nowrap">Loan Readiness Score</span>
     </div>
-    <div className="flex flex-col gap-4 text-center p-8">{children}</div>
+    <div className="flex flex-col gap-2 lg:gap-4 text-center p-4 lg:p-8">
+      {children}
+    </div>
   </div>
 )
 
@@ -54,12 +69,12 @@ const ApplicationFeedBack: FC<ApplicationFeedBackProps> = ({
   category,
   actionPlan
 }) => (
-  <AssessmentLayout>
+  <AssessmentLayout className="flex-[2.25]">
     {isLoading ? (
       <SkeletonCard className="w-full" />
     ) : (
       <>
-        <span className="text-xl font-semibold uppercase">
+        <span className="text-lg lg:text-xl font-semibold uppercase">
           {category
             ? snakeCaseToText(category.toLowerCase())
             : CRITERIA_NOT_AVAILABLE}
@@ -80,13 +95,15 @@ const ApplicationScore: FC<ApplicationScoreProps> = ({
   ratingLevel,
   category
 }) => (
-  <AssessmentLayout>
+  <AssessmentLayout className="flex-[1.5]">
     <div className="flex flex-col items-center justify-center gap-2 md:gap-5">
-      <span className="text-xl font-semibold uppercase">Your score</span>
-      <span className="font-semibold text-6xl">
+      <span className="text-lg lg:text-xl font-semibold uppercase">
+        Your score
+      </span>
+      <span className="font-semibold text-3xl md:text-5xl lg:text-6xl">
         {toPercent(score ?? 0) / 100}%
       </span>
-      <div className="flex gap-2 my-0.5">
+      <div className="flex gap-2 my-0.5 flex-wrap justify-center">
         {!!ratingLevel && (
           <Badge
             variant="outline"

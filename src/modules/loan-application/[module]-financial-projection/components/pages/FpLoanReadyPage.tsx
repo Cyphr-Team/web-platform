@@ -12,10 +12,7 @@ export const LoanReadiness = () => {
   return (
     <div className="flex flex-col gap-8">
       <FinancialApplicationAssessment
-        actionPlan={data?.applicationScore?.actionPlan}
-        category={data?.applicationScore?.category}
-        score={data?.applicationScore?.score}
-        ratingLevel={data?.applicationScore?.ratingLevel}
+        {...(data?.applicationScore ?? {})}
         isLoading={isLoading}
       />
 
