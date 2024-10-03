@@ -4,7 +4,7 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion.tsx"
 import { cn } from "@/lib/utils"
-import { FC, PropsWithChildren } from "react"
+import { FC, PropsWithChildren, KeyboardEvent } from "react"
 
 interface Props extends PropsWithChildren {
   label: string
@@ -15,10 +15,19 @@ interface Props extends PropsWithChildren {
 export const CollapsibleArrayFieldTemplate: FC<Props> = (props) => {
   const { children, label, id, disabledBorder } = props
 
+  // Do not remove this function.
+  // It is used to ignore the default behavior of the Enter key, which is deleting the first accordion item.
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault()
+    }
+  }
+
   return (
     <AccordionItem
       value={id}
       className={cn("w-full", disabledBorder && "border-0")}
+      onKeyDown={handleKeyDown}
     >
       <AccordionTrigger
         id={id}

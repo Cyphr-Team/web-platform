@@ -26,7 +26,10 @@ export const TaxRateForm = () => {
   const form = useForm<ExpenseTaxRateFormValue>({
     resolver: zodResolver(taxRatesFormSchema),
     mode: "onBlur",
-    defaultValues: taxRates
+    defaultValues: {
+      applicationId: taxRates?.applicationId ?? "",
+      incomeTaxRate: taxRates?.incomeTaxRate ?? 0
+    }
   })
 
   const onSubmit = form.handleSubmit((data: ExpenseTaxRateFormValue) => {
@@ -71,6 +74,7 @@ export const TaxRateForm = () => {
               inputClassName: "text-sm"
             }}
             isHideErrorMessage
+            isAllowDisplayZero
           />
 
           {!isReviewApplicationStep(step) && (

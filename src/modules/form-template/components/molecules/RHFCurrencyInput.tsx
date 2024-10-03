@@ -27,6 +27,7 @@ export interface RHFCurrencyInputProps<T extends FieldValues> {
   placeholder?: string
   subtitle?: string
   className?: string
+  isAllowDisplayZero?: boolean
 
   styleProps?: {
     wrapperClassName?: string
@@ -63,6 +64,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
     className,
     isHideErrorMessage = false,
     isDetail,
+    isAllowDisplayZero = false,
     ...inputProps
   } = props
 
@@ -86,7 +88,11 @@ const RHFCurrencyInput = <T extends FieldValues>(
             return ""
           }
           // Allow empty input when the field is untouched and value is 0
-          if (!fieldState.isTouched && field.value === 0) {
+          if (
+            !fieldState.isTouched &&
+            field.value === 0 &&
+            !isAllowDisplayZero
+          ) {
             return ""
           }
           // Format the currency value
@@ -138,7 +144,6 @@ const RHFCurrencyInput = <T extends FieldValues>(
                     const value = e.target.value
                       ? USDFormatter(e.target.value).value
                       : e.target.value
-
                     if (Number.isNaN(value)) return
 
                     field.onBlur()
@@ -146,7 +151,6 @@ const RHFCurrencyInput = <T extends FieldValues>(
                   }}
                   onBlur={(e) => {
                     const value = USDFormatter(e.target.value).value
-
                     field.onChange(Number.isNaN(value) ? 0 : value)
                     // The onBlur should be place after because validate won't work if we put before onChange
                     field.onBlur()

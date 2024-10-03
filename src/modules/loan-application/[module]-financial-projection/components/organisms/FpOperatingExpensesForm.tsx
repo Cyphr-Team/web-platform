@@ -57,7 +57,7 @@ export const FpOperatingExpensesForm = () => {
   const onSubmit = form.handleSubmit((data) => {
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.FORECASTING_SETUP,
+      key: LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES,
       state: data
     })
     finishCurrentStep()
