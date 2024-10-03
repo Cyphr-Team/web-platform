@@ -1,15 +1,25 @@
-import { useQueryFinancialProjectionForecast } from "@/modules/loan-application/[module]-financial-projection/hooks/useQueryFinancialProjectionForecast.ts"
+import {
+  getDataPointsFactory,
+  useQueryFinancialProjectionForecast
+} from "@/modules/loan-application/[module]-financial-projection/hooks/useQueryFinancialProjectionForecast.ts"
 import { useMemo } from "react"
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
-import { DateRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DateRow.tsx"
 import { DataRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DataRow.tsx"
 import { Card } from "@/components/ui/card.tsx"
-import { formatDate } from "@/utils/date.utils.ts"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants.ts"
 import { Button } from "@/components/ui/button.tsx"
 import { LabeledSwitch } from "@/modules/loan-application/[module]-financial-projection/components/molecules/LabeledSwitch.tsx"
 import { useBoolean } from "@/hooks"
 import { cn } from "@/lib/utils.ts"
+import {
+  ForecastPeriod,
+  ForecastResultsResponse,
+  ForecastType
+} from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
+import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
+import {
+  HeaderMapper,
+  HeaderProps
+} from "@/modules/loan-application/[module]-financial-projection/constants"
 
 export function Component() {
   const applicationId = useMemo(() => window.location.href.split("#")[1], [])
@@ -17,11 +27,39 @@ export function Component() {
   const currentDetail = useBoolean(false)
   const monthlyDetail = useBoolean(false)
 
-  useQueryFinancialProjectionForecast({
+  const { data } = useQueryFinancialProjectionForecast({
     applicationId,
-    // TODO: fix this
-    enabled: false
+    enabled: !!applicationId
   })
+
+  const annuallyData = useMemo(
+    () => getIncomeStatement(data, ForecastPeriod.ANNUALLY),
+    [data]
+  )
+  const annuallyTimeStamp = useMemo(
+    () =>
+      data.cashFlowForecastAnnually[0].forecastData.map(
+        (entry) => new Date(entry.forecastDate)
+      ),
+    [data.cashFlowForecastAnnually]
+  )
+
+  const monthlyData = useMemo(
+    () => getIncomeStatement(data, ForecastPeriod.MONTHLY),
+    [data]
+  )
+  const monthlyTimeStamp = useMemo(
+    () =>
+      data.cashFlowForecastMonthly[0].forecastData.map(
+        (entry) => new Date(entry.forecastDate)
+      ),
+    [data.cashFlowForecastMonthly]
+  )
+
+  const currentData = useMemo(
+    () => getIncomeStatement(data, ForecastPeriod.CURRENT),
+    [data]
+  )
 
   return (
     <div className="flex flex-col gap-y-2xl">
@@ -34,14 +72,29 @@ export function Component() {
       <div className="flex flex-col gap-y-6xl">
         {currentDetail.value ? (
           <Template
-            data={Array.from({ length: 1 }, (_, index) => 2024 + index)}
+            data={currentData}
             layout="current"
+            period={ForecastPeriod.CURRENT}
+            headerProps={{
+              title: "Income Statement",
+              // only get the first month
+              data: [monthlyTimeStamp[0]]
+            }}
           />
         ) : null}
 
         <Template
-          data={Array.from({ length: 15 }, (_, index) => 2024 + index)}
           layout="default"
+          data={monthlyDetail.value ? monthlyData : annuallyData}
+          period={
+            monthlyDetail.value
+              ? ForecastPeriod.MONTHLY
+              : ForecastPeriod.ANNUALLY
+          }
+          headerProps={{
+            title: "Income Statement",
+            data: monthlyDetail.value ? monthlyTimeStamp : annuallyTimeStamp
+          }}
         />
       </div>
     </div>
@@ -49,19 +102,17 @@ export function Component() {
 }
 
 interface TemplateProps {
+  data: ForecastRowData
   layout: "default" | "current"
-  // TODO: will remove this to real data
-  data: number[]
+  period: ForecastPeriod
+  headerProps: HeaderProps
 }
 
 const Template = (props: TemplateProps) => {
-  const { layout, data } = props
-  const dates = data.map(() =>
-    formatDate(new Date(Date.now()).toISOString(), FORMAT_DATE_MM_DD_YYYY)
-  )
-
+  const { layout, period, headerProps, data } = props
   const title =
     layout === "default" ? "Income Statement" : "Current Income Statement"
+  const HeaderComponent = HeaderMapper[period]
 
   return (
     <div className="flex flex-col gap-y-2xl">
@@ -79,58 +130,145 @@ const Template = (props: TemplateProps) => {
               layout === "default" ? "min-w-max" : "w-fit"
             )}
           >
-            <SectionRow title="Income Statement" className="border-t-0" />
-            {layout === "default" ? (
-              <>
-                <DateRow title="Year" data={data} />
-                <DateRow
-                  title="Month Counter"
-                  data={data.map((val) => val + 1 - 2024)}
-                />
-              </>
-            ) : null}
-            <DateRow title="Date" data={dates} />
+            <HeaderComponent {...headerProps} />
 
             <SectionRow title="Revenue" />
-            <DataRow title="Recurring Charges" data={data} layout="item" />
-            <DataRow title="Contract Revenue" data={data} layout="item" />
-            <DataRow title="Unit Sales" data={data} layout="item" />
-            <DataRow title="Billable Hours" data={data} layout="item" />
+            <DataRow
+              title="Recurring Charges"
+              data={data[ForecastType.RECURRING_CHARGE]}
+              layout="item"
+            />
+            <DataRow
+              title="Contract Revenue"
+              data={data[ForecastType.CONTRACT_REVENUE]}
+              layout="item"
+            />
+            <DataRow
+              title="Unit Sales"
+              data={data[ForecastType.UNIT_SALE]}
+              layout="item"
+            />
+            <DataRow
+              title="Billable Hours"
+              data={data[ForecastType.BILLABLE_HOUR]}
+              layout="item"
+            />
 
-            <DataRow title="Total Revenue" data={data} layout="total" />
-            <DataRow title="COGS" data={data} layout="total" />
+            <DataRow
+              title="Total Revenue"
+              data={data[ForecastType.REVENUE]}
+              layout="total"
+            />
+            {/* This is correct */}
+            <DataRow
+              title="COGS"
+              data={data[ForecastType.DIRECT_COST_REVENUE]}
+              layout="total"
+            />
             <DataRow
               title="Gross Profit"
-              data={data}
+              data={data[ForecastType.GROSS_PROFIT]}
               layout="total"
               collision
             />
             <DataRow
               title="Gross Profit Margin"
-              data={data}
+              data={data[ForecastType.GROSS_PROFIT_MARGIN]}
               layout="percentage"
             />
 
             <SectionRow title="Operating Expenses" />
-            <DataRow title="Salaries & Benefits" data={data} layout="item" />
-            <DataRow title="Operating Expenses" data={data} layout="item" />
+            <DataRow
+              title="Salaries & Benefits"
+              data={data[ForecastType.SALARIES_AND_BENEFITS]}
+              layout="item"
+            />
+            <DataRow
+              title="Operating Expenses"
+              data={data[ForecastType.OPERATING_EXPENSES]}
+              layout="item"
+            />
             <DataRow
               title="Total Operating Expenses"
-              data={data}
+              data={data[ForecastType.TOTAL_OPERATING_EXPENSES]}
               layout="total"
             />
-            <DataRow title="EBITDA" data={data} layout="total" collision />
-            <DataRow title="Depreciation" data={data} layout="item" />
+            <DataRow
+              title="EBITDA"
+              data={data[ForecastType.EBITDA]}
+              layout="total"
+              collision
+            />
+            <DataRow
+              title="Depreciation"
+              data={data[ForecastType.DEPRECIATION]}
+              layout="item"
+            />
 
-            <DataRow title="EBIT" data={data} layout="total" collision />
-            <DataRow title="Interest Expense" data={data} layout="item" />
-            <DataRow title="Taxes" data={data} layout="item" />
+            <DataRow
+              title="EBIT"
+              data={data[ForecastType.EBIT]}
+              layout="total"
+              collision
+            />
+            <DataRow
+              title="Interest Expense"
+              data={data[ForecastType.INTEREST_EXPENSE]}
+              layout="item"
+            />
+            <DataRow
+              title="Taxes"
+              data={data[ForecastType.TAXES]}
+              layout="item"
+            />
 
-            <DataRow title="Net Income" data={data} layout="total" collision />
-            <DataRow title="Net Profit Margin" data={data} layout="item" />
+            <DataRow
+              title="Net Income"
+              data={data[ForecastType.NET_INCOME]}
+              layout="total"
+              collision
+            />
+            <DataRow
+              title="Net Profit Margin"
+              data={data[ForecastType.NET_PROFIT_MARGIN]}
+              layout="percentage"
+            />
           </div>
         </div>
       </Card>
     </div>
   )
+}
+
+function getIncomeStatement(
+  dataSource: ForecastResultsResponse,
+  period: ForecastPeriod
+): ForecastRowData {
+  const dataPoints = [
+    ForecastType.BILLABLE_HOUR,
+    ForecastType.CONTRACT_REVENUE,
+    ForecastType.DIRECT_COST_REVENUE,
+    ForecastType.EBIT,
+    ForecastType.EBITDA,
+    ForecastType.GROSS_PROFIT,
+    ForecastType.GROSS_PROFIT_MARGIN,
+    ForecastType.INTEREST_EXPENSE,
+    ForecastType.NET_INCOME,
+    ForecastType.NET_PROFIT_MARGIN,
+    ForecastType.OPERATING_EXPENSES,
+    ForecastType.RECURRING_CHARGE,
+    ForecastType.REVENUE,
+    ForecastType.DEPRECIATION,
+    ForecastType.SALARIES_AND_BENEFITS,
+    ForecastType.TAXES,
+    ForecastType.TOTAL_OPERATING_EXPENSES,
+    ForecastType.UNIT_SALE
+  ]
+
+  return getDataPointsFactory({
+    dataSource,
+    dataPoints,
+    period,
+    sheetName: "incomeStatementForecast"
+  })
 }
