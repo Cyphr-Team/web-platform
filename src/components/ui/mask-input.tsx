@@ -99,7 +99,7 @@ const MaskInput = forwardRef<HTMLInputElement, MaskInputProps>((props, ref) => {
         )}
         mask={pattern}
         definitions={{
-          "#": /[1-9]/
+          "#": /[0-9]/
         }}
         inputRef={ref}
         onAccept={(value) => onChange({ target: { name: props.name, value } })}
