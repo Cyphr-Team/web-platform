@@ -305,11 +305,12 @@ export const API_PATH = {
       deleteById: "api/form/sbb-documents/documents/delete-by-id"
     },
     chatbot: {
-      chat: "ai/chat",
-      initSession: "ai/chat/init",
-      currentSession: "ai/chat/current-session",
-      history: "ai/chat/session-histories",
-      endSession: "ai/chat/end"
+      chat: "api/ai/chat",
+      initSession: "api/ai/chat/init",
+      currentSession: "api/ai/chat/current-session",
+      history: "api/ai/chat/chat-histories-by-session-id",
+      listSessions: "api/ai/chat/list-sessions",
+      endSession: "api/ai/chat/end"
     }
   },
   // For workspace admin
