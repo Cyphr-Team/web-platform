@@ -25,6 +25,7 @@ export const enum ForecastType {
   ACCUMULATED_DEPRECIATION = "accumulatedDepreciation",
   ACCUMULATED_RETAINED_EARNINGS = "accumulatedRetainedEarnings",
   CASH = "cash",
+  // LONG_TERM_DEBT = "longTermDebt",
   FIXED_ASSET = "fixedAsset",
   PAID_IN_CAPITAL = "paidInCapital",
   TOTAL_ASSETS = "totalAssets",
