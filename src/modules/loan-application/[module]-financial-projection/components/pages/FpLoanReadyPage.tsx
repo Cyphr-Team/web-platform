@@ -1,7 +1,28 @@
+import { useQueryLoanReadinessAssessmentByApplicationId } from "@/modules/conference-demo/admin/hooks/conference/useQuery"
+import { FinancialApplicationAssessment } from "@/modules/loan-application-management/pages/cyphr-flex/FinancialApplicationAssessment"
+import { FinancialApplicationCriteria } from "@/modules/loan-application-management/pages/cyphr-flex/FinancialApplicationCriteria"
+
 export function Component() {
+  return <LoanReadiness />
+}
+
+export const LoanReadiness = () => {
+  const { data, isLoading } = useQueryLoanReadinessAssessmentByApplicationId()
+
   return (
-    <div>
-      <h1 className="text-3xl font-semibold">Loan Ready</h1>
+    <div className="flex flex-col gap-8">
+      <FinancialApplicationAssessment
+        actionPlan={data?.applicationScore?.actionPlan}
+        category={data?.applicationScore?.category}
+        score={data?.applicationScore?.score}
+        ratingLevel={data?.applicationScore?.ratingLevel}
+        isLoading={isLoading}
+      />
+
+      <FinancialApplicationCriteria
+        criteria={data?.criteria}
+        isLoading={isLoading}
+      />
     </div>
   )
 }
