@@ -1,16 +1,28 @@
-import { settings } from "@/modules/chat-support/constants/settings"
+import { getSettings } from "@/modules/chat-support/constants/settings"
 import { CHAT_STEPS, FlowBuilder } from "@/modules/chat-support/constants/steps"
 import { themes } from "@/modules/chat-support/constants/themes"
 import { useInitChatSession } from "@/modules/chat-support/hooks/useInitChatSession"
 import { useSendChatMessage } from "@/modules/chat-support/hooks/useSendChatMessage"
-import { useCallback } from "react"
+import { useCallback, useMemo } from "react"
 import ChatBot, { ChatBotProvider, Params } from "react-chatbotify"
 import { markdown } from "markdown"
 import { styles } from "@/modules/chat-support/constants/styles"
+import { useTenant } from "@/providers/tenant-provider"
+import { getImageURL } from "@/utils/aws.utils"
 
 export const ChatSupportButton = () => {
   const { mutateAsync: mutateInit } = useInitChatSession()
   const { mutateAsync: mutateSend } = useSendChatMessage()
+  const { tenantData } = useTenant()
+  const imageURL = useMemo(
+    () =>
+      getImageURL(
+        tenantData?.logo !== ""
+          ? tenantData?.logo
+          : tenantData?.customFieldsOnDemand?.favicon
+      ),
+    [tenantData]
+  )
 
   const llmFlow = new FlowBuilder()
     .chatbotInit(async () => {
@@ -36,11 +48,10 @@ export const ChatSupportButton = () => {
       CHAT_STEPS.LOOP
     )
     .build()
-
   return (
     <ChatBotProvider
       flow={llmFlow}
-      settings={settings}
+      settings={getSettings(imageURL)}
       themes={themes}
       styles={styles}
     >

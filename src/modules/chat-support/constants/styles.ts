@@ -6,7 +6,8 @@ const SECONDARY_COLOR = "#EAECF0"
 const styles: Styles = {
   chatButtonStyle: {
     scale: "0.7",
-    right: 10
+    right: 10,
+    backgroundImage: "white"
   },
   tooltipStyle: {
     fontSize: "14px",
@@ -25,7 +26,8 @@ const styles: Styles = {
     backgroundColor: SECONDARY_COLOR
   },
   headerStyle: {
-    background: PRIMARY_COLOR
+    background: PRIMARY_COLOR,
+    backgroundImage: "white"
   },
   sendButtonStyle: {
     backgroundColor: PRIMARY_COLOR

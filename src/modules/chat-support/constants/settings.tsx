@@ -1,8 +1,7 @@
 import { Button, Settings } from "react-chatbotify"
-import cyphr from "@/assets/cyphr.svg"
 import smile from "@/assets/smile.svg"
 
-export const settings: Settings = {
+export const getSettings = (icon: string): Settings => ({
   general: {
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', " +
@@ -14,14 +13,15 @@ export const settings: Settings = {
     embedded: false,
     desktopEnabled: true,
     mobileEnabled: true,
-    flowStartTrigger: "ON_LOAD"
+    flowStartTrigger: "ON_LOAD",
+    primaryColor: "#FFFFFF"
   },
   tooltip: {
     mode: "CLOSE",
     text: "Talk to me! 😊"
   },
   chatButton: {
-    icon: cyphr
+    icon: icon
   },
   header: {
     title: (
@@ -37,7 +37,7 @@ export const settings: Settings = {
       </div>
     ),
     showAvatar: true,
-    avatar: cyphr,
+    avatar: icon,
     buttons: [Button.CLOSE_CHAT_BUTTON]
   },
   chatHistory: {
@@ -78,7 +78,6 @@ export const settings: Settings = {
   userBubble: {
     animate: true,
     showAvatar: false,
-    avatar: cyphr,
     simStream: false,
     streamSpeed: 30,
     dangerouslySetInnerHtml: false
@@ -86,7 +85,6 @@ export const settings: Settings = {
   botBubble: {
     animate: true,
     showAvatar: false,
-    avatar: cyphr,
     simStream: true,
     streamSpeed: 30,
     dangerouslySetInnerHtml: true
@@ -157,4 +155,4 @@ export const settings: Settings = {
     rcbUserSubmitText: false,
     rcbUserUploadFile: false
   }
-}
+})
