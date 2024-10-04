@@ -1,5 +1,5 @@
 import { Button, Settings } from "react-chatbotify"
-import foresight from "@/assets/foresight.svg"
+import cyphr from "@/assets/cyphr.svg"
 import smile from "@/assets/smile.svg"
 
 export const settings: Settings = {
@@ -21,7 +21,7 @@ export const settings: Settings = {
     text: "Talk to me! 😊"
   },
   chatButton: {
-    icon: foresight
+    icon: cyphr
   },
   header: {
     title: (
@@ -37,7 +37,7 @@ export const settings: Settings = {
       </div>
     ),
     showAvatar: true,
-    avatar: foresight,
+    avatar: cyphr,
     buttons: [Button.CLOSE_CHAT_BUTTON]
   },
   chatHistory: {
@@ -50,7 +50,7 @@ export const settings: Settings = {
   },
   chatInput: {
     disabled: false,
-    allowNewline: false,
+    allowNewline: true,
     enabledPlaceholderText: "Type your message...",
     disabledPlaceholderText: "",
     showCharacterCount: false,
@@ -78,7 +78,7 @@ export const settings: Settings = {
   userBubble: {
     animate: true,
     showAvatar: false,
-    avatar: foresight,
+    avatar: cyphr,
     simStream: false,
     streamSpeed: 30,
     dangerouslySetInnerHtml: false
@@ -86,7 +86,7 @@ export const settings: Settings = {
   botBubble: {
     animate: true,
     showAvatar: false,
-    avatar: foresight,
+    avatar: cyphr,
     simStream: true,
     streamSpeed: 30,
     dangerouslySetInnerHtml: true
