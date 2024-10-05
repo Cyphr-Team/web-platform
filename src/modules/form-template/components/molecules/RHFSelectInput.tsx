@@ -22,11 +22,11 @@ import {
   SelectProps,
   SelectTriggerProps
 } from "@radix-ui/react-select"
-import { memo } from "react"
+import { memo, ReactNode } from "react"
 import { DescriptionTooltip } from "../atoms/DescriptionTooltip"
 
 type IOption = {
-  label: string
+  label: ReactNode
   /**
    * TODO: check the implementation of Primitive Select because currently, it doesn't work well with type difference from string
    * */

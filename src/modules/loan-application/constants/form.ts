@@ -162,6 +162,16 @@ export const kansasCityBusinessFormSchema = businessFormSchema.extend({
   tenNinetyNineContractorOrOther: z.string()
 })
 
+export const loanReadyBusinessFormSchema = businessFormSchema.extend({
+  dba: z.string().min(1, "Business trade name is required"),
+  businessStage: z.string().min(1, "Business stage is required"),
+  businessDescription: z.string().min(1, "Business description is required")
+})
+
+export type LoanReadyBusinessFormValue = z.infer<
+  typeof loanReadyBusinessFormSchema
+>
+
 export const financialFormSchema = z.object({
   id: z.string(),
   incomeCategories: z
@@ -560,7 +570,8 @@ export type IBusinessFormValue = BusinessFormValue &
   LaunchKCBusinessFormValue &
   SbbKybFormPartOneValue &
   SbbKybFormPartTwoValue &
-  KansasCityBusinessFormValue
+  KansasCityBusinessFormValue &
+  LoanReadyBusinessFormValue
 
 export type IOwnerFormValue = OwnerFormValue &
   LaunchKCOwnerFormValue &

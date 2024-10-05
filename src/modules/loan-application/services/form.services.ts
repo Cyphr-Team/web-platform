@@ -13,6 +13,7 @@ import {
   IOwnerFormValue,
   launchKCBusinessFormSchema,
   launchKCOwnerFormSchema,
+  loanReadyBusinessFormSchema,
   ownerFormSchema
 } from "../constants/form"
 import {
@@ -24,7 +25,7 @@ import {
   OperatingExpensesInformationResponse
 } from "../constants/type"
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
+import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils.ts"
 import { get, set, without } from "lodash"
 import { SBB_KYC_FIELD_NAMES } from "../components/organisms/loan-application-form/kyc/sbb/const"
 
@@ -58,6 +59,18 @@ export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
 
     return formatMetadataFromSchema(
       launchKcKybMetadata,
+      formattedForm
+    ) as KYBInformation
+  }
+
+  if (isLoanReady()) {
+    const loanReadyKybMetadata = without(
+      Object.keys(loanReadyBusinessFormSchema.shape),
+      ...Object.keys(businessFormSchema.shape)
+    )
+
+    return formatMetadataFromSchema(
+      loanReadyKybMetadata,
       formattedForm
     ) as KYBInformation
   }
@@ -120,14 +133,15 @@ export const reverseFormatKybForm = (rawData: KYBInformationResponse) => {
     businessTin: rawData.businessTin ?? ""
   }
 
-  if (isLaunchKC()) {
-    return {
-      ...formInformation,
-      ...get(rawData, "metadata", {})
-    }
+  return {
+    ...formInformation,
+    /**
+     * To reduce the effort for implementing redundant work on both BE API and FE UI
+     * Metadata is implemented to help us @see KYBInformation["metadata"]
+     * "metadata" only contain data when we submit this field to BE @see formatKybForm
+     */
+    ...get(rawData, "metadata", {})
   }
-
-  return formInformation
 }
 
 export const reverseFormatKycForm = (rawData: KYCInformationResponse) => {

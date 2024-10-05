@@ -117,7 +117,7 @@ const EditFundingSource = memo((props: EditFundingSourceProps) => {
         isRowDirection
         label="Funding"
         pattern={NUMBER_PATTERN}
-        className="flex flex-row items-center w-full justify-between "
+        className="flex flex-row items-center w-full justify-between mt-4"
         styleProps={{ inputClassName: "w-56 md:max-w-56 xl:max-w-56 xl:w-56" }}
         {...form.register(`fundingSources.${index}.amount` as const)}
       />

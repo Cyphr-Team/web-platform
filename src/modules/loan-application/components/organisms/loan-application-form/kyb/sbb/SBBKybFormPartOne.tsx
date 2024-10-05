@@ -222,8 +222,8 @@ export const SBBKybFormPartOne = () => {
                   <RHFOptionInput
                     className="col-span-12"
                     name={SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY}
-                    options={YES_NO_OPTIONS}
                     {...props}
+                    options={YES_NO_OPTIONS}
                     label="Is your business of subsidiary of another business?"
                   />
                   {form.watch(SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) ===

@@ -5,6 +5,7 @@ import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
 import { SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
+import { LoanReadyKYBFieldName } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 
 export interface KYBInformation {
   id: string | null
@@ -20,6 +21,11 @@ export interface KYBInformation {
     primaryIndustry: string
     primaryIndustryOther: string
     companyDescription: string
+
+    // field for loanReady
+    [LoanReadyKYBFieldName.DBA]: string
+    [LoanReadyKYBFieldName.BUSINESS_STAGE]: string
+    [LoanReadyKYBFieldName.BUSINESS_DESCRIPTION]: string
 
     // field for SBB part 1
     [SBB_KYB_FORM_FIELDS.DBA]: string

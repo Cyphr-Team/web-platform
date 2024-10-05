@@ -58,6 +58,7 @@ import RevenueForm from "@/modules/loan-application/[module]-financial-projectio
 import { FinancialProjectionReviewApplication } from "@/modules/loan-application/[module]-financial-projection/components/organisms/review-application/FinancialProjectionReviewApplication"
 import { LoanRequest } from "@/modules/loan-application/components/layouts/LoanRequest.tsx"
 import { LoanReadyLoanRequestForm } from "@/modules/loan-application/components/organisms/loan-application-form/loan-request/LoanReadyLoanRequestForm.tsx"
+import { LoanReadyBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKybForm.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -79,6 +80,10 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isKansasCity()) {
           return <KansasCityBusinessInformationForm />
         }
+        if (isLoanReady()) {
+          return <LoanReadyBusinessInformationForm />
+        }
+
         return <BusinessInformationForm />
       case LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE:
         return <SBBKybFormPartOne />
