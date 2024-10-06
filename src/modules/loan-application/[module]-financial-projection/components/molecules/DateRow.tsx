@@ -17,11 +17,11 @@ export const DateRow = (props: TotalRowProps) => {
     <div className={cn(GridMapper[data.length], className)}>
       <div
         className={cn(
-          "col-span-1 flex items-center border border-l-0 border-b-0",
+          "col-span-1 flex items-center border border-l-0 border-b-0 text-sm font-semibold pl-4 pr-10",
           labelClassName
         )}
       >
-        <div className="pl-4 pr-10 text-sm font-semibold ">{title}</div>
+        {title}
       </div>
 
       {data.map((value) => (

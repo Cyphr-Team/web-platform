@@ -2,11 +2,11 @@ import {
   getDataPointsFactory,
   useQueryFinancialProjectionForecast
 } from "@/modules/loan-application/[module]-financial-projection/hooks/useQueryFinancialProjectionForecast.ts"
-import { useMemo } from "react"
+import { useMemo, useRef, useState } from "react"
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
 import { DataRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DataRow.tsx"
 import { Card } from "@/components/ui/card.tsx"
-import { Button } from "@/components/ui/button.tsx"
+import { ButtonLoading } from "@/components/ui/button.tsx"
 import { LabeledSwitch } from "@/modules/loan-application/[module]-financial-projection/components/molecules/LabeledSwitch.tsx"
 import { useBoolean } from "@/hooks"
 import { cn } from "@/lib/utils.ts"
@@ -21,12 +21,41 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/constants"
 import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
 import { get } from "lodash"
+import { getPDF } from "@/modules/loan-application/services/pdf.service"
+import { FinancialProjectionPdf } from "./pdf"
 
 export function Component() {
+  const [isExporting, setIsExporting] = useState(false)
   const applicationId = useMemo(() => window.location.href.split("#")[1], [])
 
   const currentDetail = useBoolean(false)
   const monthlyDetail = useBoolean(false)
+  const elementToExportRef = useRef<Partial<Record<string, HTMLDivElement>>>({})
+
+  const exportToPdf = async () => {
+    try {
+      setIsExporting(true)
+      if (elementToExportRef.current) {
+        const filteredElement = Object.values(
+          elementToExportRef.current
+        ).filter((element) => element !== undefined) as HTMLDivElement[]
+
+        const { pdf } = await getPDF(
+          filteredElement,
+          false,
+          filteredElement.map(
+            (element) => element.querySelector(".footer") as HTMLDivElement
+          )
+        )
+
+        pdf.save(`loan_summary_${new Date().valueOf()}.pdf`)
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsExporting(false)
+    }
+  }
 
   const { data } = useQueryFinancialProjectionForecast({
     applicationId,
@@ -73,7 +102,13 @@ export function Component() {
       <div className="w-full flex gap-2 justify-end items-center">
         <LabeledSwitch label="Current financial detail" state={currentDetail} />
         <LabeledSwitch label="Monthly forecast detail" state={monthlyDetail} />
-        <Button type="button">Download report</Button>
+        <ButtonLoading
+          isLoading={isExporting}
+          type="button"
+          onClick={exportToPdf}
+        >
+          Download report
+        </ButtonLoading>
       </div>
 
       <div className="flex flex-col gap-y-6xl">
@@ -103,6 +138,9 @@ export function Component() {
             data: monthlyDetail.value ? monthlyTimeStamp : annuallyTimeStamp
           }}
         />
+        <div className="hidden">
+          <FinancialProjectionPdf itemsRef={elementToExportRef} />
+        </div>
       </div>
     </div>
   )

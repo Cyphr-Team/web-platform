@@ -16,32 +16,37 @@ const processContent = async (
   doc: jsPDF,
   content: HTMLElement,
   hasFooter = false,
-  addPage = true
+  addPage = true,
+  customFooter?: HTMLElement
 ): Promise<number> => {
   let totalPage = 0
   const clonedContent = content.cloneNode(true) as HTMLElement
-
   try {
     clonedContent.style.width = "1200px"
     document.body.appendChild(clonedContent)
-    totalPage = await addContentToPdf(doc, clonedContent)
 
-    if (hasFooter) {
-      // Add footer to page
+    if (customFooter) {
+      const clonedFooter = customFooter.cloneNode(true) as HTMLElement
+      clonedFooter.style.width = "1200px"
+      document.body.appendChild(clonedFooter)
+      totalPage = await addContentToPdf(doc, clonedContent, clonedFooter)
+    } else if (hasFooter) {
+      totalPage = await addContentToPdf(doc, clonedContent)
+
       doc.setFontSize(10)
-
       // Add a line to separate
       doc.setLineWidth(0.5)
       doc.setDrawColor(234, 236, 240) // Set color to grey
 
       // Draw a line at the bottom of the page to separate content and footer
-
       doc.line(20, PAGE_HEIGHT - 10, PAGE_WIDTH - 20, PAGE_HEIGHT - 10)
       doc.text(
         `Page ${doc.internal.pages.length - 1}`,
         PAGE_WIDTH - 110,
         PAGE_HEIGHT - 5
       )
+    } else {
+      totalPage = await addContentToPdf(doc, clonedContent)
     }
     // Add a new page for the next image
     if (addPage) doc.addPage()
@@ -57,7 +62,8 @@ const processContent = async (
 
 const addContentToPdf = async (
   doc: jsPDF,
-  content: HTMLElement
+  content: HTMLElement,
+  footer?: HTMLElement
 ): Promise<number> => {
   const [pageWidth, pageHeight] = [210, 297]
   const canvas = await html2canvas(content)
@@ -87,13 +93,28 @@ const addContentToPdf = async (
     doc.addImage(imgData, "JPEG", marginLeft, position, imgWidth, imgHeight)
     heightLeft -= pageHeight
   }
+  if (footer) {
+    const footerCanvas = await html2canvas(footer)
+    const footerImgData = footerCanvas.toDataURL("image/jpeg")
+    const footerImgHeight =
+      (footerCanvas.height * imgWidth) / footerCanvas.width
 
+    doc.addImage(
+      footerImgData,
+      "JPEG",
+      marginLeft,
+      PAGE_HEIGHT - 10,
+      imgWidth,
+      footerImgHeight
+    )
+  }
   return totalPage
 }
 
 export const getPDF = async (
   pdfElements: HTMLDivElement[],
-  hasFooter?: boolean
+  hasFooter?: boolean,
+  customFooter?: HTMLDivElement[]
 ): Promise<{ pdf: jsPDF; totalPage: number }> => {
   if (!pdfElements.length) return { pdf: new jsPDF(), totalPage: 0 }
 
@@ -110,10 +131,22 @@ export const getPDF = async (
     const content = pdfElements[idx]
     if (!content) continue
     if (idx == pdfElements.length - 1) {
-      const processedPage = await processContent(doc, content, hasFooter, false)
+      const processedPage = await processContent(
+        doc,
+        content,
+        hasFooter,
+        false,
+        customFooter ? customFooter[idx] : undefined
+      )
       totalPage += processedPage
     } else {
-      const processedPage = await processContent(doc, content, hasFooter)
+      const processedPage = await processContent(
+        doc,
+        content,
+        hasFooter,
+        true,
+        customFooter ? customFooter[idx] : undefined
+      )
       totalPage += processedPage
     }
   }
