@@ -9,6 +9,7 @@ import {
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
 import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form.ts"
 import { emptyRecurringCharge } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
+import { CHARGE_FREQUENCIES } from "@/modules/loan-application/[module]-financial-projection/components/store/recurring-charges-store"
 
 const enum FieldName {
   NAME = "name",
@@ -87,24 +88,7 @@ const blocks: Block[] = [
       styleProps: {
         inputClassName: "w-72 text-sm"
       },
-      options: [
-        {
-          label: "Monthly",
-          value: "1"
-        },
-        {
-          label: "Quarterly",
-          value: "4"
-        },
-        {
-          label: "Semi-Annually",
-          value: "6"
-        },
-        {
-          label: "Annually",
-          value: "12"
-        }
-      ]
+      options: CHARGE_FREQUENCIES
     }
   },
   {

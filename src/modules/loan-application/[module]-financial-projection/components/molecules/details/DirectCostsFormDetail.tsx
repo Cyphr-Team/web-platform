@@ -13,7 +13,7 @@ import {
   DirectCostsFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 import { reverseFormatDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
-import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
+import { DirectCostsFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/direct-costs-form"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -23,14 +23,17 @@ import {
   useForm
 } from "react-hook-form"
 
-export const DirectCostsFormDetail = () => {
-  const { directCostsQuery } = useGetFinancialProjectForms()
-
+interface DirectCostsFormDetailProps {
+  directCostsFormResponse?: DirectCostsFormResponse
+}
+export const DirectCostsFormDetail = ({
+  directCostsFormResponse
+}: DirectCostsFormDetailProps) => {
   const form = useForm<DirectCostsFormValue>({
     resolver: zodResolver(directCostsFormSchema),
     mode: "onBlur",
-    values: directCostsQuery?.data
-      ? reverseFormatDirectCostsForm(directCostsQuery.data)
+    values: directCostsFormResponse
+      ? reverseFormatDirectCostsForm(directCostsFormResponse)
       : { [DirectCostsField.directCosts]: [] }
   })
 

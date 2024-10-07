@@ -3,9 +3,9 @@ import { TopNav } from "../molecules/TopNav"
 import { cn } from "@/lib/utils"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { FC, PropsWithChildren, useEffect, useState } from "react"
-import { EmptyApplications } from "@/modules/loan-application/pages/LoanApplications.tsx"
 import useRouter from "@/hooks/useRouter.ts"
 import { APP_PATH } from "@/constants"
+import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
 
 export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
   props

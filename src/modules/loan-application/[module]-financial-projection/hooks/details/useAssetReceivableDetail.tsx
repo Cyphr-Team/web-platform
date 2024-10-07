@@ -1,11 +1,17 @@
-import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
+import { RECEIVABLE_DAYS_OPTIONS } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { AssetsCurrentFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
-export const useAssetReceivableDetail = () => {
-  const { fpAssetsCurrentFormQuery } = useGetFinancialProjectForms()
-  const daysToGetPaid = fpAssetsCurrentFormQuery?.data?.receivableDays
+interface UseAssetReceivableDetailProps {
+  assetsCurrentFormResponse?: AssetsCurrentFormResponse
+}
+export const useAssetReceivableDetail = ({
+  assetsCurrentFormResponse
+}: UseAssetReceivableDetailProps) => {
+  const daysToGetPaid = assetsCurrentFormResponse?.receivableDays ?? 0
 
-  const assetReceivableDetail = {
+  const assetReceivableDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.ASSETS,
     subId: "receivable",
     title: "Assets: Account Receivables",
@@ -15,7 +21,9 @@ export const useAssetReceivableDetail = () => {
       {
         id: "DaysToGetPaid: ",
         title: "Days to get paid: ",
-        content: daysToGetPaid ? `Net ${daysToGetPaid} days` : "N/A"
+        content: RECEIVABLE_DAYS_OPTIONS.find(
+          (day) => day.value === daysToGetPaid.toString()
+        )?.label
       }
     ]
   }

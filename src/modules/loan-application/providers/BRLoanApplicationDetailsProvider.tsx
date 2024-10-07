@@ -6,7 +6,7 @@ import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import { UserMicroLoanApplication } from "@/types/loan-application.type"
 import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
 import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   formsConfigurationEnabled,
   isEnablePandaDocESign
@@ -159,9 +159,10 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   /**
    * Return the persona inquiry verification status for the loan application
    */
-  const identityVerificationQuery = useQueryGetIdentityVerification(
-    loanApplicationId!
-  )
+  const identityVerificationQuery = useQueryGetIdentityVerification({
+    appId: loanApplicationId,
+    enabled: !!loanApplicationId && !isLoanReady()
+  })
 
   /**
    * Return the document id for the loan application

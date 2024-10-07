@@ -72,6 +72,11 @@ export type KybMetadata = Partial<{
   primaryIndustryOther: string
   companyDescription: string
 
+  // field for loanReady
+  [LoanReadyKYBFieldName.DBA]: string
+  [LoanReadyKYBFieldName.BUSINESS_STAGE]: string
+  [LoanReadyKYBFieldName.BUSINESS_DESCRIPTION]: string
+
   // field for SBB part 1
   [SBB_KYB_FORM_FIELDS.DBA]: string
   [SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY]: string

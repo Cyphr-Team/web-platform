@@ -18,17 +18,37 @@ import { useLoanRequestDetail } from "@/modules/loan-application/[module]-financ
 import { useRevenueDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useRevenueDetail"
 import { useTaxRatesDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useTaxRatesDetail"
 import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import {
+  KYBInformationResponse,
+  KYCInformationResponse
+} from "@/modules/loan-application/constants/type"
+import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
+import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { UserMicroLoanApplication } from "@/types/loan-application.type"
 
-export const useFinancialApplicationDetail = () => {
+interface UseFinancialApplicationDetailProps {
+  fpForm?: ReturnType<
+    | typeof useGetFinancialProjectForms
+    | typeof useGetFinancialProjectLoanSummary
+  >
+  loanApplicationDetails?: UserMicroLoanApplication
+  kybFormData?: KYBInformationResponse
+  kycFormData?: KYCInformationResponse
+}
+export const useFinancialApplicationDetail = ({
+  fpForm,
+  kybFormData,
+  kycFormData,
+  loanApplicationDetails
+}: UseFinancialApplicationDetailProps) => {
   const connectedAccountData = {
     id: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
-    title: "Connected Accounts",
     financialApplicationFormData: [],
     subChildren: <ConnectedAccountDetail />
   }
 
-  const directCostData = {
+  const directCostData: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.DIRECT_COSTS,
     title: "Direct Costs",
     subTitle: (
@@ -49,7 +69,11 @@ export const useFinancialApplicationDetail = () => {
       </>
     ),
     financialApplicationFormData: [],
-    subChildren: <DirectCostsFormDetail />
+    subChildren: (
+      <DirectCostsFormDetail
+        directCostsFormResponse={fpForm?.directCostsQuery.data}
+      />
+    )
   }
 
   const operatingExpensesData = {
@@ -70,27 +94,61 @@ export const useFinancialApplicationDetail = () => {
       </>
     ),
     financialApplicationFormData: [],
-    subChildren: <FinancialOperatingExpensesFormDetail />
+    subChildren: (
+      <FinancialOperatingExpensesFormDetail
+        fpOperatingExpensesFormResponse={
+          fpForm?.fpOperatingExpensesFormQuery.data
+        }
+      />
+    )
   }
 
   const financialApplicationDetailData: FinancialApplicationDetailData[] = [
-    useLoanRequestDetail().loanRequestDetail,
-    useBusinessInformationDetail().businessInformationDetail,
-    useIndividualInformationDetail().individualInformationDetail,
-    useForecastingSetupDetail().forecastingSetupDetail,
-    useFinancialStatementsDetail().financialStatementsDetail,
-    ...useRevenueDetail().revenueDetail,
-    useCurrentEmployeesDetail().currentEmployeesDetail,
-    useFutureEmployeesDetail().futureEmployeesDetail,
+    useLoanRequestDetail({
+      loanApplicationDetails
+    }).loanRequestDetail,
+    useBusinessInformationDetail({
+      kybFormData
+    }).businessInformationDetail,
+    useIndividualInformationDetail({
+      kycFormData
+    }).individualInformationDetail,
+    useForecastingSetupDetail({
+      forecastingSetupByIdResponse: fpForm?.forecastingSetupQuery.data
+    }).forecastingSetupDetail,
+    useFinancialStatementsDetail({
+      financialStatementFormResponse: fpForm?.financialStatementQuery.data
+    }).financialStatementsDetail,
+    ...useRevenueDetail({
+      revenueStreamResponse: fpForm?.revenueFormQuery.data
+    }).revenueDetail,
+    useCurrentEmployeesDetail({
+      expensePeopleResponse: fpForm?.expensePeopleFormQuery.data
+    }).currentEmployeesDetail,
+    useFutureEmployeesDetail({
+      expensePeopleResponse: fpForm?.expensePeopleFormQuery.data
+    }).futureEmployeesDetail,
     connectedAccountData,
     directCostData,
     operatingExpensesData,
-    useTaxRatesDetail().taxRatesDetail,
-    useAssetReceivableDetail().assetReceivableDetail,
-    useAssetLongTermDetail().assetLongTermDetail,
-    useDebtFinancingAccountsPayableDetail().debtFinancingAccountsPayableDetail,
-    useDebtFinancingLoanFormDetail().debtFinancingLoanFormDetail,
-    useEquityFinancingDetail().equityFinancingDetail
+    useTaxRatesDetail({
+      expenseTaxRateFormResponse: fpForm?.fpExpenseTaxRateFormQuery.data
+    }).taxRatesDetail,
+    useAssetReceivableDetail({
+      assetsCurrentFormResponse: fpForm?.fpAssetsCurrentFormQuery.data
+    }).assetReceivableDetail,
+    useAssetLongTermDetail({
+      assetsLongTermFormResponse: fpForm?.fpAssetsLongTermFormQuery.data
+    }).assetLongTermDetail,
+    useDebtFinancingAccountsPayableDetail({
+      debtFinancingLiability: fpForm?.debtFinancingLiabilityFormQuery.data
+    }).debtFinancingAccountsPayableDetail,
+    useDebtFinancingLoanFormDetail({
+      debtFinancingResponse: fpForm?.debtFinancingFormQuery.data
+    }).debtFinancingLoanFormDetail,
+    useEquityFinancingDetail({
+      fpEquityFinancingFormResponse: fpForm?.fpEquityFinancingFormQuery.data
+    }).equityFinancingDetail
   ]
   return { financialApplicationDetailData }
 }

@@ -34,7 +34,12 @@ enum UseOfLoan {
   OTHER = "other"
 }
 
-export { LoanApplicationStatus, UseOfLoan }
+const EDITABLE_STATUSES = [
+  LoanApplicationStatus.DRAFT.toLowerCase(),
+  LoanApplicationStatus.PENDING_SUBMISSION.toLowerCase()
+]
+
+export { LoanApplicationStatus, UseOfLoan, EDITABLE_STATUSES }
 
 // INTERFACE
 interface Applicant {

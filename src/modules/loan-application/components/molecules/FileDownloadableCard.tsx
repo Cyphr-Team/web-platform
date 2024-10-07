@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button"
 import { DocumentUploadedResponse } from "../../constants/type"
 import { FC } from "react"
 
-type Props = {
+interface Props {
   file: DocumentUploadedResponse
 }
-
 export const FileDownloadableCard: FC<Props> = ({ file }) => {
   return (
     <Card className="p-xl gap-2xl flex shadow-none items-center" key={file.id}>

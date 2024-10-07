@@ -1,12 +1,16 @@
+import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { KYCInformationResponse } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { formatPhoneNumber } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
 
-export const useIndividualInformationDetail = () => {
-  const { kycFormData } = useBRLoanApplicationDetailsContext()
-
-  const individualInformationDetail = {
+interface UseIndividualInformationDetail {
+  kycFormData?: KYCInformationResponse
+}
+export const useIndividualInformationDetail = ({
+  kycFormData
+}: UseIndividualInformationDetail) => {
+  const individualInformationDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
     title: "Individual Information",
     financialApplicationFormData: [

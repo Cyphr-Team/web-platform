@@ -13,7 +13,7 @@ type QueryForecastingSetupRequest = {
   applicationId?: string
 }
 
-type QueryForecastingSetupByIdResponse = ForecastingSetupFormValue & {
+export type QueryForecastingSetupByIdResponse = ForecastingSetupFormValue & {
   id: string
 }
 

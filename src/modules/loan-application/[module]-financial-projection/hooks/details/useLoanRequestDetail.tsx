@@ -1,10 +1,15 @@
+import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
+import { UserMicroLoanApplication } from "@/types/loan-application.type"
 import { capitalizeWords, toCurrency } from "@/utils"
 
-export const useLoanRequestDetail = () => {
-  const { loanApplicationDetails } = useBRLoanApplicationDetailsContext()
-  const loanRequestDetail = {
+interface UseLoanRequestDetailProps {
+  loanApplicationDetails?: UserMicroLoanApplication
+}
+export const useLoanRequestDetail = ({
+  loanApplicationDetails
+}: UseLoanRequestDetailProps) => {
+  const loanRequestDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
     title: "Loan Request",
     financialApplicationFormData: [

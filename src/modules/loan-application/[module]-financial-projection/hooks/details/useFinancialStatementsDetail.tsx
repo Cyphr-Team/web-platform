@@ -1,14 +1,18 @@
 import fileIcon from "@/assets/file.svg"
-import { DownloadDocumentButton } from "@/modules/loan-application/components/atoms/DownloadDocumentButton"
+import { FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
+import { DownloadDocumentBtn } from "@/modules/loan-application/components/atoms/DownloadDocumentBtn"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
+import { useQueryDownloadFinancialDocument } from "@/modules/loan-application/hooks/useQueryDownloadFinancialDocument"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { capitalizeWords } from "@/utils"
 
-export const useFinancialStatementsDetail = () => {
-  const { financialStatementData } = useBRLoanApplicationDetailsContext()
-
+interface UseEquityFinancingDetailProps {
+  financialStatementFormResponse?: FinancialStatementFormResponse
+}
+export const useFinancialStatementsDetail = ({
+  financialStatementFormResponse
+}: UseEquityFinancingDetailProps) => {
   const financialStatementsDetail = {
     id: LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS,
     title: "Financial Statements",
@@ -17,18 +21,23 @@ export const useFinancialStatementsDetail = () => {
         id: "financialStatementsAvailable",
         title: "Financial statements are available:",
         content: capitalizeWords(
-          financialStatementData?.hasDocument
+          financialStatementFormResponse?.hasDocument
             ? BINARY_VALUES.YES
             : BINARY_VALUES.NO
         )
       }
     ],
     subChildren:
-      financialStatementData?.documents &&
-      financialStatementData?.documents?.length > 0 ? (
+      (financialStatementFormResponse?.documents?.length ?? 0) > 0 ? (
         <div className="flex flex-col gap-y-2xl">
-          {financialStatementData?.documents?.map((val) => (
-            <FileCard file={val} key={val.id} />
+          {financialStatementFormResponse?.documents?.map((val) => (
+            <FileCard
+              setupId={
+                financialStatementFormResponse.financialProjectionSetupId
+              }
+              file={val}
+              key={val.id}
+            />
           ))}
         </div>
       ) : undefined
@@ -37,16 +46,20 @@ export const useFinancialStatementsDetail = () => {
   return { financialStatementsDetail }
 }
 
-type Props = {
+interface Props {
   file: DocumentUploadedResponse
+  setupId?: string
 }
-const FileCard: React.FC<Props> = ({ file }) => (
+const FileCard: React.FC<Props> = ({ file, setupId }) => (
   <div className="flex justify-between gap-2">
     <div className="flex justify-center items-center gap-2">
       <img src={fileIcon} className="logo w-8 h-8" alt="file" />
       <p className="text-sm">{file.originFileName}</p>
     </div>
-    <DownloadDocumentButton
+
+    <DownloadDocumentBtn
+      useDownloadFile={useQueryDownloadFinancialDocument}
+      setupId={setupId}
       documentId={file.id}
       fileName={file.originFileName}
     />

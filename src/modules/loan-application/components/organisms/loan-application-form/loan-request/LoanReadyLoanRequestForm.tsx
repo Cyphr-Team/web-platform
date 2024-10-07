@@ -11,24 +11,28 @@ import {
 } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { RHFLoanSlider } from "@/modules/conference-demo/applicant/components/molecules"
+import { RHFSelectInput } from "@/modules/form-template/components/molecules"
+import { RHFProvider } from "@/modules/form-template/providers"
+import { loanRequestFormSchema } from "@/modules/loan-application/constants/form.ts"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext,
   useLoanProgramDetailContext
 } from "@/modules/loan-application/providers"
-import { loanRequestFormSchema } from "@/modules/loan-application/constants/form.ts"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
-import { RHFSelectInput } from "@/modules/form-template/components/molecules"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { RHFProvider } from "@/modules/form-template/providers"
-import { RHFLoanSlider } from "@/modules/conference-demo/applicant/components/molecules"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-export function LoanReadyLoanRequestForm() {
+interface LoanReadyLoanRequestFormProps {
+  wrapperClassName?: string
+}
+export function LoanReadyLoanRequestForm({
+  wrapperClassName
+}: LoanReadyLoanRequestFormProps) {
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { loanRequest, dispatchFormAction } = useLoanApplicationFormContext()
@@ -64,47 +68,21 @@ export function LoanReadyLoanRequestForm() {
     finishCurrentStep()
   })
 
-  useEffect(() => {
-    /**
-     * Auto saving, although useAutoCompleteStepEffect did this, but I don't understand
-     * why form don't save for me...
-     */
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
-        state: {
-          id: data.id,
-          loanAmount: data.loanAmount,
-          loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 2,
-          proposeUseOfLoan: "" // TODO: fk this
-        }
-      })
-    }
-  }, [
-    form.formState.isValidating,
-    form,
-    dispatchFormAction,
-    loanProgramDetails?.maxTermInMonth
-  ])
-
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
 
   return (
     <Card
       className={cn(
         "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm w-full"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm w-full",
+        wrapperClassName
       )}
     >
       <CardHeader className="text-center">
         <CardTitle className="text-lg">Loan Request</CardTitle>
         <CardDescription>
           Thank you for your interest in working with us.
-          <span className="block">
-            What is the loan amount you are requesting?
-          </span>
+          <span className="block">What amount will you be requesting?</span>
         </CardDescription>
       </CardHeader>
 
@@ -117,7 +95,7 @@ export function LoanReadyLoanRequestForm() {
                   name="loanAmount"
                   min={minLoanAmount}
                   max={maxLoanAmount}
-                  label=""
+                  label="Loan Amount"
                 />
 
                 <RHFSelectInput

@@ -1,46 +1,45 @@
 import { FORMAT_DATE_MM_YYYY } from "@/constants/date.constants"
+import { CHARGE_FREQUENCIES } from "@/modules/loan-application/[module]-financial-projection/components/store/recurring-charges-store"
+import {
+  FinancialApplicationDetailData,
+  FinancialApplicationFormDetailData
+} from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
   RevenueResponseType,
   SubmitRevenueStreamResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
-import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
 
 type RevenueElement = SubmitRevenueStreamResponse["forms"][number] | undefined
+type DetailGenerator = (
+  revenue: RevenueElement
+) => FinancialApplicationFormDetailData[]
 
-export const useRevenueDetail = () => {
-  const { revenueFormQuery } = useGetFinancialProjectForms()
+interface UseRevenueDetailProps {
+  revenueStreamResponse?: SubmitRevenueStreamResponse
+}
+export const useRevenueDetail = ({
+  revenueStreamResponse
+}: UseRevenueDetailProps) => {
+  const revenueDetail: FinancialApplicationDetailData[] =
+    revenueStreamResponse?.forms?.map((revenue, index) => ({
+      id: LOAN_APPLICATION_STEPS.REVENUE,
+      subId: index.toString(),
+      title: "Revenue",
+      financialApplicationFormData: generateFormDetailByFormType(revenue)
+    })) ?? []
 
-  return {
-    revenueDetail:
-      revenueFormQuery.data?.forms?.map((revenue, index) => ({
-        id: LOAN_APPLICATION_STEPS.REVENUE,
-        subId: index + "",
-        title: "Revenue",
-        financialApplicationFormData: getFormDetailByFormType(revenue)
-      })) ?? []
-  }
+  return { revenueDetail }
 }
 
-const getFormDetailByFormType = (revenue: RevenueElement) => {
-  switch (revenue?.formType) {
-    case RevenueResponseType.BILLABLE_HOURS:
-      return toBillableHourDetail(revenue)
-    case RevenueResponseType.CONTRACTS:
-      return toContractRevenueDetail(revenue)
-    case RevenueResponseType.RECURRING_CHARGES:
-      return toRecurringChargesDetail(revenue)
-    case RevenueResponseType.UNIT_SALES:
-      return toUnitSaleDetail(revenue)
-    default:
-      return []
-  }
-}
+function generateUnitSaleDetail(
+  revenue: RevenueElement
+): FinancialApplicationFormDetailData[] {
+  const unitSale = revenue?.unitSale
 
-const toUnitSaleDetail = (revenue: RevenueElement) => {
   return [
     {
       id: "selectedRevenueModel",
@@ -55,31 +54,35 @@ const toUnitSaleDetail = (revenue: RevenueElement) => {
     {
       id: "revenueStreamStartDate",
       title: "Revenue stream start date:",
-      content: formatDate(revenue?.unitSale?.startDate, FORMAT_DATE_MM_YYYY)
+      content: formatDate(unitSale?.startDate, FORMAT_DATE_MM_YYYY)
     },
     {
       id: "estimateMonthlyUnitSales",
       title: "Estimate monthly unit sales:",
-      content: revenue?.unitSale?.estimateMonthlyUnitSales
-        ? `${revenue?.unitSale?.estimateMonthlyUnitSales} /mo`
+      content: unitSale?.estimateMonthlyUnitSales
+        ? formatPerMonth(unitSale?.estimateMonthlyUnitSales)
         : "N/A"
     },
     {
       id: "estimateMonthlyIncreaseInSales",
       title: "Estimate monthly increase in sales:",
-      content: revenue?.unitSale?.estimateMonthlySalesIncreaseRate
-        ? `${revenue?.unitSale?.estimateMonthlySalesIncreaseRate}% /mo`
+      content: unitSale?.estimateMonthlySalesIncreaseRate
+        ? formatPercentage(unitSale?.estimateMonthlySalesIncreaseRate)
         : "N/A"
     },
     {
       id: "unitPrice",
       title: "Unit price:",
-      content: toCurrency(revenue?.unitSale?.unitPrice ?? 0, 0)
+      content: formatCurrency(unitSale?.unitPrice ?? 0)
     }
   ]
 }
 
-const toContractRevenueDetail = (revenue: RevenueElement) => {
+function generateContractRevenueDetail(
+  revenue: RevenueElement
+): FinancialApplicationFormDetailData[] {
+  const contract = revenue?.contract
+
   return [
     {
       id: "selectedRevenueModel",
@@ -89,27 +92,31 @@ const toContractRevenueDetail = (revenue: RevenueElement) => {
     {
       id: "revenueStreamTitle",
       title: "The revenue stream in your forecast should be titled:",
-      content: revenue?.contract?.name
+      content: contract?.name
     },
     {
       id: "revenueStreamStartDate",
       title: "Revenue stream start date:",
-      content: formatDate(revenue?.contract?.startDate, FORMAT_DATE_MM_YYYY)
+      content: formatDate(contract?.startDate, FORMAT_DATE_MM_YYYY)
     },
     {
       id: "revenueEndDate",
       title: "Revenue end date:",
-      content: formatDate(revenue?.contract?.endDate, FORMAT_DATE_MM_YYYY)
+      content: formatDate(contract?.endDate, FORMAT_DATE_MM_YYYY)
     },
     {
       id: "estimateMonthlyRevenue",
       title: "Estimate the monthly revenue from this stream:",
-      content: toCurrency(revenue?.contract?.monthlyRevenue ?? 0, 0)
+      content: formatCurrency(contract?.monthlyRevenue ?? 0)
     }
   ]
 }
 
-const toRecurringChargesDetail = (revenue: RevenueElement) => {
+function generateRecurringChargesDetail(
+  revenue: RevenueElement
+): FinancialApplicationFormDetailData[] {
+  const recurringCharge = revenue?.recurringCharge
+
   return [
     {
       id: "selectedRevenueModel",
@@ -119,60 +126,60 @@ const toRecurringChargesDetail = (revenue: RevenueElement) => {
     {
       id: "revenueStreamTitle",
       title: "The revenue stream in your forecast should be titled:",
-      content: revenue?.recurringCharge?.name
+      content: recurringCharge?.name
     },
     {
       id: "revenueStreamStartDate",
       title: "Revenue stream start date:",
-      content: formatDate(
-        revenue?.recurringCharge?.startDate,
-        FORMAT_DATE_MM_YYYY
-      )
+      content: formatDate(recurringCharge?.startDate, FORMAT_DATE_MM_YYYY)
     },
     {
       id: "estimateNewMonthlyCustomerSignUps",
       title: "Estimate new monthly customer sign-ups:",
-      content: revenue?.recurringCharge?.monthlyNewCustomer
-        ? `${revenue?.recurringCharge?.monthlyNewCustomer} /mo`
+      content: recurringCharge?.monthlyNewCustomer
+        ? formatPerMonth(recurringCharge?.monthlyNewCustomer)
         : "N/A"
     },
     {
       id: "recurringCharge",
       title: "Recurring charge:",
-      content: toCurrency(revenue?.recurringCharge?.recurringCharge ?? 0, 0)
+      content: formatCurrency(recurringCharge?.recurringCharge ?? 0)
     },
     {
       id: "chargeFrequency",
       title: "Specify how often this charge is assessed:",
-      content: CHARGE_FREQUENCY.find(
-        (fre) => fre.value == revenue?.recurringCharge?.frequency
-      )?.label
+      content:
+        CHARGE_FREQUENCIES.find(
+          (fre) => fre.value == recurringCharge?.frequency
+        )?.label ?? "N/A"
     },
     {
       id: "expectedNonRenewalPercentage",
       title: "Percentage of customers you expect not to renew:",
-      content: revenue?.recurringCharge?.churnRate
-        ? `${revenue?.recurringCharge?.churnRate}%`
+      content: recurringCharge?.churnRate
+        ? formatPercentage(recurringCharge?.churnRate)
         : "N/A"
     },
     {
       id: "upfrontFeeIndicator",
       title: "Indicate whether you will charge an upfront fee:",
       content: capitalizeWords(
-        revenue?.recurringCharge?.hasUpfrontFee
-          ? BINARY_VALUES.YES
-          : BINARY_VALUES.NO
+        recurringCharge?.hasUpfrontFee ? BINARY_VALUES.YES : BINARY_VALUES.NO
       )
     },
     {
       id: "upfrontFee",
       title: "Upfront fee:",
-      content: toCurrency(revenue?.recurringCharge?.upfrontFee ?? 0, 0)
+      content: formatCurrency(recurringCharge?.upfrontFee ?? 0)
     }
   ]
 }
 
-const toBillableHourDetail = (revenue: RevenueElement) => {
+function generateBillableHourDetail(
+  revenue: RevenueElement
+): FinancialApplicationFormDetailData[] {
+  const billableHour = revenue?.billableHour
+
   return [
     {
       id: "selectedRevenueModel",
@@ -182,57 +189,60 @@ const toBillableHourDetail = (revenue: RevenueElement) => {
     {
       id: "revenueStreamTitle",
       title: "The revenue stream in your forecast should be titled:",
-      content: revenue?.billableHour?.name
+      content: billableHour?.name
     },
     {
       id: "revenueStreamStartDate",
       title: "Revenue stream start date:",
-      content: formatDate(revenue?.billableHour?.startDate, FORMAT_DATE_MM_YYYY)
+      content: formatDate(billableHour?.startDate, FORMAT_DATE_MM_YYYY)
     },
     {
       id: "estimateNewMonthlyCustomerSignUps",
       title: "Estimate new monthly customer sign-ups:",
-      content: revenue?.billableHour?.monthlyNewCustomers
-        ? `${revenue?.billableHour?.monthlyNewCustomers} /mo`
+      content: billableHour?.monthlyNewCustomers
+        ? formatPerMonth(billableHour?.monthlyNewCustomers)
         : "N/A"
     },
     {
       id: "estimateMonthlyIncreaseInNewCustomers",
       title: "Estimate the monthly increase in new customers:",
-      content: revenue?.billableHour?.monthlyNewCustomerIncreaseRate
-        ? `${revenue?.billableHour?.monthlyNewCustomerIncreaseRate}% /mo`
+      content: billableHour?.monthlyNewCustomerIncreaseRate
+        ? formatPercentage(billableHour?.monthlyNewCustomerIncreaseRate)
         : "N/A"
     },
     {
       id: "estimateAverageMonthlyBilledHoursPerCustomer",
       title: "Estimate average monthly billed hours per customer:",
-      content: revenue?.billableHour?.averageMonthlyHourBilledPerCustomer
-        ? `${revenue?.billableHour?.averageMonthlyHourBilledPerCustomer} /mo`
+      content: billableHour?.averageMonthlyHourBilledPerCustomer
+        ? formatPerMonth(billableHour?.averageMonthlyHourBilledPerCustomer)
         : "N/A"
     },
     {
       id: "pricePerUnit",
       title: "Price per unit:",
-      content: toCurrency(revenue?.billableHour?.hourlyRate ?? 0, 0)
+      content: formatCurrency(billableHour?.hourlyRate ?? 0)
     }
   ]
 }
 
-const CHARGE_FREQUENCY = [
-  {
-    label: "Monthly",
-    value: "1"
-  },
-  {
-    label: "Quarterly",
-    value: "4"
-  },
-  {
-    label: "Semi-Annually",
-    value: "6"
-  },
-  {
-    label: "Annually",
-    value: "12"
-  }
-]
+// Map of revenue types to their respective detail generators
+const revenueDetailGenerators: Record<RevenueResponseType, DetailGenerator> = {
+  [RevenueResponseType.UNIT_SALES]: generateUnitSaleDetail,
+  [RevenueResponseType.CONTRACTS]: generateContractRevenueDetail,
+  [RevenueResponseType.RECURRING_CHARGES]: generateRecurringChargesDetail,
+  [RevenueResponseType.BILLABLE_HOURS]: generateBillableHourDetail
+}
+
+const generateFormDetailByFormType = (
+  revenue: RevenueElement
+): FinancialApplicationFormDetailData[] => {
+  const generator = revenue?.formType
+    ? revenueDetailGenerators[revenue.formType]
+    : null
+  return generator ? generator(revenue) : []
+}
+
+// Utility functions
+const formatCurrency = (value: number): string => toCurrency(value, 0)
+const formatPercentage = (value: number): string => `${value}%`
+const formatPerMonth = (value: number): string => `${value} /mo`

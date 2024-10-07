@@ -1,15 +1,60 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
 import { useFinancialApplicationDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details"
+import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
+import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
+import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { FolderDown } from "lucide-react"
 
 export const FinancialProjectionApplicationDetails = () => {
+  const financialApplicationForms = useGetFinancialProjectForms()
+  const {
+    loanApplicationDetails,
+    kybFormData,
+    kycFormData,
+    isFetchingDetails,
+    isLoading
+  } = useBRLoanApplicationDetailsContext()
+  const { financialApplicationDetailData } = useFinancialApplicationDetail({
+    fpForm: financialApplicationForms,
+    loanApplicationDetails,
+    kybFormData,
+    kycFormData
+  })
+
   return (
     <Layout>
       <Header />
-      <Main />
+      <Main
+        financialApplicationDetailData={financialApplicationDetailData}
+        isLoading={isFetchingDetails || isLoading}
+      />
+    </Layout>
+  )
+}
+
+export const FinancialProjectionApplicationSummary = () => {
+  const financialApplicationForms = useGetFinancialProjectLoanSummary()
+  const { loanSummary, loanApplicationDetails, isFetchingSummary, isLoading } =
+    useLoanApplicationDetailContext()
+  const { financialApplicationDetailData } = useFinancialApplicationDetail({
+    fpForm: financialApplicationForms,
+    kybFormData: loanSummary?.kybForm,
+    kycFormData: loanSummary?.kycForm,
+    loanApplicationDetails
+  })
+
+  return (
+    <Layout>
+      <Header />
+      <Main
+        financialApplicationDetailData={financialApplicationDetailData}
+        isLoading={isFetchingSummary || isLoading}
+      />
     </Layout>
   )
 }
@@ -38,9 +83,11 @@ const Header = () => {
   )
 }
 
-const Main = () => {
-  const { financialApplicationDetailData } = useFinancialApplicationDetail()
-
+interface MainProps {
+  financialApplicationDetailData: FinancialApplicationDetailData[]
+  isLoading?: boolean
+}
+const Main = ({ financialApplicationDetailData, isLoading }: MainProps) => {
   const render = financialApplicationDetailData.map(
     ({
       id,
@@ -51,6 +98,7 @@ const Main = () => {
       subChildren
     }) => (
       <FinancialApplicationFormDetail
+        isLoading={isLoading}
         key={id + subId}
         title={title}
         subTitle={subTitle}
@@ -60,13 +108,7 @@ const Main = () => {
     )
   )
 
-  return (
-    <main className={cn("flex flex-col gap-4", "md:gap-8")}>
-      {render}
-      {/* TODO: Operating Expenses (monthly), Direct Costs, Connected Accounts */}
-      {/* FIX: Current Employees, Future  Employees, Revenue, Debt Financing */}
-    </main>
-  )
+  return <main className={cn("flex flex-col gap-4", "md:gap-8")}>{render}</main>
 }
 
 const Layout = ({ children }: React.PropsWithChildren) => {

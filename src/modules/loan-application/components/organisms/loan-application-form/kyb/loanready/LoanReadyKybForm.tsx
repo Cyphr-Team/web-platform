@@ -88,20 +88,6 @@ export const LoanReadyBusinessInformationForm = () => {
     }
   }, [form, state])
 
-  useEffect(() => {
-    if (form.formState.isValidating) {
-      const data = form.getValues()
-      dispatchFormAction({
-        action: FORM_ACTION.SET_DATA,
-        key: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
-        state: {
-          ...data,
-          businessTin: revertPattern(data.businessTin)
-        }
-      })
-    }
-  }, [form.formState.isValidating, form, dispatchFormAction])
-
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
 
   return (
@@ -140,7 +126,7 @@ export const LoanReadyBusinessInformationForm = () => {
           <div className="flex gap-2 md:gap-4 flex-wrap">
             <AutoCompleteStates
               options={STATE_DATA}
-              label="Business state"
+              label="State"
               emptyText="No results found"
               name={LoanReadyKYBFieldName.STATE}
               control={form.control}
@@ -154,7 +140,7 @@ export const LoanReadyBusinessInformationForm = () => {
                   (s) => s.name === form.getValues(LoanReadyKYBFieldName.STATE)
                 )?.cities ?? []
               }
-              label="Business city"
+              label="City"
               emptyText="No results found"
               name={LoanReadyKYBFieldName.CITY}
               control={form.control}
@@ -164,7 +150,7 @@ export const LoanReadyBusinessInformationForm = () => {
             />
             <RHFTextInput
               placeholder="i.e: 97531"
-              label="Business zip code"
+              label="Zip"
               styleProps={{ labelClassName: "whitespace-nowrap" }}
               name={LoanReadyKYBFieldName.POSTAL_CODE}
               className="flex-1"

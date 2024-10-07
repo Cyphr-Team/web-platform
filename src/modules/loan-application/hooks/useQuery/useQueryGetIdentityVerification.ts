@@ -6,7 +6,15 @@ import { useQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
 
-export const useQueryGetIdentityVerification = (appId: string) => {
+interface useQueryGetIdentityVerificationProps {
+  appId?: string
+  enabled?: boolean
+}
+
+export const useQueryGetIdentityVerification = ({
+  appId,
+  enabled
+}: useQueryGetIdentityVerificationProps) => {
   return useQuery<ILinkInquiryData, AxiosError<ErrorResponse>>({
     queryKey: [QUERY_KEY.GET_IDENTITY_VERIFICATION, appId],
     queryFn: () => {
@@ -15,6 +23,6 @@ export const useQueryGetIdentityVerification = (appId: string) => {
         params: { applicationId: appId }
       })
     },
-    enabled: !!appId
+    enabled
   })
 }

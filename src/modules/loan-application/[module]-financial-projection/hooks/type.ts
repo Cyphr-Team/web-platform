@@ -16,8 +16,8 @@ export interface FinancialApplicationFormDetailData {
 export interface FinancialApplicationDetailData {
   id: LOAN_APPLICATION_STEPS
   subId?: string
-  title: string
-  subTitle?: string
+  title?: ReactNode
+  subTitle?: ReactNode
   financialApplicationFormData: FinancialApplicationFormDetailData[]
   subChildren?: ReactNode
 }
