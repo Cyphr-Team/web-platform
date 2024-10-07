@@ -11,11 +11,9 @@ export const GridMapper: { [key: number]: string } = {
   3: "grid grid-cols-4",
   // Annually - 5 years
   5: "grid grid-cols-6",
-  // Monthly detail - 3 years
-  9: "grid grid-cols-10",
-  // Monthly detail - 5 years
-  15: "grid grid-cols-16",
-  // Monthly detail - 5 years
+  // Monthly detail - 12m x 3y + 1(title) = 36 col
+  36: "grid grid-cols-37",
+  // Monthly detail - 12m x 5y + 1(title) = 61 col
   60: "grid grid-cols-61"
 }
 

@@ -8,8 +8,9 @@ import {
   isSbb
 } from "@/utils/domain.utils"
 import { Link, useLocation, useParams } from "react-router-dom"
-import { checkIsWorkspaceAdmin } from "../../../../utils/check-roles"
+import { checkIsWorkspaceAdmin } from "@/utils/check-roles.ts"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
+import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -21,10 +22,8 @@ export function TopNav({ className, ...props }: Props) {
   if (isLoanReady() || isCyphrBank()) {
     menuItems = [
       ApplicationMenuName.business,
-      ApplicationMenuName.cashflow,
-      ApplicationMenuName.debtSchedule,
       ApplicationMenuName.applicationSummary,
-      ApplicationMenuName.loanReadiness
+      ApplicationMenuName.financialProjection
     ]
   } else if (isKccBank()) {
     menuItems = [
@@ -73,22 +72,46 @@ export function TopNav({ className, ...props }: Props) {
           className={cn("flex items-center space-x-lg px-4xl", className)}
           {...props}
         >
-          {applicationMenu.map((example, index) => (
-            <Link
-              to={example.href}
-              key={example.href}
-              className={cn(
-                "flex px-xs pb-lg font-semibold items-center justify-center text-center text-sm transition-colors border-b-2 border-transparent whitespace-nowrap",
-                "hover:text-primary hover:border-primary",
-                pathname?.startsWith(example.href) ||
-                  (index === 0 && pathname === "/")
-                  ? "text-primary border-b-2 border-primary"
-                  : "text-muted-foreground"
-              )}
-            >
-              {example.name}
-            </Link>
-          ))}
+          {applicationMenu.map((example, index) => {
+            /**
+             * Here is the things. Basically we have three tabs:
+             * - Business Verification
+             * - Application Summary
+             * - Financial Projections: (this shiet have another sub tab)
+             *    + Overview
+             *    + Cash Flow
+             *    + Income Statement
+             *    + Loan Ready
+             * So, this code handle the active state for FP tab.
+             * These logic can speak as follows:
+             * If current tabs is sub tabs of FP, set the FP active
+             * */
+            const isFpTab =
+              example.name === ApplicationMenuName.financialProjection
+            const isChildFpTab = ADMIN_APPLICATION_MENU(id!).find(
+              (item) => item.href === pathname
+            )
+            const defaultActive =
+              pathname?.startsWith(example.href) ||
+              (index === 0 && pathname === "/")
+            const isActive = isFpTab ? isChildFpTab : defaultActive
+
+            return (
+              <Link
+                to={example.href}
+                key={example.href}
+                className={cn(
+                  "flex px-xs pb-lg font-semibold items-center justify-center text-center text-sm transition-colors border-b-2 border-transparent whitespace-nowrap",
+                  "hover:text-primary hover:border-primary",
+                  isActive
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-muted-foreground"
+                )}
+              >
+                {example.name}
+              </Link>
+            )
+          })}
         </div>
         <ScrollBar orientation="horizontal" className="invisible" />
       </ScrollArea>

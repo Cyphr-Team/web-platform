@@ -21,16 +21,27 @@ import {
   HeaderProps
 } from "@/modules/loan-application/[module]-financial-projection/constants"
 import { get } from "lodash"
+import { useParams } from "react-router-dom"
+import usePermissions from "@/hooks/usePermissions"
+import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
+import { ErrorWrapper } from "@/modules/loan-application/[module]-financial-projection/components/layouts/ErrorWrapper.tsx"
 
 export function Component() {
-  const applicationId = useMemo(() => window.location.href.split("#")[1], [])
+  const { id } = useParams()
+  const { isWorkspaceAdmin } = usePermissions()
 
   const currentDetail = useBoolean(false)
   const monthlyDetail = useBoolean(false)
 
-  const { data } = useQueryFinancialProjectionForecast({
-    applicationId,
-    enabled: !!applicationId
+  const applicationId = useMemo(
+    () => (isWorkspaceAdmin ? id : window.location.href.split("#")[1]),
+    [isWorkspaceAdmin, id]
+  )
+
+  const { data, isLoading } = useQueryFinancialProjectionForecast({
+    applicationId: applicationId!,
+    enabled: !!applicationId,
+    isWorkspaceAdmin
   })
 
   const forecastResults = useMemo(
@@ -44,9 +55,11 @@ export function Component() {
   )
   const annuallyTimeStamp = useMemo(
     () =>
-      get(forecastResults, "cashFlowForecastAnnually[0].forecastData", []).map(
-        (entry) => new Date(entry.forecastDate)
-      ),
+      get(
+        forecastResults,
+        "balanceSheetForecastAnnually[0].forecastData",
+        []
+      ).map((entry) => new Date(entry.forecastDate)),
     [forecastResults]
   )
 
@@ -56,9 +69,11 @@ export function Component() {
   )
   const monthlyTimeStamp = useMemo(
     () =>
-      get(forecastResults, "cashFlowForecastMonthly[0].forecastData", []).map(
-        (entry) => new Date(entry.forecastDate)
-      ),
+      get(
+        forecastResults,
+        "balanceSheetForecastMonthly[0].forecastData",
+        []
+      ).map((entry) => new Date(entry.forecastDate)),
     [forecastResults]
   )
 
@@ -67,43 +82,62 @@ export function Component() {
     [forecastResults]
   )
 
+  const isEmpty = forecastResults?.balanceSheetForecastAnnually?.length === 0
+
   return (
-    <div className="flex flex-col gap-y-2xl">
-      <div className="w-full flex gap-2 justify-end items-center">
-        <LabeledSwitch label="Current financial detail" state={currentDetail} />
-        <LabeledSwitch label="Monthly forecast detail" state={monthlyDetail} />
-        <Button type="button">Download report</Button>
-      </div>
-
-      <div className="flex flex-col gap-y-6xl">
-        {currentDetail.value ? (
-          <Template
-            data={currentData}
-            layout="current"
-            period={ForecastPeriod.CURRENT}
-            headerProps={{
-              title: "Balance Sheet",
-              // only get the first month
-              data: [monthlyTimeStamp[0]]
-            }}
+    <ErrorWrapper isError={isEmpty}>
+      <div className="flex flex-col gap-y-2xl">
+        <div className="w-full flex gap-2 justify-end items-center">
+          <LabeledSwitch
+            label="Current financial detail"
+            state={currentDetail}
           />
-        ) : null}
+          <LabeledSwitch
+            label="Monthly forecast detail"
+            state={monthlyDetail}
+          />
+          <Button type="button">Download report</Button>
+        </div>
 
-        <Template
-          layout="default"
-          data={monthlyDetail.value ? monthlyData : annuallyData}
-          period={
-            monthlyDetail.value
-              ? ForecastPeriod.MONTHLY
-              : ForecastPeriod.ANNUALLY
-          }
-          headerProps={{
-            title: "Balance Sheet",
-            data: monthlyDetail.value ? monthlyTimeStamp : annuallyTimeStamp
-          }}
-        />
+        <LoadingWrapper
+          isLoading={isLoading}
+          className={cn(
+            isLoading
+              ? "pb-10 gap-4 rounded-lg border bg-white min-h-40 flex items-center justify-center shadow-sm"
+              : null
+          )}
+        >
+          <div className="flex flex-col gap-y-6xl">
+            {currentDetail.value ? (
+              <Template
+                data={currentData}
+                layout="current"
+                period={ForecastPeriod.CURRENT}
+                headerProps={{
+                  title: "Balance Sheet",
+                  // only get the first month
+                  data: [monthlyTimeStamp[0]]
+                }}
+              />
+            ) : null}
+
+            <Template
+              layout="default"
+              data={monthlyDetail.value ? monthlyData : annuallyData}
+              period={
+                monthlyDetail.value
+                  ? ForecastPeriod.MONTHLY
+                  : ForecastPeriod.ANNUALLY
+              }
+              headerProps={{
+                title: "Balance Sheet",
+                data: monthlyDetail.value ? monthlyTimeStamp : annuallyTimeStamp
+              }}
+            />
+          </div>
+        </LoadingWrapper>
       </div>
-    </div>
+    </ErrorWrapper>
   )
 }
 

@@ -2,7 +2,7 @@ import {
   getDataPointsFactory,
   useQueryFinancialProjectionForecast
 } from "@/modules/loan-application/[module]-financial-projection/hooks/useQueryFinancialProjectionForecast.ts"
-import { useMemo, useRef, useState } from "react"
+import { useMemo, useRef } from "react"
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
 import { DataRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DataRow.tsx"
 import { Card } from "@/components/ui/card.tsx"
@@ -21,20 +21,31 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/constants"
 import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
 import { get } from "lodash"
-import { getPDF } from "@/modules/loan-application/services/pdf.service"
-import { FinancialProjectionPdf } from "./pdf"
+import { useParams } from "react-router-dom"
+import usePermissions from "@/hooks/usePermissions"
+import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
+import { ErrorWrapper } from "@/modules/loan-application/[module]-financial-projection/components/layouts/ErrorWrapper.tsx"
+import { FinancialProjectionPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf"
+import { getPDF } from "@/modules/loan-application/services/pdf.service.ts"
 
 export function Component() {
-  const [isExporting, setIsExporting] = useState(false)
-  const applicationId = useMemo(() => window.location.href.split("#")[1], [])
+  const { id } = useParams()
+  const { isWorkspaceAdmin } = usePermissions()
 
+  const isExporting = useBoolean(false)
   const currentDetail = useBoolean(false)
   const monthlyDetail = useBoolean(false)
+
+  const applicationId = useMemo(
+    () => (isWorkspaceAdmin ? id : window.location.href.split("#")[1]),
+    [isWorkspaceAdmin, id]
+  )
+
   const elementToExportRef = useRef<Partial<Record<string, HTMLDivElement>>>({})
 
   const exportToPdf = async () => {
     try {
-      setIsExporting(true)
+      isExporting.onTrue()
       if (elementToExportRef.current) {
         const filteredElement = Object.values(
           elementToExportRef.current
@@ -53,13 +64,14 @@ export function Component() {
     } catch (error) {
       console.error(error)
     } finally {
-      setIsExporting(false)
+      isExporting.onFalse()
     }
   }
 
-  const { data } = useQueryFinancialProjectionForecast({
-    applicationId,
-    enabled: !!applicationId
+  const { data, isLoading } = useQueryFinancialProjectionForecast({
+    applicationId: applicationId!,
+    enabled: !!applicationId,
+    isWorkspaceAdmin
   })
 
   const forecastResults = useMemo(
@@ -97,52 +109,72 @@ export function Component() {
     [forecastResults]
   )
 
+  const isEmpty = forecastResults?.cashFlowForecastAnnually?.length === 0
+
   return (
-    <div className="flex flex-col gap-y-2xl">
-      <div className="w-full flex gap-2 justify-end items-center">
-        <LabeledSwitch label="Current financial detail" state={currentDetail} />
-        <LabeledSwitch label="Monthly forecast detail" state={monthlyDetail} />
-        <ButtonLoading
-          isLoading={isExporting}
-          type="button"
-          onClick={exportToPdf}
-        >
-          Download report
-        </ButtonLoading>
-      </div>
-
-      <div className="flex flex-col gap-y-6xl">
-        {currentDetail.value ? (
-          <Template
-            data={currentData}
-            layout="current"
-            period={ForecastPeriod.CURRENT}
-            headerProps={{
-              title: "Cash Flow",
-              // only get the first month
-              data: [monthlyTimeStamp[0]]
-            }}
+    <ErrorWrapper isError={isEmpty}>
+      <div className="flex flex-col gap-y-2xl">
+        <div className="w-full flex gap-2 justify-end items-center">
+          <LabeledSwitch
+            label="Current financial detail"
+            state={currentDetail}
           />
-        ) : null}
-
-        <Template
-          layout="default"
-          data={monthlyDetail.value ? monthlyData : annuallyData}
-          period={
-            monthlyDetail.value
-              ? ForecastPeriod.MONTHLY
-              : ForecastPeriod.ANNUALLY
-          }
-          headerProps={{
-            title: "Cash Flow",
-            data: monthlyDetail.value ? monthlyTimeStamp : annuallyTimeStamp
-          }}
-        />
-        <div className="hidden">
-          <FinancialProjectionPdf itemsRef={elementToExportRef} />
+          <LabeledSwitch
+            label="Monthly forecast detail"
+            state={monthlyDetail}
+          />
+          <ButtonLoading
+            isLoading={isExporting.value}
+            type="button"
+            onClick={exportToPdf}
+          >
+            Download report
+          </ButtonLoading>
         </div>
+
+        <LoadingWrapper
+          isLoading={isLoading}
+          className={cn(
+            isLoading
+              ? "pb-10 gap-4 rounded-lg border bg-white min-h-40 flex items-center justify-center shadow-sm"
+              : null
+          )}
+        >
+          <div className="flex flex-col gap-y-6xl">
+            {currentDetail.value ? (
+              <Template
+                data={currentData}
+                layout="current"
+                period={ForecastPeriod.CURRENT}
+                headerProps={{
+                  title: "Cash Flow",
+                  // only get the first month
+                  data: [monthlyTimeStamp[0]]
+                }}
+              />
+            ) : null}
+
+            <Template
+              layout="default"
+              data={monthlyDetail.value ? monthlyData : annuallyData}
+              period={
+                monthlyDetail.value
+                  ? ForecastPeriod.MONTHLY
+                  : ForecastPeriod.ANNUALLY
+              }
+              headerProps={{
+                title: "Cash Flow",
+                data: monthlyDetail.value ? monthlyTimeStamp : annuallyTimeStamp
+              }}
+            />
+          </div>
+        </LoadingWrapper>
       </div>
-    </div>
+
+      <div className="hidden">
+        <FinancialProjectionPdf itemsRef={elementToExportRef} />
+      </div>
+    </ErrorWrapper>
   )
 }
 

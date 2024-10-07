@@ -9,15 +9,22 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
 
+interface QueryFinancialProjectionProps extends FormDetailsQueryProps {
+  isWorkspaceAdmin: boolean
+}
+
 export const useQueryFinancialProjectionForecast = ({
   applicationId,
-  enabled
-}: FormDetailsQueryProps) => {
+  enabled,
+  isWorkspaceAdmin
+}: QueryFinancialProjectionProps) => {
   return useQueryFormBySetupId<ForecastResultsResponse>({
     setupId: applicationId,
     queryKey: [QUERY_KEY.GET_FORECAST_DATA, applicationId],
     enabled,
-    path: API_PATH.financialProjection.forecast.index,
+    path: isWorkspaceAdmin
+      ? API_PATH.financialProjection.forecast.admin
+      : API_PATH.financialProjection.forecast.applicant,
     options: {
       /**
        * Enable caching to avoid refetch

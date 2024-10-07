@@ -10,8 +10,9 @@ import {
   isSbb
 } from "@/utils/domain.utils"
 import { lazy } from "react"
-import { Route } from "react-router-dom"
+import { Outlet, Route } from "react-router-dom"
 import { documentRoutes } from "./document-routes"
+import { AdminFinancialProjectionLayout } from "@/modules/loan-application/[module]-financial-projection/components/layouts/AdminFinancialProjectionLayout.tsx"
 
 /**
  * Loan application management routes ("/application"). Loan officer review loan application.
@@ -122,6 +123,72 @@ const loanApplicationManagementRoutes = (
           )
         }
       />
+
+      {/* FINANCIAL PROJECTIONS */}
+      <Route
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.INDEX(":id")}
+        element={
+          <AdminFinancialProjectionLayout>
+            <Outlet />
+          </AdminFinancialProjectionLayout>
+        }
+      >
+        <Route
+          index
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.OVERVIEW(":id")}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/[module]-financial-projection/components/pages/FpOverviewPage"
+            )
+          }
+        />
+
+        <Route
+          index
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.CASH_FLOW(":id")}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/[module]-financial-projection/components/pages/FpCashFlowPage"
+            )
+          }
+        />
+
+        <Route
+          index
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.BALANCE_SHEET(
+            ":id"
+          )}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/[module]-financial-projection/components/pages/FpBalanceSheetPage"
+            )
+          }
+        />
+
+        <Route
+          index
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.INCOME_STATEMENT(
+            ":id"
+          )}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/[module]-financial-projection/components/pages/FpIncomeStatementPage"
+            )
+          }
+        />
+
+        <Route
+          index
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.LOAN_READY(
+            ":id"
+          )}
+          lazy={() =>
+            import(
+              "@/modules/loan-application/[module]-financial-projection/components/pages/FpLoanReadyPage"
+            )
+          }
+        />
+      </Route>
     </Route>
   </Route>
 )

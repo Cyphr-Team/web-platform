@@ -104,6 +104,14 @@ export const APP_PATH = {
     LOAN_READINESS: {
       detail: "/application/:id/readiness",
       details: (id: string) => `/application/${id}/readiness`
+    },
+    FINANCIAL: {
+      INDEX: (id: string) => `/application/${id}/`,
+      OVERVIEW: (id: string) => `/application/${id}/overview`,
+      CASH_FLOW: (id: string) => `/application/${id}/cash-flow`,
+      BALANCE_SHEET: (id: string) => `/application/${id}/balance-sheet`,
+      INCOME_STATEMENT: (id: string) => `/application/${id}/income-statement`,
+      LOAN_READY: (id: string) => `/application/${id}/loan-ready`
     }
   },
 
@@ -556,7 +564,9 @@ export const API_PATH = {
       delete: "api/financial-projection/statement/delete"
     },
     forecast: {
-      index: "api/financial-projection/forecast/by-setup-id"
+      applicant: "api/financial-projection/forecast/by-setup-id",
+      admin:
+        "api/loan-officer/application/financial-projection/forecast/by-setup-id"
     }
   }
 }
