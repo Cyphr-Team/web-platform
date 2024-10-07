@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import { Edit } from "lucide-react"
 import { Button } from "@/components/ui/button.tsx"
+import { cn } from "@/lib/utils"
 
 export const ModifyUserPermission = ({
   userId,
@@ -53,20 +54,20 @@ export const ModifyUserPermission = ({
         <Button
           variant="ghost"
           id={userId}
-          size="icon"
+          className="p-2 space-x-2 flex flex-row w-full"
           style={{
             padding: "0px"
           }}
         >
-          <Edit className="w-5 h-5" />
+          <Edit className="w-5 h-5" /> <span>Modify roles</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
-          <DialogTitle>Edit User</DialogTitle>
+          <DialogTitle>Update Role</DialogTitle>
           <DialogDescription>Modify User's permission</DialogDescription>
         </DialogHeader>
-        <form className="flex flex-col gap-4 p-4 bg-gray-200 rounded-lg">
+        <form className="flex flex-col gap-4 p-4 bg-gray-100 rounded-lg">
           {editRoleOptions().map((role) => (
             <MultiChoices
               role={role}
@@ -79,11 +80,12 @@ export const ModifyUserPermission = ({
                   ? "Manages loan applications, interacts with borrowers, ensures lending process efficiency."
                   : "Manages administrative aspects, ensures platform functionality, and oversees user management."
               }
-              itemClassName={
+              itemClassName={cn(
                 selectedRoles.includes(role.value.toLowerCase() as UserRoles)
                   ? "bg-white"
-                  : "hover:bg-gray-300"
-              }
+                  : "hover:bg-gray-300",
+                "rounded-lg hover:opacity-80"
+              )}
               iconClassName={
                 selectedRoles.includes(role.value.toLowerCase() as UserRoles)
                   ? "text-primary"
@@ -92,7 +94,7 @@ export const ModifyUserPermission = ({
             />
           ))}
         </form>
-        <div className="flex flex-col-reverse sm:flex-row sm:space-x-2 sm:justify-between pt-4">
+        <div className="flex flex-col-reverse sm:flex-row sm:space-x-2 sm:justify-between pt-4 mr-0 ml-auto">
           <DialogFooter>
             <EditUserRolesButton
               userId={userId}

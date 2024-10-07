@@ -3,8 +3,8 @@ import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { UserDetailInfo, UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
 import { AccessorKeyColumnDef } from "@tanstack/react-table"
-import { ModifyUserPermissionAction } from "@/modules/admin/user/table/modify-user-permission-action.tsx"
 import { nameByRole } from "@/modules/admin/user/constants/roles.constants.ts"
+import { UserDetailListAction } from "@/modules/admin/user/table/user-detail-list-action"
 
 export const columns: AccessorKeyColumnDef<
   UserDetailInfo & { institutionName?: string }
@@ -76,10 +76,11 @@ export const columns: AccessorKeyColumnDef<
     accessorKey: "edit",
     header: () => <p className="p-2">Action</p>,
     size: 150,
+
     cell: ({ row }) => {
       return (
-        <div className="flex items-center text-center">
-          <ModifyUserPermissionAction
+        <div className="flex items-center text-right">
+          <UserDetailListAction
             userId={row.original.id}
             status={row.original.status}
             roles={row.original.roles}

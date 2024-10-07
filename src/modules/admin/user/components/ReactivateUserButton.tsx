@@ -45,10 +45,10 @@ export const ButtonReactivateUser = ({ userId }: { userId: string }) => {
         isLoading={isPending}
         variant="ghost"
         id={userId}
-        size="icon"
         style={{
           padding: "0px"
         }}
+        className="text-green-900 p-2 space-x-2 flex flex-row w-full"
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -56,7 +56,12 @@ export const ButtonReactivateUser = ({ userId }: { userId: string }) => {
         }}
         disabled={isConfirmed}
       >
-        {!isPending && <PlusCircle className="w-5 h-5" />}
+        {!isPending && (
+          <>
+            <PlusCircle className="w-5 h-5" />
+            <span>Reactivate</span>
+          </>
+        )}
       </ButtonLoading>
     </CustomAlertDialog>
   )
