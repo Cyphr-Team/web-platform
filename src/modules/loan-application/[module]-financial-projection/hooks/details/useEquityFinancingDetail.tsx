@@ -29,7 +29,7 @@ const toEquityDetail = (data: FpEquityFinancingFormResponse | undefined) => {
         {
           id: "equityInvestmentTotal",
           title: "Equity investment total amount:",
-          content: toCurrency(equity?.amount ?? 0, 0)
+          content: toCurrency(equity?.amount, 0)
         }
       ]}
     />

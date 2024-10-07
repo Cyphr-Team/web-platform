@@ -1,4 +1,8 @@
 import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import {
+  LoanReadyKYCFieldName,
+  PERSONAL_CREDIT_SCORE_OPTIONS
+} from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import { KYCInformationResponse } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { formatPhoneNumber } from "@/utils"
@@ -55,6 +59,18 @@ export const useIndividualInformationDetail = ({
         content: kycFormData?.businessOwnershipPercentage
           ? `${kycFormData?.businessOwnershipPercentage}%`
           : "N/A"
+      },
+      {
+        id: "personalCreditScore",
+        title: "Personal credit score:",
+        content:
+          PERSONAL_CREDIT_SCORE_OPTIONS.find(
+            (credit) =>
+              credit.value ===
+              kycFormData?.metadata?.[
+                LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE
+              ]
+          )?.label ?? "N/A"
       }
     ]
   }

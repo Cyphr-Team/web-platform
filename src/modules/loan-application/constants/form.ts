@@ -9,6 +9,7 @@ import {
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
 import { DocumentUploadedResponse, PlaidItemInfo } from "./type"
+import { LoanReadyKYCFieldName } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -96,6 +97,13 @@ export const launchKCOwnerFormSchema = ownerFormSchema.extend({
     .string()
     .min(1, { message: "This field is required" }),
   areFullTimeFounder: z.string().min(1, { message: "This field is required" })
+})
+
+export const loanReadyOwnerFormSchema = ownerFormSchema.extend({
+  [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]: z
+    .string()
+    .min(1, "Persona credit score is required"),
+  businessOwnershipPercentage: z.coerce.string()
 })
 
 export const kansasCityOwnerFormSchema = ownerFormSchema.extend({
@@ -523,6 +531,8 @@ export type LaunchKCOwnerFormValue = z.infer<typeof launchKCOwnerFormSchema>
 
 export type KansasCityOwnerFormValue = z.infer<typeof kansasCityOwnerFormSchema>
 
+export type LoanReadyOwnerFormValue = z.infer<typeof loanReadyOwnerFormSchema>
+
 export type FinancialFormValue = z.infer<typeof financialFormSchema>
 
 export type ConfirmationFormValue = z.infer<typeof confirmationFormSchema>
@@ -577,7 +587,8 @@ export type IBusinessFormValue = BusinessFormValue &
 export type IOwnerFormValue = OwnerFormValue &
   LaunchKCOwnerFormValue &
   KansasCityOwnerFormValue &
-  SbbKycFormValue
+  SbbKycFormValue &
+  LoanReadyOwnerFormValue
 
 export type ICurrentLoanFormValue = CurrentLoansFormValue &
   SbbCurrentLoansFormValue &

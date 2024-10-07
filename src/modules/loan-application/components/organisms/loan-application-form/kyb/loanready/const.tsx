@@ -1,3 +1,5 @@
+import { Option } from "@/types/common.type"
+
 export const enum LoanReadyKYBFieldName {
   BUSINESS_LEGAL_NAME = "businessLegalName",
   DBA = "dba",
@@ -10,6 +12,10 @@ export const enum LoanReadyKYBFieldName {
   BUSINESS_STAGE = "businessStage",
   INDUSTRY_TYPE = "industryType",
   BUSINESS_DESCRIPTION = "businessDescription"
+}
+
+export const enum LoanReadyKYCFieldName {
+  PERSONAL_CREDIT_SCORE = "personalCreditScore"
 }
 
 // Define an enum for business stage values
@@ -87,5 +93,21 @@ export const BUSINESS_STAGE_OPTIONS: BusinessStageOption[] =
     value: stage.value
   }))
 
-// Export the raw data as well
+export enum PersonalCreditScoreValue {
+  Range1 = "range_1",
+  Range2 = "range_2",
+  Range3 = "range_3",
+  Range4 = "range_4",
+  Range5 = "range_5"
+}
+
+export const PERSONAL_CREDIT_SCORE_OPTIONS: Option<PersonalCreditScoreValue>[] =
+  [
+    { label: "Below 600", value: PersonalCreditScoreValue.Range1 },
+    { label: "600-649", value: PersonalCreditScoreValue.Range2 },
+    { label: "650-699", value: PersonalCreditScoreValue.Range3 },
+    { label: "700-749", value: PersonalCreditScoreValue.Range4 },
+    { label: "750 and above", value: PersonalCreditScoreValue.Range5 }
+  ]
+
 export { BUSINESS_STAGES }

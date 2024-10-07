@@ -14,6 +14,7 @@ import {
   launchKCBusinessFormSchema,
   launchKCOwnerFormSchema,
   loanReadyBusinessFormSchema,
+  loanReadyOwnerFormSchema,
   ownerFormSchema
 } from "../constants/form"
 import {
@@ -100,6 +101,18 @@ export const formatKycForm = (rawData: IOwnerFormValue): KYCInformation => {
     }
   }
 
+  if (isLoanReady()) {
+    const loanReadyKycMetadata = without(
+      Object.keys(loanReadyOwnerFormSchema.shape),
+      ...Object.keys(ownerFormSchema.shape)
+    )
+
+    return formatMetadataFromSchema(
+      loanReadyKycMetadata,
+      formattedForm
+    ) as KYCInformation
+  }
+
   if (isSbb()) {
     const firstName = get(
       rawData,
@@ -165,7 +178,7 @@ export const reverseFormatKycForm = (rawData: KYCInformationResponse) => {
       ? rawData.businessOwnershipPercentage.toString()
       : ""
   }
-  if (isLaunchKC()) {
+  if (isLaunchKC() || isLoanReady()) {
     return {
       ...formInformation,
       ...get(rawData, "metadata", {})

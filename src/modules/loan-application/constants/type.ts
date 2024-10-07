@@ -5,7 +5,10 @@ import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { BaseLoanProgramType } from "@/types/loan-program.type"
 import { SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
-import { LoanReadyKYBFieldName } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
+import {
+  LoanReadyKYBFieldName,
+  LoanReadyKYCFieldName
+} from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 
 export interface KYBInformation {
   id: string | null
@@ -161,6 +164,9 @@ export interface KYCInformation {
       ethnicIdentification: string
       areFounderOrCoFounder: string
       areFullTimeFounder: string
+
+      // Loan ready KYC Metadata
+      [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]: string
     } & SbbKycMetadata
   >
 }
@@ -195,6 +201,9 @@ export interface KYCInformationResponse {
       ethnicIdentification: string
       areFounderOrCoFounder: string
       areFullTimeFounder: string
+
+      // Loan Ready Field
+      [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]: string
     } & SbbKycMetadata
   >
 }

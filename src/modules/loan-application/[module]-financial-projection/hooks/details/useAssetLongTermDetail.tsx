@@ -49,7 +49,7 @@ const toAssetDetail = (data: AssetsLongTermFormResponse | undefined) => {
         {
           id: "costOfAsset",
           title: "Cost of asset:",
-          content: toCurrency(asset?.cost ?? 0, 0)
+          content: toCurrency(asset?.cost, 0)
         },
         {
           id: "usefulLife",

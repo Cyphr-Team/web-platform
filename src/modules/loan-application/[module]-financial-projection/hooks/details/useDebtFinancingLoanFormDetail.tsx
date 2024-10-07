@@ -82,7 +82,7 @@ const toDebtFinancingDetail = (data: DebtFinancingResponse | undefined) => {
         {
           id: "remainingLoanBalance",
           title: "Remaining loan balance:",
-          content: toCurrency(debt?.remainingLoanBalance ?? 0, 0)
+          content: toCurrency(debt?.remainingLoanBalance, 0)
         },
         {
           id: "monthlyLoanPayment",

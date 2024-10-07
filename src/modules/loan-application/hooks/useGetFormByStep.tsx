@@ -59,6 +59,7 @@ import { FinancialProjectionReviewApplication } from "@/modules/loan-application
 import { LoanRequest } from "@/modules/loan-application/components/layouts/LoanRequest.tsx"
 import { LoanReadyLoanRequestForm } from "@/modules/loan-application/components/organisms/loan-application-form/loan-request/LoanReadyLoanRequestForm.tsx"
 import { LoanReadyBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKybForm.tsx"
+import { LoanReadyOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKycForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -92,6 +93,9 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
         if (isLaunchKC()) {
           return <LaunchKCOwnerInformationForm />
+        }
+        if (isLoanReady()) {
+          return <LoanReadyOwnerInformationForm />
         }
         if (isKansasCity()) {
           return <KansasCityOwnerInformationForm />

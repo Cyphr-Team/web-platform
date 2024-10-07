@@ -16,7 +16,7 @@ export const useLoanRequestDetail = ({
       {
         id: "loanAmountRequested",
         title: "Loan amount requested:",
-        content: toCurrency(loanApplicationDetails?.loanAmount ?? 0, 0)
+        content: toCurrency(loanApplicationDetails?.loanAmount, 0)
       },
       {
         id: "proposedUseOfLoan",
