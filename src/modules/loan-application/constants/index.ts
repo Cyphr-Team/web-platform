@@ -24,7 +24,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Financial Projections",
-    href: APP_PATH.LOAN_APPLICATION.FINANCIAL.index,
+    href: APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX(":id"),
     icon: Icons.financial,
     label: "Financial Projections",
     featureKey: FeatureKey.FINANCIAL,

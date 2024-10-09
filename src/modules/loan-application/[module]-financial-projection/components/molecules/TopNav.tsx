@@ -14,7 +14,7 @@ export function TopNav({ id, className, ...props }: Props) {
   let menuItems: (string | null)[] = APPLICATION_MENU(id!).map((e) => e.name)
   menuItems = [
     ApplicationMenuName.overview,
-    ApplicationMenuName.cashflow,
+    ApplicationMenuName.cashFlow,
     ApplicationMenuName.balanceSheet,
     ApplicationMenuName.incomeStatement,
     ApplicationMenuName.loanReady
@@ -33,13 +33,14 @@ export function TopNav({ id, className, ...props }: Props) {
           className={cn("flex items-center space-x-lg", className)}
           {...props}
         >
-          {applicationMenu.map((example) => (
+          {applicationMenu.map((example, index) => (
             <Link
               to={example.href}
               key={example.href}
               className={cn(
                 "flex rounded-lg px-4xl py-md h-full font-normal items-center justify-center text-center text-sm transition-colors border-transparent whitespace-nowrap",
-                example.href.split("#")[0] === pathname
+                pathname?.startsWith(example.href) ||
+                  (index === 0 && pathname === "/")
                   ? "bg-financial-projection-btn text-white"
                   : ""
               )}

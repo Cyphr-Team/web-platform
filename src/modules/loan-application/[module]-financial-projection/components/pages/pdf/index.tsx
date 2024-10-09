@@ -98,16 +98,16 @@ export const FinancialProjectionPdf: React.FC<FinancialProjectionPdfProps> = ({
 
   const fakeCashFlowData = splitData(
     Array.from({ length: 12 }, (_, index) => 2024 + index),
-    3
+    5
   )
 
   const fakeBalanceSheetData = splitData(
     Array.from({ length: 12 }, (_, index) => 2024 + index),
-    3
+    5
   )
   const fakeIncomeStatementData = splitData(
     Array.from({ length: 12 }, (_, index) => 2024 + index),
-    3
+    5
   )
 
   return (

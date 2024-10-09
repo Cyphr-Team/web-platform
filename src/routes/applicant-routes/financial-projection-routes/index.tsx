@@ -7,7 +7,7 @@ import { Outlet, Route } from "react-router-dom"
  */
 const applicantFinancialProjectionRoutes = (
   <Route
-    path={APP_PATH.LOAN_APPLICATION.FINANCIAL.index}
+    path={APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX(":id")}
     element={
       <ApplicantFinancialProjectionsLayout>
         <Outlet />
@@ -16,7 +16,7 @@ const applicantFinancialProjectionRoutes = (
   >
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW}
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpOverviewPage"
@@ -26,7 +26,7 @@ const applicantFinancialProjectionRoutes = (
 
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.CASH_FLOW}
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.CASH_FLOW(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpCashFlowPage"
@@ -36,7 +36,7 @@ const applicantFinancialProjectionRoutes = (
 
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.BALANCE_SHEET}
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.BALANCE_SHEET(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpBalanceSheetPage"
@@ -46,7 +46,7 @@ const applicantFinancialProjectionRoutes = (
 
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.INCOME_STATEMENT}
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.INCOME_STATEMENT(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpIncomeStatementPage"
@@ -56,7 +56,7 @@ const applicantFinancialProjectionRoutes = (
 
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.LOAN_READY}
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.LOAN_READY(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpLoanReadyPage"

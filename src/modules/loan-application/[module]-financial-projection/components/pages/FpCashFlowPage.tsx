@@ -27,19 +27,15 @@ import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
 import { ErrorWrapper } from "@/modules/loan-application/[module]-financial-projection/components/layouts/ErrorWrapper.tsx"
 import { FinancialProjectionPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf"
 import { getPDF } from "@/modules/loan-application/services/pdf.service.ts"
+import { toastError } from "@/utils"
 
 export function Component() {
-  const { id } = useParams()
+  const { id: applicationId } = useParams()
   const { isWorkspaceAdmin } = usePermissions()
 
   const isExporting = useBoolean(false)
   const currentDetail = useBoolean(false)
   const monthlyDetail = useBoolean(false)
-
-  const applicationId = useMemo(
-    () => (isWorkspaceAdmin ? id : window.location.href.split("#")[1]),
-    [isWorkspaceAdmin, id]
-  )
 
   const elementToExportRef = useRef<Partial<Record<string, HTMLDivElement>>>({})
 
@@ -59,10 +55,13 @@ export function Component() {
           )
         )
 
-        pdf.save(`loan_summary_${new Date().valueOf()}.pdf`)
+        pdf.save(`financial_projections_${new Date().valueOf()}.pdf`)
       }
     } catch (error) {
-      console.error(error)
+      toastError({
+        title: "Somethings went wrong!",
+        description: "Somethings went wrong!"
+      })
     } finally {
       isExporting.onFalse()
     }
@@ -142,7 +141,7 @@ export function Component() {
         >
           <div className="flex flex-col gap-y-6xl">
             {currentDetail.value ? (
-              <Template
+              <FpCashFlowTemplate
                 data={currentData}
                 layout="current"
                 period={ForecastPeriod.CURRENT}
@@ -154,7 +153,7 @@ export function Component() {
               />
             ) : null}
 
-            <Template
+            <FpCashFlowTemplate
               layout="default"
               data={monthlyDetail.value ? monthlyData : annuallyData}
               period={
@@ -185,7 +184,7 @@ interface TemplateProps {
   headerProps: HeaderProps
 }
 
-const Template = (props: TemplateProps) => {
+export const FpCashFlowTemplate = (props: TemplateProps) => {
   const { layout, period, headerProps, data } = props
 
   const title =

@@ -10,11 +10,11 @@ export const GridMapper: { [key: number]: string } = {
   // Annually - 3 years
   3: "grid grid-cols-4",
   // Annually - 5 years
-  5: "grid grid-cols-6",
+  5: "grid grid-cols-[1fr,repeat(5,0.7fr)]",
   // Monthly detail - 12m x 3y + 1(title) = 36 col
-  36: "grid grid-cols-37",
+  36: "grid grid-cols-[1fr,repeat(36,0.7fr)]",
   // Monthly detail - 12m x 5y + 1(title) = 61 col
-  60: "grid grid-cols-61"
+  60: "grid grid-cols-[1fr,repeat(60,0.7fr)]"
 }
 
 export interface HeaderProps {

@@ -27,16 +27,11 @@ import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
 import { ErrorWrapper } from "@/modules/loan-application/[module]-financial-projection/components/layouts/ErrorWrapper.tsx"
 
 export function Component() {
-  const { id } = useParams()
+  const { id: applicationId } = useParams()
   const { isWorkspaceAdmin } = usePermissions()
 
   const currentDetail = useBoolean(false)
   const monthlyDetail = useBoolean(false)
-
-  const applicationId = useMemo(
-    () => (isWorkspaceAdmin ? id : window.location.href.split("#")[1]),
-    [isWorkspaceAdmin, id]
-  )
 
   const { data, isLoading } = useQueryFinancialProjectionForecast({
     applicationId: applicationId!,

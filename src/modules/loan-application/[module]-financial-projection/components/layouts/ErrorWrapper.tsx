@@ -17,8 +17,8 @@ export const ErrorWrapper: FC<Props> = ({ isError, children, className }) => {
     >
       <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
         <div className="sticky top-1/2 left-1/2 justify-center items-center w-full flex flex-col">
-          This application has no financial projection or has not been submitted
-          yet.
+          You don't have any financial projection or our system is processing
+          it, please wait!
         </div>
       </div>
     </div>

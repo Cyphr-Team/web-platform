@@ -1,11 +1,17 @@
 import { useQueryGetUserLoanApplications } from "@/modules/loan-application/hooks/useQuery/useQueryUserLoanApplications"
 import { TopNav } from "../molecules/TopNav"
 import { cn } from "@/lib/utils"
-import { LoanApplicationStatus } from "@/types/loan-application.type"
+import {
+  LoanApplicationStatus,
+  UserMicroLoanApplication
+} from "@/types/loan-application.type"
 import { FC, PropsWithChildren, useEffect, useState } from "react"
 import useRouter from "@/hooks/useRouter.ts"
 import { APP_PATH } from "@/constants"
 import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
+
+import { ListResponse } from "@/types/common.type.ts"
+import { InfiniteData } from "@tanstack/react-query"
 
 export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
   props
@@ -24,27 +30,15 @@ export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
   useEffect(() => {
     if (isFetching || !data?.pages) return
 
-    const statusSet = new Set(
-      [
-        LoanApplicationStatus.SUBMITTED,
-        LoanApplicationStatus.APPROVED,
-        LoanApplicationStatus.DENIED,
-        LoanApplicationStatus.READY_FOR_REVIEW,
-        LoanApplicationStatus.IN_REVIEW
-      ].map((status) => status.toLowerCase())
-    )
-
-    const submittedApplication = data.pages[0]?.data.find((application) =>
-      statusSet.has(application.status.toLowerCase())
-    )
+    const submittedApplication = getSubmittedApplication(data)
 
     if (submittedApplication) {
       setSetupId(submittedApplication.id)
       push(
-        `${APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW}#${submittedApplication.id}`
+        APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW(submittedApplication.id)
       )
     }
-  }, [data?.pages, isFetching, push, setupId])
+  }, [data, data?.pages, isFetching, push, setupId])
 
   return (
     <div
@@ -71,5 +65,23 @@ export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
       </div>
       <div className="p-4xl pt-3xl flex-1 bg-gray-50">{children}</div>
     </div>
+  )
+}
+
+function getSubmittedApplication(
+  data: InfiniteData<ListResponse<UserMicroLoanApplication>>
+): UserMicroLoanApplication | undefined {
+  const statusSet = new Set(
+    [
+      LoanApplicationStatus.SUBMITTED,
+      LoanApplicationStatus.APPROVED,
+      LoanApplicationStatus.DENIED,
+      LoanApplicationStatus.READY_FOR_REVIEW,
+      LoanApplicationStatus.IN_REVIEW
+    ].map((status) => status.toLowerCase())
+  )
+
+  return data.pages[0]?.data.find((application) =>
+    statusSet.has(application.status.toLowerCase())
   )
 }
