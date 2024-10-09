@@ -91,25 +91,22 @@ export const ScoreCardListDetail = () => {
       <CardContent className="w-full lg:w-[400px] !p-4 !pt-0">
         <div className="flex justify-between items-stretch space-x-2">
           <ScoreCardBox
+            multiple
+            hasBorder
             name="Total score"
             score={totalScore}
-            multiple={true}
-            hasBorder={true}
-            isFinishScored={isFinishScored}
           />
           <ScoreCardBox
+            multiple
+            hasBorder
             name="Round 2"
             score={avgScoreRound2}
-            multiple={true}
-            hasBorder={true}
-            isFinishScored={isRound2FinishScored}
           />
           <ScoreCardBox
+            multiple
+            hasBorder
             name="Round 1"
             score={avgScoreRound1}
-            multiple={true}
-            hasBorder={true}
-            isFinishScored={isRound1FinishScored}
           />
         </div>
         <div className="flex justify-between items-center">
@@ -197,7 +194,7 @@ export const ScoreCardListDetail = () => {
                   <span
                     className={cn(
                       "flex items-center text-xs font-semibold",
-                      !isRound1FinishScored && "text-gray-200"
+                      avgScoreRound1 === 0 ? "text-gray-200" : null
                     )}
                   >
                     <span>

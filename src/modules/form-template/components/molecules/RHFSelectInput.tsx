@@ -144,7 +144,7 @@ const RHFSelectInput = <T extends FieldValues>(
               >
                 <SelectValue
                   placeholder={
-                    <p className="text-sm text-text-placeholder">
+                    <p className="text-sm text-text-placeholder opacity-50">
                       Please select
                     </p>
                   }

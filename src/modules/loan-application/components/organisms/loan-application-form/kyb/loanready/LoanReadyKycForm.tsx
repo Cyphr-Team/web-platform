@@ -40,6 +40,7 @@ import { useForm } from "react-hook-form"
 interface OwnerInformationFormProps {
   wrapperClassName?: string
 }
+
 export function LoanReadyOwnerInformationForm({
   wrapperClassName
 }: OwnerInformationFormProps) {
@@ -220,6 +221,7 @@ export function LoanReadyOwnerInformationForm({
                     "font-medium text-sm text-text-tertiary border-l h-full flex items-center px-3"
                 }}
                 label="What percent of the business do you own?"
+                placeholder="Your ownership percentage"
                 name="businessOwnershipPercentage"
                 subtitle="Please enter a number between 0 - 100"
               />

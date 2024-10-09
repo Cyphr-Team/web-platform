@@ -8,6 +8,13 @@ import { cn } from "@/lib/utils"
 import { ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
 import { ChevronDown, ChevronRight } from "lucide-react"
 import { ScoreCardDetail } from "../../molecules/score-card/ScoreCardDetail"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip.tsx"
+import { PropsWithChildren } from "react"
 
 const calculateAverageScore = (
   scores: ILaunchKCApplicationAssignScore
@@ -50,18 +57,21 @@ export const ScoreCardListDetailByJudge = ({
         <div className="w-full flex justify-between items-center">
           <span className="text-sm">{name}</span>
 
-          <span
-            className={cn(
-              "flex items-center text-xs font-semibold",
-              !scoredDate && "text-gray-200"
-            )}
-          >
-            <span>
-              {avgScore}
-              <span className="text-black">/5</span>
+          <Layout isCompleted={!!scoredDate}>
+            <span
+              className={cn(
+                "flex items-center text-xs font-semibold",
+                !scoredDate && "text-gray-200"
+              )}
+            >
+              <span>
+                {avgScore}
+                <span className="text-black">/5</span>
+              </span>
+
+              <Icons.rocket className="w-4 ml-1" />
             </span>
-            <Icons.rocket className="w-4 ml-1" />
-          </span>
+          </Layout>
         </div>
       </AccordionTrigger>
 
@@ -69,5 +79,28 @@ export const ScoreCardListDetailByJudge = ({
         <ScoreCardDetail scoreData={scoreData} />
       </AccordionContent>
     </AccordionItem>
+  )
+}
+
+interface LayoutProps extends PropsWithChildren {
+  isCompleted: boolean
+}
+
+const Layout = (props: LayoutProps) => {
+  const { isCompleted, children } = props
+
+  if (isCompleted) return children
+
+  return (
+    <TooltipProvider delayDuration={100}>
+      <Tooltip>
+        <TooltipTrigger>{children}</TooltipTrigger>
+        <TooltipContent className="bg-black transform" sideOffset={0}>
+          <div className="text-white max-w-72 font-light text-xs">
+            Scorecard incomplete
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }

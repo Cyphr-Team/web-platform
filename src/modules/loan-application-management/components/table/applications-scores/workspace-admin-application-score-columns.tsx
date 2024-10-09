@@ -6,7 +6,10 @@ import {
   FORMAT_DATE_M_D_Y_TIME_UPPERCASE
 } from "@/constants/date.constants"
 import { FilterableColumnHeader } from "@/shared/molecules/table/column-filter"
-import { IWorkspaceAdminApplicationScore } from "@/types/application/application-assign.type"
+import {
+  IScoreInfo,
+  IWorkspaceAdminApplicationScore
+} from "@/types/application/application-assign.type"
 import { renderFilterableHeader } from "@/utils/table.utils"
 import { format } from "date-fns"
 import { AssigningJudgeRow } from "../../../../loan-application/components/organisms/application-assigning/AssigningJudgeRow"
@@ -18,6 +21,7 @@ import { ScoreBadge } from "../../atoms/score/ScoreBadge"
 import { ApplicationRoundSelectionPopover } from "../../organisms/ApplicationRoundSelectionPopover"
 import { NudgeJudgesPopover } from "../../organisms/NudgeJudgesPopover"
 import { WORKSPACE_ADMIN_APPLICATION_SCORE_FILTER_KEYS } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
+import { sum } from "lodash"
 
 /**
  * Columns for workspace admin list applications
@@ -122,11 +126,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
 
         return (
           <div className="text-center">
-            {application.roundOne.judges.length == 0 ? (
+            {application.roundOne.numberOfScoredJudge === 0 ? (
               "---"
             ) : (
               <ScoreBadge
-                score={application.roundOne.avgScore}
+                score={calculateAvgScore(application.roundOne.scoredJudges)}
                 isFinished={
                   application.roundOne.numberOfScoredJudge ===
                   application.roundOne.judges.length
@@ -196,11 +200,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
 
         return (
           <div className="text-center">
-            {application.roundTwo.judges.length == 0 ? (
+            {application.roundTwo.numberOfScoredJudge == 0 ? (
               "---"
             ) : (
               <ScoreBadge
-                score={application.roundTwo.avgScore}
+                score={calculateAvgScore(application.roundTwo.scoredJudges)}
                 isFinished={
                   application.roundTwo.numberOfScoredJudge ===
                   application.roundTwo.judges.length
@@ -346,3 +350,14 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       }
     }
   ]
+
+function calculateAvgScore(scoredJudge: IScoreInfo[]): number {
+  const score =
+    sum(
+      scoredJudge
+        .map((judge) => judge.score)
+        .map((score) => sum(Object.values(score!)) / 5)
+    ) / scoredJudge.length
+
+  return Math.floor(score * 10) / 10
+}

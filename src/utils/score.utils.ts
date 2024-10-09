@@ -4,6 +4,7 @@ import {
   IScore
 } from "@/types/application/application-score.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { sum } from "lodash"
 
 /* Application Scoring */
 
@@ -22,18 +23,14 @@ export const calculateAvgScorePerRound = <T extends IScore>(
 
   if (roundData.scoreInfo.length === 0) return 0
 
-  const totalScores = roundData.scoreInfo.reduce((acc, scoreData) => {
-    const sumOfScores = Object.values(scoreData.score ?? {}).reduce(
-      (sum, scoreItem) => sum + scoreItem,
-      0
-    )
-    // Return 0 if any judge has not scored
-    if (!scoreData?.scoredAt) return 0
-    return acc + sumOfScores
-  }, 0)
+  const scoredJudges = roundData.scoreInfo.filter(
+    (score) => score.scoredAt !== undefined
+  )
+  const totalScores =
+    sum(scoredJudges.map((score) => sum(Object.values(score.score ?? {})))) / 5
 
-  const numberOfScores = roundData.scoreInfo.length * 5
-  return Math.round((totalScores / numberOfScores) * 10) / 10
+  // Round to 1 decimal
+  return Math.round((totalScores / scoredJudges.length) * 10) / 10
 }
 
 // Total Score = (Avg Score 1 + Avg Score 2) / 2
