@@ -43,6 +43,7 @@ module.exports = {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
           secondary: "hsl(var(--success-secondary))",
+          fp: "#B3F00D",
           50: "hsla(144, 78%, 96%, 1)",
           100: "hsla(141, 74%, 92%, 1)",
           200: "hsla(144, 69%, 80%, 1)",

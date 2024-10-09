@@ -119,7 +119,7 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
               label={label}
             >
               <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-xl border">
-                <TooltipProvider>
+                <TooltipProvider delayDuration={500}>
                   {renderBlockComponents(
                     blocks.map((block) => {
                       const indexedName = `${fieldName}.${index}.${block.name}`

@@ -6,7 +6,6 @@ import { useMemo } from "react"
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
 import { DataRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DataRow.tsx"
 import { Card } from "@/components/ui/card.tsx"
-import { Button } from "@/components/ui/button.tsx"
 import { LabeledSwitch } from "@/modules/loan-application/[module]-financial-projection/components/molecules/LabeledSwitch.tsx"
 import { useBoolean } from "@/hooks"
 import { cn } from "@/lib/utils.ts"
@@ -25,6 +24,7 @@ import { useParams } from "react-router-dom"
 import usePermissions from "@/hooks/usePermissions"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
 import { ErrorWrapper } from "@/modules/loan-application/[module]-financial-projection/components/layouts/ErrorWrapper.tsx"
+import { Drawer } from "@/modules/loan-application/[module]-financial-projection/components/molecules/Drawer.tsx"
 
 export function Component() {
   const { id: applicationId } = useParams()
@@ -91,7 +91,7 @@ export function Component() {
             label="Monthly forecast detail"
             state={monthlyDetail}
           />
-          <Button type="button">Download report</Button>
+          <Drawer />
         </div>
 
         <LoadingWrapper

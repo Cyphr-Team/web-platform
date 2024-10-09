@@ -52,15 +52,17 @@ const RHFCheckbox = <T extends FieldValues>(props: RHFCheckboxProps<T>) => {
                 onCheckedChange={field.onChange}
                 {...checkboxProps}
                 className={checkboxClassName}
+                id={name}
               />
-              <p
+              <label
                 className={cn(
-                  "text-sm text-text-secondary font-normal",
+                  "text-sm text-text-secondary font-normal select-none",
                   labelClassName
                 )}
+                htmlFor={name}
               >
                 {label}
-              </p>
+              </label>
             </div>
           </FormControl>
         </FormItem>

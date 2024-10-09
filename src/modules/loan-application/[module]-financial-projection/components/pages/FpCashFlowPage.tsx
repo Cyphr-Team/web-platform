@@ -2,11 +2,10 @@ import {
   getDataPointsFactory,
   useQueryFinancialProjectionForecast
 } from "@/modules/loan-application/[module]-financial-projection/hooks/useQueryFinancialProjectionForecast.ts"
-import { useMemo, useRef } from "react"
+import { useMemo } from "react"
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
 import { DataRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DataRow.tsx"
 import { Card } from "@/components/ui/card.tsx"
-import { ButtonLoading } from "@/components/ui/button.tsx"
 import { LabeledSwitch } from "@/modules/loan-application/[module]-financial-projection/components/molecules/LabeledSwitch.tsx"
 import { useBoolean } from "@/hooks"
 import { cn } from "@/lib/utils.ts"
@@ -25,47 +24,14 @@ import { useParams } from "react-router-dom"
 import usePermissions from "@/hooks/usePermissions"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
 import { ErrorWrapper } from "@/modules/loan-application/[module]-financial-projection/components/layouts/ErrorWrapper.tsx"
-import { FinancialProjectionPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf"
-import { getPDF } from "@/modules/loan-application/services/pdf.service.ts"
-import { toastError } from "@/utils"
+import { Drawer } from "@/modules/loan-application/[module]-financial-projection/components/molecules/Drawer.tsx"
 
 export function Component() {
   const { id: applicationId } = useParams()
   const { isWorkspaceAdmin } = usePermissions()
 
-  const isExporting = useBoolean(false)
   const currentDetail = useBoolean(false)
   const monthlyDetail = useBoolean(false)
-
-  const elementToExportRef = useRef<Partial<Record<string, HTMLDivElement>>>({})
-
-  const exportToPdf = async () => {
-    try {
-      isExporting.onTrue()
-      if (elementToExportRef.current) {
-        const filteredElement = Object.values(
-          elementToExportRef.current
-        ).filter((element) => element !== undefined) as HTMLDivElement[]
-
-        const { pdf } = await getPDF(
-          filteredElement,
-          false,
-          filteredElement.map(
-            (element) => element.querySelector(".footer") as HTMLDivElement
-          )
-        )
-
-        pdf.save(`financial_projections_${new Date().valueOf()}.pdf`)
-      }
-    } catch (error) {
-      toastError({
-        title: "Somethings went wrong!",
-        description: "Somethings went wrong!"
-      })
-    } finally {
-      isExporting.onFalse()
-    }
-  }
 
   const { data, isLoading } = useQueryFinancialProjectionForecast({
     applicationId: applicationId!,
@@ -122,13 +88,7 @@ export function Component() {
             label="Monthly forecast detail"
             state={monthlyDetail}
           />
-          <ButtonLoading
-            isLoading={isExporting.value}
-            type="button"
-            onClick={exportToPdf}
-          >
-            Download report
-          </ButtonLoading>
+          <Drawer />
         </div>
 
         <LoadingWrapper
@@ -168,10 +128,6 @@ export function Component() {
             />
           </div>
         </LoadingWrapper>
-      </div>
-
-      <div className="hidden">
-        <FinancialProjectionPdf itemsRef={elementToExportRef} />
       </div>
     </ErrorWrapper>
   )
