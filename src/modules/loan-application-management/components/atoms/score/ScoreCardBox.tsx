@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils"
+import { valueOrZero } from "@/utils"
 
 interface IScoreCardProps {
   name: string
@@ -13,6 +14,7 @@ export const ScoreCardBox = ({
   hasBorder,
   multiple
 }: IScoreCardProps) => {
+  const formatScore = valueOrZero(score)
   return (
     <div
       className={cn(
@@ -28,10 +30,10 @@ export const ScoreCardBox = ({
       <span
         className={cn(
           multiple ? "text-md lg:text-3xl" : "text-md lg:text-5xl",
-          score === 0 ? "text-gray-200" : null
+          formatScore === 0 ? "text-gray-200" : null
         )}
       >
-        {score}
+        {formatScore}
         <span className="text-black">/5</span>
       </span>
     </div>

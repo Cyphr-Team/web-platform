@@ -426,3 +426,7 @@ export const isEnabledQuery = (
   step: LOAN_APPLICATION_STEPS,
   progress: ILoanApplicationStep[]
 ) => progress.map((item) => item.step).includes(step)
+
+export const valueOrZero = (value?: number) => {
+  return !!value && !isNaN(value) ? value : 0
+}

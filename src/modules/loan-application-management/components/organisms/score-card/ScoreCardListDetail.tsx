@@ -9,7 +9,7 @@ import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { ScoreCardBox } from "../../atoms/score/ScoreCardBox"
-import { capitalizeWords, snakeCaseToText } from "@/utils"
+import { capitalizeWords, snakeCaseToText, valueOrZero } from "@/utils"
 import {
   calculateAvgScorePerRound,
   calculateTotalScore
@@ -146,7 +146,7 @@ export const ScoreCardListDetail = () => {
                     )}
                   >
                     <span>
-                      {avgScoreRound2}
+                      {valueOrZero(avgScoreRound2)}
                       <span className="text-black">/5</span>
                     </span>
                     <Icons.rocket className="w-4 ml-1" />
@@ -198,7 +198,7 @@ export const ScoreCardListDetail = () => {
                     )}
                   >
                     <span>
-                      {avgScoreRound1}
+                      {valueOrZero(avgScoreRound1)}
                       <span className="text-black">/5</span>
                     </span>
                     <Icons.rocket className="w-4 ml-1" />

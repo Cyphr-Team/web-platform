@@ -15,6 +15,7 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip.tsx"
 import { PropsWithChildren } from "react"
+import { valueOrZero } from "@/utils"
 
 const calculateAverageScore = (
   scores: ILaunchKCApplicationAssignScore
@@ -65,7 +66,7 @@ export const ScoreCardListDetailByJudge = ({
               )}
             >
               <span>
-                {avgScore}
+                {valueOrZero(avgScore)}
                 <span className="text-black">/5</span>
               </span>
 
