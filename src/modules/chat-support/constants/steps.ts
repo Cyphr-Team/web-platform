@@ -20,7 +20,7 @@ const TROUBLESHOOT_STEPS = {
 }
 
 const CHAT_STEPS = {
-  INIT: "chatInit",
+  INIT: "start",
   LOOP: "chatLoop",
   END: "chatEnd"
 }
@@ -81,7 +81,7 @@ export class FlowBuilder {
   }
 
   public chatbotInit(message: () => Promise<string>, path: string) {
-    this.flow[OVERALL_STEPS.START] = {
+    this.flow[CHAT_STEPS.INIT] = {
       message,
       path
     }
@@ -90,11 +90,13 @@ export class FlowBuilder {
 
   public chatbotLoop(
     message: (params: Params) => Promise<string>,
-    path: string
+    path: string,
+    options: (params: Params) => Promise<string[]>
   ) {
     this.flow[CHAT_STEPS.LOOP] = {
       message,
-      path
+      path,
+      options
     }
     return this
   }

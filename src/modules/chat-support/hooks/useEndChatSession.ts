@@ -12,12 +12,11 @@ export const useEndChatSession = () => {
     AxiosError<ErrorResponse>,
     { sessionId: string }
   >({
-    mutationFn: (data) => {
-      return postRequest({
+    mutationFn: ({ sessionId }) =>
+      postRequest({
         path: API_PATH.application.chatbot.endSession,
-        params: data.sessionId,
+        params: { sessionId },
         customHeader: customRequestHeader.customHeaders
       })
-    }
   })
 }

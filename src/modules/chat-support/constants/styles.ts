@@ -45,6 +45,13 @@ const styles: Styles = {
   chatMessagePromptHoveredStyle: {
     color: PRIMARY_COLOR,
     borderColor: PRIMARY_COLOR
+  },
+  botOptionStyle: {
+    borderColor: PRIMARY_COLOR
+  },
+  botOptionHoveredStyle: {
+    color: PRIMARY_COLOR,
+    borderColor: PRIMARY_COLOR
   }
 }
 

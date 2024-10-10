@@ -1,5 +1,6 @@
 import { Button, Settings } from "react-chatbotify"
 import smile from "@/assets/smile.svg"
+import { CHAT_HISTORY } from "@/modules/chat-support/constants/chat"
 
 export const getSettings = (icon: string): Settings => ({
   general: {
@@ -43,7 +44,7 @@ export const getSettings = (icon: string): Settings => ({
   chatHistory: {
     disabled: false,
     maxEntries: 30,
-    storageKey: "rcb-history",
+    storageKey: CHAT_HISTORY,
     viewChatHistoryButtonText: "Load Chat History ⟳",
     chatHistoryLineBreakText: "----- Previous Chat History -----",
     autoLoad: false

@@ -5,6 +5,8 @@ const processOptions = [
   "Start Chat"
 ]
 
+const chatFollowUpOptionsMap: { [key: string]: string } = { end: "End Chat" }
+
 const troubleshootOptionsMap: { [key: string]: string } = {
   "Bank Connections": "https://plaid.com/docs/",
   "E-Sign": "https://developers.pandadoc.com/docs/getting-started",
@@ -19,4 +21,9 @@ const processOptionsMap: { [key: string]: string } = {
   "Start Chat": "chatInit"
 }
 
-export { processOptionsMap, processOptions, troubleshootOptionsMap }
+export {
+  processOptions,
+  chatFollowUpOptionsMap,
+  processOptionsMap,
+  troubleshootOptionsMap
+}
