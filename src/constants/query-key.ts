@@ -141,3 +141,10 @@ export const chatbotDocumentKeys = {
   download: (id: string, timestamp: number) =>
     [...chatbotDocumentKeys.all, "download", id, timestamp] as const
 }
+
+export const chatbotSessionKeys = {
+  all: ["chatbotSession"] as const,
+  lists: () => [...chatbotSessionKeys.all, "list"] as const,
+  list: (filters: object) =>
+    [...chatbotSessionKeys.lists(), { filters }] as const
+}

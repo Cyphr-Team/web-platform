@@ -11,6 +11,7 @@ import { Route } from "react-router-dom"
 import { adminRoutes } from "./admin-routes"
 import { loanApplicationManagementRoutes } from "./loan-application-management-routes"
 import { notificationRoutes } from "./notification-routes"
+import { chatbotRoutes } from "@/routes/dashboard-routes/chatbot-routes"
 
 /**
  * Dashboard routes ("/*"), no unauthenticated or loan applicant allowed to see these pages.
@@ -69,6 +70,8 @@ const dashboardRoutes = (
       path={APP_PATH.DOCUMENTS}
       lazy={() => import("@/modules/admin/user/document-page.tsx")}
     />
+
+    {chatbotRoutes}
 
     {/* MESSAGES */}
     <Route

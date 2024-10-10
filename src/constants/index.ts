@@ -142,7 +142,11 @@ export const APP_PATH = {
   SUBSCRIPTIONS: "/subscriptions",
   FEATURE_FLAGS: "/feature-flags",
   DOCUMENTS: "/documents",
-
+  CHAT: {
+    all: "/chat",
+    conversations: (id: string) => `/chat/conversations/${id}`,
+    sessionHistory: (id: string) => `/chat/session-history/${id}`
+  },
   CONFERENCE_DEMO: {
     applicant: {
       index: "/applicant/loan",
@@ -215,6 +219,9 @@ export const API_PATH = {
       upload: "api/admin/chatbot-document",
       delete: "api/admin/chatbot-document/delete",
       download: "api/admin/chatbot-document/download"
+    },
+    chatSession: {
+      list: "api/admin/ai/chat/list-sessions"
     }
   },
   workspaceAdmin: {
