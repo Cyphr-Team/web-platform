@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import React from "react"
-import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
+import { currencyCellFormatter } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DataRow.tsx"
 
 type CashFlowGlanceType = "currency" | "percent" | "default"
 
@@ -11,9 +11,12 @@ type Props = {
 }
 
 const typeMapper: { [key in CashFlowGlanceType]: CallableFunction } = {
-  currency: (value: number) => `$ ${USDFormatter(value).format()}`,
-  percent: (value: string) => `${value}%`,
-  default: (value?: string | number) => value ?? "N/A"
+  currency: (value: number) => {
+    const formatted = currencyCellFormatter(value)
+    return formatted !== "-" ? `$ ${formatted}` : formatted
+  },
+  percent: (value: string) => (value ? `${value}%` : "-"),
+  default: (value?: string | number) => value ?? "-"
 }
 
 export const CashFlowGlanceCard: React.FC<Props> = ({

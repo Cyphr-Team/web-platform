@@ -3,7 +3,7 @@ import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCu
 import { PropsWithChildren } from "react"
 import { GridMapper } from "@/modules/loan-application/[module]-financial-projection/constants"
 
-function currencyCellFormatter(value: number) {
+export function currencyCellFormatter(value: number) {
   if (value === 0) {
     return "-"
   }

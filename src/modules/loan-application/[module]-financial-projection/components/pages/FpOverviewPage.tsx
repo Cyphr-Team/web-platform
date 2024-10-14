@@ -2,20 +2,20 @@ import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
 import { cn } from "@/lib/utils.ts"
 import { CashFlowGlanceCard } from "@/modules/loan-application/[module]-financial-projection/components/molecules/CashFlowGlanceCard.tsx"
 import { PropsWithChildren } from "react"
+import { useQueryCashFlowAtAGlance } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryCashFlowAtAGlance.ts"
+import { useParams } from "react-router-dom"
 
 export function Component() {
-  const { isLoading, data } = {
+  const { id: applicationId } = useParams()
+
+  const { data: cashFlow, isLoading } = useQueryCashFlowAtAGlance({
+    applicationId: applicationId!,
+    enabled: !!applicationId
+  })
+
+  const { data: loanReadyResults, isLoading: isLoadingLoanReady } = {
     isLoading: false,
-    data: {
-      revenue: 21_0000,
-      operatingExpenses: 14_0000,
-      netOperatingIncome: 70_000,
-      operatingMargin: 33.4,
-      totalDebtService: 35000,
-      debtServiceCoverage: 1.5,
-      debtToIncome: 33.5,
-      assessment: "Very Good"
-    }
+    data: { assessment: "Very Good" }
   }
 
   return (
@@ -23,45 +23,46 @@ export function Component() {
       <Section>
         <Title>Cash Flow at a Glance</Title>
 
-        <Layout isLoading={isLoading}>
+        <Layout isLoading={isLoading || isLoadingLoanReady}>
           <Grid>
             <CashFlowGlanceCard
               title="Revenue / Gross Income"
-              value={data.revenue}
+              value={cashFlow?.revenue}
               type="currency"
             />
             <CashFlowGlanceCard
               title="Operating Expenses"
-              value={data.operatingExpenses}
+              value={cashFlow?.operatingExpenses}
               type="currency"
             />
             <CashFlowGlanceCard
               title="Net Operating Income (NOI)"
-              value={data.netOperatingIncome}
+              value={cashFlow?.netOperatingIncome}
               type="currency"
             />
             <CashFlowGlanceCard
               title="Operating Margin"
-              value={data.operatingMargin}
+              value={cashFlow?.operatingMargin}
               type="percent"
             />
             <CashFlowGlanceCard
               title="Total Debt Service (TDS)"
-              value={data.totalDebtService}
+              value={cashFlow?.totalDebtService}
               type="currency"
             />
             <CashFlowGlanceCard
               title="Debt Service Coverage (DSCR)"
-              value={data.debtServiceCoverage}
+              value={cashFlow?.debtServiceCoverage}
+              type="default"
             />
             <CashFlowGlanceCard
               title="Debt-to-Income (DTI)"
-              value={data.debtToIncome}
+              value={cashFlow?.debtToIncome}
               type="percent"
             />
             <CashFlowGlanceCard
               title="Cash Flow Assessment"
-              value={data.assessment}
+              value={loanReadyResults?.assessment}
             />
           </Grid>
         </Layout>
@@ -69,6 +70,11 @@ export function Component() {
 
       <Section>
         <Title>Charts</Title>
+        <div className="flex justify-center items-center relative h-[20vh] border-2 border-dashed rounded">
+          <div className="sticky top-1/2 left-1/2 justify-center items-center w-full flex flex-col opacity-60 text-xl">
+            Coming soon
+          </div>
+        </div>
       </Section>
     </div>
   )

@@ -574,7 +574,8 @@ export const API_PATH = {
     forecast: {
       applicant: "api/financial-projection/forecast/by-setup-id",
       admin:
-        "api/loan-officer/application/financial-projection/forecast/by-setup-id"
+        "api/loan-officer/application/financial-projection/forecast/by-setup-id",
+      cashFlowAtAGlance: "api/financial-projection/cash-flow-glance/by-setup-id"
     }
   }
 }

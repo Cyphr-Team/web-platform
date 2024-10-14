@@ -1,24 +1,38 @@
 import { Loader2 } from "lucide-react"
+import { FC, PropsWithChildren, useEffect, useState } from "react"
 
-type Props = {
+interface Props extends PropsWithChildren {
   isLoading: boolean
-  children: React.ReactNode
   className?: string
 }
 
-export const LoadingWrapper: React.FC<Props> = ({
-  isLoading,
-  children,
-  className
-}) => {
+export const LoadingWrapper: FC<Props> = (props) => {
+  const { isLoading, children, className } = props
+  const [loadingMessage, setLoadingMessage] = useState("Loading...")
+
+  useEffect(() => {
+    if (isLoading) {
+      const timeout1 = setTimeout(
+        () => setLoadingMessage("Calculating..."),
+        2000
+      )
+      const timeout2 = setTimeout(() => setLoadingMessage("Finishing..."), 5000)
+
+      return () => {
+        clearTimeout(timeout1)
+        clearTimeout(timeout2)
+      }
+    }
+  }, [isLoading])
+
   return (
     <div className={className}>
       {isLoading ? (
         <div className="flex justify-center items-center relative h-full">
           <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
-            <div className="sticky top-1/2 left-1/2 justify-center items-center w-full flex flex-col">
+            <div className="sticky top-1/2 left-1/2 justify-center items-center flex flex-col w-full ">
               <Loader2 className="w-10 h-10 animate-spin text-primary" />
-              Loading...
+              {loadingMessage}
             </div>
           </div>
         </div>

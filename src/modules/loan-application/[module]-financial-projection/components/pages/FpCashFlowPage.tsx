@@ -1,7 +1,3 @@
-import {
-  getDataPointsFactory,
-  useQueryFinancialProjectionForecast
-} from "@/modules/loan-application/[module]-financial-projection/hooks/useQueryFinancialProjectionForecast.ts"
 import { useMemo } from "react"
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
 import { DataRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DataRow.tsx"
@@ -25,6 +21,10 @@ import usePermissions from "@/hooks/usePermissions"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
 import { ErrorWrapper } from "@/modules/loan-application/[module]-financial-projection/components/layouts/ErrorWrapper.tsx"
 import { Drawer } from "@/modules/loan-application/[module]-financial-projection/components/molecules/Drawer.tsx"
+import {
+  getDataPointsFactory,
+  useQueryFinancialProjectionForecast
+} from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryFinancialProjectionForecast.ts"
 
 export function Component() {
   const { id: applicationId } = useParams()

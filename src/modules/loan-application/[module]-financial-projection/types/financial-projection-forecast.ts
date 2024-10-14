@@ -81,3 +81,15 @@ export interface ForecastResultsResponse {
   balanceSheetForecastAnnually: ForecastDataCategory[]
   incomeStatementForecastAnnually: ForecastDataCategory[]
 }
+
+export interface CashFlowAtAGlanceResponse {
+  financialForecastSetupId: string
+  revenue: number
+  operatingExpenses: number
+  netOperatingIncome: number
+  cashFlowAssessment: string
+  operatingMargin: number
+  totalDebtService: number
+  debtServiceCoverage: number
+  debtToIncome: number
+}
