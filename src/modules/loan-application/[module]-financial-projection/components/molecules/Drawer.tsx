@@ -11,10 +11,14 @@ import ContentTooltip from "@/modules/loan-application/[module]-financial-projec
 import { TooltipProvider } from "@/components/ui/tooltip.tsx"
 import { getPDF } from "@/modules/loan-application/services/pdf.service.ts"
 import { toastError } from "@/utils"
-import { FinancialProjectionPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf"
 import { useRef } from "react"
+import {
+  FinancialProjectionPdf,
+  PDFPageOrder
+} from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/FinancialProjectionPdf.tsx"
 
-const enum ExportFPOption {
+export const enum ExportFPOption {
+  DISCLAIMER_NOTE = "DISCLAIMER_NOTE",
   CASH_FLOW_FORECAST = "CASH_FLOW_FORECAST",
   BALANCE_SHEET_FORECAST = "BALANCE_SHEET_FORECAST",
   INCOME_SHEET_FORECAST = "INCOME_SHEET_FORECAST",
@@ -40,10 +44,25 @@ export const Drawer = () => {
       openDrawer.onFalse()
 
       isExporting.onTrue()
+
       if (elementToExportRef.current) {
-        const filteredElement = Object.values(
-          elementToExportRef.current
-        ).filter((element) => element !== undefined) as HTMLDivElement[]
+        const filteredElement = Object.entries(elementToExportRef.current)
+          /**
+           * This sort function make sure that the Page is in exactly right order.
+           * For example:
+           * - Order = [Cash Flow, Balance Sheet, Income Statement]
+           * - ElementToSort = [Income Statement, Balance Sheet, Cash Flow]
+           *
+           * ElementToSort.sort((a, b) => Order.indexOf(a) - Order.indexOf(b))
+           * -> [Cash Flow, Balance Sheet, Income Statement]
+           *
+           * Instead of using priority queue, I'm using index of element as priority
+           * */
+          .sort(
+            (a, b) => PDFPageOrder.indexOf(a[0]) - PDFPageOrder.indexOf(b[0])
+          )
+          .filter((entry) => entry[1] !== undefined)
+          .map((entry) => entry[1]) as HTMLDivElement[]
 
         const { pdf } = await getPDF(
           filteredElement,
@@ -167,6 +186,9 @@ export const Drawer = () => {
               </Card>
             </div>
           </TooltipProvider>
+          <div className="hidden">
+            <FinancialProjectionPdf itemsRef={elementToExportRef} />
+          </div>
         </RHFProvider>
 
         <div className="m-10">
@@ -174,10 +196,6 @@ export const Drawer = () => {
             Download Reports
           </Button>
         </div>
-      </div>
-
-      <div className="hidden">
-        <FinancialProjectionPdf itemsRef={elementToExportRef} />
       </div>
     </>
   )

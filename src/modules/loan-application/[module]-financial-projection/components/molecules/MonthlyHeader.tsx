@@ -14,7 +14,7 @@ export const MonthlyHeader: FC<HeaderProps> = ({ title, data }) => {
 
   return (
     <>
-      <SectionRow title={title} className="border-t-0" />
+      <SectionRow title={title} isFirst />
       <DateRow title="Year" data={year} />
       <DateRow title="Month Counter" data={month} />
       <DateRow title="Date" data={dates} />

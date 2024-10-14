@@ -1,29 +1,28 @@
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import React, { ReactNode } from "react"
+import { PropsWithChildren, ReactNode } from "react"
 
-type FinancialDetailLayoutProps = {
+interface FinancialDetailLayoutProps extends PropsWithChildren<HeaderProps> {
   isSubChildren?: boolean
-} & React.PropsWithChildren<HeaderProps>
-export const FinancialDetailCard = ({
-  title,
-  subTitle,
-  children,
-  isSubChildren
-}: FinancialDetailLayoutProps) => {
+  isPdf?: boolean
+}
+
+export const FinancialDetailCard = (props: FinancialDetailLayoutProps) => {
+  const { title, subTitle, children, isSubChildren, isPdf = false } = props
+
   const renderTitle = title ? (
     <Header title={title} subTitle={subTitle} />
   ) : null
 
   return (
-    <Layout isSubChildren={isSubChildren}>
+    <Layout isPdf={isPdf} isSubChildren={isSubChildren}>
       {renderTitle}
       <Main>{children}</Main>
     </Layout>
   )
 }
 
-const Main = ({ children }: React.PropsWithChildren) => {
+const Main = ({ children }: PropsWithChildren) => {
   return <main className="flex flex-col">{children}</main>
 }
 
@@ -31,6 +30,7 @@ interface HeaderProps {
   title?: ReactNode
   subTitle?: ReactNode
 }
+
 const Header = ({ title, subTitle }: HeaderProps) => {
   const renderSubTitle = subTitle ? (
     <div className="text-sm mt-1">{subTitle}</div>
@@ -55,17 +55,15 @@ const Header = ({ title, subTitle }: HeaderProps) => {
   )
 }
 
-const Layout = ({
-  children,
-  isSubChildren
-}: React.PropsWithChildren<
-  Pick<FinancialDetailLayoutProps, "isSubChildren">
->) => {
+interface LayoutProps extends FinancialDetailLayoutProps {}
+
+const Layout = (props: LayoutProps) => {
+  const { children, isSubChildren, isPdf = false } = props
   return (
     <section
       className={cn(
-        "p-4 border rounded-xl",
         "md:p-8",
+        !isPdf && "p-4 border rounded-xl",
         isSubChildren && "p-0 md:p-0 border-none"
       )}
     >

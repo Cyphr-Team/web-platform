@@ -16,10 +16,11 @@ import {
   ExpenseTaxRateFormValue,
   taxRatesFormSchema
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
-import { RHFCurrencyInput } from "@/modules/form-template/components/molecules"
+import { RHFNumberInput } from "@/modules/form-template/components/molecules"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { FC } from "react"
 
-export const TaxRateForm = () => {
+export const TaxRateForm: FC = () => {
   const { taxRates, dispatchFormAction } = useLoanApplicationFormContext()
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
@@ -28,7 +29,7 @@ export const TaxRateForm = () => {
     mode: "onBlur",
     defaultValues: {
       applicationId: taxRates?.applicationId ?? "",
-      incomeTaxRate: taxRates?.incomeTaxRate ?? 0
+      incomeTaxRate: taxRates?.incomeTaxRate
     }
   })
 
@@ -63,18 +64,17 @@ export const TaxRateForm = () => {
           </div>
 
           <Separator />
-          <RHFCurrencyInput
+          <RHFNumberInput
+            isHideErrorMessage
             label="Estimate your income tax rate (%)"
             placeholder="Income tax rate"
             className="flex justify-between items-center"
-            suffixIcon={<span>%</span>}
             name="incomeTaxRate"
+            suffixIcon="%"
             styleProps={{
               labelClassName: "text-text-secondary",
-              inputClassName: "text-sm"
+              inputClassName: "text-sm w-64 no-arrows"
             }}
-            isHideErrorMessage
-            isAllowDisplayZero
           />
 
           {!isReviewApplicationStep(step) && (

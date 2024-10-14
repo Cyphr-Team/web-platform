@@ -17,6 +17,7 @@ import {
   LoanReadyKYBFieldName
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import {
+  IBusinessFormValue,
   loanReadyBusinessFormSchema,
   LoanReadyBusinessFormValue
 } from "@/modules/loan-application/constants/form.ts"
@@ -34,19 +35,26 @@ import { get } from "lodash"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
-export const LoanReadyBusinessInformationForm = () => {
-  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-
-  const { businessInformation, dispatchFormAction } =
-    useLoanApplicationFormContext()
+function getOrDefault(
+  businessInformation: IBusinessFormValue
+): LoanReadyBusinessFormValue {
   const defaultValues: { [key: string]: string } = {}
   Object.keys(loanReadyBusinessFormSchema.shape).forEach((fieldName) => {
     defaultValues[fieldName] = get(businessInformation, fieldName, "")
   })
+
+  return defaultValues as LoanReadyBusinessFormValue
+}
+
+export const LoanReadyBusinessInformationForm = () => {
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
+  const { businessInformation, dispatchFormAction } =
+    useLoanApplicationFormContext()
+
   const form = useForm<LoanReadyBusinessFormValue>({
     resolver: zodResolver(loanReadyBusinessFormSchema),
     mode: "onBlur",
-    defaultValues
+    defaultValues: getOrDefault(businessInformation)
   })
 
   const onSubmit = (data: LoanReadyBusinessFormValue) => {

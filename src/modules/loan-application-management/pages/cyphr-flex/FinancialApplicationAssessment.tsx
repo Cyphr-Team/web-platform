@@ -39,6 +39,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => (
 interface AssessmentLayoutProps {
   className?: string
 }
+
 const AssessmentLayout: FC<PropsWithChildren<AssessmentLayoutProps>> = ({
   children,
   className
@@ -64,6 +65,7 @@ interface ApplicationFeedBackProps {
   category?: string
   actionPlan?: string
 }
+
 const ApplicationFeedBack: FC<ApplicationFeedBackProps> = ({
   isLoading,
   category,
@@ -90,6 +92,7 @@ interface ApplicationScoreProps {
   ratingLevel?: string
   category?: string
 }
+
 const ApplicationScore: FC<ApplicationScoreProps> = ({
   score,
   ratingLevel,

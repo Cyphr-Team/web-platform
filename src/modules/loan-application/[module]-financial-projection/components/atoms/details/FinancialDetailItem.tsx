@@ -1,19 +1,16 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
-import { ReactNode } from "react"
+import { PropsWithChildren, ReactNode } from "react"
 
-type FinancialDetailItemProps = {
+interface FinancialDetailItemProps {
   title: ReactNode
   content: ReactNode
   isSubChildren?: boolean
   isLoading?: boolean
 }
-export const FinancialDetailItem = ({
-  title,
-  content,
-  isSubChildren,
-  isLoading
-}: FinancialDetailItemProps) => {
+
+export const FinancialDetailItem = (props: FinancialDetailItemProps) => {
+  const { title, content, isSubChildren, isLoading } = props
   const renderContent = isLoading ? (
     <Skeleton className="h-4 w-40 bg-gray-300" />
   ) : (
@@ -30,12 +27,11 @@ export const FinancialDetailItem = ({
   )
 }
 
-const Layout = ({
-  children,
-  isSubChildren
-}: React.PropsWithChildren<
-  Pick<FinancialDetailItemProps, "isSubChildren">
->) => {
+interface LayoutProps extends PropsWithChildren {
+  isSubChildren?: boolean
+}
+
+const Layout = ({ children, isSubChildren }: LayoutProps) => {
   return (
     <div
       className={cn(

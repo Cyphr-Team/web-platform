@@ -155,7 +155,7 @@ export const FpOperatingExpensesForm = () => {
 
         {!isReviewApplicationStep(step) && (
           <div className="flex flex-col gap-2xl mt-4">
-            <Button>Next</Button>
+            <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}
       </RHFProvider>

@@ -20,6 +20,7 @@ import {
   PERSONAL_CREDIT_SCORE_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import {
+  IOwnerFormValue,
   loanReadyOwnerFormSchema,
   LoanReadyOwnerFormValue
 } from "@/modules/loan-application/constants/form"
@@ -34,7 +35,7 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
-import { useEffect, useMemo } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
 interface OwnerInformationFormProps {
@@ -48,38 +49,10 @@ export function LoanReadyOwnerInformationForm({
   const { dispatchFormAction, ownerInformationForm } =
     useLoanApplicationFormContext()
 
-  const defaultValues = useMemo(
-    () => ({
-      id: ownerInformationForm?.id ?? "",
-      fullName: ownerInformationForm?.fullName ?? "",
-      businessRole: ownerInformationForm?.businessRole ?? "",
-      addressLine1: ownerInformationForm?.addressLine1 ?? "",
-      addressLine2: ownerInformationForm?.addressLine2 ?? "",
-      businessState: ownerInformationForm?.businessState ?? "",
-      businessCity: ownerInformationForm?.businessCity ?? "",
-      phoneNumber: ownerInformationForm?.phoneNumber ?? "",
-      email: ownerInformationForm?.email ?? "",
-      dateOfBirth: ownerInformationForm?.dateOfBirth ?? "",
-      socialSecurityNumber: ownerInformationForm?.socialSecurityNumber
-        ? toPattern(ownerInformationForm?.socialSecurityNumber, SSN_PATTERN)
-        : "",
-      businessOwnershipPercentage:
-        ownerInformationForm?.businessOwnershipPercentage ?? "",
-      hasOtherSubstantialStackHolders:
-        ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
-        "false",
-      businessZipCode: ownerInformationForm?.businessZipCode ?? "",
-      governmentFile: ownerInformationForm?.governmentFile ?? [],
-      [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]:
-        ownerInformationForm?.[LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]
-    }),
-    [ownerInformationForm]
-  )
-
   const form = useForm<LoanReadyOwnerFormValue>({
     resolver: zodResolver(loanReadyOwnerFormSchema),
-    values: defaultValues,
-    mode: "onBlur"
+    mode: "onBlur",
+    defaultValues: getOrDefault(ownerInformationForm)
   })
 
   const { handleChangeState, handleChangeCity, STATE_DATA, state, city } =
@@ -244,4 +217,33 @@ export function LoanReadyOwnerInformationForm({
       </div>
     </div>
   )
+}
+
+function getOrDefault(
+  ownerInformationForm: IOwnerFormValue
+): LoanReadyOwnerFormValue {
+  return {
+    id: ownerInformationForm?.id ?? "",
+    fullName: ownerInformationForm?.fullName ?? "",
+    businessRole: ownerInformationForm?.businessRole ?? "",
+    addressLine1: ownerInformationForm?.addressLine1 ?? "",
+    addressLine2: ownerInformationForm?.addressLine2 ?? "",
+    businessState: ownerInformationForm?.businessState ?? "",
+    businessCity: ownerInformationForm?.businessCity ?? "",
+    phoneNumber: ownerInformationForm?.phoneNumber ?? "",
+    email: ownerInformationForm?.email ?? "",
+    dateOfBirth: ownerInformationForm?.dateOfBirth ?? "",
+    socialSecurityNumber: ownerInformationForm?.socialSecurityNumber
+      ? toPattern(ownerInformationForm?.socialSecurityNumber, SSN_PATTERN)
+      : "",
+    businessOwnershipPercentage:
+      ownerInformationForm?.businessOwnershipPercentage ?? "",
+    hasOtherSubstantialStackHolders:
+      ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
+      "false",
+    businessZipCode: ownerInformationForm?.businessZipCode ?? "",
+    governmentFile: ownerInformationForm?.governmentFile ?? [],
+    [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]:
+      ownerInformationForm?.[LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]
+  }
 }

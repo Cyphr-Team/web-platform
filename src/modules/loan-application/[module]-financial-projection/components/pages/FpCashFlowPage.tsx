@@ -45,7 +45,7 @@ export function Component() {
   )
 
   const annuallyData = useMemo(
-    () => getCashFlow(forecastResults, ForecastPeriod.ANNUALLY),
+    () => getCashFlowData(forecastResults, ForecastPeriod.ANNUALLY),
     [forecastResults]
   )
   const annuallyTimeStamp = useMemo(
@@ -57,7 +57,7 @@ export function Component() {
   )
 
   const monthlyData = useMemo(
-    () => getCashFlow(forecastResults, ForecastPeriod.MONTHLY),
+    () => getCashFlowData(forecastResults, ForecastPeriod.MONTHLY),
     [forecastResults]
   )
 
@@ -70,7 +70,7 @@ export function Component() {
   )
 
   const currentData = useMemo(
-    () => getCashFlow(forecastResults, ForecastPeriod.CURRENT),
+    () => getCashFlowData(forecastResults, ForecastPeriod.CURRENT),
     [forecastResults]
   )
 
@@ -102,6 +102,7 @@ export function Component() {
           <div className="flex flex-col gap-y-6xl">
             {currentDetail.value ? (
               <FpCashFlowTemplate
+                title="Current Cash Flow Statement"
                 data={currentData}
                 layout="current"
                 period={ForecastPeriod.CURRENT}
@@ -133,18 +134,24 @@ export function Component() {
   )
 }
 
-interface TemplateProps {
+interface FpCashFlowTemplateProps {
+  title?: string
   data: ForecastRowData
   layout: "default" | "current"
   period: ForecastPeriod
   headerProps: HeaderProps
+  isPdf?: boolean
 }
 
-export const FpCashFlowTemplate = (props: TemplateProps) => {
-  const { layout, period, headerProps, data } = props
-
-  const title =
-    layout === "default" ? "Cash Flow Statement" : "Current Cash Flow Statement"
+export const FpCashFlowTemplate = (props: FpCashFlowTemplateProps) => {
+  const {
+    title = "Cash Flow Statement",
+    layout,
+    period,
+    headerProps,
+    data,
+    isPdf = false
+  } = props
 
   const HeaderComponent = HeaderMapper[period]
 
@@ -153,14 +160,15 @@ export const FpCashFlowTemplate = (props: TemplateProps) => {
       <h1 className="text-3xl font-semibold">{title}</h1>
       <Card
         className={cn(
-          "shadow-primary border-none",
+          isPdf ? null : "shadow-primary",
+          "rounded-xl flex flex-col",
           layout === "current" ? "w-fit" : null
         )}
       >
-        <div className="overflow-x-auto overflow-y-visible rounded-xl">
+        <div className="overflow-x-auto overflow-y-visible">
           <div
             className={cn(
-              "bg-white",
+              "bg-white rounded-xl",
               layout === "default" ? "min-w-max" : "w-fit"
             )}
           >
@@ -230,7 +238,7 @@ export const FpCashFlowTemplate = (props: TemplateProps) => {
   )
 }
 
-function getCashFlow(
+export function getCashFlowData(
   dataSource: ForecastResultsResponse,
   period: ForecastPeriod
 ): ForecastRowData {

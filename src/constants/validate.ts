@@ -45,7 +45,14 @@ export const createDateSchema = () => {
     .min(1, "This field is required")
     .refine(
       (value) => {
-        if (!validFormat(value)) {
+        /**
+         * 7 is length of (MM/YYYY).
+         * For example
+         * "12/2022".length = 7 => valid
+         * "12/20".length   = 5 => invalid
+         * "12/2".length    = 4 => invalid
+         * */
+        if (!validFormat(value) || value.length < 7) {
           return false
         }
 

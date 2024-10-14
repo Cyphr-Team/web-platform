@@ -19,6 +19,7 @@ import {
   LaunchKCBusinessFormValue,
   LaunchKCFitFormValue,
   LaunchKCOwnerFormValue,
+  LoanReadyBusinessFormValue,
   LoanRequestFormValue,
   MarketOpportunityFormValue,
   OperatingExpensesFormValue,
@@ -153,6 +154,7 @@ export type FormStateType =
   | AssetsFormValue
   | ExpenseTaxRateFormValue
   | DebtFinancingFormValue
+  | LoanReadyBusinessFormValue
 
 export type Action = {
   action: FORM_ACTION

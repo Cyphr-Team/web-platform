@@ -18,78 +18,94 @@ interface DataRowProps {
   data: number[]
   className?: string
   collision?: boolean
-  isEnd?: boolean
   layout?: "total" | "percentage" | "item" | "subTotal"
+  isEnd?: boolean
 }
 
-export const DataRow = (props: DataRowProps) => {
-  const { title, data, collision = false, layout = "total", className } = props
+export const DataRow = ({
+  title,
+  data,
+  collision = false,
+  layout = "total",
+  className,
+  isEnd
+}: DataRowProps) => (
+  <div className={cn(GridMapper[data.length], className)}>
+    <StyledComponent layout={layout} collision={collision} isEnd={isEnd}>
+      <div className={cn("text-sm", getTitlePadding(layout))}>{title}</div>
+    </StyledComponent>
 
-  return (
-    <div className={cn(GridMapper[data.length], className)}>
-      <StyledComponent layout={layout} collision={collision}>
-        <div
-          className={cn(
-            "text-sm",
-            layout === "percentage" ? "italic pl-4" : null,
-            layout === "item" ? "pl-4" : null
-          )}
-        >
-          {title}
-        </div>
+    {data.map((value, index) => (
+      <StyledComponent
+        key={index}
+        layout={layout}
+        collision={collision}
+        isEnd={isEnd}
+        className="border-l"
+      >
+        {layout === "percentage" ? (
+          <>
+            <div></div>
+            <div>{value} %</div>
+          </>
+        ) : (
+          <>
+            <div>$</div>
+            <div>{currencyCellFormatter(value)}</div>
+          </>
+        )}
       </StyledComponent>
-      {data.map((value, index) => {
-        const inner =
-          layout === "percentage" ? (
-            <>
-              <div></div>
-              <div>{value} %</div>
-            </>
-          ) : (
-            <>
-              <div>$</div>
-              <div>{currencyCellFormatter(value)}</div>
-            </>
-          )
-
-        return (
-          <StyledComponent
-            key={value + index}
-            layout={layout}
-            collision={collision}
-          >
-            {inner}
-          </StyledComponent>
-        )
-      })}
-    </div>
-  )
-}
-
-const layoutRenderer = {
-  total: "border border-l-0 border-b-0 border-y-black font-semibold",
-  subTotal: "border border-l-0  font-semibold",
-  item: "border border-l-0 border-b-0",
-  percentage: "border border-l-0 border-b-0"
-}
+    ))}
+  </div>
+)
 
 interface StyledComponentProps extends PropsWithChildren {
   layout: "total" | "percentage" | "item" | "subTotal"
+  isEnd?: boolean
   collision: boolean
+  className?: string
 }
 
-const StyledComponent = (props: StyledComponentProps) => {
-  const { children, layout, collision } = props
+const StyledComponent = ({
+  children,
+  layout,
+  collision,
+  isEnd = false,
+  className
+}: StyledComponentProps) => (
+  <div
+    className={cn(
+      "flex justify-between px-4 h-11 items-center text-sm border-t",
+      getLayoutClasses(layout),
+      isEnd || collision ? "border-b-0" : null,
+      className
+    )}
+  >
+    {children}
+  </div>
+)
 
-  return (
-    <div
-      className={cn(
-        "flex justify-between px-4 h-11 items-center text-sm",
-        layoutRenderer[layout],
-        collision ? "border-b-0" : null
-      )}
-    >
-      {children}
-    </div>
-  )
+const getTitlePadding = (
+  layout: "total" | "percentage" | "item" | "subTotal"
+): string | null => {
+  switch (layout) {
+    case "percentage":
+    case "item":
+      return "pl-4"
+    default:
+      return null
+  }
+}
+
+const getLayoutClasses = (
+  layout: "total" | "percentage" | "item" | "subTotal"
+): string => {
+  switch (layout) {
+    case "total":
+      return "border-y-black font-semibold"
+    case "subTotal":
+      return "font-semibold"
+    default:
+      return ""
+  }
 }

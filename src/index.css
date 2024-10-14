@@ -96,6 +96,18 @@
   }
 }
 
+@layer utilities {
+  .no-arrows::-webkit-outer-spin-button,
+  .no-arrows::-webkit-inner-spin-button {
+    @apply appearance-none;
+    margin: 0;
+  }
+
+  .no-arrows[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 5px;

@@ -6,7 +6,8 @@ export const AnnualHeader: FC<HeaderProps> = ({ title, data }) => {
   return (
     <DateRow
       title={title}
-      className="border-b-black border-t-0"
+      labelClassName="border-t-0"
+      itemClassName="border-t-0"
       data={data.map((date) => date.getFullYear())}
     />
   )

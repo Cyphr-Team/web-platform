@@ -45,7 +45,7 @@ export function Component() {
   )
 
   const annuallyData = useMemo(
-    () => getIncomeStatement(forecastResults, ForecastPeriod.ANNUALLY),
+    () => getIncomeStatementData(forecastResults, ForecastPeriod.ANNUALLY),
     [forecastResults]
   )
   const annuallyTimeStamp = useMemo(
@@ -59,7 +59,7 @@ export function Component() {
   )
 
   const monthlyData = useMemo(
-    () => getIncomeStatement(forecastResults, ForecastPeriod.MONTHLY),
+    () => getIncomeStatementData(forecastResults, ForecastPeriod.MONTHLY),
     [forecastResults]
   )
   const monthlyTimeStamp = useMemo(
@@ -73,7 +73,7 @@ export function Component() {
   )
 
   const currentData = useMemo(
-    () => getIncomeStatement(forecastResults, ForecastPeriod.CURRENT),
+    () => getIncomeStatementData(forecastResults, ForecastPeriod.CURRENT),
     [forecastResults]
   )
 
@@ -104,7 +104,8 @@ export function Component() {
         >
           <div className="flex flex-col gap-y-6xl">
             {currentDetail.value ? (
-              <Template
+              <IncomeStatementTemplate
+                title="Current Income Statement"
                 data={currentData}
                 layout="current"
                 period={ForecastPeriod.CURRENT}
@@ -116,7 +117,7 @@ export function Component() {
               />
             ) : null}
 
-            <Template
+            <IncomeStatementTemplate
               layout="default"
               data={monthlyDetail.value ? monthlyData : annuallyData}
               period={
@@ -136,17 +137,27 @@ export function Component() {
   )
 }
 
-interface TemplateProps {
+interface IncomeStatementTemplateProps {
+  title?: string
   data: ForecastRowData
   layout: "default" | "current"
   period: ForecastPeriod
   headerProps: HeaderProps
+  isPdf?: boolean
 }
 
-const Template = (props: TemplateProps) => {
-  const { layout, period, headerProps, data } = props
-  const title =
-    layout === "default" ? "Income Statement" : "Current Income Statement"
+export const IncomeStatementTemplate = (
+  props: IncomeStatementTemplateProps
+) => {
+  const {
+    title = "Income Statement",
+    layout,
+    period,
+    headerProps,
+    data,
+    isPdf = false
+  } = props
+
   const HeaderComponent = HeaderMapper[period]
 
   return (
@@ -154,14 +165,15 @@ const Template = (props: TemplateProps) => {
       <h1 className="text-3xl font-semibold">{title}</h1>
       <Card
         className={cn(
-          "shadow-primary border-none",
+          isPdf ? null : "shadow-primary",
+          "rounded-xl flex flex-col",
           layout === "current" ? "w-fit" : null
         )}
       >
-        <div className="overflow-x-auto overflow-y-visible rounded-xl">
+        <div className="overflow-x-auto overflow-y-visible">
           <div
             className={cn(
-              "bg-white",
+              "bg-white rounded-xl",
               layout === "default" ? "min-w-max" : "w-fit"
             )}
           >
@@ -275,7 +287,7 @@ const Template = (props: TemplateProps) => {
   )
 }
 
-function getIncomeStatement(
+export function getIncomeStatementData(
   dataSource: ForecastResultsResponse,
   period: ForecastPeriod
 ): ForecastRowData {

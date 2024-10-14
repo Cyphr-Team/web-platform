@@ -12,15 +12,22 @@ interface FinancialApplicationFormDetailProps {
   subChildren?: ReactNode
   isSubChildren?: boolean
   isLoading?: boolean
+  isPdf?: boolean
 }
-export const FinancialApplicationFormDetail = ({
-  title,
-  subTitle,
-  financialApplicationFormData,
-  subChildren,
-  isSubChildren,
-  isLoading
-}: FinancialApplicationFormDetailProps) => {
+
+export const FinancialApplicationFormDetail = (
+  props: FinancialApplicationFormDetailProps
+) => {
+  const {
+    title,
+    subTitle,
+    financialApplicationFormData,
+    subChildren,
+    isSubChildren,
+    isLoading,
+    isPdf
+  } = props
+
   const render = financialApplicationFormData.map(({ id, title, content }) => (
     <FinancialDetailItem
       key={id}
@@ -37,6 +44,7 @@ export const FinancialApplicationFormDetail = ({
 
   return (
     <FinancialDetailCard
+      isPdf={isPdf}
       title={title}
       subTitle={subTitle}
       isSubChildren={isSubChildren}

@@ -25,6 +25,11 @@ export const useQueryLoanReadinessAssessmentByApplicationId = ({
       })
     },
     enabled: !!applicationId,
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
+    /**
+     * Enable caching to avoid refetch
+     * when useQueryLoanReadinessAssessmentByApplicationId being use in multiple place
+     * */
+    refetchOnMount: false
   })
 }
