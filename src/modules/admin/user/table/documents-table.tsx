@@ -14,11 +14,7 @@ export const documentColumns: AccessorKeyColumnDef<
     id: "name",
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="File name"
-        className="text-xs font-medium text-text-tertiary"
-      />
+      <DataTableColumnHeader column={column} title="File name" />
     ),
     cell: ({ row }) => {
       const document = row.original
@@ -56,70 +52,14 @@ export const documentColumns: AccessorKeyColumnDef<
     id: "createdAt",
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Created At"
-        className="text-xs text-right font-medium text-text-tertiary"
-      />
+      <DataTableColumnHeader column={column} title="Created At" />
     ),
     size: 150,
     enableSorting: false,
     cell: ({ row }) => {
       const document = row.original
 
-      return (
-        <p className="text-right">
-          {format(new Date(document.createdAt), FORMAT_DATE_M_D_Y)}
-        </p>
-      )
-    }
-  },
-  {
-    id: "updatedAt",
-    accessorKey: "updatedAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Updated At"
-        className="text-xs text-right font-medium text-text-tertiary"
-      />
-    ),
-    size: 150,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const document = row.original
-
-      return (
-        <p className="text-right">
-          {document?.updatedAt
-            ? format(new Date(document?.updatedAt), FORMAT_DATE_M_D_Y)
-            : "N/A"}
-        </p>
-      )
-    }
-  },
-  {
-    id: "extractedAt",
-    accessorKey: "extractedAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Extracted At"
-        className="text-xs text-right font-medium text-text-tertiary"
-      />
-    ),
-    size: 150,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const document = row.original
-
-      return (
-        <p className="text-right">
-          {document?.extractedAt
-            ? format(new Date(document?.extractedAt), FORMAT_DATE_M_D_Y)
-            : "N/A"}
-        </p>
-      )
+      return <p>{format(new Date(document.createdAt), FORMAT_DATE_M_D_Y)}</p>
     }
   },
   {
@@ -127,6 +67,7 @@ export const documentColumns: AccessorKeyColumnDef<
     accessorKey: "action",
     header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
     size: 50,
+    enableSorting: false,
     cell: ({ row }) => {
       const document = row.original
       return (

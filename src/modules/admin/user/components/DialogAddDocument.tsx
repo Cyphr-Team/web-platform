@@ -74,8 +74,8 @@ export function DialogAddDocument() {
 
   const { mutate, isPending } = useSubmitDocument()
 
-  const formSubmit = form.handleSubmit((data) => {
-    mutate(data)
+  const formSubmit = form.handleSubmit(async (data) => {
+    await mutate(data)
     onOpenChange(false)
   })
 

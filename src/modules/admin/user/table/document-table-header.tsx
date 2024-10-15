@@ -25,9 +25,15 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
+import { Option } from "@/types/common.type"
 
 type Props = {
   onSearch: (formValues: FilterParams) => void
+}
+
+const allOption: Option = {
+  label: "All",
+  value: "all"
 }
 
 export function DocumentTableHeader({ onSearch }: Props) {
@@ -44,16 +50,18 @@ export function DocumentTableHeader({ onSearch }: Props) {
     enabled: isForesightAdmin
   })
 
-  const institutionOptions =
+  const institutionOptions: Option[] = [allOption].concat(
     listInstitutionQuery.data?.map((institution) => ({
       label: institution.name,
       value: institution.id.toLowerCase()
     })) ?? []
+  )
 
   useEffect(() => {
     const subscription = form.watch((value) => {
       onSearch({
-        institutionId: value.institutionId
+        institutionId:
+          value.institutionId !== allOption.value ? value.institutionId : ""
       })
     })
 
