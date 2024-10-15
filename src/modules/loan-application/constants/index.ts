@@ -36,7 +36,7 @@ export const navItems: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
     icon: Bell,
     label: "Notifications",
-    disabled: isKccBank() || isSbb() || isLaunchKC(), // Hide for KCC Bank and SBB,
+    disabled: isKccBank() || isLoanReady() || isSbb() || isLaunchKC(), // Hide for KCC Bank and SBB,
     featureKey: FeatureKey.APPLICANT_APPLICATION
   }
   // Hide because it's not implemented yet

@@ -31,7 +31,7 @@ const CurrentEmployeesBlock = [
       placeholder: "Number of employees",
       prefixIcon: <Icons.team />,
       styleProps: {
-        inputClassName: "text-sm"
+        inputClassName: "text-sm no-arrows"
       },
       isHideErrorMessage: true
     }

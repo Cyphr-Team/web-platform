@@ -11,7 +11,7 @@ import { Accordion } from "@/components/ui/accordion.tsx"
 import { lowerCase } from "lodash"
 import { TooltipProvider } from "@radix-ui/react-tooltip"
 
-interface ArrayFormTemplateProps {
+interface EquityArrayFormTemplateProps {
   fieldName: string
   dataName: string
 
@@ -22,7 +22,7 @@ interface ArrayFormTemplateProps {
   addIcon: ReactNode
 }
 
-const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
+const EquityArrayFormTemplate: FC<EquityArrayFormTemplateProps> = (props) => {
   const { fieldName, defaultEmptyObject, dataName, onBlur, blocks, addIcon } =
     props
   const { control, getValues, watch } = useFormContext()
@@ -91,4 +91,4 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
   )
 }
 
-export default memo(ArrayFormTemplate)
+export default memo(EquityArrayFormTemplate)

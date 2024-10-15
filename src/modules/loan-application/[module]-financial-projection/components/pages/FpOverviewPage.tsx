@@ -4,6 +4,8 @@ import { CashFlowGlanceCard } from "@/modules/loan-application/[module]-financia
 import { PropsWithChildren } from "react"
 import { useQueryCashFlowAtAGlance } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryCashFlowAtAGlance.ts"
 import { useParams } from "react-router-dom"
+import { valueOrZero } from "@/utils"
+import _ from "lodash"
 
 export function Component() {
   const { id: applicationId } = useParams()
@@ -13,56 +15,51 @@ export function Component() {
     enabled: !!applicationId
   })
 
-  const { data: loanReadyResults, isLoading: isLoadingLoanReady } = {
-    isLoading: false,
-    data: { assessment: "Very Good" }
-  }
-
   return (
     <div className="flex flex-col gap-y-6xl">
       <Section>
         <Title>Cash Flow at a Glance</Title>
 
-        <Layout isLoading={isLoading || isLoadingLoanReady}>
+        <Layout isLoading={isLoading}>
           <Grid>
             <CashFlowGlanceCard
               title="Revenue / Gross Income"
-              value={cashFlow?.revenue}
+              value={valueOrZero(cashFlow?.revenue)}
               type="currency"
             />
             <CashFlowGlanceCard
               title="Operating Expenses"
-              value={cashFlow?.operatingExpenses}
+              value={valueOrZero(cashFlow?.operatingExpenses)}
               type="currency"
             />
             <CashFlowGlanceCard
               title="Net Operating Income (NOI)"
-              value={cashFlow?.netOperatingIncome}
+              value={valueOrZero(cashFlow?.netOperatingIncome)}
               type="currency"
             />
             <CashFlowGlanceCard
               title="Operating Margin"
-              value={cashFlow?.operatingMargin}
+              value={valueOrZero(cashFlow?.operatingMargin) * 100}
               type="percent"
             />
             <CashFlowGlanceCard
               title="Total Debt Service (TDS)"
-              value={cashFlow?.totalDebtService}
+              value={valueOrZero(cashFlow?.totalDebtService)}
               type="currency"
             />
             <CashFlowGlanceCard
               title="Debt Service Coverage (DSCR)"
-              value={cashFlow?.debtServiceCoverage}
+              value={valueOrZero(cashFlow?.debtServiceCoverage)}
               type="default"
             />
             <CashFlowGlanceCard
               title="Debt-to-Income (DTI)"
-              value={cashFlow?.debtToIncome}
+              value={valueOrZero(cashFlow?.debtToIncome) * 100}
               type="percent"
             />
             <CashFlowGlanceCard
               title="Cash Flow Assessment"
-              value={loanReadyResults?.assessment}
+              value={_.startCase(cashFlow?.cashFlowAssessment.toLowerCase())}
             />
           </Grid>
         </Layout>

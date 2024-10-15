@@ -19,7 +19,7 @@ export const directCostsFormSchema = z.object({
         directCostName: z.string().min(1),
         directCostDescription: z.string().min(1),
         startDate: createDateSchema(),
-        overallRevenue: createNumberSchema({ min: 1, max: 100 })
+        overallRevenue: createNumberSchema({ min: 1, max: 100, coerce: true })
       })
     )
     .min(1, "Please add at least one operating expenses.")

@@ -4,8 +4,8 @@ import { Separator } from "@/components/ui/separator"
 import { MM_YYYY_PATTERN } from "@/constants"
 import { cn } from "@/lib/utils"
 import {
-  RHFCurrencyInput,
   RHFMaskInput,
+  RHFNumberInput,
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
 import { getArrayFieldName } from "@/modules/form-template/components/utils"
@@ -205,7 +205,7 @@ const DirectCosts = (props: DirectCostsProps) => {
         <RHFMaskInput
           label=""
           pattern={MM_YYYY_PATTERN}
-          className="row-start-1 col-start-3 col-end-5 mt-0"
+          className="row-start-1 col-start-3 col-end-5 mt-2"
           styleProps={{ inputClassName: "text-sm" }}
           placeholder="MM/YYYY"
           name={getArrayFieldName<
@@ -214,11 +214,11 @@ const DirectCosts = (props: DirectCostsProps) => {
           >(DirectCostsField.directCostsStartDate, index)}
           isHideErrorMessage
         />
-        <RHFCurrencyInput
+        <RHFNumberInput
           label=""
           placeholder="Overall revenue"
           className="row-start-1 col-start-5 col-end-7 mt-0"
-          styleProps={{ inputClassName: "text-sm" }}
+          styleProps={{ inputClassName: "text-sm no-arrows" }}
           suffixIcon={<span>%</span>}
           name={getArrayFieldName<
             DirectCostsField,

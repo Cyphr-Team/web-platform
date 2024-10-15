@@ -11,15 +11,24 @@ import React, {
   ChangeEventHandler,
   FocusEventHandler,
   memo,
-  ReactNode
+  ReactNode,
+  SyntheticEvent
 } from "react"
-import { FieldPath, FieldValues, useFormContext } from "react-hook-form"
+import {
+  ControllerRenderProps,
+  FieldPath,
+  FieldValues,
+  Path,
+  useFormContext
+} from "react-hook-form"
 import { Input } from "@/components/ui/input.tsx"
 import currency from "currency.js"
+import { get } from "lodash"
 
 export const USDFormatter = (value: number | string) =>
   currency(value, { symbol: "", precision: 0, separator: ",", decimal: "." })
 
+// Props Types
 export interface RHFCurrencyInputProps<T extends FieldValues> {
   label: ReactNode
   name: FieldPath<T>
@@ -75,6 +84,17 @@ const RHFCurrencyInput = <T extends FieldValues>(
     messageClassName,
     suffixClassName
   } = styleProps
+
+  const handleChangeValue =
+    (field: ControllerRenderProps<FieldValues, Path<T>>) =>
+    (event: SyntheticEvent) => {
+      const valueAsNumber = USDFormatter(get(event.target, "value", 0)).value
+      const value =
+        valueAsNumber !== 0 && !isNaN(valueAsNumber) ? valueAsNumber : undefined
+
+      field.onChange(value)
+      field.onBlur()
+    }
 
   return (
     <FormField
@@ -138,24 +158,11 @@ const RHFCurrencyInput = <T extends FieldValues>(
                   )}
                   {...field}
                   {...inputProps}
+                  onChange={handleChangeValue(field)}
+                  onBlur={handleChangeValue(field)}
                   suffixClassName={suffixClassName}
                   value={fieldValue}
-                  onChange={(e) => {
-                    const value = e.target.value
-                      ? USDFormatter(e.target.value).value
-                      : e.target.value
-                    if (Number.isNaN(value)) return
-
-                    field.onBlur()
-                    field.onChange(value)
-                  }}
-                  onBlur={(e) => {
-                    const value = USDFormatter(e.target.value).value
-                    field.onChange(Number.isNaN(value) ? 0 : value)
-                    // The onBlur should be place after because validate won't work if we put before onChange
-                    field.onBlur()
-                  }}
-                  className={cn("text-base", inputClassName)}
+                  className={cn("text-base no-arrows", inputClassName)}
                 />
               </FormControl>
             )}

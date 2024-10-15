@@ -93,7 +93,7 @@ const blocks: Block[] = [
   },
   {
     name: FieldName.CHURN_RATE,
-    type: FieldType.CURRENCY,
+    type: FieldType.NUMBER,
     props: {
       label: (
         <div className="flex flex-row items-center">
@@ -105,7 +105,7 @@ const blocks: Block[] = [
       placeholder: "Customers not to renew %",
       suffixIcon: "%",
       styleProps: {
-        inputClassName: "min-w-72 text-sm"
+        inputClassName: "min-w-72 text-sm no-arrows"
       },
       isHideErrorMessage: true
     }

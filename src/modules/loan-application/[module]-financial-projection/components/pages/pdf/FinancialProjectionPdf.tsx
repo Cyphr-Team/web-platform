@@ -58,8 +58,6 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
     applicationId: applicationId!
   })
 
-  console.log("useQueryGetKybForm", kybData)
-
   const { data } = useQueryFinancialProjectionForecast({
     applicationId: applicationId!,
     enabled: !!applicationId,

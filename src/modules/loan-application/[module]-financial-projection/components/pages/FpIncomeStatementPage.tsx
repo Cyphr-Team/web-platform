@@ -220,7 +220,9 @@ export const IncomeStatementTemplate = (
             />
             <DataRow
               title="Gross Profit Margin"
-              data={data[ForecastType.GROSS_PROFIT_MARGIN]}
+              data={data[ForecastType.GROSS_PROFIT_MARGIN]?.map(
+                (value) => value * 100
+              )}
               layout="percentage"
             />
 
@@ -277,7 +279,9 @@ export const IncomeStatementTemplate = (
             />
             <DataRow
               title="Net Profit Margin"
-              data={data[ForecastType.NET_PROFIT_MARGIN]}
+              data={data[ForecastType.NET_PROFIT_MARGIN]?.map(
+                (value) => value * 100
+              )}
               layout="percentage"
             />
           </div>

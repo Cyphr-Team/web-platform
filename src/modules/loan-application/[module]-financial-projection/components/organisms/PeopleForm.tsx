@@ -28,6 +28,7 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { valueOrZero } from "@/utils"
 
 export const PeopleFormBlocks: Block[] = [
   {
@@ -55,6 +56,8 @@ export const PeopleForm = () => {
     mode: "onBlur",
     defaultValues: { ...people, id: people?.id ?? "" }
   })
+
+  const { watch } = form
 
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
@@ -129,43 +132,37 @@ export const PeopleForm = () => {
           <div className="flex flex-col lg:flex-row">
             <PeopleTotalInfo
               title={"Total current employees"}
-              value={
-                form
-                  .getValues()
-                  .currentEmployees?.reduce(
-                    (acc, { numberOfEmployees }) =>
-                      acc + Number(numberOfEmployees ?? 0),
-                    0
-                  ) ?? 0
-              }
+              value={valueOrZero(
+                watch(PeopleField.CURRENT_EMPLOYEES)?.reduce(
+                  (acc, { numberOfEmployees }) =>
+                    acc + Number(numberOfEmployees ?? 0),
+                  0
+                )
+              )}
             />
             <PeopleTotalInfo
-              title={"Total current employee salaries"}
-              value={
-                form
-                  .getValues()
-                  .currentEmployees?.reduce(
-                    (acc, { annualSalary }) => acc + annualSalary,
-                    0
-                  ) ?? 0
-              }
               isCurrency
+              title="Total current employee salaries"
+              value={valueOrZero(
+                watch(PeopleField.CURRENT_EMPLOYEES)?.reduce(
+                  (acc, { annualSalary }) => acc + annualSalary,
+                  0
+                )
+              )}
             />
             <PeopleTotalInfo
-              title={"Total future employees"}
-              value={form.getValues().futureEmployees?.length ?? 0}
+              title="Total future employees"
+              value={watch(PeopleField.FUTURE_EMPLOYEES)?.length ?? 0}
             />
             <PeopleTotalInfo
               title={"Total future employee salaries"}
-              value={
-                form
-                  .getValues()
-                  .futureEmployees?.reduce(
-                    (acc, { annualSalary }) => acc + annualSalary,
-                    0
-                  ) ?? 0
-              }
-              isCurrency={true}
+              value={valueOrZero(
+                watch(PeopleField.FUTURE_EMPLOYEES)?.reduce(
+                  (acc, { annualSalary }) => acc + annualSalary,
+                  0
+                )
+              )}
+              isCurrency
             />
           </div>
         </Card>

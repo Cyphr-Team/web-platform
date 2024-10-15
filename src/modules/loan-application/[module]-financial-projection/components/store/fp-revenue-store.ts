@@ -46,7 +46,10 @@ const unitSaleSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, { message: "Name is required" }),
   estimateMonthlyUnitSales: createNumberSchema({ coerce: true }),
-  estimateMonthlySalesIncreaseRate: createNumberSchema({ coerce: true }),
+  estimateMonthlySalesIncreaseRate: createNumberSchema({
+    coerce: true,
+    max: 100
+  }),
   unitPrice: createNumberSchema({ coerce: true }),
   startDate: createDateSchema()
 })
@@ -70,7 +73,7 @@ const recurringChargeSchema = z.object({
   startDate: createDateSchema(),
   monthlyNewCustomer: createNumberSchema({ coerce: true }),
   recurringCharge: createNumberSchema({ coerce: true }),
-  frequency: z.string().min(1, { message: "Name is required" }),
+  frequency: z.string().min(1, { message: "This field is required" }),
   churnRate: createNumberSchema({ coerce: true, max: 100 }),
   upfrontFee: createNumberSchema({ coerce: true })
 })

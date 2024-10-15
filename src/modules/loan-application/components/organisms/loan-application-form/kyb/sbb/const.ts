@@ -330,7 +330,7 @@ const OPTION_SELECT_BLOCK = [
       label: "How many employees does your business currently have?",
       placeholder: "i.e 15",
       styleProps: {
-        inputClassName: "!max-w-40 w-fit"
+        inputClassName: "!max-w-40 w-fit no-arrows"
       }
     }
   },

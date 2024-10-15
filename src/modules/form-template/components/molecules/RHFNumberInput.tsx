@@ -64,45 +64,53 @@ const RHFNumberInput = <T extends FieldValues>(
     <FormField
       control={control as Control<T>}
       name={name}
-      render={({ field }) => (
-        <FormItem
-          className={cn(
-            className,
-            isRowDirection ? "flex justify-between items-center" : null
-          )}
-        >
-          <FormLabel className={cn("text-text-secondary", labelClassName)}>
-            <div className="flex flex-col">
-              <label>
-                {label}
-                {required && <RequiredSymbol />}
-                {subtitle && (
-                  <p className="mt-2 text-text-tertiary font-medium">
-                    {subtitle}
-                  </p>
-                )}
-              </label>
-              {isRowDirection && !isHideErrorMessage && <FormMessage />}
-            </div>
-          </FormLabel>
-          <FormControl>
-            <Input
-              {...field}
-              {...control}
-              suffixIcon={suffixIcon}
-              className={inputClassName}
-              placeholder={placeholder}
-              type="number"
-            />
-          </FormControl>
-          {!isRowDirection && !isHideErrorMessage && (
-            <FormMessage className={messageClassName} />
-          )}
-          {subtitle && (
-            <div className="text-xs text-text-tertiary">{subtitle}</div>
-          )}
-        </FormItem>
-      )}
+      render={({ field }) => {
+        const parsedValue = !isNaN(parseFloat(field.value))
+          ? parseFloat(field.value)
+          : field.value
+        const value = parsedValue !== 0 ? parsedValue : undefined
+
+        return (
+          <FormItem
+            className={cn(
+              className,
+              isRowDirection ? "flex justify-between items-center" : null
+            )}
+          >
+            <FormLabel className={cn("text-text-secondary", labelClassName)}>
+              <div className="flex flex-col">
+                <label>
+                  {label}
+                  {required && <RequiredSymbol />}
+                  {subtitle && (
+                    <p className="mt-2 text-text-tertiary font-medium">
+                      {subtitle}
+                    </p>
+                  )}
+                </label>
+                {isRowDirection && !isHideErrorMessage && <FormMessage />}
+              </div>
+            </FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                {...field}
+                {...control}
+                suffixIcon={suffixIcon}
+                className={cn("no-arrows", inputClassName)}
+                placeholder={placeholder}
+                value={value}
+              />
+            </FormControl>
+            {!isRowDirection && !isHideErrorMessage && (
+              <FormMessage className={messageClassName} />
+            )}
+            {subtitle && (
+              <div className="text-xs text-text-tertiary">{subtitle}</div>
+            )}
+          </FormItem>
+        )
+      }}
     />
   )
 }

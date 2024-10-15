@@ -62,7 +62,7 @@ const blocks: Block[] = [
   },
   {
     name: FieldName.MONTHLY_NEW_CUSTOMERS_INCREASE,
-    type: FieldType.CURRENCY,
+    type: FieldType.NUMBER,
     props: {
       label: (
         <div className="flex flex-row items-center">
@@ -74,7 +74,7 @@ const blocks: Block[] = [
       placeholder: "Monthly increase %",
       suffixIcon: "% /mo",
       styleProps: {
-        inputClassName: "min-w-72 text-sm"
+        inputClassName: "min-w-72 text-sm no-arrows"
       },
       isHideErrorMessage: true
     }

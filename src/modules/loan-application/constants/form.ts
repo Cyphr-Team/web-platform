@@ -174,7 +174,7 @@ export const loanReadyBusinessFormSchema = businessFormSchema.extend({
   dba: z.string().min(1, "Business trade name is required"),
   businessStage: z.string().min(1, "Business stage is required"),
   businessDescription: z.string().min(1, "Business description is required"),
-  businessWebsite: z.string().optional()
+  businessWebsite: z.string().min(1, "Business website is required")
 })
 
 export type LoanReadyBusinessFormValue = z.infer<

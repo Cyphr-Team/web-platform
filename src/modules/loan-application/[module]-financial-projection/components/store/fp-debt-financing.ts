@@ -35,7 +35,7 @@ const DebtFinancingFormItemSchema = z.object({
   loanDate: createDateSchema(),
   remainingLoanBalance: createNumberSchema({ min: 1 }),
   termsRemaining: createNumberSchema({ coerce: true, max: 120 }),
-  annualInterestRate: createNumberSchema({ max: 100 })
+  annualInterestRate: createNumberSchema({ max: 100, coerce: true })
 })
 
 export const DebtFinancingFormSchema = z
@@ -293,7 +293,7 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
   },
   {
     name: DebtFinancingField.DEBT_FINANCING_ANNUAL_INTEREST_RATE,
-    type: FieldType.CURRENCY,
+    type: FieldType.NUMBER,
     props: {
       className: "flex flex-row items-center justify-between",
       label: "Annual interest rate:",
