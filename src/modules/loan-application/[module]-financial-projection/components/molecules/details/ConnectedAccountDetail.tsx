@@ -1,11 +1,13 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { DetailTable } from "@/modules/loan-application/[module]-financial-projection/components/atoms/table"
 import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { renderHeader } from "@/utils/table.utils"
 import { ColumnDef } from "@tanstack/react-table"
@@ -36,14 +38,20 @@ export const ConnectedAccountDetail = () => {
   }, [isCashFlowNotReady])
 
   return (
-    <Card className="border-none shadow-none -mt-5">
-      <div className="flex justify-between items-center flex-wrap gap-1">
+    <Card
+      className={cn(
+        "border-none shadow-none -mt-8 px-4 md:px-8 p-4 md:p-8",
+        EXPORT_CLASS.FINANCIAL
+      )}
+    >
+      <div className="flex justify-between items-center flex-wrap gap-1 border-b pb-2 md:pb-5">
         <CardTitle className="font-semibold text-lg flex items-center gap-3">
           Connected Accounts
         </CardTitle>
         {/* Display this button when cash flow is not ready or empty */}
         {isCashFlowNotReady || !data?.bankAccounts?.length ? (
           <Button
+            data-html2canvas-ignore
             className="text-sm"
             disabled={isLoading}
             onClick={getLatestData}

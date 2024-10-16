@@ -5,6 +5,7 @@ import { AssetsLongTermFormResponse } from "@/modules/loan-application/[module]-
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
+import _ from "lodash"
 
 interface UseAssetLongTermDetailProps {
   assetsLongTermFormResponse?: AssetsLongTermFormResponse
@@ -26,41 +27,49 @@ export const useAssetLongTermDetail = ({
 }
 
 const toAssetDetail = (data: AssetsLongTermFormResponse | undefined) => {
-  return data?.forms?.map((asset, index) => (
-    <FinancialApplicationFormDetail
-      key={`ASSET ${index + 1}`}
-      isSubChildren
-      financialApplicationFormData={[
-        {
-          id: "key",
-          title: `ASSET ${index + 1}`,
-          content: ""
-        },
-        {
-          id: "assetName",
-          title: "Name of asset:",
-          content: asset?.name
-        },
-        {
-          id: "purchaseDate",
-          title: "Purchase date:",
-          content: formatDate(asset?.purchaseDate, FORMAT_DATE_MM_YYYY)
-        },
-        {
-          id: "costOfAsset",
-          title: "Cost of asset:",
-          content: toCurrency(asset?.cost, 0)
-        },
-        {
-          id: "usefulLife",
-          title: "Useful life of asset:",
-          content: asset?.usefulLife
-            ? USEFUL_LIFE_OPTIONS.find(
-                (useful) => useful.value == asset?.usefulLife
-              )?.label
-            : "N/A"
-        }
-      ]}
-    />
-  ))
+  if (!Array.isArray(data?.forms) || _.isEmpty(data?.forms)) {
+    return undefined
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {data.forms.map((asset, index) => (
+        <FinancialApplicationFormDetail
+          key={`ASSET ${index + 1}`}
+          isSubChildren
+          financialApplicationFormData={[
+            {
+              id: "key",
+              title: `ASSET ${index + 1}`,
+              content: ""
+            },
+            {
+              id: "assetName",
+              title: "Name of asset:",
+              content: asset?.name
+            },
+            {
+              id: "purchaseDate",
+              title: "Purchase date:",
+              content: formatDate(asset?.purchaseDate, FORMAT_DATE_MM_YYYY)
+            },
+            {
+              id: "costOfAsset",
+              title: "Cost of asset:",
+              content: toCurrency(asset?.cost, 0)
+            },
+            {
+              id: "usefulLife",
+              title: "Useful life of asset:",
+              content: asset?.usefulLife
+                ? USEFUL_LIFE_OPTIONS.find(
+                    (useful) => useful.value == asset?.usefulLife
+                  )?.label
+                : "N/A"
+            }
+          ]}
+        />
+      ))}
+    </div>
+  )
 }

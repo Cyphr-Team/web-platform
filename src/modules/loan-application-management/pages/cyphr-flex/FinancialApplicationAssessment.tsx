@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { Icons } from "@/components/ui/icons"
-import { SkeletonCard } from "@/components/ui/skeleton"
+import { Skeleton, SkeletonCard } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import { snakeCaseToText, toPercent } from "@/utils"
 import { FC, PropsWithChildren } from "react"
@@ -22,6 +22,7 @@ export const FinancialApplicationAssessment: FC<
         actionPlan={actionPlan}
       />
       <ApplicationScore
+        isLoading={isLoading}
         ratingLevel={ratingLevel}
         score={score}
         category={category}
@@ -91,14 +92,16 @@ interface ApplicationScoreProps {
   score?: number
   ratingLevel?: string
   category?: string
+  isLoading?: boolean
 }
 
 const ApplicationScore: FC<ApplicationScoreProps> = ({
   score,
   ratingLevel,
-  category
-}) => (
-  <AssessmentLayout className="flex-[1.5]">
+  category,
+  isLoading
+}) => {
+  const content = (
     <div className="flex flex-col items-center justify-center gap-2 md:gap-5">
       <span className="text-lg lg:text-xl font-semibold uppercase">
         Your score
@@ -128,5 +131,19 @@ const ApplicationScore: FC<ApplicationScoreProps> = ({
         </Badge>
       </div>
     </div>
-  </AssessmentLayout>
-)
+  )
+
+  return (
+    <AssessmentLayout className="flex-[1.5]">
+      {isLoading ? (
+        <div className="flex flex-col gap-4 items-center">
+          <Skeleton className="h-8 w-1/2" />
+          <Skeleton className="h-20 w-1/2 mt-2" />
+          <Skeleton className="h-6 w-1/2" />
+        </div>
+      ) : (
+        content
+      )}
+    </AssessmentLayout>
+  )
+}

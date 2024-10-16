@@ -1,8 +1,10 @@
+import { cn } from "@/lib/utils"
 import {
   FinancialDetailCard,
   FinancialDetailItem
 } from "@/modules/loan-application/[module]-financial-projection/components/atoms/details"
 import { FinancialApplicationFormDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { ReactNode } from "react"
 
 interface FinancialApplicationFormDetailProps {
@@ -28,29 +30,40 @@ export const FinancialApplicationFormDetail = (
     isPdf
   } = props
 
-  const render = financialApplicationFormData.map(({ id, title, content }) => (
-    <FinancialDetailItem
-      key={id}
-      title={title}
-      content={content}
-      isSubChildren={isSubChildren}
-      isLoading={isLoading}
-    />
-  ))
-
-  const subRender = subChildren ? (
-    <div className="mt-5 pt-0.5">{subChildren}</div>
-  ) : null
+  const render =
+    financialApplicationFormData.length > 0 ? (
+      <div className={cn("flex flex-col gap-8 mt-4", isSubChildren && "gap-4")}>
+        {financialApplicationFormData.map(({ id, title, content }) => (
+          <FinancialDetailItem
+            key={id}
+            title={title}
+            content={content}
+            isLoading={isLoading}
+          />
+        ))}
+      </div>
+    ) : null
 
   return (
-    <FinancialDetailCard
-      isPdf={isPdf}
-      title={title}
-      subTitle={subTitle}
-      isSubChildren={isSubChildren}
+    <div
+      className={cn(
+        !isSubChildren && "border rounded-lg",
+        isSubChildren && [
+          "mt-2 p-4 md:p-8 py-0 md:py-0 last:pb-4 last:md:pb-8",
+          EXPORT_CLASS.FINANCIAL
+        ]
+      )}
     >
-      {render}
-      {subRender}
-    </FinancialDetailCard>
+      <FinancialDetailCard
+        isPdf={isPdf}
+        title={title}
+        subTitle={subTitle}
+        hasSubChildren={!!subChildren}
+      >
+        {render}
+      </FinancialDetailCard>
+
+      {subChildren}
+    </div>
   )
 }

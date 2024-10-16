@@ -7,6 +7,7 @@ import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, snakeCaseToText, toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
+import _ from "lodash"
 
 interface UseDebtFinancingLoanFormDetailProps {
   debtFinancingResponse?: DebtFinancingResponse
@@ -49,55 +50,63 @@ export const useDebtFinancingLoanFormDetail = ({
 }
 
 const toDebtFinancingDetail = (data: DebtFinancingResponse | undefined) => {
-  return data?.loanForms?.map((debt, index) => (
-    <FinancialApplicationFormDetail
-      key={`LOAN ${index + 1}`}
-      isSubChildren
-      financialApplicationFormData={[
-        {
-          id: "key",
-          title: `LOAN ${index + 1}`,
-          content: ""
-        },
-        {
-          id: "loanName",
-          title: "Enter name of loan:",
-          content: debt?.name
-        },
-        {
-          id: "lenderName",
-          title: "Enter name of Lender/Financial Institution:",
-          content: debt?.lenderName
-        },
-        {
-          id: "loanType",
-          title: "Type of loan:",
-          content: capitalizeWords(snakeCaseToText(debt?.type))
-        },
-        {
-          id: "loanDate",
-          title: "Date of loan:",
-          content: formatDate(debt?.loanDate, FORMAT_DATE_MM_DD_YYYY)
-        },
-        {
-          id: "remainingLoanBalance",
-          title: "Remaining loan balance:",
-          content: toCurrency(debt?.remainingLoanBalance, 0)
-        },
-        {
-          id: "monthlyLoanPayment",
-          title: "Loan term per month:",
-          content:
-            (debt?.termsRemaining ?? 0) >= 0
-              ? `${debt?.termsRemaining} /mo`
-              : "N/A"
-        },
-        {
-          id: "annualInterestRate",
-          title: "Annual interest rate:",
-          content: debt?.annualInterestRate
-        }
-      ]}
-    />
-  ))
+  if (!Array.isArray(data?.loanForms) || _.isEmpty(data?.loanForms)) {
+    return undefined
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {data.loanForms.map((debt, index) => (
+        <FinancialApplicationFormDetail
+          key={`LOAN ${index + 1}`}
+          isSubChildren
+          financialApplicationFormData={[
+            {
+              id: "key",
+              title: `LOAN ${index + 1}`,
+              content: ""
+            },
+            {
+              id: "loanName",
+              title: "Enter name of loan:",
+              content: debt?.name
+            },
+            {
+              id: "lenderName",
+              title: "Enter name of Lender/Financial Institution:",
+              content: debt?.lenderName
+            },
+            {
+              id: "loanType",
+              title: "Type of loan:",
+              content: capitalizeWords(snakeCaseToText(debt?.type))
+            },
+            {
+              id: "loanDate",
+              title: "Date of loan:",
+              content: formatDate(debt?.loanDate, FORMAT_DATE_MM_DD_YYYY)
+            },
+            {
+              id: "remainingLoanBalance",
+              title: "Remaining loan balance:",
+              content: toCurrency(debt?.remainingLoanBalance, 0)
+            },
+            {
+              id: "monthlyLoanPayment",
+              title: "Loan term per month:",
+              content:
+                (debt?.termsRemaining ?? 0) >= 0
+                  ? `${debt?.termsRemaining} /mo`
+                  : "N/A"
+            },
+            {
+              id: "annualInterestRate",
+              title: "Annual interest rate:",
+              content: debt?.annualInterestRate
+            }
+          ]}
+        />
+      ))}
+    </div>
+  )
 }

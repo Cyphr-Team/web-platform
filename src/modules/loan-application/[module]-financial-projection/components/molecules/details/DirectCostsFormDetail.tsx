@@ -14,6 +14,7 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 import { reverseFormatDirectCostsForm } from "@/modules/loan-application/[module]-financial-projection/hooks/direct-costs/useSubmitDirectCostsForm"
 import { DirectCostsFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/direct-costs-form"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -43,7 +44,12 @@ export const DirectCostsFormDetail = ({
   })
 
   return (
-    <div className={cn("flex flex-col gap-2xl")}>
+    <div
+      className={cn(
+        "flex flex-col gap-2xl pt-4 px-4 md:px-8 pb-4 md:pb-8",
+        EXPORT_CLASS.FINANCIAL
+      )}
+    >
       <div className="grid grid-cols-6 w-full gap-5 items-center text-xs font-medium">
         <p className="row-start-1 col-start-1 col-end-3">Direct cost name</p>
         <p className="row-start-1 col-start-4 col-end-5">Cost start date</p>

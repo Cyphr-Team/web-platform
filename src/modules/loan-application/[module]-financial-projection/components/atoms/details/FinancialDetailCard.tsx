@@ -1,21 +1,22 @@
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { PropsWithChildren, ReactNode } from "react"
 
 interface FinancialDetailLayoutProps extends PropsWithChildren<HeaderProps> {
-  isSubChildren?: boolean
+  hasSubChildren?: boolean
   isPdf?: boolean
 }
 
 export const FinancialDetailCard = (props: FinancialDetailLayoutProps) => {
-  const { title, subTitle, children, isSubChildren, isPdf = false } = props
+  const { title, subTitle, children, hasSubChildren, isPdf = false } = props
 
   const renderTitle = title ? (
     <Header title={title} subTitle={subTitle} />
   ) : null
 
   return (
-    <Layout isPdf={isPdf} isSubChildren={isSubChildren}>
+    <Layout isPdf={isPdf} hasSubChildren={hasSubChildren}>
       {renderTitle}
       <Main>{children}</Main>
     </Layout>
@@ -58,13 +59,12 @@ const Header = ({ title, subTitle }: HeaderProps) => {
 interface LayoutProps extends FinancialDetailLayoutProps {}
 
 const Layout = (props: LayoutProps) => {
-  const { children, isSubChildren, isPdf = false } = props
+  const { children, hasSubChildren, isPdf = false } = props
   return (
     <section
       className={cn(
-        "md:p-8",
-        !isPdf && "p-4 border rounded-xl",
-        isSubChildren && "p-0 md:p-0 border-none"
+        isPdf && ["p-4 md:p-8", EXPORT_CLASS.FINANCIAL],
+        hasSubChildren && "pb-0 md:pb-0"
       )}
     >
       {children}

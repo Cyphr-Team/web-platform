@@ -4,36 +4,45 @@ import { FpEquityFinancingFormResponse } from "@/modules/loan-application/[modul
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
+import _ from "lodash"
 
 const toEquityDetail = (data: FpEquityFinancingFormResponse | undefined) => {
-  return data?.forms?.map((equity, index) => (
-    <FinancialApplicationFormDetail
-      key={`EQUITY ${index + 1}`}
-      isSubChildren
-      financialApplicationFormData={[
-        {
-          id: "key",
-          title: `EQUITY ${index + 1}`,
-          content: ""
-        },
-        {
-          id: "equityInvestmentName",
-          title: "Enter name of equity investment:",
-          content: equity?.name
-        },
-        {
-          id: "equityReceivedDate",
-          title: "Specify when equity will be received:",
-          content: formatDate(equity?.receivedDate, FORMAT_DATE_MM_YYYY)
-        },
-        {
-          id: "equityInvestmentTotal",
-          title: "Equity investment total amount:",
-          content: toCurrency(equity?.amount, 0)
-        }
-      ]}
-    />
-  ))
+  if (!Array.isArray(data?.forms) || _.isEmpty(data?.forms)) {
+    return undefined
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {data.forms.map((equity, index) => (
+        <FinancialApplicationFormDetail
+          key={`EQUITY ${index + 1}`}
+          isSubChildren
+          financialApplicationFormData={[
+            {
+              id: "key",
+              title: `EQUITY ${index + 1}`,
+              content: ""
+            },
+            {
+              id: "equityInvestmentName",
+              title: "Enter name of equity investment:",
+              content: equity?.name
+            },
+            {
+              id: "equityReceivedDate",
+              title: "Specify when equity will be received:",
+              content: formatDate(equity?.receivedDate, FORMAT_DATE_MM_YYYY)
+            },
+            {
+              id: "equityInvestmentTotal",
+              title: "Equity investment total amount:",
+              content: toCurrency(equity?.amount, 0)
+            }
+          ]}
+        />
+      ))}
+    </div>
+  )
 }
 
 interface UseEquityFinancingDetailProps {

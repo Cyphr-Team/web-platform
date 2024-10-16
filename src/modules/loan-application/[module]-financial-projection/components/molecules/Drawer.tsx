@@ -76,8 +76,8 @@ export const Drawer = () => {
       }
     } catch (error) {
       toastError({
-        title: "Somethings went wrong!",
-        description: "Somethings went wrong!"
+        title: "Something went wrong!",
+        description: "Download PDF failed, please try again later!"
       })
     } finally {
       isExporting.onFalse()

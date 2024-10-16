@@ -1,10 +1,12 @@
 import fileIcon from "@/assets/file.svg"
+import { cn } from "@/lib/utils"
 import { FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
 import { DownloadDocumentBtn } from "@/modules/loan-application/components/atoms/DownloadDocumentBtn"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 import { useQueryDownloadFinancialDocument } from "@/modules/loan-application/hooks/useQueryDownloadFinancialDocument"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { capitalizeWords } from "@/utils"
 
 interface UseEquityFinancingDetailProps {
@@ -29,7 +31,12 @@ export const useFinancialStatementsDetail = ({
     ],
     subChildren:
       (financialStatementFormResponse?.documents?.length ?? 0) > 0 ? (
-        <div className="flex flex-col gap-y-2xl">
+        <div
+          className={cn(
+            "flex flex-col gap-y-2xl p-4 md:p-8 md:pt-4",
+            EXPORT_CLASS.FINANCIAL
+          )}
+        >
           {financialStatementFormResponse?.documents?.map((val) => (
             <FileCard
               setupId={

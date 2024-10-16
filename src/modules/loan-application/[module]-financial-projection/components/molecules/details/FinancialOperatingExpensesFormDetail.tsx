@@ -15,6 +15,7 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
 import { FpOperatingExpensesFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/operating-expenses-form"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { sanitizeNumber, toCurrency } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { sum } from "lodash"
@@ -52,7 +53,12 @@ export const FinancialOperatingExpensesFormDetail = ({
   )
 
   return (
-    <div className={cn("flex flex-col gap-2xl")}>
+    <div
+      className={cn(
+        "flex flex-col gap-2xl pt-4 px-4 md:px-8 pb-4 md:pb-8",
+        EXPORT_CLASS.FINANCIAL
+      )}
+    >
       <div className="grid grid-cols-6 w-full gap-5 items-center text-xs font-medium">
         <p className="row-start-1 col-start-1 col-end-3">
           Operating Expense name

@@ -44,6 +44,7 @@ export const DownloadDocumentBtn = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <ButtonLoading
+            data-html2canvas-ignore
             variant="ghost"
             size="icon"
             onClick={handleDownloadDocument}
