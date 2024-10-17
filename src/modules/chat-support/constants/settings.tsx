@@ -15,7 +15,8 @@ export const getSettings = (icon: string): Settings => ({
     desktopEnabled: true,
     mobileEnabled: true,
     flowStartTrigger: "ON_CHATBOT_INTERACT",
-    primaryColor: "#FFFFFF"
+    primaryColor: "#071013",
+    secondaryColor: "#EAECF0"
   },
   tooltip: {
     mode: "CLOSE",

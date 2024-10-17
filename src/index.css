@@ -210,3 +210,9 @@ input[type="button" i] {
   text-align: left;
   padding: 0 0.75rem;
 }
+
+/* Styles for Chatbot */
+div.rcb-send-button:hover {
+  background-color: #071013 !important;
+  opacity: 0.8;
+}

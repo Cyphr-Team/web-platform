@@ -1,3 +1,5 @@
+import { Params } from "react-chatbotify"
+
 const processOptions = [
   "Loan Program",
   "Troubleshooting",
@@ -5,7 +7,9 @@ const processOptions = [
   "Start Chat"
 ]
 
-const chatFollowUpOptionsMap: { [key: string]: string } = { end: "End Chat" }
+const chatFollowUpOptionsMap: { [key: string]: string } = {
+  commonTopics: "Common Topics"
+}
 
 const troubleshootOptionsMap: { [key: string]: string } = {
   "Bank Connections": "https://plaid.com/docs/",
@@ -21,8 +25,23 @@ const processOptionsMap: { [key: string]: string } = {
   "Start Chat": "chatInit"
 }
 
+const followUpOptions = async (params: Params) => {
+  if (
+    params.userInput == chatFollowUpOptionsMap.end ||
+    params.userInput == chatFollowUpOptionsMap.commonTopics
+  )
+    return []
+  return Object.values(chatFollowUpOptionsMap)
+}
+
+const restartOptionsMap: { [key: string]: string } = {
+  restart: "Start Chat"
+}
+
 export {
   processOptions,
+  followUpOptions,
+  restartOptionsMap,
   chatFollowUpOptionsMap,
   processOptionsMap,
   troubleshootOptionsMap

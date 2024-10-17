@@ -32,26 +32,29 @@ const styles: Styles = {
   sendButtonStyle: {
     backgroundColor: PRIMARY_COLOR
   },
+  sendButtonHoveredStyle: {
+    backgroundColor: PRIMARY_COLOR
+  },
   chatInputContainerStyle: {
     backgroundColor: SECONDARY_COLOR
+  },
+  chatInputAreaStyle: {
+    fontSize: "14px"
   },
   chatInputAreaFocusedStyle: {
     boxShadow: `0px 0px 5px ${PRIMARY_COLOR}`
   },
   chatHistoryButtonHoveredStyle: {
-    color: PRIMARY_COLOR,
-    borderColor: PRIMARY_COLOR
-  },
-  chatMessagePromptHoveredStyle: {
-    color: PRIMARY_COLOR,
     borderColor: PRIMARY_COLOR
   },
   botOptionStyle: {
     borderColor: PRIMARY_COLOR
   },
   botOptionHoveredStyle: {
-    color: PRIMARY_COLOR,
     borderColor: PRIMARY_COLOR
+  },
+  botCheckboxRowStyle: {
+    height: "100%"
   }
 }
 
