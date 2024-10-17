@@ -86,7 +86,11 @@ export const useLazyConnectPlaidEffect = () => {
         }
       }
       // If the access_token is needed, send publicToken to server
-      await exchangePublicTokenForAccessToken(publicToken, dispatch)
+      await exchangePublicTokenForAccessToken(
+        publicToken,
+        dispatch,
+        metadata?.institution?.institution_id
+      )
 
       // 'payment_initiation' products do not require the publicToken to be exchanged for an access_token.
       if (isPaymentInitiation) {
