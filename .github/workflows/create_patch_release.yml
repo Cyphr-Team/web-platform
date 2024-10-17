@@ -3,21 +3,25 @@ name: Create Patch Release
 on:
   workflow_dispatch:
 
-env:
-  # Set the token for the checkout action
-  GITHUB_TOKEN: ${{ secrets.PAT }}
-
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
     steps:
+      - name: Create GitHub App Token
+        uses: actions/create-github-app-token@v1
+        id: github-app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - name: Checkout source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ env.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref }}
+          token: ${{ steps.github-app-token.outputs.token }}
+          persist-credentials: false
 
       - name: Set Node.js 18.x
         uses: actions/setup-node@v3

@@ -3,9 +3,6 @@ name: Create Major Release
 on:
   workflow_dispatch:
 
-env:
-  GITHUB_TOKEN: ${{ secrets.PAT }}
-
 jobs:
   build:
 
@@ -15,12 +12,19 @@ jobs:
       contents: 'write'
 
     steps:
+      - name: Create GitHub App Token
+        uses: actions/create-github-app-token@v1
+        id: github-app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - name: Checkout source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ env.GITHUB_TOKEN }}
-
+          ref: ${{ github.head_ref }}
+          token: ${{ steps.github-app-token.outputs.token }}
+          persist-credentials: false
       - name: Bump version
         run: |
           git config user.email github-actions@github.com
