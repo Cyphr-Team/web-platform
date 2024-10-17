@@ -63,11 +63,7 @@ export const usePlaidInstitutions = () => {
     totalInstitutions,
     searchInstitutions,
     isLoading: isFetching,
-<<<<<<< HEAD
     error,
     total: data?.data.total
-=======
-    error
->>>>>>> 0c0a1c00 (Upddate UI Plaid V2)
   }
 }
