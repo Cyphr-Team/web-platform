@@ -1,30 +1,13 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
-import {
-  APPLICATION_MENU,
-  ApplicationMenuName
-} from "@/modules/loan-application/[module]-financial-projection/constants/application"
+import { APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application"
 import { Link, useLocation } from "react-router-dom"
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function TopNav({ id, className, ...props }: Props) {
   const pathname = useLocation().pathname
-
-  let menuItems: (string | null)[] = APPLICATION_MENU(id!).map((e) => e.name)
-  menuItems = [
-    ApplicationMenuName.overview,
-    ApplicationMenuName.cashFlow,
-    ApplicationMenuName.balanceSheet,
-    ApplicationMenuName.incomeStatement,
-    ApplicationMenuName.loanReady
-  ]
-
-  menuItems = menuItems.filter(Boolean)
-
-  const applicationMenu = APPLICATION_MENU(id!).filter((el) =>
-    menuItems.includes(el.name)
-  )
+  const applicationMenu = APPLICATION_MENU(id!)
 
   return (
     <div className="relative bg-white p-2 rounded-xl">

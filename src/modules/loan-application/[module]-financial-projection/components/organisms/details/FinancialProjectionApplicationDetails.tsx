@@ -13,6 +13,7 @@ import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/ho
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import {
   EXPORT_CLASS,
+  EXPORT_CONFIG,
   generatePDF
 } from "@/modules/loan-application/services/pdf-v2.service"
 import { toastError } from "@/utils"
@@ -180,7 +181,10 @@ const Main = ({
   return (
     <>
       <div className="hidden">
-        <div className={cn("flex items-start -mx-20", EXPORT_CLASS.FINANCIAL)}>
+        <div
+          className={cn("flex items-start -mx-20", EXPORT_CLASS.FINANCIAL)}
+          data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
+        >
           <DisclaimerNote
             companyName={companyName}
             title="Application Summary"

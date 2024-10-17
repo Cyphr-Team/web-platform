@@ -46,7 +46,8 @@ export const DataRow = ({
         {layout === "percentage" ? (
           <>
             <div></div>
-            <div>{value} %</div>
+            {/* value return is percent, so we must multiply by 100 */}
+            <div>{Math.round(value * 100 * 100) / 100} %</div>
           </>
         ) : (
           <>

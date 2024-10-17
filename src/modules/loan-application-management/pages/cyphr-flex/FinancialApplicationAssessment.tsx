@@ -82,7 +82,7 @@ const ApplicationFeedBack: FC<ApplicationFeedBackProps> = ({
             ? snakeCaseToText(category.toLowerCase())
             : CRITERIA_NOT_AVAILABLE}
         </span>
-        <span className="text-sm">{actionPlan}</span>
+        <span className="text-sm leading-6">{actionPlan}</span>
       </>
     )}
   </AssessmentLayout>

@@ -6,7 +6,7 @@ import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants.ts"
 import { HeaderProps } from "@/modules/loan-application/[module]-financial-projection/constants"
 
 export const CurrentDetailHeader: FC<HeaderProps> = ({ title, data }) => {
-  const currentDate = formatDate(data[0].toISOString(), FORMAT_DATE_MM_DD_YYYY)
+  const currentDate = formatDate(data[0]?.toISOString(), FORMAT_DATE_MM_DD_YYYY)
   return (
     <>
       <SectionRow title={title} className="border-t-0" />

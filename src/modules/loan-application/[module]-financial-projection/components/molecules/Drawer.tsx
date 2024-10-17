@@ -1,92 +1,176 @@
-import { FolderDownloadIcon } from "@/modules/loan-application/[module]-financial-projection/components/atoms/FolderDownloadIcon.tsx"
 import { Button, ButtonLoading } from "@/components/ui/button.tsx"
-import { cn } from "@/lib/utils.ts"
-import { Separator } from "@/components/ui/separator.tsx"
-import { RHFProvider } from "@/modules/form-template/providers"
-import { useBoolean } from "@/hooks"
-import { useForm } from "react-hook-form"
 import { Card } from "@/components/ui/card.tsx"
-import { RHFCheckbox } from "@/modules/form-template/components/molecules"
-import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
 import { TooltipProvider } from "@/components/ui/tooltip.tsx"
-import { getPDF } from "@/modules/loan-application/services/pdf.service.ts"
-import { toastError } from "@/utils"
-import { useRef } from "react"
-import {
-  FinancialProjectionPdf,
-  PDFPageOrder
-} from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/FinancialProjectionPdf.tsx"
+import { useBoolean } from "@/hooks"
+import { cn } from "@/lib/utils.ts"
+import { RHFCheckbox } from "@/modules/form-template/components/molecules"
+import { RHFProvider } from "@/modules/form-template/providers"
+import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
+import { FinancialProjectionPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/FinancialProjectionPdf.tsx"
+import { ExportFPOption } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
+import { useExportToPDF } from "@/modules/loan-application/[module]-financial-projection/hooks/useExportToPDF"
+import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
+import { QUERY_KEY as FINANCIAL_QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
+import { QUERY_KEY as APPLICATION_MANAGEMENT_QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
+import { useIsFetching } from "@tanstack/react-query"
+import { FolderDown, X } from "lucide-react"
+import { ReactNode, useMemo } from "react"
+import { useForm } from "react-hook-form"
 
-export const enum ExportFPOption {
-  DISCLAIMER_NOTE = "DISCLAIMER_NOTE",
-  CASH_FLOW_FORECAST = "CASH_FLOW_FORECAST",
-  BALANCE_SHEET_FORECAST = "BALANCE_SHEET_FORECAST",
-  INCOME_SHEET_FORECAST = "INCOME_SHEET_FORECAST",
-  LOAN_READY_SECTION = "LOAN_READY_SECTION",
-  CASH_FLOW = "CASH_FLOW",
-  BALANCE_SHEET = "BALANCE_SHEET",
-  INCOME_SHEET = "INCOME_SHEET",
-  CHARTS = "CHARTS",
-  APPLICATION_SUMMARY = "APPLICATION_SUMMARY"
+interface DrawerCheckBoxProps {
+  name: ExportFPOption
+  label: string
 }
+
+interface CardSectionProps {
+  title: string
+  tooltipContent?: string
+  children: ReactNode
+}
+
+interface CheckboxOption {
+  name: ExportFPOption
+  label: string
+}
+
+interface CheckboxGroupProps {
+  options: CheckboxOption[]
+}
+
+const DrawerCheckBox = ({ name, label }: DrawerCheckBoxProps) => (
+  <RHFCheckbox
+    name={name}
+    label={label}
+    className="space-x-0"
+    styleProps={{
+      checkboxClassName:
+        "border-gray-600 rounded-[3px] w-5 h-5 data-[state=checked]:bg-gray-600 [&_span_svg]:stroke-[4px]"
+    }}
+  />
+)
+
+const CardSection = ({ title, tooltipContent, children }: CardSectionProps) => (
+  <Card className="p-4 m-6 flex flex-col gap-y-4 shadow-none">
+    <div className="flex flex-row items-center">
+      <div className="font-semibold">{title}</div>
+      {tooltipContent && (
+        <ContentTooltip
+          content={tooltipContent}
+          style={{ iconClassName: "w-4 h-4" }}
+        />
+      )}
+    </div>
+    {children}
+  </Card>
+)
+
+const CheckboxGroup = ({ options }: CheckboxGroupProps) => (
+  <>
+    {options.map((option) => (
+      <DrawerCheckBox
+        key={option.name}
+        name={option.name}
+        label={option.label}
+      />
+    ))}
+  </>
+)
+
+const DrawerContent = () => (
+  <div className="p-2 flex flex-col">
+    <CardSection
+      title="Forecast Reports"
+      tooltipContent="5-year projected financial reports based on the data you provided."
+    >
+      <CheckboxGroup
+        options={[
+          {
+            name: ExportFPOption.CASH_FLOW_FORECAST,
+            label: "Cash Flow Forecast"
+          },
+          {
+            name: ExportFPOption.BALANCE_SHEET_FORECAST,
+            label: "Balance Sheet Forecast"
+          },
+          {
+            name: ExportFPOption.INCOME_SHEET_FORECAST,
+            label: "Income Sheet Forecast"
+          },
+          { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
+        ]}
+      />
+    </CardSection>
+
+    <CardSection
+      title="Financial Statements"
+      tooltipContent="Current month financial statements, generated from your inputs and data."
+    >
+      <CheckboxGroup
+        options={[
+          { name: ExportFPOption.CASH_FLOW, label: "Cash Flow" },
+          { name: ExportFPOption.BALANCE_SHEET, label: "Balance Sheet" },
+          { name: ExportFPOption.INCOME_SHEET, label: "Income Statement" }
+        ]}
+      />
+    </CardSection>
+
+    <CardSection title="Application">
+      <CheckboxGroup
+        options={[
+          {
+            name: ExportFPOption.APPLICATION_SUMMARY,
+            label: "Application Summary"
+          }
+        ]}
+      />
+    </CardSection>
+  </div>
+)
 
 export const Drawer = () => {
   const openDrawer = useBoolean(false)
 
-  const methods = useForm()
+  const methods = useForm<Record<ExportFPOption, boolean>>()
 
-  const isExporting = useBoolean(false)
+  const watchAllFields = methods.watch()
 
-  const elementToExportRef = useRef<Partial<Record<string, HTMLDivElement>>>({})
+  const isAtLeastOneChecked = useMemo(() => {
+    return Object.values(watchAllFields).some((value) => value)
+  }, [watchAllFields])
 
-  const exportToPdf = async () => {
-    try {
-      openDrawer.onFalse()
+  const { elementToExportRef, exportToPdf, isExporting } = useExportToPDF()
 
-      isExporting.onTrue()
+  const onExportToPdf = methods.handleSubmit(async (markedElement) => {
+    openDrawer.onToggle()
+    await exportToPdf(markedElement)
+  })
 
-      if (elementToExportRef.current) {
-        const filteredElement = Object.entries(elementToExportRef.current)
-          /**
-           * This sort function make sure that the Page is in exactly right order.
-           * For example:
-           * - Order = [Cash Flow, Balance Sheet, Income Statement]
-           * - ElementToSort = [Income Statement, Balance Sheet, Cash Flow]
-           *
-           * ElementToSort.sort((a, b) => Order.indexOf(a) - Order.indexOf(b))
-           * -> [Cash Flow, Balance Sheet, Income Statement]
-           *
-           * Instead of using priority queue, I'm using index of element as priority
-           * */
-          .sort(
-            (a, b) => PDFPageOrder.indexOf(a[0]) - PDFPageOrder.indexOf(b[0])
-          )
-          .filter((entry) => entry[1] !== undefined)
-          .map((entry) => entry[1]) as HTMLDivElement[]
+  const isFetchingBankAccounts = useIsFetching({
+    queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_CASHFLOW_VERIFICATION]
+  })
 
-        const { pdf } = await getPDF(
-          filteredElement,
-          false,
-          filteredElement.map(
-            (element) => element.querySelector(".footer") as HTMLDivElement
-          )
-        )
+  const isFetchingFinancial = useIsFetching({
+    queryKey: [FINANCIAL_QUERY_KEY.GET_FORECAST_DATA]
+  })
 
-        pdf.save(`financial_projections_${new Date().valueOf()}.pdf`)
-      }
-    } catch (error) {
-      toastError({
-        title: "Something went wrong!",
-        description: "Download PDF failed, please try again later!"
-      })
-    } finally {
-      isExporting.onFalse()
-    }
-  }
+  const isFetchingLoanReadiness = useIsFetching({
+    queryKey: [APPLICATION_MANAGEMENT_QUERY_KEY.GET_LOAN_READINESS_ASSESSMENT]
+  })
+
+  /**
+   * Note:
+   * - Usually the LoanReadiness is the heaviest because its depend on 3rd party.
+   * Its mean we can rely on it, its mean all the detail is already fetched before it
+   */
+  const isFetchingPdfData = !!(
+    isFetchingBankAccounts ||
+    isFetchingFinancial ||
+    isFetchingLoanReadiness
+  )
 
   return (
     <>
-      <div className="text-center">
+      <div className="text-center ml-2">
         <ButtonLoading
           className="text-black shadow-md bg-success-fp hover:bg-[#a1d80b] font-medium rounded-lg text-sm focus:outline-none"
           isLoading={isExporting.value}
@@ -94,7 +178,7 @@ export const Drawer = () => {
           onClick={openDrawer.onToggle}
         >
           <div className="flex gap-2 items-center">
-            <FolderDownloadIcon />
+            <FolderDown className="w-4" />
             Download reports
           </div>
         </ButtonLoading>
@@ -109,82 +193,20 @@ export const Drawer = () => {
         tabIndex={-1}
         aria-labelledby="drawer-right-label"
       >
-        <div className="h-12 flex items-center justify-between p-8">
+        <div className="h-12 flex items-center justify-between p-8 sticky top-0 bg-white border-b z-50">
           <div className="text-xl font-semibold">Download Reports</div>
           <Button
             type="button"
             onClick={openDrawer.onFalse}
-            className="bg-transparent text-black hover:bg-gray-50 rounded-lg text-sm w-8 h-8 cursor-pointer"
+            className="bg-transparent text-black hover:bg-gray-50 rounded-lg cursor-pointer"
           >
-            X
+            <X className="w-5" strokeWidth={2.5} />
           </Button>
         </div>
 
-        <Separator />
-
-        <RHFProvider methods={methods} onSubmit={() => {}}>
-          <TooltipProvider delayDuration={500}>
-            <div className="p-2 flex flex-col">
-              <Card className="p-4 m-6 flex flex-col gap-y-4">
-                <div className="flex flex-row items-center">
-                  <div className="font-semibold">Forecast Reports</div>
-                  <ContentTooltip content="5-year projected financial reports based on the data you provided." />
-                </div>
-                <RHFCheckbox
-                  name={ExportFPOption.CASH_FLOW_FORECAST}
-                  label="Cash Flow Forecast"
-                />
-                <RHFCheckbox
-                  name={ExportFPOption.BALANCE_SHEET_FORECAST}
-                  label="Balance Sheet Forecast"
-                />
-                <RHFCheckbox
-                  name={ExportFPOption.INCOME_SHEET_FORECAST}
-                  label="Income Sheet Forecast"
-                />
-                <RHFCheckbox
-                  name={ExportFPOption.LOAN_READY_SECTION}
-                  label="Loan Ready"
-                />
-              </Card>
-
-              <Card className="p-4 m-6 flex flex-col gap-y-4">
-                <div className="flex flex-row items-center">
-                  <div className="font-semibold">Financial Statements</div>
-                  <ContentTooltip content="Current month financial statements, generated from your inputs and data." />
-                </div>
-                <RHFCheckbox
-                  name={ExportFPOption.CASH_FLOW}
-                  label="Cash Flow"
-                />
-                <RHFCheckbox
-                  name={ExportFPOption.BALANCE_SHEET}
-                  label="Balance Sheet"
-                />
-                <RHFCheckbox
-                  name={ExportFPOption.INCOME_SHEET}
-                  label="Income Statement"
-                />
-              </Card>
-
-              {/* HIDE FOR FUTURE USAGE */}
-              {/*<Card className="p-4 m-6 flex flex-col gap-y-4">*/}
-              {/*  <div className="flex flex-row items-center">*/}
-              {/*    <div className="font-semibold">Details</div>*/}
-              {/*  </div>*/}
-              {/*  <RHFCheckbox name={ExportFPOption.CHARTS} label="Charts" />*/}
-              {/*</Card>*/}
-
-              <Card className="p-4 m-6 flex flex-col gap-y-4">
-                <div className="flex flex-row items-center">
-                  <div className="font-semibold">Application</div>
-                </div>
-                <RHFCheckbox
-                  name={ExportFPOption.APPLICATION_SUMMARY}
-                  label="Application Summary"
-                />
-              </Card>
-            </div>
+        <RHFProvider methods={methods}>
+          <TooltipProvider delayDuration={200}>
+            <DrawerContent />
           </TooltipProvider>
           <div className="hidden">
             <FinancialProjectionPdf itemsRef={elementToExportRef} />
@@ -192,9 +214,15 @@ export const Drawer = () => {
         </RHFProvider>
 
         <div className="m-10">
-          <Button className="w-full" type="button" onClick={exportToPdf}>
-            Download Reports
-          </Button>
+          <ButtonLoading
+            disabled={!isAtLeastOneChecked || isFetchingPdfData}
+            isLoading={isExporting.value || isFetchingPdfData}
+            className="w-full"
+            type="button"
+            onClick={onExportToPdf}
+          >
+            Download report
+          </ButtonLoading>
         </div>
       </div>
     </>

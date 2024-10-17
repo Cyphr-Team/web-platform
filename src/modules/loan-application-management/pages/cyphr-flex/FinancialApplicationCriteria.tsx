@@ -55,7 +55,10 @@ export const FinancialApplicationCriteria: FC<ApplicationCriteriaProps> = ({
 
   return (
     <div>
-      <div className="flex justify-between items-center flex-wrap gap-1">
+      <div
+        className="flex justify-between items-center flex-wrap gap-1"
+        data-html2canvas-ignore
+      >
         <h2 className="font-semibold text-2xl flex items-center">
           Action Plan
         </h2>
@@ -64,7 +67,7 @@ export const FinancialApplicationCriteria: FC<ApplicationCriteriaProps> = ({
       <div className="overflow-auto">
         <DataTable
           tableHeaderClassName="bg-white"
-          tableWrapperClassName="bg-white"
+          tableWrapperClassName="bg-white rounded-xl"
           columns={columns}
           data={criteriaData}
           isLoading={isLoading}
@@ -117,7 +120,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
     id: "description",
     header: renderHeader("Action Plan", "text-black whitespace-nowrap"),
     cell: ({ row }) => {
-      return <div className="min-w-0">{row.original.description}</div>
+      return <div className="min-w-0 leading-6">{row.original.description}</div>
     }
   }
 ]

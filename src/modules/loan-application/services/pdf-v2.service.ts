@@ -1,8 +1,16 @@
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
+import { get } from "lodash"
 
 export const EXPORT_CLASS = {
   FINANCIAL: "financial-application-detail-pdf"
+} as const
+
+export const EXPORT_CONFIG = {
+  END_OF_PAGE: {
+    KEY: "pdfEndOfPageType",
+    NEW_PAGE: "new-page"
+  }
 } as const
 
 interface GeneratePDFResult {
@@ -32,7 +40,8 @@ const convertElementToImage = async (
 ): Promise<HTMLCanvasElement> => {
   return html2canvas(element, {
     windowHeight: element?.scrollHeight,
-    windowWidth: element?.scrollWidth
+    windowWidth: element?.scrollWidth,
+    logging: false
   })
 }
 
@@ -160,9 +169,18 @@ export const generatePDF = async (
   let currentHeight = 0
 
   try {
-    for (const element of elements) {
+    for (const [index, element] of elements.entries()) {
       if (!element) continue
       currentHeight = await processElement({ pdf, element, currentHeight })
+
+      if (
+        get(element, ["dataset", EXPORT_CONFIG.END_OF_PAGE.KEY], null) ===
+          EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE &&
+        index !== elements.length - 1
+      ) {
+        pdf.addPage()
+        currentHeight = 0
+      }
     }
   } finally {
     removeStyles()

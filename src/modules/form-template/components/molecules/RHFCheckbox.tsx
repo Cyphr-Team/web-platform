@@ -56,7 +56,7 @@ const RHFCheckbox = <T extends FieldValues>(props: RHFCheckboxProps<T>) => {
               />
               <label
                 className={cn(
-                  "text-sm text-text-secondary font-normal select-none",
+                  "text-sm text-text-secondary font-normal select-none cursor-pointer",
                   labelClassName
                 )}
                 htmlFor={name}

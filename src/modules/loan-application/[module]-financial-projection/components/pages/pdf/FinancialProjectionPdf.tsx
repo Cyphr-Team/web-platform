@@ -1,46 +1,32 @@
 import usePermissions from "@/hooks/usePermissions.ts"
-import { ExportFPOption } from "@/modules/loan-application/[module]-financial-projection/components/molecules/Drawer.tsx"
-import {
-  BalanceSheetTemplate,
-  getBalanceSheetData
-} from "@/modules/loan-application/[module]-financial-projection/components/pages/FpBalanceSheetPage.tsx"
-import {
-  FpCashFlowTemplate,
-  getCashFlowData
-} from "@/modules/loan-application/[module]-financial-projection/components/pages/FpCashFlowPage.tsx"
-import {
-  getIncomeStatementData,
-  IncomeStatementTemplate
-} from "@/modules/loan-application/[module]-financial-projection/components/pages/FpIncomeStatementPage.tsx"
+import { BalanceSheetTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpBalanceSheetTemplate"
+import { FpCashFlowTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpCashFlowTemplate"
+import { IncomeStatementTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpIncomeStatementTemplate"
 import { ApplicationReviewPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/ApplicationReviewPdf.tsx"
 import { DisclaimerNote } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/DisclaimerNote"
 import { LoanReadinessPagePdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/LoanReadinessPagePdf.tsx"
+import {
+  ExportFPOption,
+  getBalanceSheetData,
+  getCashFlowData,
+  getIncomeStatementData,
+  PDFPageOrder
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
 import { useQueryFinancialProjectionForecast } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryFinancialProjectionForecast.ts"
 import {
   ForecastPeriod,
   ForecastResultsResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 import { useQueryGetKybForm } from "@/modules/loan-application/hooks/useQuery/useQueryKybForm.ts"
+import { EXPORT_CONFIG } from "@/modules/loan-application/services/pdf-v2.service"
 import { get } from "lodash"
 import { FC, MutableRefObject, useMemo } from "react"
-import { useFormContext } from "react-hook-form"
 import { useParams } from "react-router-dom"
 
-export const PDFPageOrder = [
-  "DISCLAIMER_NOTE",
-  "CASH_FLOW_FORECAST",
-  "BALANCE_SHEET_FORECAST",
-  "INCOME_SHEET_FORECAST",
-  "LOAN_READY_SECTION",
-  "CASH_FLOW",
-  "BALANCE_SHEET",
-  "INCOME_SHEET",
-  "CHARTS",
-  "APPLICATION_SUMMARY"
-]
-
 interface FinancialProjectionPdfProps {
-  itemsRef: MutableRefObject<Partial<Record<string, HTMLDivElement | null>>>
+  itemsRef: MutableRefObject<
+    Partial<Record<ExportFPOption, HTMLDivElement | null>>
+  >
 }
 
 export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
@@ -48,9 +34,6 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
 }) => {
   const { id: applicationId } = useParams()
   const { isWorkspaceAdmin } = usePermissions()
-
-  const forms = useFormContext()
-  const { getValues } = forms
 
   const { data: kybData } = useQueryGetKybForm({
     applicationId: applicationId!
@@ -93,13 +76,15 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
   }
 
   const mapper: {
-    [key in ExportFPOption]: (total: number, current: number) => JSX.Element
+    [key in ExportFPOption]: (current: number) => JSX.Element
   } = {
     /* Cash Flow Section */
-    [ExportFPOption.CASH_FLOW_FORECAST]: (total, current) => (
+    [ExportFPOption.CASH_FLOW_FORECAST]: (current) => (
       <div
-        className="flex items-start"
+        key={current}
+        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.CASH_FLOW_FORECAST)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <FpCashFlowTemplate
           data={getCashFlowData(forecastResults, ForecastPeriod.ANNUALLY)}
@@ -110,17 +95,16 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
             data: annuallyTimeStamp
           }}
         />
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
 
     /* Balance Sheet Section */
-    [ExportFPOption.BALANCE_SHEET_FORECAST]: (total, current) => (
+    [ExportFPOption.BALANCE_SHEET_FORECAST]: (current) => (
       <div
-        className="flex items-start"
+        key={current}
+        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.BALANCE_SHEET_FORECAST)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <BalanceSheetTemplate
           layout="default"
@@ -131,17 +115,16 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
             data: annuallyTimeStamp
           }}
         />
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
 
     /* Income Statement Section */
-    [ExportFPOption.INCOME_SHEET_FORECAST]: (total, current) => (
+    [ExportFPOption.INCOME_SHEET_FORECAST]: (current) => (
       <div
-        className="flex items-start"
+        key={current}
+        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.INCOME_SHEET_FORECAST)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <IncomeStatementTemplate
           layout="default"
@@ -155,26 +138,24 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
             data: annuallyTimeStamp
           }}
         />
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
-    [ExportFPOption.LOAN_READY_SECTION]: (total, current) => (
+    [ExportFPOption.LOAN_READY_SECTION]: (current) => (
       <div
-        className="flex items-start"
+        key={current}
+        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.LOAN_READY_SECTION)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <LoanReadinessPagePdf />
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
-    [ExportFPOption.CASH_FLOW]: (total, current) => (
+    [ExportFPOption.CASH_FLOW]: (current) => (
       <div
-        className="flex items-start"
+        key={current}
+        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.CASH_FLOW)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <FpCashFlowTemplate
           title="Cash Flow Financial Statement"
@@ -186,15 +167,14 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
             data: currentTimeStamp
           }}
         />
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
-    [ExportFPOption.BALANCE_SHEET]: (total, current) => (
+    [ExportFPOption.BALANCE_SHEET]: (current) => (
       <div
-        className="flex items-start"
+        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.BALANCE_SHEET)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
+        key={current}
       >
         <BalanceSheetTemplate
           title="Balance Sheet Financial Statement"
@@ -206,15 +186,14 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
             data: currentTimeStamp
           }}
         />
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
-    [ExportFPOption.INCOME_SHEET]: (total, current) => (
+    [ExportFPOption.INCOME_SHEET]: (current) => (
       <div
-        className="flex items-start"
+        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.INCOME_SHEET)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
+        key={current}
       >
         <IncomeStatementTemplate
           title="Income Financial Statement"
@@ -226,64 +205,41 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
             data: currentTimeStamp
           }}
         />
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
-    [ExportFPOption.APPLICATION_SUMMARY]: (total, current) => (
-      <div
-        className="flex items-start"
-        ref={provideRef(ExportFPOption.APPLICATION_SUMMARY)}
-      >
+    [ExportFPOption.APPLICATION_SUMMARY]: (current) => (
+      <div className="flex items-start p-8" key={current}>
         <ApplicationReviewPdf />
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
-    [ExportFPOption.CHARTS]: (total, current) => (
-      <div className="flex items-start" ref={provideRef(ExportFPOption.CHARTS)}>
+    [ExportFPOption.CHARTS]: (current) => (
+      <div
+        className="flex items-start p-8"
+        ref={provideRef(ExportFPOption.CHARTS)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
+        key={current}
+      >
         Coming Soon
-        <div className="hidden">
-          <FinancialForecastFooter totalPage={total} currentPage={current} />
-        </div>
       </div>
     ),
-    [ExportFPOption.DISCLAIMER_NOTE]: () => <></>
+    [ExportFPOption.DISCLAIMER_NOTE]: (current) => (
+      <div
+        key={current}
+        className="flex items-start p-8"
+        ref={provideRef(ExportFPOption.DISCLAIMER_NOTE)}
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
+      >
+        <DisclaimerNote
+          companyName={kybData?.businessLegalName ?? "N/A"}
+          marginClass="mt-[875px]"
+        />
+      </div>
+    )
   }
-
-  const calculatedValue = Object.entries(getValues())
-    .filter(([, enable]) => enable)
-    .map((value) => value[0] as ExportFPOption)
 
   return (
     <div className="flex flex-col">
-      <div
-        className="flex items-start"
-        ref={provideRef(ExportFPOption.DISCLAIMER_NOTE)}
-      >
-        <DisclaimerNote companyName={kybData?.businessLegalName ?? "N/A"} />
-      </div>
-
-      {calculatedValue.map((key, index) =>
-        mapper[key](calculatedValue.length, index + 1)
-      )}
-    </div>
-  )
-}
-
-const FinancialForecastFooter: FC<{
-  totalPage: number
-  currentPage: number
-}> = (props) => {
-  const { totalPage, currentPage } = props
-  return (
-    <div className="flex items-center justify-between border-t-2 px-4 py-2 footer">
-      <p>Financial Forecast</p>
-      <p>
-        Page {currentPage} of {totalPage}
-      </p>
+      {PDFPageOrder.map((key, index) => mapper[key](index + 1))}
     </div>
   )
 }
