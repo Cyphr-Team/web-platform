@@ -42,6 +42,7 @@ interface SearchSelectProps<
   customLoader?: ReactNode
   maxHeight?: string
   popoverWidth?: string
+  isLogo?: boolean
 }
 
 export function SearchSelect<
@@ -58,8 +59,9 @@ export function SearchSelect<
   renderOption,
   customLoader,
   maxHeight = "14rem",
-  popoverWidth = "24rem",
-  disabled
+  popoverWidth = "max-w-80 w-80",
+  disabled,
+  isLogo
 }: SearchSelectProps<TFieldValues, TName>) {
   const [isOpen, setIsOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
@@ -102,9 +104,28 @@ export function SearchSelect<
     [field.value]
   )
 
+  const renderIcon = useCallback(
+    (option: Option) => {
+      if (!isLogo) return null
+
+      if (option?.icon) {
+        const Icon = option.icon
+        return (
+          <span className="mr-1 shrink-0">
+            <Icon />
+          </span>
+        )
+      }
+
+      return <span className="h-5 w-5 bg-zinc-300 rounded-full mr-1" />
+    },
+    [isLogo]
+  )
+
   const defaultRenderOption = useCallback(
     (option: Option, isSelected: boolean) => (
       <>
+        {renderIcon(option)}
         <span className="flex-1">{option.label}</span>
         <Check
           className={cn(
@@ -114,7 +135,7 @@ export function SearchSelect<
         />
       </>
     ),
-    []
+    [renderIcon]
   )
 
   const handleViewModeClick = useCallback(() => {
@@ -163,11 +184,14 @@ export function SearchSelect<
       className="h-full w-full absolute top-0 bg-white border flex items-center px-3 rounded-md cursor-pointer justify-between"
       onClick={handleViewModeClick}
     >
-      <p className="truncate min-w-0">
-        {field.value?.label ?? (
-          <span className="opacity-80">Please select</span>
-        )}
-      </p>
+      <div className="flex w-full gap-1">
+        {renderIcon(field.value)}
+        <p className="truncate min-w-0">
+          {field.value?.label ?? (
+            <span className="opacity-80">Please select</span>
+          )}
+        </p>
+      </div>
       {!handleSearch ? <ChevronDown className="ml-0.5 w-4 opacity-80" /> : null}
     </div>
   )
@@ -176,7 +200,7 @@ export function SearchSelect<
     <ul className="overflow-auto" style={{ maxHeight }}>
       {options.map((option) => (
         <li
-          className="flex gap-1 items-center text-sm p-3 hover:bg-zinc-200 cursor-pointer"
+          className="flex gap-2 items-center text-sm p-3 hover:bg-zinc-200 cursor-pointer"
           key={option.value}
           onClick={() => handleOptionClick(option)}
         >
@@ -195,7 +219,7 @@ export function SearchSelect<
   )
 
   return (
-    <FormItem className="flex flex-col flex-1 max-w-96">
+    <FormItem className={cn("flex flex-col flex-1", popoverWidth)}>
       {label && <FormLabel>{label}</FormLabel>}
 
       <Popover
@@ -212,8 +236,7 @@ export function SearchSelect<
 
         <PopoverContent
           sideOffset={8}
-          className="w-full p-0 rounded-lg"
-          style={{ width: popoverWidth }}
+          className={cn("p-0 rounded-lg", popoverWidth)}
           onFocus={preventAutoFocus}
           onOpenAutoFocus={preventAutoFocus}
         >

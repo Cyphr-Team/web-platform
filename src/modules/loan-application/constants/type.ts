@@ -375,6 +375,7 @@ export interface LoanApplicationBankAccount {
   bankAccountPk?: string
   bankAccountName?: string
   connectedOn?: string
+  mask?: string
 }
 
 export interface LoanApplicationCashflowVerification {

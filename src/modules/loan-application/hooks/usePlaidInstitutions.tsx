@@ -10,6 +10,7 @@ import { QUERY_KEY_PLAID } from "@/constants/query-key"
 interface Institution {
   institutionId: string
   name: string
+  logo?: string
   routingNumbers: string[]
 }
 

@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge"
-import { ButtonLoading } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Form, FormField } from "@/components/ui/form"
 import { SearchSelect } from "@/components/ui/search-select"
@@ -10,8 +9,12 @@ import { TaskFieldStatus } from "@/modules/loan-application-management/constants
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
+import { PlaidConnectButton } from "@/modules/loan-application/components/molecules/plaid/ConnectButton"
+import {
+  plaidFormSchema,
+  PlaidFormValue
+} from "@/modules/loan-application/constants/plaid"
 import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { useLazyConnectPlaidEffect } from "@/modules/loan-application/hooks/useLazyConnectPlaidEffect"
 import { usePlaidInstitutions } from "@/modules/loan-application/hooks/usePlaidInstitutions"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
@@ -21,43 +24,20 @@ import {
   usePlaidContext
 } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
-import {
-  generateToken,
-  isReviewApplicationStep
-} from "@/modules/loan-application/services"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { Option } from "@/types/common.type"
 import { toastError } from "@/utils"
-import { getAxiosError } from "@/utils/custom-error"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
-import { Link } from "lucide-react"
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import { useUpdateEffect } from "react-use"
-import * as z from "zod"
 
 interface PlaidConnectFormProps {
   wrapperClassName?: string
 }
-
-const plaidFormSchema = z.object({
-  institution: z
-    .object({
-      label: z.string(),
-      value: z.string()
-    })
-    .nullable(),
-  routingNumber: z
-    .object({
-      label: z.string(),
-      value: z.string()
-    })
-    .optional()
-})
-
-type PlaidFormValue = z.infer<typeof plaidFormSchema>
 
 export const PlaidConnectForm: React.FC<PlaidConnectFormProps> = ({
   wrapperClassName
@@ -102,10 +82,19 @@ const PlaidForm: React.FC = () => {
     finishCurrentStep()
   }
 
-  const institutionOptions = useMemo(
+  const institutionOptions: Option[] = useMemo(
     () =>
       institutions.map((institution) => ({
         label: institution.name,
+        icon: institution?.logo
+          ? () => (
+              <img
+                className="h-5 w-5"
+                src={`data:image/png;base64,${institution?.logo}`}
+                alt="Plaid institution logo"
+              />
+            )
+          : undefined,
         value: institution.institutionId
       })),
     [institutions]
@@ -137,6 +126,7 @@ const PlaidForm: React.FC = () => {
           institutionName: ins.institutionName,
           bankAccountPk: account.id,
           bankAccountName: account.name,
+          mask: account?.mask,
           connectedOn: account.connectedOn
             ? account.connectedOn
             : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
@@ -158,15 +148,6 @@ const PlaidForm: React.FC = () => {
     return () => subscription.unsubscribe()
   }, [setValue, watch])
 
-  useUpdateEffect(() => {
-    if (linkTokenError.errorMessage) {
-      toastError({
-        title: "Connect Bank Account Error",
-        description: linkTokenError.errorMessage
-      })
-    }
-  }, [linkTokenError])
-
   useEffect(() => {
     if (connectedAccounts.length > 0) {
       completeSpecificStep(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
@@ -187,6 +168,15 @@ const PlaidForm: React.FC = () => {
     financialInformationForm?.id
   ])
 
+  useUpdateEffect(() => {
+    if (linkTokenError.errorMessage) {
+      toastError({
+        title: "Connect Bank Account Error",
+        description: linkTokenError.errorMessage
+      })
+    }
+  }, [linkTokenError])
+
   return (
     <div className="w-full flex flex-col gap-5 text-secondary-700 text-sm">
       <InstitutionField
@@ -200,7 +190,7 @@ const PlaidForm: React.FC = () => {
         disabled={!selectedInstitution}
       />
 
-      {!!connectedAccounts.length && (
+      {connectedAccounts.length ? (
         <div className="flex flex-col w-full mt-2">
           <LoadingWrapper isLoading={isFetchingDetails}>
             <Card className="border-none shadow-none">
@@ -215,24 +205,24 @@ const PlaidForm: React.FC = () => {
               </CardContent>
             </Card>
           </LoadingWrapper>
+
+          <Separator />
         </div>
-      )}
+      ) : null}
 
-      <Separator />
-
-      <ConnectButton
+      <PlaidConnectButton
         disabled={isFetchingDetails || !formState.isValid}
         hasConnectedAccounts={!!connectedAccounts.length}
         isBankAccountsLoading={isConnecting || isFetchingDetails}
       />
 
-      {!isReviewApplicationStep(step) && (
+      {!isReviewApplicationStep(step) && !!connectedAccounts.length ? (
         <FormSubmitButton
           className="w-full"
           onSubmit={handleNextClick}
           isDisabled={!connectedAccounts.length}
         />
-      )}
+      ) : null}
     </div>
   )
 }
@@ -249,6 +239,7 @@ const InstitutionField: React.FC<{
       name="institution"
       render={({ field }) => (
         <SearchSelect
+          isLogo
           field={field}
           options={options}
           handleSearch={onSearch}
@@ -266,9 +257,7 @@ const RoutingNumberField: React.FC<{
   disabled: boolean
 }> = ({ options, disabled }) => (
   <div className="flex justify-between items-center gap-4">
-    <p>
-      Routing number <small>(Optional)</small>
-    </p>
+    <p>Routing number</p>
     <FormField
       name="routingNumber"
       render={({ field }) => (
@@ -283,67 +272,22 @@ const RoutingNumberField: React.FC<{
   </div>
 )
 
-const ConnectButton: React.FC<{
-  disabled?: boolean
-  hasConnectedAccounts?: boolean
-  isBankAccountsLoading?: boolean
-}> = ({ disabled, hasConnectedAccounts, isBankAccountsLoading }) => {
-  const form = useFormContext<PlaidFormValue>()
-  const [isLoading, setIsLoading] = useState(false)
-  const { dispatch } = usePlaidContext()
-
-  const handleSubmit = form.handleSubmit(async (formValue) => {
-    if (!formValue.institution?.value) return
-
-    try {
-      setIsLoading(true)
-      await generateToken(dispatch, {
-        routingNumber: formValue.routingNumber?.value,
-        plaidInstitutionId: formValue.institution.value
-      })
-    } catch (error) {
-      toastError({
-        title: "Connecting failed",
-        description: getAxiosError(error as Error).message
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  })
-
-  useLazyConnectPlaidEffect()
-
-  return (
-    <div className="self-end">
-      <ButtonLoading
-        isLoading={isLoading || isBankAccountsLoading}
-        onClick={handleSubmit}
-        disabled={disabled || isBankAccountsLoading}
-        className="text-sm rounded-lg"
-        size="sm"
-        variant="outline"
-      >
-        <Link className="w-4 h-4 mr-1" strokeWidth={2.5} />
-        {hasConnectedAccounts ? " Connect More" : " Connect with Plaid"}
-      </ButtonLoading>
-    </div>
-  )
-}
-
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
-    accessorKey: "institutionName",
-    header: () => (
-      <div className="flex items-center space-x-2 text-gray-700">
-        Institution
-      </div>
-    )
-  },
-  {
     accessorKey: "bankAccountName",
+    size: 200,
     header: () => (
-      <div className="flex items-center space-x-2 text-gray-700">Account</div>
-    )
+      <div className="flex items-center text-gray-700 -mx-4">Account</div>
+    ),
+    cell: ({ row }) => {
+      const data = row.original
+
+      return (
+        <div className="min-w-0 -mx-4 uppercase">
+          {data.institutionName} {data.bankAccountName} {data.mask}
+        </div>
+      )
+    }
   },
   {
     accessorKey: "connectedOn",
