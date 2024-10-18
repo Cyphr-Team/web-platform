@@ -2,7 +2,10 @@ import {
   ILoanApplicationStep,
   LOAN_APPLICATION_STEPS
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { isEnabledBankAccountConnectionV2 } from "@/utils/feature-flag.utils"
+import {
+  isEnabledBankAccountConnectionV2,
+  isEnablePlaidV2
+} from "@/utils/feature-flag.utils"
 import { forwardRef, useMemo } from "react"
 import { LoanRequest } from "../../../layouts/LoanRequest"
 import { BusinessInformationForm } from "../kyb/KybForm"
@@ -34,6 +37,7 @@ import { SBBKybFormPartOne } from "../kyb/sbb/SBBKybFormPartOne"
 import { SBBKybFormPartTwo } from "../kyb/sbb/SbbKybFormPartTwo"
 import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
 import { ForecastingSetupForm } from "@/modules/loan-application/components/organisms/loan-application-form/financial-projection/ForecastingSetupForm.tsx"
+import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -66,11 +70,13 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         }
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
+        if (isEnablePlaidV2()) {
+          return <CashFlowVerificationFormWithPlaid />
+        }
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />
-        } else {
-          return <CashFlowVerificationForm />
         }
+        return <CashFlowVerificationForm />
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:

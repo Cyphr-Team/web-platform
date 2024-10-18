@@ -145,7 +145,12 @@ function isEnableChatSupport() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.CHAT_SUPPORT)
 }
 
+function isEnablePlaidV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.PLAID_V2)
+}
+
 export {
+  isEnablePlaidV2,
   isEnablePandaDocESign,
   isEnableDownloadCSVAndJSONSummary,
   isEnableSubscriptionManagement,

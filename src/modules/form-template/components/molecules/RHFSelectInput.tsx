@@ -99,30 +99,32 @@ const RHFSelectInput = <T extends FieldValues>(
             className
           )}
         >
-          <FormLabel className={cn("text-text-secondary", labelClassName)}>
-            <label className="items-center inline-flex">
-              <span>
-                {label}
-                {required && <RequiredSymbol />}
-                {description && (
-                  <span className="ml-1">
-                    <DescriptionTooltip description={description} />
-                  </span>
-                )}
-              </span>
-            </label>
-            {subtitle && (
-              <p
-                className={cn(
-                  "mt-2 text-text-tertiary font-medium",
-                  subtitleClassName
-                )}
-              >
-                {subtitle}
-              </p>
-            )}
-            {isRowDirection && <FormMessage />}
-          </FormLabel>
+          {!!(label || subtitle) && (
+            <FormLabel className={cn("text-text-secondary", labelClassName)}>
+              <label className="items-center inline-flex">
+                <span>
+                  {label}
+                  {required && <RequiredSymbol />}
+                  {description && (
+                    <span className="ml-1">
+                      <DescriptionTooltip description={description} />
+                    </span>
+                  )}
+                </span>
+              </label>
+              {subtitle && (
+                <p
+                  className={cn(
+                    "mt-2 text-text-tertiary font-medium",
+                    subtitleClassName
+                  )}
+                >
+                  {subtitle}
+                </p>
+              )}
+              {isRowDirection && <FormMessage />}
+            </FormLabel>
+          )}
 
           <FormControl>
             <Select

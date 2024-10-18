@@ -6,7 +6,8 @@ import {
 } from "@/utils/domain.utils.ts"
 import {
   isEnabledBankAccountConnectionV2,
-  isEnablePandaDocESign
+  isEnablePandaDocESign,
+  isEnablePlaidV2
 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 import { PreQualificationForm } from "../components/organisms/loan-application-form/pre-qualification/LaunchKCPreQualification"
@@ -60,6 +61,7 @@ import { LoanRequest } from "@/modules/loan-application/components/layouts/LoanR
 import { LoanReadyLoanRequestForm } from "@/modules/loan-application/components/organisms/loan-application-form/loan-request/LoanReadyLoanRequestForm.tsx"
 import { LoanReadyBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKybForm.tsx"
 import { LoanReadyOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKycForm"
+import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -105,11 +107,13 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         }
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
+        if (isEnablePlaidV2()) {
+          return <CashFlowVerificationFormWithPlaid />
+        }
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />
-        } else {
-          return <CashFlowVerificationForm />
         }
+        return <CashFlowVerificationForm />
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:

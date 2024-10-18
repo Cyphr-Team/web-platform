@@ -148,3 +148,7 @@ export const chatbotSessionKeys = {
   list: (filters: object) =>
     [...chatbotSessionKeys.lists(), { filters }] as const
 }
+
+export const QUERY_KEY_PLAID = {
+  lists: "PLAID_LIST_INSTITUTIONS"
+}

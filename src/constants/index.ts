@@ -331,6 +331,9 @@ export const API_PATH = {
       endSession: "api/ai/chat/end"
     }
   },
+  plaid: {
+    listInstitutions: "api/plaid/search-institution"
+  },
   // For workspace admin
   loanApplicationAdmin: {
     viewJudgesScores: (applicationId: string) =>
@@ -629,3 +632,5 @@ export const REQUEST_LIMIT_PARAM_FOR_SELECT = 200
 export const MAX_REMEMBER_ME_DAYS = 30
 
 export const ACCEPTED_IMAGE_FORMAT = "image/jpg,image/jpeg,image/png"
+
+export const MAX_LIMIT_PLAID = "500"
