@@ -5,7 +5,7 @@ import { snakeCaseToText } from "@/utils"
 import { CRITERIA_NOT_AVAILABLE } from "@/modules/loan-application-management/services/loan-readiness.service.ts"
 import { get } from "lodash"
 
-export const LoanReadinessPagePdf = () => {
+export function LoanReadinessPagePdf() {
   const { id } = useParams()
   const { data } = useQueryLoanReadinessAssessmentByApplicationId({
     applicationId: id

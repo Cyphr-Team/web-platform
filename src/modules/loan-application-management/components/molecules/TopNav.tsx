@@ -12,13 +12,14 @@ import { checkIsWorkspaceAdmin } from "@/utils/check-roles.ts"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+type Props = React.HTMLAttributes<HTMLDivElement>
 
 export function TopNav({ className, ...props }: Props) {
   const pathname = useLocation().pathname
   const { id } = useParams()
 
   let menuItems: (string | null)[] = APPLICATION_MENU(id!).map((e) => e.name)
+
   if (isLoanReady() || isCyphrBank()) {
     menuItems = [
       ApplicationMenuName.business,
@@ -98,7 +99,6 @@ export function TopNav({ className, ...props }: Props) {
 
             return (
               <Link
-                to={example.href}
                 key={example.href}
                 className={cn(
                   "flex px-xs pb-lg font-semibold items-center justify-center text-center text-sm transition-colors border-b-2 border-transparent whitespace-nowrap",
@@ -107,13 +107,14 @@ export function TopNav({ className, ...props }: Props) {
                     ? "text-primary border-b-2 border-primary"
                     : "text-muted-foreground"
                 )}
+                to={example.href}
               >
                 {example.name}
               </Link>
             )
           })}
         </div>
-        <ScrollBar orientation="horizontal" className="invisible" />
+        <ScrollBar className="invisible" orientation="horizontal" />
       </ScrollArea>
     </div>
   )

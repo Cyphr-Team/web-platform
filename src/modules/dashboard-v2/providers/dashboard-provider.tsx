@@ -11,8 +11,8 @@ import { useQueryGetInstitutionUsage } from "../hooks/query/useQueryGetInstituti
 import { useQueryGetLoanApplicationActivities } from "../hooks/query/useQueryGetLoanApplicationActivities"
 import { useQueryGetLoanApplicationRates } from "../hooks/query/useQueryGetLoanApplicationRates"
 import {
-  DashboardProviderProps,
-  DashboardProviderState
+  type DashboardProviderProps,
+  type DashboardProviderState
 } from "../types/stats.types"
 import { dashboardReducer } from "./dashboard-reducer"
 

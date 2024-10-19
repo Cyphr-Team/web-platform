@@ -1,19 +1,23 @@
-import { memo, ReactNode } from "react"
-import { FieldValues, FormProvider, UseFormReturn } from "react-hook-form"
+import { memo, type ReactNode } from "react"
+import {
+  type FieldValues,
+  FormProvider,
+  type UseFormReturn
+} from "react-hook-form"
 
 // ----------------------------------------------------------------------
 
-type Props<T extends FieldValues> = {
+interface Props<T extends FieldValues> {
   children: ReactNode
   methods: UseFormReturn<T>
   onSubmit?: VoidFunction
 }
 
-const RHFProvider = <T extends FieldValues>({
+function RHFProvider<T extends FieldValues>({
   children,
   onSubmit,
   methods
-}: Props<T>) => {
+}: Props<T>) {
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>{children}</form>

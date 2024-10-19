@@ -9,7 +9,7 @@ import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import {
   EDITABLE_STATUSES,
   LoanApplicationStatus,
-  UserMicroLoanApplication
+  type UserMicroLoanApplication
 } from "@/types/loan-application.type"
 import {
   convertToReadableDate,
@@ -19,9 +19,9 @@ import {
 } from "@/utils"
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
-import { AccessorKeyColumnDef, Row } from "@tanstack/react-table"
+import { type AccessorKeyColumnDef, type Row } from "@tanstack/react-table"
 import { ChevronRightIcon } from "lucide-react"
-import { NavigateFunction, useNavigate } from "react-router-dom"
+import { type NavigateFunction, useNavigate } from "react-router-dom"
 import { useQueryGetUserLoanApplications } from "../hooks/useQuery/useQueryUserLoanApplications"
 
 export function Component() {
@@ -79,10 +79,11 @@ export function Component() {
 }
 Component.displayName = "ApplicantLoanApplications"
 
-type NavigationConfig = {
+interface NavigationConfig {
   path: string
   state?: object
 }
+
 export const handleClickDetail =
   (navigate: NavigateFunction) => (detail: Row<UserMicroLoanApplication>) => {
     const { id, loanProgram } = detail.original
@@ -104,6 +105,7 @@ export const handleClickDetail =
     }
 
     let configKey = "default"
+
     if (EDITABLE_STATUSES.includes(detail.original.status)) {
       configKey = "editable"
     } else if (isLoanReady()) {
@@ -130,6 +132,7 @@ export const getLoanApplicationColumns = (
     ),
     cell: ({ row }) => {
       const application = row.original
+
       return (
         <div className="min-w-0">
           <p className="text-sm text-muted-foreground mt-0.5 truncate">
@@ -144,14 +147,15 @@ export const getLoanApplicationColumns = (
     accessorKey: "loanAmount",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-right w-full"
         column={column}
         title="Amount requested"
-        className="text-right w-full"
       />
     ),
     size: 150,
     cell: ({ row }) => {
       const application = row.original
+
       return (
         <div className="min-w-0">
           <p className="truncate text-right">
@@ -174,6 +178,7 @@ export const getLoanApplicationColumns = (
     size: 150,
     cell: ({ row }) => {
       const application = row.original
+
       return (
         <div className="min-w-0">
           <p className="truncate capitalize text-right">
@@ -187,15 +192,16 @@ export const getLoanApplicationColumns = (
     accessorKey: "updatedAt",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-right w-full"
         column={column}
         title="Activity"
-        className="text-right w-full"
       />
     ),
     size: 150,
     enableSorting: false,
     cell: ({ row }) => {
       const application = row.original
+
       return (
         <div className="min-w-0">
           <p className="truncate text-right">
@@ -210,9 +216,9 @@ export const getLoanApplicationColumns = (
     enableSorting: false,
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-right"
         column={column}
         title="Status"
-        className="text-right"
       />
     ),
     size: 190,
@@ -228,9 +234,9 @@ export const getLoanApplicationColumns = (
         <div className="font-medium">
           <Badge
             isDot
+            className="capitalize"
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}
-            className="capitalize"
           >
             {snakeCaseToText(isSbb() ? sbbStatus.toLowerCase() : status)}
           </Badge>
@@ -242,19 +248,20 @@ export const getLoanApplicationColumns = (
     accessorKey: "progress",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-right"
         column={column}
         title="Progress"
-        className="text-right"
       />
     ),
     size: 150,
     cell: ({ row }) => {
       const application = row.original
+
       return (
         <div className="relative">
           <Progress
-            value={Math.round(100 * application.latestProgress)}
             className="flex items-center justify-end"
+            value={Math.round(100 * application.latestProgress)}
           />
           <span className="absolute top-1/2 transform -translate-y-1/2 pl-2 right-[-40px]">
             {Math.round(100 * application.latestProgress)}%
@@ -266,7 +273,7 @@ export const getLoanApplicationColumns = (
   {
     id: "action",
     accessorKey: "detail",
-    header: () => <p></p>,
+    header: () => <p />,
     size: 150,
     cell: ({ row }) => {
       return (

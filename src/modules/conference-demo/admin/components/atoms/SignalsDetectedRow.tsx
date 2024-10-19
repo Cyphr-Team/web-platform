@@ -20,18 +20,18 @@ import {
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import SignalCount from "@/modules/conference-demo/admin/components/atoms/SignalCount"
-import { SignalsType } from "@/modules/conference-demo/admin/constants/type"
+import { type SignalsType } from "@/modules/conference-demo/admin/constants/type"
 import { camelCaseToText, capitalizeWords } from "@/utils"
 import { Minus, Plus } from "lucide-react"
 import React from "react"
 
-type Props = {
+interface Props {
   signalsData: SignalsType
 }
 
 const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
   return (
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion collapsible className="w-full" type="single">
       <AccordionItem value={signalsData.signalIdentifier}>
         <AccordionTrigger
           className={cn(
@@ -39,8 +39,8 @@ const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
             "[&[data-state=closed]>.open-icon]:animate-spin-once",
             "[&[data-state=open]>.close-icon]:animate-spin-once"
           )}
-          openIcon={<Plus className="h-4 w-4" />}
           closeIcon={<Minus className="h-4 w-4" />}
+          openIcon={<Plus className="h-4 w-4" />}
         >
           <div className="flex justify-start items-center gap-2">
             <SignalCount signalCount={signalsData.signalCount} />
@@ -62,6 +62,7 @@ const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                       camelCaseToText(Object.keys(header)[0])
                     )
                     const headerDescription = Object.values(header)[0]
+
                     return (
                       <TableHead
                         key={headerKey}
@@ -75,9 +76,9 @@ const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                               </span>
                             </TooltipTrigger>
                             <TooltipContent
+                              className="text-white bg-black p-1"
                               side="bottom"
                               sideOffset={20}
-                              className="text-white bg-black p-1"
                             >
                               <p className="text-xs">{headerDescription}</p>
                             </TooltipContent>

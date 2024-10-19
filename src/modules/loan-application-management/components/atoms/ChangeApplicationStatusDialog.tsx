@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
-import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -84,16 +84,16 @@ export function ChangeApplicationStatusDialog({
               <h5 className="text-2xl">Change Status</h5>
               <div>
                 <Button
-                  variant="secondary"
                   className="rounded-none font-semibold h-16 px-8"
+                  variant="secondary"
                   onClick={onCancel}
                 >
                   Cancel
                 </Button>
                 <ButtonLoading
                   className="rounded-none font-semibold h-16 px-8"
-                  onClick={form.handleSubmit(onSubmit)}
                   isLoading={isPending}
+                  onClick={form.handleSubmit(onSubmit)}
                 >
                   Submit
                 </ButtonLoading>
@@ -106,22 +106,22 @@ export function ChangeApplicationStatusDialog({
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
             className="px-8 pt-4 pb-8"
+            onSubmit={form.handleSubmit(onSubmit)}
           >
             <div className="flex items-center gap-4 mb-8">
               <Badge
                 isDot
-                variantColor={fromDecisionInfo.variantColor}
                 className="py-1"
+                variantColor={fromDecisionInfo.variantColor}
               >
                 {fromDecisionInfo.label}
               </Badge>
               <ArrowRight className="w-5" />
               <Badge
                 isDot
-                variantColor={toDecisionInfo.variantColor}
                 className="py-1"
+                variantColor={toDecisionInfo.variantColor}
               >
                 {toDecisionInfo.label}
               </Badge>

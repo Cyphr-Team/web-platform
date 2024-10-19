@@ -15,8 +15,8 @@ import { checkIsForesightAdmin } from "@/utils/check-roles"
 import { useQueryGetListAllInstitution } from "../hooks/useQuery/useQueryGetListAllInstitution"
 import {
   DocumentFilterSchema,
-  DocumentFilterValues,
-  FilterParams
+  type DocumentFilterValues,
+  type FilterParams
 } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateDocument"
 import {
   Select,
@@ -25,9 +25,9 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 
-type Props = {
+interface Props {
   onSearch: (formValues: FilterParams) => void
 }
 

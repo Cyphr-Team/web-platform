@@ -17,9 +17,9 @@ import {
   LoanReadyKYBFieldName
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import {
-  IBusinessFormValue,
+  type IBusinessFormValue,
   loanReadyBusinessFormSchema,
-  LoanReadyBusinessFormValue
+  type LoanReadyBusinessFormValue
 } from "@/modules/loan-application/constants/form.ts"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
@@ -38,7 +38,8 @@ import { useForm } from "react-hook-form"
 function getOrDefault(
   businessInformation: IBusinessFormValue
 ): LoanReadyBusinessFormValue {
-  const defaultValues: { [key: string]: string } = {}
+  const defaultValues: Record<string, string> = {}
+
   Object.keys(loanReadyBusinessFormSchema.shape).forEach((fieldName) => {
     defaultValues[fieldName] = get(businessInformation, fieldName, "")
   })
@@ -46,7 +47,7 @@ function getOrDefault(
   return defaultValues as LoanReadyBusinessFormValue
 }
 
-export const LoanReadyBusinessInformationForm = () => {
+export function LoanReadyBusinessInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { businessInformation, dispatchFormAction } =
     useLoanApplicationFormContext()
@@ -115,93 +116,93 @@ export const LoanReadyBusinessInformationForm = () => {
       >
         <div className="flex flex-col gap-y-2xl gap-x-4xl">
           <RHFTextInput
-            name={LoanReadyKYBFieldName.BUSINESS_LEGAL_NAME}
             label="Business legal name"
+            name={LoanReadyKYBFieldName.BUSINESS_LEGAL_NAME}
             placeholder="Business legal name"
           />
 
           <RHFTextInput
-            name={LoanReadyKYBFieldName.DBA}
             label="Business trade name/DBA"
+            name={LoanReadyKYBFieldName.DBA}
             placeholder="Business trade name/DBA"
           />
 
           <RHFTextInput
-            name={LoanReadyKYBFieldName.ADDRESS_LINE1}
             label="Business street address"
+            name={LoanReadyKYBFieldName.ADDRESS_LINE1}
             placeholder="Start typing your address"
           />
           <div className="flex gap-2 md:gap-4 flex-wrap">
             <AutoCompleteStates
-              options={STATE_DATA}
-              label="State"
-              emptyText="No results found"
-              name={LoanReadyKYBFieldName.STATE}
-              control={form.control}
-              onChange={handleChangeState}
-              value={form.getValues(LoanReadyKYBFieldName.STATE)}
               className="flex-1"
+              control={form.control}
+              emptyText="No results found"
+              label="State"
+              name={LoanReadyKYBFieldName.STATE}
+              options={STATE_DATA}
+              value={form.getValues(LoanReadyKYBFieldName.STATE)}
+              onChange={handleChangeState}
             />
             <AutoCompleteCities
+              className="flex-1"
+              control={form.control}
+              emptyText="No results found"
+              label="City"
+              name={LoanReadyKYBFieldName.CITY}
               options={
                 STATE_DATA.find(
                   (s) => s.name === form.getValues(LoanReadyKYBFieldName.STATE)
                 )?.cities ?? []
               }
-              label="City"
-              emptyText="No results found"
-              name={LoanReadyKYBFieldName.CITY}
-              control={form.control}
-              onChange={handleChangeCity}
               value={form.getValues(LoanReadyKYBFieldName.CITY)}
-              className="flex-1"
+              onChange={handleChangeCity}
             />
             <RHFTextInput
-              placeholder="i.e: 97531"
-              label="Zip"
-              styleProps={{ labelClassName: "whitespace-nowrap" }}
-              name={LoanReadyKYBFieldName.POSTAL_CODE}
               className="flex-1"
+              label="Zip"
+              name={LoanReadyKYBFieldName.POSTAL_CODE}
+              placeholder="i.e: 97531"
+              styleProps={{ labelClassName: "whitespace-nowrap" }}
             />
           </div>
 
           <RHFMaskInput
-            name={LoanReadyKYBFieldName.EIN}
             label="Employer Identification Number (EIN)"
-            placeholder="12-3456789"
+            name={LoanReadyKYBFieldName.EIN}
             pattern={EIN_PATTERN}
+            placeholder="12-3456789"
           />
 
           <RHFTextInput
-            name={LoanReadyKYBFieldName.BUSINESS_WEBSITE}
             label="Business website"
+            name={LoanReadyKYBFieldName.BUSINESS_WEBSITE}
             placeholder="Enter website URL"
-            styleProps={{
-              inputClassName: "pl-[4.4rem]"
-            }}
             prefixIcon={
               <div className="text-sm opacity-50 border-r h-full flex items-center pr-2">
                 https://
               </div>
             }
+            styleProps={{
+              inputClassName: "pl-[4.4rem]"
+            }}
           />
 
           <RHFSelectInput
-            name={LoanReadyKYBFieldName.BUSINESS_STAGE}
             label="Business stage"
+            name={LoanReadyKYBFieldName.BUSINESS_STAGE}
             options={BUSINESS_STAGE_OPTIONS}
           />
 
           <RHFTextInput
-            name={LoanReadyKYBFieldName.BUSINESS_DESCRIPTION}
             label="Business description"
+            name={LoanReadyKYBFieldName.BUSINESS_DESCRIPTION}
             placeholder="Business description"
           />
 
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </div>

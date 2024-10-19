@@ -1,10 +1,10 @@
 import { Card } from "@/components/ui/card"
 
 import { questions } from "./constants"
-import { LaunchKcFitFormResponse } from "./type"
+import { type LaunchKcFitFormResponse } from "./type"
 import { get } from "lodash"
 import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
-type Props = {
+interface Props {
   data?: LaunchKcFitFormResponse
 }
 
@@ -22,18 +22,18 @@ export const LaunchKcFitFormDetails: React.FC<Props> = ({ data }) => {
             />
           ))}
           <AnswersTextDisplay
-            className="!flex-row justify-between"
             key="applied"
+            className="!flex-row justify-between"
             label="Have you applied to LaunchKC previously"
             value={data?.applied ? "Yes" : "No"}
           />
-          {data?.applied && (
+          {data?.applied ? (
             <AnswersTextDisplay
               key="progress"
               label="If Yes, what progress, have you made since your previous application"
               value={data?.progress}
             />
-          )}
+          ) : null}
         </div>
       </div>
     </Card>

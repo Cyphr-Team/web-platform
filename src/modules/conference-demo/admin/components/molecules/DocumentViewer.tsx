@@ -36,7 +36,9 @@ const DocumentViewer: React.FC = () => {
       <div className="flex flex-col w-full overflow-auto">
         <PageViewer />
         {selectedPage?.visualizations?.length &&
-          selectedPage?.visualizations?.length > 1 && <PageViewerPanel />}
+        selectedPage?.visualizations?.length > 1 ? (
+          <PageViewerPanel />
+        ) : null}
       </div>
     </div>
   )

@@ -32,14 +32,14 @@ export function Component() {
       <h1 className="mb-3xl text-3xl font-semibold">Notification</h1>
 
       {/* Loading */}
-      {isFetching && (
+      {isFetching ? (
         <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
           <div className="sticky top-12 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
             <Loader2 className="w-10 h-10 animate-spin text-primary" />{" "}
             Loading...
           </div>
         </div>
-      )}
+      ) : null}
 
       <div className="border rounded p-6">
         {/* Timestamp */}
@@ -68,18 +68,18 @@ export function Component() {
         </p>
 
         {/* Reference resource */}
-        {referenceResource && (
+        {referenceResource ? (
           <p className="text-sm mb-2xl italic">
             <a
-              href={referenceResource}
-              target="_blank"
-              rel="noopener noreferrer"
               className="underline ml-1 text-blue-700"
+              href={referenceResource}
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Click to view the {transformString(notification?.referenceType)}
             </a>
           </p>
-        )}
+        ) : null}
       </div>
     </div>
   )

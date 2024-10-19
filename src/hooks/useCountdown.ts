@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-type props = {
+interface props {
   initialCount: number
   isStart: boolean
 }

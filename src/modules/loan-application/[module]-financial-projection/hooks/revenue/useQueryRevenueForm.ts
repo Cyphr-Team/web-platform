@@ -1,14 +1,14 @@
 import {
-  BillableHour,
-  Contract,
-  RecurringCharge,
+  type BillableHour,
+  type Contract,
+  type RecurringCharge,
   RevenueResponseType,
-  RevenueStream,
-  SubmitRevenueStreamItemResponse,
-  SubmitRevenueStreamResponse,
-  UnitSale
+  type RevenueStream,
+  type SubmitRevenueStreamItemResponse,
+  type SubmitRevenueStreamResponse,
+  type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
-import { FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
+import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
 import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId.ts"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
 import { API_PATH } from "@/constants"
@@ -79,6 +79,7 @@ const formatFormData = <T extends { startDate?: string; endDate?: string }>(
       .filter((form) => form.formType === formType)
       .map((form) => {
         const item = form[key] as T
+
         return {
           ...item,
           startDate: formatDate(item?.startDate, "MM/yyyy"),

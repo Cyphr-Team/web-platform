@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/accordion"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
-import { ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
+import { type ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
 import { ChevronDown, ChevronRight } from "lucide-react"
 import { ScoreCardDetail } from "../../molecules/score-card/ScoreCardDetail"
 import {
@@ -14,7 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip.tsx"
-import { PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 import { valueOrZero } from "@/utils"
 
 const calculateAverageScore = (
@@ -22,6 +22,7 @@ const calculateAverageScore = (
 ): number => {
   const totalScore = Object.values(scores).reduce((sum, item) => sum + item, 0)
   const averageScore = totalScore / Object.values(scores).length
+
   return Math.round(averageScore * 10) / 10 // Round to one decimal place
 }
 
@@ -34,25 +35,25 @@ interface IScoreCardByJudgeProps<T = ILaunchKCApplicationAssignScore> {
   scoredDate?: string
 }
 
-export const ScoreCardListDetailByJudge = ({
+export function ScoreCardListDetailByJudge({
   id,
   name,
   scoreData,
   scoredDate
-}: IScoreCardByJudgeProps) => {
+}: IScoreCardByJudgeProps) {
   const avgScore = scoreData ? calculateAverageScore(scoreData) : 0
 
   return (
-    <AccordionItem value={id} key={id} className="border-b-0">
+    <AccordionItem key={id} className="border-b-0" value={id}>
       <AccordionTrigger
         className={cn(
           "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
         )}
-        openIcon={
-          <ChevronRight className="w-4 shrink-0 transition-transform duration-200" />
-        }
         closeIcon={
           <ChevronDown className="w-4 shrink-0 transition-transform duration-200" />
+        }
+        openIcon={
+          <ChevronRight className="w-4 shrink-0 transition-transform duration-200" />
         }
       >
         <div className="w-full flex justify-between items-center">
@@ -87,7 +88,7 @@ interface LayoutProps extends PropsWithChildren {
   isCompleted: boolean
 }
 
-const Layout = (props: LayoutProps) => {
+function Layout(props: LayoutProps) {
   const { isCompleted, children } = props
 
   if (isCompleted) return children

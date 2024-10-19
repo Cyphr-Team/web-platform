@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
-import { PropsWithChildren, ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 import { DashboardStatsRate } from "./DashboardStatsRate"
 
-type DashboardCardProps = {
+interface DashboardCardProps {
   title: ReactNode
   value: ReactNode
   description?: ReactNode
@@ -16,7 +16,7 @@ type DashboardCardProps = {
   revert?: boolean
 }
 
-export const DashboardCard = ({
+export function DashboardCard({
   title,
   value,
   description,
@@ -25,7 +25,7 @@ export const DashboardCard = ({
   unit,
   percentRate,
   revert
-}: PropsWithChildren<DashboardCardProps>) => {
+}: PropsWithChildren<DashboardCardProps>) {
   return (
     <Card className={cn(className, "flex flex-col justify-between rounded-xl")}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 md:pb-3">
@@ -38,7 +38,7 @@ export const DashboardCard = ({
           <div className="flex flex-wrap justify-between items-center gap-1">
             <div className="text-3xl font-semibold break-world">
               {value ?? 0}
-              {unit && <span> {unit}</span>}
+              {unit ? <span> {unit}</span> : null}
             </div>
 
             {percentRate !== null && percentRate !== undefined && (

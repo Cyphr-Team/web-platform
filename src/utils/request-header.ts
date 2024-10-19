@@ -20,6 +20,7 @@ class CustomRequestHeader {
 
   addInstitution = () => {
     this.customHeaders[CustomHeaderKey.InstitutionSubdomain] = getSubdomain()
+
     return this
   }
 }

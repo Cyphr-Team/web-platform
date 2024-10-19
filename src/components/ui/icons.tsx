@@ -1,4 +1,4 @@
-import { LucideIcon, LucideProps, User } from "lucide-react"
+import { type LucideIcon, type LucideProps, User } from "lucide-react"
 
 export type IconProps = React.HTMLAttributes<SVGElement>
 
@@ -8,10 +8,10 @@ export const Icons = {
   user: User,
   google: ({ ...props }: LucideProps) => (
     <svg
-      width="25"
+      fill="none"
       height="24"
       viewBox="0 0 25 24"
-      fill="none"
+      width="25"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -36,10 +36,10 @@ export const Icons = {
       <defs>
         <clipPath id="clip0_1330_1928">
           <rect
-            width="24"
-            height="24"
             fill="white"
+            height="24"
             transform="translate(0.5)"
+            width="24"
           />
         </clipPath>
       </defs>
@@ -47,10 +47,10 @@ export const Icons = {
   ),
   alertSuccess: (props: IconProps) => (
     <svg
-      width="38"
+      fill="none"
       height="38"
       viewBox="0 0 38 38"
-      fill="none"
+      width="38"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -72,18 +72,18 @@ export const Icons = {
         <path
           d="M15.2503 19.0003L17.7503 21.5003L22.7503 16.5003M27.3337 19.0003C27.3337 23.6027 23.6027 27.3337 19.0003 27.3337C14.398 27.3337 10.667 23.6027 10.667 19.0003C10.667 14.398 14.398 10.667 19.0003 10.667C23.6027 10.667 27.3337 14.398 27.3337 19.0003Z"
           stroke="#079455"
-          strokeWidth="1.66667"
           strokeLinecap="round"
           strokeLinejoin="round"
+          strokeWidth="1.66667"
         />
       </g>
       <defs>
         <clipPath id="clip0_170_197213">
           <rect
-            width="20"
-            height="20"
             fill="white"
+            height="20"
             transform="translate(9 9)"
+            width="20"
           />
         </clipPath>
       </defs>
@@ -91,10 +91,10 @@ export const Icons = {
   ),
   alertError: (props: IconProps) => (
     <svg
-      width="36"
+      fill="none"
       height="36"
       viewBox="0 0 36 36"
-      fill="none"
+      width="36"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -116,18 +116,18 @@ export const Icons = {
         <path
           d="M18.0001 14.6666V18M18.0001 21.3333H18.0084M26.3334 18C26.3334 22.6023 22.6025 26.3333 18.0001 26.3333C13.3977 26.3333 9.66675 22.6023 9.66675 18C9.66675 13.3976 13.3977 9.66663 18.0001 9.66663C22.6025 9.66663 26.3334 13.3976 26.3334 18Z"
           stroke="#D92D20"
-          strokeWidth="1.66667"
           strokeLinecap="round"
           strokeLinejoin="round"
+          strokeWidth="1.66667"
         />
       </g>
       <defs>
         <clipPath id="clip0_1130_82861">
           <rect
-            width="20"
-            height="20"
             fill="white"
+            height="20"
             transform="translate(8 8)"
+            width="20"
           />
         </clipPath>
       </defs>
@@ -135,45 +135,45 @@ export const Icons = {
   ),
   route: (props: IconProps) => (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
+      fill="none"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
         d="M11.5 5H11.9344C14.9816 5 16.5053 5 17.0836 5.54729C17.5836 6.02037 17.8051 6.71728 17.6702 7.39221C17.514 8.17302 16.2701 9.05285 13.7823 10.8125L9.71772 13.6875C7.2299 15.4471 5.98599 16.327 5.82984 17.1078C5.69486 17.7827 5.91642 18.4796 6.41636 18.9527C6.99474 19.5 8.51836 19.5 11.5656 19.5H12.5M8 5C8 6.65685 6.65685 8 5 8C3.34315 8 2 6.65685 2 5C2 3.34315 3.34315 2 5 2C6.65685 2 8 3.34315 8 5ZM22 19C22 20.6569 20.6569 22 19 22C17.3431 22 16 20.6569 16 19C16 17.3431 17.3431 16 19 16C20.6569 16 22 17.3431 22 19Z"
         stroke="#667085"
-        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        strokeWidth="2"
       />
     </svg>
   ),
   arrowSquare: (props: IconProps) => (
     <svg
-      width="20"
+      fill="none"
       height="12"
       viewBox="0 0 20 12"
-      fill="none"
+      width="20"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
-        fillRule="evenodd"
         clipRule="evenodd"
         d="M8.33332 0.167969C7.87309 0.167969 7.49999 0.541064 7.49999 1.0013C7.49999 1.46154 7.87309 1.83463 8.33332 1.83463H19.1666C19.6269 1.83463 20 1.46154 20 1.0013C20 0.541064 19.6269 0.167969 19.1666 0.167969H8.33332ZM2.84517 6.83463L3.92258 7.91204C4.24802 8.23747 4.24802 8.76511 3.92258 9.09055C3.59715 9.41598 3.06951 9.41598 2.74407 9.09055L0.244077 6.59055C-0.0813591 6.26511 -0.0813591 5.73748 0.244077 5.41204L2.74407 2.91204C3.06951 2.58661 3.59715 2.58661 3.92258 2.91204C4.24802 3.23748 4.24802 3.76512 3.92258 4.09055L2.84517 5.16796H19.1666C19.6269 5.16796 20 5.54106 20 6.00129C20 6.46153 19.6269 6.83463 19.1666 6.83463H2.84517ZM7.49999 11.0013C7.49999 10.5411 7.87309 10.168 8.33332 10.168H19.1666C19.6269 10.168 20 10.5411 20 11.0013C20 11.4615 19.6269 11.8346 19.1666 11.8346H8.33332C7.87309 11.8346 7.49999 11.4615 7.49999 11.0013Z"
         fill="#252828"
+        fillRule="evenodd"
       />
     </svg>
   ),
   pdfIcon: (props: IconProps) => (
     <svg
-      width="40"
+      fill="none"
       height="40"
       viewBox="0 0 40 40"
-      fill="none"
+      width="40"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -182,9 +182,9 @@ export const Icons = {
         fill="#D92D20"
       />
       <path
-        opacity="0.3"
         d="M24 0L36 12H28C25.7909 12 24 10.2091 24 8V0Z"
         fill="white"
+        opacity="0.3"
       />
       <path
         d="M11.7491 32V25.4545H14.3315C14.8279 25.4545 15.2508 25.5494 15.6003 25.739C15.9497 25.9265 16.216 26.1875 16.3993 26.522C16.5847 26.8544 16.6773 27.2379 16.6773 27.6726C16.6773 28.1072 16.5836 28.4908 16.3961 28.8232C16.2086 29.1555 15.9369 29.4144 15.5811 29.5998C15.2274 29.7852 14.7991 29.8778 14.2963 29.8778H12.6503V28.7688H14.0726C14.3389 28.7688 14.5584 28.723 14.731 28.6314C14.9057 28.5376 15.0356 28.4087 15.1209 28.2447C15.2082 28.0785 15.2519 27.8878 15.2519 27.6726C15.2519 27.4553 15.2082 27.2656 15.1209 27.1037C15.0356 26.9396 14.9057 26.8129 14.731 26.7234C14.5562 26.6317 14.3347 26.5859 14.0662 26.5859H13.1329V32H11.7491ZM19.8965 32H17.5762V25.4545H19.9157C20.5741 25.4545 21.1408 25.5856 21.616 25.8477C22.0911 26.1076 22.4565 26.4815 22.7122 26.9695C22.97 27.4574 23.0989 28.0412 23.0989 28.7209C23.0989 29.4027 22.97 29.9886 22.7122 30.4787C22.4565 30.9687 22.089 31.3448 21.6096 31.6069C21.1323 31.869 20.5613 32 19.8965 32ZM18.9601 30.8143H19.839C20.2481 30.8143 20.5922 30.7418 20.8713 30.5969C21.1526 30.4499 21.3635 30.223 21.5041 29.9162C21.6469 29.6072 21.7183 29.2088 21.7183 28.7209C21.7183 28.2372 21.6469 27.842 21.5041 27.5352C21.3635 27.2283 21.1536 27.0025 20.8745 26.8576C20.5954 26.7127 20.2513 26.6403 19.8422 26.6403H18.9601V30.8143ZM24.1241 32V25.4545H28.4579V26.5955H25.5079V28.1552H28.1702V29.2962H25.5079V32H24.1241Z"
@@ -194,15 +194,15 @@ export const Icons = {
   ),
   lineChart: (props: IconProps) => (
     <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      height="24"
       stroke="currentColor"
-      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path d="M21 21H4.6C4.03995 21 3.75992 21 3.54601 20.891C3.35785 20.7951 3.20487 20.6422 3.10899 20.454C3 20.2401 3 19.9601 3 19.4V3M20 8L16.0811 12.1827C15.9326 12.3412 15.8584 12.4204 15.7688 12.4614C15.6897 12.4976 15.6026 12.5125 15.516 12.5047C15.4179 12.4958 15.3215 12.4458 15.1287 12.3457L11.8713 10.6543C11.6785 10.5542 11.5821 10.5042 11.484 10.4953C11.3974 10.4875 11.3103 10.5024 11.2312 10.5386C11.1416 10.5796 11.0674 10.6588 10.9189 10.8173L7 15" />
@@ -210,47 +210,47 @@ export const Icons = {
   ),
   folderCheck: (props: IconProps) => (
     <svg
-      width="23"
+      fill="currentColor"
       height="24"
       viewBox="0 0 23 24"
-      fill="currentColor"
+      width="23"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <g opacity="0.6">
         <path
-          fillRule="evenodd"
           clipRule="evenodd"
           d="M11.3923 4.47266C10.6347 4.47266 9.94219 4.90066 9.60341 5.57823L4.07798 16.6291C3.41308 17.9589 4.38007 19.5235 5.86683 19.5235L11.1574 19.5235C11.915 19.5235 12.6075 19.0955 12.9463 18.4179L18.4717 7.36708C19.1366 6.03728 18.1696 4.47266 16.6828 4.47266L11.3923 4.47266Z"
+          fillRule="evenodd"
         />
       </g>
       <g opacity="0.43">
         <path
-          fillRule="evenodd"
           clipRule="evenodd"
           d="M15.2565 8.94922C14.499 8.94922 13.8064 9.37722 13.4677 10.0548L7.94224 21.1056C7.27734 22.4354 8.24433 24.0001 9.73109 24.0001L15.0217 24.0001C15.7792 24.0001 16.4717 23.5721 16.8105 22.8945L22.3359 11.8436C23.0009 10.5138 22.0339 8.94922 20.5471 8.94922L15.2565 8.94922Z"
+          fillRule="evenodd"
         />
       </g>
       <g opacity="0.74">
         <path
-          fillRule="evenodd"
           clipRule="evenodd"
           d="M7.528 6.58119e-07C6.77046 5.91892e-07 6.07793 0.428005 5.73915 1.10557L0.213725 12.1564C-0.451176 13.4862 0.515813 15.0508 2.00258 15.0508L7.29315 15.0508C8.0507 15.0508 8.74323 14.6228 9.08201 13.9453L14.6074 2.89443C15.2723 1.56463 14.3053 1.25061e-06 12.8186 1.12064e-06L7.528 6.58119e-07Z"
+          fillRule="evenodd"
         />
       </g>
     </svg>
   ),
   messageChatCircle: (props: IconProps) => (
     <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      height="24"
       stroke="currentColor"
-      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path d="M6.09436 11.2288C6.03221 10.8282 5.99996 10.4179 5.99996 10C5.99996 5.58172 9.60525 2 14.0526 2C18.4999 2 22.1052 5.58172 22.1052 10C22.1052 10.9981 21.9213 11.9535 21.5852 12.8345C21.5154 13.0175 21.4804 13.109 21.4646 13.1804C21.4489 13.2512 21.4428 13.301 21.4411 13.3735C21.4394 13.4466 21.4493 13.5272 21.4692 13.6883L21.8717 16.9585C21.9153 17.3125 21.9371 17.4895 21.8782 17.6182C21.8266 17.731 21.735 17.8205 21.6211 17.8695C21.4911 17.9254 21.3146 17.8995 20.9617 17.8478L17.7765 17.3809C17.6101 17.3565 17.527 17.3443 17.4512 17.3448C17.3763 17.3452 17.3245 17.3507 17.2511 17.3661C17.177 17.3817 17.0823 17.4172 16.893 17.4881C16.0097 17.819 15.0524 18 14.0526 18C13.6344 18 13.2237 17.9683 12.8227 17.9073M7.63158 22C10.5965 22 13 19.5376 13 16.5C13 13.4624 10.5965 11 7.63158 11C4.66668 11 2.26316 13.4624 2.26316 16.5C2.26316 17.1106 2.36028 17.6979 2.53955 18.2467C2.61533 18.4787 2.65322 18.5947 2.66566 18.6739C2.67864 18.7567 2.68091 18.8031 2.67608 18.8867C2.67145 18.9668 2.65141 19.0573 2.61134 19.2383L2 22L4.9948 21.591C5.15827 21.5687 5.24 21.5575 5.31137 21.558C5.38652 21.5585 5.42641 21.5626 5.50011 21.5773C5.5701 21.5912 5.67416 21.6279 5.88227 21.7014C6.43059 21.8949 7.01911 22 7.63158 22Z" />
@@ -258,15 +258,15 @@ export const Icons = {
   ),
   setting: (props: IconProps) => (
     <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      height="24"
       stroke="currentColor"
-      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" />
@@ -275,15 +275,15 @@ export const Icons = {
   ),
   home: (props: IconProps) => (
     <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      height="24"
       stroke="currentColor"
-      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path d="M8 17H16M11.0177 2.76401L4.23539 8.03914C3.78202 8.39176 3.55534 8.56807 3.39203 8.78887C3.24737 8.98446 3.1396 9.2048 3.07403 9.43907C3 9.70353 3 9.99071 3 10.5651V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V10.5651C21 9.99071 21 9.70353 20.926 9.43907C20.8604 9.2048 20.7526 8.98446 20.608 8.78887C20.4447 8.56807 20.218 8.39176 19.7646 8.03914L12.9823 2.76401C12.631 2.49076 12.4553 2.35413 12.2613 2.30162C12.0902 2.25528 11.9098 2.25528 11.7387 2.30162C11.5447 2.35413 11.369 2.49076 11.0177 2.76401Z" />
@@ -291,10 +291,10 @@ export const Icons = {
   ),
   greenCheckCircle: (props: IconProps) => (
     <svg
-      width="20"
+      fill="none"
       height="20"
       viewBox="0 0 20 20"
-      fill="none"
+      width="20"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -303,19 +303,19 @@ export const Icons = {
         fill="#F3FEE7"
       />
       <path
-        fillRule="evenodd"
         clipRule="evenodd"
         d="M14.2464 6.15838L8.27969 11.9167L6.69635 10.2251C6.40469 9.95005 5.94635 9.93338 5.61302 10.1667C5.28802 10.4084 5.19635 10.8334 5.39635 11.1751L7.27135 14.2251C7.45469 14.5084 7.77135 14.6834 8.12969 14.6834C8.47135 14.6834 8.79635 14.5084 8.97969 14.2251C9.27969 13.8334 15.0047 7.00838 15.0047 7.00838C15.7547 6.24172 14.8464 5.56672 14.2464 6.15005V6.15838Z"
         fill="#4CA30D"
+        fillRule="evenodd"
       />
     </svg>
   ),
   notificationSuccess: (props: IconProps) => (
     <svg
-      width="38"
+      fill="none"
       height="38"
       viewBox="0 0 38 38"
-      fill="none"
+      width="38"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -337,18 +337,18 @@ export const Icons = {
         <path
           d="M15.2503 19.0003L17.7503 21.5003L22.7503 16.5003M27.3337 19.0003C27.3337 23.6027 23.6027 27.3337 19.0003 27.3337C14.398 27.3337 10.667 23.6027 10.667 19.0003C10.667 14.398 14.398 10.667 19.0003 10.667C23.6027 10.667 27.3337 14.398 27.3337 19.0003Z"
           stroke="#079455"
-          strokeWidth="1.66667"
           strokeLinecap="round"
           strokeLinejoin="round"
+          strokeWidth="1.66667"
         />
       </g>
       <defs>
         <clipPath id="clip0_170_197213">
           <rect
-            width="20"
-            height="20"
             fill="white"
+            height="20"
             transform="translate(9 9)"
+            width="20"
           />
         </clipPath>
       </defs>
@@ -356,10 +356,10 @@ export const Icons = {
   ),
   notificationError: (props: IconProps) => (
     <svg
-      width="36"
+      fill="none"
       height="36"
       viewBox="0 0 36 36"
-      fill="none"
+      width="36"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -381,18 +381,18 @@ export const Icons = {
         <path
           d="M18.0001 14.6666V18M18.0001 21.3333H18.0084M26.3334 18C26.3334 22.6023 22.6025 26.3333 18.0001 26.3333C13.3977 26.3333 9.66675 22.6023 9.66675 18C9.66675 13.3976 13.3977 9.66663 18.0001 9.66663C22.6025 9.66663 26.3334 13.3976 26.3334 18Z"
           stroke="#D92D20"
-          strokeWidth="1.66667"
           strokeLinecap="round"
           strokeLinejoin="round"
+          strokeWidth="1.66667"
         />
       </g>
       <defs>
         <clipPath id="clip0_1130_82861">
           <rect
-            width="20"
-            height="20"
             fill="white"
+            height="20"
             transform="translate(9 9)"
+            width="20"
           />
         </clipPath>
       </defs>
@@ -400,10 +400,10 @@ export const Icons = {
   ),
   notificationInfo: (props: IconProps) => (
     <svg
-      width="36"
+      fill="none"
       height="36"
       viewBox="0 0 36 36"
-      fill="none"
+      width="36"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -425,18 +425,18 @@ export const Icons = {
         <path
           d="M18.0001 14.6666V18M18.0001 21.3333H18.0084M26.3334 18C26.3334 22.6023 22.6025 26.3333 18.0001 26.3333C13.3977 26.3333 9.66675 22.6023 9.66675 18C9.66675 13.3976 13.3977 9.66663 18.0001 9.66663C22.6025 9.66663 26.3334 13.3976 26.3334 18Z"
           stroke="#8B949E"
-          strokeWidth="1.66667"
           strokeLinecap="round"
           strokeLinejoin="round"
+          strokeWidth="1.66667"
         />
       </g>
       <defs>
         <clipPath id="clip0_1130_82861">
           <rect
-            width="20"
-            height="20"
             fill="white"
+            height="20"
             transform="translate(9 9)"
+            width="20"
           />
         </clipPath>
       </defs>
@@ -444,10 +444,10 @@ export const Icons = {
   ),
   numberOneCircleWhite: (props: IconProps) => (
     <svg
-      width="16"
+      fill="none"
       height="16"
       viewBox="0 0 17 16"
-      fill="none"
+      width="16"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -463,10 +463,10 @@ export const Icons = {
   ),
   numberOneCircleBlack: (props: IconProps) => (
     <svg
-      width="16"
+      fill="none"
       height="16"
       viewBox="0 0 17 16"
-      fill="none"
+      width="16"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -482,10 +482,10 @@ export const Icons = {
   ),
   numberTwoCircleWhite: (props: IconProps) => (
     <svg
-      width="17"
+      fill="none"
       height="16"
       viewBox="0 0 17 16"
-      fill="none"
+      width="17"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -501,10 +501,10 @@ export const Icons = {
   ),
   numberTwoCircleBlack: (props: IconProps) => (
     <svg
-      width="17"
+      fill="none"
       height="16"
       viewBox="0 0 17 16"
-      fill="none"
+      width="17"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -520,10 +520,10 @@ export const Icons = {
   ),
   numberThreeCircleWhite: (props: IconProps) => (
     <svg
-      width="17"
+      fill="none"
       height="16"
       viewBox="0 0 17 16"
-      fill="none"
+      width="17"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -539,10 +539,10 @@ export const Icons = {
   ),
   numberThreeCircleBlack: (props: IconProps) => (
     <svg
-      width="17"
+      fill="none"
       height="16"
       viewBox="0 0 17 16"
-      fill="none"
+      width="17"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -558,13 +558,13 @@ export const Icons = {
   ),
   thumpsUp: (props: IconProps) => (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
       className="lucide lucide-thumbs-up"
+      fill="none"
+      height="16"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path d="M7 10v12" />
@@ -573,13 +573,13 @@ export const Icons = {
   ),
   clock: (props: IconProps) => (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 17 16"
-      fill="none"
-      stroke="currentColor"
       className="lucide lucide-clock-3"
+      fill="none"
+      height="16"
+      stroke="currentColor"
+      viewBox="0 0 17 16"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <circle cx="8.5" cy="8" r="7.5" />
@@ -588,11 +588,11 @@ export const Icons = {
   ),
   rocket: (props: IconProps) => (
     <svg
-      width="23"
+      fill="#52D4FC"
       height="24"
       viewBox="0 0 23 24"
+      width="23"
       xmlns="http://www.w3.org/2000/svg"
-      fill="#52D4FC"
       {...props}
     >
       <path
@@ -604,10 +604,10 @@ export const Icons = {
   ),
   nudge: (props: IconProps) => (
     <svg
-      width="17"
+      fill="none"
       height="14"
       viewBox="0 0 17 14"
-      fill="none"
+      width="17"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -616,14 +616,14 @@ export const Icons = {
   ),
   scoreLevel: (props: IconProps) => (
     <svg
-      width="20"
+      fill="none"
       height="20"
       viewBox="0 0 20 20"
-      fill="none"
+      width="20"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <rect width="20" height="20" rx="4" fill="#D9D9D9" />
+      <rect fill="#D9D9D9" height="20" rx="4" width="20" />
       <path
         d="M12.1032 10.0912L12.1889 10.1625C12.1889 10.1625 12.2151 10.1418 12.2189 10.1393L12.3646 10.0299L12.9591 9.60852L13.5131 9.20463C13.3555 9.05958 13.1986 8.91828 13.0273 8.78886C12.3377 8.26806 11.5261 7.93232 10.6702 7.81416C10.4626 7.7854 10.2563 7.77477 10.0469 7.76477V9.33904C10.3032 9.34591 10.5583 9.37905 10.8078 9.43845C11.2823 9.55911 11.7243 9.78231 12.1032 10.0912L12.1032 10.0912Z"
         fill="black"
@@ -652,30 +652,30 @@ export const Icons = {
   ),
   idCard: (props: IconProps) => (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="20"
-      viewBox="0 0 20 24"
       fill="none"
+      height="20"
       stroke="currentColor"
-      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 20 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path d="M16 10h2" />
       <path d="M16 14h2" />
       <path d="M6.17 15a3 3 0 0 1 5.66 0" />
       <circle cx="9" cy="11" r="2" />
-      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <rect height="14" rx="2" width="20" x="2" y="5" />
     </svg>
   ),
   team: (props: IconProps) => (
     <svg
-      width="20"
+      fill="none"
       height="15"
       viewBox="0 0 20 15"
-      fill="none"
+      width="20"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
       style={{ marginLeft: "4px" }}
@@ -688,10 +688,10 @@ export const Icons = {
   ),
   money: (props: IconProps) => (
     <svg
-      width="20"
+      fill="none"
       height="20"
       viewBox="0 0 20 20"
-      fill="none"
+      width="20"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
       style={{ marginLeft: "4px" }}
@@ -704,10 +704,10 @@ export const Icons = {
   ),
   financial: (props: IconProps) => (
     <svg
-      width="20"
+      fill="currentColor"
       height="20"
       viewBox="0 0 20 20"
-      fill="currentColor"
+      width="20"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >

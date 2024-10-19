@@ -13,7 +13,7 @@ import {
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import {
   GRAPH_FREQUENCY,
-  RevenueExpenseGraphType
+  type RevenueExpenseGraphType
 } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { useState } from "react"
 import { NoData } from "../../../atoms/NoData"
@@ -52,14 +52,14 @@ export function RevenueAndExpenseChart() {
         <h3 className="text-xl font-medium">Revenue vs Expense</h3>
         {!!revenueExpenseData.length && (
           <TimePeriodsSelection
-            onChangeTimePeriod={handleChangeTimePeriod}
             timePeriod={periodFilter}
+            onChangeTimePeriod={handleChangeTimePeriod}
           />
         )}
       </div>
       <LoadingWrapper isLoading={isFetching}>
         {revenueExpenseData?.length ? (
-          <ResponsiveContainer width="90%" height={500}>
+          <ResponsiveContainer height={500} width="90%">
             <BarChart
               data={revenueExpenseData}
               margin={{
@@ -71,38 +71,39 @@ export function RevenueAndExpenseChart() {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <Bar
-                name="Revenue"
                 dataKey="tags.revenue"
                 fill="#4da50d"
+                name="Revenue"
                 yAxisId="left"
               />
               <Bar
-                name="Expense"
                 dataKey="tags.expense"
                 fill="#CA1010"
+                name="Expense"
                 yAxisId="left"
               />
 
               <XAxis
-                dataKey="date"
-                interval={"preserveStartEnd"}
-                tickMargin={20}
-                padding={{ right: 20 }}
                 angle={-45}
+                dataKey="date"
                 fontSize={10}
+                interval="preserveStartEnd"
+                padding={{ right: 20 }}
                 tickFormatter={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                   return value.replace(/-/g, "/")
                 }}
+                tickMargin={20}
               />
               <YAxis
-                yAxisId="left"
-                tickFormatter={(value) => `${toCurrency(value)}`}
                 fontSize={12}
+                tickFormatter={(value) => toCurrency(value)}
+                yAxisId="left"
               />
               <Tooltip
+                cursor={{ fill: "transparent" }}
                 formatter={(value) => toCurrency(Number(value))}
                 wrapperClassName="text-sm"
-                cursor={{ fill: "transparent" }}
               />
               <Legend wrapperStyle={{ paddingTop: 20 }} />
             </BarChart>

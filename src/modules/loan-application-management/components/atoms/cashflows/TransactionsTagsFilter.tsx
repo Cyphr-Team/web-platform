@@ -14,7 +14,7 @@ import { ChevronDown } from "lucide-react"
 import { useState } from "react"
 import { useUpdateEffect } from "react-use"
 
-type Props = {
+interface Props {
   onApplyFilter: () => void
   onChangeTransactionTags: (tags: TRANSACTION_TAG[]) => void
   tags: TRANSACTION_TAG[]
@@ -32,6 +32,7 @@ export const TransactionTagsFilters: React.FC<Props> = ({
       if (value) {
         return [...prev, option]
       }
+
       return prev.filter((item) => item !== option)
     })
   }
@@ -50,12 +51,12 @@ export const TransactionTagsFilters: React.FC<Props> = ({
           <ChevronDown className="ml-2 h-4 w-4" />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="p-0 pt-2 w-52" align="end">
+      <PopoverContent align="end" className="p-0 pt-2 w-52">
         <ScrollArea className="h-80">
           <div className="flex p-2 gap-2">
             <Checkbox
-              id="all"
               checked={checkedList.length === options.length}
+              id="all"
               onCheckedChange={(value: boolean) => {
                 if (value) {
                   setCheckedList(options.map((option) => option))
@@ -66,16 +67,16 @@ export const TransactionTagsFilters: React.FC<Props> = ({
             >
               Select All
             </Checkbox>
-            <Label htmlFor="all" className="text-xs">
+            <Label className="text-xs" htmlFor="all">
               Select All
             </Label>
           </div>
           {options.map((option) => (
-            <div className="flex p-2 gap-2" key={option}>
+            <div key={option} className="flex p-2 gap-2">
               <Checkbox
-                id={option}
-                className="capitalize"
                 checked={checkedList.includes(option)}
+                className="capitalize"
+                id={option}
                 onCheckedChange={(value: boolean) => {
                   // Ensure value is always a boolean
                   onChangeCheckbox(value, option)
@@ -83,7 +84,7 @@ export const TransactionTagsFilters: React.FC<Props> = ({
               >
                 {option}
               </Checkbox>
-              <Label htmlFor={option} className="text-xs">
+              <Label className="text-xs" htmlFor={option}>
                 {capitalizeWords(snakeCaseToText(option))}
               </Label>
             </div>
@@ -92,9 +93,9 @@ export const TransactionTagsFilters: React.FC<Props> = ({
         <Separator />
         <div className="flex p-2 w-full justify-end">
           <Button
-            variant="outline"
-            size="sm"
             className="text-xs"
+            size="sm"
+            variant="outline"
             onClick={onApplyFilter}
           >
             DONE

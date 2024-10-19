@@ -1,5 +1,5 @@
 import { ASSETS } from "@/assets"
-import { LoanProgramData } from "./type"
+import { type LoanProgramData } from "./type"
 
 const ALTCAP_ARTCAP_EXPRESS: LoanProgramData = {
   id: "artcap-express",

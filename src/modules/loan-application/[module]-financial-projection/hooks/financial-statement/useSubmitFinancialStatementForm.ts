@@ -9,15 +9,15 @@ import { useCallback } from "react"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import {
   FinancialStatementFormField,
-  FinancialStatementFormValue
+  type FinancialStatementFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 import {
-  FinancialStatementDeleteRequest,
-  FinancialStatementFormResponse
+  type FinancialStatementDeleteRequest,
+  type FinancialStatementFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 
-type Props = {
+interface Props {
   rawData: FinancialStatementFormValue
 }
 
@@ -36,6 +36,7 @@ export const useSubmitFinancialStatementForm = ({ rawData }: Props) => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY.GET_FINANCIAL_STATEMENT_FORM]
           })
+
           return res
         },
         onError: (error) =>
@@ -52,6 +53,7 @@ export const useSubmitFinancialStatementForm = ({ rawData }: Props) => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY.GET_FINANCIAL_STATEMENT_FORM]
           })
+
           return res
         },
         onError: (error) =>
@@ -64,6 +66,7 @@ export const useSubmitFinancialStatementForm = ({ rawData }: Props) => {
   // Call API
   const submitFinancialStatement = async (loanApplicationId: string) => {
     const formData = new FormData()
+
     formData.append(FinancialStatementFormField.setupId, loanApplicationId)
     if (rawData.hasDocument === BINARY_VALUES.YES) {
       // Upload new file if there is any
@@ -79,6 +82,7 @@ export const useSubmitFinancialStatementForm = ({ rawData }: Props) => {
         const removePromises = rawData.deletedFiles.map((id) =>
           removeFunction({ setupId: loanApplicationId, documentId: id })
         )
+
         await Promise.allSettled(removePromises)
       }
     } else {
@@ -88,6 +92,7 @@ export const useSubmitFinancialStatementForm = ({ rawData }: Props) => {
         const removePromises = rawData.uploadedFiles.map((item) =>
           removeFunction({ setupId: loanApplicationId, documentId: item.id })
         )
+
         await Promise.allSettled(removePromises)
       } else {
         await uploadFunction(formData)
@@ -121,6 +126,7 @@ const useMutateUploadFinancialStatement = () => {
       })
     }
   })
+
   return {
     mutateAsync: mutation.mutateAsync,
     isUploading: mutation.isPending
@@ -146,11 +152,13 @@ const useMutateDeleteFinancialStatement = () => {
       })
     }
   })
+
   return {
     mutateAsync: mutation.mutateAsync,
     isRemoving: mutation.isPending
   }
 }
+
 export const reverseFormatFinancialStatementForm = (
   responseData: FinancialStatementFormResponse
 ): FinancialStatementFormValue => {

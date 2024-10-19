@@ -1,9 +1,9 @@
-import { LoanApplicationStatus } from "../loan-application.type"
-import { LoanType } from "../loan-program.type"
-import { UserDetailInfo } from "../user.type"
-import { IScore } from "./application-score.type"
+import { type LoanApplicationStatus } from "../loan-application.type"
+import { type LoanType } from "../loan-program.type"
+import { type UserDetailInfo } from "../user.type"
+import { type IScore } from "./application-score.type"
 
-import { LoanApplicationStage } from "./application-stage.type"
+import { type LoanApplicationStage } from "./application-stage.type"
 
 /**
  * Below are server model

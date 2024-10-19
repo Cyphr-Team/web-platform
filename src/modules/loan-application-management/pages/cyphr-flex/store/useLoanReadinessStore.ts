@@ -1,5 +1,5 @@
 import { createSelectors } from "@/utils/store.ts"
-import { OnChangeFn, SortingState } from "@tanstack/react-table"
+import { type OnChangeFn, type SortingState } from "@tanstack/react-table"
 import { create } from "zustand"
 
 interface LoanReadinessSlice {

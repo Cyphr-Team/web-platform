@@ -1,6 +1,6 @@
 import { EIN_PATTERN } from "@/constants"
 import {
-  Block,
+  type Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate"
 import { REGEX_PATTERN } from "@/modules/loan-application/constants"
@@ -9,7 +9,7 @@ import {
   YES_NO_OPTIONS,
   yesNoSchema
 } from "@/modules/loan-application/constants/form"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 
 import * as z from "zod"
 
@@ -107,6 +107,7 @@ export const sbbKybFormSchemaPartOne = z
     if (val[SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY] === BINARY_VALUES.YES) {
       return !!val[SBB_KYB_FORM_FIELDS.PARENT_COMPANY]
     }
+
     return true
   })
 
@@ -145,6 +146,7 @@ export const sbbKybFormSchemaPartTwo = z
     ) {
       return !!val[SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT]
     }
+
     return true
   })
 
@@ -154,12 +156,14 @@ export type SbbKybFormPartTwoValue = z.infer<typeof sbbKybFormSchemaPartTwo>
 
 export const getLabelByValue = (value: string, options: Option[]) => {
   const option = options.find((opt) => opt.value === value)
+
   return option?.label ?? ""
 }
 
 export const getLabelsByValues = (values: string[], options: Option[]) => {
   return values.map((value) => getLabelByValue(value, options))
 }
+
 export const getOptionsByField = (field: SBB_KYB_FORM_FIELDS) => {
   switch (field) {
     case SBB_KYB_FORM_FIELDS.YEARS_IN_OPERATION:

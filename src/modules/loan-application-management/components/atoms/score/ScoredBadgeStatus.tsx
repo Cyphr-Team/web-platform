@@ -1,4 +1,4 @@
-import { Badge, BadgeProps } from "@/components/ui/badge"
+import { Badge, type BadgeProps } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { APP_PATH } from "@/constants"
 import { useNavigate } from "react-router-dom"
@@ -16,10 +16,10 @@ interface IScoredBadgeStatusProps {
   scoredAt?: string | boolean
 }
 
-export const ScoredBadgeStatus = ({
+export function ScoredBadgeStatus({
   scoredAt,
   children
-}: React.PropsWithChildren<IScoredBadgeStatusProps>) => {
+}: React.PropsWithChildren<IScoredBadgeStatusProps>) {
   const variant: {
     variantColor: BadgeProps["variantColor"]
     text: string
@@ -38,22 +38,22 @@ export const ScoredBadgeStatus = ({
 
   return (
     <Badge
-      variantColor={variant.variantColor}
       className={cn(
         "h-7 text-black font-normal bg-opacity-100 whitespace-nowrap",
         variant.className
       )}
+      variantColor={variant.variantColor}
     >
       {children || variant.text}
     </Badge>
   )
 }
 
-export const ScoredBadgeStatusWithTooltip = ({
+export function ScoredBadgeStatusWithTooltip({
   loanApplicationId,
   scoredAt,
   loanProgramType
-}: IScoredBadgeStatusWithToolTipProps) => {
+}: IScoredBadgeStatusWithToolTipProps) {
   const navigate = useNavigate()
 
   const handleClickDetail = () => {
@@ -70,11 +70,11 @@ export const ScoredBadgeStatusWithTooltip = ({
 
   return (
     <Button
-      onClick={handleClickDetail}
-      type="button"
-      className="p-0 h-auto cursor-pointer"
-      variant="ghost"
       asChild
+      className="p-0 h-auto cursor-pointer"
+      type="button"
+      variant="ghost"
+      onClick={handleClickDetail}
     >
       {scoredAt ? (
         <ScoredTooltip tooltipContent={getScoredTooltipContent(scoredAt)}>

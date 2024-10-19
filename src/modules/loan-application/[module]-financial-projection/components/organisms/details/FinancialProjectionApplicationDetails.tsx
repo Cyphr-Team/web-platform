@@ -6,7 +6,7 @@ import { useLoanApplicationDetailContext } from "@/modules/loan-application-mana
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
 import { DisclaimerNote } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/DisclaimerNote"
 import { useFinancialApplicationDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details"
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
 import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
@@ -21,7 +21,7 @@ import { useIsFetching } from "@tanstack/react-query"
 import { FolderDown } from "lucide-react"
 import { useRef } from "react"
 
-export const FinancialProjectionApplicationDetails = () => {
+export function FinancialProjectionApplicationDetails() {
   const financialApplicationForms = useGetFinancialProjectForms()
   const {
     loanApplicationDetails,
@@ -55,7 +55,7 @@ export const FinancialProjectionApplicationDetails = () => {
   )
 }
 
-export const FinancialProjectionApplicationSummary = () => {
+export function FinancialProjectionApplicationSummary() {
   const financialApplicationForms = useGetFinancialProjectLoanSummary()
   const { loanSummary, loanApplicationDetails, isFetchingSummary, isLoading } =
     useLoanApplicationDetailContext()
@@ -88,7 +88,7 @@ interface HeaderProps {
   isLoading?: boolean
 }
 
-const Header = ({ isLoading }: HeaderProps) => {
+function Header({ isLoading }: HeaderProps) {
   const isExporting = useBoolean(false)
 
   const elementToExportRef = useRef<Partial<Record<string, HTMLDivElement>>>({})
@@ -129,10 +129,10 @@ const Header = ({ isLoading }: HeaderProps) => {
         </h1>
         <div className="ml-auto">
           <ButtonLoading
+            className="font-semibold"
             disabled={isLoading}
             isLoading={isExporting.value}
             variant="success"
-            className="font-semibold"
             onClick={exportToPdf}
           >
             <FolderDown className="w-4 h-4 mr-1" /> Download PDF
@@ -151,12 +151,12 @@ interface MainProps {
   isPdf?: boolean
   companyName: string
 }
-const Main = ({
+function Main({
   financialApplicationDetailData,
   isLoading,
   isPdf,
   companyName
-}: MainProps) => {
+}: MainProps) {
   const render = financialApplicationDetailData.map(
     ({
       id,
@@ -167,13 +167,13 @@ const Main = ({
       subChildren
     }) => (
       <FinancialApplicationFormDetail
-        isPdf={isPdf}
-        isLoading={isLoading}
         key={id + subId}
-        title={title}
-        subTitle={subTitle}
         financialApplicationFormData={financialApplicationFormData}
+        isLoading={isLoading}
+        isPdf={isPdf}
         subChildren={subChildren}
+        subTitle={subTitle}
+        title={title}
       />
     )
   )
@@ -187,8 +187,8 @@ const Main = ({
         >
           <DisclaimerNote
             companyName={companyName}
-            title="Application Summary"
             marginClass="mt-[875px]"
+            title="Application Summary"
           />
         </div>
       </div>
@@ -197,14 +197,14 @@ const Main = ({
   )
 }
 
-const Layout = ({ children }: React.PropsWithChildren) => {
+function Layout({ children }: React.PropsWithChildren) {
   return (
     <div
-      id="financial-application-detail"
       className={cn(
         "flex flex-col gap-4 px-4 flex-1 overflow-auto pb-4",
         "md:px-8 md:gap-8 md:pb-8"
       )}
+      id="financial-application-detail"
     >
       {children}
     </div>

@@ -4,7 +4,7 @@ import { useFinancialApplicationDetail } from "@/modules/loan-application/[modul
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 
-export const ApplicationReviewPdf = () => {
+export function ApplicationReviewPdf() {
   const financialApplicationForms = useGetFinancialProjectForms()
   const { loanApplicationDetails, kybFormData, kycFormData } =
     useBRLoanApplicationDetailsContext()
@@ -27,12 +27,12 @@ export const ApplicationReviewPdf = () => {
           subChildren
         }) => (
           <FinancialApplicationFormDetail
-            isPdf
             key={id + subId}
-            title={title}
-            subTitle={subTitle}
+            isPdf
             financialApplicationFormData={financialApplicationFormData}
             subChildren={subChildren}
+            subTitle={subTitle}
+            title={title}
           />
         )
       )}

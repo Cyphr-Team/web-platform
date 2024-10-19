@@ -1,13 +1,13 @@
 import { CriteriaName } from "@/modules/assessment/interface/Rating/type.ts"
-import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
-import { Option } from "@/types/common.type"
-import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { BaseLoanProgramType } from "@/types/loan-program.type"
-import { SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
-import { SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
+import { type LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
+import { type Option } from "@/types/common.type"
+import { type LoanApplicationStatus } from "@/types/loan-application.type"
+import { type BaseLoanProgramType } from "@/types/loan-program.type"
+import { type SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
+import { type SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
 import {
-  LoanReadyKYBFieldName,
-  LoanReadyKYCFieldName
+  type LoanReadyKYBFieldName,
+  type LoanReadyKYCFieldName
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 
 export interface KYBInformation {
@@ -527,13 +527,13 @@ interface SBBUploadDocumentForm<T> {
   byLaws: T[]
 }
 
-export interface SBBUploadDocumentRequest extends DocumentUpload {}
+export type SBBUploadDocumentRequest = DocumentUpload
 
-export interface SBBUploadDocumentFormResponse
-  extends SBBUploadDocumentForm<DocumentUploadedResponse> {}
+export type SBBUploadDocumentFormResponse =
+  SBBUploadDocumentForm<DocumentUploadedResponse>
 
-export interface SBBDeleteDocumentResponse
-  extends SBBUploadDocumentForm<DocumentUploadedResponse> {}
+export type SBBDeleteDocumentResponse =
+  SBBUploadDocumentForm<DocumentUploadedResponse>
 
 export interface ApplicationCriteriaResponse {
   criteriaName: string

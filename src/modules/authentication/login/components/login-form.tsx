@@ -12,7 +12,11 @@ import { Input, InputPassword } from "@/components/ui/input"
 import { LoginGoogleButton } from "./login-google-button"
 import { APP_PATH } from "@/constants"
 import { Checkbox } from "@/components/ui/checkbox"
-import { LoginFormValue, loginFormSchema, useLogin } from "../hooks/useLogin"
+import {
+  type LoginFormValue,
+  loginFormSchema,
+  useLogin
+} from "../hooks/useLogin"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link, useSearchParams } from "react-router-dom"
@@ -36,8 +40,8 @@ export function LoginForm() {
     <div className="flex flex-col space-y-4">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit((data) => mutate(data))}
           className="space-y-4 w-full"
+          onSubmit={form.handleSubmit((data) => mutate(data))}
         >
           <FormField
             control={form.control}
@@ -47,10 +51,10 @@ export function LoginForm() {
                 <FormLabel>Email</FormLabel>
                 <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="text-base"
                     autoComplete="username"
+                    className="text-base"
+                    placeholder="Enter your email"
+                    type="email"
                     {...field}
                     disabled={isPending}
                   />
@@ -68,9 +72,9 @@ export function LoginForm() {
                 <FormLabel>Password</FormLabel>
                 <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <InputPassword
-                    placeholder="••••••••"
-                    className="text-base"
                     autoComplete="current-password"
+                    className="text-base"
+                    placeholder="••••••••"
                     {...field}
                     disabled={isPending}
                   />
@@ -88,8 +92,8 @@ export function LoginForm() {
                 <FormItem className="flex items-center space-x-2 space-y-0">
                   <FormControl>
                     <Checkbox
-                      disabled={isPending}
                       checked={field.value}
+                      disabled={isPending}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
@@ -102,10 +106,10 @@ export function LoginForm() {
 
             <p className="text-sm">
               <Button
+                asChild
+                className="p-0 text-primary"
                 type="button"
                 variant="link"
-                className="p-0 text-primary"
-                asChild
               >
                 <Link to={APP_PATH.FORGOT_PASSWORD}>Forgot password</Link>
               </Button>
@@ -115,9 +119,9 @@ export function LoginForm() {
           {Boolean(errorMsg) && <ErrorMessage>{errorMsg}</ErrorMessage>}
 
           <ButtonLoading
+            className="ml-auto w-full text-base"
             disabled={!form.formState.isValid}
             isLoading={isPending}
-            className="ml-auto w-full text-base"
             type="submit"
           >
             Sign in

@@ -15,7 +15,7 @@ import {
   getPassedSelfieVerification
 } from "../../../../loan-application-management/services/identity-verification.service"
 
-export const Insights = () => {
+export function Insights() {
   const { loanSmartKycDetail, isLoading } = useLoanApplicationDetailContext()
 
   const totalStep = 2
@@ -23,6 +23,7 @@ export const Insights = () => {
     const passedGov = getPassedGovVerification({
       governmentVerifications: loanSmartKycDetail?.governmentVerifications
     })
+
     return passedGov != null
       ? IdentityVerificationStatus.VERIFIED
       : IdentityVerificationStatus.UNVERIFIED
@@ -32,6 +33,7 @@ export const Insights = () => {
     const passedSelfie = getPassedSelfieVerification({
       selfieVers: loanSmartKycDetail?.selfies
     })
+
     return passedSelfie != null
       ? IdentityVerificationStatus.VERIFIED
       : IdentityVerificationStatus.UNVERIFIED
@@ -62,21 +64,21 @@ export const Insights = () => {
       </CardHeader>
       <CardContent className="w-full lg:w-[300px] !p-4 !pt-0">
         <InsightItem
-          title="Government ID"
-          status={govermentIdStep()}
-          label={govermentIdStep().toLowerCase()}
-          toolTipContent="Government Id Verification uses the ID Card, Driver license, etc"
           href={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
           isLoading={isLoading}
+          label={govermentIdStep().toLowerCase()}
+          status={govermentIdStep()}
+          title="Government ID"
+          toolTipContent="Government Id Verification uses the ID Card, Driver license, etc"
         />
         <InsightItem
-          title="Selfie verification"
-          status={selfieStep()}
-          label={selfieStep().toLowerCase()}
-          toolTipContent="Selfie Verification uses the Persona to authenticate"
+          noBorder
           href={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
           isLoading={isLoading}
-          noBorder={true}
+          label={selfieStep().toLowerCase()}
+          status={selfieStep()}
+          title="Selfie verification"
+          toolTipContent="Selfie Verification uses the Persona to authenticate"
         />
       </CardContent>
     </Card>

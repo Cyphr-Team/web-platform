@@ -10,11 +10,11 @@ import { toCurrency } from "@/utils"
 import { getTimeRangeDates } from "@/utils/time-range.utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-import { DateRange } from "react-day-picker"
+import { type DateRange } from "react-day-picker"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-const CashFlow = () => {
+function CashFlow() {
   const cashFlowCurrency = (value: number) => toCurrency(value, 0)
 
   const [showDatePicker, setShowDatePicker] = useState(true)
@@ -54,12 +54,12 @@ const CashFlow = () => {
           <form>
             <div className="group date-select-coupling flex items-end">
               <SelectTimeRange
+                showExtendedTimeRange
                 customOnChange={customSelectTimeRangeOnChange}
                 showLabel={false}
-                showExtendedTimeRange={true}
               />
 
-              {showDatePicker && (
+              {showDatePicker ? (
                 <div className="flex items-center flex-wrap">
                   <FormField
                     control={form.control}
@@ -67,16 +67,16 @@ const CashFlow = () => {
                     render={({ field: { value } }) => (
                       <FormItem className="flex items-end space-y-0 gap-1">
                         <DatePickerWithRange
+                          className="w-full mt-0 rounded-l-none"
                           date={value}
                           setDate={handleSetDate}
-                          className="w-full mt-0 rounded-l-none"
                         />
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-              )}
+              ) : null}
             </div>
           </form>
         </Form>

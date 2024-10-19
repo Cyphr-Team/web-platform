@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { UseFormReturn } from "react-hook-form"
 
 const useMagic = (
-  method: UseFormReturn,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  method: any,
   autofillData: Record<string, string>,
   delay = 35
 ) => {
@@ -35,6 +35,7 @@ const useMagic = (
     const startAutofill = (i = 0) => {
       if (i < fieldNames.length) {
         const fieldName = fieldNames[i]
+
         // Check if the field has already been filled
         if (!filledFields.has(fieldName)) {
           // Autofill each field character by character

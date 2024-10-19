@@ -18,13 +18,13 @@ interface IDownloadDocumentButtonProps {
   className?: string
 }
 
-export const DownloadChatbotDocumentButton = ({
+export function DownloadChatbotDocumentButton({
   documentId,
   fileName,
   text,
   disabled,
   className
-}: IDownloadDocumentButtonProps) => {
+}: IDownloadDocumentButtonProps) {
   // Use timestamp to prevent cache when downloading the file
   // Set initial value to 0 as we don't want the download to be triggered immediately at first render
   const [timestamp, setTimestamp] = useState(0)
@@ -34,9 +34,7 @@ export const DownloadChatbotDocumentButton = ({
     timestamp
   })
 
-  const handleDownloadDocument = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleDownloadDocument = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     setTimestamp(() => Date.now())
   }
@@ -46,15 +44,15 @@ export const DownloadChatbotDocumentButton = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <ButtonLoading
-            variant="ghost"
-            size="sm"
-            onClick={handleDownloadDocument}
-            isLoading={downloadFile.isLoading}
-            disabled={disabled}
             className={className}
+            disabled={disabled}
+            isLoading={downloadFile.isLoading}
+            size="sm"
+            variant="ghost"
+            onClick={handleDownloadDocument}
           >
             <div className="flex items-center">
-              {text && <span className="mr-1">{text}</span>}
+              {text ? <span className="mr-1">{text}</span> : null}
               <FileDown className="w-6 h-6 p-0.5" />
             </div>
           </ButtonLoading>

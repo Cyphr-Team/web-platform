@@ -9,9 +9,13 @@ import {
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
 import { memo, useCallback } from "react"
-import { FieldPath, FieldValues, useFormContext } from "react-hook-form"
+import {
+  type FieldPath,
+  type FieldValues,
+  useFormContext
+} from "react-hook-form"
 
-type IOption = {
+interface IOption {
   value: string
   label: string
 }
@@ -30,9 +34,9 @@ export interface RHFMultiSelectInputProps<T extends FieldValues> {
   subLabel?: string
 }
 
-const RHFMultiSelectInput = <T extends FieldValues>(
+function RHFMultiSelectInput<T extends FieldValues>(
   props: RHFMultiSelectInputProps<T>
-) => {
+) {
   const { control } = useFormContext()
   const { name, label, required, subtitle, options, className, subLabel } =
     props
@@ -51,8 +55,8 @@ const RHFMultiSelectInput = <T extends FieldValues>(
             >
               <FormControl>
                 <Checkbox
-                  className="w-5 h-5 text-rich-black border-rich-black"
                   checked={field.value?.includes(option.value)}
+                  className="w-5 h-5 text-rich-black border-rich-black"
                   onCheckedChange={(checked) => {
                     return checked
                       ? field.onChange([...field.value, option.value])
@@ -81,17 +85,17 @@ const RHFMultiSelectInput = <T extends FieldValues>(
       <FormLabel className="text-sm text-text-secondary font-medium">
         <p>
           {label}
-          {subLabel && (
+          {subLabel ? (
             <span className="text-text-tertiary italic font-light">
               {subLabel}
             </span>
-          )}
-          {required && <RequiredSymbol />}
+          ) : null}
+          {required ? <RequiredSymbol /> : null}
         </p>
 
-        {subtitle && (
+        {subtitle ? (
           <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
-        )}
+        ) : null}
       </FormLabel>
       {options.map((option, index) => renderOption(option, index))}
       <FormMessage />

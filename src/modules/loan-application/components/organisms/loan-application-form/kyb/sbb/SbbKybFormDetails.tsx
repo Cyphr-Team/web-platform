@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card"
-import { KYBInformationResponse } from "@/modules/loan-application/constants/type"
+import { type KYBInformationResponse } from "@/modules/loan-application/constants/type"
 import { Separator } from "@/components/ui/separator"
 import React from "react"
 import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
@@ -14,18 +14,13 @@ import { get } from "lodash"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { toCurrency } from "@/utils"
 
-interface KybFormDetailsProps {
-  kybFormData?: KYBInformationResponse
-  ref?: React.Ref<HTMLDivElement>
-}
-
 enum FIELD_TYPE {
   TEXT = "text",
   MULTI_TEXT = "multi-text",
   OPTION = "option"
 }
 
-type Field = {
+interface Field {
   label: string
   field: SBB_KYB_FORM_FIELDS
   type?: "text" | "multi-text" | "option"
@@ -196,19 +191,20 @@ const FIELDS: Field[] = [
   }
 ]
 
-export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
-  kybFormData,
-  ref
-}) => {
+interface KybFormDetailsProps {
+  kybFormData?: KYBInformationResponse
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export function SbbKybFormDetails({ kybFormData, ref }: KybFormDetailsProps) {
   const renderField = (field: Field) => {
     if (field.field === SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) {
       return (
         <AnswersTextDisplay
           key={field.field}
           className="!flex-row justify-between gap-8"
-          valueClassName="text-right"
-          labelClassName="max-w-screen-sm"
           label={field.label}
+          labelClassName="max-w-screen-sm"
           value={
             get(kybFormData?.metadata, field.field, "") === BINARY_VALUES.YES
               ? `Yes, ${get(
@@ -218,6 +214,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
                 )}`
               : "No"
           }
+          valueClassName="text-right"
         />
       )
     }
@@ -227,9 +224,8 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         <AnswersTextDisplay
           key={field.field}
           className="!flex-row justify-between gap-8"
-          valueClassName="text-right"
-          labelClassName="max-w-screen-sm"
           label={field.label}
+          labelClassName="max-w-screen-sm"
           value={
             get(kybFormData?.metadata, field.field, "") === BINARY_VALUES.YES
               ? `Yes, ${toCurrency(
@@ -241,6 +237,7 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
                 )}`
               : "No"
           }
+          valueClassName="text-right"
         />
       )
     }
@@ -248,32 +245,36 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
     if (field.type === FIELD_TYPE.OPTION) {
       const label = getLabelByValue(
         get(kybFormData?.metadata, field.field, "") as string,
+
         getOptionsByField(field.field)
       )
+
       return (
         <AnswersTextDisplay
           key={field.field}
           className="!flex-row justify-between gap-8"
-          valueClassName="text-right"
-          labelClassName="max-w-screen-sm"
           label={field.label}
+          labelClassName="max-w-screen-sm"
           value={label}
+          valueClassName="text-right"
         />
       )
     }
     if (field.type === FIELD_TYPE.MULTI_TEXT) {
       const label = getLabelsByValues(
         get(kybFormData?.metadata, field.field, []) as string[],
+
         getOptionsByField(field.field)
       ).join(", ")
+
       return (
         <AnswersTextDisplay
           key={field.field}
           className="!flex-row justify-between gap-8"
-          labelClassName="max-w-screen-sm"
-          valueClassName=""
           label={field.label}
+          labelClassName="max-w-screen-sm"
           value={label}
+          valueClassName=""
         />
       )
     }
@@ -290,10 +291,10 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
         <AnswersTextDisplay
           key={field.field}
           className="!flex-row justify-between gap-8"
-          valueClassName="text-right capitalize"
-          labelClassName="max-w-screen-sm"
           label={field.label}
+          labelClassName="max-w-screen-sm"
           value={get(kybFormData?.businessStreetAddress, field.field, "")}
+          valueClassName="text-right capitalize"
         />
       )
     }
@@ -302,9 +303,8 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
       <AnswersTextDisplay
         key={field.field}
         className="!flex-row justify-between gap-8"
-        valueClassName="text-right capitalize"
-        labelClassName="max-w-screen-sm"
         label={field.label}
+        labelClassName="max-w-screen-sm"
         value={
           get(
             kybFormData?.metadata,
@@ -312,13 +312,15 @@ export const SbbKybFormDetails: React.FC<KybFormDetailsProps> = ({
             get(kybFormData, field.field, "")
           ) as string
         }
+        valueClassName="text-right capitalize"
       />
     )
   }
+
   return (
     <Card
-      className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none"
       ref={ref}
+      className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none"
     >
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />

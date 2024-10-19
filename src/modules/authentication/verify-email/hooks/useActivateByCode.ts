@@ -1,10 +1,10 @@
-import { ErrorResponse } from "@/types/common.type"
-import { UserInfo } from "@/types/user.type"
+import { type ErrorResponse } from "@/types/common.type"
+import { type UserInfo } from "@/types/user.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { createSearchParams, useNavigate, useParams } from "react-router-dom"
-import { VerifyEmailFormSchema } from "../constants"
+import { type VerifyEmailFormSchema } from "../constants"
 import { postRequest } from "@/services/client.service"
 import { headerWithTemporaryToken } from "@/utils/request-header"
 
@@ -19,7 +19,7 @@ export const useActivateByCode = () => {
   >({
     mutationFn: ({ codes, token }) => {
       if (!email) {
-        throw "Email is not valid"
+        throw Error("Email is not valid")
       }
 
       return postRequest({

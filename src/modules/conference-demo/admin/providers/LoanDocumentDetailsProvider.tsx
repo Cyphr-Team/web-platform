@@ -1,16 +1,22 @@
 import {
-  DocumentDetailsType,
-  Visualization,
-  VisualizationPage,
-  VisualizationType
+  type DocumentDetailsType,
+  type Visualization,
+  type VisualizationPage,
+  type VisualizationType
 } from "@/modules/conference-demo/admin/constants/type"
 import { useQueryGetDocumentDetails } from "@/modules/conference-demo/admin/hooks/conference/useQuery"
 import { VISUALIZATION_DESCRIPTION } from "@/modules/loan-application-management/constants"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react"
 import { useParams } from "react-router-dom"
 import { createContext, useContext } from "use-context-selector"
 
-type LoanDocumentDetailsContextType = {
+interface LoanDocumentDetailsContextType {
   scale: number
   zoomIn: () => void
   zoomOut: () => void
@@ -26,22 +32,18 @@ type LoanDocumentDetailsContextType = {
 export const LoanDocumentDetailsContext =
   createContext<LoanDocumentDetailsContextType>({
     scale: 1,
-    zoomIn: () => {},
-    zoomOut: () => {},
+    zoomIn: () => ({}),
+    zoomOut: () => ({}),
     visualizationDetails: {} as VisualizationType,
     documentDetails: {} as DocumentDetailsType,
     selectedVisualization: null,
     selectedPage: null,
-    handleSelectPage: () => {},
-    handleSelectVisualization: () => {},
+    handleSelectPage: () => ({}),
+    handleSelectVisualization: () => ({}),
     isLoadingDetail: true
   })
 
-type Props = {
-  children: React.ReactNode
-}
-
-export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
+export function LoanDocumentDetailsProvider({ children }: PropsWithChildren) {
   const [selectedPage, setSelectedPage] = useState<VisualizationPage | null>(
     null
   )
@@ -88,6 +90,7 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
                   const imageUrl = `${visualization.imageUrl}.png`
                   const thumbnailSmallUrl = `${visualization.imageUrl}_sm.png`
                   const thumbnailMediumUrl = `${visualization.imageUrl}_md.png`
+
                   return {
                     visualizationIdentifier: visualization.visualType,
                     imageUrl: imageUrl,

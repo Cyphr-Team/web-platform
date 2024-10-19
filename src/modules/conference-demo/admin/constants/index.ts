@@ -1,6 +1,6 @@
-import { IconProps, Icons } from "@/components/ui/icons"
+import { type IconProps, Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
-import { LucideIcon } from "lucide-react"
+import { type LucideIcon } from "lucide-react"
 
 export enum ApplicationMenuName {
   business = "Business Verification",
@@ -10,6 +10,7 @@ export enum ApplicationMenuName {
   applicationSummary = "Loan Summary",
   loanReadiness = "Loan Readiness"
 }
+
 export const APPLICATION_MENU = [
   {
     name: ApplicationMenuName.business,
@@ -53,7 +54,7 @@ export const DASHBOARD_NAV_ITEM = [
   }
 ]
 
-export type NavItem = {
+export interface NavItem {
   title: string
   href: string
   icon: LucideIcon | ((props: IconProps) => JSX.Element)

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { getTimeRangeDates } from "@/utils/time-range.utils"
 import { TimeRangeValue } from "@/types/time-range.type"
-import { DateRange } from "react-day-picker"
+import { type DateRange } from "react-day-picker"
 import { SectionTitle } from "../../../atoms/cashflows/SectionTitle"
 import { Separator } from "@/components/ui/separator"
 import { NoiAndTotalDebtPaymentsChart } from "./NoiAndTotalDebtPaymentsChart"
@@ -28,7 +28,7 @@ const FilterSchema = z.object({
   })
 })
 
-export const Cashflow = () => {
+export function Cashflow() {
   const {
     newCashFlowGlance,
     isFetchingNewCashFlow,
@@ -66,10 +66,12 @@ export const Cashflow = () => {
         const dateRange = getTimeRangeDates(value)
         const fromDate = format(dateRange.from, "yyyy-MM-dd")
         const toDate = format(dateRange.to, "yyyy-MM-dd")
+
         onChangeNewTimeRangeFilter(fromDate, toDate)
       } else {
         const fromDate = form.getValues("timeRange").from
         const toDate = form.getValues("timeRange").to
+
         if (!!fromDate && !!toDate) {
           onChangeNewTimeRangeFilter(
             format(fromDate, "yyyy-MM-dd"),
@@ -97,12 +99,12 @@ export const Cashflow = () => {
           <form>
             <div className="group date-select-coupling flex items-end">
               <SelectTimeRange
+                showExtendedTimeRange
                 customOnChange={customSelectTimeRangeOnChange}
                 showLabel={false}
-                showExtendedTimeRange={true}
               />
 
-              {showDatePicker && (
+              {showDatePicker ? (
                 <div className="flex items-center flex-wrap">
                   <FormField
                     control={form.control}
@@ -110,23 +112,23 @@ export const Cashflow = () => {
                     render={({ field: { value } }) => (
                       <FormItem className="flex items-end space-y-0 gap-1">
                         <DatePickerWithRange
+                          className="w-full mt-0 rounded-l-none"
                           date={value}
                           setDate={handleSetDate}
-                          className="w-full mt-0 rounded-l-none"
                         />
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-              )}
+              ) : null}
             </div>
           </form>
         </Form>
       </div>
       <CashflowGlanceReport
-        newCashFlowGlance={newCashFlowGlance}
         isFetchingNewCashFlow={isFetchingNewCashFlow}
+        newCashFlowGlance={newCashFlowGlance}
       />
       <Separator />
       <SectionTitle>Charts and Trends</SectionTitle>

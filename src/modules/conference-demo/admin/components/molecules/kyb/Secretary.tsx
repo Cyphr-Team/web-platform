@@ -2,8 +2,8 @@ import { Dot } from "@/components/ui/dot"
 import { KybState } from "@/modules/loan-application-management/components/molecules/KybState"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { BusinessSosDetail } from "@/modules/loan-application-management/constants/types/business.type"
-import { ColumnDef } from "@tanstack/react-table"
+import { type BusinessSosDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { type ColumnDef } from "@tanstack/react-table"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { SourceToolTip } from "@/modules/loan-application/components/molecules/SourceToolTip"
@@ -15,7 +15,7 @@ import { DateHeader } from "@/modules/conference-demo/admin/components/atoms/Dat
 const columns: ColumnDef<BusinessSosDetail>[] = [
   {
     accessorKey: "fileDate",
-    header: () => <MiddeskTableHeader title={"File date"} />,
+    header: () => <MiddeskTableHeader title="File date" />,
     cell: ({ row }) => {
       const data = row.original
 
@@ -62,7 +62,7 @@ const columns: ColumnDef<BusinessSosDetail>[] = [
 
       return (
         <div className="flex items-start">
-          {data.subStatus && (
+          {data.subStatus ? (
             <>
               <Dot
                 className="flex-shrink-0 self-start mt-1"
@@ -75,20 +75,20 @@ const columns: ColumnDef<BusinessSosDetail>[] = [
                 sourceContent={data.subStatus}
               />
             </>
-          )}
+          ) : null}
         </div>
       )
     }
   }
 ]
 
-export const Secretary = () => {
+export function Secretary() {
   const sosFillings = MOCK_KYB_DETAIL.businessSosFillings
 
   const badge = (
     <MiddeskBadge
-      status={MOCK_KYB_DETAIL.insights.sosFillings?.status}
       label={sosFillings?.subLabel}
+      status={MOCK_KYB_DETAIL.insights.sosFillings?.status}
     />
   )
   const headerTitle = <>Secretary of State filings {badge}</>
@@ -101,19 +101,19 @@ export const Secretary = () => {
       </div>
 
       <MiddeskTable
-        tableClassName={"table-fixed"}
         columns={columns}
         data={sosFillings?.data ?? []}
+        tableClassName="table-fixed"
       />
     </>
   )
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.sosFillings}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
       content={content}
+      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.sosFillings}
     />
   )
 }

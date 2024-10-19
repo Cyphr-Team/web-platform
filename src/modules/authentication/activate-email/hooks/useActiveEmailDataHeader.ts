@@ -15,7 +15,7 @@ export const useActiveEmailDataHeader = ({
 }) => {
   const { status, email } = useActiveEmailSearchParams()
 
-  const dataHeader = useMemo(() => {
+  return useMemo(() => {
     if (isPending) {
       return UI_DATA_ACTIVATE_EMAIL_HEADER.verifying
     }
@@ -33,6 +33,8 @@ export const useActiveEmailDataHeader = ({
         return UI_DATA_ACTIVATE_EMAIL_HEADER.signedUp(email)
       case UserStartStatus.ALREADY_VERIFIED:
         return UI_DATA_ACTIVATE_EMAIL_HEADER.verified(email)
+      default:
+        break
     }
 
     if (errorCode === ErrorCode.user_registered) {
@@ -44,6 +46,4 @@ export const useActiveEmailDataHeader = ({
 
     return UI_DATA_ACTIVATE_EMAIL_HEADER.invalid
   }, [isPending, isSuccess, errorCode, status, email])
-
-  return dataHeader
 }

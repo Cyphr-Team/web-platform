@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { KYB_LIEN_STATUS } from "../../constants/type"
 
-type Props = {
+interface Props {
   status: KYB_LIEN_STATUS
 }
 

@@ -1,5 +1,5 @@
 import {
-  DocumentDetailsType,
+  type DocumentDetailsType,
   DocumentType
 } from "@/modules/conference-demo/admin/constants/type"
 

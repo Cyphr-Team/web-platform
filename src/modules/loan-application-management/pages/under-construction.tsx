@@ -1,4 +1,4 @@
-export const Component = () => {
+export function Component() {
   return (
     <div className="flex flex-col justify-center w-full min-h-full">
       <div className="text-center">

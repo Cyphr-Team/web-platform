@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils"
 import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { useState } from "react"
 import { Icons } from "@/components/ui/icons"
-import { NavItem } from "../../constants"
+import { type NavItem } from "../../constants"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { DashboardCollapsedNavLink } from "../atoms/dashboard-collapsed-nav-link"
 import { DashboardNavLink } from "../atoms/dashboard-nav-link"
@@ -37,11 +37,11 @@ export function SideNav({ items, className }: SidebarProps) {
 
       <div className="px-xl flex-col flex-1 hidden md:flex">
         <div
-          data-collapsed={isCollapsed}
           className={cn(
             "group flex flex-col flex-1 gap-4 justify-between mb-0",
             !isCollapsed && "border-0 md:border-b mb-6"
           )}
+          data-collapsed={isCollapsed}
         >
           <nav className="flex flex-col gap-y-2 flex-1">
             <TooltipProvider>

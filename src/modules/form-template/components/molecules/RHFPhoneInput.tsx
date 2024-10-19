@@ -7,8 +7,12 @@ import {
 } from "@/components/ui/form.tsx"
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
-import { FieldPath, FieldValues, useFormContext } from "react-hook-form"
-import { memo, ReactNode } from "react"
+import {
+  type FieldPath,
+  type FieldValues,
+  useFormContext
+} from "react-hook-form"
+import { memo, type ReactNode } from "react"
 import PhoneInput from "react-phone-number-input"
 import { cn } from "@/lib/utils.ts"
 import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
@@ -36,7 +40,7 @@ export interface RHFPhoneInputProps<T extends FieldValues> {
  *
  * MUST USE THIS INSIDE A FORM OR ELSE IT WILL CRASH
  * */
-const RHFPhoneInput = <T extends FieldValues>(props: RHFPhoneInputProps<T>) => {
+function RHFPhoneInput<T extends FieldValues>(props: RHFPhoneInputProps<T>) {
   const { control } = useFormContext()
   const {
     name,
@@ -65,31 +69,31 @@ const RHFPhoneInput = <T extends FieldValues>(props: RHFPhoneInputProps<T>) => {
           {!!label && (
             <FormLabel className={cn("text-text-secondary", labelClassName)}>
               {label}
-              {required && <RequiredSymbol />}
-              {subtitle && (
+              {required ? <RequiredSymbol /> : null}
+              {subtitle ? (
                 <p className="mt-2 text-text-tertiary font-medium">
                   {subtitle}
                 </p>
-              )}
-              {isRowDirection && <FormMessage />}
+              ) : null}
+              {isRowDirection ? <FormMessage /> : null}
             </FormLabel>
           )}
           <FormControl>
             <PhoneInput
-              className={cn("text-sm", inputClassName)}
               international
+              className={cn("text-sm", inputClassName)}
               countryCallingCodeEditable={false}
               countrySelectComponent={CountrySelect}
               defaultCountry="US"
-              placeholder={placeholder}
               inputComponent={CustomPhoneInput}
+              placeholder={placeholder}
               {...field}
             />
           </FormControl>
           {!isRowDirection && <FormMessage className={messageClassName} />}
-          {subtitle && (
+          {subtitle ? (
             <div className="text-xs text-text-tertiary">{subtitle}</div>
-          )}
+          ) : null}
         </FormItem>
       )}
     />

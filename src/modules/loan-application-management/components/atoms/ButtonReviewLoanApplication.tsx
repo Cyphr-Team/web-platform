@@ -4,9 +4,9 @@ import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { ChevronRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useReviewLoanApplication } from "../../hooks/useMutation/useReviewLoanApplication"
-import { LoanType } from "@/types/loan-program.type"
+import { type LoanType } from "@/types/loan-program.type"
 
-export const ButtonReviewLoanApplication = ({
+export function ButtonReviewLoanApplication({
   loanApplicationStatus,
   loanApplicationId,
   loanProgramType
@@ -14,7 +14,7 @@ export const ButtonReviewLoanApplication = ({
   loanApplicationStatus: LoanApplicationStatus
   loanApplicationId: string
   loanProgramType: LoanType
-}) => {
+}) {
   const navigate = useNavigate()
   const {
     mutateAsync: reviewLoanApplication,
@@ -43,9 +43,9 @@ export const ButtonReviewLoanApplication = ({
 
   return (
     <ButtonLoading
+      className="flex items-center gap-0.5 px-2 pr-1 h-8"
       isLoading={isReviewingLoanApplication}
       variant="ghost"
-      className="flex items-center gap-0.5 px-2 pr-1 h-8"
       onClick={handleClickDetail}
     >
       Review

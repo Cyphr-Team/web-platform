@@ -1,4 +1,4 @@
-import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { type AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 
 export type AssetsLongTermForm = AssetsFormValue["longTermAssets"][number]
 
@@ -7,7 +7,7 @@ export type Assets = AssetsLongTermForm & {
   financialProjectionSetupId: string
 }
 
-export type AssetsLongTermFormMutateRequest = {
+export interface AssetsLongTermFormMutateRequest {
   financialProjectionSetupId: string | undefined
   forms: AssetsFormValue["longTermAssets"]
 }
@@ -17,7 +17,7 @@ export interface AssetsLongTermFormResponse {
   forms: AssetsFormValue["longTermAssets"]
 }
 
-export type AssetsCurrentFormMutateRequest = {
+export interface AssetsCurrentFormMutateRequest {
   financialProjectionSetupId: string | undefined
   receivableDays: AssetsFormValue["receivableDays"]
 }

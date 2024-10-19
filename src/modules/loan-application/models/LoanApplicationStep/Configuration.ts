@@ -1,4 +1,4 @@
-import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
+import { type ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 import { FORM_TYPE } from "./type"
 
 export class ConfigurationLoanApplicationStep

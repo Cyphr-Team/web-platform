@@ -24,10 +24,10 @@ import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
 import { ChartHintToolTip } from "./atoms/ChartHintToolTip"
 
-export const AverageLoanSizeOfAllLoanProgram = () => {
+export function AverageLoanSizeOfAllLoanProgram() {
   const { averageApprovedLoanSizeData, dashboardState } = useDashboard()
 
-  const [activeSeries, setActiveSeries] = useState<Array<string>>([])
+  const [activeSeries, setActiveSeries] = useState<string[]>([])
 
   const handleLegendClick = (dataKey: string) => {
     if (activeSeries.includes(dataKey)) {
@@ -65,12 +65,6 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
           Average Loan Size of All Loan Programs
         </h2>
         <ChartHintToolTip
-          head={
-            <>
-              <strong>Average Loan Size of All Loan Programs</strong> represents
-              the average amount of loan approved of each loan programs
-            </>
-          }
           formula="Total Loan Volume Approved / Approved Apps"
           formulaExplain={
             <>
@@ -84,11 +78,17 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
               </li>
             </>
           }
+          head={
+            <>
+              <strong>Average Loan Size of All Loan Programs</strong> represents
+              the average amount of loan approved of each loan programs
+            </>
+          }
         />
       </div>
 
       <div className="w-full h-[400px]">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer height="100%" width="100%">
           <ComposedChart
             data={averageApprovedLoanSizeData?.averageApprovedLoanSize ?? []}
             margin={{ left: 20, top: 10 }}
@@ -96,9 +96,9 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
             <CartesianGrid {...CARTESIAN_GRID} />
             <Tooltip
               cursor={{ fill: "transparent" }}
-              wrapperClassName="text-sm"
               formatter={(value) => toCurrency(Number(value), 0)}
               labelFormatter={(value) => formatDateByTimePeriod(value)}
+              wrapperClassName="text-sm"
             />
 
             <XAxis
@@ -107,29 +107,29 @@ export const AverageLoanSizeOfAllLoanProgram = () => {
               tickFormatter={(value) => formatDateByTimePeriod(value)}
             />
             <YAxis
-              fontSize={CHART_DEFAULT.fontSize}
-              tickLine={false}
               axisLine={false}
+              fontSize={CHART_DEFAULT.fontSize}
               tickFormatter={(value) => toCurrency(value, 0)}
+              tickLine={false}
             />
 
             <Legend
-              onClick={(props) => handleLegendClick(props.dataKey as string)}
-              iconType="square"
-              wrapperStyle={{ fontSize: "0.875rem", top: -16 }}
-              verticalAlign="top"
               align="center"
+              iconType="square"
+              verticalAlign="top"
+              wrapperStyle={{ fontSize: "0.875rem", top: -16 }}
+              onClick={(props) => handleLegendClick(props.dataKey as string)}
             />
 
             {keys.map((key, index) => (
               <Bar
-                hide={activeSeries.includes(
-                  `value.${textToCamelCaseFieldPattern(key)}`
-                )}
                 key={key}
                 barSize={18}
                 dataKey={`value.${textToCamelCaseFieldPattern(key)}`}
                 fill={getRandomColor(index)}
+                hide={activeSeries.includes(
+                  `value.${textToCamelCaseFieldPattern(key)}`
+                )}
                 name={capitalizeWords(snakeCaseToText(key))}
               />
             ))}

@@ -1,9 +1,12 @@
 import { APP_CONFIGS } from "@/configs"
 import { customRequestHeader } from "@/utils/request-header"
-import axios, { AxiosRequestConfig, RawAxiosRequestHeaders } from "axios"
+import axios, {
+  type AxiosRequestConfig,
+  type RawAxiosRequestHeaders
+} from "axios"
 import applyCaseMiddleware from "axios-case-converter"
 import { inMemoryJWTService } from "./jwt.service"
-import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { type FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 
 export const axiosClient = applyCaseMiddleware(
   axios.create({
@@ -28,10 +31,13 @@ axiosClient.interceptors.response.use(
       try {
         // If the request is unauthorized, get a new access token
         const newInfo = await inMemoryJWTService.getNewAccessToken()
+
         if (newInfo) {
           // If the access token is successfully refreshed, retry the request
           const originalRequest = error.config
+
           originalRequest.headers.Authorization = `Bearer ${newInfo.accessToken}`
+
           return axiosClient(originalRequest)
         }
       } catch (e) {
@@ -39,11 +45,12 @@ axiosClient.interceptors.response.use(
         inMemoryJWTService.eraseToken()
       }
     }
+
     return Promise.reject(error)
   }
 )
 
-type GetParams<T> = {
+interface GetParams<T> {
   path: string
   config?: AxiosRequestConfig
   customHeader?: RawAxiosRequestHeaders
@@ -72,6 +79,7 @@ export const getRequest = async <T, R>({
     params,
     ...config
   })
+
   return response.data
 }
 
@@ -83,6 +91,7 @@ export const postRequest = <T, R>({
   params
 }: PostParams<T>) => {
   const token = inMemoryJWTService.getToken()
+
   return axiosClient.post<R>(`/${path}`, data, {
     headers: {
       Accept: "application/json",
@@ -103,6 +112,7 @@ export const putRequest = <T, R>({
   params
 }: PostParams<T>) => {
   const token = inMemoryJWTService.getToken()
+
   return axiosClient.put<R>(`/${path}`, data, {
     headers: {
       Accept: "application/json",
@@ -123,6 +133,7 @@ export const patchRequest = <T, R>({
   params
 }: PostParams<T>) => {
   const token = inMemoryJWTService.getToken()
+
   return axiosClient.patch<R>(`/${path}`, data, {
     headers: {
       Accept: "application/json",
@@ -141,6 +152,7 @@ export const delRequest = <T, R>({
   customHeader
 }: GetParams<T>) => {
   const token = inMemoryJWTService.getToken()
+
   return axiosClient.delete<R>(`/${path}`, {
     headers: {
       Accept: "application/json",

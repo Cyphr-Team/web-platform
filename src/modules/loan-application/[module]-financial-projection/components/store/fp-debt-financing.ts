@@ -1,14 +1,14 @@
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { createDateSchema, createNumberSchema } from "@/constants/validate"
 import {
-  Block,
+  type Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate"
 import {
   BINARY_VALUES,
   YES_NO_OPTIONS
 } from "@/modules/loan-application/constants/form"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import * as z from "zod"
 
 export const enum DebtFinancingField {

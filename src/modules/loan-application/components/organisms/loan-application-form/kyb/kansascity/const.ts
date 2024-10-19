@@ -1,4 +1,4 @@
-import { Option } from "@/types/common.type.ts"
+import { type Option } from "@/types/common.type.ts"
 
 export const TYPE_OF_BUSINESS_OPTIONS: Option[] = [
   {
@@ -29,5 +29,6 @@ export const TYPE_OF_BUSINESS_OPTIONS: Option[] = [
 
 export const getLabelFromValue = (options: Option[], value: string): string => {
   const option = options.find((opt) => opt.value === value)
+
   return option ? option.label : value // Return value if option not found because it's an other value
 }

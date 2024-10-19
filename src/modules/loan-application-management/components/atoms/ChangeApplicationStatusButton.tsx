@@ -32,22 +32,23 @@ import {
 import { LoanDecisionSubmitted } from "../organisms/LoanDecisionSubmited"
 import { ChangeApplicationStatusDialog } from "./ChangeApplicationStatusDialog"
 
-const ApplicationStatusDropDown = ({
+function ApplicationStatusDropDown({
   currentDecision,
   setIsSuccess
 }: {
   currentDecision?: LoanApplicationStatus
   setIsSuccess?: (value?: boolean) => void
-}) => {
+}) {
   const [selectedDecision, setSelectedDecision] =
     useState<LoanApplicationStatus>()
 
   const currentDecisionInfo = getSelectInfoByDecision(currentDecision)
+
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="rounded-full px-10">
+          <Button className="rounded-full px-10" variant="outline">
             <Dot variantColor={currentDecisionInfo.variantColor} />
             {currentDecisionInfo.label} <ChevronDown className="ml-1 w-5" />
           </Button>
@@ -60,10 +61,11 @@ const ApplicationStatusDropDown = ({
                 decision as keyof typeof LoanApplicationStatus
               ]
             )
+
             return (
               <DropdownMenuItem
-                className="cursor-pointer py-2 font-medium"
                 key={decision}
+                className="cursor-pointer py-2 font-medium"
                 onClick={() => info.value && setSelectedDecision(info.value)}
               >
                 <Dot variantColor={info.variantColor} />
@@ -74,14 +76,14 @@ const ApplicationStatusDropDown = ({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {selectedDecision && (
+      {selectedDecision ? (
         <ChangeApplicationStatusDialog
           fromDecision={currentDecisionInfo.value}
+          setSuccess={setIsSuccess}
           toDecision={selectedDecision}
           onCancel={() => setSelectedDecision(undefined)}
-          setSuccess={setIsSuccess}
         />
-      )}
+      ) : null}
     </>
   )
 }
@@ -97,7 +99,7 @@ const getApplicationStatusTextButton = (status?: LoanApplicationStatus) => {
   }
 }
 
-export const ChangeApplicationStatusButton = () => {
+export function ChangeApplicationStatusButton() {
   const { id } = useParams()
   const [isSuccess, setIsSuccess] = useState<boolean>()
   const { loanApplicationDetails } = useLoanApplicationDetailContext()
@@ -115,6 +117,7 @@ export const ChangeApplicationStatusButton = () => {
     return <Skeleton className="w-40 h-8 self-start md:self-center" />
 
   const textButton = getApplicationStatusTextButton(data)
+
   return (
     <div className="flex items-center gap-2 self-start md:self-center">
       <div className="flex items-center text-sm font-medium">Status:</div>
@@ -127,10 +130,10 @@ export const ChangeApplicationStatusButton = () => {
       ) : (
         <TooltipProvider delayDuration={0}>
           <Tooltip>
-            <TooltipTrigger color={getBadgeVariantByStatus(data)} asChild>
+            <TooltipTrigger asChild color={getBadgeVariantByStatus(data)}>
               <Button
-                variant="outline"
                 className="capitalize h-10 min-w-48 rounded-full relative justify-center text-sm"
+                variant="outline"
               >
                 <Dot variantColor={getBadgeVariantByStatus(data)} />
                 {textButton}

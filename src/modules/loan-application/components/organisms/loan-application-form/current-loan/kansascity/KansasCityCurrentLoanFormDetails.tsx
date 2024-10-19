@@ -1,8 +1,8 @@
 import React from "react"
 import { toCurrency } from "@/utils"
 import {
-  CurrentLoanInformationResponse,
-  CurrentLoansInformationResponse
+  type CurrentLoanInformationResponse,
+  type CurrentLoansInformationResponse
 } from "@/modules/loan-application/constants/type"
 import {
   checkIsWorkspaceAdmin,
@@ -19,7 +19,7 @@ import {
   TableRow
 } from "@/components/ui/table"
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable
@@ -39,13 +39,14 @@ const columns: ColumnDef<CurrentLoanInformationResponse>[] = [
     accessorKey: "lenderName",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="min-w-0 truncate"
         column={column}
         title="Lender Name"
-        className="min-w-0 truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return <p className="truncate text-left">{account.lenderName}</p>
     }
   },
@@ -56,6 +57,7 @@ const columns: ColumnDef<CurrentLoanInformationResponse>[] = [
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return <p className="truncate text-left">{account.loanType}</p>
     }
   },
@@ -63,13 +65,14 @@ const columns: ColumnDef<CurrentLoanInformationResponse>[] = [
     accessorKey: "outstandingLoanBalance",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Outstanding Loan Balance"
-        className="truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return (
         <p className="truncate">{toCurrency(account.outstandingLoanBalance)}</p>
       )
@@ -79,13 +82,14 @@ const columns: ColumnDef<CurrentLoanInformationResponse>[] = [
     accessorKey: "monthlyPaymentAmount",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Monthly Payment Amount"
-        className="truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return (
         <p className="truncate">{toCurrency(account.monthlyPaymentAmount)}</p>
       )
@@ -95,13 +99,14 @@ const columns: ColumnDef<CurrentLoanInformationResponse>[] = [
     accessorKey: "loanTermRemainingInMonths",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Loan Term Remaining (months)"
-        className="truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return <p className="truncate">{account.loanTermRemainingInMonths}</p>
     }
   },
@@ -109,13 +114,14 @@ const columns: ColumnDef<CurrentLoanInformationResponse>[] = [
     accessorKey: "annualInterestRate",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Annual Interest Rate"
-        className="truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return <p className="truncate">{account.annualInterestRate}%</p>
     }
   }
@@ -189,17 +195,17 @@ export const KansasCityCurrentLoanFormDetails: React.FC<
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={columns.length}
                     className="h-24 text-center text-base"
+                    colSpan={columns.length}
                   >
-                    {"No results."}
+                    No results.
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
             <TableFooter>
               <TableRow>
-                <TableCell colSpan={2} className="text-center uppercase">
+                <TableCell className="text-center uppercase" colSpan={2}>
                   Total
                 </TableCell>
                 <TableCell>

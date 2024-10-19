@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input"
-import { KeyboardEvent, useState } from "react"
+import { type KeyboardEvent, useState } from "react"
 import { FormControl } from "@/components/ui/form"
 import {
   Select,
@@ -11,14 +11,14 @@ import {
 import { useFormContext } from "react-hook-form"
 import { inviteLaunchKCRoleOptions } from "../../constants/roles.constants"
 import { checkValidEmail, removeWhitespace } from "@/utils"
-import { UserRoles } from "@/types/user.type"
+import { type UserRoles } from "@/types/user.type"
 
 interface InvitationInfo {
   email: string
   role: UserRoles
 }
 
-export const InvitationInput = () => {
+export function InvitationInput() {
   const form = useFormContext()
   const [currentRole, setCurrentRole] = useState<string | null>(null)
 
@@ -29,11 +29,13 @@ export const InvitationInput = () => {
   const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
     event.preventDefault()
     const target = event.target as HTMLInputElement
+
     if (event.key !== "Enter") return
 
     // Add invitation record (Email, Role) to the form state
     // If one field is missing or invalid, form state will not be updated
     const trimmedValue = removeWhitespace(target.value)
+
     if (!trimmedValue || !checkValidEmail(trimmedValue)) return
 
     if (!currentRole) return
@@ -46,6 +48,7 @@ export const InvitationInput = () => {
     if (emailExists) return
 
     const newInvitation = { email: trimmedValue, role: currentRole }
+
     form.setValue("invitations", [...currentInvitations, newInvitation])
     form.trigger("invitations")
     target.value = ""
@@ -64,12 +67,12 @@ export const InvitationInput = () => {
       <div className="flex flex-wrap flex-row gap-2 border border-black shadow-md p-2 rounded-lg mt-1">
         <div className="w-3/5 flex flex-wrap items-center">
           <Input
-            type="text"
-            onKeyUp={handleKeyUp}
-            onKeyDown={handleKeyDown}
-            placeholder="Type to add..."
             className="rounded-sm w-full border-1 m-1"
+            placeholder="Type to add..."
+            type="text"
             wrapperClassName="w-full"
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
           />
         </div>
 

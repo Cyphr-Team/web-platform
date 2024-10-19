@@ -1,13 +1,14 @@
-import useCanAccess, { FeatureKey } from "@/hooks/useCanAccess"
-import { FC } from "react"
+import useCanAccess, { type FeatureKey } from "@/hooks/useCanAccess"
+import type { PropsWithChildren } from "react"
 
-interface IFeatureRendererProps {
+interface IFeatureRendererProps extends PropsWithChildren {
   featureKey: FeatureKey
 }
 
-export const FeatureRenderer: FC<
-  React.PropsWithChildren<IFeatureRendererProps>
-> = ({ featureKey, children }) => {
+export function FeatureRenderer({
+  featureKey,
+  children
+}: IFeatureRendererProps) {
   const { getCanAccess } = useCanAccess({ featureKey })
 
   return getCanAccess() ? children : null

@@ -1,4 +1,4 @@
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 
 export const enum LoanReadyKYBFieldName {
   BUSINESS_LEGAL_NAME = "businessLegalName",
@@ -29,7 +29,7 @@ export enum BusinessStageValue {
 }
 
 // Update the BusinessStage type to use the enum
-type BusinessStage = {
+interface BusinessStage {
   value: BusinessStageValue
   title: string
   description: string
@@ -74,7 +74,7 @@ const BUSINESS_STAGES: BusinessStage[] = [
 ]
 
 // Update the BusinessStageOption type to use the enum
-type BusinessStageOption = {
+interface BusinessStageOption {
   label: React.ReactNode
   value: BusinessStageValue
 }

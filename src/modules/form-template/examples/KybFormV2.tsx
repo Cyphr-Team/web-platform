@@ -1,5 +1,5 @@
 import {
-  Block,
+  type Block,
   FieldType,
   FormTemplate
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
@@ -83,19 +83,19 @@ const blocks: Block[] = [
   }
 ]
 
-const KybFormV2 = () => {
+function KybFormV2() {
   const form = useForm({
     resolver: zodResolver(schema),
     mode: "onBlur"
   })
 
-  const onSubmit = form.handleSubmit((data) => {
-    console.log(data)
+  const onSubmit = form.handleSubmit(() => {
+    // console.log(data)
   })
 
   const renderSubmitButton = useCallback(
     () => (
-      <Button type="submit" className="w-full">
+      <Button className="w-full" type="submit">
         Submit
       </Button>
     ),
@@ -108,11 +108,11 @@ const KybFormV2 = () => {
       id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
     >
       <FormTemplate
-        form={form}
-        className="grid grid-cols-12"
         blocks={blocks}
-        onSubmit={onSubmit}
+        className="grid grid-cols-12"
+        form={form}
         renderSubmit={renderSubmitButton}
+        onSubmit={onSubmit}
       >
         <div className="col-span-6">
           <RHFCurrencyInput

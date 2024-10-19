@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import {
   productServiceFormSchema,
-  ProductServiceFormValue
+  type ProductServiceFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -34,7 +34,7 @@ import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { productServiceFormQuestions } from "./constants"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const ProductServiceForm = () => {
+export function ProductServiceForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { productServiceForm, loanRequest, dispatchFormAction } =
     useLoanApplicationFormContext()
@@ -66,6 +66,7 @@ export const ProductServiceForm = () => {
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.PRODUCT_SERVICE,
@@ -101,11 +102,11 @@ export const ProductServiceForm = () => {
                     </FormLabel>
                     <FormControl>
                       <Select
+                        value={field.value}
                         onValueChange={(value) => {
                           field.onBlur()
                           field.onChange(value.toString())
                         }}
-                        value={field.value}
                       >
                         <SelectTrigger className="text-base col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select..." />
@@ -127,8 +128,8 @@ export const ProductServiceForm = () => {
               {productServiceFormQuestions.map((q) => (
                 <TextAreaInput
                   key={q.field}
-                  label={q.question}
                   control={form.control}
+                  label={q.question}
                   name={q.field as keyof ProductServiceFormValue}
                 />
               ))}
@@ -137,8 +138,8 @@ export const ProductServiceForm = () => {
 
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </Form>

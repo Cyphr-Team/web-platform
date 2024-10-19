@@ -1,4 +1,4 @@
-import { DotVariantProps } from "@/components/ui/dot"
+import { type DotVariantProps } from "@/components/ui/dot"
 import { FORMAT_DATE_M_D_Y_TIME_UPPERCASE } from "@/constants/date.constants"
 import { LoanApplicationStatus, UseOfLoan } from "@/types/loan-application.type"
 import { isLoanReady } from "@/utils/domain.utils"
@@ -38,6 +38,7 @@ export const getClassNameFromStatus = (
 
 export const getBadgeVariantByStatus = (status?: LoanApplicationStatus) => {
   const statusUppercase = status?.toUpperCase()
+
   switch (statusUppercase) {
     case LoanApplicationStatus.SUBMITTED:
     case LoanApplicationStatus.PROCESSING:

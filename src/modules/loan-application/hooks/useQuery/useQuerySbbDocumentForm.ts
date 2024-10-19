@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
-import { AxiosError } from "axios"
-import { SBBUploadDocumentFormResponse } from "@/modules/loan-application/constants/type.ts"
+import { type AxiosError } from "axios"
+import { type SBBUploadDocumentFormResponse } from "@/modules/loan-application/constants/type.ts"
 import { isSbb } from "@/utils/domain.utils.ts"
 
 export const useQuerySbbDocumentForm = (applicationId?: string) => {

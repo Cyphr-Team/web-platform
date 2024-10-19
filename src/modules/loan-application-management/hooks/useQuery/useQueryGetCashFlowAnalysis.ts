@@ -3,8 +3,8 @@ import { postRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
 import { QUERY_KEY } from "../../constants/query-key"
 import {
-  ApplicationCashFlow,
-  CashFlowRequestFilters
+  type ApplicationCashFlow,
+  type CashFlowRequestFilters
 } from "../../constants/types/cashflow.type"
 
 export const useQueryGetCashFlowAnalysis = (
@@ -29,6 +29,7 @@ export const useQueryGetCashFlowAnalysis = (
         },
         data: reqParams
       })
+
       return response.data
     },
     enabled:

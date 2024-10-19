@@ -1,9 +1,9 @@
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
-  Row
+  type Row
 } from "@tanstack/react-table"
 
 import {
@@ -74,8 +74,8 @@ export function DetailTable<TData, TValue>({
           {table.getRowModel().rows?.length
             ? table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className={cn(!!handleClickDetail && "cursor-pointer")}
                   key={row.id}
+                  className={cn(!!handleClickDetail && "cursor-pointer")}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => handleClickDetail && handleClickDetail(row)}
                 >
@@ -98,8 +98,8 @@ export function DetailTable<TData, TValue>({
             : !isLoading && (
                 <TableRow>
                   <TableCell
-                    colSpan={columns.length}
                     className="h-24 text-center text-base text-gray-500"
+                    colSpan={columns.length}
                   >
                     {noResultText}
                   </TableCell>
@@ -108,7 +108,7 @@ export function DetailTable<TData, TValue>({
         </TableBody>
       </Table>
 
-      {isLoading && (
+      {isLoading ? (
         <div className="flex items-center flex-col justify-center w-full mt-4">
           <Loader2
             className={cn(
@@ -117,7 +117,7 @@ export function DetailTable<TData, TValue>({
           />
           Loading...
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

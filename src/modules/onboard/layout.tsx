@@ -2,10 +2,12 @@ import { APP_PATH } from "@/constants"
 import { checkIsForesightAdmin } from "@/utils/check-roles"
 import { Navigate, Outlet } from "react-router-dom"
 
-const RoleStrict = ({ children }: React.PropsWithChildren) => {
+function RoleStrict({ children }: React.PropsWithChildren) {
   const isForesightAdmin = checkIsForesightAdmin()
+
   if (!isForesightAdmin)
-    return <Navigate to={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX} replace />
+    return <Navigate replace to={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX} />
+
   return children
 }
 

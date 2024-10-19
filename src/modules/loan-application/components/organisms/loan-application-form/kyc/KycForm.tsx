@@ -16,7 +16,7 @@ import { SSN_PATTERN } from "@/constants"
 import { cn } from "@/lib/utils"
 import {
   ownerFormSchema,
-  OwnerFormValue
+  type OwnerFormValue
 } from "@/modules/loan-application/constants/form"
 import {
   useLoanApplicationFormContext,
@@ -42,6 +42,7 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 interface OwnerInformationFormProps {
   wrapperClassName?: string
 }
+
 export function OwnerInformationForm({
   wrapperClassName
 }: OwnerInformationFormProps) {
@@ -128,6 +129,7 @@ export function OwnerInformationForm({
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
@@ -157,78 +159,78 @@ export function OwnerInformationForm({
 
             <form className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
               <TextInput
+                required
+                className="col-span-3"
                 control={form.control}
-                name="fullName"
                 label="Full Name"
+                name="fullName"
                 placeholder="i.e: Larry Latte"
-                className="col-span-3"
-                required
               />
               <TextInput
+                required
+                className="col-span-3"
                 control={form.control}
-                name="businessRole"
                 label="Your Role"
+                name="businessRole"
                 placeholder="Founder and CEO"
-                className="col-span-3"
-                required
               />
               <TextInput
-                placeholder="i.e: 456 Bean Ave."
+                required
+                className="col-span-6"
+                control={form.control}
                 label="Resident address line #1"
                 name="addressLine1"
-                control={form.control}
-                className="col-span-6"
-                required
+                placeholder="i.e: 456 Bean Ave."
               />{" "}
               <TextInput
-                placeholder="i.e: Suite 789"
+                className="col-span-6"
+                control={form.control}
                 label="Resident address line #2 (optional)"
                 name="addressLine2"
-                control={form.control}
-                className="col-span-6"
+                placeholder="i.e: Suite 789"
               />
               <AutoCompleteStates
-                options={STATE_DATA}
-                label="Business state"
-                emptyText="No results found"
-                name="businessState"
-                control={form.control}
-                onChange={handleChangeState}
-                value={form.getValues("businessState")}
-                className="col-span-6 lg:col-span-2"
                 required
+                className="col-span-6 lg:col-span-2"
+                control={form.control}
+                emptyText="No results found"
+                label="Business state"
+                name="businessState"
+                options={STATE_DATA}
+                value={form.getValues("businessState")}
+                onChange={handleChangeState}
               />
               <AutoCompleteCities
+                required
+                className="col-span-6 lg:col-span-2"
+                control={form.control}
+                emptyText="No results found"
+                label="Business city"
+                name="businessCity"
                 options={
                   STATE_DATA.find(
                     (s) => s.name === form.getValues("businessState")
                   )?.cities ?? []
                 }
-                label="Business city"
-                emptyText="No results found"
-                name="businessCity"
-                control={form.control}
-                onChange={handleChangeCity}
                 value={form.getValues("businessCity")}
-                className="col-span-6 lg:col-span-2"
-                required
+                onChange={handleChangeCity}
               />
               <TextInput
-                placeholder="i.e: 98765"
+                required
+                className="col-span-6 lg:col-span-2"
+                control={form.control}
                 label="Zip code"
                 name="businessZipCode"
-                control={form.control}
-                className="col-span-6 lg:col-span-2"
-                required
+                placeholder="i.e: 98765"
               />
               <TextInput
+                required
+                className="col-span-6 lg:col-span-3"
                 control={form.control}
-                name="email"
                 label="Email address"
+                name="email"
                 placeholder="i.e: larry@latte.com"
                 prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
-                className="col-span-6 lg:col-span-3"
-                required
               />
               <FormField
                 name="phoneNumber"
@@ -243,8 +245,8 @@ export function OwnerInformationForm({
                       countryCallingCodeEditable={false}
                       countrySelectComponent={CountrySelect}
                       defaultCountry="US"
-                      placeholder="+1 (555) 000-0000"
                       inputComponent={CustomPhoneInput}
+                      placeholder="+1 (555) 000-0000"
                       {...field}
                     />
                     <FormMessage />
@@ -261,10 +263,10 @@ export function OwnerInformationForm({
                       <RequiredSymbol />
                     </FormLabel>
                     <CalendarDatePicker
+                      className="w-full"
                       id="dateOfBirth"
                       value={field.value}
                       onSelectDate={handleSelectDate}
-                      className="w-full"
                     />
                     <div className="text-xs text-text-tertiary">
                       The US date format is mm-dd-yyyy
@@ -275,7 +277,7 @@ export function OwnerInformationForm({
               />
               <FormField
                 control={form.control}
-                name={"socialSecurityNumber"}
+                name="socialSecurityNumber"
                 render={({ field }) => (
                   <FormItem className="col-span-6 lg:col-span-3">
                     <FormLabel className="text-text-secondary">
@@ -284,9 +286,9 @@ export function OwnerInformationForm({
                     </FormLabel>
                     <FormControl>
                       <MaskInput
-                        placeholder="i.e: 123-45-6789"
                         className="text-base"
                         pattern={SSN_PATTERN}
+                        placeholder="i.e: 123-45-6789"
                         {...field}
                       />
                     </FormControl>
@@ -305,14 +307,14 @@ export function OwnerInformationForm({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="businessOwnershipPercentage"
-                        placeholder="i.e: 70"
-                        min={0}
-                        max={100}
                         className="text-base input-number-remove-arrow"
+                        max={100}
+                        min={0}
+                        placeholder="i.e: 70"
                         suffixIcon={
                           <span className="text-text-tertiary">%</span>
                         }
+                        type="businessOwnershipPercentage"
                         {...field}
                         onChange={(e) => {
                           if (

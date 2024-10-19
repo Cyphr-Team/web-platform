@@ -2,9 +2,9 @@ import React from "react"
 import { SideNavApplicationDetails } from "../molecules/SideNavApplicationDetails"
 import { cn } from "@/lib/utils"
 
-export const LoanApplicationDetailLayout = ({
+export function LoanApplicationDetailLayout({
   children
-}: React.PropsWithChildren) => {
+}: React.PropsWithChildren) {
   return (
     <div
       className={cn(

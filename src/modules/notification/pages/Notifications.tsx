@@ -1,7 +1,7 @@
 import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { CheckCheckIcon, Loader2 } from "lucide-react"
-import { Fragment, useEffect, useState } from "react"
-import { PaginationState } from "@tanstack/react-table"
+import { useEffect, useState } from "react"
+import { type PaginationState } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
@@ -9,7 +9,7 @@ import { NotificationCard } from "@/components/ui/notification"
 import { DataListPagination } from "@/shared/molecules/DataListPagination"
 import { cn } from "@/lib/utils"
 import {
-  FilterParams,
+  type FilterParams,
   useQueryGetNotifications
 } from "../hooks/useQuery/useQueryGetNotifications"
 import { useMarkAllNotificationsAsRead } from "../hooks/useMutation/useMarkAllNotificationsAsRead"
@@ -70,8 +70,8 @@ export function Component() {
   const isLoanApplicant = checkIsLoanApplicant()
   const getLinkDetails = (notificationId: string) => {
     return isLoanApplicant
-      ? `${APP_PATH.LOAN_APPLICATION.NOTIFICATION.details(notificationId)}`
-      : `${APP_PATH.NOTIFICATION.details(notificationId)}`
+      ? APP_PATH.LOAN_APPLICATION.NOTIFICATION.details(notificationId)
+      : APP_PATH.NOTIFICATION.details(notificationId)
   }
 
   // fetch count unread notifications
@@ -95,51 +95,51 @@ export function Component() {
       <div className="bg-gray-100 bg-opacity-60 p-3 rounded-lg mb-5 flex justify-between">
         <div>
           <Button
-            onClick={() =>
-              setFilterParams({ ...filterParams, read: undefined })
-            }
-            size="sm"
-            variant="secondary"
             className={cn(
               "border rounded-r-none",
               filterParams?.read == undefined &&
                 "bg-primary text-white cursor-default hover:bg-primary"
             )}
+            size="sm"
+            variant="secondary"
+            onClick={() =>
+              setFilterParams({ ...filterParams, read: undefined })
+            }
           >
             All
           </Button>
           <Button
-            onClick={() => setFilterParams({ ...filterParams, read: false })}
-            size="sm"
-            variant="secondary"
             className={cn(
               "border rounded-l-none",
               filterParams?.read == false &&
                 "bg-primary text-white cursor-default hover:bg-primary"
             )}
+            size="sm"
+            variant="secondary"
+            onClick={() => setFilterParams({ ...filterParams, read: false })}
           >
             Unread
           </Button>
         </div>
         <Button
-          disabled={unreadCount === 0}
-          onClick={handleClickMarkAllAsRead}
-          size="sm"
           className="bg-gray-400 hover:bg-gray-500 text-white border-gray-300 rounded-md"
+          disabled={unreadCount === 0}
+          size="sm"
+          onClick={handleClickMarkAllAsRead}
         >
           Mark all as read <CheckCheckIcon className="ml-1 w-4" />
         </Button>
       </div>
 
       {/* List of item */}
-      {isFetching && (
+      {isFetching ? (
         <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
           <div className="sticky top-12 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
             <Loader2 className="w-10 h-10 animate-spin text-primary" />{" "}
             Loading...
           </div>
         </div>
-      )}
+      ) : null}
 
       {total === 0 ? (
         !isFetching ? (
@@ -148,52 +148,52 @@ export function Component() {
           ""
         )
       ) : (
-        <Fragment>
+        <>
           {notifications.map((notification, index) => (
             <NotificationCard
-              id={notification.id}
               key={notification.id ?? index}
-              title={notification.subject}
               description={notification.content}
-              variant={notification.type ?? NotificationType.INFO}
-              timestamp={notification.createdAt}
-              linkDetails={getLinkDetails(notification.id)}
+              id={notification.id}
               isRead={notification.isRead}
+              linkDetails={getLinkDetails(notification.id)}
+              timestamp={notification.createdAt}
+              title={notification.subject}
+              variant={notification.type ?? NotificationType.INFO}
               onMarkAsRead={handleClickMarkAsRead}
               onMarkAsUnread={handleClickMarkAsUnread}
             />
           ))}
           <div className="flex items-center justify-end space-x-2 py-4">
             <DataListPagination
-              pageSize={pagination.pageSize}
-              setPageSize={(pageSize) =>
-                setPagination({ ...pagination, pageSize })
-              }
-              pageCount={Math.ceil(total / pagination.pageSize)}
-              pageIndex={pagination.pageIndex}
-              setPageIndex={(pageIndex) =>
-                setPagination({ ...pagination, pageIndex })
-              }
-              canPreviousPage={pagination.pageIndex > 0}
-              previousPage={() =>
-                setPagination({
-                  ...pagination,
-                  pageIndex: pagination.pageIndex - 1
-                })
-              }
               canNextPage={
                 pagination.pageIndex <
                 Math.ceil(total / pagination.pageSize) - 1
               }
+              canPreviousPage={pagination.pageIndex > 0}
               nextPage={() =>
                 setPagination({
                   ...pagination,
                   pageIndex: pagination.pageIndex + 1
                 })
               }
+              pageCount={Math.ceil(total / pagination.pageSize)}
+              pageIndex={pagination.pageIndex}
+              pageSize={pagination.pageSize}
+              previousPage={() =>
+                setPagination({
+                  ...pagination,
+                  pageIndex: pagination.pageIndex - 1
+                })
+              }
+              setPageIndex={(pageIndex) =>
+                setPagination({ ...pagination, pageIndex })
+              }
+              setPageSize={(pageSize) =>
+                setPagination({ ...pagination, pageSize })
+              }
             />
           </div>
-        </Fragment>
+        </>
       )}
     </div>
   )

@@ -1,5 +1,5 @@
-import { TimeRangeFilterSchema } from "@/constants/time-range-filter.constants"
-import * as z from "zod"
+import { type TimeRangeFilterSchema } from "@/constants/time-range-filter.constants"
+import type * as z from "zod"
 
 enum TimeRangeValue {
   TODAY = "today",
@@ -19,7 +19,10 @@ enum TimeRangeValue {
 
 export { TimeRangeValue }
 
-type TimeRangeOption = { label: string; value: TimeRangeValue }
+interface TimeRangeOption {
+  label: string
+  value: TimeRangeValue
+}
 
 interface TimeRangeSelectProps {
   options: TimeRangeOption[]
@@ -31,7 +34,7 @@ type TimeRangeFilterValue = z.infer<typeof TimeRangeFilterSchema>
 /**
  * String with date format - YYYY-mm-dd (FORMAT_REQUEST_DATE)
  */
-type TimeRange = {
+interface TimeRange {
   from: string
   to: string
 }

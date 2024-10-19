@@ -1,9 +1,9 @@
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
   LoanReadyKYCFieldName,
   PERSONAL_CREDIT_SCORE_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
-import { KYCInformationResponse } from "@/modules/loan-application/constants/type"
+import { type KYCInformationResponse } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { formatPhoneNumber } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
@@ -11,6 +11,7 @@ import { formatBirthday } from "@/utils/date.utils"
 interface UseIndividualInformationDetail {
   kycFormData?: KYCInformationResponse
 }
+
 export const useIndividualInformationDetail = ({
   kycFormData
 }: UseIndividualInformationDetail) => {
@@ -74,5 +75,6 @@ export const useIndividualInformationDetail = ({
       }
     ]
   }
+
   return { individualInformationDetail }
 }

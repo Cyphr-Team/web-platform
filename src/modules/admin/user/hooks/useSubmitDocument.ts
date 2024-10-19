@@ -2,9 +2,9 @@ import { API_PATH } from "@/constants"
 import { chatbotDocumentKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
+import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 import { postRequest } from "@/services/client.service"
-import { ChatbotDocumentDeleteRequest } from "@/types/chatbot.type"
+import { type ChatbotDocumentDeleteRequest } from "@/types/chatbot.type"
 import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { headerWithContentType } from "@/utils/request-header"
@@ -35,6 +35,7 @@ export const useSubmitDocument = () => {
           queryClient.invalidateQueries({
             queryKey: chatbotDocumentKeys.lists()
           })
+
           return res
         },
         onError: (error) =>
@@ -46,6 +47,7 @@ export const useSubmitDocument = () => {
   // Call API
   const submitDocument = async (rawData: AdminAddDocumentValue) => {
     const formData = new FormData()
+
     formData.append("institutionId", rawData.institutionId)
     if (rawData.files && rawData.files?.length > 0) {
       rawData.files.forEach((file) => {
@@ -80,6 +82,7 @@ export const useAddDocuments = () => {
       })
     }
   })
+
   return {
     mutateAsync: mutation.mutateAsync,
     isUploading: mutation.isPending
@@ -108,6 +111,7 @@ export const useDeleteDocument = () => {
       })
     }
   })
+
   return {
     mutateAsync: mutation.mutateAsync,
     isRemoving: mutation.isPending

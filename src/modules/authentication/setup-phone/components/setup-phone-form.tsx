@@ -14,7 +14,7 @@ import PhoneInput from "react-phone-number-input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   setupPhoneFormSchema,
-  SetupPhoneFormValue,
+  type SetupPhoneFormValue,
   useSetupPhone
 } from "../hooks/useSetupPhone"
 import { SetupPhoneFormHeader } from "./setup-phone-form-header"
@@ -32,6 +32,7 @@ function ResetPhoneForm() {
 
   return (
     <form
+      className="space-y-5 w-full"
       onSubmit={handleSubmit((data) =>
         mutate(data, {
           onSuccess() {
@@ -39,7 +40,6 @@ function ResetPhoneForm() {
           }
         })
       )}
-      className="space-y-5 w-full"
     >
       <FormField
         control={control}
@@ -53,8 +53,8 @@ function ResetPhoneForm() {
                 countryCallingCodeEditable={false}
                 countrySelectComponent={CountrySelect}
                 defaultCountry="US"
-                placeholder="+1 (555) 000-0000"
                 inputComponent={CustomPhoneInput}
+                placeholder="+1 (555) 000-0000"
                 {...field}
               />
             </FormControl>
@@ -70,9 +70,9 @@ function ResetPhoneForm() {
       )}
 
       <ButtonLoading
-        isLoading={isPending}
-        disabled={!formState.isValid}
         className="ml-auto w-full text-base"
+        disabled={!formState.isValid}
+        isLoading={isPending}
         type="submit"
       >
         Next
@@ -99,7 +99,7 @@ export function SetupPhoneForm() {
 
       <p className="px-8 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
-        <Button variant="link" className="p-0 text-primary" asChild>
+        <Button asChild className="p-0 text-primary" variant="link">
           <Link to={APP_PATH.LOGIN}>Log in</Link>
         </Button>
       </p>

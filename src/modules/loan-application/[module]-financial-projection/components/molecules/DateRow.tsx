@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils.ts"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { GridMapper } from "@/modules/loan-application/[module]-financial-projection/constants"
 
 interface TotalRowProps {
@@ -10,7 +10,7 @@ interface TotalRowProps {
   itemClassName?: string
 }
 
-export const DateRow = (props: TotalRowProps) => {
+export function DateRow(props: TotalRowProps) {
   const { title, data, className = "", labelClassName, itemClassName } = props
 
   return (

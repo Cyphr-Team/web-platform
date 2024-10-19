@@ -1,18 +1,24 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react"
 import { createContext, useContext } from "use-context-selector"
 import {
-  Visualization,
-  VisualizationPage,
-  VisualizationType
+  type Visualization,
+  type VisualizationPage,
+  type VisualizationType
 } from "../constants/type"
 import { VISUALIZATION_DESCRIPTION } from "../constants"
 import { useQueryGetDocumentDetails } from "../hooks/useQuery/useQueryDocumentDetails"
 import { useParams } from "react-router-dom"
-import { DocumentDetailsType } from "../constants/types/document"
+import { type DocumentDetailsType } from "../constants/types/document"
 import { fetchProtectedImage } from "@/utils"
 import { API_PATH } from "@/constants"
 
-type LoanDocumentDetailsContextType = {
+interface LoanDocumentDetailsContextType {
   scale: number
   zoomIn: () => void
   zoomOut: () => void
@@ -28,22 +34,18 @@ type LoanDocumentDetailsContextType = {
 export const LoanDocumentDetailsContext =
   createContext<LoanDocumentDetailsContextType>({
     scale: 1,
-    zoomIn: () => {},
-    zoomOut: () => {},
+    zoomIn: () => ({}),
+    zoomOut: () => ({}),
     visualizationDetails: {} as VisualizationType,
     documentDetails: {} as DocumentDetailsType,
     selectedVisualization: null,
     selectedPage: null,
-    handleSelectPage: () => {},
-    handleSelectVisualization: () => {},
+    handleSelectPage: () => ({}),
+    handleSelectVisualization: () => ({}),
     isLoadingDetail: true
   })
 
-type Props = {
-  children: React.ReactNode
-}
-
-export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
+export function LoanDocumentDetailsProvider({ children }: PropsWithChildren) {
   const [selectedPage, setSelectedPage] = useState<VisualizationPage | null>(
     null
   )
@@ -107,6 +109,7 @@ export const LoanDocumentDetailsProvider: React.FC<Props> = ({ children }) => {
                     path,
                     `${visualization.imageUrl}?size=md`
                   )}`
+
                   return {
                     visualizationIdentifier: visualization.visualType,
                     imageUrl: imageUrl,

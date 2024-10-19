@@ -1,5 +1,5 @@
-import { ColumnDef } from "@tanstack/react-table"
-import { FeatureFlag } from "@/types/feature-flag.types.ts"
+import { type ColumnDef } from "@tanstack/react-table"
+import { type FeatureFlag } from "@/types/feature-flag.types.ts"
 import { formatDate } from "@/utils/date.utils"
 import { ConfirmToggleStatusFeatureFlag } from "../components/ToggleStatusFeatureFlag"
 import { DialogModifyWhitelistUsers } from "@/modules/feature-flag/components/DialogModifyWhitelistUsers.tsx"
@@ -25,6 +25,7 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     size: 100,
     cell: ({ row }) => {
       const data = row.original
+
       return <ConfirmToggleStatusFeatureFlag featureFlag={data} />
     }
   },
@@ -34,6 +35,7 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     size: 100,
     cell: ({ row }) => {
       const data = row.original
+
       return <ConfirmToggleWhitelistFeatureFlag featureFlag={data} />
     }
   },
@@ -43,6 +45,7 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     size: 100,
     cell: ({ row }) => {
       const data = row.original
+
       return <div>{formatDate(data.createdAt)}</div>
     }
   },
@@ -52,6 +55,7 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     size: 100,
     cell: ({ row }) => {
       const data = row.original
+
       return <div>{formatDate(data.updatedAt)}</div>
     }
   },
@@ -61,6 +65,7 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     size: 100,
     cell: ({ row }) => {
       const data = row.original
+
       return (
         <div className="flex justify-center">
           <DeleteFeatureFlagModal featureFlag={data} />
@@ -74,6 +79,7 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
     size: 100,
     cell: ({ row }) => {
       const data = row.original
+
       return <DialogModifyWhitelistUsers featureFlag={data} />
     }
   }

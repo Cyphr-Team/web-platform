@@ -5,7 +5,7 @@ import { BankAccountReport } from "../BankAccountReport"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 
-export const CashflowGlanceReport = () => {
+export function CashflowGlanceReport() {
   const { cashFlowAnalysis, isFetchingCashflow } =
     useLoanApplicationDetailContext()
 
@@ -24,81 +24,81 @@ export const CashflowGlanceReport = () => {
         <CardContent className="!p-0">
           <div className="grid grid-cols-2">
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Total Revenue"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.totalRevenue ?? 0
               )}
-              isLoading={isFetchingCashflow}
             />
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Total Loan Proceeds"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.totalLoanProceeds ?? 0
               )}
-              isLoading={isFetchingCashflow}
             />
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Total Expenses"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.totalExpense ?? 0
               )}
-              isLoading={isFetchingCashflow}
             />
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Total Loan Payments"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.totalLoanPayments ?? 0
               )}
-              isLoading={isFetchingCashflow}
             />
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Total NSF Count"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.totalNsfFeeCount ?? 0
               )}
-              isLoading={isFetchingCashflow}
             />
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Debt-to-Income Ratio (DTI)"
               value="N/A"
-              isLoading={isFetchingCashflow}
             />
 
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Total NSF Amount"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.totalNsfAmount ?? 0
               )}
-              isLoading={isFetchingCashflow}
             />
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Debt Service Coverage Ratio (DSCR)"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.debtCoverageRatio ?? 0
               )}
-              isLoading={isFetchingCashflow}
             />
             <InformationRow
+              isLoading={isFetchingCashflow}
               label="Overdraft Fee Count"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.totalOverdraftFeeCount ?? 0
               )}
-              isLoading={isFetchingCashflow}
             />
             <InformationRow label="Current Ratio" value="N/A" />
             <InformationRow
+              className="rounded-bl-md"
+              isLoading={isFetchingCashflow}
               label="Total Overdraft Amount"
               value={toCurrency(
                 cashFlowAnalysis?.cashFlowGlance.totalOverdraftFeeSum ?? 0
               )}
-              className="rounded-bl-md"
-              isLoading={isFetchingCashflow}
             />
             <InformationRow
-              label="Quick Ratio"
-              value="N/A"
               className="rounded-br-md"
               isLoading={isFetchingCashflow}
+              label="Quick Ratio"
+              value="N/A"
             />
           </div>
         </CardContent>

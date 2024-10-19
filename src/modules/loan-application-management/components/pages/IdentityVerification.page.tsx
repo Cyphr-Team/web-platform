@@ -3,7 +3,7 @@ import { IdentificationSummary } from "../../../loan-application/components/orga
 import { Insights } from "../../../loan-application/components/organisms/identity-verification/Insights"
 import { SelfieVerification } from "../../../loan-application/components/organisms/identity-verification/SelfieVerification"
 
-export const Component = () => {
+export function Component() {
   return (
     <div className="lg:flex gap-3xl w-full">
       <Insights />

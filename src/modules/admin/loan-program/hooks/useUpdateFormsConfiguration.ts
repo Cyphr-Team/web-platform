@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
 import { putRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
-import { LoanProgramFormsConfiguration } from "@/types/loan-program.type"
+import { type ErrorResponse } from "@/types/common.type"
+import { type LoanProgramFormsConfiguration } from "@/types/loan-program.type"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { z } from "zod"
 
 export const updateFormsConfigurationForm = z.object({

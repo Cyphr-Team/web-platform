@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom"
 import { USER_MENU } from "@/modules/admin/user/constants"
 import React from "react"
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+type Props = React.HTMLAttributes<HTMLDivElement>
 
 export function TopNav({ className, ...props }: Props) {
   const pathname = useLocation().pathname
@@ -19,7 +19,6 @@ export function TopNav({ className, ...props }: Props) {
         >
           {userMenu.map((example, index) => (
             <Link
-              to={example.href}
               key={example.href}
               className={cn(
                 "px-xs pb-lg font-semibold items-center justify-center text-center transition-colors border-b-2 border-transparent whitespace-nowrap",
@@ -31,12 +30,13 @@ export function TopNav({ className, ...props }: Props) {
                 className,
                 index > 0 ? "ml-4" : "ml-0"
               )}
+              to={example.href}
             >
               {example.name}
             </Link>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" className="invisible" />
+        <ScrollBar className="invisible" orientation="horizontal" />
       </ScrollArea>
     </div>
   )

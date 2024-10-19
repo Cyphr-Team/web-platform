@@ -11,17 +11,17 @@ import { RHFProvider } from "@/modules/form-template/providers"
 import {
   FpOperatingExpensesField,
   fpOperatingExpensesFormSchema,
-  FpOperatingExpensesFormValue
+  type FpOperatingExpensesFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
-import { FpOperatingExpensesFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/operating-expenses-form"
+import { type FpOperatingExpensesFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/operating-expenses-form"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { sanitizeNumber, toCurrency } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { sum } from "lodash"
 import {
-  FieldArrayWithId,
-  FieldPath,
+  type FieldArrayWithId,
+  type FieldPath,
   useFieldArray,
   useForm
 } from "react-hook-form"
@@ -29,9 +29,10 @@ import {
 interface FinancialOperatingExpensesFormDetailProps {
   fpOperatingExpensesFormResponse?: FpOperatingExpensesFormResponse
 }
-export const FinancialOperatingExpensesFormDetail = ({
+
+export function FinancialOperatingExpensesFormDetail({
   fpOperatingExpensesFormResponse
-}: FinancialOperatingExpensesFormDetailProps) => {
+}: FinancialOperatingExpensesFormDetailProps) {
   const form = useForm<FpOperatingExpensesFormValue>({
     resolver: zodResolver(fpOperatingExpensesFormSchema),
     mode: "onBlur",
@@ -92,63 +93,63 @@ interface OperatingExpensesProps {
     FpOperatingExpensesFormValue["operatingExpenses"][number]
   >
 }
-const OperatingExpenses = (props: OperatingExpensesProps) => {
+function OperatingExpenses(props: OperatingExpensesProps) {
   const { index, value } = props
 
   return (
-    <div className="flex gap-3" key={value.id}>
+    <div key={value.id} className="flex gap-3">
       <div className="grid grid-cols-6 w-full gap-5 items-center">
         <div className="row-start-1 col-start-1 col-end-3 flex gap-1 flex-col">
           <RHFTextInput
-            label=""
+            isDetail
+            isHideErrorMessage
+            isToggleView
             className="font-medium text-sm"
-            placeholder="Operating expenses name"
-            styleProps={{ inputClassName: "h-6 text-sm max-w-52 -mt-1.5" }}
+            label=""
             name={getArrayFieldName<
               FpOperatingExpensesField,
               FieldPath<FpOperatingExpensesFormValue>
             >(FpOperatingExpensesField.operatingExpensesName, index)}
-            isToggleView
-            isHideErrorMessage
-            isDetail
+            placeholder="Operating expenses name"
+            styleProps={{ inputClassName: "h-6 text-sm max-w-52 -mt-1.5" }}
           />
           <RHFTextInput
-            label=""
+            isDetail
+            isHideErrorMessage
+            isToggleView
             className="mt-auto text-xs text-text-secondary"
-            styleProps={{ inputClassName: "h-6 text-xs max-w-32 -mb-1.5" }}
-            placeholder="Add description"
+            label=""
             name={getArrayFieldName<
               FpOperatingExpensesField,
               FieldPath<FpOperatingExpensesFormValue>
             >(FpOperatingExpensesField.operatingExpensesDescription, index)}
-            isToggleView
-            isHideErrorMessage
-            isDetail
+            placeholder="Add description"
+            styleProps={{ inputClassName: "h-6 text-xs max-w-32 -mb-1.5" }}
           />
         </div>
         <RHFMaskInput
           isDetail
-          label=""
-          pattern={MM_YYYY_PATTERN}
+          isHideErrorMessage
           className="row-start-1 col-start-4 col-end-5 mt-0"
-          placeholder="MM/YYYY"
+          label=""
           name={getArrayFieldName<
             FpOperatingExpensesField,
             FieldPath<FpOperatingExpensesFormValue>
           >(FpOperatingExpensesField.operatingExpensesStartDate, index)}
-          isHideErrorMessage
+          pattern={MM_YYYY_PATTERN}
+          placeholder="MM/YYYY"
         />
         <RHFCurrencyInput
           isDetail
-          label=""
+          isHideErrorMessage
           className="row-start-1 col-start-5 col-end-7 mt-0 text-right"
-          prefixIcon="$ "
-          suffixIcon={<span> /mo</span>}
+          label=""
           name={getArrayFieldName<
             FpOperatingExpensesField,
             FieldPath<FpOperatingExpensesFormValue>
           >(FpOperatingExpensesField.operatingExpensesMonthlyCost, index)}
-          isHideErrorMessage
+          prefixIcon="$ "
+          suffixIcon={<span> /mo</span>}
         />
       </div>
     </div>

@@ -1,11 +1,11 @@
-import { BusinessAdverseMediaDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { type BusinessAdverseMediaDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import { DateHeader } from "./DateHeader"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { useMemo } from "react"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { Badge } from "@/components/ui/badge"
@@ -35,12 +35,13 @@ const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
     header: () => <div className="text-left">Risk</div>,
     cell: ({ row }) => {
       const data = row.original
+
       return (
         <Badge
-          isDot={true}
+          isDot
+          className="capitalize text-sm text-text-tertiary rounded-lg bg-transparent pl-0"
           variant="soft"
           variantColor={getBadgeVariantByInsightStatus(data?.risk?.status)}
-          className="capitalize text-sm text-text-tertiary rounded-lg bg-transparent pl-0"
         >
           {data?.risk?.subLabel ?? "--"}
         </Badge>
@@ -52,41 +53,43 @@ const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
     header: () => <div className="text-left">Media sources</div>,
     cell: ({ row }) => {
       const data = row.original
+
       return <p>{data.mediaSources}</p>
     }
   }
 ]
 
-export const AdverseMedia = () => {
+export function AdverseMedia() {
   const { isLoading, loanKybDetail } = useLoanApplicationDetailContext()
   const memoizedColumns = useMemo(() => columns, [])
 
   const adverseMedia = loanKybDetail?.businessAdverseMedia
   const insight = loanKybDetail?.insights.adverseMedia
   const badge = useMemo(
-    () => <MiddeskBadge status={insight?.status} label={insight?.subLabel} />,
+    () => <MiddeskBadge label={insight?.subLabel} status={insight?.status} />,
     [insight?.status, insight?.subLabel]
   )
   const headerTitle = <>Adverse Media {badge}</>
 
   const content = useMemo(() => {
     const data = adverseMedia?.data ?? []
+
     return (
       <MiddeskTable
-        tableClassName="table-fixed"
         columns={memoizedColumns}
         data={data}
         isLoading={isLoading}
+        tableClassName="table-fixed"
       />
     )
   }, [adverseMedia?.data, isLoading, memoizedColumns])
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.adverseMedia}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader />}
       content={content}
+      headerRight={<DateHeader />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.adverseMedia}
     />
   )
 }

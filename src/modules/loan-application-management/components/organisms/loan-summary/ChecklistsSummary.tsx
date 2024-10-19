@@ -5,7 +5,7 @@ import { Fragment } from "react"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 import { InformationRow } from "../../molecules/InformationRow"
 
-export const ChecklistsSummary = () => {
+export function ChecklistsSummary() {
   const { loanSummary } = useLoanApplicationDetailContext()
   const checkLists = loanSummary?.checkLists ?? {}
 
@@ -18,9 +18,9 @@ export const ChecklistsSummary = () => {
               label={
                 <span className="capitalize">{camelCaseToText(label)}</span>
               }
-              value={value?.message ?? UNKNOWN_VALUE}
               status={value?.status}
               subLabel={value?.subLabel}
+              value={value?.message ?? UNKNOWN_VALUE}
             />
 
             {index != Object.entries(checkLists).length - 1 && <Separator />}

@@ -2,10 +2,10 @@ import { Switch } from "@/components/ui/switch"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useToggleStatusFeatureFlagMutation } from "../hooks/useMutation/useToggleStatusFeatureFlagMutation"
 import React, { useState } from "react"
-import { FeatureFlag } from "@/types/feature-flag.types.ts"
+import { type FeatureFlag } from "@/types/feature-flag.types.ts"
 import { Input } from "@/components/ui/input"
 
-type Props = {
+interface Props {
   featureFlag: FeatureFlag
 }
 
@@ -16,9 +16,7 @@ export const ConfirmToggleStatusFeatureFlag: React.FC<Props> = ({
   const [isOpen, setIsOpen] = useState(false)
   const [msg, setMsg] = useState<string | undefined>()
 
-  const confirmToggleStatus = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const confirmToggleStatus = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     mutate(
@@ -37,13 +35,7 @@ export const ConfirmToggleStatusFeatureFlag: React.FC<Props> = ({
 
   return (
     <CustomAlertDialog
-      isOpen={isOpen}
-      onConfirmed={confirmToggleStatus}
-      onCanceled={(e) => {
-        e.stopPropagation()
-        setIsOpen(false)
-      }}
-      title="Toggle status feature flag?"
+      actionClassName="bg-red-500 hover:bg-red-600 text-white"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -53,21 +45,27 @@ export const ConfirmToggleStatusFeatureFlag: React.FC<Props> = ({
           <Input
             className="mt-3"
             placeholder="Reason for change"
-            onChange={(e) => setMsg(e.target.value)}
             value={msg}
+            onChange={(e) => setMsg(e.target.value)}
           />
         </span>
       }
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      isOpen={isOpen}
+      title="Toggle status feature flag?"
+      onCanceled={(e) => {
+        e.stopPropagation()
+        setIsOpen(false)
+      }}
+      onConfirmed={confirmToggleStatus}
     >
       <Switch
+        checked={featureFlag.enabled}
         data-state={featureFlag.enabled ? "checked" : "unchecked"}
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
           setIsOpen(true)
         }}
-        checked={featureFlag.enabled}
       />
     </CustomAlertDialog>
   )

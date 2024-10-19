@@ -1,6 +1,6 @@
-import { GRAPH_FREQUENCY } from "../cashflow.type"
+import { type GRAPH_FREQUENCY } from "../cashflow.type"
 
-type TimeRange = {
+interface TimeRange {
   from: string | null
   to: string | null
 }
@@ -12,6 +12,7 @@ export interface BaseCashFlowFilters {
 export interface RevenueExpenseFilters extends BaseCashFlowFilters {
   frequency: GRAPH_FREQUENCY
 }
+
 export interface NoiTotalDebtPaymentFilters extends BaseCashFlowFilters {
   frequency: GRAPH_FREQUENCY
 }

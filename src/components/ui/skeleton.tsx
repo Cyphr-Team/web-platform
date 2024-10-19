@@ -29,14 +29,14 @@ function SkeletonCard({
 }: SkeletonCardProps) {
   return (
     <div className={cn("flex flex-col gap-3 w-[250px]", className)}>
-      {isTitle && (
+      {isTitle ? (
         <Skeleton
           className={cn(
             "h-[125px] w-full rounded-xl flex-shrink-0",
             isCircle && "h-[80px] w-[80px] rounded-full"
           )}
         />
-      )}
+      ) : null}
 
       {!!numberOfLines && (
         <div className="space-y-2 w-full max-w-full">

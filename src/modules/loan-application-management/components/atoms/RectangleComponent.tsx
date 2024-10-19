@@ -1,7 +1,7 @@
 import { Rect } from "react-konva"
-import { SignalsCoordinatesType } from "../../constants/types/document"
+import { type SignalsCoordinatesType } from "../../constants/types/document"
 
-type Props = {
+interface Props {
   coordinates: SignalsCoordinatesType
   scale: number
 }
@@ -15,12 +15,12 @@ export const RectangleComponent: React.FC<Props> = ({ coordinates, scale }) => {
 
   return (
     <Rect
-      x={x}
-      y={y}
-      width={width}
       height={height}
       stroke="red"
       strokeWidth={2}
+      width={width}
+      x={x}
+      y={y}
       zIndex={2}
     />
   )

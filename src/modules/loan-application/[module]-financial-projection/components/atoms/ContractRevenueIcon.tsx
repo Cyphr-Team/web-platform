@@ -5,12 +5,12 @@ interface Props {
   className?: string
 }
 
-export const ContractRevenueIcon = ({ className }: Props) => {
+export function ContractRevenueIcon({ className }: Props) {
   return (
     <img
-      src={contractRevenue}
-      className={cn("w-8 h-8", className)}
       alt="file"
+      className={cn("w-8 h-8", className)}
+      src={contractRevenue}
     />
   )
 }

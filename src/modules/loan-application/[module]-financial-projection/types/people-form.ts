@@ -10,6 +10,7 @@ interface FutureEmployee {
   role: string
   startDate: string
 }
+
 export interface ExpensePeople {
   id: string | null
   financialProjectionSetupId: string | null

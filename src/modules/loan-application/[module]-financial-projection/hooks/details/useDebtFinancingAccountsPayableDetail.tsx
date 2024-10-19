@@ -1,11 +1,12 @@
 import { PAYABLE_DAYS_OPTIONS } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { DebtFinancingLiability } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type DebtFinancingLiability } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseDebtFinancingAccountsPayableDetailProps {
   debtFinancingLiability?: DebtFinancingLiability
 }
+
 export const useDebtFinancingAccountsPayableDetail = ({
   debtFinancingLiability
 }: UseDebtFinancingAccountsPayableDetailProps) => {

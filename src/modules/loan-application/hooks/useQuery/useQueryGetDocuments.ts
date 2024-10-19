@@ -1,10 +1,10 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { type AxiosError } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
 import { getRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
-import { DocumentUploadedResponse } from "../../constants/type"
+import { type DocumentUploadedResponse } from "../../constants/type"
 
 export const useQueryGetDocumentsByForm = (formId: string) => {
   return useQuery<DocumentUploadedResponse[], AxiosError<ErrorResponse>>({

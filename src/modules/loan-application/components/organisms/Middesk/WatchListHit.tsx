@@ -1,15 +1,15 @@
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { BusinessWatchlistDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { type BusinessWatchlistDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { NotFoundAlert } from "../../molecules/NotFoundAlert"
 import { SourceToolTip } from "../../molecules/SourceToolTip"
 
 const columns: ColumnDef<BusinessWatchlistDetail>[] = [
   {
     accessorKey: "found",
-    header: () => <MiddeskTableHeader title={"Found"} />,
+    header: () => <MiddeskTableHeader title="Found" />,
     cell: ({ row }) => {
       const data = row.original
 
@@ -32,20 +32,20 @@ const columns: ColumnDef<BusinessWatchlistDetail>[] = [
   },
   {
     accessorKey: "list",
-    header: () => <MiddeskTableHeader title={"List"} />,
+    header: () => <MiddeskTableHeader title="List" />,
     cell: ({ row }) => {
       const data = row.original
 
       return (
         <div className="min-w-0">
           <p>{data?.list ?? "-"}</p>
-          {data.sourceUrl && (
+          {data.sourceUrl ? (
             <SourceToolTip
               sourceContent="Source URL"
               subDescription={
                 <a
-                  href={data.sourceUrl}
                   className="text-blue-700 font-semibold hover:underline"
+                  href={data.sourceUrl}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -53,7 +53,7 @@ const columns: ColumnDef<BusinessWatchlistDetail>[] = [
                 </a>
               }
             />
-          )}
+          ) : null}
         </div>
       )
     }
@@ -74,7 +74,7 @@ const columns: ColumnDef<BusinessWatchlistDetail>[] = [
   }
 ]
 
-export const WatchListHit = () => {
+export function WatchListHit() {
   const { loanKybDetail } = useLoanApplicationDetailContext()
 
   const watchlist = loanKybDetail?.businessWatchlist
@@ -82,13 +82,13 @@ export const WatchListHit = () => {
 
   return watchlist?.data.length ? (
     <MiddeskTable
-      tableClassName={"table-fixed"}
       columns={columns}
       data={watchlist.data}
+      tableClassName="table-fixed"
     />
   ) : (
     <div className="mt-3">
-      <NotFoundAlert status={status} label="No hits found" />
+      <NotFoundAlert label="No hits found" status={status} />
     </div>
   )
 }

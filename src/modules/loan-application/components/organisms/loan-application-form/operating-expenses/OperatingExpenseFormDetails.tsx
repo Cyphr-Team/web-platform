@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import {
   OPERATING_EXPENSES_FIELD_DATA,
-  OperatingExpensesInformationResponse
+  type OperatingExpensesInformationResponse
 } from "@/modules/loan-application/constants/type"
 
 import { Separator } from "@/components/ui/separator"
@@ -9,13 +9,12 @@ import { OperatingExpensesDisplay } from "../../../atoms/OperatingExpensesDispla
 import { useMemo } from "react"
 import { toCurrency } from "@/utils"
 
-interface OperatingExpensesFormDetails {
+interface Props {
   operatingExpensesFormData?: OperatingExpensesInformationResponse
 }
 
-export const OperatingExpensesFormDetails: React.FC<
-  OperatingExpensesFormDetails
-> = ({ operatingExpensesFormData }) => {
+export function OperatingExpensesFormDetails(props: Props) {
+  const { operatingExpensesFormData } = props
   const totalMonthlyOperatingExpenses = useMemo(() => {
     return OPERATING_EXPENSES_FIELD_DATA.reduce(
       (acc, item) =>
@@ -37,8 +36,8 @@ export const OperatingExpensesFormDetails: React.FC<
             Number(operatingExpensesFormData?.[item.name]) > 0 && (
               <OperatingExpensesDisplay
                 key={item.name}
-                label={item.title}
                 description={item.subtitle}
+                label={item.title}
                 value={operatingExpensesFormData?.[item.name]}
               />
             )

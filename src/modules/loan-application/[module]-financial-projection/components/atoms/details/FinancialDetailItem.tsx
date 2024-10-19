@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
-import { PropsWithChildren, ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 
 interface FinancialDetailItemProps {
   title: ReactNode
@@ -8,7 +8,7 @@ interface FinancialDetailItemProps {
   isLoading?: boolean
 }
 
-export const FinancialDetailItem = (props: FinancialDetailItemProps) => {
+export function FinancialDetailItem(props: FinancialDetailItemProps) {
   const { title, content, isLoading } = props
   const renderContent = isLoading ? (
     <Skeleton className="h-4 w-40 bg-gray-300" />
@@ -26,8 +26,8 @@ export const FinancialDetailItem = (props: FinancialDetailItemProps) => {
   )
 }
 
-interface LayoutProps extends PropsWithChildren {}
+type LayoutProps = PropsWithChildren
 
-const Layout = ({ children }: LayoutProps) => {
+function Layout({ children }: LayoutProps) {
   return <div className={cn("text-sm")}>{children}</div>
 }

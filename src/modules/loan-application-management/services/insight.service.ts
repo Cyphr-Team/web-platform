@@ -1,5 +1,5 @@
 import { SourceStatus, TaskFieldStatus } from "../constants/types/business.type"
-import { InsightStatus } from "../constants/types/insight.type"
+import { type InsightStatus } from "../constants/types/insight.type"
 import { IdentityVerificationStatus } from "../constants/types/smart-kyc"
 
 /**
@@ -9,6 +9,7 @@ import { IdentityVerificationStatus } from "../constants/types/smart-kyc"
 
 export const getBadgeVariantByInsightStatus = (status?: InsightStatus) => {
   const statusUppercase = status?.toUpperCase()
+
   switch (statusUppercase) {
     case SourceStatus.UNKNOWN:
     case TaskFieldStatus.FAILURE:

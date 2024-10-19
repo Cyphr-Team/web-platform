@@ -1,6 +1,6 @@
 import { getRequest } from "@/services/client.service"
 import {
-  IESignDocument,
+  type IESignDocument,
   PandaDocDocumentStatus
 } from "@/types/esign/document.type"
 import { useQuery } from "@tanstack/react-query"

@@ -8,7 +8,7 @@ import { PDFDocument } from "../atoms/PDFDocument"
 import { BackButton } from "../molecules/documents/BackButton"
 import { DownloadDocumentButton } from "../table/download-document-button"
 
-const PDFDocumentPreview = () => {
+function PDFDocumentPreview() {
   const params = useParams()
 
   const downloadFile = useQueryDownloadDocumentForOfficer({
@@ -22,13 +22,13 @@ const PDFDocumentPreview = () => {
   if (!downloadFile.data || !params.documentId)
     return (
       <AppAlert
-        variant="error"
-        title="Request document error."
         description={
           <div className="flex items-center justify-between gap-2 flex-wrap">
             Error: Cannot get the document detail, please try again later!
           </div>
         }
+        title="Request document error."
+        variant="error"
       />
     )
 

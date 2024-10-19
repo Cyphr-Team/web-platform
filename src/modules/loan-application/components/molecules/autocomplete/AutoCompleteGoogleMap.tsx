@@ -1,9 +1,9 @@
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command"
-import { Libraries, useJsApiLoader } from "@react-google-maps/api"
+import { type Libraries, useJsApiLoader } from "@react-google-maps/api"
 import { debounce } from "lodash"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { APP_CONFIGS } from "@/configs"
-import { AddressType } from "@/types/common.type"
+import { type AddressType } from "@/types/common.type"
 import { parseGooglePlaceInfoForCreateAddress } from "@/utils/converter.utils"
 import {
   Popover,
@@ -18,7 +18,7 @@ import * as z from "zod"
 import { useDebounce } from "react-use"
 
 type PlaceType = google.maps.places.AutocompletePrediction
-type Props = {
+interface Props {
   onSelect: (value: AddressType) => void
   defaultValues: AddressType
 }
@@ -116,6 +116,7 @@ export const AutoCompleteGoogleMap: React.FC<Props> = ({
 
       if (formValues.search === "") {
         setOptions(value ? [value] : [])
+
         return
       } else {
         fetch({ input: formValues.search }, (results) => {
@@ -184,17 +185,17 @@ export const AutoCompleteGoogleMap: React.FC<Props> = ({
           <Label className="text-text-secondary">Business street address</Label>
           <Input
             className="mt-2"
-            type="text"
             placeholder="Start typing your address"
+            type="text"
             {...form.register("search")}
           />
           <PopoverTrigger className="absolute" />
         </div>
 
-        <PopoverContent className="p-0 w-screen max-w-screen-sm" align="start">
+        <PopoverContent align="start" className="p-0 w-screen max-w-screen-sm">
           <Command>
             <CommandGroup className="overflow-auto">
-              {isFetching && <CommandItem>Loading...</CommandItem>}
+              {isFetching ? <CommandItem>Loading...</CommandItem> : null}
               {options.map((option) => {
                 return (
                   <CommandItem

@@ -15,15 +15,17 @@ function getSubdomain(): string {
     const isDev = host.includes("localhost")
     const splitHost = host.split(".")
     const isContainPortal = splitHost.includes("portal")
+
     if (
       (!isDev && splitHost.length === (isContainPortal ? 4 : 3)) ||
       (isDev && splitHost.length === (isContainPortal ? 3 : 2))
     ) {
       return splitHost[0]
     }
-    return DEFAULT_DEMO_SUBDOMAIN
+
+    return DEFAULT_DEMO_SUBDOMAIN as string
   } catch {
-    return DEFAULT_DEMO_SUBDOMAIN
+    return DEFAULT_DEMO_SUBDOMAIN as string
   }
 }
 
@@ -34,11 +36,13 @@ function getRootSubdomain(subdomain: string): string {
 
 function matchSubdomain(subdomainToMatch: string, subdomain: string): boolean {
   const regex = new RegExp(`^${subdomain}(?:-rep)?$`)
+
   return regex.test(subdomainToMatch)
 }
 
 function isRepSubdomain(): boolean {
   const domain = getSubdomain()
+
   return getRootSubdomain(domain) !== domain
 }
 

@@ -1,7 +1,7 @@
 import { FORMAT_DATE_MM_YYYY } from "@/constants/date.constants"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
 import { USEFUL_LIFE_OPTIONS } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import { AssetsLongTermFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
+import { type AssetsLongTermFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
@@ -10,6 +10,7 @@ import _ from "lodash"
 interface UseAssetLongTermDetailProps {
   assetsLongTermFormResponse?: AssetsLongTermFormResponse
 }
+
 export const useAssetLongTermDetail = ({
   assetsLongTermFormResponse
 }: UseAssetLongTermDetailProps) => {

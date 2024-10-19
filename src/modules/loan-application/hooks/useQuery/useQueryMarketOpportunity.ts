@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "../../constants/query-key"
-import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
+import { type MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
-import { FormDetailsQueryProps } from "."
+import { type FormDetailsQueryProps } from "."
 
 export const useQueryMarketOpportunity = ({
   applicationId,

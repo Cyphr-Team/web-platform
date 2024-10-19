@@ -1,11 +1,11 @@
-import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
-import { FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
-import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import { DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
-import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
-import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
-import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
-import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
+import { type DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
+import { type AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { type DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
+import { type FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { type ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
+import { type FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
+import { type PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import {
   useSubmitCurrentAssetsForm,
   useSubmitLongTermAssetsForm
@@ -22,8 +22,8 @@ import { useMutateForecastingSetup } from "@/modules/loan-application/[module]-f
 import { useSubmitFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
 import { useSubmitRevenueForm } from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useSubmitRevenueForm.ts"
 import { useSubmitTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useSubmitTaxRateForm"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
-import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { type ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
+import { type RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { isLoanReady } from "@/utils/domain.utils"
@@ -128,6 +128,7 @@ export const useSubmitFinancialProjectionForms = ({
     const isForecastingSetupComplete = getStepStatus(
       LOAN_APPLICATION_STEPS.FORECASTING_SETUP
     )
+
     if (!isForecastingSetupComplete && isLoanReady()) {
       throw new Error("Please complete the setup step first")
     }
@@ -135,18 +136,19 @@ export const useSubmitFinancialProjectionForms = ({
       await forecastingSetupSubmission.submitForm(applicationId)
     }
 
-    const submissionPromises = Object.entries(submissionHooks).reduce(
-      (promises, [step, hook]) => {
-        if (!getStepStatus(step)) return promises
-        hook.forEach((item) => {
-          if (item.submitForm) {
-            promises.push(item.submitForm(applicationId))
-          }
-        })
-        return promises
-      },
-      [] as Promise<unknown>[]
-    )
+    const submissionPromises = Object.entries(submissionHooks).reduce<
+      Promise<unknown>[]
+    >((promises, [step, hook]) => {
+      if (!getStepStatus(step)) return promises
+      hook.forEach((item) => {
+        if (item.submitForm) {
+          promises.push(item.submitForm(applicationId))
+        }
+      })
+
+      return promises
+    }, [])
+
     return Promise.allSettled(submissionPromises)
   }
 

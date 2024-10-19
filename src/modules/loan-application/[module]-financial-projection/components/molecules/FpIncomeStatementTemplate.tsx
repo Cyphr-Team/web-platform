@@ -4,11 +4,11 @@ import { DataRow } from "@/modules/loan-application/[module]-financial-projectio
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
 import {
   HeaderMapper,
-  HeaderProps
+  type HeaderProps
 } from "@/modules/loan-application/[module]-financial-projection/constants"
-import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
+import { type ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
 import {
-  ForecastPeriod,
+  type ForecastPeriod,
   ForecastType
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 
@@ -21,9 +21,7 @@ interface IncomeStatementTemplateProps {
   isPdf?: boolean
 }
 
-export const IncomeStatementTemplate = (
-  props: IncomeStatementTemplateProps
-) => {
+export function IncomeStatementTemplate(props: IncomeStatementTemplateProps) {
   const {
     title = "Income Statement",
     layout,
@@ -56,104 +54,104 @@ export const IncomeStatementTemplate = (
 
             <SectionRow title="Revenue" />
             <DataRow
-              title="Recurring Charges"
               data={data[ForecastType.RECURRING_CHARGE]}
               layout="item"
+              title="Recurring Charges"
             />
             <DataRow
-              title="Contract Revenue"
               data={data[ForecastType.CONTRACT_REVENUE]}
               layout="item"
+              title="Contract Revenue"
             />
             <DataRow
-              title="Unit Sales"
               data={data[ForecastType.UNIT_SALE]}
               layout="item"
+              title="Unit Sales"
             />
             <DataRow
-              title="Billable Hours"
               data={data[ForecastType.BILLABLE_HOUR]}
               layout="item"
+              title="Billable Hours"
             />
 
             <DataRow
-              title="Total Revenue"
               data={data[ForecastType.REVENUE]}
               layout="total"
+              title="Total Revenue"
             />
             {/* This is correct */}
             <DataRow
-              title="COGS"
               data={data[ForecastType.DIRECT_COST_REVENUE]}
               layout="total"
+              title="COGS"
             />
             <DataRow
-              title="Gross Profit"
+              collision
               data={data[ForecastType.GROSS_PROFIT]}
               layout="total"
-              collision
+              title="Gross Profit"
             />
             <DataRow
-              title="Gross Profit Margin"
               data={data[ForecastType.GROSS_PROFIT_MARGIN]}
               layout="percentage"
+              title="Gross Profit Margin"
             />
 
             <SectionRow title="Operating Expenses" />
             <DataRow
-              title="Salaries & Benefits"
               data={data[ForecastType.SALARIES_AND_BENEFITS]}
               layout="item"
+              title="Salaries & Benefits"
             />
             <DataRow
-              title="Operating Expenses"
               data={data[ForecastType.OPERATING_EXPENSES]}
               layout="item"
+              title="Operating Expenses"
             />
             <DataRow
-              title="Total Operating Expenses"
               data={data[ForecastType.TOTAL_OPERATING_EXPENSES]}
               layout="total"
+              title="Total Operating Expenses"
             />
             <DataRow
-              title="EBITDA"
+              collision
               data={data[ForecastType.EBITDA]}
               layout="total"
-              collision
+              title="EBITDA"
             />
             <DataRow
-              title="Depreciation"
               data={data[ForecastType.DEPRECIATION]}
               layout="item"
+              title="Depreciation"
             />
 
             <DataRow
-              title="EBIT"
+              collision
               data={data[ForecastType.EBIT]}
               layout="total"
-              collision
+              title="EBIT"
             />
             <DataRow
-              title="Interest Expense"
               data={data[ForecastType.INTEREST_EXPENSE]}
               layout="item"
+              title="Interest Expense"
             />
             <DataRow
-              title="Taxes"
               data={data[ForecastType.TAXES]}
               layout="item"
+              title="Taxes"
             />
 
             <DataRow
-              title="Net Income"
+              collision
               data={data[ForecastType.NET_INCOME]}
               layout="total"
-              collision
+              title="Net Income"
             />
             <DataRow
-              title="Net Profit Margin"
               data={data[ForecastType.NET_PROFIT_MARGIN]}
               layout="percentage"
+              title="Net Profit Margin"
             />
           </div>
         </div>

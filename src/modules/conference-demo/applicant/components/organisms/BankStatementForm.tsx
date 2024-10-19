@@ -16,7 +16,7 @@ import { ArrowRight } from "lucide-react"
 import { memo } from "react"
 import { useForm } from "react-hook-form"
 
-const BankStatementForm = () => {
+function BankStatementForm() {
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep, finishStep } = useProgress.use.action()
   const data = useFormData.use["Bank Statements"]()
@@ -55,7 +55,7 @@ const BankStatementForm = () => {
               (business or personal)
             </p>
 
-            <RHFDragAndDropFileUpload name="files" id={STEP.BANK_STATEMENTS} />
+            <RHFDragAndDropFileUpload id={STEP.BANK_STATEMENTS} name="files" />
 
             {!isReviewApplicationStep && (
               <Button disabled={!isValid} onClick={handleSubmit}>

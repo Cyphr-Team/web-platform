@@ -2,10 +2,10 @@ import { API_PATH } from "@/constants"
 import { workspaceAdminLoanApplicationScoreKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
 import {
-  IApplicationWithStageScoresResponse,
-  IWorkspaceAdminApplicationScore
+  type IApplicationWithStageScoresResponse,
+  type IWorkspaceAdminApplicationScore
 } from "@/types/application/application-assign.type"
-import { ListResponse, PaginateParams } from "@/types/common.type"
+import { type ListResponse, type PaginateParams } from "@/types/common.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { getWorkspaceAdminApplicationScores } from "../../services/score.service"
 

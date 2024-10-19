@@ -9,18 +9,18 @@ import { isEnableDownloadCSVAndJSONSummary } from "@/utils/feature-flag.utils"
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import { DownloadCloud } from "lucide-react"
-import { RefObject, useState } from "react"
+import { type RefObject, useState } from "react"
 import { useParams } from "react-router-dom"
 import { LoanSummaryDownloadType } from "../../constants/type"
 import { useQueryDownloadLoanSummary } from "../../hooks/useQuery/useQueryDownloadLoanSummary"
 
-export const DownloadButton = ({
+export function DownloadButton({
   elementToExportRef,
   disabled
 }: {
   elementToExportRef: RefObject<HTMLElement>[]
   disabled?: boolean
-}) => {
+}) {
   const [isLoading, setIsLoading] = useState<boolean>()
   const [downloadType, setDownloadType] = useState<LoanSummaryDownloadType>()
   const [preventCacheCount, setPreventCacheCount] = useState(0)
@@ -28,41 +28,48 @@ export const DownloadButton = ({
 
   const adjustFontSize = (clonedContent: HTMLElement) => {
     const elementsWith2XlText = clonedContent.querySelectorAll(".text-2xl")
+
     elementsWith2XlText.forEach((el) => {
       el.classList.remove("text-2xl")
       el.classList.add("text-3xl")
     })
 
     const elementsWith1XlText = clonedContent.querySelectorAll(".text-xl")
+
     elementsWith1XlText.forEach((el) => {
       el.classList.remove("text-xl")
       el.classList.add("text-2xl")
     })
 
     const elementsWithLgText = clonedContent.querySelectorAll(".text-lg")
+
     elementsWithLgText.forEach((el) => {
       el.classList.remove("text-lg")
       el.classList.add("text-2xl")
     })
 
     const elementsWithBaseText = clonedContent.querySelectorAll(".text-base")
+
     elementsWithBaseText.forEach((el) => {
       el.classList.remove("text-base")
       el.classList.add("text-xl")
     })
 
     const elementsWithSmText = clonedContent.querySelectorAll(".text-sm")
+
     elementsWithSmText.forEach((el) => {
       el.classList.remove("text-sm")
       el.classList.add("text-xl")
     })
     const elementsWithXsText = clonedContent.querySelectorAll(".text-xs")
+
     elementsWithXsText.forEach((el) => {
       el.classList.remove("text-xs")
       el.classList.add("text-xl")
     })
 
     const elementsWithCardGlance = clonedContent.querySelectorAll(".h-32")
+
     elementsWithCardGlance.forEach((el) => {
       el.classList.remove("h-32")
       el.classList.add("h-54")
@@ -105,6 +112,7 @@ export const DownloadButton = ({
     addPage = true
   ) => {
     const clonedContent = content.cloneNode(true) as HTMLElement
+
     clonedContent.style.width = "1200px"
     document.body.appendChild(clonedContent)
     adjustFontSize(clonedContent)
@@ -120,6 +128,7 @@ export const DownloadButton = ({
     setIsLoading(true)
 
     const style = document.createElement("style")
+
     document.head.appendChild(style)
     style.sheet?.insertRule(
       "body > div:last-child img { display: inline-block !important; }",
@@ -131,6 +140,7 @@ export const DownloadButton = ({
     for (const ref of elementToExportRef) {
       if (!ref.current) return
       const content = ref.current
+
       if (content.id === "loan-application") {
         const MAX_LOANS_PER_PAGE = 5
 
@@ -139,8 +149,10 @@ export const DownloadButton = ({
 
         for (let i = 0; i < currentLoanItems.length; i += MAX_LOANS_PER_PAGE) {
           const clonedContent = document.createElement("div")
+
           clonedContent.style.width = "1200px"
           const pageSection = document.createElement("div")
+
           pageSection.classList.add("loan-application-item")
 
           for (
@@ -149,6 +161,7 @@ export const DownloadButton = ({
             j++
           ) {
             const sectionElement = currentLoanItems[j] as HTMLElement
+
             sectionElement.style.marginBottom = "30px" // Add padding between sections
             pageSection.appendChild(currentLoanItems[j].cloneNode(true))
           }
@@ -186,15 +199,15 @@ export const DownloadButton = ({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <ButtonLoading
-          variant="outline"
           data-html2canvas-ignore
-          isLoading={isLoading || downloadFile.isLoading}
           disabled={disabled}
+          isLoading={isLoading || downloadFile.isLoading}
+          variant="outline"
         >
           Download <DownloadCloud className="ml-1" />
         </ButtonLoading>
       </DropdownMenuTrigger>
-      <DropdownMenuContent itemProp="className" className="cursor-pointer">
+      <DropdownMenuContent className="cursor-pointer" itemProp="className">
         <DropdownMenuItem onClick={downloadPdf}>PDF</DropdownMenuItem>
         {/* MVP-1385: hide because its not ready */}
         {isEnableDownloadCSVAndJSONSummary() && (

@@ -1,9 +1,9 @@
 import { Card } from "@/components/ui/card"
 import { formatPhoneNumber } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
-import { KYCInformationResponse } from "@/modules/loan-application/constants/type"
+import { type KYCInformationResponse } from "@/modules/loan-application/constants/type"
 import { Separator } from "@/components/ui/separator"
-import { FC } from "react"
+import { type FC } from "react"
 import { TextInputDisplay } from "@/modules/loan-application/components/atoms/TextInputDisplay.tsx"
 import { isLaunchKC } from "@/utils/domain.utils.ts"
 import { get } from "lodash"
@@ -114,13 +114,13 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           value={kycFormData?.businessCity}
         />
         <TextInputDisplay
-          label="Business state"
           className="col-span-2"
+          label="Business state"
           value={kycFormData?.businessState}
         />
         <TextInputDisplay
-          label="Zip code"
           className="col-span-2"
+          label="Zip code"
           value={kycFormData?.businessZipCode}
         />
         <TextInputDisplay

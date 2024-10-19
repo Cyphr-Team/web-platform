@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
-import { IWorkspaceAdminApplicationStageStat } from "../../../../types/application/application-assign.type"
-import { ErrorResponse } from "react-router-dom"
+import { type IWorkspaceAdminApplicationStageStat } from "../../../../types/application/application-assign.type"
+import { type ErrorResponse } from "react-router-dom"
 import { workspaceAdminAssignJudge } from "../../../../constants/query-key"
 import { getRequest } from "../../../../services/client.service"
 import { API_PATH } from "../../../../constants"

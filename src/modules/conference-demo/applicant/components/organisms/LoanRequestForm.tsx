@@ -1,4 +1,4 @@
-import { FieldValues, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import {
   Card,
@@ -34,7 +34,7 @@ const loanRequestFormSchema = z.object({
   proposeUseOfLoan: z.string().optional()
 })
 
-const LoanRequestForm = () => {
+function LoanRequestForm() {
   const minLoanAmount = 0
   const maxLoanAmount = 50_000
 
@@ -43,7 +43,7 @@ const LoanRequestForm = () => {
 
   const data = useFormData.use["Loan Request"]()
 
-  const method = useForm<FieldValues>({
+  const method = useForm({
     resolver: zodResolver(loanRequestFormSchema),
     mode: "onBlur",
     defaultValues: data
@@ -90,17 +90,17 @@ const LoanRequestForm = () => {
             <div className="flex">
               <div className="flex-1">
                 <RHFLoanSlider
-                  name="loanAmount"
                   label="Loan amount"
-                  min={minLoanAmount}
                   max={maxLoanAmount}
+                  min={minLoanAmount}
+                  name="loanAmount"
                 />
 
                 <RHFTextInput
+                  className="mt-6 space-y-2"
+                  label="Proposed use of loan"
                   name="proposeUseOfLoan"
                   placeholder="i.e. Equipment loan "
-                  label="Proposed use of loan"
-                  className="mt-6 space-y-2"
                 />
               </div>
             </div>
@@ -108,9 +108,9 @@ const LoanRequestForm = () => {
 
           {!isReviewApplicationStep && (
             <Button
-              type="submit"
               className="w-full mt-5"
               disabled={!method.formState.isValid}
+              type="submit"
             >
               Next
             </Button>

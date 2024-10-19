@@ -4,7 +4,7 @@ import { InformationRow } from "../../molecules/InformationRow"
 import { Separator } from "@/components/ui/separator"
 import { formatBirthday } from "@/utils/date.utils"
 
-export const PersonalInfoSummary = () => {
+export function PersonalInfoSummary() {
   const { loanSummary } = useLoanApplicationDetailContext()
   const personalInfo = loanSummary?.personalInfo
 

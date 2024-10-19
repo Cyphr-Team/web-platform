@@ -1,16 +1,16 @@
-type ApplicationUsage = {
+interface ApplicationUsage {
   currentApplicationUsage?: number
   currentApplicationLimit?: number
   isExceeded?: false
 }
 
-type SeatUsage = {
+interface SeatUsage {
   currentSeatUsage?: number
   currentSeatLimit?: number
   isExceeded?: false
 }
 
-type Usage = {
+interface Usage {
   application?: ApplicationUsage
   seat?: SeatUsage
 }

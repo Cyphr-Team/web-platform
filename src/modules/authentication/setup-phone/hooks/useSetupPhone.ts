@@ -1,12 +1,15 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import * as z from "zod"
 import { useNavigate } from "react-router-dom"
-import { StytchMember, StytchSendOtpResponse } from "@/types/auth.type"
+import {
+  type StytchMember,
+  type StytchSendOtpResponse
+} from "@/types/auth.type"
 
 export const setupPhoneFormSchema = z.object({
   phone: z.string().min(1, "Phone number is required"),

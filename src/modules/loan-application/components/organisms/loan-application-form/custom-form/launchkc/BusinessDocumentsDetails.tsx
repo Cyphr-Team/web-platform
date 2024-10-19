@@ -1,31 +1,32 @@
 import fileIcon from "@/assets/file.svg"
 import { Card } from "@/components/ui/card"
 import { DownloadDocumentButton } from "@/modules/loan-application/components/atoms/DownloadDocumentButton"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
+import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
-type Props = {
+interface Props {
   file: DocumentUploadedResponse
   index: string
 }
 const FileCard: React.FC<Props> = ({ file, index }) => (
-  <Card className="p-xl gap-2xl flex" key={index}>
+  <Card key={index} className="p-xl gap-2xl flex">
     <div className="flex">
       <DownloadDocumentButton
         documentId={file.id}
         fileName={file.originFileName}
       />
-      <img src={fileIcon} className="logo w-8 h-8" alt="file" />
+      <img alt="file" className="logo w-8 h-8" src={fileIcon} />
     </div>
     <p className="text-sm">{file.originFileName}</p>
   </Card>
 )
 
-export const LaunchKCBusinessDocumentsDetails = () => {
+export function LaunchKCBusinessDocumentsDetails() {
   const { businessDocumentsFormData } = useBRLoanApplicationDetailsContext()
 
   const executiveSummary = businessDocumentsFormData?.executiveSummary
   const pitchDeck = businessDocumentsFormData?.pitchDeck
+
   return (
     <div className="grid grid-cols-4">
       <div className="col-span-1">
@@ -39,9 +40,9 @@ export const LaunchKCBusinessDocumentsDetails = () => {
             <h5 className="text-lg font-semibold">Executive Summary</h5>
             <div className="flex flex-col gap-y-2xl">
               <FileCard
+                key={executiveSummary.id}
                 file={executiveSummary}
                 index={executiveSummary.id}
-                key={executiveSummary.id}
               />
             </div>
           </Card>
@@ -51,9 +52,9 @@ export const LaunchKCBusinessDocumentsDetails = () => {
             <h5 className="text-lg font-semibold">Pitch Deck</h5>
             <div className="flex flex-col gap-y-2xl">
               <FileCard
+                key={pitchDeck.id}
                 file={pitchDeck}
                 index={pitchDeck.id}
-                key={pitchDeck.id}
               />
             </div>
           </Card>

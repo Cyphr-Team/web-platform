@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import {
-  IScoreFormValues,
+  type IScoreFormValues,
   useScoreFormContext
 } from "../../../providers/ScoreFormProvider"
 
@@ -12,11 +12,7 @@ interface IScoresProps {
   isScored?: boolean
 }
 
-const Scores = ({
-  selectedScore,
-  setSelectedScore,
-  isScored
-}: IScoresProps) => {
+function Scores({ selectedScore, setSelectedScore, isScored }: IScoresProps) {
   return (
     // Multiple peers work in reverse order
     // So i using flex-row-reverse to reverse the order again
@@ -25,12 +21,7 @@ const Scores = ({
         .fill(null)
         .map((_, score) => (
           <Button
-            type="button"
-            // reverse score to normal order by using '5 - score'
-            data-scored={selectedScore >= 5 - score}
-            onClick={() => setSelectedScore(5 - score)}
             key={5 - score}
-            variant="ghost"
             className={cn(
               // If the current score is hover, fill the color
               !isScored && "[&>.score-rocket-icon>path]:hover:fill-inherit",
@@ -43,6 +34,11 @@ const Scores = ({
               "[&>.score-rocket-icon>path]:fill-transparent",
               "h-auto p-0.5 mx-0.5"
             )}
+            variant="ghost"
+            onClick={() => setSelectedScore(5 - score)}
+            type="button"
+            // reverse score to normal order by using '5 - score'
+            data-scored={selectedScore >= 5 - score}
           >
             <Icons.rocket className="score-rocket-icon" />
           </Button>
@@ -51,7 +47,7 @@ const Scores = ({
   )
 }
 
-export const ScoreCardForm = () => {
+export function ScoreCardForm() {
   const form = useScoreFormContext()
   const isScored = form.watch("isScored")
 

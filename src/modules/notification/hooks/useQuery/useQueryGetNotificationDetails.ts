@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
-import { Notification } from "../../constants/type"
-import { AxiosError } from "axios"
+import { type Notification } from "../../constants/type"
+import { type AxiosError } from "axios"
 
 export const useQueryGetNotificationDetails = (notificationId: string) => {
   return useQuery<Notification, AxiosError<ErrorResponse>>({

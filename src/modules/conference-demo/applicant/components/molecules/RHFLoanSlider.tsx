@@ -19,9 +19,10 @@ interface LoanSliderProps {
   placeHolder?: string
 }
 
-const RHFLoanSlider = (props: LoanSliderProps) => {
+function RHFLoanSlider(props: LoanSliderProps) {
   const { name, label, placeHolder, min, max } = props
   const { control } = useFormContext()
+
   return (
     <>
       <FormField
@@ -33,26 +34,29 @@ const RHFLoanSlider = (props: LoanSliderProps) => {
             <FormControl>
               <Input
                 {...field}
-                type="text"
-                placeholder={placeHolder}
                 className="text-base"
+                placeholder={placeHolder}
+                type="text"
                 value={toCurrency(field.value, 0)}
-                onChange={(event) => {
-                  const value =
-                    parseFloat(event.target.value.replace(/[^0-9.]/g, "")) || 0
-                  if (isNaN(value)) return
-                  if (value > max) return field.onChange(max)
-                  field.onChange(value)
-                }}
                 onBlur={(event) => {
                   const value = parseFloat(
                     event.target.value.replace(/[^0-9.]/g, "")
                   )
+
                   if (isNaN(value)) return
                   if (value < min) return field.onChange(min)
                   if (value > max) return field.onChange(max)
                   field.onBlur()
+
                   return field.onChange(value)
+                }}
+                onChange={(event) => {
+                  const value =
+                    parseFloat(event.target.value.replace(/[^0-9.]/g, "")) || 0
+
+                  if (isNaN(value)) return
+                  if (value > max) return field.onChange(max)
+                  field.onChange(value)
                 }}
               />
             </FormControl>
@@ -70,13 +74,13 @@ const RHFLoanSlider = (props: LoanSliderProps) => {
               <Slider
                 {...field}
                 defaultValue={[field.value]}
-                min={min}
                 max={max}
+                min={min}
+                step={500}
+                value={[field.value]}
                 onValueChange={(vals) => {
                   field.onChange(vals[0])
                 }}
-                value={[field.value]}
-                step={500}
               />
             </FormControl>
             <div className="flex justify-between pt-2 text-sm">

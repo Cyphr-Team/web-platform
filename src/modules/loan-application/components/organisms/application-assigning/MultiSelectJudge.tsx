@@ -1,7 +1,7 @@
 import { CheckIcon, Search, X } from "lucide-react"
 import {
-  MouseEvent,
-  KeyboardEvent,
+  type MouseEvent,
+  type KeyboardEvent,
   forwardRef,
   useEffect,
   useState
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { JudgeAvatar } from "@/modules/loan-application-management/components/atoms/JudgeAvatar"
-import { JudgeInfo } from "../../../../../types/application/application-assign.type"
+import { type JudgeInfo } from "../../../../../types/application/application-assign.type"
 
 /**
  * Props for MultiSelect component
@@ -76,6 +76,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
         setIsPopoverOpen(true)
       } else if (event.key === "Backspace" && !event.currentTarget.value) {
         const newSelectedValues = [...selectedValues]
+
         newSelectedValues.pop()
         setSelectedValues(newSelectedValues)
       }
@@ -85,6 +86,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
       const newSelectedValues = selectedValues.includes(value)
         ? selectedValues.filter((v) => v !== value)
         : [...selectedValues, value]
+
       setSelectedValues(newSelectedValues)
     }
 
@@ -108,11 +110,11 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
           <Button
             ref={ref}
             {...props}
-            onClick={handleClickToOpen}
             className={cn(
               "flex w-full p-2 rounded-lg border min-h-16 h-auto justify-start bg-white hover:bg-white",
               isPopoverOpen && "border-black shadow-lg"
             )}
+            onClick={handleClickToOpen}
           >
             <Search className="h-6 w-6 cursor-pointer text-zinc-600 mr-2 self-start mt-3" />
 
@@ -121,6 +123,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                 <div className="flex flex-wrap items-center gap-2">
                   {selectedValues.map((value) => {
                     const option = options.find((o) => o.id === value.id)
+
                     return (
                       <div
                         key={(option?.email ?? "") + (option?.name ?? "")}
@@ -132,9 +135,9 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                       >
                         <JudgeAvatar
                           avatar={option?.avatar}
-                          name={option?.name ?? ""}
-                          email={option?.name}
                           className="h-5 w-5 text-xs"
+                          email={option?.name}
+                          name={option?.name ?? ""}
                         />
 
                         <span className="ml-1 font-semibold text-black overflow-hidden text-sm">
@@ -167,8 +170,8 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
         </PopoverTrigger>
 
         <PopoverContent
-          className="w-96 p-0"
           align="start"
+          className="w-96 p-0"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
           <Command>
@@ -191,12 +194,13 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                     .map((e) => e.id)
                     .includes(option.id)
                   const value = option.email + " " + option.name
+
                   return (
                     <CommandItem
-                      value={value}
                       key={option.id}
-                      onSelect={() => toggleOption(option)}
                       className="cursor-pointer"
+                      value={value}
+                      onSelect={() => toggleOption(option)}
                     >
                       <div
                         className={cn(
@@ -211,9 +215,9 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
 
                       <JudgeAvatar
                         avatar={option?.avatar}
-                        name={option?.name ?? ""}
-                        email={option?.name}
                         className="h-9 w-9 m-0.5"
+                        email={option?.name}
+                        name={option?.name ?? ""}
                       />
 
                       <div className="ml-2">

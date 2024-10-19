@@ -27,5 +27,6 @@ export const parseGooglePlaceInfoForCreateAddress = (
       addressInfo.zip = component.long_name
     }
   }
+
   return addressInfo
 }

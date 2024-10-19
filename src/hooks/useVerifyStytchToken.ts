@@ -6,5 +6,6 @@ import { useStytchB2BClient } from "@stytch/nextjs/dist/b2b"
  */
 export const useVerifyStytchToken = (): boolean => {
   const stytchClient = useStytchB2BClient()
+
   return stytchClient.session.getTokens() != null
 }

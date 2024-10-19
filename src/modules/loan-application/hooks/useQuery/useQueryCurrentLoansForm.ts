@@ -1,7 +1,7 @@
 import { QUERY_KEY } from "../../constants/query-key"
 import { API_PATH } from "@/constants"
-import { CurrentLoansInformationResponse } from "../../constants/type"
-import { FormDetailsQueryProps } from "."
+import { type CurrentLoansInformationResponse } from "../../constants/type"
+import { type FormDetailsQueryProps } from "."
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
 
 export const useQueryGetCurrentLoansForm = ({

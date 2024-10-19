@@ -25,7 +25,7 @@ import {
 } from "../../../services/status.service"
 import { FeedbackCardDetail } from "@/modules/loan-application-management/components/molecules/FeedbackCardDetail.tsx"
 
-export const ScoreCardListDetail = () => {
+export function ScoreCardListDetail() {
   const params = useParams()
 
   // Get Application Detail
@@ -91,20 +91,20 @@ export const ScoreCardListDetail = () => {
       <CardContent className="w-full lg:w-[400px] !p-4 !pt-0">
         <div className="flex justify-between items-stretch space-x-2">
           <ScoreCardBox
-            multiple
             hasBorder
+            multiple
             name="Total score"
             score={totalScore}
           />
           <ScoreCardBox
-            multiple
             hasBorder
+            multiple
             name="Round 2"
             score={avgScoreRound2}
           />
           <ScoreCardBox
-            multiple
             hasBorder
+            multiple
             name="Round 1"
             score={avgScoreRound1}
           />
@@ -118,18 +118,18 @@ export const ScoreCardListDetail = () => {
         </div>
 
         <Accordion
-          type="multiple"
           defaultValue={[
             "scored-card-round-1",
             "scored-card-round-2",
             "feedback"
           ]}
+          type="multiple"
         >
-          {ableToViewRound2 && (
+          {ableToViewRound2 ? (
             <AccordionItem
-              value="scored-card-round-2"
               key="scored-card-round-2"
               className="border-b-0"
+              value="scored-card-round-2"
             >
               <AccordionTrigger
                 className={cn(
@@ -175,13 +175,13 @@ export const ScoreCardListDetail = () => {
                 </Accordion>
               </AccordionContent>
             </AccordionItem>
-          )}
+          ) : null}
 
-          {ableToViewRound1 && (
+          {ableToViewRound1 ? (
             <AccordionItem
-              value="scored-card-round-1"
               key="scored-card-round-1"
               className="border-b-0"
+              value="scored-card-round-1"
             >
               <AccordionTrigger
                 className={cn(
@@ -227,14 +227,14 @@ export const ScoreCardListDetail = () => {
                 </Accordion>
               </AccordionContent>
             </AccordionItem>
-          )}
+          ) : null}
 
           {/* If admin want to view the feedback, they must be able to view round 1 */}
-          {ableToViewRound1 && (
+          {ableToViewRound1 ? (
             <AccordionItem
-              value="feedback"
               key="feedback"
               className="border-b-0"
+              value="feedback"
             >
               <AccordionTrigger
                 className={cn(
@@ -250,7 +250,7 @@ export const ScoreCardListDetail = () => {
                 <FeedbackCardDetail feedbackList={feedbackList} />
               </AccordionContent>
             </AccordionItem>
-          )}
+          ) : null}
         </Accordion>
       </CardContent>
     </Card>

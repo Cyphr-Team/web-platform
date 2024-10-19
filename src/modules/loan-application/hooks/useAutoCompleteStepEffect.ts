@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react"
-import { UseFormReturn } from "react-hook-form"
+import { type UseFormReturn } from "react-hook-form"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,

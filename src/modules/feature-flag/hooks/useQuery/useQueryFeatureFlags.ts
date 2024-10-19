@@ -1,11 +1,11 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { ListResponse, PaginateParams } from "@/types/common.type"
+import { type ListResponse, type PaginateParams } from "@/types/common.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
 
 import { featureFlagKeys } from "@/constants/query-key"
-import { FeatureFlag } from "../../../../types/feature-flag.types"
+import { type FeatureFlag } from "../../../../types/feature-flag.types"
 
 type ListFeatureFlagsResponse = ListResponse<FeatureFlag>
 

@@ -1,15 +1,15 @@
 import * as React from "react"
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
+  type Row,
+  type SortingState,
   useReactTable,
-  Row
+  type VisibilityState
 } from "@tanstack/react-table"
 
 import {
@@ -27,17 +27,17 @@ import { cn } from "@/lib/utils"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import {
-  InfiniteData,
-  InfiniteQueryObserverBaseResult
+  type InfiniteData,
+  type InfiniteQueryObserverBaseResult
 } from "@tanstack/react-query"
-import { ListResponse } from "@/types/common.type"
+import { type ListResponse } from "@/types/common.type"
 import { Loader2 } from "lucide-react"
 
 interface DataTableProps<TData extends ListResponse, TValue> {
   columns: ColumnDef<TData["data"][number], TValue>[]
   isFilterView?: boolean
   handleClickDetail?: (row: Row<TData["data"][number]>) => void
-  data: InfiniteData<TData, unknown> | undefined
+  data: InfiniteData<TData> | undefined
   isFetching: boolean
   fetchNextPage: InfiniteQueryObserverBaseResult["fetchNextPage"]
   className?: string
@@ -64,6 +64,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
 
   //flatten the array of arrays from the useInfiniteQuery hook
   const flatData = React.useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return data?.pages?.flatMap((page) => page.data) ?? []
   }, [data?.pages])
 
@@ -101,8 +102,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
     getScrollElement: () => tableContainerRef.current,
     //measure dynamic row height, except in firefox because it measures table border height incorrectly
     measureElement:
-      typeof window !== "undefined" &&
-      navigator.userAgent.indexOf("Firefox") === -1
+      typeof window !== "undefined" && !navigator.userAgent.includes("Firefox")
         ? (element) => element?.getBoundingClientRect().height
         : undefined,
     overscan: 1
@@ -112,6 +112,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
     (containerRefElement?: HTMLDivElement | null) => {
       if (containerRefElement) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement
+
         //once the user has scrolled within 200px of the bottom of the table, fetch more data if we can
         if (
           scrollHeight - scrollTop - clientHeight < 200 &&
@@ -133,12 +134,11 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
   return (
     <div>
       <div className="flex items-center py-3">
-        {isFilterView && <DataTableViewOptions table={table} />}
+        {isFilterView ? <DataTableViewOptions table={table} /> : null}
       </div>
       <div
-        className={cn("rounded-md border", className)}
-        onScroll={(e) => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
         ref={tableContainerRef}
+        className={cn("rounded-md border", className)}
         style={{
           overflow: "auto", //our scrollable table container
           position: "relative", //needed for sticky header
@@ -147,16 +147,17 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
             150
           )}px`
         }}
+        onScroll={(e) => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
       >
         <InfinityTable className="grid">
           <TableHeader className="bg-gray-100 grid sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="grid grid-flow-col" key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="grid grid-flow-col">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      className="flex items-center"
                       key={header.id}
+                      className="flex items-center"
                       style={{ width: header.getSize() }}
                     >
                       {header.isPlaceholder
@@ -184,25 +185,25 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
 
                 return (
                   <TableRow
-                    data-index={virtualRow.index} //needed for dynamic row height measurement
+                    key={row.id}
                     ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
                     className={cn(
                       "grid grid-flow-col absolute w-full items-center",
                       !!handleClickDetail && "cursor-pointer"
                     )}
+                    data-index={virtualRow.index} //needed for dynamic row height measurement
                     style={{
                       transform: `translateY(${virtualRow.start}px)` //this should always be a `style` as it changes on scroll
                     }}
-                    key={row.id}
                     onClick={() => handleClickDetail?.(row)}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        style={{ width: cell.column.getSize() }}
                         className={cn({
                           "mr-0 ml-auto": cell.column.id === "action"
                         })}
+                        style={{ width: cell.column.getSize() }}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -216,8 +217,8 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center text-base"
+                  colSpan={columns.length}
                 >
                   {!isFetching && "No results."}
                 </TableCell>
@@ -225,7 +226,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
             )}
           </TableBody>
         </InfinityTable>
-        {isFetching && (
+        {isFetching ? (
           <div className="flex flex-col m-4 items-center mt-3">
             <Loader2
               className={cn(
@@ -234,7 +235,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
             />
             Loading...
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   )

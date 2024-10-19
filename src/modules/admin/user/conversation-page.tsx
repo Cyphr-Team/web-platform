@@ -5,10 +5,10 @@ import { useLocation } from "react-router-dom"
 import { chatHistoryColumns } from "@/modules/admin/user/table/chat-history-columns"
 import {
   ConversationTableHeader,
-  FilterValues
+  type FilterValues
 } from "@/modules/admin/user/table/conversation-table-header"
 import { useState } from "react"
-import { ChatbotHistory } from "@/types/chatbot.type"
+import { type ChatbotHistory } from "@/types/chatbot.type"
 
 export function Component() {
   const { state } = useLocation()
@@ -17,6 +17,7 @@ export function Component() {
 
   const handleSearch = (filterValues: FilterValues) => {
     const data = state.chatHistories as ChatbotHistory[]
+
     setHistories(
       data?.filter((history) => {
         const messageFilter = history.message
@@ -26,6 +27,7 @@ export function Component() {
           filterValues.status.length > 0
             ? filterValues.status.includes(history.messageType)
             : true
+
         return messageFilter && statusFilter
       })
     )
@@ -41,10 +43,10 @@ export function Component() {
         <ConversationTableHeader onSearch={handleSearch} />
       </div>
       <DataTable
-        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
-        tableHeaderClassName="border-t-0"
         columns={chatHistoryColumns}
         data={histories ?? []}
+        tableHeaderClassName="border-t-0"
+        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
         total={histories?.length ?? 0}
       />
     </div>

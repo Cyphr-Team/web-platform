@@ -1,12 +1,12 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/notification/constants"
 import { postRequest } from "@/services/client.service"
-import { UserDetailInfo } from "@/types/user.type.ts"
+import { type UserDetailInfo } from "@/types/user.type.ts"
 import { useQuery } from "@tanstack/react-query"
 
 type ListUserResponse = UserDetailInfo[]
 
-type UserIdsParams = {
+interface UserIdsParams {
   userIds: string[]
 }
 
@@ -22,6 +22,7 @@ export const useQueryGetUsersByIds = (userIds: string[]) => {
         path: API_PATH.admin.user.listUsersByUserIds,
         data: { userIds }
       })
+
       return response.data
     },
     enabled: !!userIds.length

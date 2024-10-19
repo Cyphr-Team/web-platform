@@ -1,60 +1,65 @@
-import React, { Dispatch, ReactNode, useMemo, useReducer } from "react"
+import {
+  type Dispatch,
+  type PropsWithChildren,
+  useMemo,
+  useReducer
+} from "react"
 import { useUpdateEffect } from "react-use"
 import { createContext } from "use-context-selector"
 import { useLoanApplicationProgressContext, usePlaidContext } from "."
 import {
-  BusinessFormValue,
-  BusinessModelFormValue,
-  ConfirmationFormValue,
-  CurrentLoansFormValue,
-  DisclaimerAndDisclosureFormValue,
-  DocumentUploadsFormValue,
-  ESignFormValue,
-  ExecutionFormValue,
-  FinancialFormValue,
-  IBusinessFormValue,
-  ICurrentLoanFormValue,
-  IdentityVerificationValue,
-  IOwnerFormValue,
-  LaunchKCBusinessFormValue,
-  LaunchKCFitFormValue,
-  LaunchKCOwnerFormValue,
-  LoanReadyBusinessFormValue,
-  LoanRequestFormValue,
-  MarketOpportunityFormValue,
-  OperatingExpensesFormValue,
-  OwnerFormValue,
-  PreQualificationFormValue,
-  ProductServiceFormValue,
-  ReviewApplicationValue
+  type BusinessFormValue,
+  type BusinessModelFormValue,
+  type ConfirmationFormValue,
+  type CurrentLoansFormValue,
+  type DisclaimerAndDisclosureFormValue,
+  type DocumentUploadsFormValue,
+  type ESignFormValue,
+  type ExecutionFormValue,
+  type FinancialFormValue,
+  type IBusinessFormValue,
+  type ICurrentLoanFormValue,
+  type IdentityVerificationValue,
+  type IOwnerFormValue,
+  type LaunchKCBusinessFormValue,
+  type LaunchKCFitFormValue,
+  type LaunchKCOwnerFormValue,
+  type LoanReadyBusinessFormValue,
+  type LoanRequestFormValue,
+  type MarketOpportunityFormValue,
+  type OperatingExpensesFormValue,
+  type OwnerFormValue,
+  type PreQualificationFormValue,
+  type ProductServiceFormValue,
+  type ReviewApplicationValue
 } from "../constants/form"
-import { DocumentUploadedResponse } from "../constants/type"
+import { type DocumentUploadedResponse } from "../constants/type"
 import { useSubmitLoanForm } from "../services/submit-form.strategy"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
-import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
-import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
-import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
-import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
-import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+import { type ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { type BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
+import { type CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { type FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { type ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
 import {
-  SbbKybFormPartOneValue,
-  SbbKybFormPartTwoValue
+  type SbbKybFormPartOneValue,
+  type SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
-import { SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-application-form/pre-application-disclosures/const"
+import { type SbbPreApplicationDisclosuresValue } from "../components/organisms/loan-application-form/pre-application-disclosures/const"
 
 import { merge } from "lodash"
-import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
-import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
-import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
-import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
-import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
-import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
-import { DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
-import { FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
+import { type FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
+import { type RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { type ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
+import { type PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
+import { type DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { type FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { type AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { type ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
+import { type DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
+import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 
-export type LoanApplicationFormState = {
+export interface LoanApplicationFormState {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: IBusinessFormValue
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: IOwnerFormValue
@@ -97,7 +102,7 @@ export type LoanApplicationFormState = {
   [LOAN_APPLICATION_STEPS.EQUITY]: FpEquityFinancingFormValue
 }
 
-export type LoanDocumentsState = {
+export interface LoanDocumentsState {
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: DocumentUploadedResponse[]
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: DocumentUploadedResponse[]
   [LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS]: DocumentUploadedResponse[]
@@ -156,13 +161,13 @@ export type FormStateType =
   | DebtFinancingFormValue
   | LoanReadyBusinessFormValue
 
-export type Action = {
+export interface Action {
   action: FORM_ACTION
   state: FormStateType
   key: LOAN_APPLICATION_STEPS
 }
 
-type DocumentAction = {
+interface DocumentAction {
   action: DOCUMENT_ACTION
   state: DocumentUploadedResponse | { id: string }
   key:
@@ -241,9 +246,7 @@ export const LoanApplicationFormContext =
 
 const { Provider } = LoanApplicationFormContext
 
-export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
-  props
-) => {
+export function LoanApplicationFormProvider(props: PropsWithChildren) {
   const [state, dispatchFormAction] = useReducer(
     updateApplicationForm,
     {} as LoanApplicationFormState
@@ -317,5 +320,6 @@ export const LoanApplicationFormProvider: React.FC<{ children: ReactNode }> = (
     }),
     [state, documents, isLoading, submitLoanForm]
   )
+
   return <Provider value={providerValues}>{props.children}</Provider>
 }

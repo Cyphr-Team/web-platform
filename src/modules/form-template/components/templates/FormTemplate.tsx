@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FieldValues, UseFormReturn } from "react-hook-form"
+import { type FieldValues, type UseFormReturn } from "react-hook-form"
 import {
-  ComponentType,
+  type ComponentType,
   createElement,
-  PropsWithChildren,
-  ReactElement,
+  type PropsWithChildren,
+  type ReactElement,
   useMemo
 } from "react"
-import { RHFCheckboxProps } from "@/modules/form-template/components/molecules/RHFCheckbox.tsx"
-import { RHFMaskInputProps } from "@/modules/form-template/components/molecules/RHFMaskInput.tsx"
-import { RHFMultiSelectInputProps } from "@/modules/form-template/components/molecules/RHFMultiSelectInput.tsx"
-import { RHFNumberInputProps } from "@/modules/form-template/components/molecules/RHFNumberInput.tsx"
-import { RHFOptionInputProps } from "@/modules/form-template/components/molecules/RHFOptionInput.tsx"
-import { RHFSelectInputProps } from "@/modules/form-template/components/molecules/RHFSelectInput.tsx"
-import { RHFTextInputProps } from "@/modules/form-template/components/molecules/RHFTextInput.tsx"
-import { RHFPhoneInputProps } from "@/modules/form-template/components/molecules/RHFPhoneInput.tsx"
+import { type RHFCheckboxProps } from "@/modules/form-template/components/molecules/RHFCheckbox.tsx"
+import { type RHFMaskInputProps } from "@/modules/form-template/components/molecules/RHFMaskInput.tsx"
+import { type RHFMultiSelectInputProps } from "@/modules/form-template/components/molecules/RHFMultiSelectInput.tsx"
+import { type RHFNumberInputProps } from "@/modules/form-template/components/molecules/RHFNumberInput.tsx"
+import { type RHFOptionInputProps } from "@/modules/form-template/components/molecules/RHFOptionInput.tsx"
+import { type RHFSelectInputProps } from "@/modules/form-template/components/molecules/RHFSelectInput.tsx"
+import { type RHFTextInputProps } from "@/modules/form-template/components/molecules/RHFTextInput.tsx"
+import { type RHFPhoneInputProps } from "@/modules/form-template/components/molecules/RHFPhoneInput.tsx"
 import RHFProvider from "@/modules/form-template/providers/RHFProvider.tsx"
 import {
   RHFCalendarPickerInput,
@@ -31,11 +31,11 @@ import {
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
 import { cn } from "@/lib/utils.ts"
-import { RHFCalendarPickerInputProps } from "@/modules/form-template/components/molecules/RHFCalendarPickerInput.tsx"
-import { RHFCurrencyInputProps } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
-import { RHFPercentageInputProps } from "@/modules/form-template/components/molecules/RHFPercentageInput.tsx"
+import { type RHFCalendarPickerInputProps } from "@/modules/form-template/components/molecules/RHFCalendarPickerInput.tsx"
+import { type RHFCurrencyInputProps } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
+import { type RHFPercentageInputProps } from "@/modules/form-template/components/molecules/RHFPercentageInput.tsx"
 import {
-  ITextInputType,
+  type ITextInputType,
   TextInput
 } from "@/shared/organisms/form/TextInput.tsx"
 
@@ -55,7 +55,7 @@ export const enum FieldType {
   PHONE = "phone"
 }
 
-export const ComponentMapper: { [key: string]: ComponentType<any> } = {
+export const ComponentMapper: Record<string, ComponentType<any>> = {
   [FieldType.TEXT]: RHFTextInput,
   [FieldType.LEGACY_TEXT]: TextInput,
   [FieldType.NUMBER]: RHFNumberInput,
@@ -126,6 +126,7 @@ export const renderInnerBlockComponents = (
   return blocks.map(({ type, props, name }) => {
     const Component = ComponentMapper[type]
     const indexedName = `${parentName}.${index}.${name}`
+
     /**
      * use createElement instead of <Component /> because createElement will return ReactElement
      * The <Component /> return JSX.Element which will contain deprecated keyword JSX
@@ -143,7 +144,7 @@ export const renderInnerBlockComponents = (
  * INPUT: formSchema, element, element's props
  * OUTPUT: stateless FormTemplate
  * */
-export const FormTemplate = (props: Props) => {
+export function FormTemplate(props: Props) {
   const {
     form,
     blocks,
@@ -162,7 +163,7 @@ export const FormTemplate = (props: Props) => {
         {componentList}
         {children}
       </div>
-      {renderSubmit && renderSubmit(submitProps)}
+      {renderSubmit?.(submitProps)}
     </RHFProvider>
   )
 }

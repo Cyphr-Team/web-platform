@@ -9,12 +9,8 @@ interface DragDropFileInputProps {
   id: string
 }
 
-export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
-  onFileSelect,
-  field,
-  id,
-  multiple = true
-}) => {
+export function DragDropFileInput(props: DragDropFileInputProps) {
+  const { onFileSelect, field, id, multiple = true } = props
   const [dragActive, setDragActive] = useState(false)
 
   const handleDrag = (event: React.DragEvent<HTMLFormElement>) => {
@@ -50,22 +46,22 @@ export const DragDropFileInput: React.FC<DragDropFileInputProps> = ({
   return (
     <form
       onDragEnter={handleDrag}
-      onDragOver={handleDrag}
       onDragLeave={handleDrag}
+      onDragOver={handleDrag}
       onDrop={handleDrop}
     >
       <input
-        type="file"
+        accept="application/pdf" // Temporarily remove image/png, image/jpeg
         id={id}
         multiple={multiple}
-        onChange={handleFileSelect}
         style={{ display: "none" }}
-        accept="application/pdf" // Temporarily remove image/png, image/jpeg
+        type="file"
+        onChange={handleFileSelect}
       />
       <label htmlFor={id}>
         <Card
-          data-drag={dragActive}
           className="p-xl gap-lg flex flex-col items-center justify-content data-[drag='true']:border-primary cursor-pointer shadow-none"
+          data-drag={dragActive}
         >
           <div className="border p-md rounded-md">
             <UploadCloud className="h-5 w-5" />

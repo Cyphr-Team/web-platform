@@ -5,7 +5,7 @@ import { DashBoardToolTip } from "./DashBoardToolTip"
 import { StatsTitle } from "./StatsTitle"
 import { UsageCard } from "./UsageCard"
 
-export const CurrentUsage = () => {
+export function CurrentUsage() {
   const { isLoadingUsage, usageData, usageError } = useDashboard()
 
   const isNotFoundSubscription = !!(
@@ -33,29 +33,29 @@ export const CurrentUsage = () => {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <UsageCard
-          title="Applications used"
-          isLoading={isLoadingUsage}
-          icon={<DashBoardToolTip content="Total applications used" />}
-          currentUsage={data.currentApplicationUsage}
-          limit={data.currentApplicationLimit}
-          warnThreshold={data.applicationWarnThreshold}
           alertThreshold={data.applicationAlertThreshold}
-          unit="Apps"
-          isNotFoundSubscription={isNotFoundSubscription}
           cta={<ButtonContactForMoreUsage content="Get more apps" />}
+          currentUsage={data.currentApplicationUsage}
+          icon={<DashBoardToolTip content="Total applications used" />}
+          isLoading={isLoadingUsage}
+          isNotFoundSubscription={isNotFoundSubscription}
+          limit={data.currentApplicationLimit}
+          title="Applications used"
+          unit="Apps"
+          warnThreshold={data.applicationWarnThreshold}
         />
 
         <UsageCard
-          title="Seats used"
-          isLoading={isLoadingUsage}
-          icon={<DashBoardToolTip content="Total seats used" />}
-          currentUsage={data.currentSeatUsage}
-          limit={data.currentSeatLimit}
-          warnThreshold={data.seatWarnThreshold}
           alertThreshold={data.seatAlertThreshold}
-          unit="Seats"
-          isNotFoundSubscription={isNotFoundSubscription}
           cta={<ButtonContactForMoreUsage content="Get more seats" />}
+          currentUsage={data.currentSeatUsage}
+          icon={<DashBoardToolTip content="Total seats used" />}
+          isLoading={isLoadingUsage}
+          isNotFoundSubscription={isNotFoundSubscription}
+          limit={data.currentSeatLimit}
+          title="Seats used"
+          unit="Seats"
+          warnThreshold={data.seatWarnThreshold}
         />
       </div>
     </div>

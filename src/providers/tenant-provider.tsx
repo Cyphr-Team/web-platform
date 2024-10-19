@@ -1,13 +1,16 @@
-import { Institution, InstitutionData } from "@/constants/tenant.constants"
+import {
+  type Institution,
+  type InstitutionData
+} from "@/constants/tenant.constants"
 import { getSubdomain } from "@/utils/domain.utils"
 import { createContext, useContext, useMemo, useState } from "react"
 
-type TenantProviderProps = {
+interface TenantProviderProps {
   children: React.ReactNode
   initInstitution: InstitutionData
 }
 
-type TenantProviderState = {
+interface TenantProviderState {
   tenant?: Institution
   tenantData?: InstitutionData
 }

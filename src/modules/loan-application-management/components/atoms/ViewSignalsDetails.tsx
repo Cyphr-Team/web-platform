@@ -1,6 +1,6 @@
 import { useLoanDocumentDetailsContext } from "../../providers/LoanDocumentDetailsProvider"
 
-type Props = {
+interface Props {
   handleOpenSignalDetails: () => void
   isOpenSignalDetails: boolean
 }
@@ -12,6 +12,7 @@ export const ViewSignalsDetails: React.FC<Props> = ({
   const { visualizationDetails } = useLoanDocumentDetailsContext()
 
   if (!visualizationDetails || isOpenSignalDetails) return null
+
   return (
     <p
       className="text-xs bg-error-100 p-3"

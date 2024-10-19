@@ -14,13 +14,13 @@ import { STEP } from "../../constants"
 import { Badge } from "@/components/ui/badge"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
-import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { ColumnDef } from "@tanstack/react-table"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
+import { type ColumnDef } from "@tanstack/react-table"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { format } from "date-fns"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
-import { IPlaidInstitutionProviderData } from "@/modules/loan-application/constants"
+import { type IPlaidInstitutionProviderData } from "@/modules/loan-application/constants"
 import { PLAID_BANKING_ACCOUNTS } from "../../constants/data"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
@@ -55,14 +55,14 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
       return (
         <div className="min-w-0">
           <Badge
+            border
             isDot
+            className="capitalize text-sm rounded-lg font-medium"
+            isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.SUCCESS
             )}
-            className="capitalize text-sm rounded-lg font-medium"
-            isDotBefore={false}
-            border
           >
             Connected
           </Badge>
@@ -72,7 +72,7 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   }
 ]
 
-const CashFlowVerificationForm = () => {
+function CashFlowVerificationForm() {
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep, finishStep, checkStep } = useProgress.use.action()
 
@@ -145,10 +145,10 @@ const CashFlowVerificationForm = () => {
               your business financial health through cash flow data and expedite
               the loan approval process. Learn how it works{" "}
               <a
-                href="https://plaid.com/legal/#consumers"
                 className="underline text-[#1264A3]"
-                target="_blank"
+                href="https://plaid.com/legal/#consumers"
                 rel="noopener noreferrer"
+                target="_blank"
               >
                 here
               </a>
@@ -158,9 +158,9 @@ const CashFlowVerificationForm = () => {
           <div className="flex flex-col gap-lg">
             <div className="flex gap-2 mt-1">
               <Checkbox
+                checked={canConnect}
                 className="w-5 h-5"
                 disabled={!!connectedAccounts.length}
-                checked={canConnect}
                 onCheckedChange={(value: boolean) => {
                   setIsConfirmedConnect(value)
                 }}
@@ -174,7 +174,7 @@ const CashFlowVerificationForm = () => {
           </div>
         </div>
       </Card>
-      {(!!connectedAccounts.length || isConfirmedConnect) && (
+      {!!connectedAccounts.length || isConfirmedConnect ? (
         <Card
           className={cn(
             "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
@@ -188,10 +188,10 @@ const CashFlowVerificationForm = () => {
                 Having trouble connecting your bank accounts?
                 <br /> Click{" "}
                 <a
-                  href="https://support-my.plaid.com/hc/en-us/categories/4405983222679-Connecting-Financial-Accounts"
                   className="underline text-[#1264A3]"
-                  target="_blank"
+                  href="https://support-my.plaid.com/hc/en-us/categories/4405983222679-Connecting-Financial-Accounts"
                   rel="noopener noreferrer"
+                  target="_blank"
                 >
                   here
                 </a>{" "}
@@ -201,10 +201,10 @@ const CashFlowVerificationForm = () => {
 
             <ButtonLoading
               className=" border rounded-lg text-primary bg-white text-gray-700 px-lg py-md hover:bg-zinc-100"
-              onClick={handleOnClick}
-              isLoading={isConnecting || isFetchingDetails}
               disabled={!canConnect || isFetchingDetails}
+              isLoading={isConnecting || isFetchingDetails}
               type="button"
+              onClick={handleOnClick}
             >
               {connectedAccounts.length ? "Connect More" : "Connect"}
               <Link className="ml-1 w-4" />
@@ -230,11 +230,11 @@ const CashFlowVerificationForm = () => {
                   <Card className="border-none shadow-none">
                     <CardContent className="p-0 md:p-0">
                       <MiddeskTable
-                        tableClassName="text-gray-700 font-sm"
                         cellClassName="py-6"
                         columns={columns}
                         data={connectedAccounts}
-                        noResultText={"No connected accounts found"}
+                        noResultText="No connected accounts found"
+                        tableClassName="text-gray-700 font-sm"
                       />
                     </CardContent>
                   </Card>
@@ -255,7 +255,7 @@ const CashFlowVerificationForm = () => {
             )}
           </div>
         </Card>
-      )}
+      ) : null}
     </>
   )
 }

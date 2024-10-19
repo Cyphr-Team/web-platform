@@ -11,7 +11,7 @@ import {
 
 import { Input, InputPassword } from "@/components/ui/input"
 import {
-  SetupProfileFormValue,
+  type SetupProfileFormValue,
   setupProfileFormSchema,
   useSetupProfile
 } from "../hooks/useSetupProfile"
@@ -25,7 +25,7 @@ import {
 import { isAxiosError } from "axios"
 import { useCountdown } from "@/hooks/useCountdown"
 import { useEffect } from "react"
-import { APP_PATH, PasswordRegex } from "@/constants"
+import { APP_PATH, type PasswordRegex } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { PasswordMatch } from "../../components/password-match"
 import { PASSWORD_REGEX_TEXT } from "../../hooks/usePasswordMatch"
@@ -66,6 +66,7 @@ export function SetupProfileForm() {
     if (count < 1) {
       if (isEnableMFA()) {
         const { email, password } = form.getValues()
+
         mutateLogin({ email, password })
       } else {
         navigate({
@@ -82,6 +83,7 @@ export function SetupProfileForm() {
     <div className="flex flex-col space-y-4">
       <Form {...form}>
         <form
+          className="space-y-5 w-full"
           onSubmit={form.handleSubmit((data) =>
             mutate(data, {
               onError(errorResponse) {
@@ -96,7 +98,6 @@ export function SetupProfileForm() {
               }
             })
           )}
-          className="space-y-5 w-full"
         >
           <FormField
             control={form.control}
@@ -107,10 +108,10 @@ export function SetupProfileForm() {
                 <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
                     autoComplete="username"
-                    placeholder="Enter your email"
                     className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
+                    placeholder="Enter your email"
                     {...field}
-                    disabled={true}
+                    disabled
                   />
                 </FormControl>
                 <FormMessage />
@@ -126,11 +127,11 @@ export function SetupProfileForm() {
                 <FormLabel>Display Name</FormLabel>
                 <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
-                    placeholder="Enter your name"
                     className="text-base"
+                    placeholder="Enter your name"
                     {...field}
-                    disabled={isPending}
                     autoComplete="name"
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -146,20 +147,20 @@ export function SetupProfileForm() {
                 <FormLabel>Password</FormLabel>
                 <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <InputPassword
-                    placeholder="Create a password"
                     className="text-base"
+                    placeholder="Create a password"
                     {...field}
-                    disabled={isPending}
                     autoComplete="new-password"
+                    disabled={isPending}
                   />
                 </FormControl>
-                {fieldState.error?.message && (
+                {fieldState.error?.message ? (
                   <ErrorMessage>
                     {PASSWORD_REGEX_TEXT[
                       fieldState.error.message as PasswordRegex
                     ] ?? fieldState.error.message}
                   </ErrorMessage>
-                )}
+                ) : null}
               </FormItem>
             )}
           />
@@ -172,11 +173,11 @@ export function SetupProfileForm() {
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <InputPassword
-                    placeholder="Confirm your password"
                     className="text-base"
+                    placeholder="Confirm your password"
                     {...field}
-                    disabled={isPending}
                     autoComplete="new-password"
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -197,20 +198,20 @@ export function SetupProfileForm() {
               </ErrorMessage>
             )}
 
-            {isSuccess && (
+            {isSuccess ? (
               <AppAlert
-                variant="success"
-                title="Your sign up has been completed"
                 description={`You'll be redirected to the ${
                   isEnableMFA() ? "MFA setup" : "login"
                 } page after ${count} seconds`}
+                title="Your sign up has been completed"
+                variant="success"
               />
-            )}
+            ) : null}
 
             <ButtonLoading
-              isLoading={isPending}
-              disabled={isSuccess || isPending}
               className="w-full text-base mt-5"
+              disabled={isSuccess || isPending}
+              isLoading={isPending}
               type="submit"
             >
               Get started

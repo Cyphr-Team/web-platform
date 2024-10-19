@@ -1,11 +1,12 @@
 import { RECEIVABLE_DAYS_OPTIONS } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { AssetsCurrentFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type AssetsCurrentFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseAssetReceivableDetailProps {
   assetsCurrentFormResponse?: AssetsCurrentFormResponse
 }
+
 export const useAssetReceivableDetail = ({
   assetsCurrentFormResponse
 }: UseAssetReceivableDetailProps) => {

@@ -2,9 +2,9 @@
  * InsightStatus
  */
 
-import { SourceStatus, TaskFieldStatus } from "./business.type"
-import { KYC_STATUS } from "./kyc"
-import { IdentityVerificationStatus } from "./smart-kyc"
+import { type SourceStatus, type TaskFieldStatus } from "./business.type"
+import { type KYC_STATUS } from "./kyc"
+import { type IdentityVerificationStatus } from "./smart-kyc"
 
 type InsightStatus =
   | KYC_STATUS

@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import {
   businessModelFormSchema,
-  BusinessModelFormValue
+  type BusinessModelFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -24,7 +24,7 @@ import { questions, strategies } from "./constants"
 import RHFCurrencyInput from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const BusinessModelForm = () => {
+export function BusinessModelForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { businessModelForm, loanRequest, dispatchFormAction } =
     useLoanApplicationFormContext()
@@ -83,22 +83,22 @@ export const BusinessModelForm = () => {
         <form className="flex flex-col gap-4xl">
           {questions.map((q) => (
             <SelectInput
-              inputClassName="!max-w-52"
-              className="flex items-center justify-between"
               key={q.field}
-              label={q.question}
+              className="flex items-center justify-between"
               control={form.control}
+              inputClassName="!max-w-52"
+              label={q.question}
               name={q.field as keyof BusinessModelFormValue}
               options={q.options}
             />
           ))}
           <RHFCurrencyInput
-            prefixIcon="$"
             key="annualPayroll"
-            name="annualPayroll"
             className="flex flex-row items-center w-full justify-between"
             label="What is your annual payroll?"
+            name="annualPayroll"
             placeholder="i.e: 55,000"
+            prefixIcon="$"
             styleProps={{
               messageClassName: "hidden",
               inputClassName: "!max-w-52"
@@ -106,16 +106,16 @@ export const BusinessModelForm = () => {
           />
           <SelectInput
             key="scalePlan"
-            label="What are your business’ near-term plans to scale?"
             control={form.control}
+            inputClassName="!max-w-full"
+            label="What are your business’ near-term plans to scale?"
             name="scalePlan"
             options={strategies}
-            inputClassName="!max-w-full"
           />
           <TextAreaInput
             key="description"
-            label="How do you, or will you make money?"
             control={form.control}
+            label="How do you, or will you make money?"
             name="description"
           />
         </form>
@@ -123,8 +123,8 @@ export const BusinessModelForm = () => {
 
       {!isReviewApplicationStep(step) && (
         <FormSubmitButton
-          onSubmit={form.handleSubmit(onSubmit)}
           isDisabled={!form.formState.isValid}
+          onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
     </Card>

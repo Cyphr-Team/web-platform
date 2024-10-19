@@ -20,9 +20,9 @@ import {
   PERSONAL_CREDIT_SCORE_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import {
-  IOwnerFormValue,
+  type IOwnerFormValue,
   loanReadyOwnerFormSchema,
-  LoanReadyOwnerFormValue
+  type LoanReadyOwnerFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
@@ -112,58 +112,58 @@ export function LoanReadyOwnerInformationForm({
 
             <form className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
               <RHFTextInput
-                name="fullName"
+                className="col-span-3"
                 label="Full legal name"
+                name="fullName"
                 placeholder="Full legal name"
-                className="col-span-3"
               />
               <RHFTextInput
-                name="businessRole"
+                className="col-span-3"
                 label="Your Role"
+                name="businessRole"
                 placeholder="Your role"
-                className="col-span-3"
               />
               <RHFTextInput
-                placeholder="Start typing your address"
+                className="col-span-6"
                 label="Resident address"
                 name="addressLine1"
-                className="col-span-6"
+                placeholder="Start typing your address"
               />
               <AutoCompleteStates
-                options={STATE_DATA}
-                label="State"
-                emptyText="No results found"
-                name="businessState"
-                control={form.control}
-                onChange={handleChangeState}
-                value={form.getValues("businessState")}
                 className="col-span-6 lg:col-span-2"
+                control={form.control}
+                emptyText="No results found"
+                label="State"
+                name="businessState"
+                options={STATE_DATA}
+                value={form.getValues("businessState")}
+                onChange={handleChangeState}
               />
               <AutoCompleteCities
+                className="col-span-6 lg:col-span-2"
+                control={form.control}
+                emptyText="No results found"
+                label="City"
+                name="businessCity"
                 options={
                   STATE_DATA.find(
                     (s) => s.name === form.getValues("businessState")
                   )?.cities ?? []
                 }
-                label="City"
-                emptyText="No results found"
-                name="businessCity"
-                control={form.control}
-                onChange={handleChangeCity}
                 value={form.getValues("businessCity")}
-                className="col-span-6 lg:col-span-2"
+                onChange={handleChangeCity}
               />
               <RHFTextInput
-                placeholder="Zip"
+                className="col-span-6 lg:col-span-2"
                 label="Zip"
                 name="businessZipCode"
-                className="col-span-6 lg:col-span-2"
+                placeholder="Zip"
               />
               <RHFTextInput
-                name="email"
-                label="Email address"
-                placeholder="i.e: larry@latte.com"
                 className="col-span-6 lg:col-span-3"
+                label="Email address"
+                name="email"
+                placeholder="i.e: larry@latte.com"
               />
               <RHFPhoneInput
                 className="col-span-6 lg:col-span-3"
@@ -172,37 +172,37 @@ export function LoanReadyOwnerInformationForm({
                 placeholder="Enter phone number"
               />
               <RHFCalendarPickerInput
-                name="dateOfBirth"
-                label="Date of birth"
                 className="col-span-6 lg:col-span-3"
-                styleProps={{ calendarClassName: "" }}
+                label="Date of birth"
+                name="dateOfBirth"
                 placeholder="i.e: 01-01-1991"
+                styleProps={{ calendarClassName: "" }}
               />
               <RHFMaskInput
-                name="socialSecurityNumber"
-                label="SSN / ITIN"
                 className="col-span-6 lg:col-span-3"
+                label="SSN / ITIN"
+                name="socialSecurityNumber"
                 pattern={SSN_PATTERN}
                 placeholder="12-3456789"
               />
               <RHFPercentageInput
                 className="col-span-6 lg:col-span-3"
+                label="What percent of the business do you own?"
+                name="businessOwnershipPercentage"
+                placeholder="Your ownership percentage"
                 styleProps={{
                   labelClassName: "whitespace-nowrap",
                   subtitleClassName: "text-xs text-text-tertiary font-normal",
                   suffixClassName:
                     "font-medium text-sm text-text-tertiary border-l h-full flex items-center px-3"
                 }}
-                label="What percent of the business do you own?"
-                placeholder="Your ownership percentage"
-                name="businessOwnershipPercentage"
                 subtitle="Please enter a number between 0 - 100"
               />
               <RHFSelectInput
-                name={LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE}
-                label="Personal credit score"
-                options={PERSONAL_CREDIT_SCORE_OPTIONS}
                 className="col-span-6 lg:col-span-3"
+                label="Personal credit score"
+                name={LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE}
+                options={PERSONAL_CREDIT_SCORE_OPTIONS}
               />
               <div />
             </form>

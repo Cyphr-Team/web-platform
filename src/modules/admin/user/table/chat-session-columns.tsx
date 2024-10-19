@@ -1,6 +1,6 @@
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { AccessorKeyColumnDef } from "@tanstack/react-table"
-import { ChatbotSessionResponse } from "@/types/chatbot.type"
+import { type AccessorKeyColumnDef } from "@tanstack/react-table"
+import { type ChatbotSessionResponse } from "@/types/chatbot.type"
 import { ViewUserChatHistoryAction } from "@/modules/admin/user/table/view-user-chat-history-action"
 import { FORMAT_DATE_M_D_Y_TIME_UPPERCASE } from "@/constants/date.constants"
 import { formatDate } from "@/utils/date.utils"
@@ -17,6 +17,7 @@ export const chatSessionColumns: AccessorKeyColumnDef<ChatbotSessionResponse>[] 
       enableSorting: false,
       cell: ({ row }) => {
         const data = row.original
+
         return (
           <div className="text-black font-medium">
             {data.session.title ?? "N/A"}
@@ -77,8 +78,8 @@ export const chatSessionColumns: AccessorKeyColumnDef<ChatbotSessionResponse>[] 
         return (
           <div className="flex items-center text-left">
             <ViewUserChatHistoryAction
-              session={row.original.session}
               chatHistories={row.original.chatHistories}
+              session={row.original.session}
             />
           </div>
         )

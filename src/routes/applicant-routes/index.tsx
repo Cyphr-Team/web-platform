@@ -38,10 +38,10 @@ const FinancialProjectionApplicationDetails = lazy(
 
 const applicantRoutes = (
   <Route
-    loader={userLoader}
-    handle={handleCrumb(APP_PATH.LOAN_APPLICATION.INDEX)}
-    path={APP_PATH.LOAN_APPLICATION.INDEX}
     element={<ApplicantLayout />}
+    handle={handleCrumb(APP_PATH.LOAN_APPLICATION.INDEX)}
+    loader={userLoader}
+    path={APP_PATH.LOAN_APPLICATION.INDEX}
   >
     {availableLoanProgramRoutes}
 
@@ -53,8 +53,8 @@ const applicantRoutes = (
       }
     >
       <Route
-        path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}
         lazy={() => import("@/modules/loan-application/pages/LoanApplications")}
+        path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}
       />
     </Route>
 
@@ -65,10 +65,10 @@ const applicantRoutes = (
     {(!isKccBank() || !isSbb() || !isLaunchKC()) && notificationRoutes}
 
     <Route
-      path={APP_PATH.LOAN_APPLICATION.SETTINGS}
       lazy={() =>
         import("@/modules/loan-application-management/pages/under-construction")
       }
+      path={APP_PATH.LOAN_APPLICATION.SETTINGS}
     />
     <Route
       element={
@@ -86,28 +86,28 @@ const applicantRoutes = (
       }
     >
       <Route
-        path={APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detail}
         element={<Outlet />}
+        path={APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detail}
       >
         <Route index element={<FinancialProjectionApplicationDetails />} />
       </Route>
       <Route
-        path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.detail}
         element={
           <LoanApplicationDetailLayout>
             <Outlet />
           </LoanApplicationDetailLayout>
         }
+        path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.detail}
       >
         <Route index element={<LoanApplicationDetailsReview />} />
       </Route>
       <Route
-        path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
         element={
           <LoanApplicationFormLayout>
             <Outlet />
           </LoanApplicationFormLayout>
         }
+        path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.edit}
       >
         <Route index element={<LoanApplicationEdit />} />
       </Route>
@@ -128,12 +128,12 @@ const applicantRoutes = (
       }
     >
       <Route
-        path={APP_PATH.LOAN_APPLICATION.INFORMATION.detail}
         lazy={() =>
           import(
             "@/modules/loan-application/components/layouts/LoanInformation"
           )
         }
+        path={APP_PATH.LOAN_APPLICATION.INFORMATION.detail}
       />
     </Route>
 
@@ -145,10 +145,10 @@ const applicantRoutes = (
       }
     >
       <Route
-        path={APP_PATH.LOAN_APPLICATION.SUBMISSION}
         lazy={() =>
           import("@/modules/loan-application/components/layouts/LoanSubmission")
         }
+        path={APP_PATH.LOAN_APPLICATION.SUBMISSION}
       />
     </Route>
   </Route>

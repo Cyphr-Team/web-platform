@@ -1,4 +1,4 @@
-import { UserRoles } from "@/types/user.type"
+import { type UserRoles } from "@/types/user.type"
 import { checkRolesMatchWithUserRoles } from "@/utils/check-roles"
 interface RoleBaseProps {
   roles?: UserRoles[]

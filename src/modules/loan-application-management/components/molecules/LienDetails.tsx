@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button"
-import { KybDetailLiens } from "../../constants/type"
+import { type KybDetailLiens } from "../../constants/type"
 import { LienStatus } from "../atoms/LienStatus"
 import { Card } from "@/components/ui/card"
 
-type Props = {
+interface Props {
   lienDetails?: KybDetailLiens
 }
 
@@ -45,7 +45,7 @@ export const KybLienDetails: React.FC<Props> = ({ lienDetails }) => {
           <div className="flex flex-col gap-y-4xl">
             <p className="text-sm">Status</p>
             {lienDetails?.data?.map((item, ind) => (
-              <LienStatus status={item.status} key={ind} />
+              <LienStatus key={ind} status={item.status} />
             ))}
           </div>
           <div className="col-span-2 flex flex-col gap-y-4xl">

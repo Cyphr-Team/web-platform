@@ -8,7 +8,7 @@ import { useMemo } from "react"
 import InsightItem from "@/modules/loan-application/components/molecules/InsightItem"
 import { MOCK_KYB_DETAIL } from "@/modules/conference-demo/admin/constants/data"
 
-export const Insights = () => {
+export function Insights() {
   const insights = MOCK_KYB_DETAIL.insights
 
   const numberOfSuccess = useMemo(
@@ -44,54 +44,54 @@ export const Insights = () => {
       </CardHeader>
       <CardContent className="w-full lg:w-[300px] !p-4 !pt-0">
         <InsightItem
-          title="Business name"
-          status={insights?.businessName?.status}
-          label={insights?.businessName?.subLabel}
-          toolTipContent={insights?.businessName?.message}
           href={INSIGHT_TOC.businessName}
+          label={insights?.businessName?.subLabel}
+          status={insights?.businessName?.status}
+          title="Business name"
+          toolTipContent={insights?.businessName?.message}
         />
         <InsightItem
-          title="Office address"
-          status={insights?.officeAddress?.status}
-          label={insights?.officeAddress?.subLabel}
-          toolTipContent={insights?.officeAddress?.message}
           href={INSIGHT_TOC.officeAddress}
+          label={insights?.officeAddress?.subLabel}
+          status={insights?.officeAddress?.status}
+          title="Office address"
+          toolTipContent={insights?.officeAddress?.message}
         />
         <InsightItem
-          title="SOS filings"
-          status={insights?.sosFillings?.status}
-          label={insights?.sosFillings?.subLabel}
-          toolTipContent={insights?.sosFillings?.message}
           href={INSIGHT_TOC.sosFillings}
+          label={insights?.sosFillings?.subLabel}
+          status={insights?.sosFillings?.status}
+          title="SOS filings"
+          toolTipContent={insights?.sosFillings?.message}
         />
         <InsightItem
-          title="TIN match"
-          status={insights?.tin?.status}
-          label={insights?.tin?.subLabel}
-          toolTipContent={insights?.tin?.message}
           href={INSIGHT_TOC.tinMatch}
+          label={insights?.tin?.subLabel}
+          status={insights?.tin?.status}
+          title="TIN match"
+          toolTipContent={insights?.tin?.message}
         />
         <InsightItem
-          title="People"
-          status={insights?.people?.status}
-          label={insights?.people?.subLabel}
-          toolTipContent={insights?.people?.message}
           href={INSIGHT_TOC.people}
+          label={insights?.people?.subLabel}
+          status={insights?.people?.status}
+          title="People"
+          toolTipContent={insights?.people?.message}
         />
         <InsightItem
-          title="Watchlists"
-          status={insights?.watchlists?.status}
-          label={insights?.watchlists?.subLabel}
-          toolTipContent={insights?.watchlists?.message}
           href={INSIGHT_TOC.watchLists}
+          label={insights?.watchlists?.subLabel}
+          status={insights?.watchlists?.status}
+          title="Watchlists"
+          toolTipContent={insights?.watchlists?.message}
         />
         <InsightItem
-          title="Bankruptcies"
-          status={insights?.bankruptcies?.status}
-          label={insights?.bankruptcies?.subLabel}
-          toolTipContent={insights?.bankruptcies?.message}
-          href={INSIGHT_TOC.bankruptcies}
           noBorder
+          href={INSIGHT_TOC.bankruptcies}
+          label={insights?.bankruptcies?.subLabel}
+          status={insights?.bankruptcies?.status}
+          title="Bankruptcies"
+          toolTipContent={insights?.bankruptcies?.message}
         />
       </CardContent>
     </Card>

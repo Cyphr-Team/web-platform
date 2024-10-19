@@ -11,7 +11,7 @@ import { useEffect } from "react"
 import { isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { APP_PATH } from "@/constants"
 
-const WelcomeLine = () => {
+function WelcomeLine() {
   const { tenantData } = useTenant()
   const { loanProgramWelcome, name } = tenantData ?? {}
 
@@ -23,14 +23,14 @@ const WelcomeLine = () => {
         </h2>
       )}
       <p
-        className="text-lg whitespace-pre-wrap text-justify"
         dangerouslySetInnerHTML={{ __html: sanitizeDOM(loanProgramWelcome) }}
+        className="text-lg whitespace-pre-wrap text-justify"
       />
     </section>
   )
 }
 
-export const Component = () => {
+export function Component() {
   const { tenantData } = useTenant()
   const loanPrograms = useQueryGetLoanPrograms()
 
@@ -40,6 +40,7 @@ export const Component = () => {
   // Because launch KC only has one program
   useEffect(() => {
     const loanProgramsData = loanPrograms.data?.data ?? []
+
     if (isLaunchKC() && loanProgramsData?.length > 0) {
       navigate(
         APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
@@ -55,11 +56,11 @@ export const Component = () => {
         <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
           <section className={cn("col-span-10", "md:col-span-8")}>
             <Image
+              alt="Cover Photo for Institution"
               className="mx-auto max-h-72 object-cover w-full max-w-full border-b h-72"
+              height={292}
               placeholderClassName="bg-slate-600 max-h-72 mx-auto max-w-full"
               src={getImageURL(tenantData?.loanProgramOverviewHeroImage)}
-              alt="Cover Photo for Institution"
-              height={292}
             />
           </section>
 

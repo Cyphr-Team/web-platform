@@ -8,12 +8,12 @@ import {
 } from "@/utils/check-roles"
 import { APP_PATH } from "@/constants"
 
-const RoleStrict = ({ children }: React.PropsWithChildren) => {
+function RoleStrict({ children }: React.PropsWithChildren) {
   const isLoanOfficerOrLenderAdminOrJudge =
     checkIsLoanOfficer() || checkIsWorkspaceAdmin() || checkIsJudge()
 
   if (!isLoanOfficerOrLenderAdminOrJudge)
-    return <Navigate to={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX} replace />
+    return <Navigate replace to={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX} />
 
   return children
 }

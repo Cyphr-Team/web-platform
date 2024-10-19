@@ -6,13 +6,13 @@ import { IdentityVerificationBadge } from "@/modules/loan-application/components
 import { getTimeFromSecs } from "../../../../../utils/get-time-from-secs"
 import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "../../../../loan-application-management/constants/insight-toc.constant"
 
-const KycSummary = () => {
+function KycSummary() {
   const verifiedStatus = IdentityVerificationStatus.VERIFIED
 
   const badge = (
     <IdentityVerificationBadge
-      status={verifiedStatus}
       label={verifiedStatus.toLowerCase()}
+      status={verifiedStatus}
     />
   )
   const headerTitle = <>Summary {badge}</>
@@ -21,19 +21,19 @@ const KycSummary = () => {
     <div className="pt-4">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         <KycSummaryItem
-          title="Time to finish"
           subtitle1={getTimeFromSecs({ totalSecs: 92 })}
+          title="Time to finish"
         />
-        <KycSummaryItem title="Watchlist matches" subtitle1="0" />
+        <KycSummaryItem subtitle1="0" title="Watchlist matches" />
         <KycSummaryItem
-          title="Verification attempts"
           subtitle1="Government ID: 1"
           subtitle2="Selfie: 1"
+          title="Verification attempts"
         />
         <KycSummaryItem
-          title="Location"
           subtitle1="California"
           subtitle2="United States of America"
+          title="Location"
         />
       </div>
     </div>
@@ -41,10 +41,10 @@ const KycSummary = () => {
 
   return (
     <IdentityVerificationCard
-      id={INSIGHT_IDENTITY_VERIFICATION_TOC.summary}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader date={new Date().toUTCString()} />}
       content={content}
+      headerRight={<DateHeader date={new Date().toUTCString()} />}
+      headerTitle={headerTitle}
+      id={INSIGHT_IDENTITY_VERIFICATION_TOC.summary}
     />
   )
 }

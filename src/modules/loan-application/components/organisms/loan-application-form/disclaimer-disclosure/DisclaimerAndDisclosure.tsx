@@ -4,7 +4,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { cn } from "@/lib/utils"
 import {
   disclaimerAndDisclosureFormSchema,
-  DisclaimerAndDisclosureFormValue
+  type DisclaimerAndDisclosureFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -22,10 +22,11 @@ interface DisclaimerAndDisclosure {
   wrapperClassName?: string
   defaultChecked?: boolean
 }
-export const DisclaimerAndDisclosure = ({
+
+export function DisclaimerAndDisclosure({
   wrapperClassName,
   defaultChecked
-}: DisclaimerAndDisclosure) => {
+}: DisclaimerAndDisclosure) {
   const { dispatchFormAction, disclaimerAndDisclosure } =
     useLoanApplicationFormContext()
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -161,10 +162,10 @@ export const DisclaimerAndDisclosure = ({
               <FormControl>
                 <div className="flex gap-2 mt-1 items-center">
                   <Checkbox
-                    id="acknowledge-disclosure"
                     checked={field.value}
-                    onCheckedChange={field.onChange}
                     className="h-5 w-5"
+                    id="acknowledge-disclosure"
+                    onCheckedChange={field.onChange}
                   />
                   <label
                     className="text-xs text-text-primary"
@@ -181,8 +182,8 @@ export const DisclaimerAndDisclosure = ({
 
         {!isReviewApplicationStep(step) && (
           <FormSubmitButton
-            onSubmit={onSubmit}
             isDisabled={!form.formState.isValid}
+            onSubmit={onSubmit}
           />
         )}
       </Form>

@@ -1,6 +1,6 @@
 import {
-  ApplicationCriteriaResponse,
-  ApplicationScoreResponse
+  type ApplicationCriteriaResponse,
+  type ApplicationScoreResponse
 } from "@/modules/loan-application/constants/type.ts"
 
 interface ApplicationCriteria<T = ApplicationCriteriaResponse> {
@@ -16,8 +16,9 @@ interface ApplicationCriteria<T = ApplicationCriteriaResponse> {
   existingLoans: T
 }
 
-type LoanReadiness = {
+interface LoanReadiness {
   criteria?: Partial<ApplicationCriteria>
   applicationScore?: ApplicationScoreResponse
 }
+
 export type { LoanReadiness }

@@ -10,13 +10,13 @@ import { FileDown } from "lucide-react"
 import { useState } from "react"
 import { useQueryDownloadDocumentForApplicant } from "../../hooks/useQueryDownloadDocumentForApplicant"
 
-export const DownloadDocumentButton = ({
+export function DownloadDocumentButton({
   documentId,
   fileName
 }: {
   documentId: string
   fileName?: string
-}) => {
+}) {
   const [preventCacheCount, setPreventCacheCount] = useState(0)
 
   const downloadFile = useQueryDownloadDocumentForApplicant({
@@ -25,9 +25,7 @@ export const DownloadDocumentButton = ({
     fileName
   })
 
-  const handleDownloadDocument = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleDownloadDocument = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     setPreventCacheCount((preState) => preState + 1)
   }
@@ -37,10 +35,10 @@ export const DownloadDocumentButton = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <ButtonLoading
-            variant="ghost"
-            size="icon"
-            onClick={handleDownloadDocument}
             isLoading={downloadFile.isLoading}
+            size="icon"
+            variant="ghost"
+            onClick={handleDownloadDocument}
           >
             <FileDown className="w-5" />
           </ButtonLoading>

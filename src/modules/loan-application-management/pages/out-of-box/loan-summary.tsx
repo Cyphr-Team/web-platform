@@ -143,6 +143,7 @@ export function Component() {
         />
       )
     }
+
     return (
       <CurrentLoanFormDetails
         currentLoanFormData={loanSummary?.currentLoanForms}
@@ -157,8 +158,8 @@ export function Component() {
 
   const downloadOverviewButton = isOverviewDownloadable && (
     <DownloadButton
-      elementToExportRef={elementToExportRef}
       disabled={isFetchingCashflow || isFetchingNewCashFlow}
+      elementToExportRef={elementToExportRef}
     />
   )
 
@@ -166,18 +167,18 @@ export function Component() {
     <div className="lg:flex gap-3xl w-full" id="loan-summary">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
         <div
-          id="application-overview"
-          className="flex flex-col gap-3xl"
           ref={page_1}
+          className="flex flex-col gap-3xl"
+          id="application-overview"
         >
           {!!loanApplicationDetails?.decision && (
             <div className="flex flex-col gap-2">
               <Badge
+                className="capitalize px-4 py-2 relative w-fit"
                 variant="soft"
                 variantColor={getBadgeVariantByStatus(
                   loanApplicationDetails?.status
                 )}
-                className="capitalize px-4 py-2 relative w-fit"
               >
                 <p className="text-base">
                   {getDecisionTextByStatus(loanApplicationDetails?.decision)}
@@ -217,43 +218,46 @@ export function Component() {
         {isLaunchKC() && (
           <>
             <div
+              ref={page_2}
               className="space-y-3xl flex flex-col"
               id="application-overview"
-              ref={page_2}
             >
               <KybFormDetails kybFormData={loanSummary?.kybForm} />
             </div>
-            <div className="space-y-3xl flex flex-col" ref={page_3}>
+            <div ref={page_3} className="space-y-3xl flex flex-col">
               <KycFormDetails kycFormData={loanSummary?.kycForm} />
             </div>
           </>
         )}
-        {shouldDisplayCashFlowTable && (
-          <div className="space-y-3xl flex flex-col" ref={page_4}>
+        {shouldDisplayCashFlowTable ? (
+          <div ref={page_4} className="space-y-3xl flex flex-col">
             <CashFlowTable />
           </div>
-        )}
+        ) : null}
         <div
+          ref={page_5}
           className="space-y-3xl flex flex-col"
           id="loan-application"
-          ref={page_5}
         >
           {renderCurrentLoanFormDetails()}
         </div>
-        {shouldDisplayOperatingExpensesSection && (
-          <div className="space-y-3xl flex flex-col" ref={page_6}>
+        {shouldDisplayOperatingExpensesSection ? (
+          <div ref={page_6} className="space-y-3xl flex flex-col">
             <OperatingExpensesFormDetails
               operatingExpensesFormData={loanSummary?.operatingExpensesForm}
             />
           </div>
-        )}
+        ) : null}
         {/* Loan summary */}
         {isLaunchKC() && (
           <>
             {formsOrder.map(({ page, forms }) => (
-              <div className="space-y-3xl flex flex-col" ref={page}>
+              // eslint-disable-next-line react/jsx-key
+              <div ref={page} className="space-y-3xl flex flex-col">
                 {forms.map(({ key, Component }) => {
                   const formData = get(loanSummary, key)
+
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                   return formData && <Component key={key} data={formData} />
                 })}
               </div>
@@ -262,9 +266,9 @@ export function Component() {
         )}
 
         <div
+          ref={page_10}
           className="flex flex-col space-y-3xl"
           id="business-verification-p1"
-          ref={page_10}
         >
           <SignatureDetails
             confirmationFormData={loanSummary?.confirmationForm}
@@ -278,9 +282,9 @@ export function Component() {
         </div>
 
         <div
+          ref={page_11}
           className="flex flex-col space-y-3xl"
           id="business-verification-p2"
-          ref={page_11}
         >
           <Secretary />
           <TinMatch />
@@ -290,45 +294,45 @@ export function Component() {
           <Separator />
         </div>
 
-        {shouldDisplayHighRiskEntity && (
+        {shouldDisplayHighRiskEntity ? (
           <div
+            ref={page_12}
             className="flex flex-col space-y-3xl"
             id="business-verification-p3"
-            ref={page_12}
           >
             <IndustryClassification />
             <Website />
             <AdverseMedia />
             <Separator />
           </div>
-        )}
+        ) : null}
 
         <div
+          ref={page_13}
           className="space-y-3xl flex flex-col"
           id="identity-verification"
-          ref={page_13}
         >
           <IdentityVerificationDetails />
         </div>
 
-        {shouldDisplayCashFlowReport && (
+        {shouldDisplayCashFlowReport ? (
           <div
+            ref={page_14}
             className="flex flex-col space-y-3xl"
             id="cash-flow-report"
-            ref={page_14}
           >
             <p className="text-4xl font-semibold">Cash Flow Report</p>
             <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto shadow-none">
               <CashflowGlanceReport
-                newCashFlowGlance={newCashFlowGlance}
                 isFetchingNewCashFlow={isFetchingNewCashFlow}
+                newCashFlowGlance={newCashFlowGlance}
               />
             </Card>
           </div>
-        )}
+        ) : null}
       </Card>
-      {isLaunchKC() && isJudge && <ScoreCard />}
-      {isLaunchKC() && isWorkspaceAdmin && <ScoreCardListDetail />}
+      {isLaunchKC() && isJudge ? <ScoreCard /> : null}
+      {isLaunchKC() && isWorkspaceAdmin ? <ScoreCardListDetail /> : null}
     </div>
   )
 }

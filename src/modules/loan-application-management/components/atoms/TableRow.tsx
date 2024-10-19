@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 
-type TableRowProps = {
+interface TableRowProps {
   data: string[]
   className?: string
   childrenClassName?: string[]

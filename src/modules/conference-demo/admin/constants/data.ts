@@ -1,16 +1,16 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import {
-  ApplicationKybDetailResponse,
+  type ApplicationKybDetailResponse,
   SourceStatus,
   TaskFieldStatus
 } from "@/modules/loan-application-management/constants/types/business.type"
 import { DocumentType } from "@/modules/loan-application-management/constants/types/document"
 import { KYC_STATUS } from "@/modules/loan-application-management/constants/types/kyc"
-import { LoanSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type"
+import { type LoanSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type"
 import {
   LoanApplicationStatus,
   UseOfLoan,
-  UserMicroLoanApplication
+  type UserMicroLoanApplication
 } from "@/types/loan-application.type"
 import {
   LoanDocumentAuthenticityScoreStatus,

@@ -14,16 +14,16 @@ export function ActiveEmailLayout() {
           <LogoHeader />
         </div>
 
-        {tenantData?.supportEmail && (
+        {tenantData?.supportEmail ? (
           <div className="block md:hidden text-sm text-text-tertiary">
             <a
-              href={SUPPORT_EMAIL(tenantData.supportEmail)}
               className="flex items-center gap-2"
+              href={SUPPORT_EMAIL(tenantData.supportEmail)}
             >
               <Mail className="w-4 h-4" /> {tenantData.supportEmail}
             </a>
           </div>
-        )}
+        ) : null}
       </header>
 
       <main className="pt-6 md:pt-0">
@@ -32,22 +32,22 @@ export function ActiveEmailLayout() {
 
       <footer className="hidden md:block">
         <div className="text-sm text-text-tertiary">
-          {tenantData?.name && (
+          {tenantData?.name ? (
             <div className="capitalize absolute bottom-8 left-8">
               © {tenantData?.name} 2024
             </div>
-          )}
+          ) : null}
 
-          {tenantData?.supportEmail && (
+          {tenantData?.supportEmail ? (
             <div className="absolute bottom-8 right-8">
               <a
-                href={SUPPORT_EMAIL(tenantData.supportEmail)}
                 className="flex items-center gap-2"
+                href={SUPPORT_EMAIL(tenantData.supportEmail)}
               >
                 <Mail className="w-4 h-4" /> {tenantData.supportEmail}
               </a>
             </div>
-          )}
+          ) : null}
         </div>
       </footer>
     </>

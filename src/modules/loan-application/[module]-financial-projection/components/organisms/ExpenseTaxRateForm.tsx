@@ -13,12 +13,12 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { RHFProvider } from "@/modules/form-template/providers"
 import { Separator } from "@/components/ui/separator.tsx"
 import {
-  ExpenseTaxRateFormValue,
+  type ExpenseTaxRateFormValue,
   taxRatesFormSchema
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
 import { RHFNumberInput } from "@/modules/form-template/components/molecules"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { FC } from "react"
+import { type FC } from "react"
 
 export const TaxRateForm: FC = () => {
   const { taxRates, dispatchFormAction } = useLoanApplicationFormContext()
@@ -53,7 +53,7 @@ export const TaxRateForm: FC = () => {
     >
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div className="flex flex-col gap-2xl">
-          <div className={"flex flex-col gap-xl p-y-2"}>
+          <div className="flex flex-col gap-xl p-y-2">
             <h5 className="text-lg font-semibold">Tax Rates</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
               Income Tax: Enter a tax rate to cover income taxes (federal,
@@ -66,15 +66,15 @@ export const TaxRateForm: FC = () => {
           <Separator />
           <RHFNumberInput
             isHideErrorMessage
-            label="Estimate your income tax rate (%)"
-            placeholder="Income tax rate"
             className="flex justify-between items-center"
+            label="Estimate your income tax rate (%)"
             name="incomeTaxRate"
-            suffixIcon="%"
+            placeholder="Income tax rate"
             styleProps={{
               labelClassName: "text-text-secondary",
               inputClassName: "text-sm w-64 no-arrows"
             }}
+            suffixIcon="%"
           />
 
           {!isReviewApplicationStep(step) && (

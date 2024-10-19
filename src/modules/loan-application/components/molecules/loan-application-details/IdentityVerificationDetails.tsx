@@ -1,5 +1,5 @@
 import React from "react"
-import { InquirySessionResponse } from "@/lib/persona/persona.types"
+import { type InquirySessionResponse } from "@/lib/persona/persona.types"
 import { IdentityVerificationCard } from "../../organisms/identity-verification/IdentityVerification"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { IdentityVerificationBadge } from "../../organisms/identity-verification/IdentityVerificationBadge"
@@ -29,6 +29,7 @@ export const IdentityVerificationDetails: React.FC = () => {
     const passedSelfie = getPassedSelfieVerification({
       selfieVers: loanSmartKycDetail?.selfies
     })
+
     return passedGovernment != null && passedSelfie != null
       ? IdentityVerificationStatus.VERIFIED
       : IdentityVerificationStatus.UNVERIFIED
@@ -36,8 +37,8 @@ export const IdentityVerificationDetails: React.FC = () => {
 
   const badge = !isLoadingLoanSmartKycDetail && (
     <IdentityVerificationBadge
-      status={getSummaryStatus()}
       label={getSummaryStatus().toLowerCase()}
+      status={getSummaryStatus()}
     />
   )
   const headerTitle = <>Summary {badge}</>
@@ -53,22 +54,22 @@ export const IdentityVerificationDetails: React.FC = () => {
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <SummaryItem
-            title="Time to finish"
             subtitle1={getTimeFromSecs({
               totalSecs: loanSmartKycDetail?.behavior?.completionTime ?? 0
             })}
+            title="Time to finish"
           />
           <SummaryItem
-            title="Verification attemps"
             subtitle1={`Government ID: ${
               loanSmartKycDetail?.governmentVerifications?.length ?? 0
             }`}
             subtitle2={`Selfie: ${loanSmartKycDetail?.selfies?.length ?? 0}`}
+            title="Verification attemps"
           />
           <SummaryItem
-            title="Location"
             subtitle1={getInquirySession()?.regionName ?? "--"}
             subtitle2={getInquirySession()?.countryName ?? "--"}
+            title="Location"
           />
         </div>
       </LoadingWrapper>
@@ -84,49 +85,49 @@ export const IdentityVerificationDetails: React.FC = () => {
       <div className="py-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <SummaryItem
-            title="Full name"
             subtitle1={joinString(
               passedGovVerification?.nameFirst,
               passedGovVerification?.nameMiddle,
               passedGovVerification?.nameLast
             )}
+            title="Full name"
           />
           <SummaryItem
-            title="Address"
             subtitle1={joinString(
               passedGovVerification?.addressStreet1,
               passedGovVerification?.addressCity,
               passedGovVerification?.addressSubdivision,
               passedGovVerification?.addressPostalCode
             )}
+            title="Address"
           />
-          <SummaryItem title="Sex" subtitle1="Male" />
+          <SummaryItem subtitle1="Male" title="Sex" />
           <SummaryItem
-            title="Date of birth"
             subtitle1={passedGovVerification?.birthdate ?? "N/A"}
             subtitle2={calculateAge(passedGovVerification?.birthdate)}
+            title="Date of birth"
           />
         </div>
         <div className=" my-6 grid grid-cols-2 md:grid-cols-4 gap-6">
           <SummaryItem
-            title="ID number"
             subtitle1={
               passedGovVerification?.identificationNumber ??
               passedGovVerification?.documentNumber ??
               "N/A"
             }
+            title="ID number"
           />
           <SummaryItem
-            title="Issuing country"
             subtitle1={passedGovVerification?.countryCode ?? "N/A"}
+            title="Issuing country"
           />
           <SummaryItem
-            title="Issue date"
             subtitle1={passedGovVerification?.issueDate ?? "N/A"}
+            title="Issue date"
           />
           <SummaryItem
-            title="Expiration date"
             subtitle1={passedGovVerification?.expirationDate ?? "N/A"}
+            title="Expiration date"
           />
         </div>
       </div>
@@ -152,14 +153,13 @@ export const IdentityVerificationDetails: React.FC = () => {
       {!isSbb() ? (
         <>
           <IdentityVerificationCard
-            id={INSIGHT_IDENTITY_VERIFICATION_TOC.summary}
-            headerTitle={headerTitle}
-            headerRight={<DateHeader date={loanSmartKycDetail?.updatedAt} />}
             content={content}
+            headerRight={<DateHeader date={loanSmartKycDetail?.updatedAt} />}
+            headerTitle={headerTitle}
+            id={INSIGHT_IDENTITY_VERIFICATION_TOC.summary}
           />
           <IdentityVerificationCard
-            id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
-            headerTitle={<>Government ID {badge}</>}
+            content={govContent}
             headerRight={
               <DateHeader
                 date={
@@ -169,7 +169,8 @@ export const IdentityVerificationDetails: React.FC = () => {
                 }
               />
             }
-            content={govContent}
+            headerTitle={<>Government ID {badge}</>}
+            id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
           />
         </>
       ) : (
@@ -177,8 +178,12 @@ export const IdentityVerificationDetails: React.FC = () => {
       )}
 
       <IdentityVerificationCard
-        id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
-        headerTitle={<>Selfie Verification {badge}</>}
+        content={
+          <p className="align-middle mt-4 text-gray-700 ">
+            Applicant has submitted selfie captures which have been successful
+            verified.
+          </p>
+        }
         headerRight={
           <DateHeader
             date={
@@ -188,12 +193,8 @@ export const IdentityVerificationDetails: React.FC = () => {
             }
           />
         }
-        content={
-          <p className="align-middle mt-4 text-gray-700 ">
-            Applicant has submitted selfie captures which have been successful
-            verified.
-          </p>
-        }
+        headerTitle={<>Selfie Verification {badge}</>}
+        id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
       />
       <Separator />
     </>

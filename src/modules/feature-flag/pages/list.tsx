@@ -3,13 +3,13 @@ import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { DataTable } from "@/components/ui/data-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
-import { PaginationState, Row } from "@tanstack/react-table"
+import { type PaginationState, type Row } from "@tanstack/react-table"
 import { useState } from "react"
 
 import { useQueryFeatureFlags } from "../hooks/useQuery/useQueryFeatureFlags"
 import { featureFlagColumns } from "../constants/columns"
 import { CreateNewFeatureFlagDialog } from "../components/DialogCreateNewFeatureFlag"
-import { FeatureFlag } from "@/types/feature-flag.types.ts"
+import { type FeatureFlag } from "@/types/feature-flag.types.ts"
 
 export function Component() {
   const crumbs = useBreadcrumb()
@@ -35,16 +35,16 @@ export function Component() {
         <Breadcrumbs breads={crumbs} className="px-0" />
       </div>
       <h1 className="mb-3xl text-3xl font-semibold">Feature Flags</h1>
-      <CreateNewFeatureFlagDialog setDetailId={setDetailId} id={detailId} />
+      <CreateNewFeatureFlagDialog id={detailId} setDetailId={setDetailId} />
       <DataTable
-        handleClickDetail={handleClickDetail}
-        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
-        isLoading={isFetching}
         columns={featureFlagColumns}
         data={data?.data ?? []}
-        total={data?.total ?? 0}
+        handleClickDetail={handleClickDetail}
+        isLoading={isFetching}
         pagination={pagination}
         setPagination={setPagination}
+        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
+        total={data?.total ?? 0}
       />
     </div>
   )

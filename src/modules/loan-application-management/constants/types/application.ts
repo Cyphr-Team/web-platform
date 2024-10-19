@@ -1,4 +1,4 @@
-import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { type LoanApplicationStatus } from "@/types/loan-application.type"
 
 export enum LoanDecisionEnum {
   APPROVED = "approved",
@@ -24,6 +24,7 @@ export interface SelectRoundLoanApplication {
   applicationId: string
   status: LoanApplicationStatus
 }
+
 export enum LoanStage {
   SUBMISSION = "SUBMISSION",
   UNDERWRITTEN = "UNDERWRITTEN",

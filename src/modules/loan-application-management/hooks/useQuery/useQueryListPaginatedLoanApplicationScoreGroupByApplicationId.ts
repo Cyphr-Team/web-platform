@@ -2,10 +2,14 @@ import { API_PATH } from "@/constants"
 import { workspaceAdminLoanApplicationScoreKeys } from "@/constants/query-key"
 import { postRequest } from "@/services/client.service"
 import {
-  IApplicationWithStageScoresResponse,
-  IWorkspaceAdminApplicationScore
+  type IApplicationWithStageScoresResponse,
+  type IWorkspaceAdminApplicationScore
 } from "@/types/application/application-assign.type"
-import { ListResponse, PaginateParams, SortOrder } from "@/types/common.type"
+import {
+  type ListResponse,
+  type PaginateParams,
+  type SortOrder
+} from "@/types/common.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import * as z from "zod"
 import { getWorkspaceAdminApplicationScores } from "../../services/score.service"
@@ -50,7 +54,7 @@ type IListWorkspaceAdminApplicationScoreResponse =
 type IListWorkspaceAdminApplicationScore =
   ListResponse<IWorkspaceAdminApplicationScore>
 
-type WorkspaceAdminLoanApplicationSort = {
+interface WorkspaceAdminLoanApplicationSort {
   submittedAt?: SortOrder
   createdAt?: SortOrder
   scoredAt?: SortOrder

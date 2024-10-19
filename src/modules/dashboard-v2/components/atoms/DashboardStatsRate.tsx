@@ -41,7 +41,7 @@ function DashboardStatsRate({
 
   return (
     <div className={cn(statsVariants({ variant }), className)} {...props}>
-      {Icon && <Icon className="h-3 w-3" strokeWidth={3} />}
+      {Icon ? <Icon className="h-3 w-3" strokeWidth={3} /> : null}
       {Math.abs(percentRate)}%
     </div>
   )

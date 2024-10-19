@@ -59,10 +59,12 @@ export const useConnectPlaid = () => {
             linkToken: localStorage.getItem("link_token")
           }
         })
+
         return
       }
       generateToken(dispatch)
     }
+
     init()
   }, [dispatch])
 

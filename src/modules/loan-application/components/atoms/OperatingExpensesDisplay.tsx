@@ -1,19 +1,19 @@
 import { cn } from "@/lib/utils"
 import { toCurrency } from "@/utils"
 
-type OperatingExpensesDisplayProps = {
+interface OperatingExpensesDisplayProps {
   label: string
   description?: string
   value?: number
   className?: string
 }
 
-export const OperatingExpensesDisplay = ({
+export function OperatingExpensesDisplay({
   label,
   description,
   value,
   className
-}: OperatingExpensesDisplayProps) => {
+}: OperatingExpensesDisplayProps) {
   return (
     <div className={cn(className, "gap-sm flex justify-between")}>
       <div className="flex flex-col">

@@ -14,17 +14,21 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { Check, ChevronDown, Loader } from "lucide-react"
 import React, {
-  FocusEvent,
-  ReactNode,
+  type FocusEvent,
+  type ReactNode,
   useCallback,
   useMemo,
   useRef,
   useState
 } from "react"
-import { ControllerRenderProps, FieldValues, Path } from "react-hook-form"
+import {
+  type ControllerRenderProps,
+  type FieldValues,
+  type Path
+} from "react-hook-form"
 
 interface SearchSelectProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -67,7 +71,7 @@ export function SearchSelect<
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   const preventAutoFocus = useCallback(
-    (e: Event | FocusEvent<HTMLDivElement, Element>) => {
+    (e: Event | FocusEvent<HTMLDivElement>) => {
       e.preventDefault()
       e.stopPropagation()
     },
@@ -81,6 +85,7 @@ export function SearchSelect<
   const onSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
+
       setSearchValue(value)
       handleSearch?.(value)
       setIsOpen(!!value)
@@ -147,14 +152,14 @@ export function SearchSelect<
 
   const renderSearchInput = () => (
     <Input
-      autoComplete="off"
-      onClick={handleInputClick}
-      onBlur={handleInputBlur}
-      value={searchValue}
       ref={searchInputRef}
+      autoComplete="off"
       placeholder={placeholder}
-      onChange={onSearch}
       suffixIcon={isFetching ? loader : null}
+      value={searchValue}
+      onBlur={handleInputBlur}
+      onChange={onSearch}
+      onClick={handleInputClick}
     />
   )
 
@@ -176,8 +181,8 @@ export function SearchSelect<
     <ul className="overflow-auto" style={{ maxHeight }}>
       {options.map((option) => (
         <li
-          className="flex gap-1 items-center text-sm p-3 hover:bg-zinc-200 cursor-pointer"
           key={option.value}
+          className="flex gap-1 items-center text-sm p-3 hover:bg-zinc-200 cursor-pointer"
           onClick={() => handleOptionClick(option)}
         >
           {renderOption
@@ -196,10 +201,10 @@ export function SearchSelect<
 
   return (
     <FormItem className="flex flex-col flex-1 max-w-96">
-      {label && <FormLabel>{label}</FormLabel>}
+      {label ? <FormLabel>{label}</FormLabel> : null}
 
       <Popover
-        open={isOpen && (!handleSearch || !!searchValue)}
+        open={isOpen ? !handleSearch || !!searchValue : undefined}
         onOpenChange={!handleSearch ? setIsOpen : undefined}
       >
         <PopoverTrigger asChild disabled={disabled}>
@@ -211,8 +216,8 @@ export function SearchSelect<
         </PopoverTrigger>
 
         <PopoverContent
-          sideOffset={8}
           className="w-full p-0 rounded-lg"
+          sideOffset={8}
           style={{ width: popoverWidth }}
           onFocus={preventAutoFocus}
           onOpenAutoFocus={preventAutoFocus}
@@ -223,7 +228,7 @@ export function SearchSelect<
               {renderSearchStatus()}
             </div>
           ) : (
-            <AutoSearch options={options} field={field} />
+            <AutoSearch field={field} options={options} />
           )}
         </PopoverContent>
       </Popover>
@@ -238,7 +243,7 @@ function AutoSearch<
 >({ options, field }: Partial<SearchSelectProps<TFieldValues, TName>>) {
   return (
     <Command>
-      <CommandInput placeholder="Search..." className="h-9" />
+      <CommandInput className="h-9" placeholder="Search..." />
       <CommandList>
         {!options?.length ? (
           <div className="py-3 text-center text-sm">No results found.</div>
@@ -248,8 +253,8 @@ function AutoSearch<
         <CommandGroup>
           {options?.map((option) => (
             <CommandItem
-              value={option.label}
               key={option.value}
+              value={option.label}
               onSelect={() => {
                 field?.onChange(option)
               }}

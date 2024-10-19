@@ -1,6 +1,6 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { cn } from "@/lib/utils"
-import { ErrorCode } from "@/utils/custom-error"
+import { type ErrorCode } from "@/utils/custom-error"
 import { useActiveEmailDataHeader } from "../hooks/useActiveEmailDataHeader"
 
 interface ActivateEmailFormHeaderProps {
@@ -27,8 +27,8 @@ export function ActivateEmailFormHeader({
           <AspectRatio ratio={1 / 1}>
             <div className="w-full h-full border flex justify-center items-center rounded-xl">
               <dataHeader.HeaderIcon
-                size={28}
                 className={cn(isPending && "animate-spin")}
+                size={28}
               />
             </div>
           </AspectRatio>

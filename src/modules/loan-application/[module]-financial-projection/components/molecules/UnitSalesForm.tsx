@@ -1,6 +1,6 @@
-import { FC, memo } from "react"
+import { type FC, memo } from "react"
 import {
-  Block,
+  type Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
@@ -110,14 +110,14 @@ const UnitSalesForm: FC<Props> = (props) => {
 
   return (
     <ArrayFormTemplate
-      title="Revenue: Unit Sales"
-      subtitle="Ideal for products sold as individual units or in specific quantities."
-      fieldName={RevenueType.UNIT_SALES}
-      dataName="Unit sales"
       addIcon={<UnitSalesIcon variant="black" />}
-      defaultEmptyObject={emptyUnitSale}
-      onBlur={onBlur}
       blocks={blocks}
+      dataName="Unit sales"
+      defaultEmptyObject={emptyUnitSale}
+      fieldName={RevenueType.UNIT_SALES}
+      subtitle="Ideal for products sold as individual units or in specific quantities."
+      title="Revenue: Unit Sales"
+      onBlur={onBlur}
     />
   )
 }

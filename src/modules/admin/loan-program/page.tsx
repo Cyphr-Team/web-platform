@@ -4,10 +4,10 @@ import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
-import { Row } from "@tanstack/react-table"
+import { type Row } from "@tanstack/react-table"
 import { columns } from "./table/columns"
 import { useGetListLoanProgram } from "./hooks/useGetListLoanProgram"
-import { LoanProgram } from "@/types/loan-program.type"
+import { type LoanProgram } from "@/types/loan-program.type"
 import { useState } from "react"
 import { useGetDetailLoanProgram } from "./hooks/useGetDetailLoanProgram"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
@@ -57,14 +57,14 @@ export function Component() {
       <CreateLoanProgramDialog
         defaultData={detailData.data}
         detailId={detailId}
-        setDetailId={setDetailId}
         isFetching={detailData.isFetching || detailData.isLoading}
+        setDetailId={setDetailId}
       />
       <InfiniteDataTable
-        handleClickDetail={handleClickDetail}
         columns={tableColumns}
         data={data}
         fetchNextPage={fetchNextPage}
+        handleClickDetail={handleClickDetail}
         isFetching={isFetching}
       />
     </div>

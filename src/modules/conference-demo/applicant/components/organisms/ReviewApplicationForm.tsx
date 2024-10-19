@@ -15,7 +15,7 @@ import { memo, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-const ReviewApplicationForm = () => {
+function ReviewApplicationForm() {
   const steps = useProgressSteps()
   const currentStep = useProgress.use.currentStep()
   const { finishStep, goToStep } = useProgress.use.action()

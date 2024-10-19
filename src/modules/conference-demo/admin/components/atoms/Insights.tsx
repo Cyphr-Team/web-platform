@@ -1,17 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 
 interface InsightsProps {
   passedStep: number
   totalStep: number
 }
 
-const Insights = ({
+function Insights({
   passedStep,
   totalStep,
   children
-}: PropsWithChildren<InsightsProps>) => {
+}: PropsWithChildren<InsightsProps>) {
   return (
     <Card className="h-fit lg:sticky top-0 z-10 mb-4 flex-shrink-0">
       <CardHeader className="!pb-0 px-0 md:px-0">
@@ -29,4 +29,5 @@ const Insights = ({
     </Card>
   )
 }
+
 export default Insights

@@ -29,14 +29,14 @@ import { PlusCircle, Send } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 import { useGetUserInformation } from "@/hooks/useGetUserInformation"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { checkIsForesightAdmin } from "@/utils/check-roles"
 import { useQueryGetListAllInstitution } from "../hooks/useQuery/useQueryGetListAllInstitution"
 
 import RHFDragAndDropFileUpload from "@/modules/form-template/components/molecules/RHFDragAndDropFileUpload"
 import {
   adminAddDocumentForm,
-  AdminAddDocumentValue,
+  type AdminAddDocumentValue,
   useSubmitDocument
 } from "@/modules/admin/user/hooks/useSubmitDocument"
 import useBoolean from "@/hooks/useBoolean"
@@ -88,7 +88,7 @@ export function DialogAddDocument() {
     <Dialog open={isOpen.value} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button type="button">
-          <PlusCircle size={16} className="text-sm mr-1.5" />
+          <PlusCircle className="text-sm mr-1.5" size={16} />
           Add Document
         </Button>
       </DialogTrigger>
@@ -100,8 +100,8 @@ export function DialogAddDocument() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={formSubmit} className="flex flex-col space-y-3">
-            {isForesightAdmin && (
+          <form className="flex flex-col space-y-3" onSubmit={formSubmit}>
+            {isForesightAdmin ? (
               <>
                 <FormField
                   control={form.control}
@@ -127,15 +127,15 @@ export function DialogAddDocument() {
                     </FormItem>
                   )}
                 />
-                <RHFDragAndDropFileUpload name="files" id="files" />
+                <RHFDragAndDropFileUpload id="files" name="files" />
               </>
-            )}
+            ) : null}
 
             <DialogFooter>
               <ButtonLoading
-                type="submit"
-                isLoading={isPending}
                 disabled={!isValid}
+                isLoading={isPending}
+                type="submit"
               >
                 Send {!isPending && <Send className="ml-1.5" size="16" />}
               </ButtonLoading>

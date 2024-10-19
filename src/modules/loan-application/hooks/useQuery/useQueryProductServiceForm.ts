@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "../../constants/query-key"
-import { ProductServiceFormResponse } from "../../components/organisms/loan-application-form/product-service/type"
+import { type ProductServiceFormResponse } from "../../components/organisms/loan-application-form/product-service/type"
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
-import { FormDetailsQueryProps } from "."
+import { type FormDetailsQueryProps } from "."
 
 export const useQueryProductServiceForm = ({
   applicationId,

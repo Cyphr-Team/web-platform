@@ -12,7 +12,7 @@ enum Institution {
   Finovate = "finovate"
 }
 
-type InstitutionData = {
+interface InstitutionData {
   /**
    * SUPPORT EMAIl
    */
@@ -52,4 +52,5 @@ type InstitutionData = {
 }
 
 export { Institution }
+
 export type { InstitutionData }

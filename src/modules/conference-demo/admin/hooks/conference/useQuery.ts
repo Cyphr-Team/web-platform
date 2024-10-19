@@ -1,7 +1,7 @@
 import { MOCK_OCROLUS_DATA } from "@/modules/conference-demo/admin/constants/document-data"
-import { DocumentDetailsType } from "@/modules/conference-demo/admin/constants/type"
-import { LoanReadiness } from "@/modules/loan-application-management/constants/types/loan-readiness.type.ts"
-import { ErrorResponse } from "@/types/common.type"
+import { type DocumentDetailsType } from "@/modules/conference-demo/admin/constants/type"
+import { type LoanReadiness } from "@/modules/loan-application-management/constants/types/loan-readiness.type.ts"
+import { type ErrorResponse } from "@/types/common.type"
 import { useQuery } from "@tanstack/react-query"
 
 export const useQueryLoanReadinessAssessmentByApplicationId = () => {

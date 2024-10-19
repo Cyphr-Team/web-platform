@@ -1,9 +1,9 @@
-import { FC, memo } from "react"
+import { type FC, memo } from "react"
 import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
 import { RecurringChargesIcon } from "@/modules/loan-application/[module]-financial-projection/components/atoms/RecurringChargesIcon.tsx"
 import {
-  Block,
+  type Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
@@ -149,14 +149,14 @@ const RecurringChargesForm: FC<Props> = (props) => {
 
   return (
     <ArrayFormTemplate
-      title="Revenue: Recurring Charges"
-      subtitle="Perfect for subscriptions, memberships, rentals, or any service with periodic payments."
-      fieldName={RevenueType.RECURRING_CHARGES}
+      addIcon={<RecurringChargesIcon variant="black" />}
+      blocks={blocks}
       dataName="recurring charges"
       defaultEmptyObject={emptyRecurringCharge}
+      fieldName={RevenueType.RECURRING_CHARGES}
+      subtitle="Perfect for subscriptions, memberships, rentals, or any service with periodic payments."
+      title="Revenue: Recurring Charges"
       onBlur={onBlur}
-      blocks={blocks}
-      addIcon={<RecurringChargesIcon variant="black" />}
     />
   )
 }

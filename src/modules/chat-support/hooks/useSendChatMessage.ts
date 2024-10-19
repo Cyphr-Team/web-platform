@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
-import { ChatMessage } from "@/modules/chat-support/constants/chat"
+import { type ChatMessage } from "@/modules/chat-support/constants/chat"
 
 export const useSendChatMessage = () => {
   return useMutation<

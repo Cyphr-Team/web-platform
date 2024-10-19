@@ -5,16 +5,16 @@ import { Form, FormField } from "@/components/ui/form"
 import { MultiSelect } from "@/components/ui/multi-select"
 import { useEffect } from "react"
 
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { checkIsForesightAdmin } from "@/utils/check-roles"
 import {
-  FilterParams,
+  type FilterParams,
   UserFilterSchema,
-  UserFilterValues
+  type UserFilterValues
 } from "../hooks/useQuery/useQueryListPaginateUser"
 import { useQueryGetListAllInstitution } from "../hooks/useQuery/useQueryGetListAllInstitution"
 
-type Props = {
+interface Props {
   onSearch: (formValues: FilterParams) => void
 }
 
@@ -66,11 +66,11 @@ export function UserTableHeader({ onSearch }: React.PropsWithChildren<Props>) {
             name="institutionIds"
             render={({ field }) => (
               <MultiSelect
+                defaultValue={allOption}
+                field={field}
                 label="Institution"
                 name="institutionIds"
-                field={field}
                 options={institutionOptions}
-                defaultValue={allOption}
               />
             )}
           />

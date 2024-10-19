@@ -1,6 +1,6 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { downloadPDFFile } from "@/utils"
 import { configWithResponseType } from "@/utils/request-config"
 import { useQuery } from "@tanstack/react-query"
@@ -10,12 +10,14 @@ interface GetRequestParams {
   documentId: string
   setupId: string
 }
+
 export interface DownloadFinancialDocumentProps {
   setupId?: string
   documentId?: string
   fileName?: string
   preventCacheCount?: number
 }
+
 export const useQueryDownloadFinancialDocument = ({
   setupId,
   documentId,

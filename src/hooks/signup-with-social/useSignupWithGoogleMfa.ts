@@ -17,6 +17,7 @@ export const useSignupWithGoogleMfa = () => {
     },
     async onSuccess(data) {
       const token = await data.user.getIdToken()
+
       loginBySocialMutate({ provider: SocialProvider.GOOGLE, token })
     }
   })

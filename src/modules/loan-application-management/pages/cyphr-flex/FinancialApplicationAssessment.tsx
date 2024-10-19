@@ -3,7 +3,7 @@ import { Icons } from "@/components/ui/icons"
 import { Skeleton, SkeletonCard } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import { snakeCaseToText, toPercent } from "@/utils"
-import { FC, PropsWithChildren } from "react"
+import { type FC, type PropsWithChildren } from "react"
 import {
   CRITERIA_NOT_AVAILABLE,
   getCriteriaScoreRangeClassName
@@ -11,21 +11,22 @@ import {
 
 type FinancialApplicationAssessmentProps = ApplicationFeedBackProps &
   ApplicationScoreProps
+
 export const FinancialApplicationAssessment: FC<
   FinancialApplicationAssessmentProps
 > = ({ isLoading, category, actionPlan, ratingLevel, score }) => {
   return (
     <MainLayout>
       <ApplicationFeedBack
-        isLoading={isLoading}
-        category={category}
         actionPlan={actionPlan}
+        category={category}
+        isLoading={isLoading}
       />
       <ApplicationScore
+        category={category}
         isLoading={isLoading}
         ratingLevel={ratingLevel}
         score={score}
-        category={category}
       />
     </MainLayout>
   )
@@ -52,7 +53,9 @@ const AssessmentLayout: FC<PropsWithChildren<AssessmentLayoutProps>> = ({
     )}
   >
     <div className="px-4 py-3 pb-2.5 lg:pb-3.5 lg:px-8 lg:py-4 border-b font-semibold flex gap-2">
-      <span>{<Icons.scoreLevel />}</span>
+      <span>
+        <Icons.scoreLevel />
+      </span>
       <span className="whitespace-nowrap">Loan Readiness Score</span>
     </div>
     <div className="flex flex-col gap-2 lg:gap-4 text-center p-4 lg:p-8">
@@ -112,18 +115,18 @@ const ApplicationScore: FC<ApplicationScoreProps> = ({
       <div className="flex gap-2 my-0.5 flex-wrap justify-center">
         {!!ratingLevel && (
           <Badge
-            variant="outline"
             className={cn(
               getCriteriaScoreRangeClassName(ratingLevel),
               "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center border-0"
             )}
+            variant="outline"
           >
             {snakeCaseToText(ratingLevel.toLowerCase())}
           </Badge>
         )}
         <Badge
-          variant="outline"
           className="bg-opacity-0 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center"
+          variant="outline"
         >
           {category
             ? snakeCaseToText(category.toLowerCase())

@@ -8,7 +8,7 @@ import { Secretary } from "@/modules/conference-demo/admin/components/molecules/
 import { TinMatch } from "@/modules/conference-demo/admin/components/molecules/kyb/TinMatch"
 import { WatchLists } from "@/modules/conference-demo/admin/components/molecules/kyb/WatchLists"
 
-const BusinessVerification = () => {
+function BusinessVerification() {
   return (
     <div className="lg:flex gap-3xl w-full">
       <Insights />

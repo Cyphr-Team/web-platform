@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import { NavLink } from "react-router-dom"
-import { NavItem } from "../../constants"
+import { type NavItem } from "../../constants"
 
 export function DashboardNavLink({
   item,
@@ -11,7 +11,6 @@ export function DashboardNavLink({
 }) {
   return (
     <NavLink
-      to={item.href ?? ""}
       className={({ isActive }) =>
         cn(
           "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white cursor-pointer hover:bg-gray-100",
@@ -20,6 +19,7 @@ export function DashboardNavLink({
           item.className
         )
       }
+      to={item.href ?? ""}
     >
       {({ isActive }) => (
         <>

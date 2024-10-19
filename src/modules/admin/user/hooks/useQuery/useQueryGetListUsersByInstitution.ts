@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
 import { getRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
-import { ErrorResponse } from "@/types/common.type.ts"
+import { type ErrorResponse } from "@/types/common.type.ts"
 import { userKeys } from "@/constants/query-key.ts"
-import { UserDetailInfo } from "@/types/user.type.ts"
+import { type UserDetailInfo } from "@/types/user.type.ts"
 
 type ListUserResponse = UserDetailInfo[]
 

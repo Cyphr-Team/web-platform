@@ -1,7 +1,7 @@
 import {
-  DashboardAction,
+  type DashboardAction,
   DashboardActionType,
-  DashboardState
+  type DashboardState
 } from "../types/stats.types"
 
 export function dashboardReducer(

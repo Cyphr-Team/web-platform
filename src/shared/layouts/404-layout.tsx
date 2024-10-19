@@ -18,13 +18,13 @@ export function NotFoundLayout() {
         moved.
       </p>
       <div className="mt-8 flex justify-center gap-2">
-        <Button onClick={() => navigate(-1)} variant="default" size="lg">
+        <Button size="lg" variant="default" onClick={() => navigate(-1)}>
           Go back
         </Button>
         <Button
-          onClick={() => navigate(APP_PATH.DASHBOARD)}
-          variant="ghost"
           size="lg"
+          variant="ghost"
+          onClick={() => navigate(APP_PATH.DASHBOARD)}
         >
           Back to Home
         </Button>

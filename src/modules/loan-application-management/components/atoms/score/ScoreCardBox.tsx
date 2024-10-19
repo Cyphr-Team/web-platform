@@ -8,13 +8,14 @@ interface IScoreCardProps {
   multiple?: boolean
 }
 
-export const ScoreCardBox = ({
+export function ScoreCardBox({
   name,
   score,
   hasBorder,
   multiple
-}: IScoreCardProps) => {
+}: IScoreCardProps) {
   const formatScore = valueOrZero(score)
+
   return (
     <div
       className={cn(

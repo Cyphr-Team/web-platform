@@ -1,5 +1,5 @@
 import { PASSWORD_REGEX, PasswordRegex } from "@/constants"
-import { MultipleFieldErrors, useFormContext } from "react-hook-form"
+import { type MultipleFieldErrors, useFormContext } from "react-hook-form"
 import * as z from "zod"
 
 export const passwordFormSchema = z.object({

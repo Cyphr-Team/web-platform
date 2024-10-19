@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { FC, PropsWithChildren } from "react"
+import { type FC, type PropsWithChildren } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll.tsx"
 import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
@@ -21,7 +21,6 @@ export const AdminFinancialProjectionLayout: FC<PropsWithChildren> = (
             <div className="flex items-center space-x-lg">
               {applicationMenu.map((example) => (
                 <Link
-                  to={example.href}
                   key={example.href}
                   className={cn(
                     "flex rounded-lg px-4xl py-md h-full font-normal items-center justify-center text-center text-sm transition-colors border-transparent whitespace-nowrap",
@@ -29,12 +28,13 @@ export const AdminFinancialProjectionLayout: FC<PropsWithChildren> = (
                       ? "bg-financial-projection-btn text-white"
                       : ""
                   )}
+                  to={example.href}
                 >
                   {example.name}
                 </Link>
               ))}
             </div>
-            <ScrollBar orientation="horizontal" className="invisible" />
+            <ScrollBar className="invisible" orientation="horizontal" />
           </ScrollArea>
         </div>
       </div>

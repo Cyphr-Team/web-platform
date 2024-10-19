@@ -1,6 +1,6 @@
 import {
   documentUploadsFormSchema,
-  DocumentUploadsFormValue
+  type DocumentUploadsFormValue
 } from "../../../constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { ArrowRight } from "lucide-react"
@@ -29,7 +29,7 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { Button } from "@/components/ui/button.tsx"
 import { FileUploadedCard } from "../../molecules/FileUploadedCard"
 
-export const LaunchKCBusinessDocumentsForm = () => {
+export function LaunchKCBusinessDocumentsForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { dispatchFormAction, documentUploadForm } =
     useLoanApplicationFormContext()
@@ -125,6 +125,7 @@ export const LaunchKCBusinessDocumentsForm = () => {
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS,
@@ -178,10 +179,10 @@ export const LaunchKCBusinessDocumentsForm = () => {
                           <FileUploadCard
                             key={index}
                             file={file}
-                            index={index}
                             handleRemoveFile={() =>
                               handleRemoveFile(index, "executiveSummary")
                             }
+                            index={index}
                           />
                         )
                       )}
@@ -212,10 +213,10 @@ export const LaunchKCBusinessDocumentsForm = () => {
                   <FormItem>
                     <DragDropFileInput
                       id="pitchDeck"
+                      multiple={false}
                       onFileSelect={(files) =>
                         handleSelectFile(files, "pitchDeck")
                       }
-                      multiple={false}
                     />
                     {!!form.getValues("pitchDeck").length &&
                       Array.from(form.getValues("pitchDeck")).map(
@@ -223,10 +224,10 @@ export const LaunchKCBusinessDocumentsForm = () => {
                           <FileUploadCard
                             key={index}
                             file={file}
-                            index={index}
                             handleRemoveFile={() =>
                               handleRemoveFile(index, "pitchDeck")
                             }
+                            index={index}
                           />
                         )
                       )}

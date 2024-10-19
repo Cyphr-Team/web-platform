@@ -1,7 +1,7 @@
 import { API_PATH } from "@/constants"
-import { LoanReadiness } from "@/modules/loan-application-management/constants/types/loan-readiness.type.ts"
+import { type LoanReadiness } from "@/modules/loan-application-management/constants/types/loan-readiness.type.ts"
 import { getRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { QUERY_KEY } from "../../constants/query-key"
 

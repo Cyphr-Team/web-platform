@@ -1,4 +1,4 @@
-import { Button, Settings } from "react-chatbotify"
+import { Button, type Settings } from "react-chatbotify"
 import smile from "@/assets/smile.svg"
 import { CHAT_HISTORY } from "@/modules/chat-support/constants/chat"
 

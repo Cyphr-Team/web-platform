@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { useConnectPlaid } from "../../hooks/useConnectPlaid"
 import { Check } from "lucide-react"
 
-export const ConnectPlaidButton = () => {
+export function ConnectPlaidButton() {
   const { open, ready, linkSuccess } = useConnectPlaid()
 
   return linkSuccess ? (
@@ -11,14 +11,16 @@ export const ConnectPlaidButton = () => {
       type="button"
     >
       <p>Connected</p>
-      <Check size={20} className="text-white" />
+      <Check className="text-white" size={20} />
     </Button>
   ) : (
     <Button
       className="text-primary bg-black w-fit text-white px-lg py-md"
-      onClick={() => open()}
       disabled={!ready}
       type="button"
+      onClick={() => {
+        open()
+      }}
     >
       Connect
     </Button>

@@ -1,7 +1,7 @@
-import { ConfirmationFormResponse } from "../../constants/type"
+import { type ConfirmationFormResponse } from "../../constants/type"
 import { QUERY_KEY } from "../../constants/query-key"
 import { API_PATH } from "@/constants"
-import { FormDetailsQueryProps } from "."
+import { type FormDetailsQueryProps } from "."
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
 
 export const useQueryGetConfirmationForm = ({

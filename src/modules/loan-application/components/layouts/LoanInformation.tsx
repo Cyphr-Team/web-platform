@@ -24,7 +24,7 @@ import { isEnableChatSupport } from "@/utils/feature-flag.utils"
 import { isCyphrBank } from "@/utils/domain.utils"
 import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
 
-export const LoanInformationHeader = () => {
+export function LoanInformationHeader() {
   const { loanProgramDetails, isLoading } = useLoanProgramDetailContext()
 
   const navigate = useNavigate()
@@ -63,6 +63,7 @@ export const LoanInformationHeader = () => {
   const backToLoanProgram = () => {
     navigate(-1)
   }
+
   return (
     <TopBarDetail
       leftFooter={
@@ -81,8 +82,8 @@ export const LoanInformationHeader = () => {
           </h4>
           <Badge
             isDot
-            className="text-sm"
             isDotBefore
+            className="text-sm"
             variant="soft"
             variantColor={getBadgeVariantByStatus(LoanApplicationStatus.DRAFT)}
           >
@@ -98,7 +99,7 @@ export const LoanInformationHeader = () => {
               <LoanApplicationSave />
             </>
           ) : (
-            <Button onClick={backToLoanProgram} variant="secondary">
+            <Button variant="secondary" onClick={backToLoanProgram}>
               Close
             </Button>
           )}
@@ -119,7 +120,7 @@ export const LoanInformationHeader = () => {
   )
 }
 
-export const Component = () => {
+export function Component() {
   const { step, percentComplete } = useLoanApplicationProgressContext()
 
   const { isSubmitting } = useLoanApplicationFormContext()
@@ -130,6 +131,7 @@ export const Component = () => {
    * Implement scroll to top when navigate step
    */
   const containerRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
     if (!containerRef.current) return
     containerRef.current.scrollTop = 0
@@ -140,16 +142,16 @@ export const Component = () => {
       <LoanInformationHeader />
 
       <Progress
-        value={percentComplete}
         className="h-2 rounded-none bg-background-disabled overflow-visible z-30 relative"
         indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
+        value={percentComplete}
       />
 
       <div
         ref={containerRef}
         className="flex h-full overflow-auto flex-1 py-6 flex-col pt-10"
       >
-        <LoadingOverlay isLoading={isSubmitting} className="flex-1">
+        <LoadingOverlay className="flex-1" isLoading={isSubmitting}>
           <div className="grid grid-cols-8 w-full">{componentByStep}</div>
           {(isEnableChatSupport() || isCyphrBank()) && <ChatSupportButton />}
         </LoadingOverlay>

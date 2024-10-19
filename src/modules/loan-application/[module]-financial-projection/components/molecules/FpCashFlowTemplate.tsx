@@ -4,11 +4,11 @@ import { DataRow } from "@/modules/loan-application/[module]-financial-projectio
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
 import {
   HeaderMapper,
-  HeaderProps
+  type HeaderProps
 } from "@/modules/loan-application/[module]-financial-projection/constants"
-import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
+import { type ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
 import {
-  ForecastPeriod,
+  type ForecastPeriod,
   ForecastType
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 
@@ -21,7 +21,7 @@ interface FpCashFlowTemplateProps {
   isPdf?: boolean
 }
 
-export const FpCashFlowTemplate = (props: FpCashFlowTemplateProps) => {
+export function FpCashFlowTemplate(props: FpCashFlowTemplateProps) {
   const {
     title = "Cash Flow Statement",
     layout,
@@ -53,61 +53,61 @@ export const FpCashFlowTemplate = (props: FpCashFlowTemplateProps) => {
             <HeaderComponent {...headerProps} />
             <SectionRow title="Operating Cash Flow" />
             <DataRow
-              title="Net Income"
               data={data[ForecastType.NET_INCOME]}
               layout="item"
+              title="Net Income"
             />
             <DataRow
-              title="Depreciation"
+              collision
               data={data[ForecastType.DEPRECIATION]}
-              collision
               layout="item"
+              title="Depreciation"
             />
             <DataRow
-              title="Change in Accounts Receivable"
+              collision
               data={data[ForecastType.CHANGE_IN_ACCOUNT_RECEIVABLE]}
-              collision
               layout="item"
+              title="Change in Accounts Receivable"
             />
             <DataRow
-              title="Change in Accounts Payable"
+              collision
               data={data[ForecastType.CHANGE_IN_ACCOUNT_PAYABLE]}
-              collision
               layout="item"
+              title="Change in Accounts Payable"
             />
             <DataRow
-              title="Total Operating Cash Flow"
               data={data[ForecastType.TOTAL_OPERATING_CASH_FLOWS]}
+              title="Total Operating Cash Flow"
             />
 
             <SectionRow title="Investing Cash Flow" />
             <DataRow
-              title="Changes in Fixed Assets"
-              data={data[ForecastType.CHANGE_IN_FIXED_ASSET]}
               collision
+              data={data[ForecastType.CHANGE_IN_FIXED_ASSET]}
               layout="item"
+              title="Changes in Fixed Assets"
             />
             <DataRow
-              title="Total Investing Cash Flow"
               data={data[ForecastType.TOTAL_INVESTING_CASH_FLOW]}
+              title="Total Investing Cash Flow"
             />
 
             <SectionRow title="Financing Cash Flow" />
             <DataRow
-              title="Long Term Debt"
+              collision
               data={data[ForecastType.LONG_TERM_DEBT]}
-              collision
               layout="item"
+              title="Long Term Debt"
             />
             <DataRow
-              title="Changes in Paid in Capital"
+              collision
               data={data[ForecastType.CHANGE_IN_PAID_IN_CAPITAL]}
-              collision
               layout="item"
+              title="Changes in Paid in Capital"
             />
             <DataRow
-              title="Total Financing Cash Flow"
               data={data[ForecastType.TOTAL_FINANCING_CASH_FLOW]}
+              title="Total Financing Cash Flow"
             />
           </div>
         </div>

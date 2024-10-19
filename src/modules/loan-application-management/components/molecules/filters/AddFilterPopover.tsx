@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/popover"
 import { useBoolean } from "@/hooks"
 import { cn } from "@/lib/utils"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { Plus } from "lucide-react"
 import { useRef, useState } from "react"
 
@@ -41,7 +41,7 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
         searchRef.current.focus()
       }
     } catch (e) {
-      console.error("Something went wrong.", e)
+      // console.error("Something went wrong.", e)
     }
   }
 
@@ -55,17 +55,17 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
       <Popover open={value} onOpenChange={setValue}>
         <PopoverTrigger asChild>
           <Button
-            variant="ghost"
             className="text-sm font-semibold border border-input h-10 px-4 py-2 rounded-full text-slate-700 bg-white"
+            variant="ghost"
           >
-            <Plus size="16" className="mr-1.5" />
+            <Plus className="mr-1.5" size="16" />
             Add Filter
           </Button>
         </PopoverTrigger>
         <PopoverContent
+          align="center"
           className="rounded-lg p-0 m-0 w-full"
           side="bottom"
-          align="center"
         >
           <Command>
             <div className="pb-2 flex flex-col h-auto max-h-96 overflow-hidden">
@@ -78,14 +78,14 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
                 >
                   <CommandPrimitive.Input
                     ref={searchRef}
-                    value={search}
-                    onValueChange={setSearch}
                     autoFocus
-                    placeholder="Search"
                     className={cn(
                       "bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
                       "flex h-6 px-3 w-full text-sm placeholder:text-muted-foreground"
                     )}
+                    placeholder="Search"
+                    value={search}
+                    onValueChange={setSearch}
                   />
                 </div>
               </div>
@@ -107,15 +107,16 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
                 <CommandGroup className="p-0">
                   {options.map((opt) => {
                     const Icon = opt.icon
+
                     return (
                       <CommandItem
-                        className="px-4 flex mt-1 items-center justify-between gap-2 h-10 cursor-pointer text-slate-950 rounded-none"
                         key={opt.value}
+                        className="px-4 flex mt-1 items-center justify-between gap-2 h-10 cursor-pointer text-slate-950 rounded-none"
                         value={opt.label}
                         onSelect={() => onSelect(opt)}
                       >
                         {opt.label}
-                        {Icon && <Icon className="w-4 h-4" />}
+                        {Icon ? <Icon className="w-4 h-4" /> : null}
                       </CommandItem>
                     )
                   })}

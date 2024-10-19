@@ -1,4 +1,4 @@
-import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { type FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 // ENUM
 enum LoanType {

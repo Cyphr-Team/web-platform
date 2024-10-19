@@ -16,7 +16,7 @@ import { LaunchKCBusinessDocumentsDetails } from "../components/organisms/loan-a
 import { useBRLoanApplicationDetailsContext } from "../providers"
 import { SbbApplicantSubmittedDocuments } from "../components/organisms/loan-application-form/custom-form/sbb/SubmittedDocument"
 
-export const Component = () => {
+export function Component() {
   const { isFetchingDetails, confirmationFormData } =
     useBRLoanApplicationDetailsContext()
 

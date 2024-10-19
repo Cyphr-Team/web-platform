@@ -1,5 +1,5 @@
-import { ListResponse, PaginateParams } from "@/types/common.type"
-import { LoanDocument } from "@/types/loan-document.type"
+import { type ListResponse, type PaginateParams } from "@/types/common.type"
+import { type LoanDocument } from "@/types/loan-document.type"
 import { API_PATH } from "@/constants"
 import { loanApplicationDocumentKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
@@ -38,6 +38,7 @@ export const useQueryDocument = ({
         params: { keyword, limit, offset },
         customHeader: customRequestHeader.customHeaders
       })
+
       return response
     }
   })

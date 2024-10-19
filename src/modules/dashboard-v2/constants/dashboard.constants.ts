@@ -1,6 +1,6 @@
 import { TimeRangeValue } from "@/types/time-range.type"
 import { getTimeRangeDates } from "@/utils/time-range.utils"
-import { DashboardState } from "../types/stats.types"
+import { type DashboardState } from "../types/stats.types"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 
 const QUERY_KEY = {

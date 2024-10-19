@@ -16,9 +16,9 @@ export function SetupProfileSection() {
       <Icons.alertSuccess className="-ml-2 -mt-2" />
       <AlertTitle className="ml-2 text-sm">
         <Button
-          variant="ghost"
-          size="icon"
           className="absolute p-0 text-muted-foreground right-4 h-auto w-auto"
+          size="icon"
+          variant="ghost"
           onClick={hide}
         >
           <X size={20} />
@@ -52,7 +52,7 @@ export function SetupProfileSection() {
 
         <p className="px-8 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Button variant="link" className="p-0 text-primary" asChild>
+          <Button asChild className="p-0 text-primary" variant="link">
             <Link to={APP_PATH.LOGIN}>Log in</Link>
           </Button>
         </p>

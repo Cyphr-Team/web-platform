@@ -1,7 +1,7 @@
-import { IOptionWithOther, Option } from "@/types/common.type"
+import { type IOptionWithOther, type Option } from "@/types/common.type"
 import { get } from "lodash"
-import { ExecutionFormRequest, ExecutionFormResponse } from "./type"
-import { ExecutionFormValue } from "@/modules/loan-application/constants/form"
+import { type ExecutionFormRequest, type ExecutionFormResponse } from "./type"
+import { type ExecutionFormValue } from "@/modules/loan-application/constants/form"
 
 export const enum LAUNCH_KC_EXECUTION_FIELD_NAMES {
   ID = "id",
@@ -78,6 +78,7 @@ export const jobTypes: Option[] = [
 ]
 
 export const BUSINESS_MODEL_OTHER_OPTION = "other"
+
 export const businessModel: IOptionWithOther[] = [
   {
     label: "Business model",
@@ -206,6 +207,7 @@ export const fundingSourcesOptions: Option[] = [
 
 export const getLabelByValue = (value: string, options: Option[]) => {
   const option = options.find((opt) => opt.value === value)
+
   return option?.label ?? ""
 }
 
@@ -252,6 +254,7 @@ export function transformExecutionFormToRequest(
   data: ExecutionFormValue
 ): ExecutionFormRequest {
   const formatted = { ...data }
+
   return {
     ...formatted,
     businessModelsOtherText: undefined,

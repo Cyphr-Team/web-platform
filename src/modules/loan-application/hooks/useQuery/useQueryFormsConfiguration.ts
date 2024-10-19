@@ -1,11 +1,11 @@
 import { getRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { type AxiosError } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
 import { API_PATH } from "@/constants"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
-import { LoanProgramFormsConfiguration } from "@/types/loan-program.type"
+import { type LoanProgramFormsConfiguration } from "@/types/loan-program.type"
 
 export const useQueryGetFormsConfiguration = (id?: string) => {
   return useQuery<LoanProgramFormsConfiguration, AxiosError<ErrorResponse>>({

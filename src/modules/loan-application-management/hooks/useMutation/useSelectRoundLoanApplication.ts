@@ -7,14 +7,14 @@ import {
 } from "@/constants/query-key"
 import { QUERY_KEY as QUERY_KEY_DASHBOARD } from "@/modules/dashboard-v2/constants/dashboard.constants"
 import {
-  LoanDecisionResponse,
-  SelectRoundLoanApplication
+  type LoanDecisionResponse,
+  type SelectRoundLoanApplication
 } from "@/modules/loan-application-management/constants/types/application.ts"
 import { postRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 
 export const useSelectRoundLoanApplication = () => {
   const queryClient = useQueryClient()

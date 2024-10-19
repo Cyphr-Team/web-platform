@@ -1,14 +1,14 @@
 import { API_PATH } from "@/constants"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { postRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import {
-  ISendNudgeRequest,
-  ISendNudgeResponse
+  type ISendNudgeRequest,
+  type ISendNudgeResponse
 } from "@/types/application/application-nudge.type"
 import { workspaceAdminNudgeKeys } from "@/constants/query-key"
 

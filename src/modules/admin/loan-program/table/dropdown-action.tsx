@@ -5,22 +5,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { LoanProgram } from "@/types/loan-program.type"
+import { type LoanProgram } from "@/types/loan-program.type"
 import { MoreVertical } from "lucide-react"
 import { ButtonDeleteLoanProgram } from "../components/delete-loan-program-button"
 import { FeatureFlagsRenderer } from "@/shared/layouts/FeatureFlagRenderer"
 import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 import { ButtonChangeStatusLoanProgram } from "../components/change-status-loan-program-dialog"
 
-export const DropdownAction = ({
-  loanProgram
-}: {
-  loanProgram: LoanProgram
-}) => {
+export function DropdownAction({ loanProgram }: { loanProgram: LoanProgram }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button size="icon" variant="ghost">
           <MoreVertical />
         </Button>
       </DropdownMenuTrigger>

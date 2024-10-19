@@ -21,9 +21,9 @@ import { chatbotRoutes } from "@/routes/dashboard-routes/chatbot-routes"
 
 const dashboardRoutes = (
   <Route
-    loader={userLoader}
     element={<DashboardLayout />}
     handle={handleCrumb(APP_PATH.INDEX)}
+    loader={userLoader}
   >
     {/* DASHBOARD STATICS */}
     <Route
@@ -41,9 +41,9 @@ const dashboardRoutes = (
     {(!isKccBank() || !isSbb() || !isLaunchKC()) && (
       <Route element={<ProtectedRoute featureKey={FeatureKey.LOAN_PROGRAM} />}>
         <Route
-          path={APP_PATH.LOAN_PROGRAM.index}
-          lazy={() => import("@/modules/admin/loan-program/page")}
           handle={handleCrumb(APP_PATH.LOAN_PROGRAM.index)}
+          lazy={() => import("@/modules/admin/loan-program/page")}
+          path={APP_PATH.LOAN_PROGRAM.index}
         />
       </Route>
     )}
@@ -53,40 +53,40 @@ const dashboardRoutes = (
 
     {/* USERS MANAGEMENT */}
     <Route
-      path={APP_PATH.ADMIN_USERS.USER.index}
       handle={handleCrumb(APP_PATH.ADMIN_USERS.USER.index)}
       lazy={() => import("@/modules/admin/user/user-page.tsx")}
+      path={APP_PATH.ADMIN_USERS.USER.index}
     />
 
     {/* INVITATIONS MANAGEMENT */}
     <Route
-      path={APP_PATH.ADMIN_USERS.INVITATION.index}
       handle={handleCrumb(APP_PATH.ADMIN_USERS.INVITATION.index)}
       lazy={() => import("@/modules/admin/user/invitation-page.tsx")}
+      path={APP_PATH.ADMIN_USERS.INVITATION.index}
     />
 
     {/* DOCUMENT MANAGEMENT */}
     <Route
-      path={APP_PATH.DOCUMENTS}
       lazy={() => import("@/modules/admin/user/document-page.tsx")}
+      path={APP_PATH.DOCUMENTS}
     />
 
     {chatbotRoutes}
 
     {/* MESSAGES */}
     <Route
-      path={APP_PATH.MESSAGES}
       lazy={() =>
         import("@/modules/loan-application-management/pages/under-construction")
       }
+      path={APP_PATH.MESSAGES}
     />
 
     {/* SETTINGS */}
     <Route
-      path={APP_PATH.SETTINGS}
       lazy={() =>
         import("@/modules/loan-application-management/pages/under-construction")
       }
+      path={APP_PATH.SETTINGS}
     />
 
     {/* ADMIN DASHBOARD */}

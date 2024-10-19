@@ -1,7 +1,10 @@
-import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
-import { TimeRange, TimeRangeFilterValue } from "@/types/time-range.type"
-import { Usage } from "@/types/usage.type"
-import { Dispatch } from "react"
+import { type GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import {
+  type TimeRange,
+  type TimeRangeFilterValue
+} from "@/types/time-range.type"
+import { type Usage } from "@/types/usage.type"
+import { type Dispatch } from "react"
 
 enum DecisionType {
   DECISION = "decision",
@@ -57,7 +60,7 @@ type DashboardAction =
       payload: DashboardState["loanApplicationRatesFrequency"]
     }
 
-type DashboardState = {
+interface DashboardState {
   filter: TimeRangeFilterValue
   approvalRateFrequency: GRAPH_FREQUENCY
   incompleteApplicationRateFrequency: GRAPH_FREQUENCY
@@ -71,18 +74,18 @@ type DashboardState = {
   loanProgramIds: string[]
 }
 
-type StatsResponse = {
+interface StatsResponse {
   totalApplicationApproved: number
   totalApplicationSubmitted: number
   totalApplicationInReview: number
   totalApplicationDenied: number
 }
 
-type DashboardProviderProps = {
+interface DashboardProviderProps {
   children: React.ReactNode
 }
 
-type DashboardProviderState = {
+interface DashboardProviderState {
   dashboardState: DashboardState
   dashboardDispatch: Dispatch<DashboardAction>
   statsData?: StatsResponse
@@ -117,61 +120,61 @@ type DashboardProviderState = {
   isLoadingLoanApplicationRates?: boolean
 }
 
-type StatsFilter = {
+interface StatsFilter {
   timeRange: TimeRange
 }
 
-type AverageTimeToApprovalResponse = {
+interface AverageTimeToApprovalResponse {
   averageTimeToApproval: number
   percentRate: number
 }
-type LoanApplicationActivitiesResponse = {
+interface LoanApplicationActivitiesResponse {
   loanApplicationActivities: LoanApplicationActivities[]
 }
-type AverageApprovalLoanAmountResponse = {
+interface AverageApprovalLoanAmountResponse {
   averageApprovedLoanAmount: AverageApprovalLoanAmount[]
 }
-type AverageTimeToDecisionResponse = {
+interface AverageTimeToDecisionResponse {
   averageTimeToDecision: LoanApplicationStatisticAverageTimeToDecision[]
 }
-type AggregateApprovalLoanAmountResponse = {
+interface AggregateApprovalLoanAmountResponse {
   totalApprovedLoanAmount: number
   percentRate: number
   averageApprovedLoanSize: number
   averageApprovedLoanSizePercentRate: number
 }
-type AverageApprovalRateResponse = {
+interface AverageApprovalRateResponse {
   averageApprovalRate: number
   percentRate: number
 }
-type AverageApprovedLoanSizeResponse = {
+interface AverageApprovedLoanSizeResponse {
   averageApprovedLoanSize: AverageApprovedLoanSizeStats[]
 }
-type LoanApplicationRatesResponse = {
+interface LoanApplicationRatesResponse {
   incompleteApplicationRate: LoanApplicationRate[]
 }
 
-type RateRequest = {
+interface RateRequest {
   filter: StatsFilter
   loanProgramIds?: string[]
 }
 
-type FrequencyRequest = {
+interface FrequencyRequest {
   filter: StatsFilter
   loanProgramIds?: string[]
   frequency: string
 }
 
-type LoanApplicationRate = {
+interface LoanApplicationRate {
   date: string
   rate: number
 }
-type AverageApprovedLoanSizeStats = {
+interface AverageApprovedLoanSizeStats {
   date: string
   value: Map<string, number>
 }
 
-type LoanApplicationActivities = {
+interface LoanApplicationActivities {
   date: string
   totalApplicationApproved: number
   totalApplicationSubmitted: number
@@ -181,7 +184,7 @@ type LoanApplicationActivities = {
   totalApplicationClosed: number
 }
 
-type AverageApprovalLoanAmount = {
+interface AverageApprovalLoanAmount {
   date: string
   averageApprovedLoanAmount: number
 }
@@ -189,7 +192,7 @@ type AverageApprovalLoanAmount = {
 /**
  * Date form yyyy-MM-dd
  */
-type LoanApplicationStatisticAverageTimeToDecision = {
+interface LoanApplicationStatisticAverageTimeToDecision {
   data: Record<DecisionType, number>
   date: string
 }

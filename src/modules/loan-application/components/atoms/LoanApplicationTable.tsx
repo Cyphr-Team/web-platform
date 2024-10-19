@@ -1,9 +1,9 @@
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
-  Row
+  type Row
 } from "@tanstack/react-table"
 
 import {
@@ -64,8 +64,8 @@ export function LoanApplicationTable<TData, TValue>({
           {table.getRowModel().rows?.length
             ? table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className={cn(!!handleClickDetail && "cursor-pointer")}
                   key={row.id}
+                  className={cn(!!handleClickDetail && "cursor-pointer")}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => handleClickDetail && handleClickDetail(row)}
                 >
@@ -82,8 +82,8 @@ export function LoanApplicationTable<TData, TValue>({
             : !isLoading && (
                 <TableRow>
                   <TableCell
-                    colSpan={columns.length}
                     className="h-24 text-center"
+                    colSpan={columns.length}
                   >
                     No results.
                   </TableCell>
@@ -92,7 +92,7 @@ export function LoanApplicationTable<TData, TValue>({
         </TableBody>
       </Table>
 
-      {isLoading && (
+      {isLoading ? (
         <div className="flex items-center flex-col justify-center w-full mt-4">
           <Loader2
             className={cn(
@@ -101,7 +101,7 @@ export function LoanApplicationTable<TData, TValue>({
           />
           Loading...
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

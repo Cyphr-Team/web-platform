@@ -1,5 +1,5 @@
 import {
-  ILoanApplicationStep,
+  type ILoanApplicationStep,
   LOAN_APPLICATION_STEPS
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
@@ -68,6 +68,7 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isSbb()) {
           return <SbbKycForm />
         }
+
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
         if (isEnablePlaidV2()) {
@@ -76,6 +77,7 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />
         }
+
         return <CashFlowVerificationForm />
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
@@ -131,7 +133,7 @@ export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(
     if (!componentByStep) return null
 
     return (
-      <div className="w-full h-full" ref={ref}>
+      <div ref={ref} className="w-full h-full">
         {componentByStep}
       </div>
     )

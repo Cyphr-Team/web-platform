@@ -3,7 +3,10 @@ import {
   timeRangeOptions
 } from "@/constants/time-range-filter.constants"
 import { AutoCompleteInput } from "@/shared/organisms/form/AutocompleteInput"
-import { TimeRangeFilterValue, TimeRangeValue } from "@/types/time-range.type"
+import {
+  type TimeRangeFilterValue,
+  type TimeRangeValue
+} from "@/types/time-range.type"
 import { getTimeRangeDates } from "@/utils/time-range.utils"
 import { useFormContext } from "react-hook-form"
 
@@ -20,6 +23,7 @@ export function SelectTimeRange({
 
   const onChangeTimeRange = (value: string) => {
     const timeRangeDate = getTimeRangeDates(value as TimeRangeValue)
+
     setValue("timeRange", {
       selectedTimeRange: value,
       from: timeRangeDate.from,
@@ -34,15 +38,15 @@ export function SelectTimeRange({
   return (
     <div className="w-[200px]">
       <AutoCompleteInput
-        label={showLabel ? "Time Range" : undefined}
         control={control}
+        label={showLabel ? "Time Range" : undefined}
         name={name}
         options={
           showExtendedTimeRange ? timeRangeExtendedOptions : timeRangeOptions
         }
-        onChange={onChangeTimeRange}
-        value={value ?? ""}
         placeholder="Select time range.."
+        value={value ?? ""}
+        onChange={onChangeTimeRange}
       />
     </div>
   )

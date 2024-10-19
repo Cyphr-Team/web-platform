@@ -3,11 +3,11 @@ import { APP_PATH } from "@/constants"
 import { Link, createSearchParams } from "react-router-dom"
 import { useActiveEmailSearchParams } from "../hooks/useActiveEmailSearchParams"
 
-export const BackToLoginButton = () => {
+export function BackToLoginButton() {
   const { email } = useActiveEmailSearchParams()
 
   return (
-    <Button className="ml-auto w-full text-base" asChild>
+    <Button asChild className="ml-auto w-full text-base">
       <Link
         to={{
           pathname: APP_PATH.LOGIN,

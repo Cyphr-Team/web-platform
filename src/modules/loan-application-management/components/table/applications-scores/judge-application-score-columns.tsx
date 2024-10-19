@@ -1,13 +1,13 @@
 import { capitalizeWords, snakeCaseToText } from "@/utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 
 import {
   FORMAT_DATE_M_D_Y,
   FORMAT_DATE_M_D_Y_TIME_UPPERCASE
 } from "@/constants/date.constants"
 import { FilterableColumnHeader } from "@/shared/molecules/table/column-filter"
-import { IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
-import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
+import { type IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
+import { type ILaunchKCApplicationScore } from "@/types/application/application-score.type"
 import { format } from "date-fns"
 import { ButtonViewDetailLoanApplication } from "../../atoms/ButtonViewDetailLoanApplication"
 import { ScoredBadgeStatusWithTooltip } from "../../atoms/score/ScoredBadgeStatus"
@@ -29,6 +29,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
     meta: { columnViewName: "ID" },
     cell: ({ row }) => {
       const app = row.original
+
       return (
         <div className="text-center">
           #{app?.application?.applicationIdNumber}
@@ -43,6 +44,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
     meta: { columnViewName: "Company Name" },
     cell: ({ row }) => {
       const app = row.original
+
       return (
         <div className="text-center">
           {app?.application?.businessName ?? "N/A"}
@@ -80,6 +82,7 @@ export const judgeLoanApplicationColumns: ColumnDef<
     },
     cell: ({ row }) => {
       const app = row.original
+
       return (
         <div className="text-center">
           <ScoredBadgeStatusWithTooltip
@@ -98,17 +101,21 @@ export const judgeLoanApplicationColumns: ColumnDef<
     meta: { columnViewName: "Scorecard Score" },
     cell: ({ row }) => {
       const originalScore = row.original.score ?? {}
+
       // if not finish then leave it blank
       if (Object.keys(originalScore).length === 0) {
         return
       }
-      const scoreList = Object.values(originalScore) as number[]
+      const scoreList = Object.values(originalScore)
       const avgScore =
+        // eslint-disable-next-line
+        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         scoreList.reduce((prev, cur) => prev + cur) / scoreList.length
 
       return (
         <div className="text-center">
-          <ScoreBadge score={avgScore} isFinished={true} />
+          <ScoreBadge isFinished score={avgScore} />
         </div>
       )
     },
@@ -157,8 +164,8 @@ export const judgeLoanApplicationColumns: ColumnDef<
     enableHiding: false,
     header: ({ column }) => (
       <FilterableColumnHeader
-        className="float-right pr-4"
         disabled
+        className="float-right pr-4"
         column={column}
         title="Docs"
       />

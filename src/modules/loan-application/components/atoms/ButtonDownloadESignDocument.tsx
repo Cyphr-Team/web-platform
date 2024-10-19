@@ -8,16 +8,16 @@ interface IButtonDownloadESignDocumentProps {
   documentName?: string
 }
 
-export const ButtonDownloadESignDocument = ({
+export function ButtonDownloadESignDocument({
   documentId,
   className,
   documentName,
   id,
   children
-}: React.PropsWithChildren<IButtonDownloadESignDocumentProps>) => {
+}: React.PropsWithChildren<IButtonDownloadESignDocumentProps>) {
   const downloadMutate = useDownloadESignDocument()
   const handleDownloadESignDocument = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.stopPropagation()
 

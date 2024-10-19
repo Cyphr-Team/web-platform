@@ -19,7 +19,7 @@ import { getRandomColor } from "@/modules/loan-application-management/services"
 import { useParams } from "react-router-dom"
 import {
   GRAPH_FREQUENCY,
-  TRANSACTION_TAG
+  type TRANSACTION_TAG
 } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { useState } from "react"
 import { useQueryGetTransactionTags } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/useQueryGetTransactionTags"
@@ -60,11 +60,11 @@ export function SummaryChart() {
   const chartLines = tags.map((tag, index) => (
     <Line
       key={index}
-      yAxisId="left"
-      type="monotone"
       dataKey={`tags.${tag}`}
       name={capitalizeWords(snakeCaseToText(tag))}
       stroke={getRandomColor(index)}
+      type="monotone"
+      yAxisId="left"
     />
   ))
 
@@ -76,12 +76,12 @@ export function SummaryChart() {
           <div className="flex gap-2">
             <TransactionTagsFilters
               tags={tags}
-              onChangeTransactionTags={onChangeTransactionTags}
               onApplyFilter={onApplyFilter}
+              onChangeTransactionTags={onChangeTransactionTags}
             />
             <TimePeriodsSelection
-              onChangeTimePeriod={handleChangeTimePeriod}
               timePeriod={periodFilter}
+              onChangeTimePeriod={handleChangeTimePeriod}
             />
           </div>
         )}
@@ -94,7 +94,7 @@ export function SummaryChart() {
         }
       >
         {transactionTagsQuery.data?.transactionTags.length ? (
-          <ResponsiveContainer width="90%" height={500}>
+          <ResponsiveContainer height={500} width="90%">
             <LineChart
               data={transactionTagsQuery.data?.transactionTags}
               margin={{
@@ -106,20 +106,21 @@ export function SummaryChart() {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
-                dataKey="date"
-                interval={"preserveStartEnd"}
-                tickMargin={20}
-                padding={{ right: 20 }}
                 angle={-45}
+                dataKey="date"
                 fontSize={10}
+                interval="preserveStartEnd"
+                padding={{ right: 20 }}
                 tickFormatter={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                   return value.replace(/-/g, "/")
                 }}
+                tickMargin={20}
               />
               <YAxis
-                yAxisId="left"
-                tickFormatter={(value) => `${toCurrency(value)}`}
                 fontSize={12}
+                tickFormatter={(value) => toCurrency(value)}
+                yAxisId="left"
               />
               <Tooltip
                 formatter={(value) => toCurrency(Number(value))}

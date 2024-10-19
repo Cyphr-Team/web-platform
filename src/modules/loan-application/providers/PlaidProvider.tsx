@@ -1,6 +1,6 @@
-import { Dispatch, ReactNode, useReducer } from "react"
+import { type Dispatch, type PropsWithChildren, useReducer } from "react"
 import { createContext } from "use-context-selector"
-import { PlaidAction, PlaidState } from "../constants"
+import { type PlaidAction, type PlaidState } from "../constants"
 
 const initialState: PlaidState = {
   linkSuccess: false,
@@ -47,7 +47,8 @@ const reducer = (state: PlaidState, action: PlaidAction): PlaidState => {
   }
 }
 
-export const PlaidProvider: React.FC<{ children: ReactNode }> = (props) => {
+export function PlaidProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  return <Provider value={{ ...state, dispatch }}>{props.children}</Provider>
+
+  return <Provider value={{ ...state, dispatch }}>{children}</Provider>
 }

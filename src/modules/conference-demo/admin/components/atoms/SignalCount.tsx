@@ -1,6 +1,6 @@
 import { CheckIcon } from "lucide-react"
 
-type SignalCountProps = {
+interface SignalCountProps {
   signalCount: number
 }
 const SignalCount: React.FC<SignalCountProps> = ({ signalCount }) => {
@@ -11,6 +11,7 @@ const SignalCount: React.FC<SignalCountProps> = ({ signalCount }) => {
       </div>
     )
   }
+
   return (
     <p className="rounded-full bg-gray-400 text-white p-2 h-8 w-8 cursor-default">
       <CheckIcon className="h-4 w-4" />

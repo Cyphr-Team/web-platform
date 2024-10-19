@@ -12,6 +12,7 @@ export const useLoanProgramDetailContext = (type?: LoanType) => {
   const microLoanProgramDetailContext = useContext(
     MicroLoanProgramDetailContext
   )
+
   switch (type) {
     case LoanType.MICRO:
       return microLoanProgramDetailContext
@@ -30,6 +31,7 @@ export const useBRLoanApplicationDetailsContext = (type?: LoanType) => {
   const microLoanBrLoanApplicationDetailsContext = useContext(
     MicroLoanBRLoanApplicationDetailsContext
   )
+
   switch (type) {
     case LoanType.MICRO:
       return microLoanBrLoanApplicationDetailsContext

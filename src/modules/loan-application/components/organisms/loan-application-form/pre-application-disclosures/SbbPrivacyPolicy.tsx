@@ -2,14 +2,14 @@ import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import pdfFileIcon from "@/assets/pdf-file.svg"
-import { PropsWithChildren, ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 import { useForm } from "react-hook-form"
 import { RHFCheckbox } from "@/modules/form-template/components/molecules"
 import { Button } from "@/components/ui/button.tsx"
 import {
   SBB_PRE_APPLICATION_DISCLOSURES,
   sbbPreApplicationDisclosuresSchema,
-  SbbPreApplicationDisclosuresValue
+  type SbbPreApplicationDisclosuresValue
 } from "./const"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -24,7 +24,7 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 const PRIVACY_POLICY_URL =
   "https://www.smallbusinessbank.com/wp-content/uploads/2019/07/Privacy-Notice-022018.pdf"
 
-const SbbPrivacyPolicy = () => {
+function SbbPrivacyPolicy() {
   const { dispatchFormAction, privacyPolicy } = useLoanApplicationFormContext()
   const { finishCurrentStep } = useLoanApplicationProgressContext()
   const form = useForm<SbbPreApplicationDisclosuresValue>({
@@ -68,12 +68,12 @@ const SbbPrivacyPolicy = () => {
       <QuestionAndCall />
 
       <Card className="p-xl gap-2xl flex shadow-none items-center">
-        <img src={pdfFileIcon} className="w-6 h-6" alt="file" />
+        <img alt="file" className="w-6 h-6" src={pdfFileIcon} />
         <div className="text-sm flex items-center h-full">
           SBB Privacy Notice.pdf
         </div>
-        <Button type="button" className="ml-auto">
-          <a href={PRIVACY_POLICY_URL} target="_blank" rel="noreferrer">
+        <Button className="ml-auto" type="button">
+          <a href={PRIVACY_POLICY_URL} rel="noreferrer" target="_blank">
             Download now
           </a>
         </Button>
@@ -82,8 +82,8 @@ const SbbPrivacyPolicy = () => {
         <div className="flex flex-col gap-2xl">
           <RHFCheckbox
             control={form.control}
-            name={SBB_PRE_APPLICATION_DISCLOSURES.PRIVACY_POLICY}
             label="I acknowledge receipt of Small Business Bank’s Privacy Policy."
+            name={SBB_PRE_APPLICATION_DISCLOSURES.PRIVACY_POLICY}
             styleProps={{
               checkboxClassName: "w-5 h-5",
               labelClassName: "text-xs text-primary"
@@ -105,7 +105,7 @@ const SbbPrivacyPolicy = () => {
 
 export default SbbPrivacyPolicy
 
-const WhyWhatHow = () => {
+function WhyWhatHow() {
   return (
     <section>
       <div className="grid grid-cols-12 items-center text-sm">
@@ -152,7 +152,7 @@ const WhyWhatHow = () => {
   )
 }
 
-const TableInformation = () => {
+function TableInformation() {
   return (
     <section>
       <Row
@@ -212,8 +212,8 @@ const TableInformation = () => {
       <Row isHeader data={["What we do"]} variant="one" />
       <Row variant="two">
         <Cell
-          value="How does Small Business Bank protect my personal information?"
           className="font-medium"
+          value="How does Small Business Bank protect my personal information?"
         />
         <Cell
           className="col-span-6 border-l"
@@ -236,8 +236,8 @@ const TableInformation = () => {
       </Row>
       <Row variant="two">
         <Cell
-          value="How does Small Business Bank collect my personal information?"
           className="font-medium"
+          value="How does Small Business Bank collect my personal information?"
         />
         <Cell
           className="col-span-6 border-l"
@@ -258,7 +258,7 @@ const TableInformation = () => {
         />
       </Row>
       <Row variant="two">
-        <Cell value="Why can’t I limit all sharing?" className="font-medium" />
+        <Cell className="font-medium" value="Why can’t I limit all sharing?" />
         <Cell
           className="col-span-6 border-l"
           value={
@@ -278,9 +278,9 @@ const TableInformation = () => {
           }
         />
       </Row>
-      <Row variant="one" isHeader data={["Definitions"]} />
+      <Row isHeader data={["Definitions"]} variant="one" />
       <Row variant="two">
-        <Cell value="Affiliates" className="font-medium" />
+        <Cell className="font-medium" value="Affiliates" />
         <Cell
           className="col-span-6 border-l"
           value={
@@ -298,7 +298,7 @@ const TableInformation = () => {
         />
       </Row>
       <Row variant="two">
-        <Cell value="Nonaffiliates" className="font-medium" />
+        <Cell className="font-medium" value="Nonaffiliates" />
         <Cell
           className="col-span-6 border-l"
           value={
@@ -315,8 +315,8 @@ const TableInformation = () => {
           }
         />
       </Row>
-      <Row variant="two" isFinal>
-        <Cell value="Joint marketing" className="font-medium" />
+      <Row isFinal variant="two">
+        <Cell className="font-medium" value="Joint marketing" />
         <Cell
           className="col-span-6 border-l"
           value={
@@ -334,7 +334,7 @@ const TableInformation = () => {
   )
 }
 
-const QuestionAndCall = () => {
+function QuestionAndCall() {
   return (
     <section>
       <div className="flex flex-row px-3 py-2 gap-xl bg-[#EAECF0] text-sm">
@@ -353,7 +353,7 @@ interface RowProps extends PropsWithChildren {
   className?: string
 }
 
-const Row = (props: RowProps) => {
+function Row(props: RowProps) {
   const {
     data = [],
     isHeader = false,
@@ -368,15 +368,15 @@ const Row = (props: RowProps) => {
   )
   const renderTwo = variant === "two" && (
     <>
-      <Cell value={data.at(0)} className="col-span-4" />
-      <Cell value={data.at(1)} className="col-span-6" />
+      <Cell className="col-span-4" value={data.at(0)} />
+      <Cell className="col-span-6" value={data.at(1)} />
     </>
   )
   const renderThree = variant === "three" && (
     <>
-      <Cell value={data.at(0)} className="font-medium" />
-      <Cell value={data.at(1)} className="border-x col-span-3" />
-      <Cell value={data.at(2)} className="col-span-3" />
+      <Cell className="font-medium" value={data.at(0)} />
+      <Cell className="border-x col-span-3" value={data.at(1)} />
+      <Cell className="col-span-3" value={data.at(2)} />
     </>
   )
 
@@ -389,7 +389,7 @@ const Row = (props: RowProps) => {
         className
       )}
     >
-      {children && children}
+      {children ? children : null}
       {!children && renderOne}
       {!children && renderTwo}
       {!children && renderThree}
@@ -402,7 +402,7 @@ interface CellProps {
   className?: string
 }
 
-const Cell = ({ value, className }: CellProps) => {
+function Cell({ value, className }: CellProps) {
   return (
     <div className={cn("col-span-4 p-3 flex items-center h-full", className)}>
       {value}

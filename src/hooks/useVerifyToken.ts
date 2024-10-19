@@ -8,5 +8,6 @@ import { getSubdomain } from "@/utils/domain.utils"
 export const useVerifyToken = (): boolean => {
   const token = inMemoryJWTService.getToken()
   const parseToken = parseJwt(token ?? "")
+
   return parseToken?.institution_subdomain === getSubdomain()
 }

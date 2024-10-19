@@ -1,11 +1,11 @@
 import {
-  ComponentFuncWithParams,
-  MessageFuncWithoutParams,
-  MessageFuncWithParams,
-  OptionsFuncWithParams,
-  OptionsPromiseFuncWithParams
+  type ComponentFuncWithParams,
+  type MessageFuncWithoutParams,
+  type MessageFuncWithParams,
+  type OptionsFuncWithParams,
+  type OptionsPromiseFuncWithParams
 } from "@/modules/chat-support/constants/type"
-import { Block } from "react-chatbotify"
+import { type Block } from "react-chatbotify"
 
 const OVERALL_STEPS = {
   START: "start",
@@ -36,7 +36,7 @@ const CHAT_STEPS = {
 }
 
 export class FlowBuilder {
-  private flow: { [key: string]: Block } = {}
+  private flow: Record<string, Block> = {}
 
   public start(message: string, path: string) {
     this.flow[OVERALL_STEPS.START] = {
@@ -44,6 +44,7 @@ export class FlowBuilder {
       transition: { duration: 1000 },
       path
     }
+
     return this
   }
 
@@ -53,6 +54,7 @@ export class FlowBuilder {
       transition: { duration: 1000 },
       path
     }
+
     return this
   }
 
@@ -62,6 +64,7 @@ export class FlowBuilder {
       transition: { duration: 1000 },
       path
     }
+
     return this
   }
 
@@ -70,6 +73,7 @@ export class FlowBuilder {
       message,
       path
     }
+
     return this
   }
 
@@ -78,6 +82,7 @@ export class FlowBuilder {
       transition: { duration: 1000 },
       path
     }
+
     return this
   }
 
@@ -87,6 +92,7 @@ export class FlowBuilder {
       options,
       path
     }
+
     return this
   }
 
@@ -100,6 +106,7 @@ export class FlowBuilder {
       path,
       options
     }
+
     return this
   }
 
@@ -115,6 +122,7 @@ export class FlowBuilder {
       options,
       component
     }
+
     return this
   }
 
@@ -128,6 +136,7 @@ export class FlowBuilder {
       path,
       options
     }
+
     return this
   }
 
@@ -141,6 +150,7 @@ export class FlowBuilder {
       path,
       options
     }
+
     return this
   }
 
@@ -154,6 +164,7 @@ export class FlowBuilder {
       path,
       options: themes
     }
+
     return this
   }
 
@@ -167,6 +178,7 @@ export class FlowBuilder {
       path,
       options: questions
     }
+
     return this
   }
 

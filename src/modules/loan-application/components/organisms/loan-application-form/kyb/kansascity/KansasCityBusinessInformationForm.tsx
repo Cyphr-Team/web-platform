@@ -6,7 +6,7 @@ import {
 } from "@/modules/form-template/components/molecules"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
-  KansasCityBusinessFormValue,
+  type KansasCityBusinessFormValue,
   kansasCityBusinessFormSchema
 } from "../../../../../constants/form"
 import {
@@ -46,14 +46,15 @@ const enum FIELD_NAMES {
   TEN_NINETY_NINE_CONTRACTOR_OR_OTHER = "tenNinetyNineContractorOrOther"
 }
 
-export const KansasCityBusinessInformationForm = () => {
+export function KansasCityBusinessInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { businessInformation, dispatchFormAction } =
     useLoanApplicationFormContext()
   const kansasCityBusinessInformation =
     businessInformation as KansasCityBusinessFormValue
 
-  const defaultValues: { [key: string]: string } = {}
+  const defaultValues: Record<string, string> = {}
+
   Object.keys(kansasCityBusinessFormSchema.shape).forEach((fieldName) => {
     defaultValues[fieldName] = lodash.get(
       kansasCityBusinessInformation,
@@ -78,9 +79,11 @@ export const KansasCityBusinessInformationForm = () => {
     })
     finishCurrentStep()
   }
+
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
@@ -111,80 +114,80 @@ export const KansasCityBusinessInformationForm = () => {
       <Form {...form}>
         <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
           <TextInput
-            placeholder="i.e: Larry's Latte"
-            label="Business legal name"
-            control={form.control}
-            name={FIELD_NAMES.BUSINESS_LEGAL_NAME}
             className="col-span-7"
+            control={form.control}
+            label="Business legal name"
+            name={FIELD_NAMES.BUSINESS_LEGAL_NAME}
+            placeholder="i.e: Larry's Latte"
           />
           <TextInput
-            placeholder="i.e: Larry’s Latte LLC"
-            label="DBA (If applicable)"
-            control={form.control}
-            name={FIELD_NAMES.DBA}
             className="col-span-5"
-          />
-          <TextInput
+            control={form.control}
+            label="DBA (If applicable)"
+            name={FIELD_NAMES.DBA}
             placeholder="i.e: Larry’s Latte LLC"
+          />
+          <TextInput
+            className="col-span-12"
+            control={form.control}
             label="Other related business entities (If applicable)"
-            control={form.control}
             name={FIELD_NAMES.OTHER_RELATED_BUSINESS}
-            className="col-span-12"
+            placeholder="i.e: Larry’s Latte LLC"
           />
           <TextInput
-            placeholder="Start typing your address"
+            className="col-span-12"
+            control={form.control}
             label="Business street address"
-            control={form.control}
             name={FIELD_NAMES.ADDRESS_LINE1}
-            className="col-span-12"
-          />
-          <TextInput
             placeholder="Start typing your address"
-            label="Business mailing address (If different)"
-            control={form.control}
-            name={FIELD_NAMES.ADDRESS_LINE2}
-            className="col-span-12"
           />
           <TextInput
-            placeholder=""
-            label="List any individuals/entities who own 20% or more of the business"
-            control={form.control}
-            name={FIELD_NAMES.ANY_OTHER_OWNER_OVER_20_PERCENTAGE}
             className="col-span-12"
+            control={form.control}
+            label="Business mailing address (If different)"
+            name={FIELD_NAMES.ADDRESS_LINE2}
+            placeholder="Start typing your address"
+          />
+          <TextInput
+            className="col-span-12"
+            control={form.control}
+            label="List any individuals/entities who own 20% or more of the business"
+            name={FIELD_NAMES.ANY_OTHER_OWNER_OVER_20_PERCENTAGE}
+            placeholder=""
           />
           <RHFMaskInput
+            className="col-span-12 lg:col-span-12"
             label="EIN"
             name={FIELD_NAMES.BUSINESS_TIN}
             pattern={EIN_PATTERN}
             placeholder="i.e: 12-3456789"
-            className="col-span-12 lg:col-span-12"
             styleProps={{
               labelClassName: "text-text-secondary",
               inputClassName: "text-base"
             }}
           />
           <SelectInput
-            label="Type of business"
-            placeholder="Please Select"
-            control={form.control}
-            name={FIELD_NAMES.TYPE_OF_BUSINESS}
             className="col-span-6"
+            control={form.control}
             inputClassName="xl:ml-0 xl:max-w-80"
+            label="Type of business"
+            name={FIELD_NAMES.TYPE_OF_BUSINESS}
             options={TYPE_OF_BUSINESS_OPTIONS}
+            placeholder="Please Select"
           />
           <TextInput
-            placeholder="i.e. larrylatte.com"
+            className="col-span-6"
+            control={form.control}
             label="Website"
             name={FIELD_NAMES.BUSINESS_WEBSITE}
-            control={form.control}
-            className="col-span-6"
+            placeholder="i.e. larrylatte.com"
           />
           <RHFMaskInput
+            className="col-span-6"
             label="Year founded"
             name={FIELD_NAMES.YEAR_FOUNDED}
             pattern={MM_YYYY_PATTERN}
             placeholder="MM/YYYY"
-            className="col-span-6"
             styleProps={{
               labelClassName: "text-text-secondary",
               inputClassName: "text-base"
@@ -192,10 +195,10 @@ export const KansasCityBusinessInformationForm = () => {
           />
 
           <RHFNumberInput
-            name={FIELD_NAMES.NUMBER_OF_FULL_TIME_EMPLOYEE}
-            label="Current number of full-time employees"
-            placeholder="i.e: 3"
             className="col-span-6 lg:col-span-6"
+            label="Current number of full-time employees"
+            name={FIELD_NAMES.NUMBER_OF_FULL_TIME_EMPLOYEE}
+            placeholder="i.e: 3"
             styleProps={{
               labelClassName: "text-text-secondary",
               inputClassName: "text-base input-number-remove-arrow"
@@ -204,27 +207,27 @@ export const KansasCityBusinessInformationForm = () => {
           />
 
           <TextInput
-            placeholder="i.e: 2"
+            className="col-span-6"
+            control={form.control}
             label="Current number of part-time employees"
             name={FIELD_NAMES.NUMBER_OF_PART_TIME_EMPLOYEE}
-            control={form.control}
-            className="col-span-6"
+            placeholder="i.e: 2"
           />
 
           <TextInput
-            placeholder="i.e: 1"
+            className="col-span-6"
+            control={form.control}
             label="1099 contractors or other (Explain)"
             name={FIELD_NAMES.TEN_NINETY_NINE_CONTRACTOR_OR_OTHER}
-            control={form.control}
-            className="col-span-6"
+            placeholder="i.e: 1"
           />
         </form>
       </Form>
 
       {!isReviewApplicationStep(step) && (
         <FormSubmitButton
-          onSubmit={form.handleSubmit(onSubmit)}
           isDisabled={!form.formState.isValid}
+          onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
     </Card>

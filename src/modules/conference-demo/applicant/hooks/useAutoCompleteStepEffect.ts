@@ -2,7 +2,7 @@ import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData"
 import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress"
 import { useCallback, useEffect } from "react"
-import { UseFormReturn } from "react-hook-form"
+import { type UseFormReturn } from "react-hook-form"
 
 export const useAutoCompleteStepEffect = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

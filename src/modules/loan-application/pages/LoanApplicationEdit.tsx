@@ -15,7 +15,7 @@ import { isEnableChatSupport } from "@/utils/feature-flag.utils"
 import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
 import { isCyphrBank } from "@/utils/domain.utils"
 
-export const Component = () => {
+export function Component() {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
   const { step, percentComplete } = useLoanApplicationProgressContext()
   const { isSubmitting } = useLoanApplicationFormContext()
@@ -25,6 +25,7 @@ export const Component = () => {
    * Implement scroll to top when navigate step
    */
   const containerRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
     if (!containerRef.current) return
     containerRef.current.scrollTop = 0
@@ -34,16 +35,16 @@ export const Component = () => {
     <>
       <ApplicationDetailsHeader />
       <Progress
-        value={percentComplete}
         className="h-2 rounded-none bg-background-disabled overflow-visible z-30 relative"
         indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
+        value={percentComplete}
       />
 
-      {isFetchingDetails && (
+      {isFetchingDetails ? (
         <div className="w-full h-full flex justify-center items-center">
           <Loader2 className="m-2 h-8 w-8 transition-all ease-out animate-spin text-primary" />
         </div>
-      )}
+      ) : null}
       <LoanProgramDetailProvider>
         <div
           ref={containerRef}

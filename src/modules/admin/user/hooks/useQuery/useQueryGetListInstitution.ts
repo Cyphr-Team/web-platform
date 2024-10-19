@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/notification/constants"
 import { getRequest } from "@/services/client.service"
-import { ErrorResponse, ListResponse } from "@/types/common.type"
-import { Institution } from "@/types/institution.type"
+import { type ErrorResponse, type ListResponse } from "@/types/common.type"
+import { type Institution } from "@/types/institution.type"
 import { useQuery } from "@tanstack/react-query"
 
 type ListInstitution = ListResponse<Institution>

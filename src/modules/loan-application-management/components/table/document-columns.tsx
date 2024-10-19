@@ -6,9 +6,9 @@ import { FeatureKey } from "@/hooks/useCanAccess"
 import { ButtonDownloadESignDocument } from "@/modules/loan-application/components/atoms/ButtonDownloadESignDocument"
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { LoanDocument } from "@/types/loan-document.type"
+import { type LoanDocument } from "@/types/loan-document.type"
 import { snakeCaseToText } from "@/utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { ArrowRight, FileDown } from "lucide-react"
 import { DocumentType } from "../../constants/types/document"
@@ -38,11 +38,11 @@ export const columns: ColumnDef<LoanDocument>[] = [
           </div>
           <div className="min-w-0">
             <p className="truncate">{document.name}</p>
-            {document.fileSize && (
+            {document.fileSize ? (
               <p className="text-sm text-muted-foreground mt-0.5 truncate ">
                 {document.fileSize} KB
               </p>
-            )}
+            ) : null}
           </div>
         </div>
       )
@@ -87,20 +87,21 @@ export const columns: ColumnDef<LoanDocument>[] = [
     accessorFn: (row) => row.authenticityScoreStatus.score,
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-right"
         column={column}
         title="Authenticity Score"
-        className="text-right"
       />
     ),
     size: 100,
     enableSorting: false,
     cell: ({ row }) => {
       const document = row.original
+
       return (
         <div className="flex content-end items-end justify-end pr-0">
           <BadgeAuthenticityScore
-            status={document?.authenticityScoreStatus.status}
             score={document?.authenticityScoreStatus.score}
+            status={document?.authenticityScoreStatus.status}
           />
         </div>
       )
@@ -117,8 +118,8 @@ export const columns: ColumnDef<LoanDocument>[] = [
       const downloadButton =
         type.toLowerCase() === DocumentType.E_SIGN ? (
           <ButtonDownloadESignDocument
-            id={document.id}
             documentName={document.name}
+            id={document.id}
           >
             <div className="flex items-center">
               <FileDown className="w-6 h-6 p-0.5" />
@@ -137,7 +138,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
             {downloadButton}
           </FeatureRenderer>
 
-          <Button variant="ghost" size="icon">
+          <Button size="icon" variant="ghost">
             <ArrowRight className="w-5 h-5" />
           </Button>
         </div>

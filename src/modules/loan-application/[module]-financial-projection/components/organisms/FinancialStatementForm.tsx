@@ -25,16 +25,16 @@ import { Separator } from "@/components/ui/separator.tsx"
 import {
   FinancialStatementFormField,
   financialStatementFormSchema,
-  FinancialStatementFormValue
+  type FinancialStatementFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 
 interface FinancialStatementFormProps {
   wrapperClassName?: string
 }
 
-export const FinancialStatementForm = ({
+export function FinancialStatementForm({
   wrapperClassName
-}: FinancialStatementFormProps) => {
+}: FinancialStatementFormProps) {
   const { step } = useLoanApplicationProgressContext()
   const { finishCurrentStep } = useLoanApplicationProgressContext()
   const { financialStatements, dispatchFormAction } =
@@ -72,6 +72,7 @@ export const FinancialStatementForm = ({
     const currentUploadedFiles = watch(
       FinancialStatementFormField.uploadedFiles
     ).filter((file) => file.id !== id)
+
     form.setValue(
       FinancialStatementFormField.uploadedFiles,
       currentUploadedFiles,
@@ -85,6 +86,7 @@ export const FinancialStatementForm = ({
       id,
       ...watch(FinancialStatementFormField.deletedFiles)
     ]
+
     form.setValue(FinancialStatementFormField.deletedFiles, currentDeletedIds, {
       shouldValidate: true,
       shouldDirty: true,
@@ -128,16 +130,16 @@ export const FinancialStatementForm = ({
             <Separator />
 
             <RHFSelectInput
+              isRowDirection
+              label="Do you currently have financial statements?"
               name={FinancialStatementFormField.hasDocument}
               options={YES_NO_OPTIONS}
-              label="Do you currently have financial statements?"
-              subtitle="Income statement (profit and loss), balance sheet, and/or cash flow statement"
-              isRowDirection
               styleProps={{
                 inputClassName: "text-sm max-w-40",
                 labelClassName: "text-text-primary",
                 subtitleClassName: "text-xs font-normal"
               }}
+              subtitle="Income statement (profit and loss), balance sheet, and/or cash flow statement"
             />
 
             {watch(FinancialStatementFormField.hasDocument) ===

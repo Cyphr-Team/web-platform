@@ -1,32 +1,35 @@
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
-import jsPDF from "jspdf"
+import type jsPDF from "jspdf"
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import * as z from "zod"
 import { REGEX_PATTERN } from "."
 import {
-  SbbKybFormPartOneValue,
-  SbbKybFormPartTwoValue
+  type SbbKybFormPartOneValue,
+  type SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
-import { SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
-import { DocumentUploadedResponse, PlaidItemInfo } from "./type"
+import { type SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
+import { type DocumentUploadedResponse, type PlaidItemInfo } from "./type"
 import { LoanReadyKYCFieldName } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
 export const ZodFileTypeFactory = (
   acceptedFileTypes: string[] = ACCEPTED_FILE_TYPES,
-  message: string = "Please choose PNG, JPG, PDF format files only"
+  message = "Please choose PNG, JPG, PDF format files only"
 ) => {
   return z.custom<File[]>().refine(
     (files) => {
       if (files?.length) {
         let checkResult = true
+
         // assert all file type
         files.forEach((file) => {
           checkResult = checkResult && acceptedFileTypes.includes(file.type)
         })
+
         return files && checkResult
       }
+
       return true
     },
     {
@@ -69,8 +72,10 @@ export const ownerFormSchema = z.object({
     (fileList) => {
       if (fileList?.length) {
         const fileArray = Array.from(fileList)
+
         return ACCEPTED_FILE_TYPES.includes(fileArray[0].type)
       }
+
       return true
     },
     {
@@ -145,6 +150,7 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
       (value) => {
         const inputYear = parseInt(value)
         const currentYear = new Date().getFullYear()
+
         return 1900 < inputYear && inputYear <= currentYear
       },
       { message: "Invalid year" }
@@ -192,6 +198,7 @@ export const financialFormSchema = z.object({
       if (file?.length) {
         return file && ACCEPTED_FILE_TYPES.includes(file[0]?.type)
       }
+
       return true
     },
     {
@@ -343,6 +350,7 @@ export const reviewApplicationSchema = z.object({
 })
 
 export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
+
 export type FinancialProjectionReviewApplicationValue = z.infer<
   typeof reviewApplicationSchema
 >
@@ -364,6 +372,7 @@ export const assigningJudgeFormSchema = z.object({
     label: z.string().min(1, "User email is required")
   })
 })
+
 export const preQualificationSchema = z.object({
   applicationId: z.string().nullable(),
   isCompanyBasedInUs: z.boolean(),
@@ -451,6 +460,7 @@ export const documentUploadsFormSchema = z.object({
       if (file?.length) {
         return file && ACCEPTED_FILE_TYPES.includes(file[0]?.type)
       }
+
       return true
     },
     {
@@ -462,6 +472,7 @@ export const documentUploadsFormSchema = z.object({
       if (file?.length) {
         return file && ACCEPTED_FILE_TYPES.includes(file[0]?.type)
       }
+
       return true
     },
     {
@@ -556,6 +567,7 @@ export type OperatingExpensesFormValue = z.infer<
 export type CashFlowFormValue = z.infer<typeof cashFlowSchema>
 
 export type AssigningJudgeFormValue = z.infer<typeof assigningJudgeFormSchema>
+
 export type PreQualificationFormValue = z.infer<typeof preQualificationSchema>
 
 export type ProductServiceFormValue = z.infer<typeof productServiceFormSchema>

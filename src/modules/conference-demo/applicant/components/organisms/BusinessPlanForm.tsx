@@ -1,4 +1,4 @@
-import { FieldValues, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -50,13 +50,13 @@ const businessPlanRequestFormSchema = z.object({
   ).optional()
 })
 
-const BusinessPlanForm = () => {
+function BusinessPlanForm() {
   const { goToStep, finishStep } = useProgress.use.action()
   const data = useFormData.use["Business Plan"]()
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
 
-  const method = useForm<FieldValues>({
+  const method = useForm({
     resolver: zodResolver(businessPlanRequestFormSchema),
     mode: "onBlur",
     defaultValues: data
@@ -105,58 +105,58 @@ const BusinessPlanForm = () => {
               <div className="flex-1">
                 <RHFSelectInput
                   className="flex items-center justify-between"
+                  label="Do you have a business plan?"
+                  name="businessPlan"
+                  options={YES_NO_OPTIONS}
                   styleProps={{
                     inputClassName:
                       "w-36 min-w-36 md:max-w-36 xl:max-w-36 xl:w-36"
                   }}
-                  name="businessPlan"
-                  label="Do you have a business plan?"
-                  options={YES_NO_OPTIONS}
                 />
                 <div className="mt-6">
                   <RHFDragAndDropFileUpload
-                    name="files"
                     id={STEP.BUSINESS_PLAN}
+                    name="files"
                   />
                 </div>
                 <div className="font-semibold text-sm mt-4">
                   Please answer the following questions
                 </div>
                 <RHFTextInput
+                  className="mt-6 space-y-2"
+                  label="How would you describe your business? Explain to a potential customer what you provide. Please Note: This response may be used in printed materials and/or press releases as needed."
                   name="businessDescription"
                   placeholder=""
-                  label="How would you describe your business? Explain to a potential customer what you provide. Please Note: This response may be used in printed materials and/or press releases as needed."
-                  className="mt-6 space-y-2"
                 />
                 <RHFTextInput
+                  className="mt-6 space-y-2"
+                  label="What is the social impact of growing your business and how will it change the way you lead the company? Please Note: This response may be used in printed materials and/or press releases as needed."
                   name="socialImpact"
                   placeholder=""
-                  label="What is the social impact of growing your business and how will it change the way you lead the company? Please Note: This response may be used in printed materials and/or press releases as needed."
-                  className="mt-6 space-y-2"
                 />
                 <RHFTextInput
+                  className="mt-6 space-y-2"
+                  label="Have you received any grants, loans, or COVID-19 relief in the past 3 years? If yes, describe what type and their impact."
                   name="grantsInThreeYears"
                   placeholder=""
-                  label="Have you received any grants, loans, or COVID-19 relief in the past 3 years? If yes, describe what type and their impact."
-                  className="mt-6 space-y-2"
                 />
                 <RHFTextInput
+                  className="mt-6 space-y-2"
+                  label="What is your revenue goal over the next two to three years? What existing or new products and/or services do you plan to offer over the next two to three years to achieve your goal?"
                   name="revenueGoal"
                   placeholder=""
-                  label="What is your revenue goal over the next two to three years? What existing or new products and/or services do you plan to offer over the next two to three years to achieve your goal?"
-                  className="mt-6 space-y-2"
                 />
                 <RHFTextInput
+                  className="mt-6 space-y-2"
+                  label="Describe the market potential for growing your business to the next stage. Include your target customers, market size, competition, environmental influences, market barriers, how you differentiate your business in the market, and industry opportunities as applicable."
                   name="marketPotential"
                   placeholder=""
-                  label="Describe the market potential for growing your business to the next stage. Include your target customers, market size, competition, environmental influences, market barriers, how you differentiate your business in the market, and industry opportunities as applicable."
-                  className="mt-6 space-y-2"
                 />
                 <RHFTextInput
+                  className="mt-6 space-y-2"
+                  label="Provide a brief overview of your business plan, including your long-term goals and objectives. How do you plan to use the loan funds to achieve your objectives?  Please upload any additional documentation or marketing materials that may be applicable."
                   name="briefOverview"
                   placeholder=""
-                  label="Provide a brief overview of your business plan, including your long-term goals and objectives. How do you plan to use the loan funds to achieve your objectives?  Please upload any additional documentation or marketing materials that may be applicable."
-                  className="mt-6 space-y-2"
                   styleProps={{
                     labelClassName: "font-medium"
                   }}
@@ -167,9 +167,9 @@ const BusinessPlanForm = () => {
 
           {!isReviewApplicationStep && (
             <Button
-              type="submit"
               className="w-full mt-5"
               disabled={!method.formState.isValid}
+              type="submit"
             >
               Next
             </Button>

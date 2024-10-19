@@ -4,14 +4,15 @@ import { AccountBalanceChart } from "../../molecules/cashflow/chart/AccountBalan
 import { Card } from "@/components/ui/card"
 import { SummaryChart } from "../../molecules/cashflow/chart/SummaryChart"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { CashFlowGlanceType } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { type CashFlowGlanceType } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { NoData } from "../../atoms/NoData"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { RevenueAndExpenseChart } from "../../molecules/cashflow/chart/RevenueAndExpenseChart"
 
-export const CashFlowGlance = () => {
+export function CashFlowGlance() {
   const { cashFlowAnalysis, isFetchingCashflow } =
     useLoanApplicationDetailContext()
+
   return (
     <div className="mt-4">
       <Card className="p-4 gap-4 min-h-40">
@@ -24,15 +25,15 @@ export const CashFlowGlance = () => {
               {CASH_FLOW_GLANCE.map((item, index) => (
                 <CashFlowGlanceItem
                   key={index}
-                  title={item.title}
                   description={item.description}
+                  isCurrency={item.isCurrency}
+                  isNegative={item.isNegative}
+                  title={item.title}
                   value={
                     cashFlowAnalysis?.cashFlowGlance[
                       item.key as keyof CashFlowGlanceType
                     ]
                   }
-                  isNegative={item.isNegative}
-                  isCurrency={item.isCurrency}
                 />
               ))}
             </div>

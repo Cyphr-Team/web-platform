@@ -17,7 +17,7 @@ import { NoData } from "../../../atoms/NoData"
 import { TimePeriodsSelection } from "../../../molecules/filters/TimePeriodsSelection"
 import { useParams } from "react-router-dom"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { NoiTotalDebtPaymentGraphType } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
+import { type NoiTotalDebtPaymentGraphType } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
 import { useQueryGetNoiTotalDebtPaymentGraph } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/v2/useQueryGetCashFlowNoiTotalDebtPaymentGraph"
 
 export function NoiAndTotalDebtPaymentsChart() {
@@ -50,14 +50,14 @@ export function NoiAndTotalDebtPaymentsChart() {
         <h3 className="text-xl font-medium">NOI vs Debt Payments</h3>
         {!!noiTotalDebtPaymentData.length && (
           <TimePeriodsSelection
-            onChangeTimePeriod={handleChangeTimePeriod}
             timePeriod={periodFilter}
+            onChangeTimePeriod={handleChangeTimePeriod}
           />
         )}
       </div>
       <LoadingWrapper isLoading={isFetching}>
         {noiTotalDebtPaymentData.length ? (
-          <ResponsiveContainer width="90%" height={500}>
+          <ResponsiveContainer height={500} width="90%">
             <BarChart
               data={noiTotalDebtPaymentData}
               margin={{
@@ -70,46 +70,47 @@ export function NoiAndTotalDebtPaymentsChart() {
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip
                 cursor={{ fill: "transparent" }}
-                wrapperClassName="text-sm"
                 formatter={(value) =>
                   Number(value) < 0
                     ? `-${Math.abs(Number(value))}`
                     : Number(value)
                 }
+                wrapperClassName="text-sm"
               />
               <Bar
-                name="NOI"
                 dataKey="tags.noi"
                 fill="#0088FE"
+                name="NOI"
                 yAxisId="left"
               />
               <Bar
-                name="Total Debt Payments"
                 dataKey="tags.totalDebtPayment"
                 fill="#FFBB28"
+                name="Total Debt Payments"
                 yAxisId="left"
               />
 
               <XAxis
-                dataKey="date"
-                interval={"preserveStartEnd"}
-                tickMargin={20}
-                padding={{ right: 20 }}
                 angle={-45}
+                dataKey="date"
                 fontSize={10}
+                interval="preserveStartEnd"
+                padding={{ right: 20 }}
                 tickFormatter={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                   return value.replace(/-/g, "/")
                 }}
+                tickMargin={20}
               />
               <YAxis
-                yAxisId="left"
-                tickFormatter={(value) => `${toCurrency(value)}`}
                 fontSize={12}
+                tickFormatter={(value) => toCurrency(value)}
+                yAxisId="left"
               />
               <Tooltip
+                cursor={{ fill: "transparent" }}
                 formatter={(value) => toCurrency(Number(value))}
                 wrapperClassName="text-sm"
-                cursor={{ fill: "transparent" }}
               />
               <Legend wrapperStyle={{ paddingTop: 20 }} />
             </BarChart>

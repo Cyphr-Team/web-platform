@@ -5,28 +5,28 @@ import { MiddeskCard } from "@/modules/loan-application/components/molecules/mid
 import { DateHeader } from "@/modules/conference-demo/admin/components/atoms/DateHeader"
 import { NotFoundAlert } from "@/modules/loan-application/components/molecules/NotFoundAlert"
 
-export const Bankruptcy = () => {
+export function Bankruptcy() {
   const bankruptcy = MOCK_KYB_DETAIL.businessBankruptcies
   const status = MOCK_KYB_DETAIL.insights.bankruptcies?.status
 
-  const badge = <MiddeskBadge status={status} label={bankruptcy?.subLabel} />
+  const badge = <MiddeskBadge label={bankruptcy?.subLabel} status={status} />
   const headerTitle = <>Bankruptcies {badge}</>
 
   const content = (
     <>
       {/* <BankruptcyFound /> */}
       <div className="mt-4">
-        <NotFoundAlert status={status} label="No bankruptcies found" />
+        <NotFoundAlert label="No bankruptcies found" status={status} />
       </div>
     </>
   )
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.bankruptcies}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
       content={content}
+      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.bankruptcies}
     />
   )
 }

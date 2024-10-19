@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusCircle, Send } from "lucide-react"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
+import type * as z from "zod"
 import {
   adminSendBulkInvitationForm,
   useSendBulkInvitation
@@ -55,6 +55,7 @@ export function DialogSendBulkInvite() {
   const formSubmit = form.handleSubmit((data) => {
     const baseUrl = `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`
     const expirationDays = "SEVEN_DAYS"
+
     mutateSendInputList(
       { ...data, baseUrl, expirationDays },
       {
@@ -69,7 +70,7 @@ export function DialogSendBulkInvite() {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button type="button">
-          <PlusCircle size={16} className="text-sm mr-1.5" />
+          <PlusCircle className="text-sm mr-1.5" size={16} />
           Invite
         </Button>
       </DialogTrigger>
@@ -78,31 +79,31 @@ export function DialogSendBulkInvite() {
           <DialogTitle className="flex flex-row items-center">
             Invite members to LaunchKC
           </DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogDescription />
         </DialogHeader>
         <BulkUploadCsv />
         <Form {...form}>
-          <form onSubmit={formSubmit} className="flex flex-col space-y-3">
+          <form className="flex flex-col space-y-3" onSubmit={formSubmit}>
             <InvitationInput />
 
             <AccessList />
 
             <DialogFooter className="flex w-full">
               <Button
-                variant="outline"
-                type="button"
                 className="w-full mb-2"
+                type="button"
+                variant="outline"
                 onClick={() => setOpen(false)}
               >
                 Cancel
               </Button>
               <ButtonLoading
-                type="submit"
                 className="w-full mb-2"
-                isLoading={isPendingInputList}
                 disabled={!form.formState.isValid}
+                isLoading={isPendingInputList}
+                type="submit"
               >
-                Send {<Send className="ml-1.5" size="16" />}
+                Send <Send className="ml-1.5" size="16" />
               </ButtonLoading>
             </DialogFooter>
           </form>

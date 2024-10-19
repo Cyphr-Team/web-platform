@@ -14,24 +14,24 @@ import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
 import { APP_PATH } from "@/constants"
-import { MicroLoanProgramType } from "@/types/loan-program.type"
+import { type MicroLoanProgramType } from "@/types/loan-program.type"
 
 type MicroLoanProgramCardProps = React.ComponentProps<typeof Card> & {
   loanProgram: MicroLoanProgramType
   additionalInfo?: string[]
 }
 
-export const MicroLoanProgramCard = ({
+export function MicroLoanProgramCard({
   className,
   loanProgram,
   additionalInfo,
   ...props
-}: MicroLoanProgramCardProps) => {
+}: MicroLoanProgramCardProps) {
   return (
     <Card className={cn(className, "flex flex-col rounded-2xl")} {...props}>
       <CardHeader className="space-y-2 pb-0 md:pb-0">
         <CardTitle>
-          <p id="loan-type" className="text-sm mb-0.5 capitalize">
+          <p className="text-sm mb-0.5 capitalize" id="loan-type">
             {loanProgram.type}
           </p>
           {loanProgram.name}
@@ -39,9 +39,7 @@ export const MicroLoanProgramCard = ({
         <CardDescription className="text-foreground flex items-center">
           <span className="mr-2 align-middle">Up to</span>
           <span className="text-primary text-3xl font-semibold">
-            {typeof loanProgram.maxLoanAmount === "number"
-              ? toCurrency(loanProgram.maxLoanAmount, 0)
-              : loanProgram.maxLoanAmount}
+            {toCurrency(loanProgram.maxLoanAmount, 0)}
           </span>
         </CardDescription>
       </CardHeader>
@@ -64,8 +62,8 @@ export const MicroLoanProgramCard = ({
             </span>
             {loanProgram.interestRateDescription}
           </li>
-          {additionalInfo?.map((info, index) => (
-            <li key={index} className="flex items-center font-semibold text-sm">
+          {additionalInfo?.map((info) => (
+            <li key={info} className="flex items-center font-semibold text-sm">
               <span className="mr-1.5">
                 <Icons.greenCheckCircle />
               </span>
@@ -76,12 +74,12 @@ export const MicroLoanProgramCard = ({
       </CardContent>
 
       <CardFooter className="mt-auto">
-        <Button className="w-full" asChild>
+        <Button asChild className="w-full">
           <Link
+            state={{ loanProgram }}
             to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
               loanProgram.id
             )}
-            state={{ loanProgram }}
           >
             Learn More
             <ArrowRight className="ml-1 h-4 w-4" />

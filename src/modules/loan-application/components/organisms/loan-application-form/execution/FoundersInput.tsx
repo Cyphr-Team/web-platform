@@ -1,9 +1,9 @@
 import {
-  FieldArrayWithId,
+  type FieldArrayWithId,
   useFieldArray,
   useFormContext
 } from "react-hook-form"
-import { ExecutionFormValue } from "@/modules/loan-application/constants/form.ts"
+import { type ExecutionFormValue } from "@/modules/loan-application/constants/form.ts"
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
@@ -16,7 +16,7 @@ import { jobTypes } from "@/modules/loan-application/components/organisms/loan-a
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput.tsx"
 import { memo } from "react"
 
-export const FoundersInput = () => {
+export function FoundersInput() {
   const { control, getValues } = useFormContext<ExecutionFormValue>()
   const { fields, append, remove } = useFieldArray({
     control,
@@ -55,9 +55,9 @@ export const FoundersInput = () => {
         />
       ))}
       <Button
+        className="w-min ml-auto border-black gap-2"
         type="button"
         variant="outline"
-        className="w-min ml-auto border-black gap-2"
         onClick={handleAddFounder}
       >
         <Plus className="w-4" />
@@ -78,14 +78,14 @@ const EditFounder = memo((props: EditFounderProps) => {
   const form = useFormContext<ExecutionFormValue>()
 
   return (
-    <div className="flex flex-col gap-2" key={value.id}>
+    <div key={value.id} className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <h5 className="font-semibold text-sm">FOUNDER #{index + 1}</h5>
         {form.getValues("founders").length > 1 && (
           <Button
+            className="p-4"
             type="button"
             variant="ghost"
-            className="p-4"
             onClick={onRemove}
           >
             <X className="w-4" />
@@ -94,28 +94,28 @@ const EditFounder = memo((props: EditFounderProps) => {
       </div>
       <TextInput
         className="flex items-center justify-between"
+        control={form.control}
+        formMessageClassName="hidden"
         inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
         label="First and last name"
-        formMessageClassName="hidden"
-        control={form.control}
         {...form.register(`founders.${index}.name` as const)}
       />
       <SelectInput
         className="flex items-center justify-between !text-sm"
-        label="Full-time or part-time"
-        inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
         control={form.control}
+        inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
+        label="Full-time or part-time"
         options={jobTypes}
         {...form.register(`founders.${index}.jobType` as const)}
       />
       <TextAreaInput
-        label="What relevant business experience, education, or industry knowledge do they have?"
         control={form.control}
+        label="What relevant business experience, education, or industry knowledge do they have?"
         {...form.register(`founders.${index}.background` as const)}
       />
       <TextAreaInput
-        label="What skills do they have to ensure the success of your company?"
         control={form.control}
+        label="What skills do they have to ensure the success of your company?"
         {...form.register(`founders.${index}.skill` as const)}
       />
     </div>

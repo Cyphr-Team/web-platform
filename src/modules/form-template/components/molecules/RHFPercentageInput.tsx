@@ -11,10 +11,10 @@ import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
 import currency from "currency.js"
 import React, { memo, useCallback } from "react"
 import {
-  ControllerRenderProps,
-  FieldPath,
-  FieldValues,
-  Path,
+  type ControllerRenderProps,
+  type FieldPath,
+  type FieldValues,
+  type Path,
   useFormContext
 } from "react-hook-form"
 
@@ -48,9 +48,9 @@ export interface RHFPercentageInputProps<T extends FieldValues> {
   prefixIcon?: React.ReactNode
 }
 
-const RHFPercentageInput = <T extends FieldValues>(
+function RHFPercentageInput<T extends FieldValues>(
   props: RHFPercentageInputProps<T>
-) => {
+) {
   const { control } = useFormContext()
   const {
     name,
@@ -74,7 +74,7 @@ const RHFPercentageInput = <T extends FieldValues>(
     suffixClassName
   } = styleProps
 
-  type RHFChangeFunction = {
+  interface RHFChangeFunction {
     fieldChange: ControllerRenderProps<FieldValues, Path<T>>["onChange"]
     fieldBlur: ControllerRenderProps<FieldValues, Path<T>>["onBlur"]
   }
@@ -85,6 +85,7 @@ const RHFPercentageInput = <T extends FieldValues>(
         fieldBlur()
         const fieldValue = e.target.value || "0"
         const parseFloatValue = parseFloat(fieldValue)
+
         if (parseFloatValue >= min && parseFloatValue <= max) {
           fieldChange(isString ? fieldValue.toString() : fieldValue)
         }
@@ -101,6 +102,7 @@ const RHFPercentageInput = <T extends FieldValues>(
         const numberPercentage = Number.isNaN(formattedValue.value)
           ? undefined
           : formattedValue.value
+
         fieldChange(
           isString ? numberPercentage?.toString() ?? "" : numberPercentage
         )
@@ -117,7 +119,7 @@ const RHFPercentageInput = <T extends FieldValues>(
         <FormItem className={props.className}>
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             {label}
-            {required && <RequiredSymbol />}
+            {required ? <RequiredSymbol /> : null}
             {direction === "row" && <FormMessage />}
           </FormLabel>
 
@@ -125,25 +127,25 @@ const RHFPercentageInput = <T extends FieldValues>(
             <Input
               {...field}
               {...inputProps}
-              onChange={handleChange({
-                fieldChange: field.onChange,
-                fieldBlur: field.onBlur
-              })}
+              className={cn("text-sm", inputClassName)}
+              suffixClassName={suffixClassName}
+              suffixIcon="%"
+              value={field.value}
+              wrapperClassName={wrapperClassName}
               onBlur={handleBlur({
                 fieldChange: field.onChange,
                 fieldBlur: field.onBlur
               })}
-              value={field.value}
-              wrapperClassName={wrapperClassName}
-              suffixIcon="%"
-              className={cn("text-sm", inputClassName)}
-              suffixClassName={suffixClassName}
+              onChange={handleChange({
+                fieldChange: field.onChange,
+                fieldBlur: field.onBlur
+              })}
             />
           </FormControl>
           {direction === "column" && (
             <FormMessage className={messageClassName} />
           )}
-          {subtitle && (
+          {subtitle ? (
             <p
               className={cn(
                 "mt-2 text-text-tertiary font-medium",
@@ -152,7 +154,7 @@ const RHFPercentageInput = <T extends FieldValues>(
             >
               {subtitle}
             </p>
-          )}
+          ) : null}
         </FormItem>
       )}
     />

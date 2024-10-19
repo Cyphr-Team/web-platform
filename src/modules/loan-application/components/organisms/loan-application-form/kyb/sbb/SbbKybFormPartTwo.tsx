@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form"
 import {
   SBB_KYB_FORM_BLOCKS_PART_TWO,
   SBB_KYB_FORM_FIELDS,
-  SbbKybFormPartTwoValue,
+  type SbbKybFormPartTwoValue,
   sbbKybFormSchemaPartTwo
 } from "./const"
 import { ComponentMapper } from "@/modules/form-template/components/templates/FormTemplate"
@@ -31,7 +31,7 @@ import {
 } from "@/modules/loan-application/constants/form"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
-export const SBBKybFormPartTwo = () => {
+export function SBBKybFormPartTwo() {
   const { step, finishCurrentStep } = useLoanApplicationProgressContext()
 
   const { sbbBusinessInformationPartTwo, dispatchFormAction } =
@@ -49,15 +49,7 @@ export const SBBKybFormPartTwo = () => {
   }
 
   const defaultValues = useMemo(
-    () =>
-      // because we are using zodResolver with refined schema, we need to get shape from _def.schema instead of directly from schema
-      Object.keys(sbbKybFormSchemaPartTwo._def.schema.shape).reduce(
-        (acc, key) => ({
-          ...acc,
-          [key]: get(sbbBusinessInformationPartTwo, key, "")
-        }),
-        {} as SbbKybFormPartTwoValue
-      ),
+    () => getOrDefault(sbbBusinessInformationPartTwo),
     [sbbBusinessInformationPartTwo]
   )
   const form = useForm<SbbKybFormPartTwoValue>({
@@ -86,6 +78,7 @@ export const SBBKybFormPartTwo = () => {
           {SBB_KYB_FORM_BLOCKS_PART_TWO.map(({ type, props, name }) => {
             if (name !== SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES) {
               const Component = ComponentMapper[type]
+
               return (
                 <Component
                   key={name}
@@ -97,28 +90,28 @@ export const SBBKybFormPartTwo = () => {
             } else {
               return (
                 <div
-                  className="flex flex-col col-span-12"
                   key={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES}
+                  className="flex flex-col col-span-12"
                 >
                   <RHFOptionInput
                     className="col-span-12"
                     name={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES}
                     {...props}
-                    options={YES_NO_OPTIONS}
                     label="Do you anticipate the regular deposit or withdrawal of cash with this SBB account?"
+                    options={YES_NO_OPTIONS}
                   />
                   {form.watch(
                     SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES
                   ) === BINARY_VALUES.YES && (
                     <RHFCurrencyInput
-                      label="If yes, please enter the anticipated amount"
                       key={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT}
                       className="col-span-12 flex items-end gap-1"
+                      label="If yes, please enter the anticipated amount"
+                      name={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT}
                       styleProps={{
                         inputClassName: "border-l-0 border-r-0 border-t-0", // to-do remove ring focus
                         labelClassName: "leading-normal"
                       }}
-                      name={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT}
                     />
                   )}
                 </div>
@@ -130,10 +123,45 @@ export const SBBKybFormPartTwo = () => {
 
       {!isReviewApplicationStep(step) && (
         <FormSubmitButton
-          onSubmit={form.handleSubmit(onSubmit)}
           isDisabled={!form.formState.isValid}
+          onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
     </Card>
+  )
+}
+
+function getOrDefault(
+  sbbBusinessInformationPartTwo: SbbKybFormPartTwoValue
+): SbbKybFormPartTwoValue {
+  return Object.keys(
+    // because we are using zodResolver with refined schema, we need to get shape from _def.schema instead of directly from schema
+    sbbKybFormSchemaPartTwo._def.schema.shape
+  ).reduce<SbbKybFormPartTwoValue>(
+    (acc, key) => ({
+      ...acc,
+      [key]: get(sbbBusinessInformationPartTwo, key, "")
+    }),
+    {
+      anticipatedCashActivities: "",
+      anticipatedCashAmount: 0,
+      expectedAnnualSales: "",
+      expectedDepositedAmount: "",
+      id: "",
+      isAllowThirdPartySlotMachines: "",
+      isInvolvedInGambling: "",
+      isMoneyServiceBusiness: "",
+      isOwnsAndOperatesAtms: "",
+      isSeniorForeignPoliticalFigure: "",
+      monthlyDepositAmount: "",
+      paymentMethods: [],
+      selfDirectedIraAccount: "",
+      willReceiveElectronicTransfers: "",
+      willReceiveInternationalPayments: "",
+      willReceiveInternationalWireTransfers: "",
+      willReceiveWireTransfers: "",
+      willSendElectronicTransfers: "",
+      willSendWireTransfers: ""
+    }
   )
 }

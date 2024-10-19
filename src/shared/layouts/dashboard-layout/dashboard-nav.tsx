@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { BadgeUnreadNotifications } from "@/modules/notification/components/atoms/BadgeUnreadNotifications"
 import { useQueryGetUnreadNotifications } from "@/modules/notification/hooks/useQuery/useQueryGetUnreadNotifications"
 import { RoleBase } from "@/shared/molecules/RoleBase"
-import { NavItem } from "@/types/common.type"
+import { type NavItem } from "@/types/common.type"
 import { FeatureFlagsRenderer } from "../FeatureFlagRenderer"
 import { FeatureRenderer } from "../FeatureRenderer"
 import { DashboardCollapsedNavLink } from "./dashboard-collapsed-nav-link"
@@ -40,11 +40,11 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
 
   return (
     <div
-      data-collapsed={isCollapsed}
       className={cn(
         "group flex flex-col flex-1 gap-4 justify-between mb-0",
         !isCollapsed && "border-0 md:border-b mb-6"
       )}
+      data-collapsed={isCollapsed}
     >
       <nav className="flex flex-col gap-y-2 flex-1">
         <TooltipProvider>
@@ -58,12 +58,13 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
               !item.disabled && (
                 <FeatureFlagsRenderer
                   key={item.label}
-                  ffKey={item.featureFlag}
+                  /* eslint-disable-next-line react/jsx-no-useless-fragment */
                   fallBackChildren={<></>}
+                  ffKey={item.featureFlag}
                 >
-                  <RoleBase roles={item.roles} key={item.label}>
+                  <RoleBase key={item.label} roles={item.roles}>
                     <FeatureRenderer featureKey={item.featureKey}>
-                      <NavLinkComponent item={item} badge={badge} />
+                      <NavLinkComponent badge={badge} item={item} />
                     </FeatureRenderer>
                   </RoleBase>
                 </FeatureFlagsRenderer>

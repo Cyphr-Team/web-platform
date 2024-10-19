@@ -3,8 +3,8 @@ import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { ButtonDeleteDocument } from "@/modules/admin/user/components/RemoveDocumentButton"
 import { DownloadChatbotDocumentButton } from "@/modules/loan-application-management/components/table/download-chatbot-document-button"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { ChatbotDocument } from "@/types/chatbot.type"
-import { AccessorKeyColumnDef } from "@tanstack/react-table"
+import { type ChatbotDocument } from "@/types/chatbot.type"
+import { type AccessorKeyColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 
 export const documentColumns: AccessorKeyColumnDef<
@@ -26,12 +26,12 @@ export const documentColumns: AccessorKeyColumnDef<
           </div>
           <div className="min-w-0">
             <p className="truncate">{document.name}</p>
-            {document.size && (
+            {document.size ? (
               <p className="text-sm text-muted-foreground mt-0.5 truncate ">
                 {Number.parseFloat((document.size / (1024 * 1024)).toFixed(2))}{" "}
                 MB
               </p>
-            )}
+            ) : null}
           </div>
         </div>
       )
@@ -70,6 +70,7 @@ export const documentColumns: AccessorKeyColumnDef<
     enableSorting: false,
     cell: ({ row }) => {
       const document = row.original
+
       return (
         <div className="flex content-end justify-end items-center gap-2 text-gray-500">
           <DownloadChatbotDocumentButton

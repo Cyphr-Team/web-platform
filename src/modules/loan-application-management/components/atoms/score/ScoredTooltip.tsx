@@ -10,10 +10,10 @@ interface IScoredTooltipProps {
   tooltipContent: string
 }
 
-export const ScoredTooltip = ({
+export function ScoredTooltip({
   tooltipContent,
   children
-}: React.PropsWithChildren<IScoredTooltipProps>) => {
+}: React.PropsWithChildren<IScoredTooltipProps>) {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>

@@ -8,17 +8,17 @@ import {
 import { cn } from "@/lib/utils.ts"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
 import React, {
-  ChangeEventHandler,
-  FocusEventHandler,
+  type ChangeEventHandler,
+  type FocusEventHandler,
   memo,
-  ReactNode,
-  SyntheticEvent
+  type ReactNode,
+  type SyntheticEvent
 } from "react"
 import {
-  ControllerRenderProps,
-  FieldPath,
-  FieldValues,
-  Path,
+  type ControllerRenderProps,
+  type FieldPath,
+  type FieldValues,
+  type Path,
   useFormContext
 } from "react-hook-form"
 import { Input } from "@/components/ui/input.tsx"
@@ -59,9 +59,9 @@ export interface RHFCurrencyInputProps<T extends FieldValues> {
   isDetail?: boolean
 }
 
-const RHFCurrencyInput = <T extends FieldValues>(
+function RHFCurrencyInput<T extends FieldValues>(
   props: RHFCurrencyInputProps<T>
-) => {
+) {
   const { control } = useFormContext()
   const {
     name,
@@ -103,6 +103,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
       render={({ field, fieldState }) => {
         const fieldValue = (() => {
           const currency = USDFormatter(field.value)
+
           // Check if the value is not a valid number
           if (Number.isNaN(currency.value) || typeof field.value !== "number") {
             return ""
@@ -115,6 +116,7 @@ const RHFCurrencyInput = <T extends FieldValues>(
           ) {
             return ""
           }
+
           // Format the currency value
           return currency.format()
         })()
@@ -132,14 +134,16 @@ const RHFCurrencyInput = <T extends FieldValues>(
                 <div className="flex flex-col">
                   <label className={cn(isRowDirection ? "!mt-0" : null)}>
                     {label}
-                    {required && <RequiredSymbol />}
-                    {subtitle && (
+                    {required ? <RequiredSymbol /> : null}
+                    {subtitle ? (
                       <p className="mt-2 text-text-tertiary font-medium">
                         {subtitle}
                       </p>
-                    )}
+                    ) : null}
                   </label>
-                  {isRowDirection && !isHideErrorMessage && <FormMessage />}
+                  {isRowDirection && !isHideErrorMessage ? (
+                    <FormMessage />
+                  ) : null}
                 </div>
               </FormLabel>
             )}
@@ -158,11 +162,11 @@ const RHFCurrencyInput = <T extends FieldValues>(
                   )}
                   {...field}
                   {...inputProps}
-                  onChange={handleChangeValue(field)}
-                  onBlur={handleChangeValue(field)}
+                  className={cn("text-base no-arrows", inputClassName)}
                   suffixClassName={suffixClassName}
                   value={fieldValue}
-                  className={cn("text-base no-arrows", inputClassName)}
+                  onBlur={handleChangeValue(field)}
+                  onChange={handleChangeValue(field)}
                 />
               </FormControl>
             )}

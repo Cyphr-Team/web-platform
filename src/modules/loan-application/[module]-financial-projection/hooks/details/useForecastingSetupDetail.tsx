@@ -1,10 +1,11 @@
-import { QueryForecastingSetupByIdResponse } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup"
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type QueryForecastingSetupByIdResponse } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseForecastingSetupDetailProps {
   forecastingSetupByIdResponse?: QueryForecastingSetupByIdResponse
 }
+
 export const useForecastingSetupDetail = ({
   forecastingSetupByIdResponse
 }: UseForecastingSetupDetailProps) => {

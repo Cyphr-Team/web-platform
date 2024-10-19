@@ -1,9 +1,9 @@
-import { ErrorResponse, SuccessResponse } from "@/types/common.type"
+import { type ErrorResponse, type SuccessResponse } from "@/types/common.type"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import * as z from "zod"
 
 export const forgotPasswordFormSchema = z.object({

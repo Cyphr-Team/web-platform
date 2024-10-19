@@ -20,11 +20,11 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { StateType } from "@/types/common.type"
+import { type StateType } from "@/types/common.type"
 import { capitalizeWords } from "@/utils"
 import { CheckIcon, ChevronDown } from "lucide-react"
 import { useEffect, useState } from "react"
-import { Control, FieldPath, FieldValues } from "react-hook-form"
+import { type Control, type FieldPath, type FieldValues } from "react-hook-form"
 
 interface IAutoCompleteInputProps<T extends FieldValues> {
   value: string
@@ -38,9 +38,9 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   className?: string
 }
 
-export const AutoCompleteStates = <T extends FieldValues>(
+export function AutoCompleteStates<T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
-) => {
+) {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
 
@@ -74,35 +74,36 @@ export const AutoCompleteStates = <T extends FieldValues>(
         <FormItem className={className}>
           <FormLabel className="text-text-secondary">
             {label}
-            {required && <RequiredSymbol />}
+            {required ? <RequiredSymbol /> : null}
           </FormLabel>
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Input
-                  name={name}
-                  value={value || "Select state"}
                   className={cn(
                     "text-sm p-0",
                     value === "" ? "text-text-placeholder" : ""
                   )}
+                  name={name}
                   suffixIcon={
                     <ChevronDown
                       className={cn("h-4 w-4", open ? "rotate-180" : "")}
                     />
                   }
+                  value={value || "Select state"}
                 />
               </PopoverTrigger>
-              <PopoverContent className="w-72 p-0" align="start">
+              <PopoverContent align="start" className="w-72 p-0">
                 <Command
                   filter={(value, search) => {
                     if (value.startsWith(search)) return 1
+
                     return 0
                   }}
                 >
                   <CommandInput
-                    placeholder="Search state"
                     className="h-9"
+                    placeholder="Search state"
                     value={searchValue}
                     onValueChange={(value) => {
                       onSearch(value)

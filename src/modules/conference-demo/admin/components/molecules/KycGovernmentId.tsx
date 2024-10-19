@@ -5,13 +5,13 @@ import { IdentityVerificationCard } from "@/modules/loan-application/components/
 import { IdentityVerificationBadge } from "@/modules/loan-application/components/organisms/identity-verification/IdentityVerificationBadge"
 import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "../../../../loan-application-management/constants/insight-toc.constant"
 
-const KycGovernmentId = () => {
+function KycGovernmentId() {
   const verifiedStatus = IdentityVerificationStatus.VERIFIED
 
   const badge = (
     <IdentityVerificationBadge
-      status={verifiedStatus}
       label={verifiedStatus.toLowerCase()}
+      status={verifiedStatus}
     />
   )
   const headerTitle = <>Government ID {badge}</>
@@ -20,26 +20,26 @@ const KycGovernmentId = () => {
     return (
       <div className="pt-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <KycSummaryItem title="Full name" subtitle1="LARRY" />
+          <KycSummaryItem subtitle1="LARRY" title="Full name" />
           <KycSummaryItem
-            title="Address"
             subtitle1="600 BEVERLY HILLS, LOS ANGELES, CA 94109"
+            title="Address"
           />
-          <KycSummaryItem title="Sex" subtitle1="Male" />
+          <KycSummaryItem subtitle1="Male" title="Sex" />
           <KycSummaryItem
-            title="Date of birth"
             subtitle1="May 27, 1977"
             subtitle2="(47 years old)"
+            title="Date of birth"
           />
         </div>
         <div className=" my-6 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <KycSummaryItem title="ID number" subtitle1="DTRJ4242WWE" />
+          <KycSummaryItem subtitle1="DTRJ4242WWE" title="ID number" />
           <KycSummaryItem
-            title="Issuing country"
             subtitle1="United States of America"
+            title="Issuing country"
           />
-          <KycSummaryItem title="Issue date" subtitle1="Jul 4, 2014" />
-          <KycSummaryItem title="Expiration date" subtitle1="Jul 4, 2024" />
+          <KycSummaryItem subtitle1="Jul 4, 2014" title="Issue date" />
+          <KycSummaryItem subtitle1="Jul 4, 2024" title="Expiration date" />
         </div>
       </div>
     )
@@ -47,10 +47,10 @@ const KycGovernmentId = () => {
 
   return (
     <IdentityVerificationCard
-      id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader date={new Date().toUTCString()} />}
       content={verifiedInformation()}
+      headerRight={<DateHeader date={new Date().toUTCString()} />}
+      headerTitle={headerTitle}
+      id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
     />
   )
 }

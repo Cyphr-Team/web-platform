@@ -1,19 +1,19 @@
 import { API_PATH } from "@/constants"
 import {
   ExpenseTaxRateField,
-  ExpenseTaxRateFormValue
+  type ExpenseTaxRateFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import { useCreateMutation } from "@/modules/loan-application/[module]-financial-projection/hooks"
-import { SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
-  ExpenseTaxRateFormMutateRequest,
-  ExpenseTaxRateFormResponse
+  type ExpenseTaxRateFormMutateRequest,
+  type ExpenseTaxRateFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/tax-rate-form"
 import { useQueryClient } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 
-type Props = {
+interface Props {
   rawData: ExpenseTaxRateFormValue
 }
 

@@ -4,7 +4,7 @@ import { SearchSelect } from "@/components/ui/search-select"
 import { Separator } from "@/components/ui/separator"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 import { usePlaidInstitutions } from "@/modules/loan-application/hooks/usePlaidInstitutions"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link } from "lucide-react"
 import React, { useEffect, useMemo } from "react"
@@ -101,14 +101,14 @@ const PlaidForm: React.FC = () => {
   return (
     <div className="w-full flex flex-col gap-5 text-secondary-700 text-sm">
       <InstitutionField
-        options={institutionOptions}
-        onSearch={searchInstitutions}
         isLoading={isLoading}
+        options={institutionOptions}
         total={total}
+        onSearch={searchInstitutions}
       />
       <RoutingNumberField
-        options={routingNumberOptions}
         disabled={!selectedInstitution}
+        options={routingNumberOptions}
       />
       <ConnectButton isValid={form.formState.isValid} />
     </div>
@@ -128,10 +128,10 @@ const InstitutionField: React.FC<{
       render={({ field }) => (
         <SearchSelect
           field={field}
-          options={options}
           handleSearch={onSearch}
-          placeholder="Start typing your institution"
           isFetching={isLoading}
+          options={options}
+          placeholder="Start typing your institution"
           totalOptions={total}
         />
       )}
@@ -164,8 +164,8 @@ const RoutingNumberField: React.FC<{
 const ConnectButton: React.FC<{ isValid: boolean }> = ({ isValid }) => (
   <div className="self-end">
     <ButtonLoading
-      disabled={!isValid}
       className="text-sm rounded-lg"
+      disabled={!isValid}
       size="sm"
       variant="outline"
     >

@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { delRequest } from "@/services/client.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
 
 export const useDeleteCurrentLoanInformation = () => {

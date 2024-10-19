@@ -1,14 +1,14 @@
 import { useCallback, useEffect } from "react"
 import {
-  PlaidLinkError,
-  PlaidLinkOnEventMetadata,
-  PlaidLinkOnSuccessMetadata,
-  PlaidLinkStableEvent,
+  type PlaidLinkError,
+  type PlaidLinkOnEventMetadata,
+  type PlaidLinkOnSuccessMetadata,
+  type PlaidLinkStableEvent,
   usePlaidLink
 } from "react-plaid-link"
 import { usePlaidContext } from "../providers"
 import { exchangePublicTokenForAccessToken } from "../services"
-import { IPlaidInstitutionProviderData } from "../constants"
+import { type IPlaidInstitutionProviderData } from "../constants"
 import { ErrorCode } from "@/utils/custom-error"
 
 /**
@@ -31,11 +31,7 @@ export const useLazyConnectPlaidEffect = () => {
 
   const updateAccounts = useCallback(
     (metadata: PlaidLinkOnSuccessMetadata) => {
-      if (
-        metadata.institution === null ||
-        !metadata.institution?.institution_id
-      )
-        return
+      if (!metadata.institution?.institution_id) return
 
       const newInstituions = institutions.filter(
         (ins) => ins.institutionId !== metadata.institution?.institution_id
@@ -53,6 +49,7 @@ export const useLazyConnectPlaidEffect = () => {
           verificationStatus: account.verification_status
         }))
       }
+
       dispatch({
         type: "SET_STATE",
         state: { institutions: [...newInstituions, newAddedInstitution] }
@@ -82,6 +79,7 @@ export const useLazyConnectPlaidEffect = () => {
             }
           })
           removeLinkToken()
+
           return
         }
       }

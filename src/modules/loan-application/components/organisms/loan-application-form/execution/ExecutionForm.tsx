@@ -6,7 +6,7 @@ import { FoundersInput } from "@/modules/loan-application/components/organisms/l
 import { FundingSourceInput } from "@/modules/loan-application/components/organisms/loan-application-form/execution/FundingSourceInput.tsx"
 import {
   executionFormSchema,
-  ExecutionFormValue
+  type ExecutionFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -31,7 +31,7 @@ import {
 import { useMemo } from "react"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const ExecutionForm = () => {
+export function ExecutionForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { executionForm, dispatchFormAction, loanRequest } =
     useLoanApplicationFormContext()
@@ -100,27 +100,27 @@ export const ExecutionForm = () => {
             <Separator />
             <form className="flex flex-col gap-4xl">
               <SelectInput
-                className="flex items-center"
-                inputClassName="!max-w-52"
-                labelClassName="leading-relaxed mt-2 pt-2"
                 key={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
-                label="How much cash does your company go through each month?"
+                className="flex items-center"
                 control={form.control}
+                inputClassName="!max-w-52"
+                label="How much cash does your company go through each month?"
+                labelClassName="leading-relaxed mt-2 pt-2"
                 name={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
                 options={monthlyExpenseRangeOptions}
               />
               {questions.map((q) => (
                 <TextAreaInput
                   key={q.field}
-                  label={q.question}
                   control={form.control}
+                  label={q.question}
                   name={q.field as keyof ExecutionFormValue}
                 />
               ))}
               <OptionInput
                 key="businessStage"
-                label="Which best describes the current stage of your product or service?"
                 control={form.control}
+                label="Which best describes the current stage of your product or service?"
                 name="businessStage"
                 options={getOptionsByField(
                   LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_STAGE
@@ -128,6 +128,7 @@ export const ExecutionForm = () => {
               />
               <MultiCheckboxesInput
                 key={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
+                control={form.control}
                 label={
                   <span>
                     What areas do you need the most support?
@@ -136,7 +137,6 @@ export const ExecutionForm = () => {
                     </span>
                   </span>
                 }
-                control={form.control}
                 name={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
                 options={getOptionsByField(
                   LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL
@@ -144,6 +144,7 @@ export const ExecutionForm = () => {
               />
               <MultiCheckboxesInput
                 key={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
+                control={form.control}
                 label={
                   <span>
                     What alliances or partnerships have you entered?
@@ -152,7 +153,6 @@ export const ExecutionForm = () => {
                     </span>
                   </span>
                 }
-                control={form.control}
                 name={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
                 options={getOptionsByField(
                   LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE
@@ -165,8 +165,8 @@ export const ExecutionForm = () => {
 
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </Form>

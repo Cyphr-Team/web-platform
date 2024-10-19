@@ -1,4 +1,4 @@
-import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { ScoreCardBox } from "../../atoms/score/ScoreCardBox"
 import { StatusRoundBadge } from "../../atoms/StatusRoundBadge"
@@ -9,7 +9,7 @@ interface IScoreCardInfo {
   stage?: string
 }
 
-export const ScoreCardInfo = ({ name, score, stage }: IScoreCardInfo) => {
+export function ScoreCardInfo({ name, score, stage }: IScoreCardInfo) {
   return (
     <div>
       <ScoreCardBox name={name} score={score} />

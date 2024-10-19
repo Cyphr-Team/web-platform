@@ -1,13 +1,13 @@
 import type { Table as TableType } from "@tanstack/react-table"
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  OnChangeFn,
-  PaginationState,
-  Row,
-  SortingState,
+  type OnChangeFn,
+  type PaginationState,
+  type Row,
+  type SortingState,
   useReactTable
 } from "@tanstack/react-table"
 
@@ -23,7 +23,7 @@ import {
 import { cn } from "@/lib/utils"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
 import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
-import { ReactNode, useState } from "react"
+import { type ReactNode, useState } from "react"
 
 interface DataTableProps<TData, TValue> {
   readonly columns: ColumnDef<TData, TValue>[]
@@ -93,7 +93,7 @@ export function DataTable<TData, TValue>({
           tableWrapperClassName
         )}
       >
-        <Table isLoading={isLoading} className="text-sm">
+        <Table className="text-sm" isLoading={isLoading}>
           <TableHeader
             className={cn(
               "bg-gray-100 sticky top-0 z-10",
@@ -121,8 +121,8 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className={cn(!!handleClickDetail && "cursor-pointer")}
                   key={row.id}
+                  className={cn(!!handleClickDetail && "cursor-pointer")}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => handleClickDetail && handleClickDetail(row)}
                 >
@@ -139,8 +139,8 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center text-base"
+                  colSpan={columns.length}
                 >
                   {!isLoading && "No results."}
                 </TableCell>

@@ -3,7 +3,7 @@ import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardCard } from "./atoms/DashboardCard"
 import { StatsTitle } from "./atoms/StatsTitle"
 
-export const PerformanceMetrics = () => {
+export function PerformanceMetrics() {
   const {
     isLoadingAverageApprovalRate,
     averageApprovalRateData,
@@ -46,31 +46,31 @@ export const PerformanceMetrics = () => {
       <StatsTitle>Performance Metrics</StatsTitle>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCard
-          title="Average Time to Approval"
-          isLoading={isLoadingAverageTimeToApproval}
-          value={data.averageTimeToApproval}
-          unit="Days"
-          percentRate={percentRateData.averageTimeToApprovalPercentRate}
           revert
+          isLoading={isLoadingAverageTimeToApproval}
+          percentRate={percentRateData.averageTimeToApprovalPercentRate}
+          title="Average Time to Approval"
+          unit="Days"
+          value={data.averageTimeToApproval}
         />
         <DashboardCard
+          isLoading={isLoadingAverageApprovalRate}
+          percentRate={percentRateData.approvalPercentRate}
           title="Average Approval Rate"
           unit="%"
-          isLoading={isLoadingAverageApprovalRate}
           value={data.approvalRate}
-          percentRate={percentRateData.approvalPercentRate}
         />
         <DashboardCard
-          title="Average Loan Size"
           isLoading={isLoadingAggregateApprovedLoanAmount}
-          value={data.averageLoanSize}
           percentRate={percentRateData.averageApprovedLoanSizePercentRate}
+          title="Average Loan Size"
+          value={data.averageLoanSize}
         />
         <DashboardCard
-          title="Total Approved Loan Amount"
           isLoading={isLoadingAggregateApprovedLoanAmount}
-          value={data.totalLoanAmount}
           percentRate={percentRateData.totalLoanAmountPercentRate}
+          title="Total Approved Loan Amount"
+          value={data.totalLoanAmount}
         />
       </div>
     </div>

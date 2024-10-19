@@ -5,15 +5,16 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion"
-import { EmployeeInformationType } from "@/modules/loan-application-management/constants/types/document"
+import { type EmployeeInformationType } from "@/modules/loan-application-management/constants/types/document"
 import { CustomTableRow } from "../../../atoms/TableRow"
 
-type Props = {
+interface Props {
   data: EmployeeInformationType
 }
+
 export const EmployeeInformation: React.FC<Props> = ({ data }) => {
   return (
-    <Accordion type="single" collapsible className="w-full border-t">
+    <Accordion collapsible className="w-full border-t" type="single">
       <AccordionItem value="employer-information">
         <AccordionTrigger isStartIcon>
           <p>Employee Information</p>
@@ -22,45 +23,45 @@ export const EmployeeInformation: React.FC<Props> = ({ data }) => {
           <Table className="text-xs">
             <TableBody className="bg-gray-100">
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
+                className="bg-gray-50"
                 data={["Name", data.name]}
-                childrenClassName={["", "font-bold"]}
-                className="bg-gray-50"
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
                 data={["Address Line 1", data.addressLine1]}
-                childrenClassName={["", "font-bold"]}
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
+                className="bg-gray-50"
                 data={["Address Line 2", data.addressLine2]}
-                childrenClassName={["", "font-bold"]}
-                className="bg-gray-50"
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
                 data={["City", data.city]}
-                childrenClassName={["", "font-bold"]}
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
+                className="bg-gray-50"
                 data={["State", data.state]}
-                childrenClassName={["", "font-bold"]}
-                className="bg-gray-50"
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
                 data={["Zip", data.zip]}
-                childrenClassName={["", "font-bold"]}
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
+                className="bg-gray-50"
                 data={["Marital Status", data.maritalStatus]}
-                childrenClassName={["", "font-bold"]}
-                className="bg-gray-50"
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
                 data={["Tax ID Type", data.taxIdType]}
-                childrenClassName={["", "font-bold"]}
               />
               <CustomTableRow
-                data={["Last 4 Digits", data.last4Digits]}
                 childrenClassName={["", "font-bold"]}
                 className="bg-gray-50"
+                data={["Last 4 Digits", data.last4Digits]}
               />
             </TableBody>
           </Table>

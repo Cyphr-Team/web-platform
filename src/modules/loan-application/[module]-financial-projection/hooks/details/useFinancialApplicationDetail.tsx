@@ -17,15 +17,15 @@ import { useIndividualInformationDetail } from "@/modules/loan-application/[modu
 import { useLoanRequestDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useLoanRequestDetail"
 import { useRevenueDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useRevenueDetail"
 import { useTaxRatesDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useTaxRatesDetail"
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
-  KYBInformationResponse,
-  KYCInformationResponse
+  type KYBInformationResponse,
+  type KYCInformationResponse
 } from "@/modules/loan-application/constants/type"
-import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
-import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
+import { type useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
+import { type useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 
 interface UseFinancialApplicationDetailProps {
   fpForm?: ReturnType<
@@ -36,6 +36,7 @@ interface UseFinancialApplicationDetailProps {
   kybFormData?: KYBInformationResponse
   kycFormData?: KYCInformationResponse
 }
+
 export const useFinancialApplicationDetail = ({
   fpForm,
   kybFormData,
@@ -150,5 +151,6 @@ export const useFinancialApplicationDetail = ({
       fpEquityFinancingFormResponse: fpForm?.fpEquityFinancingFormQuery.data
     }).equityFinancingDetail
   ]
+
   return { financialApplicationDetailData }
 }

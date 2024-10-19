@@ -6,13 +6,13 @@ import { BankruptcyFound } from "./BankruptcyFound"
 import { DateHeader } from "./DateHeader"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 
-export const Bankruptcy = () => {
+export function Bankruptcy() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const bankruptcy = loanKybDetail?.businessBankruptcies
   const status = loanKybDetail?.insights.bankruptcies?.status
 
-  const badge = <MiddeskBadge status={status} label={bankruptcy?.subLabel} />
+  const badge = <MiddeskBadge label={bankruptcy?.subLabel} status={status} />
   const headerTitle = <>Bankruptcies {badge}</>
 
   const content = (
@@ -21,7 +21,7 @@ export const Bankruptcy = () => {
 
       {!isLoading && (
         <div className="mt-4">
-          <NotFoundAlert status={status} label="No bankruptcies found" />
+          <NotFoundAlert label="No bankruptcies found" status={status} />
         </div>
       )}
     </>
@@ -29,10 +29,10 @@ export const Bankruptcy = () => {
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.bankruptcies}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader />}
       content={content}
+      headerRight={<DateHeader />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.bankruptcies}
     />
   )
 }

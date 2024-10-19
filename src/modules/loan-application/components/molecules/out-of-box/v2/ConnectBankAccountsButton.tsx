@@ -30,10 +30,10 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({
   return (
     <ButtonLoading
       className=" border rounded-lg text-primary bg-white text-gray-700 px-lg py-md hover:bg-zinc-100"
-      onClick={handleOnClick}
-      isLoading={isLoading || isBankAccountsLoading}
       disabled={disabled}
+      isLoading={isLoading || isBankAccountsLoading}
       type="button"
+      onClick={handleOnClick}
     >
       <Link className="w-4 mr-1" />
       {hasConnectedAccounts ? "Connect More" : "Connect"}

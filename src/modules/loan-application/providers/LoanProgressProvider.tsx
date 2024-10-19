@@ -1,9 +1,9 @@
-import { Institution } from "@/constants/tenant.constants"
+import { type Institution } from "@/constants/tenant.constants"
 import { toPercent } from "@/utils"
 import { getSubdomain } from "@/utils/domain.utils"
 import {
-  Dispatch,
-  ReactNode,
+  type Dispatch,
+  type PropsWithChildren,
   useCallback,
   useEffect,
   useMemo,
@@ -13,10 +13,10 @@ import {
 import { createContext } from "use-context-selector"
 import { LoanApplicationStepStrategy } from "../models/LoanApplicationStep"
 import {
-  FORM_TYPE,
-  ILoanApplicationStep,
+  type FORM_TYPE,
+  type ILoanApplicationStep,
   LOAN_APPLICATION_STEP_STATUS,
-  LOAN_APPLICATION_STEPS
+  type LOAN_APPLICATION_STEPS
 } from "../models/LoanApplicationStep/type"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 import { ConfigurationLoanApplicationStep } from "../models/LoanApplicationStep/Configuration"
@@ -44,31 +44,31 @@ type Action =
   | RemoveCompleteAction
   | BuildStepAction
 
-type BuildStepAction = {
+interface BuildStepAction {
   type: LOAN_PROGRESS_ACTION.BUILD_STEP
   progress: ILoanApplicationStep[]
 }
 
-type NextStepAction = {
+interface NextStepAction {
   type: LOAN_PROGRESS_ACTION.NEXT_STEP
 }
 
-type InitAction = {
+interface InitAction {
   type: LOAN_PROGRESS_ACTION.INIT
   forms: FORM_TYPE[]
 }
 
-type ProgressAction = {
+interface ProgressAction {
   type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS
   progress: LOAN_APPLICATION_STEPS
 }
 
-type StepAction = {
+interface StepAction {
   type: LOAN_PROGRESS_ACTION.CHANGE_STEP
   step: LOAN_APPLICATION_STEPS
 }
 
-type RemoveCompleteAction = {
+interface RemoveCompleteAction {
   type: LOAN_PROGRESS_ACTION.REMOVE_COMPLETE
   progress: LOAN_APPLICATION_STEPS
 }
@@ -106,6 +106,7 @@ const reducer = (
         currentStepIndex + 1 < state.progress.length ? currentStepIndex + 1 : -1
 
       if (nextStepIndex === -1) return state
+
       return { ...state, step: state.progress[nextStepIndex].step }
     }
     case LOAN_PROGRESS_ACTION.CHANGE_STEP:
@@ -121,6 +122,7 @@ const reducer = (
         ) {
           return { ...item, status: LOAN_APPLICATION_STEP_STATUS.COMPLETE }
         }
+
         return item
       })
 
@@ -134,6 +136,7 @@ const reducer = (
         ) {
           return { ...item, status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE }
         }
+
         return item
       })
 
@@ -147,6 +150,7 @@ const reducer = (
         (val) =>
           state.progress.findIndex((item) => item.step === val.step) === -1
       )
+
       return {
         ...state,
         progress: state.progress.concat(newProgress)
@@ -191,9 +195,7 @@ export const LoanProgressContext = createContext<LoanApplicationStatusContext>(
 
 const { Provider } = LoanProgressContext
 
-export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
-  props
-) => {
+export function LoanProgressProvider(props: PropsWithChildren) {
   const { loanProgramFormsConfiguration } = useLoanProgramDetailContext()
 
   const [isInitialized, setIsInitialized] = useState(false)
@@ -253,6 +255,7 @@ export const LoanProgressProvider: React.FC<{ children: ReactNode }> = (
 
   const buildSpecificStep = useCallback(() => {
     const applicationStrategy = getApplicationStrategy()._buildSteps()
+
     dispatchProgress({
       type: LOAN_PROGRESS_ACTION.BUILD_STEP,
       progress: applicationStrategy.getSteps()

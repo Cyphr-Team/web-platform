@@ -1,4 +1,4 @@
-type FeatureFlag = {
+interface FeatureFlag {
   id: string
   key: string
   description?: string
@@ -15,4 +15,5 @@ enum FeatureFlagRolloutType {
 }
 
 export type { FeatureFlag }
+
 export { FeatureFlagRolloutType }

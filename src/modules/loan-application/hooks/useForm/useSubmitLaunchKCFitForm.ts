@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { LaunchKCFitFormValue } from "../../constants/form"
-import { AxiosError, AxiosResponse } from "axios"
-import { ErrorResponse } from "@/types/common.type"
+import { type LaunchKCFitFormValue } from "../../constants/form"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
 import { postRequest, putRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "../../constants/query-key"
 import { useCallback } from "react"
-import { LaunchKcFitFormResponse } from "../../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
-type Props = {
+import { type LaunchKcFitFormResponse } from "../../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
+interface Props {
   rawData: LaunchKCFitFormValue
   onSuccess: (data: LaunchKcFitFormResponse) => void
 }
@@ -34,6 +34,7 @@ export const useSubmitLoanLaunchKCFitForm = ({ rawData, onSuccess }: Props) => {
       )
     }
   }
+
   return {
     isLoading: isUpdating || isSubmitting,
     submitLoanLaunchKCFitForm
@@ -57,6 +58,7 @@ const useSubmit = () => {
 
 const useUpdate = () => {
   const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<LaunchKcFitFormResponse>,
     AxiosError<ErrorResponse>,

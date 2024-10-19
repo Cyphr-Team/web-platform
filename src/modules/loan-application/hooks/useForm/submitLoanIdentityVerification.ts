@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { IdentityVerificationValue } from "../../constants/form"
+import { type IdentityVerificationValue } from "../../constants/form"
 import { useLinkInquiryKyc } from "../useMutation/useLinkInquiryKycMutation"
 import { QUERY_KEY } from "../../constants/query-key"
-import { ILinkInquiryData } from "@/types/kyc/response/LinkInquiryResponse"
+import { type ILinkInquiryData } from "@/types/kyc/response/LinkInquiryResponse"
 import { useCallback } from "react"
 
 export const useSubmitLoanIdentityVerification = (

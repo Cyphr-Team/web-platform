@@ -1,8 +1,11 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { ListResponse, PaginateParams } from "@/types/common.type"
-import { Notification, NotificationReferenceType } from "../../constants"
+import { type ListResponse, type PaginateParams } from "@/types/common.type"
+import {
+  type Notification,
+  type NotificationReferenceType
+} from "../../constants"
 import { notificationKeys } from "@/constants/query-key"
 import { createSearchParams } from "react-router-dom"
 import { z } from "zod"
@@ -17,7 +20,7 @@ export const NotificationFilterSchema = z.object({
 
 export type NotificationFilterValues = z.infer<typeof NotificationFilterSchema>
 
-export type FilterParams = {
+export interface FilterParams {
   type?: NotificationReferenceType
   read?: boolean
 }
@@ -49,6 +52,7 @@ export const useQueryGetNotifications = ({
           read: read
         }
       })
+
       return response.data
     },
     placeholderData: keepPreviousData

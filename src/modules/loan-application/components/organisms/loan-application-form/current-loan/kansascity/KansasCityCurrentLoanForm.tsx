@@ -5,7 +5,11 @@ import {
   useLoanApplicationProgressContext
 } from "../../../../../providers"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, ControllerRenderProps, useForm } from "react-hook-form"
+import {
+  Controller,
+  type ControllerRenderProps,
+  useForm
+} from "react-hook-form"
 import _uniqueId from "lodash/uniqueId"
 import {
   Form,
@@ -27,7 +31,7 @@ import {
   NEW_CURRENT_LOAN_PREFIX
 } from "../../../../../constants"
 import {
-  KansasCityCurrentLoansFormValue,
+  type KansasCityCurrentLoansFormValue,
   kansasCityCurrentLoansFormSchema
 } from "@/modules/loan-application/constants/form"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
@@ -42,7 +46,7 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { KansasCityCurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/out-of-box/kansascity/KansasCityCurrentLoanFormDetails"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
-export const KansasCityCurrentLoanForm = () => {
+export function KansasCityCurrentLoanForm() {
   const { dispatchFormAction, currentLoansForm } =
     useLoanApplicationFormContext()
   const kansasCityCurrentLoanForm =
@@ -81,6 +85,7 @@ export const KansasCityCurrentLoanForm = () => {
       loanTermRemainingInMonths: 0,
       annualInterestRate: 0
     })
+
     form.setValue("currentLoans", currentLoans, { shouldValidate: true })
     // Defer validation error when a new form is added
     form.trigger("currentLoans").then(() => {
@@ -90,6 +95,7 @@ export const KansasCityCurrentLoanForm = () => {
 
   const handleRemoveLoan = (index: number) => {
     const currentLoans = form.getValues("currentLoans")
+
     if (
       !currentLoans[index].id.startsWith(NEW_CURRENT_LOAN_PREFIX) &&
       !currentLoans[index].id.startsWith(DELETE_CURRENT_LOAN_PREFIX)
@@ -112,6 +118,7 @@ export const KansasCityCurrentLoanForm = () => {
     } else {
       // Delete in FE only
       const updatedLoans = currentLoans.filter((_, i) => i !== index)
+
       form.setValue("currentLoans", updatedLoans, {
         shouldValidate: true
       })
@@ -130,9 +137,11 @@ export const KansasCityCurrentLoanForm = () => {
       const updatedLoans = currentLoansWatch.filter(
         (item) => !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
       )
+
       form.setValue("currentLoans", updatedLoans)
     } else {
       const isFirstLoan = currentLoansWatch.length === 0
+
       if (isFirstLoan) {
         // Add default loan form when user chooses YES
         handleAddLoan()
@@ -152,6 +161,7 @@ export const KansasCityCurrentLoanForm = () => {
   }
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.CURRENT_LOANS)
+
   return (
     <div
       className={cn(
@@ -177,10 +187,10 @@ export const KansasCityCurrentLoanForm = () => {
                     </FormLabel>
                     <FormControl>
                       <Select
+                        value={field.value}
                         onValueChange={(value) =>
                           handleValueChange(value, field)
                         }
-                        value={field.value}
                       >
                         <SelectTrigger className="text-base col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select..." />
@@ -206,21 +216,22 @@ export const KansasCityCurrentLoanForm = () => {
                 <div className="mt-6 flex flex-col gap-3xl">
                   {currentLoansWatch.map((item, index: number) => {
                     if (item.id.startsWith(DELETE_CURRENT_LOAN_PREFIX)) {
-                      return <React.Fragment key={item.id}></React.Fragment>
+                      return <React.Fragment key={item.id} />
                     }
+
                     return (
                       <KansasCityCurrentLoanFormDetails
                         key={item.id}
+                        formData={form.getValues().currentLoans[index]}
                         index={index}
                         onRemove={handleRemoveLoan}
-                        formData={form.getValues().currentLoans[index]}
                       />
                     )
                   })}
                   <Button
+                    className="ml-auto mr-0 mt-4 col-span-1 max-w-36"
                     type="button"
                     variant="outline"
-                    className="ml-auto mr-0 mt-4 col-span-1 max-w-36"
                     onClick={handleAddLoan}
                   >
                     <Plus className="mr-1 w-4" /> Add Loan
@@ -230,8 +241,8 @@ export const KansasCityCurrentLoanForm = () => {
           </Card>
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </Form>

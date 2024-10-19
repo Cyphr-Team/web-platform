@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form"
 import {
   SBB_KYB_FORM_BLOCKS_PART_ONE,
   SBB_KYB_FORM_FIELDS,
-  SbbKybFormPartOneValue,
+  type SbbKybFormPartOneValue,
   sbbKybFormSchemaPartOne
 } from "./const"
 import { ComponentMapper } from "@/modules/form-template/components/templates/FormTemplate"
@@ -31,29 +31,21 @@ import {
   YES_NO_OPTIONS
 } from "@/modules/loan-application/constants/form"
 import { AutoCompleteGoogleMap } from "@/modules/loan-application/components/molecules/autocomplete/AutoCompleteGoogleMap"
-import { AddressType } from "@/types/common.type"
+import { type AddressType } from "@/types/common.type"
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities"
 import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
 import { isEnableGoogleMapInput } from "@/utils/feature-flag.utils"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
-export const SBBKybFormPartOne = () => {
+export function SBBKybFormPartOne() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const { sbbBusinessInformationPartOne, dispatchFormAction } =
     useLoanApplicationFormContext()
 
   const defaultValues = useMemo(
-    () =>
-      // because we are using zodResolver with refined schema, we need to get shape from _def.schema instead of directly from schema
-      Object.keys(sbbKybFormSchemaPartOne._def.schema.shape).reduce(
-        (acc, key) => ({
-          ...acc,
-          [key]: get(sbbBusinessInformationPartOne, key, "")
-        }),
-        {} as SbbKybFormPartOneValue
-      ),
+    () => getOrDefault(sbbBusinessInformationPartOne),
     [sbbBusinessInformationPartOne]
   )
 
@@ -155,7 +147,6 @@ export const SBBKybFormPartOne = () => {
               return (
                 <AutoCompleteGoogleMap
                   key={name}
-                  onSelect={handleAutoCompleteAddress}
                   defaultValues={{
                     addressLine1: defaultValues.addressLine1,
                     state: defaultValues[SBB_KYB_FORM_FIELDS.STATE],
@@ -164,6 +155,7 @@ export const SBBKybFormPartOne = () => {
                     zip: defaultValues.postalCode,
                     city: defaultValues.city
                   }}
+                  onSelect={handleAutoCompleteAddress}
                 />
               )
             }
@@ -171,18 +163,18 @@ export const SBBKybFormPartOne = () => {
               return (
                 <AutoCompleteCities
                   key={name}
+                  required
+                  className="col-span-4"
+                  control={form.control}
+                  emptyText="No results found"
+                  label="Business city"
+                  name="city"
                   options={
                     STATE_DATA.find((s) => s.name === form.getValues("state"))
                       ?.cities ?? []
                   }
-                  label="Business city"
-                  emptyText="No results found"
-                  name="city"
-                  control={form.control}
-                  onChange={handleChangeCity}
                   value={form.getValues("city")}
-                  className="col-span-4"
-                  required
+                  onChange={handleChangeCity}
                 />
               )
             }
@@ -190,21 +182,22 @@ export const SBBKybFormPartOne = () => {
               return (
                 <AutoCompleteStates
                   key={name}
-                  options={STATE_DATA}
-                  label="Business state"
-                  emptyText="No results found"
-                  name="state"
-                  control={form.control}
-                  onChange={handleChangeState}
-                  value={form.getValues("state")}
-                  className="col-span-4"
                   required
+                  className="col-span-4"
+                  control={form.control}
+                  emptyText="No results found"
+                  label="Business state"
+                  name="state"
+                  options={STATE_DATA}
+                  value={form.getValues("state")}
+                  onChange={handleChangeState}
                 />
               )
             }
 
             if (name !== SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) {
               const Component = ComponentMapper[type]
+
               return (
                 <Component
                   key={name}
@@ -216,22 +209,23 @@ export const SBBKybFormPartOne = () => {
             } else {
               return (
                 <div
-                  className="flex flex-col col-span-12"
                   key={SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY}
+                  className="flex flex-col col-span-12"
                 >
                   <RHFOptionInput
                     className="col-span-12"
                     name={SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY}
                     {...props}
-                    options={YES_NO_OPTIONS}
                     label="Is your business of subsidiary of another business?"
+                    options={YES_NO_OPTIONS}
                   />
                   {form.watch(SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) ===
                     BINARY_VALUES.YES && (
                     <RHFTextInput
-                      label="If yes, what is the name of the owning company?"
                       key={SBB_KYB_FORM_FIELDS.PARENT_COMPANY}
                       className="col-span-12 flex items-end gap-1 "
+                      label="If yes, what is the name of the owning company?"
+                      name={SBB_KYB_FORM_FIELDS.PARENT_COMPANY}
                       styleProps={{
                         inputClassName: cn(
                           "ml-2.5 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -240,7 +234,6 @@ export const SBBKybFormPartOne = () => {
                         ),
                         labelClassName: "leading-normal"
                       }}
-                      name={SBB_KYB_FORM_FIELDS.PARENT_COMPANY}
                     />
                   )}
                 </div>
@@ -252,10 +245,48 @@ export const SBBKybFormPartOne = () => {
 
       {!isReviewApplicationStep(step) && (
         <FormSubmitButton
-          onSubmit={form.handleSubmit(onSubmit)}
           isDisabled={!form.formState.isValid}
+          onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
     </Card>
+  )
+}
+
+function getOrDefault(
+  sbbBusinessInformationPartOne: SbbKybFormPartOneValue
+): SbbKybFormPartOneValue {
+  return Object.keys(
+    // because we are using zodResolver with refined schema, we need to get shape from _def.schema instead of directly from schema
+    sbbKybFormSchemaPartOne._def.schema.shape
+  ).reduce<SbbKybFormPartOneValue>(
+    (acc, key) => ({
+      ...acc,
+      [key]: get(sbbBusinessInformationPartOne, key, "")
+    }),
+    {
+      addressLine1: "",
+      businessLegalName: "",
+      businessTin: "",
+      businessWebsite: "",
+      cbdRelatedBusiness: "",
+      city: "",
+      customerType: "",
+      dba: "",
+      id: "",
+      industryType: "",
+      involvedInWeaponsSales: "",
+      isHoldingCompany: "",
+      isSubsidiary: "",
+      marijuanaRelatedBusiness: "",
+      numberOfW2Employees: "",
+      ownedByTrust: "",
+      parentCompany: "",
+      politicalOrgContributor: "",
+      postalCode: "",
+      state: "",
+      totalNumberOfEmployees: "",
+      yearsInOperation: ""
+    }
   )
 }

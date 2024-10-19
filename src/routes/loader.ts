@@ -2,7 +2,7 @@ import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { featureFlagsService } from "@/services/feature-flag.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
-import { TInstitutionResponse } from "@/types/institution.type"
+import { type TInstitutionResponse } from "@/types/institution.type"
 import { isAxiosError } from "axios"
 import { defer } from "react-router-dom"
 
@@ -18,13 +18,16 @@ export const userLoader = () => {
     .getNewAccessToken()
     .then(async (user) => {
       const accessToken = inMemoryJWTService.getToken()
+
       if (accessToken) {
         await featureFlagsService.handleFetchFeatureFlags(accessToken)
       }
+
       return user
     })
     .catch(() => {
       const userPromise = inMemoryJWTService.getNewAccessToken()
+
       return defer({ userPromise })
     })
 }
@@ -38,7 +41,7 @@ export const institutionLoader = async () => {
 
     return institution.data
   } catch (error) {
-    console.error(error)
+    // console.error(error)
 
     if (isAxiosError(error)) {
       // To prevent large area affected, we only throw with 404 issue
@@ -50,5 +53,6 @@ export const institutionLoader = async () => {
 
 export const featureFlagsPublicLoader = async () => {
   await featureFlagsService.handleFetchFeatureFlags("")
+
   return null
 }

@@ -7,61 +7,61 @@ import { Outlet, Route } from "react-router-dom"
  */
 const applicantFinancialProjectionRoutes = (
   <Route
-    path={APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX(":id")}
     element={
       <ApplicantFinancialProjectionsLayout>
         <Outlet />
       </ApplicantFinancialProjectionsLayout>
     }
+    path={APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX(":id")}
   >
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpOverviewPage"
         )
       }
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW(":id")}
     />
 
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.CASH_FLOW(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpCashFlowPage"
         )
       }
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.CASH_FLOW(":id")}
     />
 
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.BALANCE_SHEET(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpBalanceSheetPage"
         )
       }
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.BALANCE_SHEET(":id")}
     />
 
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.INCOME_STATEMENT(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpIncomeStatementPage"
         )
       }
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.INCOME_STATEMENT(":id")}
     />
 
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.LOAN_READY(":id")}
       lazy={() =>
         import(
           "@/modules/loan-application/[module]-financial-projection/components/pages/FpLoanReadyPage"
         )
       }
+      path={APP_PATH.LOAN_APPLICATION.FINANCIAL.LOAN_READY(":id")}
     />
   </Route>
 )

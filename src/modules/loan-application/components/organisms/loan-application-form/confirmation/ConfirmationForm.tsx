@@ -20,7 +20,7 @@ import {
 } from "../../../../constants"
 import {
   confirmationFormSchema,
-  ConfirmationFormValue
+  type ConfirmationFormValue
 } from "../../../../constants/form"
 import {
   LOAN_APPLICATION_STEP_STATUS,
@@ -34,7 +34,7 @@ import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { sanitizeDOM } from "@/utils/file.utils"
 import { isLaunchKC } from "@/utils/domain.utils"
 
-export const ConfirmationForm = () => {
+export function ConfirmationForm() {
   const { dispatchFormAction } = useLoanApplicationFormContext()
 
   const { progress, finishCurrentStep } = useLoanApplicationProgressContext()
@@ -83,10 +83,10 @@ export const ConfirmationForm = () => {
           <p key={index} className="text-sm text-text-secondary">
             <strong>{text.title}</strong>
             <p
-              className="whitespace-pre-wrap"
               dangerouslySetInnerHTML={{
                 __html: sanitizeDOM(text.content)
               }}
+              className="whitespace-pre-wrap"
             />
           </p>
         ))}
@@ -102,21 +102,21 @@ export const ConfirmationForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Your signature"
                     className="text-3xl island-moments-regular"
+                    placeholder="Your signature"
                     {...field}
-                    disabled={true}
+                    disabled
                   />
                 </FormControl>
               </FormItem>
             )}
           />{" "}
           <TextInput
-            label="Print name"
-            control={form.control}
-            name="printName"
             required
             className="col-span-1"
+            control={form.control}
+            label="Print name"
+            name="printName"
             placeholder="i.e: Larry's Latte"
           />
           <FormField
@@ -128,7 +128,7 @@ export const ConfirmationForm = () => {
                   Signature Date
                 </FormLabel>
                 <FormControl>
-                  <Input className="text-base" {...field} disabled={true} />
+                  <Input className="text-base" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -137,9 +137,9 @@ export const ConfirmationForm = () => {
         </form>
 
         <Button
-          type="submit"
-          disabled={!form.formState.isValid || !isPreviousStepsCompleted}
           className="w-full flex items-center gap-1"
+          disabled={!form.formState.isValid || !isPreviousStepsCompleted}
+          type="submit"
           onClick={form.handleSubmit(onSubmit)}
         >
           <span>Submit application</span>

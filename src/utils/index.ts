@@ -1,12 +1,12 @@
 import { getRequest } from "@/services/client.service"
-import { ImageDataResponse } from "@/types/common.type"
+import { type ImageDataResponse } from "@/types/common.type"
 import { format, intlFormatDistance } from "date-fns"
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { toast } from "sonner"
 import {
-  ILoanApplicationStep,
-  LOAN_APPLICATION_STEPS
+  type ILoanApplicationStep,
+  type LOAN_APPLICATION_STEPS
 } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 
 export const convertFileSizeToMB = (fileSizeInBytes: number): string => {
@@ -17,6 +17,7 @@ export const convertFileSizeToMB = (fileSizeInBytes: number): string => {
     return "0"
   }
   const fileSizeInMB = fileSizeInBytes / (1024 * 1024)
+
   return fileSizeInMB.toFixed(2)
 }
 
@@ -38,6 +39,7 @@ export function checkValidPhoneNumber(phone: string) {
   const phoneRegex = new RegExp(
     "^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$"
   )
+
   return phoneRegex.test(phone)
 }
 
@@ -45,6 +47,7 @@ export function checkValidEmail(email: string) {
   const emailRegex = new RegExp(
     "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
   )
+
   return emailRegex.test(email.toLowerCase())
 }
 
@@ -103,9 +106,12 @@ export const toPercent = (data?: number) => {
 
 export const textToCamelCaseFieldPattern = (str: string) => {
   // e.g. "Loan Program" -> "loanProgram"
-  return str
-    .toLowerCase()
-    .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())
+  return (
+    str
+      .toLowerCase()
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())
+  )
 }
 
 export const convertToCamelCase = (str: string) => {
@@ -119,6 +125,7 @@ export const capitalizeFirstOnly = (str: string): string => {
 export const snakeCaseToText = (str: string) => {
   return str.replace(/_/g, " ")
 }
+
 export const snakeCaseToUrlPattern = (str: string) => {
   return str.replace(/_/g, "-")
 }
@@ -136,21 +143,16 @@ export const camelCaseToText = (str: string) => {
 
 export async function fetchProtectedImage(path: string, imageUrl: string) {
   // Fetch the image.
-  const response = await getRequest<
-    { [key: string]: string },
-    ImageDataResponse
-  >({
+  const response = await getRequest<Record<string, string>, ImageDataResponse>({
     path: `${path}?image_url=${imageUrl}`
   })
-
-  const blob = response.fileData
 
   // TODO: create object url from blob
   // Dont know why this doesn't work
   // const n = new Blob([blob], { type: "image/jpeg" })
   // const objectUrl = URL.createObjectURL(n)
 
-  return blob
+  return response.fileData
 }
 
 export const convertToReadableDate = (date: string) => {
@@ -165,6 +167,7 @@ export const convertToReadableDateAgo = (date: string) => {
   if (!date) {
     return "N/A"
   }
+
   // Add a 1-second padding to avoid "now" text message
   return intlFormatDistance(new Date(date), Date.now() + 1000)
 }
@@ -178,16 +181,16 @@ export const convertToReadableDateAgo = (date: string) => {
  *
  * @returns e.g MM/00/YYYY
  */
-export function replaceString(
-  currentString: string,
-  start: number,
-  newString: string
-) {
-  const before = currentString.substring(0, start)
-  const after = currentString.substring(start + newString.length)
-
-  return before + newString + after
-}
+// export function replaceString(
+//   currentString: string,
+//   start: number,
+//   newString: string
+// ) {
+//   const before = currentString.substring(0, start)
+//   const after = currentString.substring(start + newString.length)
+//
+//   return before + newString + after
+// }
 
 /**
  *
@@ -212,6 +215,7 @@ export function downloadPDFFile(data: string, filename: string) {
   const blob = new Blob([data], {
     type: "application/pdf"
   })
+
   downloadFile(
     blob,
     `${extractFilename(filename)}_${format(new Date(), "MM-dd-yyyy_HH-mm")}.pdf`
@@ -224,6 +228,7 @@ export function downloadCSVFile(data: string, filename: string) {
   const blob = new Blob([universalBOM + data], {
     type: "text/csv;charset=utf-8;"
   })
+
   downloadFile(blob, filename)
 }
 
@@ -232,6 +237,7 @@ export function downloadJsonFile(data: string, filename: string) {
   const blob = new Blob([JSON.stringify(data)], {
     type: "text/json;charset=utf-8;"
   })
+
   downloadFile(blob, filename)
 }
 
@@ -240,6 +246,7 @@ export function downloadFile(blob: Blob, filename: string) {
 
   if (link.download !== undefined) {
     const url = URL.createObjectURL(blob)
+
     link.setAttribute("href", url)
     link.setAttribute("download", filename)
     link.style.visibility = "hidden"
@@ -264,6 +271,7 @@ export const sanitizeNumber = (number?: number | null) => {
 export const formatDate = (dateString: string, separator: string) => {
   if (!dateString) return "."
   const date = new Date(dateString)
+
   return date.toISOString().split(separator)[0]
 }
 
@@ -285,11 +293,12 @@ export const convertDateTimeToLocal = (
 
     const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date)
 
-    const [datePart, timePart] = formattedDate.split(`${separator}`)
+    const [datePart, timePart] = formattedDate.split(separator)
 
     return `${datePart} ${connector} ${timePart}`
   } catch (error) {
-    console.error("Error converting date:", error)
+    // console.error("Error converting date:", error)
+
     return "---"
   }
 }
@@ -301,6 +310,7 @@ export const formatBoundaryValues = (data?: string[]): string => {
   if (data.length === 1) {
     return data[0]
   }
+
   return `${data[0]}-${data[data.length - 1]}`
 }
 
@@ -308,15 +318,15 @@ export const getAbbreviationForName = (name?: string) => {
   if (typeof name != "string") return name
 
   const nameArray = name.trim().split(" ")
+
   if (nameArray.length === 1) {
     return nameArray[0].charAt(0).toUpperCase()
   }
 
-  const initials =
+  return (
     nameArray[0].charAt(0).toUpperCase() +
     nameArray[nameArray.length - 1].charAt(0).toUpperCase()
-
-  return initials
+  )
 }
 
 export function calculateTotalPayment(
@@ -419,6 +429,7 @@ export const convertMonthYearAndAddMonths = (
 
 export const roundAndConvertToUSLocale = (value?: number) => {
   const roundedNumber = Math.round(value ?? 0)
+
   return new Intl.NumberFormat().format(roundedNumber)
 }
 

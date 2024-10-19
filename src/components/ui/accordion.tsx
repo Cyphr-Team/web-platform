@@ -24,6 +24,7 @@ const AccordionItem = React.forwardRef<
     {...props}
   />
 ))
+
 AccordionItem.displayName = "AccordionItem"
 
 const AccordionTrigger = React.forwardRef<
@@ -46,9 +47,9 @@ const AccordionTrigger = React.forwardRef<
     >
       {
         // If isStartIcon is true, render the icon before the children
-        !openIcon && !closeIcon && isStartIcon && (
+        !openIcon && !closeIcon && isStartIcon ? (
           <ChevronDownIcon className="w-6 shrink-0 transition-transform duration-200" />
-        )
+        ) : null
       }
       {children}
       <div className="open-icon">{openIcon}</div>
@@ -59,6 +60,7 @@ const AccordionTrigger = React.forwardRef<
     </AccordionPrimitive.Trigger>
   )
 )
+
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
 
 const AccordionContent = React.forwardRef<
@@ -73,6 +75,7 @@ const AccordionContent = React.forwardRef<
     <div className={cn("pb-4 pt-0", className)}>{children}</div>
   </AccordionPrimitive.Content>
 ))
+
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }

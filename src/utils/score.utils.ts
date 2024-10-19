@@ -1,9 +1,9 @@
-import { ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
+import { type ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
 import {
-  IApplicationScoresResponse,
-  IScore
+  type IApplicationScoresResponse,
+  type IScore
 } from "@/types/application/application-score.type"
-import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import { sum } from "lodash"
 
 /* Application Scoring */

@@ -1,6 +1,6 @@
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
-import { FinancialApplicationFormDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
+import { type FinancialApplicationFormDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, toCurrency } from "@/utils"
@@ -9,6 +9,7 @@ import _ from "lodash"
 interface UseCurrentEmployeesDetailProps {
   expensePeopleResponse?: ExpensePeopleResponse
 }
+
 export const useCurrentEmployeesDetail = ({
   expensePeopleResponse
 }: UseCurrentEmployeesDetailProps) => {

@@ -1,12 +1,10 @@
-import { LoanApplicationStatus } from "../loan-application.type"
+import { type LoanApplicationStatus } from "../loan-application.type"
 
 /**
  * Application Score
  */
 
-interface IScore {
-  [key: string]: number
-}
+type IScore = Record<string, number>
 
 interface ILaunchKCApplicationScore extends IScore {
   productOrService: number

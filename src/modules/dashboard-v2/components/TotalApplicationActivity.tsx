@@ -6,7 +6,7 @@ import { LoanApplicationActivityChart } from "./LoanApplicationActivityChart"
 import { StatsTitle } from "./atoms/StatsTitle"
 import { LoanApplicationDecisionRateChart } from "./LoanApplicationDecisionRateChart"
 
-export const TotalApplicationActivity = () => {
+export function TotalApplicationActivity() {
   const { isLoading, statsData } = useDashboard()
 
   const data = {
@@ -23,34 +23,34 @@ export const TotalApplicationActivity = () => {
         <DashboardSingleNumberCard
           isLoading={isLoading}
           title="Submitted"
+          unit="Apps"
           value={data.totalApplicationsSubmitted}
           variantColor={getBadgeVariantByStatus(
             LoanApplicationStatus.SUBMITTED
           )}
-          unit="Apps"
         />
         <DashboardSingleNumberCard
           isLoading={isLoading}
           title="In Review"
+          unit="Apps"
           value={data.totalApplicationsInReview}
           variantColor={getBadgeVariantByStatus(
             LoanApplicationStatus.IN_REVIEW
           )}
-          unit="Apps"
         />
         <DashboardSingleNumberCard
           isLoading={isLoading}
           title="Approved"
+          unit="Apps"
           value={data.totalApplicationsApproved}
           variantColor={getBadgeVariantByStatus(LoanApplicationStatus.APPROVED)}
-          unit="Apps"
         />
         <DashboardSingleNumberCard
           isLoading={isLoading}
           title="Denied"
+          unit="Apps"
           value={data.totalApplicationsDenied}
           variantColor={getBadgeVariantByStatus(LoanApplicationStatus.DENIED)}
-          unit="Apps"
         />
       </div>
 

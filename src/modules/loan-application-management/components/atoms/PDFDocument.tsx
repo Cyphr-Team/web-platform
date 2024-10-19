@@ -19,7 +19,7 @@ interface IPDFDocument {
   file: string | Blob
 }
 
-export const PDFDocument = ({ file }: IPDFDocument) => {
+export function PDFDocument({ file }: IPDFDocument) {
   const [numPages, setNumPages] = useState<number>()
 
   function onDocumentLoadSuccess({
@@ -33,15 +33,15 @@ export const PDFDocument = ({ file }: IPDFDocument) => {
       <Document
         className="flex overflow-hidden h-full w-full"
         file={file}
-        onLoadSuccess={onDocumentLoadSuccess}
         options={options}
+        onLoadSuccess={onDocumentLoadSuccess}
       >
         <div className="flex overflow-hidden w-full justify-between">
           <div className="flex flex-col flex-shrink-0 overflow-auto p-2 bg-gray-200 rounded-l-md">
             {Array.from(new Array(numPages), (_, index) => (
               <div
-                className="flex flex-col items-center justify-center"
                 key={`page_${index + 1}`}
+                className="flex flex-col items-center justify-center"
               >
                 <Thumbnail
                   className="p-2 bg-gray-200"
@@ -58,8 +58,8 @@ export const PDFDocument = ({ file }: IPDFDocument) => {
               {Array.from(new Array(numPages), (_, index) => (
                 <Page
                   key={`page_${index + 1}`}
-                  pageNumber={index + 1}
                   className="w-full"
+                  pageNumber={index + 1}
                 />
               ))}
             </div>

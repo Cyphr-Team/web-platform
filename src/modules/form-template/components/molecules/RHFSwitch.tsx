@@ -1,7 +1,11 @@
 import { FormField, FormItem, FormLabel } from "@/components/ui/form.tsx"
 import { cn } from "@/lib/utils.ts"
-import { memo, ReactNode } from "react"
-import { FieldPath, FieldValues, useFormContext } from "react-hook-form"
+import { memo, type ReactNode } from "react"
+import {
+  type FieldPath,
+  type FieldValues,
+  useFormContext
+} from "react-hook-form"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 
 export interface RHFTextInputProps<T extends FieldValues> {
@@ -14,7 +18,7 @@ export interface RHFTextInputProps<T extends FieldValues> {
   }
 }
 
-const RHFSwitch = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
+function RHFSwitch<T extends FieldValues>(props: RHFTextInputProps<T>) {
   const { control } = useFormContext()
   const { name, label, className, styleProps = {} } = props
   const { labelClassName } = styleProps

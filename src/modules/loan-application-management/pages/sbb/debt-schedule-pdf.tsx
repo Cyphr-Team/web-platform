@@ -1,11 +1,11 @@
 import { DataTable } from "@/components/ui/data-table"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { ColumnDef, Row } from "@tanstack/react-table"
+import { type ColumnDef, type Row } from "@tanstack/react-table"
 import { PAYMENT } from "./amortization-schedule-table"
 import {
-  FullAmortizationResponse,
-  PaymentDetail,
-  TotalMonthlyPayment
+  type FullAmortizationResponse,
+  type PaymentDetail,
+  type TotalMonthlyPayment
 } from "../../constants/types/debt-schedule.type"
 import {
   convertMonthYearAndAddMonths,
@@ -25,9 +25,9 @@ import {
 } from "@/components/ui/table"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
-import { CurrentLoanInformationResponse } from "@/modules/loan-application/constants/type"
+import { type CurrentLoanInformationResponse } from "@/modules/loan-application/constants/type"
 
-type DebtSchedulePdfProps = {
+interface DebtSchedulePdfProps {
   amortization?: FullAmortizationResponse
   createdDate: string
   itemsRef: React.MutableRefObject<
@@ -35,7 +35,9 @@ type DebtSchedulePdfProps = {
   >
 }
 
-type PaymentDetailRowProps = { row: Row<PaymentDetail> }
+interface PaymentDetailRowProps {
+  row: Row<PaymentDetail>
+}
 
 const ClosingBalanceCell: React.FC<PaymentDetailRowProps> = ({ row }) => {
   return (
@@ -80,11 +82,11 @@ const DisclaimerNote: React.FC = () => {
   return (
     <div className="flex flex-col gap-3">
       <Image
-        src={sbbLogo}
-        placeholderClassName="bg-slate-400 rounded"
         alt="Institution text logo"
         className="h-8 max-w-[100px]"
         height={32}
+        placeholderClassName="bg-slate-400 rounded"
+        src={sbbLogo}
         width={100}
       />
 
@@ -165,16 +167,18 @@ const CurrentLoanOverview: React.FC = () => {
   )
 }
 
-const SBBLogo = () => (
-  <Image
-    src={sbbLogo}
-    placeholderClassName="bg-slate-400 rounded"
-    alt="Institution text logo"
-    className="h-8 max-w-[100px]"
-    height={32}
-    width={100}
-  />
-)
+function SBBLogo() {
+  return (
+    <Image
+      alt="Institution text logo"
+      className="h-8 max-w-[100px]"
+      height={32}
+      placeholderClassName="bg-slate-400 rounded"
+      src={sbbLogo}
+      width={100}
+    />
+  )
+}
 
 const PageHeader: React.FC<{
   createdDate: string
@@ -211,14 +215,14 @@ export const DebtSchedulePdf: React.FC<DebtSchedulePdfProps> = ({
   return (
     <div className="flex flex-col">
       <div
-        className="flex justify-center"
         ref={provideRef(RefKeys.disclaimerNote)}
+        className="flex justify-center"
       >
         <DisclaimerNote />
       </div>
       <div
-        className="flex flex-col gap-3"
         ref={provideRef(RefKeys.currentLoanOverview)}
+        className="flex flex-col gap-3"
       >
         <PageHeader createdDate={createdDate} />
 
@@ -226,37 +230,36 @@ export const DebtSchedulePdf: React.FC<DebtSchedulePdfProps> = ({
         <CurrentLoanOverviewTable />
       </div>
 
-      {amortization &&
-        amortization.amortizationSchedule.map((amortization, index) => {
-          const splitDataList = splitData(
-            amortization.paymentDetail,
-            MAX_ROWS_PER_PAGE
-          )
+      {amortization?.amortizationSchedule.map((amortization, index) => {
+        const splitDataList = splitData(
+          amortization.paymentDetail,
+          MAX_ROWS_PER_PAGE
+        )
 
-          return splitDataList.map((data, ind) => (
-            <div
-              key={`${amortization.lenderName}-${ind}`}
-              ref={provideRef(`${amortization.lenderName}-${ind}`)}
-            >
-              <PageHeader createdDate={createdDate} />
+        return splitDataList.map((data, ind) => (
+          <div
+            key={`${amortization.lenderName}-${ind}`}
+            ref={provideRef(`${amortization.lenderName}-${ind}`)}
+          >
+            <PageHeader createdDate={createdDate} />
 
-              {index === 0 && ind == 0 && <AmortizationScheduleTitle />}
-              {ind !== 0 && <p>...continued from previous page</p>}
-              <DebtScheduleTable
-                key={index}
-                data={data as PaymentDetail[]}
-                lenderName={amortization.lenderName}
-                createdAt={amortization.createdAt}
-              />
-            </div>
-          ))
-        })}
+            {index === 0 && ind == 0 && <AmortizationScheduleTitle />}
+            {ind !== 0 && <p>...continued from previous page</p>}
+            <DebtScheduleTable
+              key={index}
+              createdAt={amortization.createdAt}
+              data={data as PaymentDetail[]}
+              lenderName={amortization.lenderName}
+            />
+          </div>
+        ))
+      })}
       {!!totalMonthlyPayment.length &&
         totalMonthlyPayment.map((data, index) => (
           <div
             key={`totalMonthlyPayment-${index}`}
-            className="flex flex-col gap-3"
             ref={provideRef(`totalMonthlyPayment-${index}`)}
+            className="flex flex-col gap-3"
           >
             <PageHeader createdDate={createdDate} />
             {index !== 0 && <p>...continued from previous page</p>}
@@ -281,9 +284,9 @@ const DebtScheduleTable: React.FC<{
       accessorKey: "month",
       header: ({ column }) => (
         <DataTableColumnHeader
+          className="text-2xl text-primary max-w-[100px]"
           column={column}
           title="Date"
-          className="text-2xl text-primary max-w-[100px]"
         />
       ),
       cell: ({ row }) => (
@@ -299,9 +302,9 @@ const DebtScheduleTable: React.FC<{
       enableSorting: false,
       header: ({ column }) => (
         <DataTableColumnHeader
+          className="text-2xl text-primary max-w-[100px]"
           column={column}
           title="Opening Balance"
-          className="text-2xl text-primary max-w-[100px]"
         />
       ),
       cell: OpeningBalanceCell
@@ -312,9 +315,9 @@ const DebtScheduleTable: React.FC<{
       enableSorting: false,
       header: ({ column }) => (
         <DataTableColumnHeader
+          className="text-2xl text-primary max-w-[100px]"
           column={column}
           title="Total Payment"
-          className="text-2xl text-primary max-w-[100px]"
         />
       ),
       cell: TotalPaymentCell
@@ -326,9 +329,9 @@ const DebtScheduleTable: React.FC<{
 
       header: ({ column }) => (
         <DataTableColumnHeader
+          className="text-2xl text-primary max-w-[100px]"
           column={column}
           title="Interest Payment"
-          className="text-2xl text-primary max-w-[100px]"
         />
       ),
       cell: InterestPaymentCell
@@ -340,9 +343,9 @@ const DebtScheduleTable: React.FC<{
 
       header: ({ column }) => (
         <DataTableColumnHeader
+          className="text-2xl text-primary max-w-[100px]"
           column={column}
           title="Principal Payment"
-          className="text-2xl text-primary max-w-[100px]"
         />
       ),
       cell: PrincipalPaymentCell
@@ -354,9 +357,9 @@ const DebtScheduleTable: React.FC<{
 
       header: ({ column }) => (
         <DataTableColumnHeader
+          className="text-2xl text-primary max-w-[100px]"
           column={column}
           title="Closing Balance"
-          className="text-2xl text-primary max-w-[100px]"
         />
       ),
       cell: ClosingBalanceCell
@@ -367,9 +370,9 @@ const DebtScheduleTable: React.FC<{
     <div className="flex flex-col">
       <h3 className="font-semibold text-4xl">{lenderName}</h3>
       <DataTable
-        tableContainerClassName="overflow-hidden"
         columns={columns}
         data={data}
+        tableContainerClassName="overflow-hidden"
         total={data.length}
       />
     </div>
@@ -386,9 +389,9 @@ const TotalMonthlyPaymentTables: React.FC<{
       accessorKey: "month",
       header: ({ column }) => (
         <DataTableColumnHeader
+          className="text-2xl text-primary"
           column={column}
           title="Month"
-          className="text-2xl text-primary"
         />
       ),
       cell: ({ row }) => (
@@ -404,9 +407,9 @@ const TotalMonthlyPaymentTables: React.FC<{
       enableSorting: false,
       header: ({ column }) => (
         <DataTableColumnHeader
+          className="text-2xl text-primary "
           column={column}
           title="Total monthly payment"
-          className="text-2xl text-primary "
         />
       ),
       cell: ({ row }) => (
@@ -419,9 +422,9 @@ const TotalMonthlyPaymentTables: React.FC<{
     <div className="flex flex-col">
       <h3 className="font-semibold text-4xl">Total Monthly Payment</h3>
       <DataTable
-        tableContainerClassName="overflow-hidden"
         columns={columns}
         data={data}
+        tableContainerClassName="overflow-hidden"
         total={data.length}
       />
     </div>
@@ -433,6 +436,7 @@ const CurrentLoanOverviewTable: React.FC = () => {
   const currentLoan = loanSummary?.currentLoanForms
 
   const splitDataList = splitData(currentLoan ?? [], 3) // Max 3 loans per table
+
   return (
     <div className="flex flex-col gap-6">
       {splitDataList.map((data, index) => (
@@ -454,11 +458,11 @@ const CurrentLoanOverviewTableData: React.FC<{
       <Table className="text-2xl relative">
         <TableBody className="bg-white">
           <TableRow key="lenderName" className="relative">
-            <TableHead className="text-2xl font-medium bg-gray-100 text-black w-80"></TableHead>
+            <TableHead className="text-2xl font-medium bg-gray-100 text-black w-80" />
             {data?.map((row, ind) => (
               <TableCell
-                className="text-2xl font-medium border-l bg-gray-100 text-center"
                 key={`${row.lenderName}-${ind}`}
+                className="text-2xl font-medium border-l bg-gray-100 text-center"
               >
                 {row.lenderName}
               </TableCell>
@@ -470,8 +474,8 @@ const CurrentLoanOverviewTableData: React.FC<{
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
-                className="text-2xl border-l text-center capitalize"
                 key={`${row.loanType}-${ind}`}
+                className="text-2xl border-l text-center capitalize"
               >
                 {snakeCaseToText(row.loanType)}
               </TableCell>
@@ -483,8 +487,8 @@ const CurrentLoanOverviewTableData: React.FC<{
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
-                className="text-2xl border-l text-center"
                 key={`${row.outstandingLoanBalance}-${ind}`}
+                className="text-2xl border-l text-center"
               >
                 {toCurrency(row.outstandingLoanBalance)}
               </TableCell>
@@ -496,8 +500,8 @@ const CurrentLoanOverviewTableData: React.FC<{
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
-                className="text-2xl border-l text-center"
                 key={`${row.monthlyPaymentAmount}-${ind}`}
+                className="text-2xl border-l text-center"
               >
                 {toCurrency(row.monthlyPaymentAmount)}
               </TableCell>
@@ -509,8 +513,8 @@ const CurrentLoanOverviewTableData: React.FC<{
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
-                className="text-2xl border-l text-center"
                 key={`${row.loanTermRemainingInMonths}-${ind}`}
+                className="text-2xl border-l text-center"
               >
                 {row.loanTermRemainingInMonths}
               </TableCell>
@@ -522,8 +526,8 @@ const CurrentLoanOverviewTableData: React.FC<{
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
-                className="text-2xl border-l text-center"
                 key={`${row.annualInterestRate}-${ind}`}
+                className="text-2xl border-l text-center"
               >
                 {`${row.annualInterestRate}%`}
               </TableCell>
@@ -543,8 +547,10 @@ const splitData = (
   splitSize: number
 ) => {
   const result = []
+
   for (let i = 0; i < data.length; i += splitSize) {
     result.push(data.slice(i, i + splitSize))
   }
+
   return result
 }

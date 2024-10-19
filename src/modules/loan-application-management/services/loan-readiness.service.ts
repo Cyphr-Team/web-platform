@@ -1,7 +1,7 @@
 import { RatingLevel } from "@/modules/assessment/interface/Rating/type"
-import { ApplicationCriteriaResponse } from "@/modules/loan-application/constants/type"
-import { Option } from "@/types/common.type"
-import { SortingFnOption } from "@tanstack/react-table"
+import { type ApplicationCriteriaResponse } from "@/modules/loan-application/constants/type"
+import { type Option } from "@/types/common.type"
+import { type SortingFnOption } from "@tanstack/react-table"
 
 const CRITERIA_NOT_READY_STATUS = "not_ready"
 const CRITERIA_NOT_AVAILABLE = "Not available"
@@ -58,8 +58,9 @@ const getScoreByRatingLevel = (ratingLevel?: string) => {
       return 2
     case RatingLevel.POOR:
       return 1
+    default:
+      return 0
   }
-  return 0
 }
 
 const customSortRatingLevel: SortingFnOption<ApplicationCriteriaResponse> = (

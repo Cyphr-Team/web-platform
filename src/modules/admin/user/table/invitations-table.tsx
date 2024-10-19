@@ -1,7 +1,7 @@
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import {
   getCoreRowModel,
-  PaginationState,
+  type PaginationState,
   useReactTable
 } from "@tanstack/react-table"
 import { useQueryListPaginateInvitation } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateInvitation.ts"
@@ -9,9 +9,9 @@ import { useState } from "react"
 import { RevokeInvitationAction } from "@/modules/admin/user/table/revoke-invitation-action.tsx"
 import { calculateDaysUntilExpiration } from "@/utils/date.utils.ts"
 import { DataTablePagination } from "@/shared/molecules/table/table-pagination"
-import { Invitation } from "@/types/invitation.type"
+import { type Invitation } from "@/types/invitation.type"
 
-export const InvitationTable = () => {
+export function InvitationTable() {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: REQUEST_LIMIT_PARAM
@@ -37,7 +37,7 @@ export const InvitationTable = () => {
   return (
     <div className="sticky top-0">
       <h1 className="text-l font-medium mb-4">
-        {data && data.total !== undefined && (
+        {data?.total !== undefined && (
           <span>
             There {data.total < 2 ? "is" : "are"} {data.total} active invitation
             {data.total > 1 && "s"}
@@ -50,11 +50,12 @@ export const InvitationTable = () => {
           invitation.expirationDays,
           invitation.sentAt
         )
+
         return (
           <div
-            id={invitation.recipientEmail}
             key={invitation.id}
             className="border border-gray-100 px-3 py-1.5 mb-2 flex items-center justify-between shadow-md rounded-md text-sm"
+            id={invitation.recipientEmail}
           >
             <div className="flex items-center">
               <h2 className="text-gray-600">
@@ -80,9 +81,7 @@ export const InvitationTable = () => {
                 )}
               </p>
               <div className="min-w-0">
-                <RevokeInvitationAction
-                  invitation={invitation}
-                ></RevokeInvitationAction>
+                <RevokeInvitationAction invitation={invitation} />
               </div>
             </div>
           </div>

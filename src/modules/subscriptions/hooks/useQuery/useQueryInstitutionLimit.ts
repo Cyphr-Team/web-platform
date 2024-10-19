@@ -1,11 +1,11 @@
 import { API_PATH } from "@/constants"
 import { subscriptionKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
-import { Usage } from "@/types/usage.type"
+import { type Usage } from "@/types/usage.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
 
-type Params = {
+interface Params {
   institutionId?: string
 }
 

@@ -2,12 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { DocumentType } from "@/modules/loan-application-management/constants/types/document"
 import { DownloadDocumentButton } from "@/modules/loan-application/components/atoms/DownloadDocumentButton"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
+import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/useQuery/useQuerySbbDocumentForm"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { textToCamelCaseFieldPattern } from "@/utils"
 import { renderHeader } from "@/utils/table.utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { get } from "lodash"
 
 const getSbbDocumentType = (type: string) => {
@@ -33,6 +33,7 @@ const columns: ColumnDef<DocumentUploadedResponse>[] = [
     header: renderHeader("Document"),
     cell: ({ row }) => {
       const document = row.original
+
       return (
         <div className="min-w-0 font-semibold">
           {getSbbDocumentType(document.type)}
@@ -75,7 +76,7 @@ const Documents = [
   DocumentType.BY_LAWS
 ]
 
-export const SbbApplicantSubmittedDocuments = () => {
+export function SbbApplicantSubmittedDocuments() {
   const { loanApplicationDetails } = useBRLoanApplicationDetailsContext()
   const { data, isLoading } = useQuerySbbDocumentForm(
     loanApplicationDetails?.id ?? ""
@@ -102,12 +103,12 @@ export const SbbApplicantSubmittedDocuments = () => {
 
           <CardContent className="overflow-auto !p-0">
             <MiddeskTable
-              tableClassName="!text-text-primary"
+              cellClassName="text-sm pl-0  border-b"
               columns={columns}
               data={documents}
-              isLoading={isLoading}
-              cellClassName="text-sm pl-0  border-b"
               headerCellClassName="p-0 text-text-primary text-sm font-medium"
+              isLoading={isLoading}
+              tableClassName="!text-text-primary"
             />
           </CardContent>
         </Card>

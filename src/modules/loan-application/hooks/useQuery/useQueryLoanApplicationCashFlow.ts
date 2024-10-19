@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { type AxiosError } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
-import { LoanApplicationCashflowVerification } from "../../constants/type"
+import { type LoanApplicationCashflowVerification } from "../../constants/type"
 
 export const useQueryGetLoanApplicationCashflowVerification = (id?: string) => {
   return useQuery<

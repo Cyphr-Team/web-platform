@@ -1,14 +1,14 @@
-import { UUID } from "crypto"
-import { PersonaStatus } from "../../../../lib/persona/persona.types"
+import { type UUID } from "crypto"
+import { type PersonaStatus } from "../../../../lib/persona/persona.types"
 
 // Insights
-type InsightData = {
+interface InsightData {
   category?: string
   subLabel?: IdentityVerificationStatus
   status?: TaskFieldStatus
   message?: string
 }
-type SmartKycInsight = {
+interface SmartKycInsight {
   governmentId?: InsightData
   selfieVerification?: InsightData
 }

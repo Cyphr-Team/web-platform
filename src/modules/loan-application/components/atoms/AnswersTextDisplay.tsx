@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 
-type AnswersTextDisplayProps = {
+interface AnswersTextDisplayProps {
   label: string
   value?: string
   className?: string
@@ -8,19 +8,19 @@ type AnswersTextDisplayProps = {
   labelClassName?: string
 }
 
-type MultiAnswersTextDisplayProps = {
+interface MultiAnswersTextDisplayProps {
   label: string
   value?: string[]
   className?: string
 }
 
-export const AnswersTextDisplay = ({
+export function AnswersTextDisplay({
   label,
   value,
   className,
   valueClassName,
   labelClassName
-}: AnswersTextDisplayProps) => {
+}: AnswersTextDisplayProps) {
   return (
     <div className={cn("gap-sm flex flex-col", className)}>
       <div
@@ -35,11 +35,11 @@ export const AnswersTextDisplay = ({
   )
 }
 
-export const MultiAnswersTextDisplay = ({
+export function MultiAnswersTextDisplay({
   label,
   value,
   className
-}: MultiAnswersTextDisplayProps) => {
+}: MultiAnswersTextDisplayProps) {
   return (
     <div className={cn(className, "gap-sm flex flex-col")}>
       <div className="text-text-primary font-medium text-sm">{label}</div>

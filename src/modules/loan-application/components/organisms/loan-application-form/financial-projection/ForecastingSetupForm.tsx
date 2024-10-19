@@ -18,10 +18,10 @@ import { renderBlockComponents } from "@/modules/form-template/components/templa
 import {
   ForecastingSetupFormBlocks,
   forecastingSetupFormSchema,
-  ForecastingSetupFormValue
+  type ForecastingSetupFormValue
 } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
 
-export const ForecastingSetupForm = () => {
+export function ForecastingSetupForm() {
   const { forecastingSetup, dispatchFormAction } =
     useLoanApplicationFormContext()
 

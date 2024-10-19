@@ -10,6 +10,7 @@ export const getTimeFromSecs = ({ totalSecs }: { totalSecs: number }) => {
   const secs = Math.floor(((totalSecs % secsInDay) % secsInHour) % secsInMinute)
 
   let result = ""
+
   if (days != 0) {
     result += `${days}d `
   }
@@ -22,5 +23,6 @@ export const getTimeFromSecs = ({ totalSecs }: { totalSecs: number }) => {
   if (secs != 0) {
     result += `${secs}s `
   }
+
   return result.trim() == "" ? "N/A" : result
 }

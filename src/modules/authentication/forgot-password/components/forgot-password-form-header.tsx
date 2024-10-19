@@ -1,7 +1,7 @@
 import { useMemo } from "react"
 import { useFormContext } from "react-hook-form"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { ForgotPasswordFormValue } from "../hooks/useForgotPassword"
+import { type ForgotPasswordFormValue } from "../hooks/useForgotPassword"
 import { UI_DATA_FORGOT_PASSWORD_HEADER } from "../constants"
 
 export function ForgotPasswordFormHeader() {

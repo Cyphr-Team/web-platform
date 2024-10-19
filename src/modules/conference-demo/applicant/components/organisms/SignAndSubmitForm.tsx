@@ -18,7 +18,7 @@ import { APP_PATH } from "../../../../../constants"
 import { toastSuccess } from "../../../../../utils"
 import { TOAST_MSG } from "../../../../../constants/toastMsg"
 
-const SignAndSubmitForm = () => {
+function SignAndSubmitForm() {
   const navigate = useNavigate()
   const { finishStep } = useProgress.use.action()
 
@@ -79,8 +79,8 @@ const SignAndSubmitForm = () => {
           <div>
             <div>
               <RHFTextInput
-                name={SIGN_FIELD_NAMES.PRINT_NAME}
                 label="Signature of Authorized Individual"
+                name={SIGN_FIELD_NAMES.PRINT_NAME}
                 placeholder="Your signature"
                 styleProps={{
                   inputClassName: "island-moments-regular text-3xl"
@@ -89,24 +89,24 @@ const SignAndSubmitForm = () => {
             </div>
             <div className="flex gap-4 justify-between">
               <RHFTextInput
-                name={SIGN_FIELD_NAMES.PRINT_NAME}
-                label="Print name"
-                placeholder="i.e: Larry's Latte"
-                className="mt-6 space-y-2 flex-1"
                 required
+                className="mt-6 space-y-2 flex-1"
+                label="Print name"
+                name={SIGN_FIELD_NAMES.PRINT_NAME}
+                placeholder="i.e: Larry's Latte"
               />
               <RHFTextInput
-                name={SIGN_FIELD_NAMES.SIGNATURE_DATE}
-                label="Signature Date"
-                className="mt-6 space-y-2 flex-1"
                 disabled
+                className="mt-6 space-y-2 flex-1"
+                label="Signature Date"
+                name={SIGN_FIELD_NAMES.SIGNATURE_DATE}
               />
             </div>
           </div>
           <Button
-            type="submit"
             className="w-full mt-5"
             disabled={!isPreviousStepsCompleted}
+            type="submit"
           >
             Submit application
           </Button>

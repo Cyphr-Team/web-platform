@@ -8,15 +8,15 @@ export function ActivateEmailForm() {
   return (
     <>
       <ActivateEmailFormHeader
+        errorCode={errorCode}
         isPending={isPending}
         isSuccess={isSuccess}
-        errorCode={errorCode}
       />
 
       <ActiveEmailFooter
+        errorCode={errorCode}
         isPending={isPending}
         isSuccess={isSuccess}
-        errorCode={errorCode}
       />
     </>
   )

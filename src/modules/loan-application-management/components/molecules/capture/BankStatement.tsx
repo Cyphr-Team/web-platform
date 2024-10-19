@@ -7,19 +7,19 @@ import {
   TableBody,
   TableCell
 } from "@/components/ui/table"
-import { BankStatementType } from "@/modules/loan-application-management/constants/types/document"
+import { type BankStatementType } from "@/modules/loan-application-management/constants/types/document"
 
 import { BankInformation } from "./BankInformation"
 import { cn } from "@/lib/utils"
 
-type Props = {
+interface Props {
   data: BankStatementType
 }
 
 export const BankStatement: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col lg:w-96 gap-3 overflow-y-auto">
-      <Accordion type="single" collapsible className="w-full mb-12">
+      <Accordion collapsible className="w-full mb-12" type="single">
         {data.bankAccount?.map((cell, index) => (
           <BankInformation key={index} data={cell} />
         ))}

@@ -34,20 +34,20 @@ export { TaskFieldStatus, SourceStatus }
  * Application KYB Detail Response
  */
 // Source
-type BusinessRegistrationSource = {
+interface BusinessRegistrationSource {
   link?: string
   status?: SourceStatus
   state?: string
 }
 
 // Insights
-type InsightData = {
+interface InsightData {
   category?: string
   subLabel?: string
   status?: TaskFieldStatus
   message?: string
 }
-type BusinessInsight = {
+interface BusinessInsight {
   businessName?: InsightData
   officeAddress?: InsightData
   sosFillings?: InsightData
@@ -61,14 +61,14 @@ type BusinessInsight = {
 }
 
 // Business Detail
-type BusinessDetailData = {
+interface BusinessDetailData {
   value?: string
   subLabel?: string
   status?: TaskFieldStatus
   source: BusinessRegistrationSource
   message?: string
 }
-type BusinessDetail = {
+interface BusinessDetail {
   name: BusinessDetailData
   address: BusinessDetailData
   tin: BusinessDetailData
@@ -78,19 +78,19 @@ type BusinessDetail = {
 }
 
 // Name
-type BusinessNameDetail = {
+interface BusinessNameDetail {
   name: string
   status?: TaskFieldStatus
   submitted: boolean
   source: BusinessRegistrationSource
 }
-type BusinessNameData = {
+interface BusinessNameData {
   subLabel?: string
   data: BusinessNameDetail[]
 }
 
 // Address
-type BusinessAddressDetail = {
+interface BusinessAddressDetail {
   address: string
   status?: TaskFieldStatus
   submitted: boolean
@@ -99,20 +99,20 @@ type BusinessAddressDetail = {
   cmra: boolean
   registeredAgent: boolean
 }
-type BusinessAddressData = {
+interface BusinessAddressData {
   subLabel?: string
   data: BusinessAddressDetail[]
 }
 
 // SOS Fillings
-type BusinessSosDetail = {
+interface BusinessSosDetail {
   fileDate?: string
   state?: string
   status?: SourceStatus
   subStatus?: string
   source: BusinessRegistrationSource
 }
-type BusinessSosData = {
+interface BusinessSosData {
   active: number
   inactive: number
   unknown: number
@@ -121,29 +121,29 @@ type BusinessSosData = {
 }
 
 // Tin
-type BusinessTinDetail = {
+interface BusinessTinDetail {
   matchedBusinessName?: string
   tin?: string
 }
-type BusinessTinData = {
+interface BusinessTinData {
   subLabel?: string
   data: BusinessTinDetail
 }
 
 // People
-type BusinessPeopleDetail = {
+interface BusinessPeopleDetail {
   name?: string
   submitted: boolean
   source: BusinessRegistrationSource
   title: string[]
 }
-type BusinessPeopleData = {
+interface BusinessPeopleData {
   subLabel?: string
   data: BusinessPeopleDetail[]
 }
 
 // Watchlist
-type BusinessWatchlistDetail = {
+interface BusinessWatchlistDetail {
   found?: string
   agency?: string
   organization?: string
@@ -153,7 +153,7 @@ type BusinessWatchlistDetail = {
   sourceUrl?: string
   sourceCategory: string[]
 }
-type BusinessWatchlistData = {
+interface BusinessWatchlistData {
   businessName: string
   people?: string
   isBusinessNameHit: boolean
@@ -162,26 +162,26 @@ type BusinessWatchlistData = {
 }
 
 // Bankruptcies
-type BusinessBankruptcyDetail = {
+interface BusinessBankruptcyDetail {
   fileDate?: string
   chapter?: number
   caseNumber?: string
   court?: string
 }
-type BusinessBankruptcyData = {
+interface BusinessBankruptcyData {
   subLabel?: string
   data: BusinessBankruptcyDetail[]
 }
 
 // Industry Classification
-type BusinessIndustryClassificationDetail = {
+interface BusinessIndustryClassificationDetail {
   classificationSystem?: string
   code?: string[]
   category?: string
   confidence?: number
 }
 
-type BusinessIndustryClassificationData = {
+interface BusinessIndustryClassificationData {
   subLabel?: string
   data: BusinessIndustryClassificationDetail[]
 }
@@ -206,7 +206,7 @@ export const BusinessIndustryClassificationHighRiskCategory = {
 }
 
 // Website
-type BusinessWebsiteDetail = {
+interface BusinessWebsiteDetail {
   status?: string
   identifiedWebPresence?: string
   website?: string
@@ -215,37 +215,38 @@ type BusinessWebsiteDetail = {
   online?: string
 }
 
-type BusinessWebsiteData = {
+interface BusinessWebsiteData {
   subLabel?: string
   data: BusinessWebsiteDetail
 }
+
 export enum BusinessWebsiteFieldStatus {
   Online = "online",
   Offline = "offline",
   Unknown = "unknown"
 }
 // Adverse Media
-type BusinessAdverseMediaScreened = {
+interface BusinessAdverseMediaScreened {
   value: string
   field: string
 }
-type BusinessAdverseMediaRisk = {
+interface BusinessAdverseMediaRisk {
   subLabel: string
   status: TaskFieldStatus
 }
-type BusinessAdverseMediaDetail = {
+interface BusinessAdverseMediaDetail {
   screened: BusinessAdverseMediaScreened
   risk: BusinessAdverseMediaRisk
   mediaSources: string
 }
-type BusinessAdverseMediaData = {
+interface BusinessAdverseMediaData {
   status: TaskFieldStatus
   subLabel?: string
   data: BusinessAdverseMediaDetail[]
 }
 
 // Application KYB Detail Response
-type ApplicationKybDetailResponse = {
+interface ApplicationKybDetailResponse {
   insights: BusinessInsight
   updatedAt: string
   businessDetails: BusinessDetail

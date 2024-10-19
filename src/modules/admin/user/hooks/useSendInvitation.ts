@@ -2,15 +2,15 @@ import { API_PATH } from "@/constants"
 import * as z from "zod"
 import { postRequest } from "@/services/client.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
-import { UserInfo } from "@/types/user.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
+import { type UserInfo } from "@/types/user.type"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
 import { invitationKeys, userKeys } from "@/constants/query-key"
-import { InvitationDetail } from "@/types/upload.type"
+import { type InvitationDetail } from "@/types/upload.type"
 
 export const adminSendInvitationForm = z.object({
   roles: z
@@ -102,6 +102,7 @@ export const useSendBulkCsvInvitation = () => {
   >({
     mutationFn: ({ file, baseUrl, expirationDays }) => {
       const formData = new FormData()
+
       if (file) {
         formData.append("file", file)
       }

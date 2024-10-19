@@ -22,7 +22,7 @@ interface Props {
   onSave: (formType: string[]) => void
 }
 
-const FormOptionCard = ({
+function FormOptionCard({
   checked,
   formType,
   onSelectForm
@@ -30,7 +30,7 @@ const FormOptionCard = ({
   checked: boolean
   formType: FORM_TYPE
   onSelectForm: (formType: FORM_TYPE) => () => void
-}) => {
+}) {
   return (
     <Card
       key={formType}
@@ -39,8 +39,8 @@ const FormOptionCard = ({
       onClick={onSelectForm(formType)}
     >
       <Checkbox
-        className="absolute top-2 right-2"
         checked={checked}
+        className="absolute top-2 right-2"
         onChange={onSelectForm(formType)}
       />
       <CardTitle className="text-sm">
@@ -90,8 +90,8 @@ export const SelectFormsDialog: React.FC<Props> = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button type="button" id="close-select">
-          <PlusCircle size={16} className="text-sm mr-1.5" />
+        <Button id="close-select" type="button">
+          <PlusCircle className="text-sm mr-1.5" size={16} />
           Add new
         </Button>
       </DialogTrigger>

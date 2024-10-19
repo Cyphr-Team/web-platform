@@ -9,13 +9,13 @@ import {
 } from "../../constants/data"
 import { Dot } from "../../../../../components/ui/dot"
 
-const VerificationStatus = ({
+function VerificationStatus({
   isVerified,
   label
 }: {
   isVerified: boolean
   label: string
-}) => {
+}) {
   return (
     <div className="md:grid-cols-2 grid grid-flow-row border border-t-0 border-l-0">
       <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex items-center">
@@ -31,7 +31,7 @@ const VerificationStatus = ({
   )
 }
 
-export const ApplicationOverview = () => {
+export function ApplicationOverview() {
   const businessInfo = MOCK_LOAN_SUMMARY?.businessInfo
   const personalInfo = MOCK_LOAN_SUMMARY?.personalInfo
   const loanAmount = MOCK_LOAN_APPLICATION_DETAILS?.loanAmount
@@ -43,12 +43,14 @@ export const ApplicationOverview = () => {
     if (businessInfo?.businessName?.verification) {
       return businessInfo?.businessName?.value ?? "N/A"
     }
+
     return MOCK_LOAN_SUMMARY?.kybForm?.businessLegalName ?? "N/A"
   }
   const getBusinessAddress = () => {
     if (businessInfo?.businessName?.verification) {
       return MOCK_LOAN_SUMMARY?.businessInfo?.officeAddresses?.value ?? "N/A"
     }
+
     return MOCK_LOAN_SUMMARY?.kybForm?.businessStreetAddress
       ? formatBusinessStreetAddress(
           MOCK_LOAN_SUMMARY?.kybForm?.businessStreetAddress
@@ -57,50 +59,46 @@ export const ApplicationOverview = () => {
   }
 
   return (
-    <>
-      <Card className="border-r-0 border-b-0 shadow-none bg-white">
-        <div className="grid grid-cols-2">
-          <VerificationStatus isVerified={true} label="Business verification" />
-          <VerificationStatus isVerified={true} label="Identity verification" />
-          <InformationRow
-            label="Business name"
-            value={getBusinessName()}
-            className="rounded-tl-md"
-          />
-          <InformationRow
-            label="Business owner"
-            value={personalInfo?.name ?? "N/A"}
-            className="rounded-tr-md"
-          />
-          <InformationRow
-            label="Loan program"
-            value={MOCK_LOAN_APPLICATION_DETAILS?.loanProgram?.name ?? "N/A"}
-          />
-          <InformationRow
-            label="Email address"
-            value={personalInfo?.email ?? "N/A"}
-          />
-          <InformationRow label="Amount requested" value={loanAmount} />
-          <InformationRow
-            label="Phone number"
-            value={
-              formatPhoneNumberIntl(personalInfo?.phoneNumber ?? "") || "N/A"
-            }
-          />
-          <InformationRow
-            label="Proposed use of loan"
-            value={snakeCaseToText(
-              MOCK_LOAN_SUMMARY?.proposeUseOfLoan ?? "N/A"
-            )}
-            className="rounded-bl-md capitalize"
-          />
-          <InformationRow
-            label="Office address"
-            value={getBusinessAddress()}
-            className="rounded-br-md"
-          />
-        </div>
-      </Card>
-    </>
+    <Card className="border-r-0 border-b-0 shadow-none bg-white">
+      <div className="grid grid-cols-2">
+        <VerificationStatus isVerified label="Business verification" />
+        <VerificationStatus isVerified label="Identity verification" />
+        <InformationRow
+          className="rounded-tl-md"
+          label="Business name"
+          value={getBusinessName()}
+        />
+        <InformationRow
+          className="rounded-tr-md"
+          label="Business owner"
+          value={personalInfo?.name ?? "N/A"}
+        />
+        <InformationRow
+          label="Loan program"
+          value={MOCK_LOAN_APPLICATION_DETAILS?.loanProgram?.name ?? "N/A"}
+        />
+        <InformationRow
+          label="Email address"
+          value={personalInfo?.email ?? "N/A"}
+        />
+        <InformationRow label="Amount requested" value={loanAmount} />
+        <InformationRow
+          label="Phone number"
+          value={
+            formatPhoneNumberIntl(personalInfo?.phoneNumber ?? "") || "N/A"
+          }
+        />
+        <InformationRow
+          className="rounded-bl-md capitalize"
+          label="Proposed use of loan"
+          value={snakeCaseToText(MOCK_LOAN_SUMMARY?.proposeUseOfLoan ?? "N/A")}
+        />
+        <InformationRow
+          className="rounded-br-md"
+          label="Office address"
+          value={getBusinessAddress()}
+        />
+      </div>
+    </Card>
   )
 }

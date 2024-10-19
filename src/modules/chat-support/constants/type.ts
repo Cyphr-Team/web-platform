@@ -1,4 +1,4 @@
-import { Params } from "react-chatbotify"
+import { type Params } from "react-chatbotify"
 
 type OptionsPromiseFuncWithParams = (params: Params) => Promise<string[]>
 type OptionsFuncWithParams = (params: Params) => string[]

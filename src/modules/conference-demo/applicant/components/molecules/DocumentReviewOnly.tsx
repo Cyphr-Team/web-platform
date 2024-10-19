@@ -9,7 +9,7 @@ const DOCUMENT_FRAMES = [
   STEP.ARTICLES_OF_ORGANIZATION
 ] as const
 
-const DocumentReviewOnly = () => {
+function DocumentReviewOnly() {
   return (
     <Card
       className={cn(
@@ -21,19 +21,20 @@ const DocumentReviewOnly = () => {
       <Separator />
       <ul className="flex flex-col gap-y-2xl gap-x-4xl">
         {DOCUMENT_FRAMES.map((frame) => (
-          <DocumentFrame title={frame} key={frame} />
+          <DocumentFrame key={frame} title={frame} />
         ))}
       </ul>
     </Card>
   )
 }
+
 export default DocumentReviewOnly
 
 type ReviewableDocument = STEP.BANK_STATEMENTS | STEP.ARTICLES_OF_ORGANIZATION
 interface DocumentFrameProps {
   title: ReviewableDocument
 }
-const DocumentFrame = ({ title }: DocumentFrameProps) => {
+function DocumentFrame({ title }: DocumentFrameProps) {
   const formFiles = useFormData.use[title]()
   const files = formFiles?.files?.length
     ? formFiles.files
@@ -55,8 +56,10 @@ const DocumentFrame = ({ title }: DocumentFrameProps) => {
 
 const getDefaultDocument = (kind: ReviewableDocument) => {
   const option = { type: "application/pdf" }
+
   if (kind === STEP.BANK_STATEMENTS) {
     return [new File([""], "BankStatements_Sep2024.pdf", option)]
   }
+
   return [new File([""], "ArticlesOfOrganization_Apr2017.pdf", option)]
 }

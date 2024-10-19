@@ -1,5 +1,5 @@
 import { postRequest } from "@/services/client.service"
-import { IESignSession } from "@/types/esign/document.type"
+import { type IESignSession } from "@/types/esign/document.type"
 import { useMutation } from "@tanstack/react-query"
 import { E_SIGN_CLIENT } from "../../constants/e-sign"
 

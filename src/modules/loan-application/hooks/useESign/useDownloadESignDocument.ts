@@ -5,7 +5,7 @@ import { format } from "date-fns"
 import { E_SIGN_CLIENT } from "../../constants/e-sign"
 import { FORMAT_DATE_MM_DD_YYYY_HH_MM } from "@/constants/date.constants"
 
-type Params = {
+interface Params {
   documentId?: string
   id?: string
 }

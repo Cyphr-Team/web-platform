@@ -6,7 +6,7 @@ import {
   useLoanApplicationProgressContext
 } from "../../../../../providers"
 import {
-  KansasCityOwnerFormValue,
+  type KansasCityOwnerFormValue,
   kansasCityOwnerFormSchema
 } from "../../../../../constants/form"
 import { useForm } from "react-hook-form"
@@ -34,6 +34,7 @@ import {
 import { SelectInput } from "../../../../../../../shared/organisms/form/SelectInput"
 import { RHFPercentageInput } from "@/modules/form-template/components/molecules"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
+
 export function KansasCityOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { dispatchFormAction, ownerInformationForm } =
@@ -80,9 +81,11 @@ export function KansasCityOwnerInformationForm() {
     })
     finishCurrentStep()
   }
+
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
@@ -118,32 +121,32 @@ export function KansasCityOwnerInformationForm() {
             <Separator />
             <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
               <TextInput
+                className="col-span-6"
                 control={form.control}
-                name={KANSAS_CITY_KYC_FIELD_NAMES.FULL_NAME}
                 label="Full name"
+                name={KANSAS_CITY_KYC_FIELD_NAMES.FULL_NAME}
                 placeholder="i.e: Latte Larry"
-                className="col-span-6"
               />
               <TextInput
+                className="col-span-6"
                 control={form.control}
-                name={KANSAS_CITY_KYC_FIELD_NAMES.BUSINESS_ROLE}
                 label="Your role"
+                name={KANSAS_CITY_KYC_FIELD_NAMES.BUSINESS_ROLE}
                 placeholder="i.e Founder and CEO"
-                className="col-span-6"
               />
               <TextInput
-                control={form.control}
-                name={KANSAS_CITY_KYC_FIELD_NAMES.RESIDENT_STREET_ADDRESS}
-                label="Residental street address"
-                placeholder="Start typing your address"
                 className="col-span-12"
+                control={form.control}
+                label="Residental street address"
+                name={KANSAS_CITY_KYC_FIELD_NAMES.RESIDENT_STREET_ADDRESS}
+                placeholder="Start typing your address"
               />
               <TextInput
-                control={form.control}
-                name={KANSAS_CITY_KYC_FIELD_NAMES.EMAIL}
-                label="Email address"
-                placeholder="i.e: larry@latte.com"
                 className="col-span-12 lg:col-span-6"
+                control={form.control}
+                label="Email address"
+                name={KANSAS_CITY_KYC_FIELD_NAMES.EMAIL}
+                placeholder="i.e: larry@latte.com"
               />
               <FormField
                 name={KANSAS_CITY_KYC_FIELD_NAMES.PHONE_NUMBER}
@@ -157,8 +160,8 @@ export function KansasCityOwnerInformationForm() {
                       countryCallingCodeEditable={false}
                       countrySelectComponent={CountrySelect}
                       defaultCountry="US"
-                      placeholder="+1 (555) 000-0000"
                       inputComponent={CustomPhoneInput}
+                      placeholder="+1 (555) 000-0000"
                       {...field}
                     />
                     <FormMessage />
@@ -166,82 +169,82 @@ export function KansasCityOwnerInformationForm() {
                 )}
               />
               <SelectInput
-                label="Title"
-                placeholder="Please Select"
+                className="col-span-6"
                 control={form.control}
+                inputClassName="xl:ml-0 xl:max-w-80"
+                label="Title"
                 name={KANSAS_CITY_KYC_FIELD_NAMES.TITLE}
                 options={getKycOptionsByField(
                   KANSAS_CITY_KYC_FIELD_NAMES.TITLE
                 )}
-                className="col-span-6"
-                inputClassName="xl:ml-0 xl:max-w-80"
+                placeholder="Please Select"
               />
               <SelectInput
-                label="Gender"
-                placeholder="Please Select"
+                className="col-span-6"
                 control={form.control}
+                inputClassName="xl:ml-0 xl:max-w-80"
+                label="Gender"
                 name={KANSAS_CITY_KYC_FIELD_NAMES.GENDER_IDENTITY}
                 options={getKycOptionsByField(
                   KANSAS_CITY_KYC_FIELD_NAMES.GENDER_IDENTITY
                 )}
-                className="col-span-6"
-                inputClassName="xl:ml-0 xl:max-w-80"
+                placeholder="Please Select"
               />
               <SelectInput
-                label="Racial identification"
-                placeholder="Please Select"
+                className="col-span-6"
                 control={form.control}
+                inputClassName="xl:ml-0 xl:max-w-80"
+                label="Racial identification"
                 name={KANSAS_CITY_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION}
                 options={getKycOptionsByField(
                   KANSAS_CITY_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION
                 )}
-                className="col-span-6"
-                inputClassName="xl:ml-0 xl:max-w-80"
+                placeholder="Please Select"
               />
               <SelectInput
-                label="Ethnic identification"
-                placeholder="Please Select"
+                className="col-span-6"
                 control={form.control}
+                inputClassName="xl:ml-0 xl:max-w-80"
+                label="Ethnic identification"
                 name={KANSAS_CITY_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION}
                 options={getKycOptionsByField(
                   KANSAS_CITY_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION
                 )}
-                className="col-span-6"
-                inputClassName="xl:ml-0 xl:max-w-80"
+                placeholder="Please Select"
               />
               <SelectInput
-                label="Personal credit score"
-                placeholder="Please Select"
+                className="col-span-4"
                 control={form.control}
+                inputClassName="xl:ml-0 xl:max-w-80"
+                label="Personal credit score"
                 name={KANSAS_CITY_KYC_FIELD_NAMES.PERSONAL_CREDIT_SCORE}
                 options={getKycOptionsByField(
                   KANSAS_CITY_KYC_FIELD_NAMES.PERSONAL_CREDIT_SCORE
                 )}
-                className="col-span-4"
-                inputClassName="xl:ml-0 xl:max-w-80"
+                placeholder="Please Select"
               />
               <RHFPercentageInput
+                isString
+                className="col-span-8 lg:col-span-7"
+                direction="column"
                 label="What percent of the business do you own?"
+                max={100}
+                min={0}
                 name={KANSAS_CITY_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}
                 placeholder="Enter percentage"
-                min={0}
-                max={100}
-                isString={true}
-                className="col-span-8 lg:col-span-7"
                 styleProps={{
                   labelClassName: "text-text-secondary",
                   subtitleClassName: "text-xs text-text-tertiary"
                 }}
-                suffix="%"
                 subtitle="Please enter a number between 0 - 100"
-                direction="column"
+                suffix="%"
               />
               <div />
             </form>
             {!isReviewApplicationStep(step) && (
               <FormSubmitButton
-                onSubmit={form.handleSubmit(onSubmit)}
                 isDisabled={!form.formState.isValid}
+                onSubmit={form.handleSubmit(onSubmit)}
               />
             )}
           </Card>

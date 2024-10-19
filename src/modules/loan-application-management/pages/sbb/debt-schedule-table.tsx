@@ -11,14 +11,14 @@ import {
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { snakeCaseToText, toCurrency } from "@/utils"
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable
 } from "@tanstack/react-table"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
 
-type DebtScheduleType = {
+interface DebtScheduleType {
   lenderName: string
   loanType: string
   outstandingLoanBalance: number
@@ -32,13 +32,14 @@ const columns: ColumnDef<DebtScheduleType>[] = [
     accessorKey: "lenderName",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="min-w-0 truncate"
         column={column}
         title="Lender Name"
-        className="min-w-0 truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return <p className="truncate text-left">{account.lenderName}</p>
     }
   },
@@ -49,6 +50,7 @@ const columns: ColumnDef<DebtScheduleType>[] = [
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return (
         <p className="truncate text-left capitalize">
           {snakeCaseToText(account.loanType)}
@@ -60,13 +62,14 @@ const columns: ColumnDef<DebtScheduleType>[] = [
     accessorKey: "outstandingLoanBalance",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Outstanding Loan Balance"
-        className="truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return (
         <p className="truncate">{toCurrency(account.outstandingLoanBalance)}</p>
       )
@@ -76,13 +79,14 @@ const columns: ColumnDef<DebtScheduleType>[] = [
     accessorKey: "monthlyPaymentAmount",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Monthly Payment Amount"
-        className="truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return (
         <p className="truncate">{toCurrency(account.monthlyPaymentAmount)}</p>
       )
@@ -92,13 +96,14 @@ const columns: ColumnDef<DebtScheduleType>[] = [
     accessorKey: "loanTermRemainingInMonths",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Loan Term Remaining (months)"
-        className="truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return <p className="truncate">{account.loanTermRemainingInMonths}</p>
     }
   },
@@ -106,19 +111,20 @@ const columns: ColumnDef<DebtScheduleType>[] = [
     accessorKey: "annualInterestRate",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Annual Interest Rate"
-        className="truncate"
       />
     ),
     cell: ({ row }) => {
       const account = row.original
+
       return <p className="truncate">{account.annualInterestRate}%</p>
     }
   }
 ]
 
-export const DebtScheduleTable = () => {
+export function DebtScheduleTable() {
   const { loanSummary } = useLoanApplicationDetailContext()
   const currentLoan = loanSummary?.currentLoanForms
   const table = useReactTable({
@@ -126,6 +132,7 @@ export const DebtScheduleTable = () => {
     columns: columns.map((c) => ({ ...c, enableSorting: false })),
     getCoreRowModel: getCoreRowModel()
   })
+
   return (
     <div className="flex flex-col gap-6 ">
       <p className="text-2xl font-semibold sticky -top-3xl py-2 -mt-2">
@@ -174,17 +181,17 @@ export const DebtScheduleTable = () => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center text-base"
+                  colSpan={columns.length}
                 >
-                  {"No results."}
+                  No results.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
           <TableFooter className="bg-white">
             <TableRow>
-              <TableCell colSpan={2} className="text-center uppercase">
+              <TableCell className="text-center uppercase" colSpan={2}>
                 Total
               </TableCell>
               <TableCell className="text-center">
@@ -195,7 +202,7 @@ export const DebtScheduleTable = () => {
                   )
                 )}
               </TableCell>
-              <TableCell colSpan={1} className="text-center">
+              <TableCell className="text-center" colSpan={1}>
                 {toCurrency(
                   currentLoan?.reduce(
                     (acc, curr) => acc + curr.monthlyPaymentAmount,

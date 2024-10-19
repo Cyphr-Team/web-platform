@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { cn } from "@/lib/utils"
 import {
-  PreQualificationFormValue,
+  type PreQualificationFormValue,
   preQualificationSchema
 } from "@/modules/loan-application/constants/form"
 import {
@@ -37,7 +37,7 @@ import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hoo
 import { LoanType } from "@/types/loan-program.type"
 import { options, questions } from "./constants"
 
-export const PreQualificationForm = () => {
+export function PreQualificationForm() {
   const { finishCurrentStep, buildSpecificStep } =
     useLoanApplicationProgressContext()
   const { loanProgramId } = useParams()
@@ -146,12 +146,12 @@ export const PreQualificationForm = () => {
                     </FormLabel>
                     <FormControl>
                       <Select
+                        disabled={!!preQualification?.applicationId?.length}
+                        value={field.value?.toString()}
                         onValueChange={(value) => {
                           field.onBlur()
                           field.onChange(value === "true")
                         }}
-                        value={field.value?.toString()}
-                        disabled={!!preQualification?.applicationId?.length}
                       >
                         <SelectTrigger className="text-sm max-w-40 col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select" />
@@ -172,28 +172,28 @@ export const PreQualificationForm = () => {
               />
             ))}
             <SelectInput
-              inputClassName="!max-w-full"
               key="willingToOperateInKansasCityMo"
-              label="Are you located in, or willing to establish an operating presence within the Kansas City, Missouri county lines for at least one year?"
               control={form.control}
+              disabled={!!preQualification?.applicationId?.length}
+              inputClassName="!max-w-full"
+              label="Are you located in, or willing to establish an operating presence within the Kansas City, Missouri county lines for at least one year?"
               name="willingToOperateInKansasCityMo"
               options={options}
-              disabled={!!preQualification?.applicationId?.length}
             />
             {!preQualification?.applicationId?.length && (
               <CustomAlertDialog
-                onConfirmed={onConfirmed}
                 actionClassName="bg-black hover:bg-black/80"
-                title="Are you sure?"
                 cancelText="Go back"
                 confirmText="Yes, submit"
                 description="Once you hit submit, you will not be able to make any changes or modify your answers."
+                title="Are you sure?"
+                onConfirmed={onConfirmed}
               >
                 <ButtonLoading
-                  disabled={!form.formState.isValid}
-                  variant="outline"
-                  isLoading={isPending || isCreatingLoanApplication}
                   className=" text-white bg-primary hover:bg-primary/80 hover:text-white"
+                  disabled={!form.formState.isValid}
+                  isLoading={isPending || isCreatingLoanApplication}
+                  variant="outline"
                 >
                   Submit
                 </ButtonLoading>

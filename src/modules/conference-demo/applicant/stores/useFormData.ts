@@ -1,13 +1,13 @@
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
-import { BusinessInformation } from "@/modules/conference-demo/applicant/components/organisms/BusinessInformationForm.tsx"
-import { LoanRequest } from "@/modules/conference-demo/applicant/components/organisms/LoanRequestForm.tsx"
-import { SignFormValues } from "@/modules/conference-demo/applicant/components/organisms/SignAndSubmitForm"
+import { type BusinessInformation } from "@/modules/conference-demo/applicant/components/organisms/BusinessInformationForm.tsx"
+import { type LoanRequest } from "@/modules/conference-demo/applicant/components/organisms/LoanRequestForm.tsx"
+import { type SignFormValues } from "@/modules/conference-demo/applicant/components/organisms/SignAndSubmitForm"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
-import { DocumentFormType } from "@/modules/conference-demo/applicant/types"
+import { type DocumentFormType } from "@/modules/conference-demo/applicant/types"
 import { createSelectors } from "@/utils/store.ts"
 import { format } from "date-fns"
 import { create } from "zustand"
-import { BusinessPlanRequest } from "../components/organisms/BusinessPlanForm"
+import { type BusinessPlanRequest } from "../components/organisms/BusinessPlanForm"
 
 /**
  * Set default values helpers

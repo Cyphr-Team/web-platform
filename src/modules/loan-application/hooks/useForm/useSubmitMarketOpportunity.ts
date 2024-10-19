@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { MarketOpportunityFormValue } from "../../constants/form"
-import { AxiosError, AxiosResponse } from "axios"
-import { ErrorResponse } from "@/types/common.type"
+import { type MarketOpportunityFormValue } from "../../constants/form"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
 import { postRequest, putRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
 import { customRequestHeader } from "@/utils/request-header"
 import { QUERY_KEY } from "../../constants/query-key"
-import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
+import { type MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
 import { useCallback } from "react"
 
-type Props = {
+interface Props {
   rawData: MarketOpportunityFormValue
   onSuccess: (data: MarketOpportunityFormResponse) => void
 }
@@ -39,6 +39,7 @@ export const useSubmitMarketOpportunity = ({ rawData, onSuccess }: Props) => {
       )
     }
   }
+
   return {
     isLoading: isUpdating || isSubmitting,
     submitLoanMarketOpportunity
@@ -63,6 +64,7 @@ const useSubmit = () => {
 
 const useUpdate = () => {
   const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<MarketOpportunityFormResponse>,
     AxiosError<ErrorResponse>,

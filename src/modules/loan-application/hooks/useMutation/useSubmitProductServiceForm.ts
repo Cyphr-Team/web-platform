@@ -1,12 +1,12 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 
-import { ProductServiceFormResponse } from "../../components/organisms/loan-application-form/product-service/type"
-import { ProductServiceFormValue } from "../../constants/form"
+import { type ProductServiceFormResponse } from "../../components/organisms/loan-application-form/product-service/type"
+import { type ProductServiceFormValue } from "../../constants/form"
 
 export const useSubmitProductServiceForm = () => {
   return useMutation<

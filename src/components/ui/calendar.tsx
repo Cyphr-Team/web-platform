@@ -11,7 +11,11 @@ import {
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker, DropdownProps, FooterProps } from "react-day-picker"
+import {
+  DayPicker,
+  type DropdownProps,
+  type FooterProps
+} from "react-day-picker"
 import { ScrollArea } from "./scroll"
 import { LONGEST_FORECASTING_YEAR } from "@/constants/validate"
 
@@ -29,8 +33,10 @@ function CalendarDropDown({ value, onChange, children, name }: DropdownProps) {
     const changeEvent = {
       target: { value }
     } as React.ChangeEvent<HTMLSelectElement>
+
     onChange?.(changeEvent)
   }
+
   return (
     <Select
       value={value?.toString()}
@@ -45,8 +51,9 @@ function CalendarDropDown({ value, onChange, children, name }: DropdownProps) {
         <ScrollArea className="h-80">
           {options.map((option, id: number) => (
             <SelectItem
-              id={`${name}-${id}`}
+              /* eslint-disable-next-line react/no-array-index-key */
               key={`${option.props.value}-${id}`}
+              id={`${name}-${id}`}
               value={option.props.value?.toString() ?? ""}
             >
               {option.props.children}
@@ -68,13 +75,7 @@ export function Calendar({
 }: CalendarProps) {
   return (
     <DayPicker
-      id={props.id}
       captionLayout="dropdown-buttons"
-      fromYear={1900}
-      toYear={
-        isEnableFutureDate ? LONGEST_FORECASTING_YEAR : new Date().getFullYear()
-      }
-      showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
@@ -115,8 +116,15 @@ export function Calendar({
         IconLeft: () => <ChevronLeft className="h-4 w-4" />,
         IconRight: () => <ChevronRight className="h-4 w-4" />
       }}
+      fromYear={1900}
+      id={props.id}
+      showOutsideDays={showOutsideDays}
+      toYear={
+        isEnableFutureDate ? LONGEST_FORECASTING_YEAR : new Date().getFullYear()
+      }
       {...props}
     />
   )
 }
+
 Calendar.displayName = "Calendar"

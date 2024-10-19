@@ -1,4 +1,4 @@
-import { LoanStage } from "./application"
+import { type LoanStage } from "./application"
 
 export interface UpdateAssignedJudgeRequest {
   userIds: string[]

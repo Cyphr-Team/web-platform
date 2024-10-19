@@ -1,9 +1,9 @@
 import { postRequest } from "@/services/client.service"
-import { IUploadPhotoReqParams } from "@/types/upload.type"
+import { type IUploadPhotoReqParams } from "@/types/upload.type"
 import { useMutation } from "@tanstack/react-query"
-import { IUploadResponse } from "./useUploadFile"
-import { ErrorResponse } from "react-router-dom"
-import { AxiosError, AxiosResponse } from "axios"
+import { type IUploadResponse } from "./useUploadFile"
+import { type ErrorResponse } from "react-router-dom"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { API_PATH } from "@/constants"
 
 export const useUploadFileMutation = () => {

@@ -1,5 +1,5 @@
-import { InstitutionData } from "@/constants/tenant.constants"
-import { TInstitutionResponse } from "@/types/institution.type"
+import { type InstitutionData } from "@/constants/tenant.constants"
+import { type TInstitutionResponse } from "@/types/institution.type"
 import { useMemo } from "react"
 import { useLoaderData } from "react-router-dom"
 

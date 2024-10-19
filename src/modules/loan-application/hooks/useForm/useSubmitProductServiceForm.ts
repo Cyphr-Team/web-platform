@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ProductServiceFormValue } from "../../constants/form"
-import { AxiosError, AxiosResponse } from "axios"
-import { ProductServiceFormResponse } from "../../components/organisms/loan-application-form/product-service/type"
-import { ErrorResponse } from "@/types/common.type"
+import { type ProductServiceFormValue } from "../../constants/form"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type ProductServiceFormResponse } from "../../components/organisms/loan-application-form/product-service/type"
+import { type ErrorResponse } from "@/types/common.type"
 import { postRequest, putRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "../../constants/query-key"
 import { useCallback } from "react"
 
-type Props = {
+interface Props {
   rawData: ProductServiceFormValue
   onSuccess: (data: ProductServiceFormResponse) => void
 }
@@ -39,6 +39,7 @@ export const useSubmitLoanProductServiceForm = ({
       )
     }
   }
+
   return {
     isLoading: isUpdating || isSubmitting,
     submitProductServiceForm
@@ -47,6 +48,7 @@ export const useSubmitLoanProductServiceForm = ({
 
 const useUpdate = () => {
   const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<ProductServiceFormResponse>,
     AxiosError<ErrorResponse>,

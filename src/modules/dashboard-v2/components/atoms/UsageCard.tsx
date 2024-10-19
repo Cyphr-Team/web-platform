@@ -8,9 +8,9 @@ import {
 import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
-import { ReactNode, PropsWithChildren } from "react"
+import { type ReactNode, type PropsWithChildren } from "react"
 
-type UsageCardProps = {
+interface UsageCardProps {
   title: ReactNode
   currentUsage: number
   limit: number
@@ -24,7 +24,7 @@ type UsageCardProps = {
   isNotFoundSubscription?: boolean
 }
 
-export const UsageCard = ({
+export function UsageCard({
   title,
   icon,
   className,
@@ -36,7 +36,7 @@ export const UsageCard = ({
   unit,
   cta,
   isNotFoundSubscription
-}: PropsWithChildren<UsageCardProps>) => {
+}: PropsWithChildren<UsageCardProps>) {
   const percentUsage = limit ? Math.round((currentUsage / limit) * 100) : 0
   const isAlerting =
     alertThreshold && limit ? percentUsage > alertThreshold : false
@@ -58,7 +58,7 @@ export const UsageCard = ({
               <>
                 <span>
                   {currentUsage} / {limit}{" "}
-                  {unit && <span className="text-sm">{unit}</span>}
+                  {unit ? <span className="text-sm">{unit}</span> : null}
                 </span>
                 <span className="ml-1">{icon}</span>
               </>
@@ -72,12 +72,12 @@ export const UsageCard = ({
           {!isLoading ? (
             <div className="flex flex-col gap-2">
               <Progress
-                value={percentUsage}
                 className="rounded"
                 indicatorClassName={cn(
                   isAlerting && "bg-red-400",
                   isWarning && "bg-yellow-400"
                 )}
+                value={percentUsage}
               />
             </div>
           ) : (

@@ -14,14 +14,14 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import {
-  Block,
+  type Block,
   FieldType,
   renderBlockComponents
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import {
   AssetsField,
   assetsFormSchema,
-  AssetsFormValue,
+  type AssetsFormValue,
   EMPTY_ASSET_ITEM,
   FP_ASSETS_DEFAULT_VALUE,
   RECEIVABLE_DAYS_OPTIONS,
@@ -109,7 +109,7 @@ const LongTermAssetsFormBlocks: Block[] = [
   }
 ]
 
-export const AssetsForm = () => {
+export function AssetsForm() {
   const { assets, dispatchFormAction } = useLoanApplicationFormContext()
 
   const form = useForm<AssetsFormValue>({
@@ -188,12 +188,12 @@ export const AssetsForm = () => {
           <Separator />
           <div className="flex flex-col gap-6 mb-5">
             <EquityArrayFormTemplate
-              fieldName={AssetsField.LONG_TERM_ASSETS}
-              dataName="New Asset"
               addIcon={<Plus />}
-              defaultEmptyObject={EMPTY_ASSET_ITEM}
-              onBlur={onAutoSave}
               blocks={LongTermAssetsFormBlocks}
+              dataName="New Asset"
+              defaultEmptyObject={EMPTY_ASSET_ITEM}
+              fieldName={AssetsField.LONG_TERM_ASSETS}
+              onBlur={onAutoSave}
             />
           </div>
         </Card>

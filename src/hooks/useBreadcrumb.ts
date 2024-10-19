@@ -1,6 +1,6 @@
-import { CrumbData, HandleCrumb } from "@/utils/crumb.utils"
+import { type CrumbData, type HandleCrumb } from "@/utils/crumb.utils"
 
-import { UIMatch, useMatches } from "react-router-dom"
+import { type UIMatch, useMatches } from "react-router-dom"
 
 export const useBreadcrumb = (data?: CrumbData) => {
   const matches = useMatches() as UIMatch<unknown, HandleCrumb>[]

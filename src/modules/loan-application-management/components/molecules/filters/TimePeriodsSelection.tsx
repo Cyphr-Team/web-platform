@@ -8,7 +8,7 @@ import {
 import { TIME_PERIODS } from "@/constants/date.constants"
 import { cn } from "@/lib/utils"
 
-type Props = {
+interface Props {
   onChangeTimePeriod: (timePeriod: string) => void
   timePeriod: string
   timePeriods?: string[]
@@ -39,8 +39,8 @@ export const TimePeriodsSelection: React.FC<Props> = ({
       <SelectContent position="popper">
         {timePeriods.map((option, id: number) => (
           <SelectItem
-            className="capitalize"
             key={`${option}-${id}`}
+            className="capitalize"
             value={option ?? ""}
           >
             {option}

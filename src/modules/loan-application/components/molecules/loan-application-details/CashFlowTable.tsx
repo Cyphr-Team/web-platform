@@ -2,8 +2,8 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { ColumnDef } from "@tanstack/react-table"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
+import { type ColumnDef } from "@tanstack/react-table"
 import { useParams } from "react-router-dom"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
 import { Button } from "@/components/ui/button"
@@ -24,14 +24,14 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
       return (
         <div className="min-w-0 text-right">
           <Badge
+            border
             isDot
+            className="capitalize text-sm rounded-lg"
+            isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.SUCCESS
             )}
-            className="capitalize text-sm rounded-lg"
-            isDotBefore={false}
-            border
           >
             Connected
           </Badge>
@@ -41,7 +41,7 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   }
 ]
 
-export const CashFlowTable = () => {
+export function CashFlowTable() {
   const params = useParams()
 
   const { data, isLoading, isError, error, refetch } = useQueryGetBankAccounts({
@@ -77,7 +77,7 @@ export const CashFlowTable = () => {
               type="button"
             >
               <p>Connected</p>
-              <Check size={20} className="text-white" />
+              <Check className="text-white" size={20} />
             </Button>
           )}
         </div>

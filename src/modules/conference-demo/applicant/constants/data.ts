@@ -1,7 +1,7 @@
 import {
   LoanApplicationStatus,
   UseOfLoan,
-  UserMicroLoanApplication
+  type UserMicroLoanApplication
 } from "@/types/loan-application.type.ts"
 import {
   LoanProgramInterestRateType,

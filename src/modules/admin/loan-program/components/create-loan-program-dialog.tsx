@@ -28,14 +28,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, PlusCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
+import type * as z from "zod"
 import {
   createLoanProgramForm,
   useCreateLoanProgram
 } from "../hooks/useCreateLoanProgram"
 import {
   InterestRateType,
-  LoanProgram,
+  type LoanProgram,
   LoanType,
   ProgramStatus
 } from "@/types/loan-program.type"
@@ -49,7 +49,7 @@ import { FormsConfigurationDialog } from "./molecules/form-configuration-dialog"
 import { useCreateFormsConfiguration } from "../hooks/useCreateFormsConfiguration"
 import { useUpdateFormsConfiguration } from "../hooks/useUpdateFormsConfiguration"
 
-type Props = {
+interface Props {
   defaultData?: LoanProgram
   detailId?: string
   isFetching?: boolean
@@ -168,7 +168,7 @@ export function CreateLoanProgramDialog({
     <Dialog open={open || !!detailId} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button type="button">
-          <PlusCircle size={16} className="text-sm mr-1.5" />
+          <PlusCircle className="text-sm mr-1.5" size={16} />
           Add new
         </Button>
       </DialogTrigger>
@@ -181,11 +181,11 @@ export function CreateLoanProgramDialog({
           )}
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={formSubmit} className="flex flex-col">
+          <form className="flex flex-col" onSubmit={formSubmit}>
             <ScrollArea className="h-[70vh]">
               <LoadingWrapper
-                isLoading={isFetching ?? false}
                 className="h-[70vh]"
+                isLoading={isFetching ?? false}
               >
                 <div className="p-6 py-2 flex flex-col gap-3">
                   <FormField
@@ -215,8 +215,8 @@ export function CreateLoanProgramDialog({
                           <FormLabel>Min Term In Month</FormLabel>
                           <FormControl>
                             <Input
-                              type="number"
                               placeholder="Min Term In Month"
+                              type="number"
                               wrapperClassName="col-span-3 w-full"
                               {...field}
                             />
@@ -234,8 +234,8 @@ export function CreateLoanProgramDialog({
                           <FormLabel>Max Term In Month</FormLabel>
                           <FormControl>
                             <Input
-                              type="number"
                               placeholder="Max Term In Month"
+                              type="number"
                               wrapperClassName="col-span-3 w-full"
                               {...field}
                             />
@@ -255,8 +255,8 @@ export function CreateLoanProgramDialog({
                           <FormLabel>Min Loan Amount</FormLabel>
                           <FormControl>
                             <Input
-                              type="number"
                               placeholder="Min Loan Amount"
+                              type="number"
                               wrapperClassName="col-span-3 w-full"
                               {...field}
                             />
@@ -274,8 +274,8 @@ export function CreateLoanProgramDialog({
                           <FormLabel>Max Loan Amount</FormLabel>
                           <FormControl>
                             <Input
-                              type="number"
                               placeholder="Max Loan Amount"
+                              type="number"
                               wrapperClassName="col-span-3 w-full"
                               {...field}
                             />
@@ -295,8 +295,8 @@ export function CreateLoanProgramDialog({
                           <FormLabel>Interest Rate</FormLabel>
                           <FormControl>
                             <Input
-                              type="number"
                               placeholder="Interest Rate"
+                              type="number"
                               wrapperClassName="col-span-3 w-full"
                               {...field}
                             />
@@ -313,8 +313,8 @@ export function CreateLoanProgramDialog({
                         <FormItem className="flex-1">
                           <FormLabel>Interest Rate Type</FormLabel>
                           <Select
-                            onValueChange={field.onChange}
                             defaultValue={field.value}
+                            onValueChange={field.onChange}
                           >
                             <FormControl>
                               <SelectTrigger className="capitalize">
@@ -326,8 +326,8 @@ export function CreateLoanProgramDialog({
                                 ([key, value]) => (
                                   <SelectItem
                                     key={key}
-                                    value={value}
                                     className="capitalize"
+                                    value={value}
                                   >
                                     {value}
                                   </SelectItem>
@@ -349,8 +349,8 @@ export function CreateLoanProgramDialog({
                         <FormLabel>Origination Fee</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
                             placeholder="Origination Fee"
+                            type="number"
                             wrapperClassName="col-span-3 w-full"
                             {...field}
                           />
@@ -368,8 +368,8 @@ export function CreateLoanProgramDialog({
                         <FormLabel>Interest Rate Description</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Interest rate description"
                             className="resize-none"
+                            placeholder="Interest rate description"
                             {...field}
                           />
                         </FormControl>
@@ -386,8 +386,8 @@ export function CreateLoanProgramDialog({
                         <FormLabel>Description</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Description"
                             className="resize-none"
+                            placeholder="Description"
                             {...field}
                           />
                         </FormControl>
@@ -404,8 +404,8 @@ export function CreateLoanProgramDialog({
                       <FormItem>
                         <FormLabel>Type</FormLabel>
                         <Select
-                          onValueChange={field.onChange}
                           value={field.value}
+                          onValueChange={field.onChange}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -438,7 +438,7 @@ export function CreateLoanProgramDialog({
               </div>
             </FeatureFlagsRenderer>
             <DialogFooter className="px-6 border-t pt-4">
-              <ButtonLoading type="submit" isLoading={isProcessing}>
+              <ButtonLoading isLoading={isProcessing} type="submit">
                 {detailId ? "Update" : "Add"}{" "}
                 {!isProcessing && <Plus className="ml-1.5" size="16" />}
               </ButtonLoading>

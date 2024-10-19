@@ -9,29 +9,32 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog"
+import React, { type PropsWithChildren } from "react"
 
-type Props = {
+interface Props extends PropsWithChildren {
   title: string
   actionClassName?: string
   description?: React.ReactNode
-  children?: React.ReactNode
   isOpen?: boolean
   cancelText?: string
   confirmText?: string
-  onCanceled?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-  onConfirmed?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  onCanceled?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  onConfirmed?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
-export const CustomAlertDialog: React.FC<Props> = ({
-  children,
-  title,
-  isOpen,
-  onCanceled,
-  onConfirmed,
-  confirmText = null,
-  cancelText = null,
-  description,
-  actionClassName
-}) => {
+
+export function CustomAlertDialog(props: Props) {
+  const {
+    children,
+    title,
+    isOpen,
+    onCanceled,
+    onConfirmed,
+    confirmText = null,
+    cancelText = null,
+    description,
+    actionClassName
+  } = props
+
   return (
     <AlertDialog open={isOpen}>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -41,19 +44,19 @@ export const CustomAlertDialog: React.FC<Props> = ({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          {cancelText && (
+          {cancelText ? (
             <AlertDialogCancel onClick={onCanceled}>
               {cancelText}
             </AlertDialogCancel>
-          )}
-          {confirmText && (
+          ) : null}
+          {confirmText ? (
             <AlertDialogAction
-              onClick={onConfirmed}
               className={actionClassName}
+              onClick={onConfirmed}
             >
               {confirmText}
             </AlertDialogAction>
-          )}
+          ) : null}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

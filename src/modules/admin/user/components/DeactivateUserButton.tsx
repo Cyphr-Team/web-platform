@@ -4,14 +4,12 @@ import { MinusCircle } from "lucide-react"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useDeactivateUser } from "@/modules/admin/user/hooks/useDeactivateUser.ts"
 
-export const ButtonDeactivateUser = ({ userId }: { userId: string }) => {
+export function ButtonDeactivateUser({ userId }: { userId: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const { mutate, isPending } = useDeactivateUser()
   const [isConfirmed, setIsConfirmed] = useState(false)
 
-  const handleDeactivateUser = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleDeactivateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     mutate({ userId: userId })
@@ -19,7 +17,7 @@ export const ButtonDeactivateUser = ({ userId }: { userId: string }) => {
     setIsConfirmed(true)
   }
 
-  const handleOpen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     setIsOpen(true)
@@ -27,13 +25,7 @@ export const ButtonDeactivateUser = ({ userId }: { userId: string }) => {
 
   return (
     <CustomAlertDialog
-      isOpen={isOpen}
-      onConfirmed={handleDeactivateUser}
-      onCanceled={(e) => {
-        e.stopPropagation()
-        setIsOpen(false)
-      }}
-      title="Deactivate this account?"
+      actionClassName="bg-red-500 hover:bg-red-600 text-white"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -44,18 +36,22 @@ export const ButtonDeactivateUser = ({ userId }: { userId: string }) => {
           Are you sure you want to proceed?
         </span>
       }
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      isOpen={isOpen}
+      title="Deactivate this account?"
+      onCanceled={(e) => {
+        e.stopPropagation()
+        setIsOpen(false)
+      }}
+      onConfirmed={handleDeactivateUser}
     >
       <ButtonLoading
-        variant="ghost"
-        type="submit"
+        className="h-max cursor-pointer text-red-900 p-2 space-x-2 flex flex-row w-full"
+        disabled={isConfirmed}
         id={userId}
         isLoading={isPending}
-        className={
-          "h-max cursor-pointer text-red-900 p-2 space-x-2 flex flex-row w-full"
-        }
+        type="submit"
+        variant="ghost"
         onClick={handleOpen}
-        disabled={isConfirmed}
       >
         <MinusCircle className="w-5 h-5" /> <span>Deactivate</span>
         {!isPending}

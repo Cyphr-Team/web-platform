@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { putRequest } from "@/services/client.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ErrorResponse, SuccessResponse } from "@/types/common.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { type ErrorResponse, type SuccessResponse } from "@/types/common.type"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import {
   loanApplicationKeys,

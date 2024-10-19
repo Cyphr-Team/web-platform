@@ -2,15 +2,15 @@ import { Badge } from "@/components/ui/badge"
 import { DataTable } from "@/components/ui/data-table"
 import { cn } from "@/lib/utils"
 import {
-  ApplicationCriteriaResponse,
+  type ApplicationCriteriaResponse,
   criteriaNameMapping
 } from "@/modules/loan-application/constants/type.ts"
 import { capitalizeFirstOnly, snakeCaseToText } from "@/utils"
 import { renderHeader } from "@/utils/table.utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { get } from "lodash"
-import { FC, useMemo } from "react"
-import { LoanReadiness } from "../../constants/types/loan-readiness.type"
+import { type FC, useMemo } from "react"
+import { type LoanReadiness } from "../../constants/types/loan-readiness.type"
 import {
   CRITERIA_NOT_READY_STATUS,
   customSortRatingLevel,
@@ -23,6 +23,7 @@ interface ApplicationCriteriaProps {
   isLoading: boolean
   handleRefetch?: VoidFunction
 }
+
 export const FinancialApplicationCriteria: FC<ApplicationCriteriaProps> = ({
   criteria,
   isLoading
@@ -56,8 +57,8 @@ export const FinancialApplicationCriteria: FC<ApplicationCriteriaProps> = ({
   return (
     <div>
       <div
-        className="flex justify-between items-center flex-wrap gap-1"
         data-html2canvas-ignore
+        className="flex justify-between items-center flex-wrap gap-1"
       >
         <h2 className="font-semibold text-2xl flex items-center">
           Action Plan
@@ -66,14 +67,14 @@ export const FinancialApplicationCriteria: FC<ApplicationCriteriaProps> = ({
 
       <div className="overflow-auto">
         <DataTable
-          tableHeaderClassName="bg-white"
-          tableWrapperClassName="bg-white rounded-xl"
           columns={columns}
           data={criteriaData}
           isLoading={isLoading}
-          total={criteriaData.length}
-          sorting={sorting}
           setSorting={setSorting}
+          sorting={sorting}
+          tableHeaderClassName="bg-white"
+          tableWrapperClassName="bg-white rounded-xl"
+          total={criteriaData.length}
         />
       </div>
     </div>
@@ -102,6 +103,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
       const criteriaBadgeClassName = getCriteriaScoreRangeClassName(
         criteria.ratingLevel
       )
+
       return (
         <div className="text-center pl-2">
           <Badge

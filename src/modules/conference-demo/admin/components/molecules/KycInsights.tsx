@@ -3,25 +3,25 @@ import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "@/modules/loan-application-ma
 import { IdentityVerificationStatus } from "@/modules/loan-application-management/constants/types/smart-kyc"
 import InsightItem from "@/modules/loan-application/components/molecules/InsightItem"
 
-const KycInsights = () => {
+function KycInsights() {
   const verifiedStatus = IdentityVerificationStatus.VERIFIED
 
   return (
-    <Insights totalStep={2} passedStep={2}>
+    <Insights passedStep={2} totalStep={2}>
       <InsightItem
-        title="Government ID"
-        status={verifiedStatus}
-        label={verifiedStatus.toLowerCase()}
-        toolTipContent="Government Id Verification uses the ID Card, Driver license, etc"
         href={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
+        label={verifiedStatus.toLowerCase()}
+        status={verifiedStatus}
+        title="Government ID"
+        toolTipContent="Government Id Verification uses the ID Card, Driver license, etc"
       />
       <InsightItem
-        title="Selfie verification"
-        status={verifiedStatus}
-        label={verifiedStatus.toLowerCase()}
-        toolTipContent="Selfie Verification uses the Persona to authenticate"
-        href={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
         noBorder
+        href={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
+        label={verifiedStatus.toLowerCase()}
+        status={verifiedStatus}
+        title="Selfie verification"
+        toolTipContent="Selfie Verification uses the Persona to authenticate"
       />
     </Insights>
   )

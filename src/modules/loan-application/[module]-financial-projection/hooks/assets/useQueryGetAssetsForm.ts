@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import {
-  AssetsCurrentFormResponse,
-  AssetsLongTermFormResponse
+  type AssetsCurrentFormResponse,
+  type AssetsLongTermFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
-import { FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
+import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
 import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId"
 
 export const useQueryGetCurrentAssetsForm = ({

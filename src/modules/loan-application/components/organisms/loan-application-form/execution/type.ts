@@ -1,4 +1,4 @@
-import { ExecutionFormValue } from "@/modules/loan-application/constants/form"
+import { type ExecutionFormValue } from "@/modules/loan-application/constants/form"
 
 interface BusinessModel {
   businessModel: string

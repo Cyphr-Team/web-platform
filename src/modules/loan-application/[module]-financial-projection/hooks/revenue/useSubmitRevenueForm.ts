@@ -1,17 +1,17 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import { useCreateMutation } from "@/modules/loan-application/[module]-financial-projection/hooks"
-import { SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { useQueryClient } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 import {
-  RevenueStream,
-  SubmitRevenueStreamRequest,
-  SubmitRevenueStreamResponse
+  type RevenueStream,
+  type SubmitRevenueStreamRequest,
+  type SubmitRevenueStreamResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatToISOString } from "@/utils/date.utils.ts"
 
-type Props = {
+interface Props {
   rawData: RevenueStream
 }
 
@@ -63,7 +63,7 @@ export const useSubmitRevenueForm = <
 
 const formatData = <T extends { startDate: string; endDate?: string }>(
   data: T[],
-  hasEndDate: boolean = false
+  hasEndDate = false
 ) =>
   data.map((item) => ({
     ...item,

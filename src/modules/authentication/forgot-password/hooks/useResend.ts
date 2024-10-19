@@ -1,12 +1,15 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { API_PATH, REQUEST_RATE_LIMIT_TIME } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { useRef } from "react"
-import { ResendCodeRequest, ResendCodeResponse } from "@/types/auth.type"
+import {
+  type ResendCodeRequest,
+  type ResendCodeResponse
+} from "@/types/auth.type"
 
 export const useResend = () => {
   const limitResendTimeout = useRef(false)

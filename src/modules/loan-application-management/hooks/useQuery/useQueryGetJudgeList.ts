@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
-import { UserDetailInfo } from "../../../../types/user.type"
-import { ErrorResponse } from "react-router-dom"
+import { type UserDetailInfo } from "../../../../types/user.type"
+import { type ErrorResponse } from "react-router-dom"
 import { getRequest } from "../../../../services/client.service"
 import { API_PATH } from "../../../../constants"
 import { workspaceAdminAssignJudge } from "../../../../constants/query-key"

@@ -2,8 +2,8 @@ import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
 import {
-  RevenueExpenseFilters,
-  RevenueExpenseGraphResponse
+  type RevenueExpenseFilters,
+  type RevenueExpenseGraphResponse
 } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
 import { QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
 
@@ -31,6 +31,7 @@ export const useQueryGetRevenueExpenseGraph = ({
           }
         }
       })
+
       return response.data
     },
     enabled: !!applicationId

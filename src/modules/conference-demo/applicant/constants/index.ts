@@ -27,7 +27,7 @@ export type Progress = {
   [key in STEP]: StepStatus
 }
 
-export type StepStatus = {
+export interface StepStatus {
   isFinish: boolean
   group: INPUT_GROUP
 }

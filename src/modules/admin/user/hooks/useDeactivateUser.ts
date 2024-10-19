@@ -2,15 +2,16 @@ import { API_PATH } from "@/constants"
 import { userKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { delRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 
 export function useDeactivateUser() {
   const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<boolean>,
     AxiosError<ErrorResponse>,

@@ -1,29 +1,29 @@
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
-import { PropsWithChildren, ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 
 interface FinancialDetailLayoutProps extends PropsWithChildren<HeaderProps> {
   hasSubChildren?: boolean
   isPdf?: boolean
 }
 
-export const FinancialDetailCard = (props: FinancialDetailLayoutProps) => {
+export function FinancialDetailCard(props: FinancialDetailLayoutProps) {
   const { title, subTitle, children, hasSubChildren, isPdf = false } = props
 
   const renderTitle = title ? (
-    <Header title={title} subTitle={subTitle} />
+    <Header subTitle={subTitle} title={title} />
   ) : null
 
   return (
-    <Layout isPdf={isPdf} hasSubChildren={hasSubChildren}>
+    <Layout hasSubChildren={hasSubChildren} isPdf={isPdf}>
       {renderTitle}
       <Main>{children}</Main>
     </Layout>
   )
 }
 
-const Main = ({ children }: PropsWithChildren) => {
+function Main({ children }: PropsWithChildren) {
   return <main className="flex flex-col">{children}</main>
 }
 
@@ -32,7 +32,7 @@ interface HeaderProps {
   subTitle?: ReactNode
 }
 
-const Header = ({ title, subTitle }: HeaderProps) => {
+function Header({ title, subTitle }: HeaderProps) {
   const renderSubTitle = subTitle ? (
     <div className="text-sm mt-1">{subTitle}</div>
   ) : null
@@ -56,10 +56,11 @@ const Header = ({ title, subTitle }: HeaderProps) => {
   )
 }
 
-interface LayoutProps extends FinancialDetailLayoutProps {}
+type LayoutProps = FinancialDetailLayoutProps
 
-const Layout = (props: LayoutProps) => {
+function Layout(props: LayoutProps) {
   const { children, hasSubChildren, isPdf = false } = props
+
   return (
     <section
       className={cn(

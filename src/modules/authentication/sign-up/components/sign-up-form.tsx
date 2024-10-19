@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import SignUpGoogleButton from "./sign-up-google-button"
 import {
-  GetStartUserFormValue,
+  type GetStartUserFormValue,
   getStartFormSchema,
   useGetStart
 } from "../../hooks/useGetStart"
@@ -38,7 +38,7 @@ export function SignUpForm() {
       <SignUpGoogleButton />
 
       <Form {...form}>
-        <form onSubmit={formSubmit} className="space-y-6 w-full mt-4">
+        <form className="space-y-6 w-full mt-4" onSubmit={formSubmit}>
           <FormField
             control={form.control}
             name="email"
@@ -47,9 +47,9 @@ export function SignUpForm() {
                 <FormLabel>Email</FormLabel>
                 <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
                   <Input
-                    type="email"
-                    placeholder="Enter your email"
                     className="text-base"
+                    placeholder="Enter your email"
+                    type="email"
                     {...field}
                     disabled={isPending}
                   />
@@ -63,8 +63,8 @@ export function SignUpForm() {
             By clicking "Create account" or "Continue with Google", you
             acknowledge that you understand and agree to the{" "}
             <a
-              href="https://www.cyphrai.com/terms"
               className="underline"
+              href="https://www.cyphrai.com/terms"
               rel="noopener noreferrer"
               target="terms"
             >
@@ -72,8 +72,8 @@ export function SignUpForm() {
             </a>{" "}
             and{" "}
             <a
-              href="https://www.cyphrai.com/privacy"
               className="underline"
+              href="https://www.cyphrai.com/privacy"
               rel="noopener noreferrer"
               target="privacy"
             >
@@ -83,9 +83,9 @@ export function SignUpForm() {
           </div>
 
           <ButtonLoading
-            isLoading={isPending}
-            disabled={!form.formState.isValid}
             className="ml-auto w-full text-base"
+            disabled={!form.formState.isValid}
+            isLoading={isPending}
             type="submit"
           >
             Create account

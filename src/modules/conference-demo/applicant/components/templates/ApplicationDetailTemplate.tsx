@@ -10,9 +10,9 @@ import {
 import SignAndSubmitForm from "@/modules/conference-demo/applicant/components/organisms/SignAndSubmitForm"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
-import { ComponentType, FC } from "react"
+import { type ComponentType } from "react"
 
-const ScreenMapper: { [key: string]: ComponentType } = {
+const ScreenMapper: Record<string, ComponentType> = {
   [STEP.LOAN_REQUEST]: LoanRequestForm,
   [STEP.BUSINESS_INFORMATION]: BusinessInformationForm,
   [STEP.BUSINESS_PLAN]: BusinessPlanForm,
@@ -25,11 +25,11 @@ const ScreenMapper: { [key: string]: ComponentType } = {
   [STEP.REVIEW_APPLICATION]: ReviewApplicationForm
 }
 
-interface Props {}
-
-const ApplicationDetailTemplate: FC<Props> = () => {
+function ApplicationDetailTemplate() {
   const currentScreen = useProgress.use.currentStep()
   const Component = ScreenMapper[currentScreen]
+
   return <Component />
 }
+
 export default ApplicationDetailTemplate

@@ -2,16 +2,16 @@ import { API_PATH } from "@/constants"
 import { putRequest, postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosResponse, AxiosError } from "axios"
-import { ErrorResponse } from "react-router-dom"
-import { FinancialFormValue } from "../../constants/form"
+import { type AxiosResponse, type AxiosError } from "axios"
+import { type ErrorResponse } from "react-router-dom"
+import { type FinancialFormValue } from "../../constants/form"
 import {
-  FinancialInformationResponse,
-  FinancialInformation
+  type FinancialInformationResponse,
+  type FinancialInformation
 } from "../../constants/type"
 import { useCallback } from "react"
 
-type Props = {
+interface Props {
   rawData: FinancialFormValue
   onSuccess: (data: FinancialInformationResponse) => void
 }
@@ -45,6 +45,7 @@ export const useSubmitLoanFinancialForm = ({ rawData, onSuccess }: Props) => {
       )
     }
   }
+
   return {
     isLoading: isUpdating || isSubmitting,
     submitLoanFinancialForm

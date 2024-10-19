@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { CheckIcon, Search } from "lucide-react"
 import { useEffect, useState } from "react"
-import { Control, FieldPath, FieldValues } from "react-hook-form"
+import { type Control, type FieldPath, type FieldValues } from "react-hook-form"
 
 interface IAutoCompleteInputProps<T extends FieldValues> {
   value: Option
@@ -37,9 +37,9 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   error?: string
 }
 
-export const AutoCompleteUserEmail = <T extends FieldValues>(
+export function AutoCompleteUserEmail<T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
-) => {
+) {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
 
@@ -73,27 +73,27 @@ export const AutoCompleteUserEmail = <T extends FieldValues>(
         <FormItem className={className}>
           <FormLabel className="text-text-secondary">
             {label}
-            {required && <RequiredSymbol />}
+            {required ? <RequiredSymbol /> : null}
           </FormLabel>
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Input
-                  value={selected.label || "Select email..."}
                   className="text-sm"
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
                   style={{ textAlign: "left" }}
+                  value={selected.label || "Select email..."}
                 />
               </PopoverTrigger>
-              <PopoverContent className="w-82 p-0" align="start">
+              <PopoverContent align="start" className="w-82 p-0">
                 <Command
                   filter={(value, search) => {
                     return value.startsWith(search) ? 1 : 0
                   }}
                 >
                   <CommandInput
-                    placeholder="Search user"
                     className="h-9"
+                    placeholder="Search user"
                     value={searchValue}
                     onValueChange={(searchInput) => {
                       onSearch(searchInput)

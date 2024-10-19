@@ -1,4 +1,4 @@
-import { Column } from "@tanstack/react-table"
+import { type Column } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -32,9 +32,9 @@ export function DataTableColumnHeader<TData, TValue>({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant="ghost"
-            size="sm"
             className="-ml-3 h-8 data-[state=open]:bg-accent"
+            size="sm"
+            variant="ghost"
           >
             <span>{title}</span>
             <span data-html2canvas-ignore>

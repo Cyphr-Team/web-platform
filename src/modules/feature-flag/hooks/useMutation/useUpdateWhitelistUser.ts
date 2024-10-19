@@ -1,9 +1,9 @@
 import { API_PATH } from "@/constants"
 import { putRequest } from "@/services/client.service.ts"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type.ts"
-import { AxiosError, AxiosResponse } from "axios"
-import { WhitelistedUserResponse } from "@/types/user.type.ts"
+import { type ErrorResponse } from "@/types/common.type.ts"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type WhitelistedUserResponse } from "@/types/user.type.ts"
 import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg.ts"
 import { whitelistUserKeys } from "@/constants/query-key.ts"
@@ -39,6 +39,7 @@ export const useUpdateWhitelistUser = () => {
     },
     onError: (error) => {
       const axiosError = getAxiosError(error)
+
       toastError({
         ...TOAST_MSG.whitelistUser.update,
         description: axiosError.message

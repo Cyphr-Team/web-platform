@@ -1,5 +1,5 @@
-import { FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
-import { CashFlowAtAGlanceResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
+import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
+import { type CashFlowAtAGlanceResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key.ts"
 import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId.ts"

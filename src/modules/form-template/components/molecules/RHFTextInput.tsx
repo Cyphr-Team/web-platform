@@ -10,16 +10,16 @@ import { Textarea } from "@/components/ui/textarea.tsx"
 import { cn } from "@/lib/utils.ts"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
 import React, {
-  ChangeEventHandler,
-  FocusEventHandler,
+  type ChangeEventHandler,
+  type FocusEventHandler,
   memo,
-  ReactNode,
+  type ReactNode,
   useState
 } from "react"
 import {
-  FieldPath,
-  FieldValues,
-  Noop,
+  type FieldPath,
+  type FieldValues,
+  type Noop,
   useController,
   useFormContext
 } from "react-hook-form"
@@ -56,7 +56,7 @@ export interface RHFTextInputProps<T extends FieldValues> {
   isDetail?: boolean
 }
 
-const RHFTextInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
+function RHFTextInput<T extends FieldValues>(props: RHFTextInputProps<T>) {
   const { control } = useFormContext()
   const { name } = props
 
@@ -69,7 +69,7 @@ const RHFTextInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
   )
 }
 
-const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
+function RenderInput<T extends FieldValues>(props: RHFTextInputProps<T>) {
   const { control } = useFormContext()
   const {
     name,
@@ -115,7 +115,7 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
 
     if (isView && isToggleView) {
       return (
-        <div onDoubleClick={onShow(false)} className="break-words">
+        <div className="break-words" onDoubleClick={onShow(false)}>
           {field.value}
         </div>
       )
@@ -127,9 +127,9 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
           wrapperClassName={wrapperClassName}
           {...field}
           {...inputProps}
-          onBlur={customOnBlur(field.onBlur)}
-          className={cn("text-sm", inputClassName)}
           autoFocus={inputProps.autoFocus}
+          className={cn("text-sm", inputClassName)}
+          onBlur={customOnBlur(field.onBlur)}
         />
       </FormControl>
     )
@@ -145,13 +145,13 @@ const RenderInput = <T extends FieldValues>(props: RHFTextInputProps<T>) => {
       {!!label && (
         <FormLabel className={cn("text-text-secondary", labelClassName)}>
           {label}
-          {required && <RequiredSymbol />}
-          {subtitle && (
+          {required ? <RequiredSymbol /> : null}
+          {subtitle ? (
             <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
-          )}
-          {isRowDirection && !isHideErrorMessage && (
+          ) : null}
+          {isRowDirection && !isHideErrorMessage ? (
             <FormMessage className={messageClassName} />
-          )}
+          ) : null}
         </FormLabel>
       )}
 

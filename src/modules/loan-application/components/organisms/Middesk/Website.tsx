@@ -1,7 +1,7 @@
 import {
-  BusinessWebsiteDetail,
+  type BusinessWebsiteDetail,
   BusinessWebsiteFieldStatus,
-  TaskFieldStatus
+  type TaskFieldStatus
 } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
@@ -10,7 +10,7 @@ import {
   MiddeskDetailItemSkeleton
 } from "../../molecules/middesk/MiddeskDetailItem"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
 import { DateHeader } from "@/modules/loan-application/components/organisms/Middesk/DateHeader"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
@@ -34,12 +34,13 @@ const columns: ColumnDef<BusinessWebsiteDetail>[] = [
     header: () => <MiddeskTableHeader title="Website" />,
     cell: ({ row }) => {
       const data = row.original
+
       return (
         <a
-          href={data.website}
-          target="_blank"
-          rel="noopener noreferrer"
           className="text-blue-600 text-sm font-bold truncate"
+          href={data.website}
+          rel="noopener noreferrer"
+          target="_blank"
         >
           {data.website}
         </a>
@@ -51,6 +52,7 @@ const columns: ColumnDef<BusinessWebsiteDetail>[] = [
     header: () => <MiddeskTableHeader title="Created" />,
     cell: ({ row }) => {
       const data = row.original
+
       return (
         <div className="min-w-0 flex items-center text-sm">
           <p>{data.created ? formatDate(data.created, "T") : "---"}</p>
@@ -68,6 +70,7 @@ const columns: ColumnDef<BusinessWebsiteDetail>[] = [
         !phoneNumbers || phoneNumbers.length === 0
           ? "---"
           : phoneNumbers.join(", ")
+
       return (
         <div className="min-w-0 flex items-center text-sm">
           <p>{phoneNumber}</p>
@@ -77,15 +80,15 @@ const columns: ColumnDef<BusinessWebsiteDetail>[] = [
   }
 ]
 
-export const Website = () => {
+export function Website() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const website = loanKybDetail?.businessWebsite
 
   const badge = (
     <MiddeskBadge
-      status={loanKybDetail?.insights.website?.status}
       label={website?.subLabel}
+      status={loanKybDetail?.insights.website?.status}
     />
   )
 
@@ -121,39 +124,40 @@ export const Website = () => {
   const content = (
     <div className="space-y-4">
       <div className="px-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {websiteDetail &&
-          Object.entries(websiteDetail).map(([key, detailData]) => {
-            return (
-              <MiddeskDetailItem
-                key={key}
-                label={getLabelByDataKey(key as keyof BusinessWebsiteDetail)}
-                value={detailData}
-                statusProps={getStatusIndicatorProps(
-                  loanKybDetail?.insights.website?.status,
-                  detailData
-                )}
-                annotation={
-                  key === "status"
-                    ? loanKybDetail?.businessWebsite?.data?.online
-                      ? convertDateTimeToLocal(
-                          loanKybDetail?.businessWebsite?.data?.online,
-                          ", ",
-                          "@"
-                        )
-                      : "---"
-                    : undefined
-                }
-                labelClassName="text-xs"
-              />
-            )
-          })}
+        {websiteDetail
+          ? Object.entries(websiteDetail).map(([key, detailData]) => {
+              return (
+                <MiddeskDetailItem
+                  key={key}
+                  annotation={
+                    key === "status"
+                      ? loanKybDetail?.businessWebsite?.data?.online
+                        ? convertDateTimeToLocal(
+                            loanKybDetail?.businessWebsite?.data?.online,
+                            ", ",
+                            "@"
+                          )
+                        : "---"
+                      : undefined
+                  }
+                  label={getLabelByDataKey(key as keyof BusinessWebsiteDetail)}
+                  labelClassName="text-xs"
+                  statusProps={getStatusIndicatorProps(
+                    loanKybDetail?.insights.website?.status,
+                    detailData
+                  )}
+                  value={detailData}
+                />
+              )
+            })
+          : null}
       </div>
       <div className="overflow-x-auto">
         <MiddeskTable
-          tableClassName={"table-fixed"}
           columns={columns}
           data={businessWebsite}
           isLoading={isLoading}
+          tableClassName="table-fixed"
         />
       </div>
     </div>
@@ -161,9 +165,6 @@ export const Website = () => {
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.website}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader />}
       content={
         isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -175,6 +176,9 @@ export const Website = () => {
           content
         )
       }
+      headerRight={<DateHeader />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.website}
     />
   )
 }

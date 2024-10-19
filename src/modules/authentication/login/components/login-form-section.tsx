@@ -29,7 +29,7 @@ export function LoginFormSection() {
           {!isAdmin() ? (
             <>
               Don’t have an account?{" "}
-              <Button variant="link" className="p-0 text-primary" asChild>
+              <Button asChild className="p-0 text-primary" variant="link">
                 <Link to={APP_PATH.SIGN_UP}>Sign up</Link>
               </Button>
             </>

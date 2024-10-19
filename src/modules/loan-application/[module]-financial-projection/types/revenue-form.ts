@@ -21,7 +21,7 @@ export const enum RevenueResponseType {
   CONTRACTS = "revenue_contract"
 }
 
-export interface SubmitRevenueStreamRequest extends RevenueStream {}
+export type SubmitRevenueStreamRequest = RevenueStream
 
 interface Identifiable {
   id: string
@@ -41,10 +41,6 @@ export interface SubmitRevenueStreamItemResponse {
 export interface SubmitRevenueStreamResponse {
   forms: SubmitRevenueStreamItemResponse[]
 }
-
-export interface QueryRevenueStreamRequest {}
-
-export interface QueryRevenueStreamResponse {}
 
 export interface UnitSale {
   id?: string

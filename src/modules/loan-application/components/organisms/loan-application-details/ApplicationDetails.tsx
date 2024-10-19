@@ -26,7 +26,7 @@ import { PreApplicationDisclosuresDetails } from "../loan-application-form/pre-a
 import { SbbKybFormDetails } from "../loan-application-form/kyb/sbb/SbbKybFormDetails"
 import { SbbKycFormDetails } from "../loan-application-form/kyc/sbb/SbbKycFormDetails"
 
-export const ApplicationDetails = () => {
+export function ApplicationDetails() {
   const {
     kybFormData,
     kycFormData,
@@ -70,34 +70,34 @@ export const ApplicationDetails = () => {
           {(isLoanReady() || isKccBank() || isCyphrBank() || isLaunchKC()) && (
             <CashFlowTable />
           )}
-          {currentLoanFormData && (
+          {currentLoanFormData ? (
             <CurrentLoanFormDetails currentLoanFormData={currentLoanFormData} />
-          )}
+          ) : null}
           <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
-            {operatingExpensesFormData && (
+            {operatingExpensesFormData ? (
               <OperatingExpensesFormDetails
                 operatingExpensesFormData={operatingExpensesFormData}
               />
-            )}
+            ) : null}
           </FeatureRenderer>
-          {financialFormData && (
+          {financialFormData ? (
             <FinancialFormDetails financialFormData={financialFormData} />
-          )}
-          {productServiceFormData && (
+          ) : null}
+          {productServiceFormData ? (
             <ProductServiceFormDetails data={productServiceFormData} />
-          )}
-          {marketOpportunityFormData && (
+          ) : null}
+          {marketOpportunityFormData ? (
             <MarketOpportunityFormDetails data={marketOpportunityFormData} />
-          )}
-          {businessModelFormData && (
+          ) : null}
+          {businessModelFormData ? (
             <BusinessModelFormDetails data={businessModelFormData} />
-          )}
-          {executionFormData && (
+          ) : null}
+          {executionFormData ? (
             <ExecutionFormDetails data={executionFormData} />
-          )}
-          {launchKCFitFormData && (
+          ) : null}
+          {launchKCFitFormData ? (
             <LaunchKcFitFormDetails data={launchKCFitFormData} />
-          )}
+          ) : null}
         </div>
       </div>
     </div>

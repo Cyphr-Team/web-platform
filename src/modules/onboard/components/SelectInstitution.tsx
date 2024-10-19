@@ -10,7 +10,7 @@ import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { Globe } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
-import { OnboardingFormValue } from "../types"
+import { type OnboardingFormValue } from "../types"
 import { getTenantDomain } from "@/utils/domain.utils"
 
 const handleSubdomainChange = (value: string) => {
@@ -32,6 +32,7 @@ export function SelectInstitution() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.value
+
     form.setValue("subdomain", handleSubdomainChange(value), {
       shouldValidate: true,
       shouldTouch: true
@@ -69,9 +70,9 @@ export function SelectInstitution() {
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="e.g. foresight_admin@c0x12c.com"
                   className="text-base"
                   maxLength={63}
+                  placeholder="e.g. foresight_admin@c0x12c.com"
                   {...field}
                 />
               </FormControl>
@@ -91,9 +92,9 @@ export function SelectInstitution() {
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="e.g. Foresight"
                   className="text-base"
                   maxLength={63}
+                  placeholder="e.g. Foresight"
                   {...field}
                 />
               </FormControl>
@@ -113,9 +114,9 @@ export function SelectInstitution() {
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="e.g. foresight"
                   className="text-base"
                   maxLength={63}
+                  placeholder="e.g. foresight"
                   {...field}
                   onChange={handleChangeSubdomain}
                 />
@@ -136,9 +137,9 @@ export function SelectInstitution() {
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="e.g. foresight"
                   className="text-base"
                   maxLength={63}
+                  placeholder="e.g. foresight"
                   {...field}
                 />
               </FormControl>

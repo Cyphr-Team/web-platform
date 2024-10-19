@@ -17,7 +17,7 @@ interface IListAvatar {
   className?: string
 }
 
-export const CustomJudgeAvatar = ({ children }: React.PropsWithChildren) => {
+export function CustomJudgeAvatar({ children }: React.PropsWithChildren) {
   return (
     <Avatar
       className={cn(
@@ -31,12 +31,12 @@ export const CustomJudgeAvatar = ({ children }: React.PropsWithChildren) => {
   )
 }
 
-export const ToolTipJudgeAvatar = ({
+export function ToolTipJudgeAvatar({
   name,
   avatar,
   email,
   isScored
-}: IListAvatar) => {
+}: IListAvatar) {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={200}>
@@ -46,10 +46,10 @@ export const ToolTipJudgeAvatar = ({
         >
           <div className={cn("[&:not(:first-child)]:-ml-1.5 ")}>
             <JudgeAvatar
-              name={name}
               avatar={avatar}
               email={email}
               isScored={isScored}
+              name={name}
             />
           </div>
         </TooltipTrigger>
@@ -62,13 +62,13 @@ export const ToolTipJudgeAvatar = ({
   )
 }
 
-export const JudgeAvatar = ({
+export function JudgeAvatar({
   name,
   avatar,
   email,
   isScored,
   className
-}: IListAvatar) => {
+}: IListAvatar) {
   return (
     <div>
       <Avatar
@@ -77,15 +77,15 @@ export const JudgeAvatar = ({
           className
         )}
       >
-        <AvatarImage src={avatar ?? ""} alt={email ?? ""} />
+        <AvatarImage alt={email ?? ""} src={avatar ?? ""} />
         <AvatarFallback className="flex flex-row align-middle items-center justify-center bg-gray-100 h-full cursor-default text-black">
           {getAbbreviationForName(name)}
         </AvatarFallback>
       </Avatar>
 
-      {isScored && (
+      {isScored ? (
         <Check className="w-3 h-3 p-0.5 flex-shrink-0 text-white absolute bg-green-500 bg-opacity-80 rounded-full left-1/2 top-0 -translate-x-1/2 -translate-y-1/2" />
-      )}
+      ) : null}
     </div>
   )
 }

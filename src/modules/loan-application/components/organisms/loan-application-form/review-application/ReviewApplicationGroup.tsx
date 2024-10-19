@@ -1,6 +1,6 @@
 import {
-  LOAN_APPLICATION_STEPS,
-  STEP_MENU
+  type LOAN_APPLICATION_STEPS,
+  type STEP_MENU
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { useMemo } from "react"
@@ -19,11 +19,11 @@ interface IReviewApplicationGroup {
  * @see LOAN_APPLICATION_STEPS
  * @see STEP_MENU
  */
-export const ReviewApplicationGroup = ({
+export function ReviewApplicationGroup({
   parentKey,
   label,
   itemsRef
-}: IReviewApplicationGroup) => {
+}: IReviewApplicationGroup) {
   const { progress } = useLoanApplicationProgressContext()
 
   const progressFilter = useMemo(() => {
@@ -41,10 +41,10 @@ export const ReviewApplicationGroup = ({
         {progressFilter.map((prog) => {
           return (
             <ReviewApplicationStep
+              key={prog.step}
               ref={(e) => {
                 if (itemsRef.current) itemsRef.current[prog.step] = e
               }}
-              key={prog.step}
               stepProgress={prog}
             />
           )

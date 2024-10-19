@@ -2,13 +2,13 @@ import { API_PATH } from "@/constants"
 import { loanProgramKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { postRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
-import { ProgramStatus } from "@/types/loan-program.type"
+import { type ErrorResponse } from "@/types/common.type"
+import { type ProgramStatus } from "@/types/loan-program.type"
 import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 
 export function useUpdateStatusLoanProgram() {
   const queryClient = useQueryClient()

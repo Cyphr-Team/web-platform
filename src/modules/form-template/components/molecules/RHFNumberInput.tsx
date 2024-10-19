@@ -8,12 +8,12 @@ import {
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
 import {
-  Control,
-  FieldPath,
-  FieldValues,
+  type Control,
+  type FieldPath,
+  type FieldValues,
   useFormContext
 } from "react-hook-form"
-import { memo, ReactNode } from "react"
+import { memo, type ReactNode } from "react"
 import { cn } from "@/lib/utils.ts"
 import { Input } from "@/components/ui/input.tsx"
 
@@ -41,9 +41,7 @@ export interface RHFNumberInputProps<T extends FieldValues> {
  *
  * MUST USE THIS INSIDE A FORM OR ELSE IT WILL CRASH
  * */
-const RHFNumberInput = <T extends FieldValues>(
-  props: RHFNumberInputProps<T>
-) => {
+function RHFNumberInput<T extends FieldValues>(props: RHFNumberInputProps<T>) {
   const { control } = useFormContext()
   const {
     name,
@@ -81,14 +79,14 @@ const RHFNumberInput = <T extends FieldValues>(
               <div className="flex flex-col">
                 <label>
                   {label}
-                  {required && <RequiredSymbol />}
-                  {subtitle && (
+                  {required ? <RequiredSymbol /> : null}
+                  {subtitle ? (
                     <p className="mt-2 text-text-tertiary font-medium">
                       {subtitle}
                     </p>
-                  )}
+                  ) : null}
                 </label>
-                {isRowDirection && !isHideErrorMessage && <FormMessage />}
+                {isRowDirection && !isHideErrorMessage ? <FormMessage /> : null}
               </div>
             </FormLabel>
             <FormControl>
@@ -96,18 +94,18 @@ const RHFNumberInput = <T extends FieldValues>(
                 type="number"
                 {...field}
                 {...control}
-                suffixIcon={suffixIcon}
                 className={cn("no-arrows", inputClassName)}
                 placeholder={placeholder}
+                suffixIcon={suffixIcon}
                 value={value}
               />
             </FormControl>
             {!isRowDirection && !isHideErrorMessage && (
               <FormMessage className={messageClassName} />
             )}
-            {subtitle && (
+            {subtitle ? (
               <div className="text-xs text-text-tertiary">{subtitle}</div>
-            )}
+            ) : null}
           </FormItem>
         )
       }}

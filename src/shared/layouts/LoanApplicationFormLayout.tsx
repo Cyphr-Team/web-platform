@@ -2,9 +2,9 @@ import React from "react"
 import { SideNavLoanApplication } from "../molecules/SideNavLoanApplication"
 import { cn } from "@/lib/utils"
 
-export const LoanApplicationFormLayout = ({
+export function LoanApplicationFormLayout({
   children
-}: React.PropsWithChildren) => {
+}: React.PropsWithChildren) {
   return (
     <div
       className={cn(

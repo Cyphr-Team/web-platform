@@ -1,9 +1,13 @@
 import { FormField, FormItem, FormMessage } from "@/components/ui/form.tsx"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput.tsx"
 import { FileUploadCard } from "@/modules/loan-application/components/molecules/FileUploadCard.tsx"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
+import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 import { FileUploadedCard } from "@/modules/loan-application/components/molecules/FileUploadedCard.tsx"
-import { FieldPath, FieldValues, useFormContext } from "react-hook-form"
+import {
+  type FieldPath,
+  type FieldValues,
+  useFormContext
+} from "react-hook-form"
 import { memo, useCallback } from "react"
 
 interface RHFDragAndDropFileUploadProps<T extends FieldValues> {
@@ -15,9 +19,9 @@ interface RHFDragAndDropFileUploadProps<T extends FieldValues> {
   version?: 1 | 2
 }
 
-const RHFDragAndDropFileUpload = <T extends FieldValues>(
+function RHFDragAndDropFileUpload<T extends FieldValues>(
   props: RHFDragAndDropFileUploadProps<T>
-) => {
+) {
   const {
     name,
     uploadedFiles = [],
@@ -31,7 +35,7 @@ const RHFDragAndDropFileUpload = <T extends FieldValues>(
   const handleSelectFile = useCallback(
     (field: string) => (files: FileList) => {
       const currentFiles = getValues(field) as File[]
-      let mergedFiles: File[] = []
+      let mergedFiles: File[]
 
       if (multiple) {
         mergedFiles =
@@ -39,7 +43,7 @@ const RHFDragAndDropFileUpload = <T extends FieldValues>(
             ? [...currentFiles, ...Array.from(files)]
             : Array.from(files)
       } else {
-        mergedFiles = files && files.length ? [files[0]] : []
+        mergedFiles = files?.length ? [files[0]] : []
       }
 
       setValue(field, mergedFiles, {
@@ -55,6 +59,7 @@ const RHFDragAndDropFileUpload = <T extends FieldValues>(
     (index: number, field: string) => () => {
       const currentFiles = getValues(field) as File[]
       const newFiles = currentFiles.filter((_: File, i: number) => i !== index)
+
       setValue(field, newFiles, {
         shouldValidate: true,
         shouldDirty: true,
@@ -79,16 +84,16 @@ const RHFDragAndDropFileUpload = <T extends FieldValues>(
         <FormItem>
           <DragDropFileInput
             id={id}
-            onFileSelect={handleSelectFile(name)}
             multiple={multiple}
+            onFileSelect={handleSelectFile(name)}
           />
           {Array.from((watch(name) as File[]) ?? []).map(
             (file: File, index: number) => (
               <FileUploadCard
-                key={file.name + index}
+                key={file.name}
                 file={file}
-                index={index}
                 handleRemoveFile={handleRemoveFile(index, name)}
+                index={index}
                 version={version}
               />
             )

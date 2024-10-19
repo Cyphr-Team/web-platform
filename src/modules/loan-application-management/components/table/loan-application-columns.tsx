@@ -5,9 +5,9 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
-import { LoanApplication } from "@/types/loan-application.type"
+import { type LoanApplication } from "@/types/loan-application.type"
 import { snakeCaseToText, toCurrency } from "@/utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { getBadgeVariantByStatus } from "../../services"
 
 import { ClipboardCopy } from "@/components/ui/clipboard-copy"
@@ -30,15 +30,11 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
             <TooltipTrigger className="font-medium cursor-default">
               {application.applicationIdNumber}
             </TooltipTrigger>
-            <TooltipContent
-              side="right"
-              className="inline-block"
-              asChild={true}
-            >
+            <TooltipContent asChild className="inline-block" side="right">
               <ClipboardCopy
                 content={application.applicationIdNumber.toString()}
                 value={application.applicationIdNumber}
-                variant={"blue"}
+                variant="blue"
               />
             </TooltipContent>
           </Tooltip>
@@ -120,9 +116,9 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
         <div>
           <Badge
             isDot
+            className="capitalize"
             variant="soft"
             variantColor={getBadgeVariantByStatus(application.status)}
-            className="capitalize"
           >
             {snakeCaseToText(application.status)}
           </Badge>
@@ -135,8 +131,8 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
     cell: ({ row }) => {
       return (
         <ButtonReviewLoanApplication
-          loanApplicationStatus={row.original.status}
           loanApplicationId={row.original.id}
+          loanApplicationStatus={row.original.status}
           loanProgramType={row.original.programType}
         />
       )
@@ -157,15 +153,11 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
             <TooltipTrigger className="font-medium cursor-default w-full">
               <p className="text-center">{application.applicationIdNumber}</p>
             </TooltipTrigger>
-            <TooltipContent
-              side="right"
-              className="inline-block"
-              asChild={true}
-            >
+            <TooltipContent asChild className="inline-block" side="right">
               <ClipboardCopy
                 content={application.applicationIdNumber.toString()}
                 value={application.applicationIdNumber}
-                variant={"blue"}
+                variant="blue"
               />
             </TooltipContent>
           </Tooltip>
@@ -255,9 +247,9 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
         <div className="text-center">
           <Badge
             isDot
+            className="capitalize"
             variant="soft"
             variantColor={getBadgeVariantByStatus(application.status)}
-            className="capitalize"
           >
             {snakeCaseToText(application.status)}
           </Badge>
@@ -270,8 +262,8 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
     cell: ({ row }) => {
       return (
         <ButtonReviewLoanApplication
-          loanApplicationStatus={row.original.status}
           loanApplicationId={row.original.id}
+          loanApplicationStatus={row.original.status}
           loanProgramType={row.original.programType}
         />
       )

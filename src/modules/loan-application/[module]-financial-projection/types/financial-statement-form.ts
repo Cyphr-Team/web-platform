@@ -1,4 +1,4 @@
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
+import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 
 export interface FinancialStatementFormResponse {
   financialProjectionSetupId: string | undefined

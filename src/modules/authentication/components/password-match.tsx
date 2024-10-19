@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form"
 import {
-  PasswordFormValue,
+  type PasswordFormValue,
   usePasswordMatch,
   PASSWORD_REGEX_TEXT
 } from "../hooks/usePasswordMatch"

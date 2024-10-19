@@ -1,9 +1,9 @@
 import {
-  FieldArrayWithId,
+  type FieldArrayWithId,
   useFieldArray,
   useFormContext
 } from "react-hook-form"
-import { ExecutionFormValue } from "@/modules/loan-application/constants/form.ts"
+import { type ExecutionFormValue } from "@/modules/loan-application/constants/form.ts"
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
@@ -18,7 +18,7 @@ import {
 import { memo, useCallback } from "react"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 
-export const FundingSourceInput = () => {
+export function FundingSourceInput() {
   const { control, getValues } = useFormContext<ExecutionFormValue>()
   const { fields, append, remove } = useFieldArray({
     control,
@@ -60,9 +60,9 @@ export const FundingSourceInput = () => {
         />
       ))}
       <Button
+        className="w-min ml-auto border-black gap-2"
         type="button"
         variant="outline"
-        className="w-min ml-auto border-black gap-2"
         onClick={handleAddFundingSource}
       >
         <Plus className="w-4" />
@@ -87,16 +87,16 @@ const EditFundingSource = memo((props: EditFundingSourceProps) => {
   }, [onRemove])
 
   return (
-    <div className="flex flex-col" key={value.id}>
+    <div key={value.id} className="flex flex-col">
       <div className="flex justify-between items-center">
         <h5 className="font-semibold text-sm text-center align-middle">
           FUNDING SOURCE #{index + 1}
         </h5>
         {form.getValues("fundingSources").length > 1 && (
           <Button
+            className="p-4"
             type="button"
             variant="ghost"
-            className="p-4"
             onClick={handleRemove}
           >
             <X className="w-4" />
@@ -104,10 +104,10 @@ const EditFundingSource = memo((props: EditFundingSourceProps) => {
         )}
       </div>
       <SelectInput
-        label="Funding source"
-        control={form.control}
         className="flex flex-row items-center justify-between !text-sm  "
+        control={form.control}
         inputClassName="w-56 md:max-w-56 xl:max-w-56"
+        label="Funding source"
         options={getOptionsByField(
           LAUNCH_KC_EXECUTION_FIELD_NAMES.FUNDING_SOURCES
         )}
@@ -115,9 +115,9 @@ const EditFundingSource = memo((props: EditFundingSourceProps) => {
       />
       <RHFMaskInput
         isRowDirection
+        className="flex flex-row items-center w-full justify-between mt-4"
         label="Funding"
         pattern={NUMBER_PATTERN}
-        className="flex flex-row items-center w-full justify-between mt-4"
         styleProps={{ inputClassName: "w-56 md:max-w-56 xl:max-w-56 xl:w-56" }}
         {...form.register(`fundingSources.${index}.amount` as const)}
       />

@@ -15,12 +15,12 @@ import {
 import { useQueryFinancialProjectionForecast } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryFinancialProjectionForecast.ts"
 import {
   ForecastPeriod,
-  ForecastResultsResponse
+  type ForecastResultsResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 import { useQueryGetKybForm } from "@/modules/loan-application/hooks/useQuery/useQueryKybForm.ts"
 import { EXPORT_CONFIG } from "@/modules/loan-application/services/pdf-v2.service"
 import { get } from "lodash"
-import { FC, MutableRefObject, useMemo } from "react"
+import { type FC, type MutableRefObject, useMemo } from "react"
 import { useParams } from "react-router-dom"
 
 interface FinancialProjectionPdfProps {
@@ -82,18 +82,18 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
     [ExportFPOption.CASH_FLOW_FORECAST]: (current) => (
       <div
         key={current}
-        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.CASH_FLOW_FORECAST)}
+        className="flex items-start p-8"
         data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <FpCashFlowTemplate
           data={getCashFlowData(forecastResults, ForecastPeriod.ANNUALLY)}
-          layout="default"
-          period={ForecastPeriod.ANNUALLY}
           headerProps={{
             title: "Cash Flow",
             data: annuallyTimeStamp
           }}
+          layout="default"
+          period={ForecastPeriod.ANNUALLY}
         />
       </div>
     ),
@@ -102,18 +102,18 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
     [ExportFPOption.BALANCE_SHEET_FORECAST]: (current) => (
       <div
         key={current}
-        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.BALANCE_SHEET_FORECAST)}
+        className="flex items-start p-8"
         data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <BalanceSheetTemplate
-          layout="default"
           data={getBalanceSheetData(forecastResults, ForecastPeriod.ANNUALLY)}
-          period={ForecastPeriod.ANNUALLY}
           headerProps={{
             title: "Balance Sheet",
             data: annuallyTimeStamp
           }}
+          layout="default"
+          period={ForecastPeriod.ANNUALLY}
         />
       </div>
     ),
@@ -122,29 +122,29 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
     [ExportFPOption.INCOME_SHEET_FORECAST]: (current) => (
       <div
         key={current}
-        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.INCOME_SHEET_FORECAST)}
+        className="flex items-start p-8"
         data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <IncomeStatementTemplate
-          layout="default"
           data={getIncomeStatementData(
             forecastResults,
             ForecastPeriod.ANNUALLY
           )}
-          period={ForecastPeriod.ANNUALLY}
           headerProps={{
             title: "Income Statement",
             data: annuallyTimeStamp
           }}
+          layout="default"
+          period={ForecastPeriod.ANNUALLY}
         />
       </div>
     ),
     [ExportFPOption.LOAN_READY_SECTION]: (current) => (
       <div
         key={current}
-        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.LOAN_READY_SECTION)}
+        className="flex items-start p-8"
         data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <LoanReadinessPagePdf />
@@ -153,71 +153,71 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
     [ExportFPOption.CASH_FLOW]: (current) => (
       <div
         key={current}
-        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.CASH_FLOW)}
+        className="flex items-start p-8"
         data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <FpCashFlowTemplate
-          title="Cash Flow Financial Statement"
           data={getCashFlowData(forecastResults, ForecastPeriod.CURRENT)}
-          layout="current"
-          period={ForecastPeriod.CURRENT}
           headerProps={{
             title: "Cash Flow",
             data: currentTimeStamp
           }}
+          layout="current"
+          period={ForecastPeriod.CURRENT}
+          title="Cash Flow Financial Statement"
         />
       </div>
     ),
     [ExportFPOption.BALANCE_SHEET]: (current) => (
       <div
-        className="flex items-start p-8"
-        ref={provideRef(ExportFPOption.BALANCE_SHEET)}
-        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
         key={current}
+        ref={provideRef(ExportFPOption.BALANCE_SHEET)}
+        className="flex items-start p-8"
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <BalanceSheetTemplate
-          title="Balance Sheet Financial Statement"
           data={getBalanceSheetData(forecastResults, ForecastPeriod.CURRENT)}
-          layout="current"
-          period={ForecastPeriod.CURRENT}
           headerProps={{
             title: "Balance Sheet",
             data: currentTimeStamp
           }}
+          layout="current"
+          period={ForecastPeriod.CURRENT}
+          title="Balance Sheet Financial Statement"
         />
       </div>
     ),
     [ExportFPOption.INCOME_SHEET]: (current) => (
       <div
-        className="flex items-start p-8"
-        ref={provideRef(ExportFPOption.INCOME_SHEET)}
-        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
         key={current}
+        ref={provideRef(ExportFPOption.INCOME_SHEET)}
+        className="flex items-start p-8"
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <IncomeStatementTemplate
-          title="Income Financial Statement"
           data={getIncomeStatementData(forecastResults, ForecastPeriod.CURRENT)}
-          layout="current"
-          period={ForecastPeriod.CURRENT}
           headerProps={{
             title: "Income Statement",
             data: currentTimeStamp
           }}
+          layout="current"
+          period={ForecastPeriod.CURRENT}
+          title="Income Financial Statement"
         />
       </div>
     ),
     [ExportFPOption.APPLICATION_SUMMARY]: (current) => (
-      <div className="flex items-start p-8" key={current}>
+      <div key={current} className="flex items-start p-8">
         <ApplicationReviewPdf />
       </div>
     ),
     [ExportFPOption.CHARTS]: (current) => (
       <div
-        className="flex items-start p-8"
-        ref={provideRef(ExportFPOption.CHARTS)}
-        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
         key={current}
+        ref={provideRef(ExportFPOption.CHARTS)}
+        className="flex items-start p-8"
+        data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         Coming Soon
       </div>
@@ -225,8 +225,8 @@ export const FinancialProjectionPdf: FC<FinancialProjectionPdfProps> = ({
     [ExportFPOption.DISCLAIMER_NOTE]: (current) => (
       <div
         key={current}
-        className="flex items-start p-8"
         ref={provideRef(ExportFPOption.DISCLAIMER_NOTE)}
+        className="flex items-start p-8"
         data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
       >
         <DisclaimerNote

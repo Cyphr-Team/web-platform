@@ -7,9 +7,9 @@ import { toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
 import { QUERY_KEY } from "../../constants/query-key"
-import { BusinessDocumentsResponse } from "../../constants/type"
-import { AxiosError, AxiosResponse } from "axios"
-import { ErrorResponse } from "@/types/common.type"
+import { type BusinessDocumentsResponse } from "../../constants/type"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
 
 export const useUploadBusinessDocuments = (
   onSuccess: (data: BusinessDocumentsResponse) => void
@@ -54,6 +54,7 @@ export const useUploadBusinessDocuments = (
     },
     [create, onSubmitSuccess, update]
   )
+
   return { uploadBusinessDocuments, isUploading: isCreating || isUpdating }
 }
 
@@ -106,6 +107,7 @@ const useUpdate = () => {
       })
     }
   })
+
   return {
     mutateAsync: mutation.mutateAsync,
     isUploading: mutation.isPending

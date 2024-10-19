@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { isSbb } from "@/utils/domain.utils"
 
-export const ComponentWithProvider = () => {
+export function ComponentWithProvider() {
   const { loanProgramInfo, isLoading, loanProgramDetails } =
     useLoanProgramDetailContext()
 
@@ -38,7 +38,7 @@ export const ComponentWithProvider = () => {
           <TopBarDetail
             leftFooter={
               <div className="hidden md:block">
-                {<Breadcrumbs breads={crumbs} />}
+                <Breadcrumbs breads={crumbs} />
               </div>
             }
             rightFooter={
@@ -46,10 +46,10 @@ export const ComponentWithProvider = () => {
                 <LoanProgramDetailUnderConstruction />
               ) : (
                 <LoanProgramDetailApply
+                  btnText={loanProgramInfo?.startBtn}
                   className={cn(
                     isSbb() && "bg-lime-400 text-black hover:bg-lime-300"
                   )}
-                  btnText={loanProgramInfo?.startBtn}
                 />
               )
             }
@@ -62,11 +62,11 @@ export const ComponentWithProvider = () => {
           ) : (
             <div className="border-b h-80 flex items-center">
               <Image
-                height={359}
-                className="mx-auto max-h-72"
-                src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
-                placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
                 alt="Cover Photo for Loan Program"
+                className="mx-auto max-h-72"
+                height={359}
+                placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
+                src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
               />
             </div>
           )}
@@ -89,7 +89,7 @@ export const ComponentWithProvider = () => {
   )
 }
 
-export const Component = () => {
+export function Component() {
   return (
     <LoanProgramDetailProvider>
       <ComponentWithProvider />

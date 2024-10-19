@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFormContext } from "react-hook-form"
 import {
-  ForgotPasswordFormValue,
+  type ForgotPasswordFormValue,
   forgotPasswordFormSchema,
   useForgotPassword
 } from "../hooks/useForgotPassword"
@@ -54,14 +54,14 @@ function ResetPasswordForm() {
 
   const conditionAlert = isLimitError && (
     <AppAlert
-      variant="error"
-      title="Too many attempts"
       description={getCustomErrorMsgByCode(ErrorCode.rate_limit_exceeded)}
+      title="Too many attempts"
+      variant="error"
     />
   )
 
   return (
-    <form onSubmit={formSubmit} className="space-y-6 w-full">
+    <form className="space-y-6 w-full" onSubmit={formSubmit}>
       <FormField
         control={control}
         name="email"
@@ -70,10 +70,10 @@ function ResetPasswordForm() {
             <FormLabel>Email</FormLabel>
             <FormControl>
               <Input
-                type="text"
-                placeholder="Enter your email"
-                disabled={isPending}
                 className="text-base"
+                disabled={isPending}
+                placeholder="Enter your email"
+                type="text"
                 {...field}
               />
             </FormControl>
@@ -86,8 +86,8 @@ function ResetPasswordForm() {
         {conditionAlert}
 
         <ButtonLoading
-          isLoading={isPending}
           className="ml-auto w-full text-base"
+          isLoading={isPending}
           type="submit"
         >
           Reset password

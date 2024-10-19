@@ -8,10 +8,8 @@ interface Props {
   className?: string
 }
 
-export const LoanProgramDetailApply: React.FC<Props> = ({
-  btnText = "Start application",
-  className
-}) => {
+export function LoanProgramDetailApply(props: Props) {
+  const { btnText = "Start application", className } = props
   const navigate = useNavigate()
   const { loanProgramId } = useParams()
 
@@ -20,7 +18,7 @@ export const LoanProgramDetailApply: React.FC<Props> = ({
   }
 
   return (
-    <Button onClick={onSubmit} className={className}>
+    <Button className={className} onClick={onSubmit}>
       {btnText} <ArrowRight className="ml-1 w-4" />
     </Button>
   )

@@ -4,14 +4,14 @@ import { ArrowLeft } from "lucide-react"
 import { Link, createSearchParams } from "react-router-dom"
 import { useActiveEmailSearchParams } from "../hooks/useActiveEmailSearchParams"
 
-export const BackToSignUpPageButton = () => {
+export function BackToSignUpPageButton() {
   const { email } = useActiveEmailSearchParams()
 
   return (
     <Button
-      variant="link"
-      className="px-1 text-sm text-foreground py-0 self-center"
       asChild
+      className="px-1 text-sm text-foreground py-0 self-center"
+      variant="link"
     >
       <Link
         to={{

@@ -1,10 +1,10 @@
 import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
 import { MiddeskBadge } from "@/modules/loan-application/components/molecules/middesk/MiddeskBadge"
-import { ReactNode } from "react"
-import { InsightStatus } from "../../constants/types/insight.type"
+import { type ReactNode } from "react"
+import { type InsightStatus } from "../../constants/types/insight.type"
 
-type Props = {
+interface Props {
   label?: ReactNode
   value?: string
   hasAction?: boolean
@@ -39,17 +39,17 @@ export const InformationRow: React.FC<Props> = ({
       >
         <p className="font-medium text-sm">{value}</p>
       </div>
-      {hasAction && (
+      {hasAction ? (
         <div className="flex gap-x-lg items-center pl-xl xl:pl-3xl py-xl xl:py-3xl">
           <Switch />
           <p className="text-sm font-medium">resolve manually</p>
         </div>
-      )}
-      {status && (
+      ) : null}
+      {status ? (
         <div className="pr-3xl py-xl xl:py-3xl flex justify-end pl-xl xl:pl-0 items-center">
           <MiddeskBadge label={subLabel} status={status} />
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

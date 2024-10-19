@@ -25,7 +25,7 @@ import {
 } from "@/modules/loan-application/providers"
 import {
   FORM_ACTION,
-  FormStateType
+  type FormStateType
 } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
 import { useCallback, useEffect } from "react"
@@ -56,11 +56,7 @@ export const useGetFinancialProjectForms = () => {
     progress.map((item) => item.step).includes(step)
 
   const changeDataAndProgress = useCallback(
-    (
-      data: FormStateType,
-      progress: LOAN_APPLICATION_STEPS,
-      isDone: boolean = true
-    ) => {
+    (data: FormStateType, progress: LOAN_APPLICATION_STEPS, isDone = true) => {
       if (isDone) {
         dispatchProgress({
           type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
@@ -81,6 +77,7 @@ export const useGetFinancialProjectForms = () => {
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS)
   })
+
   useEffect(() => {
     if (financialStatementQuery.data && isInitialized) {
       changeDataAndProgress(
@@ -95,6 +92,7 @@ export const useGetFinancialProjectForms = () => {
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PEOPLE)
   })
+
   useEffect(() => {
     if (expensePeopleFormQuery.data && isInitialized) {
       changeDataAndProgress(
@@ -109,6 +107,7 @@ export const useGetFinancialProjectForms = () => {
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES)
   })
+
   useEffect(() => {
     if (fpOperatingExpensesFormQuery.data && isInitialized) {
       changeDataAndProgress(
@@ -123,6 +122,7 @@ export const useGetFinancialProjectForms = () => {
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DIRECT_COSTS)
   })
+
   useEffect(() => {
     if (directCostsQuery.data && isInitialized) {
       changeDataAndProgress(
@@ -137,6 +137,7 @@ export const useGetFinancialProjectForms = () => {
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.EQUITY)
   })
+
   useEffect(() => {
     if (fpEquityFinancingFormQuery.data && isInitialized) {
       changeDataAndProgress(
@@ -161,6 +162,7 @@ export const useGetFinancialProjectForms = () => {
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.TAX_RATES)
   })
+
   useEffect(() => {
     if (fpExpenseTaxRateFormQuery.data && isInitialized) {
       changeDataAndProgress(
@@ -196,6 +198,7 @@ export const useGetFinancialProjectForms = () => {
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.REVENUE)
   })
+
   useEffect(() => {
     if (revenueFormQuery.data && isInitialized) {
       const formattedData = reverseFormatRevenueResponse(revenueFormQuery.data)
@@ -222,6 +225,7 @@ export const useGetFinancialProjectForms = () => {
       enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DEBT_FINANCING)
     }
   )
+
   useEffect(() => {
     if (
       (debtFinancingFormQuery?.data || debtFinancingLiabilityFormQuery?.data) &&

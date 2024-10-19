@@ -9,7 +9,7 @@ import { Form } from "@/components/ui/form"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 import {
-  IScoreFormValues,
+  type IScoreFormValues,
   useScoreFormProvider
 } from "../../../providers/ScoreFormProvider"
 import { ScoreCardForm } from "../../molecules/score-card/ScoreCardForm"
@@ -21,7 +21,7 @@ import { roundToOneDecimalPlace } from "@/utils"
 import { ButtonLoading } from "@/components/ui/button.tsx"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput.tsx"
 
-export const ScoreCard = () => {
+export function ScoreCard() {
   const { id: applicationId } = useParams()
   const form = useScoreFormProvider()
 
@@ -59,7 +59,7 @@ export const ScoreCard = () => {
   return (
     <Card className="h-fit max-h-full top-0 z-10 mb-4 flex-shrink-0">
       <Form {...form}>
-        <form onSubmit={formSubmit} className="flex flex-col">
+        <form className="flex flex-col" onSubmit={formSubmit}>
           <CardHeader className="!pb-0 px-0 md:px-0">
             <CardTitle className="font-semibold text-lg px-4 tracking-wide">
               <div>Scorecard</div>
@@ -76,17 +76,17 @@ export const ScoreCard = () => {
             </div>
 
             <Accordion
-              type="multiple"
               defaultValue={[
                 "card-rubric",
                 "scored-card",
                 "feedback-card-form"
               ]}
+              type="multiple"
             >
               <AccordionItem
-                value="card-rubric"
                 key="card-rubric"
                 className="border-b-0"
+                value="card-rubric"
               >
                 <AccordionTrigger
                   className={cn(
@@ -102,9 +102,9 @@ export const ScoreCard = () => {
               </AccordionItem>
 
               <AccordionItem
-                value="scored-card"
                 key="scored-card"
                 className="border-b-0"
+                value="scored-card"
               >
                 <AccordionTrigger
                   className={cn(
@@ -139,9 +139,9 @@ export const ScoreCard = () => {
               </AccordionItem>
 
               <AccordionItem
-                value="feedback-card-form"
                 key="feedback-card-form"
                 className="border-b-0"
+                value="feedback-card-form"
               >
                 <AccordionTrigger
                   className={cn(
@@ -152,11 +152,11 @@ export const ScoreCard = () => {
                 </AccordionTrigger>
                 <AccordionContent>
                   {/* Render comment if this application is scored, else render text input */}
-                  {isScored && (
+                  {isScored ? (
                     <div className="mt-4 text-xs text-text-tertiary">
                       {form.watch("comment")}
                     </div>
-                  )}
+                  ) : null}
                   {/* If not scored, render input */}
                   {!isScored && (
                     <>
@@ -167,12 +167,12 @@ export const ScoreCard = () => {
                         areas of improvement.
                       </div>
                       <TextAreaInput
+                        className="p-2"
+                        control={form.control}
+                        inputClassName="focus-within:shadow-lg placeholder:text-sm"
                         label=""
                         name="comment"
-                        control={form.control}
                         placeholder="Leave feedback..."
-                        className="p-2"
-                        inputClassName="focus-within:shadow-lg placeholder:text-sm"
                       />
                     </>
                   )}
@@ -182,8 +182,8 @@ export const ScoreCard = () => {
                       <>
                         <ButtonLoading
                           className="self-end"
-                          isLoading={submitScore.isPending}
                           disabled={!form.formState.isDirty}
+                          isLoading={submitScore.isPending}
                           type="submit"
                         >
                           Submit

@@ -8,7 +8,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { Control, FieldPath, FieldValues } from "react-hook-form"
+import { type Control, type FieldPath, type FieldValues } from "react-hook-form"
 
 interface ITextAreaInputType<T extends FieldValues> {
   label: string
@@ -28,9 +28,9 @@ interface ITextAreaInputType<T extends FieldValues> {
   disable?: boolean
 }
 
-export const TextAreaInput = <T extends FieldValues>(
+export function TextAreaInput<T extends FieldValues>(
   props: ITextAreaInputType<T>
-) => {
+) {
   const {
     label,
     name,
@@ -57,20 +57,20 @@ export const TextAreaInput = <T extends FieldValues>(
           >
             <label>
               {label}
-              {required && <RequiredSymbol />}
+              {required ? <RequiredSymbol /> : null}
             </label>
-            {subtitle && (
+            {subtitle ? (
               <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
-            )}
+            ) : null}
           </FormLabel>
 
           <FormControl className={`${isRowDirection && "xl:-mt-4"}`}>
             <Textarea
               {...field}
-              placeholder={placeholder}
-              prefix={prefix}
               className={cn("text-base", inputClassName)}
               disabled={disable}
+              placeholder={placeholder}
+              prefix={prefix}
             />
           </FormControl>
           {isRowDirection && subtitle ? (

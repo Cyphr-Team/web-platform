@@ -1,17 +1,17 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { API_PATH, APP_PATH, MAX_REMEMBER_ME_DAYS } from "@/constants"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { useNavigate } from "react-router-dom"
-import { VerifyPhoneFormSchema } from "../constants"
+import { type VerifyPhoneFormSchema } from "../constants"
 import { postRequest } from "@/services/client.service"
 import {
   inMemoryJWTService,
   INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY
 } from "@/services/jwt.service"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
-import { StytchMember } from "@/types/auth.type"
-import { UserInfo } from "@/types/user.type"
+import { type StytchMember } from "@/types/auth.type"
+import { type UserInfo } from "@/types/user.type"
 import {
   customRequestHeader,
   headerWithRememberMe
@@ -50,6 +50,7 @@ export const useActivateByCode = ({
     },
     onSuccess({ data }) {
       const { accessToken, refreshToken } = data
+
       inMemoryJWTService.setToken(accessToken)
       inMemoryJWTService.setRefreshToken(refreshToken)
       inMemoryJWTService.setUserInfo(data)

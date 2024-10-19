@@ -1,4 +1,4 @@
-import { PayStubCapturedType } from "@/modules/loan-application-management/constants/types/document"
+import { type PayStubCapturedType } from "@/modules/loan-application-management/constants/types/document"
 import { EmployeeInformation } from "../../molecules/capture/paystub/EmployeeInformation"
 import { EmployerInformation } from "../../molecules/capture/paystub/EmployerInformation"
 import { PayStubInformation } from "../../molecules/capture/paystub/PayStubInformation"
@@ -6,7 +6,7 @@ import { PayStubEarnings } from "../../molecules/capture/paystub/PayStubEarnings
 import { PayStubDistribution } from "../../molecules/capture/paystub/PayStubDistribution"
 import { PayStubDeduction } from "../../molecules/capture/paystub/PayStubDeduction"
 
-type Props = {
+interface Props {
   data: PayStubCapturedType
 }
 

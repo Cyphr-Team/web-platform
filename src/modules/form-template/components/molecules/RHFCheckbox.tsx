@@ -1,11 +1,11 @@
 import { FormControl, FormField, FormItem } from "@/components/ui/form.tsx"
 import { Checkbox } from "@/components/ui/checkbox.tsx"
-import { CheckboxProps, CheckedState } from "@radix-ui/react-checkbox"
+import { type CheckboxProps, type CheckedState } from "@radix-ui/react-checkbox"
 import { memo } from "react"
 import {
-  Control,
-  FieldPath,
-  FieldValues,
+  type Control,
+  type FieldPath,
+  type FieldValues,
   useFormContext
 } from "react-hook-form"
 import { cn } from "@/lib/utils.ts"
@@ -22,7 +22,7 @@ export interface RHFCheckboxProps<T extends FieldValues> {
   }
 }
 
-const RHFCheckbox = <T extends FieldValues>(props: RHFCheckboxProps<T>) => {
+function RHFCheckbox<T extends FieldValues>(props: RHFCheckboxProps<T>) {
   const { control: defaultControl } = useFormContext<T>()
   const {
     name,

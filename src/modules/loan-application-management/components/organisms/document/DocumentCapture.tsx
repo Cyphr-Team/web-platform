@@ -1,8 +1,8 @@
 import {
-  BankStatementType,
+  type BankStatementType,
   DocumentType,
-  PayStubCapturedType,
-  W2DocumentType
+  type PayStubCapturedType,
+  type W2DocumentType
 } from "../../../constants/types/document"
 import { useLoanDocumentDetailsContext } from "../../../providers/LoanDocumentDetailsProvider"
 import { BankStatement } from "../../molecules/capture/BankStatement"
@@ -13,6 +13,7 @@ export const DocumentCapture: React.FC = () => {
   const { documentDetails } = useLoanDocumentDetailsContext()
 
   const documentTypeSelected = documentDetails?.documentType
+
   if (!documentDetails) return null
   if (!documentDetails.capture) return null
 

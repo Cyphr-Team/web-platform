@@ -1,14 +1,15 @@
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 
 interface FormLayoutProps {
   wrapperClassName?: string
 }
-export const FormLayout = ({
+
+export function FormLayout({
   children,
   wrapperClassName
-}: PropsWithChildren<FormLayoutProps>) => {
+}: PropsWithChildren<FormLayoutProps>) {
   return (
     <Card
       className={cn(

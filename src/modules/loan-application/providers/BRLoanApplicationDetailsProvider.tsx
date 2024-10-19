@@ -1,18 +1,24 @@
-import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
+import { type MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
 import { useQueryMarketOpportunity } from "@/modules/loan-application/hooks/useQuery/useQueryMarketOpportunity.ts"
 import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/useQuery/useQuerySbbDocumentForm.ts"
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
-import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
-import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
+import { type UserMicroLoanApplication } from "@/types/loan-application.type"
+import { LoanType, type MicroLoanProgramType } from "@/types/loan-program.type"
+import { type IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   formsConfigurationEnabled,
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
 import _ from "lodash"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { createContext } from "use-context-selector"
 import {
@@ -21,23 +27,23 @@ import {
   useLoanProgramDetailContext,
   usePlaidContext
 } from "."
-import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
-import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
+import { type BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
+import { type LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
-import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
-import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
-import { DocumentUploadsFormValue } from "../constants/form"
+import { type ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
+import { type ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
+import { type DocumentUploadsFormValue } from "../constants/form"
 import {
-  BusinessDocumentsResponse,
-  ConfirmationFormResponse,
-  CurrentLoansInformationResponse,
-  DocumentUploadedResponse,
-  FinancialInformationResponse,
-  KYBInformationResponse,
-  KYCInformationResponse,
-  LoanProgramData,
-  OperatingExpensesInformationResponse,
-  PreQualificationResponse
+  type BusinessDocumentsResponse,
+  type ConfirmationFormResponse,
+  type CurrentLoansInformationResponse,
+  type DocumentUploadedResponse,
+  type FinancialInformationResponse,
+  type KYBInformationResponse,
+  type KYCInformationResponse,
+  type LoanProgramData,
+  type OperatingExpensesInformationResponse,
+  type PreQualificationResponse
 } from "../constants/type"
 import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useGetESignDocument } from "../hooks/useQuery/form/useGetESignDocument"
@@ -70,15 +76,15 @@ import {
   reverseFormatOperatingExpensesForm,
   reverseFormatSbbKybForm
 } from "../services/form.services"
-import { FORM_ACTION, FormStateType } from "./LoanApplicationFormProvider"
+import { FORM_ACTION, type FormStateType } from "./LoanApplicationFormProvider"
 import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
+import { type ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { isEnabledQuery } from "@/utils"
-import { SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { type SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatForecastSetupResult } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
-import { FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
+import { type FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
 
-type FinancialProjectionDetail = {
+interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
   revenueFormData?: SubmitRevenueStreamResponse
 }
@@ -118,13 +124,9 @@ export const MicroLoanBRLoanApplicationDetailsContext = createContext<
   isFetchingDetails: false
 })
 
-type Props = {
-  children: React.ReactNode
-}
-
-export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
+export function BRLoanApplicationDetailsProvider({
   children
-}) => {
+}: PropsWithChildren) {
   const { state } = useLocation()
 
   const { loanProgramId, id: loanApplicationId } = useParams()
@@ -277,11 +279,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
   const sbbDocumentQuery = useQuerySbbDocumentForm(loanApplicationId)
 
   const changeDataAndProgress = useCallback(
-    (
-      data: FormStateType,
-      progress: LOAN_APPLICATION_STEPS,
-      isDone: boolean = true
-    ) => {
+    (data: FormStateType, progress: LOAN_APPLICATION_STEPS, isDone = true) => {
       if (isDone) {
         dispatchProgress({
           type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
@@ -326,6 +324,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
         : true,
     [loanProgramFormsConfiguration]
   )
+
   // Save data to edit form
   // Pre Qualification Form
   useEffect(() => {
@@ -580,6 +579,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
             (value) => ({
               id: value.id,
               sourceType: value.sourceType,
+              // eslint-disable-next-line @typescript-eslint/no-useless-template-literals
               amount: `${value.amount}`
             })
           )
@@ -701,6 +701,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
           accounts: connectedBankAccounts.flatMap(({ accounts }) => accounts)
         })
       )
+
       plaidDispatch({
         type: "SET_STATE",
         state: {
@@ -747,6 +748,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
    * */
   useEffect(() => {
     const data = sbbDocumentQuery.data
+
     if (data?.id) {
       changeDataAndProgress(
         {
@@ -930,6 +932,7 @@ export const BRLoanApplicationDetailsProvider: React.FC<Props> = ({
       plaidItemIdsQuery.isLoading
     ]
   )
+
   switch (loanProgramQuery.data?.type) {
     case LoanType.MICRO:
       return (

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
-import { ErrorResponse } from "react-router-dom"
+import { type ErrorResponse } from "react-router-dom"
 import { getRequest } from "../../../../services/client.service"
 import { API_PATH } from "../../../../constants"
 import { workspaceAdminAssignJudge } from "../../../../constants/query-key"
-import { IApplicationWithStageScoresResponse } from "../../../../types/application/application-assign.type"
+import { type IApplicationWithStageScoresResponse } from "../../../../types/application/application-assign.type"
 
 export const useQueryApplicationWithStageScoresResponse = ({
   applicationId,
@@ -25,6 +25,7 @@ export const useQueryApplicationWithStageScoresResponse = ({
         path: API_PATH.loanApplicationDetails.getApplicationWithStageScoresResponse(),
         params: { applicationId: applicationId }
       })
+
       return result
     },
     enabled: enabled

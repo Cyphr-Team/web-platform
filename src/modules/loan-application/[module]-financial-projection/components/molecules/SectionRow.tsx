@@ -6,8 +6,9 @@ interface TableTitleProps {
   isFirst?: boolean
 }
 
-export const SectionRow = (props: TableTitleProps) => {
+export function SectionRow(props: TableTitleProps) {
   const { title, className = "", isFirst = false } = props
+
   return (
     <div
       className={cn(

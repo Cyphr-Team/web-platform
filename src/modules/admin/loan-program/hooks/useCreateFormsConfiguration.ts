@@ -1,9 +1,9 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
-import { LoanProgramFormsConfiguration } from "@/types/loan-program.type"
+import { type ErrorResponse } from "@/types/common.type"
+import { type LoanProgramFormsConfiguration } from "@/types/loan-program.type"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { z } from "zod"
 
 export const createFormsConfigurationForm = z.object({

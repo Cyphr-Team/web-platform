@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/tooltip"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { BusinessRegistrationSource } from "@/modules/loan-application-management/constants/types/business.type"
-import { ColumnDef } from "@tanstack/react-table"
-import { ReactNode } from "react"
+import { type BusinessRegistrationSource } from "@/modules/loan-application-management/constants/types/business.type"
+import { type ColumnDef } from "@tanstack/react-table"
+import { type ReactNode } from "react"
 import { MiddeskBadge } from "./middesk/MiddeskBadge"
 import { cn } from "@/lib/utils"
 import { mappedStateAbbreviations } from "@/utils/state.utils"
@@ -31,10 +31,10 @@ const sourceToolTipColumn: ColumnDef<BusinessRegistrationSource>[] = [
 
       return (
         <a
+          className="inline-flex items-center text-blue-700 border-b border-blue-700"
           href={data?.link}
           rel="noopener noreferrer"
           target="_blank"
-          className="inline-flex items-center text-blue-700 border-b border-blue-700"
         >
           {state} <Dot className="mx-1 w-2 text-blue-700" />
           SOS
@@ -53,7 +53,7 @@ const sourceToolTipColumn: ColumnDef<BusinessRegistrationSource>[] = [
   }
 ]
 
-export const SourceToolTip = ({
+export function SourceToolTip({
   data,
   sourceContent,
   description,
@@ -63,14 +63,14 @@ export const SourceToolTip = ({
   sourceContent: ReactNode
   description?: ReactNode
   subDescription?: ReactNode
-}) => {
+}) {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
           <Button
-            variant="ghost"
             className="p-0 border-b rounded-none border-dashed border-black font-normal text-base h-6"
+            variant="ghost"
           >
             <p className="break-words">{sourceContent}</p>
           </Button>
@@ -83,7 +83,7 @@ export const SourceToolTip = ({
             )}
             side="top"
           >
-            {description && (
+            {description ? (
               <div
                 className={cn(
                   "px-4 font-semibold text-sm break-words",
@@ -92,9 +92,11 @@ export const SourceToolTip = ({
               >
                 {description}
               </div>
-            )}
+            ) : null}
 
-            {data && <MiddeskTable data={data} columns={sourceToolTipColumn} />}
+            {data ? (
+              <MiddeskTable columns={sourceToolTipColumn} data={data} />
+            ) : null}
 
             {!!subDescription && (
               <div className="px-4 text-sm py-2">{subDescription}</div>

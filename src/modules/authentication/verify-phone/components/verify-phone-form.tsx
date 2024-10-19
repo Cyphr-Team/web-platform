@@ -102,9 +102,9 @@ export function VerifyPhoneForm() {
 
   const conditionAlert = (resendIsSuccess || errorMsg) && (
     <AppAlert
-      variant={dataAlert.variant}
-      title={dataAlert.title}
       description={dataAlert.description}
+      title={dataAlert.title}
+      variant={dataAlert.variant}
     />
   )
 
@@ -112,8 +112,8 @@ export function VerifyPhoneForm() {
     <div className="flex flex-col space-y-6">
       <Form {...form}>
         <form
-          onSubmit={formSubmit}
           className="space-y-4 sm:space-y-8 w-full flex flex-col items-center"
+          onSubmit={formSubmit}
         >
           <div className="flex space-x-3">
             {inputRefs.current.map((_, index) => {
@@ -126,20 +126,20 @@ export function VerifyPhoneForm() {
                     <FormItem>
                       <FormControl>
                         <VerifyPhoneCodeInput
-                          maxLength={1}
-                          type="string"
-                          placeholder="0"
                           className="input-number-remove-arrow"
+                          maxLength={1}
+                          placeholder="0"
+                          type="string"
                           {...field}
-                          disabled={isPending}
-                          onKeyDown={handleInputCode(index)}
-                          onChange={() => null}
-                          onPaste={handlePasteCode}
-                          autoFocus={index === 0}
                           ref={(e) => {
                             field.ref(e)
                             inputRefs.current[index] = e
                           }}
+                          autoFocus={index === 0}
+                          disabled={isPending}
+                          onChange={() => null}
+                          onKeyDown={handleInputCode(index)}
+                          onPaste={handlePasteCode}
                         />
                       </FormControl>
                     </FormItem>
@@ -155,11 +155,11 @@ export function VerifyPhoneForm() {
             </ErrorMessage>
 
             <ButtonLoading
-              variant="default"
-              isLoading={isPending}
-              disabled={!form.formState.isValid}
               className="ml-auto w-full text-base"
+              disabled={!form.formState.isValid}
+              isLoading={isPending}
               type="submit"
+              variant="default"
             >
               Verify
             </ButtonLoading>
@@ -174,10 +174,10 @@ export function VerifyPhoneForm() {
               </p>
 
               <ButtonLoading
+                className="p-1 h-7 text-primary"
                 isLoading={resendIsPending}
                 type="button"
                 variant="ghost"
-                className="p-1 h-7 text-primary"
                 onClick={() => {
                   resendMutate({ token })
                 }}

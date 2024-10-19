@@ -1,10 +1,10 @@
-import { ForecastPeriod } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
-import { FunctionComponent } from "react"
+import { type ForecastPeriod } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
+import { type FunctionComponent } from "react"
 import { MonthlyHeader } from "@/modules/loan-application/[module]-financial-projection/components/molecules/MonthlyHeader.tsx"
 import { AnnualHeader } from "@/modules/loan-application/[module]-financial-projection/components/molecules/AnnualHeader.tsx"
 import { CurrentDetailHeader } from "@/modules/loan-application/[module]-financial-projection/components/molecules/CurrentDetailHeader.tsx"
 
-export const GridMapper: { [key: number]: string } = {
+export const GridMapper: Record<number, string> = {
   // Current month
   1: "grid grid-cols-2",
   // Annually - 3 years

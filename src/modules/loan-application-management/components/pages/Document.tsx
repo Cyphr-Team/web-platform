@@ -6,8 +6,8 @@ import { useQueryDocument } from "../../hooks/useQuery/useQueryDocument"
 import { ButtonLoading } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
 import { SEARCH_PARAM_KEY } from "@/constants/routes.constants"
-import { LoanDocument } from "@/types/loan-document.type"
-import { PaginationState, Row } from "@tanstack/react-table"
+import { type LoanDocument } from "@/types/loan-document.type"
+import { type PaginationState, type Row } from "@tanstack/react-table"
 import { useState } from "react"
 import { createSearchParams, useNavigate, useParams } from "react-router-dom"
 import { DocumentTableHeader } from "../table/document-header"
@@ -46,6 +46,7 @@ export function Component() {
   const handleSearch = (keyword: string) => {
     setKeyword(keyword)
   }
+
   return (
     <div>
       <div className="rounded-t-xl border px-6 py-5">
@@ -57,23 +58,23 @@ export function Component() {
       <div className="border py-3 px-4 -mb-6 border-t-0 flex justify-between">
         <DocumentTableHeader onSearch={handleSearch} />
         <ButtonLoading
-          onClick={() => refetch()}
-          variant="secondary"
-          size="sm"
           isLoading={isFetching}
+          size="sm"
+          variant="secondary"
+          onClick={() => refetch()}
         >
           Refresh
         </ButtonLoading>
       </div>
       <DataTable
-        tableContainerClassName="rounded-t-none border-t-0"
         columns={columns}
         data={data?.data ?? []}
-        total={data?.total ?? 0}
+        handleClickDetail={handleClickDetail}
         isLoading={isFetching}
         pagination={pagination}
         setPagination={setPagination}
-        handleClickDetail={handleClickDetail}
+        tableContainerClassName="rounded-t-none border-t-0"
+        total={data?.total ?? 0}
       />
     </div>
   )

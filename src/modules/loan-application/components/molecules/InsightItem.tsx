@@ -7,11 +7,11 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import { InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
+import { type InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
-type InsightItemProps = {
+interface InsightItemProps {
   title: string
   status?: InsightStatus
   noBorder?: boolean
@@ -60,14 +60,14 @@ export const InsightItem: React.FC<InsightItemProps> = ({
           </a>
         </TooltipTrigger>
 
-        {toolTipContent && (
+        {toolTipContent ? (
           <TooltipContent
             className="max-w-72 bg-muted-foreground text-muted"
             sideOffset={10}
           >
             <p>{toolTipContent}</p>
           </TooltipContent>
-        )}
+        ) : null}
       </Tooltip>
     </TooltipProvider>
   )

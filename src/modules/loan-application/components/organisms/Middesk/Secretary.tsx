@@ -5,9 +5,9 @@ import {
 } from "@/modules/loan-application-management/components/molecules/KybState"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { BusinessSosDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { type BusinessSosDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import { SourceToolTip } from "../../molecules/SourceToolTip"
@@ -18,7 +18,7 @@ import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-manag
 const columns: ColumnDef<BusinessSosDetail>[] = [
   {
     accessorKey: "fileDate",
-    header: () => <MiddeskTableHeader title={"File date"} />,
+    header: () => <MiddeskTableHeader title="File date" />,
     cell: ({ row }) => {
       const data = row.original
 
@@ -65,7 +65,7 @@ const columns: ColumnDef<BusinessSosDetail>[] = [
 
       return (
         <div className="flex items-start">
-          {data.subStatus && (
+          {data.subStatus ? (
             <>
               <Dot
                 className="flex-shrink-0 self-start mt-1"
@@ -78,22 +78,22 @@ const columns: ColumnDef<BusinessSosDetail>[] = [
                 sourceContent={data.subStatus}
               />
             </>
-          )}
+          ) : null}
         </div>
       )
     }
   }
 ]
 
-export const Secretary = () => {
+export function Secretary() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const sosFillings = loanKybDetail?.businessSosFillings
 
   const badge = (
     <MiddeskBadge
-      status={loanKybDetail?.insights.sosFillings?.status}
       label={sosFillings?.subLabel}
+      status={loanKybDetail?.insights.sosFillings?.status}
     />
   )
   const headerTitle = <>Secretary of State filings {badge}</>
@@ -110,20 +110,20 @@ export const Secretary = () => {
       </div>
 
       <MiddeskTable
-        tableClassName={"table-fixed"}
         columns={columns}
         data={sosFillings?.data ?? []}
         isLoading={isLoading}
+        tableClassName="table-fixed"
       />
     </>
   )
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.sosFillings}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader />}
       content={content}
+      headerRight={<DateHeader />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.sosFillings}
     />
   )
 }

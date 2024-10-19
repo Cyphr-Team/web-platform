@@ -68,49 +68,50 @@ export function DataListPagination({
         <div className="flex items-center gap-1 text-sm font-medium">
           Go to page:
           <Input
-            type="number"
-            min={1}
             max={pageCount}
+            min={1}
+            type="number"
             value={pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0
+
               setPageIndex(page)
             }}
           />
         </div>
         <div className="flex items-center space-x-2">
           <Button
-            variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => setPageIndex(0)}
             disabled={!canPreviousPage}
+            variant="outline"
+            onClick={() => setPageIndex(0)}
           >
             <span className="sr-only">Go to first page</span>
             <ChevronsLeft className="h-4 w-4" />
           </Button>
           <Button
-            variant="outline"
             className="h-8 w-8 p-0"
-            onClick={() => previousPage()}
             disabled={!canPreviousPage}
+            variant="outline"
+            onClick={() => previousPage()}
           >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
-            variant="outline"
             className="h-8 w-8 p-0"
-            onClick={() => nextPage()}
             disabled={!canNextPage}
+            variant="outline"
+            onClick={() => nextPage()}
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRight className="h-4 w-4" />
           </Button>
           <Button
-            variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => setPageIndex(pageCount - 1)}
             disabled={!canNextPage}
+            variant="outline"
+            onClick={() => setPageIndex(pageCount - 1)}
           >
             <span className="sr-only">Go to last page</span>
             <ChevronsRight className="h-4 w-4" />

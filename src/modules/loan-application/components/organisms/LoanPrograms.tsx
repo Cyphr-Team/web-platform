@@ -7,7 +7,7 @@ import { Institution } from "@/constants/tenant.constants"
 import { KCLoanProgramCard } from "../molecules/custom/KCLoanProgramCard"
 import { SBBLoanProgramCard } from "../molecules/custom/SBBLoanProgramCard"
 import { LoanProgramLongCard } from "../molecules/LoanProgramLongCard"
-import { BaseLoanProgramType } from "@/types/loan-program.type"
+import { type BaseLoanProgramType } from "@/types/loan-program.type"
 
 interface Props {
   loanPrograms: BaseLoanProgramType[]
@@ -21,14 +21,16 @@ export const LoanPrograms: React.FC<Props> = ({ loanPrograms }) => {
   const renderShortCardLoanPrograms = (loanProgram: BaseLoanProgramType) => (
     <LoanProgramCard
       key={loanProgram.id}
-      loanProgram={loanProgram}
       additionalInfo={
-        ALTCAP_LOAN_PROGRAMS[0].meta && [
-          ALTCAP_LOAN_PROGRAMS[0].meta.collateralRequired,
-          ALTCAP_LOAN_PROGRAMS[0].meta.minimumCreditScore,
-          ALTCAP_LOAN_PROGRAMS[0].meta.decisionTime
-        ]
+        ALTCAP_LOAN_PROGRAMS[0].meta
+          ? [
+              ALTCAP_LOAN_PROGRAMS[0].meta.collateralRequired,
+              ALTCAP_LOAN_PROGRAMS[0].meta.minimumCreditScore,
+              ALTCAP_LOAN_PROGRAMS[0].meta.decisionTime
+            ]
+          : undefined
       }
+      loanProgram={loanProgram}
     />
   )
 
@@ -44,6 +46,7 @@ export const LoanPrograms: React.FC<Props> = ({ loanPrograms }) => {
         return program
       }
     }
+
     return LoanProgramLongCard
   }
 
@@ -56,8 +59,8 @@ export const LoanPrograms: React.FC<Props> = ({ loanPrograms }) => {
           {isSbb() ? "Our Programs" : "Our Loan Programs"}
         </h2>
         <p
-          className="text-lg whitespace-pre-wrap text-justify"
           dangerouslySetInnerHTML={{ __html: sanitizeDOM(loanProgramOverview) }}
+          className="text-lg whitespace-pre-wrap text-justify"
         />
       </section>
 

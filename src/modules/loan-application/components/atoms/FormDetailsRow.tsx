@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 
-type Props = {
+interface Props {
   label: string
   value?: string
   className?: string
@@ -8,12 +8,12 @@ type Props = {
   hasUnderline?: boolean
 }
 
-export const FormDetailsRow = ({
+export function FormDetailsRow({
   label,
   value,
   className,
   description
-}: Props) => {
+}: Props) {
   return (
     <div className="flex flex-col">
       <div className={cn(className, "flex justify-between py-xl items-center")}>

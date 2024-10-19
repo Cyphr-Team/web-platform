@@ -1,4 +1,4 @@
-import { UserDetailInfo } from "../user.type"
+import { type UserDetailInfo } from "../user.type"
 
 export interface IGetActiveNudgeResponse {
   users: UserDetailInfo[]

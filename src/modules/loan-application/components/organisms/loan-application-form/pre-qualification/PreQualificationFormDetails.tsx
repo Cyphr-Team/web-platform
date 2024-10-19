@@ -1,38 +1,39 @@
 import { Card } from "@/components/ui/card"
-import { PreQualificationResponse } from "@/modules/loan-application/constants/type"
+import { type PreQualificationResponse } from "@/modules/loan-application/constants/type"
 
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 import { options } from "./constants"
-type Props = {
+
+interface Props {
   data?: PreQualificationResponse
 }
 
-export const PreQualificationFormDetails: React.FC<Props> = ({ data }) => {
+export function PreQualificationFormDetails({ data }: Props) {
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item">
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <AnswersTextDisplay
-          className="!flex-row justify-between"
           key="isCompanyBasedInUs"
+          className="!flex-row justify-between"
           label="Company based in the US"
           value="Yes"
         />
         <AnswersTextDisplay
-          className="!flex-row justify-between"
           key="foundingTeamEligibleToWorkInUs"
+          className="!flex-row justify-between"
           label="Founding team eligible to work in the US"
           value="Yes"
         />
         <AnswersTextDisplay
-          className="!flex-row justify-between"
           key="isForProfitTechCompany"
+          className="!flex-row justify-between"
           label="Your company is a for-profit technology provider (product, service, solution)"
           value="Yes"
         />
         <AnswersTextDisplay
-          className="!flex-row justify-between"
           key="hasMvpWithRevenueUnderOneMillion"
+          className="!flex-row justify-between"
           label="Your company has a minimum viable product with revenue under 1 million."
           value="Yes"
         />

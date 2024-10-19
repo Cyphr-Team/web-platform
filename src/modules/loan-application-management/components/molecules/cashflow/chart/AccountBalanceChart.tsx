@@ -40,11 +40,11 @@ export function AccountBalanceChart() {
     (bank, index) => (
       <Line
         key={index}
-        yAxisId="left"
-        type="monotone"
         dataKey={`accounts[${index}].balance`}
         name={bank.bankAccountName}
         stroke={getRandomColor(index)}
+        type="monotone"
+        yAxisId="left"
       />
     )
   )
@@ -59,8 +59,8 @@ export function AccountBalanceChart() {
         <h3 className="text-xl font-medium">Balance History</h3>
         {!!balanceGraphQuery.data?.balancesGraph.length && (
           <TimePeriodsSelection
-            onChangeTimePeriod={handleChangeTimePeriod}
             timePeriod={periodFilter ?? GRAPH_FREQUENCY.MONTHLY}
+            onChangeTimePeriod={handleChangeTimePeriod}
           />
         )}
       </div>
@@ -68,7 +68,7 @@ export function AccountBalanceChart() {
         isLoading={balanceGraphQuery.isLoading || balanceGraphQuery.isFetching}
       >
         {balanceGraphQuery.data?.balancesGraph.length ? (
-          <ResponsiveContainer width="90%" height={500}>
+          <ResponsiveContainer height={500} width="90%">
             <LineChart
               data={balanceGraphQuery.data?.balancesGraph}
               margin={{
@@ -80,20 +80,21 @@ export function AccountBalanceChart() {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
-                dataKey="date"
-                interval={"preserveStartEnd"}
-                tickMargin={20}
-                padding={{ right: 20 }}
                 angle={-45}
+                dataKey="date"
                 fontSize={10}
+                interval="preserveStartEnd"
+                padding={{ right: 20 }}
                 tickFormatter={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                   return value.replace(/-/g, "/")
                 }}
+                tickMargin={20}
               />
               <YAxis
-                yAxisId="left"
-                tickFormatter={(value) => `${toCurrency(value)}`}
                 fontSize={12}
+                tickFormatter={(value) => toCurrency(value)}
+                yAxisId="left"
               />
               <Tooltip
                 formatter={(value) => toCurrency(Number(value))}

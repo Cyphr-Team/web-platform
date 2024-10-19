@@ -9,7 +9,7 @@ import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 import InsightItem from "../../molecules/InsightItem"
 
-export const Insights = () => {
+export function Insights() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const insights = loanKybDetail?.insights
@@ -51,92 +51,92 @@ export const Insights = () => {
       </CardHeader>
       <CardContent className="w-full lg:w-[300px] !p-4 !pt-0">
         <InsightItem
-          title="Business name"
-          status={insights?.businessName?.status}
-          label={insights?.businessName?.subLabel}
-          toolTipContent={insights?.businessName?.message}
           href={INSIGHT_TOC.businessName}
           isLoading={isLoading}
+          label={insights?.businessName?.subLabel}
+          status={insights?.businessName?.status}
+          title="Business name"
+          toolTipContent={insights?.businessName?.message}
         />
         <InsightItem
-          title="Office address"
-          status={insights?.officeAddress?.status}
-          label={insights?.officeAddress?.subLabel}
-          toolTipContent={insights?.officeAddress?.message}
           href={INSIGHT_TOC.officeAddress}
           isLoading={isLoading}
+          label={insights?.officeAddress?.subLabel}
+          status={insights?.officeAddress?.status}
+          title="Office address"
+          toolTipContent={insights?.officeAddress?.message}
         />
         <InsightItem
-          title="SOS filings"
-          status={insights?.sosFillings?.status}
-          label={insights?.sosFillings?.subLabel}
-          toolTipContent={insights?.sosFillings?.message}
           href={INSIGHT_TOC.sosFillings}
           isLoading={isLoading}
+          label={insights?.sosFillings?.subLabel}
+          status={insights?.sosFillings?.status}
+          title="SOS filings"
+          toolTipContent={insights?.sosFillings?.message}
         />
         <InsightItem
-          title="TIN match"
-          status={insights?.tin?.status}
-          label={insights?.tin?.subLabel}
-          toolTipContent={insights?.tin?.message}
           href={INSIGHT_TOC.tinMatch}
           isLoading={isLoading}
+          label={insights?.tin?.subLabel}
+          status={insights?.tin?.status}
+          title="TIN match"
+          toolTipContent={insights?.tin?.message}
         />
         <InsightItem
-          title="People"
-          status={insights?.people?.status}
-          label={insights?.people?.subLabel}
-          toolTipContent={insights?.people?.message}
           href={INSIGHT_TOC.people}
           isLoading={isLoading}
+          label={insights?.people?.subLabel}
+          status={insights?.people?.status}
+          title="People"
+          toolTipContent={insights?.people?.message}
         />
         <InsightItem
-          title="Watchlists"
-          status={insights?.watchlists?.status}
-          label={insights?.watchlists?.subLabel}
-          toolTipContent={insights?.watchlists?.message}
           href={INSIGHT_TOC.watchLists}
           isLoading={isLoading}
+          label={insights?.watchlists?.subLabel}
+          status={insights?.watchlists?.status}
+          title="Watchlists"
+          toolTipContent={insights?.watchlists?.message}
         />
         {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
           <InsightItem
-            title="Industry Classification"
-            status={insights?.industry?.status}
-            label={insights?.industry?.subLabel}
-            toolTipContent={insights?.industry?.message}
             href={INSIGHT_TOC.industryClassification}
             isLoading={isLoading}
+            label={insights?.industry?.subLabel}
+            status={insights?.industry?.status}
+            title="Industry Classification"
+            toolTipContent={insights?.industry?.message}
           />
         )}
         <InsightItem
-          title="Bankruptcies"
-          status={insights?.bankruptcies?.status}
-          label={insights?.bankruptcies?.subLabel}
-          toolTipContent={insights?.bankruptcies?.message}
           href={INSIGHT_TOC.bankruptcies}
           isLoading={isLoading}
+          label={insights?.bankruptcies?.subLabel}
+          status={insights?.bankruptcies?.status}
+          title="Bankruptcies"
+          toolTipContent={insights?.bankruptcies?.message}
           {...(!isEnableKYBV2() &&
             !(isSbb() || isLoanReady()) && { noBorder: true })}
         />
         {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
           <InsightItem
-            title="Website"
-            status={insights?.website?.status}
-            label={insights?.website?.subLabel}
-            toolTipContent={insights?.website?.message}
             href={INSIGHT_TOC.website}
             isLoading={isLoading}
+            label={insights?.website?.subLabel}
+            status={insights?.website?.status}
+            title="Website"
+            toolTipContent={insights?.website?.message}
           />
         )}
         {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
           <InsightItem
-            title="Adverse Media"
-            status={insights?.adverseMedia?.status}
-            label={insights?.adverseMedia?.subLabel}
-            toolTipContent={insights?.adverseMedia?.message}
+            noBorder
             href={INSIGHT_TOC.adverseMedia}
             isLoading={isLoading}
-            noBorder
+            label={insights?.adverseMedia?.subLabel}
+            status={insights?.adverseMedia?.status}
+            title="Adverse Media"
+            toolTipContent={insights?.adverseMedia?.message}
           />
         )}
       </CardContent>

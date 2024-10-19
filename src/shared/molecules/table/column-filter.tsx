@@ -1,4 +1,4 @@
-import { Column } from "@tanstack/react-table"
+import { type Column } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -13,8 +13,8 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { SortOrder } from "@/types/common.type"
-import { ArrowDown, ArrowUp, ListFilter, LucideIcon } from "lucide-react"
-import { FocusEvent, ReactNode } from "react"
+import { ArrowDown, ArrowUp, ListFilter, type LucideIcon } from "lucide-react"
+import { type FocusEvent, type ReactNode } from "react"
 
 export interface IFilterableColumn<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -37,15 +37,14 @@ interface ButtonSortProps<TData, TValue>
   sortOrder: SortOrder
 }
 
-interface ButtonFilterProps<TData, TValue>
-  extends ButtonBaseProps<TData, TValue> {}
+type ButtonFilterProps<TData, TValue> = ButtonBaseProps<TData, TValue>
 
-const ButtonSort = <TData, TValue>({
+function ButtonSort<TData, TValue>({
   column,
   label,
   Icon,
   sortOrder
-}: ButtonSortProps<TData, TValue>) => {
+}: ButtonSortProps<TData, TValue>) {
   const handleSort = () => {
     column.toggleSorting(sortOrder === SortOrder.DESC)
   }
@@ -61,21 +60,22 @@ const ButtonSort = <TData, TValue>({
   )
 }
 
-const ButtonFilter = <TData, TValue>({
+function ButtonFilter<TData, TValue>({
   column,
   label,
   Icon
-}: ButtonFilterProps<TData, TValue>) => {
+}: ButtonFilterProps<TData, TValue>) {
   if (!column.columnDef?.meta?.filterID) return null
 
   const handleOpenFilter = () => {
     try {
       if (!column.columnDef?.meta?.filterID)
-        throw new Error("Filter ID is undefined")
+        // throw new Error("Filter ID is undefined")
+        return
 
       document.getElementById(column.columnDef?.meta?.filterID)?.click()
     } catch (e) {
-      console.error("Can't open filter.", e)
+      // console.error("Can't open filter.", e)
     }
   }
 
@@ -109,7 +109,7 @@ export function FilterableColumnHeader<TData, TValue>({
       </div>
     )
 
-  const preventAutoFocus = (e: Event | FocusEvent<HTMLDivElement, Element>) => {
+  const preventAutoFocus = (e: Event | FocusEvent<HTMLDivElement>) => {
     e.preventDefault()
     e.stopPropagation()
   }
@@ -124,16 +124,16 @@ export function FilterableColumnHeader<TData, TValue>({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant="ghost"
-            size="sm"
             className="flex text-black w-full rounded-0 font-semibold"
+            size="sm"
+            variant="ghost"
           >
             <span>{title}</span> <ListFilter className="w-4 h-4 ml-2" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="min-w-[200px]"
           align="center"
+          className="min-w-[200px]"
           onCloseAutoFocus={preventAutoFocus}
           onFocus={preventAutoFocus}
         >
@@ -141,25 +141,25 @@ export function FilterableColumnHeader<TData, TValue>({
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
-            {isCanSort && (
+            {isCanSort ? (
               <>
                 <ButtonSort
-                  label="Sort ascending"
                   Icon={ArrowUp}
                   column={column}
+                  label="Sort ascending"
                   sortOrder={SortOrder.ASC}
                 />
 
                 <ButtonSort
-                  label="Sort descending"
                   Icon={ArrowDown}
                   column={column}
+                  label="Sort descending"
                   sortOrder={SortOrder.DESC}
                 />
               </>
-            )}
+            ) : null}
 
-            <ButtonFilter column={column} label="Filter" Icon={ListFilter} />
+            <ButtonFilter Icon={ListFilter} column={column} label="Filter" />
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

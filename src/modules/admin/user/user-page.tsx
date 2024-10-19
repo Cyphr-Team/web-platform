@@ -2,13 +2,13 @@ import { DataTable } from "@/components/ui/data-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb.ts"
 import { cn } from "@/lib/utils.ts"
-import { UserDetailInfo } from "@/types/user.type.ts"
+import { type UserDetailInfo } from "@/types/user.type.ts"
 import {
   checkIsForesightAdmin,
   checkIsWorkspaceAdmin
 } from "@/utils/check-roles.ts"
 import { isLaunchKC } from "@/utils/domain.utils.ts"
-import { PaginationState } from "@tanstack/react-table"
+import { type PaginationState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
 import { DialogSendBulkInvite } from "./components/DialogSendBulkInvitation.tsx"
@@ -16,7 +16,7 @@ import { DialogSendInvite } from "./components/DialogSendInvitation"
 import { TopNav } from "./components/molecules/TopNav.tsx"
 import { useQueryGetListAllInstitution } from "./hooks/useQuery/useQueryGetListAllInstitution.ts"
 import {
-  FilterParams,
+  type FilterParams,
   useQueryListPaginateUser
 } from "./hooks/useQuery/useQueryListPaginateUser"
 import { columns } from "./table/columns"
@@ -82,7 +82,7 @@ export function Component() {
           isForesightAdmin && "justify-between"
         )}
       >
-        {isForesightAdmin && <UserTableHeader onSearch={handleSearch} />}
+        {isForesightAdmin ? <UserTableHeader onSearch={handleSearch} /> : null}
         {isLaunchKC() && isWorkspaceAdmin ? (
           <DialogSendBulkInvite />
         ) : (
@@ -105,10 +105,10 @@ export function Component() {
             ? userDetailInfos.map(mapInstitutionNames)
             : userDetailInfos
         }
-        total={data?.total ?? 0}
-        pagination={pagination}
         isLoading={isFetching}
+        pagination={pagination}
         setPagination={setPagination}
+        total={data?.total ?? 0}
       />
     </div>
   )

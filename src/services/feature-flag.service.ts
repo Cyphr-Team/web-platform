@@ -1,7 +1,7 @@
 import { flatten, get } from "lodash"
 import { postRequest } from "./client.service"
-import { FeatureFlag } from "@/types/feature-flag.types"
-import { ListResponse } from "@/types/common.type"
+import { type FeatureFlag } from "@/types/feature-flag.types"
+import { type ListResponse } from "@/types/common.type"
 import { API_PATH } from "@/constants"
 import { headerWithTemporaryToken } from "@/utils/request-header.ts"
 
@@ -20,6 +20,7 @@ export const featureFlagsManager = () => {
       .fill(null)
       .map((_, page) => fetchFeatureFlags(page + 1, accessToken))
     const upcomingFeatureFlags = await Promise.all(featureFlagsPromise)
+
     featureFlags = featureFlags.concat(
       flatten(upcomingFeatureFlags.map((item) => get(item, "data", [])))
     )
@@ -28,6 +29,7 @@ export const featureFlagsManager = () => {
   const handleFetchFeatureFlags = async (accessToken: string) => {
     const response = await fetchFeatureFlags(0, accessToken)
     const { data, total } = response
+
     featureFlags = data
     if (FEATURE_FLAGS_PER_PAGE < total) {
       fetchMoreFeatureFlags(data, total, accessToken)

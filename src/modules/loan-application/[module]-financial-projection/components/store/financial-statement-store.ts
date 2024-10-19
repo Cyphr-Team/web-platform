@@ -1,8 +1,8 @@
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
+import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 import * as z from "zod"
 
-export type FinancialStatementFormValue = {
+export interface FinancialStatementFormValue {
   applicationId?: string
   files: File[]
   hasDocument: string

@@ -9,7 +9,7 @@ import {
 } from "@radix-ui/react-tooltip"
 import { getBadgeVariantByAuthenticityScore } from "../../../services"
 
-type Props = {
+interface Props {
   status: LoanDocumentAuthenticityScoreStatus
   score: number
 }
@@ -23,7 +23,7 @@ const generateTooltip = (header: string, content: string, cellText: string) => (
             {cellText}
           </p>
         </TooltipTrigger>
-        <TooltipContent side="left" sideOffset={5} className="z-10">
+        <TooltipContent className="z-10" side="left" sideOffset={5}>
           <Card className="max-w-80 rounded-md shadow-2xl border-none md:p-4">
             <CardHeader className="flex flex-row items-center justify-between md:p-0 md:pb-1">
               <CardTitle className="text-sm font-semibold mt-0 mb-0 pb-0 ">
@@ -57,9 +57,9 @@ export const BadgeAuthenticityScore: React.FC<Props> = ({ status, score }) => {
     case LoanDocumentAuthenticityScoreStatus.VERIFIED:
       return (
         <Badge
-          isDot={true}
-          isDotBefore={false}
+          isDot
           className=" space-x-md px-0 bg-transparent"
+          isDotBefore={false}
           variantColor={getBadgeVariantByAuthenticityScore(score)}
         >
           <p className="text-sm font-medium text-text-tertiary">{score}</p>

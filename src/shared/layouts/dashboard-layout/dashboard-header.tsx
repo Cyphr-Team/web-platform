@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 import { MobileSidebar } from "./mobile-sidebar"
 import { UserNav } from "./user-nav"
-import { NavItem } from "@/types/common.type"
+import { type NavItem } from "@/types/common.type"
 
 interface HeaderSidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   items: NavItem[]

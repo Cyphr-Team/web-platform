@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
 interface ApplicationCircularProgressProps {
   percent: number
@@ -26,10 +26,10 @@ export function ApplicationCircularProgress({
             className="stroke-current text-white opacity-20"
             cx="44"
             cy="44"
-            r={r}
             fill="none"
-            strokeWidth="2"
             pathLength={P}
+            r={r}
+            strokeWidth="2"
           />
         </svg>
       </span>
@@ -40,11 +40,11 @@ export function ApplicationCircularProgress({
             className="stroke-current transition-all duration-1000 ease-out"
             cx="44"
             cy="44"
-            r={r}
             fill="none"
-            strokeWidth="2"
+            r={r}
             strokeDasharray={P}
             strokeDashoffset={P - progress}
+            strokeWidth="2"
           />
         </svg>
       </span>
@@ -67,12 +67,12 @@ export function ApplicationCircularProgress({
             className="stroke-current transition-all duration-1000 ease-out"
             cx="44"
             cy="44"
-            r={miniR}
             fill="none"
-            strokeWidth="1"
+            r={miniR}
             strokeDasharray={miniP}
             strokeDashoffset={miniP - miniProgress}
             strokeLinecap="round"
+            strokeWidth="1"
           />
         </svg>
       </span>
@@ -83,12 +83,12 @@ export function ApplicationCircularProgress({
             className="stroke-current"
             cx="44"
             cy="44"
-            r={r}
             fill="none"
-            strokeWidth="2"
             pathLength={P}
+            r={r}
             strokeDasharray={`${(P - (P / 29) * 24) / 24} ${P / 29}`}
             strokeDashoffset={4.2}
+            strokeWidth="2"
           />
         </svg>
       </span>

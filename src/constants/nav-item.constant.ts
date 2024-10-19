@@ -1,6 +1,6 @@
 import { Icons } from "@/components/ui/icons"
 import { FeatureKey } from "@/hooks/useCanAccess"
-import { NavItem } from "@/types/common.type"
+import { type NavItem } from "@/types/common.type"
 import {
   judgeRoles,
   platformAdminRoles,

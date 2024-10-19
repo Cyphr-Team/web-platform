@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import {
   launchKcFitFormSchema,
-  LaunchKCFitFormValue
+  type LaunchKCFitFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -34,7 +34,7 @@ import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { questions } from "./constants"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
-export const LaunchKCFitForm = () => {
+export function LaunchKCFitForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { launchKcFitForm, dispatchFormAction, loanRequest } =
     useLoanApplicationFormContext()
@@ -99,8 +99,8 @@ export const LaunchKCFitForm = () => {
               {questions.map((q) => (
                 <TextAreaInput
                   key={q.field}
-                  label={q.question}
                   control={form.control}
+                  label={q.question}
                   name={q.field as keyof LaunchKCFitFormValue}
                 />
               ))}
@@ -116,11 +116,11 @@ export const LaunchKCFitForm = () => {
                     </FormLabel>
                     <FormControl>
                       <Select
+                        value={field.value ? "yes" : "no"}
                         onValueChange={(value) => {
                           field.onBlur()
                           field.onChange(value === "yes")
                         }}
-                        value={field.value ? "yes" : "no"}
                       >
                         <SelectTrigger className="text-base col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select" />
@@ -141,8 +141,8 @@ export const LaunchKCFitForm = () => {
               />
               <TextAreaInput
                 key="progress"
-                label="If yes, what progress have you made since your previous application?"
                 control={form.control}
+                label="If yes, what progress have you made since your previous application?"
                 name="progress"
               />
             </form>
@@ -150,8 +150,8 @@ export const LaunchKCFitForm = () => {
 
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!isFormValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </Form>

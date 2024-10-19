@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useForm } from "react-hook-form"
 import {
   financialFormSchema,
-  FinancialFormValue
+  type FinancialFormValue
 } from "../../../../constants/form"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput"
 import {
@@ -38,7 +38,7 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const FinancialInformationForm = () => {
+export function FinancialInformationForm() {
   const { finishCurrentStep, step, progress } =
     useLoanApplicationProgressContext()
   const {
@@ -90,6 +90,7 @@ export const FinancialInformationForm = () => {
   const handleRemoveFile = (index: number) => {
     const currentFiles = form.getValues("w2sFile")
     const newFiles = currentFiles.filter((_, i) => i !== index)
+
     form.setValue("w2sFile", newFiles, {
       shouldValidate: true,
       shouldDirty: true,
@@ -118,6 +119,7 @@ export const FinancialInformationForm = () => {
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION,
@@ -168,8 +170,8 @@ export const FinancialInformationForm = () => {
                         >
                           <FormControl>
                             <Checkbox
-                              className="w-5 h-5"
                               checked={field.value?.includes(item.id)}
+                              className="w-5 h-5"
                               onCheckedChange={(checked) => {
                                 return checked
                                   ? field.onChange([...field.value, item.id])
@@ -220,10 +222,10 @@ export const FinancialInformationForm = () => {
                     Array.from(form.getValues("w2sFile")).map(
                       (file: File, index: number) => (
                         <FileUploadCard
-                          key={index}
+                          key={file.webkitRelativePath}
                           file={file}
-                          index={index}
                           handleRemoveFile={handleRemoveFile}
+                          index={index}
                         />
                       )
                     )}
@@ -243,8 +245,8 @@ export const FinancialInformationForm = () => {
 
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </Form>

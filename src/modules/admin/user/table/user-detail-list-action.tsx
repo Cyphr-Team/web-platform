@@ -17,33 +17,34 @@ export interface UserDetailListActionProps {
   roles: UserRoles[]
 }
 
-export const UserDetailListAction = ({
+export function UserDetailListAction({
   userId,
   status,
   roles
-}: UserDetailListActionProps) => {
+}: UserDetailListActionProps) {
   const isJudgePending =
     roles.includes(UserRoles.JUDGE.toLowerCase() as UserRoles) &&
     status === UserStatus.PENDING
   const isAbleToModifyPermission =
     !isApplicant(roles) && !isPlatformAdmin(roles) && !isJudgePending
   const isAbleToViewChat = isEnableChatSupport() && isApplicant(roles)
+
   // We will hide this button if there are no actions to be shown
   if (!isAbleToModifyPermission && !isAbleToViewChat) return null
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="text-center" size="icon">
+        <Button className="text-center" size="icon" variant="ghost">
           <MoreHorizontal className="w-5 h-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48">
         {isAbleToModifyPermission ? (
           <ModifyUserPermissionAction
-            userId={userId}
-            status={status}
             roles={roles}
+            status={status}
+            userId={userId}
           />
         ) : null}
         {isAbleToViewChat ? <ViewUserChatAction userId={userId} /> : null}

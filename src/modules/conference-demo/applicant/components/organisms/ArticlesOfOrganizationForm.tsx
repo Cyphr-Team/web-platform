@@ -16,7 +16,7 @@ import { ArrowRight } from "lucide-react"
 import { memo } from "react"
 import { useForm } from "react-hook-form"
 
-const ArticlesOfOrganizationForm = () => {
+function ArticlesOfOrganizationForm() {
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep, finishStep } = useProgress.use.action()
   const data = useFormData.use["Articles of Organization"]()
@@ -55,8 +55,8 @@ const ArticlesOfOrganizationForm = () => {
             </p>
 
             <RHFDragAndDropFileUpload
-              name="files"
               id={STEP.ARTICLES_OF_ORGANIZATION}
+              name="files"
             />
 
             {!isReviewApplicationStep && (

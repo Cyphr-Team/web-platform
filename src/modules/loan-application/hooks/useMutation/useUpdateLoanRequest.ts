@@ -3,8 +3,8 @@ import { putRequest } from "@/services/client.service"
 import { useQueryClient } from "@tanstack/react-query"
 import { customRequestHeader } from "@/utils/request-header"
 import {
-  UserMicroLoanApplication,
-  UserMicroLoanApplicationRequest
+  type UserMicroLoanApplication,
+  type UserMicroLoanApplicationRequest
 } from "@/types/loan-application.type"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { LoanType } from "@/types/loan-program.type"

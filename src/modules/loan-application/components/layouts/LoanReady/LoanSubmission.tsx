@@ -5,7 +5,7 @@ import { APP_PATH } from "@/constants"
 import { ArrowRight, CheckCircle, Download } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 
-export const LoanReadyLoanSubmission = () => {
+export function LoanReadyLoanSubmission() {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -38,9 +38,7 @@ export const LoanReadyLoanSubmission = () => {
 
   return (
     <div className="p-4 lg:p-8 h-full w-full flex shadow-[">
-      <div
-        className={"m-auto flex w-full flex-col space-y-8 md:w-[640px] px-2"}
-      >
+      <div className="m-auto flex w-full flex-col space-y-8 md:w-[640px] px-2">
         <div className="flex flex-col text-center gap-4xl">
           <div className="flex justify-center relative">
             <div className="w-14 self-center">
@@ -71,9 +69,9 @@ export const LoanReadyLoanSubmission = () => {
 
           <div className="flex gap-4 justify-center flex-wrap lg:flex-nowrap mx-20">
             <Button
-              onClick={handleGoToFinancialApplicationDetail}
-              variant="outline"
               className={btnShadow}
+              variant="outline"
+              onClick={handleGoToFinancialApplicationDetail}
             >
               <div>
                 <Download {...btnIcon} />
@@ -89,9 +87,9 @@ export const LoanReadyLoanSubmission = () => {
             </Button>
 
             <Button
-              onClick={handleGoToFinancialProjectionDetail}
               className={btnShadow}
               variant="success"
+              onClick={handleGoToFinancialProjectionDetail}
             >
               <div>
                 <Icons.financial {...btnIcon} />

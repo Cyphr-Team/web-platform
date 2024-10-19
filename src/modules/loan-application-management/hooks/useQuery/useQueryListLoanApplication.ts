@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { loanApplicationKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
-import { ListResponse, PaginateParams } from "@/types/common.type"
-import { LoanApplication } from "@/types/loan-application.type"
+import { type ListResponse, type PaginateParams } from "@/types/common.type"
+import { type LoanApplication } from "@/types/loan-application.type"
 import { customRequestHeader } from "@/utils/request-header"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
@@ -22,7 +22,7 @@ export type LoanApplicationFilterValues = z.infer<
   typeof LoanApplicationFilterSchema
 >
 
-export type FilterParams = {
+export interface FilterParams {
   status: string[]
   programNames: string[]
   search: string
@@ -59,6 +59,7 @@ export const useQueryListLoanApplication = ({
         },
         customHeader: customRequestHeader.customHeaders
       })
+
       return response
     },
     initialPageParam: 0,

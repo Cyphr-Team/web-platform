@@ -1,11 +1,11 @@
 import { useFieldArray, useFormContext } from "react-hook-form"
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { Button } from "@/components/ui/button.tsx"
-import { FC, memo, ReactNode, useCallback, useEffect } from "react"
+import { type FC, memo, type ReactNode, useCallback, useEffect } from "react"
 import {
-  Block,
+  type Block,
   renderInnerBlockComponents
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import { X } from "lucide-react"
@@ -74,20 +74,20 @@ const PeopleArrayFormTemplate: FC<PeopleArrayFormTemplateProps> = (props) => {
 
   return (
     <>
-      {title && <h5 className="text-sm font-semibold">{title}</h5>}
-      {subtitle && (
+      {title ? <h5 className="text-sm font-semibold">{title}</h5> : null}
+      {subtitle ? (
         <h5 className="text-sm font-medium financial-projection text-muted-foreground">
           {subtitle}
         </h5>
-      )}
+      ) : null}
       {fields.map((source, index) => {
         return (
           <div
+            key={source.id}
             className={cn(
               "bg-financial-projection-card p-4 rounded-lg",
               className
             )}
-            key={source.id}
           >
             <div
               className={cn(
@@ -100,23 +100,23 @@ const PeopleArrayFormTemplate: FC<PeopleArrayFormTemplateProps> = (props) => {
                 {getValues(name).at(index).name}
               </h5>
             </div>
-            {(canBeEmpty || getValues(name).length > 1) && (
+            {canBeEmpty || getValues(name).length > 1 ? (
               <Button
+                className="p-0 h-auto flex ml-auto mr-0"
                 type="button"
                 variant="ghost"
-                className="p-0 h-auto flex ml-auto mr-0"
                 onClick={onRemove(index)}
               >
                 <X className="w-4" />
               </Button>
-            )}
+            ) : null}
           </div>
         )
       })}
       <Button
+        className="w-min ml-auto gap-2"
         type="button"
         variant="outline"
-        className="w-min ml-auto gap-2"
         onClick={handleAddItem}
       >
         {actionIcon}

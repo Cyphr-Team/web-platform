@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { userKeys } from "@/constants/query-key"
 import { postRequest } from "@/services/client.service"
-import { ListResponse, PaginateParams } from "@/types/common.type"
-import { UserDetailInfo } from "@/types/user.type"
+import { type ListResponse, type PaginateParams } from "@/types/common.type"
+import { type UserDetailInfo } from "@/types/user.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
 import * as z from "zod"
@@ -15,7 +15,7 @@ export const UserFilterSchema = z.object({
 
 export type UserFilterValues = z.infer<typeof UserFilterSchema>
 
-export type FilterParams = {
+export interface FilterParams {
   institutionIds?: string[]
 }
 
@@ -43,6 +43,7 @@ export const useQueryListPaginateUser = ({
           institutionIds: institutionIds?.length ? institutionIds : undefined
         }
       })
+
       return response.data
     },
     placeholderData: keepPreviousData

@@ -1,4 +1,4 @@
-import { EDecisionStatus, EPersonaStatus } from ".."
+import { type EDecisionStatus, type EPersonaStatus } from ".."
 
 interface ILinkInquiryData {
   id?: string

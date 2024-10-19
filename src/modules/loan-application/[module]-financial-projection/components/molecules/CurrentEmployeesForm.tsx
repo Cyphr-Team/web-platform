@@ -56,17 +56,17 @@ const CurrentEmployeesBlock = [
   }
 ]
 
-const CurrentEmployeesForm = () => {
+function CurrentEmployeesForm() {
   return (
     <PeopleArrayFormTemplate
-      className="flex flex-col-reverse lg:flex-row items-center"
-      blockClassName="justify-between flex-col lg:flex-row lg:items-center w-full"
-      name="currentEmployees"
-      actionText="Add employee department"
       actionIcon={<UserRoundPlus size={18} />}
-      step={LOAN_APPLICATION_STEPS.PEOPLE}
-      defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.CURRENT_EMPLOYEES]}
+      actionText="Add employee department"
+      blockClassName="justify-between flex-col lg:flex-row lg:items-center w-full"
       blocks={CurrentEmployeesBlock}
+      className="flex flex-col-reverse lg:flex-row items-center"
+      defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.CURRENT_EMPLOYEES]}
+      name="currentEmployees"
+      step={LOAN_APPLICATION_STEPS.PEOPLE}
     />
   )
 }

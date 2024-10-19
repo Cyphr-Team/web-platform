@@ -6,12 +6,12 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { checkIsJudge } from "@/utils/check-roles"
 import { isLaunchKC, isSbb } from "@/utils/domain.utils"
-import { PaginationState } from "@tanstack/react-table"
+import { type PaginationState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
 import { loanApplicationColumns } from "../components/table/loan-application-columns"
 import { LoanApplicationTableHeader } from "../components/table/loan-application-header"
-import { FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
+import { type FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
 import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryListPaginateLoanApplication"
 import { JudgeApplicationList } from "./launch-kc/judge/judge-list"
 import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin/workspace-admin-list-filter"
@@ -60,13 +60,13 @@ export function BaseApplicationList() {
       </div>
 
       <DataTable
-        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
-        isLoading={isFetching}
         columns={loanApplicationColumns}
         data={data?.data ?? []}
-        total={data?.total ?? 0}
+        isLoading={isFetching}
         pagination={pagination}
         setPagination={setPagination}
+        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
+        total={data?.total ?? 0}
       />
     </div>
   )

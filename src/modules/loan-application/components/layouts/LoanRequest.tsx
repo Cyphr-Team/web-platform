@@ -115,6 +115,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
      */
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
@@ -173,30 +174,33 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                         <FormControl>
                           <Input
                             {...field}
-                            type="text"
-                            placeholder="Raise your loan amount"
                             className="text-base"
+                            placeholder="Raise your loan amount"
+                            type="text"
                             value={toCurrency(field.value, 0)}
-                            onChange={(event) => {
-                              const value =
-                                parseFloat(
-                                  event.target.value.replace(/[^0-9.]/g, "")
-                                ) || 0
-                              if (isNaN(value)) return
-                              if (value > maxLoanAmount)
-                                return field.onChange(maxLoanAmount)
-                              field.onChange(value)
-                            }}
                             onBlur={(event) => {
                               const value = parseFloat(
                                 event.target.value.replace(/[^0-9.]/g, "")
                               )
+
                               if (isNaN(value)) return
                               if (value < minLoanAmount)
                                 return field.onChange(minLoanAmount)
                               if (value > maxLoanAmount)
                                 return field.onChange(maxLoanAmount)
+
                               return field.onChange(value)
+                            }}
+                            onChange={(event) => {
+                              const value =
+                                parseFloat(
+                                  event.target.value.replace(/[^0-9.]/g, "")
+                                ) || 0
+
+                              if (isNaN(value)) return
+                              if (value > maxLoanAmount)
+                                return field.onChange(maxLoanAmount)
+                              field.onChange(value)
                             }}
                           />
                         </FormControl>
@@ -215,13 +219,13 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                             <Slider
                               {...field}
                               defaultValue={[field.value]}
-                              min={minLoanAmount}
                               max={maxLoanAmount}
+                              min={minLoanAmount}
+                              step={500}
+                              value={[field.value]}
                               onValueChange={(vals) => {
                                 field.onChange(vals[0])
                               }}
-                              value={[field.value]}
-                              step={500}
                             />
                           </FormControl>
                           <div className="flex justify-between pt-2 text-sm">
@@ -249,8 +253,8 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                           <FormItem>
                             <FormLabel>Proposed Use of Loan</FormLabel>
                             <Select
-                              onValueChange={field.onChange}
                               defaultValue={field.value}
+                              onValueChange={field.onChange}
                             >
                               <FormControl>
                                 <SelectTrigger>
@@ -278,19 +282,19 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
 
                   {isKansasCity() && (
                     <RHFTextInput
+                      className="mt-6 space-y-2"
+                      label="Proposed use of loan"
                       name="proposeUseOfLoan"
                       placeholder="i.e. Equipment loan "
-                      label="Proposed use of loan"
-                      className="mt-6 space-y-2"
                     />
                   )}
 
                   {isKansasCity() && (
                     <RHFTextInput
+                      className="mt-6 space-y-2"
+                      label="Which bank or financial institution are you requesting or planning to request a loan from?"
                       name="requestingInstitution"
                       placeholder="Enter bank or financial institution"
-                      label="Which bank or financial institution are you requesting or planning to request a loan from?"
-                      className="mt-6 space-y-2"
                     />
                   )}
                 </div>
@@ -302,8 +306,8 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
             <CardFooter>
               <Button
                 className="w-full"
-                type="submit"
                 disabled={!form.formState.isValid}
+                type="submit"
               >
                 Next <ArrowRight className="ml-1 w-4" />
               </Button>

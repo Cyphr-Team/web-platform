@@ -1,12 +1,12 @@
 import { API_PATH } from "@/constants"
 
 import { postRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
-import { IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
+import { type ErrorResponse } from "@/types/common.type"
+import { type IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
-import { FormDetailsQueryProps } from "."
+import { type FormDetailsQueryProps } from "."
 
 export const useQueryGetPlaidConnectedBankAccountsByApplicationId = ({
   applicationId,
