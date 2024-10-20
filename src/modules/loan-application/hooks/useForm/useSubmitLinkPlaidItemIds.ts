@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useLinkPlaidItemId } from "../useMutation/useLinkPlaidItemId"
 import { QUERY_KEY } from "../../constants/query-key"
 
-type Props = {
+interface Props {
   plaidItemIds: string[]
   onSuccess: (plaidItemIds: string[]) => void
 }
@@ -25,6 +25,7 @@ export const useSubmitLinkPlaidItemIds = ({
       )
     ).then((responses) => {
       const isSuccess = responses.every((response) => response.status === 200)
+
       if (isSuccess) {
         onSuccess(plaidItemIds)
       }

@@ -3,15 +3,15 @@ import { TopNav } from "../molecules/TopNav"
 import { cn } from "@/lib/utils"
 import {
   LoanApplicationStatus,
-  UserMicroLoanApplication
+  type UserMicroLoanApplication
 } from "@/types/loan-application.type"
-import { FC, PropsWithChildren, useEffect, useState } from "react"
+import { type FC, type PropsWithChildren, useEffect, useState } from "react"
 import useRouter from "@/hooks/useRouter.ts"
 import { APP_PATH } from "@/constants"
 import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
 
-import { ListResponse } from "@/types/common.type.ts"
-import { InfiniteData } from "@tanstack/react-query"
+import { type ListResponse } from "@/types/common.type.ts"
+import { type InfiniteData } from "@tanstack/react-query"
 
 export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
   props

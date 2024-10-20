@@ -355,7 +355,7 @@ export const API_PATH = {
   },
   judgeApplication: {
     all: "api/judge/loan-applications",
-    list: () => `${API_PATH.judgeApplication.all}`,
+    list: () => API_PATH.judgeApplication.all,
     detail: (applicationId: string) =>
       `${API_PATH.judgeApplication.all}/${applicationId}/score`
   },
@@ -483,7 +483,7 @@ export const API_PATH = {
     public: "api/feature-flag/list",
     list: () => `${API_PATH.featureFlag.all}/list`,
     listFeatureFlagByUserId: () => "api/feature-flag/list/by-user-id",
-    create: () => `${API_PATH.featureFlag.all}`,
+    create: () => API_PATH.featureFlag.all,
     detail: (id: string) => `${API_PATH.featureFlag.all}/by-id?id=${id}`,
     toggleStatus: (id: string) => `${API_PATH.featureFlag.all}/action?id=${id}`,
     toggleRolloutType: (id: string) =>
@@ -587,9 +587,13 @@ export const phoneRegex =
   /^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$/
 
 export const SSN_PATTERN = "000-00-0000"
+
 export const EIN_PATTERN = "00-0000000"
+
 export const YEAR_PATTERN = "0000"
+
 export const MM_YYYY_PATTERN = "00/0000"
+
 export const NUMBER_PATTERN = "0000000000000000000000000000000000000000"
 
 export interface QueryResponse<T> {

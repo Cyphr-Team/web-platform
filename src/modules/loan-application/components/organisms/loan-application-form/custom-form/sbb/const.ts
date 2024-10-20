@@ -1,4 +1,4 @@
-import { Option } from "@/types/common.type.ts"
+import { type Option } from "@/types/common.type.ts"
 
 export const LOAN_TYPE_OPTIONS: Option[] = [
   {

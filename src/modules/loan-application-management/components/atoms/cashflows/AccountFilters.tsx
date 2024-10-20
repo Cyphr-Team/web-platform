@@ -11,7 +11,7 @@ import { useLoanApplicationDetailContext } from "@/modules/loan-application-mana
 import { ChevronDown } from "lucide-react"
 import { useState } from "react"
 
-export const AccountFilters = () => {
+export function AccountFilters() {
   const { onChangeAccountFilter, cashFlowAccounts } =
     useLoanApplicationDetailContext()
 
@@ -24,6 +24,7 @@ export const AccountFilters = () => {
       if (value) {
         return [...prev, option]
       }
+
       return prev.filter((item) => item !== option)
     })
   }
@@ -44,11 +45,11 @@ export const AccountFilters = () => {
           <ChevronDown className="ml-2 h-4 w-4" />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="p-0 pt-2 w-52" align="end">
+      <PopoverContent align="end" className="p-0 pt-2 w-52">
         <div className="flex p-2 gap-2">
           <Checkbox
-            id="all"
             checked={checkedList.length === cashFlowAccounts.length}
+            id="all"
             onCheckedChange={(value: boolean) => {
               if (value) {
                 setCheckedList(
@@ -61,16 +62,16 @@ export const AccountFilters = () => {
           >
             Select All
           </Checkbox>
-          <Label htmlFor="all" className="text-xs">
+          <Label className="text-xs" htmlFor="all">
             Select All
           </Label>
         </div>
         {cashFlowAccounts.map((option) => (
-          <div className="flex p-2 gap-2" key={option.bankAccountPk}>
+          <div key={option.bankAccountPk} className="flex p-2 gap-2">
             <Checkbox
-              id={option.bankAccountPk}
-              className="capitalize"
               checked={checkedList.includes(option.bankAccountPk)}
+              className="capitalize"
+              id={option.bankAccountPk}
               onCheckedChange={(value: boolean) => {
                 // Ensure value is always a boolean
                 onChangeCheckbox(value, option.bankAccountPk)
@@ -78,7 +79,7 @@ export const AccountFilters = () => {
             >
               {option.bankAccountName}
             </Checkbox>
-            <Label htmlFor={option.bankAccountPk} className="text-xs">
+            <Label className="text-xs" htmlFor={option.bankAccountPk}>
               {option.bankAccountName}
             </Label>
           </div>
@@ -86,17 +87,17 @@ export const AccountFilters = () => {
         <Separator />
         <div className="flex p-2 w-full justify-end">
           <Button
-            variant="outline"
-            size="sm"
             className="text-xs"
+            size="sm"
+            variant="outline"
             onClick={onResetFilter}
           >
             RESET
           </Button>
           <Button
-            variant="outline"
-            size="sm"
             className="ml-2 text-xs"
+            size="sm"
+            variant="outline"
             onClick={onApplyFilter}
           >
             APPLY

@@ -5,20 +5,20 @@ import { customRequestHeader } from "@/utils/request-header.ts"
 import { toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg.ts"
 import { getAxiosError } from "@/utils/custom-error.ts"
-import { AxiosError, AxiosResponse } from "axios"
-import { SBBUploadDocumentFormResponse } from "@/modules/loan-application/constants/type.ts"
-import { ErrorResponse } from "@/types/common.type.ts"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type SBBUploadDocumentFormResponse } from "@/modules/loan-application/constants/type.ts"
+import { type ErrorResponse } from "@/types/common.type.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { useCallback } from "react"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key.ts"
-import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
-import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
-import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
-import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
-import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { type ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { type BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
+import { type ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+import { type CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { type FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { get } from "lodash"
 
-type Args = {
+interface Args {
   articlesOfOrganizationData: ArticlesOfOrganizationFormValue
   businessEinLetterData: BusinessEinLetterFormValue
   byLawsData: ByLawsFormValue
@@ -39,6 +39,7 @@ export const useUploadSbbDocument = (args: Args) => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEY.GET_SBB_DOCUMENT_FORM]
           })
+
           return res
         },
         onError: (error) =>
@@ -82,6 +83,7 @@ export const useUploadSbbDocument = (args: Args) => {
       // Map each form data to an upload data task
       .map((form) => {
         const files = form.files ?? []
+
         if (files.length > 0) {
           /** This is where the magic comes hehe by @Phuc.Nguyen */
           return uploadFunction(

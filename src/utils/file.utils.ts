@@ -24,12 +24,14 @@ export const convertFileSizeToMB = (fileSizeInBytes: number): string => {
     return "0"
   }
   const fileSizeInMB = fileSizeInBytes / (1024 * 1024)
+
   return fileSizeInMB.toFixed(2)
 }
 
 export const getFileExtension = (fileName: string): string => {
   try {
     const splitFileName = fileName.split(".")
+
     if (splitFileName.length <= 1) return ""
 
     return splitFileName.pop()?.toLowerCase() ?? ""
@@ -60,12 +62,14 @@ export const convertJsonArrayToCsv = <T>(
       const values = headers.map((header) =>
         row[header] ? `"${row[header]}"` : ""
       )
+
       csvRows.push(values.join(","))
     }
 
     return csvRows.join("\n")
   } catch (error) {
-    console.error("Error converting JSON to CSV:", error)
+    // console.error("Error converting JSON to CSV:", error)
+
     return ""
   }
 }

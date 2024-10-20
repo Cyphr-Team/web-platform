@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "../../constants/query-key"
-import { BusinessDocumentsResponse } from "../../constants/type"
+import { type BusinessDocumentsResponse } from "../../constants/type"
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
-import { FormDetailsQueryProps } from "."
+import { type FormDetailsQueryProps } from "."
 
 export const useQueryBusinessDocuments = ({
   applicationId,

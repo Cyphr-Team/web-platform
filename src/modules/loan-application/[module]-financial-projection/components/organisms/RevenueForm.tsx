@@ -3,7 +3,11 @@ import { Card } from "@/components/ui/card.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { cn } from "@/lib/utils.ts"
 import { RHFProvider } from "@/modules/form-template/providers"
-import { useFieldArray, UseFieldArrayAppend, useForm } from "react-hook-form"
+import {
+  useFieldArray,
+  type UseFieldArrayAppend,
+  useForm
+} from "react-hook-form"
 
 import {
   useLoanApplicationFormContext,
@@ -12,17 +16,23 @@ import {
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
-import { FC, memo, PropsWithChildren, useCallback, useMemo } from "react"
+import {
+  type FC,
+  memo,
+  type PropsWithChildren,
+  useCallback,
+  useMemo
+} from "react"
 import { useBoolean } from "@/hooks"
 import { AddRevenueTypeDialog } from "@/modules/loan-application/[module]-financial-projection/components/molecules/AddRevenueTypeDialog.tsx"
 import { RevenueTypeSelection } from "@/modules/loan-application/[module]-financial-projection/components/molecules/RevenueTypeSelection.tsx"
 import {
-  BillableHour,
-  Contract,
-  RecurringCharge,
-  RevenueStream,
+  type BillableHour,
+  type Contract,
+  type RecurringCharge,
+  type RevenueStream,
   RevenueType,
-  UnitSale
+  type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { get } from "lodash"
 import UnitSalesForm from "@/modules/loan-application/[module]-financial-projection/components/molecules/UnitSalesForm.tsx"
@@ -37,7 +47,7 @@ type AppendFunctions = {
   [K in RevenueType]: UseFieldArrayAppend<RevenueStream, K>
 }
 
-const RevenueForm = () => {
+function RevenueForm() {
   const dialog = useBoolean()
 
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -118,6 +128,7 @@ const RevenueForm = () => {
     ) =>
       () => {
         const fn = appendFunctionFactory(type)
+
         fn(data as never)
       },
     [appendFunctionFactory]
@@ -153,9 +164,9 @@ const RevenueForm = () => {
 
         <AddRevenueTypeDialog
           open={dialog.value}
-          onOpenChange={dialog.setValue}
-          onConfirm={dialog.onFalse}
           onAddItemToField={onAddItemToField}
+          onConfirm={dialog.onFalse}
+          onOpenChange={dialog.setValue}
         />
 
         <div className="flex flex-col gap-y-4xl mb-4">
@@ -175,7 +186,7 @@ const RevenueForm = () => {
 
         {isFormDirty ? (
           <div className="w-full flex flex-row-reverse mb-4">
-            <Button type="button" className="py-2 my-2" onClick={dialog.onTrue}>
+            <Button className="py-2 my-2" type="button" onClick={dialog.onTrue}>
               + Another revenue type
             </Button>
           </div>

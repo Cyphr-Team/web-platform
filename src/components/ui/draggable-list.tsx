@@ -1,4 +1,11 @@
-import { DragEvent, ReactElement, useRef, useState, useCallback } from "react"
+/* eslint-disable */
+import {
+  type DragEvent,
+  type ReactElement,
+  useCallback,
+  useRef,
+  useState
+} from "react"
 import { useUpdateEffect } from "react-use"
 
 interface DraggableListProps {
@@ -7,11 +14,8 @@ interface DraggableListProps {
   customCard?: (item: string) => ReactElement
 }
 
-export const DraggableList: React.FC<DraggableListProps> = ({
-  initialItems,
-  onReorder,
-  customCard
-}) => {
+export function DraggableList(props: DraggableListProps) {
+  const { initialItems, onReorder, customCard } = props
   const [items, setItems] = useState<string[]>(initialItems)
   const [placeholderIndex, setPlaceholderIndex] = useState<number | null>(null)
   const draggedItem = useRef<number | null>(null)
@@ -38,14 +42,15 @@ export const DraggableList: React.FC<DraggableListProps> = ({
     }, 0)
   }, [])
 
-  const getDragAfterElement = useCallback((y: number): HTMLElement | null => {
+  const getDragAfterElement = useCallback((y: number): Element | null => {
     const draggableElements = Array.from(
       document.querySelectorAll(".draggable:not(.dragging)")
-    ) as HTMLElement[]
+    )
 
-    return draggableElements.reduce<HTMLElement | null>((closest, child) => {
+    return draggableElements.reduce<Element | null>((closest, child) => {
       const box = child.getBoundingClientRect()
       const offset = y - box.top - box.height / 2
+
       if (
         offset < 0 &&
         offset >
@@ -73,6 +78,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
         const afterElementIndex = items.findIndex(
           (item) => item === afterElement.id
         )
+
         if (afterElementIndex === -1 || afterElementIndex === placeholderIndex)
           return
         setPlaceholderIndex(afterElementIndex)
@@ -87,6 +93,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
     const currentItemIndex = draggedItem.current
     const updatedItems = [...items]
     const [draggedItemContent] = updatedItems.splice(currentItemIndex, 1)
+
     updatedItems.splice(placeholderIndex, 0, draggedItemContent)
 
     setItems(updatedItems)
@@ -106,26 +113,26 @@ export const DraggableList: React.FC<DraggableListProps> = ({
         {items.map((item, index) => (
           <div key={item}>
             {placeholderIndex === index && (
-              <li className="placeholder" key="placeholder">
+              <li key="placeholder" className="placeholder">
                 {customCard ? customCard("Drop here") : "Drop here"}
               </li>
             )}
             <li
-              id={item}
-              key={index}
+              key={item}
               draggable
               className={`draggable ${
                 draggedItem.current === index ? "dragging" : ""
               }`}
-              onDragStart={(e) => handleDragStart(e, index)}
+              id={item}
               onDragEnd={handleDragEnd}
+              onDragStart={(e) => handleDragStart(e, index)}
             >
               {customCard ? customCard(item) : item}
             </li>
           </div>
         ))}
         {placeholderIndex === items.length && (
-          <li className="placeholder" key="last-item">
+          <li key="last-item" className="placeholder">
             {customCard ? customCard("Drop here") : "Drop here"}
           </li>
         )}

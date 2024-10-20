@@ -1,17 +1,17 @@
 import {
-  SocialProvider,
-  StytchPasswordAuthenticateResponse
+  type SocialProvider,
+  type StytchPasswordAuthenticateResponse
 } from "@/types/auth.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
-import { ErrorResponse, useNavigate } from "react-router-dom"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type ErrorResponse, useNavigate } from "react-router-dom"
 import { toastError } from "../../utils"
 import { TOAST_MSG } from "../../constants/toastMsg"
-import { UserInfo } from "@/types/user.type"
+import { type UserInfo } from "@/types/user.type"
 import { isLaunchKC } from "@/utils/domain.utils"
 
 interface LoginGoogleRequest {
@@ -46,6 +46,7 @@ export const useLoginWithSocialMFA = () => {
         queryClient.resetQueries()
 
         navigate(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list)
+
         return
       }
       // For the remaining tenants, we need to navigate to the MFA verification page
@@ -62,16 +63,14 @@ export const useLoginWithSocialMFA = () => {
           description:
             "MFA is not enabled for this organization. Please contact support@cyphrai.com for further assistance."
         })
+
         return
       }
       // Else we need to navigate to the MFA verification page
       // If mfaPhoneNumberVerified is not True or mfaPhoneNumber is empty
       // It means that the user has not validated his/her MFA Phone Number yet
       // Then we need to navigate him/her to the MFA setup page
-      if (
-        member.mfaPhoneNumber === "" ||
-        member.mfaPhoneNumberVerified !== true
-      ) {
+      if (member.mfaPhoneNumber === "" || !member.mfaPhoneNumberVerified) {
         navigate(APP_PATH.SETUP_PHONE, { state: { member } })
       }
       // Else we need to navigate to the MFA verification page

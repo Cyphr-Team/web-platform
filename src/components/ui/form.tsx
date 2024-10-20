@@ -1,11 +1,11 @@
 import * as React from "react"
-import * as LabelPrimitive from "@radix-ui/react-label"
+import type * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
 import {
   Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
+  type ControllerProps,
+  type FieldPath,
+  type FieldValues,
   FormProvider,
   useFormContext
 } from "react-hook-form"
@@ -15,10 +15,10 @@ import { Label } from "@/components/ui/label"
 
 const Form = FormProvider
 
-type FormFieldContextValue<
+interface FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
-> = {
+> {
   name: TName
 }
 
@@ -26,12 +26,10 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 )
 
-const FormField = <
+function FormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
->({
-  ...props
-}: ControllerProps<TFieldValues, TName>) => {
+>({ ...props }: ControllerProps<TFieldValues, TName>) {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
@@ -62,7 +60,7 @@ const useFormField = () => {
   }
 }
 
-type FormItemContextValue = {
+interface FormItemContextValue {
   id: string
 }
 
@@ -82,6 +80,7 @@ const FormItem = React.forwardRef<
     </FormItemContext.Provider>
   )
 })
+
 FormItem.displayName = "FormItem"
 
 const FormLabel = React.forwardRef<
@@ -99,6 +98,7 @@ const FormLabel = React.forwardRef<
     />
   )
 })
+
 FormLabel.displayName = "FormLabel"
 
 const FormControl = React.forwardRef<
@@ -112,17 +112,16 @@ const FormControl = React.forwardRef<
   return (
     <Slot
       ref={ref}
-      id={formItemId}
       aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
+        !error ? formDescriptionId : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
+      id={formItemId}
       {...props}
     />
   )
 })
+
 FormControl.displayName = "FormControl"
 
 const FormDescription = React.forwardRef<
@@ -134,15 +133,16 @@ const FormDescription = React.forwardRef<
   return (
     <p
       ref={ref}
-      id={formDescriptionId}
       className={cn("text-sm text-muted-foreground", className)}
+      id={formDescriptionId}
       {...props}
     />
   )
 })
+
 FormDescription.displayName = "FormDescription"
 
-type ErrorMessageProps = {
+interface ErrorMessageProps {
   formMessageId?: string
 }
 
@@ -153,8 +153,8 @@ const ErrorMessage = React.forwardRef<
   return (
     <p
       ref={ref}
-      id={formMessageId}
       className={cn("text-sm font-medium text-destructive", className)}
+      id={formMessageId}
       {...props}
     >
       {children}
@@ -179,6 +179,7 @@ const FormMessage = React.forwardRef<
     </ErrorMessage>
   )
 })
+
 FormMessage.displayName = "FormMessage"
 
 export {

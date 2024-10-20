@@ -1,5 +1,5 @@
-import { Option } from "@/types/common.type"
-import { ReactNode } from "react"
+import { type Option } from "@/types/common.type"
+import { type ReactNode } from "react"
 import { JudgeAvatar } from "./JudgeAvatar"
 
 interface IUserMultiSelectOptionParams {
@@ -20,18 +20,18 @@ export const buildUserMultiSelectLabelHelper = (
   return [name, avatar].map((value) => value ?? "").join(CONCATENATE_CHAR)
 }
 
-export const UserMultiSelectOption = ({
+export function UserMultiSelectOption({
   option,
   close
-}: IUserMultiSelectOptionParams) => {
+}: IUserMultiSelectOptionParams) {
   const [name, avatar] = option.label.split(CONCATENATE_CHAR)
 
   return (
     <div className="flex items-center parent-border">
       <JudgeAvatar
         avatar={avatar}
-        name={name ?? ""}
         className="h-5 w-5 text-xs"
+        name={name ?? ""}
       />
 
       <div className="ml-1.5">

@@ -8,17 +8,17 @@ interface Props {
   variant?: "default" | "black"
 }
 
-export const RecurringChargesIcon = ({
+export function RecurringChargesIcon({
   className,
   variant = "default"
-}: Props) => {
+}: Props) {
   return (
     <img
+      alt="file"
+      className={cn("w-8 h-8", className)}
       src={
         variant === "default" ? recurringChargesIcon : recurringChargesIconBlack
       }
-      className={cn("w-8 h-8", className)}
-      alt="file"
     />
   )
 }

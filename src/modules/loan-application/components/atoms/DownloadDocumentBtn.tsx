@@ -6,9 +6,9 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
-import { DownloadFinancialDocumentProps } from "@/modules/loan-application/hooks/useQueryDownloadFinancialDocument"
-import { ErrorResponse } from "@/types/common.type"
-import { UseQueryResult } from "@tanstack/react-query"
+import { type DownloadFinancialDocumentProps } from "@/modules/loan-application/hooks/useQueryDownloadFinancialDocument"
+import { type ErrorResponse } from "@/types/common.type"
+import { type UseQueryResult } from "@tanstack/react-query"
 import { FileDown } from "lucide-react"
 import { useState } from "react"
 
@@ -17,12 +17,13 @@ interface DownloadDocumentButtonProps {
     _: DownloadFinancialDocumentProps
   ) => UseQueryResult<string, ErrorResponse>
 }
-export const DownloadDocumentBtn = ({
+
+export function DownloadDocumentBtn({
   setupId,
   documentId,
   fileName,
   useDownloadFile
-}: DownloadFinancialDocumentProps & DownloadDocumentButtonProps) => {
+}: DownloadFinancialDocumentProps & DownloadDocumentButtonProps) {
   const [preventCacheCount, setPreventCacheCount] = useState(0)
 
   const downloadFile = useDownloadFile({
@@ -32,9 +33,7 @@ export const DownloadDocumentBtn = ({
     fileName
   })
 
-  const handleDownloadDocument = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleDownloadDocument = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     setPreventCacheCount(() => new Date().valueOf())
   }
@@ -45,10 +44,10 @@ export const DownloadDocumentBtn = ({
         <TooltipTrigger asChild>
           <ButtonLoading
             data-html2canvas-ignore
-            variant="ghost"
-            size="icon"
-            onClick={handleDownloadDocument}
             isLoading={downloadFile.isLoading}
+            size="icon"
+            variant="ghost"
+            onClick={handleDownloadDocument}
           >
             <FileDown className="w-5" />
           </ButtonLoading>

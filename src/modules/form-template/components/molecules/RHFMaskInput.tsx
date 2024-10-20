@@ -8,13 +8,13 @@ import {
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
 import {
-  Control,
-  FieldPath,
-  FieldValues,
+  type Control,
+  type FieldPath,
+  type FieldValues,
   useFormContext
 } from "react-hook-form"
-import { MaskInput, MaskInputProps } from "@/components/ui/mask-input.tsx"
-import { memo, ReactNode } from "react"
+import { MaskInput, type MaskInputProps } from "@/components/ui/mask-input.tsx"
+import { memo, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 export interface RHFMaskInputProps<T extends FieldValues>
@@ -45,7 +45,7 @@ export interface RHFMaskInputProps<T extends FieldValues>
  *
  * MUST USE THIS INSIDE A FORM OR ELSE IT WILL CRASH
  * */
-const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
+function RHFMaskInput<T extends FieldValues>(props: RHFMaskInputProps<T>) {
   const { control: defaultControl } = useFormContext()
   const {
     name,
@@ -86,10 +86,10 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
               )}
             >
               {label}
-              {required && <RequiredSymbol />}
-              {isRowDirection && !isHideErrorMessage && (
+              {required ? <RequiredSymbol /> : null}
+              {isRowDirection && !isHideErrorMessage ? (
                 <FormMessage className="mt-1" />
-              )}
+              ) : null}
             </FormLabel>
           )}
 
@@ -98,16 +98,16 @@ const RHFMaskInput = <T extends FieldValues>(props: RHFMaskInputProps<T>) => {
           ) : (
             <FormControl>
               <MaskInput
+                required
+                className={inputClassName}
                 pattern={pattern}
                 placeholder={placeholder}
+                prefixIcon={prefixIcon}
+                suffixIcon={suffixIcon}
                 wrapperClassName={cn(
                   isRowDirection ? "!mt-0" : null,
                   wrapperClassName
                 )}
-                className={inputClassName}
-                prefixIcon={prefixIcon}
-                suffixIcon={suffixIcon}
-                required
                 {...field}
               />
             </FormControl>

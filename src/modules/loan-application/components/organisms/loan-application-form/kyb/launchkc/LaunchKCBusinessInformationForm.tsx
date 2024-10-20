@@ -29,7 +29,7 @@ import {
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/launchkc/const"
 import {
   launchKCBusinessFormSchema,
-  LaunchKCBusinessFormValue
+  type LaunchKCBusinessFormValue
 } from "@/modules/loan-application/constants/form.ts"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
@@ -51,7 +51,7 @@ const enum FIELD_NAMES {
   COMPANY_DESCRIPTION = "companyDescription"
 }
 
-export const LaunchKCBusinessInformationForm = () => {
+export function LaunchKCBusinessInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { businessInformation, dispatchFormAction } =
     useLoanApplicationFormContext()
@@ -59,7 +59,8 @@ export const LaunchKCBusinessInformationForm = () => {
     businessInformation as LaunchKCBusinessFormValue
 
   // set defaultValues using reflection
-  const defaultValues: { [key: string]: string } = {}
+  const defaultValues: Record<string, string> = {}
+
   Object.keys(launchKCBusinessFormSchema.shape).forEach((fieldName) => {
     defaultValues[fieldName] = _.get(launchKCBusinessInformation, fieldName, "")
   })
@@ -112,6 +113,7 @@ export const LaunchKCBusinessInformationForm = () => {
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
@@ -138,136 +140,136 @@ export const LaunchKCBusinessInformationForm = () => {
       <Form {...form}>
         <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
           <TextInput
-            placeholder="i.e: Larry's Latte"
-            label="Business legal name"
-            control={form.control}
-            name={FIELD_NAMES.BUSINESS_LEGAL_NAME}
-            className="col-span-12"
             required
+            className="col-span-12"
+            control={form.control}
+            label="Business legal name"
+            name={FIELD_NAMES.BUSINESS_LEGAL_NAME}
+            placeholder="i.e: Larry's Latte"
           />
           <TextInput
-            placeholder="i.e: 123 Coffee Lane"
+            required
+            className="col-span-12"
+            control={form.control}
             label="Business street address line #1"
             name={FIELD_NAMES.ADDRESS_LINE1}
-            control={form.control}
-            className="col-span-12"
-            required
+            placeholder="i.e: 123 Coffee Lane"
           />
           <TextInput
-            placeholder="i.e: Suite 321"
+            className="col-span-12"
+            control={form.control}
             label="Business street address line #2 (optional)"
             name={FIELD_NAMES.ADDRESS_LINE2}
-            control={form.control}
-            className="col-span-12"
+            placeholder="i.e: Suite 321"
           />
           <AutoCompleteStates
-            options={STATE_DATA}
-            label="Business state"
-            emptyText="No results found"
-            name={FIELD_NAMES.STATE}
-            control={form.control}
-            onChange={handleChangeState}
-            value={form.getValues(FIELD_NAMES.STATE)}
-            className="col-span-12 lg:col-span-4"
             required
+            className="col-span-12 lg:col-span-4"
+            control={form.control}
+            emptyText="No results found"
+            label="Business state"
+            name={FIELD_NAMES.STATE}
+            options={STATE_DATA}
+            value={form.getValues(FIELD_NAMES.STATE)}
+            onChange={handleChangeState}
           />
           <AutoCompleteCities
+            required
+            className="col-span-12 lg:col-span-4"
+            control={form.control}
+            emptyText="No results found"
+            label="Business city"
+            name={FIELD_NAMES.CITY}
             options={
               STATE_DATA.find(
                 (s) => s.name === form.getValues(FIELD_NAMES.STATE)
               )?.cities ?? []
             }
-            label="Business city"
-            emptyText="No results found"
-            name={FIELD_NAMES.CITY}
-            control={form.control}
-            onChange={handleChangeCity}
             value={form.getValues(FIELD_NAMES.CITY)}
-            className="col-span-12 lg:col-span-4"
-            required
+            onChange={handleChangeCity}
           />
           <TextInput
-            placeholder="i.e: 97531"
+            required
+            className="col-span-12 lg:col-span-4"
+            control={form.control}
             label="Business zip code"
             name={FIELD_NAMES.POSTAL_CODE}
-            control={form.control}
-            className="col-span-12 lg:col-span-4"
-            required
+            placeholder="i.e: 97531"
           />
           <RHFMaskInput
+            required
+            className="col-span-12 lg:col-span-5"
             label="EIN"
             name={FIELD_NAMES.BUSINESS_TIN}
             pattern={EIN_PATTERN}
             placeholder="i.e: 12-3456789"
-            className="col-span-12 lg:col-span-5"
             styleProps={{
               labelClassName: "text-text-secondary",
               inputClassName: "text-base"
             }}
-            required
           />
           <RHFMaskInput
+            required
+            className="col-span-3"
             label="Year founded"
             name={FIELD_NAMES.YEAR_FOUNDED}
             pattern={YEAR_PATTERN}
             placeholder="YYYY"
-            className="col-span-3"
             styleProps={{
               labelClassName: "text-text-secondary",
               inputClassName: "text-base"
             }}
-            required
           />
           <SelectInput
-            label="Legal structure"
-            placeholder="Please Select"
-            control={form.control}
-            name={FIELD_NAMES.LEGAL_STRUCTURE}
-            className="col-span-4"
-            inputClassName="xl:ml-0 xl:max-w-80"
-            options={LEGAL_STRUCTURE_OPTIONS}
             required
+            className="col-span-4"
+            control={form.control}
+            inputClassName="xl:ml-0 xl:max-w-80"
+            label="Legal structure"
+            name={FIELD_NAMES.LEGAL_STRUCTURE}
+            options={LEGAL_STRUCTURE_OPTIONS}
+            placeholder="Please Select"
           />
           <TextInput
-            placeholder="www.larryslatte.com"
+            className="col-span-12"
+            control={form.control}
+            inputClassName="pl-16"
             label="Business website"
             name={FIELD_NAMES.BUSINESS_WEBSITE}
-            control={form.control}
-            className="col-span-12"
-            inputClassName="pl-16"
+            placeholder="www.larryslatte.com"
             prefix="https://"
             prefixIcon={<p className="text-text-secondary">https://</p>}
           />
           <SelectInput
-            label="Primary industry"
-            placeholder="Please Select"
-            control={form.control}
-            name={FIELD_NAMES.PRIMARY_INDUSTRY}
+            required
             className="col-span-4"
+            control={form.control}
             inputClassName="xl:ml-0 xl:max-w-80"
+            label="Primary industry"
+            name={FIELD_NAMES.PRIMARY_INDUSTRY}
             options={PRIMARY_INDUSTRY}
-            required
+            placeholder="Please Select"
           />
           <TextInput
-            label="Primary industry (other): Please describe"
-            control={form.control}
-            name={FIELD_NAMES.PRIMARY_INDUSTRY_OTHER}
             className="col-span-8"
+            control={form.control}
+            label="Primary industry (other): Please describe"
+            name={FIELD_NAMES.PRIMARY_INDUSTRY_OTHER}
           />
           <TextInput
-            label="Describe your company in one sentence"
-            control={form.control}
-            name={FIELD_NAMES.COMPANY_DESCRIPTION}
-            className="col-span-12"
             required
+            className="col-span-12"
+            control={form.control}
+            label="Describe your company in one sentence"
+            name={FIELD_NAMES.COMPANY_DESCRIPTION}
           />
         </form>
       </Form>
 
       {!isReviewApplicationStep(step) && (
         <FormSubmitButton
-          onSubmit={form.handleSubmit(onSubmit)}
           isDisabled={!form.formState.isValid}
+          onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
     </Card>

@@ -1,6 +1,6 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { type AxiosError } from "axios"
 import { QUERY_KEY } from "@/modules/notification/constants/query-key"
 import { getRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"

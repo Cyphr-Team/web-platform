@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 
-import { ILinkInquiryRequest } from "@/types/kyc/request/LinkInquiryRequest"
-import { ILinkInquiryResponse } from "@/types/kyc/response/LinkInquiryResponse"
+import { type ILinkInquiryRequest } from "@/types/kyc/request/LinkInquiryRequest"
+import { type ILinkInquiryResponse } from "@/types/kyc/response/LinkInquiryResponse"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutationFactory } from "."
 

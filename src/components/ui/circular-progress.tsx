@@ -18,17 +18,17 @@ export function CircularProgress({
             className="stroke-current text-gray-200"
             cx="44"
             cy="44"
-            r={r}
             fill="none"
-            strokeWidth="4"
+            r={r}
             strokeDasharray={P}
+            strokeWidth="4"
           />
           <text
-            x="44"
-            y="44"
+            alignmentBaseline="middle"
             fontSize="12"
             textAnchor="middle"
-            alignmentBaseline="middle"
+            x="44"
+            y="44"
           >
             {text}
           </text>
@@ -40,12 +40,12 @@ export function CircularProgress({
             className="stroke-current"
             cx="44"
             cy="44"
-            r={r}
             fill="none"
-            strokeWidth="4"
+            r={r}
             strokeDasharray={P}
             strokeDashoffset={P - progress}
             strokeLinecap="round"
+            strokeWidth="4"
           />
         </svg>
       </span>

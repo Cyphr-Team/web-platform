@@ -7,7 +7,7 @@ import { DocumentSignalsDetails } from "@/modules/conference-demo/admin/componen
 import { LoanDocumentDetailsProvider } from "@/modules/conference-demo/admin/providers/LoanDocumentDetailsProvider"
 import { useState } from "react"
 
-const DocumentScore = () => {
+function DocumentScore() {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleOpen = () => {
@@ -27,7 +27,7 @@ const DocumentScore = () => {
       <div className="lg:flex h-full overflow-y-auto">
         <DocumentViewer />
 
-        {isOpen && <DocumentSignalsDetails handleClose={handleClose} />}
+        {isOpen ? <DocumentSignalsDetails handleClose={handleClose} /> : null}
       </div>
     </div>
   )

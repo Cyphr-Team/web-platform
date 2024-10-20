@@ -2,17 +2,17 @@ import { API_PATH } from "@/constants"
 import { putRequest, postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
-import { AxiosResponse, AxiosError } from "axios"
-import { OperatingExpensesFormValue } from "../../constants/form"
+import { type AxiosResponse, type AxiosError } from "axios"
+import { type OperatingExpensesFormValue } from "../../constants/form"
 import {
-  OperatingExpensesInformationResponse,
-  OperatingExpensesInformation
+  type OperatingExpensesInformationResponse,
+  type OperatingExpensesInformation
 } from "../../constants/type"
 import { QUERY_KEY } from "../../constants/query-key"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { useCallback } from "react"
 
-type Props = {
+interface Props {
   rawData: OperatingExpensesFormValue
   onSuccess: (data: OperatingExpensesInformationResponse) => void
 }

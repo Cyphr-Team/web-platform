@@ -1,11 +1,11 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { useNavigate } from "react-router-dom"
-import { StytchSendMagicLinkResponse } from "@/types/auth.type"
+import { type StytchSendMagicLinkResponse } from "@/types/auth.type"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { toastError } from "@/utils"
 
@@ -14,6 +14,7 @@ export interface MagicLinkFormValue {
   loginRedirectUrl: string
   signupRedirectUrl: string
 }
+
 /**
  * Send Magic Link to user's email
  */

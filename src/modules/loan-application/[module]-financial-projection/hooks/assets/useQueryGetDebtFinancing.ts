@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import {
-  DebtFinancingLiabilityResponse,
-  DebtFinancingResponse
+  type DebtFinancingLiabilityResponse,
+  type DebtFinancingResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
-import { FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
+import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
 import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId"
 
 export const useQueryGetDebtFinancingForm = ({

@@ -1,12 +1,12 @@
 import { FORMAT_DATE_MM_YYYY } from "@/constants/date.constants"
 import { CHARGE_FREQUENCIES } from "@/modules/loan-application/[module]-financial-projection/components/store/recurring-charges-store"
 import {
-  FinancialApplicationDetailData,
-  FinancialApplicationFormDetailData
+  type FinancialApplicationDetailData,
+  type FinancialApplicationFormDetailData
 } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
   RevenueResponseType,
-  SubmitRevenueStreamResponse
+  type SubmitRevenueStreamResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -21,6 +21,7 @@ type DetailGenerator = (
 interface UseRevenueDetailProps {
   revenueStreamResponse?: SubmitRevenueStreamResponse
 }
+
 export const useRevenueDetail = ({
   revenueStreamResponse
 }: UseRevenueDetailProps) => {
@@ -239,6 +240,7 @@ const generateFormDetailByFormType = (
   const generator = revenue?.formType
     ? revenueDetailGenerators[revenue.formType]
     : null
+
   return generator ? generator(revenue) : []
 }
 

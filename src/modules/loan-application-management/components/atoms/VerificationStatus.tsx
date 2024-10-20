@@ -1,10 +1,10 @@
 import { AspectRatio } from "@radix-ui/react-aspect-ratio"
-import { KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
+import { type KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
 import { VerificationIcon } from "./VerificationIcon"
 import { getClassNameFromStatus } from "../../services"
-import { KYC_STATUS } from "../../constants/types/kyc"
+import { type KYC_STATUS } from "../../constants/types/kyc"
 
-type Props = {
+interface Props {
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS
 }
 
@@ -16,6 +16,7 @@ export const VerificationStatus: React.FC<Props> = ({ status }) => {
     error: "bg-error-secondary",
     warning: "bg-warning-secondary"
   }
+
   return (
     <div className="w-8 h-8 md:w-10 lg:w-12 md:h-10 lg:h-12 ">
       <AspectRatio ratio={1 / 1}>

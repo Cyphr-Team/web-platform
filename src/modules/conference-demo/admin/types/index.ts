@@ -1,4 +1,4 @@
-import { DotVariantProps } from "../../../../components/ui/dot"
+import { type DotVariantProps } from "../../../../components/ui/dot"
 
 export enum LoanApplicationStatus {
   APPROVED = "APPROVED",

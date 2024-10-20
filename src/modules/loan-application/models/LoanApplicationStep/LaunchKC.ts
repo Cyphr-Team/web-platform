@@ -2,7 +2,7 @@ import {
   isIgnoredCashFlowSubmission,
   isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
-import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
+import { type ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
 export class LaunchKCLoanApplicationStep
   extends LoanApplicationStep

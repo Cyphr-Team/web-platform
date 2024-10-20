@@ -2,16 +2,16 @@ import { Card } from "@/components/ui/card"
 import { Trash, X } from "lucide-react"
 import fileIcon from "@/assets/file.svg"
 import { Button } from "@/components/ui/button"
-import { DocumentUploadedResponse } from "../../constants/type"
+import { type DocumentUploadedResponse } from "../../constants/type"
 import fileIconV2 from "@/assets/pdf-file.svg"
-import React, { ReactNode } from "react"
+import React, { type ReactNode } from "react"
 
-const fileIconMapper: { [key: number]: string } = {
+const fileIconMapper: Record<number, string> = {
   1: fileIcon,
   2: fileIconV2
 }
 
-const deleteIconMapper: { [key: number]: ReactNode } = {
+const deleteIconMapper: Record<number, ReactNode> = {
   1: <Trash className="h-5 w-5" />,
   2: <X className="h-5 w-5" />
 }
@@ -28,15 +28,15 @@ export const FileUploadedCard: React.FC<Props> = ({
   version = 1
 }) => {
   return (
-    <Card className="p-xl gap-2xl flex shadow-none items-center" key={file.id}>
-      <img src={fileIconMapper[version]} className="logo w-8 h-8" alt="file" />
+    <Card key={file.id} className="p-xl gap-2xl flex shadow-none items-center">
+      <img alt="file" className="logo w-8 h-8" src={fileIconMapper[version]} />
       <div className="flex flex-col max-w-xs">
         <p className="text-sm truncate">{file.originFileName}</p>
       </div>
       <Button
+        className="ml-auto"
         type="button"
         variant="ghost"
-        className="ml-auto"
         onClick={() => handleRemoveFile(file.id)}
       >
         {deleteIconMapper[version]}

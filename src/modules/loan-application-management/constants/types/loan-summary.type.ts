@@ -1,37 +1,37 @@
-import { SmartKyc } from "@/lib/persona/persona.types"
-import { QueryForecastingSetupByIdResponse } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup"
+import { type SmartKyc } from "@/lib/persona/persona.types"
+import { type QueryForecastingSetupByIdResponse } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup"
 import {
-  AssetsCurrentFormResponse,
-  AssetsLongTermFormResponse
+  type AssetsCurrentFormResponse,
+  type AssetsLongTermFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
 import {
-  DebtFinancingLiabilityResponse,
-  DebtFinancingResponse
+  type DebtFinancingLiabilityResponse,
+  type DebtFinancingResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
-import { DirectCostsFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/direct-costs-form"
-import { FpEquityFinancingFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/equity-form"
-import { FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
-import { FpOperatingExpensesFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/operating-expenses-form"
-import { ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
-import { SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form"
-import { ExpenseTaxRateFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/tax-rate-form"
-import { BusinessModelFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/type"
-import { LaunchKcFitFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
-import { ExecutionFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/execution/type"
-import { MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
-import { ProductServiceFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/type"
+import { type DirectCostsFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/direct-costs-form"
+import { type FpEquityFinancingFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/equity-form"
+import { type FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
+import { type FpOperatingExpensesFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/operating-expenses-form"
+import { type ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
+import { type SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form"
+import { type ExpenseTaxRateFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/tax-rate-form"
+import { type BusinessModelFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/business-model/type"
+import { type LaunchKcFitFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
+import { type ExecutionFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/execution/type"
+import { type MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
+import { type ProductServiceFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/product-service/type"
 import {
-  ConfirmationFormResponse,
-  CurrentLoanInformationResponse,
-  KYBInformationResponse,
-  KYCInformationResponse,
-  OperatingExpensesInformationResponse,
-  PreQualificationResponse
+  type ConfirmationFormResponse,
+  type CurrentLoanInformationResponse,
+  type KYBInformationResponse,
+  type KYCInformationResponse,
+  type OperatingExpensesInformationResponse,
+  type PreQualificationResponse
 } from "@/modules/loan-application/constants/type"
-import { UseOfLoan } from "@/types/loan-application.type"
-import { LoanApplicationsKyb } from "../type"
-import { InsightStatus } from "./insight.type"
-import { LoanApplicationsKyc } from "./kyc"
+import { type UseOfLoan } from "@/types/loan-application.type"
+import { type LoanApplicationsKyb } from "../type"
+import { type InsightStatus } from "./insight.type"
+import { type LoanApplicationsKyc } from "./kyc"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -42,7 +42,7 @@ enum SummaryCollectStatus {
 
 export { SummaryCollectStatus }
 
-type SummaryCashFlowDocumentation = {
+interface SummaryCashFlowDocumentation {
   value?: string
   verification?: InsightStatus
 }
@@ -71,7 +71,7 @@ type LoanSummary = {
     financialApplicationForm?: FinancialApplicationLoanSummary
   }
 
-type FinancialApplicationLoanSummary = {
+interface FinancialApplicationLoanSummary {
   assetCurrentForm?: AssetsCurrentFormResponse
   assetLongTermForm?: AssetsLongTermFormResponse
   debtFinancingForm?: DebtFinancingResponse

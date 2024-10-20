@@ -5,11 +5,12 @@ import {
 } from "@/components/ui/accordion"
 import { Table, TableBody } from "@/components/ui/table"
 import { CustomTableRow } from "@/modules/conference-demo/admin/components/atoms/TableRow"
-import { BankAccount } from "@/modules/conference-demo/admin/constants/type"
+import { type BankAccount } from "@/modules/conference-demo/admin/constants/type"
 
-type Props = {
+interface Props {
   data: BankAccount
 }
+
 export const BankInformation: React.FC<Props> = ({ data }) => {
   return (
     <AccordionItem value="bank-statement">
@@ -20,44 +21,44 @@ export const BankInformation: React.FC<Props> = ({ data }) => {
         <Table className="text-xs">
           <TableBody className="bg-gray-100">
             <CustomTableRow
+              childrenClassName={["", "font-bold"]}
               data={["Account Number", data.accountNumber]}
-              childrenClassName={["", "font-bold"]}
             />
             <CustomTableRow
+              childrenClassName={["", "font-bold"]}
+              className="bg-gray-50"
               data={["Type", data.accountType]}
-              childrenClassName={["", "font-bold"]}
-              className="bg-gray-50"
             />
             <CustomTableRow
+              childrenClassName={["", "font-bold"]}
               data={["Holder", data.accountHolder]}
-              childrenClassName={["", "font-bold"]}
             />
             <CustomTableRow
+              childrenClassName={["", "font-bold"]}
+              className="bg-gray-50"
               data={["Category", data.accountCategory]}
-              childrenClassName={["", "font-bold"]}
-              className="bg-gray-50"
             />
             <CustomTableRow
+              childrenClassName={["", "font-bold"]}
               data={["Holder Address Line 1", data.holderAddress1]}
-              childrenClassName={["", "font-bold"]}
             />
             <CustomTableRow
+              childrenClassName={["", "font-bold"]}
+              className="bg-gray-50"
               data={["Holder Address Line 2", data.holderAddress2]}
-              childrenClassName={["", "font-bold"]}
-              className="bg-gray-50"
             />
             <CustomTableRow
+              childrenClassName={["", "font-bold"]}
               data={["Holder Zip", data.holderZip]}
-              childrenClassName={["", "font-bold"]}
             />
             <CustomTableRow
-              data={["Holder State", data.holderState]}
               childrenClassName={["", "font-bold"]}
               className="bg-gray-50"
+              data={["Holder State", data.holderState]}
             />
             <CustomTableRow
-              data={["Holder City", data.holderCity]}
               childrenClassName={["", "font-bold"]}
+              data={["Holder City", data.holderCity]}
             />
           </TableBody>
         </Table>

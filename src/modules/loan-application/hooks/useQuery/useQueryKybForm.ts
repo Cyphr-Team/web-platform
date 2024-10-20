@@ -1,7 +1,7 @@
-import { KYBInformationResponse } from "../../constants/type"
+import { type KYBInformationResponse } from "../../constants/type"
 import { QUERY_KEY } from "../../constants/query-key"
 import { API_PATH } from "@/constants"
-import { FormDetailsQueryProps } from "."
+import { type FormDetailsQueryProps } from "."
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
 
 export const useQueryGetKybForm = ({

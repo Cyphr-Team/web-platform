@@ -1,14 +1,15 @@
 import { toPattern } from "@/components/ui/mask-input"
 import { EIN_PATTERN } from "@/constants"
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { BUSINESS_STAGE_OPTIONS } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import { formatBusinessStreetAddress } from "@/modules/loan-application/constants"
-import { KYBInformationResponse } from "@/modules/loan-application/constants/type"
+import { type KYBInformationResponse } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseBusinessInformationDetailProps {
   kybFormData?: KYBInformationResponse
 }
+
 export const useBusinessInformationDetail = ({
   kybFormData
 }: UseBusinessInformationDetailProps) => {
@@ -55,5 +56,6 @@ export const useBusinessInformationDetail = ({
       }
     ]
   }
+
   return { businessInformationDetail }
 }

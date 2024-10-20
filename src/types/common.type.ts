@@ -1,10 +1,10 @@
-import { IconProps } from "@/components/ui/icons"
-import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
-import { FeatureKey } from "@/hooks/useCanAccess"
-import { ErrorCode } from "@/utils/custom-error"
-import { LucideIcon } from "lucide-react"
-import { ReactNode } from "react"
-import { UserRoles } from "./user.type"
+import { type IconProps } from "@/components/ui/icons"
+import { type FEATURE_FLAGS } from "@/constants/feature-flag.constants"
+import { type FeatureKey } from "@/hooks/useCanAccess"
+import { type ErrorCode } from "@/utils/custom-error"
+import { type LucideIcon } from "lucide-react"
+import { type ReactNode } from "react"
+import { type UserRoles } from "./user.type"
 
 // --- RESPONSE ---
 interface SuccessResponse {
@@ -81,13 +81,13 @@ interface NavItemWithOptionalChildren extends NavItem {
 export type { NavItem, NavItemWithChildren, NavItemWithOptionalChildren }
 
 // --- STATE ---
-type CityType = {
+interface CityType {
   id: number
   name: string
   latitude: string
   longitude: string
 }
-type StateType = {
+interface StateType {
   id: number
   name: string
   state_code: string
@@ -112,7 +112,7 @@ export interface ImageDataResponse {
   fileData: string
 }
 
-export type AddressType = {
+export interface AddressType {
   addressLine1: string
   state: string
   country: string

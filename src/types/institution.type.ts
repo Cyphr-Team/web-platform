@@ -1,4 +1,4 @@
-type TInstitutionMetaData = {
+interface TInstitutionMetaData {
   logo?: string
   textLogo?: string
   supportEmail?: string
@@ -8,7 +8,7 @@ type TInstitutionMetaData = {
   customFieldsOnDemand?: Record<string, unknown>
 }
 
-type TInstitutionResponse = {
+interface TInstitutionResponse {
   data: {
     name: string
     metadata: TInstitutionMetaData
@@ -16,7 +16,7 @@ type TInstitutionResponse = {
   success: boolean
 }
 
-type Institution = {
+interface Institution {
   id: string
   name: string
   subdomain: string

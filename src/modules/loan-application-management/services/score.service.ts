@@ -1,15 +1,15 @@
 import {
-  IApplicationScoreByStage,
-  IApplicationWithStageScoresResponse,
-  ILaunchKCApplicationAssignScore,
-  IScoreInfo,
-  IStageInfo,
-  IWorkspaceAdminApplicationScore
+  type IApplicationScoreByStage,
+  type IApplicationWithStageScoresResponse,
+  type ILaunchKCApplicationAssignScore,
+  type IScoreInfo,
+  type IStageInfo,
+  type IWorkspaceAdminApplicationScore
 } from "@/types/application/application-assign.type"
 import { LoanApplicationStage } from "@/types/application/application-stage.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { roundToOneDecimalPlace, sanitizeNumber } from "@/utils"
-import { LoanStage } from "../constants/types/application"
+import { type LoanStage } from "../constants/types/application"
 
 const NUMBER_OF_LAUNCH_KC_SCORES = 5
 
@@ -74,8 +74,8 @@ const getAverageScore = (listScoreInfo?: IScoreInfo[]): number => {
 }
 
 const getStageScoreInfo = (
-  applicationScoreByStages: IApplicationScoreByStage[] = [],
-  round: LoanApplicationStatus | LoanStage
+  round: LoanApplicationStatus | LoanStage,
+  applicationScoreByStages: IApplicationScoreByStage[] = []
 ): IStageInfo => {
   const listScoreInfoForRound = applicationScoreByStages
     .filter(
@@ -109,13 +109,13 @@ const getWorkspaceAdminApplicationScores = (
 ): IWorkspaceAdminApplicationScore[] => {
   return applicationScoreListResponse.map((applicationScore) => {
     const roundOneScore = getStageScoreInfo(
-      applicationScore?.stages,
-      LoanApplicationStatus.ROUND_1
+      LoanApplicationStatus.ROUND_1,
+      applicationScore?.stages
     )
 
     const roundTwoScore = getStageScoreInfo(
-      applicationScore?.stages,
-      LoanApplicationStatus.ROUND_2
+      LoanApplicationStatus.ROUND_2,
+      applicationScore?.stages
     )
 
     return {

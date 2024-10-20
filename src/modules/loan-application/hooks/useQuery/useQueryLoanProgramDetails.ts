@@ -1,7 +1,7 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { QUERY_KEY } from "../../constants/query-key"
-import { LoanType, MicroLoanProgramType } from "@/types/loan-program.type"
+import { LoanType, type MicroLoanProgramType } from "@/types/loan-program.type"
 import { useQueryDetailsFactory } from "."
 
 export const useQueryLoanProgramDetailsByType = (
@@ -30,7 +30,7 @@ export const useQueryLoanProgramDetails = <T>(
     [QUERY_KEY.GET_LOAN_PROGRAM_DETAILS],
     () => {
       return getRequest({
-        path: API_PATH.loanProgram.detail(id!, loanType)
+        path: API_PATH.loanProgram.detail(id, loanType)
       })
     }
   )

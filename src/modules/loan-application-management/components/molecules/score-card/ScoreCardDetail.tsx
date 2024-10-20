@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
-import { ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
+import { type ILaunchKCApplicationAssignScore } from "@/types/application/application-assign.type"
 import { sanitizeNumber } from "@/utils"
 import { translateToLaunchKCScoreItems } from "@/utils/score.utils"
 
@@ -10,18 +10,14 @@ interface IScoreItem {
   score: number
 }
 
-const Scores = ({ score }: IScoreItem) => {
+function Scores({ score }: IScoreItem) {
   return (
     <div className="flex flex-row-reverse">
       {Array(5)
         .fill(null)
         .map((_, index) => (
           <Button
-            type="button"
-            // Show only - no need to reverse order
-            data-scored={score >= 5 - index}
             key={5 - index}
-            variant="ghost"
             className={cn(
               // If the scored true, fill the color
               "[&>.score-rocket-icon>path]:data-[scored=true]:fill-inherit",
@@ -29,6 +25,10 @@ const Scores = ({ score }: IScoreItem) => {
               "[&>.score-rocket-icon>path]:fill-transparent",
               "h-auto p-0.5 mx-0.5"
             )}
+            variant="ghost"
+            type="button"
+            // Show only - no need to reverse order
+            data-scored={score >= 5 - index}
           >
             <Icons.rocket className="score-rocket-icon" />
           </Button>
@@ -43,7 +43,7 @@ interface IScoreCardDetailProps<T = ILaunchKCApplicationAssignScore> {
   scoreData?: T
 }
 
-export const ScoreCardDetail = ({ scoreData }: IScoreCardDetailProps) => {
+export function ScoreCardDetail({ scoreData }: IScoreCardDetailProps) {
   const data = translateToLaunchKCScoreItems(scoreData)
 
   return (

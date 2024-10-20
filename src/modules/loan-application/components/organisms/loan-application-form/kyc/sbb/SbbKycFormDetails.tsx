@@ -1,4 +1,4 @@
-import { KYCInformationResponse } from "@/modules/loan-application/constants/type"
+import { type KYCInformationResponse } from "@/modules/loan-application/constants/type"
 import { SBB_KYC_FIELD_NAMES } from "./const"
 import { get } from "lodash"
 import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
@@ -19,11 +19,12 @@ enum FieldTypes {
   NUMBER = "number"
 }
 
-type Field = {
+interface Field {
   label: string
   field: SBB_KYC_FIELD_NAMES
   type?: FieldTypes
 }
+
 const KYC_FORM_FIELDS: Field[] = [
   {
     label: "First name:",
@@ -64,34 +65,43 @@ const KYC_FORM_FIELDS: Field[] = [
   }
 ]
 
-export const SbbKycFormDetails: React.FC<KycFormDetailsProps> = ({
-  kycFormData
-}) => {
+export function SbbKycFormDetails({ kycFormData }: KycFormDetailsProps) {
   const renderField = (field: Field) => {
     const value = get(
       kycFormData,
       field.field,
       get(kycFormData.metadata, field.field, "N/A")
     ) as string
+
     switch (field.type) {
       case FieldTypes.DATE:
         return (
           <AnswersTextDisplay
             key={field.field}
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label={field.label}
             value={formatDate(value, FORMAT_DATE_MM_DD_YYYY)}
+            valueClassName="text-right"
           />
         )
+      case undefined: {
+        throw new Error("Not implemented yet: undefined case")
+      }
+      case FieldTypes.TEXT: {
+        throw new Error("Not implemented yet: FieldTypes.TEXT case")
+      }
+      case FieldTypes.NUMBER: {
+        throw new Error("Not implemented yet: FieldTypes.NUMBER case")
+      }
     }
+
     return (
       <AnswersTextDisplay
         key={field.field}
         className="!flex-row justify-between"
-        valueClassName="text-right"
         label={field.label}
         value={value}
+        valueClassName="text-right"
       />
     )
   }

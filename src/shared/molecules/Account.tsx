@@ -26,9 +26,9 @@ export function Account(
     <DropdownMenu>
       <div className="flex items-center justify-center gap-3">
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+          <Button className="relative h-10 w-10 rounded-full" variant="ghost">
             <Avatar className="flex h-10 w-10 items-center justify-center space-y-0 border rounded-full flex-shrink-0">
-              <AvatarImage src={data?.avatar ?? ""} alt={data?.name} />
+              <AvatarImage alt={data?.name} src={data?.avatar ?? ""} />
               <AvatarFallback>{data?.name?.slice(0, 2)}</AvatarFallback>
             </Avatar>
           </Button>
@@ -58,7 +58,7 @@ export function Account(
           </div>
         )}
       </div>
-      <DropdownMenuContent className="w-56" align="start" forceMount>
+      <DropdownMenuContent forceMount align="start" className="w-56">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1 w-full">
             {isLoading ? (

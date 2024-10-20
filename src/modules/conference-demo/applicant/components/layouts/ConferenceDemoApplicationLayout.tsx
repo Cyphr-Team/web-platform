@@ -10,7 +10,7 @@ import {
 import { Progress } from "@/components/ui/progress.tsx"
 import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 
-const ConferenceDemoApplicationLayout = () => {
+function ConferenceDemoApplicationLayout() {
   const progress = useProgress.use.progress()
 
   return (
@@ -27,9 +27,9 @@ const ConferenceDemoApplicationLayout = () => {
           <Header />
 
           <Progress
-            value={progress}
             className="h-2 rounded-none overflow-visible bg-background-disabled z-20 relative"
             indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
+            value={progress}
           />
 
           <Suspense fallback={<Loader2 className="animate-spin" />}>

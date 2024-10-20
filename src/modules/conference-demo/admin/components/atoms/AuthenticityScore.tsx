@@ -1,12 +1,12 @@
 import { cn } from "@/lib/utils"
-import { AuthenticityType } from "@/modules/conference-demo/admin/constants/type"
+import { type AuthenticityType } from "@/modules/conference-demo/admin/constants/type"
 import {
   getAuthenticityDataByScore,
   getClassNameFromStatus
 } from "@/modules/loan-application-management/services"
 import React from "react"
 
-type Props = {
+interface Props {
   authenticity?: AuthenticityType
 }
 
@@ -46,7 +46,7 @@ export const AuthenticityScore: React.FC<Props> = ({ authenticity }) => {
             style={{
               backgroundColor: authenticityData?.authenticityLevelColor
             }}
-          ></div>
+          />
         </div>
 
         <div>

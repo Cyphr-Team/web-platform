@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { useFormContext } from "react-hook-form"
 import { UploadImageZone } from "@/components/ui/UploadImageZone.tsx"
-import { OnboardingFormValue } from "../types"
+import { type OnboardingFormValue } from "../types"
 
 export function UpdateInstitutionMetadata({
   subdomain
@@ -33,9 +33,9 @@ export function UpdateInstitutionMetadata({
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="e.g. info@cyphrai.com"
                   className="text-base"
                   maxLength={63}
+                  placeholder="e.g. info@cyphrai.com"
                   {...field}
                 />
               </FormControl>
@@ -55,10 +55,10 @@ export function UpdateInstitutionMetadata({
               </FormLabel>
               <FormControl>
                 <UploadImageZone
-                  name={field.name}
                   handleUploadPhoto={(file) => {
                     field.onChange(file.url)
                   }}
+                  name={field.name}
                   subdomain={subdomain}
                 />
               </FormControl>
@@ -78,10 +78,10 @@ export function UpdateInstitutionMetadata({
               </FormLabel>
               <FormControl>
                 <UploadImageZone
-                  name={field.name}
                   handleUploadPhoto={(file) => {
                     field.onChange(file.url)
                   }}
+                  name={field.name}
                   subdomain={subdomain}
                 />
               </FormControl>

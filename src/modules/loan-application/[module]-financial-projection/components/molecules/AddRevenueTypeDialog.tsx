@@ -11,11 +11,11 @@ import {
 import { Separator } from "@/components/ui/separator.tsx"
 import { RevenueTypeSelection } from "@/modules/loan-application/[module]-financial-projection/components/molecules/RevenueTypeSelection.tsx"
 import {
-  BillableHour,
-  Contract,
-  RecurringCharge,
+  type BillableHour,
+  type Contract,
+  type RecurringCharge,
   RevenueType,
-  UnitSale
+  type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import {
   emptyBillableHour,
@@ -46,7 +46,7 @@ interface AddRevenueTypeDialogProps {
   ) => VoidFunction
 }
 
-export const AddRevenueTypeDialog = (props: AddRevenueTypeDialogProps) => {
+export function AddRevenueTypeDialog(props: AddRevenueTypeDialogProps) {
   const { open, onOpenChange, onConfirm, onAddItemToField } = props
 
   const [counter, setCounter] = useState<RevenueCounter>(initialState)
@@ -56,7 +56,7 @@ export const AddRevenueTypeDialog = (props: AddRevenueTypeDialogProps) => {
       setCounter((prevState) => {
         return {
           ...prevState,
-          [`${type}`]: !prevState[type]
+          [type]: !prevState[type]
         }
       })
     },

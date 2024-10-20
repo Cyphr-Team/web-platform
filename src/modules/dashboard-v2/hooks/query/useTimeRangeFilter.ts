@@ -1,5 +1,5 @@
 import { requestDate } from "@/utils/date.utils"
-import { DashboardState } from "../../types/stats.types"
+import { type DashboardState } from "../../types/stats.types"
 import { TimeRangeValue } from "@/types/time-range.type"
 
 export const useTimeRangeFilter = ({ timeRange }: DashboardState["filter"]) => {

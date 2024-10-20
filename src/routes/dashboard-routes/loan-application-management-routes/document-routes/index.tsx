@@ -7,8 +7,8 @@ import { Route } from "react-router-dom"
  */
 const documentRoutes = (
   <Route
-    path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.index}
     handle={handleCrumb(APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.index)}
+    path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.index}
   >
     {/* LIST LOAN APPLICATION' DOCUMENTS */}
     <Route
@@ -22,13 +22,13 @@ const documentRoutes = (
 
     {/* DETAIL DOCUMENT */}
     <Route
-      path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.index}
+      handle={handleCrumb(APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.index)}
       lazy={() =>
         import(
           "@/modules/loan-application-management/components/pages/DocumentDetails"
         )
       }
-      handle={handleCrumb(APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.index)}
+      path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.index}
     />
   </Route>
 )

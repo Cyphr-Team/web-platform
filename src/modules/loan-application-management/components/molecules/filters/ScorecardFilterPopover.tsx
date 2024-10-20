@@ -12,7 +12,11 @@ import { parseAndValidateNumberOrUndefined } from "@/utils"
 import { get } from "lodash"
 import { ChevronDown } from "lucide-react"
 import { useCallback } from "react"
-import { ControllerRenderProps, FieldValues, Path } from "react-hook-form"
+import {
+  type ControllerRenderProps,
+  type FieldValues,
+  type Path
+} from "react-hook-form"
 
 const enum SCORECARD_FILTER_FIELDS_NAME {
   NUMBER_OF_SCORED = "numberOfScored",
@@ -27,12 +31,10 @@ interface Props<
   className?: string
 }
 
-export const ScorecardFilterPopover = <
+export function ScorecardFilterPopover<
   TFieldValues extends FieldValues,
   TName extends Path<TFieldValues>
->(
-  props: Props<TFieldValues, TName>
-) => {
+>(props: Props<TFieldValues, TName>) {
   const { field, className } = props
   const { value: open, setValue: setOpen } = useBoolean(false)
 
@@ -70,7 +72,8 @@ export const ScorecardFilterPopover = <
 
       return null
     } catch (e) {
-      console.error("Something went wrong when showing the label scorecard", e)
+      // console.error("Something went wrong when showing the label scorecard", e)
+
       return null
     }
   }
@@ -82,12 +85,12 @@ export const ScorecardFilterPopover = <
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            id={field.name}
-            variant="ghost"
             className={cn(
               "text-sm font-semibold border border-input h-10 px-4 py-2 rounded-full text-slate-700",
               additionLabel && "border-slate-500"
             )}
+            id={field.name}
+            variant="ghost"
           >
             Scorecard Status
             {additionLabel}
@@ -95,23 +98,24 @@ export const ScorecardFilterPopover = <
           </Button>
         </PopoverTrigger>
         <PopoverContent
+          align="center"
           className="rounded-lg p-0 m-0 w-full"
           side="bottom"
-          align="center"
         >
           <div className="flex mt-1 items-center justify-between gap-2 w-fit p-4 text-sm">
             <Input
+              className="w-20 focus-visible:ring-0"
+              maxLength={2}
+              min={0}
               name={SCORECARD_FILTER_FIELDS_NAME.NUMBER_OF_SCORED}
               type="text"
-              min={0}
-              maxLength={2}
-              className="w-20 focus-visible:ring-0"
               value={field.value?.numberOfScored ?? ""}
               onChange={(e) => {
                 const value = parseAndValidateNumberOrUndefined(
                   e.target.value,
                   2
                 )
+
                 e.preventDefault()
                 field.onChange({
                   ...field.value,
@@ -121,17 +125,18 @@ export const ScorecardFilterPopover = <
             />
             of
             <Input
+              className="w-20 focus-visible:ring-0"
+              maxLength={2}
+              min={0}
               name={SCORECARD_FILTER_FIELDS_NAME.NUMBER_OF_ASSIGNED}
               type="text"
-              min={0}
-              maxLength={2}
-              className="w-20 focus-visible:ring-0"
               value={field.value?.numberOfAssigned ?? ""}
               onChange={(e) => {
                 const value = parseAndValidateNumberOrUndefined(
                   e.target.value,
                   2
                 )
+
                 field.onChange({
                   ...field.value,
                   [SCORECARD_FILTER_FIELDS_NAME.NUMBER_OF_ASSIGNED]: value
@@ -143,9 +148,9 @@ export const ScorecardFilterPopover = <
 
           <Separator />
           <Button
-            variant="ghost"
             className="w-full hover:text-red-600 rounded-none h-7 my-1.5 flex justify-start text-left text-sm font-normal text-slate-700"
             type="reset"
+            variant="ghost"
             onClick={handleClear}
           >
             Clear all values

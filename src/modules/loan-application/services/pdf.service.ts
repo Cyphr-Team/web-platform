@@ -21,12 +21,14 @@ const processContent = async (
 ): Promise<number> => {
   let totalPage = 0
   const clonedContent = content.cloneNode(true) as HTMLElement
+
   try {
     clonedContent.style.width = "1200px"
     document.body.appendChild(clonedContent)
 
     if (customFooter) {
       const clonedFooter = customFooter.cloneNode(true) as HTMLElement
+
       clonedFooter.style.width = "1200px"
       document.body.appendChild(clonedFooter)
       totalPage = await addContentToPdf(doc, clonedContent, clonedFooter)
@@ -51,7 +53,7 @@ const processContent = async (
     // Add a new page for the next image
     if (addPage) doc.addPage()
   } catch (e) {
-    console.error("Generate form failed", e)
+    // console.error("Generate form failed", e)
   } finally {
     // Remove the cloned content
     clonedContent?.remove()
@@ -108,6 +110,7 @@ const addContentToPdf = async (
       footerImgHeight
     )
   }
+
   return totalPage
 }
 
@@ -119,6 +122,7 @@ export const getPDF = async (
   if (!pdfElements.length) return { pdf: new jsPDF(), totalPage: 0 }
 
   const style = document.createElement("style")
+
   document.head.appendChild(style)
   style.sheet?.insertRule(
     "body > div:last-child img { display: inline-block !important; }",
@@ -127,8 +131,10 @@ export const getPDF = async (
 
   const doc = new jsPDF("p", "mm")
   let totalPage = 0
+
   for (let idx = 0; idx < pdfElements.length; ++idx) {
     const content = pdfElements[idx]
+
     if (!content) continue
     if (idx == pdfElements.length - 1) {
       const processedPage = await processContent(
@@ -138,6 +144,7 @@ export const getPDF = async (
         false,
         customFooter ? customFooter[idx] : undefined
       )
+
       totalPage += processedPage
     } else {
       const processedPage = await processContent(
@@ -147,6 +154,7 @@ export const getPDF = async (
         true,
         customFooter ? customFooter[idx] : undefined
       )
+
       totalPage += processedPage
     }
   }

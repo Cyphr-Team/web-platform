@@ -13,7 +13,7 @@ import { BusinessInformationForm } from "@/modules/loan-application/components/o
 import { LoanReadyOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKycForm"
 import { LoanReadyLoanRequestForm } from "@/modules/loan-application/components/organisms/loan-application-form/loan-request/LoanReadyLoanRequestForm"
 import {
-  ILoanApplicationStep,
+  type ILoanApplicationStep,
   LOAN_APPLICATION_STEPS
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { get } from "lodash"
@@ -63,7 +63,7 @@ export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(
     if (!componentByStep) return null
 
     return (
-      <div className="w-full h-full" ref={ref}>
+      <div ref={ref} className="w-full h-full">
         {componentByStep}
       </div>
     )

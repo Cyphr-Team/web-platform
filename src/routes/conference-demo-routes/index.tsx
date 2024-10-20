@@ -21,66 +21,66 @@ export const conferenceDemoRoutes = (
     <Route element={<ConferenceDemoApplicationLayout />}>
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.applicant.index}
         element={<ApplicationDetailPage />}
+        path={APP_PATH.CONFERENCE_DEMO.applicant.index}
       />
     </Route>
     <Route element={<ConferenceDemoApplicationListLayout />}>
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.applicant.list}
         element={<ApplicationListPage />}
+        path={APP_PATH.CONFERENCE_DEMO.applicant.list}
       />
       <Route
-        path={APP_PATH.CONFERENCE_DEMO.applicant.readiness}
         element={<ApplicantLoanReadinessPage />}
+        path={APP_PATH.CONFERENCE_DEMO.applicant.readiness}
       />
     </Route>
     <Route element={<ConferenceDemoAdminLayout />}>
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.index}
         element={<AdminApplicationDetails />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.index}
       />
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.loanReadiness}
         element={<LoanReadinessPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.loanReadiness}
       />
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.business}
         element={<BusinessVerificationPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.business}
       />
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.identity}
         element={<IdentityVerificationPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.identity}
       />
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.documents}
         element={<DocumentationPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.documents}
       />
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.documentDetail}
         element={<DocumentationDetailPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.documentDetail}
       />
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.cashflow}
         element={<CashFlowPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.cashflow}
       />
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.loanSummary}
         element={<ApplicationSummaryPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.loanSummary}
       />
       <Route
         index
-        path={APP_PATH.CONFERENCE_DEMO.admin.identity}
         element={<IdentityVerificationPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.identity}
       />
     </Route>
   </Route>

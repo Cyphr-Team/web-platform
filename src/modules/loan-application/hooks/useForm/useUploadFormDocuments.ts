@@ -1,6 +1,6 @@
 import { useCallback } from "react"
 import { useMutateUploadDocument } from "../useMutation/useUploadDocumentMutation"
-import { FORM_TYPE } from "../../models/LoanApplicationStep/type"
+import { type FORM_TYPE } from "../../models/LoanApplicationStep/type"
 
 export const useUploadFormDocuments = () => {
   const { mutateAsync, isUploading } = useMutateUploadDocument()
@@ -33,5 +33,6 @@ export const useUploadFormDocuments = () => {
     },
     [mutateAsync]
   )
+
   return { uploadDocuments, isUploading }
 }

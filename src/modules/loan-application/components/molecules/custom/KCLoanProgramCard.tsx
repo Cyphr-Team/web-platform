@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { sanitizeDOM } from "@/utils/file.utils"
-import { BaseLoanProgramType } from "@/types/loan-program.type"
+import { type BaseLoanProgramType } from "@/types/loan-program.type"
 import { KCC_LENDER_FORUM_PROGRAM } from "@/modules/loan-application/constants/loan-program.constants"
 
 //THIS COMPONENT IS ONLY USED FOR KC CHAMBER
@@ -19,16 +19,16 @@ type CardProps = React.ComponentProps<typeof Card> & {
   loanProgram: BaseLoanProgramType
 }
 
-export const KCLoanProgramCard = ({
+export function KCLoanProgramCard({
   className,
   loanProgram,
   ...props
-}: CardProps) => {
+}: CardProps) {
   return (
     <Card className={cn(className, "flex flex-col rounded-2xl")} {...props}>
       <CardHeader className="space-y-5 pb-0 md:pb-0">
         <CardTitle className="tracking-normal">
-          <p id="loan-type" className="text-sm mb-0.5 capitalize">
+          <p className="text-sm mb-0.5 capitalize" id="loan-type">
             {KCC_LENDER_FORUM_PROGRAM.name}
           </p>
           <p className="font-bold">{loanProgram.name}</p>
@@ -37,17 +37,17 @@ export const KCLoanProgramCard = ({
         {!!loanProgram.description && (
           <CardDescription className="text-foreground flex items-center">
             <span
-              className="text-lg whitespace-pre-wrap"
               dangerouslySetInnerHTML={{
                 __html: sanitizeDOM(loanProgram.description)
               }}
+              className="text-lg whitespace-pre-wrap"
             />
           </CardDescription>
         )}
       </CardHeader>
 
       <CardFooter className="mt-5">
-        <Button className="ml-auto" asChild>
+        <Button asChild className="ml-auto">
           <Link
             to={APP_PATH.LOAN_APPLICATION.INFORMATION.detailWithId(
               loanProgram.id

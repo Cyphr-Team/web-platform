@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { IconProps, Icons } from "../../../../components/ui/icons"
+import { type IconProps, Icons } from "../../../../components/ui/icons"
 
 interface StatusRoundBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   round: LoanApplicationStatus
@@ -83,7 +83,9 @@ function StatusRoundBadge({
       )}
       {...props}
     >
-      {isShowIcon && RoundBadgeIcon && <RoundBadgeIcon className="mr-1" />}
+      {isShowIcon && RoundBadgeIcon ? (
+        <RoundBadgeIcon className="mr-1" />
+      ) : null}
       {children}
     </div>
   )

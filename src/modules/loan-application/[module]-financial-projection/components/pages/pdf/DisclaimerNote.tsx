@@ -1,7 +1,7 @@
 import cyphrLogo from "@/assets/logo-cyphr.jpg"
 import { Separator } from "@/components/ui/separator"
 import { Image } from "@/shared/atoms/Image"
-import { FC } from "react"
+import { type FC } from "react"
 
 interface DisclaimerNoteProps {
   companyName: string
@@ -16,10 +16,10 @@ export const DisclaimerNote: FC<DisclaimerNoteProps> = (props) => {
     <div className="flex flex-col gap-y-2xl h-[1600px] p-[72px]">
       <div className="flex-1">
         <Image
-          src={cyphrLogo}
-          placeholderClassName="bg-slate-400 rounded"
           alt="Institution text logo"
           height={90}
+          placeholderClassName="bg-slate-400 rounded"
+          src={cyphrLogo}
           width={360}
         />
       </div>

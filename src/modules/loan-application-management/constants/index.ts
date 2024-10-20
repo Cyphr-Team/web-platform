@@ -1,8 +1,8 @@
 import { APP_PATH } from "@/constants"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { KybDetailLiensData } from "./type"
-import { AccountSummaryType, TRANSACTION_TAG } from "./types/cashflow.type"
+import { type KybDetailLiensData } from "./type"
+import { type AccountSummaryType, TRANSACTION_TAG } from "./types/cashflow.type"
 
 export enum ApplicationMenuName {
   business = "Business Verification",

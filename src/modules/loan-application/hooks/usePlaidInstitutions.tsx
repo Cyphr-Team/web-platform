@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import debounce from "lodash.debounce"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 
 import { postRequest } from "@/services/client.service"
 import { API_PATH, MAX_LIMIT_PLAID } from "@/constants"

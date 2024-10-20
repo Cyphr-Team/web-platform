@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type.ts"
+import { type ErrorResponse } from "@/types/common.type.ts"
 import {
   ForecastingSetupField,
-  ForecastingSetupFormValue
+  type ForecastingSetupFormValue
 } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key.ts"
 import { get } from "lodash"
 import { getRequest } from "@/services/client.service.ts"
 import { API_PATH } from "@/constants"
 
-type QueryForecastingSetupRequest = {
+interface QueryForecastingSetupRequest {
   applicationId?: string
 }
 

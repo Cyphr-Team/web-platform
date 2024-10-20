@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import {
-  ConfirmationForm,
-  ConfirmationFormResponse
+  type ConfirmationForm,
+  type ConfirmationFormResponse
 } from "../../constants/type"
-import { ErrorResponse } from "react-router-dom"
+import { type ErrorResponse } from "react-router-dom"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { loanApplicationUserKeys } from "@/constants/query-key"

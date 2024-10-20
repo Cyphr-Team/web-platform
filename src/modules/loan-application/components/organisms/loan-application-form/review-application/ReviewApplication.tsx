@@ -17,7 +17,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import {
-  ReviewApplicationValue,
+  type ReviewApplicationValue,
   reviewApplicationSchema
 } from "../../../../constants/form"
 import { useLoanApplicationFormContext } from "../../../../providers"
@@ -37,7 +37,7 @@ const REQUIRED_REVIEW = [
   }
 ]
 
-export const ReviewApplication = () => {
+export function ReviewApplication() {
   const { progress, step, finishCurrentStep } =
     useLoanApplicationProgressContext()
 
@@ -82,6 +82,7 @@ export const ReviewApplication = () => {
       try {
         setIsGenPDF(true)
         const { pdf, totalPage } = await getPDF(Object.values(itemsRef.current))
+
         dispatchFormAction({
           action: FORM_ACTION.SET_DATA,
           key: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
@@ -117,17 +118,17 @@ export const ReviewApplication = () => {
             <SbbReviewApplicationDetails itemsRef={itemsRef} />
             <div className="hidden">
               <div
-                id="disclaimer-and-disclosure"
                 ref={(e) => {
                   if (itemsRef.current && e)
                     itemsRef.current[
                       LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
                     ] = e
                 }}
+                id="disclaimer-and-disclosure"
               >
                 <DisclaimerAndDisclosure
-                  wrapperClassName="max-w-none"
                   defaultChecked
+                  wrapperClassName="max-w-none"
                 />
               </div>
             </div>
@@ -135,12 +136,12 @@ export const ReviewApplication = () => {
           <div className="col-span-8 2xl:w-full md:mx-8 2xl:mx-auto max-w-6xl">
             <Form {...form}>
               <ButtonLoading
-                isLoading={isGenPDF}
                 className="w-full"
                 disabled={
                   !form.formState.isValid ||
                   progressCompleteFilter.length !== progressFilter.length
                 }
+                isLoading={isGenPDF}
                 onClick={form.handleSubmit(onSubmit)}
               >
                 Confirm application
@@ -153,20 +154,20 @@ export const ReviewApplication = () => {
           {REQUIRED_REVIEW.map((requiredReview) => (
             <ReviewApplicationGroup
               key={requiredReview.key}
+              itemsRef={itemsRef}
               label={requiredReview.label}
               parentKey={requiredReview.key}
-              itemsRef={itemsRef}
             />
           ))}
           <div className="col-start-3 col-span-6">
             <Form {...form}>
               <ButtonLoading
-                isLoading={isGenPDF}
                 className="mx-3 md:mx-auto max-w-screen-sm w-full"
                 disabled={
                   !form.formState.isValid ||
                   progressCompleteFilter.length !== progressFilter.length
                 }
+                isLoading={isGenPDF}
                 onClick={form.handleSubmit(onSubmit)}
               >
                 Confirm Application Materials

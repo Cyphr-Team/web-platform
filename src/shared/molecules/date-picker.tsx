@@ -12,7 +12,7 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { CalendarPlus } from "lucide-react"
-import { FooterProps } from "react-day-picker"
+import { type FooterProps } from "react-day-picker"
 import { validDateWithinTimeRange } from "@/utils/date.utils"
 
 interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -56,19 +56,19 @@ export function CalendarDatePicker({
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            onClick={onCustomClick}
-            id={`${id}-button`}
-            disabled={disabled}
-            variant={"outline"}
             className={cn(
               "w-full pl-3 text-left font-normal flex justify-between gap-2 text-base",
               !value && "text-muted-foreground",
               triggerClassName
             )}
+            disabled={disabled}
+            id={`${id}-button`}
+            variant="outline"
+            onClick={onCustomClick}
           >
-            {prefixLabel && (
+            {prefixLabel ? (
               <span className="text-slate-700">{prefixLabel}</span>
-            )}
+            ) : null}
             {value ? (
               <span id={`${id}-value`}>
                 {format(value, dateFormat ?? "MM - dd - y")}
@@ -80,18 +80,12 @@ export function CalendarDatePicker({
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className={cn("w-auto p-0", contentClassName)}
           align={align}
+          className={cn("w-auto p-0", contentClassName)}
         >
           <Calendar
-            id={`${id}-calendar`}
-            mode="single"
-            selected={value ? new Date(value) : undefined}
-            onSelect={(date) => {
-              if (onSelectDate) {
-                onSelectDate(date)
-              }
-            }}
+            initialFocus
+            customFooter={customFooter}
             disabled={(date) =>
               !validDateWithinTimeRange(
                 date,
@@ -100,9 +94,15 @@ export function CalendarDatePicker({
                 isEnableFutureDate
               )
             }
+            id={`${id}-calendar`}
             isEnableFutureDate={isEnableFutureDate}
-            customFooter={customFooter}
-            initialFocus
+            mode="single"
+            selected={value ? new Date(value) : undefined}
+            onSelect={(date) => {
+              if (onSelectDate) {
+                onSelectDate(date)
+              }
+            }}
           />
         </PopoverContent>
       </Popover>

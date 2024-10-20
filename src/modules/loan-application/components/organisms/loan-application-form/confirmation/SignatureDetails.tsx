@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { cn } from "@/lib/utils"
 import { getConfirmationTexts } from "@/modules/loan-application/constants"
-import { ConfirmationFormResponse } from "@/modules/loan-application/constants/type"
+import { type ConfirmationFormResponse } from "@/modules/loan-application/constants/type"
 import { useTenant } from "@/providers/tenant-provider"
 import { format } from "date-fns"
 import { ESignTable } from "../../loan-application-details/ESignTable"
@@ -72,13 +72,13 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
         "loan-application-item"
       )}
     >
-      {hasTitle && (
+      {hasTitle ? (
         <div className="col-span-1">
           <div className="flex flex-col gap-4">
             <h3 className="text-2xl font-semibold">Signature</h3>
           </div>
         </div>
-      )}
+      ) : null}
       <div
         className={cn("col-span-4", hasTitle && "col-span-3 max-w-screen-sm")}
       >

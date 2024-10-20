@@ -1,16 +1,12 @@
 import { Loader2 } from "lucide-react"
+import { type PropsWithChildren } from "react"
 
-type Props = {
+interface Props extends PropsWithChildren {
   isLoading: boolean
-  children: React.ReactNode
   className?: string
 }
 
-export const LoadingOverlay: React.FC<Props> = ({
-  isLoading,
-  children,
-  className
-}) => {
+export function LoadingOverlay({ isLoading, children, className }: Props) {
   return (
     <div className={className}>
       {isLoading ? (

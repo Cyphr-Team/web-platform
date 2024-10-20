@@ -14,7 +14,7 @@ import { ArrowLeft } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import {
-  SetupPasswordFormValue,
+  type SetupPasswordFormValue,
   setupPasswordFormSchema,
   useSetupPassword
 } from "../hooks/useSetupPassword"
@@ -34,6 +34,7 @@ function ResetPasswordForm() {
 
   return (
     <form
+      className="space-y-5 w-full"
       onSubmit={handleSubmit((data) =>
         mutate(data, {
           onSuccess() {
@@ -41,7 +42,6 @@ function ResetPasswordForm() {
           }
         })
       )}
-      className="space-y-5 w-full"
     >
       <FormField
         control={control}
@@ -51,9 +51,9 @@ function ResetPasswordForm() {
             <FormLabel>Password</FormLabel>
             <FormControl>
               <InputPassword
-                placeholder="••••••••"
-                className="text-base"
                 autoComplete="new-password"
+                className="text-base"
+                placeholder="••••••••"
                 {...field}
                 disabled={isPending}
               />
@@ -70,9 +70,9 @@ function ResetPasswordForm() {
             <FormLabel>Confirm Password</FormLabel>
             <FormControl>
               <InputPassword
-                placeholder="••••••••"
-                className="text-base"
                 autoComplete="new-password"
+                className="text-base"
+                placeholder="••••••••"
                 {...field}
                 disabled={isPending}
               />
@@ -98,20 +98,20 @@ function ResetPasswordForm() {
 
       {isInvalidToken ? (
         <Button
+          asChild
+          className="ml-auto w-full text-base"
           type="button"
           variant="outline"
-          className="ml-auto w-full text-base"
-          asChild
         >
-          <Link to={APP_PATH.FORGOT_PASSWORD} className="flex items-center">
+          <Link className="flex items-center" to={APP_PATH.FORGOT_PASSWORD}>
             <ArrowLeft className="w-5 h-5 mr-1" />
             Back to forgot password
           </Link>
         </Button>
       ) : (
         <ButtonLoading
-          isLoading={isPending}
           className="ml-auto w-full text-base"
+          isLoading={isPending}
           type="submit"
         >
           Reset password
@@ -159,9 +159,9 @@ export function SetupPasswordForm() {
 
       {!successMsg && (
         <Button
-          variant="link"
-          className="px-1 text-sm text-foreground py-0 self-center"
           asChild
+          className="px-1 text-sm text-foreground py-0 self-center"
+          variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
             <ArrowLeft className="w-5 h-5 mr-1" />

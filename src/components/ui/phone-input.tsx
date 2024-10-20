@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Input, InputProps } from "@/components/ui/input"
+import { Input, type InputProps } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -32,17 +32,17 @@ function CountrySelect({ value, onChange, labels = en }: CountrySelectProps) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
           aria-expanded={open}
           className="justify-between border-r-0 rounded-r-none px-2 font-normal text-sm"
+          variant="outline"
         >
           {value}
           <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0" side="bottom" align="start">
+      <PopoverContent align="start" className="p-0" side="bottom">
         <Command>
-          <CommandInput placeholder="Search country..." className="h-9" />
+          <CommandInput className="h-9" placeholder="Search country..." />
           <CommandEmpty>No country found.</CommandEmpty>
           <CommandGroup className="h-60 overflow-auto">
             {getCountries().map((country) => (
@@ -77,8 +77,8 @@ const CustomPhoneInput = React.forwardRef<HTMLInputElement, InputProps>(
         ref={ref}
         {...props}
         className="border-l-0 rounded-l-none pl-1 text-sm"
-        wrapperClassName="w-full"
         maxLength={15}
+        wrapperClassName="w-full"
       />
     )
   }

@@ -2,13 +2,13 @@ import { createContext, useContext, useEffect, useState } from "react"
 
 type Theme = "dark" | "light" | "system" | "launch-kc" | "sbb"
 
-type ThemeProviderProps = {
+interface ThemeProviderProps {
   children: React.ReactNode
   defaultTheme?: Theme
   storageKey?: string
 }
 
-type ThemeProviderState = {
+interface ThemeProviderState {
   theme: string
   setTheme: (theme: string) => void
 }
@@ -42,6 +42,7 @@ export function ThemeProvider({
         : "light"
 
       root.classList.add(systemTheme)
+
       return
     }
 

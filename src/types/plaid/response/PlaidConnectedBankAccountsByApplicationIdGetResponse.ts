@@ -1,4 +1,4 @@
-import { IPlaidAccountProviderData } from "@/modules/loan-application/constants"
+import { type IPlaidAccountProviderData } from "@/modules/loan-application/constants"
 
 interface IPlaidConnectedBankAccountsByApplicationIdGetResponse {
   institutions: IPlaidConnectedBankAccountsInstitution[]

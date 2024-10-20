@@ -11,13 +11,13 @@ enum SubscriptionStatus {
 
 export { PlanType, SubscriptionStatus }
 
-type Limit = {
+interface Limit {
   unit: string
   limit: number | string
   currentUsage: number | string
 }
 
-type Plan = {
+interface Plan {
   id: string
   name: string
   description: string
@@ -29,7 +29,7 @@ type Plan = {
   deletedAt: string
 }
 
-type Instiuttion = {
+interface Instiuttion {
   id: string
   name: string
   subdomain: string
@@ -38,7 +38,7 @@ type Instiuttion = {
   deletedAt: string
 }
 
-type Subscription = {
+interface Subscription {
   type: PlanType
   status: SubscriptionStatus
   plan: Plan

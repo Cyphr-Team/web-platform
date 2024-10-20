@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
+import { type AxiosError, type AxiosResponse } from "axios"
 
 export const useMutateDeleteDocuments = () => {
   return useMutation<

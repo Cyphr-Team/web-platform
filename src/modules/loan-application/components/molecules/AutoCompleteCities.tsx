@@ -20,11 +20,11 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { CityType } from "@/types/common.type"
+import { type CityType } from "@/types/common.type"
 import { capitalizeWords } from "@/utils"
 import { CheckIcon, ChevronDown } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
-import { Control, FieldPath, FieldValues } from "react-hook-form"
+import { type Control, type FieldPath, type FieldValues } from "react-hook-form"
 
 interface IAutoCompleteInputProps<T extends FieldValues> {
   value: string
@@ -38,15 +38,16 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   name: FieldPath<T>
 }
 
-export const AutoCompleteCities = <T extends FieldValues>(
+export function AutoCompleteCities<T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
-) => {
+) {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
 
   const onSearch = (value: string) => {
     setSearchValue(value.toLowerCase())
   }
+
   useEffect(() => {
     if (!open && !!searchValue) {
       setSearchValue("")
@@ -80,6 +81,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
         (currentPage - 1) * 20,
         currentPage * 20
       )
+
       if (currentPage === 1) {
         setLoadedOptions(fetchedOptions)
       } else {
@@ -108,6 +110,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
 
   const handleScroll = () => {
     const container = containerRef.current
+
     if (
       container &&
       container.scrollTop + container.clientHeight >= container.scrollHeight &&
@@ -116,6 +119,7 @@ export const AutoCompleteCities = <T extends FieldValues>(
       setCurrentPage((prevPage) => prevPage + 1)
     }
   }
+
   return (
     <FormField
       control={control}
@@ -124,22 +128,22 @@ export const AutoCompleteCities = <T extends FieldValues>(
         <FormItem className={className}>
           <FormLabel className="text-text-secondary">
             {label}
-            {required && <RequiredSymbol />}
+            {required ? <RequiredSymbol /> : null}
           </FormLabel>
           <FormControl>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild disabled={!options?.length}>
                 <Input
+                  className={cn(
+                    "text-sm p-0",
+                    value === "" ? "text-text-placeholder" : ""
+                  )}
                   name={name}
                   suffixIcon={
                     <ChevronDown
                       className={cn("h-4 w-4", open ? "rotate-180" : "")}
                     />
                   }
-                  className={cn(
-                    "text-sm p-0",
-                    value === "" ? "text-text-placeholder" : ""
-                  )}
                   value={
                     value
                       ? options?.find((option) => option.name === value)?.name
@@ -147,16 +151,17 @@ export const AutoCompleteCities = <T extends FieldValues>(
                   }
                 />
               </PopoverTrigger>
-              <PopoverContent className="w-72 p-0" align="start">
+              <PopoverContent align="start" className="w-72 p-0">
                 <Command
                   filter={(value, search) => {
                     if (value.startsWith(search)) return 1
+
                     return 0
                   }}
                 >
                   <CommandInput
-                    placeholder="Search city..."
                     className="h-9"
+                    placeholder="Search city..."
                     value={searchValue}
                     onValueChange={(value) => {
                       onSearch(value)
@@ -164,9 +169,9 @@ export const AutoCompleteCities = <T extends FieldValues>(
                   />
                   <CommandEmpty>{emptyText}</CommandEmpty>
                   <CommandGroup
+                    ref={containerRef}
                     className="h-60 overflow-auto"
                     onScroll={handleScroll}
-                    ref={containerRef}
                   >
                     {loadedOptions.map((option) => {
                       return (

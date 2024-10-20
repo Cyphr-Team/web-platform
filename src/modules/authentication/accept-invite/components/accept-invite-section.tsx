@@ -22,7 +22,7 @@ export function AcceptInviteSection() {
 
         <p className="px-8 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Button variant="link" className="p-0 text-primary" asChild>
+          <Button asChild className="p-0 text-primary" variant="link">
             <Link to={APP_PATH.LOGIN}>Log in</Link>
           </Button>
         </p>

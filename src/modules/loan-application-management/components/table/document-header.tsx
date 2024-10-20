@@ -13,7 +13,7 @@ const FormSchema = z.object({
   search: z.string().optional()
 })
 
-type Props = {
+interface Props {
   onSearch: (keyword: string) => void
 }
 
@@ -27,7 +27,7 @@ export const DocumentTableHeader: React.FC<Props> = ({ onSearch }) => {
 
   const formValues = form.watch()
 
-  const onSubmit = form.handleSubmit(() => {})
+  const onSubmit = form.handleSubmit(() => ({}))
 
   useDebounce(
     () => {
@@ -48,10 +48,10 @@ export const DocumentTableHeader: React.FC<Props> = ({ onSearch }) => {
               <FormItem className="flex flex-col flex-shrink-0 min-w-[300px]">
                 <FormControl>
                   <Input
+                    className="pl-9"
+                    placeholder="Search for documents"
                     prefixIcon={<Search className="h-5 w-5 opacity-50" />}
                     type="text"
-                    placeholder="Search for documents"
-                    className="pl-9"
                     {...field}
                   />
                 </FormControl>

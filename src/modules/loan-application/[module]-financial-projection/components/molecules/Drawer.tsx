@@ -14,7 +14,7 @@ import { QUERY_KEY as FINANCIAL_QUERY_KEY } from "@/modules/loan-application/[mo
 import { QUERY_KEY as APPLICATION_MANAGEMENT_QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
 import { useIsFetching } from "@tanstack/react-query"
 import { FolderDown, X } from "lucide-react"
-import { ReactNode, useMemo } from "react"
+import { type ReactNode, useMemo } from "react"
 import { useForm } from "react-hook-form"
 
 interface DrawerCheckBoxProps {
@@ -37,97 +37,105 @@ interface CheckboxGroupProps {
   options: CheckboxOption[]
 }
 
-const DrawerCheckBox = ({ name, label }: DrawerCheckBoxProps) => (
-  <RHFCheckbox
-    name={name}
-    label={label}
-    className="space-x-0"
-    styleProps={{
-      checkboxClassName:
-        "border-gray-600 rounded-[3px] w-5 h-5 data-[state=checked]:bg-gray-600 [&_span_svg]:stroke-[4px]"
-    }}
-  />
-)
+function DrawerCheckBox({ name, label }: DrawerCheckBoxProps) {
+  return (
+    <RHFCheckbox
+      className="space-x-0"
+      label={label}
+      name={name}
+      styleProps={{
+        checkboxClassName:
+          "border-gray-600 rounded-[3px] w-5 h-5 data-[state=checked]:bg-gray-600 [&_span_svg]:stroke-[4px]"
+      }}
+    />
+  )
+}
 
-const CardSection = ({ title, tooltipContent, children }: CardSectionProps) => (
-  <Card className="p-4 m-6 flex flex-col gap-y-4 shadow-none">
-    <div className="flex flex-row items-center">
-      <div className="font-semibold">{title}</div>
-      {tooltipContent && (
-        <ContentTooltip
-          content={tooltipContent}
-          style={{ iconClassName: "w-4 h-4" }}
+function CardSection({ title, tooltipContent, children }: CardSectionProps) {
+  return (
+    <Card className="p-4 m-6 flex flex-col gap-y-4 shadow-none">
+      <div className="flex flex-row items-center">
+        <div className="font-semibold">{title}</div>
+        {tooltipContent ? (
+          <ContentTooltip
+            content={tooltipContent}
+            style={{ iconClassName: "w-4 h-4" }}
+          />
+        ) : null}
+      </div>
+      {children}
+    </Card>
+  )
+}
+
+function CheckboxGroup({ options }: CheckboxGroupProps) {
+  return (
+    <>
+      {options.map((option) => (
+        <DrawerCheckBox
+          key={option.name}
+          label={option.label}
+          name={option.name}
         />
-      )}
+      ))}
+    </>
+  )
+}
+
+function DrawerContent() {
+  return (
+    <div className="p-2 flex flex-col">
+      <CardSection
+        title="Forecast Reports"
+        tooltipContent="5-year projected financial reports based on the data you provided."
+      >
+        <CheckboxGroup
+          options={[
+            {
+              name: ExportFPOption.CASH_FLOW_FORECAST,
+              label: "Cash Flow Forecast"
+            },
+            {
+              name: ExportFPOption.BALANCE_SHEET_FORECAST,
+              label: "Balance Sheet Forecast"
+            },
+            {
+              name: ExportFPOption.INCOME_SHEET_FORECAST,
+              label: "Income Sheet Forecast"
+            },
+            { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
+          ]}
+        />
+      </CardSection>
+
+      <CardSection
+        title="Financial Statements"
+        tooltipContent="Current month financial statements, generated from your inputs and data."
+      >
+        <CheckboxGroup
+          options={[
+            { name: ExportFPOption.CASH_FLOW, label: "Cash Flow" },
+            { name: ExportFPOption.BALANCE_SHEET, label: "Balance Sheet" },
+            { name: ExportFPOption.INCOME_SHEET, label: "Income Statement" }
+          ]}
+        />
+      </CardSection>
+
+      <CardSection title="Application">
+        <CheckboxGroup
+          options={[
+            {
+              name: ExportFPOption.APPLICATION_SUMMARY,
+              label: "Application Summary"
+            }
+          ]}
+        />
+      </CardSection>
     </div>
-    {children}
-  </Card>
-)
+  )
+}
 
-const CheckboxGroup = ({ options }: CheckboxGroupProps) => (
-  <>
-    {options.map((option) => (
-      <DrawerCheckBox
-        key={option.name}
-        name={option.name}
-        label={option.label}
-      />
-    ))}
-  </>
-)
-
-const DrawerContent = () => (
-  <div className="p-2 flex flex-col">
-    <CardSection
-      title="Forecast Reports"
-      tooltipContent="5-year projected financial reports based on the data you provided."
-    >
-      <CheckboxGroup
-        options={[
-          {
-            name: ExportFPOption.CASH_FLOW_FORECAST,
-            label: "Cash Flow Forecast"
-          },
-          {
-            name: ExportFPOption.BALANCE_SHEET_FORECAST,
-            label: "Balance Sheet Forecast"
-          },
-          {
-            name: ExportFPOption.INCOME_SHEET_FORECAST,
-            label: "Income Sheet Forecast"
-          },
-          { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
-        ]}
-      />
-    </CardSection>
-
-    <CardSection
-      title="Financial Statements"
-      tooltipContent="Current month financial statements, generated from your inputs and data."
-    >
-      <CheckboxGroup
-        options={[
-          { name: ExportFPOption.CASH_FLOW, label: "Cash Flow" },
-          { name: ExportFPOption.BALANCE_SHEET, label: "Balance Sheet" },
-          { name: ExportFPOption.INCOME_SHEET, label: "Income Statement" }
-        ]}
-      />
-    </CardSection>
-
-    <CardSection title="Application">
-      <CheckboxGroup
-        options={[
-          {
-            name: ExportFPOption.APPLICATION_SUMMARY,
-            label: "Application Summary"
-          }
-        ]}
-      />
-    </CardSection>
-  </div>
-)
-
-export const Drawer = () => {
+export function Drawer() {
   const openDrawer = useBoolean(false)
 
   const methods = useForm<Record<ExportFPOption, boolean>>()
@@ -185,20 +193,20 @@ export const Drawer = () => {
       </div>
 
       <div
+        aria-labelledby="drawer-right-label"
         className={cn(
           "h-screen overflow-y-auto w-96",
           "fixed top-0 right-0 z-40 transition-transform transform bg-white shadow-2xl",
           openDrawer.value ? "translate-x-0" : "translate-x-full"
         )}
         tabIndex={-1}
-        aria-labelledby="drawer-right-label"
       >
         <div className="h-12 flex items-center justify-between p-8 sticky top-0 bg-white border-b z-50">
           <div className="text-xl font-semibold">Download Reports</div>
           <Button
+            className="bg-transparent text-black hover:bg-gray-50 rounded-lg cursor-pointer"
             type="button"
             onClick={openDrawer.onFalse}
-            className="bg-transparent text-black hover:bg-gray-50 rounded-lg cursor-pointer"
           >
             <X className="w-5" strokeWidth={2.5} />
           </Button>
@@ -215,9 +223,9 @@ export const Drawer = () => {
 
         <div className="m-10">
           <ButtonLoading
+            className="w-full"
             disabled={!isAtLeastOneChecked || isFetchingPdfData}
             isLoading={isExporting.value || isFetchingPdfData}
-            className="w-full"
             type="button"
             onClick={onExportToPdf}
           >

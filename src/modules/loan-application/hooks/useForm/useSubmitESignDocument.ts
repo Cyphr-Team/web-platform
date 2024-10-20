@@ -1,4 +1,4 @@
-import { ESignFormValue } from "../../constants/form"
+import { type ESignFormValue } from "../../constants/form"
 import { useLinkESignDocument } from "../useMutation/useLinkESignDocument"
 
 export const useSubmitESignDocument = (eSignData: ESignFormValue) => {

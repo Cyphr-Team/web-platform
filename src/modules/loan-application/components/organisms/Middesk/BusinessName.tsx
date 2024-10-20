@@ -1,19 +1,19 @@
 import { MiddeskTableContent } from "@/modules/loan-application-management/components/table/middesk-table-content"
-import { MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
+import { type MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { useMemo } from "react"
 import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import { DateHeader } from "./DateHeader"
 import {
-  BusinessNameDetail,
+  type BusinessNameDetail,
   SourceStatus,
   TaskFieldStatus
 } from "@/modules/loan-application-management/constants/types/business.type"
 import { Dot } from "@/components/ui/dot"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 
-export const BusinessName = () => {
+export function BusinessName() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const businessNames = loanKybDetail?.businessNames
@@ -43,26 +43,26 @@ export const BusinessName = () => {
 
   const badge = (
     <MiddeskBadge
-      status={loanKybDetail?.insights.businessName?.status}
       label={businessNames?.subLabel}
+      status={loanKybDetail?.insights.businessName?.status}
     />
   )
   const headerTitle = <>Business Name {badge}</>
 
   const content = (
     <MiddeskTableContent
-      nameTitle="Business name"
       data={data}
       isLoading={isLoading}
+      nameTitle="Business name"
     />
   )
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.businessName}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader />}
       content={content}
+      headerRight={<DateHeader />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.businessName}
     />
   )
 }

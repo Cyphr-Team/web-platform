@@ -15,11 +15,11 @@ export function VerifyEmailSection() {
         <div className="flex flex-col text-center">
           <div className="flex justify-center relative">
             <img
-              className="max-w-[100vw] absolute w-[756px] h-[756px] -z-10 left-1/2 -translate-x-1/2 top-[28px] -translate-y-1/2 dark:opacity-15"
-              src={backgroundPatternDecorative}
               alt="Pattern decorative"
-              width={756}
+              className="max-w-[100vw] absolute w-[756px] h-[756px] -z-10 left-1/2 -translate-x-1/2 top-[28px] -translate-y-1/2 dark:opacity-15"
               height={756}
+              src={backgroundPatternDecorative}
+              width={756}
             />
             <div className="w-[56px] self-center">
               <AspectRatio ratio={1 / 1}>
@@ -43,9 +43,9 @@ export function VerifyEmailSection() {
         <VerifyEmailForm />
 
         <Button
-          variant="link"
-          className="px-1 text-sm text-foreground py-0 self-center"
           asChild
+          className="px-1 text-sm text-foreground py-0 self-center"
+          variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
             <ArrowLeft className="w-5 h-5 mr-1" />

@@ -1,5 +1,6 @@
-import { AxiosResponse } from "axios"
-import React, { useState } from "react"
+import { type AxiosResponse } from "axios"
+import type React from "react"
+import { useState } from "react"
 
 import { useLoadingFile } from "./useLoadingFile"
 import { useUploadFileMutation } from "./useUploadFileMutation"
@@ -46,19 +47,22 @@ export const useUploadFile = ({
 
   const onValidate = (targetFile: IPreviewFile) => {
     const fileType = getFileExtension(targetFile.name ?? "")
+
     if (!fileType) {
       return "File type is not valid"
     }
 
     const isNotSupport = !accept
       .split(",")
-      .some((acceptType) => acceptType.indexOf(fileType) > -1)
+      .some((acceptType) => acceptType.includes(fileType))
+
     if (isNotSupport) {
       return `Not support file type: ${fileType}`
     }
 
     const fileSize = Number(convertFileSizeToMB(targetFile?.size ?? 0))
     const isOverSize = fileSize > 5
+
     if (isOverSize) {
       return "The size of the image is higher than 5MB."
     }
@@ -80,6 +84,7 @@ export const useUploadFile = ({
             fileName: data?.data?.name || "",
             url: getImageURL(data?.data?.fullPathFileName)
           })
+
           setFile(newFile)
 
           finishLoading()
@@ -104,6 +109,7 @@ export const useUploadFile = ({
 
   const onChangeFile: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const targetFile = e.target.files?.[0]
+
     if (!targetFile) return
 
     /**
@@ -112,11 +118,13 @@ export const useUploadFile = ({
     e.target.value = ""
 
     const error = onValidate(targetFile)
+
     if (error) {
       toastError({
         title: "Upload image",
         description: error
       })
+
       return
     }
 

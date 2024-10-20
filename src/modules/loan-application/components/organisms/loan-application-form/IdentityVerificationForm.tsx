@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { ReactNode, useCallback, useEffect, useMemo } from "react"
+import { type ReactNode, useCallback, useEffect, useMemo } from "react"
 import { Form } from "@/components/ui/form"
 import { usePersona } from "@/lib/persona/usePersona"
 import { cn } from "@/lib/utils"
@@ -9,7 +9,7 @@ import { Check, LockKeyhole, ShieldCheck, UserCheck, Zap } from "lucide-react"
 import { useForm } from "react-hook-form"
 import {
   createIdentityVerificationSchema,
-  IdentityVerificationValue
+  type IdentityVerificationValue
 } from "../../../constants/form"
 import { LOAN_APPLICATION_STEPS } from "../../../models/LoanApplicationStep/type"
 import {
@@ -25,7 +25,7 @@ import { FormSubmitButton } from "../../atoms/FormSubmitButton"
 import { isSbb } from "@/utils/domain.utils.ts"
 import { ButtonLoading } from "@/components/ui/button"
 
-const VerifyInfoItem = ({
+function VerifyInfoItem({
   leftIcon,
   title,
   subtitle
@@ -33,7 +33,7 @@ const VerifyInfoItem = ({
   leftIcon: ReactNode
   title: string
   subtitle: ReactNode
-}) => {
+}) {
   return (
     <div className="flex gap-2 text-sm">
       <div>{leftIcon}</div>
@@ -50,9 +50,10 @@ const VerifyInfoItem = ({
 interface IdentityVerificationFormProps {
   wrapperClassName?: string
 }
-export const IdentityVerificationForm = ({
+
+export function IdentityVerificationForm({
   wrapperClassName
-}: IdentityVerificationFormProps) => {
+}: IdentityVerificationFormProps) {
   const { dispatchFormAction, identityVerificationForm } =
     useLoanApplicationFormContext()
 
@@ -129,6 +130,7 @@ export const IdentityVerificationForm = ({
         inquiryId: inquiryData?.inquiryId,
         status: inquiryData?.status
       }
+
       dispatchInquiryData(identityVerificationValue)
     }
   }, [completeSpecificStep, inquiryData, form, dispatchInquiryData])
@@ -159,9 +161,9 @@ export const IdentityVerificationForm = ({
           <div className="text-sm">
             {!form.formState.isValid ? (
               <ButtonLoading
+                className="rounded-lg flex gap-1.5 font-semibold"
                 isLoading={isOpening}
                 variant="outline"
-                className="rounded-lg flex gap-1.5 font-semibold"
                 onClick={handleOpenPersona}
               >
                 Start Verification <UserCheck className="w-5 h-5" />
@@ -176,37 +178,37 @@ export const IdentityVerificationForm = ({
           <div className="flex flex-col gap-5">
             <VerifyInfoItem
               leftIcon={<ShieldCheck className="w-5 h-5" />}
-              title="Safety first"
               subtitle="Verify to ensure the security of your account"
+              title="Safety first"
             />
             <VerifyInfoItem
               leftIcon={<Zap className="w-5 h-5" />}
-              title="Fast and secure"
               subtitle="Verification usually takes less than a few minutes and is encrypted."
+              title="Fast and secure"
             />
             <VerifyInfoItem
               leftIcon={<LockKeyhole className="w-5 h-5" />}
-              title="How we verify you"
               subtitle={
                 <p>
                   To learn how our service provider uses data you provide, see
                   their{" "}
                   <a
                     className="underline"
+                    href="https://withpersona.com/legal/privacy-policy"
                     rel="noopener noreferrer"
                     target="_blank"
-                    href="https://withpersona.com/legal/privacy-policy"
                   >
                     Privacy Statement
                   </a>
                 </p>
               }
+              title="How we verify you"
             />
           </div>
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </div>

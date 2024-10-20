@@ -93,33 +93,34 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
             </StatusRoundBadge>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-2 rounded-lg" side="bottom" align="start">
+        <PopoverContent align="start" className="p-2 rounded-lg" side="bottom">
           <Command className="p-0">
             <div className="m-2 border rounded-lg border-gray-300">
-              <CommandInput placeholder="Search" className="m-0" />
+              <CommandInput className="m-0" placeholder="Search" />
             </div>
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
-              {isPending && (
+              {isPending ? (
                 <Loader2
                   className={cn(
                     "top-1/2 left-1/2 absolute transition-all ease-out animate-spin text-gray-300"
                   )}
                 />
-              )}
+              ) : null}
               <CommandGroup>
                 {statuses.map((status) => (
                   <CommandItem
-                    className="flex items-center gap-2 h-10 cursor-pointer"
                     key={status}
-                    value={convertStatusToText(status)}
+                    className="flex items-center gap-2 h-10 cursor-pointer"
                     disabled={isPending}
+                    value={convertStatusToText(status)}
                     onSelect={(value) => {
                       // TODO: Call API to select round given applicationId, selectedStatus
                       const selectedStatus =
                         statuses.find(
                           (status) => convertStatusToText(status) === value
                         ) ?? roundStatus
+
                       onSelect(selectedStatus)
                     }}
                   >

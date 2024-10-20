@@ -1,7 +1,7 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 
-import { IPlaidItemLinkRequest } from "@/types/plaid/request/PlaidItemLinkRequest"
+import { type IPlaidItemLinkRequest } from "@/types/plaid/request/PlaidItemLinkRequest"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutationFactory } from "."
 

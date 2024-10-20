@@ -1,10 +1,10 @@
-export const FolderDownloadIcon = () => {
+export function FolderDownloadIcon() {
   return (
     <svg
-      width="14"
+      fill="none"
       height="12"
       viewBox="0 0 14 12"
-      fill="none"
+      width="14"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

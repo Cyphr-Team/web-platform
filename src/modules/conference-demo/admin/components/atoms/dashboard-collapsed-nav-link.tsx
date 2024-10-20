@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { NavLink } from "react-router-dom"
-import { NavItem } from "../../constants"
+import { type NavItem } from "../../constants"
 
 export function DashboardCollapsedNavLink({
   item,
@@ -18,7 +18,6 @@ export function DashboardCollapsedNavLink({
     <Tooltip delayDuration={0}>
       <TooltipTrigger className={item.className}>
         <NavLink
-          to={item.href ?? ""}
           className={({ isActive }) =>
             cn(
               "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
@@ -26,6 +25,7 @@ export function DashboardCollapsedNavLink({
               isActive && "bg-gray-100"
             )
           }
+          to={item.href ?? ""}
         >
           {({ isActive }) => (
             <>

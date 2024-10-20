@@ -6,16 +6,16 @@ interface IScoreBadgeProps {
   isFinished: boolean
 }
 
-export const ScoreBadge = ({
+export function ScoreBadge({
   score,
   totalScore = 5,
   isFinished
-}: IScoreBadgeProps) => {
+}: IScoreBadgeProps) {
   return (
     <Badge
+      className="h-7 text-xs px-3 font-normal"
       variant="outline"
       variantColor={isFinished ? "white" : "orange"}
-      className="h-7 text-xs px-3 font-normal"
     >
       {`${score}/${totalScore}`}
     </Badge>

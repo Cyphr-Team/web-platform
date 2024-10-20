@@ -1,8 +1,8 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "../../constants/query-key"
-import { BusinessModelFormResponse } from "../../components/organisms/loan-application-form/business-model/type"
+import { type BusinessModelFormResponse } from "../../components/organisms/loan-application-form/business-model/type"
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
-import { FormDetailsQueryProps } from "."
+import { type FormDetailsQueryProps } from "."
 
 export const useQueryBusinessModelForm = ({
   applicationId,

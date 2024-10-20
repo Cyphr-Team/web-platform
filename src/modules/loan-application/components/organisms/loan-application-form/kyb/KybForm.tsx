@@ -9,7 +9,7 @@ import {
 } from "../../../../providers"
 import {
   businessFormSchema,
-  BusinessFormValue
+  type BusinessFormValue
 } from "../../../../constants/form"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../../../hooks/useSelectCities"
@@ -29,9 +29,10 @@ import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 interface BusinessInformationFormProps {
   wrapperClassName?: string
 }
-export const BusinessInformationForm = ({
+
+export function BusinessInformationForm({
   wrapperClassName
-}: BusinessInformationFormProps) => {
+}: BusinessInformationFormProps) {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const { businessInformation, dispatchFormAction } =
@@ -115,76 +116,76 @@ export const BusinessInformationForm = ({
       <Form {...form}>
         <form className="grid grid-cols-3 gap-y-2xl gap-x-4xl">
           <TextInput
-            placeholder="i.e: Larry's Latte"
-            label="Business legal name"
-            control={form.control}
-            name="businessLegalName"
-            className="col-span-3"
             required
+            className="col-span-3"
+            control={form.control}
+            label="Business legal name"
+            name="businessLegalName"
+            placeholder="i.e: Larry's Latte"
           />
           <TextInput
-            placeholder="i.e: 123 Coffee Lane"
+            required
+            className="col-span-3"
+            control={form.control}
             label="Business street address line #1"
             name="addressLine1"
-            control={form.control}
-            className="col-span-3"
-            required
+            placeholder="i.e: 123 Coffee Lane"
           />{" "}
           <TextInput
-            placeholder="i.e: Suite 321"
+            className="col-span-3"
+            control={form.control}
             label="Business Street Address Line #2 (Optional)"
             name="addressLine2"
-            control={form.control}
-            className="col-span-3"
+            placeholder="i.e: Suite 321"
           />
           <AutoCompleteStates
-            options={STATE_DATA}
-            label="Business state"
-            emptyText="No results found"
-            name="state"
-            control={form.control}
-            onChange={handleChangeState}
-            value={form.getValues("state")}
-            className="col-span-3 lg:col-span-1"
             required
+            className="col-span-3 lg:col-span-1"
+            control={form.control}
+            emptyText="No results found"
+            label="Business state"
+            name="state"
+            options={STATE_DATA}
+            value={form.getValues("state")}
+            onChange={handleChangeState}
           />
           <AutoCompleteCities
+            required
+            className="col-span-3 lg:col-span-1"
+            control={form.control}
+            emptyText="No results found"
+            label="Business city"
+            name="city"
             options={
               STATE_DATA.find((s) => s.name === form.getValues("state"))
                 ?.cities ?? []
             }
-            label="Business city"
-            emptyText="No results found"
-            name="city"
-            control={form.control}
-            onChange={handleChangeCity}
             value={form.getValues("city")}
-            className="col-span-3 lg:col-span-1"
-            required
+            onChange={handleChangeCity}
           />
           <TextInput
-            placeholder="i.e: 97531"
+            required
+            className="col-span-3 lg:col-span-1"
+            control={form.control}
             label="Business zip code"
             name="postalCode"
-            control={form.control}
-            className="col-span-3 lg:col-span-1"
-            required
+            placeholder="i.e: 97531"
           />
           <RHFMaskInput
-            className="col-span-3"
-            name="businessTin"
-            label="EIN"
-            placeholder="i.e: 12-3456789"
-            pattern={EIN_PATTERN}
             required
+            className="col-span-3"
+            label="EIN"
+            name="businessTin"
+            pattern={EIN_PATTERN}
+            placeholder="i.e: 12-3456789"
           />
           <TextInput
-            placeholder="www.larryslatte.com"
+            className="col-span-3"
+            control={form.control}
+            inputClassName="pl-16"
             label="Business website"
             name="businessWebsite"
-            control={form.control}
-            className="col-span-3"
-            inputClassName="pl-16"
+            placeholder="www.larryslatte.com"
             prefix="https://"
             prefixIcon={<p className="text-text-secondary">https://</p>}
           />
@@ -193,8 +194,8 @@ export const BusinessInformationForm = ({
 
       {!isReviewApplicationStep(step) && (
         <FormSubmitButton
-          onSubmit={form.handleSubmit(onSubmit)}
           isDisabled={!form.formState.isValid}
+          onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
     </Card>

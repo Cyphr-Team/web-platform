@@ -17,7 +17,7 @@ const PDFDocumentPreview = lazy(() => import("./PDFDocumentPreview"))
 /**
  * Review document with Ocrolus
  */
-const DocumentScore = () => {
+function DocumentScore() {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleOpen = () => {
@@ -36,13 +36,13 @@ const DocumentScore = () => {
       />
       <div className="lg:flex h-full overflow-y-auto">
         <DocumentViewer />
-        {isOpen && <DocumentSignalsDetails handleClose={handleClose} />}
+        {isOpen ? <DocumentSignalsDetails handleClose={handleClose} /> : null}
       </div>
     </div>
   )
 }
 
-export const DocumentPreview = () => {
+export function DocumentPreview() {
   const { documentDetails, isLoadingDetail } = useLoanDocumentDetailsContext()
 
   if (isLoadingDetail) return <DocumentScore />

@@ -20,13 +20,13 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { FileUploadCard } from "@/modules/loan-application/components/molecules/FileUploadCard.tsx"
 import { FileUploadedCard } from "@/modules/loan-application/components/molecules/FileUploadedCard.tsx"
-import { infer as zodInfer, ZodObject, ZodTypeAny } from "zod"
+import { type infer as zodInfer, type ZodObject, type ZodTypeAny } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Checkbox } from "@/components/ui/checkbox.tsx"
-import { CheckedState } from "@radix-ui/react-checkbox"
+import { type CheckedState } from "@radix-ui/react-checkbox"
 import { get, remove, set } from "lodash"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
+import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { toastError } from "@/utils"
 import { useDeleteSbbDocument } from "@/modules/loan-application/hooks/useMutation/useDeleteSbbDocument.ts"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
@@ -57,14 +57,14 @@ interface Props {
   specificStep: LOAN_APPLICATION_STEPS
 }
 
-export const DocumentUploadFormTemplate = ({
+export function DocumentUploadFormTemplate({
   title,
   description,
   hasCheckbox = false,
   checkboxLabel,
   schema,
   specificStep
-}: Props) => {
+}: Props) {
   // Define a new local type based on the schema
   type FormType = zodInfer<typeof schema>
 
@@ -86,13 +86,16 @@ export const DocumentUploadFormTemplate = ({
         [formIdField]: get(formState[specificStep], formIdField, ""),
         [uploadedFileField]: get(formState[specificStep], uploadedFileField, [])
       }
+
       // if the checkboxField contain in form
       if (checkboxField !== undefined) {
         const hasDocuments = get(formState[specificStep], checkboxField, false)
+
         // set the checkbox field, if form has document, then checkbox is false
         // otherwise, set default is true.
         set(data, checkboxField, hasDocuments)
       }
+
       return data
     }
   })
@@ -115,6 +118,7 @@ export const DocumentUploadFormTemplate = ({
               uploadedFiles,
               (document) => document.id !== id
             )
+
             form.setValue(uploadedFileField, newFiles, {
               shouldValidate: true,
               shouldDirty: true,
@@ -164,6 +168,7 @@ export const DocumentUploadFormTemplate = ({
     (index: number, field: keyof FormType) => () => {
       const currentFiles = form.getValues(field) as File[]
       const newFiles = currentFiles.filter((_: File, i: number) => i !== index)
+
       form.setValue(field, newFiles, {
         shouldValidate: true,
         shouldDirty: true,
@@ -277,8 +282,8 @@ export const DocumentUploadFormTemplate = ({
                     <FileUploadCard
                       key={filesValue[0].name}
                       file={filesValue[0]}
-                      index={0}
                       handleRemoveFile={handleRemoveFile(0, fileField)}
+                      index={0}
                       version={2}
                     />
                   ) : null}
@@ -297,7 +302,7 @@ export const DocumentUploadFormTemplate = ({
             />
 
             {/* If the flag is on, and we can get the checkbox field name from schema */}
-            {hasCheckbox && checkboxField && (
+            {hasCheckbox && checkboxField ? (
               <FormField
                 control={form.control}
                 name={checkboxField}
@@ -307,8 +312,8 @@ export const DocumentUploadFormTemplate = ({
                       <div className="flex gap-2 mt-1 items-center">
                         <Checkbox
                           checked={field.value as CheckedState}
-                          onCheckedChange={field.onChange}
                           className="h-5 w-5"
+                          onCheckedChange={field.onChange}
                         />
                         <p className="text-xs text-text-primary">
                           {checkboxLabel}
@@ -318,12 +323,12 @@ export const DocumentUploadFormTemplate = ({
                   </FormItem>
                 )}
               />
-            )}
+            ) : null}
 
             {!isReviewApplicationStep(step) && (
               <FormSubmitButton
-                onSubmit={form.handleSubmit(onSubmit)}
                 isDisabled={!isValid}
+                onSubmit={form.handleSubmit(onSubmit)}
               />
             )}
           </Card>

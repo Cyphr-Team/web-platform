@@ -4,7 +4,7 @@ import { SelectInstitution } from "./components/SelectInstitution"
 import SuccessMessage from "./components/SuccessMessage"
 import { UpdateInstitutionMetadata } from "./components/UpdateInstitutionMetadata"
 import { useMultipleStepForm } from "@/hooks/useMultipleStepForm.ts"
-import { OnboardingFormValue, onboardingForm } from "./types"
+import { onboardingForm, type OnboardingFormValue } from "./types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form"
 import { useOnboardingInstitution } from "./hooks/useOnboardingInstitution"
@@ -45,6 +45,7 @@ export function Component() {
         "key",
         "adminEmail"
       ])
+
       if (validStep1) nextStep()
     } else if (currentStepIndex === 1) {
       const validStep2 = await form.trigger([
@@ -52,6 +53,7 @@ export function Component() {
         "textLogo",
         "supportEmail"
       ])
+
       if (validStep2) {
         form.handleSubmit((data) =>
           mutate(data, {
@@ -65,21 +67,19 @@ export function Component() {
   }
 
   return (
-    <div
-      className={`flex justify-between max-w-4xl relative m-1 rounded-lg p-4 mx-auto`}
-    >
+    <div className="flex justify-between max-w-4xl relative m-1 rounded-lg p-4 mx-auto">
       <main
-        className={`${
+        className={
           showSuccessMsg ? "w-full" : "w-full md:mt-5 md:w-[65%] mx-auto"
-        }`}
+        }
       >
         <Form {...form}>
           {showSuccessMsg ? (
             <SuccessMessage />
           ) : (
             <form
-              onSubmit={handleOnSubmit}
               className="w-full flex flex-col justify-between h-full"
+              onSubmit={handleOnSubmit}
             >
               <div>
                 {currentStepIndex === 0 && <SelectInstitution />}
@@ -93,17 +93,17 @@ export function Component() {
               <div className="w-full items-center flex justify-between mt-4">
                 <div className="">
                   <Button
-                    onClick={previousStep}
+                    className={isFirstStep ? "invisible" : "visible"}
+                    disabled={isPending}
                     type="button"
                     variant="ghost"
-                    className={`${isFirstStep ? "invisible" : "visible"}`}
-                    disabled={isPending}
+                    onClick={previousStep}
                   >
                     Go Back
                   </Button>
                 </div>
                 <div className="flex items-center">
-                  <ButtonLoading type="submit" isLoading={isPending}>
+                  <ButtonLoading isLoading={isPending} type="submit">
                     {isLastStep ? "Confirm" : "Next Step"}
                   </ButtonLoading>
                 </div>

@@ -1,8 +1,8 @@
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
 import { E_SIGN_CLIENT } from "../../constants/e-sign"
-import { IESignDocument } from "@/types/esign/document.type"
-import jsPDF from "jspdf"
+import { type IESignDocument } from "@/types/esign/document.type"
+import type jsPDF from "jspdf"
 
 interface IESignCreateDocumentRequest {
   pdf: jsPDF

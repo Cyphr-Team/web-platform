@@ -1,11 +1,11 @@
 import { Separator } from "@/components/ui/separator"
 import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
 
-import { formatPhoneNumberIntl, Value } from "react-phone-number-input"
+import { formatPhoneNumberIntl, type Value } from "react-phone-number-input"
 import { useLoanApplicationDetailContext } from "../../../providers/LoanApplicationDetailProvider"
 import { InformationRow } from "../../molecules/InformationRow"
 
-export const BusinessInfoSummary = () => {
+export function BusinessInfoSummary() {
   const { loanSummary } = useLoanApplicationDetailContext()
   const businessInfo = loanSummary?.businessInfo
   const personalInfo = loanSummary?.personalInfo
@@ -14,9 +14,9 @@ export const BusinessInfoSummary = () => {
     <>
       <InformationRow
         label="Legal Name"
-        value={businessInfo?.businessName?.value ?? UNKNOWN_VALUE}
         status={businessInfo?.businessName?.verification?.status}
         subLabel={businessInfo?.businessName?.verification?.subLabel}
+        value={businessInfo?.businessName?.value ?? UNKNOWN_VALUE}
       />
       <Separator />
       <InformationRow
@@ -26,16 +26,16 @@ export const BusinessInfoSummary = () => {
       <Separator />
       <InformationRow
         label="Officer Address"
-        value={businessInfo?.officeAddresses?.value ?? UNKNOWN_VALUE}
         status={businessInfo?.officeAddresses?.verification?.status}
         subLabel={businessInfo?.officeAddresses?.verification?.subLabel}
+        value={businessInfo?.officeAddresses?.value ?? UNKNOWN_VALUE}
       />
       <Separator />
       <InformationRow
         label="Tax ID"
-        value={businessInfo?.tin?.value ?? UNKNOWN_VALUE}
         status={businessInfo?.tin?.verification?.status}
         subLabel={businessInfo?.tin?.verification?.subLabel}
+        value={businessInfo?.tin?.value ?? UNKNOWN_VALUE}
       />
       <Separator />
       <InformationRow

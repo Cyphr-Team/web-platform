@@ -16,16 +16,20 @@ import {
 import { cn } from "@/lib/utils.ts"
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
-import { FieldPath, FieldValues, useFormContext } from "react-hook-form"
 import {
-  SelectContentProps,
-  SelectProps,
-  SelectTriggerProps
+  type FieldPath,
+  type FieldValues,
+  useFormContext
+} from "react-hook-form"
+import {
+  type SelectContentProps,
+  type SelectProps,
+  type SelectTriggerProps
 } from "@radix-ui/react-select"
-import { memo, ReactNode } from "react"
+import { memo, type ReactNode } from "react"
 import { DescriptionTooltip } from "../atoms/DescriptionTooltip"
 
-type IOption = {
+interface IOption {
   label: ReactNode
   /**
    * TODO: check the implementation of Primitive Select because currently, it doesn't work well with type difference from string
@@ -60,9 +64,7 @@ export interface RHFSelectInputProps<T extends FieldValues> {
   disabled?: boolean
 }
 
-const RHFSelectInput = <T extends FieldValues>(
-  props: RHFSelectInputProps<T>
-) => {
+function RHFSelectInput<T extends FieldValues>(props: RHFSelectInputProps<T>) {
   const {
     name,
     label,
@@ -104,15 +106,15 @@ const RHFSelectInput = <T extends FieldValues>(
               <label className="items-center inline-flex">
                 <span>
                   {label}
-                  {required && <RequiredSymbol />}
-                  {description && (
+                  {required ? <RequiredSymbol /> : null}
+                  {description ? (
                     <span className="ml-1">
                       <DescriptionTooltip description={description} />
                     </span>
-                  )}
+                  ) : null}
                 </span>
               </label>
-              {subtitle && (
+              {subtitle ? (
                 <p
                   className={cn(
                     "mt-2 text-text-tertiary font-medium",
@@ -121,19 +123,19 @@ const RHFSelectInput = <T extends FieldValues>(
                 >
                   {subtitle}
                 </p>
-              )}
-              {isRowDirection && <FormMessage />}
+              ) : null}
+              {isRowDirection ? <FormMessage /> : null}
             </FormLabel>
           )}
 
           <FormControl>
             <Select
+              disabled={disabled}
+              value={field.value}
               onValueChange={(value) => {
                 field.onBlur()
                 field.onChange(value.toString())
               }}
-              value={field.value}
-              disabled={disabled}
               {...selectProps}
             >
               <SelectTrigger

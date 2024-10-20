@@ -1,8 +1,8 @@
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { BusinessWatchlistData } from "@/modules/loan-application-management/constants/types/business.type"
+import { type BusinessWatchlistData } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import { DateHeader } from "./DateHeader"
@@ -10,7 +10,7 @@ import { WatchListHit } from "./WatchListHit"
 import { Dot } from "@/components/ui/dot"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
-import { InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
+import { type InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
 
 const columns: ColumnDef<
   Pick<BusinessWatchlistData, "businessName" | "people"> & {
@@ -19,7 +19,7 @@ const columns: ColumnDef<
 >[] = [
   {
     accessorKey: "businessName",
-    header: () => <MiddeskTableHeader title={"Screened business"} />,
+    header: () => <MiddeskTableHeader title="Screened business" />,
     cell: ({ row }) => {
       const data = row.original
 
@@ -42,12 +42,12 @@ const columns: ColumnDef<
 
       return (
         <div className="flex items-start">
-          {data?.people && (
+          {data?.people ? (
             <Dot
               className="flex-shrink-0 self-start mt-1"
               variantColor={getBadgeVariantByInsightStatus(data?.status)}
             />
-          )}
+          ) : null}
           <p>{data?.people ?? "-"}</p>
         </div>
       )
@@ -55,14 +55,14 @@ const columns: ColumnDef<
   }
 ]
 
-export const WatchList = () => {
+export function WatchList() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const watchlist = loanKybDetail?.businessWatchlist
   const label = loanKybDetail?.insights.watchlists?.subLabel
   const status = loanKybDetail?.insights.watchlists?.status
 
-  const badge = <MiddeskBadge status={status} label={label} />
+  const badge = <MiddeskBadge label={label} status={status} />
   const headerTitle = <>Watchlists {badge}</>
   const screenedData = watchlist
     ? [
@@ -77,10 +77,10 @@ export const WatchList = () => {
   const content = (
     <>
       <MiddeskTable
-        tableClassName={"table-fixed"}
         columns={columns}
         data={screenedData}
         isLoading={isLoading}
+        tableClassName="table-fixed"
       />
 
       {!isLoading && <WatchListHit />}
@@ -89,10 +89,10 @@ export const WatchList = () => {
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.watchLists}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader />}
       content={content}
+      headerRight={<DateHeader />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.watchLists}
     />
   )
 }

@@ -15,7 +15,7 @@ import { z } from "zod"
 import { MultiSelect } from "@/components/ui/multi-select"
 import { CHAT_MESSAGE_TYPE } from "@/types/chatbot.type"
 
-type Props = {
+interface Props {
   onSearch: (query: FilterValues) => void
 }
 
@@ -72,11 +72,11 @@ export function ConversationTableHeader({
                 <FormLabel>Messages</FormLabel>
                 <FormControl>
                   <Input
+                    autoComplete="new-password"
+                    className="pl-9 md:w-[300px]"
+                    placeholder="Search for messages"
                     prefixIcon={<Search className="h-5 w-5 opacity-50" />}
                     type="text"
-                    placeholder="Search for messages"
-                    className="pl-9 md:w-[300px]"
-                    autoComplete="new-password"
                     onKeyDown={handleKeyDown}
                     {...field}
                   />
@@ -89,9 +89,9 @@ export function ConversationTableHeader({
             name="status"
             render={({ field }) => (
               <MultiSelect
-                name="status"
-                label="Status"
                 field={field}
+                label="Status"
+                name="status"
                 options={CHAT_MESSAGE_TYPE}
               />
             )}

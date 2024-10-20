@@ -1,10 +1,10 @@
-import { Badge, BadgeProps } from "@/components/ui/badge"
+import { Badge, type BadgeProps } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
-import { PropsWithChildren, ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 
-type DashboardSingleNumberCardProps = {
+interface DashboardSingleNumberCardProps {
   title: ReactNode
   value: ReactNode
   icon?: ReactNode
@@ -15,7 +15,7 @@ type DashboardSingleNumberCardProps = {
   variantColor: BadgeProps["variantColor"]
 }
 
-export const DashboardSingleNumberCard = ({
+export function DashboardSingleNumberCard({
   title,
   icon,
   value,
@@ -23,16 +23,16 @@ export const DashboardSingleNumberCard = ({
   isLoading,
   unit,
   variantColor
-}: PropsWithChildren<DashboardSingleNumberCardProps>) => {
+}: PropsWithChildren<DashboardSingleNumberCardProps>) {
   return (
     <Card className={cn("flex flex-col justify-between rounded-xl")}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 md:pb-2">
         <CardTitle className="text-sm font-semibold text-text-tertiary">
           <Badge
             isDot
+            className="capitalize text-sm rounded-full px-3 py-1"
             variant="soft"
             variantColor={variantColor}
-            className="capitalize text-sm rounded-full px-3 py-1"
           >
             {title}
           </Badge>
@@ -44,7 +44,7 @@ export const DashboardSingleNumberCard = ({
         {!isLoading ? (
           <div className="text-3xl font-semibold">
             {value ?? 0}
-            {unit && <span className="text-sm"> {unit}</span>}
+            {unit ? <span className="text-sm"> {unit}</span> : null}
           </div>
         ) : (
           <Skeleton className="w-full h-8" />

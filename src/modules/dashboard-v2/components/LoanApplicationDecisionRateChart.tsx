@@ -13,7 +13,7 @@ import { CARTESIAN_GRID, CHART_DEFAULT } from "../constants/dashboard.constants"
 import { useDashboard } from "../providers/dashboard-provider"
 import { ChartHintToolTip } from "./atoms/ChartHintToolTip"
 
-export const LoanApplicationDecisionRateChart = () => {
+export function LoanApplicationDecisionRateChart() {
   const { loanApplicationRatesData, dashboardState } = useDashboard()
 
   const formatDateByTimePeriod =
@@ -26,12 +26,6 @@ export const LoanApplicationDecisionRateChart = () => {
       <div className="flex gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">Incomplete Application Rates</h2>
         <ChartHintToolTip
-          head={
-            <>
-              <strong>Incomplete Application Rates</strong> represent the
-              proportion of applications that were started but not completed
-            </>
-          }
           formula="(Draft Apps / Total Apps) * 100"
           formulaExplain={
             <>
@@ -45,10 +39,16 @@ export const LoanApplicationDecisionRateChart = () => {
               </li>
             </>
           }
+          head={
+            <>
+              <strong>Incomplete Application Rates</strong> represent the
+              proportion of applications that were started but not completed
+            </>
+          }
         />
       </div>
 
-      <ResponsiveContainer width="100%" height="95%" className="-mx-8">
+      <ResponsiveContainer className="-mx-8" height="95%" width="100%">
         <ComposedChart
           data={loanApplicationRatesData?.incompleteApplicationRate?.map(
             (v) => ({ date: v.date, incompleteRate: v.rate * 100 })
@@ -58,8 +58,8 @@ export const LoanApplicationDecisionRateChart = () => {
           <CartesianGrid {...CARTESIAN_GRID} />
           <Tooltip
             cursor={{ fill: "transparent" }}
-            wrapperClassName="text-sm"
             labelFormatter={(value) => formatDateByTimePeriod(value)}
+            wrapperClassName="text-sm"
           />
 
           <XAxis
@@ -69,19 +69,19 @@ export const LoanApplicationDecisionRateChart = () => {
           />
 
           <YAxis
-            type="number"
-            unit="%"
+            axisLine={false}
             fontSize={CHART_DEFAULT.fontSize}
             tickLine={false}
-            axisLine={false}
+            type="number"
+            unit="%"
           />
           <Line
-            strokeWidth={2}
-            type="linear"
-            unit="%"
             dataKey="incompleteRate"
             name="Incomplete Rate"
             stroke={CHART_DEFAULT.submittedColor}
+            strokeWidth={2}
+            type="linear"
+            unit="%"
           />
         </ComposedChart>
       </ResponsiveContainer>

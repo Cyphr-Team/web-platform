@@ -1,18 +1,18 @@
 import { API_PATH } from "@/constants"
 import { postRequest, putRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { useCallback } from "react"
 import { transformExecutionFormToRequest } from "../../components/organisms/loan-application-form/execution/constants"
 import {
-  ExecutionFormRequest,
-  ExecutionFormResponse
+  type ExecutionFormRequest,
+  type ExecutionFormResponse
 } from "../../components/organisms/loan-application-form/execution/type"
-import { ExecutionFormValue } from "../../constants/form"
+import { type ExecutionFormValue } from "../../constants/form"
 import { QUERY_KEY } from "../../constants/query-key"
 
-type Props = {
+interface Props {
   rawData: ExecutionFormValue
   onSuccess: (data: ExecutionFormResponse) => void
 }
@@ -64,6 +64,7 @@ const useSubmitLoanExecutionForm = () => {
 
 const useUpdateLoanExecutionForm = () => {
   const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<ExecutionFormResponse>,
     AxiosError<ErrorResponse>,

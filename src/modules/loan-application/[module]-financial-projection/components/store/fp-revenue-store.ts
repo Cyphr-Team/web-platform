@@ -1,10 +1,10 @@
 import { z } from "zod"
 import { createDateSchema, createNumberSchema } from "@/constants/validate.ts"
 import {
-  BillableHour,
-  Contract,
-  RecurringCharge,
-  UnitSale
+  type BillableHour,
+  type Contract,
+  type RecurringCharge,
+  type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 
 export const emptyUnitSale: UnitSale = {

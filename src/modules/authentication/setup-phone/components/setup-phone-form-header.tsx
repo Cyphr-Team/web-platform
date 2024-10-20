@@ -20,8 +20,8 @@ export function SetupPhoneFormHeader() {
         <p>
           {UI_DATA_SETUP_PHONE_HEADER.enterPhone.description}{" "}
           <a
-            href="https://www.cyphrai.com/privacy"
             className="text-black underline font-medium"
+            href="https://www.cyphrai.com/privacy"
             rel="noopener noreferrer"
             target="privacy"
           >

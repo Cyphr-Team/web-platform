@@ -1,16 +1,10 @@
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { LoanProgram } from "@/types/loan-program.type"
+import { type LoanProgram } from "@/types/loan-program.type"
 import { toCurrency } from "@/utils"
 import { DropdownAction } from "./dropdown-action"
 
-const CellItem = ({
-  label,
-  value
-}: {
-  label: string
-  value: React.ReactNode
-}) => {
+function CellItem({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <p className="truncate capitalize">
       <span className="text-sx text-muted-foreground">{label}:</span> {value}
@@ -102,7 +96,7 @@ export const columns: ColumnDef<LoanProgram>[] = [
     cell: ({ row }) => {
       return (
         <div className="min-w-0">
-          <DropdownAction loanProgram={row.original} key={row.original.id} />
+          <DropdownAction key={row.original.id} loanProgram={row.original} />
         </div>
       )
     },

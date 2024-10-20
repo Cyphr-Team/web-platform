@@ -1,6 +1,6 @@
 import { API_PATH } from "@/constants"
-import { FormDetailsQueryProps } from "."
-import { ExecutionFormResponse } from "../../components/organisms/loan-application-form/execution/type"
+import { type FormDetailsQueryProps } from "."
+import { type ExecutionFormResponse } from "../../components/organisms/loan-application-form/execution/type"
 import { QUERY_KEY } from "../../constants/query-key"
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
 

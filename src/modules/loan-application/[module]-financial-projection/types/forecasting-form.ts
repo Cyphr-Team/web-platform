@@ -1,6 +1,6 @@
 import * as z from "zod"
 import {
-  Block,
+  type Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 

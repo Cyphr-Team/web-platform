@@ -1,28 +1,29 @@
 import fileIcon from "@/assets/file.svg"
 import { Card } from "@/components/ui/card"
-import { DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
+import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
 import { DownloadDocumentButton } from "../../atoms/DownloadDocumentButton"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
-type Props = {
+interface Props {
   file: DocumentUploadedResponse
   index: string
 }
 const FileCard: React.FC<Props> = ({ file, index }) => (
-  <Card className="p-xl gap-2xl flex" key={index}>
+  <Card key={index} className="p-xl gap-2xl flex">
     <div className="flex">
       <DownloadDocumentButton
         documentId={file.id}
         fileName={file.originFileName}
       />
-      <img src={fileIcon} className="logo w-8 h-8" alt="file" />
+      <img alt="file" className="logo w-8 h-8" src={fileIcon} />
     </div>
     <p className="text-sm">{file.originFileName}</p>
   </Card>
 )
 
-export const DocumentationDetails = () => {
+export function DocumentationDetails() {
   const { kycDocuments, financialDocuments } =
     useBRLoanApplicationDetailsContext()
+
   return (
     <div className="grid grid-cols-4">
       <div className="col-span-1">
@@ -36,7 +37,7 @@ export const DocumentationDetails = () => {
             <h5 className="text-lg font-semibold">Government ID</h5>
             <div className="flex flex-col gap-y-2xl">
               {kycDocuments?.map((val) => (
-                <FileCard file={val} index={val.id} key={val.id} />
+                <FileCard key={val.id} file={val} index={val.id} />
               ))}
             </div>
           </Card>
@@ -47,7 +48,7 @@ export const DocumentationDetails = () => {
             <div className="flex flex-col gap-y-2xl">
               {financialDocuments?.length ? (
                 financialDocuments?.map((val) => (
-                  <FileCard file={val} index={val.id} key={val.id} />
+                  <FileCard key={val.id} file={val} index={val.id} />
                 ))
               ) : (
                 <span className="text-sm text-muted-foreground">

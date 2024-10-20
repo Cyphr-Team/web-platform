@@ -1,16 +1,16 @@
 import { API_PATH } from "@/constants"
-import * as z from "zod"
+import type * as z from "zod"
 import { patchRequest, postRequest } from "@/services/client.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
-import { LoanProgram, ProgramStatus } from "@/types/loan-program.type"
+import { type LoanProgram, ProgramStatus } from "@/types/loan-program.type"
 import { loanProgramKeys } from "@/constants/query-key"
-import { createLoanProgramForm } from "./useCreateLoanProgram"
+import { type createLoanProgramForm } from "./useCreateLoanProgram"
 
 export type UpdateLoanProgramValue = z.infer<typeof createLoanProgramForm>
 /**

@@ -1,5 +1,5 @@
-import { ErrorResponse } from "@/types/common.type"
-import { AxiosError, isAxiosError } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
+import { type AxiosError, isAxiosError } from "axios"
 
 export enum ErrorCode {
   token_invalid = "token_invalid",

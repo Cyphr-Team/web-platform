@@ -1,21 +1,21 @@
 import { Dot } from "@/components/ui/dot"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { SourceToolTip } from "@/modules/loan-application/components/molecules/SourceToolTip"
-import { ColumnDef } from "@tanstack/react-table"
-import { MiddeskTableContentReport } from "../../constants/types/middesk.type"
+import { type ColumnDef } from "@tanstack/react-table"
+import { type MiddeskTableContentReport } from "../../constants/types/middesk.type"
 import { MiddeskTableHeader } from "./middesk-table-header"
 
-type MiddeskTableContentProps<TData> = {
+interface MiddeskTableContentProps<TData> {
   data: TData[]
   nameTitle: string
   isLoading?: boolean
 }
 
-export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
+export function MiddeskTableContent<TData extends MiddeskTableContentReport>({
   nameTitle,
   data,
   isLoading
-}: MiddeskTableContentProps<TData>) => {
+}: MiddeskTableContentProps<TData>) {
   const columns: ColumnDef<TData>[] = [
     {
       accessorKey: "name",
@@ -92,7 +92,7 @@ export const MiddeskTableContent = <TData extends MiddeskTableContentReport>({
 
   return (
     <div className="overflow-x-auto">
-      <MiddeskTable isLoading={isLoading} columns={columns} data={data} />
+      <MiddeskTable columns={columns} data={data} isLoading={isLoading} />
     </div>
   )
 }

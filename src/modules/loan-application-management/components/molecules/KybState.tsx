@@ -1,9 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { STATE_STATUS } from "../../constants"
-import { BusinessSosData } from "../../constants/types/business.type"
+import { type BusinessSosData } from "../../constants/types/business.type"
 import { CardStatus } from "../atoms/CardStatus"
 
-type Props = {
+interface Props {
   sosFillings?: BusinessSosData
 }
 
@@ -12,27 +12,27 @@ export const KybState: React.FC<Props> = ({ sosFillings }) => {
     <div className="flex flex-wrap gap-lg">
       <div className="w-[140px] rounded-lg overflow-hidden">
         <CardStatus
-          status={STATE_STATUS.ACTIVE}
           amount={sosFillings?.active ?? 0}
+          status={STATE_STATUS.ACTIVE}
         />
       </div>
       <div className="w-[140px] rounded-lg overflow-hidden">
         <CardStatus
-          status={STATE_STATUS.INACTIVE}
           amount={sosFillings?.inactive ?? 0}
+          status={STATE_STATUS.INACTIVE}
         />
       </div>
       <div className="w-[140px] rounded-lg overflow-hidden">
         <CardStatus
-          status={STATE_STATUS.UNKNOWN}
           amount={sosFillings?.unknown ?? 0}
+          status={STATE_STATUS.UNKNOWN}
         />
       </div>
     </div>
   )
 }
 
-export const KybStateSkeleton = () => {
+export function KybStateSkeleton() {
   return (
     <div className="flex flex-wrap gap-lg">
       <Skeleton className="w-[140px] h-[100px] bg-success-100" />

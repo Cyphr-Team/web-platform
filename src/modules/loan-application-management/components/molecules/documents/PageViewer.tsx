@@ -16,16 +16,17 @@ export const PageViewer: React.FC = () => {
       const scaleX = parentRef.current.offsetWidth / (image?.width || 1)
       const scaleY = parentRef.current.offsetHeight / (image?.height || 1)
       const scale = Math.min(scaleX, scaleY)
+
       setInitScale(scale)
     }
   }, [image?.height, image?.width])
 
   return (
-    <div className="flex-1 overflow-auto" ref={parentRef}>
+    <div ref={parentRef} className="flex-1 overflow-auto">
       <Stage
-        width={(image?.width ?? 0) * scale * initScale}
-        height={(image?.height ?? 0) * scale * initScale}
         className="items-center justify-center flex"
+        height={(image?.height ?? 0) * scale * initScale}
+        width={(image?.width ?? 0) * scale * initScale}
       >
         <Layer>
           <Image

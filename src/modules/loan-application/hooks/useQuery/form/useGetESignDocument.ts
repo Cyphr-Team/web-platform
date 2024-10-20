@@ -1,8 +1,8 @@
 import { getRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
-import { IESignDocument } from "@/types/esign/document.type"
+import { type ErrorResponse } from "@/types/common.type"
+import { type IESignDocument } from "@/types/esign/document.type"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { type AxiosError } from "axios"
 import { E_SIGN_CLIENT } from "../../../constants/e-sign"
 import { QUERY_KEY } from "../../../constants/query-key"
 

@@ -14,7 +14,7 @@ import { CustomAlertDialog } from "./AlertDialog"
 import { cn } from "@/lib/utils"
 import { CloseWithoutSave } from "@/modules/loan-application/components/atoms/CloseWithoutSave"
 
-export const ApplicationDetailsHeader = () => {
+export function ApplicationDetailsHeader() {
   const { loanApplicationDetails, isFetchingDetails } =
     useBRLoanApplicationDetailsContext()
   const { submitLoanForm, isSubmitting } = useLoanApplicationFormContext()
@@ -51,9 +51,9 @@ export const ApplicationDetailsHeader = () => {
           )}
           title={loanApplicationDetails?.loanProgram?.name}
         >
-          {status &&
-            editableStatuses.includes(status) &&
-            loanApplicationDetails?.loanProgram?.name}
+          {status && editableStatuses.includes(status)
+            ? loanApplicationDetails?.loanProgram?.name
+            : null}
 
           {!isFetchingDetails &&
             !editableStatuses.includes(status) &&
@@ -64,8 +64,8 @@ export const ApplicationDetailsHeader = () => {
         ) : (
           <Badge
             isDot
-            className="text-sm"
             isDotBefore
+            className="text-sm"
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}
           >
@@ -77,11 +77,11 @@ export const ApplicationDetailsHeader = () => {
         <div className="flex gap-2">
           <CloseWithoutSave />
           <CustomAlertDialog
-            onConfirmed={onConfirmed}
-            title="Save & Close?"
             cancelText="Cancel"
             confirmText="Save & Close"
             description="Are you sure you want to save and close this loan application?"
+            title="Save & Close?"
+            onConfirmed={onConfirmed}
           >
             <ButtonLoading isLoading={isSubmitting}>Save & Close</ButtonLoading>
           </CustomAlertDialog>

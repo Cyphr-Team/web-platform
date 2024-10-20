@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
-import { Icon } from "@/components/ui/icons"
+import { type Icon } from "@/components/ui/icons"
 import { useLoanProgramDetailContext } from "@/modules/loan-application/providers"
 import { Mail, Map, Phone, UserRound } from "lucide-react"
 
@@ -37,32 +37,32 @@ export function LoanProgramDetailContactCard() {
 
       <CardContent>
         <ul className="flex flex-col gap-4">
-          {loanProgramInfo?.contact?.mail && (
+          {loanProgramInfo?.contact?.mail ? (
             <ContactItem Icon={Mail} content={loanProgramInfo?.contact?.mail} />
-          )}
-          {loanProgramInfo?.contact?.name && (
+          ) : null}
+          {loanProgramInfo?.contact?.name ? (
             <ContactItem
               Icon={UserRound}
               content={loanProgramInfo?.contact?.name}
             />
-          )}
-          {loanProgramInfo?.contact?.phone && (
+          ) : null}
+          {loanProgramInfo?.contact?.phone ? (
             <ContactItem
               Icon={Phone}
               content={loanProgramInfo?.contact?.phone}
             />
-          )}
-          {loanProgramInfo?.contact?.location && (
+          ) : null}
+          {loanProgramInfo?.contact?.location ? (
             <ContactItem
               Icon={Map}
               content={loanProgramInfo?.contact?.location}
             />
-          )}
+          ) : null}
         </ul>
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full" variant="outline" asChild>
+        <Button asChild className="w-full" variant="outline">
           <a href={`mailto:${loanProgramInfo?.contact?.mail}`}>Contact us</a>
         </Button>
       </CardFooter>

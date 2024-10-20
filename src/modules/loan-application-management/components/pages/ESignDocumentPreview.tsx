@@ -10,7 +10,7 @@ import { useParams, useSearchParams } from "react-router-dom"
 import { PDFDocument } from "../atoms/PDFDocument"
 import { BackButton } from "../molecules/documents/BackButton"
 
-export const ESignDocumentPreview = () => {
+export function ESignDocumentPreview() {
   const params = useParams()
   const [search] = useSearchParams()
   const fileName = search.get(SEARCH_PARAM_KEY.DOCUMENT_NAME) ?? ""
@@ -25,13 +25,13 @@ export const ESignDocumentPreview = () => {
   if (!downloadFile.data || !params.documentId)
     return (
       <AppAlert
-        variant="error"
-        title="Request document error."
         description={
           <div className="flex items-center justify-between gap-2 flex-wrap">
             Error: Cannot get the document detail, please try again later!
           </div>
         }
+        title="Request document error."
+        variant="error"
       />
     )
 
@@ -42,8 +42,8 @@ export const ESignDocumentPreview = () => {
 
         <FeatureRenderer featureKey={FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT}>
           <ButtonDownloadESignDocument
-            id={params.documentId}
             documentName={fileName}
+            id={params.documentId}
           >
             <div className="flex items-center">
               <span className="mr-1">Download document</span>

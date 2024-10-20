@@ -7,7 +7,7 @@ import {
 import { cn } from "@/lib/utils"
 import { toCurrency } from "@/utils"
 
-type CashFlowGlanceItemProps = {
+interface CashFlowGlanceItemProps {
   title: string
   description: string
   value?: number
@@ -15,13 +15,13 @@ type CashFlowGlanceItemProps = {
   isCurrency?: boolean
 }
 
-export const CashFlowGlanceItem = ({
+export function CashFlowGlanceItem({
   title,
   value,
   description,
   isNegative,
   isCurrency
-}: CashFlowGlanceItemProps) => {
+}: CashFlowGlanceItemProps) {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>
@@ -39,9 +39,9 @@ export const CashFlowGlanceItem = ({
           </div>
         </TooltipTrigger>
         <TooltipContent
+          className="text-white bg-black p-1 rounded-md max-w-xs"
           side="top"
           sideOffset={20}
-          className="text-white bg-black p-1 rounded-md max-w-xs"
         >
           <p className="text-xs">{description}</p>
         </TooltipContent>

@@ -31,6 +31,7 @@ export class LoanApplicationStepStrategy {
     )) {
       if (matchSubdomain(institution, key)) {
         this.#strategy = new LoanApplicationStep()
+
         return
       }
     }

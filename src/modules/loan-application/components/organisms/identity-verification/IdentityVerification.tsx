@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardTitle
 } from "@/components/ui/card.tsx"
 
-type IdentityVerificationCardProp = {
+interface IdentityVerificationCardProp {
   content: ReactNode
   headerTitle: ReactNode
   headerRight?: ReactNode
@@ -14,13 +14,13 @@ type IdentityVerificationCardProp = {
   isHideSensitiveData?: boolean
 }
 
-export const IdentityVerificationCard = ({
+export function IdentityVerificationCard({
   content,
   headerTitle,
   headerRight,
   id,
   isHideSensitiveData = false
-}: IdentityVerificationCardProp) => {
+}: IdentityVerificationCardProp) {
   return (
     <div id={id}>
       <Card className="shadow-none">

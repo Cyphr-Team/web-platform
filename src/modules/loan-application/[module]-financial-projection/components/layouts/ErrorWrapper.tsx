@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react"
+import { type FC, type ReactNode } from "react"
 import { cn } from "@/lib/utils.ts"
 
 interface Props {

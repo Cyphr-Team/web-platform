@@ -1,12 +1,12 @@
 import { Card } from "@/components/ui/card"
 
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
-import { BusinessModelFormResponse } from "./type"
+import { type BusinessModelFormResponse } from "./type"
 import { getQuestionLabel, getStrategyLabel } from "./constants"
 import { get } from "lodash"
 import { convertRevenueRangeToNumber } from "@/modules/loan-application/constants/options"
 
-type Props = {
+interface Props {
   data?: BusinessModelFormResponse
 }
 
@@ -22,32 +22,32 @@ export const BusinessModelFormDetails: React.FC<Props> = ({ data }) => {
             value={get(data, "description", "")}
           />
           <AnswersTextDisplay
-            className="!flex-row justify-between"
             key="totalRevenueRange"
+            className="!flex-row justify-between"
             label={getQuestionLabel("totalRevenueRange")}
             value={convertRevenueRangeToNumber(
               get(data, "totalRevenueRange", "")
             )}
           />
           <AnswersTextDisplay
-            className="!flex-row justify-between"
             key="lastMonthRevenueRange"
+            className="!flex-row justify-between"
             label={getQuestionLabel("lastMonthRevenueRange")}
             value={convertRevenueRangeToNumber(
               get(data, "lastMonthRevenueRange", "")
             )}
           />
           <AnswersTextDisplay
-            className="!flex-row justify-between"
             key="lastYearRevenueRange"
+            className="!flex-row justify-between"
             label={getQuestionLabel("lastYearRevenueRange")}
             value={convertRevenueRangeToNumber(
               get(data, "lastYearRevenueRange", "")
             )}
           />
           <AnswersTextDisplay
-            className="!flex-row justify-between"
             key="annualPayroll"
+            className="!flex-row justify-between"
             label="What is your annual payroll?"
             value={get(data, "annualPayroll", "") as string}
           />

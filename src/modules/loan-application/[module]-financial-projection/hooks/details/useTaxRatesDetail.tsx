@@ -1,10 +1,11 @@
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { ExpenseTaxRateFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/tax-rate-form"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type ExpenseTaxRateFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/tax-rate-form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseTaxRatesDetailProps {
   expenseTaxRateFormResponse?: ExpenseTaxRateFormResponse
 }
+
 export const useTaxRatesDetail = ({
   expenseTaxRateFormResponse
 }: UseTaxRatesDetailProps) => {
@@ -24,5 +25,6 @@ export const useTaxRatesDetail = ({
       }
     ]
   }
+
   return { taxRatesDetail }
 }

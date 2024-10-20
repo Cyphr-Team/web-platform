@@ -5,7 +5,7 @@ import {
   KycSummary
 } from "@/modules/conference-demo/admin/components/molecules"
 
-const IdentityVerification = () => {
+function IdentityVerification() {
   return (
     <div className="lg:flex gap-3xl w-full">
       <KycInsights />

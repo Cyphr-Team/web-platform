@@ -1,9 +1,9 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
-import { ILinkInquiryData } from "@/types/kyc/response/LinkInquiryResponse"
+import { type ErrorResponse } from "@/types/common.type"
+import { type ILinkInquiryData } from "@/types/kyc/response/LinkInquiryResponse"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { type AxiosError } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
 
 interface useQueryGetIdentityVerificationProps {

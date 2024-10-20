@@ -1,19 +1,20 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { useNavigate } from "react-router-dom"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { toastError } from "@/utils"
-import { UserInfo } from "@/types/user.type"
+import { type UserInfo } from "@/types/user.type"
 import { inMemoryJWTService } from "@/services/jwt.service"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 
 export interface AuthenticateMagicLinkFormValue {
   magicLinkToken: string
 }
+
 /**
  * Send Magic Link to user's email
  */
@@ -35,6 +36,7 @@ export const useAuthenticateWithMagicLink = () => {
     },
     onSuccess: async ({ data }) => {
       const { accessToken, refreshToken } = data
+
       inMemoryJWTService.setToken(accessToken)
       inMemoryJWTService.setRefreshToken(refreshToken)
       inMemoryJWTService.setUserInfo(data)

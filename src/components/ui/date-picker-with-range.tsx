@@ -2,11 +2,11 @@
 
 import { addMonths, format } from "date-fns"
 import * as React from "react"
-import { HTMLAttributes, useCallback, useEffect, useState } from "react"
+import { type HTMLAttributes, useCallback, useEffect, useState } from "react"
 import * as z from "zod"
 import {
-  CaptionProps,
-  DateRange,
+  type CaptionProps,
+  type DateRange,
   useDayPicker,
   useNavigation,
   useSelectRange
@@ -98,6 +98,7 @@ function CalendarCaption({ displayMonth, setDateRange }: CalendarCaptionProps) {
   const handleOnBlur = useCallback(
     (fieldName: FIELDS_NAME) => async () => {
       const validInput = await form.trigger()
+
       if (!validInput) return
 
       const formValues = {
@@ -116,6 +117,7 @@ function CalendarCaption({ displayMonth, setDateRange }: CalendarCaptionProps) {
           { message: "Invalid date range" },
           { shouldFocus: true }
         )
+
         return
       }
 
@@ -277,13 +279,13 @@ export function DatePickerWithRange({
       <Popover onOpenChange={handleOpenChange}>
         <PopoverTrigger asChild>
           <Button
-            id="date"
-            variant={"outline"}
             className={cn(
               "w-[300px] justify-start text-left font-normal px-3.5",
               !date && "text-muted-foreground",
               "group-[.date-select-coupling]:rounded-l-none group-[.date-select-coupling]:border-l-0 group-[.date-select-coupling]:justify-between"
             )}
+            id="date"
+            variant="outline"
           >
             <CalendarIcon
               className={cn(
@@ -307,20 +309,9 @@ export function DatePickerWithRange({
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent align="start" className="w-auto p-0">
           <Calendar
             initialFocus
-            mode="range"
-            defaultMonth={state.to}
-            selected={state}
-            onSelect={onDateChange}
-            showOutsideDays={false}
-            disabled={(date) =>
-              (disabled?.from && date < disabled.from) ||
-              (disabled?.to && date > disabled.to) ||
-              date > new Date() ||
-              date < new Date("1900-01-01")
-            }
             classNames={{
               root: "select-none",
               caption: "flex justify-between pt-1 relative items-center",
@@ -330,6 +321,17 @@ export function DatePickerWithRange({
             components={{
               Caption: renderCaption
             }}
+            defaultMonth={state.to}
+            disabled={(date) =>
+              (disabled?.from && date < disabled.from) ||
+              (disabled?.to && date > disabled.to) ||
+              date > new Date() ||
+              date < new Date("1900-01-01")
+            }
+            mode="range"
+            selected={state}
+            showOutsideDays={false}
+            onSelect={onDateChange}
           />
         </PopoverContent>
       </Popover>

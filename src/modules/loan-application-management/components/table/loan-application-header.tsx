@@ -14,14 +14,14 @@ import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import { useEffect } from "react"
 import {
-  FilterParams,
+  type FilterParams,
   LoanApplicationFilterSchema,
-  LoanApplicationFilterValues
+  type LoanApplicationFilterValues
 } from "../../hooks/useQuery/useQueryListLoanApplication"
 import { useQueryGetLoanProgramList } from "../../hooks/useQuery/useQueryLoanProgramList"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 
-type Props = {
+interface Props {
   onSearch: (formValues: FilterParams) => void
 }
 
@@ -44,7 +44,7 @@ export function LoanApplicationTableHeader({
       value: el.name.toLowerCase()
     })) ?? []
 
-  const onSubmit = form.handleSubmit(() => {})
+  const onSubmit = form.handleSubmit(() => ({}))
 
   useEffect(() => {
     const subscription = form.watch((value) => {
@@ -72,11 +72,11 @@ export function LoanApplicationTableHeader({
                 </FormLabel>
                 <FormControl>
                   <Input
+                    autoComplete="new-password"
+                    className="pl-9 md:w-[300px]"
+                    placeholder="Business name or ID"
                     prefixIcon={<Search className="h-5 w-5 opacity-50" />}
                     type="text"
-                    placeholder="Business name or ID"
-                    className="pl-9 md:w-[300px]"
-                    autoComplete="new-password"
                     {...field}
                   />
                 </FormControl>
@@ -88,9 +88,9 @@ export function LoanApplicationTableHeader({
             name="status"
             render={({ field }) => (
               <MultiSelect
+                field={field}
                 label="Status"
                 name="status"
-                field={field}
                 options={LOAN_STATUS}
               />
             )}
@@ -101,9 +101,9 @@ export function LoanApplicationTableHeader({
             name="programNames"
             render={({ field }) => (
               <MultiSelect
+                field={field}
                 label="Loan Program"
                 name="programNames"
-                field={field}
                 options={loanProgramOptions}
               />
             )}

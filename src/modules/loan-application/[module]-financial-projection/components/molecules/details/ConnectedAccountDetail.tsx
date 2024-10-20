@@ -5,17 +5,17 @@ import { cn } from "@/lib/utils"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { DetailTable } from "@/modules/loan-application/[module]-financial-projection/components/atoms/table"
-import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { renderHeader } from "@/utils/table.utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { CheckCircle2 } from "lucide-react"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
 
-export const ConnectedAccountDetail = () => {
+export function ConnectedAccountDetail() {
   const { id: loanApplicationId } = useParams()
   const { data, isLoading, isError, error, refetch } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
@@ -97,14 +97,14 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
       return (
         <div className="text-right -mx-4">
           <Badge
+            border
             isDot
+            isDotBefore
+            className="capitalize text-sm rounded-lg border-green-600 bg-white text-green-700"
             variant="outline"
             variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.SUCCESS
             )}
-            className="capitalize text-sm rounded-lg border-green-600 bg-white text-green-700"
-            isDotBefore
-            border
           >
             Connected
           </Badge>

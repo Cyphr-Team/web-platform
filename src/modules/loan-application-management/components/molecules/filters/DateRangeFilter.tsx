@@ -48,7 +48,7 @@ const TIME_PERIODS = [
   }
 ]
 
-export const DateRangeFilter = () => {
+export function DateRangeFilter() {
   const [selectedValue, setSelectedValue] = useState<string>(
     TIME_PERIOD.ALL_TIMES
   )
@@ -70,6 +70,7 @@ export const DateRangeFilter = () => {
         const dateRange = extractDateRange(value)
         const fromDate = format(dateRange.from, "yyyy-MM-dd")
         const toDate = format(dateRange.to, "yyyy-MM-dd")
+
         setFromDate(fromDate)
         setToDate(toDate)
         onChangeTimeRangeFilter(fromDate, toDate)
@@ -140,10 +141,10 @@ export const DateRangeFilter = () => {
       <PopoverContent className="p-0 pt-2 w-52">
         {TIME_PERIODS.map((option, id: number) => (
           <Button
-            data-selected={selectedValue === option.value}
             key={`${option.value}-${id}`}
-            variant="ghost"
             className="relative justify-start flex w-full cursor-pointer select-none items-center rounded-sm px-4 py-1.5 pr-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[selected=true]:bg-accent"
+            data-selected={selectedValue === option.value}
+            variant="ghost"
             onClick={() => handleChange(option.value)}
           >
             <span>{option.label}</span>
@@ -154,29 +155,29 @@ export const DateRangeFilter = () => {
           <div className="mt-2 text-xs p-2 gap-1 flex flex-col">
             <span>From</span>
             <CalendarDatePicker
+              toDate={toDate ? new Date(toDate) : undefined}
               value={fromDate}
               onSelectDate={handleChangeFromDate}
-              toDate={toDate ? new Date(toDate) : undefined}
             />
             <span>To</span>
             <CalendarDatePicker
               fromDate={fromDate ? new Date(fromDate) : undefined}
-              onSelectDate={handleChangeToDate}
               value={toDate}
+              onSelectDate={handleChangeToDate}
             />
             <div className="flex p-2 w-full justify-end">
               <Button
-                variant="outline"
-                size="sm"
                 className="text-xs"
+                size="sm"
+                variant="outline"
                 onClick={handleReset}
               >
                 RESET
               </Button>
               <Button
-                variant="outline"
-                size="sm"
                 className="ml-2 text-xs"
+                size="sm"
+                variant="outline"
                 onClick={handleApplyCustomDateRange}
               >
                 APPLY

@@ -5,7 +5,7 @@ import { useLoanApplicationDetailContext } from "../../../../loan-application-ma
 import { DateHeader } from "./DateHeader"
 import { IdentityVerificationCard } from "./IdentityVerification"
 import { IdentityVerificationBadge } from "./IdentityVerificationBadge"
-import { PersonaSelfie } from "../../../../../lib/persona/persona.types"
+import { type PersonaSelfie } from "../../../../../lib/persona/persona.types"
 import { LoadingWrapper } from "../../../../../shared/atoms/LoadingWrapper"
 import { getPassedSelfieVerification } from "../../../../loan-application-management/services/identity-verification.service"
 import { cn } from "../../../../../lib/utils"
@@ -13,7 +13,7 @@ import { SelfieImageDivider } from "./SelfieImageDivider"
 import { isLaunchKC } from "../../../../../utils/domain.utils"
 import { checkIsWorkspaceAdmin } from "../../../../../utils/check-roles"
 
-export const SelfieVerification = () => {
+export function SelfieVerification() {
   const { loanSmartKycDetail, isLoadingLoanSmartKycDetail } =
     useLoanApplicationDetailContext()
 
@@ -24,6 +24,7 @@ export const SelfieVerification = () => {
     const passed = getPassedSelfieVerification({
       selfieVers: loanSmartKycDetail?.selfies
     })
+
     setPassedSelfieVerification(passed)
   }, [loanSmartKycDetail?.selfies])
 
@@ -41,8 +42,8 @@ export const SelfieVerification = () => {
 
   const badge = !isLoadingLoanSmartKycDetail && (
     <IdentityVerificationBadge
-      status={getSelfieVerificationHeaderStatus()}
       label={getSelfieVerificationHeaderStatus().toLowerCase()}
+      status={getSelfieVerificationHeaderStatus()}
     />
   )
 
@@ -64,28 +65,29 @@ export const SelfieVerification = () => {
       classNameGridVariants[
         numberOfPhotos as keyof typeof classNameGridVariants
       ]
+
     return (
       <div className="py-4">
         <div className={classNameGrid}>
           {!!passedSelfieVerification?.leftPhotoUrl && (
             <SelfieImageDivider
+              description="Live (autocapture)"
               photoUrl={passedSelfieVerification?.leftPhotoUrl}
               title="Look Left"
-              description="Live (autocapture)"
             />
           )}
           {!!passedSelfieVerification?.centerPhotoUrl && (
             <SelfieImageDivider
+              description="Live (autocapture)"
               photoUrl={passedSelfieVerification?.centerPhotoUrl}
               title="Look Ahead"
-              description="Live (autocapture)"
             />
           )}
           {!!passedSelfieVerification?.rightPhotoUrl && (
             <SelfieImageDivider
+              description="Live (autocapture)"
               photoUrl={passedSelfieVerification?.rightPhotoUrl}
               title="Look Right"
-              description="Live (autocapture)"
             />
           )}
         </div>
@@ -101,11 +103,10 @@ export const SelfieVerification = () => {
     </LoadingWrapper>
   )
   const isHiddenSensitiveData = isLaunchKC() && !checkIsWorkspaceAdmin() // In LaunchKC, only WSAdmin can view this
+
   return (
     <IdentityVerificationCard
-      id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
-      isHideSensitiveData={isHiddenSensitiveData}
-      headerTitle={headerTitle}
+      content={content}
       headerRight={
         <DateHeader
           date={
@@ -115,7 +116,9 @@ export const SelfieVerification = () => {
           }
         />
       }
-      content={content}
+      headerTitle={headerTitle}
+      id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
+      isHideSensitiveData={isHiddenSensitiveData}
     />
   )
 }

@@ -3,7 +3,7 @@ import { KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
 import { cn } from "@/lib/utils"
 import { KYC_STATUS } from "../../constants/types/kyc"
 
-type Props = {
+interface Props {
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS
   className?: string
 }

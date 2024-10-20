@@ -1,22 +1,22 @@
 import {
-  AuthenticityReason,
-  SignalsDetectType,
-  SignalsType,
-  VisualizationType
+  type AuthenticityReason,
+  type SignalsDetectType,
+  type SignalsType,
+  type VisualizationType
 } from "../type"
 
-export type BankStatementType = {
+export interface BankStatementType {
   transactions: BankTransaction[]
   bankAccount: BankAccount[]
 }
 
-type BankTransaction = {
+interface BankTransaction {
   description: string
   amount: string
   transactionDate: string
 }
 
-export type BankAccount = {
+export interface BankAccount {
   name: string
   bankName: string
   accountNumber: string
@@ -31,16 +31,16 @@ export type BankAccount = {
   accountCategory: string
 }
 
-export type W2DocumentType = {
+export interface W2DocumentType {
   data: W2DocumentData[]
 }
 
-type W2DocumentData = {
+interface W2DocumentData {
   fieldName: string
   fieldValue: string
 }
 
-export type EmployerInformationType = {
+export interface EmployerInformationType {
   name: string
   addressLine1: string
   addressLine2: string
@@ -49,7 +49,7 @@ export type EmployerInformationType = {
   zip: string
 }
 
-export type EmployeeInformationType = {
+export interface EmployeeInformationType {
   name: string
   addressLine1: string
   addressLine2: string
@@ -61,7 +61,7 @@ export type EmployeeInformationType = {
   last4Digits: string
 }
 
-export type PayStubType = {
+export interface PayStubType {
   payPeriodStartDate: string
   payPeriodEndDate: string
   netPay: string
@@ -70,7 +70,7 @@ export type PayStubType = {
   frequency: string
 }
 
-export type PayStubDistributionType = {
+export interface PayStubDistributionType {
   description: string
   bankName: string
   bankAccountType: string
@@ -78,7 +78,7 @@ export type PayStubDistributionType = {
   amount: string
 }
 
-export type PayStubEarningType = {
+export interface PayStubEarningType {
   description?: string
   currentPay?: string
   ytdPay?: string
@@ -86,13 +86,13 @@ export type PayStubEarningType = {
   rate?: string
 }
 
-export type PayStubDeductionType = {
+export interface PayStubDeductionType {
   currentPay: string
   ytdPay: string
   description: string
 }
 
-export type PayStubCapturedType = {
+export interface PayStubCapturedType {
   employeeInformation: EmployeeInformationType
   employerInformation: EmployerInformationType
   payStubDetail: PayStubType
@@ -115,12 +115,12 @@ export enum DocumentType {
   E_SIGN = "e_sign"
 }
 
-export type AuthenticityType = {
+export interface AuthenticityType {
   score: number
   reasonCode: AuthenticityReason[]
 }
 
-export type DocumentDetailsType = {
+export interface DocumentDetailsType {
   documentType: DocumentType
   documentStatus: string
   detect: {
@@ -132,24 +132,24 @@ export type DocumentDetailsType = {
   verifiedDate: string
 }
 
-export type DocumentVisualization = {
+export interface DocumentVisualization {
   pageNumber: number
   pageVisualizations: PageVisualization[]
 }
 
-type PageVisualization = {
+interface PageVisualization {
   imageUrl: string
   displayName: string
   visualType: string
   description: string
 }
 
-export type DocumentDetectType = {
+export interface DocumentDetectType {
   detectData: SignalsDetectType
   visualizationData: VisualizationType
 }
 
-export type SignalsCoordinatesType = {
+export interface SignalsCoordinatesType {
   left: number
   top: number
   right: number

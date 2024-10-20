@@ -11,15 +11,15 @@ const availableLoanProgramRoutes = (
     {/* LIST AVAILABLE LOAN PROGRAM */}
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list}
       lazy={() =>
         import("@/modules/loan-application/components/layouts/LoanProgram")
       }
+      path={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.list}
     />
 
     {/* DETAIL LOAN PROGRAM TO START SUBMIT*/}
     <Route
-      path={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detail}
+      handle={handleCrumb(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detail)}
       lazy={() =>
         isLaunchKC()
           ? import(
@@ -29,7 +29,7 @@ const availableLoanProgramRoutes = (
               "@/modules/loan-application/components/layouts/LoanProgramDetail"
             )
       }
-      handle={handleCrumb(APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detail)}
+      path={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detail}
     />
   </Route>
 )

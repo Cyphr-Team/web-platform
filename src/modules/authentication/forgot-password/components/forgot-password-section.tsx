@@ -11,9 +11,9 @@ export function ForgotPasswordSection() {
         <ForgotPasswordForm />
 
         <Button
-          variant="link"
-          className="px-1 text-sm text-foreground py-0 self-center"
           asChild
+          className="px-1 text-sm text-foreground py-0 self-center"
+          variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
             <ArrowLeft className="w-5 h-5 mr-1" />

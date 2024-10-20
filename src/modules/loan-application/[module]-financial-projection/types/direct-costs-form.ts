@@ -1,4 +1,4 @@
-import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { type DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 
 export type DirectCostsForm = DirectCostsFormValue["directCosts"][number]
 
@@ -7,7 +7,7 @@ export type DirectCosts = DirectCostsForm & {
   financialProjectionSetupId: string
 }
 
-export type DirectCostsFormMutateRequest = {
+export interface DirectCostsFormMutateRequest {
   financialProjectionSetupId: string | undefined
   forms: DirectCostsFormValue["directCosts"]
 }

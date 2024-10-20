@@ -7,6 +7,7 @@ export function checkEnabledFeatureFlag(key: FEATURE_FLAGS) {
   const featureFlag = featureFlags.find(
     (featureFlag) => featureFlag.key === key
   )
+
   return !!featureFlag?.enabled
 }
 

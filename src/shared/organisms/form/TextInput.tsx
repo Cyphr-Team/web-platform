@@ -8,8 +8,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import React, { CSSProperties } from "react"
-import { Control, FieldPath, FieldValues } from "react-hook-form"
+import React, { type CSSProperties } from "react"
+import { type Control, type FieldPath, type FieldValues } from "react-hook-form"
 
 export interface ITextInputType<T extends FieldValues> {
   label: string
@@ -34,7 +34,7 @@ export interface ITextInputType<T extends FieldValues> {
   style?: CSSProperties | undefined
 }
 
-export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
+export function TextInput<T extends FieldValues>(props: ITextInputType<T>) {
   const {
     label,
     name,
@@ -59,9 +59,9 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
 
   const renderMessage = !hideMessage ? (
     isRowDirection && subtitle ? (
-      <FormMessage style={{ marginTop: -1 }} className={formMessageClassName} />
+      <FormMessage className={formMessageClassName} style={{ marginTop: -1 }} />
     ) : (
-      <FormMessage style={style} className={formMessageClassName} />
+      <FormMessage className={formMessageClassName} style={style} />
     )
   ) : null
 
@@ -81,20 +81,20 @@ export const TextInput = <T extends FieldValues>(props: ITextInputType<T>) => {
           >
             <label>
               {label}
-              {required && <RequiredSymbol />}
+              {required ? <RequiredSymbol /> : null}
             </label>
-            {subtitle && (
+            {subtitle ? (
               <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
-            )}
+            ) : null}
           </FormLabel>
 
           <FormControl className={`${isRowDirection && "xl:-mt-4"}`}>
             <Input
-              wrapperClassName={wrapperClassName}
+              className={cn("text-base", inputClassName)}
               placeholder={placeholder}
               prefix={prefix}
               prefixIcon={prefixIcon}
-              className={cn("text-base", inputClassName)}
+              wrapperClassName={wrapperClassName}
               {...field}
             />
           </FormControl>

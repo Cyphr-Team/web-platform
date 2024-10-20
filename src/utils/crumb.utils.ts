@@ -1,6 +1,6 @@
 import { APP_PATH } from "@/constants"
-import { Breadcrumb } from "@/types/common.type"
-import { ReactNode } from "react"
+import { type Breadcrumb } from "@/types/common.type"
+import { type ReactNode } from "react"
 
 enum CustomLabelKey {
   loanApplicationDetail = "loanApplicationDetail",
@@ -16,7 +16,7 @@ type Ids = {
   [key in CustomLabelKey]?: string
 }
 
-type CrumbData = {
+interface CrumbData {
   customLabel?: CustomLabel
   ids?: Ids
 }
@@ -123,4 +123,5 @@ const handleCrumb = (path: string) => ({
 type HandleCrumb = ReturnType<typeof handleCrumb>
 
 export { handleCrumb, buildCustomLabel, buildIds, CustomLabelKey }
+
 export type { HandleCrumb, CrumbData }

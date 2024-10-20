@@ -2,11 +2,11 @@ import { Card } from "@/components/ui/card"
 import { ApplicationOverview } from "./ApplicationOverview"
 import FormReview from "@/modules/conference-demo/admin/components/molecules/FormReview.tsx"
 
-export const ApplicationSummary = () => {
+export function ApplicationSummary() {
   return (
     <div className="lg:flex gap-3xl w-full" id="loan-summary">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
-        <div id="application-overview" className="flex flex-col gap-3xl">
+        <div className="flex flex-col gap-3xl" id="application-overview">
           <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
             <p className="text-4xl font-semibold ">Application Overview</p>
           </div>
@@ -26,7 +26,7 @@ export const ApplicationSummary = () => {
   )
 }
 
-const KybFormDetail = () => {
+function KybFormDetail() {
   const mock = [
     {
       label: "Business Legal Name",
@@ -49,7 +49,7 @@ const KybFormDetail = () => {
   return <FormReview data={mock} title="Business Information" />
 }
 
-const KycFormDetail = () => {
+function KycFormDetail() {
   const mock = [
     {
       label: "Full name",

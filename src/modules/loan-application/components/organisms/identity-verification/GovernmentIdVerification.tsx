@@ -4,7 +4,7 @@ import { DateHeader } from "./DateHeader"
 import { IdentityVerificationCard } from "./IdentityVerification"
 import { IdentityVerificationBadge } from "./IdentityVerificationBadge"
 import { SummaryItem } from "./IdentityVerificationSummary"
-import { PersonaGovernmentId } from "../../../../../lib/persona/persona.types"
+import { type PersonaGovernmentId } from "../../../../../lib/persona/persona.types"
 import { LoadingWrapper } from "../../../../../shared/atoms/LoadingWrapper"
 import { getPassedGovVerification } from "../../../../loan-application-management/services/identity-verification.service"
 import { GovernmentImageDivider } from "./GovernmentImageDivider"
@@ -14,7 +14,7 @@ import { calculateAge, joinString } from "@/utils"
 import { isLaunchKC } from "../../../../../utils/domain.utils"
 import { checkIsWorkspaceAdmin } from "../../../../../utils/check-roles"
 
-export const GovernmentIdVerification = () => {
+export function GovernmentIdVerification() {
   const { loanSmartKycDetail, isLoadingLoanSmartKycDetail } =
     useLoanApplicationDetailContext()
 
@@ -25,6 +25,7 @@ export const GovernmentIdVerification = () => {
     const passed = getPassedGovVerification({
       governmentVerifications: loanSmartKycDetail?.governmentVerifications
     })
+
     setPassedGovVerification(passed)
   }, [loanSmartKycDetail?.governmentVerifications])
 
@@ -41,8 +42,8 @@ export const GovernmentIdVerification = () => {
 
   const badge = !isLoadingLoanSmartKycDetail && (
     <IdentityVerificationBadge
-      status={getGovernmentIdVerificationHeaderStatus()}
       label={getGovernmentIdVerificationHeaderStatus().toLowerCase()}
+      status={getGovernmentIdVerificationHeaderStatus()}
     />
   )
   const headerTitle = <>Government ID {badge}</>
@@ -62,6 +63,7 @@ export const GovernmentIdVerification = () => {
       classNameGridVariants[
         numberOfPhotos as keyof typeof classNameGridVariants
       ]
+
     return (
       <div className="py-4">
         <div className={classNameGrid}>
@@ -80,49 +82,49 @@ export const GovernmentIdVerification = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <SummaryItem
-            title="Full name"
             subtitle1={joinString(
               passedGovVerification?.nameFirst,
               passedGovVerification?.nameMiddle,
               passedGovVerification?.nameLast
             )}
+            title="Full name"
           />
           <SummaryItem
-            title="Address"
             subtitle1={joinString(
               passedGovVerification?.addressStreet1,
               passedGovVerification?.addressCity,
               passedGovVerification?.addressSubdivision,
               passedGovVerification?.addressPostalCode
             )}
+            title="Address"
           />
-          <SummaryItem title="Sex" subtitle1="Male" />
+          <SummaryItem subtitle1="Male" title="Sex" />
           <SummaryItem
-            title="Date of birth"
             subtitle1={passedGovVerification?.birthdate ?? "N/A"}
             subtitle2={calculateAge(passedGovVerification?.birthdate)}
+            title="Date of birth"
           />
         </div>
         <div className=" my-6 grid grid-cols-2 md:grid-cols-4 gap-6">
           <SummaryItem
-            title="ID number"
             subtitle1={
               passedGovVerification?.identificationNumber ??
               passedGovVerification?.documentNumber ??
               "N/A"
             }
+            title="ID number"
           />
           <SummaryItem
-            title="Issuing country"
             subtitle1={passedGovVerification?.countryCode ?? "N/A"}
+            title="Issuing country"
           />
           <SummaryItem
-            title="Issue date"
             subtitle1={passedGovVerification?.issueDate ?? "N/A"}
+            title="Issue date"
           />
           <SummaryItem
-            title="Expiration date"
             subtitle1={passedGovVerification?.expirationDate ?? "N/A"}
+            title="Expiration date"
           />
         </div>
       </div>
@@ -142,9 +144,7 @@ export const GovernmentIdVerification = () => {
 
   return (
     <IdentityVerificationCard
-      id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
-      isHideSensitiveData={isHiddenSensitiveData}
-      headerTitle={headerTitle}
+      content={content}
       headerRight={
         <DateHeader
           date={
@@ -154,7 +154,9 @@ export const GovernmentIdVerification = () => {
           }
         />
       }
-      content={content}
+      headerTitle={headerTitle}
+      id={INSIGHT_IDENTITY_VERIFICATION_TOC.governmentId}
+      isHideSensitiveData={isHiddenSensitiveData}
     />
   )
 }

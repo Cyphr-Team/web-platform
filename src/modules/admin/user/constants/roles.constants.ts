@@ -3,7 +3,7 @@ import {
   judgeRole,
   platformAdminRole,
   reviewerRole,
-  UserRoles,
+  type UserRoles,
   workspaceAdminRole
 } from "@/types/user.type.ts"
 

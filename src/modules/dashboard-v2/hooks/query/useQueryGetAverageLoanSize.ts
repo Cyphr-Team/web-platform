@@ -1,12 +1,12 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
-import { ErrorResponse } from "react-router-dom"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type ErrorResponse } from "react-router-dom"
 import { QUERY_KEY } from "../../constants/dashboard.constants"
 import {
-  AverageApprovedLoanSizeResponse,
-  DashboardState
+  type AverageApprovedLoanSizeResponse,
+  type DashboardState
 } from "../../types/stats.types"
 import { useTimeRangeFilter } from "./useTimeRangeFilter"
 

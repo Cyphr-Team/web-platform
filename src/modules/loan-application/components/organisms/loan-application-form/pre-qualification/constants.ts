@@ -20,6 +20,7 @@ export const questions = [
     label: "Do you have a minimum viable product with revenue under 1 million?"
   }
 ]
+
 export const options = [
   {
     value: "YES",

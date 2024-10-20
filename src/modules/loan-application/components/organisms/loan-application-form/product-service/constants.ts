@@ -1,4 +1,4 @@
-import { ProductServiceFormResponse } from "./type"
+import { type ProductServiceFormResponse } from "./type"
 
 export const productServiceFormQuestions = [
   {

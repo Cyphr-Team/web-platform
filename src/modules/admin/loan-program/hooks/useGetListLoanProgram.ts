@@ -1,11 +1,11 @@
-import { ListResponse } from "@/types/common.type"
+import { type ListResponse } from "@/types/common.type"
 import { API_PATH } from "@/constants"
 import { loanProgramKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
 import { customRequestHeader } from "@/utils/request-header"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { createSearchParams } from "react-router-dom"
-import { LoanProgram } from "@/types/loan-program.type"
+import { type LoanProgram } from "@/types/loan-program.type"
 
 interface PaginateParams {
   limit: number
@@ -31,6 +31,7 @@ export const useGetListLoanProgram = ({ limit, offset }: PaginateParams) => {
         params: { limit, offset: (pageParam as number) * limit },
         customHeader: customRequestHeader.customHeaders
       })
+
       return response
     },
     initialPageParam: 0,

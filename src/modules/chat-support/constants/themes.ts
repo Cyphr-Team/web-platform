@@ -1,8 +1,11 @@
-import { Params } from "react-chatbotify"
+import { type Params } from "react-chatbotify"
 
 export const themes = [{ id: "cyborg", version: "0.1.0" }]
 
-type ThemeOptionType = { title: string; questions: string[] }
+interface ThemeOptionType {
+  title: string
+  questions: string[]
+}
 type ThemeOptionsMapType = Record<string, ThemeOptionType>
 
 const themeOptionsMap: ThemeOptionsMapType = {

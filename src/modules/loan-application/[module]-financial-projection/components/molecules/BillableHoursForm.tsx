@@ -1,8 +1,8 @@
-import { FC, memo } from "react"
+import { type FC, memo } from "react"
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
 import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import {
-  Block,
+  type Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
@@ -118,14 +118,14 @@ const BillableHoursForm: FC<Props> = (props) => {
 
   return (
     <ArrayFormTemplate
-      title="Revenue: Billable Hours"
-      subtitle="Best for services charged on an hourly basis."
-      fieldName={RevenueType.BILLABLE_HOURS}
+      addIcon={<BillableHoursIcon variant="black" />}
+      blocks={blocks}
       dataName="Billable hours"
       defaultEmptyObject={emptyBillableHour}
+      fieldName={RevenueType.BILLABLE_HOURS}
+      subtitle="Best for services charged on an hourly basis."
+      title="Revenue: Billable Hours"
       onBlur={onBlur}
-      blocks={blocks}
-      addIcon={<BillableHoursIcon variant="black" />}
     />
   )
 }

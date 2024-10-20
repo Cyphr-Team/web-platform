@@ -1,5 +1,5 @@
-import { WorkspaceAdminListApplicationScoreParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
-import { JudgeListParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
+import { type WorkspaceAdminListApplicationScoreParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
+import { type JudgeListParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 
 export const notificationKeys = {
   all: ["notification"] as const,

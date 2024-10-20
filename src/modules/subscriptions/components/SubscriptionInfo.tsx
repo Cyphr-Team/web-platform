@@ -3,24 +3,24 @@ import { snakeCaseToText } from "@/utils"
 import { getSubscriptionStatusBadge } from "../services/subscription.services"
 import {
   PlanType,
-  Subscription,
+  type Subscription,
   SubscriptionStatus
 } from "../types/subscription.types"
 import { SubscriptionLimitTable } from "./SubscriptionLimitTable"
 
-type SubscriptionInfoProps = {
+interface SubscriptionInfoProps {
   data: Subscription
 }
 
-export const SubscriptionInfo = ({ data }: SubscriptionInfoProps) => {
+export function SubscriptionInfo({ data }: SubscriptionInfoProps) {
   return (
     <div className="flex gap-1 flex-wrap">
       <div>
         <Badge
           isDot
+          className="capitalize w-24 justify-center"
           variant="soft"
           variantColor={getSubscriptionStatusBadge(data?.status)}
-          className="capitalize w-24 justify-center"
         >
           {snakeCaseToText(data?.status ?? "")}
         </Badge>

@@ -1,8 +1,8 @@
 import { LoanType } from "@/types/loan-program.type"
-import { LoanRequestFormValue } from "../../constants/form"
+import { type LoanRequestFormValue } from "../../constants/form"
 import { useCreateLoanApplicationMutation } from "../useMutation/useCreateLoanApplicationMutation"
 import { useUpdateLoanApplicationMutation } from "../useMutation/useUpdateLoanRequest"
-import { UserMicroLoanApplicationRequest } from "@/types/loan-application.type.ts"
+import { type UserMicroLoanApplicationRequest } from "@/types/loan-application.type.ts"
 import { get } from "lodash"
 
 export const useSubmitMicroLoanRequestForm = (
@@ -34,9 +34,11 @@ export const useSubmitMicroLoanRequestForm = (
         proposeUseOfLoan: get(rawData, "proposeUseOfLoan", "other"),
         applicationId: rawData?.applicationId
       }
+
       return await createLoanApplication(loanRequest)
     }
   }
+
   return {
     isLoading: isCreatingLoanApplication || isUpdatingLoanApplication,
     submitLoanRequestForm

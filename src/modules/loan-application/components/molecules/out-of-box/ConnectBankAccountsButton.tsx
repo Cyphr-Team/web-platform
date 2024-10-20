@@ -12,6 +12,7 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 interface Props {
   disabled: boolean
 }
+
 export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
   const { open, ready, linkSuccess } = useConnectPlaid()
   const { financialInformationForm, dispatchFormAction } =
@@ -51,14 +52,16 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
       type="button"
     >
       <p>Connected</p>
-      <Check size={20} className="text-white" />
+      <Check className="text-white" size={20} />
     </Button>
   ) : (
     <Button
       className="text-primary bg-black w-full text-white px-lg py-md"
-      onClick={() => open()}
       disabled={!ready || disabled}
       type="button"
+      onClick={() => {
+        open()
+      }}
     >
       Connect Bank Accounts
       <ArrowRight className="ml-1 w-4" />

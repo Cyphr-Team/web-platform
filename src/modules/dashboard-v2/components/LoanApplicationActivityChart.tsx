@@ -16,10 +16,10 @@ import { formatChartMonthly, formatChartWeekly } from "@/utils/date.utils"
 import { ChartHintToolTip } from "./atoms/ChartHintToolTip"
 import { isSbb } from "@/utils/domain.utils"
 
-export const LoanApplicationActivityChart = () => {
+export function LoanApplicationActivityChart() {
   const { loanApplicationActivitiesData, dashboardState } = useDashboard()
 
-  const [activeSeries, setActiveSeries] = useState<Array<string>>([])
+  const [activeSeries, setActiveSeries] = useState<string[]>([])
 
   const handleLegendClick = (dataKey: string) => {
     if (activeSeries.includes(dataKey)) {
@@ -41,17 +41,6 @@ export const LoanApplicationActivityChart = () => {
           {isSbb() ? "Application Activities" : "Loan Application Activities"}
         </h2>
         <ChartHintToolTip
-          head={
-            <>
-              <strong>
-                {isSbb()
-                  ? "Application Activities"
-                  : "Loan Application Activities"}
-              </strong>{" "}
-              represent the number of loan applications at each stage of the
-              application process.
-            </>
-          }
           formula={null}
           formulaExplain={
             <>
@@ -80,10 +69,21 @@ export const LoanApplicationActivityChart = () => {
               </li>
             </>
           }
+          head={
+            <>
+              <strong>
+                {isSbb()
+                  ? "Application Activities"
+                  : "Loan Application Activities"}
+              </strong>{" "}
+              represent the number of loan applications at each stage of the
+              application process.
+            </>
+          }
         />
       </div>
 
-      <ResponsiveContainer width="100%" height="95%" className="-mx-8">
+      <ResponsiveContainer className="-mx-8" height="95%" width="100%">
         <ComposedChart
           data={loanApplicationActivitiesData?.loanApplicationActivities.map(
             (v) => ({
@@ -106,8 +106,8 @@ export const LoanApplicationActivityChart = () => {
           <CartesianGrid {...CARTESIAN_GRID} />
           <Tooltip
             cursor={{ fill: "transparent" }}
-            wrapperClassName="text-sm"
             labelFormatter={(value) => formatDateByTimePeriod(value)}
+            wrapperClassName="text-sm"
           />
 
           <XAxis
@@ -116,67 +116,67 @@ export const LoanApplicationActivityChart = () => {
             tickFormatter={(value) => formatDateByTimePeriod(value)}
           />
           <YAxis
+            axisLine={false}
             fontSize={CHART_DEFAULT.fontSize}
             tickLine={false}
-            axisLine={false}
           />
 
           <Legend
+            align="right"
             iconType="square"
-            onClick={(props) => handleLegendClick(props.dataKey as string)}
-            wrapperStyle={{ fontSize: "0.875rem", right: -24 }}
             layout="vertical"
             verticalAlign="top"
-            align="right"
+            wrapperStyle={{ fontSize: "0.875rem", right: -24 }}
+            onClick={(props) => handleLegendClick(props.dataKey as string)}
           />
 
           <Bar
-            hide={activeSeries.includes("draft")}
-            unit=" App(s)"
             barSize={18}
             dataKey="draft"
             fill={CHART_DEFAULT.draftColor}
+            hide={activeSeries.includes("draft")}
             name="Draft"
+            unit=" App(s)"
           />
           <Bar
-            hide={activeSeries.includes("submitted")}
-            unit=" App(s)"
             barSize={18}
             dataKey="submitted"
             fill={CHART_DEFAULT.submittedColor}
+            hide={activeSeries.includes("submitted")}
             name="Submitted"
+            unit=" App(s)"
           />
           <Bar
-            hide={activeSeries.includes("inreview")}
-            unit=" App(s)"
             barSize={18}
             dataKey="inreview"
             fill={CHART_DEFAULT.inreviewColor}
+            hide={activeSeries.includes("inreview")}
             name="In-Review"
+            unit=" App(s)"
           />
           <Bar
-            hide={activeSeries.includes("approved")}
-            unit=" App(s)"
             barSize={18}
             dataKey="approved"
             fill={CHART_DEFAULT.approvedColor}
+            hide={activeSeries.includes("approved")}
             name="Approved"
+            unit=" App(s)"
           />
           <Bar
-            hide={activeSeries.includes("denied")}
-            unit=" App(s)"
             barSize={18}
             dataKey="denied"
             fill={CHART_DEFAULT.deniedColor}
+            hide={activeSeries.includes("denied")}
             name="Denied"
+            unit=" App(s)"
           />
           <Bar
-            hide={activeSeries.includes("closed")}
-            unit=" App(s)"
             barSize={18}
             dataKey="closed"
             fill={CHART_DEFAULT.closedColor}
+            hide={activeSeries.includes("closed")}
             name="Closed"
+            unit=" App(s)"
           />
         </ComposedChart>
       </ResponsiveContainer>

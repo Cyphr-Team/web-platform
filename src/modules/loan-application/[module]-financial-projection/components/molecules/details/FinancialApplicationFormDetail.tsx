@@ -3,9 +3,9 @@ import {
   FinancialDetailCard,
   FinancialDetailItem
 } from "@/modules/loan-application/[module]-financial-projection/components/atoms/details"
-import { FinancialApplicationFormDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type FinancialApplicationFormDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
 interface FinancialApplicationFormDetailProps {
   title?: ReactNode
@@ -17,9 +17,9 @@ interface FinancialApplicationFormDetailProps {
   isPdf?: boolean
 }
 
-export const FinancialApplicationFormDetail = (
+export function FinancialApplicationFormDetail(
   props: FinancialApplicationFormDetailProps
-) => {
+) {
   const {
     title,
     subTitle,
@@ -36,9 +36,9 @@ export const FinancialApplicationFormDetail = (
         {financialApplicationFormData.map(({ id, title, content }) => (
           <FinancialDetailItem
             key={id}
-            title={title}
             content={content}
             isLoading={isLoading}
+            title={title}
           />
         ))}
       </div>
@@ -55,10 +55,10 @@ export const FinancialApplicationFormDetail = (
       )}
     >
       <FinancialDetailCard
-        isPdf={isPdf}
-        title={title}
-        subTitle={subTitle}
         hasSubChildren={!!subChildren}
+        isPdf={isPdf}
+        subTitle={subTitle}
+        title={title}
       >
         {render}
       </FinancialDetailCard>

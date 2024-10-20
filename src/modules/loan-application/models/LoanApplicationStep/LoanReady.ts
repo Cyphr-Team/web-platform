@@ -1,5 +1,5 @@
 import { isIgnoredCashFlowSubmission } from "@/utils/feature-flag.utils"
-import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
+import { type ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 import {
   FORM_TYPE,
   LOAN_APPLICATION_STEP_STATUS,

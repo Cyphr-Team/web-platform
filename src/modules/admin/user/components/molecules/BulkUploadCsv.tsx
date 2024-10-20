@@ -16,10 +16,16 @@ import {
   Info,
   Upload
 } from "lucide-react"
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
+import {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react"
 import { useSendBulkCsvInvitation } from "../../hooks/useSendInvitation"
 import { APP_PATH } from "@/constants"
-import { IMemberImport } from "@/types/upload.type"
+import { type IMemberImport } from "@/types/upload.type"
 import { convertJsonArrayToCsv } from "@/utils/file.utils"
 import { downloadCSVFile } from "@/utils"
 import {
@@ -81,6 +87,7 @@ export function BulkUploadCsv() {
     const csvString = convertJsonArrayToCsv(data.data.detail, headers)
     // Prepare download
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-")
+
     downloadCSVFile(csvString, `invitation_details_${timestamp}.csv`)
   }, [data?.data])
 
@@ -96,6 +103,7 @@ export function BulkUploadCsv() {
   useEffect(() => {
     if (!data?.data) return
     const statuses = data?.data
+
     switch (true) {
       case statuses.totalInvitations === statuses.failedInvitations:
         setUploadStatus(UPLOAD_STATUS.SENDING_FAILED)
@@ -109,9 +117,7 @@ export function BulkUploadCsv() {
     }
   }, [data?.data])
 
-  const handleCsvFileInputClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleCsvFileInputClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setUploadStatus(UPLOAD_STATUS.UNKNOWN)
     if (csvFileInputRef.current) {
@@ -123,9 +129,11 @@ export function BulkUploadCsv() {
 
   const handleCsvFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
+
     if (file) {
       const baseUrl = `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`
       const expirationDays = "SEVEN_DAYS"
+
       setUploadStatus(UPLOAD_STATUS.UPLOADING)
       mutateSendCsv(
         { file, baseUrl, expirationDays },
@@ -158,15 +166,15 @@ export function BulkUploadCsv() {
               <span className="font-bold mr-1">CSV: </span>
               <span>
                 {uploadStatus.message}
-                {data && (
+                {data ? (
                   <Button
-                    onClick={downloadCsv}
-                    variant="link"
                     className="p-0 px-1 pt-0.5 h-7 font-medium underline items-start"
+                    variant="link"
+                    onClick={downloadCsv}
                   >
                     View Details.
                   </Button>
-                )}
+                ) : null}
               </span>
             </div>
 
@@ -183,11 +191,11 @@ export function BulkUploadCsv() {
         </div>
       )}
       <Accordion
-        type="single"
         collapsible
         className="border border-dashed px-2 rounded-md h-fit"
+        type="single"
       >
-        <AccordionItem value="csv-upload-instructions" className="border-0">
+        <AccordionItem className="border-0" value="csv-upload-instructions">
           <AccordionTrigger className="flex flex-1 w-full items-center justify-between group hover:no-underline">
             <div className="flex text-base items-center font-light">
               <span className="text-base font-light align-start text-wrap text-left flex flex-col md:flex-row align-center md:space-x-1">
@@ -222,14 +230,14 @@ export function BulkUploadCsv() {
                   Step 1: Download the template
                 </span>
                 <ButtonLoading
-                  variant="outline"
                   className="ml-2 my-2 md:my-0 p-2"
                   isLoading={downloadFile.isLoading}
+                  variant="outline"
                   onClick={handleClickDownload}
                 >
                   <span
-                    id="default-message"
                     className="items-center inline-flex"
+                    id="default-message"
                   >
                     <Download size={15} />
                     <span className="text-sm font-medium ml-2">
@@ -248,8 +256,8 @@ export function BulkUploadCsv() {
                     Address
                   </li>
                   <li className="ml-2">
-                    <Accordion type="single" collapsible defaultValue="roles">
-                      <AccordionItem value="roles" className="border-0">
+                    <Accordion collapsible defaultValue="roles" type="single">
+                      <AccordionItem className="border-0" value="roles">
                         <AccordionTrigger className="py-1 flex flex-auto w-full items-start md:items-center justify-start md:justify-between group hover:no-underline">
                           <span className="align-start text-wrap text-left font-light">
                             <span className="font-semibold">Role:</span> Add
@@ -285,14 +293,14 @@ export function BulkUploadCsv() {
                   Step 3: Upload your files to send out the invites
                 </span>
                 <ButtonLoading
-                  variant="outline"
-                  isLoading={uploadStatus === UPLOAD_STATUS.UPLOADING}
                   className="ml-2 my-2 md:my-0 p-2"
+                  isLoading={uploadStatus === UPLOAD_STATUS.UPLOADING}
+                  variant="outline"
                   onClick={handleCsvFileInputClick}
                 >
                   <span
-                    id="default-message"
                     className="items-center inline-flex"
+                    id="default-message"
                   >
                     <Upload size={15} />
                     <span className="text-sm font-medium ml-2">
@@ -301,11 +309,11 @@ export function BulkUploadCsv() {
                   </span>
                 </ButtonLoading>
                 <input
-                  type="file"
-                  accept=".csv"
-                  onChange={handleCsvFileChange}
                   ref={csvFileInputRef}
+                  accept=".csv"
                   className="hidden"
+                  type="file"
+                  onChange={handleCsvFileChange}
                 />
               </li>
             </ol>

@@ -20,6 +20,7 @@ export interface TotalMonthlyPayment {
   month: number
   amount: number
 }
+
 export interface FullAmortizationResponse {
   amortizationSchedule: AmortizationSchedule[]
   totalMonthlyPayment: TotalMonthlyPayment[]

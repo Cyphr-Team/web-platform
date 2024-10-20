@@ -1,6 +1,6 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { useFormContext } from "react-hook-form"
-import { ForgotPasswordFormValue } from "../hooks/useForgotPassword"
+import { type ForgotPasswordFormValue } from "../hooks/useForgotPassword"
 import { useResend } from "../hooks/useResend"
 import { isAxiosError } from "axios"
 import { AppAlert } from "@/components/ui/alert"
@@ -49,9 +49,9 @@ export function ResendForm() {
 
   const conditionAlert = (isSuccess || errorMsg) && (
     <AppAlert
-      variant={dataAlert.variant}
-      title={dataAlert.title}
       description={dataAlert.description}
+      title={dataAlert.title}
+      variant={dataAlert.variant}
     />
   )
 
@@ -65,10 +65,10 @@ export function ResendForm() {
         </p>
 
         <ButtonLoading
+          className="p-1 h-7 text-primary"
           isLoading={isPending}
           type="button"
           variant="ghost"
-          className="p-1 h-7 text-primary"
           onClick={() => mutate({ email: successSentEmail! })}
         >
           Click to resend

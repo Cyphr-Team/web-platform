@@ -5,20 +5,30 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
-import { IWorkspaceAdminApplicationScore } from "@/types/application/application-assign.type"
-import { Option, SortOrder } from "@/types/common.type"
+import { type IWorkspaceAdminApplicationScore } from "@/types/application/application-assign.type"
+import { type Option, SortOrder } from "@/types/common.type"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { PaginationState, SortingState, Table } from "@tanstack/react-table"
+import {
+  type PaginationState,
+  type SortingState,
+  type Table
+} from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { Search } from "lucide-react"
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
+import {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react"
 import { useForm } from "react-hook-form"
 import { WorkspaceAdminApplicationStatusCard } from "../../../components/atoms/WorkspaceAdminApplicationStatusCard"
 import { workspaceAdminApplicationColumns } from "../../../components/table/applications-scores/workspace-admin-application-score-columns"
 import { useQueryApplicationStageStat } from "../../../hooks/useQuery/useQueryApplicationStageStat"
 import {
   loanApplicationScoreFilterSchema,
-  LoanApplicationScoreFilterValues,
+  type LoanApplicationScoreFilterValues,
   useQueryListPaginatedLoanApplicationScoreGroupByApplicationId
 } from "../../../hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
 import { Filter } from "./filter"
@@ -119,27 +129,28 @@ export function WorkspaceAdminApplicationListFilter() {
   }, [filterForm, resetTableToFirstPage])
 
   const renderHeaderFilter = useMemo(
-    () => (table: Table<IWorkspaceAdminApplicationScore>) => {
-      return (
-        <div className="flex items-center flex-wrap w-full gap-4">
-          <div className="flex-[2] min-w-0 overflow-x-auto py-1">
-            <Filter filterForm={filterForm} />
-          </div>
+    () =>
+      function (table: Table<IWorkspaceAdminApplicationScore>) {
+        return (
+          <div className="flex items-center flex-wrap w-full gap-4">
+            <div className="flex-[2] min-w-0 overflow-x-auto py-1">
+              <Filter filterForm={filterForm} />
+            </div>
 
-          <div className="justify-items-end flex flex-1 gap-3 py-1">
-            <Input
-              wrapperClassName="flex-1"
-              prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
-              placeholder="Search by 'Company Name'"
-              name="search"
-              onChange={handleSearch}
-            />
+            <div className="justify-items-end flex flex-1 gap-3 py-1">
+              <Input
+                name="search"
+                placeholder="Search by 'Company Name'"
+                prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
+                wrapperClassName="flex-1"
+                onChange={handleSearch}
+              />
 
-            <DataTableViewOptions table={table} />
+              <DataTableViewOptions table={table} />
+            </div>
           </div>
-        </div>
-      )
-    },
+        )
+      },
     [filterForm, handleSearch]
   )
 
@@ -157,17 +168,17 @@ export function WorkspaceAdminApplicationListFilter() {
       <WorkspaceAdminApplicationStatusCard stageStat={stageStat} />
 
       <DataTable
-        headerFilter={renderHeaderFilter}
-        tableContainerClassName="flex flex-col flex-1 h-[85vh]"
+        manualSorting
         columns={workspaceAdminApplicationColumns}
-        isLoading={isFetching}
         data={data?.data ?? []}
-        total={data?.total ?? 0}
+        headerFilter={renderHeaderFilter}
+        isLoading={isFetching}
         pagination={pagination}
         setPagination={setPagination}
-        sorting={sorting}
         setSorting={setSorting}
-        manualSorting
+        sorting={sorting}
+        tableContainerClassName="flex flex-col flex-1 h-[85vh]"
+        total={data?.total ?? 0}
       />
     </div>
   )

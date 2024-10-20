@@ -3,8 +3,9 @@ import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { capitalizeWords, toCurrency } from "@/utils"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 
-export const LoanRequestDetails = () => {
+export function LoanRequestDetails() {
   const { loanApplicationDetails } = useBRLoanApplicationDetailsContext()
+
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-xl h-fit overflow-auto">
       <h5 className="text-lg font-semibold">

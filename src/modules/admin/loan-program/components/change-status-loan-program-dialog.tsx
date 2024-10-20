@@ -1,7 +1,7 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useState } from "react"
-import { LoanProgram, ProgramStatus } from "@/types/loan-program.type"
+import { type LoanProgram, ProgramStatus } from "@/types/loan-program.type"
 import { useUpdateStatusLoanProgram } from "../hooks/useUpdateStatusLoanProgram"
 
 /**
@@ -24,16 +24,16 @@ const nextProgramStatus = (status: ProgramStatus): ProgramStatus => {
   }
 }
 
-export const ButtonChangeStatusLoanProgram = ({
+export function ButtonChangeStatusLoanProgram({
   loanProgram
 }: {
   loanProgram: LoanProgram
-}) => {
+}) {
   const { mutate, isPending } = useUpdateStatusLoanProgram()
   const [isOpen, setIsOpen] = useState(false)
 
   const handleUpdateStatusLoanProgram = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault()
     e.stopPropagation()
@@ -44,13 +44,13 @@ export const ButtonChangeStatusLoanProgram = ({
     setIsOpen(false)
   }
 
-  const handleCancel = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     setIsOpen(false)
   }
 
-  const handleOpen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     setIsOpen(true)
@@ -58,10 +58,7 @@ export const ButtonChangeStatusLoanProgram = ({
 
   return (
     <CustomAlertDialog
-      isOpen={isOpen}
-      onConfirmed={handleUpdateStatusLoanProgram}
-      onCanceled={handleCancel}
-      title={`Change status loan program`}
+      actionClassName="bg-red-500 hover:bg-red-600 text-white"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -71,13 +68,16 @@ export const ButtonChangeStatusLoanProgram = ({
           } to ${nextProgramStatus(loanProgram.status)}?`}
         </span>
       }
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      isOpen={isOpen}
+      title="Change status loan program"
+      onCanceled={handleCancel}
+      onConfirmed={handleUpdateStatusLoanProgram}
     >
       <ButtonLoading
-        isLoading={isPending}
-        variant="ghost"
         className="w-full cursor-pointer text-center hover:bg-gray-100"
+        isLoading={isPending}
         type="button"
+        variant="ghost"
         onClick={handleOpen}
       >
         Update status

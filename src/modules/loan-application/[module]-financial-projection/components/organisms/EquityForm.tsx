@@ -9,7 +9,7 @@ import {
   FP_EQUITY_FINANCING_DEFAULT_VALUE,
   FpEquityFinancingField,
   fpEquityFinancingFormSchema,
-  FpEquityFinancingFormValue
+  type FpEquityFinancingFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
 import EquityArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/EquityArrayFormTemplate"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
@@ -77,7 +77,7 @@ const blocks = [
   }
 ]
 
-export const EquityForm = () => {
+export function EquityForm() {
   const { equity, dispatchFormAction } = useLoanApplicationFormContext()
 
   const form = useForm<FpEquityFinancingFormValue>({
@@ -128,12 +128,12 @@ export const EquityForm = () => {
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div className="flex flex-col gap-6 mb-5">
           <EquityArrayFormTemplate
-            fieldName={FpEquityFinancingField.equityFinancing}
-            dataName="Equity Financing"
             addIcon={<Plus />}
-            defaultEmptyObject={EMPTY_EQUITY_FINANCING_ITEM}
-            onBlur={onAutoSave}
             blocks={blocks}
+            dataName="Equity Financing"
+            defaultEmptyObject={EMPTY_EQUITY_FINANCING_ITEM}
+            fieldName={FpEquityFinancingField.equityFinancing}
+            onBlur={onAutoSave}
           />
         </div>
 

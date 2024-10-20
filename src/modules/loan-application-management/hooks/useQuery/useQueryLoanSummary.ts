@@ -1,9 +1,9 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
-import { LoanSummary } from "../../constants/types/loan-summary.type"
+import { type LoanSummary } from "../../constants/types/loan-summary.type"
 
 export const useQueryGetLoanSummary = ({
   applicationId

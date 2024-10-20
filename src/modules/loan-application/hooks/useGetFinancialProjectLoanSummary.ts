@@ -1,13 +1,13 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
-import { LoanSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type"
+import { type LoanSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type"
 import { getRequest } from "@/services/client.service"
 import {
   useQuery,
-  UseQueryOptions,
-  UseQueryResult
+  type UseQueryOptions,
+  type UseQueryResult
 } from "@tanstack/react-query"
-import { ErrorResponse, useParams } from "react-router-dom"
+import { type ErrorResponse, useParams } from "react-router-dom"
 
 type UseQueryGetLoanSummaryOptions<T extends LoanSummary, TSelected = T> = Omit<
   UseQueryOptions<T, ErrorResponse, TSelected>,

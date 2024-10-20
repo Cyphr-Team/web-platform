@@ -1,9 +1,9 @@
-import { Card } from "@/components/ui/card"
+import { type Card } from "@/components/ui/card"
 
 import {
-  BaseLoanProgramType,
+  type BaseLoanProgramType,
   LoanType,
-  MicroLoanProgramType
+  type MicroLoanProgramType
 } from "@/types/loan-program.type"
 import { MicroLoanProgramCard } from "../organisms/loan-program-list/MicroLoanProgramCard"
 
@@ -20,8 +20,8 @@ const generateLoanProgramCardByLoanType = (
     case LoanType.MICRO:
       return (
         <MicroLoanProgramCard
-          loanProgram={loanProgram as MicroLoanProgramType}
           additionalInfo={additionalInfo}
+          loanProgram={loanProgram as MicroLoanProgramType}
         />
       )
     default:

@@ -3,7 +3,7 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { X } from "lucide-react"
 import { useState } from "react"
 
-export const DeleteUserButton = ({
+export function DeleteUserButton({
   userEmail,
   index,
   onRemove
@@ -11,12 +11,10 @@ export const DeleteUserButton = ({
   userEmail: string
   index: number
   onRemove: () => void
-}) => {
+}) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleDeleteUser = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     onRemove()
@@ -25,13 +23,7 @@ export const DeleteUserButton = ({
 
   return (
     <CustomAlertDialog
-      isOpen={isOpen}
-      onConfirmed={handleDeleteUser}
-      onCanceled={(e) => {
-        e.stopPropagation()
-        setIsOpen(false)
-      }}
-      title="Remove this user?"
+      actionClassName="bg-red-500 hover:bg-red-600 text-white"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -40,14 +32,20 @@ export const DeleteUserButton = ({
           cannot be undone.
         </span>
       }
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      isOpen={isOpen}
+      title="Remove this user?"
+      onCanceled={(e) => {
+        e.stopPropagation()
+        setIsOpen(false)
+      }}
+      onConfirmed={handleDeleteUser}
     >
       <Button
-        variant="ghost"
         className="cursor-pointer text-center p-0 hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-white"
-        type="button"
         name={`btn-delete-user-${index + 1}`}
-        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        type="button"
+        variant="ghost"
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
           e.preventDefault()
           e.stopPropagation()
           setIsOpen(true)

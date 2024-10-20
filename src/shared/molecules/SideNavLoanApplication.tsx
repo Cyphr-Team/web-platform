@@ -8,7 +8,7 @@ import { CircularProgress } from "@/components/ui/circular-progress"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import {
-  ILoanApplicationStep,
+  type ILoanApplicationStep,
   LOAN_APPLICATION_STEP_STATUS,
   STEP_MENU
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -19,7 +19,7 @@ import { Check } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
 import { LogoHeader } from "../atoms/LogoHeader"
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarProps = React.HTMLAttributes<HTMLDivElement>
 
 export function LoanProgramItem({
   value,
@@ -47,8 +47,8 @@ export function LoanProgramItem({
         "flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer",
         active && "bg-nav-active"
       )}
-      onClick={handleChangeStep}
       id={`step-${value.step}`}
+      onClick={handleChangeStep}
     >
       <div
         className={cn(
@@ -79,8 +79,8 @@ function LoanProgramCollapsible({
 
   return (
     <AccordionItem
-      value={label}
       className="w-full bg-white rounded-lg shadow-md"
+      value={label}
     >
       <AccordionTrigger
         className="flex-row-reverse w-full px-4 py-2"
@@ -123,6 +123,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
    */
   useEffect(() => {
     const currentStep = getCurrentStep()
+
     if (currentStep?.parent) {
       setAccordionValue((preOpens) =>
         preOpens.includes(currentStep.parent)
@@ -145,8 +146,8 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
 
       <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4 max-h-[50vh] md:max-h-full">
         <Accordion
-          type="multiple"
           className="w-full flex flex-col gap-2"
+          type="multiple"
           value={accordionValue}
           onValueChange={(opens) => {
             setAccordionValue(opens as STEP_MENU[])
@@ -161,10 +162,10 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
               {menuGroupByParent[parentMenu].map((step) => (
                 <LoanProgramItem
                   key={step.step}
-                  value={step}
                   finished={
                     step.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
                   }
+                  value={step}
                 />
               ))}
             </LoanProgramCollapsible>

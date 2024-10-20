@@ -69,8 +69,8 @@ function Badge({
 }: Readonly<BadgeProps>) {
   const renderDot = isDot && (
     <Dot
-      strokeWidth={12}
       className={cn(dotVariants({ variantColor }), !isDotBefore && "ml-1 mr-0")}
+      strokeWidth={12}
     />
   )
 
@@ -83,7 +83,7 @@ function Badge({
       )}
       {...props}
     >
-      {isDotBefore && renderDot}
+      {isDotBefore ? renderDot : null}
       {children}
       {!isDotBefore && renderDot}
     </div>

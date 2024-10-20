@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils"
 import { DashboardNav } from "./dashboard-nav"
 import { DASHBOARD_NAV_ITEM } from "@/constants/nav-item.constant"
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarProps = React.HTMLAttributes<HTMLDivElement>
 
 export function Sidebar({ className }: SidebarProps) {
   return (

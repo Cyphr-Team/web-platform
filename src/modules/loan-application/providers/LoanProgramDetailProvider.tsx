@@ -1,17 +1,17 @@
-import { useMemo } from "react"
+import { type PropsWithChildren, useMemo } from "react"
 import { createContext } from "use-context-selector"
 import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
 import { useLocation, useParams } from "react-router-dom"
-import { LoanProgramData } from "../constants/type"
+import { type LoanProgramData } from "../constants/type"
 import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
 import {
-  LoanProgramFormsConfiguration,
+  type LoanProgramFormsConfiguration,
   LoanType,
-  MicroLoanProgramType
+  type MicroLoanProgramType
 } from "@/types/loan-program.type"
 import { useQueryGetFormsConfiguration } from "@/modules/loan-application/hooks/useQuery/useQueryFormsConfiguration.ts"
 
-export type LoanProgramDetailType<T> = {
+export interface LoanProgramDetailType<T> {
   loanProgramFormsConfiguration?: LoanProgramFormsConfiguration
   loanProgramDetails?: T
   loanProgramInfo?: LoanProgramData
@@ -24,11 +24,7 @@ export const MicroLoanProgramDetailContext = createContext<
   isLoading: false
 })
 
-type Props = {
-  children: React.ReactNode
-}
-
-export const LoanProgramDetailProvider: React.FC<Props> = ({ children }) => {
+export function LoanProgramDetailProvider({ children }: PropsWithChildren) {
   const { loanProgramId } = useParams()
   const { state } = useLocation()
 
@@ -60,6 +56,7 @@ export const LoanProgramDetailProvider: React.FC<Props> = ({ children }) => {
       loanProgramQuery.isLoading
     ]
   )
+
   switch (loanProgramQuery.data?.type) {
     case LoanType.MICRO:
       return (

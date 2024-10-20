@@ -48,7 +48,7 @@ const FutureEmployeesBlock = [
       pattern: MM_YYYY_PATTERN,
       className: "text-sm space-y-0 m-1 w-full xl:w-auto grow",
       placeholder: "Start date (MM/YYYY)",
-      prefixIcon: <Calendar size={20} className="ml-1" />,
+      prefixIcon: <Calendar className="ml-1" size={20} />,
       subtitle: "",
       styleProps: {
         calendarClassName: "text-sm"
@@ -76,18 +76,18 @@ const FutureEmployeesBlock = [
   }
 ]
 
-const FutureEmployeesForm = () => {
+function FutureEmployeesForm() {
   return (
     <PeopleArrayFormTemplate
-      className="flex flex-col-reverse items-center"
-      blockClassName="justify-between flex-col lg:flex-row lg:items-center flex-wrap gap-1 w-full"
-      name="futureEmployees"
+      canBeEmpty
       actionIcon={<Icons.team />}
       actionText="Add future employee(s)"
-      step={LOAN_APPLICATION_STEPS.PEOPLE}
-      defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.FUTURE_EMPLOYEES]}
-      canBeEmpty
+      blockClassName="justify-between flex-col lg:flex-row lg:items-center flex-wrap gap-1 w-full"
       blocks={FutureEmployeesBlock}
+      className="flex flex-col-reverse items-center"
+      defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.FUTURE_EMPLOYEES]}
+      name="futureEmployees"
+      step={LOAN_APPLICATION_STEPS.PEOPLE}
     />
   )
 }

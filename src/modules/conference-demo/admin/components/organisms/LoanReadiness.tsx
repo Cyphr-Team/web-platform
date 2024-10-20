@@ -2,7 +2,7 @@ import { useQueryLoanReadinessAssessmentByApplicationId } from "@/modules/confer
 import { ApplicationAssessment } from "@/modules/loan-application-management/pages/cyphr-flex/ApplicationAssessment"
 import { ApplicationCriteria } from "@/modules/loan-application-management/pages/cyphr-flex/ApplicationCriteria"
 
-export const LoanReadiness = () => {
+export function LoanReadiness() {
   const { data, isLoading } = useQueryLoanReadinessAssessmentByApplicationId()
 
   return (
@@ -10,9 +10,9 @@ export const LoanReadiness = () => {
       <ApplicationAssessment
         actionPlan={data?.applicationScore?.actionPlan}
         category={data?.applicationScore?.category}
-        score={data?.applicationScore?.score}
-        ratingLevel={data?.applicationScore?.ratingLevel}
         isLoading={isLoading}
+        ratingLevel={data?.applicationScore?.ratingLevel}
+        score={data?.applicationScore?.score}
       />
 
       <ApplicationCriteria criteria={data?.criteria} isLoading={isLoading} />

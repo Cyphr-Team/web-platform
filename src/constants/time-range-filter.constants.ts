@@ -1,4 +1,4 @@
-import { TimeRangeOption, TimeRangeValue } from "@/types/time-range.type"
+import { type TimeRangeOption, TimeRangeValue } from "@/types/time-range.type"
 import * as z from "zod"
 
 // Comment out some options because it's not used yet

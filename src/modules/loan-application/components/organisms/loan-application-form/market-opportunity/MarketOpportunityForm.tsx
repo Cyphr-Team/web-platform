@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import {
   marketOpportunityFormSchema,
-  MarketOpportunityFormValue
+  type MarketOpportunityFormValue
 } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
@@ -21,7 +21,7 @@ import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { questions } from "./contants"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const MarketOpportunityForm = () => {
+export function MarketOpportunityForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { marketOpportunityForm, dispatchFormAction, loanRequest } =
     useLoanApplicationFormContext()
@@ -58,6 +58,7 @@ export const MarketOpportunityForm = () => {
   useEffect(() => {
     if (form.formState.isValidating) {
       const data = form.getValues()
+
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY,
@@ -84,8 +85,8 @@ export const MarketOpportunityForm = () => {
               {questions.map((q) => (
                 <TextAreaInput
                   key={q.field}
-                  label={q.question}
                   control={form.control}
+                  label={q.question}
                   name={q.field as keyof MarketOpportunityFormValue}
                 />
               ))}
@@ -94,8 +95,8 @@ export const MarketOpportunityForm = () => {
 
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </Form>

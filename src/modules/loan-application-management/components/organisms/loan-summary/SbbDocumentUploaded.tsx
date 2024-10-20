@@ -4,9 +4,9 @@ import { MiddeskTable } from "@/modules/loan-application-management/components/t
 import { DocumentType } from "@/modules/loan-application-management/constants/types/document"
 import { useQueryDocument } from "@/modules/loan-application-management/hooks/useQuery/useQueryDocument"
 import { DownloadDocumentButton } from "@/modules/loan-application/components/atoms/DownloadDocumentButton"
-import { LoanDocument } from "@/types/loan-document.type"
+import { type LoanDocument } from "@/types/loan-document.type"
 import { renderHeader } from "@/utils/table.utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 
 const getSbbDocumentType = (type: DocumentType) => {
   switch (type) {
@@ -31,6 +31,7 @@ const columns: ColumnDef<LoanDocument>[] = [
     header: renderHeader("Document"),
     cell: ({ row }) => {
       const document = row.original
+
       return (
         <div className="min-w-0 font-semibold">
           {getSbbDocumentType(document.type)}
@@ -73,7 +74,7 @@ const Documents = [
   DocumentType.BY_LAWS
 ]
 
-export const SbbSubmittedDocuments = () => {
+export function SbbSubmittedDocuments() {
   const { data, isLoading } = useQueryDocument({
     keyword: "",
     limit: REQUEST_LIMIT_PARAM_FOR_SELECT,
@@ -94,12 +95,12 @@ export const SbbSubmittedDocuments = () => {
 
       <CardContent className="overflow-auto !p-0">
         <MiddeskTable
-          tableClassName="!text-text-primary"
+          cellClassName="text-sm pl-0  border-b"
           columns={columns}
           data={documents as LoanDocument[]}
-          isLoading={isLoading}
-          cellClassName="text-sm pl-0  border-b"
           headerCellClassName="p-0 text-text-primary text-sm font-medium"
+          isLoading={isLoading}
+          tableClassName="!text-text-primary"
         />
       </CardContent>
     </Card>

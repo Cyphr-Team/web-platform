@@ -30,6 +30,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 interface LoanReadyLoanRequestFormProps {
   wrapperClassName?: string
 }
+
 export function LoanReadyLoanRequestForm({
   wrapperClassName
 }: LoanReadyLoanRequestFormProps) {
@@ -92,17 +93,17 @@ export function LoanReadyLoanRequestForm({
             <div className="flex">
               <div className="flex-1">
                 <RHFLoanSlider
-                  name="loanAmount"
-                  min={minLoanAmount}
-                  max={maxLoanAmount}
                   label="Loan Amount"
+                  max={maxLoanAmount}
+                  min={minLoanAmount}
+                  name="loanAmount"
                 />
 
                 <RHFSelectInput
                   label="Proposed Use of Loan"
                   name="proposeUseOfLoan"
-                  placeholder="Please select..."
                   options={loanProgramInfo?.loanPurposes ?? []}
+                  placeholder="Please select..."
                 />
               </div>
             </div>
@@ -113,8 +114,8 @@ export function LoanReadyLoanRequestForm({
           <CardFooter>
             <Button
               className="w-full"
-              type="submit"
               disabled={!form.formState.isValid}
+              type="submit"
             >
               Next <ArrowRight className="ml-1 w-4" />
             </Button>

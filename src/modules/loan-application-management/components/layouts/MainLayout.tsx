@@ -2,7 +2,7 @@ import { TopNav } from "../molecules/TopNav"
 import { BasicInformation } from "../organisms/BasicInformation"
 import { cn } from "@/lib/utils"
 
-type Props = {
+interface Props {
   children: React.ReactNode
 }
 

@@ -1,4 +1,4 @@
-import { DocumentType } from "@/modules/loan-application-management/constants/types/document"
+import { type DocumentType } from "@/modules/loan-application-management/constants/types/document"
 
 // ENUM
 enum LoanDocumentStatus {

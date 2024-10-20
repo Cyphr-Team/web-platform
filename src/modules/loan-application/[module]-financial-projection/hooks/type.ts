@@ -1,6 +1,6 @@
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { AxiosResponse } from "axios"
-import { ReactNode } from "react"
+import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { type AxiosResponse } from "axios"
+import { type ReactNode } from "react"
 
 export interface SubmissionHook<T> {
   submitForm: (applicationId: string) => Promise<AxiosResponse<T>>

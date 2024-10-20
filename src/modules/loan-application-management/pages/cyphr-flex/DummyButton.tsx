@@ -8,13 +8,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { FC } from "react"
+import { type FC } from "react"
 import { RATING_LEVELS } from "../../services/loan-readiness.service"
 import { useLoanReadinessStore } from "./store/useLoanReadinessStore"
 
 interface DummyButtonProps {
   handleRefetch: VoidFunction
 }
+
 export const DummyButton: FC<DummyButtonProps> = ({ handleRefetch }) => {
   const dummyLevel = useLoanReadinessStore.use.dummyLevel()
   const { setDummyLevel } = useLoanReadinessStore.use.action()
@@ -35,7 +36,7 @@ export const DummyButton: FC<DummyButtonProps> = ({ handleRefetch }) => {
             onValueChange={setDummyLevel}
           >
             {RATING_LEVELS.map((level) => (
-              <DropdownMenuRadioItem value={level.value} key={level.value}>
+              <DropdownMenuRadioItem key={level.value} value={level.value}>
                 {level.label}
               </DropdownMenuRadioItem>
             ))}

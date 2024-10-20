@@ -105,6 +105,7 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isSbb()) {
           return <SbbKycForm />
         }
+
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
         if (isEnablePlaidV2()) {
@@ -113,6 +114,7 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isEnabledBankAccountConnectionV2()) {
           return <CashFlowVerificationFormV2 />
         }
+
         return <CashFlowVerificationForm />
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
@@ -123,6 +125,7 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isKansasCity()) {
           return <KansasCityCurrentLoanForm />
         }
+
         return <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
         if (isSbb() && isEnablePandaDocESign()) {

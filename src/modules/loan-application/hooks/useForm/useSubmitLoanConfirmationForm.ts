@@ -1,4 +1,4 @@
-import { ConfirmationFormValue } from "../../constants/form"
+import { type ConfirmationFormValue } from "../../constants/form"
 import { useSubmitLoanConfirmation } from "../useMutation/useSubmitLoanConfirmation"
 
 export const useSubmitLoanConfirmationForm = (
@@ -11,6 +11,7 @@ export const useSubmitLoanConfirmationForm = (
   const submitLoanConfirmationForm = async (loanApplicationId: string) => {
     return await submitLoanConfirmation({ loanApplicationId, ...rawData })
   }
+
   return {
     isLoading: isSubmitting,
     submitLoanConfirmationForm

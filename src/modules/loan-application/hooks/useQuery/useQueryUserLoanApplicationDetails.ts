@@ -1,6 +1,6 @@
 import { getRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { useQueryDetailsFactory } from "."
 import { LoanType } from "@/types/loan-program.type"

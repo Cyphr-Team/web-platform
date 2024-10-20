@@ -1,6 +1,6 @@
 import { STATE_STATUS } from "../../constants"
 
-type Props = {
+interface Props {
   status: string
   amount?: number
 }

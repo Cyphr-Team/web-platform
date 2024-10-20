@@ -1,7 +1,7 @@
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { AccessorKeyColumnDef } from "@tanstack/react-table"
+import { type AccessorKeyColumnDef } from "@tanstack/react-table"
 import { FORMAT_DATE_M_D_Y_TIME_UPPERCASE } from "@/constants/date.constants"
-import { ChatbotHistory } from "@/types/chatbot.type"
+import { type ChatbotHistory } from "@/types/chatbot.type"
 import removeMd from "remove-markdown"
 import { formatDate } from "@/utils/date.utils"
 
@@ -16,6 +16,7 @@ export const chatHistoryColumns: AccessorKeyColumnDef<ChatbotHistory>[] = [
     enableSorting: false,
     cell: ({ row }) => {
       const data = row.original
+
       return (
         <div className="whitespace-pre-wrap break-words">
           {removeMd(data.message ?? "N/A")}

@@ -7,6 +7,7 @@ export const DocumentSignalsDetect: React.FC = () => {
   const { documentDetails } = useLoanDocumentDetailsContext()
   const signalsData = documentDetails?.detect.signals
   const authenticityData = documentDetails?.detect.formAuthenticity
+
   return (
     <div className="flex flex-col lg:w-96 gap-3 overflow-y-auto">
       {!!authenticityData && (

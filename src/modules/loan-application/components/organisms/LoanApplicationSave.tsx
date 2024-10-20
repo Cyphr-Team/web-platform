@@ -11,7 +11,7 @@ import {
 } from "../../models/LoanApplicationStep/type"
 import { isSbb } from "@/utils/domain.utils"
 
-export const LoanApplicationSave = () => {
+export function LoanApplicationSave() {
   const { submitLoanForm, isSubmitting, loanRequest } =
     useLoanApplicationFormContext()
   const { progress, dispatchProgress } = useLoanApplicationProgressContext()
@@ -65,6 +65,7 @@ export const LoanApplicationSave = () => {
       isCompletePartOne === isCompletePartTwo &&
       isCompletePrivacyPolicy &&
       isCompletePatriotAct
+
     return {
       status: isAbleToSubmit,
       uncompletedStep
@@ -118,11 +119,11 @@ export const LoanApplicationSave = () => {
 
   return (
     <CustomAlertDialog
-      onConfirmed={onConfirmed}
-      title="Save & Close?"
       cancelText="Cancel"
       confirmText={confirmText}
       description={description}
+      title="Save & Close?"
+      onConfirmed={onConfirmed}
     >
       <ButtonLoading isLoading={isSubmitting}>Save & Close</ButtonLoading>
     </CustomAlertDialog>

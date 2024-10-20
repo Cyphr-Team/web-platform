@@ -2,13 +2,13 @@ import { API_PATH } from "@/constants"
 import { judgeLoanApplicationKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { postRequest } from "@/services/client.service"
-import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
-import { ErrorResponse } from "@/types/common.type"
+import { type ILaunchKCApplicationScore } from "@/types/application/application-score.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
-import { IScoreFormValues } from "../../providers/ScoreFormProvider"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type IScoreFormValues } from "../../providers/ScoreFormProvider"
 
 interface ISubmitScoreParams {
   applicationId?: string

@@ -28,11 +28,12 @@ const Alert = React.forwardRef<
 >(({ className, variant, ...props }, ref) => (
   <div
     ref={ref}
-    role="alert"
     className={cn(alertVariants({ variant }), className)}
+    role="alert"
     {...props}
   />
 ))
+
 Alert.displayName = "Alert"
 
 const AlertTitle = React.forwardRef<
@@ -45,6 +46,7 @@ const AlertTitle = React.forwardRef<
     {...props}
   />
 ))
+
 AlertTitle.displayName = "AlertTitle"
 
 const AlertDescription = React.forwardRef<
@@ -57,6 +59,7 @@ const AlertDescription = React.forwardRef<
     {...props}
   />
 ))
+
 AlertDescription.displayName = "AlertDescription"
 
 interface AppAlertProps {
@@ -66,7 +69,7 @@ interface AppAlertProps {
   onClose?: () => void
 }
 
-const AppAlert = ({ title, description, variant, onClose }: AppAlertProps) => {
+function AppAlert({ title, description, variant, onClose }: AppAlertProps) {
   const AlertIcon =
     variant === "success" ? Icons.alertSuccess : Icons.alertError
 
@@ -76,11 +79,11 @@ const AppAlert = ({ title, description, variant, onClose }: AppAlertProps) => {
       <AlertTitle className="ml-2 text-sm">
         {!!onClose && (
           <Button
-            variant="ghost"
-            size="icon"
             className="absolute p-0 text-muted-foreground right-4 h-auto w-auto"
-            onClick={onClose}
+            size="icon"
             type="button"
+            variant="ghost"
+            onClick={onClose}
           >
             <X size={20} />
           </Button>

@@ -1,4 +1,4 @@
-import { LoanApplicationStatus } from "../loan-application.type"
+import { type LoanApplicationStatus } from "../loan-application.type"
 
 interface ISubLoanApplicationResponse {
   id: string

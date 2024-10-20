@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
-import { IPlaidItemListResponse } from "@/types/plaid/response/PlaidItemListResponse"
+import { type ErrorResponse } from "@/types/common.type"
+import { type IPlaidItemListResponse } from "@/types/plaid/response/PlaidItemListResponse"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
-import { FormDetailsQueryProps } from "."
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type FormDetailsQueryProps } from "."
 import { QUERY_KEY } from "../../constants/query-key"
 
 export const useQueryGetPlaidItemIds = ({

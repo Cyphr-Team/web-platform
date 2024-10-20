@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
-import { ErrorResponse } from "react-router-dom"
+import { type ErrorResponse } from "react-router-dom"
 import { QUERY_KEY } from "../../../constants/query-key"
 import { getRequest } from "../../../../../services/client.service"
 import { API_PATH } from "../../../../../constants"
-import { SmartKyc } from "../../../../../lib/persona/persona.types"
+import { type SmartKyc } from "../../../../../lib/persona/persona.types"
 
 export const useQueryGetSmartKyc = ({
   applicationId,

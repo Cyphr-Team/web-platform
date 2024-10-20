@@ -2,8 +2,9 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
 import { APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application"
 import { Link, useLocation } from "react-router-dom"
+import React from "react"
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+type Props = React.HTMLAttributes<HTMLDivElement>
 
 export function TopNav({ id, className, ...props }: Props) {
   const pathname = useLocation().pathname
@@ -18,7 +19,6 @@ export function TopNav({ id, className, ...props }: Props) {
         >
           {applicationMenu.map((example, index) => (
             <Link
-              to={example.href}
               key={example.href}
               className={cn(
                 "flex rounded-lg px-4xl py-md h-full font-normal items-center justify-center text-center text-sm transition-colors border-transparent whitespace-nowrap",
@@ -27,12 +27,13 @@ export function TopNav({ id, className, ...props }: Props) {
                   ? "bg-financial-projection-btn text-white"
                   : ""
               )}
+              to={example.href}
             >
               {example.name}
             </Link>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" className="invisible" />
+        <ScrollBar className="invisible" orientation="horizontal" />
       </ScrollArea>
     </div>
   )

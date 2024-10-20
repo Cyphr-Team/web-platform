@@ -1,8 +1,8 @@
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
 import { DebtFinancingField } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { DebtFinancingResponse } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type DebtFinancingResponse } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, snakeCaseToText, toCurrency } from "@/utils"
@@ -12,6 +12,7 @@ import _ from "lodash"
 interface UseDebtFinancingLoanFormDetailProps {
   debtFinancingResponse?: DebtFinancingResponse
 }
+
 export const useDebtFinancingLoanFormDetail = ({
   debtFinancingResponse
 }: UseDebtFinancingLoanFormDetailProps) => {

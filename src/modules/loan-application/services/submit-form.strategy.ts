@@ -2,20 +2,20 @@ import { revertPattern } from "@/components/ui/mask-input"
 import { APP_PATH } from "@/constants"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
-import { DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
-import { AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import { DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
-import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
-import { ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
-import { FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
-import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
-import { ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
-import { RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
-import { ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
-import { BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
-import { ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
-import { CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
-import { FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
+import { type DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { type AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { type DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
+import { type FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { type ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
+import { type FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
+import { type PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
+import { type ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
+import { type RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { type ArticlesOfOrganizationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
+import { type BusinessEinLetterFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
+import { type ByLawsFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ByLawsForm.tsx"
+import { type CertificateGoodStandingFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
+import { type FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/useForm/useSubmitMarketOpportunity.ts"
 import { useUploadSbbDocument } from "@/modules/loan-application/hooks/useForm/useSubmitSbbDocument.ts"
 import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/hooks/useSubmitFinancialProjectionForms"
@@ -24,42 +24,42 @@ import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { isSbb } from "@/utils/domain.utils"
 import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
-import { AxiosError, isAxiosError } from "axios"
-import { Dispatch, useCallback } from "react"
+import { type AxiosError, isAxiosError } from "axios"
+import { type Dispatch, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
-import { LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
+import { type BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
+import { type LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
-import { ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
+import { type ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
 import {
-  SbbKybFormPartOneValue,
-  SbbKybFormPartTwoValue
+  type SbbKybFormPartOneValue,
+  type SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
-import { MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
-import { ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
+import { type MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
+import { type ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import {
-  BusinessModelFormValue,
-  ConfirmationFormValue,
-  CurrentLoansFormValue,
-  DocumentUploadsFormValue,
-  ESignFormValue,
-  ExecutionFormValue,
-  FinancialFormValue,
-  IBusinessFormValue,
-  IdentityVerificationValue,
-  IOwnerFormValue,
-  LaunchKCFitFormValue,
-  LoanRequestFormValue,
-  MarketOpportunityFormValue,
-  OperatingExpensesFormValue,
-  ProductServiceFormValue
+  type BusinessModelFormValue,
+  type ConfirmationFormValue,
+  type CurrentLoansFormValue,
+  type DocumentUploadsFormValue,
+  type ESignFormValue,
+  type ExecutionFormValue,
+  type FinancialFormValue,
+  type IBusinessFormValue,
+  type IdentityVerificationValue,
+  type IOwnerFormValue,
+  type LaunchKCFitFormValue,
+  type LoanRequestFormValue,
+  type MarketOpportunityFormValue,
+  type OperatingExpensesFormValue,
+  type ProductServiceFormValue
 } from "../constants/form"
 import {
-  CurrentLoansInformationResponse,
-  FinancialInformationResponse,
-  KYBInformationResponse,
-  KYCInformationResponse,
-  OperatingExpensesInformationResponse
+  type CurrentLoansInformationResponse,
+  type FinancialInformationResponse,
+  type KYBInformationResponse,
+  type KYCInformationResponse,
+  type OperatingExpensesInformationResponse
 } from "../constants/type"
 import { useSubmitLoanIdentityVerification } from "../hooks/useForm/submitLoanIdentityVerification"
 import { useSubmitLoanBusinessModelForm } from "../hooks/useForm/useSubmitBusinessModelForm"
@@ -80,18 +80,18 @@ import { useUploadBusinessDocuments } from "../hooks/useForm/useUploadBusinessDo
 import { useUploadFormDocuments } from "../hooks/useForm/useUploadFormDocuments"
 import {
   FORM_TYPE,
-  ILoanApplicationStep,
+  type ILoanApplicationStep,
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS
 } from "../models/LoanApplicationStep/type"
 import { usePlaidContext } from "../providers"
 import {
-  Action,
+  type Action,
   FORM_ACTION,
-  FormStateType
+  type FormStateType
 } from "../providers/LoanApplicationFormProvider"
 import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
-import { FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
+import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -404,6 +404,7 @@ export const useSubmitLoanForm = (
         })
         // Navigate to submission page with applicationId
         let navigateLink = APP_PATH.LOAN_APPLICATION.SUBMISSION
+
         if (eSignData?.documentId) {
           navigateLink = `${navigateLink}?documentId=${eSignData.documentId}`
         }
@@ -441,6 +442,7 @@ export const useSubmitLoanForm = (
     (error: AxiosError) => {
       const message = getAxiosError(error)?.message
       const code = getAxiosError(error)?.code
+
       toastError({
         title: TOAST_MSG.loanApplication.submitError.title,
         description: message?.length
@@ -473,6 +475,7 @@ export const useSubmitLoanForm = (
       // Submit loan request form
       const { data } = await submitLoanRequestForm()
       const loanRequestId = data.id
+
       if (loanRequestId) {
         dispatchFormAction({
           action: FORM_ACTION.UPDATE_DATA,
@@ -609,6 +612,7 @@ export const useSubmitLoanForm = (
         const {
           data: { id: ownerFormId }
         } = await submitLoanKYCForm(loanRequestId)
+
         if (ownerData.governmentFile?.length) {
           await uploadDocuments(
             ownerFormId,
@@ -626,6 +630,7 @@ export const useSubmitLoanForm = (
         const {
           data: { id: financialFormId }
         } = await submitLoanFinancialForm(loanRequestId)
+
         if (financialData.w2sFile?.length) {
           await uploadDocuments(
             financialFormId,
@@ -640,6 +645,7 @@ export const useSubmitLoanForm = (
         const {
           data: { id: financialFormId }
         } = await submitCashFlowForm(loanRequestId)
+
         if (cashflowData.w2sFile?.length) {
           await uploadDocuments(
             financialFormId,
@@ -655,10 +661,11 @@ export const useSubmitLoanForm = (
           result.status === "rejected"
       )
 
-      if (error && error.reason) {
+      if (error?.reason) {
         if (isAxiosError(error.reason)) {
           handleSubmitFormError(error.reason as AxiosError)
         }
+
         return
       }
 

@@ -1,7 +1,10 @@
 import { getRequest } from "@/services/client.service"
-import { UndefinedInitialDataOptions, useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
-import { ErrorResponse } from "@/types/common.type"
+import {
+  type UndefinedInitialDataOptions,
+  useQuery
+} from "@tanstack/react-query"
+import { type AxiosError } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
 
 interface Props<T> {
   setupId: string

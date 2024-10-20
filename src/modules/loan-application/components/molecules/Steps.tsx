@@ -8,7 +8,7 @@ interface StepsProps extends React.HTMLAttributes<HTMLDivElement> {
   status: LOAN_APPLICATION_STEP_STATUS
 }
 
-export const Steps = ({ className, title, content, status }: StepsProps) => {
+export function Steps({ className, title, content, status }: StepsProps) {
   const isCurrent = status === LOAN_APPLICATION_STEP_STATUS.CURRENT
   const isIncomplete = status === LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
 
@@ -22,20 +22,20 @@ export const Steps = ({ className, title, content, status }: StepsProps) => {
             : Icons.stepCheckComplete({ className: "mb-sm" })}
 
         <div
+          className="w-xxs flex-1 bg-primary data-[status=true]:bg-border-secondary rounded-sm mb-sm group-[.last-step]:hidden"
           data-status={isIncomplete}
-          className={`w-xxs flex-1 bg-primary data-[status=true]:bg-border-secondary rounded-sm mb-sm group-[.last-step]:hidden`}
         />
       </div>
-      <div className={`flex flex-col pt-xxs pb-3xl`}>
+      <div className="flex flex-col pt-xxs pb-3xl">
         <p
-          data-status={isCurrent}
           className="text-sm text-text-secondary font-semibold  data-[status=true]:text-primary"
+          data-status={isCurrent}
         >
           {title}
         </p>
         <p
-          data-status={isCurrent}
           className="text-sm text-text-tertiary font-normal  data-[status=true]:text-primary"
+          data-status={isCurrent}
         >
           {content}
         </p>

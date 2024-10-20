@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form"
-import { SetupPasswordFormValue } from "../hooks/useSetupPassword"
+import { type SetupPasswordFormValue } from "../hooks/useSetupPassword"
 import { useMemo } from "react"
 import backgroundPatternDecorative from "@/assets/background-pattern-decorative.svg"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
@@ -19,11 +19,11 @@ export function SetupPasswordFormHeader() {
     <div className="flex flex-col text-center">
       <div className="flex justify-center relative">
         <img
-          className="max-w-[100vw] absolute w-[756px] h-[756px] -z-10 left-1/2 -translate-x-1/2 top-[28px] -translate-y-1/2 dark:opacity-15"
-          src={backgroundPatternDecorative}
           alt="Pattern decorative"
-          width={756}
+          className="max-w-[100vw] absolute w-[756px] h-[756px] -z-10 left-1/2 -translate-x-1/2 top-[28px] -translate-y-1/2 dark:opacity-15"
           height={756}
+          src={backgroundPatternDecorative}
+          width={756}
         />
         <div className="w-[56px] self-center">
           <AspectRatio ratio={1 / 1}>

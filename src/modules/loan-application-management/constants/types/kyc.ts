@@ -1,6 +1,6 @@
-import { TaskFieldStatus } from "./business.type"
+import { type TaskFieldStatus } from "./business.type"
 
-export type LoanApplicationsKyc = {
+export interface LoanApplicationsKyc {
   kycStatus: ApplicationKycStatus
   summary: ApplicationKycSummary
   personalInfo: ApplicationKycPersonalInfo
@@ -12,7 +12,7 @@ export type LoanApplicationsKyc = {
   }
 }
 
-type ApplicationKycStatus = {
+interface ApplicationKycStatus {
   status: KYC_STATUS
   reason?: string
 }
@@ -26,13 +26,13 @@ export enum KYC_STATUS {
   FAILED = "FAILED"
 }
 
-type ApplicationKycSummary = {
+interface ApplicationKycSummary {
   personalInfo: ApplicationKycStatus
   idCheck: ApplicationKycStatus
   checkList: ApplicationKycStatus
 }
 
-type ApplicationKycPersonalInfo = {
+interface ApplicationKycPersonalInfo {
   name?: string
   dateOfBirth?: string
   residentialAddress?: string
@@ -40,12 +40,12 @@ type ApplicationKycPersonalInfo = {
   phoneNumber?: string
 }
 
-type ApplicationKycIdCheck = {
+interface ApplicationKycIdCheck {
   driverLicense: ApplicationKycStatus
   passport: ApplicationKycStatus
 }
 
-type ApplicationKycCheckList = {
+interface ApplicationKycCheckList {
   category?: string
   message?: string
   status?: TaskFieldStatus

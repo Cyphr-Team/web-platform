@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card"
 import { Plus, X } from "lucide-react"
 import { memo, useCallback, useEffect } from "react"
 import {
-  FieldArrayWithId,
+  type FieldArrayWithId,
   useFieldArray,
   useFormContext
 } from "react-hook-form"
@@ -13,8 +13,8 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import {
   SBB_KYC_FIELD_NAMES,
-  SbbKycBeneficialOwner,
-  SbbKycFormValue
+  type SbbKycBeneficialOwner,
+  type SbbKycFormValue
 } from "./const"
 import { Separator } from "@/components/ui/separator"
 
@@ -30,7 +30,7 @@ import {
 } from "@/modules/loan-application/constants/form"
 import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
 
-export const BeneficialOwnersInput = () => {
+export function BeneficialOwnersInput() {
   const { control, getValues, watch } = useFormContext<SbbKycFormValue>()
   const { fields, append, remove } = useFieldArray({
     control,
@@ -87,14 +87,14 @@ export const BeneficialOwnersInput = () => {
       <Separator />
       <RHFSelectInput
         className="flex items-center justify-between"
+        description="A beneficial owner is an individual who owns, directly or indirectly, 25% or more of the equity
+interest of the company. We are required to include all beneficial owners on your account application."
+        label="Does your business have any other beneficial owners?"
+        name={`${SBB_KYC_FIELD_NAMES.METADATA}.${SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS}`}
+        options={YES_NO_OPTIONS}
         styleProps={{
           inputClassName: "w-40 md:max-w-40 xl:max-w-40 xl:w-40"
         }}
-        name={`${SBB_KYC_FIELD_NAMES.METADATA}.${SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS}`}
-        label="Does your business have any other beneficial owners?"
-        description="A beneficial owner is an individual who owns, directly or indirectly, 25% or more of the equity
-interest of the company. We are required to include all beneficial owners on your account application."
-        options={YES_NO_OPTIONS}
       />
 
       {watch(
@@ -105,15 +105,15 @@ interest of the company. We are required to include all beneficial owners on you
             <EditOwner
               key={owner.id}
               index={index}
+              totalOwners={fields.length}
               value={owner}
               onRemove={onRemove(index)}
-              totalOwners={fields.length}
             />
           ))}
           <Button
+            className="w-min ml-auto border-black gap-2"
             type="button"
             variant="outline"
-            className="w-min ml-auto border-black gap-2"
             onClick={handleAddOwner}
           >
             <Plus className="w-4" />
@@ -141,16 +141,16 @@ const EditOwner = memo((props: EditOwnerProps) => {
 
   return (
     <Card
-      className="p-4xl rounded-lg flex flex-col gap-2 shadow-none"
       key={value.id}
+      className="p-4xl rounded-lg flex flex-col gap-2 shadow-none"
     >
       <div className="flex justify-between items-center">
         <h5 className="font-semibold text-sm">Owner {index + 1}</h5>
         {totalOwners > 1 && (
           <Button
+            className="p-4"
             type="button"
             variant="ghost"
-            className="p-4"
             onClick={onRemove}
           >
             <X className="w-4" />
@@ -159,47 +159,45 @@ const EditOwner = memo((props: EditOwnerProps) => {
       </div>
       <RHFTextInput
         isRowDirection
+        label="What is their first and last name?"
+        name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.NAME}`}
         styleProps={{
           inputClassName: "w-48 md:max-w-48 xl:max-w-48 xl:w-48"
         }}
-        label="What is their first and last name?"
-        name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.NAME}`}
       />
       <RHFTextInput
         isRowDirection
+        label="What is their email address?"
+        name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.EMAIL}`}
         styleProps={{
           inputClassName: "w-48 md:max-w-48 xl:max-w-48 xl:w-48"
         }}
-        label="What is their email address?"
-        name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.EMAIL}`}
       />
       <RHFPhoneInput
         isRowDirection
+        label="What is their phone number?"
+        name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.PHONE_NUMBER}`}
         styleProps={{
           inputClassName: "w-48 md:max-w-48 xl:max-w-48 xl:w-48"
         }}
-        label="What is their phone number?"
-        name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.PHONE_NUMBER}`}
       />
       <RHFPercentageInput
         className="flex items-center justify-between gap-2"
+        label="What percentage of the business do they own?"
+        name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}`}
         styleProps={{
           inputClassName: "w-48 md:max-w-48 xl:max-w-48 xl:w-48"
         }}
-        label="What percentage of the business do they own?"
-        name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}`}
       />
     </Card>
   )
 })
 
-type OwnerDetailsProps = {
+interface OwnerDetailsProps {
   data?: SbbKycBeneficialOwner[]
 }
 
-export const BeneficialOwnersDetails: React.FC<OwnerDetailsProps> = ({
-  data
-}) => {
+export function BeneficialOwnersDetails({ data }: OwnerDetailsProps) {
   return (
     <div className="flex flex-col gap-2xl">
       <h5 className="text-sm font-semibold">Beneficial Owners </h5>
@@ -234,7 +232,7 @@ const OwnerDetails = memo(
     const { index, value } = props
 
     return (
-      <div className="flex flex-col gap-4 border-t pt-2" key={index}>
+      <div key={index} className="flex flex-col gap-4 border-t pt-2">
         <div className="flex justify-between items-center">
           <h5 className="font-semibold text-sm">Owner {index + 1}</h5>
         </div>

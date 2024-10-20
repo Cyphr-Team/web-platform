@@ -10,16 +10,16 @@ import {
 
 import { cn } from "@/lib/utils"
 import { BankInformation } from "@/modules/conference-demo/admin/components/atoms/BankInformation"
-import { BankStatementType } from "@/modules/conference-demo/admin/constants/type"
+import { type BankStatementType } from "@/modules/conference-demo/admin/constants/type"
 
-type Props = {
+interface Props {
   data: BankStatementType
 }
 
 export const BankStatement: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col lg:w-96 gap-3 overflow-y-auto">
-      <Accordion type="single" collapsible className="w-full mb-12">
+      <Accordion collapsible className="w-full mb-12" type="single">
         {data.bankAccount?.map((cell, index) => (
           <BankInformation key={index} data={cell} />
         ))}

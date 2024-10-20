@@ -1,23 +1,23 @@
 import { API_PATH } from "@/constants"
 import {
   FpEquityFinancingField,
-  FpEquityFinancingFormValue
+  type FpEquityFinancingFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import { useCreateMutation } from "@/modules/loan-application/[module]-financial-projection/hooks"
-import { SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
-  FpEquityFinancingFormMutateRequest,
-  FpEquityFinancingFormResponse
+  type FpEquityFinancingFormMutateRequest,
+  type FpEquityFinancingFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/equity-form"
 import {
   parseISOStringToMMYYYY,
   parseMMYYYYToISOString
 } from "@/utils/date.utils"
 import { useQueryClient } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 
-type Props = {
+interface Props {
   rawData: FpEquityFinancingFormValue
 }
 
@@ -52,13 +52,15 @@ export const useSubmitEquityFinancingForm = <
       }))
     } as T
 
-    const result = await mutationToUse.mutateAsync(formattedData as T)
+    const result = await mutationToUse.mutateAsync(formattedData)
 
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY.GET_EQUITY_FINANCING_FORM]
     })
+
     return result
   }
+
   return {
     isLoading: updateMutation.isPending || submitMutation.isPending,
     submitForm: submitEquityFinancingForm

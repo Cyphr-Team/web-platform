@@ -1,6 +1,6 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { type AxiosError } from "axios"
 
 export const useQueryDetailsFactory = <T>(
   id: string,
@@ -14,7 +14,7 @@ export const useQueryDetailsFactory = <T>(
   })
 }
 
-export type FormDetailsQueryProps = {
+export interface FormDetailsQueryProps {
   applicationId: string
   enabled?: boolean
 }

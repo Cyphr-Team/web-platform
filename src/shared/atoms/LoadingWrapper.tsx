@@ -1,12 +1,12 @@
 import { Loader2 } from "lucide-react"
-import { FC, PropsWithChildren, useEffect, useState } from "react"
+import { type PropsWithChildren, useEffect, useState } from "react"
 
 interface Props extends PropsWithChildren {
   isLoading: boolean
   className?: string
 }
 
-export const LoadingWrapper: FC<Props> = (props) => {
+export function LoadingWrapper(props: Props) {
   const { isLoading, children, className } = props
   const [loadingMessage, setLoadingMessage] = useState("Loading...")
 

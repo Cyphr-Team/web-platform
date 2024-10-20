@@ -9,14 +9,14 @@ const notificationRoutes = (
     {/* LIST NOTIFICATION */}
     <Route
       index
-      path={APP_PATH.LOAN_APPLICATION.NOTIFICATION.list}
       lazy={() => import("@/modules/notification/pages/Notifications")}
+      path={APP_PATH.LOAN_APPLICATION.NOTIFICATION.list}
     />
 
     {/* DETAIL NOTIFICATION */}
     <Route
-      path={APP_PATH.LOAN_APPLICATION.NOTIFICATION.detail}
       lazy={() => import("@/modules/notification/pages/NotificationDetails")}
+      path={APP_PATH.LOAN_APPLICATION.NOTIFICATION.detail}
     />
   </Route>
 )

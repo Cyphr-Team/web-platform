@@ -4,7 +4,7 @@ import { MiddeskTable } from "@/modules/loan-application-management/components/t
 import { useGetESignDocument } from "@/modules/loan-application/hooks/useQuery/form/useGetESignDocument"
 import { formatDate } from "@/utils/date.utils"
 import { renderHeader } from "@/utils/table.utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { FileDown } from "lucide-react"
 import { useParams } from "react-router-dom"
 import { ButtonDownloadESignDocument } from "../../atoms/ButtonDownloadESignDocument"
@@ -22,6 +22,7 @@ const columns: ColumnDef<ILoanApplicationESignDocument>[] = [
     header: renderHeader("Name"),
     cell: ({ row }) => {
       const signature = row.original
+
       return <div className="min-w-0">{signature.name}</div>
     }
   },
@@ -58,7 +59,7 @@ const columns: ColumnDef<ILoanApplicationESignDocument>[] = [
   }
 ]
 
-export const ESignTable = () => {
+export function ESignTable() {
   const { id: applicationId } = useParams()
   const { isLoading, data } = useGetESignDocument({
     applicationId,
@@ -76,6 +77,7 @@ export const ESignTable = () => {
             documentId: data.documentId
           }
         ]
+
   return (
     <Card className="p-8 flex flex-col gap-2xl">
       <CardHeader className="!p-0">
@@ -88,11 +90,11 @@ export const ESignTable = () => {
 
       <CardContent className="!p-0 overflow-auto">
         <MiddeskTable
+          cellClassName="text-sm pl-0  border-b"
           columns={columns}
           data={eSignDocuments}
-          isLoading={isLoading}
-          cellClassName="text-sm pl-0  border-b"
           headerCellClassName="p-0 text-text-primary text-sm font-medium"
+          isLoading={isLoading}
         />
       </CardContent>
     </Card>

@@ -1,14 +1,14 @@
 import { useLoanDocumentDetailsContext } from "../../providers/LoanDocumentDetailsProvider"
 
-type Props = {
+interface Props {
   handleOpenSignalDetails: () => void
   isOpenSignalDetails: boolean
 }
 
-const ViewSignalsDetails = ({
+function ViewSignalsDetails({
   handleOpenSignalDetails,
   isOpenSignalDetails
-}: Props) => {
+}: Props) {
   const { visualizationDetails } = useLoanDocumentDetailsContext()
 
   if (!visualizationDetails || isOpenSignalDetails) return null

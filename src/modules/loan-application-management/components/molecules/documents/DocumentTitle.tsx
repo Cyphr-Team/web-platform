@@ -1,10 +1,11 @@
 import { formatBirthday } from "@/utils/date.utils"
 import { BackButton } from "./BackButton"
 
-type Props = {
+interface Props {
   documentType: string
   verifiedDate: string
 }
+
 export const DocumentTitle: React.FC<Props> = ({
   documentType,
   verifiedDate

@@ -3,7 +3,7 @@ import { toastError } from "@/utils"
 import { Client } from "persona"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useCreateSmartKyc } from "./persona.client"
-import { CreatePersonaInquiryRequest } from "@/types/kyc/request/CreatePersonaInquiryRequest"
+import { type CreatePersonaInquiryRequest } from "@/types/kyc/request/CreatePersonaInquiryRequest"
 import { EPersonaStatus } from "../../types/kyc"
 
 interface IPersonaInquiryData {
@@ -43,7 +43,8 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
           }
         },
         onError: (error) => {
-          console.error("Client got error", error)
+          throw new Error(error.message)
+          // console.error("Client got error", error)
         }
       })
 
@@ -64,9 +65,11 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
     const createResponse = await createSmartKyc.mutateAsync(
       createPersonaInquiryRequest
     )
+
     try {
       if (personaClientRef.current) {
         personaClientRef.current.open()
+
         return
       }
 
@@ -80,7 +83,7 @@ export const usePersona = ({ applicationId }: IUsePersona) => {
 
       personaClient.open()
     } catch (e) {
-      console.error(e)
+      // console.error(e)
       // Open Persona client failed
       toastError({
         title: "Persona",

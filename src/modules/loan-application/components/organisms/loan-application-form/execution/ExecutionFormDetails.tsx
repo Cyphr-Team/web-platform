@@ -17,9 +17,9 @@ import {
 } from "./constants"
 import { FoundersDetails } from "./FoundersDetails"
 import { FundingSourceDetails } from "./FundingSourceDetails"
-import { ExecutionFormResponse } from "./type"
+import { type ExecutionFormResponse } from "./type"
 
-type Props = {
+interface Props {
   data?: ExecutionFormResponse
 }
 
@@ -54,8 +54,8 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <div className="flex flex-col gap-y-4xl">
           <AnswersTextDisplay
-            className="!flex-row justify-between"
             key="monthlyExpenseRange"
+            className="!flex-row justify-between"
             label="How much cash does your company go through each month?"
             value={getLabelByValue(
               get(

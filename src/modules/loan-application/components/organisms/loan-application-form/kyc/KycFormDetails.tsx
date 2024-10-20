@@ -1,9 +1,8 @@
 import { Card } from "@/components/ui/card"
 import { formatPhoneNumber } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
-import { KYCInformationResponse } from "@/modules/loan-application/constants/type"
+import { type KYCInformationResponse } from "@/modules/loan-application/constants/type"
 import { Separator } from "@/components/ui/separator"
-import { FC } from "react"
 import { TextInputDisplay } from "@/modules/loan-application/components/atoms/TextInputDisplay.tsx"
 import { isLaunchKC } from "@/utils/domain.utils.ts"
 import {
@@ -19,7 +18,7 @@ interface KycFormDetailsProps {
   kycFormData?: KYCInformationResponse
 }
 
-export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
+export function KycFormDetails({ kycFormData }: KycFormDetailsProps) {
   const getValue = (field: string) => get(kycFormData, field, "N/A")
 
   const getMetadataValue = (field: string) =>
@@ -31,6 +30,7 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
       isMetaData ? getMetadataValue(field) : getValue(field)
     )
   }
+
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
       <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
@@ -64,110 +64,110 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Preferred pronoun"
             value={getOptionValue(
               LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN,
               true
             )}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Racial identification"
             value={getOptionValue(
               LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION,
               true
             )}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Ethnic identification"
             value={getOptionValue(
               LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION,
               true
             )}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Resident address line #1"
-            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE1) ?? "N/A"}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Resident address line #2"
-            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE2) ?? "N/A"}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="City"
-            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY) ?? "N/A"}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
+            className="!flex-row justify-between"
             label="State"
-            className="!flex-row justify-between"
-            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_STATE) ?? "N/A"}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
-            label="Zip code"
             className="!flex-row justify-between"
-            valueClassName="text-right"
+            label="Zip code"
             value={
               getValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE) ?? "N/A"
             }
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Email address"
-            valueClassName="text-right"
             value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.EMAIL) ?? "N/A"}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Phone number"
-            valueClassName="text-right"
             value={
               formatPhoneNumber(
                 getValue(LAUNCH_KC_KYC_FIELD_NAMES.PHONE_NUMBER) ?? "N/A"
               ) || "N/A"
             }
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Date of birth"
-            valueClassName="text-right"
             value={formatBirthday(
               getValue(LAUNCH_KC_KYC_FIELD_NAMES.DATE_OF_BIRTH)
             )}
+            valueClassName="text-right"
           />
           {!checkIsJudge() && (
             <AnswersTextDisplay
               className="!flex-row justify-between"
               label="SSN/ITIN"
-              valueClassName="text-right"
               value={getValue(LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER)}
+              valueClassName="text-right"
             />
           )}
           <AnswersTextDisplay
-            valueClassName="capitalize"
             className="!flex-row justify-between"
             label="Are you a founder or co-founder of the company applying"
             value={getMetadataValue(
               LAUNCH_KC_KYC_FIELD_NAMES.ARE_FOUNDER_OR_CO_FOUNDER
             )}
+            valueClassName="capitalize"
           />
           <AnswersTextDisplay
-            valueClassName="capitalize"
             className="!flex-row justify-between"
             label="Full-time founder"
             value={getMetadataValue(
               LAUNCH_KC_KYC_FIELD_NAMES.ARE_FULL_TIME_FOUNDER
             )}
+            valueClassName="capitalize"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
@@ -209,13 +209,13 @@ export const KycFormDetails: FC<KycFormDetailsProps> = ({ kycFormData }) => {
             value={kycFormData?.businessCity}
           />
           <TextInputDisplay
-            label="Business state"
             className="col-span-2"
+            label="Business state"
             value={kycFormData?.businessState}
           />
           <TextInputDisplay
-            label="Zip code"
             className="col-span-2"
+            label="Zip code"
             value={kycFormData?.businessZipCode}
           />
           <TextInputDisplay

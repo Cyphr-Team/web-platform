@@ -14,14 +14,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { DraggableList } from "@/components/ui/draggable-list"
-import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { type FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { FormOptionCard } from "./form-option"
 import { ScrollArea } from "@/components/ui/scroll"
 import { SelectFormsDialog } from "./select-forms-dialog"
 import { useGetFormsConfiguration } from "../../hooks/useGetFormsConfiguration"
 import { useUpdateEffect } from "react-use"
 
-type Props = {
+interface Props {
   detailId?: string
   onSave: (forms: string[]) => void
 }
@@ -58,6 +58,7 @@ export function FormsConfigurationDialog({
 
   const onChangeSelectedForms = (formType: string[]) => {
     const selectedForms = form.getValues("formsConfiguration")
+
     form.setValue(
       "formsConfiguration",
       Array.from(new Set([...selectedForms, ...formType]))
@@ -99,18 +100,18 @@ export function FormsConfigurationDialog({
 
             <ScrollArea className="h-96 gap-4">
               <DraggableList
+                customCard={(item: string) => (
+                  <FormOptionCard
+                    formType={item as FORM_TYPE}
+                    id={item}
+                    value={item}
+                    onRemove={onRemoveForm(item as FORM_TYPE)}
+                  />
+                )}
                 initialItems={form.watch("formsConfiguration") ?? []}
                 onReorder={(items: string[]) => {
                   form.setValue("formsConfiguration", items)
                 }}
-                customCard={(item: string) => (
-                  <FormOptionCard
-                    id={item}
-                    value={item}
-                    formType={item as FORM_TYPE}
-                    onRemove={onRemoveForm(item as FORM_TYPE)}
-                  />
-                )}
               />
             </ScrollArea>
           </form>

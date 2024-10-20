@@ -27,8 +27,10 @@ export const DocumentToolbar: React.FC = () => {
     const index = visualizationDetails.visualizationsByPage.findIndex(
       (page) => page === selectedPage
     )
+
     if (index === -1) return
     const nextPage = visualizationDetails.visualizationsByPage[index + 1]
+
     if (nextPage) handleSelectPage(nextPage)
   }
 
@@ -36,49 +38,52 @@ export const DocumentToolbar: React.FC = () => {
     const index = visualizationDetails.visualizationsByPage.findIndex(
       (page) => page === selectedPage
     )
+
     if (index === -1) return
     const previousPage = visualizationDetails.visualizationsByPage[index - 1]
+
     if (previousPage) handleSelectPage(previousPage)
   }
 
   const onPageChange = (page: number) => {
     const newPage = visualizationDetails.visualizationsByPage[page - 1]
+
     if (newPage) handleSelectPage(newPage)
   }
 
   return (
     <div className="flex w-full justify-between pb-3">
       <DocumentTitle
-        verifiedDate={documentDetails?.verifiedDate ?? ""}
         documentType={capitalizeWords(
           snakeCaseToText(documentDetails?.documentType ?? "")
         )}
+        verifiedDate={documentDetails?.verifiedDate ?? ""}
       />
 
       <div className="flex gap-6">
         <div className="flex gap-1">
           <Button
             className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
+            disabled={scale < 0.5}
             variant="secondary"
             onClick={zoomOut}
-            disabled={scale < 0.5}
           >
             <Minus className="w-6 h-6 text-gray-500" />
           </Button>
           <Button
             className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
+            disabled={scale > 4}
             variant="secondary"
             onClick={zoomIn}
-            disabled={scale > 4}
           >
             <Plus className="w-6 h-6 text-gray-500" />
           </Button>
         </div>
         <Pagination
-          total={total}
           page={currentPage}
-          onPageChange={onPageChange}
+          total={total}
           onNextPage={onNextPage}
+          onPageChange={onPageChange}
           onPreviousPage={onPreviousPage}
         />
       </div>

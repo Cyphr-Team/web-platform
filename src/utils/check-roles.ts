@@ -3,7 +3,7 @@ import {
   judgeRoles,
   platformAdminRoles,
   reviewerRoles,
-  UserRoles,
+  type UserRoles,
   workspaceAdminRoles
 } from "@/types/user.type"
 import { inMemoryJWTService } from "@/services/jwt.service"
@@ -23,6 +23,7 @@ const hasRole = (roles: string[], role: string): boolean => {
 
 const checkIsLoanApplicant = () => {
   const userInfo = inMemoryJWTService.getUserInfo()
+
   if (!userInfo) return false
 
   return isApplicant(userInfo.roles)
@@ -30,6 +31,7 @@ const checkIsLoanApplicant = () => {
 
 const checkIsLoanOfficer = () => {
   const userInfo = inMemoryJWTService.getUserInfo()
+
   if (!userInfo) return false
 
   return isReviewer(userInfo.roles)

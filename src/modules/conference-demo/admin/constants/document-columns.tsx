@@ -5,9 +5,9 @@ import { APP_PATH } from "@/constants"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { BadgeAuthenticityScore } from "@/modules/loan-application-management/components/atoms/badge/BadgeAuthenticityScore"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { LoanDocument } from "@/types/loan-document.type"
+import { type LoanDocument } from "@/types/loan-document.type"
 import { snakeCaseToText } from "@/utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
@@ -24,9 +24,9 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-xs font-medium text-text-tertiary"
         column={column}
         title="File name"
-        className="text-xs font-medium text-text-tertiary"
       />
     ),
     cell: ({ row }) => {
@@ -39,11 +39,11 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
           </div>
           <div className="min-w-0">
             <p className="truncate">{document.name}</p>
-            {document.fileSize && (
+            {document.fileSize ? (
               <p className="text-sm text-muted-foreground mt-0.5 truncate ">
                 {document.fileSize} KB
               </p>
-            )}
+            ) : null}
           </div>
         </div>
       )
@@ -56,9 +56,9 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
     accessorKey: "ocrolusDocumentType",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-xs font-medium text-text-tertiary"
         column={column}
         title="Document Type"
-        className="text-xs font-medium text-text-tertiary"
       />
     ),
     size: 150,
@@ -69,8 +69,8 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
       return (
         <div className="font-medium">
           <Badge
-            variant="outline"
             className="border-gray-300 py-1.5 text-zinc-700 capitalize"
+            variant="outline"
           >
             {snakeCaseToText(type).toLowerCase()}
           </Badge>
@@ -83,9 +83,9 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-xs text-right font-medium text-text-tertiary"
         column={column}
         title="Uploaded"
-        className="text-xs text-right font-medium text-text-tertiary"
       />
     ),
     size: 150,
@@ -105,20 +105,21 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
     accessorFn: (row) => row.authenticityScoreStatus.score,
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="text-xs text-right font-medium text-text-tertiary"
         column={column}
         title="Authenticity Score"
-        className="text-xs text-right font-medium text-text-tertiary"
       />
     ),
     size: 100,
     enableSorting: false,
     cell: ({ row }) => {
       const document = row.original
+
       return (
         <div className="flex content-end items-end justify-end pr-0">
           <BadgeAuthenticityScore
-            status={document?.authenticityScoreStatus.status}
             score={document?.authenticityScoreStatus.score}
+            status={document?.authenticityScoreStatus.status}
           />
         </div>
       )
@@ -131,7 +132,7 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
     cell: () => {
       return (
         <div className="flex content-end justify-end items-center gap-2 text-gray-500">
-          <Button variant="ghost" asChild>
+          <Button asChild variant="ghost">
             <Link to={APP_PATH.CONFERENCE_DEMO.admin.documentDetail}>
               <ArrowRight className="w-5 h-5" />
             </Link>

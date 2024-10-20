@@ -12,9 +12,9 @@ import { FormLayout } from "@/modules/loan-application/components/layouts/FormLa
 import { PlaidConnectButton } from "@/modules/loan-application/components/molecules/plaid/ConnectButton"
 import {
   plaidFormSchema,
-  PlaidFormValue
+  type PlaidFormValue
 } from "@/modules/loan-application/constants/plaid"
-import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { usePlaidInstitutions } from "@/modules/loan-application/hooks/usePlaidInstitutions"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
@@ -26,12 +26,12 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { toastError } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
-import React, { useEffect, useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import { useUpdateEffect } from "react-use"
 
@@ -39,9 +39,7 @@ interface PlaidConnectFormProps {
   wrapperClassName?: string
 }
 
-export const PlaidConnectForm: React.FC<PlaidConnectFormProps> = ({
-  wrapperClassName
-}) => {
+export function PlaidConnectForm({ wrapperClassName }: PlaidConnectFormProps) {
   const form = useForm<PlaidFormValue>({
     resolver: zodResolver(plaidFormSchema)
   })
@@ -57,18 +55,20 @@ export const PlaidConnectForm: React.FC<PlaidConnectFormProps> = ({
   )
 }
 
-const FormHeader: React.FC = () => (
-  <div className="flex flex-col gap-2">
-    <h5 className="text-lg font-semibold">Connected Accounts</h5>
-    <p className="text-sm financial-projection text-muted-foreground">
-      Please note that if your bank connection status is pending, you can still
-      complete and submit your application. We'll notify you once your bank
-      connection status has been updated.
-    </p>
-  </div>
-)
+function FormHeader() {
+  return (
+    <div className="flex flex-col gap-2">
+      <h5 className="text-lg font-semibold">Connected Accounts</h5>
+      <p className="text-sm financial-projection text-muted-foreground">
+        Please note that if your bank connection status is pending, you can
+        still complete and submit your application. We'll notify you once your
+        bank connection status has been updated.
+      </p>
+    </div>
+  )
+}
 
-const PlaidForm: React.FC = () => {
+function PlaidForm() {
   const { watch, setValue, formState } = useFormContext<PlaidFormValue>()
   const { institutions, searchInstitutions, isLoading, total } =
     usePlaidInstitutions()
@@ -89,9 +89,9 @@ const PlaidForm: React.FC = () => {
         icon: institution?.logo
           ? () => (
               <img
+                alt="Plaid institution logo"
                 className="h-5 w-5"
                 src={`data:image/png;base64,${institution?.logo}`}
-                alt="Plaid institution logo"
               />
             )
           : undefined,
@@ -180,14 +180,14 @@ const PlaidForm: React.FC = () => {
   return (
     <div className="w-full flex flex-col gap-5 text-secondary-700 text-sm">
       <InstitutionField
-        options={institutionOptions}
-        onSearch={searchInstitutions}
         isLoading={isLoading}
+        options={institutionOptions}
         total={total}
+        onSearch={searchInstitutions}
       />
       <RoutingNumberField
-        options={routingNumberOptions}
         disabled={!selectedInstitution}
+        options={routingNumberOptions}
       />
 
       {connectedAccounts.length ? (
@@ -196,11 +196,11 @@ const PlaidForm: React.FC = () => {
             <Card className="border-none shadow-none">
               <CardContent className="p-0 md:p-0">
                 <MiddeskTable
-                  tableClassName="text-gray-700 font-sm"
                   cellClassName="py-6"
                   columns={columns}
                   data={connectedAccounts}
-                  noResultText={"No connected accounts found"}
+                  noResultText="No connected accounts found"
+                  tableClassName="text-gray-700 font-sm"
                 />
               </CardContent>
             </Card>
@@ -219,58 +219,70 @@ const PlaidForm: React.FC = () => {
       {!isReviewApplicationStep(step) && !!connectedAccounts.length ? (
         <FormSubmitButton
           className="w-full"
-          onSubmit={handleNextClick}
           isDisabled={!connectedAccounts.length}
+          onSubmit={handleNextClick}
         />
       ) : null}
     </div>
   )
 }
 
-const InstitutionField: React.FC<{
+function InstitutionField({
+  options,
+  onSearch,
+  isLoading,
+  total
+}: {
   options: Option[]
   onSearch: (value: string) => void
   isLoading: boolean
   total?: number
-}> = ({ options, onSearch, isLoading, total }) => (
-  <div className="flex justify-between items-center gap-4">
-    <p>Banking institution</p>
-    <FormField
-      name="institution"
-      render={({ field }) => (
-        <SearchSelect
-          isLogo
-          field={field}
-          options={options}
-          handleSearch={onSearch}
-          placeholder="Start typing your institution"
-          isFetching={isLoading}
-          totalOptions={total}
-        />
-      )}
-    />
-  </div>
-)
+}) {
+  return (
+    <div className="flex justify-between items-center gap-4">
+      <p>Banking institution</p>
+      <FormField
+        name="institution"
+        render={({ field }) => (
+          <SearchSelect
+            isLogo
+            field={field}
+            handleSearch={onSearch}
+            isFetching={isLoading}
+            options={options}
+            placeholder="Start typing your institution"
+            totalOptions={total}
+          />
+        )}
+      />
+    </div>
+  )
+}
 
-const RoutingNumberField: React.FC<{
+function RoutingNumberField({
+  options,
+  disabled
+}: {
   options: Option[]
   disabled: boolean
-}> = ({ options, disabled }) => (
-  <div className="flex justify-between items-center gap-4">
-    <p>Routing number</p>
-    <FormField
-      name="routingNumber"
-      render={({ field }) => (
-        <SearchSelect
-          disabled={disabled}
-          field={field}
-          options={options}
-          placeholder="Select a routing number"
-        />
-      )}
-    />
-  </div>
-)
+}) {
+  return (
+    <div className="flex justify-between items-center gap-4">
+      <p>Routing number</p>
+      <FormField
+        name="routingNumber"
+        render={({ field }) => (
+          <SearchSelect
+            disabled={disabled}
+            field={field}
+            options={options}
+            placeholder="Select a routing number"
+          />
+        )}
+      />
+    </div>
+  )
+}
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -306,14 +318,14 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
       return (
         <div className="min-w-0">
           <Badge
+            border
             isDot
+            className="capitalize text-sm rounded-lg font-medium"
+            isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.SUCCESS
             )}
-            className="capitalize text-sm rounded-lg font-medium"
-            isDotBefore={false}
-            border
           >
             Connected
           </Badge>

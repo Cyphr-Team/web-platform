@@ -14,13 +14,13 @@ import { LoanProgramDetailUnderConstruction } from "./LoanProgramDetailUnderCons
 import { Skeleton } from "@/components/ui/skeleton"
 import { isSbb } from "@/utils/domain.utils"
 
-export const LoanProgramDetailFAQ = () => {
+export function LoanProgramDetailFAQ() {
   const { loanProgramInfo, isLoading } = useLoanProgramDetailContext()
   const isExistFAQs = Object.keys(loanProgramInfo?.faqs ?? {}).length > 0
 
   return (
     <section>
-      {isExistFAQs && (
+      {isExistFAQs ? (
         <div className="flex gap-2 md:gap-6 flex-wrap md:flex-nowrap">
           <div className="flex flex-col justify-between relative">
             <div>
@@ -34,13 +34,13 @@ export const LoanProgramDetailFAQ = () => {
           </div>
           {isLoading ? <FAQSkeleton /> : <FAQ />}
         </div>
-      )}
+      ) : null}
 
-      {isExistFAQs && (
+      {isExistFAQs ? (
         <section className="block md:hidden mt-6">
           <LoanProgramDetailContactCard />
         </section>
-      )}
+      ) : null}
 
       <section className="mt-8 px-8 py-9 bg-primary-solid rounded-2xl flex justify-between flex-wrap gap-4 items-center w-full">
         <h2 className="text-white text-2xl md:text-3xl font-semibold mx-auto md:mx-0">
@@ -51,10 +51,10 @@ export const LoanProgramDetailFAQ = () => {
             <LoanProgramDetailUnderConstruction />
           ) : (
             <LoanProgramDetailApply
+              btnText={loanProgramInfo?.startBtn}
               className={cn(
                 isSbb() && "bg-lime-400 text-black hover:bg-lime-300"
               )}
-              btnText={loanProgramInfo?.startBtn}
             />
           )}
         </div>
@@ -63,30 +63,31 @@ export const LoanProgramDetailFAQ = () => {
   )
 }
 
-const FAQ = () => {
+function FAQ() {
   const { loanProgramInfo } = useLoanProgramDetailContext()
 
   return (
-    <Accordion type="multiple" className="w-full">
+    <Accordion className="w-full" type="multiple">
       {Object.keys(loanProgramInfo?.faqs ?? {}).map((key) => {
         const answer = loanProgramInfo?.faqs?.[key]
+
         return (
-          <AccordionItem value={key} key={key} className="w-full">
+          <AccordionItem key={key} className="w-full" value={key}>
             <AccordionTrigger
               className={cn(
                 "justify-between w-full hover:no-underline text-xl sm:text-2xl font-semibold text-left",
                 "[&[data-state=closed]>.open-icon]:animate-spin-once",
                 "[&[data-state=open]>.close-icon]:animate-spin-once"
               )}
-              openIcon={<Plus className="h-5 w-5" />}
               closeIcon={<Minus className="h-5 w-5" />}
+              openIcon={<Plus className="h-5 w-5" />}
             >
               {snakeCaseToText(key)}
             </AccordionTrigger>
             <AccordionContent className="whitespace-pre-wrap">
               {Array.isArray(answer)
                 ? answer.map((ans, idx) => (
-                    <p key={idx} className="mb-2">
+                    <p key={ans} className="mb-2">
                       {idx + 1}. {ans}
                     </p>
                   ))
@@ -99,10 +100,11 @@ const FAQ = () => {
   )
 }
 
-const FAQSkeleton = () => {
+function FAQSkeleton() {
   return (
     <div className="flex flex-col w-full gap-5">
       {new Array(5).fill(null).map((_, key) => {
+        // eslint-disable-next-line react/no-array-index-key
         return <Skeleton key={key} className="w-full h-16" />
       })}
     </div>

@@ -5,15 +5,16 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion"
-import { PayStubType } from "@/modules/loan-application-management/constants/types/document"
+import { type PayStubType } from "@/modules/loan-application-management/constants/types/document"
 import { CustomTableRow } from "../../../atoms/TableRow"
 
-type Props = {
+interface Props {
   data: PayStubType
 }
+
 export const PayStubInformation: React.FC<Props> = ({ data }) => {
   return (
-    <Accordion type="single" collapsible className="w-full border-t">
+    <Accordion collapsible className="w-full border-t" type="single">
       <AccordionItem value="employer-information">
         <AccordionTrigger isStartIcon>
           <p>Paystub</p>
@@ -22,30 +23,30 @@ export const PayStubInformation: React.FC<Props> = ({ data }) => {
           <Table className="text-xs">
             <TableBody className="bg-gray-100">
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
+                className="bg-gray-50"
                 data={[
                   "Pay Period",
                   `${data.payPeriodStartDate} - ${data.payPeriodEndDate}`
                 ]}
-                childrenClassName={["", "font-bold"]}
-                className="bg-gray-50"
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
                 data={["Net Pay", data.netPay]}
-                childrenClassName={["", "font-bold"]}
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
+                className="bg-gray-50"
                 data={["Pay Date", data.payDate]}
-                childrenClassName={["", "font-bold"]}
-                className="bg-gray-50"
               />
               <CustomTableRow
+                childrenClassName={["", "font-bold"]}
                 data={["Provider", data.provider]}
-                childrenClassName={["", "font-bold"]}
               />
               <CustomTableRow
-                data={["Frequency", data.frequency]}
                 childrenClassName={["", "font-bold"]}
                 className="bg-gray-50"
+                data={["Frequency", data.frequency]}
               />
             </TableBody>
           </Table>

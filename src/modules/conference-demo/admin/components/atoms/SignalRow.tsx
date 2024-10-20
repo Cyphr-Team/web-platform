@@ -1,8 +1,8 @@
 import SignalCount from "@/modules/conference-demo/admin/components/atoms/SignalCount"
-import { SignalsType } from "@/modules/conference-demo/admin/constants/type"
+import { type SignalsType } from "@/modules/conference-demo/admin/constants/type"
 import React from "react"
 
-type Props = {
+interface Props {
   signalsData: SignalsType
 }
 const SignalRow: React.FC<Props> = ({ signalsData }) => {

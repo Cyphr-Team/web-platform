@@ -3,9 +3,11 @@ import { AccountSummaryTable } from "../organisms/cashflow/AccountSummary"
 import { CashFlowGlance } from "../organisms/cashflow/CashFlowGlance"
 import { checkIsWorkspaceAdmin } from "@/utils/check-roles"
 
-export const Component = () => {
+export function Component() {
   const isHidden = isLaunchKC() && !checkIsWorkspaceAdmin() // In LaunchKC, only WSAdmin can view this
+
   if (isHidden) return null
+
   return (
     <div>
       <AccountSummaryTable />

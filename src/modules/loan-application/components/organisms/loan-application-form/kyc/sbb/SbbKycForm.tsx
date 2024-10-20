@@ -18,7 +18,7 @@ import {
   SBB_KYC_FIELD_NAMES,
   SBB_KYC_FORM_BLOCKS,
   sbbKycFormSchema,
-  SbbKycFormValue
+  type SbbKycFormValue
 } from "./const"
 import { BeneficialOwnersInput } from "./BeneficialOwners"
 import { ControlAuthorization } from "./ControlAuthorization"
@@ -26,11 +26,11 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities"
 import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
-import { AddressType } from "@/types/common.type"
+import { type AddressType } from "@/types/common.type"
 import { AutoCompleteGoogleMap } from "@/modules/loan-application/components/molecules/autocomplete/AutoCompleteGoogleMap"
 import { isEnableGoogleMapInput } from "@/utils/feature-flag.utils"
 
-export const SbbKycForm = () => {
+export function SbbKycForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
 
   const { dispatchFormAction, ownerInformationForm } =
@@ -235,7 +235,6 @@ export const SbbKycForm = () => {
                   return (
                     <AutoCompleteGoogleMap
                       key={name}
-                      onSelect={handleAutoCompleteAddress}
                       defaultValues={{
                         addressLine1: defaultValues.addressLine1,
                         state:
@@ -247,6 +246,7 @@ export const SbbKycForm = () => {
                         ],
                         city: defaultValues[SBB_KYC_FIELD_NAMES.BUSINESS_CITY]
                       }}
+                      onSelect={handleAutoCompleteAddress}
                     />
                   )
                 }
@@ -254,6 +254,12 @@ export const SbbKycForm = () => {
                   return (
                     <AutoCompleteCities
                       key={name}
+                      required
+                      className="col-span-4"
+                      control={form.control}
+                      emptyText="No results found"
+                      label="Business city"
+                      name={SBB_KYC_FIELD_NAMES.BUSINESS_CITY}
                       options={
                         STATE_DATA.find(
                           (s) =>
@@ -261,14 +267,8 @@ export const SbbKycForm = () => {
                             form.getValues(SBB_KYC_FIELD_NAMES.BUSINESS_STATE)
                         )?.cities ?? []
                       }
-                      label="Business city"
-                      emptyText="No results found"
-                      name={SBB_KYC_FIELD_NAMES.BUSINESS_CITY}
-                      control={form.control}
-                      onChange={handleChangeCity}
                       value={form.getValues(SBB_KYC_FIELD_NAMES.BUSINESS_CITY)}
-                      className="col-span-4"
-                      required
+                      onChange={handleChangeCity}
                     />
                   )
                 }
@@ -276,20 +276,21 @@ export const SbbKycForm = () => {
                   return (
                     <AutoCompleteStates
                       key={name}
-                      options={STATE_DATA}
-                      label="Business state"
-                      emptyText="No results found"
-                      name={SBB_KYC_FIELD_NAMES.BUSINESS_STATE}
-                      control={form.control}
-                      onChange={handleChangeState}
-                      value={form.getValues(SBB_KYC_FIELD_NAMES.BUSINESS_STATE)}
-                      className="col-span-4"
                       required
+                      className="col-span-4"
+                      control={form.control}
+                      emptyText="No results found"
+                      label="Business state"
+                      name={SBB_KYC_FIELD_NAMES.BUSINESS_STATE}
+                      options={STATE_DATA}
+                      value={form.getValues(SBB_KYC_FIELD_NAMES.BUSINESS_STATE)}
+                      onChange={handleChangeState}
                     />
                   )
                 }
 
                 const Component = ComponentMapper[type]
+
                 return (
                   <Component
                     key={name}

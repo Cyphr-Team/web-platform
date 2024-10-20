@@ -1,9 +1,9 @@
-import { FC, memo } from "react"
+import { type FC, memo } from "react"
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
 import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { RecurringChargesIcon } from "@/modules/loan-application/[module]-financial-projection/components/atoms/RecurringChargesIcon.tsx"
 import {
-  Block,
+  type Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import { emptyContract } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
@@ -80,16 +80,17 @@ interface Props {
 
 const ContractsForm: FC<Props> = (props) => {
   const { onBlur } = props
+
   return (
     <ArrayFormTemplate
-      title="Revenue: Contract Revenue"
-      subtitle="Suitable for contract revenue, or for entering total revenue without itemized details."
-      fieldName={RevenueType.CONTRACTS}
+      addIcon={<RecurringChargesIcon variant="black" />}
+      blocks={blocks}
       dataName="contract revenue"
       defaultEmptyObject={emptyContract}
+      fieldName={RevenueType.CONTRACTS}
+      subtitle="Suitable for contract revenue, or for entering total revenue without itemized details."
+      title="Revenue: Contract Revenue"
       onBlur={onBlur}
-      blocks={blocks}
-      addIcon={<RecurringChargesIcon variant="black" />}
     />
   )
 }

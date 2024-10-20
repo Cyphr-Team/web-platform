@@ -3,7 +3,7 @@ import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/
 import { Card } from "@/components/ui/card.tsx"
 import { memo } from "react"
 
-type DataPoint = {
+interface DataPoint {
   label: string
   value: string
 }
@@ -13,8 +13,9 @@ interface Props {
   data: DataPoint[]
 }
 
-const FormReview = (props: Props) => {
+function FormReview(props: Props) {
   const { title, data } = props
+
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
       <h5 className="text-lg font-semibold">{title}</h5>
@@ -24,13 +25,14 @@ const FormReview = (props: Props) => {
           <AnswersTextDisplay
             key={value}
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label={label}
             value={value}
+            valueClassName="text-right"
           />
         ))}
       </div>
     </Card>
   )
 }
+
 export default memo(FormReview)

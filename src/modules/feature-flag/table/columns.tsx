@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { UserDetailInfo, UserRoles } from "@/types/user.type"
+import { type UserDetailInfo, type UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
-import { AccessorKeyColumnDef } from "@tanstack/react-table"
+import { type AccessorKeyColumnDef } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button.tsx"
 import { Trash } from "lucide-react"
 import { nameByRole } from "@/modules/admin/user/constants/roles.constants.ts"
@@ -19,6 +19,7 @@ export const columns: AccessorKeyColumnDef<
     ),
     cell: ({ row }) => {
       const application = row.original
+
       return (
         <>
           <div className="text-black font-medium">{application.name}</div>
@@ -81,12 +82,13 @@ export const columns: AccessorKeyColumnDef<
     size: 150,
     cell: ({ row }) => {
       const userId = row.original.id
+
       return (
         <div className="flex items-center justify-between">
           <Button
             className="bg-error"
-            onClick={() => row.original.handleRemoveUserFromWhitelist(userId)}
             type="button"
+            onClick={() => row.original.handleRemoveUserFromWhitelist(userId)}
           >
             <Trash size={16} />
           </Button>

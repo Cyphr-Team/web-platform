@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { BusinessModelFormValue } from "../../constants/form"
-import { AxiosError, AxiosResponse } from "axios"
-import { ErrorResponse } from "@/types/common.type"
+import { type BusinessModelFormValue } from "../../constants/form"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
 import { postRequest, putRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "../../constants/query-key"
-import { BusinessModelFormResponse } from "../../components/organisms/loan-application-form/business-model/type"
+import { type BusinessModelFormResponse } from "../../components/organisms/loan-application-form/business-model/type"
 import { useCallback } from "react"
 import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 
-type Props = {
+interface Props {
   rawData: BusinessModelFormValue
   onSuccess: (data: BusinessModelFormResponse) => void
 }
@@ -42,6 +42,7 @@ export const useSubmitLoanBusinessModelForm = ({
       })
     }
   }
+
   return {
     isLoading: isUpdating || isSubmitting,
     submitLoanBusinessModelForm
@@ -65,6 +66,7 @@ const useSubmit = () => {
 
 const useUpdate = () => {
   const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<BusinessModelFormResponse>,
     AxiosError<ErrorResponse>,

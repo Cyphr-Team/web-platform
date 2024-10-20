@@ -11,18 +11,18 @@ import {
 import { cn } from "@/lib/utils"
 import { get } from "lodash"
 
-import { Column, Table } from "@tanstack/react-table"
-import { Eye, EyeOff, GripVertical, LucideIcon } from "lucide-react"
-import { CSSProperties, ReactNode, useMemo, useState } from "react"
+import { type Column, type Table } from "@tanstack/react-table"
+import { Eye, EyeOff, GripVertical, type LucideIcon } from "lucide-react"
+import { type CSSProperties, type ReactNode, useMemo, useState } from "react"
 
 import {
-  Active,
+  type Active,
   closestCenter,
   DndContext,
-  DragEndEvent,
+  type DragEndEvent,
   KeyboardSensor,
   MouseSensor,
-  Over,
+  type Over,
   TouchSensor,
   useSensor,
   useSensors
@@ -42,16 +42,16 @@ interface DataTableViewOptionsProps<TData> {
 }
 
 interface DataTableViewGroupProps<TData> {
-  columns: Column<TData, unknown>[]
+  columns: Column<TData>[]
   onCtaClick: React.MouseEventHandler<HTMLButtonElement>
   label: ReactNode
   ctaText: string
-  onItemClick: (column: Column<TData, unknown>) => VoidFunction
+  onItemClick: (column: Column<TData>) => VoidFunction
   Icon: LucideIcon
 }
 
 interface DataTableViewItemProps<TData> {
-  column: Column<TData, unknown>
+  column: Column<TData>
   onClick: VoidFunction
   Icon: LucideIcon
 }
@@ -61,11 +61,11 @@ const enum EXTEND_ORDERED_COLUMN {
   SHOW_ALL = "Show all"
 }
 
-const DataTableViewItem = <TData,>({
+function DataTableViewItem<TData>({
   column,
   onClick,
   Icon
-}: DataTableViewItemProps<TData>) => {
+}: DataTableViewItemProps<TData>) {
   const { attributes, isDragging, listeners, setNodeRef, transform } =
     useSortable({
       id: column.id
@@ -81,11 +81,11 @@ const DataTableViewItem = <TData,>({
   return (
     <DropdownMenuItem
       key={column.id}
+      ref={setNodeRef}
       className={cn(
         "cursor-pointer flex justify-between gap-2 items-center relative p-0 pr-2",
         !column.getCanHide() && "cursor-default"
       )}
-      ref={setNodeRef}
       style={style}
     >
       <div
@@ -98,25 +98,25 @@ const DataTableViewItem = <TData,>({
       </div>
 
       <Icon
-        onClick={column.getCanHide() ? onClick : undefined}
         className={cn(
           "ml-auto w-6 h-6 p-1 z-10 text-gray-900",
           !column.getCanHide() && "text-gray-400",
           !column.getIsVisible() && "text-gray-500"
         )}
+        onClick={column.getCanHide() ? onClick : undefined}
       />
     </DropdownMenuItem>
   )
 }
 
-const DataTableViewGroup = <TData,>({
+function DataTableViewGroup<TData>({
   columns,
   onCtaClick,
   ctaText,
   label,
   onItemClick,
   Icon
-}: DataTableViewGroupProps<TData>) => {
+}: DataTableViewGroupProps<TData>) {
   const { setNodeRef, transform } = useSortable({
     id: ctaText
   })
@@ -128,8 +128,6 @@ const DataTableViewGroup = <TData,>({
   return (
     <DropdownMenuGroup>
       <div
-        className="flex relative justify-between text-xs font-medium gap-2 pl-2 items-center mt-2 mb-1"
-        style={style}
         ref={
           /**
            * We have two groups named 'Hide all' and 'Show all'
@@ -140,11 +138,13 @@ const DataTableViewGroup = <TData,>({
            */
           ctaText === EXTEND_ORDERED_COLUMN.HIDE_ALL ? undefined : setNodeRef
         }
+        className="flex relative justify-between text-xs font-medium gap-2 pl-2 items-center mt-2 mb-1"
+        style={style}
       >
         <div className="text-muted-foreground">{label}</div>
         <Button
-          variant="ghost"
           className="h-auto w-auto py-0.5 px-2 text-blue-500 text-xs"
+          variant="ghost"
           onClick={onCtaClick}
         >
           {ctaText}
@@ -155,9 +155,9 @@ const DataTableViewGroup = <TData,>({
         return (
           <DataTableViewItem<TData>
             key={column.id}
-            onClick={onItemClick(column)}
             Icon={Icon}
             column={column}
+            onClick={onItemClick(column)}
           />
         )
       })}
@@ -249,6 +249,7 @@ export function DataTableViewOptions<TData>({
     (value: boolean) => (column: Column<TData>) => () => {
       table.setColumnOrder((preColumnOrder) => {
         const oldIndex = preColumnOrder.indexOf(column.id)
+
         return arrayMove(
           preColumnOrder,
           oldIndex,
@@ -314,6 +315,7 @@ export function DataTableViewOptions<TData>({
     if (!column.getCanHide()) {
       table.setColumnOrder((preColumnOrder) => {
         const oldIndex = preColumnOrder.indexOf(column.id)
+
         return arrayMove(preColumnOrder, oldIndex, 0)
       })
     }
@@ -383,13 +385,16 @@ export function DataTableViewOptions<TData>({
    */
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
+
     if (active && over && active.id !== over.id) {
       table.setColumnOrder((preColumnOrder) => {
         const oldIndex = preColumnOrder.indexOf(active.id as string)
         const newIndex = preColumnOrder.indexOf(over.id as string)
+
         if (oldIndex === -1) return preColumnOrder
 
         const newVisibility = handleReToggle(active, over)
+
         if (newVisibility === null) return preColumnOrder
 
         const addition =
@@ -431,6 +436,7 @@ export function DataTableViewOptions<TData>({
 
     if (isMovingUp) {
       currentTarget.toggleVisibility(true)
+
       return true // Cross group case - Move Up
     }
 
@@ -439,6 +445,7 @@ export function DataTableViewOptions<TData>({
     if (isMovingDown) {
       if (!currentTarget.getCanHide()) return null // Prohibit case - Move disabled item
       currentTarget.toggleVisibility(false)
+
       return false // Cross group case - Move down
     }
 
@@ -455,8 +462,8 @@ export function DataTableViewOptions<TData>({
     <DropdownMenu open={open}>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
           className="flex text-slate-700 font-semibold rounded-md"
+          variant="outline"
           onClick={handleOpen}
         >
           <Eye className="h-5 w-5 flex-shrink-0 mr-1" />
@@ -464,16 +471,16 @@ export function DataTableViewOptions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="min-w-[290px] max-h-96 overflow-auto"
         align="end"
+        className="min-w-[290px] max-h-96 overflow-auto"
         onEscapeKeyDown={handleOpen}
         onPointerDownOutside={handleOpen}
       >
         <DropdownMenuLabel className="flex justify-between items-center gap-2 pr-0">
           <div>Properties</div>
           <Button
-            variant="ghost"
             className="h-auto w-auto py-0.5 px-2 text-blue-500 text-xs"
+            variant="ghost"
             onClick={handleResetOrder}
           >
             Reset
@@ -484,30 +491,30 @@ export function DataTableViewOptions<TData>({
         <DndContext
           collisionDetection={closestCenter}
           modifiers={[restrictToVerticalAxis]}
-          onDragEnd={handleDragEnd}
           sensors={sensors}
+          onDragEnd={handleDragEnd}
         >
           <SortableContext
             items={extendOrderedColumn}
             strategy={verticalListSortingStrategy}
           >
             <DataTableViewGroup<TData>
+              Icon={Eye}
               columns={shownColumns}
-              label="Shown in table"
               ctaText={EXTEND_ORDERED_COLUMN.HIDE_ALL}
+              label="Shown in table"
               onCtaClick={handleToggleAllColumn(false)}
               onItemClick={handleToggleColumn(false)}
-              Icon={Eye}
             />
 
             {!!hiddenColumns.length && (
               <DataTableViewGroup<TData>
+                Icon={EyeOff}
                 columns={hiddenColumns}
-                label="Hidden in table"
                 ctaText={EXTEND_ORDERED_COLUMN.SHOW_ALL}
+                label="Hidden in table"
                 onCtaClick={handleToggleAllColumn(true)}
                 onItemClick={handleToggleColumn(true)}
-                Icon={EyeOff}
               />
             )}
           </SortableContext>

@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom"
-import { UserStartStatus } from "../../hooks/useGetStart"
+import { type UserStartStatus } from "../../hooks/useGetStart"
 import { parseJwt } from "@/services/jwt.service"
 
 export const useActiveEmailSearchParams = () => {

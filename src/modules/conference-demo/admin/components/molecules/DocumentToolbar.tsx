@@ -7,7 +7,7 @@ import { formatBirthday } from "@/utils/date.utils"
 import { ArrowLeft, Minus, Plus } from "lucide-react"
 import { Link } from "react-router-dom"
 
-const DocumentToolbar = () => {
+function DocumentToolbar() {
   const {
     zoomIn,
     zoomOut,
@@ -29,8 +29,10 @@ const DocumentToolbar = () => {
     const index = visualizationDetails.visualizationsByPage.findIndex(
       (page) => page === selectedPage
     )
+
     if (index === -1) return
     const nextPage = visualizationDetails.visualizationsByPage[index + 1]
+
     if (nextPage) handleSelectPage(nextPage)
   }
 
@@ -38,49 +40,52 @@ const DocumentToolbar = () => {
     const index = visualizationDetails.visualizationsByPage.findIndex(
       (page) => page === selectedPage
     )
+
     if (index === -1) return
     const previousPage = visualizationDetails.visualizationsByPage[index - 1]
+
     if (previousPage) handleSelectPage(previousPage)
   }
 
   const onPageChange = (page: number) => {
     const newPage = visualizationDetails.visualizationsByPage[page - 1]
+
     if (newPage) handleSelectPage(newPage)
   }
 
   return (
     <div className="flex w-full justify-between pb-3">
       <DocumentTitle
-        verifiedDate={documentDetails?.verifiedDate ?? ""}
         documentType={capitalizeWords(
           snakeCaseToText(documentDetails?.documentType ?? "")
         )}
+        verifiedDate={documentDetails?.verifiedDate ?? ""}
       />
 
       <div className="flex gap-6">
         <div className="flex gap-1">
           <Button
             className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
+            disabled={scale < 0.5}
             variant="secondary"
             onClick={zoomOut}
-            disabled={scale < 0.5}
           >
             <Minus className="w-6 h-6 text-gray-500" />
           </Button>
           <Button
             className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
+            disabled={scale > 4}
             variant="secondary"
             onClick={zoomIn}
-            disabled={scale > 4}
           >
             <Plus className="w-6 h-6 text-gray-500" />
           </Button>
         </div>
         <Pagination
-          total={total}
           page={currentPage}
-          onPageChange={onPageChange}
+          total={total}
           onNextPage={onNextPage}
+          onPageChange={onPageChange}
           onPreviousPage={onPreviousPage}
         />
       </div>
@@ -88,17 +93,18 @@ const DocumentToolbar = () => {
   )
 }
 
-type Props = {
+interface Props {
   documentType: string
   verifiedDate: string
 }
+
 export const DocumentTitle: React.FC<Props> = ({
   documentType,
   verifiedDate
 }) => {
   return (
     <div className="flex gap-6">
-      <Button type="button" variant="link" className="p-0 text-dark" asChild>
+      <Button asChild className="p-0 text-dark" type="button" variant="link">
         <Link to={APP_PATH.CONFERENCE_DEMO.admin.documents}>
           <ArrowLeft className="w-5 h-4.5" /> Back
         </Link>

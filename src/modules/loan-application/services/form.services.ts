@@ -1,16 +1,16 @@
 import { toPattern } from "@/components/ui/mask-input"
 import {
   SBB_KYB_FORM_FIELDS,
-  SbbKybFormPartOneValue,
-  SbbKybFormPartTwoValue,
+  type SbbKybFormPartOneValue,
+  type SbbKybFormPartTwoValue,
   sbbKybFormSchemaPartOne,
   sbbKybFormSchemaPartTwo
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import {
   businessFormSchema,
-  BusinessFormValue,
-  IBusinessFormValue,
-  IOwnerFormValue,
+  type BusinessFormValue,
+  type IBusinessFormValue,
+  type IOwnerFormValue,
   launchKCBusinessFormSchema,
   launchKCOwnerFormSchema,
   loanReadyBusinessFormSchema,
@@ -18,12 +18,12 @@ import {
   ownerFormSchema
 } from "../constants/form"
 import {
-  CurrentLoansInformationResponse,
-  KYBInformation,
-  KYBInformationResponse,
-  KYCInformation,
-  KYCInformationResponse,
-  OperatingExpensesInformationResponse
+  type CurrentLoansInformationResponse,
+  type KYBInformation,
+  type KYBInformationResponse,
+  type KYCInformation,
+  type KYCInformationResponse,
+  type OperatingExpensesInformationResponse
 } from "../constants/type"
 import { getStateCode, getStateName } from "../hooks/useSelectCities"
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils.ts"
@@ -44,6 +44,7 @@ export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
       ? rawData.businessWebsite
       : undefined
   }
+
   if (isLaunchKC()) {
     /**
      * function "without" act like Omit, but it's for string[]. For example
@@ -124,6 +125,7 @@ export const formatKycForm = (rawData: IOwnerFormValue): KYCInformation => {
       [SBB_KYC_FIELD_NAMES.METADATA, SBB_KYC_FIELD_NAMES.LAST_NAME],
       ""
     )
+
     return {
       ...formattedForm,
       fullName: `${firstName} ${lastName}`
@@ -178,6 +180,7 @@ export const reverseFormatKycForm = (rawData: KYCInformationResponse) => {
       ? rawData.businessOwnershipPercentage.toString()
       : ""
   }
+
   if (isLaunchKC() || isLoanReady()) {
     return {
       ...formInformation,
@@ -190,6 +193,7 @@ export const reverseFormatKycForm = (rawData: KYCInformationResponse) => {
       metadata: get(rawData, "metadata", {})
     }
   }
+
   return formInformation
 }
 
@@ -233,7 +237,8 @@ const formatMetadataFromSchema = (
   // mustHaveFields contain all field that required in the object
   const mustHaveFields = without(Object.keys(rawData), ...metadataFields)
   // define a new empty form object
-  const newForm: { [key: string]: string | object } = {}
+  const newForm: Record<string, string | object> = {}
+
   // convert all must have from rawData
   mustHaveFields.forEach((field) => {
     set(newForm, field, get(rawData, field, ""))
@@ -242,6 +247,7 @@ const formatMetadataFromSchema = (
   metadataFields.forEach((field) => {
     set(newForm, `metadata.${field}`, get(rawData, field))
   })
+
   /**
    * Let's say that we have two object A and B.
    * Kyb = { id: "1", fullName: "Phuc Nguyen" }

@@ -7,7 +7,7 @@ import {
   SBB_LOAN_PROGRAMS
 } from "../constants/loan-program.constants"
 import { getSubdomain, matchSubdomain } from "@/utils/domain.utils"
-import { LoanProgramData } from "../constants/type"
+import { type LoanProgramData } from "../constants/type"
 
 export const useGetLoanProgramDetail = (
   type: string,

@@ -4,7 +4,7 @@ import {
   SCORE_SYSTEMS_EXPLAINS
 } from "../../../constants/launchkc/scoreSystem"
 
-export const ScoreCardRubric = () => {
+export function ScoreCardRubric() {
   return (
     <div className="mt-4">
       <div className="font-medium mb-2">Overall Scoring</div>

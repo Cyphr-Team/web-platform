@@ -1,9 +1,9 @@
 import { toCurrency } from "@/utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 
 import { formatDate } from "@/utils/date.utils"
 import { SubscriptionInfo } from "../components/SubscriptionInfo"
-import { PlanType, Subscription } from "../types/subscription.types"
+import { PlanType, type Subscription } from "../types/subscription.types"
 import { addYears } from "date-fns"
 
 export const subscriptionColumns: ColumnDef<Subscription>[] = [

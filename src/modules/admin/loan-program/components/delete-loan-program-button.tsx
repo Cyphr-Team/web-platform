@@ -3,17 +3,15 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useDeleteLoanProgram } from "../hooks/useDeleteLoanProgram"
 import { useState } from "react"
 
-export const ButtonDeleteLoanProgram = ({
+export function ButtonDeleteLoanProgram({
   loanProgramId
 }: {
   loanProgramId: string
-}) => {
+}) {
   const { mutate, isPending } = useDeleteLoanProgram()
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleDeleteLoanProgram = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleDeleteLoanProgram = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     mutate({ loanProgramId: loanProgramId })
@@ -22,13 +20,7 @@ export const ButtonDeleteLoanProgram = ({
 
   return (
     <CustomAlertDialog
-      isOpen={isOpen}
-      onConfirmed={handleDeleteLoanProgram}
-      onCanceled={(e) => {
-        e.stopPropagation()
-        setIsOpen(false)
-      }}
-      title="Delete loan program?"
+      actionClassName="bg-red-500 hover:bg-red-600 text-white"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -36,13 +28,19 @@ export const ButtonDeleteLoanProgram = ({
           <strong>Delete this loan program?</strong> This action is permanent.
         </span>
       }
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      isOpen={isOpen}
+      title="Delete loan program?"
+      onCanceled={(e) => {
+        e.stopPropagation()
+        setIsOpen(false)
+      }}
+      onConfirmed={handleDeleteLoanProgram}
     >
       <ButtonLoading
-        isLoading={isPending}
-        variant="ghost"
         className="w-full text-destructive cursor-pointer text-center hover:bg-gray-100"
+        isLoading={isPending}
         type="button"
+        variant="ghost"
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()

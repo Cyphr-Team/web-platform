@@ -2,8 +2,8 @@ import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
 import {
-  BaseCashFlowFilters,
-  CashFlowGlanceResponse
+  type BaseCashFlowFilters,
+  type CashFlowGlanceResponse
 } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
 import { QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
 
@@ -33,6 +33,7 @@ export const useQueryGetCashFlowGlance = ({
           }
         }
       })
+
       return response.data
     },
     enabled: enabledByInstitution && !!applicationId

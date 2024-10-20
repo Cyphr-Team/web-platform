@@ -2,15 +2,15 @@ import { DatePickerWithRange } from "@/components/ui/date-picker-with-range"
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { MultiSelect } from "@/components/ui/multi-select"
 import { REQUEST_LIMIT_PARAM_FOR_SELECT } from "@/constants"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { TimeRangeValue } from "@/types/time-range.type"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { startOfMonth, subMonths } from "date-fns"
 import debounce from "lodash.debounce"
 import { ClipboardCheck } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
-import { DateRange } from "react-day-picker"
-import { DeepPartial, useForm } from "react-hook-form"
+import { type DateRange } from "react-day-picker"
+import { type DeepPartial, useForm } from "react-hook-form"
 import * as z from "zod"
 import { useQuerySelectLoanProgramList } from "@/hooks/useQuerySelectList/useQuerySelectLoanProgramList.ts"
 import { useDashboard } from "../providers/dashboard-provider"
@@ -28,7 +28,7 @@ const FilterSchema = z.object({
 
 type FilterValues = z.infer<typeof FilterSchema>
 
-export const FilterTimeRange = () => {
+export function FilterTimeRange() {
   const { dashboardState, dashboardDispatch } = useDashboard()
   const [showDatePicker, setShowDatePicker] = useState(
     dashboardState.filter.timeRange.selectedTimeRange !==
@@ -116,12 +116,12 @@ export const FilterTimeRange = () => {
                 render={({ field }) => (
                   <MultiSelect
                     customAllText="All programs"
+                    field={field}
+                    name="loanProgramIds"
+                    options={loanProgramOptions}
                     prefixIcon={
                       <ClipboardCheck className="w-5 h-5 text-muted-foreground mr-2" />
                     }
-                    name="loanProgramIds"
-                    field={field}
-                    options={loanProgramOptions}
                   />
                 )}
               />
@@ -130,7 +130,7 @@ export const FilterTimeRange = () => {
             <div className="group date-select-coupling flex items-end">
               <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />
 
-              {showDatePicker && (
+              {showDatePicker ? (
                 <div className="flex items-center gap-2 flex-wrap">
                   <FormField
                     control={form.control}
@@ -138,19 +138,19 @@ export const FilterTimeRange = () => {
                     render={({ field: { value } }) => (
                       <FormItem className="flex items-end space-y-0 gap-1">
                         <DatePickerWithRange
-                          date={value}
-                          setDate={handleSetDate}
                           className="w-full mt-0 rounded-l-none"
+                          date={value}
                           disabled={{
                             from: threeMonthsBefore
                           }}
+                          setDate={handleSetDate}
                         />
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </form>

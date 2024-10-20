@@ -1,9 +1,9 @@
 import { MiddeskTableContent } from "@/modules/loan-application-management/components/table/middesk-table-content"
-import { MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
+import { type MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
 import { useMemo } from "react"
 
 import {
-  BusinessNameDetail,
+  type BusinessNameDetail,
   SourceStatus,
   TaskFieldStatus
 } from "@/modules/loan-application-management/constants/types/business.type"
@@ -14,7 +14,7 @@ import { MiddeskBadge } from "@/modules/loan-application/components/molecules/mi
 import { MiddeskCard } from "@/modules/loan-application/components/molecules/middesk/MiddeskCard"
 import { DateHeader } from "@/modules/conference-demo/admin/components/atoms/DateHeader"
 
-export const BusinessName = () => {
+export function BusinessName() {
   const businessNames = MOCK_KYB_DETAIL?.businessNames
 
   const getBusinessNameNote = (businessName: BusinessNameDetail) => {
@@ -42,20 +42,20 @@ export const BusinessName = () => {
 
   const badge = (
     <MiddeskBadge
-      status={MOCK_KYB_DETAIL.insights.businessName?.status}
       label={businessNames?.subLabel}
+      status={MOCK_KYB_DETAIL.insights.businessName?.status}
     />
   )
   const headerTitle = <>Business Name {badge}</>
 
-  const content = <MiddeskTableContent nameTitle="Business name" data={data} />
+  const content = <MiddeskTableContent data={data} nameTitle="Business name" />
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.businessName}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
       content={content}
+      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.businessName}
     />
   )
 }

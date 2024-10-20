@@ -2,9 +2,9 @@ import { DataTable } from "@/components/ui/data-table"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb.ts"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs.tsx"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
-import { PaginationState } from "@tanstack/react-table"
+import { type PaginationState } from "@tanstack/react-table"
 import { useState } from "react"
-import { ChatbotSessionResponse } from "@/types/chatbot.type"
+import { type ChatbotSessionResponse } from "@/types/chatbot.type"
 import { useQueryListPaginateChatSession } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateChatSession"
 import { chatSessionColumns } from "@/modules/admin/user/table/chat-session-columns"
 import { useParams } from "react-router-dom"
@@ -33,14 +33,14 @@ export function Component() {
       </div>
       <h1 className="mb-3xl text-3xl font-semibold">Chat Sessions</h1>
       <DataTable
-        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
-        tableHeaderClassName="border-t-0"
         columns={chatSessionColumns}
         data={sessionInfos ?? []}
-        total={data?.total ?? 0}
-        pagination={pagination}
         isLoading={isFetching}
+        pagination={pagination}
         setPagination={setPagination}
+        tableHeaderClassName="border-t-0"
+        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
+        total={data?.total ?? 0}
       />
     </div>
   )

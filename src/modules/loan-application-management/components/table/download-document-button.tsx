@@ -18,13 +18,13 @@ interface IDownloadDocumentButtonProps {
   className?: string
 }
 
-export const DownloadDocumentButton = ({
+export function DownloadDocumentButton({
   documentId,
   fileName,
   text,
   disabled,
   className
-}: IDownloadDocumentButtonProps) => {
+}: IDownloadDocumentButtonProps) {
   const [preventCacheCount, setPreventCacheCount] = useState(0)
 
   const downloadFile = useQueryDownloadDocumentForOfficer({
@@ -33,9 +33,7 @@ export const DownloadDocumentButton = ({
     fileName
   })
 
-  const handleDownloadDocument = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleDownloadDocument = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     setPreventCacheCount((preState) => preState + 1)
   }
@@ -45,15 +43,15 @@ export const DownloadDocumentButton = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <ButtonLoading
-            variant="ghost"
-            size="sm"
-            onClick={handleDownloadDocument}
-            isLoading={downloadFile.isLoading}
-            disabled={disabled}
             className={className}
+            disabled={disabled}
+            isLoading={downloadFile.isLoading}
+            size="sm"
+            variant="ghost"
+            onClick={handleDownloadDocument}
           >
             <div className="flex items-center">
-              {text && <span className="mr-1">{text}</span>}
+              {text ? <span className="mr-1">{text}</span> : null}
               <FileDown className="w-6 h-6 p-0.5" />
             </div>
           </ButtonLoading>

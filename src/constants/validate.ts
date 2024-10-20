@@ -4,10 +4,11 @@ import { compareDesc } from "date-fns"
 
 // $1,000,000,000,000 (1 trillion dollars) is a substantial amount to handle on our financial platform
 export const MAX_CURRENCY_AMOUNT = 1_000_000_000_000
+
 // Set rough longest forecasting year limit for Financial Projection
 export const LONGEST_FORECASTING_YEAR = 2050
 
-export type CustomErrorMessages = {
+export interface CustomErrorMessages {
   required?: string
   invalidType?: string
   min?: string

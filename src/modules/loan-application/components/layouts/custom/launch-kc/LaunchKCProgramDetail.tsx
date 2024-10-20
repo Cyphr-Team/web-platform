@@ -22,7 +22,7 @@ const ELEMENTS_TYPE = {
   divider: "divider"
 }
 
-type Element = {
+interface Element {
   type: string
   content?: string | string[]
   size?: string
@@ -140,7 +140,7 @@ const loanProgramText: Element[] = [
   }
 ]
 
-export const ComponentWithProvider = () => {
+export function ComponentWithProvider() {
   const { loanProgramInfo, isLoading, loanProgramDetails } =
     useLoanProgramDetailContext()
 
@@ -164,12 +164,12 @@ export const ComponentWithProvider = () => {
       case ELEMENTS_TYPE.text:
         return (
           <div
-            className="text-base whitespace-pre-wrap"
             dangerouslySetInnerHTML={{
               __html: !Array.isArray(element.content)
                 ? sanitizeDOM(element.content)
                 : ""
             }}
+            className="text-base whitespace-pre-wrap"
           />
         )
       case ELEMENTS_TYPE.list:
@@ -193,7 +193,7 @@ export const ComponentWithProvider = () => {
           <TopBarDetail
             leftFooter={
               <div className="hidden md:block">
-                {<Breadcrumbs breads={crumbs} />}
+                <Breadcrumbs breads={crumbs} />
               </div>
             }
             rightFooter={
@@ -211,11 +211,11 @@ export const ComponentWithProvider = () => {
             <Skeleton className="w-screen md:w-[calc(100vw-15rem)] h-36 md:h-60 lg:max-h-64 items-center align-center flex" />
           ) : (
             <Image
-              className="mx-auto max-h-72 object-cover w-full max-w-full border-b"
-              src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
-              placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
               alt="Cover Photo for Loan Program"
+              className="mx-auto max-h-72 object-cover w-full max-w-full border-b"
               height={359}
+              placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
+              src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
             />
           )}
         </section>
@@ -244,8 +244,8 @@ export const ComponentWithProvider = () => {
                 <LoanProgramDetailUnderConstruction />
               ) : (
                 <LoanProgramDetailApply
-                  className="bg-lime-400 text-black hover:bg-lime-300"
                   btnText={loanProgramInfo?.startBtn}
+                  className="bg-lime-400 text-black hover:bg-lime-300"
                 />
               )}
             </div>
@@ -256,7 +256,7 @@ export const ComponentWithProvider = () => {
   )
 }
 
-export const Component = () => {
+export function Component() {
   return (
     <LoanProgramDetailProvider>
       <ComponentWithProvider />

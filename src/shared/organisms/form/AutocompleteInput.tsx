@@ -21,7 +21,7 @@ import {
 import { cn } from "@/lib/utils"
 import { CheckIcon, ChevronDown } from "lucide-react"
 import { useState } from "react"
-import { Control, FieldPath, FieldValues } from "react-hook-form"
+import { type Control, type FieldPath, type FieldValues } from "react-hook-form"
 
 interface IOption {
   label: string
@@ -39,9 +39,9 @@ interface IAutoCompleteInputProps<T extends FieldValues> {
   placeholder?: string
 }
 
-export const AutoCompleteInput = <T extends FieldValues>(
+export function AutoCompleteInput<T extends FieldValues>(
   props: IAutoCompleteInputProps<T>
-) => {
+) {
   const [open, setOpen] = useState(false)
   const {
     value,
@@ -60,19 +60,19 @@ export const AutoCompleteInput = <T extends FieldValues>(
       name={name}
       render={() => (
         <FormItem>
-          {label && (
+          {label ? (
             <FormLabel className="text-text-secondary">{label}</FormLabel>
-          )}
+          ) : null}
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
-                  variant="outline"
                   className={cn(
                     "w-full px-3.5 justify-between",
                     !value && "text-muted-foreground",
                     "group-[.date-select-coupling]:rounded-r-none group-[.date-select-coupling]:justify-between"
                   )}
+                  variant="outline"
                 >
                   <p className="truncate font-normal">
                     {value
@@ -81,9 +81,9 @@ export const AutoCompleteInput = <T extends FieldValues>(
                   </p>
                   <p className="ml-2 shrink-0 flex items-center">
                     <ChevronDown
-                      width={20}
-                      height={20}
                       className="text-muted-foreground"
+                      height={20}
+                      width={20}
                     />
                   </p>
                 </Button>
@@ -92,7 +92,7 @@ export const AutoCompleteInput = <T extends FieldValues>(
 
             <PopoverContent className="w-full p-0">
               <Command>
-                <CommandInput placeholder="Search option..." className="h-9" />
+                <CommandInput className="h-9" placeholder="Search option..." />
                 <CommandEmpty>{emptyText ?? "Not found."}</CommandEmpty>
                 <CommandGroup>
                   {options.map((option) => (

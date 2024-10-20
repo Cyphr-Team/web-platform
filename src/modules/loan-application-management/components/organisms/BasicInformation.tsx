@@ -6,7 +6,7 @@ import { ChangeApplicationStatusButton } from "../atoms/ChangeApplicationStatusB
 import { getUseOfLoan } from "../../services"
 import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 
-const BasicInformationSkeleton = () => {
+function BasicInformationSkeleton() {
   return (
     <div className="flex w-full px-4xl gap-3xl">
       <Skeleton className="w-96 h-8" />
@@ -14,7 +14,7 @@ const BasicInformationSkeleton = () => {
   )
 }
 
-export const BasicInformation = () => {
+export function BasicInformation() {
   const { isLoading, loanKybDetail, loanApplicationDetails, loanSummary } =
     useLoanApplicationDetailContext()
 

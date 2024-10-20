@@ -14,7 +14,7 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import {
-  Block,
+  type Block,
   FieldType,
   renderBlockComponents
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
@@ -24,7 +24,7 @@ import FutureEmployeesForm from "@/modules/loan-application/[module]-financial-p
 import {
   PeopleField,
   peopleFormSchema,
-  PeopleFormValue
+  type PeopleFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
@@ -48,7 +48,7 @@ export const PeopleFormBlocks: Block[] = [
   }
 ]
 
-export const PeopleForm = () => {
+export function PeopleForm() {
   const { people, dispatchFormAction } = useLoanApplicationFormContext()
 
   const form = useForm<PeopleFormValue>({
@@ -131,7 +131,7 @@ export const PeopleForm = () => {
           <Separator />
           <div className="flex flex-col lg:flex-row">
             <PeopleTotalInfo
-              title={"Total current employees"}
+              title="Total current employees"
               value={valueOrZero(
                 watch(PeopleField.CURRENT_EMPLOYEES)?.reduce(
                   (acc, { numberOfEmployees }) =>
@@ -155,14 +155,14 @@ export const PeopleForm = () => {
               value={watch(PeopleField.FUTURE_EMPLOYEES)?.length ?? 0}
             />
             <PeopleTotalInfo
-              title={"Total future employee salaries"}
+              isCurrency
+              title="Total future employee salaries"
               value={valueOrZero(
                 watch(PeopleField.FUTURE_EMPLOYEES)?.reduce(
                   (acc, { annualSalary }) => acc + annualSalary,
                   0
                 )
               )}
-              isCurrency
             />
           </div>
         </Card>

@@ -1,11 +1,11 @@
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import React, { useState } from "react"
-import { FeatureFlag } from "../../../types/feature-flag.types"
+import { type FeatureFlag } from "../../../types/feature-flag.types"
 import { Button } from "@/components/ui/button"
 import { Trash } from "lucide-react"
 import { useDeleteFeatureFlagMutation } from "../hooks/useMutation/useDeleteFeatureFlagMutation"
 
-type Props = {
+interface Props {
   featureFlag: FeatureFlag
 }
 
@@ -13,9 +13,7 @@ export const DeleteFeatureFlagModal: React.FC<Props> = ({ featureFlag }) => {
   const { mutate } = useDeleteFeatureFlagMutation(featureFlag.id)
   const [isOpen, setIsOpen] = useState(false)
 
-  const confirmDelete = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     mutate(undefined)
@@ -24,13 +22,7 @@ export const DeleteFeatureFlagModal: React.FC<Props> = ({ featureFlag }) => {
 
   return (
     <CustomAlertDialog
-      isOpen={isOpen}
-      onConfirmed={confirmDelete}
-      onCanceled={(e) => {
-        e.stopPropagation()
-        setIsOpen(false)
-      }}
-      title="Delete this feature flag?"
+      actionClassName="bg-red-500 hover:bg-red-600 text-white"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -39,11 +31,17 @@ export const DeleteFeatureFlagModal: React.FC<Props> = ({ featureFlag }) => {
           undone.
         </span>
       }
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      isOpen={isOpen}
+      title="Delete this feature flag?"
+      onCanceled={(e) => {
+        e.stopPropagation()
+        setIsOpen(false)
+      }}
+      onConfirmed={confirmDelete}
     >
       <Button
-        size="sm"
         className="bg-error"
+        size="sm"
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()

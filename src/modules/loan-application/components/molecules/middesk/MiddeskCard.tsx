@@ -1,19 +1,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
-type MiddeskCardProps = {
+interface MiddeskCardProps {
   content: ReactNode
   headerTitle: ReactNode
   headerRight?: ReactNode
   id?: string
 }
 
-export const MiddeskCard = ({
+export function MiddeskCard({
   content,
   headerTitle,
   headerRight,
   id
-}: MiddeskCardProps) => {
+}: MiddeskCardProps) {
   return (
     <div id={id}>
       <Card className="shadow-none">

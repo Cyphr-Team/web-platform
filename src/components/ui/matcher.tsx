@@ -1,5 +1,5 @@
 import * as React from "react"
-import { VariantProps, cva } from "class-variance-authority"
+import { type VariantProps, cva } from "class-variance-authority"
 import { CheckCircle2, XCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -35,8 +35,8 @@ const Matcher = React.forwardRef<HTMLDivElement, DivProps>(
 
     return (
       <div
-        className={cn(matcherVariants({ variant, className }))}
         ref={ref}
+        className={cn(matcherVariants({ variant, className }))}
         {...props}
       >
         {iconByVariant}
@@ -45,6 +45,7 @@ const Matcher = React.forwardRef<HTMLDivElement, DivProps>(
     )
   }
 )
+
 Matcher.displayName = "Matcher"
 
 function getMatcherVariants<T>(

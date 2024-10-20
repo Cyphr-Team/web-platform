@@ -11,20 +11,20 @@ import { cn } from "@/lib/utils"
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import React, {
-  ChangeEventHandler,
-  FocusEventHandler,
+  type ChangeEventHandler,
+  type FocusEventHandler,
   useCallback
 } from "react"
 import {
-  Control,
+  type Control,
   Controller,
-  ControllerRenderProps,
-  FieldPath,
-  FieldValues,
-  Path
+  type ControllerRenderProps,
+  type FieldPath,
+  type FieldValues,
+  type Path
 } from "react-hook-form"
 
-type IOption = {
+interface IOption {
   value: string
   label: string
 }
@@ -51,9 +51,7 @@ interface IOptionInputType<T extends FieldValues> {
 // GUARD_DATA is a dummy value for handle checked or unchecked other button. Detail is below
 const GUARD_DATA = "cyphr_other"
 
-export const OptionInput = <T extends FieldValues>(
-  props: IOptionInputType<T>
-) => {
+export function OptionInput<T extends FieldValues>(props: IOptionInputType<T>) {
   const {
     control,
     name,
@@ -75,49 +73,49 @@ export const OptionInput = <T extends FieldValues>(
     (field: ControllerRenderProps<T, Path<T>>) => (
       <div className="flex items-center w-full">
         <RadioGroupItem
-          id={`${name}-other`}
           // 1. value here must not equal to "" because "" will make this radio button always be mark as checked
           // 2. if user input their own value, this field must set to the new value to make sure the radio button is checked
           // 3. if the value contain in available options, this field set to "other" to assure that the radio button is not checked
+          className="w-4 h-4 mr-2 text-rich-black border-rich-black"
+          id={`${name}-other`}
           value={
             field.value === "" || existsInOptions(field.value)
               ? GUARD_DATA
               : field.value
           }
-          className="w-4 h-4 mr-2 text-rich-black border-rich-black"
         />
         <Label
-          htmlFor={`${name}-other`}
           className="text-sm text-text-secondary font-normal cursor-pointer"
+          htmlFor={`${name}-other`}
         >
           {otherText}
         </Label>
         <input
-          type="text"
           // The value here will be visible to user
           // 1. If user input their own value, this field will show for user
           // 2. If user choose the provided option, this field is set to "" to hide the value
           // 3. When user first click to the Other radio button, the GUARD_DATA value should not be show to user
           // 4. the GUARD_DATA here must be consistent with the value on the RadioGroupItem above
-          value={
-            field.value === GUARD_DATA || existsInOptions(field.value)
-              ? ""
-              : field.value
-          }
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            field.onBlur()
-            field.onChange(event.target.value)
-          }}
-          // onBlur will set the value to the original state
-          onBlur={() => {
-            field.onBlur()
-            field.onChange(field.value)
-          }}
           className={cn(
             "w-1/2 ml-2.5 cursor-pointer focus:outline-none",
             "text-sm text-text-secondary font-normal",
             "border border-input border-l-0 border-r-0 border-t-0"
           )}
+          type="text"
+          value={
+            field.value === GUARD_DATA || existsInOptions(field.value)
+              ? ""
+              : field.value
+          }
+          onBlur={() => {
+            // onBlur will set the value to the original state
+            field.onBlur()
+            field.onChange(field.value)
+          }}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            field.onBlur()
+            field.onChange(event.target.value)
+          }}
         />
       </div>
     ),
@@ -133,40 +131,40 @@ export const OptionInput = <T extends FieldValues>(
           <FormLabel className="text-sm text-text-secondary font-medium">
             <label>
               {label}
-              {required && <RequiredSymbol />}
+              {required ? <RequiredSymbol /> : null}
             </label>
-            {subtitle && (
+            {subtitle ? (
               <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
-            )}
+            ) : null}
           </FormLabel>
           <FormControl>
             <RadioGroup
               className="flex flex-col gap-3 mt-3"
               value={field.value}
+              onChange={field.onBlur}
               onValueChange={(value) => {
                 field.onBlur()
                 field.onChange(value)
               }}
-              onChange={field.onBlur}
             >
               {options.map((option, index) => (
-                <div className="flex items-center w-full" key={index}>
+                <div key={option.value} className="flex items-center w-full">
                   <RadioGroupItem
+                    className="w-4 h-4 mr-2 text-rich-black border-rich-black"
                     id={`${name}-${option.value}-${index}`}
                     value={option.value}
-                    className="w-4 h-4 mr-2 text-rich-black border-rich-black"
                   />
                   <Label
-                    htmlFor={`${name}-${option.value}-${index}`}
                     className={cn(
                       "w-full text-sm text-text-secondary font-normal cursor-pointer"
                     )}
+                    htmlFor={`${name}-${option.value}-${index}`}
                   >
                     {option.label}
                   </Label>
                 </div>
               ))}
-              {hasOtherOption && renderOtherOption(field)}
+              {hasOtherOption ? renderOtherOption(field) : null}
             </RadioGroup>
           </FormControl>
           <FormMessage />

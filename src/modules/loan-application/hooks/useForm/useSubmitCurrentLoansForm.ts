@@ -3,13 +3,13 @@ import {
   DELETE_CURRENT_LOAN_PREFIX,
   NEW_CURRENT_LOAN_PREFIX
 } from "../../constants"
-import { CurrentLoansFormValue } from "../../constants/form"
-import { CurrentLoansInformationResponse } from "../../constants/type"
+import { type CurrentLoansFormValue } from "../../constants/form"
+import { type CurrentLoansInformationResponse } from "../../constants/type"
 import { useDeleteCurrentLoanInformation } from "../useMutation/useDeleteCurrentLoanInformation"
 import { useSubmitCurrentLoansInformation } from "../useMutation/useSubmitCurrentLoansInformation"
 import { useUpdateCurrentLoanInformation } from "../useMutation/useUpdateCurrentLoanInformation"
 
-type Props = {
+interface Props {
   rawData: CurrentLoansFormValue
   onSuccess: (data: CurrentLoansInformationResponse) => void
 }
@@ -74,6 +74,7 @@ export const useSubmitCurrentLoansForm = ({ rawData, onSuccess }: Props) => {
             !form.id.startsWith(DELETE_CURRENT_LOAN_PREFIX)
         )
         .map((form) => updateCurrentLoan({ ...form }))
+
       return await Promise.all([
         ...updatePromises,
         ...deletePromise,

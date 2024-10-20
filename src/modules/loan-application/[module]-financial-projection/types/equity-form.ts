@@ -1,4 +1,4 @@
-import { FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { type FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
 
 export type FpEquityFinancingForm =
   FpEquityFinancingFormValue["equityFinancing"][number]
@@ -8,7 +8,7 @@ export type FpEquityFinancing = FpEquityFinancingForm & {
   financialProjectionSetupId: string
 }
 
-export type FpEquityFinancingFormMutateRequest = {
+export interface FpEquityFinancingFormMutateRequest {
   financialProjectionSetupId: string | undefined
   forms: FpEquityFinancingFormValue["equityFinancing"]
 }

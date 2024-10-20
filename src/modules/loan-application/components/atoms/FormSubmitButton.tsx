@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button"
 
-type FormSubmitButtonProps = {
+interface FormSubmitButtonProps {
   className?: string
   onSubmit: () => void
   isDisabled?: boolean
   text?: string
 }
+
 export const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({
   className,
   onSubmit,

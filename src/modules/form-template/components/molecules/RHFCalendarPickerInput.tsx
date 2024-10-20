@@ -8,10 +8,10 @@ import {
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol.tsx"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker.tsx"
 import {
-  ControllerRenderProps,
-  FieldPath,
-  FieldValues,
-  Path,
+  type ControllerRenderProps,
+  type FieldPath,
+  type FieldValues,
+  type Path,
   useFormContext
 } from "react-hook-form"
 import { cn } from "@/lib/utils.ts"
@@ -36,9 +36,9 @@ export interface RHFCalendarPickerInputProps<T extends FieldValues> {
   isEnableFutureDate?: boolean
 }
 
-const RHFCalendarPickerInput = <T extends FieldValues>(
+function RHFCalendarPickerInput<T extends FieldValues>(
   props: RHFCalendarPickerInputProps<T>
-) => {
+) {
   const { control } = useFormContext()
   const {
     name,
@@ -73,20 +73,20 @@ const RHFCalendarPickerInput = <T extends FieldValues>(
         <FormItem className={cn("w-full col-span-12", props.className)}>
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             {label}
-            {required && <RequiredSymbol />}
-            {isRowDirection && <FormMessage />}
+            {required ? <RequiredSymbol /> : null}
+            {isRowDirection ? <FormMessage /> : null}
           </FormLabel>
           <FormControl>
             <CalendarDatePicker
-              id={name}
-              value={field.value}
-              onSelectDate={handleSelectDate(field)}
               className={cn("w-full", calendarClassName)}
-              placeholder={placeholder}
-              triggerClassName="w-full text-sm"
               contentClassName="w-full"
               dateFormat={dateFormat}
+              id={name}
               isEnableFutureDate={isEnableFutureDate}
+              placeholder={placeholder}
+              triggerClassName="w-full text-sm"
+              value={field.value}
+              onSelectDate={handleSelectDate(field)}
             />
           </FormControl>
 

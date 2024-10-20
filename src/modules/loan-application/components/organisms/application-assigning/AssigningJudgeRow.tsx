@@ -1,9 +1,9 @@
-import { IWorkspaceAdminApplicationScore } from "@/types/application/application-assign.type"
-import { Row } from "@tanstack/react-table"
-import { LoanStage } from "../../../../loan-application-management/constants/types/application"
+import { type IWorkspaceAdminApplicationScore } from "@/types/application/application-assign.type"
+import { type Row } from "@tanstack/react-table"
+import { type LoanStage } from "../../../../loan-application-management/constants/types/application"
 import { WrapperDialogModifyAssignedJudges } from "./WrapperDialogModifyAssignedJudges"
 
-type Props = {
+interface Props {
   row: Row<IWorkspaceAdminApplicationScore>
   currentStage: LoanStage
   disabled: boolean
@@ -18,9 +18,9 @@ export const AssigningJudgeRow: React.FC<Props> = ({
 
   return (
     <WrapperDialogModifyAssignedJudges
-      disabled={disabled}
       applicationId={application.id}
       currentStage={currentStage}
+      disabled={disabled}
     />
   )
 }

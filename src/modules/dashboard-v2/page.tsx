@@ -30,9 +30,9 @@ export function Component() {
           </div>
         </div>
         <div className={cn("flex-1 space-y-6 p-6 pt-6 bg-active", "md:p-8")}>
-          {isLenderAdmin && isEnableSubscriptionManagement() && (
+          {isLenderAdmin && isEnableSubscriptionManagement() ? (
             <CurrentUsage />
-          )}
+          ) : null}
           <TotalApplicationActivity />
           {!isSbb() && (
             <>

@@ -4,11 +4,11 @@ import { DataRow } from "@/modules/loan-application/[module]-financial-projectio
 import { SectionRow } from "@/modules/loan-application/[module]-financial-projection/components/molecules/SectionRow.tsx"
 import {
   HeaderMapper,
-  HeaderProps
+  type HeaderProps
 } from "@/modules/loan-application/[module]-financial-projection/constants"
-import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
+import { type ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
 import {
-  ForecastPeriod,
+  type ForecastPeriod,
   ForecastType
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 
@@ -21,7 +21,7 @@ interface BalanceSheetTemplateProps {
   isPdf?: boolean
 }
 
-export const BalanceSheetTemplate = (props: BalanceSheetTemplateProps) => {
+export function BalanceSheetTemplate(props: BalanceSheetTemplateProps) {
   const {
     title = "Balance Sheet",
     layout,
@@ -53,86 +53,86 @@ export const BalanceSheetTemplate = (props: BalanceSheetTemplateProps) => {
 
             <SectionRow title="Assets" />
             <DataRow
-              title="Cash"
               data={data[ForecastType.CASH]}
               layout="item"
+              title="Cash"
             />
             <DataRow
-              title="Account Receivables"
-              data={data[ForecastType.ACCOUNT_RECEIVABLE]}
               collision
+              data={data[ForecastType.ACCOUNT_RECEIVABLE]}
               layout="item"
+              title="Account Receivables"
             />
             <DataRow
-              title="Total Current Assets"
               data={data[ForecastType.TOTAL_CURRENT_ASSETS]}
               layout="total"
+              title="Total Current Assets"
             />
             <DataRow
-              title="Fixed Assets"
-              data={data[ForecastType.FIXED_ASSET]}
               collision
+              data={data[ForecastType.FIXED_ASSET]}
               layout="item"
+              title="Fixed Assets"
             />
             <DataRow
-              title="Accumulated Depreciation"
               data={data[ForecastType.ACCUMULATED_DEPRECIATION]}
               layout="item"
+              title="Accumulated Depreciation"
             />
             <DataRow
-              title="Total Assets"
               data={data[ForecastType.TOTAL_ASSETS]}
               layout="item"
+              title="Total Assets"
             />
 
             <SectionRow
-              title="Liabilities & Owner’s Equity"
               className="border-y"
+              title="Liabilities & Owner’s Equity"
             />
             <SectionRow
-              title="Liabilities"
               className="h-6 italic font-normal border-y-0"
+              title="Liabilities"
             />
             <DataRow
-              title="Long Term Debt"
               data={data[ForecastType.LONG_TERM_DEBT]}
               layout="item"
+              title="Long Term Debt"
             />
             <DataRow
-              title="Accounts Payable"
               data={data[ForecastType.ACCOUNT_PAYABLE]}
               layout="item"
+              title="Accounts Payable"
             />
             <DataRow
-              title="Total Liabilities"
               data={data[ForecastType.TOTAL_LIABILITIES]}
               layout="subTotal"
+              title="Total Liabilities"
             />
             <SectionRow
-              title="Equity"
               className="h-6 italic font-normal border-b-0"
+              title="Equity"
             />
             <DataRow
-              title="Paid in Capital"
               data={data[ForecastType.PAID_IN_CAPITAL]}
               layout="item"
+              title="Paid in Capital"
             />
             <DataRow
-              title="Accumulated Retained Earnings"
               data={data[ForecastType.ACCUMULATED_RETAINED_EARNINGS]}
               layout="item"
+              title="Accumulated Retained Earnings"
             />
             <DataRow
-              title="Total Equity"
+              collision
               data={data[ForecastType.TOTAL_EQUITY]}
               layout="total"
-              collision
+              title="Total Equity"
             />
             <DataRow
-              title="Total Liabilities & Owners Equity"
+              isEnd
               data={data[ForecastType.TOTAL_LIABILITY_AND_EQUITY]}
               layout="total"
-              isEnd
+              title="Total Liabilities & Owners Equity"
             />
           </div>
         </div>

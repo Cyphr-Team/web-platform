@@ -8,7 +8,7 @@ import { ArrowDownToLine, ArrowRight, CheckCircle } from "lucide-react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { ButtonDownloadESignDocument } from "../atoms/ButtonDownloadESignDocument"
 
-const LoanSubmissionWithDocument = () => {
+function LoanSubmissionWithDocument() {
   const navigate = useNavigate()
   // Get applicationId from state
   const location = useLocation()
@@ -28,9 +28,7 @@ const LoanSubmissionWithDocument = () => {
 
   return (
     <div className="p-4 lg:p-8 h-full w-full flex">
-      <div
-        className={"m-auto flex w-full flex-col space-y-8 md:w-[640px] px-2"}
-      >
+      <div className="m-auto flex w-full flex-col space-y-8 md:w-[640px] px-2">
         <div className="flex flex-col text-center gap-4xl">
           <div className="flex justify-center relative">
             <div className="w-14 self-center">
@@ -64,16 +62,16 @@ const LoanSubmissionWithDocument = () => {
           </div>
 
           <div className="flex gap-4 justify-center flex-wrap mx-20">
-            {documentId && (
+            {documentId ? (
               <ButtonDownloadESignDocument
-                documentId={documentId}
                 className="border flex-1"
+                documentId={documentId}
               >
                 Download Copy <ArrowDownToLine className="ml-2 w-4 h-4" />
               </ButtonDownloadESignDocument>
-            )}
+            ) : null}
 
-            <Button onClick={handleGoToDetail} className="flex-1">
+            <Button className="flex-1" onClick={handleGoToDetail}>
               <div>
                 Review Submission
                 <ArrowRight className="ml-2 w-4 h-4 inline-block" />
@@ -114,11 +112,11 @@ export function Component() {
         <div className="flex flex-col text-center gap-4xl">
           <div className="flex justify-center relative">
             <img
-              className="max-w-[100vw] absolute w-[756px] h-[756px] -z-10 left-1/2 -translate-x-1/2 top-[28px] -translate-y-1/2 dark:opacity-15"
-              src={backgroundPatternDecorative}
               alt="Pattern decorative"
-              width={756}
+              className="max-w-[100vw] absolute w-[756px] h-[756px] -z-10 left-1/2 -translate-x-1/2 top-[28px] -translate-y-1/2 dark:opacity-15"
               height={756}
+              src={backgroundPatternDecorative}
+              width={756}
             />
             <div className="w-14 self-center">
               <AspectRatio ratio={1 / 1}>

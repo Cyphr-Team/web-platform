@@ -1,8 +1,8 @@
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 
 import { postRequest } from "./client.service"
 
-import { UserInfo } from "@/types/user.type"
+import { type UserInfo } from "@/types/user.type"
 import { customRequestHeader } from "@/utils/request-header"
 
 import {
@@ -18,6 +18,7 @@ export const isEnableMFA = () => {
     if (isLaunchKC()) {
       return isEnableMultiFactorAuthenticationForLaunchKC()
     }
+
     return true
   }
   if (!isEnableMultiFactorAuthentication()) return false
@@ -27,12 +28,15 @@ export const isEnableMFA = () => {
   if (isLaunchKC()) {
     return isEnableMultiFactorAuthenticationForLaunchKC()
   }
+
   return true
 }
 
 export const parseJwt = (token: string) => {
   try {
     if (!token) return null
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return JSON.parse(atob(token.split(".")[1]))
   } catch (e) {
     return null
@@ -41,6 +45,7 @@ export const parseJwt = (token: string) => {
 
 const REFRESH_TOKEN_LS_KEY = "cyphr-web-refresh_token"
 const USER_INFO_LS_KEY = "cyphr-web-user_info"
+
 export const INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY =
   "cyphr-web-intermediate_session_token"
 
@@ -104,9 +109,12 @@ export const inMemoryJWTManager = () => {
       .then((response: AxiosResponse) => {
         if (response.status !== 200) {
           eraseToken()
-          console.error("Failed to renew the jwt from the refresh token.")
+          // console.error("Failed to renew the jwt from the refresh token.")
+
           return { refreshToken: null, accessToken: null }
         }
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return response.data
       })
       .then((userInfo: UserInfo) => {
@@ -117,10 +125,12 @@ export const inMemoryJWTManager = () => {
           setRefreshToken(userInfo.refreshToken)
         }
         setUserInfo(userInfo)
+
         return Promise.resolve(userInfo)
       })
       .catch(() => {
         eraseToken()
+
         return Promise.reject("Log out because we can't renew the token.")
       })
   }

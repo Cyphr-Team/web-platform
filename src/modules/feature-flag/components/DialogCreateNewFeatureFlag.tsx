@@ -21,7 +21,7 @@ import { useMemo, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
+import type * as z from "zod"
 
 import {
   createFeatureFlagForm,
@@ -31,7 +31,7 @@ import { useQueryFeatureFlagDetails } from "../hooks/useQuery/useQueryFeatureFla
 import { useUpdateFeatureFlagMutation } from "../hooks/useMutation/useUpdateFeatureFlagMutation"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 
-type Props = {
+interface Props {
   id: string
   setDetailId: (id: string) => void
 }
@@ -60,6 +60,7 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
           tags: featureFlagDetails.data.tags ?? []
         }
       }
+
       return {
         key: "",
         description: "",
@@ -72,6 +73,7 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
   const handleInputKey = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputText = event.target.value
     const textWithUnderscores = inputText.replace(/ /g, "_")
+
     form.setValue("key", textWithUnderscores)
   }
 
@@ -89,6 +91,7 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
           }
         }
       )
+
       return
     }
     mutate(
@@ -100,11 +103,12 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
       }
     )
   })
+
   return (
     <Dialog open={open || !!id.length} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button type="button">
-          <PlusCircle size={16} className="text-sm mr-1.5" />
+          <PlusCircle className="text-sm mr-1.5" size={16} />
           Create new flag
         </Button>
       </DialogTrigger>
@@ -117,13 +121,13 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
           )}
         </DialogHeader>
         <LoadingWrapper
+          className="min-h-40"
           isLoading={
             featureFlagDetails.isFetching || featureFlagDetails.isLoading
           }
-          className="min-h-40"
         >
           <Form {...form}>
-            <form onSubmit={formSubmit} className="flex flex-col space-y-3">
+            <form className="flex flex-col space-y-3" onSubmit={formSubmit}>
               <FormField
                 control={form.control}
                 name="key"
@@ -137,8 +141,8 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
                         placeholder="i.e: SUBSCRIPTION_FEATURE_CREATE"
                         wrapperClassName="col-span-3 w-full"
                         {...field}
-                        onChange={handleInputKey}
                         disabled={!!id.length}
+                        onChange={handleInputKey}
                       />
                     </FormControl>
                     <FormMessage />
@@ -190,9 +194,9 @@ export const CreateNewFeatureFlagDialog: React.FC<Props> = ({
 
               <DialogFooter>
                 <ButtonLoading
-                  type="submit"
-                  isLoading={isPending || isUpdating}
                   disabled={!form.formState.isValid || !form.formState.isDirty}
+                  isLoading={isPending || isUpdating}
+                  type="submit"
                 >
                   {id.length ? "Update" : "Create"}
                 </ButtonLoading>

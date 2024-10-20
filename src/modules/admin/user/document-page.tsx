@@ -7,14 +7,14 @@ import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs.tsx"
 import { documentColumns } from "@/modules/admin/user/table/documents-table"
 import { DialogAddDocument } from "@/modules/admin/user/components/DialogAddDocument"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
-import { PaginationState } from "@tanstack/react-table"
+import { type PaginationState } from "@tanstack/react-table"
 import {
-  FilterParams,
+  type FilterParams,
   useQueryListPaginateDocument
 } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateDocument"
 import { useCallback, useState } from "react"
 import { DocumentTableHeader } from "@/modules/admin/user/table/document-table-header"
-import { ChatbotDocument } from "@/types/chatbot.type"
+import { type ChatbotDocument } from "@/types/chatbot.type"
 
 export function Component() {
   const breadcrumbs = useBreadcrumb()
@@ -72,18 +72,20 @@ export function Component() {
           isForesightAdmin && "justify-between"
         )}
       >
-        {isForesightAdmin && <DocumentTableHeader onSearch={handleSearch} />}
+        {isForesightAdmin ? (
+          <DocumentTableHeader onSearch={handleSearch} />
+        ) : null}
         <DialogAddDocument />
       </div>
       <DataTable
-        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
-        tableHeaderClassName="border-t-0"
         columns={documentColumns}
         data={documentInfos.map(mapInstitutionNames) ?? []}
-        total={data?.total ?? 0}
-        pagination={pagination}
         isLoading={isFetching}
+        pagination={pagination}
         setPagination={setPagination}
+        tableHeaderClassName="border-t-0"
+        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
+        total={data?.total ?? 0}
       />
     </div>
   )

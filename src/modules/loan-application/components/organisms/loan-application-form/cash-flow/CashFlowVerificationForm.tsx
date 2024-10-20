@@ -11,7 +11,7 @@ import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/t
 import { useLoanApplicationProgressContext } from "../../../../providers"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const CashFlowVerificationForm = () => {
+export function CashFlowVerificationForm() {
   const { tenantData } = useTenant()
 
   const { step, getStepStatus, finishCurrentStep } =
@@ -70,8 +70,8 @@ export const CashFlowVerificationForm = () => {
             <ConnectBankAccountsButton disabled={!isConfirmedConnect} />
             <div className="flex gap-2 mt-1">
               <Checkbox
-                className="w-5 h-5"
                 checked={isChecked}
+                className="w-5 h-5"
                 onCheckedChange={(value: boolean) => {
                   setIsConfirmedConnect(value)
                 }}
@@ -87,9 +87,9 @@ export const CashFlowVerificationForm = () => {
         </div>
       </Card>
 
-      {!isReviewApplicationStep(step) && isComplete && (
-        <FormSubmitButton onSubmit={handleNextClick} isDisabled={!isChecked} />
-      )}
+      {!isReviewApplicationStep(step) && isComplete ? (
+        <FormSubmitButton isDisabled={!isChecked} onSubmit={handleNextClick} />
+      ) : null}
     </div>
   )
 }

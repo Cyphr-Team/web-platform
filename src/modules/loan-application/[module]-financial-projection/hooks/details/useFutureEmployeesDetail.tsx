@@ -1,10 +1,10 @@
 import { FORMAT_DATE_MM_YYYY } from "@/constants/date.constants"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
 import {
-  FinancialApplicationDetailData,
-  FinancialApplicationFormDetailData
+  type FinancialApplicationDetailData,
+  type FinancialApplicationFormDetailData
 } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
+import { type ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, toCurrency } from "@/utils"
@@ -14,6 +14,7 @@ import { isEmpty } from "lodash"
 interface UseFutureEmployeesDetailProps {
   expensePeopleResponse?: ExpensePeopleResponse
 }
+
 export const useFutureEmployeesDetail = ({
   expensePeopleResponse
 }: UseFutureEmployeesDetailProps) => {

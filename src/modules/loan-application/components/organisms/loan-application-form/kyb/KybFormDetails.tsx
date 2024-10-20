@@ -1,11 +1,10 @@
 import { Card } from "@/components/ui/card"
 import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { getStateName } from "@/modules/loan-application/hooks/useSelectCities"
-import { KYBInformationResponse } from "@/modules/loan-application/constants/type"
+import { type KYBInformationResponse } from "@/modules/loan-application/constants/type"
 import { toPattern } from "@/components/ui/mask-input"
 import { EIN_PATTERN } from "@/constants"
 import { Separator } from "@/components/ui/separator"
-import React from "react"
 import { isLaunchKC } from "@/utils/domain.utils"
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 import { getLabelFromValue, LEGAL_STRUCTURE_OPTIONS } from "./launchkc/const"
@@ -15,9 +14,7 @@ interface KybFormDetailsProps {
   kybFormData?: KYBInformationResponse
 }
 
-export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
-  kybFormData
-}) => {
+export function KybFormDetails({ kybFormData }: KybFormDetailsProps) {
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
       <h5 className="text-lg font-semibold">Business Information</h5>
@@ -27,92 +24,92 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
         <div className="flex flex-col gap-4xl">
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Business legal name"
             value={kybFormData?.businessLegalName}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Business street address line #1"
             value={kybFormData?.businessStreetAddress.addressLine1}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Business street address line #2"
             value={kybFormData?.businessStreetAddress.addressLine2}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Business city"
             value={kybFormData?.businessStreetAddress.city}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Business state"
             value={getStateName(
               kybFormData?.businessStreetAddress.state ?? "N/A"
             )}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="Business zip code"
             value={kybFormData?.businessStreetAddress.postalCode}
+            valueClassName="text-right"
           />
           <AnswersTextDisplay
             className="!flex-row justify-between"
-            valueClassName="text-right"
             label="EIN"
             value={toPattern(kybFormData?.businessTin ?? "", EIN_PATTERN)}
+            valueClassName="text-right"
           />
-          {kybFormData?.metadata?.yearFounded && (
+          {kybFormData?.metadata?.yearFounded ? (
             <AnswersTextDisplay
               className="!flex-row justify-between"
-              valueClassName="text-right"
               label="Year founded"
               value={kybFormData.metadata.yearFounded}
+              valueClassName="text-right"
             />
-          )}
-          {kybFormData?.metadata?.legalStructure && (
+          ) : null}
+          {kybFormData?.metadata?.legalStructure ? (
             <AnswersTextDisplay
               className="!flex-row justify-between"
-              valueClassName="text-right"
               label="Legal structure"
               value={getLabelFromValue(
                 LEGAL_STRUCTURE_OPTIONS,
                 get(kybFormData, "metadata.legalStructure", "N/A")
               )}
+              valueClassName="text-right"
             />
-          )}
+          ) : null}
           <AnswersTextDisplay
             className="!flex-row justify-between"
             label="Business website"
             value={kybFormData?.businessWebsite}
           />
-          {kybFormData?.metadata?.primaryIndustry && (
+          {kybFormData?.metadata?.primaryIndustry ? (
             <AnswersTextDisplay
+              className="!flex-row justify-between"
               label="Primary industry"
               value={kybFormData.metadata.primaryIndustry}
-              className="!flex-row justify-between"
             />
-          )}
-          {kybFormData?.metadata?.primaryIndustryOther && (
+          ) : null}
+          {kybFormData?.metadata?.primaryIndustryOther ? (
             <AnswersTextDisplay
+              className="!flex-row justify-between"
               label="Primary industry (other)"
               value={kybFormData.metadata.primaryIndustryOther}
-              className="!flex-row justify-between"
             />
-          )}
-          {kybFormData?.metadata?.companyDescription && (
+          ) : null}
+          {kybFormData?.metadata?.companyDescription ? (
             <AnswersTextDisplay
               label="Describe your company in one sentence"
               value={kybFormData.metadata.companyDescription}
             />
-          )}
+          ) : null}
         </div>
       ) : (
         <div className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
@@ -149,50 +146,50 @@ export const KybFormDetails: React.FC<KybFormDetailsProps> = ({
             value={kybFormData?.businessStreetAddress.postalCode}
           />
           <TextInputDisplay
+            className="col-span-5"
             label="EIN"
             value={toPattern(kybFormData?.businessTin ?? "", EIN_PATTERN)}
-            className="col-span-5"
           />
-          {kybFormData?.metadata?.yearFounded && (
+          {kybFormData?.metadata?.yearFounded ? (
             <TextInputDisplay
+              className="col-span-3"
               label="Year founded"
               value={kybFormData.metadata.yearFounded}
-              className="col-span-3"
             />
-          )}
-          {kybFormData?.metadata?.legalStructure && (
+          ) : null}
+          {kybFormData?.metadata?.legalStructure ? (
             <TextInputDisplay
+              className="col-span-4"
               label="Legal structure"
               value={kybFormData.metadata.legalStructure}
-              className="col-span-4"
             />
-          )}
+          ) : null}
           <TextInputDisplay
+            className="col-span-12"
             label="Business website"
             value={kybFormData?.businessWebsite}
-            className="col-span-12"
           />
-          {kybFormData?.metadata?.primaryIndustry && (
+          {kybFormData?.metadata?.primaryIndustry ? (
             <TextInputDisplay
+              className="col-span-6"
               label="Primary industry"
               value={kybFormData.metadata.primaryIndustry}
-              className="col-span-6"
             />
-          )}
-          {kybFormData?.metadata?.primaryIndustryOther && (
+          ) : null}
+          {kybFormData?.metadata?.primaryIndustryOther ? (
             <TextInputDisplay
+              className="col-span-6"
               label="Primary industry (other)"
               value={kybFormData.metadata.primaryIndustryOther}
-              className="col-span-6"
             />
-          )}
-          {kybFormData?.metadata?.companyDescription && (
+          ) : null}
+          {kybFormData?.metadata?.companyDescription ? (
             <TextInputDisplay
+              className="col-span-12"
               label="Describe your company in one sentence"
               value={kybFormData.metadata.companyDescription}
-              className="col-span-12"
             />
-          )}
+          ) : null}
         </div>
       )}
     </Card>

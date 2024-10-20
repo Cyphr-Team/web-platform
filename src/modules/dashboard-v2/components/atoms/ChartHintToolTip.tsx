@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { DashBoardToolTip } from "./DashBoardToolTip"
 
 interface IChartHintToolTip {
@@ -7,11 +7,11 @@ interface IChartHintToolTip {
   formulaExplain: ReactNode
 }
 
-export const ChartHintToolTip = ({
+export function ChartHintToolTip({
   head,
   formula,
   formulaExplain
-}: IChartHintToolTip) => {
+}: IChartHintToolTip) {
   return (
     <DashBoardToolTip
       content={

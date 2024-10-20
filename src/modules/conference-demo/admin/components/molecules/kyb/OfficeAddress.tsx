@@ -1,7 +1,7 @@
 import { Dot } from "@/components/ui/dot"
 import { MiddeskTableContent } from "@/modules/loan-application-management/components/table/middesk-table-content"
-import { BusinessAddressDetail } from "@/modules/loan-application-management/constants/types/business.type"
-import { MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
+import { type BusinessAddressDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { type MiddeskTableContentReport } from "@/modules/loan-application-management/constants/types/middesk.type"
 import { useCallback, useMemo } from "react"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { MOCK_KYB_DETAIL } from "@/modules/conference-demo/admin/constants/data"
@@ -9,14 +9,14 @@ import { MiddeskBadge } from "@/modules/loan-application/components/molecules/mi
 import { MiddeskCard } from "@/modules/loan-application/components/molecules/middesk/MiddeskCard"
 import { DateHeader } from "@/modules/conference-demo/admin/components/atoms/DateHeader"
 
-export const OfficeAddress = () => {
+export function OfficeAddress() {
   const businessAddresses = MOCK_KYB_DETAIL?.businessAddresses
 
   const getBusinessAddressNote = useCallback(
     (businessAddress: BusinessAddressDetail) => {
       return (
         <div>
-          {businessAddress.deliverable && (
+          {businessAddress.deliverable ? (
             <div className="flex items-center">
               <Dot
                 className="flex-shrink-0 self-start mt-1"
@@ -26,8 +26,8 @@ export const OfficeAddress = () => {
                 USPS <Dot className="mx-1 w-2" /> Deliverable
               </div>
             </div>
-          )}
-          {businessAddress.cmra && (
+          ) : null}
+          {businessAddress.cmra ? (
             <div className="flex items-center">
               <Dot
                 className="flex-shrink-0 self-start mt-1"
@@ -37,8 +37,8 @@ export const OfficeAddress = () => {
                 USPS <Dot className="mx-1 w-2" /> CMRA
               </div>
             </div>
-          )}
-          {businessAddress.registeredAgent && (
+          ) : null}
+          {businessAddress.registeredAgent ? (
             <div className="flex items-center">
               <Dot
                 className="flex-shrink-0 self-start mt-1"
@@ -48,7 +48,7 @@ export const OfficeAddress = () => {
                 USPS <Dot className="mx-1 w-2" /> Registered Agent
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       )
     },
@@ -69,22 +69,22 @@ export const OfficeAddress = () => {
 
   const badge = (
     <MiddeskBadge
-      status={MOCK_KYB_DETAIL.insights.officeAddress?.status}
       label={businessAddresses?.subLabel}
+      status={MOCK_KYB_DETAIL.insights.officeAddress?.status}
     />
   )
   const headerTitle = <>Office Addresses {badge}</>
 
   const content = (
-    <MiddeskTableContent nameTitle="Office addresses" data={data} />
+    <MiddeskTableContent data={data} nameTitle="Office addresses" />
   )
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.officeAddress}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
       content={content}
+      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.officeAddress}
     />
   )
 }

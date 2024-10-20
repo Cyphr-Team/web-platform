@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
   useBRLoanApplicationDetailsContext,
@@ -20,7 +20,7 @@ import {
 } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/v2/ConnectBankAccountsButton"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
@@ -61,14 +61,14 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
       return (
         <div className="min-w-0">
           <Badge
+            border
             isDot
+            className="capitalize text-sm rounded-lg font-medium"
+            isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.SUCCESS
             )}
-            className="capitalize text-sm rounded-lg font-medium"
-            isDotBefore={false}
-            border
           >
             Connected
           </Badge>
@@ -81,9 +81,10 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
 interface CashFlowVerificationFormV2Props {
   wrapperClassName?: string
 }
-export const CashFlowVerificationFormV2 = ({
+
+export function CashFlowVerificationFormV2({
   wrapperClassName
-}: CashFlowVerificationFormV2Props) => {
+}: CashFlowVerificationFormV2Props) {
   const { finishCurrentStep, completeSpecificStep, step } =
     useLoanApplicationProgressContext()
 
@@ -172,10 +173,10 @@ export const CashFlowVerificationFormV2 = ({
               your business financial health through cash flow data and expedite
               the loan approval process. Learn how it works{" "}
               <a
-                href="https://plaid.com/legal/#consumers"
                 className="underline text-black"
-                target="_blank"
+                href="https://plaid.com/legal/#consumers"
                 rel="noopener noreferrer"
+                target="_blank"
               >
                 here
               </a>
@@ -185,9 +186,9 @@ export const CashFlowVerificationFormV2 = ({
           <div className="flex flex-col gap-lg">
             <div className="flex gap-2 mt-1">
               <Checkbox
+                checked={canConnect}
                 className="w-5 h-5"
                 disabled={!!connectedAccounts.length}
-                checked={canConnect}
                 onCheckedChange={(value: boolean) => {
                   setIsConfirmedConnect(value)
                 }}
@@ -202,7 +203,7 @@ export const CashFlowVerificationFormV2 = ({
           </div>
         </div>
       </Card>
-      {(!!connectedAccounts.length || isConfirmedConnect) && (
+      {!!connectedAccounts.length || isConfirmedConnect ? (
         <Card
           className={cn(
             "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
@@ -241,11 +242,11 @@ export const CashFlowVerificationFormV2 = ({
                   <Card className="border-none shadow-none">
                     <CardContent className="p-0 md:p-0">
                       <MiddeskTable
-                        tableClassName="text-gray-700 font-sm"
                         cellClassName="py-6"
                         columns={columns}
                         data={connectedAccounts}
-                        noResultText={"No connected accounts found"}
+                        noResultText="No connected accounts found"
+                        tableClassName="text-gray-700 font-sm"
                       />
                     </CardContent>
                   </Card>
@@ -255,8 +256,8 @@ export const CashFlowVerificationFormV2 = ({
                   {!isReviewApplicationStep(step) && (
                     <FormSubmitButton
                       className="w-full mt-5"
-                      onSubmit={handleNextClick}
                       isDisabled={!connectedAccounts.length}
+                      onSubmit={handleNextClick}
                     />
                   )}
                 </LoadingWrapper>
@@ -264,7 +265,7 @@ export const CashFlowVerificationFormV2 = ({
             )}
           </div>
         </Card>
-      )}
+      ) : null}
     </>
   )
 }

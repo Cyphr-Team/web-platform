@@ -1,9 +1,9 @@
 import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
-import { NavItem } from "@/types/common.type"
+import { type NavItem } from "@/types/common.type"
 import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { Bell } from "lucide-react"
-import { BusinessStreetAddress } from "./type"
+import { type BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
 import { FeatureKey } from "@/hooks/useCanAccess"
 
@@ -49,24 +49,24 @@ export const navItems: NavItem[] = [
   // }
 ]
 
-export type PlaidInfo = {
+export interface PlaidInfo {
   plaidInstitutionId: string
   itemId: string
   requestId: string
   error?: string
 }
 
-export type SetAccessTokenRequest = {
+export interface SetAccessTokenRequest {
   publicToken: string
   plaidInstitutionId?: string
 }
 
-export type LinkToken = {
+export interface LinkToken {
   linkToken: string
   error?: LinkTokenError
 }
 
-export type LinkTokenError = {
+export interface LinkTokenError {
   errorMessage: string
   errorCode: string
   errorType: string
@@ -120,6 +120,7 @@ export const formatBusinessStreetAddress = (
     address?.addressLine2
   )
   const addressStateCode = joinString(" ", address?.state, address?.postalCode)
+
   return joinString(", ", addressLine, address?.city, addressStateCode)
 }
 
@@ -141,7 +142,7 @@ export interface CreateLinkTokenRequest {
   plaidInstitutionId: string
 }
 
-export type PlaidAction = {
+export interface PlaidAction {
   type: "SET_STATE"
   state: Partial<PlaidState>
 }
@@ -156,7 +157,7 @@ export interface IPlaidAccountProviderData {
   connectedOn?: string
 }
 
-export type IPlaidInstitutionProviderData = {
+export interface IPlaidInstitutionProviderData {
   institutionId: string
   institutionName: string
   accounts: IPlaidAccountProviderData[]
@@ -201,4 +202,5 @@ export const REGEX_PATTERN = {
 }
 
 export const NEW_CURRENT_LOAN_PREFIX = "loan-add-item-"
+
 export const DELETE_CURRENT_LOAN_PREFIX = "loan-delete-item-"

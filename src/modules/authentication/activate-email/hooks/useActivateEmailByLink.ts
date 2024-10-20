@@ -1,8 +1,8 @@
-import { ErrorResponse } from "@/types/common.type"
-import { UserInfo } from "@/types/user.type"
+import { type ErrorResponse } from "@/types/common.type"
+import { type UserInfo } from "@/types/user.type"
 import { API_PATH } from "@/constants"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { postRequest } from "@/services/client.service"
 import { headerWithTemporaryToken } from "@/utils/request-header"
 

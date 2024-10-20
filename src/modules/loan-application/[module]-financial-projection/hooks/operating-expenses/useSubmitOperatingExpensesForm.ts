@@ -1,23 +1,23 @@
 import { API_PATH } from "@/constants"
 import {
   FpOperatingExpensesField,
-  FpOperatingExpensesFormValue
+  type FpOperatingExpensesFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import { useCreateMutation } from "@/modules/loan-application/[module]-financial-projection/hooks"
-import { SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
-  FpOperatingExpensesFormMutateRequest,
-  FpOperatingExpensesFormResponse
+  type FpOperatingExpensesFormMutateRequest,
+  type FpOperatingExpensesFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/operating-expenses-form"
 import {
   parseISOStringToMMYYYY,
   parseMMYYYYToISOString
 } from "@/utils/date.utils"
 import { useQueryClient } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 
-type Props = {
+interface Props {
   rawData: FpOperatingExpensesFormValue
 }
 

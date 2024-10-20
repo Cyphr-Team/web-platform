@@ -1,6 +1,6 @@
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { downloadPDFFile } from "@/utils"
 import { customRequestHeader } from "@/utils/request-header"
 import { useQuery } from "@tanstack/react-query"

@@ -1,6 +1,6 @@
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 
 export const useMutationFactory = <R, T>(
   mutationFn: (data: R) => Promise<AxiosResponse<T>>,

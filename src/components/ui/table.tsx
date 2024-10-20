@@ -10,13 +10,13 @@ const Table = React.forwardRef<
   }
 >(({ className, isLoading, ...props }, ref) => (
   <div className="relative min-w-fit max-w-full">
-    {isLoading && (
+    {isLoading ? (
       <div className="top-0 absolute h-full w-full bg-zinc-50/50 z-10 rounded">
         <div className="sticky top-1/2 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
           <Loader2 className="w-10 h-10 animate-spin text-primary" /> Loading...
         </div>
       </div>
-    )}
+    ) : null}
     <table
       ref={ref}
       className={cn("w-full caption-bottom", className)}
@@ -24,6 +24,7 @@ const Table = React.forwardRef<
     />
   </div>
 ))
+
 Table.displayName = "Table"
 
 const InfinityTable = React.forwardRef<
@@ -36,6 +37,7 @@ const InfinityTable = React.forwardRef<
     {...props}
   />
 ))
+
 Table.displayName = "InfinityTable"
 
 const TableHeader = React.forwardRef<
@@ -44,6 +46,7 @@ const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
 ))
+
 TableHeader.displayName = "TableHeader"
 
 const TableBody = React.forwardRef<
@@ -56,6 +59,7 @@ const TableBody = React.forwardRef<
     {...props}
   />
 ))
+
 TableBody.displayName = "TableBody"
 
 const TableFooter = React.forwardRef<
@@ -71,6 +75,7 @@ const TableFooter = React.forwardRef<
     {...props}
   />
 ))
+
 TableFooter.displayName = "TableFooter"
 
 const TableRow = React.forwardRef<
@@ -86,6 +91,7 @@ const TableRow = React.forwardRef<
     {...props}
   />
 ))
+
 TableRow.displayName = "TableRow"
 
 const TableHead = React.forwardRef<
@@ -101,6 +107,7 @@ const TableHead = React.forwardRef<
     {...props}
   />
 ))
+
 TableHead.displayName = "TableHead"
 
 const TableCell = React.forwardRef<
@@ -116,6 +123,7 @@ const TableCell = React.forwardRef<
     {...props}
   />
 ))
+
 TableCell.displayName = "TableCell"
 
 const TableCaption = React.forwardRef<
@@ -128,6 +136,7 @@ const TableCaption = React.forwardRef<
     {...props}
   />
 ))
+
 TableCaption.displayName = "TableCaption"
 
 export {

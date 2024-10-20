@@ -1,12 +1,12 @@
-import { ReactNode } from "react"
-import { BusinessRegistrationSource } from "./business.type"
-import { InsightStatus } from "./insight.type"
+import { type ReactNode } from "react"
+import { type BusinessRegistrationSource } from "./business.type"
+import { type InsightStatus } from "./insight.type"
 
 /* ----- Type -----
  * MiddeskTableContentReport
  */
 
-type MiddeskTableContentReport = {
+interface MiddeskTableContentReport {
   name?: string
   submitted?: boolean
   notes?: string

@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
-import { ErrorResponse } from "react-router-dom"
+import { type AxiosError, type AxiosResponse } from "axios"
+import { type ErrorResponse } from "react-router-dom"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { toastError } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { QUERY_KEY } from "../../constants/query-key"
-import { Notification } from "../../constants"
+import { type Notification } from "../../constants"
 
 export const useMarkNotificationAsRead = () => {
   const queryClient = useQueryClient()

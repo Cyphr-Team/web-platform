@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { sanitizeDOM } from "@/utils/file.utils"
-import { BaseLoanProgramType } from "@/types/loan-program.type"
+import { type BaseLoanProgramType } from "@/types/loan-program.type"
 import { SBB_LOAN_PROGRAMS } from "@/modules/loan-application/constants/loan-program.constants"
 import { Badge } from "@/components/ui/badge"
 
@@ -20,19 +20,20 @@ type CardProps = React.ComponentProps<typeof Card> & {
   loanProgram: BaseLoanProgramType
 }
 
-export const SBBLoanProgramCard = ({
+export function SBBLoanProgramCard({
   className,
   loanProgram,
   ...props
-}: CardProps) => {
+}: CardProps) {
   const foundLoanProgram = SBB_LOAN_PROGRAMS.find(
     (program) => loanProgram.name === program.name
   )
+
   return (
     <Card className={cn(className, "flex flex-col rounded-2xl")} {...props}>
       <CardHeader className="space-y-5 pb-0 md:pb-0">
         <CardTitle className="tracking-normal">
-          <p id="loan-type" className="text-sm mb-0.5 capitalize">
+          <p className="text-sm mb-0.5 capitalize" id="loan-type">
             {foundLoanProgram?.type}
           </p>
           <p className="font-bold">{loanProgram.name}</p>
@@ -41,10 +42,10 @@ export const SBBLoanProgramCard = ({
         {!!loanProgram.description && (
           <CardDescription className="text-foreground flex items-center">
             <span
-              className="text-lg whitespace-pre-wrap"
               dangerouslySetInnerHTML={{
                 __html: sanitizeDOM(loanProgram.description)
               }}
+              className="text-lg whitespace-pre-wrap"
             />
           </CardDescription>
         )}
@@ -52,17 +53,17 @@ export const SBBLoanProgramCard = ({
 
       <CardFooter className="mt-5">
         <Badge
-          variant="outline"
           className="h-7 text-sm px-lg py-xs font-semibold border-gray"
+          variant="outline"
         >
           {foundLoanProgram?.type}
         </Badge>
-        <Button className="ml-auto" asChild>
+        <Button asChild className="ml-auto">
           <Link
+            state={{ loanProgram }}
             to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
               loanProgram.id
             )}
-            state={{ loanProgram }}
           >
             Learn more
             <ArrowRight className="ml-1 h-4 w-4" />

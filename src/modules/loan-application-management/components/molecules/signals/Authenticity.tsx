@@ -4,9 +4,9 @@ import {
 } from "@/modules/loan-application-management/services"
 import React from "react"
 import { cn } from "@/lib/utils"
-import { AuthenticityType } from "@/modules/loan-application-management/constants/types/document"
+import { type AuthenticityType } from "@/modules/loan-application-management/constants/types/document"
 
-type Props = {
+interface Props {
   authenticity?: AuthenticityType
 }
 
@@ -46,7 +46,7 @@ export const AuthenticityScore: React.FC<Props> = ({ authenticity }) => {
             style={{
               backgroundColor: authenticityData?.authenticityLevelColor
             }}
-          ></div>
+          />
         </div>
 
         <div>

@@ -12,19 +12,19 @@ type ImageProps = {
   className?: string
 } & PlaceholderImageProps
 
-type PlaceholderImageProps = {
+interface PlaceholderImageProps {
   width?: number
   height?: number
   placeholderClassName?: string
   alt: string
 }
 
-const PlaceholderImage = ({
+function PlaceholderImage({
   width,
   height,
   placeholderClassName,
   alt
-}: PlaceholderImageProps) => {
+}: PlaceholderImageProps) {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>
@@ -43,14 +43,14 @@ const PlaceholderImage = ({
   )
 }
 
-export const Image = ({
+export function Image({
   src,
   className,
   alt,
   width,
   height,
   placeholderClassName
-}: ImageProps) => {
+}: ImageProps) {
   const [isFailed, setIsFailed] = useState(false)
 
   const handleFailedImage = () => {
@@ -60,26 +60,26 @@ export const Image = ({
   if (!src)
     return (
       <PlaceholderImage
-        width={width}
+        alt={alt}
         height={height}
         placeholderClassName={placeholderClassName}
-        alt={alt}
+        width={width}
       />
     )
 
   return isFailed ? (
     <PlaceholderImage
-      width={width}
+      alt={alt}
       height={height}
       placeholderClassName={placeholderClassName}
-      alt={alt}
+      width={width}
     />
   ) : (
     <img
-      className={className}
-      src={src}
       alt={alt}
+      className={className}
       height={height}
+      src={src}
       width={width}
       onError={handleFailedImage}
     />

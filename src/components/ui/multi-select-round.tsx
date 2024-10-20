@@ -1,5 +1,9 @@
 import { Command as CommandPrimitive } from "cmdk"
-import { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form"
+import {
+  type ControllerRenderProps,
+  type FieldPath,
+  type FieldValues
+} from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -15,9 +19,15 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { ChevronDown, X } from "lucide-react"
-import { KeyboardEvent, ReactNode, useCallback, useEffect, useRef } from "react"
+import {
+  type KeyboardEvent,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef
+} from "react"
 import { Checkbox } from "./checkbox"
 import { Separator } from "./separator"
 
@@ -42,6 +52,7 @@ export function MultiSelectRound<
 
   const isSelected = useCallback(
     (option: Option<OptionType>) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return field.value.some(
         (select: Option<OptionType>) => select.value === option.value
       )
@@ -107,12 +118,12 @@ export function MultiSelectRound<
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id={field.name}
-            variant="outline"
             className={cn(
               "rounded-full text-slate-700",
               !!field.value.length && "border-slate-500"
             )}
+            id={field.name}
+            variant="outline"
           >
             <span className="font-semibold">
               {label}
@@ -146,10 +157,10 @@ export function MultiSelectRound<
                               {labelHOC?.(
                                 option,
                                 <Button
-                                  variant="ghost"
-                                  size="icon"
                                   className="ml-1 w-auto h-auto p-0"
+                                  size="icon"
                                   type="button"
+                                  variant="ghost"
                                   onClick={handleOptionClick(option)}
                                 >
                                   <X className="w-3 h-3" strokeWidth={3} />
@@ -161,14 +172,14 @@ export function MultiSelectRound<
 
                       <div className="max-w-32">
                         <CommandPrimitive.Input
-                          autoFocus
-                          placeholder="Search"
                           ref={searchInputRef}
-                          onKeyDown={handleSearchOnKeyDown}
+                          autoFocus
                           className={cn(
                             "h-full bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
                             "flex p-0 w-full text-sm placeholder:text-muted-foreground"
                           )}
+                          placeholder="Search"
+                          onKeyDown={handleSearchOnKeyDown}
                         />
                       </div>
                     </div>
@@ -186,18 +197,18 @@ export function MultiSelectRound<
               <CommandList className="overflow-y-auto">
                 {options.map((option) => (
                   <CommandItem
+                    key={option.value}
                     className="cursor-pointer gap-3 px-4 h-10 rounded-none"
                     value={option.label}
-                    key={option.value}
                     onSelect={handleOptionClick(option)}
                   >
                     <Checkbox
+                      checked={isSelected(option)}
                       className={cn(
                         "border-2 border-zinc-300 rounded-[3px] w-5 h-5",
                         "data-[state=checked]:bg-slate-600 data-[state=checked]:border-none data-[state=checked]:text-white",
                         "[&>span>svg>path]:stroke-[3]"
                       )}
-                      checked={isSelected(option)}
                     />
                     {labelHOC ? labelHOC(option) : option.label}
                   </CommandItem>
@@ -208,8 +219,8 @@ export function MultiSelectRound<
             <Separator className="my-1.5" />
 
             <Button
-              size="sm"
               className="mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary px-4 rounded-none"
+              size="sm"
               variant="ghost"
               onClick={clearAllValue}
             >

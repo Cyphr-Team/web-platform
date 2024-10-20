@@ -9,8 +9,7 @@ import { Separator } from "@/components/ui/separator.tsx"
 import { cn } from "@/lib/utils.ts"
 import {
   INPUT_GROUP,
-  STEP,
-  StepStatus
+  type STEP
 } from "@/modules/conference-demo/applicant/constants"
 import {
   useProgress,
@@ -19,24 +18,23 @@ import {
 import groupBy from "lodash.groupby"
 import { Check } from "lucide-react"
 import {
-  FC,
   memo,
-  PropsWithChildren,
+  type PropsWithChildren,
   useCallback,
   useEffect,
   useMemo,
   useState
 } from "react"
 
-interface Props {}
-
-const Sidebar: FC<Props> = () => {
+function Sidebar() {
   const currentStep = useProgress.use.currentStep()
   const steps = useProgressSteps()
   const stepDetail = useMemo(() => {
     const step = steps.find(([step]) => step === currentStep)
+
     if (!step) return
     const [, stepDetail] = step
+
     return stepDetail
   }, [currentStep, steps])
   const groups = useMemo(() => {
@@ -76,8 +74,8 @@ const Sidebar: FC<Props> = () => {
   return (
     <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4 max-h-[50vh] md:max-h-full">
       <Accordion
-        type="multiple"
         className="w-full flex flex-col gap-2"
+        type="multiple"
         value={accordionValue}
         onValueChange={handleSetAccordion}
       >
@@ -85,7 +83,7 @@ const Sidebar: FC<Props> = () => {
         {Object.keys(groups).map(
           (group) =>
             !!groups[group].length && (
-              <CollapsibleItem label={group as INPUT_GROUP} key={group}>
+              <CollapsibleItem key={group} label={group as INPUT_GROUP}>
                 {/* Map each item to component */}
                 {groups[group].map((step) => (
                   <FormTabItem key={step.key} step={step.key} />
@@ -104,20 +102,20 @@ interface CollapsibleItemProps extends PropsWithChildren {
   label: INPUT_GROUP
 }
 
-const CollapsibleItem: FC<CollapsibleItemProps> = ({ label, children }) => {
+function CollapsibleItem({ label, children }: CollapsibleItemProps) {
   const progressDetail = useProgress.use.progressDetail()
 
   const grouped = Object.values(progressDetail).filter(
     (value) => value.group === label
-  ) as StepStatus[]
+  )
 
   const completed = grouped.filter((value) => value.isFinish).length
   const overall = grouped.length
 
   return (
     <AccordionItem
-      value={label}
       className="w-full bg-white rounded-lg shadow-md"
+      value={label}
     >
       <AccordionTrigger
         className="flex-row-reverse w-full px-4 py-2"
@@ -144,7 +142,7 @@ const CollapsibleItem: FC<CollapsibleItemProps> = ({ label, children }) => {
   )
 }
 
-const FormTabItem = ({ step }: { step: STEP }) => {
+function FormTabItem({ step }: { step: STEP }) {
   const currentScreen = useProgress.use.currentStep()
   const progressDetail = useProgress.use.progressDetail()
 
@@ -166,8 +164,8 @@ const FormTabItem = ({ step }: { step: STEP }) => {
         "flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer",
         active && "bg-nav-active"
       )}
-      onClick={handleChangeStep}
       id={`step-${step}`}
+      onClick={handleChangeStep}
     >
       <div
         className={cn(

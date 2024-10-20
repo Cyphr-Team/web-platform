@@ -2,7 +2,7 @@ import { DataTable } from "@/components/ui/data-table"
 import { MOCK_DOCUMENTS } from "@/modules/conference-demo/admin/constants/data"
 import { documentColumns } from "@/modules/conference-demo/admin/constants/document-columns"
 
-const Documents = () => {
+function Documents() {
   const data = MOCK_DOCUMENTS
 
   return (
@@ -15,10 +15,10 @@ const Documents = () => {
       </div>
 
       <DataTable
-        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
-        tableHeaderClassName="border-t-0"
         columns={documentColumns}
         data={data?.data ?? []}
+        tableHeaderClassName="border-t-0"
+        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
         total={data?.total ?? 0}
       />
     </div>

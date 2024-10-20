@@ -3,13 +3,13 @@ import { APP_PATH } from "@/constants"
 import { ChevronRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
-export const ButtonViewDetailLoanApplication = ({
+export function ButtonViewDetailLoanApplication({
   loanApplicationId,
   loanProgramType
 }: {
   loanApplicationId: string
   loanProgramType: string
-}) => {
+}) {
   const navigate = useNavigate()
 
   const handleClickDetail = () => {
@@ -23,8 +23,8 @@ export const ButtonViewDetailLoanApplication = ({
 
   return (
     <Button
-      variant="ghost"
       className="flex items-center gap-0.5 px-2 pr-1 h-8"
+      variant="ghost"
       onClick={handleClickDetail}
     >
       Review

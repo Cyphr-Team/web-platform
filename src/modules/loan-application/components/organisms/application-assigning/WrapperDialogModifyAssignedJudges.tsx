@@ -14,8 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import React, { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import {
-  AssigningJudgeFormValue,
-  assigningJudgeFormSchema
+  assigningJudgeFormSchema,
+  type AssigningJudgeFormValue
 } from "../../../constants/form"
 
 import { JudgeAvatar } from "@/modules/loan-application-management/components/atoms/JudgeAvatar"
@@ -23,29 +23,30 @@ import { getStageScoreInfo } from "@/modules/loan-application-management/service
 import { X } from "lucide-react"
 import { cn } from "../../../../../lib/utils"
 import {
-  JudgeInfo,
-  convertUserDetailInfoToJudgeInfo
+  convertUserDetailInfoToJudgeInfo,
+  type JudgeInfo
 } from "../../../../../types/application/application-assign.type"
-import { LoanStage } from "../../../../loan-application-management/constants/types/application"
-import { UpdateAssignedJudgeRequest } from "../../../../loan-application-management/constants/types/judge"
+import { type LoanStage } from "../../../../loan-application-management/constants/types/application"
+import { type UpdateAssignedJudgeRequest } from "../../../../loan-application-management/constants/types/judge"
 import { useUpdateJudgesApplication } from "../../../../loan-application-management/hooks/useMutation/useUpdateJudgesApplication"
 import { useQueryApplicationWithStageScoresResponse } from "../../../../loan-application-management/hooks/useQuery/useQueryApplicationWithStageScoresResponse"
 import { useQueryGetAssignableJudgeList } from "../../../../loan-application-management/hooks/useQuery/useQueryGetAssignableList"
 import { MultiSelect } from "./MultiSelectJudge"
 
-type Props = {
+interface Props {
   applicationId: string
   currentStage: LoanStage
   onCloseDialogContent: () => void
   disabled: boolean
 }
+
 /**
  * Logic flow:
  * - When the popup dialog open, get the "assignable online" -> "assignableOffline"; "applicationWithStageScoresResponse.stage online" -> "assignedOffline"
  * - Then the search popup open, we handle internally "search popup", then close it, will call the onClose to update assignedOffline and assignableOffline
  * - When submit, send the assignedOffline to server
  */
-export const WrapperDialogModifyAssignedJudges = ({
+export function WrapperDialogModifyAssignedJudges({
   applicationId,
   currentStage,
   disabled
@@ -53,7 +54,7 @@ export const WrapperDialogModifyAssignedJudges = ({
   applicationId: string
   currentStage: LoanStage
   disabled: boolean
-}) => {
+}) {
   const [open, setOpen] = useState(false)
   const onOpenChange = (open: boolean) => {
     setOpen(open)
@@ -70,33 +71,33 @@ export const WrapperDialogModifyAssignedJudges = ({
         }}
       >
         <Button
-          size="icon"
-          variant="ghost"
           className={cn(
             "p-0 h-auto w-auto flex-shrink-0 mr-1",
             disabled && "opacity-20"
           )}
-          type="button"
           disabled={disabled}
+          size="icon"
+          type="button"
+          variant="ghost"
         >
           <img
-            src={assignJudgePlusIcon}
-            className="logo w-5 h-5"
             alt="add-judge"
+            className="logo w-5 h-5"
+            src={assignJudgePlusIcon}
           />
         </Button>
       </DialogTrigger>
 
-      {open && (
+      {open ? (
         <DialogModifyAssignedJudges
-          disabled={disabled}
           applicationId={applicationId}
           currentStage={currentStage}
+          disabled={disabled}
           onCloseDialogContent={() => {
             setOpen(false)
           }}
         />
-      )}
+      ) : null}
     </Dialog>
   )
 }
@@ -139,6 +140,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       applicationId: applicationId,
       stage: currentStage
     }
+
     mutate(updateRequest, {
       onSuccess() {
         onCloseDialogContent()
@@ -148,8 +150,8 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
 
   const stageInfo = applicationWithStageScoresResponseQuery?.data?.stages
     ? getStageScoreInfo(
-        applicationWithStageScoresResponseQuery.data.stages,
-        currentStage
+        currentStage,
+        applicationWithStageScoresResponseQuery.data.stages
       )
     : null
 
@@ -165,15 +167,16 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       const onlineDataId = onlineData.map((item) => item.id)
 
       const addingJudges = offlineDataId.filter(
-        (judgeId) => onlineDataId.indexOf(judgeId) < 0
+        (judgeId) => !onlineDataId.includes(judgeId)
       )
 
       const removingJudges = onlineDataId.filter(
-        (judgeId) => offlineDataId.indexOf(judgeId) < 0
+        (judgeId) => !offlineDataId.includes(judgeId)
       )
 
       const isSendButton =
         addingJudges.length > 0 && removingJudges.length === 0
+
       setIsSendButtonType(isSendButton)
     },
     [setIsSendButtonType] // Dependencies array
@@ -185,6 +188,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       const newAssignableOffline = assignableOffline.filter(
         (itemA) => !selectedJudges.some((itemB) => itemB.id === itemA.id)
       )
+
       setAssignedOffline(newAssignedOffline)
       setAssignableOffline(newAssignableOffline)
 
@@ -217,8 +221,10 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
             email: judge.judgeEmail,
             avatar: judge.judgeAvatar ?? ""
           }
+
           return judgeInfo
         })
+
         setDefaultAssignedOnline(judges)
         setAssignedOffline(judges)
       }
@@ -233,8 +239,10 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
       const sortedData = [...judgeInfosOnline].sort((a, b) => {
         if (a.name < b.name) return -1
         if (a.name > b.name) return 1
+
         return 0
       })
+
       setAssignableOffline(sortedData)
     }
   }, [assignableJudgesOnlineQuery.data])
@@ -251,8 +259,8 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
           <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-3 items-start">
             <div className="flex lg:flex-row gap-3 w-full mt-1">
               <MultiSelect
-                options={assignableOffline}
                 defaultValue={searchBarJudges}
+                options={assignableOffline}
                 placeholder="Invite others by name, email"
                 onAddButtonTap={onAddButtonTap}
                 onChangeValues={(value) => {
@@ -272,13 +280,13 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
             {assignedOffline.map((judge) => {
               return (
                 <div
-                  className="flex flex-row items-center mt-3 mb-3"
                   key={judge.id}
+                  className="flex flex-row items-center mt-3 mb-3"
                 >
                   <Button
-                    variant="ghost"
                     className="w-auto h-auto p-1 mr-1"
                     type="button"
+                    variant="ghost"
                     onClick={() => {
                       const newAssignableOffline = [
                         judge,
@@ -286,11 +294,13 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                       ].sort((a, b) => {
                         if (a.name < b.name) return -1
                         if (a.name > b.name) return 1
+
                         return 0
                       })
                       const newAssignedOffline = assignedOffline.filter(
                         (assigned) => judge.id != assigned.id
                       )
+
                       setAssignedOffline(newAssignedOffline)
                       setAssignableOffline(newAssignableOffline)
 
@@ -309,11 +319,11 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                   <div className="flex-shrink-0 relative">
                     <JudgeAvatar
                       avatar={judge?.avatar}
-                      name={judge?.name}
                       email={judge?.name}
                       isScored={stageInfo?.scoredJudges?.some(
                         (scoredJudge) => scoredJudge?.judgeId === judge?.id
                       )}
+                      name={judge?.name}
                     />
                   </div>
 
@@ -323,7 +333,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                       {judge.email}
                     </span>
                   </div>
-                  <div className="flex-1 flex-row justify-center"></div>
+                  <div className="flex-1 flex-row justify-center" />
                   <span className="text-xs font-medium mr-2 text-zinc-700">
                     Judge
                   </span>
@@ -349,8 +359,8 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
               Cancel
             </Button>
             <ButtonLoading
-              type="submit"
               isLoading={isPending}
+              type="submit"
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()

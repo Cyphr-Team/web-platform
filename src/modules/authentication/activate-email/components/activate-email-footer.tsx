@@ -19,7 +19,7 @@ export const ActiveEmailFooter = ({
 }: ActiveEmailFooterProps) => {
   const { status } = useActiveEmailSearchParams()
 
-  const footer = useMemo(() => {
+  return useMemo(() => {
     if (isPending || isSuccess) {
       return ""
     }
@@ -43,10 +43,37 @@ export const ActiveEmailFooter = ({
         return (
           <GetNewEmailVerificationLinkByEmailButton buttonContent="Continue Sign Up" />
         )
+      default:
+        return <BackToLoginButton />
+      /** Adding these case below for future handler */
+      // case ErrorCode.rate_limit_exceeded: {
+      //   throw new Error(
+      //     "Not implemented yet: ErrorCode.rate_limit_exceeded case"
+      //   )
+      // }
+      // case ErrorCode.institution_subscription_limit_reached: {
+      //   throw new Error(
+      //     "Not implemented yet: ErrorCode.institution_subscription_limit_reached case"
+      //   )
+      // }
+      // case ErrorCode.cash_flow_not_ready: {
+      //   throw new Error(
+      //     "Not implemented yet: ErrorCode.cash_flow_not_ready case"
+      //   )
+      // }
+      // case ErrorCode.susbscription_not_found: {
+      //   throw new Error(
+      //     "Not implemented yet: ErrorCode.susbscription_not_found case"
+      //   )
+      // }
+      // case ErrorCode.bank_already_linked: {
+      //   throw new Error(
+      //     "Not implemented yet: ErrorCode.bank_already_linked case"
+      //   )
+      // }
+      // case ErrorCode.unauthorized: {
+      //   throw new Error("Not implemented yet: ErrorCode.unauthorized case")
+      // }
     }
-
-    return <BackToLoginButton />
   }, [isPending, isSuccess, errorCode, status])
-
-  return footer
 }

@@ -10,13 +10,13 @@ import { TaskFieldStatus } from "@/modules/loan-application-management/constants
 import { Dot } from "@/components/ui/dot"
 import { get } from "lodash"
 import { useMemo } from "react"
-const VerificationStatus = ({
+function VerificationStatus({
   isVerified,
   label
 }: {
   isVerified: boolean
   label: string
-}) => {
+}) {
   return (
     <div className="md:grid-cols-2 grid grid-flow-row border border-t-0 border-l-0">
       <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex items-center">
@@ -31,7 +31,8 @@ const VerificationStatus = ({
     </div>
   )
 }
-export const LaunchKCApplicationOverview = () => {
+
+export function LaunchKCApplicationOverview() {
   const { loanSummary, loanApplicationDetails } =
     useLoanApplicationDetailContext()
 
@@ -69,6 +70,7 @@ export const LaunchKCApplicationOverview = () => {
     const passedSelfie = getPassedSelfieVerification({
       selfieVers: loanSummary?.smartKycPersonaDetail?.selfies
     })
+
     return passedGovernment != null && passedSelfie != null
   }
 
@@ -89,23 +91,23 @@ export const LaunchKCApplicationOverview = () => {
           label="Identity verification"
         />
         <InformationRow
+          className="rounded-tl-md"
           label="Business name"
           value={businessName}
-          className="rounded-tl-md"
         />
         <InformationRow
+          className="rounded-tr-md"
           label="Business owner"
           value={personalInfo?.name ?? "N/A"}
-          className="rounded-tr-md"
         />
         <InformationRow
           label="Loan program"
           value={loanApplicationDetails?.loanProgram?.name ?? "N/A"}
         />
         <InformationRow
+          className="rounded-br-md"
           label="Office address"
           value={businessAddress}
-          className="rounded-br-md"
         />
       </div>
     </Card>

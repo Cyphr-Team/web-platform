@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card"
 import { toCurrency } from "@/utils"
 import React from "react"
 
-type Props = {
+interface Props {
   title: string
   value?: number
   isCurrency?: boolean

@@ -1,6 +1,6 @@
 import { FORMAT_DATE_MM_YYYY } from "@/constants/date.constants"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
-import { FpEquityFinancingFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/equity-form"
+import { type FpEquityFinancingFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/equity-form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
@@ -48,6 +48,7 @@ const toEquityDetail = (data: FpEquityFinancingFormResponse | undefined) => {
 interface UseEquityFinancingDetailProps {
   fpEquityFinancingFormResponse?: FpEquityFinancingFormResponse
 }
+
 export const useEquityFinancingDetail = ({
   fpEquityFinancingFormResponse
 }: UseEquityFinancingDetailProps) => {

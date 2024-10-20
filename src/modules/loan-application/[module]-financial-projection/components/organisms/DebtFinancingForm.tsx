@@ -13,7 +13,7 @@ import {
   DebtFinancingField,
   DebtFinancingFormBlocks,
   DebtFinancingFormSchema,
-  DebtFinancingFormValue,
+  type DebtFinancingFormValue,
   EMPTY_DEBT_FINANCING_ITEM,
   LiabilityFormBlocks
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
@@ -29,7 +29,7 @@ import { Plus } from "lucide-react"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
-export const DebtFinancingForm = () => {
+export function DebtFinancingForm() {
   const { debtFinancing, dispatchFormAction } = useLoanApplicationFormContext()
 
   const form = useForm<DebtFinancingFormValue>({
@@ -73,7 +73,7 @@ export const DebtFinancingForm = () => {
   )
 }
 
-export const DebtFinancingLiabilityForm = () => {
+export function DebtFinancingLiabilityForm() {
   return (
     <Card
       className={cn(
@@ -97,7 +97,7 @@ export const DebtFinancingLiabilityForm = () => {
   )
 }
 
-export const DebtFinancingArrayForm = () => {
+export function DebtFinancingArrayForm() {
   const { dispatchFormAction } = useLoanApplicationFormContext()
   const { step } = useLoanApplicationProgressContext()
 
@@ -137,12 +137,12 @@ export const DebtFinancingArrayForm = () => {
       {isHaveOutStandingLoans ? (
         <div className="flex flex-col gap-6">
           <EquityArrayFormTemplate
-            fieldName={DebtFinancingField.DEBT_FINANCING}
-            dataName="Loan"
             addIcon={<Plus />}
-            defaultEmptyObject={EMPTY_DEBT_FINANCING_ITEM}
-            onBlur={onAutoSave}
             blocks={DebtFinancingArrayFormBlocks}
+            dataName="Loan"
+            defaultEmptyObject={EMPTY_DEBT_FINANCING_ITEM}
+            fieldName={DebtFinancingField.DEBT_FINANCING}
+            onBlur={onAutoSave}
           />
         </div>
       ) : null}

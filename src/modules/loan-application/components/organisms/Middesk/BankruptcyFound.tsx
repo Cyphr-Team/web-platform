@@ -1,15 +1,15 @@
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { BusinessBankruptcyDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { type BusinessBankruptcyDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { getBankruptcyByChapter } from "@/modules/loan-application-management/services"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { SourceToolTip } from "../../molecules/SourceToolTip"
 
 const columns: ColumnDef<BusinessBankruptcyDetail>[] = [
   {
     accessorKey: "fileDate",
-    header: () => <MiddeskTableHeader title={"File date"} />,
+    header: () => <MiddeskTableHeader title="File date" />,
     cell: ({ row }) => {
       const data = row.original
 
@@ -33,10 +33,10 @@ const columns: ColumnDef<BusinessBankruptcyDetail>[] = [
               <span>
                 {bankruptcyDetail.description}
                 <a
+                  className="underline ml-1 text-blue-700"
                   href={bankruptcyDetail.link}
                   rel="noopener noreferrer"
                   target="_blank"
-                  className="underline ml-1 text-blue-700"
                 >
                   Learn more
                 </a>
@@ -49,7 +49,7 @@ const columns: ColumnDef<BusinessBankruptcyDetail>[] = [
   },
   {
     accessorKey: "caseNumber",
-    header: () => <MiddeskTableHeader title={"Case number"} />,
+    header: () => <MiddeskTableHeader title="Case number" />,
     cell: ({ row }) => {
       const data = row.original
 
@@ -67,7 +67,7 @@ const columns: ColumnDef<BusinessBankruptcyDetail>[] = [
   }
 ]
 
-export const BankruptcyFound = () => {
+export function BankruptcyFound() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const bankruptcy = loanKybDetail?.businessBankruptcies
@@ -75,10 +75,10 @@ export const BankruptcyFound = () => {
   return (
     (!!bankruptcy?.data.length || isLoading) && (
       <MiddeskTable
-        tableClassName={"table-fixed"}
         columns={columns}
         data={bankruptcy?.data ?? []}
         isLoading={isLoading}
+        tableClassName="table-fixed"
       />
     )
   )

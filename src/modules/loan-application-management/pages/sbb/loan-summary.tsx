@@ -35,15 +35,15 @@ export function Component() {
   return (
     <div className="lg:flex gap-3xl w-full" id="loan-summary">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
-        <div id="application-overview" className="flex flex-col gap-3xl">
+        <div className="flex flex-col gap-3xl" id="application-overview">
           {!!loanApplicationDetails?.decision && (
             <div className="flex flex-col gap-2">
               <Badge
+                className="capitalize px-4 py-2 relative w-fit"
                 variant="soft"
                 variantColor={getBadgeVariantByStatus(
                   loanApplicationDetails?.status
                 )}
-                className="capitalize px-4 py-2 relative w-fit"
               >
                 <p className="text-base">
                   {getDecisionTextByStatus(loanApplicationDetails?.decision)}
@@ -63,9 +63,9 @@ export function Component() {
           </div>
           <PreApplicationDisclosuresDetails />
           <SbbKybFormDetails kybFormData={loanSummary?.kybForm} />
-          {loanSummary?.kycForm && (
+          {loanSummary?.kycForm ? (
             <SbbKycFormDetails kycFormData={loanSummary?.kycForm} />
-          )}
+          ) : null}
           <SbbSubmittedDocuments />
         </div>
         <div
@@ -93,7 +93,7 @@ export function Component() {
           <Separator />
         </div>
 
-        {shouldDisplayHighRiskEntity && (
+        {shouldDisplayHighRiskEntity ? (
           <div
             className="flex flex-col space-y-3xl"
             id="business-verification-p3"
@@ -103,7 +103,7 @@ export function Component() {
             <AdverseMedia />
             <Separator />
           </div>
-        )}
+        ) : null}
 
         <div className="space-y-3xl flex flex-col" id="identity-verification">
           <IdentityVerificationDetails />

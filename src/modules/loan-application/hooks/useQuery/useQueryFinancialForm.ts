@@ -1,8 +1,8 @@
 import { QUERY_KEY } from "../../constants/query-key"
 import { API_PATH } from "@/constants"
-import { FinancialInformationResponse } from "../../constants/type"
+import { type FinancialInformationResponse } from "../../constants/type"
 import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
-import { FormDetailsQueryProps } from "."
+import { type FormDetailsQueryProps } from "."
 
 export const useQueryGetFinancialForm = ({
   applicationId,

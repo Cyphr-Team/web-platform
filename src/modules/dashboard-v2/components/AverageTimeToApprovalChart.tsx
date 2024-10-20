@@ -27,15 +27,6 @@ export function AverageTimeToApprovalChart() {
       <div className="flex gap-2 items-center mb-8">
         <h2 className="text-xl text-zinc-500">Average Time To Decision</h2>
         <ChartHintToolTip
-          head={
-            <>
-              <strong>Average Time To Decision</strong> represents the average
-              number of days it takes to reach a decision (
-              <span className="text-green-500">approval</span> or{" "}
-              <span className="text-red-500">denial</span>) for loan
-              applications.
-            </>
-          }
           formula="Sum of Days to Decision / Underwritten Apps"
           formulaExplain={
             <>
@@ -55,10 +46,19 @@ export function AverageTimeToApprovalChart() {
               </li>
             </>
           }
+          head={
+            <>
+              <strong>Average Time To Decision</strong> represents the average
+              number of days it takes to reach a decision (
+              <span className="text-green-500">approval</span> or{" "}
+              <span className="text-red-500">denial</span>) for loan
+              applications.
+            </>
+          }
         />
       </div>
 
-      <ResponsiveContainer width="100%" height={350}>
+      <ResponsiveContainer height={350} width="100%">
         <ComposedChart
           data={
             averageTimeToDecisionData?.averageTimeToDecision.map((v) => ({
@@ -73,46 +73,46 @@ export function AverageTimeToApprovalChart() {
           <CartesianGrid {...CARTESIAN_GRID} />
           <XAxis
             dataKey="date"
-            interval={"preserveStartEnd"}
             fontSize={CHART_DEFAULT.fontSize}
+            interval="preserveStartEnd"
             padding={{ left: 30, right: 30 }}
             tickFormatter={(value) => formatDateByTimePeriod(value)}
           />
           <YAxis
+            axisLine={false}
             fontSize={CHART_DEFAULT.fontSize}
             label={{ value: "Day(s)", angle: -90, position: "insideLeft" }}
             tickLine={false}
-            axisLine={false}
           />
           <Tooltip
-            wrapperClassName="text-sm"
             labelFormatter={(value) => formatDateByTimePeriod(value)}
+            wrapperClassName="text-sm"
           />
 
           <Legend
-            iconType="circle"
-            wrapperStyle={{ fontSize: "0.875rem", top: -8 }}
-            verticalAlign="top"
             align="center"
+            iconType="circle"
+            verticalAlign="top"
+            wrapperStyle={{ fontSize: "0.875rem", top: -8 }}
           />
 
           <Line
-            name="Time To Decision"
             dataKey="averageTimeToDecision"
+            name="Time To Decision"
             stroke={CHART_DEFAULT.submittedColor}
             unit=" day(s)"
           />
 
           <Line
-            name="Time To Approval"
             dataKey="averageTimeToApproval"
+            name="Time To Approval"
             stroke={CHART_DEFAULT.approvedColor}
             unit=" day(s)"
           />
 
           <Line
-            name="Time to Denial"
             dataKey="averageTimeToDenial"
+            name="Time to Denial"
             stroke={CHART_DEFAULT.deniedColor}
             unit=" day(s)"
           />

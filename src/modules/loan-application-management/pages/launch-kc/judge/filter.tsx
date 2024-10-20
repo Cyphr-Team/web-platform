@@ -1,11 +1,11 @@
 import { Form, FormField } from "@/components/ui/form"
 import { MultiSelectRound } from "@/components/ui/multi-select-round"
-import { FC } from "react"
-import { UseFormReturn } from "react-hook-form"
+import { type FC } from "react"
+import { type UseFormReturn } from "react-hook-form"
 import { ScoredBadgeStatus } from "../../../components/atoms/score/ScoredBadgeStatus"
 import { StatusRoundBadge } from "../../../components/atoms/StatusRoundBadge"
 import { ASSIGNABLE_STAGE, SCORED_STATUS } from "../../../constants"
-import { JudgeLoanApplicationFilterValues } from "../../../hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
+import { type JudgeLoanApplicationFilterValues } from "../../../hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 
 interface IFilter {
   filterForm: UseFormReturn<JudgeLoanApplicationFilterValues>
@@ -20,14 +20,14 @@ export const Filter: FC<IFilter> = ({ filterForm }) => {
           name="isScoreds"
           render={({ field }) => (
             <MultiSelectRound
-              label="Scorecard Status"
               field={field}
-              options={SCORED_STATUS}
+              label="Scorecard Status"
               labelHOC={(option, close) => (
                 <ScoredBadgeStatus scoredAt={option.value === "true"}>
                   {option.label} {close}
                 </ScoredBadgeStatus>
               )}
+              options={SCORED_STATUS}
             />
           )}
         />
@@ -37,14 +37,14 @@ export const Filter: FC<IFilter> = ({ filterForm }) => {
           name="applicationCaptureStages"
           render={({ field }) => (
             <MultiSelectRound
-              label="Round"
               field={field}
-              options={ASSIGNABLE_STAGE}
+              label="Round"
               labelHOC={(option, close) => (
                 <StatusRoundBadge round={option.value}>
                   {option.label} {close}
                 </StatusRoundBadge>
               )}
+              options={ASSIGNABLE_STAGE}
             />
           )}
         />

@@ -1,4 +1,4 @@
-import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
+import { type ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 
 export class DefaultLoanApplicationStep
   extends LoanApplicationStep

@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import {
   eSignFormSchema,
-  ESignFormValue
+  type ESignFormValue
 } from "@/modules/loan-application/constants/form"
 import { useCreateESignDocumentByFile } from "@/modules/loan-application/hooks/useESign/useCreateESignDocument"
 import { useCreateESignSession } from "@/modules/loan-application/hooks/useESign/useCreateESignSession"
@@ -28,7 +28,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useParams } from "react-router-dom"
 
-export const ESignForm = () => {
+export function ESignForm() {
   const { dispatchFormAction, eSignForm } = useLoanApplicationFormContext()
   const { progress, finishCurrentStep } = useLoanApplicationProgressContext()
   const [isShowCreateSessionBtn, setIsShowCreateSessionBtn] = useState(false)
@@ -168,6 +168,7 @@ export const ESignForm = () => {
     if (!documentId) return
     if (sessionId) return
     const documentStatus = documentStatusResponse.data?.status?.toUpperCase()
+
     if (!sessionAbleDocumentStatus.some((status) => status === documentStatus))
       return
 
@@ -197,9 +198,9 @@ export const ESignForm = () => {
     return (
       <div className="flex md:col-span-6 md:col-start-2 col-span-8 mx-6 md:mx-0">
         <AppAlert
-          variant="error"
-          title="Warning!"
           description="Please complete all previous steps? Once done, we will be able to generate an e-sign document for you. Thank you!"
+          title="Warning!"
+          variant="error"
         />
       </div>
     )
@@ -246,12 +247,12 @@ export const ESignForm = () => {
 
           <div className="mt-3 float-right">
             <Button
-              type="submit"
+              className="flex items-center gap-1"
               disabled={
                 documentStatusResponse.data?.status?.toUpperCase() !==
                 PandaDocDocumentStatus.COMPLETED
               }
-              className="flex items-center gap-1"
+              type="submit"
               onClick={onSubmit}
             >
               <span>Submit application</span>
@@ -262,47 +263,45 @@ export const ESignForm = () => {
       ) : isShowCreateSessionBtn || isShowCreateDocumentBtn ? (
         <div className="flex flex-col items-center gap-4 h-full">
           <AppAlert
-            variant="error"
-            title="Request document error."
             description={
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <p>
                   Too many attempts to generate a document. Please try again
                   later.
                 </p>
-                {isShowCreateDocumentBtn && (
+                {isShowCreateDocumentBtn ? (
                   <ButtonLoading
-                    variant="outline"
+                    className="flex items-center gap-1 py-1 px-2 h-auto ml-auto mb-2"
                     isLoading={isCreatingDocument}
                     type="button"
-                    className="flex items-center gap-1 py-1 px-2 h-auto ml-auto mb-2"
+                    variant="outline"
                     onClick={() => createDocument()}
                   >
                     <span>Retry</span>
                     <RefreshCw className="w-4" />
                   </ButtonLoading>
-                )}
-                {!isShowCreateDocumentBtn && isShowCreateSessionBtn && (
+                ) : null}
+                {!isShowCreateDocumentBtn && isShowCreateSessionBtn ? (
                   <ButtonLoading
-                    variant="outline"
+                    className="flex items-center gap-1 py-1 px-2 h-auto ml-auto mb-2"
                     isLoading={isCreatingSession}
                     type="button"
-                    className="flex items-center gap-1 py-1 px-2 h-auto ml-auto mb-2"
+                    variant="outline"
                     onClick={() => createSession()}
                   >
                     <span>Retry</span>
                     <RefreshCw className="w-4" />
                   </ButtonLoading>
-                )}
+                ) : null}
               </div>
             }
+            title="Request document error."
+            variant="error"
           />
         </div>
       ) : (
         <div className="flex items-center gap-1 h-full">
           <AppAlert
-            variant="success"
-            title="Generating!"
             description={
               <div>
                 <p>
@@ -315,6 +314,8 @@ export const ESignForm = () => {
                 </p>
               </div>
             }
+            title="Generating!"
+            variant="success"
           />
         </div>
       )}

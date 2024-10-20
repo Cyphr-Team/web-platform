@@ -12,27 +12,28 @@ import {
   roundAndConvertToUSLocale,
   toCurrency
 } from "@/utils"
-import { get, first } from "lodash"
+import { first, get } from "lodash"
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable
 } from "@tanstack/react-table"
 import { useLoanApplicationDetailContext } from "../../providers/LoanApplicationDetailProvider"
 import {
-  FullAmortizationResponse,
-  PaymentDetail
+  type FullAmortizationResponse,
+  type PaymentDetail
 } from "../../constants/types/debt-schedule.type"
 import { DebtSchedulePdf } from "./debt-schedule-pdf"
 import { ButtonLoading } from "@/components/ui/button"
 import { getPDF } from "@/modules/loan-application/services/pdf.service"
 import { useRef, useState } from "react"
 
-export type AmortizationScheduleType = {
+export interface AmortizationScheduleType {
   date: string
   data: Omit<PaymentDetail, "month">
 }
+
 export const enum PAYMENT {
   OPENING_BALANCE = "openingBalance",
   TOTAL_PAYMENT = "totalPayment",
@@ -46,9 +47,9 @@ const columns: ColumnDef<AmortizationScheduleType>[] = [
     id: PAYMENT.OPENING_BALANCE,
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Opening Balance"
-        className="truncate"
       />
     )
   },
@@ -56,9 +57,9 @@ const columns: ColumnDef<AmortizationScheduleType>[] = [
     id: PAYMENT.TOTAL_PAYMENT,
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Total Payment"
-        className="truncate"
       />
     )
   },
@@ -66,9 +67,9 @@ const columns: ColumnDef<AmortizationScheduleType>[] = [
     id: PAYMENT.INTEREST_PAYMENT,
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Interest Payment"
-        className="truncate"
       />
     )
   },
@@ -76,9 +77,9 @@ const columns: ColumnDef<AmortizationScheduleType>[] = [
     id: PAYMENT.PRINCIPAL_PAYMENT,
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Principal Payment"
-        className="truncate"
       />
     )
   },
@@ -86,21 +87,21 @@ const columns: ColumnDef<AmortizationScheduleType>[] = [
     id: PAYMENT.CLOSING_BALANCE,
     header: ({ column }) => (
       <DataTableColumnHeader
+        className="truncate"
         column={column}
         title="Closing Balance"
-        className="truncate"
       />
     )
   }
 ]
 
-const TableData = ({
+function TableData({
   data,
   loanName
 }: {
   data: AmortizationScheduleType[]
   loanName: string
-}) => {
+}) {
   const table = useReactTable({
     data,
     columns,
@@ -114,7 +115,7 @@ const TableData = ({
 
   return (
     <div className="rounded-md border relative max-h-full overflow-auto">
-      <Table isLoading={false} className="text-sm relative">
+      <Table className="text-sm relative" isLoading={false}>
         <TableBody className="bg-white">
           <TableRow key="date" className="relative">
             <TableHead className="text-sm font-medium sticky left-0 bg-gray-100 text-black w-52 ">
@@ -122,8 +123,8 @@ const TableData = ({
             </TableHead>
             {data.map((row) => (
               <TableCell
-                className="text-sm font-medium border-l bg-gray-100 text-center"
                 key={row.date}
+                className="text-sm font-medium border-l bg-gray-100 text-center"
               >
                 {row.date}
               </TableCell>
@@ -135,8 +136,8 @@ const TableData = ({
             </TableHead>
             {data.map((row) => (
               <TableCell
-                className="text-sm border-l text-center"
                 key={row.date}
+                className="text-sm border-l text-center"
               >
                 {toCurrency(row.data.openingBalance, 0)}
               </TableCell>
@@ -187,8 +188,8 @@ const TableData = ({
             </TableHead>
             {data.map((row) => (
               <TableCell
-                className="text-sm font-medium !w-52 border-l text-center"
                 key={row.date}
+                className="text-sm font-medium !w-52 border-l text-center"
               >
                 {toCurrency(row.data.closingBalance, 0)}
               </TableCell>
@@ -199,6 +200,7 @@ const TableData = ({
     </div>
   )
 }
+
 const AmortizationScheduleTableUnit = ({
   fullAmortization,
   createdDate
@@ -208,8 +210,8 @@ const AmortizationScheduleTableUnit = ({
 }) =>
   fullAmortization?.amortizationSchedule.map((entry) => (
     <div
-      className="rounded-md border relative max-h-full overflow-auto"
       key={entry.createdAt}
+      className="rounded-md border relative max-h-full overflow-auto"
     >
       <TableData
         data={entry.paymentDetail.map((detail) => ({
@@ -221,7 +223,8 @@ const AmortizationScheduleTableUnit = ({
       />
     </div>
   ))
-export const AmortizationScheduleTable = () => {
+
+export function AmortizationScheduleTable() {
   const [isExporting, setIsExporting] = useState(false)
   const { fullAmortization } = useLoanApplicationDetailContext()
 
@@ -248,7 +251,7 @@ export const AmortizationScheduleTable = () => {
         pdf.save(`amortization_schedule_${new Date().valueOf()}.pdf`)
       }
     } catch (error) {
-      console.error(error)
+      // console.error(error)
     } finally {
       setIsExporting(false)
     }
@@ -266,25 +269,25 @@ export const AmortizationScheduleTable = () => {
       <div className="hidden">
         <DebtSchedulePdf
           amortization={fullAmortization}
-          itemsRef={elementToExportRef}
           createdDate={createdDate}
+          itemsRef={elementToExportRef}
         />
       </div>
 
       <AmortizationScheduleTableUnit
-        fullAmortization={fullAmortization}
         createdDate={createdDate}
+        fullAmortization={fullAmortization}
       />
       <div className="rounded-md border relative max-h-full overflow-auto">
         <Table className="text-sm bg-white">
           <TableHeader>
             <TableRow>
-              <TableCell className="text-sm font-medium sticky left-0 bg-white text-black !min-w-52"></TableCell>
+              <TableCell className="text-sm font-medium sticky left-0 bg-white text-black !min-w-52" />
               {totalMonthlyPayment?.map((payment) => {
                 return (
                   <TableCell
-                    className="bg-gray-100 font-medium border-l !min-w-52 text-center"
                     key={payment.month}
+                    className="bg-gray-100 font-medium border-l !min-w-52 text-center"
                   >
                     {convertMonthYearAndAddMonths(
                       createdDate,
@@ -303,8 +306,8 @@ export const AmortizationScheduleTable = () => {
               {totalMonthlyPayment?.map((payment) => {
                 return (
                   <TableCell
-                    className="text-red-500 font-medium border-l !min-w-52 text-center"
                     key={payment.month}
+                    className="text-red-500 font-medium border-l !min-w-52 text-center"
                   >
                     {toCurrency(payment.amount, 0)}
                   </TableCell>

@@ -1,4 +1,4 @@
-import { FieldValues, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { Card } from "@/components/ui/card"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -12,7 +12,7 @@ import {
 } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import {
-  Block,
+  type Block,
   FieldType,
   renderBlockComponents
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
@@ -74,14 +74,14 @@ const blocks: Block[] = [
   }
 ]
 
-const BusinessInformationForm = () => {
+function BusinessInformationForm() {
   const { goToStep, finishStep } = useProgress.use.action()
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const data = useFormData.use["Business Information"]()
   const { setFormData } = useFormData.use.action()
 
-  const method = useForm<FieldValues>({
+  const method = useForm({
     resolver: zodResolver(businessInformationFormSchema),
     mode: "onBlur",
     defaultValues: data
@@ -95,7 +95,7 @@ const BusinessInformationForm = () => {
      * */
     setFormData({
       step: STEP.BUSINESS_INFORMATION,
-      data: method.getValues() as BusinessInformation
+      data: method.getValues()
     })
     finishStep(STEP.BUSINESS_INFORMATION)
     goToStep(STEP.BUSINESS_PLAN)
@@ -124,9 +124,9 @@ const BusinessInformationForm = () => {
 
         {!isReviewApplicationStep && (
           <Button
-            type="submit"
             className="w-full mt-5"
             disabled={!method.formState.isValid}
+            type="submit"
           >
             Next
           </Button>

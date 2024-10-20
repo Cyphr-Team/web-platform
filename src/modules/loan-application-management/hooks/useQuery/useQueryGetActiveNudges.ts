@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
-import { ErrorResponse } from "react-router-dom"
+import { type ErrorResponse } from "react-router-dom"
 import { getRequest } from "../../../../services/client.service"
 import { API_PATH } from "../../../../constants"
-import { IGetActiveNudgeResponse } from "@/types/application/application-nudge.type"
+import { type IGetActiveNudgeResponse } from "@/types/application/application-nudge.type"
 import { workspaceAdminNudgeKeys } from "@/constants/query-key"
 
 export const useQueryGetActiveNudges = ({

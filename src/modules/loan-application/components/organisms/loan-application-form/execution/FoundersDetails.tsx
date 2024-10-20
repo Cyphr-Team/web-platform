@@ -2,7 +2,7 @@ import { snakeCaseToText } from "@/utils"
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 import { get } from "lodash"
 
-type Props = {
+interface Props {
   data?: {
     id?: string
     name: string
@@ -12,26 +12,26 @@ type Props = {
   }[]
 }
 
-export const FoundersDetails: React.FC<Props> = ({ data }) => {
+export function FoundersDetails({ data }: Props) {
   return (
     <div className="flex flex-col gap-2xl">
       {data?.map((founder, index) => (
-        <div className="flex flex-col gap-2xl" key={founder.id}>
+        <div key={founder.id} className="flex flex-col gap-2xl">
           <h5 className="text-sm font-semibold">FOUNDER #{index + 1}</h5>
           <div className="flex flex-col gap-y-2xl gap-x-4xl">
             <div className="flex flex-col gap-y-4xl">
               <AnswersTextDisplay
-                className="!flex-row justify-between"
                 key={`${founder.id}-name`}
+                className="!flex-row justify-between"
                 label="First and last name"
                 value={get(founder, "name", "")}
               />
               <AnswersTextDisplay
-                valueClassName="capitalize"
-                className="!flex-row justify-between"
                 key={`${founder.id}-jobType`}
+                className="!flex-row justify-between"
                 label="Full-time or part-time"
                 value={snakeCaseToText(get(founder, "jobType", ""))}
+                valueClassName="capitalize"
               />
               <AnswersTextDisplay
                 key={`${founder.id}-background`}

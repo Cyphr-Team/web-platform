@@ -3,7 +3,7 @@ import { useLoanProgramDetailContext } from "@/modules/loan-application/provider
 import { isLaunchKC } from "@/utils/domain.utils"
 import { sanitizeDOM } from "@/utils/file.utils"
 
-export const LoanProgramDetailWelcomeLine = () => {
+export function LoanProgramDetailWelcomeLine() {
   const { isLoading, loanProgramDetails } = useLoanProgramDetailContext()
 
   const welcomeMessage = isLaunchKC()

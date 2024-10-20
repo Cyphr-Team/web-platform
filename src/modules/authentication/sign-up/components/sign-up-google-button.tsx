@@ -5,7 +5,7 @@ import { useSignupWithGoogleMfa } from "@/hooks/signup-with-social/useSignupWith
 import { googleAuth } from "@/lib/firebase"
 
 export default function SignUpGoogleButton() {
-  const IconGoogle = Icons["google"]
+  const IconGoogle = Icons.google
   const { signUpWithGoogleMfa, isLoading: signUpBySocialIsPending } =
     useSignupWithGoogleMfa()
 
@@ -14,10 +14,10 @@ export default function SignUpGoogleButton() {
   return (
     <>
       <ButtonLoading
-        isLoading={signUpBySocialIsPending}
         className="w-full text-base"
-        variant="outline"
+        isLoading={signUpBySocialIsPending}
         type="button"
+        variant="outline"
         onClick={signUpWithGoogleMfa}
       >
         <IconGoogle className="mr-2 h-4 w-4" />

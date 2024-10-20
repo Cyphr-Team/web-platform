@@ -14,7 +14,7 @@ import {
 import { useForm } from "react-hook-form"
 import {
   operatingExpensesFormSchema,
-  OperatingExpensesFormValue
+  type OperatingExpensesFormValue
 } from "../../../../constants/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Card } from "@/components/ui/card"
@@ -29,7 +29,7 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { OPERATING_EXPENSES_FIELD_DATA } from "@/modules/loan-application/constants/type"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
-export const OperatingExpensesForm = () => {
+export function OperatingExpensesForm() {
   const { dispatchFormAction, operatingExpensesForm } =
     useLoanApplicationFormContext()
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -78,6 +78,7 @@ export const OperatingExpensesForm = () => {
   useEffect(() => {
     const { id, ...expenses } = form.getValues()
     const newExpenses = Object.values(expenses).reduce((a, b) => a + b, 0)
+
     setTotalExpenses(newExpenses)
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
@@ -132,32 +133,35 @@ export const OperatingExpensesForm = () => {
                       <FormControl>
                         <Input
                           {...field}
-                          type={item.name}
+                          className="text-base input-number-remove-arrow -mt-2 mb-2 ml-auto xl:max-w-80"
+                          min={0}
                           placeholder="i.e: 5,000"
                           suffixIcon={
                             <span className="text-text-tertiary/75 -mt-4">
                               / mo
                             </span>
                           }
-                          min={0}
-                          className="text-base input-number-remove-arrow -mt-2 mb-2 ml-auto xl:max-w-80"
+                          type={item.name}
                           value={toCurrency(field.value, 0)}
+                          onBlur={(e) => {
+                            field.onBlur()
+                            const value = parseFloat(
+                              e.target.value.replace(/[^0-9.]/g, "")
+                            )
+
+                            if (isNaN(value)) return
+
+                            return field.onChange(value)
+                          }}
                           onChange={(e) => {
                             field.onBlur()
                             const value =
                               parseFloat(
                                 e.target.value.replace(/[^0-9.]/g, "")
                               ) || 0
+
                             if (isNaN(value)) return
                             field.onChange(value)
-                          }}
-                          onBlur={(e) => {
-                            field.onBlur()
-                            const value = parseFloat(
-                              e.target.value.replace(/[^0-9.]/g, "")
-                            )
-                            if (isNaN(value)) return
-                            return field.onChange(value)
                           }}
                         />
                       </FormControl>
@@ -177,8 +181,8 @@ export const OperatingExpensesForm = () => {
           </Card>
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </Form>

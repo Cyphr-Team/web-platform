@@ -4,11 +4,11 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover.tsx"
-import { Button, ButtonProps } from "@/components/ui/button.tsx"
+import { Button, type ButtonProps } from "@/components/ui/button.tsx"
 import { format } from "date-fns"
 import { CalendarPlus } from "lucide-react"
-import { Calendar, CalendarProps } from "@/components/ui/calendar.tsx"
-import React, { memo, ReactNode, useId } from "react"
+import { Calendar, type CalendarProps } from "@/components/ui/calendar.tsx"
+import React, { memo, type ReactNode, useId } from "react"
 
 interface Props {
   value: string
@@ -26,7 +26,7 @@ interface Props {
   TriggerProps?: ButtonProps
 }
 
-const CalendarPickerPopover = (props: Props) => {
+function CalendarPickerPopover(props: Props) {
   const {
     value,
     styleProps = {},
@@ -40,25 +40,26 @@ const CalendarPickerPopover = (props: Props) => {
 
   const { className, triggerClassName, contentClassName } = styleProps
   const id = useId()
+
   // TODO: refactor these className for re-usable
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            onClick={onTrigger}
-            id={`${id}-button`}
-            variant={"outline"}
             className={cn(
               "w-full pl-3 text-left font-normal flex justify-between gap-2 text-sm",
               !value && "text-muted-foreground",
               triggerClassName
             )}
+            id={`${id}-button`}
+            variant="outline"
+            onClick={onTrigger}
             {...TriggerProps}
           >
-            {prefixLabel && (
+            {prefixLabel ? (
               <span className="text-slate-700">{prefixLabel}</span>
-            )}
+            ) : null}
             {value ? (
               <span id={`${id}-value`}>{format(value, "MM - dd - y")}</span>
             ) : (
@@ -70,6 +71,13 @@ const CalendarPickerPopover = (props: Props) => {
         <PopoverContent className={cn("w-auto p-0", contentClassName)}>
           <Calendar
             {...CalendarProps}
+            initialFocus
+            disabled={(date) =>
+              (CalendarProps?.fromDate && date < CalendarProps.fromDate) ||
+              (CalendarProps?.toDate && date > CalendarProps.toDate) ||
+              date > new Date() ||
+              date < new Date(1900, 0, 1)
+            }
             id={`${id}-calendar`}
             mode="single"
             selected={value ? new Date(value) : undefined}
@@ -78,13 +86,6 @@ const CalendarPickerPopover = (props: Props) => {
                 onChange(date)
               }
             }}
-            disabled={(date) =>
-              (CalendarProps?.fromDate && date < CalendarProps.fromDate) ||
-              (CalendarProps?.toDate && date > CalendarProps.toDate) ||
-              date > new Date() ||
-              date < new Date(1900, 0, 1)
-            }
-            initialFocus
           />
         </PopoverContent>
       </Popover>

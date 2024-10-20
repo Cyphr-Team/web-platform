@@ -1,6 +1,6 @@
 import { postRequest } from "@/services/client.service"
 
-import { ILinkESignDocumentRequest } from "@/types/esign/request/LinkESignDocumentRequest"
+import { type ILinkESignDocumentRequest } from "@/types/esign/request/LinkESignDocumentRequest"
 import { useQueryClient } from "@tanstack/react-query"
 import { useMutationFactory } from "."
 import { E_SIGN_CLIENT } from "../../constants/e-sign"

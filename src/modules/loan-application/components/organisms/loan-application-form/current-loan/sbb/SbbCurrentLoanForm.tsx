@@ -26,22 +26,26 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import _uniqueId from "lodash/uniqueId"
 import { Plus } from "lucide-react"
 import React, { useMemo } from "react"
-import { Controller, ControllerRenderProps, useForm } from "react-hook-form"
+import {
+  Controller,
+  type ControllerRenderProps,
+  useForm
+} from "react-hook-form"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
 import {
-  CurrentLoansFormValue,
+  type CurrentLoansFormValue,
   sbbCurrentLoansFormSchema,
-  SbbCurrentLoansFormValue
+  type SbbCurrentLoansFormValue
 } from "@/modules/loan-application/constants/form.ts"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components/molecules/out-of-box/sbb/SbbCurrentLoanFormDetails.tsx"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 
-export const SBBCurrentLoanForm = () => {
+export function SBBCurrentLoanForm() {
   const { dispatchFormAction, currentLoansForm } =
     useLoanApplicationFormContext()
   const sbbCurrentLoansForm = currentLoansForm as SbbCurrentLoansFormValue
@@ -78,6 +82,7 @@ export const SBBCurrentLoanForm = () => {
       loanTermRemainingInMonths: 0,
       annualInterestRate: 0
     })
+
     form.setValue("currentLoans", currentLoans, { shouldValidate: true })
     // Defer validation error when a new form is added
     form.trigger("currentLoans").then(() => {
@@ -87,6 +92,7 @@ export const SBBCurrentLoanForm = () => {
 
   const handleRemoveLoan = (index: number) => {
     const currentLoans = form.getValues().currentLoans
+
     // Must delete in DB
     if (
       !currentLoans[index].id.startsWith(NEW_CURRENT_LOAN_PREFIX) &&
@@ -110,6 +116,7 @@ export const SBBCurrentLoanForm = () => {
     } else {
       // Delete in FE only
       const updatedLoans = currentLoans.filter((_, i) => i !== index)
+
       form.setValue("currentLoans", updatedLoans, {
         shouldValidate: true
       })
@@ -125,9 +132,11 @@ export const SBBCurrentLoanForm = () => {
       const updatedLoans = currentLoansWatch.filter(
         (item) => !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
       )
+
       form.setValue("currentLoans", updatedLoans)
     } else {
       const isFirstLoan = currentLoansWatch.length === 0
+
       if (isFirstLoan) {
         // Add default loan form when user chooses YES
         handleAddLoan()
@@ -173,10 +182,10 @@ export const SBBCurrentLoanForm = () => {
                     </FormLabel>
                     <FormControl>
                       <Select
+                        value={field.value}
                         onValueChange={(value) =>
                           handleValueChange(value, field)
                         }
-                        value={field.value}
                       >
                         <SelectTrigger className="text-base col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select..." />
@@ -202,21 +211,22 @@ export const SBBCurrentLoanForm = () => {
                 <div className="mt-6 flex flex-col gap-3xl">
                   {currentLoansWatch.map((item, index: number) => {
                     if (item.id.startsWith(DELETE_CURRENT_LOAN_PREFIX)) {
-                      return <React.Fragment key={item.id}></React.Fragment>
+                      return <React.Fragment key={item.id} />
                     }
+
                     return (
                       <SbbCurrentLoanFormDetails
                         key={item.id}
+                        formData={form.getValues().currentLoans[index]}
                         index={index}
                         onRemove={handleRemoveLoan}
-                        formData={form.getValues().currentLoans[index]}
                       />
                     )
                   })}
                   <Button
+                    className="ml-auto mr-0 mt-4 col-span-1 max-w-36"
                     type="button"
                     variant="outline"
-                    className="ml-auto mr-0 mt-4 col-span-1 max-w-36"
                     onClick={handleAddLoan}
                   >
                     <Plus className="mr-1 w-4" /> Add Loan
@@ -226,8 +236,8 @@ export const SBBCurrentLoanForm = () => {
           </Card>
           {!isReviewApplicationStep(step) && (
             <FormSubmitButton
-              onSubmit={form.handleSubmit(onSubmit)}
               isDisabled={!form.formState.isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
             />
           )}
         </Form>

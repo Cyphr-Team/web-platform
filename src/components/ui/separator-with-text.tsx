@@ -1,4 +1,4 @@
-type SeparatorWithTextProps = {
+interface SeparatorWithTextProps {
   text: string
 }
 

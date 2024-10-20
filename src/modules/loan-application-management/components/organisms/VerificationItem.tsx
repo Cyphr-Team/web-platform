@@ -1,8 +1,8 @@
 import { KYB_VERIFIED_FIELD_STATUS } from "../../constants/type"
-import { KYC_STATUS } from "../../constants/types/kyc"
+import { type KYC_STATUS } from "../../constants/types/kyc"
 import { VerificationStatus } from "../atoms/VerificationStatus"
 
-type VerificationItemProps = {
+interface VerificationItemProps {
   title: string
   description?: string
   status?: KYB_VERIFIED_FIELD_STATUS | KYC_STATUS
@@ -31,4 +31,5 @@ export const VerificationItem: React.FC<VerificationItemProps> = ({
 VerificationItem.defaultProps = {
   status: KYB_VERIFIED_FIELD_STATUS.UNKNOWN
 }
+
 export default VerificationItem

@@ -1,10 +1,10 @@
 import {
-  DebtFinancingField,
-  DebtFinancingFormItemValue,
-  DebtFinancingFormValue
+  type DebtFinancingField,
+  type DebtFinancingFormItemValue,
+  type DebtFinancingFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
 
-type IdType = {
+interface IdType {
   id: string
   financialProjectionSetupId: string
 }
@@ -18,15 +18,20 @@ export type DebtFinancingCommonForm = Pick<
   | DebtFinancingField.PAYABLE_DAYS
   | DebtFinancingField.HAS_OUTSTANDING_LOANS
 >
+
 export type DebtFinancingForm = DebtFinancingFormItemValue
+
 export type DebtFinancing = DebtFinancingForm & IdType
+
 export type DebtFinancingCommon = DebtFinancingCommonForm & IdType
-export type DebtFinancingMutateRequest = {
+
+export interface DebtFinancingMutateRequest {
   financialProjectionSetupId: string | undefined
   startingPaidInCapital: number
   forms: DebtFinancingFormItemValue[]
 }
-export type DebtFinancingResponse = {
+
+export interface DebtFinancingResponse {
   financialProjectionSetupId: string
   commonForm: Omit<DebtFinancingCommon, "hasOutstandingLoans">
   loanForms: DebtFinancing[]
@@ -39,9 +44,12 @@ export type DebtFinancingLiabilityForm = Pick<
   DebtFinancingFormValue,
   DebtFinancingField.PAYABLE_DAYS
 >
+
 export type DebtFinancingLiability = DebtFinancingLiabilityForm & IdType
-export type DebtFinancingLiabilityMutateRequest = {
+
+export interface DebtFinancingLiabilityMutateRequest {
   financialProjectionSetupId: string | undefined
   payableDays: string
 }
+
 export type DebtFinancingLiabilityResponse = DebtFinancingLiability

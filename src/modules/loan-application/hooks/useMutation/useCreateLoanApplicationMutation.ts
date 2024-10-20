@@ -3,8 +3,8 @@ import { postRequest } from "@/services/client.service"
 
 import { customRequestHeader } from "@/utils/request-header"
 import {
-  UserMicroLoanApplication,
-  UserMicroLoanApplicationRequest
+  type UserMicroLoanApplication,
+  type UserMicroLoanApplicationRequest
 } from "@/types/loan-application.type"
 import { LoanType } from "@/types/loan-program.type"
 import { useMutationFactory } from "."

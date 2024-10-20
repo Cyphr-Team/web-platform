@@ -3,19 +3,29 @@ import { Input } from "@/components/ui/input"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { cn } from "@/lib/utils"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
-import { IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
-import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
+import { type IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
+import { type ILaunchKCApplicationScore } from "@/types/application/application-score.type"
 import { SortOrder } from "@/types/common.type"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { PaginationState, SortingState, Table } from "@tanstack/react-table"
+import {
+  type PaginationState,
+  type SortingState,
+  type Table
+} from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { Search } from "lucide-react"
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
+import {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react"
 import { useForm } from "react-hook-form"
 import { judgeLoanApplicationColumns } from "../../../components/table/applications-scores/judge-application-score-columns"
 import {
   judgeLoanApplicationFilterSchema,
-  JudgeLoanApplicationFilterValues,
+  type JudgeLoanApplicationFilterValues,
   useQueryListPaginateJudgeLoanApplication
 } from "../../../hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 import { Filter } from "./filter"
@@ -94,9 +104,9 @@ export function JudgeApplicationList() {
 
   const renderHeaderFilter = useMemo(
     () =>
-      (
+      function (
         table: Table<IJudgeLoanApplicationResponse<ILaunchKCApplicationScore>>
-      ) => {
+      ) {
         return (
           <div className="flex items-center flex-wrap w-full gap-4">
             <div className="flex-[2] min-w-0 overflow-x-auto py-1">
@@ -105,10 +115,10 @@ export function JudgeApplicationList() {
 
             <div className="justify-items-end flex flex-1 gap-3 py-1">
               <Input
-                wrapperClassName="flex-1"
-                prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
-                placeholder="Search by 'Company Name'"
                 name="search"
+                placeholder="Search by 'Company Name'"
+                prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
+                wrapperClassName="flex-1"
                 onChange={handleSearch}
               />
 
@@ -131,17 +141,17 @@ export function JudgeApplicationList() {
       </div>
 
       <DataTable
-        headerFilter={renderHeaderFilter}
-        tableContainerClassName="flex flex-col flex-1 h-[80vh]"
+        manualSorting
         columns={judgeLoanApplicationColumns}
-        isLoading={isFetching}
         data={data?.data ?? []}
-        total={data?.total ?? 0}
+        headerFilter={renderHeaderFilter}
+        isLoading={isFetching}
         pagination={pagination}
         setPagination={setPagination}
-        sorting={sorting}
         setSorting={setSorting}
-        manualSorting
+        sorting={sorting}
+        tableContainerClassName="flex flex-col flex-1 h-[80vh]"
+        total={data?.total ?? 0}
       />
     </div>
   )

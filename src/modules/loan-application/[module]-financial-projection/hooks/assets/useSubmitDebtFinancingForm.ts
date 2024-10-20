@@ -1,23 +1,23 @@
 import { API_PATH } from "@/constants"
 import {
   DebtFinancingField,
-  DebtFinancingFormValue,
+  type DebtFinancingFormValue,
   EMPTY_DEBT_FINANCING_ITEM
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import { useCreateMutation } from "@/modules/loan-application/[module]-financial-projection/hooks"
-import { SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
-  DebtFinancingLiabilityMutateRequest,
-  DebtFinancingLiabilityResponse,
-  DebtFinancingMutateRequest,
-  DebtFinancingResponse
+  type DebtFinancingLiabilityMutateRequest,
+  type DebtFinancingLiabilityResponse,
+  type DebtFinancingMutateRequest,
+  type DebtFinancingResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { useQueryClient } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 
-type Props = {
+interface Props {
   rawData: DebtFinancingFormValue
 }
 
@@ -71,8 +71,10 @@ export const useSubmitDebtFinancingForm = <
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY.GET_FP_DEBT_FINANCING_FORM]
     })
+
     return result
   }
+
   return {
     isLoading: updateMutation.isPending || submitMutation.isPending,
     submitForm: submitDebtFinancing
@@ -107,13 +109,15 @@ export const useSubmitDebtFinancingLiabilityForm = <
       payableDays: rawData.payableDays
     } as T
 
-    const result = await mutationToUse.mutateAsync(formattedData as T)
+    const result = await mutationToUse.mutateAsync(formattedData)
 
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY.GET_FP_DEBT_FINANCING_LIABILITY_FORM]
     })
+
     return result
   }
+
   return {
     isLoading: updateMutation.isPending || submitMutation.isPending,
     submitForm: subDebtFinancingLiability
@@ -127,6 +131,7 @@ interface ReverseFormatDebtFinancingFormProps {
   debtFinancingResponse: DebtFinancingResponse | undefined
   debtFinancingLiabilityResponse: DebtFinancingLiabilityResponse | undefined
 }
+
 export const reverseFormatDebtFinancingForm = ({
   debtFinancingResponse,
   debtFinancingLiabilityResponse

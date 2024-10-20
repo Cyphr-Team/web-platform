@@ -1,7 +1,7 @@
 import {
-  ControllerRenderProps,
-  FieldValues,
-  Path,
+  type ControllerRenderProps,
+  type FieldValues,
+  type Path,
   useFormContext
 } from "react-hook-form"
 
@@ -25,9 +25,9 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { Check, ChevronDown } from "lucide-react"
-import { ReactNode, useCallback, useEffect, useState } from "react"
+import { type ReactNode, useCallback, useEffect, useState } from "react"
 
 export function MultiSelect<
   TFieldValues extends FieldValues,
@@ -100,17 +100,17 @@ export function MultiSelect<
 
   return (
     <FormItem className="flex flex-col flex-1 md:flex-none">
-      {label && <FormLabel>{label}</FormLabel>}
+      {label ? <FormLabel>{label}</FormLabel> : null}
 
       <Popover>
         <PopoverTrigger asChild>
           <FormControl>
             <Button
-              variant="outline"
               className={cn(
                 "min-w-[200px] w-full md:w-[300px] px-3.5",
                 !field.value && "text-muted-foreground"
               )}
+              variant="outline"
             >
               {prefixIcon}
               <div className="flex justify-between flex-1 min-w-0">
@@ -134,8 +134,8 @@ export function MultiSelect<
         >
           <Command>
             <CommandInput
-              placeholder="Search..."
               className="h-9"
+              placeholder="Search..."
               onValueChange={(value) => {
                 onSearch(value)
               }}
@@ -146,8 +146,8 @@ export function MultiSelect<
             <CommandGroup className="h-56 overflow-scroll">
               {loadedOptions.map((option) => (
                 <CommandItem
-                  value={option.label}
                   key={option.value}
+                  value={option.label}
                   onSelect={() => {
                     handleOptionClick(option)
                   }}

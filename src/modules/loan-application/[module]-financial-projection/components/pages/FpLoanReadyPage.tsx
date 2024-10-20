@@ -8,7 +8,7 @@ export function Component() {
   return <LoanReadiness />
 }
 
-export const LoanReadiness = () => {
+export function LoanReadiness() {
   const { id } = useParams()
   const { data, isLoading } = useQueryLoanReadinessAssessmentByApplicationId({
     applicationId: id

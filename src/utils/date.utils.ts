@@ -75,6 +75,7 @@ export const validTimeRange = (
 ): boolean => {
   try {
     interval(start, end, { assertPositive: true })
+
     return true
   } catch (e) {
     return false
@@ -105,6 +106,7 @@ export const validFormatMMYYYY = (value: string) => {
 
 export const parseMMYYYYToISOString = (mmyyyy: string) => {
   const [month, year] = mmyyyy.split("/").map(Number)
+
   return new Date(Date.UTC(year, month - 1)).toISOString()
 }
 
@@ -123,12 +125,14 @@ export const parseISOStringToMMYYYY = (isoString: string) => {
 export const validFormat = (value: string) => {
   // Allowed ISO string
   const isoParsedDate = new Date(value)
+
   if (isValid(isoParsedDate) && !isNaN(isoParsedDate.getTime())) {
     return isoParsedDate
   }
 
   const allowedFormat = ["MM/dd/yyyy", "MMM dd, yyyy", "MMM dd yyyy", "MM/yyyy"]
   const newDate = new Date()
+
   return (
     find(
       allowedFormat.map((fmt) => isValid(parse(value, fmt, newDate))),
@@ -141,17 +145,16 @@ export const isEqualDate = (date1: string, date2: string) => {
   try {
     const d1 = new Date(date1)
     const d2 = new Date(date2)
+
     return isEqual(d1, d2)
   } catch {
     return false
   }
 }
 
-export function formatToISOString(
-  date: string,
-  format: string = "MM/yyyy"
-): string {
+export function formatToISOString(date: string, format = "MM/yyyy"): string {
   const isoParsedDate = new Date(date)
+
   if (isValid(isoParsedDate) && !isNaN(isoParsedDate.getTime())) {
     return isoParsedDate.toISOString()
   }
@@ -171,5 +174,6 @@ export function validDateWithinTimeRange(
   const validToDate = toDate ? date < toDate : true
   const validPastDate = date > new Date(1900, 0, 1)
   const validFutureDate = isEnableFutureDate ? true : date < new Date()
+
   return validFromDate && validToDate && validPastDate && validFutureDate
 }

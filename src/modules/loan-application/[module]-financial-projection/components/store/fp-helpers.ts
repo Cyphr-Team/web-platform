@@ -1,7 +1,7 @@
-import { ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
+import { type ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
 import {
   ForecastPeriod,
-  ForecastResultsResponse,
+  type ForecastResultsResponse,
   ForecastType
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast"
 
@@ -50,8 +50,10 @@ export function getDataPointsFactory(
       : `${sheetName}Annually`
 
   const result: ForecastRowData = {} as ForecastRowData
+
   dataPoints.forEach((point) => {
     const data = parseForecastData(dataSource, source, point)
+
     result[point] = period === ForecastPeriod.CURRENT ? [data[0]] : data
   })
 

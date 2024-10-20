@@ -1,6 +1,5 @@
-import React from "react"
 import { CheckCircle2, MinusCircle } from "lucide-react"
-import { UserRoles } from "@/types/user.type.ts"
+import { type UserRoles } from "@/types/user.type.ts"
 import * as ToggleGroup from "@radix-ui/react-toggle-group"
 import { cn } from "@/lib/utils.ts"
 
@@ -13,26 +12,28 @@ interface MultiChoicesProps {
   iconClassName: string
 }
 
-export const MultiChoices: React.FC<MultiChoicesProps> = ({
-  role,
-  isSelected,
-  onClick,
-  description,
-  itemClassName,
-  iconClassName
-}) => {
+export function MultiChoices(props: MultiChoicesProps) {
+  const {
+    role,
+    isSelected,
+    onClick,
+    description,
+    itemClassName,
+    iconClassName
+  } = props
+
   return (
-    <ToggleGroup.Root type="multiple" aria-label="Text formatting">
+    <ToggleGroup.Root aria-label="Text formatting" type="multiple">
       <ToggleGroup.Item
+        className={cn("border border-gray-400 py-2 px-4 w-full", itemClassName)}
         value={role.label}
         onClick={onClick}
-        className={cn("border border-gray-400 py-2 px-4 w-full", itemClassName)}
       >
         <div className={cn("flex items-center p-1", iconClassName)}>
           {isSelected ? (
-            <CheckCircle2 size={16} className="mr-1.5" />
+            <CheckCircle2 className="mr-1.5" size={16} />
           ) : (
-            <MinusCircle size={16} className="mr-1.5" />
+            <MinusCircle className="mr-1.5" size={16} />
           )}
           {role.label}
         </div>

@@ -14,13 +14,13 @@ import { DeleteCurrentLoanButton } from "../atoms/DeleteCurrentLoanButton"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { DELETE_CURRENT_LOAN_PREFIX } from "../../constants"
 
-export const CurrentLoansFormItem = ({
+export function CurrentLoansFormItem({
   index,
   onRemove
 }: {
   index: number
   onRemove: (arg: number) => void
-}) => {
+}) {
   const form = useFormContext()
 
   const numberInputOnWheelPreventChange = (
@@ -48,26 +48,26 @@ export const CurrentLoansFormItem = ({
       </div>
 
       <TextInput
-        placeholder="i.e: Bank of America"
-        label="Lender name"
-        subtitle="The financial institution providing the loan"
-        name={`currentLoans[${index}].lenderName`}
-        control={form.control}
-        className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10"
-        inputClassName="xl:ml-auto xl:max-w-80"
         isRowDirection
         required
+        className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10"
+        control={form.control}
+        inputClassName="xl:ml-auto xl:max-w-80"
+        label="Lender name"
+        name={`currentLoans[${index}].lenderName`}
+        placeholder="i.e: Bank of America"
+        subtitle="The financial institution providing the loan"
       />
       <TextInput
-        placeholder="i.e: Term Loan"
-        label="Loan type"
-        subtitle="i.e: a term loan, revolving credit, etc."
-        name={`currentLoans[${index}].loanType`}
-        control={form.control}
-        className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10"
-        inputClassName="xl:ml-auto xl:max-w-80"
         isRowDirection
         required
+        className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10"
+        control={form.control}
+        inputClassName="xl:ml-auto xl:max-w-80"
+        label="Loan type"
+        name={`currentLoans[${index}].loanType`}
+        placeholder="i.e: Term Loan"
+        subtitle="i.e: a term loan, revolving credit, etc."
       />
       <FormField
         control={form.control}
@@ -86,24 +86,27 @@ export const CurrentLoansFormItem = ({
             <FormControl>
               <Input
                 {...field}
-                type={`currentLoans[${index}].outstandingLoanBalance`}
-                placeholder="i.e: 55,000"
-                min={0}
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
-                value={toCurrency(field.value, 0)}
                 required
-                onChange={(e) => {
-                  field.onBlur()
-                  const value = parseAndValidateNumber(e.target.value, 18)
-                  field.onChange(value)
-                }}
+                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
+                min={0}
+                placeholder="i.e: 55,000"
+                type={`currentLoans[${index}].outstandingLoanBalance`}
+                value={toCurrency(field.value, 0)}
                 onBlur={(e) => {
                   field.onBlur()
                   const value = parseFloat(
                     e.target.value.replace(/[^0-9.]/g, "")
                   )
+
                   if (isNaN(value) || value.toString().length > 18) return
+
                   return field.onChange(value)
+                }}
+                onChange={(e) => {
+                  field.onBlur()
+                  const value = parseAndValidateNumber(e.target.value, 18)
+
+                  field.onChange(value)
                 }}
               />
             </FormControl>
@@ -128,24 +131,27 @@ export const CurrentLoansFormItem = ({
             <FormControl>
               <Input
                 {...field}
-                type={`currentLoans[${index}].monthlyPaymentAmount`}
-                placeholder="i.e: 5,000"
-                min={0}
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
-                value={toCurrency(field.value, 0)}
                 required
-                onChange={(e) => {
-                  field.onBlur()
-                  const value = parseAndValidateNumber(e.target.value, 18)
-                  field.onChange(value)
-                }}
+                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
+                min={0}
+                placeholder="i.e: 5,000"
+                type={`currentLoans[${index}].monthlyPaymentAmount`}
+                value={toCurrency(field.value, 0)}
                 onBlur={(e) => {
                   field.onBlur()
                   const value = parseFloat(
                     e.target.value.replace(/[^0-9.]/g, "")
                   )
+
                   if (isNaN(value) || value.toString().length > 18) return
+
                   return field.onChange(value)
+                }}
+                onChange={(e) => {
+                  field.onBlur()
+                  const value = parseAndValidateNumber(e.target.value, 18)
+
+                  field.onChange(value)
                 }}
               />
             </FormControl>
@@ -168,15 +174,15 @@ export const CurrentLoansFormItem = ({
             </FormLabel>
             <FormControl>
               <Input
-                type={`currentLoans[${index}].loanTermRemainingInMonths`}
-                placeholder="i.e: 11"
-                min={0}
-                max={100000}
+                required
                 className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
+                max={100000}
+                min={0}
+                placeholder="i.e: 11"
                 suffixIcon={
                   <span className="text-text-tertiary -mt-2">months</span>
                 }
-                required
+                type={`currentLoans[${index}].loanTermRemainingInMonths`}
                 {...field}
                 onChange={(e) => {
                   field.onBlur()
@@ -205,21 +211,23 @@ export const CurrentLoansFormItem = ({
             </FormLabel>
             <FormControl>
               <Input
-                type="number"
-                placeholder="i.e 1.05"
-                max={100}
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
-                onWheel={numberInputOnWheelPreventChange}
-                suffixIcon={<span className="text-text-tertiary -mt-2">%</span>}
                 required
+                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
+                max={100}
+                placeholder="i.e 1.05"
+                suffixIcon={<span className="text-text-tertiary -mt-2">%</span>}
+                type="number"
+                onWheel={numberInputOnWheelPreventChange}
                 {...field}
                 onChange={(e) => {
                   field.onBlur()
                   const value = e.target.value
+
                   // Ensure the value is not negative
                   if (Number(value) >= 0) {
                     // Convert the value to a float with two decimal places
                     const floatValue = parseFloat(parseFloat(value).toFixed(2))
+
                     field.onChange(floatValue)
                   }
                 }}

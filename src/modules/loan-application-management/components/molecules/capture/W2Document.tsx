@@ -7,11 +7,12 @@ import {
   Table
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { W2DocumentType } from "@/modules/loan-application-management/constants/types/document"
+import { type W2DocumentType } from "@/modules/loan-application-management/constants/types/document"
 
-type Props = {
+interface Props {
   data: W2DocumentType
 }
+
 export const W2Document: React.FC<Props> = ({ data }) => {
   return (
     <Table className="text-xs">

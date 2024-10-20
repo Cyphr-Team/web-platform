@@ -4,13 +4,13 @@ import { IdentityVerificationBadge } from "@/modules/loan-application/components
 import { INSIGHT_IDENTITY_VERIFICATION_TOC } from "../../../../loan-application-management/constants/insight-toc.constant"
 import { IdentityVerificationStatus } from "../../../../loan-application-management/constants/types/smart-kyc"
 
-const KycSelfieVerification = () => {
+function KycSelfieVerification() {
   const verifiedStatus = IdentityVerificationStatus.VERIFIED
 
   const badge = (
     <IdentityVerificationBadge
-      status={verifiedStatus}
       label={verifiedStatus.toLowerCase()}
+      status={verifiedStatus}
     />
   )
 
@@ -18,11 +18,11 @@ const KycSelfieVerification = () => {
 
   return (
     <IdentityVerificationCard
-      isHideSensitiveData={true}
-      id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader date={new Date().toUTCString()} />}
+      isHideSensitiveData
       content={null}
+      headerRight={<DateHeader date={new Date().toUTCString()} />}
+      headerTitle={headerTitle}
+      id={INSIGHT_IDENTITY_VERIFICATION_TOC.selfieVerification}
     />
   )
 }

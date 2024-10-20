@@ -1,7 +1,7 @@
-import { PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
+import { type PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import {
-  ExpensePeople,
-  ExpensePeopleResponse
+  type ExpensePeople,
+  type ExpensePeopleResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import {
@@ -26,6 +26,7 @@ export const formatExpensePeopleForm = (
       startDate: parseMMYYYYToISOString(employee.startDate)
     }))
   }
+
   return formattedForm
 }
 
@@ -52,5 +53,6 @@ export const reverseFormatExpensePeopleForm = (
       }
     })
   }
+
   return formattedForm
 }

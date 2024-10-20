@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 
 import { InfoIcon } from "lucide-react"
 
-export const DescriptionTooltip = ({
+export function DescriptionTooltip({
   description,
   side = "right",
   sideOffset = 8,
@@ -18,7 +18,7 @@ export const DescriptionTooltip = ({
   side?: "top" | "right" | "bottom" | "left"
   sideOffset?: number
   className?: string
-}) => {
+}) {
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>
@@ -26,9 +26,9 @@ export const DescriptionTooltip = ({
           <InfoIcon className="w-4 h-4" />
         </TooltipTrigger>
         <TooltipContent
+          className={cn("text-white bg-black p-1 w-48", className)}
           side={side}
           sideOffset={sideOffset}
-          className={cn("text-white bg-black p-1 w-48", className)}
         >
           <p className="text-xs">{description}</p>
         </TooltipContent>

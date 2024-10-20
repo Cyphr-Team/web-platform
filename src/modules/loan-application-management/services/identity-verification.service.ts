@@ -1,6 +1,6 @@
 import {
-  PersonaGovernmentId,
-  PersonaSelfie,
+  type PersonaGovernmentId,
+  type PersonaSelfie,
   PersonaVerificationStatus
 } from "../../../lib/persona/persona.types"
 import { IdentityVerificationStatus } from "../constants/types/smart-kyc"
@@ -9,6 +9,7 @@ export const getBadgeVariantByIdentityVerificationStatus = (
   status?: IdentityVerificationStatus
 ) => {
   const statusUppercase = status?.toUpperCase()
+
   switch (statusUppercase) {
     case IdentityVerificationStatus.UNVERIFIED:
       return "yellow"
@@ -32,6 +33,7 @@ export const getPassedGovVerification = ({
         govVer.status?.toLowerCase() ===
         PersonaVerificationStatus.PASSED.toLowerCase()
     ) ?? null
+
   return passed
 }
 
@@ -48,5 +50,6 @@ export const getPassedSelfieVerification = ({
         selfieVerification.status?.toLowerCase() ===
         PersonaVerificationStatus.PASSED.toLowerCase()
     ) ?? null
+
   return passed
 }

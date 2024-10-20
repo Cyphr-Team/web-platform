@@ -1,15 +1,15 @@
 import { APP_PATH, MAX_REMEMBER_ME_DAYS } from "@/constants"
 import { axiosClient } from "@/services/client.service"
 import { inMemoryJWTService } from "@/services/jwt.service"
-import { ErrorResponse } from "@/types/common.type"
-import { UserInfo } from "@/types/user.type"
+import { type ErrorResponse } from "@/types/common.type"
+import { type UserInfo } from "@/types/user.type"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 import {
   customRequestHeader,
   headerWithRememberMe
 } from "@/utils/request-header"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { useNavigate } from "react-router-dom"
 import * as z from "zod"
 
@@ -43,6 +43,7 @@ export const useLogin = () => {
     },
     onSuccess: async ({ data }) => {
       const { accessToken, refreshToken } = data
+
       inMemoryJWTService.setToken(accessToken)
       inMemoryJWTService.setRefreshToken(refreshToken)
       inMemoryJWTService.setUserInfo(data)

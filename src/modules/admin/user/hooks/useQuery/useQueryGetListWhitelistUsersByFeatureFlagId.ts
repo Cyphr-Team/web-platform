@@ -2,9 +2,9 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { whitelistUserKeys } from "@/constants/query-key"
-import { WhitelistedUser } from "@/types/user.type.ts"
+import { type WhitelistedUser } from "@/types/user.type.ts"
 
-type Params = {
+interface Params {
   id: string
 }
 

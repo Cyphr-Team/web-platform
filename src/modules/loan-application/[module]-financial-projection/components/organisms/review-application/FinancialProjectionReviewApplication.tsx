@@ -12,13 +12,13 @@ import { isEnableKycReOrder } from "@/utils/feature-flag.utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import {
-  ReviewApplicationValue,
+  type ReviewApplicationValue,
   reviewApplicationSchema
 } from "../../../../constants/form"
 import { useLoanApplicationFormContext } from "../../../../providers"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 
-export const FinancialProjectionReviewApplication = () => {
+export function FinancialProjectionReviewApplication() {
   const { progress, step, finishCurrentStep } =
     useLoanApplicationProgressContext()
 

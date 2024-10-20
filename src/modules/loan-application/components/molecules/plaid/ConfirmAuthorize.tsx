@@ -2,21 +2,21 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 import { useTenant } from "@/providers/tenant-provider"
-import { CheckedState } from "@radix-ui/react-checkbox"
+import { type CheckedState } from "@radix-ui/react-checkbox"
 
 interface PlaidConfirmAuthorizeProps {
   wrapperClassName?: string
   confirmCheckbox: {
     disabled: boolean
     checked: boolean
-    onCheckedChange?(checked: CheckedState): void
+    onCheckedChange?: (checked: CheckedState) => void
   }
 }
 
-export const PlaidConfirmAuthorize = ({
+export function PlaidConfirmAuthorize({
   wrapperClassName,
   confirmCheckbox
-}: PlaidConfirmAuthorizeProps) => {
+}: PlaidConfirmAuthorizeProps) {
   const { tenantData } = useTenant()
 
   return (
@@ -32,10 +32,10 @@ export const PlaidConfirmAuthorize = ({
             your business financial health through cash flow data and expedite
             the loan approval process. Learn how it works{" "}
             <a
-              href="https://plaid.com/legal/#consumers"
               className="underline text-black"
-              target="_blank"
+              href="https://plaid.com/legal/#consumers"
               rel="noopener noreferrer"
+              target="_blank"
             >
               here
             </a>

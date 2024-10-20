@@ -4,14 +4,12 @@ import { PlusCircle } from "lucide-react"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useReactivateUser } from "@/modules/admin/user/hooks/useReactivateUser.ts"
 
-export const ButtonReactivateUser = ({ userId }: { userId: string }) => {
+export function ButtonReactivateUser({ userId }: { userId: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const { mutate, isPending } = useReactivateUser()
   const [isConfirmed, setIsConfirmed] = useState(false)
 
-  const handleReactivateUser = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleReactivateUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     mutate({ userId: userId })
@@ -21,13 +19,7 @@ export const ButtonReactivateUser = ({ userId }: { userId: string }) => {
 
   return (
     <CustomAlertDialog
-      isOpen={isOpen}
-      onConfirmed={handleReactivateUser}
-      onCanceled={(e) => {
-        e.stopPropagation()
-        setIsOpen(false)
-      }}
-      title="Reactivate this account?"
+      actionClassName="bg-red-500 hover:bg-red-600 text-white"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -38,23 +30,29 @@ export const ButtonReactivateUser = ({ userId }: { userId: string }) => {
           Are you sure you want to proceed?
         </span>
       }
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      isOpen={isOpen}
+      title="Reactivate this account?"
+      onCanceled={(e) => {
+        e.stopPropagation()
+        setIsOpen(false)
+      }}
+      onConfirmed={handleReactivateUser}
     >
       <ButtonLoading
-        type="submit"
-        isLoading={isPending}
-        variant="ghost"
+        className="text-green-900 p-2 space-x-2 flex flex-row w-full"
+        disabled={isConfirmed}
         id={userId}
+        isLoading={isPending}
         style={{
           padding: "0px"
         }}
-        className="text-green-900 p-2 space-x-2 flex flex-row w-full"
+        type="submit"
+        variant="ghost"
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
           setIsOpen(true)
         }}
-        disabled={isConfirmed}
       >
         {!isPending && (
           <>

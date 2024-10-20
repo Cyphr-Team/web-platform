@@ -16,10 +16,14 @@ import {
 import { cn } from "@/lib/utils"
 
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
-import { ChangeEventHandler, FocusEventHandler, ReactNode } from "react"
-import { Control, FieldPath, FieldValues } from "react-hook-form"
+import {
+  type ChangeEventHandler,
+  type FocusEventHandler,
+  type ReactNode
+} from "react"
+import { type Control, type FieldPath, type FieldValues } from "react-hook-form"
 
-type IOption = {
+interface IOption {
   value: string
   label: string
 }
@@ -46,9 +50,7 @@ interface ISelectInputType<T extends FieldValues> {
   messageClassName?: string
 }
 
-export const SelectInput = <T extends FieldValues>(
-  props: ISelectInputType<T>
-) => {
+export function SelectInput<T extends FieldValues>(props: ISelectInputType<T>) {
   const {
     control,
     name,
@@ -71,7 +73,7 @@ export const SelectInput = <T extends FieldValues>(
       render={({ field }) => (
         // Most of our form use validate mode is 'onBlur'
         // So, I trigger onBlur when FormItem change to validate the input
-        <FormItem onChange={field.onBlur} className={props.className}>
+        <FormItem className={props.className} onChange={field.onBlur}>
           <FormLabel
             className={cn(
               `text-text-secondary ${
@@ -82,9 +84,9 @@ export const SelectInput = <T extends FieldValues>(
           >
             <label>
               {label}
-              {required && <RequiredSymbol />}
+              {required ? <RequiredSymbol /> : null}
             </label>
-            {subtitle && (
+            {subtitle ? (
               <p
                 className={cn(
                   "mt-2 text-text-tertiary font-medium",
@@ -93,17 +95,17 @@ export const SelectInput = <T extends FieldValues>(
               >
                 {subtitle}
               </p>
-            )}
+            ) : null}
           </FormLabel>
 
           <FormControl className={`${isRowDirection && "xl:-mt-4"}`}>
             <Select
+              disabled={disabled}
+              value={field.value}
               onValueChange={(value) => {
                 field.onBlur()
                 field.onChange(value.toString())
               }}
-              value={field.value}
-              disabled={disabled}
             >
               <SelectTrigger
                 className={cn(
@@ -124,8 +126,8 @@ export const SelectInput = <T extends FieldValues>(
           </FormControl>
           {isRowDirection && subtitle ? (
             <FormMessage
-              style={{ marginTop: -1 }}
               className={messageClassName}
+              style={{ marginTop: -1 }}
             />
           ) : (
             <FormMessage className={messageClassName} />

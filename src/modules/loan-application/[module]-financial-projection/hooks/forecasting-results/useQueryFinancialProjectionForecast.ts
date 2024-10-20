@@ -1,7 +1,7 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
-import { ForecastResultsResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
-import { FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
+import { type ForecastResultsResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
+import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
 import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId.ts"
 
 interface QueryFinancialProjectionProps extends FormDetailsQueryProps {

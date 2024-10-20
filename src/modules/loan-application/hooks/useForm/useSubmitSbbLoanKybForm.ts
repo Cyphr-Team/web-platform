@@ -1,21 +1,24 @@
 import { API_PATH } from "@/constants"
 import { postRequest, putRequest } from "@/services/client.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AxiosResponse, AxiosError } from "axios"
-import { KYBInformationResponse, KYBInformation } from "../../constants/type"
-import { ErrorResponse } from "@/types/common.type"
+import { type AxiosResponse, type AxiosError } from "axios"
+import {
+  type KYBInformationResponse,
+  type KYBInformation
+} from "../../constants/type"
+import { type ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
 import { useCallback } from "react"
 import {
-  SbbKybFormPartOneValue,
-  SbbKybFormPartTwoValue
+  type SbbKybFormPartOneValue,
+  type SbbKybFormPartTwoValue
 } from "../../components/organisms/loan-application-form/kyb/sbb/const"
 import { get } from "lodash"
 import { getStateCode } from "../useSelectCities"
 
 type SbbKybFormValue = SbbKybFormPartOneValue & SbbKybFormPartTwoValue
 
-type Props = {
+interface Props {
   rawData: SbbKybFormValue
   onSuccess: (data: KYBInformationResponse) => void
 }
@@ -71,6 +74,7 @@ export const useSubmitSbbLoanKYBForm = ({ rawData, onSuccess }: Props) => {
       )
     }
   }
+
   return {
     isLoading: isUpdatingLoanKyb || isSubmittingLoanKyb,
     submitSbbLoanKYBForm
@@ -94,6 +98,7 @@ const useSubmit = () => {
 
 const useUpdate = () => {
   const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<KYBInformationResponse>,
     AxiosError<ErrorResponse>,

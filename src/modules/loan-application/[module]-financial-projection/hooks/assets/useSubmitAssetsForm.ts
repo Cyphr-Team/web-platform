@@ -1,25 +1,25 @@
 import { API_PATH } from "@/constants"
 import {
   AssetsField,
-  AssetsFormValue
+  type AssetsFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import { useCreateMutation } from "@/modules/loan-application/[module]-financial-projection/hooks"
-import { SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
-  AssetsCurrentFormMutateRequest,
-  AssetsLongTermFormMutateRequest,
-  AssetsCurrentFormResponse,
-  AssetsLongTermFormResponse
+  type AssetsCurrentFormMutateRequest,
+  type AssetsLongTermFormMutateRequest,
+  type AssetsCurrentFormResponse,
+  type AssetsLongTermFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
 import {
   parseISOStringToMMYYYY,
   parseMMYYYYToISOString
 } from "@/utils/date.utils"
 import { useQueryClient } from "@tanstack/react-query"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 
-type Props = {
+interface Props {
   rawData: AssetsFormValue
 }
 
@@ -51,13 +51,15 @@ export const useSubmitCurrentAssetsForm = <
       receivableDays: rawData?.receivableDays
     } as T
 
-    const result = await mutationToUse.mutateAsync(formattedData as T)
+    const result = await mutationToUse.mutateAsync(formattedData)
 
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY.GET_CURRENT_ASSETS_FORM]
     })
+
     return result
   }
+
   return {
     isLoading: updateMutation.isPending || submitMutation.isPending,
     submitForm: submitAssetsForm
@@ -95,13 +97,15 @@ export const useSubmitLongTermAssetsForm = <
       }))
     } as T
 
-    const result = await mutationToUse.mutateAsync(formattedData as T)
+    const result = await mutationToUse.mutateAsync(formattedData)
 
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEY.GET_LONG_TERM_ASSETS_FORM]
     })
+
     return result
   }
+
   return {
     isLoading: updateMutation.isPending || submitMutation.isPending,
     submitForm: submitAssetsForm

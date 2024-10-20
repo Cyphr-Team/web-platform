@@ -8,15 +8,12 @@ interface Props {
   variant?: "default" | "black"
 }
 
-export const BillableHoursIcon = ({
-  className,
-  variant = "default"
-}: Props) => {
+export function BillableHoursIcon({ className, variant = "default" }: Props) {
   return (
     <img
-      src={variant === "default" ? billableHoursIcon : billableHoursIconBlack}
-      className={cn("w-8 h-8", className)}
       alt="file"
+      className={cn("w-8 h-8", className)}
+      src={variant === "default" ? billableHoursIcon : billableHoursIconBlack}
     />
   )
 }

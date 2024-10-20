@@ -8,22 +8,22 @@ interface IScorecardStatusBadgeProps {
   numberOfScoredJudge: number
 }
 
-export const ScorecardStatusBadge = ({
+export function ScorecardStatusBadge({
   numberOfJudge,
   numberOfScoredJudge
-}: IScorecardStatusBadgeProps) => {
+}: IScorecardStatusBadgeProps) {
   const NudgeIcon = Icons.nudge
   const isDisable = numberOfScoredJudge === numberOfJudge
 
   return (
     <Badge
-      variantColor={isDisable ? "gray" : "lightBlue"}
       className={cn(
         isDisable && "opacity-40",
         "h-7 text-black font-normal bg-opacity-100",
         "flex justify-between",
         "focus:outline-none focus:ring-0"
       )}
+      variantColor={isDisable ? "gray" : "lightBlue"}
     >
       <NudgeIcon className="fill-black mr-2" />
       {numberOfScoredJudge} of {numberOfJudge} Scored

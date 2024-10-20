@@ -1,6 +1,6 @@
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
-import { Breadcrumb } from "@/types/common.type"
+import { type Breadcrumb } from "@/types/common.type"
 import { ChevronRight } from "lucide-react"
 import React from "react"
 import { NavLink } from "react-router-dom"
@@ -16,9 +16,9 @@ export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {
         return (
           <React.Fragment key={to}>
             <NavLink
-              to={to}
-              className={({ isActive }) => (isActive ? "text-primary" : "")}
               end
+              className={({ isActive }) => (isActive ? "text-primary" : "")}
+              to={to}
             >
               {({ isActive }) => (
                 <>

@@ -3,8 +3,8 @@ import { Card } from "@/components/ui/card"
 import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { toCurrency } from "@/utils"
 import {
-  CurrentLoanInformationResponse,
-  CurrentLoansInformationResponse
+  type CurrentLoanInformationResponse,
+  type CurrentLoansInformationResponse
 } from "@/modules/loan-application/constants/type.ts"
 
 import { get } from "lodash"

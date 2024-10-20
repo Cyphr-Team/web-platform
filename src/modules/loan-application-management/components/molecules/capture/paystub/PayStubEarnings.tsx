@@ -6,10 +6,10 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { PayStubEarningType } from "@/modules/loan-application-management/constants/types/document"
+import { type PayStubEarningType } from "@/modules/loan-application-management/constants/types/document"
 import { CustomTableRow } from "../../../atoms/TableRow"
 
-type Props = {
+interface Props {
   data: PayStubEarningType[]
 }
 
@@ -55,6 +55,13 @@ export const PayStubEarnings: React.FC<Props> = ({ data }) => {
           {data?.map((cell, index) => (
             <CustomTableRow
               key={index}
+              childrenClassName={[
+                "border-r border-gray-300 pl-2",
+                "pl-2",
+                "pl-2",
+                "pl-2",
+                "pl-2"
+              ]}
               className={cn(
                 "even:bg-gray-50",
                 "odd:bg-gray-100",
@@ -66,13 +73,6 @@ export const PayStubEarnings: React.FC<Props> = ({ data }) => {
                 cell.ytdPay ?? "-",
                 cell.currentHours ?? "-",
                 cell.rate ?? "-"
-              ]}
-              childrenClassName={[
-                "border-r border-gray-300 pl-2",
-                "pl-2",
-                "pl-2",
-                "pl-2",
-                "pl-2"
               ]}
             />
           ))}

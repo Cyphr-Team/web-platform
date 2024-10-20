@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils"
 import {
-  Visualization,
-  VisualizationPage
+  type Visualization,
+  type VisualizationPage
 } from "@/modules/loan-application-management/constants/type"
 import { useLoanDocumentDetailsContext } from "@/modules/loan-application-management/providers/LoanDocumentDetailsProvider"
 
-type Props = {
+interface Props {
   pagePreview: VisualizationPage
 }
 
@@ -21,6 +21,7 @@ export const PagePreview: React.FC<Props> = ({ pagePreview }) => {
   const onClickVisualization = (visualization: Visualization) => {
     handleSelectVisualization(visualization)
   }
+
   return (
     <div
       className={cn(
@@ -33,17 +34,17 @@ export const PagePreview: React.FC<Props> = ({ pagePreview }) => {
       data-signals={pagePreview.pageSignalCount > 0}
     >
       <div
-        data-selected={isSelected}
         className="relative data-[selected=true]:border border-black"
+        data-selected={isSelected}
         style={{
           filter: "drop-shadow(rgba(0, 0, 0, 0.25) 0px 4px 4px)"
         }}
       >
         <img
-          src={pagePreview.visualizations[0].thumbnailMediumUrl}
           alt="page"
-          onClick={() => handleSelectPage(pagePreview)}
           className="w-48"
+          src={pagePreview.visualizations[0].thumbnailMediumUrl}
+          onClick={() => handleSelectPage(pagePreview)}
         />
         <div className="flex justify-between text-xs text-text-secondary absolute bottom-0 p-2 opacity-80 w-full bg-white">
           <p>Page {pagePreview.pageNumber}</p>
@@ -57,10 +58,10 @@ export const PagePreview: React.FC<Props> = ({ pagePreview }) => {
           {pagePreview?.visualizations.map((visualization, index) => (
             <img
               key={index}
-              src={visualization.thumbnailSmallUrl}
               alt="page"
               className="w-8 data-[selected=true]:border border-black"
               data-selected={selectedVisualization === visualization}
+              src={visualization.thumbnailSmallUrl}
               onClick={() => onClickVisualization(visualization)}
             />
           ))}

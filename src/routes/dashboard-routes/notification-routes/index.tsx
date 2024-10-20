@@ -14,8 +14,8 @@ const notificationRoutes = (
 
     {/* DETAIL */}
     <Route
-      path={APP_PATH.NOTIFICATION.detail}
       lazy={() => import("@/modules/notification/pages/NotificationDetails")}
+      path={APP_PATH.NOTIFICATION.detail}
     />
   </Route>
 )

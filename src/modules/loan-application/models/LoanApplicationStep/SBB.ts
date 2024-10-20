@@ -1,5 +1,5 @@
 import { isIgnoredKycSubmission } from "@/utils/feature-flag.utils"
-import { ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
+import { type ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 import {
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS,

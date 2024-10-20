@@ -2,15 +2,15 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { BankAccountInformation } from "@/modules/conference-demo/admin/components/atoms"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { BankAccountSummary } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
+import { type BankAccountSummary } from "@/modules/loan-application-management/constants/types/v2/cashflow.type"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { toCurrency } from "@/utils"
 
-type Props = {
+interface Props {
   data: BankAccountSummary
 }
 
-const BankAccountReport = ({ data }: Props) => {
+function BankAccountReport({ data }: Props) {
   const bankAccountCurrency = (value: number) => toCurrency(value, 0)
 
   return (
@@ -21,14 +21,14 @@ const BankAccountReport = ({ data }: Props) => {
             {data.bankAccountName}
 
             <Badge
+              border
               isDot
+              className="capitalize text-sm rounded-lg"
+              isDotBefore={false}
               variant="soft"
               variantColor={getBadgeVariantByInsightStatus(
                 TaskFieldStatus.SUCCESS
               )}
-              className="capitalize text-sm rounded-lg"
-              isDotBefore={false}
-              border
             >
               Connected
             </Badge>
@@ -57,14 +57,14 @@ const BankAccountReport = ({ data }: Props) => {
             value={bankAccountCurrency(data.endBalance ?? 0)}
           />
           <BankAccountInformation
+            className="rounded-l-lg"
             label="Average daily balance"
             value={bankAccountCurrency(data.averageDailyBalance ?? 0)}
-            className="rounded-l-lg"
           />
           <BankAccountInformation
+            className="rounded-r-lg"
             label="Average transaction size"
             value={bankAccountCurrency(data.averageTransactionSize ?? 0)}
-            className="rounded-r-lg"
           />
         </div>
       </CardContent>

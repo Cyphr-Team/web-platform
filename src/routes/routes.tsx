@@ -25,18 +25,18 @@ import { isFinovate } from "@/utils/domain.utils.ts"
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route
-      loader={institutionLoader}
-      path={APP_PATH.INDEX}
       element={<GlobalLayouts />}
       errorElement={<InstitutionNotFoundLayout />}
+      loader={institutionLoader}
+      path={APP_PATH.INDEX}
     >
       <Route loader={featureFlagsPublicLoader}>
         {/* AUTHENTICATION ROUTES */}
         {/* EXCEPT THIS CASE, WHEN WE ALREADY LOGGED IN AND ACCEPT OUR OWN INVITATION */}
         <Route element={<ActiveEmailLayout />}>
           <Route
-            path={APP_PATH.ACCEPT_INVITE}
             lazy={() => import("@/modules/authentication/accept-invite/page")}
+            path={APP_PATH.ACCEPT_INVITE}
           />
         </Route>
 
@@ -52,7 +52,7 @@ const routes = createBrowserRouter(
         {/* it should be in the last */}
         {isFinovate() ? conferenceDemoRoutes : null}
 
-        <Route path="*" element={<NotFoundLayout />} />
+        <Route element={<NotFoundLayout />} path="*" />
       </Route>
     </Route>
   )

@@ -1,19 +1,18 @@
 import { APP_PATH } from "@/constants"
-import useCanAccess, { FeatureKey } from "@/hooks/useCanAccess"
-import { FC } from "react"
+import useCanAccess, { type FeatureKey } from "@/hooks/useCanAccess"
 import { Navigate, Outlet } from "react-router-dom"
 
-type IProtectedRouteProps = {
+interface IProtectedRouteProps {
   featureKey: FeatureKey
 }
 
-export const ProtectedRoute: FC<IProtectedRouteProps> = ({ featureKey }) => {
+export function ProtectedRoute({ featureKey }: IProtectedRouteProps) {
   const { getCanAccess } = useCanAccess({ featureKey })
   const can = getCanAccess()
 
   return can ? (
     <Outlet />
   ) : (
-    <Navigate to={{ pathname: APP_PATH.INDEX }} replace />
+    <Navigate replace to={{ pathname: APP_PATH.INDEX }} />
   )
 }

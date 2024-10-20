@@ -4,7 +4,7 @@ import { ApplicationAssessment } from "./ApplicationAssessment"
 import { ApplicationCriteria } from "./ApplicationCriteria"
 import { useLoanReadinessStore } from "./store/useLoanReadinessStore"
 
-export const Component = () => {
+export function Component() {
   const { id: applicationId } = useParams()
   const dummyLevel = useLoanReadinessStore.use.dummyLevel()
   const { setDummyLevel } = useLoanReadinessStore.use.action()
@@ -25,15 +25,15 @@ export const Component = () => {
       <ApplicationAssessment
         actionPlan={data?.applicationScore?.actionPlan}
         category={data?.applicationScore?.category}
-        score={data?.applicationScore?.score}
-        ratingLevel={data?.applicationScore?.ratingLevel}
         isLoading={isLoading}
+        ratingLevel={data?.applicationScore?.ratingLevel}
+        score={data?.applicationScore?.score}
       />
 
       <ApplicationCriteria
         criteria={data?.criteria}
-        isLoading={isLoading}
         handleRefetch={handleRefetch}
+        isLoading={isLoading}
       />
     </div>
   )

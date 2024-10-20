@@ -1,4 +1,4 @@
-import { Styles } from "react-chatbotify"
+import { type Styles } from "react-chatbotify"
 
 const PRIMARY_COLOR = "#071013"
 const SECONDARY_COLOR = "#EAECF0"

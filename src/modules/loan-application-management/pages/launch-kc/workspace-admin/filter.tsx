@@ -4,12 +4,12 @@ import { MultiSelectRound } from "@/components/ui/multi-select-round"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { capitalizeWords } from "@/utils"
 import { CalendarPlus, Trash } from "lucide-react"
 import { useCallback, useMemo, useState } from "react"
-import { UseFormReturn } from "react-hook-form"
+import { type UseFormReturn } from "react-hook-form"
 import { StatusRoundBadge } from "../../../components/atoms/StatusRoundBadge"
 import {
   buildUserMultiSelectLabelHelper,
@@ -18,7 +18,7 @@ import {
 import { AddFilterPopover } from "../../../components/molecules/filters/AddFilterPopover"
 import { ScorecardFilterPopover } from "../../../components/molecules/filters/ScorecardFilterPopover"
 import { useQueryGetJudgeList } from "../../../hooks/useQuery/useQueryGetJudgeList"
-import { LoanApplicationScoreFilterValues } from "../../../hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
+import { type LoanApplicationScoreFilterValues } from "../../../hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
 
 interface IFilter {
   filterForm: UseFormReturn<LoanApplicationScoreFilterValues>
@@ -98,6 +98,7 @@ export function Filter({ filterForm }: IFilter) {
     const startOfSelectedDate = date
       ? new Date(date.setHours(0, 0, 0, 0))
       : undefined
+
     if (fieldName) {
       filterForm.setValue(fieldName, startOfSelectedDate)
     }
@@ -106,6 +107,7 @@ export function Filter({ filterForm }: IFilter) {
   const handleClickToDeleteFilter = (filterOptionName: FilterOptions) => () => {
     // Reset date filter
     const formField = filterOptionName
+
     if (formField) {
       filterForm.setValue(formField, undefined)
     }
@@ -146,26 +148,28 @@ export function Filter({ filterForm }: IFilter) {
       />
     ) : null
 
-  const renderCustomCalendarFooter =
-    (filterOptionName: FilterOptions) => () => (
-      <tfoot className="custom-footer hover:text-red-600 mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary">
-        <tr>
-          <td>
-            <Separator className="my-1.5" />
-            <Button
-              className="w-full h-auto content-start cursor-pointer gap-3 px-1 py-1 rounded-none hover:text-red-600"
-              variant="ghost"
-              onClick={handleClickToDeleteFilter(filterOptionName)}
-            >
-              <div className="w-full flex justify-start items-center">
-                <Trash className="h-4 mr-1" />
-                <span>Delete filter</span>
-              </div>
-            </Button>
-          </td>
-        </tr>
-      </tfoot>
-    )
+  const renderCustomCalendarFooter = (filterOptionName: FilterOptions) =>
+    function () {
+      return (
+        <tfoot className="custom-footer hover:text-red-600 mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary">
+          <tr>
+            <td>
+              <Separator className="my-1.5" />
+              <Button
+                className="w-full h-auto content-start cursor-pointer gap-3 px-1 py-1 rounded-none hover:text-red-600"
+                variant="ghost"
+                onClick={handleClickToDeleteFilter(filterOptionName)}
+              >
+                <div className="w-full flex justify-start items-center">
+                  <Trash className="h-4 mr-1" />
+                  <span>Delete filter</span>
+                </div>
+              </Button>
+            </td>
+          </tr>
+        </tfoot>
+      )
+    }
 
   return (
     <Form {...filterForm}>
@@ -185,13 +189,13 @@ export function Filter({ filterForm }: IFilter) {
           name={FormFieldNames.JUDGE_IDS}
           render={({ field }) => (
             <MultiSelectRound
-              label="Judges"
-              subLabel="Users"
               field={field}
-              options={judgeOptions}
+              label="Judges"
               labelHOC={(option, close) => (
-                <UserMultiSelectOption option={option} close={close} />
+                <UserMultiSelectOption close={close} option={option} />
               )}
+              options={judgeOptions}
+              subLabel="Users"
             />
           )}
         />
@@ -201,15 +205,15 @@ export function Filter({ filterForm }: IFilter) {
           name={FormFieldNames.STATUSES}
           render={({ field }) => (
             <MultiSelectRound
-              label="Round"
-              subLabel="Select Application Round"
               field={field}
-              options={ROUND_STATUS_OPTIONS}
+              label="Round"
               labelHOC={(option, close) => (
                 <StatusRoundBadge round={option.value}>
                   {capitalizeWords(option.label)} {close}
                 </StatusRoundBadge>
               )}
+              options={ROUND_STATUS_OPTIONS}
+              subLabel="Select Application Round"
             />
           )}
         />
@@ -225,20 +229,20 @@ export function Filter({ filterForm }: IFilter) {
                 name={option.value}
                 render={({ field: { value, name } }) => (
                   <CalendarDatePicker
-                    onCustomClick={handleMagicClickFilter(option)}
-                    id={name}
-                    value={value?.toString()}
-                    onSelectDate={(date) => handleSetDate(option.value, date)}
-                    customFooter={renderCustomCalendarFooter(option.value)}
+                    align="center"
                     className="w-full"
+                    contentClassName={isShown ? "block" : "hidden"}
+                    customFooter={renderCustomCalendarFooter(option.value)}
+                    id={name}
+                    placeholder=""
+                    prefixLabel={option.label + (value ? ":" : "")}
                     triggerClassName={cn(
                       "rounded-full font-semibold text-sm",
                       value && "border-slate-500"
                     )}
-                    contentClassName={isShown ? "block" : "hidden"}
-                    prefixLabel={option.label + `${value ? ":" : ""}`}
-                    placeholder=""
-                    align="center"
+                    value={value?.toString()}
+                    onCustomClick={handleMagicClickFilter(option)}
+                    onSelectDate={(date) => handleSetDate(option.value, date)}
                   />
                 )}
               />

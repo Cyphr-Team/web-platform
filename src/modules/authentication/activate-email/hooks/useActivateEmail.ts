@@ -17,6 +17,7 @@ export const useActivateEmail = () => {
 
   useEffect(() => {
     const token = searchParams.get("token")
+
     if (!token) return
 
     const verifying = async () => {

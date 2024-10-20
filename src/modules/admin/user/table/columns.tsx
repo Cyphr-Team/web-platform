@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { UserDetailInfo, UserRoles } from "@/types/user.type"
+import { type UserDetailInfo, type UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
-import { AccessorKeyColumnDef } from "@tanstack/react-table"
+import { type AccessorKeyColumnDef } from "@tanstack/react-table"
 import { nameByRole } from "@/modules/admin/user/constants/roles.constants.ts"
 import { UserDetailListAction } from "@/modules/admin/user/table/user-detail-list-action"
 
@@ -16,6 +16,7 @@ export const columns: AccessorKeyColumnDef<
     ),
     cell: ({ row }) => {
       const application = row.original
+
       return (
         <>
           <div className="text-black font-medium">{application.name}</div>
@@ -81,9 +82,9 @@ export const columns: AccessorKeyColumnDef<
       return (
         <div className="flex items-center text-right">
           <UserDetailListAction
-            userId={row.original.id}
-            status={row.original.status}
             roles={row.original.roles}
+            status={row.original.status}
+            userId={row.original.id}
           />
         </div>
       )

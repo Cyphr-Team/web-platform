@@ -1,11 +1,12 @@
-import { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { capitalizeWords, toCurrency } from "@/utils"
 
 interface UseLoanRequestDetailProps {
   loanApplicationDetails?: UserMicroLoanApplication
 }
+
 export const useLoanRequestDetail = ({
   loanApplicationDetails
 }: UseLoanRequestDetailProps) => {
@@ -27,5 +28,6 @@ export const useLoanRequestDetail = ({
       }
     ]
   }
+
   return { loanRequestDetail }
 }

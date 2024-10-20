@@ -10,69 +10,69 @@ const authenticationRoutes = (
   <Route element={<AuthLayout />}>
     {/* LOGIN */}
     <Route
-      path={APP_PATH.LOGIN}
       lazy={() => import("@/modules/authentication/login/page")}
+      path={APP_PATH.LOGIN}
     />
 
     {/* SIGN UP */}
     <Route
-      path={APP_PATH.SIGN_UP}
       lazy={() => import("@/modules/authentication/sign-up/page")}
+      path={APP_PATH.SIGN_UP}
     />
 
     <Route element={<ActiveEmailLayout />}>
       {/* VERIFY EMAIL */}
       <Route
-        path={APP_PATH.VERIFY_EMAIL.index}
         lazy={() => import("@/modules/authentication/verify-email/page")}
+        path={APP_PATH.VERIFY_EMAIL.index}
       />
 
       {/* SETUP PHONE */}
       <Route
-        path={APP_PATH.SETUP_PHONE}
         lazy={() => import("@/modules/authentication/setup-phone/page")}
+        path={APP_PATH.SETUP_PHONE}
       />
 
       {/* VERIFY PHONE */}
       <Route
-        path={APP_PATH.VERIFY_PHONE}
         lazy={() => import("@/modules/authentication/verify-phone/page")}
+        path={APP_PATH.VERIFY_PHONE}
       />
 
       {/* MAGIC LINK */}
       <Route
-        path={APP_PATH.MAGIC_LINK}
         lazy={() => import("@/modules/authentication/magic-link/page")}
+        path={APP_PATH.MAGIC_LINK}
       />
 
       {/* REDIRECT CALLBACK */}
       <Route
-        path={APP_PATH.REDIRECT_CALLBACK}
         lazy={() => import("@/modules/authentication/redirect/page")}
+        path={APP_PATH.REDIRECT_CALLBACK}
       />
 
       {/* ACTIVE EMAIL, EXPIRED, ALREADY SIGN UP, EMAIL ALREADY ASSOCIATE */}
       <Route
-        path={APP_PATH.VERIFY_EMAIL.activateByToken}
         lazy={() => import("@/modules/authentication/activate-email/page")}
+        path={APP_PATH.VERIFY_EMAIL.activateByToken}
       />
 
       {/* SETUP PROFILE */}
       <Route
-        path={APP_PATH.SETUP_PROFILE}
         lazy={() => import("@/modules/authentication/setup-profile/page")}
+        path={APP_PATH.SETUP_PROFILE}
       />
 
       {/* FORGOT PASSWORD */}
       <Route
-        path={APP_PATH.FORGOT_PASSWORD}
         lazy={() => import("@/modules/authentication/forgot-password/page")}
+        path={APP_PATH.FORGOT_PASSWORD}
       />
 
       {/* SETUP PASSWORD */}
       <Route
-        path={APP_PATH.SETUP_PASSWORD_BY_TOKEN.index}
         lazy={() => import("@/modules/authentication/setup-password/page")}
+        path={APP_PATH.SETUP_PASSWORD_BY_TOKEN.index}
       />
     </Route>
   </Route>

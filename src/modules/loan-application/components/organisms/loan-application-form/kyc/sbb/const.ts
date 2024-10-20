@@ -1,5 +1,5 @@
 import {
-  Block,
+  type Block,
   FieldType
 } from "@/modules/form-template/components/templates/FormTemplate"
 import {
@@ -67,6 +67,7 @@ export const sbbMetadataSchema = z
     if (data[SBB_KYC_FIELD_NAMES.HAS_BENEFICIAL_OWNERS] === BINARY_VALUES.NO) {
       return true
     }
+
     return true
   })
 

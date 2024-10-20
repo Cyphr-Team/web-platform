@@ -14,7 +14,7 @@ import {
   FP_OPERATING_EXPENSES_DEFAULT_VALUE,
   FpOperatingExpensesField,
   fpOperatingExpensesFormSchema,
-  FpOperatingExpensesFormValue
+  type FpOperatingExpensesFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
 
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
@@ -30,14 +30,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { sum } from "lodash"
 import { Plus, X } from "lucide-react"
 import {
-  FieldArrayWithId,
-  FieldPath,
+  type FieldArrayWithId,
+  type FieldPath,
   useFieldArray,
   useForm,
   useFormContext
 } from "react-hook-form"
 
-export const FpOperatingExpensesForm = () => {
+export function FpOperatingExpensesForm() {
   const { fpOperatingExpenses, dispatchFormAction } =
     useLoanApplicationFormContext()
 
@@ -137,9 +137,9 @@ export const FpOperatingExpensesForm = () => {
 
         <div className="flex">
           <Button
+            className="w-min ml-auto border-black gap-2"
             type="button"
             variant="outline"
-            className="w-min ml-auto border-black gap-2"
             onClick={handleAddFounder}
           >
             <Plus className="w-4" />
@@ -171,7 +171,7 @@ interface OperatingExpensesProps {
   onRemove: VoidFunction
 }
 
-const OperatingExpenses = (props: OperatingExpensesProps) => {
+function OperatingExpenses(props: OperatingExpensesProps) {
   const { index, value, onRemove } = props
   const form = useFormContext<FpOperatingExpensesFormValue>()
 
@@ -180,71 +180,71 @@ const OperatingExpenses = (props: OperatingExpensesProps) => {
     form.getValues(FpOperatingExpensesField.operatingExpenses).length > 1
 
   return (
-    <div className="flex gap-3" key={value.id}>
+    <div key={value.id} className="flex gap-3">
       <div className="grid grid-cols-6 w-full gap-5 items-center">
         <div className="row-start-1 col-start-1 col-end-3 flex gap-1 flex-col">
           <RHFTextInput
-            label=""
+            isHideErrorMessage
+            isToggleView
             className="font-medium text-sm"
-            placeholder="Operating expenses name"
-            styleProps={{ inputClassName: "h-6 text-sm max-w-52 -mt-1.5" }}
+            label=""
             name={getArrayFieldName<
               FpOperatingExpensesField,
               FieldPath<FpOperatingExpensesFormValue>
             >(FpOperatingExpensesField.operatingExpensesName, index)}
-            isToggleView
-            isHideErrorMessage
+            placeholder="Operating expenses name"
+            styleProps={{ inputClassName: "h-6 text-sm max-w-52 -mt-1.5" }}
           />
           <RHFTextInput
-            label=""
+            isHideErrorMessage
+            isToggleView
             className="mt-auto text-xs text-text-secondary"
-            styleProps={{ inputClassName: "h-6 text-xs max-w-32 -mb-1.5" }}
-            placeholder="Add description"
+            label=""
             name={getArrayFieldName<
               FpOperatingExpensesField,
               FieldPath<FpOperatingExpensesFormValue>
             >(FpOperatingExpensesField.operatingExpensesDescription, index)}
-            isToggleView
-            isHideErrorMessage
+            placeholder="Add description"
+            styleProps={{ inputClassName: "h-6 text-xs max-w-32 -mb-1.5" }}
           />
         </div>
         <RHFMaskInput
-          label=""
-          pattern={MM_YYYY_PATTERN}
+          isHideErrorMessage
           className="row-start-1 col-start-3 col-end-5 mt-0"
-          placeholder="MM/YYYY"
+          label=""
           name={getArrayFieldName<
             FpOperatingExpensesField,
             FieldPath<FpOperatingExpensesFormValue>
           >(FpOperatingExpensesField.operatingExpensesStartDate, index)}
-          isHideErrorMessage
+          pattern={MM_YYYY_PATTERN}
+          placeholder="MM/YYYY"
         />
         <RHFCurrencyInput
-          label=""
+          isHideErrorMessage
           className="row-start-1 col-start-5 col-end-7 mt-0"
-          prefixIcon="$"
-          suffixIcon={<span className="text-gray-400">/ mo</span>}
+          label=""
           name={getArrayFieldName<
             FpOperatingExpensesField,
             FieldPath<FpOperatingExpensesFormValue>
           >(FpOperatingExpensesField.operatingExpensesMonthlyCost, index)}
-          isHideErrorMessage
+          prefixIcon="$"
+          suffixIcon={<span className="text-gray-400">/ mo</span>}
         />
       </div>
 
-      {isRemovable && (
+      {isRemovable ? (
         <div className="flex justify-between items-center">
           <Button
+            className="p-0 py-0 h-auto"
             tabIndex={-1}
             type="button"
             variant="ghost"
-            className="p-0 py-0 h-auto"
             onClick={onRemove}
           >
             <X className="w-4" />
           </Button>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

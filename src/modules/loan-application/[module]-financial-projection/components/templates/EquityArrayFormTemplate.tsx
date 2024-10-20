@@ -1,9 +1,9 @@
 import { useFieldArray, useFormContext } from "react-hook-form"
 import { Button } from "@/components/ui/button.tsx"
 import { TrashIcon } from "lucide-react"
-import { FC, memo, ReactNode, useCallback } from "react"
+import { type FC, memo, type ReactNode, useCallback } from "react"
 import {
-  Block,
+  type Block,
   renderInnerBlockComponents
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import { CollapsibleArrayFieldTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/CollapsibleArrayFieldTemplate.tsx"
@@ -45,7 +45,7 @@ const EquityArrayFormTemplate: FC<EquityArrayFormTemplateProps> = (props) => {
 
   return (
     <>
-      <Accordion type="multiple" className="flex flex-col gap-xl">
+      <Accordion className="flex flex-col gap-xl" type="multiple">
         {fields.map((source, index) => {
           const label = watch(`${fieldName}.${index}.name`)
             ? watch(`${fieldName}.${index}.name`)
@@ -53,10 +53,10 @@ const EquityArrayFormTemplate: FC<EquityArrayFormTemplateProps> = (props) => {
 
           return (
             <CollapsibleArrayFieldTemplate
-              id={source.id}
               key={source.id}
-              label={label}
               disabledBorder
+              id={source.id}
+              label={label}
             >
               <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-xl border">
                 <TooltipProvider>
@@ -64,9 +64,9 @@ const EquityArrayFormTemplate: FC<EquityArrayFormTemplateProps> = (props) => {
                 </TooltipProvider>
                 {getValues(fieldName)?.length > 1 ? (
                   <Button
+                    className="w-fit self-end"
                     variant="outline"
                     onClick={onRemove(index)}
-                    className="w-fit self-end"
                   >
                     <TrashIcon />
                   </Button>
@@ -77,9 +77,9 @@ const EquityArrayFormTemplate: FC<EquityArrayFormTemplateProps> = (props) => {
         })}
       </Accordion>
       <Button
+        className="ml-auto border-black"
         type="button"
         variant="outline"
-        className="ml-auto border-black"
         onClick={handleAddItem}
       >
         <div className="flex gap-2 items-center w-fit">

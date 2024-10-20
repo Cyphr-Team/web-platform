@@ -1,7 +1,7 @@
 import { uniqBy } from "lodash"
 import {
   FORM_TYPE,
-  ILoanApplicationStep,
+  type ILoanApplicationStep,
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS,
   STEP_MENU
@@ -11,7 +11,7 @@ import { isEnableKycReOrder } from "@/utils/feature-flag.utils"
 export interface ILoanApplicationStepStrategy {
   isEnabledKycReOrder: boolean
 
-  _buildSteps(): this
+  _buildSteps: () => this
 }
 
 export class LoanApplicationStep {
@@ -50,6 +50,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -67,6 +68,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -84,6 +86,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -101,6 +104,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -118,6 +122,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -153,6 +158,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -170,6 +176,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -423,6 +430,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -440,6 +448,7 @@ export class LoanApplicationStep {
       ],
       "step"
     )
+
     return this
   }
 
@@ -463,6 +472,7 @@ export class LoanApplicationStep {
 
   _build_extendedSteps(steps: ILoanApplicationStep[]): this {
     this.#steps = uniqBy([...this.#steps, ...steps], "step")
+
     return this
   }
 

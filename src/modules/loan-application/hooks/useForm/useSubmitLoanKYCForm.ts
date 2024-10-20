@@ -1,15 +1,18 @@
 import { API_PATH } from "@/constants"
 import { putRequest, postRequest } from "@/services/client.service"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
-import { AxiosResponse, AxiosError } from "axios"
-import { KYCInformationResponse, KYCInformation } from "../../constants/type"
+import { type AxiosResponse, type AxiosError } from "axios"
+import {
+  type KYCInformationResponse,
+  type KYCInformation
+} from "../../constants/type"
 import { formatKycForm } from "../../services/form.services"
-import { IOwnerFormValue } from "@/modules/loan-application/constants/form.ts"
-import { ErrorResponse } from "@/types/common.type"
+import { type IOwnerFormValue } from "@/modules/loan-application/constants/form.ts"
+import { type ErrorResponse } from "@/types/common.type"
 import { QUERY_KEY } from "../../constants/query-key"
 import { useCallback } from "react"
 
-type Props = {
+interface Props {
   rawData: IOwnerFormValue
   onSuccess: (data: KYCInformationResponse) => void
 }
@@ -28,6 +31,7 @@ export const useSubmitLoanKYCForm = ({ rawData, onSuccess }: Props) => {
 
   const submitLoanKYCForm = async (loanApplicationId: string) => {
     const formattedData = rawData && formatKycForm(rawData)
+
     if (rawData?.id?.length) {
       // Update KYC
       return await updateLoanKyc({ ...formattedData })
@@ -41,6 +45,7 @@ export const useSubmitLoanKYCForm = ({ rawData, onSuccess }: Props) => {
       )
     }
   }
+
   return {
     isLoading: isUpdating || isSubmitting,
     submitLoanKYCForm

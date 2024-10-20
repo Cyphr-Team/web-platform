@@ -24,6 +24,7 @@ export const DocumentViewer: React.FC = () => {
         <p className="text-primary font-medium">No visualizations found</p>
       </div>
     )
+
   return (
     <div className="flex bg-gray-100 p-3 w-full overflow-auto gap-2">
       <PageList
@@ -32,7 +33,9 @@ export const DocumentViewer: React.FC = () => {
       <div className="flex flex-col w-full overflow-auto">
         <PageViewer />
         {selectedPage?.visualizations?.length &&
-          selectedPage?.visualizations?.length > 1 && <PageViewerPanel />}
+        selectedPage?.visualizations?.length > 1 ? (
+          <PageViewerPanel />
+        ) : null}
       </div>
     </div>
   )

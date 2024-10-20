@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useCallback, useRef } from "react"
 import { useForm } from "react-hook-form"
-import { VerifyPhoneFormSchema, verifyPhoneFormSchema } from "../constants"
+import { type VerifyPhoneFormSchema, verifyPhoneFormSchema } from "../constants"
 
 const MAX_CODE_LENGTH = 6
 
@@ -51,6 +51,7 @@ export const useVerifyPhone = () => {
       if (e.key === "ArrowRight") moveForwardOneInput(index)
 
       const value = Number(e.key)
+
       if (isNaN(value) || e.key === " ") return
 
       changeAndValidate(index, e.key)
@@ -71,6 +72,7 @@ export const useVerifyPhone = () => {
 
         const codes = paste.split("").filter((codeChar) => {
           const codeNumber = Number(codeChar)
+
           return !(isNaN(codeNumber) || codeChar === "\n" || codeChar === " ")
         })
 
@@ -78,11 +80,12 @@ export const useVerifyPhone = () => {
           changeAndValidate(index, code)
         })
       } catch (e) {
-        console.error(e)
+        // console.error(e)
       }
     },
     [changeAndValidate]
   )
+
   return {
     form,
     inputRefs,

@@ -18,7 +18,7 @@ export function Component() {
     useLoanApplicationDetailContext()
 
   return (
-    <div className="lg:flex gap-3xl w-full flex-col" ref={elementToExportRef}>
+    <div ref={elementToExportRef} className="lg:flex gap-3xl w-full flex-col">
       <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
         <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap">
           <div className="flex gap-sm flex-col">
@@ -38,8 +38,8 @@ export function Component() {
 
           <div>
             <DownloadButton
-              elementToExportRef={[elementToExportRef]}
               disabled={isFetchingSummary || isFetchingCashflow}
+              elementToExportRef={[elementToExportRef]}
             />
           </div>
         </div>

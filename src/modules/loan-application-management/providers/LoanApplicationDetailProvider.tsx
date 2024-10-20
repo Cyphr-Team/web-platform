@@ -1,5 +1,5 @@
-import { PreQualificationResponse } from "@/modules/loan-application/constants/type"
-import { UserMicroLoanApplication } from "@/types/loan-application.type"
+import { type PreQualificationResponse } from "@/modules/loan-application/constants/type"
+import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { TimeRangeValue } from "@/types/time-range.type.ts"
 import {
   isCapsight,
@@ -11,25 +11,31 @@ import {
 } from "@/utils/domain.utils"
 import { getTimeRangeDates } from "@/utils/time-range.utils.ts"
 import { format } from "date-fns"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { createContext, useContext } from "use-context-selector"
-import { SmartKyc } from "../../../lib/persona/persona.types"
+import { type SmartKyc } from "@/lib/persona/persona.types.ts"
 import { DEFAULT_TRANSACTION_TAGS } from "../constants"
-import { ApplicationKybDetailResponse } from "../constants/types/business.type"
+import { type ApplicationKybDetailResponse } from "../constants/types/business.type"
 import {
-  ApplicationCashFlow,
-  BankAccount,
-  CashFlowRequestFilters,
+  type ApplicationCashFlow,
+  type BankAccount,
+  type CashFlowRequestFilters,
   GRAPH_FREQUENCY,
-  TRANSACTION_TAG
+  type TRANSACTION_TAG
 } from "../constants/types/cashflow.type"
-import { FullAmortizationResponse } from "../constants/types/debt-schedule.type"
-import { LoanApplicationsKyc } from "../constants/types/kyc"
-import { LoanSummary } from "../constants/types/loan-summary.type"
+import { type FullAmortizationResponse } from "../constants/types/debt-schedule.type"
+import { type LoanApplicationsKyc } from "../constants/types/kyc"
+import { type LoanSummary } from "../constants/types/loan-summary.type"
 import {
-  BaseCashFlowFilters,
-  CashFlowGlanceResponse
+  type BaseCashFlowFilters,
+  type CashFlowGlanceResponse
 } from "../constants/types/v2/cashflow.type"
 import { useQueryGetBankAccounts } from "../hooks/useQuery/cash-flow/useQueryGetBankAccounts"
 import { useQueryGetCashFlowGlance } from "../hooks/useQuery/cash-flow/v2/useQueryGetCashFlowGlance"
@@ -40,7 +46,7 @@ import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFl
 import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
 import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
 
-type LoanApplicationDetailContextType = {
+interface LoanApplicationDetailContextType {
   loanKybDetail?: ApplicationKybDetailResponse
   loanKycDetail?: LoanApplicationsKyc
   loanSmartKycDetail?: SmartKyc
@@ -77,27 +83,21 @@ export const LoanApplicationDetailContext =
     isFetchingSummary: false,
     isFetchingBankAccount: false,
     isLoadingFullAmortization: false,
-    onChangeTransactionTags: () => {},
+    onChangeTransactionTags: () => ({}),
     selectedTags: [],
-    onChangeTimePeriod: () => {},
-    onChangeAccountFilter: () => {},
+    onChangeTimePeriod: () => ({}),
+    onChangeAccountFilter: () => ({}),
     filters: {} as CashFlowRequestFilters,
     cashFlowAccounts: [],
-    onChangeTimeRangeFilter: () => {},
+    onChangeTimeRangeFilter: () => ({}),
     // new Cash Flow 2.0
     newCashFlowGlance: {} as CashFlowGlanceResponse,
     isFetchingNewCashFlow: false,
     newCashFlowFilter: {} as BaseCashFlowFilters,
-    onChangeNewTimeRangeFilter: () => {}
+    onChangeNewTimeRangeFilter: () => ({})
   })
 
-type Props = {
-  children: React.ReactNode
-}
-
-export const LoanApplicationDetailProvider: React.FC<Props> = ({
-  children
-}) => {
+export function LoanApplicationDetailProvider({ children }: PropsWithChildren) {
   const [selectedTags, setSelectedTags] = useState<TRANSACTION_TAG[]>(
     DEFAULT_TRANSACTION_TAGS
   )
@@ -148,6 +148,7 @@ export const LoanApplicationDetailProvider: React.FC<Props> = ({
     const listBankAccount =
       bankAccountsQuery.data?.bankAccounts.map((item) => item.bankAccountPk) ??
       []
+
     setFilters((prev) => ({
       ...prev,
       accountFilter: listBankAccount

@@ -2,8 +2,8 @@ import { API_PATH } from "@/constants"
 import { judgeLoanApplicationKeys } from "@/constants/query-key"
 import { getRequest } from "@/services/client.service"
 import {
-  IApplicationScore,
-  ILaunchKCApplicationScore
+  type IApplicationScore,
+  type ILaunchKCApplicationScore
 } from "@/types/application/application-score.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 

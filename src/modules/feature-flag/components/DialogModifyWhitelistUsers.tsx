@@ -20,14 +20,14 @@ import { useQueryWhitelistUsersByFeatureFlagId } from "@/modules/admin/user/hook
 import { AutoCompleteInstitution } from "@/modules/feature-flag/components/AutoCompleteInstitution.tsx"
 import { AutoCompleteUserEmail } from "@/modules/feature-flag/components/AutoCompleteUserEmail.tsx"
 import {
-  WhitelistFormValue,
+  type WhitelistFormValue,
   whitelistFormSchema
 } from "@/modules/feature-flag/constants/form.ts"
 import { useUpdateWhitelistUser } from "@/modules/feature-flag/hooks/useMutation/useUpdateWhitelistUser.ts"
 import { columns } from "@/modules/feature-flag/table/columns.tsx"
-import { Option } from "@/types/common.type.ts"
-import { FeatureFlag } from "@/types/feature-flag.types.ts"
-import { UserDetailInfo } from "@/types/user.type.ts"
+import { type Option } from "@/types/common.type.ts"
+import { type FeatureFlag } from "@/types/feature-flag.types.ts"
+import { type UserDetailInfo } from "@/types/user.type.ts"
 import { toastError } from "@/utils"
 import { checkIsForesightAdmin } from "@/utils/check-roles.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -36,9 +36,10 @@ import { PlusCircle, Search, Send } from "lucide-react"
 import React, { useCallback, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 
-type Props = {
+interface Props {
   featureFlag: FeatureFlag
 }
+
 /**
  * Logic flow:
  * - Add new user to 'pendingUsers' state
@@ -113,6 +114,7 @@ export const DialogModifyWhitelistUsers: React.FC<Props> = ({
       toastError({
         ...TOAST_MSG.whitelistUser.updateDuplicatedUser
       })
+
       return true
     }
 
@@ -126,6 +128,7 @@ export const DialogModifyWhitelistUsers: React.FC<Props> = ({
           (pendingRemoveUser) => pendingRemoveUser !== addedUser.user.value
         )
       )
+
       return
     }
 
@@ -211,8 +214,8 @@ export const DialogModifyWhitelistUsers: React.FC<Props> = ({
           setOpen(true)
         }}
       >
-        <Button type="button" className="z-10">
-          <PlusCircle size={16} className="text-sm mr-1.5" />
+        <Button className="z-10" type="button">
+          <PlusCircle className="text-sm mr-1.5" size={16} />
           Edit
         </Button>
       </DialogTrigger>
@@ -223,44 +226,44 @@ export const DialogModifyWhitelistUsers: React.FC<Props> = ({
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={handleUpdatePendingUsers}
             className="flex flex-col flex-1 overflow-hidden p-4 sm:p-6 pt-0 sm:pt-0"
+            onSubmit={handleUpdatePendingUsers}
           >
             <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-3 items-start">
               <div className="flex lg:flex-row gap-3 w-full">
                 <AutoCompleteInstitution
-                  options={institutionOptions}
-                  label="Institution"
-                  emptyText="No results found"
-                  name="institution"
-                  control={form.control}
-                  value={form.watch("institution")}
                   className="w-full lg:w-1/2"
+                  control={form.control}
                   customOnChange={customOnChangeInstitution}
+                  emptyText="No results found"
                   error={
                     form.formState.errors.institution?.label?.message ??
                     form.formState.errors.institution?.value?.message
                   }
+                  label="Institution"
+                  name="institution"
+                  options={institutionOptions}
+                  value={form.watch("institution")}
                 />
                 <AutoCompleteUserEmail
-                  options={usersByInstitutionOptions}
-                  label="User"
-                  emptyText="No results found"
-                  name="user"
-                  control={form.control}
-                  value={form.watch("user")}
                   className="w-full lg:w-1/2"
+                  control={form.control}
+                  emptyText="No results found"
                   error={
                     form.formState.errors.user?.label?.message ??
                     form.formState.errors.user?.value?.message
                   }
+                  label="User"
+                  name="user"
+                  options={usersByInstitutionOptions}
+                  value={form.watch("user")}
                 />
               </div>
               <div className="self-end lg:self-start">
                 <Button
-                  onClick={handleAddPendingUser}
-                  type="button"
                   className="lg:mt-8"
+                  type="button"
+                  onClick={handleAddPendingUser}
                 >
                   Add to Whitelist
                 </Button>
@@ -269,21 +272,21 @@ export const DialogModifyWhitelistUsers: React.FC<Props> = ({
             <Separator className="mt-4 -mx-8 w-[200%]" />
             <div className="mt-4">
               <Input
-                prefixIcon={<Search className="h-5 w-5 opacity-50" />}
-                placeholder="Search by Institution"
                 className="pl-9 md:w-[300px] -mb-2"
+                placeholder="Search by Institution"
+                prefixIcon={<Search className="h-5 w-5 opacity-50" />}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
             </div>
             <DataTable
-              tableContainerClassName="flex flex-col flex-1 overflow-auto"
               columns={columns.map((column) => ({
                 ...column,
                 handleRemoveUserFromWhitelist
               }))}
               data={whitelistUsersFilterBySearch ?? []}
-              total={whitelistUsersFilterBySearch.length ?? 0}
               isLoading={isFetching ?? isFetchingPendingAddUsersDetail}
+              tableContainerClassName="flex flex-col flex-1 overflow-auto"
+              total={whitelistUsersFilterBySearch.length ?? 0}
             />
             <DialogFooter className="mt-4">
               <ButtonLoading

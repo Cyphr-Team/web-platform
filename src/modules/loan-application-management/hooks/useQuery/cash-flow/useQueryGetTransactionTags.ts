@@ -3,8 +3,8 @@ import { postRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
 import { QUERY_KEY } from "../../../constants/query-key"
 import {
-  TransactionTagsFilters,
-  TransactionTagsResponse
+  type TransactionTagsFilters,
+  type TransactionTagsResponse
 } from "../../../constants/types/cashflow.type"
 
 export const useQueryGetTransactionTags = ({
@@ -35,6 +35,7 @@ export const useQueryGetTransactionTags = ({
           }
         }
       })
+
       return response.data
     },
     enabled: !!applicationId

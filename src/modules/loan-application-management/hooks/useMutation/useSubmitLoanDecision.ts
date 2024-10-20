@@ -1,16 +1,16 @@
 import { API_PATH } from "@/constants"
 import { putRequest } from "@/services/client.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ErrorResponse } from "@/types/common.type"
-import { AxiosError, AxiosResponse } from "axios"
+import { type ErrorResponse } from "@/types/common.type"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
 import { useParams } from "react-router-dom"
 import { getAxiosError } from "@/utils/custom-error"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { toastError, toastSuccess } from "@/utils"
 import {
-  LoanDecision,
-  LoanDecisionResponse
+  type LoanDecision,
+  type LoanDecisionResponse
 } from "../../constants/types/application"
 import {
   loanApplicationKeys,

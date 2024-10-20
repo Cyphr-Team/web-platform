@@ -1,18 +1,18 @@
 import { Dot } from "@/components/ui/dot"
 import { Skeleton } from "@/components/ui/skeleton"
 import { UNKNOWN_VALUE } from "@/modules/loan-application-management/constants"
-import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
+import { type TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { cn } from "@/lib/utils.ts"
 import { Badge } from "@/components/ui/badge"
 
-type StatusProps = {
+interface StatusProps {
   isStatusCheck: boolean
   color?: TaskFieldStatus
 }
 
-export const MiddeskDetailItem = ({
+export function MiddeskDetailItem({
   label,
   value,
   status,
@@ -28,7 +28,7 @@ export const MiddeskDetailItem = ({
   labelClassName?: string
   statusProps?: StatusProps
   annotation?: string
-}) => {
+}) {
   return (
     <div className="mt-5">
       <div className={cn("flex items-center gap-1 w-full", labelClassName)}>
@@ -37,10 +37,10 @@ export const MiddeskDetailItem = ({
       <div className="mt-1.5 text-base">
         {statusProps?.isStatusCheck ? (
           <Badge
+            className="capitalize text-sm text-text-tertiary rounded-lg bg-transparent pl-0"
             isDot={statusProps?.isStatusCheck}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(statusProps?.color)}
-            className="capitalize text-sm text-text-tertiary rounded-lg bg-transparent pl-0"
           >
             {value ?? UNKNOWN_VALUE}
           </Badge>
@@ -63,7 +63,7 @@ export const MiddeskDetailItem = ({
   )
 }
 
-export const MiddeskDetailItemSkeleton = () => {
+export function MiddeskDetailItemSkeleton() {
   return (
     <div className="mt-5">
       <Skeleton className="h-4 w-1/2" />

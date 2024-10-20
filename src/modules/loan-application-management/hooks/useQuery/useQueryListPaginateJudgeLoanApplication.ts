@@ -1,9 +1,13 @@
 import { API_PATH } from "@/constants"
 import { judgeLoanApplicationKeys } from "@/constants/query-key"
 import { postRequest } from "@/services/client.service"
-import { IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
-import { ILaunchKCApplicationScore } from "@/types/application/application-score.type"
-import { ListResponse, PaginateParams, SortOrder } from "@/types/common.type"
+import { type IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
+import { type ILaunchKCApplicationScore } from "@/types/application/application-score.type"
+import {
+  type ListResponse,
+  type PaginateParams,
+  type SortOrder
+} from "@/types/common.type"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import * as z from "zod"
 
@@ -34,7 +38,7 @@ export const JUDGE_APPLICATION_FILTER_KEYS: Record<
   isScoreds: "isScoreds"
 }
 
-type JudeLoanApplicationSort = {
+interface JudeLoanApplicationSort {
   submittedAt?: SortOrder
   createdAt?: SortOrder
   scoredAt?: SortOrder

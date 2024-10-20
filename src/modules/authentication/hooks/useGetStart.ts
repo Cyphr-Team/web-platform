@@ -1,8 +1,8 @@
 import { API_PATH, APP_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { ErrorResponse } from "@/types/common.type"
+import { type ErrorResponse } from "@/types/common.type"
 import { useMutation } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
+import { type AxiosError, type AxiosResponse } from "axios"
 import { createSearchParams, useNavigate } from "react-router-dom"
 import * as z from "zod"
 
@@ -64,6 +64,11 @@ export const useGetStart = () => {
             search: createSearchParams({ email, status }).toString()
           })
           break
+        }
+        case UserStartStatus.ALREADY_VERIFIED: {
+          throw new Error(
+            "Not implemented yet: UserStartStatus.ALREADY_VERIFIED case"
+          )
         }
       }
     }

@@ -1,5 +1,5 @@
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 
 import {
   FORMAT_DATE_M_D_Y,
@@ -7,8 +7,8 @@ import {
 } from "@/constants/date.constants"
 import { FilterableColumnHeader } from "@/shared/molecules/table/column-filter"
 import {
-  IScoreInfo,
-  IWorkspaceAdminApplicationScore
+  type IScoreInfo,
+  type IWorkspaceAdminApplicationScore
 } from "@/types/application/application-assign.type"
 import { renderFilterableHeader } from "@/utils/table.utils"
 import { format } from "date-fns"
@@ -35,6 +35,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       meta: { columnViewName: "ID" },
       cell: ({ row }) => {
         const application = row.original
+
         return (
           <div className="text-center">#{application?.applicationIdNumber}</div>
         )
@@ -48,6 +49,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       meta: { columnViewName: "Company Name" },
       cell: ({ row }) => {
         const app = row.original
+
         return <div className="text-center">{app?.businessName ?? "N/A"}</div>
       },
       size: 200
@@ -61,6 +63,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       meta: { columnViewName: "Applicant's Email" },
       cell: ({ row }) => {
         const app = row.original
+
         return <div className="text-center">{app?.email ?? "N/A"}</div>
       },
       size: 200
@@ -82,12 +85,12 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
         return (
           <div className="flex items-center justify-center">
             <AssigningJudgeRow
-              row={row}
               currentStage={LoanStage.ROUND_1}
               disabled={
                 application.status.toLowerCase() !==
                 LoanApplicationStatus.ROUND_1.toLowerCase()
               }
+              row={row}
             />
 
             <div className="flex items-center justify-center">
@@ -97,11 +100,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
                   <ToolTipJudgeAvatar
                     key={key}
                     avatar={judge?.judgeAvatar}
-                    name={judge?.judgeName}
                     email={judge?.judgeEmail}
                     isScored={application.roundOne.scoredJudges.some(
                       (scoredJudge) => scoredJudge.judgeId === judge.judgeId
                     )}
+                    name={judge?.judgeName}
                   />
                 ))}
 
@@ -130,11 +133,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
               "---"
             ) : (
               <ScoreBadge
-                score={calculateAvgScore(application.roundOne.scoredJudges)}
                 isFinished={
                   application.roundOne.numberOfScoredJudge ===
                   application.roundOne.judges.length
                 }
+                score={calculateAvgScore(application.roundOne.scoredJudges)}
               />
             )}
           </div>
@@ -159,12 +162,12 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
         return (
           <div className="flex items-center justify-center">
             <AssigningJudgeRow
-              row={row}
               currentStage={LoanStage.ROUND_2}
               disabled={
                 application.status.toLowerCase() !==
                 LoanApplicationStatus.ROUND_2.toLowerCase()
               }
+              row={row}
             />
 
             <div className="flex items-center justify-center">
@@ -172,11 +175,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
                 <ToolTipJudgeAvatar
                   key={key}
                   avatar={judge?.judgeAvatar}
-                  name={judge?.judgeName}
                   email={judge?.judgeEmail}
                   isScored={application.roundTwo.scoredJudges.some(
                     (scoredJudge) => scoredJudge.judgeId === judge.judgeId
                   )}
+                  name={judge?.judgeName}
                 />
               ))}
               {remainAvatar > 0 && (
@@ -204,11 +207,11 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
               "---"
             ) : (
               <ScoreBadge
-                score={calculateAvgScore(application.roundTwo.scoredJudges)}
                 isFinished={
                   application.roundTwo.numberOfScoredJudge ===
                   application.roundTwo.judges.length
                 }
+                score={calculateAvgScore(application.roundTwo.scoredJudges)}
               />
             )}
           </div>
@@ -254,9 +257,9 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
         return (
           <div className="text-center">
             <NudgeJudgesPopover
+              applicationId={application.id}
               assignedJudges={currentRoundAssignedJudges}
               completedScorecardJudges={completedScorecardJudges}
-              applicationId={application.id}
             />
           </div>
         )
@@ -331,8 +334,8 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
       meta: { columnViewName: "Docs" },
       header: ({ column }) => (
         <FilterableColumnHeader
-          className="float-right pr-4"
           disabled
+          className="float-right pr-4"
           column={column}
           title="Docs"
         />
@@ -341,8 +344,8 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
         return (
           <div className="float-right">
             <ButtonReviewLoanApplication
-              loanApplicationStatus={row.original.status}
               loanApplicationId={row.original.id}
+              loanApplicationStatus={row.original.status}
               loanProgramType={row.original.programType}
             />
           </div>

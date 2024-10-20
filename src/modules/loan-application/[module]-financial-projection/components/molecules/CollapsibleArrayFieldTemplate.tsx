@@ -4,7 +4,7 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion.tsx"
 import { cn } from "@/lib/utils"
-import { FC, PropsWithChildren, KeyboardEvent } from "react"
+import { type FC, type PropsWithChildren, type KeyboardEvent } from "react"
 
 interface Props extends PropsWithChildren {
   label: string
@@ -25,13 +25,13 @@ export const CollapsibleArrayFieldTemplate: FC<Props> = (props) => {
 
   return (
     <AccordionItem
-      value={id}
       className={cn("w-full", disabledBorder && "border-0")}
+      value={id}
       onKeyDown={handleKeyDown}
     >
       <AccordionTrigger
-        id={id}
         className="flex-row-reverse w-full px-4 py-2 hover:no-underline"
+        id={id}
       >
         <div className="flex items-center justify-between flex-1 ml-3 font-semibold cursor-pointer">
           {label}

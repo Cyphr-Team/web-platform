@@ -7,8 +7,8 @@ import { TOAST_MSG } from "@/constants/toastMsg"
 import { toastError } from "@/utils"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { RedirectParam } from "../constants/params"
-import { SocialProvider } from "../../../../types/auth.type"
-import { useLoginWithSocialMFA } from "../../../../hooks/login-with-social/useLoginWithSocialMFA"
+import { SocialProvider } from "@/types/auth.type.ts"
+import { useLoginWithSocialMFA } from "@/hooks/login-with-social/useLoginWithSocialMFA.ts"
 import { useAuthenticateWithMagicLink } from "@/modules/authentication/magic-link/hooks/useAuthenticateWithMagicLink"
 import { isLaunchKC } from "@/utils/domain.utils"
 import { inMemoryJWTService } from "@/services/jwt.service"
@@ -24,7 +24,9 @@ export function RedirectSection() {
 
   const getTokenType = useCallback((): RedirectParam | null => {
     const value = searchParams.get(RedirectParam.STYTCH_TOKEN_TYPE)
+
     if (!value) return null
+
     return value as RedirectParam
   }, [searchParams])
 
@@ -74,7 +76,7 @@ export function RedirectSection() {
   const handleMagicLinkCallback = useCallback(
     async (token: string) => {
       try {
-        await loginByMagicLink(token)
+        loginByMagicLink(token)
       } catch (e) {
         toastError({
           ...TOAST_MSG.user.stytchMagicLink,
@@ -88,6 +90,7 @@ export function RedirectSection() {
   const handleStytchCallback = useCallback(async () => {
     const stytchTokenType = getTokenType()
     const token = searchParams.get(RedirectParam.TOKEN)
+
     // If user is already in a session, we wont need to authenticate the user again.
     if (inMemoryJWTService.getToken() != null) {
       if (checkIsLoanApplicant()) {
@@ -95,6 +98,7 @@ export function RedirectSection() {
       } else {
         navigate(APP_PATH.INDEX)
       }
+
       return
     }
     if (stytchTokenType && token) {
@@ -105,6 +109,17 @@ export function RedirectSection() {
         case RedirectParam.MAGIC_LINKS:
           handleMagicLinkCallback(token)
           break
+        case RedirectParam.STYTCH_TOKEN_TYPE: {
+          throw new Error(
+            "Not implemented yet: RedirectParam.STYTCH_TOKEN_TYPE case"
+          )
+        }
+        case RedirectParam.TOKEN: {
+          throw new Error("Not implemented yet: RedirectParam.TOKEN case")
+        }
+        case RedirectParam.EMAIL: {
+          throw new Error("Not implemented yet: RedirectParam.EMAIL case")
+        }
       }
     }
     if (searchParams.has(RedirectParam.EMAIL)) {
@@ -170,9 +185,9 @@ export function RedirectSection() {
         </div>
 
         <Button
-          variant="link"
-          className="px-1 text-sm text-foreground py-0 self-center"
           asChild
+          className="px-1 text-sm text-foreground py-0 self-center"
+          variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
             <ArrowLeft className="w-5 h-5 mr-1" />

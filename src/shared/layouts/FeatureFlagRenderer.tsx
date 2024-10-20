@@ -6,9 +6,9 @@ import {
   checkEnabledFeatureFlag,
   checkEnabledFeatureFlags
 } from "@/utils/feature-flag.utils"
-import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
+import { type FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 
-type Props<P> = {
+interface Props<P> {
   ffKey?: FEATURE_FLAGS | FEATURE_FLAGS[]
   component?: React.FC<P>
   fallbackComponent?: React.FC<P>
@@ -29,13 +29,13 @@ type Props<P> = {
  * @returns {React.ReactNode} - The rendered component or fallback component.
  */
 
-export const FeatureFlagsRenderer = <P extends object>({
+export function FeatureFlagsRenderer<P extends object>({
   ffKey,
   children = null,
   component,
   fallbackComponent,
   fallBackChildren = null
-}: Props<P>) => {
+}: Props<P>) {
   if (
     isArray(ffKey)
       ? checkEnabledFeatureFlags(ffKey)

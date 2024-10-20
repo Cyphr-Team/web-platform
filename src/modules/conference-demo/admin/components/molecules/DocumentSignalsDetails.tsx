@@ -6,7 +6,7 @@ import {
   SignalsDetectedRow
 } from "@/modules/conference-demo/admin/components/atoms"
 import {
-  BankStatementType,
+  type BankStatementType,
   DocumentType
 } from "@/modules/conference-demo/admin/constants/type"
 import { useLoanDocumentDetailsContext } from "@/modules/conference-demo/admin/providers/LoanDocumentDetailsProvider"
@@ -14,9 +14,10 @@ import { BankStatement } from "@/modules/loan-application-management/components/
 import { X } from "lucide-react"
 import { useState } from "react"
 
-type Props = {
+interface Props {
   handleClose: () => void
 }
+
 export const DocumentSignalsDetails: React.FC<Props> = ({ handleClose }) => {
   const [section, setSection] = useState<Section>(SECTION_DATA[1])
 
@@ -24,7 +25,7 @@ export const DocumentSignalsDetails: React.FC<Props> = ({ handleClose }) => {
     <div className="flex flex-col gap-3 px-3">
       <div className="flex justify-between py-3">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" className="p-0" onClick={handleClose}>
+          <Button className="p-0" variant="ghost" onClick={handleClose}>
             <X className="w-10 h-10" strokeWidth={0.75} />
           </Button>
           <p className="text-lg">{section.title}</p>
@@ -55,7 +56,7 @@ export const DocumentSignalsDetails: React.FC<Props> = ({ handleClose }) => {
   )
 }
 
-const DocumentCapture = () => {
+function DocumentCapture() {
   const { documentDetails } = useLoanDocumentDetailsContext()
   const documentTypeSelected = documentDetails?.documentType
 
@@ -72,7 +73,7 @@ const DocumentCapture = () => {
   )
 }
 
-const DocumentSignalsDetect = () => {
+function DocumentSignalsDetect() {
   const { documentDetails } = useLoanDocumentDetailsContext()
   const signalsData = documentDetails?.detect.signals
   const authenticityData = documentDetails?.detect.formAuthenticity
@@ -103,7 +104,7 @@ const DocumentSignalsDetect = () => {
   )
 }
 
-type Section = {
+interface Section {
   title: string
   content: string
 }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react"
 import { usePlaidContext } from "../providers"
-import { PlaidLinkOnSuccessMetadata, usePlaidLink } from "react-plaid-link"
+import { type PlaidLinkOnSuccessMetadata, usePlaidLink } from "react-plaid-link"
 import { useLocation } from "react-router-dom"
 import { exchangePublicTokenForAccessToken, generateToken } from "../services"
 
@@ -63,10 +63,12 @@ export const useConnectPlaid = () => {
             linkToken: localStorage.getItem("link_token")
           }
         })
+
         return
       }
       generateToken(dispatch)
     }
+
     init()
   }, [dispatch])
 

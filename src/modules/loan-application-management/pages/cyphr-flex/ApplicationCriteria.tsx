@@ -3,16 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import { cn } from "@/lib/utils"
 import {
-  ApplicationCriteriaResponse,
+  type ApplicationCriteriaResponse,
   criteriaNameMapping
 } from "@/modules/loan-application/constants/type.ts"
 import { capitalizeFirstOnly, snakeCaseToText } from "@/utils"
 import { isEnableDummyLoanReadiness } from "@/utils/feature-flag.utils"
 import { renderHeader } from "@/utils/table.utils"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { get } from "lodash"
-import { FC, useMemo } from "react"
-import { LoanReadiness } from "../../constants/types/loan-readiness.type"
+import { type FC, useMemo } from "react"
+import { type LoanReadiness } from "../../constants/types/loan-readiness.type"
 import {
   CRITERIA_NOT_READY_STATUS,
   customSortRatingLevel,
@@ -26,6 +26,7 @@ interface ApplicationCriteriaProps {
   isLoading: boolean
   handleRefetch?: VoidFunction
 }
+
 export const ApplicationCriteria: FC<ApplicationCriteriaProps> = ({
   criteria,
   isLoading,
@@ -65,9 +66,9 @@ export const ApplicationCriteria: FC<ApplicationCriteriaProps> = ({
             Action Plan
           </CardTitle>
 
-          {isEnableDummyLoanReadiness() && handleRefetch && (
+          {isEnableDummyLoanReadiness() && handleRefetch ? (
             <DummyButton handleRefetch={handleRefetch} />
-          )}
+          ) : null}
         </div>
       </CardHeader>
 
@@ -76,9 +77,9 @@ export const ApplicationCriteria: FC<ApplicationCriteriaProps> = ({
           columns={columns}
           data={criteriaData}
           isLoading={isLoading}
-          total={criteriaData.length}
-          sorting={sorting}
           setSorting={setSorting}
+          sorting={sorting}
+          total={criteriaData.length}
         />
       </CardContent>
     </Card>
@@ -107,6 +108,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
       const criteriaBadgeClassName = getCriteriaScoreRangeClassName(
         criteria.ratingLevel
       )
+
       return (
         <div className="text-center pl-2">
           <Badge

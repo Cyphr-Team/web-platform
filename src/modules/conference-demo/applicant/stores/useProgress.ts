@@ -2,9 +2,9 @@ import { create } from "zustand"
 
 import {
   INPUT_GROUP,
-  Progress,
+  type Progress,
   STEP,
-  StepStatus
+  type StepStatus
 } from "@/modules/conference-demo/applicant/constants"
 import { createSelectors } from "@/utils/store.ts"
 import { produce } from "immer"
@@ -106,6 +106,7 @@ const calculateProgress = (progress: Progress): number => {
     (acc, step) => {
       acc.totalSteps++
       if (step.isFinish) acc.completedSteps++
+
       return acc
     },
     { totalSteps: 0, completedSteps: 0 }

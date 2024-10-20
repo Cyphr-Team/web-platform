@@ -5,14 +5,14 @@ import { getBadgeVariantByStatus } from "@/modules/loan-application-management/s
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import {
   LoanApplicationStatus,
-  UserMicroLoanApplication
+  type UserMicroLoanApplication
 } from "@/types/loan-application.type"
 import {
   convertToReadableDate,
   convertToReadableDateAgo,
   snakeCaseToText
 } from "@/utils"
-import { AccessorKeyColumnDef } from "@tanstack/react-table"
+import { type AccessorKeyColumnDef } from "@tanstack/react-table"
 import { ChevronRightIcon } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
@@ -36,6 +36,7 @@ export function LoanApplications() {
         ),
         cell: ({ row }) => {
           const application = row.original
+
           return (
             <div className="min-w-0">
               <p className="text-sm text-muted-foreground mt-0.5 truncate ">
@@ -75,9 +76,9 @@ export function LoanApplications() {
         accessorKey: "updatedAt",
         header: ({ column }) => (
           <DataTableColumnHeader
+            className="text-right w-full"
             column={column}
             title="Activity"
-            className="text-right w-full"
           />
         ),
         size: 150,
@@ -100,9 +101,9 @@ export function LoanApplications() {
         enableSorting: false,
         header: ({ column }) => (
           <DataTableColumnHeader
+            className="text-right"
             column={column}
             title="Status"
-            className="text-right"
           />
         ),
         size: 190,
@@ -113,9 +114,9 @@ export function LoanApplications() {
             <div className="font-medium text-right">
               <Badge
                 isDot
+                className="capitalize"
                 variant="soft"
                 variantColor={getBadgeVariantByStatus(application.status)}
-                className="capitalize"
               >
                 {snakeCaseToText(application.status ?? "Draft").toLowerCase()}
               </Badge>
@@ -126,7 +127,7 @@ export function LoanApplications() {
       {
         id: "action",
         accessorKey: "detail",
-        header: () => <p></p>,
+        header: () => <p />,
         size: 150,
         cell: ({ row }) => {
           return (

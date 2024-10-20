@@ -6,16 +6,16 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import {
   FormFieldNames,
-  LoanApplicationFilterValues
+  type LoanApplicationFilterValues
 } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateLoanApplication"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import { CalendarDatePicker } from "@/shared/molecules/date-picker"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { snakeCaseToText } from "@/utils"
 import { CalendarPlus, Trash } from "lucide-react"
 import { useCallback, useState } from "react"
-import { UseFormReturn } from "react-hook-form"
+import { type UseFormReturn } from "react-hook-form"
 import { AddFilterPopover } from "../../components/molecules/filters/AddFilterPopover"
 
 interface IFilter {
@@ -59,6 +59,7 @@ export function Filter({ filterForm }: IFilter) {
     const startOfSelectedDate = date
       ? new Date(date.setHours(0, 0, 0, 0))
       : undefined
+
     if (fieldName) {
       filterForm.setValue(fieldName, startOfSelectedDate)
     }
@@ -67,6 +68,7 @@ export function Filter({ filterForm }: IFilter) {
   const handleClickToDeleteFilter = (filterOptionName: FilterOptions) => () => {
     // Reset date filter
     const formField = filterOptionName
+
     if (formField) {
       filterForm.setValue(formField, undefined)
     }
@@ -107,26 +109,28 @@ export function Filter({ filterForm }: IFilter) {
       />
     ) : null
 
-  const renderCustomCalendarFooter =
-    (filterOptionName: FilterOptions) => () => (
-      <tfoot className="custom-footer hover:text-red-600 mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary">
-        <tr>
-          <td>
-            <Separator className="my-1.5" />
-            <Button
-              className="w-full h-auto content-start cursor-pointer gap-3 px-1 py-1 rounded-none hover:text-red-600"
-              variant="ghost"
-              onClick={handleClickToDeleteFilter(filterOptionName)}
-            >
-              <div className="w-full flex justify-start items-center">
-                <Trash className="h-4 mr-1" />
-                <span>Delete filter</span>
-              </div>
-            </Button>
-          </td>
-        </tr>
-      </tfoot>
-    )
+  const renderCustomCalendarFooter = (filterOptionName: FilterOptions) =>
+    function () {
+      return (
+        <tfoot className="custom-footer hover:text-red-600 mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary">
+          <tr>
+            <td>
+              <Separator className="my-1.5" />
+              <Button
+                className="w-full h-auto content-start cursor-pointer gap-3 px-1 py-1 rounded-none hover:text-red-600"
+                variant="ghost"
+                onClick={handleClickToDeleteFilter(filterOptionName)}
+              >
+                <div className="w-full flex justify-start items-center">
+                  <Trash className="h-4 mr-1" />
+                  <span>Delete filter</span>
+                </div>
+              </Button>
+            </td>
+          </tr>
+        </tfoot>
+      )
+    }
 
   return (
     <Form {...filterForm}>
@@ -136,21 +140,21 @@ export function Filter({ filterForm }: IFilter) {
           name={FormFieldNames.STATUS}
           render={({ field }) => (
             <MultiSelectRound
-              label="Status"
-              subLabel="Select Application Status"
               field={field}
-              options={STATUS_OPTIONS}
+              label="Status"
               labelHOC={(option, close) => (
                 <Badge
                   isDot
+                  className="capitalize"
                   variant="soft"
                   variantColor={getBadgeVariantByStatus(option.value)}
-                  className="capitalize"
                 >
                   {snakeCaseToText(option.label)}
                   {close}
                 </Badge>
               )}
+              options={STATUS_OPTIONS}
+              subLabel="Select Application Status"
             />
           )}
         />
@@ -165,20 +169,21 @@ export function Filter({ filterForm }: IFilter) {
                 name={option.value}
                 render={({ field: { value, name } }) => (
                   <CalendarDatePicker
-                    onCustomClick={handleMagicClickFilter(option)}
-                    id={name}
-                    value={value?.toString()}
-                    onSelectDate={(date) => handleSetDate(option.value, date)}
-                    customFooter={renderCustomCalendarFooter(option.value)}
+                    align="center"
                     className="w-full"
+                    contentClassName={isShown ? "block" : "hidden"}
+                    customFooter={renderCustomCalendarFooter(option.value)}
+                    id={name}
+                    placeholder=""
+                    /* eslint-disable-next-line @typescript-eslint/no-useless-template-literals */
+                    prefixLabel={option.label + `${value ? ":" : ""}`}
                     triggerClassName={cn(
                       "rounded-full font-semibold text-sm",
                       value && "border-slate-500"
                     )}
-                    contentClassName={isShown ? "block" : "hidden"}
-                    prefixLabel={option.label + `${value ? ":" : ""}`}
-                    placeholder=""
-                    align="center"
+                    value={value?.toString()}
+                    onCustomClick={handleMagicClickFilter(option)}
+                    onSelectDate={(date) => handleSetDate(option.value, date)}
                   />
                 )}
               />

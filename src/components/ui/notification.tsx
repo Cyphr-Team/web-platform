@@ -1,8 +1,8 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
-import { Icons } from "./icons"
-import { CheckIcon, Clock, Circle } from "lucide-react"
+import { type IconProps, Icons } from "./icons"
+import { CheckIcon, Circle, Clock } from "lucide-react"
 import { format, formatDistance } from "date-fns"
 import { Link } from "react-router-dom"
 import { NotificationType } from "@/modules/notification/constants"
@@ -30,11 +30,12 @@ const Notification = React.forwardRef<
 >(({ className, variant, ...props }, ref) => (
   <div
     ref={ref}
-    role="notification"
     className={cn(notificationVariants({ variant }), className)}
+    // role="notification"
     {...props}
   />
 ))
+
 Notification.displayName = "Notification"
 
 const NotificationTitle = React.forwardRef<
@@ -47,6 +48,7 @@ const NotificationTitle = React.forwardRef<
     {...props}
   />
 ))
+
 NotificationTitle.displayName = "NotificationTitle"
 
 const NotificationDescription = React.forwardRef<
@@ -59,6 +61,7 @@ const NotificationDescription = React.forwardRef<
     {...props}
   />
 ))
+
 NotificationDescription.displayName = "NotificationDescription"
 
 const NotificationTimestamp = React.forwardRef<
@@ -71,6 +74,7 @@ const NotificationTimestamp = React.forwardRef<
     {...props}
   />
 ))
+
 NotificationTimestamp.displayName = "NotificationTimestamp"
 
 const NotificationAction = React.forwardRef<
@@ -83,6 +87,7 @@ const NotificationAction = React.forwardRef<
     {...props}
   />
 ))
+
 NotificationAction.displayName = "NotificationAction"
 
 interface AppNotificationProps {
@@ -98,7 +103,7 @@ interface AppNotificationProps {
   className?: string
 }
 
-const NotificationCard = ({
+function NotificationCard({
   id,
   title,
   description,
@@ -109,8 +114,9 @@ const NotificationCard = ({
   onMarkAsRead,
   onMarkAsUnread,
   className
-}: AppNotificationProps) => {
-  let NotificationIcon = Icons.notificationInfo
+}: AppNotificationProps) {
+  let NotificationIcon: (props: IconProps) => JSX.Element
+
   switch (variant.toUpperCase()) {
     case NotificationType.SUCCESS:
       NotificationIcon = Icons.notificationSuccess
@@ -137,15 +143,15 @@ const NotificationCard = ({
         <NotificationTitle className="ml-2 text-sm">{title}</NotificationTitle>
         <NotificationDescription className="ml-2 text-muted-foreground">
           <p className="line-clamp-2">{description}</p>
-          {linkDetails && (
+          {linkDetails ? (
             <Link
-              to={linkDetails}
               className="underline"
+              to={linkDetails}
               onClick={() => onMarkAsRead && onMarkAsRead(id)}
             >
               Click to view detail
             </Link>
-          )}
+          ) : null}
         </NotificationDescription>
       </div>
       <div className="flex flex-col items-end">
@@ -162,19 +168,19 @@ const NotificationCard = ({
         </NotificationTimestamp>
         {isRead ? (
           <div
-            onClick={() => onMarkAsUnread && onMarkAsUnread(id)}
             className="hidden group-hover:flex cursor-pointer text-xs items-center mt-auto pl-2 pr-2 pt-1 pb-1 bg-gray-400 hover:bg-gray-500 text-white border-gray-300 rounded-md w-full"
             title="Mark as Unread"
+            onClick={() => onMarkAsUnread && onMarkAsUnread(id)}
           >
-            Mark as Unread <Circle size={12} className="ml-1 w-4" />
+            Mark as Unread <Circle className="ml-1 w-4" size={12} />
           </div>
         ) : (
           <div
-            onClick={() => onMarkAsRead && onMarkAsRead(id)}
             className="hidden group-hover:flex cursor-pointer text-xs items-center mt-auto pl-2 pr-2 pt-1 pb-1 bg-primary hover:bg-primary/90 text-white border-primary-300 rounded-md w-full"
             title="Mark as Read"
+            onClick={() => onMarkAsRead && onMarkAsRead(id)}
           >
-            Mark as Read <CheckIcon size={12} className="ml-1 w-4" />
+            Mark as Read <CheckIcon className="ml-1 w-4" size={12} />
           </div>
         )}
       </div>

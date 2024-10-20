@@ -16,12 +16,12 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import {
   ForecastingSetupFormBlocks,
   forecastingSetupFormSchema,
-  ForecastingSetupFormValue
+  type ForecastingSetupFormValue
 } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { renderBlockComponents } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 
-export const ForecastingSetupForm = () => {
+export function ForecastingSetupForm() {
   const { forecastingSetup, dispatchFormAction } =
     useLoanApplicationFormContext()
 

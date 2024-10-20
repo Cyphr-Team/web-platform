@@ -2,8 +2,8 @@ import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { userKeys } from "@/constants/query-key.ts"
-import { createSearchParams, Params } from "react-router-dom"
-import { UserDetailInfo } from "@/types/user.type.ts"
+import { createSearchParams, type Params } from "react-router-dom"
+import { type UserDetailInfo } from "@/types/user.type.ts"
 
 type User = UserDetailInfo
 

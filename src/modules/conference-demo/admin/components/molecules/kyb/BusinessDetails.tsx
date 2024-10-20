@@ -1,16 +1,16 @@
 import { MOCK_KYB_DETAIL } from "@/modules/conference-demo/admin/constants/data"
-import { BusinessDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { type BusinessDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { MiddeskCard } from "@/modules/loan-application/components/molecules/middesk/MiddeskCard"
 import { MiddeskDetailItem } from "@/modules/loan-application/components/molecules/middesk/MiddeskDetailItem"
 import { SourceToolTip } from "@/modules/loan-application/components/molecules/SourceToolTip"
 import { DownloadPDF } from "@/modules/loan-application/components/organisms/Middesk/DownloadPDF"
 import { mappedStateAbbreviations } from "@/utils/state.utils"
 
-const BusinessDetails = ({
+function BusinessDetails({
   isDownloadAble = true
 }: {
   isDownloadAble?: boolean
-}) => {
+}) {
   const stateAbbr = MOCK_KYB_DETAIL.businessDetails?.formationState.value
   const businessDetail = {
     name: MOCK_KYB_DETAIL.businessDetails.name,
@@ -54,43 +54,44 @@ const BusinessDetails = ({
 
   const content = (
     <div className="grid grid-cols-2 gap-4">
-      {businessDetail &&
-        Object.entries(businessDetail).map(([key, detailData]) => {
-          return (
-            <MiddeskDetailItem
-              key={key}
-              label={getLabelByDataKey(key as keyof BusinessDetail)}
-              value={detailData?.value}
-              status={detailData?.status}
-              toolTip={
-                detailData && (
-                  <SourceToolTip
-                    data={
-                      detailData?.source?.state
-                        ? [detailData?.source]
-                        : undefined
-                    }
-                    // Only have a trigger button when the data or description is available
-                    sourceContent={
-                      detailData?.source?.state || detailData?.message
-                        ? detailData?.subLabel
-                        : ""
-                    }
-                    description={detailData?.message}
-                  />
-                )
-              }
-            />
-          )
-        })}
+      {businessDetail
+        ? Object.entries(businessDetail).map(([key, detailData]) => {
+            return (
+              <MiddeskDetailItem
+                key={key}
+                label={getLabelByDataKey(key as keyof BusinessDetail)}
+                status={detailData?.status}
+                toolTip={
+                  detailData ? (
+                    <SourceToolTip
+                      data={
+                        detailData?.source?.state
+                          ? [detailData?.source]
+                          : undefined
+                      }
+                      // Only have a trigger button when the data or description is available
+                      description={detailData?.message}
+                      sourceContent={
+                        detailData?.source?.state || detailData?.message
+                          ? detailData?.subLabel
+                          : ""
+                      }
+                    />
+                  ) : null
+                }
+                value={detailData?.value}
+              />
+            )
+          })
+        : null}
     </div>
   )
 
   return (
     <MiddeskCard
-      headerTitle={headerTitle}
-      headerRight={headerRight}
       content={content}
+      headerRight={headerRight}
+      headerTitle={headerTitle}
     />
   )
 }

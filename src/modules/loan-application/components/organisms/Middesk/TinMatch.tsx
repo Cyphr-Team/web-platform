@@ -1,20 +1,20 @@
 import { Dot } from "@/components/ui/dot"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
-import { BusinessTinDetail } from "@/modules/loan-application-management/constants/types/business.type"
+import { type BusinessTinDetail } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import { DateHeader } from "./DateHeader"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
-import { InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
+import { type InsightStatus } from "@/modules/loan-application-management/constants/types/insight.type"
 
 const columns: ColumnDef<BusinessTinDetail & { status?: InsightStatus }>[] = [
   {
     accessorKey: "matchedBusinessName",
-    header: () => <MiddeskTableHeader title={"TIN matched business"} />,
+    header: () => <MiddeskTableHeader title="TIN matched business" />,
     cell: ({ row }) => {
       const data = row.original
 
@@ -44,7 +44,7 @@ const columns: ColumnDef<BusinessTinDetail & { status?: InsightStatus }>[] = [
   }
 ]
 
-export const TinMatch = () => {
+export function TinMatch() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const tinMatch = loanKybDetail?.businessTin
@@ -52,27 +52,27 @@ export const TinMatch = () => {
 
   const badge = (
     <MiddeskBadge
-      status={loanKybDetail?.insights.tin?.status}
       label={tinMatch?.subLabel}
+      status={loanKybDetail?.insights.tin?.status}
     />
   )
   const headerTitle = <>TIN Match {badge}</>
 
   const content = (
     <MiddeskTable
-      tableClassName={"table-fixed"}
       columns={columns}
       data={tinMatch?.data ? [{ ...tinMatch.data, status }] : []}
       isLoading={isLoading}
+      tableClassName="table-fixed"
     />
   )
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.tinMatch}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader />}
       content={content}
+      headerRight={<DateHeader />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.tinMatch}
     />
   )
 }

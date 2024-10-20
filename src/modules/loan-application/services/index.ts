@@ -1,13 +1,13 @@
 import { postRequest } from "@/services/client.service"
 import { isEnablePlaidV2 } from "@/utils/feature-flag.utils"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 import {
-  CreateLinkTokenRequest,
+  type CreateLinkTokenRequest,
   ENDPOINTS,
-  LinkToken,
-  PlaidAction,
-  PlaidInfo,
-  SetAccessTokenRequest
+  type LinkToken,
+  type PlaidAction,
+  type PlaidInfo,
+  type SetAccessTokenRequest
 } from "../constants"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 
@@ -38,6 +38,7 @@ export const exchangePublicTokenForAccessToken = async (
       isItemAccess: true
     }
   })
+
   return data
 }
 
@@ -53,11 +54,14 @@ export const generateToken = async (
     path,
     data: request
   })
+
   if (!response.status) {
     dispatch({ type: "SET_STATE", state: { linkToken: null } })
+
     return
   }
   const data = response.data
+
   if (data) {
     if (data.error != null) {
       dispatch({
@@ -67,6 +71,7 @@ export const generateToken = async (
           linkTokenError: data.error
         }
       })
+
       return
     }
     dispatch({ type: "SET_STATE", state: { linkToken: data.linkToken } })

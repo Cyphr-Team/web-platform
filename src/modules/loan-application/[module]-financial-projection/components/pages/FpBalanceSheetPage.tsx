@@ -9,7 +9,7 @@ import { getBalanceSheetData } from "@/modules/loan-application/[module]-financi
 import { useQueryFinancialProjectionForecast } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryFinancialProjectionForecast.ts"
 import {
   ForecastPeriod,
-  ForecastResultsResponse
+  type ForecastResultsResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
 import { get } from "lodash"
@@ -85,40 +85,40 @@ export function Component() {
         </div>
 
         <LoadingWrapper
-          isLoading={isLoading}
           className={cn(
             isLoading
               ? "pb-10 gap-4 rounded-lg border bg-white min-h-40 flex items-center justify-center shadow-sm"
               : null
           )}
+          isLoading={isLoading}
         >
           <div className="flex flex-col gap-y-6xl">
             {currentDetail.value ? (
               <BalanceSheetTemplate
-                title="Current Balance Sheet"
                 data={currentData}
-                layout="current"
-                period={ForecastPeriod.CURRENT}
                 headerProps={{
                   title: "Balance Sheet",
                   // only get the first month
                   data: [monthlyTimeStamp[0]]
                 }}
+                layout="current"
+                period={ForecastPeriod.CURRENT}
+                title="Current Balance Sheet"
               />
             ) : null}
 
             <BalanceSheetTemplate
-              layout="default"
               data={monthlyDetail.value ? monthlyData : annuallyData}
+              headerProps={{
+                title: "Balance Sheet",
+                data: monthlyDetail.value ? monthlyTimeStamp : annuallyTimeStamp
+              }}
+              layout="default"
               period={
                 monthlyDetail.value
                   ? ForecastPeriod.MONTHLY
                   : ForecastPeriod.ANNUALLY
               }
-              headerProps={{
-                title: "Balance Sheet",
-                data: monthlyDetail.value ? monthlyTimeStamp : annuallyTimeStamp
-              }}
             />
           </div>
         </LoadingWrapper>

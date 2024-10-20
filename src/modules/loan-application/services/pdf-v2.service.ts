@@ -57,6 +57,7 @@ const calculateImageDimensions = (
 ): { width: number; height: number } => {
   const imgWidth = (pageWidth * PDF_CONFIG.CONTENT_WIDTH_PERCENTAGE) / 100
   const imgHeight = (canvas.height * imgWidth) / canvas.width
+
   return { width: imgWidth, height: imgHeight }
 }
 
@@ -92,6 +93,7 @@ const addImageToPDF = (
   }
 
   const marginTop = updatedHeight === 0 ? marginLeft : 0
+
   pdf.addImage(
     imgData,
     "JPEG",
@@ -113,6 +115,7 @@ const processElement = async (
   context: PDFGenerationContext
 ): Promise<number> => {
   const clonedElement = context.element.cloneNode(true) as HTMLElement
+
   clonedElement.style.width = `${PDF_CONFIG.INITIAL_ELEMENT_WIDTH}px`
 
   try {
@@ -129,7 +132,8 @@ const processElement = async (
 
     return addImageToPDF(context, imgData, dimensions)
   } catch (error) {
-    console.error("Failed to process element for PDF", error)
+    // console.error("Failed to process element for PDF", error)
+
     return context.currentHeight
   } finally {
     clonedElement.remove()
@@ -142,11 +146,13 @@ const processElement = async (
  */
 const applyTemporaryStyles = (): (() => void) => {
   const style = document.createElement("style")
+
   document.head.appendChild(style)
   style.sheet?.insertRule(
     "body > div:last-child img { display: inline-block !important; }",
     0
   )
+
   return () => {
     style.sheet?.deleteRule(0)
     style.remove()

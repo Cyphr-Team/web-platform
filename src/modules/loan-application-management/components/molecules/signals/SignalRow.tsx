@@ -1,10 +1,11 @@
-import { SignalsType } from "@/modules/loan-application-management/constants/type"
+import { type SignalsType } from "@/modules/loan-application-management/constants/type"
 import React from "react"
 import { SignalCount } from "../../atoms/signals/SignalCount"
 
-type Props = {
+interface Props {
   signalsData: SignalsType
 }
+
 export const SignalRow: React.FC<Props> = ({ signalsData }) => {
   return (
     <div className="flex flex-1 items-center justify-between py-4 text-sm font-medium border-b">

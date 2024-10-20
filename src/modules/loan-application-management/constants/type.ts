@@ -1,6 +1,6 @@
-import { InsightStatus } from "./types/insight.type"
+import { type InsightStatus } from "./types/insight.type"
 
-export type Verification = {
+export interface Verification {
   value: string
   verification?: {
     status?: InsightStatus
@@ -8,7 +8,7 @@ export type Verification = {
   }
 }
 
-export type LoanApplicationsKyb = {
+export interface LoanApplicationsKyb {
   insights: KybDetailInsights
   businessName: Verification
   tin: Verification
@@ -22,7 +22,7 @@ export type LoanApplicationsKyb = {
   liens: KybDetailLiens
 }
 
-export type KybDetailInsights = {
+export interface KybDetailInsights {
   businessNameVerification: KYB_VERIFIED_FIELD_STATUS
   officeAddressVerification: KYB_VERIFIED_FIELD_STATUS
   peopleVerification: KYB_VERIFIED_FIELD_STATUS
@@ -37,24 +37,24 @@ export enum KYB_VERIFIED_FIELD_STATUS {
   UNKNOWN = "UNKNOWN"
 }
 
-export type KybDetailRegistrationStatus = {
+export interface KybDetailRegistrationStatus {
   active: number
   inactive: number
   unknown: number
 }
 
-type KybDetailWebsite = {
+interface KybDetailWebsite {
   url: string
   description: string
 }
 
-export type KybDetailLiens = {
+export interface KybDetailLiens {
   open: number
   closed: number
   data: KybDetailLiensData[]
 }
 
-export type KybDetailLiensData = {
+export interface KybDetailLiensData {
   type: string
   date: string
   status: KYB_LIEN_STATUS
@@ -68,7 +68,7 @@ export enum KYB_LIEN_STATUS {
   UNKNOWN = "UNKNOWN"
 }
 
-export type SignalsType = {
+export interface SignalsType {
   signalIdentifier: string // "account_number_edits"
   signalIdentifierDescription: string //"Account Number was modified as follows"
   signalDisplayName: string //"Account Number Edits"
@@ -76,25 +76,24 @@ export type SignalsType = {
   tabularData: TabularData
 }
 
-type TabularHeader = {
-  [key: string]: string
-}
+type TabularHeader = Record<string, string>
 
-export type TabularData = {
+export interface TabularData {
   headers: TabularHeader[]
   rows: TabularDataRows[]
 }
 
-export type TabularDataRows = {
+export interface TabularDataRows {
   values: string[]
 }
-export type SignalsDetectType = {
+
+export interface SignalsDetectType {
   signals: SignalsType[]
   formAuthenticity: AuthenticityType
   signalCount: number
 }
 
-type AuthenticityType = {
+interface AuthenticityType {
   authenticityLevel: AUTHENTICITY_LEVEL
   title: string
   description: string
@@ -103,7 +102,7 @@ type AuthenticityType = {
   authenticityScore: number
 }
 
-export type AuthenticityReason = {
+export interface AuthenticityReason {
   reasonCode: string
   description: string
   confidence: string
@@ -117,7 +116,7 @@ export enum AUTHENTICITY_LEVEL {
   UNKNOWN = "UNKNOWN"
 }
 
-export type VisualizationType = {
+export interface VisualizationType {
   formUuid: string
   formType: string
   totalSignalCount: number
@@ -125,21 +124,21 @@ export type VisualizationType = {
   visualizationsDescription: VisualizationDescription
 }
 
-export type VisualizationPage = {
+export interface VisualizationPage {
   pageNumber: number
   pageDocPk: string
   visualizations: Visualization[]
   pageSignalCount: number
 }
 
-export type Visualization = {
+export interface Visualization {
   visualizationIdentifier: string
   imageUrl: string
   thumbnailSmallUrl: string
   thumbnailMediumUrl: string
 }
 
-export type VisualizationDescription = {
+export interface VisualizationDescription {
   tamperOverview: Description
   editRegions: Description
   originalPdf: Description
@@ -151,7 +150,7 @@ export type VisualizationDescription = {
   preWhiteoutContent: Description
 }
 
-export type Description = {
+export interface Description {
   displayName: string
   description: string
 }

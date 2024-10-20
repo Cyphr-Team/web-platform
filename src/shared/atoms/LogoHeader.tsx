@@ -20,36 +20,36 @@ export function LogoHeader({
   return (
     <div className={cn("flex items-center gap-1 w-full", className)}>
       <button
-        onClick={toggleCollapse}
         className={cn("logo-button", !toggleCollapse && "cursor-default")}
+        type="button"
+        onClick={toggleCollapse}
       >
-        {tenantData?.logo && (
+        {tenantData?.logo ? (
           <Image
-            src={getImageURL(tenantData?.logo)}
-            placeholderClassName="bg-slate-400 rounded"
-            className="w-8 h-8"
             alt="Institution logo"
+            className="w-8 h-8"
             height={32}
+            placeholderClassName="bg-slate-400 rounded"
+            src={getImageURL(tenantData?.logo)}
             width={32}
           />
-        )}
+        ) : null}
 
         {/* If not have logo, show button to collapse sidebar */}
-        {toggleCollapse &&
-          isCollapsed &&
-          !tenantData?.logo &&
-          Icons.arrowSquare({ className: "h-6 w-6 rotate-180" })}
+        {toggleCollapse && isCollapsed && !tenantData?.logo
+          ? Icons.arrowSquare({ className: "h-6 w-6 rotate-180" })
+          : null}
       </button>
 
-      {!isCollapsed && tenantData?.textLogo && (
+      {!isCollapsed && tenantData?.textLogo ? (
         <Image
-          src={getImageURL(tenantData?.textLogo)}
-          placeholderClassName="bg-slate-400 rounded"
           alt="Institution text logo"
           className="max-w-[120px]"
+          placeholderClassName="bg-slate-400 rounded"
+          src={getImageURL(tenantData?.textLogo)}
           width={120}
         />
-      )}
+      ) : null}
     </div>
   )
 }

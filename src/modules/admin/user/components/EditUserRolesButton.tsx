@@ -5,9 +5,9 @@ import { useEditUserRole } from "@/modules/admin/user/hooks/useEditUserRole.ts"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
 import { editRoleOptions } from "@/modules/admin/user/constants/roles.constants.ts"
 import { cn } from "@/lib/utils.ts"
-import { UserRoles } from "@/types/user.type.ts"
+import { type UserRoles } from "@/types/user.type.ts"
 
-export const EditUserRolesButton = ({
+export function EditUserRolesButton({
   userId,
   roles,
   setIsUserEditFormOpen
@@ -15,14 +15,12 @@ export const EditUserRolesButton = ({
   userId: string
   roles: UserRoles[]
   setIsUserEditFormOpen: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const [isConfirmed, setIsConfirmed] = useState(false)
   const { mutate, isPending } = useEditUserRole({ userId, roles })
 
-  const handleEditUserRoles = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleEditUserRoles = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     mutate({ userId: userId, newRoles: roles.filter((role) => role !== null) })
@@ -32,6 +30,7 @@ export const EditUserRolesButton = ({
   }
   const labels = editRoleOptions().map((roleValue) => {
     const role = roles.find((role) => role === roleValue.value.toLowerCase())
+
     return !role ? null : roleValue.label
   })
 
@@ -39,13 +38,6 @@ export const EditUserRolesButton = ({
     <>
       {roles.length > 0 ? (
         <CustomAlertDialog
-          isOpen={isOpen}
-          onConfirmed={handleEditUserRoles}
-          onCanceled={(e) => {
-            e.stopPropagation()
-            setIsOpen(false)
-          }}
-          title="Are you sure you want to modify the roles for this user?"
           cancelText="Cancel"
           confirmText="Confirm"
           description={
@@ -56,31 +48,38 @@ export const EditUserRolesButton = ({
               </strong>
             </span>
           }
-        />
-      ) : (
-        <CustomAlertDialog
           isOpen={isOpen}
+          title="Are you sure you want to modify the roles for this user?"
           onCanceled={(e) => {
             e.stopPropagation()
             setIsOpen(false)
           }}
-          title="You are not allowed to remove all roles for this user"
+          onConfirmed={handleEditUserRoles}
+        />
+      ) : (
+        <CustomAlertDialog
           cancelText="Cancel"
+          isOpen={isOpen}
+          title="You are not allowed to remove all roles for this user"
+          onCanceled={(e) => {
+            e.stopPropagation()
+            setIsOpen(false)
+          }}
         />
       )}
       <ButtonLoading
-        type="button"
+        className={cn("h-max cursor-pointer text-center")}
+        disabled={isConfirmed}
         id={userId}
         isLoading={isPending}
-        className={cn("h-max cursor-pointer text-center")}
+        type="button"
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
           setIsOpen(true)
         }}
-        disabled={isConfirmed}
       >
-        <PlusCircle size={16} className="text-sm mr-1.5" />
+        <PlusCircle className="text-sm mr-1.5" size={16} />
         Submit {!isPending}
       </ButtonLoading>
     </>

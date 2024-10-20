@@ -5,13 +5,13 @@ import { cn } from "@/lib/utils.ts"
 import { useDeleteDocument } from "@/modules/admin/user/hooks/useSubmitDocument"
 import useBoolean from "@/hooks/useBoolean"
 
-export const ButtonDeleteDocument = ({
+export function ButtonDeleteDocument({
   documentId,
   fileName
 }: {
   documentId: string
   fileName: string
-}) => {
+}) {
   const isOpen = useBoolean(false)
   const { mutateAsync, isRemoving } = useDeleteDocument()
 
@@ -22,10 +22,7 @@ export const ButtonDeleteDocument = ({
 
   return (
     <CustomAlertDialog
-      isOpen={isOpen.value}
-      onConfirmed={handleRemoveDocument}
-      onCanceled={isOpen.onFalse}
-      title={`Remove "${fileName}"?`}
+      actionClassName="bg-red-500 hover:bg-red-600 text-white"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -37,15 +34,18 @@ export const ButtonDeleteDocument = ({
           Are you sure you want to proceed?
         </span>
       }
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      isOpen={isOpen.value}
+      title={`Remove "${fileName}"?`}
+      onCanceled={isOpen.onFalse}
+      onConfirmed={handleRemoveDocument}
     >
       <ButtonLoading
-        variant="ghost"
-        type="submit"
-        id={documentId}
-        size="icon"
-        isLoading={isRemoving}
         className={cn("h-max cursor-pointer text-red-900 p-2")}
+        id={documentId}
+        isLoading={isRemoving}
+        size="icon"
+        type="submit"
+        variant="ghost"
         onClick={isOpen.onTrue}
       >
         <Trash className="w-5 h-5" />

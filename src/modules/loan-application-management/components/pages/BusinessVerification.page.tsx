@@ -13,7 +13,7 @@ import { Website } from "@/modules/loan-application/components/organisms/Middesk
 import { isLoanReady, isSbb } from "@/utils/domain.utils"
 import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 
-export const Component = () => {
+export function Component() {
   return (
     <div className="lg:flex gap-3xl w-full">
       <Insights />

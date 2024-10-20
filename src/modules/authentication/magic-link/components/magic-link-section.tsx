@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 
 export function MagicLinkSection() {
   const location = useLocation()
+
   return (
     <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
@@ -31,9 +32,9 @@ export function MagicLinkSection() {
         </div>
 
         <Button
-          variant="link"
-          className="px-1 text-sm text-foreground py-0 self-center"
           asChild
+          className="px-1 text-sm text-foreground py-0 self-center"
+          variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
             <ArrowLeft className="w-5 h-5 mr-1" />

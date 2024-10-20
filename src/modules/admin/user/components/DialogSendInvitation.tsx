@@ -29,14 +29,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusCircle, Send } from "lucide-react"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
+import type * as z from "zod"
 import {
   adminSendInvitationForm,
   useSendInvitation
 } from "../hooks/useSendInvitation"
 
 import { useGetUserInformation } from "@/hooks/useGetUserInformation"
-import { Option } from "@/types/common.type"
+import { type Option } from "@/types/common.type"
 import { checkIsForesightAdmin } from "@/utils/check-roles"
 import { getSubdomain, getTenantDomain } from "@/utils/domain.utils"
 import { APP_PATH } from "@/constants"
@@ -108,7 +108,7 @@ export function DialogSendInvite() {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button type="button">
-          <PlusCircle size={16} className="text-sm mr-1.5" />
+          <PlusCircle className="text-sm mr-1.5" size={16} />
           Invite
         </Button>
       </DialogTrigger>
@@ -118,7 +118,7 @@ export function DialogSendInvite() {
           <DialogDescription>Sends email invitations</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={formSubmit} className="flex flex-col space-y-3">
+          <form className="flex flex-col space-y-3" onSubmit={formSubmit}>
             <FormField
               control={form.control}
               name="email"
@@ -189,7 +189,7 @@ export function DialogSendInvite() {
               )}
             />
 
-            {isForesightAdmin && (
+            {isForesightAdmin ? (
               <FormField
                 control={form.control}
                 name="institutionId"
@@ -214,10 +214,10 @@ export function DialogSendInvite() {
                   </FormItem>
                 )}
               />
-            )}
+            ) : null}
 
             <DialogFooter>
-              <ButtonLoading type="submit" isLoading={isPending}>
+              <ButtonLoading isLoading={isPending} type="submit">
                 Send {!isPending && <Send className="ml-1.5" size="16" />}
               </ButtonLoading>
             </DialogFooter>

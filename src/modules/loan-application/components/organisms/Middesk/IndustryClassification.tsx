@@ -2,11 +2,11 @@ import { Dot } from "@/components/ui/dot"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { MiddeskTableHeader } from "@/modules/loan-application-management/components/table/middesk-table-header"
 import {
-  BusinessIndustryClassificationDetail,
+  type BusinessIndustryClassificationDetail,
   BusinessIndustryClassificationHighRiskCategory
 } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
 import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
 import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
 import { DateHeader } from "./DateHeader"
@@ -29,14 +29,15 @@ const isHighRiskCategory = (category: string) => {
 const columns: ColumnDef<BusinessIndustryClassificationDetail>[] = [
   {
     accessorKey: "classificationSystem",
-    header: () => <MiddeskTableHeader title={"Classification System"} />,
+    header: () => <MiddeskTableHeader title="Classification System" />,
     cell: ({ row }) => {
       const data = row.original
+
       return (
         <div className="min-w-0 flex items-center">
-          {data.category && isHighRiskCategory(data.category) && (
+          {data.category && isHighRiskCategory(data.category) ? (
             <Dot className="truncate text-red-500" />
-          )}
+          ) : null}
           <p>{data.classificationSystem}</p>
         </div>
       )
@@ -98,33 +99,33 @@ const columns: ColumnDef<BusinessIndustryClassificationDetail>[] = [
   }
 ]
 
-export const IndustryClassification = () => {
+export function IndustryClassification() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
 
   const industryClassification = loanKybDetail?.businessIndustryClassification
   const badge = (
     <MiddeskBadge
-      status={loanKybDetail?.insights.industry?.status}
       label={industryClassification?.subLabel}
+      status={loanKybDetail?.insights.industry?.status}
     />
   )
   const headerTitle = <>Industry Classification {badge}</>
 
   const content = (
     <MiddeskTable
-      tableClassName={"table-fixed"}
       columns={columns}
       data={industryClassification?.data ?? []}
       isLoading={isLoading}
+      tableClassName="table-fixed"
     />
   )
 
   return (
     <MiddeskCard
-      id={INSIGHT_TOC.industryClassification}
-      headerTitle={headerTitle}
-      headerRight={<DateHeader />}
       content={content}
+      headerRight={<DateHeader />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.industryClassification}
     />
   )
 }

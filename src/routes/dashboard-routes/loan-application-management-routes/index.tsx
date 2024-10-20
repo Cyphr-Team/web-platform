@@ -27,8 +27,8 @@ const CashFlowPage = lazy(
 
 const loanApplicationManagementRoutes = (
   <Route
-    path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}
     handle={handleCrumb(APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX)}
+    path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX}
   >
     {/* LIST LOAN APPLICATION */}
     <Route
@@ -38,30 +38,30 @@ const loanApplicationManagementRoutes = (
 
     {/* DETAIL LOAN APPLICATION */}
     <Route
-      lazy={() => import("@/modules/loan-application-management/pages/detail")}
       handle={handleCrumb(
         APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detail
       )}
+      lazy={() => import("@/modules/loan-application-management/pages/detail")}
     >
       {/* BUSINESS VERIFICATION */}
       <Route
-        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detail}
         lazy={() =>
           import(
             "@/modules/loan-application-management/components/pages/BusinessVerification.page"
           )
         }
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detail}
       />
 
       {/* IDENTITY VERIFICATION */}
       {(isKccBank() || isSbb() || isLaunchKC()) && (
         <Route
-          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYC}
           lazy={() =>
             import(
               "@/modules/loan-application-management/components/pages/IdentityVerification.page"
             )
           }
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.KYC}
         />
       )}
 
@@ -70,7 +70,6 @@ const loanApplicationManagementRoutes = (
 
       {/* LOAN SUMMARY - LOAN READY LOAN SUMMARY */}
       <Route
-        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
         lazy={() => {
           if (isSbb())
             return import(
@@ -84,15 +83,16 @@ const loanApplicationManagementRoutes = (
             return import(
               "@/modules/loan-application-management/pages/loan-ready/loan-summary"
             )
+
           return import(
             "@/modules/loan-application-management/pages/loan-summary"
           )
         }}
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY}
       />
 
       {/* CASH FLOW - LOAN READY CASH FLOW - OUT OF BOX CASH FLOW */}
       <Route
-        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
         element={
           isLoanReady() ? (
             <LoanReadyCashFlow />
@@ -102,91 +102,92 @@ const loanApplicationManagementRoutes = (
             <CashFlowPage />
           )
         }
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.CASH_FLOW}
       />
 
       {/* DEBT SCHEDULE */}
       <Route
-        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DEBT_SCHEDULE}
         lazy={() =>
           import(
             "@/modules/loan-application-management/pages/sbb/debt-schedule"
           )
         }
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.DEBT_SCHEDULE}
       />
 
       {/* LOAN READINESS ROUTE */}
       <Route
-        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_READINESS.detail}
         lazy={() =>
           import(
             "@/modules/loan-application-management/pages/cyphr-flex/LoanReadiness"
           )
         }
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_READINESS.detail}
       />
 
       {/* FINANCIAL PROJECTIONS */}
       <Route
-        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.INDEX(":id")}
         element={
           <AdminFinancialProjectionLayout>
             <Outlet />
           </AdminFinancialProjectionLayout>
         }
+        path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.INDEX(":id")}
       >
         <Route
           index
-          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.OVERVIEW(":id")}
           lazy={() =>
             import(
               "@/modules/loan-application/[module]-financial-projection/components/pages/FpOverviewPage"
             )
           }
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.OVERVIEW(":id")}
         />
 
         <Route
           index
-          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.CASH_FLOW(":id")}
           lazy={() =>
             import(
               "@/modules/loan-application/[module]-financial-projection/components/pages/FpCashFlowPage"
             )
           }
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.CASH_FLOW(":id")}
         />
 
         <Route
           index
-          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.BALANCE_SHEET(
-            ":id"
-          )}
           lazy={() =>
             import(
               "@/modules/loan-application/[module]-financial-projection/components/pages/FpBalanceSheetPage"
             )
           }
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.BALANCE_SHEET(
+            ":id"
+          )}
         />
 
         <Route
           index
-          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.INCOME_STATEMENT(
-            ":id"
-          )}
           lazy={() =>
             import(
               "@/modules/loan-application/[module]-financial-projection/components/pages/FpIncomeStatementPage"
             )
           }
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.INCOME_STATEMENT(
+            ":id"
+          )}
         />
 
         <Route
           index
-          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.LOAN_READY(
-            ":id"
-          )}
           lazy={() =>
             import(
               "@/modules/loan-application/[module]-financial-projection/components/pages/FpLoanReadyPage"
             )
           }
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.LOAN_READY(
+            ":id"
+          )}
         />
       </Route>
     </Route>

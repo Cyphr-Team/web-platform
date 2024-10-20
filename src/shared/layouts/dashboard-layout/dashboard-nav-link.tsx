@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { NavItem } from "@/types/common.type"
+import { type NavItem } from "@/types/common.type"
 import { NavLink } from "react-router-dom"
 
 export function DashboardNavLink({
@@ -11,7 +11,6 @@ export function DashboardNavLink({
 }) {
   return (
     <NavLink
-      to={item.href ?? ""}
       className={({ isActive }) =>
         cn(
           "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white cursor-pointer hover:bg-gray-100",
@@ -20,6 +19,7 @@ export function DashboardNavLink({
           item.className
         )
       }
+      to={item.href ?? ""}
     >
       {({ isActive }) => (
         <>

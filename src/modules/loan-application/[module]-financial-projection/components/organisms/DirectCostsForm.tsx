@@ -14,7 +14,7 @@ import {
   DIRECT_COSTS_DEFAULT_VALUE,
   DirectCostsField,
   directCostsFormSchema,
-  DirectCostsFormValue
+  type DirectCostsFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
@@ -28,14 +28,14 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, X } from "lucide-react"
 import {
-  FieldArrayWithId,
-  FieldPath,
+  type FieldArrayWithId,
+  type FieldPath,
   useFieldArray,
   useForm,
   useFormContext
 } from "react-hook-form"
 
-export const DirectCostsForm = () => {
+export function DirectCostsForm() {
   const { directCosts, dispatchFormAction } = useLoanApplicationFormContext()
 
   const form = useForm<DirectCostsFormValue>({
@@ -137,9 +137,9 @@ export const DirectCostsForm = () => {
 
         <div className="flex">
           <Button
+            className="w-min ml-auto border-black gap-2"
             type="button"
             variant="outline"
-            className="w-min ml-auto border-black gap-2"
             onClick={handleAddFounder}
           >
             <Plus className="w-4" />
@@ -163,7 +163,7 @@ interface DirectCostsProps {
   onRemove: VoidFunction
 }
 
-const DirectCosts = (props: DirectCostsProps) => {
+function DirectCosts(props: DirectCostsProps) {
   const { index, value, onRemove } = props
   const form = useFormContext<DirectCostsFormValue>()
 
@@ -171,76 +171,76 @@ const DirectCosts = (props: DirectCostsProps) => {
   const isRemovable = form.getValues(DirectCostsField.directCosts).length > 1
 
   return (
-    <div className="flex gap-3" key={value.id}>
+    <div key={value.id} className="flex gap-3">
       <div className="grid grid-cols-6 w-full gap-5 items-center">
         <div className="row-start-1 col-start-1 col-end-3 flex gap-1 flex-col">
           <RHFTextInput
-            label=""
+            autoFocus
+            isHideErrorMessage
+            isToggleView
             className="font-medium text-sm"
-            placeholder="Direct cost name "
-            styleProps={{
-              inputClassName: "h-6 text-sm max-w-52 -mt-1.5"
-            }}
+            label=""
             name={getArrayFieldName<
               DirectCostsField,
               FieldPath<DirectCostsFormValue>
             >(DirectCostsField.directCostsName, index)}
-            isToggleView
-            isHideErrorMessage
-            autoFocus
+            placeholder="Direct cost name "
+            styleProps={{
+              inputClassName: "h-6 text-sm max-w-52 -mt-1.5"
+            }}
           />
           <RHFTextInput
-            label=""
+            isHideErrorMessage
+            isToggleView
             className="mt-auto text-xs text-text-secondary"
-            styleProps={{ inputClassName: "h-6 text-xs max-w-32 -mb-1.5" }}
-            placeholder="Add description"
+            label=""
             name={getArrayFieldName<
               DirectCostsField,
               FieldPath<DirectCostsFormValue>
             >(DirectCostsField.directCostsDescription, index)}
-            isToggleView
-            isHideErrorMessage
+            placeholder="Add description"
+            styleProps={{ inputClassName: "h-6 text-xs max-w-32 -mb-1.5" }}
           />
         </div>
         <RHFMaskInput
-          label=""
-          pattern={MM_YYYY_PATTERN}
+          isHideErrorMessage
           className="row-start-1 col-start-3 col-end-5 mt-2"
-          styleProps={{ inputClassName: "text-sm" }}
-          placeholder="MM/YYYY"
+          label=""
           name={getArrayFieldName<
             DirectCostsField,
             FieldPath<DirectCostsFormValue>
           >(DirectCostsField.directCostsStartDate, index)}
-          isHideErrorMessage
+          pattern={MM_YYYY_PATTERN}
+          placeholder="MM/YYYY"
+          styleProps={{ inputClassName: "text-sm" }}
         />
         <RHFNumberInput
-          label=""
-          placeholder="Overall revenue"
+          isHideErrorMessage
           className="row-start-1 col-start-5 col-end-7 mt-0"
-          styleProps={{ inputClassName: "text-sm no-arrows" }}
-          suffixIcon={<span>%</span>}
+          label=""
           name={getArrayFieldName<
             DirectCostsField,
             FieldPath<DirectCostsFormValue>
           >(DirectCostsField.directCostsOverallRevenue, index)}
-          isHideErrorMessage
+          placeholder="Overall revenue"
+          styleProps={{ inputClassName: "text-sm no-arrows" }}
+          suffixIcon={<span>%</span>}
         />
       </div>
 
-      {isRemovable && (
+      {isRemovable ? (
         <div className="flex justify-between items-center">
           <Button
+            className="p-0 py-0 h-auto"
             tabIndex={-1}
             type="button"
             variant="ghost"
-            className="p-0 py-0 h-auto"
             onClick={onRemove}
           >
             <X className="w-4" />
           </Button>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

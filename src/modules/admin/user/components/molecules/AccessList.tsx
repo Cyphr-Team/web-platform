@@ -1,6 +1,6 @@
 import { DeleteUserButton } from "./DeleteUserButton"
 import { nameByRole } from "../../constants/roles.constants"
-import { UserRoles } from "@/types/user.type"
+import { type UserRoles } from "@/types/user.type"
 import { useFormContext } from "react-hook-form"
 
 interface InvitationInfo {
@@ -15,6 +15,7 @@ export function AccessList() {
     const updatedInvitations = form
       .getValues("invitations")
       .filter((item: InvitationInfo) => item.email !== email)
+
     form.setValue("invitations", updatedInvitations)
     form.trigger("invitations")
   }
@@ -39,8 +40,8 @@ export function AccessList() {
               >
                 <div className="flex items-center w-full md:w-2/3">
                   <DeleteUserButton
-                    userEmail={record.email}
                     index={index}
+                    userEmail={record.email}
                     onRemove={() => removeUser(record.email)}
                   />
                   <div className="w-full">

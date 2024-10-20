@@ -7,7 +7,7 @@ import {
 import { CircularProgress } from "@/components/ui/circular-progress"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import { ILoanApplicationStep } from "@/modules/loan-application/models/LoanApplicationStep/type"
+import { type ILoanApplicationStep } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import groupBy from "lodash.groupby"
 import { Check } from "lucide-react"
@@ -46,8 +46,8 @@ function LoanProgramCollapsible({
 
   return (
     <AccordionItem
-      value={label}
       className="w-full bg-white rounded-lg shadow-md"
+      value={label}
     >
       <AccordionTrigger
         className="flex-row-reverse w-full px-4 py-2"
@@ -93,9 +93,9 @@ export function SideNavApplicationDetails() {
       <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4">
         <Accordion
           key={progress.length}
-          type="multiple"
           className="w-full flex flex-col gap-2"
           defaultValue={Object.keys(menuGroupByParent)}
+          type="multiple"
         >
           {Object.keys(menuGroupByParent).map((parentMenu) => (
             <LoanProgramCollapsible
