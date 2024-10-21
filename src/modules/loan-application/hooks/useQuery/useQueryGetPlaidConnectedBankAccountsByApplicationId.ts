@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query"
 import { type AxiosError, type AxiosResponse } from "axios"
 import { QUERY_KEY } from "../../constants/query-key"
 import { type FormDetailsQueryProps } from "."
+import { isEnablePlaidV2 } from "@/utils/feature-flag.utils"
 
 export const useQueryGetPlaidConnectedBankAccountsByApplicationId = ({
   applicationId,
@@ -22,8 +23,9 @@ export const useQueryGetPlaidConnectedBankAccountsByApplicationId = ({
     ],
     queryFn: () => {
       return postRequest({
-        path: API_PATH.application
-          .getPlaidConnectedBankAccountsByApplicationIdV2,
+        path: isEnablePlaidV2()
+          ? API_PATH.application.getPlaidConnectedBankAccountsByApplicationIdV2
+          : API_PATH.application.getPlaidConnectedBankAccountsByApplicationId,
         data: { applicationId: applicationId }
       })
     },
