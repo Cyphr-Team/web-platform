@@ -1,5 +1,10 @@
-/* eslint-disable */
-import { type DragEvent, type ReactElement, useCallback, useRef, useState } from "react"
+import {
+  type DragEvent,
+  type ReactElement,
+  useCallback,
+  useRef,
+  useState
+} from "react"
 import { useUpdateEffect } from "react-use"
 
 interface DraggableListProps {

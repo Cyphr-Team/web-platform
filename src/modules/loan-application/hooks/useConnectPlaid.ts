@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react"
 import { usePlaidContext } from "../providers"
-import { usePlaidLink } from "react-plaid-link"
+import { type PlaidLinkOnSuccessMetadata, usePlaidLink } from "react-plaid-link"
 import { useLocation } from "react-router-dom"
 import { exchangePublicTokenForAccessToken, generateToken } from "../services"
 
@@ -12,9 +12,13 @@ export const useConnectPlaid = () => {
   const currentPathName = currentLocation.pathname
 
   const onSuccess = useCallback(
-    (public_token: string) => {
+    (public_token: string, metadata: PlaidLinkOnSuccessMetadata) => {
       // If the access_token is needed, send public_token to server
-      exchangePublicTokenForAccessToken(public_token, dispatch)
+      exchangePublicTokenForAccessToken(
+        public_token,
+        dispatch,
+        metadata?.institution?.institution_id
+      )
 
       // 'payment_initiation' products do not require the public_token to be exchanged for an access_token.
       if (isPaymentInitiation) {

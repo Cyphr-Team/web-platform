@@ -33,7 +33,7 @@ export const useLazyConnectPlaidEffect = () => {
     (metadata: PlaidLinkOnSuccessMetadata) => {
       if (!metadata.institution?.institution_id) return
 
-      const newInstituions = institutions.filter(
+      const newInstitutions = institutions.filter(
         (ins) => ins.institutionId !== metadata.institution?.institution_id
       )
 
@@ -52,7 +52,7 @@ export const useLazyConnectPlaidEffect = () => {
 
       dispatch({
         type: "SET_STATE",
-        state: { institutions: [...newInstituions, newAddedInstitution] }
+        state: { institutions: [...newInstitutions, newAddedInstitution] }
       })
     },
     [dispatch, institutions]
@@ -84,7 +84,11 @@ export const useLazyConnectPlaidEffect = () => {
         }
       }
       // If the access_token is needed, send publicToken to server
-      await exchangePublicTokenForAccessToken(publicToken, dispatch)
+      await exchangePublicTokenForAccessToken(
+        publicToken,
+        dispatch,
+        metadata?.institution?.institution_id
+      )
 
       // 'payment_initiation' products do not require the publicToken to be exchanged for an access_token.
       if (isPaymentInitiation) {

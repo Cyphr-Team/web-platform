@@ -58,6 +58,7 @@ export interface PlaidInfo {
 
 export interface SetAccessTokenRequest {
   publicToken: string
+  plaidInstitutionId?: string
 }
 
 export interface LinkToken {
@@ -127,11 +128,18 @@ export const ENDPOINTS = {
   PLAID: {
     INFO: "api/plaid/info",
     SET_ACCESS_TOKEN: "api/plaid/set-access-token",
+    SET_ACCESS_TOKEN_V2: "api/plaid/set-access-token-v2",
     CREATE_PUBLIC_TOKEN: "api/plaid/create-public-token",
     CREATE_PAYMENT_TOKEN: "api/plaid/create-payment-token",
     CREATE_LINK_TOKEN: "api/plaid/create-link-token",
+    CREATE_LINK_TOKEN_V2: "api/plaid/create-link-token-v2",
     CREATE_LINK_TOKEN_FOR_PAYMENT: "api/plaid/create-link-token-for-payment"
   }
+}
+
+export interface CreateLinkTokenRequest {
+  routingNumber?: string
+  plaidInstitutionId: string
 }
 
 export interface PlaidAction {
