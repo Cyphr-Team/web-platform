@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
@@ -179,6 +180,7 @@ export function SearchSelect<
       placeholder={placeholder}
       suffixIcon={isFetching ? loader : null}
       value={searchValue}
+      wrapperClassName="w-full"
       onBlur={handleInputBlur}
       onChange={onSearch}
       onClick={handleInputClick}
@@ -229,15 +231,19 @@ export function SearchSelect<
       {label ? <FormLabel>{label}</FormLabel> : null}
 
       <Popover
-        open={isOpen ? !handleSearch || !!searchValue : undefined}
+        open={!!(isOpen && (!handleSearch || !!searchValue))}
         onOpenChange={!handleSearch ? setIsOpen : undefined}
       >
         <PopoverTrigger asChild disabled={disabled}>
-          <div className="w-full relative h-10">
+          <Button
+            className="w-full relative h-10 font-normal p-0"
+            type="button"
+            variant="ghost"
+          >
             {isViewMode || !handleSearch
               ? renderViewMode()
               : renderSearchInput()}
-          </div>
+          </Button>
         </PopoverTrigger>
 
         <PopoverContent

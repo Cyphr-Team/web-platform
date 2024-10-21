@@ -287,6 +287,8 @@ export const API_PATH = {
     getPlaidItemIds: "api/plaid/item/list",
     getPlaidConnectedBankAccountsByApplicationId:
       "api/plaid/item/connected-bank-accounts/by-application-id",
+    getPlaidConnectedBankAccountsByApplicationIdV2:
+      "api/plaid/item/connected-bank-accounts-v2/by-application-id",
     preQualification: {
       index: "api/form/pre-qualification",
       detail: "api/form/pre-qualification/by-application-id"

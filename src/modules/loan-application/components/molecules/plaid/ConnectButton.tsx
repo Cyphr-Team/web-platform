@@ -1,19 +1,25 @@
 import { ButtonLoading } from "@/components/ui/button"
-import { PlaidFormValue } from "@/modules/loan-application/constants/plaid"
+import { type PlaidFormValue } from "@/modules/loan-application/constants/plaid"
 import { useLazyConnectPlaidEffect } from "@/modules/loan-application/hooks/useLazyConnectPlaidEffect"
 import { usePlaidContext } from "@/modules/loan-application/providers"
 import { generateToken } from "@/modules/loan-application/services"
 import { toastError } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { Link } from "lucide-react"
-import React, { useState } from "react"
+import { useState } from "react"
 import { useFormContext } from "react-hook-form"
 
-export const PlaidConnectButton: React.FC<{
+interface PlaidConnectButtonProps {
   disabled?: boolean
   hasConnectedAccounts?: boolean
   isBankAccountsLoading?: boolean
-}> = ({ disabled, hasConnectedAccounts, isBankAccountsLoading }) => {
+}
+
+export function PlaidConnectButton({
+  disabled,
+  hasConnectedAccounts,
+  isBankAccountsLoading
+}: PlaidConnectButtonProps) {
   const form = useFormContext<PlaidFormValue>()
   const [isLoading, setIsLoading] = useState(false)
   const { dispatch } = usePlaidContext()
@@ -34,11 +40,6 @@ export const PlaidConnectButton: React.FC<{
       })
     } finally {
       setIsLoading(false)
-
-      form.reset({
-        institution: undefined,
-        routingNumber: undefined
-      })
     }
   })
 
@@ -47,12 +48,12 @@ export const PlaidConnectButton: React.FC<{
   return (
     <div className="self-end">
       <ButtonLoading
-        isLoading={isLoading || isBankAccountsLoading}
-        onClick={handleSubmit}
-        disabled={disabled}
         className="text-sm rounded-lg"
+        disabled={disabled}
+        isLoading={isLoading || isBankAccountsLoading}
         size="sm"
         variant="outline"
+        onClick={handleSubmit}
       >
         <Link className="w-4 h-4 mr-1" strokeWidth={2.5} />
         {hasConnectedAccounts ? " Connect More" : " Connect with Plaid"}

@@ -31,7 +31,7 @@ import { toastError } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { type ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import { useUpdateEffect } from "react-use"
 
@@ -69,7 +69,8 @@ function FormHeader() {
 }
 
 function PlaidForm() {
-  const { watch, setValue, formState } = useFormContext<PlaidFormValue>()
+  const { watch, setValue, formState, resetField } =
+    useFormContext<PlaidFormValue>()
   const { institutions, searchInstitutions, isLoading, total } =
     usePlaidInstitutions()
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
@@ -77,10 +78,11 @@ function PlaidForm() {
     useLoanApplicationProgressContext()
   const { financialInformationForm, dispatchFormAction } =
     useLoanApplicationFormContext()
-
   const handleNextClick = () => {
     finishCurrentStep()
   }
+
+  const [routingNumberOptions, setRoutingNumberOptions] = useState<Option[]>([])
 
   const institutionOptions: Option[] = useMemo(
     () =>
@@ -99,19 +101,7 @@ function PlaidForm() {
       })),
     [institutions]
   )
-
   const selectedInstitution = watch("institution")
-  const selectedInstitutionData = institutions.find(
-    (institution) => institution.institutionId === selectedInstitution?.value
-  )
-  const routingNumberOptions = useMemo(
-    () =>
-      selectedInstitutionData?.routingNumbers.map((routingNumber) => ({
-        label: routingNumber,
-        value: routingNumber
-      })) ?? [],
-    [selectedInstitutionData]
-  )
 
   const {
     institutions: detailInstitutions,
@@ -139,14 +129,26 @@ function PlaidForm() {
   }, [detailInstitutions])
 
   useEffect(() => {
-    const subscription = watch((_, { name }) => {
+    const subscription = watch((value, { name }) => {
       if (name === "institution") {
         setValue("routingNumber", undefined)
+
+        const selectedInstitutionData = institutions.find(
+          (institution) =>
+            institution.institutionId === value.institution?.value
+        )
+
+        setRoutingNumberOptions(
+          selectedInstitutionData?.routingNumbers.map((routingNumber) => ({
+            label: routingNumber,
+            value: routingNumber
+          })) ?? []
+        )
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [setValue, watch])
+  }, [institutions, setValue, watch])
 
   useEffect(() => {
     if (connectedAccounts.length > 0) {
@@ -167,6 +169,15 @@ function PlaidForm() {
     dispatchFormAction,
     financialInformationForm?.id
   ])
+
+  /**
+   * Remove all values when the plaid popup is disappeared
+   */
+  useUpdateEffect(() => {
+    if (!isConnecting) {
+      resetField("institution", { defaultValue: undefined })
+    }
+  }, [isConnecting, resetField])
 
   useUpdateEffect(() => {
     if (linkTokenError.errorMessage) {

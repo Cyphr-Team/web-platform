@@ -22,7 +22,8 @@ export const useQueryGetPlaidConnectedBankAccountsByApplicationId = ({
     ],
     queryFn: () => {
       return postRequest({
-        path: API_PATH.application.getPlaidConnectedBankAccountsByApplicationId,
+        path: API_PATH.application
+          .getPlaidConnectedBankAccountsByApplicationIdV2,
         data: { applicationId: applicationId }
       })
     },
