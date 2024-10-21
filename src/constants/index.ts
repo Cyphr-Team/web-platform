@@ -107,12 +107,14 @@ export const APP_PATH = {
       details: (id: string) => `/application/${id}/readiness`
     },
     FINANCIAL: {
-      INDEX: (id: string) => `/application/${id}/`,
-      OVERVIEW: (id: string) => `/application/${id}/overview`,
-      CASH_FLOW: (id: string) => `/application/${id}/cash-flow`,
-      BALANCE_SHEET: (id: string) => `/application/${id}/balance-sheet`,
-      INCOME_STATEMENT: (id: string) => `/application/${id}/income-statement`,
-      LOAN_READY: (id: string) => `/application/${id}/loan-ready`
+      INDEX: (id: string) => `/application/financial/${id}/`,
+      OVERVIEW: (id: string) => `/application/financial/${id}/overview`,
+      CASH_FLOW: (id: string) => `/application/financial/${id}/cash-flow`,
+      BALANCE_SHEET: (id: string) =>
+        `/application/financial/${id}/balance-sheet`,
+      INCOME_STATEMENT: (id: string) =>
+        `/application/financial/${id}/income-statement`,
+      LOAN_READY: (id: string) => `/application/financial/${id}/loan-ready`
     }
   },
 

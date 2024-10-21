@@ -67,10 +67,8 @@ export function Component() {
     [forecastResults]
   )
 
-  const isEmpty = forecastResults?.incomeStatementForecastAnnually?.length === 0
-
   return (
-    <ErrorWrapper isError={isEmpty}>
+    <ErrorWrapper isError={!forecastResults?.incomeStatementForecastMonthly}>
       <div className="flex flex-col gap-y-2xl">
         <div className="w-full flex gap-2 justify-end items-center">
           <LabeledSwitch
