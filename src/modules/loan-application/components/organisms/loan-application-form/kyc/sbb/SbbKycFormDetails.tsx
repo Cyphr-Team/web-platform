@@ -84,26 +84,17 @@ export function SbbKycFormDetails({ kycFormData }: KycFormDetailsProps) {
             valueClassName="text-right"
           />
         )
-      case undefined: {
-        throw new Error("Not implemented yet: undefined case")
-      }
-      case FieldTypes.TEXT: {
-        throw new Error("Not implemented yet: FieldTypes.TEXT case")
-      }
-      case FieldTypes.NUMBER: {
-        throw new Error("Not implemented yet: FieldTypes.NUMBER case")
-      }
+      default:
+        return (
+          <AnswersTextDisplay
+            key={field.field}
+            className="!flex-row justify-between"
+            label={field.label}
+            value={value}
+            valueClassName="text-right"
+          />
+        )
     }
-
-    return (
-      <AnswersTextDisplay
-        key={field.field}
-        className="!flex-row justify-between"
-        label={field.label}
-        value={value}
-        valueClassName="text-right"
-      />
-    )
   }
 
   return (
