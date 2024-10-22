@@ -134,7 +134,8 @@ export class FlowBuilder {
     this.flow[CHAT_STEPS.END] = {
       message,
       path,
-      options
+      options,
+      chatDisabled: true
     }
 
     return this
@@ -157,12 +158,15 @@ export class FlowBuilder {
   public chatbotSelectTheme(
     message: MessageFuncWithParams,
     path: string,
-    themes: string[]
+    themes: string[],
+    component?: ComponentFuncWithParams
   ) {
     this.flow[CHAT_STEPS.THEME] = {
       message,
       path,
-      options: themes
+      options: themes,
+      component,
+      chatDisabled: true
     }
 
     return this
@@ -171,12 +175,15 @@ export class FlowBuilder {
   public chatbotProcessTheme(
     message: MessageFuncWithParams,
     path: string,
-    questions: OptionsFuncWithParams
+    questions: OptionsFuncWithParams,
+    component?: ComponentFuncWithParams
   ) {
     this.flow[CHAT_STEPS.PROCESS_THEME] = {
       message,
       path,
-      options: questions
+      options: questions,
+      component,
+      chatDisabled: true
     }
 
     return this

@@ -17,9 +17,19 @@ const enum CHAT_MESSAGE {
   END = "End Chat",
   END_INFO = "The chat is ended."
 }
+const enum CHAT_SENDER {
+  USER = "user",
+  BOT = "bot"
+}
 const CHAT_SESSION_ID = "CHAT_SESSION_ID"
 const CHAT_HISTORY = "CHAT_HISTORY"
+const CHAT_POST_INJECT_MESSAGE_EVENT = "rcb-post-inject-message"
 
-export { CHAT_MESSAGE, CHAT_SESSION_ID, CHAT_HISTORY }
-
+export {
+  CHAT_MESSAGE,
+  CHAT_SENDER,
+  CHAT_SESSION_ID,
+  CHAT_HISTORY,
+  CHAT_POST_INJECT_MESSAGE_EVENT
+}
 export type { ChatMessage, ChatSession }

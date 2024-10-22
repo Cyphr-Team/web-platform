@@ -139,9 +139,10 @@ export const getSettings = (icon: string): Settings => ({
     forbidOnMax: false,
     dismissOnClick: true
   },
+  // Ref: https://react-chatbotify.com/docs/api/events
   event: {
     rcbPreInjectMessage: false,
-    rcbPostInjectMessage: false,
+    rcbPostInjectMessage: true,
     rcbStartStreamMessage: false,
     rcbChunkStreamMessage: false,
     rcbStopStreamMessage: false,

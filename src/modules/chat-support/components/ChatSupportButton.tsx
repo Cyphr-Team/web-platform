@@ -23,25 +23,7 @@ import {
   CHAT_MESSAGE,
   CHAT_SESSION_ID
 } from "@/modules/chat-support/constants/chat"
-import { Button } from "@/components/ui/button"
-import { Archive } from "lucide-react"
-
-// Chat Custom Components
-function EndChatButton(params: Params) {
-  // Disable the button when we are showing Common Topics
-  if (params.userInput === chatFollowUpOptionsMap.commonTopics) return
-
-  return (
-    <div className="rcb-view-history-container flex items-center justify-center mt-2 w-full">
-      <Button
-        className="rcb-view-history-button hover:bg-white hover:text-black hover:border-black font-light h-8"
-        onClick={() => params.goToPath(CHAT_STEPS.END)}
-      >
-        End Chat <Archive className="ml-1" size={10} />
-      </Button>
-    </div>
-  )
-}
+import { EndChatButton } from "@/modules/chat-support/components/molecules/EndChatButton"
 
 export function ChatSupportButton() {
   // Chatbot BE integration hooks
@@ -80,12 +62,13 @@ export function ChatSupportButton() {
         if (params.userInput === chatFollowUpOptionsMap.commonTopics) {
           params.goToPath(CHAT_STEPS.THEME)
 
-          return
+          return ""
         }
         const data = await mutateSend({ message: params.userInput })
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return markdown.toHTML(data.data.mainResponse).replace(/\n/g, "")
+        return markdown
+          .toHTML(data.data.mainResponse)
+          .replace(/\n/g, "") as string
       } catch (error) {
         return CHAT_MESSAGE.ERROR
       }
@@ -126,17 +109,24 @@ export function ChatSupportButton() {
 
   const llmFlow = new FlowBuilder()
     .chatbotInit(initStep, CHAT_STEPS.LOOP, followUpOptions)
-    .chatbotLoop(loopStep, CHAT_STEPS.LOOP, followUpOptions, EndChatButton)
+    .chatbotLoop(
+      loopStep,
+      CHAT_STEPS.LOOP,
+      followUpOptions,
+      (params: Params) => <EndChatButton params={params} />
+    )
     .chatbotEnd(endStep, CHAT_STEPS.INIT, Object.values(restartOptionsMap))
     .chatbotSelectTheme(
       selectThemeStep,
       CHAT_STEPS.PROCESS_THEME,
-      Object.values(themeOptionsMap).map((theme) => theme.title)
+      Object.values(themeOptionsMap).map((theme) => theme.title),
+      (params: Params) => <EndChatButton params={params} />
     )
     .chatbotProcessTheme(
       processThemeStep,
       CHAT_STEPS.LOOP,
-      themeQuestionOptions
+      themeQuestionOptions,
+      (params: Params) => <EndChatButton params={params} />
     )
     .build()
 
