@@ -32,15 +32,15 @@ const RATING_LEVELS: Option[] = [
 const getCriteriaScoreRangeClassName = (scoreRange: string) => {
   switch (scoreRange.toLowerCase()) {
     case RatingLevel.POOR:
-      return "bg-[#E66262]"
+      return "bg-[#E5B0A4] border-[#E5B0A4]"
     case RatingLevel.FAIR:
-      return "bg-[#ECA336]"
+      return "bg-[#F2DF9D] border-[#F2DF9D]"
     case RatingLevel.GOOD:
-      return "bg-[#EBE446]"
+      return "bg-[#9FD3F0] border-[#9FD3F0]"
     case RatingLevel.VERY_GOOD:
-      return "bg-[#95DE7C]"
+      return "bg-[#A9E3D1] border-[#A9E3D1]"
     case RatingLevel.EXCELLENT:
-      return "bg-[#00C605]"
+      return "bg-[#85CF85] border-[#85CF85]"
     default:
       return ""
   }

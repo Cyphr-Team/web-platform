@@ -5,7 +5,8 @@ import { get } from "lodash"
 export const EXPORT_CLASS = {
   PDF: "export-pdf", // Narrow down the changes, affect the exported elements only
   FINANCIAL: "financial-application-detail-pdf",
-  EXTEND_FIVE_YEARS_WIDTH: "extend-five-years-width"
+  EXTEND_FIVE_YEARS_WIDTH: "extend-five-years-width",
+  NO_BACKGROUND_COLOR: "no-background-color"
 } as const
 
 export const EXPORT_CONFIG = {
@@ -159,8 +160,14 @@ const applyTemporaryStyles = (): (() => void) => {
     `.${EXPORT_CLASS.PDF} .${EXPORT_CLASS.EXTEND_FIVE_YEARS_WIDTH} { grid-template-columns: 1.2fr repeat(5,0.7fr); }`
   )
 
+  // Help avoid background-color (e.g LoanReadiness badge)
+  style.sheet?.insertRule(
+    `.${EXPORT_CLASS.PDF} .${EXPORT_CLASS.NO_BACKGROUND_COLOR} { background-color: transparent; border-width: 2px; }`
+  )
+
   return () => {
     try {
+      style.sheet?.deleteRule(2)
       style.sheet?.deleteRule(1)
       style.sheet?.deleteRule(0)
       style.remove()

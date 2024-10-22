@@ -9,7 +9,7 @@ import { capitalizeFirstOnly, snakeCaseToText } from "@/utils"
 import { renderHeader } from "@/utils/table.utils"
 import { type ColumnDef } from "@tanstack/react-table"
 import { get } from "lodash"
-import { type FC, useMemo } from "react"
+import { useMemo } from "react"
 import { type LoanReadiness } from "../../constants/types/loan-readiness.type"
 import {
   CRITERIA_NOT_READY_STATUS,
@@ -17,6 +17,7 @@ import {
   getCriteriaScoreRangeClassName
 } from "../../services/loan-readiness.service"
 import { useLoanReadinessStore } from "./store/useLoanReadinessStore"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 
 interface ApplicationCriteriaProps {
   criteria: LoanReadiness["criteria"]
@@ -24,10 +25,10 @@ interface ApplicationCriteriaProps {
   handleRefetch?: VoidFunction
 }
 
-export const FinancialApplicationCriteria: FC<ApplicationCriteriaProps> = ({
+export function FinancialApplicationCriteria({
   criteria,
   isLoading
-}) => {
+}: ApplicationCriteriaProps) {
   const sorting = useLoanReadinessStore.use.sorting()
   const { setSorting } = useLoanReadinessStore.use.action()
 
@@ -109,7 +110,8 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
           <Badge
             className={cn(
               criteriaBadgeClassName,
-              "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center"
+              "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center border",
+              EXPORT_CLASS.NO_BACKGROUND_COLOR
             )}
           >
             {snakeCaseToText(criteria.ratingLevel)}
