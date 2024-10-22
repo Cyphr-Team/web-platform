@@ -84,6 +84,10 @@
   .financial-projection {
     --muted-foreground: 180 4% 15%;
   }
+
+  .loanready-v2 {
+    --primary: 180 4% 15%;
+  }
 }
 
 @layer base {

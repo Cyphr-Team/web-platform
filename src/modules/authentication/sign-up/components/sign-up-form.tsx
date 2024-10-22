@@ -59,8 +59,8 @@ export function SignUpForm() {
             )}
           />
 
-          <div className="text-xs text-muted-foreground">
-            By clicking "Create account" or "Continue with Google", you
+          <div className="text-xs leading-[18px] loanready-v2 text-primary">
+            By clicking "Create account" or "Sign up with Google", you
             acknowledge that you understand and agree to the{" "}
             <a
               className="underline"
@@ -79,7 +79,10 @@ export function SignUpForm() {
             >
               Privacy Policy
             </a>
-            .
+            . You also agree to receive important notices and other
+            communications electronically. We may contact you via call or text
+            to verify your number, and standard message and data rates may
+            apply.
           </div>
 
           <ButtonLoading
