@@ -165,6 +165,10 @@ export function Drawer() {
     queryKey: [APPLICATION_MANAGEMENT_QUERY_KEY.GET_LOAN_READINESS_ASSESSMENT]
   })
 
+  const isFetchingLoanSummary = useIsFetching({
+    queryKey: [APPLICATION_MANAGEMENT_QUERY_KEY.GET_LOAN_SUMMARY]
+  })
+
   /**
    * Note:
    * - Usually the LoanReadiness is the heaviest because its depend on 3rd party.
@@ -173,7 +177,8 @@ export function Drawer() {
   const isFetchingPdfData = !!(
     isFetchingBankAccounts ||
     isFetchingFinancial ||
-    isFetchingLoanReadiness
+    isFetchingLoanReadiness ||
+    isFetchingLoanSummary
   )
 
   return (

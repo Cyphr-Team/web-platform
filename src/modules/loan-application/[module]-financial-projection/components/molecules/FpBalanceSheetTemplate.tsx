@@ -33,7 +33,7 @@ export function BalanceSheetTemplate(props: BalanceSheetTemplateProps) {
   const HeaderComponent = HeaderMapper[period]
 
   return (
-    <div className="flex flex-col gap-y-2xl w-full">
+    <div className="flex flex-col gap-y-3xl w-full">
       <h1 className="text-3xl font-semibold">{title}</h1>
       <Card
         className={cn(

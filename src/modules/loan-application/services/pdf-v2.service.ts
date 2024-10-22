@@ -3,7 +3,9 @@ import jsPDF from "jspdf"
 import { get } from "lodash"
 
 export const EXPORT_CLASS = {
-  FINANCIAL: "financial-application-detail-pdf"
+  PDF: "export-pdf", // Narrow down the changes, affect the exported elements only
+  FINANCIAL: "financial-application-detail-pdf",
+  EXTEND_FIVE_YEARS_WIDTH: "extend-five-years-width"
 } as const
 
 export const EXPORT_CONFIG = {
@@ -117,6 +119,7 @@ const processElement = async (
   const clonedElement = context.element.cloneNode(true) as HTMLElement
 
   clonedElement.style.width = `${PDF_CONFIG.INITIAL_ELEMENT_WIDTH}px`
+  clonedElement.classList.add(EXPORT_CLASS.PDF)
 
   try {
     document.body.appendChild(clonedElement)
@@ -132,8 +135,6 @@ const processElement = async (
 
     return addImageToPDF(context, imgData, dimensions)
   } catch (error) {
-    // console.error("Failed to process element for PDF", error)
-
     return context.currentHeight
   } finally {
     clonedElement.remove()
@@ -153,9 +154,19 @@ const applyTemporaryStyles = (): (() => void) => {
     0
   )
 
+  // Help avoid scroll-x when exporting financial applications (e.g: "Cash Flow", "Balance sheet")
+  style.sheet?.insertRule(
+    `.${EXPORT_CLASS.PDF} .${EXPORT_CLASS.EXTEND_FIVE_YEARS_WIDTH} { grid-template-columns: 1.2fr repeat(5,0.7fr); }`
+  )
+
   return () => {
-    style.sheet?.deleteRule(0)
-    style.remove()
+    try {
+      style.sheet?.deleteRule(1)
+      style.sheet?.deleteRule(0)
+      style.remove()
+    } catch {
+      return new Error("Failed to remove styles")
+    }
   }
 }
 

@@ -187,7 +187,6 @@ function Main({
         >
           <DisclaimerNote
             companyName={companyName}
-            marginClass="mt-[875px]"
             title="Application Summary"
           />
         </div>

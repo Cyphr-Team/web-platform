@@ -6,7 +6,6 @@ import { type FC } from "react"
 interface DisclaimerNoteProps {
   companyName: string
   title?: string
-  marginClass?: string
 }
 
 export const DisclaimerNote: FC<DisclaimerNoteProps> = (props) => {
