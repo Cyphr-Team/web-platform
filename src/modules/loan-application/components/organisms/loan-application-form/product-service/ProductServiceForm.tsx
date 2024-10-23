@@ -108,7 +108,7 @@ export function ProductServiceForm() {
                           field.onChange(value.toString())
                         }}
                       >
-                        <SelectTrigger className="text-base col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto">
+                        <SelectTrigger className="col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto text-sm">
                           <SelectValue placeholder="Please select..." />
                         </SelectTrigger>
                         <SelectContent>

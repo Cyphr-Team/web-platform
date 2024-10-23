@@ -1,32 +1,31 @@
-import { cn } from "@/lib/utils.ts"
-import { Card } from "@/components/ui/card.tsx"
-import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { Button } from "@/components/ui/button.tsx"
-import { ArrowRight } from "lucide-react"
-import {
-  useLoanApplicationFormContext,
-  useLoanApplicationProgressContext
-} from "@/modules/loan-application/providers"
-import {
-  BINARY_VALUES,
-  YES_NO_OPTIONS
-} from "@/modules/loan-application/constants/form.ts"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
-import { RHFProvider } from "@/modules/form-template/providers"
+import { Card } from "@/components/ui/card.tsx"
+import { Separator } from "@/components/ui/separator.tsx"
+import { cn } from "@/lib/utils.ts"
 import {
   RHFDragAndDropFileUpload,
   RHFSelectInput
 } from "@/modules/form-template/components/molecules"
-import { Separator } from "@/components/ui/separator.tsx"
+import { RHFProvider } from "@/modules/form-template/providers"
 import {
   FinancialStatementFormField,
   financialStatementFormSchema,
   type FinancialStatementFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
+import {
+  BINARY_VALUES,
+  YES_NO_OPTIONS
+} from "@/modules/loan-application/constants/form.ts"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import {
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "@/modules/loan-application/providers"
+import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
+import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
 interface FinancialStatementFormProps {
   wrapperClassName?: string
@@ -154,9 +153,7 @@ export function FinancialStatementForm({
             ) : null}
 
             {!isReviewApplicationStep(step) && (
-              <Button disabled={!isValid}>
-                Next <ArrowRight className="ml-1 w-4" />
-              </Button>
+              <Button disabled={!isValid}>Next</Button>
             )}
           </Card>
         </div>

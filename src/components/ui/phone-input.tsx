@@ -76,7 +76,7 @@ const CustomPhoneInput = React.forwardRef<HTMLInputElement, InputProps>(
       <Input
         ref={ref}
         {...props}
-        className="border-l-0 rounded-l-none pl-1 text-sm"
+        className="border-l-0 rounded-lg rounded-l-none pl-1 text-sm"
         maxLength={15}
         wrapperClassName="w-full"
       />

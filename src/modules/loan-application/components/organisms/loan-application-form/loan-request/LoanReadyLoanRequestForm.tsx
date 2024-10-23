@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
-import { ArrowRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { RHFLoanSlider } from "@/modules/conference-demo/applicant/components/molecules"
@@ -79,11 +78,11 @@ export function LoanReadyLoanRequestForm({
         wrapperClassName
       )}
     >
-      <CardHeader className="text-center">
+      <CardHeader className="text-center pb:0 md:pb-0">
         <CardTitle className="text-lg">Loan Request</CardTitle>
-        <CardDescription>
-          Thank you for your interest in working with us.
-          <span className="block">What amount will you be requesting?</span>
+        <CardDescription className="text-secondary-400">
+          Please specify the loan amount and how you intend to use the funds
+          below.
         </CardDescription>
       </CardHeader>
 
@@ -117,7 +116,7 @@ export function LoanReadyLoanRequestForm({
               disabled={!form.formState.isValid}
               type="submit"
             >
-              Next <ArrowRight className="ml-1 w-4" />
+              Next
             </Button>
           </CardFooter>
         )}

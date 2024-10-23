@@ -122,7 +122,7 @@ export function LaunchKCFitForm() {
                           field.onChange(value === "yes")
                         }}
                       >
-                        <SelectTrigger className="text-base col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto">
+                        <SelectTrigger className="text-sm col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto">
                           <SelectValue placeholder="Please select" />
                         </SelectTrigger>
                         <SelectContent>

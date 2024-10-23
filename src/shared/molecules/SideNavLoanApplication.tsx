@@ -44,7 +44,7 @@ export function LoanProgramItem({
   return (
     <li
       className={cn(
-        "flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer",
+        "flex items-center px-2 py-2 gap-3 rounded-md cursor-pointer text-sm font-medium",
         active && "bg-nav-active"
       )}
       id={`step-${value.step}`}
@@ -52,12 +52,14 @@ export function LoanProgramItem({
     >
       <div
         className={cn(
-          "w-6 h-6 rounded-md bg-white flex justify-center items-center border flex-shrink-0",
-          active && "ring-4 ring-stone-400/[.14]",
-          finished && "bg-primary border-0"
+          "w-5 h-5 rounded-[3px] border-2 flex justify-center items-center border-text-senary flex-shrink-0",
+          finished && "bg-brand-primary-gray border-0"
         )}
       >
-        <Check className={cn("w-5 text-white", !finished && "hidden")} />
+        <Check
+          className={cn("w-4 text-white", !finished && "hidden")}
+          strokeWidth={4}
+        />
       </div>
       {value.label}
     </li>

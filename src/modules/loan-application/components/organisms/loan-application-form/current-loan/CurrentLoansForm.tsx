@@ -188,7 +188,7 @@ export function CurrentLoansForm() {
                           field.onChange(value.toString())
                         }}
                       >
-                        <SelectTrigger className="text-base col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto">
+                        <SelectTrigger className="text-base col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto text-sm">
                           <SelectValue placeholder="Please select..." />
                         </SelectTrigger>
                         <SelectContent>

@@ -34,7 +34,6 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
@@ -209,7 +208,7 @@ export function LoanReadyOwnerInformationForm({
 
             {!isReviewApplicationStep(step) && (
               <Button disabled={!form.formState.isValid} onClick={onSubmit}>
-                Next <ArrowRight className="ml-1 w-4" />
+                Next
               </Button>
             )}
           </Card>

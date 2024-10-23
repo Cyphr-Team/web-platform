@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --background-disabled: 216 24% 96%;
+    --background-disabled: 220 17% 93%;
     --active: 210 20% 98%;
     --foreground: 240 10% 3.9%;
     --foreground-disabled: 218 15% 65%;
@@ -61,7 +61,7 @@
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
+    --border: 217 16% 84%;
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
   }
@@ -208,6 +208,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .sortable-list li.placeholder {
   background-color: #ddd;
   border: 1px dashed #aaa;
+}
+
+button[role="combobox"] {
+  text-align: left;
 }
 
 input[type="button" i] {
