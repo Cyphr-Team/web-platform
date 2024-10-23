@@ -12,6 +12,7 @@ import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { type OnboardingFormValue } from "../types"
 import { getTenantDomain } from "@/utils/domain.utils"
+import { Checkbox } from "@/components/ui/checkbox"
 
 const handleSubdomainChange = (value: string) => {
   // Replace invalid characters with valid ones
@@ -144,6 +145,32 @@ export function SelectInstitution() {
                 />
               </FormControl>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="isMfaEnabled"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-2 space-y-0">
+              <FormControl>
+                <div className="flex gap-2 mt-1 items-center">
+                  <Checkbox
+                    checked={field.value}
+                    className="h-5 w-5"
+                    onCheckedChange={field.onChange}
+                  />
+                  <p className="flex gap-1 text-sm">
+                    Enable Multi-Factor Authentication for
+                    <span className="font-medium">
+                      {exampleDomain
+                        ? exampleDomain
+                        : "[Institution Subdomain]"}
+                    </span>
+                  </p>
+                </div>
+              </FormControl>
             </FormItem>
           )}
         />

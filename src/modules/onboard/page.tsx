@@ -30,7 +30,8 @@ export function Component() {
       key: "",
       logo: "",
       textLogo: "",
-      supportEmail: ""
+      supportEmail: "",
+      isMfaEnabled: false
     },
     mode: "onChange",
     reValidateMode: "onChange"
@@ -43,7 +44,8 @@ export function Component() {
         "name",
         "subdomain",
         "key",
-        "adminEmail"
+        "adminEmail",
+        "isMfaEnabled"
       ])
 
       if (validStep1) nextStep()

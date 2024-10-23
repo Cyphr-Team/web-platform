@@ -20,11 +20,19 @@ export const useOnboardingInstitution = () => {
   >({
     mutationFn: async (data) => {
       const institution = await postRequest<
-        Pick<OnboardingFormValue, "name" | "subdomain" | "key">,
+        Pick<
+          OnboardingFormValue,
+          "name" | "subdomain" | "key" | "isMfaEnabled"
+        >,
         Institution
       >({
         path: API_PATH.institution.create,
-        data: { name: data.name, subdomain: data.subdomain, key: data.key }
+        data: {
+          name: data.name,
+          subdomain: data.subdomain,
+          key: data.key,
+          isMfaEnabled: data.isMfaEnabled
+        }
       })
 
       await postRequest({

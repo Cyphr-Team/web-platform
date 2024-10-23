@@ -58,6 +58,10 @@ function getTenantDomain(subdomain: string) {
   }
 }
 
+function getTenantRedirectURL(subdomain: string) {
+  return getTenantDomain(subdomain) + "/redirect"
+}
+
 function isAdmin(): boolean {
   return matchSubdomain(getSubdomain(), Institution.Admin)
 }
@@ -104,6 +108,7 @@ export {
   isCyphrBank,
   isCapsight,
   getTenantDomain,
+  getTenantRedirectURL,
   isKccBank,
   isLaunchKC,
   isSbb,

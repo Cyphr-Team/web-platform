@@ -13,7 +13,8 @@ export const onboardingForm = z.object({
   key: z.string().min(1, { message: "Key is required" }),
   logo: z.string().min(1, { message: "Logo is required" }),
   textLogo: z.string().min(1, { message: "Text logo is required" }),
-  supportEmail: z.string().min(1, { message: "Support email is required" })
+  supportEmail: z.string().min(1, { message: "Support email is required" }),
+  isMfaEnabled: z.boolean().default(false)
 })
 
 export type OnboardingFormValue = z.infer<typeof onboardingForm>
