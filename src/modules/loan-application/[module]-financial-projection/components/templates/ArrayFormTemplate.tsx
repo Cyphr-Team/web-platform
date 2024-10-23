@@ -2,7 +2,7 @@ import { useFieldArray, useFormContext } from "react-hook-form"
 import { Card } from "@/components/ui/card.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { TrashIcon, X } from "lucide-react"
-import { type FC, memo, type ReactNode, useCallback } from "react"
+import { memo, type ReactNode, useCallback, useState } from "react"
 import {
   type Block,
   renderBlockComponents
@@ -15,6 +15,11 @@ import { type RevenueType } from "@/modules/loan-application/[module]-financial-
 import { useBoolean } from "@/hooks"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
 import { Separator } from "@/components/ui/separator"
+
+interface ItemState {
+  id: string
+  active: boolean
+}
 
 interface ArrayFormTemplateProps {
   title: string
@@ -32,7 +37,7 @@ interface ArrayFormTemplateProps {
   btnAddText?: ReactNode
 }
 
-const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
+function ArrayFormTemplate(props: ArrayFormTemplateProps) {
   const {
     title,
     subtitle,
@@ -44,13 +49,16 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
     addIcon,
     description = (
       <span>
-        Are you sure to delete this entire revenue stream? This action is
-        permanent and cannot be undone.
+        Are you sure you want to delete this revenue stream? This action is
+        permanent and can't be undone.
       </span>
     ),
     btnAddText = `Add ${lowerCase(dataName)}`
   } = props
+
   const confirmDeleteDialog = useBoolean(false)
+  const [activeItems, setActiveItems] = useState<ItemState[]>([])
+
   const { control, getValues, setValue, register, watch } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
@@ -72,6 +80,18 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
   const handleClearAll = useCallback(() => {
     setValue(fieldName, [])
   }, [fieldName, setValue])
+
+  const handleSetActiveItem = useCallback((items: string[]) => {
+    setActiveItems((prevState) => {
+      return prevState
+        .map((item) => ({ id: item.id, active: false }))
+        .map((item) => {
+          const active = items.find((target) => target === item.id)
+
+          return active ? { id: item.id, active: true } : item
+        })
+    })
+  }, [])
 
   return (
     <Card className="flex flex-col gap-2xl p-xl rounded-lg h-fit">
@@ -106,11 +126,28 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
         </CustomAlertDialog>
       </div>
       <Separator />
-      <Accordion className="flex flex-col gap-xl" type="multiple">
+      <Accordion
+        className="flex flex-col gap-xl"
+        type="multiple"
+        value={activeItems.filter((item) => item.active).map((item) => item.id)}
+        onValueChange={handleSetActiveItem}
+      >
         {fields.map((source, index) => {
           const label = watch(`${fieldName}.${index}.name`)
             ? watch(`${fieldName}.${index}.name`)
             : "Untitled"
+
+          const existed = activeItems.find((item) => item.id === source.id)
+
+          if (!existed) {
+            setActiveItems((prevState) => [
+              ...prevState,
+              {
+                active: true,
+                id: source.id
+              }
+            ])
+          }
 
           return (
             <CollapsibleArrayFieldTemplate
@@ -151,12 +188,12 @@ const ArrayFormTemplate: FC<ArrayFormTemplateProps> = (props) => {
         })}
       </Accordion>
       <Button
-        className="ml-auto border-black"
+        className="ml-auto border-black border-opacity-20 p-3"
         type="button"
         variant="outline"
         onClick={handleAddItem}
       >
-        <div className="flex gap-2 items-center w-fit">
+        <div className="flex items-center w-fit">
           {addIcon}
           {btnAddText}
         </div>

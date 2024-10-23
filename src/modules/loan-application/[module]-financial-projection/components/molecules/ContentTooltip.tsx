@@ -4,22 +4,27 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip.tsx"
 import { Info } from "lucide-react"
-import { type FC, memo } from "react"
+import { memo } from "react"
+import { cn } from "@/lib/utils.ts"
 
-interface Props {
+interface ContentTooltipProps {
   content: string
+  className?: string
   style?: {
     iconClassName?: string
   }
 }
 
-const ContentTooltip: FC<Props> = (props) => {
-  const { style = {}, content } = props
+function ContentTooltip(props: ContentTooltipProps) {
+  const { style = {}, content, className } = props
   const { iconClassName } = style
 
   return (
     <Tooltip delayDuration={500}>
-      <TooltipTrigger className="ml-2 opacity-40" type="button">
+      <TooltipTrigger
+        className={cn("ml-2 opacity-40 p-1", className)}
+        type="button"
+      >
         <Info className={iconClassName} size={20} />
       </TooltipTrigger>
       <TooltipContent className="bg-black transform" sideOffset={0}>

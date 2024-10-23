@@ -54,7 +54,6 @@ const EquityArrayFormTemplate: FC<EquityArrayFormTemplateProps> = (props) => {
           return (
             <CollapsibleArrayFieldTemplate
               key={source.id}
-              disabledBorder
               id={source.id}
               label={label}
             >

@@ -3,7 +3,7 @@ import recurringChargesIconBlack from "@/assets/revenue-type-recurring-charges-b
 
 import { cn } from "@/lib/utils.ts"
 
-interface Props {
+interface RecurringChargesIconProps {
   className?: string
   variant?: "default" | "black"
 }
@@ -11,7 +11,7 @@ interface Props {
 export function RecurringChargesIcon({
   className,
   variant = "default"
-}: Props) {
+}: RecurringChargesIconProps) {
   return (
     <img
       alt="file"

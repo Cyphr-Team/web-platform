@@ -28,7 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={cn("relative", wrapperClassName)}>
         {prefixIcon ? (
-          <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-text-tertiary">
             {prefixIcon}
           </div>
         ) : null}
@@ -47,7 +47,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {suffixIcon ? (
           <div
             className={cn(
-              "absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none border-l border-0",
+              "absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none border-l border-0 text-text-tertiary",
               suffixClassName
             )}
           >

@@ -57,7 +57,7 @@ export function RevenueTypeSelection(props: RevenueTypeSelectionProps) {
         disable={isDisable(RevenueType.BILLABLE_HOURS)}
         icon={<BillableHoursIcon />}
         subtitle="Best for services charged on an hourly basis."
-        title="Billable Hours"
+        title="Billable hours"
         onClick={onAddItemToField(
           RevenueType.BILLABLE_HOURS,
           emptyBillableHour
@@ -77,7 +77,7 @@ export function RevenueTypeSelection(props: RevenueTypeSelectionProps) {
         disable={isDisable(RevenueType.CONTRACTS)}
         icon={<ContractRevenueIcon />}
         subtitle="Suitable for contract revenue, or for entering total revenue without itemized details"
-        title="Contract Revenue"
+        title="Contract revenue"
         onClick={onAddItemToField(RevenueType.CONTRACTS, emptyContract)}
       />
     </div>
@@ -98,8 +98,9 @@ function RevenueTypeItem(props: RevenueTypeItemProps) {
   return (
     <Button
       className={cn(
-        "col-span-1 flex text-wrap w-full justify-start h-full flex-row gap-4 border border-dashed rounded-[8px] p-4 border-brand-primary-gray shadow-xl cursor-pointer hover:bg-[#DBDBDBA6] text-left",
-        disable ? "select-none bg-[#DBDBDB] disabled:text-text-caption" : null
+        "col-span-1 flex text-wrap w-full justify-start flex-row gap-4 border border-dashed rounded-[8px] p-4 border-brand-primary-gray shadow-xl cursor-pointer hover:bg-[#DBDBDBA6] text-left",
+        disable ? "select-none bg-[#DBDBDB] disabled:text-text-caption" : null,
+        "h-[9rem] md:h-[7rem]"
       )}
       disabled={disable}
       type="button"
@@ -107,7 +108,7 @@ function RevenueTypeItem(props: RevenueTypeItemProps) {
       onClick={onClick}
     >
       <div className="min-w-8">{icon}</div>
-      <div className="flex flex-col justify-center h-full gap-md">
+      <div className="flex flex-col justify-start h-full gap-md">
         <div className={cn("font-semibold text-text-foreground")}>{title}</div>
         <div className={cn("text-text-caption font-normal")}>{subtitle}</div>
       </div>

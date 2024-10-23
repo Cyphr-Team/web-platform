@@ -102,7 +102,7 @@ export function AddRevenueTypeDialog(props: AddRevenueTypeDialogProps) {
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="w-[40rem] max-w-[40rem]">
+      <AlertDialogContent className="max-w-[50rem]">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-2xl mb-2">
             Add revenue type

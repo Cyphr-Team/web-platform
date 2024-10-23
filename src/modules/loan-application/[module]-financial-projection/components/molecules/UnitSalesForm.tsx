@@ -1,4 +1,4 @@
-import { type FC, memo } from "react"
+import { memo } from "react"
 import {
   type Block,
   FieldType
@@ -10,16 +10,16 @@ import { emptyUnitSale } from "@/modules/loan-application/[module]-financial-pro
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
 
 const enum FieldName {
-  NAME = "name",
-  EST_UNIT_SALES = "estimateMonthlyUnitSales",
-  EST_MONTHLY_INCREASE = "estimateMonthlySalesIncreaseRate",
-  PRICE = "unitPrice",
-  START_DATE = "startDate"
+  Name = "name",
+  EstUnitSales = "estimateMonthlyUnitSales",
+  EstMonthlyIncrease = "estimateMonthlySalesIncreaseRate",
+  Price = "unitPrice",
+  StartDate = "startDate"
 }
 
 const blocks: Block[] = [
   {
-    name: FieldName.NAME,
+    name: FieldName.Name,
     type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
@@ -33,7 +33,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.START_DATE,
+    name: FieldName.StartDate,
     type: FieldType.MASK,
     props: {
       label: "Revenue stream start date:",
@@ -48,7 +48,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.EST_UNIT_SALES,
+    name: FieldName.EstUnitSales,
     type: FieldType.CURRENCY,
     props: {
       label: (
@@ -67,7 +67,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.EST_MONTHLY_INCREASE,
+    name: FieldName.EstMonthlyIncrease,
     type: FieldType.NUMBER,
     props: {
       label: (
@@ -77,7 +77,7 @@ const blocks: Block[] = [
         </div>
       ),
       isRowDirection: true,
-      placeholder: "Monthly increase %",
+      placeholder: "Monthly increase",
       suffixIcon: "% /mo",
       styleProps: {
         inputClassName: "min-w-72 text-sm no-arrows"
@@ -86,7 +86,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.PRICE,
+    name: FieldName.Price,
     type: FieldType.CURRENCY,
     props: {
       label: "Unit price:",
@@ -101,11 +101,11 @@ const blocks: Block[] = [
   }
 ]
 
-interface Props {
+interface UnitSalesFormProps {
   onBlur: VoidFunction
 }
 
-const UnitSalesForm: FC<Props> = (props) => {
+function UnitSalesForm(props: UnitSalesFormProps) {
   const { onBlur } = props
 
   return (

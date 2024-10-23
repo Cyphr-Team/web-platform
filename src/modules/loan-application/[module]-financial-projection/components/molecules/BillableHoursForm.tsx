@@ -1,4 +1,4 @@
-import { type FC, memo } from "react"
+import { memo } from "react"
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
 import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import {
@@ -10,17 +10,17 @@ import { BillableHoursIcon } from "@/modules/loan-application/[module]-financial
 import { emptyBillableHour } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 
 const enum FieldName {
-  NAME = "name",
-  START_DATE = "startDate",
-  MONTHLY_NEW_CUSTOMERS = "monthlyNewCustomers",
-  MONTHLY_NEW_CUSTOMERS_INCREASE = "monthlyNewCustomerIncreaseRate",
-  AVERAGE_MONTHLY_HOUR_BILLED_PER_CUSTOMER = "averageMonthlyHourBilledPerCustomer",
-  HOURLY_RATE = "hourlyRate"
+  Name = "name",
+  StartDate = "startDate",
+  MonthlyNewCustomers = "monthlyNewCustomers",
+  MonthlyNewCustomersIncrease = "monthlyNewCustomerIncreaseRate",
+  AverageMonthlyHourBilledPerCustomer = "averageMonthlyHourBilledPerCustomer",
+  HourlyRate = "hourlyRate"
 }
 
 const blocks: Block[] = [
   {
-    name: FieldName.NAME,
+    name: FieldName.Name,
     type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
@@ -33,7 +33,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.START_DATE,
+    name: FieldName.StartDate,
     type: FieldType.MASK,
     props: {
       label: "Revenue stream start date:",
@@ -47,7 +47,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.MONTHLY_NEW_CUSTOMERS,
+    name: FieldName.MonthlyNewCustomers,
     type: FieldType.CURRENCY,
     props: {
       label: "Estimate new monthly customer sign-ups:",
@@ -61,7 +61,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.MONTHLY_NEW_CUSTOMERS_INCREASE,
+    name: FieldName.MonthlyNewCustomersIncrease,
     type: FieldType.NUMBER,
     props: {
       label: (
@@ -71,7 +71,7 @@ const blocks: Block[] = [
         </div>
       ),
       isRowDirection: true,
-      placeholder: "Monthly increase %",
+      placeholder: "Monthly increase",
       suffixIcon: "% /mo",
       styleProps: {
         inputClassName: "min-w-72 text-sm no-arrows"
@@ -80,7 +80,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.AVERAGE_MONTHLY_HOUR_BILLED_PER_CUSTOMER,
+    name: FieldName.AverageMonthlyHourBilledPerCustomer,
     type: FieldType.CURRENCY,
     props: {
       label: "Estimate average monthly billed hours per customer:",
@@ -94,7 +94,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.HOURLY_RATE,
+    name: FieldName.HourlyRate,
     type: FieldType.CURRENCY,
     props: {
       label: "Price per hour:",
@@ -109,11 +109,11 @@ const blocks: Block[] = [
   }
 ]
 
-interface Props {
+interface BillableHoursFormProps {
   onBlur: VoidFunction
 }
 
-const BillableHoursForm: FC<Props> = (props) => {
+function BillableHoursForm(props: BillableHoursFormProps) {
   const { onBlur } = props
 
   return (

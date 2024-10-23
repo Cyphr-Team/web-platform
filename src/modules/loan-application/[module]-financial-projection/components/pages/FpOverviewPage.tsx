@@ -40,7 +40,7 @@ export function Component() {
             <CashFlowGlanceCard
               title="Operating Margin"
               type="percent"
-              value={valueOrZero(cashFlow?.operatingMargin) * 100}
+              value={valueOrZero(cashFlow?.operatingMargin)}
             />
             <CashFlowGlanceCard
               title="Total Debt Service (TDS)"
@@ -55,7 +55,7 @@ export function Component() {
             <CashFlowGlanceCard
               title="Debt-to-Income (DTI)"
               type="percent"
-              value={valueOrZero(cashFlow?.debtToIncome) * 100}
+              value={valueOrZero(cashFlow?.debtToIncome)}
             />
             <CashFlowGlanceCard
               title="Cash Flow Assessment"

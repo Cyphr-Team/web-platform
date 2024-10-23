@@ -1,4 +1,4 @@
-import { type FC, memo } from "react"
+import { memo } from "react"
 import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
 import { RecurringChargesIcon } from "@/modules/loan-application/[module]-financial-projection/components/atoms/RecurringChargesIcon.tsx"
@@ -12,19 +12,19 @@ import { emptyRecurringCharge } from "@/modules/loan-application/[module]-financ
 import { CHARGE_FREQUENCIES } from "@/modules/loan-application/[module]-financial-projection/components/store/recurring-charges-store"
 
 const enum FieldName {
-  NAME = "name",
-  START_DATE = "startDate",
-  MONTHLY_NEW_CUSTOMER = "monthlyNewCustomer",
-  RECURRING_CHARGE = "recurringCharge",
-  FREQUENCY = "frequency",
-  CHURN_RATE = "churnRate",
-  HAS_UPFRONT_FEE = "hasUpfrontFee",
-  UPFRONT_FEE = "upfrontFee"
+  Name = "name",
+  StartDate = "startDate",
+  MonthlyNewCustomer = "monthlyNewCustomer",
+  RecurringCharge = "recurringCharge",
+  Frequency = "frequency",
+  ChurnRate = "churnRate",
+  HasUpfrontFee = "hasUpfrontFee",
+  UpfrontFee = "upfrontFee"
 }
 
 const blocks: Block[] = [
   {
-    name: FieldName.NAME,
+    name: FieldName.Name,
     type: FieldType.LEGACY_TEXT,
     props: {
       label: "The revenue stream in your forecast should be titled:",
@@ -37,7 +37,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.START_DATE,
+    name: FieldName.StartDate,
     type: FieldType.MASK,
     props: {
       label: "Revenue stream start date:",
@@ -51,7 +51,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.MONTHLY_NEW_CUSTOMER,
+    name: FieldName.MonthlyNewCustomer,
     type: FieldType.CURRENCY,
     props: {
       label: "Estimate new monthly customer sign-ups:",
@@ -65,7 +65,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.RECURRING_CHARGE,
+    name: FieldName.RecurringCharge,
     type: FieldType.CURRENCY,
     props: {
       label: "Recurring charge:",
@@ -79,7 +79,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.FREQUENCY,
+    name: FieldName.Frequency,
     type: FieldType.SELECT,
     props: {
       label: "Specify how often this charge is assessed:",
@@ -92,12 +92,12 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.CHURN_RATE,
+    name: FieldName.ChurnRate,
     type: FieldType.NUMBER,
     props: {
       label: (
-        <div className="flex flex-row items-center">
-          <div>Percentage of customers you expect not to renew</div>
+        <div className="flex flex-row items-center justify-start">
+          <div>Percentage of customers you expect not to renew:</div>
           <ContentTooltip content="A normal churn rate is around 10%, but depends on the business type." />
         </div>
       ),
@@ -111,7 +111,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.HAS_UPFRONT_FEE,
+    name: FieldName.HasUpfrontFee,
     type: FieldType.SELECT,
     props: {
       label: "Indicate whether you will charge an upfront fee:",
@@ -125,7 +125,7 @@ const blocks: Block[] = [
     }
   },
   {
-    name: FieldName.UPFRONT_FEE,
+    name: FieldName.UpfrontFee,
     type: FieldType.CURRENCY,
     props: {
       label: "Upfront fee:",
@@ -140,11 +140,11 @@ const blocks: Block[] = [
   }
 ]
 
-interface Props {
+interface RecurringChargesFormProps {
   onBlur: VoidFunction
 }
 
-const RecurringChargesForm: FC<Props> = (props) => {
+function RecurringChargesForm(props: RecurringChargesFormProps) {
   const { onBlur } = props
 
   return (
