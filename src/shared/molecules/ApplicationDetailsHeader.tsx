@@ -12,7 +12,8 @@ import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { useNavigate } from "react-router-dom"
 import { CustomAlertDialog } from "./AlertDialog"
 import { cn } from "@/lib/utils"
-import { CloseWithoutSave } from "@/modules/loan-application/components/atoms/CloseWithoutSave"
+import { DiscardApplication } from "@/modules/loan-application/components/atoms/DiscardApplication"
+import { Icons } from "@/components/ui/icons"
 
 export function ApplicationDetailsHeader() {
   const { loanApplicationDetails, isFetchingDetails } =
@@ -35,6 +36,8 @@ export function ApplicationDetailsHeader() {
       navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
     }
   }
+
+  const description = `Are you sure you want to save and continue with this loan application?`
 
   return (
     <nav
@@ -75,15 +78,18 @@ export function ApplicationDetailsHeader() {
       </div>
       {editableStatuses.includes(status) ? (
         <div className="flex gap-2">
-          <CloseWithoutSave />
+          <DiscardApplication />
           <CustomAlertDialog
             cancelText="Cancel"
-            confirmText="Save & Close"
-            description="Are you sure you want to save and close this loan application?"
-            title="Save & Close?"
+            confirmText="Save & Continue"
+            description={<span className="break-keep">{description}</span>}
+            title="Save and continue?"
             onConfirmed={onConfirmed}
           >
-            <ButtonLoading isLoading={isSubmitting}>Save & Close</ButtonLoading>
+            <ButtonLoading isLoading={isSubmitting} variant="outline">
+              <Icons.saveApplication className="mr-1" />
+              Save and continue
+            </ButtonLoading>
           </CustomAlertDialog>
         </div>
       ) : (

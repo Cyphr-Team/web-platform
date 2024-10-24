@@ -17,7 +17,7 @@ import {
   useLoanApplicationProgressContext,
   useLoanProgramDetailContext
 } from "../../providers"
-import { CloseWithoutSave } from "../atoms/CloseWithoutSave"
+import { DiscardApplication } from "../atoms/DiscardApplication"
 import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { TopBarDetail } from "./TopBarDetail"
 import { isEnableChatSupport } from "@/utils/feature-flag.utils"
@@ -95,7 +95,7 @@ export function LoanInformationHeader() {
         <div className="flex gap-2">
           {checkStepStatus ? (
             <>
-              <CloseWithoutSave />
+              <DiscardApplication />
               <LoanApplicationSave />
             </>
           ) : (

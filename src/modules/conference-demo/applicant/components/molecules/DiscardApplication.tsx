@@ -3,25 +3,25 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useNavigate } from "react-router-dom"
 import { APP_PATH } from "../../../../../constants"
 
-export function CloseWithoutSave() {
+export function DiscardApplication() {
   const navigate = useNavigate()
   const onConfirmed = () => {
     navigate(APP_PATH.CONFERENCE_DEMO.applicant.list)
   }
 
-  const description = `Are you sure you want to close this loan application. Unsaved changes will be lost.`
+  const description = `Are you sure you want to discard this loan application. Unsaved changes will be lost.`
 
   return (
     <CustomAlertDialog
       actionClassName="text-white finovate"
       cancelText="Cancel"
-      confirmText="Yes, Close"
+      confirmText="Discard"
       description={description}
-      title="Close without saving"
+      title="Discard application"
       onConfirmed={onConfirmed}
     >
       <Button className="hover:opacity-90" variant="outline">
-        Close without saving
+        Discard application
       </Button>
     </CustomAlertDialog>
   )

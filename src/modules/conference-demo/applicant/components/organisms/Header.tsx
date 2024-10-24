@@ -4,10 +4,13 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
 import { memo } from "react"
 import { useNavigate } from "react-router-dom"
 import { APP_PATH } from "../../../../../constants"
-import { CloseWithoutSave } from "../molecules/CloseWithoutSave"
+import { DiscardApplication } from "../molecules/DiscardApplication"
+import { Icons } from "@/components/ui/icons"
 
 function Header() {
   const navigate = useNavigate()
+
+  const description = `Are you sure you want to save and continue with this loan application?`
 
   return (
     <nav
@@ -20,18 +23,21 @@ function Header() {
         SBA Micro Loans
       </div>
       <div className="flex gap-2">
-        <CloseWithoutSave />
+        <DiscardApplication />
         <CustomAlertDialog
           actionClassName="finovate"
           cancelText="Cancel"
-          confirmText="Save & Close"
-          description="Are you sure you want to save and close this loan application?"
-          title="Save & Close?"
+          confirmText="Save & Continue"
+          description={<span className="break-keep">{description}</span>}
+          title="Save and continue?"
           onConfirmed={() => {
             navigate(APP_PATH.CONFERENCE_DEMO.applicant.list)
           }}
         >
-          <ButtonLoading isLoading={false}>Save & Close</ButtonLoading>
+          <ButtonLoading isLoading={false} variant="outline">
+            <Icons.saveApplication className="mr-1" />
+            Save and continue
+          </ButtonLoading>
         </CustomAlertDialog>
       </div>
     </nav>

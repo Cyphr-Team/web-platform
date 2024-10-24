@@ -3,7 +3,7 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { useLoanApplicationFormContext } from "../../providers"
 import { useLocation, useNavigate } from "react-router-dom"
 
-export function CloseWithoutSave() {
+export function DiscardApplication() {
   const { isSubmitting } = useLoanApplicationFormContext()
   const { state } = useLocation()
   const navigate = useNavigate()
@@ -15,15 +15,15 @@ export function CloseWithoutSave() {
     }
   }
 
-  const description = `Are you sure you want to close this loan application. Unsaved changes will be lost.`
+  const description = `Are you sure you want to discard this loan application. Unsaved changes will be lost.`
 
   return (
     <CustomAlertDialog
       actionClassName="text-white"
       cancelText="Cancel"
-      confirmText="Yes, Close"
-      description={description}
-      title="Close without saving"
+      confirmText="Discard"
+      description={<span className="break-keep">{description}</span>}
+      title="Discard application"
       onConfirmed={onConfirmed}
     >
       <Button
@@ -31,7 +31,7 @@ export function CloseWithoutSave() {
         disabled={isSubmitting}
         variant="outline"
       >
-        Close without saving
+        Discard application
       </Button>
     </CustomAlertDialog>
   )
