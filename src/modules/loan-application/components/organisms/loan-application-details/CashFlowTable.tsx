@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { type ColumnDef } from "@tanstack/react-table"
 import { useParams } from "react-router-dom"
@@ -10,10 +9,16 @@ import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
 import { Button } from "@/components/ui/button"
 import { useMemo } from "react"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
+import { useQueryGetPlaidConnectedBankAccountsByApplicationId } from "@/modules/loan-application/hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
+import { isEnabledQuery } from "@/utils"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
+import _ from "lodash"
+import { type IPlaidAccountProviderData } from "@/modules/loan-application/constants"
 
-const columns: ColumnDef<LoanApplicationBankAccount>[] = [
+const columns: ColumnDef<IPlaidAccountProviderData>[] = [
   {
-    accessorKey: "bankAccountName",
+    accessorKey: "name",
     header: () => <div className="flex items-center space-x-2">Account</div>
   },
   {
@@ -29,10 +34,10 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
             isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
-              TaskFieldStatus.SUCCESS
+              TaskFieldStatus.PENDING
             )}
           >
-            Connected
+            Pending
           </Badge>
         </div>
       )
@@ -45,12 +50,34 @@ export function CashFlowTable() {
   const { data, isLoading, isError, error, refetch } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
 
-  const bankAccounts = data?.bankAccounts ?? []
   const isCashFlowNotReady = useMemo(() => {
     return (
       isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
     )
   }, [isError, error])
+  const { progress } = useLoanApplicationProgressContext()
+
+  const plaidConnectedAccountsQuery =
+    useQueryGetPlaidConnectedBankAccountsByApplicationId({
+      applicationId: loanApplicationId!,
+      enabled: isEnabledQuery(
+        LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
+        progress
+      )
+    })
+
+  const connectedBankAccountsGroup = _.groupBy(
+    plaidConnectedAccountsQuery.data?.data?.institutions,
+    "institutionId"
+  )
+
+  let allAccounts: IPlaidAccountProviderData[] = []
+
+  Object.values(connectedBankAccountsGroup).forEach((institutions) => {
+    institutions.forEach((institution) => {
+      allAccounts = allAccounts.concat(institution.accounts)
+    })
+  })
 
   const noResultText = useMemo(() => {
     return isCashFlowNotReady
@@ -63,7 +90,7 @@ export function CashFlowTable() {
       <CardHeader className="border-b mx-8 px-0 md:px-0 md:py-4">
         <div className="flex justify-between items-center flex-wrap gap-1">
           <CardTitle className="font-semibold text-lg flex items-center gap-3">
-            Cash Flow Verification
+            Cash Flow Verification5
           </CardTitle>
           {/* Display this button when cash flow is not ready or empty */}
           {isCashFlowNotReady || !data?.bankAccounts?.length ? (
@@ -77,7 +104,7 @@ export function CashFlowTable() {
       <CardContent className="px-5">
         <MiddeskTable
           columns={columns}
-          data={bankAccounts}
+          data={allAccounts}
           isLoading={isLoading}
           noResultText={noResultText}
         />

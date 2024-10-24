@@ -49,7 +49,6 @@ export function DialogAddDocument() {
   const listInstitution = useQueryGetListAllInstitution({
     enabled: isForesightAdmin
   })
-
   const institutionOptions: Option[] =
     listInstitution.data?.map((institution) => ({
       value: institution.id,

@@ -12,7 +12,7 @@ export const enum STEP {
   LOAN_REQUEST = "Loan Request",
   BUSINESS_INFORMATION = "Business Information",
   BUSINESS_PLAN = "Business Plan",
-  CASH_FLOW_VERIFICATION = "Cash Flow Verification",
+  CASH_FLOW_VERIFICATION = "Cash Flow Verification1",
 
   // INPUT_GROUP.DOCUMENTATION
   ARTICLES_OF_ORGANIZATION = "Articles of Organization",

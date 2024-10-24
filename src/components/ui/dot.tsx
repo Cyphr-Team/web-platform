@@ -5,6 +5,7 @@ import { DotIcon, type LucideProps } from "lucide-react"
 const dotVariants = cva("w-3 h-3 mr-1", {
   variants: {
     variantColor: {
+      purple: "text-purple-500",
       red: "text-red-500",
       gray: "text-gray-500",
       yellow: "text-yellow-500",

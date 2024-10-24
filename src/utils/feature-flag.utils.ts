@@ -24,7 +24,7 @@ function isEnableSubscriptionManagement() {
 }
 
 function isEnabledBankAccountConnectionV2() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.BANK_ACCOUNT_CONNECTION_V2)
+  return true
 }
 
 function formsConfigurationEnabled() {
@@ -109,7 +109,7 @@ function isEnablePandaDocESign() {
  * Allow applicants to submit applications without KYC step
  */
 function isIgnoredKycSubmission() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.IGNORE_KYC_SUBMISSION)
+  return true
 }
 
 /*
@@ -147,7 +147,7 @@ function isEnableChatSupport() {
 }
 
 function isEnablePlaidV2() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.PLAID_V2)
+  return true
 }
 
 export {

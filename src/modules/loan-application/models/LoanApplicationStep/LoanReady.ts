@@ -57,7 +57,7 @@ export class LoanReadyLoanApplicationStep
         {
           step: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
           formType: FORM_TYPE.FINANCIAL,
-          label: "Cash Flow Verification",
+          label: "Cash Flow Verification7",
           // Cash flow is in another group, so I re-build it right here
           // instead of use the this._build_CashFlowVerificationStep()
           parent: STEP_MENU.REVENUE_AND_EXPENSES,

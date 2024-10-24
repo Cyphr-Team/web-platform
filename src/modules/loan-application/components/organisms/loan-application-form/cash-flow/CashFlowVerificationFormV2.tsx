@@ -48,7 +48,7 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
     accessorKey: "connectedOn",
     header: () => (
       <div className="flex items-center space-x-2 text-gray-700">
-        Connected on
+        Connected on3
       </div>
     )
   },
@@ -164,7 +164,7 @@ export function CashFlowVerificationFormV2({
           wrapperClassName
         )}
       >
-        <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
+        <h5 className="text-lg font-semibold">Cash Flow Verification6</h5>
         <Separator />
         <div className="flex flex-col gap-y-2xl gap-x-4xl">
           <div className="flex flex-col gap-y-sm">

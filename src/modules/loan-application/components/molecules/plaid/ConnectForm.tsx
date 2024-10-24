@@ -316,7 +316,7 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
     accessorKey: "connectedOn",
     header: () => (
       <div className="flex items-center space-x-2 text-gray-700">
-        Connected on
+        Connected on2
       </div>
     )
   },

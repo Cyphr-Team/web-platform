@@ -709,7 +709,7 @@ export function BRLoanApplicationDetailsProvider({
         }
       })
     }
-  }, [plaidConnectedAccountsQuery.data?.data?.institutions, plaidDispatch])
+  }, [plaidConnectedAccountsQuery.data?.data, plaidDispatch])
   /**
    * TODO: How to remove linkedItemIds
    */

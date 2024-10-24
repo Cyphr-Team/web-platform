@@ -187,7 +187,7 @@ export class LoanApplicationStep {
         {
           step: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
           formType: FORM_TYPE.FINANCIAL,
-          label: "Cash Flow Verification",
+          label: "Cash Flow Verification8",
           parent: STEP_MENU.APPLICATION,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
