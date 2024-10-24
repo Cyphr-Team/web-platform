@@ -94,7 +94,7 @@ const blocks: Block[] = [
       placeholder: "Enter unit price",
       prefixIcon: "$",
       styleProps: {
-        inputClassName: "min-w-72 text-sm"
+        inputClassName: "min-w-72 text-sm pl-7.5"
       },
       isHideErrorMessage: true
     }

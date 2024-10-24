@@ -1,15 +1,15 @@
-import { useFieldArray, useFormContext } from "react-hook-form"
-import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
-import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
-import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { Button } from "@/components/ui/button.tsx"
-import { type FC, memo, type ReactNode, useCallback, useEffect } from "react"
+import { cn } from "@/lib/utils"
 import {
   type Block,
   renderInnerBlockComponents
 } from "@/modules/form-template/components/templates/FormTemplate.tsx"
+import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
+import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { X } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { memo, type ReactNode, useCallback, useEffect } from "react"
+import { useFieldArray, useFormContext } from "react-hook-form"
 
 interface PeopleArrayFormTemplateProps {
   title?: string
@@ -25,7 +25,7 @@ interface PeopleArrayFormTemplateProps {
   canBeEmpty?: boolean
 }
 
-const PeopleArrayFormTemplate: FC<PeopleArrayFormTemplateProps> = (props) => {
+function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
   const {
     name,
     defaultEmptyObject,
@@ -107,7 +107,7 @@ const PeopleArrayFormTemplate: FC<PeopleArrayFormTemplateProps> = (props) => {
                 variant="ghost"
                 onClick={onRemove(index)}
               >
-                <X className="w-4" />
+                <X className="w-5 h-5 text-text-tertiary" />
               </Button>
             ) : null}
           </div>

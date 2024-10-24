@@ -18,6 +18,9 @@ module.exports = {
       }
     },
     extend: {
+      width: {
+        50: "12.5rem"
+      },
       aria: {
         invalid: 'invalid="true"'
       },
@@ -133,6 +136,10 @@ module.exports = {
             gray: "hsla(var(--brand-primary-gray))"
           }
         }
+      },
+      padding: {
+        7.5: "1.875rem",
+        22: "5.5rem"
       },
       spacing: {
         xxs: "2px",

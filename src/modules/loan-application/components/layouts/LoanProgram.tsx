@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 import { useQueryGetLoanPrograms } from "../../hooks/useQuery/useQueryLoanPrograms"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { APP_PATH } from "@/constants"
 
 function WelcomeLine() {
@@ -36,22 +36,24 @@ export function Component() {
 
   const navigate = useNavigate()
 
+  const isPortalHasSpecialProgram = isLaunchKC() || isLoanReady()
+
   // ONLY FOR LAUNCH KC
   // Because launch KC only has one program
   useEffect(() => {
     const loanProgramsData = loanPrograms.data?.data ?? []
 
-    if (isLaunchKC() && loanProgramsData?.length > 0) {
+    if (isPortalHasSpecialProgram && loanProgramsData?.length > 0) {
       navigate(
         APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.detailWithId(
           loanPrograms.data?.data[0]?.id ?? ""
         )
       )
     }
-  }, [loanPrograms.data?.data, navigate])
+  }, [isPortalHasSpecialProgram, loanPrograms.data?.data, navigate])
 
   return (
-    !isLaunchKC() && (
+    !isPortalHasSpecialProgram && (
       <div className="overflow-auto flex flex-col flex-1">
         <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
           <section className={cn("col-span-10", "md:col-span-8")}>

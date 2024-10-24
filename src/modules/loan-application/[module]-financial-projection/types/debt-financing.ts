@@ -14,9 +14,9 @@ interface IdType {
  */
 export type DebtFinancingCommonForm = Pick<
   DebtFinancingFormValue,
-  | DebtFinancingField.STARTING_PAID_IN_CAPITAL
-  | DebtFinancingField.PAYABLE_DAYS
-  | DebtFinancingField.HAS_OUTSTANDING_LOANS
+  | DebtFinancingField.StartingPaidInCapital
+  | DebtFinancingField.PayableDays
+  | DebtFinancingField.HasOutstandingLoans
 >
 
 export type DebtFinancingForm = DebtFinancingFormItemValue
@@ -42,7 +42,7 @@ export interface DebtFinancingResponse {
  */
 export type DebtFinancingLiabilityForm = Pick<
   DebtFinancingFormValue,
-  DebtFinancingField.PAYABLE_DAYS
+  DebtFinancingField.PayableDays
 >
 
 export type DebtFinancingLiability = DebtFinancingLiabilityForm & IdType

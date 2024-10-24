@@ -18,6 +18,7 @@ import groupBy from "lodash.groupby"
 import { Check } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
 import { LogoHeader } from "../atoms/LogoHeader"
+import { isLoanReady } from "@/utils/domain.utils"
 
 type SidebarProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -143,7 +144,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
       )}
     >
       <div className="pl-3xl pr-2xl items-center mb-4 justify-between flex bg-white border-b h-20">
-        <LogoHeader className="justify-center" />
+        <LogoHeader className="justify-center" isLarge={isLoanReady()} />
       </div>
 
       <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4 max-h-[50vh] md:max-h-full">

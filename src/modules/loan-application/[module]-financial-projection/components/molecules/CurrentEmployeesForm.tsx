@@ -14,7 +14,7 @@ const CurrentEmployeesBlock = [
     name: "departmentName",
     type: FieldType.TEXT,
     props: {
-      className: "text-sm space-y-0 m-2 w-full lg:w-auto grow",
+      className: "text-sm space-y-0 w-full lg:w-auto grow",
       placeholder: "Department name",
       prefixIcon: <Icons.idCard />,
       styleProps: {
@@ -27,7 +27,7 @@ const CurrentEmployeesBlock = [
     name: "numberOfEmployees",
     type: FieldType.NUMBER,
     props: {
-      className: "text-sm space-y-0 m-2 w-full lg:w-auto grow",
+      className: "text-sm space-y-0 w-full lg:w-auto grow",
       placeholder: "Number of employees",
       prefixIcon: <Icons.team />,
       styleProps: {
@@ -41,11 +41,11 @@ const CurrentEmployeesBlock = [
     type: FieldType.CURRENCY,
     props: {
       direction: "column",
-      className: "text-sm space-y-0 m-2 w-full lg:w-auto grow",
+      className: "text-sm space-y-0 w-full lg:w-auto grow",
       placeholder: "Annual department salaries",
       prefixIcon: (
-        <div className="flex justify-between w-9 text-[#667085]">
-          <Icons.money /> $
+        <div className="flex justify-between gap-1.5 text-text-placeholder">
+          <Icons.money />$
         </div>
       ),
       styleProps: {
@@ -61,7 +61,7 @@ function CurrentEmployeesForm() {
     <PeopleArrayFormTemplate
       actionIcon={<UserRoundPlus size={18} />}
       actionText="Add employee department"
-      blockClassName="justify-between flex-col lg:flex-row lg:items-center w-full"
+      blockClassName="justify-between flex-col lg:flex-row lg:items-center w-full gap-4 items-center"
       blocks={CurrentEmployeesBlock}
       className="flex flex-col-reverse lg:flex-row items-center"
       defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.CURRENT_EMPLOYEES]}

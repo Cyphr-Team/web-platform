@@ -223,7 +223,7 @@ function DirectCosts(props: DirectCostsProps) {
             FieldPath<DirectCostsFormValue>
           >(DirectCostsField.directCostsOverallRevenue, index)}
           placeholder="Overall revenue"
-          styleProps={{ inputClassName: "text-sm no-arrows" }}
+          styleProps={{ inputClassName: "text-sm no-arrows pr-8" }}
           suffixIcon={<span>%</span>}
         />
       </div>

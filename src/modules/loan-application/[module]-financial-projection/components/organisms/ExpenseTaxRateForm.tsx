@@ -72,7 +72,7 @@ export const TaxRateForm: FC = () => {
             placeholder="Income tax rate"
             styleProps={{
               labelClassName: "text-text-secondary",
-              inputClassName: "text-sm w-64 no-arrows"
+              inputClassName: "text-sm w-64 no-arrows pr-8"
             }}
             suffixIcon="%"
           />

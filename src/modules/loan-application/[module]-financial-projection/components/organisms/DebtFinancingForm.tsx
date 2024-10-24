@@ -112,7 +112,7 @@ export function DebtFinancingArrayForm() {
   }
 
   const isHaveOutStandingLoans =
-    form.watch(DebtFinancingField.HAS_OUTSTANDING_LOANS) === BINARY_VALUES.YES
+    form.watch(DebtFinancingField.HasOutstandingLoans) === BINARY_VALUES.YES
 
   return (
     <Card
@@ -141,7 +141,7 @@ export function DebtFinancingArrayForm() {
             blocks={DebtFinancingArrayFormBlocks}
             dataName="Loan"
             defaultEmptyObject={EMPTY_DEBT_FINANCING_ITEM}
-            fieldName={DebtFinancingField.DEBT_FINANCING}
+            fieldName={DebtFinancingField.DebtFinancing}
             onBlur={onAutoSave}
           />
         </div>

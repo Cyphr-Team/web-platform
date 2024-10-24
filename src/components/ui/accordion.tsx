@@ -12,6 +12,7 @@ type AccordionTriggerProps = React.ComponentPropsWithoutRef<
   closeIcon?: React.ReactNode
   openIcon?: React.ReactNode
   isStartIcon?: boolean
+  iconClassName?: string
 }
 
 const AccordionItem = React.forwardRef<
@@ -32,7 +33,15 @@ const AccordionTrigger = React.forwardRef<
   AccordionTriggerProps
 >(
   (
-    { className, children, openIcon, closeIcon, isStartIcon, ...props },
+    {
+      className,
+      children,
+      openIcon,
+      closeIcon,
+      isStartIcon,
+      iconClassName,
+      ...props
+    },
     ref
   ) => (
     <AccordionPrimitive.Trigger
@@ -48,14 +57,24 @@ const AccordionTrigger = React.forwardRef<
       {
         // If isStartIcon is true, render the icon before the children
         !openIcon && !closeIcon && isStartIcon ? (
-          <ChevronDownIcon className="w-6 shrink-0 transition-transform duration-200" />
+          <ChevronDownIcon
+            className={cn(
+              "w-6 shrink-0 transition-transform duration-200",
+              iconClassName
+            )}
+          />
         ) : null
       }
       {children}
       <div className="open-icon">{openIcon}</div>
       <div className="close-icon">{closeIcon}</div>
       {!openIcon && !closeIcon && !isStartIcon && (
-        <ChevronDownIcon className="w-6 shrink-0 transition-transform duration-200" />
+        <ChevronDownIcon
+          className={cn(
+            "w-6 shrink-0 transition-transform duration-200",
+            iconClassName
+          )}
+        />
       )}
     </AccordionPrimitive.Trigger>
   )

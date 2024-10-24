@@ -228,7 +228,8 @@ function OperatingExpenses(props: OperatingExpensesProps) {
             FieldPath<FpOperatingExpensesFormValue>
           >(FpOperatingExpensesField.operatingExpensesMonthlyCost, index)}
           prefixIcon="$"
-          suffixIcon={<span className="text-gray-400">/ mo</span>}
+          styleProps={{ inputClassName: "pl-7.5" }}
+          suffixIcon={<span className="text-text-placeholder">/ mo</span>}
         />
       </div>
 
@@ -241,7 +242,7 @@ function OperatingExpenses(props: OperatingExpensesProps) {
             variant="ghost"
             onClick={onRemove}
           >
-            <X className="w-4" />
+            <X className="w-5 h-5" />
           </Button>
         </div>
       ) : null}

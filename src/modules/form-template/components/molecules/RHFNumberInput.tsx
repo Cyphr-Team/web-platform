@@ -26,12 +26,14 @@ export interface RHFNumberInputProps<T extends FieldValues> {
   required?: boolean
   className?: string
   suffixIcon?: ReactNode
+  prefixIcon?: ReactNode
   isRowDirection?: boolean
   isHideErrorMessage?: boolean
   styleProps?: {
     inputClassName?: string
     labelClassName?: string
     messageClassName?: string
+    suffixClassName?: string
   }
 }
 
@@ -53,10 +55,12 @@ function RHFNumberInput<T extends FieldValues>(props: RHFNumberInputProps<T>) {
     isRowDirection,
     isHideErrorMessage,
     subtitle,
-    suffixIcon
+    suffixIcon,
+    prefixIcon
   } = props
 
-  const { inputClassName, labelClassName, messageClassName } = styleProps
+  const { inputClassName, labelClassName, messageClassName, suffixClassName } =
+    styleProps
 
   return (
     <FormField
@@ -96,6 +100,8 @@ function RHFNumberInput<T extends FieldValues>(props: RHFNumberInputProps<T>) {
                 {...control}
                 className={cn("no-arrows", inputClassName)}
                 placeholder={placeholder}
+                prefixIcon={prefixIcon}
+                suffixClassName={suffixClassName}
                 suffixIcon={suffixIcon}
                 value={value}
               />

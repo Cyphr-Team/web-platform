@@ -1,15 +1,14 @@
-import { memo } from "react"
-import { FieldType } from "@/modules/form-template/components/templates/FormTemplate.tsx"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import PeopleArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/PeopleArrayFormTemplate"
 import { Icons } from "@/components/ui/icons"
-import { Calendar } from "lucide-react"
-import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form"
 import { MM_YYYY_PATTERN } from "@/constants"
+import { FieldType } from "@/modules/form-template/components/templates/FormTemplate.tsx"
 import {
   PEOPLE_DEFAULT_VALUE,
   PeopleField
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
+import PeopleArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/PeopleArrayFormTemplate"
+import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { memo } from "react"
 
 const FutureEmployeesBlock = [
   {
@@ -24,14 +23,15 @@ const FutureEmployeesBlock = [
         subtitleClassName: "text-sm font-normal",
         inputClassName: "text-sm lg:w-[13vw] ml-auto mr-0"
       },
-      className: "w-full lg:grid lg:grid-cols-3 gap-1"
+      className:
+        "w-full lg:grid lg:grid-cols-3 gap-1 space-y-0 col-start-0 col-span-3 mt-2"
     }
   },
   {
     name: "role",
     type: FieldType.TEXT,
     props: {
-      className: "text-sm space-y-0 m-1 w-full xl:w-auto grow",
+      className: "row-start-2",
       placeholder: "Role",
       prefixIcon: <Icons.idCard />,
       styleProps: {
@@ -46,9 +46,9 @@ const FutureEmployeesBlock = [
     type: FieldType.MASK,
     props: {
       pattern: MM_YYYY_PATTERN,
-      className: "text-sm space-y-0 m-1 w-full xl:w-auto grow",
+      className: "row-start-2",
       placeholder: "Start date (MM/YYYY)",
-      prefixIcon: <Calendar className="ml-1" size={20} />,
+      prefixIcon: <Icons.calendar />,
       subtitle: "",
       styleProps: {
         calendarClassName: "text-sm"
@@ -61,11 +61,11 @@ const FutureEmployeesBlock = [
     type: FieldType.CURRENCY,
     props: {
       direction: "column",
-      className: "text-sm space-y-0 m-1 w-full xl:w-auto grow",
+      className: "row-start-2",
       placeholder: "Annual salary",
       prefixIcon: (
-        <div className="flex justify-between w-9 text-[#667085]">
-          <Icons.money /> $
+        <div className="flex justify-between gap-1.5 text-text-placeholder">
+          <Icons.money />$
         </div>
       ),
       styleProps: {
@@ -82,7 +82,7 @@ function FutureEmployeesForm() {
       canBeEmpty
       actionIcon={<Icons.team />}
       actionText="Add future employee(s)"
-      blockClassName="justify-between flex-col lg:flex-row lg:items-center flex-wrap gap-1 w-full"
+      blockClassName="grid grid-cols-3 gap-x-4 gap-y-3 w-full"
       blocks={FutureEmployeesBlock}
       className="flex flex-col-reverse items-center"
       defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.FUTURE_EMPLOYEES]}

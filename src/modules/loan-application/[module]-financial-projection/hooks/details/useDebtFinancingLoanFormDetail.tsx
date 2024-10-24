@@ -18,7 +18,7 @@ export const useDebtFinancingLoanFormDetail = ({
 }: UseDebtFinancingLoanFormDetailProps) => {
   const totalInvestment =
     debtFinancingResponse?.commonForm?.[
-      DebtFinancingField.STARTING_PAID_IN_CAPITAL
+      DebtFinancingField.StartingPaidInCapital
     ] ?? 0
 
   const outstandingLoans = (debtFinancingResponse?.loanForms?.length ?? 0) > 0

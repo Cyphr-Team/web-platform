@@ -141,23 +141,22 @@ export const reverseFormatDebtFinancingForm = ({
     debtFinancingResponse?.loanForms?.length > 0
 
   return {
-    [DebtFinancingField.APPLICATION_ID]:
+    [DebtFinancingField.ApplicationId]:
       debtFinancingResponse?.financialProjectionSetupId ??
       debtFinancingLiabilityResponse?.financialProjectionSetupId,
-    [DebtFinancingField.LIABILITY_ID]: debtFinancingLiabilityResponse?.id,
-    [DebtFinancingField.DEBT_FINANCING_ID]:
-      debtFinancingResponse?.commonForm?.id,
+    [DebtFinancingField.LiabilityId]: debtFinancingLiabilityResponse?.id,
+    [DebtFinancingField.DebtFinancingId]: debtFinancingResponse?.commonForm?.id,
 
-    [DebtFinancingField.PAYABLE_DAYS]: (
+    [DebtFinancingField.PayableDays]: (
       debtFinancingLiabilityResponse?.payableDays ?? ""
     )?.toString(),
 
-    [DebtFinancingField.STARTING_PAID_IN_CAPITAL]:
+    [DebtFinancingField.StartingPaidInCapital]:
       debtFinancingResponse?.commonForm?.startingPaidInCapital ?? 0,
-    [DebtFinancingField.HAS_OUTSTANDING_LOANS]: isHasOutstandingLoans
+    [DebtFinancingField.HasOutstandingLoans]: isHasOutstandingLoans
       ? BINARY_VALUES.YES
       : BINARY_VALUES.NO,
-    [DebtFinancingField.DEBT_FINANCING]: isHasOutstandingLoans
+    [DebtFinancingField.DebtFinancing]: isHasOutstandingLoans
       ? debtFinancingResponse?.loanForms
       : [EMPTY_DEBT_FINANCING_ITEM]
   }

@@ -8,12 +8,14 @@ interface LogoHeaderProps {
   isCollapsed?: boolean
   toggleCollapse?: () => void
   className?: string
+  isLarge?: boolean
 }
 
 export function LogoHeader({
   isCollapsed,
   toggleCollapse,
-  className
+  className,
+  isLarge
 }: LogoHeaderProps) {
   const { tenantData } = useTenant()
 
@@ -27,11 +29,10 @@ export function LogoHeader({
         {tenantData?.logo ? (
           <Image
             alt="Institution logo"
-            className="w-8 h-8"
-            height={32}
+            className="mr-1"
             placeholderClassName="bg-slate-400 rounded"
             src={getImageURL(tenantData?.logo)}
-            width={32}
+            width={isLarge ? 40 : 32}
           />
         ) : null}
 
@@ -44,10 +45,10 @@ export function LogoHeader({
       {!isCollapsed && tenantData?.textLogo ? (
         <Image
           alt="Institution text logo"
-          className="max-w-[120px]"
+          className={cn("max-w-[120px]", isLarge && "max-w-[210px]")}
           placeholderClassName="bg-slate-400 rounded"
           src={getImageURL(tenantData?.textLogo)}
-          width={120}
+          width={isLarge ? 210 : 120}
         />
       ) : null}
     </div>

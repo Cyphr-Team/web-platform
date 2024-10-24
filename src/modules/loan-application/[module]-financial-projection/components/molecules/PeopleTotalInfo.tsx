@@ -13,8 +13,8 @@ export function PeopleTotalInfo(props: PeopleTotalInfoProps) {
   return (
     <Card className="border-[#4F6161] shadow-lg rounded-xl xl:p-4 p-2 flex flex-col justify-between m-2 grow">
       <h5 className="text-xs font-semibold">{title}</h5>
-      <p className="text-xl font-medium">
-        {isCurrency ? `$${USDFormatter(value).format()}` : value}
+      <p className="text-xl font-medium text-text-placeholder">
+        {isCurrency ? `$ ${USDFormatter(value).format()}` : value}
       </p>
     </Card>
   )

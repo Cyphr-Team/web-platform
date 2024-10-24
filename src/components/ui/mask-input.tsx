@@ -84,7 +84,7 @@ const MaskInput = forwardRef<HTMLInputElement, MaskInputProps>((props, ref) => {
   return (
     <div className={cn("relative", wrapperClassName)}>
       {prefixIcon ? (
-        <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           {prefixIcon}
         </div>
       ) : null}
@@ -105,7 +105,7 @@ const MaskInput = forwardRef<HTMLInputElement, MaskInputProps>((props, ref) => {
         onAccept={(value) => onChange({ target: { name: props.name, value } })}
       />
       {suffixIcon ? (
-        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none border-l border-0">
+        <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none border-l border-0">
           {suffixIcon}
         </div>
       ) : null}

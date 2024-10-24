@@ -31,10 +31,11 @@ export function CollapsibleArrayFieldTemplate(
     >
       <AccordionTrigger
         isStartIcon
-        className="flex-row-reverse w-full px-4 py-2 hover:no-underline"
+        className="flex-row-reverse w-full px-0 pt-2 pb-5 hover:no-underline"
+        iconClassName="w-5 h-5"
         id={id}
       >
-        <div className="flex items-center justify-between flex-1 ml-3 font-semibold cursor-pointer">
+        <div className="flex items-center justify-between flex-1 font-semibold cursor-pointer">
           {label}
         </div>
       </AccordionTrigger>

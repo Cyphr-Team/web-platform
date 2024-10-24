@@ -74,7 +74,9 @@ export function CalendarDatePicker({
                 {format(value, dateFormat ?? "MM - dd - y")}
               </span>
             ) : (
-              <span className="text-text-tertiary">{placeholder}</span>
+              <span className="text-text-placeholder text-sm">
+                {placeholder}
+              </span>
             )}
             <CalendarPlus className="h-5 w-5 text-text-tertiary" />
           </Button>

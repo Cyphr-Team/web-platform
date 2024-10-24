@@ -155,7 +155,7 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
               id={source.id}
               label={label}
             >
-              <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-xl border">
+              <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-lg border">
                 <TooltipProvider delayDuration={500}>
                   {renderBlockComponents(
                     blocks.map((block) => {

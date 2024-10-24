@@ -123,7 +123,7 @@ export function PeopleForm() {
         </Card>
         <Card
           className={cn(
-            "bg-financial-projection-card flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
+            "bg-financial-projection-card flex flex-col gap-2xl p-4xl py-5 rounded-xl h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
             "md:col-span-6 md:col-start-2 md:mx-0 mt-5"
           )}
         >
@@ -168,7 +168,7 @@ export function PeopleForm() {
         </Card>
 
         {!isReviewApplicationStep(step) && (
-          <div className="flex flex-col gap-2xl mt-4">
+          <div className="flex flex-col gap-2xl mt-4 md:mt-8">
             <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}

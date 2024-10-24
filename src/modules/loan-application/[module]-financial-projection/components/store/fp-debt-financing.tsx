@@ -12,20 +12,20 @@ import { type Option } from "@/types/common.type"
 import * as z from "zod"
 
 export const enum DebtFinancingField {
-  DEBT_FINANCING_ID = "debtFinancingId",
-  LIABILITY_ID = "liabilityId",
-  APPLICATION_ID = "applicationId",
-  PAYABLE_DAYS = "payableDays",
-  STARTING_PAID_IN_CAPITAL = "startingPaidInCapital",
-  HAS_OUTSTANDING_LOANS = "hasOutstandingLoans",
-  DEBT_FINANCING = "debtFinancing",
-  DEBT_FINANCING_NAME = "name",
-  DEBT_FINANCING_LENDER_NAME = "lenderName",
-  DEBT_FINANCING_TYPE = "type",
-  DEBT_FINANCING_LOAN_DATE = "loanDate",
-  DEBT_FINANCING_REMAINING_LOAN_BALANCE = "remainingLoanBalance",
-  DEBT_FINANCING_TERMS_REMAINING = "termsRemaining",
-  DEBT_FINANCING_ANNUAL_INTEREST_RATE = "annualInterestRate"
+  DebtFinancingId = "debtFinancingId",
+  LiabilityId = "liabilityId",
+  ApplicationId = "applicationId",
+  PayableDays = "payableDays",
+  StartingPaidInCapital = "startingPaidInCapital",
+  HasOutstandingLoans = "hasOutstandingLoans",
+  DebtFinancing = "debtFinancing",
+  DebtFinancingName = "name",
+  DebtFinancingLenderName = "lenderName",
+  DebtFinancingType = "type",
+  DebtFinancingLoanDate = "loanDate",
+  DebtFinancingRemainingLoanBalance = "remainingLoanBalance",
+  DebtFinancingTermsRemaining = "termsRemaining",
+  DebtFinancingAnnualInterestRate = "annualInterestRate"
 }
 
 const DebtFinancingFormItemSchema = z.object({
@@ -40,28 +40,28 @@ const DebtFinancingFormItemSchema = z.object({
 
 export const DebtFinancingFormSchema = z
   .object({
-    [DebtFinancingField.DEBT_FINANCING_ID]: z.string().optional(),
-    [DebtFinancingField.LIABILITY_ID]: z.string().optional(),
-    [DebtFinancingField.APPLICATION_ID]: z.string().optional(),
-    [DebtFinancingField.PAYABLE_DAYS]: z.string().min(1, "Please select one"),
-    [DebtFinancingField.STARTING_PAID_IN_CAPITAL]: createNumberSchema(),
-    [DebtFinancingField.HAS_OUTSTANDING_LOANS]: z
+    [DebtFinancingField.DebtFinancingId]: z.string().optional(),
+    [DebtFinancingField.LiabilityId]: z.string().optional(),
+    [DebtFinancingField.ApplicationId]: z.string().optional(),
+    [DebtFinancingField.PayableDays]: z.string().min(1, "Please select one"),
+    [DebtFinancingField.StartingPaidInCapital]: createNumberSchema(),
+    [DebtFinancingField.HasOutstandingLoans]: z
       .string()
       .min(1, "Please select one"),
-    [DebtFinancingField.DEBT_FINANCING]: z.array(z.any())
+    [DebtFinancingField.DebtFinancing]: z.array(z.any())
   })
   .superRefine((data, ctx) => {
-    if (data[DebtFinancingField.HAS_OUTSTANDING_LOANS] === BINARY_VALUES.YES) {
+    if (data[DebtFinancingField.HasOutstandingLoans] === BINARY_VALUES.YES) {
       const debtFinancingResult = z
         .array(DebtFinancingFormItemSchema)
-        .safeParse(data[DebtFinancingField.DEBT_FINANCING])
+        .safeParse(data[DebtFinancingField.DebtFinancing])
 
       if (!debtFinancingResult.success) {
         debtFinancingResult.error.issues.forEach((issue) => {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: issue.message,
-            path: [DebtFinancingField.DEBT_FINANCING, ...issue.path]
+            path: [DebtFinancingField.DebtFinancing, ...issue.path]
           })
         })
       }
@@ -88,9 +88,9 @@ export const EMPTY_DEBT_FINANCING_ITEM: DebtFinancingFormItemValue = {
 }
 
 export const DEBT_FINANCING_DEFAULT_VALUE = {
-  [DebtFinancingField.PAYABLE_DAYS]: "",
-  [DebtFinancingField.HAS_OUTSTANDING_LOANS]: "",
-  [DebtFinancingField.DEBT_FINANCING]: [EMPTY_DEBT_FINANCING_ITEM]
+  [DebtFinancingField.PayableDays]: "",
+  [DebtFinancingField.HasOutstandingLoans]: "",
+  [DebtFinancingField.DebtFinancing]: [EMPTY_DEBT_FINANCING_ITEM]
 }
 
 export const PAYABLE_DAYS_OPTIONS = [
@@ -141,7 +141,7 @@ export const DEBT_FINANCING_TYPE_OPTIONS: Option[] = [
 
 export const LiabilityFormBlocks: Block[] = [
   {
-    name: DebtFinancingField.PAYABLE_DAYS,
+    name: DebtFinancingField.PayableDays,
     type: FieldType.SELECT,
     props: {
       label: "Days to pay",
@@ -151,10 +151,10 @@ export const LiabilityFormBlocks: Block[] = [
       styleProps: {
         labelClassName: "flex-1",
         subtitleClassName: "text-sm font-normal mt-1.5",
-        inputClassName: "w-48"
+        inputClassName: "w-50"
       },
       isRowDirection: true,
-      className: "space-y-0 gap-2",
+      className: "space-y-0 gap-4",
       isHideErrorMessage: true
     }
   }
@@ -162,27 +162,28 @@ export const LiabilityFormBlocks: Block[] = [
 
 export const DebtFinancingFormBlocks: Block[] = [
   {
-    name: DebtFinancingField.STARTING_PAID_IN_CAPITAL,
+    name: DebtFinancingField.StartingPaidInCapital,
     type: FieldType.CURRENCY,
     props: {
-      className: "gap-2 space-y-0",
+      className: "gap-4 space-y-0",
       label:
         "How much money have you or others invested in the company as owners or in exchange for equity?",
       isRowDirection: true,
       placeholder: "Enter amount",
       prefixIcon: "$",
       styleProps: {
+        icon: "pl-3",
         labelClassName: "flex-1 leading-1",
-        inputClassName: "w-40 text-sm"
+        inputClassName: "w-50 text-sm pl-7.5"
       },
       isHideErrorMessage: true
     }
   },
   {
-    name: DebtFinancingField.HAS_OUTSTANDING_LOANS,
+    name: DebtFinancingField.HasOutstandingLoans,
     type: FieldType.SELECT,
     props: {
-      className: "space-y-0 gap-2",
+      className: "space-y-0 gap-4",
       label: "Does your business currently have outstanding loans?",
       subtitle:
         "(ex: term loan, revolving credit, equipment financing, debt financing, etc.)",
@@ -191,7 +192,7 @@ export const DebtFinancingFormBlocks: Block[] = [
       styleProps: {
         labelClassName: "flex-1",
         subtitleClassName: "text-sm font-normal mt-1.5",
-        inputClassName: "text-sm w-40"
+        inputClassName: "text-sm w-50"
       },
       isHideErrorMessage: true
     }
@@ -200,50 +201,50 @@ export const DebtFinancingFormBlocks: Block[] = [
 
 export const DebtFinancingArrayFormBlocks: Block[] = [
   {
-    name: DebtFinancingField.DEBT_FINANCING_NAME,
+    name: DebtFinancingField.DebtFinancingName,
     type: FieldType.TEXT,
     props: {
-      className: "gap-2 space-y-0",
+      className: "gap-4 space-y-0",
       label: "Enter name of loan:",
       placeholder: "Name of loan",
       isRowDirection: true,
       styleProps: {
-        inputClassName: "min-w-60"
+        inputClassName: "w-60"
       },
       isHideErrorMessage: true
     }
   },
   {
-    name: DebtFinancingField.DEBT_FINANCING_LENDER_NAME,
+    name: DebtFinancingField.DebtFinancingLenderName,
     type: FieldType.TEXT,
     props: {
-      className: "gap-2 space-y-0",
+      className: "gap-4 space-y-0",
       label: "Enter name of Lender/Financial Institution:",
       placeholder: "Name of lender",
       isRowDirection: true,
       styleProps: {
-        inputClassName: "min-w-60"
+        inputClassName: "w-60"
       },
       isHideErrorMessage: true
     }
   },
   {
-    name: DebtFinancingField.DEBT_FINANCING_TYPE,
+    name: DebtFinancingField.DebtFinancingType,
     type: FieldType.SELECT,
     props: {
-      className: "gap-2 space-y-0",
+      className: "gap-4 space-y-0",
       label: "Type of loan:",
       isRowDirection: true,
       placeholder: "Please select",
       options: DEBT_FINANCING_TYPE_OPTIONS,
       styleProps: {
-        inputClassName: "max-w-60"
+        inputClassName: "w-60"
       },
       isHideErrorMessage: true
     }
   },
   {
-    name: DebtFinancingField.DEBT_FINANCING_LOAN_DATE,
+    name: DebtFinancingField.DebtFinancingLoanDate,
     type: FieldType.DATE,
     props: {
       className: "flex items-center space-y-0",
@@ -254,45 +255,45 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       dateFormat: FORMAT_DATE_MM_DD_YYYY,
       styleProps: {
         labelClassName: "flex-1",
-        calendarClassName: "max-w-60"
+        calendarClassName: "w-60"
       },
       isHideErrorMessage: true,
       isEnableFutureDate: true
     }
   },
   {
-    name: DebtFinancingField.DEBT_FINANCING_REMAINING_LOAN_BALANCE,
+    name: DebtFinancingField.DebtFinancingRemainingLoanBalance,
     type: FieldType.CURRENCY,
     props: {
-      className: "gap-2 space-y-0",
+      className: "gap-4 space-y-0",
       label: "Remaining loan balance:",
       isRowDirection: true,
       placeholder: "Remaining loan balance",
       prefixIcon: "$",
       styleProps: {
-        inputClassName: "min-w-60 text-sm pl-6"
+        inputClassName: "w-60 text-sm pl-7.5"
       },
       isHideErrorMessage: true
     }
   },
   {
-    name: DebtFinancingField.DEBT_FINANCING_TERMS_REMAINING,
-    type: FieldType.CURRENCY,
+    name: DebtFinancingField.DebtFinancingTermsRemaining,
+    type: FieldType.NUMBER,
     props: {
-      className: "gap-2 space-y-0",
+      className: "gap-4 space-y-0",
       label: "Loan term remaining (in months):",
       isRowDirection: true,
       placeholder: "Loan term remaining",
-      suffixIcon: "Months",
+      suffixIcon: <div className="text-sm">Months</div>,
       styleProps: {
-        suffixClassName: "border",
-        inputClassName: "min-w-60 !pr-20 text-right max-w-60 text-sm"
+        suffixClassName: "border-l",
+        inputClassName: "pr-22 text-right w-60 text-sm placeholder:text-left"
       },
       isHideErrorMessage: true
     }
   },
   {
-    name: DebtFinancingField.DEBT_FINANCING_ANNUAL_INTEREST_RATE,
+    name: DebtFinancingField.DebtFinancingAnnualInterestRate,
     type: FieldType.NUMBER,
     props: {
       className: "flex flex-row items-center justify-between",
@@ -301,7 +302,7 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       placeholder: "Annual interest rate",
       suffixIcon: "%",
       styleProps: {
-        inputClassName: "min-w-60 pr-11 text-sm"
+        inputClassName: "w-60 pr-8 text-sm"
       },
       isHideErrorMessage: true
     }
