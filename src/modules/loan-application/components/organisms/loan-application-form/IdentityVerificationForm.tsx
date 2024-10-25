@@ -1,9 +1,7 @@
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { type ReactNode, useCallback, useEffect, useMemo } from "react"
 import { Form } from "@/components/ui/form"
 import { usePersona } from "@/lib/persona/usePersona"
-import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, LockKeyhole, ShieldCheck, UserCheck, Zap } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -24,6 +22,7 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { FormSubmitButton } from "../../atoms/FormSubmitButton"
 import { isSbb } from "@/utils/domain.utils.ts"
 import { ButtonLoading } from "@/components/ui/button"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 function VerifyInfoItem({
   leftIcon,
@@ -149,13 +148,7 @@ export function IdentityVerificationForm({
 
   return (
     <Form {...form}>
-      <Card
-        className={cn(
-          "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
-          wrapperClassName
-        )}
-      >
+      <FormLayout wrapperClassName={wrapperClassName}>
         <div className="flex gap-2 justify-between items-center">
           <h5 className="text-lg font-semibold">Identity Verification</h5>
           <div className="text-sm">
@@ -212,7 +205,7 @@ export function IdentityVerificationForm({
             />
           )}
         </div>
-      </Card>
+      </FormLayout>
     </Form>
   )
 }

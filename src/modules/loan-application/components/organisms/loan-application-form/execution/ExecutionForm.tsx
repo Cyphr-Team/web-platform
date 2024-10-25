@@ -1,7 +1,5 @@
-import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { FoundersInput } from "@/modules/loan-application/components/organisms/loan-application-form/execution/FoundersInput.tsx"
 import { FundingSourceInput } from "@/modules/loan-application/components/organisms/loan-application-form/execution/FundingSourceInput.tsx"
 import {
@@ -30,6 +28,7 @@ import {
 } from "./constants"
 import { useMemo } from "react"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function ExecutionForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -87,90 +86,81 @@ export function ExecutionForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EXECUTION)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
-    >
-      <div className="flex flex-col gap-3xl overflow-auto">
-        <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none">
-            <h5 className="text-lg font-semibold">Execution</h5>
-            <Separator />
-            <form className="flex flex-col gap-4xl">
-              <SelectInput
-                key={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
-                className="flex items-center"
-                control={form.control}
-                inputClassName="!max-w-52"
-                label="How much cash does your company go through each month?"
-                labelClassName="leading-relaxed mt-2 pt-2"
-                name={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
-                options={monthlyExpenseRangeOptions}
-              />
-              {questions.map((q) => (
-                <TextAreaInput
-                  key={q.field}
-                  control={form.control}
-                  label={q.question}
-                  name={q.field as keyof ExecutionFormValue}
-                />
-              ))}
-              <OptionInput
-                key="businessStage"
-                control={form.control}
-                label="Which best describes the current stage of your product or service?"
-                name="businessStage"
-                options={getOptionsByField(
-                  LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_STAGE
-                )}
-              />
-              <MultiCheckboxesInput
-                key={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
-                control={form.control}
-                label={
-                  <span>
-                    What areas do you need the most support?
-                    <span className="font-normal italic">
-                      &nbsp;(You can select more than 1)
-                    </span>
-                  </span>
-                }
-                name={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
-                options={getOptionsByField(
-                  LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL
-                )}
-              />
-              <MultiCheckboxesInput
-                key={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
-                control={form.control}
-                label={
-                  <span>
-                    What alliances or partnerships have you entered?
-                    <span className="font-normal italic">
-                      &nbsp;(You can select more than 1)
-                    </span>
-                  </span>
-                }
-                name={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
-                options={getOptionsByField(
-                  LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE
-                )}
-              />
-              <FundingSourceInput />
-              <FoundersInput />
-            </form>
-          </Card>
-
-          {!isReviewApplicationStep(step) && (
-            <FormSubmitButton
-              isDisabled={!form.formState.isValid}
-              onSubmit={form.handleSubmit(onSubmit)}
+    <FormLayout>
+      <Form {...form}>
+        <h5 className="text-lg font-semibold">Execution</h5>
+        <Separator />
+        <form className="flex flex-col gap-4xl">
+          <SelectInput
+            key={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
+            className="flex items-center"
+            control={form.control}
+            inputClassName="!max-w-52"
+            label="How much cash does your company go through each month?"
+            labelClassName="leading-relaxed mt-2 pt-2"
+            name={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
+            options={monthlyExpenseRangeOptions}
+          />
+          {questions.map((q) => (
+            <TextAreaInput
+              key={q.field}
+              control={form.control}
+              label={q.question}
+              name={q.field as keyof ExecutionFormValue}
             />
-          )}
-        </Form>
-      </div>
-    </div>
+          ))}
+          <OptionInput
+            key="businessStage"
+            control={form.control}
+            label="Which best describes the current stage of your product or service?"
+            name="businessStage"
+            options={getOptionsByField(
+              LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_STAGE
+            )}
+          />
+          <MultiCheckboxesInput
+            key={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
+            control={form.control}
+            label={
+              <span>
+                What areas do you need the most support?
+                <span className="font-normal italic">
+                  &nbsp;(You can select more than 1)
+                </span>
+              </span>
+            }
+            name={LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL}
+            options={getOptionsByField(
+              LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL
+            )}
+          />
+          <MultiCheckboxesInput
+            key={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
+            control={form.control}
+            label={
+              <span>
+                What alliances or partnerships have you entered?
+                <span className="font-normal italic">
+                  &nbsp;(You can select more than 1)
+                </span>
+              </span>
+            }
+            name={LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE}
+            options={getOptionsByField(
+              LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE
+            )}
+          />
+          <FundingSourceInput />
+          <FoundersInput />
+        </form>
+
+        {!isReviewApplicationStep(step) && (
+          <FormSubmitButton
+            isDisabled={!form.formState.isValid}
+            onSubmit={form.handleSubmit(onSubmit)}
+          />
+        )}
+      </Form>
+    </FormLayout>
   )
 }

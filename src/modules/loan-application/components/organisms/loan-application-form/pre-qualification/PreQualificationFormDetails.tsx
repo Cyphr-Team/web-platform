@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/card"
 import { type PreQualificationResponse } from "@/modules/loan-application/constants/type"
 
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 import { options } from "./constants"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 interface Props {
   data?: PreQualificationResponse
@@ -10,7 +10,7 @@ interface Props {
 
 export function PreQualificationFormDetails({ data }: Props) {
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item">
+    <FormLayout wrapperClassName="loan-application-item">
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <AnswersTextDisplay
@@ -47,6 +47,6 @@ export function PreQualificationFormDetails({ data }: Props) {
           }
         />
       </div>
-    </Card>
+    </FormLayout>
   )
 }

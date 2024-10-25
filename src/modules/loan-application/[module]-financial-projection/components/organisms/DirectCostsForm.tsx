@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { MM_YYYY_PATTERN } from "@/constants"
-import { cn } from "@/lib/utils"
 import {
   RHFMaskInput,
   RHFNumberInput,
@@ -34,6 +32,7 @@ import {
   useForm,
   useFormContext
 } from "react-hook-form"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function DirectCostsForm() {
   const { directCosts, dispatchFormAction } = useLoanApplicationFormContext()
@@ -86,12 +85,7 @@ export function DirectCostsForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.DIRECT_COSTS)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout>
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">
           Direct Costs (Costs of sales/COGS)
@@ -153,7 +147,7 @@ export function DirectCostsForm() {
           </div>
         )}
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }
 

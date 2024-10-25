@@ -1,8 +1,6 @@
-import { Card } from "@/components/ui/card"
 import { revertPattern } from "@/components/ui/mask-input"
 import { Separator } from "@/components/ui/separator"
 import { EIN_PATTERN } from "@/constants"
-import { cn } from "@/lib/utils"
 import {
   RHFMaskInput,
   RHFSelectInput,
@@ -34,6 +32,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { get } from "lodash"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 function getOrDefault(
   businessInformation: IBusinessFormValue
@@ -100,13 +99,7 @@ export function LoanReadyBusinessInformationForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm w-full"
-      )}
-      id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
-    >
+    <FormLayout id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}>
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
       <RHFProvider
@@ -207,6 +200,6 @@ export function LoanReadyBusinessInformationForm() {
           )}
         </div>
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }

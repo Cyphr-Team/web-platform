@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { RHFProvider } from "@/modules/form-template/providers"
@@ -28,6 +27,7 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { Plus } from "lucide-react"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function DebtFinancingForm() {
   const { debtFinancing, dispatchFormAction } = useLoanApplicationFormContext()
@@ -52,12 +52,7 @@ export function DebtFinancingForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.DEBT_FINANCING)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col col-span-8 mx-4 h-full overflow-auto flex-1",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <div className="md:col-span-6 md:col-start-2 md:mx-0">
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div
           className={cn(
@@ -75,11 +70,7 @@ export function DebtFinancingForm() {
 
 export function DebtFinancingLiabilityForm() {
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl rounded-lg h-fit overflow-auto col-span-8 shadow-none text-sm p-4xl"
-      )}
-    >
+    <FormLayout>
       <div>
         <h5 className="text-lg font-semibold">Accounts Payable</h5>
         <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -93,7 +84,7 @@ export function DebtFinancingLiabilityForm() {
       <Separator />
 
       {renderBlockComponents(LiabilityFormBlocks)}
-    </Card>
+    </FormLayout>
   )
 }
 
@@ -115,11 +106,7 @@ export function DebtFinancingArrayForm() {
     form.watch(DebtFinancingField.HasOutstandingLoans) === BINARY_VALUES.YES
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl rounded-lg h-fit overflow-auto col-span-8 shadow-none text-sm p-4xl"
-      )}
-    >
+    <FormLayout>
       <div>
         <h5 className="text-lg font-semibold">Debt Financing</h5>
         <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -152,6 +139,6 @@ export function DebtFinancingArrayForm() {
           <Button>Next</Button>
         </div>
       )}
-    </Card>
+    </FormLayout>
   )
 }

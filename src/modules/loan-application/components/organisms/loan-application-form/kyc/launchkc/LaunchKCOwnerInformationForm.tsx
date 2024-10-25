@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -12,7 +11,6 @@ import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { Separator } from "@/components/ui/separator"
 import { SSN_PATTERN } from "@/constants"
-import { cn } from "@/lib/utils"
 import {
   launchKCOwnerFormSchema,
   type LaunchKCOwnerFormValue
@@ -47,6 +45,7 @@ import {
   LAUNCH_KC_KYC_FIELD_NAMES
 } from "./const"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function LaunchKCOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -149,285 +148,270 @@ export function LaunchKCOwnerInformationForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
-      id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
-    >
-      <div className="flex flex-col gap-3xl overflow-auto">
-        <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
-            <h5 className="text-lg font-semibold">
-              Owner / Guarantor Information
-            </h5>
-            <Separator />
+    <FormLayout id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}>
+      <Form {...form}>
+        <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
+        <Separator />
 
-            <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
-              <TextInput
-                required
-                className="col-span-4"
-                control={form.control}
-                label="First name"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.FIRST_NAME}
-                placeholder="i.e: Larry"
-              />
-              <TextInput
-                required
-                className="col-span-4"
-                control={form.control}
-                label="Last name"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.LAST_NAME}
-                placeholder="i.e: Latte"
-              />
-              <SelectInput
-                required
-                className="col-span-4"
-                control={form.control}
-                inputClassName="xl:ml-0 xl:max-w-80"
-                label="Title"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.TITLE}
-                options={TITLE_OPTIONS}
-                placeholder="Please Select"
-              />
-              <OptionInput
-                hasOtherOption
-                required
-                className="col-span-12"
-                control={form.control}
-                label="Which best describes your gender identity?"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY}
-                options={getKycOptionsByField(
-                  LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY
-                )}
-                otherText="Prefer to self-describe"
-              />
-              <OptionInput
-                hasOtherOption
-                required
-                className="col-span-12"
-                control={form.control}
-                label="Which best describes your preferred pronoun?"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN}
-                options={getKycOptionsByField(
-                  LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN
-                )}
-              />
-              <SelectInput
-                required
-                className="col-span-6"
-                control={form.control}
-                inputClassName="xl:ml-0 xl:max-w-80"
-                label="Racial identification"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION}
-                options={getKycOptionsByField(
-                  LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION
-                )}
-                placeholder="Please Select"
-              />
-              <SelectInput
-                required
-                className="col-span-6"
-                control={form.control}
-                inputClassName="xl:ml-0 xl:max-w-80"
-                label="Ethnic identification"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION}
-                options={getKycOptionsByField(
-                  LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION
-                )}
-                placeholder="Please Select"
-              />
-              <TextInput
-                required
-                className="col-span-12"
-                control={form.control}
-                label="Resident address line #1"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE1}
-                placeholder="i.e: 456 Bean Ave."
-              />
-              <TextInput
-                className="col-span-12"
-                control={form.control}
-                label="Resident address line #2 (optional)"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE2}
-                placeholder="i.e: Suite 789"
-              />
-              <AutoCompleteStates
-                required
-                className="col-span-12 lg:col-span-4"
-                control={form.control}
-                emptyText="No results found"
-                label="State"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_STATE}
-                options={STATE_DATA}
-                value={form.getValues("businessState")}
-                onChange={handleChangeState}
-              />
-              <AutoCompleteCities
-                required
-                className="col-span-12 lg:col-span-4"
-                control={form.control}
-                emptyText="No results found"
-                label="City"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY}
-                options={
-                  STATE_DATA.find(
-                    (s) => s.name === form.getValues("businessState")
-                  )?.cities ?? []
-                }
-                value={form.getValues(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY)}
-                onChange={handleChangeCity}
-              />
-              <TextInput
-                required
-                className="col-span-12 lg:col-span-4"
-                control={form.control}
-                label="Zip code"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE}
-                placeholder="i.e: 98765"
-              />
-              <TextInput
-                required
-                className="col-span-12 lg:col-span-6"
-                control={form.control}
-                label="Email address"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.EMAIL}
-                placeholder="i.e: larry@latte.com"
-                prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
-              />
-              <FormField
-                name={LAUNCH_KC_KYC_FIELD_NAMES.PHONE_NUMBER}
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-6">
-                    <FormLabel className="text-text-secondary">
-                      Phone number
-                      <RequiredSymbol />
-                    </FormLabel>
-                    <PhoneInput
-                      international
-                      countryCallingCodeEditable={false}
-                      countrySelectComponent={CountrySelect}
-                      defaultCountry="US"
-                      inputComponent={CustomPhoneInput}
-                      placeholder="+1 (555) 000-0000"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={LAUNCH_KC_KYC_FIELD_NAMES.DATE_OF_BIRTH}
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-6">
-                    <FormLabel className="text-text-secondary">
-                      Date of birth
-                      <RequiredSymbol />
-                    </FormLabel>
-                    <CalendarDatePicker
-                      className="w-full"
-                      id="dateOfBirth"
-                      value={field.value}
-                      onSelectDate={handleSelectDate}
-                    />
-                    <div className="text-xs text-text-tertiary">
-                      The US date format is mm-dd-yyyy
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER}
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-6">
-                    <FormLabel className="text-text-secondary">
-                      SSN/ITIN
-                      <RequiredSymbol />
-                    </FormLabel>
-                    <FormControl>
-                      <MaskInput
-                        className="text-base"
-                        pattern={SSN_PATTERN}
-                        placeholder="i.e: 123-45-6789"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <SelectInput
-                required
-                className="flex items-center col-span-12"
-                control={form.control}
-                label="Are you a founder or co-founder of the company applying: "
-                name={LAUNCH_KC_KYC_FIELD_NAMES.ARE_FOUNDER_OR_CO_FOUNDER}
-                options={YES_NO_OPTIONS}
-                placeholder="Please Select"
-                subtitle="LaunchKC defines a founder or co-founder as an individual involved with the business since its inception, holding equity, and making strategic decisions."
-                subtitleClassName="text-sm text-text-secondary font-normal"
-              />
-              <SelectInput
-                required
-                className="col-span-5"
-                control={form.control}
-                inputClassName="xl:ml-0 xl:max-w-80"
-                label="Are you a full-time founder?"
-                name={LAUNCH_KC_KYC_FIELD_NAMES.ARE_FULL_TIME_FOUNDER}
-                options={YES_NO_OPTIONS}
-              />
-              <FormField
-                control={form.control}
-                name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-7">
-                    <FormLabel className="text-text-secondary">
-                      What percent of the business do you own?
-                      <RequiredSymbol />
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className="text-base input-number-remove-arrow"
-                        max={100}
-                        min={0}
-                        placeholder="i.e: 70"
-                        suffixIcon={
-                          <span className="text-text-tertiary">%</span>
-                        }
-                        type="businessOwnershipPercentage"
-                        {...field}
-                        onChange={(e) => {
-                          if (
-                            Number(e.target.value) >= 0 &&
-                            Number(e.target.value) <= 100
-                          )
-                            field.onChange(e)
-                        }}
-                      />
-                    </FormControl>
-                    <div className="text-xs text-text-tertiary">
-                      Please enter a number between 0 - 100
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div />
-            </form>
-
-            {!isReviewApplicationStep(step) && (
-              <FormSubmitButton
-                isDisabled={!form.formState.isValid}
-                onSubmit={form.handleSubmit(onSubmit)}
-              />
+        <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
+          <TextInput
+            required
+            className="col-span-4"
+            control={form.control}
+            label="First name"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.FIRST_NAME}
+            placeholder="i.e: Larry"
+          />
+          <TextInput
+            required
+            className="col-span-4"
+            control={form.control}
+            label="Last name"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.LAST_NAME}
+            placeholder="i.e: Latte"
+          />
+          <SelectInput
+            required
+            className="col-span-4"
+            control={form.control}
+            inputClassName="xl:ml-0 xl:max-w-80"
+            label="Title"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.TITLE}
+            options={TITLE_OPTIONS}
+            placeholder="Please Select"
+          />
+          <OptionInput
+            hasOtherOption
+            required
+            className="col-span-12"
+            control={form.control}
+            label="Which best describes your gender identity?"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY}
+            options={getKycOptionsByField(
+              LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY
             )}
-          </Card>
-        </Form>
-      </div>
-    </div>
+            otherText="Prefer to self-describe"
+          />
+          <OptionInput
+            hasOtherOption
+            required
+            className="col-span-12"
+            control={form.control}
+            label="Which best describes your preferred pronoun?"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN}
+            options={getKycOptionsByField(
+              LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN
+            )}
+          />
+          <SelectInput
+            required
+            className="col-span-6"
+            control={form.control}
+            inputClassName="xl:ml-0 xl:max-w-80"
+            label="Racial identification"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION}
+            options={getKycOptionsByField(
+              LAUNCH_KC_KYC_FIELD_NAMES.RACIAL_IDENTIFICATION
+            )}
+            placeholder="Please Select"
+          />
+          <SelectInput
+            required
+            className="col-span-6"
+            control={form.control}
+            inputClassName="xl:ml-0 xl:max-w-80"
+            label="Ethnic identification"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION}
+            options={getKycOptionsByField(
+              LAUNCH_KC_KYC_FIELD_NAMES.ETHNIC_IDENTIFICATION
+            )}
+            placeholder="Please Select"
+          />
+          <TextInput
+            required
+            className="col-span-12"
+            control={form.control}
+            label="Resident address line #1"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE1}
+            placeholder="i.e: 456 Bean Ave."
+          />
+          <TextInput
+            className="col-span-12"
+            control={form.control}
+            label="Resident address line #2 (optional)"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.ADDRESS_LINE2}
+            placeholder="i.e: Suite 789"
+          />
+          <AutoCompleteStates
+            required
+            className="col-span-12 lg:col-span-4"
+            control={form.control}
+            emptyText="No results found"
+            label="State"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_STATE}
+            options={STATE_DATA}
+            value={form.getValues("businessState")}
+            onChange={handleChangeState}
+          />
+          <AutoCompleteCities
+            required
+            className="col-span-12 lg:col-span-4"
+            control={form.control}
+            emptyText="No results found"
+            label="City"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY}
+            options={
+              STATE_DATA.find((s) => s.name === form.getValues("businessState"))
+                ?.cities ?? []
+            }
+            value={form.getValues(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_CITY)}
+            onChange={handleChangeCity}
+          />
+          <TextInput
+            required
+            className="col-span-12 lg:col-span-4"
+            control={form.control}
+            label="Zip code"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ZIP_CODE}
+            placeholder="i.e: 98765"
+          />
+          <TextInput
+            required
+            className="col-span-12 lg:col-span-6"
+            control={form.control}
+            label="Email address"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.EMAIL}
+            placeholder="i.e: larry@latte.com"
+            prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
+          />
+          <FormField
+            name={LAUNCH_KC_KYC_FIELD_NAMES.PHONE_NUMBER}
+            render={({ field }) => (
+              <FormItem className="col-span-12 lg:col-span-6">
+                <FormLabel className="text-text-secondary">
+                  Phone number
+                  <RequiredSymbol />
+                </FormLabel>
+                <PhoneInput
+                  international
+                  countryCallingCodeEditable={false}
+                  countrySelectComponent={CountrySelect}
+                  defaultCountry="US"
+                  inputComponent={CustomPhoneInput}
+                  placeholder="+1 (555) 000-0000"
+                  {...field}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={LAUNCH_KC_KYC_FIELD_NAMES.DATE_OF_BIRTH}
+            render={({ field }) => (
+              <FormItem className="col-span-12 lg:col-span-6">
+                <FormLabel className="text-text-secondary">
+                  Date of birth
+                  <RequiredSymbol />
+                </FormLabel>
+                <CalendarDatePicker
+                  className="w-full"
+                  id="dateOfBirth"
+                  value={field.value}
+                  onSelectDate={handleSelectDate}
+                />
+                <div className="text-xs text-text-tertiary">
+                  The US date format is mm-dd-yyyy
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER}
+            render={({ field }) => (
+              <FormItem className="col-span-12 lg:col-span-6">
+                <FormLabel className="text-text-secondary">
+                  SSN/ITIN
+                  <RequiredSymbol />
+                </FormLabel>
+                <FormControl>
+                  <MaskInput
+                    className="text-base"
+                    pattern={SSN_PATTERN}
+                    placeholder="i.e: 123-45-6789"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <SelectInput
+            required
+            className="flex items-center col-span-12"
+            control={form.control}
+            label="Are you a founder or co-founder of the company applying: "
+            name={LAUNCH_KC_KYC_FIELD_NAMES.ARE_FOUNDER_OR_CO_FOUNDER}
+            options={YES_NO_OPTIONS}
+            placeholder="Please Select"
+            subtitle="LaunchKC defines a founder or co-founder as an individual involved with the business since its inception, holding equity, and making strategic decisions."
+            subtitleClassName="text-sm text-text-secondary font-normal"
+          />
+          <SelectInput
+            required
+            className="col-span-5"
+            control={form.control}
+            inputClassName="xl:ml-0 xl:max-w-80"
+            label="Are you a full-time founder?"
+            name={LAUNCH_KC_KYC_FIELD_NAMES.ARE_FULL_TIME_FOUNDER}
+            options={YES_NO_OPTIONS}
+          />
+          <FormField
+            control={form.control}
+            name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}
+            render={({ field }) => (
+              <FormItem className="col-span-12 lg:col-span-7">
+                <FormLabel className="text-text-secondary">
+                  What percent of the business do you own?
+                  <RequiredSymbol />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    className="text-base input-number-remove-arrow"
+                    max={100}
+                    min={0}
+                    placeholder="i.e: 70"
+                    suffixIcon={<span className="text-text-tertiary">%</span>}
+                    type="businessOwnershipPercentage"
+                    {...field}
+                    onChange={(e) => {
+                      if (
+                        Number(e.target.value) >= 0 &&
+                        Number(e.target.value) <= 100
+                      )
+                        field.onChange(e)
+                    }}
+                  />
+                </FormControl>
+                <div className="text-xs text-text-tertiary">
+                  Please enter a number between 0 - 100
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div />
+        </form>
+
+        {!isReviewApplicationStep(step) && (
+          <FormSubmitButton
+            isDisabled={!form.formState.isValid}
+            onSubmit={form.handleSubmit(onSubmit)}
+          />
+        )}
+      </Form>
+    </FormLayout>
   )
 }

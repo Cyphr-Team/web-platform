@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 
 import {
-  Card,
   CardContent,
   CardDescription,
   CardFooter,
@@ -10,7 +9,6 @@ import {
   CardTitle
 } from "@/components/ui/card"
 
-import { cn } from "@/lib/utils"
 import { RHFLoanSlider } from "@/modules/conference-demo/applicant/components/molecules"
 import { RHFSelectInput } from "@/modules/form-template/components/molecules"
 import { RHFProvider } from "@/modules/form-template/providers"
@@ -25,6 +23,7 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 interface LoanReadyLoanRequestFormProps {
   wrapperClassName?: string
@@ -71,14 +70,8 @@ export function LoanReadyLoanRequestForm({
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm w-full",
-        wrapperClassName
-      )}
-    >
-      <CardHeader className="text-center pb:0 md:pb-0">
+    <FormLayout wrapperClassName={wrapperClassName}>
+      <CardHeader className="text-center p:0 md:p-0">
         <CardTitle className="text-lg">Loan Request</CardTitle>
         <CardDescription className="text-secondary-400">
           Please specify the loan amount and how you intend to use the funds
@@ -87,19 +80,19 @@ export function LoanReadyLoanRequestForm({
       </CardHeader>
 
       <RHFProvider methods={form} onSubmit={handleSubmit}>
-        <CardContent>
+        <CardContent className="px:0 md:px-0">
           <div>
             <div className="flex">
               <div className="flex-1">
                 <RHFLoanSlider
-                  label="Loan Amount"
+                  label="Loan amount"
                   max={maxLoanAmount}
                   min={minLoanAmount}
                   name="loanAmount"
                 />
 
                 <RHFSelectInput
-                  label="Proposed Use of Loan"
+                  label="Proposed use of loan"
                   name="proposeUseOfLoan"
                   options={loanProgramInfo?.loanPurposes ?? []}
                   placeholder="Please select..."
@@ -110,7 +103,7 @@ export function LoanReadyLoanRequestForm({
         </CardContent>
 
         {!isReviewApplicationStep(step) && (
-          <CardFooter>
+          <CardFooter className="p:0 md:p-0">
             <Button
               className="w-full"
               disabled={!form.formState.isValid}
@@ -121,6 +114,6 @@ export function LoanReadyLoanRequestForm({
           </CardFooter>
         )}
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }

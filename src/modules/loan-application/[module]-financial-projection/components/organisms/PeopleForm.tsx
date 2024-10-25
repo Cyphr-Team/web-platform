@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -29,6 +27,7 @@ import {
 import { YES_NO_OPTIONS } from "@/modules/loan-application/constants/form"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { valueOrZero } from "@/utils"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export const PeopleFormBlocks: Block[] = [
   {
@@ -73,22 +72,12 @@ export function PeopleForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.PEOPLE)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout>
       <h5 className="text-lg font-semibold">People</h5>
       <Separator />
 
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
-        <Card
-          className={cn(
-            "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-            "md:col-span-6 md:col-start-2 md:mx-0"
-          )}
-        >
+        <FormLayout>
           <div>
             <h5 className="text-lg font-semibold">Current Employees</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -102,13 +91,8 @@ export function PeopleForm() {
 
           {renderBlockComponents(PeopleFormBlocks)}
           <CurrentEmployeesForm />
-        </Card>
-        <Card
-          className={cn(
-            "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-            "md:col-span-6 md:col-start-2 md:mx-0 mt-5"
-          )}
-        >
+        </FormLayout>
+        <FormLayout wrapperClassName="mt-5">
           <div>
             <h5 className="text-lg font-semibold">Future Employees</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -120,13 +104,8 @@ export function PeopleForm() {
 
           <Separator />
           <FutureEmployeesForm />
-        </Card>
-        <Card
-          className={cn(
-            "bg-financial-projection-card flex flex-col gap-2xl p-4xl py-5 rounded-xl h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-            "md:col-span-6 md:col-start-2 md:mx-0 mt-5"
-          )}
-        >
+        </FormLayout>
+        <FormLayout wrapperClassName="bg-financial-projection-card mt-5 py-5">
           <h5 className="text-lg font-semibold text-black">Totals</h5>
           <Separator />
           <div className="flex flex-col lg:flex-row">
@@ -165,7 +144,7 @@ export function PeopleForm() {
               )}
             />
           </div>
-        </Card>
+        </FormLayout>
 
         {!isReviewApplicationStep(step) && (
           <div className="flex flex-col gap-2xl mt-4 md:mt-8">
@@ -173,6 +152,6 @@ export function PeopleForm() {
           </div>
         )}
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }

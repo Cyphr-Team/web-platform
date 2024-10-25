@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
@@ -17,7 +16,6 @@ import {
   type OperatingExpensesFormValue
 } from "../../../../constants/form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { useEffect, useMemo, useState } from "react"
@@ -28,6 +26,7 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { OPERATING_EXPENSES_FIELD_DATA } from "@/modules/loan-application/constants/type"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function OperatingExpensesForm() {
   const { dispatchFormAction, operatingExpensesForm } =
@@ -90,103 +89,91 @@ export function OperatingExpensesForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
-    >
-      <div className="flex flex-col gap-3xl overflow-auto">
-        <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none">
-            <h5 className="text-lg font-semibold">
-              Operating Expenses (monthly)
-            </h5>
-            <p className="text-sm text-text-secondary font-medium">
-              Operating Expenses are costs directly related to the day-to-day
-              functioning of your business. Please specify the amount for the
-              expense categories below. For categories which don’t apply, please
-              leave them blank.
-            </p>
-            <p className="text-sm text-text-tertiary font-medium">
-              (Note: This form excludes Non-Operating expenses such as Interest
-              Expense, Income Taxes, Losses from Asset Sales, Foreign Exchange
-              Losses, and Litigation Costs)
-            </p>
-            <Separator />
-            <form className="grid grid-cols-6 gap-y-8xl xl:gap-y-4xl mb-3">
-              {OPERATING_EXPENSES_FIELD_DATA.map((item) => (
-                <FormField
-                  key={item.name}
-                  control={form.control}
-                  name={item.name}
-                  render={({ field }) => (
-                    <FormItem className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
-                      <FormLabel className="text-text-secondary">
-                        <p className="text-sm text-text-secondary font-semibold">
-                          {item.title}
-                        </p>
-                        <p className="text-sm text-text-tertiary font-medium leading-4 mt-1">
-                          {item.subtitle}
-                        </p>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          className="text-base input-number-remove-arrow -mt-2 mb-2 ml-auto xl:max-w-80"
-                          min={0}
-                          placeholder="i.e: 5,000"
-                          suffixIcon={
-                            <span className="text-text-tertiary/75 -mt-4">
-                              / mo
-                            </span>
-                          }
-                          type={item.name}
-                          value={toCurrency(field.value, 0)}
-                          onBlur={(e) => {
-                            field.onBlur()
-                            const value = parseFloat(
-                              e.target.value.replace(/[^0-9.]/g, "")
-                            )
+    <FormLayout>
+      <Form {...form}>
+        <h5 className="text-lg font-semibold">Operating Expenses (monthly)</h5>
+        <p className="text-sm text-text-secondary font-medium">
+          Operating Expenses are costs directly related to the day-to-day
+          functioning of your business. Please specify the amount for the
+          expense categories below. For categories which don’t apply, please
+          leave them blank.
+        </p>
+        <p className="text-sm text-text-tertiary font-medium">
+          (Note: This form excludes Non-Operating expenses such as Interest
+          Expense, Income Taxes, Losses from Asset Sales, Foreign Exchange
+          Losses, and Litigation Costs)
+        </p>
+        <Separator />
+        <form className="grid grid-cols-6 gap-y-8xl xl:gap-y-4xl mb-3">
+          {OPERATING_EXPENSES_FIELD_DATA.map((item) => (
+            <FormField
+              key={item.name}
+              control={form.control}
+              name={item.name}
+              render={({ field }) => (
+                <FormItem className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
+                  <FormLabel className="text-text-secondary">
+                    <p className="text-sm text-text-secondary font-semibold">
+                      {item.title}
+                    </p>
+                    <p className="text-sm text-text-tertiary font-medium leading-4 mt-1">
+                      {item.subtitle}
+                    </p>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="text-base input-number-remove-arrow -mt-2 mb-2 ml-auto xl:max-w-80"
+                      min={0}
+                      placeholder="i.e: 5,000"
+                      suffixIcon={
+                        <span className="text-text-tertiary/75 -mt-4">
+                          / mo
+                        </span>
+                      }
+                      type={item.name}
+                      value={toCurrency(field.value, 0)}
+                      onBlur={(e) => {
+                        field.onBlur()
+                        const value = parseFloat(
+                          e.target.value.replace(/[^0-9.]/g, "")
+                        )
 
-                            if (isNaN(value)) return
+                        if (isNaN(value)) return
 
-                            return field.onChange(value)
-                          }}
-                          onChange={(e) => {
-                            field.onBlur()
-                            const value =
-                              parseFloat(
-                                e.target.value.replace(/[^0-9.]/g, "")
-                              ) || 0
+                        return field.onChange(value)
+                      }}
+                      onChange={(e) => {
+                        field.onBlur()
+                        const value =
+                          parseFloat(e.target.value.replace(/[^0-9.]/g, "")) ||
+                          0
 
-                            if (isNaN(value)) return
-                            field.onChange(value)
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage style={{ marginTop: -1 }} />
-                    </FormItem>
-                  )}
-                />
-              ))}
-            </form>
-            <Separator />
-            <div className="container grid grid-cols-1 xl:grid-cols-2 justify-space-between p-0">
-              <p className="font-bold">TOTAL MONTHLY OPERATING EXPENSE</p>
-              <p className="font-bold xl:ml-auto xl:mr-0">
-                {toCurrency(Math.round(totalExpenses), 0)}/ mo
-              </p>
-            </div>
-          </Card>
-          {!isReviewApplicationStep(step) && (
-            <FormSubmitButton
-              isDisabled={!form.formState.isValid}
-              onSubmit={form.handleSubmit(onSubmit)}
+                        if (isNaN(value)) return
+                        field.onChange(value)
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage style={{ marginTop: -1 }} />
+                </FormItem>
+              )}
             />
-          )}
-        </Form>
-      </div>
-    </div>
+          ))}
+        </form>
+        <Separator />
+        <div className="container grid grid-cols-1 xl:grid-cols-2 justify-space-between p-0">
+          <p className="font-bold">TOTAL MONTHLY OPERATING EXPENSE</p>
+          <p className="font-bold xl:ml-auto xl:mr-0">
+            {toCurrency(Math.round(totalExpenses), 0)}/ mo
+          </p>
+        </div>
+        {!isReviewApplicationStep(step) && (
+          <FormSubmitButton
+            isDisabled={!form.formState.isValid}
+            onSubmit={form.handleSubmit(onSubmit)}
+          />
+        )}
+      </Form>
+    </FormLayout>
   )
 }

@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button.tsx"
-import { Card } from "@/components/ui/card.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
-import { cn } from "@/lib/utils.ts"
 import {
   RHFDragAndDropFileUpload,
   RHFSelectInput
@@ -26,6 +24,7 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 interface FinancialStatementFormProps {
   wrapperClassName?: string
@@ -100,64 +99,56 @@ export function FinancialStatementForm({
   )
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full",
-        wrapperClassName
-      )}
-    >
+    <FormLayout wrapperClassName={wrapperClassName}>
       <RHFProvider
         key={LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS}
         methods={form}
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col gap-3xl overflow-auto">
-          <Card className="flex flex-col gap-y-2xl p-4xl shadow-none">
-            <div className="flex flex-col gap-y-4">
-              <h4 className="text-lg font-semibold text-text-primary">
-                Financial Statements
-              </h4>
-              <p className="text-sm font-normal text-text-primary financial-projection text-muted-foreground">
-                Financial statements are essential for evaluating the overall
-                health of your business. They provide a detailed view of your
-                business’s profitability, stability, and cash flow and are
-                usually created in your accounting software.
-              </p>
-            </div>
+          <div className="flex flex-col gap-y-4">
+            <h4 className="text-lg font-semibold text-text-primary">
+              Financial Statements
+            </h4>
+            <p className="text-sm font-normal text-text-primary financial-projection text-muted-foreground">
+              Financial statements are essential for evaluating the overall
+              health of your business. They provide a detailed view of your
+              business’s profitability, stability, and cash flow and are usually
+              created in your accounting software.
+            </p>
+          </div>
 
-            <Separator />
+          <Separator />
 
-            <RHFSelectInput
-              isRowDirection
-              label="Do you currently have financial statements?"
-              name={FinancialStatementFormField.hasDocument}
-              options={YES_NO_OPTIONS}
-              styleProps={{
-                inputClassName: "text-sm max-w-40",
-                labelClassName: "text-text-primary",
-                subtitleClassName: "text-xs font-normal"
-              }}
-              subtitle="Income statement (profit and loss), balance sheet, and/or cash flow statement"
+          <RHFSelectInput
+            isRowDirection
+            label="Do you currently have financial statements?"
+            name={FinancialStatementFormField.hasDocument}
+            options={YES_NO_OPTIONS}
+            styleProps={{
+              inputClassName: "text-sm max-w-40",
+              labelClassName: "text-text-primary",
+              subtitleClassName: "text-xs font-normal"
+            }}
+            subtitle="Income statement (profit and loss), balance sheet, and/or cash flow statement."
+          />
+
+          {watch(FinancialStatementFormField.hasDocument) ===
+          BINARY_VALUES.YES ? (
+            <RHFDragAndDropFileUpload
+              id={LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS}
+              name={FinancialStatementFormField.files}
+              uploadedFiles={watch(FinancialStatementFormField.uploadedFiles)}
+              version={2}
+              onRemoveUploadedDocument={onRemoveUploadedDocument}
             />
+          ) : null}
 
-            {watch(FinancialStatementFormField.hasDocument) ===
-            BINARY_VALUES.YES ? (
-              <RHFDragAndDropFileUpload
-                id={LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS}
-                name={FinancialStatementFormField.files}
-                uploadedFiles={watch(FinancialStatementFormField.uploadedFiles)}
-                version={2}
-                onRemoveUploadedDocument={onRemoveUploadedDocument}
-              />
-            ) : null}
-
-            {!isReviewApplicationStep(step) && (
-              <Button disabled={!isValid}>Next</Button>
-            )}
-          </Card>
+          {!isReviewApplicationStep(step) && (
+            <Button disabled={!isValid}>Next</Button>
+          )}
         </div>
       </RHFProvider>
-    </div>
+    </FormLayout>
   )
 }

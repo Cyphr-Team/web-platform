@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { FieldType } from "@/modules/form-template/components/templates/FormTemplate"
 import { RHFProvider } from "@/modules/form-template/providers"
 import {
@@ -23,6 +21,7 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 const enum FieldName {
   NAME = "name",
@@ -108,12 +107,7 @@ export function EquityForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EQUITY)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout>
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">Equity Financing</h5>
         <p className="text-sm financial-projection text-muted-foreground">
@@ -143,6 +137,6 @@ export function EquityForm() {
           </div>
         )}
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }

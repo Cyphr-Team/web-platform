@@ -28,6 +28,7 @@ import { toastError } from "@/utils"
 import { useUpdateEffect } from "react-use"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -157,13 +158,7 @@ export function CashFlowVerificationFormV2({
 
   return (
     <>
-      <Card
-        className={cn(
-          "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
-          wrapperClassName
-        )}
-      >
+      <FormLayout wrapperClassName={wrapperClassName}>
         <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
         <Separator />
         <div className="flex flex-col gap-y-2xl gap-x-4xl">
@@ -202,15 +197,9 @@ export function CashFlowVerificationFormV2({
             </div>
           </div>
         </div>
-      </Card>
+      </FormLayout>
       {!!connectedAccounts.length || isConfirmedConnect ? (
-        <Card
-          className={cn(
-            "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
-            "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
-            wrapperClassName
-          )}
-        >
+        <FormLayout wrapperClassName={cn(wrapperClassName, "mt-6")}>
           <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-2">
             <div>
               <h5 className="text-lg font-semibold">Connected Accounts</h5>
@@ -264,7 +253,7 @@ export function CashFlowVerificationFormV2({
               </div>
             )}
           </div>
-        </Card>
+        </FormLayout>
       ) : null}
     </>
   )

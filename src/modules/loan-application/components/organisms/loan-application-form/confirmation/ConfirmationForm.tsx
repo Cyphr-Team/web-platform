@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -9,7 +8,6 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
 import { useTenant } from "@/providers/tenant-provider"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -33,6 +31,7 @@ import {
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { sanitizeDOM } from "@/utils/file.utils"
 import { isLaunchKC } from "@/utils/domain.utils"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function ConfirmationForm() {
   const { dispatchFormAction } = useLoanApplicationFormContext()
@@ -72,12 +71,7 @@ export function ConfirmationForm() {
     : getConfirmationTexts(tenant?.tenantData?.name ?? "")
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full"
-      )}
-    >
+    <FormLayout>
       <Form {...form}>
         {CONFIRMATION_TEXTS.map((text, index) => (
           <p key={index} className="text-sm text-text-secondary">
@@ -145,6 +139,6 @@ export function ConfirmationForm() {
           <span>Submit application</span>
         </Button>
       </Form>
-    </Card>
+    </FormLayout>
   )
 }

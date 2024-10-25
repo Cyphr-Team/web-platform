@@ -2,12 +2,10 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
-import { Card } from "@/components/ui/card"
 
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useEffect } from "react"
 import { revertPattern } from "@/components/ui/mask-input"
-import { cn } from "@/lib/utils"
 import { EIN_PATTERN, YEAR_PATTERN } from "@/constants"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
@@ -33,6 +31,7 @@ import {
 } from "@/modules/loan-application/constants/form.ts"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 const enum FIELD_NAMES {
   ID = "id",
@@ -128,13 +127,7 @@ export function LaunchKCBusinessInformationForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
-      id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
-    >
+    <FormLayout id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}>
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
       <Form {...form}>
@@ -272,6 +265,6 @@ export function LaunchKCBusinessInformationForm() {
           onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
-    </Card>
+    </FormLayout>
   )
 }

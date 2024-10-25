@@ -14,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { useEffect, useMemo } from "react"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
-import { cn } from "@/lib/utils.ts"
 import { Card } from "@/components/ui/card.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import {
@@ -28,6 +27,7 @@ import { FileUploadCard } from "@/modules/loan-application/components/molecules/
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { Button } from "@/components/ui/button.tsx"
 import { FileUploadedCard } from "../../molecules/FileUploadedCard"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function LaunchKCBusinessDocumentsForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -146,116 +146,101 @@ export function LaunchKCBusinessDocumentsForm() {
   const uploadedPitchDesk = form.getValues("uploadedPitchDesk")?.[0]
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full"
-      )}
-    >
-      <div className="flex flex-col gap-3xl overflow-auto">
-        <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
-          <h5 className="text-lg font-semibold">Document Uploads</h5>
-          <Separator />
-          <Form {...form}>
-            <Card className="flex flex-col gap-y-2xl p-4xl">
-              <h4 className="text-lg font-semibold">Executive Summary</h4>
-              <p className="text-sm text-text-secondary font-medium">
-                Upload a copy of your latest Executive Summary
-              </p>
-              <FormField
-                control={form.control}
-                name="executiveSummary"
-                render={() => (
-                  <FormItem>
-                    <DragDropFileInput
-                      id="executiveSummary"
-                      onFileSelect={(files) =>
-                        handleSelectFile(files, "executiveSummary")
-                      }
+    <FormLayout>
+      <h5 className="text-lg font-semibold">Document Uploads</h5>
+      <Separator />
+      <Form {...form}>
+        <Card className="flex flex-col gap-y-2xl p-4xl">
+          <h4 className="text-lg font-semibold">Executive Summary</h4>
+          <p className="text-sm text-text-secondary font-medium">
+            Upload a copy of your latest Executive Summary
+          </p>
+          <FormField
+            control={form.control}
+            name="executiveSummary"
+            render={() => (
+              <FormItem>
+                <DragDropFileInput
+                  id="executiveSummary"
+                  onFileSelect={(files) =>
+                    handleSelectFile(files, "executiveSummary")
+                  }
+                />
+                {!!form.getValues("executiveSummary").length &&
+                  Array.from(form.getValues("executiveSummary")).map(
+                    (file: File, index: number) => (
+                      <FileUploadCard
+                        key={index}
+                        file={file}
+                        handleRemoveFile={() =>
+                          handleRemoveFile(index, "executiveSummary")
+                        }
+                        index={index}
+                      />
+                    )
+                  )}
+                {!form.getValues("executiveSummary").length &&
+                  !!uploadedExecutiveSummary && (
+                    <FileUploadedCard
+                      key={uploadedExecutiveSummary.id}
+                      file={uploadedExecutiveSummary}
+                      handleRemoveFile={removeDocument(
+                        "uploadedExecutiveSummary"
+                      )}
                     />
-                    {!!form.getValues("executiveSummary").length &&
-                      Array.from(form.getValues("executiveSummary")).map(
-                        (file: File, index: number) => (
-                          <FileUploadCard
-                            key={index}
-                            file={file}
-                            handleRemoveFile={() =>
-                              handleRemoveFile(index, "executiveSummary")
-                            }
-                            index={index}
-                          />
-                        )
-                      )}
-                    {!form.getValues("executiveSummary").length &&
-                      !!uploadedExecutiveSummary && (
-                        <FileUploadedCard
-                          key={uploadedExecutiveSummary.id}
-                          file={uploadedExecutiveSummary}
-                          handleRemoveFile={removeDocument(
-                            "uploadedExecutiveSummary"
-                          )}
-                        />
-                      )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </Card>
-            <Card className="flex flex-col gap-y-2xl p-4xl">
-              <h4 className="text-lg font-semibold">Pitch Deck</h4>
-              <p className="text-sm text-text-secondary font-medium">
-                Upload a copy of your most recent Pitch Deck
-              </p>
-              <FormField
-                control={form.control}
-                name="pitchDeck"
-                render={() => (
-                  <FormItem>
-                    <DragDropFileInput
-                      id="pitchDeck"
-                      multiple={false}
-                      onFileSelect={(files) =>
-                        handleSelectFile(files, "pitchDeck")
-                      }
-                    />
-                    {!!form.getValues("pitchDeck").length &&
-                      Array.from(form.getValues("pitchDeck")).map(
-                        (file: File, index: number) => (
-                          <FileUploadCard
-                            key={index}
-                            file={file}
-                            handleRemoveFile={() =>
-                              handleRemoveFile(index, "pitchDeck")
-                            }
-                            index={index}
-                          />
-                        )
-                      )}
-                    {!form.getValues("pitchDeck").length &&
-                      !!uploadedPitchDesk && (
-                        <FileUploadedCard
-                          key={uploadedPitchDesk.id}
-                          file={uploadedPitchDesk}
-                          handleRemoveFile={removeDocument("uploadedPitchDesk")}
-                        />
-                      )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </Card>
-
-            {!isReviewApplicationStep(step) && (
-              <Button
-                disabled={!isFormValid}
-                onClick={form.handleSubmit(onSubmit)}
-              >
-                Next <ArrowRight className="ml-1 w-4" />
-              </Button>
+                  )}
+                <FormMessage />
+              </FormItem>
             )}
-          </Form>
+          />
         </Card>
-      </div>
-    </div>
+        <Card className="flex flex-col gap-y-2xl p-4xl">
+          <h4 className="text-lg font-semibold">Pitch Deck</h4>
+          <p className="text-sm text-text-secondary font-medium">
+            Upload a copy of your most recent Pitch Deck
+          </p>
+          <FormField
+            control={form.control}
+            name="pitchDeck"
+            render={() => (
+              <FormItem>
+                <DragDropFileInput
+                  id="pitchDeck"
+                  multiple={false}
+                  onFileSelect={(files) => handleSelectFile(files, "pitchDeck")}
+                />
+                {!!form.getValues("pitchDeck").length &&
+                  Array.from(form.getValues("pitchDeck")).map(
+                    (file: File, index: number) => (
+                      <FileUploadCard
+                        key={index}
+                        file={file}
+                        handleRemoveFile={() =>
+                          handleRemoveFile(index, "pitchDeck")
+                        }
+                        index={index}
+                      />
+                    )
+                  )}
+                {!form.getValues("pitchDeck").length && !!uploadedPitchDesk && (
+                  <FileUploadedCard
+                    key={uploadedPitchDesk.id}
+                    file={uploadedPitchDesk}
+                    handleRemoveFile={removeDocument("uploadedPitchDesk")}
+                  />
+                )}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </Card>
+
+        {!isReviewApplicationStep(step) && (
+          <Button disabled={!isFormValid} onClick={form.handleSubmit(onSubmit)}>
+            Next <ArrowRight className="ml-1 w-4" />
+          </Button>
+        )}
+      </Form>
+    </FormLayout>
   )
 }

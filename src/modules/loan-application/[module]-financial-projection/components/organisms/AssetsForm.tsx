@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -30,6 +28,7 @@ import {
 import EquityArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/EquityArrayFormTemplate"
 import { Plus } from "lucide-react"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 const CurrentAssetsFormBlocks: Block[] = [
   {
@@ -140,22 +139,12 @@ export function AssetsForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.ASSETS)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout>
       <h5 className="text-lg font-semibold">Assets</h5>
       <Separator />
 
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
-        <Card
-          className={cn(
-            "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-            "md:col-span-6 md:col-start-2 md:mx-0"
-          )}
-        >
+        <FormLayout>
           <div>
             <h5 className="text-lg font-semibold">Accounts Receivable</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -167,13 +156,8 @@ export function AssetsForm() {
           <Separator />
 
           {renderBlockComponents(CurrentAssetsFormBlocks)}
-        </Card>
-        <Card
-          className={cn(
-            "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-            "md:col-span-6 md:col-start-2 md:mx-0 mt-5"
-          )}
-        >
+        </FormLayout>
+        <FormLayout wrapperClassName="mt-5">
           <div>
             <h5 className="text-lg font-semibold">Long Term Assets</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -196,13 +180,13 @@ export function AssetsForm() {
               onBlur={onAutoSave}
             />
           </div>
-        </Card>
+        </FormLayout>
         {!isReviewApplicationStep(step) && (
           <div className="flex flex-col gap-2xl mt-4">
             <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }

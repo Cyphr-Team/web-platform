@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button.tsx"
-import { Card } from "@/components/ui/card.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
-import { cn } from "@/lib/utils.ts"
 import { RHFProvider } from "@/modules/form-template/providers"
 import {
   useFieldArray,
@@ -36,6 +34,7 @@ import ContractRevenueForm from "@/modules/loan-application/[module]-financial-p
 import { zodResolver } from "@hookform/resolvers/zod"
 import { revenueFormSchema } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 type AppendFunctions = {
   [K in RevenueType]: UseFieldArrayAppend<RevenueStream, K>
@@ -200,12 +199,7 @@ export default memo(RevenueForm)
 
 function WelcomeLayout({ children }: PropsWithChildren) {
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout>
       <h5 className="text-lg font-semibold">Revenue</h5>
       <div className="financial-projection text-muted-foreground">
         Select one or more revenue models that best align with your business
@@ -213,21 +207,16 @@ function WelcomeLayout({ children }: PropsWithChildren) {
       </div>
       <Separator />
       {children}
-    </Card>
+    </FormLayout>
   )
 }
 
 function DefaultLayout({ children }: PropsWithChildren) {
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout>
       <h5 className="text-lg font-semibold">Revenue</h5>
       <Separator />
       {children}
-    </Card>
+    </FormLayout>
   )
 }

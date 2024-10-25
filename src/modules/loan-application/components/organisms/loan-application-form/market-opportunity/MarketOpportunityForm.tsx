@@ -1,7 +1,5 @@
-import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import {
   marketOpportunityFormSchema,
   type MarketOpportunityFormValue
@@ -20,6 +18,7 @@ import { useForm } from "react-hook-form"
 import { TextAreaInput } from "@/shared/organisms/form/TextAreaInput"
 import { questions } from "./contants"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function MarketOpportunityForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -70,37 +69,28 @@ export function MarketOpportunityForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
-    >
-      <div className="flex flex-col gap-3xl overflow-auto">
-        <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none">
-            <h5 className="text-lg font-semibold">Market Opportunity</h5>
-            <Separator />
-            <form className="flex flex-col gap-4xl">
-              {questions.map((q) => (
-                <TextAreaInput
-                  key={q.field}
-                  control={form.control}
-                  label={q.question}
-                  name={q.field as keyof MarketOpportunityFormValue}
-                />
-              ))}
-            </form>
-          </Card>
-
-          {!isReviewApplicationStep(step) && (
-            <FormSubmitButton
-              isDisabled={!form.formState.isValid}
-              onSubmit={form.handleSubmit(onSubmit)}
+    <FormLayout>
+      <Form {...form}>
+        <h5 className="text-lg font-semibold">Market Opportunity</h5>
+        <Separator />
+        <form className="flex flex-col gap-4xl">
+          {questions.map((q) => (
+            <TextAreaInput
+              key={q.field}
+              control={form.control}
+              label={q.question}
+              name={q.field as keyof MarketOpportunityFormValue}
             />
-          )}
-        </Form>
-      </div>
-    </div>
+          ))}
+        </form>
+
+        {!isReviewApplicationStep(step) && (
+          <FormSubmitButton
+            isDisabled={!form.formState.isValid}
+            onSubmit={form.handleSubmit(onSubmit)}
+          />
+        )}
+      </Form>
+    </FormLayout>
   )
 }

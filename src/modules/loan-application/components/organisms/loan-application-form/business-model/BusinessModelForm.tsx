@@ -1,7 +1,5 @@
-import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import {
   businessModelFormSchema,
   type BusinessModelFormValue
@@ -23,6 +21,7 @@ import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { questions, strategies } from "./constants"
 import RHFCurrencyInput from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function BusinessModelForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -66,13 +65,7 @@ export function BusinessModelForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full"
-      )}
-      id={LOAN_APPLICATION_STEPS.BUSINESS_MODEL}
-    >
+    <FormLayout id={LOAN_APPLICATION_STEPS.BUSINESS_MODEL}>
       <h5 className="text-lg font-semibold">Business Model</h5>
       <p className="text-sm text-text-secondary font-normal">
         This data is being collected for the sole purpose of this application.
@@ -127,6 +120,6 @@ export function BusinessModelForm() {
           onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
-    </Card>
+    </FormLayout>
   )
 }

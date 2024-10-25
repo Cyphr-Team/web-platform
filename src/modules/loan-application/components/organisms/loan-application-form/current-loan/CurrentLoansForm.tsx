@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -15,7 +14,6 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import {
   DELETE_CURRENT_LOAN_PREFIX,
   NEW_CURRENT_LOAN_PREFIX
@@ -39,6 +37,7 @@ import React, { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { CurrentLoansFormItem } from "../../../molecules/CurrentLoansFormItem"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function CurrentLoansForm() {
   const { dispatchFormAction, currentLoansForm } =
@@ -138,111 +137,100 @@ export function CurrentLoansForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.CURRENT_LOANS)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
-    >
-      <div className="flex flex-col gap-3xl overflow-auto">
-        <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none">
-            <h5 className="text-lg font-semibold">Current Loans</h5>
-            <Separator />
-            <form>
-              <Controller
-                control={form.control}
-                name="hasOutstandingLoans"
-                render={({ field }) => (
-                  <FormItem className="grid grid-cols-6 gap-x-2xl">
-                    <FormLabel className="text-text-secondary col-span-6 xl:col-span-4">
-                      <p className="text-sm text-text-secondary font-medium">
-                        Does your business currently have outstanding loans?
-                      </p>
-                      <p className="text-sm text-text-tertiary font-medium">
-                        (ex: term loans, revolving credit, equipment financing,
-                        etc.)
-                      </p>
-                    </FormLabel>
-                    <FormControl>
-                      <Select
-                        value={field.value}
-                        onValueChange={(value) => {
-                          if (value == "false") {
-                            // Delete new records only - so that if user turns back to YES, the fetched data persists
-                            const updatedLoans = currentLoansWatch.filter(
-                              (item) =>
-                                !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
-                            )
+    <FormLayout>
+      <Form {...form}>
+        <h5 className="text-lg font-semibold">Current Loans</h5>
+        <Separator />
+        <form>
+          <Controller
+            control={form.control}
+            name="hasOutstandingLoans"
+            render={({ field }) => (
+              <FormItem className="grid grid-cols-6 gap-x-2xl">
+                <FormLabel className="text-text-secondary col-span-6 xl:col-span-4">
+                  <p className="text-sm text-text-secondary font-medium">
+                    Does your business currently have outstanding loans?
+                  </p>
+                  <p className="text-sm text-text-tertiary font-medium">
+                    (ex: term loans, revolving credit, equipment financing,
+                    etc.)
+                  </p>
+                </FormLabel>
+                <FormControl>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => {
+                      if (value == "false") {
+                        // Delete new records only - so that if user turns back to YES, the fetched data persists
+                        const updatedLoans = currentLoansWatch.filter(
+                          (item) => !item.id.startsWith(NEW_CURRENT_LOAN_PREFIX)
+                        )
 
-                            form.setValue("currentLoans", updatedLoans)
-                          } else {
-                            const isFirstLoan = currentLoansWatch.length == 0
+                        form.setValue("currentLoans", updatedLoans)
+                      } else {
+                        const isFirstLoan = currentLoansWatch.length == 0
 
-                            if (isFirstLoan) {
-                              // Add default loan form when user chooses YES
-                              handleAddLoan()
-                            }
-                          }
-                          field.onBlur()
-                          field.onChange(value.toString())
-                        }}
-                      >
-                        <SelectTrigger className="text-base col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto text-sm">
-                          <SelectValue placeholder="Please select..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="true">
-                            <span>Yes</span>
-                          </SelectItem>
-                          <SelectItem value="false">
-                            <span>No</span>
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </form>
-
-            {!!hasOutstandingLoansWatch &&
-              hasOutstandingLoansWatch != "false" && (
-                <div className="mt-6 flex flex-col gap-3xl">
-                  {currentLoansWatch.map((item, index: number) => {
-                    if (item.id.startsWith(DELETE_CURRENT_LOAN_PREFIX)) {
-                      return <React.Fragment key={item.id} />
-                    }
-
-                    return (
-                      <CurrentLoansFormItem
-                        key={item.id}
-                        index={index}
-                        onRemove={handleRemoveLoan}
-                      />
-                    )
-                  })}
-                  <Button
-                    className="ml-auto mr-0 mt-4 col-span-1 max-w-36"
-                    type="button"
-                    variant="outline"
-                    onClick={handleAddLoan}
+                        if (isFirstLoan) {
+                          // Add default loan form when user chooses YES
+                          handleAddLoan()
+                        }
+                      }
+                      field.onBlur()
+                      field.onChange(value.toString())
+                    }}
                   >
-                    <Plus className="mr-1 w-4" /> Add Loan
-                  </Button>
-                </div>
-              )}
-          </Card>
+                    <SelectTrigger className="text-base col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto text-sm">
+                      <SelectValue placeholder="Please select..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="true">
+                        <span>Yes</span>
+                      </SelectItem>
+                      <SelectItem value="false">
+                        <span>No</span>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </form>
 
-          {!isReviewApplicationStep(step) && (
-            <FormSubmitButton
-              isDisabled={!form.formState.isValid}
-              onSubmit={form.handleSubmit(onSubmit)}
-            />
-          )}
-        </Form>
-      </div>
-    </div>
+        {!!hasOutstandingLoansWatch && hasOutstandingLoansWatch != "false" && (
+          <div className="mt-6 flex flex-col gap-3xl">
+            {currentLoansWatch.map((item, index: number) => {
+              if (item.id.startsWith(DELETE_CURRENT_LOAN_PREFIX)) {
+                return <React.Fragment key={item.id} />
+              }
+
+              return (
+                <CurrentLoansFormItem
+                  key={item.id}
+                  index={index}
+                  onRemove={handleRemoveLoan}
+                />
+              )
+            })}
+            <Button
+              className="ml-auto mr-0 mt-4 col-span-1 max-w-36"
+              type="button"
+              variant="outline"
+              onClick={handleAddLoan}
+            >
+              <Plus className="mr-1 w-4" /> Add Loan
+            </Button>
+          </div>
+        )}
+
+        {!isReviewApplicationStep(step) && (
+          <FormSubmitButton
+            isDisabled={!form.formState.isValid}
+            onSubmit={form.handleSubmit(onSubmit)}
+          />
+        )}
+      </Form>
+    </FormLayout>
   )
 }

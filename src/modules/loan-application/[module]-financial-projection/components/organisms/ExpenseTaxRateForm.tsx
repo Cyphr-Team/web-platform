@@ -1,5 +1,3 @@
-import { cn } from "@/lib/utils.ts"
-import { Card } from "@/components/ui/card.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import {
   useLoanApplicationFormContext,
@@ -19,6 +17,7 @@ import {
 import { RHFNumberInput } from "@/modules/form-template/components/molecules"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { type FC } from "react"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export const TaxRateForm: FC = () => {
   const { taxRates, dispatchFormAction } = useLoanApplicationFormContext()
@@ -45,12 +44,7 @@ export const TaxRateForm: FC = () => {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.TAX_RATES)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout>
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div className="flex flex-col gap-2xl">
           <div className="flex flex-col gap-xl p-y-2">
@@ -67,7 +61,7 @@ export const TaxRateForm: FC = () => {
           <RHFNumberInput
             isHideErrorMessage
             className="flex justify-between items-center"
-            label="Estimate your income tax rate (%)"
+            label="Estimate your income tax rate:"
             name="incomeTaxRate"
             placeholder="Income tax rate"
             styleProps={{
@@ -84,6 +78,6 @@ export const TaxRateForm: FC = () => {
           )}
         </div>
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }
