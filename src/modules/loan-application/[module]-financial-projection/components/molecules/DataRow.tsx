@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils.ts"
 import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 import { type PropsWithChildren } from "react"
 import { GridMapper } from "@/modules/loan-application/[module]-financial-projection/constants"
+import { v6 as uuidv6 } from "uuid"
 
 export function currencyCellFormatter(value: number) {
   if (value === 0) {
@@ -38,7 +39,7 @@ export function DataRow({
 
       {data.map((value) => (
         <StyledComponent
-          key={value}
+          key={uuidv6()}
           className="border-l"
           collision={collision}
           isEnd={isEnd}
