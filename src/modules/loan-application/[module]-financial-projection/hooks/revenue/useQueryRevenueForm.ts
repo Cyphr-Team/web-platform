@@ -32,23 +32,23 @@ export function reverseFormatRevenueResponse(
 ): RevenueStream {
   const unitSales = formatFormData<UnitSale>(
     response,
-    RevenueResponseType.UNIT_SALES,
+    RevenueResponseType.UnitSales,
     "unitSale"
   )
   const billableHours = formatFormData<BillableHour>(
     response,
-    RevenueResponseType.BILLABLE_HOURS,
+    RevenueResponseType.BillableHours,
     "billableHour"
   )
   const recurringCharges = formatFormData<RecurringCharge>(
     response,
-    RevenueResponseType.RECURRING_CHARGES,
+    RevenueResponseType.RecurringCharges,
     "recurringCharge",
     { includeFrequency: true }
   )
   const contracts = formatFormData<Contract>(
     response,
-    RevenueResponseType.CONTRACTS,
+    RevenueResponseType.Contracts,
     "contract",
     { hasEndDate: true }
   )

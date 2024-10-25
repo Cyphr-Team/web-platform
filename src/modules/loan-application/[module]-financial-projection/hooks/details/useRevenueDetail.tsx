@@ -228,10 +228,10 @@ function generateBillableHourDetail(
 
 // Map of revenue types to their respective detail generators
 const revenueDetailGenerators: Record<RevenueResponseType, DetailGenerator> = {
-  [RevenueResponseType.UNIT_SALES]: generateUnitSaleDetail,
-  [RevenueResponseType.CONTRACTS]: generateContractRevenueDetail,
-  [RevenueResponseType.RECURRING_CHARGES]: generateRecurringChargesDetail,
-  [RevenueResponseType.BILLABLE_HOURS]: generateBillableHourDetail
+  [RevenueResponseType.UnitSales]: generateUnitSaleDetail,
+  [RevenueResponseType.Contracts]: generateContractRevenueDetail,
+  [RevenueResponseType.RecurringCharges]: generateRecurringChargesDetail,
+  [RevenueResponseType.BillableHours]: generateBillableHourDetail
 }
 
 const generateFormDetailByFormType = (

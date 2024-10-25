@@ -173,7 +173,6 @@ export function MultiSelectRound<
                       <div className="max-w-32">
                         <CommandPrimitive.Input
                           ref={searchInputRef}
-                          autoFocus
                           className={cn(
                             "h-full bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
                             "flex p-0 w-full text-sm placeholder:text-muted-foreground"

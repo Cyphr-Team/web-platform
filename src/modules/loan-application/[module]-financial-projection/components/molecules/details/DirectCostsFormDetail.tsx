@@ -82,7 +82,6 @@ function DirectCosts(props: DirectCostsProps) {
       <div className="grid grid-cols-6 w-full gap-5 items-center">
         <div className="row-start-1 col-start-1 col-end-3 flex gap-1 flex-col">
           <RHFTextInput
-            autoFocus
             isDetail
             isHideErrorMessage
             isToggleView

@@ -114,7 +114,7 @@ function UnitSalesForm(props: UnitSalesFormProps) {
       blocks={blocks}
       dataName="Unit sales"
       defaultEmptyObject={emptyUnitSale}
-      fieldName={RevenueType.UNIT_SALES}
+      fieldName={RevenueType.UnitSales}
       subtitle="Ideal for products sold as individual units or in specific quantities."
       title="Revenue: Unit Sales"
       onBlur={onBlur}

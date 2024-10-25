@@ -6,12 +6,9 @@ import { ContractRevenueIcon } from "@/modules/loan-application/[module]-financi
 import { Button } from "@/components/ui/button.tsx"
 import { cn } from "@/lib/utils.ts"
 import {
-  type BillableHour,
-  type Contract,
-  type RecurringCharge,
+  type OnAddItemToField,
   type RevenueStream,
-  RevenueType,
-  type UnitSale
+  RevenueType
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { useFormContext } from "react-hook-form"
 import {
@@ -23,17 +20,14 @@ import {
 
 interface RevenueTypeSelectionProps {
   counter?: { [key in RevenueType]: boolean }
-  onAddItemToField: (
-    type: RevenueType,
-    data: UnitSale | BillableHour | RecurringCharge | Contract
-  ) => VoidFunction
+  onAddItemToField: OnAddItemToField
 }
 
 export function RevenueTypeSelection(props: RevenueTypeSelectionProps) {
   const { onAddItemToField, counter } = props
   const { getValues } = useFormContext<RevenueStream>()
 
-  const isDisable = useCallback(
+  const isSelected = useCallback(
     (type: RevenueType): boolean => {
       if (!counter) {
         return getValues(type).length > 0
@@ -47,38 +41,35 @@ export function RevenueTypeSelection(props: RevenueTypeSelectionProps) {
   return (
     <div className="grid grid-cols-2 w-full gap-2xl py-5">
       <RevenueTypeItem
-        disable={isDisable(RevenueType.UNIT_SALES)}
         icon={<UnitSalesIcon />}
+        selected={isSelected(RevenueType.UnitSales)}
         subtitle="Ideal for products sold as individual units or in specific quantities."
         title="Unit sales"
-        onClick={onAddItemToField(RevenueType.UNIT_SALES, emptyUnitSale)}
+        onClick={onAddItemToField(RevenueType.UnitSales, emptyUnitSale)}
       />
       <RevenueTypeItem
-        disable={isDisable(RevenueType.BILLABLE_HOURS)}
         icon={<BillableHoursIcon />}
+        selected={isSelected(RevenueType.BillableHours)}
         subtitle="Best for services charged on an hourly basis."
         title="Billable hours"
-        onClick={onAddItemToField(
-          RevenueType.BILLABLE_HOURS,
-          emptyBillableHour
-        )}
+        onClick={onAddItemToField(RevenueType.BillableHours, emptyBillableHour)}
       />
       <RevenueTypeItem
-        disable={isDisable(RevenueType.RECURRING_CHARGES)}
         icon={<RecurringChargesIcon />}
+        selected={isSelected(RevenueType.RecurringCharges)}
         subtitle="Perfect for subscriptions, memberships, rentals, or any service with periodic payments."
         title="Recurring charges"
         onClick={onAddItemToField(
-          RevenueType.RECURRING_CHARGES,
+          RevenueType.RecurringCharges,
           emptyRecurringCharge
         )}
       />
       <RevenueTypeItem
-        disable={isDisable(RevenueType.CONTRACTS)}
         icon={<ContractRevenueIcon />}
+        selected={isSelected(RevenueType.Contracts)}
         subtitle="Suitable for contract revenue, or for entering total revenue without itemized details"
         title="Contract revenue"
-        onClick={onAddItemToField(RevenueType.CONTRACTS, emptyContract)}
+        onClick={onAddItemToField(RevenueType.Contracts, emptyContract)}
       />
     </div>
   )
@@ -89,20 +80,21 @@ interface RevenueTypeItemProps {
   icon: ReactNode
   subtitle: string
   onClick: VoidFunction
-  disable?: boolean
+  selected?: boolean
 }
 
 function RevenueTypeItem(props: RevenueTypeItemProps) {
-  const { title, icon, subtitle, onClick, disable = false } = props
+  const { title, icon, subtitle, onClick, selected = false } = props
 
   return (
     <Button
       className={cn(
-        "col-span-1 flex text-wrap w-full justify-start flex-row gap-4 border border-dashed rounded-[8px] p-4 border-brand-primary-gray shadow-xl cursor-pointer hover:bg-[#DBDBDBA6] text-left",
-        disable ? "select-none bg-[#DBDBDB] disabled:text-text-caption" : null,
+        "col-span-1 flex text-wrap w-full justify-start flex-row gap-4 border border-dashed rounded-[8px] p-4 border-brand-primary-gray shadow-xl cursor-pointer hover:bg-transparent text-left",
+        selected
+          ? "select-none hover:bg-[#DBDBDB] bg-[#DBDBDB] disabled:text-text-caption border-opacity-40"
+          : null,
         "h-[9rem] md:h-[7rem]"
       )}
-      disabled={disable}
       type="button"
       variant="outline"
       onClick={onClick}

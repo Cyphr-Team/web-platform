@@ -122,7 +122,7 @@ function BillableHoursForm(props: BillableHoursFormProps) {
       blocks={blocks}
       dataName="Billable hours"
       defaultEmptyObject={emptyBillableHour}
-      fieldName={RevenueType.BILLABLE_HOURS}
+      fieldName={RevenueType.BillableHours}
       subtitle="Best for services charged on an hourly basis."
       title="Revenue: Billable Hours"
       onBlur={onBlur}

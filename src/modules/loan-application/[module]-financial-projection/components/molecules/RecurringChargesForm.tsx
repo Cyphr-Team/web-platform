@@ -86,7 +86,7 @@ const blocks: Block[] = [
       isRowDirection: true,
       placeholder: "Please select",
       styleProps: {
-        inputClassName: "w-72 text-sm"
+        inputClassName: "w-72 min-w-72 text-sm"
       },
       options: CHARGE_FREQUENCIES
     }
@@ -118,7 +118,7 @@ const blocks: Block[] = [
       isRowDirection: true,
       placeholder: "Please select",
       styleProps: {
-        inputClassName: "w-72 text-sm"
+        inputClassName: "w-72 min-w-72 text-sm"
       },
       options: YES_NO_OPTIONS,
       isHideErrorMessage: true
@@ -153,7 +153,7 @@ function RecurringChargesForm(props: RecurringChargesFormProps) {
       blocks={blocks}
       dataName="recurring charges"
       defaultEmptyObject={emptyRecurringCharge}
-      fieldName={RevenueType.RECURRING_CHARGES}
+      fieldName={RevenueType.RecurringCharges}
       subtitle="Perfect for subscriptions, memberships, rentals, or any service with periodic payments."
       title="Revenue: Recurring Charges"
       onBlur={onBlur}

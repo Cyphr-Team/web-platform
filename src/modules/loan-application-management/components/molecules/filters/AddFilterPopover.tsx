@@ -78,7 +78,6 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
                 >
                   <CommandPrimitive.Input
                     ref={searchRef}
-                    autoFocus
                     className={cn(
                       "bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
                       "flex h-6 px-3 w-full text-sm placeholder:text-muted-foreground"

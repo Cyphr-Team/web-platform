@@ -1,8 +1,24 @@
+export type RevenueCounterState = {
+  [key in RevenueType]: boolean
+}
+
+export const initialRevenueCounterState = {
+  [RevenueType.UnitSales]: false,
+  [RevenueType.RecurringCharges]: false,
+  [RevenueType.BillableHours]: false,
+  [RevenueType.Contracts]: false
+}
+
+export type OnAddItemToField = (
+  type: RevenueType,
+  data: UnitSale | BillableHour | RecurringCharge | Contract
+) => VoidFunction
+
 export const enum RevenueType {
-  UNIT_SALES = "unitSales",
-  BILLABLE_HOURS = "billableHours",
-  RECURRING_CHARGES = "recurringCharges",
-  CONTRACTS = "contracts"
+  UnitSales = "unitSales",
+  BillableHours = "billableHours",
+  RecurringCharges = "recurringCharges",
+  Contracts = "contracts"
 }
 
 export interface RevenueStream {
@@ -15,10 +31,10 @@ export interface RevenueStream {
 }
 
 export const enum RevenueResponseType {
-  UNIT_SALES = "revenue_unit_sale",
-  BILLABLE_HOURS = "revenue_billable_hour",
-  RECURRING_CHARGES = "revenue_recurring_charge",
-  CONTRACTS = "revenue_contract"
+  UnitSales = "revenue_unit_sale",
+  BillableHours = "revenue_billable_hour",
+  RecurringCharges = "revenue_recurring_charge",
+  Contracts = "revenue_contract"
 }
 
 export type SubmitRevenueStreamRequest = RevenueStream

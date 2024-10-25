@@ -127,7 +127,6 @@ function RenderInput<T extends FieldValues>(props: RHFTextInputProps<T>) {
           wrapperClassName={wrapperClassName}
           {...field}
           {...inputProps}
-          autoFocus={inputProps.autoFocus}
           className={cn("text-sm", inputClassName)}
           onBlur={customOnBlur(field.onBlur)}
         />

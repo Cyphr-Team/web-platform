@@ -87,7 +87,7 @@ const ContractsForm: FC<Props> = (props) => {
       blocks={blocks}
       dataName="contract revenue"
       defaultEmptyObject={emptyContract}
-      fieldName={RevenueType.CONTRACTS}
+      fieldName={RevenueType.Contracts}
       subtitle="Suitable for contract revenue, or for entering total revenue without itemized details."
       title="Revenue: Contract Revenue"
       onBlur={onBlur}

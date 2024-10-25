@@ -17,7 +17,6 @@ import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useA
 import { memo, type PropsWithChildren, useCallback, useMemo } from "react"
 import { useBoolean } from "@/hooks"
 import { AddRevenueTypeDialog } from "@/modules/loan-application/[module]-financial-projection/components/molecules/AddRevenueTypeDialog.tsx"
-import { RevenueTypeSelection } from "@/modules/loan-application/[module]-financial-projection/components/molecules/RevenueTypeSelection.tsx"
 import {
   type BillableHour,
   type Contract,
@@ -35,6 +34,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { revenueFormSchema } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
+import OnboardRevenueTypeSelection from "@/modules/loan-application/[module]-financial-projection/components/molecules/OnboardRevenueTypeSelection.tsx"
 
 type AppendFunctions = {
   [K in RevenueType]: UseFieldArrayAppend<RevenueStream, K>
@@ -52,10 +52,10 @@ function RevenueForm() {
     defaultValues: {
       id: get(revenue, "id", ""),
       financialProjectionSetupId: get(revenue, "financialProjectionSetupId"),
-      unitSales: get(revenue, RevenueType.UNIT_SALES, []),
-      billableHours: get(revenue, RevenueType.BILLABLE_HOURS, []),
-      contracts: get(revenue, RevenueType.CONTRACTS, []),
-      recurringCharges: get(revenue, RevenueType.RECURRING_CHARGES, []).map(
+      unitSales: get(revenue, RevenueType.UnitSales, []),
+      billableHours: get(revenue, RevenueType.BillableHours, []),
+      contracts: get(revenue, RevenueType.Contracts, []),
+      recurringCharges: get(revenue, RevenueType.RecurringCharges, []).map(
         (data) => ({
           ...data,
           hasUpfrontFee: data.upfrontFee ? "yes" : "no",
@@ -81,24 +81,24 @@ function RevenueForm() {
 
   const unitSalesArray = useFieldArray({
     control,
-    name: RevenueType.UNIT_SALES
+    name: RevenueType.UnitSales
   })
   const recurringChargesArray = useFieldArray({
     control,
-    name: RevenueType.RECURRING_CHARGES
+    name: RevenueType.RecurringCharges
   })
   const billableHoursArray = useFieldArray({
     control,
-    name: RevenueType.BILLABLE_HOURS
+    name: RevenueType.BillableHours
   })
-  const contractsArray = useFieldArray({ control, name: RevenueType.CONTRACTS })
+  const contractsArray = useFieldArray({ control, name: RevenueType.Contracts })
 
   const appendFunctions: AppendFunctions = useMemo(
     () => ({
-      [RevenueType.UNIT_SALES]: unitSalesArray.append,
-      [RevenueType.RECURRING_CHARGES]: recurringChargesArray.append,
-      [RevenueType.BILLABLE_HOURS]: billableHoursArray.append,
-      [RevenueType.CONTRACTS]: contractsArray.append
+      [RevenueType.UnitSales]: unitSalesArray.append,
+      [RevenueType.RecurringCharges]: recurringChargesArray.append,
+      [RevenueType.BillableHours]: billableHoursArray.append,
+      [RevenueType.Contracts]: contractsArray.append
     }),
     [
       billableHoursArray.append,
@@ -152,7 +152,7 @@ function RevenueForm() {
     <LayoutComponent>
       <RHFProvider methods={form} onSubmit={handleSubmit(onSubmit)}>
         {!isFormDirty ? (
-          <RevenueTypeSelection onAddItemToField={onAddItemToField} />
+          <OnboardRevenueTypeSelection onAddItemToField={onAddItemToField} />
         ) : null}
 
         <AddRevenueTypeDialog
@@ -163,16 +163,16 @@ function RevenueForm() {
         />
 
         <div className="flex flex-col gap-y-4xl mb-4">
-          {canRender(RevenueType.UNIT_SALES) ? (
+          {canRender(RevenueType.UnitSales) ? (
             <UnitSalesForm onBlur={onBlur} />
           ) : null}
-          {canRender(RevenueType.BILLABLE_HOURS) ? (
+          {canRender(RevenueType.BillableHours) ? (
             <BillableHoursForm onBlur={onBlur} />
           ) : null}
-          {canRender(RevenueType.CONTRACTS) ? (
+          {canRender(RevenueType.Contracts) ? (
             <ContractRevenueForm onBlur={onBlur} />
           ) : null}
-          {canRender(RevenueType.RECURRING_CHARGES) ? (
+          {canRender(RevenueType.RecurringCharges) ? (
             <RecurringChargesForm onBlur={onBlur} />
           ) : null}
         </div>
@@ -185,11 +185,11 @@ function RevenueForm() {
           </div>
         ) : null}
 
-        {!isReviewApplicationStep(step) && (
+        {!isReviewApplicationStep(step) && isFormDirty ? (
           <div className="flex flex-col gap-2xl">
             <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
-        )}
+        ) : null}
       </RHFProvider>
     </LayoutComponent>
   )

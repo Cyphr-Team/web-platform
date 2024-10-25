@@ -11,11 +11,10 @@ import {
 import { Separator } from "@/components/ui/separator.tsx"
 import { RevenueTypeSelection } from "@/modules/loan-application/[module]-financial-projection/components/molecules/RevenueTypeSelection.tsx"
 import {
-  type BillableHour,
-  type Contract,
-  type RecurringCharge,
-  RevenueType,
-  type UnitSale
+  initialRevenueCounterState,
+  type OnAddItemToField,
+  type RevenueCounterState,
+  RevenueType
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import {
   emptyBillableHour,
@@ -24,32 +23,20 @@ import {
   emptyUnitSale
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 
-type RevenueCounter = {
-  [key in RevenueType]: boolean
-}
-
-const initialState = {
-  [RevenueType.UNIT_SALES]: false,
-  [RevenueType.RECURRING_CHARGES]: false,
-  [RevenueType.BILLABLE_HOURS]: false,
-  [RevenueType.CONTRACTS]: false
-}
-
 interface AddRevenueTypeDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onConfirm: VoidFunction
 
-  onAddItemToField: (
-    type: RevenueType,
-    data: UnitSale | BillableHour | RecurringCharge | Contract
-  ) => VoidFunction
+  onAddItemToField: OnAddItemToField
 }
 
 export function AddRevenueTypeDialog(props: AddRevenueTypeDialogProps) {
   const { open, onOpenChange, onConfirm, onAddItemToField } = props
 
-  const [counter, setCounter] = useState<RevenueCounter>(initialState)
+  const [counter, setCounter] = useState<RevenueCounterState>(
+    initialRevenueCounterState
+  )
 
   const onToggle = useCallback(
     (type: RevenueType) => () => {
@@ -71,25 +58,23 @@ export function AddRevenueTypeDialog(props: AddRevenueTypeDialogProps) {
     const tasks: VoidFunction[] = []
 
     if (counter.unitSales)
-      tasks.push(onAddItemToField(RevenueType.UNIT_SALES, emptyUnitSale))
+      tasks.push(onAddItemToField(RevenueType.UnitSales, emptyUnitSale))
     if (counter.recurringCharges) {
       tasks.push(
-        onAddItemToField(RevenueType.RECURRING_CHARGES, emptyRecurringCharge)
+        onAddItemToField(RevenueType.RecurringCharges, emptyRecurringCharge)
       )
     }
     if (counter.billableHours) {
-      tasks.push(
-        onAddItemToField(RevenueType.BILLABLE_HOURS, emptyBillableHour)
-      )
+      tasks.push(onAddItemToField(RevenueType.BillableHours, emptyBillableHour))
     }
     if (counter.contracts) {
-      tasks.push(onAddItemToField(RevenueType.CONTRACTS, emptyContract))
+      tasks.push(onAddItemToField(RevenueType.Contracts, emptyContract))
     }
 
     // run all the task
     tasks.map((task) => task())
     // reset state
-    setCounter(initialState)
+    setCounter(initialRevenueCounterState)
     onConfirm()
   }, [
     counter.billableHours,

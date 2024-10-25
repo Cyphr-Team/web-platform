@@ -6,6 +6,7 @@ import {
   type RecurringCharge,
   type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { formatToISOString } from "@/utils/date.utils.ts"
 
 export const emptyUnitSale: UnitSale = {
   name: "",
@@ -78,13 +79,23 @@ const recurringChargeSchema = z.object({
   upfrontFee: createNumberSchema({ coerce: true })
 })
 
-const contractSchema = z.object({
-  id: z.string().optional(),
-  name: z.string().min(1, { message: "Name is required" }),
-  startDate: createDateSchema(),
-  endDate: createDateSchema(),
-  monthlyRevenue: createNumberSchema({ coerce: true })
-})
+const contractSchema = z
+  .object({
+    id: z.string().optional(),
+    name: z.string().min(1, { message: "Name is required" }),
+    startDate: createDateSchema(),
+    endDate: createDateSchema(),
+    monthlyRevenue: createNumberSchema({ coerce: true })
+  })
+  .refine(
+    (data) =>
+      new Date(formatToISOString(data.startDate)) <
+      new Date(formatToISOString(data.endDate)),
+    {
+      message: "Start date must be before end date",
+      path: ["endDate"]
+    }
+  )
 
 export const revenueFormSchema = z
   .object({

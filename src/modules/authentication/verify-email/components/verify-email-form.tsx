@@ -130,7 +130,6 @@ export function VerifyEmailForm() {
                             field.ref(e)
                             inputRefs.current[index] = e
                           }}
-                          autoFocus={index === 0}
                           disabled={isPending}
                           onChange={() => null}
                           onKeyDown={handleInputCode(index)}

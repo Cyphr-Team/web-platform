@@ -119,7 +119,7 @@ export function VerifyPhoneForm() {
             {inputRefs.current.map((_, index) => {
               return (
                 <FormField
-                  key={index}
+                  key={`codes.${index}`}
                   control={form.control}
                   name={`codes.${index}`}
                   render={({ field }) => (
@@ -135,7 +135,6 @@ export function VerifyPhoneForm() {
                             field.ref(e)
                             inputRefs.current[index] = e
                           }}
-                          autoFocus={index === 0}
                           disabled={isPending}
                           onChange={() => null}
                           onKeyDown={handleInputCode(index)}
