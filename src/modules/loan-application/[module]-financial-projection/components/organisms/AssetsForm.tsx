@@ -81,9 +81,9 @@ const LongTermAssetsFormBlocks: Block[] = [
     type: FieldType.CURRENCY,
     props: {
       className: "flex flex-row items-center justify-between",
-      label: "Cost of Asset:",
+      label: "Cost of asset:",
       isRowDirection: true,
-      placeholder: "Cost of Asset",
+      placeholder: "Cost of asset",
       prefixIcon: "$",
       styleProps: {
         inputClassName: "min-w-72 text-sm pl-7.5"
