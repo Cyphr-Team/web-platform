@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { type ColumnDef } from "@tanstack/react-table"
 import { useParams } from "react-router-dom"
@@ -10,8 +9,55 @@ import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
 import { Button } from "@/components/ui/button"
 import { useMemo } from "react"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
+import { usePlaidContext } from "@/modules/loan-application/providers"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type.ts"
+import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
+import { format } from "date-fns"
+import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants.ts"
 
-const columns: ColumnDef<LoanApplicationBankAccount>[] = [
+const plaidColumns: ColumnDef<LoanApplicationBankAccount>[] = [
+  {
+    accessorKey: "bankAccountName",
+    header: () => (
+      <div className="flex items-center text-gray-700 mx-1">Account</div>
+    ),
+    cell: ({ row }) => {
+      const data = row.original
+
+      return (
+        <div className="min-w-0 mx-1 uppercase">
+          {data.institutionName} {data.bankAccountName} {data.mask}
+        </div>
+      )
+    }
+  },
+  {
+    id: "status",
+    header: () => (
+      <div className="flex item-center text-gray-700 ml-1">Status</div>
+    ),
+    cell: () => {
+      return (
+        <div className="min-w-0 ml-1">
+          <Badge
+            border
+            isDot
+            className="capitalize text-sm rounded-lg"
+            isDotBefore={false}
+            variant="soft"
+            variantColor={getBadgeVariantByInsightStatus(
+              TaskFieldStatus.PENDING
+            )}
+          >
+            Pending
+          </Badge>
+        </div>
+      )
+    }
+  }
+]
+
+const cashFlowColumns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
     accessorKey: "bankAccountName",
     header: () => <div className="flex items-center space-x-2">Account</div>
@@ -45,12 +91,32 @@ export function CashFlowTable() {
   const { data, isLoading, isError, error, refetch } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
 
-  const bankAccounts = data?.bankAccounts ?? []
+  const cashFlowBankAccounts = data?.bankAccounts ?? []
+
   const isCashFlowNotReady = useMemo(() => {
     return (
       isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
     )
   }, [isError, error])
+
+  const { institutions } = usePlaidContext()
+
+  const plaidBankAccounts =
+    institutions
+      ?.flatMap(
+        (ins) =>
+          ins?.accounts?.map((account) => ({
+            institutionName: ins?.institutionName,
+            bankAccountPk: account?.id,
+            bankAccountName: account?.name,
+            mask: account?.mask,
+            connectedOn: account?.connectedOn
+              ? account?.connectedOn
+              : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
+          })) || []
+      )
+      ?.sort((a, b) => a?.institutionName?.localeCompare(b?.institutionName)) ||
+    []
 
   const noResultText = useMemo(() => {
     return isCashFlowNotReady
@@ -75,12 +141,22 @@ export function CashFlowTable() {
       </CardHeader>
 
       <CardContent className="px-5">
-        <MiddeskTable
-          columns={columns}
-          data={bankAccounts}
-          isLoading={isLoading}
-          noResultText={noResultText}
-        />
+        {isEnablePlaidV2() &&
+        (isCashFlowNotReady || !data?.bankAccounts?.length) ? (
+          <MiddeskTable
+            columns={plaidColumns}
+            data={isLoading ? [] : plaidBankAccounts}
+            isLoading={isLoading}
+            noResultText={noResultText}
+          />
+        ) : (
+          <MiddeskTable
+            columns={cashFlowColumns}
+            data={cashFlowBankAccounts}
+            isLoading={isLoading}
+            noResultText={noResultText}
+          />
+        )}
       </CardContent>
     </Card>
   )

@@ -22,6 +22,8 @@ export const getBadgeVariantByInsightStatus = (status?: InsightStatus) => {
     case TaskFieldStatus.SUCCESS:
     case IdentityVerificationStatus.VERIFIED:
       return "green"
+    case TaskFieldStatus.PENDING:
+      return "purple"
     default:
       return undefined
   }

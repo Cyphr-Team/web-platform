@@ -9,7 +9,8 @@ const dotVariants = cva("w-3 h-3 mr-1", {
       gray: "text-gray-500",
       yellow: "text-yellow-500",
       green: "text-green-500",
-      blue: "text-blue-500"
+      blue: "text-blue-500",
+      purple: "text-purple-500"
     }
   },
   defaultVariants: {

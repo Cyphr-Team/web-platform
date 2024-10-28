@@ -6,6 +6,7 @@
 enum TaskFieldStatus {
   SUCCESS = "SUCCESS",
   FAILURE = "FAILURE",
+  PENDING = "PENDING",
   WARNING = "WARNING"
 }
 
