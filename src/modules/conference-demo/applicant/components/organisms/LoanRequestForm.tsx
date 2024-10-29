@@ -34,7 +34,11 @@ const loanRequestFormSchema = z.object({
   proposeUseOfLoan: z.string().optional()
 })
 
-function LoanRequestForm() {
+interface LoanRequestFormProps {
+  wrapperClassName?: string
+}
+
+function LoanRequestForm({ wrapperClassName }: LoanRequestFormProps) {
   const minLoanAmount = 0
   const maxLoanAmount = 50_000
 
@@ -67,7 +71,8 @@ function LoanRequestForm() {
       className={cn(
         "rounded-xl mx-6 col-span-8",
         "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-screen-sm"
+        "max-w-screen-md",
+        wrapperClassName
       )}
     >
       <CardHeader className="text-center">

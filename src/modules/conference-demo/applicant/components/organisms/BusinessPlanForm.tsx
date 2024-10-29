@@ -50,7 +50,11 @@ const businessPlanRequestFormSchema = z.object({
   ).optional()
 })
 
-function BusinessPlanForm() {
+interface BusinessPlanFormProps {
+  wrapperClassName?: string
+}
+
+function BusinessPlanForm({ wrapperClassName }: BusinessPlanFormProps) {
   const { goToStep, finishStep } = useProgress.use.action()
   const data = useFormData.use["Business Plan"]()
 
@@ -91,7 +95,8 @@ function BusinessPlanForm() {
       className={cn(
         "rounded-xl mx-6 col-span-8",
         "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-screen-sm"
+        "max-w-screen-md",
+        wrapperClassName
       )}
     >
       <CardHeader className="text-left">

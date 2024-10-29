@@ -10,7 +10,6 @@ import {
   useProgressSteps
 } from "@/modules/conference-demo/applicant/stores/useProgress"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
 import { memo, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -51,26 +50,33 @@ function ReviewApplicationForm() {
   }
 
   return (
-    <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6">
-      {REVIEW_GROUP.map((reviewGroup) => (
-        <ReviewApplicationGroup
-          key={reviewGroup.key}
-          label={reviewGroup.label}
-          parentKey={reviewGroup.key}
-        />
-      ))}
+    <div className="col-span-8 mx-4 md:mx-8">
+      <div className="max-w-screen-lg mx-auto flex flex-col gap-4 md:gap-8">
+        <div>
+          <h1 className="text-[2.125rem] font-semibold">Application Summary</h1>
+          <p className="text-sm mt-1">
+            Please review your application below. If you need to make any
+            changes, simply double-click on your answers to edit.
+          </p>
+        </div>
+        {REVIEW_GROUP.map((reviewGroup) => (
+          <ReviewApplicationGroup
+            key={reviewGroup.key}
+            label={reviewGroup.label}
+            parentKey={reviewGroup.key}
+          />
+        ))}
 
-      <div className="col-start-3 col-span-6 mb-8">
         <Form {...form}>
           <ButtonLoading
-            className="mx-3 md:mx-auto max-w-screen-sm w-full"
+            className="mx-3 md:mx-auto w-full"
             disabled={
               !form.formState.isValid ||
               completedSteps.length !== reviewableSteps.length
             }
             onClick={form.handleSubmit(onSubmit)}
           >
-            Confirm Application Materials <ArrowRight className="ml-1 w-4" />
+            Confirm application
           </ButtonLoading>
         </Form>
       </div>

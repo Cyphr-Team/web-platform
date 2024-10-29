@@ -6,13 +6,13 @@ import {
 import BusinessPlanForm from "@/modules/conference-demo/applicant/components/organisms/BusinessPlanForm"
 import CashFlowVerificationForm from "@/modules/conference-demo/applicant/components/organisms/CashFlowVerificationForm"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
-import { type ComponentType, memo, type PropsWithChildren } from "react"
+import { type ComponentType, memo } from "react"
 
 interface ReviewApplicationFormProps {
   step: string
 }
 
-function ReviewApplicationForm({ step }: ReviewApplicationFormProps) {
+function ReviewApplicationStep({ step }: ReviewApplicationFormProps) {
   const Component = ReviewScreenMapper[step]
 
   /**
@@ -21,15 +21,16 @@ function ReviewApplicationForm({ step }: ReviewApplicationFormProps) {
   if (!Component) return null
 
   return (
-    <div className="w-full h-full">
-      <Component />
-    </div>
+    <Component wrapperClassName="max-w-screen-lg md:col-span-8 md:col-start-0 md:mx-0" />
   )
 }
 
-export default memo(ReviewApplicationForm)
+export default memo(ReviewApplicationStep)
 
-const ReviewScreenMapper: Record<string, ComponentType<PropsWithChildren>> = {
+const ReviewScreenMapper: Record<
+  string,
+  ComponentType<{ wrapperClassName?: string }>
+> = {
   [STEP.LOAN_REQUEST]: LoanRequestForm,
   [STEP.BUSINESS_INFORMATION]: BusinessInformationForm,
   [STEP.BUSINESS_PLAN]: BusinessPlanForm,

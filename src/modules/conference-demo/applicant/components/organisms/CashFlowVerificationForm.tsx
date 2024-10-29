@@ -131,8 +131,14 @@ const tableColumns: ColumnDef<LoanApplicationBankAccount>[] = [
   }
 ]
 
+interface CashFlowVerificationFormProps {
+  wrapperClassName?: string
+}
+
 // Component Implementation
-function CashFlowVerificationForm() {
+function CashFlowVerificationForm({
+  wrapperClassName
+}: CashFlowVerificationFormProps) {
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep, finishStep, checkStep } = useProgress.use.action()
 
@@ -193,6 +199,7 @@ function CashFlowVerificationForm() {
       <InformationCard
         canConnect={canConnect}
         connectedAccounts={connectedAccounts}
+        wrapperClassName={wrapperClassName}
         onConfirmConnect={(value) =>
           setState((prev) => ({ ...prev, isConfirmedConnect: value }))
         }
@@ -205,6 +212,7 @@ function CashFlowVerificationForm() {
           isConnecting={state.isConnecting}
           isFetchingDetails={state.isFetchingDetails}
           isReviewApplicationStep={isReviewApplicationStep}
+          wrapperClassName={wrapperClassName}
           onConnect={handlePlaidConnection}
           onSubmit={handleSubmit}
         />
@@ -218,18 +226,21 @@ interface InformationCardProps {
   canConnect: boolean
   connectedAccounts: LoanApplicationBankAccount[]
   onConfirmConnect: (value: boolean) => void
+  wrapperClassName?: string
 }
 
 function InformationCard({
   canConnect,
   connectedAccounts,
-  onConfirmConnect
+  onConfirmConnect,
+  wrapperClassName
 }: InformationCardProps) {
   return (
     <Card
       className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+        "flex flex-col gap-2xl p-4xl rounded-xl h-fit overflow-auto col-span-8 mx-6 shadow-none",
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-md",
+        wrapperClassName
       )}
     >
       <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
@@ -275,6 +286,7 @@ interface ConnectedAccountsCardProps {
   isReviewApplicationStep: boolean
   onConnect: () => void
   onSubmit: () => void
+  wrapperClassName?: string
 }
 
 function ConnectedAccountsCard({
@@ -284,13 +296,15 @@ function ConnectedAccountsCard({
   isFetchingDetails,
   isReviewApplicationStep,
   onConnect,
-  onSubmit
+  onSubmit,
+  wrapperClassName
 }: ConnectedAccountsCardProps) {
   return (
     <Card
       className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
-        "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+        "flex flex-col gap-2xl p-4xl rounded-xl h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
+        "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-md",
+        wrapperClassName
       )}
     >
       <ConnectedAccountsHeader connectedAccounts={connectedAccounts} />

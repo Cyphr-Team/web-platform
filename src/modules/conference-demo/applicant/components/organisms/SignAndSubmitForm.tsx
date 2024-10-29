@@ -50,7 +50,7 @@ function SignAndSubmitForm() {
       className={cn(
         "rounded-xl mx-6 col-span-8 md:p-2",
         "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-screen-sm"
+        "max-w-screen-md"
       )}
     >
       <CardHeader className="md:pb-5">

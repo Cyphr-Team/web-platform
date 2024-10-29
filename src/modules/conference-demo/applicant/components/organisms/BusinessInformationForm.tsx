@@ -24,6 +24,9 @@ import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
 const enum FieldName {
   NAME = "name",
   ADDRESS = "address",
+  CITY = "city",
+  STATE = "state",
+  POSTAL_CODE = "postalCode",
   EIN = "ein",
   WEBSITE = "website"
 }
@@ -35,6 +38,9 @@ export type BusinessInformation = {
 const businessInformationFormSchema = z.object({
   [FieldName.NAME]: z.string().optional(),
   [FieldName.ADDRESS]: z.string().optional(),
+  [FieldName.CITY]: z.string().optional(),
+  [FieldName.STATE]: z.string().optional(),
+  [FieldName.POSTAL_CODE]: z.string().optional(),
   [FieldName.EIN]: z.string().optional(),
   [FieldName.WEBSITE]: z.string().optional()
 })
@@ -44,7 +50,7 @@ const blocks: Block[] = [
     type: FieldType.TEXT,
     name: FieldName.NAME,
     props: {
-      label: "Business Legal Name",
+      label: "Business legal name",
       placeholder: "Larry’s Latte LLC"
     }
   },
@@ -52,8 +58,35 @@ const blocks: Block[] = [
     type: FieldType.TEXT,
     name: FieldName.ADDRESS,
     props: {
-      label: "Business Street Address",
+      label: "Business street address",
       placeholder: "123 Coffee Lane"
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: FieldName.CITY,
+    props: {
+      label: "Business city",
+      placeholder: "Brew Town",
+      className: "col-span-4"
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: FieldName.STATE,
+    props: {
+      label: "Business state",
+      placeholder: "Coffee Land",
+      className: "col-span-4"
+    }
+  },
+  {
+    type: FieldType.TEXT,
+    name: FieldName.POSTAL_CODE,
+    props: {
+      label: "Business zip code",
+      placeholder: "97531",
+      className: "col-span-4"
     }
   },
   {
@@ -68,13 +101,19 @@ const blocks: Block[] = [
     type: FieldType.TEXT,
     name: FieldName.WEBSITE,
     props: {
-      label: "Business Website",
+      label: "Business website",
       placeholder: "https://larryslatte.com"
     }
   }
 ]
 
-function BusinessInformationForm() {
+interface BusinessInformationFormProps {
+  wrapperClassName?: string
+}
+
+function BusinessInformationForm({
+  wrapperClassName
+}: BusinessInformationFormProps) {
   const { goToStep, finishStep } = useProgress.use.action()
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
@@ -104,6 +143,9 @@ function BusinessInformationForm() {
   const autofillData = {
     [FieldName.NAME]: "Larry's Latte LLC",
     [FieldName.ADDRESS]: "123 Coffee Lane",
+    [FieldName.CITY]: "Brew Town",
+    [FieldName.STATE]: "Coffee Land",
+    [FieldName.POSTAL_CODE]: "97531",
     [FieldName.EIN]: "12-3456789",
     [FieldName.WEBSITE]: "https://larryslatte.com"
   }
@@ -114,17 +156,20 @@ function BusinessInformationForm() {
     <RHFProvider methods={method} onSubmit={onSubmit}>
       <Card
         className={cn(
-          "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+          "grid grid-cols-12 gap-2xl p-4xl rounded-xl h-fit overflow-auto mx-6 shadow-none",
+          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-md",
+          wrapperClassName
         )}
         id={STEP.BUSINESS_INFORMATION}
       >
-        <h5 className="text-lg font-semibold">Business Information</h5>
+        <h5 className="text-lg font-semibold col-span-12">
+          Business Information
+        </h5>
         {renderBlockComponents(blocks)}
 
         {!isReviewApplicationStep && (
           <Button
-            className="w-full mt-5"
+            className="col-span-12 mt-5"
             disabled={!method.formState.isValid}
             type="submit"
           >

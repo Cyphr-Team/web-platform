@@ -9,8 +9,7 @@ interface ReviewApplicationGroupProps {
 }
 
 export function ReviewApplicationGroup({
-  parentKey,
-  label
+  parentKey
 }: ReviewApplicationGroupProps) {
   const steps = useProgressSteps()
 
@@ -21,15 +20,10 @@ export function ReviewApplicationGroup({
   if (!reviewAbleStepsByParentKey.length) return null
 
   return (
-    <div className="col-span-8 grid grid-cols-8 gap-4">
-      <div className="col-span-2 text-2xl font-semibold max-w-screen-sm">
-        <div>{label}</div>
-      </div>
-      <div className="col-span-6 flex flex-col gap-6 max-w-screen-sm">
-        {reviewAbleStepsByParentKey.map(([step]) => {
-          return <ReviewApplicationStep key={step} step={step} />
-        })}
-      </div>
+    <div className="col-span-8 flex flex-col gap-4 md:gap-8">
+      {reviewAbleStepsByParentKey.map(([step]) => {
+        return <ReviewApplicationStep key={step} step={step} />
+      })}
     </div>
   )
 }

@@ -12,7 +12,6 @@ import { documentFormSchema } from "@/modules/conference-demo/applicant/types"
 import { RHFDragAndDropFileUpload } from "@/modules/form-template/components/molecules"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight } from "lucide-react"
 import { memo } from "react"
 import { useForm } from "react-hook-form"
 
@@ -43,7 +42,7 @@ function BankStatementForm() {
     <div
       className={cn(
         "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full"
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-md md:w-full"
       )}
     >
       <div className="flex flex-col gap-3xl overflow-auto">
@@ -59,7 +58,7 @@ function BankStatementForm() {
 
             {!isReviewApplicationStep && (
               <Button disabled={!isValid} onClick={handleSubmit}>
-                Next <ArrowRight className="ml-1 w-4" />
+                Next
               </Button>
             )}
           </Card>
