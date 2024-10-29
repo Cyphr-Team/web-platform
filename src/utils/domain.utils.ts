@@ -62,8 +62,14 @@ function getTenantRedirectURL(subdomain: string) {
   return getTenantDomain(subdomain) + "/redirect"
 }
 
+function isProductionEnvironment(): boolean {
+  const baseHttpUrl = APP_CONFIGS.API_BASE_URL as string
+
+  return baseHttpUrl.endsWith("com")
+}
+
 function getTopLevelDomain(): string {
-  return process.env.NODE_ENV === "production" ? "com" : "dev"
+  return isProductionEnvironment() ? "com" : "dev"
 }
 
 function isAdmin(): boolean {
@@ -113,6 +119,7 @@ export {
   isCapsight,
   getTenantDomain,
   getTenantRedirectURL,
+  isProductionEnvironment,
   getTopLevelDomain,
   isKccBank,
   isLaunchKC,

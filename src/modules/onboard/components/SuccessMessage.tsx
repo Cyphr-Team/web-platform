@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button"
 import { RefreshCcw } from "lucide-react"
 import { useFormContext } from "react-hook-form"
 import { type OnboardingFormValue } from "../types"
-import { getTenantDomain, getTenantRedirectURL } from "@/utils/domain.utils"
+import {
+  getTenantDomain,
+  getTenantRedirectURL,
+  isProductionEnvironment
+} from "@/utils/domain.utils"
 
 function SuccessMessage() {
   const refresh = () => window.location.reload()
@@ -55,7 +59,7 @@ function SuccessMessage() {
         <a
           className="text-blue-700 font-semibold underline"
           href={`https://stytch.com/dashboard/redirect-urls?env=${
-            process.env.NODE_ENV === "production" ? "live" : "test"
+            isProductionEnvironment() ? "live" : "test"
           }`}
           rel="noopener noreferrer"
           target="_blank"
