@@ -1,17 +1,17 @@
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
+import { type PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import { type FinancialApplicationFormDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { type ExpensePeopleResponse } from "@/modules/loan-application/[module]-financial-projection/types/people-form"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, toCurrency } from "@/utils"
 import _ from "lodash"
 
 interface UseCurrentEmployeesDetailProps {
-  expensePeopleResponse?: ExpensePeopleResponse
+  expensePeopleFormValue?: PeopleFormValue
 }
 
 export const useCurrentEmployeesDetail = ({
-  expensePeopleResponse
+  expensePeopleFormValue
 }: UseCurrentEmployeesDetailProps) => {
   const currentEmployeesDetail = {
     id: LOAN_APPLICATION_STEPS.PEOPLE,
@@ -22,14 +22,14 @@ export const useCurrentEmployeesDetail = ({
         id: "employeesCurrentlyEnrolledInBenefits",
         title: "Employees currently enrolled in benefits:",
         content: capitalizeWords(
-          (expensePeopleResponse?.currentEmployees?.length ?? 0) > 0
+          (expensePeopleFormValue?.currentEmployees?.length ?? 0) > 0
             ? BINARY_VALUES.YES
             : BINARY_VALUES.NO
         )
       }
     ],
     subChildren: toCurrentEmployeesDetail(
-      expensePeopleResponse?.currentEmployees
+      expensePeopleFormValue?.currentEmployees
     )
   }
 
@@ -37,7 +37,7 @@ export const useCurrentEmployeesDetail = ({
 }
 
 const toCurrentEmployeesDetail = (
-  data: ExpensePeopleResponse["currentEmployees"] | undefined
+  data: PeopleFormValue["currentEmployees"] | undefined
 ) => {
   if (!Array.isArray(data) || _.isEmpty(data)) {
     return undefined
@@ -57,21 +57,21 @@ const toCurrentEmployeesDetail = (
 }
 
 const createEmployeeDetailItems = (
-  employee: ExpensePeopleResponse["currentEmployees"][number] | undefined
+  employee: PeopleFormValue["currentEmployees"][number] | undefined
 ): FinancialApplicationFormDetailData[] => [
   {
     id: "productDepartment",
     title: "Department name:",
-    content: employee?.currentEmployee?.departmentName
+    content: employee?.departmentName
   },
   {
     id: "productDepartmentEmployees",
     title: "Number of employees:",
-    content: employee?.currentEmployee?.numberOfEmployees
+    content: employee?.numberOfEmployees
   },
   {
     id: "productDepartmentSalaries",
     title: "Annual department salaries:",
-    content: toCurrency(employee?.currentEmployee?.annualSalary ?? 0, 0)
+    content: toCurrency(employee?.annualSalary, 0)
   }
 ]

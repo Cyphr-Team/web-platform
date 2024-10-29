@@ -1,6 +1,14 @@
-import { type Dispatch, type PropsWithChildren, useReducer } from "react"
+import {
+  type Dispatch,
+  type PropsWithChildren,
+  useMemo,
+  useReducer
+} from "react"
 import { createContext } from "use-context-selector"
 import { type PlaidAction, type PlaidState } from "../constants"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
+import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
+import { format } from "date-fns"
 
 const initialState: PlaidState = {
   linkSuccess: false,
@@ -25,6 +33,7 @@ const initialState: PlaidState = {
 
 interface PlaidContext extends PlaidState {
   dispatch: Dispatch<PlaidAction>
+  connectedAccounts: LoanApplicationBankAccount[]
 }
 
 export const PlaidContext = createContext<PlaidContext>(
@@ -50,5 +59,23 @@ const reducer = (state: PlaidState, action: PlaidAction): PlaidState => {
 export function PlaidProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  return <Provider value={{ ...state, dispatch }}>{children}</Provider>
+  const connectedAccounts = useMemo((): LoanApplicationBankAccount[] => {
+    return state.institutions
+      .flatMap((ins) =>
+        ins.accounts.map((account) => ({
+          institutionName: ins.institutionName,
+          bankAccountPk: account.id,
+          bankAccountName: account.name,
+          connectedOn:
+            account.connectedOn || format(new Date(), FORMAT_DATE_MM_DD_YYYY)
+        }))
+      )
+      .sort((a, b) => a.institutionName.localeCompare(b.institutionName))
+  }, [state.institutions])
+
+  return (
+    <Provider value={{ ...state, connectedAccounts, dispatch }}>
+      {children}
+    </Provider>
+  )
 }

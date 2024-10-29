@@ -3,15 +3,15 @@ import { EIN_PATTERN } from "@/constants"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { BUSINESS_STAGE_OPTIONS } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import { formatBusinessStreetAddress } from "@/modules/loan-application/constants"
-import { type KYBInformationResponse } from "@/modules/loan-application/constants/type"
+import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseBusinessInformationDetailProps {
-  kybFormData?: KYBInformationResponse
+  businessInformationFormValue?: LoanReadyBusinessFormValue
 }
 
 export const useBusinessInformationDetail = ({
-  kybFormData
+  businessInformationFormValue
 }: UseBusinessInformationDetailProps) => {
   const businessInformationDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
@@ -20,7 +20,7 @@ export const useBusinessInformationDetail = ({
       {
         id: "businessLegalName",
         title: "Business legal name:",
-        content: kybFormData?.businessLegalName
+        content: businessInformationFormValue?.businessLegalName
       },
       {
         id: "businessTradeName",
@@ -30,29 +30,38 @@ export const useBusinessInformationDetail = ({
       {
         id: "businessStreetAddress",
         title: "Business street address:",
-        content: formatBusinessStreetAddress(kybFormData?.businessStreetAddress)
+        content: formatBusinessStreetAddress({
+          addressLine1: businessInformationFormValue?.addressLine1 ?? "",
+          addressLine2: businessInformationFormValue?.addressLine2 ?? "",
+          city: businessInformationFormValue?.city ?? "",
+          state: businessInformationFormValue?.state ?? "",
+          postalCode: businessInformationFormValue?.postalCode ?? ""
+        })
       },
       {
         id: "employeeIdentificationNumber",
         title: "Employee Identification Number (EIN):",
-        content: toPattern(kybFormData?.businessTin ?? "", EIN_PATTERN)
+        content: toPattern(
+          businessInformationFormValue?.businessTin ?? "",
+          EIN_PATTERN
+        )
       },
       {
         id: "businessWebsite",
         title: "Business website:",
-        content: kybFormData?.businessWebsite
+        content: businessInformationFormValue?.businessWebsite
       },
       {
         id: "businessStage",
         title: "Business stage:",
         content: BUSINESS_STAGE_OPTIONS.find(
-          (stage) => stage.value === kybFormData?.metadata?.businessStage
+          (stage) => stage.value === businessInformationFormValue?.businessStage
         )?.label
       },
       {
         id: "businessDescription",
         title: "Business description:",
-        content: kybFormData?.metadata?.businessDescription
+        content: businessInformationFormValue?.businessDescription
       }
     ]
   }

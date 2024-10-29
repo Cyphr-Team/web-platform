@@ -3,17 +3,17 @@ import {
   LoanReadyKYCFieldName,
   PERSONAL_CREDIT_SCORE_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
-import { type KYCInformationResponse } from "@/modules/loan-application/constants/type"
+import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { formatPhoneNumber } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
 
 interface UseIndividualInformationDetail {
-  kycFormData?: KYCInformationResponse
+  ownerInformationFormValue?: LoanReadyOwnerFormValue
 }
 
 export const useIndividualInformationDetail = ({
-  kycFormData
+  ownerInformationFormValue
 }: UseIndividualInformationDetail) => {
   const individualInformationDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
@@ -22,43 +22,45 @@ export const useIndividualInformationDetail = ({
       {
         id: "fullLegalName",
         title: "Full legal name:",
-        content: kycFormData?.fullName
+        content: ownerInformationFormValue?.fullName
       },
       {
         id: "yourRole",
         title: "Your role:",
-        content: kycFormData?.businessRole
+        content: ownerInformationFormValue?.businessRole
       },
       {
         id: "residentAddress",
         title: "Resident address:",
-        content: kycFormData?.addressLine1
+        content: ownerInformationFormValue?.addressLine1
       },
       {
         id: "emailAddress",
         title: "Email address:",
-        content: kycFormData?.email
+        content: ownerInformationFormValue?.email
       },
       {
         id: "phoneNumber",
         title: "Phone number:",
-        content: formatPhoneNumber(kycFormData?.phoneNumber ?? "N/A") || "N/A"
+        content:
+          formatPhoneNumber(ownerInformationFormValue?.phoneNumber ?? "N/A") ||
+          "N/A"
       },
       {
         id: "dateOfBirth",
         title: "Date of birth:",
-        content: formatBirthday(kycFormData?.dateOfBirth)
+        content: formatBirthday(ownerInformationFormValue?.dateOfBirth)
       },
       {
         id: "ssn",
         title: "SSN:",
-        content: kycFormData?.socialSecurityNumber
+        content: ownerInformationFormValue?.socialSecurityNumber
       },
       {
         id: "percentageOfBusinessOwnership",
         title: "Percentage of business ownership:",
-        content: kycFormData?.businessOwnershipPercentage
-          ? `${kycFormData?.businessOwnershipPercentage}%`
+        content: ownerInformationFormValue?.businessOwnershipPercentage
+          ? `${ownerInformationFormValue?.businessOwnershipPercentage}%`
           : "N/A"
       },
       {
@@ -68,7 +70,7 @@ export const useIndividualInformationDetail = ({
           PERSONAL_CREDIT_SCORE_OPTIONS.find(
             (credit) =>
               credit.value ===
-              kycFormData?.metadata?.[
+              ownerInformationFormValue?.[
                 LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE
               ]
           )?.label ?? "N/A"

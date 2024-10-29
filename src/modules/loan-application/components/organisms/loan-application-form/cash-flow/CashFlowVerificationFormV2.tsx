@@ -7,9 +7,9 @@ import { useEffect, useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
 
 import { Badge } from "@/components/ui/badge"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
@@ -20,15 +20,13 @@ import {
 } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { type ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns"
-import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/v2/ConnectBankAccountsButton"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { toastError } from "@/utils"
+import { type ColumnDef } from "@tanstack/react-table"
 import { useUpdateEffect } from "react-use"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
+import { ConnectBankAccountsButton } from "../../../molecules/out-of-box/v2/ConnectBankAccountsButton"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -94,27 +92,9 @@ export function CashFlowVerificationFormV2({
 
   const { tenantData } = useTenant()
 
-  const { institutions, linkTokenError, isConnecting } = usePlaidContext()
+  const { connectedAccounts, linkTokenError, isConnecting } = usePlaidContext()
 
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()
-
-  const connectedAccounts: LoanApplicationBankAccount[] = useMemo(() => {
-    return institutions
-      .map((ins) =>
-        ins.accounts.map((account) => ({
-          institutionName: ins.institutionName,
-          bankAccountPk: account.id,
-          bankAccountName: account.name,
-          connectedOn: account.connectedOn
-            ? account.connectedOn
-            : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
-        }))
-      )
-      .flat()
-      .sort((a, b) => {
-        return a.institutionName.localeCompare(b.institutionName)
-      })
-  }, [institutions])
 
   const [isConfirmedConnect, setIsConfirmedConnect] = useState(false)
 

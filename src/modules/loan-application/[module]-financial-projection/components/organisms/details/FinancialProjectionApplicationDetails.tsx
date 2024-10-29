@@ -5,11 +5,9 @@ import { cn } from "@/lib/utils"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
 import { DisclaimerNote } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/DisclaimerNote"
-import { useFinancialApplicationDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details"
+import { useAdminFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
+import { useApplicantFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/applicant/useApplicantFinancialProjectionApplicationDetails"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
-import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
-import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import {
   EXPORT_CLASS,
@@ -17,30 +15,15 @@ import {
   generatePDF
 } from "@/modules/loan-application/services/pdf-v2.service"
 import { toastError } from "@/utils"
-import { useIsFetching } from "@tanstack/react-query"
 import { FolderDown } from "lucide-react"
 import { useRef } from "react"
 
+// The function is used for applicant site
 export function FinancialProjectionApplicationDetails() {
-  const financialApplicationForms = useGetFinancialProjectForms()
-  const {
-    loanApplicationDetails,
-    kybFormData,
-    kycFormData,
-    isFetchingDetails,
-    isLoading
-  } = useBRLoanApplicationDetailsContext()
-  const { financialApplicationDetailData } = useFinancialApplicationDetail({
-    fpForm: financialApplicationForms,
-    loanApplicationDetails,
-    kybFormData,
-    kycFormData
-  })
-  const isFetchingBankAccounts = useIsFetching({
-    queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_CASHFLOW_VERIFICATION]
-  })
+  const { kybFormData } = useBRLoanApplicationDetailsContext()
 
-  const isFetching = isLoading || isFetchingDetails
+  const { financialApplicationDetailData, isFetching, isFetchingBankAccounts } =
+    useApplicantFinancialProjectionApplicationDetails()
 
   return (
     <Layout>
@@ -55,21 +38,13 @@ export function FinancialProjectionApplicationDetails() {
   )
 }
 
+// The function is used for admin site
 export function FinancialProjectionApplicationSummary() {
-  const financialApplicationForms = useGetFinancialProjectLoanSummary()
-  const { loanSummary, loanApplicationDetails, isFetchingSummary, isLoading } =
+  const { loanSummary, isFetchingSummary, isLoading } =
     useLoanApplicationDetailContext()
-  const { financialApplicationDetailData } = useFinancialApplicationDetail({
-    fpForm: financialApplicationForms,
-    kybFormData: loanSummary?.kybForm,
-    kycFormData: loanSummary?.kycForm,
-    loanApplicationDetails
-  })
-  const isFetchingBankAccounts = useIsFetching({
-    queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_CASHFLOW_VERIFICATION]
-  })
 
-  const isFetching = isLoading || isFetchingSummary
+  const { financialApplicationDetailData, isFetching, isFetchingBankAccounts } =
+    useAdminFinancialProjectionApplicationDetails()
 
   return (
     <Layout>
@@ -157,7 +132,40 @@ function Main({
   isPdf,
   companyName
 }: MainProps) {
-  const render = financialApplicationDetailData.map(
+  return (
+    <>
+      <div className="hidden">
+        <div
+          className={cn("flex items-start -mx-20", EXPORT_CLASS.FINANCIAL)}
+          data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
+        >
+          <DisclaimerNote
+            companyName={companyName}
+            title="Application Summary"
+          />
+        </div>
+      </div>
+      <main className={cn("flex flex-col gap-4 md:gap-8")}>
+        <FinancialProjectionApplicationDetail
+          financialApplicationDetailData={financialApplicationDetailData}
+          isLoading={isLoading}
+          isPdf={isPdf}
+        />
+      </main>
+    </>
+  )
+}
+
+export function FinancialProjectionApplicationDetail({
+  financialApplicationDetailData,
+  isPdf,
+  isLoading
+}: {
+  financialApplicationDetailData: FinancialApplicationDetailData[]
+  isPdf?: boolean
+  isLoading?: boolean
+}) {
+  return financialApplicationDetailData.map(
     ({
       id,
       subId = "",
@@ -176,23 +184,6 @@ function Main({
         title={title}
       />
     )
-  )
-
-  return (
-    <>
-      <div className="hidden">
-        <div
-          className={cn("flex items-start -mx-20", EXPORT_CLASS.FINANCIAL)}
-          data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
-        >
-          <DisclaimerNote
-            companyName={companyName}
-            title="Application Summary"
-          />
-        </div>
-      </div>
-      <main className={cn("flex flex-col gap-4 md:gap-8")}>{render}</main>
-    </>
   )
 }
 

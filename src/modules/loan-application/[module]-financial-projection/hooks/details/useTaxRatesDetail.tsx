@@ -1,15 +1,15 @@
+import { type ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { type ExpenseTaxRateFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/tax-rate-form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
-interface UseTaxRatesDetailProps {
-  expenseTaxRateFormResponse?: ExpenseTaxRateFormResponse
+interface UseTaxRateDetailProps {
+  taxRateFormValue?: ExpenseTaxRateFormValue
 }
 
 export const useTaxRatesDetail = ({
-  expenseTaxRateFormResponse
-}: UseTaxRatesDetailProps) => {
-  const incomeTaxRate = expenseTaxRateFormResponse?.incomeTaxRate ?? 0
+  taxRateFormValue
+}: UseTaxRateDetailProps) => {
+  const incomeTaxRate = taxRateFormValue?.incomeTaxRate ?? 0
 
   const taxRatesDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.TAX_RATES,

@@ -1,18 +1,21 @@
 import { FORMAT_DATE_MM_YYYY } from "@/constants/date.constants"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
-import { USEFUL_LIFE_OPTIONS } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import { type AssetsLongTermFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
+import {
+  AssetsField,
+  type AssetsFormValue,
+  USEFUL_LIFE_OPTIONS
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
 import _ from "lodash"
 
 interface UseAssetLongTermDetailProps {
-  assetsLongTermFormResponse?: AssetsLongTermFormResponse
+  assetsFormValue?: AssetsFormValue
 }
 
 export const useAssetLongTermDetail = ({
-  assetsLongTermFormResponse
+  assetsFormValue
 }: UseAssetLongTermDetailProps) => {
   const assetLongTermDetail = {
     id: LOAN_APPLICATION_STEPS.ASSETS,
@@ -21,20 +24,20 @@ export const useAssetLongTermDetail = ({
     subTitle:
       "Long-term assets represent significant investments your business has made in resources like equipment, property, and vehicles that are expected to provide value over several years. These assets are crucial for supporting sustained growth and long-term strategic goals.",
     financialApplicationFormData: [],
-    subChildren: toAssetDetail(assetsLongTermFormResponse)
+    subChildren: toAssetDetail(assetsFormValue?.[AssetsField.LONG_TERM_ASSETS])
   }
 
   return { assetLongTermDetail }
 }
 
-const toAssetDetail = (data: AssetsLongTermFormResponse | undefined) => {
-  if (!Array.isArray(data?.forms) || _.isEmpty(data?.forms)) {
+const toAssetDetail = (data: AssetsFormValue["longTermAssets"] | undefined) => {
+  if (!Array.isArray(data) || _.isEmpty(data)) {
     return undefined
   }
 
   return (
     <div className="flex flex-col gap-3">
-      {data.forms.map((asset, index) => (
+      {data.map((asset, index) => (
         <FinancialApplicationFormDetail
           key={`ASSET ${index + 1}`}
           isSubChildren

@@ -1,19 +1,24 @@
 import { FORMAT_DATE_MM_YYYY } from "@/constants/date.constants"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
-import { type FpEquityFinancingFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/equity-form"
+import {
+  FpEquityFinancingField,
+  type FpEquityFinancingFormValue
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
 import _ from "lodash"
 
-const toEquityDetail = (data: FpEquityFinancingFormResponse | undefined) => {
-  if (!Array.isArray(data?.forms) || _.isEmpty(data?.forms)) {
+const toEquityDetail = (
+  data: FpEquityFinancingFormValue["equityFinancing"] | undefined
+) => {
+  if (!Array.isArray(data) || _.isEmpty(data)) {
     return undefined
   }
 
   return (
     <div className="flex flex-col gap-3">
-      {data.forms.map((equity, index) => (
+      {data.map((equity, index) => (
         <FinancialApplicationFormDetail
           key={`EQUITY ${index + 1}`}
           isSubChildren
@@ -46,11 +51,11 @@ const toEquityDetail = (data: FpEquityFinancingFormResponse | undefined) => {
 }
 
 interface UseEquityFinancingDetailProps {
-  fpEquityFinancingFormResponse?: FpEquityFinancingFormResponse
+  fpEquityFinancingFormValue?: FpEquityFinancingFormValue
 }
 
 export const useEquityFinancingDetail = ({
-  fpEquityFinancingFormResponse
+  fpEquityFinancingFormValue
 }: UseEquityFinancingDetailProps) => {
   const equityFinancingDetail = {
     id: LOAN_APPLICATION_STEPS.EQUITY,
@@ -58,7 +63,9 @@ export const useEquityFinancingDetail = ({
     subTitle:
       "Equity investment involves raising capital by selling shares of your business to investors. In exchange, these investors gain partial ownership and a share in future profits, allowing you to grow without incurring debt, but it also means sharing control and future earnings.",
     financialApplicationFormData: [],
-    subChildren: toEquityDetail(fpEquityFinancingFormResponse)
+    subChildren: toEquityDetail(
+      fpEquityFinancingFormValue?.[FpEquityFinancingField.equityFinancing]
+    )
   }
 
   return { equityFinancingDetail }

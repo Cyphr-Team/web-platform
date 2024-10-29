@@ -15,7 +15,13 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
 
-export function ConnectedAccountDetail() {
+interface ConnectedAccountDetailProps {
+  overwriteBankAccounts?: LoanApplicationBankAccount[]
+}
+
+export function ConnectedAccountDetail({
+  overwriteBankAccounts = []
+}: ConnectedAccountDetailProps) {
   const { id: loanApplicationId } = useParams()
   const { data, isLoading, isError, error, refetch } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
@@ -23,13 +29,18 @@ export function ConnectedAccountDetail() {
     refetch()
   }
 
-  const bankAccounts = data?.bankAccounts ?? []
+  const bankAccounts: LoanApplicationBankAccount[] =
+    (overwriteBankAccounts?.length ?? 0) > 0
+      ? overwriteBankAccounts
+      : data?.bankAccounts ?? []
 
   const isCashFlowNotReady = useMemo(() => {
     return (
-      isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready
+      bankAccounts.length === 0 &&
+      isError &&
+      error?.response?.data.code === ErrorCode.cash_flow_not_ready
     )
-  }, [isError, error])
+  }, [bankAccounts.length, isError, error?.response?.data.code])
 
   const noResultText = useMemo(() => {
     return isCashFlowNotReady

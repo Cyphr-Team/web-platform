@@ -12,8 +12,6 @@ import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-manag
 import { usePlaidContext } from "@/modules/loan-application/providers"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type.ts"
 import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
-import { format } from "date-fns"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants.ts"
 
 const plaidColumns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -99,24 +97,7 @@ export function CashFlowTable() {
     )
   }, [isError, error])
 
-  const { institutions } = usePlaidContext()
-
-  const plaidBankAccounts =
-    institutions
-      ?.flatMap(
-        (ins) =>
-          ins?.accounts?.map((account) => ({
-            institutionName: ins?.institutionName,
-            bankAccountPk: account?.id,
-            bankAccountName: account?.name,
-            mask: account?.mask,
-            connectedOn: account?.connectedOn
-              ? account?.connectedOn
-              : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
-          })) || []
-      )
-      ?.sort((a, b) => a?.institutionName?.localeCompare(b?.institutionName)) ||
-    []
+  const { connectedAccounts: plaidBankAccounts } = usePlaidContext()
 
   const noResultText = useMemo(() => {
     return isCashFlowNotReady

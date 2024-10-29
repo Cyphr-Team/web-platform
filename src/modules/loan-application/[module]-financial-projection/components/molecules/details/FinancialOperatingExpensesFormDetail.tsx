@@ -13,8 +13,6 @@ import {
   fpOperatingExpensesFormSchema,
   type FpOperatingExpensesFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
-import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/hooks/operating-expenses/useSubmitOperatingExpensesForm"
-import { type FpOperatingExpensesFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/operating-expenses-form"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { sanitizeNumber, toCurrency } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -27,17 +25,17 @@ import {
 } from "react-hook-form"
 
 interface FinancialOperatingExpensesFormDetailProps {
-  fpOperatingExpensesFormResponse?: FpOperatingExpensesFormResponse
+  fpOperatingExpensesFormValue?: FpOperatingExpensesFormValue
 }
 
 export function FinancialOperatingExpensesFormDetail({
-  fpOperatingExpensesFormResponse
+  fpOperatingExpensesFormValue
 }: FinancialOperatingExpensesFormDetailProps) {
   const form = useForm<FpOperatingExpensesFormValue>({
     resolver: zodResolver(fpOperatingExpensesFormSchema),
     mode: "onBlur",
-    values: fpOperatingExpensesFormResponse
-      ? reverseFormatFpOperatingExpensesForm(fpOperatingExpensesFormResponse)
+    values: fpOperatingExpensesFormValue
+      ? fpOperatingExpensesFormValue
       : { [FpOperatingExpensesField.operatingExpenses]: [] }
   })
 

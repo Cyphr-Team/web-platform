@@ -1,14 +1,15 @@
 import { CriteriaName } from "@/modules/assessment/interface/Rating/type.ts"
 import { type LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
+import {
+  type LoanReadyKYBFieldName,
+  type LoanReadyKYCFieldName
+} from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
+import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form"
 import { type Option } from "@/types/common.type"
 import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import { type BaseLoanProgramType } from "@/types/loan-program.type"
 import { type SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
-import {
-  type LoanReadyKYBFieldName,
-  type LoanReadyKYCFieldName
-} from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 
 export interface KYBInformation {
   id: string | null
@@ -201,10 +202,8 @@ export interface KYCInformationResponse {
       ethnicIdentification: string
       areFounderOrCoFounder: string
       areFullTimeFounder: string
-
-      // Loan Ready Field
-      [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]: string
-    } & SbbKycMetadata
+    } & SbbKycMetadata &
+      LoanReadyOwnerFormValue
   >
 }
 

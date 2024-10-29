@@ -1,9 +1,10 @@
-import { getRequest } from "@/services/client.service"
 import { API_PATH } from "@/constants"
-import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { loanApplicationUserKeys } from "@/constants/query-key"
-import { useQueryDetailsFactory } from "."
+import { type LoanRequestFormValue } from "@/modules/loan-application/constants/form"
+import { getRequest } from "@/services/client.service"
+import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { LoanType } from "@/types/loan-program.type"
+import { useQueryDetailsFactory } from "."
 
 export const useQueryLoanApplicationDetailsByType = (
   id: string,
@@ -39,4 +40,24 @@ export const useQueryUserLoanApplicationDetails = <T>(
       })
     }
   )
+}
+
+export const reverseFormatLoanRequestForm = (
+  loanApplicationDetails?: UserMicroLoanApplication
+): LoanRequestFormValue => {
+  if (!loanApplicationDetails)
+    return {
+      id: "",
+      loanAmount: 0,
+      loanTermInMonth: 0,
+      proposeUseOfLoan: ""
+    }
+
+  return {
+    id: loanApplicationDetails.id,
+    applicationId: loanApplicationDetails.id,
+    loanAmount: loanApplicationDetails.loanAmount,
+    loanTermInMonth: loanApplicationDetails.loanTermInMonth,
+    proposeUseOfLoan: loanApplicationDetails.proposeUseOfLoan
+  }
 }

@@ -173,7 +173,7 @@ export function ReviewApplication() {
                 Confirm Application Materials
               </ButtonLoading>
             </Form>
-          </div>{" "}
+          </div>
         </>
       )}
     </div>

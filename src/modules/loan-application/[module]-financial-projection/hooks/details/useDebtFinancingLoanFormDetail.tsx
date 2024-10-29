@@ -1,8 +1,10 @@
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
-import { DebtFinancingField } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
+import {
+  DebtFinancingField,
+  type DebtFinancingFormValue
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { type DebtFinancingResponse } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, snakeCaseToText, toCurrency } from "@/utils"
@@ -10,18 +12,17 @@ import { formatDate } from "@/utils/date.utils"
 import _ from "lodash"
 
 interface UseDebtFinancingLoanFormDetailProps {
-  debtFinancingResponse?: DebtFinancingResponse
+  debtFinancingFormValue?: DebtFinancingFormValue
 }
 
 export const useDebtFinancingLoanFormDetail = ({
-  debtFinancingResponse
+  debtFinancingFormValue
 }: UseDebtFinancingLoanFormDetailProps) => {
   const totalInvestment =
-    debtFinancingResponse?.commonForm?.[
-      DebtFinancingField.StartingPaidInCapital
-    ] ?? 0
+    debtFinancingFormValue?.[DebtFinancingField.StartingPaidInCapital] ?? 0
 
-  const outstandingLoans = (debtFinancingResponse?.loanForms?.length ?? 0) > 0
+  const outstandingLoans =
+    (debtFinancingFormValue?.debtFinancing?.length ?? 0) > 0
 
   const debtFinancingLoanFormDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.DEBT_FINANCING,
@@ -44,20 +45,22 @@ export const useDebtFinancingLoanFormDetail = ({
         )
       }
     ],
-    subChildren: toDebtFinancingDetail(debtFinancingResponse)
+    subChildren: toDebtFinancingDetail(debtFinancingFormValue?.debtFinancing)
   }
 
   return { debtFinancingLoanFormDetail }
 }
 
-const toDebtFinancingDetail = (data: DebtFinancingResponse | undefined) => {
-  if (!Array.isArray(data?.loanForms) || _.isEmpty(data?.loanForms)) {
+const toDebtFinancingDetail = (
+  data: DebtFinancingFormValue["debtFinancing"] | undefined
+) => {
+  if (!Array.isArray(data) || _.isEmpty(data)) {
     return undefined
   }
 
   return (
     <div className="flex flex-col gap-3">
-      {data.loanForms.map((debt, index) => (
+      {data.map((debt, index) => (
         <FinancialApplicationFormDetail
           key={`LOAN ${index + 1}`}
           isSubChildren

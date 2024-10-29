@@ -3,10 +3,7 @@ import { useQueryGetLoanSummary } from "@/modules/loan-application-management/ho
 import { BalanceSheetTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpBalanceSheetTemplate"
 import { FpCashFlowTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpCashFlowTemplate"
 import { IncomeStatementTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpIncomeStatementTemplate"
-import {
-  AdminApplicationReviewPdf,
-  ApplicationReviewPdf
-} from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/ApplicationReviewPdf"
+import { FinancialProjectionApplicationDetail } from "@/modules/loan-application/[module]-financial-projection/components/organisms/details/FinancialProjectionApplicationDetails"
 import { DisclaimerNote } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/DisclaimerNote"
 import { LoanReadinessPagePdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/LoanReadinessPagePdf"
 import {
@@ -16,6 +13,8 @@ import {
   getIncomeStatementData,
   PDFPageOrder
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
+import { useAdminFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
+import { useApplicantFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/applicant/useApplicantFinancialProjectionApplicationDetails"
 import { useQueryFinancialProjectionForecast } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryFinancialProjectionForecast"
 import {
   ForecastPeriod,
@@ -178,14 +177,38 @@ function IncomeSheetSection({
   )
 }
 
+function ApplicantReviewPdf() {
+  const { financialApplicationDetailData, isFetching } =
+    useApplicantFinancialProjectionApplicationDetails()
+
+  return (
+    <FinancialProjectionApplicationDetail
+      isPdf
+      financialApplicationDetailData={financialApplicationDetailData}
+      isLoading={isFetching}
+    />
+  )
+}
+
+function AdminReviewPdf() {
+  const { financialApplicationDetailData, isFetching } =
+    useAdminFinancialProjectionApplicationDetails()
+
+  return (
+    <FinancialProjectionApplicationDetail
+      isPdf
+      financialApplicationDetailData={financialApplicationDetailData}
+      isLoading={isFetching}
+    />
+  )
+}
+
 function ApplicationSummarySection(): JSX.Element {
   return (
     <div className="flex items-start p-8">
-      {checkIsLoanApplicant() ? (
-        <ApplicationReviewPdf />
-      ) : (
-        <AdminApplicationReviewPdf />
-      )}
+      <main className="flex flex-col gap-4 w-full md:gap-8">
+        {checkIsLoanApplicant() ? <ApplicantReviewPdf /> : <AdminReviewPdf />}
+      </main>
     </div>
   )
 }

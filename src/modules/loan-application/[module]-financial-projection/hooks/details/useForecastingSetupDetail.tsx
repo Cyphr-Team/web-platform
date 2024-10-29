@@ -1,13 +1,13 @@
-import { type QueryForecastingSetupByIdResponse } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseForecastingSetupDetailProps {
-  forecastingSetupByIdResponse?: QueryForecastingSetupByIdResponse
+  forecastingSetupFormValue?: ForecastingSetupFormValue
 }
 
 export const useForecastingSetupDetail = ({
-  forecastingSetupByIdResponse
+  forecastingSetupFormValue
 }: UseForecastingSetupDetailProps) => {
   const forecastingSetupDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.FORECASTING_SETUP,
@@ -16,12 +16,12 @@ export const useForecastingSetupDetail = ({
       {
         id: "startingYearForForecast",
         title: "Starting year for the forecast:",
-        content: forecastingSetupByIdResponse?.firstYearOfForecast
+        content: forecastingSetupFormValue?.firstYearOfForecast
       },
       {
         id: "forecastLengthToGenerate",
         title: "Forecast length to generate:",
-        content: forecastingSetupByIdResponse?.lengthOfForecast
+        content: forecastingSetupFormValue?.lengthOfForecast
       }
     ]
   }

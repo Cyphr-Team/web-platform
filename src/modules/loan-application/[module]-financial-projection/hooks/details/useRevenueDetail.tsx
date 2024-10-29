@@ -5,33 +5,62 @@ import {
   type FinancialApplicationFormDetailData
 } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
+  type BillableHour,
+  type Contract,
+  type RecurringCharge,
   RevenueResponseType,
-  type SubmitRevenueStreamResponse
+  type RevenueStream,
+  type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
 
-type RevenueElement = SubmitRevenueStreamResponse["forms"][number] | undefined
+type RevenueElement = UnitSale | BillableHour | RecurringCharge | Contract
 type DetailGenerator = (
   revenue: RevenueElement
 ) => FinancialApplicationFormDetailData[]
 
 interface UseRevenueDetailProps {
-  revenueStreamResponse?: SubmitRevenueStreamResponse
+  revenueStreamFormValue?: RevenueStream
 }
 
 export const useRevenueDetail = ({
-  revenueStreamResponse
+  revenueStreamFormValue
 }: UseRevenueDetailProps) => {
   const revenueDetail: FinancialApplicationDetailData[] =
-    revenueStreamResponse?.forms?.map((revenue, index) => ({
-      id: LOAN_APPLICATION_STEPS.REVENUE,
-      subId: index.toString(),
-      title: "Revenue",
-      financialApplicationFormData: generateFormDetailByFormType(revenue)
-    })) ?? []
+    [
+      {
+        formType: RevenueResponseType.UnitSales,
+        revenues: revenueStreamFormValue?.unitSales
+      },
+      {
+        formType: RevenueResponseType.BillableHours,
+        revenues: revenueStreamFormValue?.billableHours
+      },
+      {
+        formType: RevenueResponseType.RecurringCharges,
+        revenues: revenueStreamFormValue?.recurringCharges
+      },
+      {
+        formType: RevenueResponseType.Contracts,
+        revenues: revenueStreamFormValue?.contracts
+      }
+    ].flatMap((revenue, index) => {
+      const generator = revenue?.formType
+        ? revenueDetailGenerators[revenue.formType]
+        : null
+
+      return (
+        revenue?.revenues?.map((subRevenue, subIndex) => ({
+          id: LOAN_APPLICATION_STEPS.REVENUE,
+          subId: index.toString() + subIndex.toString(),
+          title: "Revenue",
+          financialApplicationFormData: generator ? generator(subRevenue) : []
+        })) ?? []
+      )
+    }) ?? []
 
   return { revenueDetail }
 }
@@ -39,7 +68,7 @@ export const useRevenueDetail = ({
 function generateUnitSaleDetail(
   revenue: RevenueElement
 ): FinancialApplicationFormDetailData[] {
-  const unitSale = revenue?.unitSale
+  const unitSale = revenue as UnitSale
 
   return [
     {
@@ -50,7 +79,7 @@ function generateUnitSaleDetail(
     {
       id: "revenueStreamTitle",
       title: "The revenue stream in your forecast should be titled:",
-      content: revenue?.unitSale?.name
+      content: unitSale?.name
     },
     {
       id: "revenueStreamStartDate",
@@ -82,7 +111,7 @@ function generateUnitSaleDetail(
 function generateContractRevenueDetail(
   revenue: RevenueElement
 ): FinancialApplicationFormDetailData[] {
-  const contract = revenue?.contract
+  const contract = revenue as Contract
 
   return [
     {
@@ -116,7 +145,7 @@ function generateContractRevenueDetail(
 function generateRecurringChargesDetail(
   revenue: RevenueElement
 ): FinancialApplicationFormDetailData[] {
-  const recurringCharge = revenue?.recurringCharge
+  const recurringCharge = revenue as RecurringCharge
 
   return [
     {
@@ -179,7 +208,7 @@ function generateRecurringChargesDetail(
 function generateBillableHourDetail(
   revenue: RevenueElement
 ): FinancialApplicationFormDetailData[] {
-  const billableHour = revenue?.billableHour
+  const billableHour = revenue as BillableHour
 
   return [
     {
@@ -232,16 +261,6 @@ const revenueDetailGenerators: Record<RevenueResponseType, DetailGenerator> = {
   [RevenueResponseType.Contracts]: generateContractRevenueDetail,
   [RevenueResponseType.RecurringCharges]: generateRecurringChargesDetail,
   [RevenueResponseType.BillableHours]: generateBillableHourDetail
-}
-
-const generateFormDetailByFormType = (
-  revenue: RevenueElement
-): FinancialApplicationFormDetailData[] => {
-  const generator = revenue?.formType
-    ? revenueDetailGenerators[revenue.formType]
-    : null
-
-  return generator ? generator(revenue) : []
 }
 
 // Utility functions

@@ -3,6 +3,14 @@ import {
   FinancialOperatingExpensesFormDetail
 } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
 import { DirectCostsFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details/DirectCostsFormDetail"
+import { type DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
+import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
+import { type AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { type DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
+import { type FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store"
+import { type ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
+import { type FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
+import { type PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store"
 import { useAssetLongTermDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useAssetLongTermDetail"
 import { useAssetReceivableDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useAssetReceivableDetail"
 import { useBusinessInformationDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useBusinessInformationDetail"
@@ -19,37 +27,50 @@ import { useRevenueDetail } from "@/modules/loan-application/[module]-financial-
 import { useTaxRatesDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useTaxRatesDetail"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { CashFlowTable } from "@/modules/loan-application/components/molecules/loan-application-details/CashFlowTable"
+import { type ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
+import { type RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form"
 import {
-  type KYBInformationResponse,
-  type KYCInformationResponse
-} from "@/modules/loan-application/constants/type"
-import { type useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
-import { type useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
+  type LoanReadyBusinessFormValue,
+  type LoanReadyOwnerFormValue,
+  type LoanRequestFormValue
+} from "@/modules/loan-application/constants/form"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 
+interface FpFormDetail {
+  forecastingSetup: ForecastingSetupFormValue
+  financialStatements: FinancialStatementFormValue
+  people: PeopleFormValue
+  directCosts: DirectCostsFormValue
+  fpOperatingExpenses: FpOperatingExpensesFormValue
+  taxRates: ExpenseTaxRateFormValue
+  assets: AssetsFormValue
+  debtFinancing: DebtFinancingFormValue
+  equity: FpEquityFinancingFormValue
+  revenue: RevenueStream
+}
+
 interface UseFinancialApplicationDetailProps {
-  fpForm?: ReturnType<
-    | typeof useGetFinancialProjectForms
-    | typeof useGetFinancialProjectLoanSummary
-  >
-  loanApplicationDetails?: UserMicroLoanApplication
-  kybFormData?: KYBInformationResponse
-  kycFormData?: KYCInformationResponse
+  connectedBankAccounts?: LoanApplicationBankAccount[]
+  fpForm?: Partial<FpFormDetail>
+  loanRequest?: LoanRequestFormValue
+  businessInformation?: LoanReadyBusinessFormValue
+  ownerInformationForm?: LoanReadyOwnerFormValue
 }
 
 export const useFinancialApplicationDetail = ({
   fpForm,
-  kybFormData,
-  kycFormData,
-  loanApplicationDetails
+  connectedBankAccounts,
+  businessInformation,
+  ownerInformationForm,
+  loanRequest
 }: UseFinancialApplicationDetailProps) => {
   const connectedAccountData = {
     id: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
     financialApplicationFormData: [],
     subChildren: checkIsLoanApplicant() ? (
-      <ConnectedAccountDetail />
+      <ConnectedAccountDetail overwriteBankAccounts={connectedBankAccounts} />
     ) : (
       <CashFlowTable wrapperClassName="border-none -mt-8" />
     )
@@ -77,9 +98,7 @@ export const useFinancialApplicationDetail = ({
     ),
     financialApplicationFormData: [],
     subChildren: (
-      <DirectCostsFormDetail
-        directCostsFormResponse={fpForm?.directCostsQuery.data}
-      />
+      <DirectCostsFormDetail directCostsFormValue={fpForm?.directCosts} />
     )
   }
 
@@ -103,58 +122,56 @@ export const useFinancialApplicationDetail = ({
     financialApplicationFormData: [],
     subChildren: (
       <FinancialOperatingExpensesFormDetail
-        fpOperatingExpensesFormResponse={
-          fpForm?.fpOperatingExpensesFormQuery.data
-        }
+        fpOperatingExpensesFormValue={fpForm?.fpOperatingExpenses}
       />
     )
   }
 
   const financialApplicationDetailData: FinancialApplicationDetailData[] = [
     useLoanRequestDetail({
-      loanApplicationDetails
+      loanRequestFormValue: loanRequest
     }).loanRequestDetail,
     useBusinessInformationDetail({
-      kybFormData
+      businessInformationFormValue: businessInformation
     }).businessInformationDetail,
     useIndividualInformationDetail({
-      kycFormData
+      ownerInformationFormValue: ownerInformationForm
     }).individualInformationDetail,
     useForecastingSetupDetail({
-      forecastingSetupByIdResponse: fpForm?.forecastingSetupQuery.data
+      forecastingSetupFormValue: fpForm?.forecastingSetup
     }).forecastingSetupDetail,
     useFinancialStatementsDetail({
-      financialStatementFormResponse: fpForm?.financialStatementQuery.data
+      financialStatementFormValue: fpForm?.financialStatements
     }).financialStatementsDetail,
     ...useRevenueDetail({
-      revenueStreamResponse: fpForm?.revenueFormQuery.data
+      revenueStreamFormValue: fpForm?.revenue
     }).revenueDetail,
     useCurrentEmployeesDetail({
-      expensePeopleResponse: fpForm?.expensePeopleFormQuery.data
+      expensePeopleFormValue: fpForm?.people
     }).currentEmployeesDetail,
     useFutureEmployeesDetail({
-      expensePeopleResponse: fpForm?.expensePeopleFormQuery.data
+      expensePeopleFormValue: fpForm?.people
     }).futureEmployeesDetail,
     connectedAccountData,
     directCostData,
     operatingExpensesData,
     useTaxRatesDetail({
-      expenseTaxRateFormResponse: fpForm?.fpExpenseTaxRateFormQuery.data
+      taxRateFormValue: fpForm?.taxRates
     }).taxRatesDetail,
     useAssetReceivableDetail({
-      assetsCurrentFormResponse: fpForm?.fpAssetsCurrentFormQuery.data
+      assetsFormValue: fpForm?.assets
     }).assetReceivableDetail,
     useAssetLongTermDetail({
-      assetsLongTermFormResponse: fpForm?.fpAssetsLongTermFormQuery.data
+      assetsFormValue: fpForm?.assets
     }).assetLongTermDetail,
     useDebtFinancingAccountsPayableDetail({
-      debtFinancingLiability: fpForm?.debtFinancingLiabilityFormQuery.data
+      debtFinancingFormValue: fpForm?.debtFinancing
     }).debtFinancingAccountsPayableDetail,
     useDebtFinancingLoanFormDetail({
-      debtFinancingResponse: fpForm?.debtFinancingFormQuery.data
+      debtFinancingFormValue: fpForm?.debtFinancing
     }).debtFinancingLoanFormDetail,
     useEquityFinancingDetail({
-      fpEquityFinancingFormResponse: fpForm?.fpEquityFinancingFormQuery.data
+      fpEquityFinancingFormValue: fpForm?.equity
     }).equityFinancingDetail
   ]
 

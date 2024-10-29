@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils.ts"
 import { type ReactNode } from "react"
 import { GridMapper } from "@/modules/loan-application/[module]-financial-projection/constants"
+import { v6 as uuidv6 } from "uuid"
 
 interface TotalRowProps {
   title: string
@@ -27,7 +28,7 @@ export function DateRow(props: TotalRowProps) {
 
       {data.map((value) => (
         <div
-          key={value?.toString()}
+          key={uuidv6()}
           className={cn(
             "flex items-center justify-between col-span-1",
             "px-4 h-11 font-semibold text-sm",
