@@ -153,6 +153,15 @@ export const APP_PATH = {
     applicant: {
       index: "/applicant/loan",
       list: "/applicant/loan/applications",
+      financialProjection: {
+        index: "/applicant/loan/financial-projection",
+        overview: "/applicant/loan/financial-projection/overview",
+        cashFlow: "/applicant/loan/financial-projection/cash-flow",
+        balanceSheet: "/applicant/loan/financial-projection/balance-sheet",
+        incomeStatement:
+          "/applicant/loan/financial-projection/income-statement",
+        loanReady: "/applicant/loan/financial-projection/loan-ready"
+      },
       readiness: "/applicant/loan-readiness"
     },
     admin: {

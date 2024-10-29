@@ -49,7 +49,11 @@ export const DASHBOARD_NAV_ITEM = [
     href: APP_PATH.CONFERENCE_DEMO.applicant.list,
     icon: Icons.folderCheck,
     label: "Applications"
+  },
+  {
+    title: "Financial Projections",
+    href: APP_PATH.CONFERENCE_DEMO.applicant.financialProjection.index,
+    icon: Icons.financial,
+    label: "Financial Projections"
   }
 ]
-
-export const ACCEPTED_FILE_TYPES = ["application/pdf"]
