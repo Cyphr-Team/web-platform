@@ -18,6 +18,7 @@ import { useLoanRequestDetail } from "@/modules/loan-application/[module]-financ
 import { useRevenueDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useRevenueDetail"
 import { useTaxRatesDetail } from "@/modules/loan-application/[module]-financial-projection/hooks/details/useTaxRatesDetail"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { CashFlowTable } from "@/modules/loan-application/components/molecules/loan-application-details/CashFlowTable"
 import {
   type KYBInformationResponse,
   type KYCInformationResponse
@@ -26,6 +27,7 @@ import { type useGetFinancialProjectForms } from "@/modules/loan-application/hoo
 import { type useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { type UserMicroLoanApplication } from "@/types/loan-application.type"
+import { checkIsLoanApplicant } from "@/utils/check-roles"
 
 interface UseFinancialApplicationDetailProps {
   fpForm?: ReturnType<
@@ -46,7 +48,11 @@ export const useFinancialApplicationDetail = ({
   const connectedAccountData = {
     id: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
     financialApplicationFormData: [],
-    subChildren: <ConnectedAccountDetail />
+    subChildren: checkIsLoanApplicant() ? (
+      <ConnectedAccountDetail />
+    ) : (
+      <CashFlowTable wrapperClassName="border-none -mt-8" />
+    )
   }
 
   const directCostData: FinancialApplicationDetailData = {

@@ -8,10 +8,10 @@ import { DetailTable } from "@/modules/loan-application/[module]-financial-proje
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
+import { CashFlowConnectedBadge } from "@/shared/atoms/CashFlowConnectedBadge"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { renderHeader } from "@/utils/table.utils"
 import { type ColumnDef } from "@tanstack/react-table"
-import { CheckCircle2 } from "lucide-react"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
 
@@ -59,10 +59,7 @@ export function ConnectedAccountDetail() {
             Refresh
           </Button>
         ) : (
-          <div className="text-sm rounded-lg flex items-center border border-success justify-center gap-1 font-semibold text-success bg-white h-8 lg:h-10 px-2 lg:px-4 py-2">
-            <CheckCircle2 className="w-4 h-4 lg:w-5 lg:h-5 text-white fill-green-600" />
-            Connected
-          </div>
+          <CashFlowConnectedBadge />
         )}
       </div>
       <CardContent className="p-0 md:p-0">

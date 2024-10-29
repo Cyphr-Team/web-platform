@@ -1,16 +1,18 @@
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { type ColumnDef } from "@tanstack/react-table"
-import { useParams } from "react-router-dom"
-import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
-import { Button } from "@/components/ui/button"
-import { useMemo } from "react"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { useQueryGetBankAccounts } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/useQueryGetBankAccounts.ts"
-import { Check } from "lucide-react"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
+import { CashFlowConnectedBadge } from "@/shared/atoms/CashFlowConnectedBadge"
+import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
+import { type ColumnDef } from "@tanstack/react-table"
+import { useMemo } from "react"
+import { useParams } from "react-router-dom"
 
 const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -41,14 +43,23 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
   }
 ]
 
-export function CashFlowTable() {
+interface CashFlowTableProps {
+  wrapperClassName?: string
+}
+
+export function CashFlowTable({ wrapperClassName }: CashFlowTableProps) {
   const params = useParams()
 
   const { data, isLoading, isError, error, refetch } = useQueryGetBankAccounts({
     applicationId: params.id!,
     enabledByInstitution: true
   })
+  const getLatestData = () => {
+    refetch()
+  }
+
   const bankAccounts = data?.bankAccounts ?? []
+
   const isCashFlowNotReady = useMemo(() => {
     return isError && error?.code === ErrorCode.cash_flow_not_ready
   }, [isError, error])
@@ -60,30 +71,33 @@ export function CashFlowTable() {
   }, [isCashFlowNotReady])
 
   return (
-    <Card className="shadow-none">
-      <CardHeader className="mx-8 px-0 md:px-0 md:py-4">
-        <div className="flex justify-between items-center flex-wrap gap-1">
-          <CardTitle className="font-semibold text-lg flex items-center gap-3">
-            Connected Accounts
-          </CardTitle>
-          {/* Display this button when cash flow is not ready or empty */}
-          {isCashFlowNotReady || !data?.bankAccounts?.length ? (
-            <Button disabled={isLoading} onClick={() => refetch()}>
-              Refresh
-            </Button>
-          ) : (
-            <Button
-              className="text-primary bg-primary w-fit text-white px-lg py-md flex gap-1"
-              type="button"
-            >
-              <p>Connected</p>
-              <Check className="text-white" size={20} />
-            </Button>
-          )}
-        </div>
-      </CardHeader>
+    <Card
+      className={cn(
+        "shadow-none p-4 md:p-8",
+        wrapperClassName,
+        EXPORT_CLASS.FINANCIAL
+      )}
+    >
+      <div className="flex justify-between items-center flex-wrap gap-1 border-b pb-2 md:pb-5">
+        <CardTitle className="font-semibold text-lg flex items-center gap-3">
+          Connected Accounts
+        </CardTitle>
+        {/* Display this button when cash flow is not ready or empty */}
+        {isCashFlowNotReady || !data?.bankAccounts?.length ? (
+          <Button
+            data-html2canvas-ignore
+            className="text-sm"
+            disabled={isLoading}
+            onClick={getLatestData}
+          >
+            Refresh
+          </Button>
+        ) : (
+          <CashFlowConnectedBadge />
+        )}
+      </div>
 
-      <CardContent className="px-5">
+      <CardContent className="p-0 md:p-0">
         <MiddeskTable
           columns={columns}
           data={bankAccounts}
