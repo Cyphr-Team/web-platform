@@ -23,7 +23,7 @@ export const useLoanRequestDetail = ({
         id: "proposedUseOfLoan",
         title: "Proposed use of loan:",
         content: capitalizeWords(
-          loanRequestFormValue?.proposeUseOfLoan.replace(/_/g, " ") ?? "N/A"
+          loanRequestFormValue?.proposeUseOfLoan?.replace(/_/g, " ") ?? "N/A"
         )
       }
     ]

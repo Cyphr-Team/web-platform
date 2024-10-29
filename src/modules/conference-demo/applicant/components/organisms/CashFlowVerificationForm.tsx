@@ -236,7 +236,10 @@ function InformationCard({
   wrapperClassName
 }: InformationCardProps) {
   return (
-    <ConferenceFormLayout title="Cash Flow Verification" wrapperClassName={wrapperClassName}>
+    <ConferenceFormLayout
+      title="Cash Flow Verification"
+      wrapperClassName={wrapperClassName}
+    >
       <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
       <Separator />
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
@@ -294,7 +297,11 @@ function ConnectedAccountsCard({
   wrapperClassName
 }: ConnectedAccountsCardProps) {
   return (
-    <ConferenceFormLayout hideTopNavigation cardClassName="mt-10" wrapperClassName={wrapperClassName}>
+    <ConferenceFormLayout
+      hideTopNavigation
+      cardClassName="mt-10"
+      wrapperClassName={wrapperClassName}
+    >
       <ConnectedAccountsHeader connectedAccounts={connectedAccounts} />
       <Separator />
 

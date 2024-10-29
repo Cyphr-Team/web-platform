@@ -21,7 +21,7 @@ import { useUploadSbbDocument } from "@/modules/loan-application/hooks/useForm/u
 import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/hooks/useSubmitFinancialProjectionForms"
 import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
-import { isSbb } from "@/utils/domain.utils"
+import { isLoanReady, isSbb } from "@/utils/domain.utils"
 import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, isAxiosError } from "axios"
@@ -405,7 +405,12 @@ export const useSubmitLoanForm = (
         // Navigate to submission page with applicationId
         let navigateLink = APP_PATH.LOAN_APPLICATION.SUBMISSION
 
-        if (eSignData?.documentId) {
+        /**
+         * Note:
+         * - SBB_Subdomain has integrated PandaDoc so it requires documentId
+         * - LoanReady_Subdomain has also integrated PandaDoc but the Financial Projection is overwritten the logic
+         */
+        if (eSignData?.documentId && !isLoanReady()) {
           navigateLink = `${navigateLink}?documentId=${eSignData.documentId}`
         }
         navigate(navigateLink, {
@@ -500,7 +505,12 @@ export const useSubmitLoanForm = (
       }
 
       // Submit e sign document - Link document id
-      if (eSignData?.documentId && isEnablePandaDocESign() && isSbb()) {
+      if (
+        eSignData?.documentId &&
+        isEnablePandaDocESign() &&
+        isSbb() &&
+        isLoanReady()
+      ) {
         submitPromises.push(submitESignDocument(loanRequestId))
       }
 

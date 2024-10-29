@@ -46,7 +46,13 @@ function getOrDefault(
   return defaultValues as LoanReadyBusinessFormValue
 }
 
-export function LoanReadyBusinessInformationForm() {
+interface LoanReadyBusinessInformationFormProps {
+  wrapperClassName?: string
+}
+
+export function LoanReadyBusinessInformationForm({
+  wrapperClassName
+}: LoanReadyBusinessInformationFormProps) {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { businessInformation, dispatchFormAction } =
     useLoanApplicationFormContext()
@@ -102,6 +108,7 @@ export function LoanReadyBusinessInformationForm() {
     <FormLayout
       id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
       title="Business Information"
+      wrapperClassName={wrapperClassName}
     >
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />

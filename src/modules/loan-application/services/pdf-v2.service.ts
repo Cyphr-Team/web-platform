@@ -181,10 +181,12 @@ const applyTemporaryStyles = (): (() => void) => {
 /**
  * Generates a PDF from an array of HTML elements.
  * @param elements - An array of HTML elements to be included in the PDF
+ * @param isSigned
  * @returns A promise that resolves to an object containing the generated PDF
  */
 export const generatePDF = async (
-  elements: HTMLDivElement[]
+  elements: HTMLDivElement[],
+  isSigned?: boolean
 ): Promise<GeneratePDFResult> => {
   if (elements.length === 0) return { pdf: new jsPDF() }
 
@@ -205,6 +207,11 @@ export const generatePDF = async (
         pdf.addPage()
         currentHeight = 0
       }
+    }
+
+    // FIXME: Added a large enough space to integrate with E-Sign
+    if (isSigned && currentHeight !== 0) {
+      pdf.addPage()
     }
   } finally {
     removeStyles()

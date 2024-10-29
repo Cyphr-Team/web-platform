@@ -23,8 +23,10 @@ export function ConnectedAccountDetail({
   overwriteBankAccounts = []
 }: ConnectedAccountDetailProps) {
   const { id: loanApplicationId } = useParams()
+
   const { data, isLoading, isError, error, refetch } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
+
   const getLatestData = () => {
     refetch()
   }
@@ -73,6 +75,7 @@ export function ConnectedAccountDetail({
           <CashFlowConnectedBadge />
         )}
       </div>
+
       <CardContent className="p-0 md:p-0">
         <DetailTable
           columns={columns}

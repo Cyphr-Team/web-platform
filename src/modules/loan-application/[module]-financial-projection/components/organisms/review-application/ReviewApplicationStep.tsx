@@ -9,7 +9,7 @@ import { FpOperatingExpensesForm } from "@/modules/loan-application/[module]-fin
 import { PeopleForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/PeopleForm"
 import RevenueForm from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm"
 import { CashFlowVerificationFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerificationFormV2"
-import { BusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/KybForm"
+import { LoanReadyBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKybForm"
 import { LoanReadyOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKycForm"
 import { LoanReadyLoanRequestForm } from "@/modules/loan-application/components/organisms/loan-application-form/loan-request/LoanReadyLoanRequestForm"
 import {
@@ -21,7 +21,8 @@ import { forwardRef, useMemo } from "react"
 // Define a mapping of steps to components
 const STEP_COMPONENT_MAP = {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanReadyLoanRequestForm,
-  [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: BusinessInformationForm,
+  [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]:
+    LoanReadyBusinessInformationForm,
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: LoanReadyOwnerInformationForm,
   [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: ForecastingSetupForm,
   [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: FinancialStatementForm,

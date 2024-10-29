@@ -91,7 +91,10 @@ function BusinessPlanForm({ wrapperClassName }: BusinessPlanFormProps) {
   useMagic(method, autofillData, 5)
 
   return (
-    <ConferenceFormLayout title="Business Plan" wrapperClassName={wrapperClassName}>
+    <ConferenceFormLayout
+      title="Business Plan"
+      wrapperClassName={wrapperClassName}
+    >
       <div className="text-lg font-semibold">Business Plan</div>
 
       <RHFProvider methods={method} onSubmit={method.handleSubmit(onSubmit)}>
