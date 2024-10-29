@@ -99,7 +99,7 @@ export function FinancialStatementForm({
   )
 
   return (
-    <FormLayout wrapperClassName={wrapperClassName}>
+    <FormLayout cardClassName={wrapperClassName} title="Financial Statements">
       <RHFProvider
         key={LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS}
         methods={form}

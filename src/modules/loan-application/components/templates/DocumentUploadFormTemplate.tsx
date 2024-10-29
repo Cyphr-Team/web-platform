@@ -9,7 +9,6 @@ import {
 import { useForm } from "react-hook-form"
 
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput.tsx"
-import { cn } from "@/lib/utils.ts"
 import { useCallback, useEffect } from "react"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
@@ -30,6 +29,7 @@ import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/L
 import { toastError } from "@/utils"
 import { useDeleteSbbDocument } from "@/modules/loan-application/hooks/useMutation/useDeleteSbbDocument.ts"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 /**
  * This implementation is only work on the schema like this
@@ -252,12 +252,7 @@ export function DocumentUploadFormTemplate({
   useAutoCompleteStepEffect(form, specificStep, isValid)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm md:w-full"
-      )}
-    >
+    <FormLayout title={title}>
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
           <Card className="flex flex-col gap-y-2xl p-4xl shadow-none">
@@ -334,6 +329,6 @@ export function DocumentUploadFormTemplate({
           </Card>
         </Form>
       </div>
-    </div>
+    </FormLayout>
   )
 }

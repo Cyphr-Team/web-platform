@@ -3,14 +3,6 @@ import { Form } from "@/components/ui/form"
 import { toPattern } from "@/components/ui/mask-input"
 import { Separator } from "@/components/ui/separator"
 import { SSN_PATTERN } from "@/constants"
-import {
-  RHFCalendarPickerInput,
-  RHFMaskInput,
-  RHFPercentageInput,
-  RHFPhoneInput,
-  RHFSelectInput,
-  RHFTextInput
-} from "@/modules/form-template/components/molecules"
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities"
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
 import {
@@ -35,6 +27,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
+import {
+  RHFCalendarPickerInput,
+  RHFMaskInput,
+  RHFPercentageInput,
+  RHFPhoneInput,
+  RHFSelectInput,
+  RHFTextInput
+} from "@/modules/form-template/components/molecules"
 
 interface OwnerInformationFormProps {
   wrapperClassName?: string
@@ -93,8 +93,9 @@ export function LoanReadyOwnerInformationForm({
 
   return (
     <FormLayout
+      cardClassName={wrapperClassName}
       id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
-      wrapperClassName={wrapperClassName}
+      title="Owner / Guarantor Information"
     >
       <Form {...form}>
         <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>

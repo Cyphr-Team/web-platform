@@ -99,7 +99,10 @@ export function LoanReadyBusinessInformationForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
 
   return (
-    <FormLayout id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}>
+    <FormLayout
+      id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
+      title="Business Information"
+    >
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
       <RHFProvider

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -13,8 +12,8 @@ import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { Separator } from "@/components/ui/separator"
 import { SSN_PATTERN } from "@/constants"
-import { cn } from "@/lib/utils"
 import {
+  type IOwnerFormValue,
   ownerFormSchema,
   type OwnerFormValue
 } from "@/modules/loan-application/constants/form"
@@ -27,7 +26,7 @@ import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight, Mail } from "lucide-react"
-import { useEffect, useMemo } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
 import { useSelectCities } from "../../../../hooks/useSelectCities"
@@ -38,6 +37,7 @@ import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/t
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 interface OwnerInformationFormProps {
   wrapperClassName?: string
@@ -50,35 +50,9 @@ export function OwnerInformationForm({
   const { dispatchFormAction, ownerInformationForm } =
     useLoanApplicationFormContext()
 
-  const defaultValues = useMemo(
-    () => ({
-      id: ownerInformationForm?.id ?? "",
-      fullName: ownerInformationForm?.fullName ?? "",
-      businessRole: ownerInformationForm?.businessRole ?? "",
-      addressLine1: ownerInformationForm?.addressLine1 ?? "",
-      addressLine2: ownerInformationForm?.addressLine2 ?? "",
-      businessState: ownerInformationForm?.businessState ?? "",
-      businessCity: ownerInformationForm?.businessCity ?? "",
-      phoneNumber: ownerInformationForm?.phoneNumber ?? "",
-      email: ownerInformationForm?.email ?? "",
-      dateOfBirth: ownerInformationForm?.dateOfBirth ?? "",
-      socialSecurityNumber: ownerInformationForm?.socialSecurityNumber
-        ? toPattern(ownerInformationForm?.socialSecurityNumber, SSN_PATTERN)
-        : "",
-      businessOwnershipPercentage:
-        ownerInformationForm?.businessOwnershipPercentage ?? "",
-      hasOtherSubstantialStackHolders:
-        ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
-        "false",
-      businessZipCode: ownerInformationForm?.businessZipCode ?? "",
-      governmentFile: ownerInformationForm?.governmentFile ?? []
-    }),
-    [ownerInformationForm]
-  )
-
   const form = useForm<OwnerFormValue>({
     resolver: zodResolver(ownerFormSchema),
-    values: defaultValues,
+    values: getOrDefault(ownerInformationForm),
     mode: "onBlur"
   })
 
@@ -141,23 +115,20 @@ export function OwnerInformationForm({
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
-        wrapperClassName
-      )}
+    <FormLayout
       id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
+      title="Owner / Guarantor Information"
+      wrapperClassName={wrapperClassName}
     >
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none">
+          <div className="flex flex-col gap-2xl  rounded-lg h-fit shadow-none">
             <h5 className="text-lg font-semibold">
               Owner / Guarantor Information
             </h5>
             <Separator />
 
-            <form className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
+            <form className="grid grid-cols-6 gap-y-2xl gap-x-2xl px-1">
               <TextInput
                 required
                 className="col-span-3"
@@ -343,9 +314,36 @@ export function OwnerInformationForm({
                 Next <ArrowRight className="ml-1 w-4" />
               </Button>
             )}
-          </Card>
+          </div>
         </Form>
       </div>
-    </div>
+    </FormLayout>
   )
+}
+
+const getOrDefault = (
+  ownerInformationForm: IOwnerFormValue
+): OwnerFormValue => {
+  return {
+    id: ownerInformationForm?.id ?? "",
+    fullName: ownerInformationForm?.fullName ?? "",
+    businessRole: ownerInformationForm?.businessRole ?? "",
+    addressLine1: ownerInformationForm?.addressLine1 ?? "",
+    addressLine2: ownerInformationForm?.addressLine2 ?? "",
+    businessState: ownerInformationForm?.businessState ?? "",
+    businessCity: ownerInformationForm?.businessCity ?? "",
+    phoneNumber: ownerInformationForm?.phoneNumber ?? "",
+    email: ownerInformationForm?.email ?? "",
+    dateOfBirth: ownerInformationForm?.dateOfBirth ?? "",
+    socialSecurityNumber: ownerInformationForm?.socialSecurityNumber
+      ? toPattern(ownerInformationForm?.socialSecurityNumber, SSN_PATTERN)
+      : "",
+    businessOwnershipPercentage:
+      ownerInformationForm?.businessOwnershipPercentage ?? "",
+    hasOtherSubstantialStackHolders:
+      ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
+      "false",
+    businessZipCode: ownerInformationForm?.businessZipCode ?? "",
+    governmentFile: ownerInformationForm?.governmentFile ?? []
+  }
 }

@@ -199,7 +199,7 @@ export default memo(RevenueForm)
 
 function WelcomeLayout({ children }: PropsWithChildren) {
   return (
-    <FormLayout>
+    <FormLayout title="Revenue">
       <h5 className="text-lg font-semibold">Revenue</h5>
       <div className="financial-projection text-muted-foreground">
         Select one or more revenue models that best align with your business
@@ -213,7 +213,7 @@ function WelcomeLayout({ children }: PropsWithChildren) {
 
 function DefaultLayout({ children }: PropsWithChildren) {
   return (
-    <FormLayout>
+    <FormLayout title="Revenue">
       <h5 className="text-lg font-semibold">Revenue</h5>
       <Separator />
       {children}

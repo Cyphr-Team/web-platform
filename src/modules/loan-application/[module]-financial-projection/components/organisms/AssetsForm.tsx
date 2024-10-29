@@ -139,12 +139,12 @@ export function AssetsForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.ASSETS)
 
   return (
-    <FormLayout>
+    <FormLayout title="Assets">
       <h5 className="text-lg font-semibold">Assets</h5>
       <Separator />
 
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
-        <FormLayout>
+        <FormLayout hideTopNavigation>
           <div>
             <h5 className="text-lg font-semibold">Accounts Receivable</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -157,7 +157,7 @@ export function AssetsForm() {
 
           {renderBlockComponents(CurrentAssetsFormBlocks)}
         </FormLayout>
-        <FormLayout wrapperClassName="mt-5">
+        <FormLayout hideTopNavigation cardClassName="mt-5">
           <div>
             <h5 className="text-lg font-semibold">Long Term Assets</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">

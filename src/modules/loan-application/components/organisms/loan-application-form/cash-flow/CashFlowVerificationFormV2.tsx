@@ -138,7 +138,10 @@ export function CashFlowVerificationFormV2({
 
   return (
     <>
-      <FormLayout wrapperClassName={wrapperClassName}>
+      <FormLayout
+        cardClassName={wrapperClassName}
+        title="Cash Flow Verification"
+      >
         <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
         <Separator />
         <div className="flex flex-col gap-y-2xl gap-x-4xl">
@@ -179,7 +182,10 @@ export function CashFlowVerificationFormV2({
         </div>
       </FormLayout>
       {!!connectedAccounts.length || isConfirmedConnect ? (
-        <FormLayout wrapperClassName={cn(wrapperClassName, "mt-6")}>
+        <FormLayout
+          hideTopNavigation
+          cardClassName={cn(wrapperClassName, "mt-6")}
+        >
           <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-2">
             <div>
               <h5 className="text-lg font-semibold">Connected Accounts</h5>

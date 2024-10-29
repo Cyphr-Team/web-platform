@@ -1,7 +1,5 @@
-import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
@@ -29,6 +27,8 @@ import { AutoCompleteStates } from "@/modules/loan-application/components/molecu
 import { type AddressType } from "@/types/common.type"
 import { AutoCompleteGoogleMap } from "@/modules/loan-application/components/molecules/autocomplete/AutoCompleteGoogleMap"
 import { isEnableGoogleMapInput } from "@/utils/feature-flag.utils"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
+import { cn } from "@/lib/utils.ts"
 
 export function SbbKycForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -212,15 +212,15 @@ export function SbbKycForm() {
   }, [form, state])
 
   return (
-    <div className="col-span-8 md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm">
+    <div
+      className={cn(
+        "flex flex-col gap-2xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
+        "md:col-span-6 md:col-start-2 md:mx-0"
+      )}
+    >
       <Form {...form}>
         <div className="flex flex-col gap-2xl">
-          <Card
-            className={cn(
-              "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 shadow-none w-full"
-            )}
-            id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
-          >
+          <FormLayout title="Owner / Guarantor Information">
             <h5 className="text-lg font-semibold">
               Owner / Guarantor Information
             </h5>
@@ -301,7 +301,7 @@ export function SbbKycForm() {
                 )
               })}
             </form>
-          </Card>
+          </FormLayout>
           <BeneficialOwnersInput />
 
           <ControlAuthorization step={step} onSubmit={onSubmit} />

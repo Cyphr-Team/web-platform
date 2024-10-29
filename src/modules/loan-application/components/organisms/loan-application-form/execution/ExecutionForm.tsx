@@ -86,7 +86,7 @@ export function ExecutionForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EXECUTION)
 
   return (
-    <FormLayout>
+    <FormLayout title="Execution">
       <Form {...form}>
         <h5 className="text-lg font-semibold">Execution</h5>
         <Separator />

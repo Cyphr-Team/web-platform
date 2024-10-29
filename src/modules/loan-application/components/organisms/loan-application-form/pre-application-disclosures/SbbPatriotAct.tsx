@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { RHFCheckbox } from "@/modules/form-template/components/molecules"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -18,6 +16,7 @@ import {
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 export function SbbPatriotAct() {
   const { dispatchFormAction, patriotAct } = useLoanApplicationFormContext()
@@ -45,12 +44,7 @@ export function SbbPatriotAct() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.PATRIOT_ACT)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
-    >
+    <FormLayout title="USA Patriot Act">
       <h5 className="text-lg font-semibold">USA Patriot Act</h5>
       <Separator />
       <p>Important Information About Procedures for Opening a New Account.</p>
@@ -85,6 +79,6 @@ export function SbbPatriotAct() {
           </Button>
         </div>
       </RHFProvider>{" "}
-    </Card>
+    </FormLayout>
   )
 }

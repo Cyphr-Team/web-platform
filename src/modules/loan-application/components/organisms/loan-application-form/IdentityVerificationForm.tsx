@@ -148,7 +148,10 @@ export function IdentityVerificationForm({
 
   return (
     <Form {...form}>
-      <FormLayout wrapperClassName={wrapperClassName}>
+      <FormLayout
+        cardClassName={wrapperClassName}
+        title="Identity Verification"
+      >
         <div className="flex gap-2 justify-between items-center">
           <h5 className="text-lg font-semibold">Identity Verification</h5>
           <div className="text-sm">

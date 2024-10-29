@@ -10,7 +10,7 @@ interface Props {
 
 export function PreQualificationFormDetails({ data }: Props) {
   return (
-    <FormLayout wrapperClassName="loan-application-item">
+    <FormLayout cardClassName="loan-application-item" title="Pre-Qualification">
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <AnswersTextDisplay

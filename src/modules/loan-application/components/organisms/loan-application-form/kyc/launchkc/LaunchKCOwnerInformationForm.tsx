@@ -40,9 +40,9 @@ import { OptionInput } from "@/shared/organisms/form/OptionInput.tsx"
 import { get, set } from "lodash"
 import {
   getKycOptionsByField,
+  LAUNCH_KC_KYC_FIELD_NAMES,
   TITLE_OPTIONS,
-  YES_NO_OPTIONS,
-  LAUNCH_KC_KYC_FIELD_NAMES
+  YES_NO_OPTIONS
 } from "./const"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
@@ -148,7 +148,10 @@ export function LaunchKCOwnerInformationForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
 
   return (
-    <FormLayout id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}>
+    <FormLayout
+      id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
+      title="Owner / Guarantor Information"
+    >
       <Form {...form}>
         <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
         <Separator />

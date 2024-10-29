@@ -72,12 +72,12 @@ export function PeopleForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.PEOPLE)
 
   return (
-    <FormLayout>
+    <FormLayout title="People">
       <h5 className="text-lg font-semibold">People</h5>
       <Separator />
 
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
-        <FormLayout>
+        <FormLayout hideTopNavigation>
           <div>
             <h5 className="text-lg font-semibold">Current Employees</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -92,7 +92,7 @@ export function PeopleForm() {
           {renderBlockComponents(PeopleFormBlocks)}
           <CurrentEmployeesForm />
         </FormLayout>
-        <FormLayout wrapperClassName="mt-5">
+        <FormLayout hideTopNavigation cardClassName="mt-5">
           <div>
             <h5 className="text-lg font-semibold">Future Employees</h5>
             <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -105,7 +105,10 @@ export function PeopleForm() {
           <Separator />
           <FutureEmployeesForm />
         </FormLayout>
-        <FormLayout wrapperClassName="bg-financial-projection-card mt-5 py-5">
+        <FormLayout
+          hideTopNavigation
+          cardClassName="bg-financial-projection-card mt-5 py-5"
+        >
           <h5 className="text-lg font-semibold text-black">Totals</h5>
           <Separator />
           <div className="flex flex-col lg:flex-row">

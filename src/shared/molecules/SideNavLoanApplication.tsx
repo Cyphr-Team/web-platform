@@ -13,7 +13,7 @@ import {
   STEP_MENU
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
-import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
+import { LoanProgressAction } from "@/modules/loan-application/providers/LoanProgressProvider"
 import groupBy from "lodash.groupby"
 import { Check } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
@@ -37,7 +37,7 @@ export function LoanProgramItem({
   const handleChangeStep = () => {
     if (!active)
       dispatchProgress({
-        type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
+        type: LoanProgressAction.ChangeStep,
         step: value.step
       })
   }

@@ -70,7 +70,7 @@ export function LoanReadyLoanRequestForm({
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
 
   return (
-    <FormLayout wrapperClassName={wrapperClassName}>
+    <FormLayout cardClassName={wrapperClassName} title="Loan Request">
       <CardHeader className="text-center p:0 md:p-0">
         <CardTitle className="text-lg">Loan Request</CardTitle>
         <CardDescription className="text-secondary-400">

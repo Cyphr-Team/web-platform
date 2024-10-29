@@ -71,10 +71,13 @@ export function ConfirmationForm() {
     : getConfirmationTexts(tenant?.tenantData?.name ?? "")
 
   return (
-    <FormLayout>
+    <FormLayout hideTopNavigation>
       <Form {...form}>
-        {CONFIRMATION_TEXTS.map((text, index) => (
-          <p key={index} className="text-sm text-text-secondary">
+        {CONFIRMATION_TEXTS.map((text) => (
+          <p
+            key={text.title + text.content}
+            className="text-sm text-text-secondary"
+          >
             <strong>{text.title}</strong>
             <p
               dangerouslySetInnerHTML={{

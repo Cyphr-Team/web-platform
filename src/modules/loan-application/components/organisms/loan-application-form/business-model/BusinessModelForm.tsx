@@ -65,7 +65,10 @@ export function BusinessModelForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
 
   return (
-    <FormLayout id={LOAN_APPLICATION_STEPS.BUSINESS_MODEL}>
+    <FormLayout
+      id={LOAN_APPLICATION_STEPS.BUSINESS_MODEL}
+      title="Business Model"
+    >
       <h5 className="text-lg font-semibold">Business Model</h5>
       <p className="text-sm text-text-secondary font-normal">
         This data is being collected for the sole purpose of this application.

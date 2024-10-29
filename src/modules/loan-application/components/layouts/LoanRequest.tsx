@@ -11,7 +11,6 @@ import { toCurrency } from "@/utils"
 import { useForm } from "react-hook-form"
 
 import {
-  Card,
   CardContent,
   CardDescription,
   CardFooter,
@@ -44,12 +43,12 @@ import {
   isSbb
 } from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
-import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "../../services"
 import { useAutoCompleteStepEffect } from "../../hooks/useAutoCompleteStepEffect"
 import { RHFTextInput } from "../../../form-template/components/molecules"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 interface LoanRequestProps {
   wrapperClassName?: string
@@ -137,14 +136,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
 
   return (
-    <Card
-      className={cn(
-        "rounded-xl mx-6 col-span-8",
-        "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-screen-sm",
-        wrapperClassName
-      )}
-    >
+    <FormLayout title="Loan Request" wrapperClassName={wrapperClassName}>
       <CardHeader className="text-center">
         <CardTitle className="text-lg">{loanProgramDetails?.name}</CardTitle>
         <CardDescription>
@@ -315,7 +307,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
           )}
         </form>
       </Form>
-    </Card>
+    </FormLayout>
   )
 }
 

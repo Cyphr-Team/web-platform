@@ -69,7 +69,7 @@ export function MarketOpportunityForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
 
   return (
-    <FormLayout>
+    <FormLayout title="Market Opportunity">
       <Form {...form}>
         <h5 className="text-lg font-semibold">Market Opportunity</h5>
         <Separator />

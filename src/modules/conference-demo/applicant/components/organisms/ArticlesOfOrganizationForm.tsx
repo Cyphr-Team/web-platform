@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button.tsx"
-import { Card } from "@/components/ui/card.tsx"
-import { cn } from "@/lib/utils.ts"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect.ts"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
@@ -14,6 +12,7 @@ import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { memo } from "react"
 import { useForm } from "react-hook-form"
+import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
 
 function ArticlesOfOrganizationForm() {
   const isReviewApplicationStep = useIsReviewApplicationStep()
@@ -39,15 +38,10 @@ function ArticlesOfOrganizationForm() {
   useAutoCompleteStepEffect(methods, STEP.ARTICLES_OF_ORGANIZATION)
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-md md:w-full"
-      )}
-    >
+    <ConferenceFormLayout title="Articles of Organization">
       <div className="flex flex-col gap-3xl overflow-auto">
         <RHFProvider methods={methods}>
-          <Card className="flex flex-col gap-y-2xl p-4xl shadow-none">
+          <div className="flex flex-col gap-y-2xl  shadow-none">
             <h4 className="text-lg font-semibold">Articles of Organization</h4>
             <p className="text-sm text-text-secondary font-medium">
               Please upload a copy of your company’s Article of Organization
@@ -63,10 +57,10 @@ function ArticlesOfOrganizationForm() {
                 Next
               </Button>
             )}
-          </Card>
+          </div>
         </RHFProvider>
       </div>
-    </div>
+    </ConferenceFormLayout>
   )
 }
 

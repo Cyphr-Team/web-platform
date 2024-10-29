@@ -44,7 +44,7 @@ export const TaxRateForm: FC = () => {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.TAX_RATES)
 
   return (
-    <FormLayout>
+    <FormLayout title="Tax Rates">
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div className="flex flex-col gap-2xl">
           <div className="flex flex-col gap-xl p-y-2">

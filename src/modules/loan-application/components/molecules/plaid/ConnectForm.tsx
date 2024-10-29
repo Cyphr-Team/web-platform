@@ -45,7 +45,7 @@ export function PlaidConnectForm({ wrapperClassName }: PlaidConnectFormProps) {
   })
 
   return (
-    <FormLayout wrapperClassName={wrapperClassName}>
+    <FormLayout hideTopNavigation cardClassName={wrapperClassName}>
       <FormHeader />
       <Separator />
       <Form {...form}>

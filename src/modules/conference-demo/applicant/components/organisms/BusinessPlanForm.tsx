@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { CardContent } from "@/components/ui/card"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { cn } from "@/lib/utils"
 import * as z from "zod"
 import { RHFProvider } from "@/modules/form-template/providers"
 import {
@@ -24,6 +23,7 @@ import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormD
 import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
+import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
 
 export interface BusinessPlanRequest {
   businessPlan: string
@@ -91,17 +91,8 @@ function BusinessPlanForm({ wrapperClassName }: BusinessPlanFormProps) {
   useMagic(method, autofillData, 5)
 
   return (
-    <Card
-      className={cn(
-        "rounded-xl mx-6 col-span-8",
-        "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-screen-md",
-        wrapperClassName
-      )}
-    >
-      <CardHeader className="text-left">
-        <CardTitle className="text-lg">Business Plan</CardTitle>
-      </CardHeader>
+    <ConferenceFormLayout title="Business Plan" wrapperClassName={wrapperClassName}>
+      <div className="text-lg font-semibold">Business Plan</div>
 
       <RHFProvider methods={method} onSubmit={method.handleSubmit(onSubmit)}>
         <CardContent>
@@ -181,7 +172,7 @@ function BusinessPlanForm({ wrapperClassName }: BusinessPlanFormProps) {
           )}
         </CardContent>
       </RHFProvider>
-    </Card>
+    </ConferenceFormLayout>
   )
 }
 

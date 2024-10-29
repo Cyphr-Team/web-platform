@@ -1,14 +1,12 @@
 import { useForm } from "react-hook-form"
 
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { cn } from "@/lib/utils"
 import * as z from "zod"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { RHFLoanSlider } from "@/modules/conference-demo/applicant/components/molecules"
@@ -23,6 +21,7 @@ import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
+import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
 
 export interface LoanRequest {
   loanAmount: number
@@ -67,13 +66,10 @@ function LoanRequestForm({ wrapperClassName }: LoanRequestFormProps) {
   useAutoCompleteStepEffect(method, STEP.LOAN_REQUEST)
 
   return (
-    <Card
-      className={cn(
-        "rounded-xl mx-6 col-span-8",
-        "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-screen-md",
-        wrapperClassName
-      )}
+    <ConferenceFormLayout
+      cardClassName="py-0"
+      title="Loan Request"
+      wrapperClassName={wrapperClassName}
     >
       <CardHeader className="text-center">
         <CardTitle className="text-lg">Cyphr Bank Program</CardTitle>
@@ -122,7 +118,7 @@ function LoanRequestForm({ wrapperClassName }: LoanRequestFormProps) {
           )}
         </CardContent>
       </RHFProvider>
-    </Card>
+    </ConferenceFormLayout>
   )
 }
 

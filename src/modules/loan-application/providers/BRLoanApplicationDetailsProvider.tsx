@@ -77,7 +77,7 @@ import {
   reverseFormatSbbKybForm
 } from "../services/form.services"
 import { FORM_ACTION, type FormStateType } from "./LoanApplicationFormProvider"
-import { LOAN_PROGRESS_ACTION } from "./LoanProgressProvider"
+import { LoanProgressAction } from "./LoanProgressProvider"
 import { type ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form.ts"
 import { isEnabledQuery } from "@/utils"
 import { type SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
@@ -282,7 +282,7 @@ export function BRLoanApplicationDetailsProvider({
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS, isDone = true) => {
       if (isDone) {
         dispatchProgress({
-          type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+          type: LoanProgressAction.ChangeProgress,
           progress
         })
       }
@@ -638,7 +638,7 @@ export function BRLoanApplicationDetailsProvider({
       ) {
         dispatchProgress({
           // turn on green tick
-          type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+          type: LoanProgressAction.ChangeProgress,
           progress: LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
         })
       }
@@ -727,7 +727,7 @@ export function BRLoanApplicationDetailsProvider({
       })
       dispatchProgress({
         // turn on green tick
-        type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+        type: LoanProgressAction.ChangeProgress,
         progress: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION
       })
       changeDataAndProgress(

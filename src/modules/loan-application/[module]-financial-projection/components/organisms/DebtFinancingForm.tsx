@@ -70,7 +70,7 @@ export function DebtFinancingForm() {
 
 export function DebtFinancingLiabilityForm() {
   return (
-    <FormLayout>
+    <FormLayout title="Debt Financing">
       <div>
         <h5 className="text-lg font-semibold">Accounts Payable</h5>
         <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
@@ -106,7 +106,7 @@ export function DebtFinancingArrayForm() {
     form.watch(DebtFinancingField.HasOutstandingLoans) === BINARY_VALUES.YES
 
   return (
-    <FormLayout>
+    <FormLayout hideTopNavigation>
       <div>
         <h5 className="text-lg font-semibold">Debt Financing</h5>
         <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">

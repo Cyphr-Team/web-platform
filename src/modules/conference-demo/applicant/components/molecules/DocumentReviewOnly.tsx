@@ -1,8 +1,7 @@
-import { Card } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData"
+import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
+import { Separator } from "@/components/ui/separator.tsx"
 
 const DOCUMENT_FRAMES = [
   STEP.BANK_STATEMENTS,
@@ -15,30 +14,30 @@ interface DocumentReviewOnlyProps {
 
 function DocumentReviewOnly({ wrapperClassName }: DocumentReviewOnlyProps) {
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
-        wrapperClassName
-      )}
+    <ConferenceFormLayout
+      cardClassName="w-full"
+      title="Articles of Organization"
+      wrapperClassName={wrapperClassName}
     >
       <h5 className="text-lg font-semibold">Documentation</h5>
       <Separator />
-      <ul className="flex flex-col gap-y-2xl gap-x-4xl">
+      <ul className="flex flex-col gap-y-2xl">
         {DOCUMENT_FRAMES.map((frame) => (
           <DocumentFrame key={frame} title={frame} />
         ))}
       </ul>
-    </Card>
+    </ConferenceFormLayout>
   )
 }
 
 export default DocumentReviewOnly
 
 type ReviewableDocument = STEP.BANK_STATEMENTS | STEP.ARTICLES_OF_ORGANIZATION
+
 interface DocumentFrameProps {
   title: ReviewableDocument
 }
+
 function DocumentFrame({ title }: DocumentFrameProps) {
   const formFiles = useFormData.use[title]()
   const files = formFiles?.files?.length
@@ -50,6 +49,7 @@ function DocumentFrame({ title }: DocumentFrameProps) {
       <span className="font-semibold">{title}</span>
       <div className="text-right">
         {files.map((file, idx) => (
+          // eslint-disable-next-line react/no-array-index-key
           <div key={file.name + idx} className="break-all">
             {file.name}
           </div>

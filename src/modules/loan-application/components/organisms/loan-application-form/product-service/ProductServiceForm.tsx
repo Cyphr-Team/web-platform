@@ -77,7 +77,7 @@ export function ProductServiceForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
 
   return (
-    <FormLayout>
+    <FormLayout title="Product and Service">
       <Form {...form}>
         <h5 className="text-lg font-semibold">Product and Service</h5>
         <Separator />

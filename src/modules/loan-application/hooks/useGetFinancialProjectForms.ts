@@ -27,7 +27,7 @@ import {
   FORM_ACTION,
   type FormStateType
 } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
-import { LOAN_PROGRESS_ACTION } from "@/modules/loan-application/providers/LoanProgressProvider"
+import { LoanProgressAction } from "@/modules/loan-application/providers/LoanProgressProvider"
 import { useCallback, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import {
@@ -59,7 +59,7 @@ export const useGetFinancialProjectForms = () => {
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS, isDone = true) => {
       if (isDone) {
         dispatchProgress({
-          type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+          type: LoanProgressAction.ChangeProgress,
           progress
         })
       }

@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { MM_YYYY_PATTERN } from "@/constants"
-import { cn } from "@/lib/utils"
 import {
   RHFCurrencyInput,
   RHFMaskInput,
@@ -36,6 +34,7 @@ import {
   useForm,
   useFormContext
 } from "react-hook-form"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 export function FpOperatingExpensesForm() {
   const { fpOperatingExpenses, dispatchFormAction } =
@@ -95,12 +94,7 @@ export function FpOperatingExpensesForm() {
   )
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none text-sm",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout title="Operating Expenses (Monthly)">
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">Operating Expenses (Monthly)</h5>
         <p className="text-sm financial-projection text-muted-foreground">
@@ -159,7 +153,7 @@ export function FpOperatingExpensesForm() {
           </div>
         )}
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }
 

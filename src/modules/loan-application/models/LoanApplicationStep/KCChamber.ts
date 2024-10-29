@@ -26,10 +26,10 @@ export class KCChamberLoanApplicationStep
 
     this._build_CurrentLoansStep()._build_OperatingExpensesStep()
 
-    this._build_ReviewApplicationStep()
-
     if (!isEnableKycReOrder() && !isIgnoredKycSubmission())
       this._build_IdentityVerificationStep()
+
+    this._build_ReviewApplicationStep()
 
     return this._build_ConfirmationStep()
   }

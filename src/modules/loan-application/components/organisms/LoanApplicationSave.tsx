@@ -4,7 +4,7 @@ import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../../providers"
-import { LOAN_PROGRESS_ACTION } from "../../providers/LoanProgressProvider"
+import { LoanProgressAction } from "../../providers/LoanProgressProvider"
 import {
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS
@@ -104,7 +104,7 @@ export function LoanApplicationSave() {
   const onConfirmed = () => {
     if (!isAbleToSaveApplication) {
       dispatchProgress({
-        type: LOAN_PROGRESS_ACTION.CHANGE_STEP,
+        type: LoanProgressAction.ChangeStep,
         step: uncompletedStep
       })
     } else {

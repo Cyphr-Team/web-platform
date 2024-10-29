@@ -5,7 +5,6 @@ import { useMemo } from "react"
 
 interface ReviewApplicationGroupProps {
   parentKey: INPUT_GROUP
-  label: string
 }
 
 export function ReviewApplicationGroup({
@@ -20,7 +19,7 @@ export function ReviewApplicationGroup({
   if (!reviewAbleStepsByParentKey.length) return null
 
   return (
-    <div className="col-span-8 flex flex-col gap-4 md:gap-8">
+    <div className="flex flex-col gap-y-4xl">
       {reviewAbleStepsByParentKey.map(([step]) => {
         return <ReviewApplicationStep key={step} step={step} />
       })}

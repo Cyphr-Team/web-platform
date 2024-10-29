@@ -16,7 +16,6 @@ import { Form, FormField } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
-import { cn } from "@/lib/utils"
 
 import {
   MOCK_PLAID_INSTITUTIONS,
@@ -33,6 +32,7 @@ import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { SearchSelect } from "@/components/ui/search-select.tsx"
 import { type Option } from "@/types/common.type.ts"
+import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
 
 // Types
 interface Institution {
@@ -236,13 +236,7 @@ function InformationCard({
   wrapperClassName
 }: InformationCardProps) {
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-xl h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-md",
-        wrapperClassName
-      )}
-    >
+    <ConferenceFormLayout title="Cash Flow Verification" wrapperClassName={wrapperClassName}>
       <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
       <Separator />
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
@@ -274,7 +268,7 @@ function InformationCard({
           </p>
         </div>
       </div>
-    </Card>
+    </ConferenceFormLayout>
   )
 }
 
@@ -300,13 +294,7 @@ function ConnectedAccountsCard({
   wrapperClassName
 }: ConnectedAccountsCardProps) {
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-xl h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
-        "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-md",
-        wrapperClassName
-      )}
-    >
+    <ConferenceFormLayout hideTopNavigation cardClassName="mt-10" wrapperClassName={wrapperClassName}>
       <ConnectedAccountsHeader connectedAccounts={connectedAccounts} />
       <Separator />
 
@@ -333,7 +321,7 @@ function ConnectedAccountsCard({
           onSubmit={onSubmit}
         />
       )}
-    </Card>
+    </ConferenceFormLayout>
   )
 }
 

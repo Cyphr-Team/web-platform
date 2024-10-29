@@ -1,8 +1,5 @@
 import { useForm } from "react-hook-form"
-
-import { Card } from "@/components/ui/card"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { cn } from "@/lib/utils"
 import * as z from "zod"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { memo } from "react"
@@ -20,6 +17,7 @@ import { Button } from "@/components/ui/button.tsx"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
+import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
 
 const enum FieldName {
   NAME = "name",
@@ -154,13 +152,11 @@ function BusinessInformationForm({
 
   return (
     <RHFProvider methods={method} onSubmit={onSubmit}>
-      <Card
-        className={cn(
-          "grid grid-cols-12 gap-2xl p-4xl rounded-xl h-fit overflow-auto mx-6 shadow-none",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-md",
-          wrapperClassName
-        )}
+      <ConferenceFormLayout
+        cardClassName="grid grid-cols-12"
         id={STEP.BUSINESS_INFORMATION}
+        title="Business Information"
+        wrapperClassName={wrapperClassName}
       >
         <h5 className="text-lg font-semibold col-span-12">
           Business Information
@@ -176,7 +172,7 @@ function BusinessInformationForm({
             Next
           </Button>
         )}
-      </Card>
+      </ConferenceFormLayout>
     </RHFProvider>
   )
 }

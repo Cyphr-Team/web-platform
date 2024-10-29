@@ -85,7 +85,7 @@ export function DirectCostsForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.DIRECT_COSTS)
 
   return (
-    <FormLayout>
+    <FormLayout title="Direct Costs">
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">
           Direct Costs (Costs of sales/COGS)

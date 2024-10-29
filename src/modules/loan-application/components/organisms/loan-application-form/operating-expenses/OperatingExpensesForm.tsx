@@ -89,7 +89,7 @@ export function OperatingExpensesForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
 
   return (
-    <FormLayout>
+    <FormLayout title="Operating Expenses (monthly)">
       <Form {...form}>
         <h5 className="text-lg font-semibold">Operating Expenses (monthly)</h5>
         <p className="text-sm text-text-secondary font-medium">

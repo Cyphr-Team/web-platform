@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -9,7 +8,6 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { cn } from "@/lib/utils"
 import {
   type PreQualificationFormValue,
   preQualificationSchema
@@ -36,6 +34,7 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/useMutation/useCreateLoanApplicationMutation"
 import { LoanType } from "@/types/loan-program.type"
 import { options, questions } from "./constants"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 export function PreQualificationForm() {
   const { finishCurrentStep, buildSpecificStep } =
@@ -122,12 +121,7 @@ export function PreQualificationForm() {
   ])
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-0"
-      )}
-    >
+    <FormLayout title="Pre-Qualification">
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>
       <Separator />
       {isQualified ? (
@@ -207,6 +201,6 @@ export function PreQualificationForm() {
           time. Please consider applying again next year.
         </p>
       )}
-    </Card>
+    </FormLayout>
   )
 }

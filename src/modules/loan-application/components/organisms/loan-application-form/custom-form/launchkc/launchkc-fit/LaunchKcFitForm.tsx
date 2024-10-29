@@ -83,7 +83,7 @@ export function LaunchKCFitForm() {
   )
 
   return (
-    <FormLayout>
+    <FormLayout title="LaunchKC Fit">
       <Form {...form}>
         <h5 className="text-lg font-semibold">LaunchKC Fit</h5>
         <Separator />

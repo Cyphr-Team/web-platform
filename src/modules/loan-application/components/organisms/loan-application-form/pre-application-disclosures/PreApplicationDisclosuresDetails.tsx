@@ -4,7 +4,7 @@ import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 export function PreApplicationDisclosuresDetails() {
   return (
     <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
-      <h5 className="text-lg font-semibold">Pre-Application Disclosures </h5>
+      <h5 className="text-lg font-semibold">Pre-Application Disclosures</h5>
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <AnswersTextDisplay
           key="patriotAct"

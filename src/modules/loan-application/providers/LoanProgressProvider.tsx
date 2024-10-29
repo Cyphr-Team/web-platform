@@ -27,13 +27,15 @@ interface LoanApplicationStepsState {
   progress: ILoanApplicationStep[]
 }
 
-export enum LOAN_PROGRESS_ACTION {
-  CHANGE_STEP = "CHANGE_STEP",
-  CHANGE_PROGRESS = "CHANGE_PROGRESS",
-  INIT = "INIT",
-  NEXT_STEP = "NEXT_STEP",
-  REMOVE_COMPLETE = "REMOVE_COMPLETE",
-  BUILD_STEP = "BUILD_STEP"
+export enum LoanProgressAction {
+  Init = "Init",
+  ChangeStep = "ChangeStep",
+  ChangeProgress = "ChangeProgress",
+  RemoveComplete = "RemoveComplete",
+  BuildStep = "BuildStep",
+
+  GoNextStep = "GoNextStep",
+  GoPreviousStep = "GoPreviousStep"
 }
 
 type Action =
@@ -41,35 +43,40 @@ type Action =
   | ProgressAction
   | InitAction
   | NextStepAction
+  | PreviousStepAction
   | RemoveCompleteAction
   | BuildStepAction
 
 interface BuildStepAction {
-  type: LOAN_PROGRESS_ACTION.BUILD_STEP
+  type: LoanProgressAction.BuildStep
   progress: ILoanApplicationStep[]
 }
 
 interface NextStepAction {
-  type: LOAN_PROGRESS_ACTION.NEXT_STEP
+  type: LoanProgressAction.GoNextStep
+}
+
+interface PreviousStepAction {
+  type: LoanProgressAction.GoPreviousStep
 }
 
 interface InitAction {
-  type: LOAN_PROGRESS_ACTION.INIT
+  type: LoanProgressAction.Init
   forms: FORM_TYPE[]
 }
 
 interface ProgressAction {
-  type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS
+  type: LoanProgressAction.ChangeProgress
   progress: LOAN_APPLICATION_STEPS
 }
 
 interface StepAction {
-  type: LOAN_PROGRESS_ACTION.CHANGE_STEP
+  type: LoanProgressAction.ChangeStep
   step: LOAN_APPLICATION_STEPS
 }
 
 interface RemoveCompleteAction {
-  type: LOAN_PROGRESS_ACTION.REMOVE_COMPLETE
+  type: LoanProgressAction.RemoveComplete
   progress: LOAN_APPLICATION_STEPS
 }
 
@@ -98,7 +105,7 @@ const reducer = (
   action: Action
 ): LoanApplicationStepsState => {
   switch (action.type) {
-    case LOAN_PROGRESS_ACTION.NEXT_STEP: {
+    case LoanProgressAction.GoNextStep: {
       const currentStepIndex = state.progress.findIndex(
         (stepItem) => stepItem.step === state.step
       )
@@ -109,12 +116,24 @@ const reducer = (
 
       return { ...state, step: state.progress[nextStepIndex].step }
     }
-    case LOAN_PROGRESS_ACTION.CHANGE_STEP:
+
+    case LoanProgressAction.GoPreviousStep: {
+      const currentStepIndex = state.progress.findIndex(
+        (stepItem) => stepItem.step === state.step
+      )
+      const previous = currentStepIndex - 1
+
+      if (previous === -1) return state
+
+      return { ...state, step: state.progress[previous].step }
+    }
+
+    case LoanProgressAction.ChangeStep:
       return {
         ...state,
         step: action.step
       }
-    case LOAN_PROGRESS_ACTION.CHANGE_PROGRESS: {
+    case LoanProgressAction.ChangeProgress: {
       const newProgress = state.progress.map((item) => {
         if (
           item.step === action.progress &&
@@ -128,7 +147,7 @@ const reducer = (
 
       return { ...state, progress: newProgress }
     }
-    case LOAN_PROGRESS_ACTION.REMOVE_COMPLETE: {
+    case LoanProgressAction.RemoveComplete: {
       const newProgress = state.progress.map((item) => {
         if (
           item.step === action.progress &&
@@ -142,10 +161,10 @@ const reducer = (
 
       return { ...state, progress: newProgress }
     }
-    case LOAN_PROGRESS_ACTION.INIT:
+    case LoanProgressAction.Init:
       return initSteps(action.forms)
 
-    case LOAN_PROGRESS_ACTION.BUILD_STEP: {
+    case LoanProgressAction.BuildStep: {
       const newProgress = action.progress.filter(
         (val) =>
           state.progress.findIndex((item) => item.step === val.step) === -1
@@ -217,10 +236,10 @@ export function LoanProgressProvider(props: PropsWithChildren) {
 
   const finishCurrentStep = useCallback(() => {
     dispatchProgress({
-      type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+      type: LoanProgressAction.ChangeProgress,
       progress: step
     })
-    dispatchProgress({ type: LOAN_PROGRESS_ACTION.NEXT_STEP })
+    dispatchProgress({ type: LoanProgressAction.GoNextStep })
   }, [step])
 
   /**
@@ -228,7 +247,7 @@ export function LoanProgressProvider(props: PropsWithChildren) {
    */
   const completeCurrentStep = useCallback(() => {
     dispatchProgress({
-      type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+      type: LoanProgressAction.ChangeProgress,
       progress: step
     })
   }, [step])
@@ -236,7 +255,7 @@ export function LoanProgressProvider(props: PropsWithChildren) {
   const completeSpecificStep = useCallback(
     (specificStep: LOAN_APPLICATION_STEPS) => {
       dispatchProgress({
-        type: LOAN_PROGRESS_ACTION.CHANGE_PROGRESS,
+        type: LoanProgressAction.ChangeProgress,
         progress: specificStep
       })
     },
@@ -246,7 +265,7 @@ export function LoanProgressProvider(props: PropsWithChildren) {
   const removeCompleteSpecificStep = useCallback(
     (specificStep: LOAN_APPLICATION_STEPS) => {
       dispatchProgress({
-        type: LOAN_PROGRESS_ACTION.REMOVE_COMPLETE,
+        type: LoanProgressAction.RemoveComplete,
         progress: specificStep
       })
     },
@@ -257,7 +276,7 @@ export function LoanProgressProvider(props: PropsWithChildren) {
     const applicationStrategy = getApplicationStrategy()._buildSteps()
 
     dispatchProgress({
-      type: LOAN_PROGRESS_ACTION.BUILD_STEP,
+      type: LoanProgressAction.BuildStep,
       progress: applicationStrategy.getSteps()
     })
   }, [])
@@ -287,7 +306,7 @@ export function LoanProgressProvider(props: PropsWithChildren) {
     // If loanProgramFormsConfiguration is not null, then we will initialize the progress
     if (loanProgramFormsConfiguration?.forms) {
       dispatchProgress({
-        type: LOAN_PROGRESS_ACTION.INIT,
+        type: LoanProgressAction.Init,
         forms: loanProgramFormsConfiguration?.forms
       })
       setIsInitialized(true)

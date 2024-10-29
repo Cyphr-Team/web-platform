@@ -20,6 +20,7 @@ import {
 import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 const PRIVACY_POLICY_URL =
   "https://www.smallbusinessbank.com/wp-content/uploads/2019/07/Privacy-Notice-022018.pdf"
@@ -48,12 +49,7 @@ function SbbPrivacyPolicy() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.PRIVACY_POLICY)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
-    >
+    <FormLayout title="Privacy Policy">
       <h5 className="text-lg font-semibold">Privacy Policy</h5>
       <Separator />
       <section>
@@ -99,7 +95,7 @@ function SbbPrivacyPolicy() {
           </Button>
         </div>
       </RHFProvider>
-    </Card>
+    </FormLayout>
   )
 }
 

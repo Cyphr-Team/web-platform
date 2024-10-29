@@ -62,7 +62,6 @@ function ReviewApplicationForm() {
         {REVIEW_GROUP.map((reviewGroup) => (
           <ReviewApplicationGroup
             key={reviewGroup.key}
-            label={reviewGroup.label}
             parentKey={reviewGroup.key}
           />
         ))}

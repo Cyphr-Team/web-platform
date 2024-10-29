@@ -146,7 +146,7 @@ export function LaunchKCBusinessDocumentsForm() {
   const uploadedPitchDesk = form.getValues("uploadedPitchDesk")?.[0]
 
   return (
-    <FormLayout>
+    <FormLayout title="Document Uploads">
       <h5 className="text-lg font-semibold">Document Uploads</h5>
       <Separator />
       <Form {...form}>

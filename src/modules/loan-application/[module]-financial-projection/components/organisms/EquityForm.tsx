@@ -107,7 +107,7 @@ export function EquityForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.EQUITY)
 
   return (
-    <FormLayout>
+    <FormLayout title="Equity Financing">
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">Equity Financing</h5>
         <p className="text-sm financial-projection text-muted-foreground">

@@ -137,7 +137,7 @@ export function CurrentLoansForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.CURRENT_LOANS)
 
   return (
-    <FormLayout>
+    <FormLayout title="Current Loans">
       <Form {...form}>
         <h5 className="text-lg font-semibold">Current Loans</h5>
         <Separator />

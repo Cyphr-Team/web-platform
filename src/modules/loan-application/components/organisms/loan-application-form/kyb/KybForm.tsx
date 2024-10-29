@@ -2,7 +2,6 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator"
-import { Card } from "@/components/ui/card"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
@@ -17,7 +16,6 @@ import { useEffect, useMemo } from "react"
 import { AutoCompleteStates } from "../../../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../../../molecules/AutoCompleteCities"
 import { revertPattern, toPattern } from "@/components/ui/mask-input"
-import { cn } from "@/lib/utils"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { EIN_PATTERN } from "@/constants"
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
@@ -25,6 +23,7 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 interface BusinessInformationFormProps {
   wrapperClassName?: string
@@ -103,13 +102,10 @@ export function BusinessInformationForm({
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm",
-        wrapperClassName
-      )}
+    <FormLayout
       id={LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION}
+      title="Business Information"
+      wrapperClassName={wrapperClassName}
     >
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
@@ -198,6 +194,6 @@ export function BusinessInformationForm({
           onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
-    </Card>
+    </FormLayout>
   )
 }

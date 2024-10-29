@@ -20,7 +20,7 @@ export function PlaidConfirmAuthorize({
   const { tenantData } = useTenant()
 
   return (
-    <FormLayout wrapperClassName={wrapperClassName}>
+    <FormLayout cardClassName={wrapperClassName} title="Cash Flow Verification">
       <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
 
       <Separator />

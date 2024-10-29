@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button.tsx"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
 import {
@@ -14,9 +12,10 @@ import { memo, useCallback } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import * as z from "zod"
-import { APP_PATH } from "../../../../../constants"
-import { toastSuccess } from "../../../../../utils"
-import { TOAST_MSG } from "../../../../../constants/toastMsg"
+import { APP_PATH } from "@/constants"
+import { toastSuccess } from "@/utils"
+import { TOAST_MSG } from "@/constants/toastMsg.ts"
+import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
 
 function SignAndSubmitForm() {
   const navigate = useNavigate()
@@ -46,86 +45,73 @@ function SignAndSubmitForm() {
     ).length === 0
 
   return (
-    <Card
-      className={cn(
-        "rounded-xl mx-6 col-span-8 md:p-2",
-        "md:col-span-4 md:col-start-3 md:mx-auto",
-        "max-w-screen-md"
-      )}
-    >
-      <CardHeader className="md:pb-5">
-        <p className="text-sm">
-          By submitting your information on the Cyphr Bank portal, you
-          acknowledge and agree that Cyphr Bank provides recommendations based
-          on the data you provide and the tool's analytical capabilities. These
-          recommendations are intended to help you assess your loan readiness;
-          however, they are not guarantees of loan approval. The final decision
-          on loan approval rests with the lending institution, and various
-          external factors may influence this decision. Cyphr does not assume
-          responsibility for the actions or decisions of any lending
-          institution. Additionally, while we strive to offer accurate and
-          helpful advice, the recommendations provided may or may not apply to
-          every financial institution's specific criteria and requirements. We
-          encourage you to consult directly with your chosen financial
-          institution for the most accurate and relevant guidance.
-        </p>
-      </CardHeader>
+    <ConferenceFormLayout wrapperClassName="px-[8rem]">
+      <p className="text-sm">
+        By submitting your information on the Cyphr Bank portal, you acknowledge
+        and agree that Cyphr Bank provides recommendations based on the data you
+        provide and the tool's analytical capabilities. These recommendations
+        are intended to help you assess your loan readiness; however, they are
+        not guarantees of loan approval. The final decision on loan approval
+        rests with the lending institution, and various external factors may
+        influence this decision. Cyphr does not assume responsibility for the
+        actions or decisions of any lending institution. Additionally, while we
+        strive to offer accurate and helpful advice, the recommendations
+        provided may or may not apply to every financial institution's specific
+        criteria and requirements. We encourage you to consult directly with
+        your chosen financial institution for the most accurate and relevant
+        guidance.
+      </p>
 
-      <RHFProvider<SignFormValues>
-        methods={method}
-        onSubmit={method.handleSubmit(onSubmit)}
-      >
-        <CardContent>
+      <RHFProvider methods={method} onSubmit={method.handleSubmit(onSubmit)}>
+        <div>
           <div>
-            <div>
-              <RHFTextInput
-                label="Signature of Authorized Individual"
-                name={SIGN_FIELD_NAMES.PRINT_NAME}
-                placeholder="Your signature"
-                styleProps={{
-                  inputClassName: "island-moments-regular text-3xl"
-                }}
-              />
-            </div>
-            <div className="flex gap-4 justify-between">
-              <RHFTextInput
-                required
-                className="mt-6 space-y-2 flex-1"
-                label="Print name"
-                name={SIGN_FIELD_NAMES.PRINT_NAME}
-                placeholder="i.e: Larry's Latte"
-              />
-              <RHFTextInput
-                disabled
-                className="mt-6 space-y-2 flex-1"
-                label="Signature Date"
-                name={SIGN_FIELD_NAMES.SIGNATURE_DATE}
-              />
-            </div>
+            <RHFTextInput
+              label="Signature of Authorized Individual"
+              name={SignFieldName.PrintName}
+              placeholder="Your signature"
+              styleProps={{
+                inputClassName: "island-moments-regular text-3xl"
+              }}
+            />
           </div>
-          <Button
-            className="w-full mt-5"
-            disabled={!isPreviousStepsCompleted}
-            type="submit"
-          >
-            Submit application
-          </Button>
-        </CardContent>
+          <div className="flex gap-4 justify-between">
+            <RHFTextInput
+              required
+              className="mt-6 space-y-2 flex-1"
+              label="Print name"
+              name={SignFieldName.PrintName}
+              placeholder="i.e: Larry's Latte"
+            />
+            <RHFTextInput
+              disabled
+              className="mt-6 space-y-2 flex-1"
+              label="Signature Date"
+              name={SignFieldName.SignatureDate}
+            />
+          </div>
+        </div>
+        <Button
+          className="w-full mt-5"
+          disabled={!isPreviousStepsCompleted}
+          type="submit"
+        >
+          Submit application
+        </Button>
       </RHFProvider>
-    </Card>
+    </ConferenceFormLayout>
   )
 }
 
 export default memo(SignAndSubmitForm)
 
-const enum SIGN_FIELD_NAMES {
-  PRINT_NAME = "printName",
-  SIGNATURE_DATE = "signatureDate"
+const enum SignFieldName {
+  PrintName = "printName",
+  SignatureDate = "signatureDate"
 }
 
 const signFormSchema = z.object({
-  [SIGN_FIELD_NAMES.PRINT_NAME]: z.string().min(1, "Signature is required"),
-  [SIGN_FIELD_NAMES.SIGNATURE_DATE]: z.string()
+  [SignFieldName.PrintName]: z.string().min(1, "Signature is required"),
+  [SignFieldName.SignatureDate]: z.string()
 })
 
 export type SignFormValues = z.infer<typeof signFormSchema>

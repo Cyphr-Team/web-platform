@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
@@ -37,6 +36,7 @@ import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCitie
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
 import { isEnableGoogleMapInput } from "@/utils/feature-flag.utils"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 export function SBBKybFormPartOne() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
@@ -128,12 +128,9 @@ export function SBBKybFormPartOne() {
   }
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-      )}
+    <FormLayout
       id={LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE}
+      title="Business Information"
     >
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
@@ -249,7 +246,7 @@ export function SBBKybFormPartOne() {
           onSubmit={form.handleSubmit(onSubmit)}
         />
       )}
-    </Card>
+    </FormLayout>
   )
 }
 
