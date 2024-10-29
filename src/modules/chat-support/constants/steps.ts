@@ -1,9 +1,8 @@
 import {
-  type ComponentFuncWithParams,
-  type MessageFuncWithoutParams,
-  type MessageFuncWithParams,
-  type OptionsFuncWithParams,
-  type OptionsPromiseFuncWithParams
+  type ComponentFuncType,
+  type MessageFuncType,
+  type OptionsFuncType,
+  type OptionsPromiseFuncType
 } from "@/modules/chat-support/constants/type"
 import { type Block } from "react-chatbotify"
 
@@ -97,9 +96,9 @@ export class FlowBuilder {
   }
 
   public chatbotInit(
-    message: MessageFuncWithoutParams,
+    message: MessageFuncType,
     path: string,
-    options: OptionsPromiseFuncWithParams
+    options: OptionsPromiseFuncType
   ) {
     this.flow[CHAT_STEPS.INIT] = {
       message,
@@ -111,10 +110,10 @@ export class FlowBuilder {
   }
 
   public chatbotLoop(
-    message: MessageFuncWithParams,
+    message: MessageFuncType,
     path: string,
-    options: OptionsPromiseFuncWithParams,
-    component?: ComponentFuncWithParams
+    options: OptionsPromiseFuncType,
+    component?: ComponentFuncType
   ) {
     this.flow[CHAT_STEPS.LOOP] = {
       message,
@@ -126,11 +125,7 @@ export class FlowBuilder {
     return this
   }
 
-  public chatbotEnd(
-    message: MessageFuncWithParams,
-    path: string,
-    options: string[]
-  ) {
+  public chatbotEnd(message: MessageFuncType, path: string, options: string[]) {
     this.flow[CHAT_STEPS.END] = {
       message,
       path,
@@ -142,9 +137,9 @@ export class FlowBuilder {
   }
 
   public chatbotRestart(
-    message: MessageFuncWithoutParams,
+    message: MessageFuncType,
     path: string,
-    options: OptionsPromiseFuncWithParams
+    options: OptionsPromiseFuncType
   ) {
     this.flow[CHAT_STEPS.RESTART] = {
       message,
@@ -156,10 +151,10 @@ export class FlowBuilder {
   }
 
   public chatbotSelectTheme(
-    message: MessageFuncWithParams,
+    message: MessageFuncType,
     path: string,
     themes: string[],
-    component?: ComponentFuncWithParams
+    component?: ComponentFuncType
   ) {
     this.flow[CHAT_STEPS.THEME] = {
       message,
@@ -173,10 +168,10 @@ export class FlowBuilder {
   }
 
   public chatbotProcessTheme(
-    message: MessageFuncWithParams,
+    message: MessageFuncType,
     path: string,
-    questions: OptionsFuncWithParams,
-    component?: ComponentFuncWithParams
+    questions: OptionsFuncType,
+    component?: ComponentFuncType
   ) {
     this.flow[CHAT_STEPS.PROCESS_THEME] = {
       message,

@@ -441,3 +441,21 @@ export const isEnabledQuery = (
 export const valueOrZero = (value?: number) => {
   return !!value && !isNaN(value) ? value : 0
 }
+
+/**
+ * Sanitizes a LaTeX string by escaping dollar signs and replacing escaped
+ * bracket and parentheses with their respective markdown syntax ($).
+ *
+ * @param latexString - The LaTeX string to be sanitized.
+ * @returns The sanitized LaTeX string.
+ */
+export const sanitizeMathMarkdown = (latexString: string) => {
+  const result = latexString
+    .replace(/\$/g, "\\$")
+    .replace(/\\\[/g, "$$")
+    .replace(/\\\]/g, "$$")
+    .replace(/\\\(/g, "$")
+    .replace(/\\\)/g, "$")
+
+  return result
+}

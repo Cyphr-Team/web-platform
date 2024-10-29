@@ -62,6 +62,10 @@ function getTenantRedirectURL(subdomain: string) {
   return getTenantDomain(subdomain) + "/redirect"
 }
 
+function getTopLevelDomain(): string {
+  return process.env.NODE_ENV === "production" ? "com" : "dev"
+}
+
 function isAdmin(): boolean {
   return matchSubdomain(getSubdomain(), Institution.Admin)
 }
@@ -109,6 +113,7 @@ export {
   isCapsight,
   getTenantDomain,
   getTenantRedirectURL,
+  getTopLevelDomain,
   isKccBank,
   isLaunchKC,
   isSbb,

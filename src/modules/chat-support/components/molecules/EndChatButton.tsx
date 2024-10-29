@@ -1,10 +1,9 @@
 import {
   CHAT_POST_INJECT_MESSAGE_EVENT,
-  CHAT_MESSAGE,
-  CHAT_SENDER
+  ChatMessageInfo,
+  ChatSender
 } from "@/modules/chat-support/constants/chat"
 import { Button } from "@/components/ui/button"
-import { Archive } from "lucide-react"
 import useBoolean from "@/hooks/useBoolean"
 import { useEffect } from "react"
 import { type Params } from "react-chatbotify"
@@ -34,7 +33,7 @@ export function EndChatButton({ params }: { params: Params }) {
 
   const handleEndChat = async () => {
     params.goToPath(CHAT_STEPS.END)
-    await params.injectMessage(CHAT_MESSAGE.END, CHAT_SENDER.USER)
+    await params.injectMessage(ChatMessageInfo.END, ChatSender.USER)
     isVisible.onFalse()
   }
 
@@ -44,7 +43,7 @@ export function EndChatButton({ params }: { params: Params }) {
         className="rcb-view-history-button hover:bg-white hover:text-black hover:border-black font-light h-8"
         onClick={handleEndChat}
       >
-        End Chat <Archive className="ml-1" size={10} />
+        End Chat
       </Button>
     </div>
   )

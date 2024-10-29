@@ -1,15 +1,13 @@
 import { type Params } from "react-chatbotify"
 
-type OptionsPromiseFuncWithParams = (params: Params) => Promise<string[]>
-type OptionsFuncWithParams = (params: Params) => string[]
-type MessageFuncWithParams = (params: Params) => Promise<string>
-type MessageFuncWithoutParams = () => Promise<string>
-type ComponentFuncWithParams = (params: Params) => JSX.Element | undefined
+type OptionsPromiseFuncType = (params: Params) => Promise<string[]>
+type OptionsFuncType = (params: Params) => string[]
+type MessageFuncType = (params: Params) => Promise<void>
+type ComponentFuncType = (params: Params) => JSX.Element | undefined
 
 export type {
-  OptionsPromiseFuncWithParams,
-  OptionsFuncWithParams,
-  MessageFuncWithParams,
-  MessageFuncWithoutParams,
-  ComponentFuncWithParams
+  OptionsPromiseFuncType,
+  OptionsFuncType,
+  MessageFuncType,
+  ComponentFuncType
 }

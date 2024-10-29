@@ -38,9 +38,7 @@ const themeOptionsMap: ThemeOptionsMapType = {
   },
   loanPaymentGuidance: {
     title: "Loan Payment Guidance",
-    questions: [
-      "What should I request if I want the payments to be less than $500 per month?"
-    ]
+    questions: ["I want to calculate the total loan amount"]
   },
   platformConnectivity: {
     title: "Platform Connectivity",

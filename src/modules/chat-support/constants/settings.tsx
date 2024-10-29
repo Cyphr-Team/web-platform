@@ -44,7 +44,7 @@ export const getSettings = (icon: string): Settings => ({
   },
   chatHistory: {
     disabled: false,
-    maxEntries: 30,
+    maxEntries: 20,
     storageKey: CHAT_HISTORY,
     viewChatHistoryButtonText: "Load Chat History ⟳",
     chatHistoryLineBreakText: "----- Previous Chat History -----",
@@ -57,7 +57,6 @@ export const getSettings = (icon: string): Settings => ({
     disabledPlaceholderText: "",
     showCharacterCount: false,
     characterLimit: -1,
-    botDelay: 1000,
     blockSpam: true,
     sendOptionOutput: true,
     sendCheckboxOutput: true,
@@ -88,7 +87,7 @@ export const getSettings = (icon: string): Settings => ({
     animate: true,
     showAvatar: false,
     simStream: true,
-    streamSpeed: 30,
+    streamSpeed: 25,
     dangerouslySetInnerHtml: true
   },
   footer: {

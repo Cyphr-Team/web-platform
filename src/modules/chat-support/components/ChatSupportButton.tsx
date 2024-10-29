@@ -5,11 +5,8 @@ import {
   themeQuestionOptions,
   themes
 } from "@/modules/chat-support/constants/themes"
-import { useInitChatSession } from "@/modules/chat-support/hooks/useInitChatSession"
-import { useSendChatMessage } from "@/modules/chat-support/hooks/useSendChatMessage"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import ChatBot, { ChatBotProvider, type Params } from "react-chatbotify"
-import { markdown } from "markdown"
 import { styles } from "@/modules/chat-support/constants/styles"
 import { useTenant } from "@/providers/tenant-provider"
 import { getImageURL } from "@/utils/aws.utils"
@@ -18,20 +15,12 @@ import {
   followUpOptions,
   restartOptionsMap
 } from "@/modules/chat-support/constants/map"
-import { useEndChatSession } from "@/modules/chat-support/hooks/useEndChatSession"
-import {
-  CHAT_MESSAGE,
-  CHAT_SESSION_ID
-} from "@/modules/chat-support/constants/chat"
+import { ChatMessageInfo } from "@/modules/chat-support/constants/chat"
 import { EndChatButton } from "@/modules/chat-support/components/molecules/EndChatButton"
+import useWebSocketChatClient from "@/modules/chat-support/hooks/useWebSocketChatClient"
 
 export function ChatSupportButton() {
-  // Chatbot BE integration hooks
-  const { mutateAsync: mutateInit } = useInitChatSession()
-  const { mutateAsync: mutateSend } = useSendChatMessage()
-  const { mutateAsync: mutateEnd } = useEndChatSession()
-
-  // Get Chat Logo
+  // Chat Logo
   const { tenantData } = useTenant()
   const imageURL = useMemo(
     () =>
@@ -43,57 +32,79 @@ export function ChatSupportButton() {
     [tenantData]
   )
 
+  // WebSocket
+  const { client, connect, streamChat, sendMessage } = useWebSocketChatClient()
+
+  useEffect(() => {
+    connect()
+
+    const currentClient = client.current
+
+    return () => {
+      if (currentClient?.readyState === WebSocket.OPEN) {
+        currentClient.close()
+      }
+    }
+  }, [client, connect])
+
   // Chat Flow Functions
-  const initStep = async () => {
+  const initStep = async (params: Params) => {
     try {
-      const data = await mutateInit()
+      if (!client.current) await params.injectMessage(ChatMessageInfo.ERROR)
 
-      localStorage.setItem(CHAT_SESSION_ID, data.data.sessionId)
+      // Initiate the session
+      sendMessage(ChatMessageInfo.INIT)
 
-      return data.data.mainResponse
+      const message = await streamChat()
+
+      await params.injectMessage(message)
     } catch (error) {
-      return CHAT_MESSAGE.ERROR
+      await params.injectMessage(ChatMessageInfo.ERROR)
     }
   }
 
   const loopStep = useCallback(
     async (params: Params) => {
       try {
+        if (!client.current) await params.injectMessage(ChatMessageInfo.ERROR)
         if (params.userInput === chatFollowUpOptionsMap.commonTopics) {
           params.goToPath(CHAT_STEPS.THEME)
 
-          return ""
+          return
         }
-        const data = await mutateSend({ message: params.userInput })
 
-        return markdown
-          .toHTML(data.data.mainResponse)
-          .replace(/\n/g, "") as string
+        sendMessage(params.userInput)
+
+        const message = await streamChat()
+
+        await params.injectMessage(message)
       } catch (error) {
-        return CHAT_MESSAGE.ERROR
+        await params.injectMessage(ChatMessageInfo.ERROR)
       }
     },
-    [mutateSend]
+    [client, sendMessage, streamChat]
   )
 
-  const endStep = useCallback(async () => {
+  const endStep = useCallback(
+    async (params: Params) => {
+      try {
+        if (client.current?.readyState === WebSocket.OPEN) {
+          client.current.close()
+        }
+
+        await params.injectMessage(ChatMessageInfo.END_INFO)
+      } catch (error) {
+        await params.injectMessage(ChatMessageInfo.ERROR)
+      }
+    },
+    [client]
+  )
+
+  const selectThemeStep = async (params: Params) => {
     try {
-      const sessionId = localStorage.getItem(CHAT_SESSION_ID)
-
-      if (!sessionId) return CHAT_MESSAGE.ERROR
-      await mutateEnd({ sessionId })
-
-      return CHAT_MESSAGE.END_INFO
+      await params.injectMessage(ChatMessageInfo.COMMON_TOPICS)
     } catch (error) {
-      return CHAT_MESSAGE.ERROR
-    }
-  }, [mutateEnd])
-
-  const selectThemeStep = async () => {
-    try {
-      return CHAT_MESSAGE.COMMON_TOPICS
-    } catch (error) {
-      return CHAT_MESSAGE.ERROR
+      await params.injectMessage(ChatMessageInfo.ERROR)
     }
   }
 
@@ -101,9 +112,11 @@ export function ChatSupportButton() {
     try {
       const data = params.userInput
 
-      return `Here are some common questions related to <b>${data}</b>:`
+      await params.injectMessage(
+        `Here are some common questions related to <b>${data}</b>:`
+      )
     } catch (error) {
-      return CHAT_MESSAGE.ERROR
+      await params.injectMessage(ChatMessageInfo.ERROR)
     }
   }
 

@@ -48,6 +48,11 @@ export const TOAST_MSG = {
     stytchOAuth: {
       title: "Stytch OAuth",
       description: "OAuth has been sent successfully"
+    },
+    // Chat
+    chat: {
+      title: "Chat Service",
+      description: "Chat has been sent successfully"
     }
   },
   loanProgram: {
