@@ -17,7 +17,7 @@ const badgeVariants = cva(
         orange: "text-orange-700 bg-orange-500 border-orange-300",
         lightBlue: "text-blue-700 bg-[#C0D8D8] border-blue-300",
         white: "text-black bg-white border-black",
-        purple: "text-purple-700 bg-purple-500 border-purple-300"
+        purple: "text-indigo-700 bg-purple-500 border-purple-300"
       },
       variant: {
         soft: "bg-opacity-10",
@@ -43,7 +43,7 @@ const dotVariants = cva("w-3 h-3 mr-1", {
       orange: "text-orange-500",
       lightBlue: "text-blue-500",
       white: "text-black",
-      purple: "text-purple-500"
+      purple: "text-indigo-500"
     }
   },
   defaultVariants: {

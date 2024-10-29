@@ -249,6 +249,7 @@ export function SearchSelect<
         <PopoverContent
           className={cn("p-0 rounded-lg", popoverWidth)}
           sideOffset={8}
+          onCloseAutoFocus={preventAutoFocus}
           onFocus={preventAutoFocus}
           onOpenAutoFocus={preventAutoFocus}
         >

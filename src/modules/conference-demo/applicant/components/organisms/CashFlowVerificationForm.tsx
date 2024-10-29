@@ -1,42 +1,101 @@
+import { memo, useCallback, useEffect, useMemo, useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
+import { format } from "date-fns"
+import debounce from "lodash.debounce"
+import { Link } from "lucide-react"
+import { type ColumnDef } from "@tanstack/react-table"
+import * as z from "zod"
+
+import { Badge } from "@/components/ui/badge"
+import { Button, ButtonLoading } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Form, FormField } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
-import { memo, useCallback, useEffect, useMemo, useState } from "react"
-
-import { Button, ButtonLoading } from "@/components/ui/button"
+import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
+import { STEP } from "@/modules/conference-demo/applicant/constants"
 import { cn } from "@/lib/utils"
-import { ArrowRight, Link } from "lucide-react"
+
+import {
+  MOCK_PLAID_INSTITUTIONS,
+  MOCK_PLAID_ROUTING_NUMBERS,
+  PLAID_BANKING_ACCOUNTS
+} from "@/modules/conference-demo/applicant/constants/data"
 import {
   useIsReviewApplicationStep,
   useProgress
-} from "../../stores/useProgress"
-import { STEP } from "../../constants"
-import { Badge } from "@/components/ui/badge"
+} from "@/modules/conference-demo/applicant/stores/useProgress"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
-import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { type ColumnDef } from "@tanstack/react-table"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
-import { format } from "date-fns"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
-import { type IPlaidInstitutionProviderData } from "@/modules/loan-application/constants"
-import { PLAID_BANKING_ACCOUNTS } from "../../constants/data"
+import { SearchSelect } from "@/components/ui/search-select.tsx"
+import { type Option } from "@/types/common.type.ts"
 
-const columns: ColumnDef<LoanApplicationBankAccount>[] = [
-  {
-    accessorKey: "institutionName",
-    header: () => (
-      <div className="flex items-center space-x-2 text-gray-700">
-        Institution
-      </div>
-    )
-  },
+// Types
+interface Institution {
+  institutionId: string
+  name: string
+  logo?: string
+}
+
+interface BankAccount {
+  id: string
+  name: string
+  connectedOn?: string
+}
+
+interface PlaidInstitutionProviderData {
+  institutionName: string
+  accounts: BankAccount[]
+}
+
+interface LoanApplicationBankAccount {
+  institutionName: string
+  bankAccountPk: string
+  bankAccountName: string
+  connectedOn: string
+  mask?: string
+}
+
+interface ConnectedAccountsHeaderProps {
+  connectedAccounts: LoanApplicationBankAccount[]
+}
+
+interface ConnectedAccountsTableProps {
+  connectedAccounts: LoanApplicationBankAccount[]
+  isFetchingDetails: boolean
+  isReviewApplicationStep: boolean
+  onSubmit: () => void
+}
+
+// Validation Schema
+const plaidFormSchema = z.object({
+  institution: z.object({ label: z.string(), value: z.string() }).nullable(),
+  routingNumber: z.object({ label: z.string(), value: z.string() }).optional()
+})
+
+type PlaidFormValue = z.infer<typeof plaidFormSchema>
+
+// Table Configuration
+const tableColumns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
     accessorKey: "bankAccountName",
+    size: 200,
     header: () => (
-      <div className="flex items-center space-x-2 text-gray-700">Account</div>
-    )
+      <div className="flex items-center text-gray-700 -mx-4">Account</div>
+    ),
+    cell: ({ row }) => {
+      const { institutionName, bankAccountName, mask } = row.original
+
+      return (
+        <div className="min-w-0 -mx-4 uppercase text-sm">
+          {institutionName} {bankAccountName} {mask}
+        </div>
+      )
+    }
   },
   {
     accessorKey: "connectedOn",
@@ -44,220 +103,440 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
       <div className="flex items-center space-x-2 text-gray-700">
         Connected on
       </div>
-    )
+    ),
+    cell: ({ row }) => {
+      const { connectedOn } = row.original
+
+      return <div className="min-w-0 text-sm">{connectedOn}</div>
+    }
   },
   {
     id: "status",
     header: () => (
       <div className="flex items-center space-x-2 text-gray-700">Status</div>
     ),
-    cell: () => {
-      return (
-        <div className="min-w-0">
-          <Badge
-            border
-            isDot
-            className="capitalize text-sm rounded-lg font-medium"
-            isDotBefore={false}
-            variant="soft"
-            variantColor={getBadgeVariantByInsightStatus(
-              TaskFieldStatus.SUCCESS
-            )}
-          >
-            Connected
-          </Badge>
-        </div>
-      )
-    }
+    cell: () => (
+      <div className="min-w-0">
+        <Badge
+          isDot
+          isDotBefore
+          className="capitalize text-sm rounded-full font-medium py-1"
+          variant="soft"
+          variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
+        >
+          Pending
+        </Badge>
+      </div>
+    )
   }
 ]
 
+// Component Implementation
 function CashFlowVerificationForm() {
   const isReviewApplicationStep = useIsReviewApplicationStep()
   const { goToStep, finishStep, checkStep } = useProgress.use.action()
 
-  useEffect(() => {
-    if (checkStep(STEP.CASH_FLOW_VERIFICATION)) {
-      setInstitutions(PLAID_BANKING_ACCOUNTS)
-    }
-  }, [checkStep])
+  const [state, setState] = useState({
+    isFetchingDetails: false,
+    isConnecting: false,
+    isConfirmedConnect: false,
+    institutions: [] as PlaidInstitutionProviderData[]
+  })
 
-  // FAKE PLAID CONNECTION
-  const [isFetchingDetails, setIsFetchingDetails] = useState(false)
-  const [isConnecting, setIsConnecting] = useState(false)
-  const [institutions, setInstitutions] = useState<
-    IPlaidInstitutionProviderData[]
-  >([])
-  // Connected Accounts will appear after 3 seconds
-  const handleOnClick = useCallback(() => {
-    setIsConnecting(true)
+  const handlePlaidConnection = useCallback(() => {
+    setState((prev) => ({ ...prev, isConnecting: true }))
+
+    // Simulate Plaid connection
     setTimeout(() => {
-      setIsConnecting(false)
+      setState((prev) => ({
+        ...prev,
+        isConnecting: false,
+        isFetchingDetails: false,
+        institutions: PLAID_BANKING_ACCOUNTS
+      }))
       finishStep(STEP.CASH_FLOW_VERIFICATION)
-      setInstitutions(PLAID_BANKING_ACCOUNTS)
-      setIsFetchingDetails(false)
     }, 3000)
   }, [finishStep])
 
-  const connectedAccounts: LoanApplicationBankAccount[] = useMemo(() => {
-    return institutions
-      .map((ins) =>
+  const connectedAccounts = useMemo((): LoanApplicationBankAccount[] => {
+    return state.institutions
+      .flatMap((ins) =>
         ins.accounts.map((account) => ({
           institutionName: ins.institutionName,
           bankAccountPk: account.id,
           bankAccountName: account.name,
-          connectedOn: account.connectedOn
-            ? account.connectedOn
-            : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
+          connectedOn:
+            account.connectedOn || format(new Date(), FORMAT_DATE_MM_DD_YYYY)
         }))
       )
-      .flat()
-      .sort((a, b) => {
-        return a.institutionName.localeCompare(b.institutionName)
-      })
-  }, [institutions])
+      .sort((a, b) => a.institutionName.localeCompare(b.institutionName))
+  }, [state.institutions])
 
-  const [isConfirmedConnect, setIsConfirmedConnect] = useState(false)
+  const canConnect = useMemo(
+    () => !!connectedAccounts.length || state.isConfirmedConnect,
+    [connectedAccounts.length, state.isConfirmedConnect]
+  )
 
-  const canConnect = useMemo(() => {
-    return !!connectedAccounts.length || isConfirmedConnect
-  }, [isConfirmedConnect, connectedAccounts.length])
-
-  const onSubmit = useCallback(() => {
+  const handleSubmit = useCallback(() => {
     finishStep(STEP.CASH_FLOW_VERIFICATION)
     goToStep(STEP.ARTICLES_OF_ORGANIZATION)
   }, [finishStep, goToStep])
 
+  useEffect(() => {
+    if (checkStep(STEP.CASH_FLOW_VERIFICATION)) {
+      setState((prev) => ({ ...prev, institutions: PLAID_BANKING_ACCOUNTS }))
+    }
+  }, [checkStep])
+
   return (
     <>
-      <Card
-        className={cn(
-          "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-        )}
-      >
-        <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
-        <Separator />
-        <div className="flex flex-col gap-y-2xl gap-x-4xl">
-          <div className="flex flex-col gap-y-sm">
-            <p className="text-sm font-medium text-gray-700">
-              Connect your bank accounts securely. This step helps us understand
-              your business financial health through cash flow data and expedite
-              the loan approval process. Learn how it works{" "}
-              <a
-                className="underline text-[#1264A3]"
-                href="https://plaid.com/legal/#consumers"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                here
-              </a>
-              .
-            </p>
-          </div>
-          <div className="flex flex-col gap-lg">
-            <div className="flex gap-2 mt-1">
-              <Checkbox
-                checked={canConnect}
-                className="w-5 h-5"
-                disabled={!!connectedAccounts.length}
-                onCheckedChange={(value: boolean) => {
-                  setIsConfirmedConnect(value)
-                }}
-              />
-              <p className="text-sm text-gray-700">
-                <b>I understand</b> that, by connecting my accounts, I authorize
-                Plaid to share my business transaction history with Cyphr for
-                the purpose of evaluating my loan application.
-              </p>
-            </div>
-          </div>
-        </div>
-      </Card>
-      {!!connectedAccounts.length || isConfirmedConnect ? (
-        <Card
-          className={cn(
-            "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
-            "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-          )}
-        >
-          <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-2">
-            <div>
-              <h5 className="text-lg font-semibold">Connected Accounts</h5>
-              <span className="text-sm font-medium text-gray-700">
-                Having trouble connecting your bank accounts?
-                <br /> Click{" "}
-                <a
-                  className="underline text-[#1264A3]"
-                  href="https://support-my.plaid.com/hc/en-us/categories/4405983222679-Connecting-Financial-Accounts"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  here
-                </a>{" "}
-                for help.
-              </span>
-            </div>
+      <InformationCard
+        canConnect={canConnect}
+        connectedAccounts={connectedAccounts}
+        onConfirmConnect={(value) =>
+          setState((prev) => ({ ...prev, isConfirmedConnect: value }))
+        }
+      />
 
-            <ButtonLoading
-              className=" border rounded-lg text-primary bg-white text-gray-700 px-lg py-md hover:bg-zinc-100"
-              disabled={!canConnect || isFetchingDetails}
-              isLoading={isConnecting || isFetchingDetails}
-              type="button"
-              onClick={handleOnClick}
-            >
-              {connectedAccounts.length ? "Connect More" : "Connect"}
-              <Link className="ml-1 w-4" />
-            </ButtonLoading>
-          </div>
-
-          <Separator />
-
-          <div className="flex flex-col gap-x-4xl gap-y-1 items-center p-0">
-            {connectedAccounts.length <= 0 && (
-              <>
-                <p className=" text-sm text-text-secondary">No Account Found</p>
-                <p className=" text-sm text-text-secondary mb-5">
-                  Click the “Connect” button to continue
-                </p>
-                <Separator />
-              </>
-            )}
-
-            {!!connectedAccounts.length && (
-              <div className="flex flex-col w-full">
-                <LoadingWrapper isLoading={isFetchingDetails}>
-                  <Card className="border-none shadow-none">
-                    <CardContent className="p-0 md:p-0">
-                      <MiddeskTable
-                        cellClassName="py-6"
-                        columns={columns}
-                        data={connectedAccounts}
-                        noResultText="No connected accounts found"
-                        tableClassName="text-gray-700 font-sm"
-                      />
-                    </CardContent>
-                  </Card>
-
-                  <Separator />
-
-                  {!isReviewApplicationStep && (
-                    <Button
-                      className="w-full mt-5"
-                      disabled={!connectedAccounts.length}
-                      onClick={onSubmit}
-                    >
-                      Next <ArrowRight className="ml-1.5 w-5 h-5" />
-                    </Button>
-                  )}
-                </LoadingWrapper>
-              </div>
-            )}
-          </div>
-        </Card>
+      {!!connectedAccounts.length || state.isConfirmedConnect ? (
+        <ConnectedAccountsCard
+          canConnect={canConnect}
+          connectedAccounts={connectedAccounts}
+          isConnecting={state.isConnecting}
+          isFetchingDetails={state.isFetchingDetails}
+          isReviewApplicationStep={isReviewApplicationStep}
+          onConnect={handlePlaidConnection}
+          onSubmit={handleSubmit}
+        />
       ) : null}
     </>
   )
 }
 
+// Subcomponents
+interface InformationCardProps {
+  canConnect: boolean
+  connectedAccounts: LoanApplicationBankAccount[]
+  onConfirmConnect: (value: boolean) => void
+}
+
+function InformationCard({
+  canConnect,
+  connectedAccounts,
+  onConfirmConnect
+}: InformationCardProps) {
+  return (
+    <Card
+      className={cn(
+        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
+        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+      )}
+    >
+      <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
+      <Separator />
+      <div className="flex flex-col gap-y-2xl gap-x-4xl">
+        <p className="text-sm">
+          Connect your bank accounts securely. This step helps us understand
+          your business financial health through cash flow data and expedite the
+          loan approval process. Learn how it works{" "}
+          <a
+            className="underline text-primary font-medium"
+            href="https://plaid.com/legal/#consumers"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            here
+          </a>
+          .
+        </p>
+        <div className="flex gap-3 mt-1">
+          <Checkbox
+            checked={canConnect}
+            className="w-5 h-5"
+            disabled={!!connectedAccounts.length}
+            onCheckedChange={(value: boolean) => onConfirmConnect(value)}
+          />
+          <p className="text-sm">
+            <b>I understand</b> that, by connecting my accounts, I authorize
+            Plaid to share my business transaction history with Cyphr for the
+            purpose of evaluating my loan application.
+          </p>
+        </div>
+      </div>
+    </Card>
+  )
+}
+
+interface ConnectedAccountsCardProps {
+  canConnect: boolean
+  connectedAccounts: LoanApplicationBankAccount[]
+  isConnecting: boolean
+  isFetchingDetails: boolean
+  isReviewApplicationStep: boolean
+  onConnect: () => void
+  onSubmit: () => void
+}
+
+function ConnectedAccountsCard({
+  canConnect,
+  connectedAccounts,
+  isConnecting,
+  isFetchingDetails,
+  isReviewApplicationStep,
+  onConnect,
+  onSubmit
+}: ConnectedAccountsCardProps) {
+  return (
+    <Card
+      className={cn(
+        "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 mt-6 shadow-none",
+        "md:w-full md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+      )}
+    >
+      <ConnectedAccountsHeader connectedAccounts={connectedAccounts} />
+      <Separator />
+
+      <PlaidConnectionForm />
+
+      <ButtonLoading
+        className="text-sm rounded-lg self-end"
+        disabled={!canConnect || isFetchingDetails}
+        isLoading={isConnecting || isFetchingDetails}
+        size="sm"
+        type="button"
+        variant="outline"
+        onClick={onConnect}
+      >
+        <Link className="w-4 h-4 mr-1" strokeWidth={2.5} />
+        {connectedAccounts.length ? " Connect More" : " Connect with Plaid"}
+      </ButtonLoading>
+
+      {!!connectedAccounts.length && (
+        <ConnectedAccountsTable
+          connectedAccounts={connectedAccounts}
+          isFetchingDetails={isFetchingDetails}
+          isReviewApplicationStep={isReviewApplicationStep}
+          onSubmit={onSubmit}
+        />
+      )}
+    </Card>
+  )
+}
+
+// Plaid Form Implementation
+function PlaidConnectionForm() {
+  const [search, setSearch] = useState("")
+
+  const { data: institutions, isFetching } = useQuery({
+    queryKey: ["institutions", search],
+    queryFn: async (): Promise<Institution[]> => {
+      await new Promise((resolve) => setTimeout(resolve, 400))
+
+      return MOCK_PLAID_INSTITUTIONS
+    },
+    placeholderData: keepPreviousData
+  })
+
+  const institutionOptions: Option[] = useMemo(
+    () =>
+      (institutions ?? MOCK_PLAID_INSTITUTIONS).map((institution) => ({
+        label: institution.name,
+        value: institution.institutionId,
+        icon: institution?.logo
+          ? () => (
+              <img
+                alt="Plaid institution logo"
+                className="h-5 w-5"
+                src={`data:image/png;base64,${institution.logo}`}
+              />
+            )
+          : undefined
+      })),
+    [institutions]
+  )
+
+  const routingNumberOptions: Option[] = useMemo(
+    () =>
+      MOCK_PLAID_ROUTING_NUMBERS.map((number) => ({
+        label: number,
+        value: number
+      })),
+    []
+  )
+
+  const form = useForm<PlaidFormValue>({
+    resolver: zodResolver(plaidFormSchema),
+    defaultValues: {
+      institution: institutionOptions[0],
+      routingNumber: routingNumberOptions[0]
+    }
+  })
+
+  const onSearch = useMemo(
+    () => debounce((value: string) => setSearch(value), 300),
+    []
+  )
+
+  const selectedInstitution = form.watch("institution")
+
+  return (
+    <Form {...form}>
+      <div className="w-full flex flex-col gap-5 text-secondary-700 text-sm">
+        <InstitutionField
+          isLoading={isFetching}
+          options={institutionOptions}
+          total={institutionOptions.length}
+          onSearch={onSearch}
+        />
+        <RoutingNumberField
+          disabled={!selectedInstitution}
+          options={routingNumberOptions}
+        />
+      </div>
+    </Form>
+  )
+}
+
 export default memo(CashFlowVerificationForm)
+
+// Connected Accounts Header Component
+export function ConnectedAccountsHeader({
+  connectedAccounts
+}: ConnectedAccountsHeaderProps) {
+  const renderStatus = () => {
+    if (!connectedAccounts.length) return null
+
+    return (
+      <Badge
+        isDot
+        isDotBefore
+        className="capitalize text-sm rounded-full font-medium py-1"
+        variant="soft"
+        variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
+      >
+        Pending
+      </Badge>
+    )
+  }
+
+  return (
+    <div>
+      <div className="flex items-center gap-2 mb-3">
+        <h5 className="text-lg font-semibold">Connected Accounts</h5>
+        {renderStatus()}
+      </div>
+      <div className="text-sm text-gray-600">
+        <p>
+          Please note that if your bank connection status is pending, you can
+          still complete and submit your application. We'll notify you once your
+          bank connection status has been updated.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// Connected Accounts Table Component
+export function ConnectedAccountsTable({
+  connectedAccounts,
+  isFetchingDetails,
+  isReviewApplicationStep,
+  onSubmit
+}: ConnectedAccountsTableProps) {
+  const renderTable = () => (
+    <Card className="border-none shadow-none">
+      <CardContent className="p-0 md:p-0">
+        <MiddeskTable
+          cellClassName="py-6"
+          columns={tableColumns}
+          data={connectedAccounts}
+          noResultText="No connected accounts found"
+          tableClassName="text-gray-700 font-sm"
+        />
+      </CardContent>
+    </Card>
+  )
+
+  const renderSubmitButton = () => {
+    if (isReviewApplicationStep) return null
+
+    return (
+      <Button
+        className="w-full mt-5"
+        disabled={!connectedAccounts.length}
+        onClick={onSubmit}
+      >
+        Next
+      </Button>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-x-4xl gap-y-1 items-center p-0">
+      <div className="flex flex-col w-full">
+        <LoadingWrapper isLoading={isFetchingDetails}>
+          {renderTable()}
+          <Separator />
+          {renderSubmitButton()}
+        </LoadingWrapper>
+      </div>
+    </div>
+  )
+}
+
+function InstitutionField({
+  options,
+  onSearch,
+  isLoading,
+  total
+}: {
+  options: Option[]
+  onSearch: (value: string) => void
+  isLoading: boolean
+  total?: number
+}) {
+  return (
+    <div className="flex justify-between items-center gap-4">
+      <p>Banking institution</p>
+      <FormField
+        name="institution"
+        render={({ field }) => (
+          <SearchSelect
+            isLogo
+            field={field}
+            handleSearch={onSearch}
+            isFetching={isLoading}
+            options={options}
+            placeholder="Start typing your institution"
+            totalOptions={total}
+          />
+        )}
+      />
+    </div>
+  )
+}
+
+function RoutingNumberField({
+  options,
+  disabled
+}: {
+  options: Option[]
+  disabled: boolean
+}) {
+  return (
+    <div className="flex justify-between items-center gap-4">
+      <p>Routing number</p>
+      <FormField
+        name="routingNumber"
+        render={({ field }) => (
+          <SearchSelect
+            disabled={disabled}
+            field={field}
+            options={options}
+            placeholder="Select a routing number"
+          />
+        )}
+      />
+    </div>
+  )
+}

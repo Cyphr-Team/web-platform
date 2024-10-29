@@ -42,7 +42,7 @@ const plaidColumns: ColumnDef<LoanApplicationBankAccount>[] = [
           <Badge
             border
             isDot
-            className="capitalize text-sm rounded-lg"
+            className="capitalize text-sm rounded-full font-medium py-1"
             isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
