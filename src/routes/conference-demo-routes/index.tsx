@@ -72,7 +72,7 @@ const financialProjectionRoute = (
       index
       lazy={() =>
         import(
-          "@/modules/loan-application/[module]-financial-projection/components/pages/FpLoanReadyPage"
+          "@/modules/conference-demo/applicant/components/pages/FpLoanReadinessPage"
         )
       }
       path={APP_PATH.CONFERENCE_DEMO.applicant.financialProjection.loanReady}

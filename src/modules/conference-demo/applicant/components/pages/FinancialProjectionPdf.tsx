@@ -2,7 +2,6 @@ import { BalanceSheetTemplate } from "@/modules/loan-application/[module]-financ
 import { FpCashFlowTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpCashFlowTemplate"
 import { IncomeStatementTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpIncomeStatementTemplate"
 import { DisclaimerNote } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/DisclaimerNote"
-import { LoanReadinessPagePdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/LoanReadinessPagePdf"
 import {
   ExportFPOption,
   getBalanceSheetData,
@@ -18,6 +17,7 @@ import { EXPORT_CONFIG } from "@/modules/loan-application/services/pdf-v2.servic
 import { type FC, type MutableRefObject } from "react"
 import { FORECAST_RESULTS } from "@/modules/conference-demo/constants"
 import { useFinancialProjectionData } from "@/modules/conference-demo/applicant/stores/useFinancialProjectionData.ts"
+import { FpLoanReadinessPdf } from "@/modules/conference-demo/applicant/components/organisms/FpLoanReadinessPdf.tsx"
 
 interface SectionProps {
   forecastResults: ForecastResultsResponse
@@ -100,7 +100,7 @@ function LoanReadinessSection({ provideRef }: SectionProps): JSX.Element {
       className="flex items-start p-8"
       data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
     >
-      <LoanReadinessPagePdf />
+      <FpLoanReadinessPdf />
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import { cn } from "@/lib/utils"
 import {
@@ -7,19 +6,18 @@ import {
   criteriaNameMapping
 } from "@/modules/loan-application/constants/type.ts"
 import { capitalizeFirstOnly, snakeCaseToText } from "@/utils"
-import { isEnableDummyLoanReadiness } from "@/utils/feature-flag.utils"
 import { renderHeader } from "@/utils/table.utils"
 import { type ColumnDef } from "@tanstack/react-table"
 import { get } from "lodash"
-import { type FC, useMemo } from "react"
+import { useMemo } from "react"
 import { type LoanReadiness } from "../../constants/types/loan-readiness.type"
 import {
   CRITERIA_NOT_READY_STATUS,
   customSortRatingLevel,
   getCriteriaScoreRangeClassName
 } from "../../services/loan-readiness.service"
-import { DummyButton } from "./DummyButton"
 import { useLoanReadinessStore } from "./store/useLoanReadinessStore"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 
 interface ApplicationCriteriaProps {
   criteria: LoanReadiness["criteria"]
@@ -27,11 +25,10 @@ interface ApplicationCriteriaProps {
   handleRefetch?: VoidFunction
 }
 
-export const ApplicationCriteria: FC<ApplicationCriteriaProps> = ({
+export function ApplicationCriteria({
   criteria,
-  isLoading,
-  handleRefetch
-}) => {
+  isLoading
+}: ApplicationCriteriaProps) {
   const sorting = useLoanReadinessStore.use.sorting()
   const { setSorting } = useLoanReadinessStore.use.action()
 
@@ -59,30 +56,29 @@ export const ApplicationCriteria: FC<ApplicationCriteriaProps> = ({
   }, [criteria])
 
   return (
-    <Card>
-      <CardHeader className="px-8 md:py-4 border-b">
-        <div className="flex justify-between items-center flex-wrap gap-1">
-          <CardTitle className="font-semibold text-lg flex items-center gap-3">
-            Action Plan
-          </CardTitle>
+    <div>
+      <div
+        data-html2canvas-ignore
+        className="flex justify-between items-center flex-wrap gap-1"
+      >
+        <h2 className="font-semibold text-2xl flex items-center">
+          Action Plan
+        </h2>
+      </div>
 
-          {isEnableDummyLoanReadiness() && handleRefetch ? (
-            <DummyButton handleRefetch={handleRefetch} />
-          ) : null}
-        </div>
-      </CardHeader>
-
-      <CardContent className="px-5 overflow-auto">
+      <div className="overflow-auto">
         <DataTable
           columns={columns}
           data={criteriaData}
           isLoading={isLoading}
           setSorting={setSorting}
           sorting={sorting}
+          tableHeaderClassName="bg-white"
+          tableWrapperClassName="bg-white rounded-xl"
           total={criteriaData.length}
         />
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
 
@@ -114,7 +110,8 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
           <Badge
             className={cn(
               criteriaBadgeClassName,
-              "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center"
+              "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center border",
+              EXPORT_CLASS.NO_BACKGROUND_COLOR
             )}
           >
             {snakeCaseToText(criteria.ratingLevel)}
@@ -127,7 +124,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
     id: "description",
     header: renderHeader("Action Plan", "text-black whitespace-nowrap"),
     cell: ({ row }) => {
-      return <div className="min-w-0">{row.original.description}</div>
+      return <div className="min-w-0 leading-6">{row.original.description}</div>
     }
   }
 ]
