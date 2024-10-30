@@ -43,8 +43,9 @@ export const parseJwt = (token: string) => {
   }
 }
 
-const REFRESH_TOKEN_LS_KEY = "cyphr-web-refresh_token"
-const USER_INFO_LS_KEY = "cyphr-web-user_info"
+export const REFRESH_TOKEN_LS_KEY = "cyphr-web-refresh_token"
+
+export const USER_INFO_LS_KEY = "cyphr-web-user_info"
 
 export const INTERMEDIATE_SESSION_TOKEN_TEMP_LS_KEY =
   "cyphr-web-intermediate_session_token"

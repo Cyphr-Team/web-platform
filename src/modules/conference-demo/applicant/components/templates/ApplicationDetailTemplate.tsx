@@ -1,3 +1,4 @@
+import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
 import {
   ArticlesOfOrganizationForm,
   BankStatementForm,
@@ -29,7 +30,12 @@ function ApplicationDetailTemplate() {
   const currentScreen = useProgress.use.currentStep()
   const Component = ScreenMapper[currentScreen]
 
-  return <Component />
+  return (
+    <>
+      <Component />
+      <ChatSupportButton />
+    </>
+  )
 }
 
 export default ApplicationDetailTemplate

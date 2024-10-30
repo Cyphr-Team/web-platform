@@ -6,6 +6,7 @@ import { type NavItem } from "../../constants"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { DashboardCollapsedNavLink } from "../atoms/dashboard-collapsed-nav-link"
 import { DashboardNavLink } from "../atoms/dashboard-nav-link"
+import { Account } from "@/shared/molecules/Account"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   items: NavItem[]
@@ -29,7 +30,7 @@ export function SideNav({ items, className }: SidebarProps) {
       <div className="pl-3xl pr-2xl items-center mb-3xl justify-between hidden md:flex">
         <LogoHeader isCollapsed={isCollapsed} toggleCollapse={toggleCollapse} />
         {!isCollapsed && (
-          <button onClick={toggleCollapse}>
+          <button type="button" onClick={toggleCollapse}>
             {Icons.arrowSquare({ className: "h-6 w-6" })}
           </button>
         )}
@@ -55,6 +56,9 @@ export function SideNav({ items, className }: SidebarProps) {
             </TooltipProvider>
           </nav>
         </div>
+      </div>
+      <div className="px-xl flex-col hidden md:flex">
+        <Account isCollapsed={isCollapsed} />
       </div>
     </div>
   )

@@ -274,5 +274,11 @@ export const TOAST_MSG = {
         description: "Fail to create forecasting setup"
       }
     }
+  },
+  demo: {
+    login: {
+      title: "Login",
+      description: "Login successfully"
+    }
   }
 }

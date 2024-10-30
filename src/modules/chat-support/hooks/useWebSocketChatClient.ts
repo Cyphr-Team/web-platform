@@ -1,8 +1,7 @@
-import { useCallback, useRef } from "react"
+import { useCallback, useRef, useState } from "react"
 import {
   CHAT_SESSION_ID,
   ChatMessageInfo,
-  getTenantChatWebsocketUrl,
   type StreamChatMessage
 } from "@/modules/chat-support/constants/chat"
 import Markdown from "react-markdown"
@@ -13,16 +12,41 @@ import "katex/dist/katex.min.css"
 import { sanitizeMathMarkdown, toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { camelizeStringObject } from "@/utils/converter.utils"
+import { getSubdomain, getTopLevelDomain } from "@/utils/domain.utils"
+import { USER_INFO_LS_KEY } from "@/services/jwt.service"
 
 const CHAT_EVENT_ON_MESSAGE = "message"
 
 const useWebSocketClient = () => {
-  const WS_URL = getTenantChatWebsocketUrl()
   const client = useRef<WebSocket | null>(null)
 
+  const getTenantChatWebsocketUrl = useCallback(() => {
+    try {
+      const accessToken = JSON.parse(
+        localStorage.getItem(USER_INFO_LS_KEY) ?? ""
+      ).accessToken
+
+      if (accessToken == null) return ""
+
+      const subdomain = getSubdomain()
+      const tld = getTopLevelDomain()
+
+      return `wss://service-platform.cyphrai.${tld}/api/websocket/${subdomain}/${accessToken}`
+    } catch {
+      toastError({
+        ...TOAST_MSG.user.chat,
+        description:
+          "Failed to connect to the chat service. User is not logged in."
+      })
+
+      return ""
+    }
+  }, [])
+
   // Function to establish a WebSocket connection and handle reconnections
+  const [wsUrl, setWsUrl] = useState(getTenantChatWebsocketUrl())
   const connect = useCallback(() => {
-    if (!client.current) client.current = new WebSocket(WS_URL)
+    if (!client.current) client.current = new WebSocket(wsUrl)
 
     client.current.onopen = () => {
       // console.log("WebSocket connected")
@@ -41,6 +65,7 @@ const useWebSocketClient = () => {
       //   console.error("WebSocket error")
       setTimeout(() => {
         client.current = null
+        setWsUrl(getTenantChatWebsocketUrl())
         sessionStorage.removeItem(CHAT_SESSION_ID)
         connect()
       }, 1000)
@@ -51,11 +76,12 @@ const useWebSocketClient = () => {
       //   console.log("WebSocket connection closed")
       setTimeout(() => {
         client.current = null
+        setWsUrl(getTenantChatWebsocketUrl())
         sessionStorage.removeItem(CHAT_SESSION_ID)
         connect()
       }, 1000)
     }
-  }, [WS_URL])
+  }, [getTenantChatWebsocketUrl, wsUrl])
 
   /**
    * Initiates a chat message streaming process via WebSocket.
