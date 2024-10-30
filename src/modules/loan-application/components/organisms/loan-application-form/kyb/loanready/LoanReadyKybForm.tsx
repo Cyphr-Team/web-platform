@@ -1,12 +1,10 @@
-import { revertPattern } from "@/components/ui/mask-input"
+import { revertPattern, toPattern } from "@/components/ui/mask-input"
 import { Separator } from "@/components/ui/separator"
-import { EIN_PATTERN } from "@/constants"
 import {
   RHFMaskInput,
   RHFSelectInput,
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
-import { RHFProvider } from "@/modules/form-template/providers"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton.tsx"
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities"
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
@@ -30,9 +28,11 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { get } from "lodash"
-import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
+import { useEffect } from "react"
+import { EIN_PATTERN } from "@/constants"
+import { RHFProvider } from "@/modules/form-template/providers"
 
 function getOrDefault(
   businessInformation: IBusinessFormValue
@@ -40,7 +40,15 @@ function getOrDefault(
   const defaultValues: Record<string, string> = {}
 
   Object.keys(loanReadyBusinessFormSchema.shape).forEach((fieldName) => {
-    defaultValues[fieldName] = get(businessInformation, fieldName, "")
+    if (fieldName === LoanReadyKYBFieldName.EIN) {
+      const businessTin = get(businessInformation, fieldName, "")
+
+      defaultValues[fieldName] = businessTin
+        ? toPattern(businessTin, EIN_PATTERN)
+        : ""
+    } else {
+      defaultValues[fieldName] = get(businessInformation, fieldName, "")
+    }
   })
 
   return defaultValues as LoanReadyBusinessFormValue

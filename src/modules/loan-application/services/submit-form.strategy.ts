@@ -508,8 +508,7 @@ export const useSubmitLoanForm = (
       if (
         eSignData?.documentId &&
         isEnablePandaDocESign() &&
-        isSbb() &&
-        isLoanReady()
+        (isSbb() || isLoanReady())
       ) {
         submitPromises.push(submitESignDocument(loanRequestId))
       }

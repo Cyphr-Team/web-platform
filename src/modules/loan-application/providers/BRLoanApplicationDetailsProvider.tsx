@@ -171,7 +171,10 @@ export function BRLoanApplicationDetailsProvider({
    */
   const eSignQuery = useGetESignDocument({
     applicationId: loanApplicationId,
-    enabled: !!loanApplicationId && isSbbTenant && isEnablePandaDocESign()
+    enabled:
+      !!loanApplicationId &&
+      (isSbbTenant || isLoanReady()) &&
+      isEnablePandaDocESign()
   })
 
   /**

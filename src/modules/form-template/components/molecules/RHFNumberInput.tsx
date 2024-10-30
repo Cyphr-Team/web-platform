@@ -97,7 +97,6 @@ function RHFNumberInput<T extends FieldValues>(props: RHFNumberInputProps<T>) {
               <Input
                 type="number"
                 {...field}
-                {...control}
                 className={cn("no-arrows", inputClassName)}
                 placeholder={placeholder}
                 prefixIcon={prefixIcon}
