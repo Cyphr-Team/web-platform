@@ -144,8 +144,19 @@ export const useGetFinancialProjectForms = () => {
         reverseFormatEquityFinancingForm(fpEquityFinancingFormQuery.data),
         LOAN_APPLICATION_STEPS.EQUITY
       )
+    } else if (isInitialized) {
+      // The equity form doesn’t have to be mandatory
+      dispatchProgress({
+        type: LoanProgressAction.ChangeProgress,
+        progress: LOAN_APPLICATION_STEPS.EQUITY
+      })
     }
-  }, [changeDataAndProgress, fpEquityFinancingFormQuery.data, isInitialized])
+  }, [
+    changeDataAndProgress,
+    dispatchProgress,
+    fpEquityFinancingFormQuery.data,
+    isInitialized
+  ])
 
   // Assets Form (Current & Long-Term)
   const fpAssetsCurrentFormQuery = useQueryGetCurrentAssetsForm({

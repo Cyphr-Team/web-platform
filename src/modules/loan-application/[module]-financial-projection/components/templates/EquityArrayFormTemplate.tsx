@@ -25,7 +25,7 @@ interface EquityArrayFormTemplateProps {
 function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
   const { fieldName, defaultEmptyObject, dataName, onBlur, blocks, addIcon } =
     props
-  const { control, getValues, watch } = useFormContext()
+  const { control, watch } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName
@@ -62,15 +62,14 @@ function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
                   {renderInnerBlockComponents(blocks, fieldName, index)}
                 </TooltipProvider>
 
-                {getValues(fieldName)?.length > 1 ? (
-                  <Button
-                    className="w-fit self-end"
-                    variant="outline"
-                    onClick={onRemove(index)}
-                  >
-                    <TrashIcon />
-                  </Button>
-                ) : null}
+                {/* The equity form doesn’t have to be mandatory */}
+                <Button
+                  className="w-fit self-end"
+                  variant="outline"
+                  onClick={onRemove(index)}
+                >
+                  <TrashIcon />
+                </Button>
               </div>
             </CollapsibleArrayFieldTemplate>
           )

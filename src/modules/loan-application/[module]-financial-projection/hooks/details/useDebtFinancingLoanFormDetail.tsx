@@ -21,8 +21,10 @@ export const useDebtFinancingLoanFormDetail = ({
   const totalInvestment =
     debtFinancingFormValue?.[DebtFinancingField.StartingPaidInCapital] ?? 0
 
+  // Filter out all the form default value by the required field ("name")
   const outstandingLoans =
-    (debtFinancingFormValue?.debtFinancing?.length ?? 0) > 0
+    (debtFinancingFormValue?.debtFinancing?.filter((debt) => !!debt.name)
+      .length ?? 0) > 0
 
   const debtFinancingLoanFormDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.DEBT_FINANCING,
@@ -45,7 +47,9 @@ export const useDebtFinancingLoanFormDetail = ({
         )
       }
     ],
-    subChildren: toDebtFinancingDetail(debtFinancingFormValue?.debtFinancing)
+    subChildren: outstandingLoans
+      ? toDebtFinancingDetail(debtFinancingFormValue?.debtFinancing)
+      : undefined
   }
 
   return { debtFinancingLoanFormDetail }

@@ -13,7 +13,16 @@ const toEquityDetail = (
   data: FpEquityFinancingFormValue["equityFinancing"] | undefined
 ) => {
   if (!Array.isArray(data) || _.isEmpty(data)) {
-    return undefined
+    return (
+      <div className="flex flex-col gap-3">
+        <FinancialApplicationFormDetail
+          key="Empty equity"
+          isSubChildren
+          financialApplicationFormData={[]}
+          subChildren={<span className="text-sm">No equity added.</span>}
+        />
+      </div>
+    )
   }
 
   return (

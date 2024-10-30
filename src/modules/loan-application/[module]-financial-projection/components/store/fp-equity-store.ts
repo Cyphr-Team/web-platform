@@ -12,15 +12,13 @@ export const enum FpEquityFinancingField {
 
 export const fpEquityFinancingFormSchema = z.object({
   [FpEquityFinancingField.applicationId]: z.string().optional(),
-  [FpEquityFinancingField.equityFinancing]: z
-    .array(
-      z.object({
-        name: z.string().min(1),
-        receivedDate: createDateSchema(),
-        amount: createNumberSchema({ min: 1 })
-      })
-    )
-    .min(1, "Please add at least one equity financing item")
+  [FpEquityFinancingField.equityFinancing]: z.array(
+    z.object({
+      name: z.string().min(1),
+      receivedDate: createDateSchema(),
+      amount: createNumberSchema({ min: 1 })
+    })
+  )
 })
 
 export const EMPTY_EQUITY_FINANCING_ITEM = {
@@ -30,7 +28,7 @@ export const EMPTY_EQUITY_FINANCING_ITEM = {
 }
 
 export const FP_EQUITY_FINANCING_DEFAULT_VALUE = {
-  [FpEquityFinancingField.equityFinancing]: [EMPTY_EQUITY_FINANCING_ITEM]
+  [FpEquityFinancingField.equityFinancing]: []
 }
 
 export type FpEquityFinancingFormValue = z.infer<

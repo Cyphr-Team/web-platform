@@ -33,7 +33,18 @@ export const toFutureEmployeeDetail = (
   data: PeopleFormValue["futureEmployees"] | undefined
 ) => {
   if (!Array.isArray(data) || isEmpty(data)) {
-    return undefined
+    return (
+      <div className="flex flex-col gap-3">
+        <FinancialApplicationFormDetail
+          key="Empty future employees"
+          isSubChildren
+          financialApplicationFormData={[]}
+          subChildren={
+            <span className="text-sm">No future employees planned.</span>
+          }
+        />
+      </div>
+    )
   }
 
   return (
