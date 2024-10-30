@@ -8,7 +8,8 @@ export enum ApplicationMenuName {
   document = "Documentation",
   cashflow = "Cash Flow",
   applicationSummary = "Loan Summary",
-  loanReadiness = "Loan Readiness"
+  loanReadiness = "Loan Readiness",
+  finacialProjection = "Financial Projections"
 }
 
 export const APPLICATION_MENU = [
@@ -35,6 +36,10 @@ export const APPLICATION_MENU = [
   {
     name: ApplicationMenuName.loanReadiness,
     href: APP_PATH.CONFERENCE_DEMO.admin.loanReadiness
+  },
+  {
+    name: ApplicationMenuName.finacialProjection,
+    href: APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index
   }
 ]
 

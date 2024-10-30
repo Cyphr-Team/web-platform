@@ -16,6 +16,7 @@ import { IdentityVerificationPage } from "../../modules/conference-demo/admin/co
 import ConferenceDemoApplicationListLayout from "../../modules/conference-demo/applicant/components/layouts/ConferenceDemoApplicationListLayout"
 import ApplicationListPage from "../../modules/conference-demo/applicant/components/pages/ApplicationListPage"
 import ConferenceDemoApplicationFpLayout from "@/modules/conference-demo/applicant/components/layouts/ConferenceDemoApplicationFpLayout.tsx"
+import ConferenceDemoApplicationFpAdminLayout from "@/modules/conference-demo/admin/components/layouts/ConferenceDemoApplicationFpLayout.tsx"
 
 const financialProjectionRoute = (
   <Route
@@ -76,6 +77,67 @@ const financialProjectionRoute = (
         )
       }
       path={APP_PATH.CONFERENCE_DEMO.applicant.financialProjection.loanReady}
+    />
+  </Route>
+)
+
+const financialProjectionAdminRoutes = (
+  <Route
+    element={
+      <ConferenceDemoApplicationFpAdminLayout>
+        <Outlet />
+      </ConferenceDemoApplicationFpAdminLayout>
+    }
+    path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index}
+  >
+    <Route
+      index
+      lazy={() =>
+        import(
+          "@/modules/conference-demo/applicant/components/pages/FpOverviewPage"
+        )
+      }
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.overview}
+    />
+
+    <Route
+      index
+      lazy={() =>
+        import(
+          "@/modules/conference-demo/applicant/components/pages/FpCashFlowPage"
+        )
+      }
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.cashFlow}
+    />
+
+    <Route
+      index
+      lazy={() =>
+        import(
+          "@/modules/conference-demo/applicant/components/pages/FpBalanceSheetPage"
+        )
+      }
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.balanceSheet}
+    />
+
+    <Route
+      index
+      lazy={() =>
+        import(
+          "@/modules/conference-demo/applicant/components/pages/FpIncomeStatementPage"
+        )
+      }
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.incomeStatement}
+    />
+
+    <Route
+      index
+      lazy={() =>
+        import(
+          "@/modules/loan-application/[module]-financial-projection/components/pages/FpLoanReadyPage"
+        )
+      }
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.loanReady}
     />
   </Route>
 )
@@ -147,6 +209,7 @@ export const conferenceDemoRoutes = (
         element={<IdentityVerificationPage />}
         path={APP_PATH.CONFERENCE_DEMO.admin.identity}
       />
+      {financialProjectionAdminRoutes}
     </Route>
   </Route>
 )

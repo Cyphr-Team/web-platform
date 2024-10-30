@@ -173,7 +173,15 @@ export const APP_PATH = {
       documents: "/admin/documents",
       documentDetail: "/admin/document-detail",
       loanSummary: "/admin/loan-summary",
-      loanReadiness: "/admin/loan-readiness"
+      loanReadiness: "/admin/loan-readiness",
+      financialProjection: {
+        index: "/admin/financial-projection",
+        overview: "/admin/financial-projection/overview",
+        cashFlow: "/admin/financial-projection/cash-flow",
+        balanceSheet: "/admin/financial-projection/balance-sheet",
+        incomeStatement: "/admin/financial-projection/income-statement",
+        loanReady: "/admin/financial-projection/loan-ready"
+      }
     }
   }
 }
