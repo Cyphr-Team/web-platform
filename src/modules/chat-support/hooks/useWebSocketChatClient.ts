@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef } from "react"
 import {
   CHAT_SESSION_ID,
   ChatMessageInfo,
@@ -44,12 +44,13 @@ const useWebSocketClient = () => {
   }, [])
 
   // Function to establish a WebSocket connection and handle reconnections
-  const [wsUrl, setWsUrl] = useState(getTenantChatWebsocketUrl())
   const connect = useCallback(() => {
-    if (!client.current) client.current = new WebSocket(wsUrl)
+    if (!client.current) {
+      client.current = new WebSocket(getTenantChatWebsocketUrl())
+    }
 
     client.current.onopen = () => {
-      // console.log("WebSocket connected")
+      //   console.log("WebSocket connection established")
     }
 
     client.current.onmessage = (event: MessageEvent<string>) => {
@@ -57,15 +58,15 @@ const useWebSocketClient = () => {
 
       if (sessionStorage.getItem(CHAT_SESSION_ID) == null) {
         sessionStorage.setItem(CHAT_SESSION_ID, data.sessionId)
+        sendMessage(ChatMessageInfo.INIT)
       }
     }
 
     client.current.onerror = () => {
       // Handle WebSocket errors and reconnect after a delay
-      //   console.error("WebSocket error")
+      // console.error("WebSocket error")
       setTimeout(() => {
         client.current = null
-        setWsUrl(getTenantChatWebsocketUrl())
         sessionStorage.removeItem(CHAT_SESSION_ID)
         connect()
       }, 1000)
@@ -73,15 +74,13 @@ const useWebSocketClient = () => {
 
     client.current.onclose = () => {
       // Handle WebSocket closure and reconnect after a delay
-      //   console.log("WebSocket connection closed")
+      // console.log("WebSocket connection closed")
       setTimeout(() => {
         client.current = null
-        setWsUrl(getTenantChatWebsocketUrl())
         sessionStorage.removeItem(CHAT_SESSION_ID)
-        connect()
       }, 1000)
     }
-  }, [getTenantChatWebsocketUrl, wsUrl])
+  }, [getTenantChatWebsocketUrl])
 
   /**
    * Initiates a chat message streaming process via WebSocket.
@@ -98,6 +97,12 @@ const useWebSocketClient = () => {
   const streamChat = () => {
     return new Promise<string>((resolve, reject) => {
       const result: string[] = []
+      const isDisconnected = client.current == null
+
+      // If the client is disconnected due to socket timeout, reconnect
+      if (isDisconnected) {
+        connect()
+      }
 
       const handleMessage = async (event: MessageEvent<string>) => {
         try {
@@ -121,7 +126,11 @@ const useWebSocketClient = () => {
               handleMessage
             )
             // Resolve the promise with the final message
-            resolve(sanitizedMessage)
+            if (isDisconnected) {
+              resolve(ChatMessageInfo.RECONNECT)
+            } else {
+              resolve(sanitizedMessage)
+            }
           } else {
             result.push(data.message)
           }

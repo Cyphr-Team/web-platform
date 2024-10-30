@@ -21,8 +21,11 @@ interface ChatSession {
 
 const ChatMessageInfo: Record<string, string> = {
   INIT: "Hello",
+  GREETING: "Hello! How can I assist you today?",
   COMMON_TOPICS: "Here are our common topics:",
-  ERROR: "Something went wrong. Please try again later.",
+  ERROR: "Something went wrong. Please try again.",
+  RECONNECT:
+    "We have reconnected to chat service after session timeout. Please start again.",
   END: "End Chat",
   END_INFO: "The chat is ended."
 }

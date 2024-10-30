@@ -15,7 +15,10 @@ import {
   followUpOptions,
   restartOptionsMap
 } from "@/modules/chat-support/constants/map"
-import { ChatMessageInfo } from "@/modules/chat-support/constants/chat"
+import {
+  CHAT_SESSION_ID,
+  ChatMessageInfo
+} from "@/modules/chat-support/constants/chat"
 import { EndChatButton } from "@/modules/chat-support/components/molecules/EndChatButton"
 import useWebSocketChatClient from "@/modules/chat-support/hooks/useWebSocketChatClient"
 
@@ -36,11 +39,10 @@ export function ChatSupportButton() {
   const { client, connect, streamChat, sendMessage } = useWebSocketChatClient()
 
   useEffect(() => {
-    connect()
-
     const currentClient = client.current
 
     return () => {
+      sessionStorage.removeItem(CHAT_SESSION_ID)
       if (currentClient?.readyState === WebSocket.OPEN) {
         currentClient.close()
       }
@@ -50,14 +52,12 @@ export function ChatSupportButton() {
   // Chat Flow Functions
   const initStep = async (params: Params) => {
     try {
-      if (!client.current) await params.injectMessage(ChatMessageInfo.ERROR)
-
       // Initiate the session
-      sendMessage(ChatMessageInfo.INIT)
+      connect()
 
-      const message = await streamChat()
+      await streamChat()
 
-      await params.injectMessage(message)
+      await params.injectMessage(ChatMessageInfo.GREETING)
     } catch (error) {
       await params.injectMessage(ChatMessageInfo.ERROR)
     }
@@ -66,7 +66,6 @@ export function ChatSupportButton() {
   const loopStep = useCallback(
     async (params: Params) => {
       try {
-        if (!client.current) await params.injectMessage(ChatMessageInfo.ERROR)
         if (params.userInput === chatFollowUpOptionsMap.commonTopics) {
           params.goToPath(CHAT_STEPS.THEME)
 
@@ -82,7 +81,7 @@ export function ChatSupportButton() {
         await params.injectMessage(ChatMessageInfo.ERROR)
       }
     },
-    [client, sendMessage, streamChat]
+    [sendMessage, streamChat]
   )
 
   const endStep = useCallback(
