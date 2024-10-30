@@ -108,6 +108,7 @@ export function useApplicantFinancialProjectionApplicationDetails() {
       ? (reverseFormatKycForm(kycFormQuery.data) as LoanReadyOwnerFormValue)
       : undefined
   })
+
   const isFetchingBankAccounts = useIsFetching({
     queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_CASHFLOW_VERIFICATION]
   })

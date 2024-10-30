@@ -134,7 +134,19 @@ function DrawerContent() {
 export function Drawer() {
   const openDrawer = useBoolean(false)
 
-  const methods = useForm<Record<ExportFPOption, boolean>>()
+  const methods = useForm<Record<ExportFPOption, boolean>>({
+    defaultValues: {
+      [ExportFPOption.DISCLAIMER_NOTE]: true,
+      [ExportFPOption.CASH_FLOW_FORECAST]: true,
+      [ExportFPOption.BALANCE_SHEET_FORECAST]: true,
+      [ExportFPOption.INCOME_SHEET_FORECAST]: true,
+      [ExportFPOption.LOAN_READY_SECTION]: true,
+      [ExportFPOption.CASH_FLOW]: true,
+      [ExportFPOption.BALANCE_SHEET]: true,
+      [ExportFPOption.INCOME_SHEET]: true,
+      [ExportFPOption.APPLICATION_SUMMARY]: true
+    }
+  })
 
   const watchAllFields = methods.watch()
 

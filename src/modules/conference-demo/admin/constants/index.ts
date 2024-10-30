@@ -34,10 +34,6 @@ export const APPLICATION_MENU = [
     href: APP_PATH.CONFERENCE_DEMO.admin.loanSummary
   },
   {
-    name: ApplicationMenuName.loanReadiness,
-    href: APP_PATH.CONFERENCE_DEMO.admin.loanReadiness
-  },
-  {
     name: ApplicationMenuName.finacialProjection,
     href: APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index
   }

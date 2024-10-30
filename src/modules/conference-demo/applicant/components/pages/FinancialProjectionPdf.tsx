@@ -18,6 +18,10 @@ import { type FC, type MutableRefObject } from "react"
 import { FORECAST_RESULTS } from "@/modules/conference-demo/constants"
 import { useFinancialProjectionData } from "@/modules/conference-demo/applicant/stores/useFinancialProjectionData.ts"
 import { FpLoanReadinessPdf } from "@/modules/conference-demo/applicant/components/organisms/FpLoanReadinessPdf.tsx"
+import { FinancialProjectionApplicationDetail } from "@/modules/loan-application/[module]-financial-projection/components/organisms/details/FinancialProjectionApplicationDetails.tsx"
+import type { FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type.ts"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { ConnectedBadge } from "@/modules/conference-demo/applicant/components/atoms/ConnectedBadge.tsx"
 
 interface SectionProps {
   forecastResults: ForecastResultsResponse
@@ -91,9 +95,6 @@ function IncomeSheetForecastSection({
 }
 
 function LoanReadinessSection({ provideRef }: SectionProps): JSX.Element {
-  /**
-   * TODO: update this later in the next PR since it's need more effort
-   * */
   return (
     <div
       ref={provideRef(ExportFPOption.LOAN_READY_SECTION)}
@@ -172,10 +173,98 @@ function IncomeSheetSection({
 }
 
 function ApplicationSummarySection(): JSX.Element {
-  /**
-   * TODO: update this later in the next PR since it's need more effort
-   * */
-  return <div className="flex items-start p-8">Coming soon</div>
+  const FINANCIAL_APPLICATION_DETAIL: FinancialApplicationDetailData[] = [
+    {
+      id: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+      title: "Loan Request",
+      financialApplicationFormData: [
+        {
+          id: "loanAmountRequested",
+          title: "Loan amount requested:",
+          content: "$78,500"
+        },
+        {
+          id: "proposedUseOfLoan",
+          title: "Proposed use of loan:",
+          content: "Working Capital"
+        }
+      ]
+    },
+    {
+      id: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
+      title: "Business Information",
+      financialApplicationFormData: [
+        {
+          id: "businessLegalName",
+          title: "Business legal name:",
+          content: "Middesk Inc."
+        },
+        {
+          id: "businessTradeName",
+          title: "Business trade name/DBA:",
+          content: "Latte JR LLC"
+        },
+        {
+          id: "businessStreetAddress",
+          title: "Business street address:",
+          content: "Middesk Inc., Abbeville, Alabama 97531"
+        },
+        {
+          id: "employeeIdentificationNumber",
+          title: "Employee Identification Number (EIN):",
+          content: "11-0000099"
+        },
+        {
+          id: "businessWebsite",
+          title: "Business website:",
+          content: "larrylatte.com"
+        },
+        {
+          id: "businessStage",
+          title: "Business stage:",
+          content:
+            "A business with stable revenue streams and consistent operations."
+        },
+        {
+          id: "businessDescription",
+          title: "Business description:",
+          content: "Middesk Inc."
+        }
+      ]
+    },
+    {
+      id: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
+      title: "Connected Accounts",
+      financialApplicationFormData: [
+        {
+          id: "Plaid Money Market",
+          title: "Plaid Money Market",
+          content: <ConnectedBadge />
+        },
+        {
+          id: "Plaid Saving",
+          title: "Plaid Saving",
+          content: <ConnectedBadge />
+        },
+        {
+          id: "businessStreetAddress",
+          title: "Bank Of America",
+          content: <ConnectedBadge />
+        }
+      ]
+    }
+  ]
+
+  return (
+    <div className="flex items-start p-8">
+      <main className="flex flex-col gap-4 w-full md:gap-8">
+        <FinancialProjectionApplicationDetail
+          isPdf
+          financialApplicationDetailData={FINANCIAL_APPLICATION_DETAIL}
+        />
+      </main>
+    </div>
+  )
 }
 
 function ChartsSection({ provideRef }: SectionProps): JSX.Element {

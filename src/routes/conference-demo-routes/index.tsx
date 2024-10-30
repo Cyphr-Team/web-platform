@@ -17,6 +17,7 @@ import ConferenceDemoApplicationListLayout from "../../modules/conference-demo/a
 import ApplicationListPage from "../../modules/conference-demo/applicant/components/pages/ApplicationListPage"
 import ConferenceDemoApplicationFpLayout from "@/modules/conference-demo/applicant/components/layouts/ConferenceDemoApplicationFpLayout.tsx"
 import ConferenceDemoApplicationFpAdminLayout from "@/modules/conference-demo/admin/components/layouts/ConferenceDemoApplicationFpLayout.tsx"
+import { LoanReadiness } from "@/modules/conference-demo/admin/components/organisms/LoanReadiness.tsx"
 
 const financialProjectionRoute = (
   <Route
@@ -132,11 +133,7 @@ const financialProjectionAdminRoutes = (
 
     <Route
       index
-      lazy={() =>
-        import(
-          "@/modules/loan-application/[module]-financial-projection/components/pages/FpLoanReadyPage"
-        )
-      }
+      element={<LoanReadiness />}
       path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.loanReady}
     />
   </Route>
