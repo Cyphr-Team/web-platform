@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card.tsx"
 import {
   Form,
   FormControl,
@@ -255,78 +254,74 @@ export function DocumentUploadFormTemplate({
     <FormLayout title={title}>
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
-          <Card className="flex flex-col gap-y-2xl p-4xl shadow-none">
-            <div>
-              <h4 className="text-lg font-semibold text-text-primary">
-                {title}
-              </h4>
-              <p className="text-sm font-normal text-text-primary">
-                {description}
-              </p>
-            </div>
+          <div>
+            <h4 className="text-lg font-semibold text-text-primary">{title}</h4>
+            <p className="text-sm font-normal text-text-primary">
+              {description}
+            </p>
+          </div>
+          <FormField
+            control={form.control}
+            name={fileField}
+            render={() => (
+              <FormItem>
+                <DragDropFileInput
+                  id={fileField}
+                  onFileSelect={handleSelectFile(fileField)}
+                />
+                {filesValue?.length > 0 ? (
+                  <FileUploadCard
+                    key={filesValue[0].name}
+                    file={filesValue[0]}
+                    handleRemoveFile={handleRemoveFile(0, fileField)}
+                    index={0}
+                    version={2}
+                  />
+                ) : null}
+                {/* Display all files */}
+                {Array.from(uploadedFiles ?? []).map((val) => (
+                  <FileUploadedCard
+                    key={val.id}
+                    file={val}
+                    handleRemoveFile={removeDocument}
+                    version={2}
+                  />
+                ))}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* If the flag is on, and we can get the checkbox field name from schema */}
+          {hasCheckbox && checkboxField ? (
             <FormField
               control={form.control}
-              name={fileField}
-              render={() => (
-                <FormItem>
-                  <DragDropFileInput
-                    id={fileField}
-                    onFileSelect={handleSelectFile(fileField)}
-                  />
-                  {filesValue?.length > 0 ? (
-                    <FileUploadCard
-                      key={filesValue[0].name}
-                      file={filesValue[0]}
-                      handleRemoveFile={handleRemoveFile(0, fileField)}
-                      index={0}
-                      version={2}
-                    />
-                  ) : null}
-                  {/* Display all files */}
-                  {Array.from(uploadedFiles ?? []).map((val) => (
-                    <FileUploadedCard
-                      key={val.id}
-                      file={val}
-                      handleRemoveFile={removeDocument}
-                      version={2}
-                    />
-                  ))}
-                  <FormMessage />
+              name={checkboxField}
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-2 space-y-0">
+                  <FormControl>
+                    <div className="flex gap-2 mt-1 items-center">
+                      <Checkbox
+                        checked={field.value as CheckedState}
+                        className="h-5 w-5"
+                        onCheckedChange={field.onChange}
+                      />
+                      <p className="text-xs text-text-primary">
+                        {checkboxLabel}
+                      </p>
+                    </div>
+                  </FormControl>
                 </FormItem>
               )}
             />
+          ) : null}
 
-            {/* If the flag is on, and we can get the checkbox field name from schema */}
-            {hasCheckbox && checkboxField ? (
-              <FormField
-                control={form.control}
-                name={checkboxField}
-                render={({ field }) => (
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <div className="flex gap-2 mt-1 items-center">
-                        <Checkbox
-                          checked={field.value as CheckedState}
-                          className="h-5 w-5"
-                          onCheckedChange={field.onChange}
-                        />
-                        <p className="text-xs text-text-primary">
-                          {checkboxLabel}
-                        </p>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            ) : null}
-
-            {!isReviewApplicationStep(step) && (
-              <FormSubmitButton
-                isDisabled={!isValid}
-                onSubmit={form.handleSubmit(onSubmit)}
-              />
-            )}
-          </Card>
+          {!isReviewApplicationStep(step) && (
+            <FormSubmitButton
+              isDisabled={!isValid}
+              onSubmit={form.handleSubmit(onSubmit)}
+            />
+          )}
         </Form>
       </div>
     </FormLayout>

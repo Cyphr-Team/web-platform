@@ -107,3 +107,23 @@ export const createWebsiteSchema = (options: StringSchemaOptions = {}) => {
     `${fieldName} must be a valid website URL (e.g. example.com)`
   )
 }
+
+/**
+ * Note: we can use z.url(), but in some cases the http(s) is optional
+ * so using the regex patterns below is more appropriate for flexible URL validation.
+ */
+export const createPercentSchema = (options: StringSchemaOptions = {}) => {
+  const { fieldName = "This field" } = options
+
+  return z
+    .number({
+      errorMap: (issue) => ({
+        message:
+          issue.code === "invalid_type"
+            ? `${fieldName} is required`
+            : issue.message ?? `${fieldName} is required`
+      })
+    })
+    .min(0, `${fieldName} is required`)
+    .max(100)
+}

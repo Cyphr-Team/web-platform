@@ -9,6 +9,7 @@ import {
 } from "@/modules/loan-application/constants/form"
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import * as z from "zod"
+import { createPercentSchema } from "@/constants/validate.ts"
 
 export const enum SBB_KYC_FIELD_NAMES {
   ID = "id",
@@ -46,9 +47,9 @@ const sbbKycBeneficialOwnerSchema = z.object({
   [SBB_KYC_FIELD_NAMES.EMAIL]: z
     .string()
     .email({ message: "Enter a valid email address" }),
-  [SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE]: z.coerce
-    .number()
-    .min(0, "Beneficial owner ownership percentage is required")
+  [SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE]: createPercentSchema({
+    fieldName: "Business ownership percentage"
+  })
 })
 
 export const sbbMetadataSchema = z

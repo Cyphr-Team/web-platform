@@ -149,6 +149,7 @@ export function SbbKycForm() {
   const form = useForm<SbbKycFormValue>({
     resolver: zodResolver(sbbKycFormSchema),
     mode: "onBlur",
+    reValidateMode: "onBlur",
     defaultValues
   })
 

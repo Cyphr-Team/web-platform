@@ -12,6 +12,7 @@ import {
 import { type Option } from "@/types/common.type"
 
 import * as z from "zod"
+import { createWebsiteSchema } from "@/constants/validate.ts"
 
 export const enum SBB_KYB_FORM_FIELDS {
   STATE = "state",
@@ -80,7 +81,9 @@ export const sbbKybFormSchemaPartOne = z
     [SBB_KYB_FORM_FIELDS.BUSINESS_TIN]: z
       .string()
       .min(10, { message: "EIN is required" }),
-    [SBB_KYB_FORM_FIELDS.BUSINESS_WEBSITE]: z.string(),
+    [SBB_KYB_FORM_FIELDS.BUSINESS_WEBSITE]: createWebsiteSchema({
+      fieldName: "Business website"
+    }),
     [SBB_KYB_FORM_FIELDS.INDUSTRY_TYPE]: z
       .string()
       .min(1, { message: "Industry type is required" }),
@@ -121,7 +124,16 @@ export const sbbKybFormSchemaPartTwo = z
       message: "This field is required"
     }),
     [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES]: yesNoSchema,
-    [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT]: z.coerce.number().min(0),
+    [SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT]: z.coerce
+      .number({
+        errorMap: (issue) => ({
+          message:
+            issue.code === "invalid_type"
+              ? "Anticipated cash amount is required"
+              : issue.message ?? "Anticipated cash amount is required"
+        })
+      })
+      .gt(0, "Anticipated cash amount must be greater than 0"),
     [SBB_KYB_FORM_FIELDS.PAYMENT_METHODS]: z.array(z.string().min(1)),
     [SBB_KYB_FORM_FIELDS.IS_SELF_DIRECTED_IRA_ACCOUNT]: yesNoSchema,
     [SBB_KYB_FORM_FIELDS.MONTHLY_DEPOSIT_AMOUNT]: z.string().min(1, {

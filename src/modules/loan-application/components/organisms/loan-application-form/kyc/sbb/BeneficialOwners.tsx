@@ -135,7 +135,7 @@ interface EditOwnerProps {
   onRemove: VoidFunction
 }
 
-const EditOwner = memo((props: EditOwnerProps) => {
+function EditOwner(props: EditOwnerProps) {
   const { index, value, totalOwners, onRemove } = props
   const OWNER_INFORMATION = `${SBB_KYC_FIELD_NAMES.METADATA}.${SBB_KYC_FIELD_NAMES.BENEFICIAL_OWNERS}.${index}`
 
@@ -183,6 +183,7 @@ const EditOwner = memo((props: EditOwnerProps) => {
       />
       <RHFPercentageInput
         className="flex items-center justify-between gap-2"
+        direction="row"
         label="What percentage of the business do they own?"
         name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}`}
         styleProps={{
@@ -191,7 +192,7 @@ const EditOwner = memo((props: EditOwnerProps) => {
       />
     </Card>
   )
-})
+}
 
 interface OwnerDetailsProps {
   data?: SbbKycBeneficialOwner[]

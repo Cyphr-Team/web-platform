@@ -101,6 +101,7 @@ export function SBBKybFormPartTwo() {
                   ) === BINARY_VALUES.YES && (
                     <RHFCurrencyInput
                       key={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT}
+                      isRowDirection
                       className="col-span-12 flex items-end gap-1"
                       label="If yes, please enter the anticipated amount"
                       name={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_AMOUNT}

@@ -130,7 +130,7 @@ export const businessFormSchema = z.object({
   businessLegalName: createStringSchema({
     fieldName: "Business legal name"
   }),
-  businessWebsite: z.string(),
+  businessWebsite: createWebsiteSchema({ fieldName: "Business website" }),
   addressLine1: z.string().min(3, { message: "Address line 1 is required" }),
   addressLine2: z.string().optional(),
   city: z.string().min(1, { message: "City is required" }),
