@@ -161,12 +161,18 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
                     blocks.map((block) => {
                       const indexedName = `${fieldName}.${index}.${block.name}`
 
+                      // Note: Each of the input components already use ref from {field}
+                      // So we can ignore and don't need to define forwardRef for each input components
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                      const { ref: _ref, ...fieldRegistered } =
+                        register(indexedName)
+
                       return {
                         ...block,
                         name: indexedName,
                         props: {
                           ...block.props,
-                          ...register(indexedName),
+                          ...fieldRegistered,
                           control
                         }
                       }

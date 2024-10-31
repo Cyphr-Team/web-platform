@@ -25,7 +25,7 @@ const blocks: Block[] = [
       label: "The revenue stream in your forecast should be titled:",
       placeholder: "Enter name for revenue stream",
       isRowDirection: true,
-      className: "flex items-center justify-between",
+      className: "flex items-center justify-between gap-1.5",
       inputClassName: "min-w-72 text-sm",
       hideMessage: true,
       labelClassName: "font-medium",
@@ -52,9 +52,15 @@ const blocks: Block[] = [
     type: FieldType.CURRENCY,
     props: {
       label: (
-        <div className="flex flex-row items-center">
-          <div>Estimate monthly unit sales:</div>
-          <ContentTooltip content="How you define a 'unit' depends on your product or service. For physical goods, enter the quantity you'll sell (e.g., shirts or computers). For services, units might represent consulting engagements, fixed-price contracts, or batches of materials, though these may be easier to enter as Contract Revenue or Recurring Charges. Choose what makes the most sense for your business." />
+        <div className="flex items-center flex-wrap">
+          Estimate monthly&nbsp;
+          <span className="flex items-center">
+            unit sales:
+            <ContentTooltip
+              className="ml-2"
+              content="How you define a 'unit' depends on your product or service. For physical goods, enter the quantity you'll sell (e.g., shirts or computers). For services, units might represent consulting engagements, fixed-price contracts, or batches of materials, though these may be easier to enter as Contract Revenue or Recurring Charges. Choose what makes the most sense for your business."
+            />
+          </span>
         </div>
       ),
       isRowDirection: true,
@@ -71,9 +77,15 @@ const blocks: Block[] = [
     type: FieldType.NUMBER,
     props: {
       label: (
-        <div className="flex flex-row items-center">
-          <div>Estimate monthly increase in sales:</div>
-          <ContentTooltip content="A monthly increase of 1%-5% is generally a healthy target for most businesses, helping to drive steady growth without overwhelming your operations." />
+        <div className="flex flex-wrap items-center">
+          Estimate monthly&nbsp;
+          <span className="flex items-center">
+            increase in sales:
+            <ContentTooltip
+              className="ml-2"
+              content="A monthly increase of 1%-5% is generally a healthy target for most businesses, helping to drive steady growth without overwhelming your operations."
+            />
+          </span>
         </div>
       ),
       isRowDirection: true,

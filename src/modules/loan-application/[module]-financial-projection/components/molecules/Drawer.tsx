@@ -56,12 +56,7 @@ function CardSection({ title, tooltipContent, children }: CardSectionProps) {
     <Card className="p-4 m-6 flex flex-col gap-y-4 shadow-none">
       <div className="flex flex-row items-center">
         <div className="font-semibold">{title}</div>
-        {tooltipContent ? (
-          <ContentTooltip
-            content={tooltipContent}
-            style={{ iconClassName: "w-4 h-4" }}
-          />
-        ) : null}
+        {tooltipContent ? <ContentTooltip content={tooltipContent} /> : null}
       </div>
       {children}
     </Card>
@@ -200,7 +195,7 @@ export function Drawer() {
       <div
         aria-labelledby="drawer-right-label"
         className={cn(
-          "h-screen overflow-y-auto w-96",
+          "h-screen overflow-y-auto w-96 overflow-x-hidden",
           "fixed top-0 right-0 z-40 transition-transform transform bg-white shadow-2xl",
           openDrawer.value ? "translate-x-0" : "translate-x-full"
         )}

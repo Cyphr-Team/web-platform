@@ -97,7 +97,7 @@ function RHFSelectInput<T extends FieldValues>(props: RHFSelectInputProps<T>) {
       render={({ field }) => (
         <FormItem
           className={cn(
-            isRowDirection && "flex items-center justify-between",
+            isRowDirection && "flex items-center justify-between gap-1.5",
             className
           )}
         >

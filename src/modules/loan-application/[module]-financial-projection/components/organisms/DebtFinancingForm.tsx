@@ -52,7 +52,11 @@ export function DebtFinancingForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.DEBT_FINANCING)
 
   return (
-    <div className="md:col-span-6 md:col-start-2 md:mx-0">
+    <FormLayout
+      hideTopNavigation
+      cardClassName="border-0 !p-0 md:p-0"
+      wrapperClassName="m-0 p-0"
+    >
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div
           className={cn(
@@ -64,7 +68,7 @@ export function DebtFinancingForm() {
           <DebtFinancingArrayForm />
         </div>
       </RHFProvider>
-    </div>
+    </FormLayout>
   )
 }
 
@@ -136,7 +140,9 @@ export function DebtFinancingArrayForm() {
 
       {!isReviewApplicationStep(step) && (
         <div className="flex flex-col gap-2xl">
-          <Button>Next</Button>
+          <Button disabled={!form.formState.isValid} type="submit">
+            Next
+          </Button>
         </div>
       )}
     </FormLayout>

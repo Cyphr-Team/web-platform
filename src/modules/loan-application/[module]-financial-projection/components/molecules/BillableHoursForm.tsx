@@ -26,7 +26,7 @@ const blocks: Block[] = [
       label: "The revenue stream in your forecast should be titled:",
       placeholder: "Enter name for revenue stream",
       isRowDirection: true,
-      className: "flex items-center justify-between",
+      className: "flex items-center justify-between gap-1.5",
       inputClassName: "min-w-72 text-sm",
       hideMessage: true,
       labelClassName: "font-medium"
@@ -65,9 +65,15 @@ const blocks: Block[] = [
     type: FieldType.NUMBER,
     props: {
       label: (
-        <div className="flex flex-row items-center">
-          <div>Estimate the monthly increase in new customers:</div>
-          <ContentTooltip content="A monthly increase of 1%-5% is generally a healthy target for most businesses, helping to drive steady growth without overwhelming your operations" />
+        <div className="flex flex-wrap items-center">
+          Estimate the monthly increase in&nbsp;
+          <span className="flex items-center">
+            new customers:
+            <ContentTooltip
+              className="ml-2"
+              content="A monthly increase of 1%-5% is generally a healthy target for most businesses, helping to drive steady growth without overwhelming your operations"
+            />
+          </span>
         </div>
       ),
       isRowDirection: true,

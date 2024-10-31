@@ -23,7 +23,7 @@ const blocks: Block[] = [
       label: "The revenue stream in your forecast should be titled:",
       placeholder: "Enter name for revenue stream",
       isRowDirection: true,
-      className: "flex items-center justify-between",
+      className: "flex items-center justify-between gap-1.5",
       inputClassName: "min-w-72 text-sm",
       hideMessage: true,
       labelClassName: "font-medium"

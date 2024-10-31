@@ -77,12 +77,12 @@ export function LoanReadyOwnerInformationForm({
 
   useEffect(() => {
     if (state) {
-      form.setValue("businessState", state, {
-        shouldValidate: true,
+      form.setValue("businessCity", "", {
         shouldDirty: true,
         shouldTouch: true
       })
-      form.setValue("businessCity", "", {
+      form.setValue("businessState", state, {
+        shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
       })

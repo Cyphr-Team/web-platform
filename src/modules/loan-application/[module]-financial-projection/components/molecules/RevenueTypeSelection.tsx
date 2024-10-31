@@ -89,7 +89,7 @@ function RevenueTypeItem(props: RevenueTypeItemProps) {
   return (
     <Button
       className={cn(
-        "col-span-1 flex text-wrap w-full justify-start flex-row gap-4 border border-dashed rounded-[8px] p-4 border-brand-primary-gray shadow-xl cursor-pointer hover:bg-transparent text-left",
+        "col-span-1 flex text-wrap w-full justify-start flex-row gap-4 border border-dashed rounded-[8px] py-3 pl-4 pr-2 border-brand-primary-gray shadow-xl cursor-pointer hover:bg-transparent text-left",
         selected
           ? "select-none hover:bg-[#DBDBDB] bg-[#DBDBDB] disabled:text-text-caption border-opacity-40"
           : null,
@@ -100,7 +100,7 @@ function RevenueTypeItem(props: RevenueTypeItemProps) {
       onClick={onClick}
     >
       <div className="min-w-8">{icon}</div>
-      <div className="flex flex-col justify-start h-full gap-md">
+      <div className="flex flex-col justify-center h-full gap-md">
         <div className={cn("font-semibold text-text-foreground")}>{title}</div>
         <div className={cn("text-text-caption font-normal")}>{subtitle}</div>
       </div>

@@ -125,7 +125,9 @@ function RHFCurrencyInput<T extends FieldValues>(
           <FormItem
             className={cn(
               "text-sm",
-              isRowDirection ? "flex items-center justify-between" : null,
+              isRowDirection
+                ? "flex items-center justify-between gap-1.5"
+                : null,
               className
             )}
           >

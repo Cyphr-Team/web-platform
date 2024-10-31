@@ -21,14 +21,16 @@ function ContentTooltip(props: ContentTooltipProps) {
 
   return (
     <Tooltip delayDuration={500}>
-      <TooltipTrigger
-        className={cn("ml-2 opacity-40 p-1", className)}
-        type="button"
-      >
-        <Info className={iconClassName} size={20} />
+      <TooltipTrigger className={cn("ml-2 p-0", className)} type="button">
+        <Info className={cn("text-text-senary", iconClassName)} size={16} />
       </TooltipTrigger>
-      <TooltipContent className="bg-black transform" sideOffset={0}>
-        <div className="text-white max-w-72 font-light">{content}</div>
+      <TooltipContent
+        className="bg-black transform py-2.5 border-none rounded-lg"
+        sideOffset={0}
+      >
+        <div className="text-white max-w-72 font-light text-sm text-center">
+          {content}
+        </div>
       </TooltipContent>
     </Tooltip>
   )

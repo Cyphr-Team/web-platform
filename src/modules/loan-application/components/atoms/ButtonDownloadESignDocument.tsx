@@ -1,11 +1,12 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { useDownloadESignDocument } from "../../hooks/useESign/useDownloadESignDocument"
 
-interface IButtonDownloadESignDocumentProps {
+interface ButtonDownloadESignDocumentProps {
   documentId?: string
   id?: string
   className?: string
   documentName?: string
+  variant?: "outline" | "ghost"
 }
 
 export function ButtonDownloadESignDocument({
@@ -13,8 +14,9 @@ export function ButtonDownloadESignDocument({
   className,
   documentName,
   id,
-  children
-}: React.PropsWithChildren<IButtonDownloadESignDocumentProps>) {
+  children,
+  variant = "ghost"
+}: React.PropsWithChildren<ButtonDownloadESignDocumentProps>) {
   const downloadMutate = useDownloadESignDocument()
   const handleDownloadESignDocument = async (
     e: React.MouseEvent<HTMLButtonElement>
@@ -34,7 +36,7 @@ export function ButtonDownloadESignDocument({
     <ButtonLoading
       className={className}
       isLoading={downloadMutate.isPending}
-      variant="ghost"
+      variant={variant}
       onClick={handleDownloadESignDocument}
     >
       {children}

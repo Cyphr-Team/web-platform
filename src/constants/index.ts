@@ -604,8 +604,15 @@ export const API_PATH = {
   }
 }
 
-export const phoneRegex =
-  /^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$/
+export const VALIDATION_PATTERNS = {
+  // Store regex patterns
+  WEBSITE_URL:
+    /^(?:https?:\/\/)?(?:(?:[\w-]+\.)+[\w-]{2,})(?:\/[\w-.*/?%&=]*)?$/,
+  LEGAL_STRING: /^[a-zA-Z0-9\s\-&',.]+$/,
+  PHONE_REGEX:
+    /^(?:\\+\\d{1,3}|0\\d{1,3}|00\\d{1,2})?(?:\\s?\\(\\d+\\))?(?:[-/\\s.]|\\d)+$/
+  // Add other patterns...
+} as const
 
 export const SSN_PATTERN = "000-00-0000"
 

@@ -73,8 +73,8 @@ function RHFMaskInput<T extends FieldValues>(props: RHFMaskInputProps<T>) {
         <FormItem
           className={cn(
             "text-sm",
-            className,
-            isRowDirection ? "flex items-center justify-between" : null
+            isRowDirection ? "flex items-center justify-between gap-1.5" : null,
+            className
           )}
         >
           {!!label && (

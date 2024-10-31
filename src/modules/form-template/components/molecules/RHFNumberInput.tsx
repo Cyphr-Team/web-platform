@@ -67,16 +67,17 @@ function RHFNumberInput<T extends FieldValues>(props: RHFNumberInputProps<T>) {
       control={control as Control<T>}
       name={name}
       render={({ field }) => {
-        const parsedValue = !isNaN(parseFloat(field.value))
+        const value = !isNaN(parseFloat(field.value))
           ? parseFloat(field.value)
           : field.value
-        const value = parsedValue !== 0 ? parsedValue : undefined
 
         return (
           <FormItem
             className={cn(
               className,
-              isRowDirection ? "flex justify-between items-center" : null
+              isRowDirection
+                ? "flex justify-between items-center gap-1.5"
+                : null
             )}
           >
             <FormLabel className={cn("text-text-secondary", labelClassName)}>

@@ -146,7 +146,8 @@ export function AutoCompleteCities<T extends FieldValues>(
                   }
                   value={
                     value
-                      ? options?.find((option) => option.name === value)?.name
+                      ? options?.find((option) => option.name === value)
+                          ?.name ?? "Select city"
                       : "Select city"
                   }
                 />

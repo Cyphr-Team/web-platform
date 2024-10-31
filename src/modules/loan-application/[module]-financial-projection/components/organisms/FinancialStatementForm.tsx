@@ -46,7 +46,9 @@ export function FinancialStatementForm({
       uploadedFiles: financialStatements?.uploadedFiles ?? [],
       hasDocument: financialStatements?.hasDocument,
       deletedFiles: financialStatements?.deletedFiles ?? []
-    }
+    },
+    mode: "onBlur",
+    reValidateMode: "onBlur"
   })
 
   const { handleSubmit, watch } = form
@@ -105,12 +107,12 @@ export function FinancialStatementForm({
         methods={form}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col gap-3xl overflow-auto">
+        <div className="flex flex-col gap-3xl">
           <div className="flex flex-col gap-y-4">
             <h4 className="text-lg font-semibold text-text-primary">
               Financial Statements
             </h4>
-            <p className="text-sm font-normal text-text-primary financial-projection text-muted-foreground">
+            <p className="text-sm font-normal financial-projection text-muted-foreground">
               Financial statements are essential for evaluating the overall
               health of your business. They provide a detailed view of your
               business’s profitability, stability, and cash flow and are usually

@@ -410,7 +410,7 @@ export const useSubmitLoanForm = (
          * - SBB_Subdomain has integrated PandaDoc so it requires documentId
          * - LoanReady_Subdomain has also integrated PandaDoc but the Financial Projection is overwritten the logic
          */
-        if (eSignData?.documentId && !isLoanReady()) {
+        if (eSignData?.documentId) {
           navigateLink = `${navigateLink}?documentId=${eSignData.documentId}`
         }
         navigate(navigateLink, {

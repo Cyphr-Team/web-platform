@@ -102,9 +102,9 @@ export function Component() {
     )
   }
 
-  if (documentId) return <LoanSubmissionWithDocument />
-
   if (isLoanReady()) return <LoanReadyLoanSubmission />
+
+  if (documentId) return <LoanSubmissionWithDocument />
 
   return (
     <div className="p-4 lg:p-8 h-full w-full flex">

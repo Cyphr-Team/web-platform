@@ -98,12 +98,12 @@ export function LoanReadyBusinessInformationForm({
 
   useEffect(() => {
     if (state) {
-      form.setValue(LoanReadyKYBFieldName.STATE, state, {
-        shouldValidate: true,
+      form.setValue(LoanReadyKYBFieldName.CITY, "", {
         shouldDirty: true,
         shouldTouch: true
       })
-      form.setValue(LoanReadyKYBFieldName.CITY, "", {
+      form.setValue(LoanReadyKYBFieldName.STATE, state, {
+        shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
       })

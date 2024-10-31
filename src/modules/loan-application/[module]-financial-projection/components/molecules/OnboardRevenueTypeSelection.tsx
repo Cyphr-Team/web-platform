@@ -66,11 +66,14 @@ function OnboardRevenueTypeSelection(props: OnboardRevenueTypeSelectionProps) {
     onAddItemToField
   ])
 
+  // At least one field is selected
+  const enabled = Object.values(counter).some((value) => value)
+
   return (
     <>
       <RevenueTypeSelection counter={counter} onAddItemToField={onToggle} />
       <div className="flex flex-col gap-2xl">
-        <Button type="button" onClick={handleAddItem}>
+        <Button disabled={!enabled} type="button" onClick={handleAddItem}>
           Next
         </Button>
       </div>

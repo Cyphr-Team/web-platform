@@ -3,20 +3,15 @@ import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { ArrowRight, CheckCircle, Download } from "lucide-react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
+import { ButtonDownloadESignDocument } from "@/modules/loan-application/components/atoms/ButtonDownloadESignDocument.tsx"
 
 export function LoanReadyLoanSubmission() {
   const navigate = useNavigate()
   const location = useLocation()
-
-  const handleGoToApplicationDetail = () => {
-    navigate(
-      APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(
-        location.state?.applicationId,
-        location.state?.loanProgramId
-      )
-    )
-  }
+  // Get e-sign document if have
+  const [searchParams] = useSearchParams()
+  const documentId = searchParams.get("documentId")
 
   const handleGoToFinancialApplicationDetail = () => {
     navigate(
@@ -68,18 +63,20 @@ export function LoanReadyLoanSubmission() {
           </div>
 
           <div className="flex gap-4 justify-center flex-wrap lg:flex-nowrap mx-20">
-            <Button
-              className={btnShadow}
-              variant="outline"
-              onClick={handleGoToFinancialApplicationDetail}
-            >
-              <div>
-                <Download {...btnIcon} />
-                <span className="ml-2">Download copy</span>
-              </div>
-            </Button>
+            {documentId ? (
+              <ButtonDownloadESignDocument
+                className={btnShadow}
+                documentId={documentId}
+                variant="outline"
+              >
+                <div>
+                  <Download {...btnIcon} />
+                  <span className="ml-2">Download copy</span>
+                </div>
+              </ButtonDownloadESignDocument>
+            ) : null}
 
-            <Button onClick={handleGoToApplicationDetail}>
+            <Button onClick={handleGoToFinancialApplicationDetail}>
               <div>
                 Review Submission
                 <ArrowRight {...btnIcon} />

@@ -1,6 +1,7 @@
 import { formatToISOString, validFormat } from "@/utils/date.utils"
 import * as z from "zod"
 import { compareDesc } from "date-fns"
+import { VALIDATION_PATTERNS } from "@/constants/index.ts"
 
 // $1,000,000,000,000 (1 trillion dollars) is a substantial amount to handle on our financial platform
 export const MAX_CURRENCY_AMOUNT = 1_000_000_000_000
@@ -20,6 +21,10 @@ interface NumberSchemaOptions {
   max?: number
   coerce?: boolean
   customErrors?: CustomErrorMessages
+}
+
+interface StringSchemaOptions {
+  fieldName?: string
 }
 
 export const createNumberSchema = (options: NumberSchemaOptions = {}) => {
@@ -70,4 +75,35 @@ export const createDateSchema = () => {
         message: "This is not a valid date"
       }
     )
+}
+
+export const createCommonStringSchema = (options: StringSchemaOptions = {}) => {
+  const { fieldName = "This field" } = options
+
+  return z
+    .string()
+    .min(1, `${fieldName} is required`)
+    .max(100, `${fieldName} must be less than 100 characters`)
+}
+
+export const createStringSchema = (options: StringSchemaOptions = {}) => {
+  const { fieldName = "This field" } = options
+
+  return createCommonStringSchema(options).regex(
+    VALIDATION_PATTERNS.LEGAL_STRING,
+    `${fieldName} must contain only letters, numbers, spaces, and the following characters: - & ' , .`
+  )
+}
+
+/**
+ * Note: we can use z.url(), but in some cases the http(s) is optional
+ * so using the regex patterns below is more appropriate for flexible URL validation.
+ */
+export const createWebsiteSchema = (options: StringSchemaOptions = {}) => {
+  const { fieldName = "Website" } = options
+
+  return createCommonStringSchema(options).regex(
+    VALIDATION_PATTERNS.WEBSITE_URL,
+    `${fieldName} must be a valid website URL (e.g. example.com)`
+  )
 }

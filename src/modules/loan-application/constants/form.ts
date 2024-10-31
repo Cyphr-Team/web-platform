@@ -10,6 +10,10 @@ import {
 import { type SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
 import { type DocumentUploadedResponse, type PlaidItemInfo } from "./type"
 import { LoanReadyKYCFieldName } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
+import {
+  createStringSchema,
+  createWebsiteSchema
+} from "@/constants/validate.ts"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -123,7 +127,9 @@ export const kansasCityOwnerFormSchema = ownerFormSchema.extend({
 
 export const businessFormSchema = z.object({
   id: z.string(),
-  businessLegalName: z.string().min(1, { message: "Name is required" }),
+  businessLegalName: createStringSchema({
+    fieldName: "Business legal name"
+  }),
   businessWebsite: z.string(),
   addressLine1: z.string().min(3, { message: "Address line 1 is required" }),
   addressLine2: z.string().optional(),
@@ -180,7 +186,9 @@ export const loanReadyBusinessFormSchema = businessFormSchema.extend({
   dba: z.string().optional(),
   businessStage: z.string().min(1, "Business stage is required"),
   businessDescription: z.string().min(1, "Business description is required"),
-  businessWebsite: z.string().min(1, "Business website is required")
+  businessWebsite: createWebsiteSchema({
+    fieldName: "Business website"
+  })
 })
 
 export type LoanReadyBusinessFormValue = z.infer<

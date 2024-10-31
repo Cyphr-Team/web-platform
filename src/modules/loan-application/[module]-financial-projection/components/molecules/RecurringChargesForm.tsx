@@ -30,7 +30,7 @@ const blocks: Block[] = [
       label: "The revenue stream in your forecast should be titled:",
       placeholder: "Enter name for revenue stream",
       isRowDirection: true,
-      className: "flex items-center justify-between",
+      className: "flex items-center justify-between gap-1.5",
       inputClassName: "min-w-72 text-sm",
       hideMessage: true,
       labelClassName: "font-medium"
@@ -96,9 +96,15 @@ const blocks: Block[] = [
     type: FieldType.NUMBER,
     props: {
       label: (
-        <div className="flex flex-row items-center justify-start">
-          <div>Percentage of customers you expect not to renew:</div>
-          <ContentTooltip content="A normal churn rate is around 10%, but depends on the business type." />
+        <div className="flex flex-wrap items-center">
+          Percentage of customers you expect&nbsp;
+          <span className="flex items-center">
+            not to renew:
+            <ContentTooltip
+              className="ml-2"
+              content="A normal churn rate is around 10%, but depends on the business type."
+            />
+          </span>
         </div>
       ),
       isRowDirection: true,
