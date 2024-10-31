@@ -29,7 +29,7 @@ export function Insights() {
       ? insights
         ? Object.entries(insights).length
         : 10
-      : 7
+      : 10
 
   return (
     <Card className="h-fit lg:sticky top-0 z-10 mb-4 flex-shrink-0">
@@ -86,12 +86,33 @@ export function Insights() {
           toolTipContent={insights?.watchlists?.message}
         />
         <InsightItem
-          noBorder
+          href={INSIGHT_TOC.industryClassification}
+          label={insights?.industry?.subLabel}
+          status={insights?.industry?.status}
+          title="Industry Classification"
+          toolTipContent={insights?.industry?.message}
+        />
+        <InsightItem
           href={INSIGHT_TOC.bankruptcies}
           label={insights?.bankruptcies?.subLabel}
           status={insights?.bankruptcies?.status}
           title="Bankruptcies"
           toolTipContent={insights?.bankruptcies?.message}
+        />
+        <InsightItem
+          href={INSIGHT_TOC.website}
+          label={insights?.website?.subLabel}
+          status={insights?.website?.status}
+          title="Website"
+          toolTipContent={insights?.website?.message}
+        />
+        <InsightItem
+          noBorder
+          href={INSIGHT_TOC.adverseMedia}
+          label={insights?.adverseMedia?.subLabel}
+          status={insights?.adverseMedia?.status}
+          title="Adverse Media"
+          toolTipContent={insights?.adverseMedia?.message}
         />
       </CardContent>
     </Card>

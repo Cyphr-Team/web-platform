@@ -7,6 +7,9 @@ import { People } from "@/modules/conference-demo/admin/components/molecules/kyb
 import { Secretary } from "@/modules/conference-demo/admin/components/molecules/kyb/Secretary"
 import { TinMatch } from "@/modules/conference-demo/admin/components/molecules/kyb/TinMatch"
 import { WatchLists } from "@/modules/conference-demo/admin/components/molecules/kyb/WatchLists"
+import { IndustryClassification } from "@/modules/conference-demo/admin/components/molecules/kyb/IndustryClassification"
+import { Website } from "@/modules/conference-demo/admin/components/molecules/kyb/Website.tsx"
+import { AdverseMedia } from "@/modules/conference-demo/admin/components/molecules/kyb/AdverseMedia.tsx"
 
 function BusinessVerification() {
   return (
@@ -21,7 +24,10 @@ function BusinessVerification() {
         <TinMatch />
         <People />
         <WatchLists />
+        <IndustryClassification />
         <Bankruptcy />
+        <Website />
+        <AdverseMedia />
       </div>
     </div>
   )

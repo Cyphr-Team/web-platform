@@ -5,11 +5,10 @@ import {
   type BusinessIndustryClassificationDetail,
   BusinessIndustryClassificationHighRiskCategory
 } from "@/modules/loan-application-management/constants/types/business.type"
-import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { type ColumnDef } from "@tanstack/react-table"
-import { MiddeskBadge } from "../../molecules/middesk/MiddeskBadge"
-import { MiddeskCard } from "../../molecules/middesk/MiddeskCard"
-import { DateHeader } from "./DateHeader"
+import { MiddeskBadge } from "@/modules/loan-application/components/molecules/middesk/MiddeskBadge"
+import { MiddeskCard } from "@/modules/loan-application/components/molecules/middesk/MiddeskCard"
+import { DateHeader } from "@/modules/conference-demo/admin/components/atoms/DateHeader"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { Info } from "lucide-react"
 import {
@@ -19,6 +18,35 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip.tsx"
 import { capitalizeFirstOnly, formatBoundaryValues } from "@/utils"
+import { MOCK_KYB_DETAIL } from "@/modules/conference-demo/admin/constants/data.ts"
+
+export function IndustryClassification() {
+  const industryClassification = MOCK_KYB_DETAIL.businessIndustryClassification
+  const badge = (
+    <MiddeskBadge
+      label={industryClassification?.subLabel}
+      status={MOCK_KYB_DETAIL.insights.industry?.status}
+    />
+  )
+  const headerTitle = <>Industry Classification {badge}</>
+
+  const content = (
+    <MiddeskTable
+      columns={columns}
+      data={industryClassification?.data ?? []}
+      tableClassName="table-fixed"
+    />
+  )
+
+  return (
+    <MiddeskCard
+      content={content}
+      headerRight={<DateHeader updatedAt={MOCK_KYB_DETAIL.updatedAt} />}
+      headerTitle={headerTitle}
+      id={INSIGHT_TOC.industryClassification}
+    />
+  )
+}
 
 const isHighRiskCategory = (category: string) => {
   return Object.values(BusinessIndustryClassificationHighRiskCategory).includes(
@@ -98,34 +126,3 @@ const columns: ColumnDef<BusinessIndustryClassificationDetail>[] = [
     }
   }
 ]
-
-export function IndustryClassification() {
-  const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
-
-  const industryClassification = loanKybDetail?.businessIndustryClassification
-  const badge = (
-    <MiddeskBadge
-      label={industryClassification?.subLabel}
-      status={loanKybDetail?.insights.industry?.status}
-    />
-  )
-  const headerTitle = <>Industry Classification {badge}</>
-
-  const content = (
-    <MiddeskTable
-      columns={columns}
-      data={industryClassification?.data ?? []}
-      isLoading={isLoading}
-      tableClassName="table-fixed"
-    />
-  )
-
-  return (
-    <MiddeskCard
-      content={content}
-      headerRight={<DateHeader />}
-      headerTitle={headerTitle}
-      id={INSIGHT_TOC.industryClassification}
-    />
-  )
-}

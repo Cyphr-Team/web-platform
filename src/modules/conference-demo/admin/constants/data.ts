@@ -1,6 +1,7 @@
 import { LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import {
   type ApplicationKybDetailResponse,
+  BusinessWebsiteFieldStatus,
   SourceStatus,
   TaskFieldStatus
 } from "@/modules/loan-application-management/constants/types/business.type"
@@ -241,11 +242,29 @@ export const MOCK_KYB_DETAIL: ApplicationKybDetailResponse = {
       status: TaskFieldStatus.SUCCESS,
       message: "No Watchlist hits were identified"
     },
+    industry: {
+      category: "industry",
+      subLabel: "No Hits",
+      status: TaskFieldStatus.SUCCESS,
+      message: "No Industry Classification hits were identified"
+    },
     bankruptcies: {
       category: "bankruptcies",
       subLabel: "None Found",
       status: TaskFieldStatus.SUCCESS,
       message: "The business has no bankruptcy filings"
+    },
+    website: {
+      category: "website",
+      subLabel: "Verified",
+      status: TaskFieldStatus.SUCCESS,
+      message: "Match identified to the submitted website"
+    },
+    adverseMedia: {
+      category: "adverseMedia",
+      subLabel: "Low Risk",
+      status: TaskFieldStatus.SUCCESS,
+      message: "No adverse media found"
     }
   },
   updatedAt: "2024-02-14T17:15:16.954Z",
@@ -416,16 +435,66 @@ export const MOCK_KYB_DETAIL: ApplicationKybDetailResponse = {
     data: []
   },
   businessIndustryClassification: {
-    data: []
+    subLabel: "No Hits",
+    data: [
+      {
+        classificationSystem: "MCC",
+        code: ["7998"],
+        category: "Aquariums",
+        confidence: 95
+      },
+      {
+        classificationSystem: "NAICS",
+        code: ["712130"],
+        category: "Zoos_and_botanical_gardens",
+        confidence: 81
+      },
+      {
+        classificationSystem: "SIC",
+        code: ["8422"],
+        category: "Zoos_and_botanical_gardens",
+        confidence: 81
+      }
+    ]
   },
   businessWebsite: {
+    subLabel: "Verified",
     data: {
-      phoneNumber: []
+      status: BusinessWebsiteFieldStatus.Online,
+      identifiedWebPresence: "N/A",
+      website: "https://www.cyphrai.com",
+      created: "2024-02-14T17:14:41.115628Z",
+      phoneNumber: [],
+      online: "2024-08-30T10:03:23.508662Z"
     }
   },
   businessAdverseMedia: {
     status: TaskFieldStatus.SUCCESS,
-    data: []
+    subLabel: "Low Risk",
+    data: [
+      {
+        screened: {
+          value: "TD Co., Ltd",
+          field: "Business NAME"
+        },
+        risk: {
+          subLabel: "Low Risk",
+          status: TaskFieldStatus.SUCCESS
+        },
+        mediaSources: "3"
+      },
+      {
+        screened: {
+          value: "John Smith",
+          field: "Person"
+        },
+        risk: {
+          subLabel: "Low Risk",
+          status: TaskFieldStatus.SUCCESS
+        },
+        mediaSources: "3"
+      }
+    ]
   }
 }
 
