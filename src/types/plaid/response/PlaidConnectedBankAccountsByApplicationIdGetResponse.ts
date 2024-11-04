@@ -1,17 +1,7 @@
-import { type IPlaidAccountProviderData } from "@/modules/loan-application/constants"
+import { type PlaidInstitutionProviderData } from "@/modules/loan-application/constants"
 
-interface IPlaidConnectedBankAccountsByApplicationIdGetResponse {
-  institutions: IPlaidConnectedBankAccountsInstitution[]
+interface PlaidConnectedBankAccountsByApplicationIdGetResponse {
+  institutions: PlaidInstitutionProviderData[]
 }
 
-interface IPlaidConnectedBankAccountsInstitution {
-  institutionId: string
-  institutionName: string
-  itemId: string
-  accounts: IPlaidAccountProviderData[]
-}
-
-export type {
-  IPlaidConnectedBankAccountsByApplicationIdGetResponse,
-  IPlaidConnectedBankAccountsInstitution
-}
+export type { PlaidConnectedBankAccountsByApplicationIdGetResponse }

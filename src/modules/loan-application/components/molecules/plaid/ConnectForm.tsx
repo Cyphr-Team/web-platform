@@ -3,7 +3,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Form, FormField } from "@/components/ui/form"
 import { SearchSelect } from "@/components/ui/search-select"
 import { Separator } from "@/components/ui/separator"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
@@ -30,7 +29,6 @@ import { type Option } from "@/types/common.type"
 import { toastError } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { type ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns"
 import { useEffect, useMemo, useState } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import { useUpdateEffect } from "react-use"
@@ -103,30 +101,7 @@ function PlaidForm() {
   )
   const selectedInstitution = watch("institution")
 
-  const {
-    institutions: detailInstitutions,
-    isConnecting,
-    linkTokenError
-  } = usePlaidContext()
-
-  const connectedAccounts: LoanApplicationBankAccount[] = useMemo(() => {
-    return detailInstitutions
-      .map((ins) =>
-        ins.accounts.map((account) => ({
-          institutionName: ins.institutionName,
-          bankAccountPk: account.id,
-          bankAccountName: account.name,
-          mask: account?.mask,
-          connectedOn: account.connectedOn
-            ? account.connectedOn
-            : format(new Date(), FORMAT_DATE_MM_DD_YYYY)
-        }))
-      )
-      .flat()
-      .sort((a, b) => {
-        return a.institutionName.localeCompare(b.institutionName)
-      })
-  }, [detailInstitutions])
+  const { connectedAccounts, isConnecting, linkTokenError } = usePlaidContext()
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {

@@ -147,7 +147,7 @@ export interface PlaidAction {
   state: Partial<PlaidState>
 }
 
-export interface IPlaidAccountProviderData {
+export interface PlaidAccountProviderData {
   id: string
   name: string
   mask?: string
@@ -157,10 +157,15 @@ export interface IPlaidAccountProviderData {
   connectedOn?: string
 }
 
-export interface IPlaidInstitutionProviderData {
+/**
+ * Note: From the version plaid/getConnectedBankAccountsV2
+ * The institutionName, itemId, and accounts are nullable
+ */
+export interface PlaidInstitutionProviderData {
   institutionId: string
-  institutionName: string
-  accounts: IPlaidAccountProviderData[]
+  institutionName?: string
+  itemId?: string
+  accounts?: PlaidAccountProviderData[]
 }
 
 export interface PlaidState {
@@ -190,7 +195,7 @@ export interface PlaidState {
     errorType: string
   }
   isConnecting: boolean
-  institutions: IPlaidInstitutionProviderData[]
+  institutions: PlaidInstitutionProviderData[]
 }
 
 export const REGEX_PATTERN = {

@@ -2,7 +2,6 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { format } from "date-fns"
 import debounce from "lodash.debounce"
 import { Link } from "lucide-react"
 import { type ColumnDef } from "@tanstack/react-table"
@@ -14,7 +13,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Form, FormField } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
 
 import {
@@ -33,31 +31,15 @@ import { MiddeskTable } from "@/modules/loan-application-management/components/t
 import { SearchSelect } from "@/components/ui/search-select.tsx"
 import { type Option } from "@/types/common.type.ts"
 import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
+import { transformToConnectedAccounts } from "@/modules/loan-application/hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
+import { type PlaidInstitutionProviderData } from "@/modules/loan-application/constants"
+import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type.ts"
 
 // Types
 interface Institution {
   institutionId: string
   name: string
   logo?: string
-}
-
-interface BankAccount {
-  id: string
-  name: string
-  connectedOn?: string
-}
-
-interface PlaidInstitutionProviderData {
-  institutionName: string
-  accounts: BankAccount[]
-}
-
-interface LoanApplicationBankAccount {
-  institutionName: string
-  bankAccountPk: string
-  bankAccountName: string
-  connectedOn: string
-  mask?: string
 }
 
 interface ConnectedAccountsHeaderProps {
@@ -165,17 +147,7 @@ function CashFlowVerificationForm({
   }, [finishStep])
 
   const connectedAccounts = useMemo((): LoanApplicationBankAccount[] => {
-    return state.institutions
-      .flatMap((ins) =>
-        ins.accounts.map((account) => ({
-          institutionName: ins.institutionName,
-          bankAccountPk: account.id,
-          bankAccountName: account.name,
-          connectedOn:
-            account.connectedOn || format(new Date(), FORMAT_DATE_MM_DD_YYYY)
-        }))
-      )
-      .sort((a, b) => a.institutionName.localeCompare(b.institutionName))
+    return transformToConnectedAccounts(state.institutions)
   }, [state.institutions])
 
   const canConnect = useMemo(

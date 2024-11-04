@@ -5,13 +5,12 @@ import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/useQue
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { LoanType, type MicroLoanProgramType } from "@/types/loan-program.type"
-import { type IPlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/types/plaid/response/PlaidConnectedBankAccountsByApplicationIdGetResponse"
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   formsConfigurationEnabled,
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
-import _ from "lodash"
+
 import {
   type PropsWithChildren,
   useCallback,
@@ -55,7 +54,7 @@ import { useQueryExecutionForm } from "../hooks/useQuery/useQueryExecutionForm"
 import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialForm"
 import { useQueryGetDocumentsByForm } from "../hooks/useQuery/useQueryGetDocuments"
 import { useQueryGetIdentityVerification } from "../hooks/useQuery/useQueryGetIdentityVerification"
-import { useQueryGetPlaidConnectedBankAccountsByApplicationId } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
+import { useGetPlaidConnectedInstitutions } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
 import { useQueryGetPlaidItemIds } from "../hooks/useQuery/useQueryGetPlaidItemIds"
 import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
 import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
@@ -108,7 +107,6 @@ type BRLoanApplicationDetailsContext<T> = {
   businessDocumentsFormData?: BusinessDocumentsResponse
   kycDocuments?: DocumentUploadedResponse[]
   financialDocuments?: DocumentUploadedResponse[]
-  plaidConnectedBankAccountsByApplicationId?: IPlaidConnectedBankAccountsByApplicationIdGetResponse
   /**
    * Financial projection
    * */
@@ -191,14 +189,17 @@ export function BRLoanApplicationDetailsProvider({
   /**
    * Return Plaid connected bank accounts by application
    */
-  const plaidConnectedAccountsQuery =
-    useQueryGetPlaidConnectedBankAccountsByApplicationId({
-      applicationId: loanApplicationId!,
+  const plaidConnectedInstitutionsQuery = useGetPlaidConnectedInstitutions({
+    request: {
+      applicationId: loanApplicationId
+    },
+    options: {
       enabled: isEnabledQuery(
         LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
         progress
       )
-    })
+    }
+  })
 
   const kybFormQuery = useQueryGetKybForm({
     applicationId: loanApplicationId!,
@@ -689,30 +690,15 @@ export function BRLoanApplicationDetailsProvider({
    * Handle retrieve list Plaid connected bank accounts
    */
   useEffect(() => {
-    if (plaidConnectedAccountsQuery.data?.data?.institutions) {
-      // group the same institution
-      const connectedBankAccountsGroup = _.groupBy(
-        plaidConnectedAccountsQuery.data?.data?.institutions,
-        "institutionId"
-      )
-
-      const institutions = Object.entries(connectedBankAccountsGroup).map(
-        ([insId, connectedBankAccounts]) => ({
-          institutionId: insId,
-          institutionName: connectedBankAccounts[0].institutionName,
-          itemId: connectedBankAccounts[0].itemId,
-          accounts: connectedBankAccounts.flatMap(({ accounts }) => accounts)
-        })
-      )
-
+    if (plaidConnectedInstitutionsQuery.data) {
       plaidDispatch({
         type: "SET_STATE",
         state: {
-          institutions: institutions ?? []
+          institutions: plaidConnectedInstitutionsQuery.data ?? []
         }
       })
     }
-  }, [plaidConnectedAccountsQuery.data?.data?.institutions, plaidDispatch])
+  }, [plaidConnectedInstitutionsQuery.data, plaidDispatch])
   /**
    * TODO: How to remove linkedItemIds
    */
@@ -852,8 +838,6 @@ export function BRLoanApplicationDetailsProvider({
       kycDocuments: kycDocuments.data,
       financialDocuments: financialDocuments.data,
       businessDocumentsFormData: businessDocumentsUploadedFormQuery.data,
-      plaidConnectedBankAccountsByApplicationId:
-        plaidConnectedAccountsQuery.data?.data,
       financialStatementData: financialStatementQuery?.data,
       isFetchingDetails:
         loanApplicationDetailsQuery.isLoading ||
@@ -871,7 +855,7 @@ export function BRLoanApplicationDetailsProvider({
         launchKCFitFormQuery.isLoading ||
         businessModelFormQuery.isLoading ||
         plaidItemIdsQuery.isLoading ||
-        plaidConnectedAccountsQuery.isLoading ||
+        plaidConnectedInstitutionsQuery.isLoading ||
         expensePeopleFormQuery.isLoading ||
         fpOperatingExpensesFormQuery.isLoading ||
         forecastingSetupQuery.isLoading ||
@@ -928,8 +912,7 @@ export function BRLoanApplicationDetailsProvider({
       financialDocuments.data,
       financialDocuments.isLoading,
       businessDocumentsUploadedFormQuery.data,
-      plaidConnectedAccountsQuery.data?.data,
-      plaidConnectedAccountsQuery.isLoading,
+      plaidConnectedInstitutionsQuery.isLoading,
       financialStatementQuery?.data,
       financialStatementQuery.isLoading,
       plaidItemIdsQuery.isLoading

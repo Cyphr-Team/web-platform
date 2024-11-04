@@ -8,7 +8,7 @@ import {
 } from "react-plaid-link"
 import { usePlaidContext } from "../providers"
 import { exchangePublicTokenForAccessToken } from "../services"
-import { type IPlaidInstitutionProviderData } from "../constants"
+import { type PlaidInstitutionProviderData } from "../constants"
 import { ErrorCode } from "@/utils/custom-error"
 
 /**
@@ -37,7 +37,7 @@ export const useLazyConnectPlaidEffect = () => {
         (ins) => ins.institutionId !== metadata.institution?.institution_id
       )
 
-      const newAddedInstitution: IPlaidInstitutionProviderData = {
+      const newAddedInstitution: PlaidInstitutionProviderData = {
         institutionId: metadata.institution.institution_id,
         institutionName: metadata.institution.name,
         accounts: metadata.accounts.map((account) => ({

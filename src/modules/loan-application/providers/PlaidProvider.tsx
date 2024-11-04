@@ -7,8 +7,7 @@ import {
 import { createContext } from "use-context-selector"
 import { type PlaidAction, type PlaidState } from "../constants"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
-import { format } from "date-fns"
+import { transformToConnectedAccounts } from "@/modules/loan-application/hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
 
 const initialState: PlaidState = {
   linkSuccess: false,
@@ -60,17 +59,7 @@ export function PlaidProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const connectedAccounts = useMemo((): LoanApplicationBankAccount[] => {
-    return state.institutions
-      .flatMap((ins) =>
-        ins.accounts.map((account) => ({
-          institutionName: ins.institutionName,
-          bankAccountPk: account.id,
-          bankAccountName: account.name,
-          connectedOn:
-            account.connectedOn || format(new Date(), FORMAT_DATE_MM_DD_YYYY)
-        }))
-      )
-      .sort((a, b) => a.institutionName.localeCompare(b.institutionName))
+    return transformToConnectedAccounts(state.institutions)
   }, [state.institutions])
 
   return (
