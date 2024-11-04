@@ -26,7 +26,7 @@ interface ArrayFormTemplateProps {
   subtitle: string
   description?: ReactNode
 
-  fieldName: RevenueType
+  fieldName: RevenueType | string
   dataName: string
 
   defaultEmptyObject: object
@@ -35,6 +35,8 @@ interface ArrayFormTemplateProps {
   blocks: Block[]
   addIcon: ReactNode
   btnAddText?: ReactNode
+
+  layout?: "revenue" | "assets"
 }
 
 function ArrayFormTemplate(props: ArrayFormTemplateProps) {
@@ -53,7 +55,8 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
         permanent and can't be undone.
       </span>
     ),
-    btnAddText = `Add ${lowerCase(dataName)}`
+    btnAddText = `Add ${lowerCase(dataName)}`,
+    layout = "revenue"
   } = props
 
   const confirmDeleteDialog = useBoolean(false)
@@ -102,28 +105,30 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
             {subtitle}
           </div>
         </div>
-        <CustomAlertDialog
-          actionClassName="bg-red-500 hover:bg-red-600 text-white"
-          cancelText="Cancel"
-          confirmText="Confirm"
-          description={description}
-          isOpen={confirmDeleteDialog.value}
-          title="Delete this revenue stream?"
-          onCanceled={(e) => {
-            e.stopPropagation()
-            confirmDeleteDialog.onFalse()
-          }}
-          onConfirmed={handleClearAll}
-        >
-          <Button
-            className="p-0 h-auto flex ml-auto mr-0"
-            type="button"
-            variant="ghost"
-            onClick={confirmDeleteDialog.onTrue}
+        {layout === "revenue" ? (
+          <CustomAlertDialog
+            actionClassName="bg-red-500 hover:bg-red-600 text-white"
+            cancelText="Cancel"
+            confirmText="Confirm"
+            description={description}
+            isOpen={confirmDeleteDialog.value}
+            title="Delete this revenue stream?"
+            onCanceled={(e) => {
+              e.stopPropagation()
+              confirmDeleteDialog.onFalse()
+            }}
+            onConfirmed={handleClearAll}
           >
-            <X className="w-4" />
-          </Button>
-        </CustomAlertDialog>
+            <Button
+              className="p-0 h-auto flex ml-auto mr-0"
+              type="button"
+              variant="ghost"
+              onClick={confirmDeleteDialog.onTrue}
+            >
+              <X className="w-4" />
+            </Button>
+          </CustomAlertDialog>
+        ) : null}
       </div>
       <Separator />
       <Accordion

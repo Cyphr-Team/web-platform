@@ -25,10 +25,87 @@ import {
   RECEIVABLE_DAYS_OPTIONS,
   USEFUL_LIFE_OPTIONS
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
-import EquityArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/EquityArrayFormTemplate"
 import { Plus } from "lucide-react"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
+import ArrayFormTemplate from "@/modules/loan-application/[module]-financial-projection/components/templates/ArrayFormTemplate.tsx"
+
+export function AssetsForm() {
+  const { assets, dispatchFormAction } = useLoanApplicationFormContext()
+
+  const form = useForm<AssetsFormValue>({
+    resolver: zodResolver(assetsFormSchema),
+    mode: "onBlur",
+    defaultValues: assets ?? FP_ASSETS_DEFAULT_VALUE
+  })
+
+  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
+
+  const onSubmit = (data: AssetsFormValue) => {
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.ASSETS,
+      state: data
+    })
+    finishCurrentStep()
+  }
+
+  const onAutoSave = () => {
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.ASSETS,
+      state: form.getValues()
+    })
+  }
+
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.ASSETS)
+
+  return (
+    <FormLayout title="Assets">
+      <h5 className="text-lg font-semibold">Assets</h5>
+      <Separator />
+
+      <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
+        <FormLayout hideTopNavigation>
+          <div>
+            <h5 className="text-lg font-semibold">Accounts Receivable</h5>
+            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
+              Along with your current cash, accounts receivable are current
+              assets - cash you expect to receive in the near future.
+            </h5>
+          </div>
+
+          <Separator />
+
+          {renderBlockComponents(CurrentAssetsFormBlocks)}
+        </FormLayout>
+
+        <ArrayFormTemplate
+          addIcon={<Plus />}
+          blocks={LongTermAssetsFormBlocks}
+          dataName="New Asset"
+          defaultEmptyObject={EMPTY_ASSET_ITEM}
+          fieldName="asset"
+          layout="assets"
+          subtitle={
+            " Long-term assets represent significant investments your business\n" +
+            " has made in resources like equipment, property, and vehicles that\n" +
+            " are expected to provide value over several years. These assets are\n" +
+            " crucial for supporting sustained growth and long-term strategic\n" +
+            " goals."
+          }
+          title="Long Term Assets"
+          onBlur={onAutoSave}
+        />
+        {!isReviewApplicationStep(step) && (
+          <div className="flex flex-col gap-2xl mt-4">
+            <Button disabled={!form.formState.isValid}>Next</Button>
+          </div>
+        )}
+      </RHFProvider>
+    </FormLayout>
+  )
+}
 
 const CurrentAssetsFormBlocks: Block[] = [
   {
@@ -107,86 +184,3 @@ const LongTermAssetsFormBlocks: Block[] = [
     }
   }
 ]
-
-export function AssetsForm() {
-  const { assets, dispatchFormAction } = useLoanApplicationFormContext()
-
-  const form = useForm<AssetsFormValue>({
-    resolver: zodResolver(assetsFormSchema),
-    mode: "onBlur",
-    defaultValues: assets ?? FP_ASSETS_DEFAULT_VALUE
-  })
-
-  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-
-  const onSubmit = (data: AssetsFormValue) => {
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.ASSETS,
-      state: data
-    })
-    finishCurrentStep()
-  }
-
-  const onAutoSave = () => {
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.ASSETS,
-      state: form.getValues()
-    })
-  }
-
-  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.ASSETS)
-
-  return (
-    <FormLayout title="Assets">
-      <h5 className="text-lg font-semibold">Assets</h5>
-      <Separator />
-
-      <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
-        <FormLayout hideTopNavigation>
-          <div>
-            <h5 className="text-lg font-semibold">Accounts Receivable</h5>
-            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
-              Along with your current cash, accounts receivable are current
-              assets - cash you expect to receive in the near future.
-            </h5>
-          </div>
-
-          <Separator />
-
-          {renderBlockComponents(CurrentAssetsFormBlocks)}
-        </FormLayout>
-        <FormLayout hideTopNavigation cardClassName="mt-5">
-          <div>
-            <h5 className="text-lg font-semibold">Long Term Assets</h5>
-            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
-              Long-term assets represent significant investments your business
-              has made in resources like equipment, property, and vehicles that
-              are expected to provide value over several years. These assets are
-              crucial for supporting sustained growth and long-term strategic
-              goals.
-            </h5>
-          </div>
-
-          <Separator />
-          <div className="flex flex-col gap-6 mb-5">
-            <EquityArrayFormTemplate
-              addIcon={<Plus />}
-              blocks={LongTermAssetsFormBlocks}
-              dataName="New Asset"
-              defaultEmptyObject={EMPTY_ASSET_ITEM}
-              fieldName={AssetsField.LONG_TERM_ASSETS}
-              onBlur={onAutoSave}
-            />
-          </div>
-        </FormLayout>
-        {!isReviewApplicationStep(step) && (
-          <div className="flex flex-col gap-2xl mt-4">
-            <Button disabled={!form.formState.isValid}>Next</Button>
-          </div>
-        )}
-      </RHFProvider>
-    </FormLayout>
-  )
-}
