@@ -230,7 +230,7 @@ function PlaidForm() {
       {!isReviewApplicationStep(step) && !!connectedAccounts.length ? (
         <FormSubmitButton
           className="w-full"
-          isDisabled={!connectedAccounts.length}
+          isDisabled={!connectedAccounts.length || isConnecting}
           onSubmit={handleNextClick}
         />
       ) : null}

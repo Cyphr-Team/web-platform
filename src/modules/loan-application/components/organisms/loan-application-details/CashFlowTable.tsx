@@ -38,10 +38,9 @@ const plaidColumns: ColumnDef<LoanApplicationBankAccount>[] = [
       return (
         <div className="min-w-0 ml-1">
           <Badge
-            border
             isDot
+            isDotBefore
             className="capitalize text-sm rounded-full font-medium py-1"
-            isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.PENDING

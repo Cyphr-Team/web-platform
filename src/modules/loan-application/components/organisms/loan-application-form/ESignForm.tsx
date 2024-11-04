@@ -27,6 +27,7 @@ import { ArrowRight, Loader2, RefreshCw } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useParams } from "react-router-dom"
+import { isLoanReady } from "@/utils/domain.utils.ts"
 
 export function ESignForm() {
   const { dispatchFormAction, eSignForm } = useLoanApplicationFormContext()
@@ -206,7 +207,9 @@ export function ESignForm() {
     )
   }
 
-  if (!acknowledgeDisclaimer)
+  if (!acknowledgeDisclaimer) {
+    const institutionName = isLoanReady() ? "Loan Ready" : "Small Business Bank"
+
     return (
       <Card
         className={cn(
@@ -219,8 +222,8 @@ export function ESignForm() {
         <p className="text-sm">
           By submitting this application, you acknowledge that it does not form
           a legal contract for the provision of financial services. You certify
-          that the information provided is accurate and understand that Small
-          Business Bank will rely on this accuracy during its evaluation.
+          that the information provided is accurate and understand that{" "}
+          {institutionName} will rely on this accuracy during its evaluation.
           Submission of this application—whether by mail, fax, or
           electronically—constitutes certification by the company and the
           guarantor(s) signing on its behalf that, to the best of their
@@ -229,6 +232,7 @@ export function ESignForm() {
         <Button onClick={acknowledgeTheDisclaimer}>Next</Button>
       </Card>
     )
+  }
 
   return (
     <div
