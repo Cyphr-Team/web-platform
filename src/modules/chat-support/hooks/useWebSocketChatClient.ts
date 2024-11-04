@@ -13,12 +13,46 @@ import { sanitizeMathMarkdown, toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { camelizeStringObject } from "@/utils/converter.utils"
 import { getSubdomain, getTopLevelDomain } from "@/utils/domain.utils"
-import { USER_INFO_LS_KEY } from "@/services/jwt.service"
+import { inMemoryJWTService, USER_INFO_LS_KEY } from "@/services/jwt.service"
+import { useLogout } from "@/hooks/useLogout"
 
 const CHAT_EVENT_ON_MESSAGE = "message"
+/**
+ * The message sent to the server to keep the connection alive.
+ */
+const REQUEST_KEEP_ALIVE = "__ping__"
+
+/**
+ * The message sent from the server to the client to keep the connection alive.
+ */
+const RESPONSE_KEEP_ALIVE = "__pong__"
+/**
+ * The interval in milliseconds to send a ping message to the server to keep the
+ * connection alive.
+ * The default websocket disconnection timeout is 60 seconds.
+ */
+const PING_INTERVAL = 30_000
+
+/**
+ * The time in milliseconds the client waits for the server to send a message
+ * after the client has sent a message. If no message is sent from the server
+ * within this time, the client will assume the connection is closed and
+ * reconnect.
+ */
+const STREAM_WAITING_TIME = 15_000
 
 const useWebSocketClient = () => {
   const client = useRef<WebSocket | null>(null)
+  const { signOut } = useLogout()
+
+  const ping = () => {
+    client.current?.send(
+      JSON.stringify({
+        session_id: sessionStorage.getItem(CHAT_SESSION_ID) ?? "",
+        message: REQUEST_KEEP_ALIVE
+      })
+    )
+  }
 
   const getTenantChatWebsocketUrl = useCallback(() => {
     try {
@@ -38,10 +72,11 @@ const useWebSocketClient = () => {
         description:
           "Failed to connect to the chat service. User is not logged in."
       })
+      signOut()
 
       return ""
     }
-  }, [])
+  }, [signOut])
 
   // Function to establish a WebSocket connection and handle reconnections
   const connect = useCallback(() => {
@@ -49,8 +84,10 @@ const useWebSocketClient = () => {
       client.current = new WebSocket(getTenantChatWebsocketUrl())
     }
 
+    // Set up ping-pong mechanism to keep the connection alive
     client.current.onopen = () => {
       //   console.log("WebSocket connection established")
+      setInterval(ping, PING_INTERVAL)
     }
 
     client.current.onmessage = (event: MessageEvent<string>) => {
@@ -94,8 +131,8 @@ const useWebSocketClient = () => {
    *
    * @returns {Promise<string>} A promise that resolves with the sanitized chat message.
    */
-  const streamChat = () => {
-    return new Promise<string>((resolve, reject) => {
+  const streamChat = async () => {
+    const messagePromise = new Promise<string>((resolve, reject) => {
       const result: string[] = []
       const isDisconnected = client.current == null
 
@@ -108,6 +145,7 @@ const useWebSocketClient = () => {
         try {
           const data = camelizeStringObject(event.data) as StreamChatMessage
 
+          if (data.message === RESPONSE_KEEP_ALIVE) return
           if (data.endOfMessage) {
             const rawMessage = result.join("")
             const message = sanitizeMathMarkdown(rawMessage)
@@ -142,6 +180,31 @@ const useWebSocketClient = () => {
 
       // Attach the message handler to the WebSocket
       client.current?.addEventListener(CHAT_EVENT_ON_MESSAGE, handleMessage)
+    })
+
+    // Stream the message
+    // If the message is not received within X seconds, get a new access token, then ask to send the message again
+    const timeoutIds: NodeJS.Timeout[] = []
+    const timeoutPromise = new Promise<string>((resolve, reject) => {
+      const timeoutId = setTimeout(async () => {
+        try {
+          await inMemoryJWTService.getNewAccessToken()
+          client.current?.close()
+          connect()
+          resolve(ChatMessageInfo.RECONNECT)
+        } catch {
+          reject(ChatMessageInfo.ERROR)
+        }
+      }, STREAM_WAITING_TIME)
+
+      timeoutIds.push(timeoutId)
+    })
+
+    const promises = [messagePromise, timeoutPromise]
+
+    return await Promise.race(promises).finally(() => {
+      // Stop the timeout timer when the promise is resolved/rejected
+      clearTimeout(timeoutIds[0])
     })
   }
 
