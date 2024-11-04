@@ -30,16 +30,25 @@ export const getSettings = (icon: string): Settings => ({
       <div
         style={{
           cursor: "pointer",
-          margin: 0,
+          display: "flex",
           fontSize: 20,
           fontWeight: "bold"
         }}
       >
+        <img
+          alt="avatar"
+          src={icon}
+          style={{
+            width: 30,
+            borderRadius: "50%",
+            backgroundColor: "#FFF",
+            marginRight: 12
+          }}
+        />
         Lenda
       </div>
     ),
-    showAvatar: true,
-    avatar: icon,
+    showAvatar: false,
     buttons: [Button.CLOSE_CHAT_BUTTON]
   },
   chatHistory: {
