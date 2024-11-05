@@ -2,14 +2,10 @@ import {
   type ILoanApplicationStep,
   LOAN_APPLICATION_STEPS
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import {
-  isEnabledBankAccountConnectionV2,
-  isEnablePlaidV2
-} from "@/utils/feature-flag.utils"
+import { isEnablePlaidV2 } from "@/utils/feature-flag.utils"
 import { forwardRef, useMemo } from "react"
 import { LoanRequest } from "../../../layouts/LoanRequest"
 import { BusinessInformationForm } from "../kyb/KybForm"
-import { CashFlowVerificationForm } from "../cash-flow/CashFlowVerificationForm"
 import { ConfirmationForm } from "../confirmation/ConfirmationForm"
 import { CurrentLoansForm } from "../current-loan/CurrentLoansForm"
 import { FinancialInformationForm } from "../financial-information/FinancialInformationForm"
@@ -74,11 +70,8 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isEnablePlaidV2()) {
           return <CashFlowVerificationFormWithPlaid />
         }
-        if (isEnabledBankAccountConnectionV2()) {
-          return <CashFlowVerificationFormV2 />
-        }
 
-        return <CashFlowVerificationForm />
+        return <CashFlowVerificationFormV2 />
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:

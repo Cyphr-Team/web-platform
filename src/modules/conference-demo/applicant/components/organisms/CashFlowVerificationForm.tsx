@@ -478,7 +478,7 @@ function InstitutionField({
 }) {
   return (
     <div className="flex justify-between items-center gap-4">
-      <p>Banking institution</p>
+      <p className="font-medium text-secondary-400">Banking institution</p>
       <FormField
         name="institution"
         render={({ field }) => (
@@ -506,7 +506,7 @@ function RoutingNumberField({
 }) {
   return (
     <div className="flex justify-between items-center gap-4">
-      <p>Routing number</p>
+      <p className="font-medium text-secondary-400">Routing number</p>
       <FormField
         name="routingNumber"
         render={({ field }) => (

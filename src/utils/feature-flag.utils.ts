@@ -23,10 +23,6 @@ function isEnableSubscriptionManagement() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.SUBSCRIPTION_MANAGEMENT)
 }
 
-function isEnabledBankAccountConnectionV2() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.BANK_ACCOUNT_CONNECTION_V2)
-}
-
 function formsConfigurationEnabled() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION)
 }
@@ -105,6 +101,7 @@ function isEnableMultiFactorAuthenticationForLaunchKC() {
 function isEnablePandaDocESign() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PANDA_DOC_ESIGN_V1)
 }
+
 /*
  * Allow applicants to submit applications without KYC step
  */
@@ -119,16 +116,6 @@ function isIgnoredCashFlowSubmission() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.IGNORE_CASHFLOW_SUBMISSION)
 }
 
-function isEnableExecutionFormNewMonthlyExpense() {
-  return checkEnabledFeatureFlag(
-    FEATURE_FLAGS.EXECUTION_FORM_NEW_MONTHLY_EXPENSE
-  )
-}
-
-function isEnableDummyLoanReadiness() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.DUMMY_LOAN_READINESS)
-}
-
 /*
  * Enable Google Map Input for address fields
  */
@@ -139,6 +126,7 @@ function isEnableGoogleMapInput() {
 function isEnableLoanProgramChangesManagement() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_PROGRAM_CHANGES_MANAGEMENT)
 }
+
 /*
  * Enable Lenda - Chat Support Bot
  */
@@ -155,7 +143,6 @@ export {
   isEnablePandaDocESign,
   isEnableDownloadCSVAndJSONSummary,
   isEnableSubscriptionManagement,
-  isEnabledBankAccountConnectionV2,
   isEnableKYBV2,
   formsConfigurationEnabled,
   isEnableKycReOrder,
@@ -165,8 +152,6 @@ export {
   isEnableMultiFactorAuthenticationForLaunchKC,
   isIgnoredKycSubmission,
   isIgnoredCashFlowSubmission,
-  isEnableExecutionFormNewMonthlyExpense,
-  isEnableDummyLoanReadiness,
   isEnableLoanProgramChangesManagement,
   isEnableGoogleMapInput,
   isEnableChatSupport

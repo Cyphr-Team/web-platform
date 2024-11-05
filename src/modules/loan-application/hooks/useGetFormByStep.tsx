@@ -5,14 +5,12 @@ import {
   isSbb
 } from "@/utils/domain.utils.ts"
 import {
-  isEnabledBankAccountConnectionV2,
   isEnablePandaDocESign,
   isEnablePlaidV2
 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 import { PreQualificationForm } from "../components/organisms/loan-application-form/pre-qualification/LaunchKCPreQualification"
 import { BusinessModelForm } from "../components/organisms/loan-application-form/business-model/BusinessModelForm"
-import { CashFlowVerificationForm } from "../components/organisms/loan-application-form/cash-flow/CashFlowVerificationForm"
 import { ConfirmationForm } from "../components/organisms/loan-application-form/confirmation/ConfirmationForm"
 import { CurrentLoansForm } from "../components/organisms/loan-application-form/current-loan/CurrentLoansForm"
 import { ESignForm } from "../components/organisms/loan-application-form/ESignForm"
@@ -111,11 +109,8 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isEnablePlaidV2()) {
           return <CashFlowVerificationFormWithPlaid />
         }
-        if (isEnabledBankAccountConnectionV2()) {
-          return <CashFlowVerificationFormV2 />
-        }
 
-        return <CashFlowVerificationForm />
+        return <CashFlowVerificationFormV2 />
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
