@@ -17,17 +17,14 @@ import {
 import { SBB_KYC_FIELD_NAMES } from "../kyc/sbb/const"
 import { Separator } from "@/components/ui/separator"
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
-import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { IdentityVerificationForm } from "../IdentityVerificationForm"
-import React from "react"
+import {
+  EXPORT_CLASS,
+  EXPORT_CONFIG
+} from "@/modules/loan-application/services/pdf-v2.service.ts"
+import { cn } from "@/lib/utils.ts"
 
-interface Props {
-  itemsRef: React.MutableRefObject<
-    Partial<Record<LOAN_APPLICATION_STEPS, HTMLDivElement | null>>
-  >
-}
-
-export function SbbReviewApplicationDetails({ itemsRef }: Props) {
+export function SbbReviewApplicationDetails() {
   const {
     sbbBusinessInformationPartOne,
     sbbBusinessInformationPartTwo,
@@ -318,118 +315,111 @@ export function SbbReviewApplicationDetails({ itemsRef }: Props) {
   return (
     <div id="loan-summary">
       <div className="flex flex-col gap-3xl" id="application-overview">
-        <div
-          ref={(e) => {
-            if (itemsRef.current && e)
-              itemsRef.current[LOAN_APPLICATION_STEPS.PRE_QUALIFICATION] = e
-          }}
-          className="space-y-3xl"
-        >
-          <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
-            <p className="text-4xl font-semibold ">Application Summary</p>
+        <div className="space-y-3xl">
+          <div className={cn(EXPORT_CLASS.FINANCIAL, "mt-lg px-4xl -mx-4xl")}>
+            <p className="text-4xl font-semibold">Application Summary</p>
           </div>
           <PreApplicationDisclosuresDetails />
         </div>
-        <div
-          ref={(e) => {
-            if (itemsRef.current && e)
-              itemsRef.current[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION] = e
-          }}
-          className="space-y-4xl"
-        >
+
+        <div className="space-y-4xl">
           <SbbKybFormDetails kybFormData={convertToKybFormResponse(data)} />
         </div>
-        <div
-          ref={(e) => {
-            if (itemsRef.current && e)
-              itemsRef.current[LOAN_APPLICATION_STEPS.OWNER_INFORMATION] = e
-          }}
-          className="space-y-4xl"
-        >
+
+        <div className="space-y-4xl">
           <SbbKycFormDetails
             kycFormData={convertToKycFormResponse(ownerInformationForm)}
           />
         </div>
-        <div
-          ref={(e) => {
-            if (itemsRef.current && e)
-              itemsRef.current[LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION] = e
-          }}
-          className="space-y-4xl"
-        >
-          <IdentityVerificationForm wrapperClassName="max-w-none" />
-          <Card className="p-8 flex flex-col gap-2xl shadow-none mx-auto">
-            <CardHeader className="!p-0">
-              <CardTitle className="font-semibold text-lg text-text-primary p-0">
-                Submitted Document
-              </CardTitle>
-            </CardHeader>
-            <Separator />
 
-            <CardContent className="overflow-auto !p-0 flex flex-col gap-4xl">
-              <AnswersTextDisplay
-                className="!flex-row justify-between"
-                label="Business EIN letter"
-                labelClassName="min-w-52"
-                value={
-                  get(businessEINLetter, "files[0].name") ??
-                  get(businessEINLetter, "uploadedFiles[0].originFileName")
-                }
-              />
+        <div className="space-y-4xl">
+          <div className="border rounded-lg">
+            <div className={EXPORT_CLASS.FINANCIAL}>
+              <IdentityVerificationForm wrapperClassName="max-w-none border-0" />
+            </div>
+          </div>
 
-              <AnswersTextDisplay
-                className="!flex-row justify-between"
-                label="Certificate of good standing"
-                labelClassName="min-w-52"
-                value={
-                  get(certificateOfGoodStanding, "files[0].name") ??
-                  get(
-                    certificateOfGoodStanding,
-                    "uploadedFiles[0].originFileName"
-                  )
-                }
-              />
+          <div className="border rounded-lg">
+            <Card
+              className={cn(
+                EXPORT_CLASS.FINANCIAL,
+                "p-8 flex flex-col gap-2xl shadow-none mx-auto border-0"
+              )}
+              data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
+            >
+              <CardHeader className="!p-0">
+                <CardTitle className="font-semibold text-lg text-text-primary p-0">
+                  Submitted Document
+                </CardTitle>
+              </CardHeader>
 
-              <AnswersTextDisplay
-                className="!flex-row justify-between"
-                label="Fictitious name certification"
-                labelClassName="min-w-52"
-                value={
-                  get(fictitiousNameCertification, "files[0].name") ??
-                  get(
-                    fictitiousNameCertification,
-                    "uploadedFiles[0].originFileName"
-                  )
-                }
-              />
+              <Separator />
 
-              <AnswersTextDisplay
-                className="!flex-row justify-between"
-                label="Articles of organization and operating agreement"
-                labelClassName="min-w-52"
-                value={
-                  get(
-                    articlesOfOrganizationAndOperatingAgreement,
-                    "files[0].name"
-                  ) ??
-                  get(
-                    articlesOfOrganizationAndOperatingAgreement,
-                    "uploadedFiles[0].originFileName"
-                  )
-                }
-              />
+              <CardContent className="overflow-auto !p-0 flex flex-col gap-4xl">
+                <AnswersTextDisplay
+                  className="!flex-row justify-between"
+                  label="Business EIN letter"
+                  labelClassName="min-w-52"
+                  value={
+                    get(businessEINLetter, "files[0].name") ??
+                    get(businessEINLetter, "uploadedFiles[0].originFileName")
+                  }
+                />
 
-              <AnswersTextDisplay
-                className="!flex-row justify-between"
-                label="By-laws"
-                labelClassName="min-w-52"
-                value={
-                  get(bylaws, "files[0].name") ??
-                  get(bylaws, "uploadedFiles[0].originFileName")
-                }
-              />
-            </CardContent>
-          </Card>
+                <AnswersTextDisplay
+                  className="!flex-row justify-between"
+                  label="Certificate of good standing"
+                  labelClassName="min-w-52"
+                  value={
+                    get(certificateOfGoodStanding, "files[0].name") ??
+                    get(
+                      certificateOfGoodStanding,
+                      "uploadedFiles[0].originFileName"
+                    )
+                  }
+                />
+
+                <AnswersTextDisplay
+                  className="!flex-row justify-between"
+                  label="Fictitious name certification"
+                  labelClassName="min-w-52"
+                  value={
+                    get(fictitiousNameCertification, "files[0].name") ??
+                    get(
+                      fictitiousNameCertification,
+                      "uploadedFiles[0].originFileName"
+                    )
+                  }
+                />
+
+                <AnswersTextDisplay
+                  className="!flex-row justify-between"
+                  label="Articles of organization and operating agreement"
+                  labelClassName="min-w-52"
+                  value={
+                    get(
+                      articlesOfOrganizationAndOperatingAgreement,
+                      "files[0].name"
+                    ) ??
+                    get(
+                      articlesOfOrganizationAndOperatingAgreement,
+                      "uploadedFiles[0].originFileName"
+                    )
+                  }
+                />
+
+                <AnswersTextDisplay
+                  className="!flex-row justify-between"
+                  label="By-laws"
+                  labelClassName="min-w-52"
+                  value={
+                    get(bylaws, "files[0].name") ??
+                    get(bylaws, "uploadedFiles[0].originFileName")
+                  }
+                />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>

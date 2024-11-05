@@ -1,6 +1,6 @@
 import {
-  LOAN_APPLICATION_STEPS,
   LOAN_APPLICATION_STEP_STATUS,
+  LOAN_APPLICATION_STEPS,
   STEP_MENU
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
@@ -8,7 +8,6 @@ import { useMemo, useRef, useState } from "react"
 
 import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
-import { getPDF } from "@/modules/loan-application/services/pdf.service"
 import { isSbb } from "@/utils/domain.utils"
 import {
   isEnableKycReOrder,
@@ -17,14 +16,19 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import {
-  type ReviewApplicationValue,
-  reviewApplicationSchema
+  reviewApplicationSchema,
+  type ReviewApplicationValue
 } from "../../../../constants/form"
 import { useLoanApplicationFormContext } from "../../../../providers"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { ReviewApplicationGroup } from "./ReviewApplicationGroup"
 import { SbbReviewApplicationDetails } from "./SbbReviewApplicationDetail"
 import { DisclaimerAndDisclosure } from "../disclaimer-disclosure/DisclaimerAndDisclosure"
+import {
+  EXPORT_CLASS,
+  generatePDF
+} from "@/modules/loan-application/services/pdf-v2.service.ts"
+import { toastError } from "@/utils"
 
 const REQUIRED_REVIEW = [
   {
@@ -79,18 +83,7 @@ export function ReviewApplication() {
 
   const onSubmit = async (data: ReviewApplicationValue) => {
     if (isSbb() && isEnablePandaDocESign()) {
-      try {
-        setIsGenPDF(true)
-        const { pdf, totalPage } = await getPDF(Object.values(itemsRef.current))
-
-        dispatchFormAction({
-          action: FORM_ACTION.SET_DATA,
-          key: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
-          state: { ...data, pdf, totalPage }
-        })
-      } finally {
-        setIsGenPDF(false)
-      }
+      await sbbOnSubmit(data)
     } else {
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
@@ -110,27 +103,41 @@ export function ReviewApplication() {
     }, 10)
   }
 
+  const sbbOnSubmit = async (data: ReviewApplicationValue) => {
+    try {
+      setIsGenPDF(true)
+      const filteredElement = [
+        ...document.getElementsByClassName(EXPORT_CLASS.FINANCIAL)
+      ] as HTMLDivElement[]
+
+      const { pdf } = await generatePDF(filteredElement)
+
+      dispatchFormAction({
+        action: FORM_ACTION.SET_DATA,
+        key: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
+        state: { ...data, pdf, totalPage: pdf.internal.pages.length - 1 }
+      })
+    } catch (error) {
+      toastError({
+        title: "Something went wrong!",
+        description: "Please try again later!"
+      })
+    } finally {
+      setIsGenPDF(false)
+    }
+  }
+
   return (
     <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6 mx-4">
       {isSbb() ? (
         <>
           <div className="col-span-8 md:mx-8 2xl:mx-auto max-w-6xl">
-            <SbbReviewApplicationDetails itemsRef={itemsRef} />
+            <SbbReviewApplicationDetails />
             <div className="hidden">
-              <div
-                ref={(e) => {
-                  if (itemsRef.current && e)
-                    itemsRef.current[
-                      LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
-                    ] = e
-                }}
-                id="disclaimer-and-disclosure"
-              >
-                <DisclaimerAndDisclosure
-                  defaultChecked
-                  wrapperClassName="max-w-none"
-                />
-              </div>
+              <DisclaimerAndDisclosure
+                defaultChecked
+                wrapperClassName="max-w-none"
+              />
             </div>
           </div>
           <div className="col-span-8 2xl:w-full md:mx-8 2xl:mx-auto max-w-6xl">

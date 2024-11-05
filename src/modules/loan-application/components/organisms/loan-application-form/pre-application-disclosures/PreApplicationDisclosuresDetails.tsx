@@ -1,11 +1,15 @@
-import { Card } from "@/components/ui/card"
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
+import { Separator } from "@/components/ui/separator.tsx"
+import { SbbReviewSectionLayout } from "@/modules/loan-application/components/organisms/loan-application-form/review-application/SbbReviewSectionLayout.tsx"
 
 export function PreApplicationDisclosuresDetails() {
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
+    <SbbReviewSectionLayout>
       <h5 className="text-lg font-semibold">Pre-Application Disclosures</h5>
-      <div className="flex flex-col gap-y-2xl gap-x-4xl">
+
+      <Separator />
+
+      <div className="flex flex-col gap-4xl">
         <AnswersTextDisplay
           key="patriotAct"
           className="!flex-row justify-between"
@@ -19,6 +23,6 @@ export function PreApplicationDisclosuresDetails() {
           value="Acknowledged receipt of the SBB’s Privacy Policy"
         />
       </div>
-    </Card>
+    </SbbReviewSectionLayout>
   )
 }

@@ -1,13 +1,15 @@
 import { type KYCInformationResponse } from "@/modules/loan-application/constants/type"
 import { SBB_KYC_FIELD_NAMES } from "./const"
-import { get } from "lodash"
+import { chunk, get } from "lodash"
 import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
 import { Separator } from "@/components/ui/separator"
-import { Card } from "@/components/ui/card"
 import { formatDate } from "@/utils/date.utils"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { ControlAuthorizationDetails } from "./ControlAuthorization"
 import { BeneficialOwnersDetails } from "./BeneficialOwners"
+import { SbbReviewSectionLayout } from "@/modules/loan-application/components/organisms/loan-application-form/review-application/SbbReviewSectionLayout.tsx"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service.ts"
+import { cn } from "@/lib/utils.ts"
 
 interface KycFormDetailsProps {
   kycFormData: KYCInformationResponse
@@ -98,20 +100,51 @@ export function SbbKycFormDetails({ kycFormData }: KycFormDetailsProps) {
   }
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
-      <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
-      <Separator />
-      {KYC_FORM_FIELDS.map((field) => renderField(field))}
-      <Separator />
+    <div className="border rounded-lg">
+      <SbbReviewSectionLayout className="border-0">
+        <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
+        <Separator />
+      </SbbReviewSectionLayout>
+
+      <div className="flex flex-col py-4xl pt-0">
+        {chunk(KYC_FORM_FIELDS, 3).map((chunkFields, parentIndex) => (
+          <div
+            key={parentIndex.toString()}
+            className={cn(
+              "flex flex-col gap-4xl px-4xl pb-4xl",
+              EXPORT_CLASS.FINANCIAL
+            )}
+          >
+            {chunkFields.map((field, key) => (
+              <div key={parentIndex.toString() + key.toString()}>
+                {renderField(field)}
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <div className="px-4xl">
+          <Separator />
+        </div>
+      </div>
+
       <BeneficialOwnersDetails data={kycFormData.metadata?.beneficialOwners} />
-      <Separator />
-      <ControlAuthorizationDetails
-        value={get(
-          kycFormData.metadata,
-          SBB_KYC_FIELD_NAMES.CONTROL_AUTHORIZATION,
-          ""
+
+      <div
+        className={cn(
+          "flex flex-col gap-4xl px-4xl pb-4xl",
+          EXPORT_CLASS.FINANCIAL
         )}
-      />
-    </Card>
+      >
+        <Separator />
+        <ControlAuthorizationDetails
+          value={get(
+            kycFormData.metadata,
+            SBB_KYC_FIELD_NAMES.CONTROL_AUTHORIZATION,
+            ""
+          )}
+        />
+      </div>
+    </div>
   )
 }

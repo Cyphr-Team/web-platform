@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card"
 import { type KYBInformationResponse } from "@/modules/loan-application/constants/type"
 import { Separator } from "@/components/ui/separator"
 import React from "react"
@@ -10,9 +9,12 @@ import {
   SBB_KYB_FORM_FIELDS
 } from "./const"
 
-import { get } from "lodash"
+import { chunk, get } from "lodash"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { toCurrency } from "@/utils"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service.ts"
+import { cn } from "@/lib/utils.ts"
+import { SbbReviewSectionLayout } from "@/modules/loan-application/components/organisms/loan-application-form/review-application/SbbReviewSectionLayout.tsx"
 
 enum FIELD_TYPE {
   TEXT = "text",
@@ -196,7 +198,7 @@ interface KybFormDetailsProps {
   ref?: React.Ref<HTMLDivElement>
 }
 
-export function SbbKybFormDetails({ kybFormData, ref }: KybFormDetailsProps) {
+export function SbbKybFormDetails({ kybFormData }: KybFormDetailsProps) {
   const renderField = (field: Field) => {
     if (field.field === SBB_KYB_FORM_FIELDS.IS_SUBSIDIARY) {
       return (
@@ -318,16 +320,29 @@ export function SbbKybFormDetails({ kybFormData, ref }: KybFormDetailsProps) {
   }
 
   return (
-    <Card
-      ref={ref}
-      className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none"
-    >
-      <h5 className="text-lg font-semibold">Business Information</h5>
-      <Separator />
+    <div className="border rounded-lg">
+      <SbbReviewSectionLayout className="border-0">
+        <h5 className="text-lg font-semibold">Business Information</h5>
+        <Separator />
+      </SbbReviewSectionLayout>
 
-      <div className="flex flex-col gap-4xl">
-        {FIELDS.map((field) => renderField(field))}
+      <div className="flex flex-col py-4xl pt-0">
+        {chunk(FIELDS, 3).map((chunkFields, parentIndex) => (
+          <div
+            key={parentIndex.toString()}
+            className={cn(
+              "flex flex-col gap-4xl px-4xl pb-4xl",
+              EXPORT_CLASS.FINANCIAL
+            )}
+          >
+            {chunkFields.map((field, key) => (
+              <div key={parentIndex.toString() + key.toString()}>
+                {renderField(field)}
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
-    </Card>
+    </div>
   )
 }

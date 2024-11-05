@@ -29,6 +29,8 @@ import {
   YES_NO_OPTIONS
 } from "@/modules/loan-application/constants/form"
 import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
+import { cn } from "@/lib/utils.ts"
+import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service.ts"
 
 export function BeneficialOwnersInput() {
   const { control, getValues, watch } = useFormContext<SbbKycFormValue>()
@@ -200,30 +202,35 @@ interface OwnerDetailsProps {
 
 export function BeneficialOwnersDetails({ data }: OwnerDetailsProps) {
   return (
-    <div className="flex flex-col gap-2xl">
-      <h5 className="text-sm font-semibold">Beneficial Owners </h5>
-      {data && data.length > 0 ? (
-        <>
-          <AnswersTextDisplay
-            className="!flex-row justify-between"
-            label="The business has other beneficial owners: "
-            value="Yes"
-          />
-          {data.map((owner, index) => (
-            <OwnerDetails
-              key={owner[SBB_KYC_FIELD_NAMES.EMAIL]}
-              index={index}
-              value={owner}
-            />
-          ))}
-        </>
-      ) : (
+    <div className="flex flex-col">
+      <div
+        className={cn(
+          "flex flex-col gap-4xl px-4xl pb-4xl",
+          EXPORT_CLASS.FINANCIAL
+        )}
+      >
+        <h5 className="text-sm font-semibold">Beneficial Owners </h5>
         <AnswersTextDisplay
           className="!flex-row justify-between"
           label="The business has other beneficial owners: "
-          value="No"
+          value={(data?.length ?? 0) > 0 ? "Yes" : "No"}
         />
-      )}
+      </div>
+
+      {(data?.length ?? 0) > 0
+        ? data?.map((owner, index) => (
+            <div
+              key={owner[SBB_KYC_FIELD_NAMES.EMAIL] + index.toString()}
+              className={cn(
+                "flex flex-col gap-4xl px-4xl pb-4xl",
+                EXPORT_CLASS.FINANCIAL
+              )}
+            >
+              <Separator />
+              <OwnerDetails index={index} value={owner} />
+            </div>
+          ))
+        : null}
     </div>
   )
 }
@@ -233,7 +240,7 @@ const OwnerDetails = memo(
     const { index, value } = props
 
     return (
-      <div key={index} className="flex flex-col gap-4 border-t pt-2">
+      <div key={index} className="flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <h5 className="font-semibold text-sm">Owner {index + 1}</h5>
         </div>
