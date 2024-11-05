@@ -110,6 +110,17 @@ export function ChatSupportButton() {
   const processThemeStep = async (params: Params) => {
     try {
       const data = params.userInput
+      const availableThemes = Object.values(themeOptionsMap).map(
+        (theme) => theme.title
+      )
+
+      // Check if the selected theme is available
+      // This is to prevent the user from free-form typing a theme that is not available
+      if (!availableThemes.includes(data)) {
+        params.goToPath(CHAT_STEPS.LOOP)
+
+        return
+      }
 
       await params.injectMessage(
         `Here are some common questions related to <b>${data}</b>:`

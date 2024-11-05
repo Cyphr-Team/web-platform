@@ -39,8 +39,8 @@ export const getSettings = (icon: string): Settings => ({
       </div>
     ),
     showAvatar: true,
-    avatar: icon,
-    buttons: [Button.CLOSE_CHAT_BUTTON]
+    buttons: [Button.CLOSE_CHAT_BUTTON],
+    avatar: icon
   },
   chatHistory: {
     disabled: false,

@@ -225,3 +225,14 @@ div.rcb-send-button:hover {
   background-color: #071013 !important;
   opacity: 0.8;
 }
+.rcb-toggle-icon {
+  background-size: 70.7%;
+  object-fit: cover;
+}
+.rcb-bot-avatar {
+  background-size: 70.7%;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  object-fit: cover;
+  background-color: #FFF;
+}

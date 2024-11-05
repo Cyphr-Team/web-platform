@@ -160,8 +160,7 @@ export class FlowBuilder {
       message,
       path,
       options: themes,
-      component,
-      chatDisabled: true
+      component
     }
 
     return this
@@ -177,8 +176,7 @@ export class FlowBuilder {
       message,
       path,
       options: questions,
-      component,
-      chatDisabled: true
+      component
     }
 
     return this
