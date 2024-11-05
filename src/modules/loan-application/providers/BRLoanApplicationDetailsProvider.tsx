@@ -11,7 +11,7 @@ import {
   formsConfigurationEnabled,
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
-import _ from "lodash"
+import _, { get } from "lodash"
 import {
   type PropsWithChildren,
   useCallback,
@@ -83,6 +83,7 @@ import { isEnabledQuery } from "@/utils"
 import { type SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatForecastSetupResult } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
 import { type FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
+import { useQueryLoanRequestForm } from "../hooks/loanrequest/useQueryLoanRequest"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -153,6 +154,15 @@ export function BRLoanApplicationDetailsProvider({
     loanApplicationId!,
     loanProgramQuery.data?.type ?? LoanType.MICRO
   )
+
+  /**
+   * Loan Request V2
+   */
+  const loanRequestDetailQuery = useQueryLoanRequestForm({
+    applicationId: loanApplicationId!,
+    formTypes: [FORM_TYPE.LOAN_REQUEST]
+  })
+
   const loanProgramInfo = useGetLoanProgramDetail(
     loanProgramQuery.data?.type ?? "",
     loanProgramQuery.data?.name
@@ -501,6 +511,40 @@ export function BRLoanApplicationDetailsProvider({
     isSbbTenant,
     loanApplicationDetailsQuery.data,
     setupPreApplicationDisclosures
+  ])
+
+  // Loan Request Form V2
+  useEffect(() => {
+    if (loanRequestDetailQuery.data && isInitialized && isQualified) {
+      changeDataAndProgress(
+        {
+          // Loan Request has only one form
+          id: loanRequestDetailQuery.data.forms[0].id,
+          applicationId: loanRequestDetailQuery.data.applicationId,
+          loanAmount: get(
+            loanRequestDetailQuery.data.forms[0].metadata,
+            "loanAmount",
+            0
+          ) as number,
+          loanTermInMonth: get(
+            loanRequestDetailQuery.data.forms[0].metadata,
+            "loanTermInMonth",
+            1
+          ) as number,
+          proposeUseOfLoan: get(
+            loanRequestDetailQuery.data.forms[0].metadata,
+            "proposeUseOfLoan",
+            ""
+          ) as string
+        },
+        LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    isInitialized,
+    isQualified,
+    loanRequestDetailQuery.data
   ])
 
   // Product Service Form

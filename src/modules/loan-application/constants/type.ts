@@ -10,6 +10,30 @@ import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import { type BaseLoanProgramType } from "@/types/loan-program.type"
 import { type SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
+import type { FORM_TYPE } from "../models/LoanApplicationStep/type"
+
+export interface LoanRequestV2SubmitRequest {
+  applicationId: string
+  formType: FORM_TYPE
+  metadata?: Record<string, unknown>
+}
+
+export interface LoanRequestV2UpdateRequest {
+  formId: string
+  metadata?: Record<string, unknown>
+}
+
+export interface LoanRequestV2 {
+  id: string
+  applicationId: string
+  type: FORM_TYPE
+  metadata?: Record<string, unknown>
+}
+
+export interface LoanRequestV2Response {
+  applicationId: string
+  forms: LoanRequestV2[]
+}
 
 export interface KYBInformation {
   id: string | null

@@ -15,6 +15,7 @@ import {
   launchKCOwnerFormSchema,
   loanReadyBusinessFormSchema,
   loanReadyOwnerFormSchema,
+  type LoanRequestFormValue,
   ownerFormSchema
 } from "../constants/form"
 import {
@@ -324,5 +325,12 @@ const getSbbKybMetadata = (rawData: KYBInformationResponse) => {
       ...sbbKybFormPartTwoValues,
       id: rawData.id
     } as SbbKybFormPartTwoValue
+  }
+}
+
+export const mapLoanRequestDataToV2 = (rawData: LoanRequestFormValue) => {
+  return {
+    loanAmount: rawData?.loanAmount,
+    proposeUseOfLoan: rawData?.proposeUseOfLoan
   }
 }

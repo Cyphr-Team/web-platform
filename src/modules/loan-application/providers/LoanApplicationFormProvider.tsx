@@ -7,31 +7,32 @@ import {
 import { useUpdateEffect } from "react-use"
 import { createContext } from "use-context-selector"
 import { useLoanApplicationProgressContext, usePlaidContext } from "."
-import {
-  type BusinessFormValue,
-  type BusinessModelFormValue,
-  type ConfirmationFormValue,
-  type CurrentLoansFormValue,
-  type DisclaimerAndDisclosureFormValue,
-  type DocumentUploadsFormValue,
-  type ESignFormValue,
-  type ExecutionFormValue,
-  type FinancialFormValue,
-  type IBusinessFormValue,
-  type ICurrentLoanFormValue,
-  type IdentityVerificationValue,
-  type IOwnerFormValue,
-  type LaunchKCBusinessFormValue,
-  type LaunchKCFitFormValue,
-  type LaunchKCOwnerFormValue,
-  type LoanReadyBusinessFormValue,
-  type LoanRequestFormValue,
-  type MarketOpportunityFormValue,
-  type OperatingExpensesFormValue,
-  type OwnerFormValue,
-  type PreQualificationFormValue,
-  type ProductServiceFormValue,
-  type ReviewApplicationValue
+import type {
+  ILoanRequestFormValue,
+  BusinessFormValue,
+  BusinessModelFormValue,
+  ConfirmationFormValue,
+  CurrentLoansFormValue,
+  DisclaimerAndDisclosureFormValue,
+  DocumentUploadsFormValue,
+  ESignFormValue,
+  ExecutionFormValue,
+  FinancialFormValue,
+  IBusinessFormValue,
+  ICurrentLoanFormValue,
+  IdentityVerificationValue,
+  IOwnerFormValue,
+  LaunchKCBusinessFormValue,
+  LaunchKCFitFormValue,
+  LaunchKCOwnerFormValue,
+  LoanReadyBusinessFormValue,
+  LoanRequestFormValue,
+  MarketOpportunityFormValue,
+  OperatingExpensesFormValue,
+  OwnerFormValue,
+  PreQualificationFormValue,
+  ProductServiceFormValue,
+  ReviewApplicationValue
 } from "../constants/form"
 import { type DocumentUploadedResponse } from "../constants/type"
 import { useSubmitLoanForm } from "../services/submit-form.strategy"
@@ -61,6 +62,7 @@ import { type FinancialStatementFormValue } from "@/modules/loan-application/[mo
 
 export interface LoanApplicationFormState {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
+  [LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2]: ILoanRequestFormValue
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]: IBusinessFormValue
   [LOAN_APPLICATION_STEPS.OWNER_INFORMATION]: IOwnerFormValue
   [LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION]: FinancialFormValue
@@ -160,6 +162,8 @@ export type FormStateType =
   | ExpenseTaxRateFormValue
   | DebtFinancingFormValue
   | LoanReadyBusinessFormValue
+  // Form V2
+  | ILoanRequestFormValue
 
 export interface Action {
   action: FORM_ACTION
@@ -265,6 +269,7 @@ export function LoanApplicationFormProvider(props: PropsWithChildren) {
     dispatchFormAction,
     progress,
     state[LOAN_APPLICATION_STEPS.LOAN_REQUEST],
+    state[LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2],
     state[LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION],
     state[LOAN_APPLICATION_STEPS.OWNER_INFORMATION],
     state[LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION],
