@@ -8,7 +8,7 @@ import { CollapsibleArrayFieldTemplate } from "@/modules/loan-application/[modul
 import { TooltipProvider } from "@radix-ui/react-tooltip"
 import { lowerCase } from "lodash"
 import { TrashIcon } from "lucide-react"
-import { memo, type ReactNode, useCallback } from "react"
+import { memo, type ReactNode, useCallback, useState, useMemo } from "react"
 import { useFieldArray, useFormContext } from "react-hook-form"
 
 interface EquityArrayFormTemplateProps {
@@ -22,6 +22,11 @@ interface EquityArrayFormTemplateProps {
   addIcon: ReactNode
 }
 
+interface ItemState {
+  id: string
+  active: boolean
+}
+
 function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
   const { fieldName, defaultEmptyObject, dataName, onBlur, blocks, addIcon } =
     props
@@ -30,6 +35,7 @@ function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
     control,
     name: fieldName
   })
+  const [activeItems, setActiveItems] = useState<ItemState[]>([])
 
   const handleAddItem = () => {
     append(defaultEmptyObject)
@@ -43,13 +49,43 @@ function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
     [onBlur, remove]
   )
 
+  const handleSetActiveItem = useCallback((items: string[]) => {
+    setActiveItems((prevState) =>
+      prevState.map((item) => ({
+        id: item.id,
+        active: items.some((target) => target === item.id)
+      }))
+    )
+  }, [])
+
+  const getActiveItemIds = useMemo(() => {
+    return activeItems.filter((item) => item.active).map((item) => item.id)
+  }, [activeItems])
+
   return (
     <>
-      <Accordion className="flex flex-col gap-xl p-0" type="multiple">
+      <Accordion
+        className="flex flex-col gap-xl"
+        type="multiple"
+        value={getActiveItemIds}
+        onValueChange={handleSetActiveItem}
+      >
         {fields.map((source, index) => {
           const label = watch(`${fieldName}.${index}.name`)
             ? watch(`${fieldName}.${index}.name`)
             : "Untitled"
+
+          const existed = activeItems.some((item) => item.id === source.id)
+
+          if (!existed) {
+            setActiveItems((prevState) => [
+              ...prevState,
+              {
+                active: true,
+                id: source.id
+              }
+            ])
+          }
 
           return (
             <CollapsibleArrayFieldTemplate
