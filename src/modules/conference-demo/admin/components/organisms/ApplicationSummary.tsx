@@ -1,6 +1,8 @@
 import { Card } from "@/components/ui/card"
 import { ApplicationOverview } from "./ApplicationOverview"
 import FormReview from "@/modules/conference-demo/admin/components/molecules/FormReview.tsx"
+import { MOCK_CONNECTED_BANK_ACCOUNTS } from "@/modules/conference-demo/admin/constants/data.ts"
+import { BankAccountReport } from "@/modules/conference-demo/admin/components/molecules"
 
 export function ApplicationSummary() {
   return (
@@ -20,6 +22,12 @@ export function ApplicationSummary() {
           <div className="space-y-3xl flex flex-col">
             <KycFormDetail />
           </div>
+        </div>
+        <div>
+          <p className="text-4xl font-semibold mb-6">Connected Bank Accounts</p>
+          {MOCK_CONNECTED_BANK_ACCOUNTS?.map((data, index) => (
+            <BankAccountReport key={index} data={data} />
+          ))}
         </div>
       </Card>
     </div>

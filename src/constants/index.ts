@@ -169,10 +169,9 @@ export const APP_PATH = {
       applications: "/admin/applications",
       business: "/admin/business",
       identity: "/admin/kyc",
-      cashflow: "/admin/cashflow",
       documents: "/admin/documents",
       documentDetail: "/admin/document-detail",
-      loanSummary: "/admin/loan-summary",
+      applicationSummary: "/admin/application-summary",
       loanReadiness: "/admin/loan-readiness",
       financialProjection: {
         index: "/admin/financial-projection",

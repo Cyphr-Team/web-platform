@@ -6,8 +6,7 @@ export enum ApplicationMenuName {
   business = "Business Verification",
   identity = "Identity Verification",
   document = "Documentation",
-  cashflow = "Cash Flow",
-  applicationSummary = "Loan Summary",
+  applicationSummary = "Application Summary",
   loanReadiness = "Loan Readiness",
   finacialProjection = "Financial Projections"
 }
@@ -26,12 +25,8 @@ export const APPLICATION_MENU = [
     href: APP_PATH.CONFERENCE_DEMO.admin.documents
   },
   {
-    name: ApplicationMenuName.cashflow,
-    href: APP_PATH.CONFERENCE_DEMO.admin.cashflow
-  },
-  {
     name: ApplicationMenuName.applicationSummary,
-    href: APP_PATH.CONFERENCE_DEMO.admin.loanSummary
+    href: APP_PATH.CONFERENCE_DEMO.admin.applicationSummary
   },
   {
     name: ApplicationMenuName.finacialProjection,

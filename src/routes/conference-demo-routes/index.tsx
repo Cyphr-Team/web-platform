@@ -10,7 +10,6 @@ import ApplicantLoanReadinessPage from "@/modules/conference-demo/applicant/comp
 import ApplicationDetailPage from "@/modules/conference-demo/applicant/components/pages/ApplicationDetailPage.tsx"
 import { ApplicationSummaryPage } from "../../modules/conference-demo/admin/components/pages/ApplicationSummaryPage"
 import { BusinessVerificationPage } from "../../modules/conference-demo/admin/components/pages/BusinessVerificationPage"
-import { CashFlowPage } from "../../modules/conference-demo/admin/components/pages/CashFlowPage"
 import { DocumentationPage } from "../../modules/conference-demo/admin/components/pages/DocumentationPage"
 import { IdentityVerificationPage } from "../../modules/conference-demo/admin/components/pages/IdentityVerificationPage"
 import ConferenceDemoApplicationListLayout from "../../modules/conference-demo/applicant/components/layouts/ConferenceDemoApplicationListLayout"
@@ -193,13 +192,8 @@ export const conferenceDemoRoutes = (
       />
       <Route
         index
-        element={<CashFlowPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.cashflow}
-      />
-      <Route
-        index
         element={<ApplicationSummaryPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.loanSummary}
+        path={APP_PATH.CONFERENCE_DEMO.admin.applicationSummary}
       />
       <Route
         index
