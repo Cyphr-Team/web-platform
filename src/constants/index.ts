@@ -350,6 +350,13 @@ export const API_PATH = {
       history: "api/ai/chat/chat-histories-by-session-id",
       listSessions: "api/ai/chat/list-sessions",
       endSession: "api/ai/chat/end"
+    },
+    formV2: {
+      loanRequest: {
+        index: "api/form/v2/loan-request/by-application-id",
+        submit: "api/form/v2/loan-request/submit",
+        update: "api/form/v2/loan-request/update"
+      }
     }
   },
   plaid: {

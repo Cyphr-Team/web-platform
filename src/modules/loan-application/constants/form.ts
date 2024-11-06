@@ -14,6 +14,11 @@ import {
   createStringSchema,
   createWebsiteSchema
 } from "@/constants/validate.ts"
+import type {
+  DefaultLoanRequestFormValue,
+  KansasLoanRequestFormValue,
+  KccLoanRequestFormValue
+} from "./form[v2]"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -597,6 +602,10 @@ export type LaunchKCFitFormValue = z.infer<typeof launchKcFitFormSchema>
  * I use polymorphism approach for multiple schema form value.
  * In Typescript, I use type intersection to easily handle missing or addition field
  * */
+export type ILoanRequestFormValue = DefaultLoanRequestFormValue &
+  KccLoanRequestFormValue &
+  KansasLoanRequestFormValue
+
 export type IBusinessFormValue = BusinessFormValue &
   LaunchKCBusinessFormValue &
   SbbKybFormPartOneValue &

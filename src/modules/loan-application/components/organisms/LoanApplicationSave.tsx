@@ -10,6 +10,7 @@ import {
   LOAN_APPLICATION_STEPS
 } from "../../models/LoanApplicationStep/type"
 import { isSbb } from "@/utils/domain.utils"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils"
 
 export function LoanApplicationSave() {
   const { submitLoanForm, isSubmitting, loanRequest } =
@@ -76,8 +77,14 @@ export function LoanApplicationSave() {
     progress.find((val) => val.step === LOAN_APPLICATION_STEPS.LOAN_REQUEST) ||
     progress[0] // Default to first step if not found loan request step
 
+  const loanRequestV2Step = progress.find(
+    (val) => val.step === LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2
+  )
+
   const isLoanRequestStepComplete =
-    loanRequestStep?.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE
+    loanRequestStep?.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE ||
+    (isEnableFormV2() &&
+      loanRequestV2Step?.status === LOAN_APPLICATION_STEP_STATUS.COMPLETE)
 
   /**
    * If the loan request form is complete, they can save and close the application
@@ -86,7 +93,6 @@ export function LoanApplicationSave() {
    * If they are editing the application (already have applicationId), they can save and close the application
    * because they have already completed the loan request form
    */
-
   const isAbleToSaveApplication =
     loanRequest?.applicationId || // If they are editing the application
     (isSbbTenant

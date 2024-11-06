@@ -24,5 +24,6 @@ export enum FEATURE_FLAGS {
   /**
    * Support varies auth method to get more user
    */
-  PLAID_V2 = "PLAID_V2"
+  PLAID_V2 = "PLAID_V2",
+  FORM_V2 = "FORM_V2"
 }

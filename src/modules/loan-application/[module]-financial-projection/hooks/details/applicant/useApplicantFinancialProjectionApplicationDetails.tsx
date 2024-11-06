@@ -14,6 +14,7 @@ import {
   type LoanReadyOwnerFormValue
 } from "@/modules/loan-application/constants/form"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
+
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
 import { useQueryGetKybForm } from "@/modules/loan-application/hooks/useQuery/useQueryKybForm"
 import { useQueryGetKycForm } from "@/modules/loan-application/hooks/useQuery/useQueryKycForm"
@@ -38,6 +39,7 @@ export function useApplicantFinancialProjectionApplicationDetails() {
     loanApplicationId!,
     LoanType.MICRO
   )
+
   const kybFormQuery = useQueryGetKybForm({
     applicationId: loanApplicationId!
   })

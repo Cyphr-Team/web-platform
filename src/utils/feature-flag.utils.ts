@@ -150,6 +150,13 @@ function isEnablePlaidV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PLAID_V2)
 }
 
+/**
+ * Enable FormV2
+ */
+function isEnableFormV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.FORM_V2)
+}
+
 export {
   isEnablePlaidV2,
   isEnablePandaDocESign,
@@ -169,5 +176,6 @@ export {
   isEnableDummyLoanReadiness,
   isEnableLoanProgramChangesManagement,
   isEnableGoogleMapInput,
-  isEnableChatSupport
+  isEnableChatSupport,
+  isEnableFormV2
 }

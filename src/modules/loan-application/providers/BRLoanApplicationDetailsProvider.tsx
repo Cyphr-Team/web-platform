@@ -70,6 +70,7 @@ import {
   LOAN_APPLICATION_STEPS
 } from "../models/LoanApplicationStep/type"
 import {
+  mapMetadataToLoanRequest,
   reverseFormatCurrentLoansForm,
   reverseFormatKybForm,
   reverseFormatKycForm,
@@ -83,6 +84,7 @@ import { isEnabledQuery } from "@/utils"
 import { type SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatForecastSetupResult } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
 import { type FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
+import { useQueryLoanRequestForm } from "../hooks/loanrequest/useQueryLoanRequest"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -153,6 +155,15 @@ export function BRLoanApplicationDetailsProvider({
     loanApplicationId!,
     loanProgramQuery.data?.type ?? LoanType.MICRO
   )
+
+  /**
+   * Loan Request V2
+   */
+  const loanRequestDetailQuery = useQueryLoanRequestForm({
+    applicationId: loanApplicationId!,
+    formTypes: [FORM_TYPE.LOAN_REQUEST]
+  })
+
   const loanProgramInfo = useGetLoanProgramDetail(
     loanProgramQuery.data?.type ?? "",
     loanProgramQuery.data?.name
@@ -503,6 +514,28 @@ export function BRLoanApplicationDetailsProvider({
     setupPreApplicationDisclosures
   ])
 
+  // Loan Request Form V2
+  useEffect(() => {
+    if (loanRequestDetailQuery.data && isInitialized && isQualified) {
+      changeDataAndProgress(
+        {
+          // Loan Request has only one form
+          id: loanRequestDetailQuery.data?.forms[0]?.id ?? "",
+          applicationId: loanRequestDetailQuery?.data?.applicationId ?? "",
+          ...mapMetadataToLoanRequest(
+            loanRequestDetailQuery.data?.forms[0]?.metadata
+          )
+        },
+        LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    isInitialized,
+    isQualified,
+    loanRequestDetailQuery.data
+  ])
+
   // Product Service Form
   useEffect(() => {
     if (productServiceFormQuery.data && isInitialized && isQualified) {
@@ -829,6 +862,7 @@ export function BRLoanApplicationDetailsProvider({
     () => ({
       loanProgramInfo,
       loanProgramDetails: loanProgramQuery.data,
+      loanRequestFormV2Data: loanRequestDetailQuery.data,
       kybFormData: kybFormQuery.data,
       kycFormData: kycFormQuery.data,
       currentLoanFormData: currentLoansFormQuery.data,
@@ -857,6 +891,7 @@ export function BRLoanApplicationDetailsProvider({
       financialStatementData: financialStatementQuery?.data,
       isFetchingDetails:
         loanApplicationDetailsQuery.isLoading ||
+        loanRequestDetailQuery.isLoading ||
         kybFormQuery.isLoading ||
         kycFormQuery.isLoading ||
         confirmationFormQuery.isLoading ||
@@ -886,6 +921,8 @@ export function BRLoanApplicationDetailsProvider({
       loanProgramInfo,
       loanProgramQuery.data,
       loanProgramQuery.isLoading,
+      loanRequestDetailQuery.data,
+      loanRequestDetailQuery.isLoading,
       kybFormQuery.data,
       kybFormQuery.isLoading,
       kycFormQuery.data,

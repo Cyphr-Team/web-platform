@@ -34,7 +34,8 @@ export function LoanReadyLoanRequestForm({
 }: LoanReadyLoanRequestFormProps) {
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-  const { loanRequest, dispatchFormAction } = useLoanApplicationFormContext()
+  const { loanRequest, loanRequestV2, dispatchFormAction } =
+    useLoanApplicationFormContext()
   const minLoanAmount = loanProgramDetails?.minLoanAmount ?? 0
   const maxLoanAmount = loanProgramDetails?.maxLoanAmount ?? 0
 
@@ -63,11 +64,23 @@ export function LoanReadyLoanRequestForm({
         proposeUseOfLoan: form.getValues("proposeUseOfLoan")
       }
     })
+
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2,
+      state: {
+        id: loanRequestV2.id ?? "",
+        loanAmount: form.getValues("loanAmount"),
+        loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
+        proposeUseOfLoan: form.getValues("proposeUseOfLoan")
+      }
+    })
     // Change step status to next step
     finishCurrentStep()
   })
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2)
 
   return (
     <FormLayout cardClassName={wrapperClassName} title="Loan Request">
