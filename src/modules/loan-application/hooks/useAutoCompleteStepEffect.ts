@@ -1,11 +1,12 @@
 import { useCallback, useEffect } from "react"
 import { type UseFormReturn } from "react-hook-form"
-import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
+import { type LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../providers"
 import { FORM_ACTION } from "../providers/LoanApplicationFormProvider"
+import { useClearGeneratedPDF } from "@/modules/loan-application/hooks/useClearGeneratedPDF.tsx"
 
 export const useAutoCompleteStepEffect = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,9 +16,10 @@ export const useAutoCompleteStepEffect = (
   logicalValidState?: boolean,
   skipReview?: boolean
 ) => {
-  const { eSignForm, dispatchFormAction } = useLoanApplicationFormContext()
+  const { dispatchFormAction } = useLoanApplicationFormContext()
   const { completeSpecificStep, removeCompleteSpecificStep } =
     useLoanApplicationProgressContext()
+  const clearGeneratedPDF = useClearGeneratedPDF()
 
   /**
    * Using setTimeout to make sure
@@ -37,22 +39,12 @@ export const useAutoCompleteStepEffect = (
       }
 
       if (!skipReview) {
-        removeCompleteSpecificStep(LOAN_APPLICATION_STEPS.REVIEW_APPLICATION)
-
-        // Remove document after the user edit loan application data
-        if (eSignForm?.documentId) {
-          dispatchFormAction({
-            action: FORM_ACTION.SET_DATA,
-            state: { documentId: "", sessionId: "" },
-            key: LOAN_APPLICATION_STEPS.E_SIGN
-          })
-        }
+        clearGeneratedPDF()
       }
     })
   }, [
+    clearGeneratedPDF,
     completeSpecificStep,
-    dispatchFormAction,
-    eSignForm?.documentId,
     form.formState.isValid,
     logicalValidState,
     removeCompleteSpecificStep,

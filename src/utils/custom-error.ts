@@ -10,6 +10,7 @@ export enum ErrorCode {
   cash_flow_not_ready = "cash_flow_not_ready",
   susbscription_not_found = "not_found",
   bank_already_linked = "bank_already_linked",
+  bank_not_supported = "bank_not_supported",
   unauthorized = "unauthorized"
 }
 

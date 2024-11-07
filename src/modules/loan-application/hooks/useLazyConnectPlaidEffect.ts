@@ -84,24 +84,40 @@ export const useLazyConnectPlaidEffect = () => {
         }
       }
       // If the access_token is needed, send publicToken to server
-      await exchangePublicTokenForAccessToken(
-        publicToken,
-        dispatch,
-        metadata?.institution?.institution_id
-      )
+      try {
+        await exchangePublicTokenForAccessToken(
+          publicToken,
+          dispatch,
+          metadata?.institution?.institution_id
+        )
 
-      // 'payment_initiation' products do not require the publicToken to be exchanged for an access_token.
-      if (isPaymentInitiation) {
-        dispatch({ type: "SET_STATE", state: { isItemAccess: false } })
+        // 'payment_initiation' products do not require the publicToken to be exchanged for an access_token.
+        if (isPaymentInitiation) {
+          dispatch({ type: "SET_STATE", state: { isItemAccess: false } })
+        }
+
+        dispatch({
+          type: "SET_STATE",
+          state: { linkSuccess: true, isConnecting: false }
+        })
+
+        updateAccounts(metadata)
+      } catch {
+        // Set access token failed because some Plaid's product is not supported by the selected institution
+        dispatch({
+          type: "SET_STATE",
+          state: {
+            isConnecting: false,
+            linkTokenError: {
+              errorCode: ErrorCode.bank_not_supported,
+              errorMessage: `Institution is not supported`,
+              errorType: ErrorCode.bank_not_supported
+            }
+          }
+        })
+      } finally {
+        removeLinkToken()
       }
-
-      dispatch({
-        type: "SET_STATE",
-        state: { linkSuccess: true, isConnecting: false }
-      })
-
-      updateAccounts(metadata)
-      removeLinkToken()
     },
     [
       dispatch,

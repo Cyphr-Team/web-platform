@@ -1,11 +1,8 @@
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Form, FormField } from "@/components/ui/form"
 import { SearchSelect } from "@/components/ui/search-select"
 import { Separator } from "@/components/ui/separator"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
-import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 import { PlaidConnectButton } from "@/modules/loan-application/components/molecules/plaid/ConnectButton"
@@ -13,7 +10,6 @@ import {
   plaidFormSchema,
   type PlaidFormValue
 } from "@/modules/loan-application/constants/plaid"
-import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { usePlaidInstitutions } from "@/modules/loan-application/hooks/usePlaidInstitutions"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
@@ -28,23 +24,31 @@ import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
 import { type Option } from "@/types/common.type"
 import { toastError } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type ColumnDef } from "@tanstack/react-table"
 import { useEffect, useMemo, useState } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import { useUpdateEffect } from "react-use"
+import { ClickableTooltip } from "@/shared/atoms/ClickableTooltip.tsx"
+import { useClearGeneratedPDF } from "@/modules/loan-application/hooks/useClearGeneratedPDF.tsx"
+import { CashFlowConnectedBadge } from "@/shared/atoms/CashFlowConnectedBadge.tsx"
+import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
 
 interface PlaidConnectFormProps {
   wrapperClassName?: string
+}
+
+interface FormHeaderProps {
+  isConnected?: boolean
 }
 
 export function PlaidConnectForm({ wrapperClassName }: PlaidConnectFormProps) {
   const form = useForm<PlaidFormValue>({
     resolver: zodResolver(plaidFormSchema)
   })
+  const { connectedAccounts } = usePlaidContext()
 
   return (
     <FormLayout hideTopNavigation cardClassName={wrapperClassName}>
-      <FormHeader />
+      <FormHeader isConnected={connectedAccounts.length > 0} />
       <Separator />
       <Form {...form}>
         <PlaidForm />
@@ -53,10 +57,13 @@ export function PlaidConnectForm({ wrapperClassName }: PlaidConnectFormProps) {
   )
 }
 
-function FormHeader() {
+function FormHeader({ isConnected }: FormHeaderProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <h5 className="text-lg font-semibold">Connected Accounts</h5>
+    <div className="flex flex-col gap-3">
+      <h5 className="text-lg font-semibold">
+        <span className="mr-4">Connected Accounts</span>
+        {isConnected ? <CashFlowConnectedBadge /> : null}
+      </h5>
       <p className="text-sm financial-projection text-muted-foreground">
         Please note that if your bank connection status is pending, you can
         still complete and submit your application. We'll notify you once your
@@ -79,6 +86,7 @@ function PlaidForm() {
   const handleNextClick = () => {
     finishCurrentStep()
   }
+  const clearGeneratedPDF = useClearGeneratedPDF()
 
   const [routingNumberOptions, setRoutingNumberOptions] = useState<Option[]>([])
 
@@ -102,6 +110,15 @@ function PlaidForm() {
   const selectedInstitution = watch("institution")
 
   const { connectedAccounts, isConnecting, linkTokenError } = usePlaidContext()
+
+  const tooltipContent = useMemo(() => {
+    return !formState.isValid ? (
+      <div className="text-center">
+        <div>Please select Banking institution</div>
+        <div>before connecting</div>
+      </div>
+    ) : null
+  }, [formState.isValid])
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
@@ -151,6 +168,7 @@ function PlaidForm() {
   useUpdateEffect(() => {
     if (!isConnecting) {
       resetField("institution", { defaultValue: undefined })
+      clearGeneratedPDF()
     }
   }, [isConnecting, resetField])
 
@@ -176,6 +194,16 @@ function PlaidForm() {
         options={routingNumberOptions}
       />
 
+      <ClickableTooltip tooltipContent={tooltipContent}>
+        <div className="self-end">
+          <PlaidConnectButton
+            disabled={isFetchingDetails || !formState.isValid}
+            hasConnectedAccounts={!!connectedAccounts.length}
+            isBankAccountsLoading={isConnecting || isFetchingDetails}
+          />
+        </div>
+      </ClickableTooltip>
+
       {connectedAccounts.length ? (
         <div className="flex flex-col w-full mt-2">
           <LoadingWrapper isLoading={isFetchingDetails}>
@@ -183,10 +211,9 @@ function PlaidForm() {
               <CardContent className="p-0 md:p-0">
                 <MiddeskTable
                   cellClassName="py-6"
-                  columns={columns}
+                  columns={cashFlowColumns(false)}
                   data={connectedAccounts}
                   noResultText="No connected accounts found"
-                  tableClassName="text-gray-700 font-sm"
                 />
               </CardContent>
             </Card>
@@ -195,12 +222,6 @@ function PlaidForm() {
           <Separator />
         </div>
       ) : null}
-
-      <PlaidConnectButton
-        disabled={isFetchingDetails || !formState.isValid}
-        hasConnectedAccounts={!!connectedAccounts.length}
-        isBankAccountsLoading={isConnecting || isFetchingDetails}
-      />
 
       {!isReviewApplicationStep(step) && !!connectedAccounts.length ? (
         <FormSubmitButton
@@ -269,54 +290,3 @@ function RoutingNumberField({
     </div>
   )
 }
-
-const columns: ColumnDef<LoanApplicationBankAccount>[] = [
-  {
-    accessorKey: "bankAccountName",
-    size: 200,
-    header: () => (
-      <div className="flex items-center text-gray-700 -mx-4">Account</div>
-    ),
-    cell: ({ row }) => {
-      const data = row.original
-
-      return (
-        <div className="min-w-0 -mx-4 uppercase">
-          {data.institutionName} {data.bankAccountName} {data.mask}
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: "connectedOn",
-    header: () => (
-      <div className="flex items-center space-x-2 text-gray-700">
-        Connected on
-      </div>
-    )
-  },
-  {
-    id: "status",
-    header: () => (
-      <div className="flex items-center space-x-2 text-gray-700">Status</div>
-    ),
-    cell: () => {
-      return (
-        <div className="min-w-0">
-          <Badge
-            border
-            isDot
-            className="capitalize text-sm rounded-lg font-medium"
-            isDotBefore={false}
-            variant="soft"
-            variantColor={getBadgeVariantByInsightStatus(
-              TaskFieldStatus.SUCCESS
-            )}
-          >
-            Connected
-          </Badge>
-        </div>
-      )
-    }
-  }
-]

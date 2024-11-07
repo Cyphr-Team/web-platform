@@ -1,9 +1,6 @@
-import { Badge } from "@/components/ui/badge"
 import { ButtonLoading } from "@/components/ui/button"
-import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { CardContent, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { DetailTable } from "@/modules/loan-application/[module]-financial-projection/components/atoms/table"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
@@ -13,13 +10,11 @@ import {
   CashFlowPendingBadge
 } from "@/shared/atoms/CashFlowConnectedBadge"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
-import { renderHeader } from "@/utils/table.utils"
-import { type ColumnDef } from "@tanstack/react-table"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
 import { useGetPlaidConnectedBankAccounts } from "@/modules/loan-application/hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
 import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
-import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table.tsx"
+import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
 
 interface ConnectedAccountDetailProps {
   overwriteBankAccounts?: LoanApplicationBankAccount[]
@@ -51,9 +46,16 @@ export function ConnectedAccountDetail({
   const isCashFlowNotReady = useMemo(() => {
     return (
       bankAccounts.length === 0 ||
-      (isError && error?.response?.data.code === ErrorCode.cash_flow_not_ready)
+      (isError &&
+        error?.response?.data.code === ErrorCode.cash_flow_not_ready &&
+        overwriteBankAccounts.length === 0)
     )
-  }, [bankAccounts.length, isError, error?.response?.data.code])
+  }, [
+    bankAccounts.length,
+    isError,
+    error?.response?.data.code,
+    overwriteBankAccounts.length
+  ])
 
   const noResultText = useMemo(() => {
     return isCashFlowNotReady
@@ -65,11 +67,13 @@ export function ConnectedAccountDetail({
     if (isCashFlowNotReady && isEnablePlaidV2() && !isFetching)
       return <CashFlowPendingBadge />
 
+    if (bankAccounts.length > 0) return <CashFlowConnectedBadge />
+
     return null
   }
 
   const renderRefreshCTA = () => {
-    if (!isCashFlowNotReady) return <CashFlowConnectedBadge />
+    if (!isCashFlowNotReady) return null
 
     return (
       <ButtonLoading
@@ -84,11 +88,8 @@ export function ConnectedAccountDetail({
   }
 
   return (
-    <Card
-      className={cn(
-        "border-none shadow-none -mt-8 px-4 md:px-8 p-4 md:p-8",
-        EXPORT_CLASS.FINANCIAL
-      )}
+    <div
+      className={cn("-mt-8 px-4 md:px-8 p-4 md:p-8", EXPORT_CLASS.FINANCIAL)}
     >
       <div className="flex justify-between items-center flex-wrap gap-1 border-b pb-2 md:pb-5">
         <CardTitle className="font-semibold text-lg flex items-center gap-3">
@@ -101,99 +102,21 @@ export function ConnectedAccountDetail({
 
       <CardContent className="p-0 md:p-0">
         {isEnablePlaidV2() && isCashFlowNotReady && !isFetching ? (
-          <MiddeskTable
-            columns={plaidColumns}
+          <DetailTable
+            columns={cashFlowColumns(true)}
             data={plaidConnectedBankAccountsQuery.data ?? []}
             isLoading={isFetching || plaidConnectedBankAccountsQuery.isFetching}
             noResultText={noResultText}
           />
         ) : (
           <DetailTable
-            columns={columns}
+            columns={cashFlowColumns(false)}
             data={bankAccounts}
             isLoading={isFetching}
             noResultText={noResultText}
           />
         )}
       </CardContent>
-    </Card>
+    </div>
   )
 }
-
-const columns: ColumnDef<LoanApplicationBankAccount>[] = [
-  {
-    accessorKey: "bankAccountName",
-    enableSorting: false,
-    header: renderHeader("Account", "text-primary text-left -mx-4"),
-    cell: ({ row }) => {
-      return (
-        <div className="text-sm text-primary -mx-4 capitalize">
-          {row?.original?.bankAccountName?.toLowerCase()}
-        </div>
-      )
-    }
-  },
-  {
-    id: "status",
-    header: renderHeader("Status", "text-primary text-right -mx-4"),
-    cell: () => {
-      return (
-        <div className="text-right -mx-4">
-          <Badge
-            border
-            isDot
-            isDotBefore
-            className="capitalize text-sm rounded-lg border-green-600 bg-white text-green-700"
-            variant="outline"
-            variantColor={getBadgeVariantByInsightStatus(
-              TaskFieldStatus.SUCCESS
-            )}
-          >
-            Connected
-          </Badge>
-        </div>
-      )
-    }
-  }
-]
-
-const plaidColumns: ColumnDef<LoanApplicationBankAccount>[] = [
-  {
-    accessorKey: "bankAccountName",
-    header: () => (
-      <div className="flex items-center text-gray-700 mx-1">Account</div>
-    ),
-    cell: ({ row }) => {
-      const data = row.original
-
-      return (
-        <div className="min-w-0 mx-1 uppercase">
-          {data.institutionName} {data.bankAccountName} {data.mask}
-        </div>
-      )
-    }
-  },
-  {
-    id: "status",
-    header: () => (
-      <div className="flex item-center text-gray-700 ml-1">Status</div>
-    ),
-    cell: () => {
-      return (
-        <div className="min-w-0 ml-1">
-          <Badge
-            isDot
-            isDotBefore
-            className="capitalize text-sm rounded-full font-medium py-1"
-            variant="soft"
-            variantColor={getBadgeVariantByInsightStatus(
-              TaskFieldStatus.PENDING
-            )}
-          >
-            Pending
-          </Badge>
-        </div>
-      )
-    }
-  }
-]

@@ -49,6 +49,7 @@ export function transformToConnectedAccounts(
         institutionName: institution.institutionName,
         bankAccountPk: account.id,
         bankAccountName: account.name,
+        mask: account?.mask,
         connectedOn:
           account.connectedOn || format(new Date(), FORMAT_DATE_MM_DD_YYYY)
       }))

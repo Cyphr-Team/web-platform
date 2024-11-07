@@ -18,8 +18,10 @@ import {
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { get } from "lodash"
 import { forwardRef, useMemo } from "react"
+import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid.tsx"
+import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
 // Define a mapping of steps to components
-const STEP_COMPONENT_MAP = {
+const getStepComponentByStep = () => ({
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanReadyLoanRequestForm,
   [LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION]:
     LoanReadyBusinessInformationForm,
@@ -28,16 +30,18 @@ const STEP_COMPONENT_MAP = {
   [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: FinancialStatementForm,
   [LOAN_APPLICATION_STEPS.REVENUE]: RevenueForm,
   [LOAN_APPLICATION_STEPS.PEOPLE]: PeopleForm,
-  [LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]: CashFlowVerificationFormV2,
+  [LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]: isEnablePlaidV2()
+    ? CashFlowVerificationFormWithPlaid
+    : CashFlowVerificationFormV2,
   [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: DirectCostsForm,
   [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: FpOperatingExpensesForm,
   [LOAN_APPLICATION_STEPS.TAX_RATES]: TaxRateForm,
   [LOAN_APPLICATION_STEPS.ASSETS]: AssetsForm,
   [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: DebtFinancingForm,
   [LOAN_APPLICATION_STEPS.EQUITY]: EquityForm
-}
+})
 
-interface IReviewStep {
+interface ReviewStepProps {
   stepProgress: ILoanApplicationStep
 }
 
@@ -46,6 +50,7 @@ interface IReviewStep {
  */
 const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   return useMemo(() => {
+    const STEP_COMPONENT_MAP = getStepComponentByStep()
     const Component = get(STEP_COMPONENT_MAP, step)
 
     return Component ? (
@@ -57,18 +62,19 @@ const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
 /**
  * ReviewApplicationStep component
  */
-export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(
-  ({ stepProgress }: IReviewStep, ref) => {
-    const componentByStep = useGetReviewFormByStep(stepProgress.step)
+export const ReviewApplicationStep = forwardRef<
+  HTMLDivElement,
+  ReviewStepProps
+>(({ stepProgress }: ReviewStepProps, ref) => {
+  const componentByStep = useGetReviewFormByStep(stepProgress.step)
 
-    if (!componentByStep) return null
+  if (!componentByStep) return null
 
-    return (
-      <div ref={ref} className="w-full h-full">
-        {componentByStep}
-      </div>
-    )
-  }
-)
+  return (
+    <div ref={ref} className="w-full h-full">
+      {componentByStep}
+    </div>
+  )
+})
 
 ReviewApplicationStep.displayName = "ReviewApplicationStep"
