@@ -42,7 +42,10 @@ export function Component() {
   const annuallyTimeStamp = useMemo(
     () =>
       get(forecastResults, "cashFlowForecastAnnually[0].forecastData", []).map(
-        (entry) => new Date(entry.forecastDate)
+        (entry) => {
+          // Take the middle month of the year to avoid timezone issues
+          return new Date(parseInt(entry.forecastDate), 5, 1)
+        }
       ),
     [forecastResults]
   )
