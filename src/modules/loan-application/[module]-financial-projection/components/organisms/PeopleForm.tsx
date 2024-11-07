@@ -31,7 +31,7 @@ import { FormLayout } from "@/modules/loan-application/components/layouts/FormLa
 
 export const PeopleFormBlocks: Block[] = [
   {
-    name: PeopleField.CURRENT_EMPLOYEES_ENROLLED,
+    name: PeopleField.CurrentEmployeesEnrolled,
     type: FieldType.SELECT,
     props: {
       label: "Are your employees currently enrolled in company benefits?",
@@ -115,7 +115,7 @@ export function PeopleForm() {
             <PeopleTotalInfo
               title="Total current employees"
               value={valueOrZero(
-                watch(PeopleField.CURRENT_EMPLOYEES)?.reduce(
+                watch(PeopleField.CurrentEmployees)?.reduce(
                   (acc, { numberOfEmployees }) =>
                     acc + Number(numberOfEmployees ?? 0),
                   0
@@ -126,7 +126,7 @@ export function PeopleForm() {
               isCurrency
               title="Total current employee salaries"
               value={valueOrZero(
-                watch(PeopleField.CURRENT_EMPLOYEES)?.reduce(
+                watch(PeopleField.CurrentEmployees)?.reduce(
                   (acc, { annualSalary }) => acc + annualSalary,
                   0
                 )
@@ -134,13 +134,13 @@ export function PeopleForm() {
             />
             <PeopleTotalInfo
               title="Total future employees"
-              value={watch(PeopleField.FUTURE_EMPLOYEES)?.length ?? 0}
+              value={watch(PeopleField.FutureEmployees)?.length ?? 0}
             />
             <PeopleTotalInfo
               isCurrency
               title="Total future employee salaries"
               value={valueOrZero(
-                watch(PeopleField.FUTURE_EMPLOYEES)?.reduce(
+                watch(PeopleField.FutureEmployees)?.reduce(
                   (acc, { annualSalary }) => acc + annualSalary,
                   0
                 )

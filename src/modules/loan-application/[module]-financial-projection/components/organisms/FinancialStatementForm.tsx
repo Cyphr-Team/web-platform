@@ -109,10 +109,10 @@ export function FinancialStatementForm({
       >
         <div className="flex flex-col gap-3xl">
           <div className="flex flex-col gap-y-4">
-            <h4 className="text-lg font-semibold text-text-primary">
+            <h4 className="font-semibold text-text-primary">
               Financial Statements
             </h4>
-            <p className="text-sm font-normal financial-projection text-muted-foreground">
+            <p className="leading-5 financial-projection text-sm ">
               Financial statements are essential for evaluating the overall
               health of your business. They provide a detailed view of your
               business’s profitability, stability, and cash flow and are usually
@@ -128,9 +128,9 @@ export function FinancialStatementForm({
             name={FinancialStatementFormField.hasDocument}
             options={YES_NO_OPTIONS}
             styleProps={{
-              inputClassName: "text-sm max-w-40",
               labelClassName: "text-text-primary",
-              subtitleClassName: "text-xs font-normal"
+              inputClassName: "max-w-40",
+              subtitleClassName: "font-normal leading-5"
             }}
             subtitle="Income statement (profit and loss), balance sheet, and/or cash flow statement."
           />

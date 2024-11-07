@@ -18,26 +18,25 @@ const FutureEmployeesBlock = [
       label: "Will this future employee be eligible to enroll in benefits?",
       subtitle: "Benefits can include medical, dental, vision, 401(k), etc. ",
       options: YES_NO_OPTIONS,
+      className: "col-span-12",
       styleProps: {
-        labelClassName: "lg:col-span-2 lg:mr-5 leading-1",
+        labelClassName: "leading-1",
         subtitleClassName: "text-sm font-normal",
-        inputClassName: "text-sm lg:w-[13vw] ml-auto mr-0"
+        inputClassName: "text-sm max-w-40"
       },
-      className:
-        "w-full lg:grid lg:grid-cols-3 gap-1 space-y-0 col-start-0 col-span-3 mt-2"
+      isRowDirection: true
     }
   },
   {
     name: "role",
     type: FieldType.TEXT,
     props: {
-      className: "row-start-2",
       placeholder: "Role",
       prefixIcon: <Icons.idCard />,
+      className: "col-span-4",
       styleProps: {
         inputClassName: "text-sm"
       },
-      //TODO: Add error message later
       isHideErrorMessage: true
     }
   },
@@ -46,10 +45,9 @@ const FutureEmployeesBlock = [
     type: FieldType.MASK,
     props: {
       pattern: MM_YYYY_PATTERN,
-      className: "row-start-2",
       placeholder: "Start date (MM/YYYY)",
+      className: "col-span-4",
       prefixIcon: <Icons.calendar />,
-      subtitle: "",
       styleProps: {
         calendarClassName: "text-sm"
       },
@@ -61,8 +59,8 @@ const FutureEmployeesBlock = [
     type: FieldType.CURRENCY,
     props: {
       direction: "column",
-      className: "row-start-2",
       placeholder: "Annual salary",
+      className: "col-span-4",
       prefixIcon: (
         <div className="flex justify-between gap-1.5 text-text-placeholder">
           <Icons.money />$
@@ -79,13 +77,12 @@ const FutureEmployeesBlock = [
 function FutureEmployeesForm() {
   return (
     <PeopleArrayFormTemplate
-      canBeEmpty
       actionIcon={<Icons.team />}
       actionText="Add future employee(s)"
-      blockClassName="grid grid-cols-3 gap-x-4 gap-y-3 w-full"
       blocks={FutureEmployeesBlock}
-      className="flex flex-col-reverse items-center"
-      defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.FUTURE_EMPLOYEES]}
+      className="flex flex-col-reverse p-4"
+      defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.FutureEmployees]}
+      layout="future"
       name="futureEmployees"
       step={LOAN_APPLICATION_STEPS.PEOPLE}
     />

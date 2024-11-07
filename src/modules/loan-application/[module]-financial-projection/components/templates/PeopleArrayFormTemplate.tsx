@@ -8,7 +8,7 @@ import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/L
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { X } from "lucide-react"
-import { memo, type ReactNode, useCallback, useEffect } from "react"
+import { memo, type ReactNode, useCallback } from "react"
 import { useFieldArray, useFormContext } from "react-hook-form"
 
 interface PeopleArrayFormTemplateProps {
@@ -20,9 +20,8 @@ interface PeopleArrayFormTemplateProps {
   defaultEmptyObject: object
   step: LOAN_APPLICATION_STEPS
   blocks: Block[]
-  blockClassName?: string
   className?: string
-  canBeEmpty?: boolean
+  layout: "future" | "current"
 }
 
 function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
@@ -35,9 +34,8 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
     actionIcon,
     title,
     subtitle,
-    blockClassName,
     className,
-    canBeEmpty
+    layout
   } = props
   const { control, getValues } = useFormContext()
   const { fields, append, remove } = useFieldArray({
@@ -49,12 +47,6 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
   const handleAddItem = useCallback(() => {
     append(defaultEmptyObject)
   }, [append, defaultEmptyObject])
-
-  useEffect(() => {
-    if (!canBeEmpty && getValues(name)?.length == 0) {
-      handleAddItem()
-    }
-  }, [canBeEmpty, getValues, handleAddItem, name])
 
   const onBlur = useCallback(() => {
     dispatchFormAction({
@@ -84,32 +76,27 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
         return (
           <div
             key={source.id}
-            className={cn(
-              "bg-financial-projection-card p-4 rounded-lg",
-              className
-            )}
+            className={cn("bg-financial-projection-card rounded-lg", className)}
           >
             <div
               className={cn(
-                "flex justify-between items-center",
-                blockClassName
+                "grid gap-2",
+                layout === "current" ? "grid-cols-10" : "grid-cols-12"
               )}
             >
               {renderInnerBlockComponents(blocks, name, index)}
-              <h5 className="font-semibold text-sm text-center align-middle">
-                {getValues(name).at(index).name}
-              </h5>
             </div>
-            {canBeEmpty || getValues(name).length > 1 ? (
-              <Button
-                className="p-0 h-auto flex ml-auto mr-0"
-                type="button"
-                variant="ghost"
-                onClick={onRemove(index)}
-              >
-                <X className="w-5 h-5 text-text-tertiary" />
-              </Button>
-            ) : null}
+            <Button
+              className={cn(
+                "p-0 h-auto",
+                layout === "future" ? "self-end" : null
+              )}
+              type="button"
+              variant="ghost"
+              onClick={onRemove(index)}
+            >
+              <X className="w-5 h-5 text-text-tertiary" />
+            </Button>
           </div>
         )
       })}

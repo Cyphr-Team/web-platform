@@ -23,7 +23,7 @@ export function Component() {
         <Layout isLoading={isLoading}>
           <Grid>
             <CashFlowGlanceCard
-              title="Revenue / Gross Income"
+              title="Revenue"
               type="currency"
               value={valueOrZero(cashFlow?.revenue)}
             />

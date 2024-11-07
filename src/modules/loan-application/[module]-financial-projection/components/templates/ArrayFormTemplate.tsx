@@ -48,7 +48,7 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
     blocks,
     addIcon,
     description = (
-      <span>
+      <span className="break-normal">
         Are you sure you want to delete this revenue stream? This action is
         permanent and can't be undone.
       </span>

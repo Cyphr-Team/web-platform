@@ -37,7 +37,7 @@ export function CircularProgress({
       <span className="absolute w-full h-full top-0 left-0 origin-center -rotate-90">
         <svg className="h-full w-full text-primary" viewBox="22 22 44 44">
           <circle
-            className="stroke-current"
+            className="stroke-current text-[#4F6161]"
             cx="44"
             cy="44"
             fill="none"

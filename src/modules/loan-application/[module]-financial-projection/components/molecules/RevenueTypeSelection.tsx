@@ -44,21 +44,21 @@ export function RevenueTypeSelection(props: RevenueTypeSelectionProps) {
         icon={<UnitSalesIcon />}
         selected={isSelected(RevenueType.UnitSales)}
         subtitle="Ideal for products sold as individual units or in specific quantities."
-        title="Unit sales"
+        title="Unit Sales"
         onClick={onAddItemToField(RevenueType.UnitSales, emptyUnitSale)}
       />
       <RevenueTypeItem
         icon={<BillableHoursIcon />}
         selected={isSelected(RevenueType.BillableHours)}
         subtitle="Best for services charged on an hourly basis."
-        title="Billable hours"
+        title="Billable Hours"
         onClick={onAddItemToField(RevenueType.BillableHours, emptyBillableHour)}
       />
       <RevenueTypeItem
         icon={<RecurringChargesIcon />}
         selected={isSelected(RevenueType.RecurringCharges)}
         subtitle="Perfect for subscriptions, memberships, rentals, or any service with periodic payments."
-        title="Recurring charges"
+        title="Recurring Charges"
         onClick={onAddItemToField(
           RevenueType.RecurringCharges,
           emptyRecurringCharge
@@ -67,8 +67,8 @@ export function RevenueTypeSelection(props: RevenueTypeSelectionProps) {
       <RevenueTypeItem
         icon={<ContractRevenueIcon />}
         selected={isSelected(RevenueType.Contracts)}
-        subtitle="Suitable for contract revenue, or for entering total revenue without itemized details"
-        title="Contract revenue"
+        subtitle="Suitable for contract revenue, or for entering total revenue without itemized details."
+        title="Contract Revenue"
         onClick={onAddItemToField(RevenueType.Contracts, emptyContract)}
       />
     </div>

@@ -193,6 +193,9 @@ export function LoanReadyOwnerInformationForm({
             label="Personal credit score"
             name={LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE}
             options={PERSONAL_CREDIT_SCORE_OPTIONS}
+            selectContentProps={{
+              side: "top"
+            }}
           />
           <div />
         </form>

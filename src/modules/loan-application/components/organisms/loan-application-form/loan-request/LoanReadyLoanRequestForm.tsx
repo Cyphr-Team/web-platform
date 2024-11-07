@@ -96,6 +96,9 @@ export function LoanReadyLoanRequestForm({
                   name="proposeUseOfLoan"
                   options={loanProgramInfo?.loanPurposes ?? []}
                   placeholder="Please select..."
+                  selectContentProps={{
+                    side: "top"
+                  }}
                 />
               </div>
             </div>

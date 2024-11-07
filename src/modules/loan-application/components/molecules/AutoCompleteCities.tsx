@@ -136,6 +136,7 @@ export function AutoCompleteCities<T extends FieldValues>(
                 <Input
                   className={cn(
                     "text-sm p-0",
+                    "disabled:opacity-90",
                     value === "" ? "text-text-placeholder" : ""
                   )}
                   name={name}
