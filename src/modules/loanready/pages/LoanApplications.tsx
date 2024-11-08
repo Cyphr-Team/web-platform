@@ -18,7 +18,10 @@ import {
   toCurrency
 } from "@/utils"
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
-import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
+import {
+  formsConfigurationEnabled,
+  isEnableLoanReadyV2
+} from "@/utils/feature-flag.utils"
 import { type AccessorKeyColumnDef, type Row } from "@tanstack/react-table"
 import { ChevronRightIcon } from "lucide-react"
 import { type NavigateFunction, useNavigate } from "react-router-dom"
@@ -64,12 +67,14 @@ export function Component() {
         Keep track of your applications and their statuses
       </p>
 
-      <div className="flex justify-end">
-        <StartApplicationButton
-          btnText="Start new application"
-          className="bg-lime-400 text-black hover:bg-lime-300 font-bold"
-        />
-      </div>
+      {isEnableLoanReadyV2() ? (
+        <div className="flex justify-end">
+          <StartApplicationButton
+            btnText="Start new application"
+            className="bg-lime-400 text-black hover:bg-lime-300 font-bold"
+          />
+        </div>
+      ) : null}
 
       {!isFetching && !get(data, "pages[0].data.length", 0) ? (
         <EmptyApplications />

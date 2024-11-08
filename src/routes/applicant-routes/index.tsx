@@ -16,7 +16,6 @@ import { userLoader } from "../loader"
 import { availableLoanProgramRoutes } from "./available-loan-program-routes"
 import { notificationRoutes } from "./notification-routes"
 import { applicantFinancialProjectionRoutes } from "@/routes/applicant-routes/financial-projection-routes"
-import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 import { paymentRoutes } from "@/routes/applicant-routes/payment-routes"
 
 /**
@@ -46,7 +45,6 @@ const applicantRoutes = (
     path={APP_PATH.LOAN_APPLICATION.INDEX}
   >
     {availableLoanProgramRoutes}
-
     <Route
       element={
         <Suspense fallback={<Loader2 className="animate-spin" />}>
@@ -56,7 +54,7 @@ const applicantRoutes = (
     >
       <Route
         lazy={() => {
-          if (isEnableLoanReadyV2() && isLoanReady())
+          if (isLoanReady())
             return import("@/modules/loanready/pages/LoanApplications")
           else
             return import("@/modules/loan-application/pages/LoanApplications")
@@ -64,15 +62,11 @@ const applicantRoutes = (
         path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}
       />
     </Route>
-
     {isLoanReady() && applicantFinancialProjectionRoutes}
-
-    {isLoanReady() && isEnableLoanReadyV2() && paymentRoutes}
-
+    {isLoanReady() && paymentRoutes}
     {/* --- NOTIFICATION --- */}
     {/* Temporarily hide for kcc bank */}
     {(!isKccBank() || !isSbb() || !isLaunchKC()) && notificationRoutes}
-
     <Route
       lazy={() =>
         import("@/modules/loan-application-management/pages/under-construction")
@@ -145,7 +139,6 @@ const applicantRoutes = (
         path={APP_PATH.LOAN_APPLICATION.INFORMATION.detail}
       />
     </Route>
-
     <Route
       element={
         <LoanApplicationFormProvider>
