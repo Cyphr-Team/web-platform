@@ -44,7 +44,7 @@ export function Component() {
         forecastResults,
         "balanceSheetForecastAnnually[0].forecastData",
         []
-      ).map((entry) => new Date(entry.forecastDate)),
+      ).map((entry) => new Date(parseInt(entry.forecastDate), 5, 1)),
     [forecastResults]
   )
 
