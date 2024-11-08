@@ -53,12 +53,13 @@ const applicantRoutes = (
       }
     >
       <Route
-        lazy={() => {
-          if (isLoanReady())
-            return import("@/modules/loanready/pages/LoanApplications")
-          else
-            return import("@/modules/loan-application/pages/LoanApplications")
-        }}
+        lazy={() =>
+          import(
+            isLoanReady()
+              ? "@/modules/loanready/pages/Applications"
+              : "@/modules/loan-application/pages/LoanApplications"
+          )
+        }
         path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}
       />
     </Route>

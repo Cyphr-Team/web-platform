@@ -30,6 +30,10 @@ import { StartApplicationButton } from "@/modules/loanready/components/molecules
 import { get } from "lodash"
 
 export function Component() {
+  return <LoanApplicationsPage />
+}
+
+export default function LoanApplicationsPage() {
   const navigate = useNavigate()
   const { data, fetchNextPage, isFetching } = useQueryGetUserLoanApplications({
     limit: REQUEST_LIMIT_PARAM,
@@ -89,6 +93,7 @@ export function Component() {
     </div>
   )
 }
+
 Component.displayName = "ApplicantLoanApplications"
 
 interface NavigationConfig {

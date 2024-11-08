@@ -77,7 +77,7 @@ export function LoanReadyPlanSelection({
               {option.price}/application
             </span>
           </div>
-          <ul className="mt-1 font-normal list-disc ml-10 w-full text-left whitespace-normal overflow-wrap">
+          <ul className="mt-1 font-normal list-disc pl-10 w-full text-left whitespace-normal overflow-wrap">
             {option.description.map((item) => (
               <li key={item.id}>{item.text}</li>
             ))}

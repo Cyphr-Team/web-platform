@@ -27,7 +27,13 @@ export const axiosClient = applyCaseMiddleware(
 axiosClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
+    const originalRequest = error.config
+
+    // Prevent loop by checking if the failed request is the token refresh endpoint
+    if (
+      error.response?.status === 401 &&
+      originalRequest.url !== "/api/oauth/access-token"
+    ) {
       try {
         // If the request is unauthorized, get a new access token
         const newInfo = await inMemoryJWTService.getNewAccessToken()

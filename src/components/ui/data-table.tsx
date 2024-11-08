@@ -42,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   readonly tableWrapperClassName?: string
   readonly tableCellClassName?: string
   readonly tableHeaderClassName?: string
+  readonly tableHeadClassName?: string
 }
 
 export function DataTable<TData, TValue>({
@@ -60,7 +61,8 @@ export function DataTable<TData, TValue>({
   manualSorting,
   headerFilter,
   tableCellClassName,
-  tableHeaderClassName
+  tableHeaderClassName,
+  tableHeadClassName
 }: DataTableProps<TData, TValue>) {
   const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.id!))
 
@@ -104,7 +106,10 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-sm font-medium">
+                    <TableHead
+                      key={header.id}
+                      className={cn("text-sm font-medium", tableHeadClassName)}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(

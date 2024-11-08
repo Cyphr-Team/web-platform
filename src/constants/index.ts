@@ -199,7 +199,10 @@ export const API_PATH = {
     resendVerificationEmail: "api/users/resend-verification-email",
     // Setup name, password after activate successfully
     signUp: "api/users/sign-up",
-    acceptInvite: "api/users/public/invitation/accept"
+    acceptInvite: "api/users/public/invitation/accept",
+    order: {
+      listApplications: "api/loan-ready-subscription/application/list"
+    }
   },
   login: {
     loginByPassword: "login",

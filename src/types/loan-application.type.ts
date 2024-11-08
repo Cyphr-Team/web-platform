@@ -53,6 +53,7 @@ interface Applicant {
   authProvider: string
   created_at: string
 }
+
 interface LoanApplication<T = unknown> {
   id: string
   loanProgramId: string
@@ -70,6 +71,7 @@ interface LoanApplication<T = unknown> {
   personaInquiryId?: string
   meta?: T
 }
+
 interface LoanProgram {
   id: string
   institutionId: string
@@ -79,6 +81,7 @@ interface LoanProgram {
   createdAt: string
   updatedAt: string
 }
+
 interface UserMicroLoanApplication {
   id: string
   loanProgram: MicroLoanProgramType

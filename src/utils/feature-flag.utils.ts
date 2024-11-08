@@ -146,6 +146,7 @@ function isEnableLoanReadyV2() {
 }
 
 export {
+  isEnableLoanReadyV2,
   isEnablePlaidV2,
   isEnablePandaDocESign,
   isEnableDownloadCSVAndJSONSummary,
@@ -161,6 +162,5 @@ export {
   isIgnoredCashFlowSubmission,
   isEnableLoanProgramChangesManagement,
   isEnableGoogleMapInput,
-  isEnableChatSupport,
-  isEnableLoanReadyV2
+  isEnableChatSupport
 }
