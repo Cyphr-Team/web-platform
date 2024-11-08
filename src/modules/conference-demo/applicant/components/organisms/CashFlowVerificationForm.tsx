@@ -4,12 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import debounce from "lodash.debounce"
 import { Link } from "lucide-react"
-import { type ColumnDef } from "@tanstack/react-table"
 import * as z from "zod"
-
-import { Badge } from "@/components/ui/badge"
 import { Button, ButtonLoading } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Form, FormField } from "@/components/ui/form"
 import { Separator } from "@/components/ui/separator"
@@ -24,16 +20,19 @@ import {
   useIsReviewApplicationStep,
   useProgress
 } from "@/modules/conference-demo/applicant/stores/useProgress"
-import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
-import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
-import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper"
-import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { SearchSelect } from "@/components/ui/search-select.tsx"
 import { type Option } from "@/types/common.type.ts"
 import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
 import { transformToConnectedAccounts } from "@/modules/loan-application/hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
 import { type PlaidInstitutionProviderData } from "@/modules/loan-application/constants"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type.ts"
+import { Card, CardContent } from "@/components/ui/card.tsx"
+import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table.tsx"
+import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
+import type { ColumnDef } from "@tanstack/react-table"
+import { Badge } from "@/components/ui/badge.tsx"
+import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service.ts"
+import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type.ts"
 
 // Types
 interface Institution {
@@ -41,77 +40,6 @@ interface Institution {
   name: string
   logo?: string
 }
-
-interface ConnectedAccountsHeaderProps {
-  connectedAccounts: LoanApplicationBankAccount[]
-}
-
-interface ConnectedAccountsTableProps {
-  connectedAccounts: LoanApplicationBankAccount[]
-  isFetchingDetails: boolean
-  isReviewApplicationStep: boolean
-  onSubmit: () => void
-}
-
-// Validation Schema
-const plaidFormSchema = z.object({
-  institution: z.object({ label: z.string(), value: z.string() }).nullable(),
-  routingNumber: z.object({ label: z.string(), value: z.string() }).optional()
-})
-
-type PlaidFormValue = z.infer<typeof plaidFormSchema>
-
-// Table Configuration
-const tableColumns: ColumnDef<LoanApplicationBankAccount>[] = [
-  {
-    accessorKey: "bankAccountName",
-    size: 200,
-    header: () => (
-      <div className="flex items-center text-gray-700 -mx-4">Account</div>
-    ),
-    cell: ({ row }) => {
-      const { institutionName, bankAccountName, mask } = row.original
-
-      return (
-        <div className="min-w-0 -mx-4 uppercase text-sm">
-          {institutionName} {bankAccountName} {mask}
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: "connectedOn",
-    header: () => (
-      <div className="flex items-center space-x-2 text-gray-700">
-        Connected on
-      </div>
-    ),
-    cell: ({ row }) => {
-      const { connectedOn } = row.original
-
-      return <div className="min-w-0 text-sm">{connectedOn}</div>
-    }
-  },
-  {
-    id: "status",
-    header: () => (
-      <div className="flex items-center space-x-2 text-gray-700">Status</div>
-    ),
-    cell: () => (
-      <div className="min-w-0">
-        <Badge
-          isDot
-          isDotBefore
-          className="capitalize text-sm rounded-full font-medium py-1"
-          variant="soft"
-          variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
-        >
-          Pending
-        </Badge>
-      </div>
-    )
-  }
-]
 
 interface CashFlowVerificationFormProps {
   wrapperClassName?: string
@@ -136,14 +64,27 @@ function CashFlowVerificationForm({
 
     // Simulate Plaid connection
     setTimeout(() => {
-      setState((prev) => ({
-        ...prev,
-        isConnecting: false,
-        isFetchingDetails: false,
-        institutions: PLAID_BANKING_ACCOUNTS
-      }))
+      setState((prev) => {
+        const bankSize = PLAID_BANKING_ACCOUNTS.length
+        const genRandom = () => Math.floor(Math.random() * 100) % bankSize
+
+        const newAccounts =
+          prev.institutions.length < 12
+            ? [
+                PLAID_BANKING_ACCOUNTS[genRandom()],
+                PLAID_BANKING_ACCOUNTS[bankSize - genRandom() + 1]
+              ]
+            : []
+
+        return {
+          ...prev,
+          isConnecting: false,
+          isFetchingDetails: false,
+          institutions: [...prev.institutions, ...newAccounts]
+        }
+      })
       finishStep(STEP.CASH_FLOW_VERIFICATION)
-    }, 3000)
+    }, 2000)
   }, [finishStep])
 
   const connectedAccounts = useMemo((): LoanApplicationBankAccount[] => {
@@ -192,6 +133,8 @@ function CashFlowVerificationForm({
     </>
   )
 }
+
+export default memo(CashFlowVerificationForm)
 
 // Subcomponents
 interface InformationCardProps {
@@ -246,6 +189,153 @@ function InformationCard({
     </ConferenceFormLayout>
   )
 }
+
+interface ConnectedAccountsHeaderProps {
+  connectedAccounts: LoanApplicationBankAccount[]
+}
+
+export function ConnectedAccountsHeader({
+  connectedAccounts
+}: ConnectedAccountsHeaderProps) {
+  const renderStatus = () => {
+    if (!connectedAccounts.length) return null
+
+    return (
+      <Badge
+        isDot
+        isDotBefore
+        className="capitalize text-sm rounded-full font-medium py-1"
+        variant="soft"
+        variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
+      >
+        Pending
+      </Badge>
+    )
+  }
+
+  return (
+    <div>
+      <div className="flex items-center gap-2 mb-3">
+        <h5 className="text-lg font-semibold">Connected Accounts</h5>
+        {renderStatus()}
+      </div>
+      <div className="text-sm text-gray-600">
+        <p>
+          Please note that if your bank connection status is pending, you can
+          still complete and submit your application. We'll notify you once your
+          bank connection status has been updated.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+interface ConnectedAccountsTableProps {
+  connectedAccounts: LoanApplicationBankAccount[]
+  isFetchingDetails: boolean
+  isReviewApplicationStep: boolean
+  onSubmit: () => void
+}
+
+// Connected Accounts Table Component
+export function ConnectedAccountsTable({
+  connectedAccounts,
+  isFetchingDetails,
+  isReviewApplicationStep,
+  onSubmit
+}: ConnectedAccountsTableProps) {
+  const renderTable = () => (
+    <Card className="border-none shadow-none">
+      <CardContent className="p-0 md:p-0">
+        <MiddeskTable
+          cellClassName="py-6"
+          columns={tableColumns}
+          data={connectedAccounts}
+          noResultText="No connected accounts found"
+          tableClassName="text-gray-700 font-sm"
+        />
+      </CardContent>
+    </Card>
+  )
+
+  const renderSubmitButton = () => {
+    if (isReviewApplicationStep) return null
+
+    return (
+      <Button
+        className="w-full mt-5"
+        disabled={!connectedAccounts.length}
+        onClick={onSubmit}
+      >
+        Next
+      </Button>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-x-4xl gap-y-1 items-center p-0">
+      <div className="flex flex-col w-full">
+        <LoadingWrapper isLoading={isFetchingDetails}>
+          {renderTable()}
+          <Separator />
+          {renderSubmitButton()}
+        </LoadingWrapper>
+      </div>
+    </div>
+  )
+}
+
+// Table Configuration
+const tableColumns: ColumnDef<LoanApplicationBankAccount>[] = [
+  {
+    accessorKey: "bankAccountName",
+    size: 200,
+    header: () => (
+      <div className="flex items-center text-gray-700 -mx-4">Account</div>
+    ),
+    cell: ({ row }) => {
+      const { institutionName, bankAccountName, mask } = row.original
+
+      return (
+        <div className="min-w-0 -mx-4 uppercase text-sm">
+          {institutionName} {bankAccountName} {mask}
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: "connectedOn",
+    header: () => (
+      <div className="flex items-center space-x-2 text-gray-700">
+        Connected on
+      </div>
+    ),
+    cell: ({ row }) => {
+      const { connectedOn } = row.original
+
+      return <div className="min-w-0 text-sm">{connectedOn}</div>
+    }
+  },
+  {
+    id: "status",
+    header: () => (
+      <div className="flex items-center space-x-2 text-gray-700">Status</div>
+    ),
+    cell: () => (
+      <div className="min-w-0">
+        <Badge
+          isDot
+          isDotBefore
+          className="capitalize text-sm rounded-full font-medium py-1"
+          variant="soft"
+          variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
+        >
+          Pending
+        </Badge>
+      </div>
+    )
+  }
+]
 
 interface ConnectedAccountsCardProps {
   canConnect: boolean
@@ -303,6 +393,14 @@ function ConnectedAccountsCard({
     </ConferenceFormLayout>
   )
 }
+
+// Validation Schema
+const plaidFormSchema = z.object({
+  institution: z.object({ label: z.string(), value: z.string() }).nullable(),
+  routingNumber: z.object({ label: z.string(), value: z.string() }).optional()
+})
+
+type PlaidFormValue = z.infer<typeof plaidFormSchema>
 
 // Plaid Form Implementation
 function PlaidConnectionForm() {
@@ -375,93 +473,6 @@ function PlaidConnectionForm() {
         />
       </div>
     </Form>
-  )
-}
-
-export default memo(CashFlowVerificationForm)
-
-// Connected Accounts Header Component
-export function ConnectedAccountsHeader({
-  connectedAccounts
-}: ConnectedAccountsHeaderProps) {
-  const renderStatus = () => {
-    if (!connectedAccounts.length) return null
-
-    return (
-      <Badge
-        isDot
-        isDotBefore
-        className="capitalize text-sm rounded-full font-medium py-1"
-        variant="soft"
-        variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
-      >
-        Pending
-      </Badge>
-    )
-  }
-
-  return (
-    <div>
-      <div className="flex items-center gap-2 mb-3">
-        <h5 className="text-lg font-semibold">Connected Accounts</h5>
-        {renderStatus()}
-      </div>
-      <div className="text-sm text-gray-600">
-        <p>
-          Please note that if your bank connection status is pending, you can
-          still complete and submit your application. We'll notify you once your
-          bank connection status has been updated.
-        </p>
-      </div>
-    </div>
-  )
-}
-
-// Connected Accounts Table Component
-export function ConnectedAccountsTable({
-  connectedAccounts,
-  isFetchingDetails,
-  isReviewApplicationStep,
-  onSubmit
-}: ConnectedAccountsTableProps) {
-  const renderTable = () => (
-    <Card className="border-none shadow-none">
-      <CardContent className="p-0 md:p-0">
-        <MiddeskTable
-          cellClassName="py-6"
-          columns={tableColumns}
-          data={connectedAccounts}
-          noResultText="No connected accounts found"
-          tableClassName="text-gray-700 font-sm"
-        />
-      </CardContent>
-    </Card>
-  )
-
-  const renderSubmitButton = () => {
-    if (isReviewApplicationStep) return null
-
-    return (
-      <Button
-        className="w-full mt-5"
-        disabled={!connectedAccounts.length}
-        onClick={onSubmit}
-      >
-        Next
-      </Button>
-    )
-  }
-
-  return (
-    <div className="flex flex-col gap-x-4xl gap-y-1 items-center p-0">
-      <div className="flex flex-col w-full">
-        <LoadingWrapper isLoading={isFetchingDetails}>
-          {renderTable()}
-          <Separator />
-          {renderSubmitButton()}
-        </LoadingWrapper>
-      </div>
-    </div>
   )
 }
 

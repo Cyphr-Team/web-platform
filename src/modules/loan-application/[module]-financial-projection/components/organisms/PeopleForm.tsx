@@ -53,7 +53,10 @@ export function PeopleForm() {
   const form = useForm<PeopleFormValue>({
     resolver: zodResolver(peopleFormSchema),
     mode: "onBlur",
-    defaultValues: { ...people, id: people?.id ?? "" }
+    defaultValues: {
+      ...people,
+      id: people?.id ?? ""
+    }
   })
 
   const { watch } = form

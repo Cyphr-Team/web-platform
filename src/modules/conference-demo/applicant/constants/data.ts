@@ -8,6 +8,7 @@ import {
   LoanType
 } from "@/types/loan-program.type.ts"
 import { LoanDecisionEnum } from "../../../loan-application-management/constants/types/application"
+import { type BusinessPlanRequest } from "@/modules/conference-demo/applicant/components/organisms/BusinessPlanForm.tsx"
 
 export const PLAID_BANKING_ACCOUNTS = [
   {
@@ -17,13 +18,6 @@ export const PLAID_BANKING_ACCOUNTS = [
       {
         id: "account_1",
         name: "Plaid Money Market",
-        type: "checking",
-        subtype: "checking",
-        verificationStatus: "Connected"
-      },
-      {
-        id: "account_2",
-        name: "Plaid Saving",
         type: "checking",
         subtype: "checking",
         verificationStatus: "Connected"
@@ -39,6 +33,58 @@ export const PLAID_BANKING_ACCOUNTS = [
         name: "Plaid Checking",
         type: "checking",
         subtype: "checking",
+        verificationStatus: "Connected"
+      }
+    ]
+  },
+  {
+    institutionId: "BankOfAmerica",
+    institutionName: "Bank of America",
+    accounts: [
+      {
+        id: "account_4",
+        name: "Plaid Business Account",
+        type: "business",
+        subtype: "business",
+        verificationStatus: "Pending"
+      }
+    ]
+  },
+  {
+    institutionId: "WellsFargo",
+    institutionName: "Wells Fargo",
+    accounts: [
+      {
+        id: "account_6",
+        name: "Plaid Platinum Checking",
+        type: "checking",
+        subtype: "premium",
+        verificationStatus: "Connected"
+      }
+    ]
+  },
+  {
+    institutionId: "CapitalOne",
+    institutionName: "Capital One",
+    accounts: [
+      {
+        id: "account_9",
+        name: "Plaid 360 Savings",
+        type: "savings",
+        subtype: "high-yield",
+        verificationStatus: "Pending"
+      }
+    ]
+  },
+  {
+    institutionId: "Citi",
+    institutionName: "Citi",
+    accounts: [
+      {
+        id: "account_10",
+        name: "Plaid Citi Priority",
+        type: "checking",
+        subtype: "premium",
         verificationStatus: "Connected"
       }
     ]
@@ -139,3 +185,26 @@ export const MOCK_PLAID_ROUTING_NUMBERS = [
   "322170692",
   "323070380"
 ]
+
+export const MOCK_BUSINESS_PLAN: BusinessPlanRequest = {
+  businessDescription:
+    "We aim to empower small-scale artisans by providing them with a platform that connects them directly with international customers.",
+  socialImpact:
+    "Our project supports local economies, preserves traditional crafts, and reduces carbon footprint by promoting eco-friendly products.",
+  grantsInThreeYears:
+    "In the next three years, we plan to apply for various sustainability and innovation grants to expand our operations and impact.",
+  revenueGoal:
+    "We aim to achieve a revenue of $1 million by the end of the second year of operation.",
+  marketPotential:
+    "The global handicraft market is expected to reach $1 trillion by 2030, and we plan to capture 0.5% of this market.",
+  briefOverview:
+    "A digital marketplace for artisans to sell sustainable products, promoting local craftsmanship and eco-friendly practices.",
+  files: [
+    {
+      name: "Business Plan.pdf",
+      size: 2766266,
+      type: "application/pdf"
+    }
+  ],
+  businessPlan: ""
+}

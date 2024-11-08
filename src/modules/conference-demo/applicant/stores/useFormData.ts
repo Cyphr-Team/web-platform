@@ -24,8 +24,7 @@ const initData = (step?: STEP) => {
         grantsInThreeYears: "",
         revenueGoal: "",
         marketPotential: "",
-        briefOverview: "",
-        uploadedFiles: undefined
+        briefOverview: ""
       }
     case STEP.BUSINESS_INFORMATION:
       return {
@@ -67,6 +66,7 @@ interface FormDataSlice {
 
   action: {
     setFormData: (props: SetFormDataProps) => void
+    eraseData: () => void
   }
 }
 
@@ -81,7 +81,22 @@ const useFormDataBase = create<FormDataSlice>()((set) => ({
   [STEP.BANK_STATEMENTS]: initData() as DocumentFormType,
   //
   action: {
-    setFormData: ({ step, data }) => set({ [step]: data })
+    setFormData: ({ step, data }) => set({ [step]: data }),
+    eraseData: () =>
+      set({
+        [STEP.LOAN_REQUEST]: initData(STEP.LOAN_REQUEST) as LoanRequest,
+        [STEP.REVIEW_AND_SUBMIT]: initData(
+          STEP.REVIEW_AND_SUBMIT
+        ) as SignFormValues,
+        [STEP.BUSINESS_INFORMATION]: initData(
+          STEP.BUSINESS_INFORMATION
+        ) as BusinessInformation,
+        [STEP.BUSINESS_PLAN]: initData(
+          STEP.BUSINESS_PLAN
+        ) as BusinessPlanRequest,
+        [STEP.ARTICLES_OF_ORGANIZATION]: initData() as DocumentFormType,
+        [STEP.BANK_STATEMENTS]: initData() as DocumentFormType
+      })
   }
 }))
 

@@ -36,6 +36,8 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
+import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormData.ts"
+import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 
 const demoRoleByEmailOptions = () => {
   return [
@@ -53,6 +55,8 @@ const demoRoleByEmailOptions = () => {
 export function DemoLoginForm() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const { eraseData } = useFormData.use.action()
+  const { reset: resetProgress } = useProgress.use.action()
 
   const { isPending, mutate, error } = useLogin()
   const errorMsg = error?.response?.data.message
@@ -69,6 +73,8 @@ export function DemoLoginForm() {
     if (AdminDemoEmails.includes(email)) {
       navigate(APP_PATH.CONFERENCE_DEMO.admin.index, { replace: true })
     } else if (ApplicantDemoEmails.includes(email)) {
+      eraseData()
+      resetProgress()
       navigate(APP_PATH.CONFERENCE_DEMO.applicant.index, { replace: true })
     } else {
       toastError({

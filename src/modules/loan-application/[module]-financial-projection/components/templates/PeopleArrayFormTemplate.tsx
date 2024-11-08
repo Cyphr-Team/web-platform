@@ -8,7 +8,7 @@ import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/L
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { X } from "lucide-react"
-import { memo, type ReactNode, useCallback } from "react"
+import { memo, type ReactNode, useCallback, useEffect } from "react"
 import { useFieldArray, useFormContext } from "react-hook-form"
 
 interface PeopleArrayFormTemplateProps {
@@ -37,7 +37,7 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
     className,
     layout
   } = props
-  const { control, getValues } = useFormContext()
+  const { control, getValues, clearErrors } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
     name
@@ -63,6 +63,12 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
     },
     [onBlur, remove]
   )
+
+  useEffect(() => {
+    if (fields.length === 1) {
+      clearErrors()
+    }
+  }, [clearErrors, fields.length])
 
   return (
     <>

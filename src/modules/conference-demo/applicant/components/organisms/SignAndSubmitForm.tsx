@@ -7,7 +7,6 @@ import {
 } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 import { RHFTextInput } from "@/modules/form-template/components/molecules"
 import { RHFProvider } from "@/modules/form-template/providers"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { memo, useCallback } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
@@ -16,6 +15,7 @@ import { APP_PATH } from "@/constants"
 import { toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg.ts"
 import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
+import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
 
 function SignAndSubmitForm() {
   const navigate = useNavigate()
@@ -25,7 +25,6 @@ function SignAndSubmitForm() {
   const data = useFormData.use["Sign and Submit"]()
 
   const method = useForm<SignFormValues>({
-    resolver: zodResolver(signFormSchema),
     mode: "onBlur",
     defaultValues: data
   })
@@ -43,6 +42,14 @@ function SignAndSubmitForm() {
       ([step, stepDetail]) =>
         step !== STEP.REVIEW_AND_SUBMIT && !stepDetail.isFinish
     ).length === 0
+
+  useMagic(
+    method,
+    {
+      printName: "Larry's Latte"
+    },
+    128
+  )
 
   return (
     <ConferenceFormLayout wrapperClassName="px-[8rem]">

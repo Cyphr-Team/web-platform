@@ -9,7 +9,7 @@ import {
   RHFSelectInput,
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
-import { memo, useCallback } from "react"
+import { memo, useCallback, useEffect } from "react"
 import { Button } from "@/components/ui/button.tsx"
 import {
   useIsReviewApplicationStep,
@@ -24,6 +24,8 @@ import { ZodFileTypeFactory } from "@/modules/loan-application/constants/form"
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
 import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
+import { MOCK_BUSINESS_PLAN } from "@/modules/conference-demo/applicant/constants/data.ts"
+import _ from "lodash"
 
 export interface BusinessPlanRequest {
   businessPlan: string
@@ -33,7 +35,7 @@ export interface BusinessPlanRequest {
   revenueGoal: string
   marketPotential: string
   briefOverview: string
-  uploadedFiles: File[] | undefined
+  files: Partial<File>[] | undefined
 }
 
 const businessPlanRequestFormSchema = z.object({
@@ -60,35 +62,30 @@ function BusinessPlanForm({ wrapperClassName }: BusinessPlanFormProps) {
 
   const isReviewApplicationStep = useIsReviewApplicationStep()
 
-  const method = useForm({
+  const method = useForm<BusinessPlanRequest>({
     resolver: zodResolver(businessPlanRequestFormSchema),
     mode: "onBlur",
     defaultValues: data
   })
+
+  const { watch, setValue } = method
 
   const onSubmit = useCallback(() => {
     finishStep(STEP.BUSINESS_PLAN)
     goToStep(STEP.CASH_FLOW_VERIFICATION)
   }, [finishStep, goToStep])
 
+  const autofillData = _.omit(MOCK_BUSINESS_PLAN, "files")
+
   useAutoCompleteStepEffect(method, STEP.BUSINESS_PLAN)
 
-  const autofillData = {
-    businessDescription:
-      "We aim to empower small-scale artisans by providing them with a platform that connects them directly with international customers.",
-    socialImpact:
-      "Our project supports local economies, preserves traditional crafts, and reduces carbon footprint by promoting eco-friendly products.",
-    grantsInThreeYears:
-      "In the next three years, we plan to apply for various sustainability and innovation grants to expand our operations and impact.",
-    revenueGoal:
-      "We aim to achieve a revenue of $1 million by the end of the second year of operation.",
-    marketPotential:
-      "The global handicraft market is expected to reach $1 trillion by 2030, and we plan to capture 0.5% of this market.",
-    briefOverview:
-      "A digital marketplace for artisans to sell sustainable products, promoting local craftsmanship and eco-friendly practices."
-  }
-
   useMagic(method, autofillData, 5)
+
+  useEffect(() => {
+    if (isReviewApplicationStep && !!watch("files")?.length) {
+      setValue("files", MOCK_BUSINESS_PLAN.files)
+    }
+  }, [isReviewApplicationStep, setValue, watch])
 
   return (
     <ConferenceFormLayout
@@ -113,11 +110,15 @@ function BusinessPlanForm({ wrapperClassName }: BusinessPlanFormProps) {
                   }}
                 />
                 <div className="mt-6">
-                  <RHFDragAndDropFileUpload
-                    id={STEP.BUSINESS_PLAN}
-                    name="files"
-                  />
+                  {watch("businessPlan") === "YES" ? (
+                    <RHFDragAndDropFileUpload
+                      id={STEP.BUSINESS_PLAN}
+                      name="files"
+                      version={2}
+                    />
+                  ) : null}
                 </div>
+
                 <div className="font-semibold text-sm mt-4">
                   Please answer the following questions
                 </div>

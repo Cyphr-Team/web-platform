@@ -58,6 +58,7 @@ interface ProgressSlice {
     finishStep: (step: STEP) => void
     markStepAsUnfinished: (step: STEP) => void
     checkStep: (step: STEP) => boolean
+    reset: () => void
   }
 }
 
@@ -83,7 +84,13 @@ const useProgressBase = create<ProgressSlice>()((set, get) => ({
         })
       )
     },
-    checkStep: (step: STEP) => get().progressDetail[step].isFinish
+    checkStep: (step: STEP) => get().progressDetail[step].isFinish,
+    reset: () =>
+      set({
+        currentStep: STEP.LOAN_REQUEST,
+        progressDetail: initialProgress,
+        progress: 0
+      })
   }
 }))
 
