@@ -236,3 +236,7 @@ div.rcb-send-button:hover {
   object-fit: cover;
   background-color: #FFF;
 }
+
+.bg-selection {
+    background-color: #F2F8F8;
+}

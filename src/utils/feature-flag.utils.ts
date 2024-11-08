@@ -138,6 +138,13 @@ function isEnablePlaidV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.PLAID_V2)
 }
 
+/*
+ * Enable Loan Ready V2
+ */
+function isEnableLoanReadyV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_READY_V2)
+}
+
 export {
   isEnablePlaidV2,
   isEnablePandaDocESign,
@@ -154,5 +161,6 @@ export {
   isIgnoredCashFlowSubmission,
   isEnableLoanProgramChangesManagement,
   isEnableGoogleMapInput,
-  isEnableChatSupport
+  isEnableChatSupport,
+  isEnableLoanReadyV2
 }

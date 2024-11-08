@@ -16,6 +16,8 @@ import { userLoader } from "../loader"
 import { availableLoanProgramRoutes } from "./available-loan-program-routes"
 import { notificationRoutes } from "./notification-routes"
 import { applicantFinancialProjectionRoutes } from "@/routes/applicant-routes/financial-projection-routes"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
+import { paymentRoutes } from "@/routes/applicant-routes/payment-routes"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -53,12 +55,19 @@ const applicantRoutes = (
       }
     >
       <Route
-        lazy={() => import("@/modules/loan-application/pages/LoanApplications")}
+        lazy={() => {
+          if (isEnableLoanReadyV2() && isLoanReady())
+            return import("@/modules/loanready/pages/LoanApplications")
+          else
+            return import("@/modules/loan-application/pages/LoanApplications")
+        }}
         path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}
       />
     </Route>
 
     {isLoanReady() && applicantFinancialProjectionRoutes}
+
+    {isLoanReady() && isEnableLoanReadyV2() && paymentRoutes}
 
     {/* --- NOTIFICATION --- */}
     {/* Temporarily hide for kcc bank */}
