@@ -6,23 +6,20 @@ interface ThemeOptionType {
   title: string
   questions: string[]
 }
+
 type ThemeOptionsMapType = Record<string, ThemeOptionType>
 
 const themeOptionsMap: ThemeOptionsMapType = {
   findingEIN: {
     title: "Finding EIN",
-    questions: [
-      "What’s a EIN/TIN?",
-      "Where do I find my EIN?",
-      "Where can I get my EIN?"
-    ]
+    questions: ["What’s a EIN/TIN?", "Where do I find my EIN?"]
   },
   businessFormation: {
     title: "Business Formation & Documentation",
     questions: [
       "What are Articles of Organization?",
       "What if I don't have a business address, can I use my residential address?",
-      "What are Certificate of Good Standing?"
+      "What is a Certificate of Good Standing?"
     ]
   },
   businessManagement: {
@@ -31,21 +28,15 @@ const themeOptionsMap: ThemeOptionsMapType = {
   },
   loanAffordability: {
     title: "Loan Affordability",
-    questions: [
-      "How much can I afford for Loan Affordability?",
-      "What loan amount can I qualify for?"
-    ]
+    questions: ["What is my loan affordability?"]
   },
   loanPaymentGuidance: {
     title: "Loan Payment Guidance",
-    questions: ["I want to calculate the total loan amount"]
+    questions: ["How can I calculate the total loan amount?"]
   },
   platformConnectivity: {
     title: "Platform Connectivity",
-    questions: [
-      "I’m having issues connecting to Plaid. Can you help me?",
-      "How can I disconnect Plaid from the platform and my bank account? I’d like to remove this connection."
-    ]
+    questions: ["I’m having issues connecting to Plaid. Can you help me?"]
   },
   applicationProcess: {
     title: "Application Process & Submission",
