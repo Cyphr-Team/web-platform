@@ -1,44 +1,14 @@
-import { useQueryGetUserLoanApplications } from "@/modules/loan-application/hooks/useQuery/useQueryUserLoanApplications"
 import { TopNav } from "../molecules/TopNav"
 import { cn } from "@/lib/utils"
-import {
-  LoanApplicationStatus,
-  type UserMicroLoanApplication
-} from "@/types/loan-application.type"
-import { type FC, type PropsWithChildren, useEffect, useState } from "react"
-import useRouter from "@/hooks/useRouter.ts"
-import { APP_PATH } from "@/constants"
+import { type PropsWithChildren } from "react"
 import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
+import { useParams } from "react-router-dom"
 
-import { type ListResponse } from "@/types/common.type.ts"
-import { type InfiniteData } from "@tanstack/react-query"
-
-export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
-  props
-) => {
+export function ApplicantFinancialProjectionsLayout(
+  props: PropsWithChildren
+): JSX.Element {
   const { children } = props
-  const { push } = useRouter()
-
-  // TODO: Endpoint to check if there exists any submitted loan application.
-  const { data, isFetching } = useQueryGetUserLoanApplications({
-    limit: 1000,
-    offset: 0
-  })
-
-  const [setupId, setSetupId] = useState("")
-
-  useEffect(() => {
-    if (isFetching || !data?.pages) return
-
-    const submittedApplication = getSubmittedApplication(data)
-
-    if (submittedApplication) {
-      setSetupId(submittedApplication.id)
-      push(
-        APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW(submittedApplication.id)
-      )
-    }
-  }, [data, data?.pages, isFetching, push, setupId])
+  const { id: loanApplicationId } = useParams()
 
   return (
     <div
@@ -57,31 +27,13 @@ export const ApplicantFinancialProjectionsLayout: FC<PropsWithChildren> = (
         how revenue and expenses could impact profitability.{" "}
       </p>
       <div className="my-4 flex flex-col space-y-3xl mt-xl">
-        {!isFetching && setupId == "" ? (
+        {loanApplicationId == "" ? (
           <EmptyApplications />
         ) : (
-          <TopNav id={setupId} />
+          <TopNav id={loanApplicationId} />
         )}
       </div>
       <div className="p-4xl pt-3xl flex-1 bg-gray-50">{children}</div>
     </div>
-  )
-}
-
-function getSubmittedApplication(
-  data: InfiniteData<ListResponse<UserMicroLoanApplication>>
-): UserMicroLoanApplication | undefined {
-  const statusSet = new Set(
-    [
-      LoanApplicationStatus.SUBMITTED,
-      LoanApplicationStatus.APPROVED,
-      LoanApplicationStatus.DENIED,
-      LoanApplicationStatus.READY_FOR_REVIEW,
-      LoanApplicationStatus.IN_REVIEW
-    ].map((status) => status.toLowerCase())
-  )
-
-  return data.pages[0]?.data.find((application) =>
-    statusSet.has(application.status.toLowerCase())
   )
 }

@@ -23,7 +23,7 @@ export function LoanReadyLoanSubmission() {
   }
 
   const handleGoToFinancialProjectionDetail = () => {
-    navigate(APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX(":id"))
+    navigate(APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX)
   }
 
   const btnIcon = {
