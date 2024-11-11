@@ -1,5 +1,5 @@
 enum FORM_TYPE {
-  LOAN_REQUEST = "loanRequest",
+  LOAN_REQUEST = "loan_request", // Used in API request
   CONFIRMATION = "confirmationForm",
   KYB = "kyb",
   KYC = "kyc",
@@ -38,7 +38,10 @@ enum FORM_TYPE {
 }
 
 enum LOAN_APPLICATION_STEPS {
+  // TODO() : Change this step to create application
   LOAN_REQUEST = "loanRequest",
+  // TODO() : Change this step to Loan Request
+  LOAN_REQUEST_V2 = "loanRequestV2",
   BUSINESS_INFORMATION = "businessInformation",
 
   OWNER_INFORMATION = "ownerInformationForm",

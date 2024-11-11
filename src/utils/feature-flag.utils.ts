@@ -145,6 +145,13 @@ function isEnableLoanReadyV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.LOAN_READY_V2)
 }
 
+/**
+ * Enable FormV2
+ */
+function isEnableFormV2() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.FORM_V2)
+}
+
 export {
   isEnableLoanReadyV2,
   isEnablePlaidV2,
@@ -162,5 +169,6 @@ export {
   isIgnoredCashFlowSubmission,
   isEnableLoanProgramChangesManagement,
   isEnableGoogleMapInput,
-  isEnableChatSupport
+  isEnableChatSupport,
+  isEnableFormV2
 }

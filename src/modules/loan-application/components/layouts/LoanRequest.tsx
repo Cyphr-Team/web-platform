@@ -33,7 +33,10 @@ import {
   useLoanProgramDetailContext
 } from "../../providers"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { loanRequestFormSchema } from "../../constants/form"
+import {
+  type ILoanRequestFormValue,
+  loanRequestFormSchema
+} from "../../constants/form"
 import { useEffect, useMemo } from "react"
 import {
   isKansasCity,
@@ -49,21 +52,42 @@ import { isReviewApplicationStep } from "../../services"
 import { useAutoCompleteStepEffect } from "../../hooks/useAutoCompleteStepEffect"
 import { RHFTextInput } from "../../../form-template/components/molecules"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
+import { schemasByInstitution } from "../../constants/form[v2]"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils"
+import { type MicroLoanProgramType } from "@/types/loan-program.type"
 
 interface LoanRequestProps {
   wrapperClassName?: string
 }
 
+function getOrDefault(
+  loanRequestV2: ILoanRequestFormValue,
+  loanProgramDetails?: MicroLoanProgramType
+) {
+  return {
+    id: loanRequestV2?.id ?? "",
+    applicationId: loanRequestV2?.applicationId ?? "",
+    loanAmount: loanRequestV2?.loanAmount ?? 0,
+    proposeUseOfLoan: loanRequestV2?.proposeUseOfLoan ?? UseOfLoan.OTHER,
+    // Form V2 does not need below fields, put them here to make them aligned with form V1
+    loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 2,
+    requestingInstitution: ""
+  }
+}
+
 export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
   const { loanProgramDetails, loanProgramInfo } = useLoanProgramDetailContext()
-  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
-  const { loanRequest, dispatchFormAction } = useLoanApplicationFormContext()
+  const { finishCurrentStep, completeSpecificStep, step } =
+    useLoanApplicationProgressContext()
+  const { loanRequest, loanRequestV2, dispatchFormAction } =
+    useLoanApplicationFormContext()
   const minLoanAmount = loanProgramDetails?.minLoanAmount ?? 0
   const maxLoanAmount = loanProgramDetails?.maxLoanAmount ?? 0
 
   const defaultValues = useMemo(() => {
     return {
       id: loanRequest?.id ?? "",
+      applicationId: loanRequest?.id ?? "",
       loanAmount: loanRequest?.loanAmount ?? minLoanAmount ?? 0,
       loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
       proposeUseOfLoan:
@@ -101,7 +125,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
         loanAmount: form.getValues("loanAmount"),
         loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
         proposeUseOfLoan: form.getValues("proposeUseOfLoan"),
-        requestingInstitution: form.getValues("requestingInstitution")
+        requestingInstitution: form.getValues("requestingInstitution") ?? ""
       }
     })
     // Change step status to next step
@@ -133,7 +157,54 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
     loanProgramDetails?.maxTermInMonth
   ])
 
-  useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+  /**
+   * Loan Request V2
+   */
+
+  const formV2 = useForm({
+    resolver: zodResolver(schemasByInstitution()),
+    mode: "onBlur",
+    values: getOrDefault(loanRequestV2, loanProgramDetails)
+  })
+
+  const formV2HandleSubmit = formV2.handleSubmit(() => {
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2,
+      state: {
+        id: formV2.getValues("id") ?? "",
+        applicationId: loanRequestV2?.applicationId ?? "",
+        loanAmount: formV2.getValues("loanAmount"),
+        loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
+        proposeUseOfLoan:
+          formV2.getValues("proposeUseOfLoan") ?? UseOfLoan.OTHER
+      }
+    })
+
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+      state: {
+        id: loanRequestV2.applicationId ?? "",
+        loanAmount: form.getValues("loanAmount"),
+        loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
+        proposeUseOfLoan: form.getValues("proposeUseOfLoan"),
+        requestingInstitution: form.getValues("requestingInstitution") ?? ""
+      }
+    })
+
+    completeSpecificStep(LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2)
+    finishCurrentStep()
+  })
+
+  const isEnabledFormV2 = isEnableFormV2()
+  const formToUse = isEnabledFormV2 ? formV2 : form
+  const handleSubmitHandlerToUse = isEnabledFormV2
+    ? formV2HandleSubmit
+    : handleSubmit
+
+  useAutoCompleteStepEffect(formToUse, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+  useAutoCompleteStepEffect(formToUse, LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2)
 
   return (
     <FormLayout title="Loan Request" wrapperClassName={wrapperClassName}>
@@ -151,14 +222,14 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
         </CardDescription>
       </CardHeader>
 
-      <Form {...form}>
-        <form onSubmit={handleSubmit}>
+      <Form {...formToUse}>
+        <form onSubmit={handleSubmitHandlerToUse}>
           <CardContent>
             <div>
               <div className="flex">
                 <div className="flex-1">
                   <FormField
-                    control={form.control}
+                    control={formToUse.control}
                     name="loanAmount"
                     render={({ field }) => (
                       <FormItem className="space-y-1">
@@ -203,7 +274,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
 
                   {!isLoanReady() && (
                     <FormField
-                      control={form.control}
+                      control={formToUse.control}
                       name="loanAmount"
                       render={({ field }) => (
                         <FormItem className="mb-6 mt-4">
@@ -239,7 +310,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                     !isLaunchKC() &&
                     !isKansasCity() && (
                       <FormField
-                        control={form.control}
+                        control={formToUse.control}
                         name="proposeUseOfLoan"
                         render={({ field }) => (
                           <FormItem>
@@ -298,7 +369,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
             <CardFooter>
               <Button
                 className="w-full"
-                disabled={!form.formState.isValid}
+                disabled={!formToUse.formState.isValid}
                 type="submit"
               >
                 Next <ArrowRight className="ml-1 w-4" />

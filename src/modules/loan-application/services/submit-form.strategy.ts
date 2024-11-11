@@ -22,7 +22,10 @@ import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/ho
 import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { isLoanReady, isSbb } from "@/utils/domain.utils"
-import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
+import {
+  isEnableFormV2,
+  isEnablePandaDocESign
+} from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, isAxiosError } from "axios"
 import { type Dispatch, useCallback } from "react"
@@ -37,22 +40,23 @@ import {
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
 import { type ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
-import {
-  type BusinessModelFormValue,
-  type ConfirmationFormValue,
-  type CurrentLoansFormValue,
-  type DocumentUploadsFormValue,
-  type ESignFormValue,
-  type ExecutionFormValue,
-  type FinancialFormValue,
-  type IBusinessFormValue,
-  type IdentityVerificationValue,
-  type IOwnerFormValue,
-  type LaunchKCFitFormValue,
-  type LoanRequestFormValue,
-  type MarketOpportunityFormValue,
-  type OperatingExpensesFormValue,
-  type ProductServiceFormValue
+import type {
+  ILoanRequestFormValue,
+  BusinessModelFormValue,
+  ConfirmationFormValue,
+  CurrentLoansFormValue,
+  DocumentUploadsFormValue,
+  ESignFormValue,
+  ExecutionFormValue,
+  FinancialFormValue,
+  IBusinessFormValue,
+  IdentityVerificationValue,
+  IOwnerFormValue,
+  LaunchKCFitFormValue,
+  LoanRequestFormValue,
+  MarketOpportunityFormValue,
+  OperatingExpensesFormValue,
+  ProductServiceFormValue
 } from "../constants/form"
 import {
   type CurrentLoansInformationResponse,
@@ -90,13 +94,19 @@ import {
   FORM_ACTION,
   type FormStateType
 } from "../providers/LoanApplicationFormProvider"
-import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
+import {
+  mapLoanRequestDataToV2,
+  reverseFormatKybForm,
+  reverseFormatKycForm
+} from "./form.services"
 import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
+import { useMutateLoanRequest } from "../hooks/loanrequest/useSubmitLoanRequest"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
   progress: ILoanApplicationStep[],
   loanRequestData: LoanRequestFormValue,
+  loanRequestV2Data: ILoanRequestFormValue,
   businessData: IBusinessFormValue,
   ownerData: IOwnerFormValue,
   financialData: FinancialFormValue,
@@ -235,9 +245,30 @@ export const useSubmitLoanForm = (
   const { submitLoanRequestForm, isLoading: isSubmittingLoanRequest } =
     useSubmitMicroLoanRequestForm(
       loanRequestData,
-      loanRequestData?.id ?? "",
+      loanRequestV2Data?.applicationId ?? loanRequestData?.id ?? "",
       loanProgramId
     )
+
+  /**
+   * Loan Request V2
+   */
+  const updateLoanRequestData = (loanRequestV2Data: ILoanRequestFormValue) =>
+    updateDataAfterSubmit(
+      {
+        ...loanRequestV2Data
+      },
+      LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2
+    )
+
+  const { mutateLoanRequest, isSubmittingLoanRequestV2 } = useMutateLoanRequest(
+    {
+      applicationId: loanRequestV2Data?.applicationId ?? "",
+      formId: loanRequestV2Data?.id ?? "",
+      metadata: mapLoanRequestDataToV2(loanRequestV2Data),
+      onSuccess: updateLoanRequestData
+    }
+  )
+
   const updateFinancialData = (data: FinancialInformationResponse) =>
     updateDataAfterSubmit(
       {
@@ -479,7 +510,8 @@ export const useSubmitLoanForm = (
     try {
       // Submit loan request form
       const { data } = await submitLoanRequestForm()
-      const loanRequestId = data.id
+      // TODO(): rename loanRequestId to applicationId
+      const loanRequestId = data.id // Loan Application ID
 
       if (loanRequestId) {
         dispatchFormAction({
@@ -495,6 +527,18 @@ export const useSubmitLoanForm = (
       let isSubmitted = false
 
       const submitPromises = []
+
+      /**
+       * Submit Loan Request v2
+       * Loan Request is now treated as a separate form
+       */
+      if (
+        isEnableFormV2() &&
+        loanRequestV2Data &&
+        isCompleteSteps(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+      ) {
+        submitPromises.push(mutateLoanRequest(loanRequestId))
+      }
 
       // Submit identity verification - Link inquiry id
       if (identityVerificationData?.inquiryId) {
@@ -707,12 +751,13 @@ export const useSubmitLoanForm = (
     }
   }, [
     submitLoanRequestForm,
+    loanRequestV2Data,
+    isCompleteSteps,
     identityVerificationData?.inquiryId,
     identityVerificationData?.smartKycId,
     eSignData?.documentId,
     plaidItemIds?.length,
     businessData,
-    isCompleteSteps,
     currentLoansData,
     operatingExpensesData,
     productServiceData,
@@ -721,8 +766,8 @@ export const useSubmitLoanForm = (
     executionData,
     businessModelData,
     documentUploadsData,
-    financialData,
     ownerData,
+    financialData,
     cashflowData,
     handleSubmitFinancialProjection,
     confirmationData,
@@ -730,6 +775,7 @@ export const useSubmitLoanForm = (
     loanRequestData?.id?.length,
     queryClient,
     dispatchFormAction,
+    mutateLoanRequest,
     submitLoanIdentityVerification,
     submitESignDocument,
     submitLinkPlaidItemds,
@@ -757,6 +803,7 @@ export const useSubmitLoanForm = (
     isLoading:
       isSubmittingCashFlow ||
       isSubmittingLoanRequest ||
+      isSubmittingLoanRequestV2 ||
       isSubmittingKYB ||
       isSubmittingKYC ||
       isSubmittingFinancial ||

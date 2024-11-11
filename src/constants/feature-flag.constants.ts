@@ -23,5 +23,7 @@ export enum FEATURE_FLAGS {
   /**
    * Loan Ready V2
    */
-  LOAN_READY_V2 = "LOAN_READY_V2"
+  LOAN_READY_V2 = "LOAN_READY_V2",
+
+  FORM_V2 = "FORM_V2"
 }

@@ -86,7 +86,6 @@ export function LoanApplicationSave() {
    * If they are editing the application (already have applicationId), they can save and close the application
    * because they have already completed the loan request form
    */
-
   const isAbleToSaveApplication =
     loanRequest?.applicationId || // If they are editing the application
     (isSbbTenant
