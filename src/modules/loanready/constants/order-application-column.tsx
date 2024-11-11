@@ -6,14 +6,10 @@ import { ChevronRightIcon } from "lucide-react"
 import { convertToReadableDate, snakeCaseToText } from "@/utils"
 import { Badge } from "@/components/ui/badge.tsx"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
-import { cn } from "@/lib/utils.ts"
-import { getCriteriaScoreRangeClassName } from "@/modules/loan-application-management/services/loan-readiness.service.ts"
-import { RatingLevel } from "@/modules/assessment/interface/Rating/type.ts"
 
 /**
  * Columns for workspace admin list applications
  */
-
 export const orderApplicationColumn = (
   handleClickDetail: (row: Row<OrderLoanApplication>) => VoidFunction
 ): ColumnDef<OrderLoanApplication>[] => [
@@ -72,26 +68,7 @@ export const orderApplicationColumn = (
       )
     }
   },
-  {
-    id: "loanReadyScore",
-    header: renderHeader("Loan Ready score"),
-    cell: () => {
-      const criteriaBadgeClassName = getCriteriaScoreRangeClassName(
-        RatingLevel.POOR
-      )
-
-      return (
-        <Badge
-          className={cn(
-            criteriaBadgeClassName,
-            "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center border"
-          )}
-        >
-          {snakeCaseToText(RatingLevel.POOR)}
-        </Badge>
-      )
-    }
-  },
+  // TODO: Implement Loan Ready score
   {
     id: "action",
     header: renderHeader(""),

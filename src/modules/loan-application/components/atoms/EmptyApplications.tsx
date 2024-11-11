@@ -5,9 +5,13 @@ import { Link } from "react-router-dom"
 
 interface EmptyApplicationsProps {
   hideBtnStart?: boolean
+  linkTo?: string
 }
 
-export function EmptyApplications({ hideBtnStart }: EmptyApplicationsProps) {
+export function EmptyApplications({
+  hideBtnStart,
+  linkTo
+}: EmptyApplicationsProps) {
   return (
     <div className="flex flex-col items-center text-center justify-center max-w-80 mx-auto gap-xl mt-5xl">
       <div className="border-2 w-12 h-12 rounded-xl flex items-center">
@@ -25,7 +29,7 @@ export function EmptyApplications({ hideBtnStart }: EmptyApplicationsProps) {
         </p>
       </div>
       {hideBtnStart ? null : (
-        <Link to={APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.all}>
+        <Link to={linkTo ?? APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.all}>
           <Button className="mt-4 bg-lime-400 hover:bg-lime-300 text-text-primary font-semibold text-sm">
             Start Application <Plus className="w-4 h-4 ml-1" />
           </Button>

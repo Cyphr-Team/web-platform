@@ -1,184 +1,162 @@
-import { Badge } from "@/components/ui/badge"
-import { InfiniteDataTable } from "@/components/ui/infinite-data-table"
-import { Progress } from "@/components/ui/progress"
 import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
-import { cn } from "@/lib/utils"
-import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
-import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
-import { useQueryGetUserLoanApplications } from "@/modules/loan-application/hooks/useQuery/useQueryUserLoanApplications"
-import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import {
-  convertToReadableDate,
-  convertToReadableDateAgo,
-  snakeCaseToText,
-  toCurrency
-} from "@/utils"
-import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
-import { type AccessorKeyColumnDef, type Row } from "@tanstack/react-table"
-import { ChevronRightIcon } from "lucide-react"
+  type ColumnDef,
+  type PaginationState,
+  type Row
+} from "@tanstack/react-table"
+import { useSearchOrderLoanApplications } from "@/modules/loanready/hooks/applications/order-list.ts"
+import { DataTable } from "@/components/ui/data-table.tsx"
+import { useState } from "react"
 import { type NavigateFunction, useNavigate } from "react-router-dom"
+import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications.tsx"
+import type { OrderLoanApplication } from "@/modules/loanready/types/order-application.ts"
+import { renderHeader } from "@/utils/table.utils.tsx"
+import { convertToReadableDate, snakeCaseToText } from "@/utils"
+import { Badge } from "@/components/ui/badge.tsx"
+import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
+import { EDITABLE_STATUSES } from "@/types/loan-application.type.ts"
+import { ChevronRightIcon } from "lucide-react"
+import { LoanReadyPlan } from "@/modules/loanready/types/payment.ts"
 
 export function Component() {
+  return <LoanReadyFinancialApplications />
+}
+
+export default function LoanReadyFinancialApplications() {
   const navigate = useNavigate()
-  const { data, isFetching, fetchNextPage } = useQueryGetUserLoanApplications({
-    limit: REQUEST_LIMIT_PARAM,
-    offset: 0
+
+  // Paginate state
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: REQUEST_LIMIT_PARAM
   })
 
-  const clickDetailHandler = handleClickDetail(navigate)
-  const loanApplicationColumns = getLoanApplicationColumns(
-    (row: Row<UserMicroLoanApplication>) => () => clickDetailHandler(row)
-  )
-
-  const getFilteredColumns =
-    (): AccessorKeyColumnDef<UserMicroLoanApplication>[] => {
-      if (!formsConfigurationEnabled()) {
-        return loanApplicationColumns.filter(
-          (column) =>
-            column.accessorKey !== "loanAmount" &&
-            column.accessorKey !== "progress"
-        )
-      } else {
-        return loanApplicationColumns
+  // Query list applications
+  const { data, isFetching } = useSearchOrderLoanApplications({
+    request: {
+      limit: pagination.pageSize,
+      offset: pagination.pageIndex * pagination.pageSize,
+      filter: {
+        plan: [LoanReadyPlan.PLUS]
       }
     }
+  })
+
+  const clickDetailHandler =
+    loanReadyFinancialApplicationHandleClickDetail(navigate)
+  const loanApplicationColumns = orderFinancialApplicationColumn(
+    (row) => () => clickDetailHandler(row)
+  )
 
   return (
-    <div
-      className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
-    >
-      <h1 className="text-3xl font-semibold">Financial Projections</h1>
-      <p className="text-text-tertiary mt-1">
-        Keep track of your applications and their statuses
+    <div className="container mx-auto px-2xl py-2xl md:px-4xl md:py-4xl">
+      <h1 className="text-3.5xl font-semibold">Financial Projections</h1>
+      <p className="mt-1 mb-2">
+        Keep track of your account applications and their statuses
       </p>
 
-      {!isFetching && !data?.pages[0]?.data?.length ? (
-        <EmptyApplications />
+      {!isFetching && !data?.data.data?.length ? (
+        <EmptyApplications
+          linkTo={APP_PATH.LOAN_APPLICATION.APPLICATIONS.payment}
+        />
       ) : (
-        <InfiniteDataTable
-          columns={getFilteredColumns()}
-          data={data}
-          fetchNextPage={fetchNextPage}
-          isFetching={isFetching}
+        <DataTable
+          columns={loanApplicationColumns}
+          data={data?.data.data ?? []}
+          isLoading={isFetching}
+          pagination={pagination}
+          setPagination={setPagination}
+          tableCellClassName="text-[#667085]"
+          tableContainerClassName="flex flex-col flex-1 h-[85vh] rounded-full"
+          tableHeadClassName="text-xs text-[#667085]"
+          tableHeaderClassName="bg-[#f9fafb] !text-xs"
+          tableWrapperClassName="rounded-lg"
+          total={data?.data.total ?? 0}
         />
       )}
     </div>
   )
 }
-Component.displayName = "FinancialProjections"
 
-export const handleClickDetail =
-  (navigate: NavigateFunction) => (detail: Row<UserMicroLoanApplication>) => {
-    const { id } = detail.original
+Component.displayName = "ApplicantOrderFinancialLoanApplications"
 
-    navigate(APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW(id))
+const loanReadyFinancialApplicationHandleClickDetail =
+  (navigate: NavigateFunction) => (detail: Row<OrderLoanApplication>) => {
+    const { id, loanProgram } = detail.original
+    const { id: loanProgramId } = loanProgram
+    const navigationConfigs: Record<string, { path: string; state?: object }> =
+      {
+        editable: {
+          path: APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(
+            id,
+            loanProgramId
+          ),
+          state: { backUrl: APP_PATH.LOAN_APPLICATION.APPLICATIONS.index }
+        },
+        financialOverview: {
+          path: APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW(id)
+        }
+      }
+
+    let configKey = "financialOverview"
+
+    if (EDITABLE_STATUSES.includes(detail.original.status)) {
+      configKey = "editable"
+    }
+
+    const { path, state } = navigationConfigs[configKey]
+
+    navigate(path, {
+      state: {
+        ...state,
+        loanProgramDetails: loanProgram
+      }
+    })
   }
 
-export const getLoanApplicationColumns = (
-  handleClickDetail: (row: Row<UserMicroLoanApplication>) => () => void
-): AccessorKeyColumnDef<UserMicroLoanApplication>[] => [
+export const orderFinancialApplicationColumn = (
+  handleClickDetail: (row: Row<OrderLoanApplication>) => VoidFunction
+): ColumnDef<OrderLoanApplication>[] => [
   {
-    id: "applicant",
-    accessorKey: "loanProgram",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loan Program" />
-    ),
+    id: "businessName",
+    header: renderHeader("Business name"),
     cell: ({ row }) => {
-      const application = row.original
-
-      return (
-        <div className="min-w-0">
-          <p className="text-sm text-muted-foreground mt-0.5 truncate">
-            {application.loanProgram.name}
-          </p>
-        </div>
-      )
-    },
-    size: 300
+      return <div>{row.original?.businessName ?? "---"}</div>
+    }
   },
   {
-    accessorKey: "loanAmount",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="text-right w-full"
-        column={column}
-        title="Amount requested"
-      />
-    ),
-    size: 150,
+    id: "email",
+    header: renderHeader("Email"),
     cell: ({ row }) => {
-      const application = row.original
-
+      return <div>{row.original?.ownerEmail ?? "---"}</div>
+    }
+  },
+  {
+    id: "createdOn",
+    header: renderHeader("Created On"),
+    cell: ({ row }) => {
+      return <p>{convertToReadableDate(row.original.createdAt)}</p>
+    }
+  },
+  {
+    id: "submittedOn",
+    header: renderHeader("Submitted On"),
+    cell: ({ row }) => {
       return (
-        <div className="min-w-0">
-          <p className="truncate text-right">
-            {toCurrency(application.loanAmount)}
-          </p>
-        </div>
+        <p>
+          {row.original.submittedAt
+            ? convertToReadableDate(row.original.submittedAt)
+            : "---"}
+        </p>
       )
     }
   },
   {
-    accessorKey: "createdAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="text-right w-full"
-        column={column}
-        title="Started On"
-      />
-    ),
-    enableSorting: false,
-    size: 150,
+    id: "status",
+    header: renderHeader("Status"),
     cell: ({ row }) => {
       const application = row.original
-
-      return (
-        <div className="min-w-0">
-          <p className="truncate capitalize text-right">
-            {convertToReadableDate(application.createdAt)}
-          </p>
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: "updatedAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="text-right w-full"
-        column={column}
-        title="Activity"
-      />
-    ),
-    size: 150,
-    enableSorting: false,
-    cell: ({ row }) => {
-      const application = row.original
-
-      return (
-        <div className="min-w-0">
-          <p className="truncate text-right">
-            {convertToReadableDateAgo(application.updatedAt)}
-          </p>
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: "status",
-    enableSorting: false,
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="text-right"
-        column={column}
-        title="Status"
-      />
-    ),
-    size: 190,
-    cell: ({ row }) => {
-      const application = row.original
-      const status = application?.status
+      const status = application.status
 
       return (
         <div className="font-medium">
@@ -188,50 +166,26 @@ export const getLoanApplicationColumns = (
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}
           >
-            {snakeCaseToText(status)}
+            {status ? snakeCaseToText(status) : ""}
           </Badge>
         </div>
       )
     }
   },
   {
-    accessorKey: "progress",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="text-right"
-        column={column}
-        title="Progress"
-      />
-    ),
-    size: 150,
-    cell: ({ row }) => {
-      const application = row.original
-
-      return (
-        <div className="relative">
-          <Progress
-            className="flex items-center justify-end"
-            value={Math.round(100 * application.latestProgress)}
-          />
-          <span className="absolute top-1/2 transform -translate-y-1/2 pl-2 right-[-40px]">
-            {Math.round(100 * application.latestProgress)}%
-          </span>
-        </div>
-      )
-    }
-  },
-  {
     id: "action",
-    accessorKey: "detail",
-    header: () => <p />,
-    size: 150,
+    header: renderHeader(""),
     cell: ({ row }) => {
       return (
         <div
           className="font-medium flex gap-2 items-center cursor-pointer justify-end"
           onClick={handleClickDetail(row)}
         >
-          <p>Review</p>
+          {EDITABLE_STATUSES.includes(row.original.status?.toLowerCase()) ? (
+            <p>Continue</p>
+          ) : (
+            <p>Review</p>
+          )}
           <ChevronRightIcon className="h-4 w-4" />
         </div>
       )
