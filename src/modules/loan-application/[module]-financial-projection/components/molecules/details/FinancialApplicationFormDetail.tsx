@@ -47,23 +47,22 @@ export function FinancialApplicationFormDetail(
   return (
     <div
       className={cn(
+        "bg-white overflow-hidden",
         !isSubChildren && "border rounded-lg",
-        isSubChildren && [
-          "mt-2 p-4 md:p-8 py-0 md:py-0 last:pb-4 last:md:pb-8",
-          EXPORT_CLASS.FINANCIAL
-        ]
+        isSubChildren && "mt-2 p-4 md:p-8 py-0 md:py-0 last:pb-4 last:md:pb-8"
       )}
     >
       <FinancialDetailCard
         hasSubChildren={!!subChildren}
         isPdf={isPdf}
+        isSubChildren={isSubChildren}
         subTitle={subTitle}
         title={title}
       >
         {render}
       </FinancialDetailCard>
 
-      {subChildren}
+      <div className={cn(isPdf && EXPORT_CLASS.FINANCIAL)}>{subChildren}</div>
     </div>
   )
 }

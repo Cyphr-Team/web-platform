@@ -72,7 +72,7 @@ export const useFinancialApplicationDetail = ({
     subChildren: checkIsLoanApplicant() ? (
       <ConnectedAccountDetail overwriteBankAccounts={connectedBankAccounts} />
     ) : (
-      <CashFlowTable wrapperClassName="border-none -mt-8" />
+      <CashFlowTable wrapperClassName="-mt-8" />
     )
   }
 

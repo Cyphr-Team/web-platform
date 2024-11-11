@@ -29,7 +29,9 @@ export const APP_PATH = {
   LOAN_APPLICATION: {
     SETTINGS: "/loan/settings",
     FINANCIAL_APPLICATIONS: {
-      detail: "/loan/:loanProgramId/financial-applications/:id"
+      detail: "/loan/:loanProgramId/financial-applications/:id",
+      detailReadiness:
+        "/loan/:loanProgramId/financial-applications/:id/readiness"
     },
     APPLICATIONS: {
       index: "/loan/applications",

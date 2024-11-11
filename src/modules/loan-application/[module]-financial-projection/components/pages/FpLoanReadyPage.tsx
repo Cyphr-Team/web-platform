@@ -5,10 +5,18 @@ import { Drawer } from "@/modules/loan-application/[module]-financial-projection
 import { useParams } from "react-router-dom"
 
 export function Component() {
-  return <LoanReadiness />
+  return (
+    <div className="flex flex-col gap-8">
+      <div className="ml-auto">
+        <Drawer />
+      </div>
+
+      <LoanReadiness />
+    </div>
+  )
 }
 
-export function LoanReadiness() {
+export default function LoanReadiness() {
   const { id } = useParams()
   const { data, isLoading } = useQueryLoanReadinessAssessmentByApplicationId({
     applicationId: id
@@ -16,14 +24,11 @@ export function LoanReadiness() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="ml-auto">
-        <Drawer />
-      </div>
-
       <FinancialApplicationAssessment
         {...(data?.applicationScore ?? {})}
         isLoading={isLoading}
       />
+
       <FinancialApplicationCriteria
         criteria={data?.criteria}
         isLoading={isLoading}

@@ -1,10 +1,8 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { CardContent, CardTitle } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
 import { DetailTable } from "@/modules/loan-application/[module]-financial-projection/components/atoms/table"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
-import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import {
   CashFlowConnectedBadge,
   CashFlowPendingBadge
@@ -88,9 +86,7 @@ export function ConnectedAccountDetail({
   }
 
   return (
-    <div
-      className={cn("-mt-8 px-4 md:px-8 p-4 md:p-8", EXPORT_CLASS.FINANCIAL)}
-    >
+    <div className="-mt-8 px-4 md:px-8 p-4 md:p-8">
       <div className="flex justify-between items-center flex-wrap gap-1 border-b pb-2 md:pb-5">
         <CardTitle className="font-semibold text-lg flex items-center gap-3">
           Connected Accounts

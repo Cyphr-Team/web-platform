@@ -16,6 +16,7 @@ import { useIsFetching } from "@tanstack/react-query"
 import { FolderDown, X } from "lucide-react"
 import { type ReactNode, useMemo } from "react"
 import { useForm } from "react-hook-form"
+import { LoanReadyPlan } from "@/modules/loanready/types/payment.ts"
 
 interface DrawerCheckBoxProps {
   name: ExportFPOption
@@ -130,7 +131,36 @@ function DrawerContent() {
   )
 }
 
-export function Drawer() {
+function BasicApplicationDrawerContent() {
+  return (
+    <div className="p-2 flex flex-col">
+      <CardSection title="Loan Ready">
+        <CheckboxGroup
+          options={[
+            { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
+          ]}
+        />
+      </CardSection>
+
+      <CardSection title="Application">
+        <CheckboxGroup
+          options={[
+            {
+              name: ExportFPOption.APPLICATION_SUMMARY,
+              label: "Application Summary"
+            }
+          ]}
+        />
+      </CardSection>
+    </div>
+  )
+}
+
+interface DrawerProps {
+  applicationPlan?: LoanReadyPlan
+}
+
+export function Drawer({ applicationPlan }: DrawerProps) {
   const openDrawer = useBoolean(false)
 
   const methods = useForm<Record<ExportFPOption, boolean>>()
@@ -176,6 +206,13 @@ export function Drawer() {
     isFetchingLoanSummary
   )
 
+  const drawerContent =
+    applicationPlan === LoanReadyPlan.BASIC ? (
+      <BasicApplicationDrawerContent />
+    ) : (
+      <DrawerContent />
+    )
+
   return (
     <>
       <div className="text-center ml-2">
@@ -213,9 +250,7 @@ export function Drawer() {
         </div>
 
         <RHFProvider methods={methods}>
-          <TooltipProvider delayDuration={200}>
-            <DrawerContent />
-          </TooltipProvider>
+          <TooltipProvider delayDuration={200}>{drawerContent}</TooltipProvider>
           <div className="hidden">
             <FinancialProjectionPdf itemsRef={elementToExportRef} />
           </div>

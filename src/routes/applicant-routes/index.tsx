@@ -17,6 +17,7 @@ import { availableLoanProgramRoutes } from "./available-loan-program-routes"
 import { notificationRoutes } from "./notification-routes"
 import { applicantFinancialProjectionRoutes } from "@/routes/applicant-routes/financial-projection-routes"
 import { paymentRoutes } from "@/routes/applicant-routes/payment-routes"
+import { FinancialProjectionApplicationDetailLayout } from "@/modules/loan-application/[module]-financial-projection/components/layouts/FinancialProjectionApplicationDetailLayout.tsx"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -34,6 +35,12 @@ const FinancialProjectionApplicationDetails = lazy(
   () =>
     import(
       "@/modules/loan-application/[module]-financial-projection/components/organisms/details/FinancialProjectionApplicationDetails"
+    )
+)
+const BasicApplicationDetailLoanReady = lazy(
+  () =>
+    import(
+      "@/modules/loan-application/[module]-financial-projection/components/organisms/details/BaiscApplicationDetailLoanReady"
     )
 )
 
@@ -90,10 +97,16 @@ const applicantRoutes = (
       }
     >
       <Route
-        element={<Outlet />}
+        element={<FinancialProjectionApplicationDetailLayout />}
         path={APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detail}
       >
         <Route index element={<FinancialProjectionApplicationDetails />} />
+        <Route
+          element={<BasicApplicationDetailLoanReady />}
+          path={
+            APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailReadiness
+          }
+        />
       </Route>
       <Route
         element={

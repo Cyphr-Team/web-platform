@@ -6,17 +6,29 @@ import { type PropsWithChildren, type ReactNode } from "react"
 interface FinancialDetailLayoutProps extends PropsWithChildren<HeaderProps> {
   hasSubChildren?: boolean
   isPdf?: boolean
+  isSubChildren?: boolean
 }
 
 export function FinancialDetailCard(props: FinancialDetailLayoutProps) {
-  const { title, subTitle, children, hasSubChildren, isPdf = false } = props
+  const {
+    title,
+    subTitle,
+    children,
+    hasSubChildren,
+    isPdf = false,
+    isSubChildren
+  } = props
 
   const renderTitle = title ? (
     <Header subTitle={subTitle} title={title} />
   ) : null
 
   return (
-    <Layout hasSubChildren={hasSubChildren} isPdf={isPdf}>
+    <Layout
+      hasSubChildren={hasSubChildren}
+      isPdf={isPdf}
+      isSubChildren={isSubChildren}
+    >
       {renderTitle}
       <Main>{children}</Main>
     </Layout>
@@ -59,12 +71,13 @@ function Header({ title, subTitle }: HeaderProps) {
 type LayoutProps = FinancialDetailLayoutProps
 
 function Layout(props: LayoutProps) {
-  const { children, hasSubChildren, isPdf = false } = props
+  const { children, hasSubChildren, isSubChildren, isPdf = false } = props
 
   return (
     <section
       className={cn(
-        isPdf && ["p-4 md:p-8", EXPORT_CLASS.FINANCIAL],
+        !isSubChildren && "p-4 md:p-8",
+        isPdf && EXPORT_CLASS.FINANCIAL,
         hasSubChildren && "pb-0 md:pb-0"
       )}
     >

@@ -1,40 +1,28 @@
-import { ButtonLoading } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { useBoolean } from "@/hooks"
 import { cn } from "@/lib/utils"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
-import { DisclaimerNote } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/DisclaimerNote"
 import { useAdminFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
 import { useApplicantFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/applicant/useApplicantFinancialProjectionApplicationDetails"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
-import {
-  EXPORT_CLASS,
-  EXPORT_CONFIG,
-  generatePDF
-} from "@/modules/loan-application/services/pdf-v2.service"
-import { toastError } from "@/utils"
-import { FolderDown } from "lucide-react"
-import { useRef } from "react"
+import { BasicApplicationDrawer } from "@/modules/loan-application/[module]-financial-projection/components/organisms/details/BasicApplicationDrawer.tsx"
 
 // The function is used for applicant site
 export function FinancialProjectionApplicationDetails() {
   const { kybFormData } = useBRLoanApplicationDetailsContext()
 
-  const { financialApplicationDetailData, isFetching, isFetchingBankAccounts } =
+  const { financialApplicationDetailData, isFetching } =
     useApplicantFinancialProjectionApplicationDetails()
 
   return (
-    <Layout>
-      <Header isLoading={isFetching || !!isFetchingBankAccounts} />
+    <>
+      <Header />
       <Main
-        isPdf
         companyName={kybFormData?.businessLegalName ?? ""}
         financialApplicationDetailData={financialApplicationDetailData}
         isLoading={isFetching}
       />
-    </Layout>
+    </>
   )
 }
 
@@ -43,14 +31,13 @@ export function FinancialProjectionApplicationSummary() {
   const { loanSummary, isFetchingSummary, isLoading } =
     useLoanApplicationDetailContext()
 
-  const { financialApplicationDetailData, isFetching, isFetchingBankAccounts } =
+  const { financialApplicationDetailData } =
     useAdminFinancialProjectionApplicationDetails()
 
   return (
     <Layout>
-      <Header isLoading={isFetching || !!isFetchingBankAccounts} />
+      <Header />
       <Main
-        isPdf
         companyName={loanSummary?.kybForm?.businessLegalName ?? ""}
         financialApplicationDetailData={financialApplicationDetailData}
         isLoading={isFetchingSummary || isLoading}
@@ -59,63 +46,17 @@ export function FinancialProjectionApplicationSummary() {
   )
 }
 
-interface HeaderProps {
-  isLoading?: boolean
-}
-
-function Header({ isLoading }: HeaderProps) {
-  const isExporting = useBoolean(false)
-
-  const elementToExportRef = useRef<Partial<Record<string, HTMLDivElement>>>({})
-
-  const exportToPdf = async () => {
-    try {
-      isExporting.onTrue()
-
-      if (elementToExportRef.current) {
-        const filteredElement = [
-          ...document.getElementsByClassName(EXPORT_CLASS.FINANCIAL)
-        ] as HTMLDivElement[]
-
-        const { pdf } = await generatePDF(filteredElement)
-
-        pdf.save(`financial_application_summary_${new Date().valueOf()}.pdf`)
-      }
-    } catch (error) {
-      toastError({
-        title: "Something went wrong!",
-        description: "Download PDF failed, please try again later!"
-      })
-    } finally {
-      isExporting.onFalse()
-    }
-  }
-
+function Header() {
   return (
-    <nav className={cn("mt-4", "md:mt-8")}>
+    <nav className="mb-6 md:mb-12">
       <div className="flex items-center gap-2 min-w-20">
-        <h1
-          className={cn(
-            "text-lg font-semibold truncate min-w-20",
-            "md:text-[2.5rem] md:leading-tight"
-          )}
-        >
+        <h1 className="text-lg font-semibold truncate min-w-20 md:text-2xl">
           Application Summary
         </h1>
         <div className="ml-auto">
-          <ButtonLoading
-            className="font-semibold"
-            disabled={isLoading}
-            isLoading={isExporting.value}
-            variant="success"
-            onClick={exportToPdf}
-          >
-            <FolderDown className="w-4 h-4 mr-1" /> Download PDF
-          </ButtonLoading>
+          <BasicApplicationDrawer />
         </div>
       </div>
-
-      <Separator className={cn("mt-2", "md:mt-5")} />
     </nav>
   )
 }
@@ -126,33 +67,16 @@ interface MainProps {
   isPdf?: boolean
   companyName: string
 }
-function Main({
-  financialApplicationDetailData,
-  isLoading,
-  isPdf,
-  companyName
-}: MainProps) {
+
+function Main({ financialApplicationDetailData, isLoading, isPdf }: MainProps) {
   return (
-    <>
-      <div className="hidden">
-        <div
-          className={cn("flex items-start -mx-20", EXPORT_CLASS.FINANCIAL)}
-          data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
-        >
-          <DisclaimerNote
-            companyName={companyName}
-            title="Application Summary"
-          />
-        </div>
-      </div>
-      <main className={cn("flex flex-col gap-4 md:gap-8")}>
-        <FinancialProjectionApplicationDetail
-          financialApplicationDetailData={financialApplicationDetailData}
-          isLoading={isLoading}
-          isPdf={isPdf}
-        />
-      </main>
-    </>
+    <main className={cn("flex flex-col gap-4 md:gap-8")}>
+      <FinancialProjectionApplicationDetail
+        financialApplicationDetailData={financialApplicationDetailData}
+        isLoading={isLoading}
+        isPdf={isPdf}
+      />
+    </main>
   )
 }
 
@@ -190,10 +114,7 @@ export function FinancialProjectionApplicationDetail({
 function Layout({ children }: React.PropsWithChildren) {
   return (
     <div
-      className={cn(
-        "flex flex-col gap-4 px-4 flex-1 overflow-auto pb-4",
-        "md:px-8 md:gap-8 md:pb-8"
-      )}
+      className="flex flex-col px-4 flex-1 overflow-auto pb-4 md:px-8 md:pb-8 bg-gray-50 mt-8"
       id="financial-application-detail"
     >
       {children}

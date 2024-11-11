@@ -1,14 +1,13 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardTitle } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+import { CardContent, CardTitle } from "@/components/ui/card"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
 import { useQueryGetBankAccounts } from "@/modules/loan-application-management/hooks/useQuery/cash-flow/useQueryGetBankAccounts.ts"
-import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { CashFlowConnectedBadge } from "@/shared/atoms/CashFlowConnectedBadge"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error.ts"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
 import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
+import { cn } from "@/lib/utils.ts"
 
 interface CashFlowTableProps {
   wrapperClassName?: string
@@ -40,13 +39,7 @@ export function CashFlowTable({ wrapperClassName }: CashFlowTableProps) {
   }, [isCashFlowNotReady])
 
   return (
-    <Card
-      className={cn(
-        "shadow-none p-4 md:p-8",
-        wrapperClassName,
-        EXPORT_CLASS.FINANCIAL
-      )}
-    >
+    <div className={cn("px-4 md:px-8 p-4 md:p-8", wrapperClassName)}>
       <div className="flex justify-between items-center flex-wrap gap-1 border-b pb-2 md:pb-5">
         <CardTitle className="font-semibold text-lg flex items-center gap-3">
           Connected Accounts
@@ -75,6 +68,6 @@ export function CashFlowTable({ wrapperClassName }: CashFlowTableProps) {
           noResultText={noResultText}
         />
       </CardContent>
-    </Card>
+    </div>
   )
 }

@@ -30,3 +30,19 @@ export const HeaderMapper: {
   ANNUALLY: AnnualHeader,
   CURRENT: CurrentDetailHeader
 }
+
+export enum ApplicationMenuName {
+  Summary = "Application Summary",
+  Readiness = "Loan Ready"
+}
+
+export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU = [
+  {
+    name: ApplicationMenuName.Summary,
+    href: ""
+  },
+  {
+    name: ApplicationMenuName.Readiness,
+    href: "readiness"
+  }
+]

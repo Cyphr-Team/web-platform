@@ -1,4 +1,4 @@
-import cyphrLogo from "@/assets/logo-cyphr.jpg"
+import loanReadyLogo from "@/assets/loanreadylogo.jpg"
 import { Separator } from "@/components/ui/separator"
 import { Image } from "@/shared/atoms/Image"
 import { type FC } from "react"
@@ -15,11 +15,10 @@ export const DisclaimerNote: FC<DisclaimerNoteProps> = (props) => {
     <div className="flex flex-col gap-y-2xl h-[1600px] p-[72px]">
       <div className="flex-1">
         <Image
-          alt="Institution text logo"
+          alt="Loan ready by cyphr"
           height={90}
           placeholderClassName="bg-slate-400 rounded"
-          src={cyphrLogo}
-          width={360}
+          src={loanReadyLogo}
         />
       </div>
 

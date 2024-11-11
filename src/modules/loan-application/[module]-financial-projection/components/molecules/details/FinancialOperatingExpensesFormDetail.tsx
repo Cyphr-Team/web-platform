@@ -1,6 +1,5 @@
 import { Separator } from "@/components/ui/separator"
 import { MM_YYYY_PATTERN } from "@/constants"
-import { cn } from "@/lib/utils"
 import {
   RHFCurrencyInput,
   RHFMaskInput,
@@ -13,7 +12,6 @@ import {
   fpOperatingExpensesFormSchema,
   type FpOperatingExpensesFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
-import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { sanitizeNumber, toCurrency } from "@/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { sum } from "lodash"
@@ -52,12 +50,7 @@ export function FinancialOperatingExpensesFormDetail({
   )
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-2xl pt-4 px-4 md:px-8 pb-4 md:pb-8",
-        EXPORT_CLASS.FINANCIAL
-      )}
-    >
+    <div className="flex flex-col gap-2xl pt-4 px-4 md:px-8 pb-4 md:pb-8">
       <div className="grid grid-cols-6 w-full gap-5 items-center text-xs font-medium">
         <p className="row-start-1 col-start-1 col-end-3">
           Operating Expense name
@@ -91,6 +84,7 @@ interface OperatingExpensesProps {
     FpOperatingExpensesFormValue["operatingExpenses"][number]
   >
 }
+
 function OperatingExpenses(props: OperatingExpensesProps) {
   const { index, value } = props
 
