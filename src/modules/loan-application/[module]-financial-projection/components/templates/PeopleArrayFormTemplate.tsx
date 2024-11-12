@@ -92,17 +92,20 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
             >
               {renderInnerBlockComponents(blocks, name, index)}
             </div>
-            <Button
-              className={cn(
-                "p-0 h-auto",
-                layout === "future" ? "self-end" : null
-              )}
-              type="button"
-              variant="ghost"
-              onClick={onRemove(index)}
-            >
-              <X className="w-5 h-5 text-text-tertiary" />
-            </Button>
+
+            {fields?.length > 1 ? (
+              <Button
+                className={cn(
+                  "p-0 h-auto",
+                  layout === "future" ? "self-end" : null
+                )}
+                type="button"
+                variant="ghost"
+                onClick={onRemove(index)}
+              >
+                <X className="w-5 h-5 text-text-tertiary" />
+              </Button>
+            ) : null}
           </div>
         )
       })}

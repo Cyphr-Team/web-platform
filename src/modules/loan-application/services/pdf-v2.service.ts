@@ -1,6 +1,8 @@
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import { get } from "lodash"
+import { formatDate } from "@/utils/date.utils.ts"
+import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants.ts"
 
 export const EXPORT_CLASS = {
   PDF: "export-pdf", // Narrow down the changes, affect the exported elements only
@@ -177,7 +179,68 @@ const applyTemporaryStyles = (): (() => void) => {
   }
 }
 
-// TODO: Added footer, header, total page
+/**
+ * Adds text to the PDF with a background rectangle.
+ * @param pdf - The jsPDF instance.
+ * @param text - The text to add.
+ * @param x - The x position of the text.
+ * @param y - The y position of the text.
+ */
+interface addFooterOptions {
+  pdf: jsPDF
+}
+const addFooter = (options: addFooterOptions) => {
+  const { pdf } = options
+  const padding = 15
+  const paddingY = 1.2
+  const rectWidth = 35
+  const rectHeight = 3.5
+
+  const pageText = `Page ${
+    pdf.getCurrentPageInfo().pageNumber
+  } of ${pdf.getNumberOfPages()}`
+
+  const drawablePageNumber = {
+    text: pageText,
+    x: pdf.getTextWidth(pageText),
+    y: pdf.getFontSize()
+  }
+
+  const date = formatDate(new Date().toISOString(), FORMAT_DATE_MM_DD_YYYY)!
+  const drawableDate = {
+    text: date,
+    x: pdf.getTextWidth(pageText),
+    y: pdf.getFontSize()
+  }
+
+  pdf.setTextColor(0, 0, 0)
+  pdf.setFillColor(200, 200, 200)
+
+  pdf.rect(
+    pdf.internal.pageSize.width - rectWidth,
+    pdf.internal.pageSize.height - rectHeight,
+    rectWidth,
+    rectHeight,
+    "F"
+  )
+
+  pdf.rect(
+    0,
+    pdf.internal.pageSize.height - rectHeight,
+    rectWidth,
+    rectHeight,
+    "F"
+  )
+
+  pdf.text(
+    drawablePageNumber.text,
+    pdf.internal.pageSize.width - drawablePageNumber.x - padding,
+    pdf.internal.pageSize.height - paddingY
+  )
+  pdf.text(drawableDate.text, padding, pdf.internal.pageSize.height - paddingY)
+}
+
+// TODO: Add header, we might need to calculate the height for footer like Content = A4 - Footer to prevent content overlay happened
 /**
  * Generates a PDF from an array of HTML elements.
  * @param elements - An array of HTML elements to be included in the PDF
@@ -212,6 +275,12 @@ export const generatePDF = async (
     // FIXME: Added a large enough space to integrate with E-Sign
     if (isSigned && currentHeight !== 0) {
       pdf.addPage()
+    }
+
+    pdf.setFontSize(6)
+    for (let i = 0; i < pdf.getNumberOfPages(); i++) {
+      pdf.setPage(i + 1)
+      addFooter({ pdf })
     }
   } finally {
     removeStyles()

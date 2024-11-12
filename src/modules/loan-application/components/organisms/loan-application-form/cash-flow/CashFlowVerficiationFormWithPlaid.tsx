@@ -13,11 +13,10 @@ export function CashFlowVerificationFormWithPlaid({
   wrapperClassName
 }: CashFlowVerificationFormWithPlaidProps) {
   // ----- Confirm authorize
-  const [isConformAuthorize, setIsConformAuthorize] = useState(false)
+  const [isConformAuthorize, setIsConformAuthorize] =
+    useState<CheckedState>(false)
 
   const onConfirmAuthorize = useCallback((value: CheckedState) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     setIsConformAuthorize(value)
   }, [])
 

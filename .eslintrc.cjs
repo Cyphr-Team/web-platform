@@ -13,7 +13,7 @@ module.exports = {
     require.resolve("@vercel/style-guide/eslint/typescript"),
     require.resolve("@vercel/style-guide/eslint/react")
   ],
-  ignorePatterns: ["dist", ".eslintrc.cjs", "vite.config.ts"],
+  ignorePatterns: ["dist", ".eslintrc.cjs", "vite.config.ts", "package.json"],
   parser: "@typescript-eslint/parser",
   plugins: ["prettier", "import"],
   parserOptions: {

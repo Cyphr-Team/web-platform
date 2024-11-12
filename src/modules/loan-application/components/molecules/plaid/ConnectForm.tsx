@@ -183,26 +183,30 @@ function PlaidForm() {
 
   return (
     <div className="w-full flex flex-col gap-5 text-secondary-700 text-sm">
-      <InstitutionField
-        isLoading={isLoading}
-        options={institutionOptions}
-        total={total}
-        onSearch={searchInstitutions}
-      />
-      <RoutingNumberField
-        disabled={!selectedInstitution}
-        options={routingNumberOptions}
-      />
-
-      <ClickableTooltip tooltipContent={tooltipContent}>
-        <div className="self-end">
-          <PlaidConnectButton
-            disabled={isFetchingDetails || !formState.isValid}
-            hasConnectedAccounts={!!connectedAccounts.length}
-            isBankAccountsLoading={isConnecting || isFetchingDetails}
+      {!isReviewApplicationStep(step) ? (
+        <>
+          <InstitutionField
+            isLoading={isLoading}
+            options={institutionOptions}
+            total={total}
+            onSearch={searchInstitutions}
           />
-        </div>
-      </ClickableTooltip>
+          <RoutingNumberField
+            disabled={!selectedInstitution}
+            options={routingNumberOptions}
+          />
+
+          <ClickableTooltip tooltipContent={tooltipContent}>
+            <div className="self-end">
+              <PlaidConnectButton
+                disabled={isFetchingDetails || !formState.isValid}
+                hasConnectedAccounts={!!connectedAccounts.length}
+                isBankAccountsLoading={isConnecting || isFetchingDetails}
+              />
+            </div>
+          </ClickableTooltip>
+        </>
+      ) : null}
 
       {connectedAccounts.length ? (
         <div className="flex flex-col w-full mt-2">

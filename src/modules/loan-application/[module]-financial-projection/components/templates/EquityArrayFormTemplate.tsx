@@ -8,10 +8,11 @@ import { CollapsibleArrayFieldTemplate } from "@/modules/loan-application/[modul
 import { TooltipProvider } from "@radix-ui/react-tooltip"
 import { lowerCase } from "lodash"
 import { TrashIcon } from "lucide-react"
-import { memo, type ReactNode, useCallback, useState, useMemo } from "react"
+import { memo, type ReactNode, useCallback, useMemo, useState } from "react"
 import { useFieldArray, useFormContext } from "react-hook-form"
 
 interface EquityArrayFormTemplateProps {
+  allowEmpty?: boolean
   fieldName: string
   dataName: string
 
@@ -28,8 +29,15 @@ interface ItemState {
 }
 
 function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
-  const { fieldName, defaultEmptyObject, dataName, onBlur, blocks, addIcon } =
-    props
+  const {
+    allowEmpty = false,
+    fieldName,
+    defaultEmptyObject,
+    dataName,
+    onBlur,
+    blocks,
+    addIcon
+  } = props
   const { control, watch } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
@@ -98,14 +106,16 @@ function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
                   {renderInnerBlockComponents(blocks, fieldName, index)}
                 </TooltipProvider>
 
-                {/* The equity form doesn’t have to be mandatory */}
-                <Button
-                  className="w-fit self-end"
-                  variant="outline"
-                  onClick={onRemove(index)}
-                >
-                  <TrashIcon />
-                </Button>
+                {/* The equity form does not have to be mandatory */}
+                {allowEmpty ? (
+                  <Button
+                    className="w-fit self-end"
+                    variant="outline"
+                    onClick={onRemove(index)}
+                  >
+                    <TrashIcon />
+                  </Button>
+                ) : null}
               </div>
             </CollapsibleArrayFieldTemplate>
           )

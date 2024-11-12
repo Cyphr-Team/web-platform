@@ -3,6 +3,7 @@ import { type PreQualificationResponse } from "@/modules/loan-application/consta
 import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 import { options } from "./constants"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
+import { Separator } from "@/components/ui/separator.tsx"
 
 interface Props {
   data?: PreQualificationResponse
@@ -10,8 +11,13 @@ interface Props {
 
 export function PreQualificationFormDetails({ data }: Props) {
   return (
-    <FormLayout cardClassName="loan-application-item" title="Pre-Qualification">
+    <FormLayout
+      hideTopNavigation
+      cardClassName="loan-application-item"
+      title="Pre-Qualification"
+    >
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>
+      <Separator />
       <div className="flex flex-col gap-y-2xl gap-x-4xl">
         <AnswersTextDisplay
           key="isCompanyBasedInUs"

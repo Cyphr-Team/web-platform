@@ -8,7 +8,7 @@ interface PlaidConfirmAuthorizeProps {
   wrapperClassName?: string
   confirmCheckbox: {
     disabled: boolean
-    checked: boolean
+    checked: CheckedState
     onCheckedChange?: (checked: CheckedState) => void
   }
 }

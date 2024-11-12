@@ -1,6 +1,5 @@
 import { AppAlert } from "@/components/ui/alert"
 import { Button, ButtonLoading } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import {
   eSignFormSchema,
@@ -28,6 +27,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useParams } from "react-router-dom"
 import { isLoanReady } from "@/utils/domain.utils.ts"
+import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 export function ESignForm() {
   const { dispatchFormAction, eSignForm } = useLoanApplicationFormContext()
@@ -211,11 +211,8 @@ export function ESignForm() {
     const institutionName = isLoanReady() ? "Loan Ready" : "Small Business Bank"
 
     return (
-      <Card
-        className={cn(
-          "flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-          "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
-        )}
+      <FormLayout
+        hideTopNavigation
         id={LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE}
       >
         <h5 className="text-lg font-semibold">Cyphr Disclaimer</h5>
@@ -230,7 +227,7 @@ export function ESignForm() {
           knowledge, the information is true and correct.
         </p>
         <Button onClick={acknowledgeTheDisclaimer}>Next</Button>
-      </Card>
+      </FormLayout>
     )
   }
 

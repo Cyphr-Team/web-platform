@@ -128,6 +128,7 @@ export function DebtFinancingArrayForm() {
       {isHaveOutStandingLoans ? (
         <div className="flex flex-col gap-6">
           <EquityArrayFormTemplate
+            allowEmpty
             addIcon={<Plus />}
             blocks={DebtFinancingArrayFormBlocks}
             dataName="Loan"
