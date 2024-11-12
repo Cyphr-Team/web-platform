@@ -23,9 +23,9 @@ function getSubdomain(): string {
       return splitHost[0]
     }
 
-    return DEFAULT_DEMO_SUBDOMAIN as string
+    return DEFAULT_DEMO_SUBDOMAIN
   } catch {
-    return DEFAULT_DEMO_SUBDOMAIN as string
+    return DEFAULT_DEMO_SUBDOMAIN
   }
 }
 
@@ -63,7 +63,7 @@ function getTenantRedirectURL(subdomain: string) {
 }
 
 function isProductionEnvironment(): boolean {
-  const baseHttpUrl = APP_CONFIGS.API_BASE_URL as string
+  const baseHttpUrl = APP_CONFIGS.API_BASE_URL
 
   return baseHttpUrl.endsWith("com")
 }

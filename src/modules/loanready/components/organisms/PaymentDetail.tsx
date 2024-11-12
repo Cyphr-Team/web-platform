@@ -17,7 +17,7 @@ export const paymentItemSchema = z.object({
   loanReady: z.string().min(1)
 })
 
-const stripePromise = loadStripe(APP_CONFIGS.VITE_STRIPE_PUBLIC_TOKEN as string)
+const stripePromise = loadStripe(APP_CONFIGS.VITE_STRIPE_PUBLIC_TOKEN)
 
 type PaymentOptions = "payment" | "setup" | "subscription" | undefined
 
