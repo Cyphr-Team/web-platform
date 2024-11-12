@@ -1,8 +1,9 @@
-import { Button, type Settings } from "react-chatbotify"
+import { Button } from "react-chatbotify"
 import smile from "@/assets/smile.svg"
 import { CHAT_HISTORY } from "@/modules/chat-support/constants/chat"
+import icon from "@/assets/lenda.svg"
 
-export const getSettings = (icon: string): Settings => ({
+export const settings = {
   general: {
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', " +
@@ -157,4 +158,4 @@ export const getSettings = (icon: string): Settings => ({
     rcbUserSubmitText: false,
     rcbUserUploadFile: false
   }
-})
+}

@@ -1,15 +1,13 @@
-import { getSettings } from "@/modules/chat-support/constants/settings"
+import { settings } from "@/modules/chat-support/constants/settings"
 import { CHAT_STEPS, FlowBuilder } from "@/modules/chat-support/constants/steps"
 import {
   themeOptionsMap,
   themeQuestionOptions,
   themes
 } from "@/modules/chat-support/constants/themes"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect } from "react"
 import ChatBot, { ChatBotProvider, type Params } from "react-chatbotify"
 import { styles } from "@/modules/chat-support/constants/styles"
-import { useTenant } from "@/providers/tenant-provider"
-import { getImageURL } from "@/utils/aws.utils"
 import {
   chatFollowUpOptionsMap,
   followUpOptions,
@@ -23,18 +21,6 @@ import { EndChatButton } from "@/modules/chat-support/components/molecules/EndCh
 import useWebSocketChatClient from "@/modules/chat-support/hooks/useWebSocketChatClient"
 
 export function ChatSupportButton() {
-  // Chat Logo
-  const { tenantData } = useTenant()
-  const imageURL = useMemo(
-    () =>
-      getImageURL(
-        tenantData?.logo !== ""
-          ? tenantData?.logo
-          : tenantData?.customFieldsOnDemand?.favicon
-      ),
-    [tenantData]
-  )
-
   // WebSocket
   const { client, connect, streamChat, sendMessage } = useWebSocketChatClient()
 
@@ -156,7 +142,7 @@ export function ChatSupportButton() {
   return (
     <ChatBotProvider
       flow={llmFlow}
-      settings={getSettings(imageURL)}
+      settings={settings}
       styles={styles}
       themes={themes}
     >
