@@ -10,22 +10,22 @@ export const defaultLoanRequestFormSchema = z.object({
     .optional(),
   // TODO: Remove this field when roll out
   loanTermInMonth: z.number().gt(0).optional(),
-  applicationId: z.string().min(1)
+  applicationId: z.string()
 })
 
 export const loanReadyLoanRequestFormSchema = z.object({
-  id: z.string().min(1),
+  id: z.string(),
   loanAmount: z.number().gt(0),
   proposeUseOfLoan: z
     .string()
     .min(1, { message: "Proposed used of loan is required" }),
-  applicationId: z.string().min(1)
+  applicationId: z.string()
 })
 
 export const kccLoanRequestFormSchema = z.object({
-  id: z.string().min(1),
+  id: z.string(),
   loanAmount: z.number().gt(0),
-  applicationId: z.string().min(1)
+  applicationId: z.string()
 })
 
 export type DefaultLoanRequestFormValue = z.infer<

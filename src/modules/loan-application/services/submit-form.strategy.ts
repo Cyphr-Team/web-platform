@@ -245,7 +245,7 @@ export const useSubmitLoanForm = (
   const { submitLoanRequestForm, isLoading: isSubmittingLoanRequest } =
     useSubmitMicroLoanRequestForm(
       loanRequestData,
-      loanRequestV2Data?.applicationId ?? loanRequestData?.id ?? "",
+      loanRequestV2Data?.applicationId || loanRequestData?.id || "",
       loanProgramId
     )
 

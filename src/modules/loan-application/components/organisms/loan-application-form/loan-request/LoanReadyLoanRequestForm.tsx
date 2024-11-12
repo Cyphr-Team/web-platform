@@ -30,6 +30,7 @@ import { FormLayout } from "@/modules/loan-application/components/layouts/FormLa
 import { isEnableFormV2 } from "@/utils/feature-flag.utils"
 import { loanReadyLoanRequestFormSchema } from "@/modules/loan-application/constants/form[v2]"
 import { type MicroLoanProgramType } from "@/types/loan-program.type"
+import { UseOfLoan } from "@/types/loan-application.type.ts"
 
 interface LoanReadyLoanRequestFormProps {
   wrapperClassName?: string
@@ -45,7 +46,7 @@ function getOrDefault(
     loanAmount: loanRequestV2?.loanAmount ?? 0,
     // Form V2 does not need this field, put it here to make it aligned with form V1
     loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 2,
-    proposeUseOfLoan: loanRequestV2?.proposeUseOfLoan ?? ""
+    proposeUseOfLoan: loanRequestV2?.proposeUseOfLoan ?? UseOfLoan.OTHER
   }
 }
 
@@ -101,16 +102,19 @@ export function LoanReadyLoanRequestForm({
     values: getOrDefault(loanRequestV2, loanProgramDetails)
   })
 
+  const formToUse = isEnabledFormV2 ? formV2 : form
+
   const formV2HandleSubmit = formV2.handleSubmit(() => {
     dispatchFormAction({
       action: FORM_ACTION.SET_DATA,
       key: LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2,
       state: {
-        id: formV2.getValues("id") ?? "",
+        id: loanRequestV2.id ?? "",
         applicationId: loanRequestV2?.applicationId ?? "",
-        loanAmount: formV2.getValues("loanAmount") ?? 0,
+        loanAmount: formToUse.getValues("loanAmount") ?? 0,
         loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-        proposeUseOfLoan: formV2.getValues("proposeUseOfLoan") ?? ""
+        proposeUseOfLoan:
+          formToUse.getValues("proposeUseOfLoan") ?? UseOfLoan.OTHER
       }
     })
 
@@ -119,9 +123,9 @@ export function LoanReadyLoanRequestForm({
       key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
       state: {
         id: loanRequestV2.applicationId ?? "",
-        loanAmount: form.getValues("loanAmount") ?? 0,
+        loanAmount: formToUse.getValues("loanAmount") ?? 0,
         loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-        proposeUseOfLoan: form.getValues("proposeUseOfLoan")
+        proposeUseOfLoan: formToUse.getValues("proposeUseOfLoan")
       }
     })
     completeSpecificStep(LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2)
@@ -129,7 +133,6 @@ export function LoanReadyLoanRequestForm({
     finishCurrentStep()
   })
 
-  const formToUse = isEnabledFormV2 ? formV2 : form
   const handleSubmitHandlerToUse = isEnabledFormV2
     ? formV2HandleSubmit
     : handleSubmit
