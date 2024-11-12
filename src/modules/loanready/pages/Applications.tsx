@@ -6,10 +6,11 @@ import { useState } from "react"
 import { orderApplicationColumn } from "@/modules/loanready/constants/order-application-column.tsx"
 import { useNavigate } from "react-router-dom"
 import { loanReadyApplicationHandleClickDetail } from "@/modules/loanready/utils"
-import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications.tsx"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils.ts"
 import LoanApplicationsPage from "@/modules/loanready/pages/LoanApplications.tsx"
 import { StartApplicationButton } from "@/modules/loanready/components/molecules/StartApplicationButton.tsx"
+import { EmptyApplications } from "@/modules/loanready/pages/EmptyApplications"
+import { useQueryGetLoanPrograms } from "@/modules/loan-application/hooks/useQuery/useQueryLoanPrograms"
 
 export function Component() {
   if (isEnableLoanReadyV2()) return <LoanReadyApplications />
@@ -19,6 +20,9 @@ export function Component() {
 
 export default function LoanReadyApplications() {
   const navigate = useNavigate()
+  // We used this hook to get LoanReady program
+  // Please note that we only have one LoanReady program, so we use the first one
+  const loanPrograms = useQueryGetLoanPrograms()
 
   // Paginate state
   const [pagination, setPagination] = useState<PaginationState>({
@@ -45,29 +49,31 @@ export default function LoanReadyApplications() {
       <p className="mt-1 mb-2">
         Keep track of your account applications and their statuses
       </p>
-      <div className="flex justify-end">
-        <StartApplicationButton
-          btnText="Start new application"
-          className="bg-lime-400 text-black hover:bg-lime-300 font-bold"
-        />
-      </div>
 
       {!isFetching && !data?.data.data?.length ? (
-        <EmptyApplications hideBtnStart />
+        <EmptyApplications loanProgramId={loanPrograms.data?.data[0].id} />
       ) : (
-        <DataTable
-          columns={loanApplicationColumns}
-          data={data?.data.data ?? []}
-          isLoading={isFetching}
-          pagination={pagination}
-          setPagination={setPagination}
-          tableCellClassName="text-[#667085]"
-          tableContainerClassName="flex flex-col flex-1 h-[85vh] rounded-full"
-          tableHeadClassName="text-xs text-[#667085]"
-          tableHeaderClassName="bg-[#f9fafb] !text-xs"
-          tableWrapperClassName="rounded-lg"
-          total={data?.data.total ?? 0}
-        />
+        <>
+          <div className="flex justify-end">
+            <StartApplicationButton
+              className="bg-lime-400 text-black hover:bg-lime-300 font-bold"
+              loanProgramId={loanPrograms.data?.data[0].id}
+            />
+          </div>
+          <DataTable
+            columns={loanApplicationColumns}
+            data={data?.data.data ?? []}
+            isLoading={isFetching}
+            pagination={pagination}
+            setPagination={setPagination}
+            tableCellClassName="text-[#667085]"
+            tableContainerClassName="flex flex-col flex-1 h-[85vh] rounded-full"
+            tableHeadClassName="text-xs text-[#667085]"
+            tableHeaderClassName="bg-[#f9fafb] !text-xs"
+            tableWrapperClassName="rounded-lg"
+            total={data?.data.total ?? 0}
+          />
+        </>
       )}
     </div>
   )

@@ -1,11 +1,12 @@
-import { useState } from "react"
 import { cn } from "@/lib/utils.ts"
 import { Button } from "@/components/ui/button"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package"
+import { useFormContext } from "react-hook-form"
 
 const loanOptions = [
   {
     label: "Loan Ready",
-    value: "loanReady",
+    value: LoanReadyPlanEnum.BASIC,
     price: "$99",
     description: [
       {
@@ -16,7 +17,7 @@ const loanOptions = [
   },
   {
     label: "Loan Ready+",
-    value: "loanReadyPlus",
+    value: LoanReadyPlanEnum.PLUS,
     price: "$150",
     description: [
       {
@@ -31,18 +32,12 @@ const loanOptions = [
   }
 ]
 
-interface LoanReadyPlanSelectionProps {
-  onSelect: (value: string) => void
-}
+export function LoanReadyPlanSelection() {
+  const form = useFormContext()
 
-export function LoanReadyPlanSelection({
-  onSelect
-}: LoanReadyPlanSelectionProps) {
-  const [selectedOption, setSelectedOption] = useState("")
-
-  const handleOptionClick = (value: string) => {
-    setSelectedOption(value)
-    onSelect(value)
+  const handleOptionClick = async (value: string) => {
+    form.setValue("package", value)
+    await form.trigger("package")
   }
 
   return (
@@ -52,7 +47,7 @@ export function LoanReadyPlanSelection({
           key={option.value}
           className={cn(
             "w-full h-full flex flex-col items-start border-brand-primary-gray rounded-lg p-4 cursor-pointer text-left hover:bg-[#F2F8F8]",
-            selectedOption === option.value
+            form.watch("package") === option.value
               ? "border-primary bg-selection"
               : "border-dashed border-brand-primary-gray hover:border-primary"
           )}
@@ -63,7 +58,7 @@ export function LoanReadyPlanSelection({
           <div className="flex items-center gap-2">
             <label className="relative flex items-center cursor-pointer">
               <input
-                checked={selectedOption === option.value}
+                checked={form.watch("package") === option.value}
                 className="peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
                 name="plan"
                 type="radio"

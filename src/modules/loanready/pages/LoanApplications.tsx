@@ -73,10 +73,7 @@ export default function LoanApplicationsPage() {
 
       {isEnableLoanReadyV2() ? (
         <div className="flex justify-end">
-          <StartApplicationButton
-            btnText="Start new application"
-            className="bg-lime-400 text-black hover:bg-lime-300 font-bold"
-          />
+          <StartApplicationButton className="bg-lime-400 text-black hover:bg-lime-300 font-bold" />
         </div>
       ) : null}
 

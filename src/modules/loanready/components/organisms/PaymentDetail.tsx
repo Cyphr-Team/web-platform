@@ -1,100 +1,200 @@
-import { Button } from "@/components/ui/button"
+import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Elements, PaymentElement } from "@stripe/react-stripe-js"
-import { loadStripe, type StripeElementsOptions } from "@stripe/stripe-js"
+import * as z from "zod"
+import { useStripe } from "@stripe/react-stripe-js"
 import { LoanReadyPlanSelection } from "@/modules/loanready/components/molecules/LoanReadyPlanSelection"
 import { Separator } from "@/components/ui/separator"
 import { SelectApplicationDialog } from "@/modules/loanready/components/molecules/SelectApplicationDialog"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
-import { APP_CONFIGS } from "@/configs"
 import useBoolean from "@/hooks/useBoolean"
 import { OrderSummary } from "@/modules/loanready/components/molecules/OrderSummary.tsx"
+import { useCreateConfirmIntent } from "@/modules/loanready/hooks/payment/useCreateConfirmIntent"
+import { toastError } from "@/utils"
+import {
+  LoanReadyPlan,
+  LoanReadyPlanEnum
+} from "@/modules/loanready/constants/package"
+import { TOAST_MSG } from "@/constants/toastMsg"
+import { PaymentForm } from "@/modules/loanready/components/organisms/PaymentForm"
+import { BillingAddressForm } from "@/modules/loanready/components/organisms/BillingAddressForm"
+import { usePayment } from "@/modules/loanready/hooks/payment/usePayment"
+import { useLocation, useNavigate } from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
-export const paymentItemSchema = z.object({
-  loanReady: z.string().min(1)
+const paymentItemSchema = z.object({
+  package: z.string().min(1)
 })
 
-const stripePromise = loadStripe(APP_CONFIGS.VITE_STRIPE_PUBLIC_TOKEN)
-
-type PaymentOptions = "payment" | "setup" | "subscription" | undefined
-
-const planDetails = {
-  loanReady: { label: "Loan Ready", price: 99 },
-  loanReadyPlus: { label: "Loan Ready+", price: 150 }
-}
+type PaymentItemValue = z.infer<typeof paymentItemSchema>
 
 export function PaymentDetail() {
+  // Page states
+  const { state } = useLocation()
+  const navigate = useNavigate()
+
+  // Boolean States
   const isSelectAppDialogOpen = useBoolean(false)
   const isConfirmPurchaseDialogOpen = useBoolean(false)
-  const form = useForm({
+  const isPaymentElementValid = useBoolean(false)
+  const isAddressElementValid = useBoolean(false)
+
+  // Payment Form
+  const form = useForm<PaymentItemValue>({
     resolver: zodResolver(paymentItemSchema),
-    reValidateMode: "onChange",
-    defaultValues: { loanReady: "" }
+    reValidateMode: "onBlur",
+    defaultValues: { package: "" }
   })
 
-  const onSelect = (value: string) => {
-    form.setValue("loanReady", value)
-    form.trigger("loanReady")
+  // Send the payment request to server
+  const { mutateAsync: mutateConfirmIntent, isLoading } =
+    useCreateConfirmIntent()
+  const submitPurchase = async (
+    confirmationToken: string,
+    isNewApplication: boolean
+  ) => {
+    const purchasingPackageType =
+      form.watch("package") === LoanReadyPlanEnum.BASIC
+        ? LoanReadyPlanEnum.BASIC
+        : LoanReadyPlanEnum.PLUS
+    const payload = {
+      amount: LoanReadyPlan[purchasingPackageType].price,
+      confirmationToken: confirmationToken,
+      type: purchasingPackageType
+    }
+
+    await mutateConfirmIntent.mutateAsync(payload, {
+      onSuccess: (data) => {
+        if (isNewApplication) {
+          const searchParams = new URLSearchParams({
+            transactionId: data.data.id
+          })
+
+          navigate(
+            `${APP_PATH.LOAN_APPLICATION.INFORMATION.detailWithId(
+              state.loanProgramId as string
+            )}?${searchParams.toString()}`,
+            { replace: true }
+          )
+        } else {
+          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index, {
+            replace: true
+          })
+        }
+      }
+    })
   }
 
-  const onSubmit = () => {
-    const selectedPlan = form.watch("loanReady")
+  // Stripe
+  const stripe = useStripe()
+  const { mutateAsync: mutatePayment } = usePayment({
+    isLoading,
+    submitPurchase
+  })
 
-    if (selectedPlan === "loanReady") {
+  // Check if form is valid to enable "Purchase" button
+  // We'll leave Stripe to handle the form validation for its built-in components
+  const isValidForm = () => {
+    return (
+      form.formState.isValid &&
+      stripe &&
+      isPaymentElementValid.value &&
+      isAddressElementValid.value
+    )
+  }
+
+  // Handle form submission when user clicks "Purchase"
+  const onSubmit = (data: PaymentItemValue) => {
+    const selectedPlan = data.package
+
+    if (selectedPlan === LoanReadyPlanEnum.BASIC) {
       isConfirmPurchaseDialogOpen.onTrue()
-    } else if (selectedPlan === "loanReadyPlus") {
+    } else if (selectedPlan === LoanReadyPlanEnum.PLUS) {
       isSelectAppDialogOpen.onTrue()
     }
   }
 
-  const selectedPlan = form.watch("loanReady")
-  const selectedPlanDetail =
-    (selectedPlan && planDetails[selectedPlan as keyof typeof planDetails]) ||
-    null
+  // Handle purchase for LoanReady/ LoanReady+ packages
+  const handlePurchase = async () => {
+    // Edge case: When user refreshes the page and we lost LoanProgramId
+    if (!state.loanProgramId) {
+      handleInvalidProgramId()
 
-  const options: StripeElementsOptions = {
-    mode: "payment" as PaymentOptions,
-    amount: 1099,
-    currency: "usd",
-    paymentMethodCreation: "manual",
-    // Fully customizable with appearance API.
-    appearance: {
-      /*...*/
+      return
+    }
+    switch (form.watch("package")) {
+      case LoanReadyPlanEnum.BASIC:
+        isConfirmPurchaseDialogOpen.onFalse()
+        await mutatePayment(true)
+        break
+      case LoanReadyPlanEnum.PLUS:
+        isSelectAppDialogOpen.onTrue()
+        break
+      default:
+        toastError({
+          title: TOAST_MSG.loanApplication.payment.title,
+          description: "Please select a plan"
+        })
     }
   }
 
+  // Handle invalid program id
+  const handleInvalidProgramId = () => {
+    toastError({
+      title: TOAST_MSG.loanApplication.payment.title,
+      description:
+        "There's a problem with your payment process page. Please start over."
+    })
+    navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index, {
+      replace: true
+    })
+  }
+
+  // Handle 2nd step purchase for LoanReady+ packages
+  const handleLoanReadyPlusPurchase = async (isNewApplication: boolean) => {
+    isSelectAppDialogOpen.onFalse()
+    await mutatePayment(isNewApplication)
+  }
+
   return (
-    <Elements options={options} stripe={stripePromise}>
-      <Form {...form}>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit((data) => onSubmit(data))}>
         <div className="grid grid-cols-10 p-0 h-full">
           <div className="col-span-7 bg-white m-0 py-4xl px-6xl h-full flex flex-col">
-            <h3 className="text-[18px] text-[#252828] font-semibold mb-4">
+            <h3 className="text-lg text-[#252828] font-semibold mb-4">
               Select your Product
             </h3>
-            <LoanReadyPlanSelection onSelect={onSelect} />
+            <LoanReadyPlanSelection />
             <Separator />
-            <div className="mt-6">
-              <PaymentElement />
+            <div className="mt-6 flex gap-4 flex-col">
+              <PaymentForm isPaymentElementValid={isPaymentElementValid} />
+              <Separator />
+              <BillingAddressForm
+                isAddressElementValid={isAddressElementValid}
+              />
             </div>
           </div>
-          <div className="col-span-3 py-4xl px-3xl h-full flex flex-col justify-between">
-            <OrderSummary selectedPlanDetail={selectedPlanDetail} />
-            <Button
-              className="w-full mt-4xl"
-              disabled={!form.formState.isValid}
-              onClick={(e) => {
-                e.preventDefault()
-                onSubmit()
-              }}
-            >
-              Purchase
-            </Button>
+          <div className="col-span-3 py-4xl px-3xl h-full flex flex-col justify-between bg-gray-50">
+            <OrderSummary
+              selectedPlan={form.watch("package") as LoanReadyPlanEnum}
+            />
+            <div className="ml-auto flex flex-row gap-2">
+              <ButtonLoading variant="outline" onClick={() => navigate(-1)}>
+                Cancel
+              </ButtonLoading>
+              <ButtonLoading
+                disabled={!isValidForm()}
+                isLoading={isLoading.value}
+              >
+                Purchase
+              </ButtonLoading>
+            </div>
+
             <SelectApplicationDialog
               isOpen={isSelectAppDialogOpen.value}
               onClose={() => isSelectAppDialogOpen.onFalse()}
+              onConfirmed={handleLoanReadyPlusPurchase}
             />
             <CustomAlertDialog
               cancelText="Cancel"
@@ -108,11 +208,11 @@ export function PaymentDetail() {
               isOpen={isConfirmPurchaseDialogOpen.value}
               title="Confirm your purchase"
               onCanceled={() => isConfirmPurchaseDialogOpen.onFalse()}
-              onConfirmed={() => isConfirmPurchaseDialogOpen.onFalse()}
+              onConfirmed={() => handlePurchase()}
             />
           </div>
         </div>
-      </Form>
-    </Elements>
+      </form>
+    </Form>
   )
 }

@@ -10,7 +10,7 @@ export function PaymentLayout({ children }: MainLayoutProps) {
           Enter Payment Details
         </h1>
       </div>
-      <div className="h-full overflow-auto bg-gray-50">{children}</div>
+      <div className="h-full overflow-auto">{children}</div>
     </div>
   )
 }

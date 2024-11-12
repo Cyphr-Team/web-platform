@@ -248,6 +248,12 @@ export const API_PATH = {
       list: "api/admin/ai/chat/list-sessions"
     }
   },
+  payment: {
+    createChargeWithConfirmationToken: "api/payment/create-charge"
+  },
+  loanReady: {
+    linkSubscription: "api/loan-ready-subscription/update-application-id"
+  },
   workspaceAdmin: {
     selectRoundLoanApplication: "api/workspace-admin/applications/round",
     getAssignableList: "api/workspace-admin/judge/assignable-list",

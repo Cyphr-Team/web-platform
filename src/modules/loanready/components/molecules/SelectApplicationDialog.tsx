@@ -15,11 +15,13 @@ import { Icons } from "@/components/ui/icons.tsx"
 interface SelectApplicationDialogProps {
   isOpen: boolean
   onClose: VoidFunction
+  onConfirmed: (isNewApplication: boolean) => void
 }
 
 export function SelectApplicationDialog({
   isOpen,
-  onClose
+  onClose,
+  onConfirmed
 }: SelectApplicationDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
@@ -68,13 +70,15 @@ export function SelectApplicationDialog({
         </div>
         <Separator />
         <AlertDialogFooter className="sm:justify-between px-6 pb-4">
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => onConfirmed(true)}>
             <Icons.newApplication className="mr-1" />
             New application
           </Button>
           <div className="flex space-x-2">
             <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onClose}>Done</AlertDialogAction>
+            <AlertDialogAction onClick={() => onConfirmed(false)}>
+              Done
+            </AlertDialogAction>
           </div>
         </AlertDialogFooter>
       </AlertDialogContent>
