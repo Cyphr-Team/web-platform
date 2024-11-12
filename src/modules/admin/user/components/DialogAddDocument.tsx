@@ -88,7 +88,7 @@ export function DialogAddDocument() {
     <Dialog open={isOpen.value} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button type="button">
-          <PlusCircle className="text-sm mr-1.5" size={16} />
+          <PlusCircle className="mr-1.5 text-sm" size={16} />
           Add Document
         </Button>
       </DialogTrigger>

@@ -25,9 +25,9 @@ export function ScorecardStatusBadge({
       )}
       variantColor={isDisable ? "gray" : "lightBlue"}
     >
-      <NudgeIcon className="fill-black mr-2" />
+      <NudgeIcon className="mr-2 fill-black" />
       {numberOfScoredJudge} of {numberOfJudge} Scored
-      <ChevronDownIcon className="ml-2 w-5 h-5" />
+      <ChevronDownIcon className="ml-2 size-5" />
     </Badge>
   )
 }

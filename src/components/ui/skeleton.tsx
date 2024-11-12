@@ -39,7 +39,7 @@ function SkeletonCard({
       ) : null}
 
       {!!numberOfLines && (
-        <div className="space-y-2 w-full max-w-full">
+        <div className="w-full max-w-full space-y-2">
           {new Array(numberOfLines).fill(0).map((_, index) => (
             <Skeleton key={index} className="h-4 w-full" />
           ))}

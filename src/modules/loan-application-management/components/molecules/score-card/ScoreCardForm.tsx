@@ -99,10 +99,10 @@ export function ScoreCardForm() {
   ]
 
   return (
-    <div className="flex flex-col gap-2 mt-4">
+    <div className="mt-4 flex flex-col gap-2">
       {SCORE_TO_SUBMIT.map((field) => (
         <div key={field.key} className="flex items-center justify-between">
-          <span className="font-semibold text-text-tertiary text-xs">
+          <span className="text-xs font-semibold text-text-tertiary">
             {field.target}
           </span>
           <Scores

@@ -156,7 +156,7 @@ export function LaunchKCOwnerInformationForm() {
         <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
         <Separator />
 
-        <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
+        <form className="grid grid-cols-12 gap-x-4xl gap-y-2xl">
           <TextInput
             required
             className="col-span-4"
@@ -285,7 +285,7 @@ export function LaunchKCOwnerInformationForm() {
             label="Email address"
             name={LAUNCH_KC_KYC_FIELD_NAMES.EMAIL}
             placeholder="i.e: larry@latte.com"
-            prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
+            prefixIcon={<Mail className="size-5 text-muted-foreground" />}
           />
           <FormField
             name={LAUNCH_KC_KYC_FIELD_NAMES.PHONE_NUMBER}
@@ -353,7 +353,7 @@ export function LaunchKCOwnerInformationForm() {
           />
           <SelectInput
             required
-            className="flex items-center col-span-12"
+            className="col-span-12 flex items-center"
             control={form.control}
             label="Are you a founder or co-founder of the company applying: "
             name={LAUNCH_KC_KYC_FIELD_NAMES.ARE_FOUNDER_OR_CO_FOUNDER}
@@ -382,7 +382,7 @@ export function LaunchKCOwnerInformationForm() {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    className="text-base input-number-remove-arrow"
+                    className="input-number-remove-arrow text-base"
                     max={100}
                     min={0}
                     placeholder="i.e: 70"

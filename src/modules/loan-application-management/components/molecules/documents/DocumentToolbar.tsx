@@ -63,20 +63,20 @@ export const DocumentToolbar: React.FC = () => {
       <div className="flex gap-6">
         <div className="flex gap-1">
           <Button
-            className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
+            className="size-10 bg-gray-100 p-0 disabled:opacity-50"
             disabled={scale < 0.5}
             variant="secondary"
             onClick={zoomOut}
           >
-            <Minus className="w-6 h-6 text-gray-500" />
+            <Minus className="size-6 text-gray-500" />
           </Button>
           <Button
-            className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
+            className="size-10 bg-gray-100 p-0 disabled:opacity-50"
             disabled={scale > 4}
             variant="secondary"
             onClick={zoomIn}
           >
-            <Plus className="w-6 h-6 text-gray-500" />
+            <Plus className="size-6 text-gray-500" />
           </Button>
         </div>
         <Pagination

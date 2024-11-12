@@ -37,7 +37,7 @@ export function MiddeskDetailItem({
       <div className="mt-1.5 text-base">
         {statusProps?.isStatusCheck ? (
           <Badge
-            className="capitalize text-sm text-text-tertiary rounded-lg bg-transparent pl-0"
+            className="rounded-lg bg-transparent pl-0 text-sm capitalize text-text-tertiary"
             isDot={statusProps?.isStatusCheck}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(statusProps?.color)}
@@ -48,14 +48,14 @@ export function MiddeskDetailItem({
           value ?? UNKNOWN_VALUE
         )}
       </div>
-      <div className="flex items-center mt-1 text-base">
+      <div className="mt-1 flex items-center text-base">
         {!!status && (
           <Dot variantColor={getBadgeVariantByInsightStatus(status)} />
         )}
         {toolTip}
       </div>
       {!!annotation && (
-        <div className="flex items-center gap-1 w-full text-xs text-slate-500 mt-1">
+        <div className="mt-1 flex w-full items-center gap-1 text-xs text-slate-500">
           {annotation}
         </div>
       )}
@@ -67,8 +67,8 @@ export function MiddeskDetailItemSkeleton() {
   return (
     <div className="mt-5">
       <Skeleton className="h-4 w-1/2" />
-      <Skeleton className="h-4 w-2/3 mt-1.5" />
-      <Skeleton className="h-4 w-1/3 mt-1" />
+      <Skeleton className="mt-1.5 h-4 w-2/3" />
+      <Skeleton className="mt-1 h-4 w-1/3" />
     </div>
   )
 }

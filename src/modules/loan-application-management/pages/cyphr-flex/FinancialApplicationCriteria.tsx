@@ -59,9 +59,9 @@ export function FinancialApplicationCriteria({
     <div>
       <div
         data-html2canvas-ignore
-        className="flex justify-between items-center flex-wrap gap-1"
+        className="flex flex-wrap items-center justify-between gap-1"
       >
-        <h2 className="font-semibold text-2xl flex items-center">
+        <h2 className="flex items-center text-2xl font-semibold">
           Action Plan
         </h2>
       </div>
@@ -106,7 +106,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
       )
 
       return (
-        <div className="text-center pl-2">
+        <div className="pl-2 text-center">
           <Badge
             className={cn(
               criteriaBadgeClassName,

@@ -160,14 +160,14 @@ export function PaymentDetail() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit((data) => onSubmit(data))}>
-        <div className="grid grid-cols-10 p-0 h-full">
-          <div className="col-span-7 bg-white m-0 py-4xl px-6xl h-full flex flex-col">
-            <h3 className="text-lg text-[#252828] font-semibold mb-4">
+        <div className="grid h-full grid-cols-10 p-0">
+          <div className="col-span-7 m-0 flex h-full flex-col bg-white px-6xl py-4xl">
+            <h3 className="mb-4 text-lg font-semibold text-[#252828]">
               Select your Product
             </h3>
             <LoanReadyPlanSelection />
             <Separator />
-            <div className="mt-6 flex gap-4 flex-col">
+            <div className="mt-6 flex flex-col gap-4">
               <PaymentForm isPaymentElementValid={isPaymentElementValid} />
               <Separator />
               <BillingAddressForm
@@ -175,7 +175,7 @@ export function PaymentDetail() {
               />
             </div>
           </div>
-          <div className="col-span-3 py-4xl px-3xl h-full flex flex-col justify-between bg-gray-50">
+          <div className="col-span-3 flex h-full flex-col justify-between bg-gray-50 px-3xl py-4xl">
             <OrderSummary
               selectedPlan={form.watch("package") as LoanReadyPlanEnum}
             />

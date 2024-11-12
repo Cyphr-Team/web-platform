@@ -23,7 +23,7 @@ export function PaymentForm({ isPaymentElementValid }: PaymentFormProps) {
 
   return (
     <>
-      <p className="text-lg text-[#252828] font-semibold">
+      <p className="text-lg font-semibold text-[#252828]">
         Credit Card Information
       </p>
       <PaymentElement onChange={handlePaymentElementChange} />

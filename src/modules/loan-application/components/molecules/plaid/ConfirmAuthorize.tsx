@@ -25,14 +25,14 @@ export function PlaidConfirmAuthorize({
 
       <Separator />
 
-      <div className="flex flex-col gap-y-2xl gap-x-4xl">
+      <div className="flex flex-col gap-x-4xl gap-y-2xl">
         <div className="flex flex-col gap-y-sm">
-          <p className="text-sm financial-projection text-muted-foreground">
+          <p className="financial-projection text-sm text-muted-foreground">
             Connect your bank accounts securely. This step helps us understand
             your business financial health through cash flow data and expedite
             the loan approval process. Learn how it works{" "}
             <a
-              className="underline text-black"
+              className="text-black underline"
               href="https://plaid.com/legal/#consumers"
               rel="noopener noreferrer"
               target="_blank"
@@ -43,8 +43,8 @@ export function PlaidConfirmAuthorize({
           </p>
         </div>
         <div className="flex flex-col gap-lg">
-          <div className="flex gap-2 mt-1">
-            <Checkbox className="w-5 h-5" {...confirmCheckbox} />
+          <div className="mt-1 flex gap-2">
+            <Checkbox className="size-5" {...confirmCheckbox} />
             <p className="text-sm text-gray-700">
               <b>I understand</b> that, by connecting my accounts, I authorize
               Plaid to share my business transaction history with{" "}

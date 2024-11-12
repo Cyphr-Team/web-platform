@@ -10,9 +10,9 @@ interface Props {
 
 export function ProductServiceFormDetails({ data }: Props) {
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item">
+    <Card className="loan-application-item flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">
       <h5 className="text-lg font-semibold">Product and Service</h5>
-      <div className="flex flex-col gap-y-2xl gap-x-4xl">
+      <div className="flex flex-col gap-x-4xl gap-y-2xl">
         <AnswersTextDisplay
           key="businessType"
           className="!flex-row justify-between capitalize"

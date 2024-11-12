@@ -92,42 +92,42 @@ export function OperatingExpensesForm() {
     <FormLayout title="Operating Expenses (monthly)">
       <Form {...form}>
         <h5 className="text-lg font-semibold">Operating Expenses (monthly)</h5>
-        <p className="text-sm text-text-secondary font-medium">
+        <p className="text-sm font-medium text-text-secondary">
           Operating Expenses are costs directly related to the day-to-day
           functioning of your business. Please specify the amount for the
           expense categories below. For categories which don’t apply, please
           leave them blank.
         </p>
-        <p className="text-sm text-text-tertiary font-medium">
+        <p className="text-sm font-medium text-text-tertiary">
           (Note: This form excludes Non-Operating expenses such as Interest
           Expense, Income Taxes, Losses from Asset Sales, Foreign Exchange
           Losses, and Litigation Costs)
         </p>
         <Separator />
-        <form className="grid grid-cols-6 gap-y-8xl xl:gap-y-4xl mb-3">
+        <form className="gap-y-8xl mb-3 grid grid-cols-6 xl:gap-y-4xl">
           {OPERATING_EXPENSES_FIELD_DATA.map((item) => (
             <FormField
               key={item.name}
               control={form.control}
               name={item.name}
               render={({ field }) => (
-                <FormItem className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
+                <FormItem className="col-span-6 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-2 xl:gap-y-0">
                   <FormLabel className="text-text-secondary">
-                    <p className="text-sm text-text-secondary font-semibold">
+                    <p className="text-sm font-semibold text-text-secondary">
                       {item.title}
                     </p>
-                    <p className="text-sm text-text-tertiary font-medium leading-4 mt-1">
+                    <p className="mt-1 text-sm font-medium leading-4 text-text-tertiary">
                       {item.subtitle}
                     </p>
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      className="text-base input-number-remove-arrow -mt-2 mb-2 ml-auto xl:max-w-80"
+                      className="input-number-remove-arrow -mt-2 mb-2 ml-auto text-base xl:max-w-80"
                       min={0}
                       placeholder="i.e: 5,000"
                       suffixIcon={
-                        <span className="text-text-tertiary/75 -mt-4">
+                        <span className="-mt-4 text-text-tertiary/75">
                           / mo
                         </span>
                       }
@@ -161,7 +161,7 @@ export function OperatingExpensesForm() {
           ))}
         </form>
         <Separator />
-        <div className="container grid grid-cols-1 xl:grid-cols-2 justify-space-between p-0">
+        <div className="justify-space-between container grid grid-cols-1 p-0 xl:grid-cols-2">
           <p className="font-bold">TOTAL MONTHLY OPERATING EXPENSE</p>
           <p className="font-bold xl:ml-auto xl:mr-0">
             {toCurrency(Math.round(totalExpenses), 0)}/ mo

@@ -20,7 +20,7 @@ export function BusinessName() {
   const getBusinessNameNote = (businessName: BusinessNameDetail) => {
     return businessName.status?.toUpperCase() === TaskFieldStatus.SUCCESS &&
       businessName.source.status?.toUpperCase() === SourceStatus.ACTIVE ? (
-      <div className="flex items-center text-base flex-wrap">
+      <div className="flex flex-wrap items-center text-base">
         IRS <Dot className="mx-1 w-2" /> Tax ID Associated Name
       </div>
     ) : (

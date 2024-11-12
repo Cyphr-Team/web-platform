@@ -14,16 +14,16 @@ function BankAccountReport({ data }: Props) {
   const bankAccountCurrency = (value: number) => toCurrency(value, 0)
 
   return (
-    <Card className="border-r-0 border-b-0 shadow-none pl-0 mb-6">
-      <CardHeader className="border-b px-8 md:py-4 border-r rounded-tr-lg p-4 md:p-4 xl:p-4">
-        <div className="flex justify-between items-center flex-wrap gap-2">
-          <CardTitle className="font-semibold text-2xl flex items-center gap-3">
+    <Card className="mb-6 border-b-0 border-r-0 pl-0 shadow-none">
+      <CardHeader className="rounded-tr-lg border-b border-r p-4 px-8 md:p-4 xl:p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle className="flex items-center gap-3 text-2xl font-semibold">
             {data.bankAccountName}
 
             <Badge
               border
               isDot
-              className="capitalize text-sm rounded-lg"
+              className="rounded-lg text-sm capitalize"
               isDotBefore={false}
               variant="soft"
               variantColor={getBadgeVariantByInsightStatus(

@@ -51,10 +51,10 @@ function ReviewApplicationForm() {
 
   return (
     <div className="col-span-8 mx-4 md:mx-8">
-      <div className="max-w-screen-lg mx-auto flex flex-col gap-4 md:gap-8">
+      <div className="mx-auto flex max-w-screen-lg flex-col gap-4 md:gap-8">
         <div>
           <h1 className="text-[2.125rem] font-semibold">Application Summary</h1>
-          <p className="text-sm mt-1">
+          <p className="mt-1 text-sm">
             Please review your application below. If you need to make any
             changes, simply double-click on your answers to edit.
           </p>
@@ -68,7 +68,7 @@ function ReviewApplicationForm() {
 
         <Form {...form}>
           <ButtonLoading
-            className="mx-3 md:mx-auto w-full"
+            className="mx-3 w-full md:mx-auto"
             disabled={
               !form.formState.isValid ||
               completedSteps.length !== reviewableSteps.length

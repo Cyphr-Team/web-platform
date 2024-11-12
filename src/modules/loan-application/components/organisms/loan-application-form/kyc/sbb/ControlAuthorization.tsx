@@ -18,7 +18,7 @@ export function ControlAuthorization({ step, onSubmit }: Props) {
   const form = useFormContext<SbbKycFormValue>()
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
+    <Card className="flex h-fit flex-col gap-2xl rounded-lg p-4xl">
       <h5 className="text-lg font-semibold">Control Authorization</h5>
       <Separator />
       <p className="text-sm text-primary">
@@ -68,7 +68,7 @@ export function ControlAuthorizationDetails({ value }: DetailsProps) {
   return (
     <div className="flex flex-col gap-2">
       <h5 className="text-sm font-semibold">Control Authorization</h5>
-      <p className="text-sm text-primary font-normal">
+      <p className="text-sm font-normal text-primary">
         A single individual with significant responsibility to control, manage,
         or direct a legal entity customer, including an executive officer or
         senior manager (e.g., a Chief Executive Officer, Chief Financial

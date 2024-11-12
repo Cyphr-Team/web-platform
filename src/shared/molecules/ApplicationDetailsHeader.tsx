@@ -46,7 +46,7 @@ export function ApplicationDetailsHeader() {
         "md:h-20 md:pr-8 md:border-t-0 md:p-5"
       )}
     >
-      <div className="flex items-center gap-2 min-w-20">
+      <div className="flex min-w-20 items-center gap-2">
         <h4
           className={cn(
             "text-lg font-semibold ml-0 md:ml-3 truncate min-w-20",
@@ -63,7 +63,7 @@ export function ApplicationDetailsHeader() {
             "Status:"}
         </h4>
         {isFetchingDetails ? (
-          <Skeleton className="w-20 h-8" />
+          <Skeleton className="h-8 w-20" />
         ) : (
           <Badge
             isDot

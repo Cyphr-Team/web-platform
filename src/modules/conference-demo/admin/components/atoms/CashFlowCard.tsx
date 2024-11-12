@@ -6,9 +6,9 @@ interface Props {
 }
 function CashFlowCard({ label, value }: Props) {
   return (
-    <Card className="rounded-xl shadow-none xl:p-6 p-4 flex flex-col gap-2">
-      <p className="text-text-tertiary text-sm font-medium">{label}</p>
-      <span className="text-2xl xl:text-3xl font-semibold">{value}</span>
+    <Card className="flex flex-col gap-2 rounded-xl p-4 shadow-none xl:p-6">
+      <p className="text-sm font-medium text-text-tertiary">{label}</p>
+      <span className="text-2xl font-semibold xl:text-3xl">{value}</span>
     </Card>
   )
 }

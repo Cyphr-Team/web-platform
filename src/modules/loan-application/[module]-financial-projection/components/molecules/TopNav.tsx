@@ -11,7 +11,7 @@ export function TopNav({ id, className, ...props }: Props) {
   const applicationMenu = APPLICATION_MENU(id!)
 
   return (
-    <div className="relative bg-white p-2 rounded-xl">
+    <div className="relative rounded-xl bg-white p-2">
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div
           className={cn("flex items-center space-x-lg", className)}

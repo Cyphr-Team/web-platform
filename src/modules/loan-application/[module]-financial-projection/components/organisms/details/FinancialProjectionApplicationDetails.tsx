@@ -49,8 +49,8 @@ export function FinancialProjectionApplicationSummary() {
 function Header() {
   return (
     <nav className="mb-6 md:mb-12">
-      <div className="flex items-center gap-2 min-w-20">
-        <h1 className="text-lg font-semibold truncate min-w-20 md:text-2xl">
+      <div className="flex min-w-20 items-center gap-2">
+        <h1 className="min-w-20 truncate text-lg font-semibold md:text-2xl">
           Application Summary
         </h1>
         <div className="ml-auto">
@@ -114,7 +114,7 @@ export function FinancialProjectionApplicationDetail({
 function Layout({ children }: React.PropsWithChildren) {
   return (
     <div
-      className="flex flex-col px-4 flex-1 overflow-auto pb-4 md:px-8 md:pb-8 bg-gray-50 mt-8"
+      className="mt-8 flex flex-1 flex-col overflow-auto bg-gray-50 px-4 pb-4 md:px-8 md:pb-8"
       id="financial-application-detail"
     >
       {children}

@@ -33,14 +33,14 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
       const document = row.original
 
       return (
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex min-w-0 items-center gap-3">
           <div>
             <Icons.pdfIcon />
           </div>
           <div className="min-w-0">
             <p className="truncate">{document.name}</p>
             {document.fileSize ? (
-              <p className="text-sm text-muted-foreground mt-0.5 truncate ">
+              <p className="mt-0.5 truncate text-sm text-muted-foreground ">
                 {document.fileSize} KB
               </p>
             ) : null}
@@ -69,7 +69,7 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
       return (
         <div className="font-medium">
           <Badge
-            className="border-gray-300 py-1.5 text-zinc-700 capitalize"
+            className="border-gray-300 py-1.5 capitalize text-zinc-700"
             variant="outline"
           >
             {snakeCaseToText(type).toLowerCase()}
@@ -83,7 +83,7 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="text-xs text-right font-medium text-text-tertiary"
+        className="text-right text-xs font-medium text-text-tertiary"
         column={column}
         title="Uploaded"
       />
@@ -105,7 +105,7 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
     accessorFn: (row) => row.authenticityScoreStatus.score,
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="text-xs text-right font-medium text-text-tertiary"
+        className="text-right text-xs font-medium text-text-tertiary"
         column={column}
         title="Authenticity Score"
       />
@@ -131,10 +131,10 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
     size: 50,
     cell: () => {
       return (
-        <div className="flex content-end justify-end items-center gap-2 text-gray-500">
+        <div className="flex content-end items-center justify-end gap-2 text-gray-500">
           <Button asChild variant="ghost">
             <Link to={APP_PATH.CONFERENCE_DEMO.admin.documentDetail}>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="size-5" />
             </Link>
           </Button>
         </div>

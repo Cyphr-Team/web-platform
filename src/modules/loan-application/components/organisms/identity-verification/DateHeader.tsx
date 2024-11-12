@@ -3,7 +3,7 @@ import { format } from "date-fns"
 
 export function DateHeader({ date }: { date?: string }) {
   return date ? (
-    <div className="text-text-tertiary text-sm">
+    <div className="text-sm text-text-tertiary">
       Last updated on {date ? format(date, FORMAT_DATE_MM_DD_YYYY) : "N/A"}
     </div>
   ) : null

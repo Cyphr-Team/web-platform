@@ -125,7 +125,7 @@ export function LoanReadyBusinessInformationForm({
         methods={form}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col gap-y-2xl gap-x-4xl">
+        <div className="flex flex-col gap-x-4xl gap-y-2xl">
           <RHFTextInput
             label="Business legal name"
             name={LoanReadyKYBFieldName.BUSINESS_LEGAL_NAME}
@@ -143,7 +143,7 @@ export function LoanReadyBusinessInformationForm({
             name={LoanReadyKYBFieldName.ADDRESS_LINE1}
             placeholder="Start typing your address"
           />
-          <div className="flex gap-2 md:gap-4 flex-wrap">
+          <div className="flex flex-wrap gap-2 md:gap-4">
             <AutoCompleteStates
               className="flex-1"
               control={form.control}
@@ -189,7 +189,7 @@ export function LoanReadyBusinessInformationForm({
             name={LoanReadyKYBFieldName.BUSINESS_WEBSITE}
             placeholder="Enter website URL"
             prefixIcon={
-              <div className="text-sm opacity-50 border-r h-full flex items-center pr-2">
+              <div className="flex h-full items-center border-r pr-2 text-sm opacity-50">
                 https://
               </div>
             }

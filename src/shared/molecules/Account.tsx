@@ -26,20 +26,20 @@ export function Account(
     <DropdownMenu>
       <div className="flex items-center justify-center gap-3">
         <DropdownMenuTrigger asChild>
-          <Button className="relative h-10 w-10 rounded-full" variant="ghost">
-            <Avatar className="flex h-10 w-10 items-center justify-center space-y-0 border rounded-full flex-shrink-0">
+          <Button className="relative size-10 rounded-full" variant="ghost">
+            <Avatar className="flex size-10 shrink-0 items-center justify-center space-y-0 rounded-full border">
               <AvatarImage alt={data?.name} src={data?.avatar ?? ""} />
               <AvatarFallback>{data?.name?.slice(0, 2)}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         {!isCollapsed && (
-          <div className="space-y-1 min-w-0 w-full">
+          <div className="w-full min-w-0 space-y-1">
             {isLoading ? (
               <Skeleton className="h-4 w-full border" />
             ) : (
               <p
-                className="text-sm font-medium leading-none truncate"
+                className="truncate text-sm font-medium leading-none"
                 title={data?.name}
               >
                 {data?.name}
@@ -49,7 +49,7 @@ export function Account(
               <Skeleton className="h-4 w-full border" />
             ) : (
               <p
-                className="text-sm text-muted-foreground truncate"
+                className="truncate text-sm text-muted-foreground"
                 title={data?.email}
               >
                 {data?.email}
@@ -60,15 +60,15 @@ export function Account(
       </div>
       <DropdownMenuContent forceMount align="start" className="w-56">
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1 w-full">
+          <div className="flex w-full flex-col space-y-1">
             {isLoading ? (
               <Skeleton className="h-4 w-full" />
             ) : (
-              <p className="text-sm font-medium leading-none truncate">
+              <p className="truncate text-sm font-medium leading-none">
                 {data?.name}
               </p>
             )}
-            <p className="text-xs leading-none text-muted-foreground truncate">
+            <p className="truncate text-xs leading-none text-muted-foreground">
               {data?.email}
             </p>
           </div>

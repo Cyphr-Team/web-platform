@@ -37,7 +37,7 @@ export function ButtonDeleteLoanProgram({
       onConfirmed={handleDeleteLoanProgram}
     >
       <ButtonLoading
-        className="w-full text-destructive cursor-pointer text-center hover:bg-gray-100"
+        className="w-full cursor-pointer text-center text-destructive hover:bg-gray-100"
         isLoading={isPending}
         type="button"
         variant="ghost"

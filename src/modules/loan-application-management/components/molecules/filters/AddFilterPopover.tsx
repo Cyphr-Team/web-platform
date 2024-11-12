@@ -55,7 +55,7 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
       <Popover open={value} onOpenChange={setValue}>
         <PopoverTrigger asChild>
           <Button
-            className="text-sm font-semibold border border-input h-10 px-4 py-2 rounded-full text-slate-700 bg-white"
+            className="h-10 rounded-full border border-input bg-white px-4 py-2 text-sm font-semibold text-slate-700"
             variant="ghost"
           >
             <Plus className="mr-1.5" size="16" />
@@ -64,12 +64,12 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
         </PopoverTrigger>
         <PopoverContent
           align="center"
-          className="rounded-lg p-0 m-0 w-full"
+          className="m-0 w-full rounded-lg p-0"
           side="bottom"
         >
           <Command>
-            <div className="pb-2 flex flex-col h-auto max-h-96 overflow-hidden">
-              <div className="m-4 mb-0 border-primary border focus-within:shadow-lg rounded-lg overflow-hidden">
+            <div className="flex h-auto max-h-96 flex-col overflow-hidden pb-2">
+              <div className="m-4 mb-0 overflow-hidden rounded-lg border border-primary focus-within:shadow-lg">
                 <div
                   className={cn(
                     "w-full gap-2 py-2.5",
@@ -88,7 +88,7 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
                   />
                 </div>
               </div>
-              <div className="px-4 font-semibold text-xs py-2 pb-1">
+              <div className="px-4 py-2 pb-1 text-xs font-semibold">
                 Select filter
               </div>
 
@@ -110,12 +110,12 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
                     return (
                       <CommandItem
                         key={opt.value}
-                        className="px-4 flex mt-1 items-center justify-between gap-2 h-10 cursor-pointer text-slate-950 rounded-none"
+                        className="mt-1 flex h-10 cursor-pointer items-center justify-between gap-2 rounded-none px-4 text-slate-950"
                         value={opt.label}
                         onSelect={() => onSelect(opt)}
                       >
                         {opt.label}
-                        {Icon ? <Icon className="w-4 h-4" /> : null}
+                        {Icon ? <Icon className="size-4" /> : null}
                       </CommandItem>
                     )
                   })}

@@ -10,13 +10,13 @@ interface Props {
 
 export function FeedbackCardDetail({ feedbackList }: Props) {
   return (
-    <div className="max-h-96 overflow-auto flex flex-col gap-y-2 ">
+    <div className="flex max-h-96 flex-col gap-y-2 overflow-auto ">
       {feedbackList.map(({ judgeName, scoredAt, comment }) => (
-        <div key={judgeName} className="flex gap-2 py-2 items-start">
-          <CircleUserRound className="opacity-70 h-5" />
+        <div key={judgeName} className="flex items-start gap-2 py-2">
+          <CircleUserRound className="h-5 opacity-70" />
 
           <div>
-            <div className="flex gap-4 justify-start items-center">
+            <div className="flex items-center justify-start gap-4">
               <div className="font-semibold">{judgeName}</div>
 
               <div
@@ -31,7 +31,7 @@ export function FeedbackCardDetail({ feedbackList }: Props) {
               </div>
             </div>
 
-            <div className="text-text-tertiary mt-2">{comment}</div>
+            <div className="mt-2 text-text-tertiary">{comment}</div>
           </div>
         </div>
       ))}

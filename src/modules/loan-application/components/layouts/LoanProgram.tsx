@@ -18,13 +18,13 @@ function WelcomeLine() {
   return (
     <section>
       {!isSbb() && (
-        <h2 className="text-3xl md:text-4xl font-semibold mb-6">
+        <h2 className="mb-6 text-3xl font-semibold md:text-4xl">
           Welcome to {name}!
         </h2>
       )}
       <p
         dangerouslySetInnerHTML={{ __html: sanitizeDOM(loanProgramWelcome) }}
-        className="text-lg whitespace-pre-wrap text-justify"
+        className="whitespace-pre-wrap text-justify text-lg"
       />
     </section>
   )
@@ -54,12 +54,12 @@ export function Component() {
 
   return (
     !isPortalHasSpecialProgram && (
-      <div className="overflow-auto flex flex-col flex-1">
+      <div className="flex flex-1 flex-col overflow-auto">
         <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
           <section className={cn("col-span-10", "md:col-span-8")}>
             <Image
               alt="Cover Photo for Institution"
-              className="mx-auto max-h-72 object-cover w-full max-w-full border-b h-72"
+              className="mx-auto h-72 max-h-72 w-full max-w-full border-b object-cover"
               height={292}
               placeholderClassName="bg-slate-600 max-h-72 mx-auto max-w-full"
               src={getImageURL(tenantData?.loanProgramOverviewHeroImage)}

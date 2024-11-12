@@ -81,40 +81,40 @@ export function DataListPagination({
         </div>
         <div className="flex items-center space-x-2">
           <Button
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden size-8 p-0 lg:flex"
             disabled={!canPreviousPage}
             variant="outline"
             onClick={() => setPageIndex(0)}
           >
             <span className="sr-only">Go to first page</span>
-            <ChevronsLeft className="h-4 w-4" />
+            <ChevronsLeft className="size-4" />
           </Button>
           <Button
-            className="h-8 w-8 p-0"
+            className="size-8 p-0"
             disabled={!canPreviousPage}
             variant="outline"
             onClick={() => previousPage()}
           >
             <span className="sr-only">Go to previous page</span>
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="size-4" />
           </Button>
           <Button
-            className="h-8 w-8 p-0"
+            className="size-8 p-0"
             disabled={!canNextPage}
             variant="outline"
             onClick={() => nextPage()}
           >
             <span className="sr-only">Go to next page</span>
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="size-4" />
           </Button>
           <Button
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden size-8 p-0 lg:flex"
             disabled={!canNextPage}
             variant="outline"
             onClick={() => setPageIndex(pageCount - 1)}
           >
             <span className="sr-only">Go to last page</span>
-            <ChevronsRight className="h-4 w-4" />
+            <ChevronsRight className="size-4" />
           </Button>
         </div>
       </div>

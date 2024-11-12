@@ -38,7 +38,7 @@ function VerifyInfoItem({
       <div>{leftIcon}</div>
       <div>
         <h5 className="mb-1 font-semibold">{title}</h5>
-        <div className="text-sm text-text-secondary font-medium">
+        <div className="text-sm font-medium text-text-secondary">
           {subtitle}
         </div>
       </div>
@@ -135,14 +135,14 @@ export function IdentityVerificationForm({
   }, [completeSpecificStep, inquiryData, form, dispatchInquiryData])
 
   const renderCompletedBtn = isSbb() ? (
-    <div className="rounded-lg flex items-center border border-success justify-center gap-1 font-semibold text-success bg-white h-10 px-4 py-2">
+    <div className="flex h-10 items-center justify-center gap-1 rounded-lg border border-success bg-white px-4 py-2 font-semibold text-success">
       Connected
-      <Check className="w-5 h-5" />
+      <Check className="size-5" />
     </div>
   ) : (
-    <div className="rounded-lg flex items-center justify-center gap-1 font-semibold text-white bg-primary h-10 px-4 py-2">
+    <div className="flex h-10 items-center justify-center gap-1 rounded-lg bg-primary px-4 py-2 font-semibold text-white">
       {isEnableKycReOrder() ? "Completed" : "Verified"}
-      <Check className="w-5 h-5" />
+      <Check className="size-5" />
     </div>
   )
 
@@ -152,17 +152,17 @@ export function IdentityVerificationForm({
         cardClassName={wrapperClassName}
         title="Identity Verification"
       >
-        <div className="flex gap-2 justify-between items-center">
+        <div className="flex items-center justify-between gap-2">
           <h5 className="text-lg font-semibold">Identity Verification</h5>
           <div className="text-sm">
             {!form.formState.isValid ? (
               <ButtonLoading
-                className="rounded-lg flex gap-1.5 font-semibold"
+                className="flex gap-1.5 rounded-lg font-semibold"
                 isLoading={isOpening}
                 variant="outline"
                 onClick={handleOpenPersona}
               >
-                Start Verification <UserCheck className="w-5 h-5" />
+                Start Verification <UserCheck className="size-5" />
               </ButtonLoading>
             ) : (
               renderCompletedBtn
@@ -173,17 +173,17 @@ export function IdentityVerificationForm({
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-5">
             <VerifyInfoItem
-              leftIcon={<ShieldCheck className="w-5 h-5" />}
+              leftIcon={<ShieldCheck className="size-5" />}
               subtitle="Verify to ensure the security of your account"
               title="Safety first"
             />
             <VerifyInfoItem
-              leftIcon={<Zap className="w-5 h-5" />}
+              leftIcon={<Zap className="size-5" />}
               subtitle="Verification usually takes less than a few minutes and is encrypted."
               title="Fast and secure"
             />
             <VerifyInfoItem
-              leftIcon={<LockKeyhole className="w-5 h-5" />}
+              leftIcon={<LockKeyhole className="size-5" />}
               subtitle={
                 <p>
                   To learn how our service provider uses data you provide, see

@@ -220,7 +220,7 @@ export function AccountSummaryTable() {
     useLoanApplicationDetailContext()
 
   return (
-    <div className="gap-4 min-h-40">
+    <div className="min-h-40 gap-4">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Account Summary</h3>
         {!!cashFlowAccounts?.length && (
@@ -231,7 +231,7 @@ export function AccountSummaryTable() {
         )}
       </div>
 
-      <div className="text-sm text-right">
+      <div className="text-right text-sm">
         <DataTable
           columns={adjustColumns}
           data={cashFlowAnalysis?.bankAccountSummary ?? []}

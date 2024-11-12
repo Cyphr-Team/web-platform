@@ -22,19 +22,19 @@ export function Steps({ className, title, content, status }: StepsProps) {
             : Icons.stepCheckComplete({ className: "mb-sm" })}
 
         <div
-          className="w-xxs flex-1 bg-primary data-[status=true]:bg-border-secondary rounded-sm mb-sm group-[.last-step]:hidden"
+          className="mb-sm w-xxs flex-1 rounded-sm bg-primary group-[.last-step]:hidden data-[status=true]:bg-border-secondary"
           data-status={isIncomplete}
         />
       </div>
-      <div className="flex flex-col pt-xxs pb-3xl">
+      <div className="flex flex-col pb-3xl pt-xxs">
         <p
-          className="text-sm text-text-secondary font-semibold  data-[status=true]:text-primary"
+          className="text-sm font-semibold text-text-secondary  data-[status=true]:text-primary"
           data-status={isCurrent}
         >
           {title}
         </p>
         <p
-          className="text-sm text-text-tertiary font-normal  data-[status=true]:text-primary"
+          className="text-sm font-normal text-text-tertiary  data-[status=true]:text-primary"
           data-status={isCurrent}
         >
           {content}

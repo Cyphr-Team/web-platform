@@ -20,14 +20,14 @@ export const documentColumns: AccessorKeyColumnDef<
       const document = row.original
 
       return (
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex min-w-0 items-center gap-3">
           <div>
             <Icons.pdfIcon />
           </div>
           <div className="min-w-0">
             <p className="truncate">{document.name}</p>
             {document.size ? (
-              <p className="text-sm text-muted-foreground mt-0.5 truncate ">
+              <p className="mt-0.5 truncate text-sm text-muted-foreground ">
                 {Number.parseFloat((document.size / (1024 * 1024)).toFixed(2))}{" "}
                 MB
               </p>
@@ -72,7 +72,7 @@ export const documentColumns: AccessorKeyColumnDef<
       const document = row.original
 
       return (
-        <div className="flex content-end justify-end items-center gap-2 text-gray-500">
+        <div className="flex content-end items-center justify-end gap-2 text-gray-500">
           <DownloadChatbotDocumentButton
             documentId={document.id}
             fileName={document.name}

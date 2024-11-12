@@ -82,7 +82,7 @@ export function WrapperDialogModifyAssignedJudges({
         >
           <img
             alt="add-judge"
-            className="logo w-5 h-5"
+            className="logo size-5"
             src={assignJudgePlusIcon}
           />
         </Button>
@@ -248,16 +248,16 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
   }, [assignableJudgesOnlineQuery.data])
 
   return (
-    <DialogContent className="min-w-[50%] h-[80%] p-0 overflow-hidden flex flex-col">
-      <DialogHeader className="p-4 sm:p-6 pb-0 sm:pb-0">
-        <DialogTitle className="font-semibold text-xl">
+    <DialogContent className="flex h-4/5 min-w-[50%] flex-col overflow-hidden p-0">
+      <DialogHeader className="p-4 pb-0 sm:p-6 sm:pb-0">
+        <DialogTitle className="text-xl font-semibold">
           Assign this Application
         </DialogTitle>
       </DialogHeader>
       <Form {...form}>
-        <form className="flex flex-col flex-1 overflow-hidden p-4 sm:p-6 pt-0 sm:pt-0">
-          <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-3 items-start">
-            <div className="flex lg:flex-row gap-3 w-full mt-1">
+        <form className="flex flex-1 flex-col overflow-hidden p-4 pt-0 sm:p-6 sm:pt-0">
+          <div className="flex flex-col items-start space-y-3 lg:flex-row lg:space-x-3 lg:space-y-0">
+            <div className="mt-1 flex w-full gap-3 lg:flex-row">
               <MultiSelect
                 defaultValue={searchBarJudges}
                 options={assignableOffline}
@@ -276,15 +276,12 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
 
           <Separator className="mt-3 shadow" />
 
-          <div className="overflow-auto flex flex-col flex-1">
+          <div className="flex flex-1 flex-col overflow-auto">
             {assignedOffline.map((judge) => {
               return (
-                <div
-                  key={judge.id}
-                  className="flex flex-row items-center mt-3 mb-3"
-                >
+                <div key={judge.id} className="my-3 flex flex-row items-center">
                   <Button
-                    className="w-auto h-auto p-1 mr-1"
+                    className="mr-1 size-auto p-1"
                     type="button"
                     variant="ghost"
                     onClick={() => {
@@ -311,12 +308,12 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                     }}
                   >
                     <X
-                      className="w-4 h-4 text-stone-300 flex-shrink-0"
+                      className="size-4 shrink-0 text-stone-300"
                       strokeWidth={2.75}
                     />
                   </Button>
 
-                  <div className="flex-shrink-0 relative">
+                  <div className="relative shrink-0">
                     <JudgeAvatar
                       avatar={judge?.avatar}
                       email={judge?.name}
@@ -334,7 +331,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
                     </span>
                   </div>
                   <div className="flex-1 flex-row justify-center" />
-                  <span className="text-xs font-medium mr-2 text-zinc-700">
+                  <span className="mr-2 text-xs font-medium text-zinc-700">
                     Judge
                   </span>
                 </div>
@@ -342,7 +339,7 @@ const DialogModifyAssignedJudges: React.FC<Props> = ({
             })}
           </div>
 
-          <div className="ml-auto mt-8 mb-4 font-semibold text-base mr-3">
+          <div className="mb-4 ml-auto mr-3 mt-8 text-base font-semibold">
             Total People Assigned:{" "}
             <span className="ml-1">{assignedOffline.length}</span>
           </div>

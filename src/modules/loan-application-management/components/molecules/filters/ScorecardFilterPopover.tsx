@@ -94,15 +94,15 @@ export function ScorecardFilterPopover<
           >
             Scorecard Status
             {additionLabel}
-            <ChevronDown className="ml-0.5 h-5 w-5 opacity-50" />
+            <ChevronDown className="ml-0.5 size-5 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent
           align="center"
-          className="rounded-lg p-0 m-0 w-full"
+          className="m-0 w-full rounded-lg p-0"
           side="bottom"
         >
-          <div className="flex mt-1 items-center justify-between gap-2 w-fit p-4 text-sm">
+          <div className="mt-1 flex w-fit items-center justify-between gap-2 p-4 text-sm">
             <Input
               className="w-20 focus-visible:ring-0"
               maxLength={2}
@@ -148,7 +148,7 @@ export function ScorecardFilterPopover<
 
           <Separator />
           <Button
-            className="w-full hover:text-red-600 rounded-none h-7 my-1.5 flex justify-start text-left text-sm font-normal text-slate-700"
+            className="my-1.5 flex h-7 w-full justify-start rounded-none text-left text-sm font-normal text-slate-700 hover:text-red-600"
             type="reset"
             variant="ghost"
             onClick={handleClear}

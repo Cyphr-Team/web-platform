@@ -31,14 +31,14 @@ export const BankAccountReport: React.FC<Props> = ({
 
   return (
     <Card className={cn("border-r-0 border-b-0 shadow-none", className)}>
-      <CardHeader className="border-b px-8 md:py-4 border-r rounded-tr-md">
-        <div className="flex justify-between items-center flex-wrap gap-1">
-          <CardTitle className="font-semibold text-2xl flex items-center gap-3">
+      <CardHeader className="rounded-tr-md border-b border-r px-8 md:py-4">
+        <div className="flex flex-wrap items-center justify-between gap-1">
+          <CardTitle className="flex items-center gap-3 text-2xl font-semibold">
             {formatHeader(data.bankAccountName ?? "N/A")}
             <Badge
               border
               isDot
-              className="capitalize text-sm rounded-lg"
+              className="rounded-lg text-sm capitalize"
               isDotBefore={false}
               variant="soft"
               variantColor={getBadgeVariantByInsightStatus(

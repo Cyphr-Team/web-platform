@@ -74,11 +74,11 @@ export function CalendarDatePicker({
                 {format(value, dateFormat ?? "MM - dd - y")}
               </span>
             ) : (
-              <span className="text-text-placeholder text-sm">
+              <span className="text-sm text-text-placeholder">
                 {placeholder}
               </span>
             )}
-            <CalendarPlus className="h-5 w-5 text-text-tertiary" />
+            <CalendarPlus className="size-5 text-text-tertiary" />
           </Button>
         </PopoverTrigger>
         <PopoverContent

@@ -28,13 +28,13 @@ function DocumentScore() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <DocumentToolbar />
       <ViewSignalsDetails
         handleOpenSignalDetails={handleOpen}
         isOpenSignalDetails={isOpen}
       />
-      <div className="lg:flex h-full overflow-y-auto">
+      <div className="h-full overflow-y-auto lg:flex">
         <DocumentViewer />
         {isOpen ? <DocumentSignalsDetails handleClose={handleClose} /> : null}
       </div>

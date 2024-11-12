@@ -56,7 +56,7 @@ export function ScoreCardListDetailByJudge({
           <ChevronRight className="w-4 shrink-0 transition-transform duration-200" />
         }
       >
-        <div className="w-full flex justify-between items-center">
+        <div className="flex w-full items-center justify-between">
           <span className="text-sm">{name}</span>
 
           <Layout isCompleted={!!scoredDate}>
@@ -71,7 +71,7 @@ export function ScoreCardListDetailByJudge({
                 <span className="text-black">/5</span>
               </span>
 
-              <Icons.rocket className="w-4 ml-1" />
+              <Icons.rocket className="ml-1 w-4" />
             </span>
           </Layout>
         </div>
@@ -97,8 +97,8 @@ function Layout(props: LayoutProps) {
     <TooltipProvider delayDuration={100}>
       <Tooltip>
         <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent className="bg-black transform" sideOffset={0}>
-          <div className="text-white max-w-72 font-light text-xs">
+        <TooltipContent className="bg-black" sideOffset={0}>
+          <div className="max-w-72 text-xs font-light text-white">
             Scorecard incomplete
           </div>
         </TooltipContent>

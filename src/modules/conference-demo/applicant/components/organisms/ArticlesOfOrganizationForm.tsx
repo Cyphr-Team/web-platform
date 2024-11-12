@@ -43,7 +43,7 @@ function ArticlesOfOrganizationForm() {
         <RHFProvider methods={methods}>
           <div className="flex flex-col gap-y-2xl  shadow-none">
             <h4 className="text-lg font-semibold">Articles of Organization</h4>
-            <p className="text-sm text-text-secondary font-medium">
+            <p className="text-sm font-medium text-text-secondary">
               Please upload a copy of your company’s Article of Organization
             </p>
 

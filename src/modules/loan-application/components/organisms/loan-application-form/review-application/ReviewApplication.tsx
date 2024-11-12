@@ -128,10 +128,10 @@ export function ReviewApplication() {
   }
 
   return (
-    <div className="col-span-8 grid grid-cols-8 gap-4 md:gap-6 mx-4">
+    <div className="col-span-8 mx-4 grid grid-cols-8 gap-4 md:gap-6">
       {isSbb() ? (
         <>
-          <div className="col-span-8 md:mx-8 2xl:mx-auto max-w-6xl">
+          <div className="col-span-8 max-w-6xl md:mx-8 2xl:mx-auto">
             <SbbReviewApplicationDetails />
             <div className="hidden">
               <DisclaimerAndDisclosure
@@ -140,7 +140,7 @@ export function ReviewApplication() {
               />
             </div>
           </div>
-          <div className="col-span-8 2xl:w-full md:mx-8 2xl:mx-auto max-w-6xl">
+          <div className="col-span-8 max-w-6xl md:mx-8 2xl:mx-auto 2xl:w-full">
             <Form {...form}>
               <ButtonLoading
                 className="w-full"
@@ -166,10 +166,10 @@ export function ReviewApplication() {
               parentKey={requiredReview.key}
             />
           ))}
-          <div className="col-start-3 col-span-6">
+          <div className="col-span-6 col-start-3">
             <Form {...form}>
               <ButtonLoading
-                className="mx-3 md:mx-auto max-w-screen-sm w-full"
+                className="mx-3 w-full max-w-screen-sm md:mx-auto"
                 disabled={
                   !form.formState.isValid ||
                   progressCompleteFilter.length !== progressFilter.length

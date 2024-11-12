@@ -40,13 +40,13 @@ export function AccountFilters() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="py-2 px-4 border rounded-md font-medium flex items-center">
+        <div className="flex items-center rounded-md border px-4 py-2 font-medium">
           <span>{checkedList.length} accounts</span>
-          <ChevronDown className="ml-2 h-4 w-4" />
+          <ChevronDown className="ml-2 size-4" />
         </div>
       </PopoverTrigger>
-      <PopoverContent align="end" className="p-0 pt-2 w-52">
-        <div className="flex p-2 gap-2">
+      <PopoverContent align="end" className="w-52 p-0 pt-2">
+        <div className="flex gap-2 p-2">
           <Checkbox
             checked={checkedList.length === cashFlowAccounts.length}
             id="all"
@@ -67,7 +67,7 @@ export function AccountFilters() {
           </Label>
         </div>
         {cashFlowAccounts.map((option) => (
-          <div key={option.bankAccountPk} className="flex p-2 gap-2">
+          <div key={option.bankAccountPk} className="flex gap-2 p-2">
             <Checkbox
               checked={checkedList.includes(option.bankAccountPk)}
               className="capitalize"
@@ -85,7 +85,7 @@ export function AccountFilters() {
           </div>
         ))}
         <Separator />
-        <div className="flex p-2 w-full justify-end">
+        <div className="flex w-full justify-end p-2">
           <Button
             className="text-xs"
             size="sm"

@@ -55,8 +55,8 @@ export function SbbCurrentLoanFormDetails({
   }
 
   return (
-    <Card className="p-5xl rounded-lg space-y-2 gap-x-4xl grid grid-cols-12 gap-y-2xl shadow-none">
-      <div className="flex flex-row items-center justify-between col-span-12">
+    <Card className="grid grid-cols-12 gap-x-4xl gap-y-2xl space-y-2 rounded-lg p-5xl shadow-none">
+      <div className="col-span-12 flex flex-row items-center justify-between">
         <h5 className="text-md font-semibold">LOAN #{index + 1}</h5>
         {form
           .getValues()
@@ -70,7 +70,7 @@ export function SbbCurrentLoanFormDetails({
 
       <TextInput
         isRowDirection
-        className="space-y-2 col-span-12 grid grid-cols-1 xl:grid-cols-5 gap-x-2xl flex-auto xl:h-8 "
+        className="col-span-12 grid flex-auto grid-cols-1 gap-x-2xl space-y-2 xl:h-8 xl:grid-cols-5 "
         control={form.control}
         formMessageClassName="text-sm text-destructive font-medium col-span-6 xl:col-span-2"
         inputClassName="h-10 max-w-64 pl-font-light text-sm"
@@ -95,9 +95,9 @@ export function SbbCurrentLoanFormDetails({
         control={form.control}
         name={`currentLoans[${index}].outstandingLoanBalance`}
         render={({ field }) => (
-          <FormItem className="col-span-12 grid grid-cols-1 xl:grid-cols-5 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
-            <FormLabel className="text-text-secondary col-span-6 xl:col-span-3">
-              <p className="text-sm font-medium mt-2">
+          <FormItem className="col-span-12 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-5 xl:gap-y-0">
+            <FormLabel className="col-span-6 text-text-secondary xl:col-span-3">
+              <p className="mt-2 text-sm font-medium">
                 What is the remaining loan balance?
               </p>
             </FormLabel>
@@ -105,7 +105,7 @@ export function SbbCurrentLoanFormDetails({
               <Input
                 {...field}
                 required
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80 pl:font-light"
+                className="input-number-remove-arrow pl:font-light -mt-2 text-base xl:ml-auto xl:max-w-80"
                 min={0}
                 placeholder="Type here"
                 type={`currentLoans[${index}].outstandingLoanBalance`}
@@ -130,7 +130,7 @@ export function SbbCurrentLoanFormDetails({
               />
             </FormControl>
             <FormMessage
-              className="col-span-6 xl:col-span-3 font-medium lg:mt-1"
+              className="col-span-6 font-medium lg:mt-1 xl:col-span-3"
               style={{ marginTop: -1 }}
             />
           </FormItem>
@@ -140,9 +140,9 @@ export function SbbCurrentLoanFormDetails({
         control={form.control}
         name={`currentLoans[${index}].monthlyPaymentAmount`}
         render={() => (
-          <FormItem className="col-span-12 grid grid-cols-1 xl:grid-cols-5 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
-            <FormLabel className="text-text-secondary col-span-6 xl:col-span-3">
-              <p className="text-sm font-medium mt-2">
+          <FormItem className="col-span-12 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-5 xl:gap-y-0">
+            <FormLabel className="col-span-6 text-text-secondary xl:col-span-3">
+              <p className="mt-2 text-sm font-medium">
                 What is the monthly payment for the loan?
               </p>
             </FormLabel>
@@ -150,7 +150,7 @@ export function SbbCurrentLoanFormDetails({
               <Input
                 readOnly
                 required
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80 pl:font-light"
+                className="input-number-remove-arrow pl:font-light -mt-2 text-base xl:ml-auto xl:max-w-80"
                 max={100}
                 min={0}
                 type={`currentLoans[${index}].monthlyPaymentAmount`}
@@ -159,7 +159,7 @@ export function SbbCurrentLoanFormDetails({
               />
             </FormControl>
             <FormMessage
-              className="col-span-6 xl:col-span-3 font-medium lg:mt-1"
+              className="col-span-6 font-medium lg:mt-1 xl:col-span-3"
               style={{ marginTop: -1 }}
             />
           </FormItem>
@@ -169,21 +169,21 @@ export function SbbCurrentLoanFormDetails({
         control={form.control}
         name={`currentLoans[${index}].loanTermRemainingInMonths`}
         render={({ field }) => (
-          <FormItem className="col-span-12 grid grid-cols-1 xl:grid-cols-5 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
-            <FormLabel className="text-text-secondary col-span-6 xl:col-span-3">
-              <p className="text-sm font-medium mt-2">
+          <FormItem className="col-span-12 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-5 xl:gap-y-0">
+            <FormLabel className="col-span-6 text-text-secondary xl:col-span-3">
+              <p className="mt-2 text-sm font-medium">
                 How many months are left on the loan?
               </p>
             </FormLabel>
             <FormControl>
               <Input
                 required
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80 pl:font-light"
+                className="input-number-remove-arrow pl:font-light -mt-2 text-base xl:ml-auto xl:max-w-80"
                 max={100000}
                 min={0}
                 placeholder="Type here"
                 suffixIcon={
-                  <span className="text-text-tertiary -mt-2">Months</span>
+                  <span className="-mt-2 text-text-tertiary">Months</span>
                 }
                 type={`currentLoans[${index}].loanTermRemainingInMonths`}
                 wrapperClassName="col-span-6 xl:col-span-2 divide-x"
@@ -195,7 +195,7 @@ export function SbbCurrentLoanFormDetails({
               />
             </FormControl>
             <FormMessage
-              className="col-span-6 xl:col-span-3 font-medium lg:mt-1"
+              className="col-span-6 font-medium lg:mt-1 xl:col-span-3"
               style={{ marginTop: -1 }}
             />
           </FormItem>
@@ -205,19 +205,19 @@ export function SbbCurrentLoanFormDetails({
         control={form.control}
         name={`currentLoans[${index}].annualInterestRate`}
         render={({ field }) => (
-          <FormItem className="col-span-12 grid grid-cols-1 xl:grid-cols-5 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
-            <FormLabel className="text-text-secondary col-span-6 xl:col-span-3">
-              <p className="text-sm font-medium mt-2">
+          <FormItem className="col-span-12 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-5 xl:gap-y-0">
+            <FormLabel className="col-span-6 text-text-secondary xl:col-span-3">
+              <p className="mt-2 text-sm font-medium">
                 What is the yearly interest rate?
               </p>
             </FormLabel>
             <FormControl>
               <Input
                 required
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80 pl:font-light"
+                className="input-number-remove-arrow pl:font-light -mt-2 text-base xl:ml-auto xl:max-w-80"
                 max={100}
                 placeholder="Type here"
-                suffixIcon={<span className="text-text-tertiary -mt-2">%</span>}
+                suffixIcon={<span className="-mt-2 text-text-tertiary">%</span>}
                 type="number"
                 wrapperClassName="col-span-6 xl:col-span-2"
                 onWheel={numberInputOnWheelPreventChange}
@@ -237,7 +237,7 @@ export function SbbCurrentLoanFormDetails({
               />
             </FormControl>
             <FormMessage
-              className="col-span-6 xl:col-span-3 font-medium lg:mt-1"
+              className="col-span-6 font-medium lg:mt-1 xl:col-span-3"
               style={{ marginTop: -1 }}
             />
           </FormItem>

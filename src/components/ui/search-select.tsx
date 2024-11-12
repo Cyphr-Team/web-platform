@@ -124,7 +124,7 @@ export function SearchSelect<
         )
       }
 
-      return <span className="h-5 w-5 bg-zinc-300 rounded-full mr-1" />
+      return <span className="mr-1 size-5 rounded-full bg-zinc-300" />
     },
     [isLogo]
   )
@@ -189,12 +189,12 @@ export function SearchSelect<
 
   const renderViewMode = () => (
     <div
-      className="h-full w-full absolute top-0 bg-white border flex items-center px-3 rounded-md cursor-pointer justify-between"
+      className="absolute top-0 flex size-full cursor-pointer items-center justify-between rounded-md border bg-white px-3"
       onClick={handleViewModeClick}
     >
       <div className="flex w-full gap-1">
         {renderIcon(field.value)}
-        <p className="truncate min-w-0">
+        <p className="min-w-0 truncate">
           {field.value?.label ?? (
             <span className="opacity-80">Please select</span>
           )}
@@ -209,7 +209,7 @@ export function SearchSelect<
       {options.map((option) => (
         <li
           key={option.value}
-          className="flex gap-1 items-center text-sm p-3 hover:bg-zinc-200 cursor-pointer"
+          className="flex cursor-pointer items-center gap-1 p-3 text-sm hover:bg-zinc-200"
           onClick={() => handleOptionClick(option)}
         >
           {renderOption
@@ -221,7 +221,7 @@ export function SearchSelect<
   )
 
   const renderSearchStatus = () => (
-    <div className="text-sm p-3 bg-zinc-100 flex gap-1 break-all">
+    <div className="flex gap-1 break-all bg-zinc-100 p-3 text-sm">
       {isFetching ? loader : totalOptions} matches found for "{searchValue}"
     </div>
   )
@@ -236,7 +236,7 @@ export function SearchSelect<
       >
         <PopoverTrigger asChild disabled={disabled}>
           <Button
-            className="w-full relative h-10 font-normal p-0"
+            className="relative h-10 w-full p-0 font-normal"
             type="button"
             variant="ghost"
           >

@@ -12,13 +12,13 @@ export const cashFlowColumns: (
     accessorKey: "bankAccountName",
     size: 200,
     header: () => (
-      <div className="flex items-center text-gray-700 -mx-4">Account</div>
+      <div className="-mx-4 flex items-center text-gray-700">Account</div>
     ),
     cell: ({ row }) => {
       const data = row.original
 
       return (
-        <div className="min-w-0 -mx-4 uppercase text-sm">
+        <div className="-mx-4 min-w-0 text-sm uppercase">
           {data.institutionName} {data.bankAccountName} {data.mask}
         </div>
       )

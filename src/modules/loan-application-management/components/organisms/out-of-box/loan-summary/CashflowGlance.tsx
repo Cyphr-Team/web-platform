@@ -14,7 +14,7 @@ export function CashflowGlanceReport() {
     useLoanApplicationDetailContext()
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto shadow-none">
+    <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none">
       <div className="flex flex-col space-y-3xl">
         <SectionTitle>Cash Flow at a Glance</SectionTitle>
 

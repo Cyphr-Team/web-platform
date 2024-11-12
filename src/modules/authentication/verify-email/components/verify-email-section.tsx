@@ -10,31 +10,31 @@ export function VerifyEmailSection() {
   const { email } = useParams()
 
   return (
-    <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
+    <div className="mx-auto h-auto rounded-[32px] bg-white p-8 shadow-primary md:w-[540px]">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
         <div className="flex flex-col text-center">
-          <div className="flex justify-center relative">
+          <div className="relative flex justify-center">
             <img
               alt="Pattern decorative"
-              className="max-w-[100vw] absolute w-[756px] h-[756px] -z-10 left-1/2 -translate-x-1/2 top-[28px] -translate-y-1/2 dark:opacity-15"
+              className="absolute left-1/2 top-[28px] -z-10 size-[756px] max-w-[100vw] -translate-x-1/2 -translate-y-1/2 dark:opacity-15"
               height={756}
               src={backgroundPatternDecorative}
               width={756}
             />
             <div className="w-[56px] self-center">
               <AspectRatio ratio={1 / 1}>
-                <div className="w-full h-full border flex justify-center items-center rounded-xl">
+                <div className="flex size-full items-center justify-center rounded-xl border">
                   <Mail size={28} />
                 </div>
               </AspectRatio>
             </div>
           </div>
 
-          <h1 className="text-3xl font-semibold tracking-tight mt-6">
+          <h1 className="mt-6 text-3xl font-semibold tracking-tight">
             Check your email
           </h1>
 
-          <div className="text-muted-foreground mt-3">
+          <div className="mt-3 text-muted-foreground">
             <p>We sent a verification link to</p>
             <p className="font-medium">{email}</p>
           </div>
@@ -44,11 +44,11 @@ export function VerifyEmailSection() {
 
         <Button
           asChild
-          className="px-1 text-sm text-foreground py-0 self-center"
+          className="self-center px-1 py-0 text-sm text-foreground"
           variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
-            <ArrowLeft className="w-5 h-5 mr-1" />
+            <ArrowLeft className="mr-1 size-5" />
             Back to log in
           </Link>
         </Button>

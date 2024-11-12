@@ -132,16 +132,16 @@ export function WorkspaceAdminApplicationListFilter() {
     () =>
       function (table: Table<IWorkspaceAdminApplicationScore>) {
         return (
-          <div className="flex items-center flex-wrap w-full gap-4">
-            <div className="flex-[2] min-w-0 overflow-x-auto py-1">
+          <div className="flex w-full flex-wrap items-center gap-4">
+            <div className="min-w-0 flex-[2] overflow-x-auto py-1">
               <Filter filterForm={filterForm} />
             </div>
 
-            <div className="justify-items-end flex flex-1 gap-3 py-1">
+            <div className="flex flex-1 justify-items-end gap-3 py-1">
               <Input
                 name="search"
                 placeholder="Search by 'Company Name'"
-                prefixIcon={<Search className="w-4 h-4 text-text-tertiary" />}
+                prefixIcon={<Search className="size-4 text-text-tertiary" />}
                 wrapperClassName="flex-1"
                 onChange={handleSearch}
               />
@@ -160,7 +160,7 @@ export function WorkspaceAdminApplicationListFilter() {
     >
       <div className="flex flex-wrap justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <Breadcrumbs breads={crumbs} className="px-0 mb-3" />
+          <Breadcrumbs breads={crumbs} className="mb-3 px-0" />
           <h1 className="text-2xl font-semibold">Application</h1>
         </div>
       </div>

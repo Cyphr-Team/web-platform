@@ -32,14 +32,14 @@ export function LoanReadyLoanSubmission() {
   const btnShadow = "shadow-[0px_4px_12px_0px_#00000026]"
 
   return (
-    <div className="p-4 lg:p-8 h-full w-full flex shadow-[">
-      <div className="m-auto flex w-full flex-col space-y-8 md:w-[640px] px-2">
-        <div className="flex flex-col text-center gap-4xl">
-          <div className="flex justify-center relative">
+    <div className="shadow-[ flex size-full p-4 lg:p-8">
+      <div className="m-auto flex w-full flex-col space-y-8 px-2 md:w-[640px]">
+        <div className="flex flex-col gap-4xl text-center">
+          <div className="relative flex justify-center">
             <div className="w-14 self-center">
               <AspectRatio ratio={1 / 1}>
-                <div className="w-full h-full flex justify-center items-center rounded-full bg-success-secondary">
-                  <CheckCircle className="w-7 h-7 text-success" />
+                <div className="flex size-full items-center justify-center rounded-full bg-success-secondary">
+                  <CheckCircle className="size-7 text-success" />
                 </div>
               </AspectRatio>
             </div>
@@ -51,7 +51,7 @@ export function LoanReadyLoanSubmission() {
             </h1>
           </div>
 
-          <div className="text-black flex flex-col gap-2 md:gap-3 text-sm">
+          <div className="flex flex-col gap-2 text-sm text-black md:gap-3">
             <p>
               <span className="font-bold">Congratulations!</span> Your
               application has been successfully submitted.
@@ -62,7 +62,7 @@ export function LoanReadyLoanSubmission() {
             </p>
           </div>
 
-          <div className="flex gap-4 justify-center flex-wrap lg:flex-nowrap mx-20">
+          <div className="mx-20 flex flex-wrap justify-center gap-4 lg:flex-nowrap">
             {documentId ? (
               <ButtonDownloadESignDocument
                 className={btnShadow}

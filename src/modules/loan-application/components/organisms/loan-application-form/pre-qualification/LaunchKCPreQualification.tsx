@@ -127,15 +127,15 @@ export function PreQualificationForm() {
       {isQualified ? (
         // TODO: move this out to a variable
         <Form {...form}>
-          <form className="flex flex-col gap-y-2xl gap-x-4xl">
+          <form className="flex flex-col gap-x-4xl gap-y-2xl">
             {questions.map((question) => (
               <Controller
                 key={question.field}
                 control={form.control}
                 name={question.field}
                 render={({ field }) => (
-                  <FormItem className="flex justify-between gap-2 items-center">
-                    <FormLabel className="text-sm text-text-secondary font-medium">
+                  <FormItem className="flex items-center justify-between gap-2">
+                    <FormLabel className="text-sm font-medium text-text-secondary">
                       {question.label}
                     </FormLabel>
                     <FormControl>
@@ -147,7 +147,7 @@ export function PreQualificationForm() {
                           field.onChange(value === "true")
                         }}
                       >
-                        <SelectTrigger className="text-sm max-w-40 col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto">
+                        <SelectTrigger className="col-span-6 max-w-40 text-sm xl:col-span-2 xl:col-end-7 xl:ml-auto xl:max-w-40">
                           <SelectValue placeholder="Please select" />
                         </SelectTrigger>
                         <SelectContent className="text-sm">
@@ -184,7 +184,7 @@ export function PreQualificationForm() {
                 onConfirmed={onConfirmed}
               >
                 <ButtonLoading
-                  className=" text-white bg-primary hover:bg-primary/80 hover:text-white"
+                  className=" bg-primary text-white hover:bg-primary/80 hover:text-white"
                   disabled={!form.formState.isValid}
                   isLoading={isPending || isCreatingLoanApplication}
                   variant="outline"

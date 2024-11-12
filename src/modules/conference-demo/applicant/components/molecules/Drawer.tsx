@@ -49,7 +49,7 @@ function DrawerCheckBox({ name, label }: DrawerCheckBoxProps) {
 
 function CardSection({ title, tooltipContent, children }: CardSectionProps) {
   return (
-    <Card className="p-4 m-6 flex flex-col gap-y-4 shadow-none">
+    <Card className="m-6 flex flex-col gap-y-4 p-4 shadow-none">
       <div className="flex flex-row items-center">
         <div className="font-semibold">{title}</div>
         {tooltipContent ? <ContentTooltip content={tooltipContent} /> : null}
@@ -75,7 +75,7 @@ function CheckboxGroup({ options }: CheckboxGroupProps) {
 
 function DrawerContent() {
   return (
-    <div className="p-2 flex flex-col">
+    <div className="flex flex-col p-2">
       <CardSection
         title="Forecast Reports"
         tooltipContent="5-year projected financial reports based on the data you provided."
@@ -158,14 +158,14 @@ export function Drawer() {
 
   return (
     <>
-      <div className="text-center ml-2">
+      <div className="ml-2 text-center">
         <ButtonLoading
-          className="text-black shadow-md bg-success-fp hover:bg-[#a1d80b] font-medium rounded-lg text-sm focus:outline-none"
+          className="rounded-lg bg-success-fp text-sm font-medium text-black shadow-md hover:bg-[#a1d80b] focus:outline-none"
           isLoading={isExporting.value}
           type="button"
           onClick={openDrawer.onToggle}
         >
-          <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
             <FolderDown className="w-4" />
             Download reports
           </div>
@@ -181,10 +181,10 @@ export function Drawer() {
         )}
         tabIndex={-1}
       >
-        <div className="h-12 flex items-center justify-between p-8 sticky top-0 bg-white border-b z-50">
+        <div className="sticky top-0 z-50 flex h-12 items-center justify-between border-b bg-white p-8">
           <div className="text-xl font-semibold">Download Reports</div>
           <Button
-            className="bg-transparent text-black hover:bg-gray-50 rounded-lg cursor-pointer"
+            className="cursor-pointer rounded-lg bg-transparent text-black hover:bg-gray-50"
             type="button"
             onClick={openDrawer.onFalse}
           >

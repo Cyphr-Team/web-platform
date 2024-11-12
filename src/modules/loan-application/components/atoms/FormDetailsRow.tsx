@@ -18,7 +18,7 @@ export function FormDetailsRow({
     <div className="flex flex-col">
       <div className={cn(className, "flex justify-between py-xl items-center")}>
         <div className="flex flex-col">
-          <div className="text-text-secondary font-medium text-base">
+          <div className="text-base font-medium text-text-secondary">
             {label}
           </div>
           {!!description && (

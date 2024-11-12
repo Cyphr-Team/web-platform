@@ -26,7 +26,7 @@ export function BillingAddressForm({
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-lg text-[#252828] font-semibold">Billing Address</p>
+      <p className="text-lg font-semibold text-[#252828]">Billing Address</p>
       <AddressElement
         options={{
           mode: "billing",

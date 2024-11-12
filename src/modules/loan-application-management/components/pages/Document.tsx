@@ -50,12 +50,12 @@ export function Component() {
   return (
     <div>
       <div className="rounded-t-xl border px-6 py-5">
-        <h3 className="font-semibold text-lg mb-1">Attached files</h3>
-        <p className="text-muted-foreground text-sm">
+        <h3 className="mb-1 text-lg font-semibold">Attached files</h3>
+        <p className="text-sm text-muted-foreground">
           Documents and assets that have been attached to this loan application
         </p>
       </div>
-      <div className="border py-3 px-4 -mb-6 border-t-0 flex justify-between">
+      <div className="-mb-6 flex justify-between border border-t-0 px-4 py-3">
         <DocumentTableHeader onSearch={handleSearch} />
         <ButtonLoading
           isLoading={isFetching}

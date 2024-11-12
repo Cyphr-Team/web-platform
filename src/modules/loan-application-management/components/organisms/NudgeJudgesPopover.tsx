@@ -94,7 +94,7 @@ export function NudgeJudgesPopover({
     return list.map((item, index) => (
       <Button
         key={item.name}
-        className="flex w-full justify-between bg-transparent text-black items-center space-x-1 h-10 cursor-pointer hover:bg-gray-100 px-2 rounded-lg disabled:bg-transparent"
+        className="flex h-10 w-full cursor-pointer items-center justify-between space-x-1 rounded-lg bg-transparent px-2 text-black hover:bg-gray-100 disabled:bg-transparent"
         disabled={isPending || isActive || isCompleted}
         onClick={handleSendNudge(item)}
       >
@@ -128,7 +128,7 @@ export function NudgeJudgesPopover({
             />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="p-1 rounded-lg" side="bottom">
+        <PopoverContent align="start" className="rounded-lg p-1" side="bottom">
           {isPending ? (
             <Loader2
               className={cn(
@@ -143,21 +143,21 @@ export function NudgeJudgesPopover({
           >
             <AccordionItem className="border-none" value="active-nudges">
               <AccordionTrigger
-                className="text-xs font-semibold py-2"
-                closeIcon={<ChevronDownIcon className="w-4 h-4" />}
-                openIcon={<ChevronRightIcon className="w-4 h-4" />}
+                className="py-2 text-xs font-semibold"
+                closeIcon={<ChevronDownIcon className="size-4" />}
+                openIcon={<ChevronRightIcon className="size-4" />}
               >
                 Active Nudges
               </AccordionTrigger>
-              <AccordionContent className="pb-0 px-0">
+              <AccordionContent className="px-0 pb-0">
                 {generateListNudge(activeNudgesInfo, true, false)}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem className="border-none" value="nudge-judges">
               <AccordionTrigger
-                className="text-xs font-semibold  py-2"
-                closeIcon={<ChevronDownIcon className="w-4 h-4" />}
-                openIcon={<ChevronRightIcon className="w-4 h-4" />}
+                className="py-2 text-xs  font-semibold"
+                closeIcon={<ChevronDownIcon className="size-4" />}
+                openIcon={<ChevronRightIcon className="size-4" />}
               >
                 Nudge Judges
               </AccordionTrigger>
@@ -167,9 +167,9 @@ export function NudgeJudgesPopover({
             </AccordionItem>
             <AccordionItem className="border-none" value="completed-scorecard">
               <AccordionTrigger
-                className="text-xs font-semibold py-2"
-                closeIcon={<ChevronDownIcon className="w-4 h-4" />}
-                openIcon={<ChevronRightIcon className="w-4 h-4" />}
+                className="py-2 text-xs font-semibold"
+                closeIcon={<ChevronDownIcon className="size-4" />}
+                openIcon={<ChevronRightIcon className="size-4" />}
               >
                 Completed Scorecard
               </AccordionTrigger>

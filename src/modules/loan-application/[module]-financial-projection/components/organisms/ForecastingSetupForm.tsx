@@ -48,7 +48,7 @@ export function ForecastingSetupForm() {
       <h5 className="text-lg font-semibold">Forecasting Setup</h5>
       <Separator />
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-xl mb-5">
+        <div className="mb-5 flex flex-col gap-xl">
           {renderBlockComponents(ForecastingSetupFormBlocks)}
         </div>
 

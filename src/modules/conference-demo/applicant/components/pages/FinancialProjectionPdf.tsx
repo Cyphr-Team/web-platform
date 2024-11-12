@@ -257,7 +257,7 @@ function ApplicationSummarySection(): JSX.Element {
 
   return (
     <div className="flex items-start p-8">
-      <main className="flex flex-col gap-4 w-full md:gap-8">
+      <main className="flex w-full flex-col gap-4 md:gap-8">
         <FinancialProjectionApplicationDetail
           isPdf
           financialApplicationDetailData={FINANCIAL_APPLICATION_DETAIL}

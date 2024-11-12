@@ -23,9 +23,9 @@ export function AccessList() {
   return (
     <div className="mt-1">
       <div>
-        <div className="flex justify-between w-full mt-2">
+        <div className="mt-2 flex w-full justify-between">
           <p className="font-medium">People with access</p>
-          <p className="font-medium mr-5 invisible md:visible">Role</p>
+          <p className="invisible mr-5 font-medium md:visible">Role</p>
         </div>
         <hr className="mt-2" />
       </div>
@@ -38,18 +38,18 @@ export function AccessList() {
                 key={record.email} // Already handled the duplication of email in InvitationInput.tsx
                 className="flex items-center justify-between bg-white p-2 pl-0 md:max-w-full"
               >
-                <div className="flex items-center w-full md:w-2/3">
+                <div className="flex w-full items-center md:w-2/3">
                   <DeleteUserButton
                     index={index}
                     userEmail={record.email}
                     onRemove={() => removeUser(record.email)}
                   />
                   <div className="w-full">
-                    <p className="text-sm pl-2">{record.email}</p>
+                    <p className="pl-2 text-sm">{record.email}</p>
                   </div>
                 </div>
-                <div className="md:w-1/3 text-right visible">
-                  <span className="font-normal text-sm">
+                <div className="visible text-right md:w-1/3">
+                  <span className="text-sm font-normal">
                     {nameByRole(record.role)}
                   </span>
                 </div>

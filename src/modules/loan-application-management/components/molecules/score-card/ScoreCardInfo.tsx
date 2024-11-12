@@ -13,7 +13,7 @@ export function ScoreCardInfo({ name, score, stage }: IScoreCardInfo) {
   return (
     <div>
       <ScoreCardBox name={name} score={score} />
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <span className="text-xs">Application round</span>
         <StatusRoundBadge round={(stage ?? "") as LoanApplicationStatus}>
           {capitalizeWords(snakeCaseToText(stage ?? ""))}

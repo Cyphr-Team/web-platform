@@ -5,8 +5,8 @@ export default function BasicApplicationDetailLoanReady() {
   return (
     <div>
       <nav className="mb-6 md:mb-12">
-        <div className="flex items-center gap-2 min-w-20">
-          <h1 className="text-lg font-semibold truncate min-w-20 md:text-2xl">
+        <div className="flex min-w-20 items-center gap-2">
+          <h1 className="min-w-20 truncate text-lg font-semibold md:text-2xl">
             Loan Ready
           </h1>
 

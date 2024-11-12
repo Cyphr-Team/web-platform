@@ -101,7 +101,7 @@ function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
               id={source.id}
               label={label}
             >
-              <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-lg border">
+              <div className="flex flex-col gap-5 rounded-lg border bg-[#F2F8F8] p-5">
                 <TooltipProvider>
                   {renderInnerBlockComponents(blocks, fieldName, index)}
                 </TooltipProvider>
@@ -127,7 +127,7 @@ function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
         variant="outline"
         onClick={handleAddItem}
       >
-        <div className="flex gap-2 items-center w-fit">
+        <div className="flex w-fit items-center gap-2">
           {addIcon}
           {`Add ${lowerCase(dataName)}`}
         </div>

@@ -60,14 +60,14 @@ export function DragDropFileInput(props: DragDropFileInputProps) {
       />
       <label htmlFor={id}>
         <Card
-          className="p-xl gap-lg flex flex-col items-center justify-content data-[drag='true']:border-primary cursor-pointer shadow-none"
+          className="justify-content flex cursor-pointer flex-col items-center gap-lg p-xl shadow-none data-[drag='true']:border-primary"
           data-drag={dragActive}
         >
-          <div className="border p-md rounded-md">
-            <UploadCloud className="h-5 w-5" />
+          <div className="rounded-md border p-md">
+            <UploadCloud className="size-5" />
           </div>
-          <div className="text-text-tertiary text-sm text-center">
-            <span className="text-text-primary font-semibold">
+          <div className="text-center text-sm text-text-tertiary">
+            <span className="font-semibold text-text-primary">
               Click to upload
             </span>
             <span> or drag and drop</span>

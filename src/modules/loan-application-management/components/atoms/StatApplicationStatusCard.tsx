@@ -27,7 +27,7 @@ export function StatApplicationStatusCard({
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 md:pb-2">
         <CardTitle className="text-sm font-semibold text-text-tertiary">
           <StatusRoundBadge
-            className="text-xs font-medium px-3 py-1"
+            className="px-3 py-1 text-xs font-medium"
             isShowIcon={false}
             round={round}
           >
@@ -45,7 +45,7 @@ export function StatApplicationStatusCard({
             {unit ? <span className="text-sm"> {unit}</span> : null}
           </div>
         ) : (
-          <Skeleton className="w-full h-8" />
+          <Skeleton className="h-8 w-full" />
         )}
         {!!description && (
           <p className="text-xs text-muted-foreground">{description}</p>

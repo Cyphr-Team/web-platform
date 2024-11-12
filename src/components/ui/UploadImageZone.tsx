@@ -31,18 +31,18 @@ export function UploadImageZone({
         onChange={onChangeFile}
       />
       <label htmlFor={name}>
-        <Card className="p-xl gap-lg flex flex-col items-center justify-content data-[drag='true']:border-primary cursor-pointer">
-          <div className="border p-md rounded-md">
+        <Card className="justify-content flex cursor-pointer flex-col items-center gap-lg p-xl data-[drag='true']:border-primary">
+          <div className="rounded-md border p-md">
             {loadingState === LoadingStates.END && file?.url ? (
               <img alt="Upload logo" src={file?.url} />
             ) : loadingState !== LoadingStates.END ? (
-              <Loader2 className="h-4 animate-spin w-4 transition-all ease-out" />
+              <Loader2 className="size-4 animate-spin transition-all ease-out" />
             ) : (
-              <UploadCloud className="h-5 w-5" />
+              <UploadCloud className="size-5" />
             )}
           </div>
-          <div className="text-text-tertiary text-sm text-center">
-            <span className="text-primary font-semibold">Click to upload</span>
+          <div className="text-center text-sm text-text-tertiary">
+            <span className="font-semibold text-primary">Click to upload</span>
             <span> or drag and drop</span>
             <p className="text-xs">JPG, PNG, JPEG</p>
           </div>

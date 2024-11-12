@@ -147,11 +147,11 @@ export function CurrentLoansForm() {
             name="hasOutstandingLoans"
             render={({ field }) => (
               <FormItem className="grid grid-cols-6 gap-x-2xl">
-                <FormLabel className="text-text-secondary col-span-6 xl:col-span-4">
-                  <p className="text-sm text-text-secondary font-medium">
+                <FormLabel className="col-span-6 text-text-secondary xl:col-span-4">
+                  <p className="text-sm font-medium text-text-secondary">
                     Does your business currently have outstanding loans?
                   </p>
-                  <p className="text-sm text-text-tertiary font-medium">
+                  <p className="text-sm font-medium text-text-tertiary">
                     (ex: term loans, revolving credit, equipment financing,
                     etc.)
                   </p>
@@ -179,7 +179,7 @@ export function CurrentLoansForm() {
                       field.onChange(value.toString())
                     }}
                   >
-                    <SelectTrigger className="text-base col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto text-sm">
+                    <SelectTrigger className="col-span-6 text-base xl:col-span-2 xl:col-end-7 xl:ml-auto xl:max-w-40">
                       <SelectValue placeholder="Please select..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -214,7 +214,7 @@ export function CurrentLoansForm() {
               )
             })}
             <Button
-              className="ml-auto mr-0 mt-4 col-span-1 max-w-36"
+              className="col-span-1 ml-auto mr-0 mt-4 max-w-36"
               type="button"
               variant="outline"
               onClick={handleAddLoan}

@@ -12,12 +12,12 @@ export function LoanProgramDetailWelcomeLine() {
 
   return (
     <section>
-      <h2 className="text-[2rem] font-semibold mb-6">
-        {isLoading ? <Skeleton className="w-full h-8" /> : welcomeMessage}
+      <h2 className="mb-6 text-[2rem] font-semibold">
+        {isLoading ? <Skeleton className="h-8 w-full" /> : welcomeMessage}
       </h2>
-      <div className="text-base whitespace-pre-wrap">
+      <div className="whitespace-pre-wrap text-base">
         {isLoading ? (
-          <Skeleton className="w-full h-8" />
+          <Skeleton className="h-8 w-full" />
         ) : (
           <p
             dangerouslySetInnerHTML={{

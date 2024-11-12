@@ -27,7 +27,7 @@ export const loanApplicationColumns: ColumnDef<LoanApplication>[] = [
       return (
         <TooltipProvider>
           <Tooltip delayDuration={0}>
-            <TooltipTrigger className="font-medium cursor-default">
+            <TooltipTrigger className="cursor-default font-medium">
               {application.applicationIdNumber}
             </TooltipTrigger>
             <TooltipContent asChild className="inline-block" side="right">
@@ -150,7 +150,7 @@ export const sbbLoanApplicationColumns: ColumnDef<LoanApplication>[] = [
       return (
         <TooltipProvider>
           <Tooltip delayDuration={0}>
-            <TooltipTrigger className="font-medium cursor-default w-full">
+            <TooltipTrigger className="w-full cursor-default font-medium">
               <p className="text-center">{application.applicationIdNumber}</p>
             </TooltipTrigger>
             <TooltipContent asChild className="inline-block" side="right">

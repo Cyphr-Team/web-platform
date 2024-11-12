@@ -41,7 +41,7 @@ export function ChangeApplicationStatusButton() {
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="w-48 m-0">
+        <DropdownMenuContent className="m-0 w-48">
           {Object.keys(LoanDecisionEnum).map((decision) => {
             const info = getSelectInfoByDecision(
               LoanApplicationStatus[
@@ -73,7 +73,7 @@ export function ChangeApplicationStatusButton() {
         />
       ) : null}
       {isReferToLoanReady ? (
-        <div className="absolute top-20 right-8 z-10 w-96">
+        <div className="absolute right-8 top-20 z-10 w-96">
           <AppAlert
             description="The applicant will receive an email confirmation and an in-app notification"
             title="Applicant referred to LoanReady"

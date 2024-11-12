@@ -13,10 +13,10 @@ import { AdverseMedia } from "@/modules/conference-demo/admin/components/molecul
 
 function BusinessVerification() {
   return (
-    <div className="lg:flex gap-3xl w-full">
+    <div className="w-full gap-3xl lg:flex">
       <Insights />
 
-      <div className="space-y-6 w-full">
+      <div className="w-full space-y-6">
         <BusinessDetails />
         <BusinessName />
         <OfficeAddress />

@@ -17,13 +17,13 @@ function PDFDocumentPreview() {
   })
 
   if (downloadFile.isLoading)
-    return <Skeleton className="w-full h-full bg-gray-300" />
+    return <Skeleton className="size-full bg-gray-300" />
 
   if (!downloadFile.data || !params.documentId)
     return (
       <AppAlert
         description={
-          <div className="flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             Error: Cannot get the document detail, please try again later!
           </div>
         }
@@ -33,8 +33,8 @@ function PDFDocumentPreview() {
     )
 
   return (
-    <div className="flex flex-col h-full overflow-hidden gap-2">
-      <div className="flex gap-2 justify-between items-center">
+    <div className="flex h-full flex-col gap-2 overflow-hidden">
+      <div className="flex items-center justify-between gap-2">
         <BackButton />
 
         <FeatureRenderer featureKey={FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT}>

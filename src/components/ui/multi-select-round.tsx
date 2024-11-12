@@ -130,16 +130,16 @@ export function MultiSelectRound<
               {additionLabel}
             </span>
 
-            <ChevronDown className="ml-0.5 h-5 w-5 opacity-50" />
+            <ChevronDown className="ml-0.5 size-5 opacity-50" />
           </Button>
         </PopoverTrigger>
 
         <PopoverContent className="min-w-[244px] p-0">
           <Command>
-            <div className="flex flex-col h-auto max-h-96 overflow-hidden">
+            <div className="flex h-auto max-h-96 flex-col overflow-hidden">
               <div>
                 <div className="p-4 pb-0">
-                  <div className="border-slate-500 border focus-within:shadow-lg rounded-lg overflow-hidden">
+                  <div className="overflow-hidden rounded-lg border border-slate-500 focus-within:shadow-lg">
                     <div
                       className={cn(
                         "w-full gap-2 p-3 py-2.5",
@@ -152,18 +152,18 @@ export function MultiSelectRound<
                           (
                             <div
                               key={option.value}
-                              className="group multi-selected has-[.parent-border]:border has-[.parent-border]:rounded-full has-[.parent-border]:p-1"
+                              className="multi-selected group has-[.parent-border]:rounded-full has-[.parent-border]:border has-[.parent-border]:p-1"
                             >
                               {labelHOC?.(
                                 option,
                                 <Button
-                                  className="ml-1 w-auto h-auto p-0"
+                                  className="ml-1 size-auto p-0"
                                   size="icon"
                                   type="button"
                                   variant="ghost"
                                   onClick={handleOptionClick(option)}
                                 >
-                                  <X className="w-3 h-3" strokeWidth={3} />
+                                  <X className="size-3" strokeWidth={3} />
                                 </Button>
                               )}
                             </div>
@@ -184,7 +184,7 @@ export function MultiSelectRound<
                     </div>
                   </div>
                 </div>
-                <div className="px-4 font-semibold text-xs py-2 pb-1">
+                <div className="px-4 py-2 pb-1 text-xs font-semibold">
                   {subLabel ?? label}
                 </div>
               </div>
@@ -197,7 +197,7 @@ export function MultiSelectRound<
                 {options.map((option) => (
                   <CommandItem
                     key={option.value}
-                    className="cursor-pointer gap-3 px-4 h-10 rounded-none"
+                    className="h-10 cursor-pointer gap-3 rounded-none px-4"
                     value={option.label}
                     onSelect={handleOptionClick(option)}
                   >
@@ -218,7 +218,7 @@ export function MultiSelectRound<
             <Separator className="my-1.5" />
 
             <Button
-              className="mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary px-4 rounded-none"
+              className="mb-1.5 h-7 w-full justify-start rounded-none px-4 text-sm font-normal text-text-tertiary"
               size="sm"
               variant="ghost"
               onClick={clearAllValue}

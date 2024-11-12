@@ -41,18 +41,18 @@ export const InsightItem: React.FC<InsightItemProps> = ({
             )}
             href={`#${href}`}
           >
-            <p className="text-text-primary font-medium text-sm flex-shrink-0">
+            <p className="shrink-0 text-sm font-medium text-text-primary">
               {title}
             </p>
             {isLoading ? (
-              <Skeleton className="w-16 h-4" />
+              <Skeleton className="h-4 w-16" />
             ) : (
               <div className="flex items-center gap-2">
-                <span className="capitalize text-sm text-text-tertiary">
+                <span className="text-sm capitalize text-text-tertiary">
                   {label ?? "N/A"}
                 </span>
                 <Dot
-                  className="flex-shrink-0 -mr-0.5"
+                  className="-mr-0.5 shrink-0"
                   variantColor={getBadgeVariantByInsightStatus(status)}
                 />
               </div>

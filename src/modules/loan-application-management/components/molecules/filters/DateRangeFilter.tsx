@@ -130,19 +130,19 @@ export function DateRangeFilter() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="py-2 px-4 border rounded-md font-medium flex items-center cursor-pointer">
+        <div className="flex cursor-pointer items-center rounded-md border px-4 py-2 font-medium">
           <span className="w-32">
             {TIME_PERIODS.find((v) => v.value === selectedValue)?.label ??
               "All Times"}
           </span>
-          <ChevronDown className="ml-2 h-4 w-4" />
+          <ChevronDown className="ml-2 size-4" />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="p-0 pt-2 w-52">
+      <PopoverContent className="w-52 p-0 pt-2">
         {TIME_PERIODS.map((option, id: number) => (
           <Button
             key={`${option.value}-${id}`}
-            className="relative justify-start flex w-full cursor-pointer select-none items-center rounded-sm px-4 py-1.5 pr-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[selected=true]:bg-accent"
+            className="relative flex w-full cursor-pointer select-none items-center justify-start rounded-sm px-4 py-1.5 pr-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[selected=true]:bg-accent"
             data-selected={selectedValue === option.value}
             variant="ghost"
             onClick={() => handleChange(option.value)}
@@ -152,7 +152,7 @@ export function DateRangeFilter() {
         ))}
         <Separator />
         {selectedValue === TIME_PERIOD.CUSTOM && (
-          <div className="mt-2 text-xs p-2 gap-1 flex flex-col">
+          <div className="mt-2 flex flex-col gap-1 p-2 text-xs">
             <span>From</span>
             <CalendarDatePicker
               toDate={toDate ? new Date(toDate) : undefined}
@@ -165,7 +165,7 @@ export function DateRangeFilter() {
               value={toDate}
               onSelectDate={handleChangeToDate}
             />
-            <div className="flex p-2 w-full justify-end">
+            <div className="flex w-full justify-end p-2">
               <Button
                 className="text-xs"
                 size="sm"

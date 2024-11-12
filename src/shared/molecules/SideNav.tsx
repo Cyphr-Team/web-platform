@@ -25,7 +25,7 @@ export function SideNav({ items, className }: SidebarProps) {
       )}
       data-collapsed={isCollapsed}
     >
-      <div className="pl-3xl pr-2xl items-center mb-3xl justify-between hidden md:flex">
+      <div className="mb-3xl hidden items-center justify-between pl-3xl pr-2xl md:flex">
         <LogoHeader isCollapsed={isCollapsed} toggleCollapse={toggleCollapse} />
         {!isCollapsed ? (
           <button type="button" onClick={toggleCollapse}>
@@ -34,7 +34,7 @@ export function SideNav({ items, className }: SidebarProps) {
         ) : null}
       </div>
 
-      <div className="px-xl flex-col flex-1 hidden md:flex">
+      <div className="hidden flex-1 flex-col px-xl md:flex">
         <DashboardNav isCollapsed={isCollapsed} items={items} />
         <Account isCollapsed={isCollapsed} />
       </div>

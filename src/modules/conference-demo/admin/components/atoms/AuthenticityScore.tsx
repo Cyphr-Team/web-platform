@@ -39,10 +39,10 @@ export const AuthenticityScore: React.FC<Props> = ({ authenticity }) => {
         borderColorByStatus[className]
       )}
     >
-      <div className={`p-lg flex gap-xl `}>
+      <div className={`flex gap-xl p-lg `}>
         <div>
           <div
-            className="rounded-full h-6 w-6"
+            className="size-6 rounded-full"
             style={{
               backgroundColor: authenticityData?.authenticityLevelColor
             }}
@@ -58,12 +58,12 @@ export const AuthenticityScore: React.FC<Props> = ({ authenticity }) => {
       </div>
       {!!authenticity?.reasonCode.length && (
         <ul
-          className={`p-xl pl-3xl list-disc text-sm font-normal border-t ${borderColorByStatus[className]}`}
+          className={`list-disc border-t p-xl pl-3xl text-sm font-normal ${borderColorByStatus[className]}`}
         >
           {authenticity?.reasonCode?.map((reason, index) => (
             <li key={index}>
               <span
-                className="data-[highlighted=true]:text-text-error first-letter:capitalize block"
+                className="data-[highlighted=true]:text-text-error block first-letter:capitalize"
                 data-highlighted={reason.shouldHighlight}
               >
                 {reason.description}

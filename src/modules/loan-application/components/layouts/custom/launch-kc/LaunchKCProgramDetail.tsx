@@ -159,7 +159,7 @@ export function ComponentWithProvider() {
     switch (element.type) {
       case ELEMENTS_TYPE.title:
         return (
-          <h2 className="text-2xl font-semibold mb-6">{element.content}</h2>
+          <h2 className="mb-6 text-2xl font-semibold">{element.content}</h2>
         )
       case ELEMENTS_TYPE.text:
         return (
@@ -169,12 +169,12 @@ export function ComponentWithProvider() {
                 ? sanitizeDOM(element.content)
                 : ""
             }}
-            className="text-base whitespace-pre-wrap"
+            className="whitespace-pre-wrap text-base"
           />
         )
       case ELEMENTS_TYPE.list:
         return (
-          <ul className="list-disc list-inside text-base whitespace-pre-wrap pl-8">
+          <ul className="list-inside list-disc whitespace-pre-wrap pl-8 text-base">
             {Array.isArray(element.content) &&
               element.content.map((item, index) => <li key={index}>{item}</li>)}
           </ul>
@@ -187,7 +187,7 @@ export function ComponentWithProvider() {
   }
 
   return (
-    <div className="overflow-auto flex flex-col flex-1">
+    <div className="flex flex-1 flex-col overflow-auto">
       <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
         <div className={cn("col-span-10", "md:col-span-8")}>
           <TopBarDetail
@@ -208,11 +208,11 @@ export function ComponentWithProvider() {
 
         <section className={cn("col-span-10", "md:col-span-8")}>
           {isLoading ? (
-            <Skeleton className="w-screen md:w-[calc(100vw-15rem)] h-36 md:h-60 lg:max-h-64 items-center align-center flex" />
+            <Skeleton className="align-center flex h-36 w-screen items-center md:h-60 md:w-[calc(100vw-15rem)] lg:max-h-64" />
           ) : (
             <Image
               alt="Cover Photo for Loan Program"
-              className="mx-auto max-h-72 object-cover w-full max-w-full border-b"
+              className="mx-auto max-h-72 w-full max-w-full border-b object-cover"
               height={359}
               placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
               src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
@@ -235,8 +235,8 @@ export function ComponentWithProvider() {
               {renderElement(element)}
             </div>
           ))}
-          <section className="mt-8 px-8 py-9 bg-primary-solid rounded-2xl flex justify-between flex-wrap gap-4 items-center w-full">
-            <h2 className="text-white text-2xl md:text-3xl font-semibold mx-auto md:mx-0">
+          <section className="mt-8 flex w-full flex-wrap items-center justify-between gap-4 rounded-2xl bg-primary-solid px-8 py-9">
+            <h2 className="mx-auto text-2xl font-semibold text-white md:mx-0 md:text-3xl">
               Ready to Apply?
             </h2>
             <div className="mx-auto md:mx-0">

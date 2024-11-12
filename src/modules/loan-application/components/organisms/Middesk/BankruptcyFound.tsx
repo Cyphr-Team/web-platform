@@ -33,7 +33,7 @@ const columns: ColumnDef<BusinessBankruptcyDetail>[] = [
               <span>
                 {bankruptcyDetail.description}
                 <a
-                  className="underline ml-1 text-blue-700"
+                  className="ml-1 text-blue-700 underline"
                   href={bankruptcyDetail.link}
                   rel="noopener noreferrer"
                   target="_blank"

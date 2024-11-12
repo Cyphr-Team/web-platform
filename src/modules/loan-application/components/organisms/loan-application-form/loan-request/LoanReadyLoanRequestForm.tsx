@@ -142,7 +142,7 @@ export function LoanReadyLoanRequestForm({
 
   return (
     <FormLayout cardClassName={wrapperClassName} title="Loan Request">
-      <CardHeader className="text-center p:0 md:p-0">
+      <CardHeader className="p:0 text-center md:p-0">
         <CardTitle className="text-lg">Loan Request</CardTitle>
         <CardDescription className="text-secondary-400">
           Please specify the loan amount and how you intend to use the funds

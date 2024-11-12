@@ -82,8 +82,8 @@ export function FormsConfigurationDialog({
       <DialogTrigger asChild>
         <Button type="button">Forms Configuration</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px] px-0 gap-0">
-        <DialogHeader className="px-4 border-b pb-4">
+      <DialogContent className="gap-0 px-0 sm:max-w-[625px]">
+        <DialogHeader className="border-b px-4 pb-4">
           {detailId ? (
             <DialogTitle>Edit Forms Configuration</DialogTitle>
           ) : (
@@ -91,7 +91,7 @@ export function FormsConfigurationDialog({
           )}
         </DialogHeader>
         <Form {...form}>
-          <form className="flex flex-col p-4 gap-4 pb-0">
+          <form className="flex flex-col gap-4 p-4 pb-0">
             <SelectFormsDialog
               selectedForms={form.watch("formsConfiguration") ?? []}
               onSave={onChangeSelectedForms}
@@ -116,7 +116,7 @@ export function FormsConfigurationDialog({
             </ScrollArea>
           </form>
         </Form>
-        <DialogFooter className="px-6 border-t pt-4">
+        <DialogFooter className="border-t px-6 pt-4">
           <Button type="button" onClick={onSaveForms}>
             Save
           </Button>

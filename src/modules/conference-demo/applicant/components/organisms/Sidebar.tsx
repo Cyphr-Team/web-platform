@@ -72,9 +72,9 @@ function Sidebar() {
   }, [stepDetail?.group])
 
   return (
-    <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4 max-h-[50vh] md:max-h-full">
+    <div className="max-h-[50vh] flex-1 flex-col overflow-y-scroll px-xl pb-4 md:flex md:max-h-full">
       <Accordion
-        className="w-full flex flex-col gap-2"
+        className="flex w-full flex-col gap-2"
         type="multiple"
         value={accordionValue}
         onValueChange={handleSetAccordion}
@@ -114,14 +114,14 @@ function CollapsibleItem({ label, children }: CollapsibleItemProps) {
 
   return (
     <AccordionItem
-      className="w-full bg-white rounded-lg shadow-md"
+      className="w-full rounded-lg bg-white shadow-md"
       value={label}
     >
       <AccordionTrigger
-        className="flex-row-reverse w-full px-4 py-2"
+        className="w-full flex-row-reverse px-4 py-2"
         id={`parent-step-${label.toLowerCase()}`}
       >
-        <div className="flex items-center justify-between flex-1 ml-3 font-semibold">
+        <div className="ml-3 flex flex-1 items-center justify-between font-semibold">
           <div>{label}</div>
           <div>
             <CircularProgress
@@ -133,7 +133,7 @@ function CollapsibleItem({ label, children }: CollapsibleItemProps) {
       </AccordionTrigger>
       <AccordionContent className="pb-0">
         <Separator />
-        <ul className="px-2 py-4 gap-1 flex flex-col">
+        <ul className="flex flex-col gap-1 px-2 py-4">
           {/* Render each step in the loan application */}
           {children}
         </ul>

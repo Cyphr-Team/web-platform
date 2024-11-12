@@ -22,8 +22,8 @@ export function LoanApplicationDecisionRateChart() {
       : formatChartMonthly
 
   return (
-    <div className="w-full h-[500px] bg-white p-4 md:p-6 rounded-xl border">
-      <div className="flex gap-2 items-center mb-8">
+    <div className="h-[500px] w-full rounded-xl border bg-white p-4 md:p-6">
+      <div className="mb-8 flex items-center gap-2">
         <h2 className="text-xl text-zinc-500">Incomplete Application Rates</h2>
         <ChartHintToolTip
           formula="(Draft Apps / Total Apps) * 100"

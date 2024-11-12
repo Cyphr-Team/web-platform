@@ -4,12 +4,12 @@ import { TopNav } from "../organisms/TopNav"
 
 export function CashFlowPage() {
   return (
-    <div className="flex flex-col w-full h-full md:pt-4">
-      <div className="flex flex-col space-y-3xl border-b mt-xl">
+    <div className="flex size-full flex-col md:pt-4">
+      <div className="mt-xl flex flex-col space-y-3xl border-b">
         <Header />
         <TopNav />
       </div>
-      <div className="p-4xl flex-1 overflow-auto bg-gray-50">
+      <div className="flex-1 overflow-auto bg-gray-50 p-4xl">
         <CashFlow />
       </div>
     </div>

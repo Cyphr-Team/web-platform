@@ -58,8 +58,8 @@ export function SelectInstitution() {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-xl font-medium mb-4">Create Institution</h1>
-      <div className="flex flex-col gap-4 flex-shrink-0 w-full">
+      <h1 className="mb-4 text-xl font-medium">Create Institution</h1>
+      <div className="flex w-full shrink-0 flex-col gap-4">
         <FormField
           control={form.control}
           name="adminEmail"
@@ -155,10 +155,10 @@ export function SelectInstitution() {
           render={({ field }) => (
             <FormItem className="flex items-center space-x-2 space-y-0">
               <FormControl>
-                <div className="flex gap-2 mt-1 items-center">
+                <div className="mt-1 flex items-center gap-2">
                   <Checkbox
                     checked={field.value}
-                    className="h-5 w-5"
+                    className="size-5"
                     onCheckedChange={field.onChange}
                   />
                   <p className="flex gap-1 text-sm">
@@ -176,11 +176,11 @@ export function SelectInstitution() {
         />
 
         <div>
-          <p className="text-text-tertiary flex gap-2">
+          <p className="flex gap-2 text-text-tertiary">
             <Globe className="w-5" />
             Institution domain will look like:
           </p>
-          <p className="font-medium flex gap-1">
+          <p className="flex gap-1 font-medium">
             {getTenantDomain(
               exampleDomain ? exampleDomain : "[Institution Subdomain]"
             )}

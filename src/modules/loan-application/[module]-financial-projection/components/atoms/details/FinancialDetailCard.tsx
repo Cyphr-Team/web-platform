@@ -46,12 +46,12 @@ interface HeaderProps {
 
 function Header({ title, subTitle }: HeaderProps) {
   const renderSubTitle = subTitle ? (
-    <div className="text-sm mt-1">{subTitle}</div>
+    <div className="mt-1 text-sm">{subTitle}</div>
   ) : null
 
   return (
     <nav>
-      <div className="flex justify-center min-w-20 flex-col">
+      <div className="flex min-w-20 flex-col justify-center">
         <h2
           className={cn(
             "text-base font-semibold truncate min-w-20",

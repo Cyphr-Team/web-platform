@@ -49,9 +49,9 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
   }, [data?.businessModels])
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+    <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">
       <h5 className="text-lg font-semibold">Execution</h5>
-      <div className="flex flex-col gap-y-2xl gap-x-4xl">
+      <div className="flex flex-col gap-x-4xl gap-y-2xl">
         <div className="flex flex-col gap-y-4xl">
           <AnswersTextDisplay
             key="monthlyExpenseRange"

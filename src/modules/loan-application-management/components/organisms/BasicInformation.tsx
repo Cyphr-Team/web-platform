@@ -8,8 +8,8 @@ import { isKccBank, isLaunchKC, isSbb } from "@/utils/domain.utils"
 
 function BasicInformationSkeleton() {
   return (
-    <div className="flex w-full px-4xl gap-3xl">
-      <Skeleton className="w-96 h-8" />
+    <div className="flex w-full gap-3xl px-4xl">
+      <Skeleton className="h-8 w-96" />
     </div>
   )
 }
@@ -34,14 +34,14 @@ export function BasicInformation() {
     .join(" • ")
 
   return (
-    <div className="flex gap-2 lg:gap-4 flex-1 w-full px-4xl items-center flex-wrap justify-between">
-      <div className="flex gap-2 lg:gap-4 flex-1 items-center flex-wrap">
-        <h1 className="text-3xl font-semibold whitespace-nowrap">
+    <div className="flex w-full flex-1 flex-wrap items-center justify-between gap-2 px-4xl lg:gap-4">
+      <div className="flex flex-1 flex-wrap items-center gap-2 lg:gap-4">
+        <h1 className="whitespace-nowrap text-3xl font-semibold">
           {isSbb() ? businessName : applicationTitle}
         </h1>
         {!isKccBank() && !isLaunchKC() && !isSbb() && (
-          <div className="flex gap-2 flex-wrap">
-            <Badge className="py-xs px-lg border h-7">
+          <div className="flex flex-wrap gap-2">
+            <Badge className="h-7 border px-lg py-xs">
               <p className="text-sm font-medium">
                 {getUseOfLoan(loanApplicationDetails?.proposeUseOfLoan)}
               </p>

@@ -7,7 +7,7 @@ export function LoanRequestDetails() {
   const { loanApplicationDetails } = useBRLoanApplicationDetailsContext()
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-xl h-fit overflow-auto">
+    <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-xl p-4xl">
       <h5 className="text-lg font-semibold">
         {loanApplicationDetails?.loanProgram.name ?? "Loan Program"}
       </h5>

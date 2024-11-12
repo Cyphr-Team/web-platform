@@ -78,7 +78,7 @@ function LoanRequestForm({ wrapperClassName }: LoanRequestFormProps) {
           <span className="block">
             What is the loan amount you are requesting?
           </span>
-          <span className="block mt-1 italic">
+          <span className="mt-1 block italic">
             (Please note, the actual loan amount you qualify for will be
             communicated by the lender.)
           </span>
@@ -109,7 +109,7 @@ function LoanRequestForm({ wrapperClassName }: LoanRequestFormProps) {
 
           {!isReviewApplicationStep && (
             <Button
-              className="w-full mt-5"
+              className="mt-5 w-full"
               disabled={!method.formState.isValid}
               type="submit"
             >

@@ -18,10 +18,10 @@ export function FormOptionCard({
   onRemove: VoidFunction
 }) {
   return (
-    <Card className="p-2 relative" id={id}>
+    <Card className="relative p-2" id={id}>
       <Button
         aria-label="Remove form"
-        className="absolute top-2 right-2"
+        className="absolute right-2 top-2"
         type="button"
         variant="ghost"
         onClick={onRemove}

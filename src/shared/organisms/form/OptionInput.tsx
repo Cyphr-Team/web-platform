@@ -71,12 +71,12 @@ export function OptionInput<T extends FieldValues>(props: IOptionInputType<T>) {
 
   const renderOtherOption = useCallback(
     (field: ControllerRenderProps<T, Path<T>>) => (
-      <div className="flex items-center w-full">
+      <div className="flex w-full items-center">
         <RadioGroupItem
           // 1. value here must not equal to "" because "" will make this radio button always be mark as checked
           // 2. if user input their own value, this field must set to the new value to make sure the radio button is checked
           // 3. if the value contain in available options, this field set to "other" to assure that the radio button is not checked
-          className="w-4 h-4 mr-2 text-rich-black border-rich-black"
+          className="text-rich-black border-rich-black mr-2 size-4"
           id={`${name}-other`}
           value={
             field.value === "" || existsInOptions(field.value)
@@ -85,7 +85,7 @@ export function OptionInput<T extends FieldValues>(props: IOptionInputType<T>) {
           }
         />
         <Label
-          className="text-sm text-text-secondary font-normal cursor-pointer"
+          className="cursor-pointer text-sm font-normal text-text-secondary"
           htmlFor={`${name}-other`}
         >
           {otherText}
@@ -128,18 +128,18 @@ export function OptionInput<T extends FieldValues>(props: IOptionInputType<T>) {
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          <FormLabel className="text-sm text-text-secondary font-medium">
+          <FormLabel className="text-sm font-medium text-text-secondary">
             <label>
               {label}
               {required ? <RequiredSymbol /> : null}
             </label>
             {subtitle ? (
-              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+              <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
             ) : null}
           </FormLabel>
           <FormControl>
             <RadioGroup
-              className="flex flex-col gap-3 mt-3"
+              className="mt-3 flex flex-col gap-3"
               value={field.value}
               onChange={field.onBlur}
               onValueChange={(value) => {
@@ -148,9 +148,9 @@ export function OptionInput<T extends FieldValues>(props: IOptionInputType<T>) {
               }}
             >
               {options.map((option, index) => (
-                <div key={option.value} className="flex items-center w-full">
+                <div key={option.value} className="flex w-full items-center">
                   <RadioGroupItem
-                    className="w-4 h-4 mr-2 text-rich-black border-rich-black"
+                    className="text-rich-black border-rich-black mr-2 size-4"
                     id={`${name}-${option.value}-${index}`}
                     value={option.value}
                   />

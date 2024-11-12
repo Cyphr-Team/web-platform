@@ -10,7 +10,7 @@ export const DocumentViewer: React.FC = () => {
 
   if (!visualizationDetails)
     return (
-      <div className="w-full flex justify-center items-center">
+      <div className="flex w-full items-center justify-center">
         <Loader2
           className={cn(
             "m-2 h-8 w-8 transition-all ease-out animate-spin text-primary"
@@ -20,17 +20,17 @@ export const DocumentViewer: React.FC = () => {
     )
   if (visualizationDetails.visualizationsByPage.length === 0)
     return (
-      <div className="w-full flex justify-center items-center">
-        <p className="text-primary font-medium">No visualizations found</p>
+      <div className="flex w-full items-center justify-center">
+        <p className="font-medium text-primary">No visualizations found</p>
       </div>
     )
 
   return (
-    <div className="flex bg-gray-100 p-3 w-full overflow-auto gap-2">
+    <div className="flex w-full gap-2 overflow-auto bg-gray-100 p-3">
       <PageList
         visualizationsByPage={visualizationDetails.visualizationsByPage}
       />
-      <div className="flex flex-col w-full overflow-auto">
+      <div className="flex w-full flex-col overflow-auto">
         <PageViewer />
         {selectedPage?.visualizations?.length &&
         selectedPage?.visualizations?.length > 1 ? (

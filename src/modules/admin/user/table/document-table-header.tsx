@@ -71,7 +71,7 @@ export function DocumentTableHeader({ onSearch }: Props) {
   return (
     <Form {...form}>
       <form className="space-y-6">
-        <div className="flex w-full items-center flex-wrap gap-3">
+        <div className="flex w-full flex-wrap items-center gap-3">
           <FormField
             control={form.control}
             name="institutionId"

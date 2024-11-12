@@ -36,7 +36,7 @@ export function InvitationTable() {
 
   return (
     <div className="sticky top-0">
-      <h1 className="text-l font-medium mb-4">
+      <h1 className="text-l mb-4 font-medium">
         {data?.total !== undefined && (
           <span>
             There {data.total < 2 ? "is" : "are"} {data.total} active invitation
@@ -54,7 +54,7 @@ export function InvitationTable() {
         return (
           <div
             key={invitation.id}
-            className="border border-gray-100 px-3 py-1.5 mb-2 flex items-center justify-between shadow-md rounded-md text-sm"
+            className="mb-2 flex items-center justify-between rounded-md border border-gray-100 px-3 py-1.5 text-sm shadow-md"
             id={invitation.recipientEmail}
           >
             <div className="flex items-center">
@@ -65,7 +65,7 @@ export function InvitationTable() {
                 </span>
               </h2>
             </div>
-            <div className="text-right flex items-center justify-between">
+            <div className="flex items-center justify-between text-right">
               <p className="text-gray-600">
                 {daysUntilExpiration < 1 ? (
                   <span className="font-semibold">Expired</span>

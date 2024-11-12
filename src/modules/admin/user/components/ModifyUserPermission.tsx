@@ -53,14 +53,14 @@ export function ModifyUserPermission({
     <Dialog open={isOpen} onOpenChange={handleUserEditForm}>
       <DialogTrigger asChild>
         <Button
-          className="p-2 space-x-2 flex flex-row w-full"
+          className="flex w-full flex-row space-x-2 p-2"
           id={userId}
           style={{
             padding: "0px"
           }}
           variant="ghost"
         >
-          <Edit className="w-5 h-5" /> <span>Modify roles</span>
+          <Edit className="size-5" /> <span>Modify roles</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[625px]">
@@ -68,7 +68,7 @@ export function ModifyUserPermission({
           <DialogTitle>Update Role</DialogTitle>
           <DialogDescription>Modify User's permission</DialogDescription>
         </DialogHeader>
-        <form className="flex flex-col gap-4 p-4 bg-gray-100 rounded-lg">
+        <form className="flex flex-col gap-4 rounded-lg bg-gray-100 p-4">
           {editRoleOptions().map((role) => (
             <MultiChoices
               key={role.label}
@@ -96,7 +96,7 @@ export function ModifyUserPermission({
             />
           ))}
         </form>
-        <div className="flex flex-col-reverse sm:flex-row sm:space-x-2 sm:justify-between pt-4 mr-0 ml-auto">
+        <div className="ml-auto mr-0 flex flex-col-reverse pt-4 sm:flex-row sm:justify-between sm:space-x-2">
           <DialogFooter>
             <EditUserRolesButton
               roles={selectedRoles}

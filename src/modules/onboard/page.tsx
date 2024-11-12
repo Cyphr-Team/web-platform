@@ -69,10 +69,10 @@ export function Component() {
   }
 
   return (
-    <div className="flex justify-between max-w-4xl relative m-1 rounded-lg p-4 mx-auto">
+    <div className="relative m-1 mx-auto flex max-w-4xl justify-between rounded-lg p-4">
       <main
         className={
-          showSuccessMsg ? "w-full" : "w-full md:mt-5 md:w-[65%] mx-auto"
+          showSuccessMsg ? "w-full" : "mx-auto w-full md:mt-5 md:w-[65%]"
         }
       >
         <Form {...form}>
@@ -80,7 +80,7 @@ export function Component() {
             <SuccessMessage />
           ) : (
             <form
-              className="w-full flex flex-col justify-between h-full"
+              className="flex size-full flex-col justify-between"
               onSubmit={handleOnSubmit}
             >
               <div>
@@ -92,7 +92,7 @@ export function Component() {
                 )}
               </div>
 
-              <div className="w-full items-center flex justify-between mt-4">
+              <div className="mt-4 flex w-full items-center justify-between">
                 <div className="">
                   <Button
                     className={isFirstStep ? "invisible" : "visible"}

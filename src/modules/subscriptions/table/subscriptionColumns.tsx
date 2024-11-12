@@ -65,7 +65,7 @@ export const subscriptionColumns: ColumnDef<Subscription>[] = [
       return (
         <div className="text-right">
           <span>{amount}</span>{" "}
-          <span className="text-xs whitespace-nowrap text-text-tertiary">
+          <span className="whitespace-nowrap text-xs text-text-tertiary">
             {isAnnualRecurringType ? "Per year" : "One time"}
           </span>
         </div>

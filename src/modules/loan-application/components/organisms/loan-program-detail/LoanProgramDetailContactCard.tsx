@@ -18,7 +18,7 @@ function ContactItem({
   content: React.ReactNode
 }) {
   return (
-    <li className="flex gap-2 text-sm items-center">
+    <li className="flex items-center gap-2 text-sm">
       <Icon className="shrink-0 self-start" /> {content}
     </li>
   )

@@ -24,8 +24,8 @@ export function DashboardNavLink({
       {() => (
         <>
           <div className="relative">
-            <item.icon className="h-5 w-5 text-black" />
-            <div className="absolute top-0 right-0 translate-x-1/3 -translate-y-1/2 z-1">
+            <item.icon className="size-5 text-black" />
+            <div className="z-1 absolute right-0 top-0 -translate-y-1/2 translate-x-1/3">
               {badge}
             </div>
           </div>

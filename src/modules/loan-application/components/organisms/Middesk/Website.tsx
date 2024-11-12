@@ -37,7 +37,7 @@ const columns: ColumnDef<BusinessWebsiteDetail>[] = [
 
       return (
         <a
-          className="text-blue-600 text-sm font-bold truncate"
+          className="truncate text-sm font-bold text-blue-600"
           href={data.website}
           rel="noopener noreferrer"
           target="_blank"
@@ -54,7 +54,7 @@ const columns: ColumnDef<BusinessWebsiteDetail>[] = [
       const data = row.original
 
       return (
-        <div className="min-w-0 flex items-center text-sm">
+        <div className="flex min-w-0 items-center text-sm">
           <p>{data.created ? formatDate(data.created, "T") : "---"}</p>
         </div>
       )
@@ -72,7 +72,7 @@ const columns: ColumnDef<BusinessWebsiteDetail>[] = [
           : phoneNumbers.join(", ")
 
       return (
-        <div className="min-w-0 flex items-center text-sm">
+        <div className="flex min-w-0 items-center text-sm">
           <p>{phoneNumber}</p>
         </div>
       )
@@ -123,7 +123,7 @@ export function Website() {
 
   const content = (
     <div className="space-y-4">
-      <div className="px-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 px-4 sm:grid-cols-2">
         {websiteDetail
           ? Object.entries(websiteDetail).map(([key, detailData]) => {
               return (
@@ -167,7 +167,7 @@ export function Website() {
     <MiddeskCard
       content={
         isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <MiddeskDetailItemSkeleton />
             <MiddeskDetailItemSkeleton />
             <MiddeskDetailItemSkeleton />

@@ -114,30 +114,30 @@ function TableData({
   ]
 
   return (
-    <div className="rounded-md border relative max-h-full overflow-auto">
-      <Table className="text-sm relative" isLoading={false}>
+    <div className="relative max-h-full overflow-auto rounded-md border">
+      <Table className="relative text-sm" isLoading={false}>
         <TableBody className="bg-white">
           <TableRow key="date" className="relative">
-            <TableHead className="text-sm font-medium sticky left-0 bg-gray-100 text-black w-52 ">
+            <TableHead className="sticky left-0 w-52 bg-gray-100 text-sm font-medium text-black ">
               {loanName}
             </TableHead>
             {data.map((row) => (
               <TableCell
                 key={row.date}
-                className="text-sm font-medium border-l bg-gray-100 text-center"
+                className="border-l bg-gray-100 text-center text-sm font-medium"
               >
                 {row.date}
               </TableCell>
             ))}
           </TableRow>
           <TableRow key="openingBalance" className="relative">
-            <TableHead className="text-sm font-normal sticky left-0 bg-white text-black border-r">
+            <TableHead className="sticky left-0 border-r bg-white text-sm font-normal text-black">
               Opening Balance
             </TableHead>
             {data.map((row) => (
               <TableCell
                 key={row.date}
-                className="text-sm border-l text-center"
+                className="border-l text-center text-sm"
               >
                 {toCurrency(row.data.openingBalance, 0)}
               </TableCell>
@@ -156,7 +156,7 @@ function TableData({
                 >
                   <TableHead
                     key={header.id}
-                    className="text-sm font-normal sticky left-0 text-black bg-white !min-w-52"
+                    className="sticky left-0 !min-w-52 bg-white text-sm font-normal text-black"
                   >
                     {header.isPlaceholder
                       ? null
@@ -170,7 +170,7 @@ function TableData({
                     return (
                       <TableCell
                         key={row.date}
-                        className="text-red-500 !min-w-52 border-l text-center"
+                        className="!min-w-52 border-l text-center text-red-500"
                       >
                         (
                         {roundAndConvertToUSLocale(get(row.data, header.id, 0))}
@@ -183,13 +183,13 @@ function TableData({
             )
           })}
           <TableRow key="closingBalance" className="relative w-max">
-            <TableHead className="text-sm font-medium sticky left-0 bg-white text-black !w-52">
+            <TableHead className="sticky left-0 !w-52 bg-white text-sm font-medium text-black">
               Closing Balance
             </TableHead>
             {data.map((row) => (
               <TableCell
                 key={row.date}
-                className="text-sm font-medium !w-52 border-l text-center"
+                className="!w-52 border-l text-center text-sm font-medium"
               >
                 {toCurrency(row.data.closingBalance, 0)}
               </TableCell>
@@ -211,7 +211,7 @@ const AmortizationScheduleTableUnit = ({
   fullAmortization?.amortizationSchedule.map((entry) => (
     <div
       key={entry.createdAt}
-      className="rounded-md border relative max-h-full overflow-auto"
+      className="relative max-h-full overflow-auto rounded-md border"
     >
       <TableData
         data={entry.paymentDetail.map((detail) => ({
@@ -278,16 +278,16 @@ export function AmortizationScheduleTable() {
         createdDate={createdDate}
         fullAmortization={fullAmortization}
       />
-      <div className="rounded-md border relative max-h-full overflow-auto">
-        <Table className="text-sm bg-white">
+      <div className="relative max-h-full overflow-auto rounded-md border">
+        <Table className="bg-white text-sm">
           <TableHeader>
             <TableRow>
-              <TableCell className="text-sm font-medium sticky left-0 bg-white text-black !min-w-52" />
+              <TableCell className="sticky left-0 !min-w-52 bg-white text-sm font-medium text-black" />
               {totalMonthlyPayment?.map((payment) => {
                 return (
                   <TableCell
                     key={payment.month}
-                    className="bg-gray-100 font-medium border-l !min-w-52 text-center"
+                    className="!min-w-52 border-l bg-gray-100 text-center font-medium"
                   >
                     {convertMonthYearAndAddMonths(
                       createdDate,
@@ -300,14 +300,14 @@ export function AmortizationScheduleTable() {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="text-sm font-medium sticky left-0 bg-white text-black !min-w-52">
+              <TableCell className="sticky left-0 !min-w-52 bg-white text-sm font-medium text-black">
                 TOTAL MONTHLY PAYMENT
               </TableCell>
               {totalMonthlyPayment?.map((payment) => {
                 return (
                   <TableCell
                     key={payment.month}
-                    className="text-red-500 font-medium border-l !min-w-52 text-center"
+                    className="!min-w-52 border-l text-center font-medium text-red-500"
                   >
                     {toCurrency(payment.amount, 0)}
                   </TableCell>

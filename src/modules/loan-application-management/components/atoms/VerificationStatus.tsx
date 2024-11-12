@@ -18,10 +18,10 @@ export const VerificationStatus: React.FC<Props> = ({ status }) => {
   }
 
   return (
-    <div className="w-8 h-8 md:w-10 lg:w-12 md:h-10 lg:h-12 ">
+    <div className="size-8 md:size-10 lg:size-12 ">
       <AspectRatio ratio={1 / 1}>
         <div
-          className={`w-full h-full flex justify-center items-center rounded-full ${bgClassName[className]}`}
+          className={`flex size-full items-center justify-center rounded-full ${bgClassName[className]}`}
         >
           <VerificationIcon status={status} />
         </div>

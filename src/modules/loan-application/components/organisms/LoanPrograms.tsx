@@ -55,12 +55,12 @@ export const LoanPrograms: React.FC<Props> = ({ loanPrograms }) => {
   return (
     <>
       <section>
-        <h2 className="text-3xl md:text-4xl font-semibold mb-6">
+        <h2 className="mb-6 text-3xl font-semibold md:text-4xl">
           {isSbb() ? "Our Programs" : "Our Loan Programs"}
         </h2>
         <p
           dangerouslySetInnerHTML={{ __html: sanitizeDOM(loanProgramOverview) }}
-          className="text-lg whitespace-pre-wrap text-justify"
+          className="whitespace-pre-wrap text-justify text-lg"
         />
       </section>
 
@@ -72,7 +72,7 @@ export const LoanPrograms: React.FC<Props> = ({ loanPrograms }) => {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-6 md:gap-y-11">
+          <div className="grid grid-cols-1 gap-6 md:gap-y-11 xl:grid-cols-2">
             {loanPrograms?.map((loanProgram) =>
               renderShortCardLoanPrograms(loanProgram)
             )}

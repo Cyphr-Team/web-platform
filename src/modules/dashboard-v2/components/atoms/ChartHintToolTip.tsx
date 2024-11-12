@@ -21,7 +21,7 @@ export function ChartHintToolTip({
           {!!formula && (
             <p className="mt-0.5">
               <strong>Formula:</strong>
-              <kbd className="leading-snug inline-flex items-center gap-1 rounded border bg-muted mx-1 px-0.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+              <kbd className="mx-1 inline-flex items-center gap-1 rounded border bg-muted px-0.5 font-mono text-[10px] font-medium leading-snug text-muted-foreground opacity-100">
                 {formula}
               </kbd>
             </p>

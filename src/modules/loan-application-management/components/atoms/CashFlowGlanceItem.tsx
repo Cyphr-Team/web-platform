@@ -25,7 +25,7 @@ export function CashFlowGlanceItem({
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>
-        <TooltipTrigger className="flex-1 flex flex-col">
+        <TooltipTrigger className="flex flex-1 flex-col">
           <div
             className={cn(
               "flex-1 px-0.5 py-2 w-full flex flex-col justify-between",
@@ -39,7 +39,7 @@ export function CashFlowGlanceItem({
           </div>
         </TooltipTrigger>
         <TooltipContent
-          className="text-white bg-black p-1 rounded-md max-w-xs"
+          className="max-w-xs rounded-md bg-black p-1 text-white"
           side="top"
           sideOffset={20}
         >

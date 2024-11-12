@@ -32,7 +32,7 @@ function ResetPhoneForm() {
 
   return (
     <form
-      className="space-y-5 w-full"
+      className="w-full space-y-5"
       onSubmit={handleSubmit((data) =>
         mutate(data, {
           onSuccess() {

@@ -61,7 +61,7 @@ export function LoanApplicationTableHeader({
   return (
     <Form {...form}>
       <form className="space-y-6" onSubmit={onSubmit}>
-        <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex flex-wrap items-center gap-3">
           <FormField
             control={form.control}
             name="search"
@@ -75,7 +75,7 @@ export function LoanApplicationTableHeader({
                     autoComplete="new-password"
                     className="pl-9 md:w-[300px]"
                     placeholder="Business name or ID"
-                    prefixIcon={<Search className="h-5 w-5 opacity-50" />}
+                    prefixIcon={<Search className="size-5 opacity-50" />}
                     type="text"
                     {...field}
                   />

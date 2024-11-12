@@ -51,7 +51,7 @@ const columns: ColumnDef<ILoanApplicationESignDocument>[] = [
             documentId={signature.documentId}
             documentName={signature.documentName}
           >
-            <FileDown className="w-4 h-4" />
+            <FileDown className="size-4" />
           </ButtonDownloadESignDocument>
         </div>
       )
@@ -79,16 +79,16 @@ export function ESignTable() {
         ]
 
   return (
-    <Card className="p-8 flex flex-col gap-2xl">
+    <Card className="flex flex-col gap-2xl p-8">
       <CardHeader className="!p-0">
-        <div className="flex justify-between items-center flex-wrap gap-1">
-          <CardTitle className="font-semibold text-lg flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-1">
+          <CardTitle className="flex items-center gap-3 text-lg font-semibold">
             E-Signature
           </CardTitle>
         </div>
       </CardHeader>
 
-      <CardContent className="!p-0 overflow-auto">
+      <CardContent className="overflow-auto !p-0">
         <MiddeskTable
           cellClassName="text-sm pl-0  border-b"
           columns={columns}

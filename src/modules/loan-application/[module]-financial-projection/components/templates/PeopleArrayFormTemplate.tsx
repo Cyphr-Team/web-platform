@@ -74,7 +74,7 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
     <>
       {title ? <h5 className="text-sm font-semibold">{title}</h5> : null}
       {subtitle ? (
-        <h5 className="text-sm font-medium financial-projection text-muted-foreground">
+        <h5 className="financial-projection text-sm font-medium text-muted-foreground">
           {subtitle}
         </h5>
       ) : null}
@@ -103,14 +103,14 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
                 variant="ghost"
                 onClick={onRemove(index)}
               >
-                <X className="w-5 h-5 text-text-tertiary" />
+                <X className="size-5 text-text-tertiary" />
               </Button>
             ) : null}
           </div>
         )
       })}
       <Button
-        className="w-min ml-auto gap-2"
+        className="ml-auto w-min gap-2"
         type="button"
         variant="outline"
         onClick={handleAddItem}

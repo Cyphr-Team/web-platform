@@ -99,7 +99,7 @@ export function MultiSelect<
   }
 
   return (
-    <FormItem className="flex flex-col flex-1 md:flex-none">
+    <FormItem className="flex flex-1 flex-col md:flex-none">
       {label ? <FormLabel>{label}</FormLabel> : null}
 
       <Popover>
@@ -113,15 +113,15 @@ export function MultiSelect<
               variant="outline"
             >
               {prefixIcon}
-              <div className="flex justify-between flex-1 min-w-0">
+              <div className="flex min-w-0 flex-1 justify-between">
                 <p className="truncate font-normal">
                   {field.value.length > 0
                     ? field.value.map((v: Option) => v.label).join(", ")
                     : customAllText ?? "All"}
                 </p>
-                <p className="ml-2 shrink-0 flex items-center">
+                <p className="ml-2 flex shrink-0 items-center">
                   {!!field.value.length && <span>({field.value.length})</span>}
-                  <ChevronDown className="ml-0.5 h-5 w-5 opacity-50" />
+                  <ChevronDown className="ml-0.5 size-5 opacity-50" />
                 </p>
               </div>
             </Button>
@@ -129,7 +129,7 @@ export function MultiSelect<
         </PopoverTrigger>
 
         <PopoverContent
-          className="w-full md:w-[300px] p-0"
+          className="w-full p-0 md:w-[300px]"
           onCloseAutoFocus={() => setSearchValue("")}
         >
           <Command>

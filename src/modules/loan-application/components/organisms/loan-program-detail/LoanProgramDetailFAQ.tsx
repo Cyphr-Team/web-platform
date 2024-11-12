@@ -21,14 +21,14 @@ export function LoanProgramDetailFAQ() {
   return (
     <section>
       {isExistFAQs ? (
-        <div className="flex gap-2 md:gap-6 flex-wrap md:flex-nowrap">
-          <div className="flex flex-col justify-between relative">
+        <div className="flex flex-wrap gap-2 md:flex-nowrap md:gap-6">
+          <div className="relative flex flex-col justify-between">
             <div>
-              <h2 className="text-3xl md:text-4xl font-semibold mb-3">FAQs</h2>
+              <h2 className="mb-3 text-3xl font-semibold md:text-4xl">FAQs</h2>
               <p className="text-xl">You have questions.</p>
               <p className="text-xl">We have answers.</p>
             </div>
-            <div className="sticky bottom-0 pt-32 pb-4 hidden md:block">
+            <div className="sticky bottom-0 hidden pb-4 pt-32 md:block">
               <LoanProgramDetailContactCard />
             </div>
           </div>
@@ -37,13 +37,13 @@ export function LoanProgramDetailFAQ() {
       ) : null}
 
       {isExistFAQs ? (
-        <section className="block md:hidden mt-6">
+        <section className="mt-6 block md:hidden">
           <LoanProgramDetailContactCard />
         </section>
       ) : null}
 
-      <section className="mt-8 px-8 py-9 bg-primary-solid rounded-2xl flex justify-between flex-wrap gap-4 items-center w-full">
-        <h2 className="text-white text-2xl md:text-3xl font-semibold mx-auto md:mx-0">
+      <section className="mt-8 flex w-full flex-wrap items-center justify-between gap-4 rounded-2xl bg-primary-solid px-8 py-9">
+        <h2 className="mx-auto text-2xl font-semibold text-white md:mx-0 md:text-3xl">
           Ready to apply?
         </h2>
         <div className="mx-auto md:mx-0">
@@ -79,8 +79,8 @@ function FAQ() {
                 "[&[data-state=closed]>.open-icon]:animate-spin-once",
                 "[&[data-state=open]>.close-icon]:animate-spin-once"
               )}
-              closeIcon={<Minus className="h-5 w-5" />}
-              openIcon={<Plus className="h-5 w-5" />}
+              closeIcon={<Minus className="size-5" />}
+              openIcon={<Plus className="size-5" />}
             >
               {snakeCaseToText(key)}
             </AccordionTrigger>
@@ -102,10 +102,10 @@ function FAQ() {
 
 function FAQSkeleton() {
   return (
-    <div className="flex flex-col w-full gap-5">
+    <div className="flex w-full flex-col gap-5">
       {new Array(5).fill(null).map((_, key) => {
         // eslint-disable-next-line react/no-array-index-key
-        return <Skeleton key={key} className="w-full h-16" />
+        return <Skeleton key={key} className="h-16 w-full" />
       })}
     </div>
   )

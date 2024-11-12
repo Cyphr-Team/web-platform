@@ -192,7 +192,7 @@ export const AutoCompleteGoogleMap: React.FC<Props> = ({
           <PopoverTrigger className="absolute" />
         </div>
 
-        <PopoverContent align="start" className="p-0 w-screen max-w-screen-sm">
+        <PopoverContent align="start" className="w-screen max-w-screen-sm p-0">
           <Command>
             <CommandGroup className="overflow-auto">
               {isFetching ? <CommandItem>Loading...</CommandItem> : null}

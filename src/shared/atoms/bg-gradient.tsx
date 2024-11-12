@@ -1,7 +1,7 @@
 export function BgGradient() {
   return (
     <div
-      className="-z-10 fixed"
+      className="fixed -z-10"
       style={{
         height: "calc(100% + 40rem)",
         top: "50%",

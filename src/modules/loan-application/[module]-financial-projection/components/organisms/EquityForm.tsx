@@ -110,7 +110,7 @@ export function EquityForm() {
     <FormLayout title="Equity Financing">
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">Equity Financing</h5>
-        <p className="text-sm financial-projection text-muted-foreground">
+        <p className="financial-projection text-sm text-muted-foreground">
           Equity investment involves raising capital by selling shares of your
           business to investors. In exchange, these investors gain partial
           ownership and a share in future profits, allowing you to grow without
@@ -120,7 +120,7 @@ export function EquityForm() {
 
       <Separator />
       <RHFProvider methods={form} onSubmit={onSubmit}>
-        <div className="flex flex-col gap-6 mb-5">
+        <div className="mb-5 flex flex-col gap-6">
           <EquityArrayFormTemplate
             addIcon={<Plus />}
             blocks={blocks}
@@ -132,7 +132,7 @@ export function EquityForm() {
         </div>
 
         {!isReviewApplicationStep(step) && (
-          <div className="flex flex-col gap-2xl mt-4">
+          <div className="mt-4 flex flex-col gap-2xl">
             <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}

@@ -83,7 +83,7 @@ export function SetupProfileForm() {
     <div className="flex flex-col space-y-4">
       <Form {...form}>
         <form
-          className="space-y-5 w-full"
+          className="w-full space-y-5"
           onSubmit={form.handleSubmit((data) =>
             mutate(data, {
               onError(errorResponse) {
@@ -105,10 +105,10 @@ export function SetupProfileForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
-                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
+                <FormControl className="hover:border hover:shadow-md focus:border focus:drop-shadow-lg">
                   <Input
                     autoComplete="username"
-                    className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
+                    className="disabled:opacity-1 text-base font-medium disabled:bg-muted"
                     placeholder="Enter your email"
                     {...field}
                     disabled
@@ -125,7 +125,7 @@ export function SetupProfileForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Display Name</FormLabel>
-                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
+                <FormControl className="hover:border hover:shadow-md focus:border focus:drop-shadow-lg">
                   <Input
                     className="text-base"
                     placeholder="Enter your name"
@@ -145,7 +145,7 @@ export function SetupProfileForm() {
             render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
-                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
+                <FormControl className="hover:border hover:shadow-md focus:border focus:drop-shadow-lg">
                   <InputPassword
                     className="text-base"
                     placeholder="Create a password"
@@ -209,7 +209,7 @@ export function SetupProfileForm() {
             ) : null}
 
             <ButtonLoading
-              className="w-full text-base mt-5"
+              className="mt-5 w-full text-base"
               disabled={isSuccess || isPending}
               isLoading={isPending}
               type="submit"

@@ -31,14 +31,14 @@ export function MicroLoanProgramCard({
     <Card className={cn(className, "flex flex-col rounded-2xl")} {...props}>
       <CardHeader className="space-y-2 pb-0 md:pb-0">
         <CardTitle>
-          <p className="text-sm mb-0.5 capitalize" id="loan-type">
+          <p className="mb-0.5 text-sm capitalize" id="loan-type">
             {loanProgram.type}
           </p>
           {loanProgram.name}
         </CardTitle>
-        <CardDescription className="text-foreground flex items-center">
+        <CardDescription className="flex items-center text-foreground">
           <span className="mr-2 align-middle">Up to</span>
-          <span className="text-primary text-3xl font-semibold">
+          <span className="text-3xl font-semibold text-primary">
             {toCurrency(loanProgram.maxLoanAmount, 0)}
           </span>
         </CardDescription>
@@ -50,20 +50,20 @@ export function MicroLoanProgramCard({
 
       <CardContent className="grid gap-4">
         <ul className="flex flex-col gap-4">
-          <li className="flex items-center font-semibold text-sm">
+          <li className="flex items-center text-sm font-semibold">
             <span className="mr-1.5">
               <Icons.greenCheckCircle />
             </span>
             {loanProgram.minTermInMonth} - {loanProgram.maxTermInMonth} months
           </li>
-          <li className="flex items-center font-semibold text-sm">
+          <li className="flex items-center text-sm font-semibold">
             <span className="mr-1.5">
               <Icons.greenCheckCircle />
             </span>
             {loanProgram.interestRateDescription}
           </li>
           {additionalInfo?.map((info) => (
-            <li key={info} className="flex items-center font-semibold text-sm">
+            <li key={info} className="flex items-center text-sm font-semibold">
               <span className="mr-1.5">
                 <Icons.greenCheckCircle />
               </span>
@@ -82,7 +82,7 @@ export function MicroLoanProgramCard({
             )}
           >
             Learn More
-            <ArrowRight className="ml-1 h-4 w-4" />
+            <ArrowRight className="ml-1 size-4" />
           </Link>
         </Button>
       </CardFooter>

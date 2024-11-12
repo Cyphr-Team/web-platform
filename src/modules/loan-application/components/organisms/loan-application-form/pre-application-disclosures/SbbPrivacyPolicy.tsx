@@ -63,9 +63,9 @@ function SbbPrivacyPolicy() {
       <TableInformation />
       <QuestionAndCall />
 
-      <Card className="p-xl gap-2xl flex shadow-none items-center">
-        <img alt="file" className="w-6 h-6" src={pdfFileIcon} />
-        <div className="text-sm flex items-center h-full">
+      <Card className="flex items-center gap-2xl p-xl shadow-none">
+        <img alt="file" className="size-6" src={pdfFileIcon} />
+        <div className="flex h-full items-center text-sm">
           SBB Privacy Notice.pdf
         </div>
         <Button className="ml-auto" type="button">
@@ -118,13 +118,13 @@ function WhyWhatHow() {
         <div className="col-span-11 p-4">
           The types of personal information we collect and share depends on the
           product or service you have with us. This information can include:
-          <div className="grid grid-cols-2 py-2 px-4">
-            <ul className="list-disc list-inside">
+          <div className="grid grid-cols-2 px-4 py-2">
+            <ul className="list-inside list-disc">
               <li>Social Security number</li>
               <li>Account balances</li>
               <li>Transaction history</li>
             </ul>
-            <ul className="list-disc list-inside">
+            <ul className="list-inside list-disc">
               <li>Credit history</li>
               <li>Payment history</li>
               <li>Credit scores</li>
@@ -240,7 +240,7 @@ function TableInformation() {
           value={
             <div className="flex flex-col gap-xl">
               We collect your personal information, for example, when you:
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 <li>Apply for a loan</li>
                 <li>Pay us by check</li>
                 <li>Provide employment information</li>
@@ -260,7 +260,7 @@ function TableInformation() {
           value={
             <div className="flex flex-col gap-md">
               Federal laws give you the right to limit only:
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 <li>
                   Sharing for affiliates’ everyday business purposes-information
                   about your creditworthiness
@@ -283,7 +283,7 @@ function TableInformation() {
             <div className="flex flex-col">
               Companies related by common ownership or control. They can be
               financial and nonfinancial companies.
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 <li>
                   Small Business Bank has affiliates, but does not share your
                   information with its affiliates.
@@ -301,7 +301,7 @@ function TableInformation() {
             <div className="flex flex-col">
               Companies not related by common ownership or control. They can be
               financial and nonfinancial companies.
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 <li>
                   Small Business Bank does not share with nonaffiliates so they
                   can market to you.
@@ -319,7 +319,7 @@ function TableInformation() {
             <div className="flex flex-col">
               A formal agreement between nonaffiliated financial companies that
               together market financial products or services to you.
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 <li>Small Business Bank does not jointly market.</li>
               </ul>
             </div>
@@ -333,7 +333,7 @@ function TableInformation() {
 function QuestionAndCall() {
   return (
     <section>
-      <div className="flex flex-row px-3 py-2 gap-xl bg-[#EAECF0] text-sm">
+      <div className="flex flex-row gap-xl bg-[#EAECF0] px-3 py-2 text-sm">
         <div className="font-semibold">Questions?</div>
         <div>Call 855-635-9696</div>
       </div>
@@ -371,7 +371,7 @@ function Row(props: RowProps) {
   const renderThree = variant === "three" && (
     <>
       <Cell className="font-medium" value={data.at(0)} />
-      <Cell className="border-x col-span-3" value={data.at(1)} />
+      <Cell className="col-span-3 border-x" value={data.at(1)} />
       <Cell className="col-span-3" value={data.at(2)} />
     </>
   )

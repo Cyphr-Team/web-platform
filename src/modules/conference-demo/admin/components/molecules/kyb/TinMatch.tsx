@@ -19,9 +19,9 @@ const columns: ColumnDef<BusinessTinDetail & { status?: InsightStatus }>[] = [
       const data = row.original
 
       return (
-        <div className="min-w-0 flex items-center">
+        <div className="flex min-w-0 items-center">
           <Dot
-            className="flex-shrink-0 self-start mt-1"
+            className="mt-1 shrink-0 self-start"
             variantColor={getBadgeVariantByInsightStatus(data?.status)}
           />
           <p>{data?.matchedBusinessName ?? "-"}</p>

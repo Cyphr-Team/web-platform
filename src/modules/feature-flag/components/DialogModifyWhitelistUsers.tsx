@@ -215,22 +215,22 @@ export const DialogModifyWhitelistUsers: React.FC<Props> = ({
         }}
       >
         <Button className="z-10" type="button">
-          <PlusCircle className="text-sm mr-1.5" size={16} />
+          <PlusCircle className="mr-1.5 text-sm" size={16} />
           Edit
         </Button>
       </DialogTrigger>
-      <DialogContent className="min-w-[90%] h-[90%] p-0 overflow-hidden flex flex-col">
-        <DialogHeader className="p-4 sm:p-6 pb-0 sm:pb-0">
+      <DialogContent className="flex h-[90%] min-w-[90%] flex-col overflow-hidden p-0">
+        <DialogHeader className="p-4 pb-0 sm:p-6 sm:pb-0">
           <DialogTitle>Whitelist Users</DialogTitle>
           <DialogDescription>Make changes to whitelist users</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
-            className="flex flex-col flex-1 overflow-hidden p-4 sm:p-6 pt-0 sm:pt-0"
+            className="flex flex-1 flex-col overflow-hidden p-4 pt-0 sm:p-6 sm:pt-0"
             onSubmit={handleUpdatePendingUsers}
           >
-            <div className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-3 items-start">
-              <div className="flex lg:flex-row gap-3 w-full">
+            <div className="flex flex-col items-start space-y-3 lg:flex-row lg:space-x-3 lg:space-y-0">
+              <div className="flex w-full gap-3 lg:flex-row">
                 <AutoCompleteInstitution
                   className="w-full lg:w-1/2"
                   control={form.control}
@@ -269,12 +269,12 @@ export const DialogModifyWhitelistUsers: React.FC<Props> = ({
                 </Button>
               </div>
             </div>
-            <Separator className="mt-4 -mx-8 w-[200%]" />
+            <Separator className="-mx-8 mt-4 w-[200%]" />
             <div className="mt-4">
               <Input
-                className="pl-9 md:w-[300px] -mb-2"
+                className="-mb-2 pl-9 md:w-[300px]"
                 placeholder="Search by Institution"
-                prefixIcon={<Search className="h-5 w-5 opacity-50" />}
+                prefixIcon={<Search className="size-5 opacity-50" />}
                 onChange={(e) => handleSearchChange(e.target.value)}
               />
             </div>

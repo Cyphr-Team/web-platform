@@ -43,7 +43,7 @@ export function ButtonReviewLoanApplication({
 
   return (
     <ButtonLoading
-      className="flex items-center gap-0.5 px-2 pr-1 h-8"
+      className="flex h-8 items-center gap-0.5 px-2 pr-1"
       isLoading={isReviewingLoanApplication}
       variant="ghost"
       onClick={handleClickDetail}

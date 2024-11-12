@@ -152,7 +152,7 @@ export function LaunchKCBusinessDocumentsForm() {
       <Form {...form}>
         <Card className="flex flex-col gap-y-2xl p-4xl">
           <h4 className="text-lg font-semibold">Executive Summary</h4>
-          <p className="text-sm text-text-secondary font-medium">
+          <p className="text-sm font-medium text-text-secondary">
             Upload a copy of your latest Executive Summary
           </p>
           <FormField
@@ -196,7 +196,7 @@ export function LaunchKCBusinessDocumentsForm() {
         </Card>
         <Card className="flex flex-col gap-y-2xl p-4xl">
           <h4 className="text-lg font-semibold">Pitch Deck</h4>
-          <p className="text-sm text-text-secondary font-medium">
+          <p className="text-sm font-medium text-text-secondary">
             Upload a copy of your most recent Pitch Deck
           </p>
           <FormField

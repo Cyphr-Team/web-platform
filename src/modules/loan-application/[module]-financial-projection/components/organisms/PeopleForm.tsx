@@ -83,7 +83,7 @@ export function PeopleForm() {
         <FormLayout hideTopNavigation>
           <div>
             <h5 className="text-lg font-semibold">Current Employees</h5>
-            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
+            <h5 className="financial-projection mt-2 text-sm font-normal text-muted-foreground">
               Add your current employees to their respective departments,
               including department name, employee count, total annual salaries,
               and whether benefits are offered.
@@ -98,7 +98,7 @@ export function PeopleForm() {
         <FormLayout hideTopNavigation cardClassName="mt-5">
           <div>
             <h5 className="text-lg font-semibold">Future Employees</h5>
-            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
+            <h5 className="financial-projection mt-2 text-sm font-normal text-muted-foreground">
               Add your future headcount to the relevant department. Provide the
               department name, employee count, total annual salaries, and
               whether benefits are offered.
@@ -153,7 +153,7 @@ export function PeopleForm() {
         </FormLayout>
 
         {!isReviewApplicationStep(step) && (
-          <div className="flex flex-col gap-2xl mt-4 md:mt-8">
+          <div className="mt-4 flex flex-col gap-2xl md:mt-8">
             <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}

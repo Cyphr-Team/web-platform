@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { DotIcon, type LucideProps } from "lucide-react"
 
-const dotVariants = cva("w-3 h-3 mr-1", {
+const dotVariants = cva("mr-1 size-3", {
   variants: {
     variantColor: {
       red: "text-red-500",

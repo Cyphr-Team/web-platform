@@ -17,13 +17,13 @@ export function ViewUserChatHistoryAction(data: ChatbotSessionResponse) {
   return (
     <DropdownMenuLabel>
       <Button
-        className="p-2 space-x-2 flex flex-row w-full"
+        className="flex w-full flex-row space-x-2 p-2"
         id={data.session.id}
         type="submit"
         variant="ghost"
         onClick={navigateToDetailPage}
       >
-        <EyeIcon className="w-5 h-5" />
+        <EyeIcon className="size-5" />
       </Button>
     </DropdownMenuLabel>
   )

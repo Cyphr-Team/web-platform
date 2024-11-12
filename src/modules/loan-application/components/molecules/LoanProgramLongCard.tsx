@@ -30,7 +30,7 @@ export function LoanProgramLongCard({
     <Card className={cn(className, "flex flex-col rounded-2xl")} {...props}>
       <CardHeader className="space-y-5 pb-0 md:pb-0">
         <CardTitle className="tracking-normal">
-          <p className="text-sm mb-0.5 capitalize" id="loan-type">
+          <p className="mb-0.5 text-sm capitalize" id="loan-type">
             {isKccBank()
               ? KCC_LENDER_FORUM_PROGRAM.name
               : loanType ?? loanProgram.type}
@@ -39,12 +39,12 @@ export function LoanProgramLongCard({
         </CardTitle>
 
         {!!loanProgram.description && (
-          <CardDescription className="text-foreground flex items-center">
+          <CardDescription className="flex items-center text-foreground">
             <span
               dangerouslySetInnerHTML={{
                 __html: sanitizeDOM(loanProgram.description)
               }}
-              className="text-lg line-clamp-4 whitespace-pre-wrap"
+              className="line-clamp-4 whitespace-pre-wrap text-lg"
             />
           </CardDescription>
         )}
@@ -58,7 +58,7 @@ export function LoanProgramLongCard({
             )}
           >
             Learn More
-            <ArrowRight className="ml-1 h-4 w-4" />
+            <ArrowRight className="ml-1 size-4" />
           </Link>
         </Button>
       </CardFooter>

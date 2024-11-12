@@ -39,10 +39,10 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
             "[&[data-state=closed]>.open-icon]:animate-spin-once",
             "[&[data-state=open]>.close-icon]:animate-spin-once"
           )}
-          closeIcon={<Minus className="h-4 w-4" />}
-          openIcon={<Plus className="h-4 w-4" />}
+          closeIcon={<Minus className="size-4" />}
+          openIcon={<Plus className="size-4" />}
         >
-          <div className="flex justify-start items-center gap-2">
+          <div className="flex items-center justify-start gap-2">
             <SignalCount signalCount={signalsData.signalCount} />
             <p className="text-sm font-semibold">
               {signalsData.signalDisplayName}
@@ -51,7 +51,7 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
         </AccordionTrigger>
         {signalsData.signalCount > 0 && (
           <AccordionContent className="gap-3xl">
-            <p className="py-1 px-1 text-sm text-gray-800 font-normal">
+            <p className="p-1 text-sm font-normal text-gray-800">
               {signalsData.signalIdentifierDescription}
             </p>
             <Table className="text-xs">
@@ -66,17 +66,17 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                     return (
                       <TableHead
                         key={headerKey}
-                        className="text-black px-6 relative"
+                        className="relative px-6 text-black"
                       >
                         <TooltipProvider>
                           <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                              <span className="whitespace-nowrap overflow-hidden text-ellipsis absolute left-1 right-1 text-left">
+                              <span className="absolute inset-x-1 truncate text-left">
                                 {headerKey}
                               </span>
                             </TooltipTrigger>
                             <TooltipContent
-                              className="text-white bg-black p-1"
+                              className="bg-black p-1 text-white"
                               side="bottom"
                               sideOffset={20}
                             >
@@ -95,7 +95,7 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
                     {data.values.map((cell) => (
                       <TableCell
                         key={cell}
-                        className="py-2 pl-1 h-fit text-left"
+                        className="h-fit py-2 pl-1 text-left"
                       >
                         {cell}
                       </TableCell>

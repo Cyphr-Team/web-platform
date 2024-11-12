@@ -94,10 +94,10 @@ export function Cashflow() {
 
   return (
     <div className="flex flex-col space-y-3xl">
-      <div className="group date-select-coupling flex items-end">
+      <div className="date-select-coupling group flex items-end">
         <Form {...form}>
           <form>
-            <div className="group date-select-coupling flex items-end">
+            <div className="date-select-coupling group flex items-end">
               <SelectTimeRange
                 showExtendedTimeRange
                 customOnChange={customSelectTimeRangeOnChange}
@@ -105,14 +105,14 @@ export function Cashflow() {
               />
 
               {showDatePicker ? (
-                <div className="flex items-center flex-wrap">
+                <div className="flex flex-wrap items-center">
                   <FormField
                     control={form.control}
                     name="timeRange"
                     render={({ field: { value } }) => (
-                      <FormItem className="flex items-end space-y-0 gap-1">
+                      <FormItem className="flex items-end gap-1 space-y-0">
                         <DatePickerWithRange
-                          className="w-full mt-0 rounded-l-none"
+                          className="mt-0 w-full rounded-l-none"
                           date={value}
                           setDate={handleSetDate}
                         />

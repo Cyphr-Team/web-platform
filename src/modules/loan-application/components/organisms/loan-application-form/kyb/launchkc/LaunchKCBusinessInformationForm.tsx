@@ -134,7 +134,7 @@ export function LaunchKCBusinessInformationForm() {
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
       <Form {...form}>
-        <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
+        <form className="grid grid-cols-12 gap-x-4xl gap-y-2xl">
           <TextInput
             required
             className="col-span-12"

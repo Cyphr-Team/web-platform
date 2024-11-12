@@ -165,10 +165,10 @@ export function DisclaimerAndDisclosure({
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2 space-y-0">
                 <FormControl>
-                  <div className="flex gap-2 mt-1 items-center">
+                  <div className="mt-1 flex items-center gap-2">
                     <Checkbox
                       checked={field.value}
-                      className="h-5 w-5"
+                      className="size-5"
                       id="acknowledge-disclosure"
                       onCheckedChange={field.onChange}
                     />

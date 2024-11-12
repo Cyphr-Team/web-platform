@@ -67,8 +67,8 @@ interface UploadedFileCardProps {
 function UploadedFileCard({ file, setupId }: UploadedFileCardProps) {
   return (
     <div className="flex justify-between gap-2">
-      <div className="flex justify-center items-center gap-2">
-        <img alt="file" className="logo w-8 h-8" src={fileIcon} />
+      <div className="flex items-center justify-center gap-2">
+        <img alt="file" className="logo size-8" src={fileIcon} />
         <p className="text-sm">{file.originFileName}</p>
       </div>
 
@@ -89,8 +89,8 @@ interface FileUploadCardProps {
 function FileUploadCard({ file }: FileUploadCardProps) {
   return (
     <div className="flex justify-between gap-2">
-      <div className="flex justify-center items-center gap-2">
-        <img alt="file" className="logo w-8 h-8" src={fileIcon} />
+      <div className="flex items-center justify-center gap-2">
+        <img alt="file" className="logo size-8" src={fileIcon} />
         <p className="text-sm">{file.name}</p>
       </div>
     </div>

@@ -17,7 +17,7 @@ export function Component() {
 
   return (
     <DashboardProvider>
-      <div className="flex-col flex bg-active h-full">
+      <div className="flex h-full flex-col bg-active">
         <div
           className={cn(
             "flex flex-wrap items-center justify-between gap-2 p-5 bg-white border-b sticky top-0 z-20",
@@ -39,7 +39,7 @@ export function Component() {
               <Separator />
 
               <PerformanceMetrics />
-              <div className="flex gap-4 flex-wrap mt-8">
+              <div className="mt-8 flex flex-wrap gap-4">
                 <AverageLoanSizeOfAllLoanProgram />
                 <AverageApprovedLoanSizeChart />
               </div>

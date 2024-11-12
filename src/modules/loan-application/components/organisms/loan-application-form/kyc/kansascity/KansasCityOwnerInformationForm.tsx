@@ -114,12 +114,12 @@ export function KansasCityOwnerInformationForm() {
     >
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
+          <Card className="flex h-fit flex-col gap-2xl rounded-lg p-4xl">
             <h5 className="text-lg font-semibold">
               Owner / Guarantor Information
             </h5>
             <Separator />
-            <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
+            <form className="grid grid-cols-12 gap-x-4xl gap-y-2xl">
               <TextInput
                 className="col-span-6"
                 control={form.control}

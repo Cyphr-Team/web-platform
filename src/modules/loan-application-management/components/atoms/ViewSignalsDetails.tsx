@@ -15,7 +15,7 @@ export const ViewSignalsDetails: React.FC<Props> = ({
 
   return (
     <p
-      className="text-xs bg-error-100 p-3"
+      className="bg-error-100 p-3 text-xs"
       style={{
         boxShadow:
           "rgba(0, 0, 0, 0.25) 0px 4px 4px, rgba(130, 94, 1, 0.25) 0px -2px 0px inset"
@@ -23,7 +23,7 @@ export const ViewSignalsDetails: React.FC<Props> = ({
     >
       Detect signals found.
       <span
-        className="underline cursor-pointer ml-0.5"
+        className="ml-0.5 cursor-pointer underline"
         onClick={handleOpenSignalDetails}
       >
         View details

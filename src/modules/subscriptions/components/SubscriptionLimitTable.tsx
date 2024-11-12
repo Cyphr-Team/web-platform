@@ -63,7 +63,7 @@ function LimitTable({ institutionId = "" }: { institutionId?: string }) {
 
   return (
     <div>
-      <h4 className="font-medium text-center">Institution usages</h4>
+      <h4 className="text-center font-medium">Institution usages</h4>
       <DataTable
         columns={limitColumns}
         data={tableData}
@@ -84,7 +84,7 @@ export function SubscriptionLimitTable({
     <TooltipProvider>
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
-          <InfoIcon className="fill-blue-400 text-white w-4 inline" />
+          <InfoIcon className="inline w-4 fill-blue-400 text-white" />
         </TooltipTrigger>
         <TooltipContent className="inline-block p-2" side="right">
           <LimitTable institutionId={institutionId} />

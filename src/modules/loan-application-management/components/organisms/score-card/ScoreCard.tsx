@@ -57,16 +57,16 @@ export function ScoreCard() {
   )
 
   return (
-    <Card className="h-fit max-h-full top-0 z-10 mb-4 flex-shrink-0">
+    <Card className="top-0 z-10 mb-4 h-fit max-h-full shrink-0">
       <Form {...form}>
         <form className="flex flex-col" onSubmit={formSubmit}>
-          <CardHeader className="!pb-0 px-0 md:px-0">
-            <CardTitle className="font-semibold text-lg px-4 tracking-wide">
+          <CardHeader className="px-0 !pb-0 md:px-0">
+            <CardTitle className="px-4 text-lg font-semibold tracking-wide">
               <div>Scorecard</div>
             </CardTitle>
           </CardHeader>
 
-          <CardContent className="w-full lg:w-[400px] !p-4 !pt-0">
+          <CardContent className="w-full !p-4 !pt-0 lg:w-[400px]">
             <div>
               <ScoreCardInfo
                 name="Total Score"
@@ -111,7 +111,7 @@ export function ScoreCard() {
                     "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
                   )}
                 >
-                  <div className="w-full flex justify-between items-center">
+                  <div className="flex w-full items-center justify-between">
                     <span>Scorecard</span>
 
                     <span
@@ -124,7 +124,7 @@ export function ScoreCard() {
                         {avgScore}
                         <span className="text-black">/5</span>
                       </span>
-                      <Icons.rocket className="w-4 ml-1" />
+                      <Icons.rocket className="ml-1 w-4" />
                     </span>
                   </div>
                 </AccordionTrigger>
@@ -177,7 +177,7 @@ export function ScoreCard() {
                     </>
                   )}
 
-                  <div className="flex flex-col mt-4">
+                  <div className="mt-4 flex flex-col">
                     {!isScored && (
                       <>
                         <ButtonLoading

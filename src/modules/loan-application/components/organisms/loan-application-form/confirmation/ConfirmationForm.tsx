@@ -88,7 +88,7 @@ export function ConfirmationForm() {
           </p>
         ))}
 
-        <form className="grid grid-cols-2 gap-y-2xl gap-x-4xl">
+        <form className="grid grid-cols-2 gap-x-4xl gap-y-2xl">
           <FormField
             control={form.control}
             name="printName"
@@ -99,7 +99,7 @@ export function ConfirmationForm() {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    className="text-3xl island-moments-regular"
+                    className="island-moments-regular text-3xl"
                     placeholder="Your signature"
                     {...field}
                     disabled
@@ -134,7 +134,7 @@ export function ConfirmationForm() {
         </form>
 
         <Button
-          className="w-full flex items-center gap-1"
+          className="flex w-full items-center gap-1"
           disabled={!form.formState.isValid || !isPreviousStepsCompleted}
           type="submit"
           onClick={form.handleSubmit(onSubmit)}

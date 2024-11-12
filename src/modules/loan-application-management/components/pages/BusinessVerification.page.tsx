@@ -15,7 +15,7 @@ import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 
 export function Component() {
   return (
-    <div className="lg:flex gap-3xl w-full">
+    <div className="w-full gap-3xl lg:flex">
       <Insights />
 
       <div className="space-y-6">

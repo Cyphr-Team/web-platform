@@ -20,7 +20,7 @@ export const InformationRow: React.FC<Props> = ({
       className
     )}
   >
-    <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex md:items-center flex-1">
+    <div className="flex flex-1 py-xl pl-xl md:items-center xl:py-3xl xl:pl-3xl">
       <p
         className={cn(
           "text-sm text-text-tertiary break-words",
@@ -30,11 +30,11 @@ export const InformationRow: React.FC<Props> = ({
         {label}
       </p>
     </div>
-    <div className="pb-xl md:pt-xl xl:py-3xl pl-xl xl:pl-3xl flex md:items-center col-span-1 break-words pr-xl">
+    <div className="col-span-1 flex break-words px-xl pb-xl md:items-center md:pt-xl xl:py-3xl xl:pl-3xl">
       {isLoading ? (
-        <Skeleton className="w-[80%] h-full" />
+        <Skeleton className="h-full w-4/5" />
       ) : (
-        <p className="font-medium text-sm truncate overflow-ellipsis overflow-visible whitespace-normal break-words max-w-full">
+        <p className="max-w-full overflow-visible truncate whitespace-normal break-words text-sm font-medium">
           {value}
         </p>
       )}

@@ -40,8 +40,8 @@ export function CashFlowTable({ wrapperClassName }: CashFlowTableProps) {
 
   return (
     <div className={cn("px-4 md:px-8 p-4 md:p-8", wrapperClassName)}>
-      <div className="flex justify-between items-center flex-wrap gap-1 border-b pb-2 md:pb-5">
-        <CardTitle className="font-semibold text-lg flex items-center gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-1 border-b pb-2 md:pb-5">
+        <CardTitle className="flex items-center gap-3 text-lg font-semibold">
           Connected Accounts
           {!(isCashFlowNotReady || !data?.bankAccounts?.length) ? (
             <CashFlowConnectedBadge />

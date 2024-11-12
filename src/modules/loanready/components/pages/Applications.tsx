@@ -31,9 +31,9 @@ export function Component() {
   )
 
   return (
-    <div className="container mx-auto px-2xl py-2xl md:px-4xl md:py-4xl">
+    <div className="container mx-auto p-2xl md:p-4xl">
       <h1 className="text-3.5xl font-semibold">Account Applications</h1>
-      <p className="mt-1 mb-2">
+      <p className="mb-2 mt-1">
         Keep track of your account applications and their statuses
       </p>
 

@@ -123,7 +123,7 @@ function KybFormV2() {
             }}
           />
         </div>
-        <div className="col-span-12 text-2xl text-center py-2 mb-2">
+        <div className="col-span-12 mb-2 py-2 text-center text-2xl">
           That is another way to render custom field
         </div>
       </FormTemplate>

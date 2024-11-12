@@ -67,7 +67,7 @@ export function LoanInformationHeader() {
   return (
     <TopBarDetail
       leftFooter={
-        <div className="hidden md:flex gap-2 items-center justify-center ml-4 md:ml-8 min-w-20">
+        <div className="ml-4 hidden min-w-20 items-center justify-center gap-2 md:ml-8 md:flex">
           <h4
             className={cn(
               "text-lg font-semibold truncate min-w-20",
@@ -75,7 +75,7 @@ export function LoanInformationHeader() {
             )}
           >
             {isLoading ? (
-              <Skeleton className="w-40 h-8" />
+              <Skeleton className="h-8 w-40" />
             ) : (
               loanProgramDetails?.name
             )}
@@ -110,7 +110,7 @@ export function LoanInformationHeader() {
                 <Button type="button">Open Progress</Button>
               </DrawerTrigger>
               <DrawerContent>
-                <SideNavLoanApplication className="flex relative w-full" />
+                <SideNavLoanApplication className="relative flex w-full" />
               </DrawerContent>
             </Drawer>
           </div>
@@ -142,17 +142,17 @@ export function Component() {
       <LoanInformationHeader />
 
       <Progress
-        className="h-2 rounded-none bg-background-disabled overflow-visible z-30 relative"
+        className="relative z-30 h-2 overflow-visible rounded-none bg-background-disabled"
         indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
         value={percentComplete}
       />
 
       <div
         ref={containerRef}
-        className="flex h-full overflow-auto flex-1 py-6 flex-col pt-10"
+        className="flex h-full flex-1 flex-col overflow-auto py-6 pt-10"
       >
         <LoadingOverlay className="flex-1" isLoading={isSubmitting}>
-          <div className="grid grid-cols-8 w-full">{componentByStep}</div>
+          <div className="grid w-full grid-cols-8">{componentByStep}</div>
           {(isEnableChatSupport() || isCyphrBank()) && <ChatSupportButton />}
         </LoadingOverlay>
       </div>

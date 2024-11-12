@@ -18,8 +18,8 @@ interface Props {
 
 export const BankStatement: React.FC<Props> = ({ data }) => {
   return (
-    <div className="flex flex-col lg:w-96 gap-3 overflow-y-auto">
-      <Accordion collapsible className="w-full mb-12" type="single">
+    <div className="flex flex-col gap-3 overflow-y-auto lg:w-96">
+      <Accordion collapsible className="mb-12 w-full" type="single">
         {data.bankAccount?.map((cell, index) => (
           <BankInformation key={index} data={cell} />
         ))}
@@ -30,14 +30,14 @@ export const BankStatement: React.FC<Props> = ({ data }) => {
             <TableRow>
               <TableHead
                 key="transaction"
-                className="text-black p-2 relative h-10 border-r border-gray-300"
+                className="relative h-10 border-r border-gray-300 p-2 text-black"
               >
                 <p className="text-xs">Transactions</p>
               </TableHead>
-              <TableHead key="amount" className="text-black p-2 relative h-10">
+              <TableHead key="amount" className="relative h-10 p-2 text-black">
                 <p className="text-xs">Amount</p>
               </TableHead>
-              <TableHead key="date" className="text-black p-2 relative h-10">
+              <TableHead key="date" className="relative h-10 p-2 text-black">
                 <p className="text-xs">Date</p>
               </TableHead>
             </TableRow>
@@ -49,18 +49,18 @@ export const BankStatement: React.FC<Props> = ({ data }) => {
                 className={cn("even:bg-gray-50", "odd:bg-gray-100")}
               >
                 <TableCell
-                  className="p-2 h-fit border-r border-gray-300
+                  className="h-fit border-r border-gray-300 p-2
 "
                 >
                   {cell.description}
                 </TableCell>
                 <TableCell
-                  className="p-2 h-fit data-[positive=true]:text-success-500 data-[positive=false]:text-error-500"
+                  className="h-fit p-2 data-[positive=false]:text-error-500 data-[positive=true]:text-success-500"
                   data-positive={Number(cell.amount) > 0}
                 >
                   {cell.amount}
                 </TableCell>
-                <TableCell className="p-2 h-fit">
+                <TableCell className="h-fit p-2">
                   {cell.transactionDate}
                 </TableCell>
               </TableRow>

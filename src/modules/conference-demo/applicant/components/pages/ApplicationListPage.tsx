@@ -2,7 +2,7 @@ import { LoanApplications } from "../organisms/LoanApplications"
 
 function ApplicationDetailPage() {
   return (
-    <div className="w-full mt-8 overflow-y-auto h-[90vh] pb-[5vh]">
+    <div className="mt-8 h-[90vh] w-full overflow-y-auto pb-[5vh]">
       <LoanApplications />
     </div>
   )

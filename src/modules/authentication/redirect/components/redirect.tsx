@@ -142,13 +142,13 @@ export function RedirectSection() {
   }, [handleStytchCallback])
 
   return (
-    <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
+    <div className="mx-auto h-auto rounded-[32px] bg-white p-8 shadow-primary md:w-[540px]">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
         <div className="flex flex-col text-center">
-          <div className="flex justify-center relative">
+          <div className="relative flex justify-center">
             <div className="w-[56px] self-center">
               <AspectRatio ratio={1 / 1}>
-                <div className="w-full h-full border flex justify-center items-center rounded-xl">
+                <div className="flex size-full items-center justify-center rounded-xl border">
                   <KeySquare size={28} />
                 </div>
               </AspectRatio>
@@ -156,22 +156,22 @@ export function RedirectSection() {
           </div>
           {email ? (
             <>
-              <h1 className="text-3xl font-semibold tracking-tight mt-6">
+              <h1 className="mt-6 text-3xl font-semibold tracking-tight">
                 Check your email
               </h1>
 
-              <div className="text-muted-foreground mt-3">
+              <div className="mt-3 text-muted-foreground">
                 <p>We sent a verification link to</p>
                 <p className="font-medium">{email}</p>
               </div>
             </>
           ) : (
             <>
-              <h1 className="text-3xl font-semibold tracking-tight mt-6">
+              <h1 className="mt-6 text-3xl font-semibold tracking-tight">
                 Authenticating...
               </h1>
 
-              <div className="text-muted-foreground mt-3">
+              <div className="mt-3 text-muted-foreground">
                 <p>
                   You will be redirected to
                   {getTokenType() === RedirectParam.OAUTH && !isLaunchKC()
@@ -186,11 +186,11 @@ export function RedirectSection() {
 
         <Button
           asChild
-          className="px-1 text-sm text-foreground py-0 self-center"
+          className="self-center px-1 py-0 text-sm text-foreground"
           variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
-            <ArrowLeft className="w-5 h-5 mr-1" />
+            <ArrowLeft className="mr-1 size-5" />
             Back to log in
           </Link>
         </Button>

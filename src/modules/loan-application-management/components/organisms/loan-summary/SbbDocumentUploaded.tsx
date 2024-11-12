@@ -86,9 +86,9 @@ export function SbbSubmittedDocuments() {
   ).filter(Boolean)
 
   return (
-    <Card className="p-8 flex flex-col gap-2xl">
+    <Card className="flex flex-col gap-2xl p-8">
       <CardHeader className="!p-0">
-        <CardTitle className="font-semibold text-lg text-text-primary p-0">
+        <CardTitle className="p-0 text-lg font-semibold text-text-primary">
           Submitted Document
         </CardTitle>
       </CardHeader>

@@ -52,7 +52,7 @@ const blocks: Block[] = [
     type: FieldType.CURRENCY,
     props: {
       label: (
-        <div className="flex items-center flex-wrap">
+        <div className="flex flex-wrap items-center">
           Estimate monthly&nbsp;
           <span className="flex items-center">
             unit sales:

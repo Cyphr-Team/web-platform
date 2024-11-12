@@ -56,16 +56,16 @@ export function ResendForm() {
   )
 
   return (
-    <div className="flex flex-col space-y-2 w-full items-center">
+    <div className="flex w-full flex-col items-center space-y-2">
       {conditionAlert}
 
       <div>
-        <p className="text-center text-sm text-muted-foreground inline mr-1">
+        <p className="mr-1 inline text-center text-sm text-muted-foreground">
           Didn’t receive the email?
         </p>
 
         <ButtonLoading
-          className="p-1 h-7 text-primary"
+          className="h-7 p-1 text-primary"
           isLoading={isPending}
           type="button"
           variant="ghost"

@@ -81,24 +81,24 @@ function SignAndSubmitForm() {
               }}
             />
           </div>
-          <div className="flex gap-4 justify-between">
+          <div className="flex justify-between gap-4">
             <RHFTextInput
               required
-              className="mt-6 space-y-2 flex-1"
+              className="mt-6 flex-1 space-y-2"
               label="Print name"
               name={SignFieldName.PrintName}
               placeholder="i.e: Larry's Latte"
             />
             <RHFTextInput
               disabled
-              className="mt-6 space-y-2 flex-1"
+              className="mt-6 flex-1 space-y-2"
               label="Signature Date"
               name={SignFieldName.SignatureDate}
             />
           </div>
         </div>
         <Button
-          className="w-full mt-5"
+          className="mt-5 w-full"
           disabled={!isPreviousStepsCompleted}
           type="submit"
         >

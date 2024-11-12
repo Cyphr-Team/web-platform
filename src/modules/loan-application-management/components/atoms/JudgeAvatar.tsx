@@ -24,7 +24,7 @@ export function CustomJudgeAvatar({ children }: React.PropsWithChildren) {
         "h-7 w-7 rounded-full overflow-hidden outline outline-1 outline-slate-400 bg-white -ml-0.5"
       )}
     >
-      <AvatarFallback className="flex flex-row align-middle items-center justify-center bg-slate-300 h-full">
+      <AvatarFallback className="flex h-full flex-row items-center justify-center bg-slate-300 align-middle">
         {children}
       </AvatarFallback>
     </Avatar>
@@ -42,7 +42,7 @@ export function ToolTipJudgeAvatar({
       <Tooltip delayDuration={200}>
         <TooltipTrigger
           asChild
-          className="hover:-translate-y-1 relative transition-transform"
+          className="relative transition-transform hover:-translate-y-1"
         >
           <div className={cn("[&:not(:first-child)]:-ml-1.5 ")}>
             <JudgeAvatar
@@ -55,7 +55,7 @@ export function ToolTipJudgeAvatar({
         </TooltipTrigger>
         <TooltipContent>
           <div className="text-sm font-medium">{name}</div>
-          <div className="text-text-tertiary text-xs">{email}</div>
+          <div className="text-xs text-text-tertiary">{email}</div>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
@@ -78,13 +78,13 @@ export function JudgeAvatar({
         )}
       >
         <AvatarImage alt={email ?? ""} src={avatar ?? ""} />
-        <AvatarFallback className="flex flex-row align-middle items-center justify-center bg-gray-100 h-full cursor-default text-black">
+        <AvatarFallback className="flex h-full cursor-default flex-row items-center justify-center bg-gray-100 align-middle text-black">
           {getAbbreviationForName(name)}
         </AvatarFallback>
       </Avatar>
 
       {isScored ? (
-        <Check className="w-3 h-3 p-0.5 flex-shrink-0 text-white absolute bg-green-500 bg-opacity-80 rounded-full left-1/2 top-0 -translate-x-1/2 -translate-y-1/2" />
+        <Check className="absolute left-1/2 top-0 size-3 shrink-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-500 bg-opacity-80 p-0.5 text-white" />
       ) : null}
     </div>
   )

@@ -69,7 +69,7 @@ export function SummaryChart() {
   ))
 
   return (
-    <Card className="mt-4 p-4 gap-4 min-h-40">
+    <Card className="mt-4 min-h-40 gap-4 p-4">
       <div className="flex justify-between">
         <h3 className="text-xl font-medium">Summary by Transaction Tag</h3>
         {!!transactionTagsQuery.data?.transactionTags.length && (

@@ -49,7 +49,7 @@ export function Component() {
   const detailData = useGetDetailLoanProgram({ loanProgramId: detailId })
 
   return (
-    <div className="mx-auto p-6 pt-6 md:p-8">
+    <div className="mx-auto p-6 md:p-8">
       <div className="mb-3xl">
         <Breadcrumbs breads={crumbs} className="px-0" />
       </div>

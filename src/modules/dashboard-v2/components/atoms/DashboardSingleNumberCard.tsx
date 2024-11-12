@@ -30,7 +30,7 @@ export function DashboardSingleNumberCard({
         <CardTitle className="text-sm font-semibold text-text-tertiary">
           <Badge
             isDot
-            className="capitalize text-sm rounded-full px-3 py-1"
+            className="rounded-full px-3 py-1 text-sm capitalize"
             variant="soft"
             variantColor={variantColor}
           >
@@ -47,7 +47,7 @@ export function DashboardSingleNumberCard({
             {unit ? <span className="text-sm"> {unit}</span> : null}
           </div>
         ) : (
-          <Skeleton className="w-full h-8" />
+          <Skeleton className="h-8 w-full" />
         )}
         {!!description && (
           <p className="text-xs text-muted-foreground">{description}</p>

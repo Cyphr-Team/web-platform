@@ -38,9 +38,9 @@ export function EndChatButton({ params }: { params: Params }) {
   }
 
   return (
-    <div className="rcb-view-history-container flex items-center justify-center mt-2 w-full">
+    <div className="rcb-view-history-container mt-2 flex w-full items-center justify-center">
       <Button
-        className="rcb-view-history-button bg-white text-[#ADADAD] text-[12px] py-[6px] px-[12px] hover:bg-white hover:text-black hover:border-black font-light h-8"
+        className="rcb-view-history-button h-8 bg-white px-lg py-sm text-[12px] font-light text-[#ADADAD] hover:border-black hover:bg-white hover:text-black"
         onClick={handleEndChat}
       >
         End Chat

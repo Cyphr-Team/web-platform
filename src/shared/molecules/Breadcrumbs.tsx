@@ -37,7 +37,7 @@ export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {
             </NavLink>
 
             {index !== breads.length - 1 && (
-              <ChevronRight className="text-text-senary w-4" />
+              <ChevronRight className="w-4 text-text-senary" />
             )}
           </React.Fragment>
         )

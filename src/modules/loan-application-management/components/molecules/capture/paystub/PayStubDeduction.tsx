@@ -15,23 +15,23 @@ interface Props {
 
 export const PayStubDeduction: React.FC<Props> = ({ data }) => {
   return (
-    <div className="overflow-x-auto lg:w-96 mb-4">
+    <div className="mb-4 overflow-x-auto lg:w-96">
       <Table className="text-xs">
         <TableHeader className="border-t border-gray-300">
           <TableRow>
             <TableHead
               key="deduction"
-              className="text-black p-2 relative h-10 border-r border-gray-300"
+              className="relative h-10 border-r border-gray-300 p-2 text-black"
             >
               <p className="text-xs">Deduction</p>
             </TableHead>
             <TableHead
               key="current-pay"
-              className="text-black p-2 relative h-10"
+              className="relative h-10 p-2 text-black"
             >
               <p className="text-xs">Current Pay</p>
             </TableHead>
-            <TableHead key="ytd-pay" className="text-black p-2 relative h-10">
+            <TableHead key="ytd-pay" className="relative h-10 p-2 text-black">
               <p className="text-xs">YTD Pay</p>
             </TableHead>
           </TableRow>

@@ -65,20 +65,20 @@ function DocumentToolbar() {
       <div className="flex gap-6">
         <div className="flex gap-1">
           <Button
-            className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
+            className="size-10 bg-gray-100 p-0 disabled:opacity-50"
             disabled={scale < 0.5}
             variant="secondary"
             onClick={zoomOut}
           >
-            <Minus className="w-6 h-6 text-gray-500" />
+            <Minus className="size-6 text-gray-500" />
           </Button>
           <Button
-            className="bg-gray-100 w-10 h-10 p-0 disabled:opacity-50"
+            className="size-10 bg-gray-100 p-0 disabled:opacity-50"
             disabled={scale > 4}
             variant="secondary"
             onClick={zoomIn}
           >
-            <Plus className="w-6 h-6 text-gray-500" />
+            <Plus className="size-6 text-gray-500" />
           </Button>
         </div>
         <Pagination
@@ -104,9 +104,9 @@ export const DocumentTitle: React.FC<Props> = ({
 }) => {
   return (
     <div className="flex gap-6">
-      <Button asChild className="p-0 text-dark" type="button" variant="link">
+      <Button asChild className="text-dark p-0" type="button" variant="link">
         <Link to={APP_PATH.CONFERENCE_DEMO.admin.documents}>
-          <ArrowLeft className="w-5 h-4.5" /> Back
+          <ArrowLeft className="h-4.5 w-5" /> Back
         </Link>
       </Button>
       <div className="flex flex-col text-sm">

@@ -112,7 +112,7 @@ export function FinancialStatementForm({
             <h4 className="font-semibold text-text-primary">
               Financial Statements
             </h4>
-            <p className="leading-5 financial-projection text-sm ">
+            <p className="financial-projection text-sm leading-5 ">
               Financial statements are essential for evaluating the overall
               health of your business. They provide a detailed view of your
               business’s profitability, stability, and cash flow and are usually

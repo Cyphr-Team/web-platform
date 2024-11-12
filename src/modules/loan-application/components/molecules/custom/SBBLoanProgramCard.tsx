@@ -33,19 +33,19 @@ export function SBBLoanProgramCard({
     <Card className={cn(className, "flex flex-col rounded-2xl")} {...props}>
       <CardHeader className="space-y-5 pb-0 md:pb-0">
         <CardTitle className="tracking-normal">
-          <p className="text-sm mb-0.5 capitalize" id="loan-type">
+          <p className="mb-0.5 text-sm capitalize" id="loan-type">
             {foundLoanProgram?.type}
           </p>
           <p className="font-bold">{loanProgram.name}</p>
         </CardTitle>
 
         {!!loanProgram.description && (
-          <CardDescription className="text-foreground flex items-center">
+          <CardDescription className="flex items-center text-foreground">
             <span
               dangerouslySetInnerHTML={{
                 __html: sanitizeDOM(loanProgram.description)
               }}
-              className="text-lg whitespace-pre-wrap"
+              className="whitespace-pre-wrap text-lg"
             />
           </CardDescription>
         )}
@@ -53,7 +53,7 @@ export function SBBLoanProgramCard({
 
       <CardFooter className="mt-5">
         <Badge
-          className="h-7 text-sm px-lg py-xs font-semibold border-gray"
+          className="border-gray h-7 px-lg py-xs text-sm font-semibold"
           variant="outline"
         >
           {foundLoanProgram?.type}
@@ -66,7 +66,7 @@ export function SBBLoanProgramCard({
             )}
           >
             Learn more
-            <ArrowRight className="ml-1 h-4 w-4" />
+            <ArrowRight className="ml-1 size-4" />
           </Link>
         </Button>
       </CardFooter>

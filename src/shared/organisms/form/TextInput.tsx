@@ -84,7 +84,7 @@ export function TextInput<T extends FieldValues>(props: ITextInputType<T>) {
               {required ? <RequiredSymbol /> : null}
             </label>
             {subtitle ? (
-              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+              <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
             ) : null}
           </FormLabel>
 

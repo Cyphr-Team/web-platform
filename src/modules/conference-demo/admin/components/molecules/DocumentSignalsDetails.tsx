@@ -26,11 +26,11 @@ export const DocumentSignalsDetails: React.FC<Props> = ({ handleClose }) => {
       <div className="flex justify-between py-3">
         <div className="flex items-center gap-3">
           <Button className="p-0" variant="ghost" onClick={handleClose}>
-            <X className="w-10 h-10" strokeWidth={0.75} />
+            <X className="size-10" strokeWidth={0.75} />
           </Button>
           <p className="text-lg">{section.title}</p>
         </div>
-        <div className="flex font-semibold text-sm text-center">
+        <div className="flex text-center text-sm font-semibold">
           {SECTION_DATA.map((data) => (
             <button
               key={data.content}
@@ -65,7 +65,7 @@ function DocumentCapture() {
   if (!documentDetails.capture) return null
 
   return (
-    <div className="lg:w-96 h-full overflow-y-auto">
+    <div className="h-full overflow-y-auto lg:w-96">
       {documentTypeSelected === DocumentType.BANK_STATEMENT && (
         <BankStatement data={documentDetails?.capture as BankStatementType} />
       )}
@@ -79,13 +79,13 @@ function DocumentSignalsDetect() {
   const authenticityData = documentDetails?.detect.formAuthenticity
 
   return (
-    <div className="flex flex-col lg:w-96 gap-3 overflow-y-auto">
+    <div className="flex flex-col gap-3 overflow-y-auto lg:w-96">
       {!!authenticityData && (
         <AuthenticityScore authenticity={authenticityData} />
       )}
       <div className="flex flex-col">
         {!!signalsData?.length && (
-          <p className="text-sm text-text-secondary py-3">
+          <p className="py-3 text-sm text-text-secondary">
             {signalsData?.length} Signals in Document
           </p>
         )}

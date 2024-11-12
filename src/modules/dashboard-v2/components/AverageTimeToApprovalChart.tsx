@@ -23,8 +23,8 @@ export function AverageTimeToApprovalChart() {
       : formatChartMonthly
 
   return (
-    <div className="mt-8 bg-white p-4 md:p-6 rounded-xl border">
-      <div className="flex gap-2 items-center mb-8">
+    <div className="mt-8 rounded-xl border bg-white p-4 md:p-6">
+      <div className="mb-8 flex items-center gap-2">
         <h2 className="text-xl text-zinc-500">Average Time To Decision</h2>
         <ChartHintToolTip
           formula="Sum of Days to Decision / Underwritten Apps"

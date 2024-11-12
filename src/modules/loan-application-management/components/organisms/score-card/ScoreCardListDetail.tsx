@@ -81,15 +81,15 @@ export function ScoreCardListDetail() {
   const feedbackList = [...scoresRound1, ...scoresRound2]
 
   return (
-    <Card className="h-fit max-h-full top-0 z-10 mb-4 flex-shrink-0 mt-6 lg:mt-0">
-      <CardHeader className="!pb-0 px-0 md:px-0">
-        <CardTitle className="font-semibold text-lg px-4 tracking-wide">
+    <Card className="top-0 z-10 mb-4 mt-6 h-fit max-h-full shrink-0 lg:mt-0">
+      <CardHeader className="px-0 !pb-0 md:px-0">
+        <CardTitle className="px-4 text-lg font-semibold tracking-wide">
           <div>Scorecard</div>
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="w-full lg:w-[400px] !p-4 !pt-0">
-        <div className="flex justify-between items-stretch space-x-2">
+      <CardContent className="w-full !p-4 !pt-0 lg:w-[400px]">
+        <div className="flex items-stretch justify-between space-x-2">
           <ScoreCardBox
             hasBorder
             multiple
@@ -109,7 +109,7 @@ export function ScoreCardListDetail() {
             score={avgScoreRound1}
           />
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <span className="text-xs text-text-tertiary">Application Round</span>
 
           <StatusRoundBadge round={(statusData ?? "") as LoanApplicationStatus}>
@@ -136,7 +136,7 @@ export function ScoreCardListDetail() {
                   "justify-between w-full hover:no-underline text-base font-medium text-left border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
                 )}
               >
-                <div className="w-full flex justify-between items-center">
+                <div className="flex w-full items-center justify-between">
                   <span>Round 2 Total Score</span>
 
                   <span
@@ -149,7 +149,7 @@ export function ScoreCardListDetail() {
                       {valueOrZero(avgScoreRound2)}
                       <span className="text-black">/5</span>
                     </span>
-                    <Icons.rocket className="w-4 ml-1" />
+                    <Icons.rocket className="ml-1 w-4" />
                   </span>
                 </div>
               </AccordionTrigger>
@@ -188,7 +188,7 @@ export function ScoreCardListDetail() {
                   "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
                 )}
               >
-                <div className="w-full flex justify-between items-center">
+                <div className="flex w-full items-center justify-between">
                   <span>Round 1 Total Score</span>
 
                   <span
@@ -201,7 +201,7 @@ export function ScoreCardListDetail() {
                       {valueOrZero(avgScoreRound1)}
                       <span className="text-black">/5</span>
                     </span>
-                    <Icons.rocket className="w-4 ml-1" />
+                    <Icons.rocket className="ml-1 w-4" />
                   </span>
                 </div>
               </AccordionTrigger>
@@ -241,7 +241,7 @@ export function ScoreCardListDetail() {
                   "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
                 )}
               >
-                <div className="w-full flex justify-between items-center">
+                <div className="flex w-full items-center justify-between">
                   <span>Feedback to applicant</span>
                 </div>
               </AccordionTrigger>

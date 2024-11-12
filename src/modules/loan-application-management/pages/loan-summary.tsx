@@ -18,10 +18,10 @@ export function Component() {
     useLoanApplicationDetailContext()
 
   return (
-    <div ref={elementToExportRef} className="lg:flex gap-3xl w-full flex-col">
-      <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
-        <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap">
-          <div className="flex gap-sm flex-col">
+    <div ref={elementToExportRef} className="w-full flex-col gap-3xl lg:flex">
+      <Card className="size-full flex-1 space-y-4xl p-4xl">
+        <div className="mt-lg flex flex-wrap justify-between gap-2 space-y-lg">
+          <div className="flex flex-col gap-sm">
             <p className="text-4xl font-semibold ">Application Summary</p>
             <div className="flex gap-2">
               <Badge border>

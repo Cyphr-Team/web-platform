@@ -14,11 +14,11 @@ export function LoanReadinessPagePdf() {
   const category = get(data, "applicationScore.category")
 
   return (
-    <div className="flex flex-col gap-8 w-full">
+    <div className="flex w-full flex-col gap-8">
       <h1 className="text-3xl font-medium">Loan Ready</h1>
       <div className="flex gap-2xl">
-        <div className="flex flex-col gap-4 min-w-[450px]">
-          <div className="flex flex-col gap-4 font-medium uppercase text-2xl">
+        <div className="flex min-w-[450px] flex-col gap-4">
+          <div className="flex flex-col gap-4 text-2xl font-medium uppercase">
             YOUR SCORE
           </div>
           <div className="text-9xl">
@@ -27,7 +27,7 @@ export function LoanReadinessPagePdf() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="font-medium uppercase text-2xl">
+          <div className="text-2xl font-medium uppercase">
             {category
               ? snakeCaseToText(category.toLowerCase())
               : CRITERIA_NOT_AVAILABLE}

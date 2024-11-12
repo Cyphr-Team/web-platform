@@ -34,7 +34,7 @@ export function FpCashFlowTemplate(props: FpCashFlowTemplateProps) {
   const HeaderComponent = HeaderMapper[period]
 
   return (
-    <div className="flex flex-col gap-y-2xl w-full">
+    <div className="flex w-full flex-col gap-y-2xl">
       <h1 className="text-3xl font-semibold">{title}</h1>
       <Card
         className={cn(

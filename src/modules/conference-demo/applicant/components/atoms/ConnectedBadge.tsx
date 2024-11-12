@@ -7,7 +7,7 @@ export function ConnectedBadge() {
     <Badge
       border
       isDot
-      className="capitalize text-sm rounded-lg"
+      className="rounded-lg text-sm capitalize"
       isDotBefore={false}
       variant="soft"
       variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.SUCCESS)}

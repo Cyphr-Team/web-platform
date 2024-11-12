@@ -146,7 +146,7 @@ function RenderInput<T extends FieldValues>(props: RHFTextInputProps<T>) {
           {label}
           {required ? <RequiredSymbol /> : null}
           {subtitle ? (
-            <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+            <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
           ) : null}
           {isRowDirection && !isHideErrorMessage ? (
             <FormMessage className={messageClassName} />

@@ -300,10 +300,10 @@ export function DocumentUploadFormTemplate({
               render={({ field }) => (
                 <FormItem className="flex items-center space-x-2 space-y-0">
                   <FormControl>
-                    <div className="flex gap-2 mt-1 items-center">
+                    <div className="mt-1 flex items-center gap-2">
                       <Checkbox
                         checked={field.value as CheckedState}
-                        className="h-5 w-5"
+                        className="size-5"
                         onCheckedChange={field.onChange}
                       />
                       <p className="text-xs text-text-primary">

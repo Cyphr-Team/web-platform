@@ -70,7 +70,7 @@ export function SBBKybFormPartTwo() {
       <h5 className="text-lg font-semibold">Business Information</h5>
       <Separator />
       <Form {...form}>
-        <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
+        <form className="grid grid-cols-12 gap-x-4xl gap-y-2xl">
           {SBB_KYB_FORM_BLOCKS_PART_TWO.map(({ type, props, name }) => {
             if (name !== SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES) {
               const Component = ComponentMapper[type]
@@ -87,7 +87,7 @@ export function SBBKybFormPartTwo() {
               return (
                 <div
                   key={SBB_KYB_FORM_FIELDS.ANTICIPATED_CASH_ACTIVITIES}
-                  className="flex flex-col col-span-12"
+                  className="col-span-12 flex flex-col"
                 >
                   <RHFOptionInput
                     className="col-span-12"

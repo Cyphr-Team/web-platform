@@ -168,12 +168,12 @@ export function CreateLoanProgramDialog({
     <Dialog open={open || !!detailId} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button type="button">
-          <PlusCircle className="text-sm mr-1.5" size={16} />
+          <PlusCircle className="mr-1.5 text-sm" size={16} />
           Add new
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px] px-0 gap-0">
-        <DialogHeader className="px-6 border-b pb-4">
+      <DialogContent className="gap-0 px-0 sm:max-w-[625px]">
+        <DialogHeader className="border-b px-6 pb-4">
           {detailId ? (
             <DialogTitle>Edit Loan Program</DialogTitle>
           ) : (
@@ -187,7 +187,7 @@ export function CreateLoanProgramDialog({
                 className="h-[70vh]"
                 isLoading={isFetching ?? false}
               >
-                <div className="p-6 py-2 flex flex-col gap-3">
+                <div className="flex flex-col gap-3 p-6 py-2">
                   <FormField
                     control={form.control}
                     name="name"
@@ -430,14 +430,14 @@ export function CreateLoanProgramDialog({
             <FeatureFlagsRenderer
               ffKey={FEATURE_FLAGS.LOAN_PROGRAM_FORMS_CONFIGURATION}
             >
-              <div className="p-6 w-full justify-end flex">
+              <div className="flex w-full justify-end p-6">
                 <FormsConfigurationDialog
                   detailId={detailId}
                   onSave={onSaveForms}
                 />
               </div>
             </FeatureFlagsRenderer>
-            <DialogFooter className="px-6 border-t pt-4">
+            <DialogFooter className="border-t px-6 pt-4">
               <ButtonLoading isLoading={isProcessing} type="submit">
                 {detailId ? "Update" : "Add"}{" "}
                 {!isProcessing && <Plus className="ml-1.5" size="16" />}

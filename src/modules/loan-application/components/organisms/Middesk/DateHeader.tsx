@@ -6,7 +6,7 @@ export function DateHeader() {
   const { loanKybDetail } = useLoanApplicationDetailContext()
 
   return loanKybDetail ? (
-    <div className="text-text-tertiary text-xs">
+    <div className="text-xs text-text-tertiary">
       Last updated on{" "}
       {loanKybDetail.updatedAt
         ? format(loanKybDetail.updatedAt, FORMAT_DATE_MM_DD_YYYY)

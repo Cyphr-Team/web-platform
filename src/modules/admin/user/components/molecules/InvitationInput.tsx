@@ -64,10 +64,10 @@ export function InvitationInput() {
   return (
     <div className="mt-1">
       <p className="font-medium">Invite team members</p>
-      <div className="flex flex-wrap flex-row gap-2 border border-black shadow-md p-2 rounded-lg mt-1">
-        <div className="w-3/5 flex flex-wrap items-center">
+      <div className="mt-1 flex flex-row flex-wrap gap-2 rounded-lg border border-black p-2 shadow-md">
+        <div className="flex w-3/5 flex-wrap items-center">
           <Input
-            className="rounded-sm w-full border-1 m-1"
+            className="border-1 m-1 w-full rounded-sm"
             placeholder="Type to add..."
             type="text"
             wrapperClassName="w-full"
@@ -76,10 +76,10 @@ export function InvitationInput() {
           />
         </div>
 
-        <div className="md:w-1/3 mt-1 mr-0 ml-auto">
+        <div className="ml-auto mr-0 mt-1 md:w-1/3">
           <Select onValueChange={handleValueChange}>
             <FormControl>
-              <SelectTrigger className="bg-gray-200 rounded-lg px-3 py-1 flex items-center group">
+              <SelectTrigger className="group flex items-center rounded-lg bg-gray-200 px-3 py-1">
                 <SelectValue placeholder="Role" />
               </SelectTrigger>
             </FormControl>

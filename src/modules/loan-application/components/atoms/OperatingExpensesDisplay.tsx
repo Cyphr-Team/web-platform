@@ -17,7 +17,7 @@ export function OperatingExpensesDisplay({
   return (
     <div className={cn(className, "gap-sm flex justify-between")}>
       <div className="flex flex-col">
-        <div className="text-text-secondary font-medium text-sm">{label}</div>
+        <div className="text-sm font-medium text-text-secondary">{label}</div>
         <p className="text-sm text-text-tertiary">{description}</p>
       </div>
       <p className="text-base">{toCurrency(value) ?? "N/A"} / mo</p>

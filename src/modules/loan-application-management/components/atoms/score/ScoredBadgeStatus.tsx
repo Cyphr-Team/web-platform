@@ -71,7 +71,7 @@ export function ScoredBadgeStatusWithTooltip({
   return (
     <Button
       asChild
-      className="p-0 h-auto cursor-pointer"
+      className="h-auto cursor-pointer p-0"
       type="button"
       variant="ghost"
       onClick={handleClickDetail}

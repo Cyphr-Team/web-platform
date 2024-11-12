@@ -23,7 +23,7 @@ export function ButtonViewDetailLoanApplication({
 
   return (
     <Button
-      className="flex items-center gap-0.5 px-2 pr-1 h-8"
+      className="flex h-8 items-center gap-0.5 px-2 pr-1"
       variant="ghost"
       onClick={handleClickDetail}
     >

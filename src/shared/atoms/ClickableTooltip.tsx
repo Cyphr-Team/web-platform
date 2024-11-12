@@ -28,7 +28,7 @@ export function ClickableTooltip(
           className={cn("bg-black", !tooltipContent && "hidden")}
           onPointerDownOutside={(event) => event.preventDefault()}
         >
-          <div className="text-white text-xs max-w-72 font-light">
+          <div className="max-w-72 text-xs font-light text-white">
             {tooltipContent}
           </div>
         </TooltipContent>

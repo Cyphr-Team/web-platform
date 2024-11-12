@@ -146,15 +146,15 @@ export const SbbCurrentLoanFormDetails: React.FC<
 
   return (
     <Card
-      className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none"
+      className="loan-application-item flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none"
       id="current-loans"
     >
       <div className="flex flex-col gap-6 ">
         <h5 className="text-lg font-semibold">Current Loans</h5>
         <Separator />
-        <div className="rounded-md border relative max-h-full overflow-auto">
+        <div className="relative max-h-full overflow-auto rounded-md border">
           <Table className="text-sm">
-            <TableHeader className="bg-gray-100 sticky top-0 z-10 ">
+            <TableHeader className="sticky top-0 z-10 bg-gray-100 ">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {

@@ -64,7 +64,7 @@ function FormHeader({ isConnected }: FormHeaderProps) {
         <span className="mr-4">Connected Accounts</span>
         {isConnected ? <CashFlowConnectedBadge /> : null}
       </h5>
-      <p className="text-sm financial-projection text-muted-foreground">
+      <p className="financial-projection text-sm text-muted-foreground">
         Please note that if your bank connection status is pending, you can
         still complete and submit your application. We'll notify you once your
         bank connection status has been updated.
@@ -98,7 +98,7 @@ function PlaidForm() {
           ? () => (
               <img
                 alt="Plaid institution logo"
-                className="h-5 w-5"
+                className="size-5"
                 src={`data:image/png;base64,${institution?.logo}`}
               />
             )
@@ -182,7 +182,7 @@ function PlaidForm() {
   }, [linkTokenError])
 
   return (
-    <div className="w-full flex flex-col gap-5 text-secondary-700 text-sm">
+    <div className="flex w-full flex-col gap-5 text-sm text-secondary-700">
       {!isReviewApplicationStep(step) ? (
         <>
           <InstitutionField
@@ -209,7 +209,7 @@ function PlaidForm() {
       ) : null}
 
       {connectedAccounts.length ? (
-        <div className="flex flex-col w-full mt-2">
+        <div className="mt-2 flex w-full flex-col">
           <LoadingWrapper isLoading={isFetchingDetails}>
             <Card className="border-none shadow-none">
               <CardContent className="p-0 md:p-0">
@@ -250,7 +250,7 @@ function InstitutionField({
   total?: number
 }) {
   return (
-    <div className="flex justify-between items-center gap-4">
+    <div className="flex items-center justify-between gap-4">
       <p className="font-medium text-secondary-400">Banking institution</p>
       <FormField
         name="institution"
@@ -278,7 +278,7 @@ function RoutingNumberField({
   disabled: boolean
 }) {
   return (
-    <div className="flex justify-between items-center gap-4">
+    <div className="flex items-center justify-between gap-4">
       <p className="font-medium text-secondary-400">Routing number</p>
       <FormField
         name="routingNumber"

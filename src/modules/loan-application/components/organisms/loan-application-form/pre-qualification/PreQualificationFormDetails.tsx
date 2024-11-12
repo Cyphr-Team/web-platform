@@ -18,7 +18,7 @@ export function PreQualificationFormDetails({ data }: Props) {
     >
       <h5 className="text-lg font-semibold">Pre-Qualification</h5>
       <Separator />
-      <div className="flex flex-col gap-y-2xl gap-x-4xl">
+      <div className="flex flex-col gap-x-4xl gap-y-2xl">
         <AnswersTextDisplay
           key="isCompanyBasedInUs"
           className="!flex-row justify-between"

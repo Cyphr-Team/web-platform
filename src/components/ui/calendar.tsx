@@ -113,8 +113,8 @@ export function Calendar({
       components={{
         Footer: customFooter,
         Dropdown: (props) => <CalendarDropDown {...props} />,
-        IconLeft: () => <ChevronLeft className="h-4 w-4" />,
-        IconRight: () => <ChevronRight className="h-4 w-4" />
+        IconLeft: () => <ChevronLeft className="size-4" />,
+        IconRight: () => <ChevronRight className="size-4" />
       }}
       fromYear={1900}
       id={props.id}

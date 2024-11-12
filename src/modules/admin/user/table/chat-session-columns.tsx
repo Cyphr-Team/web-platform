@@ -19,7 +19,7 @@ export const chatSessionColumns: AccessorKeyColumnDef<ChatbotSessionResponse>[] 
         const data = row.original
 
         return (
-          <div className="text-black font-medium">
+          <div className="font-medium text-black">
             {data.session.title ?? "N/A"}
           </div>
         )

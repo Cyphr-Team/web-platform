@@ -67,8 +67,8 @@ export function Component() {
 
       <Section>
         <Title>Charts</Title>
-        <div className="flex justify-center items-center relative h-[20vh] border-2 border-dashed rounded">
-          <div className="sticky top-1/2 left-1/2 justify-center items-center w-full flex flex-col opacity-60 text-xl">
+        <div className="relative flex h-[20vh] items-center justify-center rounded border-2 border-dashed">
+          <div className="sticky left-1/2 top-1/2 flex w-full flex-col items-center justify-center text-xl opacity-60">
             Coming soon
           </div>
         </div>
@@ -107,7 +107,7 @@ function Section({ children }: PropsWithChildren) {
 
 function Grid({ children }: PropsWithChildren) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
       {children}
     </div>
   )

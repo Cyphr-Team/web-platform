@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 import { NotificationType } from "@/modules/notification/constants"
 
 const notificationVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-lg border p-4 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7",
   {
     variants: {
       variant: {
@@ -155,7 +155,7 @@ function NotificationCard({
         </NotificationDescription>
       </div>
       <div className="flex flex-col items-end">
-        <NotificationTimestamp className="text-muted-foreground flex space-x-1">
+        <NotificationTimestamp className="flex space-x-1 text-muted-foreground">
           <Clock size={12} />
           <p
             data-timestamp={timestamp}
@@ -168,7 +168,7 @@ function NotificationCard({
         </NotificationTimestamp>
         {isRead ? (
           <div
-            className="hidden group-hover:flex cursor-pointer text-xs items-center mt-auto pl-2 pr-2 pt-1 pb-1 bg-gray-400 hover:bg-gray-500 text-white border-gray-300 rounded-md w-full"
+            className="mt-auto hidden w-full cursor-pointer items-center rounded-md border-gray-300 bg-gray-400 px-2 py-1 text-xs text-white hover:bg-gray-500 group-hover:flex"
             title="Mark as Unread"
             onClick={() => onMarkAsUnread && onMarkAsUnread(id)}
           >
@@ -176,7 +176,7 @@ function NotificationCard({
           </div>
         ) : (
           <div
-            className="hidden group-hover:flex cursor-pointer text-xs items-center mt-auto pl-2 pr-2 pt-1 pb-1 bg-primary hover:bg-primary/90 text-white border-primary-300 rounded-md w-full"
+            className="border-primary-300 mt-auto hidden w-full cursor-pointer items-center rounded-md bg-primary px-2 py-1 text-xs text-white hover:bg-primary/90 group-hover:flex"
             title="Mark as Read"
             onClick={() => onMarkAsRead && onMarkAsRead(id)}
           >

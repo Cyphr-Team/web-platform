@@ -11,10 +11,10 @@ export function CashflowGlanceReport() {
 
   return (
     <div className="flex flex-col space-y-3xl">
-      <Card className="border-r-0 border-b-0">
-        <CardHeader className="border-b px-8 md:py-4 border-r rounded-tr-md">
-          <div className="flex justify-between items-center flex-wrap gap-1">
-            <CardTitle className="font-semibold text-2xl flex items-center gap-3">
+      <Card className="border-b-0 border-r-0">
+        <CardHeader className="rounded-tr-md border-b border-r px-8 md:py-4">
+          <div className="flex flex-wrap items-center justify-between gap-1">
+            <CardTitle className="flex items-center gap-3 text-2xl font-semibold">
               Cash Flow at a Glance
             </CardTitle>
             <DateHeader />

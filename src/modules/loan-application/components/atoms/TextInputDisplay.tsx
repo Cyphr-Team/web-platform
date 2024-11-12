@@ -13,8 +13,8 @@ export function TextInputDisplay({
 }: TextInputDisplayProps) {
   return (
     <div className={cn(className, "gap-sm flex flex-col")}>
-      <div className="text-text-secondary font-medium text-sm">{label}</div>
-      <p className="text-base items-center truncate overflow-ellipsis hover:overflow-visible hover:whitespace-normal hover:break-all">
+      <div className="text-sm font-medium text-text-secondary">{label}</div>
+      <p className="items-center truncate text-base hover:overflow-visible hover:whitespace-normal hover:break-all">
         {value ?? "N/A"}
       </p>
     </div>

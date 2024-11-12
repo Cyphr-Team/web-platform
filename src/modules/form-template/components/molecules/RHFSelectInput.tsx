@@ -103,7 +103,7 @@ function RHFSelectInput<T extends FieldValues>(props: RHFSelectInputProps<T>) {
         >
           {!!(label || subtitle) && (
             <FormLabel className={cn("text-text-secondary", labelClassName)}>
-              <label className="items-center inline-flex">
+              <label className="inline-flex items-center">
                 <span>
                   {label}
                   {required ? <RequiredSymbol /> : null}

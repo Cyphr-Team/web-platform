@@ -6,7 +6,7 @@ export function ButtonContactForMoreUsage({ content }: { content: ReactNode }) {
   return (
     <Button
       asChild
-      className="px-0 h-7 text-text-secondary w-full flex justify-between text-xs"
+      className="flex h-7 w-full justify-between px-0 text-xs text-text-secondary"
       size="sm"
       variant="link"
     >

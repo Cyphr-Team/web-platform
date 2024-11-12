@@ -79,7 +79,7 @@ export function AutoCompleteInput<T extends FieldValues>(
                       ? options.find((option) => option.value === value)?.label
                       : placeholder ?? "Select option..."}
                   </p>
-                  <p className="ml-2 shrink-0 flex items-center">
+                  <p className="ml-2 flex shrink-0 items-center">
                     <ChevronDown
                       className="text-muted-foreground"
                       height={20}

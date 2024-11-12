@@ -32,14 +32,14 @@ export const columns: ColumnDef<LoanDocument>[] = [
       const document = row.original
 
       return (
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex min-w-0 items-center gap-3">
           <div>
             <Icons.pdfIcon />
           </div>
           <div className="min-w-0">
             <p className="truncate">{document.name}</p>
             {document.fileSize ? (
-              <p className="text-sm text-muted-foreground mt-0.5 truncate ">
+              <p className="mt-0.5 truncate text-sm text-muted-foreground ">
                 {document.fileSize} KB
               </p>
             ) : null}
@@ -122,7 +122,7 @@ export const columns: ColumnDef<LoanDocument>[] = [
             id={document.id}
           >
             <div className="flex items-center">
-              <FileDown className="w-6 h-6 p-0.5" />
+              <FileDown className="size-6 p-0.5" />
             </div>
           </ButtonDownloadESignDocument>
         ) : (
@@ -133,13 +133,13 @@ export const columns: ColumnDef<LoanDocument>[] = [
         )
 
       return (
-        <div className="flex content-end justify-end items-center gap-2 text-gray-500">
+        <div className="flex content-end items-center justify-end gap-2 text-gray-500">
           <FeatureRenderer featureKey={FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT}>
             {downloadButton}
           </FeatureRenderer>
 
           <Button size="icon" variant="ghost">
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="size-5" />
           </Button>
         </div>
       )

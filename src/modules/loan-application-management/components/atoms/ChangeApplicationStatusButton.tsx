@@ -54,7 +54,7 @@ function ApplicationStatusDropDown({
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="w-48 m-0">
+        <DropdownMenuContent className="m-0 w-48">
           {Object.keys(LoanDecisionEnum).map((decision) => {
             const info = getSelectInfoByDecision(
               LoanApplicationStatus[
@@ -114,7 +114,7 @@ export function ChangeApplicationStatusButton() {
     !loanApplicationDetails?.loanProgram?.deletedAt
 
   if (isLoading)
-    return <Skeleton className="w-40 h-8 self-start md:self-center" />
+    return <Skeleton className="h-8 w-40 self-start md:self-center" />
 
   const textButton = getApplicationStatusTextButton(data)
 
@@ -132,7 +132,7 @@ export function ChangeApplicationStatusButton() {
           <Tooltip>
             <TooltipTrigger asChild color={getBadgeVariantByStatus(data)}>
               <Button
-                className="capitalize h-10 min-w-48 rounded-full relative justify-center text-sm"
+                className="relative h-10 min-w-48 justify-center rounded-full text-sm capitalize"
                 variant="outline"
               >
                 <Dot variantColor={getBadgeVariantByStatus(data)} />

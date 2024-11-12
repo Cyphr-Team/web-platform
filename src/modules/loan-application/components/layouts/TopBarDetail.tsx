@@ -5,7 +5,7 @@ interface Props {
 
 export const TopBarDetail: React.FC<Props> = ({ leftFooter, rightFooter }) => {
   return (
-    <nav className="w-full h-16 md:h-20 shrink-0 flex justify-end md:justify-between items-center pr-2 md:pr-5 sticky top-0 bg-white border-b border-t md:border-t-0 z-20 gap-4">
+    <nav className="sticky top-0 z-20 flex h-16 w-full shrink-0 items-center justify-end gap-4 border-y bg-white pr-2 md:h-20 md:justify-between md:border-t-0 md:pr-5">
       {leftFooter}
 
       {rightFooter}

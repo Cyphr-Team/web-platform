@@ -7,18 +7,18 @@ import { isSbb } from "@/utils/domain.utils"
 
 export function SignUpFormSection() {
   return (
-    <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
+    <div className="mx-auto h-auto rounded-[32px] bg-white p-8 shadow-primary md:w-[540px]">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
         <div className="flex flex-col text-center">
           <div className="self-center">
             <LogoHeader />
           </div>
 
-          <h1 className="text-4xl font-semibold tracking-tight mt-6">
+          <h1 className="mt-6 text-4xl font-semibold tracking-tight">
             Create an account
           </h1>
 
-          <p className="text-muted-foreground mt-3 text-sm font-normal">
+          <p className="mt-3 text-sm font-normal text-muted-foreground">
             {isSbb()
               ? "Accelerate your access to business banking"
               : "Accelerate your access to financing"}
@@ -29,7 +29,7 @@ export function SignUpFormSection() {
 
         <p className="px-8 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Button asChild className="p-0 h-auto text-primary" variant="link">
+          <Button asChild className="h-auto p-0 text-primary" variant="link">
             <Link to={APP_PATH.LOGIN}>Log in</Link>
           </Button>
         </p>

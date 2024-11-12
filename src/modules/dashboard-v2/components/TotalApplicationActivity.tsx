@@ -54,7 +54,7 @@ export function TotalApplicationActivity() {
         />
       </div>
 
-      <div className="flex gap-4 flex-wrap md:flex-nowrap mt-8">
+      <div className="mt-8 flex flex-wrap gap-4 md:flex-nowrap">
         <LoanApplicationActivityChart />
         <LoanApplicationDecisionRateChart />
       </div>

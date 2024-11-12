@@ -12,8 +12,8 @@ const fileIconMapper: Record<number, string> = {
 }
 
 const deleteIconMapper: Record<number, ReactNode> = {
-  1: <Trash className="h-5 w-5" />,
-  2: <X className="h-5 w-5" />
+  1: <Trash className="size-5" />,
+  2: <X className="size-5" />
 }
 
 interface Props {
@@ -28,10 +28,10 @@ export const FileUploadedCard: React.FC<Props> = ({
   version = 1
 }) => {
   return (
-    <Card key={file.id} className="p-xl gap-2xl flex shadow-none items-center">
-      <img alt="file" className="logo w-8 h-8" src={fileIconMapper[version]} />
-      <div className="flex flex-col max-w-xs">
-        <p className="text-sm truncate">{file.originFileName}</p>
+    <Card key={file.id} className="flex items-center gap-2xl p-xl shadow-none">
+      <img alt="file" className="logo size-8" src={fileIconMapper[version]} />
+      <div className="flex max-w-xs flex-col">
+        <p className="truncate text-sm">{file.originFileName}</p>
       </div>
       <Button
         className="ml-auto"

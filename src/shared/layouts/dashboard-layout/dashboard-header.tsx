@@ -9,13 +9,13 @@ interface HeaderSidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Header({ items }: HeaderSidebarProps) {
   return (
-    <div className="block md:hidden fixed top-0 left-0 right-0 supports-backdrop-blur:bg-background/60 border-b bg-background/95 backdrop-blur z-20">
-      <nav className="h-14 flex items-center justify-between px-4">
+    <div className="supports-backdrop-blur:bg-background/60 fixed inset-x-0 top-0 z-20 block border-b bg-background/95 backdrop-blur md:hidden">
+      <nav className="flex h-14 items-center justify-between px-4">
         <div className={cn("block md:!hidden")}>
           <MobileSidebar items={items} />
         </div>
 
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="ml-auto flex items-center gap-2">
           <UserNav />
         </div>
       </nav>

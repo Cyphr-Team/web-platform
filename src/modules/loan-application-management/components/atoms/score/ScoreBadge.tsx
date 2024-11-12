@@ -13,7 +13,7 @@ export function ScoreBadge({
 }: IScoreBadgeProps) {
   return (
     <Badge
-      className="h-7 text-xs px-3 font-normal"
+      className="h-7 px-3 text-xs font-normal"
       variant="outline"
       variantColor={isFinished ? "white" : "orange"}
     >

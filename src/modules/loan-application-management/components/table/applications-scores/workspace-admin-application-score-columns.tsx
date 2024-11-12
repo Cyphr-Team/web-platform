@@ -277,7 +277,7 @@ export const workspaceAdminApplicationColumns: ColumnDef<IWorkspaceAdminApplicat
         const application = row.original
 
         return (
-          <div className="text-center cursor-pointer w-[250px] mx-auto">
+          <div className="mx-auto w-[250px] cursor-pointer text-center">
             <ApplicationRoundSelectionPopover
               applicationId={application.id}
               roundStatus={application.status}

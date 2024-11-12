@@ -20,7 +20,7 @@ export default function SignUpGoogleButton() {
         variant="outline"
         onClick={signUpWithGoogleMfa}
       >
-        <IconGoogle className="mr-2 h-4 w-4" />
+        <IconGoogle className="mr-2 size-4" />
         Sign up with Google
       </ButtonLoading>
 

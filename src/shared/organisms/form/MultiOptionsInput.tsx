@@ -54,13 +54,13 @@ export function MultiOptionsInput<T extends FieldValues>(
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="text-sm text-text-secondary font-medium">
+          <FormLabel className="text-sm font-medium text-text-secondary">
             <label>
               {label}
               {required ? <RequiredSymbol /> : null}
             </label>
             {subtitle ? (
-              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+              <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
             ) : null}
           </FormLabel>
           <FormControl>

@@ -46,7 +46,7 @@ export function DashboardNav({ items, isCollapsed }: DashboardNavProps) {
       )}
       data-collapsed={isCollapsed}
     >
-      <nav className="flex flex-col gap-y-2 flex-1">
+      <nav className="flex flex-1 flex-col gap-y-2">
         <TooltipProvider>
           {items.map((item) => {
             const badge = getBadgeByHref(item.href)

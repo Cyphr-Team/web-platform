@@ -37,9 +37,7 @@ export function MultiChoices(props: MultiChoicesProps) {
           )}
           {role.label}
         </div>
-        <div className="font-normal text-left py-2 px-2 text-sm">
-          {description}
-        </div>
+        <div className="p-2 text-left text-sm font-normal">{description}</div>
       </ToggleGroup.Item>
     </ToggleGroup.Root>
   )

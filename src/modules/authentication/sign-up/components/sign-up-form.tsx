@@ -38,14 +38,14 @@ export function SignUpForm() {
       <SignUpGoogleButton />
 
       <Form {...form}>
-        <form className="space-y-6 w-full mt-4" onSubmit={formSubmit}>
+        <form className="mt-4 w-full space-y-6" onSubmit={formSubmit}>
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
-                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
+                <FormControl className="hover:border hover:shadow-md focus:border focus:drop-shadow-lg">
                   <Input
                     className="text-base"
                     placeholder="Enter your email"
@@ -59,7 +59,7 @@ export function SignUpForm() {
             )}
           />
 
-          <div className="text-xs leading-[18px] loanready-v2 text-primary">
+          <div className="loanready-v2 text-xs leading-[18px] text-primary">
             By clicking "Create account" or "Sign up with Google", you
             acknowledge that you understand and agree to the{" "}
             <a

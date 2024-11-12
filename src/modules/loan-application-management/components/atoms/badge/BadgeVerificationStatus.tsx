@@ -25,7 +25,7 @@ export const BadgeVerificationStatus: React.FC<Props> = ({ status }) => {
 
   return (
     <Badge
-      className={`space-x-xs py-md px-lg ${badgeCssByStatus[className]} border w-fit rounded-lg`}
+      className={`space-x-xs px-lg py-md ${badgeCssByStatus[className]} w-fit rounded-lg border`}
     >
       <VerificationIcon status={status} />
       <p

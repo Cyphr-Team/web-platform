@@ -16,18 +16,18 @@ function ConferenceDemoApplicationLayout() {
   return (
     <div className={cn("finovate h-full w-full z-40", "md:mt-0 md:pb-0")}>
       <div className="flex h-dvh w-full overflow-hidden">
-        <div className="flex-col md:flex bg-background-disabled w-96 flex-shrink-0 mb-3xl overflow-auto h-dvh z-50">
-          <div className="pl-3xl pr-2xl items-center mb-4 justify-between flex bg-white border-b h-20">
+        <div className="z-50 mb-3xl h-dvh w-96 shrink-0 flex-col overflow-auto bg-background-disabled md:flex">
+          <div className="mb-4 flex h-20 items-center justify-between border-b bg-white pl-3xl pr-2xl">
             <LogoHeader className="justify-center" />
           </div>
           <Sidebar />
         </div>
 
-        <div className="w-full flex flex-col overflow-auto">
+        <div className="flex w-full flex-col overflow-auto">
           <Header />
 
           <Progress
-            className="h-2 rounded-none overflow-visible bg-background-disabled z-20 relative"
+            className="relative z-20 h-2 overflow-visible rounded-none bg-background-disabled"
             indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
             value={progress}
           />

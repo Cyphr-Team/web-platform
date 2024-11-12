@@ -7,9 +7,9 @@ import {
 
 function IdentityVerification() {
   return (
-    <div className="lg:flex gap-3xl w-full">
+    <div className="w-full gap-3xl lg:flex">
       <KycInsights />
-      <div className="flex flex-col w-full gap-6">
+      <div className="flex w-full flex-col gap-6">
         <KycSummary />
         <KycGovernmentId />
         <KycSelfieVerification />

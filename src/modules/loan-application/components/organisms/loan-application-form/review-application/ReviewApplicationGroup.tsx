@@ -34,10 +34,10 @@ export function ReviewApplicationGroup({
 
   return (
     <div className="col-span-8 grid grid-cols-8 gap-4">
-      <div className="col-span-2 text-2xl font-semibold max-w-screen-sm">
+      <div className="col-span-2 max-w-screen-sm text-2xl font-semibold">
         <div>{label}</div>
       </div>
-      <div className="col-span-6 flex flex-col gap-6 max-w-screen-sm">
+      <div className="col-span-6 flex max-w-screen-sm flex-col gap-6">
         {progressFilter.map((prog) => {
           return (
             <ReviewApplicationStep

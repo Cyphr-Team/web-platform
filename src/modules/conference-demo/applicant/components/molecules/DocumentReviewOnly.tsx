@@ -45,7 +45,7 @@ function DocumentFrame({ title }: DocumentFrameProps) {
     : getDefaultDocument(title)
 
   return (
-    <li className="flex justify-between text-sm gap-4">
+    <li className="flex justify-between gap-4 text-sm">
       <span className="font-semibold">{title}</span>
       <div className="text-right">
         {files.map((file, idx) => (

@@ -19,9 +19,9 @@ export function ApplicationCircularProgress({
   const miniProgress = percent * miniP
 
   return (
-    <div className="relative h-[332px] w-[332px]">
+    <div className="relative size-[332px]">
       <span>
-        <svg className="h-full w-full" viewBox="22 22 44 44">
+        <svg className="size-full" viewBox="22 22 44 44">
           <circle
             className="stroke-current text-white opacity-20"
             cx="44"
@@ -34,8 +34,8 @@ export function ApplicationCircularProgress({
         </svg>
       </span>
 
-      <span className="absolute w-full h-full top-0 left-0 origin-center -rotate-90">
-        <svg className="h-full w-full text-[#B3F00D]" viewBox="22 22 44 44">
+      <span className="absolute left-0 top-0 size-full origin-center -rotate-90">
+        <svg className="size-full text-[#B3F00D]" viewBox="22 22 44 44">
           <circle
             className="stroke-current transition-all duration-1000 ease-out"
             cx="44"
@@ -49,20 +49,20 @@ export function ApplicationCircularProgress({
         </svg>
       </span>
 
-      <div className="h-full w-full -mt-[100%] absolute flex justify-center items-center flex-col">
+      <div className="absolute -mt-[100%] flex size-full flex-col items-center justify-center">
         {new Array(2).fill(null).map((_, idx) => (
           <div
             key={idx}
             className="absolute h-[83%]"
             style={{ transform: `rotate(${(360 / 2) * idx}deg)` }}
           >
-            <div className="bg-[#DFFF86] w-[3px] h-[5%]" />
+            <div className="h-[5%] w-[3px] bg-[#DFFF86]" />
           </div>
         ))}
       </div>
 
-      <span className="absolute w-full h-full top-0 left-0 origin-center -rotate-[87deg]">
-        <svg className="h-full w-full text-[#01B604]" viewBox="22 22 44 44">
+      <span className="absolute left-0 top-0 size-full origin-center -rotate-[87deg]">
+        <svg className="size-full text-[#01B604]" viewBox="22 22 44 44">
           <circle
             className="stroke-current transition-all duration-1000 ease-out"
             cx="44"
@@ -77,8 +77,8 @@ export function ApplicationCircularProgress({
         </svg>
       </span>
 
-      <span className="absolute w-full h-full top-0 left-0 -rotate-[93deg]">
-        <svg className="h-full w-full text-[#0026157e]" viewBox="22 22 44 44">
+      <span className="absolute left-0 top-0 size-full -rotate-[93deg]">
+        <svg className="size-full text-[#0026157e]" viewBox="22 22 44 44">
           <circle
             className="stroke-current"
             cx="44"
@@ -93,7 +93,7 @@ export function ApplicationCircularProgress({
         </svg>
       </span>
 
-      <span className="h-full w-full -mt-[100%] absolute flex justify-center items-center flex-col">
+      <span className="absolute -mt-[100%] flex size-full flex-col items-center justify-center">
         {text}
       </span>
     </div>

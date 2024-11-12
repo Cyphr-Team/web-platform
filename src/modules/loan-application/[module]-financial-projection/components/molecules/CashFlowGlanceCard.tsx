@@ -28,8 +28,8 @@ export const CashFlowGlanceCard: React.FC<Props> = ({
   const formatter = typeMapper[type]
 
   return (
-    <Card className="rounded-xl h-32 shadow-none px-3xl flex flex-col items-start justify-center space-y-3">
-      <p className="text-text-primary font-normal text-sm">{title}</p>
+    <Card className="flex h-32 flex-col items-start justify-center space-y-3 rounded-xl px-3xl shadow-none">
+      <p className="text-sm font-normal text-text-primary">{title}</p>
       <span className="text-2xl font-semibold">{formatter(value)}</span>
     </Card>
   )

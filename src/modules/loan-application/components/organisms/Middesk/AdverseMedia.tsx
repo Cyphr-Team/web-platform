@@ -39,7 +39,7 @@ const columns: ColumnDef<BusinessAdverseMediaDetail>[] = [
       return (
         <Badge
           isDot
-          className="capitalize text-sm text-text-tertiary rounded-lg bg-transparent pl-0"
+          className="rounded-lg bg-transparent pl-0 text-sm capitalize text-text-tertiary"
           variant="soft"
           variantColor={getBadgeVariantByInsightStatus(data?.risk?.status)}
         >

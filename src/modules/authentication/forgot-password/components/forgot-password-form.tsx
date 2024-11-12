@@ -61,7 +61,7 @@ function ResetPasswordForm() {
   )
 
   return (
-    <form className="space-y-6 w-full" onSubmit={formSubmit}>
+    <form className="w-full space-y-6" onSubmit={formSubmit}>
       <FormField
         control={control}
         name="email"

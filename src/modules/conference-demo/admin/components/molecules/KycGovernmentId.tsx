@@ -19,7 +19,7 @@ function KycGovernmentId() {
   const verifiedInformation = () => {
     return (
       <div className="pt-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <KycSummaryItem subtitle1="LARRY" title="Full name" />
           <KycSummaryItem
             subtitle1="600 BEVERLY HILLS, LOS ANGELES, CA 94109"
@@ -32,7 +32,7 @@ function KycGovernmentId() {
             title="Date of birth"
           />
         </div>
-        <div className=" my-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className=" my-6 grid grid-cols-2 gap-6 md:grid-cols-4">
           <KycSummaryItem subtitle1="DTRJ4242WWE" title="ID number" />
           <KycSummaryItem
             subtitle1="United States of America"

@@ -45,7 +45,7 @@ export function ButtonDeactivateUser({ userId }: { userId: string }) {
       onConfirmed={handleDeactivateUser}
     >
       <ButtonLoading
-        className="h-max cursor-pointer text-red-900 p-2 space-x-2 flex flex-row w-full"
+        className="flex h-max w-full cursor-pointer flex-row space-x-2 p-2 text-red-900"
         disabled={isConfirmed}
         id={userId}
         isLoading={isPending}
@@ -53,7 +53,7 @@ export function ButtonDeactivateUser({ userId }: { userId: string }) {
         variant="ghost"
         onClick={handleOpen}
       >
-        <MinusCircle className="w-5 h-5" /> <span>Deactivate</span>
+        <MinusCircle className="size-5" /> <span>Deactivate</span>
         {!isPending}
       </ButtonLoading>
     </CustomAlertDialog>

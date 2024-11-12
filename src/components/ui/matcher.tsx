@@ -3,7 +3,7 @@ import { type VariantProps, cva } from "class-variance-authority"
 import { CheckCircle2, XCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-const matcherVariants = cva("flex space-x-1 font-light text-sm items-center", {
+const matcherVariants = cva("flex items-center space-x-1 text-sm font-light", {
   variants: {
     variant: {
       neutral: "",

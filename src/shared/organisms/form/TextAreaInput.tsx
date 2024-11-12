@@ -52,7 +52,7 @@ export function TextAreaInput<T extends FieldValues>(
         <FormItem className={props.className}>
           <FormLabel
             className={`text-text-secondary ${
-              isRowDirection && "lg:-mt-2 font-semibold"
+              isRowDirection && "font-semibold lg:-mt-2"
             }`}
           >
             <label>
@@ -60,7 +60,7 @@ export function TextAreaInput<T extends FieldValues>(
               {required ? <RequiredSymbol /> : null}
             </label>
             {subtitle ? (
-              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+              <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
             ) : null}
           </FormLabel>
 

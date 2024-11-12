@@ -18,9 +18,9 @@ export function FinancialDetailItem(props: FinancialDetailItemProps) {
 
   return (
     <Layout>
-      <div className="flex items-center gap-2 min-w-20">
+      <div className="flex min-w-20 items-center gap-2">
         <h3 className="font-semibold">{title}</h3>
-        <div className="ml-auto text-right flex-1">{renderContent}</div>
+        <div className="ml-auto flex-1 text-right">{renderContent}</div>
       </div>
     </Layout>
   )

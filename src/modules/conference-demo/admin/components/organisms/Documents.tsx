@@ -8,8 +8,8 @@ function Documents() {
   return (
     <div>
       <div className="rounded-t-xl border border-b-0 px-6 py-5">
-        <h3 className="font-semibold text-lg mb-1">Documentation</h3>
-        <p className="text-text-tertiary text-sm">
+        <h3 className="mb-1 text-lg font-semibold">Documentation</h3>
+        <p className="text-sm text-text-tertiary">
           Documents and assets that have been attached to this loan application
         </p>
       </div>

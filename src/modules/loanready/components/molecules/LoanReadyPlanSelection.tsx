@@ -41,7 +41,7 @@ export function LoanReadyPlanSelection() {
   }
 
   return (
-    <div className="flex flex-col gap-4 mb-8">
+    <div className="mb-8 flex flex-col gap-4">
       {loanOptions.map((option) => (
         <Button
           key={option.value}
@@ -56,14 +56,14 @@ export function LoanReadyPlanSelection() {
           onClick={() => handleOptionClick(option.value)}
         >
           <div className="flex items-center gap-2">
-            <label className="relative flex items-center cursor-pointer">
+            <label className="relative flex cursor-pointer items-center">
               <input
                 checked={form.watch("package") === option.value}
-                className="peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
+                className="peer size-4 cursor-pointer appearance-none rounded-full border border-slate-300 transition-all checked:border-slate-400"
                 name="plan"
                 type="radio"
               />
-              <span className="absolute bg-slate-800 w-2 h-2 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+              <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-800 opacity-0 transition-opacity duration-200 peer-checked:opacity-100" />
             </label>
             <div className="font-medium text-text-foreground">
               {option.label}
@@ -72,7 +72,7 @@ export function LoanReadyPlanSelection() {
               {option.price}/application
             </span>
           </div>
-          <ul className="mt-1 font-normal list-disc pl-10 w-full text-left whitespace-normal overflow-wrap">
+          <ul className="overflow-wrap mt-1 w-full list-disc whitespace-normal pl-10 text-left font-normal">
             {option.description.map((item) => (
               <li key={item.id}>{item.text}</li>
             ))}

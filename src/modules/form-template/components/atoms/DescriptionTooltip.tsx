@@ -23,7 +23,7 @@ export function DescriptionTooltip({
     <TooltipProvider>
       <Tooltip delayDuration={0}>
         <TooltipTrigger type="button">
-          <InfoIcon className="w-4 h-4" />
+          <InfoIcon className="size-4" />
         </TooltipTrigger>
         <TooltipContent
           className={cn("text-white bg-black p-1 w-48", className)}

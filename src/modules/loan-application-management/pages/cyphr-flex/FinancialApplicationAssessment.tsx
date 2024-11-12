@@ -33,7 +33,7 @@ export const FinancialApplicationAssessment: FC<
 }
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => (
-  <div className="flex flex-col md:flex-row gap-3 md:gap-6 lg:gap-10 flex-wrap">
+  <div className="flex flex-col flex-wrap gap-3 md:flex-row md:gap-6 lg:gap-10">
     {children}
   </div>
 )
@@ -52,13 +52,13 @@ const AssessmentLayout: FC<PropsWithChildren<AssessmentLayoutProps>> = ({
       className
     )}
   >
-    <div className="px-4 py-3 pb-2.5 lg:pb-3.5 lg:px-8 lg:py-4 border-b font-semibold flex gap-2">
+    <div className="flex gap-2 border-b px-4 py-3 pb-2.5 font-semibold lg:px-8 lg:py-4 lg:pb-3.5">
       <span>
         <Icons.scoreLevel />
       </span>
       <span className="whitespace-nowrap">Loan Readiness Score</span>
     </div>
-    <div className="flex flex-col gap-2 lg:gap-4 text-center p-4 lg:p-8">
+    <div className="flex flex-col gap-2 p-4 text-center lg:gap-4 lg:p-8">
       {children}
     </div>
   </div>
@@ -80,7 +80,7 @@ const ApplicationFeedBack: FC<ApplicationFeedBackProps> = ({
       <SkeletonCard className="w-full" />
     ) : (
       <>
-        <span className="text-lg lg:text-xl font-semibold uppercase">
+        <span className="text-lg font-semibold uppercase lg:text-xl">
           {category
             ? snakeCaseToText(category.toLowerCase())
             : CRITERIA_NOT_AVAILABLE}
@@ -106,13 +106,13 @@ const ApplicationScore: FC<ApplicationScoreProps> = ({
 }) => {
   const content = (
     <div className="flex flex-col items-center justify-center gap-2 md:gap-5">
-      <span className="text-lg lg:text-xl font-semibold uppercase">
+      <span className="text-lg font-semibold uppercase lg:text-xl">
         Your score
       </span>
-      <span className="font-semibold text-3xl md:text-5xl lg:text-6xl">
+      <span className="text-3xl font-semibold md:text-5xl lg:text-6xl">
         {toPercent(score ?? 0) / 100}%
       </span>
-      <div className="flex gap-2 my-0.5 flex-wrap justify-center">
+      <div className="my-0.5 flex flex-wrap justify-center gap-2">
         {!!ratingLevel && (
           <Badge
             className={cn(
@@ -125,7 +125,7 @@ const ApplicationScore: FC<ApplicationScoreProps> = ({
           </Badge>
         )}
         <Badge
-          className="bg-opacity-0 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center"
+          className="min-w-20 justify-center whitespace-nowrap bg-opacity-0 px-3 py-1.5 font-normal capitalize"
           variant="outline"
         >
           {category
@@ -139,9 +139,9 @@ const ApplicationScore: FC<ApplicationScoreProps> = ({
   return (
     <AssessmentLayout className="flex-[1.5]">
       {isLoading ? (
-        <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col items-center gap-4">
           <Skeleton className="h-8 w-1/2" />
-          <Skeleton className="h-20 w-1/2 mt-2" />
+          <Skeleton className="mt-2 h-20 w-1/2" />
           <Skeleton className="h-6 w-1/2" />
         </div>
       ) : (

@@ -24,8 +24,8 @@ export function Component() {
     <>
       <ApplicationDetailsHeader />
       {isFetchingDetails ? (
-        <div className="w-full h-full flex justify-center items-center">
-          <Loader2 className="m-2 h-8 w-8 transition-all ease-out animate-spin text-primary" />
+        <div className="flex size-full items-center justify-center">
+          <Loader2 className="m-2 size-8 animate-spin text-primary transition-all ease-out" />
         </div>
       ) : (
         <div

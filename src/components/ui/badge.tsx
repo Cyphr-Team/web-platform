@@ -9,20 +9,20 @@ const badgeVariants = cva(
   {
     variants: {
       variantColor: {
-        red: "text-red-700 bg-red-500 border-red-300",
-        gray: "text-gray-700 bg-gray-300 border-gray-300",
-        yellow: "text-yellow-700 bg-yellow-500 border-yellow-300",
-        green: "text-green-700 bg-green-500 border-success-200",
-        blue: "text-blue-700 bg-blue-500 border-blue-300",
-        orange: "text-orange-700 bg-orange-500 border-orange-300",
-        lightBlue: "text-blue-700 bg-[#C0D8D8] border-blue-300",
-        white: "text-black bg-white border-black",
-        purple: "text-indigo-700 bg-purple-500 border-purple-300"
+        red: "border-red-300 bg-red-500 text-red-700",
+        gray: "border-gray-300 bg-gray-300 text-gray-700",
+        yellow: "border-yellow-300 bg-yellow-500 text-yellow-700",
+        green: "border-success-200 bg-green-500 text-green-700",
+        blue: "border-blue-300 bg-blue-500 text-blue-700",
+        orange: "border-orange-300 bg-orange-500 text-orange-700",
+        lightBlue: "border-blue-300 bg-[#C0D8D8] text-blue-700",
+        white: "border-black bg-white text-black",
+        purple: "border-purple-300 bg-purple-500 text-indigo-700"
       },
       variant: {
         soft: "bg-opacity-10",
         solid: "text-white",
-        outline: "bg-opacity-10 border border-black text-black"
+        outline: "border border-black bg-opacity-10 text-black"
       }
     },
     defaultVariants: {
@@ -32,7 +32,7 @@ const badgeVariants = cva(
   }
 )
 
-const dotVariants = cva("w-3 h-3 mr-1", {
+const dotVariants = cva("mr-1 size-3", {
   variants: {
     variantColor: {
       red: "text-red-500",

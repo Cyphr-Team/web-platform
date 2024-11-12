@@ -112,7 +112,7 @@ export function VerifyPhoneForm() {
     <div className="flex flex-col space-y-6">
       <Form {...form}>
         <form
-          className="space-y-4 sm:space-y-8 w-full flex flex-col items-center"
+          className="flex w-full flex-col items-center space-y-4 sm:space-y-8"
           onSubmit={formSubmit}
         >
           <div className="flex space-x-3">
@@ -148,7 +148,7 @@ export function VerifyPhoneForm() {
             })}
           </div>
 
-          <div className="w-full flex flex-col space-y-2">
+          <div className="flex w-full flex-col space-y-2">
             <ErrorMessage>
               {form.formState.errors.root?.serverError?.message}
             </ErrorMessage>
@@ -168,12 +168,12 @@ export function VerifyPhoneForm() {
             {conditionAlert}
 
             <div className="text-center">
-              <p className="text-center text-sm text-muted-foreground inline mr-1">
+              <p className="mr-1 inline text-center text-sm text-muted-foreground">
                 Didn’t receive the code?
               </p>
 
               <ButtonLoading
-                className="p-1 h-7 text-primary"
+                className="h-7 p-1 text-primary"
                 isLoading={resendIsPending}
                 type="button"
                 variant="ghost"

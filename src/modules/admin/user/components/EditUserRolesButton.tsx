@@ -79,7 +79,7 @@ export function EditUserRolesButton({
           setIsOpen(true)
         }}
       >
-        <PlusCircle className="text-sm mr-1.5" size={16} />
+        <PlusCircle className="mr-1.5 text-sm" size={16} />
         Submit {!isPending}
       </ButtonLoading>
     </>

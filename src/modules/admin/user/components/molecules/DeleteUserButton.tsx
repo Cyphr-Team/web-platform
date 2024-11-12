@@ -41,7 +41,7 @@ export function DeleteUserButton({
       onConfirmed={handleDeleteUser}
     >
       <Button
-        className="cursor-pointer text-center p-0 hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-white"
+        className="cursor-pointer p-0 text-center hover:bg-white disabled:cursor-not-allowed disabled:bg-white disabled:opacity-50"
         name={`btn-delete-user-${index + 1}`}
         type="button"
         variant="ghost"

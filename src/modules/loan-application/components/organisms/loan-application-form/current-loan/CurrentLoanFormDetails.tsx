@@ -25,7 +25,7 @@ export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
 
   return (
     <Card
-      className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none"
+      className="loan-application-item flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none"
       id="current-loans"
     >
       <h5 className="text-lg font-semibold">Current Loans</h5>
@@ -35,9 +35,9 @@ export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
         currentLoanForms?.map((currentLoanForm, index) => (
           <Card
             key={currentLoanForm.id}
-            className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto shadow-none"
+            className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none"
           >
-            <div className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
+            <div className="grid grid-cols-6 gap-x-4xl gap-y-2xl">
               <div className="col-span-6 text-xl font-semibold">
                 Loan #{index + 1}:
               </div>

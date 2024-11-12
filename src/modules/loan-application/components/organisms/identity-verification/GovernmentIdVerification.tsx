@@ -49,7 +49,7 @@ export function GovernmentIdVerification() {
   const headerTitle = <>Government ID {badge}</>
 
   const emptyInformation = (
-    <p className="text-center align-middle mt-12">
+    <p className="mt-12 text-center align-middle">
       There have been no successful Government ID Verifications.
     </p>
   )
@@ -80,7 +80,7 @@ export function GovernmentIdVerification() {
             />
           )}
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <SummaryItem
             subtitle1={joinString(
               passedGovVerification?.nameFirst,
@@ -105,7 +105,7 @@ export function GovernmentIdVerification() {
             title="Date of birth"
           />
         </div>
-        <div className=" my-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className=" my-6 grid grid-cols-2 gap-6 md:grid-cols-4">
           <SummaryItem
             subtitle1={
               passedGovVerification?.identificationNumber ??

@@ -215,7 +215,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
           <span className="block">
             What is the loan amount you are requesting?
           </span>
-          <span className="block mt-1 italic">
+          <span className="mt-1 block italic">
             (Please note, the actual loan amount you qualify for will be
             communicated by the lender.)
           </span>

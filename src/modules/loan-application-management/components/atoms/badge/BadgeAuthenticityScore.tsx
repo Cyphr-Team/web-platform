@@ -15,18 +15,18 @@ interface Props {
 }
 
 const generateTooltip = (header: string, content: string, cellText: string) => (
-  <div className="py-0 relative">
+  <div className="relative py-0">
     <TooltipProvider>
       <Tooltip delayDuration={0}>
         <TooltipTrigger>
-          <p className="px-0 text-sm font-normal text-text-tertiary border-b-2 border-slate-500 border-dashed">
+          <p className="border-b-2 border-dashed border-slate-500 px-0 text-sm font-normal text-text-tertiary">
             {cellText}
           </p>
         </TooltipTrigger>
         <TooltipContent className="z-10" side="left" sideOffset={5}>
-          <Card className="max-w-80 rounded-md shadow-2xl border-none md:p-4">
+          <Card className="max-w-80 rounded-md border-none shadow-2xl md:p-4">
             <CardHeader className="flex flex-row items-center justify-between md:p-0 md:pb-1">
-              <CardTitle className="text-sm font-semibold mt-0 mb-0 pb-0 ">
+              <CardTitle className="my-0 pb-0 text-sm font-semibold ">
                 {header}
               </CardTitle>
             </CardHeader>
@@ -58,7 +58,7 @@ export const BadgeAuthenticityScore: React.FC<Props> = ({ status, score }) => {
       return (
         <Badge
           isDot
-          className=" space-x-md px-0 bg-transparent"
+          className=" space-x-md bg-transparent px-0"
           isDotBefore={false}
           variantColor={getBadgeVariantByAuthenticityScore(score)}
         >

@@ -36,7 +36,7 @@ export function UserDetailListAction({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="text-center" size="icon" variant="ghost">
-          <MoreHorizontal className="w-5 h-5" />
+          <MoreHorizontal className="size-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48">

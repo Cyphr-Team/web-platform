@@ -70,11 +70,11 @@ export function DialogSendBulkInvite() {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button type="button">
-          <PlusCircle className="text-sm mr-1.5" size={16} />
+          <PlusCircle className="mr-1.5 text-sm" size={16} />
           Invite
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] max-h-full md:h-auto md:max-h-dvh overflow-y-auto">
+      <DialogContent className="max-h-full overflow-y-auto sm:max-w-[700px] md:h-auto md:max-h-dvh">
         <DialogHeader>
           <DialogTitle className="flex flex-row items-center">
             Invite members to LaunchKC
@@ -90,7 +90,7 @@ export function DialogSendBulkInvite() {
 
             <DialogFooter className="flex w-full">
               <Button
-                className="w-full mb-2"
+                className="mb-2 w-full"
                 type="button"
                 variant="outline"
                 onClick={() => setOpen(false)}
@@ -98,7 +98,7 @@ export function DialogSendBulkInvite() {
                 Cancel
               </Button>
               <ButtonLoading
-                className="w-full mb-2"
+                className="mb-2 w-full"
                 disabled={!form.formState.isValid}
                 isLoading={isPendingInputList}
                 type="submit"

@@ -55,7 +55,7 @@ function ButtonSort<TData, TValue>({
       className={cn("cursor-pointer flex gap-2 items-center")}
       onClick={handleSort}
     >
-      <Icon className="w-4 h-5" /> {label}
+      <Icon className="h-5 w-4" /> {label}
     </DropdownMenuItem>
   )
 }
@@ -85,7 +85,7 @@ function ButtonFilter<TData, TValue>({
       className={cn("cursor-pointer flex gap-2 items-center")}
       onClick={handleOpenFilter}
     >
-      <Icon className="w-4 h-5" /> {label}
+      <Icon className="h-5 w-4" /> {label}
     </DropdownMenuItem>
   )
 }
@@ -124,11 +124,11 @@ export function FilterableColumnHeader<TData, TValue>({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="flex text-black w-full rounded-0 font-semibold"
+            className="rounded-0 flex w-full font-semibold text-black"
             size="sm"
             variant="ghost"
           >
-            <span>{title}</span> <ListFilter className="w-4 h-4 ml-2" />
+            <span>{title}</span> <ListFilter className="ml-2 size-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

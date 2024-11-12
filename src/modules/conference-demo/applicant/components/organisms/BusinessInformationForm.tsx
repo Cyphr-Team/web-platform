@@ -158,7 +158,7 @@ function BusinessInformationForm({
         title="Business Information"
         wrapperClassName={wrapperClassName}
       >
-        <h5 className="text-lg font-semibold col-span-12">
+        <h5 className="col-span-12 text-lg font-semibold">
           Business Information
         </h5>
         {renderBlockComponents(blocks)}

@@ -7,7 +7,7 @@ export function CashFlowConnectedBadge() {
     <Badge
       isDot
       isDotBefore
-      className="capitalize text-sm rounded-full font-medium py-1 text-green-700 border-none"
+      className="rounded-full border-none py-1 text-sm font-medium capitalize text-green-700"
       variant="outline"
       variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.SUCCESS)}
     >
@@ -21,7 +21,7 @@ export function CashFlowPendingBadge() {
     <Badge
       isDot
       isDotBefore
-      className="capitalize text-sm rounded-full font-medium py-1"
+      className="rounded-full py-1 text-sm font-medium capitalize"
       variant="soft"
       variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
     >

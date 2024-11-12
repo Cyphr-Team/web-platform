@@ -34,7 +34,7 @@ export function BaseApplicationOverview() {
   }
 
   return (
-    <Card className="border-r-0 border-b-0 shadow-none bg-white">
+    <Card className="border-b-0 border-r-0 bg-white shadow-none">
       <div className="grid grid-cols-2">
         <InformationRow
           className="rounded-tl-md"

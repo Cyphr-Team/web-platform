@@ -28,10 +28,10 @@ export function LoadingWrapper(props: Props) {
   return (
     <div className={className}>
       {isLoading ? (
-        <div className="flex justify-center items-center relative h-full">
-          <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
-            <div className="sticky top-1/2 left-1/2 justify-center items-center flex flex-col w-full ">
-              <Loader2 className="w-10 h-10 animate-spin text-primary" />
+        <div className="relative flex h-full items-center justify-center">
+          <div className="absolute z-10 size-full rounded bg-zinc-50/50">
+            <div className="sticky left-1/2 top-1/2 flex w-full flex-col items-center justify-center ">
+              <Loader2 className="size-10 animate-spin text-primary" />
               {loadingMessage}
             </div>
           </div>

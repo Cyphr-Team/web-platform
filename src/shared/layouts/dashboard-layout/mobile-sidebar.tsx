@@ -19,7 +19,7 @@ export function MobileSidebar({ items }: MobileSidebarProps) {
       </SheetTrigger>
       <SheetContent className="!px-0" side="left">
         <div className="space-y-4 py-4">
-          <div className="px-3 py-2 flex flex-col gap-4">
+          <div className="flex flex-col gap-4 px-3 py-2">
             <LogoHeader className="ml-2" />
 
             <div className="space-y-1">

@@ -65,7 +65,7 @@ const columns: ColumnDef<BusinessSosDetail>[] = [
           {data.subStatus ? (
             <>
               <Dot
-                className="flex-shrink-0 self-start mt-1"
+                className="mt-1 shrink-0 self-start"
                 variantColor={getBadgeVariantByInsightStatus(
                   data.source.status
                 )}
@@ -95,7 +95,7 @@ export function Secretary() {
 
   const content = (
     <>
-      <div className="flex flex-col gap-y-lg my-4">
+      <div className="my-4 flex flex-col gap-y-lg">
         <p className="text-lg font-medium">Registration Status</p>
         <KybState sosFillings={sosFillings} />
       </div>

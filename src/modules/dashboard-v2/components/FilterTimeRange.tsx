@@ -120,25 +120,25 @@ export function FilterTimeRange() {
                     name="loanProgramIds"
                     options={loanProgramOptions}
                     prefixIcon={
-                      <ClipboardCheck className="w-5 h-5 text-muted-foreground mr-2" />
+                      <ClipboardCheck className="mr-2 size-5 text-muted-foreground" />
                     }
                   />
                 )}
               />
             )}
 
-            <div className="group date-select-coupling flex items-end">
+            <div className="date-select-coupling group flex items-end">
               <SelectTimeRange customOnChange={customSelectTimeRangeOnChange} />
 
               {showDatePicker ? (
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex flex-wrap items-center gap-2">
                   <FormField
                     control={form.control}
                     name="timeRange"
                     render={({ field: { value } }) => (
-                      <FormItem className="flex items-end space-y-0 gap-1">
+                      <FormItem className="flex items-end gap-1 space-y-0">
                         <DatePickerWithRange
-                          className="w-full mt-0 rounded-l-none"
+                          className="mt-0 w-full rounded-l-none"
                           date={value}
                           disabled={{
                             from: threeMonthsBefore

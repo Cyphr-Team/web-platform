@@ -227,7 +227,7 @@ export function SbbKycForm() {
             </h5>
             <Separator />
 
-            <form className="grid grid-cols-12 gap-y-2xl gap-x-4xl">
+            <form className="grid grid-cols-12 gap-x-4xl gap-y-2xl">
               {SBB_KYC_FORM_BLOCKS.map(({ type, props, name }) => {
                 if (
                   name === SBB_KYC_FIELD_NAMES.ADDRESS_LINE1 &&

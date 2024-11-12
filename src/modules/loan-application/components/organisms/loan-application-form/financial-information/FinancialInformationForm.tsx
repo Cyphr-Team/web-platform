@@ -146,15 +146,15 @@ export function FinancialInformationForm() {
         <h5 className="text-lg font-semibold">Financial Information</h5>
         <Separator />
         <Form {...form}>
-          <form className="flex flex-col gap-y-2xl gap-x-4xl">
+          <form className="flex flex-col gap-x-4xl gap-y-2xl">
             <FormItem>
-              <FormLabel className="text-sm text-text-secondary font-medium">
+              <FormLabel className="text-sm font-medium text-text-secondary">
                 How do you make money? (Check all that apply)
                 <RequiredSymbol />
               </FormLabel>
               {incomeCategories.isLoading ? (
                 <p>
-                  <Loader2 className="m-2 h-8 w-8 transition-all ease-out animate-spin text-primary" />
+                  <Loader2 className="m-2 size-8 animate-spin text-primary transition-all ease-out" />
                 </p>
               ) : (
                 items?.map((item) => (
@@ -171,7 +171,7 @@ export function FinancialInformationForm() {
                           <FormControl>
                             <Checkbox
                               checked={field.value?.includes(item.id)}
-                              className="w-5 h-5"
+                              className="size-5"
                               onCheckedChange={(checked) => {
                                 return checked
                                   ? field.onChange([...field.value, item.id])
@@ -197,7 +197,7 @@ export function FinancialInformationForm() {
               <FormMessage />
             </FormItem>
             <div className="flex flex-col gap-y-sm">
-              <p className="text-sm text-text-secondary font-medium">
+              <p className="text-sm font-medium text-text-secondary">
                 Connect your business accounts to report your cash flow and
                 income
               </p>
@@ -205,7 +205,7 @@ export function FinancialInformationForm() {
             </div>
           </form>
           <div className="flex flex-col gap-y-sm">
-            <p className="text-sm text-text-secondary font-medium">
+            <p className="text-sm font-medium text-text-secondary">
               Do you have any individual income to add? (if yes, upload W2s
               below)
             </p>

@@ -107,7 +107,7 @@ export function SetupProfileForm() {
   return (
     <div className="flex flex-col space-y-4">
       <Form {...form}>
-        <form className="space-y-5 w-full" onSubmit={handleSubmit}>
+        <form className="w-full space-y-5" onSubmit={handleSubmit}>
           {!!form.getValues("email") && (
             <FormField
               control={form.control}
@@ -117,7 +117,7 @@ export function SetupProfileForm() {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      className="text-base font-medium disabled:opacity-1 disabled:bg-muted"
+                      className="disabled:opacity-1 text-base font-medium disabled:bg-muted"
                       placeholder="Enter your email"
                       {...field}
                       disabled
@@ -213,7 +213,7 @@ export function SetupProfileForm() {
             ) : null}
 
             <ButtonLoading
-              className="w-full text-base mt-5"
+              className="mt-5 w-full text-base"
               disabled={isSuccess || isPending}
               isLoading={isPending}
               type="submit"

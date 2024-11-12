@@ -42,7 +42,7 @@ export function FoundersInput() {
   }
 
   return (
-    <Card className="flex flex-col gap-2xl p-xl rounded-lg h-fit">
+    <Card className="flex h-fit flex-col gap-2xl rounded-lg p-xl">
       <h5 className="text-sm font-semibold">
         For each founder, describe the following:
       </h5>
@@ -55,7 +55,7 @@ export function FoundersInput() {
         />
       ))}
       <Button
-        className="w-min ml-auto border-black gap-2"
+        className="ml-auto w-min gap-2 border-black"
         type="button"
         variant="outline"
         onClick={handleAddFounder}
@@ -79,8 +79,8 @@ const EditFounder = memo((props: EditFounderProps) => {
 
   return (
     <div key={value.id} className="flex flex-col gap-2">
-      <div className="flex justify-between items-center">
-        <h5 className="font-semibold text-sm">FOUNDER #{index + 1}</h5>
+      <div className="flex items-center justify-between">
+        <h5 className="text-sm font-semibold">FOUNDER #{index + 1}</h5>
         {form.getValues("founders").length > 1 && (
           <Button
             className="p-4"

@@ -50,7 +50,7 @@ export function SelfieVerification() {
   const headerTitle = <>Selfie verification {badge}</>
 
   const emptyInformation = (
-    <p className="text-center align-middle mt-12">
+    <p className="mt-12 text-center align-middle">
       There have been no successful Selfie Verifications
     </p>
   )

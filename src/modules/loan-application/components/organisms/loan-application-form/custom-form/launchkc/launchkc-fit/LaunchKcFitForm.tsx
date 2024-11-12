@@ -102,7 +102,7 @@ export function LaunchKCFitForm() {
             render={({ field }) => (
               <FormItem className="flex items-center justify-between">
                 <FormLabel className="text-text-secondary">
-                  <p className="text-sm text-text-secondary font-medium">
+                  <p className="text-sm font-medium text-text-secondary">
                     Have you applied to LaunchKC previously?
                   </p>
                 </FormLabel>
@@ -114,7 +114,7 @@ export function LaunchKCFitForm() {
                       field.onChange(value === "yes")
                     }}
                   >
-                    <SelectTrigger className="text-sm col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto">
+                    <SelectTrigger className="col-span-6 max-w-40 text-sm xl:col-span-2 xl:col-end-7 xl:ml-auto">
                       <SelectValue placeholder="Please select" />
                     </SelectTrigger>
                     <SelectContent>

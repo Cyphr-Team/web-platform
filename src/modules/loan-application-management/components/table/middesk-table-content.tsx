@@ -24,12 +24,9 @@ export function MiddeskTableContent<TData extends MiddeskTableContentReport>({
         const data = row.original
 
         return (
-          <div className="min-w-0 flex items-center">
-            <Dot
-              className="flex-shrink-0 self-start mt-1"
-              variantColor="green"
-            />
-            <p className="text-base truncate overflow-ellipsis overflow-visible whitespace-normal break-words max-w-full">
+          <div className="flex min-w-0 items-center">
+            <Dot className="mt-1 shrink-0 self-start" variantColor="green" />
+            <p className="max-w-full overflow-visible truncate whitespace-normal break-words text-base">
               {data?.name ?? "-"}
             </p>
           </div>

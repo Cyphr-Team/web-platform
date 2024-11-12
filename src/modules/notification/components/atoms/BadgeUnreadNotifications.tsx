@@ -9,7 +9,7 @@ export function BadgeUnreadNotifications({ unreadCount }: Props) {
 
   return (
     <Badge
-      className="flex p-0 h-4 w-4 justify-center"
+      className="flex size-4 justify-center p-0"
       style={{ padding: unreadCount > 9 ? "10px" : "8px" }}
       variant="solid"
       variantColor="red"

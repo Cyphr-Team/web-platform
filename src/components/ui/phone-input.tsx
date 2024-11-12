@@ -33,11 +33,11 @@ function CountrySelect({ value, onChange, labels = en }: CountrySelectProps) {
       <PopoverTrigger asChild>
         <Button
           aria-expanded={open}
-          className="justify-between border-r-0 rounded-r-none px-2 font-normal text-sm"
+          className="justify-between rounded-r-none border-r-0 px-2 text-sm font-normal"
           variant="outline"
         >
           {value}
-          <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
+          <ChevronDown className="size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="p-0" side="bottom">
@@ -76,7 +76,7 @@ const CustomPhoneInput = React.forwardRef<HTMLInputElement, InputProps>(
       <Input
         ref={ref}
         {...props}
-        className="border-l-0 rounded-lg rounded-l-none pl-1 text-sm"
+        className="rounded-lg rounded-l-none border-l-0 pl-1 text-sm"
         maxLength={15}
         wrapperClassName="w-full"
       />

@@ -7,7 +7,7 @@ export function Component() {
   const breadcrumbs = useBreadcrumb()
 
   return (
-    <div className="mx-auto p-6 pt-6 md:p-8">
+    <div className="mx-auto p-6 md:p-8">
       <div className="mb-3xl">
         <Breadcrumbs breads={breadcrumbs} className="px-0" />
       </div>

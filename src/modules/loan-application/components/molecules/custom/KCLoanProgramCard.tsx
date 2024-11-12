@@ -28,19 +28,19 @@ export function KCLoanProgramCard({
     <Card className={cn(className, "flex flex-col rounded-2xl")} {...props}>
       <CardHeader className="space-y-5 pb-0 md:pb-0">
         <CardTitle className="tracking-normal">
-          <p className="text-sm mb-0.5 capitalize" id="loan-type">
+          <p className="mb-0.5 text-sm capitalize" id="loan-type">
             {KCC_LENDER_FORUM_PROGRAM.name}
           </p>
           <p className="font-bold">{loanProgram.name}</p>
         </CardTitle>
 
         {!!loanProgram.description && (
-          <CardDescription className="text-foreground flex items-center">
+          <CardDescription className="flex items-center text-foreground">
             <span
               dangerouslySetInnerHTML={{
                 __html: sanitizeDOM(loanProgram.description)
               }}
-              className="text-lg whitespace-pre-wrap"
+              className="whitespace-pre-wrap text-lg"
             />
           </CardDescription>
         )}
@@ -54,7 +54,7 @@ export function KCLoanProgramCard({
             )}
           >
             Start Application
-            <ArrowRight className="ml-1 h-4 w-4" />
+            <ArrowRight className="ml-1 size-4" />
           </Link>
         </Button>
       </CardFooter>

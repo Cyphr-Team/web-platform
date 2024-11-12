@@ -35,12 +35,12 @@ export function Insights() {
       : 7
 
   return (
-    <Card className="h-fit lg:sticky top-0 z-10 mb-4 flex-shrink-0">
-      <CardHeader className="!pb-0 px-0 md:px-0">
-        <CardTitle className="font-bold text-base flex justify-between items-center px-4">
+    <Card className="top-0 z-10 mb-4 h-fit shrink-0 lg:sticky">
+      <CardHeader className="px-0 !pb-0 md:px-0">
+        <CardTitle className="flex items-center justify-between px-4 text-base font-bold">
           <div>Insights</div>
           {isLoading ? (
-            <Skeleton className="w-16 h-4" />
+            <Skeleton className="h-4 w-16" />
           ) : (
             <div>
               {numberOfSuccess}/{insightsTotal}
@@ -49,7 +49,7 @@ export function Insights() {
         </CardTitle>
         <Separator />
       </CardHeader>
-      <CardContent className="w-full lg:w-[300px] !p-4 !pt-0">
+      <CardContent className="w-full !p-4 !pt-0 lg:w-[300px]">
         <InsightItem
           href={INSIGHT_TOC.businessName}
           isLoading={isLoading}

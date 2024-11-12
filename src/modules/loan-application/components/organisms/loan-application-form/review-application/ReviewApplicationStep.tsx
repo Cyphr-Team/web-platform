@@ -126,7 +126,7 @@ export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(
     if (!componentByStep) return null
 
     return (
-      <div ref={ref} className="w-full h-full">
+      <div ref={ref} className="size-full">
         {componentByStep}
       </div>
     )

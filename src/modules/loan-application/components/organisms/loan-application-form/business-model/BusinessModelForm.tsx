@@ -70,7 +70,7 @@ export function BusinessModelForm() {
       title="Business Model"
     >
       <h5 className="text-lg font-semibold">Business Model</h5>
-      <p className="text-sm text-text-secondary font-normal">
+      <p className="text-sm font-normal text-text-secondary">
         This data is being collected for the sole purpose of this application.
         It will remain confidential and not be distributed in any way.
       </p>
@@ -90,7 +90,7 @@ export function BusinessModelForm() {
           ))}
           <RHFCurrencyInput
             key="annualPayroll"
-            className="flex flex-row items-center w-full justify-between"
+            className="flex w-full flex-row items-center justify-between"
             label="What is your annual payroll?"
             name="annualPayroll"
             placeholder="i.e: 55,000"

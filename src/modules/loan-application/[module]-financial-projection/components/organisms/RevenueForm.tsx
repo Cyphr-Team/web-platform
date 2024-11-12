@@ -162,7 +162,7 @@ function RevenueForm() {
           onOpenChange={dialog.setValue}
         />
 
-        <div className="flex flex-col gap-y-4xl mb-4">
+        <div className="mb-4 flex flex-col gap-y-4xl">
           {canRender(RevenueType.UnitSales) ? (
             <UnitSalesForm onBlur={onBlur} />
           ) : null}
@@ -178,8 +178,8 @@ function RevenueForm() {
         </div>
 
         {isFormDirty ? (
-          <div className="w-full flex flex-row-reverse mb-4">
-            <Button className="py-2 my-2" type="button" onClick={dialog.onTrue}>
+          <div className="mb-4 flex w-full flex-row-reverse">
+            <Button className="my-2 py-2" type="button" onClick={dialog.onTrue}>
               + Another revenue type
             </Button>
           </div>

@@ -24,8 +24,8 @@ export function AverageApprovedLoanSizeChart() {
       : formatChartMonthly
 
   return (
-    <div className="bg-white p-4 md:p-6 rounded-xl border flex-1">
-      <div className="flex gap-2 items-center mb-8">
+    <div className="flex-1 rounded-xl border bg-white p-4 md:p-6">
+      <div className="mb-8 flex items-center gap-2">
         <h2 className="text-xl text-zinc-500">Average Approved Loan Amount</h2>
         <ChartHintToolTip
           formula="Total Loan Volume Approved / Approved Apps"
@@ -50,7 +50,7 @@ export function AverageApprovedLoanSizeChart() {
         />
       </div>
 
-      <div className="w-full h-[400px]">
+      <div className="h-[400px] w-full">
         <ResponsiveContainer height="100%" width="100%">
           <ComposedChart
             data={

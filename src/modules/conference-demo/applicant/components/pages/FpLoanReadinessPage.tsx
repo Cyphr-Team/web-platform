@@ -4,7 +4,7 @@ import { Drawer } from "@/modules/conference-demo/applicant/components/molecules
 export function Component() {
   return (
     <div className="flex flex-col gap-y-2xl">
-      <div className="w-full flex gap-2 justify-end items-center">
+      <div className="flex w-full items-center justify-end gap-2">
         <Drawer />
       </div>
 

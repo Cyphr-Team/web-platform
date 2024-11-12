@@ -8,13 +8,13 @@ interface Props {
   index: string
 }
 const FileCard: React.FC<Props> = ({ file, index }) => (
-  <Card key={index} className="p-xl gap-2xl flex">
+  <Card key={index} className="flex gap-2xl p-xl">
     <div className="flex">
       <DownloadDocumentButton
         documentId={file.id}
         fileName={file.originFileName}
       />
-      <img alt="file" className="logo w-8 h-8" src={fileIcon} />
+      <img alt="file" className="logo size-8" src={fileIcon} />
     </div>
     <p className="text-sm">{file.originFileName}</p>
   </Card>
@@ -31,9 +31,9 @@ export function DocumentationDetails() {
           <h3 className="text-2xl font-semibold">Documentation</h3>
         </div>
       </div>
-      <div className="col-span-3 gap-2xl flex flex-col max-w-screen-sm">
+      <div className="col-span-3 flex max-w-screen-sm flex-col gap-2xl">
         {!!kycDocuments?.length && (
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+          <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">
             <h5 className="text-lg font-semibold">Government ID</h5>
             <div className="flex flex-col gap-y-2xl">
               {kycDocuments?.map((val) => (
@@ -43,7 +43,7 @@ export function DocumentationDetails() {
           </Card>
         )}
         {!!financialDocuments?.length && (
-          <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto">
+          <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">
             <h5 className="text-lg font-semibold">Financial Documents</h5>
             <div className="flex flex-col gap-y-2xl">
               {financialDocuments?.length ? (

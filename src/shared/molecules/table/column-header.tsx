@@ -39,22 +39,22 @@ export function DataTableColumnHeader<TData, TValue>({
             <span>{title}</span>
             <span data-html2canvas-ignore>
               {column.getIsSorted() === "desc" ? (
-                <ChevronDown className="ml-2 h-4 w-4" />
+                <ChevronDown className="ml-2 size-4" />
               ) : column.getIsSorted() === "asc" ? (
-                <ChevronUp className="ml-2 h-4 w-4" />
+                <ChevronUp className="ml-2 size-4" />
               ) : (
-                <ChevronsUpDown className="ml-2 h-4 w-4" />
+                <ChevronsUpDown className="ml-2 size-4" />
               )}
             </span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ChevronUp className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            <ChevronUp className="mr-2 size-3.5 text-muted-foreground/70" />
             Asc
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ChevronDown className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            <ChevronDown className="mr-2 size-3.5 text-muted-foreground/70" />
             Desc
           </DropdownMenuItem>
         </DropdownMenuContent>

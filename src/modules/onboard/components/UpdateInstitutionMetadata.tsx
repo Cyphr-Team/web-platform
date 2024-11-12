@@ -20,8 +20,8 @@ export function UpdateInstitutionMetadata({
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-xl font-medium mb-4">Update Institution Metadata</h1>
-      <div className="flex flex-col gap-4 flex-shrink-0 w-full">
+      <h1 className="mb-4 text-xl font-medium">Update Institution Metadata</h1>
+      <div className="flex w-full shrink-0 flex-col gap-4">
         <FormField
           control={form.control}
           name="supportEmail"

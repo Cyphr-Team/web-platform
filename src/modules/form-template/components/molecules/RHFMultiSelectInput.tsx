@@ -56,7 +56,7 @@ function RHFMultiSelectInput<T extends FieldValues>(
               <FormControl>
                 <Checkbox
                   checked={field.value?.includes(option.value)}
-                  className="w-5 h-5 text-rich-black border-rich-black"
+                  className="text-rich-black border-rich-black size-5"
                   onCheckedChange={(checked) => {
                     return checked
                       ? field.onChange([...field.value, option.value])
@@ -82,11 +82,11 @@ function RHFMultiSelectInput<T extends FieldValues>(
 
   return (
     <FormItem className={className}>
-      <FormLabel className="text-sm text-text-secondary font-medium">
+      <FormLabel className="text-sm font-medium text-text-secondary">
         <p>
           {label}
           {subLabel ? (
-            <span className="text-text-tertiary italic font-light">
+            <span className="font-light italic text-text-tertiary">
               {subLabel}
             </span>
           ) : null}
@@ -94,7 +94,7 @@ function RHFMultiSelectInput<T extends FieldValues>(
         </p>
 
         {subtitle ? (
-          <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+          <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
         ) : null}
       </FormLabel>
       {options.map((option, index) => renderOption(option, index))}

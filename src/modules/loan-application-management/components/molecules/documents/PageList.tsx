@@ -7,7 +7,7 @@ interface Props {
 
 export const PageList: React.FC<Props> = ({ visualizationsByPage }) => {
   return (
-    <div className="flex flex-col h-full overflow-auto gap-2 w-48">
+    <div className="flex h-full w-48 flex-col gap-2 overflow-auto">
       {visualizationsByPage
         ? visualizationsByPage.map((pagePreview, index) => (
             <PagePreview key={index} pagePreview={pagePreview} />

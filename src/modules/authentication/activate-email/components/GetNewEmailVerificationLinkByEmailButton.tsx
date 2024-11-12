@@ -33,7 +33,7 @@ export function GetNewEmailVerificationLinkByEmailButton({
   return (
     <div className="flex flex-col space-y-6">
       <Form {...form}>
-        <form className="space-y-4 w-full" onSubmit={formSubmit}>
+        <form className="w-full space-y-4" onSubmit={formSubmit}>
           <ButtonLoading
             className="ml-auto w-full text-base"
             isLoading={isPending}

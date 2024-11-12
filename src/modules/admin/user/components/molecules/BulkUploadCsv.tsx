@@ -46,25 +46,25 @@ const UPLOAD_STATUS = {
     name: "SUCCESS",
     message: "All records have been successfully added.",
     color: "bg-green-200",
-    icon: <CheckCircle className="text-green-600 mr-2" />
+    icon: <CheckCircle className="mr-2 text-green-600" />
   },
   VALIDATION_FAILED: {
     name: "VALIDATION_FAILED",
     message: "There were errors with your CSV. Please try again.",
     color: "bg-red-200",
-    icon: <AlertOctagon className="text-red-600 mr-2" />
+    icon: <AlertOctagon className="mr-2 text-red-600" />
   },
   SENDING_FAILED: {
     name: "SENDING_FAILED",
     message: "All invitations are failed to send. Please review the errors.",
     color: "bg-red-200",
-    icon: <AlertOctagon className="text-red-600 mr-2" />
+    icon: <AlertOctagon className="mr-2 text-red-600" />
   },
   SENDING_PARTIAL: {
     name: "SENDING_PARTIAL",
     message: "The CSV is partially uploaded. Please review the errors.",
     color: "bg-yellow-200",
-    icon: <AlertTriangle className="text-yellow-600 mr-2" />
+    icon: <AlertTriangle className="mr-2 text-yellow-600" />
   },
   UNKNOWN: {
     name: "UNKNOWN",
@@ -163,12 +163,12 @@ export function BulkUploadCsv() {
           <div className="self-start">{uploadStatus?.icon}</div>
           <div className="flex flex-col self-start">
             <div className="flex flex-row self-start">
-              <span className="font-bold mr-1">CSV: </span>
+              <span className="mr-1 font-bold">CSV: </span>
               <span>
                 {uploadStatus.message}
                 {data ? (
                   <Button
-                    className="p-0 px-1 pt-0.5 h-7 font-medium underline items-start"
+                    className="h-7 items-start p-0 px-1 pt-0.5 font-medium underline"
                     variant="link"
                     onClick={downloadCsv}
                   >
@@ -192,27 +192,24 @@ export function BulkUploadCsv() {
       )}
       <Accordion
         collapsible
-        className="border border-dashed px-2 rounded-md h-fit"
+        className="h-fit rounded-md border border-dashed px-2"
         type="single"
       >
         <AccordionItem className="border-0" value="csv-upload-instructions">
-          <AccordionTrigger className="flex flex-1 w-full items-center justify-between group hover:no-underline">
-            <div className="flex text-base items-center font-light">
-              <span className="text-base font-light align-start text-wrap text-left flex flex-col md:flex-row align-center md:space-x-1">
-                <span className="font-semibold mr-1">Tip: </span> Inviting more
+          <AccordionTrigger className="group flex w-full flex-1 items-center justify-between hover:no-underline">
+            <div className="flex items-center text-base font-light">
+              <span className="align-start align-center flex flex-col text-wrap text-left text-base font-light md:flex-row md:space-x-1">
+                <span className="mr-1 font-semibold">Tip: </span> Inviting more
                 than 10 people at once?{" "}
                 <span className="flex flex-row">
-                  <span className="underline font-semibold">Upload CSV</span>
+                  <span className="font-semibold underline">Upload CSV</span>
                   <TooltipProvider delayDuration={0}>
                     <Tooltip>
                       <TooltipTrigger className="ml-2">
                         <Info size={20} />
                       </TooltipTrigger>
-                      <TooltipContent
-                        className="bg-black transform"
-                        sideOffset={0}
-                      >
-                        <div className="text-white max-w-72 font-light">
+                      <TooltipContent className="bg-black" sideOffset={0}>
+                        <div className="max-w-72 font-light text-white">
                           Maximum of 100 emails per session
                         </div>
                       </TooltipContent>
@@ -224,41 +221,41 @@ export function BulkUploadCsv() {
           </AccordionTrigger>
 
           <AccordionContent>
-            <ol className="text-base list-decimal list-inside space-y-2">
-              <li className="md:items-center flex flex-col md:flex-row mt-2 w-full justify-between">
-                <span className="font-semibold text-base">
+            <ol className="list-inside list-decimal space-y-2 text-base">
+              <li className="mt-2 flex w-full flex-col justify-between md:flex-row md:items-center">
+                <span className="text-base font-semibold">
                   Step 1: Download the template
                 </span>
                 <ButtonLoading
-                  className="ml-2 my-2 md:my-0 p-2"
+                  className="my-2 ml-2 p-2 md:my-0"
                   isLoading={downloadFile.isLoading}
                   variant="outline"
                   onClick={handleClickDownload}
                 >
                   <span
-                    className="items-center inline-flex"
+                    className="inline-flex items-center"
                     id="default-message"
                   >
                     <Download size={15} />
-                    <span className="text-sm font-medium ml-2">
+                    <span className="ml-2 text-sm font-medium">
                       Download template
                     </span>
                   </span>
                 </ButtonLoading>
               </li>
-              <li className="flex flex-col my-2">
-                <span className="font-semibold text-base">
+              <li className="my-2 flex flex-col">
+                <span className="text-base font-semibold">
                   Step 2: Fill out the template
                 </span>
-                <ul className="list-none list-inside space-y-1 text-base mt-1">
-                  <li className="ml-2 font-light text-sm">
+                <ul className="mt-1 list-inside list-none space-y-1 text-base">
+                  <li className="ml-2 text-sm font-light">
                     <span className="font-medium">Email:</span> Member’s Email
                     Address
                   </li>
                   <li className="ml-2">
                     <Accordion collapsible defaultValue="roles" type="single">
                       <AccordionItem className="border-0" value="roles">
-                        <AccordionTrigger className="py-1 flex flex-auto w-full items-start md:items-center justify-start md:justify-between group hover:no-underline">
+                        <AccordionTrigger className="group flex w-full flex-auto items-start justify-start py-1 hover:no-underline md:items-center md:justify-between">
                           <span className="align-start text-wrap text-left font-light">
                             <span className="font-semibold">Role:</span> Add
                             member’s role based on the following roles
@@ -266,7 +263,7 @@ export function BulkUploadCsv() {
                         </AccordionTrigger>
                         <AccordionContent>
                           <ul className="list-inside space-y-1">
-                            <li className="ml-4 font-light -mt-1">
+                            <li className="-mt-1 ml-4 font-light">
                               <span className="font-medium">
                                 Workspace Admin:
                               </span>{" "}
@@ -288,22 +285,22 @@ export function BulkUploadCsv() {
                   </li>
                 </ul>
               </li>
-              <li className="md:items-center flex flex-col md:flex-row mt-2 w-full justify-between">
+              <li className="mt-2 flex w-full flex-col justify-between md:flex-row md:items-center">
                 <span className="font-bold">
                   Step 3: Upload your files to send out the invites
                 </span>
                 <ButtonLoading
-                  className="ml-2 my-2 md:my-0 p-2"
+                  className="my-2 ml-2 p-2 md:my-0"
                   isLoading={uploadStatus === UPLOAD_STATUS.UPLOADING}
                   variant="outline"
                   onClick={handleCsvFileInputClick}
                 >
                   <span
-                    className="items-center inline-flex"
+                    className="inline-flex items-center"
                     id="default-message"
                   >
                     <Upload size={15} />
-                    <span className="text-sm font-medium ml-2">
+                    <span className="ml-2 text-sm font-medium">
                       Begin import
                     </span>
                   </span>

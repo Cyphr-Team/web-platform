@@ -100,7 +100,7 @@ export function SbbKycFormDetails({ kycFormData }: KycFormDetailsProps) {
   }
 
   return (
-    <div className="border rounded-lg">
+    <div className="rounded-lg border">
       <SbbReviewSectionLayout className="border-0">
         <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
         <Separator />

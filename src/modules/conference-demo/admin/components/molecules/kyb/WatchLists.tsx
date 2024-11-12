@@ -27,7 +27,7 @@ const columns: ColumnDef<
       return (
         <div className="flex items-start">
           <Dot
-            className="flex-shrink-0 self-start mt-1"
+            className="mt-1 shrink-0 self-start"
             variantColor={getBadgeVariantByInsightStatus(data?.status)}
           />
           <p>{data?.businessName ?? "-"}</p>
@@ -45,7 +45,7 @@ const columns: ColumnDef<
         <div className="flex items-start">
           {data?.people ? (
             <Dot
-              className="flex-shrink-0 self-start mt-1"
+              className="mt-1 shrink-0 self-start"
               variantColor={getBadgeVariantByInsightStatus(data?.status)}
             />
           ) : null}

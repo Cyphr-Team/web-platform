@@ -28,7 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={cn("relative", wrapperClassName)}>
         {prefixIcon ? (
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-text-tertiary">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-text-tertiary">
             {prefixIcon}
           </div>
         ) : null}
@@ -74,7 +74,7 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="relative">
         <Input ref={ref} type={inputType} {...props} />
         <Button
-          className="absolute inset-y-0 right-0 rounded-md border border-input px-2 border-l rounded-l-none"
+          className="absolute inset-y-0 right-0 rounded-md rounded-l-none border border-input px-2"
           tabIndex={-1}
           type="button"
           variant="ghost"

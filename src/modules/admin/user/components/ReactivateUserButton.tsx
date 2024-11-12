@@ -39,7 +39,7 @@ export function ButtonReactivateUser({ userId }: { userId: string }) {
       onConfirmed={handleReactivateUser}
     >
       <ButtonLoading
-        className="text-green-900 p-2 space-x-2 flex flex-row w-full"
+        className="flex w-full flex-row space-x-2 p-2 text-green-900"
         disabled={isConfirmed}
         id={userId}
         isLoading={isPending}
@@ -56,7 +56,7 @@ export function ButtonReactivateUser({ userId }: { userId: string }) {
       >
         {!isPending && (
           <>
-            <PlusCircle className="w-5 h-5" />
+            <PlusCircle className="size-5" />
             <span>Reactivate</span>
           </>
         )}

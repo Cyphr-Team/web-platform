@@ -35,14 +35,14 @@ export function Component() {
     <>
       <ApplicationDetailsHeader />
       <Progress
-        className="h-2 rounded-none bg-background-disabled overflow-visible z-30 relative"
+        className="relative z-30 h-2 overflow-visible rounded-none bg-background-disabled"
         indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
         value={percentComplete}
       />
 
       {isFetchingDetails ? (
-        <div className="w-full h-full flex justify-center items-center">
-          <Loader2 className="m-2 h-8 w-8 transition-all ease-out animate-spin text-primary" />
+        <div className="flex size-full items-center justify-center">
+          <Loader2 className="m-2 size-8 animate-spin text-primary transition-all ease-out" />
         </div>
       ) : null}
       <LoanProgramDetailProvider>
@@ -54,7 +54,7 @@ export function Component() {
           )}
         >
           <LoadingOverlay isLoading={isSubmitting}>
-            <div className="grid grid-cols-8 w-full">{componentByStep}</div>
+            <div className="grid w-full grid-cols-8">{componentByStep}</div>
             {(isEnableChatSupport() || isCyphrBank()) && <ChatSupportButton />}
           </LoadingOverlay>
         </div>

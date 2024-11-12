@@ -18,7 +18,7 @@ export function FoundersDetails({ data }: Props) {
       {data?.map((founder, index) => (
         <div key={founder.id} className="flex flex-col gap-2xl">
           <h5 className="text-sm font-semibold">FOUNDER #{index + 1}</h5>
-          <div className="flex flex-col gap-y-2xl gap-x-4xl">
+          <div className="flex flex-col gap-x-4xl gap-y-2xl">
             <div className="flex flex-col gap-y-4xl">
               <AnswersTextDisplay
                 key={`${founder.id}-name`}

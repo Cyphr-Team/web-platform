@@ -9,13 +9,13 @@ export const DocumentSignalsDetect: React.FC = () => {
   const authenticityData = documentDetails?.detect.formAuthenticity
 
   return (
-    <div className="flex flex-col lg:w-96 gap-3 overflow-y-auto">
+    <div className="flex flex-col gap-3 overflow-y-auto lg:w-96">
       {!!authenticityData && (
         <AuthenticityScore authenticity={authenticityData} />
       )}
       <div className="flex flex-col">
         {!!signalsData?.length && (
-          <p className="text-sm text-text-secondary py-3">
+          <p className="py-3 text-sm text-text-secondary">
             {signalsData?.length} Signals in Document
           </p>
         )}

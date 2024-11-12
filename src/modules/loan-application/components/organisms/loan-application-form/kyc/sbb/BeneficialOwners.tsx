@@ -84,7 +84,7 @@ export function BeneficialOwnersInput() {
   ])
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit">
+    <Card className="flex h-fit flex-col gap-2xl rounded-lg p-4xl">
       <h5 className="text-lg font-semibold">Beneficial Owners </h5>
       <Separator />
       <RHFSelectInput
@@ -113,7 +113,7 @@ interest of the company. We are required to include all beneficial owners on you
             />
           ))}
           <Button
-            className="w-min ml-auto border-black gap-2"
+            className="ml-auto w-min gap-2 border-black"
             type="button"
             variant="outline"
             onClick={handleAddOwner}
@@ -144,10 +144,10 @@ function EditOwner(props: EditOwnerProps) {
   return (
     <Card
       key={value.id}
-      className="p-4xl rounded-lg flex flex-col gap-2 shadow-none"
+      className="flex flex-col gap-2 rounded-lg p-4xl shadow-none"
     >
-      <div className="flex justify-between items-center">
-        <h5 className="font-semibold text-sm">Owner {index + 1}</h5>
+      <div className="flex items-center justify-between">
+        <h5 className="text-sm font-semibold">Owner {index + 1}</h5>
         {totalOwners > 1 && (
           <Button
             className="p-4"
@@ -241,8 +241,8 @@ const OwnerDetails = memo(
 
     return (
       <div key={index} className="flex flex-col gap-4">
-        <div className="flex justify-between items-center">
-          <h5 className="font-semibold text-sm">Owner {index + 1}</h5>
+        <div className="flex items-center justify-between">
+          <h5 className="text-sm font-semibold">Owner {index + 1}</h5>
         </div>
         <AnswersTextDisplay
           className="!flex-row justify-between"

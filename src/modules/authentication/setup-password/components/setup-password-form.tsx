@@ -34,7 +34,7 @@ function ResetPasswordForm() {
 
   return (
     <form
-      className="space-y-5 w-full"
+      className="w-full space-y-5"
       onSubmit={handleSubmit((data) =>
         mutate(data, {
           onSuccess() {
@@ -104,7 +104,7 @@ function ResetPasswordForm() {
           variant="outline"
         >
           <Link className="flex items-center" to={APP_PATH.FORGOT_PASSWORD}>
-            <ArrowLeft className="w-5 h-5 mr-1" />
+            <ArrowLeft className="mr-1 size-5" />
             Back to forgot password
           </Link>
         </Button>
@@ -125,7 +125,7 @@ function SuccessReset() {
   const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col space-y-5 w-full items-center">
+    <div className="flex w-full flex-col items-center space-y-5">
       <Button
         className="ml-auto w-full text-base"
         type="button"
@@ -160,11 +160,11 @@ export function SetupPasswordForm() {
       {!successMsg && (
         <Button
           asChild
-          className="px-1 text-sm text-foreground py-0 self-center"
+          className="self-center px-1 py-0 text-sm text-foreground"
           variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
-            <ArrowLeft className="w-5 h-5 mr-1" />
+            <ArrowLeft className="mr-1 size-5" />
             Back to log in
           </Link>
         </Button>

@@ -18,8 +18,8 @@ export function MiddeskCard({
     <div id={id}>
       <Card className="shadow-none">
         <CardHeader className="border-b px-8 md:py-4">
-          <div className="flex justify-between items-center flex-wrap gap-1">
-            <CardTitle className="font-semibold text-2xl flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-1">
+            <CardTitle className="flex items-center gap-3 text-2xl font-semibold">
               {headerTitle}
             </CardTitle>
 

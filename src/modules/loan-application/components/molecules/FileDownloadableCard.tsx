@@ -10,9 +10,9 @@ interface Props {
 
 export const FileDownloadableCard: FC<Props> = ({ file }) => {
   return (
-    <Card key={file.id} className="p-xl gap-2xl flex shadow-none items-center">
-      <img alt="file" className="logo w-8 h-8" src={fileIcon} />
-      <div className="text-sm flex items-center h-full">
+    <Card key={file.id} className="flex items-center gap-2xl p-xl shadow-none">
+      <img alt="file" className="logo size-8" src={fileIcon} />
+      <div className="flex h-full items-center text-sm">
         {file.originFileName}
       </div>
       {/*TODO: handle download file*/}

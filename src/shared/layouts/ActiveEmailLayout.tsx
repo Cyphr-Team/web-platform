@@ -9,18 +9,18 @@ export function ActiveEmailLayout() {
 
   return (
     <>
-      <header className="fixed p-3 md:p-8 flex justify-between items-center w-full md:w-auto z-20 bg-white gap-2">
+      <header className="fixed z-20 flex w-full items-center justify-between gap-2 bg-white p-3 md:w-auto md:p-8">
         <div>
           <LogoHeader />
         </div>
 
         {tenantData?.supportEmail ? (
-          <div className="block md:hidden text-sm text-text-tertiary">
+          <div className="block text-sm text-text-tertiary md:hidden">
             <a
               className="flex items-center gap-2"
               href={SUPPORT_EMAIL(tenantData.supportEmail)}
             >
-              <Mail className="w-4 h-4" /> {tenantData.supportEmail}
+              <Mail className="size-4" /> {tenantData.supportEmail}
             </a>
           </div>
         ) : null}
@@ -33,7 +33,7 @@ export function ActiveEmailLayout() {
       <footer className="hidden md:block">
         <div className="text-sm text-text-tertiary">
           {tenantData?.name ? (
-            <div className="capitalize absolute bottom-8 left-8">
+            <div className="absolute bottom-8 left-8 capitalize">
               © {tenantData?.name} 2024
             </div>
           ) : null}
@@ -44,7 +44,7 @@ export function ActiveEmailLayout() {
                 className="flex items-center gap-2"
                 href={SUPPORT_EMAIL(tenantData.supportEmail)}
               >
-                <Mail className="w-4 h-4" /> {tenantData.supportEmail}
+                <Mail className="size-4" /> {tenantData.supportEmail}
               </a>
             </div>
           ) : null}

@@ -32,7 +32,7 @@ export function KycFormDetails({ kycFormData }: KycFormDetailsProps) {
   }
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
+    <Card className="loan-application-item flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none">
       <h5 className="text-lg font-semibold">Owner / Guarantor Information</h5>
       <Separator />
       {isLaunchKC() ? (
@@ -182,7 +182,7 @@ export function KycFormDetails({ kycFormData }: KycFormDetailsProps) {
           />
         </div>
       ) : (
-        <div className="grid grid-cols-6 gap-y-2xl gap-x-4xl">
+        <div className="grid grid-cols-6 gap-x-4xl gap-y-2xl">
           <TextInputDisplay
             className="col-span-3"
             label="Full name"

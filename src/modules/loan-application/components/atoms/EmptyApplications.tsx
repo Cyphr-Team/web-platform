@@ -13,25 +13,25 @@ export function EmptyApplications({
   linkTo
 }: EmptyApplicationsProps) {
   return (
-    <div className="flex flex-col items-center text-center justify-center max-w-80 mx-auto gap-xl mt-5xl">
-      <div className="border-2 w-12 h-12 rounded-xl flex items-center">
-        <HelpCircle className="w-6 h-6 mx-auto" />
+    <div className="mx-auto mt-5xl flex max-w-80 flex-col items-center justify-center gap-xl text-center">
+      <div className="flex size-12 items-center rounded-xl border-2">
+        <HelpCircle className="mx-auto size-6" />
       </div>
       <div>
-        <p className="text-text-primary text-md font-semibold">
+        <p className="text-md font-semibold text-text-primary">
           No loan applications yet?
         </p>
-        <p className="text-text-tertiary text-sm font-normal">
+        <p className="text-sm font-normal text-text-tertiary">
           No worries. Let’s get you started!
         </p>
-        <p className="text-text-tertiary text-sm font-normal">
+        <p className="text-sm font-normal text-text-tertiary">
           We’ll guide you through step-by-step.
         </p>
       </div>
       {hideBtnStart ? null : (
         <Link to={linkTo ?? APP_PATH.LOAN_APPLICATION.LOAN_PROGRAM.all}>
-          <Button className="mt-4 bg-lime-400 hover:bg-lime-300 text-text-primary font-semibold text-sm">
-            Start Application <Plus className="w-4 h-4 ml-1" />
+          <Button className="mt-4 bg-lime-400 text-sm font-semibold text-text-primary hover:bg-lime-300">
+            Start Application <Plus className="ml-1 size-4" />
           </Button>
         </Link>
       )}

@@ -10,17 +10,17 @@ export function SelfieImageDivider({
   description: string
 }) {
   return (
-    <div className="p-8 bg-gray-50 rounded-lg flex flex-col align-center text-wrap">
+    <div className="align-center flex flex-col text-wrap rounded-lg bg-gray-50 p-8">
       {photoUrl != null ? (
         <img
           alt="import"
-          className="h-5/6 m-4 max-w-160 md:object-cover sm:object-scale-down self-center"
+          className="max-w-160 m-4 h-5/6 self-center sm:object-scale-down md:object-cover"
           src={photoUrl}
         />
       ) : (
-        <div className="h-5/6 m-4 max-w-160 flex flex-col self-center items-center justify-center">
+        <div className="max-w-160 m-4 flex h-5/6 flex-col items-center justify-center self-center">
           <Image
-            className="max-w-120 w-12 h-12 sm:w-22 sm:h-22 shrink"
+            className="max-w-120 sm:w-22 sm:h-22 size-12 shrink"
             color="#a0aec0"
             strokeWidth={0.75}
           />
@@ -28,10 +28,10 @@ export function SelfieImageDivider({
         </div>
       )}
       <div className="h-4" />
-      <h2 className="text-center font-bold text-xl overflow: ellipsis">
+      <h2 className="overflow: ellipsis text-center text-xl font-bold">
         {title}
       </h2>
-      <h2 className="text-center text-base  overflow: ellipsis">
+      <h2 className="overflow: ellipsis  text-center text-base">
         {description}
       </h2>
     </div>

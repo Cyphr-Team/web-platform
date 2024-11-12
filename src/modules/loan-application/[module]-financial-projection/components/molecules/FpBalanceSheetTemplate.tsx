@@ -33,7 +33,7 @@ export function BalanceSheetTemplate(props: BalanceSheetTemplateProps) {
   const HeaderComponent = HeaderMapper[period]
 
   return (
-    <div className="flex flex-col gap-y-3xl w-full">
+    <div className="flex w-full flex-col gap-y-3xl">
       <h1 className="text-3xl font-semibold">{title}</h1>
       <Card
         className={cn(
@@ -90,7 +90,7 @@ export function BalanceSheetTemplate(props: BalanceSheetTemplateProps) {
               title="Liabilities & Owner’s Equity"
             />
             <SectionRow
-              className="h-6 italic font-normal border-y-0"
+              className="h-6 border-y-0 font-normal italic"
               title="Liabilities"
             />
             <DataRow
@@ -109,7 +109,7 @@ export function BalanceSheetTemplate(props: BalanceSheetTemplateProps) {
               title="Total Liabilities"
             />
             <SectionRow
-              className="h-6 italic font-normal border-b-0"
+              className="h-6 border-b-0 font-normal italic"
               title="Equity"
             />
             <DataRow

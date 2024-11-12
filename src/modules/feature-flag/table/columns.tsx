@@ -22,7 +22,7 @@ export const columns: AccessorKeyColumnDef<
 
       return (
         <>
-          <div className="text-black font-medium">{application.name}</div>
+          <div className="font-medium text-black">{application.name}</div>
           <div className=" text-gray-400">{application.email}</div>
         </>
       )

@@ -19,7 +19,7 @@ export function Component() {
 
   return (
     <div className="flex flex-col gap-y-2xl">
-      <div className="w-full flex gap-2 justify-end items-center">
+      <div className="flex w-full items-center justify-end gap-2">
         <LabeledSwitch label="Current financial detail" state={currentDetail} />
         <LabeledSwitch label="Monthly forecast detail" state={monthlyDetail} />
         <Drawer />

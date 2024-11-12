@@ -89,11 +89,11 @@ function DataTableViewItem<TData>({
       style={style}
     >
       <div
-        className="flex items-center gap-2 flex-1 px-2 py-1.5 pr-0"
+        className="flex flex-1 items-center gap-2 px-2 py-1.5 pr-0"
         {...attributes}
         {...listeners}
       >
-        <GripVertical className="w-4 h-4 opacity-30" />
+        <GripVertical className="size-4 opacity-30" />
         <div>{column.columnDef?.meta?.columnViewName ?? ""}</div>
       </div>
 
@@ -138,12 +138,12 @@ function DataTableViewGroup<TData>({
            */
           ctaText === EXTEND_ORDERED_COLUMN.HIDE_ALL ? undefined : setNodeRef
         }
-        className="flex relative justify-between text-xs font-medium gap-2 pl-2 items-center mt-2 mb-1"
+        className="relative mb-1 mt-2 flex items-center justify-between gap-2 pl-2 text-xs font-medium"
         style={style}
       >
         <div className="text-muted-foreground">{label}</div>
         <Button
-          className="h-auto w-auto py-0.5 px-2 text-blue-500 text-xs"
+          className="size-auto px-2 py-0.5 text-xs text-blue-500"
           variant="ghost"
           onClick={onCtaClick}
         >
@@ -462,24 +462,24 @@ export function DataTableViewOptions<TData>({
     <DropdownMenu open={open}>
       <DropdownMenuTrigger asChild>
         <Button
-          className="flex text-slate-700 font-semibold rounded-md"
+          className="flex rounded-md font-semibold text-slate-700"
           variant="outline"
           onClick={handleOpen}
         >
-          <Eye className="h-5 w-5 flex-shrink-0 mr-1" />
+          <Eye className="mr-1 size-5 shrink-0" />
           View
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="min-w-[290px] max-h-96 overflow-auto"
+        className="max-h-96 min-w-[290px] overflow-auto"
         onEscapeKeyDown={handleOpen}
         onPointerDownOutside={handleOpen}
       >
-        <DropdownMenuLabel className="flex justify-between items-center gap-2 pr-0">
+        <DropdownMenuLabel className="flex items-center justify-between gap-2 pr-0">
           <div>Properties</div>
           <Button
-            className="h-auto w-auto py-0.5 px-2 text-blue-500 text-xs"
+            className="size-auto px-2 py-0.5 text-xs text-blue-500"
             variant="ghost"
             onClick={handleResetOrder}
           >

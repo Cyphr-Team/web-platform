@@ -11,11 +11,11 @@ export function LoanReadyProgramDetail() {
   const { isLoading, loanProgramDetails } = useLoanProgramDetailContext()
 
   return (
-    <div className="overflow-auto flex flex-col flex-1">
+    <div className="flex flex-1 flex-col overflow-auto">
       <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
         <section className={cn("col-span-10", "md:col-span-8")}>
           {isLoading ? (
-            <Skeleton className="w-screen md:w-[calc(100vw-15rem)] h-36 md:h-52 lg:max-h-64 items-center align-center flex" />
+            <Skeleton className="align-center flex h-36 w-screen items-center md:h-52 md:w-[calc(100vw-15rem)] lg:max-h-64" />
           ) : (
             <AspectRatio
               className="flex items-center bg-gray-100"
@@ -39,14 +39,14 @@ export function LoanReadyProgramDetail() {
         >
           <LoanProgramDetailWelcomeLine />
 
-          <div className="mt-10 px-8 py-9 bg-primary-solid rounded-2xl flex justify-between flex-wrap gap-4 items-center w-full">
-            <h2 className="text-white text-2xl md:text-3xl font-medium mx-auto md:mx-0">
+          <div className="mt-10 flex w-full flex-wrap items-center justify-between gap-4 rounded-2xl bg-primary-solid px-8 py-9">
+            <h2 className="mx-auto text-2xl font-medium text-white md:mx-0 md:text-3xl">
               Ready to see your Loan Readiness score?
             </h2>
             <div className="mx-auto md:mx-0">
               <LoanProgramDetailApply
                 btnText="Start application"
-                className="bg-lime-400 text-black hover:bg-lime-300 font-bold"
+                className="bg-lime-400 font-bold text-black hover:bg-lime-300"
               />
             </div>
           </div>

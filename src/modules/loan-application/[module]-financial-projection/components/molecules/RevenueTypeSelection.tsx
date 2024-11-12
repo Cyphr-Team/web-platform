@@ -39,7 +39,7 @@ export function RevenueTypeSelection(props: RevenueTypeSelectionProps) {
   )
 
   return (
-    <div className="grid grid-cols-2 w-full gap-2xl py-5">
+    <div className="grid w-full grid-cols-2 gap-2xl py-5">
       <RevenueTypeItem
         icon={<UnitSalesIcon />}
         selected={isSelected(RevenueType.UnitSales)}
@@ -100,7 +100,7 @@ function RevenueTypeItem(props: RevenueTypeItemProps) {
       onClick={onClick}
     >
       <div className="min-w-8">{icon}</div>
-      <div className="flex flex-col justify-center h-full gap-md">
+      <div className="flex h-full flex-col justify-center gap-md">
         <div className={cn("font-semibold text-text-foreground")}>{title}</div>
         <div className={cn("text-text-caption font-normal")}>{subtitle}</div>
       </div>

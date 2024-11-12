@@ -50,18 +50,18 @@ export function FinancialOperatingExpensesFormDetail({
   )
 
   return (
-    <div className="flex flex-col gap-2xl pt-4 px-4 md:px-8 pb-4 md:pb-8">
-      <div className="grid grid-cols-6 w-full gap-5 items-center text-xs font-medium">
-        <p className="row-start-1 col-start-1 col-end-3">
+    <div className="flex flex-col gap-2xl p-4 md:px-8 md:pb-8">
+      <div className="grid w-full grid-cols-6 items-center gap-5 text-xs font-medium">
+        <p className="col-start-1 col-end-3 row-start-1">
           Operating Expense name
         </p>
-        <p className="row-start-1 col-start-4 col-end-5">Cost start date</p>
-        <p className="row-start-1 col-start-5 col-end-7 text-right">
+        <p className="col-start-4 col-end-5 row-start-1">Cost start date</p>
+        <p className="col-start-5 col-end-7 row-start-1 text-right">
           Monthly cost
         </p>
       </div>
       <RHFProvider methods={form}>
-        <div className="flex flex-col gap-6 mb-5">
+        <div className="mb-5 flex flex-col gap-6">
           {fields?.map((founder, index) => (
             <OperatingExpenses key={founder.id} index={index} value={founder} />
           ))}
@@ -90,13 +90,13 @@ function OperatingExpenses(props: OperatingExpensesProps) {
 
   return (
     <div key={value.id} className="flex gap-3">
-      <div className="grid grid-cols-6 w-full gap-5 items-center">
-        <div className="row-start-1 col-start-1 col-end-3 flex gap-1 flex-col">
+      <div className="grid w-full grid-cols-6 items-center gap-5">
+        <div className="col-start-1 col-end-3 row-start-1 flex flex-col gap-1">
           <RHFTextInput
             isDetail
             isHideErrorMessage
             isToggleView
-            className="font-medium text-sm"
+            className="text-sm font-medium"
             label=""
             name={getArrayFieldName<
               FpOperatingExpensesField,
@@ -122,7 +122,7 @@ function OperatingExpenses(props: OperatingExpensesProps) {
         <RHFMaskInput
           isDetail
           isHideErrorMessage
-          className="row-start-1 col-start-4 col-end-5 mt-0"
+          className="col-start-4 col-end-5 row-start-1 mt-0"
           label=""
           name={getArrayFieldName<
             FpOperatingExpensesField,
@@ -134,7 +134,7 @@ function OperatingExpenses(props: OperatingExpensesProps) {
         <RHFCurrencyInput
           isDetail
           isHideErrorMessage
-          className="row-start-1 col-start-5 col-end-7 mt-0 text-right"
+          className="col-start-5 col-end-7 row-start-1 mt-0 text-right"
           label=""
           name={getArrayFieldName<
             FpOperatingExpensesField,

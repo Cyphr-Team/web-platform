@@ -34,8 +34,8 @@ export function CurrentLoansFormItem({
   }
 
   return (
-    <Card className="grid grid-cols-6 gap-4xl p-5xl rounded-lg h-fit">
-      <div className="flex flex-row items-center justify-between col-span-6">
+    <Card className="grid h-fit grid-cols-6 gap-4xl rounded-lg p-5xl">
+      <div className="col-span-6 flex flex-row items-center justify-between">
         <h5 className="text-md font-semibold">LOAN #{index + 1}</h5>
         {form
           .getValues()
@@ -50,7 +50,7 @@ export function CurrentLoansFormItem({
       <TextInput
         isRowDirection
         required
-        className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10"
+        className="col-span-6 grid flex-auto grid-cols-1 gap-x-2xl xl:h-10 xl:grid-cols-2"
         control={form.control}
         inputClassName="xl:ml-auto xl:max-w-80"
         label="Lender name"
@@ -61,7 +61,7 @@ export function CurrentLoansFormItem({
       <TextInput
         isRowDirection
         required
-        className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10"
+        className="col-span-6 grid flex-auto grid-cols-1 gap-x-2xl xl:h-10 xl:grid-cols-2"
         control={form.control}
         inputClassName="xl:ml-auto xl:max-w-80"
         label="Loan type"
@@ -73,13 +73,13 @@ export function CurrentLoansFormItem({
         control={form.control}
         name={`currentLoans[${index}].outstandingLoanBalance`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
+          <FormItem className="col-span-6 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-2 xl:gap-y-0">
             <FormLabel className="text-text-secondary">
-              <p className="text-sm text-text-secondary font-semibold">
+              <p className="text-sm font-semibold text-text-secondary">
                 Outstanding loan balance
                 <RequiredSymbol />
               </p>
-              <p className="text-sm text-text-tertiary font-medium">
+              <p className="text-sm font-medium text-text-tertiary">
                 Remaining loan account
               </p>
             </FormLabel>
@@ -87,7 +87,7 @@ export function CurrentLoansFormItem({
               <Input
                 {...field}
                 required
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
+                className="input-number-remove-arrow -mt-2 text-base xl:ml-auto xl:max-w-80"
                 min={0}
                 placeholder="i.e: 55,000"
                 type={`currentLoans[${index}].outstandingLoanBalance`}
@@ -118,13 +118,13 @@ export function CurrentLoansFormItem({
         control={form.control}
         name={`currentLoans[${index}].monthlyPaymentAmount`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-1 xl:grid-cols-2 gap-y-1 xl:gap-y-0 gap-x-2xl flex-auto xl:h-10">
+          <FormItem className="col-span-6 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-2 xl:gap-y-0">
             <FormLabel className="text-text-secondary">
-              <p className="text-sm text-text-secondary font-semibold">
+              <p className="text-sm font-semibold text-text-secondary">
                 Monthly payment amount
                 <RequiredSymbol />
               </p>
-              <p className="text-sm text-text-tertiary font-medium">
+              <p className="text-sm font-medium text-text-tertiary">
                 Amount of payment made monthly
               </p>
             </FormLabel>
@@ -132,7 +132,7 @@ export function CurrentLoansFormItem({
               <Input
                 {...field}
                 required
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
+                className="input-number-remove-arrow -mt-2 text-base xl:ml-auto xl:max-w-80"
                 min={0}
                 placeholder="i.e: 5,000"
                 type={`currentLoans[${index}].monthlyPaymentAmount`}
@@ -163,24 +163,24 @@ export function CurrentLoansFormItem({
         control={form.control}
         name={`currentLoans[${index}].loanTermRemainingInMonths`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 xl:gap-y-0 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10">
+          <FormItem className="col-span-6 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-2 xl:gap-y-0">
             <FormLabel className="text-text-secondary">
-              <p className="text-sm text-text-secondary font-semibold">
+              <p className="text-sm font-semibold text-text-secondary">
                 Loan term remaining (in months)
               </p>
-              <p className="text-sm text-text-tertiary font-medium">
+              <p className="text-sm font-medium text-text-tertiary">
                 Remaining duration of the loan
               </p>
             </FormLabel>
             <FormControl>
               <Input
                 required
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
+                className="input-number-remove-arrow -mt-2 text-base xl:ml-auto xl:max-w-80"
                 max={100000}
                 min={0}
                 placeholder="i.e: 11"
                 suffixIcon={
-                  <span className="text-text-tertiary -mt-2">months</span>
+                  <span className="-mt-2 text-text-tertiary">months</span>
                 }
                 type={`currentLoans[${index}].loanTermRemainingInMonths`}
                 {...field}
@@ -199,23 +199,23 @@ export function CurrentLoansFormItem({
         control={form.control}
         name={`currentLoans[${index}].annualInterestRate`}
         render={({ field }) => (
-          <FormItem className="col-span-6 grid grid-cols-1 gap-y-1 xl:gap-y-0 xl:grid-cols-2 gap-x-2xl flex-auto xl:h-10">
+          <FormItem className="col-span-6 grid flex-auto grid-cols-1 gap-x-2xl gap-y-1 xl:h-10 xl:grid-cols-2 xl:gap-y-0">
             <FormLabel className="text-text-secondary">
-              <p className="text-sm text-text-secondary font-semibold">
+              <p className="text-sm font-semibold text-text-secondary">
                 Annual interest rate
                 <RequiredSymbol />
               </p>
-              <p className="text-sm text-text-tertiary font-medium">
+              <p className="text-sm font-medium text-text-tertiary">
                 The interest rate charged yearly
               </p>
             </FormLabel>
             <FormControl>
               <Input
                 required
-                className="text-base input-number-remove-arrow -mt-2 xl:ml-auto xl:max-w-80"
+                className="input-number-remove-arrow -mt-2 text-base xl:ml-auto xl:max-w-80"
                 max={100}
                 placeholder="i.e 1.05"
-                suffixIcon={<span className="text-text-tertiary -mt-2">%</span>}
+                suffixIcon={<span className="-mt-2 text-text-tertiary">%</span>}
                 type="number"
                 onWheel={numberInputOnWheelPreventChange}
                 {...field}

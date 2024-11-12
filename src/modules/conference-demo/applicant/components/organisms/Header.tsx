@@ -19,7 +19,7 @@ function Header() {
         "md:h-20 md:pr-8 md:border-t-0"
       )}
     >
-      <div className="text-lg font-semibold truncate min-w-20 md:text-2xl">
+      <div className="min-w-20 truncate text-lg font-semibold md:text-2xl">
         SBA Micro Loans
       </div>
       <div className="flex gap-2">

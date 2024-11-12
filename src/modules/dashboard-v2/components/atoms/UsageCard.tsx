@@ -45,12 +45,12 @@ export function UsageCard({
 
   return (
     <Card className={cn(className, "flex flex-col rounded-xl overflow-hidden")}>
-      <CardHeader className="flex flex-row flex-wrap justify-between items-center gap-1 space-y-0 pb-2 md:p-3 md:py-2">
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-1 space-y-0 pb-2 md:p-3 md:py-2">
         <CardTitle className="text-sm font-medium text-text-secondary">
           {title}
         </CardTitle>
 
-        <div className="flex flex-wrap justify-between gap-1 items-center">
+        <div className="flex flex-wrap items-center justify-between gap-1">
           <p className="font-bold">
             {isNotFoundSubscription ? (
               <span className="text-sm">No subscription found</span>
@@ -68,7 +68,7 @@ export function UsageCard({
       </CardHeader>
 
       {!isNotFoundSubscription && (
-        <CardContent className="md:p-3 md:pt-0 z-10 rounded-b-2xl bg-white border-b flex-1">
+        <CardContent className="z-10 flex-1 rounded-b-2xl border-b bg-white md:p-3 md:pt-0">
           {!isLoading ? (
             <div className="flex flex-col gap-2">
               <Progress
@@ -81,7 +81,7 @@ export function UsageCard({
               />
             </div>
           ) : (
-            <Skeleton className="w-full h-4" />
+            <Skeleton className="h-4 w-full" />
           )}
         </CardContent>
       )}

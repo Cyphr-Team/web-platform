@@ -34,7 +34,7 @@ export const PagePreview: React.FC<Props> = ({ pagePreview }) => {
       data-signals={pagePreview.pageSignalCount > 0}
     >
       <div
-        className="relative data-[selected=true]:border border-black"
+        className="relative border-black data-[selected=true]:border"
         data-selected={isSelected}
         style={{
           filter: "drop-shadow(rgba(0, 0, 0, 0.25) 0px 4px 4px)"
@@ -46,7 +46,7 @@ export const PagePreview: React.FC<Props> = ({ pagePreview }) => {
           src={pagePreview.visualizations[0].thumbnailMediumUrl}
           onClick={() => handleSelectPage(pagePreview)}
         />
-        <div className="flex justify-between text-xs text-text-secondary absolute bottom-0 p-2 opacity-80 w-full bg-white">
+        <div className="absolute bottom-0 flex w-full justify-between bg-white p-2 text-xs text-text-secondary opacity-80">
           <p>Page {pagePreview.pageNumber}</p>
           {pagePreview.pageSignalCount > 0 && (
             <p>{pagePreview.pageSignalCount} Signals</p>
@@ -59,7 +59,7 @@ export const PagePreview: React.FC<Props> = ({ pagePreview }) => {
             <img
               key={index}
               alt="page"
-              className="w-8 data-[selected=true]:border border-black"
+              className="w-8 border-black data-[selected=true]:border"
               data-selected={selectedVisualization === visualization}
               src={visualization.thumbnailSmallUrl}
               onClick={() => onClickVisualization(visualization)}

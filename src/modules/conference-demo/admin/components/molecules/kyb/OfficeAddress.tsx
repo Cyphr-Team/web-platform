@@ -18,33 +18,24 @@ export function OfficeAddress() {
         <div>
           {businessAddress.deliverable ? (
             <div className="flex items-center">
-              <Dot
-                className="flex-shrink-0 self-start mt-1"
-                variantColor="green"
-              />
-              <div className="flex items-center text-base flex-wrap">
+              <Dot className="mt-1 shrink-0 self-start" variantColor="green" />
+              <div className="flex flex-wrap items-center text-base">
                 USPS <Dot className="mx-1 w-2" /> Deliverable
               </div>
             </div>
           ) : null}
           {businessAddress.cmra ? (
             <div className="flex items-center">
-              <Dot
-                className="flex-shrink-0 self-start mt-1"
-                variantColor="red"
-              />
-              <div className="flex items-center text-base flex-wrap">
+              <Dot className="mt-1 shrink-0 self-start" variantColor="red" />
+              <div className="flex flex-wrap items-center text-base">
                 USPS <Dot className="mx-1 w-2" /> CMRA
               </div>
             </div>
           ) : null}
           {businessAddress.registeredAgent ? (
             <div className="flex items-center">
-              <Dot
-                className="flex-shrink-0 self-start mt-1"
-                variantColor="yellow"
-              />
-              <div className="flex items-center text-base flex-wrap">
+              <Dot className="mt-1 shrink-0 self-start" variantColor="yellow" />
+              <div className="flex flex-wrap items-center text-base">
                 USPS <Dot className="mx-1 w-2" /> Registered Agent
               </div>
             </div>

@@ -17,13 +17,13 @@ const plaidColumns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
     accessorKey: "bankAccountName",
     header: () => (
-      <div className="flex items-center text-gray-700 mx-1">Account</div>
+      <div className="mx-1 flex items-center text-gray-700">Account</div>
     ),
     cell: ({ row }) => {
       const data = row.original
 
       return (
-        <div className="min-w-0 mx-1 uppercase">
+        <div className="mx-1 min-w-0 uppercase">
           {data.institutionName} {data.bankAccountName} {data.mask}
         </div>
       )
@@ -32,15 +32,15 @@ const plaidColumns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
     id: "status",
     header: () => (
-      <div className="flex item-center text-gray-700 ml-1">Status</div>
+      <div className="item-center ml-1 flex text-gray-700">Status</div>
     ),
     cell: () => {
       return (
-        <div className="min-w-0 ml-1">
+        <div className="ml-1 min-w-0">
           <Badge
             isDot
             isDotBefore
-            className="capitalize text-sm rounded-full font-medium py-1"
+            className="rounded-full py-1 text-sm font-medium capitalize"
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
               TaskFieldStatus.PENDING
@@ -68,7 +68,7 @@ const cashFlowColumns: ColumnDef<LoanApplicationBankAccount>[] = [
           <Badge
             border
             isDot
-            className="capitalize text-sm rounded-lg"
+            className="rounded-lg text-sm capitalize"
             isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
@@ -106,9 +106,9 @@ export function CashFlowTable() {
 
   return (
     <Card>
-      <CardHeader className="border-b mx-8 px-0 md:px-0 md:py-4">
-        <div className="flex justify-between items-center flex-wrap gap-1">
-          <CardTitle className="font-semibold text-lg flex items-center gap-3">
+      <CardHeader className="mx-8 border-b px-0 md:px-0 md:py-4">
+        <div className="flex flex-wrap items-center justify-between gap-1">
+          <CardTitle className="flex items-center gap-3 text-lg font-semibold">
             Cash Flow Verification
           </CardTitle>
           {/* Display this button when cash flow is not ready or empty */}

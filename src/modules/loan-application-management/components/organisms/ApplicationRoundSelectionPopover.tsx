@@ -93,9 +93,9 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
             </StatusRoundBadge>
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="p-2 rounded-lg" side="bottom">
+        <PopoverContent align="start" className="rounded-lg p-2" side="bottom">
           <Command className="p-0">
-            <div className="m-2 border rounded-lg border-gray-300">
+            <div className="m-2 rounded-lg border border-gray-300">
               <CommandInput className="m-0" placeholder="Search" />
             </div>
             <CommandList>
@@ -111,7 +111,7 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
                 {statuses.map((status) => (
                   <CommandItem
                     key={status}
-                    className="flex items-center gap-2 h-10 cursor-pointer"
+                    className="flex h-10 cursor-pointer items-center gap-2"
                     disabled={isPending}
                     value={convertStatusToText(status)}
                     onSelect={(value) => {
@@ -126,7 +126,7 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
                   >
                     <Checkbox
                       checked={_.eq(roundStatus?.toUpperCase(), status)}
-                      className=" h-5 w-5 data-[state=checked]:bg-gray-600 border-gray-300 border-2"
+                      className=" size-5 border-2 border-gray-300 data-[state=checked]:bg-gray-600"
                     />
                     <StatusRoundBadge round={status}>
                       {capitalizeWords(convertStatusToText(status))}

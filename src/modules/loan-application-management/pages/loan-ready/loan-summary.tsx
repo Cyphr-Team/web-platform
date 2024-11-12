@@ -2,7 +2,7 @@ import { FinancialProjectionApplicationSummary } from "@/modules/loan-applicatio
 
 export function Component() {
   return (
-    <div className="bg-white -m-4xl -mt-3xl">
+    <div className="-m-4xl -mt-3xl bg-white">
       <FinancialProjectionApplicationSummary />
     </div>
   )

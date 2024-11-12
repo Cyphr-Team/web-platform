@@ -16,7 +16,7 @@ export function SetupProfileSection() {
       <Icons.alertSuccess className="-ml-2 -mt-2" />
       <AlertTitle className="ml-2 text-sm">
         <Button
-          className="absolute p-0 text-muted-foreground right-4 h-auto w-auto"
+          className="absolute right-4 size-auto p-0 text-muted-foreground"
           size="icon"
           variant="ghost"
           onClick={hide}
@@ -32,18 +32,18 @@ export function SetupProfileSection() {
   ) : null
 
   return (
-    <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
+    <div className="mx-auto h-auto rounded-[32px] bg-white p-8 shadow-primary md:w-[540px]">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
         <div className="flex flex-col items-center">
-          <div className="flex justify-center relative sm:-mx-8 mx-0">
+          <div className="relative mx-0 flex justify-center sm:-mx-8">
             {conditionAlert}
           </div>
 
-          <h1 className="text-3xl font-semibold tracking-tight mt-6">
+          <h1 className="mt-6 text-3xl font-semibold tracking-tight">
             Sign up
           </h1>
 
-          <div className="text-muted-foreground mt-3">
+          <div className="mt-3 text-muted-foreground">
             <p>Start your loan application right away</p>
           </div>
         </div>

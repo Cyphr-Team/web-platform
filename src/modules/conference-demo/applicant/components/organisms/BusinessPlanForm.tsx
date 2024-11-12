@@ -119,7 +119,7 @@ function BusinessPlanForm({ wrapperClassName }: BusinessPlanFormProps) {
                   ) : null}
                 </div>
 
-                <div className="font-semibold text-sm mt-4">
+                <div className="mt-4 text-sm font-semibold">
                   Please answer the following questions
                 </div>
                 <RHFTextInput
@@ -167,7 +167,7 @@ function BusinessPlanForm({ wrapperClassName }: BusinessPlanFormProps) {
 
           {!isReviewApplicationStep && (
             <Button
-              className="w-full mt-5"
+              className="mt-5 w-full"
               disabled={!method.formState.isValid}
               type="submit"
             >

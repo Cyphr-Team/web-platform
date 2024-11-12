@@ -94,11 +94,11 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
   }, [])
 
   return (
-    <Card className="flex flex-col gap-2xl p-xl rounded-lg h-fit">
-      <div className="flex justify-between items-center mr-5">
+    <Card className="flex h-fit flex-col gap-2xl rounded-lg p-xl">
+      <div className="mr-5 flex items-center justify-between">
         <div>
-          <h5 className="text-[18px] font-semibold mb-4">{title}</h5>
-          <div className="text-sm financial-projection text-muted-foreground">
+          <h5 className="mb-4 text-[18px] font-semibold">{title}</h5>
+          <div className="financial-projection text-sm text-muted-foreground">
             {subtitle}
           </div>
         </div>
@@ -116,7 +116,7 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
           onConfirmed={handleClearAll}
         >
           <Button
-            className="p-0 h-auto flex ml-auto mr-0"
+            className="ml-auto mr-0 flex h-auto p-0"
             type="button"
             variant="ghost"
             onClick={confirmDeleteDialog.onTrue}
@@ -155,7 +155,7 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
               id={source.id}
               label={label}
             >
-              <div className="flex flex-col gap-5 p-5 bg-[#F2F8F8] rounded-lg border">
+              <div className="flex flex-col gap-5 rounded-lg border bg-[#F2F8F8] p-5">
                 <TooltipProvider delayDuration={500}>
                   {renderBlockComponents(
                     blocks.map((block) => {
@@ -199,7 +199,7 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
         variant="outline"
         onClick={handleAddItem}
       >
-        <div className="flex items-center w-fit">
+        <div className="flex w-fit items-center">
           {addIcon}
           {btnAddText}
         </div>

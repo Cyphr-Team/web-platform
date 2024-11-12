@@ -6,25 +6,25 @@ import { BankAccountReport } from "@/modules/conference-demo/admin/components/mo
 
 export function ApplicationSummary() {
   return (
-    <div className="lg:flex gap-3xl w-full" id="loan-summary">
-      <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
+    <div className="w-full gap-3xl lg:flex" id="loan-summary">
+      <Card className="size-full flex-1 space-y-4xl p-4xl">
         <div className="flex flex-col gap-3xl" id="application-overview">
-          <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
+          <div className="mt-lg flex flex-wrap items-center justify-between gap-2 space-y-lg">
             <p className="text-4xl font-semibold ">Application Overview</p>
           </div>
         </div>
         <ApplicationOverview />
-        <div className="space-y-3xl flex flex-col">
+        <div className="flex flex-col space-y-3xl">
           <p className="text-4xl font-semibold ">Loan Application</p>
-          <div className="space-y-3xl flex flex-col" id="application-overview">
+          <div className="flex flex-col space-y-3xl" id="application-overview">
             <KybFormDetail />
           </div>
-          <div className="space-y-3xl flex flex-col">
+          <div className="flex flex-col space-y-3xl">
             <KycFormDetail />
           </div>
         </div>
         <div>
-          <p className="text-4xl font-semibold mb-6">Connected Bank Accounts</p>
+          <p className="mb-6 text-4xl font-semibold">Connected Bank Accounts</p>
           {MOCK_CONNECTED_BANK_ACCOUNTS?.map((data, index) => (
             <BankAccountReport key={index} data={data} />
           ))}

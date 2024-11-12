@@ -10,10 +10,11 @@ module.exports = {
     "plugin:react-hooks/recommended",
     "eslint-config-prettier",
     "prettier",
+    "plugin:tailwindcss/recommended",
     require.resolve("@vercel/style-guide/eslint/typescript"),
     require.resolve("@vercel/style-guide/eslint/react")
   ],
-  ignorePatterns: ["dist", ".eslintrc.cjs", "vite.config.ts", "package.json"],
+  ignorePatterns: ["dist", "node_modules", ".eslintrc.cjs", "vite.config.ts"],
   parser: "@typescript-eslint/parser",
   plugins: ["prettier", "import"],
   parserOptions: {
@@ -25,7 +26,13 @@ module.exports = {
       typescript: {
         project
       }
-    }
+    },
+    // TODO: fix issue here, using these config for linting styles at object level
+    // tailwindcss: {
+    //   config: "tailwind.config.js",
+    //   callees: ["classnames", "clsx", "ctl", "styleProps", "cn"],
+    //   classRegex: "\\S.*(c|C)lassName?",
+    // }
   },
   rules: {
     "prettier/prettier": [
@@ -114,6 +121,7 @@ module.exports = {
     "jsx-a11y/anchor-has-content": "off",
     "jsx-a11y/no-autofocus": "error",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
-    "jsx-a11y/label-has-associated-control": "off"
+    "jsx-a11y/label-has-associated-control": "off",
+    "tailwindcss/no-custom-classname": "off"
   }
 }

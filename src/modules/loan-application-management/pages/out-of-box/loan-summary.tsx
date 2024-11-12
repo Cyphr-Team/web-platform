@@ -164,8 +164,8 @@ export function Component() {
   )
 
   return (
-    <div className="lg:flex gap-3xl w-full" id="loan-summary">
-      <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
+    <div className="w-full gap-3xl lg:flex" id="loan-summary">
+      <Card className="size-full flex-1 space-y-4xl p-4xl">
         <div
           ref={page_1}
           className="flex flex-col gap-3xl"
@@ -174,7 +174,7 @@ export function Component() {
           {!!loanApplicationDetails?.decision && (
             <div className="flex flex-col gap-2">
               <Badge
-                className="capitalize px-4 py-2 relative w-fit"
+                className="relative w-fit px-4 py-2 capitalize"
                 variant="soft"
                 variantColor={getBadgeVariantByStatus(
                   loanApplicationDetails?.status
@@ -185,7 +185,7 @@ export function Component() {
                 </p>
               </Badge>
               {!!loanApplicationDetails?.decisionNote?.length && (
-                <p className="text-sm pl-4">
+                <p className="pl-4 text-sm">
                   <span className="text-sm font-semibold">Decision note: </span>
                   {loanApplicationDetails?.decisionNote}
                 </p>
@@ -193,7 +193,7 @@ export function Component() {
             </div>
           )}
 
-          <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
+          <div className="mt-lg flex flex-wrap items-center justify-between gap-2 space-y-lg">
             <p className="text-4xl font-semibold ">Application Overview</p>
             {downloadOverviewButton}
           </div>
@@ -207,7 +207,7 @@ export function Component() {
           )}
           {!isLaunchKC() && (
             <>
-              <p className="text-4xl font-semibold loan-application-header">
+              <p className="loan-application-header text-4xl font-semibold">
                 Application Details
               </p>
               <KybFormDetails kybFormData={loanSummary?.kybForm} />
@@ -219,30 +219,30 @@ export function Component() {
           <>
             <div
               ref={page_2}
-              className="space-y-3xl flex flex-col"
+              className="flex flex-col space-y-3xl"
               id="application-overview"
             >
               <KybFormDetails kybFormData={loanSummary?.kybForm} />
             </div>
-            <div ref={page_3} className="space-y-3xl flex flex-col">
+            <div ref={page_3} className="flex flex-col space-y-3xl">
               <KycFormDetails kycFormData={loanSummary?.kycForm} />
             </div>
           </>
         )}
         {shouldDisplayCashFlowTable ? (
-          <div ref={page_4} className="space-y-3xl flex flex-col">
+          <div ref={page_4} className="flex flex-col space-y-3xl">
             <CashFlowTable wrapperClassName="border rounded-lg" />
           </div>
         ) : null}
         <div
           ref={page_5}
-          className="space-y-3xl flex flex-col"
+          className="flex flex-col space-y-3xl"
           id="loan-application"
         >
           {renderCurrentLoanFormDetails()}
         </div>
         {shouldDisplayOperatingExpensesSection ? (
-          <div ref={page_6} className="space-y-3xl flex flex-col">
+          <div ref={page_6} className="flex flex-col space-y-3xl">
             <OperatingExpensesFormDetails
               operatingExpensesFormData={loanSummary?.operatingExpensesForm}
             />
@@ -253,7 +253,7 @@ export function Component() {
           <>
             {formsOrder.map(({ page, forms }) => (
               // eslint-disable-next-line react/jsx-key
-              <div ref={page} className="space-y-3xl flex flex-col">
+              <div ref={page} className="flex flex-col space-y-3xl">
                 {forms.map(({ key, Component }) => {
                   const formData = get(loanSummary, key)
 
@@ -309,7 +309,7 @@ export function Component() {
 
         <div
           ref={page_13}
-          className="space-y-3xl flex flex-col"
+          className="flex flex-col space-y-3xl"
           id="identity-verification"
         >
           <IdentityVerificationDetails />
@@ -322,7 +322,7 @@ export function Component() {
             id="cash-flow-report"
           >
             <p className="text-4xl font-semibold">Cash Flow Report</p>
-            <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto shadow-none">
+            <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none">
               <CashflowGlanceReport
                 isFetchingNewCashFlow={isFetchingNewCashFlow}
                 newCashFlowGlance={newCashFlowGlance}

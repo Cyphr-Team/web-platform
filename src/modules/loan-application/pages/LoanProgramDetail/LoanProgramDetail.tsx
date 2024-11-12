@@ -30,7 +30,7 @@ export function LoanProgramDetail() {
   })
 
   return (
-    <div className="overflow-auto flex flex-col flex-1">
+    <div className="flex flex-1 flex-col overflow-auto">
       <div className={cn("grid grid-cols-10", "md:grid-cols-8")}>
         <div className={cn("col-span-10", "md:col-span-8")}>
           <TopBarDetail
@@ -56,9 +56,9 @@ export function LoanProgramDetail() {
 
         <section className={cn("col-span-10", "md:col-span-8")}>
           {isLoading ? (
-            <Skeleton className="w-screen md:w-[calc(100vw-15rem)] h-36 md:h-60 lg:max-h-64 items-center align-center flex" />
+            <Skeleton className="align-center flex h-36 w-screen items-center md:h-60 md:w-[calc(100vw-15rem)] lg:max-h-64" />
           ) : (
-            <div className="border-b h-80 flex items-center">
+            <div className="flex h-80 items-center border-b">
               <Image
                 alt="Cover Photo for Loan Program"
                 className="mx-auto max-h-72"

@@ -5,7 +5,7 @@ export function DateHeader({ updatedAt }: { updatedAt?: string }) {
   if (!updatedAt) return null
 
   return (
-    <div className="text-text-tertiary text-xs">
+    <div className="text-xs text-text-tertiary">
       Last updated on{" "}
       {updatedAt ? format(updatedAt, FORMAT_DATE_MM_DD_YYYY) : "N/A"}
     </div>

@@ -62,7 +62,7 @@ const columns: ColumnDef<BusinessIndustryClassificationDetail>[] = [
       const data = row.original
 
       return (
-        <div className="min-w-0 flex items-center">
+        <div className="flex min-w-0 items-center">
           {data.category && isHighRiskCategory(data.category) ? (
             <Dot className="truncate text-red-500" />
           ) : null}
@@ -106,7 +106,7 @@ const columns: ColumnDef<BusinessIndustryClassificationDetail>[] = [
               <Info size={12} />
             </TooltipTrigger>
             <TooltipContent className="bg-slate-600">
-              <div className="text-white max-w-72 font-light">
+              <div className="max-w-72 font-light text-white">
                 Confidence is the estimated accuracy or relevance of each
                 classification from a scale of 0 to 100.
               </div>

@@ -9,7 +9,7 @@ function Title() {
   const { loanRequest, businessInformation } = useLoanApplicationFormContext()
 
   return (
-    <div className="px-4xl text-3.5xl mb-4">
+    <div className="mb-4 px-4xl text-3.5xl">
       {businessInformation?.businessLegalName ?? "---"}
       <span> • {toCurrency(loanRequest?.loanAmount, 0)}</span>
     </div>

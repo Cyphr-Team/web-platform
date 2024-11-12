@@ -46,7 +46,7 @@ export function FundingSourceInput() {
   )
 
   return (
-    <Card className="flex flex-col gap-2xl p-xl rounded-lg h-fit">
+    <Card className="flex h-fit flex-col gap-2xl rounded-lg p-xl">
       <h5 className="text-sm font-semibold">
         Select all funding sources that apply and add the amount you have
         received
@@ -60,7 +60,7 @@ export function FundingSourceInput() {
         />
       ))}
       <Button
-        className="w-min ml-auto border-black gap-2"
+        className="ml-auto w-min gap-2 border-black"
         type="button"
         variant="outline"
         onClick={handleAddFundingSource}
@@ -88,8 +88,8 @@ const EditFundingSource = memo((props: EditFundingSourceProps) => {
 
   return (
     <div key={value.id} className="flex flex-col">
-      <div className="flex justify-between items-center">
-        <h5 className="font-semibold text-sm text-center align-middle">
+      <div className="flex items-center justify-between">
+        <h5 className="text-center align-middle text-sm font-semibold">
           FUNDING SOURCE #{index + 1}
         </h5>
         {form.getValues("fundingSources").length > 1 && (
@@ -115,7 +115,7 @@ const EditFundingSource = memo((props: EditFundingSourceProps) => {
       />
       <RHFMaskInput
         isRowDirection
-        className="flex flex-row items-center w-full justify-between mt-4"
+        className="mt-4 flex w-full flex-row items-center justify-between"
         label="Funding"
         pattern={NUMBER_PATTERN}
         styleProps={{ inputClassName: "w-56 md:max-w-56 xl:max-w-56 xl:w-56" }}

@@ -157,13 +157,13 @@ function InformationCard({
     >
       <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
       <Separator />
-      <div className="flex flex-col gap-y-2xl gap-x-4xl">
+      <div className="flex flex-col gap-x-4xl gap-y-2xl">
         <p className="text-sm">
           Connect your bank accounts securely. This step helps us understand
           your business financial health through cash flow data and expedite the
           loan approval process. Learn how it works{" "}
           <a
-            className="underline text-primary font-medium"
+            className="font-medium text-primary underline"
             href="https://plaid.com/legal/#consumers"
             rel="noopener noreferrer"
             target="_blank"
@@ -172,10 +172,10 @@ function InformationCard({
           </a>
           .
         </p>
-        <div className="flex gap-3 mt-1">
+        <div className="mt-1 flex gap-3">
           <Checkbox
             checked={canConnect}
-            className="w-5 h-5"
+            className="size-5"
             disabled={!!connectedAccounts.length}
             onCheckedChange={(value: boolean) => onConfirmConnect(value)}
           />
@@ -204,7 +204,7 @@ export function ConnectedAccountsHeader({
       <Badge
         isDot
         isDotBefore
-        className="capitalize text-sm rounded-full font-medium py-1"
+        className="rounded-full py-1 text-sm font-medium capitalize"
         variant="soft"
         variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
       >
@@ -215,7 +215,7 @@ export function ConnectedAccountsHeader({
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-3">
+      <div className="mb-3 flex items-center gap-2">
         <h5 className="text-lg font-semibold">Connected Accounts</h5>
         {renderStatus()}
       </div>
@@ -263,7 +263,7 @@ export function ConnectedAccountsTable({
 
     return (
       <Button
-        className="w-full mt-5"
+        className="mt-5 w-full"
         disabled={!connectedAccounts.length}
         onClick={onSubmit}
       >
@@ -273,8 +273,8 @@ export function ConnectedAccountsTable({
   }
 
   return (
-    <div className="flex flex-col gap-x-4xl gap-y-1 items-center p-0">
-      <div className="flex flex-col w-full">
+    <div className="flex flex-col items-center gap-x-4xl gap-y-1 p-0">
+      <div className="flex w-full flex-col">
         <LoadingWrapper isLoading={isFetchingDetails}>
           {renderTable()}
           <Separator />
@@ -291,13 +291,13 @@ const tableColumns: ColumnDef<LoanApplicationBankAccount>[] = [
     accessorKey: "bankAccountName",
     size: 200,
     header: () => (
-      <div className="flex items-center text-gray-700 -mx-4">Account</div>
+      <div className="-mx-4 flex items-center text-gray-700">Account</div>
     ),
     cell: ({ row }) => {
       const { institutionName, bankAccountName, mask } = row.original
 
       return (
-        <div className="min-w-0 -mx-4 uppercase text-sm">
+        <div className="-mx-4 min-w-0 text-sm uppercase">
           {institutionName} {bankAccountName} {mask}
         </div>
       )
@@ -326,7 +326,7 @@ const tableColumns: ColumnDef<LoanApplicationBankAccount>[] = [
         <Badge
           isDot
           isDotBefore
-          className="capitalize text-sm rounded-full font-medium py-1"
+          className="rounded-full py-1 text-sm font-medium capitalize"
           variant="soft"
           variantColor={getBadgeVariantByInsightStatus(TaskFieldStatus.PENDING)}
         >
@@ -370,7 +370,7 @@ function ConnectedAccountsCard({
       <PlaidConnectionForm />
 
       <ButtonLoading
-        className="text-sm rounded-lg self-end"
+        className="self-end rounded-lg text-sm"
         disabled={!canConnect || isFetchingDetails}
         isLoading={isConnecting || isFetchingDetails}
         size="sm"
@@ -378,7 +378,7 @@ function ConnectedAccountsCard({
         variant="outline"
         onClick={onConnect}
       >
-        <Link className="w-4 h-4 mr-1" strokeWidth={2.5} />
+        <Link className="mr-1 size-4" strokeWidth={2.5} />
         {connectedAccounts.length ? " Connect More" : " Connect with Plaid"}
       </ButtonLoading>
 
@@ -425,7 +425,7 @@ function PlaidConnectionForm() {
           ? () => (
               <img
                 alt="Plaid institution logo"
-                className="h-5 w-5"
+                className="size-5"
                 src={`data:image/png;base64,${institution.logo}`}
               />
             )
@@ -460,7 +460,7 @@ function PlaidConnectionForm() {
 
   return (
     <Form {...form}>
-      <div className="w-full flex flex-col gap-5 text-secondary-700 text-sm">
+      <div className="flex w-full flex-col gap-5 text-sm text-secondary-700">
         <InstitutionField
           isLoading={isFetching}
           options={institutionOptions}
@@ -488,7 +488,7 @@ function InstitutionField({
   total?: number
 }) {
   return (
-    <div className="flex justify-between items-center gap-4">
+    <div className="flex items-center justify-between gap-4">
       <p className="font-medium text-secondary-400">Banking institution</p>
       <FormField
         name="institution"
@@ -516,7 +516,7 @@ function RoutingNumberField({
   disabled: boolean
 }) {
   return (
-    <div className="flex justify-between items-center gap-4">
+    <div className="flex items-center justify-between gap-4">
       <p className="font-medium text-secondary-400">Routing number</p>
       <FormField
         name="routingNumber"

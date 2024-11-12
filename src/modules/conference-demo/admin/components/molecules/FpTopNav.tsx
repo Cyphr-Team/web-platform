@@ -35,7 +35,7 @@ export function FpTopNav({ className }: FpTopNavProps) {
   const pathname = useLocation().pathname
 
   return (
-    <div className="relative bg-white p-2 rounded-xl">
+    <div className="relative rounded-xl bg-white p-2">
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div className={cn("flex items-center space-x-lg", className)}>
           {ADMIN_APPLICATION_MENU.map((example, index) => (

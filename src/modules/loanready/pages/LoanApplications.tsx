@@ -67,13 +67,13 @@ export default function LoanApplicationsPage() {
       className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
     >
       <h1 className="text-3xl font-semibold">Account Applications</h1>
-      <p className="text-text-tertiary mt-1">
+      <p className="mt-1 text-text-tertiary">
         Keep track of your applications and their statuses
       </p>
 
       {isEnableLoanReadyV2() ? (
         <div className="flex justify-end">
-          <StartApplicationButton className="bg-lime-400 text-black hover:bg-lime-300 font-bold" />
+          <StartApplicationButton className="bg-lime-400 font-bold text-black hover:bg-lime-300" />
         </div>
       ) : null}
 
@@ -149,7 +149,7 @@ export const getLoanApplicationColumns = (
 
       return (
         <div className="min-w-0">
-          <p className="text-sm text-muted-foreground mt-0.5 truncate">
+          <p className="mt-0.5 truncate text-sm text-muted-foreground">
             {application.loanProgram.name}
           </p>
         </div>
@@ -161,7 +161,7 @@ export const getLoanApplicationColumns = (
     accessorKey: "loanAmount",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="text-right w-full"
+        className="w-full text-right"
         column={column}
         title="Amount requested"
       />
@@ -183,7 +183,7 @@ export const getLoanApplicationColumns = (
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="text-right w-full"
+        className="w-full text-right"
         column={column}
         title="Started On"
       />
@@ -195,7 +195,7 @@ export const getLoanApplicationColumns = (
 
       return (
         <div className="min-w-0">
-          <p className="truncate capitalize text-right">
+          <p className="truncate text-right capitalize">
             {convertToReadableDate(application.createdAt)}
           </p>
         </div>
@@ -206,7 +206,7 @@ export const getLoanApplicationColumns = (
     accessorKey: "updatedAt",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="text-right w-full"
+        className="w-full text-right"
         column={column}
         title="Activity"
       />
@@ -277,7 +277,7 @@ export const getLoanApplicationColumns = (
             className="flex items-center justify-end"
             value={Math.round(100 * application.latestProgress)}
           />
-          <span className="absolute top-1/2 transform -translate-y-1/2 pl-2 right-[-40px]">
+          <span className="absolute -right-5xl top-1/2 -translate-y-1/2 pl-2">
             {Math.round(100 * application.latestProgress)}%
           </span>
         </div>
@@ -292,7 +292,7 @@ export const getLoanApplicationColumns = (
     cell: ({ row }) => {
       return (
         <div
-          className="font-medium flex gap-2 items-center cursor-pointer justify-end"
+          className="flex cursor-pointer items-center justify-end gap-2 font-medium"
           onClick={handleClickDetail(row)}
         >
           {EDITABLE_STATUSES.includes(row.original.status) ? (
@@ -300,7 +300,7 @@ export const getLoanApplicationColumns = (
           ) : (
             <p>Review</p>
           )}
-          <ChevronRightIcon className="h-4 w-4" />
+          <ChevronRightIcon className="size-4" />
         </div>
       )
     }

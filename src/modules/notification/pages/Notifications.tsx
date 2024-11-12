@@ -92,7 +92,7 @@ export function Component() {
       <h1 className="mb-3xl text-3xl font-semibold">Notifications</h1>
 
       {/* Filter bar */}
-      <div className="bg-gray-100 bg-opacity-60 p-3 rounded-lg mb-5 flex justify-between">
+      <div className="mb-5 flex justify-between rounded-lg bg-gray-100 bg-opacity-60 p-3">
         <div>
           <Button
             className={cn(
@@ -122,7 +122,7 @@ export function Component() {
           </Button>
         </div>
         <Button
-          className="bg-gray-400 hover:bg-gray-500 text-white border-gray-300 rounded-md"
+          className="rounded-md border-gray-300 bg-gray-400 text-white hover:bg-gray-500"
           disabled={unreadCount === 0}
           size="sm"
           onClick={handleClickMarkAllAsRead}
@@ -133,10 +133,9 @@ export function Component() {
 
       {/* List of item */}
       {isFetching ? (
-        <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
-          <div className="sticky top-12 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
-            <Loader2 className="w-10 h-10 animate-spin text-primary" />{" "}
-            Loading...
+        <div className="absolute z-10 size-full rounded bg-zinc-50/50">
+          <div className="sticky left-1/2 top-12 mt-12 flex w-full flex-col items-center justify-center">
+            <Loader2 className="size-10 animate-spin text-primary" /> Loading...
           </div>
         </div>
       ) : null}

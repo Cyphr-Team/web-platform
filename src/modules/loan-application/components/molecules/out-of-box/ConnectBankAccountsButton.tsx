@@ -48,7 +48,7 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
 
   return linkSuccess ? (
     <Button
-      className="text-primary bg-primary w-full text-white px-lg py-md flex gap-1"
+      className="flex w-full gap-1 bg-primary px-lg py-md text-white"
       type="button"
     >
       <p>Connected</p>
@@ -56,7 +56,7 @@ export const ConnectBankAccountsButton: React.FC<Props> = ({ disabled }) => {
     </Button>
   ) : (
     <Button
-      className="text-primary bg-black w-full text-white px-lg py-md"
+      className="w-full bg-black px-lg py-md text-white"
       disabled={!ready || disabled}
       type="button"
       onClick={() => {

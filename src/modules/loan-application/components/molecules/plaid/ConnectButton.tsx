@@ -48,14 +48,14 @@ export function PlaidConnectButton({
   return (
     <div className="self-end">
       <ButtonLoading
-        className="text-sm rounded-lg"
+        className="rounded-lg text-sm"
         disabled={disabled}
         isLoading={isLoading || isBankAccountsLoading}
         size="sm"
         variant="outline"
         onClick={handleSubmit}
       >
-        <Link className="w-4 h-4 mr-1" strokeWidth={2.5} />
+        <Link className="mr-1 size-4" strokeWidth={2.5} />
         {hasConnectedAccounts ? " Connect More" : " Connect with Plaid"}
       </ButtonLoading>
     </div>

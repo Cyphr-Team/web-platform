@@ -71,21 +71,21 @@ export function ChangeApplicationStatusDialog({
 
   return (
     <AlertDialog open={!!toDecision}>
-      <AlertDialogContent className="finovate p-0 border-0 gap-0 overflow-hidden">
+      <AlertDialogContent className="finovate gap-0 overflow-hidden border-0 p-0">
         <AlertDialogHeader className="p-0">
           <AlertDialogTitle asChild>
             <div className="flex items-center justify-between pl-8">
               <h5 className="text-2xl">Change Status</h5>
               <div>
                 <Button
-                  className="rounded-none font-semibold h-16 px-8"
+                  className="h-16 rounded-none px-8 font-semibold"
                   variant="secondary"
                   onClick={onCancel}
                 >
                   Cancel
                 </Button>
                 <ButtonLoading
-                  className="rounded-none font-semibold h-16 px-8"
+                  className="h-16 rounded-none px-8 font-semibold"
                   isLoading={isPending}
                   onClick={form.handleSubmit(onSubmit)}
                 >
@@ -100,10 +100,10 @@ export function ChangeApplicationStatusDialog({
 
         <Form {...form}>
           <form
-            className="px-8 pt-4 pb-8"
+            className="px-8 pb-8 pt-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <div className="flex items-center gap-4 mb-8">
+            <div className="mb-8 flex items-center gap-4">
               <Badge
                 isDot
                 className="py-1"

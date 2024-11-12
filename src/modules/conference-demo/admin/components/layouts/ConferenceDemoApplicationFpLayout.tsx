@@ -23,8 +23,8 @@ function ConferenceDemoApplicationFpAdminLayout({
   }, [location, push])
 
   return (
-    <div className="flex flex-col w-full h-full md:pt-4">
-      <div className="flex flex-col space-y-3xl border-b mt-xl">
+    <div className="flex size-full flex-col md:pt-4">
+      <div className="mt-xl flex flex-col space-y-3xl border-b">
         <Header />
         <TopNav />
       </div>
@@ -35,10 +35,10 @@ function ConferenceDemoApplicationFpAdminLayout({
           "overflow-scroll"
         )}
       >
-        <div className="my-4 flex flex-col space-y-3xl mt-xl">
+        <div className="my-4 mt-xl flex flex-col space-y-3xl">
           <FpTopNav />
         </div>
-        <div className="p-4xl pt-3xl flex-1 bg-gray-50">{children}</div>
+        <div className="flex-1 bg-gray-50 p-4xl pt-3xl">{children}</div>
       </div>
     </div>
   )

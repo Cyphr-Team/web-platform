@@ -27,7 +27,7 @@ export function OperatingExpensesFormDetails(props: Props) {
   }, [operatingExpensesFormData])
 
   return (
-    <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto loan-application-item shadow-none">
+    <Card className="loan-application-item flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none">
       <h5 className="text-lg font-semibold">Operating Expenses (monthly) </h5>
       <Separator />
       <div className="flex flex-col gap-2xl">
@@ -48,7 +48,7 @@ export function OperatingExpensesFormDetails(props: Props) {
         <p className="text-sm font-bold text-text-secondary">
           TOTAL MONTHLY OPERATING EXPENSE
         </p>
-        <p className="font-bold text-base text-text-primary">
+        <p className="text-base font-bold text-text-primary">
           {toCurrency(totalMonthlyOperatingExpenses)} / mo
         </p>
       </div>

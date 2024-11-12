@@ -11,9 +11,9 @@ const Table = React.forwardRef<
 >(({ className, isLoading, ...props }, ref) => (
   <div className="relative min-w-fit max-w-full">
     {isLoading ? (
-      <div className="top-0 absolute h-full w-full bg-zinc-50/50 z-10 rounded">
-        <div className="sticky top-1/2 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
-          <Loader2 className="w-10 h-10 animate-spin text-primary" /> Loading...
+      <div className="absolute top-0 z-10 size-full rounded bg-zinc-50/50">
+        <div className="sticky left-1/2 top-1/2 mt-12 flex w-full flex-col items-center justify-center">
+          <Loader2 className="size-10 animate-spin text-primary" /> Loading...
         </div>
       </div>
     ) : null}

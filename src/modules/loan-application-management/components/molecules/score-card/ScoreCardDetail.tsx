@@ -47,10 +47,10 @@ export function ScoreCardDetail({ scoreData }: IScoreCardDetailProps) {
   const data = translateToLaunchKCScoreItems(scoreData)
 
   return (
-    <div className="flex flex-col gap-2 mt-4">
+    <div className="mt-4 flex flex-col gap-2">
       {data.map((item, index) => (
         <div key={index} className="flex items-center justify-between">
-          <span className="font-semibold text-text-tertiary text-xs">
+          <span className="text-xs font-semibold text-text-tertiary">
             {item.name}
           </span>
 

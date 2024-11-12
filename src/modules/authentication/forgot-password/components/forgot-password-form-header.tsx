@@ -16,21 +16,21 @@ export function ForgotPasswordFormHeader() {
 
   return (
     <div className="flex flex-col text-center">
-      <div className="flex justify-center relative">
+      <div className="relative flex justify-center">
         <div className="w-[56px] self-center">
           <AspectRatio ratio={1 / 1}>
-            <div className="w-full h-full border flex justify-center items-center rounded-xl">
+            <div className="flex size-full items-center justify-center rounded-xl border">
               <dataHeader.HeaderIcon size={28} />
             </div>
           </AspectRatio>
         </div>
       </div>
 
-      <h1 className="text-3xl font-semibold tracking-tight mt-6">
+      <h1 className="mt-6 text-3xl font-semibold tracking-tight">
         {dataHeader.title}
       </h1>
 
-      <div className="text-muted-foreground mt-3">
+      <div className="mt-3 text-muted-foreground">
         <p>{dataHeader.description}</p>
         {!!email && <p className="font-medium">{email}</p>}
       </div>

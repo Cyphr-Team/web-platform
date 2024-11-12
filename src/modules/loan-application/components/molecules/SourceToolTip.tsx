@@ -31,7 +31,7 @@ const sourceToolTipColumn: ColumnDef<BusinessRegistrationSource>[] = [
 
       return (
         <a
-          className="inline-flex items-center text-blue-700 border-b border-blue-700"
+          className="inline-flex items-center border-b border-blue-700 text-blue-700"
           href={data?.link}
           rel="noopener noreferrer"
           target="_blank"
@@ -69,7 +69,7 @@ export function SourceToolTip({
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
           <Button
-            className="p-0 border-b rounded-none border-dashed border-black font-normal text-base h-6"
+            className="h-6 rounded-none border-b border-dashed border-black p-0 text-base font-normal"
             variant="ghost"
           >
             <p className="break-words">{sourceContent}</p>
@@ -99,7 +99,7 @@ export function SourceToolTip({
             ) : null}
 
             {!!subDescription && (
-              <div className="px-4 text-sm py-2">{subDescription}</div>
+              <div className="px-4 py-2 text-sm">{subDescription}</div>
             )}
           </TooltipContent>
         </TooltipPortal>

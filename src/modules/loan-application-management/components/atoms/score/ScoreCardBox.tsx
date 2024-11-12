@@ -24,7 +24,7 @@ export function ScoreCardBox({
         multiple && "p-2 w-full pb-1"
       )}
     >
-      <div className="uppercase text-xs font-medium text-zinc-500 mb-1">
+      <div className="mb-1 text-xs font-medium uppercase text-zinc-500">
         {name}
       </div>
 

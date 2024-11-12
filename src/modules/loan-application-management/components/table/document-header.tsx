@@ -40,17 +40,17 @@ export const DocumentTableHeader: React.FC<Props> = ({ onSearch }) => {
   return (
     <Form {...form}>
       <form className="space-y-6" onSubmit={onSubmit}>
-        <div className="flex w-full items-center flex-wrap gap-3">
+        <div className="flex w-full flex-wrap items-center gap-3">
           <FormField
             control={form.control}
             name="search"
             render={({ field }) => (
-              <FormItem className="flex flex-col flex-shrink-0 min-w-[300px]">
+              <FormItem className="flex min-w-[300px] shrink-0 flex-col">
                 <FormControl>
                   <Input
                     className="pl-9"
                     placeholder="Search for documents"
-                    prefixIcon={<Search className="h-5 w-5 opacity-50" />}
+                    prefixIcon={<Search className="size-5 opacity-50" />}
                     type="text"
                     {...field}
                   />

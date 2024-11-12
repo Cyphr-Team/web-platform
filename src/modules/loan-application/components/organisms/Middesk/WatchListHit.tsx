@@ -44,7 +44,7 @@ const columns: ColumnDef<BusinessWatchlistDetail>[] = [
               sourceContent="Source URL"
               subDescription={
                 <a
-                  className="text-blue-700 font-semibold hover:underline"
+                  className="font-semibold text-blue-700 hover:underline"
                   href={data.sourceUrl}
                   rel="noopener noreferrer"
                   target="_blank"

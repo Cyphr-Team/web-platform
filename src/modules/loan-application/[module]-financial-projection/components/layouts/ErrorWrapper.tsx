@@ -18,8 +18,8 @@ export function ErrorWrapper(props: PropsWithChildren<ErrorWrapperProps>) {
         className
       )}
     >
-      <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
-        <div className="sticky top-1/2 left-1/2 justify-center items-center w-full flex flex-col">
+      <div className="absolute z-10 size-full rounded bg-zinc-50/50">
+        <div className="sticky left-1/2 top-1/2 flex w-full flex-col items-center justify-center">
           {isWorkspaceAdmin ? "This applicant" : "You"} have not submitted or
           our system is processing it, please wait!
         </div>

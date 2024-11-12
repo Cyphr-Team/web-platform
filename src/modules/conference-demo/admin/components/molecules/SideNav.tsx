@@ -27,7 +27,7 @@ export function SideNav({ items, className }: SidebarProps) {
       )}
       data-collapsed={isCollapsed}
     >
-      <div className="pl-3xl pr-2xl items-center mb-3xl justify-between hidden md:flex">
+      <div className="mb-3xl hidden items-center justify-between pl-3xl pr-2xl md:flex">
         <LogoHeader isCollapsed={isCollapsed} toggleCollapse={toggleCollapse} />
         {!isCollapsed && (
           <button type="button" onClick={toggleCollapse}>
@@ -36,7 +36,7 @@ export function SideNav({ items, className }: SidebarProps) {
         )}
       </div>
 
-      <div className="px-xl flex-col flex-1 hidden md:flex">
+      <div className="hidden flex-1 flex-col px-xl md:flex">
         <div
           className={cn(
             "group flex flex-col flex-1 gap-4 justify-between mb-0",
@@ -44,7 +44,7 @@ export function SideNav({ items, className }: SidebarProps) {
           )}
           data-collapsed={isCollapsed}
         >
-          <nav className="flex flex-col gap-y-2 flex-1">
+          <nav className="flex flex-1 flex-col gap-y-2">
             <TooltipProvider>
               {items.map((item) => {
                 const NavLinkComponent = isCollapsed
@@ -57,7 +57,7 @@ export function SideNav({ items, className }: SidebarProps) {
           </nav>
         </div>
       </div>
-      <div className="px-xl flex-col hidden md:flex">
+      <div className="hidden flex-col px-xl md:flex">
         <Account isCollapsed={isCollapsed} />
       </div>
     </div>

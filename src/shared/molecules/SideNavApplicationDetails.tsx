@@ -16,7 +16,7 @@ import { LogoHeader } from "../atoms/LogoHeader"
 
 function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
   return (
-    <li className="flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer">
+    <li className="flex cursor-pointer items-center gap-3 rounded p-2 text-base">
       <div
         className={cn(
           "w-6 h-6 rounded-md flex justify-center items-center border flex-shrink-0",
@@ -46,14 +46,14 @@ function LoanProgramCollapsible({
 
   return (
     <AccordionItem
-      className="w-full bg-white rounded-lg shadow-md"
+      className="w-full rounded-lg bg-white shadow-md"
       value={label}
     >
       <AccordionTrigger
-        className="flex-row-reverse w-full px-4 py-2"
+        className="w-full flex-row-reverse px-4 py-2"
         id={`parent-step-${label.toLowerCase()}`}
       >
-        <div className="flex items-center justify-between flex-1 ml-3 font-semibold">
+        <div className="ml-3 flex flex-1 items-center justify-between font-semibold">
           <div>{label}</div>
           <div>
             <CircularProgress percent={1} text={progressText} />
@@ -62,7 +62,7 @@ function LoanProgramCollapsible({
       </AccordionTrigger>
       <AccordionContent className="pb-0">
         <Separator />
-        <ul className="px-2 py-4 gap-1 flex flex-col">
+        <ul className="flex flex-col gap-1 px-2 py-4">
           {/* Render each step in the loan application */}
           {children}
         </ul>
@@ -86,14 +86,14 @@ export function SideNavApplicationDetails() {
         "h-full flex-col hidden md:flex bg-background-disabled w-96 flex-shrink-0 mb-3xl"
       )}
     >
-      <div className="pl-3xl pr-2xl items-center mb-4 justify-between flex bg-white border-b h-20">
+      <div className="mb-4 flex h-20 items-center justify-between border-b bg-white pl-3xl pr-2xl">
         <LogoHeader className="justify-center" />
       </div>
 
-      <div className="px-xl flex-col flex-1 md:flex overflow-y-scroll pb-4">
+      <div className="flex-1 flex-col overflow-y-scroll px-xl pb-4 md:flex">
         <Accordion
           key={progress.length}
-          className="w-full flex flex-col gap-2"
+          className="flex w-full flex-col gap-2"
           defaultValue={Object.keys(menuGroupByParent)}
           type="multiple"
         >

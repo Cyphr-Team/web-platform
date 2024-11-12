@@ -122,13 +122,13 @@ export function OwnerInformationForm({
     >
       <div className="flex flex-col gap-3xl overflow-auto">
         <Form {...form}>
-          <div className="flex flex-col gap-2xl  rounded-lg h-fit shadow-none">
+          <div className="flex h-fit flex-col  gap-2xl rounded-lg shadow-none">
             <h5 className="text-lg font-semibold">
               Owner / Guarantor Information
             </h5>
             <Separator />
 
-            <form className="grid grid-cols-6 gap-y-2xl gap-x-2xl px-1">
+            <form className="grid grid-cols-6 gap-2xl px-1">
               <TextInput
                 required
                 className="col-span-3"
@@ -201,7 +201,7 @@ export function OwnerInformationForm({
                 label="Email address"
                 name="email"
                 placeholder="i.e: larry@latte.com"
-                prefixIcon={<Mail className="h-5 w-5 text-muted-foreground" />}
+                prefixIcon={<Mail className="size-5 text-muted-foreground" />}
               />
               <FormField
                 name="phoneNumber"
@@ -278,7 +278,7 @@ export function OwnerInformationForm({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="text-base input-number-remove-arrow"
+                        className="input-number-remove-arrow text-base"
                         max={100}
                         min={0}
                         placeholder="i.e: 70"

@@ -39,7 +39,7 @@ export function DeleteCurrentLoanButton({
       onConfirmed={handleDeleteCurrentLoan}
     >
       <Button
-        className="cursor-pointer text-center p-0 hover:bg-white"
+        className="cursor-pointer p-0 text-center hover:bg-white"
         name={`btn-delete-current-loan-${index + 1}`}
         type="button"
         variant="ghost"

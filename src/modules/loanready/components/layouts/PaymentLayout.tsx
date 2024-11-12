@@ -4,9 +4,9 @@ interface MainLayoutProps {
 
 export function PaymentLayout({ children }: MainLayoutProps) {
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex flex-col space-y-3xl border-b mt-xl">
-        <h1 className="text-3xl font-semibold whitespace-nowrap pl-10 py-6">
+    <div className="flex size-full flex-col">
+      <div className="mt-xl flex flex-col space-y-3xl border-b">
+        <h1 className="whitespace-nowrap py-6 pl-10 text-3xl font-semibold">
           Enter Payment Details
         </h1>
       </div>

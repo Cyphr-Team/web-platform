@@ -37,11 +37,11 @@ export const DocumentSignalsDetails: React.FC<Props> = ({ handleClose }) => {
       <div className="flex justify-between py-3">
         <div className="flex items-center gap-3">
           <Button className="p-0" variant="ghost" onClick={handleClose}>
-            <X className="w-10 h-10" strokeWidth={0.75} />
+            <X className="size-10" strokeWidth={0.75} />
           </Button>
           <p className="text-lg">{section.title}</p>
         </div>
-        <div className="flex font-semibold text-sm text-center">
+        <div className="flex text-center text-sm font-semibold">
           {section_data.map((data) => (
             <button
               key={data.content}

@@ -6,17 +6,17 @@ import { Link } from "react-router-dom"
 
 export function ForgotPasswordSection() {
   return (
-    <div className="rounded-[32px] shadow-primary md:w-[540px] mx-auto h-auto p-8 bg-white">
+    <div className="mx-auto h-auto rounded-[32px] bg-white p-8 shadow-primary md:w-[540px]">
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
         <ForgotPasswordForm />
 
         <Button
           asChild
-          className="px-1 text-sm text-foreground py-0 self-center"
+          className="self-center px-1 py-0 text-sm text-foreground"
           variant="link"
         >
           <Link to={APP_PATH.LOGIN}>
-            <ArrowLeft className="w-5 h-5 mr-1" />
+            <ArrowLeft className="mr-1 size-5" />
             Back to log in
           </Link>
         </Button>

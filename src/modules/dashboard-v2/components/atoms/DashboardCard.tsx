@@ -33,10 +33,10 @@ export function DashboardCard({
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="md:pt-0 flex-1">
+      <CardContent className="flex-1 md:pt-0">
         {!isLoading ? (
-          <div className="flex flex-wrap justify-between items-center gap-1">
-            <div className="text-3xl font-semibold break-world">
+          <div className="flex flex-wrap items-center justify-between gap-1">
+            <div className="break-world text-3xl font-semibold">
               {value ?? 0}
               {unit ? <span> {unit}</span> : null}
             </div>
@@ -48,7 +48,7 @@ export function DashboardCard({
             )}
           </div>
         ) : (
-          <Skeleton className="w-full h-8" />
+          <Skeleton className="h-8 w-full" />
         )}
         {!!description && (
           <p className="text-xs text-muted-foreground">{description}</p>

@@ -197,7 +197,7 @@ export function ESignForm() {
 
   if (!isPreviousStepsCompleted) {
     return (
-      <div className="flex md:col-span-6 md:col-start-2 col-span-8 mx-6 md:mx-0">
+      <div className="col-span-8 mx-6 flex md:col-span-6 md:col-start-2 md:mx-0">
         <AppAlert
           description="Please complete all previous steps? Once done, we will be able to generate an e-sign document for you. Thank you!"
           title="Warning!"
@@ -240,13 +240,13 @@ export function ESignForm() {
       )}
     >
       {sessionId ? (
-        <div className="w-full h-full">
+        <div className="size-full">
           <iframe
             className="h-[70vh] w-full border"
             src={`https://app.pandadoc.com/s/${sessionId}/`}
           />
 
-          <div className="mt-3 float-right">
+          <div className="float-right mt-3">
             <Button
               className="flex items-center gap-1"
               disabled={
@@ -262,17 +262,17 @@ export function ESignForm() {
           </div>
         </div>
       ) : isShowCreateSessionBtn || isShowCreateDocumentBtn ? (
-        <div className="flex flex-col items-center gap-4 h-full">
+        <div className="flex h-full flex-col items-center gap-4">
           <AppAlert
             description={
-              <div className="flex items-center justify-between gap-2 flex-wrap">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <p>
                   Too many attempts to generate a document. Please try again
                   later.
                 </p>
                 {isShowCreateDocumentBtn ? (
                   <ButtonLoading
-                    className="flex items-center gap-1 py-1 px-2 h-auto ml-auto mb-2"
+                    className="mb-2 ml-auto flex h-auto items-center gap-1 px-2 py-1"
                     isLoading={isCreatingDocument}
                     type="button"
                     variant="outline"
@@ -284,7 +284,7 @@ export function ESignForm() {
                 ) : null}
                 {!isShowCreateDocumentBtn && isShowCreateSessionBtn ? (
                   <ButtonLoading
-                    className="flex items-center gap-1 py-1 px-2 h-auto ml-auto mb-2"
+                    className="mb-2 ml-auto flex h-auto items-center gap-1 px-2 py-1"
                     isLoading={isCreatingSession}
                     type="button"
                     variant="outline"
@@ -301,7 +301,7 @@ export function ESignForm() {
           />
         </div>
       ) : (
-        <div className="flex items-center gap-1 h-full">
+        <div className="flex h-full items-center gap-1">
           <AppAlert
             description={
               <div>
@@ -311,7 +311,7 @@ export function ESignForm() {
                 </p>
                 <p>
                   Thank you for your patience...
-                  <Loader2 className="w-4 h-4 ml-0.5 animate-spin inline-block mb-1" />
+                  <Loader2 className="mb-1 ml-0.5 inline-block size-4 animate-spin" />
                 </p>
               </div>
             }

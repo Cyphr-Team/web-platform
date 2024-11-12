@@ -16,7 +16,7 @@ export const VerificationItem: React.FC<VerificationItemProps> = ({
   return (
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-text-primary font-medium text-sm">{title}</p>
+        <p className="text-sm font-medium text-text-primary">{title}</p>
         <p className="text-text-secondary">{description}</p>
       </div>
       <div className="flex items-center">

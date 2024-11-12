@@ -14,11 +14,11 @@ interface SubscriptionInfoProps {
 
 export function SubscriptionInfo({ data }: SubscriptionInfoProps) {
   return (
-    <div className="flex gap-1 flex-wrap">
+    <div className="flex flex-wrap gap-1">
       <div>
         <Badge
           isDot
-          className="capitalize w-24 justify-center"
+          className="w-24 justify-center capitalize"
           variant="soft"
           variantColor={getSubscriptionStatusBadge(data?.status)}
         >
@@ -27,7 +27,7 @@ export function SubscriptionInfo({ data }: SubscriptionInfoProps) {
       </div>
       <div>
         <span>{data?.plan?.name ?? "N/A"}</span> -{" "}
-        <span className="capitalize mr-0.5">
+        <span className="mr-0.5 capitalize">
           {snakeCaseToText(data?.plan?.type ?? "") || "N/A"}
         </span>
         {data?.plan?.type === PlanType.ANNUAL_RECURRING &&

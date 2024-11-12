@@ -41,21 +41,21 @@ interface PaymentDetailRowProps {
 
 const ClosingBalanceCell: React.FC<PaymentDetailRowProps> = ({ row }) => {
   return (
-    <p className="truncate font-medium text-2xl">
+    <p className="truncate text-2xl font-medium">
       {toCurrency(get(row.original, PAYMENT.CLOSING_BALANCE, 0))}
     </p>
   )
 }
 const OpeningBalanceCell: React.FC<PaymentDetailRowProps> = ({ row }) => {
   return (
-    <p className="truncate font-light text-2xl">
+    <p className="truncate text-2xl font-light">
       {toCurrency(get(row.original, PAYMENT.OPENING_BALANCE, 0))}
     </p>
   )
 }
 
 const TotalPaymentCell: React.FC<PaymentDetailRowProps> = ({ row }) => (
-  <p className="truncate font-light text-2xl">{`(${get(
+  <p className="truncate text-2xl font-light">{`(${get(
     row.original,
     PAYMENT.TOTAL_PAYMENT,
     "N/A"
@@ -63,7 +63,7 @@ const TotalPaymentCell: React.FC<PaymentDetailRowProps> = ({ row }) => (
 )
 
 const InterestPaymentCell: React.FC<PaymentDetailRowProps> = ({ row }) => (
-  <p className="truncate font-light text-2xl">{`(${get(
+  <p className="truncate text-2xl font-light">{`(${get(
     row.original,
     PAYMENT.INTEREST_PAYMENT,
     "N/A"
@@ -71,7 +71,7 @@ const InterestPaymentCell: React.FC<PaymentDetailRowProps> = ({ row }) => (
 )
 
 const PrincipalPaymentCell: React.FC<PaymentDetailRowProps> = ({ row }) => (
-  <p className="truncate font-light text-2xl">{`(${get(
+  <p className="truncate text-2xl font-light">{`(${get(
     row.original,
     PAYMENT.PRINCIPAL_PAYMENT,
     "N/A"
@@ -91,7 +91,7 @@ const DisclaimerNote: React.FC = () => {
       />
 
       <p className="text-4xl font-semibold">Debt Schedule</p>
-      <div className="font-light text-xl text-justify">
+      <div className="text-justify text-xl font-light">
         <p>
           <strong>Confidentiality Notice:</strong> This document and its
           contents are confidential, intended solely for the use of the named
@@ -141,8 +141,8 @@ const DisclaimerNote: React.FC = () => {
 
 const AmortizationScheduleTitle: React.FC = () => {
   return (
-    <div className="flex flex-col mb-3">
-      <p className="font-semibold text-4xl mb-2">Amortization Schedule</p>
+    <div className="mb-3 flex flex-col">
+      <p className="mb-2 text-4xl font-semibold">Amortization Schedule</p>
       <p className="text-2xl font-light">
         A consolidated monthly schedule of each debt through to payoff. This
         will display as a scrolling horizontal amortization schedule, as will be
@@ -157,7 +157,7 @@ const AmortizationScheduleTitle: React.FC = () => {
 const CurrentLoanOverview: React.FC = () => {
   return (
     <div className="flex flex-col gap-3">
-      <p className="font-semibold text-4xl">Current Loans Overview</p>
+      <p className="text-4xl font-semibold">Current Loans Overview</p>
       <p className="text-2xl font-light">
         A detailed table displaying each debt obligation with key information:
         Lender Name, Loan Type, Outstanding Loan Balance, Monthly Payment
@@ -184,7 +184,7 @@ const PageHeader: React.FC<{
   createdDate: string
 }> = ({ createdDate }) => {
   return (
-    <div className="flex items-center w-full justify-between mb-3 pb-2 border-b-2">
+    <div className="mb-3 flex w-full items-center justify-between border-b-2 pb-2">
       <SBBLogo />
       <p>Updated on {format(createdDate, FORMAT_DATE_MM_DD_YYYY)}</p>
     </div>
@@ -284,7 +284,7 @@ const DebtScheduleTable: React.FC<{
       accessorKey: "month",
       header: ({ column }) => (
         <DataTableColumnHeader
-          className="text-2xl text-primary max-w-[100px]"
+          className="max-w-[100px] text-2xl text-primary"
           column={column}
           title="Date"
         />
@@ -302,7 +302,7 @@ const DebtScheduleTable: React.FC<{
       enableSorting: false,
       header: ({ column }) => (
         <DataTableColumnHeader
-          className="text-2xl text-primary max-w-[100px]"
+          className="max-w-[100px] text-2xl text-primary"
           column={column}
           title="Opening Balance"
         />
@@ -315,7 +315,7 @@ const DebtScheduleTable: React.FC<{
       enableSorting: false,
       header: ({ column }) => (
         <DataTableColumnHeader
-          className="text-2xl text-primary max-w-[100px]"
+          className="max-w-[100px] text-2xl text-primary"
           column={column}
           title="Total Payment"
         />
@@ -329,7 +329,7 @@ const DebtScheduleTable: React.FC<{
 
       header: ({ column }) => (
         <DataTableColumnHeader
-          className="text-2xl text-primary max-w-[100px]"
+          className="max-w-[100px] text-2xl text-primary"
           column={column}
           title="Interest Payment"
         />
@@ -343,7 +343,7 @@ const DebtScheduleTable: React.FC<{
 
       header: ({ column }) => (
         <DataTableColumnHeader
-          className="text-2xl text-primary max-w-[100px]"
+          className="max-w-[100px] text-2xl text-primary"
           column={column}
           title="Principal Payment"
         />
@@ -357,7 +357,7 @@ const DebtScheduleTable: React.FC<{
 
       header: ({ column }) => (
         <DataTableColumnHeader
-          className="text-2xl text-primary max-w-[100px]"
+          className="max-w-[100px] text-2xl text-primary"
           column={column}
           title="Closing Balance"
         />
@@ -368,7 +368,7 @@ const DebtScheduleTable: React.FC<{
 
   return (
     <div className="flex flex-col">
-      <h3 className="font-semibold text-4xl">{lenderName}</h3>
+      <h3 className="text-4xl font-semibold">{lenderName}</h3>
       <DataTable
         columns={columns}
         data={data}
@@ -420,7 +420,7 @@ const TotalMonthlyPaymentTables: React.FC<{
 
   return (
     <div className="flex flex-col">
-      <h3 className="font-semibold text-4xl">Total Monthly Payment</h3>
+      <h3 className="text-4xl font-semibold">Total Monthly Payment</h3>
       <DataTable
         columns={columns}
         data={data}
@@ -454,80 +454,80 @@ const CurrentLoanOverviewTableData: React.FC<{
   data: CurrentLoanInformationResponse[]
 }> = ({ data }) => {
   return (
-    <div className="rounded-md border relative max-h-full overflow-auto">
-      <Table className="text-2xl relative">
+    <div className="relative max-h-full overflow-auto rounded-md border">
+      <Table className="relative text-2xl">
         <TableBody className="bg-white">
           <TableRow key="lenderName" className="relative">
-            <TableHead className="text-2xl font-medium bg-gray-100 text-black w-80" />
+            <TableHead className="w-80 bg-gray-100 text-2xl font-medium text-black" />
             {data?.map((row, ind) => (
               <TableCell
                 key={`${row.lenderName}-${ind}`}
-                className="text-2xl font-medium border-l bg-gray-100 text-center"
+                className="border-l bg-gray-100 text-center text-2xl font-medium"
               >
                 {row.lenderName}
               </TableCell>
             ))}
           </TableRow>
           <TableRow key="loanType" className="relative">
-            <TableHead className="text-2xl font-semibold bg-white text-black border-r border-b">
+            <TableHead className="border-b border-r bg-white text-2xl font-semibold text-black">
               Loan type
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
                 key={`${row.loanType}-${ind}`}
-                className="text-2xl border-l text-center capitalize"
+                className="border-l text-center text-2xl capitalize"
               >
                 {snakeCaseToText(row.loanType)}
               </TableCell>
             ))}
           </TableRow>
           <TableRow key="outstandingLoanBalance" className="relative">
-            <TableHead className="text-2xl font-semibold bg-white text-black border-r border-b">
+            <TableHead className="border-b border-r bg-white text-2xl font-semibold text-black">
               Outstanding loan balance
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
                 key={`${row.outstandingLoanBalance}-${ind}`}
-                className="text-2xl border-l text-center"
+                className="border-l text-center text-2xl"
               >
                 {toCurrency(row.outstandingLoanBalance)}
               </TableCell>
             ))}
           </TableRow>
           <TableRow key="monthlyPaymentAmount" className="relative">
-            <TableHead className="text-2xl font-semibold bg-white text-black border-r border-b">
+            <TableHead className="border-b border-r bg-white text-2xl font-semibold text-black">
               Monthly payment amount
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
                 key={`${row.monthlyPaymentAmount}-${ind}`}
-                className="text-2xl border-l text-center"
+                className="border-l text-center text-2xl"
               >
                 {toCurrency(row.monthlyPaymentAmount)}
               </TableCell>
             ))}
           </TableRow>
           <TableRow key="loanTermRemaining" className="relative">
-            <TableHead className="text-2xl font-semibold bg-white text-black border-r border-b">
+            <TableHead className="border-b border-r bg-white text-2xl font-semibold text-black">
               Loan term remaining
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
                 key={`${row.loanTermRemainingInMonths}-${ind}`}
-                className="text-2xl border-l text-center"
+                className="border-l text-center text-2xl"
               >
                 {row.loanTermRemainingInMonths}
               </TableCell>
             ))}
           </TableRow>
           <TableRow key="annualInterestRate" className="relative">
-            <TableHead className="text-2xl font-semibold bg-white text-black border-r">
+            <TableHead className="border-r bg-white text-2xl font-semibold text-black">
               Annual interest rate
             </TableHead>
             {data?.map((row, ind) => (
               <TableCell
                 key={`${row.annualInterestRate}-${ind}`}
-                className="text-2xl border-l text-center"
+                className="border-l text-center text-2xl"
               >
                 {`${row.annualInterestRate}%`}
               </TableCell>

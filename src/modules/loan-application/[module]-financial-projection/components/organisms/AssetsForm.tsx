@@ -147,7 +147,7 @@ export function AssetsForm() {
         <FormLayout hideTopNavigation>
           <div>
             <h5 className="text-lg font-semibold">Accounts Receivable</h5>
-            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
+            <h5 className="financial-projection mt-2 text-sm font-normal text-muted-foreground">
               Along with your current cash, accounts receivable are current
               assets - cash you expect to receive in the near future.
             </h5>
@@ -160,7 +160,7 @@ export function AssetsForm() {
         <FormLayout hideTopNavigation cardClassName="mt-5">
           <div>
             <h5 className="text-lg font-semibold">Long Term Assets</h5>
-            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
+            <h5 className="financial-projection mt-2 text-sm font-normal text-muted-foreground">
               Long-term assets represent significant investments your business
               has made in resources like equipment, property, and vehicles that
               are expected to provide value over several years. These assets are
@@ -170,7 +170,7 @@ export function AssetsForm() {
           </div>
 
           <Separator />
-          <div className="flex flex-col gap-6 mb-5">
+          <div className="mb-5 flex flex-col gap-6">
             <EquityArrayFormTemplate
               addIcon={<Plus />}
               blocks={LongTermAssetsFormBlocks}
@@ -182,7 +182,7 @@ export function AssetsForm() {
           </div>
         </FormLayout>
         {!isReviewApplicationStep(step) && (
-          <div className="flex flex-col gap-2xl mt-4">
+          <div className="mt-4 flex flex-col gap-2xl">
             <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}

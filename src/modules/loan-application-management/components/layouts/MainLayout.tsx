@@ -8,8 +8,8 @@ interface Props {
 
 export const MainLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="flex flex-col w-full h-full md:pt-4">
-      <div className="flex flex-col space-y-3xl border-b mt-xl">
+    <div className="flex size-full flex-col md:pt-4">
+      <div className="mt-xl flex flex-col space-y-3xl border-b">
         <BasicInformation />
         <TopNav />
       </div>

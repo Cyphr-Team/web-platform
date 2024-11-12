@@ -15,7 +15,7 @@ export function OrderSummary({ selectedPlan }: OrderSummaryProps) {
 
   return (
     <div>
-      <h3 className="text-lg text-[#252828] font-semibold mb-4">
+      <h3 className="mb-4 text-lg font-semibold text-[#252828]">
         Order summary
       </h3>
       <Separator />
@@ -26,7 +26,7 @@ export function OrderSummary({ selectedPlan }: OrderSummaryProps) {
               <p className="font-medium text-text-foreground">
                 {selectedPlanDetail.label}
               </p>
-              <p className="font-normal mt-1">
+              <p className="mt-1 font-normal">
                 {toCurrency(selectedPlanDetail.price / 100)} x 1 application
               </p>
             </div>
@@ -37,7 +37,7 @@ export function OrderSummary({ selectedPlan }: OrderSummaryProps) {
           <Separator className="my-4" />
 
           {/* Total due */}
-          <div className="flex justify-between text-text-foreground font-semibold mt-2">
+          <div className="mt-2 flex justify-between font-semibold text-text-foreground">
             <p>Total Due</p>
             <p>{toCurrency(selectedPlanDetail.price / 100)}</p>
           </div>

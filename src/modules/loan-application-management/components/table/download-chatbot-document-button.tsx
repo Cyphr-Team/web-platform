@@ -53,7 +53,7 @@ export function DownloadChatbotDocumentButton({
           >
             <div className="flex items-center">
               {text ? <span className="mr-1">{text}</span> : null}
-              <FileDown className="w-6 h-6 p-0.5" />
+              <FileDown className="size-6 p-0.5" />
             </div>
           </ButtonLoading>
         </TooltipTrigger>

@@ -11,9 +11,9 @@ export function CircularProgress({
   const progress = percent * P
 
   return (
-    <div className="relative h-10 w-10">
+    <div className="relative size-10">
       <span>
-        <svg className="h-full w-full" viewBox="22 22 44 44">
+        <svg className="size-full" viewBox="22 22 44 44">
           <circle
             className="stroke-current text-gray-200"
             cx="44"
@@ -34,8 +34,8 @@ export function CircularProgress({
           </text>
         </svg>
       </span>
-      <span className="absolute w-full h-full top-0 left-0 origin-center -rotate-90">
-        <svg className="h-full w-full text-primary" viewBox="22 22 44 44">
+      <span className="absolute left-0 top-0 size-full origin-center -rotate-90">
+        <svg className="size-full text-primary" viewBox="22 22 44 44">
           <circle
             className="stroke-current text-[#4F6161]"
             cx="44"

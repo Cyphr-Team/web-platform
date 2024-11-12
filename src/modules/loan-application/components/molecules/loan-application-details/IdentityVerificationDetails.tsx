@@ -52,7 +52,7 @@ export const IdentityVerificationDetails: React.FC = () => {
         className={isLoadingLoanSmartKycDetail ? "p-12" : "p-0"}
         isLoading={isLoadingLoanSmartKycDetail}
       >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <SummaryItem
             subtitle1={getTimeFromSecs({
               totalSecs: loanSmartKycDetail?.behavior?.completionTime ?? 0
@@ -83,7 +83,7 @@ export const IdentityVerificationDetails: React.FC = () => {
   const verifiedInformation = () => {
     return (
       <div className="py-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <SummaryItem
             subtitle1={joinString(
               passedGovVerification?.nameFirst,
@@ -108,7 +108,7 @@ export const IdentityVerificationDetails: React.FC = () => {
             title="Date of birth"
           />
         </div>
-        <div className=" my-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className=" my-6 grid grid-cols-2 gap-6 md:grid-cols-4">
           <SummaryItem
             subtitle1={
               passedGovVerification?.identificationNumber ??
@@ -134,7 +134,7 @@ export const IdentityVerificationDetails: React.FC = () => {
     )
   }
   const emptyInformation = (
-    <p className="text-center align-middle mt-12">
+    <p className="mt-12 text-center align-middle">
       There have been no successful Government ID Verifications.
     </p>
   )
@@ -179,7 +179,7 @@ export const IdentityVerificationDetails: React.FC = () => {
 
       <IdentityVerificationCard
         content={
-          <p className="align-middle mt-4 text-gray-700 ">
+          <p className="mt-4 align-middle text-gray-700 ">
             Applicant has submitted selfie captures which have been successful
             verified.
           </p>

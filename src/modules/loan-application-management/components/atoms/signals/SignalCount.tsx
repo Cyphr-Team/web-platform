@@ -7,15 +7,15 @@ interface Props {
 export const SignalCount: React.FC<Props> = ({ signalCount }) => {
   if (signalCount > 0) {
     return (
-      <div className="rounded-full bg-error-500 text-white p-2 h-8 w-8 cursor-default flex items-center justify-center">
+      <div className="flex size-8 cursor-default items-center justify-center rounded-full bg-error-500 p-2 text-white">
         <p>{signalCount}</p>
       </div>
     )
   }
 
   return (
-    <p className="rounded-full bg-gray-400 text-white p-2 h-8 w-8 cursor-default">
-      <CheckIcon className="h-4 w-4" />
+    <p className="size-8 cursor-default rounded-full bg-gray-400 p-2 text-white">
+      <CheckIcon className="size-4" />
     </p>
   )
 }

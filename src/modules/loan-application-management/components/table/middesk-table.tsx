@@ -109,7 +109,7 @@ export function MiddeskTable<TData, TValue>({
       </Table>
 
       {isLoading ? (
-        <div className="flex items-center flex-col justify-center w-full mt-4">
+        <div className="mt-4 flex w-full flex-col items-center justify-center">
           <Loader2
             className={cn(
               "m-2 h-8 w-8 transition-all ease-out animate-spin text-primary"

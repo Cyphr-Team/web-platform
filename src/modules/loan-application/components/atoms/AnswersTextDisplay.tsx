@@ -42,9 +42,9 @@ export function MultiAnswersTextDisplay({
 }: MultiAnswersTextDisplayProps) {
   return (
     <div className={cn(className, "gap-sm flex flex-col")}>
-      <div className="text-text-primary font-medium text-sm">{label}</div>
+      <div className="text-sm font-medium text-text-primary">{label}</div>
       {value?.map((v, i) => (
-        <p key={i} className="text-sm items-center font-normal">
+        <p key={i} className="items-center text-sm font-normal">
           {v}
         </p>
       ))}

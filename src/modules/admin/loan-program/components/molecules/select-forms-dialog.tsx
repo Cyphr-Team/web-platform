@@ -34,13 +34,13 @@ function FormOptionCard({
   return (
     <Card
       key={formType}
-      className="p-2 mb-4 relative"
+      className="relative mb-4 p-2"
       id={formType}
       onClick={onSelectForm(formType)}
     >
       <Checkbox
         checked={checked}
-        className="absolute top-2 right-2"
+        className="absolute right-2 top-2"
         onChange={onSelectForm(formType)}
       />
       <CardTitle className="text-sm">
@@ -91,12 +91,12 @@ export const SelectFormsDialog: React.FC<Props> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button id="close-select" type="button">
-          <PlusCircle className="text-sm mr-1.5" size={16} />
+          <PlusCircle className="mr-1.5 text-sm" size={16} />
           Add new
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px] px-0 gap-0">
-        <DialogHeader className="px-4 border-b pb-4">
+      <DialogContent className="gap-0 px-0 sm:max-w-[625px]">
+        <DialogHeader className="border-b px-4 pb-4">
           <DialogTitle>Forms</DialogTitle>
         </DialogHeader>
         <div className="p-4">

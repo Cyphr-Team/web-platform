@@ -71,7 +71,7 @@ function RHFPhoneInput<T extends FieldValues>(props: RHFPhoneInputProps<T>) {
               {label}
               {required ? <RequiredSymbol /> : null}
               {subtitle ? (
-                <p className="mt-2 text-text-tertiary font-medium">
+                <p className="mt-2 font-medium text-text-tertiary">
                   {subtitle}
                 </p>
               ) : null}

@@ -37,7 +37,7 @@ export function MfaLoginForm() {
     <div className="flex flex-col space-y-4">
       <Form {...form}>
         <form
-          className="space-y-4 w-full"
+          className="w-full space-y-4"
           onSubmit={form.handleSubmit((data) => mutate(data))}
         >
           <FormField
@@ -46,7 +46,7 @@ export function MfaLoginForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
-                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
+                <FormControl className="hover:border hover:shadow-md focus:border focus:drop-shadow-lg">
                   <Input
                     autoComplete="username"
                     className="text-base"
@@ -67,7 +67,7 @@ export function MfaLoginForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
-                <FormControl className="hover:shadow-md focus:drop-shadow-lg hover:border focus:border">
+                <FormControl className="hover:border hover:shadow-md focus:border focus:drop-shadow-lg">
                   <InputPassword
                     autoComplete="current-password"
                     className="text-base"

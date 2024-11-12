@@ -12,7 +12,7 @@ export const DisclaimerNote: FC<DisclaimerNoteProps> = (props) => {
   const { companyName, title } = props
 
   return (
-    <div className="flex flex-col gap-y-2xl h-[1600px] p-[72px]">
+    <div className="flex h-[1600px] flex-col gap-y-2xl p-[72px]">
       <div className="flex-1">
         <Image
           alt="Loan ready by cyphr"
@@ -26,7 +26,7 @@ export const DisclaimerNote: FC<DisclaimerNoteProps> = (props) => {
         <p className="text-6xl font-semibold">{companyName}</p>
         <p className="text-4xl font-normal">{title ?? "Financial Forecast"}</p>
         <Separator />
-        <div className="font-light text-xl text-justify flex flex-col gap-5 ">
+        <div className="flex flex-col gap-5 text-justify text-xl font-light ">
           <p className="font-semibold">Disclaimer:</p>
           <p>
             The projections and financial statements provided in this

@@ -16,7 +16,7 @@ export const AdminFinancialProjectionLayout: FC<PropsWithChildren> = (
   return (
     <div className={cn("bg-[#F9FAFB] container", "overflow-scroll")}>
       <div className="my-4 flex flex-col space-y-3xl ">
-        <div className="relative bg-white  rounded-xl">
+        <div className="relative rounded-xl  bg-white">
           <ScrollArea className="max-w-[600px] lg:max-w-none">
             <div className="flex items-center space-x-lg">
               {applicationMenu.map((example) => (
@@ -38,7 +38,7 @@ export const AdminFinancialProjectionLayout: FC<PropsWithChildren> = (
           </ScrollArea>
         </div>
       </div>
-      <div className="p-xl pt-3xl flex-1 bg-gray-50">{children}</div>
+      <div className="flex-1 bg-gray-50 p-xl pt-3xl">{children}</div>
     </div>
   )
 }

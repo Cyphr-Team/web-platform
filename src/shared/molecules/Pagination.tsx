@@ -15,10 +15,10 @@ export function Pagination(props: PaginationProps) {
 
   return (
     <div className="flex gap-6">
-      <div className="flex gap-2 items-center font-semibold text-sm">
+      <div className="flex items-center gap-2 text-sm font-semibold">
         <p>Page</p>
         <Input
-          className="w-10 h-10 p-0 focus-visible:ring-0 text-center input-number-remove-arrow"
+          className="input-number-remove-arrow size-10 p-0 text-center focus-visible:ring-0"
           max={total}
           min={1}
           type="number"
@@ -30,20 +30,20 @@ export function Pagination(props: PaginationProps) {
       </div>
       <div className="flex gap-1">
         <Button
-          className="bg-gray-100 w-10 h-10 p-0"
+          className="size-10 bg-gray-100 p-0"
           disabled={page === 1}
           variant="secondary"
           onClick={onPreviousPage}
         >
-          <ChevronUp className="w-6 h-6" />
+          <ChevronUp className="size-6" />
         </Button>
         <Button
-          className="bg-gray-100 w-10 h-10 p-0"
+          className="size-10 bg-gray-100 p-0"
           disabled={page === total}
           variant="secondary"
           onClick={onNextPage}
         >
-          <ChevronDown className="w-6 h-6 text-gray-500" />
+          <ChevronDown className="size-6 text-gray-500" />
         </Button>
       </div>
     </div>

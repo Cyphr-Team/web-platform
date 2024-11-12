@@ -25,10 +25,10 @@ function ContentTooltip(props: ContentTooltipProps) {
         <Info className={cn("text-text-senary", iconClassName)} size={16} />
       </TooltipTrigger>
       <TooltipContent
-        className="bg-black transform py-2.5 border-none rounded-lg"
+        className="rounded-lg border-none bg-black py-2.5"
         sideOffset={0}
       >
-        <div className="text-white max-w-72 font-light text-sm text-center">
+        <div className="max-w-72 text-center text-sm font-light text-white">
           {content}
         </div>
       </TooltipContent>

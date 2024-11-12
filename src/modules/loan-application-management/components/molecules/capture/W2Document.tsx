@@ -20,11 +20,11 @@ export const W2Document: React.FC<Props> = ({ data }) => {
         <TableRow>
           <TableHead
             key="transaction"
-            className="text-black p-2 relative h-10 border-r border-gray-300"
+            className="relative h-10 border-r border-gray-300 p-2 text-black"
           >
             <p className="text-xs">Field Name</p>
           </TableHead>
-          <TableHead key="amount" className="text-black p-2 relative h-10">
+          <TableHead key="amount" className="relative h-10 p-2 text-black">
             <p className="text-xs">Field Value</p>
           </TableHead>
         </TableRow>
@@ -39,10 +39,10 @@ export const W2Document: React.FC<Props> = ({ data }) => {
               "whitespace-nowrap"
             )}
           >
-            <TableCell className="p-2 h-fit border-r border-gray-300">
+            <TableCell className="h-fit border-r border-gray-300 p-2">
               {cell.fieldName}
             </TableCell>
-            <TableCell className="p-2 h-fit font-bold">
+            <TableCell className="h-fit p-2 font-bold">
               {cell.fieldValue || "-"}
             </TableCell>
           </TableRow>

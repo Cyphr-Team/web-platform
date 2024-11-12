@@ -55,12 +55,12 @@ export const PageViewerPanel: React.FC = () => {
   )
 
   return (
-    <div className="flex justify-between w-full py-2 bg-gray-100">
+    <div className="flex w-full justify-between bg-gray-100 py-2">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <div className="flex gap-2 items-center">
-              <HelpCircle className="w-8 h-8 text-text-secondary" />
+            <div className="flex items-center gap-2">
+              <HelpCircle className="size-8 text-text-secondary" />
               <div className="flex flex-col text-left">
                 <p className="text-sm font-semibold">
                   {visualizationDescription?.displayName}
@@ -71,7 +71,7 @@ export const PageViewerPanel: React.FC = () => {
               </div>
             </div>
           </TooltipTrigger>
-          <TooltipContent className="text-white bg-black p-2 max-w-60">
+          <TooltipContent className="max-w-60 bg-black p-2 text-white">
             <p className="text text-xs">
               {visualizationDescription?.description}
             </p>
@@ -88,7 +88,7 @@ export const PageViewerPanel: React.FC = () => {
             >
               <img
                 alt="page"
-                className="w-8 data-[selected=true]:border border-black"
+                className="w-8 border-black data-[selected=true]:border"
                 data-selected={selectedVisualization === visualization}
                 src={visualization.thumbnailSmallUrl}
               />
@@ -97,15 +97,15 @@ export const PageViewerPanel: React.FC = () => {
         </div>
         <div className="flex gap-1">
           <Button
-            className="bg-black rounded-none rounded-tl-sm rounded-bl-sm px-2 disabled:opacity-50 disabled:bg-black"
+            className="rounded-none rounded-l-sm bg-black px-2 disabled:bg-black disabled:opacity-50"
             disabled={selectedVisualization === selectedPage?.visualizations[0]}
             variant="link"
             onClick={handlePreviousVisualization}
           >
-            <ChevronLeft className="h-4 w-4 text-white" strokeWidth={3} />
+            <ChevronLeft className="size-4 text-white" strokeWidth={3} />
           </Button>
           <Button
-            className="bg-black rounded-none rounded-tr-sm rounded-br-sm px-2 disabled:opacity-50 disabled:bg-black"
+            className="rounded-none rounded-r-sm bg-black px-2 disabled:bg-black disabled:opacity-50"
             disabled={
               selectedVisualization ===
               selectedPage?.visualizations.slice(-1)[0]
@@ -113,7 +113,7 @@ export const PageViewerPanel: React.FC = () => {
             variant="link"
             onClick={handleNextVisualization}
           >
-            <ChevronRight className="h-4 w-4 text-white" strokeWidth={3} />
+            <ChevronRight className="size-4 text-white" strokeWidth={3} />
           </Button>
         </div>
       </div>

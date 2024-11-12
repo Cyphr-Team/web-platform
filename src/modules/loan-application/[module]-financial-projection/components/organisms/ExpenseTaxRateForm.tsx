@@ -47,9 +47,9 @@ export const TaxRateForm: FC = () => {
     <FormLayout title="Tax Rates">
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div className="flex flex-col gap-2xl">
-          <div className="flex flex-col gap-xl p-y-2">
+          <div className="p-y-2 flex flex-col gap-xl">
             <h5 className="text-lg font-semibold">Tax Rates</h5>
-            <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
+            <h5 className="financial-projection mt-2 text-sm font-normal text-muted-foreground">
               Income Tax: Enter a tax rate to cover income taxes (federal,
               state, local). A 20% rate is a good estimate. Taxes apply only
               when profitable, though unprofitable years may still incur some
@@ -60,7 +60,7 @@ export const TaxRateForm: FC = () => {
           <Separator />
           <RHFNumberInput
             isHideErrorMessage
-            className="flex justify-between items-center"
+            className="flex items-center justify-between"
             label="Estimate your income tax rate:"
             name="incomeTaxRate"
             placeholder="Income tax rate"
@@ -72,7 +72,7 @@ export const TaxRateForm: FC = () => {
           />
 
           {!isReviewApplicationStep(step) && (
-            <div className="flex flex-col gap-2xl mt-4">
+            <div className="mt-4 flex flex-col gap-2xl">
               <Button disabled={!form.formState.isValid}>Next</Button>
             </div>
           )}

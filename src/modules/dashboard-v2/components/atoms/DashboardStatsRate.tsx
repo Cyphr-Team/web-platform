@@ -5,13 +5,13 @@ import { cn } from "@/lib/utils"
 import { ArrowDown, ArrowUp } from "lucide-react"
 
 const statsVariants = cva(
-  "inline-flex items-center rounded-full bg-opacity-10 border px-2.5 py-0.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-full border bg-opacity-10 px-2.5 py-0.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
       variant: {
-        positive: "text-green-700 bg-green-500 border-success-200",
-        negative: "text-red-700 bg-red-500 border-red-300",
-        neutral: "text-gray-700 bg-gray-300 border-gray-300"
+        positive: "border-success-200 bg-green-500 text-green-700",
+        negative: "border-red-300 bg-red-500 text-red-700",
+        neutral: "border-gray-300 bg-gray-300 text-gray-700"
       }
     },
     defaultVariants: {
@@ -41,7 +41,7 @@ function DashboardStatsRate({
 
   return (
     <div className={cn(statsVariants({ variant }), className)} {...props}>
-      {Icon ? <Icon className="h-3 w-3" strokeWidth={3} /> : null}
+      {Icon ? <Icon className="size-3" strokeWidth={3} /> : null}
       {Math.abs(percentRate)}%
     </div>
   )

@@ -16,9 +16,9 @@ export const CashFlowGlanceCard: React.FC<Props> = ({
   isPercent
 }) => {
   return (
-    <Card className="rounded-xl h-32 shadow-none px-3xl py-2 flex flex-col items-start">
-      <p className="text-text-tertiary text-md h-1/2">{title}</p>
-      <span className="text-2xl 2xl:text-3xl font-semibold">
+    <Card className="flex h-32 flex-col items-start rounded-xl px-3xl py-2 shadow-none">
+      <p className="text-md h-1/2 text-text-tertiary">{title}</p>
+      <span className="text-2xl font-semibold 2xl:text-3xl">
         {value
           ? isCurrency
             ? toCurrency(value)

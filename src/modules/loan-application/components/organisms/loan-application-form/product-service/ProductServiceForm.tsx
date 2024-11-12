@@ -88,7 +88,7 @@ export function ProductServiceForm() {
             render={({ field }) => (
               <FormItem className="flex items-center">
                 <FormLabel className="text-text-secondary">
-                  <p className="text-sm text-text-secondary font-medium">
+                  <p className="text-sm font-medium text-text-secondary">
                     Is your core business a product or service?
                   </p>
                 </FormLabel>
@@ -100,7 +100,7 @@ export function ProductServiceForm() {
                       field.onChange(value.toString())
                     }}
                   >
-                    <SelectTrigger className="col-span-6 xl:col-span-2 max-w-40 xl:col-end-7 xl:ml-auto text-sm">
+                    <SelectTrigger className="col-span-6 max-w-40 text-sm xl:col-span-2 xl:col-end-7 xl:ml-auto">
                       <SelectValue placeholder="Please select..." />
                     </SelectTrigger>
                     <SelectContent>

@@ -15,8 +15,8 @@ export function CashFlowGlance() {
 
   return (
     <div className="mt-4">
-      <Card className="p-4 gap-4 min-h-40">
-        <div className="flex items-center mb-4">
+      <Card className="min-h-40 gap-4 p-4">
+        <div className="mb-4 flex items-center">
           <h3 className="text-xl font-medium">Cash Flow at a Glance</h3>
         </div>
         <LoadingWrapper isLoading={isFetchingCashflow}>

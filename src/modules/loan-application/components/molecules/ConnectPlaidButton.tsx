@@ -7,7 +7,7 @@ export function ConnectPlaidButton() {
 
   return linkSuccess ? (
     <Button
-      className="text-primary bg-primary w-fit text-white px-lg py-md flex gap-1"
+      className="flex w-fit gap-1 bg-primary px-lg py-md text-white"
       type="button"
     >
       <p>Connected</p>
@@ -15,7 +15,7 @@ export function ConnectPlaidButton() {
     </Button>
   ) : (
     <Button
-      className="text-primary bg-black w-fit text-white px-lg py-md"
+      className="w-fit bg-black px-lg py-md text-white"
       disabled={!ready}
       type="button"
       onClick={() => {

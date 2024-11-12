@@ -2,7 +2,7 @@ import { LoginFormSection } from "./components/login-form-section"
 
 export function Component() {
   return (
-    <div className="px-4 py-8 relative h-screen items-start sm:top-[50px] 2xl:top-40 justify-center grid lg:grid-cols-1 overflow-y-auto">
+    <div className="relative grid h-screen items-start justify-center overflow-y-auto px-4 py-8 sm:top-[50px] lg:grid-cols-1 2xl:top-40">
       <LoginFormSection />
     </div>
   )

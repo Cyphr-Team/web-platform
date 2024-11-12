@@ -116,10 +116,10 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             )}
             onClick={handleClickToOpen}
           >
-            <Search className="h-6 w-6 cursor-pointer text-zinc-600 mr-2 self-start mt-3" />
+            <Search className="mr-2 mt-3 size-6 cursor-pointer self-start text-zinc-600" />
 
             {selectedValues.length > 0 ? (
-              <div className="flex justify-between items-top flex-1 ">
+              <div className="items-top flex flex-1 justify-between ">
                 <div className="flex flex-wrap items-center gap-2">
                   {selectedValues.map((value) => {
                     const option = options.find((o) => o.id === value.id)
@@ -127,7 +127,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                     return (
                       <div
                         key={(option?.email ?? "") + (option?.name ?? "")}
-                        className="flex rounded-md p-1 py-0.5 justify-center items-center border-stone-300 border"
+                        className="flex items-center justify-center rounded-md border border-stone-300 p-1 py-0.5"
                         onClick={(event) => {
                           event.preventDefault()
                           event.stopPropagation()
@@ -135,17 +135,17 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                       >
                         <JudgeAvatar
                           avatar={option?.avatar}
-                          className="h-5 w-5 text-xs"
+                          className="size-5 text-xs"
                           email={option?.name}
                           name={option?.name ?? ""}
                         />
 
-                        <span className="ml-1 font-semibold text-black overflow-hidden text-sm">
+                        <span className="ml-1 overflow-hidden text-sm font-semibold text-black">
                           {option?.name}
                         </span>
 
                         <X
-                          className="w-3 h-3 ml-1 text-zinc-400"
+                          className="ml-1 size-3 text-zinc-400"
                           strokeWidth={3}
                           onClick={() => {
                             toggleOption(value)
@@ -162,7 +162,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                 )}
               </div>
             ) : (
-              <span className="text-sm text-gray-300 font-normal">
+              <span className="text-sm font-normal text-gray-300">
                 {placeholder}
               </span>
             )}
@@ -210,19 +210,19 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                             : "opacity-50 [&_svg]:invisible"
                         )}
                       >
-                        <CheckIcon className="h-4 w-4" strokeWidth={2} />
+                        <CheckIcon className="size-4" strokeWidth={2} />
                       </div>
 
                       <JudgeAvatar
                         avatar={option?.avatar}
-                        className="h-9 w-9 m-0.5"
+                        className="m-0.5 size-9"
                         email={option?.name}
                         name={option?.name ?? ""}
                       />
 
                       <div className="ml-2">
                         <div className="text-sm font-medium">{option.name}</div>
-                        <div className="text-text-tertiary text-xs">
+                        <div className="text-xs text-text-tertiary">
                           {option.email}
                         </div>
                       </div>

@@ -135,12 +135,12 @@ export function DebtScheduleTable() {
 
   return (
     <div className="flex flex-col gap-6 ">
-      <p className="text-2xl font-semibold sticky -top-3xl py-2 -mt-2">
+      <p className="sticky -top-3xl -mt-2 py-2 text-2xl font-semibold">
         Debt Schedule
       </p>
-      <div className="rounded-md border relative max-h-full overflow-auto">
-        <Table className="text-sm bg-white">
-          <TableHeader className="bg-gray-100 sticky top-0 z-10 ">
+      <div className="relative max-h-full overflow-auto rounded-md border">
+        <Table className="bg-white text-sm">
+          <TableHeader className="sticky top-0 z-10 bg-gray-100 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -161,7 +161,7 @@ export function DebtScheduleTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-white border-b-2 border-black">
+          <TableBody className="border-b-2 border-black bg-white">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

@@ -80,7 +80,7 @@ function RHFOptionInput<T extends FieldValues>(props: RHFOptionInputProps<T>) {
 
   const renderOtherOption = useCallback(
     (field: ControllerRenderProps<T, Path<T>>) => (
-      <div className="flex items-center w-full">
+      <div className="flex w-full items-center">
         <RadioGroupItem
           id={`${name}-other`}
           // 1. value here must not equal to "" because "" will make this radio button always be mark as checked
@@ -94,7 +94,7 @@ function RHFOptionInput<T extends FieldValues>(props: RHFOptionInputProps<T>) {
           }
         />
         <Label
-          className="text-sm text-text-secondary font-normal cursor-pointer"
+          className="cursor-pointer text-sm font-normal text-text-secondary"
           htmlFor={`${name}-other`}
         >
           {otherText}
@@ -183,7 +183,7 @@ function RHFOptionInput<T extends FieldValues>(props: RHFOptionInputProps<T>) {
               {required ? <RequiredSymbol /> : null}
             </label>
             {subtitle ? (
-              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+              <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
             ) : null}
           </FormLabel>
           <FormControl>

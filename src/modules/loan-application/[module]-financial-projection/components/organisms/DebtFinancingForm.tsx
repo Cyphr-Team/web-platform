@@ -77,7 +77,7 @@ export function DebtFinancingLiabilityForm() {
     <FormLayout title="Debt Financing">
       <div>
         <h5 className="text-lg font-semibold">Accounts Payable</h5>
-        <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
+        <h5 className="financial-projection mt-2 text-sm font-normal text-muted-foreground">
           Liabilities represent the financial obligations your business owes,
           including amounts owed by customers for past credit sales.
           Understanding how much is owed and the timeframe for collection is
@@ -113,7 +113,7 @@ export function DebtFinancingArrayForm() {
     <FormLayout hideTopNavigation>
       <div>
         <h5 className="text-lg font-semibold">Debt Financing</h5>
-        <h5 className="text-sm font-normal mt-2 financial-projection text-muted-foreground">
+        <h5 className="financial-projection mt-2 text-sm font-normal text-muted-foreground">
           Debt financing, including loan financing, involves borrowing money
           that you agree to repay over time with interest. This option provides
           immediate funds while allowing you to retain full ownership of your

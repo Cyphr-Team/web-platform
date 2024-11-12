@@ -33,13 +33,13 @@ export function Component() {
   const { shouldDisplayHighRiskEntity } = usePermissions()
 
   return (
-    <div className="lg:flex gap-3xl w-full" id="loan-summary">
-      <Card className="w-full flex-1 h-full space-y-4xl p-4xl">
+    <div className="w-full gap-3xl lg:flex" id="loan-summary">
+      <Card className="size-full flex-1 space-y-4xl p-4xl">
         <div className="flex flex-col gap-3xl" id="application-overview">
           {!!loanApplicationDetails?.decision && (
             <div className="flex flex-col gap-2">
               <Badge
-                className="capitalize px-4 py-2 relative w-fit"
+                className="relative w-fit px-4 py-2 capitalize"
                 variant="soft"
                 variantColor={getBadgeVariantByStatus(
                   loanApplicationDetails?.status
@@ -50,7 +50,7 @@ export function Component() {
                 </p>
               </Badge>
               {!!loanApplicationDetails?.decisionNote?.length && (
-                <p className="text-sm pl-4">
+                <p className="pl-4 text-sm">
                   <span className="text-sm font-semibold">Decision note: </span>
                   {loanApplicationDetails?.decisionNote}
                 </p>
@@ -58,7 +58,7 @@ export function Component() {
             </div>
           )}
 
-          <div className="space-y-lg mt-lg flex justify-between gap-2 flex-wrap items-center">
+          <div className="mt-lg flex flex-wrap items-center justify-between gap-2 space-y-lg">
             <p className="text-4xl font-semibold ">Application Summary</p>
           </div>
           <PreApplicationDisclosuresDetails />
@@ -105,7 +105,7 @@ export function Component() {
           </div>
         ) : null}
 
-        <div className="space-y-3xl flex flex-col" id="identity-verification">
+        <div className="flex flex-col space-y-3xl" id="identity-verification">
           <IdentityVerificationDetails />
         </div>
       </Card>

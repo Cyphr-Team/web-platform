@@ -27,10 +27,10 @@ export function UserMultiSelectOption({
   const [name, avatar] = option.label.split(CONCATENATE_CHAR)
 
   return (
-    <div className="flex items-center parent-border">
+    <div className="parent-border flex items-center">
       <JudgeAvatar
         avatar={avatar}
-        className="h-5 w-5 text-xs"
+        className="size-5 text-xs"
         name={name ?? ""}
       />
 
@@ -38,7 +38,7 @@ export function UserMultiSelectOption({
         <div className="text-sm group-[.selected]:font-medium">{name}</div>
       </div>
 
-      <div className="text-stone-400 h-4 flex items-center">{close}</div>
+      <div className="flex h-4 items-center text-stone-400">{close}</div>
     </div>
   )
 }

@@ -97,28 +97,28 @@ export function FpOperatingExpensesForm() {
     <FormLayout title="Operating Expenses (Monthly)">
       <div className="flex flex-col gap-4">
         <h5 className="text-lg font-semibold">Operating Expenses (Monthly)</h5>
-        <p className="text-sm financial-projection text-muted-foreground">
+        <p className="financial-projection text-sm text-muted-foreground">
           Operating Expenses are costs directly related to the day-to-day
           functioning of your business. Please specify the amount for some
           common expense categories below, and add any that apply to your
           business. For categories which don’t apply, please leave them blank.
         </p>
-        <p className="text-sm financial-projection text-muted-foreground">
+        <p className="financial-projection text-sm text-muted-foreground">
           (Note: This form excludes Non-Operating expenses such as Interest
           Expense, Income Taxes, Raw Materials, or Losses from Asset Sales).
         </p>
       </div>
 
       <Separator />
-      <div className="grid grid-cols-6 w-full gap-5 items-center text-xs font-medium">
-        <p className="row-start-1 col-start-1 col-end-3">
+      <div className="grid w-full grid-cols-6 items-center gap-5 text-xs font-medium">
+        <p className="col-start-1 col-end-3 row-start-1">
           Operating Expense name
         </p>
-        <p className="row-start-1 col-start-3 col-end-5">Cost start date</p>
-        <p className="row-start-1 col-start-5 col-end-7">Monthly cost</p>
+        <p className="col-start-3 col-end-5 row-start-1">Cost start date</p>
+        <p className="col-start-5 col-end-7 row-start-1">Monthly cost</p>
       </div>
       <RHFProvider methods={form} onSubmit={onSubmit}>
-        <div className="flex flex-col gap-6 mb-5">
+        <div className="mb-5 flex flex-col gap-6">
           {fields.map((founder, index) => (
             <OperatingExpenses
               key={founder.id}
@@ -131,7 +131,7 @@ export function FpOperatingExpensesForm() {
 
         <div className="flex">
           <Button
-            className="w-min ml-auto border-black gap-2"
+            className="ml-auto w-min gap-2 border-black"
             type="button"
             variant="outline"
             onClick={handleAddFounder}
@@ -148,7 +148,7 @@ export function FpOperatingExpensesForm() {
         </div>
 
         {!isReviewApplicationStep(step) && (
-          <div className="flex flex-col gap-2xl mt-4">
+          <div className="mt-4 flex flex-col gap-2xl">
             <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}
@@ -175,12 +175,12 @@ function OperatingExpenses(props: OperatingExpensesProps) {
 
   return (
     <div key={value.id} className="flex gap-3">
-      <div className="grid grid-cols-6 w-full gap-5 items-center">
-        <div className="row-start-1 col-start-1 col-end-3 flex gap-1 flex-col">
+      <div className="grid w-full grid-cols-6 items-center gap-5">
+        <div className="col-start-1 col-end-3 row-start-1 flex flex-col gap-1">
           <RHFTextInput
             isHideErrorMessage
             isToggleView
-            className="font-medium text-sm"
+            className="text-sm font-medium"
             label=""
             name={getArrayFieldName<
               FpOperatingExpensesField,
@@ -204,7 +204,7 @@ function OperatingExpenses(props: OperatingExpensesProps) {
         </div>
         <RHFMaskInput
           isHideErrorMessage
-          className="row-start-1 col-start-3 col-end-5 mt-0"
+          className="col-start-3 col-end-5 row-start-1 mt-0"
           label=""
           name={getArrayFieldName<
             FpOperatingExpensesField,
@@ -215,7 +215,7 @@ function OperatingExpenses(props: OperatingExpensesProps) {
         />
         <RHFCurrencyInput
           isHideErrorMessage
-          className="row-start-1 col-start-5 col-end-7 mt-0"
+          className="col-start-5 col-end-7 row-start-1 mt-0"
           label=""
           name={getArrayFieldName<
             FpOperatingExpensesField,
@@ -228,15 +228,15 @@ function OperatingExpenses(props: OperatingExpensesProps) {
       </div>
 
       {isRemovable ? (
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <Button
-            className="p-0 py-0 h-auto"
+            className="h-auto p-0"
             tabIndex={-1}
             type="button"
             variant="ghost"
             onClick={onRemove}
           >
-            <X className="w-5 h-5" />
+            <X className="size-5" />
           </Button>
         </div>
       ) : null}

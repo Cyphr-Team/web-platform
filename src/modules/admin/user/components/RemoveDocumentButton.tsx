@@ -48,7 +48,7 @@ export function ButtonDeleteDocument({
         variant="ghost"
         onClick={isOpen.onTrue}
       >
-        <Trash className="w-5 h-5" />
+        <Trash className="size-5" />
         {!isRemoving}
       </ButtonLoading>
     </CustomAlertDialog>

@@ -151,17 +151,17 @@ export function Filter({ filterForm }: IFilter) {
   const renderCustomCalendarFooter = (filterOptionName: FilterOptions) =>
     function () {
       return (
-        <tfoot className="custom-footer hover:text-red-600 mb-1.5 h-7 w-full text-sm font-normal justify-start text-text-tertiary">
+        <tfoot className="custom-footer mb-1.5 h-7 w-full justify-start text-sm font-normal text-text-tertiary hover:text-red-600">
           <tr>
             <td>
               <Separator className="my-1.5" />
               <Button
-                className="w-full h-auto content-start cursor-pointer gap-3 px-1 py-1 rounded-none hover:text-red-600"
+                className="h-auto w-full cursor-pointer content-start gap-3 rounded-none p-1 hover:text-red-600"
                 variant="ghost"
                 onClick={handleClickToDeleteFilter(filterOptionName)}
               >
-                <div className="w-full flex justify-start items-center">
-                  <Trash className="h-4 mr-1" />
+                <div className="flex w-full items-center justify-start">
+                  <Trash className="mr-1 h-4" />
                   <span>Delete filter</span>
                 </div>
               </Button>

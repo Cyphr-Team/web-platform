@@ -7,7 +7,7 @@ import { Icons } from "./icons"
 import { X } from "lucide-react"
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-lg border p-4 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7",
   {
     variants: {
       variant: {
@@ -79,7 +79,7 @@ function AppAlert({ title, description, variant, onClose }: AppAlertProps) {
       <AlertTitle className="ml-2 text-sm">
         {!!onClose && (
           <Button
-            className="absolute p-0 text-muted-foreground right-4 h-auto w-auto"
+            className="absolute right-4 size-auto p-0 text-muted-foreground"
             size="icon"
             type="button"
             variant="ghost"

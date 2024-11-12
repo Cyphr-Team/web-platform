@@ -150,7 +150,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
         onScroll={(e) => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
       >
         <InfinityTable className="grid">
-          <TableHeader className="bg-gray-100 grid sticky top-0 z-10">
+          <TableHeader className="sticky top-0 z-10 grid bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="grid grid-flow-col">
                 {headerGroup.headers.map((header) => {
@@ -174,7 +174,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
           </TableHeader>
           <TableBody
             //needed for absolute positioning of rows
-            className="grid relative"
+            className="relative grid"
             style={{
               height: `${rowVirtualizer.getTotalSize()}px` //tells scrollbar how big the table is
             }}
@@ -227,7 +227,7 @@ export function InfiniteDataTable<TData extends ListResponse, TValue>({
           </TableBody>
         </InfinityTable>
         {isFetching ? (
-          <div className="flex flex-col m-4 items-center mt-3">
+          <div className="m-4 mt-3 flex flex-col items-center">
             <Loader2
               className={cn(
                 "m-2 h-8 w-8 transition-all ease-out animate-spin text-primary"

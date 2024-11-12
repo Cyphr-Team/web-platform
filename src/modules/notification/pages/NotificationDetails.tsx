@@ -24,7 +24,7 @@ export function Component() {
   )
 
   return (
-    <div className="container mx-auto py-4xl overflow-auto">
+    <div className="container mx-auto overflow-auto py-4xl">
       {/* Top bar */}
       <div className="mb-3xl">
         <Breadcrumbs breads={crumbs} className="px-0" />
@@ -33,18 +33,17 @@ export function Component() {
 
       {/* Loading */}
       {isFetching ? (
-        <div className="absolute h-full w-full bg-zinc-50/50 z-10 rounded">
-          <div className="sticky top-12 left-1/2 mt-12 justify-center items-center w-full flex flex-col">
-            <Loader2 className="w-10 h-10 animate-spin text-primary" />{" "}
-            Loading...
+        <div className="absolute z-10 size-full rounded bg-zinc-50/50">
+          <div className="sticky left-1/2 top-12 mt-12 flex w-full flex-col items-center justify-center">
+            <Loader2 className="size-10 animate-spin text-primary" /> Loading...
           </div>
         </div>
       ) : null}
 
-      <div className="border rounded p-6">
+      <div className="rounded border p-6">
         {/* Timestamp */}
         <p
-          className="text-muted-foreground flex space-x-1 text-sm mb-2xl"
+          className="mb-2xl flex space-x-1 text-sm text-muted-foreground"
           data-timestamp={notification?.createdAt}
           style={{ borderBottom: "1px solid #dfe1e6", width: "fit-content" }}
         >
@@ -58,7 +57,7 @@ export function Component() {
         </p>
 
         {/* Subject */}
-        <h2 className="text-md font-semibold mb-l">
+        <h2 className="text-md mb-l font-semibold">
           {notification?.subject || "Notification"}
         </h2>
 
@@ -69,9 +68,9 @@ export function Component() {
 
         {/* Reference resource */}
         {referenceResource ? (
-          <p className="text-sm mb-2xl italic">
+          <p className="mb-2xl text-sm italic">
             <a
-              className="underline ml-1 text-blue-700"
+              className="ml-1 text-blue-700 underline"
               href={referenceResource}
               rel="noopener noreferrer"
               target="_blank"

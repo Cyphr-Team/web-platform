@@ -27,17 +27,17 @@ function ConferenceDemoApplicationFpLayout({ children }: PropsWithChildren) {
       )}
     >
       <h1 className="text-3xl font-semibold">Financial Projections</h1>
-      <p className="text-text-tertiary mt-1 text-sm">
+      <p className="mt-1 text-sm text-text-tertiary">
         This page provides two views of your business's financial health.
         Current Financial Statements offer a snapshot of this month’s
         performance, created from your inputs and often required by lenders.
         Projections provide a high-level estimate of future performance, showing
         how revenue and expenses could impact profitability.
       </p>
-      <div className="my-4 flex flex-col space-y-3xl mt-xl">
+      <div className="my-4 mt-xl flex flex-col space-y-3xl">
         <FpTopNav />
       </div>
-      <div className="p-4xl pt-3xl flex-1 bg-gray-50">{children}</div>
+      <div className="flex-1 bg-gray-50 p-4xl pt-3xl">{children}</div>
     </div>
   )
 }

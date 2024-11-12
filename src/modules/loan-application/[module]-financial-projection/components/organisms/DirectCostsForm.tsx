@@ -90,14 +90,14 @@ export function DirectCostsForm() {
         <h5 className="text-lg font-semibold">
           Direct Costs (Costs of sales/COGS)
         </h5>
-        <p className="text-sm financial-projection text-muted-foreground">
+        <p className="financial-projection text-sm text-muted-foreground">
           Direct Costs are expenses directly related to creating or delivering a
           product or service. Common direct costs are raw materials to make a
           product, manufacturing supplies, shipping costs, and costs of
           employees or third-party providers who directly contribute to
           production.
         </p>
-        <p className="text-sm financial-projection text-muted-foreground">
+        <p className="financial-projection text-sm text-muted-foreground">
           This section shouldn’t include costs essential to keeping the business
           running, like rent for your office, salaries for your marketing team,
           or the electricity bill. Those are Operating Expenses; we’ll ask for
@@ -106,19 +106,19 @@ export function DirectCostsForm() {
       </div>
 
       <Separator />
-      <div className="grid grid-cols-6 w-full gap-5 items-center text-xs font-medium">
-        <p className="row-start-1 col-start-1 col-end-3 text-[#252828]">
+      <div className="grid w-full grid-cols-6 items-center gap-5 text-xs font-medium">
+        <p className="col-start-1 col-end-3 row-start-1 text-[#252828]">
           Direct cost name
         </p>
-        <p className="row-start-1 col-start-3 col-end-5 text-[#252828]">
+        <p className="col-start-3 col-end-5 row-start-1 text-[#252828]">
           Cost start date
         </p>
-        <p className="row-start-1 col-start-5 col-end-7 text-[#252828]">
+        <p className="col-start-5 col-end-7 row-start-1 text-[#252828]">
           Estimated % of overall revenue
         </p>
       </div>
       <RHFProvider methods={form} onSubmit={onSubmit}>
-        <div className="flex flex-col gap-6 mb-5">
+        <div className="mb-5 flex flex-col gap-6">
           {fields.map((founder, index) => (
             <DirectCosts
               key={founder.id}
@@ -131,7 +131,7 @@ export function DirectCostsForm() {
 
         <div className="flex">
           <Button
-            className="w-min ml-auto border-black gap-2"
+            className="ml-auto w-min gap-2 border-black"
             type="button"
             variant="outline"
             onClick={handleAddFounder}
@@ -142,7 +142,7 @@ export function DirectCostsForm() {
         </div>
 
         {!isReviewApplicationStep(step) && (
-          <div className="flex flex-col gap-2xl mt-4">
+          <div className="mt-4 flex flex-col gap-2xl">
             <Button disabled={!form.formState.isValid}>Next</Button>
           </div>
         )}
@@ -166,12 +166,12 @@ function DirectCosts(props: DirectCostsProps) {
 
   return (
     <div key={value.id} className="flex gap-3">
-      <div className="grid grid-cols-6 w-full gap-5 items-center">
-        <div className="row-start-1 col-start-1 col-end-3 flex gap-1 flex-col">
+      <div className="grid w-full grid-cols-6 items-center gap-5">
+        <div className="col-start-1 col-end-3 row-start-1 flex flex-col gap-1">
           <RHFTextInput
             isHideErrorMessage
             isToggleView
-            className="font-medium text-sm"
+            className="text-sm font-medium"
             label=""
             name={getArrayFieldName<
               DirectCostsField,
@@ -197,7 +197,7 @@ function DirectCosts(props: DirectCostsProps) {
         </div>
         <RHFMaskInput
           isHideErrorMessage
-          className="row-start-1 col-start-3 col-end-5 mt-2"
+          className="col-start-3 col-end-5 row-start-1 mt-2"
           label=""
           name={getArrayFieldName<
             DirectCostsField,
@@ -209,7 +209,7 @@ function DirectCosts(props: DirectCostsProps) {
         />
         <RHFNumberInput
           isHideErrorMessage
-          className="row-start-1 col-start-5 col-end-7 mt-0"
+          className="col-start-5 col-end-7 row-start-1 mt-0"
           label=""
           name={getArrayFieldName<
             DirectCostsField,
@@ -222,9 +222,9 @@ function DirectCosts(props: DirectCostsProps) {
       </div>
 
       {isRemovable ? (
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <Button
-            className="p-0 py-0 h-auto"
+            className="h-auto p-0"
             tabIndex={-1}
             type="button"
             variant="ghost"

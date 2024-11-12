@@ -53,13 +53,13 @@ export function MultiCheckboxesInput<
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="text-sm text-text-secondary font-medium">
+          <FormLabel className="text-sm font-medium text-text-secondary">
             <label>
               {label}
               {required ? <RequiredSymbol /> : null}
             </label>
             {subtitle ? (
-              <p className="mt-2 text-text-tertiary font-medium">{subtitle}</p>
+              <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
             ) : null}
           </FormLabel>
 
@@ -70,7 +70,7 @@ export function MultiCheckboxesInput<
             >
               <Checkbox
                 checked={field.value?.includes(option.value)}
-                className="w-5 h-5 text-rich-black border-rich-black"
+                className="text-rich-black border-rich-black size-5"
                 id={option.value}
                 onCheckedChange={(checked) => {
                   if (!checked && !!option.otherFieldName) {
@@ -88,7 +88,7 @@ export function MultiCheckboxesInput<
                 {...field}
               />
               <Label
-                className="text-sm text-text-secondary font-normal cursor-pointer ml-3"
+                className="ml-3 cursor-pointer text-sm font-normal text-text-secondary"
                 htmlFor={option.value}
               >
                 {option.label}

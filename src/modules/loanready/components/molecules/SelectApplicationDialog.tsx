@@ -25,7 +25,7 @@ export function SelectApplicationDialog({
 }: SelectApplicationDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="h-2/3 flex flex-col px-0 pb-0">
+      <AlertDialogContent className="flex h-2/3 flex-col px-0 pb-0">
         <AlertDialogHeader className="px-6">
           <AlertDialogTitle>Select application</AlertDialogTitle>
           <AlertDialogDescription className="break-keep">
@@ -33,7 +33,7 @@ export function SelectApplicationDialog({
             one if you prefer. By selecting 'Done,' you confirm your purchase.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <div className="space-y-3 mt-3 flex-grow px-6">
+        <div className="mt-3 grow space-y-3 px-6">
           <p className="text-base font-semibold">Applications</p>
           <Separator />
           {/* Application option 1 */}
@@ -42,13 +42,13 @@ export function SelectApplicationDialog({
               <p className="font-medium">Larry’s Latte</p>
               <p className="text-gray-600">Submitted on June 6, 2023</p>
             </div>
-            <label className="relative flex items-center cursor-pointer">
+            <label className="relative flex cursor-pointer items-center">
               <input
-                className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
+                className="peer size-5 cursor-pointer appearance-none rounded-full border border-slate-300 transition-all checked:border-slate-400"
                 name="application"
                 type="radio"
               />
-              <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+              <span className="absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-800 opacity-0 transition-opacity duration-200 peer-checked:opacity-100" />
             </label>
           </div>
           <Separator />
@@ -58,18 +58,18 @@ export function SelectApplicationDialog({
               <p className="font-medium">Larry’s Latte</p>
               <p className="text-gray-600">Submitted on June 6, 2023</p>
             </div>
-            <label className="relative flex items-center cursor-pointer">
+            <label className="relative flex cursor-pointer items-center">
               <input
-                className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
+                className="peer size-5 cursor-pointer appearance-none rounded-full border border-slate-300 transition-all checked:border-slate-400"
                 name="application"
                 type="radio"
               />
-              <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+              <span className="absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-800 opacity-0 transition-opacity duration-200 peer-checked:opacity-100" />
             </label>
           </div>
         </div>
         <Separator />
-        <AlertDialogFooter className="sm:justify-between px-6 pb-4">
+        <AlertDialogFooter className="px-6 pb-4 sm:justify-between">
           <Button variant="outline" onClick={() => onConfirmed(true)}>
             <Icons.newApplication className="mr-1" />
             New application

@@ -39,7 +39,7 @@ export function LoanApplications() {
 
           return (
             <div className="min-w-0">
-              <p className="text-sm text-muted-foreground mt-0.5 truncate ">
+              <p className="mt-0.5 truncate text-sm text-muted-foreground ">
                 {application.loanProgram.name}
               </p>
             </div>
@@ -52,7 +52,7 @@ export function LoanApplications() {
         accessorKey: "createdAt",
         header: ({ column }) => (
           <DataTableColumnHeader
-            className="text-right w-full"
+            className="w-full text-right"
             column={column}
             title="Started On"
           />
@@ -64,7 +64,7 @@ export function LoanApplications() {
 
           return (
             <div className="min-w-0">
-              <p className="truncate capitalize text-right">
+              <p className="truncate text-right capitalize">
                 {convertToReadableDate(application.createdAt)}
               </p>
             </div>
@@ -76,7 +76,7 @@ export function LoanApplications() {
         accessorKey: "updatedAt",
         header: ({ column }) => (
           <DataTableColumnHeader
-            className="text-right w-full"
+            className="w-full text-right"
             column={column}
             title="Activity"
           />
@@ -111,7 +111,7 @@ export function LoanApplications() {
           const application = row.original
 
           return (
-            <div className="font-medium text-right">
+            <div className="text-right font-medium">
               <Badge
                 isDot
                 className="capitalize"
@@ -132,7 +132,7 @@ export function LoanApplications() {
         cell: ({ row }) => {
           return (
             <div
-              className="font-medium flex gap-2 items-center cursor-pointer justify-end"
+              className="flex cursor-pointer items-center justify-end gap-2 font-medium"
               onClick={() => handleClickDetail()}
             >
               {editableStatuses.includes(row.original.status) ? (
@@ -140,7 +140,7 @@ export function LoanApplications() {
               ) : (
                 <p>Review</p>
               )}
-              <ChevronRightIcon className="h-4 w-4" />
+              <ChevronRightIcon className="size-4" />
             </div>
           )
         }
@@ -156,7 +156,7 @@ export function LoanApplications() {
       className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
     >
       <h1 className="text-3xl font-semibold">Your Applications</h1>
-      <p className="text-text-tertiary mt-1">
+      <p className="mt-1 text-text-tertiary">
         Keep track of your applications and their statuses
       </p>
       <DataTable

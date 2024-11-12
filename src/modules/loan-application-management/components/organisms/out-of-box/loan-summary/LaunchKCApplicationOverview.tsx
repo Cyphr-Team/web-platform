@@ -10,21 +10,21 @@ import { TaskFieldStatus } from "@/modules/loan-application-management/constants
 import { Dot } from "@/components/ui/dot"
 import { get } from "lodash"
 import { useMemo } from "react"
-function VerificationStatus({
-  isVerified,
-  label
-}: {
+
+interface VerificationStatusProps {
   isVerified: boolean
   label: string
-}) {
+}
+
+function VerificationStatus({ isVerified, label }: VerificationStatusProps) {
   return (
-    <div className="md:grid-cols-2 grid grid-flow-row border border-t-0 border-l-0">
-      <div className="pl-xl xl:pl-3xl py-xl xl:py-3xl flex items-center">
-        <p className="text-sm text-text-tertiary break-words">{label}</p>
+    <div className="grid grid-flow-row border border-l-0 border-t-0 md:grid-cols-2">
+      <div className="flex items-center py-xl pl-xl xl:py-3xl xl:pl-3xl">
+        <p className="break-words text-sm text-text-tertiary">{label}</p>
       </div>
-      <div className="pb-xl md:pt-xl xl:py-3xl pl-xl xl:pl-3xl flex items-center col-span-1 break-words pr-xl gap-1">
+      <div className="col-span-1 flex items-center gap-1 break-words px-xl pb-xl md:pt-xl xl:py-3xl xl:pl-3xl">
         {isVerified ? <Dot variantColor="green" /> : <Dot variantColor="red" />}
-        <p className="font-medium text-sm truncate overflow-ellipsis overflow-visible whitespace-normal break-words max-w-full">
+        <p className="max-w-full overflow-visible truncate whitespace-normal break-words text-sm font-medium">
           {isVerified ? "Verified" : "Not Verified"}
         </p>
       </div>
@@ -80,7 +80,7 @@ export function LaunchKCApplicationOverview() {
   const identityVerificationStatus = getVerificationStatus()
 
   return (
-    <Card className="border-r-0 border-b-0 shadow-none bg-white">
+    <Card className="border-b-0 border-r-0 bg-white shadow-none">
       <div className="grid grid-cols-2">
         <VerificationStatus
           isVerified={businessVerificationStatus}

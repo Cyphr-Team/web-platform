@@ -4,7 +4,7 @@ import { LogoHeader } from "@/shared/atoms/LogoHeader"
 export function SetupPhoneFormHeader() {
   return (
     <div className="flex flex-col text-center">
-      <div className="flex justify-center relative">
+      <div className="relative flex justify-center">
         <div className="w-auto self-center">
           <div className="self-center">
             <LogoHeader />
@@ -12,7 +12,7 @@ export function SetupPhoneFormHeader() {
         </div>
       </div>
 
-      <h1 className="text-[34px] font-semibold tracking-tight mt-6">
+      <h1 className="mt-6 text-[34px] font-semibold tracking-tight">
         {UI_DATA_SETUP_PHONE_HEADER.enterPhone.title}
       </h1>
 
@@ -20,7 +20,7 @@ export function SetupPhoneFormHeader() {
         <p>
           {UI_DATA_SETUP_PHONE_HEADER.enterPhone.description}{" "}
           <a
-            className="text-black underline font-medium"
+            className="font-medium text-black underline"
             href="https://www.cyphrai.com/privacy"
             rel="noopener noreferrer"
             target="privacy"

@@ -62,7 +62,7 @@ const columns: ColumnDef<LoanApplicationBankAccount>[] = [
           <Badge
             border
             isDot
-            className="capitalize text-sm rounded-lg font-medium"
+            className="rounded-lg text-sm font-medium capitalize"
             isDotBefore={false}
             variant="soft"
             variantColor={getBadgeVariantByInsightStatus(
@@ -144,14 +144,14 @@ export function CashFlowVerificationFormV2({
       >
         <h5 className="text-lg font-semibold">Cash Flow Verification</h5>
         <Separator />
-        <div className="flex flex-col gap-y-2xl gap-x-4xl">
+        <div className="flex flex-col gap-x-4xl gap-y-2xl">
           <div className="flex flex-col gap-y-sm">
-            <p className="text-sm financial-projection text-muted-foreground">
+            <p className="financial-projection text-sm text-muted-foreground">
               Connect your bank accounts securely. This step helps us understand
               your business financial health through cash flow data and expedite
               the loan approval process. Learn how it works{" "}
               <a
-                className="underline text-black"
+                className="text-black underline"
                 href="https://plaid.com/legal/#consumers"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -162,10 +162,10 @@ export function CashFlowVerificationFormV2({
             </p>
           </div>
           <div className="flex flex-col gap-lg">
-            <div className="flex gap-2 mt-1">
+            <div className="mt-1 flex gap-2">
               <Checkbox
                 checked={canConnect}
-                className="w-5 h-5"
+                className="size-5"
                 disabled={!!connectedAccounts.length}
                 onCheckedChange={(value: boolean) => {
                   setIsConfirmedConnect(value)
@@ -186,7 +186,7 @@ export function CashFlowVerificationFormV2({
           hideTopNavigation
           cardClassName={cn(wrapperClassName, "mt-6")}
         >
-          <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-2">
+          <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-center">
             <div>
               <h5 className="text-lg font-semibold">Connected Accounts</h5>
             </div>
@@ -200,11 +200,11 @@ export function CashFlowVerificationFormV2({
 
           <Separator />
 
-          <div className="flex flex-col gap-x-4xl gap-y-1 items-center p-0">
+          <div className="flex flex-col items-center gap-x-4xl gap-y-1 p-0">
             {connectedAccounts.length <= 0 && (
               <>
                 <p className=" text-sm text-text-secondary">No Account Found</p>
-                <p className=" text-sm text-text-secondary mb-5">
+                <p className=" mb-5 text-sm text-text-secondary">
                   Click the “Connect” button to continue
                 </p>
                 <Separator />
@@ -212,7 +212,7 @@ export function CashFlowVerificationFormV2({
             )}
 
             {!!connectedAccounts.length && (
-              <div className="flex flex-col w-full">
+              <div className="flex w-full flex-col">
                 <LoadingWrapper isLoading={isFetchingDetails}>
                   <Card className="border-none shadow-none">
                     <CardContent className="p-0 md:p-0">
@@ -230,7 +230,7 @@ export function CashFlowVerificationFormV2({
 
                   {!isReviewApplicationStep(step) && (
                     <FormSubmitButton
-                      className="w-full mt-5"
+                      className="mt-5 w-full"
                       isDisabled={!connectedAccounts.length}
                       onSubmit={handleNextClick}
                     />

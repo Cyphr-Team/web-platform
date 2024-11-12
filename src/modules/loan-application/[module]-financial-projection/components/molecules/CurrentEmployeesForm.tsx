@@ -62,7 +62,7 @@ function CurrentEmployeesForm() {
       actionIcon={<UserRoundPlus size={18} />}
       actionText="Add employee department"
       blocks={CurrentEmployeesBlock}
-      className="flex justify-between p-4 gap-x-2"
+      className="flex justify-between gap-x-2 p-4"
       defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.CurrentEmployees]}
       layout="current"
       name="currentEmployees"

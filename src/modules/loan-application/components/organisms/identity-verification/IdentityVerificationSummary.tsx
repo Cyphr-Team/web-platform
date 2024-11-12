@@ -48,7 +48,7 @@ export function IdentificationSummary() {
         className={isLoadingLoanSmartKycDetail ? "p-12" : "p-0"}
         isLoading={isLoadingLoanSmartKycDetail}
       >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <SummaryItem
             subtitle1={getTimeFromSecs({
               totalSecs: loanSmartKycDetail?.behavior?.completionTime ?? 0
@@ -95,7 +95,7 @@ export function SummaryItem({
 }) {
   return (
     <div>
-      <h1 className=" text-gray-500 my-2 text-xs">{title}</h1>
+      <h1 className=" my-2 text-xs text-gray-500">{title}</h1>
       <div className=" text-base">{subtitle1}</div>
       {subtitle2 ? <div className="text-base">{subtitle2}</div> : null}
     </div>

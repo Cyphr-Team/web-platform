@@ -28,7 +28,7 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
     isSbb() && isEnablePandaDocESign() ? (
       <ESignTable />
     ) : (
-      <Card className="flex flex-col gap-2xl p-4xl rounded-lg h-fit overflow-auto shadow-none">
+      <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none">
         {CONFIRMATION_TEXTS.map((text, index) => (
           <p key={index} className="text-sm text-text-secondary">
             <strong>{text.title}</strong> {text.content}
@@ -37,12 +37,12 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
         <div>
           <div className="flex flex-col gap-1">
             <p className="text-sm">Signature of Authorized Individual</p>
-            <p className="text-3xl island-moments-regular">
+            <p className="island-moments-regular text-3xl">
               {confirmationFormData?.printName ?? "-"}
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-y-2xl gap-x-4xl">
+        <div className="grid grid-cols-2 gap-x-4xl gap-y-2xl">
           <div className="flex flex-col gap-1">
             <p className="text-sm">Print Name</p>
             <p className="text-lg">

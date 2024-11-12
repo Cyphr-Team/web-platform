@@ -333,13 +333,13 @@ export function SbbReviewApplicationDetails() {
         </div>
 
         <div className="space-y-4xl">
-          <div className="border rounded-lg">
+          <div className="rounded-lg border">
             <div className={EXPORT_CLASS.FINANCIAL}>
               <IdentityVerificationForm wrapperClassName="max-w-none border-0" />
             </div>
           </div>
 
-          <div className="border rounded-lg">
+          <div className="rounded-lg border">
             <Card
               className={cn(
                 EXPORT_CLASS.FINANCIAL,
@@ -348,14 +348,14 @@ export function SbbReviewApplicationDetails() {
               data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
             >
               <CardHeader className="!p-0">
-                <CardTitle className="font-semibold text-lg text-text-primary p-0">
+                <CardTitle className="p-0 text-lg font-semibold text-text-primary">
                   Submitted Document
                 </CardTitle>
               </CardHeader>
 
               <Separator />
 
-              <CardContent className="overflow-auto !p-0 flex flex-col gap-4xl">
+              <CardContent className="flex flex-col gap-4xl overflow-auto !p-0">
                 <AnswersTextDisplay
                   className="!flex-row justify-between"
                   label="Business EIN letter"

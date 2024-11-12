@@ -24,7 +24,7 @@ function PageViewer() {
   return (
     <div ref={parentRef} className="flex-1 overflow-auto">
       <Stage
-        className="items-center justify-center flex"
+        className="flex items-center justify-center"
         height={(image?.height ?? 0) * scale * initScale}
         width={(image?.width ?? 0) * scale * initScale}
       >

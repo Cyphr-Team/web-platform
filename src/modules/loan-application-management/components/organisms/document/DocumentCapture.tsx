@@ -18,7 +18,7 @@ export const DocumentCapture: React.FC = () => {
   if (!documentDetails.capture) return null
 
   return (
-    <div className="lg:w-96 h-full overflow-y-auto">
+    <div className="h-full overflow-y-auto lg:w-96">
       {documentTypeSelected === DocumentType.BANK_STATEMENT && (
         <BankStatement data={documentDetails?.capture as BankStatementType} />
       )}

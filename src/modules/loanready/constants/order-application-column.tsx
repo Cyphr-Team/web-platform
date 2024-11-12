@@ -75,7 +75,7 @@ export const orderApplicationColumn = (
     cell: ({ row }) => {
       return (
         <div
-          className="font-medium flex gap-2 items-center cursor-pointer justify-end"
+          className="flex cursor-pointer items-center justify-end gap-2 font-medium"
           onClick={handleClickDetail(row)}
         >
           {EDITABLE_STATUSES.includes(row.original.status?.toLowerCase()) ? (
@@ -83,7 +83,7 @@ export const orderApplicationColumn = (
           ) : (
             <p>Review</p>
           )}
-          <ChevronRightIcon className="h-4 w-4" />
+          <ChevronRightIcon className="size-4" />
         </div>
       )
     }
