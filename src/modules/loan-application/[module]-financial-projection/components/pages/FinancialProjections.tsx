@@ -17,6 +17,7 @@ import { getBadgeVariantByStatus } from "@/modules/loan-application-management/s
 import { EDITABLE_STATUSES } from "@/types/loan-application.type.ts"
 import { ChevronRightIcon } from "lucide-react"
 import { LoanReadyPlan } from "@/modules/loanready/types/payment.ts"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils.ts"
 
 export function Component() {
   return <LoanReadyFinancialApplications />
@@ -37,7 +38,7 @@ export default function LoanReadyFinancialApplications() {
       limit: pagination.pageSize,
       offset: pagination.pageIndex * pagination.pageSize,
       filter: {
-        plan: [LoanReadyPlan.PLUS]
+        plan: isEnableLoanReadyV2() ? [LoanReadyPlan.PLUS] : []
       }
     }
   })
