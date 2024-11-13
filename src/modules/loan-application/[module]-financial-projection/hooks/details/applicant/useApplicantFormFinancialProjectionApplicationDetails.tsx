@@ -3,12 +3,14 @@ import {
   useLoanApplicationFormContext,
   usePlaidContext
 } from "@/modules/loan-application/providers"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 export function useApplicantFormFinancialProjectionApplicationDetails() {
   const { connectedAccounts } = usePlaidContext()
 
   const {
     loanRequest,
+    loanRequestV2,
     businessInformation,
     ownerInformationForm,
     revenue,
@@ -36,7 +38,7 @@ export function useApplicantFormFinancialProjectionApplicationDetails() {
       assets,
       debtFinancing
     },
-    loanRequest,
+    loanRequest: isEnableFormV2() ? loanRequestV2 : loanRequest,
     businessInformation,
     ownerInformationForm,
     connectedBankAccounts: connectedAccounts

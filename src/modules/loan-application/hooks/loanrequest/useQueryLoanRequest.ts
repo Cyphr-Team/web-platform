@@ -48,7 +48,7 @@ export const useQueryLoanRequestForm = ({
 
 export const reverseFormatLoanRequestFormV2 = (
   loanRequestFormValue?: LoanRequestV2Response
-): Partial<ILoanRequestFormValue> => {
+): ILoanRequestFormValue => {
   return {
     id: get(loanRequestFormValue, "forms[0].id", "") ?? "",
     applicationId: loanRequestFormValue?.applicationId ?? "",

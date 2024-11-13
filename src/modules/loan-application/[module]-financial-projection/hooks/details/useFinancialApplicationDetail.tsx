@@ -30,6 +30,7 @@ import { CashFlowTable } from "@/modules/loan-application/components/molecules/l
 import { type ForecastingSetupFormValue } from "@/modules/loan-application/[module]-financial-projection/types/forecasting-form"
 import { type RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form"
 import {
+  type ILoanRequestFormValue,
   type LoanReadyBusinessFormValue,
   type LoanReadyOwnerFormValue,
   type LoanRequestFormValue
@@ -54,7 +55,7 @@ interface FpFormDetail {
 interface UseFinancialApplicationDetailProps {
   connectedBankAccounts?: LoanApplicationBankAccount[]
   fpForm?: Partial<FpFormDetail>
-  loanRequest?: LoanRequestFormValue
+  loanRequest?: LoanRequestFormValue | ILoanRequestFormValue
   businessInformation?: LoanReadyBusinessFormValue
   ownerInformationForm?: LoanReadyOwnerFormValue
 }

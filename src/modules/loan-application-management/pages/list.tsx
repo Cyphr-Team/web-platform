@@ -11,8 +11,10 @@ import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
 import { loanApplicationColumns } from "../components/table/loan-application-columns"
 import { LoanApplicationTableHeader } from "../components/table/loan-application-header"
-import { type FilterParams } from "../hooks/useQuery/useQueryListLoanApplication"
-import { useQueryListPaginateLoanApplication } from "../hooks/useQuery/useQueryListPaginateLoanApplication"
+import {
+  type FilterParams,
+  useQueryListPaginateLoanApplication
+} from "../hooks/useQuery/useQueryListPaginateLoanApplication"
 import { JudgeApplicationList } from "./launch-kc/judge/judge-list"
 import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin/workspace-admin-list-filter"
 import { SbbApplicationsList } from "./sbb/list-filter"

@@ -83,7 +83,10 @@ import { isEnabledQuery } from "@/utils"
 import { type SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatForecastSetupResult } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
 import { type FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
-import { useQueryLoanRequestForm } from "../hooks/loanrequest/useQueryLoanRequest"
+import {
+  type LoanRequestV2Response,
+  useQueryLoanRequestForm
+} from "../hooks/loanrequest/useQueryLoanRequest"
 import { get } from "lodash"
 
 interface FinancialProjectionDetail {
@@ -96,6 +99,7 @@ type BRLoanApplicationDetailsContext<T> = {
   loanProgramInfo?: LoanProgramData
   kybFormData?: KYBInformationResponse
   kycFormData?: KYCInformationResponse
+  loanRequestFormV2Data?: LoanRequestV2Response
   currentLoanFormData?: CurrentLoansInformationResponse
   operatingExpensesFormData?: OperatingExpensesInformationResponse
   confirmationFormData?: ConfirmationFormResponse

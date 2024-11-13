@@ -137,6 +137,13 @@ export type KybMetadata = Partial<{
   [SBB_KYB_FORM_FIELDS.IS_SENIOR_FOREIGN_POLITICAL_FIGURE]: string
 }>
 
+export interface LoanRequestFormResponse {
+  amount: number
+  proposeUseOfLoan?: string
+  id: string
+  applicationId: string
+}
+
 export interface KYBInformationResponse {
   id: string
   loanApplicationId: string

@@ -29,6 +29,12 @@ import {
 import { LoanType } from "@/types/loan-program.type"
 import { useIsFetching } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import {
+  reverseFormatLoanRequestFormV2,
+  useQueryLoanRequestForm
+} from "@/modules/loan-application/hooks/loanrequest/useQueryLoanRequest.ts"
+import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 
 export function useApplicantFinancialProjectionApplicationDetails() {
   const { id: loanApplicationId } = useParams()
@@ -45,6 +51,10 @@ export function useApplicantFinancialProjectionApplicationDetails() {
   })
   const kycFormQuery = useQueryGetKycForm({
     applicationId: loanApplicationId!
+  })
+  const loanRequestFormQuery = useQueryLoanRequestForm({
+    applicationId: loanApplicationId!,
+    formTypes: [FORM_TYPE.LOAN_REQUEST]
   })
 
   const { financialApplicationDetailData } = useFinancialApplicationDetail({
@@ -102,7 +112,9 @@ export function useApplicantFinancialProjectionApplicationDetails() {
         financialApplicationForms.revenueFormQuery.data
       )
     },
-    loanRequest: reverseFormatLoanRequestForm(loanApplicationDetailsQuery.data),
+    loanRequest: isEnableFormV2()
+      ? reverseFormatLoanRequestFormV2(loanRequestFormQuery.data)
+      : reverseFormatLoanRequestForm(loanApplicationDetailsQuery.data),
     businessInformation: kybFormQuery.data
       ? (reverseFormatKybForm(kybFormQuery.data) as LoanReadyBusinessFormValue)
       : undefined,

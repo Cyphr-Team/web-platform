@@ -13,13 +13,13 @@ import { LOAN_STATUS } from "../../constants"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import { useEffect } from "react"
-import {
-  type FilterParams,
-  LoanApplicationFilterSchema,
-  type LoanApplicationFilterValues
-} from "../../hooks/useQuery/useQueryListLoanApplication"
 import { useQueryGetLoanProgramList } from "../../hooks/useQuery/useQueryLoanProgramList"
 import { type Option } from "@/types/common.type"
+import {
+  type FilterParams,
+  type LoanApplicationFilterValues,
+  LoanApplicationFilterSchema
+} from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateLoanApplication.ts"
 
 interface Props {
   onSearch: (formValues: FilterParams) => void

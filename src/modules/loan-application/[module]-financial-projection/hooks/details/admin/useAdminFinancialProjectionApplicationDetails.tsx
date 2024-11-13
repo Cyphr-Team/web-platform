@@ -22,6 +22,8 @@ import {
   reverseFormatKycForm
 } from "@/modules/loan-application/services/form.services"
 import { useIsFetching } from "@tanstack/react-query"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import { reverseLoanRequestForm } from "@/modules/loan-application-management/hooks/useQuery/useQueryLoanSummary.ts"
 
 export const useAdminFinancialProjectionApplicationDetails = () => {
   const financialApplicationForms = useGetFinancialProjectLoanSummary()
@@ -84,7 +86,9 @@ export const useAdminFinancialProjectionApplicationDetails = () => {
         financialApplicationForms.revenueFormQuery.data
       )
     },
-    loanRequest: reverseFormatLoanRequestForm(loanApplicationDetails),
+    loanRequest: isEnableFormV2()
+      ? reverseLoanRequestForm(loanSummary)
+      : reverseFormatLoanRequestForm(loanApplicationDetails),
     businessInformation: loanSummary?.kybForm
       ? (reverseFormatKybForm(
           loanSummary.kybForm

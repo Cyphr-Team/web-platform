@@ -1,10 +1,15 @@
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { type LoanRequestFormValue } from "@/modules/loan-application/constants/form"
+import {
+  type ILoanRequestFormValue,
+  type LoanRequestFormValue
+} from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { capitalizeWords, toCurrency } from "@/utils"
+import { getUseOfLoan } from "@/modules/loan-application-management/services"
+import { type UseOfLoan } from "@/types/loan-application.type.ts"
+import { toCurrency } from "@/utils"
 
 interface UseLoanRequestDetailProps {
-  loanRequestFormValue?: LoanRequestFormValue
+  loanRequestFormValue?: LoanRequestFormValue | ILoanRequestFormValue
 }
 
 export const useLoanRequestDetail = ({
@@ -22,8 +27,8 @@ export const useLoanRequestDetail = ({
       {
         id: "proposedUseOfLoan",
         title: "Proposed use of loan:",
-        content: capitalizeWords(
-          loanRequestFormValue?.proposeUseOfLoan?.replace(/_/g, " ") ?? "N/A"
+        content: getUseOfLoan(
+          loanRequestFormValue?.proposeUseOfLoan as UseOfLoan
         )
       }
     ]

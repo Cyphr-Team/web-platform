@@ -4,6 +4,9 @@ import { toCurrency } from "@/utils"
 import { InformationRow } from "../../../atoms/InformationRow"
 import { formatPhoneNumberIntl } from "react-phone-number-input"
 import { formatBusinessStreetAddress } from "@/modules/loan-application/constants"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import { getUseOfLoan } from "@/modules/loan-application-management/services"
+import { type UseOfLoan } from "@/types/loan-application.type.ts"
 
 export function BaseApplicationOverview() {
   const { loanSummary, loanApplicationDetails } =
@@ -11,9 +14,15 @@ export function BaseApplicationOverview() {
 
   const businessInfo = loanSummary?.businessInfo
   const personalInfo = loanSummary?.personalInfo
-  const loanAmount = loanApplicationDetails?.loanAmount
-    ? toCurrency(loanApplicationDetails?.loanAmount, 0)
-    : "$-"
+  const loanAmount = isEnableFormV2()
+    ? loanSummary?.loanRequestForm?.amount
+    : loanApplicationDetails?.loanAmount
+
+  const proposeUseOfLoan =
+    ((isEnableFormV2()
+      ? loanSummary?.loanRequestForm?.proposeUseOfLoan
+      : loanSummary?.proposeUseOfLoan) as UseOfLoan) ?? "N/A"
+
   // Business Name and Address fetched from Middesk (post-verification) or from KYB form (pre-verification).
   // If KYB form has not yet been submitted, return "N/A"
   const getBusinessName = () => {
@@ -23,6 +32,7 @@ export function BaseApplicationOverview() {
 
     return loanSummary?.kybForm?.businessLegalName ?? "N/A"
   }
+
   const getBusinessAddress = () => {
     if (businessInfo?.businessName?.verification) {
       return loanSummary?.businessInfo?.officeAddresses?.value ?? "N/A"
@@ -54,7 +64,10 @@ export function BaseApplicationOverview() {
           label="Email address"
           value={personalInfo?.email ?? "N/A"}
         />
-        <InformationRow label="Amount requested" value={loanAmount} />
+        <InformationRow
+          label="Amount requested"
+          value={toCurrency(loanAmount, 0) ?? "$-"}
+        />
         <InformationRow
           label="Phone number"
           value={
@@ -64,7 +77,7 @@ export function BaseApplicationOverview() {
         <InformationRow
           className="rounded-bl-md"
           label="Proposed use of loan"
-          value={loanSummary?.proposeUseOfLoan ?? "N/A"}
+          value={getUseOfLoan(proposeUseOfLoan)}
         />
         <InformationRow
           className="rounded-br-md"

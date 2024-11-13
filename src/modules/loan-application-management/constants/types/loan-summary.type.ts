@@ -25,6 +25,7 @@ import {
   type CurrentLoanInformationResponse,
   type KYBInformationResponse,
   type KYCInformationResponse,
+  type LoanRequestFormResponse,
   type OperatingExpensesInformationResponse,
   type PreQualificationResponse
 } from "@/modules/loan-application/constants/type"
@@ -55,6 +56,7 @@ type LoanSummary = {
   cashFlowDocumentation?: SummaryCashFlowDocumentation[]
   proposeUseOfLoan?: UseOfLoan
   loanType?: string
+  loanRequestForm?: LoanRequestFormResponse
   kybForm?: KYBInformationResponse
   kycForm?: KYCInformationResponse
   currentLoanForms?: CurrentLoanInformationResponse[]

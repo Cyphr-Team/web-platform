@@ -4,14 +4,20 @@ import { NavLink } from "react-router-dom"
 import { FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU } from "@/modules/loan-application/[module]-financial-projection/constants"
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { toCurrency } from "@/utils"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 function Title() {
-  const { loanRequest, businessInformation } = useLoanApplicationFormContext()
+  const { loanRequest, loanRequestV2, businessInformation } =
+    useLoanApplicationFormContext()
+
+  const loanAmount = isEnableFormV2()
+    ? loanRequestV2?.loanAmount
+    : loanRequest?.loanAmount
 
   return (
     <div className="mb-4 px-4xl text-3.5xl">
       {businessInformation?.businessLegalName ?? "---"}
-      <span> • {toCurrency(loanRequest?.loanAmount, 0)}</span>
+      <span> • {toCurrency(loanAmount, 0)}</span>
     </div>
   )
 }
