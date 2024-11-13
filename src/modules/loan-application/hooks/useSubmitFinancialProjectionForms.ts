@@ -26,7 +26,6 @@ import { type ForecastingSetupFormValue } from "@/modules/loan-application/[modu
 import { type RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
-import { isLoanReady } from "@/utils/domain.utils"
 
 interface FormData {
   peopleFormData: PeopleFormValue
@@ -94,11 +93,8 @@ export const useSubmitFinancialProjectionForms = ({
     rawData: debtFinancingData
   })
 
-  const setupHook = {
-    [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: [forecastingSetupSubmission]
-  }
-
   const submissionHooks = {
+    [LOAN_APPLICATION_STEPS.FORECASTING_SETUP]: [forecastingSetupSubmission],
     [LOAN_APPLICATION_STEPS.PEOPLE]: [peopleSubmission],
     [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: [
       operatingExpensesSubmission
@@ -122,20 +118,6 @@ export const useSubmitFinancialProjectionForms = ({
 
   // Setup Hook must be submitted first, then submission hooks
   const handleSubmitFinancialProjection = async (applicationId: string) => {
-    // TODO: UX to force LoanReady users submit setup form first
-    // For Loan Ready, this setup step is required. We should check if it is ready or not, and if not, throw an error
-    // For other tenants, we can skip this setup check
-    const isForecastingSetupComplete = getStepStatus(
-      LOAN_APPLICATION_STEPS.FORECASTING_SETUP
-    )
-
-    if (!isForecastingSetupComplete && isLoanReady()) {
-      throw new Error("Please complete the setup step first")
-    }
-    if (isForecastingSetupComplete) {
-      await forecastingSetupSubmission.submitForm(applicationId)
-    }
-
     const submissionPromises = Object.entries(submissionHooks).reduce<
       Promise<unknown>[]
     >((promises, [step, hook]) => {
@@ -152,10 +134,7 @@ export const useSubmitFinancialProjectionForms = ({
     return Promise.allSettled(submissionPromises)
   }
 
-  const isSubmittingFinancialProjection = [
-    ...Object.values(setupHook),
-    ...Object.values(submissionHooks)
-  ]
+  const isSubmittingFinancialProjection = [...Object.values(submissionHooks)]
     .flat()
     .some((hook) => hook.isLoading)
 
