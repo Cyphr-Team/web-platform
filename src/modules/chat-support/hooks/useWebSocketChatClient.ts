@@ -133,7 +133,6 @@ const useWebSocketClient = () => {
    */
   const streamChat = async () => {
     const messagePromise = new Promise<string>((resolve, reject) => {
-      const result: string[] = []
       const isDisconnected = client.current == null
 
       // If the client is disconnected due to socket timeout, reconnect
@@ -147,7 +146,7 @@ const useWebSocketClient = () => {
 
           if (data.message === RESPONSE_KEEP_ALIVE) return
           if (data.endOfMessage) {
-            const rawMessage = result.join("")
+            const rawMessage = data.message
             const message = sanitizeMathMarkdown(rawMessage)
 
             const sanitizedMessage = renderToString(
@@ -169,8 +168,6 @@ const useWebSocketClient = () => {
             } else {
               resolve(sanitizedMessage)
             }
-          } else {
-            result.push(data.message)
           }
         } catch (error) {
           // Reject the promise in case of an error
