@@ -24,12 +24,13 @@ import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   isEnableFormV2,
+  isEnableLoanReadyV2,
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, isAxiosError } from "axios"
 import { type Dispatch, useCallback } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { type BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
 import { type LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
@@ -101,6 +102,9 @@ import {
 } from "./form.services"
 import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 import { useMutateLoanRequest } from "../hooks/loanrequest/useSubmitLoanRequest"
+import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication"
+import { useGetLoanReadySubscription } from "@/modules/loanready/hooks/payment/useGetLoanReadySubscription"
+import { has } from "lodash"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -426,13 +430,23 @@ export const useSubmitLoanForm = (
       financialStatementData
     })
 
+  /**
+   * Link Application to LoanReady Subscription
+   **/
+  const { mutateLink } = useLinkApplicationToLoanReadySubscription()
+
   const handleSubmitFormSuccess = useCallback(
-    (isUpdated: boolean, isSubmitted: boolean, applicationId?: string) => {
+    async (
+      isUpdated: boolean,
+      isSubmitted: boolean,
+      applicationId?: string
+    ) => {
       if (isSubmitted) {
         toastSuccess({
           title: TOAST_MSG.loanApplication.submitSuccess.title,
           description: TOAST_MSG.loanApplication.submitSuccess.description
         })
+
         // Navigate to submission page with applicationId
         let navigateLink = APP_PATH.LOAN_APPLICATION.SUBMISSION
 
@@ -451,13 +465,26 @@ export const useSubmitLoanForm = (
             loanProgramId: loanProgramId
           }
         })
+
+        // Link Application to LoanReady's Package Subscription
+        if (isLoanReady() && isEnableLoanReadyV2() && applicationId) {
+          await mutateLink(applicationId)
+        }
       } else {
+        // 1st time Save Application as Draft
         if (!isUpdated) {
           toastSuccess({
             title: TOAST_MSG.loanApplication.createSuccess.title,
             description: TOAST_MSG.loanApplication.createSuccess.description
           })
-        } else {
+
+          // Link Application to LoanReady's Package Subscription
+          if (isLoanReady() && isEnableLoanReadyV2() && applicationId) {
+            await mutateLink(applicationId)
+          }
+        }
+        // Update Application
+        else {
           toastSuccess({
             title: TOAST_MSG.loanApplication.updateSuccess.title,
             description: TOAST_MSG.loanApplication.updateSuccess.description
@@ -501,6 +528,18 @@ export const useSubmitLoanForm = (
       LOAN_APPLICATION_STEP_STATUS.COMPLETE,
     [progress]
   )
+
+  // LoanReady Subscription check
+  const { id: loanApplicationId } = useParams() // We don't need to check on created applications
+  const [searchParams] = useSearchParams()
+  const transactionId = searchParams.get("transactionId")
+  const isEnabledLoanReadySubscriptionCheck: boolean =
+    isLoanReady() && isEnableLoanReadyV2() && !loanApplicationId
+  const { data: loanReadySubscription } = useGetLoanReadySubscription({
+    paymentTransactionId: transactionId ?? "",
+    enabled: isEnabledLoanReadySubscriptionCheck
+  })
+
   /**
    * V0: Submit form one by one
    * V1: Submit all forms in parallel
@@ -508,6 +547,26 @@ export const useSubmitLoanForm = (
    */
   const submitLoanForm = useCallback(async () => {
     try {
+      if (isEnabledLoanReadySubscriptionCheck) {
+        // Invalid: Can't find payment subscription, or it is already attached
+        const isInvalidLoanReadySubscription =
+          !loanReadySubscription || has(loanReadySubscription, "applicationId")
+
+        if (isInvalidLoanReadySubscription) {
+          // If the subscription is not found, throw an error and break the submission
+          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index, {
+            replace: true
+          })
+          toastError({
+            title: TOAST_MSG.loanApplication.paymentSubscription.title,
+            description:
+              "Can't find available payment subscription for your application. Please make sure you purchase the package or contact our support team."
+          })
+
+          return
+        }
+      }
+
       // Submit loan request form
       const { data } = await submitLoanRequestForm()
       // TODO(): rename loanRequestId to applicationId

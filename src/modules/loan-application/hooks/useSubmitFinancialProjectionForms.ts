@@ -116,7 +116,7 @@ export const useSubmitFinancialProjectionForms = ({
     ]
   }
 
-  // Setup Hook must be submitted first, then submission hooks
+  // Submission hooks
   const handleSubmitFinancialProjection = async (applicationId: string) => {
     const submissionPromises = Object.entries(submissionHooks).reduce<
       Promise<unknown>[]

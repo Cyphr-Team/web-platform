@@ -1,6 +1,13 @@
-import { type UseBooleanReturn } from "@/hooks/useBoolean"
-import { AddressElement } from "@stripe/react-stripe-js"
-import { type StripeAddressElementChangeEvent } from "@stripe/stripe-js"
+import useBoolean, { type UseBooleanReturn } from "@/hooks/useBoolean"
+import {
+  AddressElement,
+  LinkAuthenticationElement
+} from "@stripe/react-stripe-js"
+import {
+  type StripeLinkAuthenticationElementChangeEvent,
+  type StripeAddressElementChangeEvent
+} from "@stripe/stripe-js"
+import { useEffect } from "react"
 
 /**
  * BillingAddressForm component renders a billing address form using Stripe's AddressElement.
@@ -17,16 +24,35 @@ interface BillingAddressFormProps {
 export function BillingAddressForm({
   isAddressElementValid
 }: BillingAddressFormProps) {
+  const isAddressValid = useBoolean(false)
+  const isLinkAuthenticationValid = useBoolean(false)
+
+  useEffect(() => {
+    isAddressElementValid.setValue(
+      isAddressValid.value && isLinkAuthenticationValid.value
+    )
+  }, [isAddressValid, isLinkAuthenticationValid])
+
   const handleAddressElementChange = (
     event: StripeAddressElementChangeEvent
   ) => {
     // Set button state based on validation status
-    isAddressElementValid.setValue(event.complete as boolean)
+    isAddressValid.setValue(event.complete as boolean)
+  }
+
+  const handleLinkAuthenticationElementChange = (
+    event: StripeLinkAuthenticationElementChangeEvent
+  ) => {
+    // Set button state based on validation status
+    isLinkAuthenticationValid.setValue(event.complete as boolean)
   }
 
   return (
     <div className="flex flex-col gap-4">
       <p className="text-lg font-semibold text-[#252828]">Billing Address</p>
+      <LinkAuthenticationElement
+        onChange={handleLinkAuthenticationElementChange}
+      />
       <AddressElement
         options={{
           mode: "billing",

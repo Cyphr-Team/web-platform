@@ -252,7 +252,8 @@ export const API_PATH = {
     createChargeWithConfirmationToken: "api/payment/create-charge"
   },
   loanReady: {
-    linkSubscription: "api/loan-ready-subscription/update-application-id"
+    linkSubscription: "api/loan-ready-subscription/update-application-id",
+    getSubscription: "api/loan-ready-subscription/by-payment-transaction-id"
   },
   workspaceAdmin: {
     selectRoundLoanApplication: "api/workspace-admin/applications/round",

@@ -133,6 +133,11 @@ export const TOAST_MSG = {
     payment: {
       title: "Payment result",
       description: "Your payment has been processed successfully"
+    },
+    paymentSubscription: {
+      title: "Payment subscription",
+      description:
+        "Your LoanReady/ LoanReady+ subscription has been attached to this application"
     }
   },
   judgeLoanApplication: {

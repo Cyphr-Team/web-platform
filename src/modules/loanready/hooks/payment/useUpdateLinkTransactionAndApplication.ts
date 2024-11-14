@@ -1,18 +1,24 @@
 import { API_PATH } from "@/constants"
+import {
+  loanApplicationKeys,
+  loanApplicationUserKeys
+} from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
+import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import {
   type LoanReadyApplicationUpdateRequest,
   type LoanReadySubscription
 } from "@/modules/loanready/constants/types/subscription.type"
 import { postRequest } from "@/services/client.service"
-import { toastError } from "@/utils"
+import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, type AxiosResponse } from "axios"
-import { type ErrorResponse } from "react-router-dom"
+import { useSearchParams, type ErrorResponse } from "react-router-dom"
 
 export const useUpdateLinkTransactionAndApplication = () => {
-  return useMutation<
+  const queryClient = useQueryClient()
+  const mutation = useMutation<
     AxiosResponse<LoanReadySubscription>,
     AxiosError<ErrorResponse>,
     LoanReadyApplicationUpdateRequest
@@ -25,12 +31,70 @@ export const useUpdateLinkTransactionAndApplication = () => {
     },
     onError: (error) => {
       toastError({
-        title: TOAST_MSG.loanApplication.payment.title,
+        title: TOAST_MSG.loanApplication.paymentSubscription.title,
         description: getAxiosError(error).message
       })
     },
-    onSuccess: () => {
-      //TODO: Invalidate old application queries
+    onSuccess: (data) => {
+      toastSuccess(TOAST_MSG.loanApplication.paymentSubscription)
+      // Invalidate the loan application list and this loan application detail
+      queryClient.invalidateQueries({ queryKey: loanApplicationKeys.lists() })
+      queryClient.invalidateQueries({
+        queryKey: loanApplicationUserKeys.detail(data.data.applicationId)
+      })
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEY.GET_LOANREADY_SUBSCRIPTION,
+          data.data.paymentTransactionId
+        ]
+      })
     }
   })
+
+  return {
+    updateLinkTransactionAndApplication: mutation.mutateAsync,
+    isUpdatingLinkTransactionAndApplication: mutation.isPending
+  }
+}
+
+/**
+ * This hook is used to link a new application to a LoanReady package subscription.
+ *
+ * We check if we have a payment transaction ID and an application ID to attach.
+ * If yes, we call the `useUpdateLinkTransactionAndApplication` hook to
+ * link the application to the LoanReady package subscription.
+ *
+ * If no payment transaction ID is found, we show an error message.
+ *
+ * This hook is used in the payment success page.
+ */
+export const useLinkApplicationToLoanReadySubscription = () => {
+  const [searchParams] = useSearchParams()
+  const paymentTransactionId = searchParams.get("transactionId")
+
+  const {
+    updateLinkTransactionAndApplication,
+    isUpdatingLinkTransactionAndApplication: isLinking
+  } = useUpdateLinkTransactionAndApplication()
+
+  const mutateLink = async (applicationId: string) => {
+    // Check if we have paymentTransactionId to attach
+    if (paymentTransactionId) {
+      await updateLinkTransactionAndApplication({
+        paymentTransactionId: paymentTransactionId,
+        applicationId: applicationId
+      })
+    } else {
+      toastError({
+        title: TOAST_MSG.loanApplication.paymentSubscription.title,
+        description:
+          "Can't find available payment transaction for your application. Please make sure you purchase the package or contact our support team."
+      })
+    }
+  }
+
+  return {
+    mutateLink,
+    isLinking
+  }
 }
