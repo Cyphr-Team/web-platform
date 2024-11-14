@@ -1,50 +1,24 @@
 import { Separator } from "@/components/ui/separator"
-import { MM_YYYY_PATTERN } from "@/constants"
-import {
-  RHFCurrencyInput,
-  RHFMaskInput,
-  RHFTextInput
-} from "@/modules/form-template/components/molecules"
-import { getArrayFieldName } from "@/modules/form-template/components/utils"
-import { RHFProvider } from "@/modules/form-template/providers"
 import {
   FpOperatingExpensesField,
-  fpOperatingExpensesFormSchema,
   type FpOperatingExpensesFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store"
-import { sanitizeNumber, toCurrency } from "@/utils"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { sanitizeNumber } from "@/utils"
+import { formatDate } from "@/utils/date.utils.ts"
+import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
 import { sum } from "lodash"
-import {
-  type FieldArrayWithId,
-  type FieldPath,
-  useFieldArray,
-  useForm
-} from "react-hook-form"
 
 interface FinancialOperatingExpensesFormDetailProps {
   fpOperatingExpensesFormValue?: FpOperatingExpensesFormValue
 }
 
 export function FinancialOperatingExpensesFormDetail({
-  fpOperatingExpensesFormValue
+  fpOperatingExpensesFormValue = {
+    [FpOperatingExpensesField.operatingExpenses]: []
+  }
 }: FinancialOperatingExpensesFormDetailProps) {
-  const form = useForm<FpOperatingExpensesFormValue>({
-    resolver: zodResolver(fpOperatingExpensesFormSchema),
-    mode: "onBlur",
-    values: fpOperatingExpensesFormValue
-      ? fpOperatingExpensesFormValue
-      : { [FpOperatingExpensesField.operatingExpenses]: [] }
-  })
-
-  const { fields } = useFieldArray({
-    control: form.control,
-    name: FpOperatingExpensesField.operatingExpenses
-  })
-
-  const operationExpenses = form.getValues().operatingExpenses
   const total = sum(
-    operationExpenses?.map((operationExpense) =>
+    fpOperatingExpensesFormValue?.operatingExpenses?.map((operationExpense) =>
       sanitizeNumber(operationExpense.monthlyCost)
     )
   )
@@ -60,10 +34,10 @@ export function FinancialOperatingExpensesFormDetail({
           Monthly cost
         </p>
       </div>
-      <RHFProvider methods={form}>
+      <div>
         <div className="mb-5 flex flex-col gap-6">
-          {fields?.map((founder, index) => (
-            <OperatingExpenses key={founder.id} index={index} value={founder} />
+          {fpOperatingExpensesFormValue?.operatingExpenses?.map((founder) => (
+            <OperatingExpenses key={founder.name} value={founder} />
           ))}
         </div>
 
@@ -71,78 +45,41 @@ export function FinancialOperatingExpensesFormDetail({
 
         <div className="flex justify-between text-sm font-semibold">
           <p>TOTAL MONTHLY OPERATING EXPENSE</p>
-          <p>{toCurrency(total, 0)} / mo</p>
+          <p>${USDFormatter(total).format()} / mo</p>
         </div>
-      </RHFProvider>
+      </div>
     </div>
   )
 }
 
 interface OperatingExpensesProps {
-  index: number
-  value: FieldArrayWithId<
-    FpOperatingExpensesFormValue["operatingExpenses"][number]
-  >
+  value: FpOperatingExpensesFormValue["operatingExpenses"][number]
 }
 
 function OperatingExpenses(props: OperatingExpensesProps) {
-  const { index, value } = props
+  const { value } = props
 
   return (
-    <div key={value.id} className="flex gap-3">
-      <div className="grid w-full grid-cols-6 items-center gap-5">
+    <div className="flex gap-3">
+      <div className="grid w-full grid-cols-6 items-center gap-5 text-sm">
         <div className="col-start-1 col-end-3 row-start-1 flex flex-col gap-1">
-          <RHFTextInput
-            isDetail
-            isHideErrorMessage
-            isToggleView
-            className="text-sm font-medium"
-            label=""
-            name={getArrayFieldName<
-              FpOperatingExpensesField,
-              FieldPath<FpOperatingExpensesFormValue>
-            >(FpOperatingExpensesField.operatingExpensesName, index)}
-            placeholder="Operating expenses name"
-            styleProps={{ inputClassName: "h-6 text-sm max-w-52 -mt-1.5" }}
-          />
-          <RHFTextInput
-            isDetail
-            isHideErrorMessage
-            isToggleView
-            className="mt-auto text-xs text-text-secondary"
-            label=""
-            name={getArrayFieldName<
-              FpOperatingExpensesField,
-              FieldPath<FpOperatingExpensesFormValue>
-            >(FpOperatingExpensesField.operatingExpensesDescription, index)}
-            placeholder="Add description"
-            styleProps={{ inputClassName: "h-6 text-xs max-w-32 -mb-1.5" }}
-          />
+          <div className="space-y-2 text-sm font-medium">
+            <div className="break-words">{value.name}</div>
+          </div>
+          <div className="mt-auto space-y-2 text-xs text-text-secondary">
+            <div className="break-words">{value.description}</div>
+          </div>
         </div>
-        <RHFMaskInput
-          isDetail
-          isHideErrorMessage
-          className="col-start-4 col-end-5 row-start-1 mt-0"
-          label=""
-          name={getArrayFieldName<
-            FpOperatingExpensesField,
-            FieldPath<FpOperatingExpensesFormValue>
-          >(FpOperatingExpensesField.operatingExpensesStartDate, index)}
-          pattern={MM_YYYY_PATTERN}
-          placeholder="MM/YYYY"
-        />
-        <RHFCurrencyInput
-          isDetail
-          isHideErrorMessage
-          className="col-start-5 col-end-7 row-start-1 mt-0 text-right"
-          label=""
-          name={getArrayFieldName<
-            FpOperatingExpensesField,
-            FieldPath<FpOperatingExpensesFormValue>
-          >(FpOperatingExpensesField.operatingExpensesMonthlyCost, index)}
-          prefixIcon="$ "
-          suffixIcon={<span> /mo</span>}
-        />
+        <div className="col-start-4 col-end-5 row-start-1 mt-0 space-y-2 text-sm">
+          <div className="break-words">
+            {formatDate(value.startDate, "MM/YYYY")}
+          </div>
+        </div>
+        <div className="col-start-5 col-end-7 row-start-1 mt-0 space-y-2 text-right text-sm">
+          <div className="break-words">
+            $ <span>{USDFormatter(value.monthlyCost).format()} /mo</span>
+          </div>
+        </div>
       </div>
     </div>
   )
