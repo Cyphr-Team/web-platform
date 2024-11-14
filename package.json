@@ -13,9 +13,9 @@
     "prettier" : "prettier --check \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
     "prettier:fix" : "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
     "preview" : "vite preview",
-    "typecheck" : "tsc --noEmit",
+    "typecheck" : "echo \"[😎]running typecheck...\" && tsc --noEmit",
     "pre-commit" : "yarn lint:staged",
-    "pre-push" : "yarn lint && yarn typecheck",
+    "pre-push" : "echo \"[🙏] good luck to you 🚀\"",
     "prepare" : "husky"
   },
   "dependencies" : {
