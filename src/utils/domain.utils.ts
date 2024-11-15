@@ -100,10 +100,6 @@ function isSbb(): boolean {
   return matchSubdomain(getSubdomain(), Institution.SBB)
 }
 
-function isKansasCity(): boolean {
-  return matchSubdomain(getSubdomain(), Institution.KansasCity)
-}
-
 function isFinovate(): boolean {
   return matchSubdomain(getSubdomain(), Institution.Finovate)
 }
@@ -124,6 +120,5 @@ export {
   isKccBank,
   isLaunchKC,
   isSbb,
-  isKansasCity,
   isFinovate
 }

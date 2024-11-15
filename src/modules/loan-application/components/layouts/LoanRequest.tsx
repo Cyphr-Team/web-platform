@@ -38,19 +38,12 @@ import {
   loanRequestFormSchema
 } from "../../constants/form"
 import { useEffect, useMemo } from "react"
-import {
-  isKansasCity,
-  isKccBank,
-  isLaunchKC,
-  isLoanReady,
-  isSbb
-} from "@/utils/domain.utils"
+import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "../../services"
 import { useAutoCompleteStepEffect } from "../../hooks/useAutoCompleteStepEffect"
-import { RHFTextInput } from "../../../form-template/components/molecules"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 import { schemasByInstitution } from "../../constants/form[v2]"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils"
@@ -90,9 +83,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
       applicationId: loanRequest?.id ?? "",
       loanAmount: loanRequest?.loanAmount ?? minLoanAmount ?? 0,
       loanTermInMonth: loanProgramDetails?.maxTermInMonth ?? 0,
-      proposeUseOfLoan:
-        loanRequest?.proposeUseOfLoan ??
-        (isKansasCity() ? "" : UseOfLoan.OTHER),
+      proposeUseOfLoan: loanRequest?.proposeUseOfLoan ?? UseOfLoan.OTHER,
       requestingInstitution: loanRequest?.requestingInstitution ?? ""
     }
   }, [
@@ -307,8 +298,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                   {!isLoanReady() &&
                     !isKccBank() &&
                     !isSbb() &&
-                    !isLaunchKC() &&
-                    !isKansasCity() && (
+                    !isLaunchKC() && (
                       <FormField
                         control={formToUse.control}
                         name="proposeUseOfLoan"
@@ -342,24 +332,6 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                         )}
                       />
                     )}
-
-                  {isKansasCity() && (
-                    <RHFTextInput
-                      className="mt-6 space-y-2"
-                      label="Proposed use of loan"
-                      name="proposeUseOfLoan"
-                      placeholder="i.e. Equipment loan "
-                    />
-                  )}
-
-                  {isKansasCity() && (
-                    <RHFTextInput
-                      className="mt-6 space-y-2"
-                      label="Which bank or financial institution are you requesting or planning to request a loan from?"
-                      name="requestingInstitution"
-                      placeholder="Enter bank or financial institution"
-                    />
-                  )}
                 </div>
               </div>
             </div>

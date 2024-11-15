@@ -8,7 +8,6 @@ enum Institution {
   KCChamber = "kcchamber",
   LaunchKC = "launchkc",
   SBB = "sbb",
-  KansasCity = "kansascity",
   Finovate = "finovate"
 }
 

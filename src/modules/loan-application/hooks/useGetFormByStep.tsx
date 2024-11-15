@@ -1,9 +1,4 @@
-import {
-  isKansasCity,
-  isLaunchKC,
-  isLoanReady,
-  isSbb
-} from "@/utils/domain.utils.ts"
+import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils.ts"
 import {
   isEnablePandaDocESign,
   isEnablePlaidV2
@@ -37,9 +32,6 @@ import { LaunchKCFitForm } from "@/modules/loan-application/components/organisms
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/LaunchKCOwnerInformationForm.tsx"
 import { SBBKybFormPartOne } from "../components/organisms/loan-application-form/kyb/sbb/SBBKybFormPartOne"
 import { SBBKybFormPartTwo } from "../components/organisms/loan-application-form/kyb/sbb/SbbKybFormPartTwo"
-import { KansasCityOwnerInformationForm } from "../components/organisms/loan-application-form/kyc/kansascity/KansasCityOwnerInformationForm"
-import { KansasCityBusinessInformationForm } from "../components/organisms/loan-application-form/kyb/kansascity/KansasCityBusinessInformationForm"
-import { KansasCityCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/kansascity/KansasCityCurrentLoanForm"
 import { SbbKycForm } from "../components/organisms/loan-application-form/kyc/sbb/SbbKycForm"
 import SbbPrivacyPolicy from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPrivacyPolicy"
 import { SbbPatriotAct } from "../components/organisms/loan-application-form/pre-application-disclosures/SbbPatriotAct"
@@ -78,9 +70,6 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         if (isLaunchKC()) {
           return <LaunchKCBusinessInformationForm />
         }
-        if (isKansasCity()) {
-          return <KansasCityBusinessInformationForm />
-        }
         if (isLoanReady()) {
           return <LoanReadyBusinessInformationForm />
         }
@@ -96,9 +85,6 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         }
         if (isLoanReady()) {
           return <LoanReadyOwnerInformationForm />
-        }
-        if (isKansasCity()) {
-          return <KansasCityOwnerInformationForm />
         }
         if (isSbb()) {
           return <SbbKycForm />
@@ -116,9 +102,6 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
         if (isSbb()) {
           return <SBBCurrentLoanForm />
-        }
-        if (isKansasCity()) {
-          return <KansasCityCurrentLoanForm />
         }
 
         return <CurrentLoansForm />

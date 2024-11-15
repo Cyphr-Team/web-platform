@@ -7,7 +7,6 @@ import { CapsightLoanApplicationStep } from "./Capsight"
 import { SBBLoanApplicationStep } from "./SBB"
 import { LaunchKCLoanApplicationStep } from "./LaunchKC"
 import { matchSubdomain } from "@/utils/domain.utils"
-import { KansasCityLoanApplicationStep } from "./KansasCity"
 
 export class LoanApplicationStepStrategy {
   institutionLoanApplicationSteps = {
@@ -16,8 +15,7 @@ export class LoanApplicationStepStrategy {
     [Institution.LoanReady]: LoanReadyLoanApplicationStep,
     [Institution.Capsight]: CapsightLoanApplicationStep,
     [Institution.LaunchKC]: LaunchKCLoanApplicationStep,
-    [Institution.SBB]: SBBLoanApplicationStep,
-    [Institution.KansasCity]: KansasCityLoanApplicationStep
+    [Institution.SBB]: SBBLoanApplicationStep
   }
   #strategy
 

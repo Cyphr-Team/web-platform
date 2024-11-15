@@ -19,7 +19,7 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
-import { isKansasCity, isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isLaunchKC, isSbb } from "@/utils/domain.utils"
 import { concat, get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
@@ -43,7 +43,6 @@ import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/use
 import { useParams } from "react-router-dom"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
-import { KansasCityCurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/kansascity/KansasCityCurrentLoanFormDetails"
 
 export function Component() {
   const params = useParams()
@@ -132,13 +131,6 @@ export function Component() {
     if (isSbb()) {
       return (
         <SbbCurrentLoanFormDetails
-          currentLoanFormData={loanSummary?.currentLoanForms}
-        />
-      )
-    }
-    if (isKansasCity()) {
-      return (
-        <KansasCityCurrentLoanFormDetails
           currentLoanFormData={loanSummary?.currentLoanForms}
         />
       )

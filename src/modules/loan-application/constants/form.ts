@@ -119,16 +119,6 @@ export const loanReadyOwnerFormSchema = ownerFormSchema.extend({
   businessOwnershipPercentage: z.coerce.string()
 })
 
-export const kansasCityOwnerFormSchema = ownerFormSchema.extend({
-  businessRole: z.string(),
-  residentStreetAddress: z.string(),
-  title: z.string(),
-  genderIdentity: z.string(),
-  racialIdentification: z.string(),
-  ethnicIdentification: z.string(),
-  personalCreditScore: z.string()
-})
-
 export const businessFormSchema = z.object({
   id: z.string(),
   businessLegalName: createStringSchema({
@@ -174,16 +164,6 @@ export const launchKCBusinessFormSchema = businessFormSchema.extend({
     .string()
     .min(1, { message: "Company description is required" })
     .max(255, { message: "Company description is too long" })
-})
-
-export const kansasCityBusinessFormSchema = businessFormSchema.extend({
-  dba: z.string(),
-  otherRelatedBusiness: z.string(),
-  anyOtherOwnerOver20Percentage: z.string(),
-  typeOfBusiness: z.string(),
-  numberOfFullTimeEmployee: z.string(),
-  numberOfPartTimeEmployee: z.string(),
-  tenNinetyNineContractorOrOther: z.string()
 })
 
 export const loanReadyBusinessFormSchema = businessFormSchema.extend({
@@ -275,21 +255,6 @@ const SBBLoanItemFormSchema = z.object({
     .max(50, { message: "Interest rate must not be higher than 50" })
 })
 
-const KansasCityLoanItemFormSchema = LoanItemFormSchema.extend({
-  id: z.string(),
-  lenderName: z.string().min(1, { message: "Lender name is required" }),
-  loanType: z.string().min(1, { message: "Loan type is required" }),
-  originalLoanAmount: z
-    .number()
-    .min(1, { message: "Original loan amount must be higher than 0" }),
-  monthlyPaymentAmount: z.number(),
-  loanTermRemainingInMonths: z.number(),
-  annualInterestRate: z
-    .number({ invalid_type_error: "Interest rate must not be blank" })
-    .min(0.01, { message: "Interest rate must be higher than 0" })
-    .max(50, { message: "Interest rate must not be higher than 50" })
-})
-
 export const currentLoansFormSchema = z.object({
   hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
   currentLoans: z.array(LoanItemFormSchema)
@@ -298,11 +263,6 @@ export const currentLoansFormSchema = z.object({
 export const sbbCurrentLoansFormSchema = z.object({
   hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
   currentLoans: z.array(SBBLoanItemFormSchema)
-})
-
-export const kansasCityCurrentLoansFormSchema = z.object({
-  hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
-  currentLoans: z.array(KansasCityLoanItemFormSchema)
 })
 
 export const operatingExpensesFormSchema = z.object({
@@ -362,10 +322,6 @@ export const reviewApplicationSchema = z.object({
 })
 
 export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
-
-export type FinancialProjectionReviewApplicationValue = z.infer<
-  typeof reviewApplicationSchema
->
 
 export const cashFlowSchema = z.object({
   /**
@@ -544,15 +500,9 @@ export type LaunchKCBusinessFormValue = z.infer<
   typeof launchKCBusinessFormSchema
 >
 
-export type KansasCityBusinessFormValue = z.infer<
-  typeof kansasCityBusinessFormSchema
->
-
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
 
 export type LaunchKCOwnerFormValue = z.infer<typeof launchKCOwnerFormSchema>
-
-export type KansasCityOwnerFormValue = z.infer<typeof kansasCityOwnerFormSchema>
 
 export type LoanReadyOwnerFormValue = z.infer<typeof loanReadyOwnerFormSchema>
 
@@ -567,10 +517,6 @@ export type LoanRequestFormValue = z.infer<typeof loanRequestFormSchema>
 export type CurrentLoansFormValue = z.infer<typeof currentLoansFormSchema>
 
 export type SbbCurrentLoansFormValue = z.infer<typeof sbbCurrentLoansFormSchema>
-
-export type KansasCityCurrentLoansFormValue = z.infer<
-  typeof kansasCityCurrentLoansFormSchema
->
 
 export type OperatingExpensesFormValue = z.infer<
   typeof operatingExpensesFormSchema
@@ -608,15 +554,12 @@ export type IBusinessFormValue = BusinessFormValue &
   LaunchKCBusinessFormValue &
   SbbKybFormPartOneValue &
   SbbKybFormPartTwoValue &
-  KansasCityBusinessFormValue &
   LoanReadyBusinessFormValue
 
 export type IOwnerFormValue = OwnerFormValue &
   LaunchKCOwnerFormValue &
-  KansasCityOwnerFormValue &
   SbbKycFormValue &
   LoanReadyOwnerFormValue
 
 export type ICurrentLoanFormValue = CurrentLoansFormValue &
-  SbbCurrentLoansFormValue &
-  KansasCityCurrentLoansFormValue
+  SbbCurrentLoansFormValue
