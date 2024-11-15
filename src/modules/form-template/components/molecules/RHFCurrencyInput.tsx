@@ -44,6 +44,7 @@ export interface RHFCurrencyInputProps<T extends FieldValues> {
     labelClassName?: string
     messageClassName?: string
     suffixClassName?: string
+    subtitleClassName?: string
   }
   isRowDirection?: boolean
   prefix?: string
@@ -82,7 +83,8 @@ function RHFCurrencyInput<T extends FieldValues>(
     inputClassName,
     labelClassName,
     messageClassName,
-    suffixClassName
+    suffixClassName,
+    subtitleClassName
   } = styleProps
 
   const handleChangeValue =
@@ -138,7 +140,12 @@ function RHFCurrencyInput<T extends FieldValues>(
                     {label}
                     {required ? <RequiredSymbol /> : null}
                     {subtitle ? (
-                      <p className="mt-2 font-medium text-text-tertiary">
+                      <p
+                        className={cn(
+                          "mt-2 font-medium text-text-tertiary",
+                          subtitleClassName
+                        )}
+                      >
                         {subtitle}
                       </p>
                     ) : null}
@@ -164,7 +171,7 @@ function RHFCurrencyInput<T extends FieldValues>(
                   )}
                   {...field}
                   {...inputProps}
-                  className={cn("text-base no-arrows", inputClassName)}
+                  className={cn("no-arrows text-sm", inputClassName)}
                   suffixClassName={suffixClassName}
                   value={fieldValue}
                   onBlur={handleChangeValue(field)}

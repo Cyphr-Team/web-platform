@@ -29,7 +29,6 @@ module.exports = {
     },
     // TODO: fix issue here, using these config for linting styles at object level
     // tailwindcss: {
-    //   config: "tailwind.config.js",
     //   callees: ["classnames", "clsx", "ctl", "styleProps", "cn"],
     //   classRegex: "\\S.*(c|C)lassName?",
     // }

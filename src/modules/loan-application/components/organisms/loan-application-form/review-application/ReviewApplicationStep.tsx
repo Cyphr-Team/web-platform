@@ -2,7 +2,7 @@ import {
   type ILoanApplicationStep,
   LOAN_APPLICATION_STEPS
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { isEnablePlaidV2 } from "@/utils/feature-flag.utils"
+import { isEnableFormV2, isEnablePlaidV2 } from "@/utils/feature-flag.utils"
 import { forwardRef, useMemo } from "react"
 import { LoanRequest } from "../../../layouts/LoanRequest"
 import { BusinessInformationForm } from "../kyb/KybForm"
@@ -33,6 +33,7 @@ import { SBBKybFormPartTwo } from "../kyb/sbb/SbbKybFormPartTwo"
 import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
 import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid"
 import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
+import { CurrentLoanFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 
 interface IReviewStep {
   stepProgress: ILoanApplicationStep
@@ -71,7 +72,15 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
-        return isSbb() ? <SBBCurrentLoanForm /> : <CurrentLoansForm />
+        if (isSbb()) {
+          return <SBBCurrentLoanForm />
+        }
+
+        if (isEnableFormV2()) {
+          return <CurrentLoanFormV2 />
+        }
+
+        return <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
         return <ConfirmationForm />
       case LOAN_APPLICATION_STEPS.OPERATING_EXPENSES:

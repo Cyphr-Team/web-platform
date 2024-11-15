@@ -18,6 +18,7 @@ import type {
   DefaultLoanRequestFormValue,
   KccLoanRequestFormValue
 } from "./form[v2]"
+import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
 
@@ -562,4 +563,5 @@ export type IOwnerFormValue = OwnerFormValue &
   LoanReadyOwnerFormValue
 
 export type ICurrentLoanFormValue = CurrentLoansFormValue &
-  SbbCurrentLoansFormValue
+  SbbCurrentLoansFormValue &
+  CurrentLoanFormsV2Value

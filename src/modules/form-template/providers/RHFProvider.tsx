@@ -7,20 +7,24 @@ import {
 
 // ----------------------------------------------------------------------
 
-interface Props<T extends FieldValues> {
+interface RHFProviderProps<T extends FieldValues> {
   children: ReactNode
   methods: UseFormReturn<T>
   onSubmit?: VoidFunction
+  className?: string
 }
 
 function RHFProvider<T extends FieldValues>({
   children,
   onSubmit,
-  methods
-}: Props<T>) {
+  methods,
+  className
+}: RHFProviderProps<T>) {
   return (
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit}>{children}</form>
+      <form className={className} onSubmit={onSubmit}>
+        {children}
+      </form>
     </FormProvider>
   )
 }

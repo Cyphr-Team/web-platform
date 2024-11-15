@@ -40,7 +40,7 @@ export interface RHFPercentageInputProps<T extends FieldValues> {
   max?: number
   isString?: boolean
   styleProps?: StyleProps
-  direction?: "row" | "column"
+  isRowDirection?: boolean
   prefix?: string
   suffix?: string
   description?: string
@@ -58,7 +58,7 @@ function RHFPercentageInput<T extends FieldValues>(
     required,
     subtitle,
     styleProps = {},
-    direction = "column",
+    isRowDirection = false,
     min = 0,
     max = 100,
     isString = false,
@@ -120,7 +120,7 @@ function RHFPercentageInput<T extends FieldValues>(
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             {label}
             {required ? <RequiredSymbol /> : null}
-            {direction === "row" && <FormMessage />}
+            {isRowDirection ? <FormMessage /> : null}
           </FormLabel>
 
           <FormControl>
@@ -142,13 +142,11 @@ function RHFPercentageInput<T extends FieldValues>(
               })}
             />
           </FormControl>
-          {direction === "column" && (
-            <FormMessage className={messageClassName} />
-          )}
+          {!isRowDirection && <FormMessage className={messageClassName} />}
           {subtitle ? (
             <p
               className={cn(
-                "mt-2 text-text-tertiary font-medium",
+                "mt-2 font-medium text-text-tertiary",
                 subtitleClassName
               )}
             >

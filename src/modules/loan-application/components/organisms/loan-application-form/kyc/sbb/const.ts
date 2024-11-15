@@ -204,8 +204,7 @@ export const SBB_KYC_FORM_BLOCKS: Block[] = [
       label: "Business ownership percentage",
       placeholder: "i.e: 75",
       className: "col-span-7",
-      required: true,
-      isString: true
+      required: true
     }
   }
 ]

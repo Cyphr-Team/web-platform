@@ -184,8 +184,8 @@ function EditOwner(props: EditOwnerProps) {
         }}
       />
       <RHFPercentageInput
+        isRowDirection
         className="flex items-center justify-between gap-2"
-        direction="row"
         label="What percentage of the business do they own?"
         name={`${OWNER_INFORMATION}.${SBB_KYC_FIELD_NAMES.BUSINESS_OWNERSHIP_PERCENTAGE}`}
         styleProps={{

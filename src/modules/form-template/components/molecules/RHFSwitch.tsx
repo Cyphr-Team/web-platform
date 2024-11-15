@@ -8,7 +8,7 @@ import {
 } from "react-hook-form"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 
-export interface RHFTextInputProps<T extends FieldValues> {
+export interface RHFSwitchInput<T extends FieldValues> {
   label: ReactNode
   name: FieldPath<T>
 
@@ -18,7 +18,7 @@ export interface RHFTextInputProps<T extends FieldValues> {
   }
 }
 
-function RHFSwitch<T extends FieldValues>(props: RHFTextInputProps<T>) {
+function RHFSwitch<T extends FieldValues>(props: RHFSwitchInput<T>) {
   const { control } = useFormContext()
   const { name, label, className, styleProps = {} } = props
   const { labelClassName } = styleProps
@@ -30,25 +30,25 @@ function RHFSwitch<T extends FieldValues>(props: RHFTextInputProps<T>) {
       render={({ field }) => (
         <FormItem
           className={cn(
-            "flex items-center justify-between align-middle gap-x-2",
+            "flex items-center justify-between gap-x-2 align-middle",
             className
           )}
         >
-          <FormLabel className={cn("text-text-secondary mt-2", labelClassName)}>
+          <FormLabel className={cn("mt-2 text-text-secondary", labelClassName)}>
             {label}
           </FormLabel>
 
           <SwitchPrimitives.Root
             className={cn(
-              "inline-flex items-center shrink-0",
-              "border-2 border-transparent rounded-full",
+              "inline-flex shrink-0 items-center",
+              "rounded-full border-2 border-transparent",
               "h-6 w-11 cursor-pointer transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
             )}
             {...field}
           >
             <SwitchPrimitives.Thumb
               className={cn(
-                "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+                "pointer-events-none block size-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
               )}
             />
           </SwitchPrimitives.Root>

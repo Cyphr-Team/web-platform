@@ -37,12 +37,6 @@ export interface RHFNumberInputProps<T extends FieldValues> {
   }
 }
 
-/**
- * RHFNumberInput: React Hook Form MaskInput
- * A wrapper for MaskInput to quick setup and reduce complexity.
- *
- * MUST USE THIS INSIDE A FORM OR ELSE IT WILL CRASH
- * */
 function RHFNumberInput<T extends FieldValues>(props: RHFNumberInputProps<T>) {
   const { control } = useFormContext()
   const {
@@ -76,7 +70,7 @@ function RHFNumberInput<T extends FieldValues>(props: RHFNumberInputProps<T>) {
             className={cn(
               className,
               isRowDirection
-                ? "flex justify-between items-center gap-1.5"
+                ? "flex items-center justify-between gap-1.5"
                 : null
             )}
           >
@@ -109,9 +103,6 @@ function RHFNumberInput<T extends FieldValues>(props: RHFNumberInputProps<T>) {
             {!isRowDirection && !isHideErrorMessage && (
               <FormMessage className={messageClassName} />
             )}
-            {subtitle ? (
-              <div className="text-xs text-text-tertiary">{subtitle}</div>
-            ) : null}
           </FormItem>
         )
       }}

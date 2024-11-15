@@ -38,11 +38,14 @@ export interface RHFTextInputProps<T extends FieldValues> {
     inputClassName?: string
     labelClassName?: string
     messageClassName?: string
+    subtitleClassName?: string
+    suffixIconClassName?: string
   }
 
   isRowDirection?: boolean
   prefix?: string
   suffix?: string
+  suffixIcon?: ReactNode
   description?: string
   required?: boolean
   prefixIcon?: React.ReactNode
@@ -82,6 +85,7 @@ function RenderInput<T extends FieldValues>(props: RHFTextInputProps<T>) {
     isToggleView = false,
     isHideErrorMessage = false,
     isDetail,
+    suffixIcon,
     ...inputProps
   } = props
 
@@ -91,12 +95,18 @@ function RenderInput<T extends FieldValues>(props: RHFTextInputProps<T>) {
     rules: { required: true }
   })
 
-  const { wrapperClassName, inputClassName, labelClassName, messageClassName } =
-    styleProps
+  const {
+    wrapperClassName,
+    inputClassName,
+    subtitleClassName,
+    suffixIconClassName,
+    labelClassName,
+    messageClassName
+  } = styleProps
 
   const InputComponent = multiline ? Textarea : Input
 
-  const [isView, setIsView] = useState(!!field?.value?.trim())
+  const [isView, setIsView] = useState(isToggleView && !!field?.value?.trim())
 
   const onShow = (value: boolean) => () => {
     setIsView(value)
@@ -128,6 +138,8 @@ function RenderInput<T extends FieldValues>(props: RHFTextInputProps<T>) {
           {...field}
           {...inputProps}
           className={cn("text-sm", inputClassName)}
+          suffixClassName={suffixIconClassName}
+          suffixIcon={suffixIcon}
           onBlur={customOnBlur(field.onBlur)}
         />
       </FormControl>
@@ -146,7 +158,14 @@ function RenderInput<T extends FieldValues>(props: RHFTextInputProps<T>) {
           {label}
           {required ? <RequiredSymbol /> : null}
           {subtitle ? (
-            <p className="mt-2 font-medium text-text-tertiary">{subtitle}</p>
+            <p
+              className={cn(
+                "mt-2 font-medium text-text-tertiary",
+                subtitleClassName
+              )}
+            >
+              {subtitle}
+            </p>
           ) : null}
           {isRowDirection && !isHideErrorMessage ? (
             <FormMessage className={messageClassName} />
