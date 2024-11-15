@@ -63,7 +63,9 @@ export const useExportToPDF = () => {
 
       const allElements = [...filteredElements, ...financialElements]
 
-      const { pdf } = await generatePDF(allElements)
+      const { pdf } = await generatePDF({
+        elements: allElements
+      })
 
       pdf.save(`financial_projections_${Date.now()}.pdf`)
     } catch (error) {

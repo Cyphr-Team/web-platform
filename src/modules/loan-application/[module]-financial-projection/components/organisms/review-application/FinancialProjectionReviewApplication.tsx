@@ -74,7 +74,10 @@ export function FinancialProjectionReviewApplication() {
           ...document.getElementsByClassName(EXPORT_CLASS.FINANCIAL)
         ] as HTMLDivElement[]
 
-        const { pdf } = await generatePDF(filteredElement, true)
+        const { pdf } = await generatePDF({
+          elements: filteredElement,
+          isSigned: true
+        })
 
         dispatchFormAction({
           action: FORM_ACTION.SET_DATA,

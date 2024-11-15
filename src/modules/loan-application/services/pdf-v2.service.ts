@@ -2,7 +2,6 @@ import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import { get } from "lodash"
 import { formatDate } from "@/utils/date.utils.ts"
-import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants.ts"
 
 export const EXPORT_CLASS = {
   PDF: "export-pdf", // Narrow down the changes, affect the exported elements only
@@ -186,51 +185,29 @@ const applyTemporaryStyles = (): (() => void) => {
  * @param x - The x position of the text.
  * @param y - The y position of the text.
  */
-interface addFooterOptions {
+interface AddFooterOptions {
   pdf: jsPDF
+  textLeft: string
+  textRight: string
 }
-const addFooter = (options: addFooterOptions) => {
-  const { pdf } = options
+const addFooter = (options: AddFooterOptions) => {
+  const { pdf, textLeft, textRight } = options
   const padding = 15
   const paddingY = 1.2
-  const rectWidth = 35
-  const rectHeight = 3.5
-
-  const pageText = `Page ${
-    pdf.getCurrentPageInfo().pageNumber
-  } of ${pdf.getNumberOfPages()}`
 
   const drawablePageNumber = {
-    text: pageText,
-    x: pdf.getTextWidth(pageText),
+    text: textRight,
+    x: pdf.getTextWidth(textRight),
     y: pdf.getFontSize()
   }
 
-  const date = formatDate(new Date().toISOString(), FORMAT_DATE_MM_DD_YYYY)!
   const drawableDate = {
-    text: date,
-    x: pdf.getTextWidth(pageText),
+    text: textLeft,
+    x: pdf.getTextWidth(textLeft),
     y: pdf.getFontSize()
   }
 
   pdf.setTextColor(0, 0, 0)
-  pdf.setFillColor(200, 200, 200)
-
-  pdf.rect(
-    pdf.internal.pageSize.width - rectWidth,
-    pdf.internal.pageSize.height - rectHeight,
-    rectWidth,
-    rectHeight,
-    "F"
-  )
-
-  pdf.rect(
-    0,
-    pdf.internal.pageSize.height - rectHeight,
-    rectWidth,
-    rectHeight,
-    "F"
-  )
 
   pdf.text(
     drawablePageNumber.text,
@@ -247,10 +224,15 @@ const addFooter = (options: addFooterOptions) => {
  * @param isSigned
  * @returns A promise that resolves to an object containing the generated PDF
  */
-export const generatePDF = async (
-  elements: HTMLDivElement[],
+interface GeneratePDFOptions {
+  elements: HTMLDivElement[]
   isSigned?: boolean
-): Promise<GeneratePDFResult> => {
+}
+
+export const generatePDF = async ({
+  elements,
+  isSigned
+}: GeneratePDFOptions): Promise<GeneratePDFResult> => {
   if (elements.length === 0) return { pdf: new jsPDF() }
 
   const removeStyles = applyTemporaryStyles()
@@ -277,10 +259,24 @@ export const generatePDF = async (
       pdf.addPage()
     }
 
-    pdf.setFontSize(6)
-    for (let i = 0; i < pdf.getNumberOfPages(); i++) {
+    pdf.setFontSize(7)
+    pdf.setPage(1)
+    addFooter({
+      pdf,
+      textLeft: "Cyphr",
+      textRight: formatDate(new Date().toISOString())!
+    })
+
+    for (let i = 1; i < pdf.getNumberOfPages(); i++) {
       pdf.setPage(i + 1)
-      addFooter({ pdf })
+      const currentPage = pdf.getCurrentPageInfo().pageNumber - 1
+      const totalPage = pdf.getNumberOfPages() - 1
+
+      addFooter({
+        pdf,
+        textLeft: "Application Overview",
+        textRight: `Page ${currentPage} of ${totalPage}`
+      })
     }
   } finally {
     removeStyles()

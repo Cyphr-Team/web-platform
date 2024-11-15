@@ -110,7 +110,9 @@ export function ReviewApplication() {
         ...document.getElementsByClassName(EXPORT_CLASS.FINANCIAL)
       ] as HTMLDivElement[]
 
-      const { pdf } = await generatePDF(filteredElement)
+      const { pdf } = await generatePDF({
+        elements: filteredElement
+      })
 
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
