@@ -57,7 +57,7 @@ export function CalendarDatePicker({
         <PopoverTrigger asChild>
           <Button
             className={cn(
-              "w-full pl-3 text-left font-normal flex justify-between gap-2 text-base",
+              "flex w-full justify-between gap-2 pl-3 text-left text-base font-normal",
               !value && "text-muted-foreground",
               triggerClassName
             )}

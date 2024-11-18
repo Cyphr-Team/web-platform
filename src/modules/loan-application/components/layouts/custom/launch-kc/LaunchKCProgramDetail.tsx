@@ -214,7 +214,7 @@ export function ComponentWithProvider() {
               alt="Cover Photo for Loan Program"
               className="mx-auto max-h-72 w-full max-w-full border-b object-cover"
               height={359}
-              placeholderClassName="bg-slate-600 max-h-64 mx-auto max-w-full"
+              placeholderClassName="mx-auto max-h-64 max-w-full bg-slate-600"
               src={getImageURL(loanProgramDetails?.coverPhotoUrl)}
             />
           )}
@@ -222,8 +222,8 @@ export function ComponentWithProvider() {
 
         <section
           className={cn(
-            "pt-8 p-6 col-span-10",
-            "md:px-0 md:col-span-6 md:col-start-2"
+            "col-span-10 p-6 pt-8",
+            "md:col-span-6 md:col-start-2 md:px-0"
           )}
         >
           <LoanProgramDetailWelcomeLine />

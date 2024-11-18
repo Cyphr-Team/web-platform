@@ -36,7 +36,7 @@ export function Component() {
       <ApplicationDetailsHeader />
       <Progress
         className="relative z-30 h-2 overflow-visible rounded-none bg-background-disabled"
-        indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
+        indicatorClassName="after:absolute after:bottom-2.5 after:right-0 after:hidden after:text-xs after:text-text-secondary after:content-[attr(data-percentvalue)] after:md:block"
         value={percentComplete}
       />
 
@@ -49,7 +49,7 @@ export function Component() {
         <div
           ref={containerRef}
           className={cn(
-            "flex h-full overflow-auto flex-1 py-6 flex-col pt-8",
+            "flex h-full flex-1 flex-col overflow-auto py-6 pt-8",
             isFetchingDetails && "hidden"
           )}
         >

@@ -159,7 +159,7 @@ export function FormTemplate(props: Props) {
 
   return (
     <RHFProvider methods={form} onSubmit={onSubmit}>
-      <div className={cn("grid grid-cols-12 gap-4 items-center", className)}>
+      <div className={cn("grid grid-cols-12 items-center gap-4", className)}>
         {componentList}
         {children}
       </div>

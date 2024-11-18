@@ -224,7 +224,7 @@ const CarouselPrevious = React.forwardRef<
     <Button
       ref={ref}
       className={cn(
-        "absolute  h-8 w-8 rounded-full",
+        "absolute  size-8 rounded-full",
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -254,7 +254,7 @@ const CarouselNext = React.forwardRef<
     <Button
       ref={ref}
       className={cn(
-        "absolute h-8 w-8 rounded-full",
+        "absolute size-8 rounded-full",
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -288,7 +288,7 @@ const CarouselDots = React.forwardRef<
           key={index}
           ref={ref}
           className={cn(
-            "text-lime-500 rounded-full p-0 w-12 h-12 hover:bg-transparent hover:text-white",
+            "size-12 rounded-full p-0 text-lime-500 hover:bg-transparent hover:text-white",
             index === selectedIndex ? "text-white" : "",
             className
           )}

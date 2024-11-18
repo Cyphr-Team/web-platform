@@ -15,7 +15,7 @@ export function OperatingExpensesDisplay({
   className
 }: OperatingExpensesDisplayProps) {
   return (
-    <div className={cn(className, "gap-sm flex justify-between")}>
+    <div className={cn(className, "flex justify-between gap-sm")}>
       <div className="flex flex-col">
         <div className="text-sm font-medium text-text-secondary">{label}</div>
         <p className="text-sm text-text-tertiary">{description}</p>

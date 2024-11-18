@@ -111,7 +111,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             ref={ref}
             {...props}
             className={cn(
-              "flex w-full p-2 rounded-lg border min-h-16 h-auto justify-start bg-white hover:bg-white",
+              "flex h-auto min-h-16 w-full justify-start rounded-lg border bg-white p-2 hover:bg-white",
               isPopoverOpen && "border-black shadow-lg"
             )}
             onClick={handleClickToOpen}
@@ -204,7 +204,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                     >
                       <div
                         className={cn(
-                          "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-black",
+                          "mr-2 flex size-4 items-center justify-center rounded-sm border border-black",
                           isSelected
                             ? "bg-black text-white"
                             : "opacity-50 [&_svg]:invisible"

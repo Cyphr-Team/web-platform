@@ -360,7 +360,7 @@ export function LaunchKCOwnerInformationForm() {
             options={YES_NO_OPTIONS}
             placeholder="Please Select"
             subtitle="LaunchKC defines a founder or co-founder as an individual involved with the business since its inception, holding equity, and making strategic decisions."
-            subtitleClassName="text-sm text-text-secondary font-normal"
+            subtitleClassName="text-sm font-normal text-text-secondary"
           />
           <SelectInput
             required

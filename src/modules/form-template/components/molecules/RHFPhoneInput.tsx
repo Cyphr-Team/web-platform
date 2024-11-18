@@ -63,7 +63,7 @@ function RHFPhoneInput<T extends FieldValues>(props: RHFPhoneInputProps<T>) {
         <FormItem
           className={cn(
             className,
-            isRowDirection ? "flex justify-between items-center" : null
+            isRowDirection ? "flex items-center justify-between" : null
           )}
         >
           {!!label && (

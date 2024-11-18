@@ -70,7 +70,7 @@ function RHFCalendarPickerInput<T extends FieldValues>(
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={cn("w-full col-span-12", props.className)}>
+        <FormItem className={cn("col-span-12 w-full", props.className)}>
           <FormLabel className={cn("text-text-secondary", labelClassName)}>
             {label}
             {required ? <RequiredSymbol /> : null}

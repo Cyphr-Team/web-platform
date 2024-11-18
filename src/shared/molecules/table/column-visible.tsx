@@ -83,7 +83,7 @@ function DataTableViewItem<TData>({
       key={column.id}
       ref={setNodeRef}
       className={cn(
-        "cursor-pointer flex justify-between gap-2 items-center relative p-0 pr-2",
+        "relative flex cursor-pointer items-center justify-between gap-2 p-0 pr-2",
         !column.getCanHide() && "cursor-default"
       )}
       style={style}
@@ -99,7 +99,7 @@ function DataTableViewItem<TData>({
 
       <Icon
         className={cn(
-          "ml-auto w-6 h-6 p-1 z-10 text-gray-900",
+          "z-10 ml-auto size-6 p-1 text-gray-900",
           !column.getCanHide() && "text-gray-400",
           !column.getIsVisible() && "text-gray-500"
         )}

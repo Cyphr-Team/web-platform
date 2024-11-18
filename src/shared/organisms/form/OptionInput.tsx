@@ -97,9 +97,9 @@ export function OptionInput<T extends FieldValues>(props: IOptionInputType<T>) {
           // 3. When user first click to the Other radio button, the GUARD_DATA value should not be show to user
           // 4. the GUARD_DATA here must be consistent with the value on the RadioGroupItem above
           className={cn(
-            "w-1/2 ml-2.5 cursor-pointer focus:outline-none",
-            "text-sm text-text-secondary font-normal",
-            "border border-input border-l-0 border-r-0 border-t-0"
+            "ml-2.5 w-1/2 cursor-pointer focus:outline-none",
+            "text-sm font-normal text-text-secondary",
+            "border border-x-0 border-t-0 border-input"
           )}
           type="text"
           value={
@@ -156,7 +156,7 @@ export function OptionInput<T extends FieldValues>(props: IOptionInputType<T>) {
                   />
                   <Label
                     className={cn(
-                      "w-full text-sm text-text-secondary font-normal cursor-pointer"
+                      "w-full cursor-pointer text-sm font-normal text-text-secondary"
                     )}
                     htmlFor={`${name}-${option.value}-${index}`}
                   >

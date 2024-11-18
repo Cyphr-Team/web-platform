@@ -28,12 +28,12 @@ function SkeletonCard({
   numberOfLines = 3
 }: SkeletonCardProps) {
   return (
-    <div className={cn("flex flex-col gap-3 w-[250px]", className)}>
+    <div className={cn("flex w-[250px] flex-col gap-3", className)}>
       {isTitle ? (
         <Skeleton
           className={cn(
-            "h-[125px] w-full rounded-xl flex-shrink-0",
-            isCircle && "h-[80px] w-[80px] rounded-full"
+            "h-[125px] w-full shrink-0 rounded-xl",
+            isCircle && "size-[80px] rounded-full"
           )}
         />
       ) : null}

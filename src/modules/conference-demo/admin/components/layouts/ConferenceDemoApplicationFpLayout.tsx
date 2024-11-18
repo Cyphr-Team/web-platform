@@ -30,8 +30,8 @@ function ConferenceDemoApplicationFpAdminLayout({
       </div>
       <div
         className={cn(
-          "p-2xl bg-[#F9FAFB] container",
-          "md:px-4xl md:py-4xl",
+          "container bg-[#F9FAFB] p-2xl",
+          "md:p-4xl",
           "overflow-scroll"
         )}
       >

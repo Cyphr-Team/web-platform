@@ -57,7 +57,7 @@ function CountrySelect({ value, onChange, labels = en }: CountrySelectProps) {
                 {country}, {labels[country]} +{getCountryCallingCode(country)}
                 <CheckIcon
                   className={cn(
-                    "ml-auto h-4 w-4",
+                    "ml-auto size-4",
                     value === country ? "opacity-100" : "opacity-0"
                   )}
                 />

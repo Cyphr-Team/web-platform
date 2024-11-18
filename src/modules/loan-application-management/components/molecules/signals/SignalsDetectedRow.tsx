@@ -35,7 +35,7 @@ export const SignalsDetectedRow: React.FC<Props> = ({ signalsData }) => {
       <AccordionItem value={signalsData.signalIdentifier}>
         <AccordionTrigger
           className={cn(
-            "justify-between w-full hover:no-underline",
+            "w-full justify-between hover:no-underline",
             "[&[data-state=closed]>.open-icon]:animate-spin-once",
             "[&[data-state=open]>.close-icon]:animate-spin-once"
           )}

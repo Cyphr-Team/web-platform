@@ -21,7 +21,7 @@ export function FeedbackCardDetail({ feedbackList }: Props) {
 
               <div
                 className={cn(
-                  "text-text-secondary text-center text-xs",
+                  "text-center text-xs text-text-secondary",
                   !scoredAt ? "italic" : null
                 )}
               >

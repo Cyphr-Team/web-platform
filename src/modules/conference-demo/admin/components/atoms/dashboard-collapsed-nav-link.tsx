@@ -21,7 +21,7 @@ export function DashboardCollapsedNavLink({
           className={({ isActive }) =>
             cn(
               "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-              "h-10 w-12 p-md rounded-md flex items-center justify-center cursor-pointer hover:bg-gray-100",
+              "flex h-10 w-12 cursor-pointer items-center justify-center rounded-md p-md hover:bg-gray-100",
               isActive && "bg-gray-100"
             )
           }
@@ -31,7 +31,7 @@ export function DashboardCollapsedNavLink({
             <>
               <div className="relative">
                 <item.icon
-                  className={cn("h-6 w-6", !isActive && "opacity-50")}
+                  className={cn("size-6", !isActive && "opacity-50")}
                 />
                 <div className="z-1 absolute right-0 top-0 -translate-y-1/2 translate-x-1/3">
                   {badge}

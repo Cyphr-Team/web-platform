@@ -70,7 +70,7 @@ export function LoanInformationHeader() {
         <div className="ml-4 hidden min-w-20 items-center justify-center gap-2 md:ml-8 md:flex">
           <h4
             className={cn(
-              "text-lg font-semibold truncate min-w-20",
+              "min-w-20 truncate text-lg font-semibold",
               "md:text-2xl"
             )}
           >
@@ -143,7 +143,7 @@ export function Component() {
 
       <Progress
         className="relative z-30 h-2 overflow-visible rounded-none bg-background-disabled"
-        indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
+        indicatorClassName="after:absolute after:bottom-2.5 after:right-0 after:hidden after:text-xs after:text-text-secondary after:content-[attr(data-percentvalue)] after:md:block"
         value={percentComplete}
       />
 

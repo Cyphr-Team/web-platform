@@ -46,7 +46,7 @@ export function Component() {
         columns={chatHistoryColumns}
         data={histories ?? []}
         tableHeaderClassName="border-t-0"
-        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
+        tableWrapperClassName="-mt-6 rounded-b-xl rounded-t-none border-t-0"
         total={histories?.length ?? 0}
       />
     </div>

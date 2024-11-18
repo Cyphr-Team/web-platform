@@ -39,7 +39,7 @@ export function ScoredBadgeStatus({
   return (
     <Badge
       className={cn(
-        "h-7 text-black font-normal bg-opacity-100 whitespace-nowrap",
+        "h-7 whitespace-nowrap bg-opacity-100 font-normal text-black",
         variant.className
       )}
       variantColor={variant.variantColor}

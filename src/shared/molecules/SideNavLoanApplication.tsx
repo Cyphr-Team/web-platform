@@ -45,7 +45,7 @@ export function LoanProgramItem({
   return (
     <li
       className={cn(
-        "flex items-center px-2 py-2 gap-3 rounded-md cursor-pointer text-sm font-medium",
+        "flex cursor-pointer items-center gap-3 rounded-md p-2 text-sm font-medium",
         active && "bg-nav-active"
       )}
       id={`step-${value.step}`}
@@ -53,8 +53,8 @@ export function LoanProgramItem({
     >
       <div
         className={cn(
-          "w-5 h-5 rounded-[3px] border-2 flex justify-center items-center border-text-senary flex-shrink-0",
-          finished && "bg-brand-primary-gray border-0"
+          "flex size-5 shrink-0 items-center justify-center rounded-[3px] border-2 border-text-senary",
+          finished && "border-0 bg-brand-primary-gray"
         )}
       >
         <Check
@@ -139,7 +139,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "h-full flex-col hidden md:flex bg-background-disabled w-96 flex-shrink-0 shadow-sm mb-3xl",
+        "mb-3xl hidden h-full w-96 shrink-0 flex-col bg-background-disabled shadow-sm md:flex",
         className
       )}
     >

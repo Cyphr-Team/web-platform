@@ -12,7 +12,7 @@ export function BillableHoursIcon({ className, variant = "default" }: Props) {
   return (
     <img
       alt="file"
-      className={cn("w-8 h-8", className)}
+      className={cn("size-8", className)}
       src={variant === "default" ? billableHoursIcon : billableHoursIconBlack}
     />
   )

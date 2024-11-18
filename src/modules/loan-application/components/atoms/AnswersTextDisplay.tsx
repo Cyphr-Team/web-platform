@@ -22,13 +22,13 @@ export function AnswersTextDisplay({
   labelClassName
 }: AnswersTextDisplayProps) {
   return (
-    <div className={cn("gap-sm flex flex-col", className)}>
+    <div className={cn("flex flex-col gap-sm", className)}>
       <div
-        className={cn("text-text-primary font-medium text-sm", labelClassName)}
+        className={cn("text-sm font-medium text-text-primary", labelClassName)}
       >
         {label}
       </div>
-      <p className={cn("text-sm items-center font-normal", valueClassName)}>
+      <p className={cn("items-center text-sm font-normal", valueClassName)}>
         {value ?? "N/A"}
       </p>
     </div>
@@ -41,7 +41,7 @@ export function MultiAnswersTextDisplay({
   className
 }: MultiAnswersTextDisplayProps) {
   return (
-    <div className={cn(className, "gap-sm flex flex-col")}>
+    <div className={cn(className, "flex flex-col gap-sm")}>
       <div className="text-sm font-medium text-text-primary">{label}</div>
       {value?.map((v, i) => (
         <p key={i} className="items-center text-sm font-normal">

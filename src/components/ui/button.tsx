@@ -83,7 +83,7 @@ const ButtonLoading = React.forwardRef<
         className={cn(
           buttonVariants({ variant, size, className }),
           isSbb() &&
-            "disabled:border disabled:border-opacity-50 disabled:border-[#98A2B3]"
+            "disabled:border disabled:border-[#98A2B3] disabled:border-opacity-50"
         )}
         disabled={isLoading || disabled}
         {...props}
@@ -91,8 +91,8 @@ const ButtonLoading = React.forwardRef<
         {children}
         <Loader2
           className={cn(
-            "ml-0 h-4 w-0 transition-all ease-out flex-shrink-0",
-            isLoading && "animate-spin ml-2 w-4"
+            "ml-0 h-4 w-0 shrink-0 transition-all ease-out",
+            isLoading && "ml-2 w-4 animate-spin"
           )}
         />
       </Comp>

@@ -34,7 +34,7 @@ export function Component() {
         isLoading={isFetching}
         pagination={pagination}
         setPagination={setPagination}
-        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
+        tableContainerClassName="flex max-h-[700px] flex-1 flex-col overflow-hidden"
         total={data?.total ?? 0}
       />
     </div>

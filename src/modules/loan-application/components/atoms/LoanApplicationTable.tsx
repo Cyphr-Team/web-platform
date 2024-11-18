@@ -96,7 +96,7 @@ export function LoanApplicationTable<TData, TValue>({
         <div className="mt-4 flex w-full flex-col items-center justify-center">
           <Loader2
             className={cn(
-              "m-2 h-8 w-8 transition-all ease-out animate-spin text-primary"
+              "m-2 size-8 animate-spin text-primary transition-all ease-out"
             )}
           />
           Loading...

@@ -135,14 +135,14 @@ export function AutoCompleteCities<T extends FieldValues>(
               <PopoverTrigger asChild disabled={!options?.length}>
                 <Input
                   className={cn(
-                    "text-sm p-0",
+                    "p-0 text-sm",
                     "disabled:opacity-90",
                     value === "" ? "text-text-placeholder" : ""
                   )}
                   name={name}
                   suffixIcon={
                     <ChevronDown
-                      className={cn("h-4 w-4", open ? "rotate-180" : "")}
+                      className={cn("size-4", open ? "rotate-180" : "")}
                     />
                   }
                   value={
@@ -189,7 +189,7 @@ export function AutoCompleteCities<T extends FieldValues>(
                           {option.name}
                           <CheckIcon
                             className={cn(
-                              "ml-auto h-4 w-4",
+                              "ml-auto size-4",
                               value === option.name
                                 ? "opacity-100"
                                 : "opacity-0"

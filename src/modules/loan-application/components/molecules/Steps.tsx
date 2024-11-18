@@ -13,7 +13,7 @@ export function Steps({ className, title, content, status }: StepsProps) {
   const isIncomplete = status === LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
 
   return (
-    <div className={cn(className, "flex w-full gap-lg group")}>
+    <div className={cn(className, "group flex w-full gap-lg")}>
       <div className="flex flex-col items-center">
         {isCurrent
           ? Icons.stepCheckActive({ className: "mb-sm shadow-indigo-500/40" })

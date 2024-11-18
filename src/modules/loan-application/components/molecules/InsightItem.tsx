@@ -36,7 +36,7 @@ export const InsightItem: React.FC<InsightItemProps> = ({
         <TooltipTrigger asChild>
           <a
             className={cn(
-              "flex items-center justify-between border-b py-3.5 gap-1 cursor-pointer hover:bg-gray-50",
+              "flex cursor-pointer items-center justify-between gap-1 border-b py-3.5 hover:bg-gray-50",
               noBorder && "border-0"
             )}
             href={`#${href}`}

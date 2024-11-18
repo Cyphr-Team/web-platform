@@ -22,7 +22,7 @@ export function ButtonDeleteDocument({
 
   return (
     <CustomAlertDialog
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      actionClassName="bg-red-500 text-white hover:bg-red-600"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -40,7 +40,7 @@ export function ButtonDeleteDocument({
       onConfirmed={handleRemoveDocument}
     >
       <ButtonLoading
-        className={cn("h-max cursor-pointer text-red-900 p-2")}
+        className={cn("h-max cursor-pointer p-2 text-red-900")}
         id={documentId}
         isLoading={isRemoving}
         size="icon"

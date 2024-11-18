@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import React, { type PropsWithChildren } from "react"
 
-interface Props extends PropsWithChildren {
+interface CustomAlertDialogProps extends PropsWithChildren {
   title: string
   actionClassName?: string
   description?: React.ReactNode
@@ -22,7 +22,7 @@ interface Props extends PropsWithChildren {
   onConfirmed?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export function CustomAlertDialog(props: Props) {
+export function CustomAlertDialog(props: CustomAlertDialogProps) {
   const {
     children,
     title,

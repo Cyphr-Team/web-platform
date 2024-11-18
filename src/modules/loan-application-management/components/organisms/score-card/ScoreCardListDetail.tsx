@@ -133,7 +133,7 @@ export function ScoreCardListDetail() {
             >
               <AccordionTrigger
                 className={cn(
-                  "justify-between w-full hover:no-underline text-base font-medium text-left border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
+                  "w-full justify-between border-b pb-0.5 text-left text-base font-medium hover:no-underline [&>.lucide-chevron-down]:w-5"
                 )}
               >
                 <div className="flex w-full items-center justify-between">
@@ -185,7 +185,7 @@ export function ScoreCardListDetail() {
             >
               <AccordionTrigger
                 className={cn(
-                  "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
+                  "w-full justify-between pb-0.5 text-left text-base font-medium hover:no-underline data-[state=open]:border-b [&>.lucide-chevron-down]:w-5"
                 )}
               >
                 <div className="flex w-full items-center justify-between">
@@ -238,7 +238,7 @@ export function ScoreCardListDetail() {
             >
               <AccordionTrigger
                 className={cn(
-                  "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
+                  "w-full justify-between pb-0.5 text-left text-base font-medium hover:no-underline data-[state=open]:border-b [&>.lucide-chevron-down]:w-5"
                 )}
               >
                 <div className="flex w-full items-center justify-between">

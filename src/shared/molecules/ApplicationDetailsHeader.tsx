@@ -42,14 +42,14 @@ export function ApplicationDetailsHeader() {
   return (
     <nav
       className={cn(
-        "gap-4 w-full p-4 pr-2 shrink-0 flex justify-between items-center sticky top-0 bg-white border-b border-t z-20",
-        "md:h-20 md:pr-8 md:border-t-0 md:p-5"
+        "sticky top-0 z-20 flex w-full shrink-0 items-center justify-between gap-4 border-y bg-white p-4 pr-2",
+        "md:h-20 md:border-t-0 md:p-5 md:pr-8"
       )}
     >
       <div className="flex min-w-20 items-center gap-2">
         <h4
           className={cn(
-            "text-lg font-semibold ml-0 md:ml-3 truncate min-w-20",
+            "ml-0 min-w-20 truncate text-lg font-semibold md:ml-3",
             "md:text-2xl"
           )}
           title={loanApplicationDetails?.loanProgram?.name}

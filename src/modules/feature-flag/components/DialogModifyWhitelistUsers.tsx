@@ -285,7 +285,7 @@ export const DialogModifyWhitelistUsers: React.FC<Props> = ({
               }))}
               data={whitelistUsersFilterBySearch ?? []}
               isLoading={isFetching ?? isFetchingPendingAddUsersDetail}
-              tableContainerClassName="flex flex-col flex-1 overflow-auto"
+              tableContainerClassName="flex flex-1 flex-col overflow-auto"
               total={whitelistUsersFilterBySearch.length ?? 0}
             />
             <DialogFooter className="mt-4">

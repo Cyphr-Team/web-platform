@@ -60,7 +60,7 @@ export function DebtFinancingForm() {
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div
           className={cn(
-            "flex flex-col rounded-lg h-fit overflow-auto col-span-8 shadow-none text-sm gap-6"
+            "col-span-8 flex h-fit flex-col gap-6 overflow-auto rounded-lg text-sm shadow-none"
           )}
         >
           <DebtFinancingLiabilityForm />

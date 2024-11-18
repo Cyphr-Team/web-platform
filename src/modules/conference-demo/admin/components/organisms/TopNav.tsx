@@ -14,11 +14,11 @@ export function TopNav() {
             <Link
               key={example.href}
               className={cn(
-                "flex px-xs pb-lg font-semibold items-center justify-center text-center text-sm transition-colors border-b-2 border-transparent whitespace-nowrap",
-                "hover:text-primary hover:border-primary",
+                "flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-xs pb-lg text-center text-sm font-semibold transition-colors",
+                "hover:border-primary hover:text-primary",
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === "/")
-                  ? "text-primary border-b-2 border-primary"
+                  ? "border-b-2 border-primary text-primary"
                   : "text-muted-foreground"
               )}
               to={example.href}

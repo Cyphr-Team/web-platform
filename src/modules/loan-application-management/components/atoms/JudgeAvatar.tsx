@@ -21,7 +21,7 @@ export function CustomJudgeAvatar({ children }: React.PropsWithChildren) {
   return (
     <Avatar
       className={cn(
-        "h-7 w-7 rounded-full overflow-hidden outline outline-1 outline-slate-400 bg-white -ml-0.5"
+        "-ml-0.5 size-7 overflow-hidden rounded-full bg-white outline outline-1 outline-slate-400"
       )}
     >
       <AvatarFallback className="flex h-full flex-row items-center justify-center bg-slate-300 align-middle">
@@ -73,7 +73,7 @@ export function JudgeAvatar({
     <div>
       <Avatar
         className={cn(
-          "h-8 w-8 rounded-full border border-slate-400 bg-white",
+          "size-8 rounded-full border border-slate-400 bg-white",
           className
         )}
       >

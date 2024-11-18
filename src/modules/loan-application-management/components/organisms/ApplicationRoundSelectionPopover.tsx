@@ -103,7 +103,7 @@ export const ApplicationRoundSelectionPopover: React.FC<Props> = ({
               {isPending ? (
                 <Loader2
                   className={cn(
-                    "top-1/2 left-1/2 absolute transition-all ease-out animate-spin text-gray-300"
+                    "absolute left-1/2 top-1/2 animate-spin text-gray-300 transition-all ease-out"
                   )}
                 />
               ) : null}

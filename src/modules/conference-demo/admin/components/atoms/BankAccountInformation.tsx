@@ -9,7 +9,7 @@ function BankAccountInformation({ label, value, className }: Props) {
   return (
     <div
       className={cn(
-        "md:grid-cols-2 md:grid md:grid-flow-row border border-t-0 border-l-0",
+        "border border-l-0 border-t-0 md:grid md:grid-flow-row md:grid-cols-2",
         className
       )}
     >

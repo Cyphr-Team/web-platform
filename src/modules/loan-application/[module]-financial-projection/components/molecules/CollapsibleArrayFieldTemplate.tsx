@@ -32,7 +32,7 @@ export function CollapsibleArrayFieldTemplate(
       <AccordionTrigger
         isStartIcon
         className="w-full flex-row-reverse px-0 pb-5 pt-2 hover:no-underline"
-        iconClassName="w-5 h-5"
+        iconClassName="size-5"
         id={id}
       >
         <div className="flex flex-1 cursor-pointer items-center justify-between font-semibold">

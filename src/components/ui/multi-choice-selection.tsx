@@ -25,7 +25,7 @@ export function MultiChoices(props: MultiChoicesProps) {
   return (
     <ToggleGroup.Root aria-label="Text formatting" type="multiple">
       <ToggleGroup.Item
-        className={cn("border border-gray-400 py-2 px-4 w-full", itemClassName)}
+        className={cn("w-full border border-gray-400 px-4 py-2", itemClassName)}
         value={role.label}
         onClick={onClick}
       >

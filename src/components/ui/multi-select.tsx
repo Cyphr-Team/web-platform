@@ -107,7 +107,7 @@ export function MultiSelect<
           <FormControl>
             <Button
               className={cn(
-                "min-w-[200px] w-full md:w-[300px] px-3.5",
+                "w-full min-w-[200px] px-3.5 md:w-[300px]",
                 !field.value && "text-muted-foreground"
               )}
               variant="outline"
@@ -155,7 +155,7 @@ export function MultiSelect<
                   {option.label}
                   <Check
                     className={cn(
-                      "ml-auto h-4 w-4",
+                      "ml-auto size-4",
                       isSelected(option) ? "opacity-100" : "opacity-0"
                     )}
                   />

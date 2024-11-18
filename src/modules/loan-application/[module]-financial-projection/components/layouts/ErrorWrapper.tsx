@@ -14,7 +14,7 @@ export function ErrorWrapper(props: PropsWithChildren<ErrorWrapperProps>) {
   return isError ? (
     <div
       className={cn(
-        "flex justify-center items-center relative h-[50vh]",
+        "relative flex h-[50vh] items-center justify-center",
         className
       )}
     >

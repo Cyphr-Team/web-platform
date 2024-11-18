@@ -21,7 +21,7 @@ function ReviewApplicationStep({ step }: ReviewApplicationFormProps) {
   if (!Component) return null
 
   return (
-    <Component wrapperClassName="max-w-screen-lg md:col-span-8 md:col-start-0 md:mx-0" />
+    <Component wrapperClassName="md:col-start-0 max-w-screen-lg md:col-span-8 md:mx-0" />
   )
 }
 

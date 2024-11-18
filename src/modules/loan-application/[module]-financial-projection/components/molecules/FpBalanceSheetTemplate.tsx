@@ -38,14 +38,14 @@ export function BalanceSheetTemplate(props: BalanceSheetTemplateProps) {
       <Card
         className={cn(
           isPdf ? null : "shadow-primary",
-          "rounded-xl flex flex-col",
+          "flex flex-col rounded-xl",
           layout === "current" ? "w-fit" : null
         )}
       >
         <div className="overflow-x-auto overflow-y-visible">
           <div
             className={cn(
-              "bg-white rounded-xl",
+              "rounded-xl bg-white",
               layout === "default" ? "min-w-max" : "w-fit"
             )}
           >

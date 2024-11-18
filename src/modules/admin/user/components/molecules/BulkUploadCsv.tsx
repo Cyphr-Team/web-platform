@@ -156,7 +156,7 @@ export function BulkUploadCsv() {
       ].includes(uploadStatus) && (
         <div
           className={cn(
-            "border border-dashed px-2 py-3 rounded-md flex flex-row text-base items-center font-light",
+            "flex flex-row items-center rounded-md border border-dashed px-2 py-3 text-base font-light",
             uploadStatus.color
           )}
         >

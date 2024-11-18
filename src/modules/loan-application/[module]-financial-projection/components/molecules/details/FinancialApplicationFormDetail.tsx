@@ -32,7 +32,7 @@ export function FinancialApplicationFormDetail(
 
   const render =
     financialApplicationFormData.length > 0 ? (
-      <div className={cn("flex flex-col gap-8 mt-4", isSubChildren && "gap-4")}>
+      <div className={cn("mt-4 flex flex-col gap-8", isSubChildren && "gap-4")}>
         {financialApplicationFormData.map(({ id, title, content }) => (
           <FinancialDetailItem
             key={id}
@@ -47,9 +47,9 @@ export function FinancialApplicationFormDetail(
   return (
     <div
       className={cn(
-        "bg-white overflow-hidden",
-        !isSubChildren && "border rounded-lg",
-        isSubChildren && "mt-2 p-4 md:p-8 py-0 md:py-0 last:pb-4 last:md:pb-8"
+        "overflow-hidden bg-white",
+        !isSubChildren && "rounded-lg border",
+        isSubChildren && "mt-2 p-4 py-0 last:pb-4 md:p-8 md:py-0 last:md:pb-8"
       )}
     >
       <FinancialDetailCard

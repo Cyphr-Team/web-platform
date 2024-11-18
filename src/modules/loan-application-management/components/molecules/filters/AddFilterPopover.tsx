@@ -73,14 +73,14 @@ export const AddFilterPopover: React.FC<AddFilterProps> = ({
                 <div
                   className={cn(
                     "w-full gap-2 py-2.5",
-                    "flex flex-wrap max-h-24 overflow-auto overscroll-contain"
+                    "flex max-h-24 flex-wrap overflow-auto overscroll-contain"
                   )}
                 >
                   <CommandPrimitive.Input
                     ref={searchRef}
                     className={cn(
                       "bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
-                      "flex h-6 px-3 w-full text-sm placeholder:text-muted-foreground"
+                      "flex h-6 w-full px-3"
                     )}
                     placeholder="Search"
                     value={search}

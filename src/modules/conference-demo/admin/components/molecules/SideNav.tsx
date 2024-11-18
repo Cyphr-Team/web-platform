@@ -22,7 +22,7 @@ export function SideNav({ items, className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "py-4xl border data-[collapsed=false]:w-60 flex-col flex",
+        "flex flex-col border py-4xl data-[collapsed=false]:w-60",
         className
       )}
       data-collapsed={isCollapsed}
@@ -39,8 +39,8 @@ export function SideNav({ items, className }: SidebarProps) {
       <div className="hidden flex-1 flex-col px-xl md:flex">
         <div
           className={cn(
-            "group flex flex-col flex-1 gap-4 justify-between mb-0",
-            !isCollapsed && "border-0 md:border-b mb-6"
+            "group mb-0 flex flex-1 flex-col justify-between gap-4",
+            !isCollapsed && "mb-6 border-0 md:border-b"
           )}
           data-collapsed={isCollapsed}
         >

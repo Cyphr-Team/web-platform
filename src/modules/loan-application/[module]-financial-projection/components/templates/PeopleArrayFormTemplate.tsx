@@ -96,7 +96,7 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
             {fields?.length > 1 ? (
               <Button
                 className={cn(
-                  "p-0 h-auto",
+                  "h-auto p-0",
                   layout === "future" ? "self-end" : null
                 )}
                 type="button"

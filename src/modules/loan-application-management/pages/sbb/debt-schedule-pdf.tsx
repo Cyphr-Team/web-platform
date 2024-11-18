@@ -85,7 +85,7 @@ const DisclaimerNote: React.FC = () => {
         alt="Institution text logo"
         className="h-8 max-w-[100px]"
         height={32}
-        placeholderClassName="bg-slate-400 rounded"
+        placeholderClassName="rounded bg-slate-400"
         src={sbbLogo}
         width={100}
       />
@@ -173,7 +173,7 @@ function SBBLogo() {
       alt="Institution text logo"
       className="h-8 max-w-[100px]"
       height={32}
-      placeholderClassName="bg-slate-400 rounded"
+      placeholderClassName="rounded bg-slate-400"
       src={sbbLogo}
       width={100}
     />

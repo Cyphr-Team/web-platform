@@ -6,7 +6,7 @@ import {
   FORMAT_DATE_M_D_Y_TIME_UPPERCASE
 } from "@/constants/date.constants"
 import { FilterableColumnHeader } from "@/shared/molecules/table/column-filter"
-import { type IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
+import { type JudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
 import { type ILaunchKCApplicationScore } from "@/types/application/application-score.type"
 import { format } from "date-fns"
 import { ButtonViewDetailLoanApplication } from "../../atoms/ButtonViewDetailLoanApplication"
@@ -20,7 +20,7 @@ import { ScoreBadge } from "@/modules/loan-application-management/components/ato
  * Columns for judge list applications
  */
 export const judgeLoanApplicationColumns: ColumnDef<
-  IJudgeLoanApplicationResponse<ILaunchKCApplicationScore>
+  JudgeLoanApplicationResponse<ILaunchKCApplicationScore>
 >[] = [
   {
     id: "applicationIdNumber",

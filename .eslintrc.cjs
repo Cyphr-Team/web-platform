@@ -28,10 +28,10 @@ module.exports = {
       }
     },
     // TODO: fix issue here, using these config for linting styles at object level
-    // tailwindcss: {
-    //   callees: ["classnames", "clsx", "ctl", "styleProps", "cn"],
-    //   classRegex: "\\S.*(c|C)lassName?",
-    // }
+    tailwindcss: {
+      callees: ["classnames", "clsx", "ctl", "styleProps", "cn"],
+      classRegex: "\\S.*(c|C)lassName?",
+    }
   },
   rules: {
     "prettier/prettier": [

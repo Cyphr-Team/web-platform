@@ -39,7 +39,7 @@ export function Component() {
         pagination={pagination}
         setPagination={setPagination}
         tableHeaderClassName="border-t-0"
-        tableWrapperClassName="rounded-t-none border-t-0 -mt-6 rounded-b-xl"
+        tableWrapperClassName="-mt-6 rounded-b-xl rounded-t-none border-t-0"
         total={data?.total ?? 0}
       />
     </div>

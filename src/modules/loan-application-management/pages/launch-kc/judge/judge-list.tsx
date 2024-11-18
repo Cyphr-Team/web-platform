@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { cn } from "@/lib/utils"
 import { DataTableViewOptions } from "@/shared/molecules/table/column-visible"
-import { type IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
+import { type JudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
 import { type ILaunchKCApplicationScore } from "@/types/application/application-score.type"
 import { SortOrder } from "@/types/common.type"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -105,7 +105,7 @@ export function JudgeApplicationList() {
   const renderHeaderFilter = useMemo(
     () =>
       function (
-        table: Table<IJudgeLoanApplicationResponse<ILaunchKCApplicationScore>>
+        table: Table<JudgeLoanApplicationResponse<ILaunchKCApplicationScore>>
       ) {
         return (
           <div className="flex w-full flex-wrap items-center gap-4">
@@ -131,9 +131,7 @@ export function JudgeApplicationList() {
   )
 
   return (
-    <div
-      className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
-    >
+    <div className={cn("container mx-auto p-2xl", "md:p-4xl")}>
       <div className="flex flex-wrap justify-between gap-4">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-semibold">Application</h1>
@@ -150,7 +148,7 @@ export function JudgeApplicationList() {
         setPagination={setPagination}
         setSorting={setSorting}
         sorting={sorting}
-        tableContainerClassName="flex flex-col flex-1 h-[80vh]"
+        tableContainerClassName="flex h-[80vh] flex-1 flex-col"
         total={data?.total ?? 0}
       />
     </div>

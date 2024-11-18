@@ -234,7 +234,7 @@ export function ESignForm() {
   return (
     <div
       className={cn(
-        "flex flex-col gap-2xl rounded-lg h-fit overflow-auto col-span-6 p-0.5",
+        "col-span-6 flex flex-col gap-2xl overflow-auto rounded-lg p-0.5",
         "col-start-2",
         "h-full flex-1"
       )}

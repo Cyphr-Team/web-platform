@@ -75,7 +75,7 @@ function FAQ() {
           <AccordionItem key={key} className="w-full" value={key}>
             <AccordionTrigger
               className={cn(
-                "justify-between w-full hover:no-underline text-xl sm:text-2xl font-semibold text-left",
+                "w-full justify-between text-left text-xl font-semibold hover:no-underline sm:text-2xl",
                 "[&[data-state=closed]>.open-icon]:animate-spin-once",
                 "[&[data-state=open]>.close-icon]:animate-spin-once"
               )}

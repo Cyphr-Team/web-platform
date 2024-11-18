@@ -74,7 +74,7 @@ export function TextInput<T extends FieldValues>(props: ITextInputType<T>) {
           <FormLabel
             className={cn(
               `text-text-secondary ${
-                isRowDirection && "lg:-mt-2 font-semibold"
+                isRowDirection && "font-semibold lg:-mt-2"
               }`,
               labelClassName
             )}

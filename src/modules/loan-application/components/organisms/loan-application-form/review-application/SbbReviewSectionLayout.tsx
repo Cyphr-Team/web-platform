@@ -11,12 +11,12 @@ export function SbbReviewSectionLayout({
   return (
     <div
       className={cn(
-        "border rounded-lg h-fit overflow-auto loan-application-item",
+        "loan-application-item h-fit overflow-auto rounded-lg border",
         className
       )}
     >
       <div
-        className={cn(EXPORT_CLASS.FINANCIAL, "p-4xl flex flex-col gap-2xl")}
+        className={cn(EXPORT_CLASS.FINANCIAL, "flex flex-col gap-2xl p-4xl")}
       >
         {children}
       </div>

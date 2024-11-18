@@ -18,7 +18,7 @@ export function DateRow(props: TotalRowProps) {
     <div className={cn(GridMapper[data.length], "rounded-lg", className)}>
       <div
         className={cn(
-          "col-span-1 flex items-center text-sm font-semibold pl-4 pr-10",
+          "col-span-1 flex items-center pl-4 pr-10 text-sm font-semibold",
           "border-t",
           labelClassName
         )}
@@ -30,8 +30,8 @@ export function DateRow(props: TotalRowProps) {
         <div
           key={uuidv6()}
           className={cn(
-            "flex items-center justify-between col-span-1",
-            "px-4 h-11 font-semibold text-sm",
+            "col-span-1 flex items-center justify-between",
+            "h-11 px-4 text-sm font-semibold",
             "border-l border-t",
             itemClassName
           )}

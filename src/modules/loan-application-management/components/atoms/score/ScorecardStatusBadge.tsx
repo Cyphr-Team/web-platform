@@ -19,7 +19,7 @@ export function ScorecardStatusBadge({
     <Badge
       className={cn(
         isDisable && "opacity-40",
-        "h-7 text-black font-normal bg-opacity-100",
+        "h-7 bg-opacity-100 font-normal text-black",
         "flex justify-between",
         "focus:outline-none focus:ring-0"
       )}

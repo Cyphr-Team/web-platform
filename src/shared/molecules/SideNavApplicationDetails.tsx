@@ -19,9 +19,9 @@ function LoanProgramItem({ value }: { value: ILoanApplicationStep }) {
     <li className="flex cursor-pointer items-center gap-3 rounded p-2 text-base">
       <div
         className={cn(
-          "w-6 h-6 rounded-md flex justify-center items-center border flex-shrink-0",
+          "flex size-6 shrink-0 items-center justify-center rounded-md",
           "ring-2 ring-stone-400/[.14]",
-          "bg-active border-0"
+          "border-0 bg-active"
         )}
       >
         <Check className="w-5 rounded-md bg-active text-text-senary" />
@@ -83,7 +83,7 @@ export function SideNavApplicationDetails() {
   return (
     <div
       className={cn(
-        "h-full flex-col hidden md:flex bg-background-disabled w-96 flex-shrink-0 mb-3xl"
+        "mb-3xl hidden h-full w-96 shrink-0 flex-col bg-background-disabled md:flex"
       )}
     >
       <div className="mb-4 flex h-20 items-center justify-between border-b bg-white pl-3xl pr-2xl">

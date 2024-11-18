@@ -72,7 +72,7 @@ export function WrapperDialogModifyAssignedJudges({
       >
         <Button
           className={cn(
-            "p-0 h-auto w-auto flex-shrink-0 mr-1",
+            "mr-1 size-auto shrink-0 p-0",
             disabled && "opacity-20"
           )}
           disabled={disabled}

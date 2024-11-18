@@ -99,8 +99,8 @@ export function MultiCheckboxesInput<
                   // TODO: we've won... but at what cost?
                   className={cn(
                     "w-[70%] max-w-full cursor-pointer focus:outline-none",
-                    "text-sm text-text-secondary font-normal",
-                    "border border-input border-l-0 border-r-0 border-t-0"
+                    "text-sm font-normal text-text-secondary",
+                    "border border-x-0 border-t-0 border-input"
                   )}
                   onChange={(e) => {
                     if (e.currentTarget.value.length) {

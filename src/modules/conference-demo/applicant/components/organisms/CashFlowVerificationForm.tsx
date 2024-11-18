@@ -252,7 +252,7 @@ export function ConnectedAccountsTable({
           columns={tableColumns}
           data={connectedAccounts}
           noResultText="No connected accounts found"
-          tableClassName="text-gray-700 font-sm"
+          tableClassName="font-sm text-gray-700"
         />
       </CardContent>
     </Card>

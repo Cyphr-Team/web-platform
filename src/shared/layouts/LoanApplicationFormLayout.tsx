@@ -8,7 +8,7 @@ export function LoanApplicationFormLayout({
   return (
     <div
       className={cn(
-        "absolute h-full w-full z-40 flex left-0 top-0 mt-14 pb-14",
+        "absolute left-0 top-0 z-40 mt-14 flex size-full pb-14",
         "md:mt-0 md:pb-0"
       )}
     >

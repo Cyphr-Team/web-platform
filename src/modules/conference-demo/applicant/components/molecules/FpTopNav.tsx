@@ -42,7 +42,7 @@ export function FpTopNav({ className }: FpTopNavProps) {
             <Link
               key={example.href}
               className={cn(
-                "flex rounded-lg px-4xl py-md h-full font-normal items-center justify-center text-center text-sm transition-colors border-transparent whitespace-nowrap",
+                "flex h-full items-center justify-center whitespace-nowrap rounded-lg border-transparent px-4xl py-md text-center text-sm font-normal transition-colors",
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === "/")
                   ? "bg-financial-projection-btn text-white"

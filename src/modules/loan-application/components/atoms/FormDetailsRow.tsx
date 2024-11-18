@@ -16,7 +16,7 @@ export function FormDetailsRow({
 }: Props) {
   return (
     <div className="flex flex-col">
-      <div className={cn(className, "flex justify-between py-xl items-center")}>
+      <div className={cn(className, "flex items-center justify-between py-xl")}>
         <div className="flex flex-col">
           <div className="text-base font-medium text-text-secondary">
             {label}

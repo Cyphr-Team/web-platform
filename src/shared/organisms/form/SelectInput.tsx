@@ -77,7 +77,7 @@ export function SelectInput<T extends FieldValues>(props: ISelectInputType<T>) {
           <FormLabel
             className={cn(
               `text-text-secondary ${
-                isRowDirection && "lg:-mt-2 font-semibold"
+                isRowDirection && "font-semibold lg:-mt-2"
               }`,
               labelClassName
             )}
@@ -89,7 +89,7 @@ export function SelectInput<T extends FieldValues>(props: ISelectInputType<T>) {
             {subtitle ? (
               <p
                 className={cn(
-                  "mt-2 text-text-tertiary font-medium",
+                  "mt-2 font-medium text-text-tertiary",
                   subtitleClassName
                 )}
               >
@@ -109,7 +109,7 @@ export function SelectInput<T extends FieldValues>(props: ISelectInputType<T>) {
             >
               <SelectTrigger
                 className={cn(
-                  "text-sm col-span-6 xl:col-span-2 xl:max-w-40 xl:col-end-7 xl:ml-auto",
+                  "col-span-6 text-sm xl:col-span-2 xl:col-end-7 xl:ml-auto xl:max-w-40",
                   inputClassName
                 )}
               >

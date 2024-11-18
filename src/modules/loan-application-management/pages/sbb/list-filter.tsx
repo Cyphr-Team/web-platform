@@ -125,7 +125,7 @@ export function SbbApplicationsList() {
   )
 
   return (
-    <div className={cn("container mx-auto px-xl py-xl", "md:px-2xl md:py-2xl")}>
+    <div className={cn("container mx-auto p-xl", "md:p-2xl")}>
       <div className="flex flex-wrap justify-between gap-4">
         <div className="flex flex-col gap-1">
           <Breadcrumbs breads={crumbs} className="mb-3 px-0" />
@@ -143,7 +143,7 @@ export function SbbApplicationsList() {
         setPagination={setPagination}
         setSorting={setSorting}
         sorting={sorting}
-        tableContainerClassName="flex flex-col flex-1 h-[85vh]"
+        tableContainerClassName="flex h-[85vh] flex-1 flex-col"
         total={data?.total ?? 0}
       />
     </div>

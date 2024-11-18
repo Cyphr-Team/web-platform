@@ -11,7 +11,7 @@ export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {
   return (
-    <div className={cn("flex space-x-lg items-center px-8", className)}>
+    <div className={cn("flex items-center space-x-lg px-8", className)}>
       {breads.map(({ label, to }, index) => {
         return (
           <React.Fragment key={to}>

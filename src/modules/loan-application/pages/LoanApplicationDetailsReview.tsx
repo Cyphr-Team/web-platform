@@ -30,8 +30,8 @@ export function Component() {
       ) : (
         <div
           className={cn(
-            "w-full flex flex-col p-2xl gap-4",
-            "md:p-4xl md:gap-8"
+            "flex w-full flex-col gap-4 p-2xl",
+            "md:gap-8 md:p-4xl"
           )}
         >
           <ApplicationDetails />

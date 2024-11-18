@@ -26,7 +26,7 @@ export function DescriptionTooltip({
           <InfoIcon className="size-4" />
         </TooltipTrigger>
         <TooltipContent
-          className={cn("text-white bg-black p-1 w-48", className)}
+          className={cn("w-48 bg-black p-1 text-white", className)}
           side={side}
           sideOffset={sideOffset}
         >

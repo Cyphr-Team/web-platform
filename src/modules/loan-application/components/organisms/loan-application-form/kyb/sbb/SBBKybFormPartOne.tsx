@@ -226,8 +226,8 @@ export function SBBKybFormPartOne() {
                       styleProps={{
                         inputClassName: cn(
                           "ml-2.5 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-                          "text-sm text-text-secondary font-normal",
-                          "!max-w-40 border-l-0 border-r-0 border-t-0 rounded-none"
+                          "text-sm font-normal text-text-secondary",
+                          "!max-w-40 rounded-none border-x-0 border-t-0"
                         ),
                         labelClassName: "leading-normal"
                       }}

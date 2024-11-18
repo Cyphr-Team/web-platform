@@ -83,7 +83,7 @@ export function MiddeskTable<TData, TValue>({
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        "text-base break-words whitespace-normal overflow-clip",
+                        "text-clip whitespace-normal break-words text-base",
                         cellClassName
                       )}
                     >
@@ -112,7 +112,7 @@ export function MiddeskTable<TData, TValue>({
         <div className="mt-4 flex w-full flex-col items-center justify-center">
           <Loader2
             className={cn(
-              "m-2 h-8 w-8 transition-all ease-out animate-spin text-primary"
+              "m-2 size-8 animate-spin text-primary transition-all ease-out"
             )}
           />
           Loading...

@@ -44,7 +44,7 @@ export function UsageCard({
     !isAlerting && warnThreshold && limit ? percentUsage > warnThreshold : false
 
   return (
-    <Card className={cn(className, "flex flex-col rounded-xl overflow-hidden")}>
+    <Card className={cn(className, "flex flex-col overflow-hidden rounded-xl")}>
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-1 space-y-0 pb-2 md:p-3 md:py-2">
         <CardTitle className="text-sm font-medium text-text-secondary">
           {title}
@@ -89,9 +89,9 @@ export function UsageCard({
       {!!cta && (
         <CardFooter
           className={cn(
-            "bg-slate-100 pb-0 pr-1 px-2 pt-4 -mt-4",
-            "md:px-2 md:pr-1 md:pb-0 md:pt-4",
-            isNotFoundSubscription && "pt-0 md:pt-0 mt-auto"
+            "-mt-4 bg-slate-100 px-2 pb-0 pr-1 pt-4",
+            "md:px-2 md:pb-0 md:pr-1 md:pt-4",
+            isNotFoundSubscription && "mt-auto pt-0 md:pt-0"
           )}
         >
           {cta}

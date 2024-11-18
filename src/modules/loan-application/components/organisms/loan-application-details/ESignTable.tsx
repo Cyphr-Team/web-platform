@@ -90,10 +90,10 @@ export function ESignTable() {
 
       <CardContent className="overflow-auto !p-0">
         <MiddeskTable
-          cellClassName="text-sm pl-0  border-b"
+          cellClassName="border-b pl-0  text-sm"
           columns={columns}
           data={eSignDocuments}
-          headerCellClassName="p-0 text-text-primary text-sm font-medium"
+          headerCellClassName="p-0 text-sm font-medium text-text-primary"
           isLoading={isLoading}
         />
       </CardContent>

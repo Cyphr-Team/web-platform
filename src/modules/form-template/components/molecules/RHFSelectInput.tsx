@@ -117,7 +117,7 @@ function RHFSelectInput<T extends FieldValues>(props: RHFSelectInputProps<T>) {
               {subtitle ? (
                 <p
                   className={cn(
-                    "mt-1.5 text-text-tertiary font-medium",
+                    "mt-1.5 font-medium text-text-tertiary",
                     subtitleClassName
                   )}
                 >

@@ -37,7 +37,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className={cn(
             "flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-text-placeholder focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             prefixIcon && "pl-9",
-            "aria-invalid:ring-destructive aria-invalid:ring-offset-2 aria-invalid:ring-2 aria-invalid:focus-visible:ring-destructive",
+            "aria-invalid:ring-2 aria-invalid:ring-destructive aria-invalid:ring-offset-2 aria-invalid:focus-visible:ring-destructive",
             !!suffixIcon && "pr-10",
             className
           )}
@@ -47,7 +47,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {suffixIcon ? (
           <div
             className={cn(
-              "absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none border-l border-0 text-text-tertiary",
+              "pointer-events-none absolute inset-y-0 right-0 flex items-center border-0 border-l px-3 text-text-tertiary",
               suffixClassName
             )}
           >

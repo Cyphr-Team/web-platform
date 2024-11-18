@@ -150,7 +150,7 @@ export function FinancialProjectionReviewApplication() {
         <div className="col-span-8 hidden gap-4 md:gap-8">
           <div>
             <div
-              className={cn("flex items-start -mx-20", EXPORT_CLASS.FINANCIAL)}
+              className={cn("-mx-20 flex items-start", EXPORT_CLASS.FINANCIAL)}
               data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
             >
               <DisclaimerNote

@@ -31,7 +31,7 @@ export function MiddeskDetailItem({
 }) {
   return (
     <div className="mt-5">
-      <div className={cn("flex items-center gap-1 w-full", labelClassName)}>
+      <div className={cn("flex w-full items-center gap-1", labelClassName)}>
         {label}
       </div>
       <div className="mt-1.5 text-base">

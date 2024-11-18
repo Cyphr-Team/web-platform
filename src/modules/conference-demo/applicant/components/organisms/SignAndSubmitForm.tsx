@@ -52,7 +52,7 @@ function SignAndSubmitForm() {
   )
 
   return (
-    <ConferenceFormLayout wrapperClassName="px-[8rem]">
+    <ConferenceFormLayout wrapperClassName="px-32">
       <p className="text-sm">
         By submitting your information on the Cyphr Bank portal, you acknowledge
         and agree that Cyphr Bank provides recommendations based on the data you

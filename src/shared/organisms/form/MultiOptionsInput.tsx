@@ -77,7 +77,7 @@ export function MultiOptionsInput<T extends FieldValues>(
                 <ToggleGroupItem
                   key={option.value}
                   className={cn(
-                    "w-full text-sm text-text-secondary font-normal border rounded-md py-2 px-3 hover:bg-gray-100 cursor-pointer justify-start",
+                    "w-full cursor-pointer justify-start rounded-md border px-3 py-2 text-sm font-normal text-text-secondary hover:bg-gray-100",
                     field.value?.includes(option.value) && "!bg-gray-300"
                   )}
                   id={option.value}

@@ -136,7 +136,7 @@ export function SearchSelect<
         <span className="flex-1">{option.label}</span>
         <Check
           className={cn(
-            "ml-auto h-4 w-4 self-start mt-1",
+            "ml-auto mt-1 size-4 self-start",
             isSelected ? "opacity-100" : "opacity-0"
           )}
         />
@@ -166,7 +166,7 @@ export function SearchSelect<
       customLoader || (
         <Loader
           className={cn(
-            "w-4 transition-all animate-spin text-primary shrink-0"
+            "w-4 shrink-0 animate-spin text-primary transition-all"
           )}
         />
       ),
@@ -227,7 +227,7 @@ export function SearchSelect<
   )
 
   return (
-    <FormItem className={cn("flex flex-col flex-1", popoverWidth)}>
+    <FormItem className={cn("flex flex-1 flex-col", popoverWidth)}>
       {label ? <FormLabel>{label}</FormLabel> : null}
 
       <Popover
@@ -247,7 +247,7 @@ export function SearchSelect<
         </PopoverTrigger>
 
         <PopoverContent
-          className={cn("p-0 rounded-lg", popoverWidth)}
+          className={cn("rounded-lg p-0", popoverWidth)}
           sideOffset={8}
           onCloseAutoFocus={preventAutoFocus}
           onFocus={preventAutoFocus}
@@ -293,7 +293,7 @@ function AutoSearch<
               {option.label}
               <Check
                 className={cn(
-                  "ml-auto h-4 w-4",
+                  "ml-auto size-4",
                   option.value === field?.value?.value
                     ? "opacity-100"
                     : "opacity-0"

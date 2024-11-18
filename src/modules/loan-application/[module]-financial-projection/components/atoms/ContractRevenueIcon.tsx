@@ -7,10 +7,6 @@ interface Props {
 
 export function ContractRevenueIcon({ className }: Props) {
   return (
-    <img
-      alt="file"
-      className={cn("w-8 h-8", className)}
-      src={contractRevenue}
-    />
+    <img alt="file" className={cn("size-8", className)} src={contractRevenue} />
   )
 }

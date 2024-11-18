@@ -30,7 +30,7 @@ export const TimePeriodsSelection: React.FC<Props> = ({
     >
       <SelectTrigger
         className={cn(
-          "pr-1.5 focus:ring-0 w-28 font-medium capitalize",
+          "w-28 pr-1.5 font-medium capitalize focus:ring-0",
           className
         )}
       >

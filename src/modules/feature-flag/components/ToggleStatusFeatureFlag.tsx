@@ -35,7 +35,7 @@ export const ConfirmToggleStatusFeatureFlag: React.FC<Props> = ({
 
   return (
     <CustomAlertDialog
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      actionClassName="bg-red-500 text-white hover:bg-red-600"
       cancelText="Cancel"
       confirmText="Confirm"
       description={

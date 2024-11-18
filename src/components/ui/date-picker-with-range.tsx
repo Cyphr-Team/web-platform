@@ -280,16 +280,16 @@ export function DatePickerWithRange({
         <PopoverTrigger asChild>
           <Button
             className={cn(
-              "w-[300px] justify-start text-left font-normal px-3.5",
+              "w-[300px] justify-start px-3.5 text-left font-normal",
               !date && "text-muted-foreground",
-              "group-[.date-select-coupling]:rounded-l-none group-[.date-select-coupling]:border-l-0 group-[.date-select-coupling]:justify-between"
+              "group-[.date-select-coupling]:justify-between group-[.date-select-coupling]:rounded-l-none group-[.date-select-coupling]:border-l-0"
             )}
             id="date"
             variant="outline"
           >
             <CalendarIcon
               className={cn(
-                "mr-2 h-4 w-4 order-0 text-muted-foreground",
+                "order-0 mr-2 size-4 text-muted-foreground",
                 "group-[.date-select-coupling]:order-1 group-[.date-select-coupling]:mr-0"
               )}
             />

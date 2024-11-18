@@ -14,18 +14,18 @@ export function TopNav({ className, ...props }: Props) {
     <div className="relative mb-8">
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div
-          className={cn("flex items-center space-x-8xl", className)}
+          className={cn("space-x-8xl flex items-center", className)}
           {...props}
         >
           {userMenu.map((example, index) => (
             <Link
               key={example.href}
               className={cn(
-                "px-xs pb-lg font-semibold items-center justify-center text-center transition-colors border-b-2 border-transparent whitespace-nowrap",
-                "hover:text-primary hover:border-primary",
+                "items-center justify-center whitespace-nowrap border-b-2 border-transparent px-xs pb-lg text-center font-semibold transition-colors",
+                "hover:border-primary hover:text-primary",
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === "/")
-                  ? "text-primary border-b-2 border-primary"
+                  ? "border-b-2 border-primary text-primary"
                   : "text-muted-foreground",
                 className,
                 index > 0 ? "ml-4" : "ml-0"

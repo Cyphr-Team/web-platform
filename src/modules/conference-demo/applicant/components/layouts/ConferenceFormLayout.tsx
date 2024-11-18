@@ -80,9 +80,9 @@ export function ConferenceFormLayout(
   return (
     <div
       className={cn(
-        "flex flex-col gap-2xl rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none ",
+        "col-span-8 mx-6 flex h-fit flex-col gap-2xl overflow-auto rounded-lg shadow-none ",
         "md:col-span-6 md:col-start-2 md:mx-0",
-        !isReviewStep ? "px-[8rem]" : null,
+        !isReviewStep ? "px-32" : null,
         wrapperClassName
       )}
     >
@@ -96,7 +96,7 @@ export function ConferenceFormLayout(
 
       <Card
         className={cn(
-          "flex flex-col overflow-auto gap-2xl p-4xl rounded-lg h-fit",
+          "flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl",
           cardClassName
         )}
         id={id}

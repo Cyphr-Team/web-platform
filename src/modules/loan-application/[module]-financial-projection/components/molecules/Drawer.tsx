@@ -232,8 +232,8 @@ export function Drawer({ applicationPlan }: DrawerProps) {
       <div
         aria-labelledby="drawer-right-label"
         className={cn(
-          "h-screen overflow-y-auto w-96 overflow-x-hidden",
-          "fixed top-0 right-0 z-40 transition-transform transform bg-white shadow-2xl",
+          "h-screen w-96 overflow-y-auto overflow-x-hidden",
+          "fixed right-0 top-0 z-40 bg-white shadow-2xl transition-transform",
           openDrawer.value ? "translate-x-0" : "translate-x-full"
         )}
         tabIndex={-1}

@@ -13,16 +13,16 @@ export const VerificationIcon: React.FC<Props> = ({ status, className }) => {
     case KYB_VERIFIED_FIELD_STATUS.WARNING:
     case KYC_STATUS.UNCHECKED:
     case KYC_STATUS.UNVERIFIED:
-      return <AlertTriangle className={cn("w-6 h-6 text-warning", className)} />
+      return <AlertTriangle className={cn("size-6 text-warning", className)} />
     case KYB_VERIFIED_FIELD_STATUS.SUCCESS:
     case KYC_STATUS.PASSED:
     case KYC_STATUS.VERIFIED:
-      return <CheckCircle className={cn("w-6 h-6 text-success", className)} />
+      return <CheckCircle className={cn("size-6 text-success", className)} />
     case KYB_VERIFIED_FIELD_STATUS.FAILURE:
     case KYC_STATUS.FAILED:
     case KYC_STATUS.UNKNOWN:
-      return <AlertCircle className={cn("w-6 h-6 text-error", className)} />
+      return <AlertCircle className={cn("size-6 text-error", className)} />
     default:
-      return <AlertCircle className={cn("w-6 h-6 text-error", className)} />
+      return <AlertCircle className={cn("size-6 text-error", className)} />
   }
 }

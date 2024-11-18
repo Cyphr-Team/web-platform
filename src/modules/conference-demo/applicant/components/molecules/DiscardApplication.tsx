@@ -13,7 +13,7 @@ export function DiscardApplication() {
 
   return (
     <CustomAlertDialog
-      actionClassName="text-white finovate"
+      actionClassName="finovate text-white"
       cancelText="Cancel"
       confirmText="Discard"
       description={description}

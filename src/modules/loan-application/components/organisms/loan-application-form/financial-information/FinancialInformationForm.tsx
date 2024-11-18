@@ -133,14 +133,14 @@ export function FinancialInformationForm() {
   return (
     <div
       className={cn(
-        "flex flex-col gap-3xl overflow-auto col-span-8 mx-6",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm"
+        "col-span-8 mx-6 flex flex-col gap-3xl overflow-auto",
+        "max-w-screen-sm md:col-span-6 md:col-start-2 md:mx-auto"
       )}
       id={LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION}
     >
       <Card
         className={cn(
-          "flex flex-col gap-2xl p-4xl rounded-lg h-fit shadow-none"
+          "flex h-fit flex-col gap-2xl rounded-lg p-4xl shadow-none"
         )}
       >
         <h5 className="text-lg font-semibold">Financial Information</h5>

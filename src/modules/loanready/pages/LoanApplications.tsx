@@ -63,9 +63,7 @@ export default function LoanApplicationsPage() {
     }
 
   return (
-    <div
-      className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
-    >
+    <div className={cn("container mx-auto p-2xl", "md:p-4xl")}>
       <h1 className="text-3xl font-semibold">Account Applications</h1>
       <p className="mt-1 text-text-tertiary">
         Keep track of your applications and their statuses

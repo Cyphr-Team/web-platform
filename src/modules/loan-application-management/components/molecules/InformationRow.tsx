@@ -22,12 +22,12 @@ export const InformationRow: React.FC<Props> = ({
   className
 }) => {
   return (
-    <div className={cn("grid-cols-4 grid grid-flow-row", className)}>
+    <div className={cn("grid grid-flow-row grid-cols-4", className)}>
       <div className="flex items-center py-xl pl-xl xl:py-3xl xl:pl-3xl">
         <p
           className={cn(
             "text-sm text-text-tertiary",
-            !value && "whitespace-nowrap text-foreground font-medium"
+            !value && "whitespace-nowrap font-medium text-foreground"
           )}
         >
           {label}

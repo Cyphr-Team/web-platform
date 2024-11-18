@@ -54,7 +54,7 @@ const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
     const Component = get(STEP_COMPONENT_MAP, step)
 
     return Component ? (
-      <Component wrapperClassName="max-w-screen-lg md:col-span-8 md:col-start-0" />
+      <Component wrapperClassName="md:col-start-0 max-w-screen-lg md:col-span-8" />
     ) : null
   }, [step])
 }

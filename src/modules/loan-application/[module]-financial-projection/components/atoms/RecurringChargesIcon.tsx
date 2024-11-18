@@ -15,7 +15,7 @@ export function RecurringChargesIcon({
   return (
     <img
       alt="file"
-      className={cn("w-8 h-8", className)}
+      className={cn("size-8", className)}
       src={
         variant === "default" ? recurringChargesIcon : recurringChargesIconBlack
       }

@@ -1,6 +1,6 @@
 import { type LoanApplicationStatus } from "../loan-application.type"
 
-interface ISubLoanApplicationResponse {
+interface SubLoanApplicationResponse {
   id: string
   applicationIdNumber: string
   businessName?: string
@@ -9,12 +9,12 @@ interface ISubLoanApplicationResponse {
   programType: string
 }
 
-interface IJudgeLoanApplicationResponse<T> {
-  application: ISubLoanApplicationResponse
+interface JudgeLoanApplicationResponse<T> {
+  application: SubLoanApplicationResponse
   applicationCaptureStage: LoanApplicationStatus
   createdAt: string
   scoredAt?: string
   score?: T
 }
 
-export type { IJudgeLoanApplicationResponse }
+export type { JudgeLoanApplicationResponse }

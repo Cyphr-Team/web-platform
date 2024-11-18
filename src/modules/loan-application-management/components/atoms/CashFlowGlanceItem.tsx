@@ -28,8 +28,8 @@ export function CashFlowGlanceItem({
         <TooltipTrigger className="flex flex-1 flex-col">
           <div
             className={cn(
-              "flex-1 px-0.5 py-2 w-full flex flex-col justify-between",
-              isNegative && "text-error-500 bg-error-100"
+              "flex w-full flex-1 flex-col justify-between px-0.5 py-2",
+              isNegative && "bg-error-100 text-error-500"
             )}
           >
             <p className="text-sm font-medium">{title}</p>

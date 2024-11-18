@@ -91,14 +91,14 @@ export function DataTable<TData, TValue>({
 
       <div
         className={cn(
-          "rounded-md border relative max-h-full overflow-auto",
+          "relative max-h-full overflow-auto rounded-md border",
           tableWrapperClassName
         )}
       >
         <Table className="text-sm" isLoading={isLoading}>
           <TableHeader
             className={cn(
-              "bg-gray-100 sticky top-0 z-10",
+              "sticky top-0 z-10 bg-gray-100",
               tableHeaderClassName
             )}
           >

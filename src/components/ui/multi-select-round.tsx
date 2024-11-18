@@ -143,7 +143,7 @@ export function MultiSelectRound<
                     <div
                       className={cn(
                         "w-full gap-2 p-3 py-2.5",
-                        "flex flex-wrap max-h-24 overflow-auto overscroll-contain"
+                        "flex max-h-24 flex-wrap overflow-auto overscroll-contain"
                       )}
                       onClick={focusInput}
                     >
@@ -175,7 +175,7 @@ export function MultiSelectRound<
                           ref={searchInputRef}
                           className={cn(
                             "h-full bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
-                            "flex p-0 w-full text-sm placeholder:text-muted-foreground"
+                            "flex w-full p-0"
                           )}
                           placeholder="Search"
                           onKeyDown={handleSearchOnKeyDown}
@@ -204,8 +204,8 @@ export function MultiSelectRound<
                     <Checkbox
                       checked={isSelected(option)}
                       className={cn(
-                        "border-2 border-zinc-300 rounded-[3px] w-5 h-5",
-                        "data-[state=checked]:bg-slate-600 data-[state=checked]:border-none data-[state=checked]:text-white",
+                        "size-5 rounded-[3px] border-2 border-zinc-300",
+                        "data-[state=checked]:border-none data-[state=checked]:bg-slate-600 data-[state=checked]:text-white",
                         "[&>span>svg>path]:stroke-[3]"
                       )}
                     />

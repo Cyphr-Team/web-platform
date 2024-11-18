@@ -23,7 +23,7 @@ export function ButtonRevokeInvitation({
 
   return (
     <CustomAlertDialog
-      actionClassName="bg-red-500 hover:bg-red-600 text-white"
+      actionClassName="bg-red-500 text-white hover:bg-red-600"
       cancelText="Cancel"
       confirmText="Confirm"
       description={
@@ -42,7 +42,7 @@ export function ButtonRevokeInvitation({
     >
       <ButtonLoading
         className={cn(
-          "w-full text-destructive cursor-pointer text-center",
+          "w-full cursor-pointer text-center text-destructive",
           isConfirmed
             ? "bg-gray-100"
             : "hover:bg-gray-100 hover:text-destructive"

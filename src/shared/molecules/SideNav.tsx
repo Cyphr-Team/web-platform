@@ -20,7 +20,7 @@ export function SideNav({ items, className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "py-4xl border data-[collapsed=false]:w-60 flex-col flex",
+        "flex flex-col border py-4xl data-[collapsed=false]:w-60",
         className
       )}
       data-collapsed={isCollapsed}

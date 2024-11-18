@@ -161,7 +161,7 @@ function FormTabItem({ step }: { step: STEP }) {
   return (
     <li
       className={cn(
-        "flex items-center px-2 text-base py-2 gap-3 rounded cursor-pointer",
+        "flex cursor-pointer items-center gap-3 rounded p-2 text-base",
         active && "bg-nav-active"
       )}
       id={`step-${step}`}
@@ -169,9 +169,9 @@ function FormTabItem({ step }: { step: STEP }) {
     >
       <div
         className={cn(
-          "w-6 h-6 rounded-md bg-white flex justify-center items-center border flex-shrink-0",
+          "flex size-6 shrink-0 items-center justify-center rounded-md border bg-white",
           active && "ring-4 ring-stone-400/[.14]",
-          finished && "bg-primary border-0"
+          finished && "border-0 bg-primary"
         )}
       >
         <Check className={cn("w-5 text-white", !finished && "hidden")} />

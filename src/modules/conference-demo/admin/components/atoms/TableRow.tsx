@@ -18,7 +18,7 @@ export const CustomTableRow: React.FC<TableRowProps> = ({
         <TableCell
           key={index}
           className={cn(
-            "py-2 h-fit",
+            "h-fit py-2",
             !!childrenClassName && childrenClassName[index]
           )}
         >

@@ -14,7 +14,7 @@ export const AdminFinancialProjectionLayout: FC<PropsWithChildren> = (
   const applicationMenu = ADMIN_APPLICATION_MENU(id ?? "")
 
   return (
-    <div className={cn("bg-[#F9FAFB] container", "overflow-scroll")}>
+    <div className={cn("container bg-[#F9FAFB]", "overflow-scroll")}>
       <div className="my-4 flex flex-col space-y-3xl ">
         <div className="relative rounded-xl  bg-white">
           <ScrollArea className="max-w-[600px] lg:max-w-none">
@@ -23,7 +23,7 @@ export const AdminFinancialProjectionLayout: FC<PropsWithChildren> = (
                 <Link
                   key={example.href}
                   className={cn(
-                    "flex rounded-lg px-4xl py-md h-full font-normal items-center justify-center text-center text-sm transition-colors border-transparent whitespace-nowrap",
+                    "flex h-full items-center justify-center whitespace-nowrap rounded-lg border-transparent px-4xl py-md text-center text-sm font-normal transition-colors",
                     pathname?.startsWith(example.href)
                       ? "bg-financial-projection-btn text-white"
                       : ""

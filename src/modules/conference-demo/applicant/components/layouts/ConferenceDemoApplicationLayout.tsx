@@ -14,7 +14,7 @@ function ConferenceDemoApplicationLayout() {
   const progress = useProgress.use.progress()
 
   return (
-    <div className={cn("finovate h-full w-full z-40", "md:mt-0 md:pb-0")}>
+    <div className={cn("finovate z-40 size-full", "md:mt-0 md:pb-0")}>
       <div className="flex h-dvh w-full overflow-hidden">
         <div className="z-50 mb-3xl h-dvh w-96 shrink-0 flex-col overflow-auto bg-background-disabled md:flex">
           <div className="mb-4 flex h-20 items-center justify-between border-b bg-white pl-3xl pr-2xl">
@@ -28,7 +28,7 @@ function ConferenceDemoApplicationLayout() {
 
           <Progress
             className="relative z-20 h-2 overflow-visible rounded-none bg-background-disabled"
-            indicatorClassName="after:hidden after:md:block after:content-[attr(data-percentvalue)] after:absolute after:right-0 after:bottom-2.5 after:text-xs after:text-text-secondary"
+            indicatorClassName="after:absolute after:bottom-2.5 after:right-0 after:hidden after:text-xs after:text-text-secondary after:content-[attr(data-percentvalue)] after:md:block"
             value={progress}
           />
 

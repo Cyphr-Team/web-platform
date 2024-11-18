@@ -16,15 +16,15 @@ export const InformationRow: React.FC<Props> = ({
 }) => (
   <div
     className={cn(
-      "md:grid-cols-2 md:grid md:grid-flow-row border border-t-0 border-l-0",
+      "border border-l-0 border-t-0 md:grid md:grid-flow-row md:grid-cols-2",
       className
     )}
   >
     <div className="flex flex-1 py-xl pl-xl md:items-center xl:py-3xl xl:pl-3xl">
       <p
         className={cn(
-          "text-sm text-text-tertiary break-words",
-          !value && "whitespace-nowrap text-foreground font-medium"
+          "break-words text-sm text-text-tertiary",
+          !value && "whitespace-nowrap font-medium text-foreground"
         )}
       >
         {label}

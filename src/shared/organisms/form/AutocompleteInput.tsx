@@ -68,9 +68,9 @@ export function AutoCompleteInput<T extends FieldValues>(
               <FormControl>
                 <Button
                   className={cn(
-                    "w-full px-3.5 justify-between",
+                    "w-full justify-between px-3.5",
                     !value && "text-muted-foreground",
-                    "group-[.date-select-coupling]:rounded-r-none group-[.date-select-coupling]:justify-between"
+                    "group-[.date-select-coupling]:justify-between group-[.date-select-coupling]:rounded-r-none"
                   )}
                   variant="outline"
                 >
@@ -107,7 +107,7 @@ export function AutoCompleteInput<T extends FieldValues>(
                       {option.label}
                       <CheckIcon
                         className={cn(
-                          "ml-auto h-4 w-4",
+                          "ml-auto size-4",
                           value === option.value ? "opacity-100" : "opacity-0"
                         )}
                       />

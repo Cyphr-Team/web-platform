@@ -47,7 +47,7 @@ export function ScoreCardListDetailByJudge({
     <AccordionItem key={id} className="border-b-0" value={id}>
       <AccordionTrigger
         className={cn(
-          "justify-between w-full hover:no-underline text-base font-medium text-left data-[state=open]:border-b pb-0.5 [&>.lucide-chevron-down]:w-5"
+          "w-full justify-between pb-0.5 text-left text-base font-medium hover:no-underline data-[state=open]:border-b [&>.lucide-chevron-down]:w-5"
         )}
         closeIcon={
           <ChevronDown className="w-4 shrink-0 transition-transform duration-200" />

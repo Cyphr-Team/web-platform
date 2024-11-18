@@ -64,7 +64,7 @@ const ClipboardCopy = React.forwardRef<HTMLButtonElement, ClipboardCopyProps>(
       <button
         ref={ref}
         className={cn(
-          "text-gray-900 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 rounded-lg py-2 px-2.5 inline-flex items-center justify-center bg-white border-gray-200 border",
+          "inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-2.5 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700",
           className
         )}
         data-copy-to-clipboard-target={clipboardTargetId}
@@ -93,7 +93,7 @@ const ClipboardCopy = React.forwardRef<HTMLButtonElement, ClipboardCopyProps>(
           <svg
             aria-hidden="true"
             className={cn(
-              "w-3 h-3 me-1.5",
+              "me-1.5 size-3",
               `${variantColor}-700`,
               `dark:${variantColor}-500`
             )}

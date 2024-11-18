@@ -316,7 +316,7 @@ export function SbbReviewApplicationDetails() {
     <div id="loan-summary">
       <div className="flex flex-col gap-3xl" id="application-overview">
         <div className="space-y-3xl">
-          <div className={cn(EXPORT_CLASS.FINANCIAL, "mt-lg px-4xl -mx-4xl")}>
+          <div className={cn(EXPORT_CLASS.FINANCIAL, "-mx-4xl mt-lg px-4xl")}>
             <p className="text-4xl font-semibold">Application Summary</p>
           </div>
           <PreApplicationDisclosuresDetails />
@@ -343,7 +343,7 @@ export function SbbReviewApplicationDetails() {
             <Card
               className={cn(
                 EXPORT_CLASS.FINANCIAL,
-                "p-8 flex flex-col gap-2xl shadow-none mx-auto border-0"
+                "mx-auto flex flex-col gap-2xl border-0 p-8 shadow-none"
               )}
               data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
             >

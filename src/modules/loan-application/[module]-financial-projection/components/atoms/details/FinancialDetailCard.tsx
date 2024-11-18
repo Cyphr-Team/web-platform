@@ -54,7 +54,7 @@ function Header({ title, subTitle }: HeaderProps) {
       <div className="flex min-w-20 flex-col justify-center">
         <h2
           className={cn(
-            "text-base font-semibold truncate min-w-20",
+            "min-w-20 truncate text-base font-semibold",
             "md:text-lg"
           )}
         >

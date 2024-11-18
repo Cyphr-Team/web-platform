@@ -1,7 +1,7 @@
 import { API_PATH } from "@/constants"
 import { judgeLoanApplicationKeys } from "@/constants/query-key"
 import { postRequest } from "@/services/client.service"
-import { type IJudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
+import { type JudgeLoanApplicationResponse } from "@/types/application/application-judge.type"
 import { type ILaunchKCApplicationScore } from "@/types/application/application-score.type"
 import {
   type ListResponse,
@@ -12,7 +12,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import * as z from "zod"
 
 type ListJudgeLoanApplicationResponse = ListResponse<
-  IJudgeLoanApplicationResponse<ILaunchKCApplicationScore>
+  JudgeLoanApplicationResponse<ILaunchKCApplicationScore>
 >
 
 export const judgeLoanApplicationFilterSchema = z.object({

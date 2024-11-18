@@ -35,10 +35,10 @@ export const DocumentSignalsDetails: React.FC<Props> = ({ handleClose }) => {
             <button
               key={data.content}
               className={cn(
-                "flex p-md items-center justify-center transition-colors border-b-2 border-transparent whitespace-nowrap",
-                "text-disabled uppercase",
+                "flex items-center justify-center whitespace-nowrap border-b-2 border-transparent p-md transition-colors",
+                "uppercase text-disabled",
                 section.content === data.content &&
-                  "text-black border-b-2 border-black"
+                  "border-b-2 border-black text-black"
               )}
               onClick={() => setSection(data)}
             >

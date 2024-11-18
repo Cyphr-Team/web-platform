@@ -79,12 +79,7 @@ export function Component() {
     useQueryGetUnreadNotifications()
 
   return (
-    <div
-      className={cn(
-        "container mx-auto px-2xl py-2xl overflow-auto",
-        "md:px-4xl md:py-4xl"
-      )}
-    >
+    <div className={cn("container mx-auto overflow-auto p-2xl", "md:p-4xl")}>
       {/* Top bar */}
       <div className="mb-3xl">
         <Breadcrumbs breads={crumbs} className="px-0" />
@@ -96,9 +91,9 @@ export function Component() {
         <div>
           <Button
             className={cn(
-              "border rounded-r-none",
+              "rounded-r-none border",
               filterParams?.read == undefined &&
-                "bg-primary text-white cursor-default hover:bg-primary"
+                "cursor-default bg-primary text-white hover:bg-primary"
             )}
             size="sm"
             variant="secondary"
@@ -110,9 +105,9 @@ export function Component() {
           </Button>
           <Button
             className={cn(
-              "border rounded-l-none",
+              "rounded-l-none border",
               filterParams?.read == false &&
-                "bg-primary text-white cursor-default hover:bg-primary"
+                "cursor-default bg-primary text-white hover:bg-primary"
             )}
             size="sm"
             variant="secondary"

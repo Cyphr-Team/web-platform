@@ -13,7 +13,7 @@ export const DocumentViewer: React.FC = () => {
       <div className="flex w-full items-center justify-center">
         <Loader2
           className={cn(
-            "m-2 h-8 w-8 transition-all ease-out animate-spin text-primary"
+            "m-2 size-8 animate-spin text-primary transition-all ease-out"
           )}
         />
       </div>

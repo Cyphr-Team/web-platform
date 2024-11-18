@@ -74,7 +74,7 @@ export function FinancialApplicationCriteria({
           setSorting={setSorting}
           sorting={sorting}
           tableHeaderClassName="bg-white"
-          tableWrapperClassName="bg-white rounded-xl"
+          tableWrapperClassName="rounded-xl bg-white"
           total={criteriaData.length}
         />
       </div>
@@ -110,7 +110,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
           <Badge
             className={cn(
               criteriaBadgeClassName,
-              "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center border",
+              "min-w-20 justify-center whitespace-nowrap border bg-opacity-100 px-3 py-1.5 font-normal capitalize",
               EXPORT_CLASS.NO_BACKGROUND_COLOR
             )}
           >

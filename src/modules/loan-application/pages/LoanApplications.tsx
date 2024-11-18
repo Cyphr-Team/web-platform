@@ -54,9 +54,7 @@ export function Component() {
     }
 
   return (
-    <div
-      className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
-    >
+    <div className={cn("container mx-auto p-2xl", "md:p-4xl")}>
       <h1 className="text-3xl font-semibold">
         {isSbb() ? "Account Applications" : "Your Applications"}
       </h1>

@@ -26,7 +26,7 @@ export function PagePreview({ pagePreview }: Props) {
   return (
     <div
       className={cn(
-        "rounded-lg p-2 bg-gray-50 border border-text-senary flex flex-col gap-y-2 ",
+        "flex flex-col gap-y-2 rounded-lg border border-text-senary bg-gray-50 p-2 ",
         "data-[signals=true]:border-error",
         "data-[signals=true]:bg-error-50",
         "data-[selected=true]:bg-gray-200"

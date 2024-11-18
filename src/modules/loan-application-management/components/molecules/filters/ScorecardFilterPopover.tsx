@@ -86,7 +86,7 @@ export function ScorecardFilterPopover<
         <PopoverTrigger asChild>
           <Button
             className={cn(
-              "text-sm font-semibold border border-input h-10 px-4 py-2 rounded-full text-slate-700",
+              "h-10 rounded-full border border-input px-4 py-2 text-sm font-semibold text-slate-700",
               additionLabel && "border-slate-500"
             )}
             id={field.name}

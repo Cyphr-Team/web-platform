@@ -78,7 +78,7 @@ export function SourceToolTip({
         <TooltipPortal>
           <TooltipContent
             className={cn(
-              "text-base px-0 max-w-80",
+              "max-w-80 px-0 text-base",
               subDescription && "max-w-80 md:max-w-md lg:max-w-lg"
             )}
             side="top"
@@ -86,7 +86,7 @@ export function SourceToolTip({
             {description ? (
               <div
                 className={cn(
-                  "px-4 font-semibold text-sm break-words",
+                  "break-words px-4 text-sm font-semibold",
                   !!data?.length && "border-b pb-2"
                 )}
               >

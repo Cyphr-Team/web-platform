@@ -13,8 +13,8 @@ export function DashboardNavLink({
     <NavLink
       className={({ isActive }) =>
         cn(
-          "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white cursor-pointer hover:bg-gray-100",
-          "flex items-center space-x-3 py-md px-lg rounded-md",
+          "cursor-pointer hover:bg-gray-100 dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+          "flex items-center space-x-3 rounded-md px-lg py-md",
           isActive && "bg-gray-100",
           item.className
         )

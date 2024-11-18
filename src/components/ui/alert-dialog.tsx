@@ -62,7 +62,7 @@ function AlertDialogHeader({
   return (
     <div
       className={cn(
-        "flex flex-col space-y-2 text-center sm:text-left break-all",
+        "flex flex-col space-y-2 break-all text-center sm:text-left",
         className
       )}
       {...props}

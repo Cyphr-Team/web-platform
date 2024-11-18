@@ -136,11 +136,11 @@ function RHFOptionInput<T extends FieldValues>(props: RHFOptionInputProps<T>) {
       return (
         <div
           key={index}
-          className={cn("flex items-center w-full", radioItemWrapperClassName)}
+          className={cn("flex w-full items-center", radioItemWrapperClassName)}
         >
           <RadioGroupItem
             className={cn(
-              "w-4 h-4 mr-2 text-rich-black border-rich-black",
+              "text-rich-black border-rich-black mr-2 size-4",
               radioGroupItemClassName
             )}
             id={`${name}-${option.value}-${index}`}
@@ -148,7 +148,7 @@ function RHFOptionInput<T extends FieldValues>(props: RHFOptionInputProps<T>) {
           />
           <Label
             className={cn(
-              "w-full text-sm text-text-secondary font-normal cursor-pointer",
+              "w-full cursor-pointer text-sm font-normal text-text-secondary",
               radioGroupItemLabelClassName
             )}
             htmlFor={`${name}-${option.value}-${index}`}
@@ -174,7 +174,7 @@ function RHFOptionInput<T extends FieldValues>(props: RHFOptionInputProps<T>) {
         <FormItem className={className}>
           <FormLabel
             className={cn(
-              "text-sm text-text-secondary font-medium",
+              "text-sm font-medium text-text-secondary",
               labelClassName
             )}
           >
@@ -188,7 +188,7 @@ function RHFOptionInput<T extends FieldValues>(props: RHFOptionInputProps<T>) {
           </FormLabel>
           <FormControl>
             <RadioGroup
-              className={cn("flex flex-col gap-3 mt-3", radioGroupClassName)}
+              className={cn("mt-3 flex flex-col gap-3", radioGroupClassName)}
               value={field.value}
               onChange={field.onBlur}
               onValueChange={(value) => {

@@ -17,7 +17,7 @@ export const DisclaimerNote: FC<DisclaimerNoteProps> = (props) => {
         <Image
           alt="Loan ready by cyphr"
           height={90}
-          placeholderClassName="bg-slate-400 rounded"
+          placeholderClassName="rounded bg-slate-400"
           src={loanReadyLogo}
         />
       </div>

@@ -48,7 +48,7 @@ const AssessmentLayout: FC<PropsWithChildren<AssessmentLayoutProps>> = ({
 }) => (
   <div
     className={cn(
-      "bg-[#F2F8F8] rounded-3xl lg:rounded-[40px] border border-[#EAECF0] shadow-[0px_4px_12px_0px_#00000026]",
+      "rounded-3xl border border-[#EAECF0] bg-[#F2F8F8] shadow-[0px_4px_12px_0px_#00000026] lg:rounded-[40px]",
       className
     )}
   >
@@ -117,7 +117,7 @@ const ApplicationScore: FC<ApplicationScoreProps> = ({
           <Badge
             className={cn(
               getCriteriaScoreRangeClassName(ratingLevel),
-              "bg-opacity-100 capitalize whitespace-nowrap font-normal py-1.5 px-3 min-w-20 justify-center border-0"
+              "min-w-20 justify-center whitespace-nowrap border-0 bg-opacity-100 px-3 py-1.5 font-normal capitalize"
             )}
             variant="outline"
           >

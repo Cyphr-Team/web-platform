@@ -133,8 +133,8 @@ function NotificationCard({
   return (
     <Notification
       className={cn(
-        "group flex justify-between mb-2 hover:bg-gray-200",
-        !isRead && "bg-gray-100 border-l-4 border-primary-500",
+        "group mb-2 flex justify-between hover:bg-gray-200",
+        !isRead && "border-primary-500 border-l-4 bg-gray-100",
         className
       )}
     >

@@ -80,7 +80,7 @@ function StyledComponent({
   return (
     <div
       className={cn(
-        "flex justify-between px-4 h-11 items-center text-sm border-t",
+        "flex h-11 items-center justify-between border-t px-4 text-sm",
         getLayoutClasses(layout),
         isEnd || collision ? "border-b-0" : null,
         className

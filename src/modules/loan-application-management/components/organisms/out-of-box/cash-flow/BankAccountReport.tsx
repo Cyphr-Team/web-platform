@@ -30,7 +30,7 @@ export const BankAccountReport: React.FC<Props> = ({
   }
 
   return (
-    <Card className={cn("border-r-0 border-b-0 shadow-none", className)}>
+    <Card className={cn("border-b-0 border-r-0 shadow-none", className)}>
       <CardHeader className="rounded-tr-md border-b border-r px-8 md:py-4">
         <div className="flex flex-wrap items-center justify-between gap-1">
           <CardTitle className="flex items-center gap-3 text-2xl font-semibold">

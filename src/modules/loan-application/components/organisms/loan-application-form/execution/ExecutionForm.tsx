@@ -97,7 +97,7 @@ export function ExecutionForm() {
             control={form.control}
             inputClassName="!max-w-52"
             label="How much cash does your company go through each month?"
-            labelClassName="leading-relaxed mt-2 pt-2"
+            labelClassName="mt-2 pt-2 leading-relaxed"
             name={LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE}
             options={monthlyExpenseRangeOptions}
           />

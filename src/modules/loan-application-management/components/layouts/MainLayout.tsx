@@ -13,7 +13,7 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
         <BasicInformation />
         <TopNav />
       </div>
-      <div className={cn("p-4xl pt-3xl flex-1 overflow-auto bg-gray-50")}>
+      <div className={cn("flex-1 overflow-auto bg-gray-50 p-4xl pt-3xl")}>
         {children}
       </div>
     </div>

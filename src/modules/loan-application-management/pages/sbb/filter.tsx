@@ -178,7 +178,7 @@ export function Filter({ filterForm }: IFilter) {
                     /* eslint-disable-next-line @typescript-eslint/no-useless-template-literals */
                     prefixLabel={option.label + `${value ? ":" : ""}`}
                     triggerClassName={cn(
-                      "rounded-full font-semibold text-sm",
+                      "rounded-full text-sm font-semibold",
                       value && "border-slate-500"
                     )}
                     value={value?.toString()}

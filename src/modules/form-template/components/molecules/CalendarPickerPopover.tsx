@@ -48,7 +48,7 @@ function CalendarPickerPopover(props: Props) {
         <PopoverTrigger asChild>
           <Button
             className={cn(
-              "w-full pl-3 text-left font-normal flex justify-between gap-2 text-sm",
+              "flex w-full justify-between gap-2 pl-3 text-left text-sm font-normal",
               !value && "text-muted-foreground",
               triggerClassName
             )}

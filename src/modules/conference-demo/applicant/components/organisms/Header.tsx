@@ -15,8 +15,8 @@ function Header() {
   return (
     <nav
       className={cn(
-        "w-full flex justify-between items-center sticky top-0 bg-white border-b border-t",
-        "md:h-20 md:pr-8 md:border-t-0"
+        "sticky top-0 flex w-full items-center justify-between border-y bg-white",
+        "md:h-20 md:border-t-0 md:pr-8"
       )}
     >
       <div className="min-w-20 truncate text-lg font-semibold md:text-2xl">

@@ -20,7 +20,7 @@ export function Component() {
       <div className="flex h-full flex-col bg-active">
         <div
           className={cn(
-            "flex flex-wrap items-center justify-between gap-2 p-5 bg-white border-b sticky top-0 z-20",
+            "sticky top-0 z-20 flex flex-wrap items-center justify-between gap-2 border-b bg-white p-5",
             "md:px-8"
           )}
         >
@@ -29,7 +29,7 @@ export function Component() {
             <FilterTimeRange />
           </div>
         </div>
-        <div className={cn("flex-1 space-y-6 p-6 pt-6 bg-active", "md:p-8")}>
+        <div className={cn("flex-1 space-y-6 bg-active p-6", "md:p-8")}>
           {isLenderAdmin && isEnableSubscriptionManagement() ? (
             <CurrentUsage />
           ) : null}

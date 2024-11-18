@@ -85,7 +85,7 @@ export function Component() {
         <LoadingWrapper
           className={cn(
             isLoading
-              ? "pb-10 gap-4 rounded-lg border bg-white min-h-40 flex items-center justify-center shadow-sm"
+              ? "flex min-h-40 items-center justify-center gap-4 rounded-lg border bg-white pb-10 shadow-sm"
               : null
           )}
           isLoading={isLoading}

@@ -60,8 +60,8 @@ export function DisclaimerAndDisclosure({
   return (
     <Card
       className={cn(
-        "rounded-lg h-fit overflow-auto col-span-8 mx-6 shadow-none",
-        "md:col-span-6 md:col-start-2 md:mx-auto max-w-screen-sm text-sm",
+        "col-span-8 mx-6 h-fit overflow-auto rounded-lg shadow-none",
+        "max-w-screen-sm text-sm md:col-span-6 md:col-start-2 md:mx-auto",
         wrapperClassName
       )}
       id={LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE}

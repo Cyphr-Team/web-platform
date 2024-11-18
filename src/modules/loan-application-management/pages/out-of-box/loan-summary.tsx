@@ -215,7 +215,7 @@ export function Component() {
         )}
         {shouldDisplayCashFlowTable ? (
           <div ref={page_4} className="flex flex-col space-y-3xl">
-            <CashFlowTable wrapperClassName="border rounded-lg" />
+            <CashFlowTable wrapperClassName="rounded-lg border" />
           </div>
         ) : null}
         <div

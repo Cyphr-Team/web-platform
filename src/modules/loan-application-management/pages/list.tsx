@@ -49,9 +49,7 @@ export function BaseApplicationList() {
   )
 
   return (
-    <div
-      className={cn("container mx-auto px-2xl py-2xl", "md:px-4xl md:py-4xl")}
-    >
+    <div className={cn("container mx-auto p-2xl", "md:p-4xl")}>
       <div className="flex flex-wrap justify-between gap-4">
         <div className="flex flex-col gap-1">
           <Breadcrumbs breads={crumbs} className="px-0" />
@@ -67,7 +65,7 @@ export function BaseApplicationList() {
         isLoading={isFetching}
         pagination={pagination}
         setPagination={setPagination}
-        tableContainerClassName="flex flex-col flex-1 overflow-hidden max-h-[700px]"
+        tableContainerClassName="flex max-h-[700px] flex-1 flex-col overflow-hidden"
         total={data?.total ?? 0}
       />
     </div>

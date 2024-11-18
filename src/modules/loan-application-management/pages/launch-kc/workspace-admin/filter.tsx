@@ -237,7 +237,7 @@ export function Filter({ filterForm }: IFilter) {
                     placeholder=""
                     prefixLabel={option.label + (value ? ":" : "")}
                     triggerClassName={cn(
-                      "rounded-full font-semibold text-sm",
+                      "rounded-full text-sm font-semibold",
                       value && "border-slate-500"
                     )}
                     value={value?.toString()}

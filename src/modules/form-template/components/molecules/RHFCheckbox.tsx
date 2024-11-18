@@ -43,7 +43,7 @@ function RHFCheckbox<T extends FieldValues>(props: RHFCheckboxProps<T>) {
           <FormControl>
             <div
               className={cn(
-                "flex gap-2 mt-1 items-center space-x-2 space-y-0",
+                "mt-1 flex items-center gap-2 space-x-2 space-y-0",
                 className
               )}
             >
@@ -56,7 +56,7 @@ function RHFCheckbox<T extends FieldValues>(props: RHFCheckboxProps<T>) {
               />
               <label
                 className={cn(
-                  "text-sm text-text-secondary font-normal select-none cursor-pointer",
+                  "cursor-pointer select-none text-sm font-normal text-text-secondary",
                   labelClassName
                 )}
                 htmlFor={name}

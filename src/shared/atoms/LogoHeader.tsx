@@ -20,7 +20,7 @@ export function LogoHeader({
   const { tenantData } = useTenant()
 
   return (
-    <div className={cn("flex items-center gap-1 w-full", className)}>
+    <div className={cn("flex w-full items-center gap-1", className)}>
       <button
         className={cn("logo-button", !toggleCollapse && "cursor-default")}
         type="button"
@@ -30,7 +30,7 @@ export function LogoHeader({
           <Image
             alt="Institution logo"
             className="mr-1"
-            placeholderClassName="bg-slate-400 rounded"
+            placeholderClassName="rounded bg-slate-400"
             src={getImageURL(tenantData?.logo)}
             width={isLarge ? 40 : 32}
           />
@@ -46,7 +46,7 @@ export function LogoHeader({
         <Image
           alt="Institution text logo"
           className={cn("max-w-[120px]", isLarge && "max-w-[210px]")}
-          placeholderClassName="bg-slate-400 rounded"
+          placeholderClassName="rounded bg-slate-400"
           src={getImageURL(tenantData?.textLogo)}
           width={isLarge ? 210 : 120}
         />

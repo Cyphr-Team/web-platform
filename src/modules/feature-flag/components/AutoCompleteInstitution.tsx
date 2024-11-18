@@ -120,7 +120,7 @@ export function AutoCompleteInstitution<T extends FieldValues>(
                         {option.label}
                         <CheckIcon
                           className={cn(
-                            "ml-auto h-4 w-4",
+                            "ml-auto size-4",
                             selected.value === option.value
                               ? "opacity-100"
                               : "opacity-0"

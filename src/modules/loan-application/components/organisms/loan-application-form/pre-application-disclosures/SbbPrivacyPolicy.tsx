@@ -379,7 +379,7 @@ function Row(props: RowProps) {
   return (
     <div
       className={cn(
-        "grid grid-cols-10 border items-center text-sm border-b-0",
+        "grid grid-cols-10 items-center border border-b-0 text-sm",
         isHeader && "bg-table-heading font-semibold",
         isFinal && "border-b",
         className
@@ -400,7 +400,7 @@ interface CellProps {
 
 function Cell({ value, className }: CellProps) {
   return (
-    <div className={cn("col-span-4 p-3 flex items-center h-full", className)}>
+    <div className={cn("col-span-4 flex h-full items-center p-3", className)}>
       {value}
     </div>
   )

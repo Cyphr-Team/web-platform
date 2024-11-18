@@ -47,7 +47,7 @@ export function Component() {
           pagination={pagination}
           setPagination={setPagination}
           tableCellClassName="text-[#667085]"
-          tableContainerClassName="flex flex-col flex-1 h-[85vh] rounded-full"
+          tableContainerClassName="flex h-[85vh] flex-1 flex-col rounded-full"
           tableHeadClassName="text-xs text-[#667085]"
           tableHeaderClassName="bg-[#f9fafb] !text-xs"
           tableWrapperClassName="rounded-lg"

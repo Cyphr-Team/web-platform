@@ -96,14 +96,14 @@ const EditFounder = memo((props: EditFounderProps) => {
         className="flex items-center justify-between"
         control={form.control}
         formMessageClassName="hidden"
-        inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
+        inputClassName="w-56 md:max-w-56 xl:w-56 xl:max-w-56"
         label="First and last name"
         {...form.register(`founders.${index}.name` as const)}
       />
       <SelectInput
         className="flex items-center justify-between !text-sm"
         control={form.control}
-        inputClassName="w-56 md:max-w-56 xl:max-w-56 xl:w-56"
+        inputClassName="w-56 md:max-w-56 xl:w-56 xl:max-w-56"
         label="Full-time or part-time"
         options={jobTypes}
         {...form.register(`founders.${index}.jobType` as const)}

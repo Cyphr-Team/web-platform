@@ -19,9 +19,9 @@ export function ScoreCardBox({
   return (
     <div
       className={cn(
-        "mt-5 mb-4 w-fit",
-        hasBorder && "border border-gray-300 rounded-md",
-        multiple && "p-2 w-full pb-1"
+        "mb-4 mt-5 w-fit",
+        hasBorder && "rounded-md border border-gray-300",
+        multiple && "w-full p-2 pb-1"
       )}
     >
       <div className="mb-1 text-xs font-medium uppercase text-zinc-500">
