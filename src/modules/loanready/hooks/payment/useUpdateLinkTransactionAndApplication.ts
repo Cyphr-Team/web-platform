@@ -14,7 +14,12 @@ import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, type AxiosResponse } from "axios"
-import { useSearchParams, type ErrorResponse } from "react-router-dom"
+import {
+  useSearchParams,
+  type ErrorResponse,
+  useNavigate
+} from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
 export const useUpdateLinkTransactionAndApplication = () => {
   const queryClient = useQueryClient()
@@ -48,6 +53,9 @@ export const useUpdateLinkTransactionAndApplication = () => {
           data.data.paymentTransactionId
         ]
       })
+      queryClient.invalidateQueries({
+        queryKey: loanApplicationUserKeys.lists()
+      })
     }
   })
 
@@ -71,6 +79,7 @@ export const useUpdateLinkTransactionAndApplication = () => {
 export const useLinkApplicationToLoanReadySubscription = () => {
   const [searchParams] = useSearchParams()
   const paymentTransactionId = searchParams.get("transactionId")
+  const navigate = useNavigate()
 
   const {
     updateLinkTransactionAndApplication,
@@ -93,8 +102,39 @@ export const useLinkApplicationToLoanReadySubscription = () => {
     }
   }
 
+  const mutateLinkForUpgrade = (
+    paymentTransactionId?: string,
+    applicationId?: string
+  ) => {
+    if (applicationId && paymentTransactionId) {
+      updateLinkTransactionAndApplication(
+        { paymentTransactionId, applicationId },
+        {
+          onSuccess: () => {
+            navigate(APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX, {
+              replace: true
+            })
+          },
+          onError: () => {
+            toastError({
+              title: TOAST_MSG.loanApplication.paymentSubscription.title,
+              description: "Can not link the application to the subscription."
+            })
+          }
+        }
+      )
+    } else {
+      toastError({
+        title: TOAST_MSG.loanApplication.paymentSubscription.title,
+        description:
+          "Can't find available payment transaction for your application. Please make sure you purchase the package or contact our support team."
+      })
+    }
+  }
+
   return {
     mutateLink,
+    mutateLinkForUpgrade,
     isLinking
   }
 }

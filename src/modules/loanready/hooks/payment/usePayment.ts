@@ -9,7 +9,7 @@ export interface UsePaymentParams {
   isLoading: UseBooleanReturn
   submitPurchase: (
     confirmationTokenId: string,
-    isNewApplication: boolean
+    applicationId?: string
   ) => Promise<void>
 }
 
@@ -17,7 +17,7 @@ export const usePayment = ({ isLoading, submitPurchase }: UsePaymentParams) => {
   const stripe = useStripe()
   const elements = useElements()
 
-  const mutateAsync = async (isNewApplication: boolean) => {
+  const mutateAsync = async (applicationId?: string) => {
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
@@ -56,7 +56,7 @@ export const usePayment = ({ isLoading, submitPurchase }: UsePaymentParams) => {
       return
     }
 
-    await submitPurchase(confirmationToken.id, isNewApplication)
+    await submitPurchase(confirmationToken.id, applicationId)
   }
 
   return { mutateAsync }

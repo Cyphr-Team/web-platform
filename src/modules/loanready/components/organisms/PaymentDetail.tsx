@@ -22,6 +22,7 @@ import { BillingAddressForm } from "@/modules/loanready/components/organisms/Bil
 import { usePayment } from "@/modules/loanready/hooks/payment/usePayment"
 import { useLocation, useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
+import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication.ts"
 
 const paymentItemSchema = z.object({
   package: z.string().min(1)
@@ -43,16 +44,17 @@ export function PaymentDetail() {
   // Payment Form
   const form = useForm<PaymentItemValue>({
     resolver: zodResolver(paymentItemSchema),
-    reValidateMode: "onBlur",
     defaultValues: { package: "" }
   })
+
+  const { mutateLinkForUpgrade } = useLinkApplicationToLoanReadySubscription()
 
   // Send the payment request to server
   const { mutateAsync: mutateConfirmIntent, isLoading } =
     useCreateConfirmIntent()
   const submitPurchase = async (
     confirmationToken: string,
-    isNewApplication: boolean
+    applicationId?: string
   ) => {
     const purchasingPackageType =
       form.watch("package") === LoanReadyPlanEnum.BASIC
@@ -66,9 +68,11 @@ export function PaymentDetail() {
 
     await mutateConfirmIntent.mutateAsync(payload, {
       onSuccess: (data) => {
-        if (isNewApplication) {
+        const paymentTransactionId = data.data.id
+
+        if (!applicationId) {
           const searchParams = new URLSearchParams({
-            transactionId: data.data.id
+            transactionId: paymentTransactionId
           })
 
           navigate(
@@ -78,9 +82,7 @@ export function PaymentDetail() {
             { replace: true }
           )
         } else {
-          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index, {
-            replace: true
-          })
+          mutateLinkForUpgrade(paymentTransactionId, applicationId)
         }
       }
     })
@@ -126,7 +128,7 @@ export function PaymentDetail() {
     switch (form.watch("package")) {
       case LoanReadyPlanEnum.BASIC:
         isConfirmPurchaseDialogOpen.onFalse()
-        await mutatePayment(true)
+        await mutatePayment()
         break
       case LoanReadyPlanEnum.PLUS:
         isSelectAppDialogOpen.onTrue()
@@ -152,9 +154,9 @@ export function PaymentDetail() {
   }
 
   // Handle 2nd step purchase for LoanReady+ packages
-  const handleLoanReadyPlusPurchase = async (isNewApplication: boolean) => {
+  const handleLoanReadyPlusPurchase = async (applicationId?: string) => {
     isSelectAppDialogOpen.onFalse()
-    await mutatePayment(isNewApplication)
+    await mutatePayment(applicationId)
   }
 
   return (
@@ -175,11 +177,12 @@ export function PaymentDetail() {
               />
             </div>
           </div>
-          <div className="col-span-3 flex h-full flex-col justify-between bg-gray-50 px-3xl py-4xl">
+          <div className="sticky top-0 col-span-3 flex h-[calc(100vh-104px)] flex-col justify-between bg-gray-50 px-3xl py-4xl">
             <OrderSummary
               selectedPlan={form.watch("package") as LoanReadyPlanEnum}
             />
-            <div className="ml-auto flex flex-row gap-2">
+
+            <div className="ml-auto mt-auto flex flex-row gap-2">
               <ButtonLoading variant="outline" onClick={() => navigate(-1)}>
                 Cancel
               </ButtonLoading>
@@ -189,6 +192,19 @@ export function PaymentDetail() {
               >
                 Purchase
               </ButtonLoading>
+            </div>
+
+            <div className="mt-4 text-right text-xs font-normal">
+              By clicking “Purchase” you agree to Cyphr’s{" "}
+              <a
+                className="font-semibold underline"
+                href="https://www.cyphrai.com/terms"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Terms
+              </a>
+              .
             </div>
 
             <SelectApplicationDialog
