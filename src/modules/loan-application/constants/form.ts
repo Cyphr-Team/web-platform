@@ -8,7 +8,7 @@ import {
   type SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
-import { type DocumentUploadedResponse, type PlaidItemInfo } from "./type"
+import { type DocumentUploadedResponse } from "./type"
 import { LoanReadyKYCFieldName } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import {
   createStringSchema,
@@ -243,29 +243,9 @@ const LoanItemFormSchema = z.object({
     .max(50, { message: "Interest rate must not be higher than 50" })
 })
 
-const SBBLoanItemFormSchema = z.object({
-  id: z.string(),
-  lenderName: z.string().min(1, { message: "Lender name is required" }),
-  loanType: z.string().min(1, { message: "Loan type is required" }),
-  outstandingLoanBalance: z
-    .number()
-    .min(1, { message: "Balance must be higher than 0" }),
-  monthlyPaymentAmount: z.number(),
-  loanTermRemainingInMonths: z.number(),
-  annualInterestRate: z
-    .number({ invalid_type_error: "Interest rate must not be blank" })
-    .min(0.01, { message: "Interest rate must be higher than 0" })
-    .max(50, { message: "Interest rate must not be higher than 50" })
-})
-
 export const currentLoansFormSchema = z.object({
   hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
   currentLoans: z.array(LoanItemFormSchema)
-})
-
-export const sbbCurrentLoansFormSchema = z.object({
-  hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
-  currentLoans: z.array(SBBLoanItemFormSchema)
 })
 
 export const operatingExpensesFormSchema = z.object({
@@ -325,17 +305,6 @@ export const reviewApplicationSchema = z.object({
 })
 
 export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
-
-export const cashFlowSchema = z.object({
-  /**
-   * This is use for the flow:
-   *  1. The client confirm the understand checkbox but have not finished the bank account connection
-   *  2. The client save draft - save & close -> we have applicationId now, we also link the application id to the plaid items of each bank
-   *  3. The client go back to the application and connect more bank account, the connected bank account should be shown
-   */
-  applicationId: z.string().optional(),
-  plaidItemInfo: z.custom<PlaidItemInfo[]>()
-})
 
 export const assigningJudgeFormSchema = z.object({
   user: z.object({
@@ -519,13 +488,9 @@ export type LoanRequestFormValue = z.infer<typeof loanRequestFormSchema>
 
 export type CurrentLoansFormValue = z.infer<typeof currentLoansFormSchema>
 
-export type SbbCurrentLoansFormValue = z.infer<typeof sbbCurrentLoansFormSchema>
-
 export type OperatingExpensesFormValue = z.infer<
   typeof operatingExpensesFormSchema
 >
-
-export type CashFlowFormValue = z.infer<typeof cashFlowSchema>
 
 export type AssigningJudgeFormValue = z.infer<typeof assigningJudgeFormSchema>
 
@@ -565,5 +530,4 @@ export type IOwnerFormValue = OwnerFormValue &
   LoanReadyOwnerFormValue
 
 export type ICurrentLoanFormValue = CurrentLoansFormValue &
-  SbbCurrentLoansFormValue &
   CurrentLoanFormsV2Value

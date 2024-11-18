@@ -22,7 +22,6 @@ import { MarketOpportunityForm } from "../market-opportunity/MarketOpportunityFo
 import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/launchkc/LaunchKCBusinessInformationForm"
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/LaunchKCOwnerInformationForm"
-import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/sbb/SbbCurrentLoanForm"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
 import { CertificateGoodStandingForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/CertificateGoodStandingForm.tsx"
 import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
@@ -34,10 +33,6 @@ import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
 import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid"
 import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
 import { CurrentLoanFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
-
-interface IReviewStep {
-  stepProgress: ILoanApplicationStep
-}
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -72,10 +67,6 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
-        if (isSbb()) {
-          return <SBBCurrentLoanForm />
-        }
-
         if (isEnableFormV2()) {
           return <CurrentLoanFormV2 />
         }
@@ -121,19 +112,26 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
   }, [step])
 }
 
-export const ReviewApplicationStep = forwardRef<HTMLDivElement, IReviewStep>(
-  ({ stepProgress }: IReviewStep, ref) => {
-    const componentByStep = useGetReviewFormByStep(stepProgress.step)
+interface ReviewStepProps {
+  stepProgress: ILoanApplicationStep
+}
 
-    /**
-     * Some forms (e.g., PreQualification) are not required to be included in the review application step.
-     */
-    if (!componentByStep) return null
+export const ReviewApplicationStep = forwardRef<
+  HTMLDivElement,
+  ReviewStepProps
+>(({ stepProgress }: ReviewStepProps, ref) => {
+  const componentByStep = useGetReviewFormByStep(stepProgress.step)
 
-    return (
-      <div ref={ref} className="size-full">
-        {componentByStep}
-      </div>
-    )
-  }
-)
+  /**
+   * Some forms (e.g., PreQualification) are not required to be included in the review application step.
+   */
+  if (!componentByStep) return null
+
+  return (
+    <div ref={ref} className="size-full">
+      {componentByStep}
+    </div>
+  )
+})
+
+ReviewApplicationStep.displayName = "ReviewApplicationStep"

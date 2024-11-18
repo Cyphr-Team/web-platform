@@ -11,7 +11,7 @@ import { useLoanProgramDetailContext } from "@/modules/loan-application/provider
 import { Image } from "@/shared/atoms/Image"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { getImageURL } from "@/utils/aws.utils"
-import { CustomLabelKey, buildCustomLabel, buildIds } from "@/utils/crumb.utils"
+import { buildCustomLabel, buildIds, CustomLabelKey } from "@/utils/crumb.utils"
 import { isSbb } from "@/utils/domain.utils"
 
 export function LoanProgramDetail() {

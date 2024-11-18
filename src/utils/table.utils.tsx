@@ -6,6 +6,7 @@ import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { type Column } from "@tanstack/react-table"
 
 const renderHeader = <T,>(title: string, className?: string) =>
+  // eslint-disable-next-line react/display-name
   function ({ column }: { column: Column<T> }) {
     return (
       <DataTableColumnHeader
@@ -22,6 +23,7 @@ const renderFilterableHeader = <TData, TValue>({
   className,
   isCanSort
 }: Omit<IFilterableColumn<TData, TValue>, "column">) =>
+  // eslint-disable-next-line react/display-name
   function ({ column }: { column: Column<TData> }) {
     return (
       <FilterableColumnHeader

@@ -19,7 +19,6 @@ import { ProductServiceForm } from "../components/organisms/loan-application-for
 import { ReviewApplication } from "../components/organisms/loan-application-form/review-application/ReviewApplication"
 import { CashFlowVerificationFormV2 } from "../components/organisms/loan-application-form/cash-flow/CashFlowVerificationFormV2"
 import { LOAN_APPLICATION_STEPS } from "../models/LoanApplicationStep/type"
-import { SBBCurrentLoanForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/sbb/SbbCurrentLoanForm"
 import { LaunchKCBusinessDocumentsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
 import { ArticlesOfOrganizationForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/ArticlesOfOrganizationForm.tsx"
@@ -100,10 +99,6 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
-        if (isSbb()) {
-          return <SBBCurrentLoanForm />
-        }
-
         return <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
         if ((isSbb() || isLoanReady()) && isEnablePandaDocESign()) {

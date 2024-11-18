@@ -19,7 +19,7 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isLaunchKC } from "@/utils/domain.utils"
 import { concat, get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
@@ -30,7 +30,6 @@ import {
   getBadgeVariantByStatus,
   getDecisionTextByStatus
 } from "../../services"
-import { SbbCurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/sbb/SbbCurrentLoanFormDetails"
 import { IndustryClassification } from "@/modules/loan-application/components/organisms/Middesk/IndustryClassification.tsx"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website.tsx"
 import { AdverseMedia } from "@/modules/loan-application/components/organisms/Middesk/AdverseMedia.tsx"
@@ -128,14 +127,7 @@ export function Component() {
 
   // Define the function to determine which component to render
   const renderCurrentLoanFormDetails = () => {
-    if (isSbb()) {
-      return (
-        <SbbCurrentLoanFormDetails
-          currentLoanFormData={loanSummary?.currentLoanForms}
-        />
-      )
-    }
-
+    // TODO: FormV2 currentloan here
     return (
       <CurrentLoanFormDetails
         currentLoanFormData={loanSummary?.currentLoanForms}
