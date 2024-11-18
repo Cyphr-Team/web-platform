@@ -98,6 +98,7 @@
     "react-use" : "^17.5.0",
     "recharts" : "^2.12.2",
     "rehype-katex" : "^7.0.1",
+    "remark-breaks" : "^4.0.0",
     "remark-math" : "^6.0.0",
     "remove-markdown" : "^0.5.5",
     "scheduler" : "^0.23.2",

@@ -8,6 +8,7 @@ import Markdown from "react-markdown"
 import { renderToString } from "react-dom/server"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
+import remarkBreaks from "remark-breaks"
 import "katex/dist/katex.min.css"
 import { sanitizeMathMarkdown, toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg"
@@ -15,6 +16,7 @@ import { camelizeStringObject } from "@/utils/converter.utils"
 import { getSubdomain, getTopLevelDomain } from "@/utils/domain.utils"
 import { inMemoryJWTService, USER_INFO_LS_KEY } from "@/services/jwt.service"
 import { useLogout } from "@/hooks/useLogout"
+import { CHAT_BOT_MULTIPLE_ENDLINE_REGEX } from "@/constants/regex.constants"
 
 const CHAT_EVENT_ON_MESSAGE = "message"
 /**
@@ -73,6 +75,7 @@ const useWebSocketClient = () => {
           "Failed to connect to the chat service. User is not logged in."
       })
       signOut()
+      client.current?.close()
 
       return ""
     }
@@ -81,12 +84,15 @@ const useWebSocketClient = () => {
   // Function to establish a WebSocket connection and handle reconnections
   const connect = useCallback(() => {
     if (!client.current) {
-      client.current = new WebSocket(getTenantChatWebsocketUrl())
+      const url = getTenantChatWebsocketUrl()
+
+      if (!url || url === "")
+        throw new Error("Failed to connect to the chat service")
+      client.current = new WebSocket(url)
     }
 
     // Set up ping-pong mechanism to keep the connection alive
     client.current.onopen = () => {
-      //   console.log("WebSocket connection established")
       setInterval(ping, PING_INTERVAL)
     }
 
@@ -94,6 +100,12 @@ const useWebSocketClient = () => {
       const data = camelizeStringObject(event.data) as StreamChatMessage
 
       if (sessionStorage.getItem(CHAT_SESSION_ID) == null) {
+        if (data.sessionId == null) {
+          sendMessage(ChatMessageInfo.ERROR_UNRECOVERABLE)
+          client.current?.close()
+
+          return
+        }
         sessionStorage.setItem(CHAT_SESSION_ID, data.sessionId)
         sendMessage(ChatMessageInfo.INIT)
       }
@@ -105,7 +117,6 @@ const useWebSocketClient = () => {
       setTimeout(() => {
         client.current = null
         sessionStorage.removeItem(CHAT_SESSION_ID)
-        connect()
       }, 1000)
     }
 
@@ -151,8 +162,11 @@ const useWebSocketClient = () => {
 
             const sanitizedMessage = renderToString(
               Markdown({
-                children: message,
-                remarkPlugins: [remarkMath],
+                children: message.replace(
+                  CHAT_BOT_MULTIPLE_ENDLINE_REGEX,
+                  "\n"
+                ),
+                remarkPlugins: [remarkMath, remarkBreaks],
                 rehypePlugins: [rehypeKatex]
               })
             )
