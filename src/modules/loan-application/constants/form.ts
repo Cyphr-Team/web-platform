@@ -73,6 +73,7 @@ export const ownerFormSchema = z.object({
    * refer: SSN_PATTERN
    */
   socialSecurityNumber: z.string().min(11, { message: "SSN/ITIN is required" }),
+  // TODO(PhucNguyen): fix the type here to number
   businessOwnershipPercentage: z
     .string()
     .min(1, { message: "Ownership percent is required" }),
@@ -117,6 +118,7 @@ export const loanReadyOwnerFormSchema = ownerFormSchema.extend({
   [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]: z
     .string()
     .min(1, "Persona credit score is required"),
+  // TODO(PhucNguyen): fix the type here to number
   businessOwnershipPercentage: z.coerce.string()
 })
 

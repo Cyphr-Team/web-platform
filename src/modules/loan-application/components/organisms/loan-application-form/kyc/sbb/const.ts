@@ -73,7 +73,9 @@ export const sbbMetadataSchema = z
   })
 
 export const sbbKycFormSchema = ownerFormSchema.extend({
-  [SBB_KYC_FIELD_NAMES.METADATA]: sbbMetadataSchema
+  [SBB_KYC_FIELD_NAMES.METADATA]: sbbMetadataSchema,
+  // TODO(PhucNguyen): fix the type here to number
+  businessOwnershipPercentage: z.coerce.string()
 })
 
 export type SbbKycFormValue = z.infer<typeof sbbKycFormSchema>
