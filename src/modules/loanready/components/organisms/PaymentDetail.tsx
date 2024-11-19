@@ -25,7 +25,8 @@ import { APP_PATH } from "@/constants"
 import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication.ts"
 
 const paymentItemSchema = z.object({
-  package: z.string().min(1)
+  package: z.string().min(1),
+  email: z.string().email()
 })
 
 type PaymentItemValue = z.infer<typeof paymentItemSchema>
@@ -44,7 +45,7 @@ export function PaymentDetail() {
   // Payment Form
   const form = useForm<PaymentItemValue>({
     resolver: zodResolver(paymentItemSchema),
-    defaultValues: { package: "" }
+    defaultValues: { package: "", email: "" }
   })
 
   const { mutateLinkForUpgrade } = useLinkApplicationToLoanReadySubscription()
@@ -63,7 +64,8 @@ export function PaymentDetail() {
     const payload = {
       amount: LoanReadyPlan[purchasingPackageType].price,
       confirmationToken: confirmationToken,
-      type: purchasingPackageType
+      type: purchasingPackageType,
+      email: form.watch("email")
     }
 
     await mutateConfirmIntent.mutateAsync(payload, {

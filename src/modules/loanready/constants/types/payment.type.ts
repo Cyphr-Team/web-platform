@@ -10,6 +10,7 @@ export interface PaymentCreateChargeConfirmationTokenRequest {
   confirmationToken: string
   type: LoanReadyPlanEnum
   applicationId?: string
+  email?: string
 }
 
 export interface PaymentTransactionResponse {

@@ -8,6 +8,7 @@ import {
   type StripeAddressElementChangeEvent
 } from "@stripe/stripe-js"
 import { useEffect } from "react"
+import { useFormContext } from "react-hook-form"
 
 /**
  * BillingAddressForm component renders a billing address form using Stripe's AddressElement.
@@ -24,6 +25,7 @@ interface BillingAddressFormProps {
 export function BillingAddressForm({
   isAddressElementValid
 }: BillingAddressFormProps) {
+  const form = useFormContext()
   const isAddressValid = useBoolean(false)
   const isLinkAuthenticationValid = useBoolean(false)
 
@@ -31,7 +33,7 @@ export function BillingAddressForm({
     isAddressElementValid.setValue(
       isAddressValid.value && isLinkAuthenticationValid.value
     )
-  }, [isAddressValid, isLinkAuthenticationValid])
+  }, [isAddressElementValid, isAddressValid, isLinkAuthenticationValid])
 
   const handleAddressElementChange = (
     event: StripeAddressElementChangeEvent
@@ -40,11 +42,13 @@ export function BillingAddressForm({
     isAddressValid.setValue(event.complete as boolean)
   }
 
-  const handleLinkAuthenticationElementChange = (
+  const handleLinkAuthenticationElementChange = async (
     event: StripeLinkAuthenticationElementChangeEvent
   ) => {
     // Set button state based on validation status
     isLinkAuthenticationValid.setValue(event.complete as boolean)
+    form.setValue("email", event.value.email)
+    await form.trigger("email")
   }
 
   return (
