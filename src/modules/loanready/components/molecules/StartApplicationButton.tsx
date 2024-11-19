@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { APP_PATH } from "@/constants"
-import { FolderDown } from "lucide-react"
+import { ArrowRight, FolderDown } from "lucide-react"
 import { useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -8,24 +8,26 @@ interface StartApplicationButtonProps {
   loanProgramId?: string
   btnText?: string
   className?: string
+  showArrow?: boolean
 }
 
 export function StartApplicationButton(props: StartApplicationButtonProps) {
-  const { className } = props
+  const { showArrow, className, loanProgramId } = props
   const navigate = useNavigate()
 
   const onSubmit = useCallback(() => {
     navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.payment, {
       state: {
-        loanProgramId: props.loanProgramId
+        loanProgramId: loanProgramId
       }
     })
-  }, [navigate, props.loanProgramId])
+  }, [navigate, loanProgramId])
 
   return (
     <Button className={className} onClick={onSubmit}>
-      <FolderDown className="mr-1 w-4" />
+      {!showArrow && <FolderDown className="mr-1 w-4" />}
       <span className="font-medium">Start new application</span>
+      {showArrow ? <ArrowRight className="ml-1 w-4" /> : null}
     </Button>
   )
 }

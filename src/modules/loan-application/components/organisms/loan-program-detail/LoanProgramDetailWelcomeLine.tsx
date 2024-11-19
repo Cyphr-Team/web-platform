@@ -1,19 +1,36 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { useLoanProgramDetailContext } from "@/modules/loan-application/providers"
-import { isLaunchKC } from "@/utils/domain.utils"
+import { isLaunchKC, isLoanReady } from "@/utils/domain.utils"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 import { sanitizeDOM } from "@/utils/file.utils"
 
 export function LoanProgramDetailWelcomeLine() {
   const { isLoading, loanProgramDetails } = useLoanProgramDetailContext()
 
-  const welcomeMessage = isLaunchKC()
-    ? `Welcome to ${loanProgramDetails?.name}`
-    : loanProgramDetails?.name
+  const getWelcomeMessage = () => {
+    if (isLaunchKC()) {
+      return `Welcome to ${loanProgramDetails?.name}`
+    }
+
+    if (isLoanReady() && isEnableLoanReadyV2()) {
+      return "Welcome to LoanReady: Your Path to Small Business Success"
+    }
+
+    return loanProgramDetails?.name
+  }
+
+  const getDescription = () => {
+    if (isLoanReady() && isEnableLoanReadyV2()) {
+      return "Ready to grow your business? LoanReady is here to help you assess, prepare, and succeed in your funding journey."
+    }
+
+    return loanProgramDetails?.description
+  }
 
   return (
     <section>
       <h2 className="mb-6 text-[2rem] font-semibold">
-        {isLoading ? <Skeleton className="h-8 w-full" /> : welcomeMessage}
+        {isLoading ? <Skeleton className="h-8 w-full" /> : getWelcomeMessage()}
       </h2>
       <div className="whitespace-pre-wrap text-base">
         {isLoading ? (
@@ -21,7 +38,7 @@ export function LoanProgramDetailWelcomeLine() {
         ) : (
           <p
             dangerouslySetInnerHTML={{
-              __html: sanitizeDOM(loanProgramDetails?.description)
+              __html: sanitizeDOM(getDescription())
             }}
             className="text-justify"
           />
