@@ -32,7 +32,10 @@ import {
 } from "../constants/types/cashflow.type"
 import { type FullAmortizationResponse } from "../constants/types/debt-schedule.type"
 import { type LoanApplicationsKyc } from "../constants/types/kyc"
-import { type LoanSummary } from "../constants/types/loan-summary.type"
+import {
+  type ApplicationSummary,
+  type LoanSummary
+} from "../constants/types/loan-summary.type"
 import {
   type BaseCashFlowFilters,
   type CashFlowGlanceResponse
@@ -45,6 +48,8 @@ import { useQueryFullAmortization } from "../hooks/useQuery/useQueryFullAmortiza
 import { useQueryGetCashFlowAnalysis } from "../hooks/useQuery/useQueryGetCashFlowAnalysis"
 import { useQueryGetKyb } from "../hooks/useQuery/useQueryGetKyb"
 import { useQueryGetLoanSummary } from "../hooks/useQuery/useQueryLoanSummary"
+import { useQueryGetApplicationSummary } from "@/modules/loan-application-management/hooks/useQuery/useQueryApplicationSummary.ts"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 interface LoanApplicationDetailContextType {
   loanKybDetail?: ApplicationKybDetailResponse
@@ -60,6 +65,7 @@ interface LoanApplicationDetailContextType {
   isLoadingLoanSmartKycDetail: boolean
   isLoadingFullAmortization: boolean
   loanSummary?: LoanSummary
+  applicationSummary?: ApplicationSummary
   fullAmortization?: FullAmortizationResponse
   loanApplicationPreQualificationDetails?: PreQualificationResponse
   onChangeTransactionTags: (option: TRANSACTION_TAG[]) => void
@@ -116,6 +122,11 @@ export function LoanApplicationDetailProvider({ children }: PropsWithChildren) {
 
   const loanSummaryQuery = useQueryGetLoanSummary({
     applicationId: params.id
+  })
+
+  const applicationSummaryQuery = useQueryGetApplicationSummary({
+    applicationId: params.id,
+    enabled: isEnableFormV2()
   })
 
   const fullAmortizationQuery = useQueryFullAmortization({
@@ -244,11 +255,13 @@ export function LoanApplicationDetailProvider({ children }: PropsWithChildren) {
       loanSmartKycDetail: loanSmartKycDetailQuery.data,
       loanApplicationDetails: userLoanApplicationQuery.data,
       loanSummary: loanSummaryQuery.data,
+      applicationSummary: applicationSummaryQuery.data,
       fullAmortization: fullAmortizationQuery.data,
       cashFlowAnalysis: cashFlowQuery.data,
       cashFlowAccounts: bankAccountsQuery.data?.bankAccounts ?? [],
       filters,
-      isFetchingSummary: loanSummaryQuery.isLoading,
+      isFetchingSummary:
+        loanSummaryQuery.isLoading || applicationSummaryQuery.isLoading,
       isFetchingBankAccount: bankAccountsQuery.isFetching,
       isFetchingCashflow:
         cashFlowQuery.isLoading || bankAccountsQuery.isLoading,
@@ -275,6 +288,8 @@ export function LoanApplicationDetailProvider({ children }: PropsWithChildren) {
       userLoanApplicationQuery.data,
       loanSummaryQuery.data,
       loanSummaryQuery.isLoading,
+      applicationSummaryQuery.data,
+      applicationSummaryQuery.isLoading,
       fullAmortizationQuery.data,
       fullAmortizationQuery.isLoading,
       cashFlowQuery.data,

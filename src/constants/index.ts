@@ -381,6 +381,11 @@ export const API_PATH = {
     all: "api/workspace-admin/application",
     list: () => `${API_PATH.loanApplicationAdmin.all}/list`
   },
+  // For Lender (Admin/ Reviewer)
+  loanApplicationLender: {
+    getApplicationSummary: (applicationId: string) =>
+      `api/lender/applications/${applicationId}/summary`
+  },
   // For loan officer
   loanApplication: {
     details: (loanType: LoanType = LoanType.MICRO) =>

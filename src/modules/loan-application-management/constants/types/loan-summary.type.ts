@@ -33,6 +33,8 @@ import { type UseOfLoan } from "@/types/loan-application.type"
 import { type LoanApplicationsKyb } from "../type"
 import { type InsightStatus } from "./insight.type"
 import { type LoanApplicationsKyc } from "./kyc"
+import type { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { type FormV2 } from "@/types/formv2"
 
 enum SummaryCollectStatus {
   UNKNOWN = "UNKNOWN",
@@ -88,4 +90,22 @@ interface FinancialApplicationLoanSummary {
   revenueForm?: SubmitRevenueStreamResponse
 }
 
-export type { LoanSummary }
+type ApplicationSummary = {
+  applicationId: string
+  loanType: string
+  businessInfo: Pick<
+    LoanApplicationsKyb,
+    "businessName" | "tin" | "formation" | "officeAddresses" | "phoneNumber"
+  >
+  confirmationForm?: ConfirmationFormResponse
+  forms: ApplicationSummaryForm[]
+} & Pick<LoanApplicationsKyc, "personalInfo" | "checkLists"> & {
+    financialApplicationForm?: FinancialApplicationLoanSummary
+  }
+
+interface ApplicationSummaryForm {
+  formType: FORM_TYPE
+  forms: FormV2[]
+}
+
+export type { LoanSummary, ApplicationSummary, ApplicationSummaryForm }
