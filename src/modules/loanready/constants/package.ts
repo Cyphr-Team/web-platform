@@ -14,15 +14,33 @@ const LoanReadyPlan = {
   }
 }
 
-const LoanReadyPlanOptions = {
-  [LoanReadyPlanEnum.BASIC]: {
-    label: "Loan Ready",
-    price: LoanReadyPlan[LoanReadyPlanEnum.BASIC].price
+const LoanReadyPlanOptions = [
+  {
+    label: "LoanReady",
+    value: LoanReadyPlanEnum.BASIC,
+    price: LoanReadyPlan[LoanReadyPlanEnum.BASIC].price,
+    description: [
+      {
+        id: "desc1",
+        text: "Receive a loan readiness score along with tailored feedback to boost your approval chances."
+      }
+    ]
   },
-  [LoanReadyPlanEnum.PLUS]: {
-    label: "Loan Ready+",
-    price: LoanReadyPlan[LoanReadyPlanEnum.PLUS].price
+  {
+    label: "LoanReady+",
+    value: LoanReadyPlanEnum.PLUS,
+    price: LoanReadyPlan[LoanReadyPlanEnum.PLUS].price,
+    description: [
+      {
+        id: "desc1",
+        text: "Receive a loan readiness score along with tailored feedback to boost your approval chances."
+      },
+      {
+        id: "desc2",
+        text: "Includes a generated income statement to simplify your loan application process."
+      }
+    ]
   }
-}
+]
 
 export { LoanReadyPlanEnum, LoanReadyPlan, LoanReadyPlanOptions }

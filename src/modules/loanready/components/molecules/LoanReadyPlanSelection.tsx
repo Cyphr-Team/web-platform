@@ -1,48 +1,22 @@
 import { cn } from "@/lib/utils.ts"
 import { Button } from "@/components/ui/button"
-import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package"
+import {
+  LoanReadyPlanOptions,
+  type LoanReadyPlanEnum
+} from "@/modules/loanready/constants/package"
 import { useFormContext } from "react-hook-form"
-
-const loanOptions = [
-  {
-    label: "Loan Ready",
-    value: LoanReadyPlanEnum.BASIC,
-    price: "$99",
-    description: [
-      {
-        id: "desc1",
-        text: "Receive a loan readiness score along with tailored feedback to boost your approval chances."
-      }
-    ]
-  },
-  {
-    label: "Loan Ready+",
-    value: LoanReadyPlanEnum.PLUS,
-    price: "$150",
-    description: [
-      {
-        id: "desc1",
-        text: "Receive a loan readiness score along with tailored feedback to boost your approval chances."
-      },
-      {
-        id: "desc2",
-        text: "Includes a generated income statement to simplify your loan application process."
-      }
-    ]
-  }
-]
 
 export function LoanReadyPlanSelection() {
   const form = useFormContext()
 
-  const handleOptionClick = async (value: string) => {
+  const handleOptionClick = async (value: LoanReadyPlanEnum) => {
     form.setValue("package", value)
     await form.trigger("package")
   }
 
   return (
     <div className="mb-8 flex flex-col gap-4">
-      {loanOptions.map((option) => (
+      {LoanReadyPlanOptions.map((option) => (
         <Button
           key={option.value}
           className={cn(
@@ -69,7 +43,7 @@ export function LoanReadyPlanSelection() {
               {option.label}
             </div>
             <span className="font-normal text-gray-600">
-              {option.price}/application
+              ${option.price / 100}/application
             </span>
           </div>
           <ul className="overflow-wrap mt-1 w-full list-disc whitespace-normal pl-10 text-left font-normal">

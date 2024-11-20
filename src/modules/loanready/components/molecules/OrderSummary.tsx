@@ -11,7 +11,7 @@ interface OrderSummaryProps {
 
 export function OrderSummary({ selectedPlan }: OrderSummaryProps) {
   const selectedPlanDetail =
-    (selectedPlan && LoanReadyPlanOptions[selectedPlan]) || null
+    LoanReadyPlanOptions.find((plan) => plan.value === selectedPlan) || null
 
   return (
     <div>

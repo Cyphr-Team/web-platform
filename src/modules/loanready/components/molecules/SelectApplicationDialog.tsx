@@ -8,9 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { Icons } from "@/components/ui/icons.tsx"
 import { useSearchOrderLoanApplications } from "@/modules/loanready/hooks/applications/order-list.ts"
 import { formatDate } from "@/utils/date.utils.ts"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants.ts"
@@ -21,18 +19,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 
 interface SelectApplicationDialogProps {
   isOpen: boolean
-  onClose: VoidFunction
+  onCanceled: VoidFunction
   onConfirmed: (applicationId?: string) => void
 }
 
 // Define schema for form
 const applicationSchema = z.object({
-  applicationId: z.string().optional() // Optional if creating a new application
+  applicationId: z.string().optional() // Optional to allow "New Application"
 })
 
 export function SelectApplicationDialog({
   isOpen,
-  onClose,
+  onCanceled,
   onConfirmed
 }: SelectApplicationDialogProps) {
   // Setup useForm
@@ -64,22 +62,45 @@ export function SelectApplicationDialog({
 
   const handleCancel = () => {
     form.setValue("applicationId", undefined)
-    onClose()
+    onCanceled()
   }
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
+    <AlertDialog open={isOpen} onOpenChange={onCanceled}>
       <AlertDialogContent className="flex h-2/3 flex-col px-0 pb-0">
         <AlertDialogHeader className="px-6">
           <AlertDialogTitle>Select application</AlertDialogTitle>
           <AlertDialogDescription className="break-keep">
-            Choose an application below to use for Loan Ready+, or start a new
+            Choose an application below to use for LoanReady+, or start a new
             one if you prefer. By selecting 'Done,' you confirm your purchase.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="mt-2 grow space-y-3 px-6">
           <p className="text-base font-semibold">Applications</p>
           <div className="max-h-80 overflow-y-auto">
+            <Separator />
+            {/* New Application item as the first option */}
+            <label
+              className="flex cursor-pointer items-center justify-between py-3 pr-2"
+              htmlFor="new-application"
+            >
+              <div className="text-sm">
+                <p className="font-medium">New Application</p>
+                <p className="text-gray-600">Start a new application</p>
+              </div>
+              <div className="relative flex items-center">
+                <input
+                  className="peer size-5 cursor-pointer appearance-none rounded-full border border-slate-300 transition-all checked:border-slate-400"
+                  id="new-application"
+                  type="radio"
+                  value="" // Empty value represents a new application
+                  {...form.register("applicationId")}
+                />
+                <span className="absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-800 opacity-0 transition-opacity duration-200 peer-checked:opacity-100" />
+              </div>
+            </label>
+
+            {/* Existing applications */}
             {!isFetching &&
               data?.data.data.map((application) => (
                 <div key={application.id}>
@@ -117,20 +138,14 @@ export function SelectApplicationDialog({
           </div>
         </div>
         <Separator />
-        <AlertDialogFooter className="px-6 pb-4 sm:justify-between">
-          <Button variant="outline" onClick={() => handleConfirm()}>
-            <Icons.newApplication className="mr-1" />
-            New application
-          </Button>
-          <div className="flex space-x-2">
-            <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              disabled={!form.watch("applicationId")} // Disable when no application selected
-              onClick={form.handleSubmit(handleConfirm)}
-            >
-              Done
-            </AlertDialogAction>
-          </div>
+        <AlertDialogFooter className="px-6 pb-4">
+          <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            disabled={form.watch("applicationId") === undefined} // Enable when any value is selected, including an empty string ""
+            onClick={form.handleSubmit(handleConfirm)}
+          >
+            Done
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

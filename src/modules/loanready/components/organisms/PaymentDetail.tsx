@@ -3,7 +3,7 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useStripe } from "@stripe/react-stripe-js"
+import { useElements, useStripe } from "@stripe/react-stripe-js"
 import { LoanReadyPlanSelection } from "@/modules/loanready/components/molecules/LoanReadyPlanSelection"
 import { Separator } from "@/components/ui/separator"
 import { SelectApplicationDialog } from "@/modules/loanready/components/molecules/SelectApplicationDialog"
@@ -35,6 +35,7 @@ export function PaymentDetail() {
   // Page states
   const { state } = useLocation()
   const navigate = useNavigate()
+  const elements = useElements()
 
   // Boolean States
   const isSelectAppDialogOpen = useBoolean(false)
@@ -161,6 +162,28 @@ export function PaymentDetail() {
     await mutatePayment(applicationId)
   }
 
+  const clearForm = () => {
+    form.reset()
+    if (elements) {
+      elements.getElement("payment")?.clear()
+      elements?.getElement("address")?.clear()
+      elements?.getElement("linkAuthentication")?.clear()
+    }
+
+    isPaymentElementValid.onFalse()
+    isAddressElementValid.onFalse()
+  }
+
+  const handleSelectAppDialogCancel = () => {
+    clearForm()
+    isSelectAppDialogOpen.onFalse()
+  }
+
+  const handleConfirmPurchaseDialogCancel = () => {
+    clearForm()
+    isConfirmPurchaseDialogOpen.onFalse()
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit((data) => onSubmit(data))}>
@@ -211,7 +234,7 @@ export function PaymentDetail() {
 
             <SelectApplicationDialog
               isOpen={isSelectAppDialogOpen.value}
-              onClose={() => isSelectAppDialogOpen.onFalse()}
+              onCanceled={handleSelectAppDialogCancel}
               onConfirmed={handleLoanReadyPlusPurchase}
             />
             <CustomAlertDialog
@@ -225,7 +248,7 @@ export function PaymentDetail() {
               }
               isOpen={isConfirmPurchaseDialogOpen.value}
               title="Confirm your purchase"
-              onCanceled={() => isConfirmPurchaseDialogOpen.onFalse()}
+              onCanceled={handleConfirmPurchaseDialogCancel}
               onConfirmed={() => handlePurchase()}
             />
           </div>
