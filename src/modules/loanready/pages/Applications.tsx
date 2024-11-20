@@ -11,6 +11,7 @@ import LoanApplicationsPage from "@/modules/loanready/pages/LoanApplications.tsx
 import { StartApplicationButton } from "@/modules/loanready/components/molecules/StartApplicationButton.tsx"
 import { EmptyApplications } from "@/modules/loanready/pages/EmptyApplications"
 import { useQueryGetLoanPrograms } from "@/modules/loan-application/hooks/useQuery/useQueryLoanPrograms"
+import { UnusedReportBanner } from "@/modules/loan-application/components/atoms/EmptyApplications.tsx"
 
 export function Component() {
   if (isEnableLoanReadyV2()) return <LoanReadyApplications />
@@ -49,6 +50,10 @@ export default function LoanReadyApplications() {
       <p className="mb-2 mt-1">
         Keep track of your account applications and their statuses
       </p>
+
+      <div className="mt-4">
+        <UnusedReportBanner />
+      </div>
 
       {!isFetching && !data?.data.data?.length ? (
         <EmptyApplications loanProgramId={loanPrograms.data?.data[0].id} />

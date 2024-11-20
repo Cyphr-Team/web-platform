@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { APP_PATH } from "@/constants"
-import { HelpCircle, Plus } from "lucide-react"
-import { Link } from "react-router-dom"
+import { FileText, HelpCircle, Plus } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
+import { useFinancialToolkitStore } from "@/modules/legacy-financial-projection/stores/useFinancialToolkitStore.ts"
+import { toast } from "sonner"
 
 interface EmptyApplicationsProps {
   hideBtnStart?: boolean
@@ -35,6 +37,65 @@ export function EmptyApplications({
           </Button>
         </Link>
       )}
+    </div>
+  )
+}
+
+export function UnusedReportBanner({ purchaseDate = new Date() }) {
+  const navigate = useNavigate()
+  const x = useFinancialToolkitStore()
+
+  // Format date to readable string
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    }).format(date)
+  }
+
+  return (
+    <div className="w-full bg-blue-50 border border-blue-100 rounded-lg">
+      <div className="p-4 flex items-center justify-between">
+        {/* Left section with icon and title */}
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
+            <FileText className="w-5 h-5 text-blue-600" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">
+              You have unused application slot ready to use
+            </p>
+          </div>
+        </div>
+
+        {/* Middle section with details */}
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-600" />
+            <span className="text-sm font-medium text-blue-600">Unused</span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <div className="text-sm text-gray-600">
+              Purchased on {formatDate(purchaseDate)}
+            </div>
+          </div>
+        </div>
+
+        <Button
+          className="gap-2"
+          type="button"
+          onClick={() => {
+            navigate(
+              "/loan/loan-program/e0f70f20-da08-4567-964b-cfdc12d94d1a/information"
+            )
+            if (x.ching !== null) toast.dismiss(x.ching)
+            x.action.chong(null)
+          }}
+        >
+          Start application
+        </Button>
+      </div>
     </div>
   )
 }

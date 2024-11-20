@@ -2,16 +2,16 @@ import { create } from "zustand"
 import { createSelectors } from "@/utils/store.ts"
 
 interface FinancialToolkitSlice {
-  ching: string
+  ching: string | number | null
   action: {
-    chong: VoidFunction
+    chong: (a: string | number | null) => void
   }
 }
 
 const useFinancialToolkitStoreBase = create<FinancialToolkitSlice>()((set) => ({
   ching: "",
   action: {
-    chong: () => set({ ching: "chong" })
+    chong: (a) => set({ ching: a })
   }
 }))
 

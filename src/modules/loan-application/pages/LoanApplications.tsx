@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress"
 import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { cn } from "@/lib/utils"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
-import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
+import { UnusedReportBanner } from "@/modules/loan-application/components/atoms/EmptyApplications"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import {
   EDITABLE_STATUSES,
@@ -59,11 +59,14 @@ export function Component() {
         {isSbb() ? "Account Applications" : "Your Applications"}
       </h1>
       <p className="mt-1 text-text-tertiary">
-        Keep track of your applications and their statuses
+        Keep track of your applications and their statuses 123
       </p>
 
       {!isFetching && !data?.pages[0]?.data?.length ? (
-        <EmptyApplications />
+        // <EmptyApplications />
+        <div className="mt-4">
+          <UnusedReportBanner />
+        </div>
       ) : (
         <InfiniteDataTable
           columns={getFilteredColumns()}
@@ -75,6 +78,7 @@ export function Component() {
     </div>
   )
 }
+
 Component.displayName = "ApplicantLoanApplications"
 
 interface NavigationConfig {
