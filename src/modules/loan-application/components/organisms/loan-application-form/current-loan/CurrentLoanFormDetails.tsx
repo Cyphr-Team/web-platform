@@ -8,11 +8,14 @@ import {
 } from "@/modules/loan-application/constants/type.ts"
 
 import { get } from "lodash"
+import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 interface CurrentLoanFormDetailsProps {
   currentLoanFormData?:
     | CurrentLoanInformationResponse[]
     | CurrentLoansInformationResponse
+    | CurrentLoanFormsV2Value
 }
 
 export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
@@ -23,16 +26,20 @@ export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
       ? currentLoanFormData
       : get(currentLoanFormData, "currentLoanForms", [])
 
+  const dataToUse = isEnableFormV2()
+    ? (currentLoanFormData as CurrentLoanFormsV2Value)?.currentLoans ?? []
+    : currentLoanForms
+
   return (
     <Card
       className="loan-application-item flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none"
       id="current-loans"
     >
       <h5 className="text-lg font-semibold">Current Loans</h5>
-      {currentLoanForms?.length == 0 ? (
+      {dataToUse?.length == 0 ? (
         <span className="text-sm text-muted-foreground">No results</span>
       ) : (
-        currentLoanForms?.map((currentLoanForm, index) => (
+        dataToUse?.map((currentLoanForm, index) => (
           <Card
             key={currentLoanForm.id}
             className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl shadow-none"

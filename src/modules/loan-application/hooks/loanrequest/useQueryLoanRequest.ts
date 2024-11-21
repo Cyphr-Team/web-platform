@@ -5,9 +5,9 @@ import { isEnableFormV2 } from "@/utils/feature-flag.utils"
 import { QUERY_KEY } from "../../constants/query-key"
 import type { FORM_TYPE } from "../../models/LoanApplicationStep/type"
 import type { ILoanRequestFormValue } from "../../constants/form"
-import { mapMetadataToLoanRequest } from "../../services/form.services"
 import { get } from "lodash"
 import { type LoanRequestV2 } from "../../constants/type"
+import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
 
 interface LoanRequestV2Request {
   applicationId: string

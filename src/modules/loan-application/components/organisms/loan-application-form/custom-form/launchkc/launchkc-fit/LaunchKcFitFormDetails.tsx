@@ -4,11 +4,20 @@ import { questions } from "./constants"
 import { type LaunchKcFitFormResponse } from "./type"
 import { get } from "lodash"
 import { AnswersTextDisplay } from "@/modules/loan-application/components/atoms/AnswersTextDisplay"
+import { type LaunchKCFitFormValue } from "@/modules/loan-application/constants/form.ts"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+
 interface Props {
   data?: LaunchKcFitFormResponse
+  dataV2?: LaunchKCFitFormValue
 }
 
-export const LaunchKcFitFormDetails: React.FC<Props> = ({ data }) => {
+export const LaunchKcFitFormDetails: React.FC<Props> = ({
+  data,
+  dataV2
+}: Props) => {
+  const dataToUse = isEnableFormV2() ? dataV2 : data
+
   return (
     <Card className="loan-application-item flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">
       <h5 className="text-lg font-semibold">LaunchKC Fit</h5>
@@ -18,20 +27,20 @@ export const LaunchKcFitFormDetails: React.FC<Props> = ({ data }) => {
             <AnswersTextDisplay
               key={ind}
               label={item.question}
-              value={get(data, item.field, "")}
+              value={get(dataToUse, item.field, "")}
             />
           ))}
           <AnswersTextDisplay
             key="applied"
             className="!flex-row justify-between"
             label="Have you applied to LaunchKC previously"
-            value={data?.applied ? "Yes" : "No"}
+            value={dataToUse?.applied ? "Yes" : "No"}
           />
-          {data?.applied ? (
+          {dataToUse?.applied ? (
             <AnswersTextDisplay
               key="progress"
               label="If Yes, what progress, have you made since your previous application"
-              value={data?.progress}
+              value={dataToUse?.progress}
             />
           ) : null}
         </div>

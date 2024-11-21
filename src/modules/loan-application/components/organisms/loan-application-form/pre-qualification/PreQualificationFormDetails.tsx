@@ -4,12 +4,17 @@ import { AnswersTextDisplay } from "../../../atoms/AnswersTextDisplay"
 import { options } from "./constants"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 import { Separator } from "@/components/ui/separator.tsx"
+import { type PreQualificationFormValue } from "@/modules/loan-application/constants/form.ts"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 interface Props {
   data?: PreQualificationResponse
+  dataV2?: PreQualificationFormValue
 }
 
-export function PreQualificationFormDetails({ data }: Props) {
+export function PreQualificationFormDetails({ data, dataV2 }: Props) {
+  const dataToUse = isEnableFormV2() ? dataV2 : data
+
   return (
     <FormLayout
       hideTopNavigation
@@ -48,7 +53,8 @@ export function PreQualificationFormDetails({ data }: Props) {
           label="Your company is located in, or willing to establish an operating presence within the Kansas City, Missouri county lines for at least one year."
           value={
             options.filter(
-              (option) => option.value === data?.willingToOperateInKansasCityMo
+              (option) =>
+                option.value === dataToUse?.willingToOperateInKansasCityMo
             )[0]?.label
           }
         />

@@ -14,7 +14,7 @@ enum FORM_TYPE {
   BUSINESS_MODEL = "business_model",
   EXECUTION = "execution",
   DOCUMENT_UPLOADS = "document_uploads",
-  LAUNCH_KC_FIT = "launch_kc_fit",
+  LAUNCHKC_FIT = "launchkc_fit",
   PRE_QUALIFICATION = "pre_qualification",
   BUSINESS_EIN_LETTER = "business_ein_letter",
   CERTIFICATE_OF_GOOD_STANDING = "certificate_of_good_standing",

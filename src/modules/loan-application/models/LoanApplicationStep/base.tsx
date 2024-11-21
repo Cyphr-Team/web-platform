@@ -404,7 +404,7 @@ export class LoanApplicationStep {
         ...this.#steps,
         {
           step: LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT,
-          formType: FORM_TYPE.LAUNCH_KC_FIT,
+          formType: FORM_TYPE.LAUNCHKC_FIT,
           label: "LaunchKC Fit",
           parent: STEP_MENU.APPLICATION,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE

@@ -10,7 +10,6 @@ import {
   businessFormSchema,
   type BusinessFormValue,
   type IBusinessFormValue,
-  type ILoanRequestFormValue,
   type IOwnerFormValue,
   launchKCBusinessFormSchema,
   launchKCOwnerFormSchema,
@@ -325,21 +324,5 @@ const getSbbKybMetadata = (rawData: KYBInformationResponse) => {
       ...sbbKybFormPartTwoValues,
       id: rawData.id
     } as SbbKybFormPartTwoValue
-  }
-}
-
-export const mapLoanRequestDataToV2 = (rawData: ILoanRequestFormValue) => {
-  return {
-    loanAmount: rawData?.loanAmount,
-    proposeUseOfLoan: rawData?.proposeUseOfLoan
-  }
-}
-
-export const mapMetadataToLoanRequest = (
-  metadata: Record<string, unknown> | undefined
-) => {
-  return {
-    loanAmount: get(metadata, "loanAmount", 0) as number,
-    proposeUseOfLoan: get(metadata, "proposeUseOfLoan", "other") as string
   }
 }

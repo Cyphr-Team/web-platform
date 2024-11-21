@@ -18,16 +18,23 @@ import {
 import { FoundersDetails } from "./FoundersDetails"
 import { FundingSourceDetails } from "./FundingSourceDetails"
 import { type ExecutionFormResponse } from "./type"
+import { type ExecutionFormValue } from "@/modules/loan-application/constants/form.ts"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 interface Props {
   data?: ExecutionFormResponse
+  dataV2?: ExecutionFormValue
 }
 
-export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
+export const ExecutionFormDetails: React.FC<Props> = ({ data, dataV2 }) => {
   const businessModels = useMemo(() => {
     const businessModelOptions = getOptionsByField(
       LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL
     )
+
+    if (isEnableFormV2()) {
+      return dataV2?.businessModels
+    }
 
     // TODO: we've won... but at what cost?
     return (
@@ -46,7 +53,9 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
             .join(": ")
         ) ?? []
     )
-  }, [data?.businessModels])
+  }, [dataV2?.businessModels, data?.businessModels])
+
+  const dataToUse = isEnableFormV2() ? dataV2 : data
 
   return (
     <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">
@@ -59,7 +68,7 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
             label="How much cash does your company go through each month?"
             value={getLabelByValue(
               get(
-                data,
+                dataToUse,
                 LAUNCH_KC_EXECUTION_FIELD_NAMES.MONTHLY_EXPENSE_RANGE,
                 ""
               ),
@@ -72,14 +81,18 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
             <AnswersTextDisplay
               key={ind}
               label={item.question}
-              value={get(data, item.field, "") as string}
+              value={get(dataToUse, item.field, "") as string}
             />
           ))}
           <AnswersTextDisplay
             key="businessStage"
             label="Which best describes the current stage of your product or service?"
             value={getLabelByValue(
-              get(data, LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_STAGE, ""),
+              get(
+                dataToUse,
+                LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_STAGE,
+                ""
+              ),
               getOptionsByField(LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_STAGE)
             )}
           />
@@ -92,7 +105,11 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
             key="partnershipType"
             label="What alliances or partnerships have you entered? (You can select more than 1)"
             value={getLabelsByValues(
-              get(data, LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE, []),
+              get(
+                dataToUse,
+                LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE,
+                []
+              ),
               getOptionsByField(
                 LAUNCH_KC_EXECUTION_FIELD_NAMES.PARTNERSHIP_TYPE
               )
@@ -100,10 +117,14 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data }) => {
           />
         </div>
         <FoundersDetails
-          data={get(data, LAUNCH_KC_EXECUTION_FIELD_NAMES.FOUNDERS, [])}
+          data={get(dataToUse, LAUNCH_KC_EXECUTION_FIELD_NAMES.FOUNDERS, [])}
         />
         <FundingSourceDetails
-          data={get(data, LAUNCH_KC_EXECUTION_FIELD_NAMES.FUNDING_SOURCES, [])}
+          data={get(
+            dataToUse,
+            LAUNCH_KC_EXECUTION_FIELD_NAMES.FUNDING_SOURCES,
+            []
+          )}
         />
       </div>
     </Card>

@@ -52,7 +52,7 @@ const enum FormItemFields {
   AnnualInterestRate = "annualInterestRate"
 }
 
-const currentLoansFormSchema = z
+export const currentLoansFormSchema = z
   .object({
     [FormFields.Id]: z.string().optional(),
     [FormFields.HasOutstandingLoans]: z

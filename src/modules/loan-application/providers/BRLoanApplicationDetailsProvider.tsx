@@ -69,7 +69,6 @@ import {
   LOAN_APPLICATION_STEPS
 } from "../models/LoanApplicationStep/type"
 import {
-  mapMetadataToLoanRequest,
   reverseFormatCurrentLoansForm,
   reverseFormatKybForm,
   reverseFormatKycForm,
@@ -88,6 +87,7 @@ import {
   useQueryLoanRequestForm
 } from "../hooks/loanrequest/useQueryLoanRequest"
 import { get } from "lodash"
+import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse

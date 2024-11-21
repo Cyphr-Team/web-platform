@@ -42,6 +42,8 @@ import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/use
 import { useParams } from "react-router-dom"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import { LaunchKCSummary } from "@/modules/loan-application-management/pages/launch-kc/loan-summary.tsx"
 
 export function Component() {
   const params = useParams()
@@ -146,6 +148,10 @@ export function Component() {
       elementToExportRef={elementToExportRef}
     />
   )
+
+  if (isEnableFormV2() && isLaunchKC()) {
+    return <LaunchKCSummary />
+  }
 
   return (
     <div className="w-full gap-3xl lg:flex" id="loan-summary">

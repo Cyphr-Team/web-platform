@@ -6,7 +6,6 @@ import type {
   LoanRequestV2UpdateRequest
 } from "../../constants/type"
 import type { ILoanRequestFormValue } from "../../constants/form"
-import { mapMetadataToLoanRequest } from "../../services/form.services"
 import { QUERY_KEY } from "../../constants/query-key"
 import {
   useSubmitFormV2,
@@ -16,6 +15,7 @@ import { API_PATH } from "@/constants"
 import { toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg.ts"
 import { getAxiosError } from "@/utils/custom-error.ts"
+import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
 
 // submit or update must be defined
 // update will have higher priority than submit
