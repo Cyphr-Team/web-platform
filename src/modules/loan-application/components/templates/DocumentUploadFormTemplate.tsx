@@ -30,6 +30,16 @@ import { useDeleteSbbDocument } from "@/modules/loan-application/hooks/useMutati
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
+type BaseFormValue = string | File[] | DocumentUploadedResponse[] | boolean
+
+type BaseUploadFormSchema = ZodObject<
+  Record<string, ZodTypeAny>,
+  "strip",
+  ZodTypeAny,
+  Record<string, BaseFormValue>,
+  Record<string, BaseFormValue>
+>
+
 /**
  * This implementation is only work on the schema like this
  * {
@@ -41,19 +51,14 @@ import { FormLayout } from "@/modules/loan-application/components/layouts/FormLa
  * case for simple.
  * TODO: make this template work with all type of schema like multiple file upload in singe form.
  * */
-interface Props {
+interface DocumentUploadFormTemplateProps {
   title: string
   description: string
   hasCheckbox?: boolean
   checkboxLabel?: string
-  schema: ZodObject<
-    Record<string, ZodTypeAny>,
-    "strip",
-    ZodTypeAny,
-    Record<string, string | File[] | DocumentUploadedResponse[] | boolean>,
-    Record<string, string | File[] | DocumentUploadedResponse[] | boolean>
-  >
+  schema: BaseUploadFormSchema
   specificStep: LOAN_APPLICATION_STEPS
+  isMultiple?: false
 }
 
 export function DocumentUploadFormTemplate({
@@ -63,7 +68,7 @@ export function DocumentUploadFormTemplate({
   checkboxLabel,
   schema,
   specificStep
-}: Props) {
+}: DocumentUploadFormTemplateProps) {
   // Define a new local type based on the schema
   type FormType = zodInfer<typeof schema>
 
@@ -73,8 +78,13 @@ export function DocumentUploadFormTemplate({
   const formState = useLoanApplicationFormContext()
   const { dispatchFormAction } = formState
 
-  const [fileField, uploadedFileField, formIdField, checkboxField] =
-    Object.keys(schema.shape)
+  const [
+    fileField,
+    uploadedFileField,
+    deleteFilesField,
+    formIdField,
+    checkboxField
+  ] = Object.keys(schema.shape)
   const form = useForm<FormType>({
     resolver: zodResolver(schema),
     mode: "onChange",
@@ -83,7 +93,12 @@ export function DocumentUploadFormTemplate({
       const data: FormType = {
         [fileField]: get(formState[specificStep], fileField, []),
         [formIdField]: get(formState[specificStep], formIdField, ""),
-        [uploadedFileField]: get(formState[specificStep], uploadedFileField, [])
+        [uploadedFileField]: get(
+          formState[specificStep],
+          uploadedFileField,
+          []
+        ),
+        [deleteFilesField]: get(formState[specificStep], deleteFilesField, [])
       }
 
       // if the checkboxField contain in form

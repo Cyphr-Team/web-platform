@@ -8,6 +8,7 @@ import { LoanType, type MicroLoanProgramType } from "@/types/loan-program.type"
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   formsConfigurationEnabled,
+  isEnableFormV2,
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
 
@@ -88,6 +89,7 @@ import {
 } from "../hooks/loanrequest/useQueryLoanRequest"
 import { get } from "lodash"
 import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
+import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/useForm/document/useGetDocumentForm.ts"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -297,6 +299,7 @@ export function BRLoanApplicationDetailsProvider({
 
   // SBB document form
   const sbbDocumentQuery = useQuerySbbDocumentForm(loanApplicationId)
+  const sbbDocumentFormMappingQuery = useGetSBBDocumentForms(loanApplicationId)
 
   const changeDataAndProgress = useCallback(
     (data: FormStateType, progress: LOAN_APPLICATION_STEPS, isDone = true) => {
@@ -771,9 +774,63 @@ export function BRLoanApplicationDetailsProvider({
   ])
 
   /**
+   * TODO - Remove "Handle SBB document query" after FormV2 Roll out
    * Handle SBB document query
    * */
   useEffect(() => {
+    if (!isEnableFormV2()) return
+    const sbbDocumentFormMapping = sbbDocumentFormMappingQuery.data
+
+    if (!sbbDocumentFormMapping) return
+
+    const StepMapping = new Map([
+      [
+        FORM_TYPE.BUSINESS_EIN_LETTER,
+        LOAN_APPLICATION_STEPS.BUSINESS_EIN_LETTER
+      ],
+      [
+        FORM_TYPE.CERTIFICATE_OF_GOOD_STANDING,
+        LOAN_APPLICATION_STEPS.CERTIFICATE_GOOD_STANDING
+      ],
+      [
+        FORM_TYPE.FICTITIOUS_NAME_CERTIFICATION,
+        LOAN_APPLICATION_STEPS.FICTITIOUS_NAME_CERTIFICATION
+      ],
+      [
+        FORM_TYPE.ARTICLES_OF_ORGANIZATION,
+        LOAN_APPLICATION_STEPS.ARTICLES_OF_ORGANIZATION
+      ],
+      [FORM_TYPE.BY_LAWS, LOAN_APPLICATION_STEPS.BY_LAWS]
+    ])
+
+    const updateDocumentFormStepStatus = (
+      formType: FORM_TYPE,
+      step: LOAN_APPLICATION_STEPS
+    ) => {
+      const documentFormResponse = get(sbbDocumentFormMapping, formType)
+
+      if (documentFormResponse.status !== "fulfilled") return
+
+      changeDataAndProgress(
+        {
+          formId: documentFormResponse.detail.id,
+          files: [],
+          uploadedFiles: documentFormResponse.detail.documents,
+          deleteFiles: [],
+          notHaveDoc: documentFormResponse.detail.documents.length === 0
+        },
+        step
+      )
+    }
+
+    ;[...StepMapping].forEach(([formType, step]) =>
+      updateDocumentFormStepStatus(formType, step)
+    )
+  }, [changeDataAndProgress, sbbDocumentFormMappingQuery.data])
+
+  useEffect(() => {
+    if (isEnableFormV2()) return
+
     const data = sbbDocumentQuery.data
 
     if (data?.id) {

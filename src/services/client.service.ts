@@ -211,3 +211,21 @@ export const requestToFormData = (requestBody: {
 
   return formData
 }
+
+export const toFormData = (requestBody: object): FormData => {
+  const formData = new FormData()
+
+  for (const [key, value] of Object.entries(requestBody)) {
+    if (Array.isArray(value)) {
+      value.forEach((file: File) => {
+        formData.append(key, file)
+      })
+    } else if (typeof value === "object" && value !== null) {
+      formData.append(key, JSON.stringify(value))
+    } else {
+      formData.append(key, value + "")
+    }
+  }
+
+  return formData
+}

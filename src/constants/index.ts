@@ -368,6 +368,12 @@ export const API_PATH = {
         index: "api/form/v2/loan-request/by-application-id",
         submit: "api/form/v2/loan-request/submit",
         update: "api/form/v2/loan-request/update"
+      },
+      documentForm: {
+        create: "api/form/documents/create",
+        update: "api/form/documents/update",
+        delete: "api/form/documents/delete",
+        detail: "api/form/documents/by-application-id"
       }
     }
   },

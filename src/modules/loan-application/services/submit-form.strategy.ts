@@ -42,7 +42,6 @@ import {
 import { type MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
 import { type ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import type {
-  ILoanRequestFormValue,
   BusinessModelFormValue,
   ConfirmationFormValue,
   CurrentLoansFormValue,
@@ -52,6 +51,7 @@ import type {
   FinancialFormValue,
   IBusinessFormValue,
   IdentityVerificationValue,
+  ILoanRequestFormValue,
   IOwnerFormValue,
   LaunchKCFitFormValue,
   LoanRequestFormValue,
@@ -98,6 +98,7 @@ import {
 import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
 import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 import { useMutateLoanRequest } from "../hooks/loanrequest/useSubmitLoanRequest"
+import { useUploadDocumentForm } from "@/modules/loan-application/hooks/useForm/document/useUploadDocumentForm.ts"
 import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication"
 import { useGetLoanReadySubscription } from "@/modules/loanready/hooks/payment/useGetLoanReadySubscription"
 import { has } from "lodash"
@@ -395,6 +396,23 @@ export const useSubmitLoanForm = (
       certificateGoodStandingData,
       fictitiousNameCertificationData
     })
+
+  const { uploadDocumentForm, isLoading: isUploadingDocumentForm } =
+    useUploadDocumentForm()
+  const uploadSbbDocumentForm = async (applicationId: string) => {
+    const sbbDocumentFormMapping = new Map([
+      [FORM_TYPE.ARTICLES_OF_ORGANIZATION, articlesOfOrganizationData],
+      [FORM_TYPE.BUSINESS_EIN_LETTER, businessEinLetterData],
+      [FORM_TYPE.BY_LAWS, byLawsData],
+      [FORM_TYPE.CERTIFICATE_OF_GOOD_STANDING, certificateGoodStandingData],
+      [FORM_TYPE.FICTITIOUS_NAME_CERTIFICATION, fictitiousNameCertificationData]
+    ])
+
+    return uploadDocumentForm({
+      applicationId,
+      documentFormMapping: sbbDocumentFormMapping
+    })
+  }
 
   const { uploadDocuments, isUploading } = useUploadFormDocuments()
 
@@ -697,7 +715,11 @@ export const useSubmitLoanForm = (
 
       // submit sbb forms
       if (isSbb()) {
-        submitPromises.push(submitSbbDocument(loanRequestId))
+        if (isEnableFormV2()) {
+          submitPromises.push(uploadSbbDocumentForm(loanRequestId))
+        } else {
+          submitPromises.push(submitSbbDocument(loanRequestId))
+        }
       }
 
       if (
@@ -877,6 +899,7 @@ export const useSubmitLoanForm = (
       isSubmittingESignDocument ||
       isUploadingBusinessDocuments ||
       isSubmittingSbbDocument ||
+      isUploadingDocumentForm ||
       isSubmittingSbbKYB ||
       isSubmittingFinancialProjection
   }
