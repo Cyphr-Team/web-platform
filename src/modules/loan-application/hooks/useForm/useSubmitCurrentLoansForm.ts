@@ -9,12 +9,12 @@ import { useDeleteCurrentLoanInformation } from "../useMutation/useDeleteCurrent
 import { useSubmitCurrentLoansInformation } from "../useMutation/useSubmitCurrentLoansInformation"
 import { useUpdateCurrentLoanInformation } from "../useMutation/useUpdateCurrentLoanInformation"
 
-interface Props {
+interface Args {
   rawData: CurrentLoansFormValue
   onSuccess: (data: CurrentLoansInformationResponse) => void
 }
 
-export const useSubmitCurrentLoansForm = ({ rawData, onSuccess }: Props) => {
+export const useSubmitCurrentLoansForm = ({ rawData, onSuccess }: Args) => {
   const { mutateAsync: updateCurrentLoan, isPending: isUpdating } =
     useUpdateCurrentLoanInformation()
 

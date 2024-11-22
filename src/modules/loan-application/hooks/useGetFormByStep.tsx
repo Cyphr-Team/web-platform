@@ -1,5 +1,6 @@
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils.ts"
 import {
+  isEnableFormV2,
   isEnablePandaDocESign,
   isEnablePlaidV2
 } from "@/utils/feature-flag.utils"
@@ -51,6 +52,7 @@ import { LoanReadyLoanRequestForm } from "@/modules/loan-application/components/
 import { LoanReadyBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKybForm.tsx"
 import { LoanReadyOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKycForm"
 import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid"
+import { CurrentLoanFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -99,6 +101,10 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
+        if (isEnableFormV2()) {
+          return <CurrentLoanFormV2 />
+        }
+
         return <CurrentLoansForm />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
         if ((isSbb() || isLoanReady()) && isEnablePandaDocESign()) {

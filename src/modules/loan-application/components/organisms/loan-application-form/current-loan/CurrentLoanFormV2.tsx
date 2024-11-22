@@ -121,11 +121,20 @@ export function CurrentLoanFormV2() {
     mode: "onBlur",
     defaultValues: getOrDefault(currentLoansForm)
   })
-  const { watch, control, getValues, setValue } = methods
+
+  const { watch, control, getValues, setValue, handleSubmit } = methods
   const { fields, append, remove } = useFieldArray({
     control,
     name: FormFields.CurrentLoans
   })
+
+  const handleFetchToProvider = (data: CurrentLoanFormsV2Value) => {
+    dispatchFormAction({
+      action: FORM_ACTION.SET_DATA,
+      key: LOAN_APPLICATION_STEPS.CURRENT_LOANS,
+      state: data
+    })
+  }
 
   const handleAddLoanFormItem = () => {
     append({
@@ -141,11 +150,12 @@ export function CurrentLoanFormV2() {
 
   const onRemove = (index: number) => () => {
     remove(index)
-    dispatchFormAction({
-      action: FORM_ACTION.SET_DATA,
-      key: LOAN_APPLICATION_STEPS.EXECUTION,
-      state: getValues()
-    })
+    handleFetchToProvider(getValues())
+  }
+
+  const onSubmit = (validData: CurrentLoanFormsV2Value) => {
+    handleFetchToProvider(validData)
+    finishCurrentStep()
   }
 
   useAutoCompleteStepEffect(methods, LOAN_APPLICATION_STEPS.CURRENT_LOANS)
@@ -158,7 +168,7 @@ export function CurrentLoanFormV2() {
       <RHFProvider
         className="flex flex-col gap-3xl"
         methods={methods}
-        onSubmit={finishCurrentStep}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <RHFSelectInput
           isRowDirection
@@ -174,6 +184,7 @@ export function CurrentLoanFormV2() {
               if (value === BINARY_VALUES.NO) {
                 setValue(FormFields.CurrentLoans, [])
               }
+              handleFetchToProvider(getValues())
             }
           }}
           styleProps={{
@@ -314,6 +325,7 @@ const LoanFormItemV2 = memo(function LoanFormItemV2(
 
 function getOrDefault(value: ICurrentLoanFormValue): CurrentLoanFormsV2Value {
   return {
+    [FormFields.Id]: value?.id ?? "",
     [FormFields.HasOutstandingLoans]: value?.hasOutstandingLoans,
     [FormFields.CurrentLoans]: value?.currentLoans ?? []
   }

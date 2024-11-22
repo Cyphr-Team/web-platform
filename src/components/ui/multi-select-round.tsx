@@ -147,28 +147,25 @@ export function MultiSelectRound<
                       )}
                       onClick={focusInput}
                     >
-                      {field.value.map(
-                        (option: Option<OptionType>) =>
-                          (
-                            <div
-                              key={option.value}
-                              className="multi-selected group has-[.parent-border]:rounded-full has-[.parent-border]:border has-[.parent-border]:p-1"
+                      {field.value.map((option: Option<OptionType>) => (
+                        <div
+                          key={option.value}
+                          className="multi-selected group has-[.parent-border]:rounded-full has-[.parent-border]:border has-[.parent-border]:p-1"
+                        >
+                          {labelHOC?.(
+                            option,
+                            <Button
+                              className="ml-1 size-auto p-0"
+                              size="icon"
+                              type="button"
+                              variant="ghost"
+                              onClick={handleOptionClick(option)}
                             >
-                              {labelHOC?.(
-                                option,
-                                <Button
-                                  className="ml-1 size-auto p-0"
-                                  size="icon"
-                                  type="button"
-                                  variant="ghost"
-                                  onClick={handleOptionClick(option)}
-                                >
-                                  <X className="size-3" strokeWidth={3} />
-                                </Button>
-                              )}
-                            </div>
-                          ) || option.label
-                      )}
+                              <X className="size-3" strokeWidth={3} />
+                            </Button>
+                          ) ?? option.label}
+                        </div>
+                      ))}
 
                       <div className="max-w-32">
                         <CommandPrimitive.Input

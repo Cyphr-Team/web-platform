@@ -244,6 +244,7 @@ const LoanItemFormSchema = z.object({
 })
 
 export const currentLoansFormSchema = z.object({
+  id: z.string().optional(),
   hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
   currentLoans: z.array(LoanItemFormSchema)
 })

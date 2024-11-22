@@ -90,6 +90,10 @@ import {
 import { get } from "lodash"
 import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
 import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/useForm/document/useGetDocumentForm.ts"
+import {
+  deserializeCurrentLoansFormV2,
+  useQueryCurrentLoansFormV2
+} from "@/modules/loan-application/hooks/currentLoanFormV2/useQueryCurrentLoansFormV2.ts"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -144,17 +148,18 @@ export function BRLoanApplicationDetailsProvider({
   const { loanProgramFormsConfiguration } = useLoanProgramDetailContext()
 
   const loanProgramQuery = useQueryLoanProgramDetailsByType(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     state?.loanProgramDetails?.type ?? "",
     loanProgramId!
   )
 
   const isSbbTenant = isSbb()
 
-  const [passPreQualification, setIsPassQualification] = useState(false)
+  const [isPassPreQualification, setIsPassPreQualification] = useState(false)
 
   // Check if the user is qualified
   // Only check with LaunchKC
-  const isQualified = isLaunchKC() ? passPreQualification : true
+  const isQualified = isLaunchKC() ? isPassPreQualification : true
 
   const loanApplicationDetailsQuery = useQueryLoanApplicationDetailsByType(
     loanApplicationId!,
@@ -248,6 +253,13 @@ export function BRLoanApplicationDetailsProvider({
   const currentLoansFormQuery = useQueryGetCurrentLoansForm({
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CURRENT_LOANS, progress)
+  })
+
+  const currentLoansFormQueryV2 = useQueryCurrentLoansFormV2({
+    applicationId: loanApplicationId!,
+    enabled:
+      isEnabledQuery(LOAN_APPLICATION_STEPS.CURRENT_LOANS, progress) &&
+      isEnableFormV2()
   })
 
   const operatingExpensesFormQuery = useQueryGetOperatingExpensesForm({
@@ -363,7 +375,7 @@ export function BRLoanApplicationDetailsProvider({
 
       buildSpecificStep()
 
-      setIsPassQualification(true)
+      setIsPassPreQualification(true)
     }
   }, [
     buildSpecificStep,
@@ -460,19 +472,32 @@ export function BRLoanApplicationDetailsProvider({
   // Current Loans Form
   useEffect(() => {
     if (
-      currentLoansFormQuery.data &&
-      formInConfigurations(FORM_TYPE.CURRENT_LOAN) &&
-      isInitialized &&
-      isQualified
+      !formInConfigurations(FORM_TYPE.CURRENT_LOAN) ||
+      !isInitialized ||
+      !isQualified
     ) {
-      changeDataAndProgress(
-        reverseFormatCurrentLoansForm(currentLoansFormQuery.data),
-        LOAN_APPLICATION_STEPS.CURRENT_LOANS
-      )
+      return
+    }
+
+    if (isEnableFormV2()) {
+      if (currentLoansFormQueryV2.data) {
+        changeDataAndProgress(
+          deserializeCurrentLoansFormV2(currentLoansFormQueryV2.data),
+          LOAN_APPLICATION_STEPS.CURRENT_LOANS
+        )
+      }
+    } else {
+      if (currentLoansFormQuery.data) {
+        changeDataAndProgress(
+          reverseFormatCurrentLoansForm(currentLoansFormQuery.data),
+          LOAN_APPLICATION_STEPS.CURRENT_LOANS
+        )
+      }
     }
   }, [
     changeDataAndProgress,
     currentLoansFormQuery.data,
+    currentLoansFormQueryV2.data,
     formInConfigurations,
     isInitialized,
     isQualified
@@ -913,7 +938,9 @@ export function BRLoanApplicationDetailsProvider({
       loanRequestFormV2Data: loanRequestDetailQuery.data,
       kybFormData: kybFormQuery.data,
       kycFormData: kycFormQuery.data,
-      currentLoanFormData: currentLoansFormQuery.data,
+      currentLoanFormData: isEnableFormV2()
+        ? currentLoansFormQueryV2.data
+        : currentLoansFormQuery.data,
       operatingExpensesFormData: operatingExpensesFormQuery.data,
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
@@ -943,6 +970,7 @@ export function BRLoanApplicationDetailsProvider({
         confirmationFormQuery.isLoading ||
         financialFormQuery.isLoading ||
         currentLoansFormQuery.isLoading ||
+        currentLoansFormQueryV2.isLoading ||
         operatingExpensesFormQuery.isLoading ||
         kycDocuments.isLoading ||
         financialDocuments.isLoading ||
@@ -973,6 +1001,8 @@ export function BRLoanApplicationDetailsProvider({
       kybFormQuery.isLoading,
       kycFormQuery.data,
       kycFormQuery.isLoading,
+      currentLoansFormQueryV2.data,
+      currentLoansFormQueryV2.isLoading,
       currentLoansFormQuery.data,
       currentLoansFormQuery.isLoading,
       operatingExpensesFormQuery.data,
@@ -1011,10 +1041,10 @@ export function BRLoanApplicationDetailsProvider({
       financialDocuments.data,
       financialDocuments.isLoading,
       businessDocumentsUploadedFormQuery.data,
-      plaidConnectedInstitutionsQuery.isLoading,
       financialStatementQuery?.data,
       financialStatementQuery.isLoading,
-      plaidItemIdsQuery.isLoading
+      plaidItemIdsQuery.isLoading,
+      plaidConnectedInstitutionsQuery.isLoading
     ]
   )
 

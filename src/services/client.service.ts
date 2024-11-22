@@ -75,6 +75,7 @@ export const getRequest = async <T, R>({
   params
 }: GetParams<T>) => {
   const token = inMemoryJWTService.getToken()
+
   const response = await axiosClient.get<R>(`/${path}`, {
     headers: {
       Accept: "application/json",

@@ -8,11 +8,9 @@ import { useUpdateEffect } from "react-use"
 import { createContext } from "use-context-selector"
 import { useLoanApplicationProgressContext, usePlaidContext } from "."
 import type {
-  ILoanRequestFormValue,
   BusinessFormValue,
   BusinessModelFormValue,
   ConfirmationFormValue,
-  CurrentLoansFormValue,
   DisclaimerAndDisclosureFormValue,
   DocumentUploadsFormValue,
   ESignFormValue,
@@ -21,6 +19,7 @@ import type {
   IBusinessFormValue,
   ICurrentLoanFormValue,
   IdentityVerificationValue,
+  ILoanRequestFormValue,
   IOwnerFormValue,
   LaunchKCBusinessFormValue,
   LaunchKCFitFormValue,
@@ -122,7 +121,7 @@ export type FormStateType =
   | BusinessFormValue
   | OwnerFormValue
   | FinancialFormValue
-  | CurrentLoansFormValue
+  | ICurrentLoanFormValue
   | OperatingExpensesFormValue
   | ConfirmationFormValue
   | LoanRequestFormValue

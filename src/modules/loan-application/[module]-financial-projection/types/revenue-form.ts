@@ -1,3 +1,10 @@
+export const enum RevenueType {
+  UnitSales = "unitSales",
+  BillableHours = "billableHours",
+  RecurringCharges = "recurringCharges",
+  Contracts = "contracts"
+}
+
 export type RevenueCounterState = {
   [key in RevenueType]: boolean
 }
@@ -13,13 +20,6 @@ export type OnAddItemToField = (
   type: RevenueType,
   data: UnitSale | BillableHour | RecurringCharge | Contract
 ) => VoidFunction
-
-export const enum RevenueType {
-  UnitSales = "unitSales",
-  BillableHours = "billableHours",
-  RecurringCharges = "recurringCharges",
-  Contracts = "contracts"
-}
 
 export interface RevenueStream {
   id?: string

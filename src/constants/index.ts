@@ -374,6 +374,9 @@ export const API_PATH = {
         update: "api/form/documents/update",
         delete: "api/form/documents/delete",
         detail: "api/form/documents/by-application-id"
+      },
+      currentLoans: {
+        index: "api/form/v2/current-loan"
       }
     }
   },
