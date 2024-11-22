@@ -64,7 +64,7 @@ export function DirectCostsForm() {
       directCostName: "",
       directCostDescription: "",
       startDate: "",
-      overallRevenue: 0
+      overallRevenue: undefined
     })
     onAutoSave()
   }

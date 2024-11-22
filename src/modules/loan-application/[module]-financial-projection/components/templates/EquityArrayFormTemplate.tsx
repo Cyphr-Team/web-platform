@@ -107,7 +107,7 @@ function EquityArrayFormTemplate(props: EquityArrayFormTemplateProps) {
                 </TooltipProvider>
 
                 {/* The equity form does not have to be mandatory */}
-                {allowEmpty ? (
+                {allowEmpty || fields?.length > 1 ? (
                   <Button
                     className="w-fit self-end"
                     variant="outline"

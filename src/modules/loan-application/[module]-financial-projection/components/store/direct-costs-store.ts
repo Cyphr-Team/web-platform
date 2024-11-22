@@ -15,12 +15,18 @@ export const directCostsFormSchema = z.object({
   [DirectCostsField.applicationId]: z.string().optional(),
   [DirectCostsField.directCosts]: z
     .array(
-      z.object({
-        directCostName: z.string().min(1),
-        directCostDescription: z.string().min(1),
-        startDate: createDateSchema(),
-        overallRevenue: createNumberSchema({ min: 1, max: 100, coerce: true })
-      })
+      z
+        .object({
+          directCostName: z.string().min(1),
+          directCostDescription: z.string().min(1),
+          startDate: createDateSchema(),
+          overallRevenue: createNumberSchema({
+            min: 1,
+            max: 100,
+            coerce: true
+          }).optional()
+        })
+        .refine((obj) => obj.overallRevenue !== undefined)
     )
     .min(1, "Please add at least one operating expenses.")
 })
@@ -33,7 +39,7 @@ export const DIRECT_COSTS_DEFAULT_VALUE: DirectCostsFormValue = {
       directCostName: "",
       directCostDescription: "",
       startDate: "",
-      overallRevenue: 0
+      overallRevenue: undefined
     }
   ]
 }
