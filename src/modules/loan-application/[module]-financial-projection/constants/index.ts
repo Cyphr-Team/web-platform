@@ -32,12 +32,12 @@ export const HeaderMapper: {
 }
 
 export enum ApplicationMenuName {
-  Summary = "Application Summary",
+  Summary = "Assessment Summary",
   Readiness = "LoanReady"
 }
 
 export enum ApplicationMenuNameV2 {
-  Summary = "Application Summary",
+  Summary = "Assessment Summary",
   Readiness = "LoanReady",
   FinancialProjections = "Financial Projections"
 }

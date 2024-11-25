@@ -51,7 +51,7 @@ function Header() {
     <nav className="mb-6 md:mb-12">
       <div className="flex min-w-20 items-center gap-2">
         <h1 className="min-w-20 truncate text-lg font-semibold md:text-2xl">
-          Application Summary
+          Assessment Summary
         </h1>
         <div className="ml-auto">
           <BasicApplicationDrawer />

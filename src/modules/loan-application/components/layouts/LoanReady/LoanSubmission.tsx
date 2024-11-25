@@ -47,18 +47,18 @@ export function LoanReadyLoanSubmission() {
 
           <div className="flex flex-col space-y-lg">
             <h1 className="text-[1.75rem] font-semibold tracking-tight">
-              Application Submitted
+              Assessment Submitted
             </h1>
           </div>
 
           <div className="flex flex-col gap-2 text-sm text-black md:gap-3">
             <p>
               <span className="font-bold">Congratulations!</span> Your
-              application has been successfully submitted.
+              assessment has been successfully submitted.
             </p>
             <p>
-              For your records, you can download a copy of your application. You
-              can also review your submission in the “Applications” tab.
+              For your records, you can download a copy of your assessment. You
+              can also review your submission in the “Assessment” tab.
             </p>
           </div>
 

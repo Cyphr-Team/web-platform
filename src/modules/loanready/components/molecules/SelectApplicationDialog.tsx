@@ -69,14 +69,14 @@ export function SelectApplicationDialog({
     <AlertDialog open={isOpen} onOpenChange={onCanceled}>
       <AlertDialogContent className="flex h-2/3 flex-col px-0 pb-0">
         <AlertDialogHeader className="px-6">
-          <AlertDialogTitle>Select application</AlertDialogTitle>
+          <AlertDialogTitle>Select assessment</AlertDialogTitle>
           <AlertDialogDescription className="break-keep">
-            Choose an application below to use for LoanReady+, or start a new
-            one if you prefer. By selecting 'Done,' you confirm your purchase.
+            Choose an assessment below to use for LoanReady+, or start a new one
+            if you prefer. By selecting 'Done,' you confirm your purchase.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="mt-2 grow space-y-3 px-6">
-          <p className="text-base font-semibold">Applications</p>
+          <p className="text-base font-semibold">Assessments</p>
           <div className="max-h-80 overflow-y-auto">
             <Separator />
             {/* New Application item as the first option */}
@@ -85,8 +85,8 @@ export function SelectApplicationDialog({
               htmlFor="new-application"
             >
               <div className="text-sm">
-                <p className="font-medium">New Application</p>
-                <p className="text-gray-600">Start a new application</p>
+                <p className="font-medium">New assessment</p>
+                <p className="text-gray-600">Start a new assessment</p>
               </div>
               <div className="relative flex items-center">
                 <input

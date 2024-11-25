@@ -45,9 +45,9 @@ export default function LoanReadyApplications() {
 
   return (
     <div className="container mx-auto p-2xl md:p-4xl">
-      <h1 className="text-3.5xl font-semibold">Account Applications</h1>
+      <h1 className="text-3.5xl font-semibold">Account Assessments</h1>
       <p className="mb-2 mt-1">
-        Keep track of your account applications and their statuses
+        Keep track of your account assessments and their statuses
       </p>
 
       {!isFetching && !data?.data.data?.length ? (

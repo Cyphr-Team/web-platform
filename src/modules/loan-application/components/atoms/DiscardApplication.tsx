@@ -15,7 +15,7 @@ export function DiscardApplication() {
     }
   }
 
-  const description = `Are you sure you want to discard this loan application. Unsaved changes will be lost.`
+  const description = `Are you sure you want to discard this loan assessment. Unsaved changes will be lost.`
 
   return (
     <CustomAlertDialog
@@ -23,7 +23,7 @@ export function DiscardApplication() {
       cancelText="Cancel"
       confirmText="Discard"
       description={<span className="break-keep">{description}</span>}
-      title="Discard application"
+      title="Discard assessment"
       onConfirmed={onConfirmed}
     >
       <Button
@@ -31,7 +31,7 @@ export function DiscardApplication() {
         disabled={isSubmitting}
         variant="outline"
       >
-        Discard application
+        Discard assessment
       </Button>
     </CustomAlertDialog>
   )

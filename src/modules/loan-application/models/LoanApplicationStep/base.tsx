@@ -297,7 +297,7 @@ export class LoanApplicationStep {
         {
           step: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
           formType: null,
-          label: "Review Application",
+          label: "Review Assessment",
           parent: STEP_MENU.SIGNATURE,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }

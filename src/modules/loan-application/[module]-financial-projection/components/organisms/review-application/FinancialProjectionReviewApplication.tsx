@@ -118,9 +118,9 @@ export function FinancialProjectionReviewApplication() {
     <div className="col-span-8 mx-4 md:mx-8">
       <div className="mx-auto flex max-w-screen-lg flex-col gap-4 md:gap-8">
         <div>
-          <h1 className="text-[2.125rem] font-semibold">Application Summary</h1>
+          <h1 className="text-[2.125rem] font-semibold">Assessment Summary</h1>
           <p className="mt-1 text-sm">
-            Please review your application below. If you need to make any
+            Please review your assessment below. If you need to make any
             changes, simply double-click on your answers to edit.
           </p>
         </div>
