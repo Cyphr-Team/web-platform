@@ -1,7 +1,7 @@
 {
   "name" : "web-platform",
   "release_strategy" : "release_branch",
-  "version" : "v1.40.0",
+  "version" : "v1.41.0",
   "language" : "TYPESCRIPT",
   "slack_channel" : "pipeline-foresight"
 }
