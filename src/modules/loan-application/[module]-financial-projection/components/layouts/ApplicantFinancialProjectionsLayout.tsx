@@ -41,7 +41,7 @@ export function ApplicantFinancialProjectionsLayout(
   return (
     <div
       className={clsx("container bg-[#F9FAFB] p-2xl", {
-        "md:p-4xl": !isEnableLoanReadyV2(),
+        "md:p-4xl overflow-scroll": !isEnableLoanReadyV2(),
         "md:p-xl pointer-events-auto blur-none overflow-scroll":
           isEnableLoanReadyV2() && isPlusPlan,
         "md:p-xl pointer-events-none blur-sm":
