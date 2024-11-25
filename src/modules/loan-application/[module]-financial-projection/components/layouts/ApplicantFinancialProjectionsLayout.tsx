@@ -63,7 +63,7 @@ export function ApplicantFinancialProjectionsLayout(
           <TopNav id={loanApplicationId} loanProgramId={loanProgramId} />
         )}
       </div>
-      {isEnableLoanReadyV2() && isPlusPlan ? (
+      {(isEnableLoanReadyV2() && isPlusPlan) || !isEnableLoanReadyV2() ? (
         <div className="flex-1 bg-gray-50 p-4xl pt-3xl">{children}</div>
       ) : null}
       {isEnableLoanReadyV2() && !isPlusPlan && !isLoading && (
