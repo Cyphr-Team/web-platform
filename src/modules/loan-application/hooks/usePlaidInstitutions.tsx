@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import debounce from "lodash.debounce"
 import { type AxiosResponse } from "axios"
@@ -6,19 +6,7 @@ import { type AxiosResponse } from "axios"
 import { postRequest } from "@/services/client.service"
 import { API_PATH, MAX_LIMIT_PLAID } from "@/constants"
 import { QUERY_KEY_PLAID } from "@/constants/query-key"
-
-interface Institution {
-  institutionId: string
-  name: string
-  logo?: string
-  routingNumbers: string[]
-}
-
-interface InstitutionResponse {
-  total: number
-  currentOffset: number
-  data: Institution[]
-}
+import { type InstitutionResponse } from "@/lib/plaid/plaid.types.ts"
 
 export const usePlaidInstitutions = () => {
   const [searchField, setSearchField] = useState("")

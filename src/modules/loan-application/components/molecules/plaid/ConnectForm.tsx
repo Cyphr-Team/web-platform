@@ -31,6 +31,7 @@ import { ClickableTooltip } from "@/shared/atoms/ClickableTooltip.tsx"
 import { useClearGeneratedPDF } from "@/modules/loan-application/hooks/useClearGeneratedPDF.tsx"
 import { CashFlowConnectedBadge } from "@/shared/atoms/CashFlowConnectedBadge.tsx"
 import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
+import { getPlaidInstitutionLogo } from "@/lib/plaid/plaid.utils.tsx"
 
 interface PlaidConnectFormProps {
   wrapperClassName?: string
@@ -92,19 +93,23 @@ function PlaidForm() {
 
   const institutionOptions: Option[] = useMemo(
     () =>
-      institutions.map((institution) => ({
-        label: institution.name,
-        icon: institution?.logo
-          ? () => (
-              <img
-                alt="Plaid institution logo"
-                className="size-5"
-                src={`data:image/png;base64,${institution?.logo}`}
-              />
-            )
-          : undefined,
-        value: institution.institutionId
-      })),
+      institutions.map((institution) => {
+        const institutionLogo = getPlaidInstitutionLogo(institution)
+
+        return {
+          label: institution.name,
+          icon: institutionLogo
+            ? () => (
+                <img
+                  alt="Plaid institution logo"
+                  className="size-5"
+                  src={`data:image/png;base64,${institutionLogo}`}
+                />
+              )
+            : undefined,
+          value: institution.institutionId
+        }
+      }),
     [institutions]
   )
   const selectedInstitution = watch("institution")
