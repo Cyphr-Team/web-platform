@@ -11,6 +11,7 @@ import { Link, useLocation, useParams } from "react-router-dom"
 import { checkIsWorkspaceAdmin } from "@/utils/check-roles.ts"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 
 type Props = React.HTMLAttributes<HTMLDivElement>
 
@@ -20,7 +21,21 @@ export function TopNav({ className, ...props }: Props) {
 
   let menuItems: (string | null)[] = APPLICATION_MENU(id!).map((e) => e.name)
 
-  if (isLoanReady() || isCyphrBank()) {
+  if (isLoanReady()) {
+    if (isEnableLoanReadyV2()) {
+      menuItems = [
+        ApplicationMenuName.applicationSummary,
+        ApplicationMenuName.financialProjection,
+        ApplicationMenuName.loanReady
+      ]
+    } else {
+      menuItems = [
+        ApplicationMenuName.business,
+        ApplicationMenuName.applicationSummary,
+        ApplicationMenuName.financialProjection
+      ]
+    }
+  } else if (isCyphrBank()) {
     menuItems = [
       ApplicationMenuName.business,
       ApplicationMenuName.applicationSummary,

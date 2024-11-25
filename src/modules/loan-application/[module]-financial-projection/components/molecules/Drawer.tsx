@@ -81,6 +81,25 @@ function CheckboxGroup({ options }: CheckboxGroupProps) {
 function DrawerContent() {
   return (
     <div className="flex flex-col p-2">
+      <CardSection title="Application">
+        <CheckboxGroup
+          options={[
+            {
+              name: ExportFPOption.APPLICATION_SUMMARY,
+              label: "Application Summary"
+            }
+          ]}
+        />
+      </CardSection>
+
+      <CardSection title="Loan Ready">
+        <CheckboxGroup
+          options={[
+            { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
+          ]}
+        />
+      </CardSection>
+
       <CardSection
         title="Forecast Reports"
         tooltipContent="5-year projected financial reports based on the data you provided."
@@ -98,8 +117,7 @@ function DrawerContent() {
             {
               name: ExportFPOption.INCOME_SHEET_FORECAST,
               label: "Income Sheet Forecast"
-            },
-            { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
+            }
           ]}
         />
       </CardSection>
@@ -113,17 +131,6 @@ function DrawerContent() {
             { name: ExportFPOption.CASH_FLOW, label: "Cash Flow" },
             { name: ExportFPOption.BALANCE_SHEET, label: "Balance Sheet" },
             { name: ExportFPOption.INCOME_SHEET, label: "Income Statement" }
-          ]}
-        />
-      </CardSection>
-
-      <CardSection title="Application">
-        <CheckboxGroup
-          options={[
-            {
-              name: ExportFPOption.APPLICATION_SUMMARY,
-              label: "Application Summary"
-            }
           ]}
         />
       </CardSection>

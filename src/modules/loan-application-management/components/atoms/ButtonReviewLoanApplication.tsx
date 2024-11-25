@@ -5,6 +5,8 @@ import { ChevronRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useReviewLoanApplication } from "../../hooks/useMutation/useReviewLoanApplication"
 import { type LoanType } from "@/types/loan-program.type"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
+import { isLoanReady } from "@/utils/domain.utils"
 
 export function ButtonReviewLoanApplication({
   loanApplicationStatus,
@@ -27,18 +29,23 @@ export function ButtonReviewLoanApplication({
     ) {
       await reviewLoanApplication()
     }
-    navigate(
-      APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
-        loanApplicationId
-      ),
-      {
-        state: {
-          applicationDetail: {
-            type: loanProgramType
-          }
+    const path =
+      isLoanReady() && isEnableLoanReadyV2()
+        ? APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY.replace(
+            ":id",
+            loanApplicationId
+          )
+        : APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
+            loanApplicationId
+          )
+
+    navigate(path, {
+      state: {
+        applicationDetail: {
+          type: loanProgramType
         }
       }
-    )
+    })
   }
 
   return (

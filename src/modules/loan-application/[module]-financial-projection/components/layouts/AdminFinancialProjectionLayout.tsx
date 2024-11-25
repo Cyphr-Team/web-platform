@@ -1,21 +1,33 @@
 import { cn } from "@/lib/utils"
-import { type FC, type PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll.tsx"
-import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
+import {
+  ADMIN_APPLICATION_MENU,
+  ADMIN_APPLICATION_MENU_V2
+} from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 
-export const AdminFinancialProjectionLayout: FC<PropsWithChildren> = (
-  props
-) => {
+export function AdminFinancialProjectionLayout(props: PropsWithChildren) {
   const { children } = props
   const { id } = useParams()
   const pathname = useLocation().pathname
 
-  const applicationMenu = ADMIN_APPLICATION_MENU(id ?? "")
+  const applicationMenu = isEnableLoanReadyV2()
+    ? ADMIN_APPLICATION_MENU_V2(id ?? "")
+    : ADMIN_APPLICATION_MENU(id ?? "")
 
   return (
     <div className={cn("container bg-[#F9FAFB]", "overflow-scroll")}>
       <div className="my-4 flex flex-col space-y-3xl ">
+        {isEnableLoanReadyV2() && (
+          <p className="mt-1 text-sm text-text-tertiary">
+            This section provides an overview of your financial projections,
+            including metrics, cash flow, balance sheets, and income statements.
+            It estimates future performance and shows how revenue and expenses
+            could affect profitability.
+          </p>
+        )}
         <div className="relative rounded-xl  bg-white">
           <ScrollArea className="max-w-[600px] lg:max-w-none">
             <div className="flex items-center space-x-lg">

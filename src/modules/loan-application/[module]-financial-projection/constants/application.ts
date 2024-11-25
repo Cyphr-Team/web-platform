@@ -84,3 +84,22 @@ export const ADMIN_APPLICATION_MENU = (id: string) => [
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.LOAN_READY(id)
   }
 ]
+
+export const ADMIN_APPLICATION_MENU_V2 = (id: string) => [
+  {
+    name: ApplicationMenuName.overview,
+    href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.OVERVIEW(id)
+  },
+  {
+    name: ApplicationMenuName.cashFlow,
+    href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.CASH_FLOW(id)
+  },
+  {
+    name: ApplicationMenuName.balanceSheet,
+    href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.BALANCE_SHEET(id)
+  },
+  {
+    name: ApplicationMenuName.incomeStatement,
+    href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.INCOME_STATEMENT(id)
+  }
+]
