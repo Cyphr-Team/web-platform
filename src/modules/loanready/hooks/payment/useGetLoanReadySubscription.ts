@@ -14,10 +14,13 @@ export const useGetLoanReadySubscription = ({
   enabled: boolean
 }) => {
   return useQuery<AxiosResponse<LoanReadySubscription>, ErrorResponse>({
-    queryKey: [QUERY_KEY.GET_LOANREADY_SUBSCRIPTION, paymentTransactionId],
+    queryKey: [
+      QUERY_KEY.GET_LOANREADY_SUBSCRIPTION_BY_PAYMENT_TRANSACTION_ID,
+      paymentTransactionId
+    ],
     queryFn: () => {
       return getRequest({
-        path: API_PATH.loanReady.getSubscription,
+        path: API_PATH.loanReady.getSubscriptionByPaymentTransactionId,
         params: {
           paymentTransactionId
         }

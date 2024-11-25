@@ -1,10 +1,16 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll.tsx"
 import { cn } from "@/lib/utils.ts"
 import { NavLink } from "react-router-dom"
-import { FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU } from "@/modules/loan-application/[module]-financial-projection/constants"
+import {
+  FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU,
+  FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V2
+} from "@/modules/loan-application/[module]-financial-projection/constants"
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { toCurrency } from "@/utils"
-import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import {
+  isEnableFormV2,
+  isEnableLoanReadyV2
+} from "@/utils/feature-flag.utils.ts"
 
 function Title() {
   const { loanRequest, loanRequestV2, businessInformation } =
@@ -23,12 +29,16 @@ function Title() {
 }
 
 export function FinancialProjectionApplicationDetailTopHeader() {
+  const HEADER_MENU = isEnableLoanReadyV2()
+    ? FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V2
+    : FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU
+
   return (
     <div className="relative">
       <Title />
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div className={cn("flex items-center space-x-lg px-4xl")}>
-          {FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU.map((menu) => (
+          {HEADER_MENU.map((menu) => (
             <NavLink
               key={menu.href}
               end

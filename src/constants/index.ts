@@ -31,7 +31,17 @@ export const APP_PATH = {
     FINANCIAL_APPLICATIONS: {
       detail: "/loan/:loanProgramId/financial-applications/:id",
       detailReadiness:
-        "/loan/:loanProgramId/financial-applications/:id/readiness"
+        "/loan/:loanProgramId/financial-applications/:id/readiness",
+      detailFinancialProjections: {
+        overview: (loanProgramId: string, id: string) =>
+          `/loan/${loanProgramId}/financial-applications/${id}/fp-overview`,
+        cashFlow: (loanProgramId: string, id: string) =>
+          `/loan/${loanProgramId}/financial-applications/${id}/fp-cash-flow`,
+        balanceSheet: (loanProgramId: string, id: string) =>
+          `/loan/${loanProgramId}/financial-applications/${id}/fp-balance-sheet`,
+        incomeStatement: (loanProgramId: string, id: string) =>
+          `/loan/${loanProgramId}/financial-applications/${id}/fp-income-statement`
+      }
     },
     APPLICATIONS: {
       index: "/loan/applications",
@@ -253,7 +263,10 @@ export const API_PATH = {
   },
   loanReady: {
     linkSubscription: "api/loan-ready-subscription/update-application-id",
-    getSubscription: "api/loan-ready-subscription/by-payment-transaction-id"
+    getSubscriptionByPaymentTransactionId:
+      "api/loan-ready-subscription/by-payment-transaction-id",
+    getSubscriptionByApplicationId:
+      "api/loan-ready-subscription/by-application-id"
   },
   workspaceAdmin: {
     selectRoundLoanApplication: "api/workspace-admin/applications/round",

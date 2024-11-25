@@ -49,8 +49,14 @@ export const useUpdateLinkTransactionAndApplication = () => {
       })
       queryClient.invalidateQueries({
         queryKey: [
-          QUERY_KEY.GET_LOANREADY_SUBSCRIPTION,
+          QUERY_KEY.GET_LOANREADY_SUBSCRIPTION_BY_PAYMENT_TRANSACTION_ID,
           data.data.paymentTransactionId
+        ]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEY.GET_LOANREADY_SUBSCRIPTION_BY_APPLICATION_ID,
+          data.data.applicationId
         ]
       })
       queryClient.invalidateQueries({
@@ -104,16 +110,23 @@ export const useLinkApplicationToLoanReadySubscription = () => {
 
   const mutateLinkForUpgrade = (
     paymentTransactionId?: string,
-    applicationId?: string
+    applicationId?: string,
+    loanProgramId?: string
   ) => {
-    if (applicationId && paymentTransactionId) {
+    if (applicationId && paymentTransactionId && loanProgramId) {
       updateLinkTransactionAndApplication(
         { paymentTransactionId, applicationId },
         {
           onSuccess: () => {
-            navigate(APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX, {
-              replace: true
-            })
+            navigate(
+              APP_PATH.LOAN_APPLICATION.APPLICATIONS.financialApplicationDetails(
+                applicationId,
+                loanProgramId
+              ),
+              {
+                replace: true
+              }
+            )
           },
           onError: () => {
             toastError({

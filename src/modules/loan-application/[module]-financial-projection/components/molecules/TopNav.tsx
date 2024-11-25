@@ -1,14 +1,27 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
-import { APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application"
+import {
+  APPLICATION_MENU,
+  APPLICATION_MENU_V2
+} from "@/modules/loan-application/[module]-financial-projection/constants/application"
 import { Link, useLocation } from "react-router-dom"
 import React from "react"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 
-type Props = React.HTMLAttributes<HTMLDivElement>
+type TopNavProps = React.HTMLAttributes<HTMLDivElement> & {
+  loanProgramId?: string
+}
 
-export function TopNav({ id, className, ...props }: Props) {
+export function TopNav({
+  id,
+  className,
+  loanProgramId,
+  ...props
+}: TopNavProps) {
   const pathname = useLocation().pathname
-  const applicationMenu = APPLICATION_MENU(id!)
+  const FINAL_APPLICATION_MENU = isEnableLoanReadyV2()
+    ? APPLICATION_MENU_V2(loanProgramId!, id!)
+    : APPLICATION_MENU(id!)
 
   return (
     <div className="relative rounded-xl bg-white p-2">
@@ -17,7 +30,7 @@ export function TopNav({ id, className, ...props }: Props) {
           className={cn("flex items-center space-x-lg", className)}
           {...props}
         >
-          {applicationMenu.map((example, index) => (
+          {FINAL_APPLICATION_MENU.map((example, index) => (
             <Link
               key={example.href}
               className={cn(

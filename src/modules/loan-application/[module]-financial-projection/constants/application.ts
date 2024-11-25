@@ -31,6 +31,37 @@ export const APPLICATION_MENU = (id: string) => [
   }
 ]
 
+export const APPLICATION_MENU_V2 = (loanProgramId: string, id: string) => [
+  {
+    name: ApplicationMenuName.overview,
+    href: APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailFinancialProjections.overview(
+      loanProgramId,
+      id
+    )
+  },
+  {
+    name: ApplicationMenuName.cashFlow,
+    href: APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailFinancialProjections.cashFlow(
+      loanProgramId,
+      id
+    )
+  },
+  {
+    name: ApplicationMenuName.balanceSheet,
+    href: APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailFinancialProjections.balanceSheet(
+      loanProgramId,
+      id
+    )
+  },
+  {
+    name: ApplicationMenuName.incomeStatement,
+    href: APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailFinancialProjections.incomeStatement(
+      loanProgramId,
+      id
+    )
+  }
+]
+
 export const ADMIN_APPLICATION_MENU = (id: string) => [
   {
     name: ApplicationMenuName.overview as string,

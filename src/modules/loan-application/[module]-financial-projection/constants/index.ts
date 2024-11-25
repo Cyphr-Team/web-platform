@@ -36,6 +36,12 @@ export enum ApplicationMenuName {
   Readiness = "Loan Ready"
 }
 
+export enum ApplicationMenuNameV2 {
+  Summary = "Application Summary",
+  Readiness = "Loan Ready",
+  FinancialProjections = "Financial Projections"
+}
+
 export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU = [
   {
     name: ApplicationMenuName.Summary,
@@ -44,5 +50,20 @@ export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU = [
   {
     name: ApplicationMenuName.Readiness,
     href: "readiness"
+  }
+]
+
+export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V2 = [
+  {
+    name: ApplicationMenuNameV2.Summary,
+    href: ""
+  },
+  {
+    name: ApplicationMenuNameV2.Readiness,
+    href: "readiness"
+  },
+  {
+    name: ApplicationMenuNameV2.FinancialProjections,
+    href: "fp-overview"
   }
 ]

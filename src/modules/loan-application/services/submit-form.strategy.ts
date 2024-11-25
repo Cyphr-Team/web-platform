@@ -560,7 +560,7 @@ export const useSubmitLoanForm = (
     isLoanReady() && isEnableLoanReadyV2() && !loanApplicationId
   const { data: loanReadySubscription } = useGetLoanReadySubscription({
     paymentTransactionId: transactionId ?? "",
-    enabled: isEnabledLoanReadySubscriptionCheck
+    enabled: isEnabledLoanReadySubscriptionCheck && transactionId != null
   })
 
   /**

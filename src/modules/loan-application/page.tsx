@@ -1,14 +1,18 @@
 import { Await, Navigate, Outlet, useLoaderData } from "react-router-dom"
 import { type UserInfo } from "@/types/user.type"
-import { Suspense } from "react"
+import { Suspense, useMemo } from "react"
 import { APP_PATH } from "@/constants"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { SideNav } from "@/shared/molecules/SideNav"
-import { navItems } from "./constants"
+import { navItems, updateNavItemWithFeatureFlags } from "./constants"
 import { Header } from "@/shared/layouts/dashboard-layout/dashboard-header"
 import { Loader2 } from "lucide-react"
 import { useVerifyToken } from "@/hooks/useVerifyToken"
 import { useLogout } from "@/hooks/useLogout"
+import { isLoanReady } from "@/utils/domain.utils"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
+import { FeatureKey } from "@/hooks/useCanAccess"
+import { Icons } from "@/components/ui/icons"
 
 function RoleStrict({ children }: React.PropsWithChildren) {
   const isLoanApplicant = checkIsLoanApplicant()
@@ -34,6 +38,25 @@ export function Component() {
     userPromise: Promise<UserInfo>
   }
 
+  const navItemsWithFeatureFlags = useMemo(
+    () => [
+      {
+        title: "Financial Projections",
+        href: APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX,
+        icon: Icons.financial,
+        label: "Financial Projections",
+        featureKey: FeatureKey.FINANCIAL,
+        disabled: isLoanReady() ? isEnableLoanReadyV2() : true
+      }
+    ],
+    []
+  )
+
+  const ffNavItems = useMemo(
+    () => updateNavItemWithFeatureFlags(navItems, navItemsWithFeatureFlags),
+    [navItemsWithFeatureFlags]
+  )
+
   return (
     <Suspense fallback={<Loader2 className="animate-spin" />}>
       <Await
@@ -41,10 +64,10 @@ export function Component() {
         resolve={userPromise}
       >
         <RoleStrict>
-          <Header items={navItems} />
+          <Header items={ffNavItems} />
 
           <div className="flex h-dvh overflow-hidden">
-            <SideNav className="hidden md:flex" items={navItems} />
+            <SideNav className="hidden md:flex" items={ffNavItems} />
             {/* For auto scroll to top, this tag must be overflow-hidden */}
             <main className="flex flex-1 overflow-hidden pt-14 md:pt-0">
               <Outlet />

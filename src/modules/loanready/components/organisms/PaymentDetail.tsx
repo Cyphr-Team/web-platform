@@ -46,7 +46,7 @@ export function PaymentDetail() {
   // Payment Form
   const form = useForm<PaymentItemValue>({
     resolver: zodResolver(paymentItemSchema),
-    defaultValues: { package: "", email: "" }
+    defaultValues: { package: state.package ?? "", email: "" }
   })
 
   const { mutateLinkForUpgrade } = useLinkApplicationToLoanReadySubscription()
@@ -85,7 +85,11 @@ export function PaymentDetail() {
             { replace: true }
           )
         } else {
-          mutateLinkForUpgrade(paymentTransactionId, applicationId)
+          mutateLinkForUpgrade(
+            paymentTransactionId,
+            applicationId,
+            state?.loanProgramId as string
+          )
         }
       }
     })

@@ -7,6 +7,36 @@ import { type BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
 import { FeatureKey } from "@/hooks/useCanAccess"
 
+/**
+ * Given two arrays of NavItem, one with feature flags and one without,
+ * this function returns a new array of NavItem with feature flags.
+ *
+ * It does this by iterating over the first array of NavItem and for each
+ * item, it finds the corresponding item in the second array (if it exists)
+ * and returns that item instead. If no corresponding item is found, it
+ * simply returns the original item.
+ *
+ * @param navItems the array of NavItem to update
+ * @param navItemsWithFeatureFlags the array of NavItem with feature flags
+ * @returns a new array of NavItem with feature flags
+ */
+export const updateNavItemWithFeatureFlags = (
+  navItems: NavItem[],
+  navItemsWithFeatureFlags: NavItem[]
+) => {
+  return navItems.map((navItem) => {
+    const featureFlagNavItem = navItemsWithFeatureFlags.find(
+      (item) => item.title === navItem.title
+    )
+
+    if (featureFlagNavItem) {
+      return featureFlagNavItem
+    }
+
+    return navItem
+  })
+}
+
 export const navItems: NavItem[] = [
   {
     title: "Home",
@@ -30,7 +60,6 @@ export const navItems: NavItem[] = [
     featureKey: FeatureKey.FINANCIAL,
     disabled: !isLoanReady()
   },
-
   {
     title: "Notifications",
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,

@@ -12,3 +12,7 @@ export interface LoanReadySubscription {
   userId: string
   plan: LoanReadyPlan
 }
+
+export interface LoanReadySubscriptionList {
+  subscriptions: LoanReadySubscription[]
+}
