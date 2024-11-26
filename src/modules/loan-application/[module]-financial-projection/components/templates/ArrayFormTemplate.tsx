@@ -11,10 +11,11 @@ import { CollapsibleArrayFieldTemplate } from "@/modules/loan-application/[modul
 import { Accordion } from "@/components/ui/accordion.tsx"
 import { lowerCase } from "lodash"
 import { TooltipProvider } from "@radix-ui/react-tooltip"
-import { type RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { useBoolean } from "@/hooks"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog.tsx"
 import { Separator } from "@/components/ui/separator"
+import { RevenueType } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { BINARY_VALUES } from "@/modules/loan-application/constants/form.ts"
 
 interface ItemState {
   id: string
@@ -137,6 +138,15 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
             ? watch(`${fieldName}.${index}.name`)
             : "Untitled"
 
+          const isRecurringChagres = fieldName === RevenueType.RecurringCharges
+          const isHasUpfrontFee =
+            watch(`${fieldName}.${index}.hasUpfrontFee`) === BINARY_VALUES.YES
+
+          const blocksToRender =
+            !isRecurringChagres || isHasUpfrontFee
+              ? blocks
+              : blocks.filter((block) => block.name !== "upfrontFee")
+
           const existed = activeItems.find((item) => item.id === source.id)
 
           if (!existed) {
@@ -158,7 +168,7 @@ function ArrayFormTemplate(props: ArrayFormTemplateProps) {
               <div className="flex flex-col gap-5 rounded-lg border bg-[#F2F8F8] p-5">
                 <TooltipProvider delayDuration={500}>
                   {renderBlockComponents(
-                    blocks.map((block) => {
+                    blocksToRender.map((block) => {
                       const indexedName = `${fieldName}.${index}.${block.name}`
 
                       // Note: Each of the input components already use ref from {field}

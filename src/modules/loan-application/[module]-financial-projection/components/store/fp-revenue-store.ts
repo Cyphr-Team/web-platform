@@ -76,7 +76,8 @@ const recurringChargeSchema = z.object({
   recurringCharge: createNumberSchema({ coerce: true }),
   frequency: z.string().min(1, { message: "This field is required" }),
   churnRate: createNumberSchema({ coerce: true, max: 100 }),
-  upfrontFee: createNumberSchema({ coerce: true })
+  hasUpfrontFee: z.string(),
+  upfrontFee: createNumberSchema({ coerce: true }).optional()
 })
 
 const contractSchema = z

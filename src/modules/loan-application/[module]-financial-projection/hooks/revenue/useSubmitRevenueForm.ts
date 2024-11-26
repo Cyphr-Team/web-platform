@@ -5,9 +5,14 @@ import { type SubmissionHook } from "@/modules/loan-application/[module]-financi
 import { useQueryClient } from "@tanstack/react-query"
 import { type AxiosResponse } from "axios"
 import {
+  type BillableHour,
+  type Contract,
+  type RecurringCharge,
   type RevenueStream,
+  RevenueType,
   type SubmitRevenueStreamRequest,
-  type SubmitRevenueStreamResponse
+  type SubmitRevenueStreamResponse,
+  type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatToISOString } from "@/utils/date.utils.ts"
 
@@ -40,10 +45,22 @@ export const useSubmitRevenueForm = <
     const formattedData = {
       ...rawData,
       financialProjectionSetupId: loanApplicationId,
-      unitSales: formatData(rawData.unitSales),
-      recurringCharges: formatData(rawData.recurringCharges),
-      billableHours: formatData(rawData.billableHours),
-      contracts: formatData(rawData.contracts, true)
+      unitSales: formatData({
+        data: rawData.unitSales,
+        type: RevenueType.UnitSales
+      }),
+      recurringCharges: formatData({
+        data: rawData.recurringCharges,
+        type: RevenueType.RecurringCharges
+      }),
+      billableHours: formatData({
+        data: rawData.billableHours,
+        type: RevenueType.BillableHours
+      }),
+      contracts: formatData({
+        data: rawData.contracts,
+        type: RevenueType.Contracts
+      })
     } as T
 
     return await mutationToUse.mutateAsync(formattedData, {
@@ -61,12 +78,37 @@ export const useSubmitRevenueForm = <
   }
 }
 
-const formatData = <T extends { startDate: string; endDate?: string }>(
-  data: T[],
-  hasEndDate = false
-) =>
-  data.map((item) => ({
-    ...item,
-    startDate: formatToISOString(item.startDate),
-    ...(hasEndDate && { endDate: formatToISOString(item.endDate!) })
-  }))
+interface formatOption {
+  data: UnitSale[] | BillableHour[] | RecurringCharge[] | Contract[]
+  type?: RevenueType
+}
+
+const formatData = (options: formatOption) => {
+  const { data, type } = options
+
+  return data.map((untypedItem) => {
+    const formattedItem = {
+      ...untypedItem,
+      startDate: formatToISOString(untypedItem.startDate)
+    }
+
+    if (type == RevenueType.Contracts) {
+      const typedItem = untypedItem as Contract
+
+      Object.assign(formattedItem, {
+        endDate: formatToISOString(typedItem.endDate)
+      })
+    }
+
+    if (type === RevenueType.RecurringCharges) {
+      const typedItem = untypedItem as RecurringCharge
+
+      Object.assign(formattedItem, {
+        upfrontFee: typedItem.hasUpfrontFee ? typedItem.upfrontFee : undefined,
+        hasUpfrontFee: undefined
+      })
+    }
+
+    return formattedItem
+  })
+}
