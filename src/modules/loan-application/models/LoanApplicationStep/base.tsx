@@ -7,6 +7,7 @@ import {
   STEP_MENU
 } from "./type"
 import { isEnableKycReOrder } from "@/utils/feature-flag.utils"
+import { isLoanReady } from "@/utils/domain.utils.ts"
 
 export interface ILoanApplicationStepStrategy {
   isEnabledKycReOrder: boolean
@@ -297,7 +298,7 @@ export class LoanApplicationStep {
         {
           step: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
           formType: null,
-          label: "Review Assessment",
+          label: `Review ${isLoanReady() ? "Assessment" : "Application"}`,
           parent: STEP_MENU.SIGNATURE,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
