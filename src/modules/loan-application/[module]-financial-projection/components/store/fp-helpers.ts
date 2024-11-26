@@ -45,7 +45,7 @@ export function getDataPointsFactory(
 ): ForecastRowData {
   const { dataSource, sheetName, dataPoints, period } = args
   const source: PossibleSheetName =
-    period === (ForecastPeriod.MONTHLY || ForecastPeriod.CURRENT)
+    period === ForecastPeriod.MONTHLY || period === ForecastPeriod.CURRENT
       ? `${sheetName}Monthly`
       : `${sheetName}Annually`
 
