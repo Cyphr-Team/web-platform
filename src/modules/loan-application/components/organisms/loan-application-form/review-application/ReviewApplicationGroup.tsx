@@ -7,7 +7,7 @@ import { useMemo } from "react"
 import { ReviewApplicationStep } from "./ReviewApplicationStep"
 
 interface IReviewApplicationGroup {
-  parentKey: STEP_MENU
+  parentKey: (typeof STEP_MENU)[keyof typeof STEP_MENU]
   label: string
   itemsRef: React.MutableRefObject<
     Partial<Record<LOAN_APPLICATION_STEPS, HTMLDivElement | null>>

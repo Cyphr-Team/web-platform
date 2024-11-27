@@ -113,8 +113,9 @@ function LoanProgramCollapsible({
 export function SideNavLoanApplication({ className }: SidebarProps) {
   const { progress, getCurrentStep } = useLoanApplicationProgressContext()
 
-  const [accordionValue, setAccordionValue] = useState([STEP_MENU.APPLICATION])
-
+  const [accordionValue, setAccordionValue] = useState<
+    (typeof STEP_MENU)[keyof typeof STEP_MENU][]
+  >([STEP_MENU.APPLICATION])
   const menuGroupByParent = useMemo(() => {
     return groupBy(progress, (x) => {
       return x.parent
@@ -153,7 +154,9 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
           type="multiple"
           value={accordionValue}
           onValueChange={(opens) => {
-            setAccordionValue(opens as STEP_MENU[])
+            setAccordionValue(
+              opens as (typeof STEP_MENU)[keyof typeof STEP_MENU][]
+            )
           }}
         >
           {Object.keys(menuGroupByParent).map((parentMenu) => (
