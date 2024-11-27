@@ -1,10 +1,10 @@
-import type { LoanReadyPlan } from "@/modules/loanready/types/payment.ts"
 import { type ListResponse, type PaginateParams } from "@/types/common.type.ts"
 import { type LoanApplicationStatus } from "@/types/loan-application.type.ts"
 import type { MicroLoanProgramType } from "@/types/loan-program.type.ts"
+import { type LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 export interface SearchOrderLoanApplicationsFilter {
-  plan?: LoanReadyPlan[]
+  plan?: LoanReadyPlanEnum[]
 }
 
 export interface SearchOrderLoanApplicationRequest extends PaginateParams {

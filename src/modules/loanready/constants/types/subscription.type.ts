@@ -1,4 +1,4 @@
-import { type LoanReadyPlan } from "@/modules/loanready/types/payment"
+import { type LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 export interface LoanReadyApplicationUpdateRequest {
   paymentTransactionId: string
@@ -10,7 +10,7 @@ export interface LoanReadySubscription {
   paymentTransactionId: string
   applicationId: string
   userId: string
-  plan: LoanReadyPlan
+  plan: LoanReadyPlanEnum
 }
 
 export interface LoanReadySubscriptionList {

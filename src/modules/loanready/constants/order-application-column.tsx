@@ -6,6 +6,7 @@ import { ChevronRightIcon } from "lucide-react"
 import { convertToReadableDate, snakeCaseToText } from "@/utils"
 import { Badge } from "@/components/ui/badge.tsx"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 /**
  * Columns for workspace admin list applications
@@ -18,6 +19,23 @@ export const orderApplicationColumn = (
     header: renderHeader("Business name"),
     cell: ({ row }) => {
       return <div>{row.original?.businessName ?? "---"}</div>
+    }
+  },
+  {
+    id: "loanProgram",
+    header: renderHeader("Loan Program"),
+    cell: ({ row }) => {
+      const planToLoanProgramMapping = new Map([
+        [LoanReadyPlanEnum.BASIC.toString(), "LoanReady"],
+        [LoanReadyPlanEnum.PLUS.toString(), "LoanReady+"],
+        [undefined, "---"]
+      ])
+
+      const loanProgram = planToLoanProgramMapping.get(
+        row.original?.plan?.toUpperCase()
+      )
+
+      return <div>{loanProgram}</div>
     }
   },
   {
@@ -58,7 +76,7 @@ export const orderApplicationColumn = (
         <div className="font-medium">
           <Badge
             isDot
-            className="capitalize"
+            className="capitalize py-1 text-sm"
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}
           >
@@ -75,7 +93,7 @@ export const orderApplicationColumn = (
     cell: ({ row }) => {
       return (
         <div
-          className="flex cursor-pointer items-center justify-end gap-2 font-medium"
+          className="flex cursor-pointer items-center justify-end gap-2 font-semibold"
           onClick={handleClickDetail(row)}
         >
           {EDITABLE_STATUSES.includes(row.original.status?.toLowerCase()) ? (

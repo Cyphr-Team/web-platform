@@ -66,7 +66,7 @@ export default function LoanReadyApplications() {
             isLoading={isFetching}
             pagination={pagination}
             setPagination={setPagination}
-            tableCellClassName="text-[#667085]"
+            tableCellClassName="text-primary"
             tableContainerClassName="flex h-[85vh] flex-1 flex-col rounded-full"
             tableHeadClassName="text-xs text-[#667085]"
             tableHeaderClassName="bg-[#f9fafb] !text-xs"

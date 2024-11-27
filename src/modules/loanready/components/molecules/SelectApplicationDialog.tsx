@@ -12,10 +12,10 @@ import { Separator } from "@/components/ui/separator"
 import { useSearchOrderLoanApplications } from "@/modules/loanready/hooks/applications/order-list.ts"
 import { formatDate } from "@/utils/date.utils.ts"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants.ts"
-import { LoanReadyPlan } from "@/modules/loanready/types/payment.ts"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 interface SelectApplicationDialogProps {
   isOpen: boolean
@@ -47,7 +47,7 @@ export function SelectApplicationDialog({
       limit: 100,
       offset: 0,
       filter: {
-        plan: [LoanReadyPlan.BASIC]
+        plan: [LoanReadyPlanEnum.BASIC]
       }
     }
   })

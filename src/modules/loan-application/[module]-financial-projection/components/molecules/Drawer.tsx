@@ -16,7 +16,7 @@ import { useIsFetching } from "@tanstack/react-query"
 import { FolderDown, X } from "lucide-react"
 import { type ReactNode, useMemo } from "react"
 import { useForm } from "react-hook-form"
-import { LoanReadyPlan } from "@/modules/loanready/types/payment.ts"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 interface DrawerCheckBoxProps {
   name: ExportFPOption
@@ -164,7 +164,7 @@ function BasicApplicationDrawerContent() {
 }
 
 interface DrawerProps {
-  applicationPlan?: LoanReadyPlan
+  applicationPlan?: LoanReadyPlanEnum
 }
 
 export function Drawer({ applicationPlan }: DrawerProps) {
@@ -214,7 +214,7 @@ export function Drawer({ applicationPlan }: DrawerProps) {
   )
 
   const drawerContent =
-    applicationPlan === LoanReadyPlan.BASIC ? (
+    applicationPlan === LoanReadyPlanEnum.BASIC ? (
       <BasicApplicationDrawerContent />
     ) : (
       <DrawerContent />

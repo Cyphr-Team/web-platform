@@ -7,5 +7,6 @@
  */
 export const SEARCH_PARAM_KEY = {
   DOCUMENT_TYPE: "documentType",
-  DOCUMENT_NAME: "documentName"
+  DOCUMENT_NAME: "documentName",
+  TRANSACTION_ID: "transactionId"
 }

@@ -16,8 +16,8 @@ import { Badge } from "@/components/ui/badge.tsx"
 import { getBadgeVariantByStatus } from "@/modules/loan-application-management/services"
 import { EDITABLE_STATUSES } from "@/types/loan-application.type.ts"
 import { ChevronRightIcon } from "lucide-react"
-import { LoanReadyPlan } from "@/modules/loanready/types/payment.ts"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils.ts"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 export function Component() {
   return <LoanReadyFinancialApplications />
@@ -38,7 +38,7 @@ export default function LoanReadyFinancialApplications() {
       limit: pagination.pageSize,
       offset: pagination.pageIndex * pagination.pageSize,
       filter: {
-        plan: isEnableLoanReadyV2() ? [LoanReadyPlan.PLUS] : []
+        plan: isEnableLoanReadyV2() ? [LoanReadyPlanEnum.PLUS] : []
       }
     }
   })

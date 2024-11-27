@@ -4,10 +4,10 @@ import { useCallback, useMemo, type PropsWithChildren } from "react"
 import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
 import { useNavigate, useParams } from "react-router-dom"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
-import { LoanReadyPlan } from "@/modules/loanready/types/payment"
 import { useGetLoanReadySubscriptionByApplicationId } from "@/modules/loanready/hooks/payment/useGetLoanReadySubscriptionByApplicationId"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { APP_PATH } from "@/constants"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 export function ApplicantFinancialProjectionsLayout(
   props: PropsWithChildren
@@ -24,7 +24,8 @@ export function ApplicantFinancialProjectionsLayout(
   const isPlusPlan = useMemo(
     () =>
       loanReadySubscription?.subscriptions?.some(
-        (subscription) => subscription.plan.toUpperCase() === LoanReadyPlan.PLUS
+        (subscription) =>
+          subscription.plan.toUpperCase() === LoanReadyPlanEnum.PLUS
       ),
     [loanReadySubscription]
   )
@@ -33,7 +34,7 @@ export function ApplicantFinancialProjectionsLayout(
     navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.payment, {
       state: {
         loanProgramId: loanProgramId,
-        package: LoanReadyPlan.PLUS
+        package: LoanReadyPlanEnum.PLUS
       }
     })
   }, [navigate, loanProgramId])
