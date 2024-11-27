@@ -15,6 +15,7 @@ import {
   type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatToISOString } from "@/utils/date.utils.ts"
+import { BINARY_VALUES } from "@/modules/loan-application/constants/form.ts"
 
 interface Props {
   rawData: RevenueStream
@@ -104,7 +105,10 @@ const formatData = (options: formatOption) => {
       const typedItem = untypedItem as RecurringCharge
 
       Object.assign(formattedItem, {
-        upfrontFee: typedItem.hasUpfrontFee ? typedItem.upfrontFee : undefined,
+        upfrontFee:
+          typedItem.hasUpfrontFee === BINARY_VALUES.YES
+            ? typedItem.upfrontFee
+            : undefined,
         hasUpfrontFee: undefined
       })
     }
