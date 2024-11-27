@@ -278,7 +278,7 @@ It is never too early to reach out regarding a project’s eligibility and attra
 const LOAN_READINESS_PROGRAM: LoanProgramData = {
   id: "LOAN_READY",
   startBtn: "Test My Readiness",
-  name: "Loan Ready",
+  name: "LoanReady",
   type: "micro",
   faqs: {
     about:

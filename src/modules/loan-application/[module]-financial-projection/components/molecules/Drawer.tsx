@@ -92,10 +92,10 @@ function DrawerContent() {
         />
       </CardSection>
 
-      <CardSection title="Loan Ready">
+      <CardSection title="LoanReady">
         <CheckboxGroup
           options={[
-            { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
+            { name: ExportFPOption.LOAN_READY_SECTION, label: "LoanReady" }
           ]}
         />
       </CardSection>
@@ -141,14 +141,6 @@ function DrawerContent() {
 function BasicApplicationDrawerContent() {
   return (
     <div className="flex flex-col p-2">
-      <CardSection title="Loan Ready">
-        <CheckboxGroup
-          options={[
-            { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
-          ]}
-        />
-      </CardSection>
-
       <CardSection title="Application">
         <CheckboxGroup
           options={[
@@ -156,6 +148,14 @@ function BasicApplicationDrawerContent() {
               name: ExportFPOption.APPLICATION_SUMMARY,
               label: "Application Summary"
             }
+          ]}
+        />
+      </CardSection>
+
+      <CardSection title="LoanReady">
+        <CheckboxGroup
+          options={[
+            { name: ExportFPOption.LOAN_READY_SECTION, label: "LoanReady" }
           ]}
         />
       </CardSection>

@@ -94,7 +94,7 @@ function DrawerContent() {
               name: ExportFPOption.INCOME_SHEET_FORECAST,
               label: "Income Sheet Forecast"
             },
-            { name: ExportFPOption.LOAN_READY_SECTION, label: "Loan Ready" }
+            { name: ExportFPOption.LOAN_READY_SECTION, label: "LoanReady" }
           ]}
         />
       </CardSection>

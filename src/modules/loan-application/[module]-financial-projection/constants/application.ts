@@ -5,7 +5,7 @@ export enum ApplicationMenuName {
   cashFlow = "Cash Flow",
   balanceSheet = "Balance Sheet",
   incomeStatement = "Income Statement",
-  loanReady = "Loan Ready"
+  loanReady = "LoanReady"
 }
 
 export const APPLICATION_MENU = (id: string) => [

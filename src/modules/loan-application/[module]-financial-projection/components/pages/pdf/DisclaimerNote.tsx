@@ -15,7 +15,7 @@ export const DisclaimerNote: FC<DisclaimerNoteProps> = (props) => {
     <div className="flex h-[1600px] flex-col gap-y-2xl p-[72px]">
       <div className="flex-1">
         <Image
-          alt="Loan ready by cyphr"
+          alt="LoanReady by cyphr"
           height={90}
           placeholderClassName="rounded bg-slate-400"
           src={loanReadyLogo}
@@ -24,7 +24,7 @@ export const DisclaimerNote: FC<DisclaimerNoteProps> = (props) => {
 
       <div className="mt-auto flex flex-col gap-y-3xl">
         <p className="text-6xl font-semibold">{companyName}</p>
-        <p className="text-4xl font-normal">{title ?? "Financial Forecast"}</p>
+        <p className="text-4xl font-normal">{title ?? "LoanReady"}</p>
         <Separator />
         <div className="flex flex-col gap-5 text-justify text-xl font-light ">
           <p className="font-semibold">Disclaimer:</p>

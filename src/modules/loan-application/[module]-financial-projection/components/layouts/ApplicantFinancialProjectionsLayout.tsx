@@ -1,12 +1,12 @@
 import { TopNav } from "../molecules/TopNav"
 import { clsx } from "clsx"
-import { useCallback, useMemo, type PropsWithChildren } from "react"
+import { type PropsWithChildren, useCallback } from "react"
 import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
 import { useNavigate, useParams } from "react-router-dom"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
-import { useGetLoanReadySubscriptionByApplicationId } from "@/modules/loanready/hooks/payment/useGetLoanReadySubscriptionByApplicationId"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { APP_PATH } from "@/constants"
+import { useCheckLoanReadyPlan } from "@/modules/loan-application/[module]-financial-projection/hooks/loanready/useCheckLoanReadyPlan.ts"
 import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 export function ApplicantFinancialProjectionsLayout(
@@ -15,20 +15,9 @@ export function ApplicantFinancialProjectionsLayout(
   const navigate = useNavigate()
   const { children } = props
   const { id: loanApplicationId, loanProgramId } = useParams()
-  const { data: loanReadySubscription, isLoading } =
-    useGetLoanReadySubscriptionByApplicationId({
-      applicationId: loanApplicationId ?? "",
-      enabled: isEnableLoanReadyV2()
-    })
-
-  const isPlusPlan = useMemo(
-    () =>
-      loanReadySubscription?.subscriptions?.some(
-        (subscription) =>
-          subscription.plan.toUpperCase() === LoanReadyPlanEnum.PLUS
-      ),
-    [loanReadySubscription]
-  )
+  const { isPlusPlan, isLoading } = useCheckLoanReadyPlan({
+    applicationId: loanApplicationId
+  })
 
   const onSubmit = useCallback(() => {
     navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.payment, {

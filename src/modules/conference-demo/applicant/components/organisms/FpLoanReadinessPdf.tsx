@@ -11,7 +11,7 @@ export function FpLoanReadinessPdf() {
 
   return (
     <div className="flex w-full flex-col gap-8">
-      <h1 className="text-3xl font-medium">Loan Ready</h1>
+      <h1 className="text-3xl font-medium">LoanReady</h1>
       <div className="flex gap-2xl">
         <div className="flex min-w-[450px] flex-col gap-4">
           <div className="flex flex-col gap-4 text-2xl font-medium uppercase">

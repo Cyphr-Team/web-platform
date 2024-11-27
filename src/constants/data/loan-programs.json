@@ -2,10 +2,10 @@
   {
     "id": "LOAN_READY",
     "startBtn": "Test My Readiness",
-    "name": "Loan Ready",
+    "name": "LoanReady",
     "type": "LOAN_READY",
     "faqs": {
-      "about": "About Loan Ready",
+      "about": "About LoanReady",
       "eligibility": [
         "Small Business Owner",
         "EIN",

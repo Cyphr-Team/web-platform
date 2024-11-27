@@ -95,7 +95,7 @@ export function ComponentWithProvider() {
   const { isLoading, loanProgramDetails } = useLoanProgramDetailContext()
 
   const crumbs = useBreadcrumb({
-    customLabel: buildCustomLabel(CustomLabelKey.documentDetail, "Loan Ready"),
+    customLabel: buildCustomLabel(CustomLabelKey.documentDetail, "LoanReady"),
     ids: Object.assign(
       {},
       buildIds(CustomLabelKey.documentDetail, loanProgramDetails?.id)

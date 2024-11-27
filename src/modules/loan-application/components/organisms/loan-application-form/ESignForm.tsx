@@ -208,7 +208,7 @@ export function ESignForm() {
   }
 
   if (!acknowledgeDisclaimer) {
-    const institutionName = isLoanReady() ? "Loan Ready" : "Small Business Bank"
+    const institutionName = isLoanReady() ? "LoanReady" : "Small Business Bank"
 
     return (
       <FormLayout
