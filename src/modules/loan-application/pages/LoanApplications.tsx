@@ -9,15 +9,14 @@ import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import {
   EDITABLE_STATUSES,
   LoanApplicationStatus,
-  type UserMicroLoanApplication
+  type UserLoanApplication
 } from "@/types/loan-application.type"
 import {
   convertToReadableDate,
   convertToReadableDateAgo,
-  snakeCaseToText,
-  toCurrency
+  snakeCaseToText
 } from "@/utils"
-import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import { isLoanReady, isSbb } from "@/utils/domain.utils"
 import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 import { type AccessorKeyColumnDef, type Row } from "@tanstack/react-table"
 import { ChevronRightIcon } from "lucide-react"
@@ -33,20 +32,14 @@ export function Component() {
 
   const clickDetailHandler = handleClickDetail(navigate)
   const loanApplicationColumns = getLoanApplicationColumns(
-    (row: Row<UserMicroLoanApplication>) => () => clickDetailHandler(row)
+    (row: Row<UserLoanApplication>) => () => clickDetailHandler(row)
   )
 
   const getFilteredColumns =
-    (): AccessorKeyColumnDef<UserMicroLoanApplication>[] => {
+    (): AccessorKeyColumnDef<UserLoanApplication>[] => {
       if (!formsConfigurationEnabled()) {
         return loanApplicationColumns.filter(
-          (column) =>
-            column.accessorKey !== "loanAmount" &&
-            column.accessorKey !== "progress"
-        )
-      } else if (isLaunchKC()) {
-        return loanApplicationColumns.filter(
-          (column) => column.accessorKey !== "loanAmount"
+          (column) => column.accessorKey !== "progress"
         )
       } else {
         return loanApplicationColumns
@@ -83,7 +76,7 @@ interface NavigationConfig {
 }
 
 export const handleClickDetail =
-  (navigate: NavigateFunction) => (detail: Row<UserMicroLoanApplication>) => {
+  (navigate: NavigateFunction) => (detail: Row<UserLoanApplication>) => {
     const { id, loanProgram } = detail.original
     const { id: loanProgramId } = loanProgram
     const navigationConfigs: Record<string, NavigationConfig> = {
@@ -120,8 +113,8 @@ export const handleClickDetail =
   }
 
 export const getLoanApplicationColumns = (
-  handleClickDetail: (row: Row<UserMicroLoanApplication>) => () => void
-): AccessorKeyColumnDef<UserMicroLoanApplication>[] => [
+  handleClickDetail: (row: Row<UserLoanApplication>) => () => void
+): AccessorKeyColumnDef<UserLoanApplication>[] => [
   {
     id: "applicant",
     accessorKey: "loanProgram",
@@ -141,28 +134,7 @@ export const getLoanApplicationColumns = (
     },
     size: 300
   },
-  {
-    accessorKey: "loanAmount",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="w-full text-right"
-        column={column}
-        title="Amount requested"
-      />
-    ),
-    size: 150,
-    cell: ({ row }) => {
-      const application = row.original
 
-      return (
-        <div className="min-w-0">
-          <p className="truncate text-right">
-            {toCurrency(application.loanAmount)}
-          </p>
-        </div>
-      )
-    }
-  },
   {
     accessorKey: "createdAt",
     header: ({ column }) => (

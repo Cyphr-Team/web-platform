@@ -82,6 +82,19 @@ interface LoanProgram {
   updatedAt: string
 }
 
+interface UserLoanApplication {
+  id: string
+  loanProgram: MicroLoanProgramType
+  applicantId: string
+  businessId: string
+  status: LoanApplicationStatus
+  createdAt: string
+  updatedAt: string
+  decision: LoanDecisionEnum
+  decisionNote: string
+  latestProgress: number
+}
+
 interface UserMicroLoanApplication {
   id: string
   loanProgram: MicroLoanProgramType
@@ -115,6 +128,7 @@ export type {
   ListLoanProgramResponse,
   LoanApplication,
   LoanProgram,
+  UserLoanApplication,
   UserMicroLoanApplication,
   UserMicroLoanApplicationRequest
 }

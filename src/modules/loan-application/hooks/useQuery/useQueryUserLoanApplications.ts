@@ -2,7 +2,7 @@ import { API_PATH } from "@/constants"
 import { getRequest } from "@/services/client.service"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { type ListResponse, type PaginateParams } from "@/types/common.type"
-import { type UserMicroLoanApplication } from "@/types/loan-application.type"
+import { type UserLoanApplication } from "@/types/loan-application.type"
 import { loanApplicationUserKeys } from "@/constants/query-key"
 import { createSearchParams } from "react-router-dom"
 
@@ -10,7 +10,7 @@ export const useQueryGetUserLoanApplications = ({
   limit,
   offset
 }: PaginateParams) => {
-  return useInfiniteQuery<ListResponse<UserMicroLoanApplication>>({
+  return useInfiniteQuery<ListResponse<UserLoanApplication>>({
     queryKey: loanApplicationUserKeys.list(
       createSearchParams({
         limit: limit.toString(),
@@ -20,7 +20,7 @@ export const useQueryGetUserLoanApplications = ({
     queryFn: async ({ pageParam = 0 }) => {
       return await getRequest<
         PaginateParams,
-        ListResponse<UserMicroLoanApplication>
+        ListResponse<UserLoanApplication>
       >({
         path: API_PATH.application.list,
         params: {
