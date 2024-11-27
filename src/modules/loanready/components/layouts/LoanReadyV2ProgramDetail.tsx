@@ -158,6 +158,7 @@ export function ComponentWithProvider() {
             rightFooter={
               <StartApplicationButton
                 showArrow
+                btnText="Get my score"
                 className="bg-lime-400 font-bold text-black hover:bg-lime-300"
                 loanProgramId={loanProgramDetails?.id}
               />
@@ -201,6 +202,7 @@ export function ComponentWithProvider() {
             <div className="mx-auto md:mx-0">
               <StartApplicationButton
                 showArrow
+                btnText="Get my score"
                 className="bg-lime-400 font-bold text-black hover:bg-lime-300"
                 loanProgramId={loanProgramDetails?.id}
               />

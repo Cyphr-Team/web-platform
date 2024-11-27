@@ -46,10 +46,10 @@ export const navItems: NavItem[] = [
     featureKey: FeatureKey.APPLICANT_HOME
   },
   {
-    title: "Applications",
+    title: isLoanReady() ? "Assessments" : "Applications",
     href: APP_PATH.LOAN_APPLICATION.APPLICATIONS.index,
     icon: Icons.folderCheck,
-    label: "Applications",
+    label: isLoanReady() ? "Assessments" : "Applications",
     featureKey: FeatureKey.APPLICANT_APPLICATION
   },
   {

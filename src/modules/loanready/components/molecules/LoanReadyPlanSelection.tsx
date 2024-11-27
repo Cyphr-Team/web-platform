@@ -43,7 +43,7 @@ export function LoanReadyPlanSelection() {
               {option.label}
             </div>
             <span className="font-normal text-gray-600">
-              ${option.price / 100}/application
+              ${option.price / 100}/assessment
             </span>
           </div>
           <ul className="overflow-wrap mt-1 w-full list-disc whitespace-normal pl-10 text-left font-normal">

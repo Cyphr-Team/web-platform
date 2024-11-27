@@ -12,7 +12,12 @@ interface StartApplicationButtonProps {
 }
 
 export function StartApplicationButton(props: StartApplicationButtonProps) {
-  const { showArrow, className, loanProgramId } = props
+  const {
+    showArrow,
+    className,
+    loanProgramId,
+    btnText = "Start new assessment"
+  } = props
   const navigate = useNavigate()
 
   const onSubmit = useCallback(() => {
@@ -26,7 +31,7 @@ export function StartApplicationButton(props: StartApplicationButtonProps) {
   return (
     <Button className={className} onClick={onSubmit}>
       {!showArrow && <FolderDown className="mr-1 w-4" />}
-      <span className="font-medium">Start new application</span>
+      <span className="font-medium">{btnText}</span>
       {showArrow ? <ArrowRight className="ml-1 w-4" /> : null}
     </Button>
   )

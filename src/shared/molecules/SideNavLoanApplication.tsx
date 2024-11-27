@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils"
 import {
   type ILoanApplicationStep,
   LOAN_APPLICATION_STEP_STATUS,
-  STEP_MENU
+  STEP_MENU as STEP_MENU_PLATFORM,
+  STEP_MENU_LOAN_READY
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { LoanProgressAction } from "@/modules/loan-application/providers/LoanProgressProvider"
@@ -113,8 +114,11 @@ function LoanProgramCollapsible({
 export function SideNavLoanApplication({ className }: SidebarProps) {
   const { progress, getCurrentStep } = useLoanApplicationProgressContext()
 
-  const [accordionValue, setAccordionValue] = useState([STEP_MENU.APPLICATION])
+  const STEP_MENU = isLoanReady()
+    ? { ...STEP_MENU_PLATFORM, ...STEP_MENU_LOAN_READY }
+    : STEP_MENU_PLATFORM
 
+  const [accordionValue, setAccordionValue] = useState([STEP_MENU.APPLICATION])
   const menuGroupByParent = useMemo(() => {
     return groupBy(progress, (x) => {
       return x.parent
@@ -152,8 +156,10 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
           className="flex w-full flex-col gap-2"
           type="multiple"
           value={accordionValue}
-          onValueChange={(opens) => {
-            setAccordionValue(opens as STEP_MENU[])
+          onValueChange={(opens: string[]) => {
+            setAccordionValue(
+              opens as (STEP_MENU_PLATFORM | STEP_MENU_LOAN_READY)[]
+            )
           }}
         >
           {Object.keys(menuGroupByParent).map((parentMenu) => (

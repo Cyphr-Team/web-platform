@@ -246,8 +246,7 @@ export function PaymentDetail() {
               confirmText="Confirm"
               description={
                 <span className="break-keep">
-                  Are you sure you want to complete this purchase? Click
-                  'Confirm' to proceed and finalize your order.
+                  Click 'Confirm' to proceed and finalize your order.
                 </span>
               }
               isOpen={isConfirmPurchaseDialogOpen.value}

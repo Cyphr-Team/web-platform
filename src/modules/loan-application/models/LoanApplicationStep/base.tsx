@@ -4,9 +4,11 @@ import {
   type ILoanApplicationStep,
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS,
-  STEP_MENU
+  STEP_MENU,
+  STEP_MENU_LOAN_READY
 } from "./type"
 import { isEnableKycReOrder } from "@/utils/feature-flag.utils"
+import { isLoanReady } from "@/utils/domain.utils.ts"
 
 export interface ILoanApplicationStepStrategy {
   isEnabledKycReOrder: boolean
@@ -134,7 +136,9 @@ export class LoanApplicationStep {
           step: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
           formType: null,
           label: "Loan Request",
-          parent: STEP_MENU.APPLICATION,
+          parent: isLoanReady()
+            ? STEP_MENU_LOAN_READY.APPLICATION
+            : STEP_MENU.APPLICATION,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],
@@ -152,7 +156,9 @@ export class LoanApplicationStep {
           step: LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION,
           formType: FORM_TYPE.KYB,
           label: "Business Information",
-          parent: STEP_MENU.APPLICATION,
+          parent: isLoanReady()
+            ? STEP_MENU_LOAN_READY.APPLICATION
+            : STEP_MENU.APPLICATION,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],
@@ -170,7 +176,9 @@ export class LoanApplicationStep {
           step: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
           formType: FORM_TYPE.KYC,
           label: "Individual Information",
-          parent: STEP_MENU.APPLICATION,
+          parent: isLoanReady()
+            ? STEP_MENU_LOAN_READY.APPLICATION
+            : STEP_MENU.APPLICATION,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],
@@ -260,7 +268,9 @@ export class LoanApplicationStep {
           step: LOAN_APPLICATION_STEPS.CONFIRMATION,
           formType: null,
           label: "Sign and Submit",
-          parent: STEP_MENU.SIGNATURE,
+          parent: isLoanReady()
+            ? STEP_MENU_LOAN_READY.SIGNATURE
+            : STEP_MENU.SIGNATURE,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],
@@ -297,8 +307,10 @@ export class LoanApplicationStep {
         {
           step: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
           formType: null,
-          label: "Review Application",
-          parent: STEP_MENU.SIGNATURE,
+          label: `Review ${isLoanReady() ? "Assessment" : "Application"}`,
+          parent: isLoanReady()
+            ? STEP_MENU_LOAN_READY.SIGNATURE
+            : STEP_MENU.SIGNATURE,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],

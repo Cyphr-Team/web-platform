@@ -27,7 +27,7 @@ export function OrderSummary({ selectedPlan }: OrderSummaryProps) {
                 {selectedPlanDetail.label}
               </p>
               <p className="mt-1 font-normal">
-                {toCurrency(selectedPlanDetail.price / 100)} x 1 application
+                {toCurrency(selectedPlanDetail.price / 100)} x 1 assessment
               </p>
             </div>
             <div className="flex items-center justify-end font-medium text-text-foreground">

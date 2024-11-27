@@ -141,12 +141,12 @@ function DrawerContent() {
 function BasicApplicationDrawerContent() {
   return (
     <div className="flex flex-col p-2">
-      <CardSection title="Application">
+      <CardSection title="Assessment">
         <CheckboxGroup
           options={[
             {
               name: ExportFPOption.APPLICATION_SUMMARY,
-              label: "Application Summary"
+              label: "Assessment Summary"
             }
           ]}
         />
