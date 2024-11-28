@@ -62,6 +62,9 @@ export const useUpdateLinkTransactionAndApplication = () => {
       queryClient.invalidateQueries({
         queryKey: loanApplicationUserKeys.lists()
       })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GET_UNUSED_LOANREADY_SUBSCRIPTIONS]
+      })
     }
   })
 

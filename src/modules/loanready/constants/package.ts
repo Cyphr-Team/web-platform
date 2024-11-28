@@ -5,10 +5,12 @@ const enum LoanReadyPlanEnum {
 
 const LoanReadyPlan = {
   [LoanReadyPlanEnum.BASIC]: {
+    name: "LoanReady",
     price: 9900,
     currency: "USD"
   },
   [LoanReadyPlanEnum.PLUS]: {
+    name: "LoanReady+",
     price: 15000,
     currency: "USD"
   }

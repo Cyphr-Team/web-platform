@@ -11,6 +11,8 @@ import LoanApplicationsPage from "@/modules/loanready/pages/LoanApplications.tsx
 import { StartApplicationButton } from "@/modules/loanready/components/molecules/StartApplicationButton.tsx"
 import { EmptyApplications } from "@/modules/loanready/pages/EmptyApplications"
 import { useQueryGetLoanPrograms } from "@/modules/loan-application/hooks/useQuery/useQueryLoanPrograms"
+import { useGetUnusedLoanReadySubscription } from "@/modules/loanready/hooks/payment/useGetUnusedLoanReadySubscription"
+import { UnusedReportBannerList } from "@/modules/loanready/components/organisms/UnusedReportBannerList"
 
 export function Component() {
   if (isEnableLoanReadyV2()) return <LoanReadyApplications />
@@ -43,6 +45,11 @@ export default function LoanReadyApplications() {
     (row) => () => clickDetailHandler(row)
   )
 
+  // Query unused subscriptions
+  const { data: unusedSubscriptions } = useGetUnusedLoanReadySubscription({
+    enabled: isEnableLoanReadyV2()
+  })
+
   return (
     <div className="container mx-auto p-2xl md:p-4xl">
       <h1 className="text-3.5xl font-semibold">Account Assessments</h1>
@@ -51,7 +58,13 @@ export default function LoanReadyApplications() {
       </p>
 
       {!isFetching && !data?.data.data?.length ? (
-        <EmptyApplications loanProgramId={loanPrograms.data?.data[0].id} />
+        <>
+          <UnusedReportBannerList
+            loanProgramId={loanPrograms.data?.data[0].id}
+            subscriptions={unusedSubscriptions?.data ?? []}
+          />
+          <EmptyApplications loanProgramId={loanPrograms.data?.data[0].id} />
+        </>
       ) : (
         <>
           <div className="flex justify-end">
@@ -60,6 +73,10 @@ export default function LoanReadyApplications() {
               loanProgramId={loanPrograms.data?.data[0].id}
             />
           </div>
+          <UnusedReportBannerList
+            loanProgramId={loanPrograms.data?.data[0].id}
+            subscriptions={unusedSubscriptions?.data ?? []}
+          />
           <DataTable
             columns={loanApplicationColumns}
             data={data?.data.data ?? []}

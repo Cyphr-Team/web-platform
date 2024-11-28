@@ -266,7 +266,8 @@ export const API_PATH = {
     getSubscriptionByPaymentTransactionId:
       "api/loan-ready-subscription/by-payment-transaction-id",
     getSubscriptionByApplicationId:
-      "api/loan-ready-subscription/by-application-id"
+      "api/loan-ready-subscription/by-application-id",
+    getUnusedSubscription: "api/loan-ready-subscription/list-unused-by-user-id"
   },
   workspaceAdmin: {
     selectRoundLoanApplication: "api/workspace-admin/applications/round",

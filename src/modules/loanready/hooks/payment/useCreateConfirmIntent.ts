@@ -13,6 +13,7 @@ import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { loanApplicationKeys } from "@/constants/query-key"
+import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 
 export const useCreateConfirmIntent = () => {
   const queryClient = useQueryClient()
@@ -40,6 +41,9 @@ export const useCreateConfirmIntent = () => {
       toastSuccess(TOAST_MSG.loanApplication.payment)
       isLoading.onFalse()
       queryClient.invalidateQueries({ queryKey: loanApplicationKeys.lists() })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GET_UNUSED_LOANREADY_SUBSCRIPTIONS]
+      })
     }
   })
 

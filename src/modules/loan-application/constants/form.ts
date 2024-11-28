@@ -49,7 +49,9 @@ export const ZodFileTypeFactory = (
 
 export const ownerFormSchema = z.object({
   id: z.string().nullable(),
-  fullName: z.string().min(1, { message: "Name is required" }),
+  fullName: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters" }),
   addressLine1: z.string().min(1, { message: "Address line 1 is required" }),
   addressLine2: z.string(),
   businessRole: z.string().min(1, {

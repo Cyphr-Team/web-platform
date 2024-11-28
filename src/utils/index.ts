@@ -278,24 +278,27 @@ export const formatDate = (dateString: string, separator: string) => {
 export const convertDateTimeToLocal = (
   dateString: string,
   separator: string,
-  connector: string
+  connector: string,
+  displayTime = true,
+  dateTimeOptions?: Intl.DateTimeFormatOptions
 ) => {
   try {
     const date = new Date(dateString)
 
-    const options = {
-      month: "2-digit" as const,
-      day: "2-digit" as const,
-      year: "numeric" as const,
-      hour: "numeric" as const,
-      minute: "2-digit" as const
-    }
-
+    const options = dateTimeOptions
+      ? dateTimeOptions
+      : {
+          month: "2-digit" as const,
+          day: "2-digit" as const,
+          year: "numeric" as const,
+          hour: "numeric" as const,
+          minute: "2-digit" as const
+        }
     const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date)
 
     const [datePart, timePart] = formattedDate.split(separator)
 
-    return `${datePart} ${connector} ${timePart}`
+    return `${datePart} ${connector} ${displayTime ? timePart : ""}`
   } catch (error) {
     // console.error("Error converting date:", error)
 
