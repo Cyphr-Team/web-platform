@@ -100,6 +100,11 @@ export function FpCashFlowTemplate(props: FpCashFlowTemplateProps) {
               title="Long Term Debt"
             />
             <DataRow
+              data={data[ForecastType.REPAYMENT_OF_DEBT]}
+              layout="item"
+              title="Repayment Of Debt"
+            />
+            <DataRow
               collision
               data={data[ForecastType.CHANGE_IN_PAID_IN_CAPITAL]}
               layout="item"
