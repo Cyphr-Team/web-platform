@@ -41,7 +41,7 @@ const FinancialProjectionApplicationDetails = lazy(
 const BasicApplicationDetailLoanReady = lazy(
   () =>
     import(
-      "@/modules/loan-application/[module]-financial-projection/components/organisms/details/BaiscApplicationDetailLoanReady"
+      "@/modules/loan-application/[module]-financial-projection/components/organisms/details/BasicApplicationDetailLoanReady.tsx"
     )
 )
 
@@ -99,13 +99,14 @@ const applicantRoutes = (
     >
       <Route
         element={<FinancialProjectionApplicationDetailLayout />}
-        path={APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detail}
+        path={APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detail.index}
       >
         <Route index element={<FinancialProjectionApplicationDetails />} />
         <Route
           element={<BasicApplicationDetailLoanReady />}
           path={
             APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailReadiness
+              .index
           }
         />
         {applicantFinancialProjectionRoutesV2}

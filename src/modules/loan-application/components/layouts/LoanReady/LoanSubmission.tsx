@@ -5,6 +5,7 @@ import { APP_PATH } from "@/constants"
 import { ArrowRight, CheckCircle, Download } from "lucide-react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { ButtonDownloadESignDocument } from "@/modules/loan-application/components/atoms/ButtonDownloadESignDocument.tsx"
+import { useCheckLoanReadyPlan } from "@/modules/loan-application/[module]-financial-projection/hooks/loanready/useCheckLoanReadyPlan.ts"
 
 export function LoanReadyLoanSubmission() {
   const navigate = useNavigate()
@@ -12,18 +13,35 @@ export function LoanReadyLoanSubmission() {
   // Get e-sign document if have
   const [searchParams] = useSearchParams()
   const documentId = searchParams.get("documentId")
+  const { isPlusPlan } = useCheckLoanReadyPlan({
+    applicationId: location.state?.applicationId
+  })
 
-  const handleGoToFinancialApplicationDetail = () => {
+  const handleGoToAssessmentSummaryDetail = () => {
     navigate(
-      APP_PATH.LOAN_APPLICATION.APPLICATIONS.financialApplicationDetails(
-        location.state?.applicationId,
-        location.state?.loanProgramId
+      APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detail.info(
+        location.state?.loanProgramId,
+        location.state?.applicationId
+      )
+    )
+  }
+
+  const handleGoToLoanReadyScoreDetail = () => {
+    navigate(
+      APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailReadiness.info(
+        location.state?.loanProgramId,
+        location.state?.applicationId
       )
     )
   }
 
   const handleGoToFinancialProjectionDetail = () => {
-    navigate(APP_PATH.LOAN_APPLICATION.FINANCIAL.INDEX)
+    navigate(
+      APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailFinancialProjections.overview(
+        location.state?.loanProgramId,
+        location.state?.applicationId
+      )
+    )
   }
 
   const btnIcon = {
@@ -76,23 +94,36 @@ export function LoanReadyLoanSubmission() {
               </ButtonDownloadESignDocument>
             ) : null}
 
-            <Button onClick={handleGoToFinancialApplicationDetail}>
+            <Button onClick={handleGoToAssessmentSummaryDetail}>
               <div>
                 Review Submission
                 <ArrowRight {...btnIcon} />
               </div>
             </Button>
 
-            <Button
-              className={btnShadow}
-              variant="success"
-              onClick={handleGoToFinancialProjectionDetail}
-            >
-              <div>
-                <Icons.financial {...btnIcon} />
-                <span className="ml-2">Review financial projections</span>
-              </div>
-            </Button>
+            {isPlusPlan ? (
+              <Button
+                className={btnShadow}
+                variant="success"
+                onClick={handleGoToFinancialProjectionDetail}
+              >
+                <div>
+                  <Icons.financial {...btnIcon} />
+                  <span className="ml-2">Review financial projections</span>
+                </div>
+              </Button>
+            ) : (
+              <Button
+                className={btnShadow}
+                variant="success"
+                onClick={handleGoToLoanReadyScoreDetail}
+              >
+                <div>
+                  <Icons.financial {...btnIcon} />
+                  <span className="ml-2">Review LoanReady score</span>
+                </div>
+              </Button>
+            )}
           </div>
         </div>
       </div>

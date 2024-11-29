@@ -2,6 +2,7 @@ import { useMemo } from "react"
 import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils.ts"
 import { useGetLoanReadySubscriptionByApplicationId } from "@/modules/loanready/hooks/payment/useGetLoanReadySubscriptionByApplicationId.ts"
+import { isLoanReady } from "@/utils/domain.utils.ts"
 
 interface UseCheckLoanReadyPlanProps {
   applicationId?: string
@@ -13,7 +14,7 @@ export function useCheckLoanReadyPlan({
   const { data: loanReadySubscription, isLoading } =
     useGetLoanReadySubscriptionByApplicationId({
       applicationId,
-      enabled: isEnableLoanReadyV2()
+      enabled: isLoanReady() && isEnableLoanReadyV2()
     })
 
   const isPlusPlan = useMemo(

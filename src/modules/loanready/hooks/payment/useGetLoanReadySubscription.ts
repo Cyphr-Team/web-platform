@@ -3,7 +3,6 @@ import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-project
 import { type LoanReadySubscription } from "@/modules/loanready/constants/types/subscription.type"
 import { getRequest } from "@/services/client.service"
 import { useQuery } from "@tanstack/react-query"
-import { type AxiosResponse } from "axios"
 import { type ErrorResponse } from "react-router-dom"
 
 export const useGetLoanReadySubscription = ({
@@ -13,7 +12,7 @@ export const useGetLoanReadySubscription = ({
   paymentTransactionId?: string
   enabled: boolean
 }) => {
-  return useQuery<AxiosResponse<LoanReadySubscription>, ErrorResponse>({
+  return useQuery<LoanReadySubscription, ErrorResponse>({
     queryKey: [
       QUERY_KEY.GET_LOANREADY_SUBSCRIPTION_BY_PAYMENT_TRANSACTION_ID,
       paymentTransactionId
