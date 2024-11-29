@@ -14,9 +14,11 @@ import { sanitizeDOM } from "@/utils/file.utils"
 import { TopBarDetail } from "@/modules/loan-application/components/layouts/TopBarDetail"
 import { LoanProgramDetailWelcomeLine } from "@/modules/loan-application/components/organisms/loan-program-detail/LoanProgramDetailWelcomeLine"
 import { StartApplicationButton } from "@/modules/loanready/components/molecules/StartApplicationButton"
+import { random } from "lodash"
 
 const ELEMENTS_TYPE = {
   title: "title",
+  subtitle: "subtitle",
   text: "text",
   list: "list",
   divider: "divider",
@@ -32,59 +34,77 @@ interface Element {
 
 const loanProgramText: Element[] = [
   {
-    id: "1",
+    id: random().toString(),
     type: ELEMENTS_TYPE.title,
     content: "Why LoanReady?",
     size: "3xl"
   },
   {
-    id: "2",
+    id: random().toString(),
     type: ELEMENTS_TYPE.text,
     content:
       "Getting a loan can be complex. LoanReady simplifies the process, equipping you with the tools and insights you need to understand your financial readiness, boost your application success, and connect with the right resources. Whether you're applying for your first loan or looking to expand, LoanReady is designed with you in mind."
   },
   {
-    id: "3",
+    id: random().toString(),
     type: ELEMENTS_TYPE.title,
     content: "How it works:",
     size: "3xl"
   },
   {
-    id: "4",
+    id: random().toString(),
     type: ELEMENTS_TYPE.numberList,
     content: [
       "<b>Assess Your Readiness:</b> Our easy, step-by-step tool evaluates your financial profile and identifies strengths and areas for improvement, helping you see where you stand in the eyes of lenders.",
       "<b>Personalized Action Plan:</b> Based on your assessment, we create a customized plan that guides you through each step of the loan application process, from financial documentation to strategic planning.",
-      "<b>Create & Download Financial Statements:</b> Easily generate professional financial statements like income statements, cash flow summaries, and more. These documents are lender-ready and available for download whenever you're prepared to apply. <b>This only applies to LoanReady+ purchases.</b>",
       "<b>Exclusive Resources & Discounts:</b> Gain access to our Resource Directory, filled with exclusive discounts from leading service providers in finance, marketing, legal, and more—everything you need to strengthen your business and prepare for growth. <b>[Coming Soon]</b>"
     ]
   },
   {
-    id: "5",
+    id: random().toString(),
+    type: ELEMENTS_TYPE.title,
+    content: "Unlock More with LoanReady+:",
+    size: "3xl"
+  },
+  {
+    id: random().toString(),
+    type: ELEMENTS_TYPE.subtitle,
+    content:
+      "Take your loan readiness to the next level with LoanReady+. Enjoy everything LoanReady offers, plus powerful tools to give you a deeper understanding of your finances:"
+  },
+  {
+    id: random().toString(),
+    type: ELEMENTS_TYPE.numberList,
+    content: [
+      "<b>Create & Download Financial Statements:</b> Easily generate professional financial statements like income statements, cash flow summaries, and more. These documents are lender-ready and available for download whenever you're prepared to apply."
+    ]
+  },
+  {
+    id: random().toString(),
     type: ELEMENTS_TYPE.title,
     content: "What sets us apart?",
     size: "3xl"
   },
   {
-    id: "6",
+    id: random().toString(),
     type: ELEMENTS_TYPE.text,
     content:
       "LoanReady is built for business owners like you. Unlike traditional readiness tools, we give you more than just a score; we provide actionable insights, real solutions, and a clear path forward. Think of us as your loan readiness co-pilot, with the tools, support, and partnerships to help you succeed."
   },
   {
-    id: "7",
+    id: random().toString(),
     type: ELEMENTS_TYPE.title,
     content: "Start your LoanReady journey today",
     size: "3xl"
   },
   {
-    id: "8",
+    id: random().toString(),
     type: ELEMENTS_TYPE.text,
     content:
       "Whether you’re looking for guidance on a business plan, ways to improve cash flow, or insight into how lenders view your business, LoanReady is here to help. Sign up today and take the first step toward financial empowerment and business success."
   },
   {
-    id: "9",
+    id: random().toString(),
     type: ELEMENTS_TYPE.title,
     content:
       "Ready to get started? Click below to begin your journey with LoanReady."
@@ -106,6 +126,10 @@ export function ComponentWithProvider() {
     switch (element.type) {
       case ELEMENTS_TYPE.title:
         return <h2 className="mb-2 text-xl font-semibold">{element.content}</h2>
+      case ELEMENTS_TYPE.subtitle:
+        return (
+          <h2 className="whitespace-pre-wrap text-base">{element.content}</h2>
+        )
       case ELEMENTS_TYPE.text:
         return (
           <div
@@ -126,7 +150,7 @@ export function ComponentWithProvider() {
         )
       case ELEMENTS_TYPE.numberList:
         return (
-          <ol className="mb-10 list-outside list-decimal whitespace-pre-wrap pl-4 text-base">
+          <ol className="mb-10 list-outside list-decimal whitespace-pre-wrap pl-5 text-base">
             {Array.isArray(element.content) &&
               element.content.map((item) => (
                 <li

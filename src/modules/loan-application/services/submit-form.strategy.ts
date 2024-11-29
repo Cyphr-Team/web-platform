@@ -490,7 +490,13 @@ export const useSubmitLoanForm = (
         })
 
         // Link Application to LoanReady's Package Subscription
-        if (isLoanReady() && isEnableLoanReadyV2() && applicationId) {
+        // We only need to link for the first time submission (isUpdated = false)
+        if (
+          isLoanReady() &&
+          isEnableLoanReadyV2() &&
+          applicationId &&
+          !isUpdated
+        ) {
           await mutateLink(applicationId)
         }
       } else {
@@ -520,6 +526,7 @@ export const useSubmitLoanForm = (
       businessData?.businessLegalName,
       eSignData?.documentId,
       loanProgramId,
+      mutateLink,
       navigate
     ]
   )

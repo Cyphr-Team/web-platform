@@ -20,10 +20,10 @@ export function LoanReadyPlanSelection() {
         <Button
           key={option.value}
           className={cn(
-            "flex size-full cursor-pointer flex-col items-start rounded-lg border-brand-primary-gray p-4 text-left hover:bg-[#F2F8F8]",
+            "flex size-full cursor-pointer flex-col items-start rounded-lg border-dashed border-brand-primary-gray p-4 text-left hover:bg-[#F2F8F8]",
             form.watch("package") === option.value
               ? "bg-selection border-primary"
-              : "border-dashed border-brand-primary-gray hover:border-primary"
+              : "border-brand-primary-gray hover:border-primary"
           )}
           type="button"
           variant="outline"

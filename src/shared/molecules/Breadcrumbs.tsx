@@ -10,6 +10,8 @@ export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {
+  const Home = Icons.home
+
   return (
     <div className={cn("flex items-center space-x-lg px-8", className)}>
       {breads.map(({ label, to }, index) => {
@@ -23,14 +25,16 @@ export function Breadcrumbs({ className, breads = [] }: BreadcrumbsProps) {
               {({ isActive }) => (
                 <>
                   {label === "Home" ? (
-                    <Icons.home
+                    <Home
                       className={cn(
                         "w-5 text-muted-foreground",
                         isActive && "text-primary"
                       )}
                     />
                   ) : (
-                    <p className="text-sm font-medium">{label}</p>
+                    <p className="text-sm font-medium text-[#252828]">
+                      {label}
+                    </p>
                   )}
                 </>
               )}

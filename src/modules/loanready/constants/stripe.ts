@@ -6,6 +6,7 @@ const StripeOptions: StripeElementsOptions = {
   currency: "usd",
   paymentMethodTypes: ["card"],
   paymentMethodCreation: "manual",
+  locale: "en",
   // Fully customizable with appearance API.
   appearance: {
     /*...*/

@@ -12,7 +12,7 @@ export function UnusedReportBannerList({
   subscriptions
 }: UnusedReportBannerListProps) {
   return (
-    <div className="overflow-y-auto max-h-[14vh] mt-6">
+    <div className="overflow-y-auto max-h-[10vh] mt-6">
       {subscriptions?.map((subscription) => (
         <UnusedReportBanner
           key={subscription.paymentTransactionId}

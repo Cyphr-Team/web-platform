@@ -155,7 +155,7 @@ export function FinancialProjectionReviewApplication() {
             >
               <DisclaimerNote
                 companyName={businessInformation?.businessLegalName}
-                title="Application Summary"
+                title="Assessment Summary"
               />
             </div>
           </div>

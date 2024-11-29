@@ -24,7 +24,7 @@ export function TopNav({ className, ...props }: Props) {
   if (isLoanReady()) {
     if (isEnableLoanReadyV2()) {
       menuItems = [
-        ApplicationMenuName.applicationSummary,
+        ApplicationMenuName.assessmentSummary,
         ApplicationMenuName.financialProjection,
         ApplicationMenuName.loanReady
       ]
@@ -91,13 +91,13 @@ export function TopNav({ className, ...props }: Props) {
           {applicationMenu.map((example, index) => {
             /**
              * Here is the things. Basically we have three tabs:
-             * - Business Verification
              * - Application Summary
-             * - Financial Projections: (this shiet have another sub tab)
+             * - LoanReady
+             * - Financial Projections: (this sheet have another sub tab)
              *    + Overview
              *    + Cash Flow
+             *    + Balance Sheet
              *    + Income Statement
-             *    + Loan Ready
              * So, this code handle the active state for FP tab.
              * These logic can speak as follows:
              * If current tabs is sub tabs of FP, set the FP active
