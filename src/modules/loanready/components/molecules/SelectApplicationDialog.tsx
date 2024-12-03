@@ -9,18 +9,18 @@ import {
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { Separator } from "@/components/ui/separator"
-import { useSearchOrderLoanApplications } from "@/modules/loanready/hooks/applications/order-list.ts"
 import { formatDate } from "@/utils/date.utils.ts"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants.ts"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
+import { type OrderLoanApplication } from "@/modules/loanready/types/order-application.ts"
 
 interface SelectApplicationDialogProps {
   isOpen: boolean
   onCanceled: VoidFunction
   onConfirmed: (applicationId?: string) => void
+  applications: OrderLoanApplication[]
 }
 
 // Define schema for form
@@ -31,7 +31,8 @@ const applicationSchema = z.object({
 export function SelectApplicationDialog({
   isOpen,
   onCanceled,
-  onConfirmed
+  onConfirmed,
+  applications
 }: SelectApplicationDialogProps) {
   // Setup useForm
   const form = useForm<z.infer<typeof applicationSchema>>({
@@ -41,16 +42,6 @@ export function SelectApplicationDialog({
     }
   })
 
-  // Query list applications filtering plan BASIC
-  const { data, isFetching } = useSearchOrderLoanApplications({
-    request: {
-      limit: 100,
-      offset: 0,
-      filter: {
-        plan: [LoanReadyPlanEnum.BASIC]
-      }
-    }
-  })
   // TODO: User can select LoanReady/Ready+ subscriptions which has not been drafted yet
 
   // Handle form submission
@@ -67,7 +58,7 @@ export function SelectApplicationDialog({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onCanceled}>
-      <AlertDialogContent className="flex h-2/3 flex-col px-0 pb-0">
+      <AlertDialogContent className="flex flex-col px-0 pb-0 h-2/3 overflow-auto">
         <AlertDialogHeader className="px-6">
           <AlertDialogTitle>Select assessment</AlertDialogTitle>
           <AlertDialogDescription className="break-keep">
@@ -101,40 +92,39 @@ export function SelectApplicationDialog({
             </label>
 
             {/* Existing applications */}
-            {!isFetching &&
-              data?.data.data.map((application) => (
-                <div key={application.id}>
-                  <Separator />
-                  <label
-                    className="flex cursor-pointer items-center justify-between py-3 pr-2"
-                    htmlFor={`application-${application.id}`}
-                  >
-                    <div className="text-sm">
-                      <p className="font-medium">
-                        {application.businessName ?? application.id}
-                      </p>
-                      <p className="text-gray-600">
-                        {application.submittedAt
-                          ? `Submitted on ${formatDate(
-                              application.submittedAt,
-                              FORMAT_DATE_M_D_Y
-                            )}`
-                          : "Not submitted yet"}
-                      </p>
-                    </div>
-                    <div className="relative flex items-center">
-                      <input
-                        className="peer size-5 cursor-pointer appearance-none rounded-full border border-slate-300 transition-all checked:border-slate-400"
-                        id={`application-${application.id}`}
-                        type="radio"
-                        value={application.id}
-                        {...form.register("applicationId")} // Connect input to useForm
-                      />
-                      <span className="absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-800 opacity-0 transition-opacity duration-200 peer-checked:opacity-100" />
-                    </div>
-                  </label>
-                </div>
-              ))}
+            {applications.map((application) => (
+              <div key={application.id}>
+                <Separator />
+                <label
+                  className="flex cursor-pointer items-center justify-between py-3 pr-2"
+                  htmlFor={`application-${application.id}`}
+                >
+                  <div className="text-sm">
+                    <p className="font-medium">
+                      {application.businessName ?? application.id}
+                    </p>
+                    <p className="text-gray-600">
+                      {application.submittedAt
+                        ? `Submitted on ${formatDate(
+                            application.submittedAt,
+                            FORMAT_DATE_M_D_Y
+                          )}`
+                        : "Not submitted yet"}
+                    </p>
+                  </div>
+                  <div className="relative flex items-center">
+                    <input
+                      className="peer size-5 cursor-pointer appearance-none rounded-full border border-slate-300 transition-all checked:border-slate-400"
+                      id={`application-${application.id}`}
+                      type="radio"
+                      value={application.id}
+                      {...form.register("applicationId")} // Connect input to useForm
+                    />
+                    <span className="absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-800 opacity-0 transition-opacity duration-200 peer-checked:opacity-100" />
+                  </div>
+                </label>
+              </div>
+            ))}
           </div>
         </div>
         <Separator />

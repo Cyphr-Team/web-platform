@@ -23,6 +23,7 @@ import { usePayment } from "@/modules/loanready/hooks/payment/usePayment"
 import { useLocation, useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication.ts"
+import { useSearchOrderLoanApplications } from "@/modules/loanready/hooks/applications/order-list.ts"
 
 const paymentItemSchema = z.object({
   package: z.string().min(1),
@@ -42,6 +43,18 @@ export function PaymentDetail() {
   const isConfirmPurchaseDialogOpen = useBoolean(false)
   const isPaymentElementValid = useBoolean(false)
   const isAddressElementValid = useBoolean(false)
+
+  // Query list applications filtering plan BASIC
+  const { data } = useSearchOrderLoanApplications({
+    request: {
+      limit: 100,
+      offset: 0,
+      filter: {
+        plan: [LoanReadyPlanEnum.BASIC]
+      }
+    }
+  })
+  const basicApplications = data?.data.data ?? []
 
   // Payment Form
   const form = useForm<PaymentItemValue>({
@@ -117,7 +130,10 @@ export function PaymentDetail() {
   const onSubmit = (data: PaymentItemValue) => {
     const selectedPlan = data.package
 
-    if (selectedPlan === LoanReadyPlanEnum.BASIC) {
+    if (
+      selectedPlan === LoanReadyPlanEnum.BASIC ||
+      (selectedPlan === LoanReadyPlanEnum.PLUS && !basicApplications.length)
+    ) {
       isConfirmPurchaseDialogOpen.onTrue()
     } else if (selectedPlan === LoanReadyPlanEnum.PLUS) {
       isSelectAppDialogOpen.onTrue()
@@ -132,13 +148,11 @@ export function PaymentDetail() {
 
       return
     }
+    isConfirmPurchaseDialogOpen.onFalse()
     switch (form.watch("package")) {
       case LoanReadyPlanEnum.BASIC:
-        isConfirmPurchaseDialogOpen.onFalse()
-        await mutatePayment()
-        break
       case LoanReadyPlanEnum.PLUS:
-        isSelectAppDialogOpen.onTrue()
+        await mutatePayment()
         break
       default:
         toastError({
@@ -237,6 +251,7 @@ export function PaymentDetail() {
             </div>
 
             <SelectApplicationDialog
+              applications={basicApplications}
               isOpen={isSelectAppDialogOpen.value}
               onCanceled={handleSelectAppDialogCancel}
               onConfirmed={handleLoanReadyPlusPurchase}
