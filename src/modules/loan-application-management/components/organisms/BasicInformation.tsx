@@ -3,16 +3,28 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { toCurrency } from "@/utils"
 import { Badge } from "@/components/ui/badge"
 import { ChangeApplicationStatusButton } from "../atoms/ChangeApplicationStatusButton"
-import { getUseOfLoan } from "../../services"
+import {
+  type UseOfLoan,
+  type UserMicroLoanApplication
+} from "@/types/loan-application.type.ts"
+import {
+  adaptFormV2Metadata,
+  findSingularFormMetadata
+} from "@/modules/loan-application/services/formv2.services.ts"
+import { loanRequestSchemasByInstitution } from "@/modules/loan-application/constants/form-v2.ts"
+import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { type ILoanRequestFormValue } from "@/modules/loan-application/constants/form.ts"
+import { type ApplicationSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type.ts"
 import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   isEnableFormV2,
   isEnableLoanReadyV2
 } from "@/utils/feature-flag.utils.ts"
-import { type UseOfLoan } from "@/types/loan-application.type.ts"
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { CustomLabelKey } from "@/utils/crumb.utils"
+import { getUseOfLoan } from "@/modules/loan-application-management/services"
+import { useMemo } from "react"
 
 function BasicInformationSkeleton() {
   return (
@@ -22,9 +34,60 @@ function BasicInformationSkeleton() {
   )
 }
 
+interface LoanRequestInfo {
+  loanAmount?: number
+  proposeUseOfLoan?: UseOfLoan
+}
+
+const useLoanRequestInfo = (
+  isLoading: boolean,
+  isFetchingSummary: boolean,
+  applicationSummary?: ApplicationSummary,
+  loanApplicationDetails?: UserMicroLoanApplication
+): LoanRequestInfo => {
+  return useMemo(() => {
+    if (isLoading || isFetchingSummary) {
+      return { loanAmount: undefined, proposeUseOfLoan: undefined }
+    }
+
+    const isFormV2Enabled = isEnableFormV2() && !isLaunchKC() && !isSbb()
+
+    const loanRequestForm = isFormV2Enabled
+      ? adaptFormV2Metadata<ILoanRequestFormValue>({
+          schema: loanRequestSchemasByInstitution(),
+          metadata: findSingularFormMetadata(
+            FORM_TYPE.LOAN_REQUEST,
+            applicationSummary
+          ),
+          additionalFields: {
+            applicationId: applicationSummary?.applicationId
+          }
+        })
+      : undefined
+
+    const loanAmount = isFormV2Enabled
+      ? loanRequestForm?.loanAmount
+      : loanApplicationDetails?.loanAmount
+
+    const proposeUseOfLoan = (
+      isFormV2Enabled
+        ? loanRequestForm?.proposeUseOfLoan
+        : loanApplicationDetails?.proposeUseOfLoan
+    ) as UseOfLoan
+
+    return { loanAmount, proposeUseOfLoan }
+  }, [isLoading, isFetchingSummary, applicationSummary, loanApplicationDetails])
+}
+
 export function BasicInformation() {
-  const { isLoading, loanKybDetail, loanApplicationDetails, loanSummary } =
-    useLoanApplicationDetailContext()
+  const {
+    isLoading,
+    isFetchingSummary,
+    loanKybDetail,
+    loanApplicationDetails,
+    loanSummary,
+    applicationSummary
+  } = useLoanApplicationDetailContext()
 
   const businessName =
     loanKybDetail?.businessDetails?.name?.value ??
@@ -40,21 +103,14 @@ export function BasicInformation() {
     }
   })
 
-  if (isLoading) return <BasicInformationSkeleton />
+  const { loanAmount, proposeUseOfLoan } = useLoanRequestInfo(
+    isLoading,
+    isFetchingSummary,
+    applicationSummary,
+    loanApplicationDetails
+  )
 
-  const loanAmount = isEnableFormV2()
-    ? loanSummary?.loanRequestForm?.amount
-    : loanApplicationDetails?.loanAmount
-
-  const proposeUseOfLoan = (
-    isEnableFormV2()
-      ? loanSummary?.loanRequestForm?.proposeUseOfLoan
-      : loanApplicationDetails?.proposeUseOfLoan
-  ) as UseOfLoan
-
-  const applicationTitle = [businessName, toCurrency(loanAmount, 0)]
-    .filter((v) => !!v)
-    .join(" • ")
+  if (isLoading || isFetchingSummary) return <BasicInformationSkeleton />
 
   return (
     <>
@@ -66,7 +122,11 @@ export function BasicInformation() {
       <div className="flex w-full flex-1 flex-wrap items-center justify-between gap-2 px-4xl lg:gap-4">
         <div className="flex flex-1 flex-wrap items-center gap-2 lg:gap-4">
           <h1 className="whitespace-nowrap text-3xl font-semibold">
-            {isSbb() ? businessName : applicationTitle}
+            {isSbb() || isLaunchKC()
+              ? businessName
+              : [businessName, toCurrency(loanAmount, 0)]
+                  .filter((v) => !!v)
+                  .join(" • ")}
           </h1>
           {!isKccBank() && !isLaunchKC() && !isSbb() && (
             <div className="flex flex-wrap gap-2">

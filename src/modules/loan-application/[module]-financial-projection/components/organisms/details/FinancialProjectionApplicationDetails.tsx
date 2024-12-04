@@ -38,6 +38,7 @@ export function FinancialProjectionApplicationSummary() {
     <Layout>
       <Header />
       <Main
+        // TODO(Ngan): KYB Form V2 from applicationSummary
         companyName={loanSummary?.kybForm?.businessLegalName ?? ""}
         financialApplicationDetailData={financialApplicationDetailData}
         isLoading={isFetchingSummary || isLoading}

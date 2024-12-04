@@ -45,7 +45,7 @@ import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "../../services"
 import { useAutoCompleteStepEffect } from "../../hooks/useAutoCompleteStepEffect"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
-import { schemasByInstitution } from "../../constants/form[v2]"
+import { loanRequestSchemasByInstitution } from "../../constants/form-v2"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils"
 import { type MicroLoanProgramType } from "@/types/loan-program.type"
 
@@ -153,7 +153,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
    */
 
   const formV2 = useForm({
-    resolver: zodResolver(schemasByInstitution()),
+    resolver: zodResolver(loanRequestSchemasByInstitution()),
     mode: "onBlur",
     values: getOrDefault(loanRequestV2, loanProgramDetails)
   })

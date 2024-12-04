@@ -11,19 +11,18 @@ import { DownloadButton } from "../components/atoms/DownloadButton"
 import { useLoanApplicationDetailContext } from "../providers/LoanApplicationDetailProvider"
 import { getUseOfLoan } from "../services"
 import { Badge } from "@/components/ui/badge"
-import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
-import { type UseOfLoan } from "@/types/loan-application.type.ts"
 
+/**
+ * This is currently for CapSight.
+ * Which is not yet implemented for FORM V2.
+ * TODO: Implement FORM V2 for CapSight
+ */
 export function Component() {
   const elementToExportRef = useRef<HTMLDivElement>(null)
   const { loanSummary, isFetchingSummary, isFetchingCashflow } =
     useLoanApplicationDetailContext()
 
-  const proposeUseOfLoan = (
-    isEnableFormV2()
-      ? loanSummary?.loanRequestForm?.proposeUseOfLoan
-      : loanSummary?.proposeUseOfLoan
-  ) as UseOfLoan
+  const proposeUseOfLoan = loanSummary?.proposeUseOfLoan
 
   return (
     <div ref={elementToExportRef} className="w-full flex-col gap-3xl lg:flex">

@@ -1,6 +1,6 @@
 import { type ExecutionFormValue } from "@/modules/loan-application/constants/form"
 
-interface BusinessModel {
+export interface BusinessModel {
   businessModel: string
   otherMessage?: string
 }

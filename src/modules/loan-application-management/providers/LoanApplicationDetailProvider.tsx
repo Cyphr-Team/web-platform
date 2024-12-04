@@ -131,7 +131,8 @@ export function LoanApplicationDetailProvider({ children }: PropsWithChildren) {
 
   const fullAmortizationQuery = useQueryFullAmortization({
     applicationId: params.id!,
-    enabledByInstitution: isLoanReady()
+    // Currently, amortization is not available for any institutions
+    enabledByInstitution: false
   })
   const bankAccountsQuery = useQueryGetBankAccounts({
     applicationId: params.id!,

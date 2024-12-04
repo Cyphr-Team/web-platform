@@ -7,10 +7,11 @@ import {
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
 import { type DocumentUploadedResponse } from "./type"
-import type {
-  DefaultLoanRequestFormValue,
-  KccLoanRequestFormValue
-} from "./form[v2]"
+import {
+  type DefaultLoanRequestFormValue,
+  type KccLoanRequestFormValue,
+  type LoanReadyLoanRequestFormValue
+} from "./form-v2"
 import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import {
   ACCEPTED_FILE_TYPES,
@@ -380,7 +381,8 @@ export type LaunchKCFitFormValue = z.infer<typeof launchKcFitFormSchema>
  * In Typescript, I use type intersection to easily handle missing or addition field
  * */
 export type ILoanRequestFormValue = DefaultLoanRequestFormValue &
-  KccLoanRequestFormValue
+  KccLoanRequestFormValue &
+  LoanReadyLoanRequestFormValue
 
 export type IBusinessFormValue = BusinessFormValue &
   LaunchKCBusinessFormValue &

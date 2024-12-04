@@ -37,13 +37,14 @@ import { CashFlowTable } from "@/modules/loan-application/components/molecules/l
 import { IdentityVerificationDetails } from "@/modules/loan-application/components/molecules/loan-application-details/IdentityVerificationDetails.tsx"
 import { PreQualificationFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/pre-qualification/PreQualificationFormDetails.tsx"
 import usePermissions from "@/hooks/usePermissions"
-import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-summary"
 import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
 import { useParams } from "react-router-dom"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import { LaunchKCSummary } from "@/modules/loan-application-management/pages/launch-kc/loan-summary.tsx"
+import { ApplicationOverview } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary"
+import { OutOfBoxSummary } from "@/modules/loan-application-management/pages/out-of-box/loan-summary-v2.tsx"
 
 export function Component() {
   const params = useParams()
@@ -149,8 +150,13 @@ export function Component() {
     />
   )
 
-  if (isEnableFormV2() && isLaunchKC()) {
-    return <LaunchKCSummary />
+  if (isEnableFormV2()) {
+    switch (true) {
+      case isLaunchKC():
+        return <LaunchKCSummary />
+      default:
+        return <OutOfBoxSummary />
+    }
   }
 
   return (

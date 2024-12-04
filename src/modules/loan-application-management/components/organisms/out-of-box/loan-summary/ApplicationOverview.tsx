@@ -7,21 +7,57 @@ import { formatBusinessStreetAddress } from "@/modules/loan-application/constant
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import { getUseOfLoan } from "@/modules/loan-application-management/services"
 import { type UseOfLoan } from "@/types/loan-application.type.ts"
+import {
+  adaptFormV2Metadata,
+  findSingularFormMetadata
+} from "@/modules/loan-application/services/formv2.services.ts"
+import type { ILoanRequestFormValue } from "@/modules/loan-application/constants/form.ts"
+import { loanRequestSchemasByInstitution } from "@/modules/loan-application/constants/form-v2.ts"
+import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { Skeleton } from "@/components/ui/skeleton.tsx"
+
+function BaseApplicationOverviewSkeleton() {
+  return (
+    <div className="flex w-full gap-3xl px-4xl">
+      <Skeleton className="h-8 w-96" />
+    </div>
+  )
+}
 
 export function BaseApplicationOverview() {
-  const { loanSummary, loanApplicationDetails } =
-    useLoanApplicationDetailContext()
+  const {
+    isLoading,
+    isFetchingSummary,
+    loanSummary,
+    applicationSummary,
+    loanApplicationDetails
+  } = useLoanApplicationDetailContext()
+
+  if (isLoading || isFetchingSummary) return <BaseApplicationOverviewSkeleton />
 
   const businessInfo = loanSummary?.businessInfo
   const personalInfo = loanSummary?.personalInfo
+
+  const loanRequestForm = isEnableFormV2()
+    ? adaptFormV2Metadata<ILoanRequestFormValue>({
+        schema: loanRequestSchemasByInstitution(),
+        metadata: findSingularFormMetadata(
+          FORM_TYPE.LOAN_REQUEST,
+          applicationSummary
+        ),
+        additionalFields: {
+          applicationId: applicationSummary?.applicationId
+        }
+      })
+    : undefined
+
   const loanAmount = isEnableFormV2()
-    ? loanSummary?.loanRequestForm?.amount
+    ? loanRequestForm?.loanAmount
     : loanApplicationDetails?.loanAmount
 
-  const proposeUseOfLoan =
-    ((isEnableFormV2()
-      ? loanSummary?.loanRequestForm?.proposeUseOfLoan
-      : loanSummary?.proposeUseOfLoan) as UseOfLoan) ?? "N/A"
+  const proposeUseOfLoan = isEnableFormV2()
+    ? loanRequestForm?.proposeUseOfLoan
+    : loanSummary?.proposeUseOfLoan
 
   // Business Name and Address fetched from Middesk (post-verification) or from KYB form (pre-verification).
   // If KYB form has not yet been submitted, return "N/A"
@@ -77,7 +113,7 @@ export function BaseApplicationOverview() {
         <InformationRow
           className="rounded-bl-md"
           label="Proposed use of loan"
-          value={getUseOfLoan(proposeUseOfLoan)}
+          value={getUseOfLoan(proposeUseOfLoan as UseOfLoan) || "N/A"}
         />
         <InformationRow
           className="rounded-br-md"

@@ -10,10 +10,6 @@ import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application
 import { reverseFormatRevenueResponse } from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useQueryRevenueForm"
 import { reverseFormatExpenseTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useSubmitTaxRateForm"
 import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/services/form.services"
-import {
-  type ILoanRequestFormValue,
-  loanRequestFormSchema
-} from "@/modules/loan-application/constants/form"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
 import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
 import { reverseFormatLoanRequestForm } from "@/modules/loan-application/hooks/useQuery/useQueryUserLoanApplicationDetails"
@@ -23,11 +19,17 @@ import {
 } from "@/modules/loan-application/services/form.services"
 import { useIsFetching } from "@tanstack/react-query"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
-import { adaptFormV2Metadata } from "@/modules/loan-application/services/formv2.services.ts"
+import {
+  adaptFormV2Metadata,
+  findSingularFormMetadata
+} from "@/modules/loan-application/services/formv2.services.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import { get } from "lodash"
 import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
 import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form.kyb.ts"
+import {
+  loanReadyLoanRequestFormSchema,
+  type LoanReadyLoanRequestFormValue
+} from "@/modules/loan-application/constants/form-v2.ts"
 
 export const useAdminFinancialProjectionApplicationDetails = () => {
   const financialApplicationForms = useGetFinancialProjectLoanSummary()
@@ -96,15 +98,15 @@ export const useAdminFinancialProjectionApplicationDetails = () => {
       )
     },
     loanRequest: isEnableFormV2()
-      ? adaptFormV2Metadata<ILoanRequestFormValue>({
-          schema: loanRequestFormSchema,
-          metadata: get(
-            applicationSummary?.forms?.find(
-              (form) => form.formType === FORM_TYPE.LOAN_REQUEST
-            ),
-            "metadata",
-            {}
-          )
+      ? adaptFormV2Metadata<LoanReadyLoanRequestFormValue>({
+          schema: loanReadyLoanRequestFormSchema,
+          metadata: findSingularFormMetadata(
+            FORM_TYPE.LOAN_REQUEST,
+            applicationSummary
+          ),
+          additionalFields: {
+            applicationId: applicationSummary?.applicationId
+          }
         })
       : reverseFormatLoanRequestForm(loanApplicationDetails),
 

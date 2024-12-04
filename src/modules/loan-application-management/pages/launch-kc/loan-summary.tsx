@@ -31,7 +31,10 @@ import { ApplicationOverview } from "../../components/organisms/out-of-box/loan-
 import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/useQueryGetLoanApplicationDetailStatus"
 import { useParams } from "react-router-dom"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
-import { adaptFormV2Metadata } from "@/modules/loan-application/services/formv2.services.ts"
+import {
+  adaptFormV2Metadata,
+  preFormatCurrentLoanForm
+} from "@/modules/loan-application/services/formv2.services.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import {
   businessModelFormSchema,
@@ -40,7 +43,6 @@ import {
   type ExecutionFormValue,
   launchKcFitFormSchema,
   type LaunchKCFitFormValue,
-  loanRequestFormSchema,
   marketOpportunityFormSchema,
   type MarketOpportunityFormValue,
   operatingExpensesFormSchema,
@@ -59,6 +61,8 @@ import {
 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import { BUSINESS_MODEL_OTHER_OPTION } from "@/modules/loan-application/components/organisms/loan-application-form/execution/constants.ts"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
+import { loanRequestSchemasByInstitution } from "@/modules/loan-application/constants/form-v2.ts"
+import { type BusinessModel } from "@/modules/loan-application/components/organisms/loan-application-form/execution/type.ts"
 
 interface LaunchKCFormSummary {
   [FORM_TYPE.PRE_QUALIFICATION]: PreQualificationFormValue
@@ -83,7 +87,7 @@ const LAUNCH_KC_FORM_TYPES = [
 function formSchemaFromFormType(formType: FORM_TYPE) {
   switch (formType) {
     case FORM_TYPE.LOAN_REQUEST:
-      return loanRequestFormSchema
+      return loanRequestSchemasByInstitution()
     case FORM_TYPE.CURRENT_LOAN:
       return currentLoansFormSchema
     case FORM_TYPE.OPERATING_EXPENSES:
@@ -107,7 +111,6 @@ function formSchemaFromFormType(formType: FORM_TYPE) {
 
 export function LaunchKCSummary() {
   const launchKCFormSummary = {} as LaunchKCFormSummary
-
   const params = useParams()
   const {
     applicationSummary,
@@ -222,31 +225,12 @@ export function LaunchKCSummary() {
           metadata: {
             formMetaData
           },
-          preFormat: () => ({
-            ...formMetaData,
-            hasOutstandingLoans: (
-              get(formMetaData, "currentLoans", []).length > 0
-            ).toString(),
-            currentLoans: get(formMetaData, "currentLoans", []).map((loan) => {
-              return {
-                lenderName: get(loan, "lenderName", ""),
-                loanType: get(loan, "loanType", ""),
-                outstandingLoanBalance: get(loan, "outstandingLoanBalance", ""),
-                monthlyPaymentAmount: get(loan, "monthlyPaymentAmount", ""),
-                loanTermRemainingInMonths: get(
-                  loan,
-                  "loanTermRemainingInMonths",
-                  ""
-                ),
-                annualInterestRate: get(loan, "annualInterestRate", ""),
-                id: ""
-              }
-            }),
-            additionalFields: {
-              loanApplicationId: applicationSummary?.applicationId ?? "",
-              id: get(formData, "forms[0].id", "")
-            }
-          })
+          preFormat: () =>
+            preFormatCurrentLoanForm(
+              formMetaData,
+              applicationSummary?.applicationId,
+              get(formData, "forms[0].id", "")
+            )
         })
 
         return
@@ -265,8 +249,15 @@ export function LaunchKCSummary() {
               "forms[0].metadata.businessModels",
               []
             )
-              .flatMap((model) => Object.values(model))
-              .filter((model) => model !== BUSINESS_MODEL_OTHER_OPTION)
+              .flatMap((model) => {
+                const { businessModel, otherMessage } = model as BusinessModel
+
+                if (businessModel === BUSINESS_MODEL_OTHER_OPTION) {
+                  return `${businessModel}: ${otherMessage}`
+                }
+
+                return businessModel
+              })
               .map((model) => capitalizeWords(snakeCaseToText(String(model)))),
             fundingSources: get(
               formData,

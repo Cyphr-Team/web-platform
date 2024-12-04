@@ -28,7 +28,7 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils"
-import { loanReadyLoanRequestFormSchema } from "@/modules/loan-application/constants/form[v2]"
+import { loanReadyLoanRequestFormSchema } from "@/modules/loan-application/constants/form-v2"
 import { type MicroLoanProgramType } from "@/types/loan-program.type"
 import { UseOfLoan } from "@/types/loan-application.type.ts"
 

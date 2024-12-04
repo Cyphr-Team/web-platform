@@ -2,7 +2,7 @@ import { isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { z } from "zod"
 
 export const defaultLoanRequestFormSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   loanAmount: z.number().gt(0),
   proposeUseOfLoan: z
     .string()
@@ -14,7 +14,7 @@ export const defaultLoanRequestFormSchema = z.object({
 })
 
 export const loanReadyLoanRequestFormSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   loanAmount: z.number().gt(0),
   proposeUseOfLoan: z
     .string()
@@ -23,7 +23,7 @@ export const loanReadyLoanRequestFormSchema = z.object({
 })
 
 export const kccLoanRequestFormSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   loanAmount: z.number().gt(0),
   applicationId: z.string()
 })
@@ -34,7 +34,16 @@ export type DefaultLoanRequestFormValue = z.infer<
 
 export type KccLoanRequestFormValue = z.infer<typeof kccLoanRequestFormSchema>
 
-export const schemasByInstitution = () => {
+export type LoanReadyLoanRequestFormValue = z.infer<
+  typeof loanReadyLoanRequestFormSchema
+>
+
+type LoanRequestFormSchema =
+  | typeof defaultLoanRequestFormSchema
+  | typeof kccLoanRequestFormSchema
+  | typeof loanReadyLoanRequestFormSchema
+
+export const loanRequestSchemasByInstitution = (): LoanRequestFormSchema => {
   switch (true) {
     case isKccBank():
       return kccLoanRequestFormSchema
