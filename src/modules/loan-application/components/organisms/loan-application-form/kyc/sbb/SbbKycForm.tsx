@@ -130,7 +130,6 @@ export function SbbKycForm() {
 
       // Ignore unused value
       fullName: "ignore",
-      hasOtherSubstantialStackHolders: "ignore",
       addressLine2: "ignore"
     }
   }, [ownerInformationForm])

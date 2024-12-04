@@ -273,7 +273,6 @@ export function SbbReviewApplicationDetails() {
           0
         )
       ),
-      hasOtherSubstantialStackHolders: false,
       createdAt: "",
       updatedAt: "",
       metadata: {

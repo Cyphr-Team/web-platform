@@ -41,7 +41,6 @@ export const ownerFormSchema = z.object({
   businessOwnershipPercentage: z
     .string()
     .min(1, { message: "Ownership percent is required" }),
-  hasOtherSubstantialStackHolders: z.string(),
   governmentFile: z.custom<File[]>().refine(
     (fileList) => {
       if (fileList?.length) {

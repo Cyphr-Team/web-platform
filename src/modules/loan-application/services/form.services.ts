@@ -88,7 +88,6 @@ export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
 export const formatKycForm = (rawData: IOwnerFormValue): KYCInformation => {
   const formattedForm = {
     ...rawData,
-    hasOtherSubstantialStackHolders: undefined,
     businessOwnershipPercentage: Number(rawData.businessOwnershipPercentage)
   }
 
@@ -179,8 +178,6 @@ export const reverseFormatKycForm = (rawData: KYCInformationResponse) => {
     dateOfBirth: rawData.dateOfBirth,
     socialSecurityNumber: rawData.socialSecurityNumber,
     governmentFile: [],
-    hasOtherSubstantialStackHolders:
-      rawData.hasOtherSubstantialStackHolders.toString(),
     businessOwnershipPercentage: rawData.businessOwnershipPercentage
       ? rawData.businessOwnershipPercentage.toString()
       : ""

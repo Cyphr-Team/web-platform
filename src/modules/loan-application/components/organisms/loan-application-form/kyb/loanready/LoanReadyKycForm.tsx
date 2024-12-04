@@ -229,9 +229,6 @@ function getOrDefault(
       : "",
     businessOwnershipPercentage:
       ownerInformationForm?.businessOwnershipPercentage ?? "",
-    hasOtherSubstantialStackHolders:
-      ownerInformationForm?.hasOtherSubstantialStackHolders.toString() ??
-      "false",
     businessZipCode: ownerInformationForm?.businessZipCode ?? "",
     governmentFile: ownerInformationForm?.governmentFile ?? [],
     [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]:

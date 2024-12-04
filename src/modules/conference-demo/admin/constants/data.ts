@@ -128,7 +128,6 @@ export const MOCK_LOAN_SUMMARY: LoanSummary = {
     dateOfBirth: "2024-08-01T17:00:00.000Z",
     socialSecurityNumber: "222-22-2222",
     businessOwnershipPercentage: 20.0,
-    hasOtherSubstantialStackHolders: false,
     createdAt: "2024-02-14T17:14:41.661791Z",
     updatedAt: "2024-02-14T17:14:41.661791Z",
     metadata: {

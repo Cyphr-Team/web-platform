@@ -179,7 +179,6 @@ export interface KYCInformation {
   dateOfBirth: string
   socialSecurityNumber: string
   businessOwnershipPercentage: number
-  hasOtherSubstantialStackHolders?: boolean
   metadata?: Partial<
     {
       firstName: string
@@ -213,7 +212,6 @@ export interface KYCInformationResponse {
   dateOfBirth: string
   socialSecurityNumber: string
   businessOwnershipPercentage: number
-  hasOtherSubstantialStackHolders: boolean
   createdAt: string
   updatedAt: string
   metadata?: Partial<
