@@ -9,10 +9,7 @@ import { reverseFormatFpOperatingExpensesForm } from "@/modules/loan-application
 import { reverseFormatRevenueResponse } from "@/modules/loan-application/[module]-financial-projection/hooks/revenue/useQueryRevenueForm"
 import { reverseFormatExpenseTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useSubmitTaxRateForm"
 import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/services/form.services"
-import {
-  type LoanReadyBusinessFormValue,
-  type LoanReadyOwnerFormValue
-} from "@/modules/loan-application/constants/form"
+
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
 
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
@@ -35,6 +32,8 @@ import {
   useQueryLoanRequestForm
 } from "@/modules/loan-application/hooks/loanrequest/useQueryLoanRequest.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
+import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form.kyb.ts"
 
 export function useApplicantFinancialProjectionApplicationDetails() {
   const { id: loanApplicationId } = useParams()

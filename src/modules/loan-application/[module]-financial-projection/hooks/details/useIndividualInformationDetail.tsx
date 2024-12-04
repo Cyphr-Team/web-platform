@@ -3,7 +3,7 @@ import {
   LoanReadyKYCFieldName,
   PERSONAL_CREDIT_SCORE_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
-import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form"
+import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { formatPhoneNumber } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"

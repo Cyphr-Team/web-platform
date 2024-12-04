@@ -12,11 +12,11 @@ import {
   BUSINESS_STAGE_OPTIONS,
   LoanReadyKYBFieldName
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
+import { type IBusinessFormValue } from "@/modules/loan-application/constants/form"
 import {
-  type IBusinessFormValue,
   loanReadyBusinessFormSchema,
   type LoanReadyBusinessFormValue
-} from "@/modules/loan-application/constants/form.ts"
+} from "@/modules/loan-application/constants/form.kyb"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"

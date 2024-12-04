@@ -4,13 +4,13 @@ import {
   type LoanReadyKYBFieldName,
   type LoanReadyKYCFieldName
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
-import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form"
 import { type Option } from "@/types/common.type"
 import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import { type BaseLoanProgramType } from "@/types/loan-program.type"
 import { type SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
 import type { FORM_TYPE } from "../models/LoanApplicationStep/type"
+import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
 
 export interface LoanRequestV2SubmitRequest {
   applicationId: string

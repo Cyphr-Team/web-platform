@@ -6,17 +6,7 @@ import {
   sbbKybFormSchemaPartOne,
   sbbKybFormSchemaPartTwo
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
-import {
-  businessFormSchema,
-  type BusinessFormValue,
-  type IBusinessFormValue,
-  type IOwnerFormValue,
-  launchKCBusinessFormSchema,
-  launchKCOwnerFormSchema,
-  loanReadyBusinessFormSchema,
-  loanReadyOwnerFormSchema,
-  ownerFormSchema
-} from "../constants/form"
+
 import {
   type CurrentLoansInformationResponse,
   type KYBInformation,
@@ -29,6 +19,21 @@ import { getStateCode, getStateName } from "../hooks/useSelectCities"
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils.ts"
 import { get, set, without } from "lodash"
 import { SBB_KYC_FIELD_NAMES } from "../components/organisms/loan-application-form/kyc/sbb/const"
+import {
+  launchKCOwnerFormSchema,
+  loanReadyOwnerFormSchema,
+  ownerFormSchema
+} from "@/modules/loan-application/constants/form.kyc.ts"
+import {
+  type IBusinessFormValue,
+  type IOwnerFormValue
+} from "@/modules/loan-application/constants/form.ts"
+import {
+  businessFormSchema,
+  type BusinessFormValue,
+  launchKCBusinessFormSchema,
+  loanReadyBusinessFormSchema
+} from "@/modules/loan-application/constants/form.kyb.ts"
 
 export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
   const formattedForm: KYBInformation = {

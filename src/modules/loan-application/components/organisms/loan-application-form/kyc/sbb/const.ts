@@ -4,12 +4,12 @@ import {
 } from "@/modules/form-template/components/templates/FormTemplate"
 import {
   BINARY_VALUES,
-  ownerFormSchema,
   yesNoSchema
 } from "@/modules/loan-application/constants/form"
 import { isPossiblePhoneNumber } from "react-phone-number-input"
 import * as z from "zod"
 import { createPercentSchema } from "@/constants/validate.ts"
+import { ownerFormSchema } from "@/modules/loan-application/constants/form.kyc.ts"
 
 export const enum SBB_KYC_FIELD_NAMES {
   ID = "id",

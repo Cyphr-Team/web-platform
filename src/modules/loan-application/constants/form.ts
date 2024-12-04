@@ -1,26 +1,28 @@
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import type jsPDF from "jspdf"
-import { isPossiblePhoneNumber } from "react-phone-number-input"
 import * as z from "zod"
-import { REGEX_PATTERN } from "."
 import {
   type SbbKybFormPartOneValue,
   type SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type SbbKycFormValue } from "../components/organisms/loan-application-form/kyc/sbb/const"
 import { type DocumentUploadedResponse } from "./type"
-import { LoanReadyKYCFieldName } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
-import {
-  createStringSchema,
-  createWebsiteSchema
-} from "@/constants/validate.ts"
 import type {
   DefaultLoanRequestFormValue,
   KccLoanRequestFormValue
 } from "./form[v2]"
 import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
-
-const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "application/pdf"]
+import {
+  ACCEPTED_FILE_TYPES,
+  type LaunchKCOwnerFormValue,
+  type LoanReadyOwnerFormValue,
+  type OwnerFormValue
+} from "@/modules/loan-application/constants/form.kyc.ts"
+import {
+  type BusinessFormValue,
+  type LaunchKCBusinessFormValue,
+  type LoanReadyBusinessFormValue
+} from "@/modules/loan-application/constants/form.kyb.ts"
 
 export const ZodFileTypeFactory = (
   acceptedFileTypes: string[] = ACCEPTED_FILE_TYPES,
@@ -47,142 +49,7 @@ export const ZodFileTypeFactory = (
   )
 }
 
-export const ownerFormSchema = z.object({
-  id: z.string().nullable(),
-  fullName: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters" }),
-  addressLine1: z.string().min(1, { message: "Address line 1 is required" }),
-  addressLine2: z.string(),
-  businessRole: z.string().min(1, {
-    message: "Role is required"
-  }),
-  businessCity: z.string().min(1, { message: "City is required" }),
-  businessState: z.string().min(1, { message: "State is required" }),
-  businessZipCode: z
-    .string()
-    .min(1, { message: "Zip code is required" })
-    .regex(REGEX_PATTERN.ZIP_CODE, "Enter a valid zip code"),
-  phoneNumber: z
-    .string({ required_error: "Phone number is required" })
-    .refine((data) => isPossiblePhoneNumber(data), {
-      message: "Phone number is invalid"
-    }),
-  email: z.string().email({ message: "Enter a valid email address" }),
-  dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
-  /**
-   * Min 11 mean 9 numbers and 2 dashes '-'
-   * refer: SSN_PATTERN
-   */
-  socialSecurityNumber: z.string().min(11, { message: "SSN/ITIN is required" }),
-  // TODO(PhucNguyen): fix the type here to number
-  businessOwnershipPercentage: z
-    .string()
-    .min(1, { message: "Ownership percent is required" }),
-  hasOtherSubstantialStackHolders: z.string(),
-  governmentFile: z.custom<File[]>().refine(
-    (fileList) => {
-      if (fileList?.length) {
-        const fileArray = Array.from(fileList)
-
-        return ACCEPTED_FILE_TYPES.includes(fileArray[0].type)
-      }
-
-      return true
-    },
-    {
-      message: "Please choose PNG, JPG, PDF format files only"
-    }
-  )
-})
-
-export const launchKCOwnerFormSchema = ownerFormSchema.extend({
-  firstName: z.string().min(1, { message: "First name is required" }),
-  lastName: z.string().min(1, { message: "Last name is required" }),
-  title: z.string().min(1, { message: "Title is required" }),
-  genderIdentity: z.string().min(1, { message: "Gender identity is required" }),
-  preferredPronoun: z
-    .string()
-    .min(1, { message: "Preferred pronoun is required" }),
-  racialIdentification: z
-    .string()
-    .min(1, { message: "Racial identification is required" }),
-  ethnicIdentification: z
-    .string()
-    .min(1, { message: "Ethnic identification is required" }),
-  areFounderOrCoFounder: z
-    .string()
-    .min(1, { message: "This field is required" }),
-  areFullTimeFounder: z.string().min(1, { message: "This field is required" })
-})
-
-export const loanReadyOwnerFormSchema = ownerFormSchema.extend({
-  [LoanReadyKYCFieldName.PERSONAL_CREDIT_SCORE]: z
-    .string()
-    .min(1, "Persona credit score is required"),
-  // TODO(PhucNguyen): fix the type here to number
-  businessOwnershipPercentage: z.coerce.string()
-})
-
-export const businessFormSchema = z.object({
-  id: z.string(),
-  businessLegalName: createStringSchema({
-    fieldName: "Business legal name"
-  }),
-  businessWebsite: createWebsiteSchema({ fieldName: "Business website" }),
-  addressLine1: z.string().min(3, { message: "Address line 1 is required" }),
-  addressLine2: z.string().optional(),
-  city: z.string().min(1, { message: "City is required" }),
-  state: z.string().min(1, { message: "State is required" }),
-  postalCode: z
-    .string()
-    .min(1, { message: "Zip code is required" })
-    .regex(REGEX_PATTERN.ZIP_CODE, "Enter a valid zip code"),
-  /**
-   * Min 10 mean 9 numbers and 1 dashes '-'
-   * refer: EIN_PATTERN
-   */
-  businessTin: z.string().min(10, { message: "EIN is required" })
-})
-
-export const launchKCBusinessFormSchema = businessFormSchema.extend({
-  // in the future we should use [FIELD_NAMES.YEAR_FOUNDED] pattern instead of yearFounded
-  // it provide single truth for us to reduce unwanted error
-  yearFounded: z
-    .string()
-    .min(1, { message: "Year founded is required" })
-    .refine(
-      (value) => {
-        const inputYear = parseInt(value)
-        const currentYear = new Date().getFullYear()
-
-        return 1900 < inputYear && inputYear <= currentYear
-      },
-      { message: "Invalid year" }
-    ),
-  legalStructure: z.string().min(1, { message: "Legal structure is required" }),
-  primaryIndustry: z
-    .string()
-    .min(1, { message: "Primary industry is required" }),
-  primaryIndustryOther: z.string(),
-  companyDescription: z
-    .string()
-    .min(1, { message: "Company description is required" })
-    .max(255, { message: "Company description is too long" })
-})
-
-export const loanReadyBusinessFormSchema = businessFormSchema.extend({
-  dba: z.string().optional(),
-  businessStage: z.string().min(1, "Business stage is required"),
-  businessDescription: z.string().min(1, "Business description is required"),
-  businessWebsite: createWebsiteSchema({
-    fieldName: "Business website"
-  })
-})
-
-export type LoanReadyBusinessFormValue = z.infer<
-  typeof loanReadyBusinessFormSchema
->
+// region form zod schema validation definition
 
 export const financialFormSchema = z.object({
   id: z.string(),
@@ -306,8 +173,6 @@ export const reviewApplicationSchema = z.object({
   pdf: z.custom<jsPDF>().optional(),
   totalPage: z.number().optional()
 })
-
-export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
 
 export const assigningJudgeFormSchema = z.object({
   user: z.object({
@@ -461,6 +326,12 @@ export const yesNoSchema = z
     message: "Invalid option, must be 'yes' or 'no'."
   })
 
+// endregion
+
+// region form type declaration
+
+export type ReviewApplicationValue = z.infer<typeof reviewApplicationSchema>
+
 export type DisclaimerAndDisclosureFormValue = z.infer<
   typeof disclaimerAndDisclosureFormSchema
 >
@@ -468,18 +339,6 @@ export type DisclaimerAndDisclosureFormValue = z.infer<
 export type IdentityVerificationValue = z.infer<
   ReturnType<typeof createIdentityVerificationSchema>
 >
-
-export type BusinessFormValue = z.infer<typeof businessFormSchema>
-
-export type LaunchKCBusinessFormValue = z.infer<
-  typeof launchKCBusinessFormSchema
->
-
-export type OwnerFormValue = z.infer<typeof ownerFormSchema>
-
-export type LaunchKCOwnerFormValue = z.infer<typeof launchKCOwnerFormSchema>
-
-export type LoanReadyOwnerFormValue = z.infer<typeof loanReadyOwnerFormSchema>
 
 export type FinancialFormValue = z.infer<typeof financialFormSchema>
 
@@ -512,6 +371,8 @@ export type ExecutionFormValue = z.infer<typeof executionFormSchema>
 export type DocumentUploadsFormValue = z.infer<typeof documentUploadsFormSchema>
 
 export type LaunchKCFitFormValue = z.infer<typeof launchKcFitFormSchema>
+
+// endregion
 
 /**
  * Export type for provider, this use for centralize possible field of all form.

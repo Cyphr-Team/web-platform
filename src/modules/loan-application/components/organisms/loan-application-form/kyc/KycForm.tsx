@@ -12,11 +12,7 @@ import { MaskInput, toPattern } from "@/components/ui/mask-input"
 import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { Separator } from "@/components/ui/separator"
 import { SSN_PATTERN } from "@/constants"
-import {
-  type IOwnerFormValue,
-  ownerFormSchema,
-  type OwnerFormValue
-} from "@/modules/loan-application/constants/form"
+import { type IOwnerFormValue } from "@/modules/loan-application/constants/form"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
@@ -38,6 +34,10 @@ import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
+import {
+  ownerFormSchema,
+  type OwnerFormValue
+} from "@/modules/loan-application/constants/form.kyc.ts"
 
 interface OwnerInformationFormProps {
   wrapperClassName?: string

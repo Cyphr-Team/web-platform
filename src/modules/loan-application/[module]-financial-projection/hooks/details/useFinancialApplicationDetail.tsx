@@ -31,10 +31,10 @@ import { type ForecastingSetupFormValue } from "@/modules/loan-application/[modu
 import { type RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form"
 import {
   type ILoanRequestFormValue,
-  type LoanReadyBusinessFormValue,
-  type LoanReadyOwnerFormValue,
   type LoanRequestFormValue
 } from "@/modules/loan-application/constants/form"
+import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form.kyb"
+import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { checkIsLoanApplicant } from "@/utils/check-roles"

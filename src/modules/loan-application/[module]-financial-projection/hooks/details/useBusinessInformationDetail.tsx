@@ -3,7 +3,7 @@ import { EIN_PATTERN } from "@/constants"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { BUSINESS_STAGE_OPTIONS } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import { formatBusinessStreetAddress } from "@/modules/loan-application/constants"
-import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form"
+import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form.kyb"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseBusinessInformationDetailProps {

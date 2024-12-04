@@ -12,8 +12,6 @@ import { reverseFormatExpenseTaxRateForm } from "@/modules/loan-application/[mod
 import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/services/form.services"
 import {
   type ILoanRequestFormValue,
-  type LoanReadyBusinessFormValue,
-  type LoanReadyOwnerFormValue,
   loanRequestFormSchema
 } from "@/modules/loan-application/constants/form"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
@@ -28,6 +26,8 @@ import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import { adaptFormV2Metadata } from "@/modules/loan-application/services/formv2.services.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { get } from "lodash"
+import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
+import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form.kyb.ts"
 
 export const useAdminFinancialProjectionApplicationDetails = () => {
   const financialApplicationForms = useGetFinancialProjectLoanSummary()

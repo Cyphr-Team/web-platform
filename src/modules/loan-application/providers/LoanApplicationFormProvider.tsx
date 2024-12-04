@@ -8,7 +8,6 @@ import { useUpdateEffect } from "react-use"
 import { createContext } from "use-context-selector"
 import { useLoanApplicationProgressContext, usePlaidContext } from "."
 import type {
-  BusinessFormValue,
   BusinessModelFormValue,
   ConfirmationFormValue,
   DisclaimerAndDisclosureFormValue,
@@ -21,14 +20,10 @@ import type {
   IdentityVerificationValue,
   ILoanRequestFormValue,
   IOwnerFormValue,
-  LaunchKCBusinessFormValue,
   LaunchKCFitFormValue,
-  LaunchKCOwnerFormValue,
-  LoanReadyBusinessFormValue,
   LoanRequestFormValue,
   MarketOpportunityFormValue,
   OperatingExpensesFormValue,
-  OwnerFormValue,
   PreQualificationFormValue,
   ProductServiceFormValue,
   ReviewApplicationValue
@@ -58,6 +53,15 @@ import { type AssetsFormValue } from "@/modules/loan-application/[module]-financ
 import { type ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store"
 import { type DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
 import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
+import {
+  type LaunchKCOwnerFormValue,
+  type OwnerFormValue
+} from "@/modules/loan-application/constants/form.kyc.ts"
+import {
+  type BusinessFormValue,
+  type LaunchKCBusinessFormValue,
+  type LoanReadyBusinessFormValue
+} from "@/modules/loan-application/constants/form.kyb.ts"
 
 export interface LoanApplicationFormState {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue

@@ -28,7 +28,7 @@ import {
 import {
   launchKCBusinessFormSchema,
   type LaunchKCBusinessFormValue
-} from "@/modules/loan-application/constants/form.ts"
+} from "@/modules/loan-application/constants/form.kyb"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"

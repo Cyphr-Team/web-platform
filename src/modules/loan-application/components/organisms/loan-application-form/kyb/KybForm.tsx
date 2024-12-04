@@ -9,7 +9,7 @@ import {
 import {
   businessFormSchema,
   type BusinessFormValue
-} from "../../../../constants/form"
+} from "../../../../constants/form.kyb"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { useSelectCities } from "../../../../hooks/useSelectCities"
 import { useEffect, useMemo } from "react"

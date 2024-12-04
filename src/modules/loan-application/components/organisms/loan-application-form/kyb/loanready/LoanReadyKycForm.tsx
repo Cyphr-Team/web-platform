@@ -9,11 +9,11 @@ import {
   LoanReadyKYCFieldName,
   PERSONAL_CREDIT_SCORE_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
+import { type IOwnerFormValue } from "@/modules/loan-application/constants/form"
 import {
-  type IOwnerFormValue,
   loanReadyOwnerFormSchema,
   type LoanReadyOwnerFormValue
-} from "@/modules/loan-application/constants/form"
+} from "@/modules/loan-application/constants/form.kyc"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
 import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"

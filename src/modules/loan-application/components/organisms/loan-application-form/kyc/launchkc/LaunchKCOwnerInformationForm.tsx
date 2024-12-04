@@ -12,10 +12,6 @@ import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { Separator } from "@/components/ui/separator"
 import { SSN_PATTERN } from "@/constants"
 import {
-  launchKCOwnerFormSchema,
-  type LaunchKCOwnerFormValue
-} from "@/modules/loan-application/constants/form"
-import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
@@ -46,6 +42,10 @@ import {
 } from "./const"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
+import {
+  launchKCOwnerFormSchema,
+  type LaunchKCOwnerFormValue
+} from "@/modules/loan-application/constants/form.kyc.ts"
 
 export function LaunchKCOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
