@@ -97,18 +97,19 @@ export const useAdminFinancialProjectionApplicationDetails = () => {
         financialApplicationForms.revenueFormQuery.data
       )
     },
-    loanRequest: isEnableFormV2()
-      ? adaptFormV2Metadata<LoanReadyLoanRequestFormValue>({
-          schema: loanReadyLoanRequestFormSchema,
-          metadata: findSingularFormMetadata(
-            FORM_TYPE.LOAN_REQUEST,
-            applicationSummary
-          ),
-          additionalFields: {
-            applicationId: applicationSummary?.applicationId
-          }
-        })
-      : reverseFormatLoanRequestForm(loanApplicationDetails),
+    loanRequest:
+      isEnableFormV2() && applicationSummary?.forms
+        ? adaptFormV2Metadata<LoanReadyLoanRequestFormValue>({
+            schema: loanReadyLoanRequestFormSchema,
+            metadata: findSingularFormMetadata(
+              FORM_TYPE.LOAN_REQUEST,
+              applicationSummary
+            ),
+            additionalFields: {
+              applicationId: applicationSummary?.applicationId
+            }
+          })
+        : reverseFormatLoanRequestForm(loanApplicationDetails),
 
     // TODO(NganPhan): Adapt the KYB and KYC form from applicationSummary
     businessInformation: loanSummary?.kybForm
