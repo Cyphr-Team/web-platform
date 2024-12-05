@@ -104,6 +104,7 @@ import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/h
 import { useGetLoanReadySubscription } from "@/modules/loanready/hooks/payment/useGetLoanReadySubscription"
 import { has } from "lodash"
 import { mapLoanRequestDataToV2 } from "@/modules/loan-application/services/formv2.services.ts"
+import { type SubmitLoanFormContext } from "@/modules/loan-application/types"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -575,327 +576,336 @@ export const useSubmitLoanForm = (
    * V1: Submit all forms in parallel
    * This is the V1 version
    */
-  const submitLoanForm = useCallback(async () => {
-    try {
-      if (isEnabledLoanReadySubscriptionCheck) {
-        // Invalid: Can't find payment subscription, or it is already attached
-        const isInvalidLoanReadySubscription =
-          !loanReadySubscription || has(loanReadySubscription, "applicationId")
+  const submitLoanForm = useCallback(
+    async ({ isSaveDraft }: SubmitLoanFormContext) => {
+      try {
+        if (isEnabledLoanReadySubscriptionCheck) {
+          // Invalid: Can't find payment subscription, or it is already attached
+          const isInvalidLoanReadySubscription =
+            !loanReadySubscription ||
+            has(loanReadySubscription, "applicationId")
 
-        if (isInvalidLoanReadySubscription) {
-          // If the subscription is not found, throw an error and break the submission
-          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index, {
-            replace: true
+          if (isInvalidLoanReadySubscription) {
+            // If the subscription is not found, throw an error and break the submission
+            navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index, {
+              replace: true
+            })
+            toastError({
+              title: TOAST_MSG.loanApplication.paymentSubscription.title,
+              description:
+                "Can't find available payment subscription for your application. Please make sure you purchase the package or contact our support team."
+            })
+
+            return
+          }
+        }
+
+        // Submit loan request form
+        const { data } = await submitLoanRequestForm()
+        const applicationId = data.id // Loan Application ID
+
+        // TODO: @Ngan.Phan check FORM_V2 here
+        // tag: loanRequest, separateLoanApplication
+        if (applicationId) {
+          dispatchFormAction({
+            action: FORM_ACTION.UPDATE_DATA,
+            key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
+            state: {
+              ...data,
+              applicationId: data.id
+            }
           })
-          toastError({
-            title: TOAST_MSG.loanApplication.paymentSubscription.title,
-            description:
-              "Can't find available payment subscription for your application. Please make sure you purchase the package or contact our support team."
-          })
+        }
+
+        let isSubmitted = false
+
+        const submitPromises = []
+
+        /**
+         * Submit Loan Request v2
+         * Loan Request is now treated as a separate form
+         */
+        if (
+          isEnableFormV2() &&
+          loanRequestV2Data &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
+        ) {
+          submitPromises.push(mutateLoanRequest(applicationId))
+        }
+
+        // Submit identity verification - Link inquiry id
+        if (identityVerificationData?.inquiryId) {
+          // Only handle if this application haven't linked before - 1 application only link once
+          if (!identityVerificationData?.smartKycId) {
+            submitPromises.push(submitLoanIdentityVerification(applicationId))
+          }
+        }
+
+        // Submit e sign document - Link document id
+        if (
+          eSignData?.documentId &&
+          isEnablePandaDocESign() &&
+          (isSbb() || isLoanReady())
+        ) {
+          submitPromises.push(submitESignDocument(applicationId))
+        }
+
+        // Submit Plaid's itemId Clash flow verification
+        if (plaidItemIds?.length) {
+          submitPromises.push(submitLinkPlaidItemds(applicationId))
+        }
+
+        // Submit KYB form
+        if (
+          businessData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
+        ) {
+          submitPromises.push(submitLoanKYBForm(applicationId))
+        }
+
+        // Submit Current Loans form
+        if (
+          currentLoansData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
+        ) {
+          if (isEnableFormV2()) {
+            submitPromises.push(submitCurrentLoansFormV2(applicationId))
+          } else {
+            submitPromises.push(submitCurrentLoansForm(applicationId))
+          }
+        }
+
+        // Submit Operating Expenses form
+        if (
+          operatingExpensesData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
+        ) {
+          submitPromises.push(submitOperatingExpensesForm(applicationId))
+        }
+
+        // Submit Product Service form
+        if (
+          productServiceData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
+        ) {
+          submitPromises.push(submitProductServiceForm())
+        }
+
+        // Submit Market Opportunity form
+
+        if (
+          marketOpportunityData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
+        ) {
+          submitPromises.push(submitLoanMarketOpportunity(applicationId))
+        }
+
+        // Submit Launch KC Fit form
+        if (
+          launchKCFitData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
+        ) {
+          submitPromises.push(submitLoanLaunchKCFitForm())
+        }
+
+        // Submit Execution form
+        if (
+          executionData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.EXECUTION)
+        ) {
+          submitPromises.push(submitLoanExecutionForm())
+        }
+
+        // Submit Business Model form
+        if (
+          businessModelData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
+        ) {
+          submitPromises.push(submitLoanBusinessModelForm())
+        }
+
+        // Upload Business Documents
+        if (
+          documentUploadsData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS)
+        ) {
+          submitPromises.push(
+            uploadBusinessDocuments(
+              applicationId,
+              documentUploadsData.executiveSummary?.[0],
+              documentUploadsData.pitchDeck?.[0],
+              documentUploadsData.id ?? ""
+            )
+          )
+        }
+
+        // submit sbb forms
+        if (isSbb()) {
+          if (isEnableFormV2()) {
+            submitPromises.push(uploadSbbDocumentForm(applicationId))
+          } else {
+            submitPromises.push(submitSbbDocument(applicationId))
+          }
+        }
+
+        if (
+          isSbb() &&
+          isCompleteSteps(
+            LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
+          )
+        ) {
+          submitPromises.push(submitSbbLoanKYBForm(applicationId))
+        }
+
+        // Wait for all submitPromises to resolve
+        const results = await Promise.allSettled(submitPromises)
+
+        // These steps are only for forms has file upload
+        // Submit KYC form
+        if (
+          ownerData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
+        ) {
+          const {
+            data: { id: ownerFormId }
+          } = await submitLoanKYCForm(applicationId)
+
+          if (ownerData.governmentFile?.length) {
+            await uploadDocuments(
+              ownerFormId,
+              ownerData.governmentFile,
+              FORM_TYPE.KYC
+            )
+          }
+        }
+
+        // Submit Financial form
+        if (
+          financialData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+        ) {
+          const {
+            data: { id: financialFormId }
+          } = await submitLoanFinancialForm(applicationId)
+
+          if (financialData.w2sFile?.length) {
+            await uploadDocuments(
+              financialFormId,
+              financialData.w2sFile,
+              FORM_TYPE.FINANCIAL
+            )
+          }
+        } else if (
+          cashflowData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+        ) {
+          const {
+            data: { id: financialFormId }
+          } = await submitCashFlowForm(applicationId)
+
+          if (cashflowData.w2sFile?.length) {
+            await uploadDocuments(
+              financialFormId,
+              cashflowData.w2sFile,
+              FORM_TYPE.FINANCIAL
+            )
+          }
+        }
+
+        // Handle the first errors in the results
+        const error = results.find(
+          (result): result is PromiseRejectedResult =>
+            result.status === "rejected"
+        )
+
+        if (error?.reason) {
+          if (isAxiosError(error.reason)) {
+            handleSubmitFormError(error.reason as AxiosError)
+          }
 
           return
         }
-      }
 
-      // Submit loan request form
-      const { data } = await submitLoanRequestForm()
-      const applicationId = data.id // Loan Application ID
+        /**
+         * Financial Projection forms
+         */
+        await handleSubmitFinancialProjection(applicationId)
 
-      // TODO: @Ngan.Phan check FORM_V2 here
-      // tag: loanRequest, separateLoanApplication
-      if (applicationId) {
-        dispatchFormAction({
-          action: FORM_ACTION.UPDATE_DATA,
-          key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
-          state: {
-            ...data,
-            applicationId: data.id
+        if (!isSaveDraft) {
+          // Submit Confirmation form
+          if (confirmationData) {
+            // Submit Confirmation form
+            await submitLoanConfirmationForm(applicationId)
+            isSubmitted = true
           }
+        }
+
+        handleSubmitFormSuccess(
+          loanRequestData?.id?.length > 0,
+          isSubmitted,
+          applicationId
+        )
+        queryClient.invalidateQueries({
+          queryKey: loanApplicationUserKeys.detail(applicationId)
+        })
+      } catch (error) {
+        handleSubmitFormError(error as AxiosError)
+      } finally {
+        queryClient.invalidateQueries({
+          queryKey: loanApplicationUserKeys.lists()
         })
       }
-
-      let isSubmitted = false
-
-      const submitPromises = []
-
-      /**
-       * Submit Loan Request v2
-       * Loan Request is now treated as a separate form
-       */
-      if (
-        isEnableFormV2() &&
-        loanRequestV2Data &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.LOAN_REQUEST)
-      ) {
-        submitPromises.push(mutateLoanRequest(applicationId))
-      }
-
-      // Submit identity verification - Link inquiry id
-      if (identityVerificationData?.inquiryId) {
-        // Only handle if this application haven't linked before - 1 application only link once
-        if (!identityVerificationData?.smartKycId) {
-          submitPromises.push(submitLoanIdentityVerification(applicationId))
-        }
-      }
-
-      // Submit e sign document - Link document id
-      if (
-        eSignData?.documentId &&
-        isEnablePandaDocESign() &&
-        (isSbb() || isLoanReady())
-      ) {
-        submitPromises.push(submitESignDocument(applicationId))
-      }
-
-      // Submit Plaid's itemId Clash flow verification
-      if (plaidItemIds?.length) {
-        submitPromises.push(submitLinkPlaidItemds(applicationId))
-      }
-
-      // Submit KYB form
-      if (
-        businessData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
-      ) {
-        submitPromises.push(submitLoanKYBForm(applicationId))
-      }
-
-      // Submit Current Loans form
-      if (
-        currentLoansData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
-      ) {
-        if (isEnableFormV2()) {
-          submitPromises.push(submitCurrentLoansFormV2(applicationId))
-        } else {
-          submitPromises.push(submitCurrentLoansForm(applicationId))
-        }
-      }
-
-      // Submit Operating Expenses form
-      if (
-        operatingExpensesData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.OPERATING_EXPENSES)
-      ) {
-        submitPromises.push(submitOperatingExpensesForm(applicationId))
-      }
-
-      // Submit Product Service form
-      if (
-        productServiceData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
-      ) {
-        submitPromises.push(submitProductServiceForm())
-      }
-
-      // Submit Market Opportunity form
-
-      if (
-        marketOpportunityData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
-      ) {
-        submitPromises.push(submitLoanMarketOpportunity(applicationId))
-      }
-
-      // Submit Launch KC Fit form
-      if (
-        launchKCFitData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
-      ) {
-        submitPromises.push(submitLoanLaunchKCFitForm())
-      }
-
-      // Submit Execution form
-      if (executionData && isCompleteSteps(LOAN_APPLICATION_STEPS.EXECUTION)) {
-        submitPromises.push(submitLoanExecutionForm())
-      }
-
-      // Submit Business Model form
-      if (
-        businessModelData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
-      ) {
-        submitPromises.push(submitLoanBusinessModelForm())
-      }
-
-      // Upload Business Documents
-      if (
-        documentUploadsData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_BUSINESS_DOCUMENTS)
-      ) {
-        submitPromises.push(
-          uploadBusinessDocuments(
-            applicationId,
-            documentUploadsData.executiveSummary?.[0],
-            documentUploadsData.pitchDeck?.[0],
-            documentUploadsData.id ?? ""
-          )
-        )
-      }
-
-      // submit sbb forms
-      if (isSbb()) {
-        if (isEnableFormV2()) {
-          submitPromises.push(uploadSbbDocumentForm(applicationId))
-        } else {
-          submitPromises.push(submitSbbDocument(applicationId))
-        }
-      }
-
-      if (
-        isSbb() &&
-        isCompleteSteps(
-          LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE
-        )
-      ) {
-        submitPromises.push(submitSbbLoanKYBForm(applicationId))
-      }
-
-      // Wait for all submitPromises to resolve
-      const results = await Promise.allSettled(submitPromises)
-
-      // These steps are only for forms has file upload
-      // Submit KYC form
-      if (
-        ownerData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
-      ) {
-        const {
-          data: { id: ownerFormId }
-        } = await submitLoanKYCForm(applicationId)
-
-        if (ownerData.governmentFile?.length) {
-          await uploadDocuments(
-            ownerFormId,
-            ownerData.governmentFile,
-            FORM_TYPE.KYC
-          )
-        }
-      }
-
-      // Submit Financial form
-      if (
-        financialData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
-      ) {
-        const {
-          data: { id: financialFormId }
-        } = await submitLoanFinancialForm(applicationId)
-
-        if (financialData.w2sFile?.length) {
-          await uploadDocuments(
-            financialFormId,
-            financialData.w2sFile,
-            FORM_TYPE.FINANCIAL
-          )
-        }
-      } else if (
-        cashflowData &&
-        isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
-      ) {
-        const {
-          data: { id: financialFormId }
-        } = await submitCashFlowForm(applicationId)
-
-        if (cashflowData.w2sFile?.length) {
-          await uploadDocuments(
-            financialFormId,
-            cashflowData.w2sFile,
-            FORM_TYPE.FINANCIAL
-          )
-        }
-      }
-
-      // Handle the first errors in the results
-      const error = results.find(
-        (result): result is PromiseRejectedResult =>
-          result.status === "rejected"
-      )
-
-      if (error?.reason) {
-        if (isAxiosError(error.reason)) {
-          handleSubmitFormError(error.reason as AxiosError)
-        }
-
-        return
-      }
-
-      /**
-       * Financial Projection forms
-       */
-      await handleSubmitFinancialProjection(applicationId)
-
-      // Submit Confirmation form
-      if (confirmationData) {
-        // Submit Confirmation form
-        await submitLoanConfirmationForm(applicationId)
-        isSubmitted = true
-      }
-
-      handleSubmitFormSuccess(
-        loanRequestData?.id?.length > 0,
-        isSubmitted,
-        applicationId
-      )
-      queryClient.invalidateQueries({
-        queryKey: loanApplicationUserKeys.detail(applicationId)
-      })
-    } catch (error) {
-      handleSubmitFormError(error as AxiosError)
-    } finally {
-      queryClient.invalidateQueries({
-        queryKey: loanApplicationUserKeys.lists()
-      })
-    }
-  }, [
-    submitLoanRequestForm,
-    loanRequestV2Data,
-    isCompleteSteps,
-    identityVerificationData?.inquiryId,
-    identityVerificationData?.smartKycId,
-    eSignData?.documentId,
-    plaidItemIds?.length,
-    businessData,
-    currentLoansData,
-    operatingExpensesData,
-    productServiceData,
-    marketOpportunityData,
-    launchKCFitData,
-    executionData,
-    businessModelData,
-    documentUploadsData,
-    ownerData,
-    financialData,
-    cashflowData,
-    handleSubmitFinancialProjection,
-    confirmationData,
-    handleSubmitFormSuccess,
-    loanRequestData?.id?.length,
-    queryClient,
-    dispatchFormAction,
-    mutateLoanRequest,
-    submitLoanIdentityVerification,
-    submitESignDocument,
-    submitLinkPlaidItemds,
-    submitLoanKYBForm,
-    submitCurrentLoansFormV2,
-    submitCurrentLoansForm,
-    submitOperatingExpensesForm,
-    submitProductServiceForm,
-    submitLoanMarketOpportunity,
-    submitLoanLaunchKCFitForm,
-    submitLoanExecutionForm,
-    submitLoanBusinessModelForm,
-    uploadBusinessDocuments,
-    submitSbbDocument,
-    submitSbbLoanKYBForm,
-    submitLoanKYCForm,
-    uploadDocuments,
-    submitLoanFinancialForm,
-    submitCashFlowForm,
-    handleSubmitFormError,
-    submitLoanConfirmationForm
-  ])
+    },
+    [
+      submitLoanRequestForm,
+      loanRequestV2Data,
+      isCompleteSteps,
+      identityVerificationData?.inquiryId,
+      identityVerificationData?.smartKycId,
+      eSignData?.documentId,
+      plaidItemIds?.length,
+      businessData,
+      currentLoansData,
+      operatingExpensesData,
+      productServiceData,
+      marketOpportunityData,
+      launchKCFitData,
+      executionData,
+      businessModelData,
+      documentUploadsData,
+      ownerData,
+      financialData,
+      cashflowData,
+      handleSubmitFinancialProjection,
+      confirmationData,
+      handleSubmitFormSuccess,
+      loanRequestData?.id?.length,
+      queryClient,
+      dispatchFormAction,
+      mutateLoanRequest,
+      submitLoanIdentityVerification,
+      submitESignDocument,
+      submitLinkPlaidItemds,
+      submitLoanKYBForm,
+      submitCurrentLoansFormV2,
+      submitCurrentLoansForm,
+      submitOperatingExpensesForm,
+      submitProductServiceForm,
+      submitLoanMarketOpportunity,
+      submitLoanLaunchKCFitForm,
+      submitLoanExecutionForm,
+      submitLoanBusinessModelForm,
+      uploadBusinessDocuments,
+      submitSbbDocument,
+      submitSbbLoanKYBForm,
+      submitLoanKYCForm,
+      uploadDocuments,
+      submitLoanFinancialForm,
+      submitCashFlowForm,
+      handleSubmitFormError,
+      submitLoanConfirmationForm
+    ]
+  )
 
   return {
     submitLoanForm,

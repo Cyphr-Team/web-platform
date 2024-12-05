@@ -62,6 +62,7 @@ import {
   type LaunchKCBusinessFormValue,
   type LoanReadyBusinessFormValue
 } from "@/modules/loan-application/constants/form.kyb.ts"
+import { type SubmitLoanFormContext } from "@/modules/loan-application/types"
 
 export interface LoanApplicationFormState {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -115,7 +116,7 @@ export interface LoanDocumentsState {
 
 interface LoanApplicationFormContext extends LoanApplicationFormState {
   dispatchFormAction: Dispatch<Action>
-  submitLoanForm: () => void
+  submitLoanForm: (_: SubmitLoanFormContext) => void
   dispatchDocumentAction: Dispatch<DocumentAction>
   documents: LoanDocumentsState
   isSubmitting: boolean
@@ -313,7 +314,7 @@ export function LoanApplicationFormProvider(props: PropsWithChildren) {
   //Trigger submit form when the confirmation form is submitted
   useUpdateEffect(() => {
     if (state[LOAN_APPLICATION_STEPS.CONFIRMATION]) {
-      submitLoanForm()
+      submitLoanForm({})
     }
   }, [state[LOAN_APPLICATION_STEPS.CONFIRMATION]])
 

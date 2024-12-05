@@ -107,7 +107,7 @@ export function LoanApplicationSave() {
         step: uncompletedStep
       })
     } else {
-      submitLoanForm()
+      submitLoanForm({ isSaveDraft: true })
     }
   }
 
