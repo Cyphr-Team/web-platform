@@ -73,10 +73,12 @@ export default function LoanReadyApplications() {
               loanProgramId={loanPrograms.data?.data[0].id}
             />
           </div>
-          <UnusedReportBannerList
-            loanProgramId={loanPrograms.data?.data[0].id}
-            subscriptions={unusedSubscriptions?.data ?? []}
-          />
+          {unusedSubscriptions?.data ? (
+            <UnusedReportBannerList
+              loanProgramId={loanPrograms.data?.data[0].id}
+              subscriptions={unusedSubscriptions?.data}
+            />
+          ) : null}
           <DataTable
             columns={loanApplicationColumns}
             data={data?.data.data ?? []}
@@ -84,7 +86,7 @@ export default function LoanReadyApplications() {
             pagination={pagination}
             setPagination={setPagination}
             tableCellClassName="text-primary"
-            tableContainerClassName="flex h-[70vh] flex-1 flex-col rounded-full"
+            tableContainerClassName="flex h-[60vh] flex-1 flex-col rounded-full"
             tableHeadClassName="text-xs text-[#667085]"
             tableHeaderClassName="bg-[#f9fafb] !text-xs"
             tableWrapperClassName="rounded-lg"

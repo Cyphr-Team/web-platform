@@ -61,7 +61,8 @@ export function BillingAddressForm({
         options={{
           mode: "billing",
           allowedCountries: ["US"],
-          display: { name: "split" }
+          display: { name: "split" },
+          autocomplete: { mode: "disabled" }
         }}
         onChange={handleAddressElementChange}
       />

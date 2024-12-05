@@ -9,7 +9,27 @@ const StripeOptions: StripeElementsOptions = {
   locale: "en",
   // Fully customizable with appearance API.
   appearance: {
-    /*...*/
+    theme: "stripe",
+
+    variables: {
+      colorBackground: "#ffffff",
+      colorText: "rgb(9,9,11)",
+      fontFamily: "Inter, sans-serif",
+      fontSizeBase: "0.945rem",
+      fontWeightNormal: "400"
+    },
+
+    rules: {
+      ".Label": {
+        fontWeight: "500",
+        lineHeight: "20px",
+        textShadow: "none",
+        letterSpacing: "normal"
+      },
+      ".Input": {
+        borderRadius: "8px"
+      }
+    }
   }
 }
 

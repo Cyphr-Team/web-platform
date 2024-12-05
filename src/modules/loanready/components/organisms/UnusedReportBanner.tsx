@@ -23,7 +23,7 @@ export function UnusedReportBanner({
 }: UnusedReportBannerProps) {
   const navigate = useNavigate()
 
-  const handleStartApplication = () => {
+  const handleStartAssessment = () => {
     const searchParams = new URLSearchParams({
       transactionId: paymentTransactionId
     })
@@ -38,8 +38,8 @@ export function UnusedReportBanner({
   const PackageIcon = Icons.loanReadyPackage
 
   return (
-    <div className="w-full border-dashed border border-[#4F6161] rounded-lg mb-6 shadow-md">
-      <div className="p-4 flex items-center justify-between">
+    <div className="w-full my-2 align-center">
+      <div className="p-3 flex flex-col lg:flex-row items-center justify-between">
         {/* Left section with icon and title */}
         <div className="flex items-center gap-4">
           <div className="flex items-center justify-center w-10 h-10 rounded-full">
@@ -47,7 +47,7 @@ export function UnusedReportBanner({
           </div>
           <div>
             <p className="loanready-v2 text-sm text-primary">
-              {LoanReadyPlan[plan].name} | An application is ready for you to
+              {LoanReadyPlan[plan].name} | An assessment is ready for you to
               start
             </p>
           </div>
@@ -74,9 +74,9 @@ export function UnusedReportBanner({
           <Button
             className="gap-2"
             type="button"
-            onClick={handleStartApplication}
+            onClick={handleStartAssessment}
           >
-            Start application
+            Start assessment
           </Button>
         </div>
       </div>
