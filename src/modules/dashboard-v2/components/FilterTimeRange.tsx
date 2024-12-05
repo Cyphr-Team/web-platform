@@ -5,7 +5,6 @@ import { REQUEST_LIMIT_PARAM_FOR_SELECT } from "@/constants"
 import { type Option } from "@/types/common.type"
 import { TimeRangeValue } from "@/types/time-range.type"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { startOfMonth, subMonths } from "date-fns"
 import debounce from "lodash.debounce"
 import { ClipboardCheck } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
@@ -47,9 +46,6 @@ export function FilterTimeRange() {
       label: loanProgram.name,
       value: loanProgram.id
     })) ?? []
-
-  // 3 months before now
-  const threeMonthsBefore = startOfMonth(subMonths(new Date(), 2))
 
   const form = useForm<FilterValues>({
     resolver: zodResolver(FilterSchema),
@@ -140,9 +136,6 @@ export function FilterTimeRange() {
                         <DatePickerWithRange
                           className="mt-0 w-full rounded-l-none"
                           date={value}
-                          disabled={{
-                            from: threeMonthsBefore
-                          }}
                           setDate={handleSetDate}
                         />
                         <FormMessage />
