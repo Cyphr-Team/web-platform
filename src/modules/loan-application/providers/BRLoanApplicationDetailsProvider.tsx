@@ -60,7 +60,10 @@ import { useQueryGetIdentityVerification } from "../hooks/useQuery/useQueryGetId
 import { useGetPlaidConnectedInstitutions } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
 import { useQueryGetPlaidItemIds } from "../hooks/useQuery/useQueryGetPlaidItemIds"
 import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
-import { useQueryGetKycForm } from "../hooks/useQuery/useQueryKycForm"
+import {
+  useQueryKycForm,
+  useQueryKycFormV2
+} from "../hooks/useQuery/useQueryKycForm"
 import { useQueryLaunchKCFitForm } from "../hooks/useQuery/useQueryLaunchKCFitForm"
 import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
 import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
@@ -95,7 +98,8 @@ import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/useForm
 import {
   deserializeCurrentLoansFormV2,
   useQueryCurrentLoansFormV2
-} from "@/modules/loan-application/hooks/currentLoanFormV2/useQueryCurrentLoansFormV2.ts"
+} from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansFormV2.ts"
+import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -239,9 +243,19 @@ export function BRLoanApplicationDetailsProvider({
         progress
       )
   })
-  const kycFormQuery = useQueryGetKycForm({
+  const kycFormQuery = useQueryKycForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, progress)
+    enabled:
+      !isEnableFormV2() &&
+      isEnabledQuery(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, progress)
+  })
+
+  const kycFormQueryV2 = useQueryKycFormV2({
+    applicationId: loanApplicationId!,
+    enabled:
+      isEnableFormV2() &&
+      !isSbb() &&
+      isEnabledQuery(LOAN_APPLICATION_STEPS.OWNER_INFORMATION, progress)
   })
 
   const confirmationFormQuery = useQueryGetConfirmationForm({
@@ -426,6 +440,7 @@ export function BRLoanApplicationDetailsProvider({
   // KYC Form
   useEffect(() => {
     if (
+      !isEnableFormV2() &&
       kycFormQuery.data &&
       formInConfigurations(FORM_TYPE.KYC) &&
       isInitialized &&
@@ -443,6 +458,29 @@ export function BRLoanApplicationDetailsProvider({
     isQualified,
     kycFormQuery.data
   ])
+
+  // KYC Form V2
+  useEffect(() => {
+    if (
+      isEnableFormV2() &&
+      isInitialized &&
+      isQualified &&
+      formInConfigurations(FORM_TYPE.KYC) &&
+      kycFormQueryV2.data
+    ) {
+      changeDataAndProgress(
+        deserializeKycFormV2(kycFormQueryV2.data),
+        LOAN_APPLICATION_STEPS.OWNER_INFORMATION
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    formInConfigurations,
+    isInitialized,
+    isQualified,
+    kycFormQueryV2.data
+  ])
+
   // Financial Form
   useEffect(() => {
     if (
@@ -973,6 +1011,7 @@ export function BRLoanApplicationDetailsProvider({
         loanRequestDetailQuery.isLoading ||
         kybFormQuery.isLoading ||
         kycFormQuery.isLoading ||
+        kycFormQueryV2.isLoading ||
         confirmationFormQuery.isLoading ||
         financialFormQuery.isLoading ||
         currentLoansFormQuery.isLoading ||

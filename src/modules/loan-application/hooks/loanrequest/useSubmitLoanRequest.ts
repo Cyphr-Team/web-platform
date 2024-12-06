@@ -16,13 +16,14 @@ import { toastError } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg.ts"
 import { getAxiosError } from "@/utils/custom-error.ts"
 import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
+import { type NoobRecord } from "@/modules/loan-application/types/form.v2.ts"
 
 // submit or update must be defined
 // update will have higher priority than submit
 interface UseMutateLoanRequestProps {
   applicationId: string
   formId: string
-  metadata: Record<string, unknown>
+  metadata: NoobRecord
   onSuccess: (loanRequestV2FormValue: ILoanRequestFormValue) => void
 }
 

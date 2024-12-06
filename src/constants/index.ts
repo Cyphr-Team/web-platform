@@ -398,6 +398,11 @@ export const API_PATH = {
       },
       currentLoans: {
         index: "api/form/v2/current-loan"
+      },
+      kyc: {
+        get: "api/form/v2/kyc/by-application-id",
+        submit: "api/form/v2/kyc",
+        update: "api/form/v2/kyc/update"
       }
     }
   },

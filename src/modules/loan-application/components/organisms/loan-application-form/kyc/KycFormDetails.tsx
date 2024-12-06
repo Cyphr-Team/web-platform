@@ -51,7 +51,8 @@ export function KycFormDetails({ kycFormData }: KycFormDetailsProps) {
             className="!flex-row justify-between"
             label="Title"
             value={
-              getOptionValue(LAUNCH_KC_KYC_FIELD_NAMES.TITLE, true) ?? "N/A"
+              getOptionValue(LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ROLE, true) ??
+              "N/A"
             }
           />
           <AnswersTextDisplay

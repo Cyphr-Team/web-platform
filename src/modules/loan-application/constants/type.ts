@@ -9,26 +9,18 @@ import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import { type BaseLoanProgramType } from "@/types/loan-program.type"
 import { type SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
-import type { FORM_TYPE } from "../models/LoanApplicationStep/type"
 import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
+import {
+  type FormV2Data,
+  type FormV2SubmitRequest,
+  type FormV2UpdateRequest
+} from "@/modules/loan-application/types/form.v2.ts"
 
-export interface LoanRequestV2SubmitRequest {
-  applicationId: string
-  formType: FORM_TYPE
-  metadata?: Record<string, unknown>
-}
+export type LoanRequestV2SubmitRequest = FormV2SubmitRequest
 
-export interface LoanRequestV2UpdateRequest {
-  formId: string
-  metadata?: Record<string, unknown>
-}
+export type LoanRequestV2UpdateRequest = FormV2UpdateRequest
 
-export interface LoanRequestV2 {
-  id: string
-  applicationId: string
-  formType: FORM_TYPE
-  metadata?: Record<string, unknown>
-}
+export type LoanRequestV2 = FormV2Data
 
 export interface KYBInformation {
   id: string | null
@@ -165,12 +157,12 @@ export interface BusinessStreetAddress {
 }
 
 export interface KYCInformation {
-  id: string | null
+  id?: string
   loanApplicationId?: string
   fullName: string
   businessRole: string
   addressLine1: string
-  addressLine2: string
+  addressLine2?: string
   businessCity: string
   businessState: string
   businessZipCode: string

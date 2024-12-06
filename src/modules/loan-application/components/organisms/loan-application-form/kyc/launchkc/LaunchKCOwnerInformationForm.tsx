@@ -7,7 +7,7 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { MaskInput, toPattern } from "@/components/ui/mask-input"
+import { MaskInput } from "@/components/ui/mask-input"
 import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
 import { Separator } from "@/components/ui/separator"
 import { SSN_PATTERN } from "@/constants"
@@ -20,7 +20,7 @@ import { CalendarDatePicker } from "@/shared/molecules/date-picker"
 import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Mail } from "lucide-react"
-import { useEffect, useMemo } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
 
@@ -33,11 +33,10 @@ import { AutoCompleteStates } from "@/modules/loan-application/components/molecu
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities.tsx"
 import { SelectInput } from "@/shared/organisms/form/SelectInput.tsx"
 import { OptionInput } from "@/shared/organisms/form/OptionInput.tsx"
-import { get, set } from "lodash"
 import {
+  BUSINESS_ROLE_OPTIONS,
   getKycOptionsByField,
   LAUNCH_KC_KYC_FIELD_NAMES,
-  TITLE_OPTIONS,
   YES_NO_OPTIONS
 } from "./const"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
@@ -46,40 +45,17 @@ import {
   launchKCOwnerFormSchema,
   type LaunchKCOwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
+import { type IOwnerFormValue } from "@/modules/loan-application/constants/form.ts"
 
 export function LaunchKCOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
   const { dispatchFormAction, ownerInformationForm } =
     useLoanApplicationFormContext()
 
-  const launchKcOwnerInformationForm = useMemo(
-    () => ownerInformationForm as LaunchKCOwnerFormValue,
-    [ownerInformationForm]
-  )
-
-  // set default values
-  const defaultValues: Partial<LaunchKCOwnerFormValue> = {}
-
-  Object.keys(launchKCOwnerFormSchema.shape).forEach((field) => {
-    let defaultVal: string | File[] = get(
-      launchKcOwnerInformationForm,
-      field,
-      ""
-    )
-
-    if (field === LAUNCH_KC_KYC_FIELD_NAMES.SOCIAL_SECURITY_NUMBER) {
-      defaultVal = launchKcOwnerInformationForm?.[field]
-        ? toPattern(launchKcOwnerInformationForm[field], SSN_PATTERN)
-        : ""
-    }
-
-    set(defaultValues, field, defaultVal)
-  })
-
   const form = useForm<LaunchKCOwnerFormValue>({
     resolver: zodResolver(launchKCOwnerFormSchema),
     mode: "onBlur",
-    defaultValues
+    defaultValues: getOrDefault(ownerInformationForm)
   })
 
   const handleSelectDate = (date: Date | undefined) => {
@@ -137,12 +113,12 @@ export function LaunchKCOwnerInformationForm() {
       dispatchFormAction({
         action: FORM_ACTION.SET_DATA,
         key: LOAN_APPLICATION_STEPS.OWNER_INFORMATION,
-        state: data
+        state: {
+          ...data,
+          fullName: `${data.firstName} ${data.lastName}`
+        }
       })
     }
-    // setValue to make it dirty, act like we manually input these value
-    form.setValue("fullName", "ignore")
-    form.setValue("businessRole", "ignore")
   }, [form.formState.isValidating, form, dispatchFormAction])
 
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
@@ -179,8 +155,8 @@ export function LaunchKCOwnerInformationForm() {
             control={form.control}
             inputClassName="xl:ml-0 xl:max-w-80"
             label="Title"
-            name={LAUNCH_KC_KYC_FIELD_NAMES.TITLE}
-            options={TITLE_OPTIONS}
+            name={LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ROLE}
+            options={BUSINESS_ROLE_OPTIONS}
             placeholder="Please Select"
           />
           <OptionInput
@@ -417,4 +393,14 @@ export function LaunchKCOwnerInformationForm() {
       </Form>
     </FormLayout>
   )
+}
+
+function getOrDefault(
+  ownerInformationForm: IOwnerFormValue
+): LaunchKCOwnerFormValue {
+  return {
+    ...ownerInformationForm,
+    // just temporary, to make fullName pass validation, but actually we use this field
+    fullName: `${ownerInformationForm?.firstName} ${ownerInformationForm?.lastName}`
+  } as unknown as LaunchKCOwnerFormValue
 }

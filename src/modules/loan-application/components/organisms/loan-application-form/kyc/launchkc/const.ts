@@ -14,7 +14,7 @@ export const enum LAUNCH_KC_KYC_FIELD_NAMES {
   BUSINESS_OWNERSHIP_PERCENTAGE = "businessOwnershipPercentage",
   FIRST_NAME = "firstName",
   LAST_NAME = "lastName",
-  TITLE = "title",
+  BUSINESS_ROLE = "businessRole",
   GENDER_IDENTITY = "genderIdentity",
   PREFERRED_PRONOUN = "preferredPronoun",
   RACIAL_IDENTIFICATION = "racialIdentification",
@@ -28,8 +28,8 @@ export const enum LAUNCH_KC_KYC_FIELD_NAMES {
 
 export const getKycOptionsByField = (field: string): Option[] => {
   switch (field) {
-    case LAUNCH_KC_KYC_FIELD_NAMES.TITLE:
-      return TITLE_OPTIONS
+    case LAUNCH_KC_KYC_FIELD_NAMES.BUSINESS_ROLE:
+      return BUSINESS_ROLE_OPTIONS
     case LAUNCH_KC_KYC_FIELD_NAMES.GENDER_IDENTITY:
       return GENDER_IDENTITY_OPTIONS
     case LAUNCH_KC_KYC_FIELD_NAMES.PREFERRED_PRONOUN:
@@ -43,7 +43,7 @@ export const getKycOptionsByField = (field: string): Option[] => {
   }
 }
 
-export const TITLE_OPTIONS: Option[] = [
+export const BUSINESS_ROLE_OPTIONS: Option[] = [
   {
     label: "Mr.",
     value: "mr"

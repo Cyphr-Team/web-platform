@@ -14,7 +14,10 @@ import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
 
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
 import { useQueryGetKybForm } from "@/modules/loan-application/hooks/useQuery/useQueryKybForm"
-import { useQueryGetKycForm } from "@/modules/loan-application/hooks/useQuery/useQueryKycForm"
+import {
+  useQueryKycForm,
+  useQueryKycFormV2
+} from "@/modules/loan-application/hooks/useQuery/useQueryKycForm"
 import {
   reverseFormatLoanRequestForm,
   useQueryLoanApplicationDetailsByType
@@ -34,6 +37,8 @@ import {
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
 import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form.kyb.ts"
+import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
+import { isSbb } from "@/utils/domain.utils.ts"
 
 export function useApplicantFinancialProjectionApplicationDetails() {
   const { id: loanApplicationId } = useParams()
@@ -48,8 +53,12 @@ export function useApplicantFinancialProjectionApplicationDetails() {
   const kybFormQuery = useQueryGetKybForm({
     applicationId: loanApplicationId!
   })
-  const kycFormQuery = useQueryGetKycForm({
+  const kycFormQuery = useQueryKycForm({
     applicationId: loanApplicationId!
+  })
+  const kycFormQueryV2 = useQueryKycFormV2({
+    applicationId: loanApplicationId!,
+    enabled: isEnableFormV2() && !isSbb()
   })
   const loanRequestFormQuery = useQueryLoanRequestForm({
     applicationId: loanApplicationId!,
@@ -117,9 +126,14 @@ export function useApplicantFinancialProjectionApplicationDetails() {
     businessInformation: kybFormQuery.data
       ? (reverseFormatKybForm(kybFormQuery.data) as LoanReadyBusinessFormValue)
       : undefined,
-    ownerInformationForm: kycFormQuery.data
-      ? (reverseFormatKycForm(kycFormQuery.data) as LoanReadyOwnerFormValue)
-      : undefined
+    ownerInformationForm:
+      isEnableFormV2() && !isSbb()
+        ? kycFormQueryV2.data
+          ? deserializeKycFormV2(kycFormQueryV2.data)
+          : undefined
+        : kycFormQuery.data
+          ? (reverseFormatKycForm(kycFormQuery.data) as LoanReadyOwnerFormValue)
+          : undefined
   })
 
   const isFetchingBankAccounts = useIsFetching({

@@ -10,12 +10,12 @@ export const ACCEPTED_FILE_TYPES = [
 ]
 
 export const ownerFormSchema = z.object({
-  id: z.string().nullable(),
+  id: z.string().optional(),
   fullName: z
     .string()
     .min(2, { message: "Name must be at least 2 characters" }),
   addressLine1: z.string().min(1, { message: "Address line 1 is required" }),
-  addressLine2: z.string(),
+  addressLine2: z.string().optional(),
   businessRole: z.string().min(1, {
     message: "Role is required"
   }),
@@ -60,7 +60,6 @@ export const ownerFormSchema = z.object({
 export const launchKCOwnerFormSchema = ownerFormSchema.extend({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  title: z.string().min(1, { message: "Title is required" }),
   genderIdentity: z.string().min(1, { message: "Gender identity is required" }),
   preferredPronoun: z
     .string()

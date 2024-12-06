@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
-import { putRequest, postRequest } from "@/services/client.service"
-import { useQueryClient, useMutation } from "@tanstack/react-query"
-import { type AxiosResponse, type AxiosError } from "axios"
+import { postRequest, putRequest } from "@/services/client.service"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { type AxiosError, type AxiosResponse } from "axios"
 import {
-  type KYCInformationResponse,
-  type KYCInformation
+  type KYCInformation,
+  type KYCInformationResponse
 } from "../../constants/type"
 import { formatKycForm } from "../../services/form.services"
 import { type IOwnerFormValue } from "@/modules/loan-application/constants/form.ts"
@@ -75,6 +75,8 @@ const useUpdateLoanKycInformation = () => {
 }
 
 const useSubmitLoanKycInformation = () => {
+  const queryClient = useQueryClient()
+
   return useMutation<
     AxiosResponse<KYCInformationResponse>,
     AxiosError<ErrorResponse>,
@@ -84,6 +86,11 @@ const useSubmitLoanKycInformation = () => {
       return postRequest({
         path: API_PATH.application.kycForm,
         data
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GET_KYC_FORM]
       })
     }
   })

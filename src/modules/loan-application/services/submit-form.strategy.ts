@@ -99,12 +99,13 @@ import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
 import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 import { useMutateLoanRequest } from "../hooks/loanrequest/useSubmitLoanRequest"
 import { useUploadDocumentForm } from "@/modules/loan-application/hooks/useForm/document/useUploadDocumentForm.ts"
-import { useSubmitCurrentLoansFormV2 } from "@/modules/loan-application/hooks/currentLoanFormV2/useSubmitCurrentLoansFormV2.ts"
+import { useSubmitCurrentLoansFormV2 } from "@/modules/loan-application/hooks/form-current-loan-v2/useSubmitCurrentLoansFormV2.ts"
 import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication"
 import { useGetLoanReadySubscription } from "@/modules/loanready/hooks/payment/useGetLoanReadySubscription"
 import { has } from "lodash"
 import { mapLoanRequestDataToV2 } from "@/modules/loan-application/services/formv2.services.ts"
 import { type SubmitLoanFormContext } from "@/modules/loan-application/types"
+import { useSubmitKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -246,6 +247,12 @@ export const useSubmitLoanForm = (
       onSuccess: updateKYCData
     })
 
+  const { submitKYCForm: submitKYCFormV2, isLoading: isSubmittingKYCV2 } =
+    useSubmitKycFormV2({
+      rawData: ownerData
+    })
+
+  // Loan Request
   const { submitLoanRequestForm, isLoading: isSubmittingLoanRequest } =
     useSubmitMicroLoanRequestForm(
       loanRequestData,
@@ -757,7 +764,6 @@ export const useSubmitLoanForm = (
           submitPromises.push(submitSbbLoanKYBForm(applicationId))
         }
 
-        // Wait for all submitPromises to resolve
         const results = await Promise.allSettled(submitPromises)
 
         // These steps are only for forms has file upload
@@ -766,88 +772,92 @@ export const useSubmitLoanForm = (
           ownerData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.OWNER_INFORMATION)
         ) {
-          const {
-            data: { id: ownerFormId }
-          } = await submitLoanKYCForm(applicationId)
+          if (isEnableFormV2() && !isSbb()) {
+            submitPromises.push(submitKYCFormV2(applicationId))
+          } else {
+            const {
+              data: { id: ownerFormId }
+            } = await submitLoanKYCForm(applicationId)
 
-          if (ownerData.governmentFile?.length) {
-            await uploadDocuments(
-              ownerFormId,
-              ownerData.governmentFile,
-              FORM_TYPE.KYC
-            )
-          }
-        }
-
-        // Submit Financial form
-        if (
-          financialData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
-        ) {
-          const {
-            data: { id: financialFormId }
-          } = await submitLoanFinancialForm(applicationId)
-
-          if (financialData.w2sFile?.length) {
-            await uploadDocuments(
-              financialFormId,
-              financialData.w2sFile,
-              FORM_TYPE.FINANCIAL
-            )
-          }
-        } else if (
-          cashflowData &&
-          isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
-        ) {
-          const {
-            data: { id: financialFormId }
-          } = await submitCashFlowForm(applicationId)
-
-          if (cashflowData.w2sFile?.length) {
-            await uploadDocuments(
-              financialFormId,
-              cashflowData.w2sFile,
-              FORM_TYPE.FINANCIAL
-            )
-          }
-        }
-
-        // Handle the first errors in the results
-        const error = results.find(
-          (result): result is PromiseRejectedResult =>
-            result.status === "rejected"
-        )
-
-        if (error?.reason) {
-          if (isAxiosError(error.reason)) {
-            handleSubmitFormError(error.reason as AxiosError)
+            if (ownerData.governmentFile?.length) {
+              await uploadDocuments(
+                ownerFormId,
+                ownerData.governmentFile,
+                FORM_TYPE.KYC
+              )
+            }
           }
 
-          return
-        }
+          // Submit Financial form
+          if (
+            financialData &&
+            isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+          ) {
+            const {
+              data: { id: financialFormId }
+            } = await submitLoanFinancialForm(applicationId)
 
-        /**
-         * Financial Projection forms
-         */
-        await handleSubmitFinancialProjection(applicationId)
+            if (financialData.w2sFile?.length) {
+              await uploadDocuments(
+                financialFormId,
+                financialData.w2sFile,
+                FORM_TYPE.FINANCIAL
+              )
+            }
+          } else if (
+            cashflowData &&
+            isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+          ) {
+            const {
+              data: { id: financialFormId }
+            } = await submitCashFlowForm(applicationId)
 
-        if (!isSaveDraft) {
-          // Submit Confirmation form
-          if (confirmationData) {
+            if (cashflowData.w2sFile?.length) {
+              await uploadDocuments(
+                financialFormId,
+                cashflowData.w2sFile,
+                FORM_TYPE.FINANCIAL
+              )
+            }
+          }
+
+          // Handle the first errors in the results
+          const error = results.find(
+            (result): result is PromiseRejectedResult =>
+              result.status === "rejected"
+          )
+
+          if (error?.reason) {
+            if (isAxiosError(error.reason)) {
+              handleSubmitFormError(error.reason as AxiosError)
+            }
+
+            return
+          }
+
+          /**
+           * Financial Projection forms
+           */
+          await handleSubmitFinancialProjection(applicationId)
+
+          if (!isSaveDraft) {
             // Submit Confirmation form
-            await submitLoanConfirmationForm(applicationId)
-            isSubmitted = true
+            if (confirmationData) {
+              // Submit Confirmation form
+              await submitLoanConfirmationForm(applicationId)
+              isSubmitted = true
+            }
           }
-        }
 
-        handleSubmitFormSuccess(
-          loanRequestData?.id?.length > 0,
-          isSubmitted,
-          applicationId
-        )
-        queryClient.invalidateQueries({
-          queryKey: loanApplicationUserKeys.detail(applicationId)
-        })
+          handleSubmitFormSuccess(
+            loanRequestData?.id?.length > 0,
+            isSubmitted,
+            applicationId
+          )
+          queryClient.invalidateQueries({
+            queryKey: loanApplicationUserKeys.detail(applicationId)
+          })
+        }
       } catch (error) {
         handleSubmitFormError(error as AxiosError)
       } finally {
@@ -933,6 +943,7 @@ export const useSubmitLoanForm = (
       isSubmittingSbbDocument ||
       isUploadingDocumentForm ||
       isSubmittingSbbKYB ||
-      isSubmittingFinancialProjection
+      isSubmittingFinancialProjection ||
+      isSubmittingKYCV2
   }
 }
