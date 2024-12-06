@@ -34,11 +34,15 @@ import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/cons
 import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
 import { isSbb } from "@/utils/domain.utils.ts"
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/form-financial-projection/useGetFinancialProjectForms.ts"
-import { useQueryGetKybForm } from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
+import {
+  useQueryGetKybForm,
+  useQueryGetKybFormV2
+} from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
 import {
   useQueryKycForm,
   useQueryKycFormV2
 } from "@/modules/loan-application/hooks/form-kyc/useQueryKycForm.ts"
+import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 
 export function useApplicantFinancialProjectionApplicationDetails() {
   const { id: loanApplicationId } = useParams()
@@ -52,6 +56,10 @@ export function useApplicantFinancialProjectionApplicationDetails() {
 
   const kybFormQuery = useQueryGetKybForm({
     applicationId: loanApplicationId!
+  })
+  const kybFormQueryV2 = useQueryGetKybFormV2({
+    applicationId: loanApplicationId!,
+    enabled: isEnableFormV2() && !isSbb() // not support sbb
   })
   const kycFormQuery = useQueryKycForm({
     applicationId: loanApplicationId!
@@ -123,9 +131,17 @@ export function useApplicantFinancialProjectionApplicationDetails() {
     loanRequest: isEnableFormV2()
       ? reverseFormatLoanRequestFormV2(loanRequestFormQuery.data)
       : reverseFormatLoanRequestForm(loanApplicationDetailsQuery.data),
-    businessInformation: kybFormQuery.data
-      ? (reverseFormatKybForm(kybFormQuery.data) as LoanReadyBusinessFormValue)
-      : undefined,
+    businessInformation:
+      isEnableFormV2() && !isSbb()
+        ? kybFormQuery.data
+          ? (reverseFormatKybForm(
+              kybFormQuery.data
+            ) as LoanReadyBusinessFormValue)
+          : undefined
+        : kybFormQueryV2.data
+          ? // TODO: bring the deserialize to transport layer
+            deserializeKybFormV2(kybFormQueryV2.data)
+          : undefined,
     ownerInformationForm:
       isEnableFormV2() && !isSbb()
         ? kycFormQueryV2.data

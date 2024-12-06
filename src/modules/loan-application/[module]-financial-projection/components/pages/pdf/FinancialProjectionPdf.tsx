@@ -20,13 +20,17 @@ import {
   ForecastPeriod,
   type ForecastResultsResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast"
-import { useQueryGetKybForm } from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
+import {
+  useQueryGetKybForm,
+  useQueryGetKybFormV2
+} from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
 import { EXPORT_CONFIG } from "@/modules/loan-application/services/pdf-v2.service"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { getBusinessName } from "@/utils/kyb.utils"
 import { get } from "lodash"
 import { type FC, type MutableRefObject, useCallback, useMemo } from "react"
 import { useParams } from "react-router-dom"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 interface SectionProps {
   forecastResults: ForecastResultsResponse
@@ -270,19 +274,28 @@ export function FinancialProjectionPdf({
     enabled: checkIsLoanApplicant()
   })
 
+  const { data: kybDataV2 } = useQueryGetKybFormV2({
+    applicationId: applicationId!,
+    enabled: checkIsLoanApplicant() && isEnableFormV2()
+  })
+
   const loanSummaryQuery = useQueryGetLoanSummary({
     applicationId: applicationId,
     enabled: !checkIsLoanApplicant()
   })
 
   const getFinalBusinessName = useCallback(() => {
+    if (isEnableFormV2()) {
+      return get(kybDataV2, "metadata.businessLegalName") as string
+    }
+
     // If applicant then use Kyb Form data
     if (kybData?.businessLegalName) {
       return kybData?.businessLegalName
     }
 
     return getBusinessName(loanSummaryQuery.data)
-  }, [kybData?.businessLegalName, loanSummaryQuery.data])
+  }, [kybData?.businessLegalName, kybDataV2, loanSummaryQuery.data])
 
   const { data } = useQueryFinancialProjectionForecast({
     applicationId: applicationId!,

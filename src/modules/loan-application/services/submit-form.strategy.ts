@@ -106,6 +106,7 @@ import { useUploadBusinessDocuments } from "@/modules/loan-application/hooks/for
 import { useUploadSbbDocument } from "@/modules/loan-application/hooks/form-document/useSubmitSbbDocument.ts"
 import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/form-common/useSubmitMarketOpportunity.ts"
 import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/hooks/form-financial-projection/useSubmitFinancialProjectionForms.ts"
+import { useSubmitKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -234,6 +235,15 @@ export const useSubmitLoanForm = (
       },
       onSuccess: updateKYBData
     })
+
+  const { submitKybForm: submitKybFormV2, isLoading: isSubmittingKYBV2 } =
+    useSubmitKybFormV2({
+      rawData: {
+        ...businessData,
+        businessTin: revertPattern(businessData?.businessTin ?? "")
+      }
+    })
+
   // KYC
   const updateKYCData = (data: KYCInformationResponse) =>
     updateDataAfterSubmit(
@@ -415,6 +425,7 @@ export const useSubmitLoanForm = (
 
   const { uploadDocumentForm, isLoading: isUploadingDocumentForm } =
     useUploadDocumentForm()
+
   const uploadSbbDocumentForm = async (applicationId: string) => {
     const sbbDocumentFormMapping = new Map([
       [FORM_TYPE.ARTICLES_OF_ORGANIZATION, articlesOfOrganizationData],
@@ -667,7 +678,11 @@ export const useSubmitLoanForm = (
           businessData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION)
         ) {
-          submitPromises.push(submitLoanKYBForm(applicationId))
+          if (isEnableFormV2()) {
+            submitPromises.push(submitKybFormV2(applicationId))
+          } else {
+            submitPromises.push(submitLoanKYBForm(applicationId))
+          }
         }
 
         // Submit Current Loans form
@@ -867,6 +882,7 @@ export const useSubmitLoanForm = (
       }
     },
     [
+      isEnabledLoanReadySubscriptionCheck,
       submitLoanRequestForm,
       loanRequestV2Data,
       isCompleteSteps,
@@ -884,18 +900,14 @@ export const useSubmitLoanForm = (
       businessModelData,
       documentUploadsData,
       ownerData,
-      financialData,
-      cashflowData,
-      handleSubmitFinancialProjection,
-      confirmationData,
-      handleSubmitFormSuccess,
-      loanRequestData?.id?.length,
-      queryClient,
+      loanReadySubscription,
+      navigate,
       dispatchFormAction,
       mutateLoanRequest,
       submitLoanIdentityVerification,
       submitESignDocument,
       submitLinkPlaidItemds,
+      submitKybFormV2,
       submitLoanKYBForm,
       submitCurrentLoansFormV2,
       submitCurrentLoansForm,
@@ -906,13 +918,22 @@ export const useSubmitLoanForm = (
       submitLoanExecutionForm,
       submitLoanBusinessModelForm,
       uploadBusinessDocuments,
+      uploadSbbDocumentForm,
       submitSbbDocument,
       submitSbbLoanKYBForm,
+      financialData,
+      cashflowData,
+      handleSubmitFinancialProjection,
+      handleSubmitFormSuccess,
+      loanRequestData?.id?.length,
+      queryClient,
+      submitKYCFormV2,
       submitLoanKYCForm,
       uploadDocuments,
       submitLoanFinancialForm,
       submitCashFlowForm,
       handleSubmitFormError,
+      confirmationData,
       submitLoanConfirmationForm
     ]
   )
@@ -944,6 +965,7 @@ export const useSubmitLoanForm = (
       isUploadingDocumentForm ||
       isSubmittingSbbKYB ||
       isSubmittingFinancialProjection ||
-      isSubmittingKYCV2
+      isSubmittingKYCV2 ||
+      isSubmittingKYBV2
   }
 }

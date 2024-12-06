@@ -81,7 +81,10 @@ import { useQueryGetIdentityVerification } from "@/modules/loan-application/hook
 import { useGetESignDocument } from "@/modules/loan-application/hooks/form-esign/useGetESignDocument.ts"
 import { useQueryGetPlaidItemIds } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidItemIds.ts"
 import { useGetPlaidConnectedInstitutions } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
-import { useQueryGetKybForm } from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
+import {
+  useQueryGetKybForm,
+  useQueryGetKybFormV2
+} from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
 import {
   useQueryKycForm,
   useQueryKycFormV2
@@ -101,6 +104,7 @@ import { useQueryBusinessDocuments } from "@/modules/loan-application/hooks/form
 import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/form-document/useQuerySbbDocumentForm.ts"
 import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/form-document/useGetDocumentForm.ts"
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/form-financial-projection/useGetFinancialProjectForms.ts"
+import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -243,6 +247,17 @@ export function BRLoanApplicationDetailsProvider({
         LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE,
         progress
       )
+  })
+  const kybFormQueryV2 = useQueryGetKybFormV2({
+    applicationId: loanApplicationId!,
+    enabled:
+      isEnableFormV2() &&
+      !isSbb() &&
+      (isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, progress) ||
+        isEnabledQuery(
+          LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE,
+          progress
+        ))
   })
   const kycFormQuery = useQueryKycForm({
     applicationId: loanApplicationId!,
@@ -409,6 +424,7 @@ export function BRLoanApplicationDetailsProvider({
   // KYB Form
   useEffect(() => {
     if (
+      !isEnableFormV2() &&
       kybFormQuery.data &&
       formInConfigurations(FORM_TYPE.KYB) &&
       isInitialized &&
@@ -438,6 +454,29 @@ export function BRLoanApplicationDetailsProvider({
     isSbbTenant,
     kybFormQuery.data
   ])
+
+  useEffect(() => {
+    if (
+      isEnableFormV2() &&
+      !isSbb() &&
+      kybFormQueryV2.data &&
+      formInConfigurations(FORM_TYPE.KYB) &&
+      isInitialized &&
+      isQualified
+    ) {
+      changeDataAndProgress(
+        deserializeKybFormV2(kybFormQueryV2.data),
+        LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION
+      )
+    }
+  }, [
+    changeDataAndProgress,
+    formInConfigurations,
+    isInitialized,
+    isQualified,
+    kybFormQueryV2.data
+  ])
+
   // KYC Form
   useEffect(() => {
     if (

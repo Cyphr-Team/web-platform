@@ -11,7 +11,8 @@ export interface KybFormV2Metadata {
   businessStreetAddressCity: string
   businessStreetAddressZipCode: string
   businessWebsite: string // default value is an empty string
-  ein: string // corresponds to business_tin
+  ein: string | undefined // corresponds to business_tin, this field use for BE
+  businessTin: string | undefined // corresponds to ein, this field use for FE
 }
 
 export interface LaunchKcKybFormMetadata extends KybFormV2Metadata {

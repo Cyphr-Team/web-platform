@@ -403,6 +403,11 @@ export const API_PATH = {
         get: "api/form/v2/kyc/by-application-id",
         submit: "api/form/v2/kyc",
         update: "api/form/v2/kyc/update"
+      },
+      kyb: {
+        get: "api/form/v2/kyb/by-application-id",
+        submit: "api/form/v2/kyb",
+        update: "api/form/v2/kyb/update"
       }
     }
   },
