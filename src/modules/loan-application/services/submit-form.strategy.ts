@@ -802,77 +802,77 @@ export const useSubmitLoanForm = (
               )
             }
           }
-
-          // Submit Financial form
-          if (
-            financialData &&
-            isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
-          ) {
-            const {
-              data: { id: financialFormId }
-            } = await submitLoanFinancialForm(applicationId)
-
-            if (financialData.w2sFile?.length) {
-              await uploadDocuments(
-                financialFormId,
-                financialData.w2sFile,
-                FORM_TYPE.FINANCIAL
-              )
-            }
-          } else if (
-            cashflowData &&
-            isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
-          ) {
-            const {
-              data: { id: financialFormId }
-            } = await submitCashFlowForm(applicationId)
-
-            if (cashflowData.w2sFile?.length) {
-              await uploadDocuments(
-                financialFormId,
-                cashflowData.w2sFile,
-                FORM_TYPE.FINANCIAL
-              )
-            }
-          }
-
-          // Handle the first errors in the results
-          const error = results.find(
-            (result): result is PromiseRejectedResult =>
-              result.status === "rejected"
-          )
-
-          if (error?.reason) {
-            if (isAxiosError(error.reason)) {
-              handleSubmitFormError(error.reason as AxiosError)
-            }
-
-            return
-          }
-
-          /**
-           * Financial Projection forms
-           */
-          await handleSubmitFinancialProjection(applicationId)
-
-          if (!isSaveDraft) {
-            // Submit Confirmation form
-            if (confirmationData) {
-              // Submit Confirmation form
-              await submitLoanConfirmationForm(applicationId)
-              isSubmitted = true
-            }
-          }
-
-          handleSubmitFormSuccess(
-            loanRequestData?.id?.length > 0,
-            isSubmitted,
-            applicationId
-          )
-          queryClient.invalidateQueries({
-            queryKey: loanApplicationUserKeys.detail(applicationId)
-          })
         }
+
+        // Submit Financial form
+        if (
+          financialData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION)
+        ) {
+          const {
+            data: { id: financialFormId }
+          } = await submitLoanFinancialForm(applicationId)
+
+          if (financialData.w2sFile?.length) {
+            await uploadDocuments(
+              financialFormId,
+              financialData.w2sFile,
+              FORM_TYPE.FINANCIAL
+            )
+          }
+        } else if (
+          cashflowData &&
+          isCompleteSteps(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION)
+        ) {
+          const {
+            data: { id: financialFormId }
+          } = await submitCashFlowForm(applicationId)
+
+          if (cashflowData.w2sFile?.length) {
+            await uploadDocuments(
+              financialFormId,
+              cashflowData.w2sFile,
+              FORM_TYPE.FINANCIAL
+            )
+          }
+        }
+
+        // Handle the first errors in the results
+        const error = results.find(
+          (result): result is PromiseRejectedResult =>
+            result.status === "rejected"
+        )
+
+        if (error?.reason) {
+          if (isAxiosError(error.reason)) {
+            handleSubmitFormError(error.reason as AxiosError)
+          }
+
+          return
+        }
+
+        /**
+         * Financial Projection forms
+         */
+        await handleSubmitFinancialProjection(applicationId)
+
+        if (!isSaveDraft) {
+          // Submit Confirmation form
+          if (confirmationData) {
+            // Submit Confirmation form
+            await submitLoanConfirmationForm(applicationId)
+            isSubmitted = true
+          }
+        }
+
+        handleSubmitFormSuccess(
+          loanRequestData?.id?.length > 0,
+          isSubmitted,
+          applicationId
+        )
+        queryClient.invalidateQueries({
+          queryKey: loanApplicationUserKeys.detail(applicationId)
+        })
       } catch (error) {
         handleSubmitFormError(error as AxiosError)
       } finally {
