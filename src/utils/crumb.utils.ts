@@ -1,6 +1,7 @@
 import { APP_PATH } from "@/constants"
 import { type Breadcrumb } from "@/types/common.type"
 import { type ReactNode } from "react"
+import { isLoanReady } from "@/utils/domain.utils"
 
 enum CustomLabelKey {
   loanApplicationDetail = "loanApplicationDetail",
@@ -46,7 +47,7 @@ const getCrumbByPath = (path: string, customLabel?: CustomLabel, ids?: Ids) => {
     case APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX:
       return buildCrumb(
         APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
-        "Applications"
+        isLoanReady() ? "Assessments" : "Applications"
       )
 
     case APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detail:

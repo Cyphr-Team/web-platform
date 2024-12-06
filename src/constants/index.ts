@@ -411,6 +411,10 @@ export const API_PATH = {
     all: "api/workspace-admin/application",
     list: () => `${API_PATH.loanApplicationAdmin.all}/list`
   },
+  loanReadyAssessmentAdmin: {
+    all: "api/loan-ready/workspace-admin/applications",
+    list: () => `${API_PATH.loanReadyAssessmentAdmin.all}/list`
+  },
   // For Lender (Admin/ Reviewer)
   loanApplicationLender: {
     getApplicationSummary: (applicationId: string) =>

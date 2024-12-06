@@ -150,7 +150,7 @@ export function MultiSelectRound<
                       {field.value.map((option: Option<OptionType>) => (
                         <div
                           key={option.value}
-                          className="multi-selected group has-[.parent-border]:rounded-full has-[.parent-border]:border has-[.parent-border]:p-1"
+                          className="multi-selected group has-[.parent-border]:rounded-full has-[.parent-border]:border has-[.parent-border]:p-1 text-sm"
                         >
                           {labelHOC?.(
                             option,

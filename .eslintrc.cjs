@@ -30,7 +30,7 @@ module.exports = {
     // TODO: fix issue here, using these config for linting styles at object level
     tailwindcss: {
       callees: ["classnames", "clsx", "ctl", "styleProps", "cn"],
-      classRegex: "\\S.*(c|C)lassName?",
+      classRegex: "\\S.*(c|C)lassName?"
     }
   },
   rules: {
@@ -67,9 +67,10 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/self-closing-comp": "warn",
     "react/display-name": "warn",
-    "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
+    "react/no-unescaped-entities": ["error", { forbid: [">", "}"] }],
     "react/hook-use-state": "warn",
     "react/jsx-pascal-case": "warn",
+    "react/function-component-definition": "off",
     "react/jsx-sort-props": [
       "warn",
       {
@@ -96,7 +97,7 @@ module.exports = {
     "@typescript-eslint/no-unsafe-enum-comparison": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     /* Too long, I can't fix */
-    "@typescript-eslint/naming-convention": "warn",
+    "@typescript-eslint/naming-convention": "off",
     /**
      * Any expression being used as a condition must be able to evaluate as truthy or falsy in order to be considered "necessary".
      * Conversely, any expression that always evaluates to truthy or always evaluates to falsy,

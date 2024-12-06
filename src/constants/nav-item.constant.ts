@@ -52,10 +52,10 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     featureKey: FeatureKey.CHATBOT_DOCUMENT
   },
   {
-    title: "Applications",
+    title: isLoanReady() ? "Assessments" : "Applications",
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
     icon: Icons.folderCheck,
-    label: "Applications",
+    label: isLoanReady() ? "Assessments" : "Applications",
     roles: reviewerRoles().concat(workspaceAdminRoles()).concat(judgeRoles()),
     featureKey: FeatureKey.FEATURE_FLAG
   },

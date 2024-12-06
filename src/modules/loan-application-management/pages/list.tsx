@@ -1,11 +1,10 @@
 import { Breadcrumbs } from "@/shared/molecules/Breadcrumbs"
-
 import { DataTable } from "@/components/ui/data-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { checkIsJudge } from "@/utils/check-roles"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils"
+import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { type PaginationState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
@@ -18,6 +17,8 @@ import {
 import { JudgeApplicationList } from "./launch-kc/judge/judge-list"
 import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin/workspace-admin-list-filter"
 import { SbbApplicationsList } from "./sbb/list-filter"
+import { ApplicationsForAdmin } from "@/modules/loanready/components/pages/ApplicationsForAdmin.tsx"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils.ts"
 
 export function BaseApplicationList() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
@@ -79,6 +80,8 @@ export function Component() {
     return <WorkspaceAdminApplicationListFilter />
   }
   if (isSbb()) return <SbbApplicationsList />
+
+  if (isLoanReady() && isEnableLoanReadyV2()) return <ApplicationsForAdmin />
 
   return <BaseApplicationList />
 }

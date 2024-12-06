@@ -20,6 +20,7 @@ export interface IFilterableColumn<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
   title: string
+  btnClassName?: string
   disabled?: boolean
   isCanSort?: boolean
 }
@@ -93,6 +94,7 @@ function ButtonFilter<TData, TValue>({
 export function FilterableColumnHeader<TData, TValue>({
   title,
   className,
+  btnClassName,
   disabled,
   column,
   isCanSort = true
@@ -124,7 +126,10 @@ export function FilterableColumnHeader<TData, TValue>({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="rounded-0 flex w-full font-semibold text-black"
+            className={cn(
+              "rounded-0 flex w-full justify-start pl-0 font-semibold text-black",
+              btnClassName
+            )}
             size="sm"
             variant="ghost"
           >

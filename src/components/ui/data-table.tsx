@@ -108,7 +108,10 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className={cn("text-sm font-medium", tableHeadClassName)}
+                      className={cn(
+                        "whitespace-nowrap text-sm font-medium text-text-foreground",
+                        tableHeadClassName
+                      )}
                     >
                       {header.isPlaceholder
                         ? null

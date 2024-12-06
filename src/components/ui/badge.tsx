@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { Dot } from "lucide-react"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center justify-center rounded-full px-2.5 py-1.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
       variantColor: {
@@ -17,7 +17,12 @@ const badgeVariants = cva(
         orange: "border-orange-300 bg-orange-500 text-orange-700",
         lightBlue: "border-blue-300 bg-[#C0D8D8] text-blue-700",
         white: "border-black bg-white text-black",
-        purple: "border-purple-300 bg-purple-500 text-indigo-700"
+        purple: "border-purple-300 bg-purple-500 text-indigo-700",
+        greenShade: "bg-[#85CF85]",
+        lightGreenShade: "bg-[#A9E3D1]",
+        blueShade: "bg-[#9FD3F0]",
+        yellowShade: "bg-[#F2DF9D]",
+        redShade: "bg-[#E5B0A4]"
       },
       variant: {
         soft: "bg-opacity-10",
@@ -43,7 +48,12 @@ const dotVariants = cva("mr-1 size-3", {
       orange: "text-orange-500",
       lightBlue: "text-blue-500",
       white: "text-black",
-      purple: "text-indigo-500"
+      purple: "text-indigo-500",
+      greenShade: "text-black",
+      lightGreenShade: "text-black",
+      blueShade: "text-black",
+      yellowShade: "text-black",
+      redShade: "text-black"
     }
   },
   defaultVariants: {
