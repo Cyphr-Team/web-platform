@@ -1,5 +1,5 @@
 import { ButtonLoading } from "@/components/ui/button"
-import { useDownloadESignDocument } from "../../hooks/useESign/useDownloadESignDocument"
+import { useDownloadESignDocument } from "@/modules/loan-application/hooks/form-esign/useDownloadESignDocument"
 
 interface ButtonDownloadESignDocumentProps {
   documentId?: string

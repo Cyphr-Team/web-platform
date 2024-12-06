@@ -15,7 +15,7 @@ import {
 } from "@/modules/loan-application/providers"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 export function SbbPatriotAct() {

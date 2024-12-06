@@ -1,6 +1,6 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { type PlaidFormValue } from "@/modules/loan-application/constants/plaid"
-import { useLazyConnectPlaidEffect } from "@/modules/loan-application/hooks/useLazyConnectPlaidEffect"
+import { useLazyConnectPlaidEffect } from "@/modules/loan-application/hooks/form-cash-flow/useLazyConnectPlaidEffect.ts"
 import { usePlaidContext } from "@/modules/loan-application/providers"
 import { generateToken } from "@/modules/loan-application/services"
 import { toastError } from "@/utils"

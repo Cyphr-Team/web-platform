@@ -19,7 +19,7 @@ import {
 } from "@/modules/loan-application/providers"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 const PRIVACY_POLICY_URL =

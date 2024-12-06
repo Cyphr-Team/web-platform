@@ -22,7 +22,7 @@ import {
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
 import { useMemo } from "react"
 import { get } from "lodash"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import {
   BINARY_VALUES,
   YES_NO_OPTIONS

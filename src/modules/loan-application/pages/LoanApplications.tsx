@@ -21,7 +21,7 @@ import { formsConfigurationEnabled } from "@/utils/feature-flag.utils"
 import { type AccessorKeyColumnDef, type Row } from "@tanstack/react-table"
 import { ChevronRightIcon } from "lucide-react"
 import { type NavigateFunction, useNavigate } from "react-router-dom"
-import { useQueryGetUserLoanApplications } from "../hooks/useQuery/useQueryUserLoanApplications"
+import { useQueryGetUserLoanApplications } from "@/modules/loan-application/hooks/application/useQueryUserLoanApplications.ts"
 
 export function Component() {
   const navigate = useNavigate()

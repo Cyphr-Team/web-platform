@@ -10,7 +10,7 @@ import {
   plaidFormSchema,
   type PlaidFormValue
 } from "@/modules/loan-application/constants/plaid"
-import { usePlaidInstitutions } from "@/modules/loan-application/hooks/usePlaidInstitutions"
+import { usePlaidInstitutions } from "@/modules/loan-application/hooks/form-cash-flow/usePlaidInstitutions.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
   useBRLoanApplicationDetailsContext,
@@ -28,7 +28,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 import { useUpdateEffect } from "react-use"
 import { ClickableTooltip } from "@/shared/atoms/ClickableTooltip.tsx"
-import { useClearGeneratedPDF } from "@/modules/loan-application/hooks/useClearGeneratedPDF.tsx"
+import { useClearGeneratedPDF } from "@/modules/loan-application/hooks/utils/useClearGeneratedPDF.tsx"
 import { CashFlowConnectedBadge } from "@/shared/atoms/CashFlowConnectedBadge.tsx"
 import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
 import { getPlaidInstitutionLogo } from "@/lib/plaid/plaid.utils.tsx"

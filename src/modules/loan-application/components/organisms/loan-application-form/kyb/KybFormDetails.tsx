@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
-import { getStateName } from "@/modules/loan-application/hooks/useSelectCities"
+import { getStateName } from "@/modules/loan-application/hooks/utils/useSelectCities"
 import { type KYBInformationResponse } from "@/modules/loan-application/constants/type"
 import { toPattern } from "@/components/ui/mask-input"
 import { EIN_PATTERN } from "@/constants"

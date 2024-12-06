@@ -10,7 +10,7 @@ import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils.ts"
 import LoanApplicationsPage from "@/modules/loanready/pages/LoanApplications.tsx"
 import { StartApplicationButton } from "@/modules/loanready/components/molecules/StartApplicationButton.tsx"
 import { EmptyApplications } from "@/modules/loanready/pages/EmptyApplications"
-import { useQueryGetLoanPrograms } from "@/modules/loan-application/hooks/useQuery/useQueryLoanPrograms"
+import { useQueryGetLoanPrograms } from "@/modules/loan-application/hooks/program/useQueryLoanPrograms.ts"
 import { useGetUnusedLoanReadySubscription } from "@/modules/loanready/hooks/payment/useGetUnusedLoanReadySubscription"
 import { UnusedReportBannerList } from "@/modules/loanready/components/organisms/UnusedReportBannerList"
 

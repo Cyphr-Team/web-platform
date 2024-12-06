@@ -33,7 +33,7 @@ import { X } from "lucide-react"
 import { type RHFTextInputProps } from "@/modules/form-template/components/molecules/RHFTextInput.tsx"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import { memo } from "react"
 
 const enum FormFields {

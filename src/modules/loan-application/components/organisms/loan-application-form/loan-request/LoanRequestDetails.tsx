@@ -3,7 +3,7 @@ import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { toCurrency } from "@/utils"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
-import { reverseFormatLoanRequestFormV2 } from "@/modules/loan-application/hooks/loanrequest/useQueryLoanRequest.ts"
+import { reverseFormatLoanRequestFormV2 } from "@/modules/loan-application/hooks/form-loan-request/useQueryLoanRequest.ts"
 import { getUseOfLoan } from "@/modules/loan-application-management/services"
 import { type UseOfLoan } from "@/types/loan-application.type.ts"
 

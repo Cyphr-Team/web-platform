@@ -4,7 +4,7 @@ import { type FinancialStatementFormValue } from "@/modules/loan-application/[mo
 import { DownloadDocumentBtn } from "@/modules/loan-application/components/atoms/DownloadDocumentBtn"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
-import { useQueryDownloadFinancialDocument } from "@/modules/loan-application/hooks/useQueryDownloadFinancialDocument"
+import { useQueryDownloadFinancialDocument } from "@/modules/loan-application/hooks/form-document/useQueryDownloadFinancialDocument.ts"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { capitalizeWords } from "@/utils"

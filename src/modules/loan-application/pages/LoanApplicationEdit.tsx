@@ -3,17 +3,18 @@ import { LoadingOverlay } from "@/shared/atoms/LoadingOverlay"
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
 import { Loader2 } from "lucide-react"
 import { useEffect, useRef } from "react"
-import { useGetFormByStep } from "../hooks/useGetFormByStep"
-import {
-  useBRLoanApplicationDetailsContext,
-  useLoanApplicationFormContext,
-  useLoanApplicationProgressContext
-} from "../providers"
-import { LoanProgramDetailProvider } from "../providers/LoanProgramDetailProvider"
+
 import { cn } from "@/lib/utils"
 import { isEnableChatSupport } from "@/utils/feature-flag.utils"
 import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
 import { isCyphrBank } from "@/utils/domain.utils"
+import { useGetFormByStep } from "@/modules/loan-application/hooks/utils/useGetFormByStep.tsx"
+import {
+  useBRLoanApplicationDetailsContext,
+  useLoanApplicationFormContext,
+  useLoanApplicationProgressContext
+} from "@/modules/loan-application/providers"
+import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider.tsx"
 
 export function Component() {
   const { isFetchingDetails } = useBRLoanApplicationDetailsContext()

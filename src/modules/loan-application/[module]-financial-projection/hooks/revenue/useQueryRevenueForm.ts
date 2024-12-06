@@ -8,8 +8,8 @@ import {
   type SubmitRevenueStreamResponse,
   type UnitSale
 } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
-import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
-import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId.ts"
+import { type FormDetailsQueryOptions } from "src/modules/loan-application/hooks/form-common"
+import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/form-common/useQueryFormBySetupId.ts"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
 import { API_PATH } from "@/constants"
 import { formatDate } from "@/utils/date.utils.ts"
@@ -18,7 +18,7 @@ import { get } from "lodash"
 export const useQueryRevenueForm = ({
   applicationId,
   enabled
-}: FormDetailsQueryProps) => {
+}: FormDetailsQueryOptions) => {
   return useQueryFormBySetupId<SubmitRevenueStreamResponse>({
     setupId: applicationId,
     queryKey: [QUERY_KEY.GET_REVENUE],

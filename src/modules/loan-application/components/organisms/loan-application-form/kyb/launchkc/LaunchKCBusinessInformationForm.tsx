@@ -8,13 +8,13 @@ import { useEffect } from "react"
 import { revertPattern } from "@/components/ui/mask-input"
 import { EIN_PATTERN, YEAR_PATTERN } from "@/constants"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
 
-import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities.ts"
+import { useSelectCities } from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities.tsx"

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { useConnectPlaid } from "../../hooks/useConnectPlaid"
+import { useConnectPlaid } from "../../hooks/form-cash-flow/useConnectPlaid.ts"
 import { Check } from "lucide-react"
 
 export function ConnectPlaidButton() {

@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput.tsx"
 import { useCallback, useEffect } from "react"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
@@ -26,7 +26,7 @@ import { get, remove, set } from "lodash"
 import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type.ts"
 import { type LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { toastError } from "@/utils"
-import { useDeleteSbbDocument } from "@/modules/loan-application/hooks/useMutation/useDeleteSbbDocument.ts"
+import { useDeleteSbbDocument } from "@/modules/loan-application/hooks/form-document/useDeleteSbbDocument.ts"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 

@@ -12,16 +12,10 @@ import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[modu
 
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
 
-import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
-import { useQueryGetKybForm } from "@/modules/loan-application/hooks/useQuery/useQueryKybForm"
-import {
-  useQueryKycForm,
-  useQueryKycFormV2
-} from "@/modules/loan-application/hooks/useQuery/useQueryKycForm"
 import {
   reverseFormatLoanRequestForm,
   useQueryLoanApplicationDetailsByType
-} from "@/modules/loan-application/hooks/useQuery/useQueryUserLoanApplicationDetails"
+} from "@/modules/loan-application/hooks/application/useQueryUserLoanApplicationDetails.ts"
 import {
   reverseFormatKybForm,
   reverseFormatKycForm
@@ -33,12 +27,18 @@ import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import {
   reverseFormatLoanRequestFormV2,
   useQueryLoanRequestForm
-} from "@/modules/loan-application/hooks/loanrequest/useQueryLoanRequest.ts"
+} from "@/modules/loan-application/hooks/form-loan-request/useQueryLoanRequest.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
 import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form.kyb.ts"
 import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
 import { isSbb } from "@/utils/domain.utils.ts"
+import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/form-financial-projection/useGetFinancialProjectForms.ts"
+import { useQueryGetKybForm } from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
+import {
+  useQueryKycForm,
+  useQueryKycFormV2
+} from "@/modules/loan-application/hooks/form-kyc/useQueryKycForm.ts"
 
 export function useApplicantFinancialProjectionApplicationDetails() {
   const { id: loanApplicationId } = useParams()

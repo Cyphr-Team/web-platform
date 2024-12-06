@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants"
 import { MiddeskTable } from "@/modules/loan-application-management/components/table/middesk-table"
-import { useGetESignDocument } from "@/modules/loan-application/hooks/useQuery/form/useGetESignDocument"
+import { useGetESignDocument } from "@/modules/loan-application/hooks/form-esign/useGetESignDocument.ts"
 import { formatDate } from "@/utils/date.utils"
 import { renderHeader } from "@/utils/table.utils"
 import { type ColumnDef } from "@tanstack/react-table"

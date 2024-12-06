@@ -2,7 +2,7 @@ import { ButtonLoading } from "@/components/ui/button"
 import { CardContent, CardTitle } from "@/components/ui/card"
 import { DetailTable } from "@/modules/loan-application/[module]-financial-projection/components/atoms/table"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/useQuery/useQueryLoanApplicationCashFlow"
+import { useQueryGetLoanApplicationCashflowVerification } from "@/modules/loan-application/hooks/form-cash-flow/useQueryLoanApplicationCashFlow.ts"
 import {
   CashFlowConnectedBadge,
   CashFlowPendingBadge
@@ -10,7 +10,7 @@ import {
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
-import { useGetPlaidConnectedBankAccounts } from "@/modules/loan-application/hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
+import { useGetPlaidConnectedBankAccounts } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
 import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
 import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
 

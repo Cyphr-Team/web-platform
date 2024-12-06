@@ -1,15 +1,15 @@
 import { type PropsWithChildren, useMemo } from "react"
 import { createContext } from "use-context-selector"
-import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
+import { useGetLoanProgramDetail } from "../hooks/program/useGetLoanProgramDetail.ts"
 import { useLocation, useParams } from "react-router-dom"
 import { type LoanProgramData } from "../constants/type"
-import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
+import { useQueryLoanProgramDetailsByType } from "@/modules/loan-application/hooks/program/useQueryLoanProgramDetails.ts"
 import {
   type LoanProgramFormsConfiguration,
   LoanType,
   type MicroLoanProgramType
 } from "@/types/loan-program.type"
-import { useQueryGetFormsConfiguration } from "@/modules/loan-application/hooks/useQuery/useQueryFormsConfiguration.ts"
+import { useQueryGetFormsConfiguration } from "@/modules/loan-application/hooks/form-common/useQueryFormsConfiguration.ts"
 
 export interface LoanProgramDetailType<T> {
   loanProgramFormsConfiguration?: LoanProgramFormsConfiguration

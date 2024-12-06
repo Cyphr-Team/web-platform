@@ -1,0 +1,16 @@
+import { API_PATH } from "@/constants"
+import { QUERY_KEY } from "../../constants/query-key"
+import { type MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
+import { useQueryFormByApplicationId } from "./useQueryFormByApplicationId"
+import { type FormDetailsQueryOptions } from "."
+
+export const useQueryMarketOpportunity = ({
+  applicationId,
+  enabled
+}: FormDetailsQueryOptions) =>
+  useQueryFormByApplicationId<MarketOpportunityFormResponse>({
+    applicationId,
+    queryKey: [QUERY_KEY.GET_MARKET_OPPORTUNITY],
+    enabled,
+    path: API_PATH.application.marketOpportunity.detail
+  })

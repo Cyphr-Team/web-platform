@@ -6,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
-import { type DownloadFinancialDocumentProps } from "@/modules/loan-application/hooks/useQueryDownloadFinancialDocument"
+import { type DownloadFinancialDocumentProps } from "@/modules/loan-application/hooks/form-document/useQueryDownloadFinancialDocument.ts"
 import { type ErrorResponse } from "@/types/common.type"
 import { type UseQueryResult } from "@tanstack/react-query"
 import { FileDown } from "lucide-react"

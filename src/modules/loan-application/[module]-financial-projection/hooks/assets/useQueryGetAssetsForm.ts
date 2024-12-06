@@ -4,13 +4,13 @@ import {
   type AssetsCurrentFormResponse,
   type AssetsLongTermFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
-import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
-import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId"
+import { type FormDetailsQueryOptions } from "src/modules/loan-application/hooks/form-common"
+import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/form-common/useQueryFormBySetupId"
 
 export const useQueryGetCurrentAssetsForm = ({
   applicationId,
   enabled
-}: FormDetailsQueryProps) =>
+}: FormDetailsQueryOptions) =>
   useQueryFormBySetupId<AssetsCurrentFormResponse>({
     setupId: applicationId,
     queryKey: [QUERY_KEY.GET_CURRENT_ASSETS_FORM],
@@ -21,7 +21,7 @@ export const useQueryGetCurrentAssetsForm = ({
 export const useQueryGetLongTermAssetsForm = ({
   applicationId,
   enabled
-}: FormDetailsQueryProps) =>
+}: FormDetailsQueryOptions) =>
   useQueryFormBySetupId<AssetsLongTermFormResponse>({
     setupId: applicationId,
     queryKey: [QUERY_KEY.GET_LONG_TERM_ASSETS_FORM],

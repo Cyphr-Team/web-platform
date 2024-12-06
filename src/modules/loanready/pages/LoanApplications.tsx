@@ -24,7 +24,7 @@ import {
 import { type AccessorKeyColumnDef, type Row } from "@tanstack/react-table"
 import { ChevronRightIcon } from "lucide-react"
 import { type NavigateFunction, useNavigate } from "react-router-dom"
-import { useQueryGetUserLoanApplications } from "../../loan-application/hooks/useQuery/useQueryUserLoanApplications"
+import { useQueryGetUserLoanApplications } from "@/modules/loan-application/hooks/application/useQueryUserLoanApplications.ts"
 import { StartApplicationButton } from "@/modules/loanready/components/molecules/StartApplicationButton"
 import { get } from "lodash"
 

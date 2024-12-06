@@ -24,7 +24,7 @@ import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicatio
 import { useEffect, useMemo } from "react"
 
 import { get } from "lodash"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import {
   BINARY_VALUES,
   YES_NO_OPTIONS
@@ -32,7 +32,7 @@ import {
 import { AutoCompleteGoogleMap } from "@/modules/loan-application/components/molecules/autocomplete/AutoCompleteGoogleMap"
 import { type AddressType } from "@/types/common.type"
 import { AutoCompleteCities } from "@/modules/loan-application/components/molecules/AutoCompleteCities"
-import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
+import { useSelectCities } from "@/modules/loan-application/hooks/utils/useSelectCities"
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates"
 import { isEnableGoogleMapInput } from "@/utils/feature-flag.utils"
 import { FormSubmitButton } from "@/modules/loan-application/components/atoms/FormSubmitButton"

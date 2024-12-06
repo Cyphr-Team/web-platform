@@ -25,19 +25,19 @@ import { ArrowRight, Mail } from "lucide-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
-import { useSelectCities } from "../../../../hooks/useSelectCities"
 import { AutoCompleteCities } from "../../../molecules/AutoCompleteCities"
 import { AutoCompleteStates } from "../../../molecules/AutoCompleteStates"
 
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 import {
   ownerFormSchema,
   type OwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
+import { useSelectCities } from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
 
 interface OwnerInformationFormProps {
   wrapperClassName?: string

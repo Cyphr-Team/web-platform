@@ -1,7 +1,4 @@
 import { type MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
-import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/useGetFinancialProjectForms"
-import { useQueryMarketOpportunity } from "@/modules/loan-application/hooks/useQuery/useQueryMarketOpportunity.ts"
-import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/useQuery/useQuerySbbDocumentForm.ts"
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { LoanType, type MicroLoanProgramType } from "@/types/loan-program.type"
@@ -47,29 +44,6 @@ import {
   type OperatingExpensesInformationResponse,
   type PreQualificationResponse
 } from "../constants/type"
-import { useGetLoanProgramDetail } from "../hooks/useGetLoanProgramDetail"
-import { useGetESignDocument } from "../hooks/useQuery/form/useGetESignDocument"
-import { useQueryBusinessDocuments } from "../hooks/useQuery/useQueryBusinessDocuments"
-import { useQueryBusinessModelForm } from "../hooks/useQuery/useQueryBusinessModelForm"
-import { useQueryGetConfirmationForm } from "../hooks/useQuery/useQueryConfirmationForm"
-import { useQueryGetCurrentLoansForm } from "../hooks/useQuery/useQueryCurrentLoansForm"
-import { useQueryExecutionForm } from "../hooks/useQuery/useQueryExecutionForm"
-import { useQueryGetFinancialForm } from "../hooks/useQuery/useQueryFinancialForm"
-import { useQueryGetDocumentsByForm } from "../hooks/useQuery/useQueryGetDocuments"
-import { useQueryGetIdentityVerification } from "../hooks/useQuery/useQueryGetIdentityVerification"
-import { useGetPlaidConnectedInstitutions } from "../hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId"
-import { useQueryGetPlaidItemIds } from "../hooks/useQuery/useQueryGetPlaidItemIds"
-import { useQueryGetKybForm } from "../hooks/useQuery/useQueryKybForm"
-import {
-  useQueryKycForm,
-  useQueryKycFormV2
-} from "../hooks/useQuery/useQueryKycForm"
-import { useQueryLaunchKCFitForm } from "../hooks/useQuery/useQueryLaunchKCFitForm"
-import { useQueryLoanProgramDetailsByType } from "../hooks/useQuery/useQueryLoanProgramDetails"
-import { useQueryGetOperatingExpensesForm } from "../hooks/useQuery/useQueryOperatingExpensesForm"
-import { useQueryGetPreQualificationForm } from "../hooks/useQuery/useQueryPreQualificationForm"
-import { useQueryProductServiceForm } from "../hooks/useQuery/useQueryProductServiceForm"
-import { useQueryLoanApplicationDetailsByType } from "../hooks/useQuery/useQueryUserLoanApplicationDetails"
 import {
   FORM_TYPE,
   LOAN_APPLICATION_STEPS
@@ -88,18 +62,45 @@ import { isEnabledQuery } from "@/utils"
 import { type SubmitRevenueStreamResponse } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
 import { formatForecastSetupResult } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
 import { type FinancialStatementFormResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-statement-form"
-import {
-  type LoanRequestV2Response,
-  useQueryLoanRequestForm
-} from "../hooks/loanrequest/useQueryLoanRequest"
+
 import { get } from "lodash"
 import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
-import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/useForm/document/useGetDocumentForm.ts"
 import {
   deserializeCurrentLoansFormV2,
   useQueryCurrentLoansFormV2
 } from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansFormV2.ts"
 import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
+import { useQueryLoanProgramDetailsByType } from "@/modules/loan-application/hooks/program/useQueryLoanProgramDetails.ts"
+import {
+  type LoanRequestV2Response,
+  useQueryLoanRequestForm
+} from "@/modules/loan-application/hooks/form-loan-request/useQueryLoanRequest.ts"
+import { useQueryLoanApplicationDetailsByType } from "@/modules/loan-application/hooks/application/useQueryUserLoanApplicationDetails.ts"
+import { useGetLoanProgramDetail } from "@/modules/loan-application/hooks/program/useGetLoanProgramDetail.ts"
+import { useQueryGetIdentityVerification } from "@/modules/loan-application/hooks/form-identity-verification/useQueryGetIdentityVerification.ts"
+import { useGetESignDocument } from "@/modules/loan-application/hooks/form-esign/useGetESignDocument.ts"
+import { useQueryGetPlaidItemIds } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidItemIds.ts"
+import { useGetPlaidConnectedInstitutions } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
+import { useQueryGetKybForm } from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
+import {
+  useQueryKycForm,
+  useQueryKycFormV2
+} from "@/modules/loan-application/hooks/form-kyc/useQueryKycForm.ts"
+import { useQueryGetConfirmationForm } from "@/modules/loan-application/hooks/form-common/useQueryConfirmationForm.ts"
+import { useQueryGetFinancialForm } from "@/modules/loan-application/hooks/form-common/useQueryFinancialForm.ts"
+import { useQueryGetCurrentLoansForm } from "@/modules/loan-application/hooks/form-current-loan/useQueryCurrentLoansForm.ts"
+import { useQueryGetOperatingExpensesForm } from "@/modules/loan-application/hooks/form-common/useQueryOperatingExpensesForm.ts"
+import { useQueryGetDocumentsByForm } from "@/modules/loan-application/hooks/form-document/useQueryGetDocuments.ts"
+import { useQueryGetPreQualificationForm } from "@/modules/loan-application/hooks/form-common/useQueryPreQualificationForm.ts"
+import { useQueryProductServiceForm } from "@/modules/loan-application/hooks/form-common/useQueryProductServiceForm.ts"
+import { useQueryMarketOpportunity } from "@/modules/loan-application/hooks/form-common/useQueryMarketOpportunity.ts"
+import { useQueryLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/useQueryLaunchKCFitForm.ts"
+import { useQueryExecutionForm } from "@/modules/loan-application/hooks/form-common/useQueryExecutionForm.ts"
+import { useQueryBusinessModelForm } from "@/modules/loan-application/hooks/form-common/useQueryBusinessModelForm.ts"
+import { useQueryBusinessDocuments } from "@/modules/loan-application/hooks/form-document/useQueryBusinessDocuments.ts"
+import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/form-document/useQuerySbbDocumentForm.ts"
+import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/form-document/useGetDocumentForm.ts"
+import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/form-financial-projection/useGetFinancialProjectForms.ts"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse

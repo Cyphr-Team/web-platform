@@ -15,7 +15,6 @@ import {
   type KYCInformationResponse,
   type OperatingExpensesInformationResponse
 } from "../constants/type"
-import { getStateCode, getStateName } from "../hooks/useSelectCities"
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils.ts"
 import { get, set, without } from "lodash"
 import { SBB_KYC_FIELD_NAMES } from "../components/organisms/loan-application-form/kyc/sbb/const"
@@ -34,6 +33,10 @@ import {
   launchKCBusinessFormSchema,
   loanReadyBusinessFormSchema
 } from "@/modules/loan-application/constants/form.kyb.ts"
+import {
+  getStateCode,
+  getStateName
+} from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
 
 export const formatKybForm = (rawData: IBusinessFormValue): KYBInformation => {
   const formattedForm: KYBInformation = {

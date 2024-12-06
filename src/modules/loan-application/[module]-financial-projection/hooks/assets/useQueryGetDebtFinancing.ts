@@ -4,13 +4,13 @@ import {
   type DebtFinancingLiabilityResponse,
   type DebtFinancingResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/debt-financing"
-import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
-import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId"
+import { type FormDetailsQueryOptions } from "src/modules/loan-application/hooks/form-common"
+import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/form-common/useQueryFormBySetupId"
 
 export const useQueryGetDebtFinancingForm = ({
   applicationId,
   enabled
-}: FormDetailsQueryProps) =>
+}: FormDetailsQueryOptions) =>
   useQueryFormBySetupId<DebtFinancingResponse>({
     setupId: applicationId,
     queryKey: [QUERY_KEY.GET_FP_DEBT_FINANCING_FORM],
@@ -21,7 +21,7 @@ export const useQueryGetDebtFinancingForm = ({
 export const useQueryGetDebtFinancingLiabilityForm = ({
   applicationId,
   enabled
-}: FormDetailsQueryProps) =>
+}: FormDetailsQueryOptions) =>
   useQueryFormBySetupId<DebtFinancingLiabilityResponse>({
     setupId: applicationId,
     queryKey: [QUERY_KEY.GET_FP_DEBT_FINANCING_LIABILITY_FORM],

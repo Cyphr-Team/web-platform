@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/tooltip"
 import { FileDown } from "lucide-react"
 import { useState } from "react"
-import { useQueryDownloadDocumentForApplicant } from "../../hooks/useQueryDownloadDocumentForApplicant"
+import { useQueryDownloadDocumentForApplicant } from "../../hooks/form-document/useQueryDownloadDocumentForApplicant.ts"
 
 export function DownloadDocumentButton({
   documentId,

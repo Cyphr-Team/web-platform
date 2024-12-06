@@ -11,7 +11,6 @@ import {
   type BusinessFormValue
 } from "../../../../constants/form.kyb"
 import { TextInput } from "@/shared/organisms/form/TextInput"
-import { useSelectCities } from "../../../../hooks/useSelectCities"
 import { useEffect, useMemo } from "react"
 import { AutoCompleteStates } from "../../../molecules/AutoCompleteStates"
 import { AutoCompleteCities } from "../../../molecules/AutoCompleteCities"
@@ -20,10 +19,11 @@ import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { EIN_PATTERN } from "@/constants"
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import { RHFMaskInput } from "@/modules/form-template/components/molecules"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
+import { useSelectCities } from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
 
 interface BusinessInformationFormProps {
   wrapperClassName?: string

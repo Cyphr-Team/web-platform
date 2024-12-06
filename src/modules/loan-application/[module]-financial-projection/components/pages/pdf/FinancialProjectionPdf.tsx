@@ -20,7 +20,7 @@ import {
   ForecastPeriod,
   type ForecastResultsResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast"
-import { useQueryGetKybForm } from "@/modules/loan-application/hooks/useQuery/useQueryKybForm"
+import { useQueryGetKybForm } from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
 import { EXPORT_CONFIG } from "@/modules/loan-application/services/pdf-v2.service"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { getBusinessName } from "@/utils/kyb.utils"

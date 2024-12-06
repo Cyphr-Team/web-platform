@@ -25,13 +25,13 @@ import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "@/modules/loan-application/providers"
-import { useSubmitPreQualificationForm } from "@/modules/loan-application/hooks/useForm/useSubmitPreQualificationForm"
+import { useSubmitPreQualificationForm } from "@/modules/loan-application/hooks/form-common/useSubmitPreQualificationForm.ts"
 import { useCallback, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
 import { SelectInput } from "@/shared/organisms/form/SelectInput"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/useMutation/useCreateLoanApplicationMutation"
+import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/application/useCreateLoanApplicationMutation.ts"
 import { LoanType } from "@/types/loan-program.type"
 import { options, questions } from "./constants"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"

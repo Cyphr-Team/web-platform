@@ -11,8 +11,8 @@ import { reverseFormatRevenueResponse } from "@/modules/loan-application/[module
 import { reverseFormatExpenseTaxRateForm } from "@/modules/loan-application/[module]-financial-projection/hooks/tax-rate/useSubmitTaxRateForm"
 import { reverseFormatExpensePeopleForm } from "@/modules/loan-application/[module]-financial-projection/services/form.services"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
-import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/useGetFinancialProjectLoanSummary"
-import { reverseFormatLoanRequestForm } from "@/modules/loan-application/hooks/useQuery/useQueryUserLoanApplicationDetails"
+import { useGetFinancialProjectLoanSummary } from "@/modules/loan-application/hooks/form-financial-projection/useGetFinancialProjectLoanSummary.ts"
+import { reverseFormatLoanRequestForm } from "@/modules/loan-application/hooks/application/useQueryUserLoanApplicationDetails.ts"
 import {
   reverseFormatKybForm,
   reverseFormatKycForm

@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form"
 import { DragDropFileInput } from "@/shared/molecules/DragFileInput.tsx"
 import { useCallback } from "react"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect.ts"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext

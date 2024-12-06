@@ -3,7 +3,7 @@ import { MiddeskTable } from "@/modules/loan-application-management/components/t
 import { DocumentType } from "@/modules/loan-application-management/constants/types/document"
 import { DownloadDocumentButton } from "@/modules/loan-application/components/atoms/DownloadDocumentButton"
 import { type DocumentUploadedResponse } from "@/modules/loan-application/constants/type"
-import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/useQuery/useQuerySbbDocumentForm"
+import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/form-document/useQuerySbbDocumentForm.ts"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { textToCamelCaseFieldPattern } from "@/utils"
 import { renderHeader } from "@/utils/table.utils"

@@ -22,7 +22,7 @@ import {
 } from "../../../../providers"
 import { ConnectPlaidButton } from "../../../molecules/ConnectPlaidButton"
 import { FileUploadCard } from "../../../molecules/FileUploadCard"
-import { useQueryGetIncomeCategories } from "../../../../hooks/useQuery/useQueryIncomeCategories"
+import { useQueryGetIncomeCategories } from "@/modules/loan-application/hooks/form-common/useQueryIncomeCategories"
 import { capitalizeWords, isEnabledQuery } from "@/utils"
 import { Loader2 } from "lucide-react"
 import { FileUploadedCard } from "../../../molecules/FileUploadedCard"
@@ -35,7 +35,7 @@ import {
 import { useEffect, useMemo } from "react"
 import { LOAN_APPLICATION_STEPS } from "../../../../models/LoanApplicationStep/type"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
 export function FinancialInformationForm() {

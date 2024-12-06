@@ -25,8 +25,6 @@ import { useForm } from "react-hook-form"
 import PhoneInput from "react-phone-number-input"
 
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
-import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities.ts"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { AutoCompleteStates } from "@/modules/loan-application/components/molecules/AutoCompleteStates.tsx"
@@ -46,6 +44,8 @@ import {
   type LaunchKCOwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
 import { type IOwnerFormValue } from "@/modules/loan-application/constants/form.ts"
+import { useSelectCities } from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 
 export function LaunchKCOwnerInformationForm() {
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()

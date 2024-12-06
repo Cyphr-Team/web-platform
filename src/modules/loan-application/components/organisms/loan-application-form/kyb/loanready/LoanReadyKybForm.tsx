@@ -17,8 +17,8 @@ import {
   loanReadyBusinessFormSchema,
   type LoanReadyBusinessFormValue
 } from "@/modules/loan-application/constants/form.kyb"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
-import { useSelectCities } from "@/modules/loan-application/hooks/useSelectCities"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
+import { useSelectCities } from "@/modules/loan-application/hooks/utils/useSelectCities"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import {
   useLoanApplicationFormContext,

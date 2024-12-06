@@ -22,7 +22,7 @@ import {
   currentLoansFormSchema,
   type CurrentLoansFormValue
 } from "@/modules/loan-application/constants/form"
-import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/useAutoCompleteStepEffect"
+import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,

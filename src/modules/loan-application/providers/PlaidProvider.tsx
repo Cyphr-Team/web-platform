@@ -7,7 +7,7 @@ import {
 import { createContext } from "use-context-selector"
 import { type PlaidAction, type PlaidState } from "../constants"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type"
-import { transformToConnectedAccounts } from "@/modules/loan-application/hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
+import { transformToConnectedAccounts } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
 
 const initialState: PlaidState = {
   linkSuccess: false,

@@ -1,10 +1,10 @@
 import { API_PATH } from "@/constants"
 import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
 import { type ForecastResultsResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
-import { type FormDetailsQueryProps } from "@/modules/loan-application/hooks/useQuery"
-import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/useQuery/useQueryFormBySetupId.ts"
+import { type FormDetailsQueryOptions } from "src/modules/loan-application/hooks/form-common"
+import { useQueryFormBySetupId } from "@/modules/loan-application/hooks/form-common/useQueryFormBySetupId.ts"
 
-interface QueryFinancialProjectionProps extends FormDetailsQueryProps {
+interface QueryFinancialProjectionProps extends FormDetailsQueryOptions {
   isWorkspaceAdmin: boolean
 }
 

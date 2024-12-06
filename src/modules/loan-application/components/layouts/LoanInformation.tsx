@@ -10,7 +10,6 @@ import { SideNavLoanApplication } from "@/shared/molecules/SideNavLoanApplicatio
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { useGetFormByStep } from "../../hooks/useGetFormByStep"
 import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
 import {
   useLoanApplicationFormContext,
@@ -23,6 +22,7 @@ import { TopBarDetail } from "./TopBarDetail"
 import { isEnableChatSupport } from "@/utils/feature-flag.utils"
 import { isCyphrBank } from "@/utils/domain.utils"
 import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
+import { useGetFormByStep } from "@/modules/loan-application/hooks/utils/useGetFormByStep.tsx"
 
 export function LoanInformationHeader() {
   const { loanProgramDetails, isLoading } = useLoanProgramDetailContext()

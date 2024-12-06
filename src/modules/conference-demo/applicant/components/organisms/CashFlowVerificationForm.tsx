@@ -23,7 +23,7 @@ import {
 import { SearchSelect } from "@/components/ui/search-select.tsx"
 import { type Option } from "@/types/common.type.ts"
 import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
-import { transformToConnectedAccounts } from "@/modules/loan-application/hooks/useQuery/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
+import { transformToConnectedAccounts } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
 import { type PlaidInstitutionProviderData } from "@/modules/loan-application/constants"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type.ts"
 import { Card, CardContent } from "@/components/ui/card.tsx"

@@ -5,9 +5,9 @@ import {
   eSignFormSchema,
   type ESignFormValue
 } from "@/modules/loan-application/constants/form"
-import { useCreateESignDocumentByFile } from "@/modules/loan-application/hooks/useESign/useCreateESignDocument"
-import { useCreateESignSession } from "@/modules/loan-application/hooks/useESign/useCreateESignSession"
-import { usePollingESignDocumentStatus } from "@/modules/loan-application/hooks/useESign/usePollingESignDocumentStatus"
+import { useCreateESignDocumentByFile } from "@/modules/loan-application/hooks/form-esign/useCreateESignDocument"
+import { useCreateESignSession } from "@/modules/loan-application/hooks/form-esign/useCreateESignSession"
+import { usePollingESignDocumentStatus } from "@/modules/loan-application/hooks/form-esign/usePollingESignDocumentStatus"
 import {
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS
