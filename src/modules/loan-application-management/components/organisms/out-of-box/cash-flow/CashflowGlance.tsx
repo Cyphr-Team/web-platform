@@ -84,7 +84,7 @@ export const CashflowGlanceReport: React.FC<CashflowGlanceReportProps> = ({
         {newCashFlowGlance?.bankAccountSummary ? (
           newCashFlowGlance?.bankAccountSummary?.map((data) => (
             <BankAccountReport
-              key={data.accountHolder}
+              key={data.bankAccountPk}
               className="mb-6"
               data={data}
               isLoading={isFetchingNewCashFlow}

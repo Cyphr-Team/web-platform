@@ -9,10 +9,7 @@ import { useMemo, useRef, useState } from "react"
 import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { isSbb } from "@/utils/domain.utils"
-import {
-  isEnableKycReOrder,
-  isEnablePandaDocESign
-} from "@/utils/feature-flag.utils"
+import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import {
@@ -61,9 +58,7 @@ export function ReviewApplication() {
       (prog) =>
         prog.step != step &&
         prog.step != LOAN_APPLICATION_STEPS.CONFIRMATION &&
-        prog.step != LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE &&
-        (isEnableKycReOrder() ||
-          prog.step != LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
+        prog.step != LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
     )
   }, [step, progress])
 

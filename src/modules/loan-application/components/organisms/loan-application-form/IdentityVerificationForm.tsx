@@ -17,7 +17,6 @@ import {
 import { FORM_ACTION } from "../../../providers/LoanApplicationFormProvider"
 import { PersonaStatus } from "@/lib/persona/persona.types.ts"
 import { useParams } from "react-router-dom"
-import { isEnableKycReOrder } from "@/utils/feature-flag.utils.ts"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { FormSubmitButton } from "../../atoms/FormSubmitButton"
 import { isSbb } from "@/utils/domain.utils.ts"
@@ -141,7 +140,7 @@ export function IdentityVerificationForm({
     </div>
   ) : (
     <div className="flex h-10 items-center justify-center gap-1 rounded-lg bg-primary px-4 py-2 font-semibold text-white">
-      {isEnableKycReOrder() ? "Completed" : "Verified"}
+      Completed
       <Check className="size-5" />
     </div>
   )

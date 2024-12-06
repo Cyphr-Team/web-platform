@@ -11,7 +11,10 @@ import { Link, useLocation, useParams } from "react-router-dom"
 import { checkIsWorkspaceAdmin } from "@/utils/check-roles.ts"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
-import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
+import {
+  isEnableKCChamberKycPersonaDisabled,
+  isEnableLoanReadyV2
+} from "@/utils/feature-flag.utils"
 
 type Props = React.HTMLAttributes<HTMLDivElement>
 
@@ -44,7 +47,9 @@ export function TopNav({ className, ...props }: Props) {
   } else if (isKccBank()) {
     menuItems = [
       ApplicationMenuName.business,
-      ApplicationMenuName.identity,
+      isEnableKCChamberKycPersonaDisabled()
+        ? null
+        : ApplicationMenuName.identity,
       ApplicationMenuName.cashflow,
       ApplicationMenuName.applicationSummary
     ]

@@ -15,10 +15,7 @@ import {
   generatePDF
 } from "@/modules/loan-application/services/pdf-v2.service"
 import { toastError } from "@/utils"
-import {
-  isEnableKycReOrder,
-  isEnablePandaDocESign
-} from "@/utils/feature-flag.utils"
+import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMemo } from "react"
 import { useForm } from "react-hook-form"
@@ -45,9 +42,7 @@ export function FinancialProjectionReviewApplication() {
       (prog) =>
         prog.step != step &&
         prog.step != LOAN_APPLICATION_STEPS.CONFIRMATION &&
-        prog.step != LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE &&
-        (isEnableKycReOrder() ||
-          prog.step != LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION)
+        prog.step != LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE
     )
   }, [step, progress])
 

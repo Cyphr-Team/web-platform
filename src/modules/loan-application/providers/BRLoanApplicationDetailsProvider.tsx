@@ -9,7 +9,9 @@ import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   formsConfigurationEnabled,
   isEnableFormV2,
-  isEnablePandaDocESign
+  isEnableKCChamberKycPersonaDisabled,
+  isEnablePandaDocESign,
+  isIgnoredKycSubmission
 } from "@/utils/feature-flag.utils"
 
 import {
@@ -184,7 +186,11 @@ export function BRLoanApplicationDetailsProvider({
    */
   const identityVerificationQuery = useQueryGetIdentityVerification({
     appId: loanApplicationId,
-    enabled: !!loanApplicationId && !isLoanReady()
+    enabled:
+      !!loanApplicationId &&
+      !isLoanReady() &&
+      !isEnableKCChamberKycPersonaDisabled() &&
+      !isIgnoredKycSubmission()
   })
 
   /**

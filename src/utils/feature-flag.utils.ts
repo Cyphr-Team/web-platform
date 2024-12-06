@@ -1,6 +1,6 @@
 import { FEATURE_FLAGS } from "@/constants/feature-flag.constants"
 import { featureFlagsService } from "@/services/feature-flag.service"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
+import { isKccBank } from "@/utils/domain.utils.ts"
 
 export function checkEnabledFeatureFlag(key: FEATURE_FLAGS) {
   const featureFlags = featureFlagsService.getFeatureFlags()
@@ -34,14 +34,6 @@ function formsConfigurationEnabled() {
  */
 function isEnableKYBV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.KYB_V2)
-}
-
-function isEnableKycReOrder() {
-  return (
-    checkEnabledFeatureFlag(FEATURE_FLAGS.KYC_REORDER) ||
-    isLaunchKC() ||
-    isSbb()
-  )
 }
 
 /**
@@ -152,6 +144,16 @@ function isEnableFormV2() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.FORM_V2)
 }
 
+/**
+ * Disable KYC Persona for KCChamber
+ */
+function isEnableKCChamberKycPersonaDisabled() {
+  return (
+    isKccBank() &&
+    checkEnabledFeatureFlag(FEATURE_FLAGS.KCCHAMBER_PERSONA_KYC_DISABLED)
+  )
+}
+
 export {
   isEnableLoanReadyV2,
   isEnablePlaidV2,
@@ -160,7 +162,6 @@ export {
   isEnableSubscriptionManagement,
   isEnableKYBV2,
   formsConfigurationEnabled,
-  isEnableKycReOrder,
   isEnableMultiFactorAuthentication,
   isEnableMultiFactorAuthenticationForAdminPortal,
   isEnableMultiFactorAuthenticationForRepPortals,
@@ -170,5 +171,6 @@ export {
   isEnableLoanProgramChangesManagement,
   isEnableGoogleMapInput,
   isEnableChatSupport,
-  isEnableFormV2
+  isEnableFormV2,
+  isEnableKCChamberKycPersonaDisabled
 }
