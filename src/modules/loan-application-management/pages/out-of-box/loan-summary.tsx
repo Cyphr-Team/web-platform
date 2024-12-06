@@ -41,10 +41,7 @@ import { useQueryGetLoanApplicationDetailStatus } from "../../hooks/useQuery/use
 import { useParams } from "react-router-dom"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import { LaunchKcFitFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/LaunchKcFitFormDetails"
-import {
-  isEnableFormV2,
-  isEnableKCChamberKycPersonaDisabled
-} from "@/utils/feature-flag.utils.ts"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import { LaunchKCSummary } from "@/modules/loan-application-management/pages/launch-kc/loan-summary.tsx"
 import { ApplicationOverview } from "@/modules/loan-application-management/components/organisms/out-of-box/loan-summary"
 import { OutOfBoxSummary } from "@/modules/loan-application-management/pages/out-of-box/loan-summary-v2.tsx"
@@ -55,6 +52,8 @@ export function Component() {
     loanSummary,
     loanApplicationDetails,
     newCashFlowGlance,
+    loanSmartKycDetail,
+    isLoadingLoanSmartKycDetail,
     isFetchingCashflow,
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
@@ -103,7 +102,7 @@ export function Component() {
     page_10,
     page_11,
     shouldDisplayHighRiskEntity ? [page_12] : [],
-    !isEnableKCChamberKycPersonaDisabled() ? [page_13] : [],
+    loanSmartKycDetail ? [page_13] : [],
     shouldDisplayCashFlowReport ? [page_14] : []
   )
 
@@ -148,7 +147,11 @@ export function Component() {
 
   const downloadOverviewButton = isOverviewDownloadable && (
     <DownloadButton
-      disabled={isFetchingCashflow || isFetchingNewCashFlow}
+      disabled={
+        isLoadingLoanSmartKycDetail ||
+        isFetchingCashflow ||
+        isFetchingNewCashFlow
+      }
       elementToExportRef={elementToExportRef}
     />
   )
@@ -306,7 +309,7 @@ export function Component() {
           </div>
         ) : null}
 
-        {isEnableKCChamberKycPersonaDisabled() ? null : (
+        {loanSmartKycDetail ? (
           <div
             ref={page_13}
             className="flex flex-col space-y-3xl"
@@ -314,7 +317,7 @@ export function Component() {
           >
             <IdentityVerificationDetails />
           </div>
-        )}
+        ) : null}
 
         {shouldDisplayCashFlowReport ? (
           <div

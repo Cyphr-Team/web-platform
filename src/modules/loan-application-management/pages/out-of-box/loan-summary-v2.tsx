@@ -43,7 +43,6 @@ import {
   type OperatingExpensesFormValue
 } from "@/modules/loan-application/constants/form.ts"
 import { loanRequestSchemasByInstitution } from "@/modules/loan-application/constants/form-v2.ts"
-import { isEnableKCChamberKycPersonaDisabled } from "@/utils/feature-flag.utils.ts"
 
 interface OutOfBoxFormSummary {
   // TODO(Ngan 🎀): KYB/KYC form v2
@@ -83,6 +82,7 @@ export function OutOfBoxSummary() {
     applicationSummary,
     loanApplicationDetails,
     newCashFlowGlance,
+    loanSmartKycDetail,
     isFetchingCashflow,
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
@@ -158,7 +158,7 @@ export function OutOfBoxSummary() {
     page_3,
     shouldDisplayOperatingExpensesSection ? page_4 : [],
     [page_5, page_6],
-    !isEnableKCChamberKycPersonaDisabled() ? [page_7] : [],
+    loanSmartKycDetail ? [page_7] : [],
     [page_8]
   )
 
@@ -268,7 +268,7 @@ export function OutOfBoxSummary() {
           <Separator />
         </div>
 
-        {isEnableKCChamberKycPersonaDisabled() ? null : (
+        {loanSmartKycDetail ? (
           <div
             ref={page_7}
             className="flex flex-col space-y-3xl"
@@ -276,7 +276,7 @@ export function OutOfBoxSummary() {
           >
             <IdentityVerificationDetails />
           </div>
-        )}
+        ) : null}
 
         <div
           ref={page_8}

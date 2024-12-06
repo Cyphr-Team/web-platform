@@ -11,16 +11,18 @@ import { Link, useLocation, useParams } from "react-router-dom"
 import { checkIsWorkspaceAdmin } from "@/utils/check-roles.ts"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
-import {
-  isEnableKCChamberKycPersonaDisabled,
-  isEnableLoanReadyV2
-} from "@/utils/feature-flag.utils"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
+import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider.tsx"
+import { Skeleton } from "@/components/ui/skeleton.tsx"
 
 type Props = React.HTMLAttributes<HTMLDivElement>
 
 export function TopNav({ className, ...props }: Props) {
   const pathname = useLocation().pathname
   const { id } = useParams()
+
+  const { loanSmartKycDetail, isLoadingLoanSmartKycDetail } =
+    useLoanApplicationDetailContext()
 
   let menuItems: (string | null)[] = APPLICATION_MENU(id!).map((e) => e.name)
 
@@ -47,9 +49,7 @@ export function TopNav({ className, ...props }: Props) {
   } else if (isKccBank()) {
     menuItems = [
       ApplicationMenuName.business,
-      isEnableKCChamberKycPersonaDisabled()
-        ? null
-        : ApplicationMenuName.identity,
+      loanSmartKycDetail ? ApplicationMenuName.identity : null,
       ApplicationMenuName.cashflow,
       ApplicationMenuName.applicationSummary
     ]
@@ -85,6 +85,16 @@ export function TopNav({ className, ...props }: Props) {
   const applicationMenu = APPLICATION_MENU(id!).filter((el) =>
     menuItems.includes(el.name)
   )
+
+  if (isLoadingLoanSmartKycDetail) {
+    return (
+      <div className="flex items-center space-x-lg px-4xl">
+        <Skeleton className="w-20 h-6 my-0.5" />
+        <Skeleton className="w-20 h-6 my-0.5" />
+        <Skeleton className="w-20 h-6 my-0.5" />
+      </div>
+    )
+  }
 
   return (
     <div className="relative">

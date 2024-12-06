@@ -4,10 +4,7 @@ import { QUERY_KEY } from "../../../constants/query-key"
 import { getRequest } from "../../../../../services/client.service"
 import { API_PATH } from "../../../../../constants"
 import { type SmartKyc } from "../../../../../lib/persona/persona.types"
-import {
-  isEnableKCChamberKycPersonaDisabled,
-  isIgnoredKycSubmission
-} from "@/utils/feature-flag.utils.ts"
+import { isIgnoredKycSubmission } from "@/utils/feature-flag.utils.ts"
 
 export const useQueryGetSmartKyc = ({
   applicationId,
@@ -26,9 +23,6 @@ export const useQueryGetSmartKyc = ({
       })
     },
     enabled:
-      enabledByInstitution &&
-      !!applicationId &&
-      !isEnableKCChamberKycPersonaDisabled() &&
-      !isIgnoredKycSubmission()
+      enabledByInstitution && !!applicationId && !isIgnoredKycSubmission()
   })
 }
