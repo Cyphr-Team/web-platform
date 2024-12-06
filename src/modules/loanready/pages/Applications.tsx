@@ -59,10 +59,12 @@ export default function LoanReadyApplications() {
 
       {!isFetching && !data?.data.data?.length ? (
         <>
-          <UnusedReportBannerList
-            loanProgramId={loanPrograms.data?.data[0].id}
-            subscriptions={unusedSubscriptions?.data ?? []}
-          />
+          {unusedSubscriptions?.data?.length ? (
+            <UnusedReportBannerList
+              loanProgramId={loanPrograms.data?.data[0].id}
+              subscriptions={unusedSubscriptions?.data}
+            />
+          ) : null}
           <EmptyApplications loanProgramId={loanPrograms.data?.data[0].id} />
         </>
       ) : (
@@ -73,7 +75,7 @@ export default function LoanReadyApplications() {
               loanProgramId={loanPrograms.data?.data[0].id}
             />
           </div>
-          {unusedSubscriptions?.data ? (
+          {unusedSubscriptions?.data?.length ? (
             <UnusedReportBannerList
               loanProgramId={loanPrograms.data?.data[0].id}
               subscriptions={unusedSubscriptions?.data}
