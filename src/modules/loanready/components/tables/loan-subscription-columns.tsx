@@ -39,9 +39,9 @@ export const loanSubscriptionColumns: ColumnDef<AssessmentResponse>[] = [
     }
   },
   {
-    id: "programName",
-    accessorKey: "programName",
-    header: "Program",
+    id: "plan",
+    accessorKey: "plan",
+    header: renderFilterableHeader({ title: "Program" }),
     cell: ({ row }) => {
       const application = row.original
 
@@ -87,9 +87,9 @@ export const loanSubscriptionColumns: ColumnDef<AssessmentResponse>[] = [
     }
   },
   {
-    id: "loanAmount",
-    accessorKey: "loanAmount",
-    header: "Amount Requested",
+    id: "requestedAmount",
+    accessorKey: "requestedAmount",
+    header: renderFilterableHeader({ title: "Amount Requested" }),
     cell: ({ row }) => {
       const application = row.original
       const amount = toCurrency(application.requestedLoanAmount, 0)
@@ -151,7 +151,11 @@ export const loanSubscriptionColumns: ColumnDef<AssessmentResponse>[] = [
   {
     id: "action",
     header: ({ column }) => (
-      <DataTableColumnHeader className="pl-2" column={column} title="Action" />
+      <DataTableColumnHeader
+        className="pl-2 font-semibold"
+        column={column}
+        title="Action"
+      />
     ),
     cell: ({ row }) => {
       return (

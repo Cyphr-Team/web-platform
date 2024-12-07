@@ -17,6 +17,8 @@ interface WorkspaceAdminLoanReadyAssessmentSort {
   businessName?: SortOrder
   email?: SortOrder
   status?: SortOrder
+  requestedAmount?: SortOrder
+  plan?: SortOrder
   createdAt?: SortOrder
   submittedAt?: SortOrder
 }

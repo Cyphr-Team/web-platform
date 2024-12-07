@@ -68,8 +68,8 @@ module.exports = {
     "react/self-closing-comp": "warn",
     "react/display-name": "warn",
     "react/no-unescaped-entities": ["error", { forbid: [">", "}"] }],
-    "react/hook-use-state": "warn",
-    "react/jsx-pascal-case": "warn",
+    "react/hook-use-state": "off",
+    "react/jsx-pascal-case": "off",
     "react/function-component-definition": "off",
     "react/jsx-sort-props": [
       "warn",
