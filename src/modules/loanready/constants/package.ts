@@ -1,3 +1,5 @@
+import { isRepSubdomain } from "@/utils/domain.utils"
+
 const enum LoanReadyPlanEnum {
   BASIC = "BASIC",
   PLUS = "PLUS"
@@ -6,12 +8,12 @@ const enum LoanReadyPlanEnum {
 const LoanReadyPlan = {
   [LoanReadyPlanEnum.BASIC]: {
     name: "LoanReady",
-    price: 9900,
+    price: isRepSubdomain() ? 100 : 9900,
     currency: "USD"
   },
   [LoanReadyPlanEnum.PLUS]: {
     name: "LoanReady+",
-    price: 15000,
+    price: isRepSubdomain() ? 105 : 15000,
     currency: "USD"
   }
 }
