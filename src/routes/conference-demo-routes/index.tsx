@@ -17,6 +17,7 @@ import ApplicationListPage from "../../modules/conference-demo/applicant/compone
 import ConferenceDemoApplicationFpLayout from "@/modules/conference-demo/applicant/components/layouts/ConferenceDemoApplicationFpLayout.tsx"
 import ConferenceDemoApplicationFpAdminLayout from "@/modules/conference-demo/admin/components/layouts/ConferenceDemoApplicationFpLayout.tsx"
 import { LoanReadiness } from "@/modules/conference-demo/admin/components/organisms/LoanReadiness.tsx"
+import { ListApplicationPage } from "@/modules/conference-demo/admin/components/pages/ListApplicationPage.tsx"
 
 const financialProjectionRoute = (
   <Route
@@ -199,6 +200,11 @@ export const conferenceDemoRoutes = (
         index
         element={<IdentityVerificationPage />}
         path={APP_PATH.CONFERENCE_DEMO.admin.identity}
+      />
+      <Route
+        index
+        element={<ListApplicationPage />}
+        path={APP_PATH.CONFERENCE_DEMO.admin.applications}
       />
       {financialProjectionAdminRoutes}
     </Route>

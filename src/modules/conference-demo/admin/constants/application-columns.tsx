@@ -5,7 +5,6 @@ import { getBadgeVariantByStatus } from "../../../loan-application-management/se
 
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants.ts"
 import { format } from "date-fns"
-import { ButtonReviewLoanApplication } from "../../../loan-application-management/components/atoms/ButtonReviewLoanApplication.tsx"
 import { startCase, toLower } from "lodash"
 import { renderFilterableHeader } from "@/utils/table.utils.tsx"
 import {
@@ -14,8 +13,14 @@ import {
 } from "@/modules/loanready/services"
 import { type AssessmentResponse } from "@/modules/loanready/types/assessment.ts"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
+import { ChevronRight } from "lucide-react"
+import { ButtonLoading } from "@/components/ui/button.tsx"
+import { type useNavigate } from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
-export const loanSubscriptionColumns: ColumnDef<AssessmentResponse>[] = [
+export const applicationColumns = (
+  navigate: ReturnType<typeof useNavigate>
+): ColumnDef<AssessmentResponse>[] => [
   {
     id: "applicationIdNumber",
     header: renderFilterableHeader({ title: "ID" }),
@@ -163,12 +168,21 @@ export const loanSubscriptionColumns: ColumnDef<AssessmentResponse>[] = [
       />
     ),
     cell: ({ row }) => {
+      const application = row.original
+
       return (
-        <ButtonReviewLoanApplication
-          loanApplicationId={row.original.id}
-          loanApplicationStatus={row.original.status}
-          loanProgramType={row.original.programType}
-        />
+        <ButtonLoading
+          className="flex h-8 items-center gap-0.5 px-2 pr-1"
+          variant="ghost"
+          onClick={() => {
+            navigate(APP_PATH.CONFERENCE_DEMO.admin.business, {
+              state: { businessName: application.businessName }
+            })
+          }}
+        >
+          Review
+          <ChevronRight className="w-4" />
+        </ButtonLoading>
       )
     }
   }

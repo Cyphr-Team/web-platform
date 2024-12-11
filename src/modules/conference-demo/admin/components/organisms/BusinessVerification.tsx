@@ -11,14 +11,14 @@ import { IndustryClassification } from "@/modules/conference-demo/admin/componen
 import { Website } from "@/modules/conference-demo/admin/components/molecules/kyb/Website.tsx"
 import { AdverseMedia } from "@/modules/conference-demo/admin/components/molecules/kyb/AdverseMedia.tsx"
 
-function BusinessVerification() {
+function BusinessVerification({ name }: { name?: string }) {
   return (
     <div className="w-full gap-3xl lg:flex">
       <Insights />
 
       <div className="w-full space-y-6">
-        <BusinessDetails />
-        <BusinessName />
+        <BusinessDetails name={name} />
+        <BusinessName name={name} />
         <OfficeAddress />
         <Secretary />
         <TinMatch />

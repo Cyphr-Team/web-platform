@@ -14,7 +14,7 @@ import { MiddeskBadge } from "@/modules/loan-application/components/molecules/mi
 import { MiddeskCard } from "@/modules/loan-application/components/molecules/middesk/MiddeskCard"
 import { DateHeader } from "@/modules/conference-demo/admin/components/atoms/DateHeader"
 
-export function BusinessName() {
+export function BusinessName({ name }: { name?: string }) {
   const businessNames = MOCK_KYB_DETAIL?.businessNames
 
   const getBusinessNameNote = (businessName: BusinessNameDetail) => {
@@ -31,7 +31,7 @@ export function BusinessName() {
   const data: MiddeskTableContentReport[] = useMemo(
     () =>
       businessNames?.data?.map((businessName) => ({
-        name: businessName.name,
+        name: name || businessName.name,
         submitted: businessName.submitted,
         sources: [businessName.source],
         status: businessName.status,

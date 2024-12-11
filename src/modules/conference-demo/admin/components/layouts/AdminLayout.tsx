@@ -11,7 +11,7 @@ function ConferenceDemoAdminLayout() {
 
   useEffect(() => {
     if (location.pathname === APP_PATH.CONFERENCE_DEMO.admin.index) {
-      push(APP_PATH.CONFERENCE_DEMO.admin.business)
+      push(APP_PATH.CONFERENCE_DEMO.admin.applications)
     }
   }, [location.pathname, push])
 

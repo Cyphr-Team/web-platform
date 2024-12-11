@@ -7,13 +7,18 @@ import { DownloadPDF } from "@/modules/loan-application/components/organisms/Mid
 import { mappedStateAbbreviations } from "@/utils/state.utils"
 
 function BusinessDetails({
-  isDownloadAble = true
+  isDownloadAble = true,
+  name
 }: {
   isDownloadAble?: boolean
+  name?: string
 }) {
   const stateAbbr = MOCK_KYB_DETAIL.businessDetails?.formationState.value
   const businessDetail = {
-    name: MOCK_KYB_DETAIL.businessDetails.name,
+    name: {
+      ...MOCK_KYB_DETAIL.businessDetails.name,
+      value: name || MOCK_KYB_DETAIL.businessDetails.name.value
+    },
     address: MOCK_KYB_DETAIL.businessDetails.address,
     tin: MOCK_KYB_DETAIL.businessDetails.tin,
     entityType: MOCK_KYB_DETAIL.businessDetails.entityType,

@@ -1,6 +1,8 @@
 import { type IconProps, Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { type LucideIcon } from "lucide-react"
+import type { Option } from "@/types/common.type.ts"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 export enum ApplicationMenuName {
   business = "Business Verification",
@@ -44,7 +46,7 @@ export enum LoanDecisionEnum {
 export const DASHBOARD_NAV_ITEM = [
   {
     title: "Applications",
-    href: APP_PATH.CONFERENCE_DEMO.admin.business,
+    href: APP_PATH.CONFERENCE_DEMO.admin.applications,
     icon: Icons.folderCheck,
     label: "Applications"
   }
@@ -57,3 +59,14 @@ export interface NavItem {
   label: string
   className?: string
 }
+
+export const LOAN_PLAN: Option[] = [
+  {
+    label: "LoanReady",
+    value: LoanReadyPlanEnum.BASIC
+  },
+  {
+    label: "LoanReady+",
+    value: LoanReadyPlanEnum.PLUS
+  }
+]
