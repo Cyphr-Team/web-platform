@@ -517,3 +517,213 @@ export const MOCK_DOCUMENTS = {
     }
   ]
 }
+
+export const MOCK_LOAN_PROGRAMS = [
+  {
+    id: "1",
+    name: "Loan Program 1"
+  },
+  {
+    id: "2",
+    name: "Loan Program 2"
+  }
+]
+
+export const MOCK_LOANS_DISTRIBUTOR_BY_RACE = [
+  {
+    race: "American Indian or Alaska Native",
+    loans: 45
+  },
+  {
+    race: "Asian",
+    loans: 24
+  },
+  {
+    race: "Black or African American",
+    loans: 18
+  },
+  {
+    race: "Middle Eastern or North African",
+    loans: 9
+  },
+  {
+    race: "Native American or other Pacific Islander",
+    loans: 4
+  },
+  {
+    race: "White",
+    loans: 4
+  },
+  {
+    race: "Other",
+    loans: 4
+  }
+]
+
+export const MOCK_INCOMPLETE_APPLICATION_RATE = [
+  {
+    month: "January",
+    rate: 29
+  },
+  {
+    month: "February",
+    rate: 15
+  },
+  {
+    month: "March",
+    rate: 35
+  }
+]
+
+export const MOCK_APPLICATION_ACTIVITY = {
+  totalApplicationsSubmitted: 45,
+  totalApplicationsInReview: 27,
+  totalApplicationsDenied: 15,
+  totalApplicationsApproved: 3
+}
+
+export const MOCK_PERFORMANCE_METRICS = {
+  data: {
+    averageTimeToApproval: 21,
+    approvalRate: "35",
+    totalLoanAmount: "$27,304",
+    averageLoanSize: "$457,500"
+  },
+  percentRateData: {
+    averageTimeToApprovalPercentRate: -27,
+    approvalPercentRate: 25,
+    totalLoanAmountPercentRate: -30,
+    averageApprovedLoanSizePercentRate: -15
+  }
+}
+
+export const MOCK_APPROVED_LOAN_AMOUNT_USD = [
+  {
+    month: "January",
+    usd: 35000
+  },
+  {
+    month: "February",
+    usd: 26000
+  },
+  {
+    month: "March",
+    usd: 32000
+  },
+  {
+    month: "April",
+    usd: 42000
+  },
+  {
+    month: "May",
+    usd: 38000
+  }
+]
+
+export const MOCK_APPROVED_LOAN_AMOUNT = [
+  {
+    month: "January",
+    usd: 0
+  },
+  {
+    month: "February",
+    usd: -2000
+  },
+  {
+    month: "March",
+    usd: 7000
+  }
+]
+
+export const MOCK_LOAN_DISTRIBUTOR = [
+  {
+    distributor: "Service Based",
+    loans: 45
+  },
+  {
+    distributor: "Restaurants",
+    loans: 24
+  },
+  {
+    distributor: "Retail",
+    loans: 18
+  },
+  {
+    distributor: "Start Ups",
+    loans: 9
+  },
+  {
+    distributor: "Construction",
+    loans: 4
+  }
+]
+
+export const MOCK_AVG_TIME_TO_DECISION = [
+  {
+    month: "January",
+    timeToReview: 11,
+    timeToApprove: 15,
+    timeToDeny: 9
+  },
+  {
+    month: "February",
+    timeToReview: 20,
+    timeToApprove: 12,
+    timeToDeny: 11
+  },
+  {
+    month: "March",
+    timeToReview: 11,
+    timeToApprove: 29,
+    timeToDeny: 14
+  }
+]
+
+export const MOCK_LOAN_APPLICATION_ACTIVITY = [
+  {
+    month: "January",
+    draft: 40,
+    submitted: 30,
+    inreview: 20,
+    approved: 10,
+    denied: 25
+  },
+  {
+    month: "February",
+    draft: 35,
+    submitted: 45,
+    inreview: 15,
+    approved: 20,
+    denied: 30
+  },
+  {
+    month: "March",
+    draft: 25,
+    submitted: 40,
+    inreview: 30,
+    approved: 35,
+    denied: 20
+  }
+]
+
+export const MOCK_LOAN_APPROVAL_RATE = [
+  {
+    month: "January",
+    rate: 58
+  },
+  {
+    month: "February",
+    rate: 38
+  },
+  {
+    month: "March",
+    rate: 70
+  }
+]
+
+export const MOCK_LOAN_DISTRIBUTOR_BY_GENDER = [
+  { gender: "preferNotToSay", loans: 48.8, fill: "#EEFFC0" },
+  { gender: "males", loans: 24.3, fill: "#DFFF86" },
+  { gender: "females", loans: 14.6, fill: "#B3F00D" },
+  { gender: "nonBinary", loans: 12.3, fill: "#A4DE04" }
+]

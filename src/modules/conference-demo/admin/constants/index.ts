@@ -45,6 +45,12 @@ export enum LoanDecisionEnum {
 
 export const DASHBOARD_NAV_ITEM = [
   {
+    title: "Dashboard",
+    href: APP_PATH.CONFERENCE_DEMO.admin.index,
+    icon: Icons.lineChart,
+    label: "Dashboard"
+  },
+  {
     title: "Applications",
     href: APP_PATH.CONFERENCE_DEMO.admin.applications,
     icon: Icons.folderCheck,
