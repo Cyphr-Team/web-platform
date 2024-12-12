@@ -92,8 +92,8 @@ export const applicationColumns = (
     }
   },
   {
-    id: "requestedAmount",
-    accessorKey: "requestedAmount",
+    id: "requestedLoanAmount",
+    accessorKey: "requestedLoanAmount",
     header: renderFilterableHeader({ title: "Amount Requested" }),
     cell: ({ row }) => {
       const application = row.original
