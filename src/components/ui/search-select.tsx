@@ -177,6 +177,7 @@ export function SearchSelect<
     <Input
       ref={searchInputRef}
       autoComplete="off"
+      className="placeholder:text-[#98a2b3]"
       placeholder={placeholder}
       suffixIcon={isFetching ? loader : null}
       value={searchValue}

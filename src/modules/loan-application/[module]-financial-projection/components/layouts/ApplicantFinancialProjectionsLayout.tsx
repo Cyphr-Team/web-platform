@@ -8,6 +8,7 @@ import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import { APP_PATH } from "@/constants"
 import { useCheckLoanReadyPlan } from "@/modules/loan-application/[module]-financial-projection/hooks/loanready/useCheckLoanReadyPlan.ts"
 import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
+import useBoolean from "@/hooks/useBoolean"
 
 export function ApplicantFinancialProjectionsLayout(
   props: PropsWithChildren
@@ -18,6 +19,7 @@ export function ApplicantFinancialProjectionsLayout(
   const { isPlusPlan, isLoading } = useCheckLoanReadyPlan({
     applicationId: loanApplicationId
   })
+  const isOpen = useBoolean(!isPlusPlan)
 
   const onSubmit = useCallback(() => {
     navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.payment, {
@@ -58,6 +60,7 @@ export function ApplicantFinancialProjectionsLayout(
       ) : null}
       {isEnableLoanReadyV2() && !isPlusPlan && !isLoading && (
         <CustomAlertDialog
+          cancelText="Cancel"
           confirmText="Get LoanReady+"
           description={
             <span className="break-keep">
@@ -65,8 +68,9 @@ export function ApplicantFinancialProjectionsLayout(
               in one place.
             </span>
           }
-          isOpen={!isPlusPlan}
+          isOpen={isOpen.value}
           title="Unlock full financial insights"
+          onCanceled={isOpen.onFalse}
           onConfirmed={() => onSubmit()}
         />
       )}

@@ -16,7 +16,7 @@ export function OrderSummary({ selectedPlan }: OrderSummaryProps) {
   return (
     <div>
       <h3 className="mb-4 text-lg font-semibold text-[#252828]">
-        Order summary
+        Order Summary
       </h3>
       <Separator />
       {selectedPlanDetail ? (

@@ -28,15 +28,26 @@ export const enum DebtFinancingField {
   DebtFinancingAnnualInterestRate = "annualInterestRate"
 }
 
-const DebtFinancingFormItemSchema = z.object({
-  name: z.string().min(1, "This field is required"),
-  lenderName: z.string().min(1, "This field is required"),
-  type: z.string().min(1, "This field is required"),
-  loanDate: createDateSchema(),
-  remainingLoanBalance: createNumberSchema({ min: 1 }),
-  termsRemaining: createNumberSchema({ coerce: true, max: 120 }),
-  annualInterestRate: createNumberSchema({ max: 100, coerce: true })
-})
+const DebtFinancingFormItemSchema = z
+  .object({
+    name: z.string().min(1, "This field is required"),
+    lenderName: z.string().min(1, "This field is required"),
+    type: z.string().min(1, "This field is required"),
+    loanDate: createDateSchema(),
+    remainingLoanBalance: createNumberSchema({ min: 1 }),
+    termsRemaining: createNumberSchema({
+      min: 1,
+      coerce: true,
+      max: 120
+    }).optional(),
+    annualInterestRate: createNumberSchema({
+      min: 1,
+      max: 100,
+      coerce: true
+    }).optional()
+  })
+  .refine((obj) => obj.annualInterestRate !== undefined)
+  .refine((obj) => obj.termsRemaining !== undefined)
 
 export const DebtFinancingFormSchema = z
   .object({
@@ -83,8 +94,8 @@ export const EMPTY_DEBT_FINANCING_ITEM: DebtFinancingFormItemValue = {
   lenderName: "",
   loanDate: "",
   remainingLoanBalance: 0,
-  termsRemaining: 0,
-  annualInterestRate: 0
+  termsRemaining: undefined,
+  annualInterestRate: undefined
 }
 
 export const DEBT_FINANCING_DEFAULT_VALUE = {
@@ -302,7 +313,7 @@ export const DebtFinancingArrayFormBlocks: Block[] = [
       placeholder: "Annual interest rate",
       suffixIcon: "%",
       styleProps: {
-        inputClassName: "w-60 pr-8 text-sm"
+        inputClassName: "w-60 pr-8 text-sm -mt-2"
       },
       isHideErrorMessage: true
     }

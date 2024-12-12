@@ -27,7 +27,7 @@ export function FinancialOperatingExpensesFormDetail({
     <div className="flex flex-col gap-2xl p-4 md:px-8 md:pb-8">
       <div className="grid w-full grid-cols-6 items-center gap-5 text-xs font-medium">
         <p className="col-start-1 col-end-3 row-start-1">
-          Operating Expense name
+          Operating expense name
         </p>
         <p className="col-start-4 col-end-5 row-start-1">Cost start date</p>
         <p className="col-start-5 col-end-7 row-start-1 text-right">

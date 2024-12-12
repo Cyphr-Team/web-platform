@@ -31,6 +31,7 @@ import {
 } from "../../services"
 import { LoanDecisionSubmitted } from "../organisms/LoanDecisionSubmited"
 import { ChangeApplicationStatusDialog } from "./ChangeApplicationStatusDialog"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 
 function ApplicationStatusDropDown({
   currentDecision,
@@ -89,6 +90,18 @@ function ApplicationStatusDropDown({
 }
 
 const getApplicationStatusTextButton = (status?: LoanApplicationStatus) => {
+  // Loan Ready V2 statuses: DRAFT, PENDING_SUBMISSION, SUBMITTED, UNKNOWN
+  if (isEnableLoanReadyV2() && isLoanReady()) {
+    switch (status?.toUpperCase()) {
+      case LoanApplicationStatus.DRAFT:
+      case LoanApplicationStatus.PENDING_SUBMISSION:
+        return snakeCaseToText(LoanApplicationStatus.DRAFT.toLowerCase())
+      case LoanApplicationStatus.UNKNOWN:
+        return snakeCaseToText(status ?? "")
+      default:
+        return snakeCaseToText(LoanApplicationStatus.SUBMITTED.toLowerCase())
+    }
+  }
   switch (status) {
     case LoanApplicationStatus.APPROVED:
       return isLoanReady() ? "Ideal Applicant" : "Approved"
@@ -109,6 +122,7 @@ export function ChangeApplicationStatusButton() {
 
   const currentStatus = data?.toUpperCase()
   const isAbleToUpdateDecision =
+    !isLoanReady() &&
     !isLaunchKC() &&
     statusesAbleToMakeDecision.some((status) => status === currentStatus) &&
     !loanApplicationDetails?.loanProgram?.deletedAt
