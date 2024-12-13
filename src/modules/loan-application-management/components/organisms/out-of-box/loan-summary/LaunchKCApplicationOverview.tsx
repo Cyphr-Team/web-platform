@@ -10,6 +10,21 @@ import { TaskFieldStatus } from "@/modules/loan-application-management/constants
 import { Dot } from "@/components/ui/dot"
 import { get } from "lodash"
 import { useMemo } from "react"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import { Skeleton } from "@/components/ui/skeleton.tsx"
+import {
+  adaptFormV2Metadata,
+  findSingularFormMetadata,
+  preFormatBusinessInformationForm,
+  preFormatOwnerInformationForm
+} from "@/modules/loan-application/services/formv2.services.ts"
+import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
+import {
+  ownerFormSchema,
+  type OwnerFormValue
+} from "@/modules/loan-application/constants/form.kyc.ts"
+import { type IBusinessFormValue } from "@/modules/loan-application/constants/form.ts"
+import { businessFormSchema } from "@/modules/loan-application/constants/form.kyb.ts"
 
 interface VerificationStatusProps {
   isVerified: boolean
@@ -32,43 +47,104 @@ function VerificationStatus({ isVerified, label }: VerificationStatusProps) {
   )
 }
 
+function ApplicationOverviewSkeleton() {
+  return (
+    <div className="flex w-full gap-3xl px-4xl">
+      <Skeleton className="h-8 w-96" />
+    </div>
+  )
+}
+
 export function LaunchKCApplicationOverview() {
-  const { loanSummary, loanApplicationDetails } =
-    useLoanApplicationDetailContext()
+  const {
+    loanSummary,
+    applicationSummary,
+    isFetchingSummary,
+    loanApplicationDetails
+  } = useLoanApplicationDetailContext()
 
-  const businessInfo = loanSummary?.businessInfo
-  const personalInfo = loanSummary?.personalInfo
+  const isEnabledFormV2 = isEnableFormV2()
+  const summaryToUse = isEnabledFormV2 ? applicationSummary : loanSummary
+  const businessInfo = summaryToUse?.businessInfo
 
-  // Business Name and Address fetched from Middesk (post-verification) or from KYB form (pre-verification).
-  // If KYB form has not yet been submitted, return "N/A"
-  const businessName = useMemo(
-    () =>
-      get(
-        businessInfo,
-        "businessName.value",
-        get(loanSummary, "kybForm.businessLegalName", "N/A")
-      ),
-    [businessInfo, loanSummary]
-  )
-  const businessAddress = useMemo(
-    () =>
-      get(
-        businessInfo,
-        "officeAddresses.value",
+  /*
+   * Business Name and Address fetched from Middesk (post-verification) or from KYB form (pre-verification).
+   * If KYB form has not yet been submitted, return "N/A"
+   */
+  const kybFormMetadata = isEnabledFormV2
+    ? findSingularFormMetadata(FORM_TYPE.KYB, applicationSummary)
+    : undefined
+
+  const kybFormV2 = kybFormMetadata
+    ? adaptFormV2Metadata<IBusinessFormValue>({
+        schema: businessFormSchema,
+        metadata: kybFormMetadata,
+        preFormat: () => preFormatBusinessInformationForm(kybFormMetadata),
+        additionalFields: {
+          id: get(kybFormMetadata, "forms[0].id", "")
+        }
+      })
+    : undefined
+
+  const businessName = useMemo(() => {
+    if (!isEnabledFormV2)
+      return (
+        summaryToUse?.businessInfo?.businessName?.value ??
+        get(summaryToUse, "kybForm.businessLegalName", "N/A")
+      )
+
+    return (
+      summaryToUse?.businessInfo?.businessName?.value ??
+      kybFormV2?.businessLegalName
+    )
+  }, [isEnabledFormV2, summaryToUse, kybFormV2])
+
+  const businessAddress = useMemo(() => {
+    if (!isEnabledFormV2)
+      return (
+        summaryToUse?.businessInfo?.officeAddresses?.value ??
         formatBusinessStreetAddress(
-          get(loanSummary, "kybForm.businessStreetAddress", undefined)
+          get(summaryToUse, "kybForm.businessStreetAddress", undefined)
         )
-      ),
-    [businessInfo, loanSummary]
-  )
+      )
+
+    return (
+      summaryToUse?.businessInfo?.officeAddresses?.value ??
+      formatBusinessStreetAddress({
+        addressLine1: kybFormV2?.addressLine1 ?? "",
+        addressLine2: kybFormV2?.addressLine2 ?? "",
+        city: kybFormV2?.city ?? "",
+        state: kybFormV2?.state ?? "",
+        postalCode: kybFormV2?.postalCode ?? ""
+      })
+    )
+  }, [isEnabledFormV2, summaryToUse, kybFormV2])
+
+  const businessOwnerName = useMemo(() => {
+    if (!isEnabledFormV2)
+      return get(summaryToUse, "personalInfo.name", undefined)
+
+    const kycFormMetadata = findSingularFormMetadata(
+      FORM_TYPE.KYC,
+      applicationSummary
+    )
+
+    const kycFormData = adaptFormV2Metadata<OwnerFormValue>({
+      schema: ownerFormSchema,
+      metadata: kycFormMetadata,
+      preFormat: () => preFormatOwnerInformationForm(kycFormMetadata)
+    })
+
+    return kycFormData.fullName
+  }, [isEnabledFormV2, summaryToUse, applicationSummary])
 
   const getVerificationStatus = () => {
     const passedGovernment = getPassedGovVerification({
       governmentVerifications:
-        loanSummary?.smartKycPersonaDetail?.governmentVerifications
+        summaryToUse?.smartKycPersonaDetail?.governmentVerifications
     })
     const passedSelfie = getPassedSelfieVerification({
-      selfieVers: loanSummary?.smartKycPersonaDetail?.selfies
+      selfieVers: summaryToUse?.smartKycPersonaDetail?.selfies
     })
 
     return passedGovernment != null && passedSelfie != null
@@ -78,6 +154,8 @@ export function LaunchKCApplicationOverview() {
     businessInfo?.businessName?.verification?.status?.toUpperCase() ===
     TaskFieldStatus.SUCCESS
   const identityVerificationStatus = getVerificationStatus()
+
+  if (isFetchingSummary) return <ApplicationOverviewSkeleton />
 
   return (
     <Card className="border-b-0 border-r-0 bg-white shadow-none">
@@ -93,12 +171,12 @@ export function LaunchKCApplicationOverview() {
         <InformationRow
           className="rounded-tl-md"
           label="Business name"
-          value={businessName}
+          value={businessName ?? "N/A"}
         />
         <InformationRow
           className="rounded-tr-md"
           label="Business owner"
-          value={personalInfo?.name ?? "N/A"}
+          value={businessOwnerName ?? "N/A"}
         />
         <InformationRow
           label="Loan program"
@@ -107,7 +185,7 @@ export function LaunchKCApplicationOverview() {
         <InformationRow
           className="rounded-br-md"
           label="Office address"
-          value={businessAddress}
+          value={businessAddress ?? "N/A"}
         />
       </div>
     </Card>

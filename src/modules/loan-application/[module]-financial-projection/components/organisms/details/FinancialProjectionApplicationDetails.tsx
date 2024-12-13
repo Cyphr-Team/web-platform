@@ -6,6 +6,7 @@ import { useApplicantFinancialProjectionApplicationDetails } from "@/modules/loa
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { BasicApplicationDrawer } from "@/modules/loan-application/[module]-financial-projection/components/organisms/details/BasicApplicationDrawer.tsx"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 // The function is used for applicant site
 export function FinancialProjectionApplicationDetails() {
@@ -28,18 +29,25 @@ export function FinancialProjectionApplicationDetails() {
 
 // The function is used for admin site
 export function FinancialProjectionApplicationSummary() {
-  const { loanSummary, isFetchingSummary, isLoading } =
-    useLoanApplicationDetailContext()
+  const {
+    loanSummary,
+    applicationSummary: applicationSummaryV2,
+    isFetchingSummary,
+    isLoading
+  } = useLoanApplicationDetailContext()
 
   const { isFetching, financialApplicationDetailData } =
     useAdminFinancialProjectionApplicationDetails()
+
+  const businessLegalName = isEnableFormV2()
+    ? applicationSummaryV2?.businessInfo?.businessName?.value
+    : loanSummary?.kybForm?.businessLegalName
 
   return (
     <Layout>
       <Header />
       <Main
-        // TODO(Ngan): KYB Form V2 from applicationSummary
-        companyName={loanSummary?.kybForm?.businessLegalName ?? ""}
+        companyName={businessLegalName ?? ""}
         financialApplicationDetailData={financialApplicationDetailData}
         isLoading={isFetchingSummary || isLoading || isFetching}
       />

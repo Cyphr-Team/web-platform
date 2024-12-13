@@ -176,7 +176,7 @@ export function adaptFormV2Metadata<Output>({
       ...additionalFields
     }) as Output
   } catch (error) {
-    throw new Error(`Error adapting form v2 metadata`)
+    throw new Error(`Error adapting form v2 metadata: ${error}`)
   }
 }
 // endregion

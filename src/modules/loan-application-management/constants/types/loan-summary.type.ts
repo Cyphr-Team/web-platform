@@ -99,7 +99,8 @@ type ApplicationSummary = {
   >
   confirmationForm?: ConfirmationFormResponse
   forms: ApplicationSummaryForm[]
-} & Pick<LoanApplicationsKyc, "personalInfo" | "checkLists"> & {
+  smartKycPersonaDetail?: SmartKyc
+} & Pick<LoanApplicationsKyc, "checkLists"> & {
     financialApplicationForm?: FinancialApplicationLoanSummary
   }
 
