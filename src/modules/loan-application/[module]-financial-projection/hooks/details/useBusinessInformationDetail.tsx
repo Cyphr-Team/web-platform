@@ -25,7 +25,7 @@ export const useBusinessInformationDetail = ({
       {
         id: "businessTradeName",
         title: "Business trade name/DBA:",
-        content: "Latte JR LLC"
+        content: businessInformationFormValue?.dba
       },
       {
         id: "businessStreetAddress",

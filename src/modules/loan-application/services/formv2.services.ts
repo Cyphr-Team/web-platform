@@ -1,9 +1,14 @@
-import { type ILoanRequestFormValue } from "@/modules/loan-application/constants/form.ts"
-import { get } from "lodash"
+import {
+  BINARY_VALUES,
+  type ILoanRequestFormValue
+} from "@/modules/loan-application/constants/form.ts"
+import { get, isEmpty } from "lodash"
 import { type ZodSchema } from "zod"
 import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import { type FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { type ApplicationSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type.ts"
+import { EIN_PATTERN, SSN_PATTERN } from "@/constants"
+import { toPattern } from "@/components/ui/mask-input.tsx"
 
 // Region Utils for Loan Request
 export const mapLoanRequestDataToV2 = (rawData: ILoanRequestFormValue) => {
@@ -28,10 +33,17 @@ export function findSingularFormMetadata(
   applicationSummary?: ApplicationSummary
 ) {
   return get(
-    applicationSummary?.forms?.find((form) => form.formType === formType),
+    findSingularFormData(formType, applicationSummary),
     "forms[0].metadata",
     {}
   )
+}
+
+export function findSingularFormData(
+  formType: FORM_TYPE,
+  applicationSummary?: ApplicationSummary
+) {
+  return applicationSummary?.forms?.find((form) => form.formType === formType)
 }
 
 export function preFormatCurrentLoanForm(
@@ -48,14 +60,81 @@ export function preFormatCurrentLoanForm(
   return {
     ...formMetaData,
     hasOutstandingLoans: (currentLoans.length > 0).toString(),
-    currentLoans: currentLoans.map((loan: Record<string, unknown>) => ({
-      ...(loan as CurrentLoanFormsV2Value),
-      id: ""
-    })),
+    currentLoans:
+      currentLoans.length > 0
+        ? currentLoans.map((loan) => ({
+            ...loan,
+            // TODO: Required for parsing, should be removed after roll out form v2
+            id: loan.id ?? ""
+          }))
+        : [],
     additionalFields: {
       loanApplicationId: applicationId ?? "",
       id: formId
     }
+  }
+}
+
+export function preFormatBusinessInformationForm(
+  formMetaData: Record<string, unknown>
+) {
+  const ein = get(formMetaData, "ein", "") as string
+
+  return {
+    ...formMetaData,
+    addressLine1: get(formMetaData, "businessStreetAddressLine1", ""),
+    addressLine2: get(formMetaData, "businessStreetAddressLine2", ""),
+    city: get(formMetaData, "businessStreetAddressCity", ""),
+    state: get(formMetaData, "businessStreetAddressState", ""),
+    postalCode: get(formMetaData, "businessStreetAddressZipCode", ""),
+    businessTin: toPattern(ein, EIN_PATTERN)
+  }
+}
+
+export function preFormatOwnerInformationForm(
+  formMetaData: Record<string, unknown>
+) {
+  const socialSecurityNumber = get(
+    formMetaData,
+    "socialSecurityNumber",
+    ""
+  ) as string
+
+  return {
+    ...formMetaData,
+    businessOwnershipPercentage: get(
+      formMetaData,
+      "businessOwnershipPercentage",
+      ""
+    )?.toString(),
+    // Format because the form schema requires this format for the input
+    socialSecurityNumber: toPattern(socialSecurityNumber, SSN_PATTERN)
+  }
+}
+
+export function preFormatLaunchKCOwnerInformationForm(
+  formMetaData: Record<string, unknown>
+) {
+  const socialSecurityNumber = get(
+    formMetaData,
+    "socialSecurityNumber",
+    ""
+  ) as string
+
+  return {
+    ...formMetaData,
+    areFullTimeFounder: get(formMetaData, "areFullTimeFounder", false)
+      ? BINARY_VALUES.YES
+      : BINARY_VALUES.NO,
+    areFounderOrCoFounder: get(formMetaData, "areFounderOrCoFounder", false)
+      ? BINARY_VALUES.YES
+      : BINARY_VALUES.NO,
+    businessOwnershipPercentage: get(
+      formMetaData,
+      "businessOwnershipPercentage",
+      ""
+    )?.toString(),
+    socialSecurityNumber: toPattern(socialSecurityNumber, SSN_PATTERN)
   }
 }
 
@@ -83,13 +162,21 @@ export function adaptFormV2Metadata<Output>({
   preFormat?: () => Record<string, unknown>
   additionalFields?: Record<string, unknown>
 }): Output {
-  if (preFormat !== undefined) {
-    metadata = preFormat()
-  }
+  try {
+    if (isEmpty(metadata)) {
+      return {} as Output
+    }
 
-  return schema.parse({
-    ...metadata,
-    ...additionalFields
-  }) as Output
+    if (preFormat !== undefined) {
+      metadata = preFormat()
+    }
+
+    return schema.parse({
+      ...metadata,
+      ...additionalFields
+    }) as Output
+  } catch (error) {
+    throw new Error(`Error adapting form v2 metadata`)
+  }
 }
 // endregion

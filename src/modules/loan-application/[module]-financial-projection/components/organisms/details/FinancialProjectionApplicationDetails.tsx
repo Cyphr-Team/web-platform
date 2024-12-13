@@ -31,7 +31,7 @@ export function FinancialProjectionApplicationSummary() {
   const { loanSummary, isFetchingSummary, isLoading } =
     useLoanApplicationDetailContext()
 
-  const { financialApplicationDetailData } =
+  const { isFetching, financialApplicationDetailData } =
     useAdminFinancialProjectionApplicationDetails()
 
   return (
@@ -41,7 +41,7 @@ export function FinancialProjectionApplicationSummary() {
         // TODO(Ngan): KYB Form V2 from applicationSummary
         companyName={loanSummary?.kybForm?.businessLegalName ?? ""}
         financialApplicationDetailData={financialApplicationDetailData}
-        isLoading={isFetchingSummary || isLoading}
+        isLoading={isFetchingSummary || isLoading || isFetching}
       />
     </Layout>
   )

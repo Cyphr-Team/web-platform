@@ -33,7 +33,9 @@ import { useParams } from "react-router-dom"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
 import {
   adaptFormV2Metadata,
-  preFormatCurrentLoanForm
+  preFormatBusinessInformationForm,
+  preFormatCurrentLoanForm,
+  preFormatLaunchKCOwnerInformationForm
 } from "@/modules/loan-application/services/formv2.services.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import {
@@ -41,6 +43,8 @@ import {
   type BusinessModelFormValue,
   executionFormSchema,
   type ExecutionFormValue,
+  type IBusinessFormValue,
+  type IOwnerFormValue,
   launchKcFitFormSchema,
   type LaunchKCFitFormValue,
   marketOpportunityFormSchema,
@@ -63,6 +67,11 @@ import { BUSINESS_MODEL_OTHER_OPTION } from "@/modules/loan-application/componen
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { loanRequestSchemasByInstitution } from "@/modules/loan-application/constants/form-v2.ts"
 import { type BusinessModel } from "@/modules/loan-application/components/organisms/loan-application-form/execution/type.ts"
+import { LaunchKCKybFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/launchkc/LaunchKCKybFormDetails.tsx"
+import { LaunchKCKycFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/LaunchKCKycFormDetails.tsx"
+import { launchKCOwnerFormSchema } from "@/modules/loan-application/constants/form.kyc.ts"
+import { Skeleton } from "@/components/ui/skeleton.tsx"
+import { launchKCBusinessFormSchema } from "@/modules/loan-application/constants/form.kyb.ts"
 
 interface LaunchKCFormSummary {
   [FORM_TYPE.PRE_QUALIFICATION]: PreQualificationFormValue
@@ -72,6 +81,8 @@ interface LaunchKCFormSummary {
   [FORM_TYPE.EXECUTION]: ExecutionFormValue
   [FORM_TYPE.BUSINESS_MODEL]: BusinessModelFormValue
   [FORM_TYPE.CURRENT_LOAN]: CurrentLoanFormsV2Value
+  [FORM_TYPE.KYB]: IBusinessFormValue
+  [FORM_TYPE.KYC]: IOwnerFormValue
 }
 
 const LAUNCH_KC_FORM_TYPES = [
@@ -81,7 +92,9 @@ const LAUNCH_KC_FORM_TYPES = [
   FORM_TYPE.LAUNCHKC_FIT,
   FORM_TYPE.EXECUTION,
   FORM_TYPE.BUSINESS_MODEL,
-  FORM_TYPE.CURRENT_LOAN
+  FORM_TYPE.CURRENT_LOAN,
+  FORM_TYPE.KYB,
+  FORM_TYPE.KYC
 ]
 
 function formSchemaFromFormType(formType: FORM_TYPE) {
@@ -104,15 +117,29 @@ function formSchemaFromFormType(formType: FORM_TYPE) {
       return launchKcFitFormSchema
     case FORM_TYPE.PRE_QUALIFICATION:
       return preQualificationSchema
+    case FORM_TYPE.KYB:
+      return launchKCBusinessFormSchema
+    case FORM_TYPE.KYC:
+      return launchKCOwnerFormSchema
     default:
       return null
   }
 }
 
+const SummarySkeleton = () => (
+  <div className="w-full gap-3xl " id="loan-summary">
+    <Skeleton className=" w-full p-2xl my-xl" />
+    <Skeleton className=" w-full p-2xl my-xl" />
+    <Skeleton className=" w-full p-2xl my-xl" />
+    <Skeleton className=" w-full p-2xl my-xl" />
+  </div>
+)
+
 export function LaunchKCSummary() {
   const launchKCFormSummary = {} as LaunchKCFormSummary
   const params = useParams()
   const {
+    isFetchingSummary,
     applicationSummary,
     loanApplicationDetails,
     newCashFlowGlance,
@@ -204,11 +231,16 @@ export function LaunchKCSummary() {
     />
   )
 
+  if (isFetchingSummary) {
+    return <SummarySkeleton />
+  }
+
   // region LaunchKC form v2
   LAUNCH_KC_FORM_TYPES.forEach((formType) => {
     const formData = applicationSummary?.forms.find(
       (form) => form.formType === formType
     )
+
     const schema = formSchemaFromFormType(formType)
     const formMetaData = get(formData, "forms[0].metadata", {})
 
@@ -218,6 +250,11 @@ export function LaunchKCSummary() {
 
     if (schema) {
       const key = formType as keyof LaunchKCFormSummary
+
+      /**
+       * Below custom mapping is due to schema mismatch or schema validation mismatch
+       * between BE and FE
+       */
 
       if (key == FORM_TYPE.CURRENT_LOAN) {
         launchKCFormSummary[FORM_TYPE.CURRENT_LOAN] = adaptFormV2Metadata({
@@ -279,6 +316,35 @@ export function LaunchKCSummary() {
         return
       }
 
+      if (key == FORM_TYPE.KYB) {
+        launchKCFormSummary[FORM_TYPE.KYB] =
+          adaptFormV2Metadata<IBusinessFormValue>({
+            schema: schema,
+            metadata: formMetaData,
+            preFormat: () => preFormatBusinessInformationForm(formMetaData),
+            additionalFields: {
+              id: get(formMetaData, "forms[0].id", "")
+            }
+          })
+
+        return
+      }
+
+      if (key == FORM_TYPE.KYC) {
+        launchKCFormSummary[FORM_TYPE.KYC] =
+          adaptFormV2Metadata<IOwnerFormValue>({
+            schema: schema,
+            metadata: formMetaData,
+            preFormat: () =>
+              preFormatLaunchKCOwnerInformationForm(formMetaData),
+            additionalFields: {
+              id: get(formMetaData, "forms[0].id", "")
+            }
+          })
+
+        return
+      }
+
       launchKCFormSummary[key] = adaptFormV2Metadata({
         schema: schema,
         metadata: formMetaData,
@@ -290,6 +356,7 @@ export function LaunchKCSummary() {
       })
     }
   })
+  // endregion
 
   return (
     <div className="w-full gap-3xl lg:flex" id="loan-summary">
@@ -336,14 +403,14 @@ export function LaunchKCSummary() {
           className="flex flex-col space-y-3xl"
           id="application-overview"
         >
-          🎀 Temporary content
-          {/* TODO(Ngan): KYB form v2 */}
-          {/* <KybFormDetails kybFormData={launchKCFormSummary[FORM_TYPE.KYB]} /> */}
+          <LaunchKCKybFormDetails
+            kybFormDataV2={launchKCFormSummary[FORM_TYPE.KYB]}
+          />
         </div>
         <div ref={page_3} className="flex flex-col space-y-3xl">
-          🎀 Temporary content
-          {/* TODO(Ngan): KYC form v2 */}
-          {/* <KycFormDetails kycFormData={launchKCFormSummary[FORM_TYPE.KYC]} /> */}
+          <LaunchKCKycFormDetails
+            kycFormDataV2={launchKCFormSummary[FORM_TYPE.KYC]}
+          />
         </div>
         <div ref={page_4} className="flex flex-col space-y-3xl">
           <CashFlowTable wrapperClassName="rounded-lg border" />

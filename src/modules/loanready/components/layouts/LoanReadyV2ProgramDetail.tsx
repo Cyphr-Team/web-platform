@@ -145,7 +145,9 @@ export function ComponentWithProvider() {
         return (
           <ul className="list-inside list-disc whitespace-pre-wrap pl-8 text-base">
             {Array.isArray(element.content) &&
-              element.content.map((item) => <li key={item}>{item}</li>)}
+              element.content.map((item) => (
+                <li key={`${element.id}-${item}`}>{item}</li>
+              ))}
           </ul>
         )
       case ELEMENTS_TYPE.numberList:

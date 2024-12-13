@@ -31,31 +31,51 @@ import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep
 import { CurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormDetails.tsx"
 import {
   adaptFormV2Metadata,
-  preFormatCurrentLoanForm
+  preFormatCurrentLoanForm,
+  preFormatLaunchKCOwnerInformationForm
 } from "@/modules/loan-application/services/formv2.services.ts"
 import {
   type CurrentLoanFormsV2Value,
   currentLoansFormSchema
 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import {
+  type IBusinessFormValue,
   type ILoanRequestFormValue,
+  type IOwnerFormValue,
   operatingExpensesFormSchema,
   type OperatingExpensesFormValue
 } from "@/modules/loan-application/constants/form.ts"
 import { loanRequestSchemasByInstitution } from "@/modules/loan-application/constants/form-v2.ts"
+import { businessFormSchema } from "@/modules/loan-application/constants/form.kyb.ts"
+import { ownerFormSchema } from "@/modules/loan-application/constants/form.kyc.ts"
+import { Skeleton } from "@/components/ui/skeleton.tsx"
+import { KycFormDetailsV2 } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/KycFormDetailsV2.tsx"
+import { KybFormDetailsV2 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/KybFormDetailsV2.tsx"
 
 interface OutOfBoxFormSummary {
-  // TODO(Ngan 🎀): KYB/KYC form v2
   [FORM_TYPE.LOAN_REQUEST]: ILoanRequestFormValue
   [FORM_TYPE.CURRENT_LOAN]: CurrentLoanFormsV2Value
   [FORM_TYPE.OPERATING_EXPENSES]: OperatingExpensesFormValue
+  [FORM_TYPE.KYB]: IBusinessFormValue
+  [FORM_TYPE.KYC]: IOwnerFormValue
 }
 
 const OUT_OF_BOX_FORM_TYPES = [
   FORM_TYPE.LOAN_REQUEST,
   FORM_TYPE.CURRENT_LOAN,
-  FORM_TYPE.OPERATING_EXPENSES
+  FORM_TYPE.OPERATING_EXPENSES,
+  FORM_TYPE.KYB,
+  FORM_TYPE.KYC
 ]
+
+const SummarySkeleton = () => (
+  <div className="w-full gap-3xl " id="loan-summary">
+    <Skeleton className=" w-full p-2xl my-xl" />
+    <Skeleton className=" w-full p-2xl my-xl" />
+    <Skeleton className=" w-full p-2xl my-xl" />
+    <Skeleton className=" w-full p-2xl my-xl" />
+  </div>
+)
 
 function formSchemaFromFormType(formType: FORM_TYPE) {
   switch (formType) {
@@ -65,6 +85,10 @@ function formSchemaFromFormType(formType: FORM_TYPE) {
       return currentLoansFormSchema
     case FORM_TYPE.OPERATING_EXPENSES:
       return operatingExpensesFormSchema
+    case FORM_TYPE.KYB:
+      return businessFormSchema
+    case FORM_TYPE.KYC:
+      return ownerFormSchema
     default:
       return null
   }
@@ -83,52 +107,10 @@ export function OutOfBoxSummary() {
     loanApplicationDetails,
     newCashFlowGlance,
     loanSmartKycDetail,
+    isFetchingSummary,
     isFetchingCashflow,
     isFetchingNewCashFlow
   } = useLoanApplicationDetailContext()
-
-  OUT_OF_BOX_FORM_TYPES.forEach((formType) => {
-    const formData = applicationSummary?.forms.find(
-      (form) => form.formType === formType
-    )
-    const schema = formSchemaFromFormType(formType)
-    const formMetaData = get(formData, "forms[0].metadata", {})
-
-    if (isEmpty(formMetaData)) {
-      return
-    }
-
-    if (schema) {
-      const key = formType as keyof OutOfBoxFormSummary
-
-      if (key == FORM_TYPE.CURRENT_LOAN) {
-        outOfBoxFormSummary[FORM_TYPE.CURRENT_LOAN] = adaptFormV2Metadata({
-          schema: schema,
-          metadata: {
-            formMetaData
-          },
-          preFormat: () =>
-            preFormatCurrentLoanForm(
-              formMetaData,
-              applicationSummary?.applicationId,
-              get(formData, "forms[0].id", "")
-            )
-        })
-
-        return
-      }
-
-      outOfBoxFormSummary[key] = adaptFormV2Metadata({
-        schema: schema,
-        metadata: formMetaData,
-        additionalFields: {
-          applicationId: applicationSummary?.applicationId ?? "",
-          loanApplicationId: applicationSummary?.applicationId ?? "",
-          id: get(formData, "forms[0].id", "")
-        }
-      })
-    }
-  })
 
   // Get Application Status
   const { data: statusData } = useQueryGetLoanApplicationDetailStatus({
@@ -172,6 +154,70 @@ export function OutOfBoxSummary() {
     />
   )
 
+  if (isFetchingSummary) {
+    return <SummarySkeleton />
+  }
+
+  OUT_OF_BOX_FORM_TYPES.forEach((formType) => {
+    const formData = applicationSummary?.forms.find(
+      (form) => form.formType === formType
+    )
+
+    if (isEmpty(formData)) {
+      return
+    }
+    const schema = formSchemaFromFormType(formType)
+    const formMetaData = get(formData, "forms[0].metadata", {})
+
+    if (isEmpty(formMetaData)) {
+      return
+    }
+
+    if (schema) {
+      const key = formType as keyof OutOfBoxFormSummary
+
+      if (key == FORM_TYPE.CURRENT_LOAN) {
+        outOfBoxFormSummary[FORM_TYPE.CURRENT_LOAN] = adaptFormV2Metadata({
+          schema: schema,
+          metadata: formMetaData,
+          preFormat: () =>
+            preFormatCurrentLoanForm(
+              formMetaData,
+              applicationSummary?.applicationId,
+              get(formData, "forms[0].id", "")
+            )
+        })
+
+        return
+      }
+
+      if (key == FORM_TYPE.KYC) {
+        outOfBoxFormSummary[FORM_TYPE.KYC] =
+          adaptFormV2Metadata<IOwnerFormValue>({
+            schema: schema,
+            metadata: formMetaData,
+            preFormat: () =>
+              preFormatLaunchKCOwnerInformationForm(formMetaData),
+            additionalFields: {
+              id: get(formMetaData, "forms[0].id", "")
+            }
+          })
+
+        return
+      }
+
+      outOfBoxFormSummary[key] = adaptFormV2Metadata({
+        schema: schema,
+        metadata: formMetaData,
+        additionalFields: {
+          applicationId: applicationSummary?.applicationId ?? "",
+          loanApplicationId: applicationSummary?.applicationId ?? "",
+          id: get(formData, "forms[0].id", "")
+        }
+      })
+    }
+  })
+
   return (
     <div className="w-full gap-3xl lg:flex" id="loan-summary">
       <Card className="size-full flex-1 space-y-4xl p-4xl">
@@ -210,10 +256,10 @@ export function OutOfBoxSummary() {
           <p className="loan-application-header text-4xl font-semibold">
             Application Details
           </p>
-          🎀 Temporary content
-          {/* TODO(Ngan): KYB/KYC form v2 */}
-          {/*<KybFormDetails kybFormData={loanSummary?.kybForm} />*/}
-          {/*<KycFormDetails kycFormData={loanSummary?.kycForm} />*/}
+          <KybFormDetailsV2
+            kybFormDataV2={outOfBoxFormSummary[FORM_TYPE.KYB]}
+          />
+          <KycFormDetailsV2 kycFormData={outOfBoxFormSummary[FORM_TYPE.KYC]} />
         </div>
         {shouldDisplayCashFlowTable ? (
           <div ref={page_2} className="flex flex-col space-y-3xl">

@@ -21,15 +21,29 @@ import { useIsFetching } from "@tanstack/react-query"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import {
   adaptFormV2Metadata,
-  findSingularFormMetadata
+  findSingularFormData,
+  findSingularFormMetadata,
+  preFormatBusinessInformationForm,
+  preFormatOwnerInformationForm
 } from "@/modules/loan-application/services/formv2.services.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
-import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
-import { type LoanReadyBusinessFormValue } from "@/modules/loan-application/constants/form.kyb.ts"
+import {
+  loanReadyOwnerFormSchema,
+  type LoanReadyOwnerFormValue
+} from "@/modules/loan-application/constants/form.kyc.ts"
+import {
+  loanReadyBusinessFormSchema,
+  type LoanReadyBusinessFormValue
+} from "@/modules/loan-application/constants/form.kyb.ts"
 import {
   loanReadyLoanRequestFormSchema,
   type LoanReadyLoanRequestFormValue
 } from "@/modules/loan-application/constants/form-v2.ts"
+import { get } from "lodash"
+import type {
+  IBusinessFormValue,
+  IOwnerFormValue
+} from "@/modules/loan-application/constants/form.ts"
 
 export const useAdminFinancialProjectionApplicationDetails = () => {
   const financialApplicationForms = useGetFinancialProjectLoanSummary()
@@ -41,6 +55,64 @@ export const useAdminFinancialProjectionApplicationDetails = () => {
     isFetchingSummary,
     isLoading
   } = useLoanApplicationDetailContext()
+
+  // region Form V2
+  const isEnabledFormV2 = isEnableFormV2()
+
+  const adaptedLoanRequestFormMetadata =
+    isEnabledFormV2 && applicationSummary?.forms
+      ? adaptFormV2Metadata<LoanReadyLoanRequestFormValue>({
+          schema: loanReadyLoanRequestFormSchema,
+          metadata: findSingularFormMetadata(
+            FORM_TYPE.LOAN_REQUEST,
+            applicationSummary
+          ),
+          additionalFields: {
+            applicationId: applicationSummary?.applicationId
+          }
+        })
+      : undefined
+
+  const kybFormData =
+    isEnabledFormV2 && applicationSummary?.forms
+      ? findSingularFormData(FORM_TYPE.KYB, applicationSummary)
+      : undefined
+  const kybFormMetadata = kybFormData
+    ? findSingularFormMetadata(FORM_TYPE.KYB, applicationSummary)
+    : undefined
+
+  const adaptedKybFormMetadata = kybFormMetadata
+    ? adaptFormV2Metadata<IBusinessFormValue>({
+        schema: loanReadyBusinessFormSchema,
+        metadata: kybFormMetadata,
+        preFormat: () => preFormatBusinessInformationForm(kybFormMetadata),
+        additionalFields: {
+          id: get(kybFormData, "forms[0].id", "")
+        }
+      })
+    : undefined
+
+  const kycFormData =
+    isEnabledFormV2 && applicationSummary?.forms
+      ? findSingularFormData(FORM_TYPE.KYC, applicationSummary)
+      : undefined
+
+  const kycFormMetadata = kycFormData
+    ? findSingularFormMetadata(FORM_TYPE.KYC, applicationSummary)
+    : undefined
+
+  const adaptedKycFormMetadata = kycFormMetadata
+    ? adaptFormV2Metadata<IOwnerFormValue>({
+        schema: loanReadyOwnerFormSchema,
+        metadata: kycFormMetadata,
+        preFormat: () => preFormatOwnerInformationForm(kycFormMetadata),
+        additionalFields: {
+          id: get(kycFormData, "forms[0].id", "")
+        }
+      })
+    : undefined
+
+  // endregion
 
   const { financialApplicationDetailData } = useFinancialApplicationDetail({
     fpForm: {
@@ -98,28 +170,27 @@ export const useAdminFinancialProjectionApplicationDetails = () => {
       )
     },
     loanRequest:
-      isEnableFormV2() && applicationSummary?.forms
-        ? adaptFormV2Metadata<LoanReadyLoanRequestFormValue>({
-            schema: loanReadyLoanRequestFormSchema,
-            metadata: findSingularFormMetadata(
-              FORM_TYPE.LOAN_REQUEST,
-              applicationSummary
-            ),
-            additionalFields: {
-              applicationId: applicationSummary?.applicationId
-            }
-          })
+      isEnableFormV2() && adaptedLoanRequestFormMetadata
+        ? adaptedLoanRequestFormMetadata
         : reverseFormatLoanRequestForm(loanApplicationDetails),
 
-    // TODO(NganPhan): Adapt the KYB and KYC form from applicationSummary
-    businessInformation: loanSummary?.kybForm
-      ? (reverseFormatKybForm(
-          loanSummary.kybForm
-        ) as LoanReadyBusinessFormValue)
-      : undefined,
-    ownerInformationForm: loanSummary?.kycForm
-      ? (reverseFormatKycForm(loanSummary.kycForm) as LoanReadyOwnerFormValue)
-      : undefined
+    businessInformation:
+      isEnabledFormV2 && adaptedKybFormMetadata
+        ? adaptedKybFormMetadata
+        : loanSummary?.kybForm
+          ? (reverseFormatKybForm(
+              loanSummary.kybForm
+            ) as LoanReadyBusinessFormValue)
+          : undefined,
+
+    ownerInformationForm:
+      isEnabledFormV2 && adaptedKycFormMetadata
+        ? adaptedKycFormMetadata
+        : loanSummary?.kycForm
+          ? (reverseFormatKycForm(
+              loanSummary.kycForm
+            ) as LoanReadyOwnerFormValue)
+          : undefined
   })
 
   const isFetchingBankAccounts = useIsFetching({

@@ -65,7 +65,6 @@ interface LoanApplication<T = unknown> {
   applicant: Applicant
   requestedLoanAmount: number
   status: LoanApplicationStatus
-  progress: number
   businessName?: string
   applicationIdNumber: number
   personaInquiryId?: string

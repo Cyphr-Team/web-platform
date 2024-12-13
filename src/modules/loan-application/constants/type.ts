@@ -1,12 +1,9 @@
 import { CriteriaName } from "@/modules/assessment/interface/Rating/type.ts"
-import { type LoanDecisionEnum } from "@/modules/loan-application-management/constants/types/application"
 import {
   type LoanReadyKYBFieldName,
   type LoanReadyKYCFieldName
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const"
 import { type Option } from "@/types/common.type"
-import { type LoanApplicationStatus } from "@/types/loan-application.type"
-import { type BaseLoanProgramType } from "@/types/loan-program.type"
 import { type SBB_KYB_FORM_FIELDS } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type SbbKycMetadata } from "../components/organisms/loan-application-form/kyc/sbb/const"
 import { type LoanReadyOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
@@ -350,20 +347,6 @@ export interface DocumentUpload {
   formId: string
   formType: string
   files: File[]
-}
-
-export interface UserLoanApplicationDetailsResponse {
-  id: string
-  loanProgram: BaseLoanProgramType
-  applicantId: string
-  businessId: string
-  status: LoanApplicationStatus
-  progress: number
-  ocrolusBookId: string
-  decision: LoanDecisionEnum
-  decisionNote: string
-  createdAt: string
-  updatedAt: string
 }
 
 export interface DocumentUploadedResponse {
