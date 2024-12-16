@@ -30,6 +30,10 @@ import {
 } from "@/modules/loan-application/types/kyc.v2.ts"
 import type { LaunchKCOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
 import { undefined } from "zod"
+import {
+  getStateCode,
+  getStateName
+} from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
 
 interface SubmitOption {
   rawData: IOwnerFormValue
@@ -106,6 +110,7 @@ const useSubmit = () => {
 }
 
 // helper
+// TODO: use adaptFormV2Metadata instead
 function serializeKycFormV2(
   rawData: IOwnerFormValue
 ): FormV2UpdateRequest | FormV2SubmitRequest {
@@ -128,7 +133,7 @@ function serializeKycFormV2(
         flatData.businessOwnershipPercentage
       ),
       businessRole: flatData.businessRole,
-      businessState: flatData.businessState,
+      businessState: getStateCode(flatData.businessState),
       businessZipCode: flatData.businessZipCode,
       dateOfBirth: flatData.dateOfBirth,
       email: flatData.email,
@@ -154,7 +159,7 @@ function serializeKycFormV2(
         flatData.businessOwnershipPercentage
       ),
       businessRole: flatData.businessRole,
-      businessState: flatData.businessState,
+      businessState: getStateCode(flatData.businessState),
       businessZipCode: flatData.businessZipCode,
       dateOfBirth: flatData.dateOfBirth,
       email: flatData.email,
@@ -175,7 +180,7 @@ function serializeKycFormV2(
         flatData.businessOwnershipPercentage
       ),
       businessRole: flatData.businessRole,
-      businessState: flatData.businessState,
+      businessState: getStateCode(flatData.businessState),
       businessZipCode: flatData.businessZipCode,
       dateOfBirth: flatData.dateOfBirth,
       email: flatData.email,
@@ -225,41 +230,44 @@ function serializeKycFormV2(
   }
 }
 
-export function deserializeKycFormV2(response: FormV2Data): IOwnerFormValue {
+// TODO: use adaptFormV2Metadata instead
+export function deserializeKycFormV2(response?: FormV2Data): IOwnerFormValue {
   const formValue = {
-    id: response.id
+    id: response?.id
   } as IOwnerFormValue
 
   if (isLaunchKC()) {
     const data: LaunchKCOwnerFormValue = {
-      addressLine2: get(response.metadata, "addressLine2"),
+      addressLine2: get(response, "metadata.addressLine2"),
       governmentFile: [],
-      addressLine1: get(response.metadata, "addressLine1"),
-      areFounderOrCoFounder: get(response.metadata, "areFounderOrCoFounder")
+      addressLine1: get(response, "metadata.addressLine1"),
+      areFounderOrCoFounder: get(response, "metadata.areFounderOrCoFounder")
         ? BINARY_VALUES.YES
         : BINARY_VALUES.NO,
-      areFullTimeFounder: get(response.metadata, "areFullTimeFounder")
+      areFullTimeFounder: get(response, "metadata.areFullTimeFounder")
         ? BINARY_VALUES.YES
         : BINARY_VALUES.NO,
-      businessCity: get(response.metadata, "businessCity"),
+      businessCity: get(response, "metadata.businessCity"),
       businessOwnershipPercentage: get(
-        response.metadata,
-        "businessOwnershipPercentage"
+        response,
+        "metadata.businessOwnershipPercentage"
       )?.toString(),
-      businessRole: get(response.metadata, "businessRole"),
-      businessState: get(response.metadata, "businessState"),
-      businessZipCode: get(response.metadata, "businessZipCode"),
-      dateOfBirth: get(response.metadata, "dateOfBirth"),
-      email: get(response.metadata, "email"),
-      ethnicIdentification: get(response.metadata, "ethnicIdentification"),
-      firstName: get(response.metadata, "firstName"),
-      fullName: get(response.metadata, "fullName"),
-      genderIdentity: get(response.metadata, "genderIdentity"),
-      lastName: get(response.metadata, "lastName"),
-      phoneNumber: get(response.metadata, "phoneNumber"),
-      preferredPronoun: get(response.metadata, "preferredPronoun"),
-      racialIdentification: get(response.metadata, "racialIdentification"),
-      socialSecurityNumber: get(response.metadata, "socialSecurityNumber")
+      businessRole: get(response, "metadata.businessRole"),
+      businessState: getStateName(
+        get(response, "metadata.businessState", "") as string
+      ),
+      businessZipCode: get(response, "metadata.businessZipCode"),
+      dateOfBirth: get(response, "metadata.dateOfBirth"),
+      email: get(response, "metadata.email"),
+      ethnicIdentification: get(response, "metadata.ethnicIdentification"),
+      firstName: get(response, "metadata.firstName"),
+      fullName: get(response, "metadata.fullName"),
+      genderIdentity: get(response, "metadata.genderIdentity"),
+      lastName: get(response, "metadata.lastName"),
+      phoneNumber: get(response, "metadata.phoneNumber"),
+      preferredPronoun: get(response, "metadata.preferredPronoun"),
+      racialIdentification: get(response, "metadata.racialIdentification"),
+      socialSecurityNumber: get(response, "metadata.socialSecurityNumber")
     }
 
     Object.assign(formValue, data)
@@ -268,29 +276,31 @@ export function deserializeKycFormV2(response: FormV2Data): IOwnerFormValue {
   if (isSbb()) {
     // TODO: we will hold off SBB for now, since it cost more effort to do.
     // we will back to this when this implementation is works well and directly switch to new approach
-    const beneficialOwner = get(response.metadata, "beneficialOwners", [])
+    const beneficialOwner = get(response, "metadata.beneficialOwners", [])
     const data: SbbKycFormMetadata = {
-      addressLine1: get(response.metadata, "addressLine1"),
+      addressLine1: get(response, "metadata.addressLine1"),
       beneficialOwners: beneficialOwner,
-      businessCity: get(response.metadata, "businessCity"),
+      businessCity: get(response, "metadata.businessCity"),
       hasBeneficialOwners: beneficialOwner.length > 0,
       businessOwnershipPercentage: get(
-        response.metadata,
-        "businessOwnershipPercentage"
+        response,
+        "metadata.businessOwnershipPercentage"
       )?.toString(),
-      businessRole: get(response.metadata, "businessRole"),
-      businessState: get(response.metadata, "businessState"),
-      businessZipCode: get(response.metadata, "businessZipCode"),
-      controlAuthorization: get(response.metadata, "controlAuthorization")
+      businessRole: get(response, "metadata.businessRole"),
+      businessState: getStateName(
+        get(response, "metadata.businessState", "") as string
+      ),
+      businessZipCode: get(response, "metadata.businessZipCode"),
+      controlAuthorization: get(response, "metadata.controlAuthorization")
         ? BINARY_VALUES.YES
         : BINARY_VALUES.NO,
-      dateOfBirth: get(response.metadata, "dateOfBirth"),
-      email: get(response.metadata, "email"),
-      firstName: get(response.metadata, "firstName"),
-      fullName: get(response.metadata, "fullName"),
-      lastName: get(response.metadata, "lastName"),
-      phoneNumber: get(response.metadata, "phoneNumber"),
-      socialSecurityNumber: get(response.metadata, "socialSecurityNumber")
+      dateOfBirth: get(response, "metadata.dateOfBirth"),
+      email: get(response, "metadata.email"),
+      firstName: get(response, "metadata.firstName"),
+      fullName: get(response, "metadata.fullName"),
+      lastName: get(response, "metadata.lastName"),
+      phoneNumber: get(response, "metadata.phoneNumber"),
+      socialSecurityNumber: get(response, "metadata.socialSecurityNumber")
     }
 
     Object.assign(formValue, data)
@@ -305,7 +315,9 @@ export function deserializeKycFormV2(response: FormV2Data): IOwnerFormValue {
         "metadata.businessOwnershipPercentage"
       )?.toString(),
       businessRole: get(response, "metadata.businessRole"),
-      businessState: get(response, "metadata.businessState"),
+      businessState: getStateName(
+        get(response, "metadata.businessState", "") as string
+      ),
       businessZipCode: get(response, "metadata.businessZipCode"),
       dateOfBirth: get(response, "metadata.dateOfBirth"),
       email: get(response, "metadata.email"),
@@ -328,7 +340,9 @@ export function deserializeKycFormV2(response: FormV2Data): IOwnerFormValue {
         "metadata.businessOwnershipPercentage"
       )?.toString(),
       businessRole: get(response, "metadata.businessRole"),
-      businessState: get(response, "metadata.businessState"),
+      businessState: getStateName(
+        get(response, "metadata.businessState", "") as string
+      ),
       businessZipCode: get(response, "metadata.businessZipCode"),
       dateOfBirth: get(response, "metadata.dateOfBirth"),
       email: get(response, "metadata.email"),

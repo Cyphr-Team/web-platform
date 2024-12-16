@@ -459,7 +459,7 @@ export function BRLoanApplicationDetailsProvider({
     if (
       isEnableFormV2() &&
       !isSbb() &&
-      kybFormQueryV2.data &&
+      !!kybFormQueryV2.data &&
       formInConfigurations(FORM_TYPE.KYB) &&
       isInitialized &&
       isQualified
@@ -1050,6 +1050,7 @@ export function BRLoanApplicationDetailsProvider({
         loanApplicationDetailsQuery.isLoading ||
         loanRequestDetailQuery.isLoading ||
         kybFormQuery.isLoading ||
+        kybFormQueryV2.isLoading ||
         kycFormQuery.isLoading ||
         kycFormQueryV2.isLoading ||
         confirmationFormQuery.isLoading ||
@@ -1082,8 +1083,11 @@ export function BRLoanApplicationDetailsProvider({
       loanProgramQuery.isLoading,
       loanRequestDetailQuery.data,
       loanRequestDetailQuery.isLoading,
+      kybFormQueryV2.data,
       kybFormQuery.data,
       kybFormQuery.isLoading,
+      kycFormQueryV2.data,
+      kycFormQueryV2.isLoading,
       kycFormQuery.data,
       kycFormQuery.isLoading,
       currentLoansFormQueryV2.data,

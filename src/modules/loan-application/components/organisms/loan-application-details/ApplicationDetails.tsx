@@ -25,6 +25,18 @@ import { CashFlowTable } from "./CashFlowTable"
 import { PreApplicationDisclosuresDetails } from "../loan-application-form/pre-application-disclosures/PreApplicationDisclosuresDetails"
 import { SbbKybFormDetails } from "../loan-application-form/kyb/sbb/SbbKybFormDetails"
 import { SbbKycFormDetails } from "../loan-application-form/kyc/sbb/SbbKycFormDetails"
+import { useParams } from "react-router-dom"
+import { useQueryGetKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useQueryKybForm.ts"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import { useQueryKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useQueryKycForm.ts"
+import { Loader2 } from "lucide-react"
+import { type FormV2Data } from "@/modules/loan-application/types/form.v2.ts"
+import {
+  type KYBInformationResponse,
+  type KYCInformationResponse
+} from "@/modules/loan-application/constants/type.ts"
+import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
+import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
 
 export function ApplicationDetails() {
   const {
@@ -40,6 +52,28 @@ export function ApplicationDetails() {
     marketOpportunityFormData,
     preQualificationFormData
   } = useBRLoanApplicationDetailsContext()
+
+  const { id: applicationId } = useParams()
+
+  const kybFormV2 = useQueryGetKybFormV2({
+    applicationId: applicationId!,
+    enabled: isEnableFormV2()
+  })
+
+  const kycFormV2 = useQueryKycFormV2({
+    applicationId: applicationId!,
+    enabled: isEnableFormV2()
+  })
+
+  const isLoading = kybFormV2.isLoading && kycFormV2.isLoading
+
+  if (isEnableFormV2() && isLoading) {
+    return (
+      <div className="flex size-full items-center justify-center">
+        <Loader2 className="m-2 size-8 animate-spin text-primary transition-all ease-out" />
+      </div>
+    )
+  }
 
   return (
     <div className={cn("flex flex-col gap-2", "md:grid md:grid-cols-4")}>
@@ -60,12 +94,20 @@ export function ApplicationDetails() {
           {kybFormData && isSbb() ? (
             <SbbKybFormDetails kybFormData={kybFormData} />
           ) : (
-            <KybFormDetails kybFormData={kybFormData} />
+            <KybFormDetails
+              kybFormData={
+                kybFormData ?? toKYBInformationResponse(kybFormV2.data)
+              }
+            />
           )}
           {kycFormData && isSbb() ? (
             <SbbKycFormDetails kycFormData={kycFormData} />
           ) : (
-            <KycFormDetails kycFormData={kycFormData} />
+            <KycFormDetails
+              kycFormData={
+                kycFormData ?? toKYCInformationResponse(kycFormV2.data)
+              }
+            />
           )}
           {(isLoanReady() || isKccBank() || isCyphrBank() || isLaunchKC()) && (
             <CashFlowTable />
@@ -102,4 +144,52 @@ export function ApplicationDetails() {
       </div>
     </div>
   )
+}
+
+function toKYBInformationResponse(
+  rawValue?: FormV2Data
+): KYBInformationResponse {
+  const data = deserializeKybFormV2(rawValue)
+
+  return {
+    businessLegalName: data?.businessLegalName,
+    businessStreetAddress: {
+      addressLine1: data?.addressLine1,
+      addressLine2: data?.addressLine2 ?? "",
+      city: data?.city,
+      state: data?.state,
+      postalCode: data?.postalCode
+    },
+    businessTin: data?.businessTin,
+    businessWebsite: data?.businessWebsite ?? "",
+    id: "",
+    loanApplicationId: "",
+    updatedAt: "",
+    createdAt: ""
+  }
+}
+
+function toKYCInformationResponse(
+  rawValue?: FormV2Data
+): KYCInformationResponse {
+  const data = deserializeKycFormV2(rawValue)
+
+  return {
+    addressLine1: data.addressLine1,
+    addressLine2: data.addressLine2 ?? "",
+    businessCity: data.businessCity,
+    businessOwnershipPercentage: parseInt(data.businessOwnershipPercentage),
+    businessRole: data.businessRole,
+    businessState: data.businessState,
+    businessZipCode: data.businessZipCode,
+    dateOfBirth: data.dateOfBirth,
+    email: data.email,
+    fullName: data.fullName,
+    phoneNumber: data.phoneNumber,
+    socialSecurityNumber: data.socialSecurityNumber,
+    id: "",
+    updatedAt: "",
+    createdAt: "",
+    loanApplicationId: ""
+  }
 }

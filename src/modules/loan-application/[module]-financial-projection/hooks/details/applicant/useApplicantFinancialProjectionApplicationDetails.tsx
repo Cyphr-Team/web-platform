@@ -133,14 +133,14 @@ export function useApplicantFinancialProjectionApplicationDetails() {
       : reverseFormatLoanRequestForm(loanApplicationDetailsQuery.data),
     businessInformation:
       isEnableFormV2() && !isSbb()
-        ? kybFormQuery.data
+        ? kybFormQueryV2.data
+          ? // TODO: bring the deserialize to transport layer
+            deserializeKybFormV2(kybFormQueryV2.data)
+          : undefined
+        : kybFormQuery.data
           ? (reverseFormatKybForm(
               kybFormQuery.data
             ) as LoanReadyBusinessFormValue)
-          : undefined
-        : kybFormQueryV2.data
-          ? // TODO: bring the deserialize to transport layer
-            deserializeKybFormV2(kybFormQueryV2.data)
           : undefined,
     ownerInformationForm:
       isEnableFormV2() && !isSbb()

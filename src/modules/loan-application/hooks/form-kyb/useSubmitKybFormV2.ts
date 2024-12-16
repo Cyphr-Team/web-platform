@@ -20,6 +20,10 @@ import type {
 } from "@/modules/loan-application/constants/form.kyb.ts"
 import { undefined } from "zod"
 import { useSubmitFormV2 } from "@/modules/loan-application/hooks/utils/useMutateFormV2.ts"
+import {
+  getStateCode,
+  getStateName
+} from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
 
 interface SubmitOption {
   rawData: IBusinessFormValue
@@ -66,6 +70,7 @@ export const useSubmitKybFormV2 = ({ rawData }: SubmitOption) => {
 }
 
 // helper
+// TODO: use adaptFormV2Metadata instead
 function serializeKybFormV2(
   rawData: IBusinessFormValue
 ): FormV2UpdateRequest | FormV2SubmitRequest {
@@ -77,7 +82,7 @@ function serializeKybFormV2(
   const metadata = {
     businessLegalName: flatData.businessLegalName,
     businessStreetAddressCity: flatData.city,
-    businessStreetAddressState: flatData.state,
+    businessStreetAddressState: getStateCode(flatData.state),
     businessStreetAddressLine1: flatData.addressLine1,
     businessStreetAddressLine2: flatData.addressLine2,
     businessStreetAddressZipCode: flatData.postalCode,
@@ -117,9 +122,12 @@ function serializeKybFormV2(
   }
 }
 
-export function deserializeKybFormV2(response: FormV2Data): IBusinessFormValue {
+// TODO: use adaptFormV2Metadata instead
+export function deserializeKybFormV2(
+  response?: FormV2Data
+): IBusinessFormValue {
   const baseValue = {
-    id: response.id,
+    id: response?.id,
     addressLine1: get(response, "metadata.businessStreetAddressLine1"),
     addressLine2: get(response, "metadata.businessStreetAddressLine2"),
     businessLegalName: get(response, "metadata.businessLegalName"),
@@ -128,7 +136,9 @@ export function deserializeKybFormV2(response: FormV2Data): IBusinessFormValue {
     businessWebsite: get(response, "metadata.businessWebsite"),
     city: get(response, "metadata.businessStreetAddressCity"),
     postalCode: get(response, "metadata.businessStreetAddressZipCode"),
-    state: get(response, "metadata.businessStreetAddressState")
+    state: getStateName(
+      get(response, "metadata.businessStreetAddressState", "") as string
+    )
   } as IBusinessFormValue
 
   if (isLaunchKC()) {
