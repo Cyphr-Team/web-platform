@@ -79,9 +79,8 @@ export function AutoCompleteUserEmail<T extends FieldValues>(
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Input
-                  className="text-sm"
+                  className="!pl-10"
                   prefixIcon={<Search className="w-5 text-muted-foreground" />}
-                  style={{ textAlign: "left" }}
                   value={selected.label || "Select email..."}
                 />
               </PopoverTrigger>
