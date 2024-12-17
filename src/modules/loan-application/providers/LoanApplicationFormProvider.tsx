@@ -63,6 +63,7 @@ import {
   type LoanReadyBusinessFormValue
 } from "@/modules/loan-application/constants/form.kyb.ts"
 import { type SubmitLoanFormContext } from "@/modules/loan-application/types"
+import { type TransactionsFormValue } from "@/modules/loan-application/[module]-data-enrichment/components/store/transactions-store"
 
 export interface LoanApplicationFormState {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -106,6 +107,9 @@ export interface LoanApplicationFormState {
   [LOAN_APPLICATION_STEPS.ASSETS]: AssetsFormValue
   [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: DebtFinancingFormValue
   [LOAN_APPLICATION_STEPS.EQUITY]: FpEquityFinancingFormValue
+  // Historical Financials
+  [LOAN_APPLICATION_STEPS.REVIEW_TRANSACTIONS]: TransactionsFormValue
+  [LOAN_APPLICATION_STEPS.REVIEW_INCOME_STATEMENT]: TransactionsFormValue
 }
 
 export interface LoanDocumentsState {
@@ -168,6 +172,8 @@ export type FormStateType =
   | LoanReadyBusinessFormValue
   // Form V2
   | ILoanRequestFormValue
+  // Historical Financials
+  | TransactionsFormValue
 
 export interface Action {
   action: FORM_ACTION

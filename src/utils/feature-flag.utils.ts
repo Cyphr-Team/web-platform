@@ -133,6 +133,13 @@ function isEnableFormV2() {
 }
 
 /**
+ * Enable Historical Financials Enrichment
+ */
+function isEnableHistoricalFinancialsEnrichment() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.HISTORICAL_FINANCIALS_ENRICHMENT)
+}
+
+/**
  * Disable KYC Persona for KCChamber
  */
 function isEnableKCChamberKycPersonaDisabled() {
@@ -159,5 +166,6 @@ export {
   isEnableGoogleMapInput,
   isEnableChatSupport,
   isEnableFormV2,
-  isEnableKCChamberKycPersonaDisabled
+  isEnableKCChamberKycPersonaDisabled,
+  isEnableHistoricalFinancialsEnrichment
 }

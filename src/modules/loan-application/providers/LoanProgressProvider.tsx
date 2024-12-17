@@ -98,6 +98,7 @@ interface LoanApplicationStatusContext extends LoanApplicationStepsState {
    */
   getStepStatus: (step: string) => boolean
   finishCurrentStep: () => void
+  goToPreviousStep: () => void
 }
 
 const reducer = (
@@ -242,6 +243,10 @@ export function LoanProgressProvider(props: PropsWithChildren) {
     dispatchProgress({ type: LoanProgressAction.GoNextStep })
   }, [step])
 
+  const goToPreviousStep = useCallback(() => {
+    dispatchProgress({ type: LoanProgressAction.GoPreviousStep })
+  }, [])
+
   /**
    * This function is use for complete third party step (e.g Persona KYC)
    */
@@ -326,12 +331,14 @@ export function LoanProgressProvider(props: PropsWithChildren) {
       completeCurrentStep,
       finishCurrentStep,
       completeSpecificStep,
+      goToPreviousStep,
       buildSpecificStep,
       removeCompleteSpecificStep
     }),
     [
       removeCompleteSpecificStep,
       completeCurrentStep,
+      goToPreviousStep,
       getCurrentStepIndex,
       getCurrentStep,
       buildSpecificStep,

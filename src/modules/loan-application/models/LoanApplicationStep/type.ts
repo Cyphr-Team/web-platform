@@ -24,6 +24,9 @@ enum FORM_TYPE {
   //
   FORECASTING_SETUP = "forecasting_setup",
   FINANCIAL_STATEMENTS = "financial_statements",
+  // ==== HISTORICAL FINANCIALS ====
+  REVIEW_TRANSACTIONS = "review_transactions",
+  REVIEW_INCOME_STATEMENT = "review_income_statement",
   // ==== REVENUE AND EXPENSES ====
   REVENUE = "revenue",
   PEOPLE = "people",
@@ -73,6 +76,10 @@ enum LOAN_APPLICATION_STEPS {
   SBB_BUSINESS_INFORMATION_PART_ONE = "sbbBusinessInformationPartOne",
   SBB_BUSINESS_INFORMATION_PART_TWO = "sbbBusinessInformationPartTwo",
 
+  // Historical Financials
+  REVIEW_TRANSACTIONS = "reviewTransactions",
+  REVIEW_INCOME_STATEMENT = "reviewIncomeStatement",
+
   // financial projection
   // ==== FORECASTING_SETUP ====
   FORECASTING_SETUP = "forecastingSetup",
@@ -94,6 +101,7 @@ enum STEP_MENU {
   PRE_APPLICATION = "PRE-APPLICATION DISCLOSURES",
   PRE_QUALIFICATION = "PRE-QUALIFICATION",
   APPLICATION = "APPLICATION",
+  HISTORICAL_FINANCIALS = "HISTORICAL FINANCIALS",
   FORECASTING_SETUP = "FORECASTING SETUP",
   REVENUE_AND_EXPENSES = "REVENUE AND EXPENSES",
   ASSETS_AND_LIABILITIES = "ASSETS AND LIABILITIES",

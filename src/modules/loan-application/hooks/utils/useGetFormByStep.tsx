@@ -53,6 +53,8 @@ import { ExecutionForm } from "@/modules/loan-application/components/organisms/l
 import { PreQualificationForm } from "@/modules/loan-application/components/organisms/loan-application-form/pre-qualification/LaunchKCPreQualification.tsx"
 import { SbbPatriotAct } from "@/modules/loan-application/components/organisms/loan-application-form/pre-application-disclosures/SbbPatriotAct.tsx"
 import SbbPrivacyPolicy from "@/modules/loan-application/components/organisms/loan-application-form/pre-application-disclosures/SbbPrivacyPolicy.tsx"
+import { ReviewTransactionsForm } from "@/modules/loan-application/[module]-data-enrichment/components/organisms/ReviewTransactionsForm"
+import { ReviewIncomeStatementForm } from "@/modules/loan-application/[module]-data-enrichment/components/organisms/ReviewIncomeStatementForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -172,6 +174,10 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <DebtFinancingForm />
       case LOAN_APPLICATION_STEPS.TAX_RATES:
         return <TaxRateForm />
+      case LOAN_APPLICATION_STEPS.REVIEW_TRANSACTIONS:
+        return <ReviewTransactionsForm />
+      case LOAN_APPLICATION_STEPS.REVIEW_INCOME_STATEMENT:
+        return <ReviewIncomeStatementForm />
       default:
         return null
     }
