@@ -18,7 +18,7 @@ const getDocumentType = (document: LoanDocument) => {
   return ocrolusDocumentType !== "" ? ocrolusDocumentType : documentType
 }
 
-export const documentColumns: ColumnDef<LoanDocument>[] = [
+export const documentColumns = (id: string): ColumnDef<LoanDocument>[] => [
   {
     id: "name",
     accessorKey: "name",
@@ -133,7 +133,7 @@ export const documentColumns: ColumnDef<LoanDocument>[] = [
       return (
         <div className="flex content-end items-center justify-end gap-2 text-gray-500">
           <Button asChild variant="ghost">
-            <Link to={APP_PATH.CONFERENCE_DEMO.admin.documentDetail}>
+            <Link to={APP_PATH.CONFERENCE_DEMO.admin.documentDetail(id)}>
               <ArrowRight className="size-5" />
             </Link>
           </Button>

@@ -187,19 +187,22 @@ export const APP_PATH = {
     admin: {
       index: "/admin/dashboard",
       applications: "/admin/applications",
-      business: "/admin/business",
-      identity: "/admin/kyc",
-      documents: "/admin/documents",
-      documentDetail: "/admin/document-detail",
-      applicationSummary: "/admin/application-summary",
-      loanReadiness: "/admin/loan-readiness",
+      business: (id: string) => `/admin/business/${id}`,
+      identity: (id: string) => `/admin/kyc/${id}`,
+      documents: (id: string) => `/admin/documents/${id}`,
+      documentDetail: (id: string) => `/admin/document-detail/${id}`,
+      applicationSummary: (id: string) => `/admin/application-summary/${id}`,
+      loanReadiness: (id: string) => `/admin/loan-readiness/${id}`,
       financialProjection: {
-        index: "/admin/financial-projection",
-        overview: "/admin/financial-projection/overview",
-        cashFlow: "/admin/financial-projection/cash-flow",
-        balanceSheet: "/admin/financial-projection/balance-sheet",
-        incomeStatement: "/admin/financial-projection/income-statement",
-        loanReady: "/admin/financial-projection/loan-ready"
+        index: (id: string) => `/admin/financial-projection/${id}`,
+        overview: (id: string) => `/admin/financial-projection/${id}/overview`,
+        cashFlow: (id: string) => `/admin/financial-projection/${id}/cash-flow`,
+        balanceSheet: (id: string) =>
+          `/admin/financial-projection/${id}/balance-sheet`,
+        incomeStatement: (id: string) =>
+          `/admin/financial-projection/${id}/income-statement`,
+        loanReady: (id: string) =>
+          `/admin/financial-projection/${id}/loan-ready`
       }
     }
   }

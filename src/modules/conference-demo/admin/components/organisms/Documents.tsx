@@ -1,9 +1,11 @@
 import { DataTable } from "@/components/ui/data-table"
 import { MOCK_DOCUMENTS } from "@/modules/conference-demo/admin/constants/data"
 import { documentColumns } from "@/modules/conference-demo/admin/constants/document-columns"
+import { useParams } from "react-router-dom"
 
 function Documents() {
   const data = MOCK_DOCUMENTS
+  const { id = "" } = useParams()
 
   return (
     <div>
@@ -15,7 +17,7 @@ function Documents() {
       </div>
 
       <DataTable
-        columns={documentColumns}
+        columns={documentColumns(id)}
         data={data?.data ?? []}
         tableHeaderClassName="border-t-0"
         tableWrapperClassName="-mt-6 rounded-b-xl rounded-t-none border-t-0"

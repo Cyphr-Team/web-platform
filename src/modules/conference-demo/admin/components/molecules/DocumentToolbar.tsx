@@ -5,7 +5,7 @@ import { Pagination } from "@/shared/molecules/Pagination"
 import { capitalizeWords, snakeCaseToText } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
 import { ArrowLeft, Minus, Plus } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 function DocumentToolbar() {
   const {
@@ -102,10 +102,12 @@ export const DocumentTitle: React.FC<Props> = ({
   documentType,
   verifiedDate
 }) => {
+  const { id = "" } = useParams()
+
   return (
     <div className="flex gap-6">
       <Button asChild className="text-dark p-0" type="button" variant="link">
-        <Link to={APP_PATH.CONFERENCE_DEMO.admin.documents}>
+        <Link to={APP_PATH.CONFERENCE_DEMO.admin.documents(id)}>
           <ArrowLeft className="h-4.5 w-5" /> Back
         </Link>
       </Button>

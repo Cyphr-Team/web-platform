@@ -2,7 +2,7 @@ import { type PropsWithChildren, useEffect } from "react"
 import { FpTopNav } from "@/modules/conference-demo/admin/components/molecules/FpTopNav.tsx"
 import useRouter from "@/hooks/useRouter.ts"
 import { APP_PATH } from "@/constants"
-import { useLocation } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { Header } from "@/modules/conference-demo/admin/components/organisms/Header.tsx"
 import { TopNav } from "@/modules/conference-demo/admin/components/organisms/TopNav.tsx"
 import { cn } from "@/lib/utils.ts"
@@ -11,16 +11,17 @@ function ConferenceDemoApplicationFpAdminLayout({
   children
 }: PropsWithChildren) {
   const location = useLocation()
+  const { id = "" } = useParams()
   const { push } = useRouter()
 
   useEffect(() => {
     if (
       location.pathname ===
-      APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index
+      APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index(id)
     ) {
-      push(APP_PATH.CONFERENCE_DEMO.admin.financialProjection.overview)
+      push(APP_PATH.CONFERENCE_DEMO.admin.financialProjection.overview(id))
     }
-  }, [location, push])
+  }, [location, push, id])
 
   return (
     <div className="flex size-full flex-col md:pt-4">

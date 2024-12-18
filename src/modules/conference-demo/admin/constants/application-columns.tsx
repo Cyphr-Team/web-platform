@@ -175,9 +175,14 @@ export const applicationColumns = (
           className="flex h-8 items-center gap-0.5 px-2 pr-1"
           variant="ghost"
           onClick={() => {
-            navigate(APP_PATH.CONFERENCE_DEMO.admin.business, {
-              state: { businessName: application.businessName }
-            })
+            navigate(
+              APP_PATH.CONFERENCE_DEMO.admin.business(
+                application.applicationIdNumber.toString()
+              ),
+              {
+                state: { businessName: application.businessName }
+              }
+            )
           }}
         >
           Review

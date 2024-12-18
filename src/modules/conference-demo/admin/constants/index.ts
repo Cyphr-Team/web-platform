@@ -16,23 +16,24 @@ export enum ApplicationMenuName {
 export const APPLICATION_MENU = [
   {
     name: ApplicationMenuName.business,
-    href: APP_PATH.CONFERENCE_DEMO.admin.business
+    href: (id: string) => APP_PATH.CONFERENCE_DEMO.admin.business(id)
   },
   {
     name: ApplicationMenuName.identity,
-    href: APP_PATH.CONFERENCE_DEMO.admin.identity
+    href: (id: string) => APP_PATH.CONFERENCE_DEMO.admin.identity(id)
   },
   {
     name: ApplicationMenuName.document,
-    href: APP_PATH.CONFERENCE_DEMO.admin.documents
+    href: (id: string) => APP_PATH.CONFERENCE_DEMO.admin.documents(id)
   },
   {
     name: ApplicationMenuName.applicationSummary,
-    href: APP_PATH.CONFERENCE_DEMO.admin.applicationSummary
+    href: (id: string) => APP_PATH.CONFERENCE_DEMO.admin.applicationSummary(id)
   },
   {
     name: ApplicationMenuName.finacialProjection,
-    href: APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index
+    href: (id: string) =>
+      APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index(id)
   }
 ]
 

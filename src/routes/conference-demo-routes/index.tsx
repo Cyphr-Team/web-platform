@@ -89,7 +89,7 @@ const financialProjectionAdminRoutes = (
         <Outlet />
       </ConferenceDemoApplicationFpAdminLayout>
     }
-    path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index}
+    path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.index(":id")}
   >
     <Route
       index
@@ -98,7 +98,7 @@ const financialProjectionAdminRoutes = (
           "@/modules/conference-demo/applicant/components/pages/FpOverviewPage"
         )
       }
-      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.overview}
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.overview(":id")}
     />
 
     <Route
@@ -108,7 +108,7 @@ const financialProjectionAdminRoutes = (
           "@/modules/conference-demo/applicant/components/pages/FpCashFlowPage"
         )
       }
-      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.cashFlow}
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.cashFlow(":id")}
     />
 
     <Route
@@ -118,7 +118,9 @@ const financialProjectionAdminRoutes = (
           "@/modules/conference-demo/applicant/components/pages/FpBalanceSheetPage"
         )
       }
-      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.balanceSheet}
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.balanceSheet(
+        ":id"
+      )}
     />
 
     <Route
@@ -128,13 +130,15 @@ const financialProjectionAdminRoutes = (
           "@/modules/conference-demo/applicant/components/pages/FpIncomeStatementPage"
         )
       }
-      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.incomeStatement}
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.incomeStatement(
+        ":id"
+      )}
     />
 
     <Route
       index
       element={<LoanReadiness />}
-      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.loanReady}
+      path={APP_PATH.CONFERENCE_DEMO.admin.financialProjection.loanReady(":id")}
     />
   </Route>
 )
@@ -169,37 +173,37 @@ export const conferenceDemoRoutes = (
       <Route
         index
         element={<LoanReadinessPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.loanReadiness}
+        path={APP_PATH.CONFERENCE_DEMO.admin.loanReadiness(":id")}
       />
       <Route
         index
         element={<BusinessVerificationPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.business}
+        path={APP_PATH.CONFERENCE_DEMO.admin.business(":id")}
       />
       <Route
         index
         element={<IdentityVerificationPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.identity}
+        path={APP_PATH.CONFERENCE_DEMO.admin.identity(":id")}
       />
       <Route
         index
         element={<DocumentationPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.documents}
+        path={APP_PATH.CONFERENCE_DEMO.admin.documents(":id")}
       />
       <Route
         index
         element={<DocumentationDetailPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.documentDetail}
+        path={APP_PATH.CONFERENCE_DEMO.admin.documentDetail(":id")}
       />
       <Route
         index
         element={<ApplicationSummaryPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.applicationSummary}
+        path={APP_PATH.CONFERENCE_DEMO.admin.applicationSummary(":id")}
       />
       <Route
         index
         element={<IdentityVerificationPage />}
-        path={APP_PATH.CONFERENCE_DEMO.admin.identity}
+        path={APP_PATH.CONFERENCE_DEMO.admin.identity(":id")}
       />
       <Route
         index
