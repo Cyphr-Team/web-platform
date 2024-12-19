@@ -24,6 +24,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication.ts"
 import { useSearchOrderLoanApplications } from "@/modules/loanready/hooks/applications/order-list.ts"
+import { LoanApplicationStatus } from "@/types/loan-application.type.ts"
 
 const paymentItemSchema = z.object({
   package: z.string().min(1),
@@ -54,7 +55,13 @@ export function PaymentDetail() {
       }
     }
   })
-  const basicApplications = data?.data.data ?? []
+
+  // Filter submitted applications
+  const basicApplications =
+    data?.data.data?.filter(
+      (application) =>
+        application.status.toUpperCase() === LoanApplicationStatus.SUBMITTED
+    ) ?? []
 
   // Payment Form
   const form = useForm<PaymentItemValue>({
