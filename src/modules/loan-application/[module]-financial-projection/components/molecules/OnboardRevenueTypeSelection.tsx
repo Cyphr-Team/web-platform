@@ -13,13 +13,17 @@ import {
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-revenue-store.ts"
 import { RevenueTypeSelection } from "@/modules/loan-application/[module]-financial-projection/components/molecules/RevenueTypeSelection.tsx"
 import { Button } from "@/components/ui/button.tsx"
+import useBoolean from "@/hooks/useBoolean"
+import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
+import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils"
 
 interface OnboardRevenueTypeSelectionProps {
   onAddItemToField: OnAddItemToField
+  isFormCompleted?: boolean
 }
 
 function OnboardRevenueTypeSelection(props: OnboardRevenueTypeSelectionProps) {
-  const { onAddItemToField } = props
+  const { onAddItemToField, isFormCompleted } = props
   const [counter, setCounter] = useState<RevenueCounterState>(
     initialRevenueCounterState
   )
@@ -69,6 +73,8 @@ function OnboardRevenueTypeSelection(props: OnboardRevenueTypeSelectionProps) {
   // At least one field is selected
   const enabled = Object.values(counter).some((value) => value)
 
+  const isOpen = useBoolean(true)
+
   return (
     <>
       <RevenueTypeSelection counter={counter} onAddItemToField={onToggle} />
@@ -77,6 +83,23 @@ function OnboardRevenueTypeSelection(props: OnboardRevenueTypeSelectionProps) {
           Next
         </Button>
       </div>
+      {isEnableHistoricalFinancialsEnrichment() && !isFormCompleted && (
+        <CustomAlertDialog
+          confirmText="Sounds good"
+          description={
+            <span className="break-keep">
+              With your past transactions thoroughly analyzed, it's time to turn
+              our attention to future financial planning. By delving into
+              forward-looking projections, we can better understand your
+              potential for growth, anticipate cash flow trends, and evaluate
+              your overall financial outlook.
+            </span>
+          }
+          isOpen={isOpen.value}
+          title="Looking Ahead: Financial Projections"
+          onConfirmed={isOpen.onFalse}
+        />
+      )}
     </>
   )
 }

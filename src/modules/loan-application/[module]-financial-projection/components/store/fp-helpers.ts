@@ -1,5 +1,6 @@
 import { type ForecastRowData } from "@/modules/loan-application/[module]-financial-projection/types"
 import {
+  type ForecastDataCategory,
   ForecastPeriod,
   type ForecastResultsResponse,
   ForecastType
@@ -12,6 +13,22 @@ type PossibleSheetName =
   | "cashFlowForecastAnnually"
   | "balanceSheetForecastAnnually"
   | "incomeStatementForecastAnnually"
+
+export function parseForecastDataSingleSheet(
+  data: ForecastDataCategory[],
+  forecastType: ForecastType
+): number[] {
+  const forecastGroup = data
+  const forecast = forecastGroup.find(
+    (item) => item.forecastType === forecastType
+  )
+
+  if (!forecast) {
+    return []
+  }
+
+  return forecast.forecastData.map((item) => item.value)
+}
 
 export function parseForecastData(
   data: ForecastResultsResponse,
@@ -31,8 +48,8 @@ export function parseForecastData(
 }
 
 interface getDataPointsFactoryArgs {
-  dataSource: ForecastResultsResponse
-  sheetName:
+  dataSource: ForecastResultsResponse | ForecastDataCategory[]
+  sheetName?:
     | "cashFlowForecast"
     | "incomeStatementForecast"
     | "balanceSheetForecast"
@@ -44,15 +61,26 @@ export function getDataPointsFactory(
   args: getDataPointsFactoryArgs
 ): ForecastRowData {
   const { dataSource, sheetName, dataPoints, period } = args
-  const source: PossibleSheetName =
-    period === ForecastPeriod.MONTHLY || period === ForecastPeriod.CURRENT
-      ? `${sheetName}Monthly`
-      : `${sheetName}Annually`
 
   const result: ForecastRowData = {} as ForecastRowData
 
+  const sheetSourceName = sheetName
+    ? ((period === ForecastPeriod.MONTHLY || period === ForecastPeriod.CURRENT
+        ? `${sheetName}Monthly`
+        : `${sheetName}Annually`) as PossibleSheetName)
+    : null
+
   dataPoints.forEach((point) => {
-    const data = parseForecastData(dataSource, source, point)
+    const data = sheetSourceName
+      ? parseForecastData(
+          dataSource as ForecastResultsResponse,
+          sheetSourceName,
+          point
+        )
+      : parseForecastDataSingleSheet(
+          dataSource as ForecastDataCategory[],
+          point
+        )
 
     result[point] = period === ForecastPeriod.CURRENT ? [data[0]] : data
   })
@@ -118,7 +146,7 @@ export function getBalanceSheetData(
 }
 
 export function getIncomeStatementData(
-  dataSource: ForecastResultsResponse,
+  dataSource: ForecastResultsResponse | ForecastDataCategory[],
   period: ForecastPeriod
 ): ForecastRowData {
   const dataPoints = [
@@ -146,7 +174,7 @@ export function getIncomeStatementData(
     dataSource,
     dataPoints,
     period,
-    sheetName: "incomeStatementForecast"
+    sheetName: Array.isArray(dataSource) ? undefined : "incomeStatementForecast"
   })
 }
 
