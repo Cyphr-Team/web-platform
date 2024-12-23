@@ -12,6 +12,7 @@ interface FormLayoutProps {
   cardClassName?: string
   id?: string
   hideTopNavigation?: boolean
+  layout?: "card" | "borderless"
 }
 
 export function FormLayout(props: PropsWithChildren<FormLayoutProps>) {
@@ -21,7 +22,8 @@ export function FormLayout(props: PropsWithChildren<FormLayoutProps>) {
     cardClassName,
     wrapperClassName,
     hideTopNavigation = false,
-    children
+    children,
+    layout = "card"
   } = props
 
   const { dispatchProgress, step } = useLoanApplicationProgressContext()
@@ -53,15 +55,19 @@ export function FormLayout(props: PropsWithChildren<FormLayoutProps>) {
         </div>
       ) : null}
 
-      <Card
-        className={cn(
-          "flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl",
-          cardClassName
-        )}
-        id={id}
-      >
-        {children}
-      </Card>
+      {layout === "card" ? (
+        <Card
+          className={cn(
+            "flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl",
+            cardClassName
+          )}
+          id={id}
+        >
+          {children}
+        </Card>
+      ) : (
+        children
+      )}
     </div>
   )
 }

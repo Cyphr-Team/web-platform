@@ -128,7 +128,8 @@ module.exports = {
           active: "#EEFFC0"
         },
         table: {
-          heading: "#F9FAFB"
+          heading: "#F9FAFB",
+          "gray-feldgrau": "#4F6161"
         },
         // New from here
         brand: {
