@@ -4,13 +4,16 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { INSIGHT_TOC } from "@/modules/loan-application-management/constants/insight-toc.constant"
 import { TaskFieldStatus } from "@/modules/loan-application-management/constants/types/business.type"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
-import { isLoanReady, isSbb } from "@/utils/domain.utils"
+import { isCapitalCollab, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 import InsightItem from "../../molecules/InsightItem"
 
 export function Insights() {
   const { loanKybDetail, isLoading } = useLoanApplicationDetailContext()
+
+  const isEnableHRE =
+    isEnableKYBV2() && (isSbb() || isLoanReady() || isCapitalCollab())
 
   const insights = loanKybDetail?.insights
 
@@ -27,12 +30,11 @@ export function Insights() {
     [insights]
   )
 
-  const insightsTotal =
-    isEnableKYBV2() && (isSbb() || isLoanReady())
-      ? insights
-        ? Object.entries(insights).length
-        : 10
-      : 7
+  const insightsTotal = isEnableHRE
+    ? insights
+      ? Object.entries(insights).length
+      : 10
+    : 7
 
   return (
     <Card className="top-0 z-10 mb-4 h-fit shrink-0 lg:sticky">
@@ -98,7 +100,7 @@ export function Insights() {
           title="Watchlists"
           toolTipContent={insights?.watchlists?.message}
         />
-        {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
+        {isEnableHRE ? (
           <InsightItem
             href={INSIGHT_TOC.industryClassification}
             isLoading={isLoading}
@@ -107,7 +109,7 @@ export function Insights() {
             title="Industry Classification"
             toolTipContent={insights?.industry?.message}
           />
-        )}
+        ) : null}
         <InsightItem
           href={INSIGHT_TOC.bankruptcies}
           isLoading={isLoading}
@@ -118,7 +120,7 @@ export function Insights() {
           {...(!isEnableKYBV2() &&
             !(isSbb() || isLoanReady()) && { noBorder: true })}
         />
-        {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
+        {isEnableHRE ? (
           <InsightItem
             href={INSIGHT_TOC.website}
             isLoading={isLoading}
@@ -127,8 +129,8 @@ export function Insights() {
             title="Website"
             toolTipContent={insights?.website?.message}
           />
-        )}
-        {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
+        ) : null}
+        {isEnableHRE ? (
           <InsightItem
             noBorder
             href={INSIGHT_TOC.adverseMedia}
@@ -138,7 +140,7 @@ export function Insights() {
             title="Adverse Media"
             toolTipContent={insights?.adverseMedia?.message}
           />
-        )}
+        ) : null}
       </CardContent>
     </Card>
   )

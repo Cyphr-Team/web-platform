@@ -3,6 +3,7 @@ import { LoanReadyCashFlow } from "@/modules/loan-application-management/pages/l
 import { CashFlowOutOfBox } from "@/modules/loan-application-management/pages/out-of-box/cash-flow"
 import { handleCrumb } from "@/utils/crumb.utils"
 import {
+  isCapitalCollab,
   isCyphrBank,
   isKccBank,
   isLaunchKC,
@@ -54,7 +55,7 @@ const loanApplicationManagementRoutes = (
       />
 
       {/* IDENTITY VERIFICATION */}
-      {(isKccBank() || isSbb() || isLaunchKC()) && (
+      {(isKccBank() || isSbb() || isLaunchKC() || isCapitalCollab()) && (
         <Route
           lazy={() =>
             import(
@@ -75,7 +76,7 @@ const loanApplicationManagementRoutes = (
             return import(
               "@/modules/loan-application-management/pages/sbb/loan-summary"
             )
-          if (isCyphrBank() || isKccBank() || isLaunchKC())
+          if (isCyphrBank() || isKccBank() || isLaunchKC() || isCapitalCollab())
             return import(
               "@/modules/loan-application-management/pages/out-of-box/loan-summary"
             )
@@ -96,7 +97,11 @@ const loanApplicationManagementRoutes = (
         element={
           isLoanReady() ? (
             <LoanReadyCashFlow />
-          ) : isCyphrBank() || isKccBank() || isSbb() || isLaunchKC() ? (
+          ) : isCyphrBank() ||
+            isKccBank() ||
+            isSbb() ||
+            isLaunchKC() ||
+            isCapitalCollab() ? (
             <CashFlowOutOfBox />
           ) : (
             <CashFlowPage />

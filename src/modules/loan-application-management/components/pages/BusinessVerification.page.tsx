@@ -10,10 +10,13 @@ import { Secretary } from "@/modules/loan-application/components/organisms/Midde
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
 import { Website } from "@/modules/loan-application/components/organisms/Middesk/Website"
-import { isLoanReady, isSbb } from "@/utils/domain.utils"
+import { isCapitalCollab, isLoanReady, isSbb } from "@/utils/domain.utils"
 import { isEnableKYBV2 } from "@/utils/feature-flag.utils"
 
 export function Component() {
+  const isEnableHRE =
+    isEnableKYBV2() && (isSbb() || isLoanReady() || isCapitalCollab())
+
   return (
     <div className="w-full gap-3xl lg:flex">
       <Insights />
@@ -26,12 +29,10 @@ export function Component() {
         <TinMatch />
         <People />
         <WatchList />
-        {isEnableKYBV2() && (isSbb() || isLoanReady()) && (
-          <IndustryClassification />
-        )}
+        {isEnableHRE ? <IndustryClassification /> : null}
         <Bankruptcy />
-        {isEnableKYBV2() && (isSbb() || isLoanReady()) && <Website />}
-        {isEnableKYBV2() && (isSbb() || isLoanReady()) && <AdverseMedia />}
+        {isEnableHRE ? <Website /> : null}
+        {isEnableHRE ? <AdverseMedia /> : null}
       </div>
     </div>
   )

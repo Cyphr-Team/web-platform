@@ -7,7 +7,13 @@ import {
   reviewerRoles,
   workspaceAdminRoles
 } from "@/types/user.type"
-import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isCapitalCollab,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { CalendarSearch, Files, Flag, Send, Workflow } from "lucide-react"
 import { APP_PATH } from "."
 import { FEATURE_FLAGS } from "./feature-flag.constants"
@@ -80,7 +86,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     icon: Workflow,
     label: "Loan Programs",
     roles: workspaceAdminRoles(),
-    disabled: isKccBank() || isSbb() || isLoanReady(),
+    disabled: isKccBank() || isSbb() || isLoanReady() || isCapitalCollab(),
     featureKey: FeatureKey.LOAN_PROGRAM
   },
   // Hide because havent implemented yet

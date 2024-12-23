@@ -1,8 +1,9 @@
+import CapitalCollabProgramDetail from "@/modules/capital-collab/components/layout/CapitalCollabProgramDetail"
 import { LoanReadyProgramDetail } from "@/modules/loan-application/pages/LoanProgramDetail/Custom/LoanReadyProgramDetail"
 import { LoanProgramDetail } from "@/modules/loan-application/pages/LoanProgramDetail/LoanProgramDetail"
 import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider"
 import LoanReadyV2ProgramDetail from "@/modules/loanready/components/layouts/LoanReadyV2ProgramDetail"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isLoanReady, isCapitalCollab } from "@/utils/domain.utils"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 
 export function Component() {
@@ -14,6 +15,14 @@ export function Component() {
     return (
       <LoanProgramDetailProvider>
         <LoanReadyProgramDetailComponent />
+      </LoanProgramDetailProvider>
+    )
+  }
+
+  if (isCapitalCollab()) {
+    return (
+      <LoanProgramDetailProvider>
+        <CapitalCollabProgramDetail />
       </LoanProgramDetailProvider>
     )
   }

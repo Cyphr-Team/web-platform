@@ -1,7 +1,13 @@
 import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { type NavItem } from "@/types/common.type"
-import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isCapitalCollab,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { Bell } from "lucide-react"
 import { type BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
@@ -65,7 +71,12 @@ export const navItems: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION.NOTIFICATION.list,
     icon: Bell,
     label: "Notifications",
-    disabled: isKccBank() || isLoanReady() || isSbb() || isLaunchKC(), // Hide for KCC Bank and SBB,
+    disabled:
+      isKccBank() ||
+      isLoanReady() ||
+      isSbb() ||
+      isLaunchKC() ||
+      isCapitalCollab(),
     featureKey: FeatureKey.APPLICANT_APPLICATION
   }
   // Hide because it's not implemented yet

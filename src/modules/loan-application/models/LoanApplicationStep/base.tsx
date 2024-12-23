@@ -7,7 +7,7 @@ import {
   STEP_MENU,
   STEP_MENU_LOAN_READY
 } from "./type"
-import { isLoanReady } from "@/utils/domain.utils.ts"
+import { isCapitalCollab, isLoanReady } from "@/utils/domain.utils.ts"
 
 export interface ILoanApplicationStepStrategy {
   _buildSteps: () => this
@@ -264,9 +264,10 @@ export class LoanApplicationStep {
           step: LOAN_APPLICATION_STEPS.CONFIRMATION,
           formType: null,
           label: "Sign and Submit",
-          parent: isLoanReady()
-            ? STEP_MENU_LOAN_READY.SIGNATURE
-            : STEP_MENU.SIGNATURE,
+          parent:
+            isLoanReady() || isCapitalCollab()
+              ? STEP_MENU_LOAN_READY.SIGNATURE
+              : STEP_MENU.SIGNATURE,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],
@@ -302,9 +303,10 @@ export class LoanApplicationStep {
           step: LOAN_APPLICATION_STEPS.REVIEW_APPLICATION,
           formType: null,
           label: `Review ${isLoanReady() ? "Assessment" : "Application"}`,
-          parent: isLoanReady()
-            ? STEP_MENU_LOAN_READY.SIGNATURE
-            : STEP_MENU.SIGNATURE,
+          parent:
+            isLoanReady() || isCapitalCollab()
+              ? STEP_MENU_LOAN_READY.SIGNATURE
+              : STEP_MENU.SIGNATURE,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ],

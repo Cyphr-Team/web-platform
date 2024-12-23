@@ -8,7 +8,12 @@ import { cn } from "@/lib/utils"
 import { useQueryGetLoanPrograms } from "@/modules/loan-application/hooks/program/useQueryLoanPrograms.ts"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
-import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isCapitalCollab,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { APP_PATH } from "@/constants"
 
 function WelcomeLine() {
@@ -36,7 +41,8 @@ export function Component() {
 
   const navigate = useNavigate()
 
-  const isPortalHasSpecialProgram = isLaunchKC() || isLoanReady()
+  const isPortalHasSpecialProgram =
+    isLaunchKC() || isLoanReady() || isCapitalCollab()
 
   // ONLY FOR LAUNCH KC
   // Because launch KC only has one program

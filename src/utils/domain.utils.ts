@@ -104,6 +104,10 @@ function isFinovate(): boolean {
   return matchSubdomain(getSubdomain(), Institution.Finovate)
 }
 
+function isCapitalCollab(): boolean {
+  return matchSubdomain(getSubdomain(), Institution.CapitalCollab)
+}
+
 export {
   getSubdomain,
   getRootSubdomain,
@@ -120,5 +124,6 @@ export {
   isKccBank,
   isLaunchKC,
   isSbb,
-  isFinovate
+  isFinovate,
+  isCapitalCollab
 }

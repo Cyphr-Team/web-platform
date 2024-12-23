@@ -1,6 +1,7 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
 import {
+  isCapitalCollab,
   isCyphrBank,
   isKccBank,
   isLaunchKC,
@@ -14,6 +15,7 @@ import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-fina
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider.tsx"
 import { Skeleton } from "@/components/ui/skeleton.tsx"
+import { APPLICATION_MENU_CAPITAL_COLLAB } from "@/modules/capital-collab/constants"
 
 type Props = React.HTMLAttributes<HTMLDivElement>
 
@@ -78,11 +80,23 @@ export function TopNav({ className, ...props }: Props) {
       ApplicationMenuName.document,
       ApplicationMenuName.applicationSummary
     ]
+  } else if (isCapitalCollab()) {
+    menuItems = [
+      ApplicationMenuName.applicationSummary,
+      ApplicationMenuName.business,
+      ApplicationMenuName.identity,
+      ApplicationMenuName.cashflow,
+      ApplicationMenuName.document
+    ]
   }
 
   menuItems = menuItems.filter(Boolean)
 
-  const applicationMenu = APPLICATION_MENU(id!).filter((el) =>
+  const ApplicationMenu = isCapitalCollab()
+    ? APPLICATION_MENU_CAPITAL_COLLAB
+    : APPLICATION_MENU
+
+  const applicationMenu = ApplicationMenu(id!).filter((el) =>
     menuItems.includes(el.name)
   )
 

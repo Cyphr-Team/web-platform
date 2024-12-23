@@ -8,7 +8,8 @@ enum Institution {
   KCChamber = "kcchamber",
   LaunchKC = "launchkc",
   SBB = "sbb",
-  Finovate = "finovate"
+  Finovate = "finovate",
+  CapitalCollab = "capitalcollab"
 }
 
 interface InstitutionData {

@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { useLoanProgramDetailContext } from "@/modules/loan-application/providers"
-import { isLaunchKC, isLoanReady } from "@/utils/domain.utils"
+import { isCapitalCollab, isLaunchKC, isLoanReady } from "@/utils/domain.utils"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 import { sanitizeDOM } from "@/utils/file.utils"
 
@@ -14,6 +14,10 @@ export function LoanProgramDetailWelcomeLine() {
 
     if (isLoanReady() && isEnableLoanReadyV2()) {
       return "Welcome to LoanReady: Your Path to Small Business Success"
+    }
+
+    if (isCapitalCollab()) {
+      return "Welcome to Capital Collab: Your Business Funding Partner. Your Path to Smarter Financing Starts Here"
     }
 
     return loanProgramDetails?.name
