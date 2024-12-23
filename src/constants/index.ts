@@ -173,6 +173,8 @@ export const APP_PATH = {
     applicant: {
       index: "/applicant/loan",
       list: "/applicant/loan/applications",
+      detail: (applicationId: string) =>
+        `/applicant/loan/applications/${applicationId}`,
       financialProjection: {
         index: "/applicant/loan/financial-projection",
         overview: "/applicant/loan/financial-projection/overview",

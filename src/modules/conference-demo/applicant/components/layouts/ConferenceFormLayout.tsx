@@ -4,6 +4,7 @@ import { type PropsWithChildren, useCallback } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useProgress } from "@/modules/conference-demo/applicant/stores/useProgress.ts"
 import { STEP } from "@/modules/conference-demo/applicant/constants"
+import { useParams } from "react-router-dom"
 
 const StepMapper: Record<STEP, { next: STEP | null; previous: STEP | null }> = {
   [STEP.LOAN_REQUEST]: {
@@ -56,10 +57,12 @@ export function ConferenceFormLayout(
 
   const { goToStep } = useProgress.use.action()
   const currentStep = useProgress.use.currentStep()
+  const { id: applicationId } = useParams()
 
   const isReviewStep =
     currentStep === STEP.REVIEW_AND_SUBMIT ||
-    currentStep === STEP.REVIEW_APPLICATION
+    currentStep === STEP.REVIEW_APPLICATION ||
+    applicationId
 
   const goPreviousStep = useCallback(() => {
     const previousStep = StepMapper[currentStep].previous

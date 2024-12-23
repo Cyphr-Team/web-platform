@@ -122,6 +122,37 @@ export const MOCK_APPLICATIONS: UserMicroLoanApplication[] = [
     decision: LoanDecisionEnum.APPROVED,
     decisionNote: "",
     latestProgress: 0
+  },
+  {
+    id: "fake-id-2",
+    loanProgram: {
+      id: "fake-id-2",
+      institutionId: "fake-id-2",
+      name: "ABC Micro Loans",
+      type: LoanType.MICRO,
+      description: "Micro loan program",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      minTermInMonth: 3,
+      maxTermInMonth: 12,
+      interestRate: 9,
+      interestRateType: LoanProgramInterestRateType.FIXED,
+      interestRateDescription: "9% interest rate",
+      originationFee: 0,
+      minLoanAmount: 1000,
+      maxLoanAmount: 25000
+    },
+    applicantId: "fake-id",
+    businessId: "fake-id",
+    loanAmount: 10000,
+    loanTermInMonth: 6,
+    proposeUseOfLoan: UseOfLoan.OTHER,
+    status: LoanApplicationStatus.DRAFT,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    decision: LoanDecisionEnum.APPROVED,
+    decisionNote: "",
+    latestProgress: 0
   }
 ]
 
@@ -207,4 +238,59 @@ export const MOCK_BUSINESS_PLAN: BusinessPlanRequest = {
     }
   ],
   businessPlan: ""
+}
+
+export const BUSINESS_PLAN_QUESTIONS: Record<
+  string,
+  {
+    question: string
+    answer: string
+  }
+> = {
+  businessDescription: {
+    question:
+      "How would you describe your business? Explain to a potential customer what you provide. Please Note: This response may be used in printed materials and/or press releases as needed.",
+    answer: MOCK_BUSINESS_PLAN.businessDescription
+  },
+  socialImpact: {
+    question:
+      "What is the social impact of growing your business and how will it change the way you lead the company? Please Note: This response may be used in printed materials and/or press releases as needed.",
+    answer: MOCK_BUSINESS_PLAN.socialImpact
+  },
+  grantsInThreeYears: {
+    question: "Has your company received any grants in the last three years?",
+    answer: MOCK_BUSINESS_PLAN.grantsInThreeYears
+  },
+  revenueGoal: {
+    question:
+      "What is your revenue goal over the next two to three years? What existing or new products and/or services do you plan to offer over the next two to three years to achieve your goal?",
+    answer: MOCK_BUSINESS_PLAN.revenueGoal
+  },
+  marketPotential: {
+    question:
+      "Describe the market potential for growing your business to the next stage. Include your target customers, market size, competition, environmental influences, market barriers, how you differentiate your business in the market, and industry opportunities as applicable.",
+    answer: MOCK_BUSINESS_PLAN.marketPotential
+  },
+  briefOverview: {
+    question:
+      "Provide a brief overview of your business plan, including your long-term goals and objectives. How do you plan to use the loan funds to achieve your objectives?  Please upload any additional documentation or marketing materials that may be applicable.",
+    answer: MOCK_BUSINESS_PLAN.briefOverview
+  }
+}
+
+export const MOCK_LOAN_REQUEST = {
+  loanAmount: 16000,
+  proposedUseOfLoan: UseOfLoan.OTHER
+}
+
+export const MOCK_BUSINESS_INFORMATION = {
+  businessLegalName: "Larry’s Latte LLC",
+  businessStreetAddress: {
+    streetLine1: "123 Coffee Lane",
+    city: "Brew Town",
+    state: "Coffee Land",
+    postalCode: "97531"
+  },
+  businessTin: "12-34567",
+  businessWebsite: "https://larryslatte.com"
 }

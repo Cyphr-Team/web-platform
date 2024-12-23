@@ -130,16 +130,16 @@ export function LoanApplications() {
         header: () => <p />,
         size: 150,
         cell: ({ row }) => {
+          const isEditable = editableStatuses.includes(
+            row.original.status.toLowerCase()
+          )
+
           return (
             <div
               className="flex cursor-pointer items-center justify-end gap-2 font-medium"
-              onClick={() => handleClickDetail()}
+              onClick={() => handleClickDetail(isEditable, row.original.id)}
             >
-              {editableStatuses.includes(row.original.status) ? (
-                <p>Continue</p>
-              ) : (
-                <p>Review</p>
-              )}
+              {isEditable ? <p>Continue</p> : <p>Review</p>}
               <ChevronRightIcon className="size-4" />
             </div>
           )
@@ -147,8 +147,12 @@ export function LoanApplications() {
       }
     ]
 
-  const handleClickDetail = () => {
-    navigate(APP_PATH.CONFERENCE_DEMO.applicant.index)
+  const handleClickDetail = (isEditable: boolean, applicationId: string) => {
+    if (isEditable) {
+      navigate(APP_PATH.CONFERENCE_DEMO.applicant.index)
+    } else {
+      navigate(APP_PATH.CONFERENCE_DEMO.applicant.detail(applicationId))
+    }
   }
 
   return (

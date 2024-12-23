@@ -18,6 +18,7 @@ import ConferenceDemoApplicationFpLayout from "@/modules/conference-demo/applica
 import ConferenceDemoApplicationFpAdminLayout from "@/modules/conference-demo/admin/components/layouts/ConferenceDemoApplicationFpLayout.tsx"
 import { LoanReadiness } from "@/modules/conference-demo/admin/components/organisms/LoanReadiness.tsx"
 import { ListApplicationPage } from "@/modules/conference-demo/admin/components/pages/ListApplicationPage.tsx"
+import ApplicationOverviewPage from "@/modules/conference-demo/applicant/components/pages/ApplicationOverviewPage"
 
 const financialProjectionRoute = (
   <Route
@@ -152,6 +153,11 @@ export const conferenceDemoRoutes = (
         path={APP_PATH.CONFERENCE_DEMO.applicant.index}
       />
     </Route>
+    <Route
+      index
+      element={<ApplicationOverviewPage />}
+      path={APP_PATH.CONFERENCE_DEMO.applicant.detail(":id")}
+    />
     <Route element={<ConferenceDemoApplicationListLayout />}>
       <Route
         index

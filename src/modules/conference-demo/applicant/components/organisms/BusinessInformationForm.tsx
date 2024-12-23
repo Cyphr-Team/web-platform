@@ -18,6 +18,7 @@ import { useFormData } from "@/modules/conference-demo/applicant/stores/useFormD
 import { useAutoCompleteStepEffect } from "@/modules/conference-demo/applicant/hooks/useAutoCompleteStepEffect"
 import useMagic from "@/modules/conference-demo/applicant/hooks/useMagic.ts"
 import { ConferenceFormLayout } from "@/modules/conference-demo/applicant/components/layouts/ConferenceFormLayout.tsx"
+import { MOCK_BUSINESS_INFORMATION } from "../../constants/data"
 
 const enum FieldName {
   NAME = "name",
@@ -49,7 +50,7 @@ const blocks: Block[] = [
     name: FieldName.NAME,
     props: {
       label: "Business legal name",
-      placeholder: "Larry’s Latte LLC"
+      placeholder: MOCK_BUSINESS_INFORMATION.businessLegalName
     }
   },
   {
@@ -57,7 +58,7 @@ const blocks: Block[] = [
     name: FieldName.ADDRESS,
     props: {
       label: "Business street address",
-      placeholder: "123 Coffee Lane"
+      placeholder: MOCK_BUSINESS_INFORMATION.businessStreetAddress.streetLine1
     }
   },
   {
@@ -65,7 +66,7 @@ const blocks: Block[] = [
     name: FieldName.CITY,
     props: {
       label: "Business city",
-      placeholder: "Brew Town",
+      placeholder: MOCK_BUSINESS_INFORMATION.businessStreetAddress.city,
       className: "col-span-4"
     }
   },
@@ -74,7 +75,7 @@ const blocks: Block[] = [
     name: FieldName.STATE,
     props: {
       label: "Business state",
-      placeholder: "Coffee Land",
+      placeholder: MOCK_BUSINESS_INFORMATION.businessStreetAddress.state,
       className: "col-span-4"
     }
   },
@@ -83,7 +84,7 @@ const blocks: Block[] = [
     name: FieldName.POSTAL_CODE,
     props: {
       label: "Business zip code",
-      placeholder: "97531",
+      placeholder: MOCK_BUSINESS_INFORMATION.businessStreetAddress.postalCode,
       className: "col-span-4"
     }
   },
@@ -92,7 +93,7 @@ const blocks: Block[] = [
     name: FieldName.EIN,
     props: {
       label: "Employer Identification Number (EIN)",
-      placeholder: "12-34567"
+      placeholder: MOCK_BUSINESS_INFORMATION.businessTin
     }
   },
   {
@@ -100,7 +101,7 @@ const blocks: Block[] = [
     name: FieldName.WEBSITE,
     props: {
       label: "Business website",
-      placeholder: "https://larryslatte.com"
+      placeholder: MOCK_BUSINESS_INFORMATION.businessWebsite
     }
   }
 ]
@@ -139,13 +140,15 @@ function BusinessInformationForm({
   })
 
   const autofillData = {
-    [FieldName.NAME]: "Larry's Latte LLC",
-    [FieldName.ADDRESS]: "123 Coffee Lane",
-    [FieldName.CITY]: "Brew Town",
-    [FieldName.STATE]: "Coffee Land",
-    [FieldName.POSTAL_CODE]: "97531",
-    [FieldName.EIN]: "12-3456789",
-    [FieldName.WEBSITE]: "https://larryslatte.com"
+    [FieldName.NAME]: MOCK_BUSINESS_INFORMATION.businessLegalName,
+    [FieldName.ADDRESS]:
+      MOCK_BUSINESS_INFORMATION.businessStreetAddress.streetLine1,
+    [FieldName.CITY]: MOCK_BUSINESS_INFORMATION.businessStreetAddress.city,
+    [FieldName.STATE]: MOCK_BUSINESS_INFORMATION.businessStreetAddress.state,
+    [FieldName.POSTAL_CODE]:
+      MOCK_BUSINESS_INFORMATION.businessStreetAddress.postalCode,
+    [FieldName.EIN]: MOCK_BUSINESS_INFORMATION.businessTin,
+    [FieldName.WEBSITE]: MOCK_BUSINESS_INFORMATION.businessWebsite
   }
 
   useMagic(method, autofillData, 15)
