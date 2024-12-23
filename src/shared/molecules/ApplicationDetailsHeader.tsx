@@ -14,10 +14,14 @@ import { CustomAlertDialog } from "./AlertDialog"
 import { cn } from "@/lib/utils"
 import { DiscardApplication } from "@/modules/loan-application/components/atoms/DiscardApplication"
 import { Icons } from "@/components/ui/icons"
+import { CuKhoaiMonButton } from "@/modules/loan-application/components/atoms/CuKhoaiMonButton.tsx"
+import { isProductionEnvironment } from "@/utils/domain.utils.ts"
+import { useState } from "react"
 
 export function ApplicationDetailsHeader() {
   const { loanApplicationDetails, isFetchingDetails } =
     useBRLoanApplicationDetailsContext()
+  const [counter, setCounter] = useState(1)
   const { submitLoanForm, isSubmitting } = useLoanApplicationFormContext()
   const status = loanApplicationDetails?.status ?? LoanApplicationStatus.DRAFT
   const navigate = useNavigate()
@@ -36,6 +40,8 @@ export function ApplicationDetailsHeader() {
       navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
     }
   }
+
+  const increaseCounter = () => setCounter((prevState) => prevState + 1)
 
   const description = `Are you sure you want to save and continue with this loan application?`
 
@@ -71,6 +77,7 @@ export function ApplicationDetailsHeader() {
             className="text-sm"
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}
+            onClick={increaseCounter}
           >
             {capitalizeWords(snakeCaseToText(status))}
           </Badge>
@@ -78,6 +85,9 @@ export function ApplicationDetailsHeader() {
       </div>
       {editableStatuses.includes(status) ? (
         <div className="flex gap-2">
+          {!isProductionEnvironment() && counter > 10 ? (
+            <CuKhoaiMonButton />
+          ) : null}
           <DiscardApplication />
           <CustomAlertDialog
             cancelText="Cancel"
