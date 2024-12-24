@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function ProductServiceFormDetails({ data, dataV2 }: Props) {
-  const dataToUse = isEnableFormV2() ? dataV2 : data
+  const dataToUse = isEnableFormV2() && dataV2 ? dataV2 : data
 
   return (
     <Card className="loan-application-item flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">

@@ -31,6 +31,7 @@ import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep
 import { CurrentLoanFormDetails } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormDetails.tsx"
 import {
   adaptFormV2Metadata,
+  preFormatBusinessInformationForm,
   preFormatCurrentLoanForm,
   preFormatLaunchKCOwnerInformationForm
 } from "@/modules/loan-application/services/formv2.services.ts"
@@ -187,6 +188,20 @@ export function OutOfBoxSummary() {
               get(formData, "forms[0].id", "")
             )
         })
+
+        return
+      }
+
+      if (key == FORM_TYPE.KYB) {
+        outOfBoxFormSummary[FORM_TYPE.KYB] =
+          adaptFormV2Metadata<IBusinessFormValue>({
+            schema: schema,
+            metadata: formMetaData,
+            preFormat: () => preFormatBusinessInformationForm(formMetaData),
+            additionalFields: {
+              id: get(formMetaData, "forms[0].id", "")
+            }
+          })
 
         return
       }

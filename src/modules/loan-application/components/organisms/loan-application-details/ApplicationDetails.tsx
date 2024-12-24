@@ -94,6 +94,7 @@ export function ApplicationDetails() {
           {kybFormData && isSbb() ? (
             <SbbKybFormDetails kybFormData={kybFormData} />
           ) : (
+            // TODO: Create an abstraction for KYB/KYC detail review because it's just key-value data showed on screen
             <KybFormDetails
               kybFormData={
                 kybFormData ?? toKYBInformationResponse(kybFormV2.data)
@@ -103,6 +104,7 @@ export function ApplicationDetails() {
           {kycFormData && isSbb() ? (
             <SbbKycFormDetails kycFormData={kycFormData} />
           ) : (
+            // TODO: Create an abstraction for KYB/KYC detail review because it's just key-value data showed on screen
             <KycFormDetails
               kycFormData={
                 kycFormData ?? toKYCInformationResponse(kycFormV2.data)
@@ -146,6 +148,7 @@ export function ApplicationDetails() {
   )
 }
 
+// TODO: remove this in the future and use adaptFormV2 instead
 function toKYBInformationResponse(
   rawValue?: FormV2Data
 ): KYBInformationResponse {
@@ -162,6 +165,9 @@ function toKYBInformationResponse(
     },
     businessTin: data?.businessTin,
     businessWebsite: data?.businessWebsite ?? "",
+    metadata: {
+      ...data
+    },
     id: "",
     loanApplicationId: "",
     updatedAt: "",
@@ -169,6 +175,7 @@ function toKYBInformationResponse(
   }
 }
 
+// TODO: remove this in the future and use adaptFormV2 instead
 function toKYCInformationResponse(
   rawValue?: FormV2Data
 ): KYCInformationResponse {
@@ -187,6 +194,9 @@ function toKYCInformationResponse(
     fullName: data.fullName,
     phoneNumber: data.phoneNumber,
     socialSecurityNumber: data.socialSecurityNumber,
+    metadata: {
+      ...data
+    },
     id: "",
     updatedAt: "",
     createdAt: "",

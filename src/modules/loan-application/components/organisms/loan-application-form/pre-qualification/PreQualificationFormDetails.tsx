@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function PreQualificationFormDetails({ data, dataV2 }: Props) {
-  const dataToUse = isEnableFormV2() ? dataV2 : data
+  const dataToUse = isEnableFormV2() && dataV2 ? dataV2 : data
 
   return (
     <FormLayout

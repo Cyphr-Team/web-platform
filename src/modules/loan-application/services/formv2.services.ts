@@ -59,7 +59,8 @@ export function preFormatCurrentLoanForm(
 
   return {
     ...formMetaData,
-    hasOutstandingLoans: (currentLoans.length > 0).toString(),
+    hasOutstandingLoans:
+      currentLoans.length > 0 ? BINARY_VALUES.YES : BINARY_VALUES.NO,
     currentLoans:
       currentLoans.length > 0
         ? currentLoans.map((loan) => ({

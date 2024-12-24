@@ -32,7 +32,7 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data, dataV2 }) => {
       LAUNCH_KC_EXECUTION_FIELD_NAMES.BUSINESS_MODEL
     )
 
-    if (isEnableFormV2()) {
+    if (isEnableFormV2() && dataV2) {
       return dataV2?.businessModels
     }
 
@@ -53,9 +53,9 @@ export const ExecutionFormDetails: React.FC<Props> = ({ data, dataV2 }) => {
             .join(": ")
         ) ?? []
     )
-  }, [dataV2?.businessModels, data?.businessModels])
+  }, [dataV2, data?.businessModels])
 
-  const dataToUse = isEnableFormV2() ? dataV2 : data
+  const dataToUse = isEnableFormV2() && dataV2 ? dataV2 : data
 
   return (
     <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">

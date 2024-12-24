@@ -20,9 +20,10 @@ export function OperatingExpensesFormDetails({
   operatingExpensesFormData,
   operatingExpensesFormDataV2
 }: Props) {
-  const dataToUse = isEnableFormV2()
-    ? operatingExpensesFormDataV2
-    : operatingExpensesFormData
+  const dataToUse =
+    isEnableFormV2() && operatingExpensesFormDataV2
+      ? operatingExpensesFormDataV2
+      : operatingExpensesFormData
 
   const totalMonthlyOperatingExpenses = useMemo(() => {
     return OPERATING_EXPENSES_FIELD_DATA.reduce(

@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const BusinessModelFormDetails: React.FC<Props> = ({ data, dataV2 }) => {
-  const dataToUse = isEnableFormV2() ? dataV2 : data
+  const dataToUse = isEnableFormV2() && dataV2 ? dataV2 : data
 
   return (
     <Card className="flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl">
