@@ -11,7 +11,6 @@ import { useMemo } from "react"
 import { getBadgeVariantByInsightStatus } from "@/modules/loan-application-management/services/insight.service"
 import { usePlaidContext } from "@/modules/loan-application/providers"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type.ts"
-import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
 
 const plaidColumns: ColumnDef<LoanApplicationBankAccount>[] = [
   {
@@ -121,8 +120,7 @@ export function CashFlowTable() {
       </CardHeader>
 
       <CardContent className="px-5">
-        {isEnablePlaidV2() &&
-        (isCashFlowNotReady || !data?.bankAccounts?.length) ? (
+        {isCashFlowNotReady || !data?.bankAccounts?.length ? (
           <MiddeskTable
             columns={plaidColumns}
             data={isLoading ? [] : plaidBankAccounts}

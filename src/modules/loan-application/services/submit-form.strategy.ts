@@ -21,13 +21,12 @@ import { ErrorCode, getAxiosError } from "@/utils/custom-error"
 import { isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   isEnableFormV2,
-  isEnableLoanReadyV2,
   isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, isAxiosError } from "axios"
 import { type Dispatch, useCallback } from "react"
-import { useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { type BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
 import { type LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
@@ -78,15 +77,11 @@ import {
 import { reverseFormatKybForm, reverseFormatKycForm } from "./form.services"
 import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 import { useSubmitCurrentLoansFormV2 } from "@/modules/loan-application/hooks/form-current-loan-v2/useSubmitCurrentLoansFormV2.ts"
-import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication"
-import { useGetLoanReadySubscription } from "@/modules/loanready/hooks/payment/useGetLoanReadySubscription"
-import { has } from "lodash"
 import { mapLoanRequestDataToV2 } from "@/modules/loan-application/services/formv2.services.ts"
 import { type SubmitLoanFormContext } from "@/modules/loan-application/types"
 import { useSubmitKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
 import { useSubmitLoanLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/useSubmitLaunchKCFitForm.ts"
 import { useSubmitExecutionForm } from "@/modules/loan-application/hooks/form-common/useSubmitExecutionForm.ts"
-import { useSubmitLinkPlaidItemIds } from "@/modules/loan-application/hooks/form-cash-flow/useSubmitLinkPlaidItemIds.ts"
 import { useSubmitLoanIdentityVerification } from "@/modules/loan-application/hooks/form-identity-verification/useSubmitLoanIdentityVerification.ts"
 import { useSubmitESignDocument } from "@/modules/loan-application/hooks/form-esign/useSubmitESignDocument.ts"
 import { useSubmitSbbLoanKYBForm } from "@/modules/loan-application/hooks/form-kyb/useSubmitSbbLoanKybForm.ts"
@@ -107,6 +102,7 @@ import { useUploadSbbDocument } from "@/modules/loan-application/hooks/form-docu
 import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/form-common/useSubmitMarketOpportunity.ts"
 import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/hooks/form-financial-projection/useSubmitFinancialProjectionForms.ts"
 import { useSubmitKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
+import { useSubmitLinkPlaidItemIds } from "@/modules/loan-application/hooks/form-cash-flow/useSubmitLinkPlaidItemIds.ts"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -150,7 +146,7 @@ export const useSubmitLoanForm = (
 ) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { loanProgramId } = useParams()
+  const { loanProgramId, id: editingApplicationId } = useParams()
   const { dispatch: plaidDispatch } = usePlaidContext()
 
   const updateDataAfterSubmit = (
@@ -179,7 +175,7 @@ export const useSubmitLoanForm = (
     })
   }
 
-  const { submitLinkPlaidItemds, isLoading: isSubmitLinkPlaidItemIds } =
+  const { submitLinkPlaidItemIds, isLoading: isSubmitLinkPlaidItemIds } =
     useSubmitLinkPlaidItemIds({ plaidItemIds, onSuccess: updatePlaidItemIds })
 
   /**
@@ -262,7 +258,7 @@ export const useSubmitLoanForm = (
       rawData: ownerData
     })
 
-  // Loan Request
+  // Loan Request v1 aka Application creation
   const { submitLoanRequestForm, isLoading: isSubmittingLoanRequest } =
     useSubmitMicroLoanRequestForm(
       loanRequestData,
@@ -472,11 +468,6 @@ export const useSubmitLoanForm = (
       financialStatementData
     })
 
-  /**
-   * Link Application to LoanReady Subscription
-   **/
-  const { mutateLink } = useLinkApplicationToLoanReadySubscription()
-
   const handleSubmitFormSuccess = useCallback(
     async (
       isUpdated: boolean,
@@ -507,17 +498,6 @@ export const useSubmitLoanForm = (
             loanProgramId: loanProgramId
           }
         })
-
-        // Link Application to LoanReady's Package Subscription
-        // We only need to link for the first time submission (isUpdated = false)
-        if (
-          isLoanReady() &&
-          isEnableLoanReadyV2() &&
-          applicationId &&
-          !isUpdated
-        ) {
-          await mutateLink(applicationId)
-        }
       } else {
         // 1st time Save Application as Draft
         if (!isUpdated) {
@@ -525,11 +505,6 @@ export const useSubmitLoanForm = (
             title: TOAST_MSG.loanApplication.createSuccess.title,
             description: TOAST_MSG.loanApplication.createSuccess.description
           })
-
-          // Link Application to LoanReady's Package Subscription
-          if (isLoanReady() && isEnableLoanReadyV2() && applicationId) {
-            await mutateLink(applicationId)
-          }
         }
         // Update Application
         else {
@@ -545,7 +520,6 @@ export const useSubmitLoanForm = (
       businessData?.businessLegalName,
       eSignData?.documentId,
       loanProgramId,
-      mutateLink,
       navigate
     ]
   )
@@ -578,53 +552,17 @@ export const useSubmitLoanForm = (
     [progress]
   )
 
-  // LoanReady Subscription check
-  const { id: loanApplicationId } = useParams() // We don't need to check on created applications
-  const [searchParams] = useSearchParams()
-  const transactionId = searchParams.get("transactionId")
-  const isEnabledLoanReadySubscriptionCheck: boolean =
-    isLoanReady() && isEnableLoanReadyV2() && !loanApplicationId
-  const { data: loanReadySubscription } = useGetLoanReadySubscription({
-    paymentTransactionId: transactionId ?? "",
-    enabled: isEnabledLoanReadySubscriptionCheck && transactionId != null
-  })
-
-  /**
-   * V0: Submit form one by one
-   * V1: Submit all forms in parallel
-   * This is the V1 version
-   */
   const submitLoanForm = useCallback(
     async ({ isSaveDraft }: SubmitLoanFormContext) => {
       try {
-        if (isEnabledLoanReadySubscriptionCheck) {
-          // Invalid: Can't find payment subscription, or it is already attached
-          const isInvalidLoanReadySubscription =
-            !loanReadySubscription ||
-            has(loanReadySubscription, "applicationId")
+        let applicationId = editingApplicationId
 
-          if (isInvalidLoanReadySubscription) {
-            // If the subscription is not found, throw an error and break the submission
-            navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index, {
-              replace: true
-            })
-            toastError({
-              title: TOAST_MSG.loanApplication.paymentSubscription.title,
-              description:
-                "Can't find available payment subscription for your application. Please make sure you purchase the package or contact our support team."
-            })
+        // Application is not in edit mode, create new application
+        if (!applicationId) {
+          const { data } = await submitLoanRequestForm()
 
-            return
-          }
-        }
+          applicationId = data.id
 
-        // Submit loan request form
-        const { data } = await submitLoanRequestForm()
-        const applicationId = data.id // Loan Application ID
-
-        // TODO: @Ngan.Phan check FORM_V2 here
-        // tag: loanRequest, separateLoanApplication
-        if (applicationId) {
           dispatchFormAction({
             action: FORM_ACTION.UPDATE_DATA,
             key: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
@@ -670,7 +608,7 @@ export const useSubmitLoanForm = (
 
         // Submit Plaid's itemId Clash flow verification
         if (plaidItemIds?.length) {
-          submitPromises.push(submitLinkPlaidItemds(applicationId))
+          submitPromises.push(submitLinkPlaidItemIds(applicationId))
         }
 
         // Submit KYB form
@@ -882,7 +820,6 @@ export const useSubmitLoanForm = (
       }
     },
     [
-      isEnabledLoanReadySubscriptionCheck,
       submitLoanRequestForm,
       loanRequestV2Data,
       isCompleteSteps,
@@ -900,13 +837,11 @@ export const useSubmitLoanForm = (
       businessModelData,
       documentUploadsData,
       ownerData,
-      loanReadySubscription,
-      navigate,
       dispatchFormAction,
       mutateLoanRequest,
       submitLoanIdentityVerification,
       submitESignDocument,
-      submitLinkPlaidItemds,
+      submitLinkPlaidItemIds,
       submitKybFormV2,
       submitLoanKYBForm,
       submitCurrentLoansFormV2,

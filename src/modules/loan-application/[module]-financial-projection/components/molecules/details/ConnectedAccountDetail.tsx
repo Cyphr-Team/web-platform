@@ -11,7 +11,6 @@ import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
 import { useGetPlaidConnectedBankAccounts } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
-import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
 import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
 
 interface ConnectedAccountDetailProps {
@@ -62,8 +61,7 @@ export function ConnectedAccountDetail({
   }, [isCashFlowNotReady])
 
   const renderStatus = () => {
-    if (isCashFlowNotReady && isEnablePlaidV2() && !isFetching)
-      return <CashFlowPendingBadge />
+    if (isCashFlowNotReady && !isFetching) return <CashFlowPendingBadge />
 
     if (bankAccounts.length > 0) return <CashFlowConnectedBadge />
 
@@ -97,7 +95,7 @@ export function ConnectedAccountDetail({
       </div>
 
       <CardContent className="p-0 md:p-0">
-        {isEnablePlaidV2() && isCashFlowNotReady && !isFetching ? (
+        {isCashFlowNotReady && !isFetching ? (
           <DetailTable
             columns={cashFlowColumns(true)}
             data={plaidConnectedBankAccountsQuery.data ?? []}

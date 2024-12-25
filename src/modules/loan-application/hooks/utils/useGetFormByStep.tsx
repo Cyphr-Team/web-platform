@@ -1,8 +1,7 @@
 import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils.ts"
 import {
   isEnableFormV2,
-  isEnablePandaDocESign,
-  isEnablePlaidV2
+  isEnablePandaDocESign
 } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 import { LaunchKCBusinessDocumentsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
@@ -38,7 +37,6 @@ import { SBBKybFormPartOne } from "@/modules/loan-application/components/organis
 import { SBBKybFormPartTwo } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/sbb/SbbKybFormPartTwo.tsx"
 import { SbbKycForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/sbb/SbbKycForm.tsx"
 import { OwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/KycForm.tsx"
-import { CashFlowVerificationFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerificationFormV2.tsx"
 import { FinancialInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/financial-information/FinancialInformationForm.tsx"
 import { CurrentLoansForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoansForm.tsx"
 import { ESignForm } from "@/modules/loan-application/components/organisms/loan-application-form/ESignForm.tsx"
@@ -95,11 +93,7 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
 
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
-        if (isEnablePlaidV2()) {
-          return <CashFlowVerificationFormWithPlaid />
-        }
-
-        return <CashFlowVerificationFormV2 />
+        return <CashFlowVerificationFormWithPlaid />
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:

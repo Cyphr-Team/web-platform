@@ -14,11 +14,6 @@ export enum FEATURE_FLAGS {
   CHAT_SUPPORT = "CHAT_SUPPORT",
 
   /**
-   * Support varies auth method to get more user
-   */
-  PLAID_V2 = "PLAID_V2",
-
-  /**
    * Loan Ready V2
    */
   LOAN_READY_V2 = "LOAN_READY_V2",

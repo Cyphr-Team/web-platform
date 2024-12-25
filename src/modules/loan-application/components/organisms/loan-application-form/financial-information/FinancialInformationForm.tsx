@@ -20,7 +20,6 @@ import {
   useLoanApplicationFormContext,
   useLoanApplicationProgressContext
 } from "../../../../providers"
-import { ConnectPlaidButton } from "../../../molecules/ConnectPlaidButton"
 import { FileUploadCard } from "../../../molecules/FileUploadCard"
 import { useQueryGetIncomeCategories } from "@/modules/loan-application/hooks/form-common/useQueryIncomeCategories"
 import { capitalizeWords, isEnabledQuery } from "@/utils"
@@ -38,6 +37,10 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useAutoCompleteStepEffect } from "@/modules/loan-application/hooks/utils/useAutoCompleteStepEffect.ts"
 import { FormSubmitButton } from "../../../atoms/FormSubmitButton"
 
+/**
+ * @deprecated This component is deprecated and should not be used in the future.
+ * Currently, it is being used for Capsight.
+ */
 export function FinancialInformationForm() {
   const { finishCurrentStep, step, progress } =
     useLoanApplicationProgressContext()
@@ -201,7 +204,10 @@ export function FinancialInformationForm() {
                 Connect your business accounts to report your cash flow and
                 income
               </p>
-              <ConnectPlaidButton />
+              {/**
+               * @deprecated This component is deprecated and should not be used in the future.
+               */}
+              {/*<ConnectPlaidButton />*/}
             </div>
           </form>
           <div className="flex flex-col gap-y-sm">

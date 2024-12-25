@@ -25,6 +25,10 @@ import { APP_PATH } from "@/constants"
 import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication.ts"
 import { useSearchOrderLoanApplications } from "@/modules/loanready/hooks/applications/order-list.ts"
 import { LoanApplicationStatus } from "@/types/loan-application.type.ts"
+import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/application/useCreateLoanApplicationMutation.ts"
+import { LoanType } from "@/types/loan-program.type.ts"
+import { UseOfLoan } from "@/types/loan-application.type.ts"
+import { useQueryLoanProgramDetailsByType } from "@/modules/loan-application/hooks/program/useQueryLoanProgramDetails.ts"
 
 const paymentItemSchema = z.object({
   package: z.string().min(1),
@@ -69,7 +73,17 @@ export function PaymentDetail() {
     defaultValues: { package: state.package ?? "", email: "" }
   })
 
-  const { mutateLinkForUpgrade } = useLinkApplicationToLoanReadySubscription()
+  const { mutateLinkForUpgrade, mutateLink } =
+    useLinkApplicationToLoanReadySubscription()
+
+  // Loan Request v1 aka Application creation
+  const { mutateAsync: createLoanApplication } =
+    useCreateLoanApplicationMutation(LoanType.MICRO)
+
+  const loanProgramQuery = useQueryLoanProgramDetailsByType(
+    LoanType.MICRO,
+    state?.loanProgramId as string
+  )
 
   // Send the payment request to server
   const { mutateAsync: mutateConfirmIntent, isLoading } =
@@ -94,15 +108,27 @@ export function PaymentDetail() {
         const paymentTransactionId = data.data.id
 
         if (!applicationId) {
-          const searchParams = new URLSearchParams({
-            transactionId: paymentTransactionId
-          })
+          // create draft application
+          createLoanApplication(
+            {
+              loanProgramId: state.loanProgramId as string,
+              loanAmount: loanProgramQuery?.data?.minLoanAmount ?? 0,
+              loanTermInMonth: loanProgramQuery?.data?.minTermInMonth ?? 0,
+              proposeUseOfLoan: UseOfLoan.OTHER
+            },
+            {
+              onSuccess: ({ data: createdApplicationData }) => {
+                mutateLink(createdApplicationData.id, paymentTransactionId)
 
-          navigate(
-            `${APP_PATH.LOAN_APPLICATION.INFORMATION.detailWithId(
-              state.loanProgramId as string
-            )}?${searchParams.toString()}`,
-            { replace: true }
+                navigate(
+                  APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(
+                    createdApplicationData.id,
+                    createdApplicationData.loanProgram.id
+                  ),
+                  { replace: true }
+                )
+              }
+            }
           )
         } else {
           mutateLinkForUpgrade(

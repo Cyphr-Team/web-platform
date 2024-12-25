@@ -33,7 +33,6 @@ export function SideNav({ items, className }: SidebarProps) {
           </button>
         ) : null}
       </div>
-
       <div className="hidden flex-1 flex-col px-xl md:flex">
         <DashboardNav isCollapsed={isCollapsed} items={items} />
         <Account isCollapsed={isCollapsed} />

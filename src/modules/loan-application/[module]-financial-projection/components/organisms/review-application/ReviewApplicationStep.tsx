@@ -8,7 +8,6 @@ import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financ
 import { FpOperatingExpensesForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/FpOperatingExpensesForm"
 import { PeopleForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/PeopleForm"
 import RevenueForm from "@/modules/loan-application/[module]-financial-projection/components/organisms/RevenueForm"
-import { CashFlowVerificationFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerificationFormV2"
 import { LoanReadyBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKybForm"
 import { LoanReadyOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/LoanReadyKycForm"
 import { LoanReadyLoanRequestForm } from "@/modules/loan-application/components/organisms/loan-application-form/loan-request/LoanReadyLoanRequestForm"
@@ -19,7 +18,6 @@ import {
 import { get } from "lodash"
 import { forwardRef, useMemo } from "react"
 import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid.tsx"
-import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
 // Define a mapping of steps to components
 const getStepComponentByStep = () => ({
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanReadyLoanRequestForm,
@@ -30,9 +28,8 @@ const getStepComponentByStep = () => ({
   [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: FinancialStatementForm,
   [LOAN_APPLICATION_STEPS.REVENUE]: RevenueForm,
   [LOAN_APPLICATION_STEPS.PEOPLE]: PeopleForm,
-  [LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]: isEnablePlaidV2()
-    ? CashFlowVerificationFormWithPlaid
-    : CashFlowVerificationFormV2,
+  [LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION]:
+    CashFlowVerificationFormWithPlaid,
   [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: DirectCostsForm,
   [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: FpOperatingExpensesForm,
   [LOAN_APPLICATION_STEPS.TAX_RATES]: TaxRateForm,

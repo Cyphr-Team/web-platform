@@ -4,7 +4,6 @@ import { type PlaidConnectedBankAccountsByApplicationIdGetResponse } from "@/typ
 import { skipToken, useQuery, type UseQueryResult } from "@tanstack/react-query"
 import { type AxiosResponse } from "axios"
 import { QUERY_KEY } from "../../constants/query-key.ts"
-import { isEnablePlaidV2 } from "@/utils/feature-flag.utils.ts"
 import _ from "lodash"
 import { type LoanApplicationBankAccount } from "@/modules/loan-application/constants/type.ts"
 import { FORMAT_DATE_MM_DD_YYYY } from "@/constants/date.constants.ts"
@@ -33,9 +32,7 @@ function fetchPlaidConnectedBankAccounts(
   const { applicationId } = request
 
   return postRequest({
-    path: isEnablePlaidV2()
-      ? API_PATH.application.getPlaidConnectedBankAccountsByApplicationIdV2
-      : API_PATH.application.getPlaidConnectedBankAccountsByApplicationId,
+    path: API_PATH.application.getPlaidConnectedBankAccountsByApplicationId,
     data: { applicationId }
   })
 }

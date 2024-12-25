@@ -10,6 +10,8 @@ import { usePlaidContext } from "../../providers"
 import { exchangePublicTokenForAccessToken } from "../../services"
 import { type PlaidInstitutionProviderData } from "../../constants"
 import { ErrorCode } from "@/utils/custom-error.ts"
+import { useParams } from "react-router-dom"
+import { useLinkPlaidItemId } from "@/modules/loan-application/hooks/form-cash-flow/useLinkPlaidItemId.ts"
 
 /**
  * TODO: Correctly handle error
@@ -24,6 +26,9 @@ export const useLazyConnectPlaidEffect = () => {
     dispatch,
     institutions
   } = usePlaidContext()
+
+  const { id: applicationId } = useParams()
+  const { mutateAsync: mutateLinkPlaidItem } = useLinkPlaidItemId()
 
   const removeLinkToken = useCallback(() => {
     dispatch({ type: "SET_STATE", state: { linkToken: "" } })
@@ -73,7 +78,7 @@ export const useLazyConnectPlaidEffect = () => {
               isConnecting: false,
               linkTokenError: {
                 errorCode: ErrorCode.bank_already_linked,
-                errorMessage: `${metadata.institution.name} is already linked`,
+                errorMessage: `${metadata.institution.name} is already connected`,
                 errorType: ErrorCode.bank_already_linked
               }
             }
@@ -85,7 +90,7 @@ export const useLazyConnectPlaidEffect = () => {
       }
       // If the access_token is needed, send publicToken to server
       try {
-        await exchangePublicTokenForAccessToken(
+        const exchangedResponse = await exchangePublicTokenForAccessToken(
           publicToken,
           dispatch,
           metadata?.institution?.institution_id
@@ -102,6 +107,13 @@ export const useLazyConnectPlaidEffect = () => {
         })
 
         updateAccounts(metadata)
+
+        if (applicationId) {
+          await mutateLinkPlaidItem({
+            itemId: exchangedResponse.itemId,
+            applicationId: applicationId
+          })
+        }
       } catch {
         // Set access token failed because some Plaid's product is not supported by the selected institution
         dispatch({
@@ -120,9 +132,11 @@ export const useLazyConnectPlaidEffect = () => {
       }
     },
     [
+      applicationId,
       dispatch,
       institutions,
       isPaymentInitiation,
+      mutateLinkPlaidItem,
       removeLinkToken,
       updateAccounts
     ]

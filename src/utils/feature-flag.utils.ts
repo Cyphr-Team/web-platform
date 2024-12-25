@@ -103,10 +103,6 @@ function isEnableChatSupport() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.CHAT_SUPPORT)
 }
 
-function isEnablePlaidV2() {
-  return checkEnabledFeatureFlag(FEATURE_FLAGS.PLAID_V2)
-}
-
 /*
  * Enable Loan Ready V2
  */
@@ -140,7 +136,6 @@ function isEnableKCChamberKycPersonaDisabled() {
 
 export {
   isEnableLoanReadyV2,
-  isEnablePlaidV2,
   isEnablePandaDocESign,
   isEnableDownloadCSVAndJSONSummary,
   isEnableSubscriptionManagement,

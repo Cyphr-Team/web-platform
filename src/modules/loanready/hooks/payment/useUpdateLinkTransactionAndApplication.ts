@@ -14,11 +14,7 @@ import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, type AxiosResponse } from "axios"
-import {
-  useSearchParams,
-  type ErrorResponse,
-  useNavigate
-} from "react-router-dom"
+import { type ErrorResponse, useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 
 export const useUpdateLinkTransactionAndApplication = () => {
@@ -86,8 +82,6 @@ export const useUpdateLinkTransactionAndApplication = () => {
  * This hook is used in the payment success page.
  */
 export const useLinkApplicationToLoanReadySubscription = () => {
-  const [searchParams] = useSearchParams()
-  const paymentTransactionId = searchParams.get("transactionId")
   const navigate = useNavigate()
 
   const {
@@ -95,7 +89,10 @@ export const useLinkApplicationToLoanReadySubscription = () => {
     isUpdatingLinkTransactionAndApplication: isLinking
   } = useUpdateLinkTransactionAndApplication()
 
-  const mutateLink = async (applicationId: string) => {
+  const mutateLink = async (
+    applicationId: string,
+    paymentTransactionId: string
+  ) => {
     // Check if we have paymentTransactionId to attach
     if (paymentTransactionId) {
       await updateLinkTransactionAndApplication({

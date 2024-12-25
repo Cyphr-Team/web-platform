@@ -1,5 +1,4 @@
 import { postRequest } from "@/services/client.service"
-import { isEnablePlaidV2 } from "@/utils/feature-flag.utils"
 import { type AxiosResponse } from "axios"
 import {
   type CreateLinkTokenRequest,
@@ -20,9 +19,7 @@ export const exchangePublicTokenForAccessToken = async (
     SetAccessTokenRequest,
     AxiosResponse<PlaidInfo>
   >({
-    path: isEnablePlaidV2()
-      ? ENDPOINTS.PLAID.SET_ACCESS_TOKEN_V2
-      : ENDPOINTS.PLAID.SET_ACCESS_TOKEN,
+    path: ENDPOINTS.PLAID.SET_ACCESS_TOKEN,
     data: {
       publicToken: publicToken,
       plaidInstitutionId
@@ -47,9 +44,7 @@ export const generateToken = async (
   request?: CreateLinkTokenRequest
 ) => {
   // Link tokens for 'payment_initiation' use a different creation flow in your backend.
-  const path = isEnablePlaidV2()
-    ? ENDPOINTS.PLAID.CREATE_LINK_TOKEN_V2
-    : ENDPOINTS.PLAID.CREATE_LINK_TOKEN
+  const path = ENDPOINTS.PLAID.CREATE_LINK_TOKEN
   const response = await postRequest<CreateLinkTokenRequest, LinkToken>({
     path,
     data: request

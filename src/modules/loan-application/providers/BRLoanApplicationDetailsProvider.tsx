@@ -606,20 +606,45 @@ export function BRLoanApplicationDetailsProvider({
     isQualified,
     operatingExpensesFormQuery.data
   ])
+
   // Loan Request Form
   useEffect(() => {
-    if (loanApplicationDetailsQuery.data && isInitialized && isQualified) {
-      changeDataAndProgress(
-        {
-          id: loanApplicationDetailsQuery.data.id,
-          applicationId: loanApplicationDetailsQuery.data.id,
-          loanAmount: loanApplicationDetailsQuery.data.loanAmount,
-          loanTermInMonth: loanApplicationDetailsQuery.data.loanTermInMonth,
-          proposeUseOfLoan: loanApplicationDetailsQuery.data.proposeUseOfLoan
-        },
-        LOAN_APPLICATION_STEPS.LOAN_REQUEST
-      )
-      if (isSbbTenant) {
+    if (isInitialized && isQualified) {
+      if (
+        isEnableFormV2() &&
+        loanRequestDetailQuery.data &&
+        loanRequestDetailQuery.data.forms.length > 0
+      ) {
+        const loanRequestData = {
+          // Loan Request has only one form
+          id: get(loanRequestDetailQuery.data, "forms[0].id", "") ?? "",
+          applicationId: loanRequestDetailQuery?.data?.applicationId ?? "",
+          ...mapMetadataToLoanRequest(
+            get(loanRequestDetailQuery.data, "forms[0].metadata", {}) ?? {}
+          )
+        }
+
+        changeDataAndProgress(
+          loanRequestData,
+          LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2
+        )
+
+        changeDataAndProgress(
+          loanRequestData,
+          LOAN_APPLICATION_STEPS.LOAN_REQUEST
+        )
+      } else if (!isEnableFormV2() && loanApplicationDetailsQuery.data) {
+        changeDataAndProgress(
+          {
+            id: loanApplicationDetailsQuery.data.id,
+            applicationId: loanApplicationDetailsQuery.data.id,
+            loanAmount: loanApplicationDetailsQuery.data.loanAmount,
+            loanTermInMonth: loanApplicationDetailsQuery.data.loanTermInMonth,
+            proposeUseOfLoan: loanApplicationDetailsQuery.data.proposeUseOfLoan
+          },
+          LOAN_APPLICATION_STEPS.LOAN_REQUEST
+        )
+      } else if (isSbbTenant) {
         setupPreApplicationDisclosures()
       }
     }
@@ -629,29 +654,8 @@ export function BRLoanApplicationDetailsProvider({
     isQualified,
     isSbbTenant,
     loanApplicationDetailsQuery.data,
+    loanRequestDetailQuery.data,
     setupPreApplicationDisclosures
-  ])
-
-  // Loan Request Form V2
-  useEffect(() => {
-    if (loanRequestDetailQuery.data && isInitialized && isQualified) {
-      changeDataAndProgress(
-        {
-          // Loan Request has only one form
-          id: get(loanRequestDetailQuery.data, "forms[0].id", "") ?? "",
-          applicationId: loanRequestDetailQuery?.data?.applicationId ?? "",
-          ...mapMetadataToLoanRequest(
-            get(loanRequestDetailQuery.data, "forms[0].metadata", {}) ?? {}
-          )
-        },
-        LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2
-      )
-    }
-  }, [
-    changeDataAndProgress,
-    isInitialized,
-    isQualified,
-    loanRequestDetailQuery.data
   ])
 
   // Product Service Form

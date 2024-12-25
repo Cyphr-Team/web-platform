@@ -15,7 +15,7 @@ export const useSubmitLinkPlaidItemIds = ({
 
   const queryClient = useQueryClient()
 
-  const submitLinkPlaidItemds = async (loanApplicationId: string) => {
+  const submitLinkPlaidItemIds = async (loanApplicationId: string) => {
     await Promise.all(
       plaidItemIds.map((itemId) =>
         mutateAsync({
@@ -43,6 +43,6 @@ export const useSubmitLinkPlaidItemIds = ({
 
   return {
     isLoading: isPending,
-    submitLinkPlaidItemds
+    submitLinkPlaidItemIds
   }
 }

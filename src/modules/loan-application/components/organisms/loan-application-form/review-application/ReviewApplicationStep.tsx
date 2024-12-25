@@ -2,7 +2,7 @@ import {
   type ILoanApplicationStep,
   LOAN_APPLICATION_STEPS
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
-import { isEnableFormV2, isEnablePlaidV2 } from "@/utils/feature-flag.utils"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils"
 import { forwardRef, useMemo } from "react"
 import { LoanRequest } from "../../../layouts/LoanRequest"
 import { BusinessInformationForm } from "../kyb/KybForm"
@@ -12,7 +12,6 @@ import { FinancialInformationForm } from "../financial-information/FinancialInfo
 import { IdentityVerificationForm } from "../IdentityVerificationForm"
 import { OperatingExpensesForm } from "../operating-expenses/OperatingExpensesForm"
 import { OwnerInformationForm } from "../kyc/KycForm"
-import { CashFlowVerificationFormV2 } from "../cash-flow/CashFlowVerificationFormV2"
 import { ProductServiceForm } from "../product-service/ProductServiceForm"
 import { BusinessModelForm } from "../business-model/BusinessModelForm"
 import { LaunchKCBusinessDocumentsForm } from "../DocumentUploadForm"
@@ -59,11 +58,7 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
 
         return <OwnerInformationForm />
       case LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION:
-        if (isEnablePlaidV2()) {
-          return <CashFlowVerificationFormWithPlaid />
-        }
-
-        return <CashFlowVerificationFormV2 />
+        return <CashFlowVerificationFormWithPlaid />
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
