@@ -33,7 +33,7 @@ export const useQueryLoanRequestForm = ({
         LoanRequestV2Request,
         LoanRequestV2Response
       >({
-        path: API_PATH.application.formV2.loanRequest.index,
+        path: API_PATH.application.formV2.common.index,
         data: {
           applicationId: applicationId ?? "",
           formTypes: formTypes
