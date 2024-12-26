@@ -10,7 +10,9 @@ import { DashboardProvider } from "./providers/dashboard-provider"
 import { AverageLoanSizeOfAllLoanProgram } from "./components/AverageLoanSizeOfAllLoanProgram"
 import { Separator } from "@/components/ui/separator"
 import { isEnableSubscriptionManagement } from "@/utils/feature-flag.utils"
-import { isSbb } from "@/utils/domain.utils"
+import { isCapitalCollab, isSbb } from "@/utils/domain.utils"
+import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/ui/icons"
 
 export function Component() {
   const isLenderAdmin = checkIsWorkspaceAdmin()
@@ -33,8 +35,16 @@ export function Component() {
           {isLenderAdmin && isEnableSubscriptionManagement() ? (
             <CurrentUsage />
           ) : null}
+          {isCapitalCollab() && (
+            <div className="flex flex-row-reverse">
+              <Button variant="success">
+                <Icons.folderDownload className="mr-1" />
+                Download report
+              </Button>
+            </div>
+          )}
           <TotalApplicationActivity />
-          {!isSbb() && (
+          {!isSbb() && !isCapitalCollab() && (
             <>
               <Separator />
 

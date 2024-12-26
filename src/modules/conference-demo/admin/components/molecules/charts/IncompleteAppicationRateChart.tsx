@@ -24,7 +24,7 @@ export function IncompleteApplicationRateChart() {
         className="tracking-wide text-xs text-center text-muted-foreground
       [writing-mode:vertical-lr] whitespace-nowrap -rotate-180 text-nowrap"
       >
-        Incomplete Appication Rate
+        Incomplete Application Rate
       </span>
       <ChartContainer className="min-h-[200px] size-full" config={chartConfig}>
         <AreaChart

@@ -8,6 +8,7 @@ import {
 import { format, interval, isEqual, isValid, parse } from "date-fns"
 import { util } from "zod"
 import find = util.find
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 
 export const formatBirthday = (date?: string) => {
   try {
@@ -51,6 +52,14 @@ export const formatChartWeekly = (date?: string | Date) => {
     return date?.toString() ?? ""
   }
 }
+
+export const formatDateByTimePeriod = (
+  value: string,
+  timePeriod?: GRAPH_FREQUENCY
+) =>
+  timePeriod === GRAPH_FREQUENCY.WEEKLY
+    ? formatChartWeekly(value)
+    : formatChartMonthly(value)
 
 export const calculateDaysUntilExpiration = (
   expirationDays: number,

@@ -15,6 +15,7 @@ import { useQuerySelectLoanProgramList } from "@/hooks/useQuerySelectList/useQue
 import { useDashboard } from "../providers/dashboard-provider"
 import { DashboardActionType } from "../types/stats.types"
 import { SelectTimeRange } from "./atoms/SelectTimeRange"
+import { isCapitalCollab } from "@/utils/domain.utils"
 
 const FilterSchema = z.object({
   loanProgramIds: z.array(z.object({ label: z.string(), value: z.string() })),
@@ -105,7 +106,7 @@ export function FilterTimeRange() {
         <form>
           <div className="flex flex-wrap gap-4">
             {/* If the Lender only has 1 loan program, we should just hide this field. */}
-            {loanProgramOptions.length > 1 && (
+            {(loanProgramOptions.length > 1 || isCapitalCollab()) && (
               <FormField
                 control={form.control}
                 name="loanProgramIds"

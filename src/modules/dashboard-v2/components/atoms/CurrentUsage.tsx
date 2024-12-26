@@ -5,7 +5,11 @@ import { DashBoardToolTip } from "./DashBoardToolTip"
 import { StatsTitle } from "./StatsTitle"
 import { UsageCard } from "./UsageCard"
 
-export function CurrentUsage() {
+interface CurrentUsageProps {
+  minimal?: boolean
+}
+
+export function CurrentUsage({ minimal = false }: CurrentUsageProps) {
   const { isLoadingUsage, usageData, usageError } = useDashboard()
 
   const isNotFoundSubscription = !!(
@@ -25,6 +29,35 @@ export function CurrentUsage() {
     currentSeatLimit: usageData?.seat?.currentSeatLimit ?? 0,
     seatWarnThreshold: 70,
     seatAlertThreshold: 90
+  }
+
+  /** Limit = 0 => 0%, otherwise calculate the percentage,
+   *  range: [0, 100]
+   */
+  const percentUsage = Math.min(
+    data.currentApplicationLimit
+      ? (data.currentApplicationUsage / data.currentApplicationLimit) * 100
+      : 0,
+    100
+  )
+
+  if (minimal) {
+    return (
+      <div className="flex flex-row gap-4 items-center">
+        <div className="h-2 w-80 bg-[#EAECF0] rounded-full">
+          <span
+            className="block h-2 bg-[#4F6161] rounded-full"
+            style={{
+              width: `${percentUsage}%`
+            }}
+          />
+        </div>
+        <p className="text-sm">
+          Applications used: <strong>{data.currentApplicationUsage}</strong>/
+          {data.currentApplicationLimit}
+        </p>
+      </div>
+    )
   }
 
   return (
