@@ -15,7 +15,7 @@ import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-fina
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider.tsx"
 import { Skeleton } from "@/components/ui/skeleton.tsx"
-import { APPLICATION_MENU_CAPITAL_COLLAB } from "@/modules/capital-collab/constants"
+import { APPLICATION_MENU_CAPITAL_COLLAB } from "@/modules/loan-application/capital-collab/constants"
 
 type Props = React.HTMLAttributes<HTMLDivElement>
 

@@ -1,4 +1,4 @@
-import CapitalCollabProgramDetail from "@/modules/capital-collab/components/layout/CapitalCollabProgramDetail"
+import CapitalCollabProgramDetail from "@/modules/loan-application/capital-collab/components/layouts/CapitalCollabProgramDetail"
 import { LoanReadyProgramDetail } from "@/modules/loan-application/pages/LoanProgramDetail/Custom/LoanReadyProgramDetail"
 import { LoanProgramDetail } from "@/modules/loan-application/pages/LoanProgramDetail/LoanProgramDetail"
 import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/LoanProgramDetailProvider"

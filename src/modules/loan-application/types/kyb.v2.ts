@@ -64,3 +64,20 @@ export interface LoanReadyKybFormMetadata extends KybFormV2Metadata {
   businessStage: string
   businessDescription: string
 }
+
+export interface CapitalCollabKybFormMetadata extends KybFormV2Metadata {
+  dba: string // default value is an empty string
+  businessStage: string
+  businessDescription: string
+  businessInceptionDate: string
+  businessMoreThanOneBankAccount: boolean
+  propertyLeaseOrOwn: string
+  propertyPayment: number
+  landlordName: string
+  landlordPhone: string
+  balanceDailyOrWeekly: boolean
+  balanceTotal: number
+  creditCardThreeMonths: boolean
+  creditCardAverageVolume: number
+  creditCardProcessor: string
+}

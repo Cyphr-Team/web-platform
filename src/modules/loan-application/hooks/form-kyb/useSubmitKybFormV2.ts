@@ -1,5 +1,8 @@
 import { API_PATH } from "@/constants"
-import { type IBusinessFormValue } from "@/modules/loan-application/constants/form.ts"
+import {
+  BINARY_VALUES,
+  type IBusinessFormValue
+} from "@/modules/loan-application/constants/form.ts"
 import { QUERY_KEY } from "../../constants/query-key"
 import {
   type FormV2Data,
@@ -8,13 +11,20 @@ import {
 } from "@/modules/loan-application/types/form.v2.ts"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { get } from "lodash"
-import { isKccBank, isLaunchKC, isLoanReady } from "@/utils/domain.utils.ts"
 import {
+  isCapitalCollab,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady
+} from "@/utils/domain.utils.ts"
+import {
+  type CapitalCollabKybFormMetadata,
   type LaunchKcKybFormMetadata,
   type LoanReadyKybFormMetadata
 } from "@/modules/loan-application/types/kyb.v2.ts"
 import type {
   BusinessFormValue,
+  CapitalCollabBusinessFormValue,
   LaunchKCBusinessFormValue,
   LoanReadyBusinessFormValue
 } from "@/modules/loan-application/constants/form.kyb.ts"
@@ -24,6 +34,7 @@ import {
   getStateCode,
   getStateName
 } from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
+import { requestDate } from "@/utils/date.utils"
 
 interface SubmitOption {
   rawData: IBusinessFormValue
@@ -114,6 +125,29 @@ function serializeKybFormV2(
     Object.assign(metadata, metadataToAdd)
   }
 
+  if (isCapitalCollab()) {
+    const metadataToAdd: Partial<CapitalCollabKybFormMetadata> = {
+      businessStage: flatData.businessStage,
+      businessDescription: flatData.businessDescription,
+      dba: flatData.dba,
+      businessInceptionDate: requestDate(flatData.businessInceptionDate),
+      businessMoreThanOneBankAccount:
+        flatData.businessMoreThanOneBankAccount == BINARY_VALUES.YES,
+      propertyLeaseOrOwn: flatData.propertyLeaseOrOwn,
+      propertyPayment: flatData.propertyPayment,
+      landlordName: flatData.landlordName,
+      landlordPhone: flatData.landlordPhone,
+      balanceDailyOrWeekly: flatData.balanceDailyOrWeekly == BINARY_VALUES.YES,
+      balanceTotal: flatData.balanceTotal,
+      creditCardThreeMonths:
+        flatData.creditCardThreeMonths == BINARY_VALUES.YES,
+      creditCardAverageVolume: flatData.creditCardAverageVolume,
+      creditCardProcessor: flatData.creditCardProcessor
+    }
+
+    Object.assign(metadata, metadataToAdd)
+  }
+
   return {
     applicationId: "", // late init
     formId: get(rawData, "id", "") ?? "",
@@ -170,6 +204,41 @@ export function deserializeKybFormV2(
   if (isKccBank()) {
     const data: BusinessFormValue = {
       ...baseValue
+    }
+
+    Object.assign(baseValue, data)
+  }
+
+  if (isCapitalCollab()) {
+    const data: CapitalCollabBusinessFormValue = {
+      ...baseValue,
+      // out of the box value
+      businessDescription: get(response, "metadata.businessDescription"),
+      businessStage: get(response, "metadata.businessStage"),
+      dba: get(response, "metadata.dba"),
+      businessInceptionDate: get(response, "metadata.businessInceptionDate"),
+      businessMoreThanOneBankAccount:
+        get(response, "metadata.businessMoreThanOneBankAccount") == true
+          ? BINARY_VALUES.YES
+          : BINARY_VALUES.NO,
+      propertyLeaseOrOwn: get(response, "metadata.propertyLeaseOrOwn"),
+      propertyPayment: get(response, "metadata.propertyPayment"),
+      landlordName: get(response, "metadata.landlordName"),
+      landlordPhone: get(response, "metadata.landlordPhone"),
+      balanceDailyOrWeekly:
+        get(response, "metadata.balanceDailyOrWeekly") == true
+          ? BINARY_VALUES.YES
+          : BINARY_VALUES.NO,
+      balanceTotal: get(response, "metadata.balanceTotal"),
+      creditCardThreeMonths:
+        get(response, "metadata.creditCardThreeMonths") == true
+          ? BINARY_VALUES.YES
+          : BINARY_VALUES.NO,
+      creditCardAverageVolume: get(
+        response,
+        "metadata.creditCardAverageVolume"
+      ),
+      creditCardProcessor: get(response, "metadata.creditCardProcessor")
     }
 
     Object.assign(baseValue, data)

@@ -18,7 +18,7 @@ import { LaunchKCBusinessDocumentsForm } from "../DocumentUploadForm"
 import { ExecutionForm } from "../execution/ExecutionForm"
 import { LaunchKCFitForm } from "../custom-form/launchkc/launchkc-fit/LaunchKcFitForm"
 import { MarketOpportunityForm } from "../market-opportunity/MarketOpportunityForm"
-import { isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
+import { isCapitalCollab, isLaunchKC, isSbb } from "@/utils/domain.utils.ts"
 import { LaunchKCBusinessInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/launchkc/LaunchKCBusinessInformationForm"
 import { LaunchKCOwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/LaunchKCOwnerInformationForm"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
@@ -32,6 +32,7 @@ import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
 import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid"
 import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
 import { CurrentLoanFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
+import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/molecules/CapitalCollabKybForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -43,11 +44,15 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.LOAN_REQUEST:
         return <LoanRequest />
       case LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION:
-        return isLaunchKC() ? (
-          <LaunchKCBusinessInformationForm />
-        ) : (
-          <BusinessInformationForm />
-        )
+        if (isLaunchKC()) {
+          return <LaunchKCBusinessInformationForm />
+        }
+        if (isCapitalCollab()) {
+          return <CapitalCollabBusinessInformationForm />
+        }
+
+        return <BusinessInformationForm />
+
       case LOAN_APPLICATION_STEPS.OWNER_INFORMATION:
         if (isLaunchKC()) {
           return <LaunchKCOwnerInformationForm />

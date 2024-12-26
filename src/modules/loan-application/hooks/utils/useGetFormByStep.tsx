@@ -1,4 +1,9 @@
-import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils.ts"
+import {
+  isCapitalCollab,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils.ts"
 import {
   isEnableFormV2,
   isEnablePandaDocESign
@@ -53,6 +58,7 @@ import { SbbPatriotAct } from "@/modules/loan-application/components/organisms/l
 import SbbPrivacyPolicy from "@/modules/loan-application/components/organisms/loan-application-form/pre-application-disclosures/SbbPrivacyPolicy.tsx"
 import { ReviewTransactionsForm } from "@/modules/loan-application/[module]-data-enrichment/components/organisms/ReviewTransactionsForm"
 import { ReviewIncomeStatementForm } from "@/modules/loan-application/[module]-data-enrichment/components/organisms/ReviewIncomeStatementForm"
+import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/molecules/CapitalCollabKybForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -73,6 +79,9 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         }
         if (isLoanReady()) {
           return <LoanReadyBusinessInformationForm />
+        }
+        if (isCapitalCollab()) {
+          return <CapitalCollabBusinessInformationForm />
         }
 
         return <BusinessInformationForm />

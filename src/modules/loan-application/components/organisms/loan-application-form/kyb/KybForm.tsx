@@ -130,7 +130,7 @@ export function BusinessInformationForm({
           <TextInput
             className="col-span-3"
             control={form.control}
-            label="Business Street Address Line #2 (Optional)"
+            label="Business street address line #2 (optional)"
             name="addressLine2"
             placeholder="i.e: Suite 321"
           />

@@ -58,6 +58,7 @@ import {
   type OwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
 import {
+  type CapitalCollabBusinessFormValue,
   type BusinessFormValue,
   type LaunchKCBusinessFormValue,
   type LoanReadyBusinessFormValue
@@ -174,6 +175,8 @@ export type FormStateType =
   | ILoanRequestFormValue
   // Historical Financials
   | TransactionsFormValue
+  // Capital Collab
+  | CapitalCollabBusinessFormValue
 
 export interface Action {
   action: FORM_ACTION

@@ -20,6 +20,7 @@ import {
   type OwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
 import {
+  type CapitalCollabBusinessFormValue,
   type BusinessFormValue,
   type LaunchKCBusinessFormValue,
   type LoanReadyBusinessFormValue
@@ -388,7 +389,8 @@ export type IBusinessFormValue = BusinessFormValue &
   LaunchKCBusinessFormValue &
   SbbKybFormPartOneValue &
   SbbKybFormPartTwoValue &
-  LoanReadyBusinessFormValue
+  LoanReadyBusinessFormValue &
+  CapitalCollabBusinessFormValue
 
 export type IOwnerFormValue = OwnerFormValue &
   LaunchKCOwnerFormValue &
