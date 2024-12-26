@@ -39,7 +39,7 @@ export const useMutateLoanRequest = (props: UseMutateLoanRequestProps) => {
     LoanRequestV2SubmitRequest,
     LoanRequestV2
   >({
-    path: API_PATH.application.formV2.common.submit,
+    path: API_PATH.application.formV2.loanRequest.submit,
     queryKeysToInvalidate: queryKeysToInvalidate(applicationId)
   })
 
@@ -47,7 +47,7 @@ export const useMutateLoanRequest = (props: UseMutateLoanRequestProps) => {
     LoanRequestV2UpdateRequest,
     LoanRequestV2
   >({
-    path: API_PATH.application.formV2.common.update,
+    path: API_PATH.application.formV2.loanRequest.update,
     queryKeysToInvalidate: queryKeysToInvalidate(applicationId)
   })
 

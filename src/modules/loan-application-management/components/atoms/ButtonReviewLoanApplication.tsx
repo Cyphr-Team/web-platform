@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useReviewLoanApplication } from "../../hooks/useMutation/useReviewLoanApplication"
 import { type LoanType } from "@/types/loan-program.type"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isCapitalCollab, isLoanReady } from "@/utils/domain.utils"
 
 export function ButtonReviewLoanApplication({
   loanApplicationStatus,
@@ -30,7 +30,7 @@ export function ButtonReviewLoanApplication({
       await reviewLoanApplication()
     }
     const path =
-      isLoanReady() && isEnableLoanReadyV2()
+      (isLoanReady() && isEnableLoanReadyV2()) || isCapitalCollab()
         ? APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY.replace(
             ":id",
             loanApplicationId

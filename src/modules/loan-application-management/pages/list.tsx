@@ -4,7 +4,12 @@ import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { cn } from "@/lib/utils"
 import { checkIsJudge } from "@/utils/check-roles"
-import { isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isCapitalCollab,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { type PaginationState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { useCallback, useState } from "react"
@@ -19,6 +24,7 @@ import { WorkspaceAdminApplicationListFilter } from "./launch-kc/workspace-admin
 import { SbbApplicationsList } from "./sbb/list-filter"
 import { ApplicationsForAdmin } from "@/modules/loanready/components/pages/ApplicationsForAdmin.tsx"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils.ts"
+import { CapitalCollabApplicationsList } from "@/modules/loan-application/capital-collab/components/pages/ApplicationsList"
 
 export function BaseApplicationList() {
   const [filterParams, setFilterParams] = useState<FilterParams>()
@@ -82,6 +88,8 @@ export function Component() {
   if (isSbb()) return <SbbApplicationsList />
 
   if (isLoanReady() && isEnableLoanReadyV2()) return <ApplicationsForAdmin />
+
+  if (isCapitalCollab()) return <CapitalCollabApplicationsList />
 
   return <BaseApplicationList />
 }
