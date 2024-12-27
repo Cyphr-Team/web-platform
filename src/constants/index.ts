@@ -388,10 +388,10 @@ export const API_PATH = {
       endSession: "api/ai/chat/end"
     },
     formV2: {
-      loanRequest: {
-        index: "api/form/v2/loan-request/by-application-id",
-        submit: "api/form/v2/loan-request/submit",
-        update: "api/form/v2/loan-request/update"
+      common: {
+        index: "api/form/v2/by-application-id",
+        submit: "api/form/v2/submit",
+        update: "api/form/v2/update"
       },
       documentForm: {
         create: "api/form/documents/create",
