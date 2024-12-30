@@ -17,23 +17,29 @@ import {
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { get } from "lodash"
 import {
+  isCapitalCollab,
   isKccBank,
   isLaunchKC,
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils.ts"
 import {
+  type CapitalCollabKycFormMetadata,
   type KCChamberKycFormMetadata,
   type LaunchKcKycFormMetadata,
   type LoanReadyKycFormMetadata,
   type SbbKycFormMetadata
 } from "@/modules/loan-application/types/kyc.v2.ts"
-import type { LaunchKCOwnerFormValue } from "@/modules/loan-application/constants/form.kyc.ts"
+import type {
+  CapitalCollabOwnerFormValue,
+  LaunchKCOwnerFormValue
+} from "@/modules/loan-application/constants/form.kyc.ts"
 import { undefined } from "zod"
 import {
   getStateCode,
   getStateName
 } from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
+import { EMPTY_ADDITIONAL_OWNER_ITEM } from "@/modules/loan-application/capital-collab/constants/kyc"
 
 interface SubmitOption {
   rawData: IOwnerFormValue
@@ -152,7 +158,7 @@ function serializeKycFormV2(
   }
 
   if (isLoanReady()) {
-    const medatadaToAdd: LoanReadyKycFormMetadata = {
+    const metadataToAdd: LoanReadyKycFormMetadata = {
       addressLine1: flatData.addressLine1,
       businessCity: flatData.businessCity,
       businessOwnershipPercentage: parseInt(
@@ -169,7 +175,7 @@ function serializeKycFormV2(
       socialSecurityNumber: flatData.socialSecurityNumber
     }
 
-    Object.assign(metadata, medatadaToAdd)
+    Object.assign(metadata, metadataToAdd)
   }
 
   if (isSbb()) {
@@ -217,6 +223,35 @@ function serializeKycFormV2(
       fullName: flatData.fullName,
       phoneNumber: flatData.phoneNumber,
       socialSecurityNumber: flatData.socialSecurityNumber
+    }
+
+    Object.assign(metadata, metadataToAdd)
+  }
+
+  if (isCapitalCollab()) {
+    const metadataToAdd: CapitalCollabKycFormMetadata = {
+      addressLine1: flatData.addressLine1,
+      businessCity: flatData.businessCity,
+      businessOwnershipPercentage: parseInt(
+        flatData.businessOwnershipPercentage
+      ),
+      businessRole: flatData.businessRole,
+      businessState: getStateCode(flatData.businessState),
+      businessZipCode: flatData.businessZipCode,
+      dateOfBirth: flatData.dateOfBirth,
+      email: flatData.email,
+      fullName: flatData.fullName,
+      personalCreditScore: flatData.personalCreditScore,
+      phoneNumber: flatData.phoneNumber,
+      socialSecurityNumber: flatData.socialSecurityNumber,
+      annualIncome: flatData.annualIncome,
+      isBusinessSolelyOwned:
+        flatData.isBusinessSolelyOwned === BINARY_VALUES.YES,
+      additionalOwners:
+        get(flatData, "additionalOwners[0].fullName", "") ===
+        EMPTY_ADDITIONAL_OWNER_ITEM.fullName
+          ? []
+          : flatData.additionalOwners
     }
 
     Object.assign(metadata, metadataToAdd)
@@ -349,6 +384,39 @@ export function deserializeKycFormV2(response?: FormV2Data): IOwnerFormValue {
       fullName: get(response, "metadata.fullName"),
       phoneNumber: get(response, "metadata.phoneNumber"),
       socialSecurityNumber: get(response, "metadata.socialSecurityNumber")
+    }
+
+    Object.assign(formValue, data)
+  }
+
+  if (isCapitalCollab()) {
+    const data: CapitalCollabOwnerFormValue = {
+      addressLine1: get(response, "metadata.addressLine1"),
+      businessCity: get(response, "metadata.businessCity"),
+      businessOwnershipPercentage: get(
+        response,
+        "metadata.businessOwnershipPercentage"
+      )?.toString(),
+      businessRole: get(response, "metadata.businessRole"),
+      businessState: getStateName(
+        get(response, "metadata.businessState", "") as string
+      ),
+      businessZipCode: get(response, "metadata.businessZipCode"),
+      dateOfBirth: get(response, "metadata.dateOfBirth"),
+      email: get(response, "metadata.email"),
+      fullName: get(response, "metadata.fullName"),
+      personalCreditScore: get(response, "metadata.personalCreditScore"),
+      phoneNumber: get(response, "metadata.phoneNumber"),
+      socialSecurityNumber: get(response, "metadata.socialSecurityNumber"),
+      annualIncome: get(response, "metadata.annualIncome"),
+      isBusinessSolelyOwned: get(response, "metadata.isBusinessSolelyOwned")
+        ? BINARY_VALUES.YES
+        : BINARY_VALUES.NO,
+      governmentFile: [],
+      additionalOwners:
+        get(response, "metadata.additionalOwners", []).length > 0
+          ? get(response, "metadata.additionalOwners")
+          : [EMPTY_ADDITIONAL_OWNER_ITEM]
     }
 
     Object.assign(formValue, data)

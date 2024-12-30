@@ -54,6 +54,7 @@ import { type ExpenseTaxRateFormValue } from "@/modules/loan-application/[module
 import { type DebtFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
 import { type FinancialStatementFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/financial-statement-store"
 import {
+  type CapitalCollabOwnerFormValue,
   type LaunchKCOwnerFormValue,
   type OwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
@@ -177,6 +178,7 @@ export type FormStateType =
   | TransactionsFormValue
   // Capital Collab
   | CapitalCollabBusinessFormValue
+  | CapitalCollabOwnerFormValue
 
 export interface Action {
   action: FORM_ACTION

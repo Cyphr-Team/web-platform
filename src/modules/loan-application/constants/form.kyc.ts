@@ -2,6 +2,8 @@ import * as z from "zod"
 import { REGEX_PATTERN } from "@/modules/loan-application/constants/index.ts"
 import { isPossiblePhoneNumber } from "react-phone-number-input/min"
 import { LoanReadyKYCFieldName } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const.tsx"
+import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
+import { CapitalCollabKYCFieldName } from "@/modules/loan-application/capital-collab/constants/kyc"
 
 export const ACCEPTED_FILE_TYPES = [
   "image/png",
@@ -84,8 +86,63 @@ export const loanReadyOwnerFormSchema = ownerFormSchema.extend({
   businessOwnershipPercentage: z.coerce.string()
 })
 
+export const capitalCollabAdditionalOwnerFormSchema = ownerFormSchema.extend({
+  [CapitalCollabKYCFieldName.PERSONAL_CREDIT_SCORE]: z
+    .string()
+    .min(1, "Persona credit score is required"),
+  [CapitalCollabKYCFieldName.BUSINESS_OWNERSHIP_PERCENTAGE]: z.coerce.string(),
+  [CapitalCollabKYCFieldName.ANNUAL_INCOME]: z.coerce
+    .number()
+    .min(1, "Annual income is required")
+})
+
+export const capitalCollabOwnerFormSchema = ownerFormSchema
+  .extend({
+    [CapitalCollabKYCFieldName.PERSONAL_CREDIT_SCORE]: z
+      .string()
+      .min(1, "Persona credit score is required"),
+    [CapitalCollabKYCFieldName.BUSINESS_OWNERSHIP_PERCENTAGE]:
+      z.coerce.string(),
+    [CapitalCollabKYCFieldName.ANNUAL_INCOME]: z.coerce
+      .number()
+      .min(1, "Annual income is required"),
+    [CapitalCollabKYCFieldName.IS_BUSINESS_SOLELY_OWNED]: z
+      .string()
+      .min(1, "Additional owners is required"),
+    [CapitalCollabKYCFieldName.ADDITIONAL_OWNERS]: z.array(z.any())
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data[CapitalCollabKYCFieldName.IS_BUSINESS_SOLELY_OWNED] ===
+      BINARY_VALUES.NO
+    ) {
+      const debtFinancingResult = z
+        .array(capitalCollabAdditionalOwnerFormSchema)
+        .min(1)
+        .safeParse(data[CapitalCollabKYCFieldName.ADDITIONAL_OWNERS])
+
+      if (!debtFinancingResult.success) {
+        debtFinancingResult.error.issues.forEach((issue) => {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: issue.message,
+            path: [CapitalCollabKYCFieldName.ADDITIONAL_OWNERS, ...issue.path]
+          })
+        })
+      }
+    }
+  })
+
 export type OwnerFormValue = z.infer<typeof ownerFormSchema>
 
 export type LaunchKCOwnerFormValue = z.infer<typeof launchKCOwnerFormSchema>
 
 export type LoanReadyOwnerFormValue = z.infer<typeof loanReadyOwnerFormSchema>
+
+export type CapitalCollabAdditionalOwnerFormValue = z.infer<
+  typeof capitalCollabAdditionalOwnerFormSchema
+>
+
+export type CapitalCollabOwnerFormValue = z.infer<
+  typeof capitalCollabOwnerFormSchema
+>

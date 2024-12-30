@@ -15,6 +15,7 @@ import {
 import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import {
   ACCEPTED_FILE_TYPES,
+  type CapitalCollabOwnerFormValue,
   type LaunchKCOwnerFormValue,
   type LoanReadyOwnerFormValue,
   type OwnerFormValue
@@ -395,7 +396,8 @@ export type IBusinessFormValue = BusinessFormValue &
 export type IOwnerFormValue = OwnerFormValue &
   LaunchKCOwnerFormValue &
   SbbKycFormValue &
-  LoanReadyOwnerFormValue
+  LoanReadyOwnerFormValue &
+  CapitalCollabOwnerFormValue
 
 export type ICurrentLoanFormValue = CurrentLoansFormValue &
   CurrentLoanFormsV2Value

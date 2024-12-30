@@ -32,7 +32,8 @@ import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
 import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid"
 import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
 import { CurrentLoanFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
-import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/molecules/CapitalCollabKybForm"
+import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabKybForm"
+import { CapitalCollabOwnerInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabOwnerInformationForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -59,6 +60,9 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         }
         if (isSbb()) {
           return <SbbKycForm />
+        }
+        if (isCapitalCollab()) {
+          return <CapitalCollabOwnerInformationForm />
         }
 
         return <OwnerInformationForm />

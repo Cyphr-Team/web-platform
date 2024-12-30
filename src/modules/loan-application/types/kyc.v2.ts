@@ -106,3 +106,24 @@ export interface KCChamberKycFormMetadata extends BaseKycFormV2Metadata {
   socialSecurityNumber: string
   businessOwnershipPercentage: StupidNumber
 }
+
+interface CapitalCollabOwnerInformation extends BaseKycFormV2Metadata {
+  addressLine1: string
+  businessRole: string
+  businessState: string
+  businessCity: string
+  businessZipCode: string
+  email: string
+  phoneNumber: string
+  dateOfBirth: string
+  socialSecurityNumber: string
+  businessOwnershipPercentage: StupidNumber
+  personalCreditScore: string
+  annualIncome: number
+}
+
+export interface CapitalCollabKycFormMetadata
+  extends CapitalCollabOwnerInformation {
+  isBusinessSolelyOwned: boolean
+  additionalOwners: CapitalCollabOwnerInformation[]
+}

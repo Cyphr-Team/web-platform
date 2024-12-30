@@ -58,7 +58,8 @@ import { SbbPatriotAct } from "@/modules/loan-application/components/organisms/l
 import SbbPrivacyPolicy from "@/modules/loan-application/components/organisms/loan-application-form/pre-application-disclosures/SbbPrivacyPolicy.tsx"
 import { ReviewTransactionsForm } from "@/modules/loan-application/[module]-data-enrichment/components/organisms/ReviewTransactionsForm"
 import { ReviewIncomeStatementForm } from "@/modules/loan-application/[module]-data-enrichment/components/organisms/ReviewIncomeStatementForm"
-import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/molecules/CapitalCollabKybForm"
+import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabKybForm"
+import { CapitalCollabOwnerInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabOwnerInformationForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -98,6 +99,9 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         }
         if (isSbb()) {
           return <SbbKycForm />
+        }
+        if (isCapitalCollab()) {
+          return <CapitalCollabOwnerInformationForm />
         }
 
         return <OwnerInformationForm />
