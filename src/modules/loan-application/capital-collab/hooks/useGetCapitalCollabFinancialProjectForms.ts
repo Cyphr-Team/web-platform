@@ -64,7 +64,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
   })
 
   useEffect(() => {
-    if (operatingExpensesFormQuery.data && isInitialized) {
+    if (operatingExpensesFormQuery.data && isInitialized && isCapitalCollab()) {
       changeDataAndProgress(
         deserializeOperatingExpensesFormV2(
           get(operatingExpensesFormQuery.data, "forms[0]")
@@ -84,7 +84,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
   })
 
   useEffect(() => {
-    if (directCostsFormQuery.data && isInitialized) {
+    if (directCostsFormQuery.data && isInitialized && isCapitalCollab()) {
       changeDataAndProgress(
         deserializeDirectCostsFormV2(
           get(directCostsFormQuery.data, "forms[0]")
@@ -103,7 +103,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
   })
 
   useEffect(() => {
-    if (assetsFormQuery.data && isInitialized) {
+    if (assetsFormQuery.data && isInitialized && isCapitalCollab()) {
       changeDataAndProgress(
         deserializeAssetsFormV2(get(assetsFormQuery.data, "forms[0]")),
         LOAN_APPLICATION_STEPS.ASSETS
@@ -123,7 +123,8 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
   useEffect(() => {
     if (
       (debtFinancingFormQuery?.data || debtFinancingFormQuery?.data) &&
-      isInitialized
+      isInitialized &&
+      isCapitalCollab()
     ) {
       changeDataAndProgress(
         deserializeDebtFinancingFormV2(

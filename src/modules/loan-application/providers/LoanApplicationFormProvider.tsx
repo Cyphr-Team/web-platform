@@ -59,8 +59,8 @@ import {
   type OwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
 import {
-  type CapitalCollabBusinessFormValue,
   type BusinessFormValue,
+  type CapitalCollabBusinessFormValue,
   type LaunchKCBusinessFormValue,
   type LoanReadyBusinessFormValue
 } from "@/modules/loan-application/constants/form.kyb.ts"
