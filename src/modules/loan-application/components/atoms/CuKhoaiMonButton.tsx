@@ -31,6 +31,17 @@ import {
   ETHNIC_IDENTIFICATION_OPTIONS,
   RACIAL_IDENTIFICATION_OPTIONS
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/launchkc/const.ts"
+import { type RevenueStream } from "@/modules/loan-application/[module]-financial-projection/types/revenue-form.ts"
+import { type PeopleFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-people-expenses-store.ts"
+import { type DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store.ts"
+import { type FpOperatingExpensesFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-operating-expenses-store.ts"
+import { type ExpenseTaxRateFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-expense-tax-rate-store.ts"
+import { type AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store.ts"
+import {
+  DEBT_FINANCING_TYPE_OPTIONS,
+  type DebtFinancingFormValue
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing.tsx"
+import { type FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store.ts"
 
 /**
  * CuKhoaiMonButton will help you fill the form with predefined value.
@@ -90,14 +101,14 @@ function getDataByStep(step: LOAN_APPLICATION_STEPS) {
     [LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE]: getDefaultValue,
     [LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_TWO]: getDefaultValue,
     [LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS]: getDefaultValue,
-    [LOAN_APPLICATION_STEPS.REVENUE]: getDefaultValue,
-    [LOAN_APPLICATION_STEPS.PEOPLE]: getDefaultValue,
-    [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: getDefaultValue,
-    [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: getDefaultValue,
-    [LOAN_APPLICATION_STEPS.TAX_RATES]: getDefaultValue,
-    [LOAN_APPLICATION_STEPS.ASSETS]: getDefaultValue,
-    [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: getDefaultValue,
-    [LOAN_APPLICATION_STEPS.EQUITY]: getDefaultValue,
+    [LOAN_APPLICATION_STEPS.REVENUE]: getRevenueValue,
+    [LOAN_APPLICATION_STEPS.PEOPLE]: getPeopleValue,
+    [LOAN_APPLICATION_STEPS.DIRECT_COSTS]: getDirectCostsValue,
+    [LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES]: getFpOperatingExpensesValue,
+    [LOAN_APPLICATION_STEPS.TAX_RATES]: getTaxRatesValue,
+    [LOAN_APPLICATION_STEPS.ASSETS]: getAssetsValue,
+    [LOAN_APPLICATION_STEPS.DEBT_FINANCING]: getDebtFinancingValue,
+    [LOAN_APPLICATION_STEPS.EQUITY]: getEquityValue,
 
     [LOAN_APPLICATION_STEPS.REVIEW_TRANSACTIONS]: getDefaultValue,
     [LOAN_APPLICATION_STEPS.REVIEW_INCOME_STATEMENT]: getDefaultValue
@@ -248,6 +259,204 @@ function getLaunchKcFitValue(): LaunchKCFitFormValue {
     loanApplicationId: "",
     progress: "",
     id: ""
+  }
+}
+
+function getRevenueValue(): RevenueStream {
+  return {
+    financialProjectionSetupId: "",
+    unitSales: [
+      {
+        id: "",
+        name: "Matcha Latte",
+        startDate: new Date(2025, 4, 1).toISOString(),
+        estimateMonthlyUnitSales: 10,
+        estimateMonthlySalesIncreaseRate: 5,
+        unitPrice: 25
+      }
+    ],
+    billableHours: [
+      {
+        id: "",
+        name: "Hire Matcha Master",
+        startDate: new Date(2023, 4, 1).toISOString(),
+        monthlyNewCustomers: 5,
+        monthlyNewCustomerIncreaseRate: 5,
+        averageMonthlyHourBilledPerCustomer: 5,
+        hourlyRate: 75
+      }
+    ],
+    contracts: [
+      {
+        id: "",
+        name: "Daily Matcha for Cyphr Contract",
+        startDate: new Date(2024, 8, 1).toISOString(),
+        endDate: new Date(2025, 8, 1).toISOString(),
+        monthlyRevenue: 8500
+      },
+      {
+        id: "",
+        name: "Daily Matcha for Cyphr Contract",
+        startDate: new Date(2024, 9, 1).toISOString(),
+        endDate: new Date(2026, 0, 1).toISOString(),
+        monthlyRevenue: 6250
+      }
+    ],
+    recurringCharges: [
+      {
+        id: "",
+        name: "Monthly Matcha Subscription for Cyphr",
+        startDate: new Date(2026, 4, 1).toISOString(),
+        monthlyNewCustomer: 15,
+        recurringCharge: 15000,
+        frequency: 12,
+        churnRate: 10,
+        hasUpfrontFee: "yes",
+        upfrontFee: 1000
+      }
+    ]
+  }
+}
+
+function getPeopleValue(): PeopleFormValue {
+  return {
+    id: "",
+    currentEmployeesEnrolled: "yes",
+    currentEmployees: [
+      {
+        departmentName: "Executive",
+        numberOfEmployees: 5,
+        annualSalary: 50000
+      }
+    ],
+    futureEmployees: [
+      {
+        isEnrolledInBenefits: "yes",
+        role: "CEO",
+        startDate: "05/2025",
+        annualSalary: 70000
+      },
+      {
+        isEnrolledInBenefits: "yes",
+        role: "CTO",
+        startDate: "05/2025",
+        annualSalary: 70000
+      },
+      {
+        isEnrolledInBenefits: "yes",
+        role: "Sales Rep",
+        startDate: "06/2025",
+        annualSalary: 36000
+      }
+    ]
+  }
+}
+
+function getDirectCostsValue(): DirectCostsFormValue {
+  return {
+    directCosts: [
+      {
+        directCostName: "Matcha Powder",
+        directCostDescription: "The best matcha powder in the world",
+        startDate: "05/2023",
+        overallRevenue: 2
+      }
+    ]
+  }
+}
+
+function getFpOperatingExpensesValue(): FpOperatingExpensesFormValue {
+  return {
+    operatingExpenses: [
+      {
+        name: "Rent",
+        description: "The cost of leasing office space or facilities",
+        startDate: "01/2024",
+        monthlyCost: 2500
+      },
+      {
+        name: "Sales and marketing expenses",
+        description: "Costs related to promoting and selling products/services",
+        startDate: "04/2023",
+        monthlyCost: 3750
+      },
+      {
+        name: "Dues and Subscriptions",
+        description:
+          "Recurring fees (i.e.software licenses, membership dues, etc.)",
+        startDate: "05/2023",
+        monthlyCost: 5000
+      },
+      {
+        name: "Accounting and legal fees",
+        description: "Cost related to accounting, legal, or tax services",
+        startDate: "11/2024",
+        monthlyCost: 10000
+      }
+    ]
+  }
+}
+
+function getTaxRatesValue(): ExpenseTaxRateFormValue {
+  return {
+    incomeTaxRate: 27
+  }
+}
+
+function getAssetsValue(): AssetsFormValue {
+  return {
+    applicationId: "",
+    receivableDays: "30",
+    longTermAssets: [
+      {
+        name: "Matcha Machine",
+        purchaseDate: "08/2023",
+        cost: 4000,
+        usefulLife: "3"
+      },
+      {
+        name: "Matcha Grinder",
+        purchaseDate: "02/2025",
+        cost: 15000,
+        usefulLife: "5"
+      }
+    ]
+  }
+}
+
+function getDebtFinancingValue(): DebtFinancingFormValue {
+  return {
+    startingPaidInCapital: 100000,
+    hasOutstandingLoans: "yes",
+    payableDays: "30",
+    debtFinancing: [
+      {
+        type: DEBT_FINANCING_TYPE_OPTIONS[0].value, // term_loan
+        name: "Chase Bank Term Loan",
+        lenderName: "Chase Bank",
+        loanDate: new Date(2023, 4, 1).toISOString(),
+        remainingLoanBalance: 10000,
+        termsRemaining: 60,
+        annualInterestRate: 4.5
+      }
+    ]
+  }
+}
+
+function getEquityValue(): FpEquityFinancingFormValue {
+  return {
+    equityFinancing: [
+      {
+        name: "PreSeed",
+        amount: 500000,
+        receivedDate: "09/2024"
+      },
+      {
+        name: "Seed",
+        amount: 3500000,
+        receivedDate: "02/2025"
+      }
+    ]
   }
 }
 // endregion
