@@ -30,7 +30,7 @@ enum FORM_TYPE {
   // ==== REVENUE AND EXPENSES ====
   REVENUE = "revenue",
   PEOPLE = "people",
-  DIRECT_COSTS = "direct_cost",
+  DIRECT_COSTS = "direct_costs",
   FP_OPERATING_EXPENSES = "fp_operating_expenses",
   TAX_RATES = "tax_rates",
   // ==== ASSETS AND LIABILITIES ====

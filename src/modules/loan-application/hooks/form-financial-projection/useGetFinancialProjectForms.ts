@@ -40,6 +40,7 @@ import {
   formatForecastSetupResult,
   useQueryForecastingSetup
 } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-setup/useQueryForecastingSetup.ts"
+import { isLoanReady } from "@/utils/domain.utils"
 
 export const useGetFinancialProjectForms = () => {
   /**
@@ -75,7 +76,9 @@ export const useGetFinancialProjectForms = () => {
   // Financial Statement Form
   const financialStatementQuery = useQueryGetFinancialStatementForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS)
+    enabled:
+      isLoanReady() &&
+      isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS)
   })
 
   useEffect(() => {
@@ -90,7 +93,7 @@ export const useGetFinancialProjectForms = () => {
   // Expense People Form
   const expensePeopleFormQuery = useQueryGetExpensePeopleForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PEOPLE)
+    enabled: isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.PEOPLE)
   })
 
   useEffect(() => {
@@ -105,7 +108,9 @@ export const useGetFinancialProjectForms = () => {
   // Operating Expenses Form
   const fpOperatingExpensesFormQuery = useQueryGetFpOperatingExpensesForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES)
+    enabled:
+      isLoanReady() &&
+      isEnabledQuery(LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES)
   })
 
   useEffect(() => {
@@ -120,7 +125,8 @@ export const useGetFinancialProjectForms = () => {
   // Direct Costs Form
   const directCostsQuery = useQueryGetDirectCostsForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DIRECT_COSTS)
+    enabled:
+      isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.DIRECT_COSTS)
   })
 
   useEffect(() => {
@@ -135,7 +141,7 @@ export const useGetFinancialProjectForms = () => {
   // Equity Financing Form
   const fpEquityFinancingFormQuery = useQueryGetEquityFinancingForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.EQUITY)
+    enabled: isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.EQUITY)
   })
 
   useEffect(() => {
@@ -161,17 +167,17 @@ export const useGetFinancialProjectForms = () => {
   // Assets Form (Current & Long-Term)
   const fpAssetsCurrentFormQuery = useQueryGetCurrentAssetsForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
+    enabled: isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
   })
   const fpAssetsLongTermFormQuery = useQueryGetLongTermAssetsForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
+    enabled: isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
   })
 
   // Tax Rates Form
   const fpExpenseTaxRateFormQuery = useQueryGetTaxRateForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.TAX_RATES)
+    enabled: isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.TAX_RATES)
   })
 
   useEffect(() => {
@@ -207,7 +213,7 @@ export const useGetFinancialProjectForms = () => {
   // Revenue
   const revenueFormQuery = useQueryRevenueForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.REVENUE)
+    enabled: isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.REVENUE)
   })
 
   useEffect(() => {
@@ -228,12 +234,14 @@ export const useGetFinancialProjectForms = () => {
   // Debt Financing
   const debtFinancingFormQuery = useQueryGetDebtFinancingForm({
     applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DEBT_FINANCING)
+    enabled:
+      isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.DEBT_FINANCING)
   })
   const debtFinancingLiabilityFormQuery = useQueryGetDebtFinancingLiabilityForm(
     {
       applicationId: loanApplicationId!,
-      enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.DEBT_FINANCING)
+      enabled:
+        isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.DEBT_FINANCING)
     }
   )
 
@@ -265,7 +273,7 @@ export const useGetFinancialProjectForms = () => {
     {
       applicationId: loanApplicationId
     },
-    isEnabledQuery(LOAN_APPLICATION_STEPS.FORECASTING_SETUP)
+    isLoanReady() && isEnabledQuery(LOAN_APPLICATION_STEPS.FORECASTING_SETUP)
   )
 
   useEffect(() => {

@@ -105,6 +105,7 @@ import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/form-d
 import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/form-document/useGetDocumentForm.ts"
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/form-financial-projection/useGetFinancialProjectForms.ts"
 import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
+import { useGetCapitalCollabFinancialProjectForms } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabFinancialProjectForms"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -1019,6 +1020,13 @@ export function BRLoanApplicationDetailsProvider({
     financialStatementQuery
   } = useGetFinancialProjectForms()
 
+  const {
+    operatingExpensesCCFormQuery,
+    debtFinancingCCFormQuery,
+    assetsCCFormQuery,
+    directCostsCCFormQuery
+  } = useGetCapitalCollabFinancialProjectForms()
+
   const value = useMemo(
     () => ({
       loanProgramInfo,
@@ -1050,6 +1058,10 @@ export function BRLoanApplicationDetailsProvider({
       financialDocuments: financialDocuments.data,
       businessDocumentsFormData: businessDocumentsUploadedFormQuery.data,
       financialStatementData: financialStatementQuery?.data,
+      operatingExpensesCCFormData: operatingExpensesCCFormQuery.data,
+      debtFinancingCCFormData: debtFinancingCCFormQuery.data,
+      assetsCCFormData: assetsCCFormQuery.data,
+      directCostsCCFormData: directCostsCCFormQuery.data,
       isFetchingDetails:
         loanApplicationDetailsQuery.isLoading ||
         loanRequestDetailQuery.isLoading ||
@@ -1078,7 +1090,11 @@ export function BRLoanApplicationDetailsProvider({
         debtFinancingFormQuery.isLoading ||
         debtFinancingLiabilityFormQuery.isLoading ||
         forecastingSetupQuery.isLoading ||
-        financialStatementQuery.isLoading,
+        financialStatementQuery.isLoading ||
+        operatingExpensesCCFormQuery.isLoading ||
+        debtFinancingCCFormQuery.isLoading ||
+        assetsCCFormQuery.isLoading ||
+        directCostsCCFormQuery.isLoading,
       isLoading: loanProgramQuery.isLoading
     }),
     [
@@ -1137,7 +1153,15 @@ export function BRLoanApplicationDetailsProvider({
       financialStatementQuery?.data,
       financialStatementQuery.isLoading,
       plaidItemIdsQuery.isLoading,
-      plaidConnectedInstitutionsQuery.isLoading
+      plaidConnectedInstitutionsQuery.isLoading,
+      operatingExpensesCCFormQuery.data,
+      operatingExpensesCCFormQuery.isLoading,
+      debtFinancingCCFormQuery.data,
+      debtFinancingCCFormQuery.isLoading,
+      assetsCCFormQuery.data,
+      assetsCCFormQuery.isLoading,
+      directCostsCCFormQuery.data,
+      directCostsCCFormQuery.isLoading
     ]
   )
 

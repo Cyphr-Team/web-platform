@@ -18,7 +18,7 @@ import { type CertificateGoodStandingFormValue } from "@/modules/loan-applicatio
 import { type FictitiousNameCertificationFormValue } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/FictitiousNameCertification.tsx"
 import { toastError, toastSuccess } from "@/utils"
 import { ErrorCode, getAxiosError } from "@/utils/custom-error"
-import { isLoanReady, isSbb } from "@/utils/domain.utils"
+import { isCapitalCollab, isLoanReady, isSbb } from "@/utils/domain.utils"
 import {
   isEnableFormV2,
   isEnablePandaDocESign
@@ -103,6 +103,7 @@ import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/for
 import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/hooks/form-financial-projection/useSubmitFinancialProjectionForms.ts"
 import { useSubmitKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 import { useSubmitLinkPlaidItemIds } from "@/modules/loan-application/hooks/form-cash-flow/useSubmitLinkPlaidItemIds.ts"
+import { useSubmitCapitalCollabFinancialProjectionForms } from "@/modules/loan-application/capital-collab/hooks/useSubmitCapitalCollabFinancialProjectionForms"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -468,6 +469,19 @@ export const useSubmitLoanForm = (
       financialStatementData
     })
 
+  /**
+   * Capital Collab - Financial Projection Forms
+   **/
+  const {
+    handleSubmitCapitalCollabFinancialProjection,
+    isSubmittingCapitalCollabFinancialProjection
+  } = useSubmitCapitalCollabFinancialProjectionForms({
+    fpOperatingExpensesData,
+    directCostsData,
+    assetsData,
+    debtFinancingData
+  })
+
   const handleSubmitFormSuccess = useCallback(
     async (
       isUpdated: boolean,
@@ -775,6 +789,10 @@ export const useSubmitLoanForm = (
           }
         }
 
+        if (isCapitalCollab()) {
+          await handleSubmitCapitalCollabFinancialProjection(applicationId)
+        }
+
         // Handle the first errors in the results
         const error = results.find(
           (result): result is PromiseRejectedResult =>
@@ -792,7 +810,9 @@ export const useSubmitLoanForm = (
         /**
          * Financial Projection forms
          */
-        await handleSubmitFinancialProjection(applicationId)
+        if (isLoanReady()) {
+          await handleSubmitFinancialProjection(applicationId)
+        }
 
         if (!isSaveDraft) {
           // Submit Confirmation form
@@ -859,6 +879,7 @@ export const useSubmitLoanForm = (
       financialData,
       cashflowData,
       handleSubmitFinancialProjection,
+      handleSubmitCapitalCollabFinancialProjection,
       handleSubmitFormSuccess,
       loanRequestData?.id?.length,
       queryClient,
@@ -901,6 +922,7 @@ export const useSubmitLoanForm = (
       isSubmittingSbbKYB ||
       isSubmittingFinancialProjection ||
       isSubmittingKYCV2 ||
-      isSubmittingKYBV2
+      isSubmittingKYBV2 ||
+      isSubmittingCapitalCollabFinancialProjection
   }
 }

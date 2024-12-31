@@ -66,6 +66,10 @@ import {
 } from "@/modules/loan-application/constants/form.kyb.ts"
 import { type SubmitLoanFormContext } from "@/modules/loan-application/types"
 import { type TransactionsFormValue } from "@/modules/loan-application/[module]-data-enrichment/components/store/transactions-store"
+import { type CapitalCollabDirectCostsFormValue } from "@/modules/loan-application/capital-collab/stores/direct-cost-store"
+import { type CapitalCollabDebtFinancingFormValue } from "@/modules/loan-application/capital-collab/stores/debt-financing-store"
+import { type CapitalCollabAssetsFormValue } from "@/modules/loan-application/capital-collab/stores/assets-store"
+import { type CapitalCollabOperatingExpensesFormValue } from "@/modules/loan-application/capital-collab/stores/operating-expenses-store"
 
 export interface LoanApplicationFormState {
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanRequestFormValue
@@ -179,6 +183,10 @@ export type FormStateType =
   // Capital Collab
   | CapitalCollabBusinessFormValue
   | CapitalCollabOwnerFormValue
+  | CapitalCollabDirectCostsFormValue
+  | CapitalCollabDebtFinancingFormValue
+  | CapitalCollabAssetsFormValue
+  | CapitalCollabOperatingExpensesFormValue
 
 export interface Action {
   action: FORM_ACTION

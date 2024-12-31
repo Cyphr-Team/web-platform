@@ -60,6 +60,10 @@ import { ReviewTransactionsForm } from "@/modules/loan-application/[module]-data
 import { ReviewIncomeStatementForm } from "@/modules/loan-application/[module]-data-enrichment/components/organisms/ReviewIncomeStatementForm"
 import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabKybForm"
 import { CapitalCollabOwnerInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabOwnerInformationForm"
+import { CapitalCollabDirectCostsForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabDirectCostsForm"
+import { CapitalCollabDebtFinancingForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabDebtFinancingForm"
+import { CapitalCollabAssetsForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabAssetsForm"
+import { CapitalCollabOperatingExpensesForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabOperatingExpensesForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -162,12 +166,20 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.DISCLAIMER_AND_DISCLOSURE:
         return <DisclaimerAndDisclosure />
       case LOAN_APPLICATION_STEPS.DIRECT_COSTS:
+        if (isCapitalCollab()) {
+          return <CapitalCollabDirectCostsForm />
+        }
+
         return <DirectCostsForm />
       case LOAN_APPLICATION_STEPS.FORECASTING_SETUP:
         return <ForecastingSetupForm />
       case LOAN_APPLICATION_STEPS.REVENUE:
         return <RevenueForm />
       case LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES:
+        if (isCapitalCollab()) {
+          return <CapitalCollabOperatingExpensesForm />
+        }
+
         return <FpOperatingExpensesForm />
       case LOAN_APPLICATION_STEPS.PEOPLE:
         return <PeopleForm />
@@ -176,8 +188,16 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_STATEMENTS:
         return <FinancialStatementForm />
       case LOAN_APPLICATION_STEPS.ASSETS:
+        if (isCapitalCollab()) {
+          return <CapitalCollabAssetsForm />
+        }
+
         return <AssetsForm />
       case LOAN_APPLICATION_STEPS.DEBT_FINANCING:
+        if (isCapitalCollab()) {
+          return <CapitalCollabDebtFinancingForm />
+        }
+
         return <DebtFinancingForm />
       case LOAN_APPLICATION_STEPS.TAX_RATES:
         return <TaxRateForm />

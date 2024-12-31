@@ -14,7 +14,7 @@ export const enum AssetsField {
 export type AssetsFormValue = z.infer<typeof assetsFormSchema>
 
 export const assetsFormSchema = z.object({
-  [AssetsField.APPLICATION_ID]: z.string().nullable(),
+  [AssetsField.APPLICATION_ID]: z.string().optional(),
   [AssetsField.RECEIVABLE_DAYS]: z.string().min(1, "This field is required"),
   [AssetsField.LONG_TERM_ASSETS]: z.array(
     z.object({
@@ -34,7 +34,6 @@ export const EMPTY_ASSET_ITEM = {
 }
 
 export const FP_ASSETS_DEFAULT_VALUE = {
-  [AssetsField.APPLICATION_ID]: null,
   [AssetsField.RECEIVABLE_DAYS]: "",
   [AssetsField.LONG_TERM_ASSETS]: [EMPTY_ASSET_ITEM]
 }

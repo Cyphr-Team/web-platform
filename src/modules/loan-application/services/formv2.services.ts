@@ -139,6 +139,10 @@ export function preFormatLaunchKCOwnerInformationForm(
   }
 }
 
+export function safeCastingToFloatType(value: string | number | undefined) {
+  return parseFloat(value?.toString() ?? "0")
+}
+
 /**
  * Utils for Form V2. This is a generic function to adapt metadata to a specific schema
  * @param schema - Zod schema

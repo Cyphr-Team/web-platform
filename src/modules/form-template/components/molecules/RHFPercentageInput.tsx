@@ -48,6 +48,8 @@ export interface RHFPercentageInputProps<T extends FieldValues> {
   prefixIcon?: React.ReactNode
 }
 
+// This Component is having a bug, it is not working as expected for decimal values
+// Please visit RHFNumberInput (example usage: CapitalCollabDirectCostsForm.tsx) for the correct implementation.
 function RHFPercentageInput<T extends FieldValues>(
   props: RHFPercentageInputProps<T>
 ) {

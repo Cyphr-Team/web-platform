@@ -34,6 +34,10 @@ import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financ
 import { CurrentLoanFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabKybForm"
 import { CapitalCollabOwnerInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabOwnerInformationForm"
+import { CapitalCollabDirectCostsForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabDirectCostsForm"
+import { CapitalCollabOperatingExpensesForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabOperatingExpensesForm"
+import { CapitalCollabAssetsForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabAssetsForm"
+import { CapitalCollabDebtFinancingForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabDebtFinancingForm"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -110,6 +114,30 @@ export const useGetReviewFormByStep = (step: LOAN_APPLICATION_STEPS) => {
         return <SBBKybFormPartTwo />
       case LOAN_APPLICATION_STEPS.FORECASTING_SETUP:
         return <ForecastingSetupForm />
+      case LOAN_APPLICATION_STEPS.DIRECT_COSTS:
+        if (isCapitalCollab()) {
+          return <CapitalCollabDirectCostsForm />
+        }
+
+        return null
+      case LOAN_APPLICATION_STEPS.FP_OPERATING_EXPENSES:
+        if (isCapitalCollab()) {
+          return <CapitalCollabOperatingExpensesForm />
+        }
+
+        return null
+      case LOAN_APPLICATION_STEPS.ASSETS:
+        if (isCapitalCollab()) {
+          return <CapitalCollabAssetsForm />
+        }
+
+        return null
+      case LOAN_APPLICATION_STEPS.DEBT_FINANCING:
+        if (isCapitalCollab()) {
+          return <CapitalCollabDebtFinancingForm />
+        }
+
+        return null
       default:
         return null
     }
