@@ -19,6 +19,7 @@ import { applicantFinancialProjectionRoutes } from "@/routes/applicant-routes/fi
 import { paymentRoutes } from "@/routes/applicant-routes/payment-routes"
 import { FinancialProjectionApplicationDetailLayout } from "@/modules/loan-application/[module]-financial-projection/components/layouts/FinancialProjectionApplicationDetailLayout.tsx"
 import { applicantFinancialProjectionRoutesV2 } from "@/routes/applicant-routes/financial-projection-routes-v2"
+import { applicantHistoricalFinancialsRoutes } from "@/routes/applicant-routes/historical-financial-routes"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -110,6 +111,7 @@ const applicantRoutes = (
           }
         />
         {applicantFinancialProjectionRoutesV2}
+        {applicantHistoricalFinancialsRoutes}
       </Route>
       <Route
         element={

@@ -39,7 +39,8 @@ export enum ApplicationMenuName {
 export enum ApplicationMenuNameV2 {
   Summary = "Assessment Summary",
   Readiness = "LoanReady",
-  FinancialProjections = "Financial Projections"
+  FinancialProjections = "Financial Projections",
+  HistoricalFinancials = "Historical Financials"
 }
 
 export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU = [
@@ -65,5 +66,25 @@ export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V2 = [
   {
     name: ApplicationMenuNameV2.FinancialProjections,
     href: "fp-overview"
+  }
+]
+
+export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V3 = [
+  {
+    name: ApplicationMenuNameV2.Summary,
+    href: ""
+  },
+  {
+    name: ApplicationMenuNameV2.Readiness,
+    href: "readiness"
+  },
+  {
+    name: ApplicationMenuNameV2.FinancialProjections,
+    href: "fp-overview"
+  },
+  {
+    //TODO: Change to index if there is an overview page
+    name: ApplicationMenuNameV2.HistoricalFinancials,
+    href: "historical-financials/income-statement"
   }
 ]

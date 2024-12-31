@@ -14,7 +14,8 @@ export enum ApplicationMenuName {
   debtSchedule = "Debt Schedule",
   loanReadiness = "Loan Readiness",
   loanReady = "LoanReady",
-  financialProjection = "Financial Projections"
+  financialProjection = "Financial Projections",
+  historicalFinancials = "Historical Financials"
 }
 
 export const APPLICATION_MENU = (id: string) => [
@@ -59,6 +60,12 @@ export const APPLICATION_MENU = (id: string) => [
   {
     name: ApplicationMenuName.financialProjection,
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.OVERVIEW(id)
+  },
+  {
+    name: ApplicationMenuName.historicalFinancials,
+    href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.HISTORICAL_FINANCIALS.INCOME_STATEMENT(
+      id
+    )
   }
 ]
 

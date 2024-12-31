@@ -12,10 +12,14 @@ import { Link, useLocation, useParams } from "react-router-dom"
 import { checkIsWorkspaceAdmin } from "@/utils/check-roles.ts"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
-import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
+import {
+  isEnableHistoricalFinancialsEnrichment,
+  isEnableLoanReadyV2
+} from "@/utils/feature-flag.utils"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider.tsx"
 import { Skeleton } from "@/components/ui/skeleton.tsx"
 import { APPLICATION_MENU_CAPITAL_COLLAB } from "@/modules/loan-application/capital-collab/constants"
+import { concat } from "lodash"
 
 type Props = React.HTMLAttributes<HTMLDivElement>
 
@@ -30,11 +34,16 @@ export function TopNav({ className, ...props }: Props) {
 
   if (isLoanReady()) {
     if (isEnableLoanReadyV2()) {
-      menuItems = [
-        ApplicationMenuName.assessmentSummary,
-        ApplicationMenuName.financialProjection,
-        ApplicationMenuName.loanReady
-      ]
+      menuItems = concat(
+        [
+          ApplicationMenuName.assessmentSummary,
+          ApplicationMenuName.financialProjection,
+          ApplicationMenuName.loanReady
+        ],
+        isEnableHistoricalFinancialsEnrichment()
+          ? [ApplicationMenuName.historicalFinancials]
+          : []
+      )
     } else {
       menuItems = [
         ApplicationMenuName.business,

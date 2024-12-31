@@ -43,10 +43,10 @@ export function IncomeStatementTemplate(props: IncomeStatementTemplateProps) {
           layout === "current" ? "w-fit" : null
         )}
       >
-        <div className="overflow-x-auto overflow-y-visible">
+        <div className="rounded-xl overflow-x-auto overflow-y-visible">
           <div
             className={cn(
-              "rounded-xl bg-white",
+              "bg-white",
               layout === "default" ? "min-w-max" : "w-fit"
             )}
           >

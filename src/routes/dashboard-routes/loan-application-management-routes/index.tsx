@@ -14,6 +14,7 @@ import { lazy } from "react"
 import { Outlet, Route } from "react-router-dom"
 import { documentRoutes } from "./document-routes"
 import { AdminFinancialProjectionLayout } from "@/modules/loan-application/[module]-financial-projection/components/layouts/AdminFinancialProjectionLayout.tsx"
+import { AdminHistoricalFinancialsLayout } from "@/modules/loan-application/[module]-data-enrichment/components/layouts/AdminHistoricalFinancialsLayout.tsx"
 
 /**
  * Loan application management routes ("/application"). Loan officer review loan application.
@@ -191,6 +192,27 @@ const loanApplicationManagementRoutes = (
             )
           }
           path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.FINANCIAL.LOAN_READY(
+            ":id"
+          )}
+        />
+      </Route>
+
+      {/* HISTORICAL FINANCIAL STATEMENTS */}
+      <Route
+        element={
+          <AdminHistoricalFinancialsLayout>
+            <Outlet />
+          </AdminHistoricalFinancialsLayout>
+        }
+      >
+        <Route
+          index
+          lazy={() =>
+            import(
+              "@/modules/loan-application/[module]-data-enrichment/components/pages/HistoricalIncomeStatementPage"
+            )
+          }
+          path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.HISTORICAL_FINANCIALS.INCOME_STATEMENT(
             ":id"
           )}
         />

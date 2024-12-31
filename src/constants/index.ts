@@ -48,6 +48,10 @@ export const APP_PATH = {
           `/loan/${loanProgramId}/financial-applications/${id}/fp-balance-sheet`,
         incomeStatement: (loanProgramId: string, id: string) =>
           `/loan/${loanProgramId}/financial-applications/${id}/fp-income-statement`
+      },
+      detailHistoricalFinancials: {
+        incomeStatement: (loanProgramId: string, id: string) =>
+          `/loan/${loanProgramId}/financial-applications/${id}/historical-financials/income-statement`
       }
     },
     APPLICATIONS: {
@@ -135,6 +139,11 @@ export const APP_PATH = {
       INCOME_STATEMENT: (id: string) =>
         `/application/financial/${id}/income-statement`,
       LOAN_READY: (id: string) => `/application/financial/${id}/loan-ready`
+    },
+    HISTORICAL_FINANCIALS: {
+      INDEX: (id: string) => `/application/historical-financials/${id}`,
+      INCOME_STATEMENT: (id: string) =>
+        `/application/historical-financials/${id}/income-statement`
     }
   },
 

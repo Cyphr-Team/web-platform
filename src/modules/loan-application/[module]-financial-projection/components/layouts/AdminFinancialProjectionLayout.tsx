@@ -18,7 +18,7 @@ export function AdminFinancialProjectionLayout(props: PropsWithChildren) {
     : ADMIN_APPLICATION_MENU(id ?? "")
 
   return (
-    <div className={cn("container bg-[#F9FAFB]", "overflow-scroll")}>
+    <div className="container bg-[#F9FAFB]">
       <div className="my-4 flex flex-col space-y-3xl ">
         {isEnableLoanReadyV2() && (
           <p className="mt-1 text-sm text-text-tertiary">
@@ -28,7 +28,7 @@ export function AdminFinancialProjectionLayout(props: PropsWithChildren) {
             could affect profitability.
           </p>
         )}
-        <div className="relative rounded-xl  bg-white">
+        <div className="relative rounded-xl bg-white">
           <ScrollArea className="max-w-[600px] lg:max-w-none">
             <div className="flex items-center space-x-lg">
               {applicationMenu.map((example) => (
@@ -50,7 +50,7 @@ export function AdminFinancialProjectionLayout(props: PropsWithChildren) {
           </ScrollArea>
         </div>
       </div>
-      <div className="flex-1 bg-gray-50 p-xl pt-3xl">{children}</div>
+      <div className="flex-1 bg-gray-50 pt-3xl">{children}</div>
     </div>
   )
 }

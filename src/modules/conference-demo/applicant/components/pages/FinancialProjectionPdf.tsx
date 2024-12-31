@@ -310,7 +310,10 @@ const EXPORT_COMPONENTS: { [key in ExportFPOption]: FC<SectionProps> } = {
   [ExportFPOption.INCOME_SHEET]: IncomeSheetSection,
   [ExportFPOption.APPLICATION_SUMMARY]: ApplicationSummarySection,
   [ExportFPOption.CHARTS]: ChartsSection,
-  [ExportFPOption.DISCLAIMER_NOTE]: DisclaimerNoteSection
+  [ExportFPOption.DISCLAIMER_NOTE]: DisclaimerNoteSection,
+
+  // TODO(NganPhan): Implement historical income statement export
+  [ExportFPOption.HISTORICAL_INCOME_STATEMENT]: DisclaimerNoteSection
 }
 
 export function FinancialProjectionPdf({

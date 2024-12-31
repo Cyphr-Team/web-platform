@@ -17,6 +17,7 @@ import { FolderDown, X } from "lucide-react"
 import { type ReactNode, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
+import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils.ts"
 
 interface DrawerCheckBoxProps {
   name: ExportFPOption
@@ -134,6 +135,25 @@ function DrawerContent() {
           ]}
         />
       </CardSection>
+
+      {
+        // TODO(NganPhan): Integrate to export historical financial statements PDF
+        isEnableHistoricalFinancialsEnrichment() && (
+          <CardSection
+            title="Historical Financial Statements"
+            tooltipContent="Past financial performance, based on data from your connected Plaid account and the way you've categorized your transactions."
+          >
+            <CheckboxGroup
+              options={[
+                {
+                  name: ExportFPOption.HISTORICAL_INCOME_STATEMENT,
+                  label: "Income Statement"
+                }
+              ]}
+            />
+          </CardSection>
+        )
+      }
     </div>
   )
 }

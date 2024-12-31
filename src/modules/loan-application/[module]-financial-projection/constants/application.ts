@@ -8,7 +8,7 @@ export enum ApplicationMenuName {
   loanReady = "LoanReady"
 }
 
-export const APPLICATION_MENU = (id: string) => [
+export const APPLICANT_APPLICATION_MENU = (id: string) => [
   {
     name: ApplicationMenuName.overview as string,
     href: APP_PATH.LOAN_APPLICATION.FINANCIAL.OVERVIEW(id)
@@ -31,7 +31,10 @@ export const APPLICATION_MENU = (id: string) => [
   }
 ]
 
-export const APPLICATION_MENU_V2 = (loanProgramId: string, id: string) => [
+export const APPLICANT_APPLICATION_MENU_V2 = (
+  loanProgramId: string,
+  id: string
+) => [
   {
     name: ApplicationMenuName.overview,
     href: APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailFinancialProjections.overview(

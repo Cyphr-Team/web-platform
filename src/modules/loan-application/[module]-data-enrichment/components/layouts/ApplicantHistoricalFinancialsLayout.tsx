@@ -1,7 +1,5 @@
-import { TopNav } from "../molecules/TopNav"
 import { clsx } from "clsx"
-import { type PropsWithChildren, useCallback } from "react"
-import { EmptyApplications } from "@/modules/loan-application/components/atoms/EmptyApplications"
+import React, { type PropsWithChildren, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
@@ -10,9 +8,9 @@ import { useCheckLoanReadyPlan } from "@/modules/loan-application/[module]-finan
 import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 import useBoolean from "@/hooks/useBoolean"
 
-export function ApplicantFinancialProjectionsLayout(
+export function ApplicantHistoricalFinancialsLayout(
   props: PropsWithChildren
-): JSX.Element {
+): React.JSX.Element {
   const navigate = useNavigate()
   const { children } = props
   const { id: loanApplicationId, loanProgramId } = useParams()
@@ -40,21 +38,12 @@ export function ApplicantFinancialProjectionsLayout(
           isEnableLoanReadyV2() && !isPlusPlan
       })}
     >
-      {!isEnableLoanReadyV2() && (
-        <h1 className="text-3xl font-semibold">Financial Projections</h1>
-      )}
-      <p className="mt-1 text-sm text-text-tertiary">
-        {isEnableLoanReadyV2()
-          ? "This section provides an overview of your financial projections, including metrics, cash flow, balance sheets, income statements. It estimates future performance and shows how revenue and expenses could affect profitability."
-          : "This page provides two views of your business's financial health. Current Financial Statements offer a snapshot of this month`s performance, created from your inputs and often required by lenders. Projections provide a high-level estimate of future performance, showing how revenue and expenses could impact profitability."}
+      <p className="mb-2 text-sm text-text-tertiary">
+        This section offers a summary of your past financial performance, based
+        on data from your connected Plaid account and the way you've categorized
+        your transactions.
       </p>
-      <div className="my-4 mt-xl flex flex-col space-y-3xl">
-        {loanApplicationId == "" ? (
-          <EmptyApplications />
-        ) : (
-          <TopNav id={loanApplicationId} loanProgramId={loanProgramId} />
-        )}
-      </div>
+
       {(isEnableLoanReadyV2() && isPlusPlan) || !isEnableLoanReadyV2() ? (
         <div className="flex-1 bg-gray-50 pt-3xl">{children}</div>
       ) : null}

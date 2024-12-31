@@ -1,8 +1,8 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
 import {
-  APPLICATION_MENU,
-  APPLICATION_MENU_V2
+  APPLICANT_APPLICATION_MENU,
+  APPLICANT_APPLICATION_MENU_V2
 } from "@/modules/loan-application/[module]-financial-projection/constants/application"
 import { Link, useLocation } from "react-router-dom"
 import React from "react"
@@ -20,8 +20,8 @@ export function TopNav({
 }: TopNavProps) {
   const pathname = useLocation().pathname
   const FINAL_APPLICATION_MENU = isEnableLoanReadyV2()
-    ? APPLICATION_MENU_V2(loanProgramId!, id!)
-    : APPLICATION_MENU(id!)
+    ? APPLICANT_APPLICATION_MENU_V2(loanProgramId!, id!)
+    : APPLICANT_APPLICATION_MENU(id!)
 
   return (
     <div className="relative rounded-xl bg-white p-2">
