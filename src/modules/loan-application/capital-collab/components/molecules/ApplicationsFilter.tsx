@@ -8,12 +8,15 @@ import { CalendarPlus, Trash } from "lucide-react"
 import { type ReactNode, useCallback, useState } from "react"
 import { type UseFormReturn } from "react-hook-form"
 import { MultiSelectRound } from "@/components/ui/multi-select-round.tsx"
-import { LoanApplicationStatus } from "@/types/loan-application.type.ts"
+import { type LoanApplicationStatus } from "@/types/loan-application.type.ts"
 import { AddFilterPopover } from "@/modules/loan-application-management/components/molecules/filters/AddFilterPopover.tsx"
-import { startCase, toLower } from "lodash"
 import { Badge } from "@/components/ui/badge.tsx"
 import { type LoanApplicationFilterValues } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateLoanApplication.ts"
-import { getBadgeVariantByStatus } from "@/modules/loan-application/capital-collab/services/index.ts"
+import {
+  allStatuses,
+  getBadgeVariantByStatus,
+  getStatusDisplayName
+} from "@/modules/loan-application/capital-collab/services/index.ts"
 
 interface IFilter {
   filterForm: UseFormReturn<LoanApplicationFilterValues>
@@ -29,56 +32,12 @@ const enum FilterOptions {
   SubmittedOn = "submittedOn"
 }
 
-const STATUS_OPTIONS: Option<LoanApplicationStatus>[] = [
-  {
-    value: LoanApplicationStatus.DRAFT,
-    label: "Draft"
-  },
-  {
-    value: LoanApplicationStatus.SUBMITTED,
-    label: "Submitted"
-  },
-  {
-    value: LoanApplicationStatus.APPLICATION_IN_REVIEW,
-    label: "Application In Review"
-  },
-  {
-    value: LoanApplicationStatus.APPLICATION_MISSING_INFORMATION,
-    label: "Application Missing Information"
-  },
-  {
-    value: LoanApplicationStatus.READY_FOR_UNDERWRITING,
-    label: "Ready for Underwriting"
-  },
-  {
-    value: LoanApplicationStatus.UNDERWRITING,
-    label: "Underwriting"
-  },
-  {
-    value: LoanApplicationStatus.APPROVED,
-    label: "Approved"
-  },
-  {
-    value: LoanApplicationStatus.DECLINED,
-    label: "Declined"
-  },
-  {
-    value: LoanApplicationStatus.AGREEMENT_REQUESTED,
-    label: "Agreement Requested"
-  },
-  {
-    value: LoanApplicationStatus.AGREEMENT_SENT,
-    label: "Agreement Sent"
-  },
-  {
-    value: LoanApplicationStatus.AGREEMENT_SIGNED,
-    label: "Agreement Signed"
-  },
-  {
-    value: LoanApplicationStatus.FUNDED,
-    label: "Funded"
-  }
-]
+const STATUS_OPTIONS: Option<LoanApplicationStatus>[] = allStatuses.map(
+  (status) => ({
+    value: status,
+    label: getStatusDisplayName(status)
+  })
+)
 
 const ADD_FILTER_OPTIONS: Option<FilterOptions>[] = [
   { value: FilterOptions.CreatedOn, label: "Created On", icon: CalendarPlus },
@@ -177,7 +136,7 @@ export function ApplicationsFilter({ filterForm }: IFilter) {
         variant="soft"
         variantColor={getBadgeVariantByStatus(option.value)}
       >
-        {startCase(toLower(option.value))}
+        {option.label}
         {close}
       </Badge>
     ),

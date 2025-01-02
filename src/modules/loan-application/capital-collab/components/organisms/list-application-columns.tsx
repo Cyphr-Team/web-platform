@@ -1,15 +1,13 @@
-import { Badge } from "@/components/ui/badge.tsx"
 import { toCurrency } from "@/utils"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants.ts"
 import { format } from "date-fns"
-import { startCase, toLower } from "lodash"
 import { renderFilterableHeader } from "@/utils/table.utils.tsx"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { type LoanApplication } from "@/types/loan-application.type"
-import { getBadgeVariantByStatus } from "@/modules/loan-application/capital-collab/services/index.ts"
 import { ButtonReviewLoanApplication } from "@/modules/loan-application-management/components/atoms/ButtonReviewLoanApplication"
+import { ApplicationStatusSelectionPopover } from "@/modules/loan-application/capital-collab/components/molecules/ApplicationStatusSelectionPopover.tsx"
 
 export const listApplicationColumns: ColumnDef<LoanApplication>[] = [
   {
@@ -104,13 +102,10 @@ export const listApplicationColumns: ColumnDef<LoanApplication>[] = [
       const application = row.original
 
       return (
-        <Badge
-          className="truncate"
-          variant="soft"
-          variantColor={getBadgeVariantByStatus(application.status)}
-        >
-          {startCase(toLower(application.status))}
-        </Badge>
+        <ApplicationStatusSelectionPopover
+          applicationId={application.id}
+          status={application.status}
+        />
       )
     }
   },

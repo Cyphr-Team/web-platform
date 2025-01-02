@@ -19,7 +19,7 @@ import { People } from "@/modules/loan-application/components/organisms/Middesk/
 import { Secretary } from "@/modules/loan-application/components/organisms/Middesk/Secretary"
 import { TinMatch } from "@/modules/loan-application/components/organisms/Middesk/TinMatch"
 import { WatchList } from "@/modules/loan-application/components/organisms/Middesk/WatchList"
-import { isLaunchKC } from "@/utils/domain.utils"
+import { isCapitalCollab, isLaunchKC } from "@/utils/domain.utils"
 import { concat, get } from "lodash"
 import { useRef } from "react"
 import { DownloadButton } from "../../components/atoms/DownloadButton"
@@ -156,7 +156,9 @@ export function Component() {
     />
   )
 
-  if (isEnableFormV2()) {
+  // TODO: this is a temporary solution to fix the bug adapting the form v2 metadata
+  // should remove !isCapitalCollab() after the form v2 is fully rolled out
+  if (isEnableFormV2() && !isCapitalCollab()) {
     switch (true) {
       case isLaunchKC():
         return <LaunchKCSummary />

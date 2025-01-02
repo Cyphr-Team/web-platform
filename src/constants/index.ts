@@ -297,7 +297,10 @@ export const API_PATH = {
     getActiveNudges: (applicationId: string) =>
       `api/workspace-admin/loan-applications/${applicationId}/judge/active-nudges`,
     sendNudge: `api/workspace-admin/loan-applications/judge/send-nudge`,
-    applicationStageStat: `api/workspace-admin/application/stats/institution-application-stage`
+    applicationStageStat: `api/workspace-admin/application/stats/institution-application-stage`,
+    // CCC
+    changeApplicationStatus: (applicationId: string) =>
+      `api/capital-collab/workspace-admin/applications/${applicationId}/change-status`
   },
   loanProgram: {
     list: "api/user-loan/program/list",

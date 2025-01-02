@@ -15,7 +15,13 @@ import { loanRequestSchemasByInstitution } from "@/modules/loan-application/cons
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { type ILoanRequestFormValue } from "@/modules/loan-application/constants/form.ts"
 import { type ApplicationSummary } from "@/modules/loan-application-management/constants/types/loan-summary.type.ts"
-import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isCapitalCollab,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import {
   isEnableFormV2,
   isEnableLoanReadyV2
@@ -25,6 +31,7 @@ import { useBreadcrumb } from "@/hooks/useBreadcrumb"
 import { CustomLabelKey } from "@/utils/crumb.utils"
 import { getUseOfLoan } from "@/modules/loan-application-management/services"
 import { useMemo } from "react"
+import { CCChangeApplicationStatusButton } from "@/modules/loan-application/capital-collab/components/molecules/CCChangeApplicationStatusButton.tsx"
 
 function BasicInformationSkeleton() {
   return (
@@ -112,6 +119,14 @@ export function BasicInformation() {
 
   if (isLoading || isFetchingSummary) return <BasicInformationSkeleton />
 
+  const renderApplicationStatusButton = () => {
+    if (isCapitalCollab()) {
+      return <CCChangeApplicationStatusButton />
+    } else {
+      return <ChangeApplicationStatusButton />
+    }
+  }
+
   return (
     <>
       {isLoanReady() && isEnableLoanReadyV2() && (
@@ -138,8 +153,7 @@ export function BasicInformation() {
             </div>
           )}
         </div>
-
-        <ChangeApplicationStatusButton />
+        {renderApplicationStatusButton()}
       </div>
     </>
   )

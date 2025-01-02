@@ -219,6 +219,12 @@ export const TOAST_MSG = {
     },
     sendNudgeError: {
       title: "Failed to Send Nudge"
+    },
+    changeStatusSuccess: {
+      title: "Application Status Changed Successfully"
+    },
+    changeStatusError: {
+      title: "Failed to Change Application Status"
     }
   },
   identityVerification: {
