@@ -11,13 +11,18 @@ import {
   type LaunchKCFitFormValue,
   type LoanRequestFormValue
 } from "@/modules/loan-application/constants/form.ts"
-import { isLaunchKC, isLoanReady } from "@/utils/domain.utils.ts"
+import {
+  isCapitalCollab,
+  isLaunchKC,
+  isLoanReady
+} from "@/utils/domain.utils.ts"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider.tsx"
 import {
   BUSINESS_STAGE_OPTIONS,
   PersonalCreditScoreValue
 } from "@/modules/loan-application/components/organisms/loan-application-form/kyb/loanready/const.tsx"
 import {
+  type CapitalCollabOwnerFormValue,
   type LaunchKCOwnerFormValue,
   type LoanReadyOwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
@@ -42,10 +47,17 @@ import {
   type DebtFinancingFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing.tsx"
 import { type FpEquityFinancingFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-equity-store.ts"
+import { type CapitalCollabBusinessFormValue } from "@/modules/loan-application/constants/form.kyb"
 
 /**
  * CuKhoaiMonButton will help you fill the form with predefined value.
  * */
+
+const stepMustBeFilledManually = [
+  LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
+  LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION
+]
+
 export const CuKhoaiMonButton = () => {
   const { step, completeCurrentStep } = useLoanApplicationProgressContext()
   const { dispatchFormAction } = useLoanApplicationFormContext()
@@ -58,6 +70,8 @@ export const CuKhoaiMonButton = () => {
     })
     completeCurrentStep()
   }
+
+  if (stepMustBeFilledManually.includes(step)) return null
 
   return (
     <Button variant="outline" onClick={handleClick}>
@@ -163,6 +177,26 @@ function getKybValue(): IBusinessFormValue {
     Object.assign(data, duLieuVaySanSang)
   }
 
+  if (isCapitalCollab()) {
+    const duLieuCapitalCollab: CapitalCollabBusinessFormValue = {
+      ...data,
+      businessStage: BUSINESS_STAGE_OPTIONS[0].value,
+      businessInceptionDate: new Date(1975, 4 - 1, 30).toISOString(),
+      businessMoreThanOneBankAccount: "yes",
+      propertyLeaseOrOwn: "own",
+      propertyPayment: 1000,
+      landlordName: "Cu khoai mon Inc.",
+      landlordPhone: "+12312523453",
+      creditCardThreeMonths: "yes",
+      creditCardProcessor: "Square",
+      creditCardAverageVolume: 10000,
+      balanceDailyOrWeekly: "yes",
+      balanceTotal: 10000
+    }
+
+    Object.assign(data, duLieuCapitalCollab)
+  }
+
   if (isLaunchKC()) {
     const duLieuKCKhoiChay = {
       legalStructure: LEGAL_STRUCTURE_OPTIONS[0].value,
@@ -205,6 +239,49 @@ function getKycValue(): IOwnerFormValue {
     }
 
     Object.assign(data, duLieuVaySanSang)
+  }
+
+  if (isCapitalCollab()) {
+    const duLieuCapitalCollab: CapitalCollabOwnerFormValue = {
+      businessCity: "California City",
+      businessOwnershipPercentage: "50",
+      businessRole: "culi",
+      businessState: "California",
+      businessZipCode: "12312",
+      dateOfBirth: new Date(1975, 4 - 1, 30).toISOString(),
+      email: "toiyeuvietnam@gmail.com",
+      fullName: "Nguyen Khoai Mon",
+      governmentFile: [],
+      personalCreditScore: PersonalCreditScoreValue.Range3,
+      phoneNumber: "+12312523453",
+      socialSecurityNumber: "100-00-0000",
+      addressLine1: "Ngoi nha hanh phuc",
+      id: "",
+      addressLine2: "",
+      annualIncome: 100000,
+      isBusinessSolelyOwned: "no",
+      additionalOwners: [
+        {
+          businessCity: "California City",
+          businessOwnershipPercentage: 50,
+          businessRole: "culi",
+          businessState: "California",
+          businessZipCode: "12312",
+          dateOfBirth: new Date(1975, 4 - 1, 30).toISOString(),
+          email: "toiyeuvietnam@gmail.com",
+          fullName: "Nguyen Khoai Mon 2",
+          governmentFile: [],
+          personalCreditScore: PersonalCreditScoreValue.Range3,
+          phoneNumber: "+12312523454",
+          socialSecurityNumber: "100-00-0000",
+          addressLine1: "Ngoi nha hanh phuc 2",
+          addressLine2: "",
+          annualIncome: 99999
+        }
+      ]
+    }
+
+    Object.assign(data, duLieuCapitalCollab)
   }
 
   if (isLaunchKC()) {
