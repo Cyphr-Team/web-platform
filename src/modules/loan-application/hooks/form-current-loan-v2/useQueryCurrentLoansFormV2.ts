@@ -6,9 +6,9 @@ import { API_PATH } from "@/constants"
 import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form.ts"
 
-interface QueryCurrentLoansFormV2Response {
+export interface QueryCurrentLoansFormV2Response {
   formId: string
-  currentLoanForms: {
+  currentLoans: {
     id: string
     loanApplicationId: string
     lenderName: string
@@ -43,7 +43,7 @@ export function deserializeCurrentLoansFormV2(
   return {
     id: data.formId,
     hasOutstandingLoans:
-      data.currentLoanForms?.length > 0 ? BINARY_VALUES.YES : BINARY_VALUES.NO,
-    currentLoans: data.currentLoanForms
+      data.currentLoans?.length > 0 ? BINARY_VALUES.YES : BINARY_VALUES.NO,
+    currentLoans: data.currentLoans
   }
 }

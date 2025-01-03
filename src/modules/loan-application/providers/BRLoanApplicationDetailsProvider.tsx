@@ -67,6 +67,7 @@ import { get } from "lodash"
 import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
 import {
   deserializeCurrentLoansFormV2,
+  type QueryCurrentLoansFormV2Response,
   useQueryCurrentLoansFormV2
 } from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansFormV2.ts"
 import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
@@ -118,7 +119,9 @@ type BRLoanApplicationDetailsContext<T> = {
   kybFormData?: KYBInformationResponse
   kycFormData?: KYCInformationResponse
   loanRequestFormV2Data?: LoanRequestV2Response
-  currentLoanFormData?: CurrentLoansInformationResponse
+  currentLoanFormData?:
+    | CurrentLoansInformationResponse
+    | QueryCurrentLoansFormV2Response
   operatingExpensesFormData?: OperatingExpensesInformationResponse
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse

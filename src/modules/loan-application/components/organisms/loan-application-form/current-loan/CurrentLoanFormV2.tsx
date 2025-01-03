@@ -112,10 +112,10 @@ export const currentLoansFormSchema = z
 export type CurrentLoanFormsV2Value = z.infer<typeof currentLoansFormSchema>
 
 export function CurrentLoanFormV2() {
-  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, completeCurrentStep, step } =
+    useLoanApplicationProgressContext()
   const { dispatchFormAction, currentLoansForm } =
     useLoanApplicationFormContext()
-
   const methods = useForm<CurrentLoanFormsV2Value>({
     resolver: zodResolver(currentLoansFormSchema),
     mode: "onBlur",
@@ -185,6 +185,7 @@ export function CurrentLoanFormV2() {
                 setValue(FormFields.CurrentLoans, [])
               }
               handleFetchToProvider(getValues())
+              completeCurrentStep()
             }
           }}
           styleProps={{

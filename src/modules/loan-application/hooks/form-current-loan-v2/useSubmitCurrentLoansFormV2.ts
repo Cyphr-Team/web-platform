@@ -29,7 +29,7 @@ export const useSubmitCurrentLoansFormV2 = (options: Options) => {
       return await update(
         {
           id: rawData.id,
-          currentLoans: rawData.currentLoans
+          currentLoans: rawData.currentLoans ? rawData.currentLoans : []
         },
         {
           onSuccess
@@ -39,7 +39,7 @@ export const useSubmitCurrentLoansFormV2 = (options: Options) => {
 
     return await submit(
       {
-        currentLoans: rawData.currentLoans,
+        currentLoans: rawData.currentLoans ? rawData.currentLoans : [],
         loanApplicationId: applicationId
       },
       {

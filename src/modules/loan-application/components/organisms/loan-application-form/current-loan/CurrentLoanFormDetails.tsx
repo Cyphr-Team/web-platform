@@ -10,9 +10,11 @@ import {
 import { get } from "lodash"
 import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import { type QueryCurrentLoansFormV2Response } from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansFormV2.ts"
 
 interface CurrentLoanFormDetailsProps {
   currentLoanFormData?:
+    | QueryCurrentLoansFormV2Response
     | CurrentLoanInformationResponse[]
     | CurrentLoansInformationResponse
     | CurrentLoanFormsV2Value

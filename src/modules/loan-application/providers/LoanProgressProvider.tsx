@@ -81,6 +81,9 @@ interface RemoveCompleteAction {
 }
 
 interface LoanApplicationStatusContext extends LoanApplicationStepsState {
+  /**
+   * Complete the current step without moving to the next step
+   */
   completeCurrentStep: () => void
   completeSpecificStep: (specificStep: LOAN_APPLICATION_STEPS) => void
   removeCompleteSpecificStep: (specificStep: LOAN_APPLICATION_STEPS) => void
@@ -97,6 +100,9 @@ interface LoanApplicationStatusContext extends LoanApplicationStepsState {
    * The function return 'true' if the 'step' is complete
    */
   getStepStatus: (step: string) => boolean
+  /**
+   * Complete the current step and move to the next step
+   */
   finishCurrentStep: () => void
   goToPreviousStep: () => void
 }
