@@ -3,10 +3,11 @@ import {
   RECEIVABLE_DAYS_OPTIONS
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type CapitalCollabAssetsFormValue } from "@/modules/loan-application/capital-collab/stores/assets-store"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseAssetReceivableDetailProps {
-  assetsFormValue?: AssetsFormValue
+  assetsFormValue?: AssetsFormValue | CapitalCollabAssetsFormValue
 }
 
 export const useAssetReceivableDetail = ({

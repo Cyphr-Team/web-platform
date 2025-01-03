@@ -21,7 +21,7 @@ export const useQueryCommonForm = ({
   formTypes,
   enabled = true
 }: UseQueryCommonFormProps) => {
-  return useQuery<FormV2DataResponse | undefined, never>({
+  return useQuery<FormV2DataResponse | null, never>({
     queryKey: [queryKey, applicationId],
     queryFn: async () => {
       const response = await postRequest<FormV2GetRequest, FormV2DataResponse>({
@@ -38,7 +38,7 @@ export const useQueryCommonForm = ({
       // - If YES, we mark that step as done (response.data.forms.length == 1, with metadata == {}).
       // - If NO, we keep it as not done (response.data.forms does not exist or is empty).
       if (!response.data.forms || response.data.forms.length === 0) {
-        return undefined
+        return null
       }
 
       return response.data

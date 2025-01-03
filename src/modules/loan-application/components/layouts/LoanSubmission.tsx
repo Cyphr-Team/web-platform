@@ -3,10 +3,11 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Button } from "@/components/ui/button"
 import { APP_PATH } from "@/constants"
 import { LoanReadyLoanSubmission } from "@/modules/loan-application/components/layouts/LoanReady/LoanSubmission"
-import { isLoanReady } from "@/utils/domain.utils"
+import { isCapitalCollab, isLoanReady } from "@/utils/domain.utils"
 import { ArrowDownToLine, ArrowRight, CheckCircle } from "lucide-react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { ButtonDownloadESignDocument } from "../atoms/ButtonDownloadESignDocument"
+import { CapitalCollabLoanSubmission } from "@/modules/loan-application/capital-collab/components/layouts/CapitalCollabLoanSubmission"
 
 function LoanSubmissionWithDocument() {
   const navigate = useNavigate()
@@ -20,8 +21,8 @@ function LoanSubmissionWithDocument() {
   const handleGoToDetail = () => {
     navigate(
       APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(
-        location.state?.applicationId,
-        location.state?.loanProgramId
+        location.state?.applicationId as string,
+        location.state?.loanProgramId as string
       )
     )
   }
@@ -96,13 +97,15 @@ export function Component() {
   const handleGoToDetail = () => {
     navigate(
       APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(
-        location.state?.applicationId,
-        location.state?.loanProgramId
+        location.state?.applicationId as string,
+        location.state?.loanProgramId as string
       )
     )
   }
 
   if (isLoanReady()) return <LoanReadyLoanSubmission />
+
+  if (isCapitalCollab()) return <CapitalCollabLoanSubmission />
 
   if (documentId) return <LoanSubmissionWithDocument />
 

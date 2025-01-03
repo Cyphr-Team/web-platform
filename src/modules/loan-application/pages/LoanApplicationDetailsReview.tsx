@@ -2,6 +2,7 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { ApplicationDetailsHeader } from "@/shared/molecules/ApplicationDetailsHeader"
 import {
+  isCapitalCollab,
   isCyphrBank,
   isKccBank,
   isLaunchKC,
@@ -15,10 +16,15 @@ import { SignatureDetails } from "../components/organisms/loan-application-form/
 import { LaunchKCBusinessDocumentsDetails } from "../components/organisms/loan-application-form/custom-form/launchkc/BusinessDocumentsDetails"
 import { useBRLoanApplicationDetailsContext } from "../providers"
 import { SbbApplicantSubmittedDocuments } from "../components/organisms/loan-application-form/custom-form/sbb/SubmittedDocument"
+import { CapitalCollabApplicantLoanApplicationDetailsReview } from "@/modules/loan-application/capital-collab/components/pages/CapitalCollabLoanApplicationDetailsReview"
 
 export function Component() {
   const { isFetchingDetails, confirmationFormData } =
     useBRLoanApplicationDetailsContext()
+
+  if (isCapitalCollab()) {
+    return <CapitalCollabApplicantLoanApplicationDetailsReview />
+  }
 
   return (
     <>

@@ -48,6 +48,7 @@ enum LOAN_APPLICATION_STEPS {
   BUSINESS_INFORMATION = "businessInformation",
 
   OWNER_INFORMATION = "ownerInformationForm",
+  ADDITIONAL_OWNER_INFORMATION = "additionalOwnerInformationForm",
   FINANCIAL_INFORMATION = "financialInformationForm",
   CASH_FLOW_VERIFICATION = "cashFlowVerification",
   CURRENT_LOANS = "currentLoansForm",

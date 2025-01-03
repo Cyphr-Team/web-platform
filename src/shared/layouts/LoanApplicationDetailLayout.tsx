@@ -1,10 +1,19 @@
 import React from "react"
 import { SideNavApplicationDetails } from "../molecules/SideNavApplicationDetails"
 import { cn } from "@/lib/utils"
+import { isCapitalCollab } from "@/utils/domain.utils"
+import { CapitalCollabApplicantApplicationDetailHeader } from "@/modules/loan-application/capital-collab/components/molecules/CapitalCollabApplicantApplicationDetailHeader"
 
 export function LoanApplicationDetailLayout({
   children
 }: React.PropsWithChildren) {
+  if (isCapitalCollab())
+    return (
+      <CapitalCollabApplicantApplicationDetailHeader>
+        {children}
+      </CapitalCollabApplicantApplicationDetailHeader>
+    )
+
   return (
     <div
       className={cn(

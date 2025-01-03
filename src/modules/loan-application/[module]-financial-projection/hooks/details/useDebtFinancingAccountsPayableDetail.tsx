@@ -3,10 +3,13 @@ import {
   PAYABLE_DAYS_OPTIONS
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type CapitalCollabDebtFinancingFormValue } from "@/modules/loan-application/capital-collab/stores/debt-financing-store"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
 interface UseDebtFinancingAccountsPayableDetailProps {
-  debtFinancingFormValue?: DebtFinancingFormValue
+  debtFinancingFormValue?:
+    | DebtFinancingFormValue
+    | CapitalCollabDebtFinancingFormValue
 }
 
 export const useDebtFinancingAccountsPayableDetail = ({

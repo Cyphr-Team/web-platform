@@ -25,3 +25,14 @@ export const APPLICATION_MENU_CAPITAL_COLLAB = (id: string) => [
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENTS.details(id)
   }
 ]
+
+export const APPLICANT_APPLICATION_SUMMARY_TOP_HEADER_MENU = [
+  {
+    name: ApplicationMenuName.applicationSummary,
+    href: ""
+  },
+  {
+    name: ApplicationMenuName.document,
+    href: "document"
+  }
+]

@@ -5,13 +5,14 @@ import {
   type AssetsFormValue,
   USEFUL_LIFE_OPTIONS
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
+import { type CapitalCollabAssetsFormValue } from "@/modules/loan-application/capital-collab/stores/assets-store"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { toCurrency } from "@/utils"
 import { formatDate } from "@/utils/date.utils"
 import _ from "lodash"
 
 interface UseAssetLongTermDetailProps {
-  assetsFormValue?: AssetsFormValue
+  assetsFormValue?: AssetsFormValue | CapitalCollabAssetsFormValue
 }
 
 export const useAssetLongTermDetail = ({

@@ -1,45 +1,25 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
 import { APP_PATH } from "@/constants"
 import { ArrowRight, CheckCircle, Download } from "lucide-react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { ButtonDownloadESignDocument } from "@/modules/loan-application/components/atoms/ButtonDownloadESignDocument.tsx"
-import { useCheckLoanReadyPlan } from "@/modules/loan-application/[module]-financial-projection/hooks/loanready/useCheckLoanReadyPlan.ts"
 
-export function LoanReadyLoanSubmission() {
+export function CapitalCollabLoanSubmission() {
   const navigate = useNavigate()
+
+  // Get applicationId from state
   const location = useLocation()
-  // Get e-sign document if have
   const [searchParams] = useSearchParams()
+
+  // Get e-sign document if have
   const documentId = searchParams.get("documentId")
-  const { isPlusPlan } = useCheckLoanReadyPlan({
-    applicationId: location.state?.applicationId
-  })
 
   const handleGoToAssessmentSummaryDetail = () => {
     navigate(
-      APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detail.info(
-        location.state?.loanProgramId,
-        location.state?.applicationId
-      )
-    )
-  }
-
-  const handleGoToLoanReadyScoreDetail = () => {
-    navigate(
-      APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailReadiness.info(
-        location.state?.loanProgramId,
-        location.state?.applicationId
-      )
-    )
-  }
-
-  const handleGoToFinancialProjectionDetail = () => {
-    navigate(
-      APP_PATH.LOAN_APPLICATION.FINANCIAL_APPLICATIONS.detailFinancialProjections.overview(
-        location.state?.loanProgramId,
-        location.state?.applicationId
+      APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(
+        location.state?.applicationId as string,
+        location.state?.loanProgramId as string
       )
     )
   }
@@ -81,6 +61,7 @@ export function LoanReadyLoanSubmission() {
           </div>
 
           <div className="mx-20 flex flex-wrap justify-center gap-4 lg:flex-nowrap">
+            {/* TODO: Download PDF without e-sign */}
             {documentId ? (
               <ButtonDownloadESignDocument
                 className={btnShadow}
@@ -100,30 +81,6 @@ export function LoanReadyLoanSubmission() {
                 <ArrowRight {...btnIcon} />
               </div>
             </Button>
-
-            {isPlusPlan ? (
-              <Button
-                className={btnShadow}
-                variant="success"
-                onClick={handleGoToFinancialProjectionDetail}
-              >
-                <div>
-                  <Icons.financial {...btnIcon} />
-                  <span className="ml-2">Review financial projections</span>
-                </div>
-              </Button>
-            ) : (
-              <Button
-                className={btnShadow}
-                variant="success"
-                onClick={handleGoToLoanReadyScoreDetail}
-              >
-                <div>
-                  <Icons.financial {...btnIcon} />
-                  <span className="ml-2">Review LoanReady score</span>
-                </div>
-              </Button>
-            )}
           </div>
         </div>
       </div>

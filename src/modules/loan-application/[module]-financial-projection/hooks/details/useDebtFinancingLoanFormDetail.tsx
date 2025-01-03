@@ -5,6 +5,7 @@ import {
   type DebtFinancingFormValue
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-debt-financing"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
+import { type CapitalCollabDebtFinancingFormValue } from "@/modules/loan-application/capital-collab/stores/debt-financing-store"
 import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { capitalizeWords, snakeCaseToText, toCurrency } from "@/utils"
@@ -12,7 +13,9 @@ import { formatDate } from "@/utils/date.utils"
 import _ from "lodash"
 
 interface UseDebtFinancingLoanFormDetailProps {
-  debtFinancingFormValue?: DebtFinancingFormValue
+  debtFinancingFormValue?:
+    | DebtFinancingFormValue
+    | CapitalCollabDebtFinancingFormValue
 }
 
 export const useDebtFinancingLoanFormDetail = ({
@@ -111,6 +114,8 @@ const toDebtFinancingDetail = (
               id: "annualInterestRate",
               title: "Annual interest rate:",
               content: debt?.annualInterestRate
+                ? `${debt?.annualInterestRate}%`
+                : "N/A"
             }
           ]}
         />

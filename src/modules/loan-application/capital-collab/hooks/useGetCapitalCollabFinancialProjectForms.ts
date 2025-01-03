@@ -19,14 +19,16 @@ import {
 import { LoanProgressAction } from "@/modules/loan-application/providers/LoanProgressProvider.tsx"
 import { isCapitalCollab } from "@/utils/domain.utils"
 import { useCallback, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { get } from "lodash"
 
 export const useGetCapitalCollabFinancialProjectForms = () => {
   /**
    * Financial Projection Forms
    **/
-  const { id: loanApplicationId } = useParams()
+  const { id } = useParams()
+  const location = useLocation()
+  const loanApplicationId = id ?? location.state?.applicationId
 
   const { dispatchProgress, isInitialized, progress } =
     useLoanApplicationProgressContext()
@@ -55,7 +57,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
 
   // Operating Expenses Form
   const operatingExpensesFormQuery = useQueryCommonForm({
-    applicationId: loanApplicationId!,
+    applicationId: loanApplicationId,
     queryKey: QUERY_KEY.GET_FP_OPERATING_EXPENSES_FORM,
     formTypes: [FORM_TYPE.OPERATING_EXPENSES],
     enabled:
@@ -76,7 +78,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
 
   // Direct Costs Form
   const directCostsFormQuery = useQueryCommonForm({
-    applicationId: loanApplicationId!,
+    applicationId: loanApplicationId,
     queryKey: QUERY_KEY.GET_DIRECT_COSTS_FORM,
     formTypes: [FORM_TYPE.DIRECT_COSTS],
     enabled:
@@ -96,7 +98,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
 
   // Assets Form (Current & Long-Term)
   const assetsFormQuery = useQueryCommonForm({
-    applicationId: loanApplicationId!,
+    applicationId: loanApplicationId,
     queryKey: QUERY_KEY.GET_CURRENT_ASSETS_FORM,
     formTypes: [FORM_TYPE.ASSETS],
     enabled: isCapitalCollab() && isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
@@ -113,7 +115,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
 
   // Debt Financing
   const debtFinancingFormQuery = useQueryCommonForm({
-    applicationId: loanApplicationId!,
+    applicationId: loanApplicationId,
     queryKey: QUERY_KEY.GET_FP_DEBT_FINANCING_FORM,
     formTypes: [FORM_TYPE.DEBT_FINANCING],
     enabled:
