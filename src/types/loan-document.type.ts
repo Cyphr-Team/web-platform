@@ -43,4 +43,15 @@ interface LoanDocumentAuthenticityScore {
   score: number
 }
 
-export type { LoanDocument }
+interface CCLoanDocument {
+  id: string
+  url: string
+  // file size: 200KB
+  size: 0
+  originFileName: string
+  fullPathFileName: string
+  expiredAt: string
+  createdAt: string
+}
+
+export type { LoanDocument, CCLoanDocument }

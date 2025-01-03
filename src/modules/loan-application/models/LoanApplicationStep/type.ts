@@ -37,7 +37,9 @@ enum FORM_TYPE {
   ASSETS = "assets",
   LIABILITIES = "liabilities",
   DEBT_FINANCING = "debt_financing",
-  EQUITY = "equity"
+  EQUITY = "equity",
+  // ==== CAPITAL COLLAB ONLY ====
+  CCC_DOCUMENTS = "ccc_documents"
 }
 
 enum LOAN_APPLICATION_STEPS {

@@ -1,5 +1,6 @@
 import { APP_PATH } from "@/constants"
 import { handleCrumb } from "@/utils/crumb.utils"
+import { isCapitalCollab } from "@/utils/domain.utils"
 import { Route } from "react-router-dom"
 
 /**
@@ -13,11 +14,17 @@ const documentRoutes = (
     {/* LIST LOAN APPLICATION' DOCUMENTS */}
     <Route
       index
-      lazy={() =>
-        import(
+      lazy={() => {
+        if (isCapitalCollab()) {
+          return import(
+            "@/modules/loan-application-management/pages/capital-collab/document"
+          )
+        }
+
+        return import(
           "@/modules/loan-application-management/components/pages/Document"
         )
-      }
+      }}
     />
 
     {/* DETAIL DOCUMENT */}

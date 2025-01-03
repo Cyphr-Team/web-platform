@@ -506,7 +506,12 @@ export const API_PATH = {
     getApplicationWithStageScoresResponse: () =>
       `api/workspace-admin/application/by-id`,
     getFullAmortizationSchedule: (applicationId: string) =>
-      `api/loan-officer/applications/${applicationId}/full-amortization-schedule`
+      `api/loan-officer/applications/${applicationId}/full-amortization-schedule`,
+    // Only for Capital Collab bank
+    cccDocuments: {
+      getDocumentsByApplicationId: `api/admin/form/documents/list`,
+      downloadMultipleDocuments: `api/admin/form/documents/download/by-document-ids`
+    }
   },
   loanReadiness: {
     getLoanReadinessAssessment: (applicationId: string) =>

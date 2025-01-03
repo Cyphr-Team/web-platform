@@ -1,4 +1,7 @@
-import type { Table as TableType } from "@tanstack/react-table"
+import type {
+  RowSelectionState,
+  Table as TableType
+} from "@tanstack/react-table"
 import {
   type ColumnDef,
   flexRender,
@@ -32,14 +35,17 @@ interface DataTableProps<TData, TValue> {
   readonly handleClickDetail?: (row: Row<TData>) => void
   readonly pagination?: PaginationState
   readonly sorting?: SortingState
+  readonly rowSelection?: RowSelectionState
   readonly setPagination?: OnChangeFn<PaginationState>
   readonly setSorting?: OnChangeFn<SortingState>
+  readonly setRowSelection?: OnChangeFn<RowSelectionState>
   readonly total: number
   readonly isLoading?: boolean
   readonly manualSorting?: boolean
   readonly headerFilter?: (table: TableType<TData>) => ReactNode
   readonly tableContainerClassName?: string
   readonly tableWrapperClassName?: string
+  readonly tableClassName?: string
   readonly tableCellClassName?: string
   readonly tableHeaderClassName?: string
   readonly tableHeadClassName?: string
@@ -56,8 +62,11 @@ export function DataTable<TData, TValue>({
   isLoading,
   tableContainerClassName,
   tableWrapperClassName,
+  tableClassName,
   setSorting,
+  setRowSelection,
   sorting,
+  rowSelection = {},
   manualSorting,
   headerFilter,
   tableCellClassName,
@@ -70,12 +79,19 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     rowCount: total,
-    state: { pagination, sorting, columnOrder },
+    state: {
+      pagination,
+      sorting,
+      columnOrder,
+      rowSelection
+    },
     onPaginationChange: setPagination,
     onColumnOrderChange: setColumnOrder,
     onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: !!pagination,
+    enableRowSelection: !!rowSelection,
     getSortedRowModel: manualSorting ? undefined : getSortedRowModel(),
     enableSortingRemoval: true,
     manualSorting
@@ -95,7 +111,7 @@ export function DataTable<TData, TValue>({
           tableWrapperClassName
         )}
       >
-        <Table className="text-sm" isLoading={isLoading}>
+        <Table className={cn("text-sm", tableClassName)} isLoading={isLoading}>
           <TableHeader
             className={cn(
               "sticky top-0 z-10 bg-gray-100",
@@ -112,6 +128,9 @@ export function DataTable<TData, TValue>({
                         "whitespace-nowrap text-sm font-medium text-text-foreground",
                         tableHeadClassName
                       )}
+                      style={{
+                        width: header.getSize()
+                      }}
                     >
                       {header.isPlaceholder
                         ? null
@@ -127,7 +146,7 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows?.map((row) => (
                 <TableRow
                   key={row.id}
                   className={cn(!!handleClickDetail && "cursor-pointer")}
@@ -135,7 +154,13 @@ export function DataTable<TData, TValue>({
                   onClick={() => handleClickDetail && handleClickDetail(row)}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className={tableCellClassName}>
+                    <TableCell
+                      key={cell.id}
+                      className={tableCellClassName}
+                      style={{
+                        width: cell.column.getSize()
+                      }}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
