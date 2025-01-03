@@ -20,6 +20,7 @@ const tenantStyles = {
     purple: "text-purple-500"
   },
   [Institution.CapitalCollab]: {
+    readyForReview: "text-[#104EB9]",
     submitted: "text-[#008C8A]",
     inReview: "text-[#175CD3]",
     missingInformation: "text-[#CA7200]",

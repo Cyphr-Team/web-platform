@@ -7,7 +7,7 @@ export const getBadgeVariantByStatus = (status?: LoanApplicationStatus) => {
     case LoanApplicationStatus.SUBMITTED:
       return "submitted"
     case LoanApplicationStatus.READY_FOR_REVIEW:
-      return "blue"
+      return "readyForReview"
     case LoanApplicationStatus.IN_REVIEW:
       return "inReview"
     case LoanApplicationStatus.CCC_APPLICATION_MISSING_INFO:
