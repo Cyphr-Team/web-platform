@@ -64,6 +64,7 @@ import { CapitalCollabDirectCostsForm } from "@/modules/loan-application/capital
 import { CapitalCollabDebtFinancingForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabDebtFinancingForm"
 import { CapitalCollabAssetsForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabAssetsForm"
 import { CapitalCollabOperatingExpensesForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabOperatingExpensesForm"
+import { CapitalCollabReviewApplication } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabReviewApplication"
 
 /**
  * Use a custom hook to prevent fast refresh on save, make development mode smoother
@@ -130,11 +131,15 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.IDENTITY_VERIFICATION:
         return <IdentityVerificationForm />
       case LOAN_APPLICATION_STEPS.REVIEW_APPLICATION:
-        return isLoanReady() ? (
-          <FinancialProjectionReviewApplication />
-        ) : (
-          <ReviewApplication />
-        )
+        if (isLoanReady()) {
+          return <FinancialProjectionReviewApplication />
+        }
+        if (isCapitalCollab()) {
+          return <CapitalCollabReviewApplication />
+        }
+
+        return <ReviewApplication />
+
       case LOAN_APPLICATION_STEPS.PRODUCT_SERVICE:
         return <ProductServiceForm />
       case LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY:

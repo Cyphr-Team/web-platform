@@ -36,3 +36,13 @@ export const APPLICANT_APPLICATION_SUMMARY_TOP_HEADER_MENU = [
     href: "document"
   }
 ]
+
+export const enum ExportFPOption {
+  DISCLAIMER_NOTE = "DISCLAIMER_NOTE",
+  APPLICATION_SUMMARY = "APPLICATION_SUMMARY"
+}
+
+export const PDFPageOrder = [
+  ExportFPOption.DISCLAIMER_NOTE,
+  ExportFPOption.APPLICATION_SUMMARY
+]

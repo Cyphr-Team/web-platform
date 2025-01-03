@@ -95,7 +95,7 @@ export function ConfirmationForm() {
             render={({ field }) => (
               <FormItem className="col-span-2">
                 <FormLabel className="text-text-secondary">
-                  Signature of Authorized Individual
+                  Signature of authorized individual
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -122,7 +122,7 @@ export function ConfirmationForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-text-secondary">
-                  Signature Date
+                  Signature date
                 </FormLabel>
                 <FormControl>
                   <Input className="text-base" {...field} disabled />

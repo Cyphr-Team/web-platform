@@ -2,20 +2,16 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Button } from "@/components/ui/button"
 import { APP_PATH } from "@/constants"
 import { ArrowRight, CheckCircle, Download } from "lucide-react"
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
-import { ButtonDownloadESignDocument } from "@/modules/loan-application/components/atoms/ButtonDownloadESignDocument.tsx"
+import { useLocation, useNavigate } from "react-router-dom"
+import { ApplicationDownloadButton } from "@/modules/loan-application/capital-collab/components/atoms/ApplicationDownloadButton"
 
 export function CapitalCollabLoanSubmission() {
   const navigate = useNavigate()
 
   // Get applicationId from state
   const location = useLocation()
-  const [searchParams] = useSearchParams()
 
-  // Get e-sign document if have
-  const documentId = searchParams.get("documentId")
-
-  const handleGoToAssessmentSummaryDetail = () => {
+  const handleGoToApplicationSummaryDetail = () => {
     navigate(
       APP_PATH.LOAN_APPLICATION.APPLICATIONS.details(
         location.state?.applicationId as string,
@@ -45,37 +41,33 @@ export function CapitalCollabLoanSubmission() {
 
           <div className="flex flex-col space-y-lg">
             <h1 className="text-[1.75rem] font-semibold tracking-tight">
-              Assessment Submitted
+              Application Submitted
             </h1>
           </div>
 
           <div className="flex flex-col gap-2 text-sm text-black md:gap-3">
             <p>
               <span className="font-bold">Congratulations!</span> Your
-              assessment has been successfully submitted.
+              application has been successfully submitted.
             </p>
             <p>
-              For your records, you can download a copy of your assessment. You
-              can also review your submission in the “Assessment” tab.
+              For your records, you can download a copy of your application. You
+              can also review your submission in the “Application” tab.
             </p>
           </div>
 
           <div className="mx-20 flex flex-wrap justify-center gap-4 lg:flex-nowrap">
-            {/* TODO: Download PDF without e-sign */}
-            {documentId ? (
-              <ButtonDownloadESignDocument
-                className={btnShadow}
-                documentId={documentId}
-                variant="outline"
-              >
-                <div>
-                  <Download {...btnIcon} />
-                  <span className="ml-2">Download copy</span>
-                </div>
-              </ButtonDownloadESignDocument>
-            ) : null}
+            <ApplicationDownloadButton
+              className={btnShadow}
+              variant={{ variant: "outline" }}
+            >
+              <div>
+                <Download {...btnIcon} />
+                <span className="ml-2">Download copy</span>
+              </div>
+            </ApplicationDownloadButton>
 
-            <Button onClick={handleGoToAssessmentSummaryDetail}>
+            <Button onClick={handleGoToApplicationSummaryDetail}>
               <div>
                 Review Submission
                 <ArrowRight {...btnIcon} />

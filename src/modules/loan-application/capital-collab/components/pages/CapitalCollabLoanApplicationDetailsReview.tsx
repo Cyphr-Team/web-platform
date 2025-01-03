@@ -3,9 +3,10 @@ import { FinancialApplicationFormDetail } from "@/modules/loan-application/[modu
 import { useAdminFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
-import { BasicApplicationDrawer } from "@/modules/loan-application/[module]-financial-projection/components/organisms/details/BasicApplicationDrawer.tsx"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import { useGetCapitalCollabApplicantApplicationDetails } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabApplicantApplicationDetails"
+import { ApplicationDownloadButton } from "@/modules/loan-application/capital-collab/components/atoms/ApplicationDownloadButton"
+import { FolderDown } from "lucide-react"
 
 // The function is used for applicant site
 export function CapitalCollabApplicantLoanApplicationDetailsReview() {
@@ -62,8 +63,15 @@ function Header() {
           Application Summary
         </h1>
         <div className="ml-auto">
-          {/* TODO: Export PDF */}
-          <BasicApplicationDrawer />
+          <ApplicationDownloadButton
+            className="rounded-lg bg-success-fp text-sm font-medium text-black shadow-md hover:bg-[#a1d80b] focus:outline-none"
+            variant={{ variant: "default" }}
+          >
+            <div className="flex items-center gap-2">
+              <FolderDown className="w-4" />
+              Download PDF
+            </div>
+          </ApplicationDownloadButton>
         </div>
       </div>
     </nav>

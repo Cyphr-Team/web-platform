@@ -73,7 +73,7 @@ function SignAndSubmitForm() {
         <div>
           <div>
             <RHFTextInput
-              label="Signature of Authorized Individual"
+              label="Signature of authorized individual"
               name={SignFieldName.PrintName}
               placeholder="Your signature"
               styleProps={{
@@ -92,7 +92,7 @@ function SignAndSubmitForm() {
             <RHFTextInput
               disabled
               className="mt-6 flex-1 space-y-2"
-              label="Signature Date"
+              label="Signature date"
               name={SignFieldName.SignatureDate}
             />
           </div>

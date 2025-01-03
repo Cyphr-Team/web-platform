@@ -36,7 +36,7 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
         ))}
         <div>
           <div className="flex flex-col gap-1">
-            <p className="text-sm">Signature of Authorized Individual</p>
+            <p className="text-sm">Signature of authorized individual</p>
             <p className="island-moments-regular text-3xl">
               {confirmationFormData?.printName ?? "-"}
             </p>
@@ -44,13 +44,13 @@ export const SignatureDetails: React.FC<SignatureDetailsProps> = ({
         </div>
         <div className="grid grid-cols-2 gap-x-4xl gap-y-2xl">
           <div className="flex flex-col gap-1">
-            <p className="text-sm">Print Name</p>
+            <p className="text-sm">Print name</p>
             <p className="text-lg">
               {confirmationFormData?.printName ?? "N/A"}
             </p>
           </div>
           <div className="flex flex-col gap-1">
-            <p className="text-sm">Signature Date</p>
+            <p className="text-sm">Signature date</p>
             <p className="text-lg">
               {confirmationFormData?.createdAt
                 ? format(

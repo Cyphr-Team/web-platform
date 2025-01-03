@@ -9,7 +9,7 @@ import {
 } from "@/shared/atoms/CashFlowConnectedBadge"
 import { ErrorCode, getCustomErrorMsgByCode } from "@/utils/custom-error"
 import { useMemo } from "react"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { useGetPlaidConnectedBankAccounts } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidConnectedBankAccountsByApplicationId.ts"
 import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
 
@@ -20,7 +20,9 @@ interface ConnectedAccountDetailProps {
 export function ConnectedAccountDetail({
   overwriteBankAccounts = []
 }: ConnectedAccountDetailProps) {
-  const { id: loanApplicationId } = useParams()
+  const location = useLocation()
+  const { id } = useParams()
+  const loanApplicationId = id ?? (location.state?.applicationId as string)
 
   const { data, isFetching, isError, error, refetch } =
     useQueryGetLoanApplicationCashflowVerification(loanApplicationId)
