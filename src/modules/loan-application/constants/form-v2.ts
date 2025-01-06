@@ -1,4 +1,4 @@
-import { isKccBank, isLoanReady } from "@/utils/domain.utils"
+import { isCapitalCollab, isKccBank, isLoanReady } from "@/utils/domain.utils"
 import { z } from "zod"
 
 export const defaultLoanRequestFormSchema = z.object({
@@ -14,6 +14,15 @@ export const defaultLoanRequestFormSchema = z.object({
 })
 
 export const loanReadyLoanRequestFormSchema = z.object({
+  id: z.string().optional(),
+  loanAmount: z.number().gt(0),
+  proposeUseOfLoan: z
+    .string()
+    .min(1, { message: "Proposed used of loan is required" }),
+  applicationId: z.string()
+})
+
+export const capitalCollabLoanRequestFormSchema = z.object({
   id: z.string().optional(),
   loanAmount: z.number().gt(0),
   proposeUseOfLoan: z
@@ -38,10 +47,15 @@ export type LoanReadyLoanRequestFormValue = z.infer<
   typeof loanReadyLoanRequestFormSchema
 >
 
+export type CapitalCollabLoanRequestFormValue = z.infer<
+  typeof capitalCollabLoanRequestFormSchema
+>
+
 type LoanRequestFormSchema =
   | typeof defaultLoanRequestFormSchema
   | typeof kccLoanRequestFormSchema
   | typeof loanReadyLoanRequestFormSchema
+  | typeof capitalCollabLoanRequestFormSchema
 
 export const loanRequestSchemasByInstitution = (): LoanRequestFormSchema => {
   switch (true) {
@@ -49,6 +63,8 @@ export const loanRequestSchemasByInstitution = (): LoanRequestFormSchema => {
       return kccLoanRequestFormSchema
     case isLoanReady():
       return loanReadyLoanRequestFormSchema
+    case isCapitalCollab():
+      return capitalCollabLoanRequestFormSchema
     default:
       return defaultLoanRequestFormSchema
   }

@@ -1,4 +1,4 @@
-import { API_PATH } from "@/constants"
+import { API_PATH, EIN_PATTERN } from "@/constants"
 import {
   BINARY_VALUES,
   type IBusinessFormValue
@@ -35,6 +35,7 @@ import {
   getStateName
 } from "@/modules/loan-application/hooks/utils/useSelectCities.ts"
 import { requestDate } from "@/utils/date.utils"
+import { toPattern } from "@/components/ui/mask-input"
 
 interface SubmitOption {
   rawData: IBusinessFormValue
@@ -213,6 +214,10 @@ export function deserializeKybFormV2(
     const data: CapitalCollabBusinessFormValue = {
       ...baseValue,
       // out of the box value
+      businessTin: toPattern(
+        get(response, "metadata.ein", "") as string,
+        EIN_PATTERN
+      ),
       businessDescription: get(response, "metadata.businessDescription"),
       businessStage: get(response, "metadata.businessStage"),
       dba: get(response, "metadata.dba"),

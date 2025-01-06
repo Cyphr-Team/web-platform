@@ -1,3 +1,4 @@
+import { type FormV2Data } from "./../types/form.v2"
 import {
   BINARY_VALUES,
   type ILoanRequestFormValue
@@ -27,6 +28,33 @@ export const mapMetadataToLoanRequest = (
   }
 }
 // endregion
+
+/**
+ * Find singular FormV2 data given form type and application summary.
+ * @param {FORM_TYPE} formType - Type of form.
+ * @param {ApplicationSummary} applicationSummary - Summary of loan application.
+ * @returns {FormV2Data} Form v2 data.
+ *
+ * NOTES:
+ *  #1 - This function adapts Deserializer for FormV2 data, therefore we won't need to declare preFormatter again.
+ *  #2 - `id` and `applicationId` are not meant to be used as part of the response data but are required.
+ * Sample usage: useGetCapitalCollabAdminApplicationDetails.ts
+ */
+export function findSingularFormV2Data(
+  formType: FORM_TYPE,
+  applicationSummary?: ApplicationSummary
+): FormV2Data {
+  return {
+    id: "",
+    applicationId: "",
+    formType,
+    metadata: get(
+      findSingularFormData(formType, applicationSummary),
+      "forms[0].metadata",
+      {}
+    )
+  }
+}
 
 export function findSingularFormMetadata(
   formType: FORM_TYPE,

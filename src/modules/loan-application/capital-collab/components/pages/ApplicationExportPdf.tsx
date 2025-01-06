@@ -1,6 +1,5 @@
 import { useQueryGetLoanSummary } from "@/modules/loan-application-management/hooks/useQuery/useQueryLoanSummary"
 import { FinancialProjectionApplicationDetail } from "@/modules/loan-application/[module]-financial-projection/components/organisms/details/FinancialProjectionApplicationDetails"
-import { useAdminFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
 import {
   useQueryGetKybForm,
   useQueryGetKybFormV2
@@ -18,6 +17,7 @@ import {
 } from "@/modules/loan-application/capital-collab/constants"
 import { useGetCapitalCollabApplicantApplicationDetails } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabApplicantApplicationDetails"
 import { DisclaimerNote } from "@/modules/loan-application/capital-collab/components/pages/DisclaimerNote"
+import { useGetCapitalCollabAdminApplicationDetails } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabAdminApplicationDetails"
 
 interface SectionProps {
   provideRef: (key: ExportFPOption) => (e: HTMLDivElement) => void
@@ -39,7 +39,7 @@ function ApplicantReviewPdf() {
 
 function AdminReviewPdf() {
   const { financialApplicationDetailData, isFetching } =
-    useAdminFinancialProjectionApplicationDetails()
+    useGetCapitalCollabAdminApplicationDetails()
 
   return (
     <FinancialProjectionApplicationDetail
@@ -109,7 +109,7 @@ export function ApplicationExportPdf({
   })
 
   const getFinalBusinessName = useCallback(() => {
-    if (isEnableFormV2()) {
+    if (isEnableFormV2() && checkIsLoanApplicant()) {
       return get(kybDataV2, "metadata.businessLegalName") as string
     }
 

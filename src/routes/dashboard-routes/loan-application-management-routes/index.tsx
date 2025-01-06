@@ -77,13 +77,17 @@ const loanApplicationManagementRoutes = (
             return import(
               "@/modules/loan-application-management/pages/sbb/loan-summary"
             )
-          if (isCyphrBank() || isKccBank() || isLaunchKC() || isCapitalCollab())
+          if (isCyphrBank() || isKccBank() || isLaunchKC())
             return import(
               "@/modules/loan-application-management/pages/out-of-box/loan-summary"
             )
           if (isLoanReady())
             return import(
               "@/modules/loan-application-management/pages/loan-ready/loan-summary"
+            )
+          if (isCapitalCollab())
+            return import(
+              "@/modules/loan-application/capital-collab/components/pages/CapitalCollabLoanSummary"
             )
 
           return import(

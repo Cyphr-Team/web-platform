@@ -1,10 +1,10 @@
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider"
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
-import { useAdminFinancialProjectionApplicationDetails } from "@/modules/loan-application/[module]-financial-projection/hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
 import { type FinancialApplicationDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { useBRLoanApplicationDetailsContext } from "@/modules/loan-application/providers"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import { useGetCapitalCollabApplicantApplicationDetails } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabApplicantApplicationDetails"
+import { useGetCapitalCollabAdminApplicationDetails } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabAdminApplicationDetails"
 import { ApplicationDownloadButton } from "@/modules/loan-application/capital-collab/components/atoms/ApplicationDownloadButton"
 import { FolderDown } from "lucide-react"
 
@@ -37,7 +37,7 @@ export function CapitalCollabAdminLoanApplicationDetailsReview() {
   } = useLoanApplicationDetailContext()
 
   const { isFetching, financialApplicationDetailData } =
-    useAdminFinancialProjectionApplicationDetails()
+    useGetCapitalCollabAdminApplicationDetails()
 
   const businessLegalName = isEnableFormV2()
     ? applicationSummaryV2?.businessInfo?.businessName?.value
