@@ -2,6 +2,7 @@ import { type PreQualificationResponse } from "@/modules/loan-application/consta
 import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { TimeRangeValue } from "@/types/time-range.type.ts"
 import {
+  isCapitalCollab,
   isCapsight,
   isCyphrBank,
   isKccBank,
@@ -140,7 +141,8 @@ export function LoanApplicationDetailProvider({ children }: PropsWithChildren) {
   })
   const loanSmartKycDetailQuery = useQueryGetSmartKyc({
     applicationId: params.id,
-    enabledByInstitution: isKccBank() || isSbb() || isLaunchKC()
+    enabledByInstitution:
+      isKccBank() || isSbb() || isLaunchKC() || isCapitalCollab()
   })
 
   const defaultFilters = {
@@ -234,7 +236,12 @@ export function LoanApplicationDetailProvider({ children }: PropsWithChildren) {
       timeRangeFilter: newCashFlowFilter.timeRangeFilter
     },
     enabledByInstitution:
-      isCyphrBank() || isKccBank() || isSbb() || isLaunchKC() || isLoanReady() // TODO: should have an enum of institution having out-of-the-box UI
+      isCyphrBank() ||
+      isKccBank() ||
+      isSbb() ||
+      isLaunchKC() ||
+      isLoanReady() ||
+      isCapitalCollab() // TODO: should have an enum of institution having out-of-the-box UI
   })
 
   const onChangeNewTimeRangeFilter = useCallback(

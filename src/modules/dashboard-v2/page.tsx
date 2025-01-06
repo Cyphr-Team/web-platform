@@ -11,8 +11,6 @@ import { AverageLoanSizeOfAllLoanProgram } from "./components/AverageLoanSizeOfA
 import { Separator } from "@/components/ui/separator"
 import { isEnableSubscriptionManagement } from "@/utils/feature-flag.utils"
 import { isCapitalCollab, isSbb } from "@/utils/domain.utils"
-import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
 
 export function Component() {
   const isLenderAdmin = checkIsWorkspaceAdmin()
@@ -35,14 +33,6 @@ export function Component() {
           {isLenderAdmin && isEnableSubscriptionManagement() ? (
             <CurrentUsage />
           ) : null}
-          {isCapitalCollab() && (
-            <div className="flex flex-row-reverse">
-              <Button variant="success">
-                <Icons.folderDownload className="mr-1" />
-                Download report
-              </Button>
-            </div>
-          )}
           <TotalApplicationActivity />
           {!isSbb() && !isCapitalCollab() && (
             <>

@@ -38,7 +38,13 @@ import {
   loanRequestFormSchema
 } from "../../constants/form"
 import { useEffect, useMemo } from "react"
-import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isCapitalCollab,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { UseOfLoan } from "@/types/loan-application.type"
 import { FORM_ACTION } from "../../providers/LoanApplicationFormProvider"
 import { LOAN_APPLICATION_STEPS } from "../../models/LoanApplicationStep/type"
@@ -197,19 +203,27 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
   useAutoCompleteStepEffect(formToUse, LOAN_APPLICATION_STEPS.LOAN_REQUEST)
   useAutoCompleteStepEffect(formToUse, LOAN_APPLICATION_STEPS.LOAN_REQUEST_V2)
 
+  const getSubtitle = () => {
+    if (isCapitalCollab()) {
+      return "What amount will you be requesting?"
+    }
+
+    return "What is the loan amount you are requesting?"
+  }
+
   return (
     <FormLayout title="Loan Request" wrapperClassName={wrapperClassName}>
       <CardHeader className="text-center">
         <CardTitle className="text-lg">{loanProgramDetails?.name}</CardTitle>
         <CardDescription>
           Thank you for your interest in working with us.{` `}
-          <span className="block">
-            What is the loan amount you are requesting?
-          </span>
-          <span className="mt-1 block italic">
-            (Please note, the actual loan amount you qualify for will be
-            communicated by the lender.)
-          </span>
+          <span className="block">{getSubtitle()}</span>
+          {!isCapitalCollab() && (
+            <span className="mt-1 block italic">
+              (Please note, the actual loan amount you qualify for will be
+              communicated by the lender.)
+            </span>
+          )}
         </CardDescription>
       </CardHeader>
 
@@ -224,7 +238,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                     name="loanAmount"
                     render={({ field }) => (
                       <FormItem className="space-y-1">
-                        <FormLabel>Loan Amount</FormLabel>
+                        <FormLabel>Loan amount</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
@@ -304,7 +318,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                         name="proposeUseOfLoan"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Proposed Use of Loan</FormLabel>
+                            <FormLabel>Proposed use of loan</FormLabel>
                             <Select
                               defaultValue={field.value}
                               onValueChange={field.onChange}
@@ -344,7 +358,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                 disabled={!formToUse.formState.isValid}
                 type="submit"
               >
-                Next <ArrowRight className="ml-1 w-4" />
+                Next {!isCapitalCollab() && <ArrowRight className="ml-1 w-4" />}
               </Button>
             </CardFooter>
           )}

@@ -293,6 +293,7 @@ export function CapitalCollabBusinessInformationForm() {
                 placeholder="Avg. credit card processing volume"
                 prefixIcon="$"
                 styleProps={{ inputClassName: "pl-7.5" }}
+                suffixIcon={<span className="text-text-placeholder">/ mo</span>}
               />
             )}
           </div>

@@ -144,7 +144,7 @@ export function DebtFinancingArrayForm() {
           <EquityArrayFormTemplate
             addIcon={<Plus />}
             blocks={DebtFinancingArrayFormBlocks}
-            dataName="Loan"
+            dataName="New Loan"
             defaultEmptyObject={EMPTY_DEBT_FINANCING_ITEM}
             fieldName={DebtFinancingField.DebtFinancing}
             onBlur={onAutoSave}

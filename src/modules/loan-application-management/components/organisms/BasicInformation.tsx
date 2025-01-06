@@ -143,7 +143,7 @@ export function BasicInformation() {
                   .filter((v) => !!v)
                   .join(" • ")}
           </h1>
-          {!isKccBank() && !isLaunchKC() && !isSbb() && (
+          {!isKccBank() && !isLaunchKC() && !isSbb() && !isCapitalCollab() && (
             <div className="flex flex-wrap gap-2">
               <Badge className="h-7 border px-lg py-xs">
                 <p className="text-sm font-medium">

@@ -17,7 +17,7 @@ import { LoanProgramDetailProvider } from "@/modules/loan-application/providers/
 import { sanitizeDOM } from "@/utils/file.utils.ts"
 import { TopBarDetail } from "@/modules/loan-application/components/layouts/TopBarDetail.tsx"
 import { LoanProgramDetailWelcomeLine } from "@/modules/loan-application/components/organisms/loan-program-detail/LoanProgramDetailWelcomeLine.tsx"
-import { random } from "lodash"
+import { uniqueId } from "lodash"
 import { LoanProgramDetailApply } from "@/modules/loan-application/components/organisms/loan-program-detail/LoanProgramDetailApply.tsx"
 
 const ELEMENTS_TYPE = {
@@ -39,46 +39,46 @@ interface Element {
 
 const loanProgramText: Element[] = [
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.title,
     content: "Why Capital Collab?",
     size: "3xl"
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.text,
     className: "my-2",
     content:
       "Navigating business financing can be complex, but <b>Capital Collab</b> makes it seamless. With access to <b>300+ bank and non-bank lenders</b>, we offer tailored solutions for nearly every business scenario. From <b>$25,000 loans to $5M</b> working capital options and up to <b>$25M for larger growth and expansion</b>, we provide funding that fits your unique needs."
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.text,
     className: "my-1",
     content:
       "For more complex transactions, our <b>white-glove consultancy investment banking division</b> specializes in financing from $5M to $250M, delivering high-touch advisory to help you confidently execute strategic initiatives."
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.text,
     className: "my-1",
     content:
       "Whether you need <b>working capital, equipment financing, SBA loans, real estate funding, revenue-based financing, or acquisition capital,</b> we have multiple options to meet your goals—all under one roof."
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.text,
     content:
       "Upon applying, you’ll receive initial approvals or term sheets within 24 hours if you do not receive a call with from your dedicated Capital Advisor within one business hour if additional questions arise."
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.title,
     content: "How It Works:",
     size: "3xl"
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.list,
     className: "list-none pl-0",
     content: [
@@ -88,7 +88,7 @@ const loanProgramText: Element[] = [
     ]
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.list,
     content: [
       "<b>Working Capital or Revenue-Based Financing (up to $5M)</b>",
@@ -101,7 +101,7 @@ const loanProgramText: Element[] = [
     ]
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.list,
     className: "list-none pl-0",
     content: [
@@ -109,7 +109,7 @@ const loanProgramText: Element[] = [
     ]
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.list,
     content: [
       "<b>Approvals in as quick as 1 hour up to 24 hours!</b>",
@@ -117,7 +117,7 @@ const loanProgramText: Element[] = [
     ]
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.list,
     className: "list-none pl-0",
     content: [
@@ -125,19 +125,19 @@ const loanProgramText: Element[] = [
     ]
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.title,
     className: "mt-8",
     content: "Unlock More with Capital Collab+ (Coming Soon!)",
     size: "3xl"
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.subtitle,
     content: "Take your loan readiness to the next level with advanced tools:"
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.list,
     content: [
       "<b>Generate Professional Financials:</b> Create lender-ready income statements, cash flow reports, and balance sheets—instantly.",
@@ -145,20 +145,20 @@ const loanProgramText: Element[] = [
     ]
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.title,
     className: "mt-8",
     content: "What sets us apart?",
     size: "3xl"
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.text,
     content:
       "Capital Collab isn’t just about securing loans—it’s about <b>empowering businesses to thrive:</b>"
   },
   {
-    id: random().toString(),
+    id: uniqueId(),
     type: ELEMENTS_TYPE.list,
     className: "-mt-8 list-none pl-0 space-y-4 pt-2",
     content: [

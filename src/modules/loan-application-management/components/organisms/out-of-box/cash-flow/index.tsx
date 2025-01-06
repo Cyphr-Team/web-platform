@@ -17,6 +17,7 @@ import { format } from "date-fns"
 import { CashflowGlanceReport } from "./CashflowGlance"
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import { FeatureKey } from "@/hooks/useCanAccess"
+import { isCapitalCollab } from "@/utils/domain.utils"
 
 type FilterValues = z.infer<typeof FilterSchema>
 
@@ -130,12 +131,16 @@ export function Cashflow() {
         isFetchingNewCashFlow={isFetchingNewCashFlow}
         newCashFlowGlance={newCashFlowGlance}
       />
-      <Separator />
-      <SectionTitle>Charts and Trends</SectionTitle>
-      <RevenueAndExpenseChart />
-      <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
-        <NoiAndTotalDebtPaymentsChart />
-      </FeatureRenderer>
+      {!isCapitalCollab() && (
+        <>
+          <Separator />
+          <SectionTitle>Charts and Trends</SectionTitle>
+          <RevenueAndExpenseChart />
+          <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
+            <NoiAndTotalDebtPaymentsChart />
+          </FeatureRenderer>
+        </>
+      )}
     </div>
   )
 }

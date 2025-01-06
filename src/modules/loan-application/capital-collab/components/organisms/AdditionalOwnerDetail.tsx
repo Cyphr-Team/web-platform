@@ -1,11 +1,11 @@
 import { FinancialApplicationFormDetail } from "@/modules/loan-application/[module]-financial-projection/components/molecules/details"
-import { type CapitalCollabKYCFieldName } from "@/modules/loan-application/capital-collab/constants/kyc"
+import { CapitalCollabKYCFieldName } from "@/modules/loan-application/capital-collab/constants/kyc"
 import { toAdditionalOwnerDetail } from "@/modules/loan-application/capital-collab/stores/kyc-store"
 import {
   type CapitalCollabAdditionalOwnerFormValue,
   type CapitalCollabOwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc"
-import _ from "lodash"
+import { get, isEmpty } from "lodash"
 
 interface AdditionalOwnerDetailProps {
   data:
@@ -14,18 +14,33 @@ interface AdditionalOwnerDetailProps {
 }
 
 function AdditionalOwnerDetail({ data }: AdditionalOwnerDetailProps) {
+  const hasAdditionalOwner = !isEmpty(data) && !!get(data, "0.fullName")
+
   return (
     <div className="flex flex-col gap-3">
-      {data?.map((owner, index) => (
-        <FinancialApplicationFormDetail
-          key={`AdditionalOwner-${index + 1}`}
-          isSubChildren
-          financialApplicationFormData={toAdditionalOwnerDetail(
-            owner as CapitalCollabAdditionalOwnerFormValue,
-            index
-          )}
-        />
-      ))}
+      <FinancialApplicationFormDetail
+        key={CapitalCollabKYCFieldName.IS_BUSINESS_SOLELY_OWNED}
+        isSubChildren
+        financialApplicationFormData={[
+          {
+            id: CapitalCollabKYCFieldName.IS_BUSINESS_SOLELY_OWNED,
+            title: "Business solely owned by you: ",
+            content: hasAdditionalOwner ? "No" : "Yes"
+          }
+        ]}
+      />
+      {hasAdditionalOwner
+        ? data?.map((owner, index) => (
+            <FinancialApplicationFormDetail
+              key={`AdditionalOwner-${index + 1}`}
+              isSubChildren
+              financialApplicationFormData={toAdditionalOwnerDetail(
+                owner as CapitalCollabAdditionalOwnerFormValue,
+                index
+              )}
+            />
+          ))
+        : null}
     </div>
   )
 }
@@ -33,9 +48,5 @@ function AdditionalOwnerDetail({ data }: AdditionalOwnerDetailProps) {
 export const renderAdditionalOwnerDetail = ({
   data
 }: AdditionalOwnerDetailProps) => {
-  if (!Array.isArray(data) || _.isEmpty(data)) {
-    return undefined
-  }
-
   return <AdditionalOwnerDetail data={data} />
 }

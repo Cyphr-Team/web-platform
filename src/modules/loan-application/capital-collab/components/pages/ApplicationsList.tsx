@@ -127,7 +127,10 @@ export function CapitalCollabApplicationsList() {
     <div className={cn("container mx-auto p-2xl", "md:p-4xl")}>
       <div className="flex flex-col gap-1">
         <Breadcrumbs breads={crumbs} className="px-0" />
-        <h1 className="text-2xl font-semibold mt-3">Applications</h1>
+        <h1 className="text-2xl font-semibold mt-3">Account Applications</h1>
+        <p className="mb-2">
+          Keep track of your account applications and their statuses
+        </p>
       </div>
 
       <DataTable

@@ -4,7 +4,6 @@ import {
   CapitalCollabKYCFieldName,
   PERSONAL_CREDIT_SCORE_OPTIONS
 } from "@/modules/loan-application/capital-collab/constants/kyc"
-import { BINARY_VALUES } from "@/modules/loan-application/constants/form"
 import {
   type CapitalCollabAdditionalOwnerFormValue,
   type CapitalCollabOwnerFormValue
@@ -12,7 +11,6 @@ import {
 import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { formatPhoneNumber, toCurrency } from "@/utils"
 import { formatBirthday } from "@/utils/date.utils"
-import _ from "lodash"
 
 interface UseIndividualInformationDetail {
   ownerInformationFormValue?: CapitalCollabOwnerFormValue
@@ -38,12 +36,10 @@ export const individualInformationDetailMapper = ({
     })
   }
 
-  const ownerInformationDetail = _.isEqual(
-    ownerInformationFormValue?.isBusinessSolelyOwned,
-    BINARY_VALUES.NO
-  )
-    ? [individualInformationDetail, additionalOwnersInformationDetail]
-    : [individualInformationDetail]
+  const ownerInformationDetail = [
+    individualInformationDetail,
+    additionalOwnersInformationDetail
+  ]
 
   return { ownerInformationDetail }
 }
