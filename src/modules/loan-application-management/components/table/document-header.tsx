@@ -20,11 +20,13 @@ interface DocumentTableHeaderProps {
     formWrapper?: string
     searchInput?: string
   }
+  placeholder?: string
 }
 
 export const DocumentTableHeader: React.FC<DocumentTableHeaderProps> = ({
   onSearch,
-  classNames
+  classNames,
+  placeholder = "Search for documents"
 }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -67,7 +69,7 @@ export const DocumentTableHeader: React.FC<DocumentTableHeaderProps> = ({
               <FormControl>
                 <Input
                   className="pl-9"
-                  placeholder="Search for documents"
+                  placeholder={placeholder}
                   prefixIcon={<Search className="size-5 opacity-50" />}
                   type="text"
                   {...field}

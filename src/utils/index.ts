@@ -241,6 +241,18 @@ export function downloadJsonFile(data: string, filename: string) {
   downloadFile(blob, filename)
 }
 
+export function downloadZip(data: string, filename: string) {
+  if (!data) return
+  const blob = new Blob([data], {
+    type: "application/zip"
+  })
+
+  downloadFile(
+    blob,
+    `${extractFilename(filename)}_${format(new Date(), "MM-dd-yyyy_HH-mm")}.zip`
+  )
+}
+
 export function downloadFile(blob: Blob, filename: string) {
   const link = document.createElement("a")
 
