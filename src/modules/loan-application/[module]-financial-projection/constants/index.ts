@@ -43,7 +43,7 @@ export enum ApplicationMenuNameV2 {
   HistoricalFinancials = "Historical Financials"
 }
 
-export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU = [
+export const LOAN_READY_APPLICANT_TOP_HEADER_MENU = [
   {
     name: ApplicationMenuName.Summary,
     href: ""
@@ -54,7 +54,7 @@ export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU = [
   }
 ]
 
-export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V2 = [
+export const LOAN_READY_APPLICANT_TOP_HEADER_MENU_V2 = [
   {
     name: ApplicationMenuNameV2.Summary,
     href: ""
@@ -69,7 +69,7 @@ export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V2 = [
   }
 ]
 
-export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V3 = [
+export const LOAN_READY_APPLICANT_TOP_HEADER_MENU_V3 = [
   {
     name: ApplicationMenuNameV2.Summary,
     href: ""
@@ -83,7 +83,6 @@ export const FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V3 = [
     href: "fp-overview"
   },
   {
-    //TODO: Change to index if there is an overview page
     name: ApplicationMenuNameV2.HistoricalFinancials,
     href: "historical-financials/income-statement"
   }

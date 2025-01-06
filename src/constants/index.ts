@@ -673,6 +673,12 @@ export const API_PATH = {
         "api/loan-officer/application/financial-projection/forecast/by-setup-id",
       cashFlowAtAGlance: "api/financial-projection/cash-flow-glance/by-setup-id"
     }
+  },
+  historicalFinancials: {
+    statements: {
+      findByApplicationId: (applicationId: string) =>
+        `api/historical-financial-statement/by-application-id/${applicationId}`
+    }
   }
 }
 

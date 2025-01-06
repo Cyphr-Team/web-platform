@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import React from "react"
-import { currencyCellFormatter } from "@/modules/loan-application/[module]-financial-projection/components/molecules/DataRow.tsx"
+import { currencyCellFormatter } from "@/utils/currency.utils.ts"
 
 type CashFlowGlanceType = "currency" | "percent" | "default"
 

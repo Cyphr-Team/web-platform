@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils.ts"
 import { type PropsWithChildren } from "react"
-import { GridMapper } from "@/modules/loan-application/[module]-financial-projection/constants"
 import { v6 as uuidv6 } from "uuid"
 import { currencyCellFormatter } from "@/utils/currency.utils.ts"
 
@@ -13,7 +12,7 @@ interface DataRowProps {
   isEnd?: boolean
 }
 
-export function DataRow({
+export function HistoricalDataRow({
   title,
   data,
   collision = false,
@@ -22,7 +21,10 @@ export function DataRow({
   isEnd
 }: DataRowProps) {
   return (
-    <div className={cn(GridMapper[data.length], className)}>
+    <div
+      className={cn(className, "grid")}
+      style={{ gridTemplateColumns: `1fr repeat(${data.length}, 0.7fr)` }}
+    >
       <StyledComponent collision={collision} isEnd={isEnd} layout={layout}>
         <div className={cn("text-sm", getTitlePadding(layout))}>{title}</div>
       </StyledComponent>
@@ -39,7 +41,7 @@ export function DataRow({
             <>
               <div />
               {/* value return is percent, so we must multiply by 100 */}
-              <div>{Math.round(value * 100 * 100) / 100} %</div>
+              <div>{value} %</div>
             </>
           ) : (
             <>

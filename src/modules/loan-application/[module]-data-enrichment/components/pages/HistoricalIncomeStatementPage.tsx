@@ -1,51 +1,39 @@
-import usePermissions from "@/hooks/usePermissions"
 import { cn } from "@/lib/utils.ts"
 import { ErrorWrapper } from "@/modules/loan-application/[module]-financial-projection/components/layouts/ErrorWrapper.tsx"
 import { Drawer } from "@/modules/loan-application/[module]-financial-projection/components/molecules/Drawer.tsx"
-import { IncomeStatementTemplate } from "@/modules/loan-application/[module]-financial-projection/components/molecules/FpIncomeStatementTemplate"
-import { getIncomeStatementData } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
-import { useQueryFinancialProjectionForecast } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryFinancialProjectionForecast.ts"
-import {
-  ForecastPeriod,
-  type ForecastResultsResponse
-} from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
-import { get } from "lodash"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
+import { useQueryHistoricalStatement } from "@/modules/loan-application/[module]-data-enrichment/hooks/historical-statements/useQueryHistoricalStatement.ts"
+import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils.ts"
+import { HistoricalIncomeStatementTemplate } from "@/modules/loan-application/[module]-data-enrichment/components/molecules/HistoricalIncomeStatementTemplate.tsx"
+import { groupDataByProp } from "@/modules/loan-application/[module]-data-enrichment/services/historical-statement.service.ts"
+import { type HistoricalIncomeStatementByDate } from "@/modules/loan-application/[module]-data-enrichment/types/historical-statements.ts"
+import { NoData } from "@/modules/loan-application-management/components/atoms/NoData.tsx"
 
 export function Component() {
   const { id: applicationId } = useParams()
-  const { isWorkspaceAdmin } = usePermissions()
-
-  // TODO: Integrate API call to get historical income statement results
-  const { data, isLoading } = useQueryFinancialProjectionForecast({
+  const { data, isLoading } = useQueryHistoricalStatement({
     applicationId: applicationId!,
-    enabled: !!applicationId,
-    isWorkspaceAdmin
+    enabled: !!applicationId && isEnableHistoricalFinancialsEnrichment()
   })
-
-  const forecastResults = useMemo(
-    () => data ?? ({} as ForecastResultsResponse),
-    [data]
+  const incomeStatementData = useMemo(() => data?.incomeStatement ?? [], [data])
+  const incomeStatementDataGroupedByProp = useMemo(
+    () => groupDataByProp(incomeStatementData),
+    [incomeStatementData]
   )
-
-  const monthlyData = useMemo(
-    () => getIncomeStatementData(forecastResults, ForecastPeriod.MONTHLY),
-    [forecastResults]
-  )
-  const monthlyTimeStamp = useMemo(
+  const incomeStatementTimeStamps = useMemo(
     () =>
-      get(
-        forecastResults,
-        "incomeStatementForecastMonthly[0].forecastData",
-        []
-      ).map((entry) => new Date(entry.forecastDate)),
-    [forecastResults]
+      incomeStatementData.map(
+        (item: HistoricalIncomeStatementByDate) => new Date(item.date)
+      ),
+    [incomeStatementData]
   )
 
   return (
-    <ErrorWrapper isError={!forecastResults?.incomeStatementForecastMonthly}>
+    <ErrorWrapper
+      isError={!incomeStatementData || incomeStatementData.length < 1}
+    >
       <div className="flex flex-col gap-y-2xl">
         <div className="flex w-full items-center justify-end gap-2">
           <Drawer />
@@ -60,15 +48,17 @@ export function Component() {
           isLoading={isLoading}
         >
           <div className="flex flex-col gap-y-6xl">
-            <IncomeStatementTemplate
-              data={monthlyData}
-              headerProps={{
-                title: "Income Statement",
-                data: monthlyTimeStamp
-              }}
-              layout="default"
-              period={ForecastPeriod.MONTHLY}
-            />
+            {!incomeStatementData?.length ? (
+              <NoData />
+            ) : (
+              <HistoricalIncomeStatementTemplate
+                data={incomeStatementDataGroupedByProp}
+                headerProps={{
+                  data: incomeStatementTimeStamps,
+                  title: "Historical Income Statement"
+                }}
+              />
+            )}
           </div>
         </LoadingWrapper>
       </div>

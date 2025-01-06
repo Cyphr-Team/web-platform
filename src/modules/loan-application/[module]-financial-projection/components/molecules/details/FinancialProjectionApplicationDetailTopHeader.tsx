@@ -2,9 +2,9 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll.tsx"
 import { cn } from "@/lib/utils.ts"
 import { NavLink } from "react-router-dom"
 import {
-  FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU,
-  FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V2,
-  FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V3
+  LOAN_READY_APPLICANT_TOP_HEADER_MENU,
+  LOAN_READY_APPLICANT_TOP_HEADER_MENU_V2,
+  LOAN_READY_APPLICANT_TOP_HEADER_MENU_V3
 } from "@/modules/loan-application/[module]-financial-projection/constants"
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { toCurrency } from "@/utils"
@@ -32,10 +32,10 @@ function Title() {
 
 export function FinancialProjectionApplicationDetailTopHeader() {
   const HEADER_MENU = isEnableHistoricalFinancialsEnrichment()
-    ? FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V3
+    ? LOAN_READY_APPLICANT_TOP_HEADER_MENU_V3
     : isEnableLoanReadyV2()
-      ? FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU_V2
-      : FINANCIAL_PROJECTION_DETAIL_TOP_HEADER_MENU
+      ? LOAN_READY_APPLICANT_TOP_HEADER_MENU_V2
+      : LOAN_READY_APPLICANT_TOP_HEADER_MENU
 
   return (
     <div className="relative">

@@ -18,6 +18,7 @@ import { type ReactNode, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils.ts"
+import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
 
 interface DrawerCheckBoxProps {
   name: ExportFPOption
@@ -136,24 +137,21 @@ function DrawerContent() {
         />
       </CardSection>
 
-      {
-        // TODO(NganPhan): Integrate to export historical financial statements PDF
-        isEnableHistoricalFinancialsEnrichment() && (
-          <CardSection
-            title="Historical Financial Statements"
-            tooltipContent="Past financial performance, based on data from your connected Plaid account and the way you've categorized your transactions."
-          >
-            <CheckboxGroup
-              options={[
-                {
-                  name: ExportFPOption.HISTORICAL_INCOME_STATEMENT,
-                  label: "Income Statement"
-                }
-              ]}
-            />
-          </CardSection>
-        )
-      }
+      {isEnableHistoricalFinancialsEnrichment() && (
+        <CardSection
+          title="Historical Financial Statements"
+          tooltipContent="Past financial performance, based on data from your connected Plaid account and the way you've categorized your transactions."
+        >
+          <CheckboxGroup
+            options={[
+              {
+                name: ExportFPOption.HISTORICAL_INCOME_STATEMENT,
+                label: "Income Statement"
+              }
+            ]}
+          />
+        </CardSection>
+      )}
     </div>
   )
 }
@@ -221,6 +219,12 @@ export function Drawer({ applicationPlan }: DrawerProps) {
     queryKey: [APPLICATION_MANAGEMENT_QUERY_KEY.GET_LOAN_SUMMARY]
   })
 
+  const isFetchingHistoricalFinancials = useIsFetching({
+    queryKey: [
+      HISTORICAL_FINANCIALS_QUERY_KEY.GET_HISTORICAL_FINANCIAL_STATEMENTS
+    ]
+  })
+
   /**
    * Note:
    * - Usually the LoanReadiness is the heaviest because its depend on 3rd party.
@@ -230,7 +234,8 @@ export function Drawer({ applicationPlan }: DrawerProps) {
     isFetchingBankAccounts ||
     isFetchingFinancial ||
     isFetchingLoanReadiness ||
-    isFetchingLoanSummary
+    isFetchingLoanSummary ||
+    (isEnableHistoricalFinancialsEnrichment() && isFetchingHistoricalFinancials)
   )
 
   const drawerContent =
