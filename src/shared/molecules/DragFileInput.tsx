@@ -1,16 +1,18 @@
 import React, { useState } from "react"
 import { UploadCloud } from "lucide-react"
 import { Card } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 
 interface DragDropFileInputProps {
   multiple?: boolean
   onFileSelect: (files: FileList, field?: string) => void
   field?: string
   id: string
+  className?: string
 }
 
 export function DragDropFileInput(props: DragDropFileInputProps) {
-  const { onFileSelect, field, id, multiple = true } = props
+  const { onFileSelect, field, id, multiple = true, className } = props
   const [dragActive, setDragActive] = useState(false)
 
   const handleDrag = (event: React.DragEvent<HTMLFormElement>) => {
@@ -60,7 +62,10 @@ export function DragDropFileInput(props: DragDropFileInputProps) {
       />
       <label htmlFor={id}>
         <Card
-          className="justify-content flex cursor-pointer flex-col items-center gap-lg p-xl shadow-none data-[drag='true']:border-primary"
+          className={cn(
+            "justify-content flex cursor-pointer flex-col items-center gap-lg p-xl shadow-none data-[drag='true']:border-primary",
+            className
+          )}
           data-drag={dragActive}
         >
           <div className="rounded-md border p-md">

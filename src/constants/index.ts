@@ -61,6 +61,13 @@ export const APP_PATH = {
       edit: "/loan/:loanProgramId/applications/:id/edit",
       details: (id: string, loanProgramId: string) =>
         `/loan/${loanProgramId}/applications/${id}`,
+      documents: {
+        index: "/loan/:loanProgramId/applications/:id/documents",
+        details: (loanProgramId: string, id: string) =>
+          `/loan/${loanProgramId}/applications/${id}/documents`,
+        byDocumentId: (loanProgramId: string, id: string, documentId: string) =>
+          `/loan/${loanProgramId}/applications/${id}/documents/${documentId}`
+      },
       financialApplicationDetails: (id: string, loanProgramId: string) =>
         `/loan/${loanProgramId}/financial-applications/${id}`,
       editing: (id: string, loanProgramId: string) =>
@@ -509,8 +516,15 @@ export const API_PATH = {
       `api/loan-officer/applications/${applicationId}/full-amortization-schedule`,
     // Only for Capital Collab bank
     cccDocuments: {
-      getDocumentsByApplicationId: `api/admin/form/documents/list`,
-      downloadMultipleDocuments: `api/admin/form/documents/download/by-document-ids`
+      applicant: {
+        getDocumentsByApplicationId: "api/form/documents/list",
+        downloadMultipleDocuments: "api/form/documents/download/by-document-ids"
+      },
+      // For admin site
+      admin: {
+        getDocumentsByApplicationId: `api/admin/form/documents/list`,
+        downloadMultipleDocuments: `api/admin/form/documents/download/by-document-ids`
+      }
     }
   },
   loanReadiness: {

@@ -52,6 +52,7 @@ interface CCLoanDocument {
   fullPathFileName: string
   expiredAt: string
   createdAt: string
+  formId: string
 }
 
 export type { LoanDocument, CCLoanDocument }

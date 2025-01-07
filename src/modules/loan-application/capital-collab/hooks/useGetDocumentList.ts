@@ -22,8 +22,11 @@ interface UseQueryDocumentParams {
 export const useQueryDocument = ({
   applicationId,
   fileName,
-  sort
-}: UseQueryDocumentParams) => {
+  sort,
+  isAdmin = false
+}: UseQueryDocumentParams & {
+  isAdmin?: boolean
+}) => {
   const params = useParams()
 
   return useQuery<ListLoanApplicationResponse>({
@@ -40,8 +43,11 @@ export const useQueryDocument = ({
         UseQueryDocumentParams,
         ListLoanApplicationResponse
       >({
-        path: API_PATH.loanApplicationDetails.cccDocuments
-          .getDocumentsByApplicationId,
+        path: isAdmin
+          ? API_PATH.loanApplicationDetails.cccDocuments.admin
+              .getDocumentsByApplicationId
+          : API_PATH.loanApplicationDetails.cccDocuments.applicant
+              .getDocumentsByApplicationId,
         data: {
           applicationId,
           formType: FORM_TYPE.CCC_DOCUMENTS,

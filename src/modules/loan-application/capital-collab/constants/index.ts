@@ -33,7 +33,7 @@ export const APPLICANT_APPLICATION_SUMMARY_TOP_HEADER_MENU = [
   },
   {
     name: ApplicationMenuName.document,
-    href: "document"
+    href: "documents"
   }
 ]
 

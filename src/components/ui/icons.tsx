@@ -820,10 +820,10 @@ export const Icons = {
   ),
   folderDownload: (props: IconProps) => (
     <svg
-      width="16"
+      fill="none"
       height="16"
       viewBox="0 0 16 16"
-      fill="none"
+      width="16"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -836,10 +836,10 @@ export const Icons = {
       <defs>
         <clipPath id="clip0_502_267">
           <rect
-            width="13.3333"
-            height="13.3333"
             fill="white"
+            height="13.3333"
             transform="translate(1.33333 1.33331)"
+            width="13.3333"
           />
         </clipPath>
       </defs>
@@ -847,10 +847,10 @@ export const Icons = {
   ),
   plusCircle: (props: IconProps) => (
     <svg
-      width="20"
+      fill="none"
       height="20"
       viewBox="0 0 20 20"
-      fill="none"
+      width="20"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -870,9 +870,24 @@ export const Icons = {
       </g>
       <defs>
         <clipPath id="clip0_502_593">
-          <rect width="20" height="20" fill="white" />
+          <rect fill="white" height="20" width="20" />
         </clipPath>
       </defs>
+    </svg>
+  ),
+  trash: (props: IconProps) => (
+    <svg
+      fill="none"
+      height="20"
+      viewBox="0 0 20 20"
+      width="20"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M8.32194 2.55208H11.6771C11.7738 2.55208 11.8633 2.59863 11.917 2.68098L12.5973 3.69791H7.40527L8.08561 2.68098C8.13932 2.60221 8.22884 2.55208 8.32552 2.55208H8.32194ZM14.6634 3.69791L13.3493 1.72493C12.9769 1.16992 12.3503 0.833328 11.6807 0.833328H8.32194C7.65234 0.833328 7.02572 1.16992 6.65332 1.72493L5.33919 3.69791H4.84863H3.1263H2.83984C2.36361 3.69791 1.98047 4.08105 1.98047 4.55729C1.98047 5.03352 2.36361 5.41666 2.83984 5.41666H3.25521L4.11458 17.0433C4.2041 18.2393 5.19954 19.1667 6.39909 19.1667H13.6035C14.8031 19.1667 15.7985 18.2393 15.888 17.0433L16.7474 5.41666H17.1628C17.639 5.41666 18.0221 5.03352 18.0221 4.55729C18.0221 4.08105 17.639 3.69791 17.1628 3.69791H16.8763H15.154H14.6634ZM15.0251 5.41666L14.1729 16.918C14.1514 17.2187 13.9007 17.4479 13.5999 17.4479H6.39909C6.09831 17.4479 5.85124 17.2152 5.82617 16.918L4.97754 5.41666H15.0251Z"
+        fill="#252828"
+      />
     </svg>
   )
 }

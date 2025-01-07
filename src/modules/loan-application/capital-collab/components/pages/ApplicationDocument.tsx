@@ -13,15 +13,19 @@ import {
 import { DownloadIcon } from "lucide-react"
 import { useCallback, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
-import { columns } from "../organisms/documents-columns"
+import { getColumns } from "../organisms/documents-columns"
+import { checkIsWorkspaceAdmin } from "@/utils/check-roles"
+import UploadDocumentDialog from "../organisms/upload-documents-dialog"
+import { type CCLoanDocument } from "@/types/loan-document.type"
+import useDeleteDocument from "../../hooks/useDeleteDocument"
 
-// For Admin view
-export function AdminApplicationDocument() {
+function ApplicationDocument() {
   const { id: loanApplicationID } = useParams()
   const [keyword, setKeyword] = useState("")
   // Table state
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const isAdmin = checkIsWorkspaceAdmin()
 
   const getSort = useCallback(() => {
     if (!sorting.length) return {}
@@ -34,7 +38,8 @@ export function AdminApplicationDocument() {
   const { data, isFetching } = useQueryDocument({
     applicationId: loanApplicationID!,
     fileName: keyword,
-    sort: getSort()
+    sort: getSort(),
+    isAdmin
   })
 
   const [pagination, setPagination] = useState<PaginationState>({
@@ -55,24 +60,36 @@ export function AdminApplicationDocument() {
     return ids
   }, [data, rowSelection])
 
-  const downloadFile = useDownloadDocuments()
+  const downloadFile = useDownloadDocuments({
+    isAdmin
+  })
+  const deleteDocument = useDeleteDocument()
+
+  const handleDeleteDocument = (document: CCLoanDocument) => {
+    deleteDocument.mutate({ id: document.formId, url: [document.url] })
+  }
+
+  const handleDownloadDocument = () => {
+    downloadFile.mutate({ documentIds: selectedDocumentIds })
+  }
 
   return (
     <div>
-      {Object.keys(rowSelection).length ? (
-        <div className="flex flex-row-reverse w-full mb-14">
-          <ButtonLoading
-            isLoading={downloadFile.isPending}
-            variant="outline"
-            onClick={() =>
-              downloadFile.mutate({ documentIds: selectedDocumentIds })
-            }
-          >
-            <DownloadIcon className="mr-2 text-muted-foreground" size={20} />
-            Download
-          </ButtonLoading>
+      {(!isAdmin || Object.keys(rowSelection).length > 0) && (
+        <div className="flex flex-row-reverse w-full mb-14 gap-6">
+          {isAdmin ? null : <UploadDocumentDialog />}
+          {Object.keys(rowSelection).length ? (
+            <ButtonLoading
+              isLoading={downloadFile.isPending}
+              variant="outline"
+              onClick={handleDownloadDocument}
+            >
+              <DownloadIcon className="mr-2 text-muted-foreground" size={20} />
+              Download
+            </ButtonLoading>
+          ) : null}
         </div>
-      ) : null}
+      )}
       <div className="rounded-t-xl border px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-24">
         <div>
           <h3 className="mb-1 text-lg font-semibold">Documentation</h3>
@@ -92,20 +109,28 @@ export function AdminApplicationDocument() {
       </div>
       <DataTable
         manualSorting
-        columns={columns}
+        columns={getColumns(
+          isAdmin
+            ? {}
+            : {
+                onDelete: handleDeleteDocument
+              }
+        )}
         data={data?.data ?? []}
         isLoading={isFetching}
         pagination={pagination}
+        rowSelection={rowSelection}
         setPagination={setPagination}
         setRowSelection={setRowSelection}
         setSorting={setSorting}
         sorting={sorting}
+        tableClassName="md:table-fixed"
         tableContainerClassName="rounded-t-none border-t-0"
         total={data?.total ?? 0}
-        tableClassName="md:table-fixed"
         // TODO: add handle click to preview document
-        rowSelection={rowSelection}
       />
     </div>
   )
 }
+
+export default ApplicationDocument

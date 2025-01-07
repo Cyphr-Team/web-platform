@@ -1,7 +1,7 @@
-import { AdminApplicationDocument } from "@/modules/loan-application/capital-collab/components/pages/AdminApplicationDocument"
+import ApplicationDocument from "@/modules/loan-application/capital-collab/components/pages/ApplicationDocument"
 
 export function Component() {
-  return <AdminApplicationDocument />
+  return <ApplicationDocument />
 }
 
 Component.displayName = "Document"

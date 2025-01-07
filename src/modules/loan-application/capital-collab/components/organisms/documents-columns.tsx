@@ -7,6 +7,7 @@ import { format } from "date-fns"
 import { ChevronRight } from "lucide-react"
 import { renderFilterableHeader } from "@/utils/table.utils"
 import { Checkbox } from "@/components/ui/checkbox"
+import DeleteDocumentDialog from "./delete-document-dialog"
 
 const getFileNameFromOriginPath = (originPath: string) => {
   if (!originPath) return ""
@@ -15,7 +16,11 @@ const getFileNameFromOriginPath = (originPath: string) => {
   return path[path.length - 1]
 }
 
-export const columns: ColumnDef<CCLoanDocument>[] = [
+export const getColumns = ({
+  onDelete
+}: {
+  onDelete?: (row: CCLoanDocument) => void
+} = {}): ColumnDef<CCLoanDocument>[] => [
   {
     id: "select",
     header: () => null,
@@ -89,5 +94,16 @@ export const columns: ColumnDef<CCLoanDocument>[] = [
         </ButtonLoading>
       </div>
     )
-  }
+  },
+  ...(onDelete ? [deleteColumn(onDelete)] : [])
 ]
+
+const deleteColumn = (
+  onDelete: (row: CCLoanDocument) => void
+): ColumnDef<CCLoanDocument> => ({
+  id: "delete",
+  header: () => null,
+  cell: ({ row }) => (
+    <DeleteDocumentDialog row={row.original} onDelete={onDelete} />
+  )
+})

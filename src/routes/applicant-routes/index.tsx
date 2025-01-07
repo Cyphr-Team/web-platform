@@ -8,7 +8,13 @@ import { PlaidProvider } from "@/modules/loan-application/providers/PlaidProvide
 import { LoanApplicationDetailLayout } from "@/shared/layouts/LoanApplicationDetailLayout"
 import { LoanApplicationFormLayout } from "@/shared/layouts/LoanApplicationFormLayout"
 import { handleCrumb } from "@/utils/crumb.utils"
-import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isCapitalCollab,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { Loader2 } from "lucide-react"
 import { lazy, Suspense } from "react"
 import { Outlet, Route } from "react-router-dom"
@@ -20,6 +26,7 @@ import { paymentRoutes } from "@/routes/applicant-routes/payment-routes"
 import { FinancialProjectionApplicationDetailLayout } from "@/modules/loan-application/[module]-financial-projection/components/layouts/FinancialProjectionApplicationDetailLayout.tsx"
 import { applicantFinancialProjectionRoutesV2 } from "@/routes/applicant-routes/financial-projection-routes-v2"
 import { applicantHistoricalFinancialsRoutes } from "@/routes/applicant-routes/historical-financial-routes"
+import { documentRoutes } from "./document-routes"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -122,6 +129,7 @@ const applicantRoutes = (
         path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.detail}
       >
         <Route index element={<LoanApplicationDetailsReview />} />
+        {isCapitalCollab() && documentRoutes}
       </Route>
       <Route
         element={
