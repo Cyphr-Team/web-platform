@@ -1,7 +1,9 @@
 import { useBoolean } from "@/hooks"
 import {
   ExportFPOption,
-  PDFPageOrder
+  PDFPageOrder,
+  PDFPageOrientation,
+  PdfPageOrientationMapper
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
 import {
   EXPORT_CLASS,
@@ -11,6 +13,10 @@ import { toastError } from "@/utils"
 import { useRef } from "react"
 
 type ElementRef = Partial<Record<ExportFPOption, HTMLDivElement>>
+type ElementsToExport = {
+  htmlElement: HTMLDivElement
+  pageOrientation?: PDFPageOrientation
+}[]
 
 export const useExportToPDF = () => {
   const isExporting = useBoolean(false)
@@ -20,7 +26,7 @@ export const useExportToPDF = () => {
   const sortAndFilterElements = (
     elements: ElementRef,
     markedElement: Record<ExportFPOption, boolean>
-  ): HTMLDivElement[] => {
+  ): ElementsToExport => {
     return Object.entries(elements)
       .sort(
         (a, b) =>
@@ -33,13 +39,18 @@ export const useExportToPDF = () => {
           (markedElement[key as ExportFPOption] ||
             key === ExportFPOption.DISCLAIMER_NOTE)
       )
-      .map(([, element]) => element)
+      .map(([key, element]) => ({
+        htmlElement: element,
+        pageOrientation:
+          PdfPageOrientationMapper[key as ExportFPOption] ??
+          PDFPageOrientation.PORTRAIT
+      }))
   }
 
-  const getFinancialElements = (): HTMLDivElement[] =>
-    [
-      ...document.getElementsByClassName(EXPORT_CLASS.FINANCIAL)
-    ] as HTMLDivElement[]
+  const getElementsByExportClass = (
+    exportClass: EXPORT_CLASS
+  ): HTMLDivElement[] =>
+    [...document.getElementsByClassName(exportClass)] as HTMLDivElement[]
 
   const exportToPdf = async (
     markedElement: Record<ExportFPOption, boolean>
@@ -55,16 +66,38 @@ export const useExportToPDF = () => {
         elementToExportRef.current,
         markedElement
       )
-      const financialElements = markedElement[
-        ExportFPOption.APPLICATION_SUMMARY
-      ]
-        ? getFinancialElements()
-        : []
 
-      const allElements = [...filteredElements, ...financialElements]
+      const financialElements: ElementsToExport = (
+        markedElement[ExportFPOption.APPLICATION_SUMMARY]
+          ? getElementsByExportClass(EXPORT_CLASS.FINANCIAL)
+          : []
+      ).map((el) => ({
+        htmlElement: el,
+        pageOrientation:
+          PdfPageOrientationMapper[ExportFPOption.APPLICATION_SUMMARY]
+      }))
+
+      const historicalFinancialElements: ElementsToExport = (
+        markedElement[ExportFPOption.HISTORICAL_INCOME_STATEMENT]
+          ? getElementsByExportClass(EXPORT_CLASS.HISTORICAL_FINANCIALS)
+          : []
+      ).map((el) => ({
+        htmlElement: el,
+        pageOrientation:
+          PdfPageOrientationMapper[ExportFPOption.HISTORICAL_INCOME_STATEMENT]
+      }))
+
+      const allElements = [
+        ...filteredElements,
+        ...financialElements,
+        ...historicalFinancialElements
+      ]
 
       const { pdf } = await generatePDF({
-        elements: allElements
+        elements: allElements.map((el) => ({
+          htmlElement: el.htmlElement,
+          pageOrientation: el.pageOrientation
+        }))
       })
 
       pdf.save(`financial_projections_${Date.now()}.pdf`)

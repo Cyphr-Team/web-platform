@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils.ts"
 import { type PropsWithChildren } from "react"
-import { v6 as uuidv6 } from "uuid"
 import { currencyCellFormatter } from "@/utils/currency.utils.ts"
 
 interface DataRowProps {
@@ -29,9 +28,9 @@ export function HistoricalDataRow({
         <div className={cn("text-sm", getTitlePadding(layout))}>{title}</div>
       </StyledComponent>
 
-      {data.map((value) => (
+      {data.map((value, index) => (
         <StyledComponent
-          key={uuidv6()}
+          key={`${title}-${index}`}
           className="border-l"
           collision={collision}
           isEnd={isEnd}
@@ -40,7 +39,6 @@ export function HistoricalDataRow({
           {layout === "percentage" ? (
             <>
               <div />
-              {/* value return is percent, so we must multiply by 100 */}
               <div>{value} %</div>
             </>
           ) : (

@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils.ts"
 import { type ReactNode } from "react"
-import { v6 as uuidv6 } from "uuid"
 
 interface TotalRowProps {
   title: string
@@ -28,9 +27,9 @@ export function HistoricalDateRow(props: TotalRowProps) {
         {title}
       </div>
 
-      {data.map((value) => (
+      {data.map((value, index) => (
         <div
-          key={uuidv6()}
+          key={`${title}-${index}`}
           className={cn(
             "col-span-1 flex items-center justify-between",
             "h-11 px-4 text-sm font-semibold",

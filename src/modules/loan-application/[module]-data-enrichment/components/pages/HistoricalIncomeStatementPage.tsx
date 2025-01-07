@@ -57,6 +57,7 @@ export function Component() {
                   data: incomeStatementTimeStamps,
                   title: "Historical Income Statement"
                 }}
+                title="Historical Income Statement"
               />
             )}
           </div>

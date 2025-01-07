@@ -30,10 +30,24 @@ import { getBusinessName } from "@/utils/kyb.utils"
 import { get } from "lodash"
 import { type FC, type MutableRefObject, useCallback, useMemo } from "react"
 import { useParams } from "react-router-dom"
-import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import {
+  isEnableFormV2,
+  isEnableHistoricalFinancialsEnrichment
+} from "@/utils/feature-flag.utils.ts"
+import { useQueryGetApplicationSummary } from "@/modules/loan-application-management/hooks/useQuery/useQueryApplicationSummary.ts"
+import { useQueryHistoricalStatement } from "@/modules/loan-application/[module]-data-enrichment/hooks/historical-statements/useQueryHistoricalStatement.ts"
+import { type HistoricalIncomeStatementByDate } from "@/modules/loan-application/[module]-data-enrichment/types/historical-statements.ts"
+import { groupDataByProp } from "@/modules/loan-application/[module]-data-enrichment/services/historical-statement.service.ts"
+import { type HistoricalStatementDataRow } from "@/modules/loan-application/[module]-data-enrichment/types"
+import { HistoricalIncomeStatementPdfTemplate } from "@/modules/loan-application/[module]-data-enrichment/components/molecules/HistoricalIncomeStatementPdfTemplate.tsx"
 
 interface SectionProps {
   forecastResults: ForecastResultsResponse
+  historicalIncomeStatementTimeStamp: Record<string, Date[]>
+  historicalIncomeStatementDataByYears: Record<
+    string,
+    HistoricalStatementDataRow
+  >
   annuallyTimeStamp: Date[]
   currentTimeStamp: Date[]
   provideRef: (key: ExportFPOption) => (e: HTMLDivElement) => void
@@ -181,6 +195,25 @@ function IncomeSheetSection({
   )
 }
 
+function HistoricalIncomeStatementSection({
+  historicalIncomeStatementDataByYears,
+  historicalIncomeStatementTimeStamp
+}: SectionProps): JSX.Element {
+  return (
+    <div
+      className="flex flex-col p-8 gap-8 items-center"
+      data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
+    >
+      <HistoricalIncomeStatementPdfTemplate
+        historicalIncomeStatementDataByYears={
+          historicalIncomeStatementDataByYears
+        }
+        historicalIncomeStatementTimeStamp={historicalIncomeStatementTimeStamp}
+      />
+    </div>
+  )
+}
+
 function ApplicantReviewPdf() {
   const { financialApplicationDetailData, isFetching } =
     useApplicantFinancialProjectionApplicationDetails()
@@ -261,9 +294,104 @@ const EXPORT_COMPONENTS: { [key in ExportFPOption]: FC<SectionProps> } = {
   [ExportFPOption.APPLICATION_SUMMARY]: ApplicationSummarySection,
   [ExportFPOption.CHARTS]: ChartsSection,
   [ExportFPOption.DISCLAIMER_NOTE]: DisclaimerNoteSection,
+  [ExportFPOption.HISTORICAL_INCOME_STATEMENT]: HistoricalIncomeStatementSection
+}
 
-  // TODO(NganPhan): Implement historical income statement export
-  [ExportFPOption.HISTORICAL_INCOME_STATEMENT]: DisclaimerNoteSection
+/**
+ * Get the count of historical statement data by year
+ *
+ * @return Record<number, number>
+ * Example return: {
+ *    "2021": 2,
+ *    ...
+ *  }
+ *
+ * @param data The HistoricalStatement grouped by date
+ * Example param:
+ * data: [
+ *  {
+ *    "date": "2021-01-01",
+ *    "revenue": 6368,
+ *   },
+ *   {
+ *    "date": "2021-02-01",
+ *    "revenue": 6368,
+ *   }, ...
+ * ]
+ */
+function getHistoricalStatementYearCount(
+  data: HistoricalIncomeStatementByDate[]
+) {
+  const incomeStatementYearCounts: Record<number, number> = {}
+
+  data.forEach((data: HistoricalIncomeStatementByDate) => {
+    const year = new Date(data.date).getFullYear()
+
+    incomeStatementYearCounts[year] = incomeStatementYearCounts[year]
+      ? incomeStatementYearCounts[year] + 1
+      : 1
+  })
+
+  return incomeStatementYearCounts
+}
+
+/**
+ * Slices the values of each property in a historical statement data row
+ * by the count of entries for each year and groups them by year.
+ * @param groupedData
+ *        Example param:
+ *        {
+ *          "revenue": [100, 200, 300, 6368],
+ *          "costOfGoodsSold": [100, 200, 300, 6368],
+ *          ...
+ *        }
+ * @param entryCountsByYear
+ *        Example param:
+ *        {
+ *          "2021": 1,
+ *          "2022: 2,
+ *          "2024": 1,
+ *          ...
+ *        }
+ * @return Record<string, HistoricalStatementDataRow>
+ *      Example return:
+ *      {
+ *        "2021": {
+ *          "revenue": [100],
+ *          "costOfGoodsSold": [100],
+ *          ...
+ *        },
+ *        "2022": {
+ *          "revenue": [200, 300],
+ *          "costOfGoodsSold": [200, 300],
+ *          ...
+ *        },
+ *        "2024": {
+ *          "revenue": [6368],
+ *          "costOfGoodsSold": [6368],
+ *          ...
+ *        },
+ *      ...
+ *      }
+ */
+function sliceHistoricalDataByYearCount(
+  groupedData: HistoricalStatementDataRow,
+  entryCountsByYear: Record<number, number>
+): Record<string, HistoricalStatementDataRow> {
+  const slicedDataByYear: Record<string, HistoricalStatementDataRow> = {}
+
+  // Iterate through the entry counts by year
+  for (const [year, count] of Object.entries(entryCountsByYear)) {
+    // Iterate through the grouped data and slice the data array to the specified count for the current year
+    Object.entries(groupedData).map(([key, values]) => {
+      slicedDataByYear[year] = {
+        ...slicedDataByYear[year],
+        [key]: values.slice(0, count)
+      }
+    })
+  }
+
+  return slicedDataByYear
 }
 
 export function FinancialProjectionPdf({
@@ -287,9 +415,18 @@ export function FinancialProjectionPdf({
     enabled: !checkIsLoanApplicant()
   })
 
+  const loanSummaryDataV2 = useQueryGetApplicationSummary({
+    applicationId: applicationId,
+    enabled: isEnableFormV2()
+  })
+
   const getFinalBusinessName = useCallback(() => {
     if (isEnableFormV2()) {
-      return get(kybDataV2, "metadata.businessLegalName") as string
+      if (checkIsLoanApplicant()) {
+        return get(kybDataV2, "metadata.businessLegalName") as string
+      }
+
+      return loanSummaryDataV2?.data?.businessInfo?.businessName?.value
     }
 
     // If applicant then use Kyb Form data
@@ -298,7 +435,12 @@ export function FinancialProjectionPdf({
     }
 
     return getBusinessName(loanSummaryQuery.data)
-  }, [kybData?.businessLegalName, kybDataV2, loanSummaryQuery.data])
+  }, [
+    kybData?.businessLegalName,
+    kybDataV2,
+    loanSummaryDataV2?.data?.businessInfo?.businessName,
+    loanSummaryQuery.data
+  ])
 
   const { data } = useQueryFinancialProjectionForecast({
     applicationId: applicationId!,
@@ -306,10 +448,62 @@ export function FinancialProjectionPdf({
     isWorkspaceAdmin
   })
 
+  const { data: historicalStatement } = useQueryHistoricalStatement({
+    applicationId: applicationId!,
+    enabled: !!applicationId && isEnableHistoricalFinancialsEnrichment()
+  })
+
   const forecastResults = useMemo(
     () => data ?? ({} as ForecastResultsResponse),
     [data]
   )
+  const historicalIncomeStatementData = useMemo(
+    () => historicalStatement,
+    [historicalStatement]
+  )
+
+  const groupedIncomeStatementByYear = useMemo(() => {
+    // Count the number of entries for each year
+    const yearEntryCounts: Record<number, number> =
+      getHistoricalStatementYearCount(
+        historicalIncomeStatementData?.incomeStatement ?? []
+      )
+
+    // Group the income statement data by their property keys
+    const groupedIncomeStatementData = groupDataByProp(
+      historicalIncomeStatementData?.incomeStatement ?? []
+    )
+
+    // Sliced the data by the count of entries for each year
+    return sliceHistoricalDataByYearCount(
+      groupedIncomeStatementData,
+      yearEntryCounts
+    )
+  }, [historicalIncomeStatementData?.incomeStatement])
+
+  const historicalIncomeStatementDateMappedByYears = useMemo(() => {
+    return Object.keys(groupedIncomeStatementByYear)?.reduce<
+      Record<string, Date[]>
+    >((acc, year) => {
+      // Filter items matching the current year
+      const filteredDates = historicalIncomeStatementData?.incomeStatement
+        ?.filter((item: HistoricalIncomeStatementByDate) => {
+          const itemYear = new Date(item.date).getFullYear()
+
+          return itemYear === Number(year)
+        })
+        // Map only date item
+        ?.map((item: HistoricalIncomeStatementByDate) => new Date(item.date))
+
+      // Assign the filtered and mapped dates to the accumulator
+      acc[year] = filteredDates ?? []
+
+      return acc
+    }, {})
+  }, [
+    historicalIncomeStatementData?.incomeStatement,
+    groupedIncomeStatementByYear
+  ])
 
   const annuallyTimeStamp = useMemo(
     () =>
@@ -340,6 +534,9 @@ export function FinancialProjectionPdf({
 
   const sectionProps: SectionProps = {
     forecastResults,
+    historicalIncomeStatementTimeStamp:
+      historicalIncomeStatementDateMappedByYears,
+    historicalIncomeStatementDataByYears: groupedIncomeStatementByYear,
     annuallyTimeStamp,
     currentTimeStamp,
     provideRef,

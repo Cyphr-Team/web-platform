@@ -106,7 +106,9 @@ export function ReviewApplication() {
       ] as HTMLDivElement[]
 
       const { pdf } = await generatePDF({
-        elements: filteredElement
+        elements: filteredElement.map((el) => ({
+          htmlElement: el
+        }))
       })
 
       dispatchFormAction({

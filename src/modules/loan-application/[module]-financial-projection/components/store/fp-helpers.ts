@@ -205,3 +205,36 @@ export const PDFPageOrder = [
   ExportFPOption.CHARTS,
   ExportFPOption.APPLICATION_SUMMARY
 ]
+
+export const enum PDFPageOrientation {
+  PORTRAIT = "portrait",
+  LANDSCAPE = "landscape"
+}
+
+/**
+ * The width of an A4 page in mm by orientation
+ */
+export const PDFPageWidthByOrientationMapper: Record<
+  PDFPageOrientation,
+  number
+> = {
+  [PDFPageOrientation.PORTRAIT]: 210,
+  [PDFPageOrientation.LANDSCAPE]: 297
+}
+
+export const PdfPageOrientationMapper: Record<
+  ExportFPOption,
+  PDFPageOrientation
+> = {
+  [ExportFPOption.DISCLAIMER_NOTE]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.CASH_FLOW_FORECAST]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.BALANCE_SHEET_FORECAST]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.INCOME_SHEET_FORECAST]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.LOAN_READY_SECTION]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.CASH_FLOW]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.BALANCE_SHEET]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.INCOME_SHEET]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.CHARTS]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.APPLICATION_SUMMARY]: PDFPageOrientation.PORTRAIT,
+  [ExportFPOption.HISTORICAL_INCOME_STATEMENT]: PDFPageOrientation.LANDSCAPE
+}

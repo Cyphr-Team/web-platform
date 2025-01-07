@@ -70,7 +70,9 @@ export function FinancialProjectionReviewApplication() {
         ] as HTMLDivElement[]
 
         const { pdf } = await generatePDF({
-          elements: filteredElement,
+          elements: filteredElement.map((el) => ({
+            htmlElement: el
+          })),
           isSigned: true
         })
 

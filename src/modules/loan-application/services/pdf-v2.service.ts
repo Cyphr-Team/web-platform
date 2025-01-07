@@ -2,13 +2,18 @@ import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import { get } from "lodash"
 import { formatDate } from "@/utils/date.utils.ts"
+import {
+  PDFPageOrientation,
+  PDFPageWidthByOrientationMapper
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers.ts"
 
-export const EXPORT_CLASS = {
-  PDF: "export-pdf", // Narrow down the changes, affect the exported elements only
-  FINANCIAL: "financial-application-detail-pdf",
-  EXTEND_FIVE_YEARS_WIDTH: "extend-five-years-width",
-  NO_BACKGROUND_COLOR: "no-background-color"
-} as const
+export const enum EXPORT_CLASS {
+  PDF = "export-pdf", // Narrow down the changes, affect the exported elements only
+  FINANCIAL = "financial-application-detail-pdf",
+  HISTORICAL_FINANCIALS = "historical-financials-pdf",
+  EXTEND_FIVE_YEARS_WIDTH = "extend-five-years-width",
+  NO_BACKGROUND_COLOR = "no-background-color"
+}
 
 export const EXPORT_CONFIG = {
   END_OF_PAGE: {
@@ -24,14 +29,18 @@ interface GeneratePDFResult {
 interface PDFGenerationContext {
   pdf: jsPDF
   element: HTMLElement
+  orientation?: PDFPageOrientation
   currentHeight: number
+  currentWidth: number
 }
 
 const PDF_CONFIG = {
   MARGIN_PERCENTAGE: 5,
   CONTENT_WIDTH_PERCENTAGE: 90,
   // Fixed the width while responsive
-  INITIAL_ELEMENT_WIDTH: 1200
+  PORTRAIT_INITIAL_ELEMENT_WIDTH: 1200,
+  // This is a GOD fit for [HistoricalIncomeStatementTemplate]
+  LANDSCAPE_INITIAL_ELEMENT_WIDTH: 1595
 }
 
 /**
@@ -93,7 +102,7 @@ const addImageToPDF = (
   // Check if we need to add a new page
   if (currentHeight + newHeight >= pageHeight) {
     updatedHeight = 0
-    pdf.addPage()
+    pdf.addPage(undefined, context.orientation ?? PDFPageOrientation.PORTRAIT)
   }
 
   const marginTop = updatedHeight === 0 ? marginLeft : 0
@@ -110,6 +119,11 @@ const addImageToPDF = (
   return updatedHeight + newHeight + marginTop
 }
 
+const getPDFPageWidth = (orientation?: PDFPageOrientation): string => {
+  return orientation === PDFPageOrientation.LANDSCAPE
+    ? `${PDF_CONFIG.LANDSCAPE_INITIAL_ELEMENT_WIDTH}px`
+    : `${PDF_CONFIG.PORTRAIT_INITIAL_ELEMENT_WIDTH}px`
+}
 /**
  * Processes a single HTML element, converting it to an image and adding it to the PDF.
  * @param context - The PDF generation context
@@ -120,7 +134,7 @@ const processElement = async (
 ): Promise<number> => {
   const clonedElement = context.element.cloneNode(true) as HTMLElement
 
-  clonedElement.style.width = `${PDF_CONFIG.INITIAL_ELEMENT_WIDTH}px`
+  clonedElement.style.width = getPDFPageWidth(context.orientation)
   clonedElement.classList.add(EXPORT_CLASS.PDF)
 
   try {
@@ -130,10 +144,7 @@ const processElement = async (
     if (canvas.height === 0) return context.currentHeight
 
     const imgData = canvas.toDataURL("image/jpeg")
-    const dimensions = calculateImageDimensions(
-      canvas,
-      context.pdf.internal.pageSize.width
-    )
+    const dimensions = calculateImageDimensions(canvas, context.currentWidth)
 
     return addImageToPDF(context, imgData, dimensions)
   } catch (error) {
@@ -225,7 +236,10 @@ const addFooter = (options: AddFooterOptions) => {
  * @returns A promise that resolves to an object containing the generated PDF
  */
 interface GeneratePDFOptions {
-  elements: HTMLDivElement[]
+  elements: {
+    htmlElement: HTMLElement
+    pageOrientation?: PDFPageOrientation
+  }[]
   isSigned?: boolean
 }
 
@@ -242,21 +256,38 @@ export const generatePDF = async ({
   try {
     for (const [index, element] of elements.entries()) {
       if (!element) continue
-      currentHeight = await processElement({ pdf, element, currentHeight })
+      const elementOrientation =
+        element.pageOrientation ?? PDFPageOrientation.PORTRAIT
+
+      currentHeight = await processElement({
+        pdf,
+        element: element.htmlElement,
+        orientation: elementOrientation,
+        currentHeight: currentHeight,
+        currentWidth: PDFPageWidthByOrientationMapper[elementOrientation]
+      })
 
       if (
-        get(element, ["dataset", EXPORT_CONFIG.END_OF_PAGE.KEY], null) ===
-          EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE &&
+        get(
+          element.htmlElement,
+          ["dataset", EXPORT_CONFIG.END_OF_PAGE.KEY],
+          null
+        ) === EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE &&
         index !== elements.length - 1
       ) {
-        pdf.addPage()
+        // Next page should get the next page orientation
+        pdf.addPage(
+          undefined,
+          // Need fallback or it will get previous page orientation
+          elements[index + 1].pageOrientation ?? PDFPageOrientation.PORTRAIT
+        )
         currentHeight = 0
       }
     }
 
     // FIXME: Added a large enough space to integrate with E-Sign
     if (isSigned && currentHeight !== 0) {
-      pdf.addPage()
+      pdf.addPage(undefined, PDFPageOrientation.PORTRAIT)
     }
 
     pdf.setFontSize(7)

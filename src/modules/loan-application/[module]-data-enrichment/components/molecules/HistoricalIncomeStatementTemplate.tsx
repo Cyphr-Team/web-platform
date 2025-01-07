@@ -6,6 +6,7 @@ import { HistoricalIncomeStatementField } from "@/modules/loan-application/[modu
 import { HistoricalMonthlyHeader } from "@/modules/loan-application/[module]-data-enrichment/components/molecules/HistoricalMonthlyHeader.tsx"
 import { HistoricalDataRow } from "@/modules/loan-application/[module]-data-enrichment/components/molecules/HistoricalDataRow.tsx"
 interface HistoricalStatementTemplateProps {
+  title?: string
   data: HistoricalStatementDataRow
   headerProps: HeaderProps
   isPdf?: boolean
@@ -14,11 +15,11 @@ interface HistoricalStatementTemplateProps {
 export function HistoricalIncomeStatementTemplate(
   props: HistoricalStatementTemplateProps
 ) {
-  const { headerProps, data, isPdf = false } = props
+  const { headerProps, title, data, isPdf = false } = props
 
   return (
-    <div className="flex w-full flex-col gap-y-2xl">
-      <h1 className="text-3xl font-semibold">Historical Income Statement</h1>
+    <div className={cn("flex flex-col gap-y-2xl", isPdf ? "w-fit" : "w-full")}>
+      {title ? <h1 className="text-3xl font-semibold">{title}</h1> : null}
       <Card
         className={cn(
           isPdf ? null : "shadow-primary",
