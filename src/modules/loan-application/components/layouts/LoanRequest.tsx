@@ -54,6 +54,7 @@ import { FormLayout } from "@/modules/loan-application/components/layouts/FormLa
 import { loanRequestSchemasByInstitution } from "../../constants/form-v2"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils"
 import { type MicroLoanProgramType } from "@/types/loan-program.type"
+import { RHFSelectInput } from "@/modules/form-template/components/molecules"
 
 interface LoanRequestProps {
   wrapperClassName?: string
@@ -211,6 +212,15 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
     return "What is the loan amount you are requesting?"
   }
 
+  // Enable use of loan component (check institution compatibility)
+  const isEnableUseOfLoanV2 = isCapitalCollab()
+  const isEnableUseOfLoan =
+    !isLoanReady() &&
+    !isKccBank() &&
+    !isSbb() &&
+    !isLaunchKC() &&
+    !isEnableUseOfLoanV2
+
   return (
     <FormLayout title="Loan Request" wrapperClassName={wrapperClassName}>
       <CardHeader className="text-center">
@@ -309,43 +319,50 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
                     />
                   )}
 
-                  {!isLoanReady() &&
-                    !isKccBank() &&
-                    !isSbb() &&
-                    !isLaunchKC() && (
-                      <FormField
-                        control={formToUse.control}
-                        name="proposeUseOfLoan"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Proposed use of loan</FormLabel>
-                            <Select
-                              defaultValue={field.value}
-                              onValueChange={field.onChange}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Please select..." />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {loanProgramInfo?.loanPurposes?.map(
-                                  (purpose) => (
-                                    <SelectItem
-                                      key={purpose.value}
-                                      value={purpose.value}
-                                    >
-                                      {purpose.label}
-                                    </SelectItem>
-                                  )
-                                )}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
+                  {isEnableUseOfLoan ? (
+                    <FormField
+                      control={formToUse.control}
+                      name="proposeUseOfLoan"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Proposed use of loan</FormLabel>
+                          <Select
+                            defaultValue={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Please select..." />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {loanProgramInfo?.loanPurposes?.map((purpose) => (
+                                <SelectItem
+                                  key={purpose.value}
+                                  value={purpose.value}
+                                >
+                                  {purpose.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  ) : null}
+
+                  {isEnableUseOfLoanV2 ? (
+                    <RHFSelectInput
+                      label="Proposed use of loan"
+                      name="proposeUseOfLoan"
+                      options={loanProgramInfo?.loanPurposes ?? []}
+                      placeholder="Please select..."
+                      selectContentProps={{
+                        side: "top"
+                      }}
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>
