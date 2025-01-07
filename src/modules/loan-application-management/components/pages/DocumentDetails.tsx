@@ -11,6 +11,8 @@ import { DocumentToolbar } from "../molecules/documents/DocumentToolbar"
 import { DocumentSignalsDetails } from "../organisms/document/DocumentSignalsDetails"
 import { DocumentViewer } from "../organisms/document/DocumentViewer"
 import { ESignDocumentPreview } from "./ESignDocumentPreview"
+import { isCapitalCollab } from "@/utils/domain.utils"
+import CapitalCollabPDFDocumentPreview from "@/modules/loan-application/capital-collab/components/pages/CapitalCollabPDFDocumentPreview"
 
 const PDFDocumentPreview = lazy(() => import("./PDFDocumentPreview"))
 
@@ -57,6 +59,7 @@ export const Component: React.FC = () => {
   const documentType = search.get(SEARCH_PARAM_KEY.DOCUMENT_TYPE)
 
   if (documentType === DocumentType.E_SIGN) return <ESignDocumentPreview />
+  if (isCapitalCollab()) return <CapitalCollabPDFDocumentPreview />
 
   return (
     <LoanDocumentDetailsProvider>

@@ -518,12 +518,16 @@ export const API_PATH = {
     cccDocuments: {
       applicant: {
         getDocumentsByApplicationId: "api/form/documents/list",
-        downloadMultipleDocuments: "api/form/documents/download/by-document-ids"
+        downloadMultipleDocuments:
+          "api/form/documents/download/by-document-ids",
+        downloadDocument: "api/form/documents/download/by-document-id"
       },
       // For admin site
       admin: {
-        getDocumentsByApplicationId: `api/admin/form/documents/list`,
-        downloadMultipleDocuments: `api/admin/form/documents/download/by-document-ids`
+        getDocumentsByApplicationId: "api/admin/form/documents/list",
+        downloadMultipleDocuments:
+          "api/admin/form/documents/download/by-document-ids",
+        downloadDocument: "api/admin/form/documents/download/by-document-id"
       }
     }
   },

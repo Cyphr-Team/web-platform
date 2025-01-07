@@ -1,18 +1,19 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
-import { REQUEST_LIMIT_PARAM } from "@/constants"
+import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
 import { DocumentTableHeader } from "@/modules/loan-application-management/components/table/document-header"
 import { useQueryDocument } from "@/modules/loan-application/capital-collab/hooks/useGetDocumentList"
 import { useDownloadDocuments } from "@/modules/loan-application/capital-collab/hooks/useDownloadDocuments"
 import { SortOrder } from "@/types/common.type"
 import {
+  type Row,
   type PaginationState,
   type RowSelectionState,
   type SortingState
 } from "@tanstack/react-table"
 import { DownloadIcon } from "lucide-react"
 import { useCallback, useMemo, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { getColumns } from "../organisms/documents-columns"
 import { checkIsWorkspaceAdmin } from "@/utils/check-roles"
 import UploadDocumentDialog from "../organisms/upload-documents-dialog"
@@ -20,7 +21,8 @@ import { type CCLoanDocument } from "@/types/loan-document.type"
 import useDeleteDocument from "../../hooks/useDeleteDocument"
 
 function ApplicationDocument() {
-  const { id: loanApplicationID } = useParams()
+  const { id: loanApplicationID, loanProgramId } = useParams()
+  const navigate = useNavigate()
   const [keyword, setKeyword] = useState("")
   // Table state
   const [sorting, setSorting] = useState<SortingState>([])
@@ -73,6 +75,25 @@ function ApplicationDocument() {
     downloadFile.mutate({ documentIds: selectedDocumentIds })
   }
 
+  const handleClickDetail = (detail: Row<CCLoanDocument>) => {
+    if (checkIsWorkspaceAdmin()) {
+      navigate({
+        pathname: APP_PATH.LOAN_APPLICATION_MANAGEMENT.DOCUMENT.detail(
+          loanApplicationID!,
+          detail.original.id
+        )
+      })
+    } else {
+      navigate({
+        pathname: APP_PATH.LOAN_APPLICATION.APPLICATIONS.documents.byDocumentId(
+          loanProgramId!,
+          loanApplicationID!,
+          detail.original.id
+        )
+      })
+    }
+  }
+
   return (
     <div>
       {(!isAdmin || Object.keys(rowSelection).length > 0) && (
@@ -109,13 +130,10 @@ function ApplicationDocument() {
       </div>
       <DataTable
         manualSorting
-        columns={getColumns(
-          isAdmin
-            ? {}
-            : {
-                onDelete: handleDeleteDocument
-              }
-        )}
+        columns={getColumns({
+          handleClickDetail,
+          onDelete: isAdmin ? undefined : handleDeleteDocument
+        })}
         data={data?.data ?? []}
         isLoading={isFetching}
         pagination={pagination}
@@ -127,7 +145,6 @@ function ApplicationDocument() {
         tableClassName="md:table-fixed"
         tableContainerClassName="rounded-t-none border-t-0"
         total={data?.total ?? 0}
-        // TODO: add handle click to preview document
       />
     </div>
   )

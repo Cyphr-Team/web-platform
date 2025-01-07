@@ -2,7 +2,7 @@ import { ButtonLoading } from "@/components/ui/button"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { type CCLoanDocument } from "@/types/loan-document.type"
-import { type ColumnDef } from "@tanstack/react-table"
+import { type Row, type ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { ChevronRight } from "lucide-react"
 import { renderFilterableHeader } from "@/utils/table.utils"
@@ -16,11 +16,15 @@ const getFileNameFromOriginPath = (originPath: string) => {
   return path[path.length - 1]
 }
 
-export const getColumns = ({
-  onDelete
-}: {
+export interface GetColumnsOptions {
+  handleClickDetail: (row: Row<CCLoanDocument>) => void
   onDelete?: (row: CCLoanDocument) => void
-} = {}): ColumnDef<CCLoanDocument>[] => [
+}
+
+export const getColumns = ({
+  handleClickDetail,
+  onDelete
+}: GetColumnsOptions): ColumnDef<CCLoanDocument>[] => [
   {
     id: "select",
     header: () => null,
@@ -82,12 +86,12 @@ export const getColumns = ({
         title="Action"
       />
     ),
-    cell: () => (
+    cell: ({ row }) => (
       <div className="inline-grid place-items-center w-full">
         <ButtonLoading
           className="flex h-8 items-center gap-0.5 px-2 pr-1"
           variant="ghost"
-          // TODO: Add onClick to review PDF
+          onClick={() => handleClickDetail(row)}
         >
           Review
           <ChevronRight className="w-4" />

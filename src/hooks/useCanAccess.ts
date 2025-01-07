@@ -48,6 +48,12 @@ const getEntitlement = () => {
         [UserRoles.JUDGE]: false,
         [UserRoles.APPLICANT]: false
       }
+    },
+    [Institution.CapitalCollab]: {
+      [FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT]: {
+        [UserRoles.WORKSPACE_ADMIN]: true,
+        [UserRoles.APPLICANT]: true
+      }
     }
   }
 }
