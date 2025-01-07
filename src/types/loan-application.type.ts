@@ -103,6 +103,9 @@ interface UserLoanApplication {
   decision: LoanDecisionEnum
   decisionNote: string
   latestProgress: number
+  businessName: string
+  email: string
+  submittedAt: string
 }
 
 interface UserMicroLoanApplication {

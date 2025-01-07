@@ -69,13 +69,18 @@ const applicantRoutes = (
       }
     >
       <Route
-        lazy={() =>
-          import(
-            isLoanReady()
-              ? "@/modules/loanready/pages/Applications"
-              : "@/modules/loan-application/pages/LoanApplications"
-          )
-        }
+        lazy={() => {
+          if (isLoanReady()) {
+            return import("@/modules/loanready/pages/Applications")
+          }
+          if (isCapitalCollab()) {
+            return import(
+              "@/modules/loan-application/capital-collab/components/pages/ApplicantApplicationsList"
+            )
+          }
+
+          return import("@/modules/loan-application/pages/LoanApplications")
+        }}
         path={APP_PATH.LOAN_APPLICATION.APPLICATIONS.index}
       />
     </Route>
