@@ -1,12 +1,12 @@
 import { Button, ButtonLoading } from "@/components/ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
-  DialogHeader,
-  DialogTrigger,
-  DialogTitle,
   DialogFooter,
-  DialogClose
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
 } from "@/components/ui/dialog"
 import { Form } from "@/components/ui/form"
 import { RHFDragAndDropFileUpload } from "@/modules/form-template/components/molecules"
@@ -29,7 +29,11 @@ const formInputs = z.object({
 
 type FormInputs = z.infer<typeof formInputs>
 
-function UploadDocumentsDialog() {
+function UploadDocumentsDialog({
+  textButton = "Upload document"
+}: {
+  textButton?: string
+}) {
   const { id: applicationId } = useParams()
   const {
     value: isDialogOpen,
@@ -69,12 +73,16 @@ function UploadDocumentsDialog() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <ButtonLoading isLoading={uploadDocuments.isPending} variant="success">
-          <FileUp className="mr-2 text-muted-foreground" size="20" />
-          Upload document
+        <ButtonLoading
+          className="hover:bg-[#a1d80b]"
+          isLoading={uploadDocuments.isPending}
+          variant="success"
+        >
+          <FileUp className="mr-1" size="20" />
+          {textButton}
         </ButtonLoading>
       </DialogTrigger>
-      <DialogContent className="p-0 gap-0">
+      <DialogContent className="p-0 gap-0" showClose={false}>
         <DialogHeader className="px-8 pt-8 pb-5">
           <DialogTitle>Upload document</DialogTitle>
         </DialogHeader>

@@ -1,13 +1,12 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
-import { APP_PATH, REQUEST_LIMIT_PARAM } from "@/constants"
+import { APP_PATH } from "@/constants"
 import { DocumentTableHeader } from "@/modules/loan-application-management/components/table/document-header"
 import { useQueryDocument } from "@/modules/loan-application/capital-collab/hooks/useGetDocumentList"
 import { useDownloadDocuments } from "@/modules/loan-application/capital-collab/hooks/useDownloadDocuments"
 import { SortOrder } from "@/types/common.type"
 import {
   type Row,
-  type PaginationState,
   type RowSelectionState,
   type SortingState
 } from "@tanstack/react-table"
@@ -19,6 +18,7 @@ import { checkIsWorkspaceAdmin } from "@/utils/check-roles"
 import UploadDocumentDialog from "../organisms/upload-documents-dialog"
 import { type CCLoanDocument } from "@/types/loan-document.type"
 import useDeleteDocument from "../../hooks/useDeleteDocument"
+import { EmptyDocuments } from "@/modules/loan-application/capital-collab/components/organisms/EmptyDocuments.tsx"
 
 function ApplicationDocument() {
   const { id: loanApplicationID, loanProgramId } = useParams()
@@ -42,11 +42,6 @@ function ApplicationDocument() {
     fileName: keyword,
     sort: getSort(),
     isAdmin
-  })
-
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: REQUEST_LIMIT_PARAM
   })
 
   const handleSearch = (keyword: string) => {
@@ -97,7 +92,7 @@ function ApplicationDocument() {
   return (
     <div>
       {(!isAdmin || Object.keys(rowSelection).length > 0) && (
-        <div className="flex flex-row-reverse w-full mb-14 gap-6">
+        <div className="flex flex-row-reverse w-full mb-6 gap-6">
           {isAdmin ? null : <UploadDocumentDialog />}
           {Object.keys(rowSelection).length ? (
             <ButtonLoading
@@ -111,37 +106,39 @@ function ApplicationDocument() {
           ) : null}
         </div>
       )}
-      <div className="rounded-t-xl border px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-24">
-        <div>
-          <h3 className="mb-1 text-lg font-semibold">Documentation</h3>
-          <p className="text-sm text-muted-foreground">
-            Documents and assets that have been attached to this loan
-            application
-          </p>
-        </div>
-        <DocumentTableHeader
-          classNames={{
-            formWrapper: "flex-1 w-full",
-            searchInput: "w-full"
-          }}
-          placeholder="Search by documents"
-          onSearch={handleSearch}
-        />
-      </div>
       <DataTable
         manualSorting
         columns={getColumns({
           handleClickDetail,
           onDelete: isAdmin ? undefined : handleDeleteDocument
         })}
+        customNoResultsComponent={!isAdmin ? <EmptyDocuments /> : undefined}
         data={data?.data ?? []}
+        headerSearch={() => (
+          <div className="bg-white px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-24">
+            <div>
+              <h3 className="mb-1 text-lg font-semibold">Documentation</h3>
+              <p className="text-sm text-muted-foreground">
+                Documents and assets that have been attached to this loan
+                application
+              </p>
+            </div>
+            <DocumentTableHeader
+              classNames={{
+                formWrapper: "flex-1 w-full",
+                searchInput: "w-full"
+              }}
+              placeholder="Search by documents"
+              onSearch={handleSearch}
+            />
+          </div>
+        )}
         isLoading={isFetching}
-        pagination={pagination}
         rowSelection={rowSelection}
-        setPagination={setPagination}
         setRowSelection={setRowSelection}
         setSorting={setSorting}
         sorting={sorting}
+        tableCellClassName="bg-white"
         tableClassName="md:table-fixed"
         tableContainerClassName="rounded-t-none border-t-0"
         total={data?.total ?? 0}

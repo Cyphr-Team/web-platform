@@ -49,6 +49,8 @@ interface DataTableProps<TData, TValue> {
   readonly tableCellClassName?: string
   readonly tableHeaderClassName?: string
   readonly tableHeadClassName?: string
+  readonly customNoResultsComponent?: ReactNode
+  readonly headerSearch?: () => ReactNode
 }
 
 export function DataTable<TData, TValue>({
@@ -71,7 +73,9 @@ export function DataTable<TData, TValue>({
   headerFilter,
   tableCellClassName,
   tableHeaderClassName,
-  tableHeadClassName
+  tableHeadClassName,
+  customNoResultsComponent,
+  headerSearch
 }: DataTableProps<TData, TValue>) {
   const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.id!))
 
@@ -111,6 +115,7 @@ export function DataTable<TData, TValue>({
           tableWrapperClassName
         )}
       >
+        {headerSearch ? headerSearch() : null}
         <Table className={cn("text-sm", tableClassName)} isLoading={isLoading}>
           <TableHeader
             className={cn(
@@ -172,10 +177,13 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  className="h-24 text-center text-base"
+                  className={cn(
+                    "h-24 text-center text-base",
+                    tableCellClassName
+                  )}
                   colSpan={columns.length}
                 >
-                  {!isLoading && "No results."}
+                  {!isLoading && (customNoResultsComponent || "No results.")}
                 </TableCell>
               </TableRow>
             )}

@@ -2,7 +2,7 @@ import { ButtonLoading } from "@/components/ui/button"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 import { type CCLoanDocument } from "@/types/loan-document.type"
-import { type Row, type ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef, type Row } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { ChevronRight } from "lucide-react"
 import { renderFilterableHeader } from "@/utils/table.utils"
@@ -81,7 +81,7 @@ export const getColumns = ({
     id: "action",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="text-center"
+        className="text-center font-semibold"
         column={column}
         title="Action"
       />

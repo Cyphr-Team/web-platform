@@ -3,6 +3,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -33,11 +34,11 @@ function DeleteDocumentDialog(props: DeleteDocumentDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Delete file?</AlertDialogTitle>
+          <AlertDialogDescription className="break-keep">
+            Are you sure you want to delete&nbsp;
+            <strong>{row.originFileName}</strong> from your account?
+          </AlertDialogDescription>
         </AlertDialogHeader>
-        <p>
-          Are you sure you want to delete&nbsp;
-          <strong>{row.originFileName}</strong> from your account?
-        </p>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
