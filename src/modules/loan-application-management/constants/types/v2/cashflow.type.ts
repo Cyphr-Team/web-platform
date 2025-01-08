@@ -36,6 +36,7 @@ export interface CashFlowGlance {
   totalDebtService?: number
   debtServiceCoverage?: number
   debtToIncome?: number
+  averageTransactionSize?: number
 }
 
 export interface CashFlowGlanceResponse {

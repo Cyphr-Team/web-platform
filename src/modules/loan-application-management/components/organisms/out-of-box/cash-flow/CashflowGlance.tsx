@@ -8,6 +8,7 @@ import React from "react"
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import { FeatureKey } from "@/hooks/useCanAccess"
 import { CashFlowGlanceCard } from "@/modules/loan-application-management/components/atoms/cashflows/CashflowGlanceCard.tsx"
+import { isCapitalCollab } from "@/utils/domain.utils"
 
 interface CashflowGlanceReportProps {
   newCashFlowGlance?: CashFlowGlanceResponse
@@ -71,6 +72,13 @@ export const CashflowGlanceReport: React.FC<CashflowGlanceReportProps> = ({
             title="Debt-to-Income (DTI)"
             value={newCashFlowGlance?.cashFlowGlance.debtToIncome}
           />
+          {isCapitalCollab() && (
+            <CashFlowGlanceCard
+              isCurrency
+              title="Average Transaction Size"
+              value={newCashFlowGlance?.cashFlowGlance.averageTransactionSize}
+            />
+          )}
         </div>
       </LoadingWrapper>
       <SectionTitle>Connected Bank Accounts</SectionTitle>

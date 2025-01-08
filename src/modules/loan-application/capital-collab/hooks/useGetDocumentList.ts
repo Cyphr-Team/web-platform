@@ -44,9 +44,9 @@ export const useQueryDocument = ({
         ListLoanApplicationResponse
       >({
         path: isAdmin
-          ? API_PATH.loanApplicationDetails.cccDocuments.admin
+          ? API_PATH.loanApplicationDetails.capitalCollabDocuments.admin
               .getDocumentsByApplicationId
-          : API_PATH.loanApplicationDetails.cccDocuments.applicant
+          : API_PATH.loanApplicationDetails.capitalCollabDocuments.applicant
               .getDocumentsByApplicationId,
         data: {
           applicationId,

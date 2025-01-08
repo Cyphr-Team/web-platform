@@ -23,9 +23,9 @@ export const useDownloadDocuments = ({
     mutationFn: async ({ documentIds }: DownloadDocumentsPayload) => {
       const data = await postRequest<{ documentIds: string[] }, string>({
         path: isAdmin
-          ? API_PATH.loanApplicationDetails.cccDocuments.admin
+          ? API_PATH.loanApplicationDetails.capitalCollabDocuments.admin
               .downloadMultipleDocuments
-          : API_PATH.loanApplicationDetails.cccDocuments.applicant
+          : API_PATH.loanApplicationDetails.capitalCollabDocuments.applicant
               .downloadMultipleDocuments,
         data: {
           documentIds

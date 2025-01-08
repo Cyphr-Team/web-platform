@@ -20,8 +20,10 @@ export const useDownloadDocument = ({
   isAdmin
 }: PreviewDocumentPayload) => {
   const queryPath = isAdmin
-    ? API_PATH.loanApplicationDetails.cccDocuments.admin.downloadDocument
-    : API_PATH.loanApplicationDetails.cccDocuments.applicant.downloadDocument
+    ? API_PATH.loanApplicationDetails.capitalCollabDocuments.admin
+        .downloadDocument
+    : API_PATH.loanApplicationDetails.capitalCollabDocuments.applicant
+        .downloadDocument
 
   return useQuery<string, ErrorResponse>({
     queryKey: [QUERY_KEY.GET_DOCUMENT_DOWNLOAD, documentId, preventCacheCount],

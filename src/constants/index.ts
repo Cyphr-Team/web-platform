@@ -515,7 +515,11 @@ export const API_PATH = {
     getFullAmortizationSchedule: (applicationId: string) =>
       `api/loan-officer/applications/${applicationId}/full-amortization-schedule`,
     // Only for Capital Collab bank
-    cccDocuments: {
+    capitalCollabCashFlow: {
+      getCashFlow: (applicationId: string) =>
+        `api/capital-collab/workspace-admin/applications/${applicationId}/cash-flow`
+    },
+    capitalCollabDocuments: {
       applicant: {
         getDocumentsByApplicationId: "api/form/documents/list",
         downloadMultipleDocuments:
