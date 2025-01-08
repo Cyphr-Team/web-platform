@@ -1,6 +1,7 @@
 import { type HistoricalStatementDataRow } from "@/modules/loan-application/[module]-data-enrichment/types"
-import { HistoricalIncomeStatementTemplate } from "@/modules/loan-application/[module]-data-enrichment/components/molecules/HistoricalIncomeStatementTemplate.tsx"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service.ts"
+import { HistoricalIncomeStatementTable } from "@/modules/loan-application/[module]-data-enrichment/components/molecules/HistoricalIncomeStatementTable.tsx"
+
 interface HistoricalStatementTemplateProps {
   historicalIncomeStatementTimeStamp: Record<string, Date[]>
   historicalIncomeStatementDataByYears: Record<
@@ -24,15 +25,20 @@ export function HistoricalIncomeStatementPdfTemplate(
           key={`${year}-${index}`}
           className={`w-fit ${EXPORT_CLASS.HISTORICAL_FINANCIALS}`}
         >
-          <HistoricalIncomeStatementTemplate
-            isPdf
-            data={data}
-            headerProps={{
-              title: "Historical Income Statement - " + year,
-              data: historicalIncomeStatementTimeStamp[year]
-            }}
-            title={index === 0 ? "Historical Income Statement" : undefined}
-          />
+          <div className="gap-y-2xl, flex w-fit flex-col">
+            {index === 0 ? (
+              <h1 className="text-3xl font-semibold">
+                Historical Income Statement
+              </h1>
+            ) : null}
+            <HistoricalIncomeStatementTable
+              data={data}
+              headerProps={{
+                title: "Historical Income Statement - " + year,
+                data: historicalIncomeStatementTimeStamp[year]
+              }}
+            />
+          </div>
         </div>
       )
     }

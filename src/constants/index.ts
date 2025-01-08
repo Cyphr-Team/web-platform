@@ -698,6 +698,8 @@ export const API_PATH = {
   },
   historicalFinancials: {
     statements: {
+      preview: (applicationId: string) =>
+        `api/historical-financial-statement/by-application-id/${applicationId}/preview`,
       findByApplicationId: (applicationId: string) =>
         `api/historical-financial-statement/by-application-id/${applicationId}`
     }

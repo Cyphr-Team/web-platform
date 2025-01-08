@@ -9,11 +9,13 @@ import { type HistoricalStatementResponse } from "@/modules/loan-application/[mo
 interface QueryHistoricalStatementProps {
   applicationId: string
   enabled: boolean
+  isPreview?: boolean
 }
 
 export const useQueryHistoricalStatement = ({
   applicationId,
-  enabled
+  enabled,
+  isPreview = false
 }: QueryHistoricalStatementProps) => {
   return useQuery<HistoricalStatementResponse, AxiosError<ErrorResponse>>({
     queryKey: [
@@ -22,9 +24,11 @@ export const useQueryHistoricalStatement = ({
     enabled: !!applicationId && enabled,
     queryFn: () =>
       getRequest({
-        path: API_PATH.historicalFinancials.statements.findByApplicationId(
-          applicationId
-        )
+        path: isPreview
+          ? API_PATH.historicalFinancials.statements.preview(applicationId)
+          : API_PATH.historicalFinancials.statements.findByApplicationId(
+              applicationId
+            )
       })
   })
 }

@@ -39,7 +39,7 @@ import { useQueryHistoricalStatement } from "@/modules/loan-application/[module]
 import { type HistoricalIncomeStatementByDate } from "@/modules/loan-application/[module]-data-enrichment/types/historical-statements.ts"
 import { groupDataByProp } from "@/modules/loan-application/[module]-data-enrichment/services/historical-statement.service.ts"
 import { type HistoricalStatementDataRow } from "@/modules/loan-application/[module]-data-enrichment/types"
-import { HistoricalIncomeStatementPdfTemplate } from "@/modules/loan-application/[module]-data-enrichment/components/molecules/HistoricalIncomeStatementPdfTemplate.tsx"
+import { HistoricalIncomeStatementPdfTemplate } from "@/modules/loan-application/[module]-data-enrichment/components/templates/HistoricalIncomeStatementPdfTemplate.tsx"
 
 interface SectionProps {
   forecastResults: ForecastResultsResponse

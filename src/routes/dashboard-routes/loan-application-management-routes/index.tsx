@@ -213,7 +213,7 @@ const loanApplicationManagementRoutes = (
           index
           lazy={() =>
             import(
-              "@/modules/loan-application/[module]-data-enrichment/components/pages/HistoricalIncomeStatementPage"
+              "@/modules/loan-application/[module]-data-enrichment/components/pages/HistoricalIncomeStatementPage.tsx"
             )
           }
           path={APP_PATH.LOAN_APPLICATION_MANAGEMENT.HISTORICAL_FINANCIALS.INCOME_STATEMENT(
