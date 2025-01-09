@@ -572,7 +572,12 @@ export const API_PATH = {
       `${API_PATH.dashboardV1.all}/institution-activity`,
     getLoanApplicationRates: () =>
       `${API_PATH.dashboardV1.all}/performance-metrics/incomplete-rate`,
-    getInstitutionUsage: () => `${API_PATH.dashboardV1.all}/usage`
+    getInstitutionUsage: () => `${API_PATH.dashboardV1.all}/usage`,
+    // For Capital Collab bank
+    getCCInstitutionActivity:
+      "api/capital-collab/workspace-admin/applications/dashboard",
+    getCCLoanApplicationActivities:
+      "api/capital-collab/workspace-admin/applications/monthly-chart-dashboard"
   },
   institution: {
     list: "api/admin/internal/institutions",

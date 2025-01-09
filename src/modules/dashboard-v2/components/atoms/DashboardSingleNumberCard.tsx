@@ -13,6 +13,7 @@ interface DashboardSingleNumberCardProps {
   isLoading?: boolean
   unit?: string
   variantColor: BadgeProps["variantColor"]
+  badgeProps?: BadgeProps
 }
 
 export function DashboardSingleNumberCard({
@@ -22,7 +23,8 @@ export function DashboardSingleNumberCard({
   description,
   isLoading,
   unit,
-  variantColor
+  variantColor,
+  badgeProps
 }: PropsWithChildren<DashboardSingleNumberCardProps>) {
   return (
     <Card className={cn("flex flex-col justify-between rounded-xl")}>
@@ -33,6 +35,7 @@ export function DashboardSingleNumberCard({
             className="rounded-full px-3 py-1 text-sm capitalize"
             variant="soft"
             variantColor={variantColor}
+            {...badgeProps}
           >
             {title}
           </Badge>

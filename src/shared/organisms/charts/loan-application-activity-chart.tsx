@@ -12,57 +12,28 @@ import { formatDateByTimePeriod } from "@/utils/date.utils"
 import { useState } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
-interface LoanApplicationActivityChartProps {
-  data: {
-    name: string
-    draft: number
-    submitted: number
-    inreview: number
-    denied: number
-    approved: number
-  }[]
+interface LoanApplicationActivityChartProps<T> {
+  data: (T & {
+    time: string
+  })[]
   timePeriod?: GRAPH_FREQUENCY
   className?: string
+  chartConfig: ChartConfig
 }
 
 enum DATA_KEYS {
-  NAME = "name",
-  DRAFT = "draft",
-  SUBMITTED = "submitted",
-  INREVIEW = "inreview",
-  APPROVED = "approved",
-  DENIED = "denied"
+  TIME = "time"
 }
 
-const chartConfig = {
-  [DATA_KEYS.DRAFT]: {
-    label: "Draft",
-    color: "rgba(102, 112, 133, 0.5)"
-  },
-  [DATA_KEYS.SUBMITTED]: {
-    label: "Submitted",
-    color: "rgba(44, 138, 240, 0.5)"
-  },
-  [DATA_KEYS.INREVIEW]: {
-    label: "In-Review",
-    color: "rgba(237, 138, 9, 0.5)"
-  },
-  [DATA_KEYS.DENIED]: {
-    label: "Denied",
-    color: "rgba(231, 65, 54, 0.5)"
-  },
-  [DATA_KEYS.APPROVED]: {
-    label: "Approved",
-    color: "rgba(17, 176, 102, 0.5)"
-  }
-} satisfies ChartConfig
-
-// TODO: reuse in finovate demo
-export default function LoanApplicationActivityChart({
-  data,
-  className,
-  timePeriod = GRAPH_FREQUENCY.MONTHLY
-}: LoanApplicationActivityChartProps) {
+function LoanApplicationActivityChart<T>(
+  props: LoanApplicationActivityChartProps<T>
+) {
+  const {
+    data,
+    className,
+    timePeriod = GRAPH_FREQUENCY.MONTHLY,
+    chartConfig
+  } = props
   const [activeSeries, setActiveSeries] = useState<string[]>([])
 
   const handleLegendClick = (dataKey: string) => {
@@ -102,7 +73,7 @@ export default function LoanApplicationActivityChart({
 
         <XAxis
           axisLine={false}
-          dataKey={DATA_KEYS.NAME}
+          dataKey={DATA_KEYS.TIME}
           label={{
             value: formatLabelByTimePeriod,
             position: "insideBottom",
@@ -117,7 +88,7 @@ export default function LoanApplicationActivityChart({
         <YAxis
           allowDecimals={false}
           axisLine={false}
-          domain={[0, "dataMax"]}
+          domain={[0, (dataMax: number) => dataMax + 50]}
           label={{
             value: "Applications",
             angle: -90,
@@ -132,53 +103,21 @@ export default function LoanApplicationActivityChart({
           verticalAlign="top"
           onClick={(props) => handleLegendClick(props.dataKey as string)}
         />
-
-        <Bar
-          barSize={6}
-          dataKey={DATA_KEYS.DRAFT}
-          fill={`var(--color-${DATA_KEYS.DRAFT})`}
-          hide={activeSeries.includes(DATA_KEYS.DRAFT)}
-          name="Draft"
-          radius={100}
-          unit="App(s)"
-        />
-        <Bar
-          barSize={6}
-          dataKey={DATA_KEYS.SUBMITTED}
-          fill={`var(--color-${DATA_KEYS.SUBMITTED})`}
-          hide={activeSeries.includes(DATA_KEYS.SUBMITTED)}
-          name="Submitted"
-          radius={100}
-          unit="App(s)"
-        />
-        <Bar
-          barSize={6}
-          dataKey={DATA_KEYS.INREVIEW}
-          fill={`var(--color-${DATA_KEYS.INREVIEW})`}
-          hide={activeSeries.includes(DATA_KEYS.INREVIEW)}
-          name="In-Review"
-          radius={100}
-          unit="App(s)"
-        />
-        <Bar
-          barSize={6}
-          dataKey={DATA_KEYS.DENIED}
-          fill={`var(--color-${DATA_KEYS.DENIED})`}
-          hide={activeSeries.includes(DATA_KEYS.DENIED)}
-          name="Denied"
-          radius={100}
-          unit="App(s)"
-        />
-        <Bar
-          barSize={6}
-          dataKey={DATA_KEYS.APPROVED}
-          fill={`var(--color-${DATA_KEYS.APPROVED})`}
-          hide={activeSeries.includes(DATA_KEYS.APPROVED)}
-          name="Approved"
-          radius={100}
-          unit="App(s)"
-        />
+        {Object.keys(chartConfig).map((key) => (
+          <Bar
+            key={key}
+            barSize={6}
+            dataKey={key}
+            fill={chartConfig[key].color}
+            hide={activeSeries.includes(key)}
+            name={chartConfig[key].label?.toString()}
+            radius={100}
+            unit="App(s)"
+          />
+        ))}
       </BarChart>
     </ChartContainer>
   )
 }
+
+export default LoanApplicationActivityChart

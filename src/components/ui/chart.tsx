@@ -155,7 +155,7 @@ const ChartTooltipContent = React.forwardRef<
         )
       }
 
-      if (!value) {
+      if (value == null) {
         return null
       }
 
@@ -239,9 +239,10 @@ const ChartTooltipContent = React.forwardRef<
                           {itemConfig?.label || item.name}
                         </span>
                       </div>
-                      {item.value ? (
+                      {/* Accept 0 value to appear */}
+                      {item.value !== null ? (
                         <span className="font-mono font-medium tabular-nums text-foreground">
-                          {item.value.toLocaleString()}
+                          {item.value?.toLocaleString()}
                         </span>
                       ) : null}
                     </div>

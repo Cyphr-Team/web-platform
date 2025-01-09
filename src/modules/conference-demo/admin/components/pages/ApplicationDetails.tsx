@@ -1,7 +1,7 @@
 import { ApprovedLoanAmountChart } from "../molecules/charts/ApprovedLoanAmountChart"
 import { LoanDistributorChart } from "../molecules/charts/LoanDistributorChart"
 import { AverageTimeToDecisionChart } from "../molecules/charts/AverageTimeToDecisionChart"
-import ChartCard from "../organisms/ChartCard"
+import ChartCard from "@/shared/molecules/chart-card"
 import { LoanApprovalRateThroughRateChart } from "../molecules/charts/LoanApprovalRateThroughRateChart"
 import { ApprovedLoanAmountUSDChart } from "../molecules/charts/ApprovedLoanAmountUSDChart"
 import { LoanByIndustrySectorChart } from "../molecules/charts/LoanByIndustrySectorChart"
@@ -50,6 +50,7 @@ const chartList = [
     Chart: LoanDistributionByRaceChart
   }
 ]
+
 export function AdminApplicationDetails() {
   return (
     <div className="flex bg-active flex-col relative">
@@ -75,8 +76,8 @@ export function AdminApplicationDetails() {
         <Separator />
         <PerformanceMetrics />
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-          {chartList.map(({ title, Chart }, index) => (
-            <ChartCard key={index} title={title}>
+          {chartList.map(({ title, Chart }) => (
+            <ChartCard key={Chart.name} title={title}>
               <Chart />
             </ChartCard>
           ))}

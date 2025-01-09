@@ -1,4 +1,5 @@
 import { type GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import {
   type TimeRange,
   type TimeRangeFilterValue
@@ -118,6 +119,12 @@ interface DashboardProviderState {
 
   loanApplicationRatesData?: LoanApplicationRatesResponse
   isLoadingLoanApplicationRates?: boolean
+
+  // Right now, only available for CC
+  // TODO: Remove these and combine to the current logic
+  ccStatsData?: CCStatsResponse
+  isLoadingCCStatsData?: boolean
+  ccloanApplicationActivitiesData?: CCLoanApplicationActivitiesResponse
 }
 
 interface StatsFilter {
@@ -130,6 +137,15 @@ interface AverageTimeToApprovalResponse {
 }
 interface LoanApplicationActivitiesResponse {
   loanApplicationActivities: LoanApplicationActivities[]
+}
+interface CCLoanApplicationActivitiesResponse {
+  result: {
+    first: string
+    second: {
+      status: LoanApplicationStatus
+      count: number
+    }[]
+  }[]
 }
 interface AverageApprovalLoanAmountResponse {
   averageApprovedLoanAmount: AverageApprovalLoanAmount[]
@@ -197,6 +213,28 @@ interface LoanApplicationStatisticAverageTimeToDecision {
   date: string
 }
 
+interface CCInstitutionActivity {
+  request: {
+    timeRangeFilter: TimeRange
+  }
+}
+
+interface CCStatsResponse {
+  totalDraft: number
+  totalSubmitted: number
+  totalReadyForReview: number
+  totalApplicationInReview: number
+  totalApplicationMissingInfo: number
+  totalReadyForUnderwriting: number
+  totalUnderwriting: number
+  totalApproved: number
+  totalDeclined: number
+  totalAgreementRequested: number
+  totalAgreementSent: number
+  totalAgreementSigned: number
+  totalFunded: number
+}
+
 export type {
   LoanApplicationRatesResponse,
   AggregateApprovalLoanAmountResponse,
@@ -213,5 +251,8 @@ export type {
   LoanApplicationActivitiesResponse,
   RateRequest,
   StatsResponse,
-  Usage
+  Usage,
+  CCInstitutionActivity,
+  CCStatsResponse,
+  CCLoanApplicationActivitiesResponse
 }

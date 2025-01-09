@@ -15,6 +15,9 @@ import {
   type DashboardProviderState
 } from "../types/stats.types"
 import { dashboardReducer } from "./dashboard-reducer"
+import { useQueryGetCCDashboard } from "../hooks/query/capital-collab/useQueryGetCCDashboard"
+import { isCapitalCollab } from "@/utils/domain.utils"
+import { useQueryGetCCLoanApplicationActivities } from "../hooks/query/capital-collab/useQueryGetCCLoanApplicationActivities"
 
 const DashboardContext = createContext<DashboardProviderState>({
   dashboardState: DEFAULT_DASHBOARD_STATE,
@@ -46,6 +49,14 @@ export function DashboardProvider({
   const averageApprovedLoanSize =
     useQueryGetAverageApprovedLoanSize(dashboardState)
   const loanApplicationRates = useQueryGetLoanApplicationRates(dashboardState)
+
+  // Capital Collab only
+  const ccStatsResponse = useQueryGetCCDashboard({
+    ...dashboardState,
+    enabled: isCapitalCollab()
+  })
+  const ccloanApplicationActivities =
+    useQueryGetCCLoanApplicationActivities(dashboardState)
 
   const value = useMemo(
     () => ({
@@ -81,7 +92,11 @@ export function DashboardProvider({
       isLoadingAverageApprovedLoanAmount: averageApprovedLoanAmount.isFetching,
 
       loanApplicationRatesData: loanApplicationRates.data?.data,
-      isLoadingLoanApplicationRates: loanApplicationRates.isLoading
+      isLoadingLoanApplicationRates: loanApplicationRates.isLoading,
+
+      ccStatsData: ccStatsResponse.data?.data,
+      isLoadingCCStatsData: ccStatsResponse.isFetching,
+      ccloanApplicationActivitiesData: ccloanApplicationActivities.data?.data
     }),
     [
       dashboardState,
@@ -115,7 +130,11 @@ export function DashboardProvider({
       averageApprovedLoanAmount.isFetching,
 
       loanApplicationRates.data?.data,
-      loanApplicationRates.isLoading
+      loanApplicationRates.isLoading,
+
+      ccStatsResponse.data?.data,
+      ccStatsResponse.isFetching,
+      ccloanApplicationActivities.data?.data
     ]
   )
 

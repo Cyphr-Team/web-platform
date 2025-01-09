@@ -1,7 +1,8 @@
 import { TimeRangeValue } from "@/types/time-range.type"
 import { getTimeRangeDates } from "@/utils/time-range.utils"
-import { type DashboardState } from "../types/stats.types"
+import { type DashboardState, type CCStatsResponse } from "../types/stats.types"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import { LoanApplicationStatus } from "@/types/loan-application.type"
 
 const QUERY_KEY = {
   /**
@@ -65,10 +66,70 @@ const CHART_DEFAULT = {
   deniedLineColor: "#EA4335"
 }
 
+// TODO: another way to code simpler, using a const enum
+const CC_DASHBOARD_CARDS: {
+  status: LoanApplicationStatus
+  valueMapping: keyof CCStatsResponse
+}[] = [
+  {
+    status: LoanApplicationStatus.DRAFT,
+    valueMapping: "totalDraft"
+  },
+  {
+    status: LoanApplicationStatus.SUBMITTED,
+    valueMapping: "totalSubmitted"
+  },
+  {
+    status: LoanApplicationStatus.READY_FOR_REVIEW,
+    valueMapping: "totalReadyForReview"
+  },
+  {
+    status: LoanApplicationStatus.IN_REVIEW,
+    valueMapping: "totalApplicationInReview"
+  },
+  {
+    status: LoanApplicationStatus.CCC_APPLICATION_MISSING_INFO,
+    valueMapping: "totalApplicationMissingInfo"
+  },
+  {
+    status: LoanApplicationStatus.CCC_READY_FOR_UNDERWRITING,
+    valueMapping: "totalReadyForUnderwriting"
+  },
+  {
+    status: LoanApplicationStatus.CCC_UNDERWRITING,
+    valueMapping: "totalUnderwriting"
+  },
+  {
+    status: LoanApplicationStatus.CCC_APPROVED,
+    valueMapping: "totalApproved"
+  },
+  {
+    status: LoanApplicationStatus.CCC_DECLINED,
+    valueMapping: "totalDeclined"
+  },
+  {
+    status: LoanApplicationStatus.CCC_AGREEMENT_REQUESTED,
+    valueMapping: "totalAgreementRequested"
+  },
+  {
+    status: LoanApplicationStatus.CCC_AGREEMENT_SENT,
+    valueMapping: "totalAgreementSent"
+  },
+  {
+    status: LoanApplicationStatus.CCC_AGREEMENT_SIGNED,
+    valueMapping: "totalAgreementSigned"
+  },
+  {
+    status: LoanApplicationStatus.CCC_FUNDED,
+    valueMapping: "totalFunded"
+  }
+]
+
 export {
   QUERY_KEY,
   DEFAULT_DASHBOARD_STATE,
   LABEL_CONFIG,
   CARTESIAN_GRID,
-  CHART_DEFAULT
+  CHART_DEFAULT,
+  CC_DASHBOARD_CARDS
 }

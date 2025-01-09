@@ -65,6 +65,8 @@ export const getStatusDisplayName = (
       return "Agreement Signed"
     case LoanApplicationStatus.CCC_FUNDED:
       return "Funded"
+    case LoanApplicationStatus.DENIED:
+      return "Denied"
     default:
       return "Unknown"
   }

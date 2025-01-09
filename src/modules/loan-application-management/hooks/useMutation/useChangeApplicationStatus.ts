@@ -9,6 +9,7 @@ import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg.ts"
 import { getStatusDisplayName } from "@/modules/loan-application/capital-collab/services"
 import { type LoanApplicationStatus } from "@/types/loan-application.type.ts"
+import { QUERY_KEY } from "@/modules/dashboard-v2/constants/dashboard.constants"
 
 interface ChangeApplicationStatusRequest {
   applicationId: string
@@ -38,6 +39,9 @@ export const useChangeApplicationStatus = () => {
         queryKey: loanApplicationKeys.statusDetail(applicationId)
       })
       queryClient.invalidateQueries({ queryKey: loanApplicationKeys.lists() })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.DASHBOARD_V2]
+      })
 
       toastSuccess({
         title: TOAST_MSG.workspaceAdmin.changeStatusSuccess.title,

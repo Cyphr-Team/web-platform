@@ -562,16 +562,16 @@ export const MOCK_LOANS_DISTRIBUTOR_BY_RACE = [
 
 export const MOCK_INCOMPLETE_APPLICATION_RATE = [
   {
-    month: "January",
-    rate: 29
+    date: "January",
+    incompleteRate: 29
   },
   {
-    month: "February",
-    rate: 15
+    date: "February",
+    incompleteRate: 15
   },
   {
-    month: "March",
-    rate: 35
+    date: "March",
+    incompleteRate: 35
   }
 ]
 
@@ -681,7 +681,7 @@ export const MOCK_AVG_TIME_TO_DECISION = [
 
 export const MOCK_LOAN_APPLICATION_ACTIVITY = [
   {
-    month: "January",
+    time: "January",
     draft: 40,
     submitted: 30,
     inreview: 20,
@@ -689,7 +689,7 @@ export const MOCK_LOAN_APPLICATION_ACTIVITY = [
     denied: 25
   },
   {
-    month: "February",
+    time: "February",
     draft: 35,
     submitted: 45,
     inreview: 15,
@@ -697,7 +697,7 @@ export const MOCK_LOAN_APPLICATION_ACTIVITY = [
     denied: 30
   },
   {
-    month: "March",
+    time: "March",
     draft: 25,
     submitted: 40,
     inreview: 30,

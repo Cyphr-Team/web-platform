@@ -1,10 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
-type ChartCardProps = React.PropsWithChildren<{
+interface ChartCardProps extends React.PropsWithChildren {
   title: string | React.ReactNode
   className?: string
-}>
+}
+
 const ChartCard = ({ children, title, className }: ChartCardProps) => {
   return (
     <Card className={cn("flex flex-col border-none", className)}>

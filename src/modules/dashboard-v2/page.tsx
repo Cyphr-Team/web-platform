@@ -5,6 +5,7 @@ import { AverageTimeToApprovalChart } from "./components/AverageTimeToApprovalCh
 import { CurrentUsage } from "./components/atoms/CurrentUsage"
 import { FilterTimeRange } from "./components/FilterTimeRange"
 import { TotalApplicationActivity } from "./components/TotalApplicationActivity"
+import { TotalApplicationActivity as CCTotalApplicationActivity } from "./components/capital-collab/TotalApplicationActivity"
 import { PerformanceMetrics } from "./components/PerformanceMetrics"
 import { DashboardProvider } from "./providers/dashboard-provider"
 import { AverageLoanSizeOfAllLoanProgram } from "./components/AverageLoanSizeOfAllLoanProgram"
@@ -33,7 +34,11 @@ export function Component() {
           {isLenderAdmin && isEnableSubscriptionManagement() ? (
             <CurrentUsage />
           ) : null}
-          <TotalApplicationActivity />
+          {isCapitalCollab() ? (
+            <CCTotalApplicationActivity />
+          ) : (
+            <TotalApplicationActivity />
+          )}
           {!isSbb() && !isCapitalCollab() && (
             <>
               <Separator />
