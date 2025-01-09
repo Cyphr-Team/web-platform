@@ -14,6 +14,7 @@ interface Props {
   includeDownloadReports?: boolean
   includeTitle?: boolean
   isPdf?: boolean
+  onReload?: VoidFunction
 }
 
 export default function HistoricalIncomeStatementTemplate(props: Props) {
@@ -22,7 +23,8 @@ export default function HistoricalIncomeStatementTemplate(props: Props) {
     isLoading,
     includeDownloadReports = true,
     includeTitle = true,
-    isPdf = false
+    isPdf = false,
+    onReload
   } = props
   const incomeStatementDataGroupedByProp = useMemo(
     () => groupDataByProp(incomeStatementData),
@@ -39,6 +41,8 @@ export default function HistoricalIncomeStatementTemplate(props: Props) {
   return (
     <ErrorWrapper
       isError={!incomeStatementData || incomeStatementData.length < 1}
+      isLoading={isLoading}
+      onReload={onReload}
     >
       <div className="flex flex-col gap-y-2xl">
         {includeDownloadReports ? (
