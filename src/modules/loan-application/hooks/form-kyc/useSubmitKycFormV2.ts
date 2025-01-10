@@ -248,8 +248,8 @@ function serializeKycFormV2(
       isBusinessSolelyOwned:
         flatData.isBusinessSolelyOwned === BINARY_VALUES.YES,
       additionalOwners:
-        get(flatData, "additionalOwners[0].fullName", "") ===
-        EMPTY_ADDITIONAL_OWNER_ITEM.fullName
+        get(flatData, "isBusinessSolelyOwned", BINARY_VALUES.YES) ===
+        BINARY_VALUES.YES
           ? []
           : flatData.additionalOwners
     }

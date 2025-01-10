@@ -1,6 +1,5 @@
 import { ButtonLoading } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
-import { ReviewApplicationStep } from "@/modules/loan-application/[module]-financial-projection/components/organisms/review-application/ReviewApplicationStep"
 import {
   LOAN_APPLICATION_STEP_STATUS,
   LOAN_APPLICATION_STEPS
@@ -17,6 +16,7 @@ import {
   type ReviewApplicationValue
 } from "@/modules/loan-application/constants/form"
 import { FORM_ACTION } from "@/modules/loan-application/providers/LoanApplicationFormProvider"
+import { ReviewApplicationStep } from "@/modules/loan-application/capital-collab/components/organisms/ReviewApplicationStep"
 
 export function CapitalCollabReviewApplication() {
   const { progress, step, finishCurrentStep } =

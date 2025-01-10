@@ -17,7 +17,7 @@ import {
 } from "@/modules/loan-application/models/LoanApplicationStep/type"
 import { get } from "lodash"
 import { forwardRef, useMemo } from "react"
-import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid.tsx"
+import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerificationFormWithPlaid"
 // Define a mapping of steps to components
 const getStepComponentByStep = () => ({
   [LOAN_APPLICATION_STEPS.LOAN_REQUEST]: LoanReadyLoanRequestForm,

@@ -29,7 +29,7 @@ import { ByLawsForm } from "@/modules/loan-application/components/organisms/loan
 import { SBBKybFormPartOne } from "../kyb/sbb/SBBKybFormPartOne"
 import { SBBKybFormPartTwo } from "../kyb/sbb/SbbKybFormPartTwo"
 import { SbbKycForm } from "../kyc/sbb/SbbKycForm"
-import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerficiationFormWithPlaid"
+import { CashFlowVerificationFormWithPlaid } from "@/modules/loan-application/components/organisms/loan-application-form/cash-flow/CashFlowVerificationFormWithPlaid"
 import { ForecastingSetupForm } from "@/modules/loan-application/[module]-financial-projection/components/organisms/ForecastingSetupForm.tsx"
 import { CurrentLoanFormV2 } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import { CapitalCollabBusinessInformationForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabKybForm"
