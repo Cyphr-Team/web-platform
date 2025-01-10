@@ -55,8 +55,10 @@ export function DashboardProvider({
     ...dashboardState,
     enabled: isCapitalCollab()
   })
-  const ccloanApplicationActivities =
-    useQueryGetCCLoanApplicationActivities(dashboardState)
+  const ccloanApplicationActivities = useQueryGetCCLoanApplicationActivities({
+    ...dashboardState,
+    enabled: isCapitalCollab()
+  })
 
   const value = useMemo(
     () => ({

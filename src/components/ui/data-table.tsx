@@ -51,6 +51,7 @@ interface DataTableProps<TData, TValue> {
   readonly tableHeadClassName?: string
   readonly customNoResultsComponent?: ReactNode
   readonly headerSearch?: () => ReactNode
+  readonly getRowId?: (row: TData) => string
 }
 
 export function DataTable<TData, TValue>({
@@ -75,7 +76,8 @@ export function DataTable<TData, TValue>({
   tableHeaderClassName,
   tableHeadClassName,
   customNoResultsComponent,
-  headerSearch
+  headerSearch,
+  getRowId
 }: DataTableProps<TData, TValue>) {
   const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.id!))
 
@@ -98,7 +100,8 @@ export function DataTable<TData, TValue>({
     enableRowSelection: !!rowSelection,
     getSortedRowModel: manualSorting ? undefined : getSortedRowModel(),
     enableSortingRemoval: true,
-    manualSorting
+    manualSorting,
+    getRowId
   })
 
   return (

@@ -19,6 +19,7 @@ import UploadDocumentDialog from "../organisms/upload-documents-dialog"
 import { type CCLoanDocument } from "@/types/loan-document.type"
 import useDeleteDocument from "../../hooks/useDeleteDocument"
 import { EmptyDocuments } from "@/modules/loan-application/capital-collab/components/organisms/EmptyDocuments.tsx"
+import { toastError } from "@/utils"
 
 function ApplicationDocument() {
   const { id: loanApplicationID, loanProgramId } = useParams()
@@ -49,10 +50,12 @@ function ApplicationDocument() {
   }
 
   const selectedDocumentIds = useMemo(() => {
-    const ids =
-      data?.data
-        .filter((_, index) => rowSelection[index])
-        .map((doc) => doc.id) ?? []
+    const ids = Object.keys(rowSelection).filter((key) => {
+      const isSelected = rowSelection[key]
+      const document = data?.data.find((doc) => doc.id === key)
+
+      return isSelected && document
+    })
 
     return ids
   }, [data, rowSelection])
@@ -67,7 +70,14 @@ function ApplicationDocument() {
   }
 
   const handleDownloadDocument = () => {
-    downloadFile.mutate({ documentIds: selectedDocumentIds })
+    if (selectedDocumentIds.length === 0)
+      toastError({
+        title: "No document selected",
+        description: "Please select at least one document to download"
+      })
+    else {
+      downloadFile.mutate({ documentIds: selectedDocumentIds })
+    }
   }
 
   const handleClickDetail = (detail: Row<CCLoanDocument>) => {
@@ -88,6 +98,8 @@ function ApplicationDocument() {
       })
     }
   }
+
+  const getRowId = (row: CCLoanDocument) => row.id
 
   return (
     <div>
@@ -114,6 +126,7 @@ function ApplicationDocument() {
         })}
         customNoResultsComponent={!isAdmin ? <EmptyDocuments /> : undefined}
         data={data?.data ?? []}
+        getRowId={getRowId}
         headerSearch={() => (
           <div className="bg-white px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-24">
             <div>

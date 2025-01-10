@@ -29,7 +29,12 @@ export const CashflowGlanceReport: React.FC<CashflowGlanceReportProps> = ({
         )}
         isLoading={isFetchingNewCashFlow}
       >
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-4">
+        <div
+          className={cn(
+            "grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-4",
+            isCapitalCollab() && "xl:grid-cols-4"
+          )}
+        >
           <CashFlowGlanceCard
             isCurrency
             title="Revenue / Gross Income"

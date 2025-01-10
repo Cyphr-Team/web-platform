@@ -77,7 +77,7 @@ export function Insights() {
           isLoading={isLoading}
           label={selfieStep().toLowerCase()}
           status={selfieStep()}
-          title="Selfie verification"
+          title="Selfie Verification"
           toolTipContent="Selfie Verification uses the Persona to authenticate"
         />
       </CardContent>

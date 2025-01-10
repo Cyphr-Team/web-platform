@@ -12,9 +12,11 @@ import { useTimeRangeFilter } from "../useTimeRangeFilter"
 import { Institution } from "@/constants/tenant.constants"
 
 export const useQueryGetCCLoanApplicationActivities = (
-  props: DashboardState
+  props: DashboardState & {
+    enabled?: boolean
+  }
 ) => {
-  const { filter } = props
+  const { filter, enabled } = props
   const timeRangeFilter = useTimeRangeFilter(filter)
 
   return useQuery<
@@ -43,7 +45,7 @@ export const useQueryGetCCLoanApplicationActivities = (
         }
       })
     },
-    enabled: !!(filter.timeRange.from && filter.timeRange.to),
+    enabled: !!(filter.timeRange.from && filter.timeRange.to) && enabled,
     placeholderData: keepPreviousData
   })
 }

@@ -31,12 +31,14 @@ export function CapitalCollabLoanApplicationActivityChart() {
   const { ccloanApplicationActivitiesData, dashboardState } = useDashboard()
 
   const adaptedChartData =
-    ccloanApplicationActivitiesData?.result.map(({ first, second }) => ({
-      time: first,
-      ...second.reduce(
-        (acc, { status, count }) => ({ ...acc, [status.toUpperCase()]: count }),
-        {}
-      )
+    ccloanApplicationActivitiesData?.result.map((v) => ({
+      time: v.date,
+      [LoanApplicationStatus.DRAFT]: v.totalApplicationDraft,
+      [LoanApplicationStatus.SUBMITTED]: v.totalApplicationSubmitted,
+      [LoanApplicationStatus.IN_REVIEW]: v.totalApplicationInReview,
+      [LoanApplicationStatus.CCC_APPROVED]: v.totalApplicationApproved,
+      [LoanApplicationStatus.CCC_DECLINED]: v.totalApplicationDenied,
+      [LoanApplicationStatus.CCC_FUNDED]: v.totalApplicationFunded
     })) ?? []
 
   return (

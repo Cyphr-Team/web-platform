@@ -1,5 +1,4 @@
 import { type GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
-import { type LoanApplicationStatus } from "@/types/loan-application.type"
 import {
   type TimeRange,
   type TimeRangeFilterValue
@@ -138,14 +137,12 @@ interface AverageTimeToApprovalResponse {
 interface LoanApplicationActivitiesResponse {
   loanApplicationActivities: LoanApplicationActivities[]
 }
+interface CCLoanApplicationActivities extends LoanApplicationActivities {
+  totalApplicationFunded: number
+  totalApplicationDeclined: number
+}
 interface CCLoanApplicationActivitiesResponse {
-  result: {
-    first: string
-    second: {
-      status: LoanApplicationStatus
-      count: number
-    }[]
-  }[]
+  result: CCLoanApplicationActivities[]
 }
 interface AverageApprovalLoanAmountResponse {
   averageApprovedLoanAmount: AverageApprovalLoanAmount[]

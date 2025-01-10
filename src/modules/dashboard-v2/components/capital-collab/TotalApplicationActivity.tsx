@@ -30,7 +30,7 @@ export function TotalApplicationActivity() {
             badgeProps={{ isDot: false }}
             isLoading={isLoadingCCStatsData}
             title={getStatusDisplayName(card.status)}
-            unit="Apps"
+            unit=""
             value={data[card.valueMapping]}
             variantColor={getBadgeVariantByStatus(card.status)}
           />
