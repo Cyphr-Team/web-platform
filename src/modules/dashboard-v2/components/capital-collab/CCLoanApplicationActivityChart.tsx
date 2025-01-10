@@ -37,7 +37,7 @@ export function CapitalCollabLoanApplicationActivityChart() {
       [LoanApplicationStatus.SUBMITTED]: v.totalApplicationSubmitted,
       [LoanApplicationStatus.IN_REVIEW]: v.totalApplicationInReview,
       [LoanApplicationStatus.CCC_APPROVED]: v.totalApplicationApproved,
-      [LoanApplicationStatus.CCC_DECLINED]: v.totalApplicationDenied,
+      [LoanApplicationStatus.CCC_DECLINED]: v.totalApplicationDeclined,
       [LoanApplicationStatus.CCC_FUNDED]: v.totalApplicationFunded
     })) ?? []
 
