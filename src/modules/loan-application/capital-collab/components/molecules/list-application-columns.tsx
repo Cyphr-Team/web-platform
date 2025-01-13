@@ -4,9 +4,9 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants.ts"
 import { format } from "date-fns"
 import { renderFilterableHeader } from "@/utils/table.utils.tsx"
-import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
-import { type LoanApplication } from "@/types/loan-application.type"
-import { ButtonReviewLoanApplication } from "@/modules/loan-application-management/components/atoms/ButtonReviewLoanApplication"
+import { DataTableColumnHeader } from "@/shared/molecules/table/column-header.tsx"
+import { type LoanApplication } from "@/types/loan-application.type.ts"
+import { ButtonReviewLoanApplication } from "@/modules/loan-application-management/components/atoms/ButtonReviewLoanApplication.tsx"
 import { ApplicationStatusSelectionPopover } from "@/modules/loan-application/capital-collab/components/molecules/ApplicationStatusSelectionPopover.tsx"
 
 export const listApplicationColumns: ColumnDef<LoanApplication>[] = [

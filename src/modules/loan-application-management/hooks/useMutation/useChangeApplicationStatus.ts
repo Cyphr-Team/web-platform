@@ -30,7 +30,7 @@ export const useChangeApplicationStatus = () => {
   >({
     mutationFn: ({ applicationId, status }) =>
       postRequest({
-        path: API_PATH.workspaceAdmin.changeApplicationStatus(applicationId),
+        path: API_PATH.capitalCollab.changeApplicationStatus(applicationId),
         customHeader: customRequestHeader.customHeaders,
         data: { request: { status } }
       }),

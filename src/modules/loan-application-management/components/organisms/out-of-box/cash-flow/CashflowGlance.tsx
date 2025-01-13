@@ -8,6 +8,8 @@ import React from "react"
 import { FeatureRenderer } from "@/shared/layouts/FeatureRenderer"
 import { FeatureKey } from "@/hooks/useCanAccess"
 import { CashFlowGlanceCard } from "@/modules/loan-application-management/components/atoms/cashflows/CashflowGlanceCard.tsx"
+import { Separator } from "@/components/ui/separator.tsx"
+import { PlaidMonthlyOverview } from "@/modules/loan-application/capital-collab/components/organisms/PlaidMonthlyOverview.tsx"
 import { isCapitalCollab } from "@/utils/domain.utils"
 
 interface CashflowGlanceReportProps {
@@ -86,6 +88,14 @@ export const CashflowGlanceReport: React.FC<CashflowGlanceReportProps> = ({
           )}
         </div>
       </LoadingWrapper>
+      {isCapitalCollab() && (
+        <>
+          <Separator />
+          <SectionTitle>Monthly Overview</SectionTitle>
+          <PlaidMonthlyOverview />
+          <Separator />
+        </>
+      )}
       <SectionTitle>Connected Bank Accounts</SectionTitle>
       <LoadingWrapper
         className={cn(

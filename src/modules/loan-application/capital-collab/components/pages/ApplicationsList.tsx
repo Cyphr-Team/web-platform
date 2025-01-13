@@ -24,7 +24,7 @@ import {
 import debounce from "lodash.debounce"
 import { ApplicationsFilter } from "@/modules/loan-application/capital-collab/components/molecules/ApplicationsFilter"
 import { type Option, SortOrder } from "@/types/common.type.ts"
-import { listApplicationColumns } from "@/modules/loan-application/capital-collab/components/organisms/list-application-columns"
+import { listApplicationColumns } from "@/modules/loan-application/capital-collab/components/molecules/list-application-columns.tsx"
 
 export function CapitalCollabApplicationsList() {
   const crumbs = useBreadcrumb()

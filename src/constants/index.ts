@@ -297,6 +297,12 @@ export const API_PATH = {
       "api/loan-ready-subscription/by-application-id",
     getUnusedSubscription: "api/loan-ready-subscription/list-unused-by-user-id"
   },
+  capitalCollab: {
+    changeApplicationStatus: (applicationId: string) =>
+      `api/capital-collab/workspace-admin/applications/${applicationId}/change-status`,
+    getPlaidMonthlyOverview: (applicationId: string) =>
+      `api/capital-collab/workspace-admin/applications/${applicationId}/plaid-monthly-overview`
+  },
   workspaceAdmin: {
     selectRoundLoanApplication: "api/workspace-admin/applications/round",
     getAssignableList: "api/workspace-admin/judge/assignable-list",
@@ -304,10 +310,7 @@ export const API_PATH = {
     getActiveNudges: (applicationId: string) =>
       `api/workspace-admin/loan-applications/${applicationId}/judge/active-nudges`,
     sendNudge: `api/workspace-admin/loan-applications/judge/send-nudge`,
-    applicationStageStat: `api/workspace-admin/application/stats/institution-application-stage`,
-    // CCC
-    changeApplicationStatus: (applicationId: string) =>
-      `api/capital-collab/workspace-admin/applications/${applicationId}/change-status`
+    applicationStageStat: `api/workspace-admin/application/stats/institution-application-stage`
   },
   loanProgram: {
     list: "api/user-loan/program/list",

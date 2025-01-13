@@ -7,8 +7,8 @@ import {
 } from "@/constants/date.constants"
 import { format, interval, isEqual, isValid, parse } from "date-fns"
 import { util } from "zod"
-import find = util.find
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
+import find = util.find
 
 export const formatBirthday = (date?: string) => {
   try {
@@ -185,4 +185,69 @@ export function validDateWithinTimeRange(
   const validFutureDate = isEnableFutureDate ? true : date < new Date()
 
   return validFromDate && validToDate && validPastDate && validFutureDate
+}
+
+// Convert date from mm/dd/yyyy to yyyy-mm-dd
+export const convertDate = (input: string): string => {
+  const [month, day, year] = input.split("/")
+
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
+}
+
+/**
+ * Gets the first day of the current month based on the provided date string.
+ *
+ * This function takes a date string in the format "yyyy-mm-dd", validates it,
+ * and returns the first day of the month as a string in the same "yyyy-mm-dd" format.
+ * If the input date is invalid, it returns a placeholder string "---".
+ *
+ * @param {string} dateString - The input date string in the "yyyy-mm-dd" format.
+ * @returns {string} The first day of the current month in "yyyy-mm-dd" format, or "---" if the input is invalid.
+ *
+ * @example
+ * getFirstDayOfCurrentMonth("2024-01-15")
+ * // Returns "2024-01-01"
+ *
+ * @example
+ * getFirstDayOfCurrentMonth("invalid-date")
+ * // Returns "---" for invalid date
+ */
+export const getFirstDayOfCurrentMonth = (dateString: string): string => {
+  const date = new Date(dateString)
+
+  if (isNaN(date.getTime())) return "---"
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1)
+
+  return `${firstDay.getFullYear()}-${(firstDay.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${firstDay.getDate().toString().padStart(2, "0")}`
+}
+
+/**
+ * Gets the last day of the previous month based on the provided date string.
+ *
+ * This function takes a date string in the format "yyyy-mm-dd", validates it,
+ * and returns the last day of the previous month as a string in the same "yyyy-mm-dd" format.
+ * If the input date is invalid, it returns a placeholder string "---".
+ *
+ * @param {string} dateString - The input date string in the "yyyy-mm-dd" format.
+ * @returns {string} The last day of the previous month in "yyyy-mm-dd" format, or "---" if the input is invalid.
+ *
+ * @example
+ * getLastDayOfPreviousMonth("2024-01-15")
+ * // Returns "2023-12-31"
+ *
+ * @example
+ * getLastDayOfPreviousMonth("invalid-date")
+ * // Returns "---" for invalid date
+ */
+export const getLastDayOfPreviousMonth = (dateString: string): string => {
+  const date = new Date(dateString)
+
+  if (isNaN(date.getTime())) return "---"
+  const lastDay = new Date(date.getFullYear(), date.getMonth(), 0)
+
+  return `${lastDay.getFullYear()}-${(lastDay.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${lastDay.getDate().toString().padStart(2, "0")}`
 }
