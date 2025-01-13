@@ -421,6 +421,9 @@ export const API_PATH = {
         delete: "api/form/documents/delete",
         detail: "api/form/documents/by-application-id"
       },
+      documentNonForm: {
+        byDocumentId: "api/non-form-document/download/by-document-id"
+      },
       currentLoans: {
         index: "api/form/v2/current-loan"
       },

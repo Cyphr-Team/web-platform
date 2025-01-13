@@ -66,7 +66,8 @@ export const useExportToPDF = () => {
       const { pdf } = await generatePDF({
         elements: allElements.map((el) => ({
           htmlElement: el
-        }))
+        })),
+        footerText: "Cyphr"
       })
 
       pdf.save(`CapitalCollab_${Date.now()}.pdf`)

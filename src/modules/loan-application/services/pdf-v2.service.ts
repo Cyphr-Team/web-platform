@@ -203,7 +203,7 @@ interface AddFooterOptions {
 }
 const addFooter = (options: AddFooterOptions) => {
   const { pdf, textLeft, textRight } = options
-  const padding = 15
+  const paddingX = 12.8
   const paddingY = 1.2
 
   const drawablePageNumber = {
@@ -222,10 +222,10 @@ const addFooter = (options: AddFooterOptions) => {
 
   pdf.text(
     drawablePageNumber.text,
-    pdf.internal.pageSize.width - drawablePageNumber.x - padding,
+    pdf.internal.pageSize.width - drawablePageNumber.x - paddingX,
     pdf.internal.pageSize.height - paddingY
   )
-  pdf.text(drawableDate.text, padding, pdf.internal.pageSize.height - paddingY)
+  pdf.text(drawableDate.text, paddingX, pdf.internal.pageSize.height - paddingY)
 }
 
 // TODO: Add header, we might need to calculate the height for footer like Content = A4 - Footer to prevent content overlay happened
@@ -241,11 +241,13 @@ interface GeneratePDFOptions {
     pageOrientation?: PDFPageOrientation
   }[]
   isSigned?: boolean
+  footerText?: string
 }
 
 export const generatePDF = async ({
   elements,
-  isSigned
+  isSigned,
+  footerText
 }: GeneratePDFOptions): Promise<GeneratePDFResult> => {
   if (elements.length === 0) return { pdf: new jsPDF() }
 
@@ -305,7 +307,7 @@ export const generatePDF = async ({
 
       addFooter({
         pdf,
-        textLeft: "Application Overview",
+        textLeft: footerText ?? "Application Overview",
         textRight: `Page ${currentPage} of ${totalPage}`
       })
     }

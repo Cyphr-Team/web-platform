@@ -46,3 +46,14 @@ export const PDFPageOrder = [
   ExportFPOption.DISCLAIMER_NOTE,
   ExportFPOption.APPLICATION_SUMMARY
 ]
+
+export const CapitalCollabS3Documents = {
+  TERMS_OF_SERVICE: {
+    documentName: "Capital Collab - Terms of Service",
+    documentId: "e26d0841-e649-4b81-b33b-85cea31360e1"
+  },
+  PRIVACY_POLICY: {
+    documentName: "Capital Collab - Privacy Policy",
+    documentId: "09d7a0b2-e3fb-4451-ac56-225c6da87d70"
+  }
+}

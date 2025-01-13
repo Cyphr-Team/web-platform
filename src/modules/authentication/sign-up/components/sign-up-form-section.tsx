@@ -3,7 +3,8 @@ import { APP_PATH } from "@/constants"
 import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { Link } from "react-router-dom"
 import { SignUpForm } from "./sign-up-form"
-import { isSbb } from "@/utils/domain.utils"
+import { isCapitalCollab, isSbb } from "@/utils/domain.utils"
+import { CapitalCollabSignUpForm } from "@/modules/loan-application/capital-collab/components/organisms/CapitalCollabSignUpForm"
 
 export function SignUpFormSection() {
   return (
@@ -25,7 +26,7 @@ export function SignUpFormSection() {
           </p>
         </div>
 
-        <SignUpForm />
+        {isCapitalCollab() ? <CapitalCollabSignUpForm /> : <SignUpForm />}
 
         <p className="px-8 text-center text-sm text-muted-foreground">
           Already have an account?{" "}

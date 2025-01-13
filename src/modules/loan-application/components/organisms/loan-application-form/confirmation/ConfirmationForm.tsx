@@ -13,6 +13,7 @@ import { TextInput } from "@/shared/organisms/form/TextInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import {
+  capitalCollabConfirmationTexts,
   getConfirmationTexts,
   launchKcConfirmationTexts
 } from "../../../../constants"
@@ -30,7 +31,7 @@ import {
 } from "../../../../providers"
 import { FORM_ACTION } from "../../../../providers/LoanApplicationFormProvider"
 import { sanitizeDOM } from "@/utils/file.utils"
-import { isLaunchKC } from "@/utils/domain.utils"
+import { isCapitalCollab, isLaunchKC } from "@/utils/domain.utils"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 
 export function ConfirmationForm() {
@@ -66,14 +67,21 @@ export function ConfirmationForm() {
 
   const tenant = useTenant()
 
-  const CONFIRMATION_TEXTS = isLaunchKC()
-    ? launchKcConfirmationTexts
-    : getConfirmationTexts(tenant?.tenantData?.name ?? "")
+  const getFinalConfirmationText = () => {
+    if (isLaunchKC()) {
+      return launchKcConfirmationTexts
+    }
+    if (isCapitalCollab()) {
+      return capitalCollabConfirmationTexts
+    }
+
+    return getConfirmationTexts(tenant?.tenantData?.name ?? "")
+  }
 
   return (
     <FormLayout hideTopNavigation>
       <Form {...form}>
-        {CONFIRMATION_TEXTS.map((text) => (
+        {getFinalConfirmationText().map((text) => (
           <p
             key={text.title + text.content}
             className="text-sm text-text-secondary"
