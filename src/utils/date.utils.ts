@@ -5,7 +5,7 @@ import {
   FORMAT_DATE_M_D_Y_TIME,
   FORMAT_REQUEST_DATE
 } from "@/constants/date.constants"
-import { format, interval, isEqual, isValid, parse } from "date-fns"
+import { addMinutes, format, interval, isEqual, isValid, parse } from "date-fns"
 import { util } from "zod"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import find = util.find
@@ -39,7 +39,11 @@ export const requestDate = (date?: string | Date) => {
 
 export const formatChartMonthly = (date?: string | Date) => {
   try {
-    return format(date ?? "", FORMAT_CHART_MONTHLY)
+    const localDate = new Date(date ?? "")
+    const timeZoneOffset = localDate.getTimezoneOffset()
+    const timeZoneDate = addMinutes(localDate, timeZoneOffset)
+
+    return format(timeZoneDate, FORMAT_CHART_MONTHLY)
   } catch {
     return date?.toString() ?? ""
   }
@@ -47,7 +51,11 @@ export const formatChartMonthly = (date?: string | Date) => {
 
 export const formatChartWeekly = (date?: string | Date) => {
   try {
-    return format(date ?? "", FORMAT_CHART_WEEKLY)
+    const localDate = new Date(date ?? "")
+    const timeZoneOffset = localDate.getTimezoneOffset()
+    const timeZoneDate = addMinutes(localDate, timeZoneOffset)
+
+    return format(timeZoneDate, FORMAT_CHART_WEEKLY)
   } catch {
     return date?.toString() ?? ""
   }
