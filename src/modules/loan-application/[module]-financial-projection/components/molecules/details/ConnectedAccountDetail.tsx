@@ -37,10 +37,35 @@ export function ConnectedAccountDetail({
     }
   })
 
-  const bankAccounts: LoanApplicationBankAccount[] =
-    (overwriteBankAccounts?.length ?? 0) > 0
-      ? overwriteBankAccounts
-      : data?.bankAccounts ?? []
+  const bankAccounts = useMemo(() => {
+    // Fetch the bank accounts from the Ocrolus API
+    const ocrolusBankAccounts =
+      overwriteBankAccounts?.length ?? 0 > 0
+        ? overwriteBankAccounts
+        : data?.bankAccounts ?? []
+
+    // Match the connectedOn date from Plaid to the bank account
+    return ocrolusBankAccounts.map((bankAccount) => {
+      const plaidBankAccountMatch = plaidConnectedBankAccountsQuery.data?.find(
+        (plaidBankAccount) => {
+          const bankPkPrefix = plaidBankAccount?.bankAccountPk?.substring(0, 10)
+
+          return bankPkPrefix
+            ? bankAccount.bankAccountName?.includes(bankPkPrefix)
+            : false
+        }
+      )
+
+      return {
+        ...bankAccount,
+        connectedOn: plaidBankAccountMatch?.connectedOn
+      }
+    })
+  }, [
+    data?.bankAccounts,
+    overwriteBankAccounts,
+    plaidConnectedBankAccountsQuery.data
+  ])
 
   const isCashFlowNotReady = useMemo(() => {
     return (

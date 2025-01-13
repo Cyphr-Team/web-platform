@@ -8,6 +8,7 @@ import { useMemo } from "react"
 import { useParams } from "react-router-dom"
 import { cashFlowColumns } from "@/shared/atoms/CashFlowColumns.tsx"
 import { cn } from "@/lib/utils.ts"
+import { useGetPlaidConnectedBankAccounts } from "@/modules/loan-application/hooks/form-cash-flow/useQueryGetPlaidConnectedBankAccountsByApplicationId"
 
 interface CashFlowTableProps {
   wrapperClassName?: string
@@ -26,7 +27,34 @@ export function CashFlowTable({ wrapperClassName }: CashFlowTableProps) {
     refetch()
   }
 
-  const bankAccounts = data?.bankAccounts ?? []
+  const plaidConnectedBankAccountsQuery = useGetPlaidConnectedBankAccounts({
+    request: {
+      applicationId: params.id!
+    }
+  })
+
+  const bankAccounts = useMemo(() => {
+    // Fetch the bank accounts from the Ocrolus API
+    const ocrolusBankAccounts = data?.bankAccounts ?? []
+
+    // Match the connectedOn date from Plaid to the bank account
+    return ocrolusBankAccounts.map((bankAccount) => {
+      const plaidBankAccountMatch = plaidConnectedBankAccountsQuery.data?.find(
+        (plaidBankAccount) => {
+          const bankPkPrefix = plaidBankAccount?.bankAccountPk?.substring(0, 10)
+
+          return bankPkPrefix
+            ? bankAccount.bankAccountName?.includes(bankPkPrefix)
+            : false
+        }
+      )
+
+      return {
+        ...bankAccount,
+        connectedOn: plaidBankAccountMatch?.connectedOn
+      }
+    })
+  }, [data?.bankAccounts, plaidConnectedBankAccountsQuery.data])
 
   const isCashFlowNotReady = useMemo(() => {
     return isError && error?.code === ErrorCode.cash_flow_not_ready
