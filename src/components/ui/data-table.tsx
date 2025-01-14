@@ -49,6 +49,7 @@ interface DataTableProps<TData, TValue> {
   readonly tableCellClassName?: string
   readonly tableHeaderClassName?: string
   readonly tableHeadClassName?: string
+  readonly tableHeaderWrapperClassName?: string
   readonly customNoResultsComponent?: ReactNode
   readonly headerSearch?: () => ReactNode
   readonly getRowId?: (row: TData) => string
@@ -65,6 +66,7 @@ export function DataTable<TData, TValue>({
   isLoading,
   tableContainerClassName,
   tableWrapperClassName,
+  tableHeaderWrapperClassName,
   tableClassName,
   setSorting,
   setRowSelection,
@@ -106,7 +108,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className={tableContainerClassName}>
-      <div className="flex items-center py-3">
+      <div
+        className={cn("flex items-center py-3", tableHeaderWrapperClassName)}
+      >
         {headerFilter
           ? headerFilter(table)
           : isFilterView && <DataTableViewOptions table={table} />}

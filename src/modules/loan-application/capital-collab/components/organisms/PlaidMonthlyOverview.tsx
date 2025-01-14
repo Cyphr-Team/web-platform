@@ -99,6 +99,7 @@ export const PlaidMonthlyOverview = () => {
       isLoading={isLoading}
       setSorting={setSorting}
       sorting={sorting}
+      tableHeaderWrapperClassName="py-0"
       total={data?.total ?? 0}
     />
   )

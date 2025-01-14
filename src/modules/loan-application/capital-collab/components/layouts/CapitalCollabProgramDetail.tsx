@@ -80,7 +80,7 @@ const loanProgramText: Element[] = [
   {
     id: uniqueId(),
     type: ELEMENTS_TYPE.list,
-    className: "list-none pl-0",
+    className: "list-none pl-0 space-y-2",
     content: [
       "<b>1.  Assess Your Readiness:</b> Our intuitive AI tool evaluates your financial profile, identifying strengths and opportunities for improvement. You’ll know exactly how lenders view your business and where you stand.",
       "<b>2. Receive Personalized Coaching:</b> We provide a <b>dynamic, step-by-step action plan</b> tailored to strengthen your financial readiness—covering cash flow, credit positioning, and documentation preparation.",

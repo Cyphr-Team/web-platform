@@ -23,7 +23,7 @@ export const CashflowGlanceReport: React.FC<CashflowGlanceReportProps> = ({
 }) => {
   return (
     <div className="flex flex-col space-y-3xl">
-      <SectionTitle>Cash Flow at a Glance</SectionTitle>
+      {!isCapitalCollab() && <SectionTitle>Cash Flow at a Glance</SectionTitle>}
       <LoadingWrapper
         className={cn(
           isFetchingNewCashFlow &&

@@ -95,6 +95,7 @@ export function Cashflow() {
 
   return (
     <div className="flex flex-col space-y-3xl">
+      {isCapitalCollab() && <SectionTitle>Cash Flow at a Glance</SectionTitle>}
       <div className="date-select-coupling group flex items-end">
         <Form {...form}>
           <form>

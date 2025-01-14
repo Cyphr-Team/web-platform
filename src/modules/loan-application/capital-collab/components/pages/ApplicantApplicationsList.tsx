@@ -99,7 +99,7 @@ const getLoanApplicationColumns = (
 
       return <div>{application?.businessName ?? "-"}</div>
     },
-    size: 200
+    size: 240
   },
   {
     accessorKey: "email",
@@ -107,9 +107,9 @@ const getLoanApplicationColumns = (
     cell: ({ row }) => {
       const application = row.original
 
-      return <div>{application?.email ?? "-"}</div>
+      return <div className="truncate">{application?.email ?? "-"}</div>
     },
-    size: 200
+    size: 280
   },
   {
     accessorKey: "createdAt",

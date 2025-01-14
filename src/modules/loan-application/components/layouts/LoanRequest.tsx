@@ -224,7 +224,9 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
   return (
     <FormLayout title="Loan Request" wrapperClassName={wrapperClassName}>
       <CardHeader className="text-center">
-        <CardTitle className="text-lg">{loanProgramDetails?.name}</CardTitle>
+        <CardTitle className="text-lg">
+          {isCapitalCollab() ? "Loan Request" : loanProgramDetails?.name}
+        </CardTitle>
         <CardDescription>
           Thank you for your interest in working with us.{` `}
           <span className="block">{getSubtitle()}</span>
