@@ -154,6 +154,8 @@ function ApplicationDocument() {
         tableCellClassName="bg-white"
         tableClassName="md:table-fixed"
         tableContainerClassName="rounded-t-none border-t-0"
+        tableHeaderWrapperClassName="py-0"
+        tableWrapperClassName="rounded-xl"
         total={data?.total ?? 0}
       />
     </div>

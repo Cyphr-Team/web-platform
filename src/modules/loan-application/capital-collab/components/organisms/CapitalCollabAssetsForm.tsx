@@ -141,10 +141,7 @@ export function CapitalCollabAssetsForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.ASSETS)
 
   return (
-    <FormLayout title="Assets">
-      <h5 className="text-lg font-semibold">Assets</h5>
-      <Separator />
-
+    <FormLayout layout="borderless" title="Assets">
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
         <FormLayout hideTopNavigation>
           <div>

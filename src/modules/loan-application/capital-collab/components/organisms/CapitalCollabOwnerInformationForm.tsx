@@ -8,8 +8,8 @@ import { AutoCompleteStates } from "@/modules/loan-application/components/molecu
 
 import {
   BINARY_VALUES,
-  YES_NO_OPTIONS,
-  type IOwnerFormValue
+  type IOwnerFormValue,
+  YES_NO_OPTIONS
 } from "@/modules/loan-application/constants/form"
 import {
   capitalCollabOwnerFormSchema,
@@ -91,10 +91,9 @@ export function CapitalCollabOwnerInformationForm() {
   return (
     <FormLayout
       id={LOAN_APPLICATION_STEPS.OWNER_INFORMATION}
+      layout="borderless"
       title="Individual Information"
     >
-      <h5 className="text-lg font-semibold">Individual Information</h5>
-      <Separator />
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div
           className={cn(
