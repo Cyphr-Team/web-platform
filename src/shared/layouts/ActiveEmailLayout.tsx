@@ -3,6 +3,7 @@ import { LogoHeader } from "../atoms/LogoHeader"
 import { useTenant } from "@/providers/tenant-provider"
 import { Mail } from "lucide-react"
 import { SUPPORT_EMAIL } from "@/constants/email.constant"
+import { isCapitalCollab } from "@/utils/domain.utils.ts"
 
 export function ActiveEmailLayout() {
   const { tenantData } = useTenant()
@@ -11,7 +12,7 @@ export function ActiveEmailLayout() {
     <>
       <header className="fixed z-20 flex w-full items-center justify-between gap-2 bg-white p-3 md:w-auto md:p-8">
         <div>
-          <LogoHeader />
+          <LogoHeader isShowLogo={!isCapitalCollab()} />
         </div>
 
         {tenantData?.supportEmail ? (

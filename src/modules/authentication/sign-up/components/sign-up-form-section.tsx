@@ -12,7 +12,7 @@ export function SignUpFormSection() {
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
         <div className="flex flex-col text-center">
           <div className="self-center">
-            <LogoHeader />
+            <LogoHeader isShowLogo={!isCapitalCollab()} />
           </div>
 
           <h1 className="mt-6 text-4xl font-semibold tracking-tight">

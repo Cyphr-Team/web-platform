@@ -9,13 +9,15 @@ interface LogoHeaderProps {
   toggleCollapse?: () => void
   className?: string
   isLarge?: boolean
+  isShowLogo?: boolean
 }
 
 export function LogoHeader({
   isCollapsed,
   toggleCollapse,
   className,
-  isLarge
+  isLarge,
+  isShowLogo = true
 }: LogoHeaderProps) {
   const { tenantData } = useTenant()
 
@@ -26,7 +28,7 @@ export function LogoHeader({
         type="button"
         onClick={toggleCollapse}
       >
-        {tenantData?.logo ? (
+        {tenantData?.logo && (isCollapsed || isShowLogo) ? (
           <Image
             alt="Institution logo"
             className="mr-1"

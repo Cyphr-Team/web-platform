@@ -6,7 +6,13 @@ import { userLoader } from "@/routes/loader"
 import { ProtectedRoute } from "@/shared/atoms/ProtectedRoute"
 import { Component as DashboardLayout } from "@/shared/layouts/dashboard-layout/dashboard-layout"
 import { handleCrumb } from "@/utils/crumb.utils"
-import { isKccBank, isLaunchKC, isLoanReady, isSbb } from "@/utils/domain.utils"
+import {
+  isCapitalCollab,
+  isKccBank,
+  isLaunchKC,
+  isLoanReady,
+  isSbb
+} from "@/utils/domain.utils"
 import { Route } from "react-router-dom"
 import { adminRoutes } from "./admin-routes"
 import { loanApplicationManagementRoutes } from "./loan-application-management-routes"
@@ -21,7 +27,7 @@ import { chatbotRoutes } from "@/routes/dashboard-routes/chatbot-routes"
 
 const dashboardRoutes = (
   <Route
-    element={<DashboardLayout />}
+    element={<DashboardLayout isShowLogoWhenOpen={!isCapitalCollab()} />}
     handle={handleCrumb(APP_PATH.INDEX)}
     loader={userLoader}
   >
