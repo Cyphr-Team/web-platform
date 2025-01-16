@@ -31,7 +31,9 @@ export function Component() {
           </div>
         </div>
         <div className={cn("flex-1 space-y-6 bg-active p-6", "md:p-8")}>
-          {isLenderAdmin && isEnableSubscriptionManagement() ? (
+          {isLenderAdmin &&
+          !isCapitalCollab() &&
+          isEnableSubscriptionManagement() ? (
             <CurrentUsage />
           ) : null}
           {isCapitalCollab() ? (

@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { Dot } from "lucide-react"
 import { Institution } from "@/constants/tenant.constants"
-import { getSubdomain } from "@/utils/domain.utils"
+import { getRootSubdomain, getSubdomain } from "@/utils/domain.utils"
 import { get } from "lodash"
 
 // Interface for the styles data
@@ -107,7 +107,7 @@ const badgeVariants = cva(
 const dotVariants = cva("mr-1 size-3", {
   variants: {
     variantColor: getTenantStyles(
-      getSubdomain() as Institution,
+      getRootSubdomain(getSubdomain()) as Institution,
       dotTenantStyles
     )
   },
