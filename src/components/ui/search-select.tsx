@@ -196,9 +196,7 @@ export function SearchSelect<
       <div className="flex w-full gap-1">
         {renderIcon(field.value)}
         <p className="min-w-0 truncate">
-          {field.value?.label ?? (
-            <span className="opacity-80">Please select</span>
-          )}
+          {field.value?.label ?? <span>Please select</span>}
         </p>
       </div>
       {!handleSearch ? <ChevronDown className="ml-0.5 w-4 opacity-80" /> : null}

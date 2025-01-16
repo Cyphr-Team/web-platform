@@ -40,6 +40,7 @@ import { type HistoricalIncomeStatementByDate } from "@/modules/loan-application
 import { groupDataByProp } from "@/modules/loan-application/[module]-data-enrichment/services/historical-statement.service.ts"
 import { type HistoricalStatementDataRow } from "@/modules/loan-application/[module]-data-enrichment/types"
 import { HistoricalIncomeStatementPdfTemplate } from "@/modules/loan-application/[module]-data-enrichment/components/templates/HistoricalIncomeStatementPdfTemplate.tsx"
+import { useFormContext } from "react-hook-form"
 
 interface SectionProps {
   forecastResults: ForecastResultsResponse
@@ -266,13 +267,22 @@ function DisclaimerNoteSection({
   provideRef,
   companyName
 }: SectionProps): JSX.Element {
+  const methods = useFormContext<Record<ExportFPOption, boolean>>()
+
+  const markedElements = Object.entries(methods.getValues())
+    .filter(([_, value]) => value)
+    .map(([key]) => key as ExportFPOption)
+
   return (
     <div
       ref={provideRef(ExportFPOption.DISCLAIMER_NOTE)}
       className="flex items-start p-8"
       data-pdf-end-of-page-type={EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE}
     >
-      <DisclaimerNote companyName={companyName ?? "N/A"} />
+      <DisclaimerNote
+        companyName={companyName ?? "N/A"}
+        noteKeys={markedElements}
+      />
     </div>
   )
 }
