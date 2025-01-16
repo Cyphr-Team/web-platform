@@ -88,7 +88,7 @@ const badgeVariants = cva(
   {
     variants: {
       variantColor: getTenantStyles(
-        getSubdomain() as Institution,
+        getRootSubdomain(getSubdomain()) as Institution,
         badgeTenantStyles
       ),
       variant: {
