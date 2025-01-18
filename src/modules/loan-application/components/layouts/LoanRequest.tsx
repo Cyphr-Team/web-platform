@@ -220,6 +220,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
     !isSbb() &&
     !isLaunchKC() &&
     !isEnableUseOfLoanV2
+  const isEnableShowOverMaxLoanAmount = isCapitalCollab()
 
   return (
     <FormLayout title="Loan Request" wrapperClassName={wrapperClassName}>
@@ -313,6 +314,7 @@ export function CardWithForm({ wrapperClassName }: LoanRequestProps) {
 
                             <div className="text-right">
                               {toCurrency(maxLoanAmount, 0)}
+                              {isEnableShowOverMaxLoanAmount ? "+" : null}
                             </div>
                           </div>
                           <FormMessage />

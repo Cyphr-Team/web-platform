@@ -7,6 +7,8 @@ import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanAp
 import { getUseOfLoan } from "@/modules/loan-application-management/services"
 import { type UseOfLoan } from "@/types/loan-application.type.ts"
 import { toCurrency } from "@/utils"
+import { isCapitalCollab } from "@/utils/domain.utils"
+import { useLoanProgramDetailContext } from "@/modules/loan-application/providers"
 
 interface UseLoanRequestDetailProps {
   loanRequestFormValue?: LoanRequestFormValue | ILoanRequestFormValue
@@ -15,6 +17,10 @@ interface UseLoanRequestDetailProps {
 export const useLoanRequestDetail = ({
   loanRequestFormValue
 }: UseLoanRequestDetailProps) => {
+  const { loanProgramDetails } = useLoanProgramDetailContext()
+  const isOverMaxLoanAmount =
+    isCapitalCollab() &&
+    loanRequestFormValue?.loanAmount === loanProgramDetails?.maxLoanAmount
   const loanRequestDetail: FinancialApplicationDetailData = {
     id: LOAN_APPLICATION_STEPS.LOAN_REQUEST,
     title: "Loan Request",
@@ -22,7 +28,9 @@ export const useLoanRequestDetail = ({
       {
         id: "loanAmountRequested",
         title: "Loan amount requested:",
-        content: toCurrency(loanRequestFormValue?.loanAmount, 0)
+        content:
+          toCurrency(loanRequestFormValue?.loanAmount, 0) +
+          (isOverMaxLoanAmount ? "+" : "")
       },
       {
         id: "proposedUseOfLoan",
