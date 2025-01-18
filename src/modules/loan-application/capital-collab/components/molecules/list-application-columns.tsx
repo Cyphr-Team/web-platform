@@ -8,8 +8,11 @@ import { DataTableColumnHeader } from "@/shared/molecules/table/column-header.ts
 import { type LoanApplication } from "@/types/loan-application.type.ts"
 import { ButtonReviewLoanApplication } from "@/modules/loan-application-management/components/atoms/ButtonReviewLoanApplication.tsx"
 import { ApplicationStatusSelectionPopover } from "@/modules/loan-application/capital-collab/components/molecules/ApplicationStatusSelectionPopover.tsx"
+import { type LoanProgram } from "@/types/loan-program.type"
 
-export const listApplicationColumns: ColumnDef<LoanApplication>[] = [
+export const listApplicationColumns = (
+  loanProgram?: LoanProgram
+): ColumnDef<LoanApplication>[] => [
   {
     id: "applicationIdNumber",
     header: renderFilterableHeader({ title: "ID" }),
@@ -52,11 +55,15 @@ export const listApplicationColumns: ColumnDef<LoanApplication>[] = [
     header: renderFilterableHeader({ title: "Amount Requested" }),
     cell: ({ row }) => {
       const application = row.original
+      const isAtMaxLoanAmount =
+        loanProgram?.maxLoanAmount &&
+        application.requestedLoanAmount === loanProgram?.maxLoanAmount
 
       return (
         <div>
           {application.requestedLoanAmount
-            ? toCurrency(application.requestedLoanAmount, 0)
+            ? toCurrency(application.requestedLoanAmount, 0) +
+              (isAtMaxLoanAmount ? "+" : "")
             : "-"}
         </div>
       )

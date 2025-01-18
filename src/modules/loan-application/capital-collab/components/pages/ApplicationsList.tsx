@@ -25,9 +25,16 @@ import debounce from "lodash.debounce"
 import { ApplicationsFilter } from "@/modules/loan-application/capital-collab/components/molecules/ApplicationsFilter"
 import { type Option, SortOrder } from "@/types/common.type.ts"
 import { listApplicationColumns } from "@/modules/loan-application/capital-collab/components/molecules/list-application-columns.tsx"
+import { useGetListLoanProgram } from "@/modules/admin/loan-program/hooks/useGetListLoanProgram"
 
 export function CapitalCollabApplicationsList() {
   const crumbs = useBreadcrumb()
+  // Get loan program data - only need the first one as Capital Collab only has one loan program
+  const { data: loanProgramData } = useGetListLoanProgram({
+    limit: 1,
+    offset: 0
+  })
+  const loanProgram = loanProgramData?.pages[0]?.data[0]
 
   // Pagination state
   const [pagination, setPagination] = useState<PaginationState>({
@@ -135,7 +142,7 @@ export function CapitalCollabApplicationsList() {
 
       <DataTable
         manualSorting
-        columns={listApplicationColumns}
+        columns={listApplicationColumns(loanProgram)}
         data={data?.data ?? []}
         headerFilter={() => renderHeaderFilter}
         isLoading={isFetching}
