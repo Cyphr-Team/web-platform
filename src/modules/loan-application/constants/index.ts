@@ -78,15 +78,17 @@ export const navItems: NavItem[] = [
       isLaunchKC() ||
       isCapitalCollab(),
     featureKey: FeatureKey.APPLICANT_APPLICATION
-  }
+  },
   // Hide because it's not implemented yet
-  // {
-  //   title: "Settings",
-  //   href: APP_PATH.LOAN_APPLICATION.SETTINGS,
-  //   icon: Icons.setting,
-  //   label: "Settings",
-  //   className: "mt-auto mb-3"
-  // }
+  {
+    title: "Settings",
+    href: APP_PATH.LOAN_APPLICATION.SETTINGS,
+    icon: Icons.setting,
+    label: "Settings",
+    className: "mt-auto mb-3",
+    disabled: !isLoanReady(),
+    featureKey: FeatureKey.APPLICATION
+  }
 ]
 
 export interface PlaidInfo {

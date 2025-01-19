@@ -301,7 +301,8 @@ export const API_PATH = {
       "api/loan-ready-subscription/by-payment-transaction-id",
     getSubscriptionByApplicationId:
       "api/loan-ready-subscription/by-application-id",
-    getUnusedSubscription: "api/loan-ready-subscription/list-unused-by-user-id"
+    getUnusedSubscription: "api/loan-ready-subscription/list-unused-by-user-id",
+    createRefundRequest: "api/refund/create-request"
   },
   capitalCollab: {
     changeApplicationStatus: (applicationId: string) =>

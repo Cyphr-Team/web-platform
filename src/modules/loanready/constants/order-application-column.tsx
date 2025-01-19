@@ -75,7 +75,6 @@ export const orderApplicationColumn = (
       return (
         <div className="font-medium">
           <Badge
-            isDot
             className="capitalize py-1 text-sm"
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}
