@@ -1,5 +1,5 @@
 import { API_PATH } from "@/constants"
-import { workspaceAdminTransactionKeys } from "@/constants/query-key"
+import { loanReadyTransactionKeys } from "@/constants/query-key"
 import { postRequest } from "@/services/client.service"
 import {
   type SortOrder,
@@ -49,7 +49,7 @@ interface FilterParams {
   paidOn?: string[]
 }
 
-export type WorkspaceAdminListTransactionParams = PaginateParams & {
+export type ListTransactionParams = PaginateParams & {
   filter?: Partial<FilterParams>
 } & { searchField?: string; sort?: TransactionSort; isApplicant?: boolean }
 
@@ -60,9 +60,9 @@ export const useQueryAdminListPaginateTransaction = ({
   filter,
   searchField,
   isApplicant = false
-}: WorkspaceAdminListTransactionParams) => {
+}: ListTransactionParams) => {
   return useQuery<ListTransactionResponse>({
-    queryKey: workspaceAdminTransactionKeys.list({
+    queryKey: loanReadyTransactionKeys.list({
       limit,
       offset,
       sort,
@@ -71,7 +71,7 @@ export const useQueryAdminListPaginateTransaction = ({
     }),
     queryFn: async () => {
       const response = await postRequest<
-        WorkspaceAdminListTransactionParams,
+        ListTransactionParams,
         ListTransactionResponse
       >({
         path: isApplicant

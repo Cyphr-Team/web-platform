@@ -12,6 +12,7 @@ import { Bell } from "lucide-react"
 import { type BusinessStreetAddress } from "./type"
 import { joinString } from "@/utils"
 import { FeatureKey } from "@/hooks/useCanAccess"
+import { applicantRoles } from "@/types/user.type"
 
 /**
  * Given two arrays of NavItem, one with feature flags and one without,
@@ -79,15 +80,15 @@ export const navItems: NavItem[] = [
       isCapitalCollab(),
     featureKey: FeatureKey.APPLICANT_APPLICATION
   },
-  // Hide because it's not implemented yet
   {
     title: "Settings",
     href: APP_PATH.LOAN_APPLICATION.SETTINGS,
     icon: Icons.setting,
     label: "Settings",
     className: "mt-auto mb-3",
+    roles: applicantRoles(),
     disabled: !isLoanReady(),
-    featureKey: FeatureKey.APPLICATION
+    featureKey: FeatureKey.SETTINGS
   }
 ]
 
