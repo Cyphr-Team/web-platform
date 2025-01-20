@@ -46,6 +46,12 @@ const badgeTenantStyles = {
     agreementSent: "bg-[#9CCDCDBF] text-[#078383]",
     agreementSigned: "bg-[#DFA1E1BF] text-[#B015B3]",
     funded: "bg-[#133472BF] text-white"
+  },
+  [Institution.LoanReady]: {
+    paid: "bg-[#ECFDF3BF] text-[#027A48]",
+    requestedRefund: "bg-[#FFF6EDBF] text-[#C4320A]",
+    refunded: "bg-[#FFFAEBBF] text-[#B54708]",
+    denied: "bg-[#FEF3F2BF] text-[#B42318]"
   }
 }
 

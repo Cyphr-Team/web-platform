@@ -25,8 +25,17 @@ import { Input } from "@/components/ui/input.tsx"
 import currency from "currency.js"
 import { get } from "lodash"
 
-export const USDFormatter = (value: number | string) =>
-  currency(value, { symbol: "", precision: 0, separator: ",", decimal: "." })
+export const USDFormatter = (
+  value: number | string,
+  options?: currency.Options
+) =>
+  currency(value, {
+    symbol: "",
+    precision: 0,
+    separator: ",",
+    decimal: ".",
+    ...options
+  })
 
 // Props Types
 export interface RHFCurrencyInputProps<T extends FieldValues> {

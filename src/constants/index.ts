@@ -174,7 +174,7 @@ export const APP_PATH = {
     detail: "/notifications/:id",
     details: (id: string) => `/notifications/${id}`
   },
-  SETTINGS: "/settings",
+  SETTINGS: { index: "/settings", payment: "/settings/payments" },
   MESSAGES: "/messages",
   ONBOARD: "/onboard",
   SUBSCRIPTIONS: "/subscriptions",
@@ -287,7 +287,13 @@ export const API_PATH = {
     }
   },
   payment: {
-    createChargeWithConfirmationToken: "api/payment/create-charge"
+    createChargeWithConfirmationToken: "api/payment/create-charge",
+    adminList: "api/payment/admin-list",
+    refund: {
+      createRequest: "api/refund/create-request",
+      approve: "api/refund/approve",
+      reject: "api/refund/reject"
+    }
   },
   loanReady: {
     linkSubscription: "api/loan-ready-subscription/update-application-id",

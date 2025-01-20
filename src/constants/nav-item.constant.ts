@@ -103,13 +103,15 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     label: "Onboard",
     roles: platformAdminRoles(),
     featureKey: FeatureKey.ONBOARD
+  },
+  {
+    title: "Settings",
+    href: APP_PATH.SETTINGS.index,
+    icon: Icons.setting,
+    label: "Settings",
+    roles: workspaceAdminRoles(),
+    disabled: !isLoanReady(),
+    className: "mt-auto mb-3",
+    featureKey: FeatureKey.SETTINGS
   }
-  // Hide because havent implemented yet
-  // {
-  //   title: "Settings",
-  //   href: APP_PATH.SETTINGS,
-  //   icon: Icons.setting,
-  //   label: "Settings",
-  //   className: "mt-auto mb-3"
-  // }
 ]

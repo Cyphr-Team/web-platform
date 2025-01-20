@@ -96,6 +96,14 @@ const getCrumbByPath = (path: string, customLabel?: CustomLabel, ids?: Ids) => {
       return buildCrumb(APP_PATH.ADMIN_USERS.INVITATION.index, "Invitation")
 
     /**
+     * OFFICER
+     * Settings
+     * ├── Payments
+     */
+    case APP_PATH.SETTINGS.index:
+      return buildCrumb(APP_PATH.SETTINGS.index, "Settings")
+
+    /**
      * APPLICANT
      * Loan Program
      *    Detail

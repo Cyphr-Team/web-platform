@@ -10,3 +10,10 @@ export const USER_MENU = () => [
     href: APP_PATH.ADMIN_USERS.INVITATION.index
   }
 ]
+
+export const SETTINGS_MENU = [
+  {
+    name: "Payment Transactions",
+    href: APP_PATH.SETTINGS.payment
+  }
+]

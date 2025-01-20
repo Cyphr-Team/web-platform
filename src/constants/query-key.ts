@@ -1,6 +1,7 @@
 import { type WorkspaceAdminListApplicationScoreParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
 import { type JudgeListParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 import { type WorkspaceAdminListAssessmentParams } from "@/modules/loanready/hooks/applications/useQueryListAssessmentForAdmin.ts"
+import { type WorkspaceAdminListTransactionParams } from "@/modules/loanready/hooks/payment/useQueryListPaginateTransaction"
 
 export const notificationKeys = {
   all: ["notification"] as const,
@@ -159,4 +160,11 @@ export const workspaceAdminLoanReadyAssessmentKeys = {
   lists: () => [...workspaceAdminLoanReadyAssessmentKeys.all, "list"] as const,
   list: (filters: WorkspaceAdminListAssessmentParams) =>
     [...workspaceAdminLoanReadyAssessmentKeys.lists(), { filters }] as const
+}
+
+export const workspaceAdminTransactionKeys = {
+  all: ["workspaceAdminTransaction"] as const,
+  lists: () => [...workspaceAdminTransactionKeys.all, "list"] as const,
+  list: (filters: WorkspaceAdminListTransactionParams) =>
+    [...workspaceAdminTransactionKeys.lists(), { filters }] as const
 }

@@ -225,6 +225,12 @@ export const TOAST_MSG = {
     },
     changeStatusError: {
       title: "Failed to Change Application Status"
+    },
+    proceedRefundSuccess: {
+      title: "Refund Decision processed successfully"
+    },
+    proceedRefundError: {
+      title: "Failed to process refund decision"
     }
   },
   identityVerification: {
