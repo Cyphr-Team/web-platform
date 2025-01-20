@@ -47,13 +47,6 @@ const LoanReadyPlanOptions = [
   }
 ]
 
-const enum LoanReadyRefundEnum {
-  REFUNDED = "refunded",
-  PAID = "paid",
-  REQUESTED_REFUND = "requested_refund",
-  DENIED_REFUND = "denied_refund"
-}
-
 const enum LoanReadyRefundReasonEnum {
   DUPLICATE_PURCHASE = "DUPLICATE_PURCHASE",
   ACCIDENTAL_PURCHASE = "ACCIDENTAL_PURCHASE",
@@ -71,7 +64,6 @@ export {
   LoanReadyPlanEnum,
   LoanReadyPlan,
   LoanReadyPlanOptions,
-  LoanReadyRefundEnum,
   LoanReadyRefundReasonEnum,
   LoanReadyRefundReasons
 }

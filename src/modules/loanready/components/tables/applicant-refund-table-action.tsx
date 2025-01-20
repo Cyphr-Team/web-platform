@@ -1,6 +1,5 @@
 import type { Row } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
-import type { OrderLoanApplication } from "../../../types/order-application"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,9 +28,10 @@ import { LoanReadyRefundReasons } from "@/modules/loanready/constants/package"
 import type { LoanReadyRefundReasonEnum } from "@/modules/loanready/constants/package"
 import { useState } from "react"
 import useCreateRefundRequest from "@/modules/loanready/hooks/refund/useCreateRefundRequest"
+import { type Transaction } from "@/types/transaction.type"
 
 interface RefundActionProps {
-  row: Row<OrderLoanApplication>
+  row: Row<Transaction>
 }
 
 function RefundTableAction(props: RefundActionProps) {
@@ -44,7 +44,7 @@ function RefundTableAction(props: RefundActionProps) {
     if (!refundReason) return
     mutate(
       {
-        loanReadySubscriptionId: row.original.paymentTransactionId,
+        loanReadySubscriptionId: row.original.id,
         refundReason
       },
       {

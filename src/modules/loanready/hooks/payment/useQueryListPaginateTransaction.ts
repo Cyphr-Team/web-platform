@@ -51,14 +51,15 @@ interface FilterParams {
 
 export type WorkspaceAdminListTransactionParams = PaginateParams & {
   filter?: Partial<FilterParams>
-} & { searchField?: string } & { sort?: TransactionSort }
+} & { searchField?: string; sort?: TransactionSort; isApplicant?: boolean }
 
 export const useQueryAdminListPaginateTransaction = ({
   limit,
   offset,
   sort,
   filter,
-  searchField
+  searchField,
+  isApplicant = false
 }: WorkspaceAdminListTransactionParams) => {
   return useQuery<ListTransactionResponse>({
     queryKey: workspaceAdminTransactionKeys.list({
@@ -73,7 +74,9 @@ export const useQueryAdminListPaginateTransaction = ({
         WorkspaceAdminListTransactionParams,
         ListTransactionResponse
       >({
-        path: API_PATH.payment.adminList,
+        path: isApplicant
+          ? API_PATH.payment.applicantList
+          : API_PATH.payment.adminList,
         data: {
           limit,
           offset,

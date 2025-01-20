@@ -288,7 +288,8 @@ export const API_PATH = {
   },
   payment: {
     createChargeWithConfirmationToken: "api/payment/create-charge",
-    adminList: "api/payment/admin-list",
+    adminList: "api/transaction/admin-list",
+    applicantList: "api/transaction/applicant-list",
     refund: {
       createRequest: "api/refund/create-request",
       approve: "api/refund/approve",

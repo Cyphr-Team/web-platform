@@ -6,6 +6,8 @@ export interface BaseTransaction {
   amount: string
   paidOn: string
   status: string
+  // TODO: replace when BE update
+  transactionStatus: string
 }
 
 export interface LoanReadyTransaction extends BaseTransaction {
