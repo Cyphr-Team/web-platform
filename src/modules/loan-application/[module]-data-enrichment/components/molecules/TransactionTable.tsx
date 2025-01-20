@@ -12,7 +12,7 @@ import {
   type SortingState,
   useReactTable
 } from "@tanstack/react-table"
-import React, { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import {
   Table,
   TableBody,
@@ -22,7 +22,6 @@ import {
   TableRow
 } from "@/components/ui/table.tsx"
 import { DataTableColumnHeader } from "@/shared/molecules/table/column-header.tsx"
-import { MOCK_TRANSACTION_DATA } from "@/modules/loan-application/[module]-data-enrichment/components/store/mock-data.ts"
 import {
   Select,
   SelectContent,
@@ -30,50 +29,64 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select.tsx"
-import { cn } from "@/lib/utils.ts"
-import {
-  Category,
-  CategoryToFinancialCategoryMapper,
-  CategoryToPrimaryMapper
-} from "@/modules/loan-application/[module]-data-enrichment/constants"
 import { Icons } from "@/modules/loan-application/components/atoms/icon.tsx"
+import _, { startCase } from "lodash"
+import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCurrencyInput.tsx"
+import { type PlaidTransaction } from "@/modules/loan-application/[module]-data-enrichment/types"
+import {
+  type PrimaryCategory,
+  UserPlaidTransactionConstant
+} from "@/modules/loan-application/[module]-data-enrichment/constants"
+import { Button } from "@/components/ui/button.tsx"
+import { useFormContext } from "react-hook-form"
 
-export interface Transaction {
-  id: string
-  category: string
-  accounts: string
-  transaction: string
-  primary: string
-  total: string
-  financialCategory: string
-}
+type CategoryDataState = Record<
+  PrimaryCategory,
+  {
+    limit: number
+    offset: number
+    hasMore: boolean
+  }
+>
 
 export function TransactionTable() {
-  const [data, setData] = useState(MOCK_TRANSACTION_DATA)
+  const { setValue, watch } = useFormContext()
+  const data = watch("data") as PlaidTransaction[]
+
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "category", desc: false }
+    { id: "cyphrPrimaryCreditCategory", desc: false }
   ])
-  const [grouping, setGrouping] = useState<GroupingState>(["category"])
+  const [grouping, setGrouping] = useState<GroupingState>([
+    "cyphrPrimaryCreditCategory"
+  ])
   const [updateTrigger, setUpdateTrigger] = useState(0)
 
-  const handleUpdateValue = useCallback(
-    (key: keyof Transaction) => (transactionId: string, value: string) => {
-      setData((prev) =>
-        prev.map((transaction) =>
-          transaction.id === transactionId
-            ? { ...transaction, [key]: value }
-            : transaction
-        )
-      )
-      setUpdateTrigger((prev) => prev + 1)
-    },
-    []
+  // TODO: implement the real logic, since it's depends on BE
+  const [categoryState] = useState<CategoryDataState>(
+    defaultCategoryDataState()
   )
 
-  const columns = React.useMemo<ColumnDef<Transaction>[]>(
+  const onUpdateCategory = useCallback(
+    (transactionId: string, key: keyof PlaidTransaction, value: string) => {
+      const toUpdate = data.map((transaction) => {
+        if (transaction.id === transactionId) {
+          return { ...transaction, [key]: _.snakeCase(value) }
+        }
+
+        return transaction
+      })
+
+      setValue("data", toUpdate)
+
+      setUpdateTrigger((prev) => prev + 1)
+    },
+    [data, setValue]
+  )
+
+  const columns = useMemo<ColumnDef<PlaidTransaction>[]>(
     () => [
       {
-        accessorKey: "category",
+        accessorKey: "cyphrPrimaryCreditCategory",
         header: ({ column }) => (
           <DataTableColumnHeader
             className="p-0"
@@ -85,61 +98,38 @@ export function TransactionTable() {
           if (row.getIsGrouped()) {
             return (
               <div className="flex items-center gap-2">
-                {getValue() as string}
+                {startCase(getValue() as string)}
               </div>
             )
           }
 
-          return row.original.accounts
+          return row.original.accountName
         },
         enableSorting: true,
         sortingFn: (rowA, rowB) => {
           if (
-            rowA.original.category.localeCompare(rowB.original.category) == 0
+            rowA.original.cyphrPrimaryCreditCategory.localeCompare(
+              rowB.original.cyphrPrimaryCreditCategory
+            ) == 0
           ) {
-            return rowA.original.accounts.localeCompare(rowB.original.accounts)
+            return rowA.original.accountName.localeCompare(
+              rowB.original.accountName
+            )
           }
 
           return 0
         }
       },
       {
-        accessorKey: "transaction",
+        accessorKey: "description",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Transaction" />
+          <DataTableColumnHeader column={column} title="Description" />
         ),
         cell: (info) => info.getValue(),
         enableSorting: true
       },
       {
-        accessorKey: "accounts",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Category" />
-        ),
-        cell: ({ row }) => {
-          if (row.getIsGrouped()) {
-            return
-          }
-
-          return (
-            <SelectableCell
-              defaultValue={row.original}
-              options={Object.values(Category)}
-              onValueChange={handleUpdateValue("category")}
-            />
-          )
-        }
-      },
-      {
-        accessorKey: "total",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Total $ Amount" />
-        ),
-        cell: (info) => info.getValue(),
-        enableSorting: true
-      },
-      {
-        accessorKey: "primary",
+        accessorKey: "accountName",
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title="Primary" />
         ),
@@ -151,33 +141,87 @@ export function TransactionTable() {
           return (
             <SelectableCell
               defaultValue={row.original}
-              options={Object.values(
-                CategoryToPrimaryMapper[row.original.category]
-              )}
-              onValueChange={handleUpdateValue("primary")}
+              options={Object.entries(
+                UserPlaidTransactionConstant.primary as Record<string, string>
+              ).map(sanitizeOptions)}
+              type="cyphrPrimaryCreditCategory"
+              onValueChange={onUpdateCategory}
+            />
+          )
+        }
+      },
+      {
+        accessorKey: "amount",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Total $ Amount" />
+        ),
+        cell: (info) => {
+          if (info.row.getIsGrouped()) {
+            return
+          }
+
+          return USDFormatter(info.getValue() as number, {
+            symbol: "$",
+            precision: 2
+          }).format()
+        },
+        enableSorting: true
+      },
+      {
+        accessorKey: "cyphrDetailedCreditCategory",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Detailed" />
+        ),
+        cell: ({ row }) => {
+          if (row.getIsGrouped()) {
+            return
+          }
+
+          return (
+            <SelectableCell
+              defaultValue={row.original}
+              options={Object.entries(
+                UserPlaidTransactionConstant.detailed[
+                  row.original.cyphrPrimaryCreditCategory as PrimaryCategory
+                ]
+              ).map(sanitizeOptions)}
+              type="cyphrDetailedCreditCategory"
+              onValueChange={onUpdateCategory}
             />
           )
         },
         enableSorting: true
       },
       {
-        accessorKey: "financialCategory",
+        accessorKey: "cyphrFinancialCategory",
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title="Financial Category" />
         ),
         cell: ({ row }) => {
           if (row.getIsGrouped()) {
+            const hasMore =
+              categoryState[
+                row.original.cyphrPrimaryCreditCategory as PrimaryCategory
+              ]?.hasMore
+
             return (
-              <div className="flex items-center gap-2 cursor-pointer">
+              <Button
+                className="flex items-center gap-2 cursor-pointer disabled:bg-transparent"
+                disabled={!hasMore}
+                variant="ghost"
+              >
                 <Icons.Union />
                 Display more transactions
-              </div>
+              </Button>
             )
           }
 
+          // These categories did not have a financial category, so we disable it
+          const exclusive: PrimaryCategory[] = ["asset", "liabilities", "other"]
+
           if (
-            [Category.Assets, Category.Liabilities, Category.Other].some(
-              (value) => value === row.original.category
+            exclusive.some(
+              (value) => value === row.original.cyphrPrimaryCreditCategory
             )
           ) {
             return ""
@@ -186,17 +230,20 @@ export function TransactionTable() {
           return (
             <SelectableCell
               defaultValue={row.original}
-              options={Object.values(
-                CategoryToFinancialCategoryMapper[row.original.category]
-              )}
-              onValueChange={handleUpdateValue("financialCategory")}
+              options={Object.entries(
+                UserPlaidTransactionConstant.financial[
+                  row.original.cyphrPrimaryCreditCategory as PrimaryCategory
+                ]
+              ).map(sanitizeOptions)}
+              type="cyphrFinancialCategory"
+              onValueChange={onUpdateCategory}
             />
           )
         },
         enableSorting: true
       }
     ],
-    [handleUpdateValue]
+    [categoryState, onUpdateCategory]
   )
 
   const table = useReactTable({
@@ -224,16 +271,18 @@ export function TransactionTable() {
   // Effect to handle re-grouping
   useEffect(() => {
     if (updateTrigger > 0) {
-      setGrouping(["category"])
+      setGrouping(["cyphrPrimaryCreditCategory"])
     }
   }, [updateTrigger])
 
   useEffect(() => {
     setSorting((prev) => {
-      const hasCategorySorting = prev.some((sort) => sort.id === "category")
+      const hasCategorySorting = prev.some(
+        (sort) => sort.id === "cyphrPrimaryCreditCategory"
+      )
 
       if (!hasCategorySorting) {
-        return [{ id: "category", desc: false }, ...prev]
+        return [{ id: "cyphrPrimaryCreditCategory", desc: false }, ...prev]
       }
 
       return prev
@@ -287,24 +336,30 @@ export function TransactionTable() {
 }
 
 interface SelectableCellProps {
-  defaultValue: Transaction
-  onValueChange: (transactionId: string, value: string) => void
-  options: string[]
+  type: keyof PlaidTransaction
+  defaultValue: PlaidTransaction
+  onValueChange: (
+    transactionId: string,
+    key: keyof PlaidTransaction,
+    value: string
+  ) => void
+  options: [string, string][]
 }
 
 function SelectableCell({
   defaultValue,
   onValueChange,
-  options
+  options,
+  type
 }: SelectableCellProps) {
-  const [category, setCategory] = useState(defaultValue.category)
+  const [value, setValue] = useState(defaultValue[type] as string)
 
   return (
     <Select
-      value={category}
-      onValueChange={(value) => {
-        setCategory(value)
-        onValueChange(defaultValue.id, value)
+      value={value}
+      onValueChange={(newValue) => {
+        setValue(options.find(([_, v]) => v === newValue)?.at(0) ?? newValue)
+        onValueChange(defaultValue.id, type, newValue)
       }}
     >
       <SelectTrigger className="text-sm border-none bg-transparent">
@@ -314,13 +369,47 @@ function SelectableCell({
           }
         />
       </SelectTrigger>
-      <SelectContent className={cn("max-w-screen-sm xl:!max-w-full")}>
+      <SelectContent className="max-w-screen-sm xl:!max-w-full">
         {options.map((option) => (
-          <SelectItem key={option} value={option}>
-            <span className={cn("text-sm")}>{option}</span>
+          <SelectItem key={option[0]} value={option[0]}>
+            <span className="text-sm">{option[1]}</span>
           </SelectItem>
         ))}
       </SelectContent>
     </Select>
   )
+}
+
+function sanitizeOptions(value: [string, string]): [string, string] {
+  return [_.snakeCase(value[0]), value[1]]
+}
+
+function defaultCategoryDataState(): CategoryDataState {
+  return {
+    asset: {
+      limit: 10,
+      offset: 0,
+      hasMore: false
+    },
+    revenue: {
+      limit: 10,
+      offset: 0,
+      hasMore: false
+    },
+    liabilities: {
+      limit: 10,
+      offset: 0,
+      hasMore: false
+    },
+    expense: {
+      limit: 10,
+      offset: 0,
+      hasMore: false
+    },
+    other: {
+      limit: 10,
+      offset: 0,
+      hasMore: false
+    }
+  }
 }

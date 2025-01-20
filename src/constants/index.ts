@@ -719,6 +719,10 @@ export const API_PATH = {
         `api/historical-financial-statement/by-application-id/${applicationId}/preview`,
       findByApplicationId: (applicationId: string) =>
         `api/historical-financial-statement/by-application-id/${applicationId}`
+    },
+    plaidTransaction: {
+      list: "api/enriched-transactions/transactions",
+      updateCategory: "api/enriched-transactions/update-category"
     }
   }
 }

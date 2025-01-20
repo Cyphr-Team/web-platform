@@ -3,10 +3,59 @@ import { Separator } from "@/components/ui/separator"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
+import { useParams } from "react-router-dom"
+import { useQueryPlaidTransactions } from "@/modules/loan-application/[module]-data-enrichment/hooks/useQueryPlaidTransactions.ts"
+import { RefreshCcw } from "lucide-react"
+import { useQueryClient } from "@tanstack/react-query"
+import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
+import { TableSkeleton } from "@/components/ui/skeleton.tsx"
 import { TransactionTable } from "@/modules/loan-application/[module]-data-enrichment/components/molecules/TransactionTable.tsx"
+import { useUpdateTransaction } from "@/modules/loan-application/[module]-data-enrichment/hooks/useUpdateTransaction.ts"
+import { type PlaidTransaction } from "@/modules/loan-application/[module]-data-enrichment/types"
+import { useForm } from "react-hook-form"
+import { RHFProvider } from "@/modules/form-template/providers"
+import { useEffect } from "react"
+
+interface FormValues {
+  data: PlaidTransaction[]
+}
 
 export function ReviewTransactionsForm() {
+  const { id: applicationId } = useParams()
   const { finishCurrentStep, step } = useLoanApplicationProgressContext()
+
+  const queryClient = useQueryClient()
+  const { data, isLoading } = useQueryPlaidTransactions({
+    applicationId: applicationId!,
+    enabled: !!applicationId
+  })
+
+  const { mutate } = useUpdateTransaction()
+
+  const methods = useForm<FormValues>({
+    defaultValues: {
+      data: groupTransactions(data?.transactions ?? [])
+    }
+  })
+
+  const onSubmit = (formData: FormValues) => {
+    mutate({
+      data: ungroupTransaction(formData.data),
+      applicationId: applicationId!
+    })
+    finishCurrentStep()
+  }
+
+  const onRefreshData = () =>
+    queryClient.invalidateQueries({
+      queryKey: [HISTORICAL_FINANCIALS_QUERY_KEY.GET_PLAID_TRANSACTIONS]
+    })
+
+  useEffect(() => {
+    if (data?.transactions && !isLoading) {
+      methods.setValue("data", groupTransactions(data?.transactions ?? []))
+    }
+  }, [data?.transactions, methods, isLoading])
 
   return (
     <FormLayout layout="borderless" title="Review Transactions">
@@ -19,13 +68,74 @@ export function ReviewTransactionsForm() {
         </p>
       </div>
       <Separator />
-      <TransactionTable />
 
-      {!isReviewApplicationStep(step) && (
-        <div className="mt-4 flex flex-row gap-2xl justify-end">
-          <Button onClick={finishCurrentStep}>Looks good</Button>
-        </div>
-      )}
+      <RHFProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+        {isLoading ? (
+          <TableSkeleton cellClassName="h-16" className="w-full" columns={4} />
+        ) : null}
+        {data?.transactions !== undefined ? <TransactionTable /> : null}
+
+        {!isReviewApplicationStep(step) && (
+          <div className="mt-4 flex flex-row gap-2xl justify-end items-center">
+            <Button
+              disabled={isLoading || data?.transactions.length !== 0}
+              type="button"
+              onClick={onRefreshData}
+            >
+              Refresh Data
+              <RefreshCcw className="ml-2 cursor-pointer" />
+            </Button>
+
+            <Button type="submit">Looks good</Button>
+          </div>
+        )}
+      </RHFProvider>
     </FormLayout>
   )
+}
+
+function groupTransactions(
+  transactions: PlaidTransaction[]
+): PlaidTransaction[] {
+  const grouped = new Map<string, PlaidTransaction>()
+
+  for (const transaction of transactions) {
+    const { merchantName, cyphrDetailedCreditCategory, amount } = transaction
+    const key = `${merchantName ?? ""}_${cyphrDetailedCreditCategory}`
+    const existing = grouped.get(key)
+
+    if (existing !== undefined) {
+      grouped.set(key, {
+        ...transaction,
+        amount: existing.amount + amount,
+        originalTransaction: [
+          ...(existing.originalTransaction ?? []),
+          transaction
+        ]
+      })
+    } else {
+      grouped.set(key, {
+        ...transaction,
+        originalTransaction: [transaction]
+      })
+    }
+  }
+
+  return Array.from(grouped.values())
+}
+
+function ungroupTransaction(
+  transactions: PlaidTransaction[]
+): PlaidTransaction[] {
+  return transactions.flatMap((data) => {
+    const toReturn = data.originalTransaction ?? []
+
+    return toReturn.map((tx) => ({
+      ...tx,
+      // update the original category by the user category
+      cyphrPrimaryCreditCategory: data.cyphrPrimaryCreditCategory,
+      cyphrDetailedCreditCategory: data.cyphrDetailedCreditCategory,
+      cyphrFinancialCategory: data.cyphrFinancialCategory
+    }))
+  })
 }

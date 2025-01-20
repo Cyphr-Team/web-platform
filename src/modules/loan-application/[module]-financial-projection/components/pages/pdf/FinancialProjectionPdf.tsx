@@ -35,7 +35,7 @@ import {
   isEnableHistoricalFinancialsEnrichment
 } from "@/utils/feature-flag.utils.ts"
 import { useQueryGetApplicationSummary } from "@/modules/loan-application-management/hooks/useQuery/useQueryApplicationSummary.ts"
-import { useQueryHistoricalStatement } from "@/modules/loan-application/[module]-data-enrichment/hooks/historical-statements/useQueryHistoricalStatement.ts"
+import { useQueryHistoricalStatement } from "@/modules/loan-application/[module]-data-enrichment/hooks/useQueryHistoricalStatement.ts"
 import { type HistoricalIncomeStatementByDate } from "@/modules/loan-application/[module]-data-enrichment/types/historical-statements.ts"
 import { groupDataByProp } from "@/modules/loan-application/[module]-data-enrichment/services/historical-statement.service.ts"
 import { type HistoricalStatementDataRow } from "@/modules/loan-application/[module]-data-enrichment/types"

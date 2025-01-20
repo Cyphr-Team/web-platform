@@ -33,27 +33,6 @@ export function HistoricalIncomeStatementTable(props: Props) {
           />
 
           <HistoricalDataRow
-            data={data[HistoricalIncomeStatementField.RECURRING_CHARGE_REVENUE]}
-            layout="item"
-            title="Recurring Charges"
-          />
-          <HistoricalDataRow
-            data={data[HistoricalIncomeStatementField.CONTRACT_REVENUE]}
-            layout="item"
-            title="Contract Revenue"
-          />
-          <HistoricalDataRow
-            data={data[HistoricalIncomeStatementField.BILLABLE_HOURS_REVENUE]}
-            layout="item"
-            title="Billable Hours Revenue"
-          />
-          <HistoricalDataRow
-            data={data[HistoricalIncomeStatementField.UNIT_SALES_REVENUE]}
-            layout="item"
-            title="Unit Sales Revenue"
-          />
-
-          <HistoricalDataRow
             data={data[HistoricalIncomeStatementField.COGS]}
             layout="total"
             title="COGS"
@@ -72,59 +51,6 @@ export function HistoricalIncomeStatementTable(props: Props) {
             data={data[HistoricalIncomeStatementField.OPERATING_EXPENSES]}
             layout="total"
             title="Operating Expenses"
-          />
-          <HistoricalDataRow
-            data={
-              data[HistoricalIncomeStatementField.OPERATING_EXPENSES_ACCOUNTING]
-            }
-            layout="item"
-            title="Accounting Expenses"
-          />
-          <HistoricalDataRow
-            data={
-              data[HistoricalIncomeStatementField.OPERATING_EXPENSES_INSURANCE]
-            }
-            layout="item"
-            title="Insurance Expenses"
-          />
-          <HistoricalDataRow
-            data={data[HistoricalIncomeStatementField.OPERATING_EXPENSES_LEGAL]}
-            layout="item"
-            title="Legal Expenses"
-          />
-          <HistoricalDataRow
-            data={data[HistoricalIncomeStatementField.OPERATING_EXPENSES_RENT]}
-            layout="item"
-            title="Rent Expenses"
-          />
-          <HistoricalDataRow
-            data={
-              data[
-                HistoricalIncomeStatementField
-                  .OPERATING_EXPENSES_SALARIES_AND_BENEFITS
-              ]
-            }
-            layout="item"
-            title="Salaries & Benefits Expenses"
-          />
-          <HistoricalDataRow
-            data={
-              data[HistoricalIncomeStatementField.OPERATING_EXPENSES_TRAVEL]
-            }
-            layout="item"
-            title="Travel Expenses"
-          />
-          <HistoricalDataRow
-            data={
-              data[HistoricalIncomeStatementField.OPERATING_EXPENSES_UTILITIES]
-            }
-            layout="item"
-            title="Utilities Expenses"
-          />
-          <HistoricalDataRow
-            data={data[HistoricalIncomeStatementField.OPERATING_EXPENSES_OTHER]}
-            layout="item"
-            title="Other Expenses"
           />
 
           <HistoricalDataRow
