@@ -11,4 +11,13 @@ export const whitelistFormSchema = z.object({
   })
 })
 
+const toggleFeatureFlagFormSchema = z.object({
+  author: z.string().min(1, "Author is required"),
+  msg: z.string().min(1, "Reason for change is required")
+})
+
+export type ToggleFeatureFlagFormValue = z.infer<
+  typeof toggleFeatureFlagFormSchema
+>
+
 export type WhitelistFormValue = z.infer<typeof whitelistFormSchema>
