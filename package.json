@@ -1,7 +1,7 @@
 {
   "name" : "prj-cyphr",
   "private" : true,
-  "version" : "v1.109.0",
+  "version" : "v1.110.0",
   "type" : "module",
   "scripts" : {
     "dev" : "vite",
