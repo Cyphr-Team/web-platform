@@ -46,13 +46,13 @@ export interface PlaidTransaction {
   /**
    * Primary category from Plaid
    * */
-  plaidPrimaryCreditCategory?: string
+  plaidPrimaryCreditCategory: string
 
   /**
    * Detailed category from Plaid
    * Example: Bank Fees, Dining, Income, Tax Refund, Other, ...
    * */
-  plaidDetailedCreditCategory?: string
+  plaidDetailedCreditCategory: string
 
   /**
    * Primary Category

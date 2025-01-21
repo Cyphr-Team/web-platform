@@ -499,31 +499,35 @@ export const TRANSACTION_MAPPING_LOGIC: TransactionCategorization[] = [
   }
 ]
 
-export function findByCyphrCategory(
-  primary: string,
-  detailed: string
+export function findByPlaidCategory(
+  primariOrDetailed: string
 ): TransactionCategorization {
   const found = TRANSACTION_MAPPING_LOGIC.find(
-    (value) =>
-      value.cyphrPrimaryCreditCategory === primary &&
-      value.cyphrDetailedCreditCategory === detailed
+    (value) => value.plaidPrimaryCreditCategory === primariOrDetailed
   )
 
   if (found) return found
 
-  if (primary === "revenue")
+  // case not found
+  const byDetailed = TRANSACTION_MAPPING_LOGIC.find(
+    (value) => value.plaidDetailedCreditCategory === primariOrDetailed
+  )
+
+  if (byDetailed) return byDetailed
+
+  if (primariOrDetailed === "revenue")
     return {
-      plaidPrimaryCreditCategory: "",
-      plaidDetailedCreditCategory: "",
+      plaidPrimaryCreditCategory: "other",
+      plaidDetailedCreditCategory: "other",
       cyphrPrimaryCreditCategory: "revenue",
       cyphrDetailedCreditCategory: "revenue",
       cyphrFinancialCategory: "revenue_other"
     }
 
-  if (primary === "expense")
+  if (primariOrDetailed === "expense")
     return {
-      plaidPrimaryCreditCategory: "",
-      plaidDetailedCreditCategory: "",
+      plaidPrimaryCreditCategory: "other",
+      plaidDetailedCreditCategory: "other",
       cyphrPrimaryCreditCategory: "expense",
       cyphrDetailedCreditCategory: "opex_other",
       cyphrFinancialCategory: "operating_expense_other"

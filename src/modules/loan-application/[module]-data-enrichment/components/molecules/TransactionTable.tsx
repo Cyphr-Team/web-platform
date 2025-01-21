@@ -39,6 +39,7 @@ import {
 } from "@/modules/loan-application/[module]-data-enrichment/constants"
 import { Button } from "@/components/ui/button.tsx"
 import { useFormContext } from "react-hook-form"
+import { findByPlaidCategory } from "@/modules/loan-application/[module]-data-enrichment/constants/mapping-logic.ts"
 
 type CategoryDataState = Record<
   PrimaryCategory,
@@ -70,6 +71,21 @@ export function TransactionTable() {
     (transactionId: string, key: keyof PlaidTransaction, value: string) => {
       const toUpdate = data.map((transaction) => {
         if (transaction.id === transactionId) {
+          // Make sure the category is consistent
+          if (key === "plaidPrimaryCreditCategory") {
+            const logic = findByPlaidCategory(value)
+
+            return {
+              ...transaction,
+              ...logic,
+              // keep cyphrFinancialCategory as user input
+              cyphrPrimaryCreditCategory:
+                transaction.cyphrPrimaryCreditCategory,
+              cyphrFinancialCategory: transaction.cyphrFinancialCategory,
+              [key]: _.snakeCase(value)
+            }
+          }
+
           return { ...transaction, [key]: _.snakeCase(value) }
         }
 
@@ -168,7 +184,7 @@ export function TransactionTable() {
         enableSorting: true
       },
       {
-        accessorKey: "cyphrDetailedCreditCategory",
+        accessorKey: "plaidPrimaryCreditCategory",
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title="Detailed" />
         ),
@@ -177,15 +193,24 @@ export function TransactionTable() {
             return
           }
 
+          const value: PlaidTransaction = {
+            ...row.original,
+            plaidPrimaryCreditCategory:
+              // if income => primary is detailed
+              row.original.plaidPrimaryCreditCategory === "income"
+                ? row.original.plaidDetailedCreditCategory
+                : row.original.plaidPrimaryCreditCategory
+          }
+
           return (
             <SelectableCell
-              defaultValue={row.original}
+              defaultValue={value}
               options={Object.entries(
                 UserPlaidTransactionConstant.detailed[
                   row.original.cyphrPrimaryCreditCategory as PrimaryCategory
                 ]
               ).map(sanitizeOptions)}
-              type="cyphrDetailedCreditCategory"
+              type="plaidPrimaryCreditCategory"
               onValueChange={onUpdateCategory}
             />
           )

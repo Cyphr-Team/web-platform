@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { PlaidTransaction } from "@/modules/loan-application/[module]-data-enrichment/types"
 import {
-  findByCyphrCategory,
+  findByPlaidCategory,
   type TransactionCategorization
 } from "@/modules/loan-application/[module]-data-enrichment/constants/mapping-logic.ts"
 import { postRequest } from "@/services/client.service.ts"
@@ -32,8 +32,10 @@ export const useUpdateTransaction = () => {
     },
     onSuccess() {
       queryClient.invalidateQueries({
+        queryKey: [HISTORICAL_FINANCIALS_QUERY_KEY.GET_PLAID_TRANSACTIONS]
+      })
+      queryClient.invalidateQueries({
         queryKey: [
-          HISTORICAL_FINANCIALS_QUERY_KEY.GET_PLAID_TRANSACTIONS,
           HISTORICAL_FINANCIALS_QUERY_KEY.GET_HISTORICAL_FINANCIAL_STATEMENTS
         ]
       })
@@ -48,43 +50,24 @@ const financialMapper: {
     if (txCate.cyphrFinancialCategory === "cost_of_goods_sold")
       return "cost_of_goods_sold"
 
-    const logic = findByCyphrCategory(
-      txCate.cyphrPrimaryCreditCategory,
-      txCate.cyphrDetailedCreditCategory
-    )
-
-    if (!logic) return `operating_expense_other`
+    const logic = findByPlaidCategory(txCate.plaidPrimaryCreditCategory)
 
     return logic.cyphrFinancialCategory
   },
-  revenue: (txCate) => {
-    const logic = findByCyphrCategory(
-      txCate.cyphrPrimaryCreditCategory,
-      txCate.cyphrDetailedCreditCategory
-    )
-
-    return logic?.cyphrFinancialCategory ?? `revenue_other`
-  },
+  revenue: (txCate) => txCate.cyphrFinancialCategory,
   asset: (txCate) => txCate.cyphrFinancialCategory,
   liabilities: (txCate) => txCate.cyphrFinancialCategory,
   other: (txCate) => txCate.cyphrFinancialCategory
 }
 
-function serializeCategory(tx: PlaidTransaction): PlaidTransaction {
-  const logic = findByCyphrCategory(
-    tx.cyphrPrimaryCreditCategory,
-    tx.cyphrDetailedCreditCategory
-  )
-
+export function serializeCategory(tx: PlaidTransaction): PlaidTransaction {
   return {
     ...tx,
-    cyphrPrimaryCreditCategory: logic.cyphrPrimaryCreditCategory,
-    cyphrDetailedCreditCategory: logic.cyphrDetailedCreditCategory,
     cyphrFinancialCategory: financialMapper[
       tx.cyphrPrimaryCreditCategory as PrimaryCategory
     ]({
-      plaidPrimaryCreditCategory: tx.plaidPrimaryCreditCategory ?? "other",
-      plaidDetailedCreditCategory: tx.plaidDetailedCreditCategory ?? "other",
+      plaidPrimaryCreditCategory: tx.plaidPrimaryCreditCategory,
+      plaidDetailedCreditCategory: tx.plaidDetailedCreditCategory,
       cyphrPrimaryCreditCategory: tx.cyphrPrimaryCreditCategory,
       cyphrDetailedCreditCategory: tx.cyphrDetailedCreditCategory,
       cyphrFinancialCategory: tx.cyphrFinancialCategory

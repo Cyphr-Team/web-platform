@@ -22,7 +22,8 @@ interface FormValues {
 
 export function ReviewTransactionsForm() {
   const { id: applicationId } = useParams()
-  const { finishCurrentStep, step } = useLoanApplicationProgressContext()
+  const { finishCurrentStep, step, completeCurrentStep } =
+    useLoanApplicationProgressContext()
 
   const queryClient = useQueryClient()
   const { data, isLoading } = useQueryPlaidTransactions({
@@ -54,6 +55,7 @@ export function ReviewTransactionsForm() {
   useEffect(() => {
     if (data?.transactions && !isLoading) {
       methods.setValue("data", groupTransactions(data?.transactions ?? []))
+      completeCurrentStep()
     }
   }, [data?.transactions, methods, isLoading])
 
@@ -133,6 +135,8 @@ function ungroupTransaction(
     return toReturn.map((tx) => ({
       ...tx,
       // update the original category by the user category
+      plaidPrimaryCreditCategory: data.plaidPrimaryCreditCategory,
+      plaidDetailedCreditCategory: data.plaidDetailedCreditCategory,
       cyphrPrimaryCreditCategory: data.cyphrPrimaryCreditCategory,
       cyphrDetailedCreditCategory: data.cyphrDetailedCreditCategory,
       cyphrFinancialCategory: data.cyphrFinancialCategory

@@ -6,10 +6,7 @@ import { postRequest } from "@/services/client.service.ts"
 import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
 import { type PlaidTransaction } from "@/modules/loan-application/[module]-data-enrichment/types"
 import { type PrimaryCategory } from "@/modules/loan-application/[module]-data-enrichment/constants"
-import {
-  findByCyphrCategory,
-  type TransactionCategorization
-} from "@/modules/loan-application/[module]-data-enrichment/constants/mapping-logic.ts"
+import { type TransactionCategorization } from "@/modules/loan-application/[module]-data-enrichment/constants/mapping-logic.ts"
 
 interface QueryPlaidTransactionsRequest {
   applicationId: string
@@ -50,7 +47,8 @@ export const useQueryPlaidTransactions = (
       return {
         transactions: response.data.transactions.map(deserializeCategory)
       }
-    }
+    },
+    refetchOnMount: "always"
   })
 }
 
@@ -82,34 +80,20 @@ const financialMapper: {
 
     return "operating_expense"
   },
-  revenue: (txCate) => {
-    const logic = findByCyphrCategory(
-      txCate.cyphrPrimaryCreditCategory,
-      txCate.cyphrDetailedCreditCategory
-    )
-
-    return logic?.cyphrFinancialCategory ?? `revenue_other`
-  },
+  revenue: (txCate) => txCate.cyphrFinancialCategory,
   asset: (txCate) => txCate.cyphrFinancialCategory,
   liabilities: (txCate) => txCate.cyphrFinancialCategory,
   other: (txCate) => txCate.cyphrFinancialCategory
 }
 
 function deserializeCategory(tx: PlaidTransaction): PlaidTransaction {
-  const logic = findByCyphrCategory(
-    tx.cyphrPrimaryCreditCategory,
-    tx.cyphrDetailedCreditCategory
-  )
-
   return {
     ...tx,
-    cyphrPrimaryCreditCategory: logic.cyphrPrimaryCreditCategory,
-    cyphrDetailedCreditCategory: logic.cyphrDetailedCreditCategory,
     cyphrFinancialCategory: financialMapper[
       tx.cyphrPrimaryCreditCategory as PrimaryCategory
     ]({
-      plaidPrimaryCreditCategory: tx.plaidPrimaryCreditCategory ?? "other",
-      plaidDetailedCreditCategory: tx.plaidDetailedCreditCategory ?? "other",
+      plaidPrimaryCreditCategory: tx.plaidPrimaryCreditCategory,
+      plaidDetailedCreditCategory: tx.plaidDetailedCreditCategory,
       cyphrPrimaryCreditCategory: tx.cyphrPrimaryCreditCategory,
       cyphrDetailedCreditCategory: tx.cyphrDetailedCreditCategory,
       cyphrFinancialCategory: tx.cyphrFinancialCategory
