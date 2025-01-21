@@ -1,7 +1,6 @@
 import { VerifyPhoneForm } from "./verify-phone-form"
 import { LogoHeader } from "@/shared/atoms/LogoHeader"
 import { useLocation } from "react-router-dom"
-import { isCapitalCollab } from "@/utils/domain.utils.ts"
 
 export function VerifyPhoneSection() {
   const { state } = useLocation()
@@ -12,7 +11,7 @@ export function VerifyPhoneSection() {
         <div className="flex flex-col text-center">
           <div className="relative flex justify-center">
             <div className="self-center">
-              <LogoHeader isShowLogo={!isCapitalCollab()} />
+              <LogoHeader />
             </div>
           </div>
 

@@ -9,7 +9,7 @@ import { Header } from "@/shared/layouts/dashboard-layout/dashboard-header"
 import { Loader2 } from "lucide-react"
 import { useVerifyToken } from "@/hooks/useVerifyToken"
 import { useLogout } from "@/hooks/useLogout"
-import { isCapitalCollab, isLoanReady } from "@/utils/domain.utils"
+import { isLoanReady } from "@/utils/domain.utils"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 import { FeatureKey } from "@/hooks/useCanAccess"
 import { Icons } from "@/components/ui/icons"
@@ -67,11 +67,7 @@ export function Component() {
           <Header items={ffNavItems} />
 
           <div className="flex h-dvh overflow-hidden">
-            <SideNav
-              className="hidden md:flex"
-              isShowLogoWhenOpen={!isCapitalCollab()}
-              items={ffNavItems}
-            />
+            <SideNav className="hidden md:flex" items={ffNavItems} />
             {/* For auto scroll to top, this tag must be overflow-hidden */}
             <main className="flex flex-1 overflow-hidden pt-14 md:pt-0">
               <Outlet />

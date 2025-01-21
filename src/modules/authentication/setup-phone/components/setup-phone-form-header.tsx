@@ -1,6 +1,5 @@
 import { UI_DATA_SETUP_PHONE_HEADER } from "../constants"
 import { LogoHeader } from "@/shared/atoms/LogoHeader"
-import { isCapitalCollab } from "@/utils/domain.utils.ts"
 
 export function SetupPhoneFormHeader() {
   return (
@@ -8,7 +7,7 @@ export function SetupPhoneFormHeader() {
       <div className="relative flex justify-center">
         <div className="w-auto self-center">
           <div className="self-center">
-            <LogoHeader isShowLogo={!isCapitalCollab()} />
+            <LogoHeader />
           </div>
         </div>
       </div>

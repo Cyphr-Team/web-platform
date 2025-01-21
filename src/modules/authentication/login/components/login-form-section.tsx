@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { LoginForm } from "./login-form"
 import { isEnableMFA } from "@/services/jwt.service"
 import { MfaLoginForm } from "./mfa-login-form"
-import { isAdmin, isCapitalCollab, isFinovate } from "@/utils/domain.utils"
+import { isAdmin, isFinovate } from "@/utils/domain.utils"
 import { DemoLoginForm } from "@/modules/conference-demo/anonymous/demo-login-form"
 
 function CustomLoginForm() {
@@ -25,7 +25,7 @@ export function LoginFormSection() {
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[360px]">
         <div className="flex flex-col text-center">
           <div className="self-center">
-            <LogoHeader isShowLogo={!isCapitalCollab()} />
+            <LogoHeader />
           </div>
 
           <h1 className="mt-6 text-[34px] font-semibold tracking-tight">

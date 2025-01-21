@@ -8,14 +8,9 @@ import { type NavItem } from "@/types/common.type"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   items: NavItem[]
-  isShowLogoWhenOpen?: boolean
 }
 
-export function SideNav({
-  items,
-  className,
-  isShowLogoWhenOpen
-}: SidebarProps) {
+export function SideNav({ items, className }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   const toggleCollapse = () => {
@@ -31,11 +26,7 @@ export function SideNav({
       data-collapsed={isCollapsed}
     >
       <div className="mb-3xl hidden items-center justify-between pl-3xl pr-2xl md:flex">
-        <LogoHeader
-          isCollapsed={isCollapsed}
-          isShowLogo={isShowLogoWhenOpen}
-          toggleCollapse={toggleCollapse}
-        />
+        <LogoHeader isCollapsed={isCollapsed} toggleCollapse={toggleCollapse} />
         {!isCollapsed ? (
           <button type="button" onClick={toggleCollapse}>
             {Icons.arrowSquare({ className: "h-6 w-6" })}

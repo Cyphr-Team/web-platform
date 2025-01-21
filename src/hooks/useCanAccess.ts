@@ -20,6 +20,7 @@ export const enum FeatureKey {
   FINANCIAL = "financial",
   CHATBOT_DOCUMENT = "chatbotDocument",
   SETTINGS = "settings",
+  LOGO_WITH_TEXT = "logoWithText",
 
   /**
    * Access applicant document
@@ -54,6 +55,10 @@ const getEntitlement = () => {
       [FeatureKey.DOWNLOAD_APPLICANT_DOCUMENT]: {
         [UserRoles.WORKSPACE_ADMIN]: true,
         [UserRoles.APPLICANT]: true
+      },
+      [FeatureKey.LOGO_WITH_TEXT]: {
+        [UserRoles.WORKSPACE_ADMIN]: false,
+        [UserRoles.APPLICANT]: false
       }
     },
     [Institution.LoanReady]: {

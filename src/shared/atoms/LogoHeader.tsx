@@ -1,25 +1,28 @@
 import { Icons } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
-import { useTenant } from "@/providers/tenant-provider"
 import { getImageURL } from "@/utils/aws.utils.ts"
 import { Image } from "./Image"
+import useCanAccess, { FeatureKey } from "@/hooks/useCanAccess.ts"
+import { useTenant } from "@/providers/tenant-provider.tsx"
 
 interface LogoHeaderProps {
   isCollapsed?: boolean
   toggleCollapse?: () => void
   className?: string
   isLarge?: boolean
-  isShowLogo?: boolean
 }
 
 export function LogoHeader({
   isCollapsed,
   toggleCollapse,
   className,
-  isLarge,
-  isShowLogo = true
+  isLarge
 }: LogoHeaderProps) {
   const { tenantData } = useTenant()
+
+  const { getCanAccess: renderLogoWithText } = useCanAccess({
+    featureKey: FeatureKey.LOGO_WITH_TEXT
+  })
 
   return (
     <div className={cn("flex w-full items-center gap-1", className)}>
@@ -28,7 +31,7 @@ export function LogoHeader({
         type="button"
         onClick={toggleCollapse}
       >
-        {tenantData?.logo && (isCollapsed || isShowLogo) ? (
+        {tenantData?.logo && (isCollapsed || renderLogoWithText()) ? (
           <Image
             alt="Institution logo"
             className="mr-1"
