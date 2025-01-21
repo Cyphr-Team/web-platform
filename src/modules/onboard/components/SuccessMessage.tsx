@@ -30,13 +30,17 @@ function SuccessMessage() {
         <span className="whitespace-nowrap font-bold">{values.name}</span>.
       </p>
       <div className="flex w-full items-center justify-center gap-1">
-        <img alt="Institution logo" className="size-8" src={values.logo} />
-        <img
-          alt="Institution text logo"
-          className="h-8 max-w-[100px]"
-          height={32}
-          src={values.textLogo}
-        />
+        {values.logo ? (
+          <img alt="Institution logo" className="size-8" src={values.logo} />
+        ) : null}
+        {values.textLogo ? (
+          <img
+            alt="Institution text logo"
+            className="h-8 max-w-[100px]"
+            height={32}
+            src={values.textLogo}
+          />
+        ) : null}
       </div>
       <p>
         And also sent the invitation email to the email:{" "}
@@ -54,18 +58,35 @@ function SuccessMessage() {
         </a>
       </p>
       <p>
-        To enable MFA for OAuth for the institution, please add this URL:{" "}
-        <b>{getTenantRedirectURL(values.subdomain)}</b> to <br />
-        <a
-          className="font-semibold text-blue-700 underline"
-          href={`https://stytch.com/dashboard/redirect-urls?env=${
-            isProductionEnvironment() ? "live" : "test"
-          }`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Cyphr's Stytch Dashboard
-        </a>
+        If your institution is using MFA, please do the following steps:
+        <ul className="list-disc pl-6">
+          <li className="list-item text-left">
+            Add <b>{getTenantRedirectURL(values.subdomain)}</b> to <br />
+            <a
+              className="font-semibold text-blue-700 underline"
+              href={`https://stytch.com/dashboard/redirect-urls?env=${
+                isProductionEnvironment() ? "live" : "test"
+              }`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Stytch Redirect URLs
+            </a>
+          </li>
+          <li className="list-item text-left w-full">
+            Add <b>{getTenantDomain(values.subdomain)}</b> to <br />
+            <a
+              className="font-semibold text-blue-700 underline"
+              href={`https://stytch.com/dashboard/sdk-configuration?env=${
+                isProductionEnvironment() ? "live" : "test"
+              }`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Stytch SDK Authorized applications
+            </a>
+          </li>
+        </ul>
       </p>
       <div className="mt-6 flex items-center">
         <div className="after:shadow-highlight relative after:pointer-events-none after:absolute after:inset-px after:rounded-[11px] after:shadow-white/10 after:transition focus-within:after:shadow-[#77f6aa]">

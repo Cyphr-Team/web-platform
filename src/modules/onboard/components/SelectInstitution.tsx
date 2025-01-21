@@ -66,7 +66,7 @@ export function SelectInstitution() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-text-secondary">
-                Admin email
+                Workspace Admin email
                 <RequiredSymbol />
               </FormLabel>
               <FormControl>

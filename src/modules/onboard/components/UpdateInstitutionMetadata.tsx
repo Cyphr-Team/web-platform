@@ -51,7 +51,6 @@ export function UpdateInstitutionMetadata({
             <FormItem>
               <FormLabel className="text-text-secondary">
                 Institution Logo
-                <RequiredSymbol />
               </FormLabel>
               <FormControl>
                 <UploadImageZone
@@ -74,7 +73,6 @@ export function UpdateInstitutionMetadata({
             <FormItem>
               <FormLabel className="text-text-secondary">
                 Institution Logo Text
-                <RequiredSymbol />
               </FormLabel>
               <FormControl>
                 <UploadImageZone

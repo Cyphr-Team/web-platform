@@ -31,7 +31,7 @@ export function Component() {
       logo: "",
       textLogo: "",
       supportEmail: "",
-      isMfaEnabled: false
+      isMfaEnabled: true
     },
     mode: "onChange",
     reValidateMode: "onChange"
@@ -105,7 +105,11 @@ export function Component() {
                   </Button>
                 </div>
                 <div className="flex items-center">
-                  <ButtonLoading isLoading={isPending} type="submit">
+                  <ButtonLoading
+                    disabled={isLastStep ? !form.formState.isValid : false}
+                    isLoading={isPending}
+                    type="submit"
+                  >
                     {isLastStep ? "Confirm" : "Next Step"}
                   </ButtonLoading>
                 </div>
