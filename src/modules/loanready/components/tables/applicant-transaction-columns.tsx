@@ -18,10 +18,7 @@ export const applicantTransactionColumns: ColumnDef<Transaction>[] = [
     id: "action",
     header: "",
     cell: ({ row }) => {
-      if (
-        (row.original.status ?? row.original.transactionStatus) ===
-        RefundStatus.PAID.toLowerCase()
-      )
+      if (row.original.transactionStatus === RefundStatus.PAID.toLowerCase())
         return RefundTableAction({ row })
 
       return null

@@ -47,7 +47,7 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
       />
     ),
     cell: ({ row }) => {
-      const status = row.original.status.toUpperCase()
+      const status = row.original.transactionStatus.toUpperCase()
 
       if (
         status === RefundStatus.REQUESTED_REFUND ||

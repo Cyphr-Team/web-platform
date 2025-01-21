@@ -5,8 +5,6 @@ export interface BaseTransaction {
   email: string
   amount: string
   paidOn: string
-  status: string
-  // TODO: replace when BE update
   transactionStatus: string
 }
 

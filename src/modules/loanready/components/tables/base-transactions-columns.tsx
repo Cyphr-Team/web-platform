@@ -90,17 +90,15 @@ export const baseListTransactionsColumns: ColumnDef<Transaction>[] = [
     accessorKey: "status",
     header: renderFilterableHeader({ title: "Transaction Status" }),
     cell: ({ row }) => {
-      const status = row.original.status as RefundStatus
+      const status = row.original.transactionStatus as RefundStatus
 
       return (
         <Badge
           className="truncate"
           variant="soft"
-          variantColor={getBadgeVariantByStatus(
-            status ?? row.original.transactionStatus
-          )}
+          variantColor={getBadgeVariantByStatus(status)}
         >
-          {getStatusDisplayName(status ?? row.original.transactionStatus)}
+          {getStatusDisplayName(status)}
         </Badge>
       )
     }
