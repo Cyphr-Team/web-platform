@@ -500,22 +500,22 @@ export const TRANSACTION_MAPPING_LOGIC: TransactionCategorization[] = [
 ]
 
 export function findByPlaidCategory(
-  primariOrDetailed: string
+  primaryOrDetailed: string
 ): TransactionCategorization {
   const found = TRANSACTION_MAPPING_LOGIC.find(
-    (value) => value.plaidPrimaryCreditCategory === primariOrDetailed
+    (value) => value.plaidPrimaryCreditCategory === primaryOrDetailed
   )
 
   if (found) return found
 
   // case not found
   const byDetailed = TRANSACTION_MAPPING_LOGIC.find(
-    (value) => value.plaidDetailedCreditCategory === primariOrDetailed
+    (value) => value.plaidDetailedCreditCategory === primaryOrDetailed
   )
 
   if (byDetailed) return byDetailed
 
-  if (primariOrDetailed === "revenue")
+  if (primaryOrDetailed === "revenue")
     return {
       plaidPrimaryCreditCategory: "other",
       plaidDetailedCreditCategory: "other",
@@ -524,7 +524,7 @@ export function findByPlaidCategory(
       cyphrFinancialCategory: "revenue_other"
     }
 
-  if (primariOrDetailed === "expense")
+  if (primaryOrDetailed === "expense")
     return {
       plaidPrimaryCreditCategory: "other",
       plaidDetailedCreditCategory: "other",

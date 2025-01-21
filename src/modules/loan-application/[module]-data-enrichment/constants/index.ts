@@ -30,16 +30,11 @@ export const UserPlaidTransactionConstant: Record<
     liabilities: {
       loanPayments: "Loan Payments"
     },
-    // plaid detailed
     revenue: {
       income: "Income",
       taxRefund: "Tax Refund",
-      interestsAndDividends: "Interest And Dividends",
-      incomeSalary: "Income Salary",
-      incomeGovernmentIncome: "Income Government",
-      incomeOther: "Income Other"
+      interestsAndDividends: "Interest And Dividends"
     },
-    // plaid primary
     expense: {
       bankFees: "Bank Fees",
       bankPenalties: "Bank Penalties",

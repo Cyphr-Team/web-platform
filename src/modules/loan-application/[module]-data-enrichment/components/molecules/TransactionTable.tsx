@@ -40,6 +40,7 @@ import {
 import { Button } from "@/components/ui/button.tsx"
 import { useFormContext } from "react-hook-form"
 import { findByPlaidCategory } from "@/modules/loan-application/[module]-data-enrichment/constants/mapping-logic.ts"
+import { currencyCellFormatter } from "@/utils/currency.utils.ts"
 
 type CategoryDataState = Record<
   PrimaryCategory,
@@ -73,11 +74,9 @@ export function TransactionTable() {
         if (transaction.id === transactionId) {
           // Make sure the category is consistent
           if (key === "plaidPrimaryCreditCategory") {
-            const logic = findByPlaidCategory(value)
-
             return {
               ...transaction,
-              ...logic,
+              ...findByPlaidCategory(value),
               // keep cyphrFinancialCategory as user input
               cyphrPrimaryCreditCategory:
                 transaction.cyphrPrimaryCreditCategory,
@@ -176,10 +175,20 @@ export function TransactionTable() {
             return
           }
 
-          return USDFormatter(info.getValue() as number, {
-            symbol: "$",
-            precision: 2
-          }).format()
+          const customFormatter = (val: string | number) =>
+            USDFormatter(val, { precision: 2 })
+
+          return (
+            <div className="flex justify-between">
+              $
+              <div>
+                {currencyCellFormatter(
+                  info.getValue() as number,
+                  customFormatter
+                )}
+              </div>
+            </div>
+          )
         },
         enableSorting: true
       },
@@ -193,18 +202,9 @@ export function TransactionTable() {
             return
           }
 
-          const value: PlaidTransaction = {
-            ...row.original,
-            plaidPrimaryCreditCategory:
-              // if income => primary is detailed
-              row.original.plaidPrimaryCreditCategory === "income"
-                ? row.original.plaidDetailedCreditCategory
-                : row.original.plaidPrimaryCreditCategory
-          }
-
           return (
             <SelectableCell
-              defaultValue={value}
+              defaultValue={row.original}
               options={Object.entries(
                 UserPlaidTransactionConstant.detailed[
                   row.original.cyphrPrimaryCreditCategory as PrimaryCategory
