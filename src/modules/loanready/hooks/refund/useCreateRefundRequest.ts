@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query"
 import { toastError, toastSuccess } from "@/utils"
 
 interface CreateRefundRequestPayload {
-  loanReadySubscriptionId: string
+  paymentTransactionId: string
   refundReason: string
 }
 

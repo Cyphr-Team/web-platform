@@ -44,7 +44,7 @@ function RefundTableAction(props: RefundActionProps) {
     if (!refundReason) return
     mutate(
       {
-        loanReadySubscriptionId: row.original.id,
+        paymentTransactionId: row.original.id,
         refundReason
       },
       {
