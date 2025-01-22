@@ -5,23 +5,37 @@ import { ConfirmToggleStatusFeatureFlag } from "../components/ToggleStatusFeatur
 import { DialogModifyWhitelistUsers } from "@/modules/feature-flag/components/DialogModifyWhitelistUsers.tsx"
 import { ConfirmToggleWhitelistFeatureFlag } from "@/modules/feature-flag/components/ToggleWhitelistFeatureFlag.tsx"
 import { DeleteFeatureFlagModal } from "@/modules/feature-flag/components/DeteleFeatureFlagModal.tsx"
+import { renderFilterableHeader } from "@/utils/table.utils"
+import { DataTableColumnHeader } from "@/shared/molecules/table/column-header"
 
 export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   {
     id: "key",
-    header: "Key",
+    header: renderFilterableHeader({
+      title: "Key",
+      btnClassName: "justify-start pl-0"
+    }),
     accessorKey: "key",
     size: 250
   },
   {
     id: "description",
-    header: "Description",
+    header: renderFilterableHeader({
+      title: "Description",
+      btnClassName: "justify-start pl-0"
+    }),
     accessorKey: "description",
     size: 250
   },
   {
     id: "status",
-    header: "Status",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="font-semibold"
+        column={column}
+        title="Status"
+      />
+    ),
     size: 100,
     cell: ({ row }) => {
       const data = row.original
@@ -31,7 +45,13 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   },
   {
     id: "rolloutType",
-    header: "Whitelist",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="font-semibold"
+        column={column}
+        title="Whitelist"
+      />
+    ),
     size: 100,
     cell: ({ row }) => {
       const data = row.original
@@ -41,7 +61,10 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   },
   {
     id: "createdAt",
-    header: "Created At",
+    header: renderFilterableHeader({
+      title: "Created At",
+      btnClassName: "justify-start pl-0"
+    }),
     size: 100,
     cell: ({ row }) => {
       const data = row.original
@@ -51,7 +74,10 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   },
   {
     id: "updatedAt",
-    header: "Updated At",
+    header: renderFilterableHeader({
+      title: "Updated At",
+      btnClassName: "justify-start pl-0"
+    }),
     size: 100,
     cell: ({ row }) => {
       const data = row.original
@@ -61,13 +87,19 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   },
   {
     id: "delete",
-    header: "Delete",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="font-semibold"
+        column={column}
+        title="Delete"
+      />
+    ),
     size: 100,
     cell: ({ row }) => {
       const data = row.original
 
       return (
-        <div className="flex justify-center">
+        <div className="flex">
           <DeleteFeatureFlagModal featureFlag={data} />
         </div>
       )
@@ -75,7 +107,13 @@ export const featureFlagColumns: ColumnDef<FeatureFlag>[] = [
   },
   {
     id: "whitelist",
-    header: "Whitelist Users",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="font-semibold"
+        column={column}
+        title="Whitelist Users"
+      />
+    ),
     size: 100,
     cell: ({ row }) => {
       const data = row.original

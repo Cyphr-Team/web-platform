@@ -1,3 +1,4 @@
+import { type ListFeatureFlagParams } from "@/modules/feature-flag/hooks/useQuery/useQueryFeatureFlags"
 import { type WorkspaceAdminListApplicationScoreParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginatedLoanApplicationScoreGroupByApplicationId"
 import { type JudgeListParams } from "@/modules/loan-application-management/hooks/useQuery/useQueryListPaginateJudgeLoanApplication"
 import { type WorkspaceAdminListAssessmentParams } from "@/modules/loanready/hooks/applications/useQueryListAssessmentForAdmin.ts"
@@ -119,7 +120,8 @@ export const featureFlagKeys = {
   all: ["featureFlag"] as const,
   lists: () => [...featureFlagKeys.all, "list"] as const,
   listsById: () => [...featureFlagKeys.all, "listById"] as const,
-  list: (filters: string) => [...featureFlagKeys.lists(), { filters }] as const,
+  list: (filters: ListFeatureFlagParams) =>
+    [...featureFlagKeys.lists(), { filters }] as const,
   listById: (filters: string) =>
     [...featureFlagKeys.listsById(), { filters }] as const,
   details: () => [...featureFlagKeys.all, "detail"] as const,
