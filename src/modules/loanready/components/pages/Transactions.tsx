@@ -13,7 +13,7 @@ import { TransactionsTableHeader } from "@/modules/loanready/components/tables/t
 import {
   FormFieldNames,
   TransactionFilterSchema,
-  useQueryAdminListPaginateTransaction,
+  useQueryListPaginateTransaction,
   type TransactionFilterValues
 } from "@/modules/loanready/hooks/payment/useQueryListPaginateTransaction"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
@@ -73,7 +73,7 @@ export function LoanReadyTransactionsPage() {
   }, [sorting])
 
   // Query list applications
-  const { data, isFetching } = useQueryAdminListPaginateTransaction({
+  const { data, isFetching } = useQueryListPaginateTransaction({
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize,
     searchField: searchField,

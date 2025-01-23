@@ -13,11 +13,12 @@ import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package"
 import { getLabelByPlan } from "@/modules/loanready/services"
 import {
   type TransactionFilterValues,
-  useQueryAdminListPaginateTransaction
+  useQueryListPaginateTransaction
 } from "@/modules/loanready/hooks/payment/useQueryListPaginateTransaction"
 import { formatBirthday } from "@/utils/date.utils"
 import { FORMAT_REQUEST_DATE } from "@/constants/date.constants"
 import { format } from "date-fns"
+import { checkIsLoanApplicant } from "@/utils/check-roles"
 
 interface IFilter {
   filterForm: UseFormReturn<TransactionFilterValues>
@@ -80,10 +81,12 @@ const LoanProgramMultiSelectComponent = (
 )
 
 export function TransactionsTableHeader({ filterForm }: IFilter) {
+  const isApplicant = checkIsLoanApplicant()
   // Fetch all dates for the email filter
-  const { data } = useQueryAdminListPaginateTransaction({
+  const { data } = useQueryListPaginateTransaction({
     limit: 100_000_000, // A random big integer - I don't think LoanReady will have this many transactions
-    offset: 0
+    offset: 0,
+    isApplicant
   })
 
   const PAID_ON_OPTIONS = useMemo(
@@ -130,7 +133,7 @@ export function TransactionsTableHeader({ filterForm }: IFilter) {
             />
           )}
         />
-        {PAID_ON_OPTIONS ? (
+        {PAID_ON_OPTIONS && !isApplicant ? (
           <FormField
             control={filterForm.control}
             name={FormFieldNames.PaidOn}

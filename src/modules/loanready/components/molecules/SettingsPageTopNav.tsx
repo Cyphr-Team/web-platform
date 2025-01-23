@@ -1,7 +1,6 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
 import { NavLink, useLocation, useNavigate } from "react-router-dom"
-import { isLoanReady } from "@/utils/domain.utils"
 import { APP_PATH } from "@/constants"
 import { useEffect } from "react"
 
@@ -21,8 +20,6 @@ function SettingsPageTopNav() {
       navigate(SETTINGS_MENU[0].href)
     }
   }, [navigate, pathname])
-
-  if (!isLoanReady()) return null
 
   return (
     <div className="relative bg-white border-b mt-2xl">

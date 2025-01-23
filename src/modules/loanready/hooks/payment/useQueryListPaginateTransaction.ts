@@ -53,7 +53,7 @@ export type ListTransactionParams = PaginateParams & {
   filter?: Partial<FilterParams>
 } & { searchField?: string; sort?: TransactionSort; isApplicant?: boolean }
 
-export const useQueryAdminListPaginateTransaction = ({
+export const useQueryListPaginateTransaction = ({
   limit,
   offset,
   sort,

@@ -11,6 +11,7 @@ export interface BaseTransaction {
 export interface LoanReadyTransaction extends BaseTransaction {
   product: LoanReadyPlanEnum
   companyName: string
+  isEligibleToRefund: boolean
 }
 
 export enum RefundStatus {

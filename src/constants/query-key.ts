@@ -163,7 +163,7 @@ export const workspaceAdminLoanReadyAssessmentKeys = {
 }
 
 export const loanReadyTransactionKeys = {
-  all: ["transaction"] as const,
+  all: ["loanReadyTransaction"] as const,
   lists: () => [...loanReadyTransactionKeys.all, "list"] as const,
   list: (filters: ListTransactionParams) =>
     [...loanReadyTransactionKeys.lists(), { filters }] as const

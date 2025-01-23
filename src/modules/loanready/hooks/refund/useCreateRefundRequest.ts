@@ -1,7 +1,8 @@
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toastError, toastSuccess } from "@/utils"
+import { loanReadyTransactionKeys } from "@/constants/query-key"
 
 interface CreateRefundRequestPayload {
   paymentTransactionId: string
@@ -9,6 +10,8 @@ interface CreateRefundRequestPayload {
 }
 
 const useCreateRefundRequest = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (data: CreateRefundRequestPayload) =>
       postRequest({
@@ -16,6 +19,9 @@ const useCreateRefundRequest = () => {
         data
       }),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: loanReadyTransactionKeys.lists()
+      })
       toastSuccess({
         title: "Refund request sent",
         description: "Refund request has been sent successfully"

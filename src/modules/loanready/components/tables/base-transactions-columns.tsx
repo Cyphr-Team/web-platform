@@ -9,7 +9,10 @@ import {
   type RefundStatus,
   type Transaction
 } from "@/types/transaction.type"
-import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package"
+import {
+  LoanReadyPlan,
+  type LoanReadyPlanEnum
+} from "@/modules/loanready/constants/package"
 import { isLoanReady } from "@/utils/domain.utils"
 import { Badge } from "@/components/ui/badge.tsx"
 import { USDFormatter } from "@/modules/form-template/components/molecules/RHFCurrencyInput"
@@ -35,15 +38,10 @@ export const baseListTransactionsColumns: ColumnDef<Transaction>[] = [
     size: 200,
     cell: ({ row }) => {
       const transaction = row.original
+      const product = transaction.product.toUpperCase() as LoanReadyPlanEnum
 
       if (isLoanReady()) {
-        return (
-          <div>
-            {transaction.product.toUpperCase() === LoanReadyPlanEnum.BASIC
-              ? "LoanReady"
-              : "LoanReady+"}
-          </div>
-        )
+        return <div>{LoanReadyPlan[product].name}</div>
       }
 
       return <div>-</div>
@@ -86,8 +84,8 @@ export const baseListTransactionsColumns: ColumnDef<Transaction>[] = [
     }
   },
   {
-    id: "status",
-    accessorKey: "status",
+    id: "transactionStatus",
+    accessorKey: "transactionStatus",
     header: renderFilterableHeader({ title: "Transaction Status" }),
     cell: ({ row }) => {
       const status = row.original.transactionStatus as RefundStatus

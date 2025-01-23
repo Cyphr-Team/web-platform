@@ -67,7 +67,7 @@ export const orderApplicationColumn = (
   },
   {
     id: "status",
-    header: renderHeader("Status"),
+    header: renderHeader("Assessment Status"),
     cell: ({ row }) => {
       const application = row.original
       const status = application.status
