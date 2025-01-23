@@ -18,7 +18,7 @@ export enum RefundStatus {
   PAID = "PAID",
   REQUESTED_REFUND = "REQUESTED_REFUND",
   REFUNDED = "REFUNDED",
-  DENIED = "DENIED"
+  DENIED = "DENIED_REFUND"
 }
 
 export enum RefundDecisionStatus {
