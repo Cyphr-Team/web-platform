@@ -115,6 +115,7 @@
     "zustand" : "^4.5.5"
   },
   "devDependencies" : {
+    "@tanstack/react-query-devtools" : "^5.64.2",
     "@types/dompurify" : "^3.0.5",
     "@types/eslint-plugin-tailwindcss" : "^3",
     "@types/is-url" : "^1.2.30",

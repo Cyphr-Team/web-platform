@@ -2936,6 +2936,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-devtools@npm:5.64.2":
+  version: 5.64.2
+  resolution: "@tanstack/query-devtools@npm:5.64.2"
+  checksum: 10c0/6ed57ad727be66c79ce82149cee1ad94255af2e2e29a0985c42f5bd589a206c8dcdc7a9c8611496a55e6463bd047c55fe0cf1f59455cb2735aee1090ce37ae0b
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:^5.64.2":
+  version: 5.64.2
+  resolution: "@tanstack/react-query-devtools@npm:5.64.2"
+  dependencies:
+    "@tanstack/query-devtools": "npm:5.64.2"
+  peerDependencies:
+    "@tanstack/react-query": ^5.64.2
+    react: ^18 || ^19
+  checksum: 10c0/d4dfeb2f3b91848c724668c1226a69dfec311ccaa830d4dea8b5de2c2e42d762b5c1d03f44dff8d95651d0ec203dd98535b330725b2e38d0ae6f41f4f5d9c1b4
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-query@npm:^5.59.16":
   version: 5.59.16
   resolution: "@tanstack/react-query@npm:5.59.16"
@@ -9389,6 +9408,7 @@ __metadata:
     "@stytch/nextjs": "npm:^20.1.0"
     "@stytch/vanilla-js": "npm:^4.13.3"
     "@tanstack/react-query": "npm:^5.59.16"
+    "@tanstack/react-query-devtools": "npm:^5.64.2"
     "@tanstack/react-table": "npm:^8.13.2"
     "@tanstack/react-virtual": "npm:^3.0.2"
     "@types/dompurify": "npm:^3.0.5"
