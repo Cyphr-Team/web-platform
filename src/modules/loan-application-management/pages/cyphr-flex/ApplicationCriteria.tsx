@@ -125,6 +125,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
     header: renderHeader("Action Plan", "text-black whitespace-nowrap"),
     cell: ({ row }) => {
       return <div className="min-w-0 leading-6">{row.original.description}</div>
-    }
+    },
+    size: 800
   }
 ]
