@@ -1,7 +1,7 @@
 import { DataTable } from "@/components/ui/data-table"
 import { Input } from "@/components/ui/input"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
-import { listTransactionsColumns } from "@/modules/loanready/components/tables/transactions-columns"
+import { adminTransactionsColumns } from "@/modules/loanready/components/tables/admin-transactions-columns"
 import { type Option, SortOrder } from "@/types/common.type"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { type SortingState, type PaginationState } from "@tanstack/react-table"
@@ -13,11 +13,14 @@ import { TransactionsTableHeader } from "@/modules/loanready/components/tables/t
 import {
   FormFieldNames,
   TransactionFilterSchema,
-  useQueryAdminListPaginateTransaction,
+  useQueryListPaginateTransaction,
   type TransactionFilterValues
 } from "@/modules/loanready/hooks/payment/useQueryListPaginateTransaction"
+import { checkIsLoanApplicant } from "@/utils/check-roles"
+import { applicantTransactionColumns } from "../tables/applicant-transaction-columns"
 
 export function LoanReadyTransactionsPage() {
+  const isApplicant = checkIsLoanApplicant()
   // Pagination state
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -70,7 +73,7 @@ export function LoanReadyTransactionsPage() {
   }, [sorting])
 
   // Query list applications
-  const { data, isFetching } = useQueryAdminListPaginateTransaction({
+  const { data, isFetching } = useQueryListPaginateTransaction({
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize,
     searchField: searchField,
@@ -79,7 +82,8 @@ export function LoanReadyTransactionsPage() {
       status: filter.statuses,
       product: filter.product,
       paidOn: filter.paidOn
-    }
+    },
+    isApplicant
   })
 
   const resetTableToFirstPage = useCallback(() => {
@@ -91,7 +95,7 @@ export function LoanReadyTransactionsPage() {
 
   const renderHeaderFilter = useMemo(
     () => (
-      <div className="flex w-full flex-wrap items-center">
+      <div className="flex w-full flex-wrap items-center px-4">
         <div className="min-w-0 flex-[2] overflow-x-auto">
           <TransactionsTableHeader filterForm={filterForm} />
         </div>
@@ -115,7 +119,9 @@ export function LoanReadyTransactionsPage() {
       <h1 className="text-3.5xl font-semibold">Payments</h1>
       <DataTable
         manualSorting
-        columns={listTransactionsColumns}
+        columns={
+          isApplicant ? applicantTransactionColumns : adminTransactionsColumns
+        }
         data={data?.data ?? []}
         headerFilter={() => renderHeaderFilter}
         isLoading={isFetching}
@@ -123,7 +129,9 @@ export function LoanReadyTransactionsPage() {
         setPagination={setPagination}
         setSorting={setSorting}
         sorting={sorting}
-        tableContainerClassName="flex max-h-[84vh] flex-1 flex-col overflow-hidden"
+        tableContainerClassName="flex max-h-[84vh] flex-1 flex-col overflow-hidden rounded-xl border"
+        tableHeaderWrapperClassName="bg-gray-100"
+        tableWrapperClassName="rounded-none border-none"
         total={data?.total ?? 0}
       />
     </div>

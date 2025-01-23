@@ -29,6 +29,8 @@ import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hoo
 import { LoanType } from "@/types/loan-program.type.ts"
 import { UseOfLoan } from "@/types/loan-application.type.ts"
 import { useQueryLoanProgramDetailsByType } from "@/modules/loan-application/hooks/program/useQueryLoanProgramDetails.ts"
+import { useQueryClient } from "@tanstack/react-query"
+import { loanReadyTransactionKeys } from "@/constants/query-key"
 
 const paymentItemSchema = z.object({
   package: z.string().min(1),
@@ -88,6 +90,9 @@ export function PaymentDetail() {
   // Send the payment request to server
   const { mutateAsync: mutateConfirmIntent, isLoading } =
     useCreateConfirmIntent()
+
+  const queryClient = useQueryClient()
+
   const submitPurchase = async (
     confirmationToken: string,
     applicationId?: string
@@ -106,6 +111,10 @@ export function PaymentDetail() {
     await mutateConfirmIntent.mutateAsync(payload, {
       onSuccess: (data) => {
         const paymentTransactionId = data.data.id
+
+        queryClient.invalidateQueries({
+          queryKey: loanReadyTransactionKeys.lists()
+        })
 
         if (!applicationId) {
           // create draft application

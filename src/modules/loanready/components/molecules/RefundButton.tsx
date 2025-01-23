@@ -48,7 +48,8 @@ export function RefundButton({
       cancelText="Cancel"
       confirmText="Confirm"
       description={
-        refundDecision === RefundDecisionStatus.APPROVED ? (
+        refundDecision === RefundDecisionStatus.APPROVED ||
+        refundDecision === RefundDecisionStatus.ISSUE_REFUND ? (
           <span>
             Refund{" "}
             <strong>
@@ -65,7 +66,8 @@ export function RefundButton({
       }
       isOpen={isOpen.value}
       title={
-        refundDecision === RefundDecisionStatus.APPROVED
+        refundDecision === RefundDecisionStatus.APPROVED ||
+        refundDecision === RefundDecisionStatus.ISSUE_REFUND
           ? "Refund payment"
           : "Deny refund request"
       }

@@ -5,22 +5,24 @@ export interface BaseTransaction {
   email: string
   amount: string
   paidOn: string
-  status: string
+  transactionStatus: string
 }
 
 export interface LoanReadyTransaction extends BaseTransaction {
   product: LoanReadyPlanEnum
   companyName: string
+  isEligibleToRefund: boolean
 }
 
 export enum RefundStatus {
   PAID = "PAID",
   REQUESTED_REFUND = "REQUESTED_REFUND",
   REFUNDED = "REFUNDED",
-  DENIED = "DENIED"
+  DENIED = "DENIED_REFUND"
 }
 
 export enum RefundDecisionStatus {
+  ISSUE_REFUND = "ISSUE_REFUND",
   APPROVED = "APPROVED",
   DENIED = "DENIED"
 }

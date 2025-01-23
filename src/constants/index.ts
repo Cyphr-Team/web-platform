@@ -288,11 +288,13 @@ export const API_PATH = {
   },
   payment: {
     createChargeWithConfirmationToken: "api/payment/create-charge",
-    adminList: "api/payment/admin-list",
+    adminList: "api/transaction/admin-list",
+    applicantList: "api/transaction/applicant-list",
     refund: {
       createRequest: "api/refund/create-request",
       approve: "api/refund/approve",
-      reject: "api/refund/reject"
+      reject: "api/refund/reject",
+      issueRefund: "api/refund/issue-refund"
     }
   },
   loanReady: {
@@ -301,7 +303,8 @@ export const API_PATH = {
       "api/loan-ready-subscription/by-payment-transaction-id",
     getSubscriptionByApplicationId:
       "api/loan-ready-subscription/by-application-id",
-    getUnusedSubscription: "api/loan-ready-subscription/list-unused-by-user-id"
+    getUnusedSubscription: "api/loan-ready-subscription/list-unused-by-user-id",
+    createRefundRequest: "api/refund/create-request"
   },
   capitalCollab: {
     changeApplicationStatus: (applicationId: string) =>

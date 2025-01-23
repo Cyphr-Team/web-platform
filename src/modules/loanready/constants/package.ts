@@ -47,4 +47,23 @@ const LoanReadyPlanOptions = [
   }
 ]
 
-export { LoanReadyPlanEnum, LoanReadyPlan, LoanReadyPlanOptions }
+const enum LoanReadyRefundReasonEnum {
+  DUPLICATE_PURCHASE = "DUPLICATE_PURCHASE",
+  ACCIDENTAL_PURCHASE = "ACCIDENTAL_PURCHASE",
+  UNAUTHORIZED_TRANSACTION = "UNAUTHORIZED_TRANSACTION"
+}
+
+const LoanReadyRefundReasons: Record<LoanReadyRefundReasonEnum, string> = {
+  [LoanReadyRefundReasonEnum.DUPLICATE_PURCHASE]: "Duplicate purchase",
+  [LoanReadyRefundReasonEnum.ACCIDENTAL_PURCHASE]: "Accidental purchase",
+  [LoanReadyRefundReasonEnum.UNAUTHORIZED_TRANSACTION]:
+    "Unauthorized transaction"
+}
+
+export {
+  LoanReadyPlanEnum,
+  LoanReadyPlan,
+  LoanReadyPlanOptions,
+  LoanReadyRefundReasonEnum,
+  LoanReadyRefundReasons
+}

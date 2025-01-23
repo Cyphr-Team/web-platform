@@ -67,7 +67,7 @@ export const orderApplicationColumn = (
   },
   {
     id: "status",
-    header: renderHeader("Status"),
+    header: renderHeader("Assessment Status"),
     cell: ({ row }) => {
       const application = row.original
       const status = application.status
@@ -75,7 +75,6 @@ export const orderApplicationColumn = (
       return (
         <div className="font-medium">
           <Badge
-            isDot
             className="capitalize py-1 text-sm"
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}

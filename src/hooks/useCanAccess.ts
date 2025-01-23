@@ -63,7 +63,8 @@ const getEntitlement = () => {
     },
     [Institution.LoanReady]: {
       [FeatureKey.SETTINGS]: {
-        [UserRoles.WORKSPACE_ADMIN]: true
+        [UserRoles.WORKSPACE_ADMIN]: true,
+        [UserRoles.APPLICANT]: true
       }
     }
   }

@@ -1,5 +1,5 @@
 import { API_PATH } from "@/constants"
-import { workspaceAdminTransactionKeys } from "@/constants/query-key"
+import { loanReadyTransactionKeys } from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { postRequest } from "@/services/client.service"
 import { type ErrorResponse } from "@/types/common.type"
@@ -13,6 +13,18 @@ import { type AxiosError, type AxiosResponse } from "axios"
 export function useProceedRefund() {
   const queryClient = useQueryClient()
 
+  const getRefundDecisionPath = (refundDecision: RefundDecisionStatus) => {
+    if (refundDecision === RefundDecisionStatus.APPROVED) {
+      return API_PATH.payment.refund.approve
+    }
+
+    if (refundDecision === RefundDecisionStatus.DENIED) {
+      return API_PATH.payment.refund.reject
+    }
+
+    return API_PATH.payment.refund.issueRefund
+  }
+
   return useMutation<
     AxiosResponse<boolean>,
     AxiosError<ErrorResponse>,
@@ -22,10 +34,7 @@ export function useProceedRefund() {
       if (!transactionId) throw new Error("Missing transaction id")
 
       return postRequest({
-        path:
-          refundDecision === RefundDecisionStatus.APPROVED
-            ? API_PATH.payment.refund.approve
-            : API_PATH.payment.refund.reject,
+        path: getRefundDecisionPath(refundDecision),
         params: { paymentTransactionId: transactionId },
         customHeader: customRequestHeader.customHeaders
       })
@@ -36,7 +45,7 @@ export function useProceedRefund() {
         description: "Your refund decision has been successfully processed."
       })
       queryClient.invalidateQueries({
-        queryKey: workspaceAdminTransactionKeys.lists()
+        queryKey: loanReadyTransactionKeys.lists()
       })
     },
     onError: (error) => {
