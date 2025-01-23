@@ -32,46 +32,14 @@ type DashboardAction =
       payload: DashboardState["filter"]["timeRange"]
     }
   | {
-      type: DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency
-      payload: DashboardState["averageTimeToApprovalMetricsFrequency"]
-    }
-  | {
-      type: DashboardActionType.UpdateAverageLoanSizeFrequency
-      payload: DashboardState["averageLoanSizeFrequency"]
-    }
-  | {
       type: DashboardActionType.UpdateLoanProgramIds
       payload: DashboardState["loanProgramIds"]
-    }
-  | {
-      type: DashboardActionType.UpdateLoanApplicationActivitiesFrequency
-      payload: DashboardState["loanApplicationActivitiesFrequency"]
-    }
-  | {
-      type: DashboardActionType.UpdateAverageTimeToDecisionFrequency
-      payload: DashboardState["averageTimeToDecisionFrequency"]
-    }
-  | {
-      type: DashboardActionType.UpdateAverageApprovedLoanAmount
-      payload: DashboardState["averageApprovedLoanAmountFrequency"]
-    }
-  | {
-      type: DashboardActionType.UpdateLoanApplicationRatesFrequency
-      payload: DashboardState["loanApplicationRatesFrequency"]
     }
 
 interface DashboardState {
   filter: TimeRangeFilterValue
-  approvalRateFrequency: GRAPH_FREQUENCY
-  incompleteApplicationRateFrequency: GRAPH_FREQUENCY
-  averageTimeToApprovalMetricsFrequency: GRAPH_FREQUENCY
-  averageLoanSizeFrequency: GRAPH_FREQUENCY
-  portfolioGrowthFrequency: GRAPH_FREQUENCY
-  loanApplicationActivitiesFrequency: GRAPH_FREQUENCY
-  averageTimeToDecisionFrequency: GRAPH_FREQUENCY
-  averageApprovedLoanAmountFrequency: GRAPH_FREQUENCY
-  loanApplicationRatesFrequency: GRAPH_FREQUENCY
   loanProgramIds: string[]
+  frequency: GRAPH_FREQUENCY
 }
 
 interface StatsResponse {
@@ -79,10 +47,6 @@ interface StatsResponse {
   totalApplicationSubmitted: number
   totalApplicationInReview: number
   totalApplicationDenied: number
-}
-
-interface DashboardProviderProps {
-  children: React.ReactNode
 }
 
 interface DashboardProviderState {
@@ -241,7 +205,6 @@ export type {
   AverageTimeToApprovalResponse,
   AverageTimeToDecisionResponse,
   DashboardAction,
-  DashboardProviderProps,
   DashboardProviderState,
   DashboardState,
   FrequencyRequest,

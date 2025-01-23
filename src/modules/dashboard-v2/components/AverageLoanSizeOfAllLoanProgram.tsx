@@ -54,7 +54,7 @@ export function AverageLoanSizeOfAllLoanProgram() {
       .map((program) => program.name) ?? []
 
   const formatDateByTimePeriod =
-    dashboardState.averageLoanSizeFrequency === GRAPH_FREQUENCY.WEEKLY
+    dashboardState.frequency === GRAPH_FREQUENCY.WEEKLY
       ? formatChartWeekly
       : formatChartMonthly
 

@@ -1,8 +1,8 @@
 import { TimeRangeValue } from "@/types/time-range.type"
 import { getTimeRangeDates } from "@/utils/time-range.utils"
 import { type DashboardState, type CCStatsResponse } from "../types/stats.types"
-import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import { LoanApplicationStatus } from "@/types/loan-application.type"
+import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 
 const QUERY_KEY = {
   /**
@@ -29,24 +29,9 @@ const DEFAULT_DASHBOARD_STATE: DashboardState = {
       ...getTimeRangeDates(TimeRangeValue.THIS_MONTH)
     }
   },
-  approvalRateFrequency: GRAPH_FREQUENCY.MONTHLY,
-  incompleteApplicationRateFrequency: GRAPH_FREQUENCY.MONTHLY,
-  averageTimeToApprovalMetricsFrequency: GRAPH_FREQUENCY.MONTHLY,
-  averageLoanSizeFrequency: GRAPH_FREQUENCY.MONTHLY,
-  portfolioGrowthFrequency: GRAPH_FREQUENCY.MONTHLY,
-  loanApplicationActivitiesFrequency: GRAPH_FREQUENCY.MONTHLY,
-  averageTimeToDecisionFrequency: GRAPH_FREQUENCY.MONTHLY,
-  averageApprovedLoanAmountFrequency: GRAPH_FREQUENCY.MONTHLY,
-  loanApplicationRatesFrequency: GRAPH_FREQUENCY.MONTHLY,
-  loanProgramIds: []
+  loanProgramIds: [],
+  frequency: GRAPH_FREQUENCY.MONTHLY
 }
-
-const LABEL_CONFIG = {
-  fontSize: 12,
-  position: "top",
-  fontWeight: "500",
-  fill: "black"
-} as const
 
 const CARTESIAN_GRID = {
   strokeDasharray: "3 3",
@@ -128,7 +113,6 @@ const CC_DASHBOARD_CARDS: {
 export {
   QUERY_KEY,
   DEFAULT_DASHBOARD_STATE,
-  LABEL_CONFIG,
   CARTESIAN_GRID,
   CHART_DEFAULT,
   CC_DASHBOARD_CARDS

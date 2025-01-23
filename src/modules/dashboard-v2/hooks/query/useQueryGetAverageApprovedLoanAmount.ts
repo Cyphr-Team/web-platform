@@ -14,7 +14,7 @@ import { useTimeRangeFilter } from "./useTimeRangeFilter"
 export const useQueryGetAverageApprovedLoanAmount = ({
   filter,
   loanProgramIds,
-  averageApprovedLoanAmountFrequency
+  frequency
 }: DashboardState) => {
   const timeRangeFilter = useTimeRangeFilter(filter)
 
@@ -28,7 +28,7 @@ export const useQueryGetAverageApprovedLoanAmount = ({
       filter.timeRange.from,
       filter.timeRange.to,
       loanProgramIds,
-      averageApprovedLoanAmountFrequency
+      frequency
     ],
     queryFn: async () => {
       if (!timeRangeFilter.from || !timeRangeFilter.to)
@@ -43,7 +43,7 @@ export const useQueryGetAverageApprovedLoanAmount = ({
           filter: {
             timeRange: { from: timeRangeFilter.from, to: timeRangeFilter.to }
           },
-          frequency: averageApprovedLoanAmountFrequency.toLowerCase(),
+          frequency: frequency.toLowerCase(),
           loanProgramIds: loanProgramIds.length ? loanProgramIds : undefined
         }
       })

@@ -30,7 +30,7 @@ export function LoanApplicationActivityChart() {
   }
 
   const formatDateByTimePeriod =
-    dashboardState.loanApplicationActivitiesFrequency === GRAPH_FREQUENCY.WEEKLY
+    dashboardState.frequency === GRAPH_FREQUENCY.WEEKLY
       ? formatChartWeekly
       : formatChartMonthly
 

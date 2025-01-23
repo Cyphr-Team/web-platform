@@ -18,7 +18,7 @@ export function AverageTimeToApprovalChart() {
   const { averageTimeToDecisionData, dashboardState } = useDashboard()
 
   const formatDateByTimePeriod =
-    dashboardState.averageTimeToDecisionFrequency === GRAPH_FREQUENCY.WEEKLY
+    dashboardState.frequency === GRAPH_FREQUENCY.WEEKLY
       ? formatChartWeekly
       : formatChartMonthly
 

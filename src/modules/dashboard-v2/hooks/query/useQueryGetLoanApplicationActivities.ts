@@ -14,7 +14,7 @@ import { useTimeRangeFilter } from "./useTimeRangeFilter"
 export const useQueryGetLoanApplicationActivities = ({
   filter,
   loanProgramIds,
-  loanApplicationActivitiesFrequency
+  frequency
 }: DashboardState) => {
   const timeRangeFilter = useTimeRangeFilter(filter)
 
@@ -28,7 +28,7 @@ export const useQueryGetLoanApplicationActivities = ({
       filter.timeRange.from,
       filter.timeRange.to,
       loanProgramIds,
-      loanApplicationActivitiesFrequency
+      frequency
     ],
     queryFn: () => {
       if (!timeRangeFilter.from || !timeRangeFilter.to)
@@ -40,7 +40,7 @@ export const useQueryGetLoanApplicationActivities = ({
           filter: {
             timeRange: { from: timeRangeFilter.from, to: timeRangeFilter.to }
           },
-          frequency: loanApplicationActivitiesFrequency.toLowerCase(),
+          frequency: frequency.toLowerCase(),
           loanProgramIds: loanProgramIds.length ? loanProgramIds : undefined
         }
       })
