@@ -22,6 +22,7 @@ export enum RefundStatus {
 }
 
 export enum RefundDecisionStatus {
+  ISSUE_REFUND = "ISSUE_REFUND",
   APPROVED = "APPROVED",
   DENIED = "DENIED"
 }

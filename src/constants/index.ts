@@ -293,7 +293,8 @@ export const API_PATH = {
     refund: {
       createRequest: "api/refund/create-request",
       approve: "api/refund/approve",
-      reject: "api/refund/reject"
+      reject: "api/refund/reject",
+      issueRefund: "api/refund/issue-refund"
     }
   },
   loanReady: {

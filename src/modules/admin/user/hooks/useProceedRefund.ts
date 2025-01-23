@@ -13,6 +13,18 @@ import { type AxiosError, type AxiosResponse } from "axios"
 export function useProceedRefund() {
   const queryClient = useQueryClient()
 
+  const getRefundDecisionPath = (refundDecision: RefundDecisionStatus) => {
+    if (refundDecision === RefundDecisionStatus.APPROVED) {
+      return API_PATH.payment.refund.approve
+    }
+
+    if (refundDecision === RefundDecisionStatus.DENIED) {
+      return API_PATH.payment.refund.reject
+    }
+
+    return API_PATH.payment.refund.issueRefund
+  }
+
   return useMutation<
     AxiosResponse<boolean>,
     AxiosError<ErrorResponse>,
@@ -22,10 +34,7 @@ export function useProceedRefund() {
       if (!transactionId) throw new Error("Missing transaction id")
 
       return postRequest({
-        path:
-          refundDecision === RefundDecisionStatus.APPROVED
-            ? API_PATH.payment.refund.approve
-            : API_PATH.payment.refund.reject,
+        path: getRefundDecisionPath(refundDecision),
         params: { paymentTransactionId: transactionId },
         customHeader: customRequestHeader.customHeaders
       })

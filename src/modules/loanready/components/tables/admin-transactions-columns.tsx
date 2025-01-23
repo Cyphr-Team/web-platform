@@ -50,34 +50,27 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
       const status = row.original.transactionStatus.toUpperCase()
       const isEligibleToRefund = row.original.isEligibleToRefund
 
-      if (!isEligibleToRefund) return null
+      if (!isEligibleToRefund || status === RefundStatus.REFUNDED) return null
 
-      if (
-        status === RefundStatus.REQUESTED_REFUND ||
-        status === RefundStatus.PAID
-      ) {
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="text-center" size="icon" variant="ghost">
-                <MoreHorizontal className="size-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-48">
-              <DropdownMenuLabel>
-                <RefundButton
-                  actionText={
-                    status === RefundStatus.REQUESTED_REFUND
-                      ? "Approve refund"
-                      : "Refund transaction"
-                  }
-                  amount={row.original.amount}
-                  email={row.original.email}
-                  refundDecision={RefundDecisionStatus.APPROVED}
-                  transactionId={row.original.id}
-                />
-              </DropdownMenuLabel>
-              {status === RefundStatus.REQUESTED_REFUND && (
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="text-center" size="icon" variant="ghost">
+              <MoreHorizontal className="size-5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-48">
+            {status === RefundStatus.REQUESTED_REFUND ? (
+              <>
+                <DropdownMenuLabel>
+                  <RefundButton
+                    actionText="Approve refund"
+                    amount={row.original.amount}
+                    email={row.original.email}
+                    refundDecision={RefundDecisionStatus.APPROVED}
+                    transactionId={row.original.id}
+                  />
+                </DropdownMenuLabel>
                 <DropdownMenuLabel>
                   <RefundButton
                     actionText="Reject refund"
@@ -87,11 +80,21 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
                     transactionId={row.original.id}
                   />
                 </DropdownMenuLabel>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )
-      }
+              </>
+            ) : (
+              <DropdownMenuLabel>
+                <RefundButton
+                  actionText="Refund transaction"
+                  amount={row.original.amount}
+                  email={row.original.email}
+                  refundDecision={RefundDecisionStatus.ISSUE_REFUND}
+                  transactionId={row.original.id}
+                />
+              </DropdownMenuLabel>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
     }
   }
 ]
