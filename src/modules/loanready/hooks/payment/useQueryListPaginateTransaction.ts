@@ -14,14 +14,16 @@ import * as z from "zod"
 type ListTransactionResponse = ListResponse<Transaction>
 
 export const enum FormFieldNames {
-  STATUS = "status",
+  TRANSACTION_STATUS = "transactionStatus",
   SEARCH = "search",
   PRODUCT = "product",
   PAID_ON = "paidOn"
 }
 
 export const TransactionFilterSchema = z.object({
-  status: z.array(z.object({ label: z.string(), value: z.string() })),
+  transactionStatus: z.array(
+    z.object({ label: z.string(), value: z.string() })
+  ),
   search: z.string(),
   product: z.array(z.object({ label: z.string(), value: z.string() })),
   paidOn: z.array(z.object({ label: z.string(), value: z.string() }))
@@ -44,7 +46,7 @@ interface LoanReadyTransactionSort extends BaseTransactionSort {
 export type TransactionSort = LoanReadyTransactionSort
 
 interface FilterParams {
-  status?: string[]
+  transactionStatus?: string[]
   product?: string[]
   paidOn?: string[]
 }

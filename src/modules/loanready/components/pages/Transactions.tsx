@@ -41,7 +41,7 @@ export function LoanReadyTransactionsPage() {
   const filterForm = useForm<TransactionFilterValues>({
     resolver: zodResolver(TransactionFilterSchema),
     defaultValues: {
-      status: [],
+      transactionStatus: [],
       product: [],
       paidOn: []
     }
@@ -54,7 +54,10 @@ export function LoanReadyTransactionsPage() {
       )
 
     return {
-      statuses: mapToValue(filterForm.watch(FormFieldNames.STATUS), true),
+      statuses: mapToValue(
+        filterForm.watch(FormFieldNames.TRANSACTION_STATUS),
+        true
+      ),
       product: mapToValue(filterForm.watch(FormFieldNames.PRODUCT), true),
       paidOn: mapToValue(filterForm.watch(FormFieldNames.PAID_ON))
     }
@@ -79,7 +82,7 @@ export function LoanReadyTransactionsPage() {
     searchField: searchField,
     sort: getSort(),
     filter: {
-      status: filter.statuses,
+      transactionStatus: filter.statuses,
       product: filter.product,
       paidOn: filter.paidOn
     },

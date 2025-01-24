@@ -25,7 +25,7 @@ interface IFilter {
 }
 
 const enum FormFieldNames {
-  Status = "status",
+  Status = "transactionStatus",
   Search = "search",
   PaidOn = "paidOn",
   Product = "product"
