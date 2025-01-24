@@ -27,7 +27,7 @@ export const companyNameColumn: ColumnDef<Transaction> = {
   cell: ({ row }) => {
     const transaction = row.original
 
-    return <div className="font-medium">{transaction.companyName ?? "-"}</div>
+    return <div>{transaction.companyName ?? "-"}</div>
   }
 }
 
@@ -92,8 +92,8 @@ export const baseListTransactionsColumns: ColumnDef<Transaction>[] = [
 
       return (
         <Badge
-          className="truncate"
-          variant="soft"
+          className="truncate text-black"
+          variant="solid"
           variantColor={getBadgeVariantByStatus(status)}
         >
           {getStatusDisplayName(status)}

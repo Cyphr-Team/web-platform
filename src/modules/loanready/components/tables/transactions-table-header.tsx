@@ -5,8 +5,8 @@ import { type UseFormReturn } from "react-hook-form"
 import { MultiSelectRound } from "@/components/ui/multi-select-round.tsx"
 import { Badge } from "@/components/ui/badge.tsx"
 import {
-  getStatusDisplayName,
   getBadgeVariantByStatus,
+  getStatusDisplayName,
   RefundStatus
 } from "@/types/transaction.type"
 import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package"
@@ -61,8 +61,8 @@ const StatusMultiSelectComponent = (
   close: ReactNode
 ) => (
   <Badge
-    className="whitespace-nowrap"
-    variant="soft"
+    className="whitespace-nowrap text-black"
+    variant="solid"
     variantColor={getBadgeVariantByStatus(option.value)}
   >
     {option.label}

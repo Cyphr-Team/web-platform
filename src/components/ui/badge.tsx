@@ -48,10 +48,10 @@ const badgeTenantStyles = {
     funded: "bg-[#133472BF] text-white"
   },
   [Institution.LoanReady]: {
-    paid: "bg-[#ECFDF3BF] text-[#027A48]",
-    requestedRefund: "bg-[#FFF6EDBF] text-[#C4320A]",
-    refunded: "bg-[#FFFAEBBF] text-[#B54708]",
-    denied: "bg-[#FEF3F2BF] text-[#B42318]"
+    paid: "bg-[#E7FEF0]",
+    requestedRefund: "bg-[#FFEEDD]",
+    refunded: "bg-[#FFF7E1]",
+    denied: "bg-[#FFEDEC]"
   }
 }
 

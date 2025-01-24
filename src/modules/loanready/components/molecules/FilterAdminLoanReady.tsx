@@ -252,7 +252,7 @@ export function FilterAdminLoanReady({ filterForm }: IFilter) {
           render={({ field }) => (
             <MultiSelectRound
               field={field}
-              label="Program"
+              label="Product"
               labelHOC={(option, close) =>
                 LoanProgramMultiSelectComponent(option, close)
               }
