@@ -23,9 +23,8 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
-import { LoanReadyRefundReasons } from "@/modules/loanready/constants/package"
-
 import type { LoanReadyRefundReasonEnum } from "@/modules/loanready/constants/package"
+import { LoanReadyRefundReasons } from "@/modules/loanready/constants/package"
 import { useState } from "react"
 import useCreateRefundRequest from "@/modules/loanready/hooks/refund/useCreateRefundRequest"
 import { type Transaction } from "@/types/transaction.type"
@@ -61,8 +60,12 @@ function RefundTableAction(props: RefundActionProps) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Button className="text-center" size="icon" variant="ghost">
-            <MoreHorizontal className="size-5" />
+          <Button
+            className="text-center size-5 align-middle"
+            size="icon"
+            variant="ghost"
+          >
+            <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-48">

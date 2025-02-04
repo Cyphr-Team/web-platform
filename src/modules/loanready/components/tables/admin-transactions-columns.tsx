@@ -33,7 +33,7 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const transaction = row.original
 
-      return <div className="font-medium">{transaction.email}</div>
+      return <div>{transaction.email}</div>
     }
   },
   ...baseListTransactionsColumns,
@@ -55,8 +55,12 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="text-center" size="icon" variant="ghost">
-              <MoreHorizontal className="size-5" />
+            <Button
+              className="text-center size-5 align-middle"
+              size="icon"
+              variant="ghost"
+            >
+              <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-48">

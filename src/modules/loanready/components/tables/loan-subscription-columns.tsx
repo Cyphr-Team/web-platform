@@ -41,7 +41,7 @@ export const loanSubscriptionColumns: ColumnDef<AssessmentResponse>[] = [
   {
     id: "plan",
     accessorKey: "plan",
-    header: renderFilterableHeader({ title: "Program" }),
+    header: renderFilterableHeader({ title: "Product" }),
     cell: ({ row }) => {
       const application = row.original
 
@@ -143,7 +143,6 @@ export const loanSubscriptionColumns: ColumnDef<AssessmentResponse>[] = [
 
       return (
         <Badge
-          isDot
           className="truncate"
           variant="soft"
           variantColor={getBadgeVariantByStatus(application.status)}

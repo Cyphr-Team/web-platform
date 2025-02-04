@@ -16,14 +16,14 @@ export const orderApplicationColumn = (
 ): ColumnDef<OrderLoanApplication>[] => [
   {
     id: "businessName",
-    header: renderHeader("Business name"),
+    header: renderHeader("Company Name", "text-black font-semibold text-sm"),
     cell: ({ row }) => {
       return <div>{row.original?.businessName ?? "---"}</div>
     }
   },
   {
     id: "loanProgram",
-    header: renderHeader("Loan Program"),
+    header: renderHeader("Product", "text-black font-semibold text-sm"),
     cell: ({ row }) => {
       const planToLoanProgramMapping = new Map([
         [LoanReadyPlanEnum.BASIC.toString(), "LoanReady"],
@@ -40,21 +40,21 @@ export const orderApplicationColumn = (
   },
   {
     id: "email",
-    header: renderHeader("Email"),
+    header: renderHeader("Email", "text-black font-semibold text-sm"),
     cell: ({ row }) => {
       return <div>{row.original?.ownerEmail ?? "---"}</div>
     }
   },
   {
     id: "createdOn",
-    header: renderHeader("Created On"),
+    header: renderHeader("Created On", "text-black font-semibold text-sm"),
     cell: ({ row }) => {
       return <p>{convertToReadableDate(row.original.createdAt)}</p>
     }
   },
   {
     id: "submittedOn",
-    header: renderHeader("Submitted On"),
+    header: renderHeader("Submitted On", "text-black font-semibold text-sm"),
     cell: ({ row }) => {
       return (
         <p>
@@ -67,7 +67,10 @@ export const orderApplicationColumn = (
   },
   {
     id: "status",
-    header: renderHeader("Assessment Status"),
+    header: renderHeader(
+      "Assessment Status",
+      "text-black font-semibold text-sm"
+    ),
     cell: ({ row }) => {
       const application = row.original
       const status = application.status
@@ -75,7 +78,7 @@ export const orderApplicationColumn = (
       return (
         <div className="font-medium">
           <Badge
-            className="capitalize py-1 text-sm"
+            className="capitalize py-1"
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}
           >

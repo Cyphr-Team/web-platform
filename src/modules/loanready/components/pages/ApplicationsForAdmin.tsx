@@ -120,8 +120,8 @@ export function ApplicationsForAdmin() {
 
   const renderHeaderFilter = useMemo(
     () => (
-      <div className="flex w-full flex-wrap items-center gap-4">
-        <div className="min-w-0 flex-[2] overflow-x-auto py-1">
+      <div className="flex w-full flex-wrap items-center px-4">
+        <div className="min-w-0 flex-[2] overflow-x-auto">
           <FilterAdminLoanReady filterForm={filterForm} />
         </div>
 
@@ -156,7 +156,9 @@ export function ApplicationsForAdmin() {
         setPagination={setPagination}
         setSorting={setSorting}
         sorting={sorting}
-        tableContainerClassName="flex max-h-[84vh] flex-1 flex-col overflow-hidden"
+        tableContainerClassName="mt-3 flex max-h-[84vh] flex-1 flex-col overflow-hidden rounded-xl border"
+        tableHeaderWrapperClassName="bg-gray-100"
+        tableWrapperClassName=" rounded-none border-none"
         total={data?.total ?? 0}
       />
     </div>
