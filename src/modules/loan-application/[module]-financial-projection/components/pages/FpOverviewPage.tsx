@@ -59,7 +59,7 @@ export function Component() {
             />
             <CashFlowGlanceCard
               title="Cash Flow Assessment"
-              value={_.startCase(cashFlow?.cashFlowAssessment.toLowerCase())}
+              value={_.startCase(cashFlow?.ratingScale.toLowerCase())}
             />
           </Grid>
         </Layout>

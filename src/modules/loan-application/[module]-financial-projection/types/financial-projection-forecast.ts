@@ -92,4 +92,5 @@ export interface CashFlowAtAGlanceResponse {
   totalDebtService: number
   debtServiceCoverage: number
   debtToIncome: number
+  ratingScale: string
 }

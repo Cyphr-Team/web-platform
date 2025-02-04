@@ -10,6 +10,7 @@ const cashFlow: CashFlowAtAGlanceResponse = {
   operatingExpenses: 140_000,
   netOperatingIncome: 70_000,
   cashFlowAssessment: "Very Good",
+  ratingScale: "Very Good",
   operatingMargin: 33.4,
   totalDebtService: 35_000.0,
   debtServiceCoverage: 1.5,
