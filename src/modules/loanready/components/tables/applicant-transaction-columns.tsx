@@ -29,7 +29,7 @@ export const applicantTransactionColumns: ColumnDef<Transaction>[] = [
 
       if (
         !isEligibleToRefund ||
-        row.original.transactionStatus !== RefundStatus.PAID.toLowerCase()
+        row.original.transactionStatus === RefundStatus.REFUNDED.toLowerCase()
       )
         return null
 
