@@ -15,5 +15,9 @@ export const SETTINGS_MENU = [
   {
     name: "Payment Transactions",
     href: APP_PATH.SETTINGS.payment
+  },
+  {
+    name: "Users",
+    href: APP_PATH.SETTINGS.users
   }
 ]

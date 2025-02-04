@@ -77,6 +77,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.ADMIN_USERS.USER.index,
     icon: Icons.user,
     label: "users",
+    disabled: isLoanReady(),
     roles: workspaceAdminRoles().concat(platformAdminRoles()),
     featureKey: FeatureKey.USER
   },

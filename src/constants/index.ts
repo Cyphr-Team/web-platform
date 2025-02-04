@@ -174,7 +174,11 @@ export const APP_PATH = {
     detail: "/notifications/:id",
     details: (id: string) => `/notifications/${id}`
   },
-  SETTINGS: { index: "/settings", payment: "/settings/payments" },
+  SETTINGS: {
+    index: "/settings",
+    payment: "/settings/payments",
+    users: "/settings/users"
+  },
   MESSAGES: "/messages",
   ONBOARD: "/onboard",
   SUBSCRIPTIONS: "/subscriptions",
