@@ -54,7 +54,7 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button
               className="text-center size-5 align-middle"
               size="icon"

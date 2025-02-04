@@ -27,9 +27,15 @@ export const applicantTransactionColumns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const isEligibleToRefund = row.original.isEligibleToRefund
 
+      // Check if the transaction is not eligible for refund
+      // And if the transaction is already refunded or requested for refund
+      // If so, return null
       if (
         !isEligibleToRefund ||
-        row.original.transactionStatus === RefundStatus.REFUNDED.toLowerCase()
+        row.original.transactionStatus ===
+          RefundStatus.REFUNDED.toLowerCase() ||
+        row.original.transactionStatus ===
+          RefundStatus.REQUESTED_REFUND.toLowerCase()
       )
         return null
 
