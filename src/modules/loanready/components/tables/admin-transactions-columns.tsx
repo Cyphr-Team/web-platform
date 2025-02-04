@@ -66,7 +66,7 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
           <DropdownMenuContent className="w-48">
             {status === RefundStatus.REQUESTED_REFUND ? (
               <>
-                <DropdownMenuLabel>
+                <DropdownMenuLabel className="p-0">
                   <RefundButton
                     actionText="Approve refund"
                     amount={row.original.amount}
@@ -75,7 +75,7 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
                     transactionId={row.original.id}
                   />
                 </DropdownMenuLabel>
-                <DropdownMenuLabel>
+                <DropdownMenuLabel className="p-0">
                   <RefundButton
                     actionText="Reject refund"
                     amount={row.original.amount}
@@ -86,7 +86,7 @@ export const adminTransactionsColumns: ColumnDef<Transaction>[] = [
                 </DropdownMenuLabel>
               </>
             ) : (
-              <DropdownMenuLabel>
+              <DropdownMenuLabel className="p-0">
                 <RefundButton
                   actionText="Refund transaction"
                   amount={row.original.amount}

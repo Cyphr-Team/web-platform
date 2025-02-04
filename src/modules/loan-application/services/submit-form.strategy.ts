@@ -1,6 +1,9 @@
 import { revertPattern } from "@/components/ui/mask-input"
 import { APP_PATH } from "@/constants"
-import { loanApplicationUserKeys } from "@/constants/query-key"
+import {
+  loanApplicationUserKeys,
+  loanReadyTransactionKeys
+} from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { type DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 import { type AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
@@ -836,6 +839,9 @@ export const useSubmitLoanForm = (
       } finally {
         queryClient.invalidateQueries({
           queryKey: loanApplicationUserKeys.lists()
+        })
+        queryClient.invalidateQueries({
+          queryKey: loanReadyTransactionKeys.lists()
         })
       }
     },
