@@ -11,6 +11,7 @@ import { useMemo, useState } from "react"
 import DialogDeleteUser from "../../components/DialogDeleteUser.tsx"
 import { useQueryListPaginateUser } from "../../hooks/useQuery/useQueryListPaginateUser"
 import { columns } from "./columns"
+import DrawerInviteUser from "./DrawerInviteUser.tsx"
 
 export function Component() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
@@ -24,7 +25,10 @@ export function Component() {
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize,
     filter: {
-      roles: [UserRoles.APPLICANT.toLowerCase()]
+      roles: [
+        UserRoles.WORKSPACE_ADMIN.toLowerCase(),
+        UserRoles.REVIEWER.toLowerCase()
+      ]
     }
   })
 
@@ -49,6 +53,8 @@ export function Component() {
 
   return (
     <div className="mx-auto py-2">
+      {/* TODO: Implement get users (include invited team members) */}
+
       <DataTable
         columns={columns.filter((column) => {
           return column.accessorKey !== "institution"
@@ -60,7 +66,7 @@ export function Component() {
             <div>
               <div className="flex flex-row items-center gap-2">
                 <h3 className="mb-1 text-lg font-semibold text-center">
-                  Users
+                  Team Members
                 </h3>
 
                 <div className="text-xs py-0.5 px-2 bg-[#F2F8F8] w-max text-center rounded-lg">
@@ -69,7 +75,7 @@ export function Component() {
               </div>
 
               <p className="text-sm text-muted-foreground">
-                Manage your platform users and their account permissions here.
+                Manage your team members and their account permissions here.
               </p>
             </div>
 
@@ -82,6 +88,8 @@ export function Component() {
                   <Trash size={14} /> &nbsp; Delete
                 </Button>
               )}
+
+              <DrawerInviteUser />
             </div>
           </div>
         )}
@@ -104,4 +112,4 @@ export function Component() {
   )
 }
 
-Component.displayName = "UserPage"
+Component.displayName = "TeamMembersPage"

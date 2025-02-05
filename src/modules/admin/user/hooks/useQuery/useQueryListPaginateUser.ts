@@ -17,6 +17,11 @@ export type UserFilterValues = z.infer<typeof UserFilterSchema>
 
 export interface FilterParams {
   institutionIds?: string[]
+  filter?: {
+    roles?: string[]
+    statuses?: string[]
+    accountType?: string[]
+  }
 }
 
 type Params = PaginateParams & Partial<FilterParams>
@@ -24,14 +29,16 @@ type Params = PaginateParams & Partial<FilterParams>
 export const useQueryListPaginateUser = ({
   limit,
   offset,
-  institutionIds
+  institutionIds,
+  filter
 }: Params) => {
   return useQuery<ListUserResponse>({
     queryKey: userKeys.list(
       createSearchParams({
         limit: limit.toString(),
         offset: offset.toString(),
-        institutionIds: institutionIds ?? []
+        institutionIds: institutionIds ?? [],
+        filter: createSearchParams(filter).toString()
       }).toString()
     ),
     queryFn: async () => {
@@ -40,7 +47,8 @@ export const useQueryListPaginateUser = ({
         data: {
           limit,
           offset,
-          institutionIds: institutionIds?.length ? institutionIds : undefined
+          institutionIds: institutionIds?.length ? institutionIds : undefined,
+          filter: filter
         }
       })
 

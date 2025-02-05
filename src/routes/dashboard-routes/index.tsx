@@ -1,10 +1,7 @@
 import { APP_PATH } from "@/constants"
 import { FeatureKey } from "@/hooks/useCanAccess"
-import { SettingsPageLayout } from "@/modules/admin/user/layouts/settings-page-layout"
-import { TransactionsPage } from "@/modules/admin/user/transactions-page"
 import { Component as DashboardV2 } from "@/modules/dashboard-v2/page"
 import { Component as LoanApplicationManagementComponent } from "@/modules/loan-application-management/pages/list"
-import { chatbotRoutes } from "@/routes/dashboard-routes/chatbot-routes"
 import { userLoader } from "@/routes/loader"
 import { ProtectedRoute } from "@/shared/atoms/ProtectedRoute"
 import { Component as DashboardLayout } from "@/shared/layouts/dashboard-layout/dashboard-layout"
@@ -14,6 +11,9 @@ import { Route } from "react-router-dom"
 import { adminRoutes } from "./admin-routes"
 import { loanApplicationManagementRoutes } from "./loan-application-management-routes"
 import { notificationRoutes } from "./notification-routes"
+import { chatbotRoutes } from "@/routes/dashboard-routes/chatbot-routes"
+import { SettingsPageLayout } from "@/modules/admin/user/layouts/settings-page-layout"
+import { TransactionsPage } from "@/modules/admin/user/transactions-page"
 
 /**
  * Dashboard routes ("/*"), no unauthenticated or loan applicant allowed to see these pages.
@@ -102,13 +102,24 @@ const dashboardRoutes = (
       />
 
       {isLoanReady() && (
-        <Route
-          index
-          lazy={() =>
-            import("@/modules/admin/user/modules/loan-ready-v2/user-page")
-          }
-          path={APP_PATH.SETTINGS.users}
-        />
+        <>
+          <Route
+            index
+            lazy={() =>
+              import("@/modules/admin/user/modules/loan-ready-v2/user-page")
+            }
+            path={APP_PATH.SETTINGS.users}
+          />
+          <Route
+            index
+            lazy={() =>
+              import(
+                "@/modules/admin/user/modules/loan-ready-v2/team-members-page"
+              )
+            }
+            path={APP_PATH.SETTINGS.teamMembers}
+          />
+        </>
       )}
     </Route>
 

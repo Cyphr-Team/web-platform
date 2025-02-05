@@ -177,6 +177,7 @@ export const APP_PATH = {
   SETTINGS: {
     index: "/settings",
     payment: "/settings/payments",
+    teamMembers: "/settings/team-members",
     users: "/settings/users"
   },
   MESSAGES: "/messages",
