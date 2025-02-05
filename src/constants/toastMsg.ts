@@ -188,6 +188,20 @@ export const TOAST_MSG = {
       description: "Feature flag whitelist is successfully updated"
     }
   },
+  subscription: {
+    create: {
+      title: "Create Subscription",
+      description: "Subscription is successfully created"
+    },
+    associate: {
+      title: "Associate Subscription",
+      description: "Subscription is successfully associate to the institution"
+    },
+    cancel: {
+      title: "Cancel Subscription",
+      description: "Subscription is successfully cancelled"
+    }
+  },
   whitelistUser: {
     update: {
       title: "Update whitelist user",

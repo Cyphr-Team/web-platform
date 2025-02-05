@@ -7,6 +7,7 @@ import { type PaginationState } from "@tanstack/react-table"
 import { useState } from "react"
 import { useQueryListSubscription } from "../hooks/useQuery/useQueryListSubscription"
 import { subscriptionColumns } from "../table/subscriptionColumns"
+import CreateNewSubscriptionDialog from "@/modules/subscriptions/components/DialogCreateNewSubscription"
 
 export function Component() {
   const crumbs = useBreadcrumb()
@@ -27,6 +28,8 @@ export function Component() {
         <Breadcrumbs breads={crumbs} className="px-0" />
       </div>
       <h1 className="mb-3xl text-3xl font-semibold">Subscriptions</h1>
+
+      <CreateNewSubscriptionDialog />
 
       <DataTable
         columns={subscriptionColumns}

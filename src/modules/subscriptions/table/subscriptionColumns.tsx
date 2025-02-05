@@ -3,8 +3,13 @@ import { type ColumnDef } from "@tanstack/react-table"
 
 import { formatDate } from "@/utils/date.utils"
 import { SubscriptionInfo } from "../components/SubscriptionInfo"
-import { PlanType, type Subscription } from "../types/subscription.types"
+import {
+  PlanType,
+  SubscriptionStatus,
+  type Subscription
+} from "../types/subscription.types"
 import { addYears } from "date-fns"
+import SubscriptionTableAction from "@/modules/subscriptions/components/subscription-table-action"
 
 export const subscriptionColumns: ColumnDef<Subscription>[] = [
   {
@@ -80,6 +85,20 @@ export const subscriptionColumns: ColumnDef<Subscription>[] = [
       const data = row.original
 
       return <div>{formatDate(data?.startedAt)}</div>
+    }
+  },
+  {
+    accessorKey: "action",
+    header: () => <p>Action</p>,
+    size: 100,
+    cell: ({ row }) => {
+      if (
+        !row.original.institution ||
+        row.original.status === SubscriptionStatus.ACTIVE
+      )
+        return SubscriptionTableAction({ row })
+
+      return null
     }
   }
 ]

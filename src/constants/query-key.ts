@@ -107,7 +107,10 @@ export const userKeys = {
 export const subscriptionKeys = {
   all: ["subscription"] as const,
   lists: () => [...subscriptionKeys.all, "list"] as const,
-  list: (filters: string) => [...subscriptionKeys.lists(), { filters }] as const
+  list: (filters: string) =>
+    [...subscriptionKeys.lists(), { filters }] as const,
+  details: () => [...subscriptionKeys.all, "detail"] as const,
+  detail: (id: string) => [...subscriptionKeys.details(), id] as const
 }
 
 export const invitationKeys = {

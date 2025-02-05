@@ -611,10 +611,13 @@ export const API_PATH = {
   },
   subscriptions: {
     all: "api/admin/subscription",
-    list: () => `${API_PATH.subscriptions.all}/list`
+    list: () => `${API_PATH.subscriptions.all}/list`,
+    cancel: (id: string) => `${API_PATH.subscriptions.all}/${id}/cancel`
   },
   plan: {
     all: "api/admin/plan",
+    create: () => `${API_PATH.subscriptions.all}/annual-recurring`,
+    associate: () => `${API_PATH.subscriptions.all}/associate`,
     institutionUsage: (institutionId: string) =>
       `${API_PATH.plan.all}/usage/${institutionId}`
   },

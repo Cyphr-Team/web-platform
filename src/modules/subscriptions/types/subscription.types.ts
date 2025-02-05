@@ -39,6 +39,7 @@ interface Instiuttion {
 }
 
 interface Subscription {
+  id: string
   type: PlanType
   status: SubscriptionStatus
   plan: Plan
@@ -50,4 +51,4 @@ interface Subscription {
   endedAt: string
 }
 
-export type { Subscription, Limit }
+export type { Subscription, Limit, Plan }
