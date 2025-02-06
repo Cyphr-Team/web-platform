@@ -1,25 +1,107 @@
 import { LoadingWrapper } from "@/shared/atoms/LoadingWrapper.tsx"
 import { cn } from "@/lib/utils.ts"
 import { CashFlowGlanceCard } from "@/modules/loan-application/[module]-financial-projection/components/molecules/CashFlowGlanceCard.tsx"
-import { type PropsWithChildren } from "react"
-import { useQueryCashFlowAtAGlance } from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryCashFlowAtAGlance.ts"
+import {type PropsWithChildren, useState} from "react"
 import { useParams } from "react-router-dom"
 import { valueOrZero } from "@/utils"
 import _ from "lodash"
+import {SelectTimeRange} from "@/modules/loan-application-management/components/atoms/SelectTimeRange";
+import {Form, FormField, FormItem, FormMessage} from "@/components/ui/form";
+import {DatePickerWithRange} from "@/components/ui/date-picker-with-range";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {TimeRangeValue} from "@/types/time-range.type";
+import {getTimeRangeDates} from "@/utils/time-range.utils";
+import * as z from "zod";
+import {
+  useQueryLoanReadyGetCashFlowAnalysis
+} from "@/modules/loan-application/[module]-financial-projection/hooks/forecasting-results/useQueryLoanReadyGetCashFlowAnalysis";
+import {DateRange} from "react-day-picker";
+
+type FilterValues = z.infer<typeof FilterSchema>
+
+const FilterSchema = z.object({
+  timeRange: z.object({
+    selectedTimeRange: z.string().optional(),
+    from: z.date().optional(),
+    to: z.date().optional()
+  })
+})
 
 export function Component() {
   const { id: applicationId } = useParams()
 
-  const { data: cashFlow, isLoading } = useQueryCashFlowAtAGlance({
+  const [showDatePicker, setShowDatePicker] = useState(true)
+
+  const form = useForm<FilterValues>({
+    resolver: zodResolver(FilterSchema),
+    defaultValues: {
+      timeRange: {
+        selectedTimeRange: TimeRangeValue.LAST_12_MONTHS,
+        ...getTimeRangeDates(TimeRangeValue.LAST_12_MONTHS)
+      }
+    }
+  })
+
+  const { data: cashFlow, isLoading } = useQueryLoanReadyGetCashFlowAnalysis({
     applicationId: applicationId!,
+    from: form.watch("timeRange").from ?? new Date(),
+    to: form.watch("timeRange").to ?? new Date(),
     enabled: !!applicationId
   })
+
+  const customSelectTimeRangeOnChange = () => {
+    setShowDatePicker(
+      form.getValues("timeRange").selectedTimeRange !== TimeRangeValue.ALL_TIME
+    )
+    form.setValue(
+      "timeRange.selectedTimeRange",
+      form.getValues("timeRange").selectedTimeRange
+    )
+  }
+
+  const handleSetDate = (range?: DateRange) => {
+    form.setValue("timeRange", {
+      from: range?.from,
+      to: range?.to,
+      selectedTimeRange: TimeRangeValue.CUSTOM
+    })
+  }
 
   return (
     <div className="flex flex-col gap-y-6xl">
       <Section>
         <Title>Cash Flow at a Glance</Title>
+        <Form {...form}>
+          <form>
+            <div className="date-select-coupling group flex items-end">
+              <SelectTimeRange
+                showExtendedTimeRange
+                customOnChange={customSelectTimeRangeOnChange}
+                showLabel={false}
+              />
 
+              {showDatePicker ? (
+                <div className="flex flex-wrap items-center">
+                  <FormField
+                    control={form.control}
+                    name="timeRange"
+                    render={({ field: { value } }) => (
+                      <FormItem className="flex items-end gap-1 space-y-0">
+                        <DatePickerWithRange
+                          className="mt-0 w-full rounded-l-none"
+                          date={value}
+                          setDate={handleSetDate}
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              ) : null}
+            </div>
+          </form>
+        </Form>
         <Layout isLoading={isLoading}>
           <Grid>
             <CashFlowGlanceCard
