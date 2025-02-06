@@ -1,31 +1,91 @@
-import { Button } from "@/components/ui/button.tsx"
 import { DataTable } from "@/components/ui/data-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { type UserDetailInfo, UserRoles } from "@/types/user.type.ts"
 import {
   type PaginationState,
-  type RowSelectionState
+  type RowSelectionState,
+  type SortingState
 } from "@tanstack/react-table"
-import { Trash } from "lucide-react"
-import { useMemo, useState } from "react"
+import { type ChangeEvent, useCallback, useMemo, useState } from "react"
 import DialogDeleteUser from "../../components/DialogDeleteUser.tsx"
-import { useQueryListPaginateUser } from "../../hooks/useQuery/useQueryListPaginateUser"
+import {
+  useQueryListPaginateUser,
+  UserFilterSchema,
+  type UserFilterValues
+} from "../../hooks/useQuery/useQueryListPaginateUser"
 import { columns } from "./columns"
+import { UserTableHeader } from "@/modules/admin/user/table/loan-ready-v2/user-table-header.tsx"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { type Option, SortOrder } from "@/types/common.type.ts"
+import { FormFieldNames } from "@/modules/admin/user/table/loan-ready-v2/user-filter-search-bar.tsx"
+import { debounce } from "lodash"
 
 export function Component() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+
+  // Pagination state
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: REQUEST_LIMIT_PARAM
   })
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+
+  // Filter state
+  const filterForm = useForm<UserFilterValues>({
+    resolver: zodResolver(UserFilterSchema),
+    defaultValues: {
+      filter: {
+        roles: [UserRoles.APPLICANT],
+        statuses: [],
+        accountTypes: []
+      }
+    }
+  })
+
+  const getFilter = useCallback(() => {
+    const mapOnly = (options?: Option[]) => options?.map((item) => item.value)
+
+    return {
+      roles: [UserRoles.APPLICANT],
+      statuses: mapOnly(filterForm.watch(FormFieldNames.Statuses)),
+      accountTypes: mapOnly(filterForm.watch(FormFieldNames.Accounts))
+    }
+  }, [filterForm])
+
+  // Sort state
+  const [sorting, setSorting] = useState<SortingState>([])
+  const getSort = useCallback(() => {
+    if (!sorting.length) return undefined
+
+    return {
+      [sorting[0].id]: sorting[0].desc ? SortOrder.DESC : SortOrder.ASC
+    }
+  }, [sorting])
+
+  // Search state
+  const [searchField, setSearchField] = useState("")
+  const handleSearch = debounce(
+    (inputChangeEvent: ChangeEvent<HTMLInputElement>) => {
+      setSearchField(inputChangeEvent.target.value)
+      resetTableToFirstPage()
+    },
+    400
+  )
+
+  const resetTableToFirstPage = useCallback(() => {
+    setPagination((preState) => ({
+      ...preState,
+      pageIndex: 0
+    }))
+  }, [])
 
   const { data, isFetching } = useQueryListPaginateUser({
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize,
-    filter: {
-      roles: [UserRoles.APPLICANT.toLowerCase()]
-    }
+    filter: getFilter(),
+    sort: getSort(),
+    searchFieldByNameAndEmail: searchField
   })
 
   const selectedUser = useMemo(() => {
@@ -47,49 +107,34 @@ export function Component() {
   const userDetailInfos: UserDetailInfo[] = data?.data ?? []
   const getRowId = (row: UserDetailInfo) => row.id
 
+  const renderUserTableHeader = useMemo(
+    () => (
+      <UserTableHeader
+        filterForm={filterForm}
+        selectedUser={selectedUser}
+        totalUsers={data?.total ?? 0}
+        onDelete={() => setOpenDeleteDialog(true)}
+        onSearch={handleSearch}
+      />
+    ),
+    [data?.total, filterForm, handleSearch, selectedUser]
+  )
+
   return (
     <div className="mx-auto py-2">
       <DataTable
-        columns={columns.filter((column) => {
-          return column.accessorKey !== "institution"
-        })}
+        manualSorting
+        columns={columns}
         data={userDetailInfos}
         getRowId={getRowId}
-        headerSearch={() => (
-          <div className="bg-[#F9FAFB] px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-24">
-            <div>
-              <div className="flex flex-row items-center gap-2">
-                <h3 className="mb-1 text-lg font-semibold text-center">
-                  Users
-                </h3>
-
-                <div className="text-xs py-0.5 px-2 bg-[#F2F8F8] w-max text-center rounded-lg">
-                  {data?.total} users
-                </div>
-              </div>
-
-              <p className="text-sm text-muted-foreground">
-                Manage your platform users and their account permissions here.
-              </p>
-            </div>
-
-            <div className="flex">
-              {selectedUser.length > 0 && (
-                <Button
-                  variant="outline"
-                  onClick={() => setOpenDeleteDialog(true)}
-                >
-                  <Trash size={14} /> &nbsp; Delete
-                </Button>
-              )}
-            </div>
-          </div>
-        )}
+        headerSearch={() => renderUserTableHeader}
         isLoading={isFetching}
         pagination={pagination}
         rowSelection={rowSelection}
         setPagination={setPagination}
         setRowSelection={setRowSelection}
+        setSorting={setSorting}
+        sorting={sorting}
         tableCellClassName="bg-white"
         total={data?.total ?? 0}
       />

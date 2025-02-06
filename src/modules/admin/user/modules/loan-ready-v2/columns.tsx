@@ -5,9 +5,10 @@ import { UserDetailListAction } from "./user-detail-list-action"
 import { type UserDetailInfo, type UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
 import { renderFilterableHeader } from "@/utils/table.utils"
-import { type AccessorKeyColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table"
+import _ from "lodash"
 
-export const columns: AccessorKeyColumnDef<
+export const columns: ColumnDef<
   UserDetailInfo & { institutionName?: string }
 >[] = [
   {
@@ -42,10 +43,10 @@ export const columns: AccessorKeyColumnDef<
     }
   },
   {
-    accessorKey: "roles",
+    accessorKey: "role",
     header: renderFilterableHeader({ title: "Role" }),
     cell: ({ row }) => {
-      const roles: UserRoles[] = row.getValue("roles")
+      const roles: UserRoles[] = row.original.roles
       const displayedRoles = roles.map(nameByRole)
 
       return (
@@ -67,31 +68,19 @@ export const columns: AccessorKeyColumnDef<
     }
   },
   {
-    accessorKey: "authProvider",
-    header: renderFilterableHeader({ title: "Account Type" })
+    accessorKey: "accountType",
+    header: renderFilterableHeader({ title: "Account Type" }),
+    accessorFn: (row) => _.startCase(row.authProvider.toLowerCase())
   },
-
   {
     accessorKey: "status",
-    header: renderFilterableHeader({ title: "Status" })
-  },
-  {
-    accessorKey: "institution",
-    header: () => <p>Institution</p>,
-    size: 150,
-    cell: ({ row }) => {
-      return <div>{row.original.institutionName}</div>
-    }
+    header: renderFilterableHeader({ title: "Status" }),
+    accessorFn: (row) => _.startCase(row.status.toLowerCase())
   },
   {
     accessorKey: "lastActive",
-    header: () => <p>Last Active</p>,
-    size: 150,
-    cell: ({ row }) => {
-      const application = row.original
-
-      return <div>{convertToReadableDateAgo(application.loggedInAt)}</div>
-    }
+    header: renderFilterableHeader({ title: "Last Active" }),
+    accessorFn: (row) => _.upperFirst(convertToReadableDateAgo(row.loggedInAt))
   },
   {
     accessorKey: "edit",

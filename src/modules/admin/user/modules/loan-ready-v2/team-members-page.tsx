@@ -25,10 +25,7 @@ export function Component() {
     limit: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize,
     filter: {
-      roles: [
-        UserRoles.WORKSPACE_ADMIN.toLowerCase(),
-        UserRoles.REVIEWER.toLowerCase()
-      ]
+      roles: [UserRoles.WORKSPACE_ADMIN, UserRoles.REVIEWER]
     }
   })
 
@@ -56,9 +53,7 @@ export function Component() {
       {/* TODO: Implement get users (include invited team members) */}
 
       <DataTable
-        columns={columns.filter((column) => {
-          return column.accessorKey !== "institution"
-        })}
+        columns={columns}
         data={userDetailInfos}
         getRowId={getRowId}
         headerSearch={() => (
