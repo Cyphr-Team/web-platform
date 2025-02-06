@@ -72,3 +72,29 @@ export const camelize = (obj: Record<string, unknown>) =>
  */
 export const camelizeStringObject = (obj: string) =>
   camelize(JSON.parse(obj) as Record<string, unknown>) as object
+
+/**
+ * Converts bytes to megabytes (MB).
+ *
+ * @param {number} bytes - The size in bytes to be converted.
+ * @param {number} [decimalPlaces=2] - (Optional) The number of decimal places to round to.
+ * @returns {number} - The converted size in megabytes (MB), rounded to the specified decimal places.
+ *
+ * @throws {Error} If bytes or decimalPlaces are invalid (negative or non-numeric).
+ *
+ * @example
+ * convertBytesToMB(1048576); // Returns 1
+ * convertBytesToMB(1048576, 3); // Returns 1.000
+ */
+export const convertBytesToMB = (bytes: number, decimalPlaces = 2): number => {
+  if (typeof bytes !== "number" || bytes < 0) {
+    throw new Error("Bytes must be a non-negative number.")
+  }
+  if (typeof decimalPlaces !== "number" || decimalPlaces < 0) {
+    throw new Error("Decimal places must be a non-negative number.")
+  }
+
+  const MB = 1024 * 1024 // 1 MB = 1024 KB = 1024 * 1024 bytes
+
+  return parseFloat((bytes / MB).toFixed(decimalPlaces))
+}

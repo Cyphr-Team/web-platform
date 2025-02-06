@@ -16,6 +16,8 @@ import {
   AlertTriangle,
   CheckCircle,
   Download,
+  File,
+  Trash2,
   UploadCloud,
   XIcon
 } from "lucide-react"
@@ -36,6 +38,9 @@ import {
   DETAILS_PERMISSION_BY_ROLE,
   ROLES
 } from "../constants/permission.constants"
+import { convertBytesToMB } from "@/utils/converter.utils"
+import { APP_PATH } from "@/constants"
+import { ExpirationDays } from "@/types/expiration-day.type"
 
 const UPLOAD_STATUS = {
   UPLOADING: {
@@ -89,7 +94,7 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
   const csvFileInputRef = useRef<HTMLInputElement>(null)
   const [uploadStatus, setUploadStatus] = useState(UPLOAD_STATUS.UNKNOWN)
   const [preventCacheCount, setPreventCacheCount] = useState(0)
-  const { data } = useSendBulkCsvInvitation()
+  const { mutate: mutateSendCsv, data, isPending } = useSendBulkCsvInvitation()
   const [isOpenDialog, setIsOpenDialog] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -118,7 +123,7 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
   const downloadCsv = useCallback(() => {
     if (!data?.data) return
     // Prepare CSV
-    const headers: (keyof IMemberImport)[] = ["email", "role", "reason"]
+    const headers: (keyof IMemberImport)[] = ["email", "role"]
     const csvString = convertJsonArrayToCsv(data.data.detail, headers)
     // Prepare download
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-")
@@ -163,6 +168,23 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
     event.target.value = "" // Reset the input
   }
 
+  const handleSendInvitation = () => {
+    if (selectedFile) {
+      const baseUrl = `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`
+      const expirationDays = ExpirationDays.SEVEN_DAYS.toUpperCase()
+
+      setUploadStatus(UPLOAD_STATUS.UPLOADING)
+      mutateSendCsv(
+        { file: selectedFile, baseUrl, expirationDays },
+        {
+          onError: () => {
+            setUploadStatus(UPLOAD_STATUS.VALIDATION_FAILED)
+          }
+        }
+      )
+    }
+  }
+
   return (
     <Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
       <DialogTrigger asChild>
@@ -171,7 +193,7 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
         </strong>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="max-h-full overflow-y-auto sm:max-w-[700px] md:h-auto md:max-h-dvh">
         <DialogClose
           className="absolute top-0 right-0 p-6"
           onClick={() => setIsOpenDialog(false)}
@@ -179,7 +201,9 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
           <XIcon />
         </DialogClose>
         <DialogHeader className="flex flex-row items-center justify-between">
-          <DialogTitle className="font-bold">Invite team members</DialogTitle>
+          <DialogTitle className="font-bold text-xl">
+            Invite team members
+          </DialogTitle>
         </DialogHeader>
 
         {[
@@ -225,10 +249,6 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
             </div>
           </div>
         )}
-
-        <div className="text-sm">
-          <strong>Tip: </strong>Inviting more than 10 people at once?
-        </div>
 
         <ol className="list-inside space-y-2 text-base">
           <li className="mt-2 flex w-full flex-col justify-between md:flex-row md:items-center">
@@ -337,7 +357,7 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
                   </span>
                   <span> or drag and drop</span>
                   <p className="text-xs">
-                    (only CSV files are supported at this time)
+                    (only .csv files are supported at this time)
                   </p>
                 </div>
               </Card>
@@ -352,15 +372,24 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
 
               {selectedFile ? (
                 <div className="mt-4">
-                  <span className="font-semibold">Selected File: </span>
-                  <span>{selectedFile.name}</span>
-                  <Button
-                    className="ml-2"
-                    variant="outline"
-                    onClick={() => setSelectedFile(null)}
-                  >
-                    Remove File
-                  </Button>
+                  <div className="flex justify-between items-center border border-[#EAECF0] rounded-xl p-6">
+                    <div className="flex gap-2">
+                      <File size={20} />
+                      <div>
+                        <div className="text-sm"> {selectedFile.name}</div>
+                        <div className="text-sm">
+                          {convertBytesToMB(selectedFile.size, 4)} MB - 100%
+                          uploaded
+                        </div>
+                      </div>
+                    </div>
+                    <div onClick={() => setSelectedFile(null)}>
+                      <Trash2
+                        className="hover hover:cursor-pointer hover:opacity-80"
+                        size={20}
+                      />
+                    </div>
+                  </div>
                 </div>
               ) : null}
             </form>
@@ -375,7 +404,14 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
           >
             Cancel
           </Button>
-          <Button>Send</Button>
+          <ButtonLoading
+            disabled={!selectedFile}
+            isLoading={isPending}
+            type="button"
+            onClick={handleSendInvitation}
+          >
+            Send
+          </ButtonLoading>
         </DialogFooter>
       </DialogContent>
     </Dialog>
