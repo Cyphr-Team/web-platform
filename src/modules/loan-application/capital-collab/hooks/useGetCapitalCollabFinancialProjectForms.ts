@@ -1,4 +1,3 @@
-import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
 import { deserializeAssetsFormV2 } from "@/modules/loan-application/capital-collab/stores/assets-store"
 import { deserializeDebtFinancingFormV2 } from "@/modules/loan-application/capital-collab/stores/debt-financing-store"
 import { deserializeDirectCostsFormV2 } from "@/modules/loan-application/capital-collab/stores/direct-cost-store"
@@ -21,6 +20,7 @@ import { isCapitalCollab } from "@/utils/domain.utils"
 import { useCallback, useEffect } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { get } from "lodash"
+import { QUERY_KEY } from "@/modules/loan-application/capital-collab/constants/query-key"
 
 export const useGetCapitalCollabFinancialProjectForms = () => {
   /**
@@ -58,7 +58,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
   // Operating Expenses Form
   const operatingExpensesFormQuery = useQueryCommonForm({
     applicationId: loanApplicationId,
-    queryKey: QUERY_KEY.GET_FP_OPERATING_EXPENSES_FORM,
+    queryKey: QUERY_KEY.GET_CC_OPERATING_EXPENSES_FORM,
     formTypes: [FORM_TYPE.OPERATING_EXPENSES],
     enabled:
       isCapitalCollab() &&
@@ -79,7 +79,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
   // Direct Costs Form
   const directCostsFormQuery = useQueryCommonForm({
     applicationId: loanApplicationId,
-    queryKey: QUERY_KEY.GET_DIRECT_COSTS_FORM,
+    queryKey: QUERY_KEY.GET_CC_DIRECT_COSTS_FORM,
     formTypes: [FORM_TYPE.DIRECT_COSTS],
     enabled:
       isCapitalCollab() && isEnabledQuery(LOAN_APPLICATION_STEPS.DIRECT_COSTS)
@@ -99,7 +99,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
   // Assets Form (Current & Long-Term)
   const assetsFormQuery = useQueryCommonForm({
     applicationId: loanApplicationId,
-    queryKey: QUERY_KEY.GET_CURRENT_ASSETS_FORM,
+    queryKey: QUERY_KEY.GET_CC_CURRENT_ASSETS_FORM,
     formTypes: [FORM_TYPE.ASSETS],
     enabled: isCapitalCollab() && isEnabledQuery(LOAN_APPLICATION_STEPS.ASSETS)
   })
@@ -116,7 +116,7 @@ export const useGetCapitalCollabFinancialProjectForms = () => {
   // Debt Financing
   const debtFinancingFormQuery = useQueryCommonForm({
     applicationId: loanApplicationId,
-    queryKey: QUERY_KEY.GET_FP_DEBT_FINANCING_FORM,
+    queryKey: QUERY_KEY.GET_CC_DEBT_FINANCING_FORM,
     formTypes: [FORM_TYPE.DEBT_FINANCING],
     enabled:
       isCapitalCollab() && isEnabledQuery(LOAN_APPLICATION_STEPS.DEBT_FINANCING)

@@ -20,7 +20,7 @@ import {
 } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 import { useLoanApplicationProgressContext } from "@/modules/loan-application/providers"
 import { useMutateCommonForm } from "@/modules/loan-application/hooks/form-common/useSubmitCommonFormV2"
-import { QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key"
+import { QUERY_KEY } from "@/modules/loan-application/capital-collab/constants/query-key"
 
 interface FormData {
   fpOperatingExpensesData: CapitalCollabOperatingExpensesFormValue
@@ -38,25 +38,25 @@ export const useSubmitCapitalCollabFinancialProjectionForms = ({
   const { getStepStatus } = useLoanApplicationProgressContext()
   const operatingExpensesSubmission = useMutateCommonForm({
     applicationId: fpOperatingExpensesData?.applicationId ?? "",
-    queryKeyToInvalidates: QUERY_KEY.GET_FP_OPERATING_EXPENSES_FORM,
+    queryKeyToInvalidates: QUERY_KEY.GET_CC_OPERATING_EXPENSES_FORM,
     formId: fpOperatingExpensesData?.id ?? "",
     metadata: serializeOperatingExpensesFormV2(fpOperatingExpensesData)
   })
   const directCostsSubmission = useMutateCommonForm({
     applicationId: directCostsData?.applicationId ?? "",
-    queryKeyToInvalidates: QUERY_KEY.GET_DIRECT_COSTS_FORM,
+    queryKeyToInvalidates: QUERY_KEY.GET_CC_DIRECT_COSTS_FORM,
     formId: directCostsData?.id ?? "",
     metadata: serializeDirectCostsFormV2(directCostsData)
   })
   const assetsSubmission = useMutateCommonForm({
     applicationId: assetsData?.applicationId ?? "",
-    queryKeyToInvalidates: QUERY_KEY.GET_CURRENT_ASSETS_FORM,
+    queryKeyToInvalidates: QUERY_KEY.GET_CC_CURRENT_ASSETS_FORM,
     formId: assetsData?.id ?? "",
     metadata: serializeAssetsFormV2(assetsData)
   })
   const debtFinancingSubmission = useMutateCommonForm({
     applicationId: debtFinancingData?.applicationId ?? "",
-    queryKeyToInvalidates: QUERY_KEY.GET_FP_DEBT_FINANCING_FORM,
+    queryKeyToInvalidates: QUERY_KEY.GET_CC_DEBT_FINANCING_FORM,
     formId: debtFinancingData?.id ?? "",
     metadata: serializeDebtFinancingFormV2(debtFinancingData)
   })
