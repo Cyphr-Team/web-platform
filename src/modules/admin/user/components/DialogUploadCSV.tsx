@@ -34,13 +34,11 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog"
-import {
-  DETAILS_PERMISSION_BY_ROLE,
-  ROLES
-} from "../constants/permission.constants"
+import { DETAILS_PERMISSION_BY_ROLE } from "../constants/permission.constants"
 import { convertBytesToMB } from "@/utils/converter.utils"
 import { APP_PATH } from "@/constants"
 import { ExpirationDays } from "@/types/expiration-day.type"
+import { UserRoles } from "@/types/user.type"
 
 const UPLOAD_STATUS = {
   UPLOADING: {
@@ -305,20 +303,28 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
                     <AccordionContent>
                       <ul className="list-inside space-y-1">
                         <li className="-mt-1 ml-4 font-light">
-                          <span className="font-medium">{ROLES.ADMIN}: </span>
-                          {DETAILS_PERMISSION_BY_ROLE[ROLES.ADMIN]}
+                          <span className="font-medium">
+                            {UserRoles.WORKSPACE_ADMIN}:{" "}
+                          </span>
+                          {
+                            DETAILS_PERMISSION_BY_ROLE[
+                              UserRoles.WORKSPACE_ADMIN
+                            ]
+                          }
                         </li>
 
                         <li className="ml-4 font-light">
                           <span className="font-medium">
-                            {ROLES.REVIEWER}:{" "}
+                            {UserRoles.REVIEWER}:{" "}
                           </span>
-                          {DETAILS_PERMISSION_BY_ROLE[ROLES.REVIEWER]}
+                          {DETAILS_PERMISSION_BY_ROLE[UserRoles.REVIEWER]}
                         </li>
 
                         <li className="ml-4 font-light">
-                          <span className="font-medium">{ROLES.VIEWER}: </span>
-                          {DETAILS_PERMISSION_BY_ROLE[ROLES.VIEWER]}
+                          <span className="font-medium">
+                            {UserRoles.VIEWER}:{" "}
+                          </span>
+                          {DETAILS_PERMISSION_BY_ROLE[UserRoles.VIEWER]}
                         </li>
                       </ul>
                     </AccordionContent>

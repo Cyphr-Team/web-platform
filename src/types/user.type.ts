@@ -18,6 +18,11 @@ enum UserRoles {
   REVIEWER = "REVIEWER",
 
   /**
+   * The viewer who has read-only access to view applications without making changes.
+   */
+  VIEWER = "VIEWER",
+
+  /**
    * The institution administrator with administrative control over organizational settings and
    * user management within the specific financial institution.
    */
@@ -70,6 +75,14 @@ const judgeRole = () => {
   return UserRoles.JUDGE
 }
 
+const viewerRole = () => {
+  return UserRoles.VIEWER
+}
+
+const viewerRoles = () => {
+  return [UserRoles.VIEWER]
+}
+
 export {
   judgeRoles,
   judgeRole,
@@ -80,7 +93,9 @@ export {
   workspaceAdminRole,
   workspaceAdminRoles,
   platformAdminRoles,
-  platformAdminRole
+  platformAdminRole,
+  viewerRole,
+  viewerRoles
 }
 
 enum UserStatus {

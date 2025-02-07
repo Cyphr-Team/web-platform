@@ -5,6 +5,7 @@ import {
   judgeRoles,
   platformAdminRoles,
   reviewerRoles,
+  viewerRoles,
   workspaceAdminRoles
 } from "@/types/user.type"
 import {
@@ -62,7 +63,10 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX,
     icon: Icons.folderCheck,
     label: isLoanReady() ? "Assessments" : "Applications",
-    roles: reviewerRoles().concat(workspaceAdminRoles()).concat(judgeRoles()),
+    roles: reviewerRoles()
+      .concat(workspaceAdminRoles())
+      .concat(judgeRoles())
+      .concat(viewerRoles()),
     featureKey: FeatureKey.FEATURE_FLAG
   },
   // Hide because havent implemented yet

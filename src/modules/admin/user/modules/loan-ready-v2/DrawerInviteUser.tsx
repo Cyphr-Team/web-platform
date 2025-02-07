@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button, ButtonLoading } from "@/components/ui/button"
 import {
   Drawer,
   DrawerClose,
@@ -6,7 +6,6 @@ import {
   DrawerHeader,
   DrawerTitle
 } from "@/components/ui/drawer"
-import { Form } from "@/components/ui/form"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusIcon, XIcon } from "lucide-react"
@@ -15,30 +14,58 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { DialogUploadCSV } from "../../components/DialogUploadCSV"
 import useClickOutside from "../../hooks/useClickOutSide"
-import COLORS from "@/styles/colors"
-import {
-  DETAILS_PERMISSION_BY_ROLE,
-  ROLES
-} from "../../constants/permission.constants"
+import { useSendBulkInvitation } from "@/modules/admin/user/hooks/useSendInvitation"
+import { APP_PATH } from "@/constants"
+import { type UserRoles } from "@/types/user.type"
+import InvitationInput from "@/modules/admin/user/components/molecules/LoanReadyInvitationInput"
+import { RHFProvider } from "@/modules/form-template/providers"
 
-const formSchema = z.object({
-  email: z.string().email("Please enter a valid email address."),
-  role: z.enum(["admin", "reviewer", "viewer"])
+export const loanReadyInvitationFormSchema = z.object({
+  emails: z
+    .array(z.string().email("Please enter a valid email address."))
+    .nonempty("Email is required."),
+  role: z
+    .string()
+    .min(1, "Role is required.")
+    .transform((role) => role.toLocaleLowerCase())
 })
+
+export type LoanReadyInvitationFormValue = z.infer<
+  typeof loanReadyInvitationFormSchema
+>
+
+interface InvitationInfo {
+  email: string
+  role: UserRoles
+}
+
+type InvitationNonEmptyList = [InvitationInfo, ...InvitationInfo[]]
 
 const DrawerInviteUser = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false)
   const drawerRef = useRef<HTMLDivElement>(null)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<LoanReadyInvitationFormValue>({
+    resolver: zodResolver(loanReadyInvitationFormSchema),
     mode: "onChange"
   })
 
-  const handleConfirm = () => {
-    //upcomming
-    return
-  }
+  const { mutate: mutateSendInputList, isPending: isPendingInputList } =
+    useSendBulkInvitation()
+
+  const formSubmit = form.handleSubmit((data) => {
+    const baseUrl = `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`
+    const expirationDays = "SEVEN_DAYS"
+
+    if (!data.emails.length) return
+
+    const invitations = data.emails.map((email) => ({
+      role: data.role,
+      email
+    })) as InvitationNonEmptyList
+
+    mutateSendInputList({ invitations, baseUrl, expirationDays })
+  })
 
   useClickOutside(drawerRef, () => {
     setIsOpenDrawer(false)
@@ -63,121 +90,53 @@ const DrawerInviteUser = () => {
               "transition-transform duration-300 ease-in-out"
             )}
           >
-            <Form {...form}>
-              <form>
-                <DrawerHeader className="p-2 flex justify-between items-center">
-                  <DrawerTitle>Invite team members</DrawerTitle>
+            <RHFProvider methods={form} onSubmit={formSubmit}>
+              <DrawerHeader className="p-2 flex justify-between items-center">
+                <DrawerTitle>Invite team members</DrawerTitle>
 
-                  <DrawerClose onClick={() => setIsOpenDrawer(false)}>
-                    <XIcon className="h-6 w-6" />
-                  </DrawerClose>
-                </DrawerHeader>
+                <DrawerClose onClick={() => setIsOpenDrawer(false)}>
+                  <XIcon className="h-6 w-6" />
+                </DrawerClose>
+              </DrawerHeader>
 
-                <div className="p-2 overflow-y-auto">
-                  <p className="text-sm">
-                    Invite team members and assign roles to manage access.
-                  </p>
+              <div className="p-2 overflow-y-auto">
+                <p className="py-2 text-sm">
+                  Invite team members and assign roles to manage access.
+                </p>
 
-                  <p className="mt-2 text-sm border py-4 px-3 border-separate border-dashed">
-                    <strong>Tip:</strong> Inviting more than 10 people at once?{" "}
-                    <DialogUploadCSV
-                      onFileSelect={() => {
-                        return
-                      }}
-                    />
-                  </p>
+                <p className="mt-2 text-sm border py-4 px-3 border-separate border-dashed rounded-xl">
+                  <strong>Tip:</strong>{" "}
+                  <span className="text-[#475467]">
+                    Inviting more than 10 people at once?
+                  </span>
+                  <DialogUploadCSV
+                    onFileSelect={() => {
+                      return
+                    }}
+                  />
+                </p>
 
-                  <div className="mt-6">
-                    <p className="font-medium text-sm">Choose a role</p>
+                <InvitationInput />
+              </div>
 
-                    <p className="text-sm leading-5 mt-2">
-                      The role you choose will be applied to everyone added
-                      below.
-                    </p>
+              <DrawerFooter className="absolute right-4 bottom-0 flex flex-row justify-end">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsOpenDrawer(false)}
+                >
+                  Cancel
+                </Button>
 
-                    <div className="mt-2 space-y-2">
-                      <label className="inline-flex items-center space-x-2 text-sm">
-                        <input
-                          className={`accent-[${COLORS.ADMIN_LOANREADY_INPUT_RADIO}]`}
-                          type="radio"
-                          {...form.register("role")}
-                        />
-                        <span className="font-medium text-sm">
-                          {ROLES.ADMIN}
-                        </span>
-                      </label>
-
-                      <p className="text-xs text-gray-500 ml-6">
-                        {DETAILS_PERMISSION_BY_ROLE[ROLES.ADMIN]}
-                      </p>
-
-                      <label className="inline-flex items-center space-x-2 text-sm">
-                        <input
-                          className={`accent-[${COLORS.ADMIN_LOANREADY_INPUT_RADIO}]`}
-                          type="radio"
-                          {...form.register("role")}
-                        />
-                        <span className="font-medium text-sm">
-                          {ROLES.REVIEWER}
-                        </span>
-                      </label>
-
-                      <p className="text-xs text-gray-500 ml-6">
-                        {DETAILS_PERMISSION_BY_ROLE[ROLES.REVIEWER]}
-                      </p>
-
-                      <label className="inline-flex items-center space-x-2 text-sm">
-                        <input
-                          className={`accent-[${COLORS.ADMIN_LOANREADY_INPUT_RADIO}]`}
-                          type="radio"
-                          {...form.register("role")}
-                        />
-                        <span className="font-medium text-sm">
-                          {ROLES.VIEWER}
-                        </span>
-                      </label>
-
-                      <p className="text-xs text-gray-500 ml-6">
-                        {DETAILS_PERMISSION_BY_ROLE[ROLES.VIEWER]}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-6">
-                    <p className="font-medium text-sm">Invite team members</p>
-
-                    <input
-                      className="mt-2 w-full border rounded px-3 py-2 text-sm"
-                      placeholder="firstlast@gmail.com"
-                      type="email"
-                      {...form.register("email")}
-                    />
-
-                    <p className="mt-1 text-xs text-gray-500">
-                      Tip: Invite up to 10 people at once with shared profile
-                      setting.
-                    </p>
-                  </div>
-                </div>
-
-                <DrawerFooter className="absolute right-0 bottom-0 flex flex-row justify-end">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setIsOpenDrawer(false)}
-                  >
-                    Cancel
-                  </Button>
-
-                  <Button
-                    type="submit"
-                    onClick={form.handleSubmit(handleConfirm)}
-                  >
-                    Send invite
-                  </Button>
-                </DrawerFooter>
-              </form>
-            </Form>
+                <ButtonLoading
+                  disabled={!form.formState.isValid}
+                  isLoading={isPendingInputList}
+                  type="submit"
+                >
+                  Send invite
+                </ButtonLoading>
+              </DrawerFooter>
+            </RHFProvider>
           </div>
         </Drawer>
       </div>
