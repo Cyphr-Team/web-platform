@@ -28,6 +28,10 @@ export const TOAST_MSG = {
       title: "Reactivate user",
       description: "User is reactivated successfully"
     },
+    deleteUsers: {
+      title: "Delete users",
+      description: "Users are deleted successfully"
+    },
     uploadDocument: {
       title: "Upload document",
       description: "Document is uploaded successfully"

@@ -30,20 +30,8 @@ export function Component() {
   })
 
   const selectedUser = useMemo(() => {
-    const ids = Object.keys(rowSelection).filter((key) => {
-      const isSelected = rowSelection[key]
-      const document = data?.data.find((doc) => doc.id === key)
-
-      return isSelected && document
-    })
-
-    return ids
+    return data?.data.filter((user) => rowSelection[user.id]) ?? []
   }, [data, rowSelection])
-
-  const handleDelete = () => {
-    // upcoming
-    // setOpenDeleteDialog(false)
-  }
 
   const userDetailInfos: UserDetailInfo[] = data?.data ?? []
   const getRowId = (row: UserDetailInfo) => row.id
@@ -101,7 +89,6 @@ export function Component() {
         listUser={selectedUser}
         open={openDeleteDialog}
         setOpen={setOpenDeleteDialog}
-        onDelete={handleDelete}
       />
     </div>
   )

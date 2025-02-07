@@ -272,7 +272,8 @@ export const API_PATH = {
       deactivate: (userId: string) =>
         `${API_PATH.admin.user.all}/user/${userId}/deactivate`,
       reactivate: (userId: string) =>
-        `${API_PATH.admin.user.all}/user/${userId}/reactivate`
+        `${API_PATH.admin.user.all}/user/${userId}/reactivate`,
+      deleteUsersByUserIds: "api/admin/user/delete-by-ids"
     },
     invitation: {
       all: "api/admin/invitation",

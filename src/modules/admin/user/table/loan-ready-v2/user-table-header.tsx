@@ -8,7 +8,7 @@ import { type ChangeEvent } from "react"
 
 interface UserTableHeaderProps {
   totalUsers: number
-  selectedUser: string[]
+  totalSelectedUsers: number
   onDelete: () => void
   onSearch: (e: ChangeEvent<HTMLInputElement>) => void
   filterForm: UseFormReturn<UserFilterValues>
@@ -16,7 +16,7 @@ interface UserTableHeaderProps {
 
 export function UserTableHeader({
   totalUsers,
-  selectedUser,
+  totalSelectedUsers,
   onDelete,
   onSearch,
   filterForm
@@ -36,7 +36,7 @@ export function UserTableHeader({
           </p>
         </div>
         <div className="flex">
-          {selectedUser.length > 0 && (
+          {totalSelectedUsers > 0 && (
             <Button variant="outline" onClick={onDelete}>
               <Trash size={14} /> &nbsp; Delete
             </Button>

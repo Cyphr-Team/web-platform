@@ -90,7 +90,7 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       return (
         <div className="flex items-center text-right">
-          <UserDetailListAction roles={row.original.roles} />
+          <UserDetailListAction userInfo={row.original} />
         </div>
       )
     }

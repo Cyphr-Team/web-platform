@@ -1,17 +1,19 @@
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
+import { useDeleteUser } from "@/modules/admin/user/hooks/useDeleteUser.tsx"
+import { type UserDetailInfo } from "@/types/user.type.ts"
 
 interface DialogDeleteUserProps {
-  listUser: string[]
-  onDelete: (listUser: string[]) => void
+  listUser: UserDetailInfo[]
   open: boolean
   setOpen: (open: boolean) => void
 }
 
-function DialogDeleteUser(props: DialogDeleteUserProps) {
-  const { listUser, onDelete, open, setOpen } = props
+function DialogDeleteUser({ listUser, open, setOpen }: DialogDeleteUserProps) {
+  const { mutateAsync } = useDeleteUser()
 
   const handleDelete = () => {
-    onDelete(listUser)
+    mutateAsync({ userIds: listUser.map((user) => user.id) })
+    setOpen(false)
   }
 
   const getDescriptionQuantity = () => {
@@ -24,10 +26,10 @@ function DialogDeleteUser(props: DialogDeleteUserProps) {
 
   const getTitleQuantity = () => {
     if (listUser.length === 1) {
-      return `Delete ${listUser.length} team member`
+      return `Delete ${listUser[0].name}`
     }
 
-    return `These ${listUser.length} team members`
+    return `Delete ${listUser.length} team members`
   }
 
   return (
