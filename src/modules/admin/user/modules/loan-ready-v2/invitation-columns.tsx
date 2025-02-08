@@ -1,30 +1,37 @@
 import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { UserDetailListAction } from "./user-detail-list-action"
 import { type UserDetailInfo, type UserRoles } from "@/types/user.type"
 import { convertToReadableDateAgo } from "@/utils"
 import { renderFilterableHeader } from "@/utils/table.utils"
 import { type ColumnDef } from "@tanstack/react-table"
+import { type Invitation } from "@/types/invitation.type"
+import { InvitationListAction } from "./invitation-list-action"
+import { Checkbox } from "@/components/ui/checkbox"
+import _ from "lodash"
 import {
   getBadgeVariantByRole,
   getRoleDisplayName
 } from "@/modules/loanready/services"
-import _ from "lodash"
+import { UserDetailListAction } from "./user-detail-list-action"
 
-export const columns: ColumnDef<UserDetailInfo>[] = [
+export const columns: ColumnDef<
+  UserDetailInfo & {
+    invitation?: Invitation
+  }
+>[] = [
   {
     accessorKey: "select",
     id: "select",
     header: () => null,
-    cell: ({ row }) => (
-      <div className="grid place-items-center">
-        <Checkbox
-          aria-label="Select row"
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-        />
-      </div>
-    ),
+    cell: ({ row }) =>
+      row.original.invitation ? null : (
+        <div className="grid place-items-center">
+          <Checkbox
+            aria-label="Select row"
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+          />
+        </div>
+      ),
     enableSorting: false,
     enableHiding: false,
     size: 50
@@ -44,7 +51,7 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
     }
   },
   {
-    accessorKey: "role",
+    accessorKey: "roles",
     header: renderFilterableHeader({ title: "Role" }),
     cell: ({ row }) => {
       const roles: UserRoles[] = row.original.roles
@@ -78,19 +85,20 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
   {
     accessorKey: "lastActive",
     header: renderFilterableHeader({ title: "Last Active" }),
-    accessorFn: (row) => _.upperFirst(convertToReadableDateAgo(row.loggedInAt))
+    accessorFn: (row) =>
+      row.invitation
+        ? "---"
+        : _.upperFirst(convertToReadableDateAgo(row.loggedInAt))
   },
   {
     accessorKey: "edit",
     header: () => <p className="p-2">Action</p>,
     size: 150,
-
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center text-right">
-          <UserDetailListAction userInfo={row.original} />
-        </div>
+    cell: ({ row }) =>
+      row.original.invitation ? (
+        <InvitationListAction invitation={row.original.invitation} />
+      ) : (
+        <UserDetailListAction userInfo={row.original} />
       )
-    }
   }
 ]

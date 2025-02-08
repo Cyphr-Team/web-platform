@@ -51,7 +51,11 @@ const badgeTenantStyles = {
     paid: "bg-[#E7FEF0]",
     requestedRefund: "bg-[#FFEEDD]",
     refunded: "bg-[#FFF7E1]",
-    denied: "bg-[#FFEDEC]"
+    denied: "bg-[#FFEDEC]",
+    reviewer: "bg-[#EEFFC0]",
+    viewer: "bg-[#DFFF86]",
+    admin: "bg-[#C0D8D8]",
+    applicant: "bg-[#E9F5F5]"
   }
 }
 

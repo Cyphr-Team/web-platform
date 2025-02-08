@@ -1,88 +1,161 @@
-import { Button } from "@/components/ui/button.tsx"
 import { DataTable } from "@/components/ui/data-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
-import { type UserDetailInfo, UserRoles } from "@/types/user.type.ts"
+import {
+  type UserDetailInfo,
+  UserRoles,
+  type UserStatus
+} from "@/types/user.type.ts"
 import {
   type PaginationState,
   type RowSelectionState
 } from "@tanstack/react-table"
-import { Trash } from "lucide-react"
 import { useMemo, useState } from "react"
 import DialogDeleteUser from "../../components/DialogDeleteUser.tsx"
-import { useQueryListPaginateUser } from "../../hooks/useQuery/useQueryListPaginateUser"
-import { columns } from "./columns"
-import DrawerInviteUser from "./DrawerInviteUser.tsx"
+import {
+  useQueryListPaginateUser,
+  UserFilterSchema,
+  type UserFilterValues
+} from "../../hooks/useQuery/useQueryListPaginateUser"
+import { columns } from "./invitation-columns"
+import { useQueryListPaginateInvitation } from "../../hooks/useQuery/useQueryListPaginateInvitation.ts"
+import { type Invitation } from "@/types/invitation.type.ts"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { UserTableHeader } from "@/modules/admin/user/table/loan-ready-v2/user-table-header.tsx"
 
-export function Component() {
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: REQUEST_LIMIT_PARAM
-  })
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-
+const usePrefetchUsers = () => {
   const { data, isFetching } = useQueryListPaginateUser({
-    limit: pagination.pageSize,
-    offset: pagination.pageIndex * pagination.pageSize,
+    limit: REQUEST_LIMIT_PARAM,
+    offset: 0,
     filter: {
       roles: [UserRoles.WORKSPACE_ADMIN, UserRoles.REVIEWER]
     }
   })
 
-  const selectedUser = useMemo(() => {
-    return data?.data.filter((user) => rowSelection[user.id]) ?? []
-  }, [data, rowSelection])
+  return { total: data?.total ?? 0, isFetching }
+}
 
-  const userDetailInfos: UserDetailInfo[] = data?.data ?? []
+export function Component() {
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: REQUEST_LIMIT_PARAM
+  })
+
+  // Filter state
+  const filterForm = useForm<UserFilterValues>({
+    resolver: zodResolver(UserFilterSchema),
+    defaultValues: {
+      filter: {
+        roles: [UserRoles.APPLICANT],
+        statuses: [],
+        accountTypes: []
+      }
+    }
+  })
+
+  const { total } = usePrefetchUsers()
+
+  const { data: invitations, isFetching: isFetchingInvitations } =
+    useQueryListPaginateInvitation({
+      limit: pagination.pageSize,
+      offset: pagination.pageIndex * pagination.pageSize
+    })
+
+  // BEGIN mock combine data
+  const isEnoughData = isFetchingInvitations
+    ? true
+    : pagination.pageIndex * pagination.pageSize +
+        (invitations?.data?.length ?? 0) <
+      (invitations?.total ?? 0)
+  const userLimit = Math.min(
+    (pagination.pageIndex + 1) * pagination.pageSize -
+      (invitations?.total ?? 0),
+    REQUEST_LIMIT_PARAM
+  )
+  const userOffset = Math.max(
+    0,
+    pagination.pageIndex * pagination.pageSize - (invitations?.total ?? 0)
+  )
+
+  const { data: users } = useQueryListPaginateUser({
+    limit: userLimit,
+    offset: userOffset,
+    filter: {
+      roles: [UserRoles.WORKSPACE_ADMIN, UserRoles.REVIEWER]
+    },
+    enabled: !isEnoughData
+  })
+
+  const selectedUser = useMemo(() => {
+    return users?.data.filter((user) => rowSelection[user.id]) ?? []
+  }, [users, rowSelection])
+
+  const combinedData: (UserDetailInfo & {
+    invitation?: Invitation
+  })[] = useMemo(() => {
+    const invitationData = invitations?.data ?? []
+    const userData = users?.data ?? []
+    const data: UserDetailInfo[] = [
+      ...invitationData.map((invitation) => ({
+        ...invitation,
+        name: "",
+        email: invitation.recipientEmail,
+        authProvider: "---",
+        loggedInAt: "---",
+        avatar: "",
+        authId: "",
+        createdAt: invitation.sentAt,
+        status: invitation.status as UserStatus,
+        invitation
+      }))
+    ]
+
+    if (isEnoughData) {
+      return data
+    }
+
+    data.push(...userData)
+
+    return data
+  }, [invitations?.data, users?.data, isEnoughData])
+
+  const combineTotal = (total ?? 0) + (invitations?.total ?? 0)
+  // END mock combine data
+
+  const handleSearch = () => {
+    // TODO: Implement search after fixing the combine data logic
+  }
+
   const getRowId = (row: UserDetailInfo) => row.id
 
   return (
     <div className="mx-auto py-2">
-      {/* TODO: Implement get users (include invited team members) */}
-
       <DataTable
         columns={columns}
-        data={userDetailInfos}
+        data={combinedData}
         getRowId={getRowId}
-        headerSearch={() => (
-          <div className="bg-[#F9FAFB] px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-24">
-            <div>
-              <div className="flex flex-row items-center gap-2">
-                <h3 className="mb-1 text-lg font-semibold text-center">
-                  Team Members
-                </h3>
-
-                <div className="text-xs py-0.5 px-2 bg-[#F2F8F8] w-max text-center rounded-lg">
-                  {data?.total} users
-                </div>
-              </div>
-
-              <p className="text-sm text-muted-foreground">
-                Manage your team members and their account permissions here.
-              </p>
-            </div>
-
-            <div className="flex">
-              {selectedUser.length > 0 && (
-                <Button
-                  variant="outline"
-                  onClick={() => setOpenDeleteDialog(true)}
-                >
-                  <Trash size={14} /> &nbsp; Delete
-                </Button>
-              )}
-
-              <DrawerInviteUser />
-            </div>
-          </div>
-        )}
-        isLoading={isFetching}
+        headerSearch={() =>
+          UserTableHeader({
+            description:
+              "Manage your team members and their account permissions here.",
+            filterForm: filterForm,
+            title: "Team Members",
+            totalUsers: combineTotal,
+            totalSelectedUsers: selectedUser.length,
+            onDelete: () => setOpenDeleteDialog(true),
+            onSearch: handleSearch,
+            allowInvite: true
+          })
+        }
+        isLoading={isFetchingInvitations}
         pagination={pagination}
         rowSelection={rowSelection}
         setPagination={setPagination}
         setRowSelection={setRowSelection}
         tableCellClassName="bg-white"
-        total={data?.total ?? 0}
+        total={combineTotal}
       />
 
       <DialogDeleteUser

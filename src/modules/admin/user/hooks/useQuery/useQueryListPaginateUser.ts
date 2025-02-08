@@ -47,13 +47,17 @@ export interface FilterParams {
   searchFieldByNameAndEmail?: string
 }
 
-type Params = PaginateParams & Partial<FilterParams>
+type Params = PaginateParams &
+  Partial<FilterParams> & {
+    enabled?: boolean
+  }
 
 export const useQueryListPaginateUser = ({
   limit,
   offset,
   institutionIds,
   filter,
+  enabled = true,
   sort,
   searchFieldByNameAndEmail
 }: Params) => {
@@ -83,6 +87,7 @@ export const useQueryListPaginateUser = ({
 
       return response.data
     },
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
+    enabled
   })
 }

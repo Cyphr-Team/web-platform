@@ -1,3 +1,5 @@
+import { type UserRoles } from "./user.type"
+
 interface Invitation {
   id: string
   institutionId: string
@@ -5,6 +7,7 @@ interface Invitation {
   senderName: string
   senderEmail: string
   recipientEmail: string
+  roles: UserRoles[]
   status: string
   expirationDays: number
   sentAt: string

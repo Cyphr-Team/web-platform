@@ -98,7 +98,9 @@ export function Component() {
   const renderUserTableHeader = useMemo(
     () => (
       <UserTableHeader
+        description="Manage your platform users and their account permissions here."
         filterForm={filterForm}
+        title="Users"
         totalSelectedUsers={selectedUser.length}
         totalUsers={data?.total ?? 0}
         onDelete={() => setOpenDeleteDialog(true)}

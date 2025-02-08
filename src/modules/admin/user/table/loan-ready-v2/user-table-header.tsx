@@ -5,6 +5,7 @@ import { type UseFormReturn } from "react-hook-form"
 import { FilterSearchUsers } from "@/modules/admin/user/table/loan-ready-v2/user-filter-search-bar.tsx"
 import { type UserFilterValues } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateUser.ts"
 import { type ChangeEvent } from "react"
+import DrawerInviteUser from "../../modules/loan-ready-v2/DrawerInviteUser"
 
 interface UserTableHeaderProps {
   totalUsers: number
@@ -12,6 +13,9 @@ interface UserTableHeaderProps {
   onDelete: () => void
   onSearch: (e: ChangeEvent<HTMLInputElement>) => void
   filterForm: UseFormReturn<UserFilterValues>
+  title: string
+  description: string
+  allowInvite?: boolean
 }
 
 export function UserTableHeader({
@@ -19,21 +23,22 @@ export function UserTableHeader({
   totalSelectedUsers,
   onDelete,
   onSearch,
-  filterForm
+  filterForm,
+  title,
+  description,
+  allowInvite = false
 }: UserTableHeaderProps) {
   return (
-    <div className="bg-[#F9FAFB] sticky left-0">
+    <div className="bg-[#F9FAFB] sticky left-0 z-20">
       <div className=" px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-24">
         <div>
           <div className="flex flex-row items-center gap-2">
-            <h3 className="mb-1 text-lg font-semibold text-center">Users</h3>
+            <h3 className="mb-1 text-lg font-semibold text-center">{title}</h3>
             <div className="text-xs py-0.5 px-2 bg-[#F2F8F8] w-max text-center rounded-lg">
               {totalUsers} users
             </div>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Manage your platform users and their account permissions here.
-          </p>
+          <p className="text-sm text-muted-foreground">{description}</p>
         </div>
         <div className="flex">
           {totalSelectedUsers > 0 && (
@@ -41,6 +46,7 @@ export function UserTableHeader({
               <Trash size={14} /> &nbsp; Delete
             </Button>
           )}
+          {allowInvite ? <DrawerInviteUser /> : null}
         </div>
       </div>
       <div className="pb-2 flex w-full flex-wrap items-center px-4">
