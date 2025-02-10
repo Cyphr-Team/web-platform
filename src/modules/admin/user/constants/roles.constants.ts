@@ -4,6 +4,7 @@ import {
   platformAdminRole,
   reviewerRole,
   type UserRoles,
+  viewerRole,
   workspaceAdminRole
 } from "@/types/user.type.ts"
 
@@ -32,6 +33,11 @@ const applicantRoleOption = {
   value: applicantRole()
 }
 
+const viewerRoleOption = {
+  label: "Viewer",
+  value: viewerRole()
+}
+
 const nameByRole = (role: UserRoles) => {
   switch (role.toUpperCase()) {
     case applicantRole():
@@ -44,6 +50,8 @@ const nameByRole = (role: UserRoles) => {
       return workspaceAdminRoleOption.label
     case platformAdminRole():
       return platformAdminRoleOption.label
+    case viewerRole():
+      return viewerRoleOption.label
     default:
       return "Unknown"
   }
