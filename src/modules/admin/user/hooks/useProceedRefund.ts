@@ -1,5 +1,8 @@
 import { API_PATH } from "@/constants"
-import { loanReadyTransactionKeys } from "@/constants/query-key"
+import {
+  loanReadyTransactionKeys,
+  workspaceAdminLoanReadyAssessmentKeys
+} from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { postRequest } from "@/services/client.service"
 import { type ErrorResponse } from "@/types/common.type"
@@ -46,6 +49,9 @@ export function useProceedRefund() {
       })
       queryClient.invalidateQueries({
         queryKey: loanReadyTransactionKeys.lists()
+      })
+      queryClient.invalidateQueries({
+        queryKey: workspaceAdminLoanReadyAssessmentKeys.lists()
       })
     },
     onError: (error) => {
