@@ -35,7 +35,6 @@ import { type DocumentUploadsFormValue } from "../constants/form"
 import {
   type BusinessDocumentsResponse,
   type ConfirmationFormResponse,
-  type CurrentLoansInformationResponse,
   type DocumentUploadedResponse,
   type FinancialInformationResponse,
   type KYBInformationResponse,
@@ -49,7 +48,6 @@ import {
   LOAN_APPLICATION_STEPS
 } from "../models/LoanApplicationStep/type"
 import {
-  reverseFormatCurrentLoansForm,
   reverseFormatKybForm,
   reverseFormatKycForm,
   reverseFormatOperatingExpensesForm,
@@ -92,7 +90,6 @@ import {
 } from "@/modules/loan-application/hooks/form-kyc/useQueryKycForm.ts"
 import { useQueryGetConfirmationForm } from "@/modules/loan-application/hooks/form-common/useQueryConfirmationForm.ts"
 import { useQueryGetFinancialForm } from "@/modules/loan-application/hooks/form-common/useQueryFinancialForm.ts"
-import { useQueryGetCurrentLoansForm } from "@/modules/loan-application/hooks/form-current-loan/useQueryCurrentLoansForm.ts"
 import { useQueryGetOperatingExpensesForm } from "@/modules/loan-application/hooks/form-common/useQueryOperatingExpensesForm.ts"
 import { useQueryGetDocumentsByForm } from "@/modules/loan-application/hooks/form-document/useQueryGetDocuments.ts"
 import { useQueryGetPreQualificationForm } from "@/modules/loan-application/hooks/form-common/useQueryPreQualificationForm.ts"
@@ -107,6 +104,7 @@ import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/form-do
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/form-financial-projection/useGetFinancialProjectForms.ts"
 import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 import { useGetCapitalCollabFinancialProjectForms } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabFinancialProjectForms"
+import type { CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -120,8 +118,8 @@ type BRLoanApplicationDetailsContext<T> = {
   kycFormData?: KYCInformationResponse
   loanRequestFormV2Data?: LoanRequestV2Response
   currentLoanFormData?:
-    | CurrentLoansInformationResponse
     | QueryCurrentLoansFormV2Response
+    | CurrentLoanFormsV2Value
   operatingExpensesFormData?: OperatingExpensesInformationResponse
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
@@ -288,11 +286,6 @@ export function BRLoanApplicationDetailsProvider({
     enabled:
       isEnabledQuery(LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION, progress) ||
       isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION, progress)
-  })
-
-  const currentLoansFormQuery = useQueryGetCurrentLoansForm({
-    applicationId: loanApplicationId!,
-    enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.CURRENT_LOANS, progress)
   })
 
   const currentLoansFormQueryV2 = useQueryCurrentLoansFormV2({
@@ -567,24 +560,14 @@ export function BRLoanApplicationDetailsProvider({
       return
     }
 
-    if (isEnableFormV2()) {
-      if (currentLoansFormQueryV2.data) {
-        changeDataAndProgress(
-          deserializeCurrentLoansFormV2(currentLoansFormQueryV2.data),
-          LOAN_APPLICATION_STEPS.CURRENT_LOANS
-        )
-      }
-    } else {
-      if (currentLoansFormQuery.data) {
-        changeDataAndProgress(
-          reverseFormatCurrentLoansForm(currentLoansFormQuery.data),
-          LOAN_APPLICATION_STEPS.CURRENT_LOANS
-        )
-      }
+    if (currentLoansFormQueryV2.data) {
+      changeDataAndProgress(
+        deserializeCurrentLoansFormV2(currentLoansFormQueryV2.data),
+        LOAN_APPLICATION_STEPS.CURRENT_LOANS
+      )
     }
   }, [
     changeDataAndProgress,
-    currentLoansFormQuery.data,
     currentLoansFormQueryV2.data,
     formInConfigurations,
     isInitialized,
@@ -1037,9 +1020,7 @@ export function BRLoanApplicationDetailsProvider({
       loanRequestFormV2Data: loanRequestDetailQuery.data,
       kybFormData: kybFormQuery.data,
       kycFormData: kycFormQuery.data,
-      currentLoanFormData: isEnableFormV2()
-        ? currentLoansFormQueryV2.data
-        : currentLoansFormQuery.data,
+      currentLoanFormData: currentLoansFormQueryV2.data,
       operatingExpensesFormData: operatingExpensesFormQuery.data,
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
@@ -1074,7 +1055,6 @@ export function BRLoanApplicationDetailsProvider({
         kycFormQueryV2.isLoading ||
         confirmationFormQuery.isLoading ||
         financialFormQuery.isLoading ||
-        currentLoansFormQuery.isLoading ||
         currentLoansFormQueryV2.isLoading ||
         operatingExpensesFormQuery.isLoading ||
         kycDocuments.isLoading ||
@@ -1115,8 +1095,6 @@ export function BRLoanApplicationDetailsProvider({
       kycFormQuery.isLoading,
       currentLoansFormQueryV2.data,
       currentLoansFormQueryV2.isLoading,
-      currentLoansFormQuery.data,
-      currentLoansFormQuery.isLoading,
       operatingExpensesFormQuery.data,
       operatingExpensesFormQuery.isLoading,
       confirmationFormQuery.data,

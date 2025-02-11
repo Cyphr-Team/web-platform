@@ -4,10 +4,7 @@ import {
   isLoanReady,
   isSbb
 } from "@/utils/domain.utils.ts"
-import {
-  isEnableFormV2,
-  isEnablePandaDocESign
-} from "@/utils/feature-flag.utils"
+import { isEnablePandaDocESign } from "@/utils/feature-flag.utils"
 import { useMemo } from "react"
 import { LaunchKCBusinessDocumentsForm } from "@/modules/loan-application/components/organisms/loan-application-form/DocumentUploadForm.tsx"
 import { BusinessEinLetterForm } from "@/modules/loan-application/components/organisms/loan-application-form/custom-form/sbb/BusinessEinLetterForm.tsx"
@@ -43,7 +40,6 @@ import { SBBKybFormPartTwo } from "@/modules/loan-application/components/organis
 import { SbbKycForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/sbb/SbbKycForm.tsx"
 import { OwnerInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/kyc/KycForm.tsx"
 import { FinancialInformationForm } from "@/modules/loan-application/components/organisms/loan-application-form/financial-information/FinancialInformationForm.tsx"
-import { CurrentLoansForm } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoansForm.tsx"
 import { ESignForm } from "@/modules/loan-application/components/organisms/loan-application-form/ESignForm.tsx"
 import { ConfirmationForm } from "@/modules/loan-application/components/organisms/loan-application-form/confirmation/ConfirmationForm.tsx"
 import { OperatingExpensesForm } from "@/modules/loan-application/components/organisms/loan-application-form/operating-expenses/OperatingExpensesForm.tsx"
@@ -115,11 +111,7 @@ export const useGetFormByStep = (step: LOAN_APPLICATION_STEPS) => {
       case LOAN_APPLICATION_STEPS.FINANCIAL_INFORMATION:
         return <FinancialInformationForm />
       case LOAN_APPLICATION_STEPS.CURRENT_LOANS:
-        if (isEnableFormV2()) {
-          return <CurrentLoanFormV2 />
-        }
-
-        return <CurrentLoansForm />
+        return <CurrentLoanFormV2 />
       case LOAN_APPLICATION_STEPS.CONFIRMATION:
         if ((isSbb() || isLoanReady()) && isEnablePandaDocESign()) {
           return <ESignForm />

@@ -1,4 +1,3 @@
-import { type CurrentLoansFormValue } from "../../constants/form.ts"
 import { API_PATH } from "@/constants"
 import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -11,6 +10,9 @@ interface Options {
   rawData: CurrentLoanFormsV2Value
 }
 
+/**
+ * TODO: use /api/form/v2/submit and /api/form/v2/submit instead
+ * */
 export const useSubmitCurrentLoansFormV2 = (options: Options) => {
   const { rawData } = options
   const queryClient = useQueryClient()
@@ -56,11 +58,11 @@ export const useSubmitCurrentLoansFormV2 = (options: Options) => {
 
 interface SubmitCurrentLoanV2Request {
   loanApplicationId: string
-  currentLoans: CurrentLoansFormValue["currentLoans"]
+  currentLoans: CurrentLoanFormsV2Value["currentLoans"]
 }
 
 interface SubmitCurrentLoanV2Response {
-  currentLoans: CurrentLoansFormValue["currentLoans"]
+  currentLoans: CurrentLoanFormsV2Value["currentLoans"]
 }
 
 const useSubmit = () => {
@@ -79,11 +81,11 @@ const useSubmit = () => {
 
 interface UpdateCurrentLoanV2Request {
   id: string // form id
-  currentLoans: CurrentLoansFormValue["currentLoans"]
+  currentLoans: CurrentLoanFormsV2Value["currentLoans"]
 }
 
 interface UpdateCurrentLoanV2Response {
-  currentLoans: CurrentLoansFormValue["currentLoans"]
+  currentLoans: CurrentLoanFormsV2Value["currentLoans"]
 }
 
 const useUpdate = () => {

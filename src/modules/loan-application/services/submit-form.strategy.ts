@@ -59,7 +59,6 @@ import type {
   ProductServiceFormValue
 } from "../constants/form"
 import {
-  type CurrentLoansInformationResponse,
   type FinancialInformationResponse,
   type KYBInformationResponse,
   type KYCInformationResponse,
@@ -93,7 +92,6 @@ import { useSubmitLoanKYCForm } from "@/modules/loan-application/hooks/form-kyc/
 import { useSubmitMicroLoanRequestForm } from "@/modules/loan-application/hooks/form-loan-request/useSubmitLoanRequest.ts"
 import { useMutateLoanRequest } from "@/modules/loan-application/hooks/form-loan-request/useSubmitLoanRequest.v2.ts"
 import { useSubmitLoanFinancialForm } from "@/modules/loan-application/hooks/form-common/useSubmitLoanFinancialForm.ts"
-import { useSubmitCurrentLoansForm } from "@/modules/loan-application/hooks/form-current-loan/useSubmitCurrentLoansForm.ts"
 import { useSubmitOperatingExpensesForm } from "@/modules/loan-application/hooks/form-common/useSubmitOperatingExpensesForm.ts"
 import { useSubmitLoanProductServiceForm } from "@/modules/loan-application/hooks/form-common/useSubmitProductServiceForm.ts"
 import { useSubmitLoanBusinessModelForm } from "@/modules/loan-application/hooks/form-common/useSubmitBusinessModelForm.ts"
@@ -334,22 +332,6 @@ export const useSubmitLoanForm = (
     rawData: marketOpportunityData,
     onSuccess: updateMarketOpportunityData
   })
-
-  // Current Loans
-  const updateCurrentLoansData = (data: CurrentLoansInformationResponse) =>
-    updateDataAfterSubmit(
-      {
-        hasOutstandingLoans: data.currentLoanForms?.length ? "true" : "",
-        currentLoans: data.currentLoanForms
-      },
-      LOAN_APPLICATION_STEPS.CURRENT_LOANS
-    )
-
-  const { submitCurrentLoansForm, isLoading: isSubmittingCurrentLoans } =
-    useSubmitCurrentLoansForm({
-      rawData: currentLoansData,
-      onSuccess: updateCurrentLoansData
-    })
 
   const {
     submitCurrentLoansForm: submitCurrentLoansFormV2,
@@ -645,11 +627,7 @@ export const useSubmitLoanForm = (
           currentLoansData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.CURRENT_LOANS)
         ) {
-          if (isEnableFormV2()) {
-            submitPromises.push(submitCurrentLoansFormV2(applicationId))
-          } else {
-            submitPromises.push(submitCurrentLoansForm(applicationId))
-          }
+          submitPromises.push(submitCurrentLoansFormV2(applicationId))
         }
 
         // Submit Operating Expenses form
@@ -871,7 +849,6 @@ export const useSubmitLoanForm = (
       submitKybFormV2,
       submitLoanKYBForm,
       submitCurrentLoansFormV2,
-      submitCurrentLoansForm,
       submitOperatingExpensesForm,
       submitProductServiceForm,
       submitLoanMarketOpportunity,
@@ -909,7 +886,6 @@ export const useSubmitLoanForm = (
       isSubmittingKYB ||
       isSubmittingKYC ||
       isSubmittingFinancial ||
-      isSubmittingCurrentLoans ||
       isSubmittingCurrentLoansV2 ||
       isSubmittingOperatingExpenses ||
       isSubmittingConfirmation ||

@@ -2,15 +2,12 @@ import React from "react"
 import { Card } from "@/components/ui/card"
 import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { toCurrency } from "@/utils"
+import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
+import { type QueryCurrentLoansFormV2Response } from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansFormV2.ts"
 import {
   type CurrentLoanInformationResponse,
   type CurrentLoansInformationResponse
 } from "@/modules/loan-application/constants/type.ts"
-
-import { get } from "lodash"
-import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
-import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
-import { type QueryCurrentLoansFormV2Response } from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansFormV2.ts"
 
 interface CurrentLoanFormDetailsProps {
   currentLoanFormData?:
@@ -23,14 +20,8 @@ interface CurrentLoanFormDetailsProps {
 export const CurrentLoanFormDetails: React.FC<CurrentLoanFormDetailsProps> = ({
   currentLoanFormData
 }) => {
-  const currentLoanForms =
-    Array.isArray(currentLoanFormData) && currentLoanFormData.length > 0
-      ? currentLoanFormData
-      : get(currentLoanFormData, "currentLoanForms", [])
-
-  const dataToUse = isEnableFormV2()
-    ? (currentLoanFormData as CurrentLoanFormsV2Value)?.currentLoans ?? []
-    : currentLoanForms
+  const dataToUse =
+    (currentLoanFormData as CurrentLoanFormsV2Value)?.currentLoans ?? []
 
   return (
     <Card

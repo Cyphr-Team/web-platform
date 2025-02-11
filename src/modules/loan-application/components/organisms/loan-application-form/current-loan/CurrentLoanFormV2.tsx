@@ -60,7 +60,7 @@ export const currentLoansFormSchema = z
       .min(1, { message: "This field is required" }),
     [FormFields.CurrentLoans]: z.array(
       z.object({
-        [FormItemFields.Id]: z.string(),
+        [FormItemFields.Id]: z.string().optional(),
         [FormItemFields.LenderName]: z
           .string()
           .min(1, { message: "Lender name is required" }),
