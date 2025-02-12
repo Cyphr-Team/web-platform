@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DETAILS_PERMISSION_BY_ROLE } from "@/modules/admin/user/constants/permission.constants"
-import COLORS from "@/styles/colors"
 import { UserRoles } from "@/types/user.type"
 import { checkValidEmail, removeWhitespace } from "@/utils"
 import { type KeyboardEvent } from "react"
@@ -64,7 +63,7 @@ function InvitationInput() {
             <div key={role}>
               <label className="inline-flex items-center space-x-2 text-sm">
                 <input
-                  className={`accent-[${COLORS.ADMIN_LOANREADY_INPUT_RADIO}]`}
+                  className="accent-[#4F6161]"
                   type="radio"
                   value={role}
                   {...form.register("role")}

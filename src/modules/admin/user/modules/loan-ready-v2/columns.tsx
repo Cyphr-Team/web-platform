@@ -37,8 +37,8 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
 
       return (
         <>
-          <div className="font-medium text-black">{application.name}</div>
-          <div className="text-gray-400">{application.email}</div>
+          <div className="font-medium text-[#252828]">{application.name}</div>
+          <div className="text-[#252828]">{application.email}</div>
         </>
       )
     }
@@ -82,7 +82,7 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
   },
   {
     accessorKey: "edit",
-    header: () => <p className="p-2">Action</p>,
+    header: () => <div className="p-2 font-semibold">Action</div>,
     size: 150,
 
     cell: ({ row }) => {

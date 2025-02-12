@@ -276,16 +276,6 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
 
             <ul className="mt-1 list-inside list-none space-y-1 text-base">
               <li className="ml-2 text-sm font-light">
-                <span className="font-medium">First_Name: </span>
-                Member's First Name
-              </li>
-
-              <li className="ml-2 text-sm font-light">
-                <span className="font-medium">Last_Name: </span>
-                Member's Last Name
-              </li>
-
-              <li className="ml-2 text-sm font-light">
                 <span className="font-medium">Email: </span>
                 Member’s Email Address
               </li>
@@ -363,7 +353,7 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
                   </span>
                   <span> or drag and drop</span>
                   <p className="text-xs">
-                    (only .csv files are supported at this time)
+                    (only CSV files are supported at this time)
                   </p>
                 </div>
               </Card>
