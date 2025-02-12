@@ -31,3 +31,5 @@ export interface FormV2DataResponse {
   applicationId: string
   forms: FormV2Data[]
 }
+
+export type NullableFormV2DataResponse = FormV2DataResponse | null

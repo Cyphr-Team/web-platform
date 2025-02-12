@@ -30,7 +30,6 @@ import { type BusinessModelFormResponse } from "../components/organisms/loan-app
 import { type LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
 import { type ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
-import { type ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import { type DocumentUploadsFormValue } from "../constants/form"
 import {
   type BusinessDocumentsResponse,
@@ -93,7 +92,6 @@ import { useQueryGetFinancialForm } from "@/modules/loan-application/hooks/form-
 import { useQueryGetOperatingExpensesForm } from "@/modules/loan-application/hooks/form-common/useQueryOperatingExpensesForm.ts"
 import { useQueryGetDocumentsByForm } from "@/modules/loan-application/hooks/form-document/useQueryGetDocuments.ts"
 import { useQueryGetPreQualificationForm } from "@/modules/loan-application/hooks/form-common/useQueryPreQualificationForm.ts"
-import { useQueryProductServiceForm } from "@/modules/loan-application/hooks/form-common/useQueryProductServiceForm.ts"
 import { useQueryMarketOpportunity } from "@/modules/loan-application/hooks/form-common/useQueryMarketOpportunity.ts"
 import { useQueryLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/useQueryLaunchKCFitForm.ts"
 import { useQueryExecutionForm } from "@/modules/loan-application/hooks/form-common/useQueryExecutionForm.ts"
@@ -105,6 +103,9 @@ import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/fo
 import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 import { useGetCapitalCollabFinancialProjectForms } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabFinancialProjectForms"
 import type { CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
+import { useQueryProductServiceForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryProductServiceForm"
+import { deserializeLoanProductServiceFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/product-service-store"
+import { type NullableFormV2DataResponse } from "@/modules/loan-application/types/form.v2"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -123,7 +124,7 @@ type BRLoanApplicationDetailsContext<T> = {
   operatingExpensesFormData?: OperatingExpensesInformationResponse
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
-  productServiceFormData?: ProductServiceFormResponse
+  productServiceFormData?: NullableFormV2DataResponse
   marketOpportunityFormData?: MarketOpportunityFormResponse
   launchKCFitFormData?: LaunchKcFitFormResponse
   executionFormData?: ExecutionFormResponse
@@ -649,16 +650,7 @@ export function BRLoanApplicationDetailsProvider({
   useEffect(() => {
     if (productServiceFormQuery.data && isInitialized && isQualified) {
       changeDataAndProgress(
-        {
-          id: productServiceFormQuery.data.id,
-          loanApplicationId: productServiceFormQuery.data.loanApplicationId,
-          businessType: productServiceFormQuery.data.businessType,
-          solutionFocus: productServiceFormQuery.data.solutionFocus,
-          businessValue: productServiceFormQuery.data.businessValue,
-          proofOfMarket: productServiceFormQuery.data.proofOfMarket,
-          intellectualProperty:
-            productServiceFormQuery.data.intellectualProperty
-        },
+        deserializeLoanProductServiceFormV2(productServiceFormQuery.data),
         LOAN_APPLICATION_STEPS.PRODUCT_SERVICE
       )
     }
@@ -1025,7 +1017,7 @@ export function BRLoanApplicationDetailsProvider({
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
       businessModelFormData: businessModelFormQuery.data,
-      productServiceFormData: productServiceFormQuery.data,
+      productServiceFormData: productServiceFormQuery?.data,
       marketOpportunityFormData: marketOpportunityFormQuery.data,
       launchKCFitFormData: launchKCFitFormQuery.data,
       executionFormData: executionFormQuery.data,

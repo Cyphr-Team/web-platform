@@ -22,6 +22,7 @@ interface UseMutateCommonFormProps {
   queryKeyToInvalidates: string
   formId: string
   metadata: NoobRecord
+  onSuccess?: (data: FormV2Data) => void
 }
 
 const queryKeysToInvalidate = (applicationId: string, queryKey: string) => [
@@ -30,7 +31,8 @@ const queryKeysToInvalidate = (applicationId: string, queryKey: string) => [
 ]
 
 export const useMutateCommonForm = (props: UseMutateCommonFormProps) => {
-  const { applicationId, formId, metadata, queryKeyToInvalidates } = props
+  const { applicationId, formId, metadata, queryKeyToInvalidates, onSuccess } =
+    props
 
   const submitMutation = useSubmitFormV2<FormV2SubmitRequest, FormV2Data>({
     path: API_PATH.application.formV2.common.submit,
@@ -69,6 +71,9 @@ export const useMutateCommonForm = (props: UseMutateCommonFormProps) => {
             ...TOAST_MSG.loanApplication.submitError,
             description: getAxiosError(error).message
           })
+        },
+        onSuccess: ({ data }) => {
+          onSuccess && onSuccess(data)
         }
       }
     )

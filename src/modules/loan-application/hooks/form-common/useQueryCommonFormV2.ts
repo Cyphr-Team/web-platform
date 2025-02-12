@@ -5,7 +5,8 @@ import { isEnableFormV2 } from "@/utils/feature-flag.utils"
 import type { FORM_TYPE } from "../../models/LoanApplicationStep/type"
 import {
   type FormV2GetRequest,
-  type FormV2DataResponse
+  type FormV2DataResponse,
+  type NullableFormV2DataResponse
 } from "@/modules/loan-application/types/form.v2"
 
 export interface UseQueryCommonFormProps {
@@ -21,7 +22,7 @@ export const useQueryCommonForm = ({
   formTypes,
   enabled = true
 }: UseQueryCommonFormProps) => {
-  return useQuery<FormV2DataResponse | null, never>({
+  return useQuery<NullableFormV2DataResponse, never>({
     queryKey: [queryKey, applicationId],
     queryFn: async () => {
       const response = await postRequest<FormV2GetRequest, FormV2DataResponse>({

@@ -37,6 +37,7 @@ import {
 } from "@/modules/loan-application/constants/type.ts"
 import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
+import { deserializeLoanProductServiceFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/product-service-store"
 
 export function ApplicationDetails() {
   const {
@@ -128,7 +129,11 @@ export function ApplicationDetails() {
             <FinancialFormDetails financialFormData={financialFormData} />
           ) : null}
           {productServiceFormData ? (
-            <ProductServiceFormDetails data={productServiceFormData} />
+            <ProductServiceFormDetails
+              dataV2={deserializeLoanProductServiceFormV2(
+                productServiceFormData
+              )}
+            />
           ) : null}
           {marketOpportunityFormData ? (
             <MarketOpportunityFormDetails data={marketOpportunityFormData} />

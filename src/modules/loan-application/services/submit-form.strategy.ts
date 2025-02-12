@@ -39,7 +39,6 @@ import {
   type SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
 import { type MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
-import { type ProductServiceFormResponse } from "../components/organisms/loan-application-form/product-service/type"
 import type {
   BusinessModelFormValue,
   ConfirmationFormValue,
@@ -93,7 +92,6 @@ import { useSubmitMicroLoanRequestForm } from "@/modules/loan-application/hooks/
 import { useMutateLoanRequest } from "@/modules/loan-application/hooks/form-loan-request/useSubmitLoanRequest.v2.ts"
 import { useSubmitLoanFinancialForm } from "@/modules/loan-application/hooks/form-common/useSubmitLoanFinancialForm.ts"
 import { useSubmitOperatingExpensesForm } from "@/modules/loan-application/hooks/form-common/useSubmitOperatingExpensesForm.ts"
-import { useSubmitLoanProductServiceForm } from "@/modules/loan-application/hooks/form-common/useSubmitProductServiceForm.ts"
 import { useSubmitLoanBusinessModelForm } from "@/modules/loan-application/hooks/form-common/useSubmitBusinessModelForm.ts"
 import { useSubmitLoanConfirmationForm } from "@/modules/loan-application/hooks/form-common/useSubmitLoanConfirmationForm.ts"
 import { useUploadDocumentForm } from "@/modules/loan-application/hooks/form-document/useUploadDocumentForm.ts"
@@ -105,6 +103,8 @@ import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/ho
 import { useSubmitKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 import { useSubmitLinkPlaidItemIds } from "@/modules/loan-application/hooks/form-cash-flow/useSubmitLinkPlaidItemIds.ts"
 import { useSubmitCapitalCollabFinancialProjectionForms } from "@/modules/loan-application/capital-collab/hooks/useSubmitCapitalCollabFinancialProjectionForms"
+import { useSubmitLoanProductServiceForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitProductServiceForm"
+import { type FormV2Data } from "@/modules/loan-application/types/form.v2"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -353,7 +353,7 @@ export const useSubmitLoanForm = (
   })
 
   // Product Service
-  const updateProductServiceData = (data: ProductServiceFormResponse) =>
+  const updateProductServiceData = (data: FormV2Data) =>
     updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
   const { submitProductServiceForm, isLoading: isSubmittingProductService } =
     useSubmitLoanProductServiceForm({
@@ -643,7 +643,7 @@ export const useSubmitLoanForm = (
           productServiceData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE)
         ) {
-          submitPromises.push(submitProductServiceForm())
+          submitPromises.push(submitProductServiceForm(applicationId))
         }
 
         // Submit Market Opportunity form
