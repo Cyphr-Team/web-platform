@@ -39,6 +39,7 @@ import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/
 import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
 import { deserializeLoanProductServiceFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/product-service-store"
 import { deserializeLoanMarketOpportunityFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/market-opportunity-store"
+import { deserializeLoanBusinessModelFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/business-model-store"
 
 export function ApplicationDetails() {
   const {
@@ -144,7 +145,9 @@ export function ApplicationDetails() {
             />
           ) : null}
           {businessModelFormData ? (
-            <BusinessModelFormDetails data={businessModelFormData} />
+            <BusinessModelFormDetails
+              dataV2={deserializeLoanBusinessModelFormV2(businessModelFormData)}
+            />
           ) : null}
           {executionFormData ? (
             <ExecutionFormDetails data={executionFormData} />

@@ -30,7 +30,6 @@ import { useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, isAxiosError } from "axios"
 import { type Dispatch, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { type BusinessModelFormResponse } from "../components/organisms/loan-application-form/business-model/type"
 import { type LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
 import { type ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
@@ -91,7 +90,6 @@ import { useSubmitMicroLoanRequestForm } from "@/modules/loan-application/hooks/
 import { useMutateLoanRequest } from "@/modules/loan-application/hooks/form-loan-request/useSubmitLoanRequest.v2.ts"
 import { useSubmitLoanFinancialForm } from "@/modules/loan-application/hooks/form-common/useSubmitLoanFinancialForm.ts"
 import { useSubmitOperatingExpensesForm } from "@/modules/loan-application/hooks/form-common/useSubmitOperatingExpensesForm.ts"
-import { useSubmitLoanBusinessModelForm } from "@/modules/loan-application/hooks/form-common/useSubmitBusinessModelForm.ts"
 import { useSubmitLoanConfirmationForm } from "@/modules/loan-application/hooks/form-common/useSubmitLoanConfirmationForm.ts"
 import { useUploadDocumentForm } from "@/modules/loan-application/hooks/form-document/useUploadDocumentForm.ts"
 import { useUploadFormDocuments } from "@/modules/loan-application/hooks/form-document/useUploadFormDocuments.ts"
@@ -104,6 +102,7 @@ import { useSubmitCapitalCollabFinancialProjectionForms } from "@/modules/loan-a
 import { useSubmitLoanProductServiceForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitProductServiceForm"
 import { type FormV2Data } from "@/modules/loan-application/types/form.v2"
 import { useSubmitMarketOpportunityForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitMarketOpportunityForm"
+import { useSubmitBusinessModelForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitBusinessModelForm"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -383,11 +382,11 @@ export const useSubmitLoanForm = (
     })
 
   // Business Model
-  const updateLoanBusinessModelData = (data: BusinessModelFormResponse) =>
+  const updateLoanBusinessModelData = (data: FormV2Data) =>
     updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
 
   const { submitLoanBusinessModelForm, isLoading: isSubmittingBusinessModel } =
-    useSubmitLoanBusinessModelForm({
+    useSubmitBusinessModelForm({
       rawData: businessModelData,
       onSuccess: updateLoanBusinessModelData
     })
@@ -675,7 +674,7 @@ export const useSubmitLoanForm = (
           businessModelData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.BUSINESS_MODEL)
         ) {
-          submitPromises.push(submitLoanBusinessModelForm())
+          submitPromises.push(submitLoanBusinessModelForm(applicationId))
         }
 
         // Upload Business Documents
