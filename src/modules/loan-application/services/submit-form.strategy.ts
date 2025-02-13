@@ -38,7 +38,6 @@ import {
   type SbbKybFormPartOneValue,
   type SbbKybFormPartTwoValue
 } from "../components/organisms/loan-application-form/kyb/sbb/const"
-import { type MarketOpportunityFormResponse } from "../components/organisms/loan-application-form/market-opportunity/type"
 import type {
   BusinessModelFormValue,
   ConfirmationFormValue,
@@ -98,13 +97,13 @@ import { useUploadDocumentForm } from "@/modules/loan-application/hooks/form-doc
 import { useUploadFormDocuments } from "@/modules/loan-application/hooks/form-document/useUploadFormDocuments.ts"
 import { useUploadBusinessDocuments } from "@/modules/loan-application/hooks/form-document/useUploadBusinessDocuments.ts"
 import { useUploadSbbDocument } from "@/modules/loan-application/hooks/form-document/useSubmitSbbDocument.ts"
-import { useSubmitMarketOpportunity } from "@/modules/loan-application/hooks/form-common/useSubmitMarketOpportunity.ts"
 import { useSubmitFinancialProjectionForms } from "@/modules/loan-application/hooks/form-financial-projection/useSubmitFinancialProjectionForms.ts"
 import { useSubmitKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 import { useSubmitLinkPlaidItemIds } from "@/modules/loan-application/hooks/form-cash-flow/useSubmitLinkPlaidItemIds.ts"
 import { useSubmitCapitalCollabFinancialProjectionForms } from "@/modules/loan-application/capital-collab/hooks/useSubmitCapitalCollabFinancialProjectionForms"
 import { useSubmitLoanProductServiceForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitProductServiceForm"
 import { type FormV2Data } from "@/modules/loan-application/types/form.v2"
+import { useSubmitMarketOpportunityForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitMarketOpportunityForm"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -322,13 +321,13 @@ export const useSubmitLoanForm = (
   })
 
   // Market Opportunity
-  const updateMarketOpportunityData = (data: MarketOpportunityFormResponse) =>
+  const updateMarketOpportunityData = (data: FormV2Data) =>
     updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY)
 
   const {
     submitLoanMarketOpportunity,
     isLoading: isSubmitLoanMarketOpportunity
-  } = useSubmitMarketOpportunity({
+  } = useSubmitMarketOpportunityForm({
     rawData: marketOpportunityData,
     onSuccess: updateMarketOpportunityData
   })

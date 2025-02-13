@@ -1,4 +1,3 @@
-import { type MarketOpportunityFormResponse } from "@/modules/loan-application/components/organisms/loan-application-form/market-opportunity/type.ts"
 import { EDecisionStatus, EPersonaStatus } from "@/types/kyc"
 import { type UserMicroLoanApplication } from "@/types/loan-application.type"
 import { LoanType, type MicroLoanProgramType } from "@/types/loan-program.type"
@@ -92,7 +91,6 @@ import { useQueryGetFinancialForm } from "@/modules/loan-application/hooks/form-
 import { useQueryGetOperatingExpensesForm } from "@/modules/loan-application/hooks/form-common/useQueryOperatingExpensesForm.ts"
 import { useQueryGetDocumentsByForm } from "@/modules/loan-application/hooks/form-document/useQueryGetDocuments.ts"
 import { useQueryGetPreQualificationForm } from "@/modules/loan-application/hooks/form-common/useQueryPreQualificationForm.ts"
-import { useQueryMarketOpportunity } from "@/modules/loan-application/hooks/form-common/useQueryMarketOpportunity.ts"
 import { useQueryLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/useQueryLaunchKCFitForm.ts"
 import { useQueryExecutionForm } from "@/modules/loan-application/hooks/form-common/useQueryExecutionForm.ts"
 import { useQueryBusinessModelForm } from "@/modules/loan-application/hooks/form-common/useQueryBusinessModelForm.ts"
@@ -106,6 +104,8 @@ import type { CurrentLoanFormsV2Value } from "@/modules/loan-application/compone
 import { useQueryProductServiceForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryProductServiceForm"
 import { deserializeLoanProductServiceFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/product-service-store"
 import { type NullableFormV2DataResponse } from "@/modules/loan-application/types/form.v2"
+import { deserializeLoanMarketOpportunityFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/market-opportunity-store"
+import { useQueryMarketOpportunityForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryMarketOpportunityForm"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -125,7 +125,7 @@ type BRLoanApplicationDetailsContext<T> = {
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
   productServiceFormData?: NullableFormV2DataResponse
-  marketOpportunityFormData?: MarketOpportunityFormResponse
+  marketOpportunityFormData?: NullableFormV2DataResponse
   launchKCFitFormData?: LaunchKcFitFormResponse
   executionFormData?: ExecutionFormResponse
   businessModelFormData?: BusinessModelFormResponse
@@ -315,7 +315,7 @@ export function BRLoanApplicationDetailsProvider({
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.PRODUCT_SERVICE, progress)
   })
-  const marketOpportunityFormQuery = useQueryMarketOpportunity({
+  const marketOpportunityFormQuery = useQueryMarketOpportunityForm({
     applicationId: loanApplicationId!,
     enabled: isEnabledQuery(LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY, progress)
   })
@@ -665,7 +665,7 @@ export function BRLoanApplicationDetailsProvider({
   useEffect(() => {
     if (marketOpportunityFormQuery.data && isInitialized && isQualified) {
       changeDataAndProgress(
-        marketOpportunityFormQuery.data,
+        deserializeLoanMarketOpportunityFormV2(marketOpportunityFormQuery.data),
         LOAN_APPLICATION_STEPS.MARKET_OPPORTUNITY
       )
     }
@@ -1017,7 +1017,7 @@ export function BRLoanApplicationDetailsProvider({
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
       businessModelFormData: businessModelFormQuery.data,
-      productServiceFormData: productServiceFormQuery?.data,
+      productServiceFormData: productServiceFormQuery.data,
       marketOpportunityFormData: marketOpportunityFormQuery.data,
       launchKCFitFormData: launchKCFitFormQuery.data,
       executionFormData: executionFormQuery.data,
