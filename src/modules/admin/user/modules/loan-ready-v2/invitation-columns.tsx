@@ -1,37 +1,35 @@
 import { Badge } from "@/components/ui/badge"
-import { type UserDetailInfo, type UserRoles } from "@/types/user.type"
-import { convertToReadableDateAgo } from "@/utils"
-import { renderFilterableHeader } from "@/utils/table.utils"
-import { type ColumnDef } from "@tanstack/react-table"
-import { type Invitation } from "@/types/invitation.type"
-import { InvitationListAction } from "./invitation-list-action"
 import { Checkbox } from "@/components/ui/checkbox"
-import _ from "lodash"
 import {
   getBadgeVariantByRole,
   getRoleDisplayName
 } from "@/modules/loanready/services"
+import {
+  UserStatus,
+  type UserDetailInfo,
+  type UserRoles
+} from "@/types/user.type"
+import { convertToReadableDateAgo } from "@/utils"
+import { renderFilterableHeader } from "@/utils/table.utils"
+import { type ColumnDef } from "@tanstack/react-table"
+import _ from "lodash"
+import { InvitationListAction } from "./invitation-list-action"
 import { UserDetailListAction } from "./user-detail-list-action"
 
-export const columns: ColumnDef<
-  UserDetailInfo & {
-    invitation?: Invitation
-  }
->[] = [
+export const columns: ColumnDef<UserDetailInfo>[] = [
   {
     accessorKey: "select",
     id: "select",
     header: () => null,
-    cell: ({ row }) =>
-      row.original.invitation ? null : (
-        <div className="grid place-items-center">
-          <Checkbox
-            aria-label="Select row"
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-          />
-        </div>
-      ),
+    cell: ({ row }) => (
+      <div className="grid place-items-center">
+        <Checkbox
+          aria-label="Select row"
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+        />
+      </div>
+    ),
     enableSorting: false,
     enableHiding: false,
     size: 50
@@ -44,8 +42,8 @@ export const columns: ColumnDef<
 
       return (
         <>
-          <div className="font-medium text-black">{application.name}</div>
-          <div className="text-gray-400">{application.email}</div>
+          <div className="font-medium text-[#252828]">{application.name}</div>
+          <div className="text-[#252828]">{application.email}</div>
         </>
       )
     }
@@ -86,17 +84,17 @@ export const columns: ColumnDef<
     accessorKey: "lastActive",
     header: renderFilterableHeader({ title: "Last Active" }),
     accessorFn: (row) =>
-      row.invitation
+      row.status === UserStatus.PENDING
         ? "---"
         : _.upperFirst(convertToReadableDateAgo(row.loggedInAt))
   },
   {
     accessorKey: "edit",
-    header: () => <p className="p-2">Action</p>,
+    header: () => <p className="p-2 font-semibold">Action</p>,
     size: 150,
     cell: ({ row }) =>
-      row.original.invitation ? (
-        <InvitationListAction invitation={row.original.invitation} />
+      row.original.status === UserStatus.PENDING ? (
+        <InvitationListAction userInfo={row.original} />
       ) : (
         <UserDetailListAction userInfo={row.original} />
       )

@@ -305,13 +305,6 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
 
                         <li className="ml-4 font-light">
                           <span className="font-medium">
-                            {UserRoles.REVIEWER}:{" "}
-                          </span>
-                          {DETAILS_PERMISSION_BY_ROLE[UserRoles.REVIEWER]}
-                        </li>
-
-                        <li className="ml-4 font-light">
-                          <span className="font-medium">
                             {UserRoles.VIEWER}:{" "}
                           </span>
                           {DETAILS_PERMISSION_BY_ROLE[UserRoles.VIEWER]}

@@ -130,6 +130,7 @@ interface UserDetailInfo {
   loggedInAt: string
   authProvider: string
   createdAt: string
+  invitationId?: string
 }
 
 interface WhitelistedUser {

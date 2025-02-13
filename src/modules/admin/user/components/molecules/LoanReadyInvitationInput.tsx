@@ -10,7 +10,6 @@ import { type LoanReadyInvitationFormValue } from "@/modules/admin/user/modules/
 
 const InvitationRoles = {
   [UserRoles.WORKSPACE_ADMIN]: "Admin",
-  [UserRoles.REVIEWER]: "Reviewer",
   [UserRoles.VIEWER]: "Viewer"
 }
 

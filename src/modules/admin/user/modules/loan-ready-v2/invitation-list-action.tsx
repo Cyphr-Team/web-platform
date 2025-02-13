@@ -4,25 +4,24 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { APP_PATH } from "@/constants"
+import { ExpirationDays } from "@/types/expiration-day.type"
+import { type UserDetailInfo } from "@/types/user.type"
+import { toastError } from "@/utils"
 import { isApplicant, isPlatformAdmin } from "@/utils/check-roles"
 import { isEnableChatSupport } from "@/utils/feature-flag.utils"
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu"
 import { MoreHorizontal } from "lucide-react"
 import { useRevokeInvitation } from "../../hooks/useRevokeInvitation"
 import { useSendInvitation } from "../../hooks/useSendInvitation"
-import { type Invitation } from "@/types/invitation.type"
-import { ExpirationDays } from "@/types/expiration-day.type"
-import { APP_PATH } from "@/constants"
-import { toastError } from "@/utils"
 
 export interface UserDetailListActionProps {
-  invitation: Invitation
+  userInfo: UserDetailInfo
 }
 
-export function InvitationListAction({
-  invitation
-}: UserDetailListActionProps) {
-  const { roles, id: invitationId } = invitation
+export function InvitationListAction({ userInfo }: UserDetailListActionProps) {
+  const { roles, invitationId } = userInfo
+
   const isAbleToModifyPermission =
     !isApplicant(roles) && !isPlatformAdmin(roles)
   const isAbleToViewChat = isEnableChatSupport() && isApplicant(roles)
@@ -36,23 +35,37 @@ export function InvitationListAction({
   if (!isAbleToModifyPermission && !isAbleToViewChat) return null
 
   const handleRevokeInvitation = () => {
+    if (!invitationId) {
+      toastError({
+        title: "Error",
+        description: "The user has no invitationId!"
+      })
+
+      return
+    }
+
     revokeInvitation({
-      invitationId
+      invitationId: invitationId ?? ""
     })
   }
 
   const handleSendInvitation = () => {
-    if (invitation.roles.length === 0) {
+    if (userInfo.roles.length === 0) {
       toastError({
         title: "Error",
         description: "The user has no role, cannot send an invitation"
       })
+
+      return
     }
+
+    const baseUrl = `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`
+
     resendInvitation({
-      email: invitation.recipientEmail,
-      roles: invitation.roles[0],
-      institutionId: invitation.institutionId,
-      baseUrl: `${window.location.origin}${APP_PATH.ACCEPT_INVITE}`,
+      email: userInfo.email,
+      roles: userInfo.roles[0],
+      institutionId: userInfo.institutionId,
+      baseUrl: baseUrl,
       expirationDays: ExpirationDays.SEVEN_DAYS
     })
   }

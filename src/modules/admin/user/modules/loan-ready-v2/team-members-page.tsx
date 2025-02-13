@@ -20,13 +20,11 @@ import {
 } from "../../hooks/useQuery/useQueryListPaginateUser"
 import { FormFieldNames } from "../../table/loan-ready-v2/team-member-filter-search-bar.tsx"
 import { UserTableHeader } from "../../table/loan-ready-v2/user-table-header.tsx"
-import { columns } from "./columns"
 
-const ALLOWED_ROLES = [
-  UserRoles.REVIEWER,
-  UserRoles.WORKSPACE_ADMIN,
-  UserRoles.VIEWER
-]
+import { columns } from "./invitation-columns"
+
+const ALLOWED_ROLES = [UserRoles.WORKSPACE_ADMIN, UserRoles.VIEWER]
+
 
 export function Component() {
   const [searchField, setSearchField] = useState("")
