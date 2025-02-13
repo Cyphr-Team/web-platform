@@ -25,7 +25,6 @@ import {
   useLoanProgramDetailContext,
   usePlaidContext
 } from "."
-import { type LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
 import { type ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
 import { type DocumentUploadsFormValue } from "../constants/form"
@@ -90,7 +89,6 @@ import { useQueryGetFinancialForm } from "@/modules/loan-application/hooks/form-
 import { useQueryGetOperatingExpensesForm } from "@/modules/loan-application/hooks/form-common/useQueryOperatingExpensesForm.ts"
 import { useQueryGetDocumentsByForm } from "@/modules/loan-application/hooks/form-document/useQueryGetDocuments.ts"
 import { useQueryGetPreQualificationForm } from "@/modules/loan-application/hooks/form-common/useQueryPreQualificationForm.ts"
-import { useQueryLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/useQueryLaunchKCFitForm.ts"
 import { useQueryExecutionForm } from "@/modules/loan-application/hooks/form-common/useQueryExecutionForm.ts"
 import { useQueryBusinessDocuments } from "@/modules/loan-application/hooks/form-document/useQueryBusinessDocuments.ts"
 import { useQuerySbbDocumentForm } from "@/modules/loan-application/hooks/form-document/useQuerySbbDocumentForm.ts"
@@ -106,6 +104,8 @@ import { deserializeLoanMarketOpportunityFormV2 } from "@/modules/loan-applicati
 import { useQueryMarketOpportunityForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryMarketOpportunityForm"
 import { useQueryBusinessModelForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryBusinessModelForm"
 import { deserializeLoanBusinessModelFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/business-model-store"
+import { deserializeLoanLaunchKCFitFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/launchkc-fit-store"
+import { useQueryLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryLaunchKCFitForm"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -126,7 +126,7 @@ type BRLoanApplicationDetailsContext<T> = {
   financialFormData?: FinancialInformationResponse
   productServiceFormData?: NullableFormV2DataResponse
   marketOpportunityFormData?: NullableFormV2DataResponse
-  launchKCFitFormData?: LaunchKcFitFormResponse
+  launchKCFitFormData?: NullableFormV2DataResponse
   executionFormData?: ExecutionFormResponse
   businessModelFormData?: NullableFormV2DataResponse
   loanApplicationDetails?: UserMicroLoanApplication
@@ -680,7 +680,7 @@ export function BRLoanApplicationDetailsProvider({
   useEffect(() => {
     if (launchKCFitFormQuery.data && isInitialized && isQualified) {
       changeDataAndProgress(
-        launchKCFitFormQuery.data,
+        deserializeLoanLaunchKCFitFormV2(launchKCFitFormQuery.data),
         LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT
       )
     }

@@ -30,7 +30,6 @@ import { useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, isAxiosError } from "axios"
 import { type Dispatch, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { type LaunchKcFitFormResponse } from "../components/organisms/loan-application-form/custom-form/launchkc/launchkc-fit/type"
 import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
 import { type ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
 import {
@@ -79,7 +78,6 @@ import { useSubmitCurrentLoansFormV2 } from "@/modules/loan-application/hooks/fo
 import { mapLoanRequestDataToV2 } from "@/modules/loan-application/services/formv2.services.ts"
 import { type SubmitLoanFormContext } from "@/modules/loan-application/types"
 import { useSubmitKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
-import { useSubmitLoanLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/useSubmitLaunchKCFitForm.ts"
 import { useSubmitExecutionForm } from "@/modules/loan-application/hooks/form-common/useSubmitExecutionForm.ts"
 import { useSubmitLoanIdentityVerification } from "@/modules/loan-application/hooks/form-identity-verification/useSubmitLoanIdentityVerification.ts"
 import { useSubmitESignDocument } from "@/modules/loan-application/hooks/form-esign/useSubmitESignDocument.ts"
@@ -103,6 +101,7 @@ import { useSubmitLoanProductServiceForm } from "@/modules/loan-application/hook
 import { type FormV2Data } from "@/modules/loan-application/types/form.v2"
 import { useSubmitMarketOpportunityForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitMarketOpportunityForm"
 import { useSubmitBusinessModelForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitBusinessModelForm"
+import { useSubmitLoanLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitLaunchKCFitForm"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -360,7 +359,7 @@ export const useSubmitLoanForm = (
     })
 
   // Launch KC Fit
-  const updateLaunchKCFitData = (data: LaunchKcFitFormResponse) =>
+  const updateLaunchKCFitData = (data: FormV2Data) =>
     updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
   const { submitLoanLaunchKCFitForm, isLoading: isSubmittingLaunchKCFit } =
     useSubmitLoanLaunchKCFitForm({
@@ -658,7 +657,7 @@ export const useSubmitLoanForm = (
           launchKCFitData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.LAUNCH_KC_FIT)
         ) {
-          submitPromises.push(submitLoanLaunchKCFitForm())
+          submitPromises.push(submitLoanLaunchKCFitForm(applicationId))
         }
 
         // Submit Execution form
