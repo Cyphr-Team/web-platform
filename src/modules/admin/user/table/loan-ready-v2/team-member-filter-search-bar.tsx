@@ -22,10 +22,6 @@ const ROLES_OPTIONS: Option<UserRoles>[] = [
     label: "Admin"
   },
   {
-    value: UserRoles.REVIEWER,
-    label: "Reviewer"
-  },
-  {
     value: UserRoles.VIEWER,
     label: "Viewer"
   }
