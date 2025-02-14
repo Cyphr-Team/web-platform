@@ -34,12 +34,18 @@ export function ApplicationDownloadButton({
     queryKey: [APPLICATION_MANAGEMENT_QUERY_KEY.GET_LOAN_SUMMARY]
   })
 
-  const isFetchingBankAccounts = useIsFetching({
+  const isFetchingCashflow = useIsFetching({
     queryKey: [QUERY_KEY.GET_LOAN_APPLICATION_CASHFLOW_VERIFICATION]
   })
 
+  const isFetchingBankAccounts = useIsFetching({
+    queryKey: [QUERY_KEY.GET_BANK_ACCOUNTS]
+  })
+
   const isFetchingPDFData =
-    isFetchingLoanSummary > 0 || isFetchingBankAccounts > 0
+    isFetchingLoanSummary > 0 ||
+    isFetchingCashflow > 0 ||
+    isFetchingBankAccounts > 0
 
   return (
     <div className="ml-2 text-center">
