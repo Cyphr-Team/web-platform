@@ -1,4 +1,10 @@
-import { createContext, useContext, useMemo, useReducer } from "react"
+import {
+  createContext,
+  type PropsWithChildren,
+  useContext,
+  useMemo,
+  useReducer
+} from "react"
 import { DEFAULT_DASHBOARD_STATE } from "../constants/dashboard.constants"
 import { useQueryGetAggregateApprovedLoanAmount } from "../hooks/query/useQueryGetAggregateApprovedLoanAmount"
 import { useQueryGetAverageApprovalRate } from "../hooks/query/useQueryGetAverageApprovalRate"
@@ -10,10 +16,7 @@ import { useQueryGetInstitutionActivity } from "../hooks/query/useQueryGetInstit
 import { useQueryGetInstitutionUsage } from "../hooks/query/useQueryGetInstitutionUsage"
 import { useQueryGetLoanApplicationActivities } from "../hooks/query/useQueryGetLoanApplicationActivities"
 import { useQueryGetLoanApplicationRates } from "../hooks/query/useQueryGetLoanApplicationRates"
-import {
-  type DashboardProviderProps,
-  type DashboardProviderState
-} from "../types/stats.types"
+import { type DashboardProviderState } from "../types/stats.types"
 import { dashboardReducer } from "./dashboard-reducer"
 import { useQueryGetCCDashboard } from "../hooks/query/capital-collab/useQueryGetCCDashboard"
 import { isCapitalCollab } from "@/utils/domain.utils"
@@ -24,10 +27,7 @@ const DashboardContext = createContext<DashboardProviderState>({
   dashboardDispatch: () => null
 })
 
-export function DashboardProvider({
-  children,
-  ...props
-}: DashboardProviderProps) {
+export function DashboardProvider({ children }: PropsWithChildren) {
   const [dashboardState, dashboardDispatch] = useReducer(
     dashboardReducer,
     DEFAULT_DASHBOARD_STATE
@@ -141,7 +141,7 @@ export function DashboardProvider({
   )
 
   return (
-    <DashboardContext.Provider {...props} value={value}>
+    <DashboardContext.Provider value={value}>
       {children}
     </DashboardContext.Provider>
   )
@@ -151,7 +151,7 @@ export const useDashboard = () => {
   const context = useContext(DashboardContext)
 
   if (context === undefined)
-    throw new Error("useDashboard must be used within a ThemeProvider")
+    throw new Error("useDashboard must be used within a DashboardProvider")
 
   return context
 }

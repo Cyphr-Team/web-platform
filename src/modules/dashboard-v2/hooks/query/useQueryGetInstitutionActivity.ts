@@ -9,7 +9,7 @@ import {
   type RateRequest,
   type StatsResponse
 } from "../../types/stats.types"
-import { useTimeRangeFilter } from "./useTimeRangeFilter"
+import { useTimeRangeFilter } from "../useTimeRangeFilter"
 
 export const useQueryGetInstitutionActivity = ({
   filter,

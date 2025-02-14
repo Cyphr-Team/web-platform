@@ -9,7 +9,7 @@ import {
   type DashboardState,
   type RateRequest
 } from "../../types/stats.types"
-import { useTimeRangeFilter } from "./useTimeRangeFilter"
+import { useTimeRangeFilter } from "../useTimeRangeFilter"
 
 export const useQueryGetAggregateApprovedLoanAmount = ({
   filter,

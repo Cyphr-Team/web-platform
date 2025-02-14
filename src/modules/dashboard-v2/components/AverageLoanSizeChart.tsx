@@ -19,7 +19,7 @@ export function AverageApprovedLoanSizeChart() {
   const { averageApprovedLoanAmountData, dashboardState } = useDashboard()
 
   const formatDateByTimePeriod =
-    dashboardState.averageApprovedLoanAmountFrequency === GRAPH_FREQUENCY.WEEKLY
+    dashboardState.frequency === GRAPH_FREQUENCY.WEEKLY
       ? formatChartWeekly
       : formatChartMonthly
 

@@ -9,12 +9,12 @@ import {
   type LoanApplicationRatesResponse,
   type RateRequest
 } from "../../types/stats.types"
-import { useTimeRangeFilter } from "./useTimeRangeFilter"
+import { useTimeRangeFilter } from "../useTimeRangeFilter"
 
 export const useQueryGetLoanApplicationRates = ({
   filter,
   loanProgramIds,
-  loanApplicationRatesFrequency
+  frequency
 }: DashboardState) => {
   const timeRangeFilter = useTimeRangeFilter(filter)
 
@@ -28,7 +28,7 @@ export const useQueryGetLoanApplicationRates = ({
       filter.timeRange.from,
       filter.timeRange.to,
       loanProgramIds,
-      loanApplicationRatesFrequency
+      frequency
     ],
     queryFn: async () => {
       if (!timeRangeFilter.from || !timeRangeFilter.to)
@@ -43,7 +43,7 @@ export const useQueryGetLoanApplicationRates = ({
           filter: {
             timeRange: { from: timeRangeFilter.from, to: timeRangeFilter.to }
           },
-          frequency: loanApplicationRatesFrequency.toLowerCase(),
+          frequency: frequency.toLowerCase(),
           loanProgramIds: loanProgramIds.length ? loanProgramIds : undefined
         }
       })

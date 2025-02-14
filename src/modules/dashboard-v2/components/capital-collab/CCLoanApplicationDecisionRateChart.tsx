@@ -14,7 +14,7 @@ export function CapitalCollabLoanApplicationDecisionRateChart() {
             incompleteRate: v.rate * 100
           })) ?? []
         }
-        timePeriod={dashboardState.loanApplicationRatesFrequency}
+        timePeriod={dashboardState.frequency}
       />
     </ChartCard>
   )

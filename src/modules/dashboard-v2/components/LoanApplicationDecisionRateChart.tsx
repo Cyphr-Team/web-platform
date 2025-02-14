@@ -17,7 +17,7 @@ export function LoanApplicationDecisionRateChart() {
   const { loanApplicationRatesData, dashboardState } = useDashboard()
 
   const formatDateByTimePeriod =
-    dashboardState.loanApplicationRatesFrequency === GRAPH_FREQUENCY.WEEKLY
+    dashboardState.frequency === GRAPH_FREQUENCY.WEEKLY
       ? formatChartWeekly
       : formatChartMonthly
 

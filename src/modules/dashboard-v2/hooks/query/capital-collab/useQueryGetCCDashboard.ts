@@ -9,7 +9,7 @@ import {
   type DashboardState,
   type CCStatsResponse
 } from "@/modules/dashboard-v2/types/stats.types"
-import { useTimeRangeFilter } from "../useTimeRangeFilter"
+import { useTimeRangeFilter } from "../../useTimeRangeFilter"
 import { Institution } from "@/constants/tenant.constants"
 
 export const useQueryGetCCDashboard = ({

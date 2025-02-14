@@ -46,7 +46,7 @@ export function CapitalCollabLoanApplicationActivityChart() {
       <LoanApplicationActivityChart
         chartConfig={chartConfig}
         data={adaptedChartData}
-        timePeriod={dashboardState.loanApplicationActivitiesFrequency}
+        timePeriod={dashboardState.frequency}
       />
     </ChartCard>
   )

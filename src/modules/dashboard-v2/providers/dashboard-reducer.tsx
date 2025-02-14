@@ -18,46 +18,10 @@ export function dashboardReducer(
         }
       }
     }
-    case DashboardActionType.UpdateAverageTimeToApprovalMetricsFrequency: {
-      return {
-        ...state,
-        averageTimeToApprovalMetricsFrequency: action.payload
-      }
-    }
-    case DashboardActionType.UpdateAverageLoanSizeFrequency: {
-      return {
-        ...state,
-        averageLoanSizeFrequency: action.payload
-      }
-    }
-    case DashboardActionType.UpdateAverageApprovedLoanAmount: {
-      return {
-        ...state,
-        averageApprovedLoanAmountFrequency: action.payload
-      }
-    }
     case DashboardActionType.UpdateLoanProgramIds: {
       return {
         ...state,
         loanProgramIds: action.payload
-      }
-    }
-    case DashboardActionType.UpdateLoanApplicationActivitiesFrequency: {
-      return {
-        ...state,
-        loanApplicationActivitiesFrequency: action.payload
-      }
-    }
-    case DashboardActionType.UpdateAverageTimeToDecisionFrequency: {
-      return {
-        ...state,
-        averageTimeToDecisionFrequency: action.payload
-      }
-    }
-    case DashboardActionType.UpdateLoanApplicationRatesFrequency: {
-      return {
-        ...state,
-        loanApplicationRatesFrequency: action.payload
       }
     }
     default:

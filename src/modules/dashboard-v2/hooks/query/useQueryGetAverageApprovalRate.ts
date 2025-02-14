@@ -9,7 +9,7 @@ import {
   type AverageApprovalRateResponse,
   type DashboardState
 } from "../../types/stats.types"
-import { useTimeRangeFilter } from "./useTimeRangeFilter"
+import { useTimeRangeFilter } from "../useTimeRangeFilter"
 
 export const useQueryGetAverageApprovalRate = ({
   filter,

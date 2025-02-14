@@ -8,7 +8,7 @@ import {
   type DashboardState,
   type CCLoanApplicationActivitiesResponse
 } from "@/modules/dashboard-v2/types/stats.types"
-import { useTimeRangeFilter } from "../useTimeRangeFilter"
+import { useTimeRangeFilter } from "../../useTimeRangeFilter"
 import { Institution } from "@/constants/tenant.constants"
 
 export const useQueryGetCCLoanApplicationActivities = (
