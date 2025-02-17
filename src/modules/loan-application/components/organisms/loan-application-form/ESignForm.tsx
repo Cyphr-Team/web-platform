@@ -100,7 +100,11 @@ export function ESignForm() {
         return ownerInformationForm?.fullName
       }
       if (isSbb()) {
-        return `${ownerInformationForm?.firstName} ${ownerInformationForm?.lastName}`
+        const { metadata } = ownerInformationForm
+
+        if (!metadata?.firstName || !metadata?.lastName) return
+
+        return `${metadata?.firstName} ${metadata?.lastName}`
       }
 
       return ownerInformationForm?.fullName
