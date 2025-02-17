@@ -26,7 +26,7 @@ import { ArrowRight, Loader2, RefreshCw } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useParams } from "react-router-dom"
-import { isLoanReady } from "@/utils/domain.utils.ts"
+import { isLoanReady, isSbb } from "@/utils/domain.utils.ts"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
 export function ESignForm() {
@@ -44,7 +44,8 @@ export function ESignForm() {
   const { loanProgramId } = useParams()
 
   // Get the PDF result from review application
-  const { reviewApplication } = useLoanApplicationFormContext()
+  const { reviewApplication, ownerInformationForm } =
+    useLoanApplicationFormContext()
 
   // Prepare E-sign form
   const form = useForm<ESignFormValue>({
@@ -93,11 +94,24 @@ export function ESignForm() {
   const createDocument = useCallback(() => {
     if (!reviewApplication?.pdf) return
 
+    const getFullName = () => {
+      if (!ownerInformationForm) return
+      if (isLoanReady()) {
+        return ownerInformationForm?.fullName
+      }
+      if (isSbb()) {
+        return `${ownerInformationForm?.firstName} ${ownerInformationForm?.lastName}`
+      }
+
+      return ownerInformationForm?.fullName
+    }
+
     mutateCreateDocument(
       {
         pdf: reviewApplication?.pdf,
         totalPage: reviewApplication?.totalPage,
-        programId: loanProgramId ?? ""
+        programId: loanProgramId ?? "",
+        fullName: getFullName()
       },
       {
         onSuccess(response) {
