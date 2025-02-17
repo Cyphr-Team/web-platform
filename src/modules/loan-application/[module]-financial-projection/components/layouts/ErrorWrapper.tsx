@@ -23,9 +23,9 @@ export function ErrorWrapper(props: PropsWithChildren<ErrorWrapperProps>) {
       )}
     >
       <div className="absolute z-10 size-full rounded bg-zinc-50/50">
-        <div className="sticky left-1/2 top-1/2 flex w-full flex-col items-center justify-center gap-y-2xl">
-          {isWorkspaceAdmin ? "This applicant" : "You"} have not submitted or
-          our system is processing it, please wait!
+        <div className="sticky left-1/2 top-1/2 flex w-full flex-col items-center justify-center gap-y-2xl text-sm">
+          {isWorkspaceAdmin ? "This applicant has" : "You have"} either not
+          connected their financials or our system is still processing them.
           {onReload !== undefined && !isLoading ? (
             <RefreshCcw className="cursor-pointer" onClick={onReload} />
           ) : null}
