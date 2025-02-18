@@ -13,46 +13,18 @@ export const enum FpOperatingExpensesField {
 
 export const fpOperatingExpensesFormSchema = z.object({
   [FpOperatingExpensesField.applicationId]: z.string().optional(),
-  [FpOperatingExpensesField.operatingExpenses]: z
-    .array(
-      z.object({
-        name: z.string().min(1),
-        description: z.string().min(1),
-        startDate: createDateSchema(),
-        monthlyCost: createNumberSchema({ min: 1 })
-      })
-    )
-    .min(1, "Please add at least one operating expenses.")
+  [FpOperatingExpensesField.operatingExpenses]: z.array(
+    z.object({
+      name: z.string().min(1),
+      description: z.string(),
+      startDate: createDateSchema(),
+      monthlyCost: createNumberSchema({ min: 1 })
+    })
+  )
 })
 
 export const FP_OPERATING_EXPENSES_DEFAULT_VALUE = {
-  [FpOperatingExpensesField.operatingExpenses]: [
-    {
-      name: "Rent",
-      description: "The cost of leasing office space or facilities",
-      startDate: "",
-      monthlyCost: 0
-    },
-    {
-      name: "Sales and marketing expenses",
-      description: "Costs related to promoting and selling products/services",
-      startDate: "",
-      monthlyCost: 0
-    },
-    {
-      name: "Dues and Subscriptions",
-      description:
-        "Recurring fees (i.e.software licenses, membership dues, etc.)",
-      startDate: "",
-      monthlyCost: 0
-    },
-    {
-      name: "Accounting and legal fees",
-      description: "Cost related to accounting, legal, or tax services",
-      startDate: "",
-      monthlyCost: 0
-    }
-  ]
+  [FpOperatingExpensesField.operatingExpenses]: []
 }
 
 export type FpOperatingExpensesFormValue = z.infer<

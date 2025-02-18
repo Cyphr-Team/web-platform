@@ -172,6 +172,7 @@ export function AssetsForm() {
           <Separator />
           <div className="mb-5 flex flex-col gap-6">
             <EquityArrayFormTemplate
+              allowEmpty
               addIcon={<Plus />}
               blocks={LongTermAssetsFormBlocks}
               dataName="New Asset"

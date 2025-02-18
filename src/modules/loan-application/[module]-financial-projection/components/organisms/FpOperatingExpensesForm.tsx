@@ -31,8 +31,7 @@ import {
   type FieldArrayWithId,
   type FieldPath,
   useFieldArray,
-  useForm,
-  useFormContext
+  useForm
 } from "react-hook-form"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout.tsx"
 
@@ -82,7 +81,7 @@ export function FpOperatingExpensesForm() {
 
   const operationExpenses = form.getValues().operatingExpenses
   const total = sum(
-    operationExpenses.map((operationExpense) =>
+    operationExpenses?.map((operationExpense) =>
       sanitizeNumber(operationExpense.monthlyCost)
     )
   )
@@ -110,13 +109,15 @@ export function FpOperatingExpensesForm() {
       </div>
 
       <Separator />
-      <div className="grid w-full grid-cols-6 items-center gap-5 text-xs font-medium">
-        <p className="col-start-1 col-end-3 row-start-1">
-          Operating expense name
-        </p>
-        <p className="col-start-3 col-end-5 row-start-1">Cost start date</p>
-        <p className="col-start-5 col-end-7 row-start-1">Monthly cost</p>
-      </div>
+      {form.watch("operatingExpenses.0") && (
+        <div className="grid w-full grid-cols-6 items-center gap-5 text-xs font-medium">
+          <p className="col-start-1 col-end-3 row-start-1">
+            Operating expense name
+          </p>
+          <p className="col-start-3 col-end-5 row-start-1">Cost start date</p>
+          <p className="col-start-5 col-end-7 row-start-1">Monthly cost</p>
+        </div>
+      )}
       <RHFProvider methods={form} onSubmit={onSubmit}>
         <div className="mb-5 flex flex-col gap-6">
           {fields.map((founder, index) => (
@@ -167,11 +168,6 @@ interface OperatingExpensesProps {
 
 function OperatingExpenses(props: OperatingExpensesProps) {
   const { index, value, onRemove } = props
-  const form = useFormContext<FpOperatingExpensesFormValue>()
-
-  // Apply the requirement, we can remove only when the items > 1
-  const isRemovable =
-    form.getValues(FpOperatingExpensesField.operatingExpenses).length > 1
 
   return (
     <div key={value.id} className="flex gap-3">
@@ -227,19 +223,17 @@ function OperatingExpenses(props: OperatingExpensesProps) {
         />
       </div>
 
-      {isRemovable ? (
-        <div className="flex items-center justify-between">
-          <Button
-            className="h-auto p-0"
-            tabIndex={-1}
-            type="button"
-            variant="ghost"
-            onClick={onRemove}
-          >
-            <X className="size-5" />
-          </Button>
-        </div>
-      ) : null}
+      <div className="flex items-center justify-between">
+        <Button
+          className="h-auto p-0"
+          tabIndex={-1}
+          type="button"
+          variant="ghost"
+          onClick={onRemove}
+        >
+          <X className="size-5" />
+        </Button>
+      </div>
     </div>
   )
 }

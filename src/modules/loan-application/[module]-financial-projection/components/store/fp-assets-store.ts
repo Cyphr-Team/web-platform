@@ -35,7 +35,7 @@ export const EMPTY_ASSET_ITEM = {
 
 export const FP_ASSETS_DEFAULT_VALUE = {
   [AssetsField.RECEIVABLE_DAYS]: "",
-  [AssetsField.LONG_TERM_ASSETS]: [EMPTY_ASSET_ITEM]
+  [AssetsField.LONG_TERM_ASSETS]: []
 }
 
 export const RECEIVABLE_DAYS_OPTIONS = [

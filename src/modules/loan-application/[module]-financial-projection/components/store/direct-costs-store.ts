@@ -18,7 +18,7 @@ export const directCostsFormSchema = z.object({
       z
         .object({
           directCostName: z.string().min(1),
-          directCostDescription: z.string().min(1),
+          directCostDescription: z.string(),
           startDate: createDateSchema(),
           overallRevenue: createNumberSchema({
             min: 1,

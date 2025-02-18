@@ -8,8 +8,8 @@ import { useCreateMutation } from "@/modules/loan-application/[module]-financial
 import { type SubmissionHook } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import {
   type AssetsCurrentFormMutateRequest,
-  type AssetsLongTermFormMutateRequest,
   type AssetsCurrentFormResponse,
+  type AssetsLongTermFormMutateRequest,
   type AssetsLongTermFormResponse
 } from "@/modules/loan-application/[module]-financial-projection/types/assets-form"
 import {
@@ -121,12 +121,11 @@ export const reverseFormatAssetsForm = (
       responseCurrentData.financialProjectionSetupId ?? "",
     [AssetsField.RECEIVABLE_DAYS]:
       responseCurrentData.receivableDays.toString(),
-    [AssetsField.LONG_TERM_ASSETS]: responseLongTermData.forms.map(
-      (formValue) => ({
+    [AssetsField.LONG_TERM_ASSETS]:
+      responseLongTermData.forms?.map((formValue) => ({
         ...formValue,
         usefulLife: formValue.usefulLife.toString(),
         purchaseDate: parseISOStringToMMYYYY(formValue.purchaseDate)
-      })
-    )
+      })) ?? []
   }
 }
