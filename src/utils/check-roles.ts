@@ -4,6 +4,7 @@ import {
   platformAdminRoles,
   reviewerRoles,
   type UserRoles,
+  viewerRoles,
   workspaceAdminRoles
 } from "@/types/user.type"
 import { inMemoryJWTService } from "@/services/jwt.service"
@@ -67,6 +68,14 @@ const checkIsJudge = () => {
   return isJudge(userInfo.roles)
 }
 
+const checkIsViewer = () => {
+  const userInfo = inMemoryJWTService.getUserInfo()
+
+  if (!userInfo) return false
+
+  return isViewer(userInfo.roles)
+}
+
 const isReviewerRole = (role: UserRoles): boolean => {
   return reviewerRoles().includes(role)
 }
@@ -91,6 +100,10 @@ const isJudge = (roles: string[]): boolean => {
   return judgeRoles().some((role) => hasRole(roles, role))
 }
 
+const isViewer = (roles: string[]): boolean => {
+  return viewerRoles().some((role) => hasRole(roles, role))
+}
+
 export {
   checkIsWorkspaceAdmin,
   checkIsForesightAdmin,
@@ -98,10 +111,12 @@ export {
   checkRolesMatchWithUserRoles,
   checkIsLoanOfficer,
   checkIsJudge,
+  checkIsViewer,
   isReviewerRole,
   isApplicant,
   isPlatformAdmin,
   isWorkspaceAdmin,
   isJudge,
+  isViewer,
   getUserRoles
 }

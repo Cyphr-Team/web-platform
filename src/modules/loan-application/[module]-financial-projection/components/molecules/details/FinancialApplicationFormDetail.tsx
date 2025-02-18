@@ -6,6 +6,7 @@ import {
 import { type FinancialApplicationFormDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
 import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
 import { type ReactNode } from "react"
+import { checkIsLoanApplicant } from "@/utils/check-roles.ts"
 
 interface FinancialApplicationFormDetailProps {
   title?: ReactNode
@@ -15,6 +16,19 @@ interface FinancialApplicationFormDetailProps {
   isSubChildren?: boolean
   isLoading?: boolean
   isPdf?: boolean
+}
+
+const NON_APPLICANT_HIDDEN_FIELDS = ["residentAddress", "dateOfBirth"]
+
+const maskSSN = (content?: string) => {
+  if (!content) return
+
+  return (
+    <>
+      <span className="font-mono">***-**-</span>
+      {content.slice(-4)}
+    </>
+  )
 }
 
 export function FinancialApplicationFormDetail(
@@ -30,19 +44,30 @@ export function FinancialApplicationFormDetail(
     isPdf
   } = props
 
-  const render =
-    financialApplicationFormData.length > 0 ? (
-      <div className={cn("mt-4 flex flex-col gap-8", isSubChildren && "gap-4")}>
-        {financialApplicationFormData.map(({ id, title, content }) => (
-          <FinancialDetailItem
-            key={id}
-            content={content}
-            isLoading={isLoading}
-            title={title}
-          />
-        ))}
-      </div>
-    ) : null
+  const render = financialApplicationFormData.length > 0 && (
+    <div className={cn("mt-4 flex flex-col gap-8", isSubChildren && "gap-4")}>
+      {financialApplicationFormData
+        .filter(
+          ({ id }) =>
+            checkIsLoanApplicant() || !NON_APPLICANT_HIDDEN_FIELDS.includes(id)
+        )
+        .map(({ id, title, content }) => {
+          const displayedContent =
+            id === "ssn" && !checkIsLoanApplicant()
+              ? maskSSN(content as string)
+              : content
+
+          return (
+            <FinancialDetailItem
+              key={id}
+              content={displayedContent}
+              isLoading={isLoading}
+              title={title}
+            />
+          )
+        })}
+    </div>
+  )
 
   return (
     <div

@@ -2,17 +2,21 @@ import { Navigate, Outlet } from "react-router-dom"
 import { MainLayout } from "../components/layouts/MainLayout"
 import { LoanApplicationDetailProvider } from "../providers/LoanApplicationDetailProvider"
 import {
-  checkIsWorkspaceAdmin,
+  checkIsJudge,
   checkIsLoanOfficer,
-  checkIsJudge
+  checkIsViewer,
+  checkIsWorkspaceAdmin
 } from "@/utils/check-roles"
 import { APP_PATH } from "@/constants"
 
 function RoleStrict({ children }: React.PropsWithChildren) {
-  const isLoanOfficerOrLenderAdminOrJudge =
-    checkIsLoanOfficer() || checkIsWorkspaceAdmin() || checkIsJudge()
+  const hasReviewAccess =
+    checkIsLoanOfficer() ||
+    checkIsWorkspaceAdmin() ||
+    checkIsJudge() ||
+    checkIsViewer()
 
-  if (!isLoanOfficerOrLenderAdminOrJudge)
+  if (!hasReviewAccess)
     return <Navigate replace to={APP_PATH.LOAN_APPLICATION_MANAGEMENT.INDEX} />
 
   return children

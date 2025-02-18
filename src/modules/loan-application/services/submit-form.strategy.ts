@@ -504,7 +504,6 @@ export const useSubmitLoanForm = (
             description: TOAST_MSG.loanApplication.updateSuccess.description
           })
         }
-        navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
       }
     },
     [
