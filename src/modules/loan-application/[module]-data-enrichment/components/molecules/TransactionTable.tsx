@@ -21,7 +21,6 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table.tsx"
-import { DataTableColumnHeader } from "@/shared/molecules/table/column-header.tsx"
 import {
   Select,
   SelectContent,
@@ -41,6 +40,7 @@ import { Button } from "@/components/ui/button.tsx"
 import { useFormContext } from "react-hook-form"
 import { findByPlaidCategory } from "@/modules/loan-application/[module]-data-enrichment/constants/mapping-logic.ts"
 import { currencyCellFormatter } from "@/utils/currency.utils.ts"
+import { renderFilterableHeader } from "@/utils/table.utils.tsx"
 
 type CategoryDataState = Record<
   PrimaryCategory,
@@ -102,13 +102,7 @@ export function TransactionTable() {
     () => [
       {
         accessorKey: "cyphrPrimaryCreditCategory",
-        header: ({ column }) => (
-          <DataTableColumnHeader
-            className="p-0"
-            column={column}
-            title="Accounts"
-          />
-        ),
+        header: renderFilterableHeader({ title: "Accounts" }),
         cell: ({ row, getValue }) => {
           if (row.getIsGrouped()) {
             return (
@@ -137,17 +131,36 @@ export function TransactionTable() {
       },
       {
         accessorKey: "description",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Description" />
-        ),
+        header: renderFilterableHeader({ title: "Transaction" }),
         cell: (info) => info.getValue(),
         enableSorting: true
       },
       {
+        accessorKey: "amount",
+        header: renderFilterableHeader({ title: "Total $ Amount" }),
+        cell: (info) => {
+          if (info.row.getIsGrouped()) {
+            return
+          }
+
+          const customFormatter = (val: string | number) =>
+            USDFormatter(val, { precision: 2 })
+
+          return (
+            <div>
+              $
+              {currencyCellFormatter(
+                info.getValue() as number,
+                customFormatter
+              )}
+            </div>
+          )
+        },
+        enableSorting: true
+      },
+      {
         accessorKey: "accountName",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Primary" />
-        ),
+        header: renderFilterableHeader({ title: "Category" }),
         cell: ({ row }) => {
           if (row.getIsGrouped()) {
             return
@@ -163,40 +176,19 @@ export function TransactionTable() {
               onValueChange={onUpdateCategory}
             />
           )
+        },
+        enableSorting: true,
+        sortingFn: (rowA, rowB) => {
+          return (
+            rowA.original.cyphrPrimaryCreditCategory.localeCompare(
+              rowB.original.cyphrPrimaryCreditCategory
+            ) ?? 0
+          )
         }
       },
       {
-        accessorKey: "amount",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Total $ Amount" />
-        ),
-        cell: (info) => {
-          if (info.row.getIsGrouped()) {
-            return
-          }
-
-          const customFormatter = (val: string | number) =>
-            USDFormatter(val, { precision: 2 })
-
-          return (
-            <div className="flex justify-between">
-              $
-              <div>
-                {currencyCellFormatter(
-                  info.getValue() as number,
-                  customFormatter
-                )}
-              </div>
-            </div>
-          )
-        },
-        enableSorting: true
-      },
-      {
         accessorKey: "plaidPrimaryCreditCategory",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Detailed" />
-        ),
+        header: renderFilterableHeader({ title: "Primary" }),
         cell: ({ row }) => {
           if (row.getIsGrouped()) {
             return
@@ -219,9 +211,7 @@ export function TransactionTable() {
       },
       {
         accessorKey: "cyphrFinancialCategory",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Financial Category" />
-        ),
+        header: renderFilterableHeader({ title: "Financial Categories" }),
         cell: ({ row }) => {
           if (row.getIsGrouped()) {
             const hasMore =
@@ -236,7 +226,9 @@ export function TransactionTable() {
                 variant="ghost"
               >
                 <Icons.Union />
-                Display more transactions
+                <span className="text-white font-normal">
+                  Display more transactions
+                </span>
               </Button>
             )
           }
@@ -326,7 +318,7 @@ export function TransactionTable() {
                   className="whitespace-nowrap"
                   colSpan={header.colSpan}
                 >
-                  <TableCell className="text-sm">
+                  <TableCell className="text-sm p-0 text-black font-semibold">
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext()
@@ -345,7 +337,7 @@ export function TransactionTable() {
                   key={cell.id}
                   className={
                     cell.getIsGrouped() || cell.getIsAggregated()
-                      ? "bg-table-gray-feldgrau text-white text-sm p-3"
+                      ? "bg-table-gray-feldgrau text-white text-sm font-semibold py-0"
                       : "text-sm"
                   }
                 >
@@ -377,7 +369,13 @@ function SelectableCell({
   options,
   type
 }: SelectableCellProps) {
-  const [value, setValue] = useState(defaultValue[type] as string)
+  const [value, setValue] = useState<string | undefined>(() => {
+    const initialValue = defaultValue[type] as string
+
+    if (options.some(([key]) => key === initialValue)) {
+      return initialValue
+    }
+  })
 
   return (
     <Select
@@ -387,7 +385,7 @@ function SelectableCell({
         onValueChange(defaultValue.id, type, newValue)
       }}
     >
-      <SelectTrigger className="text-sm border-none bg-transparent">
+      <SelectTrigger className="text-sm border-none bg-transparent p-0 justify-start">
         <SelectValue
           placeholder={
             <p className="text-sm text-text-placeholder">Please select</p>
