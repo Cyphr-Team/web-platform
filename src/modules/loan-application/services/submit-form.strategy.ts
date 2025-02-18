@@ -30,8 +30,6 @@ import { useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, isAxiosError } from "axios"
 import { type Dispatch, useCallback } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { transformExecutionResponseToForm } from "../components/organisms/loan-application-form/execution/constants"
-import { type ExecutionFormResponse } from "../components/organisms/loan-application-form/execution/type"
 import {
   type SbbKybFormPartOneValue,
   type SbbKybFormPartTwoValue
@@ -78,7 +76,6 @@ import { useSubmitCurrentLoansFormV2 } from "@/modules/loan-application/hooks/fo
 import { mapLoanRequestDataToV2 } from "@/modules/loan-application/services/formv2.services.ts"
 import { type SubmitLoanFormContext } from "@/modules/loan-application/types"
 import { useSubmitKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
-import { useSubmitExecutionForm } from "@/modules/loan-application/hooks/form-common/useSubmitExecutionForm.ts"
 import { useSubmitLoanIdentityVerification } from "@/modules/loan-application/hooks/form-identity-verification/useSubmitLoanIdentityVerification.ts"
 import { useSubmitESignDocument } from "@/modules/loan-application/hooks/form-esign/useSubmitESignDocument.ts"
 import { useSubmitSbbLoanKYBForm } from "@/modules/loan-application/hooks/form-kyb/useSubmitSbbLoanKybForm.ts"
@@ -102,6 +99,7 @@ import { type FormV2Data } from "@/modules/loan-application/types/form.v2"
 import { useSubmitMarketOpportunityForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitMarketOpportunityForm"
 import { useSubmitBusinessModelForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitBusinessModelForm"
 import { useSubmitLoanLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitLaunchKCFitForm"
+import { useSubmitLoanExecutionForm } from "@/modules/loan-application/hooks/form-common/launchkc/useSubmitExecutionForm"
 
 export const useSubmitLoanForm = (
   dispatchFormAction: Dispatch<Action>,
@@ -368,14 +366,11 @@ export const useSubmitLoanForm = (
     })
 
   // Execution
-  const updateLoanExecutionData = (data: ExecutionFormResponse) =>
-    updateDataAfterSubmit(
-      transformExecutionResponseToForm(data),
-      LOAN_APPLICATION_STEPS.EXECUTION
-    )
+  const updateLoanExecutionData = (data: FormV2Data) =>
+    updateDataAfterSubmit(data, LOAN_APPLICATION_STEPS.EXECUTION)
 
   const { submitLoanExecutionForm, isLoading: isSubmittingExecution } =
-    useSubmitExecutionForm({
+    useSubmitLoanExecutionForm({
       rawData: executionData,
       onSuccess: updateLoanExecutionData
     })
@@ -665,7 +660,7 @@ export const useSubmitLoanForm = (
           executionData &&
           isCompleteSteps(LOAN_APPLICATION_STEPS.EXECUTION)
         ) {
-          submitPromises.push(submitLoanExecutionForm())
+          submitPromises.push(submitLoanExecutionForm(applicationId))
         }
 
         // Submit Business Model form

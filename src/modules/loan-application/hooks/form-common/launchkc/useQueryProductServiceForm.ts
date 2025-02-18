@@ -11,5 +11,5 @@ export const useQueryProductServiceForm = ({
     applicationId,
     queryKey: QUERY_KEY.GET_PRODUCT_SERVICE_FORM,
     formTypes: [FORM_TYPE.PRODUCT_SERVICE],
-    enabled: enabled ?? false
+    enabled: !!enabled
   })

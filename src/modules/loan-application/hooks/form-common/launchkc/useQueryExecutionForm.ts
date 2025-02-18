@@ -3,13 +3,13 @@ import { type FormDetailsQueryOptions } from "@/modules/loan-application/hooks/f
 import { useQueryCommonForm } from "@/modules/loan-application/hooks/form-common/useQueryCommonFormV2"
 import { FORM_TYPE } from "@/modules/loan-application/models/LoanApplicationStep/type"
 
-export const useQueryLaunchKCFitForm = ({
+export const useQueryExecutionForm = ({
   applicationId,
   enabled
 }: FormDetailsQueryOptions) =>
   useQueryCommonForm({
     applicationId,
-    queryKey: QUERY_KEY.GET_LAUNCH_KC_FIT_FORM,
-    formTypes: [FORM_TYPE.LAUNCHKC_FIT],
+    queryKey: QUERY_KEY.GET_EXECUTION_FORM,
+    formTypes: [FORM_TYPE.EXECUTION],
     enabled: !!enabled
   })

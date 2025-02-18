@@ -11,5 +11,5 @@ export const useQueryBusinessModelForm = ({
     applicationId,
     queryKey: QUERY_KEY.GET_BUSINESS_MODEL_FORM,
     formTypes: [FORM_TYPE.BUSINESS_MODEL],
-    enabled: enabled ?? false
+    enabled: !!enabled
   })

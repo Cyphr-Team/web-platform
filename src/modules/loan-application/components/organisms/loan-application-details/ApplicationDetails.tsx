@@ -41,6 +41,7 @@ import { deserializeLoanProductServiceFormV2 } from "@/modules/loan-application/
 import { deserializeLoanMarketOpportunityFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/market-opportunity-store"
 import { deserializeLoanBusinessModelFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/business-model-store"
 import { deserializeLoanLaunchKCFitFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/launchkc-fit-store"
+import { deserializeLoanExecutionFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/execution-store"
 
 export function ApplicationDetails() {
   const {
@@ -151,7 +152,9 @@ export function ApplicationDetails() {
             />
           ) : null}
           {executionFormData ? (
-            <ExecutionFormDetails data={executionFormData} />
+            <ExecutionFormDetails
+              dataV2={deserializeLoanExecutionFormV2(executionFormData)}
+            />
           ) : null}
           {launchKCFitFormData ? (
             <LaunchKcFitFormDetails

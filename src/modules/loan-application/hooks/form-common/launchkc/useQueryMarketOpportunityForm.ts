@@ -11,5 +11,5 @@ export const useQueryMarketOpportunityForm = ({
     applicationId,
     queryKey: QUERY_KEY.GET_MARKET_OPPORTUNITY,
     formTypes: [FORM_TYPE.MARKET_OPPORTUNITY],
-    enabled: enabled ?? false
+    enabled: !!enabled
   })
