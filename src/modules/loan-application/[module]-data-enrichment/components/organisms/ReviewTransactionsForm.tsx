@@ -15,6 +15,8 @@ import { type PlaidTransaction } from "@/modules/loan-application/[module]-data-
 import { useForm } from "react-hook-form"
 import { RHFProvider } from "@/modules/form-template/providers"
 import { useEffect } from "react"
+import { useBoolean } from "@/hooks"
+import { LOAN_APPLICATION_STEPS } from "@/modules/loan-application/models/LoanApplicationStep/type.ts"
 
 interface FormValues {
   data: PlaidTransaction[]
@@ -22,10 +24,15 @@ interface FormValues {
 
 export function ReviewTransactionsForm() {
   const { id: applicationId } = useParams()
-  const { finishCurrentStep, step, completeCurrentStep } =
+  const { finishCurrentStep, step, completeCurrentStep, getStepStatus } =
     useLoanApplicationProgressContext()
 
   const queryClient = useQueryClient()
+  const loading = useBoolean(false)
+  const connectedBankAccount = getStepStatus(
+    LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION
+  )
+
   const { data, isLoading } = useQueryPlaidTransactions({
     applicationId: applicationId!,
     enabled: !!applicationId
@@ -47,17 +54,23 @@ export function ReviewTransactionsForm() {
     finishCurrentStep()
   }
 
-  const onRefreshData = () =>
+  const onRefreshData = () => {
     queryClient.invalidateQueries({
       queryKey: [HISTORICAL_FINANCIALS_QUERY_KEY.GET_PLAID_TRANSACTIONS]
     })
 
+    loading.onTrue()
+    setTimeout(() => loading.onFalse(), 1000)
+  }
+
+  const hasData = (data?.transactions?.length ?? 0) > 0
+
   useEffect(() => {
-    if (data?.transactions && !isLoading) {
+    if (hasData && !isLoading) {
       methods.setValue("data", groupTransactions(data?.transactions ?? []))
       completeCurrentStep()
     }
-  }, [data?.transactions, methods, isLoading])
+  }, [data?.transactions, methods, isLoading, completeCurrentStep, hasData])
 
   return (
     <FormLayout layout="borderless" title="Review Transactions">
@@ -72,12 +85,15 @@ export function ReviewTransactionsForm() {
       <Separator />
 
       <RHFProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
-        {isLoading ? (
+        {!connectedBankAccount ? (
+          <p className="text-sm ">Please connect bank account first</p>
+        ) : null}
+        {isLoading || loading.value ? (
           <TableSkeleton cellClassName="h-16" className="w-full" columns={4} />
         ) : null}
-        {data?.transactions !== undefined ? <TransactionTable /> : null}
+        {hasData ? <TransactionTable /> : null}
 
-        {!isReviewApplicationStep(step) && (
+        {connectedBankAccount && !isReviewApplicationStep(step) ? (
           <div className="mt-4 flex flex-row gap-2xl justify-end items-center">
             <Button
               disabled={isLoading || data?.transactions.length !== 0}
@@ -90,7 +106,7 @@ export function ReviewTransactionsForm() {
 
             <Button type="submit">Looks good</Button>
           </div>
-        )}
+        ) : null}
       </RHFProvider>
     </FormLayout>
   )

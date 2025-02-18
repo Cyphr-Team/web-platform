@@ -816,8 +816,21 @@ export function BRLoanApplicationDetailsProvider({
             ) ?? []
         }
       })
+
+      if (plaidItemIdsQuery.data?.data?.plaidItems.length > 0) {
+        dispatchProgress({
+          // turn on green tick
+          type: LoanProgressAction.ChangeProgress,
+          progress: LOAN_APPLICATION_STEPS.REVIEW_TRANSACTIONS
+        })
+        dispatchProgress({
+          // turn on green tick
+          type: LoanProgressAction.ChangeProgress,
+          progress: LOAN_APPLICATION_STEPS.REVIEW_INCOME_STATEMENT
+        })
+      }
     }
-  }, [plaidDispatch, plaidItemIdsQuery.data?.data])
+  }, [dispatchProgress, plaidDispatch, plaidItemIdsQuery.data?.data])
 
   /**
    * Handle retrieve list Plaid connected bank accounts
@@ -831,7 +844,7 @@ export function BRLoanApplicationDetailsProvider({
         }
       })
     }
-  }, [plaidConnectedInstitutionsQuery.data, plaidDispatch])
+  }, [dispatchProgress, plaidConnectedInstitutionsQuery.data, plaidDispatch])
   /**
    * TODO: How to remove linkedItemIds
    */
@@ -1078,11 +1091,8 @@ export function BRLoanApplicationDetailsProvider({
       loanProgramQuery.isLoading,
       loanRequestDetailQuery.data,
       loanRequestDetailQuery.isLoading,
-      kybFormQueryV2.data,
       kybFormQuery.data,
       kybFormQuery.isLoading,
-      kycFormQueryV2.data,
-      kycFormQueryV2.isLoading,
       kycFormQuery.data,
       kycFormQuery.isLoading,
       currentLoansFormQueryV2.data,
@@ -1095,7 +1105,7 @@ export function BRLoanApplicationDetailsProvider({
       financialFormQuery.isLoading,
       businessModelFormQuery.data,
       businessModelFormQuery.isLoading,
-      productServiceFormQuery.data,
+      productServiceFormQuery?.data,
       productServiceFormQuery.isLoading,
       marketOpportunityFormQuery.data,
       marketOpportunityFormQuery.isLoading,
@@ -1125,8 +1135,6 @@ export function BRLoanApplicationDetailsProvider({
       businessDocumentsUploadedFormQuery.data,
       financialStatementQuery?.data,
       financialStatementQuery.isLoading,
-      plaidItemIdsQuery.isLoading,
-      plaidConnectedInstitutionsQuery.isLoading,
       operatingExpensesCCFormQuery.data,
       operatingExpensesCCFormQuery.isLoading,
       debtFinancingCCFormQuery.data,
@@ -1134,7 +1142,11 @@ export function BRLoanApplicationDetailsProvider({
       assetsCCFormQuery.data,
       assetsCCFormQuery.isLoading,
       directCostsCCFormQuery.data,
-      directCostsCCFormQuery.isLoading
+      directCostsCCFormQuery.isLoading,
+      kybFormQueryV2.isLoading,
+      kycFormQueryV2.isLoading,
+      plaidItemIdsQuery.isLoading,
+      plaidConnectedInstitutionsQuery.isLoading
     ]
   )
 
