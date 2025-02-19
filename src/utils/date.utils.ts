@@ -10,6 +10,30 @@ import { util } from "zod"
 import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants/types/cashflow.type"
 import find = util.find
 
+/**
+ * Formats a given Date object into a string with the pattern `yyyy.mm.dd_hh.mm.ss`.
+ *
+ * - If `customDate` is provided, it formats that date.
+ * - If `customDate` is not provided, it formats the current date.
+ * - Ensures two-digit formatting for month, day, hours, minutes, and seconds.
+ *
+ * @param {Date} [customDate] - An optional Date object to format.
+ * @returns {string} - The formatted date string in `yyyy.mm.dd_hh.mm.ss` format.
+ */
+export const formatPDFDate = (customDate?: Date): string => {
+  const d = customDate || new Date()
+
+  return `${d.getFullYear()}.${(d.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}.${d.getDate().toString().padStart(2, "0")}_${d
+    .getHours()
+    .toString()
+    .padStart(2, "0")}.${d.getMinutes().toString().padStart(2, "0")}.${d
+    .getSeconds()
+    .toString()
+    .padStart(2, "0")}`
+}
+
 export const formatBirthday = (date?: string) => {
   try {
     return format(date ?? "", FORMAT_DATE_M_D_Y)

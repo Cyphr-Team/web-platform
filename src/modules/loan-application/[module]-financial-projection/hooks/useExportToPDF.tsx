@@ -10,7 +10,7 @@ import {
   generatePDF
 } from "@/modules/loan-application/services/pdf-v2.service"
 import { toastError } from "@/utils"
-import { formatDate } from "@/utils/date.utils"
+import { formatDate, formatPDFDate } from "@/utils/date.utils"
 import { useRef } from "react"
 
 type ElementRef = Partial<Record<ExportFPOption, HTMLDivElement>>
@@ -107,7 +107,7 @@ export const useExportToPDF = () => {
       })
 
       // Format date in name of file
-      pdf.save(`financial_projections_${formatedDate.getTime()}.pdf`)
+      pdf.save(`financial_projections_${formatPDFDate(formatedDate)}.pdf`)
     } catch (error) {
       toastError({
         title: "Something went wrong!",
