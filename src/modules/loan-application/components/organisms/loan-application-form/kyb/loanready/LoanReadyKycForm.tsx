@@ -35,6 +35,7 @@ import {
   RHFSelectInput,
   RHFTextInput
 } from "@/modules/form-template/components/molecules"
+import { PHONE_COUNTRIES_WHITELIST } from "@/components/ui/phone-input.tsx"
 
 interface OwnerInformationFormProps {
   wrapperClassName?: string
@@ -160,6 +161,7 @@ export function LoanReadyOwnerInformationForm({
             label="Phone number"
             name="phoneNumber"
             placeholder="Enter phone number"
+            whitelist={PHONE_COUNTRIES_WHITELIST}
           />
           <RHFCalendarPickerInput
             className="col-span-6 lg:col-span-3"

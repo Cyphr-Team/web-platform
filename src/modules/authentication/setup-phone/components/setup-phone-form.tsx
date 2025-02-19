@@ -19,7 +19,12 @@ import {
 } from "../hooks/useSetupPhone"
 import { SetupPhoneFormHeader } from "./setup-phone-form-header"
 import { getCustomErrorMsgByCode } from "@/utils/custom-error"
-import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
+import {
+  CountrySelect,
+  type CountrySelectProps,
+  CustomPhoneInput,
+  PHONE_COUNTRIES_WHITELIST
+} from "@/components/ui/phone-input"
 
 function ResetPhoneForm() {
   const { state } = useLocation()
@@ -51,7 +56,12 @@ function ResetPhoneForm() {
               <PhoneInput
                 international
                 countryCallingCodeEditable={false}
-                countrySelectComponent={CountrySelect}
+                countrySelectComponent={(props: CountrySelectProps) =>
+                  CountrySelect({
+                    ...props,
+                    whitelist: PHONE_COUNTRIES_WHITELIST
+                  })
+                }
                 defaultCountry="US"
                 inputComponent={CustomPhoneInput}
                 placeholder="+1 (555) 000-0000"

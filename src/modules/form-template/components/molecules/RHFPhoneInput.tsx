@@ -13,9 +13,13 @@ import {
   useFormContext
 } from "react-hook-form"
 import { memo, type ReactNode } from "react"
-import PhoneInput from "react-phone-number-input"
+import PhoneInput, { type Country } from "react-phone-number-input"
 import { cn } from "@/lib/utils.ts"
-import { CountrySelect, CustomPhoneInput } from "@/components/ui/phone-input"
+import {
+  CountrySelect,
+  type CountrySelectProps,
+  CustomPhoneInput
+} from "@/components/ui/phone-input"
 
 export interface RHFPhoneInputProps<T extends FieldValues> {
   name: FieldPath<T>
@@ -32,6 +36,7 @@ export interface RHFPhoneInputProps<T extends FieldValues> {
     labelClassName?: string
     messageClassName?: string
   }
+  whitelist?: Country[]
 }
 
 /**
@@ -50,7 +55,8 @@ function RHFPhoneInput<T extends FieldValues>(props: RHFPhoneInputProps<T>) {
     styleProps = {},
     required,
     isRowDirection,
-    subtitle
+    subtitle,
+    whitelist
   } = props
 
   const { inputClassName, labelClassName, messageClassName } = styleProps
@@ -83,7 +89,9 @@ function RHFPhoneInput<T extends FieldValues>(props: RHFPhoneInputProps<T>) {
               international
               className={cn("text-sm", inputClassName)}
               countryCallingCodeEditable={false}
-              countrySelectComponent={CountrySelect}
+              countrySelectComponent={(props: CountrySelectProps) =>
+                CountrySelect({ ...props, whitelist })
+              }
               defaultCountry="US"
               inputComponent={CustomPhoneInput}
               placeholder={placeholder}

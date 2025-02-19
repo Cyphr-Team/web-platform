@@ -15,18 +15,31 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover"
 import { CheckIcon, ChevronDown } from "lucide-react"
-import { getCountries, getCountryCallingCode } from "react-phone-number-input"
+import {
+  type Country,
+  getCountries,
+  getCountryCallingCode
+} from "react-phone-number-input"
 import en from "react-phone-number-input/locale/en"
 
-interface CountrySelectProps {
+export interface CountrySelectProps {
   value: string
   onChange: (country: string) => void
   labels: en
   iconComponent: unknown
+  whitelist?: Country[]
 }
 
-function CountrySelect({ value, onChange, labels = en }: CountrySelectProps) {
+export const PHONE_COUNTRIES_WHITELIST: Country[] = ["US"]
+
+function CountrySelect({
+  value,
+  onChange,
+  whitelist,
+  labels = en
+}: CountrySelectProps) {
   const [open, setOpen] = React.useState(false)
+  const countries = whitelist ?? getCountries()
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -45,7 +58,7 @@ function CountrySelect({ value, onChange, labels = en }: CountrySelectProps) {
           <CommandInput className="h-9" placeholder="Search country..." />
           <CommandEmpty>No country found.</CommandEmpty>
           <CommandGroup className="h-60 overflow-auto">
-            {getCountries().map((country) => (
+            {countries.map((country) => (
               <CommandItem
                 key={country}
                 value={`${country}, ${labels[country]}`}

@@ -4,11 +4,12 @@ import {
   LinkAuthenticationElement
 } from "@stripe/react-stripe-js"
 import {
-  type StripeLinkAuthenticationElementChangeEvent,
-  type StripeAddressElementChangeEvent
+  type StripeAddressElementChangeEvent,
+  type StripeLinkAuthenticationElementChangeEvent
 } from "@stripe/stripe-js"
 import { useEffect } from "react"
 import { useFormContext } from "react-hook-form"
+import { PHONE_COUNTRIES_WHITELIST } from "@/components/ui/phone-input.tsx"
 
 /**
  * BillingAddressForm component renders a billing address form using Stripe's AddressElement.
@@ -60,7 +61,7 @@ export function BillingAddressForm({
       <AddressElement
         options={{
           mode: "billing",
-          allowedCountries: ["US"],
+          allowedCountries: PHONE_COUNTRIES_WHITELIST,
           display: { name: "split" },
           autocomplete: { mode: "disabled" }
         }}
