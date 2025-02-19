@@ -87,10 +87,10 @@ function LoanProgramCollapsible({
       value={label}
     >
       <AccordionTrigger
-        className="w-full flex-row-reverse px-4 py-2"
+        className="w-full flex-row-reverse px-3 py-2"
         id={`parent-step-${label.toLowerCase()}`}
       >
-        <div className="ml-3 flex flex-1 items-center justify-between font-semibold">
+        <div className="flex flex-1 items-center justify-between font-semibold">
           <div>{label}</div>
           <div>
             <CircularProgress
@@ -143,7 +143,7 @@ export function SideNavLoanApplication({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "mb-3xl hidden h-full w-96 shrink-0 flex-col bg-background-disabled shadow-sm md:flex",
+        "mb-3xl hidden h-full w-80 shrink-0 flex-col bg-background-disabled shadow-sm md:flex",
         className
       )}
     >
