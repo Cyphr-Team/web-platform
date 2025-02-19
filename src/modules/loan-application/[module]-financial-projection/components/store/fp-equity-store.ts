@@ -16,7 +16,7 @@ export const fpEquityFinancingFormSchema = z.object({
     z.object({
       name: z.string().min(1),
       receivedDate: createDateSchema(),
-      amount: createNumberSchema({ min: 1 })
+      amount: createNumberSchema({ min: 0 }).optional()
     })
   )
 })

@@ -505,6 +505,8 @@ export const useSubmitLoanForm = (
           })
         }
       }
+
+      window.location.reload()
     },
     [
       businessData?.businessLegalName,

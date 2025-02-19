@@ -71,7 +71,8 @@ const blocks = [
       styleProps: {
         inputClassName: "min-w-72 text-sm pl-7.5"
       },
-      isHideErrorMessage: true
+      isHideErrorMessage: true,
+      isAllowDisplayZero: true
     }
   }
 ]

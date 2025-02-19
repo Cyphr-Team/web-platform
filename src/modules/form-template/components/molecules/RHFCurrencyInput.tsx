@@ -101,7 +101,9 @@ function RHFCurrencyInput<T extends FieldValues>(
     (event: SyntheticEvent) => {
       const valueAsNumber = USDFormatter(get(event.target, "value", 0)).value
       const value =
-        valueAsNumber !== 0 && !isNaN(valueAsNumber) ? valueAsNumber : undefined
+        isAllowDisplayZero || (valueAsNumber !== 0 && !isNaN(valueAsNumber))
+          ? valueAsNumber
+          : undefined
 
       field.onChange(value)
       field.onBlur()
