@@ -1,9 +1,5 @@
 import { revertPattern } from "@/components/ui/mask-input"
 import { APP_PATH } from "@/constants"
-import {
-  loanApplicationUserKeys,
-  loanReadyTransactionKeys
-} from "@/constants/query-key"
 import { TOAST_MSG } from "@/constants/toastMsg"
 import { type DirectCostsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/direct-costs-store"
 import { type AssetsFormValue } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-assets-store"
@@ -400,20 +396,33 @@ export const useSubmitLoanForm = (
   const { uploadDocumentForm, isLoading: isUploadingDocumentForm } =
     useUploadDocumentForm()
 
-  const uploadSbbDocumentForm = async (applicationId: string) => {
-    const sbbDocumentFormMapping = new Map([
-      [FORM_TYPE.ARTICLES_OF_ORGANIZATION, articlesOfOrganizationData],
-      [FORM_TYPE.BUSINESS_EIN_LETTER, businessEinLetterData],
-      [FORM_TYPE.BY_LAWS, byLawsData],
-      [FORM_TYPE.CERTIFICATE_OF_GOOD_STANDING, certificateGoodStandingData],
-      [FORM_TYPE.FICTITIOUS_NAME_CERTIFICATION, fictitiousNameCertificationData]
-    ])
+  const uploadSbbDocumentForm = useCallback(
+    async (applicationId: string) => {
+      const sbbDocumentFormMapping = new Map([
+        [FORM_TYPE.ARTICLES_OF_ORGANIZATION, articlesOfOrganizationData],
+        [FORM_TYPE.BUSINESS_EIN_LETTER, businessEinLetterData],
+        [FORM_TYPE.BY_LAWS, byLawsData],
+        [FORM_TYPE.CERTIFICATE_OF_GOOD_STANDING, certificateGoodStandingData],
+        [
+          FORM_TYPE.FICTITIOUS_NAME_CERTIFICATION,
+          fictitiousNameCertificationData
+        ]
+      ])
 
-    return uploadDocumentForm({
-      applicationId,
-      documentFormMapping: sbbDocumentFormMapping
-    })
-  }
+      return uploadDocumentForm({
+        applicationId,
+        documentFormMapping: sbbDocumentFormMapping
+      })
+    },
+    [
+      articlesOfOrganizationData,
+      businessEinLetterData,
+      byLawsData,
+      certificateGoodStandingData,
+      fictitiousNameCertificationData,
+      uploadDocumentForm
+    ]
+  )
 
   const { uploadDocuments, isUploading } = useUploadFormDocuments()
 
@@ -803,22 +812,15 @@ export const useSubmitLoanForm = (
           applicationId,
           onSuccessNavigate
         )
-        queryClient.invalidateQueries({
-          queryKey: loanApplicationUserKeys.detail(applicationId)
-        })
       } catch (error) {
         handleSubmitFormError(error as AxiosError)
       } finally {
-        queryClient.invalidateQueries({
-          queryKey: loanApplicationUserKeys.lists()
-        })
-        queryClient.invalidateQueries({
-          queryKey: loanReadyTransactionKeys.lists()
-        })
+        // invalidate all query
+        queryClient.invalidateQueries()
       }
     },
     [
-      submitLoanRequestForm,
+      editingApplicationId,
       loanRequestV2Data,
       isCompleteSteps,
       identityVerificationData?.inquiryId,
@@ -835,6 +837,12 @@ export const useSubmitLoanForm = (
       businessModelData,
       documentUploadsData,
       ownerData,
+      financialData,
+      cashflowData,
+      handleSubmitFormSuccess,
+      loanRequestData?.id?.length,
+      queryClient,
+      submitLoanRequestForm,
       dispatchFormAction,
       mutateLoanRequest,
       submitLoanIdentityVerification,
@@ -853,19 +861,14 @@ export const useSubmitLoanForm = (
       uploadSbbDocumentForm,
       submitSbbDocument,
       submitSbbLoanKYBForm,
-      financialData,
-      cashflowData,
-      handleSubmitFinancialProjection,
-      handleSubmitCapitalCollabFinancialProjection,
-      handleSubmitFormSuccess,
-      loanRequestData?.id?.length,
-      queryClient,
       submitKYCFormV2,
       submitLoanKYCForm,
       uploadDocuments,
       submitLoanFinancialForm,
       submitCashFlowForm,
+      handleSubmitCapitalCollabFinancialProjection,
       handleSubmitFormError,
+      handleSubmitFinancialProjection,
       confirmationData,
       submitLoanConfirmationForm
     ]

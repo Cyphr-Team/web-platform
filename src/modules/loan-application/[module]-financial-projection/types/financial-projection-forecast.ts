@@ -83,11 +83,10 @@ export interface ForecastResultsResponse {
 }
 
 export interface CashFlowAtAGlanceResponse {
-  financialForecastSetupId: string
+  applicationId: string
   revenue: number
   operatingExpenses: number
   netOperatingIncome: number
-  cashFlowAssessment: string
   operatingMargin: number
   totalDebtService: number
   debtServiceCoverage: number

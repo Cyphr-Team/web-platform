@@ -7,7 +7,6 @@ import {
 import { type ErrorResponse } from "react-router-dom"
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service.ts"
-import { loanApplicationUserKeys } from "@/constants/query-key.ts"
 
 export const useSubmitLoanConfirmation = () => {
   const queryClient = useQueryClient()
@@ -23,10 +22,8 @@ export const useSubmitLoanConfirmation = () => {
         data
       })
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: loanApplicationUserKeys.lists()
-      })
-    }
+    // TODO: use QueryKeyFactory pattern to enhance performance.
+    // Invalidates all query
+    onSuccess: () => queryClient.invalidateQueries()
   })
 }

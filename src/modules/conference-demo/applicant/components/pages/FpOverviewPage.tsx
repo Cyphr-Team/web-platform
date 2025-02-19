@@ -5,11 +5,10 @@ import type { PropsWithChildren } from "react"
 import { type CashFlowAtAGlanceResponse } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
 
 const cashFlow: CashFlowAtAGlanceResponse = {
-  financialForecastSetupId: "ff123456-7890-abcd-ef01-234567890abc",
+  applicationId: "ff123456-7890-abcd-ef01-234567890abc",
   revenue: 210_000,
   operatingExpenses: 140_000,
   netOperatingIncome: 70_000,
-  cashFlowAssessment: "Very Good",
   ratingScale: "Very Good",
   operatingMargin: 33.4,
   totalDebtService: 35_000.0,
@@ -62,7 +61,7 @@ export function Component() {
             />
             <CashFlowGlanceCard
               title="Cash Flow Assessment"
-              value={_.startCase(cashFlow?.cashFlowAssessment.toLowerCase())}
+              value={_.startCase(cashFlow?.ratingScale.toLowerCase())}
             />
           </Grid>
         </Layout>
