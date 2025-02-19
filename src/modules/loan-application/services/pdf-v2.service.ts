@@ -242,12 +242,14 @@ interface GeneratePDFOptions {
   }[]
   isSigned?: boolean
   footerText?: string
+  footerRightTextInFirstPage?: string
 }
 
 export const generatePDF = async ({
   elements,
   isSigned,
-  footerText
+  footerText,
+  footerRightTextInFirstPage
 }: GeneratePDFOptions): Promise<GeneratePDFResult> => {
   if (elements.length === 0) return { pdf: new jsPDF() }
 
@@ -297,7 +299,8 @@ export const generatePDF = async ({
     addFooter({
       pdf,
       textLeft: "Cyphr",
-      textRight: formatDate(new Date().toISOString())!
+      textRight:
+        footerRightTextInFirstPage ?? formatDate(new Date().toISOString())!
     })
 
     for (let i = 1; i < pdf.getNumberOfPages(); i++) {

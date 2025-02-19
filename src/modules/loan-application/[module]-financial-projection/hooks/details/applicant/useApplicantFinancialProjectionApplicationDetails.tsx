@@ -161,5 +161,10 @@ export function useApplicantFinancialProjectionApplicationDetails() {
     kybFormQuery.isFetching ||
     kycFormQuery.isFetching
 
-  return { isFetching, isFetchingBankAccounts, financialApplicationDetailData }
+  return {
+    isFetching,
+    isFetchingBankAccounts,
+    financialApplicationDetailData,
+    loanApplicationDetailsQuery
+  }
 }

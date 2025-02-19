@@ -10,6 +10,7 @@ import {
   generatePDF
 } from "@/modules/loan-application/services/pdf-v2.service"
 import { toastError } from "@/utils"
+import { formatDate } from "@/utils/date.utils"
 import { useRef } from "react"
 
 type ElementRef = Partial<Record<ExportFPOption, HTMLDivElement>>
@@ -53,7 +54,8 @@ export const useExportToPDF = () => {
     [...document.getElementsByClassName(exportClass)] as HTMLDivElement[]
 
   const exportToPdf = async (
-    markedElement: Record<ExportFPOption, boolean>
+    markedElement: Record<ExportFPOption, boolean>,
+    customDate?: string
   ) => {
     try {
       isExporting.onTrue()
@@ -93,14 +95,19 @@ export const useExportToPDF = () => {
         ...historicalFinancialElements
       ]
 
+      const formatedDate = customDate ? new Date(customDate) : new Date()
+
+      // Format date in footer
       const { pdf } = await generatePDF({
         elements: allElements.map((el) => ({
           htmlElement: el.htmlElement,
           pageOrientation: el.pageOrientation
-        }))
+        })),
+        footerRightTextInFirstPage: formatDate(formatedDate.toISOString())
       })
 
-      pdf.save(`financial_projections_${Date.now()}.pdf`)
+      // Format date in name of file
+      pdf.save(`financial_projections_${formatedDate.getTime()}.pdf`)
     } catch (error) {
       toastError({
         title: "Something went wrong!",

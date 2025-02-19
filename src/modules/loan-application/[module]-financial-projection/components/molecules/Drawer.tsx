@@ -19,6 +19,9 @@ import { useForm } from "react-hook-form"
 import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils.ts"
 import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
+import { useApplicantFinancialProjectionApplicationDetails } from "../../hooks/details/applicant/useApplicantFinancialProjectionApplicationDetails"
+import { useDownloadESignDocument } from "@/modules/loan-application/hooks/form-esign/useDownloadESignDocument"
+import { useGetESignDocument } from "@/modules/loan-application/hooks/form-esign/useGetESignDocument"
 
 interface DrawerCheckBoxProps {
   name: ExportFPOption
@@ -190,6 +193,15 @@ export function Drawer({ applicationPlan }: DrawerProps) {
 
   const methods = useForm<Record<ExportFPOption, boolean>>()
 
+  const { loanApplicationDetailsQuery } =
+    useApplicantFinancialProjectionApplicationDetails()
+
+  const downloadESignMutate = useDownloadESignDocument()
+  const { isLoading: isLoadingDocument, data: document } = useGetESignDocument({
+    applicationId: loanApplicationDetailsQuery?.data?.id,
+    enabled: !!loanApplicationDetailsQuery?.data?.id
+  })
+
   const watchAllFields = methods.watch()
 
   const isAtLeastOneChecked = useMemo(() => {
@@ -198,9 +210,50 @@ export function Drawer({ applicationPlan }: DrawerProps) {
 
   const { elementToExportRef, exportToPdf, isExporting } = useExportToPDF()
 
+  /**
+   * Handles downloading the required files based on the assessment checkbox status.
+   *
+   * - Since the export contains financial projection data, downloading a PDF with the applicant's signature
+   *   (which they never saw) is not appropriate. Additionally, PandaDoc prevents this action.
+   * - Workaround:
+   *   - Download two files: A report (PDF) & the signature file from PandaDoc.
+   *   - If ONLY the assessment checkbox is checked: Download only the signature file from PandaDoc.
+   *   - If the assessment checkbox is not checked: Download only the report (PDF).
+   *   - If the asssessment checkbox and another types are checked: Download both the report (PDF) and the signature file from PandaDoc.
+   * @author Khoa Nguyen
+   */
   const onExportToPdf = methods.handleSubmit(async (markedElement) => {
     openDrawer.onToggle()
-    await exportToPdf(markedElement)
+
+    const isOnlyApplicationSummaryTrue = Object.entries(markedElement).every(
+      ([key, value]) =>
+        key === ExportFPOption.APPLICATION_SUMMARY ? value : !value
+    )
+
+    const isApplicationSummaryAndAnother =
+      markedElement[ExportFPOption.APPLICATION_SUMMARY] &&
+      Object.values(markedElement).filter((value) => value).length > 1
+
+    // If ONLY the assessment checkbox is checked: Download only the signature file from PandaDoc.
+    if (isOnlyApplicationSummaryTrue) {
+      if (document) {
+        downloadESignMutate.mutate(document)
+
+        return
+      }
+    }
+
+    //  If the asssessment checkbox and another types are checked: Download both the report (PDF) and the signature file from PandaDoc.
+    if (isApplicationSummaryAndAnother) {
+      if (document) {
+        downloadESignMutate.mutate(document)
+      }
+    }
+
+    await exportToPdf(
+      markedElement,
+      loanApplicationDetailsQuery?.data?.updatedAt
+    )
   })
 
   const isFetchingBankAccounts = useIsFetching({
@@ -235,6 +288,8 @@ export function Drawer({ applicationPlan }: DrawerProps) {
     isFetchingFinancial ||
     isFetchingLoanReadiness ||
     isFetchingLoanSummary ||
+    isLoadingDocument ||
+    downloadESignMutate.isPending ||
     (isEnableHistoricalFinancialsEnrichment() && isFetchingHistoricalFinancials)
   )
 
@@ -250,7 +305,11 @@ export function Drawer({ applicationPlan }: DrawerProps) {
       <div className="ml-2 text-center">
         <ButtonLoading
           className="rounded-lg bg-success-fp text-sm font-medium text-black shadow-md hover:bg-[#a1d80b] focus:outline-none"
-          isLoading={isExporting.value}
+          isLoading={
+            isExporting.value ||
+            isLoadingDocument ||
+            downloadESignMutate.isPending
+          }
           type="button"
           onClick={openDrawer.onToggle}
         >
