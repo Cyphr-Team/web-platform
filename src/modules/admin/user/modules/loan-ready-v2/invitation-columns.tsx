@@ -26,6 +26,7 @@ export const columns: ColumnDef<UserDetailInfo>[] = [
         <Checkbox
           aria-label="Select row"
           checked={row.getIsSelected()}
+          className="data-[state=checked]:bg-[#4F6161] data-[state=checked]:border-[#4F6161] size-5 border-[#D0D5DD]"
           onCheckedChange={(value) => row.toggleSelected(!!value)}
         />
       </div>

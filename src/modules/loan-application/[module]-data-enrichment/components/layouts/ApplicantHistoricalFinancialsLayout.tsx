@@ -38,7 +38,7 @@ export function ApplicantHistoricalFinancialsLayout(
           isEnableLoanReadyV2() && !isPlusPlan
       })}
     >
-      <p className="mb-2 text-sm text-text-tertiary">
+      <p className="mb-2 text-sm text-text-primary">
         This section offers a summary of your past financial performance, based
         on data from your connected Plaid account and the way you've categorized
         your transactions.

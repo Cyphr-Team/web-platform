@@ -1,6 +1,5 @@
 import { TopNav } from "../molecules/TopNav"
 import { BasicInformation } from "../organisms/BasicInformation"
-import { cn } from "@/lib/utils"
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -13,7 +12,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         <BasicInformation />
         <TopNav />
       </div>
-      <div className={cn("flex-1 overflow-auto bg-gray-50 p-4xl pt-3xl")}>
+      <div className="flex-1 overflow-auto bg-gray-50 p-4xl pt-3xl">
         {children}
       </div>
     </div>

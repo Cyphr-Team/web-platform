@@ -128,7 +128,7 @@ const loanProgramText: Element[] = [
     id: uniqueId(),
     type: ELEMENTS_TYPE.title,
     className: "mt-8",
-    content: "Unlock More with Capital Collab+ (Coming Soon!)",
+    content: "Unlock more with Capital Collab+ (Coming Soon!)",
     size: "3xl"
   },
   {

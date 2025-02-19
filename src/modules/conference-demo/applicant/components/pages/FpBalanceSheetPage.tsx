@@ -17,14 +17,18 @@ export function Component() {
     monthlyTimeStamp
   } = useFinancialProjectionData.use.balanceSheet()
 
-  return (
-    <div className="flex flex-col gap-y-2xl">
+  const renderHeaderActions = () => {
+    return (
       <div className="flex w-full items-center justify-end gap-2">
         <LabeledSwitch label="Current financial detail" state={currentDetail} />
         <LabeledSwitch label="Monthly forecast detail" state={monthlyDetail} />
         <Drawer />
       </div>
+    )
+  }
 
+  return (
+    <div className="flex flex-col gap-y-2xl">
       <div className="flex flex-col gap-y-6xl">
         {currentDetail.value ? (
           <BalanceSheetTemplate
@@ -36,6 +40,7 @@ export function Component() {
             }}
             layout="current"
             period={ForecastPeriod.CURRENT}
+            renderHeaderActions={renderHeaderActions}
             title="Current Balance Sheet"
           />
         ) : null}
@@ -52,6 +57,7 @@ export function Component() {
               ? ForecastPeriod.MONTHLY
               : ForecastPeriod.ANNUALLY
           }
+          renderHeaderActions={renderHeaderActions}
         />
       </div>
     </div>

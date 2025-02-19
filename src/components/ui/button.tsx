@@ -58,6 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = "Button"
 
+// eslint-disable-next-line react/display-name
 const ButtonLoading = React.forwardRef<
   HTMLButtonElement,
   ButtonProps & { isLoading?: boolean }

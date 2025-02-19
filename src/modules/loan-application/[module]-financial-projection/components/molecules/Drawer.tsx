@@ -48,7 +48,7 @@ function DrawerCheckBox({ name, label }: DrawerCheckBoxProps) {
       name={name}
       styleProps={{
         checkboxClassName:
-          "border-gray-600 rounded-[3px] w-5 h-5 data-[state=checked]:bg-gray-600 [&_span_svg]:stroke-[4px]"
+          "border-[#D0D5DD] rounded-[3px] size-5 data-[state=checked]:bg-[#4F6161] data-[state=checked]:border-[#4F6161] [&_span_svg]:stroke-[4px]"
       }}
     />
   )

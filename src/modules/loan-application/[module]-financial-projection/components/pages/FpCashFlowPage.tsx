@@ -68,21 +68,19 @@ export function Component() {
     [forecastResults]
   )
 
+  const renderHeaderActions = () => {
+    return (
+      <div className="flex w-full items-center justify-end gap-2">
+        <LabeledSwitch label="Current financial detail" state={currentDetail} />
+        <LabeledSwitch label="Monthly forecast detail" state={monthlyDetail} />
+        <Drawer />
+      </div>
+    )
+  }
+
   return (
     <ErrorWrapper isError={!forecastResults?.balanceSheetForecastAnnually}>
       <div className="flex flex-col gap-y-2xl">
-        <div className="flex w-full items-center justify-end gap-2">
-          <LabeledSwitch
-            label="Current financial detail"
-            state={currentDetail}
-          />
-          <LabeledSwitch
-            label="Monthly forecast detail"
-            state={monthlyDetail}
-          />
-          <Drawer />
-        </div>
-
         <LoadingWrapper
           className={cn(
             isLoading
@@ -102,6 +100,7 @@ export function Component() {
                 }}
                 layout="current"
                 period={ForecastPeriod.CURRENT}
+                renderHeaderActions={renderHeaderActions}
                 title="Current Cash Flow Statement"
               />
             ) : null}
@@ -118,6 +117,7 @@ export function Component() {
                   ? ForecastPeriod.MONTHLY
                   : ForecastPeriod.ANNUALLY
               }
+              renderHeaderActions={renderHeaderActions}
             />
           </div>
         </LoadingWrapper>

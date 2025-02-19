@@ -7,7 +7,7 @@ export function AdminHistoricalFinancialsLayout(props: PropsWithChildren) {
   return (
     <div className="container bg-[#F9FAFB]">
       <div className="my-4 flex space-y-3xl ">
-        <p className="mt-1 text-sm text-text-tertiary">
+        <p className="mt-1 text-sm text-text-primary">
           This section offers a summary of your past financial performance,
           based on data from your connected Plaid account and the way you've
           categorized your transactions.

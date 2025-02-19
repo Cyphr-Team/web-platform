@@ -45,12 +45,6 @@ export default function HistoricalIncomeStatementTemplate(props: Props) {
       onReload={onReload}
     >
       <div className="flex flex-col gap-y-2xl">
-        {includeDownloadReports ? (
-          <div className="flex w-full items-center justify-end gap-2">
-            <Drawer />
-          </div>
-        ) : null}
-
         <LoadingWrapper
           className={cn(
             isLoading
@@ -69,11 +63,18 @@ export default function HistoricalIncomeStatementTemplate(props: Props) {
                   isPdf ? "w-fit" : "w-full"
                 )}
               >
-                {includeTitle ? (
-                  <h1 className="text-3xl font-semibold">
-                    Historical Income Statement
-                  </h1>
-                ) : null}
+                <div className="flex flex-row items-center justify-between w-full">
+                  {includeTitle ? (
+                    <h1 className="text-3xl font-semibold whitespace-nowrap">
+                      Historical Income Statement
+                    </h1>
+                  ) : null}
+                  {includeDownloadReports ? (
+                    <div className="flex w-full items-center justify-end gap-2">
+                      <Drawer />
+                    </div>
+                  ) : null}
+                </div>
                 <HistoricalIncomeStatementTable
                   data={incomeStatementDataGroupedByProp}
                   headerProps={{

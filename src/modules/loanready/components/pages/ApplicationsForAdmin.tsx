@@ -36,6 +36,7 @@ const enum FormFieldNames {
 
 export function ApplicationsForAdmin() {
   const crumbs = useBreadcrumb()
+  const isHome = crumbs.length === 1
 
   // Filter state
   const filterForm = useForm<LoanReadyAssessmentFilterValues>({
@@ -142,7 +143,7 @@ export function ApplicationsForAdmin() {
   return (
     <div className={cn("container mx-auto p-2xl", "md:p-4xl")}>
       <div className="flex flex-col gap-1">
-        <Breadcrumbs breads={crumbs} className="px-0" />
+        {!isHome ? <Breadcrumbs breads={crumbs} className="px-0" /> : null}
         <h1 className="text-2xl font-semibold mt-3">Assessments</h1>
       </div>
 

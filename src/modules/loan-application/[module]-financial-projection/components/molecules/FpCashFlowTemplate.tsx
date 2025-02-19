@@ -11,6 +11,7 @@ import {
   type ForecastPeriod,
   ForecastType
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast.ts"
+import { type ReactNode } from "react"
 
 interface FpCashFlowTemplateProps {
   title?: string
@@ -19,6 +20,7 @@ interface FpCashFlowTemplateProps {
   period: ForecastPeriod
   headerProps: HeaderProps
   isPdf?: boolean
+  renderHeaderActions?: () => ReactNode
 }
 
 export function FpCashFlowTemplate(props: FpCashFlowTemplateProps) {
@@ -28,14 +30,18 @@ export function FpCashFlowTemplate(props: FpCashFlowTemplateProps) {
     period,
     headerProps,
     data,
-    isPdf = false
+    isPdf = false,
+    renderHeaderActions
   } = props
 
   const HeaderComponent = HeaderMapper[period]
 
   return (
     <div className="flex w-full flex-col gap-y-2xl">
-      <h1 className="text-3xl font-semibold">{title}</h1>
+      <div className="flex flex-row items-center justify-between w-full">
+        <h1 className="text-3xl font-semibold whitespace-nowrap">{title}</h1>
+        {renderHeaderActions ? renderHeaderActions() : null}
+      </div>
       <Card
         className={cn(
           isPdf ? null : "shadow-primary",

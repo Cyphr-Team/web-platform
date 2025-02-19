@@ -69,12 +69,14 @@
 
   .launchkc,
   .loanready {
-    --primary: 195 46% 5%;
-    --ring: 195 46% 5%;
+    --primary: 180 4% 15%;
+    --ring: 180 4% 15%;
+    --text-primary: 180 4% 15%;
   }
 
   .sbb,
-  .finovate, .capitalcollab {
+  .finovate,
+  .capitalcollab {
     --primary: 195 46% 5%;
     --ring: 195 46% 5%;
     --text-primary: 180 4% 15%;
@@ -240,5 +242,5 @@ div.rcb-send-button:hover {
 }
 
 .bg-selection {
-  background-color: #F2F8F8;
+  background-color: #f2f8f8;
 }

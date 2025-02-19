@@ -32,6 +32,7 @@ import {
 import { LoanDecisionSubmitted } from "../organisms/LoanDecisionSubmited"
 import { ChangeApplicationStatusDialog } from "./ChangeApplicationStatusDialog"
 import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
+import { Badge } from "@/components/ui/badge"
 
 function ApplicationStatusDropDown({
   currentDecision,
@@ -144,14 +145,13 @@ export function ChangeApplicationStatusButton() {
       ) : (
         <TooltipProvider delayDuration={0}>
           <Tooltip>
-            <TooltipTrigger asChild color={getBadgeVariantByStatus(data)}>
-              <Button
-                className="relative h-10 min-w-48 justify-center rounded-full text-sm capitalize"
-                variant="outline"
+            <TooltipTrigger color={getBadgeVariantByStatus(data)}>
+              <Badge
+                className="relative h-10 min-w-48 justify-center rounded-full text-sm capitalize border border-input"
+                variantColor={getBadgeVariantByStatus(data)}
               >
-                <Dot variantColor={getBadgeVariantByStatus(data)} />
                 {textButton}
-              </Button>
+              </Badge>
             </TooltipTrigger>
             <TooltipContent className="flex items-center gap-1">
               <BadgeInfo className="w-5 text-blue-500" />

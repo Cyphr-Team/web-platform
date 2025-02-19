@@ -21,7 +21,7 @@ export function AdminFinancialProjectionLayout(props: PropsWithChildren) {
     <div className="container bg-[#F9FAFB]">
       <div className="my-4 flex flex-col space-y-3xl ">
         {isEnableLoanReadyV2() && (
-          <p className="mt-1 text-sm text-text-tertiary">
+          <p className="mt-1 text-sm text-text-primary">
             This section provides an overview of your financial projections,
             including metrics, cash flow, balance sheets, and income statements.
             It estimates future performance and shows how revenue and expenses

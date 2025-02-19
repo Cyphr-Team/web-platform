@@ -189,7 +189,6 @@ export function FilterAdminLoanReady({ filterForm }: IFilter) {
   const StatusMultiSelectComponent = useCallback(
     (option: Option<LoanApplicationStatus>, close: ReactNode) => (
       <Badge
-        isDot
         className="whitespace-nowrap"
         variant="soft"
         variantColor={getBadgeVariantByStatus(option.value)}

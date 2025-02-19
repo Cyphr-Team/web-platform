@@ -63,7 +63,7 @@ const loanProgramText: Element[] = [
   {
     id: random().toString(),
     type: ELEMENTS_TYPE.title,
-    content: "Unlock More with LoanReady+:",
+    content: "Unlock more with LoanReady+:",
     size: "3xl"
   },
   {
