@@ -6,7 +6,6 @@ import * as z from "zod"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
 import { LoanReadyPlanSelection } from "@/modules/loanready/components/molecules/LoanReadyPlanSelection"
 import { Separator } from "@/components/ui/separator"
-import { SelectApplicationDialog } from "@/modules/loanready/components/molecules/SelectApplicationDialog"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import useBoolean from "@/hooks/useBoolean"
 import { OrderSummary } from "@/modules/loanready/components/molecules/OrderSummary.tsx"
@@ -23,11 +22,9 @@ import { usePayment } from "@/modules/loanready/hooks/payment/usePayment"
 import { useLocation, useNavigate } from "react-router-dom"
 import { APP_PATH } from "@/constants"
 import { useLinkApplicationToLoanReadySubscription } from "@/modules/loanready/hooks/payment/useUpdateLinkTransactionAndApplication.ts"
-import { useSearchOrderLoanApplications } from "@/modules/loanready/hooks/applications/order-list.ts"
-import { LoanApplicationStatus } from "@/types/loan-application.type.ts"
+import { UseOfLoan } from "@/types/loan-application.type.ts"
 import { useCreateLoanApplicationMutation } from "@/modules/loan-application/hooks/application/useCreateLoanApplicationMutation.ts"
 import { LoanType } from "@/types/loan-program.type.ts"
-import { UseOfLoan } from "@/types/loan-application.type.ts"
 import { useQueryLoanProgramDetailsByType } from "@/modules/loan-application/hooks/program/useQueryLoanProgramDetails.ts"
 import { useQueryClient } from "@tanstack/react-query"
 import { loanReadyTransactionKeys } from "@/constants/query-key"
@@ -46,28 +43,10 @@ export function PaymentDetail() {
   const elements = useElements()
 
   // Boolean States
-  const isSelectAppDialogOpen = useBoolean(false)
   const isConfirmPurchaseDialogOpen = useBoolean(false)
   const isPaymentElementValid = useBoolean(false)
   const isAddressElementValid = useBoolean(false)
-
-  // Query list applications filtering plan BASIC
-  const { data } = useSearchOrderLoanApplications({
-    request: {
-      limit: 100,
-      offset: 0,
-      filter: {
-        plan: [LoanReadyPlanEnum.BASIC]
-      }
-    }
-  })
-
-  // Filter submitted applications
-  const basicApplications =
-    data?.data.data?.filter(
-      (application) =>
-        application.status.toUpperCase() === LoanApplicationStatus.SUBMITTED
-    ) ?? []
+  const applicationId = state?.applicationId
 
   // Payment Form
   const form = useForm<PaymentItemValue>({
@@ -93,19 +72,17 @@ export function PaymentDetail() {
 
   const queryClient = useQueryClient()
 
-  const submitPurchase = async (
-    confirmationToken: string,
-    applicationId?: string
-  ) => {
-    const purchasingPackageType =
-      form.watch("package") === LoanReadyPlanEnum.BASIC
-        ? LoanReadyPlanEnum.BASIC
-        : LoanReadyPlanEnum.PLUS
+  const submitPurchase = async (confirmationToken: string) => {
+    const purchasingPackageType = form.watch("package") as LoanReadyPlanEnum
     const payload = {
       amount: LoanReadyPlan[purchasingPackageType].price,
       confirmationToken: confirmationToken,
-      type: purchasingPackageType,
-      email: form.watch("email")
+      type:
+        purchasingPackageType === LoanReadyPlanEnum.UPGRADE
+          ? LoanReadyPlanEnum.PLUS
+          : purchasingPackageType,
+      email: form.watch("email"),
+      applicationId: applicationId
     }
 
     await mutateConfirmIntent.mutateAsync(payload, {
@@ -142,7 +119,7 @@ export function PaymentDetail() {
         } else {
           mutateLinkForUpgrade(
             paymentTransactionId,
-            applicationId,
+            applicationId as string,
             state?.loanProgramId as string
           )
         }
@@ -169,17 +146,8 @@ export function PaymentDetail() {
   }
 
   // Handle form submission when user clicks "Purchase"
-  const onSubmit = (data: PaymentItemValue) => {
-    const selectedPlan = data.package
-
-    if (
-      selectedPlan === LoanReadyPlanEnum.BASIC ||
-      (selectedPlan === LoanReadyPlanEnum.PLUS && !basicApplications.length)
-    ) {
-      isConfirmPurchaseDialogOpen.onTrue()
-    } else if (selectedPlan === LoanReadyPlanEnum.PLUS) {
-      isSelectAppDialogOpen.onTrue()
-    }
+  const onSubmit = () => {
+    isConfirmPurchaseDialogOpen.onTrue()
   }
 
   // Handle purchase for LoanReady/ LoanReady+ packages
@@ -194,6 +162,7 @@ export function PaymentDetail() {
     switch (form.watch("package")) {
       case LoanReadyPlanEnum.BASIC:
       case LoanReadyPlanEnum.PLUS:
+      case LoanReadyPlanEnum.UPGRADE:
         await mutatePayment()
         break
       default:
@@ -216,12 +185,6 @@ export function PaymentDetail() {
     })
   }
 
-  // Handle 2nd step purchase for LoanReady+ packages
-  const handleLoanReadyPlusPurchase = async (applicationId?: string) => {
-    isSelectAppDialogOpen.onFalse()
-    await mutatePayment(applicationId)
-  }
-
   const clearForm = () => {
     form.reset()
     if (elements) {
@@ -234,11 +197,6 @@ export function PaymentDetail() {
     isAddressElementValid.onFalse()
   }
 
-  const handleSelectAppDialogCancel = () => {
-    clearForm()
-    isSelectAppDialogOpen.onFalse()
-  }
-
   const handleConfirmPurchaseDialogCancel = () => {
     clearForm()
     isConfirmPurchaseDialogOpen.onFalse()
@@ -246,13 +204,10 @@ export function PaymentDetail() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => onSubmit(data))}>
+      <form onSubmit={form.handleSubmit(() => onSubmit())}>
         <div className="grid h-full grid-cols-10 p-0">
           <div className="col-span-7 m-0 flex h-full flex-col bg-white px-6xl py-4xl">
-            <h3 className="mb-4 text-lg font-semibold text-[#252828]">
-              Select your Product
-            </h3>
-            <LoanReadyPlanSelection />
+            <LoanReadyPlanSelection isUpgrade={!!applicationId} />
             <Separator />
             <div className="mt-6 flex flex-col gap-6">
               <PaymentForm isPaymentElementValid={isPaymentElementValid} />
@@ -291,13 +246,6 @@ export function PaymentDetail() {
               </a>
               .
             </div>
-
-            <SelectApplicationDialog
-              applications={basicApplications}
-              isOpen={isSelectAppDialogOpen.value}
-              onCanceled={handleSelectAppDialogCancel}
-              onConfirmed={handleLoanReadyPlusPurchase}
-            />
             <CustomAlertDialog
               cancelText="Cancel"
               confirmText="Confirm"

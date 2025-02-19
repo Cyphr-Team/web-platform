@@ -25,7 +25,8 @@ export function ApplicantFinancialProjectionsLayout(
     navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.payment, {
       state: {
         loanProgramId: loanProgramId,
-        package: LoanReadyPlanEnum.PLUS
+        package: LoanReadyPlanEnum.UPGRADE,
+        applicationId: loanApplicationId
       }
     })
   }, [navigate, loanProgramId])

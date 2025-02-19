@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator"
 import {
-  LoanReadyPlanOptions,
-  type LoanReadyPlanEnum
+  LoanReadyPlanEnum,
+  LoanReadyPlanOptions
 } from "@/modules/loanready/constants/package"
 import { toCurrency } from "@/utils"
 
@@ -24,6 +24,8 @@ export function OrderSummary({ selectedPlan }: OrderSummaryProps) {
           <div className="grid grid-cols-[3fr_1fr] gap-4">
             <div>
               <p className="font-medium text-text-foreground">
+                {selectedPlanDetail.value === LoanReadyPlanEnum.UPGRADE &&
+                  "Upgrade to "}
                 {selectedPlanDetail.label}
               </p>
               <p className="mt-1 font-normal">

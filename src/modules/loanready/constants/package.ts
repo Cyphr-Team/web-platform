@@ -2,7 +2,8 @@ import { isRepSubdomain } from "@/utils/domain.utils"
 
 const enum LoanReadyPlanEnum {
   BASIC = "BASIC",
-  PLUS = "PLUS"
+  PLUS = "PLUS",
+  UPGRADE = "UPGRADE"
 }
 
 const LoanReadyPlan = {
@@ -14,6 +15,11 @@ const LoanReadyPlan = {
   [LoanReadyPlanEnum.PLUS]: {
     name: "LoanReady+",
     price: isRepSubdomain() ? 105 : 15000,
+    currency: "USD"
+  },
+  [LoanReadyPlanEnum.UPGRADE]: {
+    name: "Upgrade",
+    price: isRepSubdomain() ? 101 : 5900,
     currency: "USD"
   }
 }
@@ -34,6 +40,21 @@ const LoanReadyPlanOptions = [
     label: "LoanReady+",
     value: LoanReadyPlanEnum.PLUS,
     price: LoanReadyPlan[LoanReadyPlanEnum.PLUS].price,
+    description: [
+      {
+        id: "desc1",
+        text: "Receive a loan readiness score along with tailored feedback to boost your approval chances."
+      },
+      {
+        id: "desc2",
+        text: "Includes a generated income statement to simplify your loan application process."
+      }
+    ]
+  },
+  {
+    label: "LoanReady+",
+    value: LoanReadyPlanEnum.UPGRADE,
+    price: LoanReadyPlan[LoanReadyPlanEnum.UPGRADE].price,
     description: [
       {
         id: "desc1",
