@@ -10,10 +10,13 @@ import {
   LOAN_APPLICATION_STEPS
 } from "../../models/LoanApplicationStep/type"
 import { isSbb } from "@/utils/domain.utils"
+import { useNavigate } from "react-router-dom"
+import { APP_PATH } from "@/constants"
 
 export function LoanApplicationSave() {
   const { submitLoanForm, isSubmitting, loanRequest } =
     useLoanApplicationFormContext()
+  const navigate = useNavigate()
   const { progress, dispatchProgress } = useLoanApplicationProgressContext()
 
   const isSbbTenant = isSbb()
@@ -107,7 +110,11 @@ export function LoanApplicationSave() {
         step: uncompletedStep
       })
     } else {
-      submitLoanForm({ isSaveDraft: true })
+      submitLoanForm({
+        isSaveDraft: true,
+        onSuccessNavigate: () =>
+          navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)
+      })
     }
   }
 

@@ -33,8 +33,11 @@ export function ApplicationDetailsHeader() {
 
   const onConfirmed = () => {
     if (editableStatuses.includes(status)) {
-      // Save and close
-      submitLoanForm({ isSaveDraft: true })
+      // Save and continue
+      submitLoanForm({
+        isSaveDraft: true,
+        onSuccessNavigate: () => window.location.reload()
+      })
     } else {
       // Close
       navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index)

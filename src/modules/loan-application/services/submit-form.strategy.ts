@@ -463,7 +463,8 @@ export const useSubmitLoanForm = (
     async (
       isUpdated: boolean,
       isSubmitted: boolean,
-      applicationId?: string
+      applicationId?: string,
+      onSuccessNavigate?: () => void
     ) => {
       if (isSubmitted) {
         toastSuccess({
@@ -504,9 +505,8 @@ export const useSubmitLoanForm = (
             description: TOAST_MSG.loanApplication.updateSuccess.description
           })
         }
+        if (onSuccessNavigate) onSuccessNavigate()
       }
-
-      window.location.reload()
     },
     [
       businessData?.businessLegalName,
@@ -545,7 +545,7 @@ export const useSubmitLoanForm = (
   )
 
   const submitLoanForm = useCallback(
-    async ({ isSaveDraft }: SubmitLoanFormContext) => {
+    async ({ isSaveDraft, onSuccessNavigate }: SubmitLoanFormContext) => {
       try {
         let applicationId = editingApplicationId
 
@@ -800,7 +800,8 @@ export const useSubmitLoanForm = (
         handleSubmitFormSuccess(
           loanRequestData?.id?.length > 0,
           isSubmitted,
-          applicationId
+          applicationId,
+          onSuccessNavigate
         )
         queryClient.invalidateQueries({
           queryKey: loanApplicationUserKeys.detail(applicationId)
