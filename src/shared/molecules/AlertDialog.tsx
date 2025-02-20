@@ -12,6 +12,7 @@ import {
 import React, { type PropsWithChildren } from "react"
 
 interface CustomAlertDialogProps extends PropsWithChildren {
+  header?: React.ReactNode
   title: string
   actionClassName?: string
   description?: React.ReactNode
@@ -24,6 +25,7 @@ interface CustomAlertDialogProps extends PropsWithChildren {
 
 export function CustomAlertDialog(props: CustomAlertDialogProps) {
   const {
+    header,
     children,
     title,
     isOpen,
@@ -40,6 +42,7 @@ export function CustomAlertDialog(props: CustomAlertDialogProps) {
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
+          {header}
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>

@@ -106,7 +106,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
       )
 
       return (
-        <div className="pl-2 text-center">
+        <div className="ml-9">
           <Badge
             className={cn(
               criteriaBadgeClassName,
