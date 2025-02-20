@@ -213,7 +213,7 @@ export function Drawer({ applicationPlan }: DrawerProps) {
     } else {
       setLoanApplicationData(loanApplicationDetailsQuery?.data)
     }
-  }, [isAdmin, loanApplicationDetails, loanApplicationDetailsQuery, isViewer])
+  }, [isAdmin, loanApplicationDetails, loanApplicationDetailsQuery])
 
   const downloadESignMutate = useDownloadESignDocument()
   const { isLoading: isLoadingDocument, data: document } = useGetESignDocument({
