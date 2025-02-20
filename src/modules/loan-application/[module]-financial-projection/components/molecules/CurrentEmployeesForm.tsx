@@ -15,7 +15,7 @@ const CurrentEmployeesBlock = [
     type: FieldType.TEXT,
     props: {
       className: "space-y-0 col-span-3",
-      placeholder: "Department name",
+      placeholder: "Department/ role",
       prefixIcon: <Icons.idCard />,
       styleProps: {
         inputClassName: "text-sm"
@@ -42,7 +42,7 @@ const CurrentEmployeesBlock = [
     props: {
       direction: "column",
       className: "space-y-0 col-span-4",
-      placeholder: "Annual department salaries",
+      placeholder: "Annual salaries",
       prefixIcon: (
         <div className="flex justify-between gap-1.5 text-text-placeholder">
           <Icons.money />$
@@ -60,7 +60,7 @@ function CurrentEmployeesForm() {
   return (
     <PeopleArrayFormTemplate
       actionIcon={<UserRoundPlus size={18} />}
-      actionText="Add employee department"
+      actionText="Add employee(s)"
       blocks={CurrentEmployeesBlock}
       className="flex justify-between gap-x-2 p-4"
       defaultEmptyObject={PEOPLE_DEFAULT_VALUE[PeopleField.CurrentEmployees]}

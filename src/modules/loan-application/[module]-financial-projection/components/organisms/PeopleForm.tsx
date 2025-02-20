@@ -84,9 +84,9 @@ export function PeopleForm() {
           <div>
             <h5 className="text-lg font-semibold">Current Employees</h5>
             <h5 className="financial-projection mt-2 text-sm font-normal text-muted-foreground">
-              Add your current employees to their respective departments,
-              including department name, employee count, total annual salaries,
-              and whether benefits are offered.
+              Assign your current employees to their respective departments or
+              roles. Include the department or role name, number of employees,
+              total annual salaries, and whether benefits are provided.
             </h5>
           </div>
 

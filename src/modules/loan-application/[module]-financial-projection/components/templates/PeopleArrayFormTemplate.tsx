@@ -86,7 +86,7 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
           >
             <div
               className={cn(
-                "grid gap-2",
+                "grid gap-4",
                 layout === "current" ? "grid-cols-10" : "grid-cols-12"
               )}
             >
@@ -96,7 +96,7 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
             {fields?.length > 1 ? (
               <Button
                 className={cn(
-                  "h-auto p-0",
+                  "h-auto p-0 pb-2",
                   layout === "future" ? "self-end" : null
                 )}
                 type="button"
