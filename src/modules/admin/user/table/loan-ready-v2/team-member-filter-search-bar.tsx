@@ -5,6 +5,11 @@ import { type UseFormReturn } from "react-hook-form"
 import { MultiSelectRound } from "@/components/ui/multi-select-round.tsx"
 import { UserRoles, UserStatus } from "@/types/user.type.ts"
 import { type UserFilterValues } from "@/modules/admin/user/hooks/useQuery/useQueryListPaginateUser.ts"
+import { Badge } from "@/components/ui/badge.tsx"
+import {
+  getBadgeVariantByRole,
+  getRoleDisplayName
+} from "@/modules/loanready/services"
 
 interface IFilter {
   filterForm: UseFormReturn<UserFilterValues>
@@ -64,6 +69,20 @@ export function FilterSearchTeamMembers({ filterForm }: IFilter) {
     []
   )
 
+  const RoleMultiSelectComponent = useCallback(
+    (option: Option<UserRoles>, close: ReactNode) => (
+      <Badge
+        className="text-[#252828]"
+        variant="solid"
+        variantColor={getBadgeVariantByRole(option.value)}
+      >
+        {getRoleDisplayName(option.value)}
+        {close}
+      </Badge>
+    ),
+    []
+  )
+
   return (
     <Form {...filterForm}>
       <div className="flex gap-3">
@@ -74,7 +93,9 @@ export function FilterSearchTeamMembers({ filterForm }: IFilter) {
             <MultiSelectRound
               field={field}
               label="Roles"
-              labelHOC={(option, close) => MultiSelectComponent(option, close)}
+              labelHOC={(option, close) =>
+                RoleMultiSelectComponent(option, close)
+              }
               options={ROLES_OPTIONS}
               subLabel="Select role"
             />

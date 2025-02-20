@@ -65,7 +65,7 @@ export default function HistoricalIncomeStatementTemplate(props: Props) {
               >
                 <div className="flex flex-row items-center justify-between w-full">
                   {includeTitle ? (
-                    <h1 className="text-3xl font-semibold whitespace-nowrap">
+                    <h1 className="text-2xl font-semibold whitespace-nowrap">
                       Historical Income Statement
                     </h1>
                   ) : null}

@@ -38,7 +38,7 @@ export function BalanceSheetTemplate(props: BalanceSheetTemplateProps) {
   return (
     <div className="flex w-full flex-col gap-y-3xl">
       <div className="flex flex-row items-center justify-between w-full">
-        <h1 className="text-3xl font-semibold whitespace-nowrap">{title}</h1>
+        <h1 className="text-2xl font-semibold whitespace-nowrap">{title}</h1>
         {renderHeaderActions ? renderHeaderActions() : null}
       </div>
       <Card
