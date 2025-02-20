@@ -13,6 +13,7 @@ import { EmptyApplications } from "@/modules/loanready/pages/EmptyApplications"
 import { useQueryGetLoanPrograms } from "@/modules/loan-application/hooks/program/useQueryLoanPrograms.ts"
 import { useGetUnusedLoanReadySubscription } from "@/modules/loanready/hooks/payment/useGetUnusedLoanReadySubscription"
 import { UnusedReportBannerList } from "@/modules/loanready/components/organisms/UnusedReportBannerList"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
 
 export function Component() {
   if (isEnableLoanReadyV2()) return <LoanReadyApplications />
@@ -36,7 +37,10 @@ export default function LoanReadyApplications() {
   const { data, isFetching } = useSearchOrderLoanApplications({
     request: {
       limit: pagination.pageSize,
-      offset: pagination.pageIndex * pagination.pageSize
+      offset: pagination.pageIndex * pagination.pageSize,
+      filter: {
+        plan: [LoanReadyPlanEnum.BASIC, LoanReadyPlanEnum.PLUS]
+      }
     }
   })
 

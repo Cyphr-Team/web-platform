@@ -3,10 +3,9 @@ import { Form } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useElements, useStripe } from "@stripe/react-stripe-js"
+import { useStripe } from "@stripe/react-stripe-js"
 import { LoanReadyPlanSelection } from "@/modules/loanready/components/molecules/LoanReadyPlanSelection"
 import { Separator } from "@/components/ui/separator"
-import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
 import useBoolean from "@/hooks/useBoolean"
 import { OrderSummary } from "@/modules/loanready/components/molecules/OrderSummary.tsx"
 import { useCreateConfirmIntent } from "@/modules/loanready/hooks/payment/useCreateConfirmIntent"
@@ -28,6 +27,8 @@ import { LoanType } from "@/types/loan-program.type.ts"
 import { useQueryLoanProgramDetailsByType } from "@/modules/loan-application/hooks/program/useQueryLoanProgramDetails.ts"
 import { useQueryClient } from "@tanstack/react-query"
 import { loanReadyTransactionKeys } from "@/constants/query-key"
+import { ThankYouDialog } from "@/modules/loanready/components/molecules/ThankYouDialog.tsx"
+import { useState } from "react"
 
 const paymentItemSchema = z.object({
   package: z.string().min(1),
@@ -40,13 +41,14 @@ export function PaymentDetail() {
   // Page states
   const { state } = useLocation()
   const navigate = useNavigate()
-  const elements = useElements()
 
   // Boolean States
-  const isConfirmPurchaseDialogOpen = useBoolean(false)
+  const isThankYouDialogOpen = useBoolean(false)
   const isPaymentElementValid = useBoolean(false)
   const isAddressElementValid = useBoolean(false)
-  const applicationId = state?.applicationId
+  const applicationId = state?.applicationId as string
+  const loanProgramId = state?.loanProgramId as string
+  const [createdApplicationId, setCreatedApplicationId] = useState<string>()
 
   // Payment Form
   const form = useForm<PaymentItemValue>({
@@ -63,7 +65,7 @@ export function PaymentDetail() {
 
   const loanProgramQuery = useQueryLoanProgramDetailsByType(
     LoanType.MICRO,
-    state?.loanProgramId as string
+    loanProgramId
   )
 
   // Send the payment request to server
@@ -86,7 +88,7 @@ export function PaymentDetail() {
     }
 
     await mutateConfirmIntent.mutateAsync(payload, {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         const paymentTransactionId = data.data.id
 
         queryClient.invalidateQueries({
@@ -103,25 +105,23 @@ export function PaymentDetail() {
               proposeUseOfLoan: UseOfLoan.OTHER
             },
             {
-              onSuccess: ({ data: createdApplicationData }) => {
-                mutateLink(createdApplicationData.id, paymentTransactionId)
-
-                navigate(
-                  APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(
-                    createdApplicationData.id,
-                    createdApplicationData.loanProgram.id
-                  ),
-                  { replace: true }
+              onSuccess: async ({ data: createdApplicationData }) => {
+                await mutateLink(
+                  createdApplicationData.id,
+                  paymentTransactionId
                 )
+                setCreatedApplicationId(createdApplicationData.id)
+                isThankYouDialogOpen.onTrue()
               }
             }
           )
         } else {
-          mutateLinkForUpgrade(
+          await mutateLinkForUpgrade(
             paymentTransactionId,
-            applicationId as string,
-            state?.loanProgramId as string
+            applicationId,
+            loanProgramId
           )
+          isThankYouDialogOpen.onTrue()
         }
       }
     })
@@ -146,19 +146,13 @@ export function PaymentDetail() {
   }
 
   // Handle form submission when user clicks "Purchase"
-  const onSubmit = () => {
-    isConfirmPurchaseDialogOpen.onTrue()
-  }
-
-  // Handle purchase for LoanReady/ LoanReady+ packages
-  const handlePurchase = async () => {
+  const onSubmit = async () => {
     // Edge case: When user refreshes the page and we lost LoanProgramId
     if (!state.loanProgramId) {
       handleInvalidProgramId()
 
       return
     }
-    isConfirmPurchaseDialogOpen.onFalse()
     switch (form.watch("package")) {
       case LoanReadyPlanEnum.BASIC:
       case LoanReadyPlanEnum.PLUS:
@@ -173,6 +167,27 @@ export function PaymentDetail() {
     }
   }
 
+  const handleCloseThankYouDialog = () => {
+    isThankYouDialogOpen.onFalse()
+    if (createdApplicationId) {
+      navigate(
+        APP_PATH.LOAN_APPLICATION.APPLICATIONS.editing(
+          createdApplicationId,
+          loanProgramId
+        ),
+        { replace: true }
+      )
+    } else {
+      navigate(
+        APP_PATH.LOAN_APPLICATION.APPLICATIONS.financialApplicationDetails(
+          applicationId,
+          loanProgramId
+        ),
+        { replace: true }
+      )
+    }
+  }
+
   // Handle invalid program id
   const handleInvalidProgramId = () => {
     toastError({
@@ -183,23 +198,6 @@ export function PaymentDetail() {
     navigate(APP_PATH.LOAN_APPLICATION.APPLICATIONS.index, {
       replace: true
     })
-  }
-
-  const clearForm = () => {
-    form.reset()
-    if (elements) {
-      elements.getElement("payment")?.clear()
-      elements?.getElement("address")?.clear()
-      elements?.getElement("linkAuthentication")?.clear()
-    }
-
-    isPaymentElementValid.onFalse()
-    isAddressElementValid.onFalse()
-  }
-
-  const handleConfirmPurchaseDialogCancel = () => {
-    clearForm()
-    isConfirmPurchaseDialogOpen.onFalse()
   }
 
   return (
@@ -229,6 +227,7 @@ export function PaymentDetail() {
               <ButtonLoading
                 disabled={!isValidForm()}
                 isLoading={isLoading.value}
+                onClick={onSubmit}
               >
                 Purchase
               </ButtonLoading>
@@ -246,18 +245,10 @@ export function PaymentDetail() {
               </a>
               .
             </div>
-            <CustomAlertDialog
-              cancelText="Cancel"
-              confirmText="Confirm"
-              description={
-                <span className="break-keep">
-                  Click 'Confirm' to proceed and finalize your order.
-                </span>
-              }
-              isOpen={isConfirmPurchaseDialogOpen.value}
-              title="Confirm your purchase"
-              onCanceled={handleConfirmPurchaseDialogCancel}
-              onConfirmed={() => handlePurchase()}
+            <ThankYouDialog
+              isOpen={isThankYouDialogOpen.value}
+              plan={form.watch("package") as LoanReadyPlanEnum}
+              onClose={handleCloseThankYouDialog}
             />
           </div>
         </div>

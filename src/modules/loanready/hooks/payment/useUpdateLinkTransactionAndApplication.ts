@@ -14,8 +14,7 @@ import { toastError, toastSuccess } from "@/utils"
 import { getAxiosError } from "@/utils/custom-error"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type AxiosError, type AxiosResponse } from "axios"
-import { type ErrorResponse, useNavigate } from "react-router-dom"
-import { APP_PATH } from "@/constants"
+import { type ErrorResponse } from "react-router-dom"
 
 export const useUpdateLinkTransactionAndApplication = () => {
   const queryClient = useQueryClient()
@@ -82,8 +81,6 @@ export const useUpdateLinkTransactionAndApplication = () => {
  * This hook is used in the payment success page.
  */
 export const useLinkApplicationToLoanReadySubscription = () => {
-  const navigate = useNavigate()
-
   const {
     updateLinkTransactionAndApplication,
     isUpdatingLinkTransactionAndApplication: isLinking
@@ -108,26 +105,15 @@ export const useLinkApplicationToLoanReadySubscription = () => {
     }
   }
 
-  const mutateLinkForUpgrade = (
+  const mutateLinkForUpgrade = async (
     paymentTransactionId?: string,
     applicationId?: string,
     loanProgramId?: string
   ) => {
     if (applicationId && paymentTransactionId && loanProgramId) {
-      updateLinkTransactionAndApplication(
+      await updateLinkTransactionAndApplication(
         { paymentTransactionId, applicationId },
         {
-          onSuccess: () => {
-            navigate(
-              APP_PATH.LOAN_APPLICATION.APPLICATIONS.financialApplicationDetails(
-                applicationId,
-                loanProgramId
-              ),
-              {
-                replace: true
-              }
-            )
-          },
           onError: () => {
             toastError({
               title: TOAST_MSG.loanApplication.paymentSubscription.title,
