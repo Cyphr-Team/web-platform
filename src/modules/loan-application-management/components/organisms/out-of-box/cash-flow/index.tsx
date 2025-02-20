@@ -95,38 +95,42 @@ export function Cashflow() {
 
   return (
     <div className="flex flex-col space-y-3xl">
-      {isCapitalCollab() && <SectionTitle>Cash Flow at a Glance</SectionTitle>}
-      <div className="date-select-coupling group flex items-end">
-        <Form {...form}>
-          <form>
-            <div className="date-select-coupling group flex items-end">
-              <SelectTimeRange
-                showExtendedTimeRange
-                customOnChange={customSelectTimeRangeOnChange}
-                showLabel={false}
-              />
+      <div className="flex flex-row items-center gap-4">
+        {isCapitalCollab() && (
+          <SectionTitle>Cash Flow at a Glance</SectionTitle>
+        )}
+        <div className="date-select-coupling group flex items-end">
+          <Form {...form}>
+            <form>
+              <div className="date-select-coupling group flex items-end">
+                <SelectTimeRange
+                  showExtendedTimeRange
+                  customOnChange={customSelectTimeRangeOnChange}
+                  showLabel={false}
+                />
 
-              {showDatePicker ? (
-                <div className="flex flex-wrap items-center">
-                  <FormField
-                    control={form.control}
-                    name="timeRange"
-                    render={({ field: { value } }) => (
-                      <FormItem className="flex items-end gap-1 space-y-0">
-                        <DatePickerWithRange
-                          className="mt-0 w-full rounded-l-none"
-                          date={value}
-                          setDate={handleSetDate}
-                        />
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              ) : null}
-            </div>
-          </form>
-        </Form>
+                {showDatePicker ? (
+                  <div className="flex flex-wrap items-center">
+                    <FormField
+                      control={form.control}
+                      name="timeRange"
+                      render={({ field: { value } }) => (
+                        <FormItem className="flex items-end gap-1 space-y-0">
+                          <DatePickerWithRange
+                            className="mt-0 w-full rounded-l-none"
+                            date={value}
+                            setDate={handleSetDate}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
       <CashflowGlanceReport
         isFetchingNewCashFlow={isFetchingNewCashFlow}

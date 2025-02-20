@@ -18,7 +18,7 @@ export function AdminFinancialProjectionLayout(props: PropsWithChildren) {
     : ADMIN_APPLICATION_MENU(id ?? "")
 
   return (
-    <div className="container bg-[#F9FAFB]">
+    <div className="bg-[#F9FAFB]">
       <div className="my-4 flex flex-col space-y-3xl ">
         {isEnableLoanReadyV2() && (
           <p className="mt-1 text-sm text-text-primary">

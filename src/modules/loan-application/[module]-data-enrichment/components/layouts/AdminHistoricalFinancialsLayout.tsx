@@ -5,7 +5,7 @@ export function AdminHistoricalFinancialsLayout(props: PropsWithChildren) {
   const { children } = props
 
   return (
-    <div className="container bg-[#F9FAFB]">
+    <div className="bg-[#F9FAFB]">
       <div className="my-4 flex space-y-3xl ">
         <p className="mt-1 text-sm text-text-primary">
           This section offers a summary of your past financial performance,

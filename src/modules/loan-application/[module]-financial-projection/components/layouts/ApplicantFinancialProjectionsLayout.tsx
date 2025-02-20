@@ -33,18 +33,16 @@ export function ApplicantFinancialProjectionsLayout(
 
   return (
     <div
-      className={clsx("container bg-[#F9FAFB] p-2xl", {
-        "md:p-4xl overflow-scroll": !isEnableLoanReadyV2(),
-        "md:p-xl pointer-events-auto blur-none":
-          isEnableLoanReadyV2() && isPlusPlan,
-        "md:p-xl pointer-events-none blur-sm":
-          isEnableLoanReadyV2() && !isPlusPlan
+      className={clsx("bg-[#F9FAFB]", {
+        "overflow-scroll": !isEnableLoanReadyV2(),
+        "pointer-events-auto blur-none": isEnableLoanReadyV2() && isPlusPlan,
+        "pointer-events-none blur-sm": isEnableLoanReadyV2() && !isPlusPlan
       })}
     >
       {!isEnableLoanReadyV2() && (
         <h1 className="text-3xl font-semibold">Financial Projections</h1>
       )}
-      <p className="mt-1 text-sm text-muted-foreground">
+      <p className="text-sm text-text-primary">
         {isEnableLoanReadyV2()
           ? "This section provides an overview of your financial projections, including metrics, cash flow, balance sheets, income statements. It estimates future performance and shows how revenue and expenses could affect profitability."
           : "This page provides two views of your business's financial health. Current Financial Statements offer a snapshot of this month`s performance, created from your inputs and often required by lenders. Projections provide a high-level estimate of future performance, showing how revenue and expenses could impact profitability."}

@@ -52,9 +52,14 @@ const getCrumbByPath = (path: string, customLabel?: CustomLabel, ids?: Ids) => {
 
     case APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detail:
       return buildCrumb(
-        APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
-          ids?.loanApplicationDetail ?? ""
-        ),
+        isLoanReady()
+          ? APP_PATH.LOAN_APPLICATION_MANAGEMENT.LOAN_SUMMARY.replace(
+              ":id",
+              ids?.loanApplicationDetail ?? ""
+            )
+          : APP_PATH.LOAN_APPLICATION_MANAGEMENT.BUSINESS_VERIFICATION.detailWithId(
+              ids?.loanApplicationDetail ?? ""
+            ),
         customLabel?.[CustomLabelKey.loanApplicationDetail] ||
           "Application Detail"
       )
