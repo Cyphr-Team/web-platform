@@ -24,7 +24,33 @@ export const fpOperatingExpensesFormSchema = z.object({
 })
 
 export const FP_OPERATING_EXPENSES_DEFAULT_VALUE = {
-  [FpOperatingExpensesField.operatingExpenses]: []
+  [FpOperatingExpensesField.operatingExpenses]: [
+    {
+      name: "Rent",
+      description: "The cost of leasing office space or facilities",
+      startDate: "",
+      monthlyCost: 0
+    },
+    {
+      name: "Sales and marketing expenses",
+      description: "Costs related to promoting and selling products/services",
+      startDate: "",
+      monthlyCost: 0
+    },
+    {
+      name: "Dues and Subscriptions",
+      description:
+        "Recurring fees (i.e.software licenses, membership dues, etc.)",
+      startDate: "",
+      monthlyCost: 0
+    },
+    {
+      name: "Accounting and legal fees",
+      description: "Cost related to accounting, legal, or tax services",
+      startDate: "",
+      monthlyCost: 0
+    }
+  ]
 }
 
 export type FpOperatingExpensesFormValue = z.infer<
