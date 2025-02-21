@@ -98,7 +98,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
     id: "ratingLevel",
     accessorKey: "ratingLevel",
     sortingFn: customSortRatingLevel,
-    header: renderHeader("Score Range", "text-black whitespace-nowrap ml-9"),
+    header: renderHeader("Score Range", "text-black whitespace-nowrap"),
     cell: ({ row }) => {
       const criteria = row.original
       const criteriaBadgeClassName = getCriteriaScoreRangeClassName(
@@ -106,17 +106,15 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
       )
 
       return (
-        <div className="ml-9">
-          <Badge
-            className={cn(
-              criteriaBadgeClassName,
-              "min-w-20 justify-center whitespace-nowrap border bg-opacity-100 px-3 py-1.5 font-normal capitalize",
-              EXPORT_CLASS.NO_BACKGROUND_COLOR
-            )}
-          >
-            {snakeCaseToText(criteria.ratingLevel)}
-          </Badge>
-        </div>
+        <Badge
+          className={cn(
+            criteriaBadgeClassName,
+            "min-w-20 justify-center whitespace-nowrap border bg-opacity-100 px-3 py-1.5 font-normal capitalize",
+            EXPORT_CLASS.NO_BACKGROUND_COLOR
+          )}
+        >
+          {snakeCaseToText(criteria.ratingLevel)}
+        </Badge>
       )
     }
   },
@@ -125,6 +123,7 @@ const columns: ColumnDef<ApplicationCriteriaResponse>[] = [
     header: renderHeader("Action Plan", "text-black whitespace-nowrap"),
     cell: ({ row }) => {
       return <div className="min-w-0 leading-6">{row.original.description}</div>
-    }
+    },
+    size: 1000
   }
 ]

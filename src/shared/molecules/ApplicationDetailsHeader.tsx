@@ -75,8 +75,6 @@ export function ApplicationDetailsHeader() {
           <Skeleton className="h-8 w-20" />
         ) : (
           <Badge
-            isDot
-            isDotBefore
             className="text-sm"
             variant="soft"
             variantColor={getBadgeVariantByStatus(status)}
