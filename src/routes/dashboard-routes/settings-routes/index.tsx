@@ -6,7 +6,6 @@ import { WrapperLayout } from "@/modules/settings/components/layouts/wrapper-lay
 import { SettingsLayout } from "@/modules/settings/components/layouts/settings-layout.tsx"
 import { LoanReadyRoutes } from "@/routes/dashboard-routes/settings-routes/loanready-routes.tsx"
 import { isLoanReady } from "@/utils/domain.utils.ts"
-import { isEnablePIISelfService } from "@/utils/feature-flag.utils.ts"
 
 /**
  * Cyphr settings routes ("/").
@@ -22,46 +21,21 @@ const settingsRoutes = (
       handle={handleCrumb(APP_PATH.SETTINGS.index)}
       path={APP_PATH.SETTINGS.index}
     >
-      {isEnablePIISelfService() && (
-        <>
-          <Route
-            index
-            lazy={() =>
-              import("@/modules/settings/components/pages/profile-page")
-            }
-            path={APP_PATH.SETTINGS.profile}
-          />
-          <Route
-            index
-            lazy={() =>
-              import("@/modules/settings/components/pages/privacy-page")
-            }
-            path={APP_PATH.SETTINGS.privacy}
-          />
-        </>
-      )}
-
-      {isLoanReady() && LoanReadyRoutes}
-
-      {/* Default fallback routes */}
       <Route
         index
-        lazy={() =>
-          import(
-            "@/modules/loan-application-management/pages/under-construction"
-          )
-        }
+        lazy={() => import("@/modules/settings/components/pages/profile-page")}
         path={APP_PATH.SETTINGS.profile}
       />
       <Route
         index
-        lazy={() =>
-          import(
-            "@/modules/loan-application-management/pages/under-construction"
-          )
-        }
+        lazy={() => import("@/modules/settings/components/pages/privacy-page")}
         path={APP_PATH.SETTINGS.privacy}
       />
+
+      {isLoanReady() && LoanReadyRoutes}
+
+      {/* Default fallback routes */}
+      {/* TODO: Integrate for other tenants besides LoanReady */}
       <Route
         index
         lazy={() =>
