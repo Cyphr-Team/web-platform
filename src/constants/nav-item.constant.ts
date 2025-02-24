@@ -2,6 +2,7 @@ import { Icons } from "@/components/ui/icons"
 import { FeatureKey } from "@/hooks/useCanAccess"
 import { type NavItem } from "@/types/common.type"
 import {
+  applicantRole,
   judgeRoles,
   platformAdminRoles,
   reviewerRoles,

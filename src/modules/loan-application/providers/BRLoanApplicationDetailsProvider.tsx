@@ -1019,7 +1019,7 @@ export function BRLoanApplicationDetailsProvider({
       confirmationFormData: confirmationFormQuery.data,
       financialFormData: financialFormQuery.data,
       businessModelFormData: businessModelFormQuery.data,
-      productServiceFormData: productServiceFormQuery.data,
+      productServiceFormData: productServiceFormQuery?.data,
       marketOpportunityFormData: marketOpportunityFormQuery.data,
       launchKCFitFormData: launchKCFitFormQuery.data,
       executionFormData: executionFormQuery.data,
