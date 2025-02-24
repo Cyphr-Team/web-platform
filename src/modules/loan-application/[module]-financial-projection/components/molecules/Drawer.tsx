@@ -5,23 +5,26 @@ import { useBoolean } from "@/hooks"
 import { cn } from "@/lib/utils.ts"
 import { RHFCheckbox } from "@/modules/form-template/components/molecules"
 import { RHFProvider } from "@/modules/form-template/providers"
+import { QUERY_KEY as APPLICATION_MANAGEMENT_QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
+import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
 import { FinancialProjectionPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/FinancialProjectionPdf.tsx"
 import { ExportFPOption } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
+import { QUERY_KEY as FINANCIAL_QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
 import { useExportToPDF } from "@/modules/loan-application/[module]-financial-projection/hooks/useExportToPDF"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
-import { QUERY_KEY as FINANCIAL_QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
-import { QUERY_KEY as APPLICATION_MANAGEMENT_QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
-import { useIsFetching } from "@tanstack/react-query"
-import { FolderDown, X } from "lucide-react"
-import { type ReactNode, useMemo } from "react"
-import { useForm } from "react-hook-form"
-import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
-import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils.ts"
-import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
-import { useApplicantFinancialProjectionApplicationDetails } from "../../hooks/details/applicant/useApplicantFinancialProjectionApplicationDetails"
 import { useDownloadESignDocument } from "@/modules/loan-application/hooks/form-esign/useDownloadESignDocument"
 import { useGetESignDocument } from "@/modules/loan-application/hooks/form-esign/useGetESignDocument"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
+import { type UserMicroLoanApplication } from "@/types/loan-application.type"
+import { checkIsViewer, checkIsWorkspaceAdmin } from "@/utils/check-roles"
+import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils.ts"
+import { useIsFetching } from "@tanstack/react-query"
+import { FolderDown, X } from "lucide-react"
+import { type ReactNode, useEffect, useMemo, useState } from "react"
+import { useForm } from "react-hook-form"
+import { useAdminFinancialProjectionApplicationDetails } from "../../hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
+import { useApplicantFinancialProjectionApplicationDetails } from "../../hooks/details/applicant/useApplicantFinancialProjectionApplicationDetails"
 
 interface DrawerCheckBoxProps {
   name: ExportFPOption
@@ -192,14 +195,30 @@ export function Drawer({ applicationPlan }: DrawerProps) {
   const openDrawer = useBoolean(false)
 
   const methods = useForm<Record<ExportFPOption, boolean>>()
+  const [loanApplicationData, setLoanApplicationData] = useState<
+    UserMicroLoanApplication | undefined
+  >()
+  const isAdmin = checkIsWorkspaceAdmin()
+  const isViewer = checkIsViewer()
 
   const { loanApplicationDetailsQuery } =
     useApplicantFinancialProjectionApplicationDetails()
 
+  const { loanApplicationDetails } =
+    useAdminFinancialProjectionApplicationDetails()
+
+  useEffect(() => {
+    if (isAdmin || isViewer) {
+      setLoanApplicationData(loanApplicationDetails)
+    } else {
+      setLoanApplicationData(loanApplicationDetailsQuery?.data)
+    }
+  }, [isAdmin, loanApplicationDetails, loanApplicationDetailsQuery, isViewer])
+
   const downloadESignMutate = useDownloadESignDocument()
   const { isLoading: isLoadingDocument, data: document } = useGetESignDocument({
-    applicationId: loanApplicationDetailsQuery?.data?.id,
-    enabled: !!loanApplicationDetailsQuery?.data?.id
+    applicationId: loanApplicationData?.id,
+    enabled: !!loanApplicationData?.id
   })
 
   const watchAllFields = methods.watch()
@@ -250,10 +269,7 @@ export function Drawer({ applicationPlan }: DrawerProps) {
       }
     }
 
-    await exportToPdf(
-      markedElement,
-      loanApplicationDetailsQuery?.data?.updatedAt
-    )
+    await exportToPdf(markedElement, loanApplicationData?.updatedAt)
   })
 
   const isFetchingBankAccounts = useIsFetching({

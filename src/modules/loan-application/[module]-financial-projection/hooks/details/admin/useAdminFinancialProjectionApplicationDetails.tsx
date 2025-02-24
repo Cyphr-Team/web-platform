@@ -199,5 +199,10 @@ export const useAdminFinancialProjectionApplicationDetails = () => {
 
   const isFetching = isLoading || isFetchingSummary
 
-  return { isFetching, isFetchingBankAccounts, financialApplicationDetailData }
+  return {
+    isFetching,
+    isFetchingBankAccounts,
+    financialApplicationDetailData,
+    loanApplicationDetails
+  }
 }
