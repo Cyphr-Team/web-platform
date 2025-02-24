@@ -12,8 +12,6 @@ import { adminRoutes } from "./admin-routes"
 import { loanApplicationManagementRoutes } from "./loan-application-management-routes"
 import { notificationRoutes } from "./notification-routes"
 import { chatbotRoutes } from "@/routes/dashboard-routes/chatbot-routes"
-import { SettingsPageLayout } from "@/modules/admin/user/layouts/settings-page-layout"
-import { TransactionsPage } from "@/modules/admin/user/transactions-page"
 
 /**
  * Dashboard routes ("/*"), no unauthenticated or loan applicant allowed to see these pages.
@@ -88,40 +86,6 @@ const dashboardRoutes = (
       }
       path={APP_PATH.MESSAGES}
     />
-
-    {/* SETTINGS */}
-    <Route
-      element={<SettingsPageLayout />}
-      handle={handleCrumb(APP_PATH.SETTINGS.index)}
-      path={APP_PATH.SETTINGS.index}
-    >
-      <Route
-        index
-        element={<TransactionsPage />}
-        path={APP_PATH.SETTINGS.payment}
-      />
-
-      {isLoanReady() && (
-        <>
-          <Route
-            index
-            lazy={() =>
-              import("@/modules/admin/user/modules/loan-ready-v2/user-page")
-            }
-            path={APP_PATH.SETTINGS.users}
-          />
-          <Route
-            index
-            lazy={() =>
-              import(
-                "@/modules/admin/user/modules/loan-ready-v2/team-members-page"
-              )
-            }
-            path={APP_PATH.SETTINGS.teamMembers}
-          />
-        </>
-      )}
-    </Route>
 
     {/* ADMIN DASHBOARD */}
     {adminRoutes}

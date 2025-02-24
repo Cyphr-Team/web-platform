@@ -1,6 +1,6 @@
 export function Component() {
   return (
-    <div className="flex min-h-full w-full flex-col justify-center">
+    <div className="flex min-h-full w-full flex-col justify-center mt-5">
       <div className="text-center">
         <p className="font-medium text-primary">Under Construction</p>
         <h1 className="text-5xl">Coming Soon!</h1>

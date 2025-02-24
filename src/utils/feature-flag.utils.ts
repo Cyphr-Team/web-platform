@@ -124,6 +124,13 @@ function isEnableHistoricalFinancialsEnrichment() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.HISTORICAL_FINANCIALS_ENRICHMENT)
 }
 
+/*
+ * Enable PII Self-Service
+ */
+function isEnablePIISelfService() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.PII_SELF_SERVICE)
+}
+
 /**
  * Disable KYC Persona for KCChamber
  */
@@ -150,5 +157,6 @@ export {
   isEnableChatSupport,
   isEnableFormV2,
   isEnableKCChamberKycPersonaDisabled,
-  isEnableHistoricalFinancialsEnrichment
+  isEnableHistoricalFinancialsEnrichment,
+  isEnablePIISelfService
 }

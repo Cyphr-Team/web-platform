@@ -82,12 +82,11 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Settings",
-    href: APP_PATH.LOAN_APPLICATION.SETTINGS,
+    href: APP_PATH.SETTINGS.index,
     icon: Icons.setting,
     label: "Settings",
     className: "mt-auto mb-3",
     roles: applicantRoles(),
-    disabled: !isLoanReady(),
     featureKey: FeatureKey.SETTINGS
   }
 ]

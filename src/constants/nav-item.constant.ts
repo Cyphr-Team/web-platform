@@ -114,8 +114,6 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
     href: APP_PATH.SETTINGS.index,
     icon: Icons.setting,
     label: "Settings",
-    roles: workspaceAdminRoles(),
-    disabled: !isLoanReady(),
     className: "mt-auto mb-3",
     featureKey: FeatureKey.SETTINGS
   }

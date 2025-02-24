@@ -2,7 +2,7 @@ import { DataTable } from "@/components/ui/data-table"
 import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { type Option } from "@/types/common.type"
 import { SortOrder } from "@/types/common.type.ts"
-import { UserRoles, type UserDetailInfo } from "@/types/user.type.ts"
+import { type UserDetailInfo, UserRoles } from "@/types/user.type.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   type PaginationState,
@@ -10,7 +10,7 @@ import {
   type SortingState
 } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
-import { useCallback, useMemo, useState, type ChangeEvent } from "react"
+import { type ChangeEvent, useCallback, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import DialogDeleteUser from "../../components/DialogDeleteUser.tsx"
 import {
@@ -24,7 +24,6 @@ import { UserTableHeader } from "../../table/loan-ready-v2/user-table-header.tsx
 import { columns } from "./invitation-columns"
 
 const ALLOWED_ROLES = [UserRoles.WORKSPACE_ADMIN, UserRoles.VIEWER]
-
 
 export function Component() {
   const [searchField, setSearchField] = useState("")

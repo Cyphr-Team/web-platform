@@ -4,10 +4,12 @@ import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 
 import { Component as UnderConstruction } from "@/modules/loan-application-management/pages/under-construction"
 
-export function TransactionsPage() {
+export function Component() {
   if (isLoanReady() && isEnableLoanReadyV2()) {
     return <LoanReadyTransactionsPage />
   }
 
   return <UnderConstruction />
 }
+
+Component.displayName = "TransactionPage"

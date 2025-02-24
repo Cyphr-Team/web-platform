@@ -1,14 +1,34 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll"
 import { cn } from "@/lib/utils"
 import { NavLink, useLocation, useNavigate } from "react-router-dom"
-import { isLoanReady } from "@/utils/domain.utils"
-import { SETTINGS_MENU } from "@/modules/admin/user/constants"
 import { APP_PATH } from "@/constants"
 import { useEffect } from "react"
+import {
+  ADMIN_SETTINGS_MENU,
+  APPLICANT_SETTINGS_MENU,
+  VIEWER_SETTINGS_MENU
+} from "@/modules/settings/constants"
+import {
+  checkIsLoanApplicant,
+  checkIsWorkspaceAdmin
+} from "@/utils/check-roles.ts"
 
 export function TopNav() {
   const pathname = useLocation().pathname
   const navigate = useNavigate()
+
+  const getSettingsMenu = () => {
+    switch (true) {
+      case checkIsWorkspaceAdmin():
+        return ADMIN_SETTINGS_MENU
+      case checkIsLoanApplicant():
+        return APPLICANT_SETTINGS_MENU
+      default:
+        return VIEWER_SETTINGS_MENU
+    }
+  }
+
+  const SETTINGS_MENU = getSettingsMenu()
 
   useEffect(() => {
     if (pathname === APP_PATH.SETTINGS.index) {
@@ -16,14 +36,11 @@ export function TopNav() {
     }
   }, [navigate, pathname])
 
-  if (!isLoanReady()) return null
-  const FINAL_APPLICATION_MENU = SETTINGS_MENU
-
   return (
     <div className="relative bg-white border-b mt-2xl">
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div className={cn("flex items-center space-x-lg")}>
-          {FINAL_APPLICATION_MENU.map((menu) => (
+          {SETTINGS_MENU.map((menu) => (
             <NavLink
               key={menu.href}
               end

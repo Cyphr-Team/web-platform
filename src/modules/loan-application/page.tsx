@@ -1,5 +1,5 @@
 import { Await, Navigate, Outlet, useLoaderData } from "react-router-dom"
-import { type UserInfo } from "@/types/user.type"
+import { applicantRoles, type UserInfo } from "@/types/user.type"
 import { Suspense, useMemo } from "react"
 import { APP_PATH } from "@/constants"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
@@ -10,7 +10,10 @@ import { Loader2 } from "lucide-react"
 import { useVerifyToken } from "@/hooks/useVerifyToken"
 import { useLogout } from "@/hooks/useLogout"
 import { isLoanReady } from "@/utils/domain.utils"
-import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
+import {
+  isEnableLoanReadyV2,
+  isEnablePIISelfService
+} from "@/utils/feature-flag.utils"
 import { FeatureKey } from "@/hooks/useCanAccess"
 import { Icons } from "@/components/ui/icons"
 
@@ -47,6 +50,16 @@ export function Component() {
         label: "Financial Projections",
         featureKey: FeatureKey.FINANCIAL,
         disabled: isLoanReady() ? isEnableLoanReadyV2() : true
+      },
+      {
+        title: "Settings",
+        href: APP_PATH.SETTINGS.index,
+        icon: Icons.setting,
+        label: "Settings",
+        className: "mt-auto mb-3",
+        roles: applicantRoles(),
+        featureKey: FeatureKey.SETTINGS,
+        disabled: !isLoanReady() && !isEnablePIISelfService()
       }
     ],
     []

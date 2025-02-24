@@ -90,18 +90,6 @@ const applicantRoutes = (
     {/* Temporarily hide for kcc bank */}
     {(!isKccBank() || !isSbb() || !isLaunchKC()) && notificationRoutes}
     <Route
-      lazy={() => {
-        if (isLoanReady()) {
-          return import("@/modules/loanready/pages/TransactionList")
-        }
-
-        return import(
-          "@/modules/loan-application-management/pages/under-construction"
-        )
-      }}
-      path={APP_PATH.LOAN_APPLICATION.SETTINGS}
-    />
-    <Route
       element={
         <PlaidProvider>
           <LoanProgramDetailProvider>

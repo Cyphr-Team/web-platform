@@ -27,7 +27,6 @@ export const APP_PATH = {
 
   // ONBOARDING
   LOAN_APPLICATION: {
-    SETTINGS: "/loan/settings",
     FINANCIAL_APPLICATIONS: {
       detail: {
         index: "/loan/:loanProgramId/financial-applications/:id",
@@ -176,7 +175,9 @@ export const APP_PATH = {
   },
   SETTINGS: {
     index: "/settings",
-    payment: "/settings/payments",
+    profile: "/settings/profile",
+    privacy: "/settings/privacy",
+    payments: "/settings/payments",
     teamMembers: "/settings/team-members",
     users: "/settings/users"
   },
