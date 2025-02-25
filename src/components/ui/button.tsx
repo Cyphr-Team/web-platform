@@ -58,7 +58,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = "Button"
 
-// eslint-disable-next-line react/display-name
 const ButtonLoading = React.forwardRef<
   HTMLButtonElement,
   ButtonProps & { isLoading?: boolean }
@@ -83,8 +82,7 @@ const ButtonLoading = React.forwardRef<
         ref={ref}
         className={cn(
           buttonVariants({ variant, size, className }),
-          isSbb() &&
-            "disabled:border disabled:border-[#98A2B3] disabled:border-opacity-50"
+          isSbb() && "disabled:border disabled:border-[#98A2B3]/50"
         )}
         disabled={isLoading || disabled}
         {...props}
@@ -100,5 +98,7 @@ const ButtonLoading = React.forwardRef<
     )
   }
 )
+
+ButtonLoading.displayName = "ButtonLoading"
 
 export { Button, ButtonLoading, buttonVariants }

@@ -4,10 +4,29 @@ import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 interface DragDropFileInputProps {
+  /**
+   * Allow multiple files to be uploaded
+   * @default true
+   */
   multiple?: boolean
+  /**
+   * Callback function to handle file selection
+   * @param files list of files selected
+   * @param field field name of the input element
+   * @returns
+   */
   onFileSelect: (files: FileList, field?: string) => void
+  /**
+   * If the input element is part of a form, specify the field name
+   */
   field?: string
+  /**
+   * Unique identifier for the input element, get from useFormContext() or useId()
+   */
   id: string
+  /**
+   * Additional class name to render the card
+   */
   className?: string
 }
 

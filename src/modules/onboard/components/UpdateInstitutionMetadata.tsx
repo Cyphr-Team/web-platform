@@ -8,7 +8,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { RequiredSymbol } from "@/shared/atoms/RequiredSymbol"
 import { useFormContext } from "react-hook-form"
-import { UploadImageZone } from "@/components/ui/UploadImageZone.tsx"
+import { UploadImageZone } from "@/components/ui/upload-image-zone"
 import { type OnboardingFormValue } from "../types"
 
 export function UpdateInstitutionMetadata({

@@ -24,12 +24,23 @@ interface CalendarDatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   fromDate?: Date
   toDate?: Date
   prefixLabel?: string
+  /**
+   * The placeholder text when the value is empty
+   * @default "i.e: 01/01/1990"
+   */
   placeholder?: string
+  /**
+   * The alignment of the calendar popover
+   */
   align?: "start" | "end" | "center"
   onSelectDate?: (date: Date | undefined) => void
   disabled?: boolean
   onCustomClick?: VoidFunction
+  /**
+   * The formatter string for the date
+   */
   dateFormat?: string
+
   isEnableFutureDate?: boolean
 }
 

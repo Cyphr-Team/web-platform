@@ -42,6 +42,10 @@ npx shadcn-ui@latest add [component]
 - **React Hook Form:** A performant and flexible form library for React.
 - **Zod:** A TypeScript-first schema validation library.
 
+### Documentation
+
+- **Storybook:** A frontend workshop for testing components and documentation.
+
 ## Getting Started
 
 1. Clone the repository:
@@ -126,6 +130,7 @@ npx shadcn-ui@latest add [component]
 │   │   └── index.ts
 │   └── organisms
 │       └── index.ts
+├── stories // components and guideline documentation
 ├── utils // util or helper function files will be here.
 │   └── index.ts
 ├── routes // all router files will be here.
@@ -140,3 +145,5 @@ npx shadcn-ui@latest add [component]
 
 - **yarn dev:** Start the development server.
 - **yarn build:** Build the production-ready app.
+- **yarn storybook:** Start the documentation server local.
+- **yarn build-storybook:** Build the publish documentation.

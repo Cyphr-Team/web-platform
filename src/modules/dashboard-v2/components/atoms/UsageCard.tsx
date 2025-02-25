@@ -17,7 +17,13 @@ interface UsageCardProps {
   icon?: ReactNode
   className?: string
   isLoading?: boolean
+  /**
+   * The percentage at which the card should be in alert state
+   */
   alertThreshold?: number
+  /**
+   * The percentage at which the card should be in warning state
+   */
   warnThreshold?: number
   unit?: string
   cta?: ReactNode
