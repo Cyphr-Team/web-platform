@@ -293,5 +293,5 @@ export const PdfPageOrientationMapper: Record<
   [ExportFPOption.INCOME_SHEET]: PDFPageOrientation.PORTRAIT,
   [ExportFPOption.CHARTS]: PDFPageOrientation.PORTRAIT,
   [ExportFPOption.APPLICATION_SUMMARY]: PDFPageOrientation.PORTRAIT,
-  [ExportFPOption.HISTORICAL_INCOME_STATEMENT]: PDFPageOrientation.PORTRAIT
+  [ExportFPOption.HISTORICAL_INCOME_STATEMENT]: PDFPageOrientation.LANDSCAPE
 }
