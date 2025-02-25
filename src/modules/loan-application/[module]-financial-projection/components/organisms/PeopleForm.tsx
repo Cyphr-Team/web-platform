@@ -75,10 +75,7 @@ export function PeopleForm() {
   useAutoCompleteStepEffect(form, LOAN_APPLICATION_STEPS.PEOPLE)
 
   return (
-    <FormLayout title="People">
-      <h5 className="text-lg font-semibold">People</h5>
-      <Separator />
-
+    <FormLayout layout="borderless" title="People">
       <RHFProvider methods={form} onSubmit={form.handleSubmit(onSubmit)}>
         <FormLayout hideTopNavigation>
           <div>

@@ -82,7 +82,10 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
         return (
           <div
             key={source.id}
-            className={cn("bg-financial-projection-card rounded-lg", className)}
+            className={cn(
+              "bg-financial-projection-card rounded-lg border-l-[3px] border-[#C2D1D8]",
+              className
+            )}
           >
             <div
               className={cn(
@@ -93,19 +96,17 @@ function PeopleArrayFormTemplate(props: PeopleArrayFormTemplateProps) {
               {renderInnerBlockComponents(blocks, name, index)}
             </div>
 
-            {fields?.length > 1 ? (
-              <Button
-                className={cn(
-                  "h-auto p-0 pb-2",
-                  layout === "future" ? "self-end" : null
-                )}
-                type="button"
-                variant="ghost"
-                onClick={onRemove(index)}
-              >
-                <X className="size-5 text-text-tertiary" />
-              </Button>
-            ) : null}
+            <Button
+              className={cn(
+                "h-auto p-0 pb-2",
+                layout === "future" ? "self-end" : null
+              )}
+              type="button"
+              variant="ghost"
+              onClick={onRemove(index)}
+            >
+              <X className="size-5 text-text-tertiary" />
+            </Button>
           </div>
         )
       })}
