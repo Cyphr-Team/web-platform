@@ -238,7 +238,7 @@ export function Drawer({ applicationPlan }: DrawerProps) {
    *   - Download two files: A report (PDF) & the signature file from PandaDoc.
    *   - If ONLY the assessment checkbox is checked: Download only the signature file from PandaDoc.
    *   - If the assessment checkbox is not checked: Download only the report (PDF).
-   *   - If the asssessment checkbox and another types are checked: Download both the report (PDF) and the signature file from PandaDoc.
+   *   - If the asssessment checkbox and loanready are checked: Download both the report (PDF) and the signature file from PandaDoc.
    * @author Khoa Nguyen
    */
   const onExportToPdf = methods.handleSubmit(async (markedElement) => {
@@ -249,21 +249,17 @@ export function Drawer({ applicationPlan }: DrawerProps) {
         key === ExportFPOption.APPLICATION_SUMMARY ? value : !value
     )
 
-    const isApplicationSummaryAndAnother =
-      markedElement[ExportFPOption.APPLICATION_SUMMARY] &&
-      Object.values(markedElement).filter((value) => value).length > 1
+    const isOnlyApplicationSummaryAndLoanReady = Object.entries(
+      markedElement
+    ).every(([key, value]) =>
+      key === ExportFPOption.APPLICATION_SUMMARY ||
+      key === ExportFPOption.LOAN_READY_SECTION
+        ? value
+        : !value
+    )
 
     // If ONLY the assessment checkbox is checked: Download only the signature file from PandaDoc.
-    if (isOnlyApplicationSummaryTrue) {
-      if (document) {
-        downloadESignMutate.mutate(document)
-
-        return
-      }
-    }
-
-    //  If the asssessment checkbox and another types are checked: Download both the report (PDF) and the signature file from PandaDoc.
-    if (isApplicationSummaryAndAnother) {
+    if (isOnlyApplicationSummaryTrue || isOnlyApplicationSummaryAndLoanReady) {
       if (document) {
         downloadESignMutate.mutate(document)
       }

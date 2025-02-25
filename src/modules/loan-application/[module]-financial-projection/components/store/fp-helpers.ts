@@ -5,6 +5,13 @@ import {
   type ForecastResultsResponse,
   ForecastType
 } from "@/modules/loan-application/[module]-financial-projection/types/financial-projection-forecast"
+import { isLoanReady } from "@/utils/domain.utils"
+import {
+  APPLICATION_SUMMARY,
+  ASSESSMENT_SUMMARY,
+  FINANCIAL_FORECAST,
+  TITLE_REPORT_FOOTER_PDF
+} from "../../constants/application"
 
 type PossibleSheetName =
   | "cashFlowForecastMonthly"
@@ -28,6 +35,56 @@ export function parseForecastDataSingleSheet(
   }
 
   return forecast.forecastData.map((item) => item.value)
+}
+
+export const generateFooterTitleInPDFFirstPage = () => {
+  if (isLoanReady()) {
+    return "Loan Ready powered by Cyphr"
+  }
+
+  return "Cyphr"
+}
+
+/**
+ * Generates the footer title for a PDF based on the selected marked elements.
+ *
+ * @param {Record<ExportFPOption, boolean>} markedElements - An object where keys represent export options
+ * and values indicate whether they are selected (true) or not (false).
+ *
+ * @returns {string} - Returns "Application Summary" if only the "Application Summary" section
+ * or both "Application Summary" and "Loan Ready" sections are selected. Otherwise, returns "Financial Forecast".
+ */
+export const generateFooterTitleInPDF = (
+  markedElements?: Record<ExportFPOption, boolean>
+) => {
+  if (!markedElements) {
+    return
+  }
+
+  // Check if only the "Application Summary" section is selected
+  const isOnlyApplicationSummary = Object.entries(markedElements).every(
+    ([key, value]) =>
+      key === ExportFPOption.APPLICATION_SUMMARY ? value : !value
+  )
+
+  // Check if only the "Application Summary" and "Loan Ready" sections are selected
+  const isOnlyApplicationSummaryAndLoanReady = Object.entries(
+    markedElements
+  ).every(([key, value]) =>
+    key === ExportFPOption.APPLICATION_SUMMARY ||
+    key === ExportFPOption.LOAN_READY_SECTION
+      ? value
+      : !value
+  )
+
+  // Determine the footer title based on the selected elements
+  if (isOnlyApplicationSummary || isOnlyApplicationSummaryAndLoanReady) {
+    if (isLoanReady()) return TITLE_REPORT_FOOTER_PDF[ASSESSMENT_SUMMARY]
+
+    return TITLE_REPORT_FOOTER_PDF[APPLICATION_SUMMARY]
+  }
+
+  return TITLE_REPORT_FOOTER_PDF[FINANCIAL_FORECAST]
 }
 
 export function parseForecastData(
@@ -198,12 +255,12 @@ export const PDFPageOrder = [
   ExportFPOption.BALANCE_SHEET_FORECAST,
   ExportFPOption.INCOME_SHEET_FORECAST,
   ExportFPOption.LOAN_READY_SECTION,
-  ExportFPOption.CASH_FLOW,
   ExportFPOption.BALANCE_SHEET,
+  ExportFPOption.CASH_FLOW,
   ExportFPOption.INCOME_SHEET,
+  ExportFPOption.APPLICATION_SUMMARY,
   ExportFPOption.HISTORICAL_INCOME_STATEMENT,
-  ExportFPOption.CHARTS,
-  ExportFPOption.APPLICATION_SUMMARY
+  ExportFPOption.CHARTS
 ]
 
 export const enum PDFPageOrientation {

@@ -11,27 +11,30 @@ import { GRAPH_FREQUENCY } from "@/modules/loan-application-management/constants
 import find = util.find
 
 /**
- * Formats a given Date object into a string with the pattern `yyyy.mm.dd_hh.mm.ss`.
+ * Formats a given Date object into a string with the pattern `MM/DD/YYYY | hh:mm A UTC` in UTC time.
  *
- * - If `customDate` is provided, it formats that date.
- * - If `customDate` is not provided, it formats the current date.
- * - Ensures two-digit formatting for month, day, hours, minutes, and seconds.
+ * - If `customDate` is provided, it formats that date in UTC.
+ * - If `customDate` is not provided, it formats the current date in UTC.
+ * - Ensures two-digit formatting for month and day.
+ * - Uses 12-hour format with AM/PM notation.
  *
  * @param {Date} [customDate] - An optional Date object to format.
- * @returns {string} - The formatted date string in `yyyy.mm.dd_hh.mm.ss` format.
+ * @returns {string} - The formatted date string in `MM/DD/YYYY | hh:mm A UTC` format.
  */
 export const formatPDFDate = (customDate?: Date): string => {
   const d = customDate || new Date()
 
-  return `${d.getFullYear()}.${(d.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}.${d.getDate().toString().padStart(2, "0")}_${d
-    .getHours()
-    .toString()
-    .padStart(2, "0")}.${d.getMinutes().toString().padStart(2, "0")}.${d
-    .getSeconds()
-    .toString()
-    .padStart(2, "0")}`
+  const month = (d.getUTCMonth() + 1).toString().padStart(2, "0") // Ensure 2-digit month
+  const day = d.getUTCDate().toString().padStart(2, "0") // Ensure 2-digit day
+  const year = d.getUTCFullYear()
+
+  let hours = d.getUTCHours()
+  const minutes = d.getUTCMinutes().toString().padStart(2, "0")
+  const period = hours >= 12 ? "PM" : "AM"
+
+  hours = hours % 12 || 12 // Convert 0 -> 12 for 12-hour format
+
+  return `Signed Timestamp: ${month}/${day}/${year} | ${hours}:${minutes} ${period} UTC`
 }
 
 export const formatBirthday = (date?: string) => {

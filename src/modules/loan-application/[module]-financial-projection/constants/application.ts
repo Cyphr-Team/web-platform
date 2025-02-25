@@ -1,5 +1,17 @@
 import { APP_PATH } from "@/constants"
 
+export const ASSESSMENT_SUMMARY = "ASSESSMENT_SUMMARY"
+
+export const APPLICATION_SUMMARY = "APPLICATION_SUMMARY"
+
+export const FINANCIAL_FORECAST = "FINANCIAL_FORECAST"
+
+export const TITLE_REPORT_FOOTER_PDF = {
+  [ASSESSMENT_SUMMARY]: "Assessment Summary",
+  [APPLICATION_SUMMARY]: "Application Summary",
+  [FINANCIAL_FORECAST]: "Financial Forecast"
+}
+
 export enum ApplicationMenuName {
   overview = "Overview",
   cashFlow = "Cash Flow",

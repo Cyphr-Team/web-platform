@@ -3,6 +3,8 @@ import jsPDF from "jspdf"
 import { get } from "lodash"
 import { formatDate } from "@/utils/date.utils.ts"
 import {
+  type ExportFPOption,
+  generateFooterTitleInPDF,
   PDFPageOrientation,
   PDFPageWidthByOrientationMapper
 } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers.ts"
@@ -205,7 +207,7 @@ interface AddFooterOptions {
 const addFooter = (options: AddFooterOptions) => {
   const { pdf, textLeft, textRight } = options
   const paddingX = 12.8
-  const paddingY = 1.2
+  const paddingY = 4
 
   const drawablePageNumber = {
     text: textRight,
@@ -219,6 +221,7 @@ const addFooter = (options: AddFooterOptions) => {
     y: pdf.getFontSize()
   }
 
+  // Set text color
   pdf.setTextColor(0, 0, 0)
 
   pdf.text(
@@ -227,6 +230,21 @@ const addFooter = (options: AddFooterOptions) => {
     pdf.internal.pageSize.height - paddingY
   )
   pdf.text(drawableDate.text, paddingX, pdf.internal.pageSize.height - paddingY)
+
+  // Draw a top border for the footer (1px solid #ccc)
+
+  // Calculate footer text position
+  const lineSpacing = 4.8 // Space between the border and text
+
+  const pageWidth = pdf.internal.pageSize.width
+  const pageHeight = pdf.internal.pageSize.height
+
+  const textYPosition = pageHeight - paddingY
+  const borderYPosition = textYPosition - lineSpacing // Position the border 4px above the text
+  // eslint-disable-next-line padding-line-between-statements
+  pdf.setDrawColor(234, 236, 240) // Set border color
+  pdf.setLineWidth(0.3) // Thin border
+  pdf.line(paddingX, borderYPosition, pageWidth - paddingX, borderYPosition) // Draw line
 }
 
 // TODO: Add header, we might need to calculate the height for footer like Content = A4 - Footer to prevent content overlay happened
@@ -243,14 +261,18 @@ interface GeneratePDFOptions {
   }[]
   isSigned?: boolean
   footerText?: string
+  markedElements?: Record<ExportFPOption, boolean>
   footerRightTextInFirstPage?: string
+  footerLeftTextInFirstPage?: string
 }
 
 export const generatePDF = async ({
   elements,
   isSigned,
+  markedElements,
   footerText,
-  footerRightTextInFirstPage
+  footerRightTextInFirstPage,
+  footerLeftTextInFirstPage
 }: GeneratePDFOptions): Promise<GeneratePDFResult> => {
   if (elements.length === 0) return { pdf: new jsPDF() }
 
@@ -302,9 +324,10 @@ export const generatePDF = async ({
 
     pdf.setFontSize(7)
     pdf.setPage(1)
+
     addFooter({
       pdf,
-      textLeft: "Cyphr",
+      textLeft: footerLeftTextInFirstPage ?? "Cyphr",
       textRight:
         footerRightTextInFirstPage ?? formatDate(new Date().toISOString())!
     })
@@ -316,8 +339,9 @@ export const generatePDF = async ({
 
       addFooter({
         pdf,
-        textLeft: footerText ?? "Application Overview",
-        textRight: `Page ${currentPage} of ${totalPage}`
+        textLeft:
+          footerText ?? generateFooterTitleInPDF(markedElements) ?? "Cyphr",
+        textRight: `${currentPage}/${totalPage}`
       })
     }
   } finally {

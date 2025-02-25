@@ -1,6 +1,7 @@
 import { useBoolean } from "@/hooks"
 import {
   ExportFPOption,
+  generateFooterTitleInPDFFirstPage,
   PDFPageOrder,
   PDFPageOrientation,
   PdfPageOrientationMapper
@@ -10,7 +11,7 @@ import {
   generatePDF
 } from "@/modules/loan-application/services/pdf-v2.service"
 import { toastError } from "@/utils"
-import { formatDate, formatPDFDate } from "@/utils/date.utils"
+import { formatPDFDate } from "@/utils/date.utils"
 import { useRef } from "react"
 
 type ElementRef = Partial<Record<ExportFPOption, HTMLDivElement>>
@@ -103,7 +104,9 @@ export const useExportToPDF = () => {
           htmlElement: el.htmlElement,
           pageOrientation: el.pageOrientation
         })),
-        footerRightTextInFirstPage: formatDate(formatedDate.toISOString())
+        markedElements: markedElement,
+        footerRightTextInFirstPage: formatPDFDate(formatedDate),
+        footerLeftTextInFirstPage: generateFooterTitleInPDFFirstPage()
       })
 
       // Format date in name of file
