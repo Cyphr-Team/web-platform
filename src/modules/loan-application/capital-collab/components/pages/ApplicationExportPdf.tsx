@@ -95,7 +95,7 @@ export function ApplicationExportPdf({
 
   const { data: kybData } = useQueryGetKybForm({
     applicationId: applicationId,
-    enabled: checkIsLoanApplicant()
+    enabled: checkIsLoanApplicant() && !isEnableFormV2()
   })
 
   const { data: kybDataV2 } = useQueryGetKybFormV2({
