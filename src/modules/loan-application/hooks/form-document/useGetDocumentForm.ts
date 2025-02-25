@@ -10,6 +10,7 @@ import {
 import type { AxiosResponse } from "axios"
 import _ from "lodash"
 import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
+import { isSbb } from "@/utils/domain.utils.ts"
 
 interface FetchDocumentFormRequest {
   applicationId: string | undefined
@@ -88,7 +89,7 @@ export const useGetSBBDocumentForms = (applicationId: string | undefined) => {
       formTypes: SBB_DOCUMENT_FORMS
     },
     options: {
-      enabled: isEnableFormV2()
+      enabled: isEnableFormV2() && isSbb()
     },
     selectFn: (data) =>
       transformDocumentForm({

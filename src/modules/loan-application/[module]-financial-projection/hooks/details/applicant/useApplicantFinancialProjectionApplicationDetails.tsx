@@ -55,14 +55,16 @@ export function useApplicantFinancialProjectionApplicationDetails() {
   )
 
   const kybFormQuery = useQueryGetKybForm({
-    applicationId: loanApplicationId!
+    applicationId: loanApplicationId!,
+    enabled: !isEnableFormV2() || isSbb()
   })
   const kybFormQueryV2 = useQueryGetKybFormV2({
     applicationId: loanApplicationId!,
     enabled: isEnableFormV2() && !isSbb() // not support sbb
   })
   const kycFormQuery = useQueryKycForm({
-    applicationId: loanApplicationId!
+    applicationId: loanApplicationId!,
+    enabled: !isEnableFormV2() || isSbb()
   })
   const kycFormQueryV2 = useQueryKycFormV2({
     applicationId: loanApplicationId!,

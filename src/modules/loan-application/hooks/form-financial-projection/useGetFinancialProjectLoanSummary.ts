@@ -8,6 +8,7 @@ import {
   type UseQueryResult
 } from "@tanstack/react-query"
 import { type ErrorResponse, useParams } from "react-router-dom"
+import { checkIsLoanApplicant } from "@/utils/check-roles.ts"
 
 type UseQueryGetLoanSummaryOptions<T extends LoanSummary, TSelected = T> = Omit<
   UseQueryOptions<T, ErrorResponse, TSelected>,
@@ -25,7 +26,7 @@ export function useGetLoanSummary<TSelected = LoanSummary>(
       getRequest({
         path: API_PATH.loanApplicationDetails.getLoanSummary(loanApplicationId!)
       }),
-    enabled: !!loanApplicationId,
+    enabled: !!loanApplicationId && !checkIsLoanApplicant(),
     ...options
   })
 }

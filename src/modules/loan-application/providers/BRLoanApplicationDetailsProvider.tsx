@@ -244,11 +244,12 @@ export function BRLoanApplicationDetailsProvider({
   const kybFormQuery = useQueryGetKybForm({
     applicationId: loanApplicationId!,
     enabled:
-      isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, progress) ||
-      isEnabledQuery(
-        LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE,
-        progress
-      )
+      !isEnableFormV2() &&
+      (isEnabledQuery(LOAN_APPLICATION_STEPS.BUSINESS_INFORMATION, progress) ||
+        isEnabledQuery(
+          LOAN_APPLICATION_STEPS.SBB_BUSINESS_INFORMATION_PART_ONE,
+          progress
+        ))
   })
   const kybFormQueryV2 = useQueryGetKybFormV2({
     applicationId: loanApplicationId!,

@@ -412,7 +412,7 @@ export function FinancialProjectionPdf({
 
   const { data: kybData } = useQueryGetKybForm({
     applicationId: applicationId!,
-    enabled: checkIsLoanApplicant()
+    enabled: checkIsLoanApplicant() && !isEnableFormV2()
   })
 
   const { data: kybDataV2 } = useQueryGetKybFormV2({
@@ -422,12 +422,12 @@ export function FinancialProjectionPdf({
 
   const loanSummaryQuery = useQueryGetLoanSummary({
     applicationId: applicationId,
-    enabled: !checkIsLoanApplicant()
+    enabled: !checkIsLoanApplicant() && !isEnableFormV2()
   })
 
   const loanSummaryDataV2 = useQueryGetApplicationSummary({
     applicationId: applicationId,
-    enabled: isEnableFormV2()
+    enabled: !checkIsLoanApplicant() && isEnableFormV2()
   })
 
   const getFinalBusinessName = useCallback(() => {
