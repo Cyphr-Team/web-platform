@@ -37,6 +37,7 @@ interface PDFGenerationContext {
 const PDF_CONFIG = {
   MARGIN_PERCENTAGE: 5,
   CONTENT_WIDTH_PERCENTAGE: 90,
+  E_SIGN_HEIGHT: 30,
   // Fixed the width while responsive
   PORTRAIT_INITIAL_ELEMENT_WIDTH: 1200,
   // This is a GOD fit for [HistoricalIncomeStatementTemplate]
@@ -255,6 +256,7 @@ export const generatePDF = async ({
 
   const removeStyles = applyTemporaryStyles()
   const pdf = new jsPDF("p", "mm")
+
   let currentHeight = 0
 
   try {
@@ -289,8 +291,12 @@ export const generatePDF = async ({
       }
     }
 
-    // FIXME: Added a large enough space to integrate with E-Sign
-    if (isSigned && currentHeight !== 0) {
+    // Check if the document should be signed and ensure there is enough space for e-signature, otherwise add a new page
+    if (
+      isSigned &&
+      currentHeight >
+        pdf.internal.pageSize.getHeight() - PDF_CONFIG.E_SIGN_HEIGHT
+    ) {
       pdf.addPage(undefined, PDFPageOrientation.PORTRAIT)
     }
 
