@@ -274,7 +274,9 @@ export function ESignForm() {
               type="submit"
               onClick={onSubmit}
             >
-              <span>Submit application</span>
+              <span>
+                {isLoanReady() ? "Submit assessment" : "Submit application"}
+              </span>
               <ArrowRight className="w-5" />
             </Button>
           </div>

@@ -138,7 +138,7 @@ export function FinancialProjectionReviewApplication() {
               isLoading={isExporting.value}
               onClick={form.handleSubmit(onSubmit)}
             >
-              Confirm application
+              Confirm assessment
             </ButtonLoading>
           </Form>
         </div>
