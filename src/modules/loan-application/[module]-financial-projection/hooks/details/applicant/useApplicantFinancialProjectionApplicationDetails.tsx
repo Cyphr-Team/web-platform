@@ -43,6 +43,7 @@ import {
   useQueryKycFormV2
 } from "@/modules/loan-application/hooks/form-kyc/useQueryKycForm.ts"
 import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
+import { checkIsLoanApplicant } from "@/utils/check-roles.ts"
 
 export function useApplicantFinancialProjectionApplicationDetails() {
   const { id: loanApplicationId } = useParams()
@@ -56,19 +57,19 @@ export function useApplicantFinancialProjectionApplicationDetails() {
 
   const kybFormQuery = useQueryGetKybForm({
     applicationId: loanApplicationId!,
-    enabled: !isEnableFormV2() || isSbb()
+    enabled: (!isEnableFormV2() || isSbb()) && checkIsLoanApplicant()
   })
   const kybFormQueryV2 = useQueryGetKybFormV2({
     applicationId: loanApplicationId!,
-    enabled: isEnableFormV2() && !isSbb() // not support sbb
+    enabled: isEnableFormV2() && !isSbb() && checkIsLoanApplicant() // not support sbb
   })
   const kycFormQuery = useQueryKycForm({
     applicationId: loanApplicationId!,
-    enabled: !isEnableFormV2() || isSbb()
+    enabled: (!isEnableFormV2() || isSbb()) && checkIsLoanApplicant()
   })
   const kycFormQueryV2 = useQueryKycFormV2({
     applicationId: loanApplicationId!,
-    enabled: isEnableFormV2() && !isSbb()
+    enabled: isEnableFormV2() && !isSbb() && checkIsLoanApplicant()
   })
   const loanRequestFormQuery = useQueryLoanRequestForm({
     applicationId: loanApplicationId!,

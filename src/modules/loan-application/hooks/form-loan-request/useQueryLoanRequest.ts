@@ -8,6 +8,7 @@ import type { ILoanRequestFormValue } from "../../constants/form"
 import { get } from "lodash"
 import { type LoanRequestV2 } from "../../constants/type"
 import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
+import { checkIsLoanApplicant } from "@/utils/check-roles.ts"
 
 interface LoanRequestV2Request {
   applicationId: string
@@ -42,7 +43,7 @@ export const useQueryLoanRequestForm = ({
 
       return response.data
     },
-    enabled: !!applicationId && isEnableFormV2()
+    enabled: !!applicationId && isEnableFormV2() && checkIsLoanApplicant()
   })
 }
 
