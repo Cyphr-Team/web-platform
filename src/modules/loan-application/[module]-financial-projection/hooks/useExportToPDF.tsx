@@ -18,6 +18,7 @@ type ElementRef = Partial<Record<ExportFPOption, HTMLDivElement>>
 type ElementsToExport = {
   htmlElement: HTMLDivElement
   pageOrientation?: PDFPageOrientation
+  type?: keyof typeof ExportFPOption
 }[]
 
 export const useExportToPDF = () => {
@@ -45,7 +46,8 @@ export const useExportToPDF = () => {
         htmlElement: element,
         pageOrientation:
           PdfPageOrientationMapper[key as ExportFPOption] ??
-          PDFPageOrientation.PORTRAIT
+          PDFPageOrientation.PORTRAIT,
+        type: key as keyof typeof ExportFPOption
       }))
   }
 
@@ -59,7 +61,8 @@ export const useExportToPDF = () => {
         pageOrientation:
           PdfPageOrientationMapper[
             ExportFPOption.DISCLAIMER_NOTE as ExportFPOption
-          ] ?? PDFPageOrientation.PORTRAIT
+          ] ?? PDFPageOrientation.PORTRAIT,
+        type: ExportFPOption.DISCLAIMER_NOTE
       },
       ...financialElements
     ]
@@ -72,7 +75,8 @@ export const useExportToPDF = () => {
         pageOrientation:
           PdfPageOrientationMapper[
             ExportFPOption.LOAN_READY_SECTION as ExportFPOption
-          ] ?? PDFPageOrientation.PORTRAIT
+          ] ?? PDFPageOrientation.PORTRAIT,
+        type: ExportFPOption.LOAN_READY_SECTION
       }
     ]
   }
@@ -105,7 +109,8 @@ export const useExportToPDF = () => {
       ).map((el) => ({
         htmlElement: el,
         pageOrientation:
-          PdfPageOrientationMapper[ExportFPOption.APPLICATION_SUMMARY]
+          PdfPageOrientationMapper[ExportFPOption.APPLICATION_SUMMARY],
+        type: ExportFPOption.APPLICATION_SUMMARY
       }))
 
       const historicalFinancialElements: ElementsToExport = (
@@ -115,7 +120,8 @@ export const useExportToPDF = () => {
       ).map((el) => ({
         htmlElement: el,
         pageOrientation:
-          PdfPageOrientationMapper[ExportFPOption.HISTORICAL_INCOME_STATEMENT]
+          PdfPageOrientationMapper[ExportFPOption.HISTORICAL_INCOME_STATEMENT],
+        type: ExportFPOption.HISTORICAL_INCOME_STATEMENT
       }))
 
       const isOnlyApplicationSummaryAndLoanReady = Object.entries(
@@ -146,7 +152,8 @@ export const useExportToPDF = () => {
           .filter((el) => el.htmlElement !== undefined)
           .map((el) => ({
             htmlElement: el.htmlElement as HTMLElement,
-            pageOrientation: el.pageOrientation
+            pageOrientation: el.pageOrientation,
+            type: el?.type
           })),
         markedElements: markedElement,
         footerRightTextInFirstPage: formatPDFDate(formatedDate),

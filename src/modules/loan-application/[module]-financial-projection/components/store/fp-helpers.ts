@@ -46,46 +46,38 @@ export const generateFooterTitleInPDFFirstPage = () => {
 }
 
 /**
- * Generates the footer title for a PDF based on the selected marked elements.
+ * Generates the footer title for a PDF based on the selected export options.
  *
- * @param {Record<ExportFPOption, boolean>} markedElements - An object where keys represent export options
- * and values indicate whether they are selected (true) or not (false).
+ * @param {ExportFPOption} [type] - The selected export option. If not provided, defaults to "Cyphr".
  *
- * @returns {string} - Returns "Application Summary" if only the "Application Summary" section
- * or both "Application Summary" and "Loan Ready" sections are selected. Otherwise, returns "Financial Forecast".
+ * @returns {string} - Returns:
+ *   - "Application Summary" if only the "Application Summary" section is selected.
+ *   - "Assessment Summary" if both "Application Summary" and "Loan Ready" sections are selected.
+ *   - "Financial Forecast" for all other cases.
+ *   - "Cyphr" if no export option is provided.
  */
-export const generateFooterTitleInPDF = (
-  markedElements?: Record<ExportFPOption, boolean>
-) => {
-  if (!markedElements) {
-    return
+export const generateFooterTitleInPDF = (type?: ExportFPOption) => {
+  if (!type) {
+    return "Cyphr"
   }
 
-  // Check if only the "Application Summary" section is selected
-  const isOnlyApplicationSummary = Object.entries(markedElements).every(
-    ([key, value]) =>
-      key === ExportFPOption.APPLICATION_SUMMARY ? value : !value
-  )
+  switch (type) {
+    case ExportFPOption.DISCLAIMER_NOTE:
+    case ExportFPOption.CASH_FLOW_FORECAST:
+    case ExportFPOption.BALANCE_SHEET_FORECAST:
+    case ExportFPOption.INCOME_SHEET_FORECAST:
+    case ExportFPOption.LOAN_READY_SECTION:
+    case ExportFPOption.CASH_FLOW:
+    case ExportFPOption.BALANCE_SHEET:
+    case ExportFPOption.INCOME_SHEET:
+    case ExportFPOption.CHARTS:
+    case ExportFPOption.HISTORICAL_INCOME_STATEMENT:
+      return TITLE_REPORT_FOOTER_PDF[FINANCIAL_FORECAST]
+    case ExportFPOption.APPLICATION_SUMMARY:
+      if (isLoanReady()) return TITLE_REPORT_FOOTER_PDF[ASSESSMENT_SUMMARY]
 
-  // Check if only the "Application Summary" and "Loan Ready" sections are selected
-  const isOnlyApplicationSummaryAndLoanReady = Object.entries(
-    markedElements
-  ).every(([key, value]) =>
-    key === ExportFPOption.APPLICATION_SUMMARY ||
-    key === ExportFPOption.LOAN_READY_SECTION
-      ? value
-      : !value
-  )
-
-  // Determine the footer title based on the selected elements
-
-  if (isOnlyApplicationSummary || isOnlyApplicationSummaryAndLoanReady) {
-    if (isLoanReady()) return TITLE_REPORT_FOOTER_PDF[ASSESSMENT_SUMMARY]
-
-    return TITLE_REPORT_FOOTER_PDF[APPLICATION_SUMMARY]
+      return TITLE_REPORT_FOOTER_PDF[APPLICATION_SUMMARY]
   }
-
-  return TITLE_REPORT_FOOTER_PDF[FINANCIAL_FORECAST]
 }
 
 export function parseForecastData(

@@ -258,6 +258,7 @@ interface GeneratePDFOptions {
   elements: {
     htmlElement: HTMLElement
     pageOrientation?: PDFPageOrientation
+    type?: keyof typeof ExportFPOption
   }[]
   isSigned?: boolean
   footerText?: string
@@ -269,7 +270,6 @@ interface GeneratePDFOptions {
 export const generatePDF = async ({
   elements,
   isSigned,
-  markedElements,
   footerText,
   footerRightTextInFirstPage,
   footerLeftTextInFirstPage
@@ -340,7 +340,9 @@ export const generatePDF = async ({
       addFooter({
         pdf,
         textLeft:
-          footerText ?? generateFooterTitleInPDF(markedElements) ?? "Cyphr",
+          footerText ??
+          generateFooterTitleInPDF(elements[i]?.type as ExportFPOption) ??
+          "Cyphr",
         textRight: `${currentPage}/${totalPage}`
       })
     }
