@@ -28,10 +28,20 @@ interface DragDropFileInputProps {
    * Additional class name to render the card
    */
   className?: string
+  supportedFileTypesNote?: string
+  iconClassName?: string
 }
 
 export function DragDropFileInput(props: DragDropFileInputProps) {
-  const { onFileSelect, field, id, multiple = true, className } = props
+  const {
+    onFileSelect,
+    field,
+    id,
+    multiple = true,
+    className,
+    supportedFileTypesNote = "(only PDF files are supported at this time)",
+    iconClassName
+  } = props
   const [dragActive, setDragActive] = useState(false)
 
   const handleDrag = (event: React.DragEvent<HTMLFormElement>) => {
@@ -87,7 +97,7 @@ export function DragDropFileInput(props: DragDropFileInputProps) {
           )}
           data-drag={dragActive}
         >
-          <div className="rounded-md border p-md">
+          <div className={cn("rounded-md border p-md", iconClassName)}>
             <UploadCloud className="size-5" />
           </div>
           <div className="text-center text-sm text-text-tertiary">
@@ -95,9 +105,7 @@ export function DragDropFileInput(props: DragDropFileInputProps) {
               Click to upload
             </span>
             <span> or drag and drop</span>
-            <p className="text-xs">
-              (only PDF files are supported at this time)
-            </p>
+            <p className="text-xs">{supportedFileTypesNote}</p>
             {/* Temporarily remove image/png, image/jpeg */}
           </div>
         </Card>

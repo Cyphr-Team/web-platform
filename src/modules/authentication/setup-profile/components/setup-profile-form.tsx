@@ -11,8 +11,8 @@ import {
 
 import { Input, InputPassword } from "@/components/ui/input"
 import {
-  type SetupProfileFormValue,
   setupProfileFormSchema,
+  type SetupProfileFormValue,
   useSetupProfile
 } from "../hooks/useSetupProfile"
 import { useForm } from "react-hook-form"
@@ -25,10 +25,9 @@ import {
 import { isAxiosError } from "axios"
 import { useCountdown } from "@/hooks/useCountdown"
 import { useEffect } from "react"
-import { APP_PATH, type PasswordRegex } from "@/constants"
+import { APP_PATH, PASSWORD_REGEX_TEXT, type PasswordRegex } from "@/constants"
 import { AppAlert } from "@/components/ui/alert"
 import { PasswordMatch } from "../../components/password-match"
-import { PASSWORD_REGEX_TEXT } from "../../hooks/usePasswordMatch"
 import { useStytchLogin } from "../../login/hooks/useStytchLogin"
 import { isEnableMFA } from "@/services/jwt.service"
 

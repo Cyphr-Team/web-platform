@@ -318,7 +318,7 @@ export function DialogUploadCSV(props: DialogUploadCSVProps) {
           </li>
 
           <li className="mt-2 w-full">
-            <span className="font-bold">
+            <span className="font-semibold">
               Step 3: Upload your files to send out the invites
             </span>
 

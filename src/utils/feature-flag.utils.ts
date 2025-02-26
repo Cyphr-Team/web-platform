@@ -124,7 +124,7 @@ function isEnableHistoricalFinancialsEnrichment() {
   return checkEnabledFeatureFlag(FEATURE_FLAGS.HISTORICAL_FINANCIALS_ENRICHMENT)
 }
 
-/*
+/**
  * Enable PII Self-Service
  */
 function isEnablePIISelfService() {

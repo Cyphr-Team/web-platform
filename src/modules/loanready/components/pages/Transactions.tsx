@@ -4,7 +4,7 @@ import { REQUEST_LIMIT_PARAM } from "@/constants"
 import { adminTransactionsColumns } from "@/modules/loanready/components/tables/admin-transactions-columns"
 import { type Option, SortOrder } from "@/types/common.type"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type SortingState, type PaginationState } from "@tanstack/react-table"
+import { type PaginationState, type SortingState } from "@tanstack/react-table"
 import debounce from "lodash.debounce"
 import { Search } from "lucide-react"
 import { type ChangeEvent, useCallback, useMemo, useState } from "react"
@@ -13,11 +13,12 @@ import { TransactionsTableHeader } from "@/modules/loanready/components/tables/t
 import {
   FormFieldNames,
   TransactionFilterSchema,
-  useQueryListPaginateTransaction,
-  type TransactionFilterValues
+  type TransactionFilterValues,
+  useQueryListPaginateTransaction
 } from "@/modules/loanready/hooks/payment/useQueryListPaginateTransaction"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
 import { applicantTransactionColumns } from "../tables/applicant-transaction-columns"
+import { SectionTitle } from "@/modules/loan-application-management/components/atoms/cashflows/SectionTitle.tsx"
 
 export function LoanReadyTransactionsPage() {
   const isApplicant = checkIsLoanApplicant()
@@ -119,7 +120,7 @@ export function LoanReadyTransactionsPage() {
 
   return (
     <div className="flex flex-col gap-4 mt-2xl">
-      <h1 className="text-3.5xl font-semibold">Payments</h1>
+      <SectionTitle>Payments</SectionTitle>
       <DataTable
         manualSorting
         columns={

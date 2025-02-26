@@ -1,11 +1,10 @@
 import { useFormContext } from "react-hook-form"
 import {
   type PasswordFormValue,
-  usePasswordMatch,
-  PASSWORD_REGEX_TEXT
+  usePasswordMatch
 } from "../hooks/usePasswordMatch"
-import { Matcher, getMatcherVariants } from "@/components/ui/matcher"
-import { PasswordRegex } from "@/constants"
+import { getMatcherVariants, Matcher } from "@/components/ui/matcher"
+import { PASSWORD_REGEX_TEXT, PasswordRegex } from "@/constants"
 
 export function PasswordMatch() {
   const { getValues } = useFormContext<PasswordFormValue>()

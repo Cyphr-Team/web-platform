@@ -286,7 +286,7 @@ export function BulkUploadCsv() {
                 </ul>
               </li>
               <li className="mt-2 flex w-full flex-col justify-between md:flex-row md:items-center">
-                <span className="font-bold">
+                <span className="font-semibold">
                   Step 3: Upload your files to send out the invites
                 </span>
                 <ButtonLoading

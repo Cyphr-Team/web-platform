@@ -58,7 +58,7 @@ export function FormLayout(props: PropsWithChildren<FormLayoutProps>) {
       {layout === "card" ? (
         <Card
           className={cn(
-            "flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-4xl",
+            "flex h-fit flex-col gap-2xl overflow-auto rounded-lg p-8",
             cardClassName
           )}
           id={id}

@@ -18,6 +18,8 @@ interface RHFDragAndDropFileUploadProps<T extends FieldValues> {
   multiple?: boolean
   version?: 1 | 2
   className?: string
+  supportFileTypesNote?: string
+  iconClassName?: string
 }
 
 function RHFDragAndDropFileUpload<T extends FieldValues>(
@@ -30,7 +32,9 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
     id,
     multiple = true,
     version = 1,
-    className
+    className,
+    supportFileTypesNote,
+    iconClassName
   } = props
   const { control, watch, getValues, setValue } = useFormContext()
 
@@ -86,8 +90,10 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
         <FormItem>
           <DragDropFileInput
             className={className}
+            iconClassName={iconClassName}
             id={id}
             multiple={multiple}
+            supportedFileTypesNote={supportFileTypesNote}
             onFileSelect={handleSelectFile(name)}
           />
           {Array.from((watch(name) as File[]) ?? []).map(

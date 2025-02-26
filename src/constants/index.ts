@@ -238,6 +238,7 @@ export const API_PATH = {
     forgotPassword: "api/users/public/forgot-password",
     resendForgotPassword: "api/users/resend-activation-secret",
     setupPassword: "api/users/public/reset-password",
+    changePassword: "api/users/change-password",
     getStart: "api/users/start",
     activateByOtpCode: "api/users/activate-by-otp-code",
     activateByToken: "api/users/activate-by-token",
@@ -786,6 +787,19 @@ export const PASSWORD_REGEX = {
   [PasswordRegex.AT_LEAST_ONE_LOWERCASE]: /(?=.*[a-z])^.+$/,
   [PasswordRegex.AT_LEAST_ONE_DIGIT]: /(?=.*\d)^.+$/,
   [PasswordRegex.NONE_SPACES]: /^[^\s]*$/
+}
+
+export const PASSWORD_REGEX_TEXT = {
+  [PasswordRegex.AT_LEAST_EIGHT_CHARACTER]: "Must be at least 8 characters",
+  [PasswordRegex.AT_LEAST_ONE_SPECIAL_CHARACTER]:
+    "Must contain at least one special character",
+  [PasswordRegex.AT_LEAST_ONE_UPPERCASE]:
+    "Must contain at least one uppercase character",
+  [PasswordRegex.AT_LEAST_ONE_LOWERCASE]:
+    "Must contain at least one lowercase character",
+  [PasswordRegex.AT_LEAST_ONE_DIGIT]: "Must contain at least one digit",
+  [PasswordRegex.NONE_SPACES]: "Can't contain spaces",
+  [PasswordRegex.AT_MOST_255_CHARACTER]: "Must be at most 255 characters"
 }
 
 // QUERY REQUEST

@@ -49,3 +49,9 @@ export const VIEWER_SETTINGS_MENU = [
     href: APP_PATH.SETTINGS.profile
   }
 ]
+
+export const enum UserAuthProvider {
+  GOOGLE = "GOOGLE",
+  EMAIL = "EMAIL",
+  ANONYMOUS = "ANONYMOUS"
+}
