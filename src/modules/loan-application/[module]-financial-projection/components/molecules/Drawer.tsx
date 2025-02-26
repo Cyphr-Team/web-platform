@@ -5,26 +5,22 @@ import { useBoolean } from "@/hooks"
 import { cn } from "@/lib/utils.ts"
 import { RHFCheckbox } from "@/modules/form-template/components/molecules"
 import { RHFProvider } from "@/modules/form-template/providers"
-import { QUERY_KEY as APPLICATION_MANAGEMENT_QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
-import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
 import { FinancialProjectionPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/FinancialProjectionPdf.tsx"
 import { ExportFPOption } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
-import { QUERY_KEY as FINANCIAL_QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
 import { useExportToPDF } from "@/modules/loan-application/[module]-financial-projection/hooks/useExportToPDF"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
-import { useDownloadESignDocument } from "@/modules/loan-application/hooks/form-esign/useDownloadESignDocument"
-import { useGetESignDocument } from "@/modules/loan-application/hooks/form-esign/useGetESignDocument"
-import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
-import { type UserMicroLoanApplication } from "@/types/loan-application.type"
-import { checkIsViewer, checkIsWorkspaceAdmin } from "@/utils/check-roles"
-import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils.ts"
+import { QUERY_KEY as FINANCIAL_QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
+import { QUERY_KEY as APPLICATION_MANAGEMENT_QUERY_KEY } from "@/modules/loan-application-management/constants/query-key"
 import { useIsFetching } from "@tanstack/react-query"
 import { FolderDown, X } from "lucide-react"
-import { type ReactNode, useEffect, useMemo, useState } from "react"
+import { type ReactNode, useMemo } from "react"
 import { useForm } from "react-hook-form"
-import { useAdminFinancialProjectionApplicationDetails } from "../../hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
+import { LoanReadyPlanEnum } from "@/modules/loanready/constants/package.ts"
+import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
 import { useApplicantFinancialProjectionApplicationDetails } from "../../hooks/details/applicant/useApplicantFinancialProjectionApplicationDetails"
+import { useDownloadESignDocument } from "@/modules/loan-application/hooks/form-esign/useDownloadESignDocument"
+import { useGetESignDocument } from "@/modules/loan-application/hooks/form-esign/useGetESignDocument"
 
 interface DrawerCheckBoxProps {
   name: ExportFPOption
@@ -143,21 +139,19 @@ function DrawerContent() {
         />
       </CardSection>
 
-      {isEnableHistoricalFinancialsEnrichment() && (
-        <CardSection
-          title="Historical Financial Statements"
-          tooltipContent="Past financial performance, based on data from your connected Plaid account and the way you've categorized your transactions."
-        >
-          <CheckboxGroup
-            options={[
-              {
-                name: ExportFPOption.HISTORICAL_INCOME_STATEMENT,
-                label: "Income Statement"
-              }
-            ]}
-          />
-        </CardSection>
-      )}
+      <CardSection
+        title="Historical Financial Statements"
+        tooltipContent="Past financial performance, based on data from your connected Plaid account and the way you've categorized your transactions."
+      >
+        <CheckboxGroup
+          options={[
+            {
+              name: ExportFPOption.HISTORICAL_INCOME_STATEMENT,
+              label: "Income Statement"
+            }
+          ]}
+        />
+      </CardSection>
     </div>
   )
 }
@@ -195,30 +189,14 @@ export function Drawer({ applicationPlan }: DrawerProps) {
   const openDrawer = useBoolean(false)
 
   const methods = useForm<Record<ExportFPOption, boolean>>()
-  const [loanApplicationData, setLoanApplicationData] = useState<
-    UserMicroLoanApplication | undefined
-  >()
-  const isAdmin = checkIsWorkspaceAdmin()
-  const isViewer = checkIsViewer()
 
   const { loanApplicationDetailsQuery } =
     useApplicantFinancialProjectionApplicationDetails()
 
-  const { loanApplicationDetails } =
-    useAdminFinancialProjectionApplicationDetails()
-
-  useEffect(() => {
-    if (isAdmin || isViewer) {
-      setLoanApplicationData(loanApplicationDetails)
-    } else {
-      setLoanApplicationData(loanApplicationDetailsQuery?.data)
-    }
-  }, [isAdmin, loanApplicationDetails, loanApplicationDetailsQuery, isViewer])
-
   const downloadESignMutate = useDownloadESignDocument()
   const { isLoading: isLoadingDocument, data: document } = useGetESignDocument({
-    applicationId: loanApplicationData?.id,
-    enabled: !!loanApplicationData?.id
+    applicationId: loanApplicationDetailsQuery?.data?.id,
+    enabled: !!loanApplicationDetailsQuery?.data?.id
   })
 
   const watchAllFields = methods.watch()
@@ -238,7 +216,7 @@ export function Drawer({ applicationPlan }: DrawerProps) {
    *   - Download two files: A report (PDF) & the signature file from PandaDoc.
    *   - If ONLY the assessment checkbox is checked: Download only the signature file from PandaDoc.
    *   - If the assessment checkbox is not checked: Download only the report (PDF).
-   *   - If the asssessment checkbox and loanready are checked: Download both the report (PDF) and the signature file from PandaDoc.
+   *   - If the asssessment checkbox and another types are checked: Download both the report (PDF) and the signature file from PandaDoc.
    * @author Khoa Nguyen
    */
   const onExportToPdf = methods.handleSubmit(async (markedElement) => {
@@ -249,23 +227,30 @@ export function Drawer({ applicationPlan }: DrawerProps) {
         key === ExportFPOption.APPLICATION_SUMMARY ? value : !value
     )
 
-    const isOnlyApplicationSummaryAndLoanReady = Object.entries(
-      markedElement
-    ).every(([key, value]) =>
-      key === ExportFPOption.APPLICATION_SUMMARY ||
-      key === ExportFPOption.LOAN_READY_SECTION
-        ? value
-        : !value
-    )
+    const isApplicationSummaryAndAnother =
+      markedElement[ExportFPOption.APPLICATION_SUMMARY] &&
+      Object.values(markedElement).filter((value) => value).length > 1
 
     // If ONLY the assessment checkbox is checked: Download only the signature file from PandaDoc.
-    if (isOnlyApplicationSummaryTrue || isOnlyApplicationSummaryAndLoanReady) {
+    if (isOnlyApplicationSummaryTrue) {
+      if (document) {
+        downloadESignMutate.mutate(document)
+
+        return
+      }
+    }
+
+    //  If the asssessment checkbox and another types are checked: Download both the report (PDF) and the signature file from PandaDoc.
+    if (isApplicationSummaryAndAnother) {
       if (document) {
         downloadESignMutate.mutate(document)
       }
     }
 
-    await exportToPdf(markedElement, loanApplicationData?.updatedAt)
+    await exportToPdf(
+      markedElement,
+      loanApplicationDetailsQuery?.data?.updatedAt
+    )
   })
 
   const isFetchingBankAccounts = useIsFetching({
@@ -302,7 +287,7 @@ export function Drawer({ applicationPlan }: DrawerProps) {
     isFetchingLoanSummary ||
     isLoadingDocument ||
     downloadESignMutate.isPending ||
-    (isEnableHistoricalFinancialsEnrichment() && isFetchingHistoricalFinancials)
+    isFetchingHistoricalFinancials
   )
 
   const drawerContent =

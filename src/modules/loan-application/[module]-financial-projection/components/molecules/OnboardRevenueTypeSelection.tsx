@@ -15,7 +15,6 @@ import { RevenueTypeSelection } from "@/modules/loan-application/[module]-financ
 import { Button } from "@/components/ui/button.tsx"
 import useBoolean from "@/hooks/useBoolean"
 import { CustomAlertDialog } from "@/shared/molecules/AlertDialog"
-import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils"
 
 interface OnboardRevenueTypeSelectionProps {
   onAddItemToField: OnAddItemToField
@@ -83,7 +82,7 @@ function OnboardRevenueTypeSelection(props: OnboardRevenueTypeSelectionProps) {
           Next
         </Button>
       </div>
-      {isEnableHistoricalFinancialsEnrichment() && !isFormCompleted && (
+      {!isFormCompleted && (
         <CustomAlertDialog
           confirmText="Sounds good"
           description={

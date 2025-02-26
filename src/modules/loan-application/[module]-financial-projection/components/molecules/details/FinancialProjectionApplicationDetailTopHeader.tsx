@@ -1,18 +1,10 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll.tsx"
 import { cn } from "@/lib/utils.ts"
 import { NavLink } from "react-router-dom"
-import {
-  LOAN_READY_APPLICANT_TOP_HEADER_MENU,
-  LOAN_READY_APPLICANT_TOP_HEADER_MENU_V2,
-  LOAN_READY_APPLICANT_TOP_HEADER_MENU_V3
-} from "@/modules/loan-application/[module]-financial-projection/constants"
+import { LOAN_READY_APPLICANT_TOP_HEADER_MENU_V3 } from "@/modules/loan-application/[module]-financial-projection/constants"
 import { useLoanApplicationFormContext } from "@/modules/loan-application/providers"
 import { toCurrency } from "@/utils"
-import {
-  isEnableFormV2,
-  isEnableHistoricalFinancialsEnrichment,
-  isEnableLoanReadyV2
-} from "@/utils/feature-flag.utils.ts"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 
 function Title() {
   const { loanRequest, loanRequestV2, businessInformation } =
@@ -31,18 +23,12 @@ function Title() {
 }
 
 export function FinancialProjectionApplicationDetailTopHeader() {
-  const HEADER_MENU = isEnableHistoricalFinancialsEnrichment()
-    ? LOAN_READY_APPLICANT_TOP_HEADER_MENU_V3
-    : isEnableLoanReadyV2()
-      ? LOAN_READY_APPLICANT_TOP_HEADER_MENU_V2
-      : LOAN_READY_APPLICANT_TOP_HEADER_MENU
-
   return (
     <div className="relative">
       <Title />
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div className={cn("flex items-center space-x-lg px-4xl")}>
-          {HEADER_MENU.map((menu) => (
+          {LOAN_READY_APPLICANT_TOP_HEADER_MENU_V3.map((menu) => (
             <NavLink
               key={menu.href}
               end

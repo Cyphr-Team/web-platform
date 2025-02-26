@@ -30,10 +30,7 @@ import { getBusinessName } from "@/utils/kyb.utils"
 import { get } from "lodash"
 import { type FC, type MutableRefObject, useCallback, useMemo } from "react"
 import { useParams } from "react-router-dom"
-import {
-  isEnableFormV2,
-  isEnableHistoricalFinancialsEnrichment
-} from "@/utils/feature-flag.utils.ts"
+import { isEnableFormV2 } from "@/utils/feature-flag.utils.ts"
 import { useQueryGetApplicationSummary } from "@/modules/loan-application-management/hooks/useQuery/useQueryApplicationSummary.ts"
 import { useQueryHistoricalStatement } from "@/modules/loan-application/[module]-data-enrichment/hooks/useQueryHistoricalStatement.ts"
 import { type HistoricalIncomeStatementByDate } from "@/modules/loan-application/[module]-data-enrichment/types/historical-statements.ts"
@@ -460,7 +457,7 @@ export function FinancialProjectionPdf({
 
   const { data: historicalStatement } = useQueryHistoricalStatement({
     applicationId: applicationId!,
-    enabled: !!applicationId && isEnableHistoricalFinancialsEnrichment()
+    enabled: !!applicationId
   })
 
   const forecastResults = useMemo(

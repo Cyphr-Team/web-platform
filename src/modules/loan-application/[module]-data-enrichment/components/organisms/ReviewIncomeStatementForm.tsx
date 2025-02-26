@@ -6,7 +6,6 @@ import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { useParams } from "react-router-dom"
 import { useQueryHistoricalStatement } from "@/modules/loan-application/[module]-data-enrichment/hooks/useQueryHistoricalStatement.ts"
 import HistoricalIncomeStatementTemplate from "@/modules/loan-application/[module]-data-enrichment/components/templates/HistoricalIncomeStatementTemplate.tsx"
-import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils.ts"
 import { useCallback } from "react"
 import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
 import { useQueryClient } from "@tanstack/react-query"
@@ -19,7 +18,7 @@ export function ReviewIncomeStatementForm() {
   const { id: applicationId } = useParams()
   const { data, isLoading } = useQueryHistoricalStatement({
     applicationId: applicationId!,
-    enabled: !!applicationId && isEnableHistoricalFinancialsEnrichment(),
+    enabled: !!applicationId,
     isPreview: true
   })
 

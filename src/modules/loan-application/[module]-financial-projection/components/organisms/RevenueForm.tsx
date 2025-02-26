@@ -35,7 +35,6 @@ import { revenueFormSchema } from "@/modules/loan-application/[module]-financial
 import { isReviewApplicationStep } from "@/modules/loan-application/services"
 import { FormLayout } from "@/modules/loan-application/components/layouts/FormLayout"
 import OnboardRevenueTypeSelection from "@/modules/loan-application/[module]-financial-projection/components/molecules/OnboardRevenueTypeSelection.tsx"
-import { isEnableHistoricalFinancialsEnrichment } from "@/utils/feature-flag.utils"
 
 type AppendFunctions = {
   [K in RevenueType]: UseFieldArrayAppend<RevenueStream, K>
@@ -206,15 +205,13 @@ function WelcomeLayout({ children }: PropsWithChildren) {
   return (
     <FormLayout title="Revenue">
       <h5 className="text-lg font-semibold">Revenue</h5>
-      {isEnableHistoricalFinancialsEnrichment() && (
-        <div className="financial-projection text-muted-foreground">
-          With your past transactions thoroughly analyzed, it's time to turn our
-          attention to future financial planning. By delving into
-          forward-looking projections, we can better understand your potential
-          for growth, anticipate cash flow trends, and evaluate your overall
-          financial outlook.
-        </div>
-      )}
+      <div className="financial-projection text-muted-foreground">
+        With your past transactions thoroughly analyzed, it's time to turn our
+        attention to future financial planning. By delving into forward-looking
+        projections, we can better understand your potential for growth,
+        anticipate cash flow trends, and evaluate your overall financial
+        outlook.
+      </div>
       <div className="financial-projection text-muted-foreground">
         Select one or more revenue models that best align with your business
         operations and financial reporting requirements.

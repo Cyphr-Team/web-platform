@@ -1,7 +1,4 @@
-import {
-  isEnableHistoricalFinancialsEnrichment,
-  isIgnoredCashFlowSubmission
-} from "@/utils/feature-flag.utils"
+import { isIgnoredCashFlowSubmission } from "@/utils/feature-flag.utils"
 import { type ILoanApplicationStepStrategy, LoanApplicationStep } from "./base"
 import {
   FORM_TYPE,
@@ -24,37 +21,35 @@ export class LoanReadyLoanApplicationStep
       ._build_BusinessInformationStep()
       ._build_OwnerInformationStep()
 
-    if (isEnableHistoricalFinancialsEnrichment()) {
-      if (!isIgnoredCashFlowSubmission()) {
-        this._build_extendedSteps([
-          {
-            step: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
-            formType: FORM_TYPE.FINANCIAL,
-            label: "Cash Flow Verification",
-            // Cash flow is in another group, so I re-build it right here
-            // instead of use the this._build_CashFlowVerificationStep()
-            parent: STEP_MENU.HISTORICAL_FINANCIALS,
-            status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
-          }
-        ])
-      }
+    if (!isIgnoredCashFlowSubmission()) {
       this._build_extendedSteps([
         {
-          step: LOAN_APPLICATION_STEPS.REVIEW_TRANSACTIONS,
-          formType: FORM_TYPE.REVIEW_TRANSACTIONS,
-          label: "Review Transactions",
-          parent: STEP_MENU.HISTORICAL_FINANCIALS,
-          status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
-        },
-        {
-          step: LOAN_APPLICATION_STEPS.REVIEW_INCOME_STATEMENT,
-          formType: FORM_TYPE.REVIEW_INCOME_STATEMENT,
-          label: "Review Income Statement",
+          step: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,
+          formType: FORM_TYPE.FINANCIAL,
+          label: "Cash Flow Verification",
+          // Cash flow is in another group, so I re-build it right here
+          // instead of use the this._build_CashFlowVerificationStep()
           parent: STEP_MENU.HISTORICAL_FINANCIALS,
           status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
         }
       ])
     }
+    this._build_extendedSteps([
+      {
+        step: LOAN_APPLICATION_STEPS.REVIEW_TRANSACTIONS,
+        formType: FORM_TYPE.REVIEW_TRANSACTIONS,
+        label: "Review Transactions",
+        parent: STEP_MENU.HISTORICAL_FINANCIALS,
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      },
+      {
+        step: LOAN_APPLICATION_STEPS.REVIEW_INCOME_STATEMENT,
+        formType: FORM_TYPE.REVIEW_INCOME_STATEMENT,
+        label: "Review Income Statement",
+        parent: STEP_MENU.HISTORICAL_FINANCIALS,
+        status: LOAN_APPLICATION_STEP_STATUS.INCOMPLETE
+      }
+    ])
 
     this._build_extendedSteps([
       {
@@ -87,10 +82,7 @@ export class LoanReadyLoanApplicationStep
       }
     ])
 
-    if (
-      !isIgnoredCashFlowSubmission() &&
-      !isEnableHistoricalFinancialsEnrichment()
-    ) {
+    if (!isIgnoredCashFlowSubmission()) {
       this._build_extendedSteps([
         {
           step: LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION,

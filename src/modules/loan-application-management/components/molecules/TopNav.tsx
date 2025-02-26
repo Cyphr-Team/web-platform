@@ -12,10 +12,7 @@ import { Link, useLocation, useParams } from "react-router-dom"
 import { checkIsWorkspaceAdmin } from "@/utils/check-roles.ts"
 import { APPLICATION_MENU, ApplicationMenuName } from "../../constants"
 import { ADMIN_APPLICATION_MENU } from "@/modules/loan-application/[module]-financial-projection/constants/application.ts"
-import {
-  isEnableHistoricalFinancialsEnrichment,
-  isEnableLoanReadyV2
-} from "@/utils/feature-flag.utils"
+import { isEnableLoanReadyV2 } from "@/utils/feature-flag.utils"
 import { useLoanApplicationDetailContext } from "@/modules/loan-application-management/providers/LoanApplicationDetailProvider.tsx"
 import { Skeleton } from "@/components/ui/skeleton.tsx"
 import { APPLICATION_MENU_CAPITAL_COLLAB } from "@/modules/loan-application/capital-collab/constants"
@@ -40,9 +37,7 @@ export function TopNav({ className, ...props }: Props) {
           ApplicationMenuName.financialProjection,
           ApplicationMenuName.loanReady
         ],
-        isEnableHistoricalFinancialsEnrichment()
-          ? [ApplicationMenuName.historicalFinancials]
-          : []
+        [ApplicationMenuName.historicalFinancials]
       )
     } else {
       menuItems = [
