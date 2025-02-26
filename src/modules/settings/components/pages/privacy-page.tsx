@@ -3,10 +3,9 @@ import { isEnablePIISelfService } from "@/utils/feature-flag.utils.ts"
 import { SectionTitle } from "@/modules/loan-application-management/components/atoms/cashflows/SectionTitle.tsx"
 
 export function Component() {
-  if (isEnablePIISelfService())
-    return <SectionTitle className="my-2xl">Privacy</SectionTitle>
+  if (!isEnablePIISelfService()) return <UnderConstruction />
 
-  return <UnderConstruction />
+  return <SectionTitle className="my-2xl">Privacy</SectionTitle>
 }
 
 Component.displayName = "PrivacyPage"

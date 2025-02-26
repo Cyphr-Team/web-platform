@@ -40,6 +40,14 @@ export const TOAST_MSG = {
       title: "Remove document",
       description: "Document is removed successfully"
     },
+    verifyAccount: {
+      title: "Verify account",
+      description: "Account is now verified successfully"
+    },
+    deleteAccount: {
+      title: "Delete account",
+      description: "Account has now been removed"
+    },
     // Notifications for Stytch MFA
     stytchMagicLink: {
       title: "Stytch Magic Link",

@@ -249,7 +249,10 @@ export const API_PATH = {
     acceptInvite: "api/users/public/invitation/accept",
     order: {
       listApplications: "api/loan-ready-subscription/application/list"
-    }
+    },
+    // Remove account
+    confirmUserDeletion: "api/users/delete/confirmation",
+    deleteUser: "api/users/delete/user-account"
   },
   login: {
     loginByPassword: "login",
