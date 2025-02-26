@@ -127,6 +127,13 @@ function isEnableKCChamberKycPersonaDisabled() {
   )
 }
 
+/**
+ * Enable PII Self-Service
+ */
+function isEnablePIISelfService() {
+  return checkEnabledFeatureFlag(FEATURE_FLAGS.PII_SELF_SERVICE)
+}
+
 export {
   isEnableLoanReadyV2,
   isEnablePandaDocESign,
@@ -143,5 +150,5 @@ export {
   isEnableChatSupport,
   isEnableFormV2,
   isEnableKCChamberKycPersonaDisabled,
-  isEnableHistoricalFinancialsEnrichment
+  isEnablePIISelfService
 }
