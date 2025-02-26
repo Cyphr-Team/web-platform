@@ -4,7 +4,10 @@ import {
   FinancialDetailItem
 } from "@/modules/loan-application/[module]-financial-projection/components/atoms/details"
 import { type FinancialApplicationFormDetailData } from "@/modules/loan-application/[module]-financial-projection/hooks/type"
-import { EXPORT_CLASS } from "@/modules/loan-application/services/pdf-v2.service"
+import {
+  EXPORT_CLASS,
+  EXPORT_CONFIG
+} from "@/modules/loan-application/services/pdf-v2.service"
 import { type ReactNode } from "react"
 import { checkIsLoanApplicant } from "@/utils/check-roles.ts"
 
@@ -16,6 +19,7 @@ interface FinancialApplicationFormDetailProps {
   isSubChildren?: boolean
   isLoading?: boolean
   isPdf?: boolean
+  isLastItem?: boolean
 }
 
 const NON_APPLICANT_HIDDEN_FIELDS = ["residentAddress", "dateOfBirth"]
@@ -41,7 +45,8 @@ export function FinancialApplicationFormDetail(
     subChildren,
     isSubChildren,
     isLoading,
-    isPdf
+    isPdf,
+    isLastItem
   } = props
 
   const render = financialApplicationFormData.length > 0 && (
@@ -87,7 +92,14 @@ export function FinancialApplicationFormDetail(
         {render}
       </FinancialDetailCard>
 
-      <div className={cn(isPdf && EXPORT_CLASS.FINANCIAL)}>{subChildren}</div>
+      <div
+        className={cn(isPdf && EXPORT_CLASS.FINANCIAL)}
+        data-pdf-end-of-page-type={
+          isLastItem ? EXPORT_CONFIG.END_OF_PAGE.NEW_PAGE : null
+        }
+      >
+        {subChildren}
+      </div>
     </div>
   )
 }

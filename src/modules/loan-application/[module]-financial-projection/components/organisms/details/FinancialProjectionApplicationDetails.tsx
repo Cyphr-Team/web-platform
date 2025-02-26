@@ -99,17 +99,21 @@ export function FinancialProjectionApplicationDetail({
   isLoading?: boolean
 }) {
   return financialApplicationDetailData.map(
-    ({
-      id,
-      subId = "",
-      title,
-      subTitle,
-      financialApplicationFormData,
-      subChildren
-    }) => (
+    (
+      {
+        id,
+        subId = "",
+        title,
+        subTitle,
+        financialApplicationFormData,
+        subChildren
+      },
+      index
+    ) => (
       <FinancialApplicationFormDetail
         key={id + subId}
         financialApplicationFormData={financialApplicationFormData}
+        isLastItem={index === financialApplicationDetailData.length - 1}
         isLoading={isLoading}
         isPdf={isPdf}
         subChildren={subChildren}
