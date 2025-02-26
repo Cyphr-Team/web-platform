@@ -78,6 +78,7 @@ export const generateFooterTitleInPDF = (
   )
 
   // Determine the footer title based on the selected elements
+
   if (isOnlyApplicationSummary || isOnlyApplicationSummaryAndLoanReady) {
     if (isLoanReady()) return TITLE_REPORT_FOOTER_PDF[ASSESSMENT_SUMMARY]
 

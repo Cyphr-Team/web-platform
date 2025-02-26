@@ -49,6 +49,34 @@ export const useExportToPDF = () => {
       }))
   }
 
+  const getElementsExportWithOnlyAssessmentSummaryAndLoanReady = (
+    elements: ElementRef,
+    financialElements: ElementsToExport
+  ) => {
+    const allElements = [
+      {
+        htmlElement: elements[ExportFPOption.DISCLAIMER_NOTE],
+        pageOrientation:
+          PdfPageOrientationMapper[
+            ExportFPOption.DISCLAIMER_NOTE as ExportFPOption
+          ] ?? PDFPageOrientation.PORTRAIT
+      },
+      ...financialElements
+    ]
+
+    return [
+      ...allElements,
+
+      {
+        htmlElement: elements[ExportFPOption.LOAN_READY_SECTION],
+        pageOrientation:
+          PdfPageOrientationMapper[
+            ExportFPOption.LOAN_READY_SECTION as ExportFPOption
+          ] ?? PDFPageOrientation.PORTRAIT
+      }
+    ]
+  }
+
   const getElementsByExportClass = (
     exportClass: EXPORT_CLASS
   ): HTMLDivElement[] =>
@@ -90,20 +118,36 @@ export const useExportToPDF = () => {
           PdfPageOrientationMapper[ExportFPOption.HISTORICAL_INCOME_STATEMENT]
       }))
 
-      const allElements = [
-        ...filteredElements,
-        ...financialElements,
-        ...historicalFinancialElements
-      ]
+      const isOnlyApplicationSummaryAndLoanReady = Object.entries(
+        markedElement
+      ).every(([key, value]) =>
+        key === ExportFPOption.APPLICATION_SUMMARY ||
+        key === ExportFPOption.LOAN_READY_SECTION
+          ? value
+          : !value
+      )
+
+      const allElements = isOnlyApplicationSummaryAndLoanReady
+        ? getElementsExportWithOnlyAssessmentSummaryAndLoanReady(
+            elementToExportRef.current,
+            financialElements
+          )
+        : [
+            ...filteredElements,
+            ...financialElements,
+            ...historicalFinancialElements
+          ]
 
       const formatedDate = customDate ? new Date(customDate) : new Date()
 
       // Format date in footer
       const { pdf } = await generatePDF({
-        elements: allElements.map((el) => ({
-          htmlElement: el.htmlElement,
-          pageOrientation: el.pageOrientation
-        })),
+        elements: allElements
+          .filter((el) => el.htmlElement !== undefined)
+          .map((el) => ({
+            htmlElement: el.htmlElement as HTMLElement,
+            pageOrientation: el.pageOrientation
+          })),
         markedElements: markedElement,
         footerRightTextInFirstPage: formatPDFDate(formatedDate),
         footerLeftTextInFirstPage: generateFooterTitleInPDFFirstPage()
