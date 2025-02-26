@@ -39,7 +39,7 @@ export function parseForecastDataSingleSheet(
 
 export const generateFooterTitleInPDFFirstPage = () => {
   if (isLoanReady()) {
-    return "Loan Ready powered by Cyphr"
+    return "LoanReady powered by Cyphr"
   }
 
   return "Cyphr"
