@@ -21,7 +21,7 @@ import { LoanApplicationSave } from "../organisms/LoanApplicationSave"
 import { TopBarDetail } from "./TopBarDetail"
 import { isEnableChatSupport } from "@/utils/feature-flag.utils"
 import { isCyphrBank } from "@/utils/domain.utils"
-import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
+import { ChatSupportButton } from "@/modules/chat-support/components/molecules/ChatSupportButton.tsx"
 import { useGetFormByStep } from "@/modules/loan-application/hooks/utils/useGetFormByStep.tsx"
 
 export function LoanInformationHeader() {

@@ -1,13 +1,13 @@
 import {
   CHAT_POST_INJECT_MESSAGE_EVENT,
-  ChatMessageInfo,
   ChatSender
-} from "@/modules/chat-support/constants/chat"
+} from "@/modules/chat-support/constants/chat-info.ts"
 import { Button } from "@/components/ui/button"
 import useBoolean from "@/hooks/useBoolean"
 import { useEffect } from "react"
 import { type Params } from "react-chatbotify"
 import { CHAT_STEPS } from "@/modules/chat-support/constants/steps"
+import { ChatMessageInfo } from "@/modules/chat-support/constants/messages.ts"
 
 export function EndChatButton({ params }: { params: Params }) {
   const isVisible = useBoolean(true)

@@ -1,6 +1,6 @@
 import { Button } from "react-chatbotify"
 import smile from "@/assets/smile.svg"
-import { CHAT_HISTORY } from "@/modules/chat-support/constants/chat"
+import { CHAT_HISTORY } from "@/modules/chat-support/constants/chat-info.ts"
 import icon from "@/assets/lenda.svg"
 
 export const settings = {

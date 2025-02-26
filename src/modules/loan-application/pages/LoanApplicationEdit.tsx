@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react"
 
 import { cn } from "@/lib/utils"
 import { isEnableChatSupport } from "@/utils/feature-flag.utils"
-import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
+import { ChatSupportButton } from "@/modules/chat-support/components/molecules/ChatSupportButton.tsx"
 import { isCyphrBank } from "@/utils/domain.utils"
 import { useGetFormByStep } from "@/modules/loan-application/hooks/utils/useGetFormByStep.tsx"
 import {

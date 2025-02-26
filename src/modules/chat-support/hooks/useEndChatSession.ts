@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query"
 import { type ErrorResponse } from "@/types/common.type"
 import { type AxiosError, type AxiosResponse } from "axios"
 import { customRequestHeader } from "@/utils/request-header"
-import { type ChatMessage } from "@/modules/chat-support/constants/chat"
+import { type ChatMessage } from "@/modules/chat-support/constants/types.ts"
 
 export const useEndChatSession = () => {
   return useMutation<

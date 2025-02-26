@@ -1,24 +1,23 @@
-import { settings } from "@/modules/chat-support/constants/settings"
-import { CHAT_STEPS, FlowBuilder } from "@/modules/chat-support/constants/steps"
+import { settings } from "@/modules/chat-support/constants/settings.tsx"
+import { CHAT_STEPS } from "@/modules/chat-support/constants/steps.ts"
 import {
   themeOptionsMap,
   themeQuestionOptions,
   themes
-} from "@/modules/chat-support/constants/themes"
+} from "@/modules/chat-support/constants/themes.ts"
 import { useCallback, useEffect } from "react"
 import ChatBot, { ChatBotProvider, type Params } from "react-chatbotify"
-import { styles } from "@/modules/chat-support/constants/styles"
+import { styles } from "@/modules/chat-support/constants/styles.ts"
 import {
   chatFollowUpOptionsMap,
+  ChatMessageInfo,
   followUpOptions,
   restartOptionsMap
-} from "@/modules/chat-support/constants/map"
-import {
-  CHAT_SESSION_ID,
-  ChatMessageInfo
-} from "@/modules/chat-support/constants/chat"
-import { EndChatButton } from "@/modules/chat-support/components/molecules/EndChatButton"
-import useWebSocketChatClient from "@/modules/chat-support/hooks/useWebSocketChatClient"
+} from "@/modules/chat-support/constants/messages.ts"
+import { CHAT_SESSION_ID } from "@/modules/chat-support/constants/chat-info.ts"
+import { EndChatButton } from "@/modules/chat-support/components/molecules/EndChatButton.tsx"
+import useWebSocketChatClient from "@/modules/chat-support/hooks/useWebSocketChatClient.ts"
+import { FlowBuilder } from "@/modules/chat-support/FlowBuilder.ts"
 
 export function ChatSupportButton() {
   // WebSocket

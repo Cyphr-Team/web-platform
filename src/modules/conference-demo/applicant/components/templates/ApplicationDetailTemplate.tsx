@@ -1,4 +1,4 @@
-import { ChatSupportButton } from "@/modules/chat-support/components/ChatSupportButton"
+import { ChatSupportButton } from "@/modules/chat-support/components/molecules/ChatSupportButton.tsx"
 import {
   ArticlesOfOrganizationForm,
   BankStatementForm,

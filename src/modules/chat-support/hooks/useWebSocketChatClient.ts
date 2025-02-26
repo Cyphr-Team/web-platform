@@ -1,9 +1,5 @@
 import { useCallback, useRef } from "react"
-import {
-  CHAT_SESSION_ID,
-  ChatMessageInfo,
-  type StreamChatMessage
-} from "@/modules/chat-support/constants/chat"
+import { CHAT_SESSION_ID } from "@/modules/chat-support/constants/chat-info.ts"
 import Markdown from "react-markdown"
 import { renderToString } from "react-dom/server"
 import remarkMath from "remark-math"
@@ -17,6 +13,8 @@ import { getSubdomain, getTopLevelDomain } from "@/utils/domain.utils"
 import { inMemoryJWTService, USER_INFO_LS_KEY } from "@/services/jwt.service"
 import { useLogout } from "@/hooks/useLogout"
 import { CHAT_BOT_MULTIPLE_ENDLINE_REGEX } from "@/constants/regex.constants"
+import { type StreamChatMessage } from "@/modules/chat-support/constants/types.ts"
+import { ChatMessageInfo } from "@/modules/chat-support/constants/messages.ts"
 
 const CHAT_EVENT_ON_MESSAGE = "message"
 /**
