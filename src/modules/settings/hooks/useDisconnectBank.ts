@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { postRequest } from "@/services/client.service.ts"
 import { settingKeys } from "@/constants/query-key.ts"
-import { toastError } from "@/utils"
+import { toastError, toastSuccess } from "@/utils"
 import { TOAST_MSG } from "@/constants/toastMsg.ts"
 import { getAxiosError } from "@/utils/custom-error.ts"
 
@@ -20,7 +20,7 @@ export const useDisconnectBank = () => {
       })
     },
     onSuccess: () => {
-      toastError(TOAST_MSG.user.disconnectApp)
+      toastSuccess(TOAST_MSG.user.disconnectApp)
       queryClient.invalidateQueries({
         queryKey: settingKeys.connectedBanks
       })

@@ -4,11 +4,13 @@ import { format } from "date-fns"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants.ts"
 import mappedStatusLabel from "@/modules/settings/constants/mapped-status-label.ts"
 import { DisconnectAppAction } from "@/modules/settings/components/organisms"
+import { EnumConnectedAppStatus } from "@/modules/settings/types/enum.ts"
 
 const connectedAppColumns: ColumnDef<ConnectedApp>[] = [
   {
     header: "Application",
-    accessorKey: "businessName"
+    accessorKey: "businessName",
+    accessorFn: (row) => row.businessName ?? "---"
   },
   {
     header: "App",
@@ -36,9 +38,9 @@ const connectedAppColumns: ColumnDef<ConnectedApp>[] = [
     accessorKey: "action",
     header: () => <div className="px-4">Action</div>,
     cell: ({ row }) =>
-      DisconnectAppAction({
-        applicationId: row.original.applicationId
-      })
+      row.original.status === EnumConnectedAppStatus.DISCONNECTED ? null : (
+        <DisconnectAppAction applicationId={row.original.applicationId} />
+      )
   }
 ]
 
