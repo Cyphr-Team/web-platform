@@ -15,11 +15,13 @@ export const useDownloadESignDocument = () => {
     mutationFn: async ({
       documentId,
       id,
-      documentName
+      documentName,
+      isReturnBlob
     }: {
       documentId?: string
       id?: string
       documentName?: string
+      isReturnBlob?: boolean
     }) => {
       const blob = await getRequest<Params, Blob>({
         path: E_SIGN_CLIENT.ENDPOINTS.downloadDocument(),
@@ -27,6 +29,10 @@ export const useDownloadESignDocument = () => {
         config: { responseType: "blob" },
         params: { documentId: documentId, id: id }
       })
+
+      if (isReturnBlob) {
+        return blob
+      }
 
       // Normally, we have to convert the data response to Blob
       // But the server has already handle it

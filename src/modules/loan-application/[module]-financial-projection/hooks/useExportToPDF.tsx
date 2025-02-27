@@ -88,7 +88,8 @@ export const useExportToPDF = () => {
 
   const exportToPdf = async (
     markedElement: Record<ExportFPOption, boolean>,
-    customDate?: string
+    customDate?: string,
+    isReturnBlob?: boolean
   ) => {
     try {
       isExporting.onTrue()
@@ -159,6 +160,11 @@ export const useExportToPDF = () => {
         footerRightTextInFirstPage: formatPDFDate(formatedDate),
         footerLeftTextInFirstPage: generateFooterTitleInPDFFirstPage()
       })
+
+      // Return blob if isReturnBlob is true
+      if (isReturnBlob) {
+        return pdf.output("blob")
+      }
 
       // Format date in name of file
       pdf.save(`financial_projections_${formatPDFDate(formatedDate)}.pdf`)

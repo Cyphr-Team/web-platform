@@ -80,6 +80,50 @@ export const generateFooterTitleInPDF = (type?: ExportFPOption) => {
   }
 }
 
+export const generateZipFileName = (
+  markedElement: Record<ExportFPOption, boolean>
+) => {
+  const sections: string[] = []
+
+  const allReportsSelected = Object.values(markedElement).every(Boolean)
+
+  if (allReportsSelected) {
+    return "AssessmentSummary_AllReports"
+  }
+
+  if (markedElement[ExportFPOption.APPLICATION_SUMMARY]) {
+    if (isLoanReady()) {
+      sections.push("AssessmentSummary")
+    } else {
+      sections.push("ApplicationSummary")
+    }
+  }
+  if (markedElement[ExportFPOption.LOAN_READY_SECTION]) {
+    sections.push("LoanReady")
+  }
+  if (
+    markedElement[ExportFPOption.CASH_FLOW_FORECAST] ||
+    markedElement[ExportFPOption.BALANCE_SHEET_FORECAST] ||
+    markedElement[ExportFPOption.INCOME_SHEET_FORECAST]
+  ) {
+    sections.push("ForecastReports")
+  }
+
+  if (
+    markedElement[ExportFPOption.CASH_FLOW] ||
+    markedElement[ExportFPOption.BALANCE_SHEET] ||
+    markedElement[ExportFPOption.INCOME_SHEET]
+  ) {
+    sections.push("Financials")
+  }
+
+  if (markedElement[ExportFPOption.HISTORICAL_INCOME_STATEMENT]) {
+    sections.push("HistoricalIncome")
+  }
+
+  return sections.join("_") || "documents"
+}
+
 export function parseForecastData(
   data: ForecastResultsResponse,
   sheetName: PossibleSheetName,

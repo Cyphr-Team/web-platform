@@ -9,7 +9,10 @@ import { QUERY_KEY as APPLICATION_MANAGEMENT_QUERY_KEY } from "@/modules/loan-ap
 import { HISTORICAL_FINANCIALS_QUERY_KEY } from "@/modules/loan-application/[module]-data-enrichment/constants/query-key.ts"
 import ContentTooltip from "@/modules/loan-application/[module]-financial-projection/components/molecules/ContentTooltip.tsx"
 import { FinancialProjectionPdf } from "@/modules/loan-application/[module]-financial-projection/components/pages/pdf/FinancialProjectionPdf.tsx"
-import { ExportFPOption } from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
+import {
+  ExportFPOption,
+  generateZipFileName
+} from "@/modules/loan-application/[module]-financial-projection/components/store/fp-helpers"
 import { QUERY_KEY as FINANCIAL_QUERY_KEY } from "@/modules/loan-application/[module]-financial-projection/constants/query-key.ts"
 import { useExportToPDF } from "@/modules/loan-application/[module]-financial-projection/hooks/useExportToPDF"
 import { QUERY_KEY } from "@/modules/loan-application/constants/query-key"
@@ -25,6 +28,12 @@ import { type ReactNode, useEffect, useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useAdminFinancialProjectionApplicationDetails } from "../../hooks/details/admin/useAdminFinancialProjectionApplicationDetails"
 import { useApplicantFinancialProjectionApplicationDetails } from "../../hooks/details/applicant/useApplicantFinancialProjectionApplicationDetails"
+import { toastError } from "@/utils"
+import JSZip from "jszip"
+import { saveAs } from "file-saver"
+import { format } from "date-fns"
+import { FORMAT_DATE_MM_DD_YYYY_HH_MM } from "@/constants/date.constants"
+import { formatPDFDate } from "@/utils/date.utils"
 
 interface DrawerCheckBoxProps {
   name: ExportFPOption
@@ -265,7 +274,54 @@ export function Drawer({ applicationPlan }: DrawerProps) {
     //  If the asssessment checkbox and another types are checked: Download both the report (PDF) and the signature file from PandaDoc.
     if (isApplicationSummaryAndAnother) {
       if (document) {
-        downloadESignMutate.mutate(document)
+        try {
+          const zip = new JSZip()
+
+          const eSignBlob = await downloadESignMutate.mutateAsync({
+            ...document,
+            isReturnBlob: true
+          })
+
+          const eSignBlobFileName =
+            document?.documentName ??
+            `E_Signed_Application_${format(
+              new Date(),
+              FORMAT_DATE_MM_DD_YYYY_HH_MM
+            )}`
+
+          if (eSignBlob) {
+            zip.file(eSignBlobFileName + ".pdf", eSignBlob)
+          }
+
+          const pdfBlob = await exportToPdf(
+            markedElement,
+            loanApplicationData?.updatedAt,
+            true
+          )
+
+          const sanitizedDate = formatPDFDate(
+            loanApplicationData?.updatedAt
+              ? new Date(loanApplicationData.updatedAt)
+              : undefined
+          ).replace(/\//g, "⁄")
+
+          const pdfFileName = `financial_projections_${sanitizedDate}.pdf`
+
+          if (pdfBlob) {
+            zip.file(pdfFileName, pdfBlob)
+          }
+
+          const zipBlob = await zip.generateAsync({ type: "blob" })
+
+          saveAs(zipBlob, `${generateZipFileName(markedElement)}.zip`)
+        } catch (error) {
+          toastError({
+            title: "Something went wrong!",
+            description: "Failed to download files, please try again later!"
+          })
+        }
+
+        return
       }
     }
 
