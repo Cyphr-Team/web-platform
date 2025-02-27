@@ -66,6 +66,11 @@ export const TOAST_MSG = {
       title: "Chat Service",
       description: "Chat has been sent successfully"
     },
+    // User profile
+    updateProfile: {
+      title: "Update profile",
+      description: "Profile is updated successfully"
+    },
     changePassword: {
       title: "Change password",
       description: "Password is changed successfully"

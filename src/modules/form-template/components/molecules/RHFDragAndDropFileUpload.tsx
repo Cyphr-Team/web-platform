@@ -20,6 +20,9 @@ interface RHFDragAndDropFileUploadProps<T extends FieldValues> {
   className?: string
   supportFileTypesNote?: string
   iconClassName?: string
+  acceptedFileTypes?: string
+  onFileSelect?: (file: File) => void
+  previewSelectedFile?: boolean
 }
 
 function RHFDragAndDropFileUpload<T extends FieldValues>(
@@ -34,7 +37,10 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
     version = 1,
     className,
     supportFileTypesNote,
-    iconClassName
+    iconClassName,
+    acceptedFileTypes,
+    onFileSelect,
+    previewSelectedFile = true
   } = props
   const { control, watch, getValues, setValue } = useFormContext()
 
@@ -50,6 +56,7 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
             : Array.from(files)
       } else {
         mergedFiles = files?.length ? [files[0]] : []
+        onFileSelect?.(mergedFiles[0])
       }
 
       setValue(field, mergedFiles, {
@@ -89,6 +96,7 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
       render={() => (
         <FormItem>
           <DragDropFileInput
+            acceptedFileTypes={acceptedFileTypes}
             className={className}
             iconClassName={iconClassName}
             id={id}
@@ -96,17 +104,19 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
             supportedFileTypesNote={supportFileTypesNote}
             onFileSelect={handleSelectFile(name)}
           />
-          {Array.from((watch(name) as File[]) ?? []).map(
-            (file: File, index: number) => (
-              <FileUploadCard
-                key={file.name}
-                file={file}
-                handleRemoveFile={handleRemoveFile(index, name)}
-                index={index}
-                version={version}
-              />
-            )
-          )}
+          {previewSelectedFile
+            ? Array.from((watch(name) as File[]) ?? []).map(
+                (file: File, index: number) => (
+                  <FileUploadCard
+                    key={file.name}
+                    file={file}
+                    handleRemoveFile={handleRemoveFile(index, name)}
+                    index={index}
+                    version={version}
+                  />
+                )
+              )
+            : null}
           {/* Display all files */}
           {/* If not multiple mode, only display uploaded file when there is no new file */}
           {!(

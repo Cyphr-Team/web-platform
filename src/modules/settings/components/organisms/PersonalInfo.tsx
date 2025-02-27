@@ -10,18 +10,51 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
 import { Button, ButtonLoading } from "@/components/ui/button.tsx"
 import {
-  updateProfileFormSchema,
-  type UpdateProfileFormValue
+  profileFormSchema,
+  type ProfileFormValue,
+  useUpdateProfile
 } from "@/modules/settings/hooks/useUpdateProfile.ts"
+import { useGetUserInformation } from "@/hooks/useGetUserInformation.ts"
+import { useEffect, useState } from "react"
 
 export function PersonalInfo() {
-  const form = useForm<UpdateProfileFormValue>({
-    resolver: zodResolver(updateProfileFormSchema),
+  const { data } = useGetUserInformation()
+  const [previewImage, setPreviewImage] = useState<string>(data?.avatar || "")
+
+  const updateProfile = useUpdateProfile()
+
+  const form = useForm<ProfileFormValue>({
+    resolver: zodResolver(profileFormSchema),
     mode: "onChange",
     defaultValues: {
       name: ""
     }
   })
+
+  useEffect(() => {
+    if (data?.name) {
+      form.reset({ name: data.name })
+    }
+  }, [data, form])
+
+  const handleSelect = (file: File) => {
+    const previewURL = URL.createObjectURL(file)
+
+    setPreviewImage(previewURL)
+    form.setValue("avatarFile", file)
+  }
+
+  const onSubmit = (data: ProfileFormValue) => {
+    updateProfile.mutate({
+      name: data.name,
+      avatarFile: data.avatarFile
+    })
+  }
+
+  const handleReset = () => {
+    form.reset()
+    setPreviewImage(data?.avatar || "")
+  }
 
   return (
     <div className="flex gap-xl">
@@ -42,24 +75,41 @@ export function PersonalInfo() {
               />
               <div className="flex gap-4">
                 <Avatar className="size-16 rounded-full border">
-                  <AvatarImage />
-                  <AvatarFallback />
+                  <AvatarImage
+                    alt={data?.name}
+                    className="object-cover"
+                    src={previewImage}
+                  />
+                  <AvatarFallback>{data?.name?.slice(0, 2)}</AvatarFallback>
                 </Avatar>
                 <div className="w-full">
                   <RHFDragAndDropFileUpload
+                    acceptedFileTypes="image/png, image/jpg, image/gif, image/svg"
                     className="border-dashed"
                     iconClassName="rounded-full"
                     id="avatar"
+                    multiple={false}
                     name="avatar"
+                    previewSelectedFile={false}
                     supportFileTypesNote="SVG, PNG, JPG or GIF (max. 800x400px)"
+                    onFileSelect={handleSelect}
                   />
                 </div>
               </div>
             </div>
             <Separator />
             <div className="flex justify-end space-x-3 mx-8 my-4">
-              <Button variant="outline">Cancel</Button>
-              <ButtonLoading>Save changes</ButtonLoading>
+              <Button type="button" variant="outline" onClick={handleReset}>
+                Cancel
+              </Button>
+              <ButtonLoading
+                disabled={!form.formState.isDirty || !form.formState.isValid}
+                isLoading={updateProfile.isPending}
+                type="submit"
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                Save changes
+              </ButtonLoading>
             </div>
           </div>
         </Form>
