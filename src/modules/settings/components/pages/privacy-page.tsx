@@ -5,10 +5,7 @@ import { Separator } from "@/components/ui/separator.tsx"
 import { SectionTitle } from "@/modules/loan-application-management/components/atoms/cashflows/SectionTitle.tsx"
 import useGetConnectedBanks from "@/modules/settings/hooks/useGetConnectedBanks.ts"
 import { isEnablePIISelfService } from "@/utils/feature-flag.utils.ts"
-
-function UnderConstruction() {
-  return null
-}
+import { Component as UnderConstruction } from "@/modules/loan-application-management/pages/under-construction"
 
 export function Component() {
   const { data: connectedApps, isLoading: isLoadingConnectedApps } =
