@@ -3,11 +3,11 @@ import { Card } from "@/components/ui/card"
 import { TextInputDisplay } from "../../../atoms/TextInputDisplay"
 import { toCurrency } from "@/utils"
 import { type CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
-import { type QueryCurrentLoansFormV2Response } from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansFormV2.ts"
 import {
   type CurrentLoanInformationResponse,
   type CurrentLoansInformationResponse
 } from "@/modules/loan-application/constants/type.ts"
+import { type QueryCurrentLoansFormV2Response } from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansForm.ts"
 
 interface CurrentLoanFormDetailsProps {
   currentLoanFormData?:

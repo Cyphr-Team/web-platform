@@ -97,9 +97,10 @@ export function preFormatCurrentLoanForm(
             id: loan.id ?? ""
           }))
         : [],
+    loanApplicationId: applicationId ?? "",
     additionalFields: {
-      loanApplicationId: applicationId ?? "",
-      id: formId
+      id: formId,
+      loanApplicationId: applicationId ?? ""
     }
   }
 }
