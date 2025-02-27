@@ -36,7 +36,7 @@ export function Component() {
       </div>
 
       <div className="flex flex-col gap-6 items-end">
-        <div className="flex flex-col gap-6 mt-8">
+        <div className="flex flex-col gap-6 mt-8 w-full">
           <h2 className="text-lg font-semibold text-[#101828]">Data</h2>
           <p className="text-[#2C3E48]">
             You can download a copy of all personal data stored within this

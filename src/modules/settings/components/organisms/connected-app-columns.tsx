@@ -8,8 +8,7 @@ import { DisconnectAppAction } from "@/modules/settings/components/organisms"
 const connectedAppColumns: ColumnDef<ConnectedApp>[] = [
   {
     header: "Application",
-    accessorKey: "application",
-    accessorFn: () => "---"
+    accessorKey: "businessName"
   },
   {
     header: "App",
@@ -25,7 +24,7 @@ const connectedAppColumns: ColumnDef<ConnectedApp>[] = [
   },
   {
     header: "Connected On",
-    accessorKey: "connectedOn",
+    accessorKey: "connectedAt",
     accessorFn: (row) => format(row.connectedAt, FORMAT_DATE_M_D_Y)
   },
   {
@@ -38,7 +37,7 @@ const connectedAppColumns: ColumnDef<ConnectedApp>[] = [
     header: () => <div className="px-4">Action</div>,
     cell: ({ row }) =>
       DisconnectAppAction({
-        applicationId: row.original.itemId
+        applicationId: row.original.applicationId
       })
   }
 ]
