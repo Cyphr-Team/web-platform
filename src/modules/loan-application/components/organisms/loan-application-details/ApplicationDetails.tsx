@@ -42,6 +42,7 @@ import { deserializeLoanMarketOpportunityFormV2 } from "@/modules/loan-applicati
 import { deserializeLoanBusinessModelFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/business-model-store"
 import { deserializeLoanLaunchKCFitFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/launchkc-fit-store"
 import { deserializeLoanExecutionFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/execution-store"
+import { deserializeLoanCurrentLoansFormV2 } from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansForm.ts"
 
 export function ApplicationDetails() {
   const {
@@ -120,7 +121,11 @@ export function ApplicationDetails() {
             <CashFlowTable />
           )}
           {currentLoanFormData ? (
-            <CurrentLoanFormDetails currentLoanFormData={currentLoanFormData} />
+            <CurrentLoanFormDetails
+              currentLoanFormData={deserializeLoanCurrentLoansFormV2(
+                currentLoanFormData
+              )}
+            />
           ) : null}
           <FeatureRenderer featureKey={FeatureKey.OPERATING_EXPENSE}>
             {operatingExpensesFormData ? (

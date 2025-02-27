@@ -57,11 +57,6 @@ import { type FinancialStatementFormResponse } from "@/modules/loan-application/
 
 import { get } from "lodash"
 import { mapMetadataToLoanRequest } from "@/modules/loan-application/services/formv2.services.ts"
-import {
-  deserializeCurrentLoansFormV2,
-  type QueryCurrentLoansFormV2Response,
-  useQueryCurrentLoansFormV2
-} from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansFormV2.ts"
 import { deserializeKycFormV2 } from "@/modules/loan-application/hooks/form-kyc/useSubmitKycFormV2.ts"
 import { useQueryLoanProgramDetailsByType } from "@/modules/loan-application/hooks/program/useQueryLoanProgramDetails.ts"
 import {
@@ -93,7 +88,6 @@ import { useGetSBBDocumentForms } from "@/modules/loan-application/hooks/form-do
 import { useGetFinancialProjectForms } from "@/modules/loan-application/hooks/form-financial-projection/useGetFinancialProjectForms.ts"
 import { deserializeKybFormV2 } from "@/modules/loan-application/hooks/form-kyb/useSubmitKybFormV2.ts"
 import { useGetCapitalCollabFinancialProjectForms } from "@/modules/loan-application/capital-collab/hooks/useGetCapitalCollabFinancialProjectForms"
-import type { CurrentLoanFormsV2Value } from "@/modules/loan-application/components/organisms/loan-application-form/current-loan/CurrentLoanFormV2.tsx"
 import { useQueryProductServiceForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryProductServiceForm"
 import { deserializeLoanProductServiceFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/product-service-store"
 import { type NullableFormV2DataResponse } from "@/modules/loan-application/types/form.v2"
@@ -105,6 +99,10 @@ import { deserializeLoanLaunchKCFitFormV2 } from "@/modules/loan-application/hoo
 import { useQueryLaunchKCFitForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryLaunchKCFitForm"
 import { deserializeLoanExecutionFormV2 } from "@/modules/loan-application/hooks/form-common/launchkc/stores/execution-store"
 import { useQueryExecutionForm } from "@/modules/loan-application/hooks/form-common/launchkc/useQueryExecutionForm"
+import {
+  deserializeLoanCurrentLoansFormV2,
+  useQueryCurrentLoansForm
+} from "@/modules/loan-application/hooks/form-current-loan-v2/useQueryCurrentLoansForm.ts"
 
 interface FinancialProjectionDetail {
   financialStatementData?: FinancialStatementFormResponse
@@ -117,9 +115,7 @@ type BRLoanApplicationDetailsContext<T> = {
   kybFormData?: KYBInformationResponse
   kycFormData?: KYCInformationResponse
   loanRequestFormV2Data?: LoanRequestV2Response
-  currentLoanFormData?:
-    | QueryCurrentLoansFormV2Response
-    | CurrentLoanFormsV2Value
+  currentLoanFormData?: NullableFormV2DataResponse
   operatingExpensesFormData?: OperatingExpensesInformationResponse
   confirmationFormData?: ConfirmationFormResponse
   financialFormData?: FinancialInformationResponse
@@ -288,7 +284,7 @@ export function BRLoanApplicationDetailsProvider({
       isEnabledQuery(LOAN_APPLICATION_STEPS.CASH_FLOW_VERIFICATION, progress)
   })
 
-  const currentLoansFormQueryV2 = useQueryCurrentLoansFormV2({
+  const currentLoansFormQueryV2 = useQueryCurrentLoansForm({
     applicationId: loanApplicationId!,
     enabled:
       isEnabledQuery(LOAN_APPLICATION_STEPS.CURRENT_LOANS, progress) &&
@@ -562,7 +558,7 @@ export function BRLoanApplicationDetailsProvider({
 
     if (currentLoansFormQueryV2.data) {
       changeDataAndProgress(
-        deserializeCurrentLoansFormV2(currentLoansFormQueryV2.data),
+        deserializeLoanCurrentLoansFormV2(currentLoansFormQueryV2.data),
         LOAN_APPLICATION_STEPS.CURRENT_LOANS
       )
     }

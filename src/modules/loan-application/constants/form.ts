@@ -21,8 +21,8 @@ import {
   type OwnerFormValue
 } from "@/modules/loan-application/constants/form.kyc.ts"
 import {
-  type CapitalCollabBusinessFormValue,
   type BusinessFormValue,
+  type CapitalCollabBusinessFormValue,
   type LaunchKCBusinessFormValue,
   type LoanReadyBusinessFormValue
 } from "@/modules/loan-application/constants/form.kyb.ts"
@@ -117,6 +117,7 @@ const LoanItemFormSchema = z.object({
 
 export const currentLoansFormSchema = z.object({
   id: z.string().optional(),
+  loanApplicationId: z.string().nullable(),
   hasOutstandingLoans: z.string().min(1, { message: "This field is required" }),
   currentLoans: z.array(LoanItemFormSchema)
 })

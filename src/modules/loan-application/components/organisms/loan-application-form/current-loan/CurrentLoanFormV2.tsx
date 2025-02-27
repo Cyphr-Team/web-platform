@@ -38,6 +38,7 @@ import { memo } from "react"
 
 const enum FormFields {
   Id = "id",
+  LoanApplicationId = "loanApplicationId",
   HasOutstandingLoans = "hasOutstandingLoans",
   CurrentLoans = "currentLoans"
 }
@@ -55,6 +56,7 @@ const enum FormItemFields {
 export const currentLoansFormSchema = z
   .object({
     [FormFields.Id]: z.string().optional(),
+    [FormFields.LoanApplicationId]: z.string().nullable(),
     [FormFields.HasOutstandingLoans]: z
       .string()
       .min(1, { message: "This field is required" }),
@@ -114,12 +116,16 @@ export type CurrentLoanFormsV2Value = z.infer<typeof currentLoansFormSchema>
 export function CurrentLoanFormV2() {
   const { finishCurrentStep, completeCurrentStep, step } =
     useLoanApplicationProgressContext()
-  const { dispatchFormAction, currentLoansForm } =
+  const { dispatchFormAction, currentLoansForm, loanRequest } =
     useLoanApplicationFormContext()
   const methods = useForm<CurrentLoanFormsV2Value>({
     resolver: zodResolver(currentLoansFormSchema),
     mode: "onBlur",
-    defaultValues: getOrDefault(currentLoansForm)
+    defaultValues: getOrDefault({
+      ...currentLoansForm,
+      loanApplicationId:
+        currentLoansForm?.loanApplicationId ?? loanRequest?.applicationId ?? ""
+    })
   })
 
   const { watch, control, getValues, setValue, handleSubmit } = methods
@@ -327,6 +333,7 @@ const LoanFormItemV2 = memo(function LoanFormItemV2(
 function getOrDefault(value: ICurrentLoanFormValue): CurrentLoanFormsV2Value {
   return {
     [FormFields.Id]: value?.id ?? "",
+    [FormFields.LoanApplicationId]: value?.loanApplicationId ?? "",
     [FormFields.HasOutstandingLoans]: value?.hasOutstandingLoans,
     [FormFields.CurrentLoans]: value?.currentLoans ?? []
   }
