@@ -104,6 +104,11 @@ export const userKeys = {
   detail: (id: string) => [...userKeys.details(), id] as const
 }
 
+export const settingKeys = {
+  connectedBanks: ["connectedBanks"] as const,
+  lists: () => [...settingKeys.connectedBanks, "list"] as const
+}
+
 export const subscriptionKeys = {
   all: ["subscription"] as const,
   lists: () => [...subscriptionKeys.all, "list"] as const,
