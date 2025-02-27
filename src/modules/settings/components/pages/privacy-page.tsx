@@ -1,12 +1,14 @@
 import { DataTable } from "@/components/ui/data-table.tsx"
-import connectedAppColumns from "@/modules/settings/components/organisms/connected-app-columns.tsx"
+import { connectedAppColumns } from "@/modules/settings/components/organisms"
 import { ButtonLoading } from "@/components/ui/button.tsx"
 import { Separator } from "@/components/ui/separator.tsx"
-
-import { Component as UnderConstruction } from "@/modules/loan-application-management/pages/under-construction"
-import { isEnablePIISelfService } from "@/utils/feature-flag.utils.ts"
 import { SectionTitle } from "@/modules/loan-application-management/components/atoms/cashflows/SectionTitle.tsx"
 import useGetConnectedBanks from "@/modules/settings/hooks/useGetConnectedBanks.ts"
+import { isEnablePIISelfService } from "@/utils/feature-flag.utils.ts"
+
+function UnderConstruction() {
+  return null
+}
 
 export function Component() {
   const { data: connectedApps, isLoading: isLoadingConnectedApps } =

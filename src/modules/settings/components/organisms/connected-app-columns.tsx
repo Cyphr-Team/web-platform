@@ -1,10 +1,9 @@
 import { type ColumnDef } from "@tanstack/react-table"
 import { type ConnectedApp } from "@/modules/settings/types"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontalIcon } from "lucide-react"
 import { format } from "date-fns"
 import { FORMAT_DATE_M_D_Y } from "@/constants/date.constants.ts"
 import mappedStatusLabel from "@/modules/settings/constants/mapped-status-label.ts"
+import { DisconnectAppAction } from "@/modules/settings/components/organisms"
 
 const connectedAppColumns: ColumnDef<ConnectedApp>[] = [
   {
@@ -35,15 +34,12 @@ const connectedAppColumns: ColumnDef<ConnectedApp>[] = [
     accessorFn: (row) => mappedStatusLabel[row.status] ?? "---"
   },
   {
-    header: "Action",
     accessorKey: "action",
-    cell: () => {
-      return (
-        <Button variant="ghost">
-          <MoreHorizontalIcon size={16} />
-        </Button>
-      )
-    }
+    header: () => <div className="px-4">Action</div>,
+    cell: ({ row }) =>
+      DisconnectAppAction({
+        applicationId: row.original.itemId
+      })
   }
 ]
 

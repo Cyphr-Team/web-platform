@@ -69,6 +69,10 @@ export const TOAST_MSG = {
     changePassword: {
       title: "Change password",
       description: "Password is changed successfully"
+    },
+    disconnectApp: {
+      title: "Disconnect app",
+      description: "App is disconnected successfully"
     }
   },
   loanProgram: {
