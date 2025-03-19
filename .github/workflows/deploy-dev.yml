@@ -42,18 +42,12 @@ jobs:
       id-token: "write"
 
     steps:
-      - name: Create GitHub App Token
-        uses: actions/create-github-app-token@v1
-        id: github-app-token
-        with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 3
           ref: ${{ github.head_ref }}
-          token: ${{ steps.github-app-token.token }}
+          token: ${{ secrets.GH_APP_PRIVATE_KEY }}
           persist-credentials: false
 
       - name: Set Node.js 18.x
