@@ -50,7 +50,7 @@ jobs:
         with:
           fetch-depth: 3
           ref: ${{ github.head_ref }}
-          token: ${{ steps.GH_APP_PRIVATE_KEY }}
+          token: ${{ secrets.GH_APP_PRIVATE_KEY }}
           persist-credentials: false
 
       - name: Set Node.js 18.x
