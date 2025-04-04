@@ -28,6 +28,11 @@ export const APP_PATH = {
   // ONBOARDING
   LOAN_APPLICATION: {
     SETTINGS: "/loan/settings",
+    SETTINGS_PAYMENT: "/loan/settings/payments",
+    SETTINGS_PROFILE: "/loan/settings/profile",
+    SETTINGS_NOTIFICATIONS: "/loan/settings/notifications",
+    SETTINGS_PRIVACY: "/loan/settings/privacy",
+
     FINANCIAL_APPLICATIONS: {
       detail: {
         index: "/loan/:loanProgramId/financial-applications/:id",
@@ -108,7 +113,13 @@ export const APP_PATH = {
       LOAN_READY: (id: string) => `/loan/financial/${id}/loan-ready`
     }
   },
-
+  SETTINGS: {
+    index: "/settings",
+    payment: "/settings/payments",
+    profile: "/settings/profile",
+    notifications: "/settings/notifications",
+    privacy: "/settings/privacy"
+  },
   LOAN_APPLICATION_MANAGEMENT: {
     INDEX: "/application",
     KYB: {
@@ -174,7 +185,6 @@ export const APP_PATH = {
     detail: "/notifications/:id",
     details: (id: string) => `/notifications/${id}`
   },
-  SETTINGS: { index: "/settings", payment: "/settings/payments" },
   MESSAGES: "/messages",
   ONBOARD: "/onboard",
   SUBSCRIPTIONS: "/subscriptions",

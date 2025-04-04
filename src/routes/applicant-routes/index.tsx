@@ -27,6 +27,10 @@ import { FinancialProjectionApplicationDetailLayout } from "@/modules/loan-appli
 import { applicantFinancialProjectionRoutesV2 } from "@/routes/applicant-routes/financial-projection-routes-v2"
 import { applicantHistoricalFinancialsRoutes } from "@/routes/applicant-routes/historical-financial-routes"
 import { documentRoutes } from "./document-routes"
+import ProfilePage from "@/modules/admin/user/pages/profile-page"
+import PrivacyPage from "@/modules/admin/user/pages/privacy-page"
+import NotificationsPage from "@/modules/admin/user/pages/notifications-page"
+import { LoanReadyTransactionsPage } from "@/modules/loanready/components/pages/Transactions"
 
 /**
  * Loan applicant routes ("/loan"), only loan applicant can view these pages.
@@ -100,7 +104,24 @@ const applicantRoutes = (
         )
       }}
       path={APP_PATH.LOAN_APPLICATION.SETTINGS}
-    />
+    >
+      <Route
+        element={<LoanReadyTransactionsPage />}
+        path={APP_PATH.LOAN_APPLICATION.SETTINGS_PAYMENT}
+      />
+      <Route
+        element={<PrivacyPage />}
+        path={APP_PATH.LOAN_APPLICATION.SETTINGS_PRIVACY}
+      />
+      <Route
+        element={<ProfilePage />}
+        path={APP_PATH.LOAN_APPLICATION.SETTINGS_PROFILE}
+      />
+      <Route
+        element={<NotificationsPage />}
+        path={APP_PATH.LOAN_APPLICATION.SETTINGS_NOTIFICATIONS}
+      />
+    </Route>
     <Route
       element={
         <PlaidProvider>

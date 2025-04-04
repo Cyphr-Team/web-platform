@@ -1,5 +1,5 @@
+import { Outlet } from "react-router-dom"
 import SettingsPageTopNav from "../components/molecules/SettingsPageTopNav"
-import { LoanReadyTransactionsPage } from "../components/pages/Transactions"
 
 export function Component(): JSX.Element {
   return (
@@ -7,7 +7,7 @@ export function Component(): JSX.Element {
       <h1 className="text-3.5xl font-semibold">Settings</h1>
       <p className="mb-2 mt-1">Manage your preferences and account details</p>
       <SettingsPageTopNav />
-      <LoanReadyTransactionsPage />
+      <Outlet />
     </div>
   )
 }

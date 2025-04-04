@@ -6,8 +6,20 @@ import { useEffect } from "react"
 
 export const SETTINGS_MENU = [
   {
+    name: "Profile",
+    href: APP_PATH.LOAN_APPLICATION.SETTINGS_PROFILE
+  },
+  {
+    name: "Notifications",
+    href: APP_PATH.LOAN_APPLICATION.SETTINGS_NOTIFICATIONS
+  },
+  {
+    name: "Privacy & Data",
+    href: APP_PATH.LOAN_APPLICATION.SETTINGS_PRIVACY
+  },
+  {
     name: "Payments",
-    href: APP_PATH.LOAN_APPLICATION.SETTINGS
+    href: APP_PATH.LOAN_APPLICATION.SETTINGS_PAYMENT
   }
 ]
 
