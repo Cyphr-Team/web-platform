@@ -13,7 +13,7 @@ import { dashboardRoutes } from "./dashboard-routes"
 import { ActiveEmailLayout } from "@/shared/layouts/ActiveEmailLayout"
 import { featureFlagsPublicLoader, institutionLoader } from "./loader"
 import { conferenceDemoRoutes } from "@/routes/conference-demo-routes"
-import { isFinovate } from "@/utils/domain.utils.ts"
+import { isDemo } from "@/utils/domain.utils.ts"
 import { settingsRoutes } from "@/routes/dashboard-routes/settings-routes"
 
 /**
@@ -53,7 +53,7 @@ const routes = createBrowserRouter(
 
         {/* DEMO ROUTES */}
         {/* it should be in the last */}
-        {isFinovate() ? conferenceDemoRoutes : null}
+        {isDemo() ? conferenceDemoRoutes : null}
 
         <Route element={<NotFoundLayout />} path="*" />
       </Route>
