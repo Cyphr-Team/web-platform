@@ -37,3 +37,4 @@ dist-ssr
 !.yarn/versions
 
 *storybook.log
+.qodo

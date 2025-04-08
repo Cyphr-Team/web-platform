@@ -5,11 +5,11 @@ import { Link } from "react-router-dom"
 import { LoginForm } from "./login-form"
 import { isEnableMFA } from "@/services/jwt.service"
 import { MfaLoginForm } from "./mfa-login-form"
-import { isAdmin, isFinovate } from "@/utils/domain.utils"
+import { isAdmin, isDemo } from "@/utils/domain.utils"
 import { DemoLoginForm } from "@/modules/conference-demo/anonymous/demo-login-form"
 
 function CustomLoginForm() {
-  if (isFinovate()) {
+  if (isDemo()) {
     return <DemoLoginForm />
   }
   if (isEnableMFA()) {

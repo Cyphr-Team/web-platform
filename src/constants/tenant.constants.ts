@@ -9,6 +9,7 @@ enum Institution {
   LaunchKC = "launchkc",
   SBB = "sbb",
   Finovate = "finovate",
+  Demo = "demo",
   CapitalCollab = "capitalcollab"
 }
 

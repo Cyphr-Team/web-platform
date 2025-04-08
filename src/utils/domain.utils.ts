@@ -104,6 +104,10 @@ function isFinovate(): boolean {
   return matchSubdomain(getSubdomain(), Institution.Finovate)
 }
 
+function isDemo(): boolean {
+  return matchSubdomain(getSubdomain(), Institution.Demo)
+}
+
 function isCapitalCollab(): boolean {
   return matchSubdomain(getSubdomain(), Institution.CapitalCollab)
 }
@@ -125,5 +129,6 @@ export {
   isLaunchKC,
   isSbb,
   isFinovate,
+  isDemo,
   isCapitalCollab
 }

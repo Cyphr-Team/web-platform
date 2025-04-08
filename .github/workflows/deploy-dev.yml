@@ -102,59 +102,59 @@ jobs:
           echo $GITHUB_COMMITS | sed "s/\"/'/g" >> "$GITHUB_ENV"
           echo "$EOF" >> "$GITHUB_ENV"
 
-      - name: Slack Notification
-        id: slack
-        uses: slackapi/slack-github-action@v1
-        with:
-          payload: |
-            {
-              "channel": "${{ secrets.SLACK_CHANNEL }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":rocket: *${{ github.event.repository.name }} - Deployed to DEV*"
-                  }
-                },{
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Created by:* ${{ env.GITHUB_AUTHOR }}"
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "```${{ env.GITHUB_COMMITS }}```"
-                  }
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View changes"
-                      },
-                      "style": "primary",
-                      "url": "${{ env.GITHUB_REPO }}/commit/${{ env.GITHUB_REVISION}}"
-                    },
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Site"
-                      },
-                      "style": "primary",
-                      "url": "${{ env.PROJECT_URL }}"
-                    }
-                  ]
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      # - name: Slack Notification
+      #   id: slack
+      #   uses: slackapi/slack-github-action@v1
+      #   with:
+      #     payload: |
+      #       {
+      #         "channel": "${{ secrets.SLACK_CHANNEL }}",
+      #         "blocks": [
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": ":rocket: *${{ github.event.repository.name }} - Deployed to DEV*"
+      #             }
+      #           },{
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "*Created by:* ${{ env.GITHUB_AUTHOR }}"
+      #             }
+      #           },
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "```${{ env.GITHUB_COMMITS }}```"
+      #             }
+      #           },
+      #           {
+      #             "type": "actions",
+      #             "elements": [
+      #               {
+      #                 "type": "button",
+      #                 "text": {
+      #                   "type": "plain_text",
+      #                   "text": "View changes"
+      #                 },
+      #                 "style": "primary",
+      #                 "url": "${{ env.GITHUB_REPO }}/commit/${{ env.GITHUB_REVISION}}"
+      #               },
+      #               {
+      #                 "type": "button",
+      #                 "text": {
+      #                   "type": "plain_text",
+      #                   "text": "View Site"
+      #                 },
+      #                 "style": "primary",
+      #                 "url": "${{ env.PROJECT_URL }}"
+      #               }
+      #             ]
+      #           }
+      #         ]
+      #       }
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

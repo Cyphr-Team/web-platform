@@ -4,7 +4,7 @@ import { inMemoryJWTService } from "@/services/jwt.service"
 import { type ErrorResponse } from "@/types/common.type"
 import { type UserInfo } from "@/types/user.type"
 import { checkIsLoanApplicant } from "@/utils/check-roles"
-import { isFinovate } from "@/utils/domain.utils"
+import { isDemo } from "@/utils/domain.utils"
 import {
   customRequestHeader,
   headerWithRememberMe
@@ -50,7 +50,7 @@ export const useLogin = () => {
       inMemoryJWTService.setUserInfo(data)
       queryClient.resetQueries()
 
-      if (isFinovate()) {
+      if (isDemo()) {
         return
       }
 
