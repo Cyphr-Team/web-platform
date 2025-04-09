@@ -19,7 +19,7 @@ const deleteIconMapper: Record<number, ReactNode> = {
 interface Props {
   file: DocumentUploadedResponse
   handleRemoveFile: (id: string) => void
-  version?: 1 | 2
+  version?: 1 | 2 | 3
 }
 
 export const FileUploadedCard: React.FC<Props> = ({

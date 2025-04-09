@@ -30,6 +30,13 @@ interface DragDropFileInputProps {
   className?: string
   supportedFileTypesNote?: string
   iconClassName?: string
+
+  /**
+   * Acceptable file types
+   * @default "application/pdf"
+   */
+  accept?: string
+
 }
 
 export function DragDropFileInput(props: DragDropFileInputProps) {
@@ -82,7 +89,7 @@ export function DragDropFileInput(props: DragDropFileInputProps) {
       onDrop={handleDrop}
     >
       <input
-        accept="application/pdf" // Temporarily remove image/png, image/jpeg
+        accept={props.accept ?? "application/pdf"}
         id={id}
         multiple={multiple}
         style={{ display: "none" }}

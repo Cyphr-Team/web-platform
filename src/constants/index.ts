@@ -178,6 +178,7 @@ export const APP_PATH = {
     profile: "/settings/profile",
     privacy: "/settings/privacy",
     payments: "/settings/payments",
+    notifications: "/settings/notifications",
     teamMembers: "/settings/team-members",
     users: "/settings/users"
   },

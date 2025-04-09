@@ -29,9 +29,15 @@ export const FileUploadCard: React.FC<Props> = ({
   handleRemoveFile,
   version = 1
 }) => {
+  const objectUrl = URL.createObjectURL(file)
+
   return (
     <Card key={index} className="flex items-center gap-2xl p-xl shadow-none">
-      <img alt="file" className="logo size-8" src={fileIconMapper[version]} />
+      <img
+        alt="file"
+        className="logo size-8"
+        src={fileIconMapper[version] ?? objectUrl}
+      />
       <div className="flex max-w-xs flex-col">
         <p className="truncate text-sm">{file.name}</p>
         <p className="text-sm text-text-tertiary">
