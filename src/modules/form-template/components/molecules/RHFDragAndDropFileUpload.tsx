@@ -16,10 +16,11 @@ interface RHFDragAndDropFileUploadProps<T extends FieldValues> {
   onRemoveUploadedDocument?: (id: string) => void
   id: string
   multiple?: boolean
-  version?: 1 | 2
+  version?: 1 | 2 | 3
   className?: string
   supportFileTypesNote?: string
   iconClassName?: string
+  accept?: string
 }
 
 function RHFDragAndDropFileUpload<T extends FieldValues>(
@@ -34,45 +35,59 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
     version = 1,
     className,
     supportFileTypesNote,
-    iconClassName
+    iconClassName,
+    accept
   } = props
   const { control, watch, getValues, setValue } = useFormContext()
 
   const handleSelectFile = useCallback(
     (field: string) => (files: FileList) => {
-      const currentFiles = getValues(field) as File[]
-      let mergedFiles: File[]
+      if (!files || files.length === 0) return
 
       if (multiple) {
-        mergedFiles =
-          files && currentFiles
-            ? [...currentFiles, ...Array.from(files)]
-            : Array.from(files)
-      } else {
-        mergedFiles = files?.length ? [files[0]] : []
-      }
+        const currentFiles = getValues(field) as File[]
+        const mergedFiles = currentFiles
+          ? [...currentFiles, ...Array.from(files)]
+          : Array.from(files)
 
-      setValue(field, mergedFiles, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
+        setValue(field, mergedFiles, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true
+        })
+      } else {
+        setValue(field, files[0], {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true
+        })
+      }
     },
     [getValues, setValue, multiple]
   )
 
   const handleRemoveFile = useCallback(
     (index: number, field: string) => () => {
-      const currentFiles = getValues(field) as File[]
-      const newFiles = currentFiles.filter((_: File, i: number) => i !== index)
+      if (multiple) {
+        const currentFiles = getValues(field) as File[]
+        const newFiles = currentFiles.filter(
+          (_: File, i: number) => i !== index
+        )
 
-      setValue(field, newFiles, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      })
+        setValue(field, newFiles, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true
+        })
+      } else {
+        setValue(field, undefined, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true
+        })
+      }
     },
-    [getValues, setValue]
+    [getValues, setValue, multiple]
   )
 
   const handleDeletedDocument = useCallback(
@@ -82,6 +97,16 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
     [onRemoveUploadedDocument]
   )
 
+  const getFilesToDisplay = () => {
+    const value = watch(name)
+
+    if (multiple) {
+      return Array.from(value ?? [])
+    } else {
+      return value ? [value] : []
+    }
+  }
+
   return (
     <FormField
       control={control}
@@ -89,6 +114,7 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
       render={() => (
         <FormItem>
           <DragDropFileInput
+            accept={accept}
             className={className}
             iconClassName={iconClassName}
             id={id}
@@ -96,30 +122,33 @@ function RHFDragAndDropFileUpload<T extends FieldValues>(
             supportedFileTypesNote={supportFileTypesNote}
             onFileSelect={handleSelectFile(name)}
           />
-          {Array.from((watch(name) as File[]) ?? []).map(
-            (file: File, index: number) => (
+          {getFilesToDisplay().map((file: File, index: number) => {
+            if (typeof file === "string") return null
+
+            return (
               <FileUploadCard
-                key={file.name}
+                key={
+                  typeof file.name === "string" ? file.name : `file-${index}`
+                }
                 file={file}
                 handleRemoveFile={handleRemoveFile(index, name)}
                 index={index}
                 version={version}
               />
             )
-          )}
+          })}
           {/* Display all files */}
           {/* If not multiple mode, only display uploaded file when there is no new file */}
-          {!(
-            Array.from((watch(name) as File[]) ?? []).length > 0 && !multiple
-          ) &&
-            uploadedFiles.map((val) => (
-              <FileUploadedCard
-                key={val.id}
-                file={val}
-                handleRemoveFile={handleDeletedDocument(val.id)}
-                version={version}
-              />
-            ))}
+          {!getFilesToDisplay().length || multiple
+            ? uploadedFiles.map((val) => (
+                <FileUploadedCard
+                  key={val.id}
+                  file={val}
+                  handleRemoveFile={handleDeletedDocument(val.id)}
+                  version={version}
+                />
+              ))
+            : null}
           <FormMessage />
         </FormItem>
       )}

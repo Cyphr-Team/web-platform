@@ -30,6 +30,10 @@ export const APPLICANT_SETTINGS_MENU = [
     href: APP_PATH.SETTINGS.profile
   },
   {
+    name: "Notifications",
+    href: APP_PATH.SETTINGS.notifications
+  },
+  {
     name: "Privacy & Data",
     href: APP_PATH.SETTINGS.privacy
   },
