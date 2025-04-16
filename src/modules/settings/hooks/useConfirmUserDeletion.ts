@@ -8,8 +8,8 @@ import { TOAST_MSG } from "@/constants/toastMsg"
 import { getAxiosError } from "@/utils/custom-error"
 import { z } from "zod"
 import { googleAuth, googleAuthProvider } from "@/lib/firebase.ts"
-import { signInWithPopup } from "firebase/auth"
-import { useCallback } from "react"
+import { signInWithPopup, type User } from "firebase/auth"
+import { useCallback, useState } from "react"
 import { useGetUserInformation } from "@/hooks/useGetUserInformation.ts"
 
 const confirmDeleteWithPasswordFormSchema = z.object({
@@ -46,6 +46,7 @@ export const useConfirmUserDeletionWithPassword = () => {
 
 export const useConfirmUserDeletionWithOAuth = (onSuccess: VoidFunction) => {
   const { data: currentUser } = useGetUserInformation()
+  const [userVerified, setUserVerified] = useState<User | null>(null)
   const { mutate: mutateLoginWithGoogle, isPending } = useMutation({
     mutationFn: () => {
       if (!googleAuth) throw new Error("Login with google is not supported")
@@ -58,6 +59,7 @@ export const useConfirmUserDeletionWithOAuth = (onSuccess: VoidFunction) => {
           ...TOAST_MSG.user.verifyAccount,
           description: "Your verified email does not match with this account"
         })
+        setUserVerified(data.user)
 
         return
       }
@@ -78,6 +80,7 @@ export const useConfirmUserDeletionWithOAuth = (onSuccess: VoidFunction) => {
 
   return {
     mutate,
+    userVerified,
     isPending
   }
 }

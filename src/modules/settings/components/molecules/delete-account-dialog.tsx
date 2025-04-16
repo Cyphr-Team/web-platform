@@ -11,7 +11,10 @@ import { Button } from "@/components/ui/button.tsx"
 import { useBoolean } from "@/hooks"
 import PasswordConfirmationForm from "@/modules/settings/components/molecules/password-confirmation-form.tsx"
 import { VerifyWithGoogleForm } from "@/modules/settings/components/molecules/google-confirmation-form.tsx"
-import { useDeleteUser } from "@/modules/settings/hooks/useDeleteUser.ts"
+import {
+  useDeleteUser,
+  useDeleteGoogleLinkedAccount
+} from "@/modules/settings/hooks/useDeleteUser.ts"
 import { UserAuthProvider } from "@/modules/settings/constants"
 import { Separator } from "@/components/ui/separator.tsx"
 
@@ -27,8 +30,15 @@ export const DeleteAccountDialog: React.FC<Props> = ({ authProvider }) => {
   const isEligibleToDelete = useBoolean(false)
 
   // Controls to Delete Account
-  const { mutateAsync: mutateDeleteAccount, isPending: isPendingToDelete } =
-    useDeleteUser()
+  const {
+    mutateAsync: mutateDeleteAccount,
+    isPending: isPendingToDeleteNormal
+  } = useDeleteUser()
+
+  const {
+    mutateAsync: mutateDeleteGoogleLinkedAccount,
+    isPending: isPendingToDeleteGoogleLinkedAccount
+  } = useDeleteGoogleLinkedAccount()
 
   // Controls for Verify with Password flow
   const { mutate: mutateConfirmWithPassword, isPending: isPendingToConfirm } =
@@ -39,6 +49,8 @@ export const DeleteAccountDialog: React.FC<Props> = ({ authProvider }) => {
       inputPassword: ""
     }
   })
+  const isPendingToDelete =
+    isPendingToDeleteNormal || isPendingToDeleteGoogleLinkedAccount
 
   useEffect(() => {
     if (!isGoogleAccount) {
@@ -48,8 +60,10 @@ export const DeleteAccountDialog: React.FC<Props> = ({ authProvider }) => {
 
   // Handle permanent delete action
   const handleVerify = async () => {
+    if (!isEligibleToDelete.value || isPendingToDelete || isPendingToConfirm)
+      return
     if (isGoogleAccount) {
-      await mutateDeleteAccount()
+      await mutateDeleteGoogleLinkedAccount()
       isDialogOpen.onFalse()
     } else {
       mutateConfirmWithPassword(

@@ -253,7 +253,8 @@ export const API_PATH = {
     },
     // Remove account
     confirmUserDeletion: "api/users/delete/confirmation",
-    deleteUser: "api/users/delete/user-account"
+    deleteUser: "api/users/delete/user-account",
+    deleteGoogleLinkedAccount: "api/users/delete/google-linked-account"
   },
   login: {
     loginByPassword: "login",

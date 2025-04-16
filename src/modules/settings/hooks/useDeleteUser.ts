@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { API_PATH } from "@/constants"
 import { postRequest } from "@/services/client.service"
 import { useMutation } from "@tanstack/react-query"
@@ -25,6 +26,29 @@ export const useDeleteUser = () => {
     onError(error) {
       toastError({
         ...TOAST_MSG.user.deleteAccount,
+        description: getAxiosError(error).message
+      })
+    }
+  })
+}
+
+export const useDeleteGoogleLinkedAccount = () => {
+  const { signOut } = useLogout()
+
+  return useMutation<AxiosResponse, AxiosError<ErrorResponse>>({
+    mutationFn: (data) => {
+      return postRequest({
+        path: API_PATH.users.deleteGoogleLinkedAccount,
+        data
+      })
+    },
+    async onSuccess() {
+      toastSuccess(TOAST_MSG.user.deleteGoogleLinkedAccount)
+      await signOut()
+    },
+    onError(error) {
+      toastError({
+        ...TOAST_MSG.user.deleteGoogleLinkedAccount,
         description: getAxiosError(error).message
       })
     }
