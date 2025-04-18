@@ -28,6 +28,13 @@ const settingsRoutes = (
       />
       <Route
         index
+        lazy={() =>
+          import("@/modules/settings/components/pages/notifications-page")
+        }
+        path={APP_PATH.SETTINGS.notifications}
+      />
+      <Route
+        index
         lazy={() => import("@/modules/settings/components/pages/privacy-page")}
         path={APP_PATH.SETTINGS.privacy}
       />
