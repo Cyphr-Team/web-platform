@@ -18,6 +18,7 @@ import { useState, useEffect } from "react"
 import { toastError } from "@/utils"
 import React from "react"
 import { useGetUserInformation } from "@/hooks/useGetUserInformation.ts"
+import { UserAuthProvider } from "@/modules/settings/constants"
 
 export function PersonalInfo() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
@@ -102,30 +103,32 @@ export function PersonalInfo() {
                   name="name"
                   placeholder="Display name"
                 />
-                <div className="flex gap-4">
-                  <Avatar className="size-16 rounded-full border">
-                    {avatarPreview ? (
-                      <AvatarImage src={avatarPreview} />
-                    ) : (
-                      <>
-                        <AvatarImage />
-                        <AvatarFallback />
-                      </>
-                    )}
-                  </Avatar>
-                  <div className="w-full">
-                    <RHFDragAndDropFileUpload
-                      accept="image/*"
-                      className="border-dashed"
-                      iconClassName="rounded-full"
-                      id="avatar"
-                      multiple={false}
-                      name="avatar"
-                      supportFileTypesNote="SVG, PNG, JPG or GIF (max. 800x400px)"
-                      version={3}
-                    />
+                {userData?.authProvider !== UserAuthProvider.GOOGLE && (
+                  <div className="flex gap-4">
+                    <Avatar className="size-16 rounded-full border">
+                      {avatarPreview ? (
+                        <AvatarImage src={avatarPreview} />
+                      ) : (
+                        <>
+                          <AvatarImage />
+                          <AvatarFallback />
+                        </>
+                      )}
+                    </Avatar>
+                    <div className="w-full">
+                      <RHFDragAndDropFileUpload
+                        accept="image/*"
+                        className="border-dashed"
+                        iconClassName="rounded-full"
+                        id="avatar"
+                        multiple={false}
+                        name="avatar"
+                        supportFileTypesNote="SVG, PNG, JPG or GIF (max. 800x400px)"
+                        version={3}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
               <Separator />
               <div className="flex justify-end space-x-3 mx-8 my-4">

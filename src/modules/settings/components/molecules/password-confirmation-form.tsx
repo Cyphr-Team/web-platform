@@ -11,6 +11,12 @@ import { useFormContext } from "react-hook-form"
 function PasswordConfirmationForm() {
   const method = useFormContext()
 
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+    }
+  }
+
   return (
     <FormField
       control={method.control}
@@ -25,6 +31,7 @@ function PasswordConfirmationForm() {
               autoComplete="current-password"
               className="text-base"
               placeholder="••••••••"
+              onKeyUp={handleKeyUp}
               {...field}
             />
           </FormControl>

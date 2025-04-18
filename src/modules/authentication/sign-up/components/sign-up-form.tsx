@@ -17,6 +17,7 @@ import {
   useGetStart
 } from "../../hooks/useGetStart"
 import { useSearchParams } from "react-router-dom"
+import { Checkbox } from "@/components/ui/checkbox"
 
 export function SignUpForm() {
   const { isPending, mutate } = useGetStart()
@@ -59,30 +60,40 @@ export function SignUpForm() {
             )}
           />
 
-          <div className="loanready-v2 text-xs leading-[18px] text-primary">
-            By clicking "Create account" or "Sign up with Google", you
-            acknowledge that you understand and agree to the{" "}
-            <a
-              className="underline"
-              href="https://www.cyphrai.com/terms"
-              rel="noopener noreferrer"
-              target="terms"
-            >
-              Terms of Service
-            </a>{" "}
-            and{" "}
-            <a
-              className="underline"
-              href="https://www.cyphrai.com/privacy"
-              rel="noopener noreferrer"
-              target="privacy"
-            >
-              Privacy Policy
-            </a>
-            . You also agree to receive important notices and other
-            communications electronically. We may contact you via call or text
-            to verify your number, and standard message and data rates may
-            apply.
+          <div className="flex gap-2">
+            <Checkbox />
+            <div className="loanready-v2 text-xs leading-[18px] text-primary">
+              By signing up, you acknowledge that you understand and agree to
+              our{" "}
+              <a
+                className="underline font-semibold"
+                href="https://www.cyphrai.com/terms"
+                rel="noopener noreferrer"
+                target="terms"
+              >
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a
+                className="underline font-semibold"
+                href="https://www.cyphrai.com/privacy"
+                rel="noopener noreferrer"
+                target="privacy"
+              >
+                Privacy Policy
+              </a>
+              . You also agree to receive important notices and other
+              communications electronically. We may contact you via call or text
+              to verify your number, and standard message and data rates may
+              apply.
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Checkbox />
+            <div className="loanready-v2 text-xs leading-[18px] text-primary">
+              Get emails from Cyphr about product updates, industry news,
+              events. You can unsubscribe at any time.
+            </div>
           </div>
 
           <ButtonLoading

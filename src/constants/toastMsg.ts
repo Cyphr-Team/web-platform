@@ -48,6 +48,14 @@ export const TOAST_MSG = {
       title: "Delete account",
       description: "Account has now been removed"
     },
+    deleteGoogleLinkedAccount: {
+      title: "Delete Google linked account",
+      description: "Google linked account has now been removed"
+    },
+    deleteGoogleLinkedAccountError: {
+      title: "Delete Google linked account",
+      description: "Error occurred while deleting Google linked account"
+    },
     // Notifications for Stytch MFA
     stytchMagicLink: {
       title: "Stytch Magic Link",
